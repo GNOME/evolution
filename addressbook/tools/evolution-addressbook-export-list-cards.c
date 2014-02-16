@@ -385,7 +385,7 @@ e_contact_csv_get (EContact *contact,
 
 	/*checking to avoid the NULL pointer */
 	if (field_value == NULL)
-		field_value =  g_strdup ("");
+		field_value = g_strdup ("");
 
 	quoted_field_value = escape_string (field_value);
 	g_free (field_value);

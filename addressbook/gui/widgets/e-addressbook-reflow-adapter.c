@@ -217,7 +217,7 @@ addressbook_create_cmp_cache (EReflowModel *erm)
 	for (ii = 0; ii < count; ii++) {
 		EContact *contact;
 
-		contact  = (EContact *)
+		contact = (EContact *)
 			e_addressbook_model_contact_at (priv->model, ii);
 		if (contact != NULL) {
 			const gchar *file_as;

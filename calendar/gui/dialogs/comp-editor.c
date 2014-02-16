@@ -1308,7 +1308,6 @@ static GtkActionEntry core_entries[] = {
 	  N_("Redo"),
 	  NULL },  /* Handled by EFocusTracker */
 
-
 	/* Menus */
 
 	{ "classification-menu",

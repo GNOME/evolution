@@ -294,7 +294,7 @@ enl_entry_key_press_event (ENameSelectorList *list,
 	entry = E_NAME_SELECTOR_ENTRY (list);
 	store = e_name_selector_entry_peek_destination_store (entry);
 
-	if ( (event->state & GDK_CONTROL_MASK)  && (event->keyval == GDK_KEY_Down)) {
+	if ( (event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_Down)) {
 		enl_popup_position (list);
 		gtk_widget_show_all (GTK_WIDGET (list->priv->popup));
 		enl_popup_grab (list, (GdkEvent *) event);
@@ -751,7 +751,7 @@ e_name_selector_list_init (ENameSelectorList *list)
 	gtk_widget_set_vexpand (scroll, TRUE);
 	gtk_widget_set_valign (scroll, GTK_ALIGN_FILL);
 
-	list->priv->popup =  GTK_WINDOW (gtk_window_new (GTK_WINDOW_POPUP));
+	list->priv->popup = GTK_WINDOW (gtk_window_new (GTK_WINDOW_POPUP));
 	gtk_window_set_resizable (GTK_WINDOW (list->priv->popup), FALSE);
 
 	popup_frame = gtk_frame_new (NULL);

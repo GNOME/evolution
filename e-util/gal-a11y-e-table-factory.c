@@ -55,7 +55,7 @@ gal_a11y_e_table_factory_class_init (GalA11yETableFactoryClass *class)
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	factory_class->create_accessible   = gal_a11y_e_table_factory_create_accessible;
+	factory_class->create_accessible = gal_a11y_e_table_factory_create_accessible;
 	factory_class->get_accessible_type = gal_a11y_e_table_factory_get_accessible_type;
 }
 

@@ -136,12 +136,12 @@ send_dbus_message (const gchar *name,
 		g_variant_builder_add (builder, "(u)", new_count);
 	}
 
-	#define add_named_param(name, value)				\
-		if (value) {						\
-			gchar *val;					\
-			val = g_strconcat (name, ":", value, NULL);	\
-			g_variant_builder_add (builder, "(s)", val);	\
-			g_free (val);					\
+	#define add_named_param(name, value) \
+		if (value) { \
+			gchar *val; \
+			val = g_strconcat (name, ":", value, NULL); \
+			g_variant_builder_add (builder, "(s)", val); \
+			g_free (val); \
 		}
 
 	add_named_param ("msg_uid", msg_uid);
@@ -431,7 +431,7 @@ new_notify_status (EMEventTargetFolder *t)
 		if (!notify_init ("evolution-mail-notification"))
 			fprintf (stderr,"notify init error");
 
-		notify  = notify_notification_new (
+		notify = notify_notification_new (
 			summary, escaped_text, icon_name);
 
 		notify_notification_set_urgency (

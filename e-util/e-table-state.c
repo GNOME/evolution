@@ -111,7 +111,7 @@ table_state_parser_start_column (GMarkupParseContext *context,
 		g_return_if_fail (index_str != NULL);
 		index = g_ascii_strtoll (index_str, NULL, 10);
 
-		if (expansion_str !=  NULL)
+		if (expansion_str != NULL)
 			expansion = g_ascii_strtod (expansion_str, NULL);
 
 		g_variant_builder_add (

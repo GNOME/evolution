@@ -660,7 +660,7 @@ static gint
 et_get_n_selections (AtkText *text)
 {
 	EText *etext;
-	GObject *obj =  atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	GObject *obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
 
 	if (obj == NULL)
 		return -1;
@@ -940,35 +940,35 @@ et_atk_component_iface_init (AtkComponentIface *iface)
 static void
 et_atk_text_iface_init (AtkTextIface *iface)
 {
-	iface->get_text                = et_get_text;
-	iface->get_text_after_offset   = et_get_text_after_offset;
-	iface->get_text_at_offset      = et_get_text_at_offset;
+	iface->get_text = et_get_text;
+	iface->get_text_after_offset = et_get_text_after_offset;
+	iface->get_text_at_offset = et_get_text_at_offset;
 	iface->get_character_at_offset = et_get_character_at_offset;
-	iface->get_text_before_offset  = et_get_text_before_offset;
-	iface->get_caret_offset        = et_get_caret_offset;
-	iface->get_run_attributes      = et_get_run_attributes;
-	iface->get_default_attributes  = et_get_default_attributes;
-	iface->get_character_extents   = et_get_character_extents;
-	iface->get_character_count     = et_get_character_count;
-	iface->get_offset_at_point     = et_get_offset_at_point;
-	iface->get_n_selections        = et_get_n_selections;
-	iface->get_selection           = et_get_selection;
-	iface->add_selection           = et_add_selection;
-	iface->remove_selection        = et_remove_selection;
-	iface->set_selection           = et_set_selection;
-	iface->set_caret_offset        = et_set_caret_offset;
+	iface->get_text_before_offset = et_get_text_before_offset;
+	iface->get_caret_offset = et_get_caret_offset;
+	iface->get_run_attributes = et_get_run_attributes;
+	iface->get_default_attributes = et_get_default_attributes;
+	iface->get_character_extents = et_get_character_extents;
+	iface->get_character_count = et_get_character_count;
+	iface->get_offset_at_point = et_get_offset_at_point;
+	iface->get_n_selections = et_get_n_selections;
+	iface->get_selection = et_get_selection;
+	iface->add_selection = et_add_selection;
+	iface->remove_selection = et_remove_selection;
+	iface->set_selection = et_set_selection;
+	iface->set_caret_offset = et_set_caret_offset;
 }
 
 static void
 et_atk_editable_text_iface_init (AtkEditableTextIface *iface)
 {
 	iface->set_run_attributes = et_set_run_attributes;
-	iface->set_text_contents  = et_set_text_contents;
-	iface->insert_text        = et_insert_text;
-	iface->copy_text          = et_copy_text;
-	iface->cut_text           = et_cut_text;
-	iface->delete_text        = et_delete_text;
-	iface->paste_text         = et_paste_text;
+	iface->set_text_contents = et_set_text_contents;
+	iface->insert_text = et_insert_text;
+	iface->copy_text = et_copy_text;
+	iface->cut_text = et_cut_text;
+	iface->delete_text = et_delete_text;
+	iface->paste_text = et_paste_text;
 }
 
 static void

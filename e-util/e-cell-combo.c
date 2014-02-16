@@ -480,7 +480,7 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 
 	/* This code is practically copied from GtkCombo. */
-	popup  = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
+	popup = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
 	popwin = GTK_BIN (ecc->popup_window);
 
 	window = gtk_widget_get_window (canvas);

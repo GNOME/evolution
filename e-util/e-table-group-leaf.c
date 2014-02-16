@@ -695,10 +695,10 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 	e_group_class->add_array = etgl_add_array;
 	e_group_class->add_all = etgl_add_all;
 	e_group_class->remove = etgl_remove;
-	e_group_class->increment  = etgl_increment;
-	e_group_class->decrement  = etgl_decrement;
-	e_group_class->row_count  = etgl_row_count;
-	e_group_class->set_focus  = etgl_set_focus;
+	e_group_class->increment = etgl_increment;
+	e_group_class->decrement = etgl_decrement;
+	e_group_class->row_count = etgl_row_count;
+	e_group_class->set_focus = etgl_set_focus;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
 	e_group_class->compute_location = etgl_compute_location;

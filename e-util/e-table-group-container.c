@@ -230,36 +230,36 @@ etgc_event (GnomeCanvasItem *item,
 		    event->key.keyval == GDK_KEY_KP_Tab ||
 		    event->key.keyval == GDK_KEY_ISO_Left_Tab) {
 			change_focus = TRUE;
-			use_col      = TRUE;
-			start_col    = (event->key.state & GDK_SHIFT_MASK) ? -1 : 0;
-			direction    = (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
+			use_col = TRUE;
+			start_col = (event->key.state & GDK_SHIFT_MASK) ? -1 : 0;
+			direction = (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
 		} else if (event->key.keyval == GDK_KEY_Left ||
 			   event->key.keyval == GDK_KEY_KP_Left) {
 			change_focus = TRUE;
-			use_col      = TRUE;
-			start_col    = -1;
-			direction    = E_FOCUS_END;
+			use_col = TRUE;
+			start_col = -1;
+			direction = E_FOCUS_END;
 		} else if (event->key.keyval == GDK_KEY_Right ||
 			   event->key.keyval == GDK_KEY_KP_Right) {
 			change_focus = TRUE;
-			use_col   = TRUE;
+			use_col = TRUE;
 			start_col = 0;
 			direction = E_FOCUS_START;
 		} else if (event->key.keyval == GDK_KEY_Down ||
 			   event->key.keyval == GDK_KEY_KP_Down) {
 			change_focus = TRUE;
-			use_col      = FALSE;
-			direction    = E_FOCUS_START;
+			use_col = FALSE;
+			direction = E_FOCUS_START;
 		} else if (event->key.keyval == GDK_KEY_Up ||
 			   event->key.keyval == GDK_KEY_KP_Up) {
 			change_focus = TRUE;
-			use_col      = FALSE;
-			direction    = E_FOCUS_END;
+			use_col = FALSE;
+			direction = E_FOCUS_END;
 		} else if (event->key.keyval == GDK_KEY_Return ||
 			   event->key.keyval == GDK_KEY_KP_Enter) {
 			change_focus = TRUE;
-			use_col      = FALSE;
-			direction    = E_FOCUS_START;
+			use_col = FALSE;
+			direction = E_FOCUS_START;
 		}
 		if (change_focus) {
 			GList *list;
@@ -268,7 +268,7 @@ etgc_event (GnomeCanvasItem *item,
 				ETableGroup                   *child;
 
 				child_node = (ETableGroupContainerChildNode *) list->data;
-				child      = child_node->child;
+				child = child_node->child;
 
 				if (e_table_group_get_focus (child)) {
 					old_col = e_table_group_get_focus_column (child);
@@ -1033,10 +1033,10 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 	e_group_class->add_array = etgc_add_array;
 	e_group_class->add_all = etgc_add_all;
 	e_group_class->remove = etgc_remove;
-	e_group_class->increment  = etgc_increment;
-	e_group_class->decrement  = etgc_decrement;
-	e_group_class->row_count  = etgc_row_count;
-	e_group_class->set_focus  = etgc_set_focus;
+	e_group_class->increment = etgc_increment;
+	e_group_class->decrement = etgc_decrement;
+	e_group_class->row_count = etgc_row_count;
+	e_group_class->set_focus = etgc_set_focus;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
 	e_group_class->compute_location = etgc_compute_location;

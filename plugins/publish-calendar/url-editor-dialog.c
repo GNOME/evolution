@@ -53,9 +53,9 @@ create_uri (UrlEditorDialog *dialog)
 		const gchar *method = "file";
 		gchar *server, *file, *port, *username, *password;
 
-		server   = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
-		file     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->file_entry)));
-		port     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->port_entry)));
+		server = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
+		file = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->file_entry)));
+		port = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->port_entry)));
 		username = g_uri_escape_string (gtk_entry_get_text (GTK_ENTRY (dialog->username_entry)), "", FALSE);
 		password = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->password_entry)));
 
@@ -105,7 +105,7 @@ create_uri (UrlEditorDialog *dialog)
 	}
 
 	uri->fb_duration_value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (dialog->fb_duration_spin));
-	uri->fb_duration_type  = gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->fb_duration_combo));
+	uri->fb_duration_type = gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->fb_duration_combo));
 }
 
 static void

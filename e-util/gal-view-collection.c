@@ -404,7 +404,7 @@ gal_view_collection_dispose (GObject *object)
 	for (ii = 0; ii < priv->removed_view_count; ii++)
 		gal_view_collection_item_free (priv->removed_view_data[ii]);
 	g_free (priv->removed_view_data);
-	priv->removed_view_data  = NULL;
+	priv->removed_view_data = NULL;
 	priv->removed_view_count = 0;
 
 	/* Chain up to parent's dispose() method. */

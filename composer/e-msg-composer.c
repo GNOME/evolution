@@ -62,25 +62,25 @@ struct _AsyncContext {
 
 	GPtrArray *recipients;
 
-	guint skip_content  : 1;
-	guint need_thread   : 1;
-	guint pgp_sign      : 1;
-	guint pgp_encrypt   : 1;
-	guint smime_sign    : 1;
+	guint skip_content : 1;
+	guint need_thread : 1;
+	guint pgp_sign : 1;
+	guint pgp_encrypt : 1;
+	guint smime_sign : 1;
 	guint smime_encrypt : 1;
 };
 
 /* Flags for building a message. */
 typedef enum {
-	COMPOSER_FLAG_HTML_CONTENT		= 1 << 0,
-	COMPOSER_FLAG_SAVE_OBJECT_DATA		= 1 << 1,
-	COMPOSER_FLAG_PRIORITIZE_MESSAGE	= 1 << 2,
-	COMPOSER_FLAG_REQUEST_READ_RECEIPT	= 1 << 3,
-	COMPOSER_FLAG_PGP_SIGN			= 1 << 4,
-	COMPOSER_FLAG_PGP_ENCRYPT		= 1 << 5,
-	COMPOSER_FLAG_SMIME_SIGN		= 1 << 6,
-	COMPOSER_FLAG_SMIME_ENCRYPT		= 1 << 7,
-	COMPOSER_FLAG_DRAFT			= 1 << 8
+	COMPOSER_FLAG_HTML_CONTENT = 1 << 0,
+	COMPOSER_FLAG_SAVE_OBJECT_DATA = 1 << 1,
+	COMPOSER_FLAG_PRIORITIZE_MESSAGE = 1 << 2,
+	COMPOSER_FLAG_REQUEST_READ_RECEIPT = 1 << 3,
+	COMPOSER_FLAG_PGP_SIGN = 1 << 4,
+	COMPOSER_FLAG_PGP_ENCRYPT = 1 << 5,
+	COMPOSER_FLAG_SMIME_SIGN = 1 << 6,
+	COMPOSER_FLAG_SMIME_ENCRYPT = 1 << 7,
+	COMPOSER_FLAG_DRAFT = 1 << 8
 } ComposerFlags;
 
 enum {
@@ -465,8 +465,8 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 	gboolean seen_hidden_list = FALSE;
 	gint i;
 
-	to_addr  = camel_internet_address_new ();
-	cc_addr  = camel_internet_address_new ();
+	to_addr = camel_internet_address_new ();
+	cc_addr = camel_internet_address_new ();
 	bcc_addr = camel_internet_address_new ();
 
 	for (i = 0; to_destv != NULL && to_destv[i] != NULL; ++i) {
@@ -1493,7 +1493,7 @@ use_top_signature (EMsgComposer *composer)
 	return top_signature;
 }
 
-#define NO_SIGNATURE_TEXT	\
+#define NO_SIGNATURE_TEXT \
 	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
 	"                     key=\"signature\" " \
 	"                   value=\"1\">-->" \
@@ -4139,8 +4139,8 @@ handle_mailto (EMsgComposer *composer,
 
 	merge_always_cc_and_bcc (table, to, &cc, &bcc);
 
-	tov  = destination_list_to_vector (to);
-	ccv  = destination_list_to_vector (cc);
+	tov = destination_list_to_vector (to);
+	ccv = destination_list_to_vector (cc);
 	bccv = destination_list_to_vector (bcc);
 
 	g_list_free (to);

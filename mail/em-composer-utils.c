@@ -1164,8 +1164,8 @@ em_utils_get_composer_recipients_as_message (EMsgComposer *composer)
 
 	message = camel_mime_message_new ();
 
-	to_addr  = camel_internet_address_new ();
-	cc_addr  = camel_internet_address_new ();
+	to_addr = camel_internet_address_new ();
+	cc_addr = camel_internet_address_new ();
 	bcc_addr = camel_internet_address_new ();
 
 	/* To */
@@ -2373,7 +2373,7 @@ get_reply_recipient (CamelMimeMessage *message,
                      CamelInternetAddress *address)
 {
 	CamelMedium *medium;
-	const gchar *posthdr =  NULL;
+	const gchar *posthdr = NULL;
 
 	medium = CAMEL_MEDIUM (message);
 

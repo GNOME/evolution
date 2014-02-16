@@ -46,7 +46,7 @@ struct _ETaskShellContentPrivate {
 
 	gchar *current_uid;
 
-	guint preview_visible	: 1;
+	guint preview_visible : 1;
 };
 
 enum {

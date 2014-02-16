@@ -189,18 +189,18 @@ e_contact_store_class_init (EContactStoreClass *class)
 static void
 e_contact_store_tree_model_init (GtkTreeModelIface *iface)
 {
-	iface->get_flags       = e_contact_store_get_flags;
-	iface->get_n_columns   = e_contact_store_get_n_columns;
+	iface->get_flags = e_contact_store_get_flags;
+	iface->get_n_columns = e_contact_store_get_n_columns;
 	iface->get_column_type = e_contact_store_get_column_type;
-	iface->get_iter        = e_contact_store_get_iter;
-	iface->get_path        = e_contact_store_get_path;
-	iface->get_value       = e_contact_store_get_value;
-	iface->iter_next       = e_contact_store_iter_next;
-	iface->iter_children   = e_contact_store_iter_children;
-	iface->iter_has_child  = e_contact_store_iter_has_child;
+	iface->get_iter = e_contact_store_get_iter;
+	iface->get_path = e_contact_store_get_path;
+	iface->get_value = e_contact_store_get_value;
+	iface->iter_next = e_contact_store_iter_next;
+	iface->iter_children = e_contact_store_iter_children;
+	iface->iter_has_child = e_contact_store_iter_has_child;
 	iface->iter_n_children = e_contact_store_iter_n_children;
-	iface->iter_nth_child  = e_contact_store_iter_nth_child;
-	iface->iter_parent     = e_contact_store_iter_parent;
+	iface->iter_nth_child = e_contact_store_iter_nth_child;
+	iface->iter_parent = e_contact_store_iter_parent;
 }
 
 static void
@@ -428,7 +428,7 @@ find_contact_by_view_and_uid (EContactStore *contact_store,
 
 	for (i = 0; i < contacts->len; i++) {
 		EContact    *contact = g_ptr_array_index (contacts, i);
-		const gchar *uid     = e_contact_get_const (contact, E_CONTACT_UID);
+		const gchar *uid = e_contact_get_const (contact, E_CONTACT_UID);
 
 		if (uid && !strcmp (find_uid, uid))
 			return i;
@@ -452,7 +452,7 @@ find_contact_by_uid (EContactStore *contact_store,
 
 		for (j = 0; j < source->contacts->len; j++) {
 			EContact    *contact = g_ptr_array_index (source->contacts, j);
-			const gchar *uid     = e_contact_get_const (contact, E_CONTACT_UID);
+			const gchar *uid = e_contact_get_const (contact, E_CONTACT_UID);
 
 			if (!strcmp (find_uid, uid))
 				return get_contact_source_offset (contact_store, i) + j;
@@ -573,7 +573,7 @@ view_contacts_removed (EContactStore *contact_store,
 
 	for (l = uids; l; l = g_slist_next (l)) {
 		const gchar *uid = l->data;
-		gint         n   = find_contact_by_view_and_uid (contact_store, client_view, uid);
+		gint         n = find_contact_by_view_and_uid (contact_store, client_view, uid);
 		EContact    *contact;
 
 		if (n < 0) {
@@ -619,8 +619,8 @@ view_contacts_modified (EContactStore *contact_store,
 	for (l = contacts; l; l = g_slist_next (l)) {
 		EContact    *cached_contact;
 		EContact    *contact = l->data;
-		const gchar *uid     = e_contact_get_const (contact, E_CONTACT_UID);
-		gint         n       = find_contact_by_view_and_uid (contact_store, client_view, uid);
+		const gchar *uid = e_contact_get_const (contact, E_CONTACT_UID);
+		gint         n = find_contact_by_view_and_uid (contact_store, client_view, uid);
 
 		if (n < 0) {
 			g_warning ("EContactStore got change notification on unknown contact!");
@@ -671,7 +671,7 @@ view_complete (EContactStore *contact_store,
 	/* Deletions */
 	for (i = 0; i < source->contacts->len; i++) {
 		EContact    *old_contact = g_ptr_array_index (source->contacts, i);
-		const gchar *old_uid     = e_contact_get_const (old_contact, E_CONTACT_UID);
+		const gchar *old_uid = e_contact_get_const (old_contact, E_CONTACT_UID);
 		gint         result;
 
 		result = find_contact_by_view_and_uid (contact_store, source->client_view_pending, old_uid);
@@ -687,7 +687,7 @@ view_complete (EContactStore *contact_store,
 	/* Insertions */
 	for (i = 0; i < source->contacts_pending->len; i++) {
 		EContact    *new_contact = g_ptr_array_index (source->contacts_pending, i);
-		const gchar *new_uid     = e_contact_get_const (new_contact, E_CONTACT_UID);
+		const gchar *new_uid = e_contact_get_const (new_contact, E_CONTACT_UID);
 		gint         result;
 
 		result = find_contact_by_view_and_uid (contact_store, source->client_view, new_uid);
@@ -837,7 +837,7 @@ clear_contact_source (EContactStore *contact_store,
 		free_contact_ptrarray (source->contacts_pending);
 
 		source->client_view_pending = NULL;
-		source->contacts_pending  = NULL;
+		source->contacts_pending = NULL;
 	}
 }
 

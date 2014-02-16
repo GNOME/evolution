@@ -186,7 +186,7 @@ gail_canvas_real_initialize (AtkObject *obj,
 		adj, "value_changed",
 		G_CALLBACK (adjustment_changed), canvas);
 
-	obj->role =  ATK_ROLE_LAYERED_PANE;
+	obj->role = ATK_ROLE_LAYERED_PANE;
 }
 
 static gint

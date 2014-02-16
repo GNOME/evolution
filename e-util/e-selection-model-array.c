@@ -537,24 +537,24 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *class)
 	object_class->get_property = esma_get_property;
 	object_class->set_property = esma_set_property;
 
-	esm_class->is_row_selected    = esma_is_row_selected;
-	esm_class->foreach            = esma_foreach;
-	esm_class->clear              = esma_clear;
-	esm_class->selected_count     = esma_selected_count;
-	esm_class->select_all         = esma_select_all;
-	esm_class->row_count          = esma_row_count;
+	esm_class->is_row_selected = esma_is_row_selected;
+	esm_class->foreach = esma_foreach;
+	esm_class->clear = esma_clear;
+	esm_class->selected_count = esma_selected_count;
+	esm_class->select_all = esma_select_all;
+	esm_class->row_count = esma_row_count;
 
-	esm_class->change_one_row     = esma_change_one_row;
-	esm_class->change_cursor      = esma_change_cursor;
-	esm_class->cursor_row         = esma_cursor_row;
-	esm_class->cursor_col         = esma_cursor_col;
+	esm_class->change_one_row = esma_change_one_row;
+	esm_class->change_cursor = esma_change_cursor;
+	esm_class->cursor_row = esma_cursor_row;
+	esm_class->cursor_col = esma_cursor_col;
 
-	esm_class->select_single_row  = esma_select_single_row;
-	esm_class->toggle_single_row  = esma_toggle_single_row;
+	esm_class->select_single_row = esma_select_single_row;
+	esm_class->toggle_single_row = esma_toggle_single_row;
 	esm_class->move_selection_end = esma_move_selection_end;
-	esm_class->set_selection_end  = esma_set_selection_end;
+	esm_class->set_selection_end = esma_set_selection_end;
 
-	class->get_row_count          = NULL;
+	class->get_row_count = NULL;
 
 	g_object_class_install_property (
 		object_class,

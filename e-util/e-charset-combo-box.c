@@ -220,32 +220,6 @@ charset_combo_box_get_property (GObject *object,
 }
 
 static void
-charset_combo_box_constructed (GObject *object)
-{
-	ECharsetComboBoxPrivate *priv;
-	GtkRadioAction *radio_action;
-	GSList *group;
-
-	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->constructed (object);
-
-	radio_action = priv->other_action;
-	group = gtk_radio_action_get_group (radio_action);
-
-	e_action_combo_box_set_action (
-		E_ACTION_COMBO_BOX (object), radio_action);
-
-	e_action_combo_box_add_separator_after (
-		E_ACTION_COMBO_BOX (object), g_slist_length (group));
-
-	g_signal_connect (
-		object, "notify::charset",
-		G_CALLBACK (charset_combo_box_notify_charset_cb), NULL);
-}
-
-static void
 charset_combo_box_dispose (GObject *object)
 {
 	ECharsetComboBoxPrivate *priv;
@@ -282,6 +256,32 @@ charset_combo_box_finalize (GObject *object)
 }
 
 static void
+charset_combo_box_constructed (GObject *object)
+{
+	ECharsetComboBoxPrivate *priv;
+	GtkRadioAction *radio_action;
+	GSList *group;
+
+	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->constructed (object);
+
+	radio_action = priv->other_action;
+	group = gtk_radio_action_get_group (radio_action);
+
+	e_action_combo_box_set_action (
+		E_ACTION_COMBO_BOX (object), radio_action);
+
+	e_action_combo_box_add_separator_after (
+		E_ACTION_COMBO_BOX (object), g_slist_length (group));
+
+	g_signal_connect (
+		object, "notify::charset",
+		G_CALLBACK (charset_combo_box_notify_charset_cb), NULL);
+}
+
+static void
 charset_combo_box_changed (GtkComboBox *combo_box)
 {
 	ECharsetComboBoxPrivate *priv;
@@ -308,9 +308,9 @@ e_charset_combo_box_class_init (ECharsetComboBoxClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = charset_combo_box_set_property;
 	object_class->get_property = charset_combo_box_get_property;
-	object_class->constructed = charset_combo_box_constructed;
 	object_class->dispose = charset_combo_box_dispose;
 	object_class->finalize = charset_combo_box_finalize;
+	object_class->constructed = charset_combo_box_constructed;
 
 	combo_box_class = GTK_COMBO_BOX_CLASS (class);
 	combo_box_class->changed = charset_combo_box_changed;

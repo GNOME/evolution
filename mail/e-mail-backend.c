@@ -112,24 +112,27 @@ static gboolean
 mail_backend_any_store_requires_downsync (EMailAccountStore *account_store)
 {
 	GQueue queue = G_QUEUE_INIT;
-	gboolean any_requires_downsync = FALSE;
 
 	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (account_store), FALSE);
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
+
 	while (!g_queue_is_empty (&queue)) {
 		CamelService *service;
+		CamelOfflineStore *offline_store;
 
 		service = g_queue_pop_head (&queue);
-		if (service == NULL)
+
+		if (!CAMEL_IS_OFFLINE_STORE (service))
 			continue;
 
-		if (CAMEL_IS_OFFLINE_STORE (service))
-			any_requires_downsync = any_requires_downsync ||
-				camel_offline_store_requires_downsync (CAMEL_OFFLINE_STORE (service));
+		offline_store = CAMEL_OFFLINE_STORE (service);
+
+		if (camel_offline_store_requires_downsync (offline_store))
+			return TRUE;
 	}
 
-	return any_requires_downsync;
+	return FALSE;
 }
 
 /* Callback for various asynchronous CamelStore operations where
@@ -148,25 +151,28 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 
 static void
 mail_backend_local_trash_expunge_done_cb (GObject *source_object,
-					  GAsyncResult *result,
-					  gpointer user_data)
+                                          GAsyncResult *result,
+                                          gpointer user_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (source_object);
 	EActivity *activity = user_data;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
-	if (!e_mail_folder_expunge_finish (folder, result, &error)) {
-		g_warning ("%s: Failed to expunge local trash: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	e_mail_folder_expunge_finish (folder, result, &local_error);
+
+	if (local_error != NULL) {
+		g_warning (
+			"%s: Failed to expunge local trash: %s",
+			G_STRFUNC, local_error->message);
+		g_error_free (local_error);
 	}
-
-	g_clear_error (&error);
 
 	g_object_unref (activity);
 }
 
 static void
 mail_backend_set_session_offline_cb (gpointer user_data,
-				     GObject *object)
+                                     GObject *object)
 {
 	CamelSession *session = user_data;
 
@@ -197,12 +203,17 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		camel_session_set_online (CAMEL_SESSION (session), FALSE);
 
 	if (e_shell_backend_is_started (shell_backend)) {
+		gboolean ask_to_synchronize;
 		gboolean synchronize = FALSE;
 
-		if (e_shell_get_network_available (shell) &&
-		    mail_backend_any_store_requires_downsync (account_store))
+		ask_to_synchronize =
+			e_shell_get_network_available (shell) &&
+			mail_backend_any_store_requires_downsync (account_store);
+
+		if (ask_to_synchronize) {
 			synchronize = em_utils_prompt_user (
 				window, NULL, "mail:ask-quick-offline", NULL);
+		}
 
 		if (!synchronize) {
 			e_shell_backend_cancel_all (shell_backend);
@@ -220,7 +231,10 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 		e_shell_backend_add_activity (shell_backend, activity);
 	}
 
-	g_object_weak_ref (G_OBJECT (activity), mail_backend_set_session_offline_cb, g_object_ref (session));
+	g_object_weak_ref (
+		G_OBJECT (activity),
+		mail_backend_set_session_offline_cb,
+		g_object_ref (session));
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
 	while (!g_queue_is_empty (&queue)) {
@@ -385,24 +399,36 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		CamelService *service;
+		gboolean store_is_local;
+		const gchar *uid;
 
 		service = CAMEL_SERVICE (link->data);
 
-		if (!CAMEL_IS_STORE (service) ||
-		    !mail_backend_service_is_enabled (registry, service))
+		if (!CAMEL_IS_STORE (service))
 			continue;
 
-		if (empty_trash && g_strcmp0 (camel_service_get_uid (service), E_MAIL_SESSION_LOCAL_UID) == 0) {
+		if (!mail_backend_service_is_enabled (registry, service))
+			continue;
+
+		uid = camel_service_get_uid (service);
+		store_is_local = g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID);
+
+		if (empty_trash && store_is_local) {
 			/* local trash requires special handling,
-			   due to POP3's "delete-expunged" option */
+			 * due to POP3's "delete-expunged" option */
 			CamelFolder *local_trash;
-			GCancellable *cancellable = e_activity_get_cancellable (activity);
+			GCancellable *cancellable;
 
-			/* This should be lightning-fast, it's a local trash folder */
-			local_trash = camel_store_get_trash_folder_sync (CAMEL_STORE (service), cancellable, NULL);
+			cancellable = e_activity_get_cancellable (activity);
 
-			if (local_trash) {
-				e_mail_folder_expunge (local_trash,
+			/* This should be lightning-fast since
+			 * it's just the local trash folder. */
+			local_trash = camel_store_get_trash_folder_sync (
+				CAMEL_STORE (service), cancellable, NULL);
+
+			if (local_trash != NULL) {
+				e_mail_folder_expunge (
+					local_trash,
 					G_PRIORITY_DEFAULT, cancellable,
 					mail_backend_local_trash_expunge_done_cb,
 					g_object_ref (activity));

@@ -1862,7 +1862,7 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 	GtkWidgetClass *widget_class;
 
 	object_class = (GObjectClass *) class;
-	widget_class  = (GtkWidgetClass *) class;
+	widget_class = (GtkWidgetClass *) class;
 
 	object_class->set_property = gnome_canvas_set_property;
 	object_class->get_property = gnome_canvas_get_property;
@@ -2491,16 +2491,16 @@ pick_current_item (GnomeCanvas *canvas,
 		    (event->type == GDK_BUTTON_RELEASE)) {
 			/* these fields have the same offsets in both types of events */
 
-			canvas->pick_event.crossing.type       = GDK_ENTER_NOTIFY;
-			canvas->pick_event.crossing.window     = event->motion.window;
+			canvas->pick_event.crossing.type = GDK_ENTER_NOTIFY;
+			canvas->pick_event.crossing.window = event->motion.window;
 			canvas->pick_event.crossing.send_event = event->motion.send_event;
-			canvas->pick_event.crossing.subwindow  = NULL;
-			canvas->pick_event.crossing.x          = event->motion.x;
-			canvas->pick_event.crossing.y          = event->motion.y;
-			canvas->pick_event.crossing.mode       = GDK_CROSSING_NORMAL;
-			canvas->pick_event.crossing.detail     = GDK_NOTIFY_NONLINEAR;
-			canvas->pick_event.crossing.focus      = FALSE;
-			canvas->pick_event.crossing.state      = event->motion.state;
+			canvas->pick_event.crossing.subwindow = NULL;
+			canvas->pick_event.crossing.x = event->motion.x;
+			canvas->pick_event.crossing.y = event->motion.y;
+			canvas->pick_event.crossing.mode = GDK_CROSSING_NORMAL;
+			canvas->pick_event.crossing.detail = GDK_NOTIFY_NONLINEAR;
+			canvas->pick_event.crossing.focus = FALSE;
+			canvas->pick_event.crossing.state = event->motion.state;
 
 			/* these fields don't have the same offsets in both types of events */
 

@@ -1019,7 +1019,7 @@ get_times_for_views (GnomeCalendar *gcal,
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
 		day_view = E_DAY_VIEW (priv->views[view_type]);
-		shown  = e_day_view_get_days_shown (day_view);
+		shown = e_day_view_get_days_shown (day_view);
 		*start_time = time_day_begin_with_zone (*start_time, timezone);
 		*end_time = time_add_day_with_zone (*start_time, shown, timezone);
 		break;

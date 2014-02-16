@@ -644,7 +644,7 @@ sensitize_widgets (EventPage *epage)
 
 	alarm = e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) != ALARM_NONE;
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL) ||
-		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map)  == ALARM_CUSTOM ? TRUE : FALSE;
+		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) == ALARM_CUSTOM ? TRUE : FALSE;
 
 	if (alarm && !priv->alarm_icon) {
 		priv->alarm_icon = create_alarm_image_button ("stock_bell", _("This event has reminders"), epage);
@@ -685,11 +685,11 @@ sensitize_widgets (EventPage *epage)
 	}
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
-	gtk_widget_set_sensitive (priv->add, (!read_only &&  sens) || delegate);
+	gtk_widget_set_sensitive (priv->add, (!read_only && sens) || delegate);
 	gtk_widget_set_sensitive (priv->edit, (!read_only && sens) || delegate);
 	e_meeting_list_view_set_editable (priv->list_view, (!read_only && sens) || delegate);
-	gtk_widget_set_sensitive (priv->remove, (!read_only &&  sens) || delegate);
-	gtk_widget_set_sensitive (priv->invite, (!read_only &&  sens) || delegate);
+	gtk_widget_set_sensitive (priv->remove, (!read_only && sens) || delegate);
+	gtk_widget_set_sensitive (priv->invite, (!read_only && sens) || delegate);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 
 	action_group = comp_editor_get_action_group (editor, "editable");
@@ -2406,16 +2406,16 @@ event_page_set_all_day_event (EventPage *epage,
 	if (all_day) {
 		/* Round down to the start of the day. */
 		start_tt.hour = 0;
-		start_tt.minute  = 0;
-		start_tt.second  = 0;
+		start_tt.minute = 0;
+		start_tt.second = 0;
 		start_tt.is_date = TRUE;
 
 		/* Round down to the start of the day, or the start of the
 		 * previous day if it is midnight. */
 		icaltime_adjust (&end_tt, 0, 0, 0, -1);
 		end_tt.hour = 0;
-		end_tt.minute  = 0;
-		end_tt.second  = 0;
+		end_tt.minute = 0;
+		end_tt.second = 0;
 		end_tt.is_date = TRUE;
 	} else {
 		icaltimezone *start_zone;
@@ -2430,7 +2430,7 @@ event_page_set_all_day_event (EventPage *epage,
 				comp_editor_get_work_day_start_hour (editor);
 			start_tt.minute =
 				comp_editor_get_work_day_start_minute (editor);
-			start_tt.second  = 0;
+			start_tt.second = 0;
 
 			end_tt = start_tt;
 			icaltime_adjust (&end_tt, 0, 1, 0, 0);

@@ -169,7 +169,7 @@ filter_input_eq (EFilterElement *element_a,
 
 static void
 filter_input_xml_create (EFilterElement *element,
-			 xmlNodePtr node)
+                         xmlNodePtr node)
 {
 	EFilterInput *input = E_FILTER_INPUT (element);
 	gchar *allow_empty;

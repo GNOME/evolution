@@ -1373,7 +1373,7 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 		fb = icalproperty_get_freebusy (ip);
 		param = icalproperty_get_first_parameter (ip, ICAL_FBTYPE_PARAMETER);
 		if (param != NULL)
-			fbtype =  icalparameter_get_fbtype (param);
+			fbtype = icalparameter_get_fbtype (param);
 
 		switch (fbtype) {
 		case ICAL_FBTYPE_BUSY:

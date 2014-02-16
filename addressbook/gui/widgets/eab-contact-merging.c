@@ -599,9 +599,9 @@ check_if_same (EContact *contact,
 
 static GtkWidget *
 create_duplicate_contact_detected_dialog (EContact *old_contact,
-					  EContact *new_contact,
-					  gboolean disable_merge,
-					  gboolean is_for_commit)
+                                          EContact *new_contact,
+                                          gboolean disable_merge,
+                                          gboolean is_for_commit)
 {
 	GtkWidget *widget, *scrolled;
 	GtkContainer *container;
@@ -611,7 +611,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	widget = gtk_dialog_new ();
 	dialog = GTK_DIALOG (widget);
 
-	g_object_set (G_OBJECT (dialog),
+	g_object_set (
+		G_OBJECT (dialog),
 		"title", _("Duplicate Contact Detected"),
 		"default-width", 500,
 		"default-height", 400,
@@ -632,7 +633,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	container = GTK_CONTAINER (gtk_dialog_get_content_area (dialog));
 
 	widget = gtk_grid_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"orientation", GTK_ORIENTATION_HORIZONTAL,
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
@@ -645,7 +647,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	container = GTK_CONTAINER (widget);
 
 	widget = gtk_image_new_from_icon_name ("avatar-default", GTK_ICON_SIZE_BUTTON);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
@@ -655,7 +658,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	gtk_container_add (container, widget);
 
 	widget = gtk_grid_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"orientation", GTK_ORIENTATION_VERTICAL,
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
@@ -674,7 +678,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 			 "in this folder. Would you like to add it anyway?");
 
 	widget = gtk_label_new (text);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
@@ -689,7 +694,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 		text = _("New Contact:");
 
 	widget = gtk_label_new (text);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
@@ -699,7 +705,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	gtk_container_add (container, widget);
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (scrolled),
+	g_object_set (
+		G_OBJECT (scrolled),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
@@ -711,7 +718,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	gtk_container_add (container, scrolled);
 
 	widget = eab_contact_display_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
@@ -727,7 +735,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 		text = _("Old Contact:");
 
 	widget = gtk_label_new (text);
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
@@ -737,7 +746,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	gtk_container_add (container, widget);
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (scrolled),
+	g_object_set (
+		G_OBJECT (scrolled),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
@@ -748,7 +758,8 @@ create_duplicate_contact_detected_dialog (EContact *old_contact,
 	gtk_container_add (container, scrolled);
 
 	widget = eab_contact_display_new ();
-	g_object_set (G_OBJECT (widget),
+	g_object_set (
+		G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,

@@ -103,9 +103,9 @@ e_alarm_list_tree_model_init (GtkTreeModelIface *iface)
 static void
 e_alarm_list_init (EAlarmList *alarm_list)
 {
-	alarm_list->stamp         = g_random_int ();
+	alarm_list->stamp = g_random_int ();
 	alarm_list->columns_dirty = FALSE;
-	alarm_list->list          = NULL;
+	alarm_list->list = NULL;
 }
 
 EAlarmList *
@@ -265,7 +265,7 @@ e_alarm_list_append (EAlarmList *alarm_list,
 
 	if (iter) {
 		iter->user_data = g_list_last (alarm_list->list);
-		iter->stamp     = alarm_list->stamp;
+		iter->stamp = alarm_list->stamp;
 	}
 }
 
@@ -321,7 +321,7 @@ e_alarm_list_get_iter (GtkTreeModel *tree_model,
 		return FALSE;
 
 	iter->user_data = l;
-	iter->stamp     = alarm_list->stamp;
+	iter->stamp = alarm_list->stamp;
 	return TRUE;
 }
 
@@ -589,7 +589,7 @@ e_alarm_list_iter_children (GtkTreeModel *tree_model,
 	if (!alarm_list->list)
 		return FALSE;
 
-	iter->stamp     = E_ALARM_LIST (tree_model)->stamp;
+	iter->stamp = E_ALARM_LIST (tree_model)->stamp;
 	iter->user_data = alarm_list->list;
 	return TRUE;
 }
@@ -637,7 +637,7 @@ e_alarm_list_iter_nth_child (GtkTreeModel *tree_model,
 		if (!l)
 			return FALSE;
 
-		iter->stamp     = alarm_list->stamp;
+		iter->stamp = alarm_list->stamp;
 		iter->user_data = l;
 		return TRUE;
 	}

@@ -214,17 +214,17 @@ e_reflow_model_class_init (EReflowModelClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	class->set_width            = NULL;
-	class->count                = NULL;
-	class->height               = NULL;
-	class->incarnate            = NULL;
-	class->reincarnate          = NULL;
+	class->set_width = NULL;
+	class->count = NULL;
+	class->height = NULL;
+	class->incarnate = NULL;
+	class->reincarnate = NULL;
 
-	class->model_changed        = NULL;
-	class->comparison_changed   = NULL;
+	class->model_changed = NULL;
+	class->comparison_changed = NULL;
 	class->model_items_inserted = NULL;
-	class->model_item_removed   = NULL;
-	class->model_item_changed   = NULL;
+	class->model_item_removed = NULL;
+	class->model_item_changed = NULL;
 
 	signals[MODEL_CHANGED] = g_signal_new (
 		"model_changed",

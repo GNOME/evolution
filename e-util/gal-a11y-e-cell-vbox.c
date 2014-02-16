@@ -155,12 +155,12 @@ ecv_class_init (GalA11yECellVboxClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	AtkObjectClass *a11y_class = ATK_OBJECT_CLASS (class);
-	parent_class		   = g_type_class_ref (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->dispose	   = ecv_dispose;
+	object_class->dispose = ecv_dispose;
 
 	a11y_class->get_n_children = ecv_get_n_children;
-	a11y_class->ref_child	   = ecv_ref_child;
+	a11y_class->ref_child = ecv_ref_child;
 }
 
 static void
@@ -171,7 +171,7 @@ ecv_init (GalA11yECellVbox *a11y)
 static void
 ecv_atk_component_iface_init (AtkComponentIface *iface)
 {
-	component_parent_iface         = g_type_interface_peek_parent (iface);
+	component_parent_iface = g_type_interface_peek_parent (iface);
 
 	iface->ref_accessible_at_point = ecv_ref_accessible_at_point;
 }

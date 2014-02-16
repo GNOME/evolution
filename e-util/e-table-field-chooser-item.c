@@ -670,12 +670,12 @@ e_table_field_chooser_item_class_init (ETableFieldChooserItemClass *class)
 	object_class->set_property = etfci_set_property;
 	object_class->get_property = etfci_get_property;
 
-	item_class->update      = etfci_update;
-	item_class->realize     = etfci_realize;
-	item_class->unrealize   = etfci_unrealize;
-	item_class->draw        = etfci_draw;
-	item_class->point       = etfci_point;
-	item_class->event       = etfci_event;
+	item_class->update = etfci_update;
+	item_class->realize = etfci_realize;
+	item_class->unrealize = etfci_unrealize;
+	item_class->draw = etfci_draw;
+	item_class->point = etfci_point;
+	item_class->event = etfci_event;
 
 	g_object_class_install_property (
 		object_class,

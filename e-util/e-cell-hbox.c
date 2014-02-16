@@ -296,15 +296,15 @@ e_cell_hbox_class_init (ECellHboxClass *class)
 
 	object_class->dispose = ecv_dispose;
 
-	ecc->new_view         = ecv_new_view;
-	ecc->kill_view        = ecv_kill_view;
-	ecc->realize          = ecv_realize;
-	ecc->unrealize        = ecv_unrealize;
-	ecc->draw             = ecv_draw;
-	ecc->event            = ecv_event;
-	ecc->height           = ecv_height;
+	ecc->new_view = ecv_new_view;
+	ecc->kill_view = ecv_kill_view;
+	ecc->realize = ecv_realize;
+	ecc->unrealize = ecv_unrealize;
+	ecc->draw = ecv_draw;
+	ecc->event = ecv_event;
+	ecc->height = ecv_height;
 
-	ecc->max_width        = ecv_max_width;
+	ecc->max_width = ecv_max_width;
 
 /*	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_HBOX, gal_a11y_e_cell_hbox_new); */
 }
@@ -339,9 +339,9 @@ e_cell_hbox_append (ECellHbox *hbox,
 {
 	hbox->subcell_count++;
 
-	hbox->subcells   = g_renew (ECell *, hbox->subcells,   hbox->subcell_count);
-	hbox->model_cols = g_renew (int,     hbox->model_cols, hbox->subcell_count);
-	hbox->def_size_cols = g_renew (int,     hbox->def_size_cols, hbox->subcell_count);
+	hbox->subcells = g_renew (ECell *, hbox->subcells, hbox->subcell_count);
+	hbox->model_cols = g_renew (int, hbox->model_cols, hbox->subcell_count);
+	hbox->def_size_cols = g_renew (int, hbox->def_size_cols, hbox->subcell_count);
 
 	hbox->subcells[hbox->subcell_count - 1]   = subcell;
 	hbox->model_cols[hbox->subcell_count - 1] = model_col;

@@ -182,7 +182,7 @@ eab_load_error_dialog (GtkWidget *parent,
 	} else {
 		GtkWidget *dialog;
 
-		dialog  = e_alert_dialog_new_for_args (
+		dialog = e_alert_dialog_new_for_args (
 			(GtkWindow *) parent,
 			"addressbook:load-error",
 			e_source_get_display_name (source),
@@ -674,7 +674,7 @@ get_locales_str (void)
 		ret = g_strdup ("C");
 	else if (loc[0] && loc[1]) {
 		if (*loc[0])
-			ret =  g_strconcat (loc[LOCALES_COUNTRY], "_", loc[LOCALES_LANGUAGE], NULL);
+			ret = g_strconcat (loc[LOCALES_COUNTRY], "_", loc[LOCALES_LANGUAGE], NULL);
 		else
 			ret = g_strdup (loc[LOCALES_COUNTRY]);
 	}
@@ -1053,7 +1053,7 @@ eab_format_address (EContact *contact,
 		return NULL;
 
 	if (!addr->po && !addr->ext && !addr->street && !addr->locality && !addr->region &&
-	    !addr->code  && !addr->country) {
+	    !addr->code && !addr->country) {
 		e_contact_address_free (addr);
 		return NULL;
 	}

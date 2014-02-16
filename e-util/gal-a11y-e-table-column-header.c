@@ -223,7 +223,7 @@ gal_a11y_e_table_column_header_new (ETableCol *ecol,
 	g_return_val_if_fail (E_IS_TABLE_COL (ecol), NULL);
 
 	a11y = g_object_new (gal_a11y_e_table_column_header_get_type (), NULL);
-	accessible  = ATK_OBJECT (a11y);
+	accessible = ATK_OBJECT (a11y);
 	atk_object_initialize (accessible, ecol);
 
 	GET_PRIVATE (a11y)->item = item;

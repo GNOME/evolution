@@ -130,7 +130,7 @@ gail_canvas_text_new (GObject *obj)
 				   GNOME_CANVAS_TEXT (obj)->text);
     }
 
-  atk_object->role =  ATK_ROLE_TEXT;
+  atk_object->role = ATK_ROLE_TEXT;
   return atk_object;
 }
 

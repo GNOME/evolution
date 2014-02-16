@@ -380,6 +380,7 @@ mail_config_assistant_select_account_node (const gchar *account_uid)
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree = NULL;
 	GtkWindow *active_window;
+	const gchar *active_view;
 
 	g_return_if_fail (account_uid != NULL);
 
@@ -390,8 +391,9 @@ mail_config_assistant_select_account_node (const gchar *account_uid)
 		return;
 
 	shell_window = E_SHELL_WINDOW (active_window);
+	active_view = e_shell_window_get_active_view (shell_window);
 
-	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "mail") != 0)
+	if (g_strcmp0 (active_view, "mail") != 0)
 		return;
 
 	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
@@ -437,11 +439,15 @@ mail_config_assistant_close_cb (GObject *object,
 		g_error_free (error);
 
 	} else {
-		ESource *account;
+		ESource *source;
 
-		account = e_mail_config_assistant_get_account_source (assistant);
-		if (account)
-			mail_config_assistant_select_account_node (e_source_get_uid (account));
+		source = e_mail_config_assistant_get_account_source (assistant);
+		if (source != NULL) {
+			const gchar *uid;
+
+			uid = e_source_get_uid (source);
+			mail_config_assistant_select_account_node (uid);
+		}
 
 		gtk_widget_destroy (GTK_WIDGET (assistant));
 	}

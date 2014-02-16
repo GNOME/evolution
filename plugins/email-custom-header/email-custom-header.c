@@ -126,7 +126,7 @@ epech_get_widgets (CustomHeaderOptionsDialog *mch)
 	if (!priv->main)
 		return FALSE;
 
-	priv->page  = EMAIL_CUSTOM_HEADER ("email-custom-header-vbox");
+	priv->page = EMAIL_CUSTOM_HEADER ("email-custom-header-vbox");
 	priv->header_table = EMAIL_CUSTOM_HEADER ("email-custom-header-options");
 #undef EMAIL_CUSTOM_HEADER
 
@@ -219,7 +219,7 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch,
 	}
 
 	epech_setup_widgets (mch);
-	toplevel =  gtk_widget_get_toplevel (priv->main);
+	toplevel = gtk_widget_get_toplevel (priv->main);
 
 	if (parent)
 		gtk_window_set_transient_for (GTK_WINDOW (toplevel),GTK_WINDOW (parent));
@@ -240,7 +240,7 @@ epech_load_from_settings (GSettings *settings,
 {
 	CustomHeaderOptionsDialogPrivate *priv;
 	EmailCustomHeaderDetails temp_header_details= {-1, -1, NULL, NULL};
-	CustomSubHeader temp_header_value_details =  {NULL};
+	CustomSubHeader temp_header_value_details = {NULL};
 	gchar **headers;
 	gint index,pos;
 

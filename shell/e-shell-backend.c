@@ -62,7 +62,7 @@ struct _EShellBackendPrivate {
 	/* This is set to delay shutdown. */
 	gulong notify_busy_handler_id;
 
-	guint started	: 1;
+	guint started : 1;
 };
 
 enum {

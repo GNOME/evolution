@@ -678,10 +678,10 @@ e_table_group_class_init (ETableGroupClass *class)
 	class->add_array = NULL;
 	class->add_all = NULL;
 	class->remove = NULL;
-	class->row_count  = NULL;
-	class->increment  = NULL;
-	class->decrement  = NULL;
-	class->set_focus  = NULL;
+	class->row_count = NULL;
+	class->increment = NULL;
+	class->decrement = NULL;
+	class->set_focus = NULL;
 	class->get_focus = etg_get_focus;
 	class->get_printable = NULL;
 	class->compute_location = NULL;

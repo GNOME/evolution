@@ -2595,9 +2595,9 @@ context_destroyed (gpointer data,
 {
 	ETree *tree = data;
 	if (tree->priv) {
-		tree->priv->last_drop_x       = 0;
-		tree->priv->last_drop_y       = 0;
-		tree->priv->last_drop_time    = 0;
+		tree->priv->last_drop_x = 0;
+		tree->priv->last_drop_y = 0;
+		tree->priv->last_drop_time = 0;
 		tree->priv->last_drop_context = NULL;
 		collapse_drag (tree, NULL);
 		scroll_off (tree);

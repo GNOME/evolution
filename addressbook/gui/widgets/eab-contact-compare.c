@@ -150,7 +150,7 @@ eab_contact_compare_name_to_string_full (EContact *contact,
 			*s = ' ';
 		++s;
 	}
-	namev   = g_strsplit (str_cpy, " ", 0);
+	namev = g_strsplit (str_cpy, " ", 0);
 	g_free (str_cpy);
 
 	contact_name = e_contact_get (contact, E_CONTACT_NAME);

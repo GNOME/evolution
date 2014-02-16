@@ -946,8 +946,8 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 		"valign", GTK_ALIGN_FILL,
 		NULL);
 	section.label = GTK_LABEL (gtk_label_new_with_mnemonic (pretty_name));
-	section.transfer_button  = GTK_BUTTON (gtk_button_new ());
-	section.remove_button  = GTK_BUTTON (gtk_button_new ());
+	section.transfer_button = GTK_BUTTON (gtk_button_new ());
+	section.remove_button = GTK_BUTTON (gtk_button_new ());
 	section.destination_view = make_tree_view_for_section (name_selector_dialog, destination_store);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (section.label), GTK_WIDGET (section.destination_view));

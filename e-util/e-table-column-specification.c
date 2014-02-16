@@ -70,20 +70,20 @@ e_table_column_specification_class_init (ETableColumnSpecificationClass *class)
 static void
 e_table_column_specification_init (ETableColumnSpecification *specification)
 {
-	specification->model_col     = 0;
-	specification->compare_col   = 0;
-	specification->title         = g_strdup ("");
-	specification->pixbuf        = NULL;
+	specification->model_col = 0;
+	specification->compare_col = 0;
+	specification->title = g_strdup ("");
+	specification->pixbuf = NULL;
 
-	specification->expansion     = 0;
+	specification->expansion = 0;
 	specification->minimum_width = 0;
-	specification->resizable     = FALSE;
-	specification->disabled      = FALSE;
+	specification->resizable = FALSE;
+	specification->disabled = FALSE;
 
-	specification->cell          = NULL;
-	specification->compare       = NULL;
-	specification->search        = NULL;
-	specification->priority      = 0;
+	specification->cell = NULL;
+	specification->compare = NULL;
+	specification->search = NULL;
+	specification->priority = 0;
 }
 
 ETableColumnSpecification *

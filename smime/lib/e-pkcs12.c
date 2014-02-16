@@ -160,7 +160,7 @@ prompt_for_password (gchar *title,
 
 		SECITEM_AllocItem (NULL, pwd, sizeof (gunichar2) * (len + 1));
 
-		outptr =  pwd->data;
+		outptr = pwd->data;
 		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
 			inptr = g_utf8_next_char (inptr);
 			c = GUINT16_TO_BE (c);
@@ -358,7 +358,7 @@ nickname_collision (SECItem *oldNick,
 	new_nick = PR_Malloc (sizeof (SECItem));
 	new_nick->type = siAsciiString;
 	new_nick->data = (guchar *) nickname;
-	new_nick->len  = strlen ((gchar *) new_nick->data);
+	new_nick->len = strlen ((gchar *) new_nick->data);
 	return new_nick;
 }
 

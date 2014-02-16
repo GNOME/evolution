@@ -197,7 +197,7 @@ populate_contact_address (EContactAddress *address,
 		 !g_ascii_strcasecmp (attr, "homepostalAddress")) {
 		gchar *c, *i, *addr_field;
 
-		addr_field =  g_strdup (value);
+		addr_field = g_strdup (value);
 		i = addr_field;
 		for (c = addr_field; *c != '\0'; c++) {
 			i++;

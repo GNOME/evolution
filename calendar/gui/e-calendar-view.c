@@ -2377,14 +2377,14 @@ get_today_background (const GdkColor base_background)
 
 	if (res.red > 0x7FFF) {
 		/* light yellow for a light theme */
-		res.red   = 0xFFFF;
+		res.red = 0xFFFF;
 		res.green = 0xFFFF;
-		res.blue  = 0xC0C0;
+		res.blue = 0xC0C0;
 	} else {
 		/* dark yellow for a dark theme */
-		res.red   = 0x3F3F;
+		res.red = 0x3F3F;
 		res.green = 0x3F3F;
-		res.blue  = 0x0000;
+		res.blue = 0x0000;
 	}
 
 	return res;

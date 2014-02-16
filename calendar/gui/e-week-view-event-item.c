@@ -473,15 +473,15 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	if (right_align)
 		icon_x -= icon_x_inc * num_icons;
 
-	#define draw_pixbuf(pf)							\
-		if (can_draw_in_region (draw_region, icon_x, icon_y,		\
-		    E_WEEK_VIEW_ICON_WIDTH, E_WEEK_VIEW_ICON_HEIGHT)) {		\
-			cairo_save (cr);					\
-			gdk_cairo_set_source_pixbuf (cr, pf, icon_x, icon_y);	\
-			cairo_paint (cr);					\
-			cairo_restore (cr);					\
-		}								\
-										\
+	#define draw_pixbuf(pf) \
+		if (can_draw_in_region (draw_region, icon_x, icon_y, \
+		    E_WEEK_VIEW_ICON_WIDTH, E_WEEK_VIEW_ICON_HEIGHT)) { \
+			cairo_save (cr); \
+			gdk_cairo_set_source_pixbuf (cr, pf, icon_x, icon_y); \
+			cairo_paint (cr); \
+			cairo_restore (cr); \
+		} \
+ \
 		icon_x += icon_x_inc;
 
 	if (draw_reminder_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
@@ -823,9 +823,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		rect_w = x2 - x1 - E_WEEK_VIEW_EVENT_L_PAD - E_WEEK_VIEW_EVENT_R_PAD + 1;
 
 		/* Here we draw the border around the event*/
-		cx0	   = rect_x;
-		cy0	   = y1 + 1;
-		rect_width  = rect_w;
+		cx0 = rect_x;
+		cy0 = y1 + 1;
+		rect_width = rect_w;
 		rect_height = y2 - y1 - 1;
 
 		radius = 12;
@@ -841,9 +841,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Fill it in the Event */
 
-		cx0	   = rect_x + 1.5;
-		cy0	   = y1 + 2.75;
-		rect_width  = rect_w - 3.;
+		cx0 = rect_x + 1.5;
+		cy0 = y1 + 2.75;
+		rect_width = rect_w - 3.;
 		rect_height = y2 - y1 - 4.5;
 
 		radius = 8;
@@ -940,9 +940,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Here we draw the border around the event */
 
-		cx0	   = rect_x;
-		cy0	   = y1 + 1;
-		rect_width  = rect_w;
+		cx0 = rect_x;
+		cy0 = y1 + 1;
+		rect_width = rect_w;
 		rect_height = y2 - y1 - 1;
 
 		radius = 12;
@@ -958,9 +958,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Here we fill it in the event*/
 
-		cx0	   = rect_x + 1.5;
-		cy0	   = y1 + 2.75;
-		rect_width  = rect_w - 3.;
+		cx0 = rect_x + 1.5;
+		cy0 = y1 + 2.75;
+		rect_width = rect_w - 3.;
 		rect_height = y2 - y1 - 4.5;
 
 		radius = 8;

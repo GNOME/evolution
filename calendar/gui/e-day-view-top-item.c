@@ -202,9 +202,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	/* Fill the background with white to play with transparency */
 	cairo_save (cr);
-	x0	   = item_x - x + 4;
-	y0	   = item_y + 1 - y;
-	rect_width  = item_w - 8;
+	x0 = item_x - x + 4;
+	y0 = item_y + 1 - y;
+	rect_width = item_w - 8;
 	rect_height = item_h - 2;
 
 	radius = 12;
@@ -219,9 +219,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	/* Draw the border around the event */
 
 	cairo_save (cr);
-	x0	   = item_x - x + 4;
-	y0	   = item_y + 1 - y;
-	rect_width  = item_w - 8;
+	x0 = item_x - x + 4;
+	y0 = item_y + 1 - y;
+	rect_width = item_w - 8;
 	rect_height = item_h - 2;
 
 	radius = 12;
@@ -237,9 +237,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	cairo_save (cr);
 
-	x0	   = item_x - x + 5.5;
-	y0	   = item_y + 2.5 - y;
-	rect_width  = item_w - 11;
+	x0 = item_x - x + 5.5;
+	y0 = item_y + 2.5 - y;
+	rect_width = item_w - 11;
 	rect_height = item_h - 5;
 
 	radius = 10;

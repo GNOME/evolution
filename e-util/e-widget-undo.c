@@ -111,7 +111,7 @@ reset_redos (EUndoData *data)
 
 static void
 push_undo (EUndoData *data,
-	   EUndoInfo *info)
+           EUndoInfo *info)
 {
 	gint index;
 
@@ -130,9 +130,9 @@ push_undo (EUndoData *data,
 
 static gboolean
 can_merge_insert_undos (EUndoInfo *current_info,
-			const gchar *text,
-			gint text_len,
-			gint position)
+                        const gchar *text,
+                        gint text_len,
+                        gint position)
 {
 	gint len;
 
@@ -158,9 +158,9 @@ can_merge_insert_undos (EUndoInfo *current_info,
 
 static void
 push_insert_undo (GObject *object,
-		  const gchar *text,
-		  gint text_len,
-		  gint position)
+                  const gchar *text,
+                  gint text_len,
+                  gint position)
 {
 	EUndoData *data;
 	EUndoInfo *info;
@@ -195,9 +195,9 @@ push_insert_undo (GObject *object,
 
 static void
 push_delete_undo (GObject *object,
-		  gchar *text, /* takes ownership of the 'text' */
-		  gint position_start,
-		  gint position_end)
+                  gchar *text, /* takes ownership of the 'text' */
+                  gint position_start,
+                  gint position_end)
 {
 	EUndoData *data;
 	EUndoInfo *info;
@@ -250,27 +250,27 @@ push_delete_undo (GObject *object,
 
 static void
 editable_undo_insert_text_cb (GtkEditable *editable,
-			      gchar *text,
-			      gint text_length,
-			      gint *position,
-			      gpointer user_data)
+                              gchar *text,
+                              gint text_length,
+                              gint *position,
+                              gpointer user_data)
 {
 	push_insert_undo (G_OBJECT (editable), text, text_length, *position);
 }
 
 static void
 editable_undo_delete_text_cb (GtkEditable *editable,
-			      gint start_pos,
-			      gint end_pos,
-			      gpointer user_data)
+                              gint start_pos,
+                              gint end_pos,
+                              gpointer user_data)
 {
 	push_delete_undo (G_OBJECT (editable), gtk_editable_get_chars (editable, start_pos, end_pos), start_pos, end_pos);
 }
 
 static void
 editable_undo_insert_text (GObject *object,
-			   const gchar *text,
-			   gint position)
+                           const gchar *text,
+                           gint position)
 {
 	g_return_if_fail (GTK_IS_EDITABLE (object));
 
@@ -279,8 +279,8 @@ editable_undo_insert_text (GObject *object,
 
 static void
 editable_undo_delete_text (GObject *object,
-			   gint position_start,
-			   gint position_end)
+                           gint position_start,
+                           gint position_end)
 {
 	g_return_if_fail (GTK_IS_EDITABLE (object));
 
@@ -289,21 +289,22 @@ editable_undo_delete_text (GObject *object,
 
 static void
 text_buffer_undo_insert_text_cb (GtkTextBuffer *text_buffer,
-				 GtkTextIter *location,
-				 gchar *text,
-				 gint text_length,
-				 gpointer user_data)
+                                 GtkTextIter *location,
+                                 gchar *text,
+                                 gint text_length,
+                                 gpointer user_data)
 {
 	push_insert_undo (G_OBJECT (text_buffer), text, text_length, gtk_text_iter_get_offset (location));
 }
 
 static void
 text_buffer_undo_delete_range_cb (GtkTextBuffer *text_buffer,
-				  GtkTextIter *start,
-				  GtkTextIter *end,
-				  gpointer user_data)
+                                  GtkTextIter *start,
+                                  GtkTextIter *end,
+                                  gpointer user_data)
 {
-	push_delete_undo (G_OBJECT (text_buffer),
+	push_delete_undo (
+		G_OBJECT (text_buffer),
 		gtk_text_iter_get_text (start, end),
 		gtk_text_iter_get_offset (start),
 		gtk_text_iter_get_offset (end));
@@ -311,8 +312,8 @@ text_buffer_undo_delete_range_cb (GtkTextBuffer *text_buffer,
 
 static void
 text_buffer_undo_insert_text (GObject *object,
-			      const gchar *text,
-			      gint position)
+                              const gchar *text,
+                              gint position)
 {
 	GtkTextBuffer *text_buffer;
 	GtkTextIter iter;
@@ -327,8 +328,8 @@ text_buffer_undo_insert_text (GObject *object,
 
 static void
 text_buffer_undo_delete_text (GObject *object,
-			      gint position_start,
-			      gint position_end)
+                              gint position_start,
+                              gint position_end)
 {
 	GtkTextBuffer *text_buffer;
 	GtkTextIter start_iter, end_iter;
@@ -344,7 +345,7 @@ text_buffer_undo_delete_text (GObject *object,
 
 static void
 widget_undo_place_cursor_at (GObject *object,
-			     gint char_pos)
+                             gint char_pos)
 {
 	if (GTK_IS_EDITABLE (object))
 		gtk_editable_set_position (GTK_EDITABLE (object), char_pos);
@@ -361,9 +362,13 @@ widget_undo_place_cursor_at (GObject *object,
 
 static void
 undo_do_something (GObject *object,
-		   EUndoDoType todo,
-		   void (* insert_func) (GObject *object, const gchar *text, gint position),
-		   void (* delete_func) (GObject *object, gint position_start, gint position_end))
+                   EUndoDoType todo,
+                   void (* insert_func) (GObject *object,
+                   const gchar *text,
+                   gint position),
+                   void (* delete_func) (GObject *object,
+                   gint position_start,
+                   gint position_end))
 {
 	EUndoData *data;
 	EUndoInfo *info = NULL;
@@ -394,12 +399,12 @@ undo_do_something (GObject *object,
 			widget_undo_place_cursor_at (object, info->position_start);
 		} else {
 			insert_func (object, info->text, info->position_start);
-			widget_undo_place_cursor_at (object, info->position_start  + g_utf8_strlen (info->text, -1));
+			widget_undo_place_cursor_at (object, info->position_start + g_utf8_strlen (info->text, -1));
 		}
 	} else if (info->type == E_UNDO_DELETE) {
 		if (todo == E_UNDO_DO_UNDO) {
 			insert_func (object, info->text, info->position_start);
-			widget_undo_place_cursor_at (object, info->position_start  + g_utf8_strlen (info->text, -1));
+			widget_undo_place_cursor_at (object, info->position_start + g_utf8_strlen (info->text, -1));
 		} else {
 			delete_func (object, info->position_start, info->position_end);
 			widget_undo_place_cursor_at (object, info->position_start);
@@ -414,7 +419,7 @@ undo_do_something (GObject *object,
 
 static gchar *
 undo_describe_info (EUndoInfo *info,
-		    EUndoDoType undo_type)
+                    EUndoDoType undo_type)
 {
 	if (!info)
 		return NULL;
@@ -430,7 +435,7 @@ undo_describe_info (EUndoInfo *info,
 			else
 				return g_strdup_printf (_("Redo 'Insert '%.12s...''"), info->text);
 		}
-
+ *
 		if (undo_type == E_UNDO_DO_UNDO)
 			return g_strdup_printf (_("Undo 'Insert '%s''"), info->text);
 		else
@@ -446,7 +451,7 @@ undo_describe_info (EUndoInfo *info,
 			else
 				return g_strdup_printf (_("Redo 'Delete '%.12s...''"), info->text);
 		}
-
+ *
 		if (undo_type == E_UNDO_DO_UNDO)
 			return g_strdup_printf (_("Undo 'Delete '%s''"), info->text);
 		else
@@ -458,7 +463,7 @@ undo_describe_info (EUndoInfo *info,
 
 static gboolean
 undo_check_undo (GObject *object,
-		 gchar **description)
+                 gchar **description)
 {
 	EUndoData *data;
 
@@ -477,7 +482,7 @@ undo_check_undo (GObject *object,
 
 static gboolean
 undo_check_redo (GObject *object,
-		 gchar **description)
+                 gchar **description)
 {
 	EUndoData *data;
 
@@ -509,7 +514,7 @@ undo_reset (GObject *object)
 
 static void
 widget_undo_popup_activate_cb (GObject *menu_item,
-			       GtkWidget *widget)
+                               GtkWidget *widget)
 {
 	EUndoDoType undo_type = GPOINTER_TO_INT (g_object_get_data (menu_item, UNDO_DATA_KEY));
 
@@ -521,9 +526,9 @@ widget_undo_popup_activate_cb (GObject *menu_item,
 
 static gboolean
 widget_undo_prepend_popup (GtkWidget *widget,
-			   GtkMenuShell *menu,
-			   EUndoDoType undo_type,
-			   gboolean already_added)
+                           GtkMenuShell *menu,
+                           EUndoDoType undo_type,
+                           gboolean already_added)
 {
 	gchar *description = NULL;
 	const gchar *icon_name = NULL;
@@ -565,8 +570,8 @@ widget_undo_prepend_popup (GtkWidget *widget,
 
 static void
 widget_undo_populate_popup_cb (GtkWidget *widget,
-			       GtkWidget *popup,
-			       gpointer user_data)
+                               GtkWidget *popup,
+                               gpointer user_data)
 {
 	GtkMenuShell *menu;
 	gboolean added = FALSE;
@@ -600,7 +605,7 @@ widget_undo_populate_popup_cb (GtkWidget *widget,
  **/
 void
 e_widget_undo_attach (GtkWidget *widget,
-		      EFocusTracker *focus_tracker)
+                      EFocusTracker *focus_tracker)
 {
 	EUndoData *data;
 
@@ -614,17 +619,21 @@ e_widget_undo_attach (GtkWidget *widget,
 
 		g_object_set_data_full (G_OBJECT (widget), UNDO_DATA_KEY, data, free_undo_data);
 
-		data->insert_handler_id = g_signal_connect (widget, "insert-text",
+		data->insert_handler_id = g_signal_connect (
+			widget, "insert-text",
 			G_CALLBACK (editable_undo_insert_text_cb), NULL);
-		data->delete_handler_id = g_signal_connect (widget, "delete-text",
+		data->delete_handler_id = g_signal_connect (
+			widget, "delete-text",
 			G_CALLBACK (editable_undo_delete_text_cb), NULL);
 
 		if (focus_tracker)
-			g_signal_connect_swapped (widget, "changed",
+			g_signal_connect_swapped (
+				widget, "changed",
 				G_CALLBACK (e_focus_tracker_update_actions), focus_tracker);
 
 		if (GTK_IS_ENTRY (widget))
-			g_signal_connect (widget, "populate-popup",
+			g_signal_connect (
+				widget, "populate-popup",
 				G_CALLBACK (widget_undo_populate_popup_cb), NULL);
 	} else if (GTK_IS_TEXT_VIEW (widget)) {
 		GtkTextBuffer *text_buffer;
@@ -637,16 +646,20 @@ e_widget_undo_attach (GtkWidget *widget,
 
 		g_object_set_data_full (G_OBJECT (text_buffer), UNDO_DATA_KEY, data, free_undo_data);
 
-		data->insert_handler_id = g_signal_connect (text_buffer, "insert-text",
+		data->insert_handler_id = g_signal_connect (
+			text_buffer, "insert-text",
 			G_CALLBACK (text_buffer_undo_insert_text_cb), NULL);
-		data->delete_handler_id = g_signal_connect (text_buffer, "delete-range",
+		data->delete_handler_id = g_signal_connect (
+			text_buffer, "delete-range",
 			G_CALLBACK (text_buffer_undo_delete_range_cb), NULL);
 
 		if (focus_tracker)
-			g_signal_connect_swapped (text_buffer, "changed",
+			g_signal_connect_swapped (
+				text_buffer, "changed",
 				G_CALLBACK (e_focus_tracker_update_actions), focus_tracker);
 
-		g_signal_connect (widget, "populate-popup",
+		g_signal_connect (
+			widget, "populate-popup",
 			G_CALLBACK (widget_undo_populate_popup_cb), NULL);
 	}
 }
@@ -817,7 +830,8 @@ void
 e_widget_undo_do_undo (GtkWidget *widget)
 {
 	if (GTK_IS_EDITABLE (widget)) {
-		undo_do_something (G_OBJECT (widget),
+		undo_do_something (
+			G_OBJECT (widget),
 			E_UNDO_DO_UNDO,
 			editable_undo_insert_text,
 			editable_undo_delete_text);
@@ -826,7 +840,8 @@ e_widget_undo_do_undo (GtkWidget *widget)
 
 		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
 
-		undo_do_something (G_OBJECT (text_buffer),
+		undo_do_something (
+			G_OBJECT (text_buffer),
 			E_UNDO_DO_UNDO,
 			text_buffer_undo_insert_text,
 			text_buffer_undo_delete_text);
@@ -850,7 +865,8 @@ void
 e_widget_undo_do_redo (GtkWidget *widget)
 {
 	if (GTK_IS_EDITABLE (widget)) {
-		undo_do_something (G_OBJECT (widget),
+		undo_do_something (
+			G_OBJECT (widget),
 			E_UNDO_DO_REDO,
 			editable_undo_insert_text,
 			editable_undo_delete_text);
@@ -859,7 +875,8 @@ e_widget_undo_do_redo (GtkWidget *widget)
 
 		text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
 
-		undo_do_something (G_OBJECT (text_buffer),
+		undo_do_something (
+			G_OBJECT (text_buffer),
 			E_UNDO_DO_REDO,
 			text_buffer_undo_insert_text,
 			text_buffer_undo_delete_text);

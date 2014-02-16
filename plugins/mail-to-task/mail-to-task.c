@@ -871,10 +871,10 @@ do_mail_to_event (AsyncData *data)
 		struct icaltimetype tt, tt2;
 		struct _manage_comp *oldmc = NULL;
 
-		#define cache_backend_prop(prop) {							\
-			gchar *val = NULL;								\
-			e_client_get_backend_property_sync (E_CLIENT (client), prop, &val, NULL, NULL);	\
-			g_free (val);									\
+		#define cache_backend_prop(prop) { \
+			gchar *val = NULL; \
+			e_client_get_backend_property_sync (E_CLIENT (client), prop, &val, NULL, NULL); \
+			g_free (val); \
 		}
 
 		/* precache backend properties, thus editor have them ready when needed */

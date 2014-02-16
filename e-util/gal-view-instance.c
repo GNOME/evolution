@@ -218,25 +218,25 @@ gal_view_instance_class_init (GalViewInstanceClass *class)
 		G_TYPE_NONE, 0);
 
 	class->display_view = NULL;
-	class->changed      = NULL;
+	class->changed = NULL;
 }
 
 static void
 gal_view_instance_init (GalViewInstance *instance)
 {
-	instance->collection            = NULL;
+	instance->collection = NULL;
 
-	instance->instance_id           = NULL;
-	instance->custom_filename       = NULL;
+	instance->instance_id = NULL;
+	instance->custom_filename = NULL;
 	instance->current_view_filename = NULL;
 
-	instance->current_title         = NULL;
-	instance->current_type          = NULL;
-	instance->current_id            = NULL;
-	instance->current_view          = NULL;
+	instance->current_title = NULL;
+	instance->current_type = NULL;
+	instance->current_id = NULL;
+	instance->current_view = NULL;
 
-	instance->view_changed_id       = 0;
-	instance->collection_changed_id       = 0;
+	instance->view_changed_id = 0;
+	instance->collection_changed_id = 0;
 
 	instance->loaded = FALSE;
 	instance->default_view = NULL;

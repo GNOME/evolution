@@ -350,18 +350,18 @@ e_table_header_class_init (ETableHeaderClass *class)
 static void
 e_table_header_init (ETableHeader *eth)
 {
-	eth->col_count                 = 0;
-	eth->width                     = 0;
+	eth->col_count = 0;
+	eth->width = 0;
 
-	eth->sort_info                 = NULL;
+	eth->sort_info = NULL;
 	eth->sort_info_group_change_id = 0;
 
-	eth->columns                   = NULL;
+	eth->columns = NULL;
 
-	eth->change_queue              = NULL;
-	eth->change_tail               = NULL;
+	eth->change_queue = NULL;
+	eth->change_tail = NULL;
 
-	eth->width_extras              = 0;
+	eth->width_extras = 0;
 }
 
 /**

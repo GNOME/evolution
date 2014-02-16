@@ -156,12 +156,12 @@ comp_editor_get_current_time (EDateEdit *date_edit,
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year  = tt.year - 1900;
-	tmp_tm.tm_mon   = tt.month - 1;
-	tmp_tm.tm_mday  = tt.day;
-	tmp_tm.tm_hour  = tt.hour;
-	tmp_tm.tm_min   = tt.minute;
-	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_year = tt.year - 1900;
+	tmp_tm.tm_mon = tt.month - 1;
+	tmp_tm.tm_mday = tt.day;
+	tmp_tm.tm_hour = tt.hour;
+	tmp_tm.tm_min = tt.minute;
+	tmp_tm.tm_sec = tt.second;
 	tmp_tm.tm_isdst = -1;
 
 	return tmp_tm;

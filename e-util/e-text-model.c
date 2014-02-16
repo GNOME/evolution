@@ -137,23 +137,23 @@ e_text_model_class_init (ETextModelClass *class)
 		G_TYPE_NONE, 0);
 
 	/* No default signal handlers. */
-	class->changed          = NULL;
-	class->reposition       = NULL;
+	class->changed = NULL;
+	class->reposition = NULL;
 	class->object_activated = NULL;
 
-	class->validate_pos  = e_text_model_real_validate_position;
+	class->validate_pos = e_text_model_real_validate_position;
 
-	class->get_text      = e_text_model_real_get_text;
-	class->get_text_len  = e_text_model_real_get_text_length;
-	class->set_text      = e_text_model_real_set_text;
-	class->insert        = e_text_model_real_insert;
+	class->get_text = e_text_model_real_get_text;
+	class->get_text_len = e_text_model_real_get_text_length;
+	class->set_text = e_text_model_real_set_text;
+	class->insert = e_text_model_real_insert;
 	class->insert_length = e_text_model_real_insert_length;
-	class->delete        = e_text_model_real_delete;
+	class->delete = e_text_model_real_delete;
 
 	/* We explicitly don't define default handlers for these. */
-	class->objectify        = NULL;
-	class->obj_count        = NULL;
-	class->get_nth_obj      = NULL;
+	class->objectify = NULL;
+	class->obj_count = NULL;
+	class->get_nth_obj = NULL;
 }
 
 static void
@@ -291,8 +291,8 @@ e_text_model_real_delete (ETextModel *model,
 	e_text_model_changed (model);
 
 	repos.model = model;
-	repos.pos   = position;
-	repos.len   = length;
+	repos.pos = position;
+	repos.len = length;
 
 	e_text_model_reposition (model, e_repos_delete_shift, &repos);
 }

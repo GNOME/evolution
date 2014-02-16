@@ -46,14 +46,14 @@ G_BEGIN_DECLS
  * [0, 255].
  */
 
-#define GNOME_CANVAS_COLOR(r, g, b) ((((guint) (r) & 0xff) << 24)	\
-				     | (((guint) (g) & 0xff) << 16)	\
-				     | (((guint) (b) & 0xff) << 8)	\
+#define GNOME_CANVAS_COLOR(r, g, b) ((((guint) (r) & 0xff) << 24) \
+				     | (((guint) (g) & 0xff) << 16) \
+				     | (((guint) (b) & 0xff) << 8) \
 				     | 0xff)
 
-#define GNOME_CANVAS_COLOR_A(r, g, b, a) ((((guint) (r) & 0xff) << 24)	\
-					  | (((guint) (g) & 0xff) << 16)	\
-					  | (((guint) (b) & 0xff) << 8)	\
+#define GNOME_CANVAS_COLOR_A(r, g, b, a) ((((guint) (r) & 0xff) << 24) \
+					  | (((guint) (g) & 0xff) << 16) \
+					  | (((guint) (b) & 0xff) << 8) \
 					  | ((guint) (a) & 0xff))
 
 typedef struct _GnomeCanvas           GnomeCanvas;
@@ -79,20 +79,20 @@ typedef struct _GnomeCanvasGroupClass GnomeCanvasGroupClass;
 
 /* Object flags for items */
 typedef enum {
-	GNOME_CANVAS_ITEM_REALIZED      = 1 << 0,
-	GNOME_CANVAS_ITEM_MAPPED        = 1 << 1,
-	GNOME_CANVAS_ITEM_VISIBLE       = 1 << 2,
-	GNOME_CANVAS_ITEM_NEED_UPDATE	= 1 << 3,
-	GNOME_CANVAS_ITEM_NEED_AFFINE	= 1 << 4,
-	GNOME_CANVAS_ITEM_NEED_CLIP	= 1 << 5,
-	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 6
+	GNOME_CANVAS_ITEM_REALIZED = 1 << 0,
+	GNOME_CANVAS_ITEM_MAPPED = 1 << 1,
+	GNOME_CANVAS_ITEM_VISIBLE = 1 << 2,
+	GNOME_CANVAS_ITEM_NEED_UPDATE = 1 << 3,
+	GNOME_CANVAS_ITEM_NEED_AFFINE = 1 << 4,
+	GNOME_CANVAS_ITEM_NEED_CLIP = 1 << 5,
+	GNOME_CANVAS_ITEM_NEED_VIS = 1 << 6
 } GnomeCanvasItemFlags;
 
 /* Update flags for items */
 enum {
-	GNOME_CANVAS_UPDATE_REQUESTED  = 1 << 0,
-	GNOME_CANVAS_UPDATE_AFFINE     = 1 << 1,
-	GNOME_CANVAS_UPDATE_CLIP       = 1 << 2,
+	GNOME_CANVAS_UPDATE_REQUESTED = 1 << 0,
+	GNOME_CANVAS_UPDATE_AFFINE = 1 << 1,
+	GNOME_CANVAS_UPDATE_CLIP = 1 << 2,
 	GNOME_CANVAS_UPDATE_VISIBILITY = 1 << 3,
 	GNOME_CANVAS_UPDATE_IS_VISIBLE = 1 << 4		/* Deprecated.  FIXME: remove this */
 };

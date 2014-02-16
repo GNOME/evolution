@@ -1742,7 +1742,7 @@ display_notification (time_t trigger,
 	if (g_list_length (tray_icons_list) > 1) {
 		gchar *tip;
 
-		tip =  g_strdup_printf (ngettext (
+		tip = g_strdup_printf (ngettext (
 			"You have %d reminder", "You have %d reminders",
 			g_list_length (tray_icons_list)),
 			g_list_length (tray_icons_list));

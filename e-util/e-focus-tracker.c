@@ -100,8 +100,8 @@ focus_tracker_disable_actions (EFocusTracker *focus_tracker)
 
 static void
 focus_tracker_update_undo_redo (EFocusTracker *focus_tracker,
-				GtkWidget *widget,
-				gboolean can_edit_text)
+                                GtkWidget *widget,
+                                gboolean can_edit_text)
 {
 	GtkAction *action;
 	gboolean sensitive;
@@ -198,12 +198,11 @@ focus_tracker_editable_update_actions (EFocusTracker *focus_tracker,
 	focus_tracker_update_undo_redo (focus_tracker, GTK_WIDGET (editable), can_edit_text);
 }
 
-
 static void
 focus_tracker_text_view_update_actions (EFocusTracker *focus_tracker,
-					GtkTextView *text_view,
-					GdkAtom *targets,
-					gint n_targets)
+                                        GtkTextView *text_view,
+                                        GdkAtom *targets,
+                                        gint n_targets)
 {
 	GtkAction *action;
 	GtkTextBuffer *buffer;
@@ -331,7 +330,6 @@ focus_tracker_targets_received_cb (GtkClipboard *clipboard,
 		focus_tracker_text_view_update_actions (
 			focus_tracker, GTK_TEXT_VIEW (focus),
 			targets, n_targets);
-
 
 	g_object_unref (focus_tracker);
 }
@@ -973,7 +971,7 @@ e_focus_tracker_get_undo_action (EFocusTracker *focus_tracker)
 
 void
 e_focus_tracker_set_undo_action (EFocusTracker *focus_tracker,
-				 GtkAction *undo)
+                                 GtkAction *undo)
 {
 	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
 
@@ -1011,7 +1009,7 @@ e_focus_tracker_get_redo_action (EFocusTracker *focus_tracker)
 
 void
 e_focus_tracker_set_redo_action (EFocusTracker *focus_tracker,
-				 GtkAction *redo)
+                                 GtkAction *redo)
 {
 	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
 
@@ -1065,20 +1063,26 @@ e_focus_tracker_cut_clipboard (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (E_IS_SELECTABLE (focus))
+	if (E_IS_SELECTABLE (focus)) {
 		e_selectable_cut_clipboard (E_SELECTABLE (focus));
 
-	else if (GTK_IS_EDITABLE (focus))
+	} else if (GTK_IS_EDITABLE (focus)) {
 		gtk_editable_cut_clipboard (GTK_EDITABLE (focus));
 
-	else if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
-		gboolean is_editable = gtk_text_view_get_editable (text_view);
+	} else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkClipboard *clipboard;
+		GtkTextView *text_view;
+		GtkTextBuffer *buffer;
+		gboolean is_editable;
 
-		gtk_text_buffer_cut_clipboard (buffer,
-			gtk_widget_get_clipboard (focus, GDK_SELECTION_CLIPBOARD),
-			is_editable);
+		clipboard = gtk_widget_get_clipboard (
+			focus, GDK_SELECTION_CLIPBOARD);
+
+		text_view = GTK_TEXT_VIEW (focus);
+		buffer = gtk_text_view_get_buffer (text_view);
+		is_editable = gtk_text_view_get_editable (text_view);
+
+		gtk_text_buffer_cut_clipboard (buffer, clipboard, is_editable);
 	}
 }
 
@@ -1091,17 +1095,24 @@ e_focus_tracker_copy_clipboard (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (E_IS_SELECTABLE (focus))
+	if (E_IS_SELECTABLE (focus)) {
 		e_selectable_copy_clipboard (E_SELECTABLE (focus));
 
-	else if (GTK_IS_EDITABLE (focus))
+	} else if (GTK_IS_EDITABLE (focus)) {
 		gtk_editable_copy_clipboard (GTK_EDITABLE (focus));
 
-	else if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+	} else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkClipboard *clipboard;
+		GtkTextView *text_view;
+		GtkTextBuffer *buffer;
 
-		gtk_text_buffer_copy_clipboard (buffer,
-			gtk_widget_get_clipboard (focus, GDK_SELECTION_CLIPBOARD));
+		clipboard = gtk_widget_get_clipboard (
+			focus, GDK_SELECTION_CLIPBOARD);
+
+		text_view = GTK_TEXT_VIEW (focus);
+		buffer = gtk_text_view_get_buffer (text_view);
+
+		gtk_text_buffer_copy_clipboard (buffer, clipboard);
 	}
 }
 
@@ -1114,20 +1125,27 @@ e_focus_tracker_paste_clipboard (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (E_IS_SELECTABLE (focus))
+	if (E_IS_SELECTABLE (focus)) {
 		e_selectable_paste_clipboard (E_SELECTABLE (focus));
 
-	else if (GTK_IS_EDITABLE (focus))
+	} else if (GTK_IS_EDITABLE (focus)) {
 		gtk_editable_paste_clipboard (GTK_EDITABLE (focus));
 
-	else if (GTK_IS_TEXT_VIEW (focus)) {
+	} else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkClipboard *clipboard;
 		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
 		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
 		gboolean is_editable = gtk_text_view_get_editable (text_view);
 
-		gtk_text_buffer_paste_clipboard (buffer,
-			gtk_widget_get_clipboard (focus, GDK_SELECTION_CLIPBOARD),
-			NULL, is_editable);
+		clipboard = gtk_widget_get_clipboard (
+			focus, GDK_SELECTION_CLIPBOARD);
+
+		text_view = GTK_TEXT_VIEW (focus);
+		buffer = gtk_text_view_get_buffer (text_view);
+		is_editable = gtk_text_view_get_editable (text_view);
+
+		gtk_text_buffer_paste_clipboard (
+			buffer, clipboard, NULL, is_editable);
 	}
 }
 
@@ -1140,16 +1158,20 @@ e_focus_tracker_delete_selection (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (E_IS_SELECTABLE (focus))
+	if (E_IS_SELECTABLE (focus)) {
 		e_selectable_delete_selection (E_SELECTABLE (focus));
 
-	else if (GTK_IS_EDITABLE (focus))
+	} else if (GTK_IS_EDITABLE (focus)) {
 		gtk_editable_delete_selection (GTK_EDITABLE (focus));
 
-	else if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
-		gboolean is_editable = gtk_text_view_get_editable (text_view);
+	} else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextView *text_view;
+		GtkTextBuffer *buffer;
+		gboolean is_editable;
+
+		text_view = GTK_TEXT_VIEW (focus);
+		buffer = gtk_text_view_get_buffer (text_view);
+		is_editable = gtk_text_view_get_editable (text_view);
 
 		gtk_text_buffer_delete_selection (buffer, TRUE, is_editable);
 	}
@@ -1164,15 +1186,19 @@ e_focus_tracker_select_all (EFocusTracker *focus_tracker)
 
 	focus = e_focus_tracker_get_focus (focus_tracker);
 
-	if (E_IS_SELECTABLE (focus))
+	if (E_IS_SELECTABLE (focus)) {
 		e_selectable_select_all (E_SELECTABLE (focus));
 
-	else if (GTK_IS_EDITABLE (focus))
+	} else if (GTK_IS_EDITABLE (focus)) {
 		gtk_editable_select_region (GTK_EDITABLE (focus), 0, -1);
 
-	else if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+	} else if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextView *text_view;
+		GtkTextBuffer *buffer;
 		GtkTextIter start, end;
+
+		text_view = GTK_TEXT_VIEW (focus);
+		buffer = gtk_text_view_get_buffer (text_view);
 
 		gtk_text_buffer_get_bounds (buffer, &start, &end);
 		gtk_text_buffer_select_range (buffer, &start, &end);

@@ -67,15 +67,15 @@ struct _EShellPrivate {
 
 	gulong backend_died_handler_id;
 
-	guint auto_reconnect		: 1;
-	guint express_mode		: 1;
-	guint modules_loaded		: 1;
-	guint network_available		: 1;
-	guint network_available_set	: 1;
-	guint network_available_locked	: 1;
-	guint online			: 1;
-	guint quit_cancelled		: 1;
-	guint safe_mode			: 1;
+	guint auto_reconnect : 1;
+	guint express_mode : 1;
+	guint modules_loaded : 1;
+	guint network_available : 1;
+	guint network_available_set : 1;
+	guint network_available_locked : 1;
+	guint online : 1;
+	guint quit_cancelled : 1;
+	guint safe_mode : 1;
 };
 
 enum {

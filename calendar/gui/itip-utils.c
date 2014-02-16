@@ -1744,7 +1744,7 @@ itip_send_comp (ESourceRegistry *registry,
 	/* Recipients */
 	destinations = comp_to_list (
 		registry, method, comp, users, FALSE,
-		only_new_attendees ?  g_object_get_data (
+		only_new_attendees ? g_object_get_data (
 		G_OBJECT (send_comp), "new-attendees") : NULL);
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (destinations == NULL) {

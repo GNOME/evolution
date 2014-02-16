@@ -1550,8 +1550,8 @@ get_trimmed_subject (CamelMessageInfo *info)
 
 		if (mlist_len &&
 		    *subject == '[' &&
-		    !g_ascii_strncasecmp ((gchar *) subject + 1, mlist, mlist_len) &&
-		    subject[1 + mlist_len] == ']') {
+				!g_ascii_strncasecmp ((gchar *) subject + 1, mlist, mlist_len) &&
+				subject[1 + mlist_len] == ']') {
 			subject += 1 + mlist_len + 1;  /* jump over "[mailing-list]" */
 			found_mlist = TRUE;
 
@@ -3891,7 +3891,7 @@ build_tree (MessageList *message_list,
 			}
 
 			/* Do not update cursor on folder change signal, to not lose user's
-			   scroll bar position */
+			 * scroll bar position */
 			if (!folder_changed || !table_item) {
 				/* We need to set the cursor before we freeze, as
 				 * the thaw will restore it to the pre-freeze value. */
@@ -4131,7 +4131,7 @@ build_subtree_diff (MessageList *message_list,
 static void
 build_flat (MessageList *message_list,
             GPtrArray *summary,
-	    gboolean folder_changed)
+            gboolean folder_changed)
 {
 	gchar *saveuid = NULL;
 	gint i;
@@ -4285,7 +4285,8 @@ message_list_folder_changed (CamelFolder *folder,
 	hide_junk = message_list_get_hide_junk (message_list, folder);
 	hide_deleted = message_list_get_hide_deleted (message_list, folder);
 
-	d (printf ("%s: changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n", G_STRFUNC, changes,
+	d (
+		printf ("%s: changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n", G_STRFUNC, changes,
 		changes ? changes->uid_added->len : -1,
 		changes ? changes->uid_removed->len : -1,
 		changes ? changes->uid_changed->len : -1,

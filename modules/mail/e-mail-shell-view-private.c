@@ -515,7 +515,7 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 	message_list_save_state (MESSAGE_LIST (message_list));
 
 	/* Do not sync folder content here, it's duty of EMailBackend,
-	   which does it for all accounts */
+	 * which does it for all accounts */
 }
 
 static void

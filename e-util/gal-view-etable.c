@@ -114,7 +114,7 @@ gal_view_etable_clone (GalView *view)
 	gve = GAL_VIEW_ETABLE (view);
 
 	/* do this before setting state_filename, to not overwrite current
-	   state changes in the 'attach' function */
+	 * state changes in the 'attach' function */
 	if (gve->priv->table)
 		gal_view_etable_attach_table (GAL_VIEW_ETABLE (clone), gve->priv->table);
 	else if (gve->priv->tree)

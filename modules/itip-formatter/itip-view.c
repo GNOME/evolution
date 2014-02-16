@@ -3799,7 +3799,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 		 * Replies only make sense for events with an organizer.
 		 */
 		if ((!pitip->current_client || !e_cal_client_check_save_schedules (pitip->current_client)) &&
-		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
+		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method == ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
 		}
@@ -3859,7 +3859,7 @@ decrease_find_data (FormatItipFindData *fd)
 		 * Replies only make sense for events with an organizer.
 		 */
 		if ((!pitip->current_client || !e_cal_client_check_save_schedules (pitip->current_client)) &&
-		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
+		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method == ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
 		}
@@ -3868,7 +3868,7 @@ decrease_find_data (FormatItipFindData *fd)
 		/* default is chosen in extract_itip_data() based on content of the VEVENT */
 		itip_view_set_rsvp (view, !pitip->no_reply_wanted);
 
-		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST)
+		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method == ICAL_METHOD_REQUEST)
 		    && !pitip->current_client) {
 			/* Reuse already declared one or rename? */
 			ESource *source = NULL;
@@ -3970,7 +3970,7 @@ get_object_without_rid_ready_cb (GObject *source_object,
 		ECalComponent *comp;
 
 		fd->puri->current_client = cal_client;
-		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method ==  ICAL_METHOD_REQUEST) &&
+		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method == ICAL_METHOD_REQUEST) &&
 			(icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
 			icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
 			icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
@@ -4019,7 +4019,7 @@ get_object_with_rid_ready_cb (GObject *source_object,
 		ECalComponent *comp;
 
 		fd->puri->current_client = cal_client;
-		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method ==  ICAL_METHOD_REQUEST) &&
+		fd->keep_alarm_check = (fd->puri->method == ICAL_METHOD_PUBLISH || fd->puri->method == ICAL_METHOD_REQUEST) &&
 			(icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
 			icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
 			icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
@@ -5753,7 +5753,7 @@ view_response_cb (ItipView *view,
 		return;
 	}
 
-	if (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) {
+	if (pitip->method == ICAL_METHOD_PUBLISH || pitip->method == ICAL_METHOD_REQUEST) {
 		if (itip_view_get_free_time_check_state (view))
 			e_cal_component_set_transparency (pitip->comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 		else
@@ -5893,7 +5893,7 @@ in_proper_folder (CamelFolder *folder)
 
 	if (have_flags) {
 		/* it should be neither trash nor junk folder, */
-		res = ((flags & CAMEL_FOLDER_TYPE_MASK) !=  CAMEL_FOLDER_TYPE_TRASH &&
+		res = ((flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_TRASH &&
 		       (flags & CAMEL_FOLDER_TYPE_MASK) != CAMEL_FOLDER_TYPE_JUNK &&
 			  /* it can be Inbox */
 			((flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX ||
@@ -5957,7 +5957,7 @@ itip_view_init_view (ItipView *view)
 	} else {
 		itip_view_set_show_inherit_alarm_check (
 			view,
-			have_alarms && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
+			have_alarms && (info->method == ICAL_METHOD_PUBLISH || info->method == ICAL_METHOD_REQUEST));
 
 		switch (info->method) {
 			case ICAL_METHOD_PUBLISH:
@@ -6264,7 +6264,7 @@ itip_view_init_view (ItipView *view)
 		G_CALLBACK (view_response_cb), info);
 
 	if (response_enabled) {
-		itip_view_set_show_free_time_check (view, info->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
+		itip_view_set_show_free_time_check (view, info->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (info->method == ICAL_METHOD_PUBLISH || info->method == ICAL_METHOD_REQUEST));
 
 		if (info->calendar_uid) {
 			start_calendar_server_by_uid (info, view, info->calendar_uid, info->type);

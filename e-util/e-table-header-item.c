@@ -501,7 +501,7 @@ ethi_add_drop_marker (ETableHeaderItem *ethi,
 		x += ethi->group_indent_width;
 
 	if (!arrow_up) {
-		arrow_up   = make_shaped_window_from_xpm (arrow_up_xpm);
+		arrow_up = make_shaped_window_from_xpm (arrow_up_xpm);
 		arrow_down = make_shaped_window_from_xpm (arrow_down_xpm);
 	}
 
@@ -685,9 +685,9 @@ context_destroyed (gpointer data)
 {
 	ETableHeaderItem *ethi = data;
 
-	ethi->last_drop_x       = 0;
-	ethi->last_drop_y       = 0;
-	ethi->last_drop_time    = 0;
+	ethi->last_drop_x = 0;
+	ethi->last_drop_y = 0;
+	ethi->last_drop_time = 0;
 	ethi->last_drop_context = NULL;
 	scroll_off (ethi);
 
@@ -817,7 +817,7 @@ ethi_drag_data_received (GtkWidget *canvas,
 				for (i = 0; i < count; i++) {
 					ETableCol *ecol;
 
-					ecol  = e_table_header_get_column (
+					ecol = e_table_header_get_column (
 						ethi->full_header, i);
 
 					if (ecol->spec->model_col == column) {
@@ -2130,12 +2130,12 @@ ethi_class_init (ETableHeaderItemClass *class)
 	object_class->set_property = ethi_set_property;
 	object_class->get_property = ethi_get_property;
 
-	item_class->update      = ethi_update;
-	item_class->realize     = ethi_realize;
-	item_class->unrealize   = ethi_unrealize;
-	item_class->draw        = ethi_draw;
-	item_class->point       = ethi_point;
-	item_class->event       = ethi_event;
+	item_class->update = ethi_update;
+	item_class->realize = ethi_realize;
+	item_class->unrealize = ethi_unrealize;
+	item_class->draw = ethi_draw;
+	item_class->point = ethi_point;
+	item_class->event = ethi_event;
 
 	g_object_class_install_property (
 		object_class,

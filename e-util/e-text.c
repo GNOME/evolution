@@ -434,7 +434,7 @@ e_text_text_model_changed (ETextModel *model,
 
 	/* Make sure our selection doesn't extend past the bounds of our text. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
-	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
+	text->selection_end = CLAMP (text->selection_end,   0, model_len);
 
 	text->needs_reset_layout = 1;
 	text->needs_split_into_lines = 1;
@@ -455,12 +455,12 @@ e_text_text_model_reposition (ETextModel *model,
 	gint model_len = e_text_model_get_text_length (model);
 
 	text->selection_start = fn (text->selection_start, repos_data);
-	text->selection_end   = fn (text->selection_end,   repos_data);
+	text->selection_end = fn (text->selection_end,   repos_data);
 
 	/* Our repos function should make sure we don't overrun the buffer, but it never
 	 * hurts to be paranoid. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
-	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
+	text->selection_end = CLAMP (text->selection_end,   0, model_len);
 
 	if (text->selection_start > text->selection_end) {
 		gint tmp = text->selection_start;
@@ -1232,8 +1232,8 @@ e_text_draw (GnomeCanvasItem *item,
 			cr,
 			((text->rgba >> 24) & 0xff) / 255.0,
 			((text->rgba >> 16) & 0xff) / 255.0,
-			((text->rgba >>  8) & 0xff) / 255.0,
-			( text->rgba        & 0xff) / 255.0);
+			((text->rgba >> 8) & 0xff) / 255.0,
+			( text->rgba & 0xff) / 255.0);
 	}
 
 	/* Insert preedit text only when im_context signals are connected &
@@ -1880,7 +1880,7 @@ e_text_delete_selection (EText *text)
 	gint sel_start, sel_end;
 
 	sel_start = MIN (text->selection_start, text->selection_end);
-	sel_end   = MAX (text->selection_start, text->selection_end);
+	sel_end = MAX (text->selection_start, text->selection_end);
 
 	if (sel_start != sel_end)
 		e_text_model_delete (text->model, sel_start, sel_end - sel_start);
@@ -1928,7 +1928,7 @@ primary_get_cb (GtkClipboard *clipboard,
 	gint sel_start, sel_end;
 
 	sel_start = MIN (text->selection_start, text->selection_end);
-	sel_end   = MAX (text->selection_start, text->selection_end);
+	sel_end = MAX (text->selection_start, text->selection_end);
 
 	/* convert sel_start/sel_end to byte indices */
 	sel_start = g_utf8_offset_to_pointer (text->text, sel_start) - text->text;
@@ -2069,7 +2069,8 @@ popup_targets_received (GtkClipboard *clipboard,
 
 	/* cut menu item */
 	menuitem = gtk_image_menu_item_new_with_mnemonic (_("Cu_t"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+	gtk_image_menu_item_set_image (
+		GTK_IMAGE_MENU_ITEM (menuitem),
 		gtk_image_new_from_icon_name ("edit-cut", GTK_ICON_SIZE_MENU));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
@@ -2082,7 +2083,8 @@ popup_targets_received (GtkClipboard *clipboard,
 
 	/* copy menu item */
 	menuitem = gtk_image_menu_item_new_with_mnemonic (_("_Copy"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+	gtk_image_menu_item_set_image (
+		GTK_IMAGE_MENU_ITEM (menuitem),
 		gtk_image_new_from_icon_name ("edit-copy", GTK_ICON_SIZE_MENU));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
@@ -2093,7 +2095,8 @@ popup_targets_received (GtkClipboard *clipboard,
 
 	/* paste menu item */
 	menuitem = gtk_image_menu_item_new_with_mnemonic (_("_Paste"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menuitem),
+	gtk_image_menu_item_set_image (
+		GTK_IMAGE_MENU_ITEM (menuitem),
 		gtk_image_new_from_icon_name ("edit-paste", GTK_ICON_SIZE_MENU));
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
@@ -2565,7 +2568,7 @@ _get_position (EText *text,
 		while (p && *p) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
-				new_pos =  g_utf8_pointer_to_offset (text->text, p);
+				new_pos = g_utf8_pointer_to_offset (text->text, p);
 				break;
 			} else
 				p = g_utf8_next_char (p);
@@ -3277,13 +3280,13 @@ e_text_class_init (ETextClass *class)
 static void
 e_text_init (EText *text)
 {
-	text->model                   = e_text_model_new ();
-	text->text                    = e_text_model_get_text (text->model);
-	text->preedit_len	      = 0;
-	text->preedit_pos	      = 0;
-	text->layout                  = NULL;
+	text->model = e_text_model_new ();
+	text->text = e_text_model_get_text (text->model);
+	text->preedit_len = 0;
+	text->preedit_pos = 0;
+	text->layout = NULL;
 
-	text->revert                  = NULL;
+	text->revert = NULL;
 
 	text->model_changed_signal_id = g_signal_connect (
 		text->model, "changed",
@@ -3293,62 +3296,62 @@ e_text_init (EText *text)
 		text->model, "reposition",
 		G_CALLBACK (e_text_text_model_reposition), text);
 
-	text->justification           = GTK_JUSTIFY_LEFT;
-	text->clip_width              = -1.0;
-	text->clip_height             = -1.0;
-	text->xofs                    = 0.0;
-	text->yofs                    = 0.0;
+	text->justification = GTK_JUSTIFY_LEFT;
+	text->clip_width = -1.0;
+	text->clip_height = -1.0;
+	text->xofs = 0.0;
+	text->yofs = 0.0;
 
-	text->ellipsis                = NULL;
-	text->use_ellipsis            = FALSE;
-	text->ellipsis_width          = 0;
+	text->ellipsis = NULL;
+	text->use_ellipsis = FALSE;
+	text->ellipsis_width = 0;
 
-	text->editable                = FALSE;
-	text->editing                 = FALSE;
-	text->xofs_edit               = 0;
-	text->yofs_edit               = 0;
+	text->editable = FALSE;
+	text->editing = FALSE;
+	text->xofs_edit = 0;
+	text->yofs_edit = 0;
 
-	text->selection_start         = 0;
-	text->selection_end           = 0;
-	text->select_by_word          = FALSE;
+	text->selection_start = 0;
+	text->selection_end = 0;
+	text->select_by_word = FALSE;
 
-	text->timeout_id              = 0;
-	text->timer                   = NULL;
+	text->timeout_id = 0;
+	text->timer = NULL;
 
-	text->lastx                   = 0;
-	text->lasty                   = 0;
-	text->last_state              = 0;
+	text->lastx = 0;
+	text->lasty = 0;
+	text->last_state = 0;
 
-	text->scroll_start            = 0;
-	text->show_cursor             = TRUE;
-	text->button_down             = FALSE;
+	text->scroll_start = 0;
+	text->show_cursor = TRUE;
+	text->button_down = FALSE;
 
-	text->tep                     = NULL;
-	text->tep_command_id          = 0;
+	text->tep = NULL;
+	text->tep_command_id = 0;
 
-	text->pointer_in              = FALSE;
-	text->default_cursor_shown    = TRUE;
-	text->line_wrap               = FALSE;
-	text->break_characters        = NULL;
-	text->max_lines               = -1;
-	text->dbl_timeout             = 0;
-	text->tpl_timeout             = 0;
+	text->pointer_in = FALSE;
+	text->default_cursor_shown = TRUE;
+	text->line_wrap = FALSE;
+	text->break_characters = NULL;
+	text->max_lines = -1;
+	text->dbl_timeout = 0;
+	text->tpl_timeout = 0;
 
-	text->bold                    = FALSE;
-	text->strikeout               = FALSE;
+	text->bold = FALSE;
+	text->strikeout = FALSE;
 
-	text->allow_newlines          = TRUE;
+	text->allow_newlines = TRUE;
 
-	text->last_type_request       = -1;
-	text->last_time_request       = 0;
-	text->queued_requests         = NULL;
+	text->last_type_request = -1;
+	text->last_time_request = 0;
+	text->queued_requests = NULL;
 
-	text->im_context              = NULL;
-	text->need_im_reset           = FALSE;
+	text->im_context = NULL;
+	text->need_im_reset = FALSE;
 	text->im_context_signals_registered = FALSE;
 
-	text->handle_popup            = FALSE;
-	text->rgba_set		      = FALSE;
+	text->handle_popup = FALSE;
+	text->rgba_set = FALSE;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (text), e_text_reflow);
 }

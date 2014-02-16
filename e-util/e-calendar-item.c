@@ -1957,7 +1957,7 @@ e_calendar_item_selection_add_days (ECalendarItem *calitem,
 		     g_date_compare (calitem->selecting_axis, &gdate_end) == 0) ||
 		    (days_between == 0 && n_days < 0)) {
 			if (days_between - n_days > calitem->max_days_selected - 1)
-				n_days =  days_between + 1 - calitem->max_days_selected;
+				n_days = days_between + 1 - calitem->max_days_selected;
 			g_date_add_days (&gdate_start, n_days);
 		}
 		else {

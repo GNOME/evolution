@@ -776,19 +776,19 @@ e_cell_tree_class_init (ECellTreeClass *class)
 
 	object_class->dispose = ect_dispose;
 
-	ecc->new_view         = ect_new_view;
-	ecc->kill_view        = ect_kill_view;
-	ecc->realize          = ect_realize;
-	ecc->unrealize        = ect_unrealize;
-	ecc->draw             = ect_draw;
-	ecc->event            = ect_event;
-	ecc->height           = ect_height;
-	ecc->enter_edit       = ect_enter_edit;
-	ecc->leave_edit       = ect_leave_edit;
-	ecc->print            = ect_print;
-	ecc->print_height     = ect_print_height;
-	ecc->max_width        = ect_max_width;
-	ecc->get_bg_color     = ect_get_bg_color;
+	ecc->new_view = ect_new_view;
+	ecc->kill_view = ect_kill_view;
+	ecc->realize = ect_realize;
+	ecc->unrealize = ect_unrealize;
+	ecc->draw = ect_draw;
+	ecc->event = ect_event;
+	ecc->height = ect_height;
+	ecc->enter_edit = ect_enter_edit;
+	ecc->leave_edit = ect_leave_edit;
+	ecc->print = ect_print;
+	ecc->print_height = ect_print_height;
+	ecc->max_width = ect_max_width;
+	ecc->get_bg_color = ect_get_bg_color;
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_TREE, gal_a11y_e_cell_tree_new);
 }

@@ -538,14 +538,18 @@ gboolean
 e_mail_part_is_inline (CamelMimePart *mime_part,
                        GQueue *extensions)
 {
-	const gchar *disposition;
 	EMailParserExtension *extension;
 	EMailParserExtensionClass *class;
+	const gchar *disposition;
+	gboolean is_inline = FALSE;
 
 	disposition = camel_mime_part_get_disposition (mime_part);
 
+	if (disposition != NULL)
+		is_inline = (g_ascii_strcasecmp (disposition, "inline") == 0);
+
 	if ((extensions == NULL) || g_queue_is_empty (extensions))
-		return disposition && g_ascii_strcasecmp (disposition, "inline") == 0;
+		return is_inline;
 
 	extension = g_queue_peek_head (extensions);
 	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
@@ -556,7 +560,7 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 		return TRUE;
 
 	if (disposition != NULL)
-		return g_ascii_strcasecmp (disposition, "inline") == 0;
+		return is_inline;
 
 	/* Otherwise, use the default for this handler type. */
 	return (class->flags & E_MAIL_PARSER_EXTENSION_INLINE) != 0;

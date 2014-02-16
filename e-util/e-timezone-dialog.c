@@ -123,7 +123,7 @@ e_timezone_dialog_class_init (ETimezoneDialogClass *class)
 	g_type_class_add_private (class, sizeof (ETimezoneDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose  = e_timezone_dialog_dispose;
+	object_class->dispose = e_timezone_dialog_dispose;
 }
 
 /* Object initialization function for the event editor */

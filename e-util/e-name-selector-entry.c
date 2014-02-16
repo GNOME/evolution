@@ -93,10 +93,10 @@ G_DEFINE_TYPE_WITH_CODE (
 /* 1/20 of a second to wait until show the completion results */
 #define SHOW_RESULT_TIMEOUT 50
 
-#define re_set_timeout(id,func,ptr,tout) G_STMT_START {		\
-	if (id)							\
-		g_source_remove (id);				\
-	id = e_named_timeout_add (tout, func, ptr);		\
+#define re_set_timeout(id,func,ptr,tout) G_STMT_START { \
+	if (id) \
+		g_source_remove (id); \
+	id = e_named_timeout_add (tout, func, ptr); \
 	} G_STMT_END
 
 static void destination_row_inserted (ENameSelectorEntry *name_selector_entry, GtkTreePath *path, GtkTreeIter *iter);
@@ -459,9 +459,9 @@ get_range_at_position (const gchar *string,
                        gint *end_pos)
 {
 	const gchar *p;
-	gboolean     quoted          = FALSE;
+	gboolean     quoted = FALSE;
 	gint         local_start_pos = 0;
-	gint         local_end_pos   = 0;
+	gint         local_end_pos = 0;
 	gint         i;
 
 	if (!string || !*string)
@@ -523,7 +523,7 @@ get_index_at_position (const gchar *string,
 {
 	const gchar *p;
 	gboolean     quoted = FALSE;
-	gint         n      = 0;
+	gint         n = 0;
 	gint         i;
 
 	for (p = string, i = 0; *p && i < pos; p = g_utf8_next_char (p), i++) {
@@ -577,7 +577,7 @@ get_address_at_position (const gchar *string,
 		return NULL;
 
 	start_p = g_utf8_offset_to_pointer (string, start_pos);
-	end_p   = g_utf8_offset_to_pointer (string, end_pos);
+	end_p = g_utf8_offset_to_pointer (string, end_pos);
 
 	return g_strndup (start_p, end_p - start_p);
 }
@@ -766,10 +766,10 @@ set_completion_query (ENameSelectorEntry *name_selector_entry,
 		return;
 	}
 
-	encoded_cue_str     = escape_sexp_string (cue_str);
+	encoded_cue_str = escape_sexp_string (cue_str);
 	full_name_query_str = name_style_query ("full_name", cue_str);
-	file_as_query_str   = name_style_query ("file_as",   cue_str);
-	user_fields_str     = ens_util_populate_user_query_fields (priv->user_query_fields, cue_str, encoded_cue_str);
+	file_as_query_str = name_style_query ("file_as",   cue_str);
+	user_fields_str = ens_util_populate_user_query_fields (priv->user_query_fields, cue_str, encoded_cue_str);
 
 	query_str = g_strdup_printf (
 		"(or "
@@ -834,7 +834,7 @@ static gchar *
 build_textrep_for_contact (EContact *contact,
                            EContactField cue_field)
 {
-	gchar *name  = NULL;
+	gchar *name = NULL;
 	gchar *email = NULL;
 	gchar *textrep;
 
@@ -842,7 +842,7 @@ build_textrep_for_contact (EContact *contact,
 		case E_CONTACT_FULL_NAME:
 		case E_CONTACT_NICKNAME:
 		case E_CONTACT_FILE_AS:
-			name  = e_contact_get (contact, cue_field);
+			name = e_contact_get (contact, cue_field);
 			email = e_contact_get (contact, E_CONTACT_EMAIL_1);
 			break;
 
@@ -947,7 +947,7 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
                           EBookClient **book_client)
 {
 	GtkTreeIter    iter;
-	EContact      *best_contact    = NULL;
+	EContact      *best_contact = NULL;
 	gint           best_field_rank = G_MAXINT;
 	EContactField  best_field = 0;
 	EBookClient   *best_book_client = NULL;
@@ -974,9 +974,9 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
 
 		matches = contact_match_cue (name_selector_entry, current_contact, cue_str, &current_field, &current_field_rank);
 		if (matches && current_field_rank < best_field_rank) {
-			best_contact    = current_contact;
+			best_contact = current_contact;
 			best_field_rank = current_field_rank;
-			best_field      = current_field;
+			best_field = current_field;
 			best_book_client = e_contact_store_get_client (name_selector_entry->priv->contact_store, &iter);
 		}
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (name_selector_entry->priv->contact_store), &iter));
@@ -1062,8 +1062,8 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	EDestination  *destination;
 	gint           cursor_pos;
 	gint           range_start = 0;
-	gint           range_end   = 0;
-	gint           pos         = 0;
+	gint           range_end = 0;
+	gint           pos = 0;
 	gchar         *textrep;
 	gint           textrep_len;
 	gint           range_len;
@@ -1098,7 +1098,7 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	textrep = temp_str;
 
 	textrep_len = g_utf8_strlen (textrep, -1);
-	pos         = range_start;
+	pos = range_start;
 
 	g_signal_handlers_block_by_func (
 		name_selector_entry,
@@ -1171,9 +1171,9 @@ update_completion_model (ENameSelectorEntry *name_selector_entry)
 	const gchar *text;
 	gint         cursor_pos;
 	gint         range_start = 0;
-	gint         range_end   = 0;
+	gint         range_end = 0;
 
-	text       = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
+	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (name_selector_entry));
 
 	if (cursor_pos >= 0)
@@ -1423,7 +1423,7 @@ insert_unichar (ENameSelectorEntry *name_selector_entry,
 		gint         start_pos;
 		gint         end_pos;
 		gboolean     at_start = FALSE;
-		gboolean     at_end   = FALSE;
+		gboolean     at_end = FALSE;
 
 		if (str_context[1] == ',' || str_context[1] == '\0')
 			return 0;
@@ -1579,7 +1579,7 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 	}
 
 	index_start = get_index_at_position (text, start_pos);
-	index_end   = get_index_at_position (text, end_pos);
+	index_end = get_index_at_position (text, end_pos);
 
 	g_signal_stop_emission_by_name (name_selector_entry, "delete_text");
 
@@ -1631,7 +1631,7 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 
 	/* Do the actual deletion */
 
-	if (end_pos == start_pos +1 &&  index_end == index_start) {
+	if (end_pos == start_pos +1 && index_end == index_start) {
 		/* We could be just deleting the empty text */
 		gchar *c;
 
@@ -1643,7 +1643,7 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 			del_space = TRUE;
 		}
 		g_free (c);
-	} else	if (end_pos == start_pos +1 &&  index_end == index_start + 1) {
+	} else	if (end_pos == start_pos +1 && index_end == index_start + 1) {
 		/* We could be just deleting the empty text */
 		gchar *c;
 
@@ -1663,9 +1663,9 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 		/* If we have deleted the last comma, let us autocomplete normally
 		 */
 
-		if (dest && len - end_pos  != 0) {
+		if (dest && len - end_pos != 0) {
 
-			EDestination *destination1  = find_destination_by_index (name_selector_entry, index_start);
+			EDestination *destination1 = find_destination_by_index (name_selector_entry, index_start);
 			gchar *ttext;
 			const gchar *email = NULL;
 
@@ -2061,7 +2061,7 @@ contact_layout_pixbuffer (GtkCellLayout *cell_layout,
 		return;
 	}
 
-	photo =  e_contact_get (contact, E_CONTACT_PHOTO);
+	photo = e_contact_get (contact, E_CONTACT_PHOTO);
 	if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
 		guint max_height = entry_height (GTK_WIDGET (name_selector_entry));
 		GdkPixbufLoader *loader;
@@ -2378,7 +2378,7 @@ destination_row_inserted (ENameSelectorEntry *name_selector_entry,
 	const gchar  *entry_text;
 	gchar        *text;
 	gboolean      comma_before = FALSE;
-	gboolean      comma_after  = FALSE;
+	gboolean      comma_after = FALSE;
 	gint          range_start, range_end;
 	gint          insert_pos;
 	gint          n;
@@ -2676,7 +2676,7 @@ eab_parse_qp_email (const gchar *string,
 		return FALSE;
 
         /* report success only when we have filled both name and email address */
-	if (address->type == CAMEL_HEADER_ADDRESS_NAME  && address->name && *address->name && address->v.addr && *address->v.addr) {
+	if (address->type == CAMEL_HEADER_ADDRESS_NAME && address->name && *address->name && address->v.addr && *address->v.addr) {
                 *name = g_strdup (address->name);
                 *email = g_strdup (address->v.addr);
 		res = TRUE;

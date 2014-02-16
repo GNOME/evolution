@@ -687,7 +687,7 @@ fill_template (CamelMimeMessage *message,
 			}
 		}
 	 } else
-		message_part  = CAMEL_MIME_PART (message);
+		message_part = CAMEL_MIME_PART (message);
 
 	/* Get content of the template */
 	stream = camel_stream_mem_new ();
@@ -1318,7 +1318,7 @@ update_actions_cb (EShellView *shell_view,
 	length = g_list_length (list);
 
 	if (!length) {
-		EShellWindow *shell_window  = e_shell_view_get_shell_window (shell_view);
+		EShellWindow *shell_window = e_shell_view_get_shell_window (shell_view);
 		build_menu (shell_window, action_group);
 	}
 

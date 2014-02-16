@@ -204,10 +204,10 @@ cell_date_edit_text_set_value (ECellText *cell,
 	} else {
 		dv.tt = icaltime_null_time ();
 
-		dv.tt.year   = tmp_tm.tm_year + 1900;
-		dv.tt.month  = tmp_tm.tm_mon + 1;
-		dv.tt.day    = tmp_tm.tm_mday;
-		dv.tt.hour   = tmp_tm.tm_hour;
+		dv.tt.year = tmp_tm.tm_year + 1900;
+		dv.tt.month = tmp_tm.tm_mon + 1;
+		dv.tt.day = tmp_tm.tm_mday;
+		dv.tt.hour = tmp_tm.tm_hour;
 		dv.tt.minute = tmp_tm.tm_min;
 		dv.tt.second = tmp_tm.tm_sec;
 		dv.tt.is_date = is_date;
@@ -239,7 +239,7 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 	object_class->get_property = cell_date_edit_text_get_property;
 
 	cell_text_class = E_CELL_TEXT_CLASS (class);
-	cell_text_class->get_text  = cell_date_edit_text_get_text;
+	cell_text_class->get_text = cell_date_edit_text_get_text;
 	cell_text_class->free_text = cell_date_edit_text_free_text;
 	cell_text_class->set_value = cell_date_edit_text_set_value;
 

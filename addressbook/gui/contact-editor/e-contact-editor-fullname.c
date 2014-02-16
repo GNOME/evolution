@@ -322,9 +322,9 @@ extract_info (EContactEditorFullname *editor)
 		editor->name = name;
 	}
 
-	name->prefixes   = extract_field (editor, "comboentry-title");
-	name->given      = extract_field (editor, "entry-first");
+	name->prefixes = extract_field (editor, "comboentry-title");
+	name->given = extract_field (editor, "entry-first");
 	name->additional = extract_field (editor, "entry-middle");
-	name->family     = extract_field (editor, "entry-last");
-	name->suffixes   = extract_field (editor, "comboentry-suffix");
+	name->family = extract_field (editor, "entry-last");
+	name->suffixes = extract_field (editor, "comboentry-suffix");
 }

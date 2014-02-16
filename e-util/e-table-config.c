@@ -124,7 +124,7 @@ e_table_config_class_init (ETableConfigClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	class->changed        = NULL;
+	class->changed = NULL;
 
 	object_class->finalize = config_finalize;
 	object_class->get_property = config_get_property;
@@ -966,7 +966,7 @@ setup_gui (ETableConfig *config)
 			GTK_WINDOW (config->dialog_toplevel),
 			config->header);
 
-	config->dialog_group_by =  e_builder_get_widget (
+	config->dialog_group_by = e_builder_get_widget (
 		builder, "dialog-group-by");
 	config->dialog_sort = e_builder_get_widget (
 		builder, "dialog-sort");

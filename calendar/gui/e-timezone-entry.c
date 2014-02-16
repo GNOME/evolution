@@ -310,7 +310,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 
 	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);
 
-	widget  = gtk_entry_new ();
+	widget = gtk_entry_new ();
 	gtk_editable_set_editable (GTK_EDITABLE (widget), FALSE);
 	gtk_box_pack_start (GTK_BOX (timezone_entry), widget, TRUE, TRUE, 0);
 	timezone_entry->priv->entry = widget;

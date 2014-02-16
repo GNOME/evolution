@@ -37,7 +37,7 @@ struct _EMailViewPrivate {
 	EMailView *previous_view;
 
 	guint preview_visible : 1;
-	guint show_deleted    : 1;
+	guint show_deleted : 1;
 };
 
 enum {

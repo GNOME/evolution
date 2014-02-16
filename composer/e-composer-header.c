@@ -38,7 +38,7 @@ struct _EComposerHeaderPrivate {
 	ESourceRegistry *registry;
 
 	guint sensitive : 1;
-	guint visible   : 1;
+	guint visible : 1;
 };
 
 #define E_COMPOSER_HEADER_GET_PRIVATE(obj) \

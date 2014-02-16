@@ -288,14 +288,14 @@ e_cell_vbox_class_init (ECellVboxClass *class)
 	object_class->dispose = ecv_dispose;
 	object_class->finalize = ecv_finalize;
 
-	ecc->new_view         = ecv_new_view;
-	ecc->kill_view        = ecv_kill_view;
-	ecc->realize          = ecv_realize;
-	ecc->unrealize        = ecv_unrealize;
-	ecc->draw             = ecv_draw;
-	ecc->event            = ecv_event;
-	ecc->height           = ecv_height;
-	ecc->max_width        = ecv_max_width;
+	ecc->new_view = ecv_new_view;
+	ecc->kill_view = ecv_kill_view;
+	ecc->realize = ecv_realize;
+	ecc->unrealize = ecv_unrealize;
+	ecc->draw = ecv_draw;
+	ecc->event = ecv_event;
+	ecc->height = ecv_height;
+	ecc->max_width = ecv_max_width;
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_VBOX, gal_a11y_e_cell_vbox_new);
 }
@@ -329,7 +329,7 @@ e_cell_vbox_append (ECellVbox *vbox,
 {
 	vbox->subcell_count++;
 
-	vbox->subcells   = g_renew (ECell *, vbox->subcells,   vbox->subcell_count);
+	vbox->subcells = g_renew (ECell *, vbox->subcells,   vbox->subcell_count);
 	vbox->model_cols = g_renew (int,     vbox->model_cols, vbox->subcell_count);
 
 	vbox->subcells[vbox->subcell_count - 1]   = subcell;

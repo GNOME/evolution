@@ -166,11 +166,11 @@ replace_variables (const gchar *str,
 	strip_datadir = strip_home_dir (e_get_user_data_dir ());
 	strip_configdir = strip_home_dir (e_get_user_config_dir ());
 
-	#define repl(_find, _replace)						\
-		use = replace_string (res ? res->str : str, _find, _replace);	\
-		g_return_val_if_fail (use != NULL, NULL);			\
-		if (res)							\
-			g_string_free (res, TRUE);				\
+	#define repl(_find, _replace) \
+		use = replace_string (res ? res->str : str, _find, _replace); \
+		g_return_val_if_fail (use != NULL, NULL); \
+		if (res) \
+			g_string_free (res, TRUE); \
 		res = use;
 
 	repl ("$HOME", g_get_home_dir ());

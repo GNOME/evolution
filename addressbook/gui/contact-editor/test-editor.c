@@ -53,7 +53,7 @@ read_file (gchar *name)
 	if (f == NULL)
 		g_error ("Unable to open %s!\n", name);
 
-	len  = 0;
+	len = 0;
 	while (fgets (line, sizeof (line), f) != NULL) {
 		strcpy (buff + len, line);
 		len += strlen (line);

@@ -60,7 +60,7 @@ typedef struct _ERuleContextPrivate ERuleContextPrivate;
 
 /* backend capabilities, this is a hack since we don't support nested rules */
 enum {
-	E_RULE_CONTEXT_GROUPING  = 1 << 0,
+	E_RULE_CONTEXT_GROUPING = 1 << 0,
 	E_RULE_CONTEXT_THREADING = 1 << 1
 };
 

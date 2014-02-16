@@ -237,21 +237,21 @@ e_minicard_class_init (EMinicardClass *class)
 static void
 e_minicard_init (EMinicard *minicard)
 {
-	minicard->rect             = NULL;
-	minicard->fields           = NULL;
-	minicard->width            = 10;
-	minicard->height           = 10;
-	minicard->has_focus        = FALSE;
-	minicard->selected         = FALSE;
-	minicard->editable         = FALSE;
-	minicard->has_cursor       = FALSE;
+	minicard->rect = NULL;
+	minicard->fields = NULL;
+	minicard->width = 10;
+	minicard->height = 10;
+	minicard->has_focus = FALSE;
+	minicard->selected = FALSE;
+	minicard->editable = FALSE;
+	minicard->has_cursor = FALSE;
 
-	minicard->contact          = NULL;
+	minicard->contact = NULL;
 
 	minicard->list_icon_pixbuf = e_icon_factory_get_icon (LIST_ICON_NAME, GTK_ICON_SIZE_MENU);
-	minicard->list_icon_size   = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
+	minicard->list_icon_size = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
 
-	minicard->changed          = FALSE;
+	minicard->changed = FALSE;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (minicard), e_minicard_reflow);
 }

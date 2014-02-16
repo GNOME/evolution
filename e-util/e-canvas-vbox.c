@@ -69,16 +69,16 @@ e_canvas_vbox_class_init (ECanvasVboxClass *class)
 	object_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
-	class->add_item       = e_canvas_vbox_real_add_item;
+	class->add_item = e_canvas_vbox_real_add_item;
 	class->add_item_start = e_canvas_vbox_real_add_item_start;
 
 	object_class->set_property = e_canvas_vbox_set_property;
 	object_class->get_property = e_canvas_vbox_get_property;
-	object_class->dispose      = e_canvas_vbox_dispose;
+	object_class->dispose = e_canvas_vbox_dispose;
 
 	/* GnomeCanvasItem method overrides */
-	item_class->event       = e_canvas_vbox_event;
-	item_class->realize     = e_canvas_vbox_realize;
+	item_class->event = e_canvas_vbox_event;
+	item_class->realize = e_canvas_vbox_realize;
 
 	g_object_class_install_property (
 		object_class,
@@ -386,7 +386,7 @@ e_canvas_vbox_reflow (GnomeCanvasItem *item,
 		e_canvas_vbox->height = running_height;
 		e_canvas_vbox->width = max_width;
 		if (old_height != e_canvas_vbox->height ||
-		    old_width !=  e_canvas_vbox->width)
+		    old_width != e_canvas_vbox->width)
 			e_canvas_item_request_parent_reflow (item);
 	}
 }

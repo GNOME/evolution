@@ -139,18 +139,18 @@ e_destination_store_class_init (EDestinationStoreClass *class)
 static void
 e_destination_store_tree_model_init (GtkTreeModelIface *iface)
 {
-	iface->get_flags       = e_destination_store_get_flags;
-	iface->get_n_columns   = e_destination_store_get_n_columns;
+	iface->get_flags = e_destination_store_get_flags;
+	iface->get_n_columns = e_destination_store_get_n_columns;
 	iface->get_column_type = e_destination_store_get_column_type;
-	iface->get_iter        = e_destination_store_get_iter;
-	iface->get_path        = e_destination_store_get_path;
-	iface->get_value       = e_destination_store_get_value;
-	iface->iter_next       = e_destination_store_iter_next;
-	iface->iter_children   = e_destination_store_iter_children;
-	iface->iter_has_child  = e_destination_store_iter_has_child;
+	iface->get_iter = e_destination_store_get_iter;
+	iface->get_path = e_destination_store_get_path;
+	iface->get_value = e_destination_store_get_value;
+	iface->iter_next = e_destination_store_iter_next;
+	iface->iter_children = e_destination_store_iter_children;
+	iface->iter_has_child = e_destination_store_iter_has_child;
 	iface->iter_n_children = e_destination_store_iter_n_children;
-	iface->iter_nth_child  = e_destination_store_iter_nth_child;
-	iface->iter_parent     = e_destination_store_iter_parent;
+	iface->iter_nth_child = e_destination_store_iter_nth_child;
+	iface->iter_parent = e_destination_store_iter_parent;
 }
 
 static void

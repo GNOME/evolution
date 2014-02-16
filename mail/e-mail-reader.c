@@ -85,14 +85,14 @@ struct _EMailReaderPrivate {
 	 * restoration after a folder switch from automatically
 	 * marking the message as read.  We only want that to
 	 * happen when the -user- selects a message. */
-	guint folder_was_just_selected    : 1;
+	guint folder_was_just_selected : 1;
 	guint restoring_message_selection : 1;
-	guint avoid_next_mark_as_seen     : 1;
+	guint avoid_next_mark_as_seen : 1;
 
 	guint group_by_threads : 1;
 
 	/* to be able to start the mark_seen timeout only after
-	   the message is loaded into the EMailDisplay */
+	 * the message is loaded into the EMailDisplay */
 	gboolean schedule_mark_seen;
 	guint schedule_mark_seen_interval;
 };
@@ -385,7 +385,7 @@ action_mail_delete_cb (GtkAction *action,
                        EMailReader *reader)
 {
 	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
-	guint32 set  = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
+	guint32 set = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 
 	if (!e_mail_reader_confirm_delete (reader))
 		return;
@@ -649,7 +649,7 @@ action_mail_mark_important_cb (GtkAction *action,
                                EMailReader *reader)
 {
 	guint32 mask = CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_DELETED;
-	guint32 set  = CAMEL_MESSAGE_FLAGGED;
+	guint32 set = CAMEL_MESSAGE_FLAGGED;
 
 	e_mail_reader_mark_selected (reader, mask, set);
 }
@@ -717,7 +717,7 @@ action_mail_mark_read_cb (GtkAction *action,
                           EMailReader *reader)
 {
 	guint32 mask = CAMEL_MESSAGE_SEEN;
-	guint32 set  = CAMEL_MESSAGE_SEEN;
+	guint32 set = CAMEL_MESSAGE_SEEN;
 
 	e_mail_reader_mark_selected (reader, mask, set);
 }
@@ -727,7 +727,7 @@ action_mail_mark_unimportant_cb (GtkAction *action,
                                  EMailReader *reader)
 {
 	guint32 mask = CAMEL_MESSAGE_FLAGGED;
-	guint32 set  = 0;
+	guint32 set = 0;
 
 	e_mail_reader_mark_selected (reader, mask, set);
 }
@@ -740,7 +740,7 @@ action_mail_mark_unread_cb (GtkAction *action,
 	EMFolderTreeModel *model;
 	CamelFolder *folder;
 	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
-	guint32 set  = 0;
+	guint32 set = 0;
 	guint n_marked;
 
 	message_list = e_mail_reader_get_message_list (reader);
@@ -894,7 +894,7 @@ action_mail_next_cb (GtkAction *action,
 
 	direction = MESSAGE_LIST_SELECT_NEXT;
 	flags = 0;
-	mask  = 0;
+	mask = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -912,7 +912,7 @@ action_mail_next_important_cb (GtkAction *action,
 
 	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
 	flags = CAMEL_MESSAGE_FLAGGED;
-	mask  = CAMEL_MESSAGE_FLAGGED;
+	mask = CAMEL_MESSAGE_FLAGGED;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -941,7 +941,7 @@ action_mail_next_unread_cb (GtkAction *action,
 
 	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
 	flags = 0;
-	mask  = CAMEL_MESSAGE_SEEN;
+	mask = CAMEL_MESSAGE_SEEN;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -959,7 +959,7 @@ action_mail_previous_cb (GtkAction *action,
 
 	direction = MESSAGE_LIST_SELECT_PREVIOUS;
 	flags = 0;
-	mask  = 0;
+	mask = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -977,7 +977,7 @@ action_mail_previous_important_cb (GtkAction *action,
 
 	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
 	flags = CAMEL_MESSAGE_FLAGGED;
-	mask  = CAMEL_MESSAGE_FLAGGED;
+	mask = CAMEL_MESSAGE_FLAGGED;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -1006,7 +1006,7 @@ action_mail_previous_unread_cb (GtkAction *action,
 
 	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
 	flags = 0;
-	mask  = CAMEL_MESSAGE_SEEN;
+	mask = CAMEL_MESSAGE_SEEN;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -1735,7 +1735,7 @@ action_mail_undelete_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	guint32 mask = CAMEL_MESSAGE_DELETED;
-	guint32 set  = 0;
+	guint32 set = 0;
 
 	e_mail_reader_mark_selected (reader, mask, set);
 }
@@ -2649,8 +2649,8 @@ schedule_timeout_mark_seen (EMailReader *reader)
 
 static void
 mail_reader_load_status_changed_cb (EMailReader *reader,
-				    GParamSpec *pspec,
-				    EMailDisplay *display)
+                                    GParamSpec *pspec,
+                                    EMailDisplay *display)
 {
 	EMailReaderPrivate *priv;
 
@@ -3196,7 +3196,7 @@ mail_reader_message_seen (EMailReader *reader,
 	guint32 mask, set;
 
 	mask = CAMEL_MESSAGE_SEEN;
-	set  = CAMEL_MESSAGE_SEEN;
+	set = CAMEL_MESSAGE_SEEN;
 
 	folder = e_mail_reader_ref_folder (reader);
 	camel_folder_set_message_flags (folder, message_uid, mask, set);

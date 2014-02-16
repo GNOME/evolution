@@ -225,18 +225,18 @@ e_tree_model_generator_class_init (ETreeModelGeneratorClass *class)
 static void
 e_tree_model_generator_tree_model_init (GtkTreeModelIface *iface)
 {
-	iface->get_flags       = e_tree_model_generator_get_flags;
-	iface->get_n_columns   = e_tree_model_generator_get_n_columns;
+	iface->get_flags = e_tree_model_generator_get_flags;
+	iface->get_n_columns = e_tree_model_generator_get_n_columns;
 	iface->get_column_type = e_tree_model_generator_get_column_type;
-	iface->get_iter        = e_tree_model_generator_get_iter;
-	iface->get_path        = e_tree_model_generator_get_path;
-	iface->get_value       = e_tree_model_generator_get_value;
-	iface->iter_next       = e_tree_model_generator_iter_next;
-	iface->iter_children   = e_tree_model_generator_iter_children;
-	iface->iter_has_child  = e_tree_model_generator_iter_has_child;
+	iface->get_iter = e_tree_model_generator_get_iter;
+	iface->get_path = e_tree_model_generator_get_path;
+	iface->get_value = e_tree_model_generator_get_value;
+	iface->iter_next = e_tree_model_generator_iter_next;
+	iface->iter_children = e_tree_model_generator_iter_children;
+	iface->iter_has_child = e_tree_model_generator_iter_has_child;
 	iface->iter_n_children = e_tree_model_generator_iter_n_children;
-	iface->iter_nth_child  = e_tree_model_generator_iter_nth_child;
-	iface->iter_parent     = e_tree_model_generator_iter_parent;
+	iface->iter_nth_child = e_tree_model_generator_iter_nth_child;
+	iface->iter_parent = e_tree_model_generator_iter_parent;
 }
 
 static void
@@ -245,7 +245,7 @@ e_tree_model_generator_init (ETreeModelGenerator *tree_model_generator)
 	tree_model_generator->priv =
 		E_TREE_MODEL_GENERATOR_GET_PRIVATE (tree_model_generator);
 
-	tree_model_generator->priv->stamp      = g_random_int ();
+	tree_model_generator->priv->stamp = g_random_int ();
 	tree_model_generator->priv->root_nodes = g_array_new (FALSE, FALSE, sizeof (Node));
 }
 
@@ -304,7 +304,7 @@ generated_offset_to_child_offset (GArray *group,
                                   gint offset,
                                   gint *internal_offset)
 {
-	gboolean success      = FALSE;
+	gboolean success = FALSE;
 	gint     accum_offset = 0;
 	gint     i;
 
@@ -549,8 +549,8 @@ create_node_at_child_path (ETreeModelGenerator *tree_model_generator,
 	node = &g_array_index (group, Node, index);
 	node->parent_group = parent_group;
 	node->parent_index = parent_index;
-	node->n_generated  = 0;
-	node->child_nodes  = NULL;
+	node->n_generated = 0;
+	node->child_nodes = NULL;
 
 	ETMG_DEBUG (
 		g_print ("Created node at offset %d, parent_group = %p, parent_index = %d\n",
@@ -791,7 +791,7 @@ e_tree_model_generator_set_generate_func (ETreeModelGenerator *tree_model_genera
 {
 	g_return_if_fail (E_IS_TREE_MODEL_GENERATOR (tree_model_generator));
 
-	tree_model_generator->priv->generate_func      = func;
+	tree_model_generator->priv->generate_func = func;
 	tree_model_generator->priv->generate_func_data = data;
 }
 
@@ -815,7 +815,7 @@ e_tree_model_generator_set_modify_func (ETreeModelGenerator *tree_model_generato
 {
 	g_return_if_fail (E_IS_TREE_MODEL_GENERATOR (tree_model_generator));
 
-	tree_model_generator->priv->modify_func      = func;
+	tree_model_generator->priv->modify_func = func;
 	tree_model_generator->priv->modify_func_data = data;
 }
 

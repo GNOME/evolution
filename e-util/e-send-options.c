@@ -684,7 +684,7 @@ e_send_options_dialog_run (ESendOptionsDialog *sod,
 
 	setup_widgets (sod, type);
 
-	toplevel =  gtk_widget_get_toplevel (priv->main);
+	toplevel = gtk_widget_get_toplevel (priv->main);
 	if (parent)
 		gtk_window_set_transient_for (GTK_WINDOW (toplevel),
 				      GTK_WINDOW (parent));

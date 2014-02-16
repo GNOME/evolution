@@ -624,7 +624,7 @@ titled_box (GtkPrintContext *context,
 	gdouble size;
 
 	size = evo_calendar_print_renderer_get_height (context, font, text);
-	print_border (context, *x1, *x2, *y1, *y1 + size  + 2, linewidth, 0.9);
+	print_border (context, *x1, *x2, *y1, *y1 + size + 2, linewidth, 0.9);
 	print_border (context, *x1, *x2, *y1 + size + 2, *y2, linewidth, -1.0);
 	*x1 += 2;
 	*x2 -= 2;
@@ -650,10 +650,10 @@ get_show_week_numbers (void)
 }
 
 enum datefmt {
-	DATE_MONTH	= 1 << 0,
-	DATE_DAY	= 1 << 1,
-	DATE_DAYNAME	= 1 << 2,
-	DATE_YEAR	= 1 << 3
+	DATE_MONTH = 1 << 0,
+	DATE_DAY = 1 << 1,
+	DATE_DAYNAME = 1 << 2,
+	DATE_YEAR = 1 << 3
 };
 
 static const gchar *days[] = {

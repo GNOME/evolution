@@ -174,15 +174,15 @@ e_table_str_case_compare (gconstpointer x,
 			return x ? -1 : 1;
 	}
 
-	#define prepare_value(_z, _cz)						\
-		_cz = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, _z);	\
-		if (!_cz) {							\
-			gchar *tmp = g_utf8_casefold (_z, -1);			\
-			_cz = g_utf8_collate_key (tmp, -1);			\
-			g_free (tmp);						\
-										\
-			e_table_sorting_utils_add_to_cmp_cache (		\
-				cmp_cache, _z, (gchar *) _cz);			\
+	#define prepare_value(_z, _cz) \
+		_cz = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, _z); \
+		if (!_cz) { \
+			gchar *tmp = g_utf8_casefold (_z, -1); \
+			_cz = g_utf8_collate_key (tmp, -1); \
+			g_free (tmp); \
+ \
+			e_table_sorting_utils_add_to_cmp_cache ( \
+				cmp_cache, _z, (gchar *) _cz); \
 		}
 
 	prepare_value (x, cx);
@@ -210,13 +210,13 @@ e_table_collate_compare (gconstpointer x,
 			return x ? -1 : 1;
 	}
 
-	#define prepare_value(_z, _cz)						\
-		_cz = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, _z);	\
-		if (!_cz) {							\
-			_cz = g_utf8_collate_key (_z, -1);			\
-										\
-			e_table_sorting_utils_add_to_cmp_cache (		\
-				cmp_cache, _z, (gchar *) _cz);			\
+	#define prepare_value(_z, _cz) \
+		_cz = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, _z); \
+		if (!_cz) { \
+			_cz = g_utf8_collate_key (_z, -1); \
+ \
+			e_table_sorting_utils_add_to_cmp_cache ( \
+				cmp_cache, _z, (gchar *) _cz); \
 		}
 
 	prepare_value (x, cx);

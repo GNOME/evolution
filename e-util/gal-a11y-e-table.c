@@ -93,7 +93,7 @@ init_child_item (GalA11yETable *a11y)
 
 	table = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
-		ETableGroupContainer *etgc =  (ETableGroupContainer *) table->group;
+		ETableGroupContainer *etgc = (ETableGroupContainer *) table->group;
 		GList *list;
 
 		for (list = etgc->children; list; list = g_list_next (list)) {
@@ -168,12 +168,12 @@ et_ref_child (AtkObject *accessible,
 			return aeti;
 
 		} else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
-			ETableGroupContainer *etgc =  (ETableGroupContainer *) et->group;
+			ETableGroupContainer *etgc = (ETableGroupContainer *) et->group;
 			ETableGroupContainerChildNode *child_node = g_list_nth_data (etgc->children, i);
 			if (child_node) {
 				ETableGroup *child = child_node->child;
 				ETableItem * eti = find_first_table_item (child);
-				AtkObject *aeti =  eti_get_accessible (eti, accessible);
+				AtkObject *aeti = eti_get_accessible (eti, accessible);
 				if (aeti)
 					g_object_ref (aeti);
 				return aeti;
@@ -205,10 +205,10 @@ et_class_init (GalA11yETableClass *class)
 {
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
 
-	parent_class                              = g_type_class_ref (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	atk_object_class->get_n_children          = et_get_n_children;
-	atk_object_class->ref_child               = et_ref_child;
+	atk_object_class->get_n_children = et_get_n_children;
+	atk_object_class->ref_child = et_ref_child;
 }
 
 static void

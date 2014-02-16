@@ -583,13 +583,13 @@ gnome_canvas_text_init (GnomeCanvasText *text)
 
 	text->font_desc = NULL;
 
-	text->underline     = PANGO_UNDERLINE_NONE;
+	text->underline = PANGO_UNDERLINE_NONE;
 	text->strikethrough = FALSE;
-	text->rise          = 0;
+	text->rise = 0;
 
 	text->underline_set = FALSE;
-	text->strike_set    = FALSE;
-	text->rise_set      = FALSE;
+	text->strike_set = FALSE;
+	text->rise_set = FALSE;
 }
 
 /* Dispose handler for the text item */
@@ -1330,8 +1330,8 @@ gnome_canvas_text_draw (GnomeCanvasItem *item,
 		cr,
 		((text->rgba >> 24) & 0xff) / 255.0,
 		((text->rgba >> 16) & 0xff) / 255.0,
-		((text->rgba >>  8) & 0xff) / 255.0,
-		( text->rgba        & 0xff) / 255.0);
+		((text->rgba >> 8) & 0xff) / 255.0,
+		( text->rgba & 0xff) / 255.0);
 
 	cairo_move_to (cr, text->cx - x, text->cy - y);
 	pango_cairo_show_layout (cr, text->layout);

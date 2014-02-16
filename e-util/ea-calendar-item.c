@@ -333,11 +333,11 @@ ea_calendar_item_get_name (AtkObject *accessible)
 		gint year1, year2, month1, month2, day1, day2;
 
 		year1 = g_date_get_year (&select_start);
-		month1  = g_date_get_month (&select_start);
+		month1 = g_date_get_month (&select_start);
 		day1 = g_date_get_day (&select_start);
 
 		year2 = g_date_get_year (&select_end);
-		month2  = g_date_get_month (&select_end);
+		month2 = g_date_get_month (&select_end);
 		day2 = g_date_get_day (&select_end);
 
 		sprintf (

@@ -89,11 +89,11 @@ struct _EShellWindowPrivate {
 	gchar *geometry;
 
 	guint destroyed        : 1;  /* XXX Do we still need this? */
-	guint safe_mode        : 1;
-	guint sidebar_visible  : 1;
+	guint safe_mode : 1;
+	guint sidebar_visible : 1;
 	guint switcher_visible : 1;
-	guint taskbar_visible  : 1;
-	guint toolbar_visible  : 1;
+	guint taskbar_visible : 1;
+	guint toolbar_visible : 1;
 };
 
 void		e_shell_window_private_init	(EShellWindow *shell_window);

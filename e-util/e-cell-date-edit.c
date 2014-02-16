@@ -773,7 +773,7 @@ e_cell_date_edit_rebuild_time_list (ECellDateEdit *ecde)
 	tmp_tm.tm_year = 2000;
 	tmp_tm.tm_mon = 0;
 	tmp_tm.tm_mday = 1;
-	tmp_tm.tm_sec  = 0;
+	tmp_tm.tm_sec = 0;
 	tmp_tm.tm_isdst = 0;
 
 	for (hour = ecde->lower_hour; hour <= ecde->upper_hour; hour++) {
@@ -789,7 +789,7 @@ e_cell_date_edit_rebuild_time_list (ECellDateEdit *ecde)
 			GtkTreeIter iter;
 
 			tmp_tm.tm_hour = hour;
-			tmp_tm.tm_min  = min;
+			tmp_tm.tm_min = min;
 			e_time_format_time (&tmp_tm, ecde->use_24_hour_format,
 					    FALSE, buffer, sizeof (buffer));
 

@@ -229,7 +229,7 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *c
 
 	object_class->set_property = gal_view_instance_save_as_dialog_set_property;
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
-	object_class->dispose      = gal_view_instance_save_as_dialog_dispose;
+	object_class->dispose = gal_view_instance_save_as_dialog_dispose;
 
 	g_object_class_install_property (
 		object_class,

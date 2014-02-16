@@ -71,7 +71,7 @@ typedef struct _ECanvasClass ECanvasClass;
 
 /* Object flags for items */
 enum {
-	E_CANVAS_ITEM_NEEDS_REFLOW            = 1 << 13,
+	E_CANVAS_ITEM_NEEDS_REFLOW = 1 << 13,
 	E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW = 1 << 14
 };
 

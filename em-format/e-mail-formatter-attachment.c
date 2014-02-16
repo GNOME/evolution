@@ -405,7 +405,7 @@ static void
 e_mail_formatter_attachment_class_init (EMailFormatterExtensionClass *class)
 {
 	class->display_name = _("Attachment");
-	class->description =  _("Display as attachment");
+	class->description = _("Display as attachment");
 	class->mime_types = formatter_mime_types;
 	class->priority = G_PRIORITY_LOW;
 	class->format = emfe_attachment_format;

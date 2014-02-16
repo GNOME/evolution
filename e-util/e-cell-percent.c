@@ -124,7 +124,7 @@ e_cell_percent_class_init (ECellPercentClass *ecpc)
 {
 	ECellTextClass *ectc = (ECellTextClass *) ecpc;
 
-	ectc->get_text  = ecp_get_text;
+	ectc->get_text = ecp_get_text;
 	ectc->free_text = ecp_free_text;
 	ectc->set_value = ecp_set_value;
 }

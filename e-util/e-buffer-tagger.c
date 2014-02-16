@@ -33,21 +33,19 @@
 
 #include "e-misc-utils.h"
 
-enum EBufferTaggerState
-{
-	E_BUFFER_TAGGER_STATE_NONE                = 0,
-	E_BUFFER_TAGGER_STATE_INSDEL              = 1 << 0, /* set when was called insert or delete of a text */
-	E_BUFFER_TAGGER_STATE_CHANGED             = 1 << 1, /* remark of the buffer is scheduled */
-	E_BUFFER_TAGGER_STATE_IS_HOVERING         = 1 << 2, /* mouse is over the link */
+enum EBufferTaggerState {
+	E_BUFFER_TAGGER_STATE_NONE = 0,
+	E_BUFFER_TAGGER_STATE_INSDEL = 1 << 0, /* set when was called insert or delete of a text */
+	E_BUFFER_TAGGER_STATE_CHANGED = 1 << 1, /* remark of the buffer is scheduled */
+	E_BUFFER_TAGGER_STATE_IS_HOVERING = 1 << 2, /* mouse is over the link */
 	E_BUFFER_TAGGER_STATE_IS_HOVERING_TOOLTIP = 1 << 3, /* mouse is over the link and the tooltip can be shown */
-	E_BUFFER_TAGGER_STATE_CTRL_DOWN           = 1 << 4  /* Ctrl key is down */
+	E_BUFFER_TAGGER_STATE_CTRL_DOWN = 1 << 4  /* Ctrl key is down */
 };
 
 #define E_BUFFER_TAGGER_DATA_STATE "EBufferTagger::state"
 #define E_BUFFER_TAGGER_LINK_TAG   "EBufferTagger::link"
 
-struct _MagicInsertMatch
-{
+struct _MagicInsertMatch {
 	const gchar *regex;
 	regex_t *preg;
 	const gchar *prefix;

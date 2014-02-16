@@ -90,7 +90,7 @@ typedef enum {
 } ECalModelField;
 
 typedef enum {
-	E_CAL_MODEL_FLAGS_INVALID            = -1,
+	E_CAL_MODEL_FLAGS_INVALID = -1,
 	E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES = 0x01
 } ECalModelFlags;
 

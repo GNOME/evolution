@@ -45,7 +45,7 @@ typedef enum {
 } EFocus;
 
 typedef enum {
-	E_RESTORE_WINDOW_SIZE     = 1 << 0,
+	E_RESTORE_WINDOW_SIZE = 1 << 0,
 	E_RESTORE_WINDOW_POSITION = 1 << 1
 } ERestoreWindowFlags;
 

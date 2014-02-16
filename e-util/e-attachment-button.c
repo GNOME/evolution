@@ -45,7 +45,7 @@ struct _EAttachmentButtonPrivate {
 	GtkWidget *popup_menu;
 
 	guint expandable : 1;
-	guint expanded   : 1;
+	guint expanded : 1;
 };
 
 enum {

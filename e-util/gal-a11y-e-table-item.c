@@ -737,10 +737,10 @@ eti_atk_table_iface_init (AtkTableIface *iface)
 static void
 eti_atk_component_iface_init (AtkComponentIface *iface)
 {
-	component_parent_iface         = g_type_interface_peek_parent (iface);
+	component_parent_iface = g_type_interface_peek_parent (iface);
 
 	iface->ref_accessible_at_point = eti_ref_accessible_at_point;
-	iface->get_extents             = eti_get_extents;
+	iface->get_extents = eti_get_extents;
 }
 
 static void
@@ -1129,7 +1129,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SHOWING);
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_VISIBLE);
 
-	accessible  = ATK_OBJECT (a11y);
+	accessible = ATK_OBJECT (a11y);
 
 	GET_PRIVATE (a11y)->item = item;
 	/* Initialize cell data. */

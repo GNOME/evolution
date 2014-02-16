@@ -41,7 +41,7 @@ struct _EBookShellContentPrivate {
 	GtkOrientation orientation;
 
 	gboolean preview_show_maps;
-	guint preview_visible	: 1;
+	guint preview_visible : 1;
 };
 
 enum {

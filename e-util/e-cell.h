@@ -63,29 +63,29 @@ typedef gboolean (*ETableSearchFunc) (gconstpointer haystack,
 				      const gchar *needle);
 
 typedef enum {
-	E_CELL_SELECTED       = 1 << 0,
+	E_CELL_SELECTED = 1 << 0,
 
-	E_CELL_JUSTIFICATION  = 3 << 1,
+	E_CELL_JUSTIFICATION = 3 << 1,
 	E_CELL_JUSTIFY_CENTER = 0 << 1,
-	E_CELL_JUSTIFY_LEFT   = 1 << 1,
-	E_CELL_JUSTIFY_RIGHT  = 2 << 1,
-	E_CELL_JUSTIFY_FILL   = 3 << 1,
+	E_CELL_JUSTIFY_LEFT = 1 << 1,
+	E_CELL_JUSTIFY_RIGHT = 2 << 1,
+	E_CELL_JUSTIFY_FILL = 3 << 1,
 
-	E_CELL_ALIGN_LEFT     = 1 << 1,
-	E_CELL_ALIGN_RIGHT    = 1 << 2,
+	E_CELL_ALIGN_LEFT = 1 << 1,
+	E_CELL_ALIGN_RIGHT = 1 << 2,
 
-	E_CELL_FOCUSED        = 1 << 3,
+	E_CELL_FOCUSED = 1 << 3,
 
-	E_CELL_EDITING        = 1 << 4,
+	E_CELL_EDITING = 1 << 4,
 
-	E_CELL_CURSOR         = 1 << 5,
+	E_CELL_CURSOR = 1 << 5,
 
-	E_CELL_PREEDIT        = 1 << 6
+	E_CELL_PREEDIT = 1 << 6
 } ECellFlags;
 
 typedef enum {
-	E_CELL_GRAB           = 1 << 0,
-	E_CELL_UNGRAB         = 1 << 1
+	E_CELL_GRAB = 1 << 0,
+	E_CELL_UNGRAB = 1 << 1
 } ECellActions;
 
 struct _ECellView {

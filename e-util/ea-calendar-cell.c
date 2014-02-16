@@ -318,7 +318,7 @@ atk_component_interface_init (AtkComponentIface *iface)
 	g_return_if_fail (iface != NULL);
 
 	iface->get_extents = component_interface_get_extents;
-	iface->grab_focus  = component_interface_grab_focus;
+	iface->grab_focus = component_interface_grab_focus;
 }
 
 static void

@@ -117,11 +117,11 @@ G_BEGIN_DECLS
 /* These are used to specify the type of an appointment. They match those
  * used in EMeetingTimeSelector. */
 typedef enum {
-	E_DAY_VIEW_BUSY_TENTATIVE	= 0,
-	E_DAY_VIEW_BUSY_OUT_OF_OFFICE	= 1,
-	E_DAY_VIEW_BUSY_BUSY		= 2,
+	E_DAY_VIEW_BUSY_TENTATIVE = 0,
+	E_DAY_VIEW_BUSY_OUT_OF_OFFICE = 1,
+	E_DAY_VIEW_BUSY_BUSY = 2,
 
-	E_DAY_VIEW_BUSY_LAST		= 3
+	E_DAY_VIEW_BUSY_LAST = 3
 } EDayViewBusyType;
 
 /* This is used to specify the format used when displaying the dates.

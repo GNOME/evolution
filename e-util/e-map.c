@@ -1308,8 +1308,8 @@ update_render_point (EMap *map,
 		cr,
 		((point->rgba >> 24) & 0xff) / 255.0,
 		((point->rgba >> 16) & 0xff) / 255.0,
-		((point->rgba >>  8) & 0xff) / 255.0,
-		( point->rgba	& 0xff) / 255.0);
+		((point->rgba >> 8) & 0xff) / 255.0,
+		( point->rgba & 0xff) / 255.0);
 	mask = cairo_image_surface_create_for_data (mask2, CAIRO_FORMAT_A8, 3, 3, 4);
 	cairo_mask_surface (cr, mask, px - 1, py - 1);
 	cairo_surface_destroy (mask);

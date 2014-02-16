@@ -1813,7 +1813,7 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 
 		/* Step through each attendee, checking if the meeting time
 		 * intersects one of the attendees busy periods. */
-		for (row = 0; row <  e_meeting_store_count_actual_attendees (mts->model); row++) {
+		for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
 			attendee = e_meeting_store_find_attendee_at_row (mts->model, row);
 
 			/* Skip optional people if they don't matter. */

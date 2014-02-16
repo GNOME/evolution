@@ -487,9 +487,9 @@ e_minicard_view_class_init (EMinicardViewClass *class)
 	item_class = (GnomeCanvasItemClass *) class;
 	reflow_class = (EReflowClass *) class;
 
-	object_class->set_property    = e_minicard_view_set_property;
-	object_class->get_property    = e_minicard_view_get_property;
-	object_class->dispose         = e_minicard_view_dispose;
+	object_class->set_property = e_minicard_view_set_property;
+	object_class->get_property = e_minicard_view_get_property;
+	object_class->dispose = e_minicard_view_dispose;
 
 	g_object_class_install_property (
 		object_class,
@@ -557,7 +557,7 @@ e_minicard_view_class_init (EMinicardViewClass *class)
 		G_TYPE_INT, 1,
 		G_TYPE_POINTER);
 
-	item_class->event             = e_minicard_view_event;
+	item_class->event = e_minicard_view_event;
 
 	reflow_class->selection_event = e_minicard_view_selection_event;
 	/* GnomeCanvasItem method overrides */

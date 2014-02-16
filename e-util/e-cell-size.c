@@ -64,7 +64,7 @@ e_cell_size_class_init (ECellSizeClass *class)
 {
 	ECellTextClass *ectc = E_CELL_TEXT_CLASS (class);
 
-	ectc->get_text  = ecd_get_text;
+	ectc->get_text = ecd_get_text;
 	ectc->free_text = ecd_free_text;
 }
 

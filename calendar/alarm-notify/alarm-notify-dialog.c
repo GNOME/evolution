@@ -101,7 +101,7 @@ an_update_minutes_label (GtkSpinButton *sb,
 
 	an = (AlarmNotify *) data;
 
-	snooze_timeout_min  = gtk_spin_button_get_value_as_int (sb);
+	snooze_timeout_min = gtk_spin_button_get_value_as_int (sb);
 	gtk_label_set_text (GTK_LABEL (an->minutes_label), ngettext ("minute", "minutes", snooze_timeout_min));
 }
 
@@ -114,7 +114,7 @@ an_update_hrs_label (GtkSpinButton *sb,
 
 	an = (AlarmNotify *) data;
 
-	snooze_timeout_hrs  = gtk_spin_button_get_value_as_int (sb);
+	snooze_timeout_hrs = gtk_spin_button_get_value_as_int (sb);
 	gtk_label_set_text (GTK_LABEL (an->hrs_label), ngettext ("hour", "hours", snooze_timeout_hrs));
 }
 
@@ -127,7 +127,7 @@ an_update_days_label (GtkSpinButton *sb,
 
 	an = (AlarmNotify *) data;
 
-	snooze_timeout_days  = gtk_spin_button_get_value_as_int (sb);
+	snooze_timeout_days = gtk_spin_button_get_value_as_int (sb);
 	gtk_label_set_text (GTK_LABEL (an->days_label), ngettext ("day", "days", snooze_timeout_days));
 }
 
@@ -540,7 +540,7 @@ fill_in_labels (AlarmNotify *an,
                 time_t occur_end)
 {
 	GtkTextTagTable *table = gtk_text_tag_table_new ();
-	GtkTextBuffer *buffer =  gtk_text_buffer_new (table);
+	GtkTextBuffer *buffer = gtk_text_buffer_new (table);
 	gtk_text_buffer_set_text (buffer, description, -1);
 	e_buffer_tagger_disconnect (GTK_TEXT_VIEW (an->description));
 	gtk_text_view_set_buffer (GTK_TEXT_VIEW (an->description), buffer);

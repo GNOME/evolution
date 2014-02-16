@@ -537,7 +537,7 @@ init_search (ETable *e_table)
 	if (e_table->search != NULL)
 		return;
 
-	e_table->search           = e_table_search_new ();
+	e_table->search = e_table_search_new ();
 
 	e_table->search_search_id = g_signal_connect (
 		e_table->search, "search",
@@ -568,55 +568,55 @@ e_table_init (ETable *e_table)
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_table), FALSE);
 
-	e_table->sort_info              = NULL;
-	e_table->group_info_change_id   = 0;
-	e_table->sort_info_change_id    = 0;
-	e_table->structure_change_id    = 0;
-	e_table->expansion_change_id    = 0;
-	e_table->dimension_change_id    = 0;
-	e_table->reflow_idle_id         = 0;
-	e_table->scroll_idle_id         = 0;
+	e_table->sort_info = NULL;
+	e_table->group_info_change_id = 0;
+	e_table->sort_info_change_id = 0;
+	e_table->structure_change_id = 0;
+	e_table->expansion_change_id = 0;
+	e_table->dimension_change_id = 0;
+	e_table->reflow_idle_id = 0;
+	e_table->scroll_idle_id = 0;
 
 	e_table->alternating_row_colors = 1;
-	e_table->horizontal_draw_grid   = 1;
-	e_table->vertical_draw_grid     = 1;
-	e_table->draw_focus             = 1;
-	e_table->cursor_mode            = E_CURSOR_SIMPLE;
-	e_table->length_threshold       = 200;
-	e_table->uniform_row_height     = FALSE;
+	e_table->horizontal_draw_grid = 1;
+	e_table->vertical_draw_grid = 1;
+	e_table->draw_focus = 1;
+	e_table->cursor_mode = E_CURSOR_SIMPLE;
+	e_table->length_threshold = 200;
+	e_table->uniform_row_height = FALSE;
 
-	e_table->need_rebuild           = 0;
-	e_table->rebuild_idle_id        = 0;
+	e_table->need_rebuild = 0;
+	e_table->rebuild_idle_id = 0;
 
-	e_table->horizontal_scrolling   = FALSE;
-	e_table->horizontal_resize      = FALSE;
+	e_table->horizontal_scrolling = FALSE;
+	e_table->horizontal_resize = FALSE;
 
-	e_table->click_to_add_message   = NULL;
-	e_table->domain                 = NULL;
+	e_table->click_to_add_message = NULL;
+	e_table->domain = NULL;
 
-	e_table->drop_row               = -1;
-	e_table->drop_col               = -1;
-	e_table->site                   = NULL;
+	e_table->drop_row = -1;
+	e_table->drop_col = -1;
+	e_table->site = NULL;
 
-	e_table->do_drag                = 0;
+	e_table->do_drag = 0;
 
-	e_table->sorter                 = NULL;
-	e_table->selection              = e_table_selection_model_new ();
-	e_table->cursor_loc             = E_TABLE_CURSOR_LOC_NONE;
-	e_table->spec                   = NULL;
+	e_table->sorter = NULL;
+	e_table->selection = e_table_selection_model_new ();
+	e_table->cursor_loc = E_TABLE_CURSOR_LOC_NONE;
+	e_table->spec = NULL;
 
-	e_table->always_search          = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
+	e_table->always_search = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
 
-	e_table->search                 = NULL;
-	e_table->search_search_id       = 0;
-	e_table->search_accept_id       = 0;
+	e_table->search = NULL;
+	e_table->search_search_id = 0;
+	e_table->search_accept_id = 0;
 
-	e_table->current_search_col     = NULL;
+	e_table->current_search_col = NULL;
 
-	e_table->header_width           = 0;
+	e_table->header_width = 0;
 
-	e_table->state_changed		= FALSE;
-	e_table->state_change_freeze	= 0;
+	e_table->state_changed = FALSE;
+	e_table->state_change_freeze = 0;
 }
 
 /* Grab_focus handler for the ETable */
@@ -3001,9 +3001,9 @@ context_destroyed (gpointer data)
 	/* if (!G_OBJECT_DESTROYED (et)) */
 /* FIXME: */
 	{
-		et->last_drop_x       = 0;
-		et->last_drop_y       = 0;
-		et->last_drop_time    = 0;
+		et->last_drop_x = 0;
+		et->last_drop_y = 0;
+		et->last_drop_time = 0;
 		et->last_drop_context = NULL;
 		scroll_off (et);
 	}
@@ -3134,40 +3134,40 @@ e_table_class_init (ETableClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class                    = (GObjectClass *) class;
-	widget_class                    = (GtkWidgetClass *) class;
+	object_class = (GObjectClass *) class;
+	widget_class = (GtkWidgetClass *) class;
 
-	object_class->dispose           = et_dispose;
-	object_class->finalize          = et_finalize;
-	object_class->set_property      = et_set_property;
-	object_class->get_property      = et_get_property;
+	object_class->dispose = et_dispose;
+	object_class->finalize = et_finalize;
+	object_class->set_property = et_set_property;
+	object_class->get_property = et_get_property;
 
-	widget_class->grab_focus        = et_grab_focus;
-	widget_class->unrealize         = et_unrealize;
+	widget_class->grab_focus = et_grab_focus;
+	widget_class->unrealize = et_unrealize;
 	widget_class->get_preferred_width = et_get_preferred_width;
 	widget_class->get_preferred_height = et_get_preferred_height;
 
-	widget_class->focus             = et_focus;
+	widget_class->focus = et_focus;
 
-	class->cursor_change            = NULL;
-	class->cursor_activated         = NULL;
-	class->selection_change         = NULL;
-	class->double_click             = NULL;
-	class->right_click              = NULL;
-	class->click                    = NULL;
-	class->key_press                = NULL;
-	class->start_drag               = et_real_start_drag;
-	class->state_change             = NULL;
-	class->white_space_event        = NULL;
+	class->cursor_change = NULL;
+	class->cursor_activated = NULL;
+	class->selection_change = NULL;
+	class->double_click = NULL;
+	class->right_click = NULL;
+	class->click = NULL;
+	class->key_press = NULL;
+	class->start_drag = et_real_start_drag;
+	class->state_change = NULL;
+	class->white_space_event = NULL;
 
-	class->table_drag_begin         = NULL;
-	class->table_drag_end           = NULL;
-	class->table_drag_data_get      = NULL;
-	class->table_drag_data_delete   = NULL;
+	class->table_drag_begin = NULL;
+	class->table_drag_end = NULL;
+	class->table_drag_data_get = NULL;
+	class->table_drag_data_delete = NULL;
 
-	class->table_drag_leave         = NULL;
-	class->table_drag_motion        = NULL;
-	class->table_drag_drop          = NULL;
+	class->table_drag_leave = NULL;
+	class->table_drag_motion = NULL;
+	class->table_drag_drop = NULL;
 	class->table_drag_data_received = NULL;
 
 	et_signals[CURSOR_CHANGE] = g_signal_new (

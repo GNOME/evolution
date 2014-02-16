@@ -368,8 +368,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			/* Black border */
 			cairo_save (cr);
-			x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 9;
-			y0	   = item_y + 10;
+			x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 9;
+			y0 = item_y + 10;
 			rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 7, 0);
 			rect_height = item_h - 7;
 
@@ -384,9 +384,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			/* Extra Grid lines when clicked */
 			cairo_save (cr);
 
-			x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1;
-			y0	   = item_y + 2;
-			rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
+			x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1;
+			y0 = item_y + 2;
+			rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
 			rect_height = item_h - 4.;
 
 			radius = 16;
@@ -420,9 +420,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	/* Draw the background of the event with white to play with transparency */
 	cairo_save (cr);
 
-	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1;
-	y0	   = item_y + 2;
-	rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
+	x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1;
+	y0 = item_y + 2;
+	rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
 	rect_height = item_h - 4.;
 
 	radius = 16;
@@ -437,9 +437,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	/* Here we draw the border in event color */
 	cairo_save (cr);
 
-	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH;
-	y0	   = item_y + 1.;
-	rect_width  = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1., 0);
+	x0 = item_x + E_DAY_VIEW_BAR_WIDTH;
+	y0 = item_y + 1.;
+	rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1., 0);
 	rect_height = item_h - 2.;
 
 	radius = 16;
@@ -454,9 +454,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	cairo_save (cr);
 
-	x0	   = item_x + E_DAY_VIEW_BAR_WIDTH + 1.75;
-	y0	   = item_y + 2.75;
-	rect_width  = item_w - E_DAY_VIEW_BAR_WIDTH - 4.5;
+	x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1.75;
+	y0 = item_y + 2.75;
+	rect_width = item_w - E_DAY_VIEW_BAR_WIDTH - 4.5;
 	rect_height = item_h - 5.5;
 
 	radius = 14;
@@ -536,7 +536,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			end_minute = event->end_minute;
 
-			end_hour   = end_minute / 60;
+			end_hour = end_minute / 60;
 			end_minute = end_minute % 60;
 
 			e_day_view_convert_time_to_display (
@@ -670,22 +670,22 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			}
 
 			#define fit_in_event() (icon_x + icon_x_inc < item_x + item_w && icon_y + icon_y_inc < item_y + item_h)
-			#define draw_pixbuf(pf)	\
-				max_icon_w = item_x + item_w - icon_x - E_DAY_VIEW_EVENT_BORDER_WIDTH;		\
-				max_icon_h = item_y + item_h - icon_y - E_DAY_VIEW_EVENT_BORDER_HEIGHT;		\
-														\
-				if (can_draw_in_region (draw_region, icon_x, icon_y, max_icon_w, max_icon_h)) {	\
-					cairo_save (cr);							\
-					cairo_rectangle (cr, icon_x, icon_y, max_icon_w, max_icon_h);		\
-					cairo_clip (cr);							\
-					cairo_new_path (cr);							\
-					gdk_cairo_set_source_pixbuf (cr, pf, icon_x, icon_y);			\
-					cairo_paint (cr);							\
-					cairo_close_path (cr);							\
-					cairo_restore (cr);							\
-				}										\
-														\
-				icon_x += icon_x_inc;								\
+			#define draw_pixbuf(pf) \
+				max_icon_w = item_x + item_w - icon_x - E_DAY_VIEW_EVENT_BORDER_WIDTH; \
+				max_icon_h = item_y + item_h - icon_y - E_DAY_VIEW_EVENT_BORDER_HEIGHT; \
+ \
+				if (can_draw_in_region (draw_region, icon_x, icon_y, max_icon_w, max_icon_h)) { \
+					cairo_save (cr); \
+					cairo_rectangle (cr, icon_x, icon_y, max_icon_w, max_icon_h); \
+					cairo_clip (cr); \
+					cairo_new_path (cr); \
+					gdk_cairo_set_source_pixbuf (cr, pf, icon_x, icon_y); \
+					cairo_paint (cr); \
+					cairo_close_path (cr); \
+					cairo_restore (cr); \
+				} \
+ \
+				icon_x += icon_x_inc; \
 				icon_y += icon_y_inc;
 
 			if (draw_reminder_icon && fit_in_event ()) {
@@ -1092,7 +1092,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (days_shown > 1) {
 				/* Check if we are drawing today */
-				today =  day_start_tt.year == today_tt.year
+				today = day_start_tt.year == today_tt.year
 					&& day_start_tt.month == today_tt.month
 					&& day_start_tt.day == today_tt.day;
 			} else {
@@ -1256,9 +1256,9 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		for (day = 0; day < days_shown; day++) {
 			day_start = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
 
-			if ((day_start.year  == time_now.year) &&
+			if ((day_start.year == time_now.year) &&
 			    (day_start.month == time_now.month) &&
-			    (day_start.day   == time_now.day)) {
+			    (day_start.day == time_now.day)) {
 
 				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;
 				grid_x2 = day_view->day_offsets[day + 1] - x - 1;

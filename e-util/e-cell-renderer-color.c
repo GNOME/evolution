@@ -52,7 +52,7 @@ cell_renderer_color_get_size (GtkCellRenderer *cell,
                               gint *width,
                               gint *height)
 {
-	gint color_width  = 16;
+	gint color_width = 16;
 	gint color_height = 16;
 	gint calc_width;
 	gint calc_height;
@@ -65,7 +65,7 @@ cell_renderer_color_get_size (GtkCellRenderer *cell,
 		cell, "xalign", &xalign, "yalign", &yalign,
 		"xpad", &xpad, "ypad", &ypad, NULL);
 
-	calc_width  = (gint) xpad * 2 + color_width;
+	calc_width = (gint) xpad * 2 + color_width;
 	calc_height = (gint) ypad * 2 + color_height;
 
 	if (cell_area && color_width > 0 && color_height > 0) {

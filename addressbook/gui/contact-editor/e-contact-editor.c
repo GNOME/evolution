@@ -1369,7 +1369,7 @@ set_arrow_image (EContactEditor *editor,
 {
 	GtkWidget *arrow;
 
-	arrow  = e_builder_get_widget (editor->priv->builder, arrow_widget);
+	arrow = e_builder_get_widget (editor->priv->builder, arrow_widget);
 	if (expanded)
 		gtk_arrow_set (
 			GTK_ARROW (arrow), GTK_ARROW_DOWN, GTK_SHADOW_NONE);
@@ -2432,10 +2432,10 @@ extract_address_record (EContactEditor *editor,
 
 	extract_address_textview (editor, record, address);
 	address->locality = extract_address_field (editor, record, "city");
-	address->region   = extract_address_field (editor, record, "state");
-	address->code     = extract_address_field (editor, record, "zip");
-	address->country  = extract_address_field (editor, record, "country");
-	address->po       = extract_address_field (editor, record, "pobox");
+	address->region = extract_address_field (editor, record, "state");
+	address->code = extract_address_field (editor, record, "zip");
+	address->country = extract_address_field (editor, record, "country");
+	address->po = extract_address_field (editor, record, "pobox");
 
 	if (!STRING_IS_EMPTY (address->street)   ||
 	    !STRING_IS_EMPTY (address->ext)      ||
@@ -2695,7 +2695,7 @@ fill_in_simple_field (EContactEditor *editor,
 
 	} else if (GTK_IS_TEXT_VIEW (widget)) {
 		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
-		gchar         *text   = e_contact_get (contact, field_id);
+		gchar *text = e_contact_get (contact, field_id);
 		gtk_text_buffer_set_text (buffer, STRING_MAKE_NON_NULL (text), -1);
 		g_free (text);
 
@@ -2830,7 +2830,7 @@ extract_simple_field (EContactEditor *editor,
 		g_free (text);
 
 	} else if (E_IS_URL_ENTRY (widget)) {
-		const gchar *text  = gtk_entry_get_text (GTK_ENTRY (widget));
+		const gchar *text = gtk_entry_get_text (GTK_ENTRY (widget));
 		e_contact_set (contact, field_id, (gchar *) text);
 
 	} else if (E_IS_DATE_EDIT (widget)) {
@@ -4177,8 +4177,8 @@ expand_mail_toggle (EContactEditor *ce)
 
 static void
 contact_editor_focus_widget_changed_cb (EFocusTracker *focus_tracker,
-					GParamSpec *param,
-					EContactEditor *editor)
+                                        GParamSpec *param,
+                                        EContactEditor *editor)
 {
 	GtkWidget *widget;
 
@@ -4350,7 +4350,8 @@ e_contact_editor_constructed (GObject *object)
 		GTK_WINDOW (editor->priv->app),
 		gtk_ui_manager_get_accel_group (editor->priv->ui_manager));
 
-	g_signal_connect (editor->priv->focus_tracker, "notify::focus",
+	g_signal_connect (
+		editor->priv->focus_tracker, "notify::focus",
 		G_CALLBACK (contact_editor_focus_widget_changed_cb), editor);
 
 	action_group = gtk_action_group_new ("undo");

@@ -82,10 +82,10 @@ e_mail_part_attachment_bar_get_store (EMailPartAttachmentBar *part)
 		GtkTreeModel *tree_model;
 
 		/* Create the store only on demand. The EMailParser runs in a dedicated
-		   thread, but the EAttachmentStore is a GtkWidget descendant, which should
-		   be manipulated only from the main/UI thread, thus postpone its creating
-		   until it's really needed, which might be during the EMailFormatter run,
-		   which runs from the main/UI thread. */
+		 * thread, but the EAttachmentStore is a GtkWidget descendant, which should
+		 * be manipulated only from the main/UI thread, thus postpone its creating
+		 * until it's really needed, which might be during the EMailFormatter run,
+		 * which runs from the main/UI thread. */
 		tree_model = e_attachment_store_new ();
 		part->priv->store = E_ATTACHMENT_STORE (tree_model);
 	}

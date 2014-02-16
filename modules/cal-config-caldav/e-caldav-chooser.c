@@ -78,10 +78,10 @@ enum {
 };
 
 typedef enum {
-	SUPPORTS_VEVENT   = 1 << 0,
-	SUPPORTS_VTODO    = 1 << 1,
+	SUPPORTS_VEVENT = 1 << 0,
+	SUPPORTS_VTODO = 1 << 1,
 	SUPPORTS_VJOURNAL = 1 << 2,
-	SUPPORTS_ALL      = 0x7
+	SUPPORTS_ALL = 0x7
 } SupportedComponentSet;
 
 enum {

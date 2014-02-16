@@ -114,18 +114,18 @@ e_cell_popup_class_init (ECellPopupClass *class)
 
 	G_OBJECT_CLASS (class)->dispose = e_cell_popup_dispose;
 
-	ecc->new_view     = ecp_new_view;
-	ecc->kill_view    = ecp_kill_view;
-	ecc->realize      = ecp_realize;
-	ecc->unrealize    = ecp_unrealize;
-	ecc->draw         = ecp_draw;
-	ecc->event        = ecp_event;
-	ecc->height       = ecp_height;
-	ecc->enter_edit   = ecp_enter_edit;
-	ecc->leave_edit   = ecp_leave_edit;
-	ecc->print        = ecp_print;
+	ecc->new_view = ecp_new_view;
+	ecc->kill_view = ecp_kill_view;
+	ecc->realize = ecp_realize;
+	ecc->unrealize = ecp_unrealize;
+	ecc->draw = ecp_draw;
+	ecc->event = ecp_event;
+	ecc->height = ecp_height;
+	ecc->enter_edit = ecp_enter_edit;
+	ecc->leave_edit = ecp_leave_edit;
+	ecc->print = ecp_print;
 	ecc->print_height = ecp_print_height;
-	ecc->max_width	  = ecp_max_width;
+	ecc->max_width = ecp_max_width;
 	ecc->get_bg_color = ecp_get_bg_color;
 
 	gal_a11y_e_cell_registry_add_cell_type (

@@ -78,7 +78,7 @@ ea_minicard_view_get_type (void)
 	GType derived_atk_type;
 
 	if (!type) {
-		static  GTypeInfo tinfo =  {
+		static GTypeInfo tinfo = {
 			sizeof (EaMinicardViewClass),
 			(GBaseInitFunc) NULL,  /* base_init */
 			(GBaseFinalizeFunc) NULL,  /* base_finalize */

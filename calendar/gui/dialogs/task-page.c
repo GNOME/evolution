@@ -401,11 +401,11 @@ sensitize_widgets (TaskPage *tpage)
 		GTK_EDITABLE (priv->web_page_entry), !read_only);
 
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
-	gtk_widget_set_sensitive (priv->add, (!read_only &&  sens));
+	gtk_widget_set_sensitive (priv->add, (!read_only && sens));
 	gtk_widget_set_sensitive (priv->edit, (!read_only && sens));
 	e_meeting_list_view_set_editable (priv->list_view, (!read_only && sens));
-	gtk_widget_set_sensitive (priv->remove, (!read_only &&  sens));
-	gtk_widget_set_sensitive (priv->invite, (!read_only &&  sens));
+	gtk_widget_set_sensitive (priv->remove, (!read_only && sens));
+	gtk_widget_set_sensitive (priv->invite, (!read_only && sens));
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 
 	action_group = comp_editor_get_action_group (editor, "editable");

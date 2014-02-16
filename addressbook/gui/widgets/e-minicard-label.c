@@ -173,8 +173,8 @@ e_minicard_label_class_init (EMinicardLabelClass *class)
 		GTK_TYPE_STYLE);
 
 	/* GnomeCanvasItem method overrides */
-	item_class->realize     = e_minicard_label_realize;
-	item_class->event       = e_minicard_label_event;
+	item_class->realize = e_minicard_label_realize;
+	item_class->event = e_minicard_label_event;
 }
 
 static void

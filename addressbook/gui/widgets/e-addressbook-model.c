@@ -54,9 +54,9 @@ struct _EAddressbookModelPrivate {
 	gulong view_complete_id;
 	guint remove_status_id;
 
-	guint search_in_progress	: 1;
-	guint editable			: 1;
-	guint first_get_view		: 1;
+	guint search_in_progress : 1;
+	guint editable : 1;
+	guint first_get_view : 1;
 };
 
 enum {

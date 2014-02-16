@@ -103,15 +103,15 @@ typedef GtkCellRendererToggle ECellRendererSafeToggle;
 typedef GtkCellRendererToggleClass ECellRendererSafeToggleClass;
 
 /* Forward Declarations */
-GType e_cell_renderer_safe_toggle_get_type (void);
+GType		e_cell_renderer_safe_toggle_get_type
+						(void) G_GNUC_CONST;
+static void	selection_changed_callback	(GtkTreeSelection *selection,
+						 ESourceSelector *selector);
 
 G_DEFINE_TYPE (
 	ECellRendererSafeToggle,
 	e_cell_renderer_safe_toggle,
 	GTK_TYPE_CELL_RENDERER_TOGGLE)
-
-static void selection_changed_callback (GtkTreeSelection *selection,
-					ESourceSelector *selector);
 
 static gboolean
 safe_toggle_activate (GtkCellRenderer *cell,
@@ -365,7 +365,8 @@ source_selector_build_model (ESourceSelector *selector)
 	selected = e_source_selector_ref_primary_selection (selector);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
 
-	/* Signal is blocked to avoid "primary-selection-changed" signal on model clear */
+	/* Signal is blocked to avoid "primary-selection-changed" signal
+	 * on model clear. */
 	g_signal_handlers_block_matched (
 		selection, G_SIGNAL_MATCH_FUNC,
 		0, 0, NULL, selection_changed_callback, NULL);
@@ -414,8 +415,9 @@ source_selector_build_model (ESourceSelector *selector)
 		g_object_unref (selected);
 	}
 
-	/* If the first succeeded, then there is no selection change, thus no need
-	   for notification; notify about the change in ay other cases */
+	/* If the first succeeded, then there is no selection change,
+	 * thus no need for notification; notify about the change in
+	 * any other cases. */
 	g_signal_handlers_unblock_matched (
 		selection, G_SIGNAL_MATCH_FUNC,
 		0, 0, NULL, selection_changed_callback, NULL);
@@ -464,7 +466,11 @@ source_selector_source_added_cb (ESourceRegistry *registry,
 	const gchar *extension_name;
 
 	extension_name = e_source_selector_get_extension_name (selector);
-	if (!extension_name || !e_source_has_extension (source, extension_name))
+
+	if (extension_name == NULL)
+		return;
+
+	if (!e_source_has_extension (source, extension_name))
 		return;
 
 	source_selector_build_model (selector);
@@ -480,7 +486,11 @@ source_selector_source_changed_cb (ESourceRegistry *registry,
 	const gchar *extension_name;
 
 	extension_name = e_source_selector_get_extension_name (selector);
-	if (!extension_name || !e_source_has_extension (source, extension_name))
+
+	if (extension_name == NULL)
+		return;
+
+	if (!e_source_has_extension (source, extension_name))
 		return;
 
 	source_selector_cancel_write (selector, source);
@@ -496,7 +506,11 @@ source_selector_source_removed_cb (ESourceRegistry *registry,
 	const gchar *extension_name;
 
 	extension_name = e_source_selector_get_extension_name (selector);
-	if (!extension_name || !e_source_has_extension (source, extension_name))
+
+	if (extension_name == NULL)
+		return;
+
+	if (!e_source_has_extension (source, extension_name))
 		return;
 
 	source_selector_build_model (selector);
@@ -510,7 +524,11 @@ source_selector_source_enabled_cb (ESourceRegistry *registry,
 	const gchar *extension_name;
 
 	extension_name = e_source_selector_get_extension_name (selector);
-	if (!extension_name || !e_source_has_extension (source, extension_name))
+
+	if (extension_name == NULL)
+		return;
+
+	if (!e_source_has_extension (source, extension_name))
 		return;
 
 	source_selector_build_model (selector);
@@ -526,7 +544,11 @@ source_selector_source_disabled_cb (ESourceRegistry *registry,
 	const gchar *extension_name;
 
 	extension_name = e_source_selector_get_extension_name (selector);
-	if (!extension_name || !e_source_has_extension (source, extension_name))
+
+	if (extension_name == NULL)
+		return;
+
+	if (!e_source_has_extension (source, extension_name))
 		return;
 
 	source_selector_build_model (selector);
@@ -938,7 +960,7 @@ source_selector_button_press_event (GtkWidget *widget,
 		gtk_tree_model_get (model, &iter, COLUMN_SOURCE, &source, -1);
 	}
 
-	if (path)
+	if (path != NULL)
 		gtk_tree_path_free (path);
 
 	if (source == NULL)
@@ -1279,7 +1301,7 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = source_selector_set_property;
 	object_class->get_property = source_selector_get_property;
-	object_class->dispose  = source_selector_dispose;
+	object_class->dispose = source_selector_dispose;
 	object_class->finalize = source_selector_finalize;
 	object_class->constructed = source_selector_constructed;
 

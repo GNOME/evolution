@@ -75,8 +75,8 @@ e_name_selector_model_init (ENameSelectorModel *name_selector_model)
 	name_selector_model->priv =
 		E_NAME_SELECTOR_MODEL_GET_PRIVATE (name_selector_model);
 
-	name_selector_model->priv->sections       = g_array_new (FALSE, FALSE, sizeof (Section));
-	name_selector_model->priv->contact_store  = e_contact_store_new ();
+	name_selector_model->priv->sections = g_array_new (FALSE, FALSE, sizeof (Section));
+	name_selector_model->priv->contact_store = e_contact_store_new ();
 
 	name_selector_model->priv->contact_filter =
 		e_tree_model_generator_new (GTK_TREE_MODEL (name_selector_model->priv->contact_store));
@@ -478,8 +478,8 @@ e_name_selector_model_add_section (ENameSelectorModel *name_selector_model,
 
 	memset (&section, 0, sizeof (Section));
 
-	section.name              = g_strdup (name);
-	section.pretty_name       = g_strdup (pretty_name);
+	section.name = g_strdup (name);
+	section.pretty_name = g_strdup (pretty_name);
 
 	if (destination_store)
 		section.destination_store = g_object_ref (destination_store);

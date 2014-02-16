@@ -394,7 +394,7 @@ generate_tree (ETreeTableAdapter *etta,
 		resort_node (etta, gnode, TRUE);
 
 	etta->priv->root = gnode;
-	size =  etta->priv->root_visible ? node->num_visible_children + 1 : node->num_visible_children;
+	size = etta->priv->root_visible ? node->num_visible_children + 1 : node->num_visible_children;
 	resize_map (etta, size);
 	fill_map (etta, 0, gnode);
 	e_table_model_changed (E_TABLE_MODEL (etta));

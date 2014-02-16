@@ -128,7 +128,7 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 		"<Alt>Down",              /* action keybinding */
 		popup_cell_action);
 
-	a11y->role  = ATK_ROLE_TABLE_CELL;
+	a11y->role = ATK_ROLE_TABLE_CELL;
 	return a11y;
 }
 

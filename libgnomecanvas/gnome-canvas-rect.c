@@ -105,8 +105,8 @@ gnome_canvas_rect_setup_for_fill (GnomeCanvasRect *rect,
 		cr,
 		((rect->priv->fill_rgba >> 24) & 0xff) / 255.0,
 		((rect->priv->fill_rgba >> 16) & 0xff) / 255.0,
-		((rect->priv->fill_rgba >>  8) & 0xff) / 255.0,
-		( rect->priv->fill_rgba        & 0xff) / 255.0);
+		((rect->priv->fill_rgba >> 8) & 0xff) / 255.0,
+		( rect->priv->fill_rgba & 0xff) / 255.0);
 	cairo_set_fill_rule (cr, rect->priv->wind);
 
 	return TRUE;
@@ -123,8 +123,8 @@ gnome_canvas_rect_setup_for_stroke (GnomeCanvasRect *rect,
 		cr,
 		((rect->priv->outline_rgba >> 24) & 0xff) / 255.0,
 		((rect->priv->outline_rgba >> 16) & 0xff) / 255.0,
-		((rect->priv->outline_rgba >>  8) & 0xff) / 255.0,
-		( rect->priv->outline_rgba        & 0xff) / 255.0);
+		((rect->priv->outline_rgba >> 8) & 0xff) / 255.0,
+		( rect->priv->outline_rgba & 0xff) / 255.0);
 	cairo_set_line_width (cr, rect->priv->line_width);
 	cairo_set_line_cap (cr, rect->priv->cap);
 	cairo_set_line_join (cr, rect->priv->join);

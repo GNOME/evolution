@@ -40,9 +40,9 @@
 
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
 
-#define E_CALENDAR_SMALL_FONT	\
+#define E_CALENDAR_SMALL_FONT \
 	"-adobe-utopia-regular-r-normal-*-*-100-*-*-p-*-iso8859-*"
-#define E_CALENDAR_SMALL_FONT_FALLBACK	\
+#define E_CALENDAR_SMALL_FONT_FALLBACK \
 	"-adobe-helvetica-medium-r-normal-*-*-80-*-*-p-*-iso8859-*"
 
 /* The space between the arrow buttons and the edge of the widget. */
@@ -125,14 +125,14 @@ e_calendar_class_init (ECalendarClass *class)
 
 	object_class->dispose = e_calendar_dispose;
 
-	widget_class->realize		   = e_calendar_realize;
-	widget_class->style_set		   = e_calendar_style_set;
-	widget_class->get_preferred_width  = e_calendar_get_preferred_width;
+	widget_class->realize = e_calendar_realize;
+	widget_class->style_set = e_calendar_style_set;
+	widget_class->get_preferred_width = e_calendar_get_preferred_width;
 	widget_class->get_preferred_height = e_calendar_get_preferred_height;
-	widget_class->size_allocate	   = e_calendar_size_allocate;
-	widget_class->drag_motion	   = e_calendar_drag_motion;
-	widget_class->drag_leave	   = e_calendar_drag_leave;
-	widget_class->focus                = e_calendar_focus;
+	widget_class->size_allocate = e_calendar_size_allocate;
+	widget_class->drag_motion = e_calendar_drag_motion;
+	widget_class->drag_leave = e_calendar_drag_leave;
+	widget_class->focus = e_calendar_focus;
 }
 
 static void

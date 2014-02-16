@@ -134,9 +134,9 @@ e_hsv_tweak (GdkColor *color,
 {
 	gdouble h, s, v, r, g, b;
 
-	r = color->red   / 65535.0f;
+	r = color->red / 65535.0f;
 	g = color->green / 65535.0f;
-	b = color->blue  / 65535.0f;
+	b = color->blue / 65535.0f;
 
 	gtk_rgb_to_hsv (r, g, b, &h, &s, &v);
 
@@ -160,9 +160,9 @@ e_hsv_tweak (GdkColor *color,
 
 	gtk_hsv_to_rgb (h, s, v, &r, &g, &b);
 
-	color->red   = r * 65535.0f;
+	color->red = r * 65535.0f;
 	color->green = g * 65535.0f;
-	color->blue  = b * 65535.0f;
+	color->blue = b * 65535.0f;
 }
 
 inline static gint
@@ -1372,9 +1372,9 @@ e_table_item_redraw_range (ETableItem *eti,
 		NULL);
 
 	if ((start_col == cursor_col) ||
-	    (end_col   == cursor_col) ||
+	    (end_col == cursor_col) ||
 	    (view_to_model_row (eti, start_row) == cursor_row) ||
-	    (view_to_model_row (eti, end_row)   == cursor_row))
+	    (view_to_model_row (eti, end_row) == cursor_row))
 		border = 2;
 	else
 		border = 0;
@@ -1712,69 +1712,69 @@ eti_get_property (GObject *object,
 static void
 e_table_item_init (ETableItem *eti)
 {
-	eti->motion_row	       = -1;
-	eti->motion_col	       = -1;
-	eti->editing_col               = -1;
-	eti->editing_row               = -1;
-	eti->height                    = 0;
-	eti->width                     = 0;
-	eti->minimum_width             = 0;
+	eti->motion_row = -1;
+	eti->motion_col = -1;
+	eti->editing_col = -1;
+	eti->editing_row = -1;
+	eti->height = 0;
+	eti->width = 0;
+	eti->minimum_width = 0;
 
-	eti->save_col                  = -1;
-	eti->save_row                  = -1;
-	eti->save_state                = NULL;
+	eti->save_col = -1;
+	eti->save_row = -1;
+	eti->save_state = NULL;
 
-	eti->click_count               = 0;
+	eti->click_count = 0;
 
-	eti->height_cache              = NULL;
-	eti->height_cache_idle_id      = 0;
-	eti->height_cache_idle_count   = 0;
+	eti->height_cache = NULL;
+	eti->height_cache_idle_id = 0;
+	eti->height_cache_idle_count = 0;
 
-	eti->length_threshold          = -1;
-	eti->uniform_row_height        = FALSE;
+	eti->length_threshold = -1;
+	eti->uniform_row_height = FALSE;
 
-	eti->uses_source_model         = 0;
-	eti->source_model              = NULL;
+	eti->uses_source_model = 0;
+	eti->source_model = NULL;
 
-	eti->row_guess                 = -1;
-	eti->cursor_mode               = E_CURSOR_SIMPLE;
+	eti->row_guess = -1;
+	eti->cursor_mode = E_CURSOR_SIMPLE;
 
-	eti->selection_change_id       = 0;
-	eti->selection_row_change_id   = 0;
-	eti->cursor_change_id          = 0;
-	eti->cursor_activated_id       = 0;
-	eti->selection                 = NULL;
+	eti->selection_change_id = 0;
+	eti->selection_row_change_id = 0;
+	eti->cursor_change_id = 0;
+	eti->cursor_activated_id = 0;
+	eti->selection = NULL;
 
-	eti->old_cursor_row            = -1;
+	eti->old_cursor_row = -1;
 
-	eti->needs_redraw              = 0;
-	eti->needs_compute_height      = 0;
+	eti->needs_redraw = 0;
+	eti->needs_compute_height = 0;
 
-	eti->in_key_press              = 0;
+	eti->in_key_press = 0;
 
-	eti->maybe_did_something       = TRUE;
+	eti->maybe_did_something = TRUE;
 
-	eti->grabbed_count             = 0;
-	eti->gtk_grabbed               = 0;
+	eti->grabbed_count = 0;
+	eti->gtk_grabbed = 0;
 
-	eti->in_drag                   = 0;
-	eti->maybe_in_drag             = 0;
-	eti->grabbed                   = 0;
+	eti->in_drag = 0;
+	eti->maybe_in_drag = 0;
+	eti->grabbed = 0;
 
-	eti->grabbed_col               = -1;
-	eti->grabbed_row               = -1;
+	eti->grabbed_col = -1;
+	eti->grabbed_row = -1;
 
-	eti->cursor_on_screen          = FALSE;
-	eti->cursor_x1                 = -1;
-	eti->cursor_y1                 = -1;
-	eti->cursor_x2                 = -1;
-	eti->cursor_y2                 = -1;
+	eti->cursor_on_screen = FALSE;
+	eti->cursor_x1 = -1;
+	eti->cursor_y1 = -1;
+	eti->cursor_x2 = -1;
+	eti->cursor_y2 = -1;
 
-	eti->rows                      = -1;
-	eti->cols                      = -1;
+	eti->rows = -1;
+	eti->cols = -1;
 
-	eti->frozen_count              = 0;
-	eti->queue_show_cursor         = FALSE;
+	eti->frozen_count = 0;
+	eti->queue_show_cursor = FALSE;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }
@@ -1955,8 +1955,8 @@ eti_draw (GnomeCanvasItem *item,
 	 * Compute row span.
 	 */
 	if (eti->uniform_row_height) {
-		first_row = (y          - floor (eti_base_y) - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
-		last_row  = (y + height - floor (eti_base_y)               ) / (ETI_ROW_HEIGHT (eti, -1) + height_extra) + 1;
+		first_row = (y - floor (eti_base_y) - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
+		last_row = (y + height - floor (eti_base_y)               ) / (ETI_ROW_HEIGHT (eti, -1) + height_extra) + 1;
 		if (first_row > last_row)
 			return;
 		y_offset = floor (eti_base_y) - y + height_extra + first_row * (ETI_ROW_HEIGHT (eti, -1) + height_extra);
@@ -2511,12 +2511,12 @@ eti_event (GnomeCanvasItem *item,
 				event_device = gdk_event_get_device (event);
 
 				eti->maybe_in_drag = TRUE;
-				eti->drag_row      = new_cursor_row;
-				eti->drag_col      = new_cursor_col;
-				eti->drag_x        = event_x_item;
-				eti->drag_y        = event_y_item;
-				eti->drag_state    = event_state;
-				eti->grabbed       = TRUE;
+				eti->drag_row = new_cursor_row;
+				eti->drag_col = new_cursor_col;
+				eti->drag_x = event_x_item;
+				eti->drag_y = event_y_item;
+				eti->drag_state = event_state;
+				eti->grabbed = TRUE;
 				d (g_print ("%s: eti_grab\n", G_STRFUNC));
 				eti_grab (eti, event_device, event_time);
 			}
@@ -3067,8 +3067,8 @@ eti_event (GnomeCanvasItem *item,
 			if (eti_editing (eti)) {
 				eti_free_save_state (eti);
 
-				eti->save_row   = eti->editing_row;
-				eti->save_col   = eti->editing_col;
+				eti->save_row = eti->editing_row;
+				eti->save_col = eti->editing_col;
 				eti->save_state = e_cell_save_state (
 					eti->cell_views[eti->editing_col], view_to_model_col (eti, eti->editing_col),
 					eti->editing_col, eti->editing_row, eti->edit_ctx);
@@ -3121,25 +3121,25 @@ e_table_item_class_init (ETableItemClass *class)
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	object_class->dispose       = eti_dispose;
-	object_class->set_property  = eti_set_property;
-	object_class->get_property  = eti_get_property;
+	object_class->dispose = eti_dispose;
+	object_class->set_property = eti_set_property;
+	object_class->get_property = eti_get_property;
 
-	item_class->update          = eti_update;
-	item_class->realize         = eti_realize;
-	item_class->unrealize       = eti_unrealize;
-	item_class->draw            = eti_draw;
-	item_class->point           = eti_point;
-	item_class->event           = eti_event;
+	item_class->update = eti_update;
+	item_class->realize = eti_realize;
+	item_class->unrealize = eti_unrealize;
+	item_class->draw = eti_draw;
+	item_class->point = eti_point;
+	item_class->event = eti_event;
 
-	class->cursor_change    = NULL;
+	class->cursor_change = NULL;
 	class->cursor_activated = NULL;
-	class->double_click     = NULL;
-	class->right_click      = NULL;
-	class->click            = NULL;
-	class->key_press        = NULL;
-	class->start_drag       = NULL;
-	class->style_set        = eti_style_set;
+	class->double_click = NULL;
+	class->right_click = NULL;
+	class->click = NULL;
+	class->key_press = NULL;
+	class->start_drag = NULL;
+	class->style_set = eti_style_set;
 	class->selection_model_removed = NULL;
 	class->selection_model_added = NULL;
 

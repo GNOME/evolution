@@ -230,7 +230,7 @@ static void
 gal_a11y_e_cell_atk_component_iface_init (AtkComponentIface *iface)
 {
 	iface->get_extents = gal_a11y_e_cell_get_extents;
-	iface->grab_focus  = gal_a11y_e_cell_grab_focus;
+	iface->grab_focus = gal_a11y_e_cell_grab_focus;
 }
 
 static void
@@ -239,14 +239,14 @@ gal_a11y_e_cell_class_init (GalA11yECellClass *class)
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	parent_class                          = g_type_class_ref (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->dispose                 = gal_a11y_e_cell_dispose;
+	object_class->dispose = gal_a11y_e_cell_dispose;
 
-	atk_object_class->get_parent          = gal_a11y_e_cell_get_parent;
+	atk_object_class->get_parent = gal_a11y_e_cell_get_parent;
 	atk_object_class->get_index_in_parent = gal_a11y_e_cell_get_index_in_parent;
-	atk_object_class->ref_state_set       = gal_a11y_e_cell_ref_state_set;
-	atk_object_class->get_name            = gal_a11y_e_cell_get_name;
+	atk_object_class->ref_state_set = gal_a11y_e_cell_ref_state_set;
+	atk_object_class->get_name = gal_a11y_e_cell_get_name;
 }
 
 static void
@@ -628,13 +628,13 @@ gal_a11y_e_cell_construct (AtkObject *object,
                            gint row)
 {
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (object);
-	a11y->item      = item;
+	a11y->item = item;
 	a11y->cell_view = cell_view;
-	a11y->parent    = parent;
+	a11y->parent = parent;
 	a11y->model_col = model_col;
-	a11y->view_col  = view_col;
-	a11y->row       = row;
-	ATK_OBJECT (a11y) ->role	= ATK_ROLE_TABLE_CELL;
+	a11y->view_col = view_col;
+	a11y->row = row;
+	ATK_OBJECT (a11y) ->role = ATK_ROLE_TABLE_CELL;
 
 	if (item)
 		g_object_ref (item);

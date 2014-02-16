@@ -58,7 +58,7 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *class)
 
 	object_class->set_property = e_table_field_chooser_set_property;
 	object_class->get_property = e_table_field_chooser_get_property;
-	object_class->dispose      = e_table_field_chooser_dispose;
+	object_class->dispose = e_table_field_chooser_dispose;
 
 	g_object_class_install_property (
 		object_class,

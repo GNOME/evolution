@@ -55,7 +55,7 @@ struct _ECalComponentPreviewPrivate {
 	gboolean use_24_hour_format;
 };
 
-#define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
+#define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n" \
                     "<head>\n<meta name=\"generator\" content=\"Evolution Calendar Component\">\n" \
 		    "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">\n" \
 		    "<style>\n" \

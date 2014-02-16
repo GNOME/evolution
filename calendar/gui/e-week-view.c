@@ -1659,13 +1659,13 @@ static GdkColor
 color_inc (GdkColor c,
            gint amount)
 {
-	#define dec(x)				\
-		if (x + amount >= 0		\
-		    && x + amount <= 0xFFFF)	\
-			x += amount;		\
-		else if (amount <= 0)		\
-			x = 0;			\
-		else				\
+	#define dec(x) \
+		if (x + amount >= 0 \
+		    && x + amount <= 0xFFFF) \
+			x += amount; \
+		else if (amount <= 0) \
+			x = 0; \
+		else \
 			x = 0xFFFF;
 
 	dec (c.red);
@@ -2681,7 +2681,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		guint32 event_time;
 
 		/* Start the selection drag. */
-		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)) &&  !gtk_widget_has_focus (GTK_WIDGET (week_view->main_canvas)))
+		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)) && !gtk_widget_has_focus (GTK_WIDGET (week_view->main_canvas)))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 		window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
@@ -3535,7 +3535,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		 * still use the border height to position the events
 		 * vertically so they still line up neatly (see above),
 		 * we don't use the border width or edge padding at all. */
-		text_x = span_x	+ E_WEEK_VIEW_EVENT_L_PAD;
+		text_x = span_x + E_WEEK_VIEW_EVENT_L_PAD;
 
 		switch (week_view->time_format) {
 		case E_WEEK_VIEW_TIME_BOTH_SMALL_MIN:

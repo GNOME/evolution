@@ -86,7 +86,7 @@ G_DEFINE_DYNAMIC_TYPE (
 	E_TYPE_EXTENSION)
 
 enum {
-	BR_OK    = 1 << 0,
+	BR_OK = 1 << 0,
 	BR_START = 1 << 1
 };
 

@@ -41,9 +41,9 @@ struct _EPanedPrivate {
 
 	gulong wse_handler_id;
 
-	guint fixed_resize	: 1;
-	guint sync_request	: 2;
-	guint toplevel_ready	: 1;
+	guint fixed_resize : 1;
+	guint sync_request : 2;
+	guint toplevel_ready : 1;
 };
 
 enum {

@@ -543,7 +543,7 @@ create_children (EDateEdit *dedit)
 
 	priv = dedit->priv;
 
-	priv->date_entry  = gtk_entry_new ();
+	priv->date_entry = gtk_entry_new ();
 	a11y = gtk_widget_get_accessible (priv->date_entry);
 	atk_object_set_description (a11y, _("Text entry to input date"));
 	atk_object_set_name (a11y, _("Date"));
@@ -1688,8 +1688,8 @@ hide_date_popup (EDateEdit *dedit)
 }
 
 /* some locales may not define am/pm equivalents for '%p',
-   thus force 24 hour format for these, otherwise the am/pm
-   time clashes */
+ * thus force 24 hour format for these, otherwise the am/pm
+ * time clashes */
 static gboolean
 date_edit_use_24_hour_format (gboolean use_24_hour_format)
 {
@@ -1703,16 +1703,16 @@ date_edit_use_24_hour_format (gboolean use_24_hour_format)
 	tmp_tm.tm_year = 2000;
 	tmp_tm.tm_mon = 0;
 	tmp_tm.tm_mday = 1;
-	tmp_tm.tm_sec  = 0;
+	tmp_tm.tm_sec = 0;
 	tmp_tm.tm_isdst = 0;
 	tmp_tm.tm_hour = 1;
-	tmp_tm.tm_min  = 0;
+	tmp_tm.tm_min = 0;
 
 	if (e_utf8_strftime (buffer, sizeof (buffer), "%p", &tmp_tm) == 0)
 		return TRUE;
 
 	tmp_tm.tm_hour = 13;
-	tmp_tm.tm_min  = 0;
+	tmp_tm.tm_min = 0;
 
 	if (e_utf8_strftime (buffer, sizeof (buffer), "%p", &tmp_tm) == 0)
 		return TRUE;
@@ -1744,7 +1744,7 @@ rebuild_time_popup (EDateEdit *dedit)
 	tmp_tm.tm_year = 2000;
 	tmp_tm.tm_mon = 0;
 	tmp_tm.tm_mday = 1;
-	tmp_tm.tm_sec  = 0;
+	tmp_tm.tm_sec = 0;
 	tmp_tm.tm_isdst = 0;
 
 	use_24_hour_format = date_edit_use_24_hour_format (priv->use_24_hour_format);
@@ -1761,7 +1761,7 @@ rebuild_time_popup (EDateEdit *dedit)
 		     min == 0 || (min < 60 && hour != priv->upper_hour);
 		     min += 30) {
 			tmp_tm.tm_hour = hour;
-			tmp_tm.tm_min  = min;
+			tmp_tm.tm_min = min;
 
 			e_time_format_time (
 				&tmp_tm, use_24_hour_format, 0,

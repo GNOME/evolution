@@ -266,7 +266,7 @@ eab_parse_qp_email (const gchar *string,
 		return FALSE;
 
 	/* report success only when we have filled both name and email address */
-	if (address->type == CAMEL_HEADER_ADDRESS_NAME  && address->name && *address->name && address->v.addr && *address->v.addr) {
+	if (address->type == CAMEL_HEADER_ADDRESS_NAME && address->name && *address->name && address->v.addr && *address->v.addr) {
 		*name = g_strdup (address->name);
 		*email = g_strdup (address->v.addr);
 		res = TRUE;

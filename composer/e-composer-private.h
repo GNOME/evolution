@@ -90,10 +90,10 @@ struct _EMsgComposerPrivate {
 	gchar *mime_body;
 	gchar *charset;
 
-	guint32 autosaved              : 1;
-	guint32 mode_post              : 1;
-	guint32 in_signature_insert    : 1;
-	guint32 application_exiting    : 1;
+	guint32 autosaved : 1;
+	guint32 mode_post : 1;
+	guint32 in_signature_insert : 1;
+	guint32 application_exiting : 1;
 
 	CamelMimeMessage *redirect;
 

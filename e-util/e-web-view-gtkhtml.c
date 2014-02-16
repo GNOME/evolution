@@ -54,7 +54,7 @@ struct _EWebViewGtkHTMLPrivate {
 	GtkTargetList *paste_target_list;
 
 	/* Lockdown Options */
-	guint disable_printing     : 1;
+	guint disable_printing : 1;
 	guint disable_save_to_disk : 1;
 };
 

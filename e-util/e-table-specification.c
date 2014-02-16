@@ -574,18 +574,18 @@ e_table_specification_init (ETableSpecification *specification)
 		(GDestroyNotify) g_object_unref);
 
 	specification->alternating_row_colors = TRUE;
-	specification->no_headers             = FALSE;
-	specification->click_to_add           = FALSE;
-	specification->click_to_add_end       = FALSE;
-	specification->horizontal_draw_grid   = FALSE;
-	specification->vertical_draw_grid     = FALSE;
-	specification->draw_focus             = TRUE;
-	specification->horizontal_scrolling   = FALSE;
-	specification->horizontal_resize      = FALSE;
-	specification->allow_grouping         = TRUE;
+	specification->no_headers = FALSE;
+	specification->click_to_add = FALSE;
+	specification->click_to_add_end = FALSE;
+	specification->horizontal_draw_grid = FALSE;
+	specification->vertical_draw_grid = FALSE;
+	specification->draw_focus = TRUE;
+	specification->horizontal_scrolling = FALSE;
+	specification->horizontal_resize = FALSE;
+	specification->allow_grouping = TRUE;
 
-	specification->cursor_mode            = E_CURSOR_SIMPLE;
-	specification->selection_mode         = GTK_SELECTION_MULTIPLE;
+	specification->cursor_mode = E_CURSOR_SIMPLE;
+	specification->selection_mode = GTK_SELECTION_MULTIPLE;
 }
 
 /**

@@ -101,8 +101,8 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	view_class = (ECalendarViewClass *) class;
 
 	/* Method override */
-	object_class->dispose		= e_cal_list_view_dispose;
-	object_class->get_property	= e_cal_list_view_get_property;
+	object_class->dispose = e_cal_list_view_dispose;
+	object_class->get_property = e_cal_list_view_get_property;
 
 	widget_class->popup_menu = e_cal_list_view_popup_menu;
 
@@ -138,12 +138,12 @@ get_current_time_cb (ECellDateEdit *ecde,
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year  = tt.year - 1900;
-	tmp_tm.tm_mon   = tt.month - 1;
-	tmp_tm.tm_mday  = tt.day;
-	tmp_tm.tm_hour  = tt.hour;
-	tmp_tm.tm_min   = tt.minute;
-	tmp_tm.tm_sec   = tt.second;
+	tmp_tm.tm_year = tt.year - 1900;
+	tmp_tm.tm_mon = tt.month - 1;
+	tmp_tm.tm_mday = tt.day;
+	tmp_tm.tm_hour = tt.hour;
+	tmp_tm.tm_min = tt.minute;
+	tmp_tm.tm_sec = tt.second;
 	tmp_tm.tm_isdst = -1;
 
 	return tmp_tm;

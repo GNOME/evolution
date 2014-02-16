@@ -158,7 +158,7 @@ etcta_ref_child (AtkObject *accessible,
 	if (i != 0)
 		return NULL;
 
-	etcta  = E_TABLE_CLICK_TO_ADD (
+	etcta = E_TABLE_CLICK_TO_ADD (
 		atk_gobject_accessible_get_object (
 		ATK_GOBJECT_ACCESSIBLE (accessible)));
 

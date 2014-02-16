@@ -58,8 +58,8 @@ G_BEGIN_DECLS
 /* Filter items are displayed in ascending order.
  * Non-negative values are reserved for categories. */
 enum {
-	MEMO_FILTER_ANY_CATEGORY	= -2,
-	MEMO_FILTER_UNMATCHED		= -1
+	MEMO_FILTER_ANY_CATEGORY = -2,
+	MEMO_FILTER_UNMATCHED = -1
 };
 
 /* Search items are displayed in ascending order. */

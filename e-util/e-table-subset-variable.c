@@ -134,10 +134,10 @@ etssv_remove (ETableSubsetVariable *etssv,
 static void
 e_table_subset_variable_class_init (ETableSubsetVariableClass *class)
 {
-	class->add     = etssv_add;
+	class->add = etssv_add;
 	class->add_array = etssv_add_array;
 	class->add_all = etssv_add_all;
-	class->remove  = etssv_remove;
+	class->remove = etssv_remove;
 }
 
 static void

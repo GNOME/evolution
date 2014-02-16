@@ -781,13 +781,13 @@ preview_contact (EWebViewPreview *preview,
 			if (addr) {
 				gboolean have = FALSE;
 
-				#define add_it(_what)	\
-					if (addr->_what && *addr->_what) {	\
+				#define add_it(_what) \
+					if (addr->_what && *addr->_what) { \
 						e_web_view_preview_add_section ( \
 							preview, have ? NULL : \
-							e_contact_pretty_name (field), addr->_what);	\
-						have = TRUE;	\
-						had_value = TRUE;	\
+							e_contact_pretty_name (field), addr->_what); \
+						have = TRUE; \
+						had_value = TRUE; \
 					}
 
 				add_it (po);

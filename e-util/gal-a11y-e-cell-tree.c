@@ -146,7 +146,7 @@ ectr_do_action_collapse (AtkAction *action)
 static void
 ectr_class_init (GalA11yECellTreeClass *class)
 {
-	a11y_parent_class        = g_type_class_ref (A11Y_PARENT_TYPE);
+	a11y_parent_class = g_type_class_ref (A11Y_PARENT_TYPE);
 }
 
 static void

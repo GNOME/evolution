@@ -619,12 +619,12 @@ disconnect_model (EReflow *reflow)
 		reflow->model_item_changed_id);
 	g_object_unref (reflow->model);
 
-	reflow->model_changed_id        = 0;
-	reflow->comparison_changed_id   = 0;
+	reflow->model_changed_id = 0;
+	reflow->comparison_changed_id = 0;
 	reflow->model_items_inserted_id = 0;
-	reflow->model_item_removed_id   = 0;
-	reflow->model_item_changed_id   = 0;
-	reflow->model                   = NULL;
+	reflow->model_item_removed_id = 0;
+	reflow->model_item_changed_id = 0;
+	reflow->model = NULL;
 }
 
 static void
@@ -647,7 +647,7 @@ disconnect_selection (EReflow *reflow)
 	reflow->selection_changed_id = 0;
 	reflow->selection_row_changed_id = 0;
 	reflow->cursor_changed_id = 0;
-	reflow->selection            = NULL;
+	reflow->selection = NULL;
 }
 
 static void
@@ -879,10 +879,10 @@ e_reflow_dispose (GObject *object)
 	g_free (reflow->heights);
 	g_free (reflow->columns);
 
-	reflow->items          = NULL;
-	reflow->heights        = NULL;
-	reflow->columns        = NULL;
-	reflow->count          = 0;
+	reflow->items = NULL;
+	reflow->heights = NULL;
+	reflow->columns = NULL;
+	reflow->count = 0;
 	reflow->allocated_count = 0;
 
 	if (reflow->incarnate_idle_id)
@@ -1571,17 +1571,17 @@ e_reflow_class_init (EReflowClass *class)
 	object_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
-	object_class->set_property  = e_reflow_set_property;
-	object_class->get_property  = e_reflow_get_property;
-	object_class->dispose  = e_reflow_dispose;
+	object_class->set_property = e_reflow_set_property;
+	object_class->get_property = e_reflow_get_property;
+	object_class->dispose = e_reflow_dispose;
 
 	/* GnomeCanvasItem method overrides */
-	item_class->event      = e_reflow_event;
-	item_class->realize    = e_reflow_realize;
-	item_class->unrealize  = e_reflow_unrealize;
-	item_class->draw       = e_reflow_draw;
-	item_class->update     = e_reflow_update;
-	item_class->point      = e_reflow_point;
+	item_class->event = e_reflow_event;
+	item_class->realize = e_reflow_realize;
+	item_class->unrealize = e_reflow_unrealize;
+	item_class->draw = e_reflow_draw;
+	item_class->update = e_reflow_update;
+	item_class->point = e_reflow_point;
 
 	class->selection_event = e_reflow_selection_event_real;
 	class->column_width_changed = NULL;
@@ -1671,44 +1671,44 @@ e_reflow_class_init (EReflowClass *class)
 static void
 e_reflow_init (EReflow *reflow)
 {
-	reflow->model                     = NULL;
-	reflow->items                     = NULL;
-	reflow->heights                   = NULL;
-	reflow->count                     = 0;
+	reflow->model = NULL;
+	reflow->items = NULL;
+	reflow->heights = NULL;
+	reflow->count = 0;
 
-	reflow->columns                   = NULL;
-	reflow->column_count              = 0;
+	reflow->columns = NULL;
+	reflow->column_count = 0;
 
-	reflow->empty_text                = NULL;
-	reflow->empty_message             = NULL;
+	reflow->empty_text = NULL;
+	reflow->empty_message = NULL;
 
-	reflow->minimum_width             = 10;
-	reflow->width                     = 10;
-	reflow->height                    = 10;
+	reflow->minimum_width = 10;
+	reflow->width = 10;
+	reflow->height = 10;
 
-	reflow->column_width              = 150;
+	reflow->column_width = 150;
 
-	reflow->column_drag               = FALSE;
+	reflow->column_drag = FALSE;
 
-	reflow->need_height_update        = FALSE;
-	reflow->need_column_resize        = FALSE;
-	reflow->need_reflow_columns       = FALSE;
+	reflow->need_height_update = FALSE;
+	reflow->need_column_resize = FALSE;
+	reflow->need_reflow_columns = FALSE;
 
-	reflow->maybe_did_something       = FALSE;
-	reflow->maybe_in_drag             = FALSE;
+	reflow->maybe_did_something = FALSE;
+	reflow->maybe_in_drag = FALSE;
 
-	reflow->default_cursor_shown      = TRUE;
-	reflow->arrow_cursor              = NULL;
-	reflow->default_cursor            = NULL;
+	reflow->default_cursor_shown = TRUE;
+	reflow->arrow_cursor = NULL;
+	reflow->default_cursor = NULL;
 
-	reflow->cursor_row                = -1;
+	reflow->cursor_row = -1;
 
-	reflow->incarnate_idle_id         = 0;
-	reflow->do_adjustment_idle_id     = 0;
+	reflow->incarnate_idle_id = 0;
+	reflow->do_adjustment_idle_id = 0;
 	reflow->set_scroll_adjustments_id = 0;
 
-	reflow->selection                 = E_SELECTION_MODEL (e_selection_model_simple_new ());
-	reflow->sorter                    = e_sorter_array_new (er_create_cmp_cache, er_compare, reflow);
+	reflow->selection = E_SELECTION_MODEL (e_selection_model_simple_new ());
+	reflow->sorter = e_sorter_array_new (er_create_cmp_cache, er_compare, reflow);
 
 	g_object_set (
 		reflow->selection,

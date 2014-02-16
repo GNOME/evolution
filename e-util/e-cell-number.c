@@ -59,7 +59,7 @@ e_cell_number_class_init (ECellNumberClass *class)
 {
 	ECellTextClass *ectc = E_CELL_TEXT_CLASS (class);
 
-	ectc->get_text  = ecn_get_text;
+	ectc->get_text = ecn_get_text;
 	ectc->free_text = ecn_free_text;
 }
 

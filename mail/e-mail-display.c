@@ -473,7 +473,7 @@ mail_display_attachment_count_changed (EAttachmentStore *store,
 	GList *children;
 
 	children = gtk_container_get_children (GTK_CONTAINER (box));
-	g_return_if_fail (children  && children->data);
+	g_return_if_fail (children && children->data);
 
 	element = g_object_get_data (children->data, "parent_element");
 	g_list_free (children);

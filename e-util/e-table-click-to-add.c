@@ -552,15 +552,15 @@ e_table_click_to_add_class_init (ETableClickToAddClass *class)
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	class->cursor_change = NULL;
-	class->style_set     = etcta_style_set;
+	class->style_set = etcta_style_set;
 
-	object_class->dispose      = etcta_dispose;
+	object_class->dispose = etcta_dispose;
 	object_class->set_property = etcta_set_property;
 	object_class->get_property = etcta_get_property;
 
-	item_class->realize     = etcta_realize;
-	item_class->unrealize   = etcta_unrealize;
-	item_class->event       = etcta_event;
+	item_class->realize = etcta_realize;
+	item_class->unrealize = etcta_unrealize;
+	item_class->event = etcta_event;
 
 	g_object_class_install_property (
 		object_class,

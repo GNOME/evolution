@@ -1181,9 +1181,9 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 	if (gdk_rgba_equal (color, format_color))
 		return;
 
-	format_color->red   = color->red;
+	format_color->red = color->red;
 	format_color->green = color->green;
-	format_color->blue  = color->blue;
+	format_color->blue = color->blue;
 
 	switch (type) {
 		case E_MAIL_FORMATTER_COLOR_BODY:

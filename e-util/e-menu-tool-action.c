@@ -52,6 +52,8 @@ e_menu_tool_action_new (const gchar *name,
 
 	return g_object_new (
 		E_TYPE_MENU_TOOL_ACTION,
-		"name", name, "label", label, "tooltip",
-		tooltip, NULL);
+		"name", name,
+		"label", label,
+		"tooltip", tooltip,
+		NULL);
 }

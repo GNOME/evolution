@@ -85,8 +85,8 @@ gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	object_class->dispose      = gal_a11y_e_cell_toggle_dispose;
-	parent_class               = g_type_class_ref (PARENT_TYPE);
+	object_class->dispose = gal_a11y_e_cell_toggle_dispose;
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 static void
@@ -161,7 +161,7 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 
 	cell = GAL_A11Y_E_CELL (a11y);
 	toggle_cell = GAL_A11Y_E_CELL_TOGGLE (a11y);
-	a11y->role  = ATK_ROLE_TABLE_CELL;
+	a11y->role = ATK_ROLE_TABLE_CELL;
 
 	gal_a11y_e_cell_construct (
 		a11y,

@@ -191,8 +191,8 @@ ecb_draw (GnomeCanvasItem *item,
 		cr,
 		((ecb->priv->rgba >> 24) & 0xff) / 255.0,
 		((ecb->priv->rgba >> 16) & 0xff) / 255.0,
-		((ecb->priv->rgba >>  8) & 0xff) / 255.0,
-		( ecb->priv->rgba        & 0xff) / 255.0);
+		((ecb->priv->rgba >> 8) & 0xff) / 255.0,
+		( ecb->priv->rgba & 0xff) / 255.0);
 	cairo_paint (cr);
 	cairo_restore (cr);
 }
@@ -225,15 +225,15 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 
 	g_type_class_add_private (ecb_class, sizeof (ECanvasBackgroundPrivate));
 
-	object_class->set_property  = ecb_set_property;
-	object_class->get_property  = ecb_get_property;
+	object_class->set_property = ecb_set_property;
+	object_class->get_property = ecb_get_property;
 
-	item_class->update          = ecb_update;
-	item_class->draw            = ecb_draw;
-	item_class->point           = ecb_point;
-	item_class->bounds          = ecb_bounds;
+	item_class->update = ecb_update;
+	item_class->draw = ecb_draw;
+	item_class->point = ecb_point;
+	item_class->bounds = ecb_bounds;
 
-	ecb_class->style_set	    = ecb_style_set;
+	ecb_class->style_set = ecb_style_set;
 
 	g_object_class_install_property (
 		object_class,

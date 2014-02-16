@@ -48,7 +48,7 @@ struct _MergeContext {
 	gboolean pending_adds;
 
 	gint remove_from_source : 1;
-	gint copy_done          : 1;
+	gint copy_done : 1;
 };
 
 enum {

@@ -623,7 +623,7 @@ parseLine (CSVImporter *gci,
 	   other_address->code || other_address->region || other_address->street)
 		e_contact_set (contact, E_CONTACT_ADDRESS_OTHER, other_address);
 
-	if (importer !=  OUTLOOK_IMPORTER) {
+	if (importer != OUTLOOK_IMPORTER) {
 		if (bday->day || bday->year || bday->month)
 			e_contact_set (contact, E_CONTACT_BIRTH_DATE, bday);
 	}

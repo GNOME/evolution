@@ -100,10 +100,10 @@ et_class_init (GalA11yETreeClass *class)
 {
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
 
-	parent_class                              = g_type_class_ref (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	atk_object_class->get_n_children          = et_get_n_children;
-	atk_object_class->ref_child               = et_ref_child;
+	atk_object_class->get_n_children = et_get_n_children;
+	atk_object_class->ref_child = et_ref_child;
 }
 
 static void

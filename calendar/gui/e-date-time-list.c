@@ -69,7 +69,7 @@ copy_datetime (const ECalComponentDateTime *datetime)
 	ECalComponentDateTime *datetime_copy;
 
 	datetime_copy = g_new0 (ECalComponentDateTime, 1);
-	datetime_copy->value  = g_new (struct icaltimetype, 1);
+	datetime_copy->value = g_new (struct icaltimetype, 1);
 	*datetime_copy->value = *datetime->value;
 
 	if (datetime->tzid)
@@ -162,12 +162,12 @@ get_exception_string (EDateTimeList *date_time_list,
 	use_24_hour_format =
 		e_date_time_list_get_use_24_hour_format (date_time_list);
 
-	tmp_tm.tm_year  = dt->value->year - 1900;
-	tmp_tm.tm_mon   = dt->value->month - 1;
-	tmp_tm.tm_mday  = dt->value->day;
-	tmp_tm.tm_hour  = dt->value->hour;
-	tmp_tm.tm_min   = dt->value->minute;
-	tmp_tm.tm_sec   = dt->value->second;
+	tmp_tm.tm_year = dt->value->year - 1900;
+	tmp_tm.tm_mon = dt->value->month - 1;
+	tmp_tm.tm_mday = dt->value->day;
+	tmp_tm.tm_hour = dt->value->hour;
+	tmp_tm.tm_min = dt->value->minute;
+	tmp_tm.tm_sec = dt->value->second;
 	tmp_tm.tm_isdst = -1;
 
 	tmp_tm.tm_wday = time_day_of_week (
@@ -273,7 +273,7 @@ date_time_list_get_iter (GtkTreeModel *tree_model,
 		return FALSE;
 
 	iter->user_data = l;
-	iter->stamp     = date_time_list->stamp;
+	iter->stamp = date_time_list->stamp;
 	return TRUE;
 }
 
@@ -315,7 +315,7 @@ date_time_list_get_value (GtkTreeModel *tree_model,
 	if (!date_time_list->list)
 		return;
 
-	l        = iter->user_data;
+	l = iter->user_data;
 	datetime = l->data;
 
 	if (!datetime)
@@ -368,7 +368,7 @@ date_time_list_iter_children (GtkTreeModel *tree_model,
 	if (!date_time_list->list)
 		return FALSE;
 
-	iter->stamp     = E_DATE_TIME_LIST (tree_model)->stamp;
+	iter->stamp = E_DATE_TIME_LIST (tree_model)->stamp;
 	iter->user_data = date_time_list->list;
 	return TRUE;
 }
@@ -416,7 +416,7 @@ date_time_list_iter_nth_child (GtkTreeModel *tree_model,
 		if (!l)
 			return FALSE;
 
-		iter->stamp     = date_time_list->stamp;
+		iter->stamp = date_time_list->stamp;
 		iter->user_data = l;
 		return TRUE;
 	}
@@ -550,7 +550,7 @@ e_date_time_list_append (EDateTimeList *date_time_list,
 
 	if (iter) {
 		iter->user_data = g_list_last (date_time_list->list);
-		iter->stamp     = date_time_list->stamp;
+		iter->stamp = date_time_list->stamp;
 	}
 }
 

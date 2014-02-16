@@ -48,7 +48,7 @@
 
 #define MAX_COMPACT_IMAGE_DIMENSION 48
 
-#define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
+#define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n" \
 "<head>\n<meta name=\"generator\" content=\"Evolution Addressbook Component\">\n" \
 "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">" \
 "<style type=\"text/css\">\n" \
@@ -952,15 +952,15 @@ render_compact (EABContactFormatter *formatter,
 			g_free (html);
 		}
 
-		#define print_email() {								\
-			html = eab_parse_qp_email_to_html (str);				\
-			\
-			if (!html)                                                              \
-				html = e_text_to_html (str, 0);					\
-			\
-			g_string_append_printf (buffer, "%s%s", comma ? ", " : "", html);	\
-			g_free (html);								\
-			comma = TRUE;								\
+		#define print_email() { \
+			html = eab_parse_qp_email_to_html (str); \
+ \
+			if (!html) \
+				html = e_text_to_html (str, 0); \
+ \
+			g_string_append_printf (buffer, "%s%s", comma ? ", " : "", html); \
+			g_free (html); \
+			comma = TRUE; \
 		}
 
 		g_string_append_printf (buffer, "<b>%s:</b> ", _ ("Email"));

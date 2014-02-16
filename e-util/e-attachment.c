@@ -69,9 +69,9 @@ struct _EAttachmentPrivate {
 	gint64 last_percent_notify; /* to avoid excessive notifications */
 
 	guint can_show : 1;
-	guint loading  : 1;
-	guint saving   : 1;
-	guint shown    : 1;
+	guint loading : 1;
+	guint saving : 1;
+	guint shown : 1;
 
 	camel_cipher_validity_encrypt_t encrypted;
 	camel_cipher_validity_sign_t signed_;

@@ -331,10 +331,10 @@ e_table_selection_model_class_init (ETableSelectionModelClass *class)
 	GObjectClass *object_class;
 	ESelectionModelArrayClass *esma_class;
 
-	object_class             = G_OBJECT_CLASS (class);
-	esma_class               = E_SELECTION_MODEL_ARRAY_CLASS (class);
+	object_class = G_OBJECT_CLASS (class);
+	esma_class = E_SELECTION_MODEL_ARRAY_CLASS (class);
 
-	object_class->dispose      = etsm_dispose;
+	object_class->dispose = etsm_dispose;
 	object_class->get_property = etsm_get_property;
 	object_class->set_property = etsm_set_property;
 

@@ -563,17 +563,20 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 
 static void
 folder_tree_row_changed_cb (GtkTreeModel *model,
-			    GtkTreePath *path,
-			    GtkTreeIter *iter,
-			    EMFolderTree *folder_tree)
+                            GtkTreePath *path,
+                            GtkTreeIter *iter,
+                            EMFolderTree *folder_tree)
 {
-	gboolean is_store = FALSE;
 	CamelService *service = NULL;
+	gboolean is_store = FALSE;
+	gboolean select_store = FALSE;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
 
-	if (!folder_tree->priv->select_store_uid_when_added ||
-	    gtk_tree_path_get_depth (path) != 1)
+	if (!folder_tree->priv->select_store_uid_when_added)
+		return;
+
+	if (gtk_tree_path_get_depth (path) != 1)
 		return;
 
 	gtk_tree_model_get (model, iter,
@@ -581,19 +584,29 @@ folder_tree_row_changed_cb (GtkTreeModel *model,
 		COL_BOOL_IS_STORE, &is_store,
 		-1);
 
-	if (is_store && service &&
-	    g_strcmp0 (folder_tree->priv->select_store_uid_when_added, camel_service_get_uid (service)) == 0) {
+	if (is_store && service != NULL) {
+		const gchar *uid1;
+		const gchar *uid2;
+
+		uid1 = camel_service_get_uid (service);
+		uid2 = folder_tree->priv->select_store_uid_when_added;
+		select_store = (g_strcmp0 (uid1, uid2) == 0);
+	}
+
+	if (select_store) {
+		GtkTreeView *tree_view;
 		GtkTreeSelection *selection;
 
 		g_free (folder_tree->priv->select_store_uid_when_added);
 		folder_tree->priv->select_store_uid_when_added = NULL;
 
-		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+		tree_view = GTK_TREE_VIEW (folder_tree);
+		selection = gtk_tree_view_get_selection (tree_view);
 
 		gtk_tree_selection_select_iter (selection, iter);
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree), path, NULL, FALSE);
+		gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
 		folder_tree->priv->cursor_set = TRUE;
-		gtk_tree_view_expand_row (GTK_TREE_VIEW (folder_tree), path, FALSE);
+		gtk_tree_view_expand_row (tree_view, path, FALSE);
 	}
 
 	g_clear_object (&service);
@@ -604,8 +617,9 @@ folder_tree_clear_selected_list (EMFolderTree *folder_tree)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 
-	g_slist_foreach (priv->select_uris, (GFunc) folder_tree_free_select_uri, NULL);
-	g_slist_free (priv->select_uris);
+	g_slist_free_full (
+		priv->select_uris,
+		(GDestroyNotify) folder_tree_free_select_uri);
 	g_hash_table_destroy (priv->select_uris_table);
 	priv->select_uris = NULL;
 	priv->select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
@@ -1184,21 +1198,14 @@ folder_tree_finalize (GObject *object)
 
 	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
 
-	if (priv->select_uris != NULL) {
-		g_slist_foreach (
-			priv->select_uris,
-			(GFunc) folder_tree_free_select_uri, NULL);
-		g_slist_free (priv->select_uris);
-		priv->select_uris = NULL;
-	}
+	g_slist_free_full (
+		priv->select_uris,
+		(GDestroyNotify) folder_tree_free_select_uri);
 
-	if (priv->select_uris_table) {
+	if (priv->select_uris_table != NULL)
 		g_hash_table_destroy (priv->select_uris_table);
-		priv->select_uris_table = NULL;
-	}
 
 	g_free (priv->select_store_uid_when_added);
-	priv->select_store_uid_when_added = NULL;
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
@@ -3172,7 +3179,7 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree,
 						break;
 					} else {
 						if (has_parent) {
-							iter =  parent;
+							iter = parent;
 						} else {
 							/* Reached end. Wrapup*/
 							if (gtk_tree_model_get_iter_first (model, &iter))

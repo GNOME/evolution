@@ -1096,7 +1096,7 @@ ect_enter_edit (ECellView *ecell_view,
 	edit = g_new0 (CellEdit, 1);
 	text_view->edit = edit;
 
-	edit->im_context =  E_CANVAS (text_view->canvas)->im_context;
+	edit->im_context = E_CANVAS (text_view->canvas)->im_context;
 	edit->need_im_reset = FALSE;
 	edit->im_context_signals_registered = FALSE;
 	edit->view_col = -1;
@@ -1336,7 +1336,7 @@ ect_print (ECellView *ecell_view,
 	font_metrics = pango_context_get_metrics (
 		pango_context, style->font_desc,
 		pango_context_get_language (pango_context));
-	ty =  (gdouble)(text_height -
+	ty = (gdouble)(text_height -
 		pango_font_metrics_get_ascent (font_metrics) -
 		pango_font_metrics_get_descent (font_metrics)) / 2.0 /(gdouble) PANGO_SCALE;
 
@@ -1579,19 +1579,19 @@ e_cell_text_class_init (ECellTextClass *class)
 
 	object_class->finalize = ect_finalize;
 
-	ecc->new_view   = ect_new_view;
-	ecc->kill_view  = ect_kill_view;
-	ecc->realize    = ect_realize;
-	ecc->unrealize  = ect_unrealize;
-	ecc->draw       = ect_draw;
-	ecc->event      = ect_event;
-	ecc->height     = ect_height;
+	ecc->new_view = ect_new_view;
+	ecc->kill_view = ect_kill_view;
+	ecc->realize = ect_realize;
+	ecc->unrealize = ect_unrealize;
+	ecc->draw = ect_draw;
+	ecc->event = ect_event;
+	ecc->height = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
 	ecc->save_state = ect_save_state;
 	ecc->load_state = ect_load_state;
 	ecc->free_state = ect_free_state;
-	ecc->print      = ect_print;
+	ecc->print = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
 	ecc->max_width_by_row = ect_max_width_by_row;
