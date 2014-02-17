@@ -324,7 +324,7 @@ static GtkActionEntry image_entries[] = {
 	{ "image-save",
 	  "document-save",
 	  N_("Save _Image..."),
-	  NULL,
+	  "<Control>s",
 	  N_("Save the image to a file"),
 	  G_CALLBACK (action_image_save_cb) }
 };
