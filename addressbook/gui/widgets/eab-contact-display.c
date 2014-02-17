@@ -147,7 +147,7 @@ static GtkActionEntry internal_mailto_entries[] = {
 	{ "contact-mailto-copy",
 	  "edit-copy",
 	  N_("Copy _Email Address"),
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the email address to the clipboard"),
 	  G_CALLBACK (action_contact_mailto_copy_cb) },
 

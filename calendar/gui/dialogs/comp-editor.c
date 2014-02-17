@@ -1220,21 +1220,21 @@ static GtkActionEntry core_entries[] = {
 	{ "close",
 	  "window-close",
 	  N_("_Close"),
-	  NULL,
+	  "<Control>w",
 	  N_("Close the current window"),
 	  G_CALLBACK (action_close_cb) },
 
 	{ "copy-clipboard",
 	  "edit-copy",
 	  N_("_Copy"),
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "cut-clipboard",
 	  "edit-cut",
 	  N_("Cu_t"),
-	  NULL,
+	  "<Control>x",
 	  N_("Cut the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
@@ -1248,14 +1248,14 @@ static GtkActionEntry core_entries[] = {
 	{ "help",
 	  "help-browser",
 	  N_("_Help"),
-	  NULL,
+	  "F1",
 	  N_("View help"),
 	  G_CALLBACK (action_help_cb) },
 
 	{ "paste-clipboard",
 	  "edit-paste",
 	  N_("_Paste"),
-	  NULL,
+	  "<Control>v",
 	  N_("Paste the clipboard"),
 	  NULL },  /* Handled by EFocusTracker */
 
@@ -1276,7 +1276,7 @@ static GtkActionEntry core_entries[] = {
 	{ "save",
 	  "document-save",
 	  N_("_Save"),
-	  NULL,
+	  "<Control>s",
 	  N_("Save current changes"),
 	  G_CALLBACK (action_save_cb) },
 

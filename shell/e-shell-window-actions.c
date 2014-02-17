@@ -883,14 +883,14 @@ static GtkActionEntry shell_entries[] = {
 	{ "copy-clipboard",
 	  "edit-copy",
 	  N_("_Copy"),
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
 	{ "cut-clipboard",
 	  "edit-cut",
 	  N_("Cu_t"),
-	  NULL,
+	  "<Control>x",
 	  N_("Cut the selection"),
 	  NULL },  /* Handled by EFocusTracker */
 
@@ -918,7 +918,7 @@ static GtkActionEntry shell_entries[] = {
 	{ "paste-clipboard",
 	  "edit-paste",
 	  N_("_Paste"),
-	  NULL,
+	  "<Control>v",
 	  N_("Paste the clipboard"),
 	  NULL },  /* Handled by EFocusTracker */
 
@@ -946,7 +946,7 @@ static GtkActionEntry shell_entries[] = {
 	{ "quit",
 	  "application-exit",
 	  N_("_Quit"),
-	  NULL,
+	  "<Control>q",
 	  N_("Exit the program"),
 	  G_CALLBACK (action_quit_cb) },
 
@@ -974,14 +974,14 @@ static GtkActionEntry shell_entries[] = {
 	{ "search-options",
 	  "edit-find",
 	  N_("_Find"),
-	  NULL,
+	  "<Control>f",
 	  N_("Click here to change the search type"),
 	  G_CALLBACK (action_search_options_cb) },
 
 	{ "search-quick",
 	  "edit-find",
 	  N_("_Find Now"),
-	  "",      /* Block the default Ctrl+F. */
+	  NULL,
 	  N_("Execute the current search parameters"),
 	  G_CALLBACK (action_search_quick_cb) },
 
@@ -1053,7 +1053,7 @@ static GtkActionEntry shell_entries[] = {
 	{ "new-menu",
 	  "document-new",
 	  N_("_New"),
-	  "",
+	  NULL,
 	  NULL,
 	  NULL },
 

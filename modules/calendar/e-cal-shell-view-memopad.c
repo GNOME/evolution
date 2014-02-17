@@ -276,7 +276,7 @@ static GtkActionEntry calendar_memopad_entries[] = {
 	{ "calendar-memopad-open",
 	  "document-open",
 	  N_("_Open Memo"),
-	  NULL,
+	  "<Control>o",
 	  N_("View the selected memo"),
 	  G_CALLBACK (action_calendar_memopad_open_cb) },
 

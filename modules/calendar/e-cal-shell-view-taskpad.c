@@ -363,7 +363,7 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 	{ "calendar-taskpad-open",
 	  "document-open",
 	  N_("_Open Task"),
-	  NULL,
+	  "<Control>o",
 	  N_("View the selected task"),
 	  G_CALLBACK (action_calendar_taskpad_open_cb) },
 

@@ -605,7 +605,7 @@ static GtkActionEntry memo_entries[] = {
 	{ "memo-list-copy",
 	  "edit-copy",
 	  N_("_Copy..."),
-	  NULL,
+	  "<Control>c",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_copy_cb) },
 

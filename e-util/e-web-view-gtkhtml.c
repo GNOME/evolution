@@ -403,7 +403,7 @@ static GtkActionEntry uri_entries[] = {
 	{ "uri-copy",
 	  "edit-copy",
 	  N_("_Copy Link Location"),
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the link to the clipboard"),
 	  G_CALLBACK (action_uri_copy_cb) }
 };
@@ -423,7 +423,7 @@ static GtkActionEntry mailto_entries[] = {
 	{ "mailto-copy",
 	  "edit-copy",
 	  N_("_Copy Email Address"),
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the email address to the clipboard"),
 	  G_CALLBACK (action_mailto_copy_cb) },
 
@@ -440,7 +440,7 @@ static GtkActionEntry image_entries[] = {
 	{ "image-copy",
 	  "edit-copy",
 	  N_("_Copy Image"),
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the image to the clipboard"),
 	  G_CALLBACK (action_image_copy_cb) }
 };
@@ -450,7 +450,7 @@ static GtkActionEntry selection_entries[] = {
 	{ "copy-clipboard",
 	  "edit-copy",
 	  NULL,
-	  NULL,
+	  "<Control>c",
 	  N_("Copy the selection"),
 	  G_CALLBACK (action_copy_clipboard_cb) },
 };

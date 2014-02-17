@@ -1348,7 +1348,7 @@ static GtkActionEntry calendar_entries[] = {
 	{ "calendar-copy",
 	  "edit-copy",
 	  N_("_Copy..."),
-	  NULL,
+	  "<Control>c",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_copy_cb) },
 
@@ -1565,7 +1565,7 @@ static GtkActionEntry calendar_entries[] = {
 	{ "quit-calendar",
 	  "window-close",
 	  N_("Quit"),
-	  NULL,
+	  "<Control>w",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (quit_calendar_cb) },
 
