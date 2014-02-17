@@ -83,11 +83,19 @@ calculate_time (time_t start,
 	time_t difference = end - start;
 	gchar *str;
 	gint   hours, minutes;
-	gchar *times[4];
+	gchar *times[5];
 	gchar *joined;
 	gint   i;
 
 	i = 0;
+	if (difference >= 24 * 3600) {
+		gint days;
+
+		days = difference / (24 * 3600);
+		difference %= (24 * 3600);
+
+		times[i++] = g_strdup_printf (ngettext ("%d day", "%d days", days), days);
+	}
 	if (difference >= 3600) {
 		hours = difference / 3600;
 		difference %= 3600;
