@@ -1351,7 +1351,6 @@ notify_dialog_cb (AlarmNotifyResult result,
 		debug (("Creating a snooze"));
 		create_snooze (tray_data->cqa, tray_data->alarm_id, snooze_mins);
 		tray_data->snooze_set = TRUE;
-		tray_list_remove_data (tray_data);
 		if (alarm_notifications_dialog) {
 			GtkTreeSelection *selection =
 				gtk_tree_view_get_selection (
@@ -1375,6 +1374,7 @@ notify_dialog_cb (AlarmNotifyResult result,
 			}
 
 		}
+		tray_list_remove_data (tray_data);
 
 		break;
 
