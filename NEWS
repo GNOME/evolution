@@ -1,3 +1,42 @@
+Evolution 3.11.90 2014-03-17
+----------------------------
+
+Bugs Fixes:
+	Bug #655806 - Folder deletion is very slow (Fabiano Fidêncio)
+	Bug #685381 - POP3's "delete-expunged" ignored when Empty trash on
+	              exit (Milan Crha)
+	Bug #720542 - Crash on calendar view's tooltip timeout (Milan Crha)
+	Bug #720940 - Always asked to synchronize folders when going offline
+	              (Milan Crha)
+	Bug #721639 - Cannot overwrite builtin mail view definitions
+	              (Milan Crha)
+	Bug #722041 - NNTP Messages are silently dropped from Outbox
+	              (Milan Crha)
+	Bug #724023 - Run EMailFormatter in the main/UI thread (Milan Crha)
+
+Other Changes:
+	* Fix typos in a logic of a "mail:ask-quick-offline" user prompt
+	  (Milan Crha)
+	* e_table_sort_info_duplicate: Missing ref of a 'column_spec' member
+	  (Milan Crha)
+	* Fix a runtime warning on startup. (Matthew Barnes)
+	* EMailConfigAssistant: Hack the "Go Back" button after autoconfig.
+	  (Matthew Barnes)
+	* Stop using deprecated gtk-stock items (Milan Crha)
+
+Translations:
+	Dimitris Spingos (el)
+	Daniel Mustieles (es)
+	Fran Diéguez (gl)
+	Andika Triwidada (id)
+	Shankar Prasad (kn)
+	Rafael Ferreira (pt_BR)
+	Enrico Nicoletto (pt_BR)
+	Yuri Myasoedov (ru)
+	Victor Ibragimov (tg)
+	Daniel Korostil (uk)
+
+
 Evolution 3.11.5 2014-02-03
 ---------------------------
 
