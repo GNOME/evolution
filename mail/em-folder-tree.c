@@ -96,6 +96,7 @@ struct _EMFolderTreePrivate {
 
 	guint loading_row_id;
 	guint loaded_row_id;
+	guint row_changed_id;
 
 	GtkTreeRowReference *drag_row;
 	gboolean skip_double_click;
@@ -103,6 +104,8 @@ struct _EMFolderTreePrivate {
 	GtkCellRenderer *text_renderer;
 
 	GtkWidget *selectable; /* an ESelectable, where to pass selectable calls */
+
+	gchar *select_store_uid_when_added;
 
 	/* Signal handler IDs */
 	gulong selection_changed_handler_id;
@@ -556,6 +559,44 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 
 	g_free (full_name);
 	g_free (key);
+}
+
+static void
+folder_tree_row_changed_cb (GtkTreeModel *model,
+			    GtkTreePath *path,
+			    GtkTreeIter *iter,
+			    EMFolderTree *folder_tree)
+{
+	gboolean is_store = FALSE;
+	CamelService *service = NULL;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	if (!folder_tree->priv->select_store_uid_when_added ||
+	    gtk_tree_path_get_depth (path) != 1)
+		return;
+
+	gtk_tree_model_get (model, iter,
+		COL_OBJECT_CAMEL_STORE, &service,
+		COL_BOOL_IS_STORE, &is_store,
+		-1);
+
+	if (is_store && service &&
+	    g_strcmp0 (folder_tree->priv->select_store_uid_when_added, camel_service_get_uid (service)) == 0) {
+		GtkTreeSelection *selection;
+
+		g_free (folder_tree->priv->select_store_uid_when_added);
+		folder_tree->priv->select_store_uid_when_added = NULL;
+
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+
+		gtk_tree_selection_select_iter (selection, iter);
+		gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree), path, NULL, FALSE);
+		folder_tree->priv->cursor_set = TRUE;
+		gtk_tree_view_expand_row (GTK_TREE_VIEW (folder_tree), path, FALSE);
+	}
+
+	g_clear_object (&service);
 }
 
 static void
@@ -1094,6 +1135,11 @@ folder_tree_dispose (GObject *object)
 		priv->loading_row_id = 0;
 	}
 
+	if (priv->row_changed_id != 0) {
+		g_signal_handler_disconnect (model, priv->row_changed_id);
+		priv->row_changed_id = 0;
+	}
+
 	if (priv->selection_changed_handler_id != 0) {
 		g_signal_handler_disconnect (selection, priv->selection_changed_handler_id);
 		priv->selection_changed_handler_id = 0;
@@ -1151,6 +1197,9 @@ folder_tree_finalize (GObject *object)
 		priv->select_uris_table = NULL;
 	}
 
+	g_free (priv->select_store_uid_when_added);
+	priv->select_store_uid_when_added = NULL;
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
 }
@@ -1184,6 +1233,12 @@ folder_tree_constructed (GObject *object)
 		model, "loaded-row",
 		G_CALLBACK (folder_tree_maybe_expand_row), object);
 	priv->loaded_row_id = handler_id;
+
+	/* Cannot attach to "row-inserted", because the row is inserted empty */
+	handler_id = g_signal_connect (
+		model, "row-changed",
+		G_CALLBACK (folder_tree_row_changed_cb), object);
+	priv->row_changed_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
 		selection, "changed",
@@ -3649,4 +3704,28 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 	next:
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
+}
+
+/**
+ * em_folder_tree_select_store_when_added:
+ * @folder_tree: an #EMFolderTree
+ * @store_uid: UID of a CamelStore to remember to select
+ *
+ * Instruct @folder_tree to select a CamelStore with UID @store_uid,
+ * if/when it is added to the tree. This is necessary, because
+ * the addition is done asynchronously.
+ *
+ * Since: 3.12
+ **/
+void
+em_folder_tree_select_store_when_added (EMFolderTree *folder_tree,
+					const gchar *store_uid)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	if (g_strcmp0 (store_uid, folder_tree->priv->select_store_uid_when_added) == 0)
+		return;
+
+	g_free (folder_tree->priv->select_store_uid_when_added);
+	folder_tree->priv->select_store_uid_when_added = g_strdup (store_uid);
 }

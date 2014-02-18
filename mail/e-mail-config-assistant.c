@@ -22,6 +22,11 @@
 
 #include <libebackend/libebackend.h>
 
+#include <shell/e-shell.h>
+#include <shell/e-shell-window.h>
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-sidebar.h>
+
 #include <mail/e-mail-config-confirm-page.h>
 #include <mail/e-mail-config-identity-page.h>
 #include <mail/e-mail-config-lookup-page.h>
@@ -30,6 +35,8 @@
 #include <mail/e-mail-config-sending-page.h>
 #include <mail/e-mail-config-summary-page.h>
 #include <mail/e-mail-config-welcome-page.h>
+
+#include "em-folder-tree.h"
 
 #define E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -365,6 +372,40 @@ mail_config_assistant_provider_page_visible (GBinding *binding,
 }
 
 static void
+mail_config_assistant_select_account_node (const gchar *account_uid)
+{
+	EShell *shell;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree = NULL;
+	GtkWindow *active_window;
+
+	g_return_if_fail (account_uid != NULL);
+
+	shell = e_shell_get_default ();
+	active_window = e_shell_get_active_window (shell);
+
+	if (!E_IS_SHELL_WINDOW (active_window))
+		return;
+
+	shell_window = E_SHELL_WINDOW (active_window);
+
+	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "mail") != 0)
+		return;
+
+	shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+	em_folder_tree_select_store_when_added (folder_tree, account_uid);
+
+	g_object_unref (folder_tree);
+
+}
+
+static void
 mail_config_assistant_close_cb (GObject *object,
                                 GAsyncResult *result,
                                 gpointer user_data)
@@ -396,6 +437,12 @@ mail_config_assistant_close_cb (GObject *object,
 		g_error_free (error);
 
 	} else {
+		ESource *account;
+
+		account = e_mail_config_assistant_get_account_source (assistant);
+		if (account)
+			mail_config_assistant_select_account_node (e_source_get_uid (account));
+
 		gtk_widget_destroy (GTK_WIDGET (assistant));
 	}
 }

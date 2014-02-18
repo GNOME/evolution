@@ -141,6 +141,9 @@ void		em_folder_tree_restore_state	(EMFolderTree *folder_tree,
 void		em_folder_tree_set_selectable_widget
 						(EMFolderTree *folder_tree,
 						 GtkWidget *selectable);
+void		em_folder_tree_select_store_when_added
+						(EMFolderTree *folder_tree,
+						 const gchar *store_uid);
 
 G_END_DECLS
 
