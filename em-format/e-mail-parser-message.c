@@ -26,6 +26,7 @@
 #include <libemail-engine/libemail-engine.h>
 
 #include "e-mail-parser-extension.h"
+#include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserMessage;
@@ -96,7 +97,7 @@ empe_message_parse (EMailParserExtension *extension,
 	 * bar but also set the "force_inline" flag since it doesn't make
 	 * sense to collapse the message body if we can render it. */
 	mail_part = g_queue_peek_head (&work_queue);
-	if (mail_part != NULL) {
+	if (mail_part != NULL && !E_IS_MAIL_PART_ATTACHMENT (mail_part)) {
 		if (e_mail_part_get_is_attachment (mail_part)) {
 			e_mail_parser_wrap_as_attachment (
 				parser, part, part_id, &work_queue);

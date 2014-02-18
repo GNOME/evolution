@@ -533,8 +533,10 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 	EMailParserExtension *extension;
 	EMailParserExtensionClass *class;
 
+	disposition = camel_mime_part_get_disposition (mime_part);
+
 	if ((extensions == NULL) || g_queue_is_empty (extensions))
-		return FALSE;
+		return disposition && g_ascii_strcasecmp (disposition, "inline") == 0;
 
 	extension = g_queue_peek_head (extensions);
 	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
@@ -544,7 +546,6 @@ e_mail_part_is_inline (CamelMimePart *mime_part,
 	if (class->flags & E_MAIL_PARSER_EXTENSION_INLINE_DISPOSITION)
 		return TRUE;
 
-	disposition = camel_mime_part_get_disposition (mime_part);
 	if (disposition != NULL)
 		return g_ascii_strcasecmp (disposition, "inline") == 0;
 
