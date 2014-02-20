@@ -107,6 +107,7 @@ struct _StoreInfo {
 
 	GHashTable *folder_info_ht;	/* by full_name */
 	gboolean first_update;		/* TRUE, then FALSE forever */
+	GSList *pending_folder_notes;	/* Gather note_folder calls during first_update period */
 
 	/* Hold a reference to keep them alive. */
 	CamelFolder *vjunk;
@@ -339,6 +340,8 @@ store_info_unref (StoreInfo *store_info)
 		g_clear_object (&store_info->store);
 		g_clear_object (&store_info->vjunk);
 		g_clear_object (&store_info->vtrash);
+
+		g_slist_free_full (store_info->pending_folder_notes, g_object_unref);
 
 		g_mutex_clear (&store_info->lock);
 
@@ -1662,6 +1665,7 @@ mail_folder_cache_first_update (MailFolderCache *cache,
 	CamelService *service;
 	CamelSession *session;
 	const gchar *uid;
+	GSList *folders, *iter;
 
 	service = CAMEL_SERVICE (store_info->store);
 	session = camel_service_ref_session (service);
@@ -1686,6 +1690,18 @@ mail_folder_cache_first_update (MailFolderCache *cache,
 	}
 
 	g_object_unref (session);
+
+	g_mutex_lock (&store_info->lock);
+	store_info->first_update = FALSE;
+	folders = store_info->pending_folder_notes;
+	store_info->pending_folder_notes = NULL;
+	g_mutex_unlock (&store_info->lock);
+
+	for (iter = folders; iter; iter = g_slist_next (iter)) {
+		mail_folder_cache_note_folder (cache, iter->data);
+	}
+
+	g_slist_free_full (folders, g_object_unref);
 }
 
 /* Helper for mail_folder_cache_note_store() */
@@ -1766,9 +1782,12 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 	create_folders (cache, async_context->info, store_info);
 
 	/* Do some extra work for the first update. */
+	g_mutex_lock (&store_info->lock);
 	if (store_info->first_update) {
+		g_mutex_unlock (&store_info->lock);
 		mail_folder_cache_first_update (cache, store_info);
-		store_info->first_update = FALSE;
+	} else {
+		g_mutex_unlock (&store_info->lock);
 	}
 
 exit:
@@ -1913,8 +1932,37 @@ mail_folder_cache_note_folder (MailFolderCache *cache,
 	/* XXX Not sure we should just be returning quietly here, but
 	 *     the old code did.  Using g_return_if_fail() causes a few
 	 *     warnings on startup which might be worth tracking down. */
-	if (folder_info == NULL)
-		return;
+	if (folder_info == NULL) {
+		StoreInfo *store_info;
+		gboolean retry = FALSE;
+
+		store_info = mail_folder_cache_ref_store_info (cache, parent_store);
+		if (!store_info)
+			return;
+
+		g_mutex_lock (&store_info->lock);
+		if (store_info->first_update) {
+			/* The first update did not finish yet, thus add this as a pending
+			   folder to be noted once the first update finishes */
+			store_info->pending_folder_notes = g_slist_prepend (
+				store_info->pending_folder_notes, g_object_ref (folder));
+		} else {
+			/* It can be that certain threading interleaving made
+			   the first store update finished before we reached
+			   this place, thus retry to get the folder info */
+			retry = TRUE;
+		}
+		g_mutex_unlock (&store_info->lock);
+
+		store_info_unref (store_info);
+
+		if (retry)
+			folder_info = mail_folder_cache_ref_folder_info (
+				cache, parent_store, full_name);
+
+		if (!folder_info)
+			return;
+	}
 
 	g_mutex_lock (&folder_info->lock);
 
