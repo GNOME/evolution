@@ -101,6 +101,7 @@ EMFolderTreeModel *
 		em_folder_tree_model_new	(void);
 EMFolderTreeModel *
 		em_folder_tree_model_get_default (void);
+void		em_folder_tree_model_free_default (void);
 GtkTreeSelection *
 		em_folder_tree_model_get_selection
 					(EMFolderTreeModel *model);

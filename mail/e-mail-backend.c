@@ -923,6 +923,8 @@ mail_backend_dispose (GObject *object)
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
 	if (priv->session != NULL) {
+		em_folder_tree_model_free_default ();
+
 		g_signal_handlers_disconnect_matched (
 			priv->session, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);

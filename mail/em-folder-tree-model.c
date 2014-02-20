@@ -844,15 +844,37 @@ em_folder_tree_model_new (void)
 	return g_object_new (EM_TYPE_FOLDER_TREE_MODEL, NULL);
 }
 
+static EMFolderTreeModel *
+em_folder_tree_manage_default (gboolean do_create)
+{
+	static EMFolderTreeModel *default_folder_tree_model = NULL;
+
+	if (do_create && G_UNLIKELY (default_folder_tree_model == NULL)) {
+		default_folder_tree_model = em_folder_tree_model_new ();
+	} else if (!do_create && G_UNLIKELY (default_folder_tree_model != NULL)) {
+		/* This is necessary, due to circular dependency between stored GtkTreeRwoReference
+		   and the model itself. */
+		g_mutex_lock (&default_folder_tree_model->priv->store_index_lock);
+		g_hash_table_remove_all (default_folder_tree_model->priv->store_index);
+		g_mutex_unlock (&default_folder_tree_model->priv->store_index_lock);
+
+		g_object_unref (default_folder_tree_model);
+		default_folder_tree_model = NULL;
+	}
+
+	return default_folder_tree_model;
+}
+
 EMFolderTreeModel *
 em_folder_tree_model_get_default (void)
 {
-	static EMFolderTreeModel *default_folder_tree_model;
+	return em_folder_tree_manage_default (TRUE);
+}
 
-	if (G_UNLIKELY (default_folder_tree_model == NULL))
-		default_folder_tree_model = em_folder_tree_model_new ();
-
-	return default_folder_tree_model;
+void
+em_folder_tree_model_free_default (void)
+{
+	em_folder_tree_manage_default (FALSE);
 }
 
 GtkTreeSelection *
