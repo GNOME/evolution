@@ -194,6 +194,7 @@ e_mail_parser_finalize (GObject *object)
 
 	priv = E_MAIL_PARSER_GET_PRIVATE (object);
 
+	g_clear_object (&priv->session);
 	g_mutex_clear (&priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
