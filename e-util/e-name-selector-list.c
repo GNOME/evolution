@@ -674,11 +674,31 @@ name_selector_list_realize (GtkWidget *widget)
 }
 
 static void
+name_selector_list_dispose (GObject *object)
+{
+	ENameSelectorList *list;
+
+	list = E_NAME_SELECTOR_LIST (object);
+
+	if (list->priv->popup) {
+		gtk_widget_destroy (GTK_WIDGET (list->priv->popup));
+		list->priv->popup = NULL;
+	}
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_name_selector_list_parent_class)->dispose (object);
+}
+
+static void
 e_name_selector_list_class_init (ENameSelectorListClass *class)
 {
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (ENameSelectorListPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = name_selector_list_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = name_selector_list_realize;

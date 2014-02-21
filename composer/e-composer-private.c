@@ -236,14 +236,14 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	widget = e_activity_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->activity_bar = g_object_ref (widget);
+	priv->activity_bar = g_object_ref_sink (widget);
 	/* EActivityBar controls its own visibility. */
 
 	/* Construct the alert bar for errors. */
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->alert_bar = g_object_ref (widget);
+	priv->alert_bar = g_object_ref_sink (widget);
 	/* EAlertBar controls its own visibility. */
 
 	/* Construct the header table. */
@@ -252,7 +252,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
-	priv->header_table = g_object_ref (widget);
+	priv->header_table = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect (
@@ -263,7 +263,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	widget = e_attachment_paned_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->attachment_paned = g_object_ref (widget);
+	priv->attachment_paned = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
@@ -288,7 +288,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (widget, -1, GALLERY_INITIAL_HEIGHT);
 	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
-	priv->gallery_scrolled_window = g_object_ref (widget);
+	priv->gallery_scrolled_window = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	/* Reparent the scrolled window containing the GtkHTML widget
@@ -307,7 +307,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		settings, "composer-gallery-path");
 	widget = e_picture_gallery_new (gallery_path);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->gallery_icon_view = g_object_ref (widget);
+	priv->gallery_icon_view = g_object_ref_sink (widget);
 	g_free (gallery_path);
 
 	g_signal_connect (
@@ -434,10 +434,8 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->composer_actions = NULL;
 	}
 
-	if (composer->priv->gallery_scrolled_window != NULL) {
-		g_object_unref (composer->priv->gallery_scrolled_window);
-		composer->priv->gallery_scrolled_window = NULL;
-	}
+	g_clear_object (&composer->priv->gallery_icon_view);
+	g_clear_object (&composer->priv->gallery_scrolled_window);
 
 	g_hash_table_remove_all (composer->priv->inline_images);
 	g_hash_table_remove_all (composer->priv->inline_images_by_url);
