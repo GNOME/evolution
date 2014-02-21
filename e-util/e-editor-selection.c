@@ -3540,6 +3540,11 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 			/* Look if we have DIV on right */
 			next_sibling = webkit_dom_node_get_next_sibling (
 				WEBKIT_DOM_NODE (element));
+			if (!WEBKIT_DOM_IS_ELEMENT (next_sibling)) {
+				e_editor_selection_clear_caret_position_marker (selection);
+				return;
+			}
+
 			if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-paragraph")) {
 				webkit_dom_node_remove_child (
 					webkit_dom_node_get_parent_node (
