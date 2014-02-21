@@ -473,6 +473,60 @@ change_cid_images_src_to_base64 (EEditorWidget *widget)
 	g_hash_table_remove_all (widget->priv->inline_images);
 }
 
+/* For purpose of this function see e-mail-formatter-quote.c */
+static void
+put_body_in_citation (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *cite_body = webkit_dom_document_query_selector (
+		document, "span.-x-evo-cite-body", NULL);
+
+	if (cite_body) {
+		WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
+		gchar *inner_html, *with_citation;
+
+		webkit_dom_node_remove_child (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (cite_body),
+			NULL);
+
+		inner_html = webkit_dom_html_element_get_inner_html (body);
+		with_citation = g_strconcat (
+			"<blockquote type=\"cite\">", inner_html, "</span>", NULL);
+		webkit_dom_html_element_set_inner_html (body, with_citation, NULL);
+		g_free (inner_html);
+		g_free (with_citation);
+	}
+}
+
+/* For purpose of this function see e-mail-formatter-quote.c */
+static void
+move_elements_to_body (WebKitDOMDocument *document)
+{
+	WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
+	WebKitDOMNodeList *list;
+	gint ii;
+
+	list = webkit_dom_document_query_selector_all (
+		document, "span.-x-evo-to-body", NULL);
+	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		while (webkit_dom_node_has_child_nodes (node)) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				webkit_dom_node_get_first_child (node),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body)),
+				NULL);
+		}
+
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (node),
+			NULL);
+	}
+}
+
 static void
 editor_widget_load_status_changed (EEditorWidget *widget)
 {
@@ -484,7 +538,10 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 		return;
 
 	widget->priv->reload_in_progress = FALSE;
+
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	put_body_in_citation (document);
+	move_elements_to_body (document);
 
 	/* Register on input event that is called when the content (body) is modified */
 	webkit_dom_event_target_add_event_listener (

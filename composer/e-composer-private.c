@@ -886,6 +886,8 @@ composer_move_caret (EMsgComposer *composer)
 			WEBKIT_DOM_ELEMENT (element), "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
+		if (top_signature)
+			element_add_class (element, "-x-evo-top-signature");
 	}
 
 	if (start_bottom) {
@@ -959,7 +961,8 @@ composer_move_caret (EMsgComposer *composer)
 			}
 		}
 
-		webkit_dom_range_select_node_contents (new_range,
+		webkit_dom_range_select_node_contents (
+			new_range,
 			WEBKIT_DOM_NODE (
 				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
 			NULL);
@@ -1140,11 +1143,15 @@ insert:
 				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
 
 			if (top_signature) {
+				WebKitDOMNode *signature_inserted;
 				WebKitDOMNode *child =
 					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+				WebKitDOMElement *br =
+					webkit_dom_document_create_element (
+						document, "br", NULL);
 
 				if (start_bottom) {
-					webkit_dom_node_insert_before (
+					signature_inserted = webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
 						child,
@@ -1155,7 +1162,7 @@ insert:
 							document, "-x-evo-input-start");
 					/* When we are using signature on top the caret
 					 * should be before the signature */
-					webkit_dom_node_insert_before (
+					signature_inserted = webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
 						input_start ?
@@ -1164,6 +1171,12 @@ insert:
 							child,
 						NULL);
 				}
+
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (br),
+					webkit_dom_node_get_next_sibling (signature_inserted),
+					NULL);
 			} else {
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (body),
@@ -1196,7 +1209,9 @@ composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 		return;
 
 	g_signal_handlers_disconnect_by_func (
-		webkit_web_view, G_CALLBACK (composer_web_view_load_status_changed_cb), NULL);
+		webkit_web_view,
+		G_CALLBACK (composer_web_view_load_status_changed_cb),
+		NULL);
 
 	e_composer_update_signature (composer);
 }
@@ -1227,10 +1242,12 @@ e_composer_update_signature (EMsgComposer *composer)
 		/* Disconnect previous handlers */
 		g_signal_handlers_disconnect_by_func (
 			WEBKIT_WEB_VIEW (editor_widget),
-			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
+			G_CALLBACK (composer_web_view_load_status_changed_cb),
+			composer);
 		g_signal_connect (
 			WEBKIT_WEB_VIEW(editor_widget), "notify::load-status",
-			G_CALLBACK (composer_web_view_load_status_changed_cb), composer);
+			G_CALLBACK (composer_web_view_load_status_changed_cb),
+			composer);
 		return;
 	}
 
