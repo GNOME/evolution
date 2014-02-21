@@ -51,12 +51,6 @@ void mail_sync_store (CamelStore *store, gint expunge,
 
 void		mail_empty_trash		(CamelStore *store);
 
-/* transfer (copy/move) a folder */
-void mail_xfer_folder (const gchar *src_uri, const gchar *dest_uri, gboolean remove_source,
-		       void (*done) (gchar *src_uri, gchar *dest_uri, gboolean remove_source,
-				     CamelFolder *folder, gpointer data),
-		       gpointer data);
-
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void		mail_send_queue			(EMailSession *session,
 						 CamelFolder *queue,
