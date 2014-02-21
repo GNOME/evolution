@@ -1427,9 +1427,9 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
 	 * and BR elements and append new paragraph with caret inside it after
 	 * the paragraph that includes the previously inserted list. */
 	prev_sibling = webkit_dom_node_get_previous_sibling (node);
-	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (prev_sibling) ||
+	if (!(WEBKIT_DOM_IS_HTMLLI_ELEMENT (prev_sibling) ||
 	    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (prev_sibling) ||
-	    WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (prev_sibling))
+	    WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (prev_sibling)))
 		return;
 
 	if (!(WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node) &&
