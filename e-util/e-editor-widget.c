@@ -2196,64 +2196,69 @@ quote_node (WebKitDOMDocument *document,
 	    WebKitDOMNode *node,
 	    gint quote_level)
 {
+	gboolean skip_first = FALSE;
+	gboolean insert_newline = FALSE;
+	gboolean is_html_node = FALSE;
+	WebKitDOMElement *wrapper;
+	WebKitDOMNode *node_clone, *prev_sibling, *next_sibling;
+
 	/* Don't quote when we are not in citation */
 	if (quote_level == 0)
 		return;
 
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		WebKitDOMElement *wrapper;
-		WebKitDOMNode *node_clone;
-		WebKitDOMNode *prev_sibling;
-		WebKitDOMNode *next_sibling;
-		gboolean skip_first = FALSE;
-		gboolean insert_newline = FALSE;
-		gboolean is_html_node = FALSE;
+	if (WEBKIT_DOM_IS_COMMENT (node))
+		return;
 
-		prev_sibling = webkit_dom_node_get_previous_sibling (node);
-		next_sibling = webkit_dom_node_get_next_sibling (node);
-
-		is_html_node =
-			WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling) ||
-			element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "b") ||
-			element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "i") ||
-			element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "u");
-
-		if (prev_sibling && is_html_node)
-			skip_first = TRUE;
-
-		/* Skip the BR between first blockquote and pre */
-		if (quote_level == 1 && next_sibling && WEBKIT_DOM_IS_HTML_PRE_ELEMENT (next_sibling))
-			return;
-
-		if (next_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) &&
-		    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (webkit_dom_node_get_next_sibling (next_sibling))) {
-			insert_newline = TRUE;
-		}
-
-		/* Do temporary wrapper */
-		wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
-		webkit_dom_element_set_class_name (wrapper, "-x-evo-temp-text-wrapper");
-
-		node_clone = webkit_dom_node_clone_node (node, TRUE);
-
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (wrapper),
-			node_clone,
-			NULL);
-
+	if (WEBKIT_DOM_IS_HTML_ELEMENT (node)) {
 		insert_quote_symbols (
-			WEBKIT_DOM_HTML_ELEMENT (wrapper),
-			quote_level,
-			skip_first,
-			insert_newline);
+			WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE, FALSE);
+		return;
+	}
 
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (wrapper),
-			node,
-			NULL);
-	} else if (WEBKIT_DOM_IS_HTML_ELEMENT (node))
-		insert_quote_symbols (WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE, FALSE);
+	prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	next_sibling = webkit_dom_node_get_next_sibling (node);
+
+	is_html_node =
+		!WEBKIT_DOM_IS_COMMENT (prev_sibling) && (
+		WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling) ||
+		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "b") ||
+		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "i") ||
+		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "u"));
+
+	if (prev_sibling && is_html_node)
+		skip_first = TRUE;
+
+	/* Skip the BR between first blockquote and pre */
+	if (quote_level == 1 && next_sibling && WEBKIT_DOM_IS_HTML_PRE_ELEMENT (next_sibling))
+		return;
+
+	if (next_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) &&
+	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (webkit_dom_node_get_next_sibling (next_sibling))) {
+		insert_newline = TRUE;
+	}
+
+	/* Do temporary wrapper */
+	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_element_set_class_name (wrapper, "-x-evo-temp-text-wrapper");
+
+	node_clone = webkit_dom_node_clone_node (node, TRUE);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (wrapper),
+		node_clone,
+		NULL);
+
+	insert_quote_symbols (
+		WEBKIT_DOM_HTML_ELEMENT (wrapper),
+		quote_level,
+		skip_first,
+		insert_newline);
+
+	webkit_dom_node_replace_child (
+		webkit_dom_node_get_parent_node (node),
+		WEBKIT_DOM_NODE (wrapper),
+		node,
+		NULL);
 }
 
 static void
@@ -2314,23 +2319,29 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 	gboolean skip_node = FALSE;
 	gboolean move_next = FALSE;
 	gboolean suppress_next = FALSE;
+	gboolean is_html_node = FALSE;
+	WebKitDOMNode *next_sibling, *prev_sibling;
 
 	node = webkit_dom_node_get_first_child (node);
 
 	while (node) {
 		skip_node = FALSE;
 		move_next = FALSE;
+		is_html_node = FALSE;
+
+		if (WEBKIT_DOM_IS_COMMENT (node))
+			goto next_node;
+
+		prev_sibling = webkit_dom_node_get_previous_sibling (node);
+		next_sibling = webkit_dom_node_get_next_sibling (node);
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
 			/* Start quoting after we are in blockquote */
 			if (quote_level > 0 && !suppress_next) {
-				WebKitDOMNode *next_sibling;
-
 				/* When quoting text node, we are wrappering it and
 				 * afterwards replacing it with that wrapper, thus asking
 				 * for next_sibling after quoting will return NULL bacause
 				 * that node don't exist anymore */
-				next_sibling = webkit_dom_node_get_next_sibling (node);
 				quote_node (document, node, quote_level);
 				node = next_sibling;
 				skip_node = TRUE;
@@ -2340,146 +2351,179 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			goto next_node;
 		}
 
+		if (!(WEBKIT_DOM_IS_ELEMENT (node) || WEBKIT_DOM_IS_HTML_ELEMENT (node)))
+			goto next_node;
+
 		if (element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-position")) {
 			if (quote_level > 0)
-				element_add_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-quoting");
+				element_add_class (
+					WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-quoting");
 
 			move_next = TRUE;
 			suppress_next = TRUE;
-
 			goto next_node;
 		}
 
-		if (WEBKIT_DOM_IS_ELEMENT (node) || WEBKIT_DOM_IS_HTML_ELEMENT (node)) {
-			if (webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (node)) == 0) {
-				/* Even in plain text mode we can have some basic html element
-				 * like anchor and others. When Forwaring e-mail as Quoted EMFormat
-				 * generates header that contatains <b> tags (bold font).
-				 * We have to treat these elements separately to avoid
-				 * modifications of theirs inner texts */
-				gboolean is_html_node =
-					WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
-					element_has_tag (WEBKIT_DOM_ELEMENT (node), "b") ||
-					element_has_tag (WEBKIT_DOM_ELEMENT (node), "i") ||
-					element_has_tag (WEBKIT_DOM_ELEMENT (node), "u");
+		if (WEBKIT_DOM_IS_HTML_META_ELEMENT (node)) {
+			goto next_node;
+		}
+		if (WEBKIT_DOM_IS_HTML_STYLE_ELEMENT (node)) {
+			move_next = TRUE;
+			goto next_node;
+		}
+		if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
+			move_next = TRUE;
+			goto next_node;
+		}
 
-				if (is_html_node) {
-					WebKitDOMNode *prev_sibling;
+		if (webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (node)) != 0)
+			goto with_children;
 
-					prev_sibling = webkit_dom_node_get_previous_sibling (node);
-					if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
-						insert_quote_symbols_before_node (
-							document, prev_sibling, quote_level, TRUE);
-					}
-					move_next = TRUE;
+		/* Even in plain text mode we can have some basic html element
+		 * like anchor and others. When Forwaring e-mail as Quoted EMFormat
+		 * generates header that contatains <b> tags (bold font).
+		 * We have to treat these elements separately to avoid
+		 * modifications of theirs inner texts */
+		is_html_node =
+			WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
+			element_has_tag (WEBKIT_DOM_ELEMENT (node), "b") ||
+			element_has_tag (WEBKIT_DOM_ELEMENT (node), "i") ||
+			element_has_tag (WEBKIT_DOM_ELEMENT (node), "u");
 
-					goto next_node;
-				}
+		if (is_html_node) {
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling))
+				insert_quote_symbols_before_node (
+					document, prev_sibling, quote_level, TRUE);
 
-				/* If element doesn't have children, we can quote it */
-				if (is_citation_node (node)) {
-					/* Citation with just text inside */
-					quote_node (document, node, quote_level + 1);
-					/* Set citation as quoted */
-					element_add_class (
-						WEBKIT_DOM_ELEMENT (node),
-						"-x-evo-plaintext-quoted");
-				} else {
-					if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
-						WebKitDOMNode *prev_sibling;
-						WebKitDOMNode *next_sibling;
+			move_next = TRUE;
+			goto next_node;
+		}
 
-						prev_sibling = webkit_dom_node_get_previous_sibling (node);
-						next_sibling = webkit_dom_node_get_next_sibling (node);
+		/* If element doesn't have children, we can quote it */
+		if (is_citation_node (node)) {
+			/* Citation with just text inside */
+			quote_node (document, node, quote_level + 1);
+			/* Set citation as quoted */
+			element_add_class (
+				WEBKIT_DOM_ELEMENT (node),
+				"-x-evo-plaintext-quoted");
 
-						/* Situation when anchors are alone on line */
-						if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-						    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper") &&
-						    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (next_sibling)) {
-							gchar *text_content;
+			move_next = TRUE;
+			goto next_node;
+		}
 
-							text_content = webkit_dom_node_get_text_content (prev_sibling);
+		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
+			goto not_br;
 
-							if (g_str_has_suffix (text_content, "\n")) {
-								insert_quote_symbols_before_node (
-									document, node, quote_level, FALSE);
-								webkit_dom_node_remove_child (
-									webkit_dom_node_get_parent_node (node),
-									node,
-									NULL);
-								g_free (text_content);
-								node = next_sibling;
-								skip_node = TRUE;
-								goto next_node;
-							}
-							g_free (text_content);
-						}
+		if (!prev_sibling) {
+			WebKitDOMNode *parent;
 
-						if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
-							gchar *indent;
-							gchar *content;
+			parent = webkit_dom_node_get_parent_node (node);
 
-							indent = g_strnfill (quote_level, '>');
+			/* BR in the beginning of the citation */
+			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent))
+				insert_quote_symbols_before_node (
+					document, node, quote_level, FALSE);
+		}
 
-							content = g_strconcat (
-								"<span class=\"-x-evo-quoted\">",
-								indent,
-								" </span><br class=\"-x-evo-temp-br\">",
-								NULL);
+		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+		    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (next_sibling) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
+			/* Situation when anchors are alone on line */
+			gchar *text_content;
 
-							webkit_dom_html_element_set_outer_html (
-								WEBKIT_DOM_HTML_ELEMENT (node),
-								content,
-								NULL);
+			text_content = webkit_dom_node_get_text_content (prev_sibling);
 
-							g_free (content);
-							g_free (indent);
-
-							node = next_sibling;
-							skip_node = TRUE;
-							goto next_node;
-						}
-
-						if (is_citation_node (prev_sibling)) {
-							insert_quote_symbols_before_node (
-								document, node, quote_level, FALSE);
-						}
-
-						if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-						    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
-							gchar *text_content;
-
-							text_content = webkit_dom_node_get_text_content (prev_sibling);
-							if (g_strcmp0 (text_content, "") == 0)
-								insert_quote_symbols_before_node (
-									document, node, quote_level, FALSE);
-
-							g_free (text_content);
-
-						}
-					}
-					quote_node (document, node, quote_level);
-				}
-
-				move_next = TRUE;
-			} else {
-				if (is_citation_node (node)) {
-					/* Go deeper and increase level */
-					quote_plain_text_recursive (
-						document, node,
-						start_node, quote_level + 1);
-					/* set citation as quoted */
-					element_add_class (
-						WEBKIT_DOM_ELEMENT (node),
-						"-x-evo-plaintext-quoted");
-					move_next = TRUE;
-				} else {
-					quote_plain_text_recursive (
-						document, node,
-						start_node, quote_level);
-					move_next = TRUE;
-				}
+			if (g_str_has_suffix (text_content, "\n")) {
+				insert_quote_symbols_before_node (
+					document, node, quote_level, FALSE);
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (node),
+					node,
+					NULL);
+				g_free (text_content);
+				node = next_sibling;
+				skip_node = TRUE;
+				goto next_node;
 			}
+			g_free (text_content);
+		}
+
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
+			gchar *indent;
+			gchar *content;
+
+			indent = g_strnfill (quote_level, '>');
+
+			content = g_strconcat (
+				"<span class=\"-x-evo-quoted\">",
+				indent,
+				" </span><br class=\"-x-evo-temp-br\">",
+				NULL);
+
+			webkit_dom_html_element_set_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (node),
+				content,
+				NULL);
+
+			g_free (content);
+			g_free (indent);
+
+			node = next_sibling;
+			skip_node = TRUE;
+			goto next_node;
+		}
+
+		if (!prev_sibling && !next_sibling) {
+			WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+
+			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) {
+				insert_quote_symbols_before_node (
+					document, node, quote_level, FALSE);
+			}
+		}
+
+		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
+			gchar *text_content;
+
+			text_content = webkit_dom_node_get_text_content (prev_sibling);
+			if (g_strcmp0 (text_content, "") == 0)
+				insert_quote_symbols_before_node (
+					document, node, quote_level, FALSE);
+
+			g_free (text_content);
+		}
+
+		if (is_citation_node (prev_sibling)) {
+			insert_quote_symbols_before_node (
+				document, node, quote_level, FALSE);
+		}
+ not_br:
+		if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0) {
+			move_next = TRUE;
+			goto next_node;
+		}
+
+		quote_node (document, node, quote_level);
+
+		move_next = TRUE;
+		goto next_node;
+
+ with_children:
+		if (is_citation_node (node)) {
+			/* Go deeper and increase level */
+			quote_plain_text_recursive (
+				document, node, start_node, quote_level + 1);
+			/* set citation as quoted */
+			element_add_class (
+				WEBKIT_DOM_ELEMENT (node),
+				"-x-evo-plaintext-quoted");
+			move_next = TRUE;
+		} else {
+			quote_plain_text_recursive (
+				document, node, start_node, quote_level);
+			move_next = TRUE;
 		}
  next_node:
 		if (!skip_node) {
@@ -2526,7 +2570,7 @@ e_editor_widget_quote_plain_text (EEditorWidget *widget)
 
 	/* Clean unwanted spaces before and after blockquotes */
 	list = webkit_dom_element_query_selector_all (
-			WEBKIT_DOM_ELEMENT (body_clone), "blockquote[type|=cite]", NULL);
+		WEBKIT_DOM_ELEMENT (body_clone), "blockquote[type|=cite]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *blockquote = webkit_dom_node_list_item (list, ii);
