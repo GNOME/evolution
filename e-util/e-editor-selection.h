@@ -69,6 +69,10 @@ GType		e_editor_selection_get_type	(void) G_GNUC_CONST;
 struct _EEditorWidget *
 		e_editor_selection_ref_editor_widget
 						(EEditorSelection *selection);
+void		e_editor_selection_block_selection_changed
+						(EEditorSelection *selection);
+void		e_editor_selection_unblock_selection_changed
+						(EEditorSelection *selection);
 gint		e_editor_selection_get_word_wrap_length
 						(EEditorSelection *selection);
 gboolean	e_editor_selection_has_text	(EEditorSelection *selection);

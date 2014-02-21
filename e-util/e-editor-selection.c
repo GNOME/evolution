@@ -254,6 +254,28 @@ editor_selection_selection_changed_cb (WebKitWebView *webview,
 	g_object_thaw_notify (G_OBJECT (selection));
 }
 
+void
+e_editor_selection_block_selection_changed (EEditorSelection *selection)
+{
+	EEditorWidget *widget;
+
+	widget = e_editor_selection_ref_editor_widget (selection);
+	g_signal_handlers_block_by_func (
+		widget, editor_selection_selection_changed_cb, selection);
+	g_object_unref (widget);
+}
+
+void
+e_editor_selection_unblock_selection_changed (EEditorSelection *selection)
+{
+	EEditorWidget *widget;
+
+	widget = e_editor_selection_ref_editor_widget (selection);
+	g_signal_handlers_unblock_by_func (
+		widget, editor_selection_selection_changed_cb, selection);
+	g_object_unref (widget);
+}
+
 static void
 editor_selection_set_editor_widget (EEditorSelection *selection,
                                     EEditorWidget *editor_widget)
