@@ -383,43 +383,92 @@ change_images_http_src_to_evo_http (EEditorWidget *widget,
 }
 
 static void
+set_base64_to_element_attribute (EEditorWidget *widget,
+                                 WebKitDOMElement *element,
+                                 const gchar *attribute)
+{
+	gchar *attribute_value;
+	const gchar *base64_src;
+
+	attribute_value = webkit_dom_element_get_attribute (element, attribute);
+
+	if ((base64_src = g_hash_table_lookup (widget->priv->inline_images, attribute_value)) != NULL) {
+		const gchar *base64_data = strstr (base64_src, ";") + 1;
+		gchar *name;
+		glong name_length;
+
+		name_length =
+			g_utf8_strlen (base64_src, -1) -
+			g_utf8_strlen (base64_data, -1) - 1;
+		name = g_strndup (base64_src, name_length);
+
+		webkit_dom_element_set_attribute (element, "data-inline", "", NULL);
+		webkit_dom_element_set_attribute (element, "data-name", name, NULL);
+		webkit_dom_element_set_attribute (element, attribute, base64_data, NULL);
+
+		g_free (name);
+	}
+}
+
+static void
 change_cid_images_src_to_base64 (EEditorWidget *widget)
 {
 	gint ii, length;
 	WebKitDOMDocument *document;
+	WebKitDOMElement *document_element;
+	WebKitDOMNamedNodeMap *attributes;
 	WebKitDOMNodeList *list;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	document_element = webkit_dom_document_get_document_element (document);
 
 	list = webkit_dom_document_query_selector_all (document, "img[src^=\"cid:\"]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *cid_src;
-		const gchar *base64_src;
 
-		cid_src = webkit_dom_html_image_element_get_src (
-			WEBKIT_DOM_HTML_IMAGE_ELEMENT (node));
+		set_base64_to_element_attribute (widget, WEBKIT_DOM_ELEMENT (node), "src");
+	}
 
-		if ((base64_src = g_hash_table_lookup (widget->priv->inline_images, cid_src)) != NULL) {
-			const gchar *base64_data = strstr (base64_src, ";") + 1;
-			gchar *name;
-			glong name_length;
+	/* Namespaces */
+	attributes = webkit_dom_element_get_attributes (document_element);
+	length = webkit_dom_named_node_map_get_length (attributes);
+	for (ii = 0; ii < length; ii++) {
+		gchar *name;
+		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
 
-			name_length =
-				g_utf8_strlen (base64_src, -1) -
-				g_utf8_strlen (base64_data, -1) - 1;
-			name = g_strndup (base64_src, name_length);
+		name = webkit_dom_node_get_local_name (node);
 
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "data-inline", "", NULL);
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "data-name", name, NULL);
-			webkit_dom_html_image_element_set_src (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (node),
-				base64_data);
-			g_free (name);
+		if (g_str_has_prefix (name, "xmlns:")) {
+			const gchar *ns = name + 6;
+			gchar *attribute_ns = g_strconcat (ns, ":src", NULL);
+			gchar *selector = g_strconcat ("img[", ns, "\\:src^=\"cid:\"]", NULL);
+			gint ns_length, jj;
+
+			list = webkit_dom_document_query_selector_all (
+				document, selector, NULL);
+			ns_length = webkit_dom_node_list_get_length (list);
+			for (jj = 0; jj < ns_length; jj++) {
+				WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
+
+				set_base64_to_element_attribute (
+					widget, WEBKIT_DOM_ELEMENT (node), attribute_ns);
+			}
+
+			g_free (attribute_ns);
+			g_free (selector);
 		}
+		g_free (name);
+	}
+
+	list = webkit_dom_document_query_selector_all (
+		document, "[background^=\"cid:\"]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		set_base64_to_element_attribute (
+			widget, WEBKIT_DOM_ELEMENT (node), "background");
 	}
 	g_hash_table_remove_all (widget->priv->inline_images);
 }
@@ -2652,6 +2701,9 @@ remove_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "x-evo-smiley");
 	webkit_dom_element_remove_attribute (element, "data-name");
 	webkit_dom_element_remove_attribute (element, "data-inline");
+	webkit_dom_element_remove_attribute (element, "bgcolor");
+	webkit_dom_element_remove_attribute (element, "background");
+	webkit_dom_element_remove_attribute (element, "style");
 }
 
 static void
@@ -2848,6 +2900,41 @@ process_elements (WebKitDOMNode *node,
 		g_free (content);
 	}
 
+}
+
+static void
+toggle_images (EEditorWidget *widget)
+{
+	gboolean html_mode;
+	gint length;
+	gint ii;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *images;
+
+	html_mode = e_editor_widget_get_html_mode (widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	images = webkit_dom_document_query_selector_all (document, "img", NULL);
+
+	length = webkit_dom_node_list_get_length (images);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *img = webkit_dom_node_list_item (images, ii);
+
+		if (html_mode) {
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (img), "style");
+			webkit_dom_html_element_set_hidden (
+				WEBKIT_DOM_HTML_ELEMENT (img), FALSE);
+		} else {
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (img),
+				"style",
+				"display: none",
+				NULL);
+			webkit_dom_html_element_set_hidden (
+				WEBKIT_DOM_HTML_ELEMENT (img), TRUE);
+		}
+	}
 }
 
 static void
@@ -3069,12 +3156,13 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 	blockquote = webkit_dom_document_query_selector (document, "blockquote[type|=cite]", NULL);
 
 	if (widget->priv->html_mode) {
-		/* FIXME WEBKIT: Process smileys! */
 		if (blockquote)
 			e_editor_widget_dequote_plain_text (widget);
 
 		toggle_paragraphs_style (widget);
 		toggle_smileys (widget);
+		toggle_images (widget);
+
 	} else {
 		gchar *plain;
 
@@ -3779,7 +3867,8 @@ e_editor_widget_check_magic_links (EEditorWidget *widget,
 
 static CamelMimePart *
 e_editor_widget_add_inline_image_from_element (EEditorWidget *widget,
-                                               WebKitDOMElement *element)
+                                               WebKitDOMElement *element,
+                                               const gchar *attribute)
 {
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
@@ -3791,11 +3880,12 @@ e_editor_widget_add_inline_image_from_element (EEditorWidget *widget,
 	const gchar *base64_encoded_data;
 	guchar *base64_decoded_data;
 
-	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element))
+	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
 		return NULL;
+	}
 
-	element_src = webkit_dom_html_image_element_get_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+	element_src = webkit_dom_element_get_attribute (
+		WEBKIT_DOM_ELEMENT (element), attribute);
 
 	base64_encoded_data = strstr (element_src, ";base64,");
 	if (!base64_encoded_data)
@@ -3820,7 +3910,7 @@ e_editor_widget_add_inline_image_from_element (EEditorWidget *widget,
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream_sync (
 		wrapper, stream, NULL, NULL);
-	g_object_unref (CAMEL_OBJECT (stream));
+	g_object_unref (stream);
 
 	camel_data_wrapper_set_mime_type (wrapper, mime_type);
 
@@ -3861,16 +3951,13 @@ e_editor_widget_get_parts_for_inline_images (EEditorWidget *widget)
 	added = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	for (ii = 0; ii < length; ii++) {
 		CamelMimePart *part;
-		WebKitDOMNode *node;
-		gchar *src;
-
-		node = webkit_dom_node_list_item (list, ii);
-		src = webkit_dom_html_image_element_get_src (
-			WEBKIT_DOM_HTML_IMAGE_ELEMENT (node));
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		gchar *src = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "src");
 
 		if (!g_hash_table_lookup (added, src)) {
 			part = e_editor_widget_add_inline_image_from_element (
-				widget, WEBKIT_DOM_ELEMENT (node));
+				widget, WEBKIT_DOM_ELEMENT (node), "src");
 			parts = g_list_append (parts, part);
 			g_hash_table_insert (
 				added, src, (gpointer) camel_mime_part_get_content_id (part));
@@ -3879,22 +3966,57 @@ e_editor_widget_get_parts_for_inline_images (EEditorWidget *widget)
 	}
 
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *src;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		const gchar *id;
-
-		node = webkit_dom_node_list_item (list, ii);
-		src = webkit_dom_html_image_element_get_src (
-			WEBKIT_DOM_HTML_IMAGE_ELEMENT (node));
+		gchar *src = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "src");
 
 		if ((id = g_hash_table_lookup (added, src)) != NULL) {
 			gchar *cid = g_strdup_printf ("cid:%s", id);
-			webkit_dom_html_image_element_set_src (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (node), cid);
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
 			g_free (cid);
 		}
 		g_free (src);
 	}
+
+	list = webkit_dom_document_query_selector_all (
+		document, "[data-inline][background]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		CamelMimePart *part;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		gchar *src = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "background");
+
+		if (!g_hash_table_lookup (added, src)) {
+			part = e_editor_widget_add_inline_image_from_element (
+				widget, WEBKIT_DOM_ELEMENT (node), "background");
+			if (part) {
+				parts = g_list_append (parts, part);
+				g_hash_table_insert (
+					added, src,
+					(gpointer) camel_mime_part_get_content_id (part));
+			}
+		}
+		g_free (src);
+	}
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		gchar *src = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "background");
+		const gchar *id;
+
+		if ((id = g_hash_table_lookup (added, src)) != NULL) {
+			gchar *cid = g_strdup_printf ("cid:%s", id);
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
+			g_free (cid);
+		}
+		g_free (src);
+	}
+
 	g_hash_table_destroy (added);
 
 	return parts;
