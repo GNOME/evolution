@@ -863,9 +863,6 @@ composer_move_caret (EMsgComposer *composer)
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body), "data-edit-as-new", "", NULL);
 		e_editor_selection_restore_caret_position (editor_selection);
-		if (!html_mode)
-			e_editor_widget_quote_plain_text (editor_widget);
-		e_editor_widget_force_spellcheck (editor_widget);
 
 		return;
 	}
@@ -891,9 +888,8 @@ composer_move_caret (EMsgComposer *composer)
 
 	if (!has_paragraphs_in_body) {
 		element = e_editor_selection_get_paragraph_element (
-			editor_selection, document, -1);
-		webkit_dom_element_set_id (
-			WEBKIT_DOM_ELEMENT (element), "-x-evo-input-start");
+			editor_selection, document, -1, 0);
+		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
 		if (top_signature)

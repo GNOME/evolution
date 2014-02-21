@@ -182,12 +182,14 @@ WebKitDOMElement *
 void		e_editor_selection_set_paragraph_style
 						(EEditorSelection *selection,
 						 WebKitDOMElement *element,
-						 gint width);
+						 gint width,
+						 gint offset);
 WebKitDOMElement *
 		e_editor_selection_get_paragraph_element
 						(EEditorSelection *selection,
 						 WebKitDOMDocument *document,
-						 gint width);
+						 gint width,
+						 gint offset);
 WebKitDOMElement *
 		e_editor_selection_put_node_into_paragraph
 						(EEditorSelection *selection,
@@ -195,7 +197,16 @@ WebKitDOMElement *
 						 WebKitDOMNode *node,
 						 WebKitDOMNode *caret_position);
 void		e_editor_selection_wrap_lines	(EEditorSelection *selection);
-void		e_editor_selection_wrap_paragraph
+WebKitDOMElement *
+		e_editor_selection_wrap_paragraph_length
+						(EEditorSelection *selection,
+						 WebKitDOMElement *paragraph,
+						 gint length);
+void		e_editor_selection_wrap_paragraphs_in_document
+						(EEditorSelection *selection,
+						 WebKitDOMDocument *document);
+WebKitDOMElement *
+		e_editor_selection_wrap_paragraph
 						(EEditorSelection *selection,
 						 WebKitDOMElement *paragraph);
 void		e_editor_selection_save		(EEditorSelection *selection);

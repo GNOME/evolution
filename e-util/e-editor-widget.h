@@ -123,6 +123,10 @@ WebKitDOMElement *
 void		e_editor_widget_check_magic_links
 						(EEditorWidget *widget,
 						 gboolean while_typing);
+WebKitDOMElement *
+		e_editor_widget_quote_plain_text_element
+						(EEditorWidget *widget,
+                                                 WebKitDOMElement *element);
 void		e_editor_widget_quote_plain_text
 						(EEditorWidget *widget);
 void		e_editor_widget_dequote_plain_text
