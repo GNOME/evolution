@@ -3689,27 +3689,29 @@ wrap_lines (EEditorSelection *selection,
 	gchar *text_content;
 
 	if (selection) {
-		paragraph_char_count = g_utf8_strlen (e_editor_selection_get_string (selection), -1);
+		paragraph_char_count = g_utf8_strlen (
+			e_editor_selection_get_string (selection), -1);
 
 		fragment = webkit_dom_range_clone_contents (
-				editor_selection_get_current_range (selection),
-				NULL);
+			editor_selection_get_current_range (selection), NULL);
 
 		/* Select all BR elements or just ours that are used for wrapping.
 		 * We are not removing user BR elements when this function is activated
 		 * from Format->Wrap Lines action */
 		wrap_br = webkit_dom_document_fragment_query_selector_all (
-				fragment,
-				remove_all_br ? "br" : "br.-x-evo-wrap-br",
-				NULL);
+			fragment,
+			remove_all_br ? "br" : "br.-x-evo-wrap-br",
+			NULL);
 	} else {
 		WebKitDOMElement *caret_node;
 
+		if (!webkit_dom_node_has_child_nodes (paragraph))
+			return WEBKIT_DOM_ELEMENT (paragraph);
+
 		paragraph_clone = webkit_dom_node_clone_node (paragraph, TRUE);
-		caret_node =
-			webkit_dom_element_query_selector (
-				WEBKIT_DOM_ELEMENT (paragraph_clone),
-				"span#-x-evo-caret-position", NULL);
+		caret_node = webkit_dom_element_query_selector (
+			WEBKIT_DOM_ELEMENT (paragraph_clone),
+			"span#-x-evo-caret-position", NULL);
 		text_content = webkit_dom_node_get_text_content (paragraph_clone);
 		paragraph_char_count = g_utf8_strlen (text_content, -1);
 		if (caret_node)
@@ -3717,9 +3719,9 @@ wrap_lines (EEditorSelection *selection,
 		g_free (text_content);
 
 		wrap_br = webkit_dom_element_query_selector_all (
-				WEBKIT_DOM_ELEMENT (paragraph_clone),
-				remove_all_br ? "br" : "br.-x-evo-wrap-br",
-				NULL);
+			WEBKIT_DOM_ELEMENT (paragraph_clone),
+			remove_all_br ? "br" : "br.-x-evo-wrap-br",
+			NULL);
 	}
 
 	/* And remove them */
@@ -3727,7 +3729,7 @@ wrap_lines (EEditorSelection *selection,
 	for (ii = 0; ii < br_count; ii++) {
 		WebKitDOMNode *br = webkit_dom_node_list_item (wrap_br, ii);
 		webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (br), br, NULL);
+			webkit_dom_node_get_parent_node (br), br, NULL);
 	}
 
 	if (selection)
@@ -3744,6 +3746,8 @@ wrap_lines (EEditorSelection *selection,
 	start_node = node;
 	len = 0;
 	while (node) {
+		gint offset = 0;
+
 		if (WEBKIT_DOM_IS_TEXT (node)) {
 			const gchar *newline;
 			WebKitDOMNode *next_sibling;
@@ -3771,7 +3775,7 @@ wrap_lines (EEditorSelection *selection,
 					break;
 
 				element = webkit_dom_document_create_element (
-						document, "BR", NULL);
+					document, "BR", NULL);
 				element_add_class (element, "-x-evo-temp-wrap-text-br");
 
 				webkit_dom_node_insert_before (
@@ -3787,7 +3791,8 @@ wrap_lines (EEditorSelection *selection,
 					webkit_dom_character_data_delete_data (
 						WEBKIT_DOM_CHARACTER_DATA (next_sibling), 0, 1, NULL);
 					g_free (text_content);
-					text_content = webkit_dom_node_get_text_content (next_sibling);
+					text_content =
+						webkit_dom_node_get_text_content (next_sibling);
 				}
 				newline = g_strstr_len (text_content, -1, "\n");
 			}
@@ -3801,7 +3806,7 @@ wrap_lines (EEditorSelection *selection,
 				anchor_length = g_utf8_strlen (text_content, -1);
 				if (len + anchor_length > word_wrap_length) {
 					element = webkit_dom_document_create_element (
-							document, "BR", NULL);
+						document, "BR", NULL);
 					element_add_class (element, "-x-evo-wrap-br");
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (node),
@@ -3837,77 +3842,77 @@ wrap_lines (EEditorSelection *selection,
 		/* If length of this node + what we already have is still less
 		 * then word_wrap_length characters, then just join it and continue to next
 		 * node */
-		length_left = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
+		length_left = webkit_dom_character_data_get_length (
+			WEBKIT_DOM_CHARACTER_DATA (node));
 
 		if ((length_left + len) < word_wrap_length) {
 			len += length_left;
-		} else {
-			gint offset = 0;
+			goto next_node;
+		}
 
-			/* wrap until we have something */
-			while ((length_left + len) > word_wrap_length) {
-				/* Find where we can line-break the node so that it
-				 * effectively fills the rest of current row */
-				offset = find_where_to_break_line (node, word_wrap_length - len, word_wrap_length);
+		/* wrap until we have something */
+		while ((length_left + len) > word_wrap_length) {
+			/* Find where we can line-break the node so that it
+			 * effectively fills the rest of current row */
+			offset = find_where_to_break_line (
+				node, word_wrap_length - len, word_wrap_length);
 
-				element = webkit_dom_document_create_element (document, "BR", NULL);
-				element_add_class (element, "-x-evo-wrap-br");
+			element = webkit_dom_document_create_element (document, "BR", NULL);
+			element_add_class (element, "-x-evo-wrap-br");
 
-				if (offset > 0 && offset <= word_wrap_length) {
-					if (offset != length_left) {
-						webkit_dom_text_split_text (
-							WEBKIT_DOM_TEXT (node), offset, NULL);
-					}
-					if (webkit_dom_node_get_next_sibling (node)) {
-						WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
-						nd = webkit_dom_node_get_next_sibling (node);
-						webkit_dom_node_insert_before (
-							webkit_dom_node_get_parent_node (node),
-							WEBKIT_DOM_NODE (element),
-							nd,
-							NULL);
-					} else {
-						webkit_dom_node_append_child (
-							webkit_dom_node_get_parent_node (node),
-							WEBKIT_DOM_NODE (element),
-							NULL);
-					}
-				} else if (offset > word_wrap_length) {
-					if (offset != length_left) {
-						webkit_dom_text_split_text (
-								WEBKIT_DOM_TEXT (node), offset + 1, NULL);
-					}
-					if (webkit_dom_node_get_next_sibling (node)) {
-						WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
-						nd = webkit_dom_node_get_next_sibling (node);
-						webkit_dom_node_insert_before (
-							webkit_dom_node_get_parent_node (node),
-							WEBKIT_DOM_NODE (element),
-							nd,
-							NULL);
-					} else {
-						webkit_dom_node_append_child (
-							webkit_dom_node_get_parent_node (node),
-							WEBKIT_DOM_NODE (element),
-							NULL);
-					}
-					len = 0;
-					break;
-				} else {
+			if (offset > 0 && offset <= word_wrap_length) {
+				if (offset != length_left) {
+					webkit_dom_text_split_text (
+						WEBKIT_DOM_TEXT (node), offset, NULL);
+				}
+				if (webkit_dom_node_get_next_sibling (node)) {
+					WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
+					nd = webkit_dom_node_get_next_sibling (node);
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (node),
 						WEBKIT_DOM_NODE (element),
-						node,
+						nd,
+						NULL);
+				} else {
+					webkit_dom_node_append_child (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
 						NULL);
 				}
-				length_left =
-					webkit_dom_character_data_get_length (
-						WEBKIT_DOM_CHARACTER_DATA (node));
-
+			} else if (offset > word_wrap_length) {
+				if (offset != length_left) {
+					webkit_dom_text_split_text (
+						WEBKIT_DOM_TEXT (node), offset + 1, NULL);
+				}
+				if (webkit_dom_node_get_next_sibling (node)) {
+					WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
+					nd = webkit_dom_node_get_next_sibling (node);
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						nd,
+						NULL);
+				} else {
+					webkit_dom_node_append_child (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				}
 				len = 0;
+				break;
+			} else {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (node),
+					WEBKIT_DOM_NODE (element),
+					node,
+					NULL);
 			}
-			len += length_left - offset;
+			length_left = webkit_dom_character_data_get_length (
+				WEBKIT_DOM_CHARACTER_DATA (node));
+
+			len = 0;
 		}
+		len += length_left - offset;
  next_node:
 		/* Move to next node */
 		if (webkit_dom_node_has_child_nodes (node)) {
