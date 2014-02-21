@@ -842,6 +842,8 @@ composer_move_caret (EMsgComposer *composer)
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	body = webkit_dom_document_get_body (document);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 	new_range = webkit_dom_document_create_range (document);
 
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
@@ -858,12 +860,20 @@ composer_move_caret (EMsgComposer *composer)
 
 	/* If editing message as new don't handle with caret */
 	if (composer->priv->is_from_message) {
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-edit-as-new", "", NULL);
 		e_editor_selection_restore_caret_position (editor_selection);
 		if (!html_mode)
 			e_editor_widget_quote_plain_text (editor_widget);
 		e_editor_widget_force_spellcheck (editor_widget);
 
 		return;
+	}
+
+	/* When the new message is written from the beginning - note it into body */
+	if (composer->priv->is_from_new_message) {
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
 	}
 
 	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
