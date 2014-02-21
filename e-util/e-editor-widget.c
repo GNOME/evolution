@@ -2698,12 +2698,8 @@ process_blockquote (WebKitDOMElement *blockquote)
 
 	/* First replace wrappers */
 	list = webkit_dom_element_query_selector_all (
-		blockquote,
-		"span.-x-evo-temp-text-wrapper",
-		NULL);
-
+		blockquote, "span.-x-evo-temp-text-wrapper", NULL);
 	length = webkit_dom_node_list_get_length (list);
-
 	for (jj = 0; jj < length; jj++) {
 		WebKitDOMNode *quoted_node;
 		gchar *text_content;
@@ -2720,12 +2716,8 @@ process_blockquote (WebKitDOMElement *blockquote)
 
 	/* Afterwards replace quote nodes with symbols */
 	list = webkit_dom_element_query_selector_all (
-		blockquote,
-		"span.-x-evo-quoted",
-		NULL);
-
+		blockquote, "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
-
 	for (jj = 0; jj < length; jj++) {
 		WebKitDOMNode *quoted_node;
 		gchar *text_content;
@@ -2893,7 +2885,8 @@ process_elements (WebKitDOMNode *node,
 			/* Leave blockquotes as they are */
 			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (child)) {
 				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					content = webkit_dom_html_element_get_outer_html (
+						WEBKIT_DOM_HTML_ELEMENT (child));
 					g_string_append (buffer, content);
 					g_free (content);
 					skip_node = TRUE;
@@ -2909,13 +2902,14 @@ process_elements (WebKitDOMNode *node,
 			/* Leave paragraphs as they are */
 			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
 				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					content = webkit_dom_html_element_get_outer_html (
+						WEBKIT_DOM_HTML_ELEMENT (child));
 					g_string_append (buffer, content);
 					g_free (content);
 					skip_node = TRUE;
 				}
 				if (to_html)
-					remove_attributes (WEBKIT_DOM_ELEMENT (node));
+					remove_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 
 			/* Replace smileys with their text representation */
@@ -2957,7 +2951,8 @@ process_elements (WebKitDOMNode *node,
 			/* Leave PRE elements untouched */
 			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
 				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (child));
+					content = webkit_dom_html_element_get_outer_html (
+						WEBKIT_DOM_HTML_ELEMENT (child));
 					g_string_append (buffer, content);
 					g_free (content);
 					skip_node = TRUE;
@@ -2977,7 +2972,8 @@ process_elements (WebKitDOMNode *node,
 			process_elements (child, to_html, changing_mode, to_plain_text, buffer);
 	}
 
-	if (to_plain_text && (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node) || WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (node))) {
+	if (to_plain_text && (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node) ||
+	    WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (node))) {
 		gboolean add_br = TRUE;
 		WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
 
