@@ -1209,6 +1209,21 @@ get_indentation_level (WebKitDOMElement *element)
 	return level;
 }
 
+static WebKitDOMNode *
+get_block_node (WebKitDOMRange *range)
+{
+	WebKitDOMNode *node;
+
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (!WEBKIT_DOM_IS_ELEMENT (node))
+		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-temp-text-wrapper"))
+		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+	return node;
+}
+
 /**
  * e_editor_selection_get_block_format:
  * @selection: an #EEditorSelection
@@ -1273,8 +1288,14 @@ e_editor_selection_get_block_format (EEditorSelection *selection)
 	} else if ((element = e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
 		if (element_has_class (element, "-x-evo-indented"))
 			result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-		else
-			result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+		else {
+			WebKitDOMNode *block = get_block_node (range);
+
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
+				result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+			else
+				result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+		}
 	} else if (e_editor_dom_node_find_parent_element (node, "P")) {
 		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	} else {
