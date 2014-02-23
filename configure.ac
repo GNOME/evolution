@@ -973,7 +973,7 @@ dnl ************************************
 AC_ARG_ENABLE([spamassassin],
 	[AS_HELP_STRING([--enable-spamassassin],
 	[enable spam filtering using SpamAssassin (default=yes)])],
-	[enable spamassassin=$enableval], [enable_spamassassin=yes])
+	[enable_spamassassin=$enableval], [enable_spamassassin=yes])
 AC_MSG_CHECKING([if SpamAssassin support is enabled])
 AC_MSG_RESULT([$enable_spamassassin])
 msg_spamassassin="$enable_spamassassin"
