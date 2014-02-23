@@ -1540,7 +1540,6 @@ evolution-zip
 evolution-calendar.pc
 evolution-mail.pc
 evolution-shell.pc
-evolution-plugin.pc
 ])
 
 AC_OUTPUT

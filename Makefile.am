@@ -9,7 +9,6 @@ INTERFACE_VERSION=3.0
 pkgconfig_in_files =					\
 	evolution-calendar-$(INTERFACE_VERSION).pc	\
 	evolution-mail-$(INTERFACE_VERSION).pc		\
-	evolution-plugin-$(INTERFACE_VERSION).pc	\
 	evolution-shell-$(INTERFACE_VERSION).pc
 pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=-$(INTERFACE_VERSION).pc)
 

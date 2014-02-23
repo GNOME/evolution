@@ -75,7 +75,6 @@ lib/libevolution-smime.dll.a
 lib/libevolution-widgets-a11y.dll.a
 lib/libfilter.dll.a
 lib/libmenus.dll.a
-lib/pkgconfig/evolution-plugin.pc
 lib/pkgconfig/evolution-shell.pc
 include/evolution-@BASE_VERSION@
 share/idl/evolution-@BASE_VERSION@
