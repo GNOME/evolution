@@ -9,6 +9,7 @@ datadir=@datadir@
 privlibdir=@privsolibdir@
 privlibexecdir=@privlibexecdir@
 privincludedir=@privincludedir@
+errordir=@privdatadir@/errors
 moduledir=@moduledir@
 imagesdir=@imagesdir@
 
