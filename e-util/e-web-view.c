@@ -333,7 +333,7 @@ static GtkActionEntry selection_entries[] = {
 
 	{ "copy-clipboard",
 	  "edit-copy",
-	  NULL,
+	  N_("_Copy"),
 	  "<Control>c",
 	  N_("Copy the selection"),
 	  G_CALLBACK (action_copy_clipboard_cb) },

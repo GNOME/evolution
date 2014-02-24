@@ -724,27 +724,27 @@ e_focus_tracker_init (EFocusTracker *focus_tracker)
 	 * will always get a valid GtkAction when they ask us for one. */
 
 	action = gtk_action_new (
-		"cut-clipboard", NULL,
+		"cut-clipboard", _("Cu_t"),
 		_("Cut the selection"), "edit-cut");
 	focus_tracker->priv->cut_clipboard = action;
 
 	action = gtk_action_new (
-		"copy-clipboard", NULL,
+		"copy-clipboard", _("_Copy"),
 		_("Copy the selection"), "edit-copy");
 	focus_tracker->priv->copy_clipboard = action;
 
 	action = gtk_action_new (
-		"paste-clipboard", NULL,
+		"paste-clipboard", _("_Paste"),
 		_("Paste the clipboard"), "edit-paste");
 	focus_tracker->priv->paste_clipboard = action;
 
 	action = gtk_action_new (
-		"delete-selection", NULL,
+		"delete-selection", _("_Delete"),
 		_("Delete the selection"), "edit-delete");
 	focus_tracker->priv->delete_selection = action;
 
 	action = gtk_action_new (
-		"select-all", NULL,
+		"select-all", _("Select _All"),
 		_("Select all text"), "edit-select-all");
 	focus_tracker->priv->select_all = action;
 }

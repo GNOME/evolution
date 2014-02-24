@@ -728,7 +728,7 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-list-copy",
 	  "edit-copy",
-	  N_("Copy..."),
+	  N_("_Copy..."),
 	  "<Control>c",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_copy_cb) },
