@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-02-20 17:29+0000\n"
-"PO-Revision-Date: 2014-02-20 22:48+0200\n"
+"POT-Creation-Date: 2014-02-24 17:56+0000\n"
+"PO-Revision-Date: 2014-02-24 23:39+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -201,7 +201,7 @@ msgstr ""
 #: ../e-util/e-mail-signature-manager.c:327
 #: ../e-util/e-name-selector-dialog.c:995 ../mail/e-mail-account-manager.c:719
 #: ../mail/e-mail-label-manager.c:373 ../mail/em-vfolder-editor-rule.c:392
-#: ../mail/em-vfolder-editor-rule.c:622 ../mail/mail-config.ui.h:100
+#: ../mail/em-vfolder-editor-rule.c:622 ../mail/mail-config.ui.h:51
 #: ../modules/mail/em-composer-prefs.c:443
 #: ../plugins/attachment-reminder/attachment-reminder.c:557
 #: ../plugins/email-custom-header/email-custom-header.c:838
@@ -672,7 +672,6 @@ msgstr "Prašau parinkti šiam kontaktui paveikslėlį"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3576
 #: ../e-util/e-category-editor.c:146 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:624
-#| msgid "Open"
 msgid "_Open"
 msgstr "_Atverti"
 
@@ -738,7 +737,6 @@ msgstr "Netinkamas kontaktas."
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
 #: ../shell/main.c:167 ../smime/gui/e-cert-selector.c:233
 #: ../smime/gui/smime-ui.ui.h:24
-#| msgid "OK"
 msgid "_OK"
 msgstr "_Gerai"
 
@@ -871,7 +869,7 @@ msgstr "Pašalinti el. pašto adresą iš sąrašo"
 #: ../e-util/e-mail-signature-manager.c:367
 #: ../e-util/e-name-selector-dialog.c:999 ../mail/e-mail-label-manager.c:391
 #: ../mail/em-filter-rule.c:440 ../mail/em-vfolder-editor-rule.c:627
-#: ../mail/mail-config.ui.h:101
+#: ../mail/mail-config.ui.h:52
 #: ../plugins/attachment-reminder/attachment-reminder.c:567
 #: ../plugins/email-custom-header/email-custom-header.c:848
 #: ../plugins/publish-calendar/publish-calendar.c:807
@@ -895,7 +893,6 @@ msgstr "_Viršun"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 #: ../e-util/filter.ui.h:20
-#| msgid "_Update"
 msgid "_Up"
 msgstr "A_ukštyn"
 
@@ -1072,7 +1069,8 @@ msgstr "Ar tikrai norite ištrinti šį kontaktą (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1331
 #: ../calendar/gui/dialogs/comp-editor.c:1243
-#: ../e-util/e-categories-editor.c:282 ../e-util/evolution-source-viewer.c:803
+#: ../e-util/e-categories-editor.c:282 ../e-util/e-focus-tracker.c:742
+#: ../e-util/evolution-source-viewer.c:803
 #: ../mail/e-mail-account-manager.c:737
 #: ../modules/addressbook/e-book-shell-view-actions.c:1022
 #: ../modules/calendar/e-cal-shell-view-actions.c:1593
@@ -1284,7 +1282,6 @@ msgstr "Adresatų žemėlapis"
 
 #. Zoom-in button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:410
-#| msgid "_Zoom In"
 msgid "Zoom _In"
 msgstr "_Pritraukti"
 
@@ -1297,7 +1294,6 @@ msgstr "_Atitraukti"
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:448
 #: ../shell/e-shell-window-actions.c:976
-#| msgid "_Find Now"
 msgid "_Find"
 msgstr "Su_rasti"
 
@@ -1782,7 +1778,7 @@ msgstr "_Snūstelti"
 #: ../e-util/e-categories-editor.c:278
 #: ../e-util/e-mail-signature-manager.c:357
 #: ../mail/e-mail-account-manager.c:728 ../mail/e-mail-browser.c:170
-#: ../mail/e-mail-label-manager.c:382
+#: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:56
 #: ../plugins/attachment-reminder/attachment-reminder.c:562
 #: ../plugins/email-custom-header/email-custom-header.c:843
 #: ../plugins/mail-to-task/mail-to-task.c:594
@@ -1793,7 +1789,6 @@ msgid "_Edit"
 msgstr "_Keisti"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
-#| msgid "Print"
 msgid "_Print"
 msgstr "S_pausdinti"
 
@@ -2768,9 +2763,10 @@ msgid "Close the current window"
 msgstr "Užverti esamą langą"
 
 #. copy menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1229 ../e-util/e-text.c:2084
-#: ../mail/e-mail-browser.c:133 ../shell/e-shell-window-actions.c:885
-#| msgid "_Copy..."
+#: ../calendar/gui/dialogs/comp-editor.c:1229 ../e-util/e-focus-tracker.c:732
+#: ../e-util/e-text.c:2084 ../e-util/e-web-view-gtkhtml.c:452
+#: ../e-util/e-web-view.c:336 ../mail/e-mail-browser.c:133
+#: ../shell/e-shell-window-actions.c:885
 msgid "_Copy"
 msgstr "_Kopijuoti"
 
@@ -2783,8 +2779,9 @@ msgid "Copy the selection"
 msgstr "Kopijuoti pažymėjimą"
 
 #. cut menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1236 ../e-util/e-text.c:2071
-#: ../mail/e-mail-browser.c:140 ../shell/e-shell-window-actions.c:892
+#: ../calendar/gui/dialogs/comp-editor.c:1236 ../e-util/e-focus-tracker.c:727
+#: ../e-util/e-text.c:2071 ../mail/e-mail-browser.c:140
+#: ../shell/e-shell-window-actions.c:892
 msgid "Cu_t"
 msgstr "Iškirp_ti"
 
@@ -2806,9 +2803,9 @@ msgid "View help"
 msgstr "Rodyti pagalbą"
 
 #. paste menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-text.c:2095
-#: ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:920
-#| msgid "_Pascal"
+#: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-focus-tracker.c:737
+#: ../e-util/e-text.c:2095 ../mail/e-mail-browser.c:147
+#: ../shell/e-shell-window-actions.c:920
 msgid "_Paste"
 msgstr "Į_dėti"
 
@@ -2831,7 +2828,6 @@ msgstr "S_pausdinti..."
 #: ../modules/calendar/e-cal-shell-view-actions.c:1801
 #: ../modules/calendar/e-memo-shell-view-actions.c:821
 #: ../modules/calendar/e-task-shell-view-actions.c:1020
-#| msgid "Preview"
 msgid "Pre_view..."
 msgstr "_Peržiūra"
 
@@ -2848,10 +2844,9 @@ msgstr "Įrašyti ir užverti"
 msgid "Save current changes and close editor"
 msgstr "Įrašyti dabartinius pakeitimus ir užverti redaktorių"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1292
+#: ../calendar/gui/dialogs/comp-editor.c:1292 ../e-util/e-focus-tracker.c:747
 #: ../e-util/e-web-view-gtkhtml.c:462 ../e-util/e-web-view.c:346
 #: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:997
-#| msgid "Select All"
 msgid "Select _All"
 msgstr "Pažymėti _visus"
 
@@ -6873,7 +6868,6 @@ msgid "Open New Message window"
 msgstr "Atverti naujo laiško langą"
 
 #: ../composer/e-composer-actions.c:289 ../shell/e-shell-window-actions.c:934
-#| msgid "Mail Preferences"
 msgid "_Preferences"
 msgstr "_Nustatymai"
 
@@ -10162,7 +10156,6 @@ msgstr "_Būklės sekimas"
 #: ../e-util/e-table-config.ui.h:2
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:282
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:192
-#| msgid "_Append"
 msgid "_Apply"
 msgstr "_Pritaikyti"
 
@@ -10268,7 +10261,7 @@ msgstr "nurodytas laikas"
 msgid "a time relative to the current time"
 msgstr "laikas, santykinis dabartiniam laikui"
 
-#: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:78
+#: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:83
 msgid "seconds"
 msgstr "sekundžių"
 
@@ -10469,7 +10462,6 @@ msgid "S_ave All"
 msgstr "Į_rašyti visus"
 
 #: ../e-util/e-attachment-view.c:391
-#| msgid "Sa_ve"
 msgid "Sa_ve As"
 msgstr "Įrašyti taip"
 
@@ -10477,7 +10469,6 @@ msgstr "Įrašyti taip"
 #: ../plugins/save-calendar/save-calendar.c:349
 #: ../plugins/save-calendar/save-calendar.c:380
 #: ../plugins/save-calendar/save-calendar.c:411
-#| msgid "Save _As..."
 msgid "Save _As"
 msgstr "Įrašyti _taip"
 
@@ -12126,7 +12117,6 @@ msgid "Filter should have at least one condition."
 msgstr "Filtras turi turėti bent vieną sąlygą."
 
 #: ../e-util/filter.error.xml.h:14
-#| msgid "Missing date."
 msgid "Missing value."
 msgstr "Trūksta vertės."
 
@@ -12305,32 +12295,32 @@ msgid "Sending message"
 msgstr "Siunčiamas laiškas"
 
 #: ../libemail-engine/e-mail-session.c:120 ../mail/em-folder-properties.c:408
-#: ../mail/em-folder-tree-model.c:1138
+#: ../mail/em-folder-tree-model.c:1160
 #: ../modules/mail/e-mail-shell-view-private.c:1057
 #: ../modules/mail/e-mail-shell-view-private.c:1068
 msgid "Inbox"
 msgstr "Gautieji"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:1131
+#: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-tree-model.c:1153
 #: ../modules/mail/e-mail-shell-view-private.c:1055
 msgid "Drafts"
 msgstr "Juodraščiai"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:1142
+#: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:1164
 #: ../modules/mail/e-mail-shell-view-private.c:1059
 msgid "Outbox"
 msgstr "Paruošti siųsti"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:1146
+#: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:1168
 #: ../modules/mail/e-mail-shell-view-private.c:1061
 msgid "Sent"
 msgstr "Išsiųstieji"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:1134
+#: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:1156
 #: ../modules/mail/e-mail-shell-view-private.c:1063
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1080 ../plugins/templates/templates.c:1379
@@ -12557,7 +12547,7 @@ msgstr "Paskyros pavadinimas"
 #: ../mail/e-mail-account-tree-view.c:135
 #: ../mail/e-mail-config-security-page.c:335
 #: ../mail/e-mail-config-security-page.c:475 ../mail/e-mail-reader.c:3601
-#: ../mail/mail-config.ui.h:61
+#: ../mail/mail-config.ui.h:66
 msgid "Default"
 msgstr "Numatytasis"
 
@@ -12584,7 +12574,6 @@ msgstr "(Nėra temos)"
 
 #. GtkAssistant's back button label.
 #: ../mail/e-mail-config-assistant.c:46
-#| msgid "Go Back"
 msgid "Go _Back"
 msgstr "Eiti _atgal"
 
@@ -12598,7 +12587,6 @@ msgid "Evolution Account Assistant"
 msgstr "Evolution paskyrų vediklis"
 
 #: ../mail/e-mail-config-assistant.c:929
-#| msgid "_Restore Defaults"
 msgid "_Revise Details"
 msgstr "Pe_ržiūrėti detales"
 
@@ -12803,22 +12791,22 @@ msgid "Si_gning algorithm:"
 msgstr "Pasirašymo al_goritmas:"
 
 #: ../mail/e-mail-config-security-page.c:338
-#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:62
+#: ../mail/e-mail-config-security-page.c:478 ../mail/mail-config.ui.h:67
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../mail/e-mail-config-security-page.c:341
-#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:63
+#: ../mail/e-mail-config-security-page.c:481 ../mail/mail-config.ui.h:68
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../mail/e-mail-config-security-page.c:344
-#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:64
+#: ../mail/e-mail-config-security-page.c:484 ../mail/mail-config.ui.h:69
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../mail/e-mail-config-security-page.c:347
-#: ../mail/e-mail-config-security-page.c:487 ../mail/mail-config.ui.h:65
+#: ../mail/e-mail-config-security-page.c:487 ../mail/mail-config.ui.h:70
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -12850,7 +12838,6 @@ msgstr "Pasirinkti"
 #: ../mail/e-mail-config-security-page.c:453
 #: ../mail/e-mail-config-security-page.c:559 ../mail/mail-dialogs.ui.h:5
 #: ../shell/e-shell-window-actions.c:962
-#| msgid "_Clear Flag"
 msgid "_Clear"
 msgstr "Iš_valyti"
 
@@ -13064,7 +13051,7 @@ msgstr "Antraštės pavadinimas"
 msgid "Header Value"
 msgstr "Antraštės reikšmė"
 
-#: ../mail/e-mail-printer.c:124 ../mail/mail-config.ui.h:103
+#: ../mail/e-mail-printer.c:124 ../mail/mail-config.ui.h:106
 msgid "Headers"
 msgstr "Antraštės"
 
@@ -13815,7 +13802,7 @@ msgstr "Svarbus"
 msgid "Junk Test"
 msgstr "Brukalo testas"
 
-#: ../mail/em-filter-i18n.h:24 ../mail/mail-config.ui.h:110
+#: ../mail/em-filter-i18n.h:24 ../mail/mail-config.ui.h:113
 msgid "Junk"
 msgstr "Brukalas"
 
@@ -14101,7 +14088,7 @@ msgstr "Nepavyko perkelti žinutės(čių) į aukščiausią aukštą"
 msgid "UNMATCHED"
 msgstr "NEATITIKO"
 
-#: ../mail/em-folder-tree-model.c:1222 ../mail/em-folder-tree-model.c:1599
+#: ../mail/em-folder-tree-model.c:1244 ../mail/em-folder-tree-model.c:1621
 msgid "Loading..."
 msgstr "Įkeliama..."
 
@@ -14584,35 +14571,37 @@ msgstr "Siunčiant laišką, kurio _gavėjai nenurodyti el. pašto adresų forma
 msgid "Confirmations"
 msgstr "Patvirtinimai"
 
-#: ../mail/mail-config.ui.h:51
-msgid "Add"
-msgstr "Pridėti"
-
-#: ../mail/mail-config.ui.h:52
-msgid "Remove"
-msgstr "Pašalinti"
-
-#: ../mail/mail-config.ui.h:53
-msgid " Use for Folders "
-msgstr " Naudoti aplankams "
-
+#. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
 #: ../mail/mail-config.ui.h:54
-msgid "Edit"
-msgstr "Keisti"
+#| msgid " Use for Folders "
+msgid "Use for Folders"
+msgstr "Naudoti aplankams "
 
 #: ../mail/mail-config.ui.h:55
-msgid " Use for Recipients "
-msgstr " Naudoti gavėjams "
-
-#: ../mail/mail-config.ui.h:56
-msgid " Account "
-msgstr " Paskyra "
+msgid "A_dd"
+msgstr "Pri_dėti"
 
 #: ../mail/mail-config.ui.h:57
+#| msgid "Remove"
+msgid "Re_move"
+msgstr "_Pašalinti"
+
+#. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
+#: ../mail/mail-config.ui.h:59
+#| msgid " Use for Recipients "
+msgid "Use for Recipients"
+msgstr "Naudoti gavėjams "
+
+#. Translators: Label of a frame with a list of configured accounts in Send account overrides
+#: ../mail/mail-config.ui.h:61 ../modules/mail/em-composer-prefs.c:870
+msgid "Account"
+msgstr "Paskyra"
+
+#: ../mail/mail-config.ui.h:62
 msgid "Send account overrides"
 msgstr "Siųsti paskyrų pakeitimus"
 
-#: ../mail/mail-config.ui.h:58
+#: ../mail/mail-config.ui.h:63
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -14624,188 +14613,189 @@ msgstr ""
 "Gavėjų sąrašas gali turėti dalinius adresus ar vardus. Vardo ir adreso dalys "
 "yra tikrinamos atskirai."
 
-#: ../mail/mail-config.ui.h:59
-msgid "Folder override has precedence over Recipient override"
-msgstr "Aplanko pakeitimas turi pirmenybę prieš gavėjo pakeitimą"
+#: ../mail/mail-config.ui.h:64
+#| msgid "Folder override has precedence over Recipient override"
+msgid "_Folder override has precedence over Recipient override"
+msgstr "_Aplanko pakeitimas turi pirmenybę prieš gavėjo pakeitimą"
 
-#: ../mail/mail-config.ui.h:60
+#: ../mail/mail-config.ui.h:65
 msgid "Send Account"
 msgstr "Siuntimo paskyra"
 
-#: ../mail/mail-config.ui.h:66 ../smime/gui/smime-ui.ui.h:1
+#: ../mail/mail-config.ui.h:71 ../smime/gui/smime-ui.ui.h:1
 msgid "a"
 msgstr "a"
 
-#: ../mail/mail-config.ui.h:67 ../smime/gui/smime-ui.ui.h:2
+#: ../mail/mail-config.ui.h:72 ../smime/gui/smime-ui.ui.h:2
 msgid "b"
 msgstr "b"
 
-#: ../mail/mail-config.ui.h:68
+#: ../mail/mail-config.ui.h:73
 msgid "Start up"
 msgstr "Paleidimas"
 
-#: ../mail/mail-config.ui.h:69
+#: ../mail/mail-config.ui.h:74
 msgid "Check for new _messages on start"
 msgstr "Ieškoti naujo _pašto paleidus programą"
 
-#: ../mail/mail-config.ui.h:70
+#: ../mail/mail-config.ui.h:75
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Automatiškai ieškoti naujų _laiškų visose suaktyvintose paskyrose"
 
-#: ../mail/mail-config.ui.h:71
+#: ../mail/mail-config.ui.h:76
 msgid "Message Display"
 msgstr "Laiškų rodymas"
 
-#: ../mail/mail-config.ui.h:72
+#: ../mail/mail-config.ui.h:77
 msgid "_Use the same fonts as other applications"
 msgstr "Na_udoti tokius šriftus kaip ir kitų programų"
 
-#: ../mail/mail-config.ui.h:73
+#: ../mail/mail-config.ui.h:78
 msgid "S_tandard Font:"
 msgstr "S_tandartinis šriftas:"
 
-#: ../mail/mail-config.ui.h:74
+#: ../mail/mail-config.ui.h:79
 msgid "Select HTML fixed width font"
 msgstr "Pasirinkite HTML fiksuoto pločio šriftą"
 
-#: ../mail/mail-config.ui.h:75
+#: ../mail/mail-config.ui.h:80
 msgid "Select HTML variable width font"
 msgstr "Pasirinkite HTML kintamo pločio šriftą"
 
-#: ../mail/mail-config.ui.h:76
+#: ../mail/mail-config.ui.h:81
 msgid "Fix_ed Width Font:"
 msgstr "_Fiksuoto pločio šriftas:"
 
-#: ../mail/mail-config.ui.h:77
+#: ../mail/mail-config.ui.h:82
 msgid "_Mark messages as read after"
 msgstr "Pažy_mėti laiškus skaitytais po"
 
-#: ../mail/mail-config.ui.h:79
+#: ../mail/mail-config.ui.h:84
 msgid "Highlight _quotations with"
 msgstr "Paryškinti _citatas su"
 
-#: ../mail/mail-config.ui.h:80
+#: ../mail/mail-config.ui.h:85
 msgid "color"
 msgstr "spalva"
 
-#: ../mail/mail-config.ui.h:81
+#: ../mail/mail-config.ui.h:86
 msgid "Default character e_ncoding:"
 msgstr "Numatytoji simbolių _koduotė:"
 
-#: ../mail/mail-config.ui.h:82
+#: ../mail/mail-config.ui.h:87
 msgid "Apply the same _view settings to all folders"
 msgstr "Taikyti tuos pačius _rodymo parametrus visiems aplankams"
 
-#: ../mail/mail-config.ui.h:83
+#: ../mail/mail-config.ui.h:88
 msgid "F_all back to threading messages by subject"
 msgstr "Skirstyti laiškus į gijas pagal _temą, jei neįmanoma kitaip"
 
-#: ../mail/mail-config.ui.h:84
+#: ../mail/mail-config.ui.h:89
 msgid "Delete Mail"
 msgstr "Ištrinti paštą"
 
-#: ../mail/mail-config.ui.h:85
+#: ../mail/mail-config.ui.h:90
 msgid "Empty _trash folders"
 msgstr "Išvalyti _šiukšlių aplankus"
 
-#: ../mail/mail-config.ui.h:86
+#: ../mail/mail-config.ui.h:91
 msgid "Confirm _when expunging a folder"
 msgstr "Paklausti patvirtinimo _išvalant aplanką"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:88
+#: ../mail/mail-config.ui.h:93
 msgid "_Show animated images"
 msgstr "_Rodyti animuotus paveikslėlius"
 
-#: ../mail/mail-config.ui.h:89
+#: ../mail/mail-config.ui.h:94
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "_Paklausti patvirtinimo siunčiant HTML laiškus jų nepageidaujantiems "
 "adresatams"
 
-#: ../mail/mail-config.ui.h:90
+#: ../mail/mail-config.ui.h:95
 msgid "Loading Images"
 msgstr "Paveikslėlių įkėlimas"
 
-#: ../mail/mail-config.ui.h:91
+#: ../mail/mail-config.ui.h:96
 msgid "_Never load images from the Internet"
 msgstr "_Niekada neįkelti paveikslėlių iš interneto"
 
-#: ../mail/mail-config.ui.h:92
+#: ../mail/mail-config.ui.h:97
 msgid "_Load images only in messages from contacts"
 msgstr "Įkelti pa_veikslėlius tik kontaktų atsiųstuose laiškuose"
 
-#: ../mail/mail-config.ui.h:93
+#: ../mail/mail-config.ui.h:98
 msgid "_Always load images from the Internet"
 msgstr "Vis_ada įkelti paveikslėlius iš interneto"
 
-#: ../mail/mail-config.ui.h:94
+#: ../mail/mail-config.ui.h:99
 msgid "HTML Messages"
 msgstr "HTML laiškai"
 
-#: ../mail/mail-config.ui.h:95 ../mail/message-list.etspec.h:19
+#: ../mail/mail-config.ui.h:100 ../mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Žymės"
 
-#: ../mail/mail-config.ui.h:96
+#: ../mail/mail-config.ui.h:101
 msgid "Sender Photograph"
 msgstr "Siuntėjo nuotrauka"
 
-#: ../mail/mail-config.ui.h:97
+#: ../mail/mail-config.ui.h:102
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Rodyti siuntėjo nuotrauką laiško peržiūros skiltyje"
 
-#: ../mail/mail-config.ui.h:98
+#: ../mail/mail-config.ui.h:103
 msgid "Displayed Message Headers"
 msgstr "Rodomos laiško antraštės"
 
-#: ../mail/mail-config.ui.h:99
+#: ../mail/mail-config.ui.h:104
 msgid "Mail Headers Table"
 msgstr "Laiškų antraščių lentelė"
 
-#: ../mail/mail-config.ui.h:102
+#: ../mail/mail-config.ui.h:105
 #: ../modules/addressbook/autocompletion-config.c:116
 #: ../modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Date/Time Format"
 msgstr "Data / laiko formatas"
 
-#: ../mail/mail-config.ui.h:104
+#: ../mail/mail-config.ui.h:107
 msgid "Check incoming _messages for junk"
 msgstr "Ieškoti _gaunamuose laiškuose brukalo"
 
-#: ../mail/mail-config.ui.h:105
+#: ../mail/mail-config.ui.h:108
 msgid "_Delete junk messages"
 msgstr "Iš_trinti brukalą"
 
-#: ../mail/mail-config.ui.h:106
+#: ../mail/mail-config.ui.h:109
 msgid "Check cu_stom headers for junk"
 msgstr "_Ieškoti pasirinktinėse antraštėse brukalo"
 
-#: ../mail/mail-config.ui.h:107
+#: ../mail/mail-config.ui.h:110
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "Nežymėti _laiškų kaip brukalo, jei siuntėjas yra mano adresų knygoje"
 
-#: ../mail/mail-config.ui.h:108
+#: ../mail/mail-config.ui.h:111
 msgid "_Lookup in local address book only"
 msgstr "_Ieškoti tik vietinėse adresų knygose"
 
-#: ../mail/mail-config.ui.h:109
+#: ../mail/mail-config.ui.h:112
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr ""
 "Šios parinkties nepaisoma, jei randamas pasirinktinių brukalo antraščių "
 "atitikmuo."
 
-#: ../mail/mail-config.ui.h:111
+#: ../mail/mail-config.ui.h:114
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:224
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:158
 msgid "No encryption"
 msgstr "Be šifravimo"
 
-#: ../mail/mail-config.ui.h:112
+#: ../mail/mail-config.ui.h:115
 msgid "TLS encryption"
 msgstr "TLS šifravimas"
 
-#: ../mail/mail-config.ui.h:113
+#: ../mail/mail-config.ui.h:116
 msgid "SSL encryption"
 msgstr "SSL šifravimas"
 
@@ -17043,6 +17033,7 @@ msgstr "Įrašyti kaip iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1350
 #: ../modules/calendar/e-memo-shell-view-actions.c:607
+#: ../modules/calendar/e-task-shell-view-actions.c:731
 msgid "_Copy..."
 msgstr "_Kopijuoti..."
 
@@ -17291,7 +17282,6 @@ msgstr "Santraukoje yra"
 #: ../modules/calendar/e-memo-shell-view-actions.c:828
 #: ../modules/calendar/e-task-shell-view-actions.c:1013
 #: ../modules/calendar/e-task-shell-view-actions.c:1027
-#| msgid "_Print..."
 msgid "Print..."
 msgstr "S_pausdinti..."
 
@@ -17645,10 +17635,6 @@ msgstr "_Rasti užduotyje..."
 #: ../modules/calendar/e-task-shell-view-actions.c:719
 msgid "Search for text in the displayed task"
 msgstr "Ieškoti teksto rodomoje užduotyje"
-
-#: ../modules/calendar/e-task-shell-view-actions.c:731
-msgid "Copy..."
-msgstr "Kopijuoti..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:738
 msgid "D_elete Task List"
@@ -19047,10 +19033,6 @@ msgstr "Siųsti / gauti"
 #: ../modules/mail/em-composer-prefs.c:443
 msgid "Select Folder to Add"
 msgstr "Pasirinkite aplanką pridėjimui"
-
-#: ../modules/mail/em-composer-prefs.c:870
-msgid "Account"
-msgstr "Paskyra"
 
 #: ../modules/mail/em-composer-prefs.c:888
 msgid "Folder"
@@ -20596,7 +20578,6 @@ msgid "Select destination file"
 msgstr "Pasirinkite paskirties failą"
 
 #: ../plugins/save-calendar/save-calendar.c:190
-#| msgid "_Save"
 msgid "_Save As"
 msgstr "Įrašyti _taip"
 
@@ -20634,19 +20615,19 @@ msgstr "Išsaugoti kaip ša_bloną"
 msgid "Save as Template"
 msgstr "Įrašyti kaip šabloną"
 
-#: ../shell/e-shell.c:278
+#: ../shell/e-shell.c:302
 msgid "Preparing to go offline..."
 msgstr "Ruošiamasis darbui atsijungus..."
 
-#: ../shell/e-shell.c:331
+#: ../shell/e-shell.c:355
 msgid "Preparing to go online..."
 msgstr "Ruošiamas darbui prisijungus..."
 
-#: ../shell/e-shell.c:412
+#: ../shell/e-shell.c:436
 msgid "Preparing to quit"
 msgstr "Ruošiamasi išeiti"
 
-#: ../shell/e-shell.c:418
+#: ../shell/e-shell.c:442
 msgid "Preparing to quit..."
 msgstr "Ruošiamasi išeiti..."
 
@@ -20773,7 +20754,6 @@ msgid "Show Evolution's shortcut keys"
 msgstr "Rodyti Evolution sparčiuosius klavišus"
 
 #: ../shell/e-shell-window-actions.c:948
-#| msgid "Quit"
 msgid "_Quit"
 msgstr "Iš_eiti"
 
