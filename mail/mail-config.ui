@@ -1046,7 +1046,8 @@
                         <property name="layout_style">center</property>
                         <child>
                           <object class="GtkButton" id="sao-folders-add-button">
-                            <property name="label" translatable="yes">Add</property>
+                            <property name="label" translatable="yes">_Add</property>
+                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1059,7 +1060,8 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="sao-folders-remove-button">
-                            <property name="label" translatable="yes">Remove</property>
+                            <property name="label" translatable="yes">_Remove</property>
+                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1115,8 +1117,10 @@
               <object class="GtkLabel" id="sao-folders-frame-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes"> Use for Folders </property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides">Use for Folders</property>
+                <property name="use_markup">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
               </object>
             </child>
           </object>
@@ -1159,7 +1163,8 @@
                         <property name="layout_style">center</property>
                         <child>
                           <object class="GtkButton" id="sao-recipients-add-button">
-                            <property name="label" translatable="yes">Add</property>
+                            <property name="label" translatable="yes">A_dd</property>
+                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1172,7 +1177,8 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="sao-recipients-edit-button">
-                            <property name="label" translatable="yes">Edit</property>
+                            <property name="label" translatable="yes">_Edit</property>
+                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1185,7 +1191,8 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="sao-recipients-remove-button">
-                            <property name="label" translatable="yes">Remove</property>
+                            <property name="label" translatable="yes">Re_move</property>
+                            <property name="use_underline">True</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -1241,8 +1248,10 @@
               <object class="GtkLabel" id="sao-recipients-frame-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes"> Use for Recipients </property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides">Use for Recipients</property>
+                <property name="use_markup">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
               </object>
             </child>
           </object>
@@ -1298,8 +1307,10 @@
               <object class="GtkLabel" id="sao-account-label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes"> Account </property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes" comments="Translators: Label of a frame with a list of configured accounts in Send account overrides">Account</property>
+                <property name="use_markup">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
               </object>
             </child>
           </object>
@@ -1349,7 +1360,8 @@
         </child>
         <child>
           <object class="GtkCheckButton" id="sao-prefer-folder-check">
-            <property name="label" translatable="yes">Folder override has precedence over Recipient override</property>
+            <property name="label" translatable="yes">_Folder override has precedence over Recipient override</property>
+            <property name="use_underline">True</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
