@@ -30,7 +30,9 @@
 
 #include "e-shell.h"
 
+#include <errno.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <libebackend/libebackend.h>
 
 #include "e-util/e-util-private.h"
@@ -191,11 +193,33 @@ shell_action_handle_uris_cb (GSimpleAction *action,
                              EShell *shell)
 {
 	const gchar **uris;
+	gchar *change_dir = NULL;
+	gint ii;
 
 	/* Do not use g_strfreev() here. */
 	uris = g_variant_get_strv (parameter, NULL);
+	if (uris && g_strcmp0 (uris[0], "--use-cwd") == 0 && uris[1] && *uris[1]) {
+		change_dir = g_get_current_dir ();
+
+		if (g_chdir (uris[1]) != 0)
+			g_warning ("%s: Failed to change directory to '%s': %s", G_STRFUNC, uris[1], g_strerror (errno));
+
+		for (ii = 0; uris[ii + 2]; ii++) {
+			uris[ii] = uris[ii + 2];
+		}
+
+		uris[ii] = NULL;
+	}
+
 	e_shell_handle_uris (shell, uris, FALSE);
 	g_free (uris);
+
+	if (change_dir) {
+		if (g_chdir (change_dir) != 0)
+			g_warning ("%s: Failed to return back to '%s': %s", G_STRFUNC, change_dir, g_strerror (errno));
+
+		g_free (change_dir);
+	}
 }
 
 static void
@@ -1423,6 +1447,8 @@ e_shell_handle_uris (EShell *shell,
                      const gchar * const *uris,
                      gboolean do_import)
 {
+	GPtrArray *args;
+	gchar *cwd;
 	guint n_handled = 0;
 	guint ii;
 
@@ -1452,9 +1478,22 @@ e_shell_handle_uris (EShell *shell,
 
 remote:  /* Send a message to the other Evolution process. */
 
+	cwd = g_get_current_dir ();
+	args = g_ptr_array_sized_new (g_strv_length ((gchar **) uris) + 2);
+
+	g_ptr_array_add (args, (gchar *) "--use-cwd");
+	g_ptr_array_add (args, cwd);
+
+	for (ii = 0; uris[ii]; ii++) {
+		g_ptr_array_add (args, (gchar *) uris[ii]);
+	}
+
 	g_action_group_activate_action (
 		G_ACTION_GROUP (shell), "handle-uris",
-		g_variant_new_strv (uris, -1));
+		g_variant_new_strv ((const gchar * const *) args->pdata, args->len));
+
+	g_ptr_array_free (args, TRUE);
+	g_free (cwd);
 
 	/* As far as we're concerned, all URIs have been handled. */
 
