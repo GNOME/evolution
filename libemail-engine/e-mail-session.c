@@ -901,6 +901,24 @@ mail_session_dispose (GObject *object)
 		priv->folder_cache = NULL;
 	}
 
+	g_ptr_array_set_size (priv->local_folders, 0);
+	g_ptr_array_set_size (priv->local_folder_uris, 0);
+
+	if (priv->preparing_flush > 0) {
+		g_source_remove (priv->preparing_flush);
+		priv->preparing_flush = 0;
+	}
+
+	if (priv->local_store != NULL) {
+		g_object_unref (priv->local_store);
+		priv->local_store = NULL;
+	}
+
+	if (priv->vfolder_store != NULL) {
+		g_object_unref (priv->vfolder_store);
+		priv->vfolder_store = NULL;
+	}
+
 	if (priv->registry != NULL) {
 		g_signal_handler_disconnect (
 			priv->registry,
@@ -923,24 +941,6 @@ mail_session_dispose (GObject *object)
 
 		g_object_unref (priv->registry);
 		priv->registry = NULL;
-	}
-
-	if (priv->local_store != NULL) {
-		g_object_unref (priv->local_store);
-		priv->local_store = NULL;
-	}
-
-	if (priv->vfolder_store != NULL) {
-		g_object_unref (priv->vfolder_store);
-		priv->vfolder_store = NULL;
-	}
-
-	g_ptr_array_set_size (priv->local_folders, 0);
-	g_ptr_array_set_size (priv->local_folder_uris, 0);
-
-	if (priv->preparing_flush > 0) {
-		g_source_remove (priv->preparing_flush);
-		priv->preparing_flush = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
