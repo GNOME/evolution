@@ -51,7 +51,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
                              EMailFormatter *formatter,
                              EMailFormatterContext *context,
                              EMailPart *part,
-                             CamelStream *stream,
+                             GOutputStream *stream,
                              GCancellable *cancellable)
 {
 	GQueue queue = G_QUEUE_INIT;
@@ -59,6 +59,7 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	gchar *header, *end;
 	EMailFormatterQuoteContext *qc = (EMailFormatterQuoteContext *) context;
 	const gchar *part_id;
+	const gchar *string;
 
 	part_id = e_mail_part_get_id (part);
 
@@ -66,7 +67,8 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 		return FALSE;
 
 	header = e_mail_formatter_get_html_header (formatter);
-	camel_stream_write_string (stream, header, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, header, strlen (header), NULL, cancellable, NULL);
 	g_free (header);
 
 	e_mail_part_list_queue_parts (context->part_list, part_id, &queue);
@@ -134,7 +136,9 @@ emfqe_message_rfc822_format (EMailFormatterExtension *extension,
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
 
-	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+	string = "</body></html>";
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	return TRUE;
 }

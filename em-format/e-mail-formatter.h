@@ -77,7 +77,7 @@ struct _EMailFormatterClass {
 
 	void		(*run)			(EMailFormatter *formatter,
 						 EMailFormatterContext *context,
-						 CamelStream *stream,
+						 GOutputStream *stream,
 						 GCancellable *cancellable);
 
 	void		(*update_style)		(EMailFormatter *formatter,
@@ -94,14 +94,14 @@ EMailFormatter *
 
 void		e_mail_formatter_format_sync	(EMailFormatter *formatter,
 						 EMailPartList *part_list,
-						 CamelStream *stream,
+						 GOutputStream *stream,
 						 EMailFormatterHeaderFlags flags,
 						 EMailFormatterMode mode,
 						 GCancellable *cancellable);
 
 void		e_mail_formatter_format		(EMailFormatter *formatter,
 						 EMailPartList *part_list,
-						 CamelStream *stream,
+						 GOutputStream *stream,
 						 EMailFormatterHeaderFlags flags,
 						 EMailFormatterMode mode,
 						 GAsyncReadyCallback callback,
@@ -115,13 +115,13 @@ gboolean	e_mail_formatter_format_finish	(EMailFormatter *formatter,
 gboolean	e_mail_formatter_format_as	(EMailFormatter *formatter,
 						 EMailFormatterContext *context,
 						 EMailPart *part,
-						 CamelStream *stream,
+						 GOutputStream *stream,
 						 const gchar *as_mime_type,
 						 GCancellable *cancellable);
 
 void		e_mail_formatter_format_text	(EMailFormatter *formatter,
 						 EMailPart *part,
-						 CamelStream *stream,
+						 GOutputStream *stream,
 						 GCancellable *cancellable);
 const gchar *	e_mail_formatter_get_sub_html_header
 						(EMailFormatter *formatter);

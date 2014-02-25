@@ -60,7 +60,7 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
                              EMailFormatter *formatter,
                              EMailFormatterContext *context,
                              EMailPart *part,
-                             CamelStream *stream,
+                             GOutputStream *stream,
                              GCancellable *cancellable)
 {
 	EMailPartVCard *vcard_part;
@@ -80,8 +80,10 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 
 		eab_contact_formatter_format_contact (
 			vcard_part->formatter, contact, buffer);
-		camel_stream_write_string (
-			stream, buffer->str, cancellable, NULL);
+
+		g_output_stream_write_all (
+			stream, buffer->str, buffer->len,
+			NULL, cancellable, NULL);
 
 		g_string_free (buffer, TRUE);
 
@@ -94,7 +96,8 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		const gchar *label = NULL;
 		EABContactDisplayMode mode;
 		const gchar *info = NULL;
-		gchar *html_label, *access_key;
+		gchar *access_key = NULL;
+		gchar *html_label;
 
 		length = g_slist_length (vcard_part->contact_list);
 
@@ -134,11 +137,12 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		str = g_strdup_printf (
 			"<div id=\"%s\">",
 			e_mail_part_get_id (part));
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str), NULL, cancellable, NULL);
 		g_free (str);
 
 		html_label = e_mail_formatter_parse_html_mnemonics (
-				label, &access_key);
+			label, &access_key);
 		str = g_strdup_printf (
 			"<button type=\"button\" "
 				"name=\"set-display-mode\" "
@@ -146,11 +150,13 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 				"value=\"%d\" "
 				"accesskey=\"%s\">%s</button>",
 			mode, access_key, html_label);
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str), NULL, cancellable, NULL);
 		g_free (str);
 		g_free (html_label);
-		if (access_key)
-			g_free (access_key);
+
+		g_free (access_key);
+		access_key = NULL;
 
 		html_label = e_mail_formatter_parse_html_mnemonics (
 				_("Save _To Addressbook"), &access_key);
@@ -166,18 +172,18 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 			e_mail_part_get_id (part),
 			access_key, html_label, uri,
 			e_mail_part_get_id (part));
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str), NULL, cancellable, NULL);
 		g_free (str);
 		g_free (html_label);
-		if (access_key)
-			g_free (access_key);
+
+		g_free (access_key);
+		access_key = NULL;
 
 		if (length == 2) {
-
 			info = _("There is one other contact.");
 
 		} else if (length > 2) {
-
 			/* Translators: This will always be two or more. */
 			info = g_strdup_printf (ngettext (
 				"There is %d other contact.",
@@ -186,12 +192,13 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		}
 
 		if (info) {
-
 			str = g_strdup_printf (
 				"<div class=\"attachment-info\">%s</div>",
 				info);
 
-			camel_stream_write_string (stream, str, cancellable, NULL);
+			g_output_stream_write_all (
+				stream, str, strlen (str),
+				NULL, cancellable, NULL);
 
 			g_free (str);
 		}

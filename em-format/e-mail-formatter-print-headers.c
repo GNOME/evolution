@@ -52,7 +52,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
                       EMailFormatter *formatter,
                       EMailFormatterContext *context,
                       EMailPart *part,
-                      CamelStream *stream,
+                      GOutputStream *stream,
                       GCancellable *cancellable)
 {
 	EMailPartHeaders *headers_part;
@@ -211,7 +211,9 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 
 	g_string_append (str, "</table>");
 
-	camel_stream_write_string (stream, str->str, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, str->str, str->len, NULL, cancellable, NULL);
+
 	g_string_free (str, TRUE);
 	g_free (part_id_prefix);
 

@@ -49,36 +49,38 @@ emqfe_text_enriched_format (EMailFormatterExtension *extension,
                             EMailFormatter *formatter,
                             EMailFormatterContext *context,
                             EMailPart *part,
-                            CamelStream *stream,
+                            GOutputStream *stream,
                             GCancellable *cancellable)
 {
-	CamelStream *filtered_stream;
-	CamelMimeFilter *enriched;
+	GOutputStream *filtered_stream;
+	CamelMimeFilter *filter;
 	const gchar *mime_type;
+	const gchar *string;
 	guint32 camel_flags = 0;
 
 	mime_type = e_mail_part_get_mime_type (part);
 
 	if (g_strcmp0 (mime_type, "text/richtext") == 0) {
 		camel_flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
-		camel_stream_write_string (
-			stream, "\n<!-- text/richtext -->\n",
-			cancellable, NULL);
+		string = "\n<!-- text/richtext -->\n";
 	} else {
-		camel_stream_write_string (
-			stream, "\n<!-- text/enriched -->\n",
-			cancellable, NULL);
+		string = "\n<!-- text/enriched -->\n";
 	}
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
-	enriched = camel_mime_filter_enriched_new (camel_flags);
-	filtered_stream = camel_stream_filter_new (stream);
-	camel_stream_filter_add (
-		CAMEL_STREAM_FILTER (filtered_stream), enriched);
-	g_object_unref (enriched);
+	string = "<br><hr><br>";
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
-	camel_stream_write_string (stream, "<br><hr><br>", cancellable, NULL);
-	e_mail_formatter_format_text (formatter, part, filtered_stream, cancellable);
-	camel_stream_flush (filtered_stream, cancellable, NULL);
+	filter = camel_mime_filter_enriched_new (camel_flags);
+	filtered_stream = camel_filter_output_stream_new (stream, filter);
+	g_object_unref (filter);
+
+	e_mail_formatter_format_text (
+		formatter, part, filtered_stream, cancellable);
+	g_output_stream_flush (filtered_stream, cancellable, NULL);
+
 	g_object_unref (filtered_stream);
 
 	return TRUE;

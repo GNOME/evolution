@@ -50,13 +50,13 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
                         EMailFormatter *formatter,
                         EMailFormatterContext *context,
                         EMailPart *part,
-                        CamelStream *stream,
+                        GOutputStream *stream,
                         GCancellable *cancellable)
 {
-	CamelStream *filtered_stream;
-	CamelMimeFilter *html_filter;
-	gchar *content;
+	GOutputStream *filtered_stream;
+	CamelMimeFilter *filter;
 	const gchar *format;
+	const gchar *string;
 	guint32 rgb;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -69,17 +69,18 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		CamelDataWrapper *dw;
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-			camel_stream_write_string (
-				stream,
-				e_mail_formatter_get_sub_html_header (formatter),
-				cancellable,
-				NULL);
+			string = e_mail_formatter_get_sub_html_header (formatter);
+
+			g_output_stream_write_all (
+				stream, string, strlen (string),
+				NULL, cancellable, NULL);
 
 			/* No need for body margins within <iframe> */
-			camel_stream_write_string (
-				stream,
-				"<style>body{ margin: 0; }</style>",
-				cancellable, NULL);
+			string = "<style>body{ margin: 0; }</style>";
+
+			g_output_stream_write_all (
+				stream, string, strlen (string),
+				NULL, cancellable, NULL);
 		}
 
 		flags = e_mail_formatter_get_text_format_flags (formatter);
@@ -101,30 +102,38 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			e_mail_formatter_get_color (
 				formatter, E_MAIL_FORMATTER_COLOR_CITATION));
 
-		filtered_stream = camel_stream_filter_new (stream);
-		html_filter = camel_mime_filter_tohtml_new (flags, rgb);
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filtered_stream), html_filter);
-		g_object_unref (html_filter);
+		filter = camel_mime_filter_tohtml_new (flags, rgb);
+		filtered_stream =
+			camel_filter_output_stream_new (stream, filter);
+		g_object_unref (filter);
 
-		content = g_strdup (
+		string =
 			"<div class=\"part-container pre "
 			"-e-web-view-background-color -e-web-view-text-color\" "
-			"style=\"border: none; padding: 8px; margin: 0;\">");
+			"style=\"border: none; padding: 8px; margin: 0;\">";
 
-		camel_stream_write_string (stream, content, cancellable, NULL);
-		e_mail_formatter_format_text (formatter, part, filtered_stream, cancellable);
-		camel_stream_flush (filtered_stream, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, string, strlen (string),
+			NULL, cancellable, NULL);
+
+		e_mail_formatter_format_text (
+			formatter, part, filtered_stream, cancellable);
+		g_output_stream_flush (filtered_stream, cancellable, NULL);
 
 		g_object_unref (filtered_stream);
-		g_free (content);
 
-		camel_stream_write_string (stream, "</div>\n", cancellable, NULL);
+		string = "</div>\n";
+
+		g_output_stream_write_all (
+			stream, string, strlen (string),
+			NULL, cancellable, NULL);
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-			camel_stream_write_string (
-				stream, "</body></html>",
-				cancellable, NULL);
+			string = "</body></html>";
+
+			g_output_stream_write_all (
+				stream, string, strlen (string),
+				NULL, cancellable, NULL);
 		}
 
 		g_object_unref (mime_part);
@@ -169,7 +178,9 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			e_mail_part_get_id (part),
 			uri);
 
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str),
+			NULL, cancellable, NULL);
 
 		g_free (str);
 		g_free (uri);

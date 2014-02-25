@@ -45,13 +45,14 @@ emfe_error_format (EMailFormatterExtension *extension,
                    EMailFormatter *formatter,
                    EMailFormatterContext *context,
                    EMailPart *part,
-                   CamelStream *stream,
+                   GOutputStream *stream,
                    GCancellable *cancellable)
 {
-	CamelStream *filtered_stream;
+	GOutputStream *filtered_stream;
 	CamelMimeFilter *filter;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *dw;
+	const gchar *string;
 	gchar *html;
 
 	mime_part = e_mail_part_ref_mime_part (part);
@@ -68,28 +69,27 @@ emfe_error_format (EMailFormatterExtension *extension,
 		"<td style=\"color: red;\">",
 		"dialog-error", GTK_ICON_SIZE_DIALOG);
 
-	camel_stream_write_string (stream, html, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, html, strlen (html), NULL, cancellable, NULL);
+
 	g_free (html);
 
-	filtered_stream = camel_stream_filter_new (stream);
 	filter = camel_mime_filter_tohtml_new (
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), filter);
+	filtered_stream = camel_filter_output_stream_new (stream, filter);
 	g_object_unref (filter);
 
-	camel_data_wrapper_decode_to_stream_sync (dw, filtered_stream, cancellable, NULL);
-	camel_stream_flush (filtered_stream, cancellable, NULL);
+	camel_data_wrapper_decode_to_output_stream_sync (
+		dw, filtered_stream, cancellable, NULL);
+	g_output_stream_flush (filtered_stream, cancellable, NULL);
+
 	g_object_unref (filtered_stream);
 
-	camel_stream_write_string (
-		stream,
-		"</td>\n"
-		"</tr>\n"
-		"</table>\n"
-		"</div>\n"
-		"</div>",
-		cancellable, NULL);
+	string = "</td></tr></table></div></div>";
+
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	g_object_unref (mime_part);
 

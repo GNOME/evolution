@@ -51,7 +51,7 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
                          EMailFormatter *formatter,
                          EMailFormatterContext *context,
                          EMailPart *part,
-                         CamelStream *stream,
+                         GOutputStream *stream,
                          GCancellable *cancellable)
 {
 	gchar *text, *html;
@@ -59,6 +59,7 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	EMailPart *attachment_view_part;
 	CamelMimeFilterToHTMLFlags text_format_flags;
 	CamelMimePart *mime_part;
+	const gchar *string;
 
 	empa = E_MAIL_PART_ATTACHMENT (part);
 
@@ -70,7 +71,9 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 	if (attachment_view_part == NULL)
 		return FALSE;
 
-	camel_stream_write_string (stream, "<br><br>", cancellable, NULL);
+	string = "<br><br>";
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	text_format_flags =
 		e_mail_formatter_get_text_format_flags (formatter);
@@ -86,26 +89,29 @@ emfqe_attachment_format (EMailFormatterExtension *extension,
 		text,
 		text_format_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS,
 		0);
-	camel_stream_write_string (stream, html, cancellable, NULL);
-	camel_stream_write_string (stream, "<br>", cancellable, NULL);
+	g_output_stream_write_all (
+		stream, html, strlen (html), NULL, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, "<br>", 4, NULL, cancellable, NULL);
 	g_free (html);
 	g_free (text);
 
-	camel_stream_write_string (
-		stream,
+	string =
 		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 		"key=\"orig\" value=\"1\">-->\n"
-		"<blockquote type=cite>\n", cancellable, NULL);
+		"<blockquote type=cite>\n";
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	e_mail_formatter_format_as (
 		formatter, context, attachment_view_part,
 		stream, NULL, cancellable);
 
-	camel_stream_write_string (
-		stream,
+	string =
 		"</blockquote><!--+GtkHTML:"
-		"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-		cancellable, NULL);
+		"<DATA class=\"ClueFlow\" clear=\"orig\">-->";
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	g_object_unref (attachment_view_part);
 

@@ -79,7 +79,7 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
                            EMailFormatter *formatter,
                            EMailFormatterContext *context,
                            EMailPart *part,
-                           CamelStream *stream,
+                           GOutputStream *stream,
                            GCancellable *cancellable)
 {
 	gchar *str;
@@ -95,7 +95,8 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
 		e_mail_part_get_id (part),
 		e_mail_part_get_id (part));
 
-	camel_stream_write_string (stream, str, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, str, strlen (str), NULL, cancellable, NULL);
 
 	g_free (str);
 

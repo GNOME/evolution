@@ -71,14 +71,13 @@ mail_formatter_audio_format (EMailFormatterExtension *extension,
                              EMailFormatter *formatter,
                              EMailFormatterContext *context,
                              EMailPart *part,
-                             CamelStream *stream,
+                             GOutputStream *stream,
                              GCancellable *cancellable)
 {
 	CamelMimePart *mime_part;
 	CamelDataWrapper *content;
 	CamelTransferEncoding encoding;
-	CamelStream *mem_stream;
-	GByteArray *byte_array;
+	GOutputStream *mem_stream;
 	const gchar *mime_type;
 	gchar *html;
 	GError *local_error = NULL;
@@ -91,28 +90,37 @@ mail_formatter_audio_format (EMailFormatterExtension *extension,
 	if (mime_type == NULL)
 		mime_type = "audio/*";
 
-	mem_stream = camel_stream_mem_new ();
-	byte_array = camel_stream_mem_get_byte_array (
-		CAMEL_STREAM_MEM (mem_stream));
+	mem_stream = g_memory_output_stream_new_resizable ();
 
 	if (encoding == CAMEL_TRANSFER_ENCODING_BASE64) {
-		camel_data_wrapper_write_to_stream_sync (
+		const gchar *data;
+
+		camel_data_wrapper_write_to_output_stream_sync (
 			content, mem_stream, cancellable, &local_error);
+
+		data = g_memory_output_stream_get_data (
+			G_MEMORY_OUTPUT_STREAM (mem_stream));
 
 		html = g_strdup_printf (
 			"<audio controls>"
 			"<source src=\"data:%s;base64,%s\"/>"
 			"</audio>",
-			mime_type, (gchar *) byte_array->data);
+			mime_type, data);
 
 	} else {
+		const guchar *data;
 		gchar *base64;
+		gsize size;
 
-		camel_data_wrapper_decode_to_stream_sync (
+		camel_data_wrapper_decode_to_output_stream_sync (
 			content, mem_stream, cancellable, &local_error);
 
-		base64 = g_base64_encode (
-			(guchar *) byte_array->data, byte_array->len);
+		data = g_memory_output_stream_get_data (
+			G_MEMORY_OUTPUT_STREAM (mem_stream));
+		size = g_memory_output_stream_get_data_size (
+			G_MEMORY_OUTPUT_STREAM (mem_stream));
+
+		base64 = g_base64_encode (data, size);
 		html = g_strdup_printf (
 			"<audio controls>"
 			"<source src=\"data:%s;base64,%s\"/>"
@@ -127,7 +135,8 @@ mail_formatter_audio_format (EMailFormatterExtension *extension,
 		g_error_free (local_error);
 	}
 
-	camel_stream_write_string (stream, html, NULL, NULL);
+	g_output_stream_write_all (
+		stream, html, strlen (html), NULL, cancellable, NULL);
 
 	g_free (html);
 

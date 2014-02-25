@@ -1196,23 +1196,21 @@ em_utils_message_to_html (CamelSession *session,
 {
 	EMailFormatter *formatter;
 	EMailParser *parser = NULL;
-	CamelStream *mem;
-	GByteArray *buf;
+	GOutputStream *stream;
 	EShell *shell;
 	GtkWindow *window;
 	EMailPart *hidden_text_html_part = NULL;
 	EMailPartValidityFlags is_validity_found = 0;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	gchar *data;
 
 	shell = e_shell_get_default ();
 	window = e_shell_get_active_window (shell);
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
-	buf = g_byte_array_new ();
-	mem = camel_stream_mem_new ();
-	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (mem), buf);
+	stream = g_memory_output_stream_new_resizable ();
 
 	formatter = e_mail_formatter_quote_new (credits, flags);
 	e_mail_formatter_update_style (formatter,
@@ -1268,7 +1266,7 @@ em_utils_message_to_html (CamelSession *session,
 		*validity_found = is_validity_found;
 
 	e_mail_formatter_format_sync (
-		formatter, parts_list, mem, 0,
+		formatter, parts_list, stream, 0,
 		E_MAIL_FORMATTER_MODE_PRINTING, NULL);
 	g_object_unref (formatter);
 
@@ -1280,12 +1278,19 @@ em_utils_message_to_html (CamelSession *session,
 		g_object_unref (parser);
 
 	if (append != NULL && *append != '\0')
-		camel_stream_write_string (mem, append, NULL, NULL);
+		g_output_stream_write_all (
+			stream, append, strlen (append), NULL, NULL, NULL);
 
-	camel_stream_write (mem, "", 1, NULL, NULL);
-	g_object_unref (mem);
+	g_output_stream_write (stream, "", 1, NULL, NULL);
 
-	return (gchar *) g_byte_array_free (buf, FALSE);
+	g_output_stream_close (stream, NULL, NULL);
+
+	data = g_memory_output_stream_steal_data (
+		G_MEMORY_OUTPUT_STREAM (stream));
+
+	g_object_unref (stream);
+
+	return data;
 }
 
 /* ********************************************************************** */

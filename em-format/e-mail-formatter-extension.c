@@ -39,7 +39,7 @@ e_mail_formatter_extension_init (EMailFormatterExtension *extension)
  * @formatter: an #EMailFormatter
  * @context: an #EMailFormatterContext
  * @part: a #EMailPart to be formatter
- * @stream: a #CamelStream to which the output should be written
+ * @stream: a #GOutputStream to which the output should be written
  * @cancellable: (allow-none) a #GCancellable
  *
  * A virtual function reimplemented in all mail formatter extensions. The
@@ -61,7 +61,7 @@ e_mail_formatter_extension_format (EMailFormatterExtension *extension,
                                    EMailFormatter *formatter,
                                    EMailFormatterContext *context,
                                    EMailPart *part,
-                                   CamelStream *stream,
+                                   GOutputStream *stream,
                                    GCancellable *cancellable)
 {
 	EMailFormatterExtensionClass *class;
@@ -70,12 +70,13 @@ e_mail_formatter_extension_format (EMailFormatterExtension *extension,
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), FALSE);
 	g_return_val_if_fail (context != NULL, FALSE);
 	g_return_val_if_fail (part != NULL, FALSE);
-	g_return_val_if_fail (CAMEL_IS_STREAM (stream), FALSE);
+	g_return_val_if_fail (G_IS_OUTPUT_STREAM (stream), FALSE);
 
 	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
 	g_return_val_if_fail (class->format != NULL, FALSE);
 
-	return class->format (extension, formatter, context, part, stream, cancellable);
+	return class->format (
+		extension, formatter, context, part, stream, cancellable);
 }
 
 /**

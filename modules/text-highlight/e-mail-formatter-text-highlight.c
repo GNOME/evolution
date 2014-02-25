@@ -148,7 +148,7 @@ text_highlight_output_spliced (GObject *source_object,
 }
 
 static gboolean
-text_highlight_feed_data (CamelStream *stream,
+text_highlight_feed_data (GOutputStream *output_stream,
                           CamelDataWrapper *data_wrapper,
                           gint pipe_stdin,
                           gint pipe_stdout,
@@ -157,13 +157,12 @@ text_highlight_feed_data (CamelStream *stream,
 {
 	TextHighlightClosure closure;
 	GInputStream *input_stream = NULL;
-	GOutputStream *output_stream = NULL;
+	GOutputStream *temp_stream = NULL;
 	GInputStream *stdout_stream = NULL;
 	GOutputStream *stdin_stream = NULL;
 	GMainContext *main_context;
 	gchar *utf8_data;
 	gconstpointer data;
-	gssize bytes_written;
 	gsize size;
 	gboolean success;
 
@@ -173,10 +172,10 @@ text_highlight_feed_data (CamelStream *stream,
 
 	/* FIXME Use GSubprocess once we can require GLib 2.40. */
 
-	output_stream = g_memory_output_stream_new_resizable ();
+	temp_stream = g_memory_output_stream_new_resizable ();
 
 	success = camel_data_wrapper_decode_to_output_stream_sync (
-		data_wrapper, output_stream, cancellable, error);
+		data_wrapper, temp_stream, cancellable, error);
 
 	if (!success)
 		goto exit;
@@ -190,22 +189,20 @@ text_highlight_feed_data (CamelStream *stream,
 	g_main_context_push_thread_default (main_context);
 
 	data = g_memory_output_stream_get_data (
-		G_MEMORY_OUTPUT_STREAM (output_stream));
+		G_MEMORY_OUTPUT_STREAM (temp_stream));
 	size = g_memory_output_stream_get_data_size (
-		G_MEMORY_OUTPUT_STREAM (output_stream));
+		G_MEMORY_OUTPUT_STREAM (temp_stream));
 
 	/* FIXME Write a GConverter that does this so we can decode
 	 *       straight to the stdin pipe and skip all this extra
 	 *       buffering. */
 	utf8_data = e_util_utf8_data_make_valid ((gchar *) data, size);
 
-	g_clear_object (&output_stream);
+	g_clear_object (&temp_stream);
 
 	/* Takes ownership of the UTF-8 string. */
 	input_stream = g_memory_input_stream_new_from_data (
 		utf8_data, -1, (GDestroyNotify) g_free);
-
-	output_stream = g_memory_output_stream_new_resizable ();
 
 	stdin_stream = g_unix_output_stream_new (pipe_stdin, TRUE);
 	stdout_stream = g_unix_input_stream_new (pipe_stdout, TRUE);
@@ -255,17 +252,8 @@ text_highlight_feed_data (CamelStream *stream,
 		goto exit;
 	}
 
-	data = g_memory_output_stream_get_data (
-		G_MEMORY_OUTPUT_STREAM (output_stream));
-	size = g_memory_output_stream_get_data_size (
-		G_MEMORY_OUTPUT_STREAM (output_stream));
-
-	bytes_written = camel_stream_write (
-		stream, data, size, cancellable, error);
-	success = (bytes_written >= 0);
-
 exit:
-	g_clear_object (&output_stream);
+	g_clear_object (&temp_stream);
 
 	return success;
 }
@@ -275,7 +263,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
                             EMailFormatter *formatter,
                             EMailFormatterContext *context,
                             EMailPart *part,
-                            CamelStream *stream,
+                            GOutputStream *stream,
                             GCancellable *cancellable)
 {
 	CamelMimePart *mime_part;
@@ -471,7 +459,9 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			e_mail_part_get_id (part),
 			uri);
 
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str),
+			NULL, cancellable, NULL);
 
 		g_free (str);
 		g_free (uri);

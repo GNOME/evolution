@@ -37,9 +37,9 @@ CamelMimePart *	e_mail_part_get_related_display_part
 						 gint *out_displayid);
 
 void		e_mail_part_animation_extract_frame (
-						const GByteArray *anim,
-						gchar **frame,
-						gsize *len);
+						GBytes *bytes,
+						gchar **out_frame,
+						gsize *out_len);
 
 gchar *		e_mail_part_build_uri		(CamelFolder *folder,
 						 const gchar *message_uid,

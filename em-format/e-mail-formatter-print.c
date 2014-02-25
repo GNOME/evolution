@@ -38,7 +38,7 @@ static gpointer e_mail_formatter_print_parent_class = 0;
 static void
 mail_formatter_print_write_attachments (EMailFormatter *formatter,
                                         GQueue *attachments,
-                                        CamelStream *stream,
+                                        GOutputStream *stream,
                                         GCancellable *cancellable)
 {
 	GString *str;
@@ -96,7 +96,8 @@ mail_formatter_print_write_attachments (EMailFormatter *formatter,
 
 	g_string_append (str, "</table>\n");
 
-	camel_stream_write_string (stream, str->str, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, str->str, str->len, NULL, cancellable, NULL);
 
 	g_string_free (str, TRUE);
 }
@@ -104,17 +105,17 @@ mail_formatter_print_write_attachments (EMailFormatter *formatter,
 static void
 mail_formatter_print_run (EMailFormatter *formatter,
                           EMailFormatterContext *context,
-                          CamelStream *stream,
+                          GOutputStream *stream,
                           GCancellable *cancellable)
 {
 	GQueue queue = G_QUEUE_INIT;
 	GQueue attachments = G_QUEUE_INIT;
 	GList *head, *link;
+	const gchar *string;
 
 	context->mode = E_MAIL_FORMATTER_MODE_PRINTING;
 
-	camel_stream_write_string (
-		stream,
+	string =
 		"<!DOCTYPE HTML>\n"
 		"<html>\n"
 		"<head>\n"
@@ -123,8 +124,10 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		"<link type=\"text/css\" rel=\"stylesheet\" "
 		"      media=\"print\" href=\"" STYLESHEET_URI "/>\n"
 		"</head>\n"
-		"<body style=\"background: #FFF; color: #000;\">",
-		cancellable, NULL);
+		"<body style=\"background: #FFF; color: #000;\">";
+
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
 
@@ -181,7 +184,11 @@ mail_formatter_print_run (EMailFormatter *formatter,
 			formatter, &attachments,
 			stream, cancellable);
 
-	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+	string = "</body></html>";
+
+	g_output_stream_write_all (
+		stream, string, strlen (string),
+		NULL, cancellable, NULL);
 }
 
 static void

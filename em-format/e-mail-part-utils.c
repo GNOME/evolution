@@ -288,67 +288,76 @@ e_mail_part_get_related_display_part (CamelMimePart *part,
 }
 
 void
-e_mail_part_animation_extract_frame (const GByteArray *anim,
-                                     gchar **frame,
-                                     gsize *len)
+e_mail_part_animation_extract_frame (GBytes *bytes,
+                                     gchar **out_frame,
+                                     gsize *out_len)
 {
 	GdkPixbufLoader *loader;
 	GdkPixbufAnimation *animation;
 	GdkPixbuf *frame_buf;
+	const guchar *bytes_data;
+	gsize bytes_size;
 
-        /* GIF89a (GIF image signature) */
-	const gchar GIF_HEADER[] = { 0x47, 0x49, 0x46, 0x38, 0x39, 0x61 };
-	const gint   GIF_HEADER_LEN = sizeof (GIF_HEADER);
+	/* GIF89a (GIF image signature) */
+	const guchar GIF_HEADER[] = { 0x47, 0x49, 0x46, 0x38, 0x39, 0x61 };
+	const gint GIF_HEADER_LEN = sizeof (GIF_HEADER);
 
-        /* NETSCAPE2.0 (extension describing animated GIF, starts on 0x310) */
-	const gchar GIF_APPEXT[] = { 0x4E, 0x45, 0x54, 0x53, 0x43, 0x41,
+	/* NETSCAPE2.0 (extension describing animated GIF, starts on 0x310) */
+	const guchar GIF_APPEXT[] = { 0x4E, 0x45, 0x54, 0x53, 0x43, 0x41,
 				     0x50, 0x45, 0x32, 0x2E, 0x30 };
-	const gint   GIF_APPEXT_LEN = sizeof (GIF_APPEXT);
+	const gint GIF_APPEXT_LEN = sizeof (GIF_APPEXT);
 
-	if ((anim == NULL) || (anim->data == NULL)) {
-		*frame = NULL;
-		*len = 0;
+	g_return_if_fail (out_frame != NULL);
+	g_return_if_fail (out_len != NULL);
+
+	*out_frame = NULL;
+	*out_len = 0;
+
+	if (bytes == NULL)
 		return;
-	}
 
-        /* Check if the image is an animated GIF. We don't care about any
-         * other animated formats (APNG or MNG) as WebKit does not support them
-         * and displays only the first frame. */
-	if ((anim->len < 0x331)
-	    || (memcmp (anim->data, GIF_HEADER, GIF_HEADER_LEN) != 0)
-	    || (memcmp (&anim->data[0x310], GIF_APPEXT, GIF_APPEXT_LEN) != 0)) {
+	bytes_data = g_bytes_get_data (bytes, &bytes_size);
 
-                *frame = g_memdup (anim->data, anim->len);
-                *len = anim->len;
+	if (bytes_size == 0)
+		return;
+
+	/* Check if the image is an animated GIF. We don't care about any
+	 * other animated formats (APNG or MNG) as WebKit does not support them
+	 * and displays only the first frame. */
+	if ((bytes_size < 0x331)
+	    || (memcmp (bytes_data, GIF_HEADER, GIF_HEADER_LEN) != 0)
+	    || (memcmp (&bytes_data[0x310], GIF_APPEXT, GIF_APPEXT_LEN) != 0)) {
+		*out_frame = g_memdup (bytes_data, bytes_size);
+		*out_len = bytes_size;
 		return;
 	}
 
 	loader = gdk_pixbuf_loader_new ();
-	gdk_pixbuf_loader_write (loader, (guchar *) anim->data, anim->len, NULL);
+	gdk_pixbuf_loader_write (loader, bytes_data, bytes_size, NULL);
 	gdk_pixbuf_loader_close (loader, NULL);
 	animation = gdk_pixbuf_loader_get_animation (loader);
 	if (!animation) {
-
-                *frame = g_memdup (anim->data, anim->len);
-                *len = anim->len;
+		*out_frame = g_memdup (bytes_data, bytes_size);
+		*out_len = bytes_size;
 		g_object_unref (loader);
 		return;
 	}
 
-        /* Extract first frame */
+	/* Extract first frame */
 	frame_buf = gdk_pixbuf_animation_get_static_image (animation);
 	if (!frame_buf) {
-                *frame = g_memdup (anim->data, anim->len);
-                *len = anim->len;
+		*out_frame = g_memdup (bytes_data, bytes_size);
+		*out_len = bytes_size;
 		g_object_unref (loader);
 		g_object_unref (animation);
 		return;
 	}
 
-        /* Unforunatelly, GdkPixbuf cannot save to GIF, but WebKit does not
-         * have any trouble displaying PNG image despite the part having
-         * image/gif mime-type */
-	gdk_pixbuf_save_to_buffer (frame_buf, frame, len, "png", NULL, NULL);
+	/* Unforunately, GdkPixbuf cannot save to GIF, but WebKit does not
+	 * have any trouble displaying PNG image despite the part having
+	 * image/gif mime-type */
+	gdk_pixbuf_save_to_buffer (
+		frame_buf, out_frame, out_len, "png", NULL, NULL);
 
 	g_object_unref (loader);
 }

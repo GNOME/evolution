@@ -55,7 +55,7 @@ emfe_itip_format (EMailFormatterExtension *extension,
                   EMailFormatter *formatter,
                   EMailFormatterContext *context,
                   EMailPart *part,
-                  CamelStream *stream,
+                  GOutputStream *stream,
                   GCancellable *cancellable)
 {
 	GString *buffer;
@@ -135,7 +135,8 @@ emfe_itip_format (EMailFormatterExtension *extension,
 		g_free (uri);
 	}
 
-	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, buffer->str, buffer->len, NULL, cancellable, NULL);
 
 	g_string_free (buffer, TRUE);
 

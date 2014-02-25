@@ -219,7 +219,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
                       EMailFormatter *formatter,
                       EMailFormatterContext *context,
                       EMailPart *part,
-                      CamelStream *stream,
+                      GOutputStream *stream,
                       GCancellable *cancellable)
 {
 	CamelContentType *ct;
@@ -255,7 +255,8 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 
 	g_string_append (buffer, "<br>\n");
 
-	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, buffer->str, buffer->len, NULL, cancellable, NULL);
 
 	g_string_free (buffer, TRUE);
 

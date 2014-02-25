@@ -64,14 +64,14 @@ emfe_image_format (EMailFormatterExtension *extension,
                    EMailFormatter *formatter,
                    EMailFormatterContext *context,
                    EMailPart *part,
-                   CamelStream *stream,
+                   GOutputStream *stream,
                    GCancellable *cancellable)
 {
 	gchar *content;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *dw;
-	GByteArray *ba;
-	CamelStream *raw_content;
+	GBytes *bytes;
+	GOutputStream *raw_content;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
@@ -80,9 +80,13 @@ emfe_image_format (EMailFormatterExtension *extension,
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	g_return_val_if_fail (dw, FALSE);
 
-	raw_content = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream_sync (dw, raw_content, cancellable, NULL);
-	ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (raw_content));
+	raw_content = g_memory_output_stream_new_resizable ();
+	camel_data_wrapper_decode_to_output_stream_sync (
+		dw, raw_content, cancellable, NULL);
+	g_output_stream_close (raw_content, NULL, NULL);
+
+	bytes = g_memory_output_stream_steal_as_bytes (
+		G_MEMORY_OUTPUT_STREAM (raw_content));
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
 
@@ -91,17 +95,22 @@ emfe_image_format (EMailFormatterExtension *extension,
 			gchar *buff;
 			gsize len;
 
-			e_mail_part_animation_extract_frame (ba, &buff, &len);
+			e_mail_part_animation_extract_frame (
+				bytes, &buff, &len);
 
-			camel_stream_write (stream, buff, len, cancellable, NULL);
+			g_output_stream_write_all (
+				stream, buff, len, NULL, cancellable, NULL);
 
 			g_free (buff);
 
 		} else {
+			gconstpointer data;
+			gsize size;
 
-			camel_stream_write (
-				stream, (gchar *) ba->data,
-				ba->len, cancellable, NULL);
+			data = g_bytes_get_data (bytes, &size);
+
+			g_output_stream_write_all (
+				stream, data, size, NULL, cancellable, NULL);
 		}
 
 	} else {
@@ -113,13 +122,18 @@ emfe_image_format (EMailFormatterExtension *extension,
 			gchar *buff;
 			gsize len;
 
-			e_mail_part_animation_extract_frame (ba, &buff, &len);
+			e_mail_part_animation_extract_frame (
+				bytes, &buff, &len);
 
 			content = g_base64_encode ((guchar *) buff, len);
 			g_free (buff);
 
 		} else {
-			content = g_base64_encode ((guchar *) ba->data, ba->len);
+			gconstpointer data;
+			gsize size;
+
+			data = g_bytes_get_data (bytes, &size);
+			content = g_base64_encode (data, size);
 		}
 
 		mime_type = e_mail_part_get_mime_type (part);
@@ -133,10 +147,15 @@ emfe_image_format (EMailFormatterExtension *extension,
 			"     style=\"max-width: 100%%;\" />",
 			mime_type, content);
 
-		camel_stream_write_string (stream, buffer, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, buffer, strlen (buffer),
+			NULL, cancellable, NULL);
+
 		g_free (buffer);
 		g_free (content);
 	}
+
+	g_bytes_unref (bytes);
 
 	g_object_unref (raw_content);
 

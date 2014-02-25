@@ -46,62 +46,66 @@ emfe_source_format (EMailFormatterExtension *extension,
                     EMailFormatter *formatter,
                     EMailFormatterContext *context,
                     EMailPart *part,
-                    CamelStream *stream,
+                    GOutputStream *stream,
                     GCancellable *cancellable)
 {
 	GString *buffer;
-	CamelStream *filtered_stream;
+	GOutputStream *filtered_stream;
 	CamelMimeFilter *filter;
 	CamelMimePart *mime_part;
 
 	mime_part = e_mail_part_ref_mime_part (part);
-
-	filtered_stream = camel_stream_filter_new (stream);
-
-	filter = camel_mime_filter_tohtml_new (
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-		CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
-	camel_stream_filter_add (
-		CAMEL_STREAM_FILTER (filtered_stream), filter);
-	g_object_unref (filter);
 
 	buffer = g_string_new ("");
 
 	if (CAMEL_IS_MIME_MESSAGE (mime_part)) {
 		g_string_append (
 			buffer,
-			"<div class=\"part-container -e-mail-formatter-body-color "
-			"-e-web-view-text-color\" style=\"border: 0;\" >");
+			"<div class=\"part-container "
+			"-e-mail-formatter-body-color "
+			"-e-web-view-text-color\" "
+			"style=\"border: 0;\" >");
 	} else {
 		g_string_append (
 			buffer,
-			"<div class=\"part-container -e-mail-formatter-body-color "
-			" -e-web-view-text-color -e-mail-formatter-frame-color\">"
+			"<div class=\"part-container "
+			"-e-mail-formatter-body-color "
+			"-e-web-view-text-color "
+			"-e-mail-formatter-frame-color\">"
 			"<div class=\"part-container-inner-margin pre\">\n");
 	}
 
-	camel_stream_write_string (
-		stream, buffer->str, cancellable, NULL);
-	camel_stream_write_string (
-		stream, "<code class=\"pre\">", cancellable, NULL);
+	g_string_append (buffer, "<code class=\"pre\">");
 
-	camel_data_wrapper_write_to_stream_sync (
+	g_output_stream_write_all (
+		stream, buffer->str, buffer->len, NULL, cancellable, NULL);
+
+	filter = camel_mime_filter_tohtml_new (
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+		CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
+	filtered_stream = camel_filter_output_stream_new (stream, filter);
+	g_object_unref (filter);
+
+	camel_data_wrapper_write_to_output_stream_sync (
 		CAMEL_DATA_WRAPPER (mime_part),
 		filtered_stream, cancellable, NULL);
-	camel_stream_flush (filtered_stream, cancellable, NULL);
+	g_output_stream_flush (filtered_stream, cancellable, NULL);
+
 	g_object_unref (filtered_stream);
 
-	camel_stream_write_string (
-		stream, "</code>", cancellable, NULL);
+	/* Resets the string buffer. */
+	g_string_assign (buffer, "</code>");
+
+	if (CAMEL_IS_MIME_MESSAGE (mime_part))
+		g_string_append (buffer, "</div>");
+	else
+		g_string_append (buffer, "</div></div>");
+
+	g_output_stream_write_all (
+		stream, buffer->str, buffer->len, NULL, cancellable, NULL);
 
 	g_string_free (buffer, TRUE);
-
-	if (CAMEL_IS_MIME_MESSAGE (mime_part)) {
-		camel_stream_write_string (stream, "</div>", cancellable, NULL);
-	} else {
-		camel_stream_write_string (stream, "</div></div>", cancellable, NULL);
-	}
 
 	g_object_unref (mime_part);
 

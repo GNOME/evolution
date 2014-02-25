@@ -132,34 +132,40 @@ emfe_text_html_format (EMailFormatterExtension *extension,
                        EMailFormatter *formatter,
                        EMailFormatterContext *context,
                        EMailPart *part,
-                       CamelStream *stream,
+                       GOutputStream *stream,
                        GCancellable *cancellable)
 {
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
-		e_mail_formatter_format_text (formatter, part, stream, cancellable);
+		e_mail_formatter_format_text (
+			formatter, part, stream, cancellable);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
+		GOutputStream *decoded_stream;
 		GString *string;
-		GByteArray *ba;
 		gchar *pos;
 		GList *tags, *iter;
 		gboolean valid;
 		gchar *tag;
 		const gchar *document_end;
-		gint length;
+		gpointer data;
+		gsize length;
 		gint i;
-		CamelStream *decoded_stream;
 
-		decoded_stream = camel_stream_mem_new ();
+		decoded_stream = g_memory_output_stream_new_resizable ();
+
 		/* FORMATTER FIXME: See above */
-		e_mail_formatter_format_text (formatter, part, decoded_stream, cancellable);
-		g_seekable_seek (G_SEEKABLE (decoded_stream), 0, G_SEEK_SET, cancellable, NULL);
+		e_mail_formatter_format_text (
+			formatter, part, decoded_stream, cancellable);
 
-		ba = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (decoded_stream));
-		string = g_string_new_len ((gchar *) ba->data, ba->len);
+		data = g_memory_output_stream_get_data (
+			G_MEMORY_OUTPUT_STREAM (decoded_stream));
+		length = g_memory_output_stream_get_data_size (
+			G_MEMORY_OUTPUT_STREAM (decoded_stream));
+
+		string = g_string_new_len ((gchar *) data, length);
 
 		g_object_unref (decoded_stream);
 
@@ -225,7 +231,8 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			};
 
 			emfe_text_html_format (
-				extension, formatter, &c, part, stream, cancellable);
+				extension, formatter, &c,
+				part, stream, cancellable);
 			return FALSE;
 		}
 
@@ -288,7 +295,9 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		if (valid)
 			g_string_truncate (string, tag - string->str);
 
-		camel_stream_write_string (stream, string->str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, string->str, string->len,
+			NULL, cancellable, NULL);
 
 		g_string_free (string, TRUE);
 	} else {
@@ -333,7 +342,9 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part));
 
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str),
+			NULL, cancellable, NULL);
 
 		g_free (str);
 		g_free (uri);

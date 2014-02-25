@@ -17,6 +17,8 @@
 
 #include "e-mail-formatter.h"
 
+#include <string.h>
+
 #include <gdk/gdk.h>
 #include <libebackend/libebackend.h>
 
@@ -52,7 +54,7 @@ struct _EMailFormatterPrivate {
 };
 
 struct _AsyncContext {
-	CamelStream *stream;
+	GOutputStream *stream;
 	EMailPartList *part_list;
 	EMailFormatterHeaderFlags flags;
 	EMailFormatterMode mode;
@@ -370,15 +372,17 @@ e_mail_formatter_constructed (GObject *object)
 static void
 mail_formatter_run (EMailFormatter *formatter,
                     EMailFormatterContext *context,
-                    CamelStream *stream,
+                    GOutputStream *stream,
                     GCancellable *cancellable)
 {
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	gchar *hdr;
+	const gchar *string;
 
 	hdr = e_mail_formatter_get_html_header (formatter);
-	camel_stream_write_string (stream, hdr, cancellable, NULL);
+	g_output_stream_write_all (
+		stream, hdr, strlen (hdr), NULL, cancellable, NULL);
 	g_free (hdr);
 
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
@@ -472,7 +476,10 @@ mail_formatter_run (EMailFormatter *formatter,
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
 
-	camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+	string = "</body></html>";
+	g_output_stream_write_all (
+		stream, string, strlen (string),
+		NULL, cancellable, NULL);
 }
 
 static void
@@ -815,7 +822,7 @@ e_mail_formatter_get_type (void)
 void
 e_mail_formatter_format_sync (EMailFormatter *formatter,
                               EMailPartList *part_list,
-                              CamelStream *stream,
+                              GOutputStream *stream,
                               EMailFormatterHeaderFlags flags,
                               EMailFormatterMode mode,
                               GCancellable *cancellable)
@@ -825,7 +832,7 @@ e_mail_formatter_format_sync (EMailFormatter *formatter,
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	/* EMailPartList can be NULL. */
-	g_return_if_fail (CAMEL_IS_STREAM (stream));
+	g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
 	g_return_if_fail (class->run != NULL);
@@ -859,7 +866,7 @@ mail_formatter_format_thread (GSimpleAsyncResult *simple,
 void
 e_mail_formatter_format (EMailFormatter *formatter,
                          EMailPartList *part_list,
-                         CamelStream *stream,
+                         GOutputStream *stream,
                          EMailFormatterHeaderFlags flags,
                          EMailFormatterMode mode,
                          GAsyncReadyCallback callback,
@@ -872,7 +879,7 @@ e_mail_formatter_format (EMailFormatter *formatter,
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	/* EMailPartList can be NULL. */
-	g_return_if_fail (CAMEL_IS_STREAM (stream));
+	g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
 	g_return_if_fail (class->run != NULL);
@@ -927,7 +934,7 @@ e_mail_formatter_format_finish (EMailFormatter *formatter,
  * @formatter: an #EMailFormatter
  * @context: an #EMailFormatterContext
  * @part: an #EMailPart
- * @stream: a #CamelStream
+ * @stream: a #GOutputStream
  * @as_mime_type: (allow-none) mime-type to use for formatting, or %NULL
  * @cancellable: (allow-none) an optional #GCancellable
  *
@@ -942,7 +949,7 @@ gboolean
 e_mail_formatter_format_as (EMailFormatter *formatter,
                             EMailFormatterContext *context,
                             EMailPart *part,
-                            CamelStream *stream,
+                            GOutputStream *stream,
                             const gchar *as_mime_type,
                             GCancellable *cancellable)
 {
@@ -961,7 +968,7 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), FALSE);
 	g_return_val_if_fail (part != NULL, FALSE);
-	g_return_val_if_fail (CAMEL_IS_STREAM (stream), FALSE);
+	g_return_val_if_fail (G_IS_OUTPUT_STREAM (stream), FALSE);
 
 	if (as_mime_type == NULL || *as_mime_type == '\0')
 		as_mime_type = e_mail_part_get_mime_type (part);
@@ -1026,14 +1033,12 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 void
 e_mail_formatter_format_text (EMailFormatter *formatter,
                               EMailPart *part,
-                              CamelStream *stream,
+                              GOutputStream *stream,
                               GCancellable *cancellable)
 {
-	CamelStream *filter_stream;
 	CamelMimeFilter *filter;
 	const gchar *charset = NULL;
 	CamelMimeFilter *windows = NULL;
-	CamelStream *mem_stream = NULL;
 	CamelMimePart *mime_part;
 	CamelContentType *mime_type;
 
@@ -1048,26 +1053,26 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	} else if (mime_type != NULL
 		   && (charset = camel_content_type_param (mime_type, "charset"))
 		   && g_ascii_strncasecmp (charset, "iso-8859-", 9) == 0) {
-		CamelStream *null;
+		GOutputStream *null_stream;
+		GOutputStream *filter_stream;
 
 		/* Since a few Windows mailers like to claim they sent
 		 * out iso-8859-# encoded text when they really sent
 		 * out windows-cp125#, do some simple sanity checking
 		 * before we move on... */
 
-		null = camel_stream_null_new ();
-		filter_stream = camel_stream_filter_new (null);
-		g_object_unref (null);
-
+		null_stream = camel_null_output_stream_new ();
 		windows = camel_mime_filter_windows_new (charset);
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filter_stream), windows);
+		filter_stream = camel_filter_output_stream_new (
+			null_stream, windows);
 
-		camel_data_wrapper_decode_to_stream_sync (
+		camel_data_wrapper_decode_to_output_stream_sync (
 			CAMEL_DATA_WRAPPER (mime_part),
 			filter_stream, cancellable, NULL);
-		camel_stream_flush (filter_stream, cancellable, NULL);
+		g_output_stream_flush (filter_stream, cancellable, NULL);
+
 		g_object_unref (filter_stream);
+		g_object_unref (null_stream);
 
 		charset = camel_mime_filter_windows_real_charset (
 			CAMEL_MIME_FILTER_WINDOWS (windows));
@@ -1075,34 +1080,23 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 		charset = formatter->priv->default_charset;
 	}
 
-	mem_stream = (CamelStream *) camel_stream_mem_new ();
-	filter_stream = camel_stream_filter_new (mem_stream);
-
 	filter = camel_mime_filter_charset_new (charset, "UTF-8");
 	if (filter != NULL) {
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filter_stream), filter);
+		stream = camel_filter_output_stream_new (stream, filter);
 		g_object_unref (filter);
+	} else {
+		g_object_ref (stream);
 	}
 
-	camel_data_wrapper_decode_to_stream_sync (
+	camel_data_wrapper_decode_to_output_stream_sync (
 		camel_medium_get_content (CAMEL_MEDIUM (mime_part)),
-		filter_stream, cancellable, NULL);
-	camel_stream_flush (filter_stream, cancellable, NULL);
-	g_object_unref (filter_stream);
+		stream, cancellable, NULL);
+	g_output_stream_flush (stream, cancellable, NULL);
 
-	g_seekable_seek (G_SEEKABLE (mem_stream), 0, G_SEEK_SET, NULL, NULL);
+	g_object_unref (stream);
 
-	camel_stream_write_to_stream (
-		mem_stream, stream, cancellable, NULL);
-	camel_stream_flush (mem_stream, cancellable, NULL);
-
-	if (windows != NULL)
-		g_object_unref (windows);
-
-	g_object_unref (mem_stream);
-
-	g_object_unref (mime_part);
+	g_clear_object (&windows);
+	g_clear_object (&mime_part);
 }
 
 const gchar *

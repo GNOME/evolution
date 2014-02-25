@@ -47,14 +47,14 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
                            EMailFormatter *formatter,
                            EMailFormatterContext *context,
                            EMailPart *part,
-                           CamelStream *stream,
+                           GOutputStream *stream,
                            GCancellable *cancellable)
 {
-	CamelStream *filtered_stream;
-	CamelMimeFilter *enriched;
+	GOutputStream *filtered_stream;
+	CamelMimeFilter *filter;
 	const gchar *mime_type;
+	const gchar *string;
 	guint32 filter_flags = 0;
-	GString *buffer;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
@@ -64,29 +64,28 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 	if (g_strcmp0 (mime_type, "text/richtext") == 0)
 		filter_flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
 
-	enriched = camel_mime_filter_enriched_new (filter_flags);
-	filtered_stream = camel_stream_filter_new (stream);
-	camel_stream_filter_add (
-		CAMEL_STREAM_FILTER (filtered_stream), enriched);
-	g_object_unref (enriched);
+	filter = camel_mime_filter_enriched_new (filter_flags);
+	filtered_stream = camel_filter_output_stream_new (stream, filter);
+	g_object_unref (filter);
 
-	buffer = g_string_new ("");
-
-	g_string_append (
-		buffer,
+	string =
 		"<div class=\"part-container -e-mail-formatter-frame-color "
 		"-e-web-view-background-color -e-web-view-text-color\">"
-		"<div class=\"part-container-inner-margin\">\n");
+		"<div class=\"part-container-inner-margin\">\n";
 
-	camel_stream_write_string (stream, buffer->str, cancellable, NULL);
-	g_string_free (buffer, TRUE);
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	e_mail_formatter_format_text (
 		formatter, part, filtered_stream, cancellable);
-	camel_stream_flush (filtered_stream, cancellable, NULL);
+	g_output_stream_flush (filtered_stream, cancellable, NULL);
+
 	g_object_unref (filtered_stream);
 
-	camel_stream_write_string (stream, "</div></div>", cancellable, NULL);
+	string = "</div></div>";
+
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
 
 	return TRUE;
 }

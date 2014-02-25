@@ -52,7 +52,7 @@ static gpointer e_mail_formatter_quote_parent_class = 0;
 static void
 mail_formatter_quote_run (EMailFormatter *formatter,
                           EMailFormatterContext *context,
-                          CamelStream *stream,
+                          GOutputStream *stream,
                           GCancellable *cancellable)
 {
 	EMailFormatterQuote *qf;
@@ -60,6 +60,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	GSettings *settings;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	const gchar *string;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -74,26 +75,31 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		0, G_SEEK_SET, NULL, NULL);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
-	if (g_settings_get_boolean (
-		settings, "composer-top-signature"))
-		camel_stream_write_string (
-			stream, "<br>\n", cancellable, NULL);
+	if (g_settings_get_boolean (settings, "composer-top-signature")) {
+		string = "<br>\n";
+		g_output_stream_write_all (
+			stream, string, strlen (string),
+			NULL, cancellable, NULL);
+	}
 	g_object_unref (settings);
 
-	if (qf->priv->credits && *qf->priv->credits) {
-		gchar *credits = g_strdup_printf ("%s<br>", qf->priv->credits);
-		camel_stream_write_string (stream, credits, cancellable, NULL);
-		g_free (credits);
-	} else {
-		camel_stream_write_string (stream, "<br>", cancellable, NULL);
+	if (qf->priv->credits != NULL && *qf->priv->credits != '\0') {
+		g_output_stream_write_all (
+			stream, qf->priv->credits,
+			strlen (qf->priv->credits),
+			NULL, cancellable, NULL);
 	}
 
+	g_output_stream_write_all (
+		stream, "<br>", 4, NULL, cancellable, NULL);
+
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
-		camel_stream_write_string (
-			stream,
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		string = "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 			"key=\"orig\" value=\"1\">-->\n"
-			"<blockquote type=cite>\n", cancellable, NULL);
+			"<blockquote type=cite>\n";
+		g_output_stream_write_all (
+			stream, string, strlen (string),
+			NULL, cancellable, NULL);
 	}
 
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
@@ -131,10 +137,11 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 		g_object_unref (g_queue_pop_head (&queue));
 
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
-		camel_stream_write_string (
-			stream, "</blockquote><!--+GtkHTML:"
-			"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
-			cancellable, NULL);
+		string = "</blockquote><!--+GtkHTML:"
+			"<DATA class=\"ClueFlow\" clear=\"orig\">-->";
+		g_output_stream_write_all (
+			stream, string, strlen (string),
+			NULL, cancellable, NULL);
 	}
 }
 

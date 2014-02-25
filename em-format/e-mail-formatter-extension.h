@@ -81,7 +81,7 @@ struct _EMailFormatterExtensionClass {
 					 EMailFormatter *formatter,
 					 EMailFormatterContext *context,
 					 EMailPart *part,
-					 CamelStream *stream,
+					 GOutputStream *stream,
 					 GCancellable *cancellable);
 	GtkWidget *	(*get_widget)	(EMailFormatterExtension *extension,
 					 EMailPartList *context,
@@ -96,7 +96,7 @@ gboolean	e_mail_formatter_extension_format
 						 EMailFormatter *formatter,
 						 EMailFormatterContext *context,
 						 EMailPart *part,
-						 CamelStream *stream,
+						 GOutputStream *stream,
 						 GCancellable *cancellable);
 gboolean	e_mail_formatter_extension_has_widget
 						(EMailFormatterExtension *extension);

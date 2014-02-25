@@ -50,35 +50,39 @@ emqfe_text_html_format (EMailFormatterExtension *extension,
                         EMailFormatter *formatter,
                         EMailFormatterContext *context,
                         EMailPart *part,
-                        CamelStream *stream,
+                        GOutputStream *stream,
                         GCancellable *cancellable)
 {
 	EMailFormatterQuoteContext *qf_context;
+	GOutputStream *filtered_stream;
+	const gchar *string;
 
 	qf_context = (EMailFormatterQuoteContext *) context;
 
-	camel_stream_write_string (
-		stream, "\n<!-- text/html -->\n", cancellable, NULL);
+	string = "\n<!-- text/html -->\n";
+	g_output_stream_write_all (
+		stream, string, strlen (string), NULL, cancellable, NULL);
+
+	filtered_stream = g_object_ref (stream);
 
 	if ((qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG) == 0) {
-		CamelMimeFilter *sig_strip;
-		CamelStream *filtered_stream;
+		CamelMimeFilter *filter;
+		GOutputStream *temp_stream;
 
-		filtered_stream = camel_stream_filter_new (stream);
-
-		sig_strip = e_mail_stripsig_filter_new (FALSE);
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
-		g_object_unref (sig_strip);
-
-		e_mail_formatter_format_text (
-			formatter, part, filtered_stream, cancellable);
-		camel_stream_flush (filtered_stream, cancellable, NULL);
+		filter = e_mail_stripsig_filter_new (FALSE);
+		temp_stream = camel_filter_output_stream_new (
+			filtered_stream, filter);
 		g_object_unref (filtered_stream);
-	} else {
-		e_mail_formatter_format_text (
-			formatter, part, stream, cancellable);
+		filtered_stream = temp_stream;
+		g_object_unref (filter);
 	}
+
+	e_mail_formatter_format_text (
+		formatter, part, filtered_stream, cancellable);
+
+	g_output_stream_flush (filtered_stream, cancellable, NULL);
+
+	g_object_unref (filtered_stream);
 
 	return TRUE;
 }

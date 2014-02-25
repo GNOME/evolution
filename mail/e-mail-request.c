@@ -65,12 +65,11 @@ handle_mail_request (GSimpleAsyncResult *simple,
                      GCancellable *cancellable)
 {
 	EMailRequest *request = E_MAIL_REQUEST (object);
-	GInputStream *stream;
 	EMailFormatter *formatter;
 	EMailPartList *part_list;
 	CamelObjectBag *registry;
-	CamelStream *output_stream;
-	GByteArray *byte_array;
+	GInputStream *input_stream;
+	GOutputStream *output_stream;
 	const gchar *val;
 	const gchar *default_charset, *charset;
 
@@ -122,12 +121,7 @@ handle_mail_request (GSimpleAsyncResult *simple,
 	if (charset != NULL && *charset != '\0')
 		e_mail_formatter_set_charset (formatter, charset);
 
-	byte_array = g_byte_array_new ();
-	output_stream = camel_stream_mem_new ();
-
-	/* We retain ownership of the byte array. */
-	camel_stream_mem_set_byte_array (
-		CAMEL_STREAM_MEM (output_stream), byte_array);
+	output_stream = g_memory_output_stream_new_resizable ();
 
 	val = g_hash_table_lookup (request->priv->uri_query, "part_id");
 	if (val != NULL) {
@@ -162,7 +156,7 @@ handle_mail_request (GSimpleAsyncResult *simple,
 			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 			g_return_if_fail (dw);
 
-			camel_data_wrapper_decode_to_stream_sync (
+			camel_data_wrapper_decode_to_output_stream_sync (
 				dw, output_stream, cancellable, NULL);
 
 			g_object_unref (mime_part);
@@ -185,31 +179,39 @@ handle_mail_request (GSimpleAsyncResult *simple,
 	}
 
  no_part:
-	g_clear_object (&output_stream);
 	g_clear_object (&context.part_list);
 
-	if (byte_array->data == NULL) {
+	g_output_stream_close (output_stream, NULL, NULL);
+
+	if (request->priv->bytes != NULL)
+		g_bytes_unref (request->priv->bytes);
+
+	request->priv->bytes = g_memory_output_stream_steal_as_bytes (
+		G_MEMORY_OUTPUT_STREAM (output_stream));
+
+	if (g_bytes_get_size (request->priv->bytes) == 0) {
 		gchar *data;
+
+		g_bytes_unref (request->priv->bytes);
 
 		data = g_strdup_printf (
 			"<p align='center'>%s</p>",
 			_("The message has no text content."));
-		g_byte_array_append (
-			byte_array, (guint8 *) data, strlen (data));
-		g_free (data);
+
+		/* Takes ownership of the string. */
+		request->priv->bytes = g_bytes_new_take (
+			data, strlen (data) + 1);
 	}
 
-	if (request->priv->bytes != NULL)
-		g_bytes_unref (request->priv->bytes);
-	request->priv->bytes = g_byte_array_free_to_bytes (byte_array);
-
-	stream = g_memory_input_stream_new_from_bytes (request->priv->bytes);
+	input_stream =
+		g_memory_input_stream_new_from_bytes (request->priv->bytes);
 
 	g_simple_async_result_set_op_res_gpointer (
-		simple, g_object_ref (stream),
+		simple, g_object_ref (input_stream),
 		(GDestroyNotify) g_object_unref);
 
-	g_object_unref (stream);
+	g_object_unref (input_stream);
+	g_object_unref (output_stream);
 
 	g_object_unref (part_list);
 	g_object_unref (formatter);

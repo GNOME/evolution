@@ -49,12 +49,12 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
                          EMailFormatter *formatter,
                          EMailFormatterContext *context,
                          EMailPart *part,
-                         CamelStream *stream,
+                         GOutputStream *stream,
                          GCancellable *cancellable)
 {
-	CamelStream *filtered_stream;
-	CamelMimeFilter *html_filter;
-	CamelMimeFilter *sig_strip;
+	GOutputStream *filtered_stream;
+	GOutputStream *temp_stream;
+	CamelMimeFilter *filter;
 	CamelMimePart *mime_part;
 	CamelContentType *type;
 	EMailFormatterQuoteContext *qf_context;
@@ -83,24 +83,27 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 	    && !g_ascii_strcasecmp (format, "flowed"))
 		text_flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 
-	filtered_stream = camel_stream_filter_new (stream);
+	filtered_stream = g_object_ref (stream);
 
 	if ((qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG) == 0) {
-		sig_strip = e_mail_stripsig_filter_new (TRUE);
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
-		g_object_unref (sig_strip);
+		filter = e_mail_stripsig_filter_new (TRUE);
+		temp_stream = camel_filter_output_stream_new (
+			filtered_stream, filter);
+		g_object_unref (filtered_stream);
+		filtered_stream = temp_stream;
+		g_object_unref (filter);
 	}
 
-	html_filter = camel_mime_filter_tohtml_new (text_flags, rgb);
-	camel_stream_filter_add (
-		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
-	g_object_unref (html_filter);
+	filter = camel_mime_filter_tohtml_new (text_flags, rgb);
+	temp_stream = camel_filter_output_stream_new (filtered_stream, filter);
+	g_object_unref (filtered_stream);
+	filtered_stream = temp_stream;
+	g_object_unref (filter);
 
 	e_mail_formatter_format_text (
 		formatter, part, filtered_stream, cancellable);
 
-	camel_stream_flush (filtered_stream, cancellable, NULL);
+	g_output_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 
 	g_object_unref (mime_part);

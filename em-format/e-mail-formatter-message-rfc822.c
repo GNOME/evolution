@@ -49,7 +49,7 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
                             EMailFormatter *formatter,
                             EMailFormatterContext *context,
                             EMailPart *part,
-                            CamelStream *stream,
+                            GOutputStream *stream,
                             GCancellable *cancellable)
 {
 	const gchar *part_id;
@@ -63,9 +63,12 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 		GQueue queue = G_QUEUE_INIT;
 		GList *head, *link;
 		gchar *header, *end;
+		const gchar *string;
 
 		header = e_mail_formatter_get_html_header (formatter);
-		camel_stream_write_string (stream, header, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, header, strlen (header),
+			NULL, cancellable, NULL);
 		g_free (header);
 
 		/* Print content of the message normally */
@@ -122,7 +125,11 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 		context->mode = E_MAIL_FORMATTER_MODE_RAW;
 
-		camel_stream_write_string (stream, "</body></html>", cancellable, NULL);
+		string = "</body></html>";
+
+		g_output_stream_write_all (
+			stream, string, strlen (string),
+			NULL, cancellable, NULL);
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
 		GQueue queue = G_QUEUE_INIT;
@@ -228,7 +235,9 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 			"</div>",
 			part_id, uri, part_id);
 
-		camel_stream_write_string (stream, str, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, str, strlen (str),
+			NULL, cancellable, NULL);
 
 		g_free (str);
 		g_free (uri);

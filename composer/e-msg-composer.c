@@ -187,8 +187,7 @@ emcu_part_to_html (EMsgComposer *composer,
                    GCancellable *cancellable)
 {
 	CamelSession *session;
-	CamelStreamMem *mem;
-	GByteArray *buf;
+	GOutputStream *stream;
 	gchar *text;
 	EMailParser *parser;
 	EMailFormatter *formatter;
@@ -227,9 +226,7 @@ emcu_part_to_html (EMsgComposer *composer,
 		return NULL;
 	}
 
-	buf = g_byte_array_new ();
-	mem = (CamelStreamMem *) camel_stream_mem_new ();
-	camel_stream_mem_set_byte_array (mem, buf);
+	stream = g_memory_output_stream_new_resizable ();
 
 	formatter = e_mail_formatter_quote_new (
 		NULL, keep_signature ? E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG : 0);
@@ -238,19 +235,23 @@ emcu_part_to_html (EMsgComposer *composer,
 		gtk_widget_get_state_flags (GTK_WIDGET (window)));
 
 	e_mail_formatter_format_sync (
-		formatter, part_list, (CamelStream *) mem,
+		formatter, part_list, stream,
 		0, E_MAIL_FORMATTER_MODE_PRINTING, cancellable);
+
 	g_object_unref (formatter);
 	g_object_unref (part_list);
 
-	camel_stream_write ((CamelStream *) mem, "", 1, cancellable, NULL);
-	g_object_unref (mem);
+	g_output_stream_write (stream, "", 1, NULL, NULL);
 
-	text = (gchar *) buf->data;
-	if (len)
-		*len = buf->len - 1;
+	g_output_stream_close (stream, NULL, NULL);
 
-	g_byte_array_free (buf, FALSE);
+	text = g_memory_output_stream_steal_data (
+		G_MEMORY_OUTPUT_STREAM (stream));
+
+	if (len != NULL)
+		*len = strlen (text);
+
+	g_object_unref (stream);
 
 	return text;
 }

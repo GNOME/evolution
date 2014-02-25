@@ -113,10 +113,10 @@ emfe_attachment_format (EMailFormatterExtension *extension,
                         EMailFormatter *formatter,
                         EMailFormatterContext *context,
                         EMailPart *part,
-                        CamelStream *stream,
+                        GOutputStream *stream,
                         GCancellable *cancellable)
 {
-	gchar *str, *text, *html;
+	gchar *text, *html;
 	gchar *button_id;
 	EAttachmentStore *store;
 	EMailExtensionRegistry *registry;
@@ -124,6 +124,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 	EMailPartAttachment *empa;
 	CamelMimePart *mime_part;
 	CamelMimeFilterToHTMLFlags flags;
+	GString *buffer;
 	const gchar *attachment_part_id;
 	const gchar *part_id;
 
@@ -217,8 +218,9 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 					display_name);
 			}
 
-			camel_stream_write_string (
-				stream, name, cancellable, NULL);
+			g_output_stream_write_all (
+				stream, name, strlen (name),
+				NULL, cancellable, NULL);
 
 			g_free (description);
 			g_free (name);
@@ -257,7 +259,11 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 	button_id = g_strconcat (attachment_part_id, ".attachment_button", NULL);
 
-	str = g_strdup_printf (
+	/* XXX Wild guess at the initial size. */
+	buffer = g_string_sized_new (8192);
+
+	g_string_append_printf (
+		buffer,
 		"<div class=\"attachment\">"
 		"<table width=\"100%%\" border=\"0\">"
 		"<tr valign=\"middle\">"
@@ -268,16 +274,15 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		"<td align=\"left\">%s</td>"
 		"</tr>", part_id, button_id, html);
 
-	camel_stream_write_string (stream, str, cancellable, NULL);
 	g_free (button_id);
-	g_free (str);
 	g_free (html);
 
 	if (extensions != NULL) {
-		CamelStream *content_stream;
+		GOutputStream *content_stream;
 		gboolean success = FALSE;
 
-		content_stream = camel_stream_mem_new ();
+		content_stream = g_memory_output_stream_new_resizable ();
+
 		if (empa->attachment_view_part_id != NULL) {
 			EMailPart *attachment_view_part;
 
@@ -316,35 +321,41 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 		if (success) {
 			gchar *wrapper_element_id;
+			gconstpointer data;
+			gsize size;
 
 			wrapper_element_id = g_strconcat (
 				attachment_part_id, ".wrapper", NULL);
 
-			str = g_strdup_printf (
+			data = g_memory_output_stream_get_data (
+				G_MEMORY_OUTPUT_STREAM (content_stream));
+			size = g_memory_output_stream_get_data_size (
+				G_MEMORY_OUTPUT_STREAM (content_stream));
+
+			buffer = g_string_sized_new (size);
+
+			g_string_append_printf (
+				buffer,
 				"<tr><td colspan=\"2\">"
 				"<div class=\"attachment-wrapper\" id=\"%s\">",
 				wrapper_element_id);
 
-			camel_stream_write_string (
-				stream, str, cancellable, NULL);
+			g_string_append_len (buffer, data, size);
 
-			g_seekable_seek (
-				G_SEEKABLE (content_stream), 0,
-				G_SEEK_SET, cancellable, NULL);
-			camel_stream_write_to_stream (
-				content_stream, stream, cancellable, NULL);
-
-			camel_stream_write_string (
-				stream, "</div></td></tr>", cancellable, NULL);
+			g_string_append (buffer, "</div></td></tr>");
 
 			g_free (wrapper_element_id);
-			g_free (str);
 		}
 
 		g_object_unref (content_stream);
 	}
 
-	camel_stream_write_string (stream, "</table></div>", cancellable, NULL);
+	g_string_append (buffer, "</table></div>");
+
+	g_output_stream_write_all (
+		stream, buffer->str, buffer->len, NULL, cancellable, NULL);
+
+	g_string_free (buffer, TRUE);
 
 	return TRUE;
 }
