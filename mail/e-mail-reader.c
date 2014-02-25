@@ -393,7 +393,7 @@ action_mail_delete_cb (GtkAction *action,
 	/* FIXME Verify all selected messages are deletable.
 	 *       But handle it by disabling this action. */
 
-	if (e_mail_reader_mark_selected (reader, mask, set) == 1)
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0)
 		e_mail_reader_select_next_message (reader, FALSE);
 }
 
