@@ -137,7 +137,7 @@ gal_a11y_e_table_column_header_do_action (AtkAction *action,
 					E_TABLE (widget)->header_item);
 			else
 				break;
-			ethi_change_sort_state (ethi, col);
+			ethi_change_sort_state (ethi, col, E_TABLE_HEADER_ITEM_SORT_FLAG_NONE);
 		default:
 			return_value = FALSE;
 			break;

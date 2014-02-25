@@ -119,6 +119,11 @@ void		e_table_sort_info_sorting_set_nth
 					 guint n,
 					 ETableColumnSpecification *spec,
 					 GtkSortType sort_type);
+void		e_table_sort_info_sorting_insert
+					(ETableSortInfo *sort_info,
+					 guint n,
+					 ETableColumnSpecification *spec,
+					 GtkSortType sort_type);
 void		e_table_sort_info_load_from_node
 					(ETableSortInfo *sort_info,
 					 xmlNode *node,

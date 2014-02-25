@@ -1659,7 +1659,7 @@ sort_by_id (GtkWidget *menu_item,
 	if (clearfirst)
 		e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
 
-	ethi_change_sort_state (ethi, ecol);
+	ethi_change_sort_state (ethi, ecol, E_TABLE_HEADER_ITEM_SORT_FLAG_NONE);
 }
 
 static void
@@ -1793,7 +1793,8 @@ ethi_button_pressed (ETableHeaderItem *ethi,
 
 void
 ethi_change_sort_state (ETableHeaderItem *ethi,
-                        ETableCol *col)
+                        ETableCol *col,
+			ETableHeaderItemSortFlag flag)
 {
 	ETableColumnSpecification *col_spec = NULL;
 	gint length;
@@ -1868,11 +1869,21 @@ ethi_change_sort_state (ETableHeaderItem *ethi,
 	}
 
 	if (!found && col_spec != NULL) {
-		e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
+		if (flag == E_TABLE_HEADER_ITEM_SORT_FLAG_NONE) {
+			e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
+			e_table_sort_info_sorting_set_nth (
+				ethi->sort_info, 0,
+				col_spec, GTK_SORT_ASCENDING);
+		} else {
+			guint index = 0;
 
-		e_table_sort_info_sorting_set_nth (
-			ethi->sort_info, 0,
-			col_spec, GTK_SORT_ASCENDING);
+			if (flag == E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_LAST)
+				index = e_table_sort_info_sorting_get_count (ethi->sort_info);
+
+			e_table_sort_info_sorting_insert (
+				ethi->sort_info, index,
+				col_spec, GTK_SORT_ASCENDING);
+		}
 	}
 }
 
@@ -1895,6 +1906,7 @@ ethi_event (GnomeCanvasItem *item,
 	gdouble event_x_win = 0;
 	gdouble event_y_win = 0;
 	guint32 event_time;
+	ETableHeaderItemSortFlag sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_NONE;
 
 	/* Don't fetch the device here.  GnomeCanvas frequently emits
 	 * synthesized events, and calling gdk_event_get_device() on them
@@ -1904,6 +1916,13 @@ ethi_event (GnomeCanvasItem *item,
 	gdk_event_get_keyval (event, &event_keyval);
 	gdk_event_get_state (event, &event_state);
 	event_time = gdk_event_get_time (event);
+
+	if ((event_state & GDK_CONTROL_MASK) != 0) {
+		if ((event_state & GDK_SHIFT_MASK) != 0)
+			sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_LAST;
+		else
+			sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_FIRST;
+	}
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
@@ -2030,7 +2049,7 @@ ethi_event (GnomeCanvasItem *item,
 
 			col = ethi_find_col_by_x (ethi, event_x_win);
 			ecol = e_table_header_get_column (ethi->eth, col);
-			ethi_change_sort_state (ethi, ecol);
+			ethi_change_sort_state (ethi, ecol, sort_flag);
 		}
 
 		if (needs_ungrab)
@@ -2069,7 +2088,7 @@ ethi_event (GnomeCanvasItem *item,
 			ETableCol *ecol;
 
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
-			ethi_change_sort_state (ethi, ecol);
+			ethi_change_sort_state (ethi, ecol, sort_flag);
 		} else if ((event_keyval == GDK_KEY_Right) ||
 				(event_keyval == GDK_KEY_KP_Right)) {
 			ETableCol *ecol;
@@ -2080,7 +2099,7 @@ ethi_event (GnomeCanvasItem *item,
 			else
 				ethi->selected_col++;
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
-			ethi_change_sort_state (ethi, ecol);
+			ethi_change_sort_state (ethi, ecol, sort_flag);
 		} else if ((event_keyval == GDK_KEY_Left) ||
 			   (event_keyval == GDK_KEY_KP_Left)) {
 			ETableCol *ecol;
@@ -2091,7 +2110,7 @@ ethi_event (GnomeCanvasItem *item,
 			else
 				ethi->selected_col--;
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
-			ethi_change_sort_state (ethi, ecol);
+			ethi_change_sort_state (ethi, ecol, sort_flag);
 		}
 		break;
 

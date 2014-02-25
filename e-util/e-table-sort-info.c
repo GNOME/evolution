@@ -693,6 +693,55 @@ e_table_sort_info_sorting_set_nth (ETableSortInfo *sort_info,
 }
 
 /**
+ * @sort_info: an #ETableSortInfo
+ * @n: Index to insert to.
+ * @spec: an #ETableColumnSpecification
+ * @sort_type: a #GtkSortType
+ *
+ * Inserts the sorting criteria for index @n to @spec and @sort_type.
+ *
+ * Since: 3.12
+ **/
+void
+e_table_sort_info_sorting_insert (ETableSortInfo *sort_info,
+				  guint n,
+				  ETableColumnSpecification *spec,
+				  GtkSortType sort_type)
+{
+	GArray *array;
+	ColumnData *column_data, tmp;
+
+	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+	g_return_if_fail (E_IS_TABLE_COLUMN_SPECIFICATION (spec));
+
+	array = sort_info->priv->sortings;
+	if (array->len == 0) {
+		e_table_sort_info_sorting_set_nth (sort_info, 0, spec, sort_type);
+		return;
+	}
+
+	if ((gint) n == -1)
+		n = 0;
+	else if (n > array->len)
+		n = array->len;
+
+	tmp.column_spec = NULL;
+	tmp.sort_type = sort_type;
+	column_data = &tmp;
+
+	if (n == array->len)
+		g_array_append_val (array, column_data);
+	else
+		g_array_insert_val (array, n, column_data);
+
+	column_data = &g_array_index (array, ColumnData, n);
+	column_data->column_spec = g_object_ref (spec);
+	column_data->sort_type = sort_type;
+
+	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
+}
+
+/**
  * e_table_sort_info_load_from_node:
  * @sort_info: an #ETableSortInfo
  * @node: pointer to the xmlNode that describes the sorting and grouping information

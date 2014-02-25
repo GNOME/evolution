@@ -56,6 +56,12 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	E_TABLE_HEADER_ITEM_SORT_FLAG_NONE = 0,
+	E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_FIRST = (1 << 0),
+	E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_LAST = (1 << 1)
+} ETableHeaderItemSortFlag;
+
 typedef struct _ETableHeaderItem ETableHeaderItem;
 typedef struct _ETableHeaderItemClass ETableHeaderItemClass;
 
@@ -140,7 +146,8 @@ struct _ETableHeaderItemClass {
 
 GType		e_table_header_item_get_type	(void) G_GNUC_CONST;
 void		ethi_change_sort_state		(ETableHeaderItem *ethi,
-						 ETableCol *col);
+						 ETableCol *col,
+						 ETableHeaderItemSortFlag flag);
 
 G_END_DECLS
 
