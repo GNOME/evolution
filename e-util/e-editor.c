@@ -289,8 +289,10 @@ editor_spell_checkers_foreach (EEditor *editor,
 		 *     child of the proxy widget. */
 		gtk_ui_manager_ensure_update (manager);
 		proxies = gtk_action_get_proxies (action);
-		child = gtk_bin_get_child (proxies->data);
-		g_object_set (child, "use-markup", TRUE, NULL);
+		if (proxies->data) {
+			child = gtk_bin_get_child (proxies->data);
+			g_object_set (child, "use-markup", TRUE, NULL);
+		}
 
 		g_free (action_name);
 		g_free (action_label);
