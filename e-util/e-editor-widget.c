@@ -3051,7 +3051,7 @@ e_editor_widget_quote_plain_text_element (EEditorWidget *widget,
  * As this function is cloning and replacing all citation blockquotes keep on
  * mind that any pointers to nodes inside these blockquotes will be invalidated.
  */
-void
+WebKitDOMElement *
 e_editor_widget_quote_plain_text (EEditorWidget *widget)
 {
 	WebKitDOMDocument *document;
@@ -3132,6 +3132,8 @@ e_editor_widget_quote_plain_text (EEditorWidget *widget)
 		body_clone,
 		WEBKIT_DOM_NODE (body),
 		NULL);
+
+	return WEBKIT_DOM_ELEMENT (body_clone);
 }
 
 /**
@@ -3843,7 +3845,6 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 					document),
 				NULL);
 		}
-
 		from = WEBKIT_DOM_NODE (blockquote);
 	} else {
 		if (signature) {
@@ -3929,7 +3930,8 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 	}
 
 	if (blockquote || webkit_dom_node_list_get_length (blockquotes) > 0)
-		e_editor_widget_quote_plain_text (widget);
+		body = WEBKIT_DOM_HTML_ELEMENT (
+			e_editor_widget_quote_plain_text (widget));
 
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
