@@ -3069,7 +3069,7 @@ e_editor_widget_quote_plain_text (EEditorWidget *widget)
 	element = webkit_dom_document_query_selector (
 		document, ".-x-evo-plaintext-quoted", NULL);
 	if (element)
-		return;
+		return NULL;
 
 	body = webkit_dom_document_get_body (document);
 	body_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
