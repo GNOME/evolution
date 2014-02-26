@@ -2295,80 +2295,6 @@ msg_composer_key_press_event (GtkWidget *widget,
 		key_press_event (widget, event);
 }
 
-/* FIXME WEBKIT We can effectively hack around this by DOM manipulation
- * when inserting signature, right?..or when is this usefull ?? */
-#if 0  /* WEBKIT-COMPOSER */
-static void
-msg_composer_command_before (EMsgComposer *composer,
-                             const gchar *command)
-{
-	EMsgComposer *composer;
-	const gchar *data;
-
-	composer = E_MSG_COMPOSER (editor);
-
-	if (strcmp (command, "insert-paragraph") != 0)
-		return;
-
-	if (composer->priv->in_signature_insert)
-		return;
-
-	data = gtkhtml_editor_get_paragraph_data (editor, "orig");
-	if (data != NULL && *data == '1') {
-		gtkhtml_editor_run_command (editor, "text-default-color");
-		gtkhtml_editor_run_command (editor, "italic-off");
-		return;
-	};
-
-	data = gtkhtml_editor_get_paragraph_data (editor, "signature");
-	if (data != NULL && *data == '1') {
-		gtkhtml_editor_run_command (editor, "text-default-color");
-		gtkhtml_editor_run_command (editor, "italic-off");
-	}
-}
-
-static void
-msg_composer_command_after (EMsgComposer *composer,
-                            const gchar *command)
-{
-	EMsgComposer *composer;
-	const gchar *data;
-
-	composer = E_MSG_COMPOSER (editor);
-
-	if (strcmp (command, "insert-paragraph") != 0)
-		return;
-
-	if (composer->priv->in_signature_insert)
-		return;
-
-	gtkhtml_editor_run_command (editor, "italic-off");
-
-	data = gtkhtml_editor_get_paragraph_data (editor, "orig");
-	if (data != NULL && *data == '1')
-		e_msg_composer_reply_indent (composer);
-	gtkhtml_editor_set_paragraph_data (editor, "orig", "0");
-
-	data = gtkhtml_editor_get_paragraph_data (editor, "signature");
-	if (data == NULL || *data != '1')
-		return;
-
-	/* Clear the signature. */
-	if (gtkhtml_editor_is_paragraph_empty (editor))
-		gtkhtml_editor_set_paragraph_data (editor, "signature" ,"0");
-
-	else if (gtkhtml_editor_is_previous_paragraph_empty (editor) &&
-		gtkhtml_editor_run_command (editor, "cursor-backward")) {
-
-		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
-		gtkhtml_editor_run_command (editor, "cursor-forward");
-	}
-
-	gtkhtml_editor_run_command (editor, "text-default-color");
-	gtkhtml_editor_run_command (editor, "italic-off");
-}
-#endif /* WEBKIT-COMPOSER */
-
 static gboolean
 msg_composer_presend (EMsgComposer *composer)
 {
@@ -4918,35 +4844,6 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	}
 
 	return res;
-}
-
-void
-e_msg_composer_reply_indent (EMsgComposer *composer)
-{
-#if 0  /* FIXME WEBKIT We already have indentation implementation.
-        *              Why is this done? */
-	GtkhtmlEditor *editor;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	editor = GTKHTML_EDITOR (composer);
-
-	if (!gtkhtml_editor_is_paragraph_empty (editor)) {
-		if (gtkhtml_editor_is_previous_paragraph_empty (editor))
-			gtkhtml_editor_run_command (editor, "cursor-backward");
-		else {
-			gtkhtml_editor_run_command (editor, "text-default-color");
-			gtkhtml_editor_run_command (editor, "italic-off");
-			gtkhtml_editor_run_command (editor, "insert-paragraph");
-			return;
-		}
-	}
-
-	gtkhtml_editor_run_command (editor, "style-normal");
-	gtkhtml_editor_run_command (editor, "indent-zero");
-	gtkhtml_editor_run_command (editor, "text-default-color");
-	gtkhtml_editor_run_command (editor, "italic-off");
-#endif
 }
 
 EComposerHeaderTable *

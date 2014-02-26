@@ -176,8 +176,6 @@ void		e_msg_composer_request_close	(EMsgComposer *composer);
 gboolean	e_msg_composer_can_close	(EMsgComposer *composer,
 						 gboolean can_save_draft);
 
-void		e_msg_composer_reply_indent	(EMsgComposer *composer);
-
 EComposerHeaderTable *
 		e_msg_composer_get_header_table	(EMsgComposer *composer);
 EAttachmentView *
