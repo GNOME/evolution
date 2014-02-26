@@ -1168,28 +1168,63 @@ clipboard_text_received (GtkClipboard *clipboard,
                          const gchar *text,
                          EEditorWidget *widget)
 {
-	gchar *html, *escaped_text;
+	EEditorSelection *selection;
+	gchar *escaped_text;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *blockquote, *element;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
+	if (!text || !*text)
+		return;
+
+	selection = e_editor_widget_get_selection (widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	/* This is a trick to escape any HTML characters (like <, > or &).
 	 * <textarea> automatically replaces all these unsafe characters
 	 * by &lt;, &gt; etc. */
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	element = webkit_dom_document_create_element (document, "TEXTAREA", NULL);
+	element = webkit_dom_document_create_element (document, "textarea", NULL);
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
 	escaped_text = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
-	g_object_unref (element);
 
-	html = g_strconcat (
-		"<blockquote type=\"cite\"><pre>",
-		escaped_text, "</pre></blockquote>", NULL);
-	e_editor_selection_insert_html (widget->priv->selection, html);
+	element = webkit_dom_document_create_element (document, "pre", NULL);
+
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element),
+		e_editor_selection_get_caret_position_node (document),
+		NULL);
+
+	blockquote = webkit_dom_document_create_element (document, "blockquote", NULL);
+	webkit_dom_element_set_attribute (blockquote, "type", "cite", NULL);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (blockquote), WEBKIT_DOM_NODE (element), NULL);
+
+	if (!e_editor_widget_get_html_mode (widget))
+		e_editor_widget_quote_plain_text_element (widget, element);
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	node = webkit_dom_range_get_end_container (range, NULL);
+
+	webkit_dom_node_append_child (
+		webkit_dom_node_get_parent_node (node),
+		WEBKIT_DOM_NODE (blockquote),
+		NULL);
+
+	e_editor_selection_restore_caret_position (selection);
 
 	g_free (escaped_text);
-	g_free (html);
 }
 
 static void
