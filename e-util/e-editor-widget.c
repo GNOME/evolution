@@ -493,7 +493,8 @@ put_body_in_citation (WebKitDOMDocument *document)
 
 		inner_html = webkit_dom_html_element_get_inner_html (body);
 		with_citation = g_strconcat (
-			"<blockquote type=\"cite\">", inner_html, "</span>", NULL);
+			"<blockquote type=\"cite\" id=\"-x-evo-main-cite\">",
+			inner_html, "</span>", NULL);
 		webkit_dom_html_element_set_inner_html (body, with_citation, NULL);
 		g_free (inner_html);
 		g_free (with_citation);
@@ -1933,7 +1934,8 @@ static void
 parse_html_into_paragraphs (EEditorWidget *widget,
                             WebKitDOMDocument *document,
                             WebKitDOMElement *blockquote,
-                            const gchar *html)
+                            const gchar *html,
+                            gboolean use_pre)
 {
 	const gchar *prev_br, *next_br;
 	gchar *inner_html;
@@ -1971,9 +1973,14 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 			rest = with_br ? to_insert + 4 : to_insert;
 		}
 
-		paragraph = e_editor_selection_get_paragraph_element (
-			e_editor_widget_get_selection (widget),
-			document, -1, citation_level);
+		if (use_pre || citation_level > 0) {
+			paragraph = webkit_dom_document_create_element (
+				document, "pre", NULL);
+		} else {
+			paragraph = e_editor_selection_get_paragraph_element (
+				e_editor_widget_get_selection (widget),
+				document, -1, citation_level);
+		}
 
 		if (with_br) {
 			WebKitDOMNode *paragraph_clone;
@@ -2031,9 +2038,14 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 	if (g_utf8_strlen (prev_br, -1) > 0) {
 		WebKitDOMElement *paragraph;
 
-		paragraph = e_editor_selection_get_paragraph_element (
-			e_editor_widget_get_selection (widget),
-			document, -1, citation_level);
+		if (use_pre || citation_level > 0) {
+			paragraph = webkit_dom_document_create_element (
+				document, "pre", NULL);
+		} else {
+			paragraph = e_editor_selection_get_paragraph_element (
+				e_editor_widget_get_selection (widget),
+				document, -1, citation_level);
+		}
 
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (paragraph),
@@ -2089,13 +2101,15 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
                                                GParamSpec *pspec,
                                                EEditorWidget *widget)
 {
+	EEditorSelection *selection = e_editor_widget_get_selection (widget);
 	gboolean start_bottom;
-	gchar *inner_text;
+	gchar *inner_text, *inner_html;
 	gint ii;
 	GSettings *settings;
 	WebKitLoadStatus status;
 	WebKitDOMDocument *document_convertor, *document;
-	WebKitDOMElement *paragraph;
+	WebKitDOMElement *paragraph, *new_blockquote, *top_signature;
+	WebKitDOMElement *cite_body, *signature;
 	WebKitDOMHTMLElement *body, *convertor_body;
 	WebKitDOMNodeList *list;
 
@@ -2125,12 +2139,10 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
-		webkit_dom_node_append_child (
+		paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
 			WEBKIT_DOM_NODE (element),
-			NULL);
-		paragraph = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-input-start");
+			NULL));
 	}
 
 	list = webkit_dom_document_query_selector_all (
@@ -2169,68 +2181,59 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 	inner_text = webkit_dom_html_element_get_inner_text (
 		webkit_dom_document_get_body (document_convertor));
 
-	if (paragraph) {
-		EEditorSelection *selection = e_editor_widget_get_selection (widget);
-		gchar *inner_html;
-		WebKitDOMElement *new_blockquote;
-		WebKitDOMElement *cite_body = webkit_dom_document_query_selector (
-			document_convertor, "span.-x-evo-cite-body", NULL);
+	cite_body = webkit_dom_document_query_selector (
+		document_convertor, "span.-x-evo-cite-body", NULL);
 
-		if (cite_body) {
-			e_editor_selection_save_caret_position (selection);
-		} else {
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (paragraph),
-				WEBKIT_DOM_NODE (
-					e_editor_selection_get_caret_position_node (
-						document)),
-				NULL);
-		}
+	if (cite_body) {
+		e_editor_selection_save_caret_position (selection);
+	} else {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (paragraph),
+			WEBKIT_DOM_NODE (
+				e_editor_selection_get_caret_position_node (
+					document)),
+			NULL);
+	}
 
-		new_blockquote = webkit_dom_document_create_element (
-			document, "blockquote", NULL);
+	top_signature = webkit_dom_document_query_selector (
+		document, ".-x-evo-top-signature", NULL);
+	signature = webkit_dom_document_query_selector (
+		document, "span.-x-evolution-signature", NULL);
+
+	new_blockquote = webkit_dom_document_create_element (
+		document, "blockquote", NULL);
+	webkit_dom_element_set_attribute (
+		new_blockquote, "type", "cite", NULL);
+
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (new_blockquote), inner_text, NULL);
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (new_blockquote));
+
+	if (cite_body) {
 		webkit_dom_element_set_attribute (
-			new_blockquote, "type", "cite", NULL);
+			new_blockquote, "id", "-x-evo-main-cite", NULL);
 
-		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (new_blockquote), inner_text, NULL);
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (new_blockquote));
+		parse_html_into_paragraphs (
+			widget, document, new_blockquote, inner_html, TRUE);
 
-		if (cite_body) {
-			WebKitDOMElement *top_signature, *signature;
+		if (signature) {
+			WebKitDOMNode *parent =
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (signature));
 
-			parse_html_into_paragraphs (
-				widget, document, new_blockquote, inner_html);
+			if (!top_signature) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (new_blockquote),
+					parent,
+					NULL);
 
-			top_signature = webkit_dom_document_query_selector (
-				document, ".-x-evo-top-signature", NULL);
-			signature = webkit_dom_document_query_selector (
-				document, "span.-x-evolution-signature", NULL);
-
-			if (signature) {
-				WebKitDOMNode *parent =
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (signature));
-
-				if (!top_signature) {
+				if (start_bottom) {
 					webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (new_blockquote),
-						parent,
-						NULL);
-
-					if (start_bottom) {
-						webkit_dom_node_insert_before (
-							WEBKIT_DOM_NODE (body),
-							WEBKIT_DOM_NODE (paragraph),
-							WEBKIT_DOM_NODE (parent),
-							NULL);
-					}
-				} else {
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (new_blockquote),
+						WEBKIT_DOM_NODE (paragraph),
+						WEBKIT_DOM_NODE (parent),
 						NULL);
 				}
 			} else {
@@ -2240,20 +2243,57 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 					NULL);
 			}
 		} else {
-			parse_html_into_paragraphs (
-				widget, document, WEBKIT_DOM_ELEMENT (body), inner_html);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (new_blockquote),
+				NULL);
 		}
-		e_editor_selection_wrap_paragraphs_in_document (selection, document);
+	} else {
+		WebKitDOMNode *signature_clone, *first_child;
 
-		e_editor_widget_quote_plain_text (widget);
+		if (signature) {
+			signature_clone = webkit_dom_node_clone_node (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (signature)),
+				TRUE);
+		}
 
-		e_editor_selection_restore_caret_position (selection);
+		parse_html_into_paragraphs (
+			widget, document, WEBKIT_DOM_ELEMENT (body),
+			inner_html, FALSE);
 
-		g_free (inner_html);
+		if (signature) {
+			if (!top_signature) {
+				signature_clone = webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					signature_clone,
+					NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					signature_clone,
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (body)),
+					NULL);
+			}
+		}
 
+		first_child = webkit_dom_node_get_first_child (
+			WEBKIT_DOM_NODE (body));
+
+		webkit_dom_node_insert_before (
+			first_child,
+			e_editor_selection_get_caret_position_node (
+				document),
+			webkit_dom_node_get_first_child (first_child),
+			NULL);
 	}
 
+	e_editor_widget_quote_plain_text (widget);
+	e_editor_selection_restore_caret_position (selection);
 	e_editor_widget_force_spellcheck (widget);
+
+	g_free (inner_html);
 	g_free (inner_text);
 }
 
@@ -2953,14 +2993,22 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 }
 
 static gint
-get_citation_level (WebKitDOMNode *node)
+get_citation_level (WebKitDOMNode *node,
+                    gboolean set_plaintext_quoted)
 {
 	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 	gint level = 0;
 
 	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent))
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent)) {
 			level++;
+
+			if (set_plaintext_quoted) {
+				element_add_class (
+					WEBKIT_DOM_ELEMENT (parent),
+					"-x-evo-plaintext-quoted");
+			}
+		}
 
 		parent = webkit_dom_node_get_parent_node (parent);
 	}
@@ -2979,7 +3027,7 @@ e_editor_widget_quote_plain_text_element (EEditorWidget *widget,
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 
 	element_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
-	level = get_citation_level (WEBKIT_DOM_NODE (element));
+	level = get_citation_level (WEBKIT_DOM_NODE (element), TRUE);
 
 	quote_plain_text_recursive (
 		document, element_clone, element_clone, level);
@@ -3018,7 +3066,8 @@ e_editor_widget_quote_plain_text (EEditorWidget *widget)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
 	/* Check if the document is already quoted */
-	element = webkit_dom_document_query_selector (document, ".-x-evo-plaintext-quoted", NULL);
+	element = webkit_dom_document_query_selector (
+		document, ".-x-evo-plaintext-quoted", NULL);
 	if (element)
 		return;
 
@@ -3749,6 +3798,164 @@ show_lose_formatting_dialog (EEditorWidget *widget)
 	return TRUE;
 }
 
+static void
+convert_when_changing_composer_mode (EEditorWidget *widget)
+{
+	EEditorSelection *selection;
+	gchar *inner_text, *inner_html;
+	gboolean restore = TRUE;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *top_signature, *signature, *element, *blockquote;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMNode *signature_clone, *from;
+	WebKitDOMNodeList *blockquotes;
+
+	selection = e_editor_widget_get_selection (widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	body = webkit_dom_document_get_body (document);
+
+	top_signature = webkit_dom_document_query_selector (
+		document, ".-x-evo-top-signature", NULL);
+	signature = webkit_dom_document_query_selector (
+		document, "span.-x-evolution-signature", NULL);
+	blockquote = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-main-cite");
+
+	element = webkit_dom_document_create_element (
+		document, "blockquote", NULL);
+
+	if (blockquote) {
+		WebKitDOMElement *input_start;
+
+		webkit_dom_element_set_attribute (
+			element, "type", "cite", NULL);
+
+		input_start = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-input-start");
+
+		restore = input_start ? TRUE : FALSE;
+
+		if (input_start) {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (input_start),
+				e_editor_selection_get_caret_position_node (
+					document),
+				NULL);
+		}
+
+		from = WEBKIT_DOM_NODE (blockquote);
+	} else {
+		if (signature) {
+			signature_clone = webkit_dom_node_clone_node (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (signature)),
+				TRUE);
+
+			webkit_dom_node_remove_child (
+				WEBKIT_DOM_NODE (body),
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (signature)),
+				NULL);
+		}
+		from = WEBKIT_DOM_NODE (body);
+	}
+
+	blockquotes = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (from),
+		"blockquote[type=cite]",
+		NULL);
+
+	create_text_markers_for_citations (blockquotes);
+
+	inner_text = webkit_dom_html_element_get_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (from));
+
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (element), inner_text, NULL);
+
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+
+	parse_html_into_paragraphs (
+		widget, document,
+		blockquote ? element : WEBKIT_DOM_ELEMENT (body),
+		inner_html,
+		blockquote ? TRUE : FALSE);
+
+	if (blockquote) {
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (
+				WEBKIT_DOM_NODE (blockquote)),
+			WEBKIT_DOM_NODE (element),
+			WEBKIT_DOM_NODE (blockquote),
+			NULL);
+
+		remove_attributes (WEBKIT_DOM_ELEMENT (body));
+	} else {
+		WebKitDOMNode *first_child;
+
+		if (signature) {
+			if (!top_signature) {
+				signature_clone = webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					signature_clone,
+					NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					signature_clone,
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (body)),
+					NULL);
+			}
+		}
+
+		first_child = webkit_dom_node_get_first_child (
+			WEBKIT_DOM_NODE (body));
+
+		webkit_dom_node_insert_before (
+			first_child,
+			e_editor_selection_get_caret_position_node (
+				document),
+			webkit_dom_node_get_first_child (first_child),
+			NULL);
+
+		e_editor_selection_wrap_paragraphs_in_document (
+			selection, document);
+
+		/* Update fonts - in plain text we only want monospace */
+		e_editor_widget_update_fonts (widget);
+	}
+
+	if (blockquote || webkit_dom_node_list_get_length (blockquotes) > 0)
+		e_editor_widget_quote_plain_text (widget);
+
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
+
+	g_free (inner_text);
+	g_free (inner_html);
+
+	/* Update fonts - in plain text we only want monospace */
+	e_editor_widget_update_fonts (widget);
+
+	if (restore)
+		e_editor_selection_restore_caret_position (selection);
+
+	e_editor_widget_force_spellcheck (widget);
+
+	if (restore) {
+		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMSelection *dom_selection;
+
+		window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (window);
+		webkit_dom_dom_selection_modify (
+			dom_selection, "move", "backward", "character");
+	}
+}
+
 /**
  * e_editor_widget_set_html_mode:
  * @widget: an #EEditorWidget
@@ -3764,7 +3971,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
                                gboolean html_mode)
 {
 	EEditorSelection *selection;
-	gboolean is_from_new_message, converted, edit_as_new, message;
+	gboolean is_from_new_message, converted, edit_as_new, message, convert;
 	gboolean reply, hide;
 	WebKitDOMElement *blockquote;
 	WebKitDOMHTMLElement *body;
@@ -3789,69 +3996,18 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 	reply = !is_from_new_message && !edit_as_new && message;
 	hide = !reply && !converted;
 
+	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
+
 	/* If toggling from HTML to plain text mode, ask user first */
-	if (message && !hide && widget->priv->html_mode && !html_mode && reply && !converted) {
+	if (convert && widget->priv->html_mode && !html_mode) {
 		if (!show_lose_formatting_dialog (widget))
 			return;
 
-		blockquote = webkit_dom_document_query_selector (
-			document, "blockquote[type|=cite]", NULL);
-		if (blockquote) {
-			gchar *inner_text, *inner_html;
-			WebKitDOMElement *new_blockquote;
-			WebKitDOMNodeList *list;
-			WebKitDOMNode *blockquote_clone;
+		widget->priv->html_mode = html_mode;
 
-			new_blockquote = webkit_dom_document_create_element (
-				document, "blockquote", NULL);
+		convert_when_changing_composer_mode (widget);
 
-			webkit_dom_element_set_attribute (
-				new_blockquote, "type", "cite", NULL);
-
-			blockquote_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (blockquote), TRUE);
-
-			list = webkit_dom_element_query_selector_all (
-				WEBKIT_DOM_ELEMENT (blockquote_clone), "blockquote[type=cite]", NULL);
-
-			create_text_markers_for_citations (list);
-
-			inner_text = webkit_dom_html_element_get_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (blockquote_clone));
-
-			webkit_dom_html_element_set_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (new_blockquote), inner_text, NULL);
-
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (new_blockquote));
-
-			parse_html_into_paragraphs (
-				widget, document, new_blockquote, inner_html);
-
-			webkit_dom_node_replace_child (
-				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (blockquote)),
-				WEBKIT_DOM_NODE (new_blockquote),
-				WEBKIT_DOM_NODE (blockquote),
-				NULL);
-
-			e_editor_selection_wrap_paragraphs_in_document (
-				selection, document);
-
-			g_free (inner_text);
-			g_free (inner_html);
-
-			remove_attributes (WEBKIT_DOM_ELEMENT (body));
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
-
-			widget->priv->html_mode = html_mode;
-
-			e_editor_widget_quote_plain_text (widget);
-			/* Update fonts - in plain text we only want monospace */
-			e_editor_widget_update_fonts (widget);
-
-			e_editor_widget_force_spellcheck (widget);
-			goto out;
-		}
+		goto out;
 	}
 
 	if (html_mode == widget->priv->html_mode)
