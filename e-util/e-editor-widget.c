@@ -3536,15 +3536,12 @@ remove_wrapping (EEditorWidget *widget)
 }
 
 static void
-toggle_images (EEditorWidget *widget)
+remove_images (EEditorWidget *widget)
 {
-	gboolean html_mode;
 	gint length;
 	gint ii;
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *images;
-
-	html_mode = e_editor_widget_get_html_mode (widget);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	images = webkit_dom_document_query_selector_all (document, "img", NULL);
@@ -3553,20 +3550,8 @@ toggle_images (EEditorWidget *widget)
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *img = webkit_dom_node_list_item (images, ii);
 
-		if (html_mode) {
-			webkit_dom_element_remove_attribute (
-				WEBKIT_DOM_ELEMENT (img), "style");
-			webkit_dom_html_element_set_hidden (
-				WEBKIT_DOM_HTML_ELEMENT (img), FALSE);
-		} else {
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (img),
-				"style",
-				"display: none",
-				NULL);
-			webkit_dom_html_element_set_hidden (
-				WEBKIT_DOM_HTML_ELEMENT (img), TRUE);
-		}
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (img), img, NULL);
 	}
 }
 
@@ -3886,7 +3871,6 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		toggle_paragraphs_style (widget);
 		toggle_smileys (widget);
-		toggle_images (widget);
 		remove_wrapping (widget);
 
 	} else {
@@ -3903,7 +3887,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		toggle_paragraphs_style (widget);
 		toggle_smileys (widget);
-		toggle_images (widget);
+		remove_images (widget);
 
 		plain = process_dom_document_for_mode_change (document);
 
