@@ -412,6 +412,8 @@ editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_show (GtkWidget *widget)
 {
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	EEditorSpellCheckDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -421,7 +423,10 @@ editor_spell_check_dialog_show (GtkWidget *widget)
 	g_free (dialog->priv->word);
 	dialog->priv->word = NULL;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor_widget = e_editor_get_editor_widget (editor);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	window = webkit_dom_document_get_default_view (document);
 	dialog->priv->selection = webkit_dom_dom_window_get_selection (window);
 
