@@ -76,8 +76,6 @@ struct _EEditorWidgetPrivate {
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
-	GQueue *postreload_operations;
-
 	WebKitWebView *convertor_web_view;
 };
 
@@ -101,15 +99,6 @@ enum {
 	LAST_SIGNAL
 };
 
-typedef void (*PostReloadOperationFunc)	(EEditorWidget *widget,
-					 gpointer data);
-
-typedef struct  {
-	PostReloadOperationFunc	func;
-	gpointer		data;
-	GDestroyNotify		data_free_func;
-} PostReloadOperation;
-
 static guint signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -118,27 +107,6 @@ G_DEFINE_TYPE_WITH_CODE (
 	WEBKIT_TYPE_WEB_VIEW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
-
-static void
-editor_widget_queue_postreload_operation (EEditorWidget *widget,
-                                          PostReloadOperationFunc func,
-                                          gpointer data,
-                                          GDestroyNotify data_free_func)
-{
-	PostReloadOperation *op;
-
-	g_return_if_fail (func != NULL);
-
-	if (widget->priv->postreload_operations == NULL)
-		widget->priv->postreload_operations = g_queue_new ();
-
-	op = g_new0 (PostReloadOperation, 1);
-	op->func = func;
-	op->data = data;
-	op->data_free_func = data_free_func;
-
-	g_queue_push_head (widget->priv->postreload_operations, op);
-}
 
 static WebKitDOMRange *
 editor_widget_get_dom_range (EEditorWidget *widget)
@@ -583,21 +551,6 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 	if (widget->priv->html_mode) {
 		change_images_http_src_to_evo_http (widget, TRUE);
 		change_cid_images_src_to_base64 (widget);
-	}
-
-	/* Dispatch queued operations */
-	while (widget->priv->postreload_operations &&
-	       !g_queue_is_empty (widget->priv->postreload_operations)) {
-
-		PostReloadOperation *op;
-
-		op = g_queue_pop_head (widget->priv->postreload_operations);
-
-		op->func (widget, op->data);
-
-		if (op->data_free_func)
-			op->data_free_func (op->data);
-		g_free (op);
 	}
 }
 
