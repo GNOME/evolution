@@ -2151,7 +2151,7 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 	top_signature = webkit_dom_document_query_selector (
 		document, ".-x-evo-top-signature", NULL);
 	signature = webkit_dom_document_query_selector (
-		document, "span.-x-evolution-signature", NULL);
+		document, "span.-x-evo-signature", NULL);
 
 	new_blockquote = webkit_dom_document_create_element (
 		document, "blockquote", NULL);
@@ -3306,7 +3306,7 @@ process_elements (WebKitDOMNode *node,
 		return;
 
 	/* Skip signature */
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evolution-signature")) {
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-signature")) {
 		if (to_plain_text && !changing_mode)
 			g_string_append (buffer, "\n");
 		if (to_html)
@@ -3506,7 +3506,7 @@ process_elements (WebKitDOMNode *node,
 			add_br = TRUE;
 
 		if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
-			if (webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (next_sibling), "span.-x-evolution-signature", NULL))
+			if (webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (next_sibling), "span.-x-evo-signature", NULL))
 				add_br = FALSE;
 		}
 
@@ -3773,7 +3773,7 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 	top_signature = webkit_dom_document_query_selector (
 		document, ".-x-evo-top-signature", NULL);
 	signature = webkit_dom_document_query_selector (
-		document, "span.-x-evolution-signature", NULL);
+		document, "span.-x-evo-signature", NULL);
 	blockquote = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-main-cite");
 

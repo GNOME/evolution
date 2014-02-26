@@ -3045,7 +3045,7 @@ set_signature_gui (EMsgComposer *composer)
 
 	uid = NULL;
 	nodes = webkit_dom_document_get_elements_by_class_name (
-		document, "-x-evolution-signature");
+		document, "-x-evo-signature");
 	length = webkit_dom_node_list_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;

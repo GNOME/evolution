@@ -874,7 +874,7 @@ composer_move_caret (EMsgComposer *composer)
 	}
 
 	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
-	signature = webkit_dom_document_query_selector (document, ".-x-evolution-signature", NULL);
+	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature", NULL);
 	/* Situation when wrapped paragraph is just in signature and not in message body */
 	if (webkit_dom_node_list_get_length (list) == 1) {
 		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
@@ -1044,7 +1044,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	g_string_append_printf (
 		html_buffer,
-		"<SPAN class=\"-x-evolution-signature\" id=\"1\" name=\"%s\">",
+		"<SPAN class=\"-x-evo-signature\" id=\"1\" name=\"%s\">",
 		(active_id != NULL) ? active_id : "");
 
 	if (!is_html)
@@ -1092,7 +1092,7 @@ insert:
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 
 	signatures = webkit_dom_document_get_elements_by_class_name (
-		document, "-x-evolution-signature");
+		document, "-x-evo-signature");
 	list_length = webkit_dom_node_list_get_length (signatures);
 	for (ii = 0; ii < list_length; ii++) {
 		WebKitDOMNode *node;
