@@ -569,6 +569,7 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 
 	put_body_in_citation (document);
 	move_elements_to_body (document);
+	repair_gmail_blockquotes (document);
 
 	/* Register on input event that is called when the content (body) is modified */
 	webkit_dom_event_target_add_event_listener (
