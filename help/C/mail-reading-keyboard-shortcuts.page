@@ -7,7 +7,7 @@
     <link type="guide" xref="index#mail-basic" />
 <!-- TODO:POST-3-8: maybe introduce keyboard shortcuts guide xref covering any shortcuts in all modules, covering http://library.gnome.org/users/evolution/2.32/quickref-mail.html.en ? -->
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-29" status="final"/>
+    <revision pkgversion="3.10.4" version="0.3" date="2014-02-26" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -26,6 +26,12 @@
 <section id="view-email">
 <title>Viewing an email</title>
 <p>In the Mail window you read a message by selecting it in the message list. If you would like to see the message in its own window, either double-click it, press <key>Enter</key>, or press <keyseq><key>Ctrl</key><key>O</key></keyseq>.</p>
+</section>
+
+<section id="marking-message-read-or-unread">
+<title>Marking a message as read or unread</title>
+<p>To mark the currently selected message as read, press <keyseq><key>Ctrl</key><key>K</key></keyseq>.</p>
+<p>To mark the currently selected message as unread, press <keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>.</p>
 </section>
 
 <section id="inside-message">
