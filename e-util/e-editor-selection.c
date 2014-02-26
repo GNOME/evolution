@@ -3589,7 +3589,7 @@ fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selecti
 		return;
 
 	webkit_dom_dom_selection_modify (
-		window_selection, "move", "right", "character");
+		window_selection, "move", "forward", "character");
 	tmp_node = webkit_dom_node_get_next_sibling (
 		webkit_dom_node_get_first_child (prev_sibling));
 
@@ -3613,7 +3613,7 @@ fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selecti
 		NULL);
 
 	webkit_dom_dom_selection_modify (
-		window_selection, "move", "left", "character");
+		window_selection, "move", "backward", "character");
 }
 
 /**
@@ -3703,9 +3703,9 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 		 * to be (it is in the beginning of parent's element. It can
 		 * be avoided by moving with the caret. */
 		webkit_dom_dom_selection_modify (
-			window_selection, "move", "left", "character");
+			window_selection, "move", "backward", "character");
 		webkit_dom_dom_selection_modify (
-			window_selection, "move", "right", "character");
+			window_selection, "move", "forward", "character");
 
 		webkit_dom_node_normalize (parent_node);
 	}
