@@ -115,7 +115,7 @@ static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
 static void	e_addressbook_view_selectable_init
-					(ESelectableInterface *interface);
+					(ESelectableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EAddressbookView,
@@ -891,14 +891,14 @@ e_addressbook_view_init (EAddressbookView *view)
 }
 
 static void
-e_addressbook_view_selectable_init (ESelectableInterface *interface)
+e_addressbook_view_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = addressbook_view_update_actions;
-	interface->cut_clipboard = addressbook_view_cut_clipboard;
-	interface->copy_clipboard = addressbook_view_copy_clipboard;
-	interface->paste_clipboard = addressbook_view_paste_clipboard;
-	interface->delete_selection = addressbook_view_delete_selection;
-	interface->select_all = addressbook_view_select_all;
+	iface->update_actions = addressbook_view_update_actions;
+	iface->cut_clipboard = addressbook_view_cut_clipboard;
+	iface->copy_clipboard = addressbook_view_copy_clipboard;
+	iface->paste_clipboard = addressbook_view_paste_clipboard;
+	iface->delete_selection = addressbook_view_delete_selection;
+	iface->select_all = addressbook_view_select_all;
 }
 
 GtkWidget *

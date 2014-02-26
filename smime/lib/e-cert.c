@@ -100,7 +100,7 @@ struct _ECertPrivate {
 
 /* Forward Declarations */
 static void	e_cert_gcr_certificate_init
-					(GcrCertificateIface *interface);
+					(GcrCertificateIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ECert,
@@ -191,9 +191,9 @@ e_cert_class_init (ECertClass *class)
 }
 
 static void
-e_cert_gcr_certificate_init (GcrCertificateIface *interface)
+e_cert_gcr_certificate_init (GcrCertificateIface *iface)
 {
-	interface->get_der_data = cert_get_der_data;
+	iface->get_der_data = cert_get_der_data;
 }
 
 static void

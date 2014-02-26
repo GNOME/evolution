@@ -38,7 +38,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_import_progress_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailConfigImportProgressPage,
@@ -333,14 +333,14 @@ e_mail_config_import_progress_page_class_finalize (EMailConfigImportProgressPage
 }
 
 static void
-e_mail_config_import_progress_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_import_progress_page_interface_init (EMailConfigPageInterface *iface)
 {
 	/* Keep the title identical to EMailConfigImportPage
 	 * so it's only shown once in the assistant sidebar. */
-	interface->title = _("Importing Files");
-	interface->sort_order = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_SORT_ORDER;
-	interface->page_type = GTK_ASSISTANT_PAGE_PROGRESS;
-	interface->check_complete = mail_config_import_progress_page_check_complete;
+	iface->title = _("Importing Files");
+	iface->sort_order = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE_SORT_ORDER;
+	iface->page_type = GTK_ASSISTANT_PAGE_PROGRESS;
+	iface->check_complete = mail_config_import_progress_page_check_complete;
 }
 
 static void

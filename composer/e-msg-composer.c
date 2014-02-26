@@ -128,7 +128,7 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 GCancellable *cancellable,
 						 gint depth);
 
-static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *interface);
+static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
@@ -2511,9 +2511,9 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 }
 
 static void
-e_msg_composer_alert_sink_init (EAlertSinkInterface *interface)
+e_msg_composer_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = msg_composer_submit_alert;
+	iface->submit_alert = msg_composer_submit_alert;
 }
 
 static void

@@ -33,11 +33,11 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_INTERFACE (ETreeModel, e_tree_model, G_TYPE_OBJECT)
 
 static void
-e_tree_model_default_init (ETreeModelInterface *interface)
+e_tree_model_default_init (ETreeModelInterface *iface)
 {
 	signals[PRE_CHANGE] = g_signal_new (
 		"pre_change",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, pre_change),
 		NULL, NULL, NULL,
@@ -45,7 +45,7 @@ e_tree_model_default_init (ETreeModelInterface *interface)
 
 	signals[REBUILT] = g_signal_new (
 		"rebuilt",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, rebuilt),
 		NULL, NULL, NULL,
@@ -53,7 +53,7 @@ e_tree_model_default_init (ETreeModelInterface *interface)
 
 	signals[NODE_CHANGED] = g_signal_new (
 		"node_changed",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, node_changed),
 		NULL, NULL, NULL,
@@ -62,7 +62,7 @@ e_tree_model_default_init (ETreeModelInterface *interface)
 
 	signals[NODE_DATA_CHANGED] = g_signal_new (
 		"node_data_changed",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, node_data_changed),
 		NULL, NULL, NULL,
@@ -71,7 +71,7 @@ e_tree_model_default_init (ETreeModelInterface *interface)
 
 	signals[NODE_INSERTED] = g_signal_new (
 		"node_inserted",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, node_inserted),
 		NULL, NULL, NULL,
@@ -81,7 +81,7 @@ e_tree_model_default_init (ETreeModelInterface *interface)
 
 	signals[NODE_REMOVED] = g_signal_new (
 		"node_removed",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, node_removed),
 		NULL, NULL, NULL,
@@ -92,7 +92,7 @@ e_tree_model_default_init (ETreeModelInterface *interface)
 
 	signals[NODE_DELETED] = g_signal_new (
 		"node_deleted",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeModelInterface, node_deleted),
 		NULL, NULL, NULL,
@@ -231,14 +231,14 @@ e_tree_model_node_deleted (ETreeModel *tree_model,
 ETreePath
 e_tree_model_get_root (ETreeModel *tree_model)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_root != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_root != NULL, NULL);
 
-	return interface->get_root (tree_model);
+	return iface->get_root (tree_model);
 }
 
 /**
@@ -254,14 +254,14 @@ ETreePath
 e_tree_model_node_get_parent (ETreeModel *tree_model,
                               ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_parent != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_parent != NULL, NULL);
 
-	return interface->get_parent (tree_model, path);
+	return iface->get_parent (tree_model, path);
 }
 
 /**
@@ -277,14 +277,14 @@ ETreePath
 e_tree_model_node_get_first_child (ETreeModel *tree_model,
                                    ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_first_child != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_first_child != NULL, NULL);
 
-	return interface->get_first_child (tree_model, path);
+	return iface->get_first_child (tree_model, path);
 }
 
 /**
@@ -300,14 +300,14 @@ ETreePath
 e_tree_model_node_get_next (ETreeModel *tree_model,
                             ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_next != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_next != NULL, NULL);
 
-	return interface->get_next (tree_model, path);
+	return iface->get_next (tree_model, path);
 }
 
 /**
@@ -323,14 +323,14 @@ gboolean
 e_tree_model_node_is_root (ETreeModel *tree_model,
                            ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->is_root != NULL, FALSE);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->is_root != NULL, FALSE);
 
-	return interface->is_root (tree_model, path);
+	return iface->is_root (tree_model, path);
 }
 
 /**
@@ -346,42 +346,42 @@ gboolean
 e_tree_model_node_is_expandable (ETreeModel *tree_model,
                                  ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->is_expandable != NULL, FALSE);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->is_expandable != NULL, FALSE);
 
-	return interface->is_expandable (tree_model, path);
+	return iface->is_expandable (tree_model, path);
 }
 
 guint
 e_tree_model_node_get_n_nodes (ETreeModel *tree_model)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), 0);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_n_nodes != NULL, 0);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_n_nodes != NULL, 0);
 
-	return interface->get_n_nodes (tree_model);
+	return iface->get_n_nodes (tree_model);
 }
 
 guint
 e_tree_model_node_get_n_children (ETreeModel *tree_model,
                                   ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), 0);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_n_children != NULL, 0);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_n_children != NULL, 0);
 
-	return interface->get_n_children (tree_model, path);
+	return iface->get_n_children (tree_model, path);
 }
 
 /**
@@ -397,14 +397,14 @@ guint
 e_tree_model_node_depth (ETreeModel *tree_model,
                          ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), 0);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->depth != NULL, 0);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->depth != NULL, 0);
 
-	return interface->depth (tree_model, path);
+	return iface->depth (tree_model, path);
 }
 
 /**
@@ -418,14 +418,14 @@ e_tree_model_node_depth (ETreeModel *tree_model,
 gboolean
 e_tree_model_get_expanded_default (ETreeModel *tree_model)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), FALSE);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_expanded_default != NULL, FALSE);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_expanded_default != NULL, FALSE);
 
-	return interface->get_expanded_default (tree_model);
+	return iface->get_expanded_default (tree_model);
 }
 
 /**
@@ -439,14 +439,14 @@ e_tree_model_get_expanded_default (ETreeModel *tree_model)
 gint
 e_tree_model_column_count (ETreeModel *tree_model)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), 0);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->column_count != NULL, 0);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->column_count != NULL, 0);
 
-	return interface->column_count (tree_model);
+	return iface->column_count (tree_model);
 }
 
 /**
@@ -462,14 +462,14 @@ gchar *
 e_tree_model_get_save_id (ETreeModel *tree_model,
                           ETreePath path)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_save_id != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_save_id != NULL, NULL);
 
-	return interface->get_save_id (tree_model, path);
+	return iface->get_save_id (tree_model, path);
 }
 
 /**
@@ -488,14 +488,14 @@ ETreePath
 e_tree_model_get_node_by_id (ETreeModel *tree_model,
                              const gchar *save_id)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->get_node_by_id != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->get_node_by_id != NULL, NULL);
 
-	return interface->get_node_by_id (tree_model, save_id);
+	return iface->get_node_by_id (tree_model, save_id);
 }
 
 /**
@@ -523,14 +523,14 @@ e_tree_model_sort_value_at (ETreeModel *tree_model,
                             ETreePath path,
                             gint col)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->sort_value_at != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->sort_value_at != NULL, NULL);
 
-	return interface->sort_value_at (tree_model, path, col);
+	return iface->sort_value_at (tree_model, path, col);
 }
 
 /**
@@ -557,14 +557,14 @@ e_tree_model_value_at (ETreeModel *tree_model,
                        ETreePath path,
                        gint col)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->value_at != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->value_at != NULL, NULL);
 
-	return interface->value_at (tree_model, path, col);
+	return iface->value_at (tree_model, path, col);
 }
 
 /**
@@ -581,14 +581,14 @@ e_tree_model_duplicate_value (ETreeModel *tree_model,
                               gint col,
                               gconstpointer value)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->duplicate_value != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->duplicate_value != NULL, NULL);
 
-	return interface->duplicate_value (tree_model, col, value);
+	return iface->duplicate_value (tree_model, col, value);
 }
 
 /**
@@ -605,14 +605,14 @@ e_tree_model_free_value (ETreeModel *tree_model,
                          gint col,
                          gpointer value)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_if_fail (interface->free_value != NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_if_fail (iface->free_value != NULL);
 
-	interface->free_value (tree_model, col, value);
+	iface->free_value (tree_model, col, value);
 }
 
 /**
@@ -628,14 +628,14 @@ gpointer
 e_tree_model_initialize_value (ETreeModel *tree_model,
                                gint col)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->initialize_value != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->initialize_value != NULL, NULL);
 
-	return interface->initialize_value (tree_model, col);
+	return iface->initialize_value (tree_model, col);
 }
 
 /**
@@ -652,14 +652,14 @@ e_tree_model_value_is_empty (ETreeModel *tree_model,
                              gint col,
                              gconstpointer value)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), TRUE);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->value_is_empty != NULL, TRUE);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->value_is_empty != NULL, TRUE);
 
-	return interface->value_is_empty (tree_model, col, value);
+	return iface->value_is_empty (tree_model, col, value);
 }
 
 /**
@@ -676,14 +676,14 @@ e_tree_model_value_to_string (ETreeModel *tree_model,
                               gint col,
                               gconstpointer value)
 {
-	ETreeModelInterface *interface;
+	ETreeModelInterface *iface;
 
 	g_return_val_if_fail (E_IS_TREE_MODEL (tree_model), NULL);
 
-	interface = E_TREE_MODEL_GET_INTERFACE (tree_model);
-	g_return_val_if_fail (interface->value_to_string != NULL, NULL);
+	iface = E_TREE_MODEL_GET_INTERFACE (tree_model);
+	g_return_val_if_fail (iface->value_to_string != NULL, NULL);
 
-	return interface->value_to_string (tree_model, col, value);
+	return iface->value_to_string (tree_model, col, value);
 }
 
 /**

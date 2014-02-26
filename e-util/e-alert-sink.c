@@ -62,9 +62,9 @@ alert_sink_submit_alert (EAlertSink *alert_sink,
 }
 
 static void
-e_alert_sink_default_init (EAlertSinkInterface *interface)
+e_alert_sink_default_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = alert_sink_submit_alert;
+	iface->submit_alert = alert_sink_submit_alert;
 }
 
 /**
@@ -80,13 +80,13 @@ void
 e_alert_sink_submit_alert (EAlertSink *alert_sink,
                            EAlert *alert)
 {
-	EAlertSinkInterface *interface;
+	EAlertSinkInterface *iface;
 
 	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 	g_return_if_fail (E_IS_ALERT (alert));
 
-	interface = E_ALERT_SINK_GET_INTERFACE (alert_sink);
-	g_return_if_fail (interface->submit_alert != NULL);
+	iface = E_ALERT_SINK_GET_INTERFACE (alert_sink);
+	g_return_if_fail (iface->submit_alert != NULL);
 
-	interface->submit_alert (alert_sink, alert);
+	iface->submit_alert (alert_sink, alert);
 }

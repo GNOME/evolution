@@ -22,7 +22,7 @@
 #include "e-misc-utils.h"
 
 /* Forward Declarations */
-static void	e_sorter_array_interface_init	(ESorterInterface *interface);
+static void	e_sorter_array_interface_init	(ESorterInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ESorterArray,
@@ -207,13 +207,13 @@ e_sorter_array_class_init (ESorterArrayClass *class)
 }
 
 static void
-e_sorter_array_interface_init (ESorterInterface *interface)
+e_sorter_array_interface_init (ESorterInterface *iface)
 {
-	interface->model_to_sorted = sorter_array_model_to_sorted;
-	interface->sorted_to_model = sorter_array_sorted_to_model;
-	interface->get_model_to_sorted_array = sorter_array_get_model_to_sorted_array;
-	interface->get_sorted_to_model_array = sorter_array_get_sorted_to_model_array;
-	interface->needs_sorting = sorter_array_needs_sorting;
+	iface->model_to_sorted = sorter_array_model_to_sorted;
+	iface->sorted_to_model = sorter_array_sorted_to_model;
+	iface->get_model_to_sorted_array = sorter_array_get_model_to_sorted_array;
+	iface->get_sorted_to_model_array = sorter_array_get_sorted_to_model_array;
+	iface->needs_sorting = sorter_array_needs_sorting;
 }
 
 static void

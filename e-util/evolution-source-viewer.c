@@ -116,7 +116,7 @@ gboolean	e_source_viewer_set_selected_source
 GNode *		e_source_viewer_build_display_tree
 						(ESourceViewer *viewer);
 
-static void	e_source_viewer_initable_init	(GInitableIface *interface);
+static void	e_source_viewer_initable_init	(GInitableIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ESourceViewer,
@@ -909,9 +909,9 @@ e_source_viewer_class_init (ESourceViewerClass *class)
 }
 
 static void
-e_source_viewer_initable_init (GInitableIface *interface)
+e_source_viewer_initable_init (GInitableIface *iface)
 {
-	interface->init = source_viewer_initable_init;
+	iface->init = source_viewer_initable_init;
 }
 
 static void

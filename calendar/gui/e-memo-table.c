@@ -82,7 +82,7 @@ static const gchar *icon_names[] = {
 
 /* Forward Declarations */
 static void	e_memo_table_selectable_init
-					(ESelectableInterface *interface);
+					(ESelectableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMemoTable,
@@ -1182,14 +1182,14 @@ e_memo_table_init (EMemoTable *memo_table)
 }
 
 static void
-e_memo_table_selectable_init (ESelectableInterface *interface)
+e_memo_table_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = memo_table_update_actions;
-	interface->cut_clipboard = memo_table_cut_clipboard;
-	interface->copy_clipboard = memo_table_copy_clipboard;
-	interface->paste_clipboard = memo_table_paste_clipboard;
-	interface->delete_selection = memo_table_delete_selection;
-	interface->select_all = memo_table_select_all;
+	iface->update_actions = memo_table_update_actions;
+	iface->cut_clipboard = memo_table_cut_clipboard;
+	iface->copy_clipboard = memo_table_copy_clipboard;
+	iface->paste_clipboard = memo_table_paste_clipboard;
+	iface->delete_selection = memo_table_delete_selection;
+	iface->select_all = memo_table_select_all;
 }
 
 /**

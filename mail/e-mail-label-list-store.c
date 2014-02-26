@@ -62,7 +62,7 @@ static struct {
 
 /* Forward Declarations */
 static void	e_mail_label_list_store_interface_init
-						(GtkTreeModelIface *interface);
+						(GtkTreeModelIface *iface);
 static void	labels_settings_changed_cb	(GSettings *settings,
 						 const gchar *key,
 						 gpointer user_data);
@@ -437,9 +437,9 @@ e_mail_label_list_store_class_init (EMailLabelListStoreClass *class)
 }
 
 static void
-e_mail_label_list_store_interface_init (GtkTreeModelIface *interface)
+e_mail_label_list_store_interface_init (GtkTreeModelIface *iface)
 {
-	interface->row_inserted = mail_label_list_store_row_inserted;
+	iface->row_inserted = mail_label_list_store_row_inserted;
 }
 
 static void

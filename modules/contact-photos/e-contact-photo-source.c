@@ -44,7 +44,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_contact_photo_source_interface_init
-					(EPhotoSourceInterface *interface);
+					(EPhotoSourceInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EContactPhotoSource,
@@ -415,10 +415,10 @@ e_contact_photo_source_class_finalize (EContactPhotoSourceClass *class)
 }
 
 static void
-e_contact_photo_source_interface_init (EPhotoSourceInterface *interface)
+e_contact_photo_source_interface_init (EPhotoSourceInterface *iface)
 {
-	interface->get_photo = contact_photo_source_get_photo;
-	interface->get_photo_finish = contact_photo_source_get_photo_finish;
+	iface->get_photo = contact_photo_source_get_photo;
+	iface->get_photo_finish = contact_photo_source_get_photo_finish;
 }
 
 static void

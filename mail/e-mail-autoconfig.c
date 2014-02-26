@@ -114,7 +114,7 @@ enum {
 };
 
 /* Forward Declarations */
-static void	e_mail_autoconfig_initable_init	(GInitableIface *interface);
+static void	e_mail_autoconfig_initable_init	(GInitableIface *iface);
 
 /* By default, the GAsyncInitable interface calls GInitable.init()
  * from a separate thread, so we only have to override GInitable. */
@@ -723,9 +723,9 @@ e_mail_autoconfig_class_init (EMailAutoconfigClass *class)
 }
 
 static void
-e_mail_autoconfig_initable_init (GInitableIface *interface)
+e_mail_autoconfig_initable_init (GInitableIface *iface)
 {
-	interface->init = mail_autoconfig_initable_init;
+	iface->init = mail_autoconfig_initable_init;
 }
 
 static void

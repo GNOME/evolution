@@ -101,7 +101,7 @@ static const gchar *ui =
 "</ui>";
 
 static void	e_mail_browser_reader_init
-					(EMailReaderInterface *interface);
+					(EMailReaderInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailBrowser,
@@ -838,7 +838,7 @@ static void
 mail_browser_set_message (EMailReader *reader,
                           const gchar *uid)
 {
-	EMailReaderInterface *interface;
+	EMailReaderInterface *iface;
 	EMailBrowser *browser;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
@@ -846,8 +846,8 @@ mail_browser_set_message (EMailReader *reader,
 	browser = E_MAIL_BROWSER (reader);
 
 	/* Chain up to parent's set_message() method. */
-	interface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
-	interface->set_message (reader, uid);
+	iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
+	iface->set_message (reader, uid);
 
 	if (uid == NULL) {
 		e_mail_browser_close (browser);
@@ -1010,18 +1010,18 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 }
 
 static void
-e_mail_browser_reader_init (EMailReaderInterface *interface)
+e_mail_browser_reader_init (EMailReaderInterface *iface)
 {
-	interface->get_action_group = mail_browser_get_action_group;
-	interface->get_backend = mail_browser_get_backend;
-	interface->get_mail_display = mail_browser_get_mail_display;
-	interface->get_hide_deleted = mail_browser_get_hide_deleted;
-	interface->get_message_list = mail_browser_get_message_list;
-	interface->get_popup_menu = mail_browser_get_popup_menu;
-	interface->get_preview_pane = mail_browser_get_preview_pane;
-	interface->get_window = mail_browser_get_window;
-	interface->set_message = mail_browser_set_message;
-	interface->composer_created = mail_browser_composer_created;
+	iface->get_action_group = mail_browser_get_action_group;
+	iface->get_backend = mail_browser_get_backend;
+	iface->get_mail_display = mail_browser_get_mail_display;
+	iface->get_hide_deleted = mail_browser_get_hide_deleted;
+	iface->get_message_list = mail_browser_get_message_list;
+	iface->get_popup_menu = mail_browser_get_popup_menu;
+	iface->get_preview_pane = mail_browser_get_preview_pane;
+	iface->get_window = mail_browser_get_window;
+	iface->set_message = mail_browser_set_message;
+	iface->composer_created = mail_browser_composer_created;
 }
 
 static void

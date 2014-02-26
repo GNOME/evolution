@@ -30,7 +30,7 @@ struct _EMailConfigActivityPagePrivate {
 
 /* Forward Declarations */
 static void	e_mail_config_activity_page_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 	EMailConfigActivityPage,
@@ -133,9 +133,9 @@ e_mail_config_activity_page_class_init (EMailConfigActivityPageClass *class)
 }
 
 static void
-e_mail_config_activity_page_alert_sink_init (EAlertSinkInterface *interface)
+e_mail_config_activity_page_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = mail_config_activity_page_submit_alert;
+	iface->submit_alert = mail_config_activity_page_submit_alert;
 }
 
 static void

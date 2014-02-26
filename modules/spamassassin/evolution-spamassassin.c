@@ -61,7 +61,7 @@ void e_module_unload (GTypeModule *type_module);
 
 /* Forward Declarations */
 GType e_spam_assassin_get_type (void);
-static void e_spam_assassin_interface_init (CamelJunkFilterInterface *interface);
+static void e_spam_assassin_interface_init (CamelJunkFilterInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	ESpamAssassin,
@@ -575,12 +575,12 @@ e_spam_assassin_class_finalize (ESpamAssassinClass *class)
 }
 
 static void
-e_spam_assassin_interface_init (CamelJunkFilterInterface *interface)
+e_spam_assassin_interface_init (CamelJunkFilterInterface *iface)
 {
-	interface->classify = spam_assassin_classify;
-	interface->learn_junk = spam_assassin_learn_junk;
-	interface->learn_not_junk = spam_assassin_learn_not_junk;
-	interface->synchronize = spam_assassin_synchronize;
+	iface->classify = spam_assassin_classify;
+	iface->learn_junk = spam_assassin_learn_junk;
+	iface->learn_not_junk = spam_assassin_learn_not_junk;
+	iface->synchronize = spam_assassin_synchronize;
 }
 
 static void

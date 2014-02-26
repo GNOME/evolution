@@ -63,7 +63,7 @@ void e_module_unload (GTypeModule *type_module);
 
 /* Forward Declarations */
 GType e_bogofilter_get_type (void);
-static void e_bogofilter_interface_init (CamelJunkFilterInterface *interface);
+static void e_bogofilter_interface_init (CamelJunkFilterInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EBogofilter,
@@ -490,11 +490,11 @@ e_bogofilter_class_finalize (EBogofilterClass *class)
 }
 
 static void
-e_bogofilter_interface_init (CamelJunkFilterInterface *interface)
+e_bogofilter_interface_init (CamelJunkFilterInterface *iface)
 {
-	interface->classify = bogofilter_classify;
-	interface->learn_junk = bogofilter_learn_junk;
-	interface->learn_not_junk = bogofilter_learn_not_junk;
+	iface->classify = bogofilter_classify;
+	iface->learn_junk = bogofilter_learn_junk;
+	iface->learn_not_junk = bogofilter_learn_not_junk;
 }
 
 static void

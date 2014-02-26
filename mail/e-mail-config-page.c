@@ -120,19 +120,19 @@ mail_config_page_check_complete_accumulator (GSignalInvocationHint *ihint,
 }
 
 static void
-e_mail_config_page_default_init (EMailConfigPageInterface *interface)
+e_mail_config_page_default_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Untitled");
-	interface->page_type = GTK_ASSISTANT_PAGE_CONTENT;
+	iface->title = _("Untitled");
+	iface->page_type = GTK_ASSISTANT_PAGE_CONTENT;
 
-	interface->check_complete = mail_config_page_check_complete;
-	interface->submit_sync = mail_config_page_submit_sync;
-	interface->submit = mail_config_page_submit;
-	interface->submit_finish = mail_config_page_submit_finish;
+	iface->check_complete = mail_config_page_check_complete;
+	iface->submit_sync = mail_config_page_submit_sync;
+	iface->submit = mail_config_page_submit;
+	iface->submit_finish = mail_config_page_submit_finish;
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMailConfigPageInterface, changed),
 		NULL, NULL,
@@ -141,7 +141,7 @@ e_mail_config_page_default_init (EMailConfigPageInterface *interface)
 
 	signals[SETUP_DEFAULTS] = g_signal_new (
 		"setup-defaults",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMailConfigPageInterface, setup_defaults),
 		NULL, NULL,
@@ -150,7 +150,7 @@ e_mail_config_page_default_init (EMailConfigPageInterface *interface)
 
 	signals[CHECK_COMPLETE] = g_signal_new (
 		"check-complete",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMailConfigPageInterface, check_complete),
 		mail_config_page_check_complete_accumulator, NULL,
@@ -159,7 +159,7 @@ e_mail_config_page_default_init (EMailConfigPageInterface *interface)
 
 	signals[COMMIT_CHANGES] = g_signal_new (
 		"commit-changes",
-		G_TYPE_FROM_INTERFACE (interface),
+		G_TYPE_FROM_INTERFACE (iface),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EMailConfigPageInterface, commit_changes),
 		NULL, NULL,
@@ -243,14 +243,14 @@ e_mail_config_page_submit_sync (EMailConfigPage *page,
                                 GCancellable *cancellable,
                                 GError **error)
 {
-	EMailConfigPageInterface *interface;
+	EMailConfigPageInterface *iface;
 
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_PAGE (page), FALSE);
 
-	interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
-	g_return_val_if_fail (interface->submit_sync != NULL, FALSE);
+	iface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	g_return_val_if_fail (iface->submit_sync != NULL, FALSE);
 
-	return interface->submit_sync (page, cancellable, error);
+	return iface->submit_sync (page, cancellable, error);
 }
 
 void
@@ -259,14 +259,14 @@ e_mail_config_page_submit (EMailConfigPage *page,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
 {
-	EMailConfigPageInterface *interface;
+	EMailConfigPageInterface *iface;
 
 	g_return_if_fail (E_IS_MAIL_CONFIG_PAGE (page));
 
-	interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
-	g_return_if_fail (interface->submit != NULL);
+	iface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	g_return_if_fail (iface->submit != NULL);
 
-	return interface->submit (page, cancellable, callback, user_data);
+	return iface->submit (page, cancellable, callback, user_data);
 }
 
 gboolean
@@ -274,14 +274,14 @@ e_mail_config_page_submit_finish (EMailConfigPage *page,
                                   GAsyncResult *result,
                                   GError **error)
 {
-	EMailConfigPageInterface *interface;
+	EMailConfigPageInterface *iface;
 
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_PAGE (page), FALSE);
 	g_return_val_if_fail (G_IS_ASYNC_RESULT (result), FALSE);
 
-	interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
-	g_return_val_if_fail (interface->submit_finish != NULL, FALSE);
+	iface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	g_return_val_if_fail (iface->submit_finish != NULL, FALSE);
 
-	return interface->submit_finish (page, result, error);
+	return iface->submit_finish (page, result, error);
 }
 

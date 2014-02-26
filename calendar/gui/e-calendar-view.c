@@ -98,7 +98,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-static void calendar_view_selectable_init (ESelectableInterface *interface);
+static void calendar_view_selectable_init (ESelectableInterface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 	ECalendarView, e_calendar_view, GTK_TYPE_TABLE,
@@ -1035,13 +1035,13 @@ e_calendar_view_init (ECalendarView *calendar_view)
 }
 
 static void
-calendar_view_selectable_init (ESelectableInterface *interface)
+calendar_view_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = calendar_view_update_actions;
-	interface->cut_clipboard = calendar_view_cut_clipboard;
-	interface->copy_clipboard = calendar_view_copy_clipboard;
-	interface->paste_clipboard = calendar_view_paste_clipboard;
-	interface->delete_selection = calendar_view_delete_selection;
+	iface->update_actions = calendar_view_update_actions;
+	iface->cut_clipboard = calendar_view_cut_clipboard;
+	iface->copy_clipboard = calendar_view_copy_clipboard;
+	iface->paste_clipboard = calendar_view_paste_clipboard;
+	iface->delete_selection = calendar_view_delete_selection;
 }
 
 void

@@ -95,7 +95,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_caldav_chooser_authenticator_init
-				(ESourceAuthenticatorInterface *interface);
+				(ESourceAuthenticatorInterface *iface);
 static void	caldav_chooser_get_collection_details
 				(SoupSession *session,
 				 SoupMessage *message,
@@ -1514,9 +1514,9 @@ e_caldav_chooser_class_finalize (ECaldavChooserClass *class)
 }
 
 static void
-e_caldav_chooser_authenticator_init (ESourceAuthenticatorInterface *interface)
+e_caldav_chooser_authenticator_init (ESourceAuthenticatorInterface *iface)
 {
-	interface->try_password_sync = caldav_chooser_try_password_sync;
+	iface->try_password_sync = caldav_chooser_try_password_sync;
 }
 
 static void

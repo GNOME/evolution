@@ -22,7 +22,7 @@
 
 /* Forward Declarations */
 static void	e_mail_config_lookup_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigLookupPage,
@@ -86,14 +86,14 @@ e_mail_config_lookup_page_class_init (EMailConfigLookupPageClass *class)
 }
 
 static void
-e_mail_config_lookup_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_lookup_page_interface_init (EMailConfigPageInterface *iface)
 {
 	/* Do not set a title.  We don't want this
 	 * page listed in a GtkAssistant sidebar. */
-	interface->title = "";
-	interface->sort_order = E_MAIL_CONFIG_LOOKUP_PAGE_SORT_ORDER;
-	interface->page_type = GTK_ASSISTANT_PAGE_CUSTOM;
-	interface->check_complete = mail_config_lookup_page_check_complete;
+	iface->title = "";
+	iface->sort_order = E_MAIL_CONFIG_LOOKUP_PAGE_SORT_ORDER;
+	iface->page_type = GTK_ASSISTANT_PAGE_CUSTOM;
+	iface->check_complete = mail_config_lookup_page_check_complete;
 }
 
 static void

@@ -50,7 +50,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_defaults_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigDefaultsPage,
@@ -851,10 +851,10 @@ e_mail_config_defaults_page_class_init (EMailConfigDefaultsPageClass *class)
 }
 
 static void
-e_mail_config_defaults_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_defaults_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Defaults");
-	interface->sort_order = E_MAIL_CONFIG_DEFAULTS_PAGE_SORT_ORDER;
+	iface->title = _("Defaults");
+	iface->sort_order = E_MAIL_CONFIG_DEFAULTS_PAGE_SORT_ORDER;
 }
 
 static void

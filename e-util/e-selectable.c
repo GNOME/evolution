@@ -30,10 +30,10 @@ G_DEFINE_INTERFACE (
 	GTK_TYPE_WIDGET)
 
 static void
-e_selectable_default_init (ESelectableInterface *interface)
+e_selectable_default_init (ESelectableInterface *iface)
 {
 	g_object_interface_install_property (
-		interface,
+		iface,
 		g_param_spec_boxed (
 			"copy-target-list",
 			"Copy Target List",
@@ -42,7 +42,7 @@ e_selectable_default_init (ESelectableInterface *interface)
 			G_PARAM_READABLE));
 
 	g_object_interface_install_property (
-		interface,
+		iface,
 		g_param_spec_boxed (
 			"paste-target-list",
 			"Paste Target List",
@@ -57,14 +57,14 @@ e_selectable_update_actions (ESelectable *selectable,
                              GdkAtom *clipboard_targets,
                              gint n_clipboard_targets)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
-	g_return_if_fail (interface->update_actions != NULL);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
+	g_return_if_fail (iface->update_actions != NULL);
 
-	interface->update_actions (
+	iface->update_actions (
 		selectable, focus_tracker,
 		clipboard_targets, n_clipboard_targets);
 }
@@ -72,92 +72,92 @@ e_selectable_update_actions (ESelectable *selectable,
 void
 e_selectable_cut_clipboard (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->cut_clipboard != NULL)
-		interface->cut_clipboard (selectable);
+	if (iface->cut_clipboard != NULL)
+		iface->cut_clipboard (selectable);
 }
 
 void
 e_selectable_copy_clipboard (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->copy_clipboard != NULL)
-		interface->copy_clipboard (selectable);
+	if (iface->copy_clipboard != NULL)
+		iface->copy_clipboard (selectable);
 }
 
 void
 e_selectable_paste_clipboard (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->paste_clipboard != NULL)
-		interface->paste_clipboard (selectable);
+	if (iface->paste_clipboard != NULL)
+		iface->paste_clipboard (selectable);
 }
 
 void
 e_selectable_delete_selection (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->delete_selection != NULL)
-		interface->delete_selection (selectable);
+	if (iface->delete_selection != NULL)
+		iface->delete_selection (selectable);
 }
 
 void
 e_selectable_select_all (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->select_all != NULL)
-		interface->select_all (selectable);
+	if (iface->select_all != NULL)
+		iface->select_all (selectable);
 }
 
 void
 e_selectable_undo (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->undo != NULL)
-		interface->undo (selectable);
+	if (iface->undo != NULL)
+		iface->undo (selectable);
 }
 
 void
 e_selectable_redo (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 
 	g_return_if_fail (E_IS_SELECTABLE (selectable));
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
-	if (interface->redo != NULL)
-		interface->redo (selectable);
+	if (iface->redo != NULL)
+		iface->redo (selectable);
 }
 
 GtkTargetList *

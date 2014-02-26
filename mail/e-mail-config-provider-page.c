@@ -42,7 +42,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_provider_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigProviderPage,
@@ -694,10 +694,10 @@ e_mail_config_provider_page_class_init (EMailConfigProviderPageClass *class)
 }
 
 static void
-e_mail_config_provider_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_provider_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Receiving Options");
-	interface->sort_order = E_MAIL_CONFIG_PROVIDER_PAGE_SORT_ORDER;
+	iface->title = _("Receiving Options");
+	iface->sort_order = E_MAIL_CONFIG_PROVIDER_PAGE_SORT_ORDER;
 }
 
 static void

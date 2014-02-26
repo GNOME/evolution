@@ -194,7 +194,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_cal_model_table_model_init
-					(ETableModelInterface *interface);
+					(ETableModelInterface *iface);
 
 static guint signals[LAST_SIGNAL];
 
@@ -2008,21 +2008,21 @@ e_cal_model_class_init (ECalModelClass *class)
 }
 
 static void
-e_cal_model_table_model_init (ETableModelInterface *interface)
+e_cal_model_table_model_init (ETableModelInterface *iface)
 {
-	interface->column_count = cal_model_column_count;
-	interface->row_count = cal_model_row_count;
-	interface->append_row = cal_model_append_row;
+	iface->column_count = cal_model_column_count;
+	iface->row_count = cal_model_row_count;
+	iface->append_row = cal_model_append_row;
 
-	interface->value_at = cal_model_value_at;
-	interface->set_value_at = cal_model_set_value_at;
-	interface->is_cell_editable = cal_model_is_cell_editable;
+	iface->value_at = cal_model_value_at;
+	iface->set_value_at = cal_model_set_value_at;
+	iface->is_cell_editable = cal_model_is_cell_editable;
 
-	interface->duplicate_value = cal_model_duplicate_value;
-	interface->free_value = cal_model_free_value;
-	interface->initialize_value = cal_model_initialize_value;
-	interface->value_is_empty = cal_model_value_is_empty;
-	interface->value_to_string = cal_model_value_to_string;
+	iface->duplicate_value = cal_model_duplicate_value;
+	iface->free_value = cal_model_free_value;
+	iface->initialize_value = cal_model_initialize_value;
+	iface->value_is_empty = cal_model_value_is_empty;
+	iface->value_to_string = cal_model_value_to_string;
 }
 
 static void

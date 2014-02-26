@@ -55,7 +55,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_shell_content_reader_init
-					(EMailReaderInterface *interface);
+					(EMailReaderInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailShellContent,
@@ -432,18 +432,18 @@ e_mail_shell_content_class_finalize (EMailShellContentClass *class)
 }
 
 static void
-e_mail_shell_content_reader_init (EMailReaderInterface *interface)
+e_mail_shell_content_reader_init (EMailReaderInterface *iface)
 {
-	interface->get_action_group = mail_shell_content_get_action_group;
-	interface->get_backend = mail_shell_content_get_backend;
-	interface->get_mail_display = mail_shell_content_get_mail_display;
-	interface->get_hide_deleted = mail_shell_content_get_hide_deleted;
-	interface->get_message_list = mail_shell_content_get_message_list;
-	interface->get_popup_menu = mail_shell_content_get_popup_menu;
-	interface->get_preview_pane = mail_shell_content_get_preview_pane;
-	interface->get_window = mail_shell_content_get_window;
-	interface->set_folder = mail_shell_content_set_folder;
-	interface->open_selected_mail = mail_shell_content_open_selected_mail;
+	iface->get_action_group = mail_shell_content_get_action_group;
+	iface->get_backend = mail_shell_content_get_backend;
+	iface->get_mail_display = mail_shell_content_get_mail_display;
+	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
+	iface->get_message_list = mail_shell_content_get_message_list;
+	iface->get_popup_menu = mail_shell_content_get_popup_menu;
+	iface->get_preview_pane = mail_shell_content_get_preview_pane;
+	iface->get_window = mail_shell_content_get_window;
+	iface->set_folder = mail_shell_content_set_folder;
+	iface->open_selected_mail = mail_shell_content_open_selected_mail;
 }
 
 static void

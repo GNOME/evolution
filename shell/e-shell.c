@@ -103,7 +103,7 @@ static gpointer default_shell;
 static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
-static void e_shell_initable_init (GInitableIface *interface);
+static void e_shell_initable_init (GInitableIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EShell,
@@ -1132,9 +1132,9 @@ e_shell_class_init (EShellClass *class)
 }
 
 static void
-e_shell_initable_init (GInitableIface *interface)
+e_shell_initable_init (GInitableIface *iface)
 {
-	interface->init = shell_initable_init;
+	iface->init = shell_initable_init;
 }
 
 static void

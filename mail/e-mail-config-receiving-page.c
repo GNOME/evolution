@@ -22,7 +22,7 @@
 
 /* Forward Declarations */
 static void	e_mail_config_receiving_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigReceivingPage,
@@ -44,10 +44,10 @@ e_mail_config_receiving_page_class_init (EMailConfigReceivingPageClass *class)
 }
 
 static void
-e_mail_config_receiving_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_receiving_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Receiving Email");
-	interface->sort_order = E_MAIL_CONFIG_RECEIVING_PAGE_SORT_ORDER;
+	iface->title = _("Receiving Email");
+	iface->sort_order = E_MAIL_CONFIG_RECEIVING_PAGE_SORT_ORDER;
 }
 
 static void

@@ -261,10 +261,10 @@ focus_tracker_selectable_update_actions (EFocusTracker *focus_tracker,
                                          GdkAtom *targets,
                                          gint n_targets)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 	GtkAction *action;
 
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);
+	iface = E_SELECTABLE_GET_INTERFACE (selectable);
 
 	e_selectable_update_actions (
 		selectable, focus_tracker, targets, n_targets);
@@ -276,31 +276,31 @@ focus_tracker_selectable_update_actions (EFocusTracker *focus_tracker,
 	 * ESelectable implementations. */
 
 	action = e_focus_tracker_get_cut_clipboard_action (focus_tracker);
-	if (action != NULL && interface->cut_clipboard == NULL)
+	if (action != NULL && iface->cut_clipboard == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
-	if (action != NULL && interface->copy_clipboard == NULL)
+	if (action != NULL && iface->copy_clipboard == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
-	if (action != NULL && interface->paste_clipboard == NULL)
+	if (action != NULL && iface->paste_clipboard == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 
 	action = e_focus_tracker_get_delete_selection_action (focus_tracker);
-	if (action != NULL && interface->delete_selection == NULL)
+	if (action != NULL && iface->delete_selection == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);
-	if (action != NULL && interface->select_all == NULL)
+	if (action != NULL && iface->select_all == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 
 	action = e_focus_tracker_get_undo_action (focus_tracker);
-	if (action != NULL && interface->undo == NULL)
+	if (action != NULL && iface->undo == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 
 	action = e_focus_tracker_get_redo_action (focus_tracker);
-	if (action != NULL && interface->redo == NULL)
+	if (action != NULL && iface->redo == NULL)
 		gtk_action_set_sensitive (action, FALSE);
 }
 

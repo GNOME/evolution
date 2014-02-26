@@ -70,7 +70,7 @@ static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
 static void	e_mail_account_store_interface_init
-						(GtkTreeModelIface *interface);
+						(GtkTreeModelIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailAccountStore,
@@ -943,10 +943,10 @@ e_mail_account_store_class_init (EMailAccountStoreClass *class)
 }
 
 static void
-e_mail_account_store_interface_init (GtkTreeModelIface *interface)
+e_mail_account_store_interface_init (GtkTreeModelIface *iface)
 {
-	interface->row_changed = mail_account_store_row_changed;
-	interface->row_inserted = mail_account_store_row_inserted;
+	iface->row_changed = mail_account_store_row_changed;
+	iface->row_inserted = mail_account_store_row_inserted;
 }
 
 static void

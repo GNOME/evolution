@@ -35,7 +35,7 @@ enum {
 };
 
 /* Forward Declarations */
-static void	e_table_sorter_interface_init	(ESorterInterface *interface);
+static void	e_table_sorter_interface_init	(ESorterInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ETableSorter,
@@ -466,13 +466,13 @@ e_table_sorter_class_init (ETableSorterClass *class)
 }
 
 static void
-e_table_sorter_interface_init (ESorterInterface *interface)
+e_table_sorter_interface_init (ESorterInterface *iface)
 {
-	interface->model_to_sorted = table_sorter_model_to_sorted;
-	interface->sorted_to_model = table_sorter_sorted_to_model;
-	interface->get_model_to_sorted_array = table_sorter_get_model_to_sorted_array;
-	interface->get_sorted_to_model_array = table_sorter_get_sorted_to_model_array;
-	interface->needs_sorting = table_sorter_needs_sorting;
+	iface->model_to_sorted = table_sorter_model_to_sorted;
+	iface->sorted_to_model = table_sorter_sorted_to_model;
+	iface->get_model_to_sorted_array = table_sorter_get_model_to_sorted_array;
+	iface->get_sorted_to_model_array = table_sorter_get_sorted_to_model_array;
+	iface->needs_sorting = table_sorter_needs_sorting;
 }
 
 static void

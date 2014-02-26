@@ -46,7 +46,7 @@ struct _AlarmNotifyPrivate {
 };
 
 /* Forward Declarations */
-static void	alarm_notify_initable_init	(GInitableIface *interface);
+static void	alarm_notify_initable_init	(GInitableIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	AlarmNotify, alarm_notify, GTK_TYPE_APPLICATION,
@@ -186,10 +186,10 @@ alarm_notify_class_init (AlarmNotifyClass *class)
 }
 
 static void
-alarm_notify_initable_init (GInitableIface *interface)
+alarm_notify_initable_init (GInitableIface *iface)
 {
 	/* XXX Awkward name since we're missing an 'E' prefix. */
-	interface->init = alarm_notify_initable;
+	iface->init = alarm_notify_initable;
 }
 
 static void

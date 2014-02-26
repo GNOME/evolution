@@ -46,7 +46,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_source_config_dialog_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ESourceConfigDialog,
@@ -360,9 +360,9 @@ e_source_config_dialog_class_init (ESourceConfigDialogClass *class)
 }
 
 static void
-e_source_config_dialog_alert_sink_init (EAlertSinkInterface *interface)
+e_source_config_dialog_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = source_config_dialog_submit_alert;
+	iface->submit_alert = source_config_dialog_submit_alert;
 }
 
 static void

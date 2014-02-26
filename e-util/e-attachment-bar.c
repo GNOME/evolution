@@ -65,7 +65,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_attachment_bar_interface_init
-				(EAttachmentViewInterface *interface);
+				(EAttachmentViewInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EAttachmentBar,
@@ -537,18 +537,18 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 }
 
 static void
-e_attachment_bar_interface_init (EAttachmentViewInterface *interface)
+e_attachment_bar_interface_init (EAttachmentViewInterface *iface)
 {
-	interface->get_private = attachment_bar_get_private;
-	interface->get_store = attachment_bar_get_store;
-	interface->get_path_at_pos = attachment_bar_get_path_at_pos;
-	interface->get_selected_paths = attachment_bar_get_selected_paths;
-	interface->path_is_selected = attachment_bar_path_is_selected;
-	interface->select_path = attachment_bar_select_path;
-	interface->unselect_path = attachment_bar_unselect_path;
-	interface->select_all = attachment_bar_select_all;
-	interface->unselect_all = attachment_bar_unselect_all;
-	interface->update_actions = attachment_bar_update_actions;
+	iface->get_private = attachment_bar_get_private;
+	iface->get_store = attachment_bar_get_store;
+	iface->get_path_at_pos = attachment_bar_get_path_at_pos;
+	iface->get_selected_paths = attachment_bar_get_selected_paths;
+	iface->path_is_selected = attachment_bar_path_is_selected;
+	iface->select_path = attachment_bar_select_path;
+	iface->unselect_path = attachment_bar_unselect_path;
+	iface->select_all = attachment_bar_select_all;
+	iface->unselect_all = attachment_bar_unselect_all;
+	iface->update_actions = attachment_bar_update_actions;
 }
 
 static void

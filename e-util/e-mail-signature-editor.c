@@ -77,7 +77,7 @@ static const gchar *ui =
 
 /* Forward Declarations */
 static void	e_mail_signature_editor_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailSignatureEditor,
@@ -742,9 +742,9 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 }
 
 static void
-e_mail_signature_editor_alert_sink_init (EAlertSinkInterface *interface)
+e_mail_signature_editor_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = mail_signature_editor_submit_alert;
+	iface->submit_alert = mail_signature_editor_submit_alert;
 }
 
 static void

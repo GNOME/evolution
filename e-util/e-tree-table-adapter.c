@@ -98,7 +98,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_tree_table_adapter_table_model_init
-					(ETableModelInterface *interface);
+					(ETableModelInterface *iface);
 
 static guint signals[LAST_SIGNAL];
 
@@ -1052,24 +1052,24 @@ e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 }
 
 static void
-e_tree_table_adapter_table_model_init (ETableModelInterface *interface)
+e_tree_table_adapter_table_model_init (ETableModelInterface *iface)
 {
-	interface->column_count = tree_table_adapter_column_count;
-	interface->row_count = tree_table_adapter_row_count;
-	interface->append_row = tree_table_adapter_append_row;
+	iface->column_count = tree_table_adapter_column_count;
+	iface->row_count = tree_table_adapter_row_count;
+	iface->append_row = tree_table_adapter_append_row;
 
-	interface->value_at = tree_table_adapter_value_at;
-	interface->set_value_at = tree_table_adapter_set_value_at;
-	interface->is_cell_editable = tree_table_adapter_is_cell_editable;
+	iface->value_at = tree_table_adapter_value_at;
+	iface->set_value_at = tree_table_adapter_set_value_at;
+	iface->is_cell_editable = tree_table_adapter_is_cell_editable;
 
-	interface->has_save_id = tree_table_adapter_has_save_id;
-	interface->get_save_id = tree_table_adapter_get_save_id;
+	iface->has_save_id = tree_table_adapter_has_save_id;
+	iface->get_save_id = tree_table_adapter_get_save_id;
 
-	interface->duplicate_value = tree_table_adapter_duplicate_value;
-	interface->free_value = tree_table_adapter_free_value;
-	interface->initialize_value = tree_table_adapter_initialize_value;
-	interface->value_is_empty = tree_table_adapter_value_is_empty;
-	interface->value_to_string = tree_table_adapter_value_to_string;
+	iface->duplicate_value = tree_table_adapter_duplicate_value;
+	iface->free_value = tree_table_adapter_free_value;
+	iface->initialize_value = tree_table_adapter_initialize_value;
+	iface->value_is_empty = tree_table_adapter_value_is_empty;
+	iface->value_to_string = tree_table_adapter_value_to_string;
 }
 
 static void

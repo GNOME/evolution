@@ -55,7 +55,7 @@ static gulong signals[LAST_SIGNAL];
 
 /* Forward Declarations */
 static void	e_shell_window_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EShellWindow,
@@ -1039,9 +1039,9 @@ e_shell_window_class_init (EShellWindowClass *class)
 }
 
 static void
-e_shell_window_alert_sink_init (EAlertSinkInterface *interface)
+e_shell_window_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = shell_window_submit_alert;
+	iface->submit_alert = shell_window_submit_alert;
 }
 
 static void

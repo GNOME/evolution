@@ -47,7 +47,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_attachment_tree_view_interface_init
-					(EAttachmentViewInterface *interface);
+					(EAttachmentViewInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EAttachmentTreeView,
@@ -596,23 +596,23 @@ e_attachment_tree_view_init (EAttachmentTreeView *tree_view)
 }
 
 static void
-e_attachment_tree_view_interface_init (EAttachmentViewInterface *interface)
+e_attachment_tree_view_interface_init (EAttachmentViewInterface *iface)
 {
-	interface->get_private = attachment_tree_view_get_private;
-	interface->get_store = attachment_tree_view_get_store;
+	iface->get_private = attachment_tree_view_get_private;
+	iface->get_store = attachment_tree_view_get_store;
 
-	interface->get_path_at_pos = attachment_tree_view_get_path_at_pos;
-	interface->get_selected_paths = attachment_tree_view_get_selected_paths;
-	interface->path_is_selected = attachment_tree_view_path_is_selected;
-	interface->select_path = attachment_tree_view_select_path;
-	interface->unselect_path = attachment_tree_view_unselect_path;
-	interface->select_all = attachment_tree_view_select_all;
-	interface->unselect_all = attachment_tree_view_unselect_all;
+	iface->get_path_at_pos = attachment_tree_view_get_path_at_pos;
+	iface->get_selected_paths = attachment_tree_view_get_selected_paths;
+	iface->path_is_selected = attachment_tree_view_path_is_selected;
+	iface->select_path = attachment_tree_view_select_path;
+	iface->unselect_path = attachment_tree_view_unselect_path;
+	iface->select_all = attachment_tree_view_select_all;
+	iface->unselect_all = attachment_tree_view_unselect_all;
 
-	interface->drag_source_set = attachment_tree_view_drag_source_set;
-	interface->drag_dest_set = attachment_tree_view_drag_dest_set;
-	interface->drag_source_unset = attachment_tree_view_drag_source_unset;
-	interface->drag_dest_unset = attachment_tree_view_drag_dest_unset;
+	iface->drag_source_set = attachment_tree_view_drag_source_set;
+	iface->drag_dest_set = attachment_tree_view_drag_dest_set;
+	iface->drag_source_unset = attachment_tree_view_drag_source_unset;
+	iface->drag_dest_unset = attachment_tree_view_drag_dest_unset;
 }
 
 GtkWidget *

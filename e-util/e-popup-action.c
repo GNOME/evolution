@@ -44,7 +44,7 @@ struct _EPopupActionPrivate {
 };
 
 /* Forward Declarations */
-static void e_popup_action_activatable_init (GtkActivatableIface *interface);
+static void e_popup_action_activatable_init (GtkActivatableIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EPopupAction,
@@ -348,10 +348,10 @@ e_popup_action_init (EPopupAction *popup_action)
 }
 
 static void
-e_popup_action_activatable_init (GtkActivatableIface *interface)
+e_popup_action_activatable_init (GtkActivatableIface *iface)
 {
-	interface->update = popup_action_update;
-	interface->sync_action_properties = popup_action_sync_action_properties;
+	iface->update = popup_action_update;
+	iface->sync_action_properties = popup_action_sync_action_properties;
 }
 
 EPopupAction *

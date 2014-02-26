@@ -70,7 +70,7 @@ static gulong signals[LAST_SIGNAL];
 
 /* Forward Declarations */
 static void	e_mail_config_summary_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigSummaryPage,
@@ -781,12 +781,12 @@ e_mail_config_summary_page_class_init (EMailConfigSummaryPageClass *class)
 }
 
 static void
-e_mail_config_summary_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_summary_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Account Summary");
-	interface->sort_order = E_MAIL_CONFIG_SUMMARY_PAGE_SORT_ORDER;
-	interface->check_complete = mail_config_summary_page_check_complete;
-	interface->commit_changes = mail_config_summary_page_commit_changes;
+	iface->title = _("Account Summary");
+	iface->sort_order = E_MAIL_CONFIG_SUMMARY_PAGE_SORT_ORDER;
+	iface->check_complete = mail_config_summary_page_check_complete;
+	iface->commit_changes = mail_config_summary_page_commit_changes;
 }
 
 static void

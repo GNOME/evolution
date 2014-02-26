@@ -27,7 +27,7 @@
 
 /* Forward Declarations */
 static void	e_mail_config_restore_ready_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailConfigRestoreReadyPage,
@@ -49,12 +49,12 @@ e_mail_config_restore_ready_page_class_finalize (EMailConfigRestoreReadyPageClas
 }
 
 static void
-e_mail_config_restore_ready_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_restore_ready_page_interface_init (EMailConfigPageInterface *iface)
 {
 	/* Keep the title identical to EMailConfigRestorePage
 	 * so it's only shown once in the assistant sidebar. */
-	interface->title = _("Restore from Backup");
-	interface->sort_order = E_MAIL_CONFIG_RESTORE_READY_PAGE_SORT_ORDER;
+	iface->title = _("Restore from Backup");
+	iface->sort_order = E_MAIL_CONFIG_RESTORE_READY_PAGE_SORT_ORDER;
 }
 
 static void

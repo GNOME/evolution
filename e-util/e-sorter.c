@@ -20,7 +20,7 @@
 G_DEFINE_INTERFACE (ESorter, e_sorter, G_TYPE_OBJECT)
 
 static void
-e_sorter_default_init (ESorterInterface *interface)
+e_sorter_default_init (ESorterInterface *iface)
 {
 }
 
@@ -28,30 +28,30 @@ gint
 e_sorter_model_to_sorted (ESorter *sorter,
                           gint row)
 {
-	ESorterInterface *interface;
+	ESorterInterface *iface;
 
 	g_return_val_if_fail (E_IS_SORTER (sorter), -1);
 	g_return_val_if_fail (row >= 0, -1);
 
-	interface = E_SORTER_GET_INTERFACE (sorter);
-	g_return_val_if_fail (interface->model_to_sorted != NULL, -1);
+	iface = E_SORTER_GET_INTERFACE (sorter);
+	g_return_val_if_fail (iface->model_to_sorted != NULL, -1);
 
-	return interface->model_to_sorted (sorter, row);
+	return iface->model_to_sorted (sorter, row);
 }
 
 gint
 e_sorter_sorted_to_model (ESorter *sorter,
                           gint row)
 {
-	ESorterInterface *interface;
+	ESorterInterface *iface;
 
 	g_return_val_if_fail (E_IS_SORTER (sorter), -1);
 	g_return_val_if_fail (row >= 0, -1);
 
-	interface = E_SORTER_GET_INTERFACE (sorter);
-	g_return_val_if_fail (interface->sorted_to_model != NULL, -1);
+	iface = E_SORTER_GET_INTERFACE (sorter);
+	g_return_val_if_fail (iface->sorted_to_model != NULL, -1);
 
-	return interface->sorted_to_model (sorter, row);
+	return iface->sorted_to_model (sorter, row);
 }
 
 void
@@ -59,14 +59,14 @@ e_sorter_get_model_to_sorted_array (ESorter *sorter,
                                     gint **array,
                                     gint *count)
 {
-	ESorterInterface *interface;
+	ESorterInterface *iface;
 
 	g_return_if_fail (E_IS_SORTER (sorter));
 
-	interface = E_SORTER_GET_INTERFACE (sorter);
-	g_return_if_fail (interface->get_model_to_sorted_array != NULL);
+	iface = E_SORTER_GET_INTERFACE (sorter);
+	g_return_if_fail (iface->get_model_to_sorted_array != NULL);
 
-	interface->get_model_to_sorted_array (sorter, array, count);
+	iface->get_model_to_sorted_array (sorter, array, count);
 }
 
 void
@@ -74,26 +74,26 @@ e_sorter_get_sorted_to_model_array (ESorter *sorter,
                                     gint **array,
                                     gint *count)
 {
-	ESorterInterface *interface;
+	ESorterInterface *iface;
 
 	g_return_if_fail (E_IS_SORTER (sorter));
 
-	interface = E_SORTER_GET_INTERFACE (sorter);
-	g_return_if_fail (interface->get_sorted_to_model_array != NULL);
+	iface = E_SORTER_GET_INTERFACE (sorter);
+	g_return_if_fail (iface->get_sorted_to_model_array != NULL);
 
-	interface->get_sorted_to_model_array (sorter, array, count);
+	iface->get_sorted_to_model_array (sorter, array, count);
 }
 
 gboolean
 e_sorter_needs_sorting (ESorter *sorter)
 {
-	ESorterInterface *interface;
+	ESorterInterface *iface;
 
 	g_return_val_if_fail (E_IS_SORTER (sorter), FALSE);
 
-	interface = E_SORTER_GET_INTERFACE (sorter);
-	g_return_val_if_fail (interface->needs_sorting != NULL, FALSE);
+	iface = E_SORTER_GET_INTERFACE (sorter);
+	g_return_val_if_fail (iface->needs_sorting != NULL, FALSE);
 
-	return interface->needs_sorting (sorter);
+	return iface->needs_sorting (sorter);
 }
 

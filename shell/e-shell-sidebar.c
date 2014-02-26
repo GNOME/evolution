@@ -59,7 +59,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_shell_sidebar_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EShellSidebar,
@@ -423,9 +423,9 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 }
 
 static void
-e_shell_sidebar_alert_sink_init (EAlertSinkInterface *interface)
+e_shell_sidebar_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = shell_sidebar_submit_alert;
+	iface->submit_alert = shell_sidebar_submit_alert;
 }
 
 static void

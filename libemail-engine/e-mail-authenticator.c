@@ -37,7 +37,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_authenticator_interface_init
-				(ESourceAuthenticatorInterface *interface);
+				(ESourceAuthenticatorInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailAuthenticator,
@@ -226,9 +226,9 @@ e_mail_authenticator_class_init (EMailAuthenticatorClass *class)
 }
 
 static void
-e_mail_authenticator_interface_init (ESourceAuthenticatorInterface *interface)
+e_mail_authenticator_interface_init (ESourceAuthenticatorInterface *iface)
 {
-	interface->try_password_sync = mail_authenticator_try_password_sync;
+	iface->try_password_sync = mail_authenticator_try_password_sync;
 }
 
 static void

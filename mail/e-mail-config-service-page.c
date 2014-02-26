@@ -86,7 +86,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_service_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 	EMailConfigServicePage,
@@ -559,11 +559,11 @@ e_mail_config_service_page_class_init (EMailConfigServicePageClass *class)
 }
 
 static void
-e_mail_config_service_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_service_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->setup_defaults = mail_config_service_page_setup_defaults;
-	interface->check_complete = mail_config_service_page_check_complete;
-	interface->commit_changes = mail_config_service_page_commit_changes;
+	iface->setup_defaults = mail_config_service_page_setup_defaults;
+	iface->check_complete = mail_config_service_page_check_complete;
+	iface->commit_changes = mail_config_service_page_commit_changes;
 }
 
 static void

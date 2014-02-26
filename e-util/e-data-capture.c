@@ -63,7 +63,7 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
-static void	e_data_capture_converter_init	(GConverterIface *interface);
+static void	e_data_capture_converter_init	(GConverterIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EDataCapture,
@@ -303,10 +303,10 @@ e_data_capture_class_init (EDataCaptureClass *class)
 }
 
 static void
-e_data_capture_converter_init (GConverterIface *interface)
+e_data_capture_converter_init (GConverterIface *iface)
 {
-	interface->convert = data_capture_convert;
-	interface->reset = data_capture_reset;
+	iface->convert = data_capture_convert;
+	iface->reset = data_capture_reset;
 }
 
 static void

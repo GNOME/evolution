@@ -40,7 +40,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_table_specification_initable_init
-						(GInitableIface *interface);
+						(GInitableIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ETableSpecification,
@@ -559,9 +559,9 @@ e_table_specification_class_init (ETableSpecificationClass *class)
 }
 
 static void
-e_table_specification_initable_init (GInitableIface *interface)
+e_table_specification_initable_init (GInitableIface *iface)
 {
-	interface->init = table_specification_initable_init;
+	iface->init = table_specification_initable_init;
 }
 
 static void

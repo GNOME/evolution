@@ -42,7 +42,7 @@ struct _AsyncContext {
 
 /* Forward Declarations */
 static void	e_mail_config_import_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 static gboolean	mail_config_import_page_next	(gpointer user_data);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
@@ -256,10 +256,10 @@ e_mail_config_import_page_class_finalize (EMailConfigImportPageClass *class)
 }
 
 static void
-e_mail_config_import_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_import_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Importing Files");
-	interface->sort_order = E_MAIL_CONFIG_IMPORT_PAGE_SORT_ORDER;
+	iface->title = _("Importing Files");
+	iface->sort_order = E_MAIL_CONFIG_IMPORT_PAGE_SORT_ORDER;
 }
 
 static void

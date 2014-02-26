@@ -61,7 +61,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_shell_content_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EShellContent,
@@ -481,9 +481,9 @@ e_shell_content_class_init (EShellContentClass *class)
 }
 
 static void
-e_shell_content_alert_sink_init (EAlertSinkInterface *interface)
+e_shell_content_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = shell_content_submit_alert;
+	iface->submit_alert = shell_content_submit_alert;
 }
 
 static void

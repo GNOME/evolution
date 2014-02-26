@@ -37,7 +37,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_confirm_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigConfirmPage,
@@ -163,11 +163,11 @@ e_mail_config_confirm_page_class_init (EMailConfigConfirmPageClass *class)
 }
 
 static void
-e_mail_config_confirm_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_confirm_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Done");
-	interface->page_type = GTK_ASSISTANT_PAGE_CONFIRM;
-	interface->sort_order = E_MAIL_CONFIG_CONFIRM_PAGE_SORT_ORDER;
+	iface->title = _("Done");
+	iface->page_type = GTK_ASSISTANT_PAGE_CONFIRM;
+	iface->sort_order = E_MAIL_CONFIG_CONFIRM_PAGE_SORT_ORDER;
 }
 
 static void

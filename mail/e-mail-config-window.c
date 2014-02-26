@@ -56,7 +56,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_window_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 static guint signals[LAST_SIGNAL];
 
@@ -492,9 +492,9 @@ e_mail_config_window_class_init (EMailConfigWindowClass *class)
 }
 
 static void
-e_mail_config_window_alert_sink_init (EAlertSinkInterface *interface)
+e_mail_config_window_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = mail_config_window_submit_alert;
+	iface->submit_alert = mail_config_window_submit_alert;
 }
 
 static void

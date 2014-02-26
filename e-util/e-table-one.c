@@ -28,7 +28,7 @@
 
 /* Forward Declarations */
 static void	e_table_one_table_model_init
-					(ETableModelInterface *interface);
+					(ETableModelInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ETableOne,
@@ -194,20 +194,20 @@ e_table_one_class_init (ETableOneClass *class)
 }
 
 static void
-e_table_one_table_model_init (ETableModelInterface *interface)
+e_table_one_table_model_init (ETableModelInterface *iface)
 {
-	interface->column_count = table_one_column_count;
-	interface->row_count = table_one_row_count;
+	iface->column_count = table_one_column_count;
+	iface->row_count = table_one_row_count;
 
-	interface->value_at = table_one_value_at;
-	interface->set_value_at = table_one_set_value_at;
-	interface->is_cell_editable = table_one_is_cell_editable;
+	iface->value_at = table_one_value_at;
+	iface->set_value_at = table_one_set_value_at;
+	iface->is_cell_editable = table_one_is_cell_editable;
 
-	interface->duplicate_value = table_one_duplicate_value;
-	interface->free_value = table_one_free_value;
-	interface->initialize_value = table_one_initialize_value;
-	interface->value_is_empty = table_one_value_is_empty;
-	interface->value_to_string = table_one_value_to_string;
+	iface->duplicate_value = table_one_duplicate_value;
+	iface->free_value = table_one_free_value;
+	iface->initialize_value = table_one_initialize_value;
+	iface->value_is_empty = table_one_value_is_empty;
+	iface->value_to_string = table_one_value_to_string;
 }
 
 static void

@@ -37,7 +37,6 @@
 #define DATADIR windows_DATADIR
 #include <windows.h>
 #undef DATADIR
-#undef interface
 #endif
 
 #include <libebook/libebook.h>

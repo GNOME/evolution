@@ -49,7 +49,7 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_identity_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailConfigIdentityPage,
@@ -672,11 +672,11 @@ e_mail_config_identity_page_class_init (EMailConfigIdentityPageClass *class)
 }
 
 static void
-e_mail_config_identity_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_identity_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Identity");
-	interface->sort_order = E_MAIL_CONFIG_IDENTITY_PAGE_SORT_ORDER;
-	interface->check_complete = mail_config_identity_page_check_complete;
+	iface->title = _("Identity");
+	iface->sort_order = E_MAIL_CONFIG_IDENTITY_PAGE_SORT_ORDER;
+	iface->check_complete = mail_config_identity_page_check_complete;
 }
 
 static void

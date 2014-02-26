@@ -174,7 +174,7 @@ struct _folder_tree_selection_data {
 };
 
 /* Forward Declarations */
-static void em_folder_tree_selectable_init (ESelectableInterface *interface);
+static void em_folder_tree_selectable_init (ESelectableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMFolderTree,
@@ -1681,14 +1681,14 @@ folder_tree_selectable_update_actions (ESelectable *selectable,
 	g_return_if_fail (folder_tree != NULL);
 
 	if (folder_tree->priv->selectable != NULL) {
-		ESelectableInterface *interface;
+		ESelectableInterface *iface;
 		ESelectable *selectable;
 
 		selectable = E_SELECTABLE (folder_tree->priv->selectable);
-		interface = E_SELECTABLE_GET_INTERFACE (selectable);
-		g_return_if_fail (interface->update_actions != NULL);
+		iface = E_SELECTABLE_GET_INTERFACE (selectable);
+		g_return_if_fail (iface->update_actions != NULL);
 
-		interface->update_actions (
+		iface->update_actions (
 			selectable, focus_tracker,
 			clipboard_targets, n_clipboard_targets);
 	}
@@ -1697,7 +1697,7 @@ folder_tree_selectable_update_actions (ESelectable *selectable,
 static void
 folder_tree_selectable_cut_clipboard (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 	EMFolderTree *folder_tree;
 	GtkWidget *proxy;
 
@@ -1707,21 +1707,21 @@ folder_tree_selectable_cut_clipboard (ESelectable *selectable)
 	if (!E_IS_SELECTABLE (proxy))
 		return;
 
-	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+	iface = E_SELECTABLE_GET_INTERFACE (proxy);
 
-	if (interface->cut_clipboard == NULL)
+	if (iface->cut_clipboard == NULL)
 		return;
 
 	if (gtk_widget_get_can_focus (proxy))
 		gtk_widget_grab_focus (proxy);
 
-	interface->cut_clipboard (E_SELECTABLE (proxy));
+	iface->cut_clipboard (E_SELECTABLE (proxy));
 }
 
 static void
 folder_tree_selectable_copy_clipboard (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 	EMFolderTree *folder_tree;
 	GtkWidget *proxy;
 
@@ -1731,21 +1731,21 @@ folder_tree_selectable_copy_clipboard (ESelectable *selectable)
 	if (!E_IS_SELECTABLE (proxy))
 		return;
 
-	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+	iface = E_SELECTABLE_GET_INTERFACE (proxy);
 
-	if (interface->copy_clipboard == NULL)
+	if (iface->copy_clipboard == NULL)
 		return;
 
 	if (gtk_widget_get_can_focus (proxy))
 		gtk_widget_grab_focus (proxy);
 
-	interface->copy_clipboard (E_SELECTABLE (proxy));
+	iface->copy_clipboard (E_SELECTABLE (proxy));
 }
 
 static void
 folder_tree_selectable_paste_clipboard (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 	EMFolderTree *folder_tree;
 	GtkWidget *proxy;
 
@@ -1755,21 +1755,21 @@ folder_tree_selectable_paste_clipboard (ESelectable *selectable)
 	if (!E_IS_SELECTABLE (proxy))
 		return;
 
-	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+	iface = E_SELECTABLE_GET_INTERFACE (proxy);
 
-	if (interface->paste_clipboard == NULL)
+	if (iface->paste_clipboard == NULL)
 		return;
 
 	if (gtk_widget_get_can_focus (proxy))
 		gtk_widget_grab_focus (proxy);
 
-	interface->paste_clipboard (E_SELECTABLE (proxy));
+	iface->paste_clipboard (E_SELECTABLE (proxy));
 }
 
 static void
 folder_tree_selectable_delete_selection (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 	EMFolderTree *folder_tree;
 	GtkWidget *proxy;
 
@@ -1779,21 +1779,21 @@ folder_tree_selectable_delete_selection (ESelectable *selectable)
 	if (!E_IS_SELECTABLE (proxy))
 		return;
 
-	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+	iface = E_SELECTABLE_GET_INTERFACE (proxy);
 
-	if (interface->delete_selection == NULL)
+	if (iface->delete_selection == NULL)
 		return;
 
 	if (gtk_widget_get_can_focus (proxy))
 		gtk_widget_grab_focus (proxy);
 
-	interface->delete_selection (E_SELECTABLE (proxy));
+	iface->delete_selection (E_SELECTABLE (proxy));
 }
 
 static void
 folder_tree_selectable_select_all (ESelectable *selectable)
 {
-	ESelectableInterface *interface;
+	ESelectableInterface *iface;
 	EMFolderTree *folder_tree;
 	GtkWidget *proxy;
 
@@ -1803,26 +1803,26 @@ folder_tree_selectable_select_all (ESelectable *selectable)
 	if (!E_IS_SELECTABLE (proxy))
 		return;
 
-	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+	iface = E_SELECTABLE_GET_INTERFACE (proxy);
 
-	if (interface->select_all == NULL)
+	if (iface->select_all == NULL)
 		return;
 
 	if (gtk_widget_get_can_focus (proxy))
 		gtk_widget_grab_focus (proxy);
 
-	interface->select_all (E_SELECTABLE (proxy));
+	iface->select_all (E_SELECTABLE (proxy));
 }
 
 static void
-em_folder_tree_selectable_init (ESelectableInterface *interface)
+em_folder_tree_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = folder_tree_selectable_update_actions;
-	interface->cut_clipboard = folder_tree_selectable_cut_clipboard;
-	interface->copy_clipboard = folder_tree_selectable_copy_clipboard;
-	interface->paste_clipboard = folder_tree_selectable_paste_clipboard;
-	interface->delete_selection = folder_tree_selectable_delete_selection;
-	interface->select_all = folder_tree_selectable_select_all;
+	iface->update_actions = folder_tree_selectable_update_actions;
+	iface->cut_clipboard = folder_tree_selectable_cut_clipboard;
+	iface->copy_clipboard = folder_tree_selectable_copy_clipboard;
+	iface->paste_clipboard = folder_tree_selectable_paste_clipboard;
+	iface->delete_selection = folder_tree_selectable_delete_selection;
+	iface->select_all = folder_tree_selectable_select_all;
 }
 
 GtkWidget *

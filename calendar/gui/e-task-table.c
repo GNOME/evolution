@@ -89,7 +89,7 @@ static const gchar *icon_names[] = {
 
 /* Forward Declarations */
 static void	e_task_table_selectable_init
-					(ESelectableInterface *interface);
+					(ESelectableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ETaskTable,
@@ -1560,14 +1560,14 @@ e_task_table_init (ETaskTable *task_table)
 }
 
 static void
-e_task_table_selectable_init (ESelectableInterface *interface)
+e_task_table_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = task_table_update_actions;
-	interface->cut_clipboard = task_table_cut_clipboard;
-	interface->copy_clipboard = task_table_copy_clipboard;
-	interface->paste_clipboard = task_table_paste_clipboard;
-	interface->delete_selection = task_table_delete_selection;
-	interface->select_all = task_table_select_all;
+	iface->update_actions = task_table_update_actions;
+	iface->cut_clipboard = task_table_cut_clipboard;
+	iface->copy_clipboard = task_table_copy_clipboard;
+	iface->paste_clipboard = task_table_paste_clipboard;
+	iface->delete_selection = task_table_delete_selection;
+	iface->select_all = task_table_select_all;
 }
 
 /**

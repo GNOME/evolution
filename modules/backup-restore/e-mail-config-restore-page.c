@@ -46,9 +46,9 @@ enum {
 
 /* Forward Declarations */
 static void	e_mail_config_restore_page_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 static void	e_mail_config_restore_page_interface_init
-					(EMailConfigPageInterface *interface);
+					(EMailConfigPageInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EMailConfigRestorePage,
@@ -299,17 +299,17 @@ e_mail_config_restore_page_class_finalize (EMailConfigRestorePageClass *class)
 }
 
 static void
-e_mail_config_restore_page_alert_sink_init (EAlertSinkInterface *interface)
+e_mail_config_restore_page_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = mail_config_restore_page_submit_alert;
+	iface->submit_alert = mail_config_restore_page_submit_alert;
 }
 
 static void
-e_mail_config_restore_page_interface_init (EMailConfigPageInterface *interface)
+e_mail_config_restore_page_interface_init (EMailConfigPageInterface *iface)
 {
-	interface->title = _("Restore from Backup");
-	interface->sort_order = E_MAIL_CONFIG_RESTORE_PAGE_SORT_ORDER;
-	interface->check_complete = mail_config_restore_page_check_complete;
+	iface->title = _("Restore from Backup");
+	iface->sort_order = E_MAIL_CONFIG_RESTORE_PAGE_SORT_ORDER;
+	iface->check_complete = mail_config_restore_page_check_complete;
 }
 
 static void

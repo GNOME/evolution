@@ -124,8 +124,8 @@ static const gchar *ui =
 "</ui>";
 
 /* Forward Declarations */
-static void e_web_view_gtkhtml_alert_sink_init (EAlertSinkInterface *interface);
-static void e_web_view_gtkhtml_selectable_init (ESelectableInterface *interface);
+static void e_web_view_gtkhtml_alert_sink_init (EAlertSinkInterface *iface);
+static void e_web_view_gtkhtml_selectable_init (ESelectableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EWebViewGtkHTML,
@@ -1592,19 +1592,19 @@ e_web_view_gtkhtml_class_init (EWebViewGtkHTMLClass *class)
 }
 
 static void
-e_web_view_gtkhtml_alert_sink_init (EAlertSinkInterface *interface)
+e_web_view_gtkhtml_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = web_view_gtkhtml_submit_alert;
+	iface->submit_alert = web_view_gtkhtml_submit_alert;
 }
 
 static void
-e_web_view_gtkhtml_selectable_init (ESelectableInterface *interface)
+e_web_view_gtkhtml_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = web_view_gtkhtml_selectable_update_actions;
-	interface->cut_clipboard = web_view_gtkhtml_selectable_cut_clipboard;
-	interface->copy_clipboard = web_view_gtkhtml_selectable_copy_clipboard;
-	interface->paste_clipboard = web_view_gtkhtml_selectable_paste_clipboard;
-	interface->select_all = web_view_gtkhtml_selectable_select_all;
+	iface->update_actions = web_view_gtkhtml_selectable_update_actions;
+	iface->cut_clipboard = web_view_gtkhtml_selectable_cut_clipboard;
+	iface->copy_clipboard = web_view_gtkhtml_selectable_copy_clipboard;
+	iface->paste_clipboard = web_view_gtkhtml_selectable_paste_clipboard;
+	iface->select_all = web_view_gtkhtml_selectable_select_all;
 }
 
 static void

@@ -35,7 +35,7 @@ struct _AsyncContext {
 
 /* Forward Declarations */
 static void	e_gravatar_photo_source_interface_init
-					(EPhotoSourceInterface *interface);
+					(EPhotoSourceInterface *iface);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	EGravatarPhotoSource,
@@ -201,10 +201,10 @@ e_gravatar_photo_source_class_finalize (EGravatarPhotoSourceClass *class)
 }
 
 static void
-e_gravatar_photo_source_interface_init (EPhotoSourceInterface *interface)
+e_gravatar_photo_source_interface_init (EPhotoSourceInterface *iface)
 {
-	interface->get_photo = gravatar_photo_source_get_photo;
-	interface->get_photo_finish = gravatar_photo_source_get_photo_finish;
+	iface->get_photo = gravatar_photo_source_get_photo;
+	iface->get_photo_finish = gravatar_photo_source_get_photo_finish;
 }
 
 static void

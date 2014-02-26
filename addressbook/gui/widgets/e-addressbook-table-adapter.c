@@ -50,7 +50,7 @@ struct _EAddressbookTableAdapterPrivate {
 
 /* Forward Declarations */
 static void	e_addressbook_table_adapter_table_model_init
-					(ETableModelInterface *interface);
+					(ETableModelInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EAddressbookTableAdapter,
@@ -324,21 +324,21 @@ e_addressbook_table_adapter_class_init (EAddressbookTableAdapterClass *class)
 }
 
 static void
-e_addressbook_table_adapter_table_model_init (ETableModelInterface *interface)
+e_addressbook_table_adapter_table_model_init (ETableModelInterface *iface)
 {
-	interface->column_count = addressbook_col_count;
-	interface->row_count = addressbook_row_count;
-	interface->append_row = addressbook_append_row;
+	iface->column_count = addressbook_col_count;
+	iface->row_count = addressbook_row_count;
+	iface->append_row = addressbook_append_row;
 
-	interface->value_at = addressbook_value_at;
-	interface->set_value_at = addressbook_set_value_at;
-	interface->is_cell_editable = addressbook_is_cell_editable;
+	iface->value_at = addressbook_value_at;
+	iface->set_value_at = addressbook_set_value_at;
+	iface->is_cell_editable = addressbook_is_cell_editable;
 
-	interface->duplicate_value = addressbook_duplicate_value;
-	interface->free_value = addressbook_free_value;
-	interface->initialize_value = addressbook_initialize_value;
-	interface->value_is_empty = addressbook_value_is_empty;
-	interface->value_to_string = addressbook_value_to_string;
+	iface->duplicate_value = addressbook_duplicate_value;
+	iface->free_value = addressbook_free_value;
+	iface->initialize_value = addressbook_initialize_value;
+	iface->value_is_empty = addressbook_value_is_empty;
+	iface->value_to_string = addressbook_value_to_string;
 }
 
 static void

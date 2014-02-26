@@ -50,7 +50,7 @@ static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
 static void	e_preview_pane_alert_sink_init
-					(EAlertSinkInterface *interface);
+					(EAlertSinkInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EPreviewPane,
@@ -273,9 +273,9 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 }
 
 static void
-e_preview_pane_alert_sink_init (EAlertSinkInterface *interface)
+e_preview_pane_alert_sink_init (EAlertSinkInterface *iface)
 {
-	interface->submit_alert = preview_pane_submit_alert;
+	iface->submit_alert = preview_pane_submit_alert;
 }
 
 static void

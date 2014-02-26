@@ -36,7 +36,7 @@
 
 /* Forward Declarations */
 static void	e_cal_model_memos_table_model_init
-					(ETableModelInterface *interface);
+					(ETableModelInterface *iface);
 
 static ETableModelInterface *table_model_parent_interface;
 
@@ -230,22 +230,22 @@ e_cal_model_memos_class_init (ECalModelMemosClass *class)
 }
 
 static void
-e_cal_model_memos_table_model_init (ETableModelInterface *interface)
+e_cal_model_memos_table_model_init (ETableModelInterface *iface)
 {
 	table_model_parent_interface =
-		g_type_interface_peek_parent (interface);
+		g_type_interface_peek_parent (iface);
 
-	interface->column_count = cal_model_memos_column_count;
+	iface->column_count = cal_model_memos_column_count;
 
-	interface->value_at = cal_model_memos_value_at;
-	interface->set_value_at = cal_model_memos_set_value_at;
-	interface->is_cell_editable = cal_model_memos_is_cell_editable;
+	iface->value_at = cal_model_memos_value_at;
+	iface->set_value_at = cal_model_memos_set_value_at;
+	iface->is_cell_editable = cal_model_memos_is_cell_editable;
 
-	interface->duplicate_value = cal_model_memos_duplicate_value;
-	interface->free_value = cal_model_memos_free_value;
-	interface->initialize_value = cal_model_memos_initialize_value;
-	interface->value_is_empty = cal_model_memos_value_is_empty;
-	interface->value_to_string = cal_model_memos_value_to_string;
+	iface->duplicate_value = cal_model_memos_duplicate_value;
+	iface->free_value = cal_model_memos_free_value;
+	iface->initialize_value = cal_model_memos_initialize_value;
+	iface->value_is_empty = cal_model_memos_value_is_empty;
+	iface->value_to_string = cal_model_memos_value_to_string;
 }
 
 static void

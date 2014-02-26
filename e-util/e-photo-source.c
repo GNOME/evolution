@@ -36,7 +36,7 @@ G_DEFINE_INTERFACE (
 	G_TYPE_OBJECT)
 
 static void
-e_photo_source_default_init (EPhotoSourceInterface *interface)
+e_photo_source_default_init (EPhotoSourceInterface *iface)
 {
 }
 
@@ -60,15 +60,15 @@ e_photo_source_get_photo (EPhotoSource *photo_source,
                           GAsyncReadyCallback callback,
                           gpointer user_data)
 {
-	EPhotoSourceInterface *interface;
+	EPhotoSourceInterface *iface;
 
 	g_return_if_fail (E_IS_PHOTO_SOURCE (photo_source));
 	g_return_if_fail (email_address != NULL);
 
-	interface = E_PHOTO_SOURCE_GET_INTERFACE (photo_source);
-	g_return_if_fail (interface->get_photo != NULL);
+	iface = E_PHOTO_SOURCE_GET_INTERFACE (photo_source);
+	g_return_if_fail (iface->get_photo != NULL);
 
-	interface->get_photo (
+	iface->get_photo (
 		photo_source, email_address,
 		cancellable, callback, user_data);
 }
@@ -107,16 +107,16 @@ e_photo_source_get_photo_finish (EPhotoSource *photo_source,
                                  gint *out_priority,
                                  GError **error)
 {
-	EPhotoSourceInterface *interface;
+	EPhotoSourceInterface *iface;
 
 	g_return_val_if_fail (E_IS_PHOTO_SOURCE (photo_source), FALSE);
 	g_return_val_if_fail (G_IS_ASYNC_RESULT (result), FALSE);
 	g_return_val_if_fail (out_stream != NULL, FALSE);
 
-	interface = E_PHOTO_SOURCE_GET_INTERFACE (photo_source);
-	g_return_val_if_fail (interface->get_photo_finish != NULL, FALSE);
+	iface = E_PHOTO_SOURCE_GET_INTERFACE (photo_source);
+	g_return_val_if_fail (iface->get_photo_finish != NULL, FALSE);
 
-	return interface->get_photo_finish (
+	return iface->get_photo_finish (
 		photo_source, result, out_stream, out_priority, error);
 }
 

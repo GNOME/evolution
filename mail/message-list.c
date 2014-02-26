@@ -173,9 +173,9 @@ enum {
 
 /* Forward Declarations */
 static void	message_list_selectable_init
-					(ESelectableInterface *interface);
+					(ESelectableInterface *iface);
 static void	message_list_tree_model_init
-					(ETreeModelInterface *interface);
+					(ETreeModelInterface *iface);
 static gboolean	message_list_get_hide_deleted
 					(MessageList *message_list,
 					 CamelFolder *folder);
@@ -3257,35 +3257,35 @@ message_list_class_init (MessageListClass *class)
 }
 
 static void
-message_list_selectable_init (ESelectableInterface *interface)
+message_list_selectable_init (ESelectableInterface *iface)
 {
-	interface->update_actions = message_list_selectable_update_actions;
-	interface->select_all = message_list_selectable_select_all;
+	iface->update_actions = message_list_selectable_update_actions;
+	iface->select_all = message_list_selectable_select_all;
 }
 
 static void
-message_list_tree_model_init (ETreeModelInterface *interface)
+message_list_tree_model_init (ETreeModelInterface *iface)
 {
-	interface->get_root = message_list_get_root;
-	interface->get_parent = message_list_get_parent;
-	interface->get_first_child = message_list_get_first_child;
-	interface->get_next = message_list_get_next;
-	interface->is_root = message_list_is_root;
-	interface->is_expandable = message_list_is_expandable;
-	interface->get_n_nodes = message_list_get_n_nodes;
-	interface->get_n_children = message_list_get_n_children;
-	interface->depth = message_list_depth;
-	interface->get_expanded_default = message_list_get_expanded_default;
-	interface->column_count = message_list_column_count;
-	interface->get_save_id = message_list_get_save_id;
-	interface->get_node_by_id = message_list_get_node_by_id;
-	interface->sort_value_at = message_list_sort_value_at;
-	interface->value_at = message_list_value_at;
-	interface->duplicate_value = message_list_duplicate_value;
-	interface->free_value = message_list_free_value;
-	interface->initialize_value = message_list_initialize_value;
-	interface->value_is_empty = message_list_value_is_empty;
-	interface->value_to_string = message_list_value_to_string;
+	iface->get_root = message_list_get_root;
+	iface->get_parent = message_list_get_parent;
+	iface->get_first_child = message_list_get_first_child;
+	iface->get_next = message_list_get_next;
+	iface->is_root = message_list_is_root;
+	iface->is_expandable = message_list_is_expandable;
+	iface->get_n_nodes = message_list_get_n_nodes;
+	iface->get_n_children = message_list_get_n_children;
+	iface->depth = message_list_depth;
+	iface->get_expanded_default = message_list_get_expanded_default;
+	iface->column_count = message_list_column_count;
+	iface->get_save_id = message_list_get_save_id;
+	iface->get_node_by_id = message_list_get_node_by_id;
+	iface->sort_value_at = message_list_sort_value_at;
+	iface->value_at = message_list_value_at;
+	iface->duplicate_value = message_list_duplicate_value;
+	iface->free_value = message_list_free_value;
+	iface->initialize_value = message_list_initialize_value;
+	iface->value_is_empty = message_list_value_is_empty;
+	iface->value_to_string = message_list_value_to_string;
 }
 
 static void

@@ -55,7 +55,7 @@ struct _ETableSubsetPrivate {
 
 /* Forward Declarations */
 static void	e_table_subset_table_model_init
-					(ETableModelInterface *interface);
+					(ETableModelInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	ETableSubset,
@@ -416,24 +416,24 @@ e_table_subset_class_init (ETableSubsetClass *class)
 }
 
 static void
-e_table_subset_table_model_init (ETableModelInterface *interface)
+e_table_subset_table_model_init (ETableModelInterface *iface)
 {
-	interface->column_count = table_subset_column_count;
-	interface->row_count = table_subset_row_count;
-	interface->append_row = table_subset_append_row;
+	iface->column_count = table_subset_column_count;
+	iface->row_count = table_subset_row_count;
+	iface->append_row = table_subset_append_row;
 
-	interface->value_at = table_subset_value_at;
-	interface->set_value_at = table_subset_set_value_at;
-	interface->is_cell_editable = table_subset_is_cell_editable;
+	iface->value_at = table_subset_value_at;
+	iface->set_value_at = table_subset_set_value_at;
+	iface->is_cell_editable = table_subset_is_cell_editable;
 
-	interface->has_save_id = table_subset_has_save_id;
-	interface->get_save_id = table_subset_get_save_id;
+	iface->has_save_id = table_subset_has_save_id;
+	iface->get_save_id = table_subset_get_save_id;
 
-	interface->duplicate_value = table_subset_duplicate_value;
-	interface->free_value = table_subset_free_value;
-	interface->initialize_value = table_subset_initialize_value;
-	interface->value_is_empty = table_subset_value_is_empty;
-	interface->value_to_string = table_subset_value_to_string;
+	iface->duplicate_value = table_subset_duplicate_value;
+	iface->free_value = table_subset_free_value;
+	iface->initialize_value = table_subset_initialize_value;
+	iface->value_is_empty = table_subset_value_is_empty;
+	iface->value_to_string = table_subset_value_to_string;
 }
 
 static void

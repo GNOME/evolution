@@ -767,7 +767,7 @@ e_mail_formatter_init (EMailFormatter *formatter)
 }
 
 static void
-e_mail_formatter_extensible_interface_init (EExtensibleInterface *interface)
+e_mail_formatter_extensible_interface_init (EExtensibleInterface *iface)
 {
 
 }

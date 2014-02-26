@@ -71,7 +71,7 @@ enum {
 #define STATE_GROUP_GLOBAL_FOLDER	"GlobalFolder"
 
 /* Forward Declarations */
-static void e_mail_paned_view_reader_init (EMailReaderInterface *interface);
+static void e_mail_paned_view_reader_init (EMailReaderInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailPanedView, e_mail_paned_view, E_TYPE_MAIL_VIEW,
@@ -1034,19 +1034,19 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 }
 
 static void
-e_mail_paned_view_reader_init (EMailReaderInterface *interface)
+e_mail_paned_view_reader_init (EMailReaderInterface *iface)
 {
-	interface->get_action_group = mail_paned_view_get_action_group;
-	interface->get_alert_sink = mail_paned_view_get_alert_sink;
-	interface->get_backend = mail_paned_view_get_backend;
-	interface->get_mail_display = mail_paned_view_get_mail_display;
-	interface->get_hide_deleted = mail_paned_view_get_hide_deleted;
-	interface->get_message_list = mail_paned_view_get_message_list;
-	interface->get_popup_menu = mail_paned_view_get_popup_menu;
-	interface->get_preview_pane = mail_paned_view_get_preview_pane;
-	interface->get_window = mail_paned_view_get_window;
-	interface->set_folder = mail_paned_view_set_folder;
-	interface->open_selected_mail = mail_paned_view_reader_open_selected_mail;
+	iface->get_action_group = mail_paned_view_get_action_group;
+	iface->get_alert_sink = mail_paned_view_get_alert_sink;
+	iface->get_backend = mail_paned_view_get_backend;
+	iface->get_mail_display = mail_paned_view_get_mail_display;
+	iface->get_hide_deleted = mail_paned_view_get_hide_deleted;
+	iface->get_message_list = mail_paned_view_get_message_list;
+	iface->get_popup_menu = mail_paned_view_get_popup_menu;
+	iface->get_preview_pane = mail_paned_view_get_preview_pane;
+	iface->get_window = mail_paned_view_get_window;
+	iface->set_folder = mail_paned_view_set_folder;
+	iface->open_selected_mail = mail_paned_view_reader_open_selected_mail;
 }
 
 static void
