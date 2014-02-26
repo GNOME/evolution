@@ -622,6 +622,9 @@ update_mode_combobox (gpointer data)
 	GtkAction *action;
 	gboolean is_html;
 
+	if (!E_IS_EDITOR (editor))
+		return FALSE;
+
 	editor_widget = e_editor_get_editor_widget (editor);
 	is_html = e_editor_widget_get_html_mode (editor_widget);
 
