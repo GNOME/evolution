@@ -2242,9 +2242,17 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 			NULL);
 	}
 
-	e_editor_widget_quote_plain_text (widget);
+	body = WEBKIT_DOM_HTML_ELEMENT (e_editor_widget_quote_plain_text (widget));
 	e_editor_selection_restore_caret_position (selection);
 	e_editor_widget_force_spellcheck (widget);
+
+	/* Register on input event that is called when the content (body) is modified */
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"input",
+		G_CALLBACK (body_input_event_cb),
+		FALSE,
+		widget);
 
 	g_free (inner_html);
 	g_free (inner_text);
