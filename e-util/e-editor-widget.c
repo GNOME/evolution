@@ -2085,17 +2085,15 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 
 	paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 	if (!paragraph) {
-		WebKitDOMElement *element;
-
-		element = webkit_dom_document_create_element (document, "div", NULL);
-		element_add_class (element, "-x-evo-paragraph");
-		webkit_dom_element_set_id (element, "-x-evo-input-start");
+		paragraph = e_editor_selection_get_paragraph_element (
+			selection, document, -1, 0);
+		webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
-		paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_append_child (
+			WEBKIT_DOM_HTML_ELEMENT (paragraph), UNICODE_ZERO_WIDTH_SPACE, NULL);
+		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
-			WEBKIT_DOM_NODE (element),
-			NULL));
+			WEBKIT_DOM_NODE (paragraph),
+			NULL);
 	}
 
 	list = webkit_dom_document_query_selector_all (
