@@ -4446,10 +4446,11 @@ e_editor_selection_save (EEditorSelection *selection)
 
 		marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
-		webkit_dom_element_set_id (marker, "-x-evolution-selection-start-marker");
+		webkit_dom_element_set_id (
+			marker, "-x-evolution-selection-start-marker");
 
 		container = webkit_dom_range_get_start_container (range, NULL);
-		if (WEBKIT_DOM_IS_TEXT (container)) {
+		if (WEBKIT_DOM_IS_TEXT (container) && start_offset != 0) {
 			WebKitDOMText *split_text;
 
 			split_text = webkit_dom_text_split_text (
@@ -4457,21 +4458,31 @@ e_editor_selection_save (EEditorSelection *selection)
 				start_offset, NULL);
 			split_node = WEBKIT_DOM_NODE (split_text);
 		} else {
-			split_node = container;
+			if (!webkit_dom_node_get_previous_sibling (container)) {
+				split_node = webkit_dom_node_get_parent_node (
+					container);
+			} else if (!webkit_dom_node_get_next_sibling (container)) {
+				split_node = webkit_dom_node_get_parent_node (
+					container);
+				split_node = webkit_dom_node_get_next_sibling (
+					split_node);
+			} else
+				split_node = container;
 		}
 
 		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (container);
+		parent_node = webkit_dom_node_get_parent_node (split_node);
 
 		webkit_dom_node_insert_before (
 			parent_node, marker_node, split_node, NULL);
 
 		marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
-		webkit_dom_element_set_id (marker, "-x-evolution-selection-end-marker");
+		webkit_dom_element_set_id (
+			marker, "-x-evolution-selection-end-marker");
 
 		container = webkit_dom_range_get_end_container (range, NULL);
-		if (WEBKIT_DOM_IS_TEXT (container)) {
+		if (WEBKIT_DOM_IS_TEXT (container) && start_offset != 0) {
 			WebKitDOMText *split_text;
 
 			split_text = webkit_dom_text_split_text (
@@ -4479,11 +4490,20 @@ e_editor_selection_save (EEditorSelection *selection)
 				start_offset, NULL);
 			split_node = WEBKIT_DOM_NODE (split_text);
 		} else {
-			split_node = container;
+			if (!webkit_dom_node_get_previous_sibling (container)) {
+				split_node = webkit_dom_node_get_parent_node (
+					container);
+			} else if (!webkit_dom_node_get_next_sibling (container)) {
+				split_node = webkit_dom_node_get_parent_node (
+					container);
+				split_node = webkit_dom_node_get_next_sibling (
+					split_node);
+			} else
+				split_node = container;
 		}
 
 		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (container);
+		parent_node = webkit_dom_node_get_parent_node (split_node);
 
 		webkit_dom_node_insert_before (
 			parent_node, marker_node, split_node, NULL);
@@ -4508,6 +4528,8 @@ e_editor_selection_restore (EEditorSelection *selection)
 	EEditorWidget *editor_widget;
 	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *marker;
 
@@ -4519,7 +4541,9 @@ e_editor_selection_restore (EEditorSelection *selection)
 	web_view = WEBKIT_WEB_VIEW (editor_widget);
 
 	document = webkit_web_view_get_dom_document (web_view);
-	range = editor_selection_get_current_range (selection);
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+	range = webkit_dom_document_create_range (document);
 
 	if (range != NULL) {
 		WebKitDOMNode *marker_node;
@@ -4527,7 +4551,19 @@ e_editor_selection_restore (EEditorSelection *selection)
 
 		marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evolution-selection-start-marker");
-		g_return_if_fail (marker != NULL);
+		if (!marker) {
+			marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evolution-selection-end-marker");
+
+			if (marker) {
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (marker)),
+					WEBKIT_DOM_NODE (marker),
+					NULL);
+			}
+			return;
+		}
 
 		marker_node = WEBKIT_DOM_NODE (marker);
 		parent_node = webkit_dom_node_get_parent_node (marker_node);
@@ -4537,13 +4573,28 @@ e_editor_selection_restore (EEditorSelection *selection)
 
 		marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evolution-selection-end-marker");
-		g_return_if_fail (marker != NULL);
+		if (!marker) {
+			marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evolution-selection-start-marker");
+
+			if (marker) {
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (marker)),
+					WEBKIT_DOM_NODE (marker),
+					NULL);
+			}
+			return;
+		}
 
 		marker_node = WEBKIT_DOM_NODE (marker);
 		parent_node = webkit_dom_node_get_parent_node (marker_node);
 
 		webkit_dom_range_set_end_before (range, marker_node, NULL);
 		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
+
+		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+		webkit_dom_dom_selection_add_range (dom_selection, range);
 	}
 
 	g_object_unref (editor_widget);
