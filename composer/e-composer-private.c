@@ -907,7 +907,8 @@ composer_move_caret (EMsgComposer *composer)
 							webkit_dom_node_get_parent_node (
 								WEBKIT_DOM_NODE (signature)) :
 							webkit_dom_node_get_next_sibling (
-								webkit_dom_node_list_item (blockquotes, 0)),
+								webkit_dom_node_list_item (
+									blockquotes, 0)),
 						NULL);
 				} else {
 					webkit_dom_node_append_child (
@@ -922,9 +923,11 @@ composer_move_caret (EMsgComposer *composer)
 				e_editor_widget_quote_plain_text (editor_widget);
 			e_editor_widget_force_spellcheck (editor_widget);
 
-			input_start = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
+			input_start = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-input-start");
 			if (input_start)
-				webkit_dom_range_select_node_contents (new_range, WEBKIT_DOM_NODE (input_start), NULL);
+				webkit_dom_range_select_node_contents (
+					new_range, WEBKIT_DOM_NODE (input_start), NULL);
 
 			webkit_dom_range_collapse (new_range, FALSE, NULL);
 		} else {
@@ -932,9 +935,10 @@ composer_move_caret (EMsgComposer *composer)
 				insert_paragraph_with_input (
 					element, WEBKIT_DOM_ELEMENT (body));
 
-			webkit_dom_range_select_node_contents (new_range,
-				WEBKIT_DOM_NODE (
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+			webkit_dom_range_select_node_contents (
+				new_range,
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body)),
 				NULL);
 			webkit_dom_range_collapse (new_range, TRUE, NULL);
 		}
