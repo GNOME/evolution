@@ -45,6 +45,8 @@
 
 #define URL_PATTERN_SPACE URL_PATTERN "\\s"
 
+#define QUOTE_SYMBOL ">"
+
 /**
  * EEditorWidget:
  *
@@ -2531,6 +2533,22 @@ is_citation_node (WebKitDOMNode *node)
 	}
 }
 
+static gchar *
+get_quotation_for_level (gint quote_level)
+{
+	gint ii;
+	GString *output = g_string_new ("");
+
+	for (ii = 0; ii < quote_level; ii++) {
+		g_string_append (output, "<span class=\"quote_character\">");
+		g_string_append (output, QUOTE_SYMBOL);
+		g_string_append (output, " ");
+		g_string_append (output, "</span>");
+	}
+
+	return g_string_free (output, FALSE);
+}
+
 static void
 insert_quote_symbols (WebKitDOMHTMLElement *element,
                       gint quote_level,
@@ -2540,19 +2558,19 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
 	gchar *text;
 	gint ii;
 	GString *output;
-	gchar *indent;
+	gchar *quotation;
 
 	if (!WEBKIT_DOM_IS_HTML_ELEMENT (element))
 		return;
 
 	text = webkit_dom_html_element_get_inner_html (element);
 	output = g_string_new ("");
-	indent = g_strnfill (quote_level, '>');
+	quotation = get_quotation_for_level (quote_level);
 
 	if (g_strcmp0 (text, "\n") == 0) {
 		g_string_append (output, "<span class=\"-x-evo-quoted\">");
-		g_string_append (output, indent);
-		g_string_append (output, " </span>");
+		g_string_append (output, quotation);
+		g_string_append (output, "</span>");
 		g_string_append (output, "\n");
 	} else {
 		gchar **lines;
@@ -2568,12 +2586,11 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
 				g_string_append (output, lines[ii]);
 				g_string_append (output, "\n");
 			}
-			if (!(ii == 0 && (g_strcmp0 (lines[ii], "&gt;") == 0) &&
-			    g_str_has_prefix (text, "&gt;"))) {
-				g_string_append (output, "<span class=\"-x-evo-quoted\">");
-				g_string_append (output, indent);
-				g_string_append (output, " </span>");
-			}
+
+			g_string_append (output, "<span class=\"-x-evo-quoted\">");
+			g_string_append (output, quotation);
+			g_string_append (output, "</span>");
+
 			/* Insert line of text */
 			g_string_append (output, lines[ii]);
 			if ((ii == g_strv_length (lines) - 1) &&
@@ -2590,7 +2607,7 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
 
 	webkit_dom_html_element_set_inner_html (element, output->str, NULL);
  exit:
-	g_free (indent);
+	g_free (quotation);
 	g_free (text);
 	g_string_free (output, TRUE);
 }
@@ -2671,18 +2688,14 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
                                   gint quote_level,
                                   gboolean is_html_node)
 {
-	gchar *indent;
-	gchar *content;
+	gchar *quotation;
 	WebKitDOMElement *element;
 
-	indent = g_strnfill (quote_level, '>');
+	quotation = get_quotation_for_level (quote_level);
 	element = webkit_dom_document_create_element (document, "SPAN", NULL);
 	element_add_class (element, "-x-evo-quoted");
-	content = g_strconcat (indent, " ", NULL);
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element),
-		content,
-		NULL);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element), quotation, NULL);
 
 	if (is_html_node) {
 		WebKitDOMElement *new_br;
@@ -2710,8 +2723,7 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 			NULL);
 	}
 
-	g_free (indent);
-	g_free (content);
+	g_free (quotation);
 }
 
 static void
@@ -2854,15 +2866,14 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		}
 
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
-			gchar *indent;
-			gchar *content;
+			gchar *quotation, *content;
 
-			indent = g_strnfill (quote_level, '>');
+			quotation = get_quotation_for_level (quote_level);
 
 			content = g_strconcat (
 				"<span class=\"-x-evo-quoted\">",
-				indent,
-				" </span><br class=\"-x-evo-temp-br\">",
+				quotation,
+				"</span><br class=\"-x-evo-temp-br\">",
 				NULL);
 
 			webkit_dom_html_element_set_outer_html (
@@ -2871,7 +2882,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 				NULL);
 
 			g_free (content);
-			g_free (indent);
+			g_free (quotation);
 
 			node = next_sibling;
 			skip_node = TRUE;
@@ -4507,6 +4518,51 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  -webkit-margin-start: 0em; \n"
 		"  -webkit-margin-end : 0em; \n"
 		"  color: #737373 !important;\n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".quote_character "
+		"{\n"
+		"  color: rgb(114,159,207);\n"  /* Sky Blue 1 */
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".quote_character+"
+		".quote_character"
+		"{\n"
+		" color: rgb(173,127,168);\n"  /* Plum 1 */
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".quote_character+"
+		".quote_character+"
+		".quote_character"
+		"{\n"
+		"  color: rgb(138,226,52);\n"  /* Chameleon 1 */
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".quote_character+"
+		".quote_character+"
+		".quote_character+"
+		".quote_character"
+		"{\n"
+		" color: rgb(252,175,62);\n"  /* Orange 1 */
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".quote_character+"
+		".quote_character+"
+		".quote_character+"
+		".quote_character+"
+		".quote_character"
+		"{\n"
+		"  color: rgb(233,185,110);\n"  /* Chocolate 1 */
 		"}\n");
 
 	g_string_append (
