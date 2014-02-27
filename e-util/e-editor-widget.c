@@ -3303,42 +3303,30 @@ process_elements (WebKitDOMNode *node,
 	if (to_plain_text && !buffer)
 		return;
 
-	/* Skip signature */
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-signature")) {
-		if (to_plain_text && !changing_mode)
-			g_string_append (buffer, "\n");
-		if (to_html)
-			remove_attributes (WEBKIT_DOM_ELEMENT (node));
-		if (changing_mode)
-			return;
-	}
+	if (changing_mode && to_plain_text && WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
+		WebKitDOMNamedNodeMap *attributes;
+		gulong attributes_length;
 
-	if (changing_mode && to_plain_text) {
-		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
-			WebKitDOMNamedNodeMap *attributes;
-			gulong attributes_length;
+		/* Copy attributes */
+		g_string_append (buffer, "<html><head></head><body ");
+		attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (node));
+		attributes_length = webkit_dom_named_node_map_get_length (attributes);
+		for (ii = 0; ii < attributes_length; ii++) {
+			gchar *name, *value;
+			WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
 
-			/* Copy attributes */
-			g_string_append (buffer, "<html><head></head><body ");
-			attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (node));
-			attributes_length = webkit_dom_named_node_map_get_length (attributes);
-			for (ii = 0; ii < attributes_length; ii++) {
-				gchar *name, *value;
-				WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+			name = webkit_dom_node_get_local_name (node);
+			value = webkit_dom_node_get_node_value (node);
 
-				name = webkit_dom_node_get_local_name (node);
-				value = webkit_dom_node_get_node_value (node);
+			g_string_append (buffer, name);
+			g_string_append (buffer, "=\"");
+			g_string_append (buffer, value);
+			g_string_append (buffer, "\" ");
 
-				g_string_append (buffer, name);
-				g_string_append (buffer, "=\"");
-				g_string_append (buffer, value);
-				g_string_append (buffer, "\" ");
-
-				g_free (name);
-				g_free (value);
-			}
-			g_string_append (buffer, ">");
+			g_free (name);
+			g_free (value);
 		}
+		g_string_append (buffer, ">");
 	}
 
 	nodes = webkit_dom_node_get_child_nodes (node);
@@ -3349,6 +3337,7 @@ process_elements (WebKitDOMNode *node,
 		gboolean skip_node = FALSE;
 
 		child = webkit_dom_node_list_item (nodes, ii);
+
 		if (WEBKIT_DOM_IS_TEXT (child)) {
 			gchar *content, *tmp;
 			GRegex *regex;
@@ -3380,112 +3369,142 @@ process_elements (WebKitDOMNode *node,
 			if (to_plain_text || changing_mode)
 				g_string_append (buffer, content);
 
-			g_free (content);
-		} else if (!WEBKIT_DOM_IS_COMMENT (child)) {
-			/* Leave caret position untouched */
-			if (element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-caret-position")) {
-				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (
-						WEBKIT_DOM_HTML_ELEMENT (child));
-					g_string_append (buffer, content);
-					g_free (content);
-				}
-				if (to_html) {
-					webkit_dom_node_remove_child (
-						webkit_dom_node_get_parent_node (child),
-						child,
-						NULL);
-				}
+			if (to_plain_text && !changing_mode)
+				g_string_append (buffer, "\n");
 
+			g_free (content);
+
+			goto next;
+		}
+
+		if (WEBKIT_DOM_IS_COMMENT (child) || !WEBKIT_DOM_IS_ELEMENT (child))
+			goto next;
+
+		/* Leave caret position untouched */
+		if (element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-caret-position")) {
+			if (changing_mode && to_plain_text) {
+				content = webkit_dom_html_element_get_outer_html (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
+			}
+			if (to_html) {
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (child),
+					child,
+					NULL);
+			}
+
+			skip_node = TRUE;
+		}
+
+		/* Leave blockquotes as they are */
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (child)) {
+			if (changing_mode && to_plain_text) {
+				content = webkit_dom_html_element_get_outer_html (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_node = TRUE;
+			} else
+				process_blockquote (WEBKIT_DOM_ELEMENT (child));
+		}
+
+		if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (child)) {
+			if (to_html)
+				remove_attributes (WEBKIT_DOM_ELEMENT (child));
+		}
+
+		/* Leave paragraphs as they are */
+		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
+			if (changing_mode && to_plain_text) {
+				content = webkit_dom_html_element_get_outer_html (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
 				skip_node = TRUE;
 			}
+			if (to_html)
+				remove_attributes (WEBKIT_DOM_ELEMENT (child));
+		}
 
-			/* Leave blockquotes as they are */
-			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (child)) {
-				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (
-						WEBKIT_DOM_HTML_ELEMENT (child));
-					g_string_append (buffer, content);
-					g_free (content);
-					skip_node = TRUE;
-				} else
-					process_blockquote (WEBKIT_DOM_ELEMENT (child));
-			}
+		/* Signature */
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (child)) {
+			WebKitDOMNode *first_child;
 
-			if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (child)) {
-				if (to_html)
-					remove_attributes (WEBKIT_DOM_ELEMENT (child));
-			}
+			first_child = webkit_dom_node_get_first_child (child);
+			if (WEBKIT_DOM_IS_ELEMENT (first_child) &&
+			    element_has_class (
+				WEBKIT_DOM_ELEMENT (first_child),
+				"-x-evo-signature")) {
 
-			/* Leave paragraphs as they are */
-			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
-				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (
-						WEBKIT_DOM_HTML_ELEMENT (child));
-					g_string_append (buffer, content);
-					g_free (content);
-					skip_node = TRUE;
-				}
-				if (to_html)
-					remove_attributes (WEBKIT_DOM_ELEMENT (child));
-			}
-
-			/* Replace smileys with their text representation */
-			if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-smiley-wrapper")) {
-				if (to_plain_text && !changing_mode) {
-					WebKitDOMNode *text_version;
-
-					text_version = webkit_dom_node_get_last_child (child);
-					content = webkit_dom_html_element_get_inner_text (
-						WEBKIT_DOM_HTML_ELEMENT (text_version));
-					g_string_append (buffer, content);
-					g_free (content);
-					skip_node = TRUE;
-				}
 				if (to_html) {
-					WebKitDOMElement *img;
+					WebKitDOMElement *pre;
 
-					img = WEBKIT_DOM_ELEMENT (
-						webkit_dom_node_get_first_child (
-							WEBKIT_DOM_NODE (child)));
-
-					remove_attributes (img);
-
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (
-							child),
-						WEBKIT_DOM_NODE (img),
-						child,
-						NULL);
-					webkit_dom_node_remove_child (
-						webkit_dom_node_get_parent_node (
-							child),
-						child,
-						NULL);
-					skip_node = TRUE;
+					remove_attributes (WEBKIT_DOM_ELEMENT (first_child));
 				}
-			}
-
-			/* Leave PRE elements untouched */
-			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
-				if (changing_mode && to_plain_text) {
-					content = webkit_dom_html_element_get_outer_html (
-						WEBKIT_DOM_HTML_ELEMENT (child));
+				if (to_plain_text && !changing_mode) {
+					content = webkit_dom_html_element_get_inner_text (
+						WEBKIT_DOM_HTML_ELEMENT (first_child));
 					g_string_append (buffer, content);
 					g_free (content);
-					skip_node = TRUE;
 				}
-				if (to_html)
-					remove_attributes (WEBKIT_DOM_ELEMENT (child));
-			}
-
-			if (to_plain_text) {
-				/* Insert new line when we hit BR element */
-				if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
-					g_string_append (buffer, changing_mode ? "<br>" : "\n");
+				skip_node = TRUE;
 			}
 		}
 
+		/* Replace smileys with their text representation */
+		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-smiley-wrapper")) {
+			if (to_plain_text && !changing_mode) {
+				WebKitDOMNode *text_version;
+
+				text_version = webkit_dom_node_get_last_child (child);
+				content = webkit_dom_html_element_get_inner_text (
+					WEBKIT_DOM_HTML_ELEMENT (text_version));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_node = TRUE;
+			}
+			if (to_html) {
+				WebKitDOMElement *img;
+
+				img = WEBKIT_DOM_ELEMENT (
+					webkit_dom_node_get_first_child (child)),
+
+				remove_attributes (img);
+
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (child),
+					WEBKIT_DOM_NODE (img),
+					child,
+					NULL);
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (child),
+					child,
+					NULL);
+				skip_node = TRUE;
+			}
+		}
+
+		/* Leave PRE elements untouched */
+		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
+			if (changing_mode && to_plain_text) {
+				content = webkit_dom_html_element_get_outer_html (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_node = TRUE;
+			}
+			if (to_html)
+				remove_attributes (WEBKIT_DOM_ELEMENT (child));
+		}
+
+		if (to_plain_text) {
+			/* Insert new line when we hit BR element */
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
+				g_string_append (buffer, changing_mode ? "<br>" : "\n");
+		}
+ next:
 		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
 			process_elements (child, to_html, changing_mode, to_plain_text, buffer);
 	}
@@ -3504,8 +3523,12 @@ process_elements (WebKitDOMNode *node,
 			add_br = TRUE;
 
 		if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
-			if (webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (next_sibling), "span.-x-evo-signature", NULL))
+			if (webkit_dom_element_query_selector (
+				WEBKIT_DOM_ELEMENT (next_sibling),
+				"span.-x-evo-signature", NULL)) {
+
 				add_br = FALSE;
+			}
 		}
 
 		content = webkit_dom_node_get_text_content (node);
