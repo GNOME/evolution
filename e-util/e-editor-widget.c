@@ -293,7 +293,7 @@ body_input_event_cb (WebKitDOMElement *element,
                      WebKitDOMEvent *event,
                      EEditorWidget *editor_widget)
 {
-	WebKitDOMNode *node;
+	WebKitDOMNode *node, *parent;
 	WebKitDOMRange *range = editor_widget_get_dom_range (editor_widget);
 
 	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
@@ -320,6 +320,20 @@ body_input_event_cb (WebKitDOMElement *element,
 			g_string_free (res, TRUE);
 		}
 		g_free (text);
+
+		parent = webkit_dom_node_get_parent_node (node);
+		if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
+		    !element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph")) {
+			if (e_editor_widget_get_html_mode (editor_widget)) {
+				element_add_class (
+					WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
+			} else {
+				e_editor_selection_set_paragraph_style (
+					e_editor_widget_get_selection (editor_widget),
+					WEBKIT_DOM_ELEMENT (parent),
+					-1, 0);
+			}
+		}
 	}
 }
 
