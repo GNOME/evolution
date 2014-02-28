@@ -3471,11 +3471,8 @@ process_elements (WebKitDOMNode *node,
 				WEBKIT_DOM_ELEMENT (first_child),
 				"-x-evo-signature")) {
 
-				if (to_html) {
-					WebKitDOMElement *pre;
-
+				if (to_html)
 					remove_attributes (WEBKIT_DOM_ELEMENT (first_child));
-				}
 				if (to_plain_text && !changing_mode) {
 					content = webkit_dom_html_element_get_inner_text (
 						WEBKIT_DOM_HTML_ELEMENT (first_child));
