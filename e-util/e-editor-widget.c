@@ -1504,6 +1504,33 @@ editor_widget_key_press_event (GtkWidget *widget,
 		}
 	}
 
+	/* BackSpace in indented block decrease indent level by one */
+	if (event->keyval == GDK_KEY_BackSpace) {
+		EEditorSelection *selection;
+		WebKitDOMNode *node;
+		WebKitDOMElement *element;
+		WebKitDOMRange *range;
+
+		selection = e_editor_widget_get_selection (editor);
+
+		range = editor_widget_get_dom_range (editor);
+		node = webkit_dom_range_get_end_container (range, NULL);
+
+		if (!WEBKIT_DOM_IS_ELEMENT (node))
+			node = WEBKIT_DOM_NODE (
+				webkit_dom_node_get_parent_element (node));
+
+		element = webkit_dom_node_get_parent_element (node);
+
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element) &&
+		    element_has_class (element, "-x-evo-indented")) {
+			if (!webkit_dom_node_get_previous_sibling (node)) {
+				e_editor_selection_unindent (selection);
+				return TRUE;
+			}
+		}
+	}
+
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_editor_widget_parent_class)->
 		key_press_event (widget, event);
