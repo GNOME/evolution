@@ -468,7 +468,7 @@ action_insert_html_file_cb (GtkToggleAction *action,
 		_("Insert HTML File"), NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("HTML file"));
@@ -680,10 +680,14 @@ static void
 action_paste_cb (GtkAction *action,
                  EEditor *editor)
 {
+	EEditorWidget *widget = e_editor_get_editor_widget (editor);
+
 	/* Paste only into WebView when it has focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (e_editor_get_editor_widget (editor)))) {
+	if (gtk_widget_has_focus (GTK_WIDGET (widget))) {
 		webkit_web_view_paste_clipboard (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
+			WEBKIT_WEB_VIEW (widget));
+
+		e_editor_widget_force_spellcheck (widget);
 	}
 }
 
@@ -692,6 +696,9 @@ action_paste_quote_cb (GtkAction *action,
                        EEditor *editor)
 {
 	e_editor_widget_paste_clipboard_quoted (
+		e_editor_get_editor_widget (editor));
+
+	e_editor_widget_force_spellcheck (
 		e_editor_get_editor_widget (editor));
 }
 
