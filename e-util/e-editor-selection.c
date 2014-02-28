@@ -1914,23 +1914,19 @@ e_editor_selection_set_font_name (EEditorSelection *selection,
  guint
 e_editor_selection_get_font_size (EEditorSelection *selection)
 {
+	gchar *size;
 	guint size_int;
 
 	g_return_val_if_fail (
 		E_IS_EDITOR_SELECTION (selection),
 		E_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
-		size_int = selection->priv->font_size;
-	} else {
-		gchar *size = get_font_property (selection, "size");
-		if (!size) {
-			return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-		}
+	size = get_font_property (selection, "size");
+	if (!size)
+		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
-		size_int = atoi (size);
-		g_free (size);
-	}
+	size_int = atoi (size);
+	g_free (size);
 
 	if (size_int == 0)
 		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
