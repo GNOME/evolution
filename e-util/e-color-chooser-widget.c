@@ -114,8 +114,8 @@ run_color_chooser_dialog (gpointer user_data)
 		N_("Choose custom color"),
 		GTK_WINDOW (parent_window),
 		GTK_DIALOG_MODAL,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 
 	chooser = gtk_color_chooser_widget_new ();
 	g_object_set (G_OBJECT (chooser), "show-editor", TRUE, NULL);

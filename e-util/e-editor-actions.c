@@ -467,8 +467,8 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	dialog = gtk_file_chooser_dialog_new (
 		_("Insert HTML File"), NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("HTML file"));
@@ -560,8 +560,8 @@ action_insert_text_file_cb (GtkAction *action,
 	dialog = gtk_file_chooser_dialog_new (
 		_("Insert text file"), NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Text file"));
