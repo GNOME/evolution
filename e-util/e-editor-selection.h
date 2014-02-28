@@ -183,7 +183,8 @@ void		e_editor_selection_set_paragraph_style
 						(EEditorSelection *selection,
 						 WebKitDOMElement *element,
 						 gint width,
-						 gint offset);
+						 gint offset,
+						 const gchar *style_to_add);
 WebKitDOMElement *
 		e_editor_selection_get_paragraph_element
 						(EEditorSelection *selection,

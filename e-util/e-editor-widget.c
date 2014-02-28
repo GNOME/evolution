@@ -333,7 +333,7 @@ body_input_event_cb (WebKitDOMElement *element,
 				e_editor_selection_set_paragraph_style (
 					e_editor_widget_get_selection (editor_widget),
 					WEBKIT_DOM_ELEMENT (parent),
-					-1, 0);
+					-1, 0, "");
 			}
 		}
 	}
@@ -3758,22 +3758,53 @@ toggle_paragraphs_style (EEditorWidget *widget)
 	length = webkit_dom_node_list_get_length (paragraphs);
 
 	for (ii = 0; ii < length; ii++) {
+		gchar *style;
+		const gchar *css_align;
 		WebKitDOMNode *node = webkit_dom_node_list_item (paragraphs, ii);
 
-		if (html_mode)
-			/* In HTML mode the paragraphs don't have width limit */
-			webkit_dom_element_remove_attribute (
+		if (html_mode) {
+			style = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "style");
-		else {
+
+			if ((css_align = strstr (style, "text-align: "))) {
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (node),
+					"style",
+					g_str_has_prefix (css_align + 12, "center") ?
+						"text-align: center" :
+						"text-align: right",
+					NULL);
+			} else {
+				/* In HTML mode the paragraphs don't have width limit */
+				webkit_dom_element_remove_attribute (
+					WEBKIT_DOM_ELEMENT (node), "style");
+			}
+			g_free (style);
+		} else {
 			WebKitDOMNode *parent;
 
 			parent = webkit_dom_node_get_parent_node (node);
 			/* If the paragraph is inside indented paragraph don't set
 			 * the style as it will be inherited */
-			if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented"))
-				/* In HTML mode the paragraphs have width limit */
-				e_editor_selection_set_paragraph_style (
-					selection, WEBKIT_DOM_ELEMENT (node), -1, 0);
+			if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented")) {
+				style = webkit_dom_element_get_attribute (
+					WEBKIT_DOM_ELEMENT (node), "style");
+
+				if ((css_align = strstr (style, "text-align: "))) {
+					const gchar *style_to_add;
+
+					style_to_add = g_str_has_prefix (
+						css_align + 12, "center") ?
+							"text-align: center;" :
+							"text-align: right;";
+
+					/* In HTML mode the paragraphs have width limit */
+					e_editor_selection_set_paragraph_style (
+						selection, WEBKIT_DOM_ELEMENT (node),
+						-1, 0, style_to_add);
+				}
+				g_free (style);
+			}
 		}
 	}
 }

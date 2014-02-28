@@ -2266,7 +2266,7 @@ e_editor_selection_unindent (EEditorSelection *selection)
 
 		if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
 			e_editor_selection_set_paragraph_style (
-				selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0);
+				selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, "");
 
 		/* Insert the unindented element */
 		webkit_dom_node_insert_before (
@@ -4172,14 +4172,16 @@ void
 e_editor_selection_set_paragraph_style (EEditorSelection *selection,
                                         WebKitDOMElement *element,
                                         gint width,
-                                        gint offset)
+                                        gint offset,
+                                        const gchar *style_to_add)
 {
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
 
 	webkit_dom_element_set_class_name (element, "-x-evo-paragraph");
 	if (!is_in_html_mode (selection)) {
 		gchar *style = g_strdup_printf (
-			"width: %dch; word-wrap: normal;", (word_wrap_length + offset));
+			"width: %dch; word-wrap: normal; %s",
+			(word_wrap_length + offset), style_to_add);
 		webkit_dom_element_set_attribute (element, "style", style, NULL);
 		g_free (style);
 	}
@@ -4194,7 +4196,7 @@ e_editor_selection_get_paragraph_element (EEditorSelection *selection,
 	WebKitDOMElement *element;
 
 	element = webkit_dom_document_create_element (document, "DIV", NULL);
-	e_editor_selection_set_paragraph_style (selection, element, width, offset);
+	e_editor_selection_set_paragraph_style (selection, element, width, offset, "");
 
 	return element;
 }
