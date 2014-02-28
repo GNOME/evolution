@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-10 05:29+0000\n"
-"PO-Revision-Date: 2014-02-10 11:07+0100\n"
+"POT-Creation-Date: 2014-02-28 05:31+0000\n"
+"PO-Revision-Date: 2014-02-28 16:40+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -31,7 +31,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
-#| msgid "Back up and restore your Evolution data and settings."
 msgid "Back up and restore your <app>Evolution</app> data and settings."
 msgstr ""
 "Respaldar y restaurar los datos y la configuración de <app>Evolution</app>"
@@ -43,10 +42,6 @@ msgstr "Respaldar y restaurar"
 
 #. (itstool) path: page/p
 #: C/backup-restore.page:24
-#| msgid ""
-#| "You can back up your Evolution data. The backup saves your settings, "
-#| "mail, contacts, tasks, memos and calendars. It will be stored in a gzip-"
-#| "compressed tar archive file."
 msgid ""
 "You can back up your <app>Evolution</app> data. The backup saves your "
 "settings, mail, contacts, tasks, memos and calendars. It will be stored in a "
@@ -63,9 +58,6 @@ msgstr "Respaldos"
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:33
-#| msgid ""
-#| "Select <guiseq><gui>File</gui><gui>Back up Evolution Data...</gui></"
-#| "guiseq>."
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Back up Evolution Data…</gui></guiseq>."
 msgstr ""
@@ -83,9 +75,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:41 C/backup-restore.page:69
-#| msgid ""
-#| "You will be asked to close Evolution. Answer with <gui style=\"button"
-#| "\">Yes</gui>."
 msgid ""
 "You will be asked to close <app>Evolution</app>. Answer with <gui style="
 "\"button\">Yes</gui>."
@@ -95,13 +84,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:47
-#| msgid ""
-#| "Note that your <link xref=\"mail-spam\">spam filtering</link> settings "
-#| "are not included in the backup file, as these settings are not controlled "
-#| "by Evolution and as developers of spam filtering tools might change "
-#| "implementation details. If you use Bogofilter you will need to back up "
-#| "<file>~/.bogofilter/</file>. If you use SpamAssassin you will need to "
-#| "back up <file>~/.spamassassin/</file>."
 msgid ""
 "Note that your <link xref=\"mail-spam\">spam filtering</link> settings are "
 "not included in the backup file, as these settings are not controlled by "
@@ -124,9 +106,6 @@ msgstr "Restaurar"
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:62
-#| msgid ""
-#| "Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></"
-#| "guiseq>."
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Restore Evolution Data…</gui></guiseq>."
 msgstr ""
@@ -140,9 +119,6 @@ msgstr "Seleccione el archivo y pulse <gui style=\"button\">Abrir</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:75
-#| msgid ""
-#| "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
-#| "restore Evolution data from a backup file."
 msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore <app>Evolution</app> data from a backup file."
@@ -1861,16 +1837,6 @@ msgstr "Añadir personas automáticamente a mis contactos"
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:27
-#| msgid ""
-#| "You can add people automatically to your contacts when you reply to "
-#| "received email. Enable the plugin <gui>Automatic Contacts</gui> by going "
-#| "to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on "
-#| "<gui>Automatic Contacts</gui> so that it shows a check mark. Then go to "
-#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</"
-#| "gui><gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create "
-#| "address book entries when sending emails</gui> option and select an "
-#| "address book in the drop-down field below that will receive the new "
-#| "contacts."
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
@@ -1915,10 +1881,6 @@ msgstr "Autocompletado de destinatarios de correo"
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:32
-#| msgid ""
-#| "You can enter the first three letters of names and email addresses in the "
-#| "recipients text field and Evolution will present you with a list of "
-#| "matches from your address books."
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -1931,10 +1893,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:36
-#| msgid ""
-#| "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Contacts</gui><gui>Autocompletion</gui></guiseq> and choose the "
-#| "address books from the list that Evolution should look in for matches."
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -1983,8 +1941,6 @@ msgstr "Usar una libreta de direcciones de Google"
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:23
-#| msgid ""
-#| "To add such an address book to Evolution, perform the following steps:"
 msgid ""
 "To add such an address book to <app>Evolution</app>, perform the following "
 "steps:"
@@ -1994,9 +1950,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-google.page:28 C/contacts-ldap.page:40 C/contacts-local.page:27
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></"
-#| "guiseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></guiseq>."
 msgstr ""
@@ -2005,8 +1958,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:53 C/contacts-local.page:41
-#| msgid ""
-#| "The address book will be added to the list of address books in Evolution."
 msgid ""
 "The address book will be added to the list of address books in "
 "<app>Evolution</app>."
@@ -2140,9 +2091,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:103
-#| msgid ""
-#| "Timeout (minutes): The maximum time Evolution attempts to download data "
-#| "from the server before giving up."
 msgid ""
 "Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
 "download data from the server before giving up."
@@ -2211,9 +2159,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:142
-#| msgid ""
-#| "To prevent excess network traffic, Evolution does not normally load data "
-#| "from the LDAP server upon opening."
 msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
@@ -2223,12 +2168,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:146
-#| msgid ""
-#| "Depending on your server settings, you might not be able to edit all the "
-#| "fields in a contact stored on an LDAP server. Some servers prohibit some "
-#| "or all changes, and others use a smaller set of fields than Evolution "
-#| "allows. Check with your system administrator if you need different "
-#| "settings."
 msgid ""
 "Depending on your server settings, you might not be able to edit all the "
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
@@ -2244,7 +2183,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/contacts-libreoffice.page:17
-#| msgid "Using data from Evolution address books in LibreOffice documents."
 msgid ""
 "Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
@@ -2258,9 +2196,6 @@ msgstr "Contactos en LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
-#| msgid ""
-#| "You can use your Evolution address books in LibreOffice as a data source. "
-#| "The following steps refer to LibreOffice version 3.3.3."
 msgid ""
 "You can use your <app>Evolution</app> address books in LibreOffice as a data "
 "source. The following steps refer to LibreOffice version 3.3.3."
@@ -2271,10 +2206,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
-#| msgid ""
-#| "Click <guiseq><gui>Edit</gui><gui>Exchange Database...</gui></guiseq> in "
-#| "the menu bar. This will bring up the <gui>Exchange databases</gui> dialog "
-#| "box."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
@@ -2285,10 +2216,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
-#| msgid ""
-#| "In the right pane under <gui>Available Databases</gui>, "
-#| "<gui>EvolutionLocal</gui> is available as a source. Click on the small "
-#| "triangle to get the list of your Evolution address books."
 msgid ""
 "In the right pane under <gui>Available Databases</gui>, <gui>EvolutionLocal</"
 "gui> is available as a source. Click on the small triangle to get the list "
@@ -2308,9 +2235,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:41
-#| msgid ""
-#| "In case it is not listed already, click <gui style=\"button\">Browse...</"
-#| "gui>. A file chooser dialog opens."
 msgid ""
 "In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
 "A file chooser dialog opens."
@@ -2320,10 +2244,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:45
-#| msgid ""
-#| "As Evolution stores its data in a hidden directory, press "
-#| "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-#| "displayed."
 msgid ""
 "As <app>Evolution</app> stores its data in a hidden directory, press "
 "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
@@ -2344,11 +2264,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:56
-#| msgid ""
-#| "This makes the Evolution address book the default data source for "
-#| "LibreOffice. You can now select a field to insert into an LibreOffice "
-#| "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-#| "guiseq>."
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
@@ -2372,9 +2287,6 @@ msgstr "Añadir otra libreta de direcciones local"
 
 #. (itstool) path: page/p
 #: C/contacts-local.page:22
-#| msgid ""
-#| "To add another local address book to Evolution, perform the following "
-#| "steps:"
 msgid ""
 "To add another local address book to <app>Evolution</app>, perform the "
 "following steps:"
@@ -2421,9 +2333,6 @@ msgstr "Buscar un único contacto"
 
 #. (itstool) path: section/p
 #: C/contacts-searching.page:33
-#| msgid ""
-#| "To find text in the displayed contact, select <guiseq><gui>Edit</"
-#| "gui><gui>Find in Contact...</gui></guiseq> from the main menu."
 msgid ""
 "To find text in the displayed contact, select <guiseq><gui>Edit</"
 "gui><gui>Find in Contact…</gui></guiseq> from the main menu."
@@ -2462,11 +2371,6 @@ msgstr "Añadir un contacto"
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:24
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, "
-#| "or right-click in a blank space in the list of contacts and click "
-#| "<gui>New Contact...</gui>, or press <keyseq><key>Shift</key><key>Ctrl</"
-#| "key><key>C</key></keyseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, or "
 "right-click in a blank space in the list of contacts and click <gui>New "
@@ -2522,7 +2426,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:57
-#| msgid "Select <gui>Add to Address Book...</gui>."
 msgid "Select <gui>Add to Address Book…</gui>."
 msgstr "Seleccione <gui>Añadir a la libreta de direcciones…</gui>."
 
@@ -2651,9 +2554,6 @@ msgstr "Crear una lista de contactos"
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:44
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact List</gui></"
-#| "guiseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Contact List</gui></guiseq>."
 msgstr ""
@@ -2662,11 +2562,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:55
-#| msgid ""
-#| "Specify the list members by either entering the names or email addresses "
-#| "of contacts (the text field supports autocompletion), or by dragging "
-#| "contacts from the Contacts window into the list, or by using the <gui "
-#| "style=\"button\">Select...</gui> button."
 msgid ""
 "Specify the list members by either entering the names or email addresses of "
 "contacts (the text field supports autocompletion), or by dragging contacts "
@@ -2702,8 +2597,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/contacts-using-contact-lists.page:73
-#| msgid ""
-#| "The contact list will be added to the chosen address book in Evolution."
 msgid ""
 "The contact list will be added to the chosen address book in <app>Evolution</"
 "app>."
@@ -10015,11 +9908,41 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:32
+#| msgid "Marking a Message As Not Junk Mail"
+msgid "Marking a message as read or unread"
+msgstr "Marcar un mensaje como leído o no leído"
+
+#. (itstool) path: section/p
+#: C/mail-reading-keyboard-shortcuts.page:33
+#| msgid ""
+#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
+#| "key></keyseq>."
+msgid ""
+"To mark the currently selected message as read, press <keyseq><key>Ctrl</"
+"key><key>K</key></keyseq>."
+msgstr ""
+"Para marcar el mensaje seleccionado como leído, pulse <keyseq><key>Ctrl</"
+"key><key>K</key></keyseq>."
+
+#. (itstool) path: section/p
+#: C/mail-reading-keyboard-shortcuts.page:34
+#| msgid ""
+#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
+#| "key></keyseq>."
+msgid ""
+"To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
+"key><key>Shift</key><key>K</key></keyseq>."
+msgstr ""
+"Para marcar el mensaje seleccionado como no leído, pulse <keyseq><key>Ctrl</"
+"key><key>Mayús</key><key>K</key></keyseq>."
+
+#. (itstool) path: section/title
+#: C/mail-reading-keyboard-shortcuts.page:38
 msgid "Navigating in a message"
 msgstr "Navegar en un correo"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:33
+#: C/mail-reading-keyboard-shortcuts.page:39
 msgid ""
 "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
 "page down and press <key>Backspace</key> to page up while reading an email. "
@@ -10031,23 +9954,23 @@ msgstr ""
 "lista de mensajes tiene el foco."
 
 #. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:37
+#: C/mail-reading-keyboard-shortcuts.page:43
 msgid "Navigating in a folder in the message list"
 msgstr "Navegar en una carpeta en la lista de mensajes"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:38
+#: C/mail-reading-keyboard-shortcuts.page:44
 msgid "Navigate in the message list by using the arrow keys on the keyboard."
 msgstr ""
 "Navegar por la lista de mensajes usando las teclas de flecha del teclado."
 
 #. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:42
+#: C/mail-reading-keyboard-shortcuts.page:48
 msgid "Navigating in a folder's unread mail in the message list"
 msgstr "Navegar en el correo no leído en una carpeta en la lista de mensajes"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:43
+#: C/mail-reading-keyboard-shortcuts.page:49
 msgid ""
 "To go to the next or previous unread messages, press the period (<key>.</"
 "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also "
@@ -10066,12 +9989,12 @@ msgstr ""
 "para el mensaje anterior no leído."
 
 #. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:47
+#: C/mail-reading-keyboard-shortcuts.page:53
 msgid "Navigating in unread mail across folders"
 msgstr "Navegar por el correo sin leer en las carpetas"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:49
+#: C/mail-reading-keyboard-shortcuts.page:55
 msgid ""
 "You can easily read the unread messages in all the mail folders by using the "
 "<key>Spacebar</key>."
@@ -10080,7 +10003,7 @@ msgstr ""
 "usando la <key>Barra espaciadora</key>."
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:51
+#: C/mail-reading-keyboard-shortcuts.page:57
 msgid ""
 "When you are in the Mail window, the Spacebar has the following behavior:"
 msgstr ""
@@ -10088,7 +10011,7 @@ msgstr ""
 "siguiente manera:"
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:53
+#: C/mail-reading-keyboard-shortcuts.page:59
 msgid ""
 "When you press the Spacebar for the first time, it takes you to the next "
 "unread message."
@@ -10097,7 +10020,7 @@ msgstr ""
 "correo no leído."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:54
+#: C/mail-reading-keyboard-shortcuts.page:60
 msgid ""
 "If the message is more than one screen long, the Spacebar works as <key>Page "
 "Down</key>."
@@ -10106,7 +10029,7 @@ msgstr ""
 "como <key>Avanzar Página</key>."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:55
+#: C/mail-reading-keyboard-shortcuts.page:61
 msgid ""
 "If you press the Spacebar after you reach the bottom of the page, it takes "
 "you to the next unread message."
@@ -10115,7 +10038,7 @@ msgstr ""
 "lleva al siguiente mensaje no leído."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:56
+#: C/mail-reading-keyboard-shortcuts.page:62
 msgid ""
 "If there are no more unread messages in the mailbox, pressing the Spacebar "
 "takes you to the next unread message in the next folder."
@@ -10124,7 +10047,7 @@ msgstr ""
 "le lleva al siguiente mensaje sin leer en la siguiente carpeta."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:57
+#: C/mail-reading-keyboard-shortcuts.page:63
 msgid ""
 "If new messages arrive in a number of folders, the Spacebar toggles between "
 "those folders. This feature allows you to switch to the next unread message "
@@ -15105,9 +15028,6 @@ msgstr "Pulse <_:gui-1/>."
 
 #~ msgid "How to mark a message in Novell Groupwise as not junk."
 #~ msgstr "Cómo marcar un mensaje en Novell Groupwise como no SPAM."
-
-#~ msgid "Marking a Message As Not Junk Mail"
-#~ msgstr "Marcar un mensaje como no spam"
 
 #~ msgid "Select the message to mark as not junk in your Junk Mail folder."
 #~ msgstr ""
