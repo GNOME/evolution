@@ -3171,7 +3171,12 @@ e_editor_selection_insert_html (EEditorSelection *selection,
 	g_return_if_fail (editor_widget != NULL);
 
 	command = E_EDITOR_WIDGET_COMMAND_INSERT_HTML;
-	e_editor_widget_exec_command (editor_widget, command, html_text);
+	if (e_editor_widget_get_html_mode (editor_widget)) {
+		e_editor_widget_exec_command (editor_widget, command, html_text);
+	} else {
+		e_editor_widget_convert_and_insert_html_to_plain_text (
+			editor_widget, html_text);
+	}
 
 	g_object_unref (editor_widget);
 }

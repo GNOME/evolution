@@ -78,6 +78,8 @@ struct _EEditorWidgetPrivate {
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
+	gboolean convertor_insert;
+
 	WebKitWebView *convertor_web_view;
 };
 
@@ -2066,27 +2068,20 @@ create_text_markers_for_citations (WebKitDOMNodeList *citations)
 }
 
 static void
-html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
-                                               GParamSpec *pspec,
-                                               EEditorWidget *widget)
+editor_widget_process_document_from_convertor (EEditorWidget *widget,
+                                               WebKitDOMDocument *document_convertor)
 {
 	EEditorSelection *selection = e_editor_widget_get_selection (widget);
 	gboolean start_bottom;
 	gchar *inner_text, *inner_html;
 	gint ii;
 	GSettings *settings;
-	WebKitLoadStatus status;
-	WebKitDOMDocument *document_convertor, *document;
+	WebKitDOMDocument *document;
 	WebKitDOMElement *paragraph, *new_blockquote, *top_signature;
 	WebKitDOMElement *cite_body, *signature;
 	WebKitDOMHTMLElement *body, *convertor_body;
 	WebKitDOMNodeList *list;
 
-	status = webkit_web_view_get_load_status (web_view);
-	if (status != WEBKIT_LOAD_FINISHED)
-		return;
-
-	document_convertor = webkit_web_view_get_dom_document (web_view);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
@@ -2145,8 +2140,7 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 	create_text_markers_for_citations (list);
 
 	/* Get innertText from convertor */
-	inner_text = webkit_dom_html_element_get_inner_text (
-		webkit_dom_document_get_body (document_convertor));
+	inner_text = webkit_dom_html_element_get_inner_text (convertor_body);
 
 	cite_body = webkit_dom_document_query_selector (
 		document_convertor, "span.-x-evo-cite-body", NULL);
@@ -2273,6 +2267,63 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 }
 
 static void
+editor_widget_insert_converted_html_into_selection (EEditorWidget *widget,
+                                                    WebKitDOMDocument *document_convertor)
+{
+	gchar *inner_text, *inner_html;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMHTMLElement *convertor_body;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	convertor_body = webkit_dom_document_get_body (document_convertor);
+
+	inner_text = webkit_dom_html_element_get_inner_text (convertor_body);
+	element = webkit_dom_document_create_element (document, "div", NULL);
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (element), inner_text, NULL);
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+
+	parse_html_into_paragraphs (
+		widget, document, element, inner_html, FALSE);
+
+	g_free (inner_html);
+
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+
+	e_editor_widget_exec_command (
+		widget, E_EDITOR_WIDGET_COMMAND_INSERT_HTML, inner_html);
+
+	e_editor_widget_force_spellcheck (widget);
+
+	g_free (inner_html);
+	g_free (inner_text);
+}
+
+static void
+html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
+                                               GParamSpec *pspec,
+                                               EEditorWidget *widget)
+{
+	WebKitDOMDocument *document_convertor;
+
+	if (webkit_web_view_get_load_status (web_view) != WEBKIT_LOAD_FINISHED)
+		return;
+
+	document_convertor = webkit_web_view_get_dom_document (web_view);
+
+	if (widget->priv->convertor_insert)
+		editor_widget_insert_converted_html_into_selection (
+			widget, document_convertor);
+	else
+		editor_widget_process_document_from_convertor (
+			widget, document_convertor);
+}
+
+static void
 e_editor_widget_init (EEditorWidget *editor)
 {
 	WebKitWebSettings *settings;
@@ -2353,6 +2404,8 @@ e_editor_widget_init (EEditorWidget *editor)
 		(GDestroyNotify) g_free);
 
 	e_editor_widget_update_fonts (editor);
+
+	editor->priv->convertor_insert = FALSE;
 
 	editor->priv->convertor_web_view =
 		g_object_ref_sink (WEBKIT_WEB_VIEW (webkit_web_view_new ()));
@@ -4252,9 +4305,21 @@ e_editor_widget_get_text_plain (EEditorWidget *widget)
 }
 
 static void
-convert_html_to_plain_text (EEditorWidget *widget,
-                            const gchar *html)
+convert_and_load_html_to_plain_text (EEditorWidget *widget,
+                                     const gchar *html)
 {
+	widget->priv->convertor_insert = FALSE;
+
+	webkit_web_view_load_string (
+		widget->priv->convertor_web_view, html, NULL, NULL, "file://");
+}
+
+void
+e_editor_widget_convert_and_insert_html_to_plain_text (EEditorWidget *widget,
+                                                       const gchar *html)
+{
+	widget->priv->convertor_insert = TRUE;
+
 	webkit_web_view_load_string (
 		widget->priv->convertor_web_view, html, NULL, NULL, "file://");
 }
@@ -4281,9 +4346,9 @@ e_editor_widget_set_text_html (EEditorWidget *widget,
 					WEBKIT_WEB_VIEW (widget), text, NULL, NULL, "file://");
 				return;
 			}
-			convert_html_to_plain_text (widget, text);
+			convert_and_load_html_to_plain_text (widget, text);
 		} else {
-			convert_html_to_plain_text (widget, text);
+			convert_and_load_html_to_plain_text (widget, text);
 		}
 	} else {
 		webkit_web_view_load_string (

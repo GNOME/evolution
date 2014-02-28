@@ -65,7 +65,7 @@ insert_html_file_ready_cb (GFile *file,
 	}
 
 	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
+		e_editor_get_editor_widget (editor));
 	e_editor_selection_insert_html (selection, contents);
 	g_free (contents);
 
