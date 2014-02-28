@@ -296,9 +296,17 @@ composer_presend_check_recipients (EMsgComposer *composer,
 
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && num_post == 0) {
-		e_alert_submit (
-			E_ALERT_SINK (composer),
-			"mail:send-no-recipients", NULL);
+		EEditor *editor;
+		EActivity *activity;
+		EAlertSink *alert_sink;
+
+		editor = e_msg_composer_get_editor (composer);
+		activity = e_editor_new_activity (editor);
+		alert_sink = e_activity_get_alert_sink (activity);
+
+		e_alert_submit (alert_sink, "mail:send-no-recipients", NULL);
+
+		g_object_unref (activity);
 		goto finished;
 	}
 
