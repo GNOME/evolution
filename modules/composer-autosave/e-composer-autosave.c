@@ -166,6 +166,8 @@ composer_autosave_dispose (GObject *object)
 static void
 composer_autosave_constructed (GObject *object)
 {
+	EEditor *editor;
+	EEditorWidget *editor_widget;
 	EExtensible *extensible;
 
 	/* Chain up to parent's constructed() method. */
@@ -173,9 +175,11 @@ composer_autosave_constructed (GObject *object)
 		constructed (object);
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
+	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
+	editor_widget = e_editor_get_editor_widget (editor);
 
 	g_signal_connect_swapped (
-		extensible, "notify::changed",
+		editor_widget, "notify::changed",
 		G_CALLBACK (composer_autosave_changed_cb), object);
 }
 
