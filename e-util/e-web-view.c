@@ -634,8 +634,13 @@ web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 
 	/* Workaround webkit bug:
 	 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
-	e_web_view_zoom_in (web_view);
-	e_web_view_zoom_out (web_view);
+	if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.9999) {
+		e_web_view_zoom_out (web_view);
+		e_web_view_zoom_in (web_view);
+	} else {
+		e_web_view_zoom_in (web_view);
+		e_web_view_zoom_out (web_view);
+	}
 }
 
 static void
@@ -2416,7 +2421,8 @@ e_web_view_zoom_in (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (web_view));
+	if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) < 4.9999)
+		webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (web_view));
 }
 
 void
@@ -2424,7 +2430,8 @@ e_web_view_zoom_out (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));
+	if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.1999)
+		webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));
 }
 
 GtkUIManager *
