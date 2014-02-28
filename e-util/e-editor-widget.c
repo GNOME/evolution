@@ -1497,10 +1497,38 @@ editor_widget_key_press_event (GtkWidget *widget,
 
 		selection = e_editor_widget_get_selection (editor);
 		if (e_editor_selection_is_citation (selection)) {
-			return e_editor_widget_exec_command (
+			gboolean ret_val = e_editor_widget_exec_command (
 				editor,
 				E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT,
 				NULL);
+			/* If successful we have to put inserted BR into paragraph */
+			if (ret_val) {
+				EEditorSelection *selection;
+				WebKitDOMDocument *document;
+				WebKitDOMNode *node;
+				WebKitDOMRange *range;
+
+				selection = e_editor_widget_get_selection (editor);
+				document = webkit_web_view_get_dom_document (
+					WEBKIT_WEB_VIEW (editor));
+
+				range = editor_widget_get_dom_range (editor);
+				node = webkit_dom_range_get_end_container (range, NULL);
+
+				if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+					WebKitDOMElement *element;
+
+					element = e_editor_selection_get_paragraph_element (
+						selection, document, -1, 0);
+
+					webkit_dom_node_replace_child (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						node,
+						NULL);
+				}
+			}
+			return ret_val;
 		}
 	}
 
