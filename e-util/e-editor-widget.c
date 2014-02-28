@@ -4003,16 +4003,6 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 		e_editor_selection_restore_caret_position (selection);
 
 	e_editor_widget_force_spellcheck (widget);
-
-	if (restore) {
-		WebKitDOMDOMWindow *window;
-		WebKitDOMDOMSelection *dom_selection;
-
-		window = webkit_dom_document_get_default_view (document);
-		dom_selection = webkit_dom_dom_window_get_selection (window);
-		webkit_dom_dom_selection_modify (
-			dom_selection, "move", "backward", "character");
-	}
 }
 
 /**
