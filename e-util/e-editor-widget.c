@@ -3412,6 +3412,7 @@ process_elements (WebKitDOMNode *node,
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
 	gchar *content;
+	gboolean skip_nl = FALSE;
 
 	if (to_plain_text && !buffer)
 		return;
@@ -3482,8 +3483,11 @@ process_elements (WebKitDOMNode *node,
 			if (to_plain_text || changing_mode)
 				g_string_append (buffer, content);
 
-			if (to_plain_text && !changing_mode)
-				g_string_append (buffer, "\n");
+
+			if (to_plain_text && !changing_mode) {
+				if (get_citation_level (node, FALSE) > 0)
+					g_string_append (buffer, "\n");
+			}
 
 			g_free (content);
 
@@ -3519,8 +3523,19 @@ process_elements (WebKitDOMNode *node,
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
-			} else
+			} else {
+				if (!changing_mode && to_plain_text) {
+					if (get_citation_level (node, FALSE) == 0) {
+						gchar *value;
+						value = webkit_dom_element_get_attribute (
+							WEBKIT_DOM_ELEMENT (child), "type");
+						if (value && g_strcmp0 (value, "cite") == 0) {
+							g_string_append (buffer, "\n");
+						}
+					}
+				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
+			}
 		}
 
 		if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (child)) {
@@ -3554,10 +3569,12 @@ process_elements (WebKitDOMNode *node,
 				if (to_html)
 					remove_attributes (WEBKIT_DOM_ELEMENT (first_child));
 				if (to_plain_text && !changing_mode) {
+					g_string_append (buffer, "\n");
 					content = webkit_dom_html_element_get_inner_text (
 						WEBKIT_DOM_HTML_ELEMENT (first_child));
 					g_string_append (buffer, content);
 					g_free (content);
+					skip_nl = TRUE;
 				}
 				skip_node = TRUE;
 			}
@@ -3630,7 +3647,7 @@ process_elements (WebKitDOMNode *node,
 			add_br = FALSE;
 
 		if (element_has_class (webkit_dom_node_get_parent_element (node), "-x-evo-indented"))
-			add_br = TRUE;
+			add_br = FALSE;
 
 		if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
 			if (webkit_dom_element_query_selector (
@@ -3642,7 +3659,7 @@ process_elements (WebKitDOMNode *node,
 		}
 
 		content = webkit_dom_node_get_text_content (node);
-		if (add_br && g_utf8_strlen (content, -1) > 0)
+		if (add_br && g_utf8_strlen (content, -1) > 0 && !skip_nl)
 			g_string_append (buffer, changing_mode ? "<br>" : "\n");
 
 		g_free (content);
