@@ -220,8 +220,9 @@ editor_widget_should_show_delete_interface_for_element (EEditorWidget *widget,
 	return FALSE;
 }
 
-void
-e_editor_widget_force_spellcheck (EEditorWidget *widget)
+static void
+refresh_spell_check (EEditorWidget *widget,
+                     gboolean enable_spell_check)
 {
 	EEditorSelection *selection;
 	WebKitDOMDocument *document;
@@ -235,10 +236,13 @@ e_editor_widget_force_spellcheck (EEditorWidget *widget)
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
-	/* Enable spellcheck in composer */
+	/* Enable/Disable spellcheck in composer */
 	body = webkit_dom_document_get_body (document);
 	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "spellcheck", "true", NULL);
+		WEBKIT_DOM_ELEMENT (body),
+		"spellcheck",
+		enable_spell_check ? "true" : "false",
+		NULL);
 
 	selection = e_editor_widget_get_selection (widget);
 	e_editor_selection_save_caret_position (selection);
@@ -288,6 +292,18 @@ e_editor_widget_force_spellcheck (EEditorWidget *widget)
 	e_editor_selection_unblock_selection_changed (selection);
 
 	e_editor_selection_restore_caret_position (selection);
+}
+
+void
+e_editor_widget_turn_spell_check_off (EEditorWidget *widget)
+{
+	refresh_spell_check (widget, FALSE);
+}
+
+void
+e_editor_widget_force_spell_check (EEditorWidget *widget)
+{
+	refresh_spell_check (widget, TRUE);
 }
 
 static void
@@ -2307,7 +2323,7 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
 
 	body = WEBKIT_DOM_HTML_ELEMENT (e_editor_widget_quote_plain_text (widget));
 	e_editor_selection_restore_caret_position (selection);
-	e_editor_widget_force_spellcheck (widget);
+	e_editor_widget_force_spell_check (widget);
 
 	/* Register on input event that is called when the content (body) is modified */
 	webkit_dom_event_target_add_event_listener (
@@ -2352,7 +2368,7 @@ editor_widget_insert_converted_html_into_selection (EEditorWidget *widget,
 	e_editor_widget_exec_command (
 		widget, E_EDITOR_WIDGET_COMMAND_INSERT_HTML, inner_html);
 
-	e_editor_widget_force_spellcheck (widget);
+	e_editor_widget_force_spell_check (widget);
 
 	g_free (inner_html);
 	g_free (inner_text);
@@ -2385,6 +2401,8 @@ e_editor_widget_init (EEditorWidget *editor)
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
 	ESpellChecker *checker;
+	gchar **languages;
+	gchar *comma_separated;
 
 	editor->priv = E_EDITOR_WIDGET_GET_PRIVATE (editor);
 
@@ -2459,6 +2477,18 @@ e_editor_widget_init (EEditorWidget *editor)
 		(GDestroyNotify) g_free);
 
 	e_editor_widget_update_fonts (editor);
+
+	/* Give spell check languages to WebKit */
+	languages = e_spell_checker_list_active_languages (checker, NULL);
+	comma_separated = g_strjoinv (",", languages);
+	g_strfreev (languages);
+
+	g_object_set (
+		G_OBJECT (settings),
+		"spell-checking-languages", comma_separated,
+		NULL);
+
+	g_free (comma_separated);
 
 	editor->priv->convertor_insert = FALSE;
 
@@ -4167,7 +4197,7 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 	if (restore)
 		e_editor_selection_restore_caret_position (selection);
 
-	e_editor_widget_force_spellcheck (widget);
+	e_editor_widget_force_spell_check (widget);
 }
 
 /**

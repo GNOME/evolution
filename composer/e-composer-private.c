@@ -854,7 +854,7 @@ composer_move_caret (EMsgComposer *composer)
 		 * text mode (when switching to html mode, the underlined words are
 		 * preserved */
 		if (!html_mode)
-			e_editor_widget_force_spellcheck (editor_widget);
+			e_editor_widget_force_spell_check (editor_widget);
 		return;
 	}
 
@@ -921,7 +921,7 @@ composer_move_caret (EMsgComposer *composer)
 			e_editor_selection_restore_caret_position (editor_selection);
 			if (!html_mode)
 				e_editor_widget_quote_plain_text (editor_widget);
-			e_editor_widget_force_spellcheck (editor_widget);
+			e_editor_widget_force_spell_check (editor_widget);
 
 			input_start = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-input-start");
@@ -967,9 +967,10 @@ composer_move_caret (EMsgComposer *composer)
 					e_editor_widget_quote_plain_text (editor_widget);
 					body = webkit_dom_document_get_body (document);
 				}
-				e_editor_widget_force_spellcheck (editor_widget);
 			}
 		}
+
+		e_editor_widget_force_spell_check (editor_widget);
 
 		webkit_dom_range_select_node_contents (
 			new_range,

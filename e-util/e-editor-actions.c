@@ -687,7 +687,7 @@ action_paste_cb (GtkAction *action,
 		webkit_web_view_paste_clipboard (
 			WEBKIT_WEB_VIEW (widget));
 
-		e_editor_widget_force_spellcheck (widget);
+		e_editor_widget_force_spell_check (widget);
 	}
 }
 
@@ -698,7 +698,7 @@ action_paste_quote_cb (GtkAction *action,
 	e_editor_widget_paste_clipboard_quoted (
 		e_editor_get_editor_widget (editor));
 
-	e_editor_widget_force_spellcheck (
+	e_editor_widget_force_spell_check (
 		e_editor_get_editor_widget (editor));
 }
 

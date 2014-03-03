@@ -1771,7 +1771,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	}
 
 	if (!has_selection)
-		e_editor_widget_force_spellcheck (editor_widget);
+		e_editor_widget_force_spell_check (editor_widget);
 
 	g_object_unref (editor_widget);
 
@@ -2125,7 +2125,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 		e_editor_widget_exec_command (editor_widget, command, NULL);
 	}
 
-	e_editor_widget_force_spellcheck (editor_widget);
+	e_editor_widget_force_spell_check (editor_widget);
 
 	g_object_unref (editor_widget);
 
@@ -2294,7 +2294,7 @@ e_editor_selection_unindent (EEditorSelection *selection)
 		e_editor_widget_exec_command (editor_widget, command, NULL);
 	}
 
-	e_editor_widget_force_spellcheck (editor_widget);
+	e_editor_widget_force_spell_check (editor_widget);
 
 	g_object_unref (editor_widget);
 

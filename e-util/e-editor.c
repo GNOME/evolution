@@ -487,6 +487,11 @@ editor_spell_languages_changed (EEditor *editor)
 			E_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
+	if (*comma_separated)
+		e_editor_widget_force_spell_check (editor->priv->editor_widget);
+	else
+		e_editor_widget_turn_spell_check_off (editor->priv->editor_widget);
+
 	g_free (comma_separated);
 }
 

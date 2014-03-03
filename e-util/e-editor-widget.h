@@ -135,7 +135,9 @@ WebKitDOMElement *
 						(EEditorWidget *widget);
 void		e_editor_widget_dequote_plain_text
 						(EEditorWidget *widget);
-void		e_editor_widget_force_spellcheck
+void		e_editor_widget_turn_spell_check_off
+						(EEditorWidget *widget);
+void		e_editor_widget_force_spell_check
 						(EEditorWidget *widget);
 void		e_editor_widget_add_inline_image_from_mime_part
 						(EEditorWidget *widget,
