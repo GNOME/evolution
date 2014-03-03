@@ -1,4 +1,47 @@
-Evolution 3.11.90 2014-03-17
+Evolution 3.11.91 2014-03-03
+----------------------------
+
+Bug Fixes:
+	Bug 542723 - [vCard importer] Some fields get imported also into
+	             notes (Sebastian Fritz)
+	Bug 553927 - Autoselect newly created accounts in the folder tree
+	             (Milan Crha)
+	Bug 597552 - Remove evolution-plugin.pc.in (Matthew Barnes)
+	Bug 709162 - Use-after-free on a reminder snooze (Milan Crha)
+	Bug 711443 - IMAPX account unread count goes only up, not down
+	             (Milan Crha)
+	Bug 711758 - Handle relative path when importing from command line
+	             (Milan Crha)
+	Bug 724437 - Content-Disposition inline confuses message formatter
+	             (Milan Crha)
+	Bug 724854 - Cursor moves to incorrect message when deleting multiple
+	             messages (Milan Crha)
+	Bug 724909 - Highlight module hangs on large attachments
+	             (Matthew Barnes)
+	Bug 725010 - Fix strings in "Composer Preferences > Send Account" tab
+	             (Milan Crha)
+
+Other Changes:
+	* Add shortcuts and action captions previously defined by gtk-stock
+	  item definitions (Milan Crha)
+	* Make calendar tooltip count also days, not only hours/minutes/seconds
+	  (Milan Crha)
+	* EMFolderTreeModel: Fix a circular dependency between model and its
+	  data (Milan Crha)
+	* ETree/ETable: Allow easier adding of columns for sorting (Milan Crha)
+	* EWebView: Limit zoom-in/zoom-out to 0.1 .. 5.0 values (Milan Crha)
+	* EMailFormatter: Use GOutputStream instead of CamelStream.
+	  (Matthew Barnes)
+
+Translations:
+	Daniel Mustieles (es)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Manoj Kumar Giri (or)
+	Wylmer Wang (zh_CN)
+
+
+Evolution 3.11.90 2014-02-17
 ----------------------------
 
 Bugs Fixes:
