@@ -323,7 +323,6 @@ mail_transfer_messages
 mail_sync_folder
 mail_sync_store
 mail_empty_trash
-mail_xfer_folder
 mail_send_queue
 MailProviderFetchLockFunc
 MailProviderFetchUnlockFunc

@@ -3776,6 +3776,7 @@ e_table_header_get_type
 <FILE>e-table-header-item</FILE>
 <TITLE>ETableHeaderItem</TITLE>
 ETableHeaderItem
+ETableHeaderItemSortFlag
 ethi_change_sort_state
 <SUBSECTION Standard>
 E_TABLE_HEADER_ITEM
@@ -3975,6 +3976,7 @@ e_table_sort_info_sorting_remove
 e_table_sort_info_sorting_truncate
 e_table_sort_info_sorting_get_nth
 e_table_sort_info_sorting_set_nth
+e_table_sort_info_sorting_insert
 e_table_sort_info_load_from_node
 e_table_sort_info_save_to_node
 e_table_sort_info_duplicate
