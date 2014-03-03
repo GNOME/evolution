@@ -592,6 +592,7 @@ e_composer_paste_text (EMsgComposer *composer,
 	e_editor_selection_insert_text (editor_selection, text);
 
 	e_editor_widget_check_magic_links (editor_widget, FALSE);
+	e_editor_widget_force_spell_check (editor_widget);
 
 	g_free (text);
 

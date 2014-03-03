@@ -329,12 +329,6 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			webkit_dom_node_set_text_content (node, res->str, NULL);
 
-			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
-			window = webkit_dom_document_get_default_view (document);
-			selection = webkit_dom_dom_window_get_selection (window);
-
-			webkit_dom_dom_selection_modify (selection, "move", "right", "character");
-
 			g_string_free (res, TRUE);
 		}
 		g_free (text);
@@ -701,7 +695,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
 		if (!return_pressed)
-			e_editor_selection_save_caret_position (e_editor_widget_get_selection (widget));
+			e_editor_selection_save_caret_position (
+				e_editor_widget_get_selection (widget));
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
@@ -713,15 +708,20 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 		url_length = g_utf8_strlen (urls[0], -1);
 		url_start = url_end - url_length;
 
-		webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), include_space ? url_end - 1 : url_end, NULL);
+		webkit_dom_text_split_text (
+			WEBKIT_DOM_TEXT (node),
+			include_space ? url_end - 1 : url_end,
+			NULL);
 
-		url_text_node = webkit_dom_text_split_text (WEBKIT_DOM_TEXT (node), url_start, NULL);
-		url_text_node_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (url_text_node), TRUE);
+		url_text_node = webkit_dom_text_split_text (
+			WEBKIT_DOM_TEXT (node), url_start, NULL);
+		url_text_node_clone = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (url_text_node), TRUE);
+		url_text = webkit_dom_text_get_whole_text (
+			WEBKIT_DOM_TEXT (url_text_node_clone));
 
-		url_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (url_text_node_clone));
-
-		final_url = g_strconcat (g_str_has_prefix (url_text, "www") ? "http://" : "",
-					 url_text, NULL);
+		final_url = g_strconcat (
+			g_str_has_prefix (url_text, "www") ? "http://" : "", url_text, NULL);
 
 		/* Create and prepare new anchor element */
 		anchor = webkit_dom_document_create_element (document, "A", NULL);
@@ -743,7 +743,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 			NULL);
 
 		if (!return_pressed)
-			e_editor_selection_restore_caret_position (e_editor_widget_get_selection (widget));
+			e_editor_selection_restore_caret_position (
+				e_editor_widget_get_selection (widget));
 
 		g_free (url_end_raw);
 		g_free (final_url);
@@ -806,9 +807,10 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 				gchar *inner_html, *protocol, *new_href;
 
 				protocol = g_strndup (href, strstr (href, "://") - href + 3);
-				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
-				new_href = g_strconcat (protocol, inner_html,
-							appending_to_link ? text_to_append : "", NULL);
+				inner_html = webkit_dom_html_element_get_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (parent));
+				new_href = g_strconcat (
+					protocol, inner_html, appending_to_link ? text_to_append : "", NULL);
 
 				webkit_dom_html_anchor_element_set_href (
 					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
@@ -843,7 +845,8 @@ editor_widget_check_magic_links (EEditorWidget *widget,
 				gchar *inner_html;
 				gchar *new_href;
 
-				inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (parent));
+				inner_html = webkit_dom_html_element_get_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (parent));
 				new_href = g_strconcat (
 						inner_html,
 						appending_to_link ? text_to_append : "",
