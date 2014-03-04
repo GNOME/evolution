@@ -2118,27 +2118,64 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 }
 
 static void
-create_text_markers_for_citations (WebKitDOMNodeList *citations)
+mark_citation (WebKitDOMElement *citation)
 {
-	gint ii, length = webkit_dom_node_list_get_length (citations);
+	gchar *inner_html, *surrounded;
 
-	for (ii = 0; ii < length; ii++) {
-		gchar *inner_html, *surrounded;
-		WebKitDOMNode *node = webkit_dom_node_list_item (citations, ii);
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (citation));
 
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (node));
+	surrounded = g_strconcat (
+		"<span>##CITATION_START##</span>", inner_html,
+		"<span>##CITATION_END##</span>", NULL);
 
-		surrounded = g_strconcat (
-			"<span>##CITATION_START##</span>", inner_html,
-			"<span>##CITATION_END##</span>", NULL);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (citation), surrounded, NULL);
 
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (node), surrounded, NULL);
+	element_add_class (citation, "marked");
 
-		g_free (inner_html);
-		g_free (surrounded);
+	g_free (inner_html);
+	g_free (surrounded);
+}
+
+static gint
+create_text_markers_for_citations_in_document (WebKitDOMDocument *document)
+{
+	gint count = 0;
+	WebKitDOMElement *citation;
+
+	citation = webkit_dom_document_query_selector (
+		document, "blockquote[type=cite]:not(.marked)", NULL);
+
+	while (citation) {
+		mark_citation (citation);
+		count ++;
+
+		citation = webkit_dom_document_query_selector (
+			document, "blockquote[type=cite]:not(.marked)", NULL);
 	}
+
+	return count;
+}
+
+static gint
+create_text_markers_for_citations_in_element (WebKitDOMElement *element)
+{
+	gint count = 0;
+	WebKitDOMElement *citation;
+
+	citation = webkit_dom_element_query_selector (
+		element, "blockquote[type=cite]:not(.marked)", NULL);
+
+	while (citation) {
+		mark_citation (citation);
+		count ++;
+
+		citation = webkit_dom_element_query_selector (
+			element, "blockquote[type=cite]:not(.marked)", NULL);
+	}
+
+	return count;
 }
 
 static void
@@ -2208,10 +2245,7 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
 
 	repair_gmail_blockquotes (document_convertor);
 
-	list = webkit_dom_document_query_selector_all (
-		document_convertor, "blockquote[type=cite]", NULL);
-
-	create_text_markers_for_citations (list);
+	create_text_markers_for_citations_in_document (document_convertor);
 
 	/* Get innertText from convertor */
 	inner_text = webkit_dom_html_element_get_inner_text (convertor_body);
@@ -4059,13 +4093,13 @@ static void
 convert_when_changing_composer_mode (EEditorWidget *widget)
 {
 	EEditorSelection *selection;
+	gint blockquotes_count;
 	gchar *inner_text, *inner_html;
 	gboolean restore = TRUE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *top_signature, *signature, *element, *blockquote;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNode *signature_clone, *from;
-	WebKitDOMNodeList *blockquotes;
 
 	selection = e_editor_widget_get_selection (widget);
 
@@ -4117,12 +4151,8 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 		from = WEBKIT_DOM_NODE (body);
 	}
 
-	blockquotes = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (from),
-		"blockquote[type=cite]",
-		NULL);
-
-	create_text_markers_for_citations (blockquotes);
+	blockquotes_count = create_text_markers_for_citations_in_element (
+		WEBKIT_DOM_ELEMENT (from));
 
 	inner_text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (from));
@@ -4184,7 +4214,7 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 		e_editor_widget_update_fonts (widget);
 	}
 
-	if (blockquote || webkit_dom_node_list_get_length (blockquotes) > 0)
+	if (blockquote || blockquotes_count > 0)
 		body = WEBKIT_DOM_HTML_ELEMENT (
 			e_editor_widget_quote_plain_text (widget));
 
