@@ -3675,6 +3675,7 @@ process_elements (EEditorWidget *widget,
 						if (value && g_strcmp0 (value, "cite") == 0) {
 							g_string_append (buffer, "\n");
 						}
+						g_free (value);
 					}
 				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
