@@ -74,6 +74,9 @@ struct _EMailUISessionPrivate {
 	EMailLabelListStore *label_store;
 	EPhotoCache *photo_cache;
 	gboolean check_junk;
+
+	GSList *address_cache; /* data is AddressCacheData struct */
+	GMutex address_cache_mutex;
 };
 
 enum {
@@ -101,6 +104,62 @@ struct _SourceContext {
 	EMailUISession *session;
 	CamelService *service;
 };
+
+typedef struct _AddressCacheData {
+	gchar *email_address;
+	gint64 stamp; /* when it was added to cache, in microseconds */
+	gboolean is_known;
+} AddressCacheData;
+
+static void
+address_cache_data_free (gpointer pdata)
+{
+	AddressCacheData *data = pdata;
+
+	if (data) {
+		g_free (data->email_address);
+		g_free (data);
+	}
+}
+
+static GSList *
+address_cache_data_remove_old_and_test (GSList *items,
+					const gchar *email_address,
+					gboolean *found,
+					gboolean *is_known)
+{
+	gint64 old_when;
+	GSList *iter, *prev = NULL;
+
+	if (!items)
+		return NULL;
+
+	/* let the cache value live for 5 minutes */
+	old_when = g_get_real_time () - 5 * 60 * 1000 * 1000;
+
+	for (iter = items; iter; prev = iter, iter = iter->next) {
+		AddressCacheData *data = iter->data;
+
+		if (!data || data->stamp <= old_when || !data->email_address)
+			break;
+
+		if (g_ascii_strcasecmp (email_address, data->email_address) == 0) {
+			*found = TRUE;
+			*is_known = data->is_known;
+
+			/* a match was found, shorten the list later */
+			return items;
+		}
+	}
+
+	g_slist_free_full (iter, address_cache_data_free);
+	if (prev)
+		prev->next = NULL;
+	else
+		items = NULL;
+
+	return items;
+}
 
 /* Support for CamelSession.get_filter_driver () *****************************/
 
@@ -358,8 +417,26 @@ mail_ui_session_dispose (GObject *object)
 		priv->photo_cache = NULL;
 	}
 
+	g_mutex_lock (&priv->address_cache_mutex);
+	g_slist_free_full (priv->address_cache, address_cache_data_free);
+	priv->address_cache = NULL;
+	g_mutex_unlock (&priv->address_cache_mutex);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->dispose (object);
+}
+
+static void
+mail_ui_session_finalize (GObject *object)
+{
+	EMailUISessionPrivate *priv;
+
+	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
+
+	g_mutex_clear (&priv->address_cache_mutex);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->finalize (object);
 }
 
 static void
@@ -581,6 +658,7 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	object_class->set_property = mail_ui_session_set_property;
 	object_class->get_property = mail_ui_session_get_property;
 	object_class->dispose = mail_ui_session_dispose;
+	object_class->finalize = mail_ui_session_finalize;
 	object_class->constructed = mail_ui_session_constructed;
 
 	session_class = CAMEL_SESSION_CLASS (class);
@@ -643,6 +721,7 @@ static void
 e_mail_ui_session_init (EMailUISession *session)
 {
 	session->priv = E_MAIL_UI_SESSION_GET_PRIVATE (session);
+	g_mutex_init (&session->priv->address_cache_mutex);
 	session->priv->label_store = e_mail_label_list_store_new ();
 }
 
@@ -736,6 +815,32 @@ e_mail_ui_session_add_activity (EMailUISession *session,
 	g_signal_emit (session, signals[ACTIVITY_ADDED], 0, activity);
 }
 
+/* let's test in local books first */
+static gint
+sort_local_books_first_cb (gconstpointer a,
+			   gconstpointer b)
+{
+	ESource *asource = (ESource *) a;
+	ESource *bsource = (ESource *) b;
+	ESourceBackend *abackend, *bbackend;
+
+	abackend = e_source_get_extension (asource, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+	bbackend = e_source_get_extension (bsource, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+
+	if (g_strcmp0 (e_source_backend_get_backend_name (abackend), "local") == 0) {
+		if (g_strcmp0 (e_source_backend_get_backend_name (bbackend), "local") == 0)
+			return 0;
+
+		return -1;
+	}
+
+	if (g_strcmp0 (e_source_backend_get_backend_name (bbackend), "local") == 0)
+		return 1;
+
+	return g_strcmp0 (e_source_backend_get_backend_name (abackend),
+			  e_source_backend_get_backend_name (bbackend));
+}
+
 /**
  * e_mail_ui_session_check_known_address_sync:
  * @session: an #EMailUISession
@@ -774,13 +879,28 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 	const gchar *email_address = NULL;
 	gchar *book_query_string;
 	gboolean known_address = FALSE;
-	gboolean success = TRUE;
+	gboolean success = FALSE;
 
 	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), FALSE);
 	g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (addr), FALSE);
 
 	camel_internet_address_get (addr, 0, NULL, &email_address);
 	g_return_val_if_fail (email_address != NULL, FALSE);
+
+	g_mutex_lock (&session->priv->address_cache_mutex);
+
+	session->priv->address_cache = address_cache_data_remove_old_and_test (
+		session->priv->address_cache,
+		email_address, &success, &known_address);
+
+	if (success) {
+		g_mutex_unlock (&session->priv->address_cache_mutex);
+
+		if (out_known_address)
+			*out_known_address = known_address;
+
+		return success;
+	}
 
 	/* XXX EPhotoCache holds a reference on EClientCache, which
 	 *     we need.  EMailUISession should probably hold its own
@@ -801,14 +921,16 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 		list = g_list_prepend (NULL, g_object_ref (source));
 		g_object_unref (source);
 	} else {
-		list = e_source_registry_list_sources (
+		list = e_source_registry_list_enabled (
 			registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+		list = g_list_sort (list, sort_local_books_first_cb);
 	}
 
-	for (link = list; link != NULL; link = g_list_next (link)) {
+	for (link = list; link != NULL && !g_cancellable_is_cancelled (cancellable); link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		EClient *client;
 		GSList *uids = NULL;
+		GError *local_error = NULL;
 
 		/* Skip disabled sources. */
 		if (!e_source_get_enabled (source))
@@ -817,9 +939,19 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 		client = e_client_cache_get_client_sync (
 			client_cache, source,
 			E_SOURCE_EXTENSION_ADDRESS_BOOK,
-			cancellable, error);
+			cancellable, &local_error);
 
 		if (client == NULL) {
+			/* ignore E_CLIENT_ERROR-s, no need to stop searching if one
+			   of the books is temporarily unreachable or any such issue */
+			if (local_error && local_error->domain == E_CLIENT_ERROR) {
+				g_clear_error (&local_error);
+				continue;
+			}
+
+			if (local_error)
+				g_propagate_error (error, local_error);
+
 			success = FALSE;
 			break;
 		}
@@ -851,6 +983,20 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 
 	if (success && out_known_address != NULL)
 		*out_known_address = known_address;
+
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		AddressCacheData *data = g_new0 (AddressCacheData, 1);
+
+		data->email_address = g_strdup (email_address);
+		data->stamp = g_get_real_time ();
+		data->is_known = known_address;
+
+		/* this makes the list sorted by time, from newest to oldest */
+		session->priv->address_cache = g_slist_prepend (
+			session->priv->address_cache, data);
+	}
+
+	g_mutex_unlock (&session->priv->address_cache_mutex);
 
 	return success;
 }
