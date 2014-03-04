@@ -281,6 +281,8 @@ emfp_get_folder_item (EConfig *ec,
 	/* add send-account-override setting widgets */
 	registry = e_shell_get_registry (e_shell_get_default ());
 
+	/* Translators: Label of a combo with a list of configured accounts where a user can
+	   choose which account to use as the sender when composing a message in this folder */
 	label = gtk_label_new_with_mnemonic (_("_Send Account Override:"));
 	gtk_widget_set_halign (label, GTK_ALIGN_START);
 	gtk_widget_show (label);
