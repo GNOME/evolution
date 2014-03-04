@@ -1396,7 +1396,7 @@ change_list_style (EEditorSelection *selection,
 
 		move_items_from_list_to_list (WEBKIT_DOM_ELEMENT (list), new_list);
 
-		webkit_dom_node_replace_child (
+		list = webkit_dom_node_replace_child (
 			webkit_dom_node_get_parent_node (list),
 			WEBKIT_DOM_NODE (new_list),
 			list,
