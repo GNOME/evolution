@@ -4659,6 +4659,36 @@ e_editor_widget_remove_embed_styles (EEditorWidget *widget)
 		NULL);
 }
 
+static const gchar *
+citation_color_level_1 (void)
+{
+	return "rgb(114,159,207)";  /* Sky Blue 1 */
+}
+
+static const gchar *
+citation_color_level_2 (void)
+{
+	return "rgb(173,127,168)";  /* Plum 1 */
+}
+
+static const gchar *
+citation_color_level_3 (void)
+{
+	return "rgb(138,226,52)";  /* Chameleon 1 */
+}
+
+static const gchar *
+citation_color_level_4 (void)
+{
+	return "rgb(252,175,62)";  /* Orange 1 */
+}
+
+static const gchar *
+citation_color_level_5 (void)
+{
+	return "rgb(233,185,110)";  /* Chocolate 1 */
+}
+
 /**
  * e_editor_widget_update_fonts:
  * @widget: an #EEditorWidget
@@ -4794,7 +4824,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  -webkit-margin-after: 0em; \n"
 		"}\n");
 
-	g_string_append(
+	g_string_append (
 		stylesheet,
 		"blockquote "
 		"{\n"
@@ -4813,50 +4843,55 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  color: #737373 !important;\n"
 		"}\n");
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		".quote_character "
 		"{\n"
-		"  color: rgb(114,159,207);\n"  /* Sky Blue 1 */
-		"}\n");
+		"  color: %s;\n"
+		"}\n",
+		citation_color_level_1 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		".quote_character+"
 		".quote_character"
 		"{\n"
-		" color: rgb(173,127,168);\n"  /* Plum 1 */
-		"}\n");
+		"  color: %s;\n"
+		"}\n",
+		citation_color_level_2 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		".quote_character+"
 		".quote_character+"
 		".quote_character"
 		"{\n"
-		"  color: rgb(138,226,52);\n"  /* Chameleon 1 */
-		"}\n");
+		"  color: %s;\n"
+		"}\n",
+		citation_color_level_3 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
-		".quote_character+"
-		".quote_character+"
-		".quote_character+"
-		".quote_character"
-		"{\n"
-		" color: rgb(252,175,62);\n"  /* Orange 1 */
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".quote_character+"
 		".quote_character+"
 		".quote_character+"
 		".quote_character+"
 		".quote_character"
 		"{\n"
-		"  color: rgb(233,185,110);\n"  /* Chocolate 1 */
-		"}\n");
+		"  color: %s;\n"
+		"}\n",
+		citation_color_level_4 ());
+
+	g_string_append_printf (
+		stylesheet,
+		".quote_character+"
+		".quote_character+"
+		".quote_character+"
+		".quote_character+"
+		".quote_character"
+		"{\n"
+		"  color: %s;\n"
+		"}\n",
+		citation_color_level_5 ());
 
 	g_string_append (
 		stylesheet,
@@ -4871,41 +4906,45 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 
 	/* Block quote border colors are borrowed from Thunderbird. */
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
-		"  border-color: rgb(114,159,207);\n"  /* Sky Blue 1 */
-		"}\n");
+		"  border-color: %s;\n"
+		"}\n",
+		citation_color_level_1 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
-		"  border-color: rgb(173,127,168);\n"  /* Plum 1 */
-		"}\n");
+		"  border-color: %s;\n"
+		"}\n",
+		citation_color_level_2 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
-		"  border-color: rgb(138,226,52);\n"  /* Chameleon 1 */
-		"}\n");
+		"  border-color: %s;\n"
+		"}\n",
+		citation_color_level_3 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
-		"  border-color: rgb(252,175,62);\n"  /* Orange 1 */
-		"}\n");
+		"  border-color: %s;\n"
+		"}\n",
+		citation_color_level_4 ());
 
-	g_string_append (
+	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
@@ -4913,8 +4952,9 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
-		"  border-color: rgb(233,185,110);\n"  /* Chocolate 1 */
-		"}\n");
+		"  border-color: %s;\n"
+		"}\n",
+		citation_color_level_5 ());
 
 	gdk_color_free (link);
 	gdk_color_free (visited);
