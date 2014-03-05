@@ -487,6 +487,9 @@ e_composer_paste_html (EMsgComposer *composer,
 	editor_selection = e_editor_widget_get_selection (editor_widget);
 	e_editor_selection_insert_html (editor_selection, html);
 
+	e_editor_widget_check_magic_links (editor_widget, FALSE);
+	e_editor_widget_force_spell_check (editor_widget);
+
 	g_free (html);
 
 	return TRUE;
