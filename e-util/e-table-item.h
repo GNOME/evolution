@@ -259,6 +259,9 @@ gboolean	e_table_item_is_editing		(ETableItem *eti);
 
 void		e_table_item_cursor_scrolled	(ETableItem *eti);
 
+void		e_table_item_freeze		(ETableItem *eti);
+void		e_table_item_thaw		(ETableItem *eti);
+
 G_END_DECLS
 
 #endif /* _E_TABLE_ITEM_H_ */

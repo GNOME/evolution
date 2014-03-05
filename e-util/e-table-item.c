@@ -1180,6 +1180,24 @@ eti_unfreeze (ETableItem *eti)
 	}
 }
 
+void
+e_table_item_freeze (ETableItem *eti)
+{
+	if (!eti)
+		return;
+
+	eti_freeze (eti);
+}
+
+void
+e_table_item_thaw (ETableItem *eti)
+{
+	if (!eti)
+		return;
+
+	eti_unfreeze (eti);
+}
+
 /*
  * Callback routine: invoked before the ETableModel suffers a change
  */

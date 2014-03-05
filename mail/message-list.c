@@ -3804,9 +3804,6 @@ build_tree (MessageList *message_list,
 {
 	gint row = 0;
 	ETableItem *table_item = e_tree_get_item (E_TREE (message_list));
-	ETreeTableAdapter *adapter;
-	gchar *saveuid = NULL;
-	GPtrArray *selected;
 #ifdef TIMEIT
 	struct timeval start, end;
 	gulong diff;
@@ -3822,17 +3819,13 @@ build_tree (MessageList *message_list,
 	printf ("Loading tree state took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
 #endif
 
-	adapter = e_tree_get_table_adapter (E_TREE (message_list));
-
 	if (message_list->priv->tree_model_root == NULL) {
 		message_list_tree_model_insert (message_list, NULL, 0, NULL);
 		g_warn_if_fail (message_list->priv->tree_model_root != NULL);
 	}
 
-	if (message_list->cursor_uid != NULL)
-		saveuid = find_next_selectable (message_list);
-
-	selected = message_list_get_selected (message_list);
+	if (table_item)
+		e_table_item_freeze (table_item);
 
 	message_list_tree_model_freeze (message_list);
 
@@ -3843,77 +3836,14 @@ build_tree (MessageList *message_list,
 		message_list->priv->tree_model_root,
 		thread->tree, &row);
 
-	/* Show the cursor unless we're responding to a
-	 * "folder-changed" signal from our CamelFolder. */
-	if (folder_changed && table_item != NULL)
-		table_item->queue_show_cursor = FALSE;
-
 	message_list_tree_model_thaw (message_list);
 
-	/* it's required to thaw & freeze, to propagate changes */
-	message_list_tree_model_freeze (message_list);
-
-	message_list_set_selected (message_list, selected);
-
-	g_ptr_array_unref (selected);
-
-	/* Show the cursor unless we're responding to a
-	 * "folder-changed" signal from our CamelFolder. */
-	if (folder_changed && table_item != NULL)
-		table_item->queue_show_cursor = FALSE;
-
-	message_list_tree_model_thaw (message_list);
-
-	if (!saveuid && message_list->cursor_uid && g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
-		/* this makes sure a visible node is selected, like when
-		 * collapsing all nodes and a children had been selected
-		*/
-		saveuid = g_strdup (message_list->cursor_uid);
-	}
-
-	if (saveuid) {
-		GNode *node;
-
-		node = g_hash_table_lookup (
-			message_list->uid_nodemap, saveuid);
-		if (node == NULL) {
-			g_free (message_list->cursor_uid);
-			message_list->cursor_uid = NULL;
-			g_signal_emit (
-				message_list,
-				signals[MESSAGE_SELECTED], 0, NULL);
-		} else {
-			GNode *parent = node;
-
-			while ((parent = parent->parent) != NULL) {
-				if (!e_tree_table_adapter_node_is_expanded (adapter, parent))
-					node = parent;
-			}
-
-			/* Do not update cursor on folder change signal, to not lose user's
-			 * scroll bar position */
-			if (!folder_changed || !table_item) {
-				/* We need to set the cursor before we freeze, as
-				 * the thaw will restore it to the pre-freeze value. */
-				e_tree_set_cursor (E_TREE (message_list), node);
-			}
-
-			message_list_tree_model_freeze (message_list);
-
-			/* Show the cursor unless we're responding to a
-			 * "folder-changed" signal from our CamelFolder. */
-			if (folder_changed && table_item != NULL)
-				table_item->queue_show_cursor = FALSE;
-
-			message_list_tree_model_thaw (message_list);
-		}
-		g_free (saveuid);
-	} else if (message_list->cursor_uid && !g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
-		g_free (message_list->cursor_uid);
-		message_list->cursor_uid = NULL;
-		g_signal_emit (
-			message_list,
-			signals[MESSAGE_SELECTED], 0, NULL);
+	if (table_item) {
+		/* Show the cursor unless we're responding to a
+		 * "folder-changed" signal from our CamelFolder. */
+		if (folder_changed)
+			table_item->queue_show_cursor = FALSE;
+		e_table_item_thaw (table_item);
 	}
 
 #ifdef TIMEIT
@@ -5551,6 +5481,9 @@ message_list_regen_done_cb (GObject *source_object,
 		(*message_list->search != '\0');
 
 	if (regen_data->group_by_threads) {
+		ETableItem *table_item = e_tree_get_item (E_TREE (message_list));
+		GPtrArray *selected;
+		gchar *saveuid = NULL;
 		gboolean forcing_expand_state;
 
 		forcing_expand_state =
@@ -5579,6 +5512,11 @@ message_list_regen_done_cb (GObject *source_object,
 				adapter, state);
 		}
 
+		if (message_list->cursor_uid != NULL)
+			saveuid = find_next_selectable (message_list);
+
+		selected = message_list_get_selected (message_list);
+
 		/* Show the cursor unless we're responding to a
 		 * "folder-changed" signal from our CamelFolder. */
 		build_tree (
@@ -5606,6 +5544,70 @@ message_list_regen_done_cb (GObject *source_object,
 
 		message_list->expand_all = 0;
 		message_list->collapse_all = 0;
+
+		/* restore cursor position only after the expand state is restored,
+		   thus the row numbers will actually match their real rows in UI */
+
+		e_table_item_freeze (table_item);
+
+		message_list_set_selected (message_list, selected);
+		g_ptr_array_unref (selected);
+
+		/* Show the cursor unless we're responding to a
+		 * "folder-changed" signal from our CamelFolder. */
+		if (regen_data->folder_changed && table_item != NULL)
+			table_item->queue_show_cursor = FALSE;
+
+		e_table_item_thaw (table_item);
+
+		if (!saveuid && message_list->cursor_uid && g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
+			/* this makes sure a visible node is selected, like when
+			 * collapsing all nodes and a children had been selected
+			*/
+			saveuid = g_strdup (message_list->cursor_uid);
+		}
+
+		if (saveuid) {
+			GNode *node;
+
+			node = g_hash_table_lookup (
+				message_list->uid_nodemap, saveuid);
+			if (node == NULL) {
+				g_free (message_list->cursor_uid);
+				message_list->cursor_uid = NULL;
+				g_signal_emit (
+					message_list,
+					signals[MESSAGE_SELECTED], 0, NULL);
+
+			/* Do not update cursor on folder change signal, to not lose user's
+			 * scroll bar position */
+			} else if (!regen_data->folder_changed || !table_item) {
+				GNode *parent = node;
+
+				while ((parent = parent->parent) != NULL) {
+					if (!e_tree_table_adapter_node_is_expanded (adapter, parent))
+						node = parent;
+				}
+
+				e_table_item_freeze (table_item);
+
+				e_tree_set_cursor (E_TREE (message_list), node);
+
+				/* Show the cursor unless we're responding to a
+				 * "folder-changed" signal from our CamelFolder. */
+				if (regen_data->folder_changed && table_item != NULL)
+					table_item->queue_show_cursor = FALSE;
+
+				e_table_item_thaw (table_item);
+			}
+			g_free (saveuid);
+		} else if (message_list->cursor_uid && !g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
+			g_free (message_list->cursor_uid);
+			message_list->cursor_uid = NULL;
+			g_signal_emit (
+				message_list,
+				signals[MESSAGE_SELECTED], 0, NULL);
+		}
 	} else {
 		build_flat (
 			message_list,
