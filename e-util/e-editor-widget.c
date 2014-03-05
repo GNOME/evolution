@@ -3591,6 +3591,145 @@ process_blockquote (WebKitDOMElement *blockquote)
 	}
 }
 
+/* Taken from GtkHTML */
+static gchar *
+get_alpha_value (gint value,
+                 gboolean lower)
+{
+	GString *str;
+	gchar *rv;
+	gint add = lower ? 'a' : 'A';
+
+	str = g_string_new (". ");
+
+	do {
+		g_string_prepend_c (str, ((value - 1) % 26) + add);
+		value = (value - 1) / 26;
+	} while (value);
+
+	rv = str->str;
+	g_string_free (str, FALSE);
+
+	return rv;
+}
+
+/* Taken from GtkHTML */
+static gchar *
+get_roman_value (gint value,
+                 gboolean lower)
+{
+	GString *str;
+	const gchar *base = "IVXLCDM";
+	gchar *rv;
+	gint b, r, add = lower ? 'a' - 'A' : 0;
+
+	if (value > 3999)
+		return g_strdup ("?. ");
+
+	str = g_string_new (". ");
+
+	for (b = 0; value > 0 && b < 7 - 1; b += 2, value /= 10) {
+		r = value % 10;
+		if (r != 0) {
+			if (r < 4) {
+				for (; r; r--)
+					g_string_prepend_c (str, base[b] + add);
+			} else if (r == 4) {
+				g_string_prepend_c (str, base[b + 1] + add);
+				g_string_prepend_c (str, base[b] + add);
+			} else if (r == 5) {
+				g_string_prepend_c (str, base[b + 1] + add);
+			} else if (r < 9) {
+				for (; r > 5; r--)
+					g_string_prepend_c (str, base[b] + add);
+				g_string_prepend_c (str, base[b + 1] + add);
+			} else if (r == 9) {
+				g_string_prepend_c (str, base[b + 2] + add);
+				g_string_prepend_c (str, base[b] + add);
+			}
+		}
+	}
+
+	rv = str->str;
+	g_string_free (str, FALSE);
+
+	return rv;
+}
+
+static void
+process_list_to_plain_text (WebKitDOMElement *element,
+                            GString *output)
+{
+	gboolean unordered_list, ordered_normal = FALSE;
+	gboolean ordered_roman = FALSE,  ordered_alpha = FALSE;
+	gint counter = 1;
+	WebKitDOMNode *item;
+
+	/* Get list type */
+	unordered_list = WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (element);
+	if (!unordered_list) {
+		gchar *value = webkit_dom_element_get_attribute (element, "type");
+		if (!value || !*value)
+			ordered_normal = TRUE;
+
+		if (value && g_strcmp0 (value, "A") == 0)
+			ordered_alpha = TRUE;
+
+		if (value && g_strcmp0 (value, "I") == 0)
+			ordered_roman = TRUE;
+
+		g_free (value);
+	}
+
+	/* Process list items to plain text */
+	item = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
+	while (item && WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
+		gchar *item_value;
+		gchar *space;
+
+		item_value = webkit_dom_node_get_text_content (item);
+		if (unordered_list)
+			g_string_append_printf (output, "      * %s", item_value);
+
+		if (ordered_normal) {
+			gint length = 1, tmp = counter;
+
+			while ((tmp = tmp / 10) > 1) {
+				length++;
+			}
+			if (tmp == 1)
+				length++;
+
+			space = g_strnfill (6 - length, ' ');
+			g_string_append_printf (
+				output, "%s%d. %s", space, counter, item_value);
+			g_free (space);
+		}
+
+		if (ordered_alpha || ordered_roman) {
+			gchar *value;
+
+			if (ordered_alpha)
+				value = get_alpha_value (counter, FALSE);
+			else
+				value = get_roman_value (counter, FALSE);
+
+			/* Value already containes dot and space */
+			space = g_strnfill (8 - strlen (value), ' ');
+			g_string_append_printf (
+				output, "%s%s%s", space, value, item_value);
+			g_free (space);
+			g_free (value);
+		}
+
+		counter++;
+		g_free (item_value);
+		item = webkit_dom_node_get_next_sibling (item);
+		if (item)
+			g_string_append (output, "\n");
+	}
+}
+
 static void
 remove_base_attributes (WebKitDOMElement *element)
 {
@@ -3787,6 +3926,15 @@ process_elements (EEditorWidget *widget,
 					}
 				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
+			}
+		}
+
+		if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (child) ||
+		    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (child)) {
+			if (!changing_mode && to_plain_text) {
+				process_list_to_plain_text (
+					WEBKIT_DOM_ELEMENT (child), buffer);
+				skip_node = TRUE;
 			}
 		}
 
