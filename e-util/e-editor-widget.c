@@ -346,6 +346,34 @@ body_input_event_cb (WebKitDOMElement *element,
 					-1, 0, "");
 			}
 		}
+	} else if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node)) {
+		WebKitDOMElement *parent;
+
+		if (e_editor_widget_get_html_mode (editor_widget))
+			return;
+
+		parent = webkit_dom_node_get_parent_element (node);
+		/* Move caret to correct place in unordered list in plain text mode */
+		if (element_has_class (parent, "-x-evo-ul-plain")) {
+			WebKitDOMDocument *document;
+
+			document = webkit_web_view_get_dom_document (
+				WEBKIT_WEB_VIEW (editor_widget));
+
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (node),
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
+
+			webkit_dom_node_append_child (
+				node,
+				e_editor_selection_get_caret_position_node (
+					document),
+				NULL);
+
+			e_editor_selection_restore_caret_position (
+				e_editor_widget_get_selection (editor_widget));
+		}
 	}
 }
 
@@ -1487,6 +1515,86 @@ editor_widget_button_release_event (GtkWidget *widget,
 }
 
 static gboolean
+end_list_on_return_press_in_plain_text_mode (EEditorWidget *editor_widget)
+{
+	EEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *caret, *li, *list, *paragraph;
+	WebKitDOMNode *prev_sibling, *parent;
+
+	if (e_editor_widget_get_html_mode (editor_widget))
+		return FALSE;
+
+	selection = e_editor_widget_get_selection (editor_widget);
+	e_editor_selection_save_caret_position (selection);
+
+	document = webkit_web_view_get_dom_document (
+		WEBKIT_WEB_VIEW (editor_widget));
+
+	caret = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+	if (!caret)
+		goto out;
+
+	/* Check if item already containes some text */
+	prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (caret));
+	if (prev_sibling) {
+		gchar *data;
+
+		if (!WEBKIT_DOM_IS_TEXT (prev_sibling))
+			goto out;
+
+		data = webkit_dom_character_data_get_data (
+			WEBKIT_DOM_CHARACTER_DATA (prev_sibling));
+
+		/* If text is just zero width space treat is as no text */
+		if (g_strcmp0 (data, UNICODE_ZERO_WIDTH_SPACE) != 0) {
+			g_free (data);
+			goto out;
+		}
+
+		g_free (data);
+	}
+
+	li= webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
+	if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (li))
+		goto out;
+	list = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (li));
+	if (!(WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (list) ||
+	    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (list)))
+		goto out;
+
+	/* Remove last empty item */
+	webkit_dom_node_remove_child (
+		WEBKIT_DOM_NODE (list),
+		WEBKIT_DOM_NODE (li),
+		NULL);
+
+	paragraph = e_editor_selection_get_paragraph_element (
+		selection, document, -1, 0);
+
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (paragraph), UNICODE_ZERO_WIDTH_SPACE, NULL);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (paragraph),
+		e_editor_selection_get_caret_position_node (document),
+		NULL);
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (list));
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (parent),
+		WEBKIT_DOM_NODE (paragraph),
+		webkit_dom_node_get_next_sibling (parent),
+		NULL);
+
+	e_editor_selection_restore_caret_position (selection);
+	return TRUE;
+ out:
+	e_editor_selection_clear_caret_position_marker (selection);
+	return FALSE;
+}
+
+static gboolean
 editor_widget_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
@@ -1508,13 +1616,12 @@ editor_widget_key_press_event (GtkWidget *widget,
 
 	if ((event->keyval == GDK_KEY_Return) ||
 	    (event->keyval == GDK_KEY_KP_Enter)) {
-
-		/* When user presses ENTER in a citation block, WebKit does
-		 * not break the citation automatically, so we need to use
-		 * the special command to do it. */
 		EEditorSelection *selection;
 
 		selection = e_editor_widget_get_selection (editor);
+		/* When user presses ENTER in a citation block, WebKit does
+		 * not break the citation automatically, so we need to use
+		 * the special command to do it. */
 		if (e_editor_selection_is_citation (selection)) {
 			gboolean ret_val = e_editor_widget_exec_command (
 				editor,
@@ -1522,12 +1629,10 @@ editor_widget_key_press_event (GtkWidget *widget,
 				NULL);
 			/* If successful we have to put inserted BR into paragraph */
 			if (ret_val) {
-				EEditorSelection *selection;
 				WebKitDOMDocument *document;
 				WebKitDOMNode *node;
 				WebKitDOMRange *range;
 
-				selection = e_editor_widget_get_selection (editor);
 				document = webkit_web_view_get_dom_document (
 					WEBKIT_WEB_VIEW (editor));
 
@@ -1548,6 +1653,9 @@ editor_widget_key_press_event (GtkWidget *widget,
 				}
 			}
 			return ret_val;
+		} else {
+			if (end_list_on_return_press_in_plain_text_mode (editor))
+				return TRUE;
 		}
 	}
 
@@ -3890,6 +3998,35 @@ toggle_smileys (EEditorWidget *widget)
 }
 
 static void
+toggle_ul_style (EEditorWidget *widget)
+{
+	gboolean html_mode;
+	gint ii, length;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *ul_lists;
+
+	html_mode = e_editor_widget_get_html_mode (widget);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	ul_lists = webkit_dom_document_query_selector_all (document, "ul", NULL);
+
+	length = webkit_dom_node_list_get_length (ul_lists);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *ul = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (ul_lists, ii));
+
+		if (html_mode) {
+			element_remove_class (ul, "-x-evo-ul-plain");
+			webkit_dom_element_remove_attribute (ul, "style");
+		} else {
+			element_add_class (ul, "-x-evo-ul-plain");
+			webkit_dom_element_set_attribute (
+				ul, "style", "margin-left: -3ch;", NULL);
+		}
+	}
+}
+
+static void
 toggle_paragraphs_style (EEditorWidget *widget)
 {
 	EEditorSelection *selection;
@@ -4305,6 +4442,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		toggle_paragraphs_style (widget);
 		toggle_smileys (widget);
+		toggle_ul_style (widget);
 		remove_wrapping (widget);
 
 	} else {
@@ -4321,6 +4459,7 @@ e_editor_widget_set_html_mode (EEditorWidget *widget,
 
 		toggle_paragraphs_style (widget);
 		toggle_smileys (widget);
+		toggle_ul_style (widget);
 		remove_images (widget);
 
 		plain = process_content_for_mode_change (widget);
@@ -4816,7 +4955,29 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"  margin-bottom: 0.2em;\n"
 		"}\n");
 
-	g_string_append(
+	g_string_append (
+		stylesheet,
+		"ul,ol "
+		"{\n"
+		"  -webkit-padding-start: 7ch; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"ul.-x-evo-ul-plain "
+		"{\n"
+		"  list-style: none; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"ul.-x-evo-ul-plain li:before "
+		"{\n"
+		"  content: '*'; \n"
+		"  padding-right: 2ch; \n"
+		"}\n");
+
+	g_string_append (
 		stylesheet,
 		"ol,ul "
 		"{\n"

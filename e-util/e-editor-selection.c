@@ -1356,7 +1356,8 @@ static void
 change_list_style (EEditorSelection *selection,
                    WebKitDOMDocument *document,
                    EEditorSelectionBlockFormat from,
-                   EEditorSelectionBlockFormat to)
+                   EEditorSelectionBlockFormat to,
+                   gboolean html_mode)
 {
 	WebKitDOMNode *list, *node;
 	WebKitDOMRange *range;
@@ -1394,6 +1395,12 @@ change_list_style (EEditorSelection *selection,
 			to == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST ? "UL" : "OL",
 			NULL);
 
+		if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST && !html_mode) {
+			element_add_class (new_list, "-x-evo-ul-plain");
+			webkit_dom_element_set_attribute (
+				new_list, "style", "margin-left: -3ch;", NULL);
+		}
+
 		move_items_from_list_to_list (WEBKIT_DOM_ELEMENT (list), new_list);
 
 		list = webkit_dom_node_replace_child (
@@ -1426,17 +1433,22 @@ change_list_style (EEditorSelection *selection,
 static void
 insert_new_list (EEditorSelection *selection,
                  WebKitDOMDocument *document,
-                 gboolean inserting_ordered_list)
+                 EEditorSelectionBlockFormat to,
+                 gboolean html_mode)
 {
+	gboolean inserting_ordered_list = FALSE;
+	gchar *content;
 	WebKitDOMRange *range;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node;
-	gchar *content;
 
 	range = editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (!WEBKIT_DOM_IS_ELEMENT (node))
 		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+	if (to != E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST)
+		inserting_ordered_list = TRUE;
 
 	/* Sometimes there is UNICODE_ZERO_WIDTH_SPACE so we have to remove it */
 	webkit_dom_node_set_text_content (node, "", NULL);
@@ -1444,6 +1456,20 @@ insert_new_list (EEditorSelection *selection,
 	/* Create list elements */
 	element = webkit_dom_document_create_element (
 		document, inserting_ordered_list ? "OL" : "UL", NULL);
+
+	if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (element), "type", "A", NULL);
+	} else if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (element), "type", "I", NULL);
+	}
+
+	if (!html_mode && !inserting_ordered_list) {
+		element_add_class (element, "-x-evo-ul-plain");
+		webkit_dom_element_set_attribute (
+			element, "style", "margin-left: -3ch;", NULL);
+	}
 
 	/* We have to use again the hidden space to move caret into newly
 	 * inserted list */
@@ -1556,7 +1582,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	EEditorSelectionBlockFormat current_format;
 	EEditorWidgetCommand command;
 	const gchar *value;
-	gboolean inserting_ordered_list = FALSE, has_selection = FALSE;
+	gboolean has_selection = FALSE;
 	gboolean from_list = FALSE, to_list = FALSE, html_mode;
 	WebKitDOMDocument *document;
 	WebKitDOMNode *block = NULL;
@@ -1614,7 +1640,6 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
 		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
 			command = E_EDITOR_WIDGET_COMMAND_INSERT_ORDERED_LIST;
-			inserting_ordered_list = TRUE;
 			to_list = TRUE;
 			value = NULL;
 			break;
@@ -1679,7 +1704,8 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	}
 
 	if (from_list && to_list) {
-		change_list_style (selection, document, current_format, format);
+		change_list_style (
+			selection, document, current_format, format, html_mode);
 	} else if (!to_list && !has_selection) {
 		gboolean restore_caret = TRUE;
 		/* If there is no selection in composer we will change the format of
@@ -1741,7 +1767,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		}
 	} else {
 		if (!has_selection)
-			insert_new_list (selection, document, inserting_ordered_list);
+			insert_new_list (selection, document, format, html_mode);
 		else
 			e_editor_widget_exec_command (editor_widget, command, value);
 	}
@@ -3270,7 +3296,6 @@ insert_base64_image (EEditorSelection *selection,
 		NULL);
 
 	e_editor_selection_restore_caret_position (selection);
-
 }
 
 static void
