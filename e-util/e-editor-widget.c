@@ -317,19 +317,13 @@ body_input_event_cb (WebKitDOMElement *element,
 	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (WEBKIT_DOM_IS_TEXT (node)) {
-		gchar *text = webkit_dom_node_get_text_content (node);
+		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
 		glong length = g_utf8_strlen (text, -1);
 		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
 		 * character as when we will remove it it will collapse */
-		if (length > 1 && strstr (text, UNICODE_ZERO_WIDTH_SPACE)) {
-			WebKitDOMDocument *document;
-			WebKitDOMDOMWindow *window;
-			WebKitDOMDOMSelection *selection;
-			GString *res = e_str_replace_string (text, UNICODE_ZERO_WIDTH_SPACE, "");
-
-			webkit_dom_node_set_text_content (node, res->str, NULL);
-
-			g_string_free (res, TRUE);
+		if (length > 1 && g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE)) {
+			webkit_dom_character_data_replace_data (
+				WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
 		}
 		g_free (text);
 
