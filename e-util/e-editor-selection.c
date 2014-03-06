@@ -3267,7 +3267,7 @@ insert_base64_image (EEditorSelection *selection,
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *caret_position;
 
-	e_editor_selection_save_caret_position (selection);
+	caret_position = e_editor_selection_save_caret_position (selection);
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
@@ -3285,9 +3285,6 @@ insert_base64_image (EEditorSelection *selection,
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (element), "data-name",
 		filename ? filename : "", NULL);
-
-	caret_position = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-caret-position");
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (caret_position)),
@@ -4257,7 +4254,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 	EEditorWidget *editor_widget;
 	WebKitDOMRange *range;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *active_paragraph;
+	WebKitDOMElement *active_paragraph, *caret;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
@@ -4267,7 +4264,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	g_object_unref (editor_widget);
 
-	e_editor_selection_save_caret_position (selection);
+	caret = e_editor_selection_save_caret_position (selection);
 	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
 		WebKitDOMNode *end_container;
 		WebKitDOMNode *parent;
@@ -4285,35 +4282,32 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 
 		/* Wrap only text surrounded in DIV and P tags */
 		parent = webkit_dom_node_get_parent_node(end_container);
-		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) || WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent)) {
-			element_add_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) ||
+		    WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent)) {
+			element_add_class (
+				WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
 			paragraph = parent;
 		} else {
-			WebKitDOMElement *parent_div = e_editor_dom_node_find_parent_element (parent, "DIV");
+			WebKitDOMElement *parent_div =
+				e_editor_dom_node_find_parent_element (parent, "DIV");
 
 			if (element_has_class (parent_div, "-x-evo-paragraph")) {
 				paragraph = WEBKIT_DOM_NODE (parent_div);
 			} else {
-				WebKitDOMNode *position;
-
-				position = WEBKIT_DOM_NODE (
-						webkit_dom_document_get_element_by_id (
-							document,
-							"-x-evo-caret-position"));
-				if (!position)
+				if (!caret)
 					return;
 
 				/* We try to select previous sibling */
-				paragraph = webkit_dom_node_get_previous_sibling (position);
+				paragraph = webkit_dom_node_get_previous_sibling (
+					WEBKIT_DOM_NODE (caret));
 				if (paragraph) {
-					/* When there is just text without container we have to surround it with paragraph div */
+					/* When there is just text without container
+					 * we have to surround it with paragraph div */
 					if (WEBKIT_DOM_IS_TEXT (paragraph))
 						paragraph = WEBKIT_DOM_NODE (
 							e_editor_selection_put_node_into_paragraph (
-								selection,
-								document,
-								paragraph,
-								position));
+								selection, document, paragraph,
+								WEBKIT_DOM_NODE (caret)));
 				} else {
 					/* When some weird element is selected, return */
 					e_editor_selection_clear_caret_position_marker (selection);
@@ -4325,9 +4319,10 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 		if (!paragraph)
 			return;
 
-		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (paragraph), "style");
-		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (paragraph),
-			"-x-evo-active-paragraph");
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (paragraph), "style");
+		webkit_dom_element_set_id (
+			WEBKIT_DOM_ELEMENT (paragraph), "-x-evo-active-paragraph");
 
 		text_content = webkit_dom_node_get_text_content (paragraph);
 		/* If there is hidden space character in the beginning we remove it */
@@ -4349,21 +4344,27 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 		}
 		g_free (text_content);
 
-		wrap_lines (NULL, paragraph, document, FALSE, selection->priv->word_wrap_length);
+		wrap_lines (
+			NULL, paragraph, document, FALSE,
+			selection->priv->word_wrap_length);
 
 	} else {
 		e_editor_selection_save_caret_position (selection);
 		/* If we have selection -> wrap it */
-		wrap_lines (selection, NULL, document, FALSE, selection->priv->word_wrap_length);
+		wrap_lines (
+			selection, NULL, document, FALSE,
+			selection->priv->word_wrap_length);
 	}
 
-	active_paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-active-paragraph");
+	active_paragraph = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-active-paragraph");
 	/* We have to move caret on position where it was before modifying the text */
 	e_editor_selection_restore_caret_position (selection);
 
 	/* Set paragraph as non-active */
 	if (active_paragraph)
-		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (active_paragraph), "id");
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (active_paragraph), "id");
 }
 
 WebKitDOMElement *

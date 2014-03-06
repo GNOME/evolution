@@ -972,7 +972,7 @@ emoticon_read_async_cb (GFile *file,
 	if (error || (size == -1))
 		goto out;
 
-	e_editor_selection_save_caret_position (
+	caret_position = e_editor_selection_save_caret_position (
 		e_editor_widget_get_selection (widget));
 
 	mime_type = g_content_type_get_mime_type (load_context->content_type);
@@ -999,8 +999,6 @@ emoticon_read_async_cb (GFile *file,
 		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
 		load_context->name, emoticon ? emoticon->text_face : "");
 
-	caret_position = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-caret-position");
 	span = WEBKIT_DOM_ELEMENT (webkit_dom_node_insert_before (
 		parent,
 		WEBKIT_DOM_NODE (span),
@@ -1522,14 +1520,10 @@ end_list_on_return_press_in_plain_text_mode (EEditorWidget *editor_widget)
 		return FALSE;
 
 	selection = e_editor_widget_get_selection (editor_widget);
-	e_editor_selection_save_caret_position (selection);
+	caret = e_editor_selection_save_caret_position (selection);
 
 	document = webkit_web_view_get_dom_document (
 		WEBKIT_WEB_VIEW (editor_widget));
-
-	caret = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
-	if (!caret)
-		goto out;
 
 	/* Check if item already containes some text */
 	prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (caret));
