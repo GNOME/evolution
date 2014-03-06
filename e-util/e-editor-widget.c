@@ -314,6 +314,8 @@ body_input_event_cb (WebKitDOMElement *element,
 	WebKitDOMNode *node, *parent;
 	WebKitDOMRange *range = editor_widget_get_dom_range (editor_widget);
 
+	e_editor_widget_set_changed (editor_widget, TRUE);
+
 	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (WEBKIT_DOM_IS_TEXT (node)) {
@@ -1593,8 +1595,6 @@ editor_widget_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
 	EEditorWidget *editor = E_EDITOR_WIDGET (widget);
-
-	editor->priv->changed = FALSE;
 
 	if (event->keyval == GDK_KEY_Tab)
 		return e_editor_widget_exec_command (
