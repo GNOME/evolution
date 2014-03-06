@@ -3587,8 +3587,10 @@ e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
  * @selection: an #EEditorSelection
  *
  * Saves current caret position in composer.
+ *
+ * Returns: #WebKitDOMElement that was created on caret position
  */
-void
+WebKitDOMElement *
 e_editor_selection_save_caret_position (EEditorSelection *selection)
 {
 	EEditorWidget *widget;
@@ -3599,10 +3601,10 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 	WebKitDOMRange *range;
 	gulong start_offset;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
 
 	widget = e_editor_selection_ref_editor_widget (selection);
-	g_return_if_fail (widget != NULL);
+	g_return_val_if_fail (widget != NULL, NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 	g_object_unref (widget);
@@ -3611,7 +3613,7 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 
 	range = editor_selection_get_current_range (selection);
 	if (!range)
-		return;
+		return NULL;
 
 	start_offset = webkit_dom_range_get_start_offset (range, NULL);
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
@@ -3634,6 +3636,8 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 		caret_node,
 		split_node,
 		NULL);
+
+	return WEBKIT_DOM_ELEMENT (caret_node);
 }
 
 static void

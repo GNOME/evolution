@@ -166,7 +166,8 @@ void 		e_editor_selection_clear_caret_position_marker
 WebKitDOMNode *
 		e_editor_selection_get_caret_position_node
 						(WebKitDOMDocument *document);
-void		e_editor_selection_save_caret_position
+WebKitDOMElement *
+		e_editor_selection_save_caret_position
 						(EEditorSelection *selection);
 void		e_editor_selection_restore_caret_position
 						(EEditorSelection *selection);
