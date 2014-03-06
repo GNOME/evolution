@@ -3326,8 +3326,9 @@ mail_reader_update_actions (EMailReader *reader,
 	 * advance the cursor even if the message is already deleted. */
 	action_name = "mail-delete";
 	sensitive =
-		single_message_selected ||
-		selection_has_undeleted_messages;
+		(single_message_selected ||
+		selection_has_undeleted_messages) &&
+		(state & E_MAIL_READER_FOLDER_IS_VTRASH) == 0;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -4042,6 +4043,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
 	gboolean is_junk_folder = FALSE;
+	gboolean is_vtrash_folder = FALSE;
 	guint32 state = 0;
 	guint ii;
 
@@ -4062,6 +4064,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
 		is_junk_folder =
 			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
+		is_vtrash_folder = (store->flags & CAMEL_STORE_VTRASH) != 0 && (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0;
 		drafts_or_outbox =
 			em_utils_folder_is_drafts (registry, folder) ||
 			em_utils_folder_is_outbox (registry, folder);
@@ -4189,6 +4192,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_IS_MAILING_LIST;
 	if (is_junk_folder)
 		state |= E_MAIL_READER_FOLDER_IS_JUNK;
+	if (is_vtrash_folder)
+		state |= E_MAIL_READER_FOLDER_IS_VTRASH;
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
