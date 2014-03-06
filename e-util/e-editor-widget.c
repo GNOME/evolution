@@ -2285,24 +2285,17 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
                                                WebKitDOMDocument *document_convertor)
 {
 	EEditorSelection *selection = e_editor_widget_get_selection (widget);
-	gboolean start_bottom;
 	gchar *inner_text, *inner_html;
 	gint ii;
-	GSettings *settings;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *paragraph, *new_blockquote, *top_signature;
 	WebKitDOMElement *cite_body, *signature;
-	WebKitDOMHTMLElement *body, *convertor_body;
+	WebKitDOMHTMLElement *body, *body_convertor;
 	WebKitDOMNodeList *list;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
-	g_object_unref (settings);
-
 	body = webkit_dom_document_get_body (document);
-	convertor_body = webkit_dom_document_get_body (document_convertor);
+	body_convertor = webkit_dom_document_get_body (document_convertor);
 
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
@@ -2340,7 +2333,7 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
 		}
 
 		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (convertor_body),
+			WEBKIT_DOM_NODE (body_convertor),
 			WEBKIT_DOM_NODE (node),
 			NULL);
 	}
@@ -2356,6 +2349,13 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
 		document_convertor, "span.-x-evo-cite-body", NULL);
 
 	if (cite_body) {
+		/* Remove initial paragraph as it will be added to right place
+		 * in e-composer-private.c */
+		webkit_dom_node_remove_child (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (paragraph),
+			NULL);
+
 		e_editor_selection_save_caret_position (selection);
 	} else {
 		webkit_dom_node_append_child (
@@ -2387,38 +2387,10 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
 
 		parse_html_into_paragraphs (
 			widget, document, new_blockquote, inner_html, TRUE);
-
-		if (signature) {
-			WebKitDOMNode *parent =
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (signature));
-
-			if (!top_signature) {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (new_blockquote),
-					parent,
-					NULL);
-
-				if (start_bottom) {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (paragraph),
-						WEBKIT_DOM_NODE (parent),
-						NULL);
-				}
-			} else {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (new_blockquote),
-					NULL);
-			}
-		} else {
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (body),
 				WEBKIT_DOM_NODE (new_blockquote),
 				NULL);
-		}
 	} else {
 		WebKitDOMNode *signature_clone, *first_child;
 
