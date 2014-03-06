@@ -134,6 +134,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->is_from_message = FALSE;
 	priv->is_from_new_message = FALSE;
 	priv->set_signature_from_message = FALSE;
+	priv->disable_signature = FALSE;
 
 	e_composer_actions_init (composer);
 
@@ -195,11 +196,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		editor_widget, "editable",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
 
 	header = e_composer_header_table_get_header (
 		E_COMPOSER_HEADER_TABLE (widget),
@@ -325,6 +321,12 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_object_bind_property (
 		editor, "busy",
 		priv->async_actions, "sensitive",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
+
+	g_object_bind_property (
+		editor, "busy",
+		priv->header_table, "sensitive",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
 
@@ -1242,8 +1244,8 @@ e_composer_update_signature (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* Do nothing if we're redirecting a message. */
-	if (composer->priv->redirect)
+	/* Do nothing if we're redirecting a message or we disabled the signature * on purpose */
+	if (composer->priv->redirect || composer->priv->disable_signature)
 		return;
 
 	table = e_msg_composer_get_header_table (composer);
