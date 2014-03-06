@@ -2343,7 +2343,7 @@ editor_widget_process_document_from_convertor (EEditorWidget *widget,
 	create_text_markers_for_citations_in_document (document_convertor);
 
 	/* Get innertText from convertor */
-	inner_text = webkit_dom_html_element_get_inner_text (convertor_body);
+	inner_text = webkit_dom_html_element_get_inner_text (body_convertor);
 
 	cite_body = webkit_dom_document_query_selector (
 		document_convertor, "span.-x-evo-cite-body", NULL);
