@@ -384,7 +384,7 @@ cal_comp_event_new_with_current_time (ECalClient *client,
 		default_reminder_interval, default_reminder_units);
 	g_return_val_if_fail (comp != NULL, NULL);
 
-	zone = e_cal_client_get_default_timezone (client);
+	zone = calendar_config_get_icaltimezone ();
 
 	if (all_day) {
 		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);

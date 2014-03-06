@@ -64,8 +64,8 @@ settings_map_string_to_icaltimezone (GValue *value,
 }
 
 static void
-settings_client_cache_client_created_cb (EClientCache *client_cache,
-                                         EClient *client)
+settings_client_cache_client_connected_cb (EClientCache *client_cache,
+					   EClient *client)
 {
 	if (E_IS_CAL_CLIENT (client)) {
 		GSettings *settings;
@@ -94,8 +94,8 @@ settings_client_cache_constructed (GObject *object)
 	extensible = e_extension_get_extensible (extension);
 
 	g_signal_connect (
-		extensible, "client-created",
-		G_CALLBACK (settings_client_cache_client_created_cb),
+		extensible, "client-connected",
+		G_CALLBACK (settings_client_cache_client_connected_cb),
 		NULL);
 }
 

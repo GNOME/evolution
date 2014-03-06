@@ -32,6 +32,7 @@
 
 #include "itip-utils.h"
 #include "dialogs/comp-editor-util.h"
+#include "calendar-config.h"
 
 #define d(x)
 
@@ -1708,7 +1709,7 @@ itip_send_comp (ESourceRegistry *registry,
 
 	g_object_unref (settings);
 
-	default_zone = e_cal_client_get_default_timezone (cal_client);
+	default_zone = calendar_config_get_icaltimezone ();
 
 	/* check whether backend could handle auto-saving requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (cal_client))
@@ -1855,7 +1856,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	/* FIXME Pass this in. */
 	shell = e_shell_get_default ();
 
-	default_zone = e_cal_client_get_default_timezone (cal_client);
+	default_zone = calendar_config_get_icaltimezone ();
 
 	/* Tidy up the comp */
 	comp = comp_compliant (

@@ -76,6 +76,9 @@ struct _EClientCacheClass {
 						 GParamSpec *pspec);
 	void		(*client_created)	(EClientCache *client_cache,
 						 EClient *client);
+	/* Do not break ABI right now
+	void		(*client_connected)	(EClientCache *client_cache,
+						 EClient *client); */
 };
 
 GType		e_client_cache_get_type		(void) G_GNUC_CONST;

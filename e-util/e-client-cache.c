@@ -92,6 +92,7 @@ enum {
 enum {
 	BACKEND_DIED,
 	BACKEND_ERROR,
+	CLIENT_CONNECTED,
 	CLIENT_CREATED,
 	CLIENT_NOTIFY,
 	LAST_SIGNAL
@@ -572,6 +573,8 @@ client_cache_process_results (ClientData *client_data,
 				0);
 			client_data->notify_handler_id = handler_id;
 
+			g_signal_emit (client_cache, signals[CLIENT_CONNECTED], 0, client);
+
 			signal_closure = g_slice_new0 (SignalClosure);
 			signal_closure->client_cache =
 				g_object_ref (client_cache);
@@ -886,12 +889,37 @@ e_client_cache_class_init (EClientCacheClass *class)
 		E_TYPE_ALERT);
 
 	/**
+	 * EClientCache::client-connected:
+	 * @client_cache: the #EClientCache that received the signal
+	 * @client: the newly-created #EClient
+	 *
+	 * This signal is emitted when a call to e_client_cache_get_client()
+	 * triggers the creation of a new #EClient instance, immediately after
+	 * the client's opening phase is over.
+	 *
+	 * See the difference with EClientCache::client-created, which is
+	 * called on idle.
+	 **/
+	signals[CLIENT_CONNECTED] = g_signal_new (
+		"client-connected",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		0 /* G_STRUCT_OFFSET (EClientCacheClass, client_connected) */,
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1,
+		E_TYPE_CLIENT);
+
+	/**
 	 * EClientCache::client-created:
 	 * @client_cache: the #EClientCache that received the signal
 	 * @client: the newly-created #EClient
 	 *
 	 * This signal is emitted when a call to e_client_cache_get_client()
-	 * triggers the creation of a new #EClient instance.
+	 * triggers the creation of a new #EClient instance, invoked in an idle
+	 * callback.
+	 *
+	 * See the difference with EClientCache::client-connected, which is
+	 * called immediately.
 	 **/
 	signals[CLIENT_CREATED] = g_signal_new (
 		"client-created",

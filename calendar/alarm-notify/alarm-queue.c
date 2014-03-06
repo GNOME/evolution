@@ -803,7 +803,7 @@ get_alarms_for_object (ECalClient *cal_client,
 
 	*alarms = e_cal_util_generate_alarms_for_comp (
 		comp, start, end, omit, e_cal_client_resolve_tzid_cb,
-		cal_client, e_cal_client_get_default_timezone (cal_client));
+		cal_client, config_data_get_timezone ());
 
 	g_object_unref (comp);
 
