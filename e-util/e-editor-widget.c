@@ -1650,27 +1650,19 @@ editor_widget_key_press_event (GtkWidget *widget,
 	/* BackSpace in indented block decrease indent level by one */
 	if (event->keyval == GDK_KEY_BackSpace) {
 		EEditorSelection *selection;
-		WebKitDOMNode *node;
-		WebKitDOMElement *element;
-		WebKitDOMRange *range;
 
 		selection = e_editor_widget_get_selection (editor);
+		if (e_editor_selection_is_indented (selection)) {
+			WebKitDOMElement *caret;
 
-		range = editor_widget_get_dom_range (editor);
-		node = webkit_dom_range_get_end_container (range, NULL);
+			caret = e_editor_selection_save_caret_position (selection);
 
-		if (!WEBKIT_DOM_IS_ELEMENT (node))
-			node = WEBKIT_DOM_NODE (
-				webkit_dom_node_get_parent_element (node));
-
-		element = webkit_dom_node_get_parent_element (node);
-
-		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element) &&
-		    element_has_class (element, "-x-evo-indented")) {
-			if (!webkit_dom_node_get_previous_sibling (node)) {
+			if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (caret))) {
+				e_editor_selection_clear_caret_position_marker (selection);
 				e_editor_selection_unindent (selection);
 				return TRUE;
-			}
+			} else
+				e_editor_selection_clear_caret_position_marker (selection);
 		}
 	}
 
