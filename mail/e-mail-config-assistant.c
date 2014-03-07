@@ -654,6 +654,7 @@ mail_config_assistant_constructed (GObject *object)
 	title = _("Evolution Account Assistant");
 	gtk_window_set_title (GTK_WINDOW (assistant), title);
 	gtk_window_set_position (GTK_WINDOW (assistant), GTK_WIN_POS_CENTER);
+	gtk_window_set_default_size (GTK_WINDOW (assistant), 640, 480);
 
 	session = e_mail_config_assistant_get_session (assistant);
 	registry = e_mail_session_get_registry (session);
