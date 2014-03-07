@@ -538,6 +538,41 @@ action_search_edit_cb (GtkAction *action,
 	e_shell_window_update_search_menu (shell_window);
 }
 
+static void
+search_options_selection_cancel_cb (GtkMenuShell *menu,
+				    EShellWindow *shell_window);
+
+static void
+search_options_selection_done_cb (GtkMenuShell *menu,
+				  EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	EShellSearchbar *search_bar;
+	const gchar *view_name;
+
+	/* disconnect first */
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_done_cb, shell_window);
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_cancel_cb, shell_window);
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	g_return_if_fail (shell_view != NULL);
+
+	search_bar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (shell_view));
+	e_shell_searchbar_search_entry_grab_focus (search_bar);
+}
+
+static void
+search_options_selection_cancel_cb (GtkMenuShell *menu,
+				    EShellWindow *shell_window)
+{
+	/* only disconnect both functions, thus the selection-done is not called */
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_done_cb, shell_window);
+	g_signal_handlers_disconnect_by_func (menu, search_options_selection_cancel_cb, shell_window);
+}
+
 /**
  * E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS:
  * @window: an #EShellWindow
@@ -553,13 +588,23 @@ action_search_options_cb (GtkAction *action,
 	EShellViewClass *shell_view_class;
 	const gchar *view_name;
 	const gchar *widget_path;
+	GtkWidget *popup_menu;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 
 	widget_path = shell_view_class->search_options;
-	e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
+	popup_menu = e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
+
+	if (popup_menu) {
+		g_return_if_fail (GTK_IS_MENU_SHELL (popup_menu));
+
+		g_signal_connect_object (popup_menu, "selection-done",
+			G_CALLBACK (search_options_selection_done_cb), shell_window, 0);
+		g_signal_connect_object (popup_menu, "cancel",
+			G_CALLBACK (search_options_selection_cancel_cb), shell_window, 0);
+	}
 }
 
 /**

@@ -110,6 +110,8 @@ void		e_shell_searchbar_set_state_group
 						 const gchar *state_group);
 void		e_shell_searchbar_load_state	(EShellSearchbar *searchbar);
 void		e_shell_searchbar_save_state	(EShellSearchbar *searchbar);
+void		e_shell_searchbar_search_entry_grab_focus
+						(EShellSearchbar *searchbar);
 
 G_END_DECLS
 

@@ -477,7 +477,6 @@ shell_searchbar_option_changed_cb (GtkRadioAction *action,
 			e_shell_view_execute_search (shell_view);
 		} else {
 			shell_searchbar_save_search_option (searchbar);
-			gtk_widget_grab_focus (searchbar->priv->search_entry);
 		}
 
 	} else if (search_text != NULL)
@@ -1442,4 +1441,13 @@ e_shell_searchbar_save_state (EShellSearchbar *searchbar)
 	shell_searchbar_save_search_scope (searchbar);
 
 	searchbar->priv->state_dirty = FALSE;
+}
+
+void
+e_shell_searchbar_search_entry_grab_focus (EShellSearchbar *searchbar)
+{
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+	g_return_if_fail (searchbar->priv->search_entry);
+
+	gtk_widget_grab_focus (searchbar->priv->search_entry);
 }

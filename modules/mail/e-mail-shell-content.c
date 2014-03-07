@@ -222,6 +222,9 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	if (!message_list || MESSAGE_LIST (message_list)->just_set_folder)
+		return;
+
 	gtk_widget_grab_focus (message_list);
 }
 
