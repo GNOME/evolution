@@ -103,10 +103,6 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 	gboolean visible;
 	gint width;
 
-	/* Do any of the actions have an icon? */
-	if (!combo_box->priv->group_has_icons)
-		return;
-
 	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
 
 	/* A NULL action means the row is a separator. */
@@ -121,8 +117,12 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 		"visible", &visible,
 		NULL);
 
-	/* Keep the pixbuf renderer a fixed size for proper alignment. */
-	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, NULL);
+	/* If some action has an icon */
+	if (combo_box->priv->group_has_icons)
+		/* Keep the pixbuf renderer a fixed size for proper alignment. */
+		gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, NULL);
+	else
+		width = 0;
 
 	/* We can't set both "icon-name" and "stock-id" because setting
 	 * one unsets the other.  So pick the one that has a non-NULL
