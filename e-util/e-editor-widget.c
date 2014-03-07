@@ -100,6 +100,7 @@ enum {
 
 enum {
 	POPUP_EVENT,
+	PASTE_PRIMARY_CLIPBOARD,
 	LAST_SIGNAL
 };
 
@@ -1445,13 +1446,17 @@ editor_widget_button_press_event (GtkWidget *widget,
 {
 	gboolean event_handled;
 
-	if (event->button != 3) {
-		event_handled = FALSE;
-	} else {
+	if (event->button == 2) {
+		/* Middle click paste */
+		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
+		event_handled = TRUE;
+	} else if (event->button == 3) {
 		editor_widget_save_element_under_mouse_click (widget);
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
+	} else {
+		event_handled = FALSE;
 	}
 
 	if (event_handled)
@@ -2057,6 +2062,19 @@ e_editor_widget_class_init (EEditorWidgetClass *class)
 		e_marshal_BOOLEAN__BOXED,
 		G_TYPE_BOOLEAN, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+	/**
+	 * EEditorWidget:paste-primary-clipboad
+	 *
+	 * Emitted when user presses middle button on EEditorWidget
+	 */
+	signals[PASTE_PRIMARY_CLIPBOARD] = g_signal_new (
+		"paste-primary-clipboard",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EEditorWidgetClass, paste_primary_clipboard),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)

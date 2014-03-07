@@ -1732,6 +1732,19 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 }
 
 static void
+msg_composer_paste_primary_clipboard_cb (EEditorWidget *web_view,
+                                         EMsgComposer *composer)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+
+	gtk_clipboard_request_targets (
+		clipboard, (GtkClipboardTargetsReceivedFunc)
+		msg_composer_paste_clipboard_targets_cb, composer);
+}
+
+static void
 msg_composer_paste_clipboard_cb (EEditorWidget *web_view,
                                  EMsgComposer *composer)
 {
@@ -2107,6 +2120,10 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect (
 		editor_widget, "paste-clipboard",
 		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
+
+	g_signal_connect (
+		editor_widget, "paste-primary-clipboard",
+		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
 
 	/* Drag-and-Drop Support */
 

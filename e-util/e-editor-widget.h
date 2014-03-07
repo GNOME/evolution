@@ -71,6 +71,8 @@ struct _EEditorWidgetClass {
 						(EEditorWidget *widget);
 	gboolean	(*popup_event)		(EEditorWidget *widget,
 						 GdkEventButton *event);
+	void		(*paste_primary_clipboard)
+						(EEditorWidget *widget);
 };
 
 GType		e_editor_widget_get_type	(void) G_GNUC_CONST;
