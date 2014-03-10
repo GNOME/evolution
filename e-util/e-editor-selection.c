@@ -2839,7 +2839,7 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 	text_content = webkit_dom_node_get_text_content (node);
 	if (g_strcmp0 (text_content, "") == 0) {
 		g_free (text_content);
-		return selection->priv->is_monospaced;
+		return selection->priv->is_strike_through;
 	}
 	g_free (text_content);
 
