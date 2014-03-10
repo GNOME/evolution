@@ -954,6 +954,8 @@ message_list_select (MessageList *message_list,
 {
 	GNode *node;
 
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
 	node = ml_search_path (message_list, direction, flags, mask);
 	if (node != NULL) {
 		select_node (message_list, node);
@@ -985,6 +987,8 @@ message_list_can_select (MessageList *message_list,
                          guint32 flags,
                          guint32 mask)
 {
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
 	return ml_search_path (message_list, direction, flags, mask) != NULL;
 }
 
@@ -1250,6 +1254,8 @@ thread_select_foreach (ETreePath path,
 void
 message_list_select_thread (MessageList *message_list)
 {
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
 	select_thread (message_list, thread_select_foreach);
 }
 
@@ -1276,6 +1282,8 @@ subthread_select_foreach (ETreePath path,
 void
 message_list_select_subthread (MessageList *message_list)
 {
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
 	select_thread (message_list, subthread_select_foreach);
 }
 
@@ -1283,10 +1291,14 @@ void
 message_list_copy (MessageList *message_list,
                    gboolean cut)
 {
-	MessageListPrivate *p = message_list->priv;
+	MessageListPrivate *priv;
 	GPtrArray *uids;
 
-	clear_selection (message_list, &p->clipboard);
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	priv = message_list->priv;
+
+	clear_selection (message_list, &priv->clipboard);
 
 	uids = message_list_get_selected (message_list);
 
@@ -1312,11 +1324,11 @@ message_list_copy (MessageList *message_list,
 			g_object_unref (folder);
 		}
 
-		p->clipboard.uids = g_ptr_array_ref (uids);
-		p->clipboard.folder = message_list_ref_folder (message_list);
+		priv->clipboard.uids = g_ptr_array_ref (uids);
+		priv->clipboard.folder = message_list_ref_folder (message_list);
 
 		gtk_selection_owner_set (
-			p->invisible,
+			priv->invisible,
 			GDK_SELECTION_CLIPBOARD,
 			gtk_get_current_event_time ());
 	} else {
@@ -1331,6 +1343,8 @@ message_list_copy (MessageList *message_list,
 void
 message_list_paste (MessageList *message_list)
 {
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
 	gtk_selection_convert (
 		message_list->priv->invisible,
 		GDK_SELECTION_CLIPBOARD,
@@ -2103,6 +2117,8 @@ void
 message_list_save_state (MessageList *message_list)
 {
 	CamelFolder *folder;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	folder = message_list_ref_folder (message_list);
 
@@ -4763,9 +4779,12 @@ message_list_get_selected (MessageList *message_list)
 
 	struct _ml_selected_data data = {
 		message_list,
-		g_ptr_array_new ()
+		NULL
 	};
 
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+
+	data.uids = g_ptr_array_new ();
 	g_ptr_array_set_free_func (data.uids, (GDestroyNotify) g_free);
 
 	selection = e_tree_get_selection_model (E_TREE (message_list));
@@ -4791,8 +4810,11 @@ message_list_set_selected (MessageList *message_list,
 	gint i;
 	ETreeSelectionModel *etsm;
 	GNode *node;
-	GPtrArray *paths = g_ptr_array_new ();
+	GPtrArray *paths;
 
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	paths = g_ptr_array_new ();
 	etsm = (ETreeSelectionModel *)
 		e_tree_get_selection_model (E_TREE (message_list));
 	for (i = 0; i < uids->len; i++) {
@@ -4909,12 +4931,14 @@ message_list_selected_count (MessageList *message_list)
 void
 message_list_freeze (MessageList *message_list)
 {
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	message_list->frozen++;
 }
 
 void
 message_list_thaw (MessageList *message_list)
 {
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (message_list->frozen != 0);
 
 	message_list->frozen--;
@@ -4966,6 +4990,8 @@ void
 message_list_set_search (MessageList *message_list,
                          const gchar *search)
 {
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
 	if (search == NULL || search[0] == '\0')
 		if (message_list->search == NULL || message_list->search[0] == '\0')
 			return;

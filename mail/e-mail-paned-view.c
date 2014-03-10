@@ -515,6 +515,11 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	view = E_MAIL_VIEW (reader);
 	shell_view = e_mail_view_get_shell_view (view);
+
+	/* Can be NULL, if the shell window was closed meanwhile */
+	if (!shell_view)
+		return;
+
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
