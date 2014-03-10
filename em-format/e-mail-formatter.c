@@ -1065,6 +1065,8 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 		windows = camel_mime_filter_windows_new (charset);
 		filter_stream = camel_filter_output_stream_new (
 			null_stream, windows);
+		g_filter_output_stream_set_close_base_stream (
+			G_FILTER_OUTPUT_STREAM (filter_stream), FALSE);
 
 		camel_data_wrapper_decode_to_output_stream_sync (
 			CAMEL_DATA_WRAPPER (mime_part),
@@ -1083,6 +1085,8 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	filter = camel_mime_filter_charset_new (charset, "UTF-8");
 	if (filter != NULL) {
 		stream = camel_filter_output_stream_new (stream, filter);
+		g_filter_output_stream_set_close_base_stream (
+			G_FILTER_OUTPUT_STREAM (stream), FALSE);
 		g_object_unref (filter);
 	} else {
 		g_object_ref (stream);

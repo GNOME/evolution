@@ -75,6 +75,8 @@ emqfe_text_enriched_format (EMailFormatterExtension *extension,
 
 	filter = camel_mime_filter_enriched_new (camel_flags);
 	filtered_stream = camel_filter_output_stream_new (stream, filter);
+	g_filter_output_stream_set_close_base_stream (
+		G_FILTER_OUTPUT_STREAM (filtered_stream), FALSE);
 	g_object_unref (filter);
 
 	e_mail_formatter_format_text (

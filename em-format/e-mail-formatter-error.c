@@ -78,6 +78,8 @@ emfe_error_format (EMailFormatterExtension *extension,
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
 	filtered_stream = camel_filter_output_stream_new (stream, filter);
+	g_filter_output_stream_set_close_base_stream (
+		G_FILTER_OUTPUT_STREAM (filtered_stream), FALSE);
 	g_object_unref (filter);
 
 	camel_data_wrapper_decode_to_output_stream_sync (

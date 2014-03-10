@@ -105,6 +105,8 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		filter = camel_mime_filter_tohtml_new (flags, rgb);
 		filtered_stream =
 			camel_filter_output_stream_new (stream, filter);
+		g_filter_output_stream_set_close_base_stream (
+			G_FILTER_OUTPUT_STREAM (filtered_stream), FALSE);
 		g_object_unref (filter);
 
 		string =

@@ -89,6 +89,8 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 		filter = e_mail_stripsig_filter_new (TRUE);
 		temp_stream = camel_filter_output_stream_new (
 			filtered_stream, filter);
+		g_filter_output_stream_set_close_base_stream (
+			G_FILTER_OUTPUT_STREAM (temp_stream), FALSE);
 		g_object_unref (filtered_stream);
 		filtered_stream = temp_stream;
 		g_object_unref (filter);
@@ -96,6 +98,8 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 
 	filter = camel_mime_filter_tohtml_new (text_flags, rgb);
 	temp_stream = camel_filter_output_stream_new (filtered_stream, filter);
+	g_filter_output_stream_set_close_base_stream (
+		G_FILTER_OUTPUT_STREAM (temp_stream), FALSE);
 	g_object_unref (filtered_stream);
 	filtered_stream = temp_stream;
 	g_object_unref (filter);
