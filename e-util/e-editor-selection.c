@@ -2737,15 +2737,13 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 		g_free (font_size_str);
 
 		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
-			gchar *html;
+			gchar *html, *outer_html;
 
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (monospace),
 				WEBKIT_DOM_NODE (
 					webkit_dom_range_clone_contents (range, NULL)),
 				NULL);
-
-			gchar *outer_html;
 
 			outer_html = webkit_dom_html_element_get_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (monospace));
