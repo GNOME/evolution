@@ -2395,6 +2395,11 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_val_if_fail (editor_widget != NULL, FALSE);
 
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
+
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	g_object_unref (editor_widget);
 	window = webkit_dom_document_get_default_view (document);
@@ -2489,6 +2494,11 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	g_object_unref (editor_widget);
@@ -2810,6 +2820,11 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_val_if_fail (editor_widget != NULL, FALSE);
 
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
+
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	g_object_unref (editor_widget);
 	window = webkit_dom_document_get_default_view (document);
@@ -2890,10 +2905,21 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_subscript (EEditorSelection *selection)
 {
+	EEditorWidget *editor_widget;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
+
+	g_object_unref (editor_widget);
 
 	range = editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
@@ -2958,10 +2984,21 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_superscript (EEditorSelection *selection)
 {
+	EEditorWidget *editor_widget;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
+
+	g_object_unref (editor_widget);
 
 	range = editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
@@ -3040,6 +3077,11 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 	g_object_unref (editor_widget);
