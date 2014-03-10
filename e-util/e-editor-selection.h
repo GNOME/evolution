@@ -129,11 +129,11 @@ gboolean	e_editor_selection_is_monospaced
 void		e_editor_selection_set_monospaced
 						(EEditorSelection *selection,
 						 gboolean monospaced);
-gboolean	e_editor_selection_is_strike_through
+gboolean	e_editor_selection_is_strikethrough
 						(EEditorSelection *selection);
-void		e_editor_selection_set_strike_through
+void		e_editor_selection_set_strikethrough
 						(EEditorSelection *selection,
-						 gboolean strike_through);
+						 gboolean strikethrough);
 gboolean	e_editor_selection_is_superscript
 						(EEditorSelection *selection);
 void		e_editor_selection_set_superscript

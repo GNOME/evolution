@@ -109,7 +109,7 @@ editor_text_dialog_set_strikethrough (EEditorTextDialog *dialog)
 	widget = e_editor_get_editor_widget (editor);
 	selection = e_editor_widget_get_selection (widget);
 
-	e_editor_selection_set_strike_through (
+	e_editor_selection_set_strikethrough (
 		selection,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->strikethrough_check)));
@@ -173,7 +173,7 @@ editor_text_dialog_show (GtkWidget *widget)
 		e_editor_selection_is_underline (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->strikethrough_check),
-		e_editor_selection_is_strike_through (selection));
+		e_editor_selection_is_strikethrough (selection));
 
 	gtk_combo_box_set_active (
 		GTK_COMBO_BOX (dialog->priv->size_check),

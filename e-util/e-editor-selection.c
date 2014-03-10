@@ -61,7 +61,7 @@ struct _EEditorSelectionPrivate {
 	gboolean is_italic;
 	gboolean is_underline;
 	gboolean is_monospaced;
-	gboolean is_strike_through;
+	gboolean is_strikethrough;
 
 	gchar *background_color;
 	gchar *font_color;
@@ -88,7 +88,7 @@ enum {
 	PROP_INDENTED,
 	PROP_ITALIC,
 	PROP_MONOSPACED,
-	PROP_STRIKE_THROUGH,
+	PROP_STRIKETHROUGH,
 	PROP_SUBSCRIPT,
 	PROP_SUPERSCRIPT,
 	PROP_TEXT,
@@ -245,7 +245,7 @@ editor_selection_selection_changed_cb (WebKitWebView *webview,
 	g_object_notify (G_OBJECT (selection), "indented");
 	g_object_notify (G_OBJECT (selection), "italic");
 	g_object_notify (G_OBJECT (selection), "monospaced");
-	g_object_notify (G_OBJECT (selection), "strike-through");
+	g_object_notify (G_OBJECT (selection), "strikethrough");
 	g_object_notify (G_OBJECT (selection), "subscript");
 	g_object_notify (G_OBJECT (selection), "superscript");
 	g_object_notify (G_OBJECT (selection), "text");
@@ -379,10 +379,10 @@ editor_selection_get_property (GObject *object,
 				E_EDITOR_SELECTION (object)));
 			return;
 
-		case PROP_STRIKE_THROUGH:
+		case PROP_STRIKETHROUGH:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_strike_through (
+				e_editor_selection_is_strikethrough (
 				E_EDITOR_SELECTION (object)));
 			return;
 
@@ -485,8 +485,8 @@ editor_selection_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_STRIKE_THROUGH:
-			e_editor_selection_set_strike_through (
+		case PROP_STRIKETHROUGH:
+			e_editor_selection_set_strikethrough (
 				E_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
@@ -749,16 +749,16 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:strike-through
+	 * EEditorSelection:strikethrough
 	 *
 	 * Holds whether current selection or letter at current cursor position
-	 * is strike-through.
+	 * is strikethrough.
 	 */
 	g_object_class_install_property (
 		object_class,
-		PROP_STRIKE_THROUGH,
+		PROP_STRIKETHROUGH,
 		g_param_spec_boolean (
-			"strike-through",
+			"strikethrough",
 			NULL,
 			NULL,
 			FALSE,
@@ -2794,7 +2794,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_strike_through:
+ * e_editor_selection_is_strikethrough:
  * @selection: an #EEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
@@ -2803,7 +2803,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
  * Returns @TRUE when selection is striked through, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_strike_through (EEditorSelection *selection)
+e_editor_selection_is_strikethrough (EEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
@@ -2834,12 +2834,12 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set strike-through property,
+	/* If we are changing the format of block we have to re-set strikethrough property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
 	if (g_strcmp0 (text_content, "") == 0) {
 		g_free (text_content);
-		return selection->priv->is_strike_through;
+		return selection->priv->is_strikethrough;
 	}
 	g_free (text_content);
 
@@ -2861,26 +2861,26 @@ e_editor_selection_is_strike_through (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_strike_through:
+ * e_editor_selection_set_strikethrough:
  * @selection: an #EEditorSelection
- * @strike_through: @TRUE to enable strike through, @FALSE to disable
+ * @strikethrough: @TRUE to enable strikethrough, @FALSE to disable
  *
  * Toggles strike through formatting of current selection or letter at current
- * cursor position, depending on whether @strike_through is @TRUE or @FALSE.
+ * cursor position, depending on whether @strikethrough is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_strike_through (EEditorSelection *selection,
-                                       gboolean strike_through)
+e_editor_selection_set_strikethrough (EEditorSelection *selection,
+                                       gboolean strikethrough)
 {
 	EEditorWidget *editor_widget;
 	EEditorWidgetCommand command;
 
 	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_strike_through (selection) == strike_through)
+	if (e_editor_selection_is_strikethrough (selection) == strikethrough)
 		return;
 
-	selection->priv->is_strike_through = strike_through;
+	selection->priv->is_strikethrough = strikethrough;
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
@@ -2890,7 +2890,7 @@ e_editor_selection_set_strike_through (EEditorSelection *selection,
 
 	g_object_unref (editor_widget);
 
-	g_object_notify (G_OBJECT (selection), "strike-through");
+	g_object_notify (G_OBJECT (selection), "strikethrough");
 }
 
 /**

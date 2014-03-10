@@ -1980,7 +1980,7 @@ editor_actions_init (EEditor *editor)
 		ACTION (MONOSPACED), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	g_object_bind_property (
-		editor->priv->selection, "strike-through",
+		editor->priv->selection, "strikethrough",
 		ACTION (STRIKETHROUGH), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	g_object_bind_property (
