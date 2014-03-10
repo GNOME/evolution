@@ -312,16 +312,48 @@ body_input_event_cb (WebKitDOMElement *element,
                      WebKitDOMEvent *event,
                      EEditorWidget *editor_widget)
 {
-	WebKitDOMNode *node, *parent;
+	WebKitDOMNode *node;
 	WebKitDOMRange *range = editor_widget_get_dom_range (editor_widget);
 
 	e_editor_widget_set_changed (editor_widget, TRUE);
 
-	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
 	node = webkit_dom_range_get_end_container (range, NULL);
+
+	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
+	 * to move caret into right space. When this callback is called it is not
+	 * necassary anymore so remove it */
+	if (e_editor_widget_get_html_mode (editor_widget)) {
+		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+		if (parent) {
+			WebKitDOMNode *prev_sibling;
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (parent));
+
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
+				gchar *text = webkit_dom_node_get_text_content (
+					prev_sibling);
+
+				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0) {
+					webkit_dom_node_remove_child (
+						webkit_dom_node_get_parent_node (
+							prev_sibling),
+						prev_sibling,
+						NULL);
+				}
+				g_free (text);
+			}
+
+		}
+	}
+
+	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
 	if (WEBKIT_DOM_IS_TEXT (node)) {
 		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
 		glong length = g_utf8_strlen (text, -1);
+		WebKitDOMNode *parent;
+
 		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
 		 * character as when we will remove it it will collapse */
 		if (length > 1 && g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE)) {

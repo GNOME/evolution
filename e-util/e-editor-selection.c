@@ -2568,6 +2568,28 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 	g_object_notify (G_OBJECT (selection), "italic");
 }
 
+static gboolean
+is_monospaced_element (WebKitDOMElement *element)
+{
+	gchar *value;
+	gboolean ret_val = FALSE;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_HTML_FONT_ELEMENT (element))
+		return FALSE;
+
+	value = webkit_dom_element_get_attribute (element, "face");
+
+	if (g_strcmp0 (value, "monospace") == 0)
+		ret_val = TRUE;
+
+	g_free (value);
+
+	return ret_val;
+}
+
 /**
  * e_editor_selection_is_monospaced:
  * @selection: an #EEditorSelection
@@ -2580,18 +2602,36 @@ e_editor_selection_set_italic (EEditorSelection *selection,
 gboolean
 e_editor_selection_is_monospaced (EEditorSelection *selection)
 {
-	WebKitDOMRange *range;
+	gboolean ret_val;
+	gchar *value, *text_content;
+	EEditorWidget *editor_widget;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
 	WebKitDOMNode *node;
-	gchar *text_content;
+	WebKitDOMElement *element;
+	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_val_if_fail (editor_widget != NULL, FALSE);
+
+	if (!e_editor_widget_get_html_mode (editor_widget)) {
+		g_object_unref (editor_widget);
+		return FALSE;
+	}
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	g_object_unref (editor_widget);
+	window = webkit_dom_document_get_default_view (document);
 
 	range = editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set monospaced property,
+	/* If we are changing the format of block we have to re-set italic property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
 	if (g_strcmp0 (text_content, "") == 0) {
@@ -2600,7 +2640,21 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 	}
 	g_free (text_content);
 
-	return get_has_style (selection, "tt");
+	if (WEBKIT_DOM_IS_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = webkit_dom_node_get_parent_element (node);
+
+	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "font-family");
+
+	if (g_strstr_len (value, -1, "monospace"))
+		ret_val = TRUE;
+	else
+		ret_val = FALSE;
+
+	g_free (value);
+	return ret_val;
 }
 
 static void
@@ -2665,92 +2719,145 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 	window_selection = webkit_dom_dom_window_get_selection (window);
 
 	if (monospaced) {
+		gchar *font_size_str;
+		guint font_size;
+		WebKitDOMElement *monospace;
+
+		monospace = webkit_dom_document_create_element (
+			document, "font", NULL);
+		webkit_dom_element_set_attribute (
+			monospace, "face", "monospace", NULL);
+
+		font_size = selection->priv->font_size;
+		if (font_size == 0)
+			font_size = E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		font_size_str = g_strdup_printf ("%d", font_size);
+		webkit_dom_element_set_attribute (
+			monospace, "size", font_size_str, NULL);
+		g_free (font_size_str);
+
 		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
 			gchar *html;
-			WebKitDOMElement *wrapper;
 
-			wrapper = webkit_dom_document_create_element (document, "TT", NULL);
 			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (wrapper),
-				WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL)),
+				WEBKIT_DOM_NODE (monospace),
+				WEBKIT_DOM_NODE (
+					webkit_dom_range_clone_contents (range, NULL)),
 				NULL);
 
-			html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (wrapper));
+			gchar *outer_html;
+
+			outer_html = webkit_dom_html_element_get_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (monospace));
+
+			html = g_strconcat (
+				/* Mark selection for restoration */
+				"<span id=\"-x-evo-selection-start-marker\"></span>",
+				outer_html,
+				"<span id=\"-x-evo-selection-end-marker\"></span>",
+				NULL),
+
 			e_editor_selection_insert_html (selection, html);
 
-			g_free (html);
-		} else {
-			WebKitDOMElement *tt_element;
+			e_editor_selection_restore (selection);
 
-			tt_element = webkit_dom_document_create_element (document, "TT", NULL);
+			g_free (html);
+			g_free (outer_html);
+		} else {
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
 			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				UNICODE_ZERO_WIDTH_SPACE, NULL);
-			webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (tt_element), NULL);
+				WEBKIT_DOM_HTML_ELEMENT (monospace),
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
+			webkit_dom_range_insert_node (
+				range, WEBKIT_DOM_NODE (monospace), NULL);
 
-			move_caret_into_element (document, tt_element);
+			move_caret_into_element (document, monospace);
 		}
 	} else {
+		gboolean is_bold, is_italic, is_underline, is_strikethrough;
+		guint font_size;
 		WebKitDOMElement *tt_element;
 		WebKitDOMNode *node;
 
 		node = webkit_dom_range_get_end_container (range, NULL);
 		if (WEBKIT_DOM_IS_ELEMENT (node) &&
-		    element_has_tag (WEBKIT_DOM_ELEMENT (node), "tt"))
+		    is_monospaced_element (WEBKIT_DOM_ELEMENT (node))) {
 			tt_element = WEBKIT_DOM_ELEMENT (node);
-		else {
-			tt_element = webkit_dom_node_get_parent_element (node);
-			if (!element_has_tag (WEBKIT_DOM_ELEMENT (tt_element), "tt")) {
+		} else {
+			tt_element = e_editor_dom_node_find_parent_element (node, "FONT");
+
+			if (!is_monospaced_element (tt_element)) {
 				g_object_unref (editor_widget);
 				return;
 			}
 		}
 
+		/* Save current formatting */
+		is_bold = selection->priv->is_bold;
+		is_italic = selection->priv->is_italic;
+		is_underline = selection->priv->is_underline;
+		is_strikethrough = selection->priv->is_strikethrough;
+		font_size = selection->priv->font_size;
+		if (font_size == 0)
+			font_size = E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+
 		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
-			gchar *html, *outer_html, *inner_html;
-			gchar *beginning, *end;
-			gchar *start_position, *end_position;
+			gchar *html, *outer_html, *inner_html, *beginning, *end;
+			gchar *start_position, *end_position, *font_size_str;
 			WebKitDOMElement *wrapper;
 
-			wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
+			wrapper = webkit_dom_document_create_element (
+				document, "SPAN", NULL);
 			webkit_dom_element_set_id (wrapper, "-x-evo-remove-tt");
-			webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (wrapper), NULL);
+			webkit_dom_range_surround_contents (
+				range, WEBKIT_DOM_NODE (wrapper), NULL);
 
-			html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
+			html = webkit_dom_html_element_get_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (tt_element));
 
-			start_position = g_strstr_len (html, -1, "<span id=\"-x-evo-remove-tt\"");
+			start_position = g_strstr_len (
+				html, -1, "<span id=\"-x-evo-remove-tt\"");
 			end_position = g_strstr_len (start_position, -1, "</span>");
 
-			beginning = g_utf8_substring (html, 0, g_utf8_pointer_to_offset (html, start_position));
-			inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (wrapper));
-			end = g_utf8_substring (html,
-						g_utf8_pointer_to_offset (html, end_position) + 7,
-						g_utf8_strlen (html, -1)),
+			beginning = g_utf8_substring (
+				html, 0, g_utf8_pointer_to_offset (html, start_position));
+			inner_html = webkit_dom_html_element_get_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (wrapper));
+			end = g_utf8_substring (
+				html,
+				g_utf8_pointer_to_offset (html, end_position) + 7,
+				g_utf8_strlen (html, -1)),
+
+			font_size_str = g_strdup_printf ("%d", font_size);
 
 			outer_html =
 				g_strconcat (
 					/* Beginning */
 					beginning,
-					/* End the previous TT tag */
-					"</tt>",
+					/* End the previous FONT tag */
+					"</font>",
+					/* Mark selection for restoration */
+					"<span id=\"-x-evo-selection-start-marker\"></span>",
 					/* Inside will be the same */
 					inner_html,
-					/* Put caret position here */
-					"<span id=\"-x-evo-caret-position\">*</span>",
-					/* Start the new TT element */
-					"<tt>",
+					"<span id=\"-x-evo-selection-end-marker\"></span>",
+					/* Start the new FONT element */
+					"<font face=\"monospace\" size=\"",
+					font_size_str,
+					"\">",
 					/* End - we have to start after </span> */
 					end,
 					NULL),
+
+			g_free (font_size_str);
 
 			webkit_dom_html_element_set_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element),
 				outer_html,
 				NULL);
 
-			e_editor_selection_restore_caret_position (selection);
+			e_editor_selection_restore (selection);
 
 			g_free (html);
 			g_free (outer_html);
@@ -2764,28 +2871,50 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 			webkit_dom_element_set_id (tt_element, "ev-tt");
 
-		        outer_html = webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (tt_element));
+		        outer_html = webkit_dom_html_element_get_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (tt_element));
 			tmp = g_strconcat (outer_html, UNICODE_ZERO_WIDTH_SPACE, NULL);
 			webkit_dom_html_element_set_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element),
 				tmp, NULL);
 
 			/* We need to get that element again */
-			tt_element = webkit_dom_document_get_element_by_id (document, "ev-tt");
-			webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (tt_element), "id");
+			tt_element = webkit_dom_document_get_element_by_id (
+				document, "ev-tt");
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (tt_element), "id");
 
 			new_range = webkit_dom_document_create_range (document);
-			webkit_dom_range_set_start_after (new_range, WEBKIT_DOM_NODE (tt_element), NULL);
-			webkit_dom_range_set_end_after (new_range, WEBKIT_DOM_NODE (tt_element), NULL);
+			webkit_dom_range_set_start_after (
+				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
+			webkit_dom_range_set_end_after (
+				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
 
-			webkit_dom_dom_selection_remove_all_ranges (window_selection);
-			webkit_dom_dom_selection_add_range (window_selection, new_range);
+			webkit_dom_dom_selection_remove_all_ranges (
+				window_selection);
+			webkit_dom_dom_selection_add_range (
+				window_selection, new_range);
 
-			webkit_dom_dom_selection_modify (window_selection, "move", "right", "character");
+			webkit_dom_dom_selection_modify (
+				window_selection, "move", "right", "character");
 
 			g_free (outer_html);
 			g_free (tmp);
+
+			e_editor_widget_force_spell_check (editor_widget);
 		}
+
+		/* Re-set formatting */
+		if (is_bold)
+			e_editor_selection_set_bold (selection, TRUE);
+		if (is_italic)
+			e_editor_selection_set_italic (selection, TRUE);
+		if (is_underline)
+			e_editor_selection_set_underline (selection, TRUE);
+		if (is_strikethrough)
+			e_editor_selection_set_strikethrough (selection, TRUE);
+
+		e_editor_selection_set_font_size (selection, font_size);
 	}
 
 	g_object_unref (editor_widget);
