@@ -873,6 +873,8 @@ composer_move_caret (EMsgComposer *composer)
 		return;
 	}
 
+	e_editor_selection_block_selection_changed (editor_selection);
+
 	/* When the new message is written from the beginning - note it into body */
 	if (composer->priv->is_from_new_message) {
 		webkit_dom_element_set_attribute (
@@ -988,6 +990,8 @@ composer_move_caret (EMsgComposer *composer)
 
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, new_range);
+
+	e_editor_selection_unblock_selection_changed (editor_selection);
 }
 
 static void
