@@ -319,10 +319,13 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 		case GDK_KEY_Up:
 		case GDK_KEY_Right:
 		case GDK_KEY_Down:
-		case GDK_KEY_Prior:
 		case GDK_KEY_Next:
 		case GDK_KEY_End:
 		case GDK_KEY_Begin:
+			/* If Caret mode is enabled don't try to process these keys */
+			if (e_web_view_get_caret_mode (E_WEB_VIEW (mail_display)))
+				return FALSE;
+		case GDK_KEY_Prior:
 			if (!mail_shell_view_mail_display_needs_key (mail_display, FALSE) &&
 			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
 			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
