@@ -195,7 +195,6 @@ e_editor_dialog_init (EEditorDialog *dialog)
 		"destroy-with-parent", TRUE,
 		"modal", TRUE,
 		"resizable", FALSE,
-		"type-hint", GDK_WINDOW_TYPE_HINT_POPUP_MENU,
 		"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
 		NULL);
 
