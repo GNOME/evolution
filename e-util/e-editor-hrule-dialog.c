@@ -211,17 +211,18 @@ editor_hrule_dialog_show (GtkWidget *widget)
 {
 	EEditorHRuleDialog *dialog;
 	EEditor *editor;
+	EEditorSelection *editor_selection;
 	EEditorWidget *editor_widget;
 
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
 	WebKitDOMElement *rule;
 
 	dialog = E_EDITOR_HRULE_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	editor_widget = e_editor_get_editor_widget (editor);
+	editor_selection = e_editor_widget_get_selection (editor_widget);
 
 	document = webkit_web_view_get_dom_document (
 			WEBKIT_WEB_VIEW (editor_widget));
@@ -232,21 +233,31 @@ editor_hrule_dialog_show (GtkWidget *widget)
 		return;
 	}
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-
-	rule = e_editor_dom_node_find_parent_element (
-		webkit_dom_range_get_start_container (range, NULL), "HR");
+	rule = e_editor_widget_get_element_under_mouse_click (editor_widget);
 	if (!rule) {
-		rule = e_editor_dom_node_find_child_element (
-			webkit_dom_range_get_start_container (range, NULL), "HR");
-	}
+		WebKitDOMElement *caret, *parent, *element;
 
-	if (!rule) {
-		e_editor_widget_exec_command (
-			editor_widget, E_EDITOR_WIDGET_COMMAND_INSERT_HORIZONTAL_RULE, NULL);
+		caret = e_editor_selection_save_caret_position (editor_selection);
 
-		rule = e_editor_dom_node_find_child_element (
-			webkit_dom_range_get_start_container (range, NULL), "HR");
+		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
+		element = caret;
+
+		while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+			element = parent;
+			parent = webkit_dom_node_get_parent_element (
+				WEBKIT_DOM_NODE (parent));
+		}
+
+		rule = webkit_dom_document_create_element (document, "HR", NULL);
+
+		/* Insert horizontal rule into body below the caret */
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (parent),
+			WEBKIT_DOM_NODE (rule),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+			NULL);
+
+		e_editor_selection_clear_caret_position_marker (editor_selection);
 
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 
@@ -261,6 +272,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 			GTK_COMBO_BOX (dialog->priv->alignment_combo), "left");
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), FALSE);
+
 		editor_hrule_dialog_set_alignment (dialog);
 		editor_hrule_dialog_set_size (dialog);
 		editor_hrule_dialog_set_alignment (dialog);
