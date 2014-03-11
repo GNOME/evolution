@@ -156,6 +156,19 @@ e_editor_dialog_class_init (EEditorDialogClass *class)
 			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 }
 
+static gboolean
+key_press_event_cb (GtkWidget *widget,
+                    GdkEventKey *event,
+                    gpointer user_data)
+{
+	if (event->keyval == GDK_KEY_Escape) {
+		gtk_widget_hide (widget);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 e_editor_dialog_init (EEditorDialog *dialog)
 {
@@ -202,6 +215,10 @@ e_editor_dialog_init (EEditorDialog *dialog)
 	g_signal_connect (
 		dialog, "delete-event",
 		G_CALLBACK (gtk_widget_hide_on_delete), NULL);
+
+	g_signal_connect (
+		dialog, "key-press-event",
+		G_CALLBACK (key_press_event_cb), NULL);
 }
 
 EEditor *
