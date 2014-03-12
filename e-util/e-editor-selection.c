@@ -3481,6 +3481,7 @@ insert_base64_image (EEditorSelection *selection,
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
 
+	e_editor_widget_set_changed (editor_widget, TRUE);
 	g_object_unref (editor_widget);
 
 	element = webkit_dom_document_create_element (document, "img", NULL);
