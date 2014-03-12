@@ -129,6 +129,8 @@ editor_image_dialog_set_width_units (EEditorImageDialog *dialog)
 			} else {
 				width = natural;
 			}
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (dialog->priv->image), "style");
 			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 			break;
 
@@ -138,10 +140,17 @@ editor_image_dialog_set_width_units (EEditorImageDialog *dialog)
 			} else {
 				width = 100;
 			}
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (dialog->priv->image), "style");
 			gtk_widget_set_sensitive (dialog->priv->width_edit, TRUE);
 			break;
 
 		case 2: /* follow */
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (dialog->priv->image),
+				"style",
+				"width: auto;",
+				NULL);
 			gtk_widget_set_sensitive (dialog->priv->width_edit, FALSE);
 			break;
 	}
@@ -205,6 +214,8 @@ editor_image_dialog_set_height_units (EEditorImageDialog *dialog)
 			} else {
 				height = natural;
 			}
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (dialog->priv->image), "style");
 			gtk_widget_set_sensitive (dialog->priv->height_edit, TRUE);
 			break;
 
@@ -214,10 +225,17 @@ editor_image_dialog_set_height_units (EEditorImageDialog *dialog)
 			} else {
 				height = 100;
 			}
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (dialog->priv->image), "style");
 			gtk_widget_set_sensitive (dialog->priv->height_edit, TRUE);
 			break;
 
 		case 2: /* follow */
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (dialog->priv->image),
+				"style",
+				"height: auto;",
+				NULL);
 			gtk_widget_set_sensitive (dialog->priv->height_edit, FALSE);
 			break;
 	}
