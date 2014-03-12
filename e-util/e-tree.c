@@ -3146,7 +3146,8 @@ e_tree_class_init (ETreeClass *class)
 	g_object_class_override_property (
 		object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
-	gal_a11y_e_tree_init ();
+	gtk_widget_class_set_accessible_type (widget_class,
+		GAL_A11Y_TYPE_E_TREE);
 }
 
 static void

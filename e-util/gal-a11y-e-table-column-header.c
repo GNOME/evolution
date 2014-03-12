@@ -215,7 +215,8 @@ gal_a11y_e_table_column_header_get_type (void)
 
 AtkObject *
 gal_a11y_e_table_column_header_new (ETableCol *ecol,
-                                    ETableItem *item)
+                                    ETableItem *item,
+                                    AtkObject *parent)
 {
 	GalA11yETableColumnHeader *a11y;
 	AtkObject *accessible;
@@ -237,6 +238,7 @@ gal_a11y_e_table_column_header_new (ETableCol *ecol,
 	if (ecol->text)
 		atk_object_set_name (accessible, ecol->text);
 	atk_object_set_role (accessible, ATK_ROLE_TABLE_COLUMN_HEADER);
+	atk_object_set_parent (accessible, parent);
 
-	return ATK_OBJECT (a11y);
+	return accessible;
 }

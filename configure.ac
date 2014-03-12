@@ -37,7 +37,7 @@ m4_define([glib_minimum_version], [2.36.0])
 m4_define([glib_encoded_version], [GLIB_VERSION_2_36])
 
 dnl Keep these two definitions in agreement.
-m4_define([gdk_minimum_version], [3.4.0])
+m4_define([gdk_minimum_version], [3.8.0])
 m4_define([gdk_encoded_version], [GDK_VERSION_3_4])
 
 dnl Keep these two definitions in agreement.

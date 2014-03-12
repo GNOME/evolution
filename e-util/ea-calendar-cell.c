@@ -182,6 +182,7 @@ ea_calendar_cell_init (EaCalendarCell *a11y)
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_SENSITIVE);
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_SELECTABLE);
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_SHOWING);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_VISIBLE);
 	atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
 }
 

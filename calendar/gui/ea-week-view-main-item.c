@@ -32,8 +32,6 @@
 #include "ea-week-view-cell.h"
 
 /* EaWeekViewMainItem */
-static void	ea_week_view_main_item_class_init
-						(EaWeekViewMainItemClass *class);
 static void	ea_week_view_main_item_finalize	(GObject *object);
 static const gchar *
 		ea_week_view_main_item_get_name	(AtkObject *accessible);
@@ -184,75 +182,17 @@ static gint n_ea_week_view_main_item_destroyed = 0;
 
 static gpointer parent_class = NULL;
 
-GType
-ea_week_view_main_item_get_type (void)
+G_DEFINE_TYPE_WITH_CODE (EaWeekViewMainItem, ea_week_view_main_item, GAIL_TYPE_CANVAS_ITEM,
+	G_IMPLEMENT_INTERFACE (
+		ATK_TYPE_COMPONENT, atk_component_interface_init)
+	G_IMPLEMENT_INTERFACE (
+		ATK_TYPE_SELECTION, atk_selection_interface_init)
+	G_IMPLEMENT_INTERFACE (
+		ATK_TYPE_TABLE, atk_table_interface_init))
+
+static void
+ea_week_view_main_item_init (EaWeekViewMainItem *item)
 {
-	static GType type = 0;
-	AtkObjectFactory *factory;
-	GTypeQuery query;
-	GType derived_atk_type;
-
-	if (!type) {
-		static GTypeInfo tinfo = {
-			sizeof (EaWeekViewMainItemClass),
-			(GBaseInitFunc) NULL, /* base init */
-			(GBaseFinalizeFunc) NULL, /* base finalize */
-			(GClassInitFunc) ea_week_view_main_item_class_init,
-			(GClassFinalizeFunc) NULL, /* class finalize */
-			NULL, /* class data */
-			sizeof (EaWeekViewMainItem), /* instance size */
-			0, /* nb preallocs */
-			(GInstanceInitFunc) NULL, /* instance init */
-			NULL /* value table */
-		};
-
-		static const GInterfaceInfo atk_component_info = {
-			(GInterfaceInitFunc) atk_component_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		static const GInterfaceInfo atk_table_info = {
-			(GInterfaceInitFunc) atk_table_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		static const GInterfaceInfo atk_selection_info = {
-			(GInterfaceInitFunc) atk_selection_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		/*
-		 * Figure out the size of the class and instance
-		 * we are run-time deriving from (GailCanvasItem, in this case)
-		 *
-		 */
-
-		factory = atk_registry_get_factory (
-			atk_get_default_registry (),
-			e_week_view_main_item_get_type ());
-		derived_atk_type = atk_object_factory_get_accessible_type (factory);
-		g_type_query (derived_atk_type, &query);
-
-		tinfo.class_size = query.class_size;
-		tinfo.instance_size = query.instance_size;
-
-		type = g_type_register_static (
-			derived_atk_type,
-			"EaWeekViewMainItem", &tinfo, 0);
-		g_type_add_interface_static (
-			type, ATK_TYPE_COMPONENT,
-			&atk_component_info);
-		g_type_add_interface_static (
-			type, ATK_TYPE_TABLE,
-			&atk_table_info);
-		g_type_add_interface_static (
-			type, ATK_TYPE_SELECTION,
-			&atk_selection_info);
-	}
-
-	return type;
 }
 
 static void

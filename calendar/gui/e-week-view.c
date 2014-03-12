@@ -53,6 +53,7 @@
 #include "itip-utils.h"
 #include "misc.h"
 #include "print.h"
+#include "ea-week-view.h"
 
 /* Images */
 #include "art/jump.xpm"
@@ -1475,7 +1476,7 @@ e_week_view_class_init (EWeekViewClass *class)
 		"is-editing");
 
 	/* init the accessibility support for e_week_view */
-	e_week_view_a11y_init ();
+	gtk_widget_class_set_accessible_type (widget_class, EA_TYPE_WEEK_VIEW);
 }
 
 static void

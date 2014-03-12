@@ -52,7 +52,7 @@ struct _GalA11yETableColumnHeaderClass {
 
 /* Standard Glib function */
 GType      gal_a11y_e_table_column_header_get_type  (void);
-AtkObject *gal_a11y_e_table_column_header_new       (ETableCol *etc, ETableItem *item);
+AtkObject *gal_a11y_e_table_column_header_new       (ETableCol *etc, ETableItem *item, AtkObject *parent);
 void gal_a11y_e_table_column_header_init (void);
 
 #endif /* __GAL_A11Y_E_TABLE_COLUMN_HEADER_H__ */

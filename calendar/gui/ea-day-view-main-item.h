@@ -25,6 +25,7 @@
 
 #include <atk/atkgobjectaccessible.h>
 #include "e-day-view-main-item.h"
+#include <libgnomecanvas/gailcanvasitem.h>
 
 G_BEGIN_DECLS
 
@@ -40,14 +41,14 @@ typedef struct _EaDayViewMainItemClass              EaDayViewMainItemClass;
 
 struct _EaDayViewMainItem
 {
-	AtkGObjectAccessible parent;
+	GailCanvasItem parent;
 };
 
 GType ea_day_view_main_item_get_type (void);
 
 struct _EaDayViewMainItemClass
 {
-	AtkGObjectAccessibleClass parent_class;
+	GailCanvasItemClass parent_class;
 };
 
 AtkObject *     ea_day_view_main_item_new         (GObject *obj);

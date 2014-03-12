@@ -36,12 +36,9 @@
 #include "calendar/gui/ea-week-view-main-item.h"
 #include "calendar/gui/ea-gnome-calendar.h"
 
-EA_FACTORY (EA_TYPE_CAL_VIEW, ea_cal_view, ea_cal_view_new)
-EA_FACTORY (EA_TYPE_DAY_VIEW, ea_day_view, ea_day_view_new)
 EA_FACTORY_GOBJECT (
 	EA_TYPE_DAY_VIEW_MAIN_ITEM,
 	ea_day_view_main_item, ea_day_view_main_item_new)
-EA_FACTORY (EA_TYPE_WEEK_VIEW, ea_week_view, ea_week_view_new)
 EA_FACTORY_GOBJECT (
 	EA_TYPE_WEEK_VIEW_MAIN_ITEM,
 	ea_week_view_main_item, ea_week_view_main_item_new)
@@ -107,27 +104,9 @@ gnome_calendar_a11y_init (void)
 }
 
 void
-e_cal_view_a11y_init (void)
-{
-	EA_SET_FACTORY (e_calendar_view_get_type (), ea_cal_view);
-}
-
-void
-e_day_view_a11y_init (void)
-{
-	EA_SET_FACTORY (e_day_view_get_type (), ea_day_view);
-}
-
-void
 e_day_view_main_item_a11y_init (void)
 {
 	EA_SET_FACTORY (e_day_view_main_item_get_type (), ea_day_view_main_item);
-}
-
-void
-e_week_view_a11y_init (void)
-{
-	EA_SET_FACTORY (E_TYPE_WEEK_VIEW, ea_week_view);
 }
 
 void

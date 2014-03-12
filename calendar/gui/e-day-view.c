@@ -54,6 +54,7 @@
 #include "itip-utils.h"
 #include "misc.h"
 #include "print.h"
+#include "ea-day-view.h"
 
 #define E_DAY_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -1893,7 +1894,7 @@ e_day_view_class_init (EDayViewClass *class)
 		"is-editing");
 
 	/* init the accessibility support for e_day_view */
-	e_day_view_a11y_init ();
+	gtk_widget_class_set_accessible_type (widget_class, EA_TYPE_DAY_VIEW);
 }
 
 static void

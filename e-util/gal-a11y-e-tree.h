@@ -27,6 +27,7 @@
 #define __GAL_A11Y_E_TREE_H__
 
 #include <gtk/gtk.h>
+#include <gtk/gtk-a11y.h>
 #include <atk/atkobject.h>
 #include <atk/atkcomponent.h>
 
@@ -40,21 +41,17 @@ typedef struct _GalA11yETree GalA11yETree;
 typedef struct _GalA11yETreeClass GalA11yETreeClass;
 typedef struct _GalA11yETreePrivate GalA11yETreePrivate;
 
-/* This struct should actually be larger as this isn't what we derive from.
- * The GalA11yETablePrivate comes right after the parent class structure.
- **/
 struct _GalA11yETree {
-	GtkAccessible object;
+	GtkContainerAccessible object;
+	GalA11yETreePrivate *priv;
 };
 
 struct _GalA11yETreeClass {
-	GtkAccessibleClass parent_class;
+	GtkContainerAccessibleClass parent_class;
 };
 
 /* Standard Glib function */
 GType      gal_a11y_e_tree_get_type  (void);
 AtkObject *gal_a11y_e_tree_new       (GObject *tree);
-
-void       gal_a11y_e_tree_init      (void);
 
 #endif /* __GAL_A11Y_E_TREE_H__ */

@@ -37,6 +37,7 @@
 #include "ea-calendar.h"
 #include "e-cal-model-calendar.h"
 #include "e-calendar-view.h"
+#include "ea-cal-view.h"
 #include "itip-utils.h"
 #include "dialogs/comp-editor-util.h"
 #include "dialogs/delete-comp.h"
@@ -360,6 +361,8 @@ calendar_view_dispose (GObject *object)
 		gdk_device_ungrab (keyboard, GDK_CURRENT_TIME);
 		g_object_unref (keyboard);
 	}
+
+	g_clear_object (&priv->calendar);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_calendar_view_parent_class)->dispose (object);
@@ -857,6 +860,7 @@ static void
 e_calendar_view_class_init (ECalendarViewClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	GtkBindingSet *binding_set;
 
 	g_type_class_add_private (class, sizeof (ECalendarViewPrivate));
@@ -1012,7 +1016,8 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 		binding_set, GDK_KEY_o, GDK_CONTROL_MASK, "open-event", 0);
 
 	/* init the accessibility support for e_day_view */
-	e_cal_view_a11y_init ();
+	widget_class = GTK_WIDGET_CLASS (class);
+	gtk_widget_class_set_accessible_type (widget_class, EA_TYPE_CAL_VIEW);
 }
 
 static void
@@ -1212,6 +1217,12 @@ e_calendar_view_set_calendar (ECalendarView *cal_view,
                               GnomeCalendar *calendar)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	if (calendar)
+		g_object_ref (calendar);
+
+	if (cal_view->priv->calendar)
+		g_object_unref (cal_view->priv->calendar);
 
 	cal_view->priv->calendar = calendar;
 }

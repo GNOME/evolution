@@ -30,8 +30,6 @@
 #include "dialogs/goto-dialog.h"
 #include <glib/gi18n.h>
 
-static void ea_cal_view_class_init (EaCalViewClass *klass);
-
 static AtkObject * ea_cal_view_get_parent (AtkObject *accessible);
 static void ea_cal_view_real_initialize (AtkObject *accessible, gpointer data);
 
@@ -63,57 +61,13 @@ static const gchar *
 
 static gpointer parent_class = NULL;
 
-GType
-ea_cal_view_get_type (void)
+G_DEFINE_TYPE_WITH_CODE (EaCalView, ea_cal_view, GTK_TYPE_CONTAINER_ACCESSIBLE,
+	G_IMPLEMENT_INTERFACE (
+		ATK_TYPE_ACTION, atk_action_interface_init))
+
+static void
+ea_cal_view_init (EaCalView *view)
 {
-	static GType type = 0;
-	AtkObjectFactory *factory;
-	GTypeQuery query;
-	GType derived_atk_type;
-
-	if (!type) {
-		static GTypeInfo tinfo = {
-			sizeof (EaCalViewClass),
-			(GBaseInitFunc) NULL, /* base init */
-			(GBaseFinalizeFunc) NULL, /* base finalize */
-			(GClassInitFunc) ea_cal_view_class_init, /* class init */
-			(GClassFinalizeFunc) NULL, /* class finalize */
-			NULL, /* class data */
-			sizeof (EaCalView), /* instance size */
-			0, /* nb preallocs */
-			(GInstanceInitFunc) NULL, /* instance init */
-			NULL /* value table */
-		};
-
-		static const GInterfaceInfo atk_action_info = {
-			(GInterfaceInitFunc) atk_action_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		/*
-		 * Figure out the size of the class and instance
-		 * we are run-time deriving from (GailWidget, in this case)
-		 */
-
-		factory = atk_registry_get_factory (
-			atk_get_default_registry (),
-			GTK_TYPE_WIDGET);
-		derived_atk_type = atk_object_factory_get_accessible_type (factory);
-		g_type_query (derived_atk_type, &query);
-
-		tinfo.class_size = query.class_size;
-		tinfo.instance_size = query.instance_size;
-
-		type = g_type_register_static (
-			derived_atk_type,
-			"EaCalView", &tinfo, 0);
-		g_type_add_interface_static (
-			type, ATK_TYPE_ACTION,
-			&atk_action_info);
-	}
-
-	return type;
 }
 
 static void
@@ -195,7 +149,11 @@ ea_cal_view_get_parent (AtkObject *accessible)
 
 	cal_view = E_CALENDAR_VIEW (widget);
 
-	return gtk_widget_get_accessible (gtk_widget_get_parent (GTK_WIDGET (cal_view)));
+	widget = gtk_widget_get_parent (GTK_WIDGET (cal_view));
+	if (!widget)
+		return NULL;
+
+	return gtk_widget_get_accessible (widget);
 }
 
 static void

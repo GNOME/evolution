@@ -1911,7 +1911,8 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 		G_TYPE_INT,
 		G_TYPE_INT);
 
-	gail_canvas_init ();
+	gtk_widget_class_set_accessible_type (widget_class, GAIL_TYPE_CANVAS);
+	gail_canvas_a11y_init ();
 }
 
 /* Callback used when the root item of a canvas is destroyed.  The user should

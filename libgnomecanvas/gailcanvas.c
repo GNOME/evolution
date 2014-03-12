@@ -29,7 +29,6 @@
 #include "gailcanvasitemfactory.h"
 #include "gailcanvaswidgetfactory.h"
 
-static void       gail_canvas_class_init          (GailCanvasClass *klass);
 static void       gail_canvas_real_initialize     (AtkObject       *obj,
                                                    gpointer        data);
 
@@ -40,90 +39,19 @@ static AtkObject * gail_canvas_ref_child           (AtkObject       *obj,
 static void       adjustment_changed              (GtkAdjustment   *adjustment,
                                                    GnomeCanvas     *canvas);
 
-static AtkObject * gail_canvas_factory_create_accessible (GObject *obj);
-
-static GType      gail_canvas_factory_get_accessible_type (void);
-
-G_DEFINE_TYPE (GailCanvasFactory,
-               gail_canvas_factory,
-               ATK_TYPE_OBJECT_FACTORY);
+G_DEFINE_TYPE (GailCanvas, gail_canvas, GTK_TYPE_CONTAINER_ACCESSIBLE)
 
 static void
-gail_canvas_factory_init (GailCanvasFactory *foo)
+gail_canvas_init (GailCanvas *canvas)
 {
-  ;
 }
-
-static void
-gail_canvas_factory_class_init (GailCanvasFactoryClass *klass)
-{
-  AtkObjectFactoryClass *class = ATK_OBJECT_FACTORY_CLASS (klass);
-
-  class->create_accessible = gail_canvas_factory_create_accessible;
-  class->get_accessible_type = gail_canvas_factory_get_accessible_type;
-}
-
-static AtkObject *
-gail_canvas_factory_create_accessible (GObject *obj)
-{
-  return gail_canvas_new (GTK_WIDGET (obj));
-}
-
-static GType
-gail_canvas_factory_get_accessible_type (void)
-{
-  return GAIL_TYPE_CANVAS;
-}
-
-GType
-gail_canvas_get_type (void)
-{
-  static GType type = 0;
-
-  if (!type)
-    {
-      GType parent_type = g_type_parent (GNOME_TYPE_CANVAS);
-      AtkObjectFactory *factory = atk_registry_get_factory (
-				   atk_get_default_registry (),
-				   parent_type);
-      GType atkobject_parent_type = atk_object_factory_get_accessible_type (factory);
-      GTypeQuery query;
-      static GTypeInfo tinfo =
-      {
-	0, /* class size */
-	(GBaseInitFunc) NULL, /* base init */
-	(GBaseFinalizeFunc) NULL, /* base finalize */
-	(GClassInitFunc) gail_canvas_class_init, /* class init */
-	(GClassFinalizeFunc) NULL, /* class finalize */
-	NULL, /* class data */
-	0, /* instance size */
-	0, /* nb preallocs */
-	(GInstanceInitFunc) NULL, /* instance init */
-	NULL /* value table */
-      };
-      g_type_query (atkobject_parent_type, &query);
-      tinfo.class_size = query.class_size;
-      tinfo.instance_size = query.instance_size;
-
-      /* use the size obtained from the parent type factory */
-      type = g_type_register_static (atkobject_parent_type,
-				     "GailCanvas", &tinfo, 0);
-    }
-
-  return type;
-}
-
-static AtkObjectClass *parent_atk_object_class;
 
 /**
  * Tell ATK how to create the appropriate AtkObject peers
  **/
 void
-gail_canvas_init (void)
+gail_canvas_a11y_init (void)
 {
-  atk_registry_set_factory_type (atk_get_default_registry (),
-				 GNOME_TYPE_CANVAS,
-				 gail_canvas_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
 				 GNOME_TYPE_CANVAS_GROUP,
 				 gail_canvas_group_factory_get_type ());
@@ -142,7 +70,6 @@ static void
 gail_canvas_class_init (GailCanvasClass *klass)
 {
   AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
-  parent_atk_object_class = g_type_class_peek_parent (klass);
 
   class->get_n_children = gail_canvas_get_n_children;
   class->ref_child = gail_canvas_ref_child;
@@ -172,7 +99,7 @@ gail_canvas_real_initialize (AtkObject *obj,
 	GnomeCanvas *canvas;
 	GtkAdjustment *adj;
 
-	parent_atk_object_class->initialize (obj, data);
+	ATK_OBJECT_CLASS (gail_canvas_parent_class)->initialize (obj, data);
 
 	canvas = GNOME_CANVAS (data);
 

@@ -276,7 +276,7 @@ eti_ref_child (AtkObject *accessible,
 		AtkObject *child;
 
 		ecol = e_table_header_get_column (item->header, index);
-		child = gal_a11y_e_table_column_header_new (ecol, item);
+		child = gal_a11y_e_table_column_header_new (ecol, item, accessible);
 		return child;
 	}
 	index -= item->cols;
@@ -579,7 +579,7 @@ eti_get_column_header (AtkTable *table,
 
 	ecol = e_table_header_get_column (item->header, column);
 	if (ecol) {
-		atk_obj = gal_a11y_e_table_column_header_new (ecol, item);
+		atk_obj = gal_a11y_e_table_column_header_new (ecol, item, ATK_OBJECT (table));
 	}
 
 	return atk_obj;
@@ -1123,7 +1123,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 
 	GET_PRIVATE (a11y)->state_set = atk_state_set_new ();
 
-	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_TRANSIENT);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_MANAGES_DESCENDANTS);
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_ENABLED);
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SENSITIVE);
 	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SHOWING);

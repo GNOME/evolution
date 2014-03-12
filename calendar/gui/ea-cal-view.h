@@ -25,6 +25,7 @@
 
 #include <gtk/gtk.h>
 #include "e-calendar-view.h"
+#include "gtk/gtk-a11y.h"
 
 G_BEGIN_DECLS
 
@@ -40,14 +41,14 @@ typedef struct _EaCalViewClass              EaCalViewClass;
 
 struct _EaCalView
 {
-	GtkAccessible parent;
+	GtkContainerAccessible parent;
 };
 
 GType ea_cal_view_get_type (void);
 
 struct _EaCalViewClass
 {
-	GtkAccessibleClass parent_class;
+	GtkContainerAccessibleClass parent_class;
 };
 
 AtkObject * ea_cal_view_new (GtkWidget *widget);

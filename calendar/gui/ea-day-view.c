@@ -30,8 +30,6 @@
 #include "ea-gnome-calendar.h"
 #include <glib/gi18n.h>
 
-static void ea_day_view_class_init (EaDayViewClass *klass);
-
 static const gchar * ea_day_view_get_name (AtkObject *accessible);
 static const gchar * ea_day_view_get_description (AtkObject *accessible);
 static gint         ea_day_view_get_n_children      (AtkObject *obj);
@@ -39,51 +37,11 @@ static AtkObject *   ea_day_view_ref_child           (AtkObject *obj,
                                                      gint i);
 static gpointer parent_class = NULL;
 
-GType
-ea_day_view_get_type (void)
+G_DEFINE_TYPE (EaDayView, ea_day_view, EA_TYPE_CAL_VIEW)
+
+static void
+ea_day_view_init (EaDayView *view)
 {
-	static GType type = 0;
-	AtkObjectFactory *factory;
-	GTypeQuery query;
-	GType derived_atk_type;
-
-	if (!type) {
-		static GTypeInfo tinfo = {
-			sizeof (EaDayViewClass),
-			(GBaseInitFunc) NULL, /* base init */
-			(GBaseFinalizeFunc) NULL, /* base finalize */
-			(GClassInitFunc) ea_day_view_class_init, /* class init */
-			(GClassFinalizeFunc) NULL, /* class finalize */
-			NULL, /* class data */
-			sizeof (EaDayView), /* instance size */
-			0, /* nb preallocs */
-			(GInstanceInitFunc) NULL, /* instance init */
-			NULL /* value table */
-		};
-
-		/*
-		 * Figure out the size of the class and instance
-		 * we are run-time deriving from (EaCalView, in this case)
-		 *
-		 * Note: we must still use run-time deriving here, because
-		 * our parent class EaCalView is run-time deriving.
-		 */
-
-		factory = atk_registry_get_factory (
-			atk_get_default_registry (),
-			e_calendar_view_get_type ());
-		derived_atk_type = atk_object_factory_get_accessible_type (factory);
-		g_type_query (derived_atk_type, &query);
-
-		tinfo.class_size = query.class_size;
-		tinfo.instance_size = query.instance_size;
-
-		type = g_type_register_static (
-			derived_atk_type,
-			"EaDayView", &tinfo, 0);
-	}
-
-	return type;
 }
 
 static void

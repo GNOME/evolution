@@ -35,15 +35,15 @@
 #include "gal-a11y-util.h"
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETableClass))
-static AtkObjectClass *parent_class;
-static GType parent_type;
-static gint priv_offset;
-#define GET_PRIVATE(object) ((GalA11yETablePrivate *) (((gchar *) object) + priv_offset))
-#define PARENT_TYPE (parent_type)
 
 struct _GalA11yETablePrivate {
 	AtkObject *child_item;
 };
+
+static void et_atk_component_iface_init (AtkComponentIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (GalA11yETable, gal_a11y_e_table, GTK_TYPE_CONTAINER_ACCESSIBLE,
+                         G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, et_atk_component_iface_init))
 
 /* Static functions */
 static ETableItem *
@@ -117,9 +117,9 @@ et_ref_accessible_at_point (AtkComponent *component,
                             AtkCoordType coord_type)
 {
 	GalA11yETable *a11y = GAL_A11Y_E_TABLE (component);
-	if (GET_PRIVATE (a11y)->child_item)
-		g_object_ref (GET_PRIVATE (a11y)->child_item);
-	return GET_PRIVATE (a11y)->child_item;
+	if (a11y->priv->child_item)
+		g_object_ref (a11y->priv->child_item);
+	return a11y->priv->child_item;
 }
 
 static gint
@@ -201,14 +201,14 @@ et_get_layer (AtkComponent *component)
 }
 
 static void
-et_class_init (GalA11yETableClass *class)
+gal_a11y_e_table_class_init (GalA11yETableClass *class)
 {
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
 
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
 	atk_object_class->get_n_children = et_get_n_children;
 	atk_object_class->ref_child = et_ref_child;
+
+	g_type_class_add_private (class, sizeof (GalA11yETablePrivate));
 }
 
 static void
@@ -219,61 +219,10 @@ et_atk_component_iface_init (AtkComponentIface *iface)
 }
 
 static void
-et_init (GalA11yETable *a11y)
+gal_a11y_e_table_init (GalA11yETable *a11y)
 {
-	GalA11yETablePrivate *priv;
-
-	priv = GET_PRIVATE (a11y);
-
-	priv->child_item = NULL;
-}
-
-/**
- * gal_a11y_e_table_get_type:
- * @void:
- *
- * Registers the &GalA11yETable class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the &GalA11yETable class.
- **/
-GType
-gal_a11y_e_table_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		AtkObjectFactory *factory;
-
-		GTypeInfo info = {
-			sizeof (GalA11yETableClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) et_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (GalA11yETable),
-			0,
-			(GInstanceInitFunc) et_init,
-			NULL /* value_table */
-		};
-
-		static const GInterfaceInfo atk_component_info = {
-			(GInterfaceInitFunc) et_atk_component_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		factory = atk_registry_get_factory (atk_get_default_registry (), GTK_TYPE_WIDGET);
-		parent_type = atk_object_factory_get_accessible_type (factory);
-
-		type = gal_a11y_type_register_static_with_private (
-			PARENT_TYPE, "GalA11yETable", &info, 0,
-			sizeof (GalA11yETablePrivate), &priv_offset);
-		g_type_add_interface_static (type, ATK_TYPE_COMPONENT, &atk_component_info);
-	}
-
-	return type;
+	a11y->priv = G_TYPE_INSTANCE_GET_PRIVATE (a11y, GAL_A11Y_TYPE_E_TABLE, GalA11yETablePrivate);
+	a11y->priv->child_item = NULL;
 }
 
 AtkObject *
@@ -300,15 +249,3 @@ gal_a11y_e_table_new (GObject *widget)
 
 	return ATK_OBJECT (a11y);
 }
-
-void
-gal_a11y_e_table_init (void)
-{
-	if (atk_get_root ())
-		atk_registry_set_factory_type (
-			atk_get_default_registry (),
-						E_TYPE_TABLE,
-						gal_a11y_e_table_factory_get_type ());
-
-}
-
