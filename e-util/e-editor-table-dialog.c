@@ -67,19 +67,18 @@ static WebKitDOMElement *
 editor_table_dialog_create_table (EEditorTableDialog *dialog)
 {
 	EEditor *editor;
+	EEditorSelection *editor_selection;
+	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *table;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
+	WebKitDOMElement *table, *br, *caret, *parent, *element;
 	gint i;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor_widget = e_editor_get_editor_widget (editor);
+	editor_selection = e_editor_widget_get_selection (editor_widget);
+
 	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		WEBKIT_WEB_VIEW (editor_widget));
 
 	/* Default 3x3 table */
 	table = webkit_dom_document_create_element (document, "TABLE", NULL);
@@ -96,7 +95,32 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 		}
 	}
 
-	webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (table), NULL);
+	caret = e_editor_selection_save_caret_position (editor_selection);
+
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
+	element = caret;
+
+	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		element = parent;
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+
+	br = webkit_dom_document_create_element (document, "BR", NULL);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (parent),
+		WEBKIT_DOM_NODE (br),
+		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+		NULL);
+
+	/* Insert the table into body below the caret */
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (parent),
+		WEBKIT_DOM_NODE (table),
+		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+		NULL);
+
+	e_editor_selection_clear_caret_position_marker (editor_selection);
 
 	return table;
 }
