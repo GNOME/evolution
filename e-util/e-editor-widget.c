@@ -960,8 +960,7 @@ emoticon_read_async_cb (GFile *file,
 	gssize size;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *span, *caret_position;
-	WebKitDOMNode *node;
-	WebKitDOMNode *parent;
+	WebKitDOMNode *node, *parent;
 	WebKitDOMRange *range;
 
 	input_stream = g_file_read_finish (file, result, &error);
@@ -996,10 +995,11 @@ emoticon_read_async_cb (GFile *file,
 	 * represetation and hide/show them dependant on active composer mode */
 	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
 	html = g_strdup_printf (
-		"<span class=\"-x-evo-smiley-wrapper\"><img src=\"%s\" alt=\"%s\" "
-		"x-evo-smiley=\"%s\" class=\"-x-evo-smiley-img\" data-inline "
-		"data-name=\"%s\"/><span class=\"-x-evo-smiley-text\" "
-		"style=\"display: none;\">%s</span></span>&#8203;",
+		"<span class=\"-x-evo-smiley-wrapper -x-evo-resizable-wrapper\">"
+		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
+		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"/>"
+		"<span class=\"-x-evo-smiley-text\" style=\"display: none;\">%s"
+		"</span></span>&#8203;",
 		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
 		load_context->name, emoticon ? emoticon->text_face : "");
 
@@ -3803,6 +3803,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-message");
 	webkit_dom_element_remove_attribute (element, "data-name");
 	webkit_dom_element_remove_attribute (element, "data-new-message");
+	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
 /*
 static void
@@ -3829,30 +3830,39 @@ process_elements (EEditorWidget *widget,
 	if (to_plain_text && !buffer)
 		return;
 
-	if (changing_mode && to_plain_text && WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
-		WebKitDOMNamedNodeMap *attributes;
-		gulong attributes_length;
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
+		if (changing_mode && to_plain_text) {
+			WebKitDOMNamedNodeMap *attributes;
+			gulong attributes_length;
 
-		/* Copy attributes */
-		g_string_append (buffer, "<html><head></head><body ");
-		attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (node));
-		attributes_length = webkit_dom_named_node_map_get_length (attributes);
-		for (ii = 0; ii < attributes_length; ii++) {
-			gchar *name, *value;
-			WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+			/* Copy attributes */
+			g_string_append (buffer, "<html><head></head><body ");
+			attributes = webkit_dom_element_get_attributes (
+				WEBKIT_DOM_ELEMENT (node));
+			attributes_length =
+				webkit_dom_named_node_map_get_length (attributes);
 
-			name = webkit_dom_node_get_local_name (node);
-			value = webkit_dom_node_get_node_value (node);
+			for (ii = 0; ii < attributes_length; ii++) {
+				gchar *name, *value;
+				WebKitDOMNode *node =
+					webkit_dom_named_node_map_item (
+						attributes, ii);
 
-			g_string_append (buffer, name);
-			g_string_append (buffer, "=\"");
-			g_string_append (buffer, value);
-			g_string_append (buffer, "\" ");
+				name = webkit_dom_node_get_local_name (node);
+				value = webkit_dom_node_get_node_value (node);
 
-			g_free (name);
-			g_free (value);
+				g_string_append (buffer, name);
+				g_string_append (buffer, "=\"");
+				g_string_append (buffer, value);
+				g_string_append (buffer, "\" ");
+
+				g_free (name);
+				g_free (value);
+			}
+			g_string_append (buffer, ">");
 		}
-		g_string_append (buffer, ">");
+		if (to_html)
+			remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
 	}
 
 	nodes = webkit_dom_node_get_child_nodes (node);
@@ -3993,9 +4003,20 @@ process_elements (EEditorWidget *widget,
 			}
 		}
 
-		if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (child)) {
-			if (to_html)
-				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
+		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-resizable-wrapper") &&
+		    !element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-smiley-wrapper")) {
+			WebKitDOMNode *image =
+				webkit_dom_node_get_first_child (child);
+
+			if (to_html && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image)) {
+				remove_evolution_attributes (
+					WEBKIT_DOM_ELEMENT (image));
+
+				webkit_dom_node_replace_child (
+					node, image, child, NULL);
+			}
+
+			skip_node = TRUE;
 		}
 
 		/* Leave paragraphs as they are */
@@ -4060,6 +4081,7 @@ process_elements (EEditorWidget *widget,
 					webkit_dom_node_get_first_child (child)),
 
 				remove_evolution_attributes (img);
+				remove_base_attributes (img);
 
 				webkit_dom_node_insert_before (
 					webkit_dom_node_get_parent_node (child),
@@ -4189,6 +4211,7 @@ toggle_smileys (EEditorWidget *widget)
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *img = webkit_dom_node_list_item (smileys, ii);
 		WebKitDOMNode *text = webkit_dom_node_get_next_sibling (img);
+		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (img);
 
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (html_mode ? text : img),
@@ -4198,6 +4221,11 @@ toggle_smileys (EEditorWidget *widget)
 
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (html_mode ? img : text), "style");
+
+		if (html_mode)
+			element_add_class (parent, "-x-evo-resizable-wrapper");
+		else
+			element_remove_class (parent, "-x-evo-resizable-wrapper");
 	}
 }
 
@@ -5157,6 +5185,30 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		"h1,h2,h3,h4,h5,h6 {\n"
 		"  margin-top: 0.2em;\n"
 		"  margin-bottom: 0.2em;\n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"img "
+		"{\n"
+		"  height: inherit; \n"
+		"  width: inherit; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"span.-x-evo-resizable-wrapper "
+		"{\n"
+		"  resize: both; \n"
+		"  overflow: hidden; \n"
+		"  display: inline-block; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"span.-x-evo-resizable-wrapper:hover "
+		"{\n"
+		"  border: 2px dashed red; \n"
 		"}\n");
 
 	g_string_append (

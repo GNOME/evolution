@@ -3472,17 +3472,24 @@ insert_base64_image (EEditorSelection *selection,
 {
 	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element, *caret_position;
+	WebKitDOMElement *element, *caret_position, *resizable_wrapper;
+	WebKitDOMText *text;
 
 	caret_position = e_editor_selection_save_caret_position (selection);
 
 	editor_widget = e_editor_selection_ref_editor_widget (selection);
 	g_return_if_fail (editor_widget != NULL);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	document = webkit_web_view_get_dom_document (
+		WEBKIT_WEB_VIEW (editor_widget));
 
 	e_editor_widget_set_changed (editor_widget, TRUE);
 	g_object_unref (editor_widget);
+
+	resizable_wrapper =
+		webkit_dom_document_create_element (document, "span", NULL);
+	webkit_dom_element_set_attribute (
+		resizable_wrapper, "class", "-x-evo-resizable-wrapper", NULL);
 
 	element = webkit_dom_document_create_element (document, "img", NULL);
 	webkit_dom_html_image_element_set_src (
@@ -3493,10 +3500,27 @@ insert_base64_image (EEditorSelection *selection,
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (element), "data-name",
 		filename ? filename : "", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (resizable_wrapper),
+		WEBKIT_DOM_NODE (element),
+		NULL);
 
 	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (caret_position)),
-		WEBKIT_DOM_NODE (element),
+		webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (caret_position)),
+		WEBKIT_DOM_NODE (resizable_wrapper),
+		WEBKIT_DOM_NODE (caret_position),
+		NULL);
+
+	/* We have to again use UNICODE_ZERO_WIDTH_SPACE character to restore
+	 * caret on right position */
+	text = webkit_dom_document_create_text_node (
+		document, UNICODE_ZERO_WIDTH_SPACE);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (caret_position)),
+		WEBKIT_DOM_NODE (text),
 		WEBKIT_DOM_NODE (caret_position),
 		NULL);
 
