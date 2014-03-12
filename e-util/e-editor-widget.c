@@ -4158,7 +4158,8 @@ remove_images (EEditorWidget *widget)
 	WebKitDOMNodeList *images;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	images = webkit_dom_document_query_selector_all (document, "img", NULL);
+	images = webkit_dom_document_query_selector_all (
+		document, "img:not(.-x-evo-smiley-img)", NULL);
 
 	length = webkit_dom_node_list_get_length (images);
 	for (ii = 0; ii < length; ii++) {
