@@ -39,6 +39,9 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorPrivate))
 
+/* Dialog response code. */
+#define EM_FOLDER_SELECTOR_RESPONSE_NEW 1
+
 struct _EMFolderSelectorPrivate {
 	EMFolderTree *folder_tree;  /* not referenced */
 	EMFolderTreeModel *model;
