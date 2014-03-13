@@ -45,6 +45,7 @@
 struct _EMFolderSelectorPrivate {
 	EMFolderTree *folder_tree;  /* not referenced */
 	EMFolderTreeModel *model;
+	GtkWidget *alert_bar;
 
 	GtkEntry *name_entry;
 	gchar *selected_uri;
@@ -55,14 +56,17 @@ enum {
 	PROP_MODEL
 };
 
-/* XXX EMFolderSelector is an EAlertSink, but it just uses the default
- *     message dialog implementation.  We should do something nicer. */
+/* Forward Declarations */
+static void	em_folder_selector_alert_sink_init
+					(EAlertSinkInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMFolderSelector,
 	em_folder_selector,
 	GTK_TYPE_DIALOG,
-	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL))
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK,
+		em_folder_selector_alert_sink_init))
 
 static void
 folder_selector_set_model (EMFolderSelector *emfs,
@@ -117,6 +121,7 @@ folder_selector_dispose (GObject *object)
 	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
 
 	g_clear_object (&priv->model);
+	g_clear_object (&priv->alert_bar);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
@@ -133,6 +138,34 @@ folder_selector_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
+}
+
+static void
+folder_selector_submit_alert (EAlertSink *alert_sink,
+                              EAlert *alert)
+{
+	EMFolderSelectorPrivate *priv;
+	EAlertBar *alert_bar;
+	GtkWidget *dialog;
+	GtkWindow *parent;
+
+	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (alert_sink);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			alert_bar = E_ALERT_BAR (priv->alert_bar);
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			parent = GTK_WINDOW (alert_sink);
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			break;
+	}
 }
 
 static void
@@ -159,6 +192,12 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+}
+
+static void
+em_folder_selector_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = folder_selector_submit_alert;
 }
 
 static void
@@ -281,6 +320,11 @@ folder_selector_construct (EMFolderSelector *emfs,
 		GTK_DIALOG (emfs), GTK_RESPONSE_OK, FALSE);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (emfs), GTK_RESPONSE_OK);
+
+	widget = e_alert_bar_new ();
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emfs->priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
