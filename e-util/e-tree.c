@@ -1116,6 +1116,18 @@ et_selection_model_selection_row_changed (ETableSelectionModel *etsm,
 static void
 et_build_item (ETree *tree)
 {
+	gboolean alternating_row_colors;
+
+	alternating_row_colors = tree->priv->alternating_row_colors;
+	if (alternating_row_colors) {
+		gboolean bvalue = TRUE;
+
+		/* user can only disable this option, if it's enabled by the specification */
+		gtk_widget_style_get (GTK_WIDGET (tree), "alternating-row-colors", &bvalue, NULL);
+
+		alternating_row_colors = bvalue ? 1 : 0;
+	}
+
 	tree->priv->item = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (
 			gnome_canvas_root (tree->priv->table_canvas)),
@@ -1123,7 +1135,7 @@ et_build_item (ETree *tree)
 		"ETableHeader", tree->priv->header,
 		"ETableModel", tree->priv->etta,
 		"selection_model", tree->priv->selection,
-		"alternating_row_colors", tree->priv->alternating_row_colors,
+		"alternating_row_colors", alternating_row_colors,
 		"horizontal_draw_grid", tree->priv->horizontal_draw_grid,
 		"vertical_draw_grid", tree->priv->vertical_draw_grid,
 		"drawfocus", tree->priv->draw_focus,
@@ -3135,6 +3147,15 @@ e_tree_class_init (ETreeClass *class)
 			0, G_MAXINT, 3,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	gtk_widget_class_install_style_property (
+		widget_class,
+		g_param_spec_boolean (
+			"alternating-row-colors",
+			"Alternating Row Colors",
+			"Whether to use alternating row colors",
+			TRUE,
+			G_PARAM_READABLE));
 
 	/* Scrollable interface */
 	g_object_class_override_property (

@@ -1083,6 +1083,7 @@ static void
 et_build_groups (ETable *et)
 {
 	gboolean was_grouped = et->is_grouped;
+	gboolean alternating_row_colors;
 
 	et->is_grouped = e_table_sort_info_grouping_get_count (et->sort_info) > 0;
 
@@ -1103,9 +1104,19 @@ et_build_groups (ETable *et)
 			E_CANVAS_VBOX (et->canvas_vbox),
 			GNOME_CANVAS_ITEM (et->group));
 
+	alternating_row_colors = et->alternating_row_colors;
+	if (alternating_row_colors) {
+		gboolean bvalue = TRUE;
+
+		/* user can only disable this option, if it's enabled by the specification */
+		gtk_widget_style_get (GTK_WIDGET (et), "alternating-row-colors", &bvalue, NULL);
+
+		alternating_row_colors = bvalue ? 1 : 0;
+	}
+
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (et->group),
-		"alternating_row_colors", et->alternating_row_colors,
+		"alternating_row_colors", alternating_row_colors,
 		"horizontal_draw_grid", et->horizontal_draw_grid,
 		"vertical_draw_grid", et->vertical_draw_grid,
 		"drawfocus", et->draw_focus,
@@ -3457,6 +3468,15 @@ e_table_class_init (ETableClass *class)
 			0, G_MAXINT, 3,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	gtk_widget_class_install_style_property (
+		widget_class,
+		g_param_spec_boolean (
+			"alternating-row-colors",
+			"Alternating Row Colors",
+			"Whether to use alternating row colors",
+			TRUE,
+			G_PARAM_READABLE));
 
 	/* Scrollable interface */
 	g_object_class_override_property (
