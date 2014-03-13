@@ -4030,10 +4030,11 @@ process_elements (EEditorWidget *widget,
 			if (to_plain_text || changing_mode)
 				g_string_append (buffer, content);
 
-
 			if (to_plain_text && !changing_mode) {
-				if (get_citation_level (node, FALSE) > 0)
+				if (get_citation_level (node, FALSE) > 0 &&
+				    webkit_dom_node_get_next_sibling (node)) {
 					g_string_append (buffer, "\n");
+				}
 			}
 
 			g_free (content);
@@ -4072,7 +4073,7 @@ process_elements (EEditorWidget *widget,
 				skip_node = TRUE;
 			} else {
 				if (!changing_mode && to_plain_text) {
-					if (get_citation_level (node, FALSE) == 0) {
+					if (get_citation_level (child, FALSE) == 0) {
 						gchar *value;
 						value = webkit_dom_element_get_attribute (
 							WEBKIT_DOM_ELEMENT (child), "type");
