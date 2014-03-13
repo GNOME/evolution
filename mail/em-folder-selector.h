@@ -54,14 +54,6 @@ typedef struct _EMFolderSelectorPrivate EMFolderSelectorPrivate;
 struct _EMFolderSelector {
 	GtkDialog parent;
 	EMFolderSelectorPrivate *priv;
-
-	guint32 flags;
-
-	GtkEntry *name_entry;
-	gchar *selected_uri;
-
-	gchar *created_uri;
-	guint created_id;
 };
 
 struct _EMFolderSelectorClass {

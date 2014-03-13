@@ -45,6 +45,9 @@
 struct _EMFolderSelectorPrivate {
 	EMFolderTree *folder_tree;  /* not referenced */
 	EMFolderTreeModel *model;
+
+	GtkEntry *name_entry;
+	gchar *selected_uri;
 };
 
 enum {
@@ -109,18 +112,11 @@ folder_selector_get_property (GObject *object,
 static void
 folder_selector_dispose (GObject *object)
 {
-	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
+	EMFolderSelectorPrivate *priv;
 
-	if (emfs->created_id != 0) {
-		g_signal_handler_disconnect (
-			emfs->priv->model, emfs->created_id);
-		emfs->created_id = 0;
-	}
+	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
 
-	if (emfs->priv->model != NULL) {
-		g_object_unref (emfs->priv->model);
-		emfs->priv->model = NULL;
-	}
+	g_clear_object (&priv->model);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
@@ -129,10 +125,11 @@ folder_selector_dispose (GObject *object)
 static void
 folder_selector_finalize (GObject *object)
 {
-	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
+	EMFolderSelectorPrivate *priv;
 
-	g_free (emfs->selected_uri);
-	g_free (emfs->created_uri);
+	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
+
+	g_free (priv->selected_uri);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
@@ -204,8 +201,8 @@ emfs_create_name_changed (GtkEntry *entry,
 	const gchar *text = NULL;
 	gboolean active;
 
-	if (gtk_entry_get_text_length (emfs->name_entry) > 0)
-		text = gtk_entry_get_text (emfs->name_entry);
+	if (gtk_entry_get_text_length (emfs->priv->name_entry) > 0)
+		text = gtk_entry_get_text (emfs->priv->name_entry);
 
 	folder_tree = em_folder_selector_get_folder_tree (emfs);
 
@@ -224,8 +221,8 @@ folder_selected_cb (EMFolderTree *emft,
                     CamelFolderInfoFlags flags,
                     EMFolderSelector *emfs)
 {
-	if (emfs->name_entry)
-		emfs_create_name_changed (emfs->name_entry, emfs);
+	if (emfs->priv->name_entry != NULL)
+		emfs_create_name_changed (emfs->priv->name_entry, emfs);
 	else
 		gtk_dialog_set_response_sensitive (
 			GTK_DIALOG (emfs), GTK_RESPONSE_OK, TRUE);
@@ -266,7 +263,6 @@ folder_selector_construct (EMFolderSelector *emfs,
 
 	container = content_area;
 
-	emfs->flags = flags;
 	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
 		gtk_dialog_add_button (
 			GTK_DIALOG (emfs), _("_New"),
@@ -349,12 +345,12 @@ static void
 emfs_create_name_activate (GtkEntry *entry,
                            EMFolderSelector *emfs)
 {
-	if (gtk_entry_get_text_length (emfs->name_entry) > 0) {
+	if (gtk_entry_get_text_length (emfs->priv->name_entry) > 0) {
 		EMFolderTree *folder_tree;
 		gchar *path;
 		const gchar *text;
 
-		text = gtk_entry_get_text (emfs->name_entry);
+		text = gtk_entry_get_text (emfs->priv->name_entry);
 
 		folder_tree = em_folder_selector_get_folder_tree (emfs);
 		path = em_folder_tree_get_selected_uri (folder_tree);
@@ -395,24 +391,24 @@ em_folder_selector_create_new (GtkWindow *parent,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 6);
-	emfs->name_entry = (GtkEntry *) gtk_entry_new ();
+	emfs->priv->name_entry = (GtkEntry *) gtk_entry_new ();
 	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (w), (GtkWidget *) emfs->name_entry);
+		GTK_LABEL (w), (GtkWidget *) emfs->priv->name_entry);
 	g_signal_connect (
-		emfs->name_entry, "changed",
+		emfs->priv->name_entry, "changed",
 		G_CALLBACK (emfs_create_name_changed), emfs);
 	g_signal_connect (
-		emfs->name_entry, "activate",
+		emfs->priv->name_entry, "activate",
 		G_CALLBACK (emfs_create_name_activate), emfs);
 	gtk_box_pack_start (
-		(GtkBox *) hbox, (GtkWidget *) emfs->name_entry,
+		(GtkBox *) hbox, (GtkWidget *) emfs->priv->name_entry,
 		TRUE, FALSE, 6);
 	gtk_widget_show_all (hbox);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (emfs));
 	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, TRUE, 0);
 
-	gtk_widget_grab_focus ((GtkWidget *) emfs->name_entry);
+	gtk_widget_grab_focus ((GtkWidget *) emfs->priv->name_entry);
 
 	return (GtkWidget *) emfs;
 }
@@ -447,11 +443,11 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 	if (uri == NULL)
 		return NULL;
 
-	if (emfs->name_entry) {
+	if (emfs->priv->name_entry != NULL) {
 		const gchar *name;
 		gchar *temp_uri, *escaped_name;
 
-		name = gtk_entry_get_text (emfs->name_entry);
+		name = gtk_entry_get_text (emfs->priv->name_entry);
 		escaped_name = g_uri_escape_string (name, NULL, TRUE);
 		temp_uri = g_strconcat (uri, "/", escaped_name, NULL);
 
@@ -460,8 +456,8 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 		uri = temp_uri;
 	}
 
-	g_free (emfs->selected_uri);
-	emfs->selected_uri = uri;  /* takes ownership */
+	g_free (emfs->priv->selected_uri);
+	emfs->priv->selected_uri = uri;  /* takes ownership */
 
 	return uri;
 }
