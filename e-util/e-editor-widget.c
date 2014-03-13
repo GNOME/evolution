@@ -2265,7 +2265,7 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 			g_free (citation_mark);
 		}
 
-		if (rest) {
+		if (rest && *rest){
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (paragraph),
 				rest, NULL);
