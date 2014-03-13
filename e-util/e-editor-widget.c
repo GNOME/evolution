@@ -2194,15 +2194,15 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 	next_br = strstr (prev_br, "<br>");
 
 	while (next_br) {
-		gboolean with_br = FALSE;
-		const gchar *citation = NULL, *citation_end = NULL, *rest = NULL;
+		const gchar *citation = NULL, *citation_end = NULL;
+		const gchar *rest = NULL, *with_br = NULL;
 		gchar *to_insert = NULL;
 		WebKitDOMElement *paragraph;
 
 		to_insert = g_utf8_substring (
 			prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br));
 
-		with_br = g_str_has_prefix (to_insert, "<br>");
+		with_br = strstr (to_insert, "<br>");
 
 		citation = strstr (to_insert, "##CITATION_");
 		if (citation) {
@@ -2215,7 +2215,8 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 			if (citation_end)
 				rest = citation_end + 2;
 		} else {
-			rest = with_br ? to_insert + 4 : to_insert;
+			rest = with_br ?
+				to_insert + 4 + (with_br - to_insert) : to_insert;
 		}
 
 		if (use_pre || citation_level > 0) {
