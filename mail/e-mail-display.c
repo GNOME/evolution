@@ -1547,6 +1547,9 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		main_frame, "notify::load-status",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
+	g_signal_connect (
+		display, "document-load-finished",
+		G_CALLBACK (initialize_web_view_colors), NULL);
 
 	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
 	gtk_action_group_add_actions (
