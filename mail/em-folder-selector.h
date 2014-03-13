@@ -77,11 +77,11 @@ GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
 						 const gchar *title,
 						 const gchar *text);
 EMFolderTreeModel *
-		em_folder_selector_get_model	(EMFolderSelector *emfs);
+		em_folder_selector_get_model	(EMFolderSelector *selector);
 EMFolderTree *	em_folder_selector_get_folder_tree
-						(EMFolderSelector *emfs);
+						(EMFolderSelector *selector);
 const gchar *	em_folder_selector_get_selected_uri
-						(EMFolderSelector *emfs);
+						(EMFolderSelector *selector);
 
 G_END_DECLS
 
