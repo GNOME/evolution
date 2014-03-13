@@ -4551,6 +4551,56 @@ show_lose_formatting_dialog (EEditorWidget *widget)
 }
 
 static void
+clear_attributes (WebKitDOMDocument *document)
+{
+	gint length, ii;
+	WebKitDOMNamedNodeMap *attributes;
+	WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
+	WebKitDOMHTMLHeadElement *head = webkit_dom_document_get_head (document);
+	WebKitDOMElement *document_element =
+		webkit_dom_document_get_document_element (document);
+
+	/* Remove all attributes from HTML element */
+	attributes = webkit_dom_element_get_attributes (document_element);
+	length = webkit_dom_named_node_map_get_length (attributes);
+	for (ii = length - 1; ii >= 0; ii--) {
+		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+
+		webkit_dom_element_remove_attribute_node (
+			document_element, WEBKIT_DOM_ATTR (node), NULL);
+	}
+
+	/* Remove everything from HEAD element */
+	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (head))) {
+		webkit_dom_node_remove_child (
+			WEBKIT_DOM_NODE (head),
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)),
+			NULL);
+	}
+
+	/* Remove non Evolution attributes from BODY element */
+	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
+	length = webkit_dom_named_node_map_get_length (attributes);
+	for (ii = length - 1; ii >= 0; ii--) {
+		gchar *name;
+		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+
+		name = webkit_dom_node_get_local_name (node);
+
+		if (!g_str_has_prefix (name, "data-") ||
+		    g_str_has_prefix (name, "data-inline") ||
+		    g_str_has_prefix (name, "data-name")) {
+			webkit_dom_element_remove_attribute_node (
+				WEBKIT_DOM_ELEMENT (body),
+				WEBKIT_DOM_ATTR (node),
+				NULL);
+		}
+
+		g_free (name);
+	}
+}
+
+static void
 convert_when_changing_composer_mode (EEditorWidget *widget)
 {
 	EEditorSelection *selection;
@@ -4678,6 +4728,8 @@ convert_when_changing_composer_mode (EEditorWidget *widget)
 	if (blockquote || blockquotes_count > 0)
 		body = WEBKIT_DOM_HTML_ELEMENT (
 			e_editor_widget_quote_plain_text (widget));
+
+	clear_attributes (document);
 
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
