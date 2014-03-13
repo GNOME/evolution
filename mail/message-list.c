@@ -5403,9 +5403,13 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 		thread_tree = message_list_ref_thread_tree (message_list);
 
-		if (thread_tree != NULL)
+		if (thread_tree != NULL) {
+			/* Make sure multiple threads will not access the same
+			   CamelFolderThread structure at the same time */
+			g_mutex_lock (&message_list->priv->thread_tree_lock);
 			camel_folder_thread_messages_apply (thread_tree, uids);
-		else
+			g_mutex_unlock (&message_list->priv->thread_tree_lock);
+		} else
 			thread_tree = camel_folder_thread_messages_new (
 				folder, uids, regen_data->thread_subject);
 
