@@ -106,6 +106,8 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
+static CamelDataCache *emd_global_http_cache = NULL;
+
 G_DEFINE_TYPE_WITH_CODE (
 	EEditorWidget,
 	e_editor_widget,
@@ -469,37 +471,6 @@ body_input_event_cb (WebKitDOMElement *element,
 }
 
 static void
-change_images_http_src_to_evo_http (EEditorWidget *widget,
-                                    gboolean to_evo_http)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
-	gint length, ii;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	list = webkit_dom_document_query_selector_all (
-		document, to_evo_http ? "img[src^=http]" : "img[src^=evo-http]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMHTMLImageElement *img;
-		gchar *src;
-
-		img = WEBKIT_DOM_HTML_IMAGE_ELEMENT (webkit_dom_node_list_item (list, ii));
-		src = webkit_dom_html_image_element_get_src (img);
-
-		if (to_evo_http) {
-			gchar *new_src = g_strconcat ("evo-http", src + 4, NULL);
-			webkit_dom_html_image_element_set_src (img, new_src);
-			g_free (new_src);
-		} else
-			webkit_dom_html_image_element_set_src (img, src + 4);
-
-		g_free (src);
-	}
-}
-
-static void
 set_base64_to_element_attribute (EEditorWidget *widget,
                                  WebKitDOMElement *element,
                                  const gchar *attribute)
@@ -695,10 +666,8 @@ editor_widget_load_status_changed (EEditorWidget *widget)
 		FALSE,
 		widget);
 
-	if (widget->priv->html_mode) {
-		change_images_http_src_to_evo_http (widget, TRUE);
+	if (widget->priv->html_mode)
 		change_cid_images_src_to_base64 (widget);
-	}
 }
 
 /* Based on original use_pictograms() from GtkHTML */
@@ -1931,6 +1900,101 @@ editor_widget_paste_clipboard_quoted (EEditorWidget *widget)
 		widget);
 }
 
+static gboolean
+editor_widget_image_exists_in_cache (const gchar *image_uri)
+{
+	gchar *filename;
+	gchar *hash;
+	gboolean exists = FALSE;
+
+	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
+
+	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	filename = camel_data_cache_get_filename (
+		emd_global_http_cache, "http", hash);
+
+	if (filename != NULL) {
+		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
+		g_free (filename);
+	}
+
+	g_free (hash);
+
+	return exists;
+}
+
+static gchar *
+editor_widget_redirect_uri (EEditorWidget *widget,
+                            const gchar *uri)
+{
+	EImageLoadingPolicy image_policy;
+	GSettings *settings;
+	gboolean uri_is_http;
+
+	uri_is_http =
+		g_str_has_prefix (uri, "http:") ||
+		g_str_has_prefix (uri, "https:") ||
+		g_str_has_prefix (uri, "evo-http:") ||
+		g_str_has_prefix (uri, "evo-https:");
+
+	/* Redirect http(s) request to evo-http(s) protocol.
+	 * See EMailRequest for further details about this. */
+	if (uri_is_http) {
+		gchar *new_uri;
+		SoupURI *soup_uri;
+		gboolean image_exists;
+
+		/* Check Evolution's cache */
+		image_exists = editor_widget_image_exists_in_cache (uri);
+
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		image_policy = g_settings_get_enum (settings, "image-loading-policy");
+		g_object_unref (settings);
+		/* If the URI is not cached and we are not allowed to load it
+		 * then redirect to invalid URI, so that webkit would display
+		 * a native placeholder for it. */
+		if (!image_exists && (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
+			return g_strdup ("about:blank");
+		}
+
+		new_uri = g_strconcat ("evo-", uri, NULL);
+		soup_uri = soup_uri_new (new_uri);
+		g_free (new_uri);
+
+		new_uri = soup_uri_to_string (soup_uri, FALSE);
+
+		soup_uri_free (soup_uri);
+
+		return new_uri;
+	}
+
+	return g_strdup (uri);
+}
+
+static void
+editor_widget_resource_requested (WebKitWebView *web_view,
+                                  WebKitWebFrame *frame,
+                                  WebKitWebResource *resource,
+                                  WebKitNetworkRequest *request,
+                                  WebKitNetworkResponse *response,
+                                  gpointer user_data)
+{
+	const gchar *original_uri;
+
+	original_uri = webkit_network_request_get_uri (request);
+
+	if (original_uri != NULL) {
+		gchar *redirected_uri;
+
+		redirected_uri = editor_widget_redirect_uri (
+			E_EDITOR_WIDGET (web_view), original_uri);
+
+		webkit_network_request_set_uri (request, redirected_uri);
+
+		g_free (redirected_uri);
+	}
+}
+
 static void
 e_editor_widget_class_init (EEditorWidgetClass *class)
 {
@@ -2695,6 +2759,7 @@ e_editor_widget_init (EEditorWidget *editor)
 	ESpellChecker *checker;
 	gchar **languages;
 	gchar *comma_separated;
+	const gchar *user_cache_dir;
 
 	editor->priv = E_EDITOR_WIDGET_GET_PRIVATE (editor);
 
@@ -2733,6 +2798,9 @@ e_editor_widget_init (EEditorWidget *editor)
 	g_signal_connect (
 		editor, "should-show-delete-interface-for-element",
 		G_CALLBACK (editor_widget_should_show_delete_interface_for_element), NULL);
+	g_signal_connect (
+		editor, "resource-request-starting",
+		G_CALLBACK (editor_widget_resource_requested), NULL);
 	g_signal_connect (
 		editor, "notify::load-status",
 		G_CALLBACK (editor_widget_load_status_changed), NULL);
@@ -2804,6 +2872,17 @@ e_editor_widget_init (EEditorWidget *editor)
 		WEBKIT_WEB_VIEW (editor), "", "text/html", "UTF-8", "file://");
 
 	editor_widget_set_links_active (editor, FALSE);
+
+	if (emd_global_http_cache == NULL) {
+		user_cache_dir = e_get_user_cache_dir ();
+		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
+
+		/* cache expiry - 2 hour access, 1 day max */
+		camel_data_cache_set_expire_age (
+			emd_global_http_cache, 24 * 60 * 60);
+		camel_data_cache_set_expire_access (
+			emd_global_http_cache, 2 * 60 * 60);
+	}
 }
 
 /**
@@ -4994,7 +5073,6 @@ e_editor_widget_get_spell_checker (EEditorWidget *widget)
 gchar *
 e_editor_widget_get_text_html (EEditorWidget *widget)
 {
-	change_images_http_src_to_evo_http (widget, FALSE);
 	return process_content_for_html (widget);
 }
 
