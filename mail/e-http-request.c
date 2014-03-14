@@ -165,17 +165,16 @@ handle_http_request (GSimpleAsyncResult *res,
 	SoupRequest *soup_request;
 	SoupSession *soup_session;
 	gchar *evo_uri, *uri;
-	gchar *mail_uri;
+	gchar *mail_uri = NULL;
 	GInputStream *stream;
 	gboolean force_load_images = FALSE;
 	EImageLoadingPolicy image_policy;
 	gchar *uri_md5;
 	EShell *shell;
 	GSettings *settings;
-	const gchar *user_cache_dir;
+	const gchar *user_cache_dir, *soup_query;
 	CamelDataCache *cache;
 	GIOStream *cache_stream;
-	GHashTable *query;
 	gint uri_len;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -185,24 +184,27 @@ handle_http_request (GSimpleAsyncResult *res,
 
 	soup_request = SOUP_REQUEST (source_object);
 	soup_session = soup_request_get_session (soup_request);
+	soup_uri = soup_request_get_uri (soup_request);
 
 	/* Remove the __evo-mail query */
-	soup_uri = soup_request_get_uri (soup_request);
-	g_return_if_fail (soup_uri_get_query (soup_uri) != NULL);
+	soup_query = soup_uri_get_query (soup_uri);
+	if (soup_query) {
+		GHashTable *query;
 
-	query = soup_form_decode (soup_uri_get_query (soup_uri));
-	mail_uri = g_hash_table_lookup (query, "__evo-mail");
-	if (mail_uri)
-		mail_uri = g_strdup (mail_uri);
+		query = soup_form_decode (soup_uri_get_query (soup_uri));
+		mail_uri = g_hash_table_lookup (query, "__evo-mail");
+		if (mail_uri)
+			mail_uri = g_strdup (mail_uri);
 
-	g_hash_table_remove (query, "__evo-mail");
+		g_hash_table_remove (query, "__evo-mail");
 
-	/* Remove __evo-load-images if present (and in such case set
-	 * force_load_images to TRUE) */
-	force_load_images = g_hash_table_remove (query, "__evo-load-images");
+		/* Remove __evo-load-images if present (and in such case set
+		 * force_load_images to TRUE) */
+		force_load_images = g_hash_table_remove (query, "__evo-load-images");
 
-	soup_uri_set_query_from_form (soup_uri, query);
-	g_hash_table_unref (query);
+		soup_uri_set_query_from_form (soup_uri, query);
+		g_hash_table_unref (query);
+	}
 
 	evo_uri = soup_uri_to_string (soup_uri, FALSE);
 
@@ -488,27 +490,25 @@ http_request_send_async (SoupRequest *request,
                          gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
-	SoupURI *uri;
-	const gchar *enc;
-	GHashTable *query;
-
-	uri = soup_request_get_uri (request);
-	g_return_if_fail (soup_uri_get_query (uri) != NULL);
-
-	query = soup_form_decode (soup_uri_get_query (uri));
 
 	d ({
-		gchar *uri_str = soup_uri_to_string (uri, FALSE);
-		printf ("received request for %s\n", uri_str);
-		g_free (uri_str);
+		const gchar *soup_query;
+		SoupURI *uri;
+
+		uri = soup_request_get_uri (request);
+		soup_query = soup_uri_get_query (uri);
+
+		if (soup_query) {
+			gchar *uri_str;
+			GHashTable *query;
+
+			query = soup_form_decode (soup_uri_get_query (uri));
+			uri_str = soup_uri_to_string (uri, FALSE);
+			printf ("received request for %s\n", uri_str);
+			g_free (uri_str);
+			g_hash_table_destroy (query);
+		}
 	});
-
-	enc = g_hash_table_lookup (query, "__evo-mail");
-
-	if (enc == NULL || *enc == '\0') {
-		g_hash_table_destroy (query);
-		return;
-	}
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (request), callback,
@@ -521,8 +521,6 @@ http_request_send_async (SoupRequest *request,
 		G_PRIORITY_DEFAULT, cancellable);
 
 	g_object_unref (simple);
-
-	g_hash_table_destroy (query);
 }
 
 static GInputStream *
