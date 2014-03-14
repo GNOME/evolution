@@ -143,12 +143,12 @@ void		e_mail_formatter_set_color	(EMailFormatter *formatter,
 void		e_mail_formatter_update_style	(EMailFormatter *formatter,
 						 GtkStateFlags state);
 
-EMailImageLoadingPolicy
+EImageLoadingPolicy
 		e_mail_formatter_get_image_loading_policy
 						(EMailFormatter *formatter);
 void		e_mail_formatter_set_image_loading_policy
 						(EMailFormatter *formatter,
-						 EMailImageLoadingPolicy policy);
+						 EImageLoadingPolicy policy);
 
 gboolean	e_mail_formatter_get_mark_citations
 						(EMailFormatter *formatter);

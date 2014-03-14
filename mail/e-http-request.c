@@ -168,7 +168,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	gchar *mail_uri;
 	GInputStream *stream;
 	gboolean force_load_images = FALSE;
-	EMailImageLoadingPolicy image_policy;
+	EImageLoadingPolicy image_policy;
 	gchar *uri_md5;
 	EShell *shell;
 	GSettings *settings;
@@ -305,7 +305,7 @@ handle_http_request (GSimpleAsyncResult *res,
 	/* Item not found in cache, but image loading policy allows us to fetch
 	 * it from the interwebs */
 	if (!force_load_images && mail_uri != NULL &&
-	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
+	    (image_policy == E_IMAGE_LOADING_POLICY_SOMETIMES)) {
 		CamelObjectBag *registry;
 		gchar *decoded_uri;
 		EMailPartList *part_list;
@@ -350,7 +350,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		g_free (decoded_uri);
 	}
 
-	if ((image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) ||
+	if ((image_policy == E_IMAGE_LOADING_POLICY_ALWAYS) ||
 	    force_load_images) {
 
 		SoupSession *temp_session;

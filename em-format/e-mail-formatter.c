@@ -41,7 +41,7 @@
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailFormatterPrivate {
-	EMailImageLoadingPolicy image_loading_policy;
+	EImageLoadingPolicy image_loading_policy;
 
 	gboolean show_sender_photo;
 	gboolean show_real_date;
@@ -705,8 +705,8 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			"image-loading-policy",
 			"Image Loading Policy",
 			NULL,
-			E_TYPE_MAIL_IMAGE_LOADING_POLICY,
-			E_MAIL_IMAGE_LOADING_POLICY_NEVER,
+			E_TYPE_IMAGE_LOADING_POLICY,
+			E_IMAGE_LOADING_POLICY_NEVER,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -1229,7 +1229,7 @@ e_mail_formatter_update_style (EMailFormatter *formatter,
 	class->update_style (formatter, state);
 }
 
-EMailImageLoadingPolicy
+EImageLoadingPolicy
 e_mail_formatter_get_image_loading_policy (EMailFormatter *formatter)
 {
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), 0);
@@ -1239,7 +1239,7 @@ e_mail_formatter_get_image_loading_policy (EMailFormatter *formatter)
 
 void
 e_mail_formatter_set_image_loading_policy (EMailFormatter *formatter,
-                                           EMailImageLoadingPolicy policy)
+                                           EImageLoadingPolicy policy)
 {
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 

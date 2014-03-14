@@ -327,6 +327,24 @@ typedef enum {
 	E_EDITOR_WIDGET_COMMAND_USE_CSS
 } EEditorWidgetCommand;
 
+/**
+ * EImageLoadingPolicy:
+ * @E_IMAGE_LOADING_POLICY_NEVER:
+ *   Never load images from a remote server.
+ * @E_IMAGE_LOADING_POLICY_SOMETIMES:
+ *   Only load images from a remote server if the sender is a known contact.
+ * @E_IMAGE_LOADING_POLICY_ALWAYS:
+ *   Always load images from a remote server.
+ *
+ * Policy for loading remote image URLs in email.  Allowing images to be
+ * loaded from a remote server may have privacy implications.
+ **/
+typedef enum {
+	E_IMAGE_LOADING_POLICY_NEVER,
+	E_IMAGE_LOADING_POLICY_SOMETIMES,
+	E_IMAGE_LOADING_POLICY_ALWAYS
+} EImageLoadingPolicy;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */

@@ -140,11 +140,11 @@ formatter_image_loading_policy_changed_cb (GObject *object,
 {
 	EMailDisplay *display = user_data;
 	EMailFormatter *formatter = E_MAIL_FORMATTER (object);
-	EMailImageLoadingPolicy policy;
+	EImageLoadingPolicy policy;
 
 	policy = e_mail_formatter_get_image_loading_policy (formatter);
 
-	if (policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS)
+	if (policy == E_IMAGE_LOADING_POLICY_ALWAYS)
 		e_mail_display_load_images (display);
 	else
 		e_mail_display_reload (display);
@@ -1276,7 +1276,7 @@ mail_display_redirect_uri (EWebView *web_view,
 		SoupURI *soup_uri;
 		GHashTable *query;
 		gboolean image_exists;
-		EMailImageLoadingPolicy image_policy;
+		EImageLoadingPolicy image_policy;
 
 		/* Check Evolution's cache */
 		image_exists = mail_display_image_exists_in_cache (uri);
@@ -1287,7 +1287,7 @@ mail_display_redirect_uri (EWebView *web_view,
 		image_policy = e_mail_formatter_get_image_loading_policy (
 			display->priv->formatter);
 		if (!image_exists && !display->priv->force_image_load &&
-		    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_NEVER)) {
+		    (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
 			return g_strdup ("about:blank");
 		}
 
