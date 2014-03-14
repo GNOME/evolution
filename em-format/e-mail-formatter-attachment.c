@@ -332,8 +332,6 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			size = g_memory_output_stream_get_data_size (
 				G_MEMORY_OUTPUT_STREAM (content_stream));
 
-			buffer = g_string_sized_new (size);
-
 			g_string_append_printf (
 				buffer,
 				"<tr><td colspan=\"2\">"
