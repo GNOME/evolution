@@ -178,13 +178,12 @@ is_locale_metric (void)
 	else
 		return TRUE;
 #else
-	/* Translators: Translate to the default units to use for presenting
-	 * temperature units to the user. The value can be only "default:inch"
-	 * or "default:mm", any other value is treated as "default:mm" (quotes
-	 * for clarity only). Note the value is used only if the system this
-	 * is running on doesn't provide other ways for figuring out temperature
-	 * units for the current locale.
-	 */
+	/* Translators: Please indicate whether your locale uses the
+	 * metric or imperial measurement system by changing this to
+	 * either "default:mm" or "default:inch", respectively.
+	 *
+	 * This string is just a fallback mechanism for systems on
+	 * which _NL_MEASUREMENT_MEASUREMENT is not available. */
 	fmt = C_("locale-metric", "default:mm");
 
 	return g_strcmp0 (fmt, "default:inch") != 0;
