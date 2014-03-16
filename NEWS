@@ -1,3 +1,49 @@
+Evolution 3.11.92 2014-03-17
+----------------------------
+
+Bug Fixes:
+	Bug 446659 - Message view can scroll away after message deletion
+	             (Milan Crha)
+	Bug 550697 - Crash after folder open in a closed mail view (Milan Crha)
+	Bug 710337 - Define ETree/ETable "alternating-row-colors" style
+	             property (Milan Crha)
+	Bug 711350 - Cannot position caret in received message body without
+	             using the mouse (Tomas Popela)
+	Bug 711351 - Folder change in folder tree steals focus (Milan Crha)
+	Bug 711658 - Time zone for new events sometimes defaults to UTC
+	             (Milan Crha)
+	Bug 722938 - Adapt a11y code for newest gtk (Mike Gorse)
+	Bug 723204 - Account assistant is too wide (Matthew Barnes)
+	Bug 725402 - Checking sender for multiple images causes hang
+	             (Milan Crha)
+	Bug 725615 - Disable Delete button in a vTrash folder (Milan Crha)
+	Bug 726225 - [abrt] Memory corruption during message list regen after
+	             Trash expunge (Milan Crha)
+
+Other Changes:
+	* Don't close base stream when destroying a CamelFilterOutputStream.
+	  (Matthew Barnes)
+	* EWebView/EMailDisplay: Setup custom CSS styles to DOM right after
+	  document loads. (Milan Crha)
+	* Contact photos not always shown in a contact preview. (Milan Crha)
+	* Missing attachment button for attachments of a known type.
+	  (Milan Crha)
+
+Translations:
+	China) translation (Wylmer Wang (zh_CN)
+	Pau Iranzo (ca)
+	Jiří Eischmann (cs)
+	Alain Lojewski (fr)
+	Fran Diéguez (gl)
+	Gábor Kelemen (hu)
+	Andika Triwidada (id)
+	Changwoo Ryu (ko)
+	Rūdolfs Mazurs (lv)
+	Kjartan Maraas (nb)
+	Paweł Żołnowski (pl)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 3.11.91 2014-03-03
 ----------------------------
 
