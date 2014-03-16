@@ -32,9 +32,8 @@ gsettings_SCHEMAS =							\
 
 @INTLTOOL_XML_NOMERGE_RULE@
 appdatadir = $(datadir)/appdata
-appdata_files = evolution.appdata.xml
-dist_appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdata_in_files = evolution.appdata.xml.in
+dist_appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 
 @GSETTINGS_RULES@
 
@@ -69,7 +68,7 @@ CLEANFILES =					\
 	$(desktop_DATA)
 
 EXTRA_DIST =					\
-	$(appdata_files)			\
+	$(appdata_in_files)			\
 	$(autostart_in_files)			\
 	$(desktop_in_files)			\
 	$(convert_DATA)				\
