@@ -2198,10 +2198,10 @@ get_css_alignment_value (EEditorSelectionAlignment alignment)
 		return ""; /* Left is by default on ltr */
 
 	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_CENTER)
-		return  "text-align: center";
+		return  "text-align: center;";
 
 	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_RIGHT)
-		return "text-align: right";
+		return "text-align: right;";
 
 	return "";
 }
@@ -4399,12 +4399,12 @@ e_editor_selection_set_indented_style (EEditorSelection *selection,
 	 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
 	if (is_in_html_mode (selection))
 		style = g_strdup_printf (
-			"-webkit-margin-start: %dch; -webkit-margin-end : %dch; %s;",
+			"-webkit-margin-start: %dch; -webkit-margin-end : %dch; %s",
 			start, end, align_value);
 	else
 		style = g_strdup_printf (
 			"-webkit-margin-start: %dch; -webkit-margin-end : %dch; "
-			"word-wrap: normal; width: %dch; %s;",
+			"word-wrap: normal; width: %dch; %s",
 			start, end, word_wrap_length, align_value);
 
 	webkit_dom_element_set_attribute (element, "style", style, NULL);
@@ -4433,7 +4433,7 @@ e_editor_selection_set_paragraph_style (EEditorSelection *selection,
 {
 	EEditorSelectionAlignment alignment;
 	const gchar *align_value = NULL;
-	char *style;
+	char *style = NULL;
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
 
 	alignment = e_editor_selection_get_alignment (selection);
@@ -4442,14 +4442,17 @@ e_editor_selection_set_paragraph_style (EEditorSelection *selection,
 	webkit_dom_element_set_class_name (element, "-x-evo-paragraph");
 	if (!is_in_html_mode (selection)) {
 		style = g_strdup_printf (
-			"width: %dch; word-wrap: normal; %s; %s",
+			"width: %dch; word-wrap: normal; %s %s",
 			(word_wrap_length + offset), align_value, style_to_add);
 	} else {
-		style = g_strdup_printf (
-			"%s; %s", align_value, style_to_add);
+		if (*align_value || *style_to_add)
+			style = g_strdup_printf (
+				"%s %s", align_value, style_to_add);
 	}
-	webkit_dom_element_set_attribute (element, "style", style, NULL);
-	g_free (style);
+	if (style) {
+		webkit_dom_element_set_attribute (element, "style", style, NULL);
+		g_free (style);
+	}
 }
 
 WebKitDOMElement *
