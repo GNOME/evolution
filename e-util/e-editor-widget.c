@@ -287,6 +287,29 @@ e_editor_widget_force_spell_check_for_current_paragraph (EEditorWidget *widget)
 }
 
 static void
+move_caret_into_element (WebKitDOMDocument *document,
+                         WebKitDOMElement *element)
+{
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	WebKitDOMRange *new_range;
+
+	if (!element)
+		return;
+
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+	new_range = webkit_dom_document_create_range (document);
+
+	webkit_dom_range_select_node_contents (
+		new_range, WEBKIT_DOM_NODE (element), NULL);
+	webkit_dom_range_collapse (new_range, FALSE, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (window_selection);
+	webkit_dom_dom_selection_add_range (window_selection, new_range);
+}
+
+
+static void
 refresh_spell_check (EEditorWidget *widget,
                      gboolean enable_spell_check)
 {
@@ -312,6 +335,15 @@ refresh_spell_check (EEditorWidget *widget,
 
 	selection = e_editor_widget_get_selection (widget);
 	e_editor_selection_save_caret_position (selection);
+
+	/* Sometimes the web view is not event focused, so we have to move caret
+	 * into body */
+	if (!webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position")) {
+		move_caret_into_element (
+			document,
+			WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
+		e_editor_selection_save_caret_position (selection);
+	}
 
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EEditorSelection and here as well

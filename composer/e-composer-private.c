@@ -870,6 +870,7 @@ composer_move_caret (EMsgComposer *composer)
 			WEBKIT_DOM_ELEMENT (body), "data-edit-as-new", "", NULL);
 		e_editor_selection_restore_caret_position (editor_selection);
 
+		e_editor_widget_force_spell_check (editor_widget);
 		return;
 	}
 
