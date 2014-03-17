@@ -5463,7 +5463,7 @@ e_editor_widget_update_fonts (EEditorWidget *widget)
 		stylesheet,
 		"span.-x-evo-resizable-wrapper:hover "
 		"{\n"
-		"  border: 2px dashed red; \n"
+		"  outline: 1px dashed red; \n"
 		"}\n");
 
 	g_string_append (
