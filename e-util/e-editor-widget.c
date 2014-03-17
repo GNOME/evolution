@@ -4003,6 +4003,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-converted");
 	webkit_dom_element_remove_attribute (element, "data-edit-as-new");
 	webkit_dom_element_remove_attribute (element, "data-inline");
+	webkit_dom_element_remove_attribute (element, "data-uri");
 	webkit_dom_element_remove_attribute (element, "data-message");
 	webkit_dom_element_remove_attribute (element, "data-name");
 	webkit_dom_element_remove_attribute (element, "data-new-message");

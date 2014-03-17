@@ -157,6 +157,10 @@ void		e_editor_selection_replace	(EEditorSelection *selection,
 						 const gchar *new_string);
 void		e_editor_selection_insert_html	(EEditorSelection *selection,
 						 const gchar *html_text);
+void		e_editor_selection_replace_image_src
+						(EEditorSelection *selection,
+						 WebKitDOMElement *image,
+						 const gchar *image_uri);
 void		e_editor_selection_insert_image	(EEditorSelection *selection,
 						 const gchar *image_uri);
 void		e_editor_selection_insert_text	(EEditorSelection *selection,

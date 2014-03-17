@@ -3420,6 +3420,7 @@ typedef struct _LoadContext LoadContext;
 
 struct _LoadContext {
 	EEditorSelection *selection;
+	WebKitDOMElement *element;
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
 	GFile *file;
@@ -3467,9 +3468,37 @@ image_load_context_free (LoadContext *load_context)
 }
 
 static void
+replace_base64_image_src (EEditorSelection *selection,
+                         WebKitDOMElement *element,
+                         const gchar *base64_content,
+                         const gchar *filename,
+                         const gchar *uri)
+{
+	EEditorWidget *editor_widget;
+
+	editor_widget = e_editor_selection_ref_editor_widget (selection);
+	g_return_if_fail (editor_widget != NULL);
+
+	e_editor_widget_set_changed (editor_widget, TRUE);
+	g_object_unref (editor_widget);
+
+	webkit_dom_html_image_element_set_src (
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element),
+		base64_content);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (element), "data-uri", uri, NULL);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (element), "data-inline", "", NULL);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (element), "data-name",
+		filename ? filename : "", NULL);
+}
+
+static void
 insert_base64_image (EEditorSelection *selection,
                      const gchar *base64_content,
-		     const gchar *filename)
+                     const gchar *filename,
+                     const gchar *uri)
 {
 	EEditorWidget *editor_widget;
 	WebKitDOMDocument *document;
@@ -3496,6 +3525,8 @@ insert_base64_image (EEditorSelection *selection,
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element),
 		base64_content);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (element), "data-uri", uri, NULL);
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (element), "data-inline", "", NULL);
 	webkit_dom_element_set_attribute (
@@ -3533,7 +3564,7 @@ image_load_finish (LoadContext *load_context)
 {
 	EEditorSelection *selection;
 	GMemoryOutputStream *output_stream;
-	gchar *base64_encoded, *mime_type, *output;
+	gchar *base64_encoded, *mime_type, *output, *uri;
 	gsize size;
 	gpointer data;
 
@@ -3545,14 +3576,20 @@ image_load_finish (LoadContext *load_context)
 
 	data = g_memory_output_stream_get_data (output_stream);
 	size = g_memory_output_stream_get_data_size (output_stream);
+	uri = g_file_get_uri (load_context->file);
 
 	base64_encoded = g_base64_encode ((const guchar *) data, size);
 	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
-	insert_base64_image (selection, output, load_context->filename);
+	if (load_context->element)
+		replace_base64_image_src (
+			selection, load_context->element, output, load_context->filename, uri);
+	else
+		insert_base64_image (selection, output, load_context->filename, uri);
 
 	g_free (base64_encoded);
 	g_free (output);
 	g_free (mime_type);
+	g_free (uri);
 
 	image_load_context_free (load_context);
 }
@@ -3693,6 +3730,7 @@ image_load_query_info_cb (GFile *file,
 
 static void
 image_load_and_insert_async (EEditorSelection *selection,
+                             WebKitDOMElement *element,
                              const gchar *uri)
 {
 	LoadContext *load_context;
@@ -3705,6 +3743,7 @@ image_load_and_insert_async (EEditorSelection *selection,
 
 	load_context = image_load_context_new (selection);
 	load_context->file = file;
+	load_context->element = element;
 
 	g_file_query_info_async (
 		file, "standard::*",
@@ -3731,7 +3770,7 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 	if (is_in_html_mode (selection)) {
 		if (strstr (image_uri, ";base64,")) {
 			if (g_str_has_prefix (image_uri, "data:"))
-				insert_base64_image (selection, image_uri, "");
+				insert_base64_image (selection, image_uri, "", "");
 			if (strstr (image_uri, ";data")) {
 				const gchar *base64_data = strstr (image_uri, ";") + 1;
 				gchar *filename;
@@ -3742,12 +3781,51 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 					g_utf8_strlen (base64_data, -1) - 1;
 				filename = g_strndup (image_uri, filename_length);
 
-				insert_base64_image (selection, base64_data, filename);
+				insert_base64_image (selection, base64_data, filename, "");
 				g_free (filename);
 			}
 		} else
-			image_load_and_insert_async (selection, image_uri);
+			image_load_and_insert_async (selection, NULL, image_uri);
 	}
+}
+
+/**
+ * e_editor_selection_replace_image_src:
+ * @selection: an #EEditorSelection
+ * @image: #WebKitDOMElement representation of image
+ * @image_uri: an URI of the source image
+ *
+ * Replace the src attribute of the given @image with @image_uri.
+ */
+void
+e_editor_selection_replace_image_src (EEditorSelection *selection,
+                                      WebKitDOMElement *image,
+                                      const gchar *image_uri)
+{
+	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (image_uri != NULL);
+	g_return_if_fail (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image));
+
+	if (strstr (image_uri, ";base64,")) {
+		if (g_str_has_prefix (image_uri, "data:"))
+			replace_base64_image_src (
+				selection, image, image_uri, "", "");
+		if (strstr (image_uri, ";data")) {
+			const gchar *base64_data = strstr (image_uri, ";") + 1;
+			gchar *filename;
+			glong filename_length;
+
+			filename_length =
+				g_utf8_strlen (image_uri, -1) -
+				g_utf8_strlen (base64_data, -1) - 1;
+			filename = g_strndup (image_uri, filename_length);
+
+			replace_base64_image_src (
+				selection, image, base64_data, filename, "");
+			g_free (filename);
+		}
+	} else
+		image_load_and_insert_async (selection, image, image_uri);
 }
 
 /**

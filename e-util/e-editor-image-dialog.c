@@ -62,8 +62,17 @@ G_DEFINE_TYPE (
 static void
 editor_image_dialog_set_src (EEditorImageDialog *dialog)
 {
-	webkit_dom_html_image_element_set_src (
-		dialog->priv->image,
+	EEditor *editor;
+	EEditorSelection *editor_selection;
+	EEditorWidget *editor_widget;
+
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor_widget = e_editor_get_editor_widget (editor);
+	editor_selection = e_editor_widget_get_selection (editor_widget);
+
+	e_editor_selection_replace_image_src (
+		editor_selection,
+		WEBKIT_DOM_ELEMENT (dialog->priv->image),
 		gtk_file_chooser_get_uri (
 			GTK_FILE_CHOOSER (dialog->priv->file_chooser)));
 }
@@ -361,10 +370,20 @@ editor_image_dialog_show (GtkWidget *widget)
 		return;
 	}
 
-	tmp = webkit_dom_html_image_element_get_src (dialog->priv->image);
-	gtk_file_chooser_set_uri (
-		GTK_FILE_CHOOSER (dialog->priv->file_chooser), tmp);
-	g_free (tmp);
+	tmp = webkit_dom_element_get_attribute (
+		WEBKIT_DOM_ELEMENT (dialog->priv->image), "data-uri");
+	if (tmp && *tmp) {
+		gtk_file_chooser_set_uri (
+			GTK_FILE_CHOOSER (dialog->priv->file_chooser), tmp);
+		gtk_widget_set_sensitive (
+			GTK_WIDGET (dialog->priv->file_chooser), TRUE);
+		g_free (tmp);
+	} else {
+		gtk_file_chooser_set_uri (
+			GTK_FILE_CHOOSER (dialog->priv->file_chooser), "");
+		gtk_widget_set_sensitive (
+			GTK_WIDGET (dialog->priv->file_chooser), FALSE);
+	}
 
 	tmp = webkit_dom_html_image_element_get_alt (dialog->priv->image);
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->description_edit), tmp ? tmp : "");
