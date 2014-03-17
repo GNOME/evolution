@@ -49,10 +49,13 @@ struct _EMFolderSelectorPrivate {
 
 	GtkEntry *name_entry;
 	gchar *selected_uri;
+
+	gboolean can_create;
 };
 
 enum {
 	PROP_0,
+	PROP_CAN_CREATE,
 	PROP_MODEL
 };
 
@@ -85,6 +88,12 @@ folder_selector_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CAN_CREATE:
+			em_folder_selector_set_can_create (
+				EM_FOLDER_SELECTOR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_MODEL:
 			folder_selector_set_model (
 				EM_FOLDER_SELECTOR (object),
@@ -102,6 +111,13 @@ folder_selector_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CAN_CREATE:
+			g_value_set_boolean (
+				value,
+				em_folder_selector_get_can_create (
+				EM_FOLDER_SELECTOR (object)));
+			return;
+
 		case PROP_MODEL:
 			g_value_set_object (
 				value,
@@ -218,6 +234,19 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CAN_CREATE,
+		g_param_spec_boolean (
+			"can-create",
+			"Can Create",
+			"Allow the user to create a new folder "
+			"before making a final selection",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_MODEL,
 		g_param_spec_object (
 			"model",
@@ -290,7 +319,6 @@ folder_activated_cb (EMFolderTree *emft,
 
 static GtkWidget *
 folder_selector_construct (EMFolderSelector *selector,
-                           guint32 flags,
                            const gchar *text,
                            const gchar *oklabel)
 {
@@ -316,14 +344,9 @@ folder_selector_construct (EMFolderSelector *selector,
 
 	container = vbox;
 
-	if (flags & EM_FOLDER_SELECTOR_CAN_CREATE) {
-		gtk_dialog_add_button (
-			GTK_DIALOG (selector), _("_New"),
-			EM_FOLDER_SELECTOR_RESPONSE_NEW);
-	}
-
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (selector),
+		_("_New"), EM_FOLDER_SELECTOR_RESPONSE_NEW,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		oklabel ? oklabel : _("_OK"), GTK_RESPONSE_OK, NULL);
 
@@ -331,6 +354,14 @@ folder_selector_construct (EMFolderSelector *selector,
 		GTK_DIALOG (selector), GTK_RESPONSE_OK, FALSE);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK);
+
+	widget = gtk_dialog_get_widget_for_response (
+		GTK_DIALOG (selector), EM_FOLDER_SELECTOR_RESPONSE_NEW);
+
+	g_object_bind_property (
+		selector, "can-create",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -380,7 +411,6 @@ folder_selector_construct (EMFolderSelector *selector,
 GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
                         EMFolderTreeModel *model,
-                        guint32 flags,
                         const gchar *title,
                         const gchar *text,
                         const gchar *oklabel)
@@ -394,7 +424,7 @@ em_folder_selector_new (GtkWindow *parent,
 		"transient-for", parent,
 		"title", title,
 		"model", model, NULL);
-	folder_selector_construct (selector, flags, text, oklabel);
+	folder_selector_construct (selector, text, oklabel);
 
 	return GTK_WIDGET (selector);
 }
@@ -431,7 +461,6 @@ folder_selector_create_name_activate (GtkEntry *entry,
 GtkWidget *
 em_folder_selector_create_new (GtkWindow *parent,
                                EMFolderTreeModel *model,
-                               guint32 flags,
                                const gchar *title,
                                const gchar *text)
 {
@@ -443,10 +472,6 @@ em_folder_selector_create_new (GtkWindow *parent,
 
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
-	/* remove the CREATE flag if it is there since that's the
-	 * whole purpose of this dialog */
-	flags &= ~EM_FOLDER_SELECTOR_CAN_CREATE;
-
 	selector = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
@@ -454,7 +479,7 @@ em_folder_selector_create_new (GtkWindow *parent,
 		"model", model, NULL);
 
 	container = folder_selector_construct (
-		selector, flags, text, _("C_reate"));
+		selector, text, _("C_reate"));
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
@@ -486,6 +511,47 @@ em_folder_selector_create_new (GtkWindow *parent,
 		G_CALLBACK (folder_selector_create_name_activate), selector);
 
 	return GTK_WIDGET (selector);
+}
+
+/**
+ * em_folder_selector_get_can_create:
+ * @selector: an #EMFolderSelector
+ *
+ * Returns whether the user can create a new folder before making a final
+ * selection.  When %TRUE, the action area of the dialog will show a "New"
+ * button.
+ *
+ * Returns: whether folder creation is allowed
+ **/
+gboolean
+em_folder_selector_get_can_create (EMFolderSelector *selector)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), FALSE);
+
+	return selector->priv->can_create;
+}
+
+/**
+ * em_folder_selector_set_can_create:
+ * @selector: an #EMFolderSelector
+ * @can_create: whether folder creation is allowed
+ *
+ * Sets whether the user can create a new folder before making a final
+ * selection.  When %TRUE, the action area of the dialog will show a "New"
+ * button.
+ **/
+void
+em_folder_selector_set_can_create (EMFolderSelector *selector,
+                                   gboolean can_create)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
+
+	if (can_create == selector->priv->can_create)
+		return;
+
+	selector->priv->can_create = can_create;
+
+	g_object_notify (G_OBJECT (selector), "can-create");
 }
 
 EMFolderTreeModel *

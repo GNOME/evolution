@@ -509,10 +509,11 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 	dialog = em_folder_selector_new (
 		parent, model,
-		EM_FOLDER_SELECTOR_CAN_CREATE,
 		title, NULL, label);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_can_create (selector, TRUE);
+
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
 	em_folder_tree_set_excluded_func (
@@ -600,7 +601,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	}
 
 	dialog = em_folder_selector_create_new (
-		parent, model, 0,
+		parent, model,
 		_("Create Folder"),
 		_("Specify where to create the folder:"));
 

@@ -344,10 +344,11 @@ action_mail_copy_cb (GtkAction *action,
 
 	dialog = em_folder_selector_new (
 		window, model,
-		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Copy to Folder"), NULL, _("C_opy"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_can_create (selector, TRUE);
+
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
 	em_folder_tree_set_excluded (
@@ -844,10 +845,11 @@ action_mail_move_cb (GtkAction *action,
 
 	dialog = em_folder_selector_new (
 		window, model,
-		EM_FOLDER_SELECTOR_CAN_CREATE,
 		_("Move to Folder"), NULL, _("_Move"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_can_create (selector, TRUE);
+
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
 	em_folder_tree_set_excluded (

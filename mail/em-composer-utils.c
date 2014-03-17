@@ -3036,12 +3036,14 @@ post_header_clicked_cb (EComposerPostHeader *header,
 
 	dialog = em_folder_selector_new (
 		/* FIXME GTK_WINDOW (composer) */ NULL,
-		model, EM_FOLDER_SELECTOR_CAN_CREATE,
+		model,
 		_("Posting destination"),
 		_("Choose folders to post the message to."),
 		NULL);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_can_create (selector, TRUE);
+
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
 	em_folder_tree_set_excluded (
