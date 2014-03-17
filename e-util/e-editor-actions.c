@@ -682,13 +682,10 @@ action_paste_cb (GtkAction *action,
 {
 	EEditorWidget *widget = e_editor_get_editor_widget (editor);
 
-	/* Paste only into WebView when it has focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (widget))) {
-		webkit_web_view_paste_clipboard (
-			WEBKIT_WEB_VIEW (widget));
+	webkit_web_view_paste_clipboard (
+		WEBKIT_WEB_VIEW (widget));
 
-		e_editor_widget_force_spell_check (widget);
-	}
+	e_editor_widget_force_spell_check (widget);
 }
 
 static void
