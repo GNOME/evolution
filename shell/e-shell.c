@@ -801,6 +801,14 @@ shell_window_added (GtkApplication *application,
 		(gintptr) window);
 	gtk_window_set_role (window, role);
 	g_free (role);
+
+#if GTK_CHECK_VERSION(3,11,5)
+	/* Forbid header bars in stock GTK+ dialogs.
+	 * They look very out of place in Evolution. */
+	g_object_set (
+		gtk_widget_get_settings (GTK_WIDGET (window)),
+		"gtk-dialogs-use-header", FALSE, NULL);
+#endif
 }
 
 static gboolean
