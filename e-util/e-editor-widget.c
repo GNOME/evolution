@@ -1776,9 +1776,9 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
                                          WebKitDOMDocument *document,
                                          WebKitDOMNode *node)
 {
-	WebKitDOMNode *prev_sibling;
-	WebKitDOMNode *parent;
+	WebKitDOMNode *prev_sibling, *next_sibling, *parent;
 	WebKitDOMElement *paragraph;
+	gboolean between_lists = FALSE;
 
 	/* When pressing Enter on empty line in the list WebKit will end that
 	 * list and inserts <div><br></div> after it and sets the caret after
@@ -1795,6 +1795,12 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
 	    !element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph")))
 		return;
 
+	next_sibling = webkit_dom_node_get_next_sibling (node);
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (next_sibling) ||
+	    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (next_sibling) ||
+	    WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (next_sibling))
+		between_lists = TRUE;
+
 	parent = webkit_dom_node_get_parent_node (prev_sibling);
 	paragraph = e_editor_selection_get_paragraph_element (
 		selection, document, -1, 0),
@@ -1807,14 +1813,21 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
 		e_editor_selection_get_caret_position_node (document),
 		NULL);
 
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (parent),
-		WEBKIT_DOM_NODE (paragraph),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
-		NULL);
-
-	webkit_dom_node_remove_child (
-		parent, node, NULL);
+	if (between_lists) {
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (paragraph),
+			node,
+			NULL);
+	} else {
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (parent),
+			WEBKIT_DOM_NODE (paragraph),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
+			NULL);
+		webkit_dom_node_remove_child (
+			parent, node, NULL);
+	}
 
 	e_editor_selection_restore_caret_position (selection);
 }
