@@ -1711,36 +1711,10 @@ editor_widget_key_press_event (GtkWidget *widget,
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
 		if (e_editor_selection_is_citation (selection)) {
-			gboolean ret_val = e_editor_widget_exec_command (
+			return = e_editor_widget_exec_command (
 				editor,
 				E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT,
 				NULL);
-			/* If successful we have to put inserted BR into paragraph */
-			if (ret_val) {
-				WebKitDOMDocument *document;
-				WebKitDOMNode *node;
-				WebKitDOMRange *range;
-
-				document = webkit_web_view_get_dom_document (
-					WEBKIT_WEB_VIEW (editor));
-
-				range = editor_widget_get_dom_range (editor);
-				node = webkit_dom_range_get_end_container (range, NULL);
-
-				if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
-					WebKitDOMElement *element;
-
-					element = e_editor_selection_get_paragraph_element (
-						selection, document, -1, 0);
-
-					webkit_dom_node_replace_child (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (element),
-						node,
-						NULL);
-				}
-			}
-			return ret_val;
 		} else {
 			if (end_list_on_return_press_in_plain_text_mode (editor))
 				return TRUE;
@@ -1838,22 +1812,37 @@ surround_text_with_paragraph_if_needed (EEditorSelection *selection,
                                         WebKitDOMNode *node)
 {
 	WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
+	WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	WebKitDOMElement *element;
 
 	/* All text in composer has to be written in div elements, so if
 	 * we are writing something straight to the body, surround it with
 	 * paragraph */
-	if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) && WEBKIT_DOM_IS_TEXT (node) &&
+	if (WEBKIT_DOM_IS_TEXT (node) &&
 	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-		e_editor_selection_put_node_into_paragraph (
+		element = e_editor_selection_put_node_into_paragraph (
 			selection,
 			document,
 			node,
 			e_editor_selection_get_caret_position_node (document));
 
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (next_sibling),
-			next_sibling,
-			NULL);
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling)) {
+			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (next_sibling),
+				next_sibling,
+				NULL);
+		}
+
+		/* Tab character */
+		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Apple-tab-span")) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (element),
+				prev_sibling,
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (element)),
+				NULL);
+		}
 
 		return TRUE;
 	}
