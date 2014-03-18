@@ -1711,7 +1711,7 @@ editor_widget_key_press_event (GtkWidget *widget,
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
 		if (e_editor_selection_is_citation (selection)) {
-			return = e_editor_widget_exec_command (
+			return e_editor_widget_exec_command (
 				editor,
 				E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT,
 				NULL);
