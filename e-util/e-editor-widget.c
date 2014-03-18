@@ -459,7 +459,8 @@ body_input_event_cb (WebKitDOMElement *element,
 		g_free (text);
 
 		parent = webkit_dom_node_get_parent_node (node);
-		if (WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) &&
+		if ((WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) ||
+		    WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) &&
 		    !element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph")) {
 			if (e_editor_widget_get_html_mode (editor_widget)) {
 				element_add_class (
