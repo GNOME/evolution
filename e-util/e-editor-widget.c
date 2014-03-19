@@ -1683,38 +1683,85 @@ end_list_on_return_press_in_plain_text_mode (EEditorWidget *editor_widget)
 }
 
 static gboolean
+insert_new_line_into_citation (EEditorWidget *widget)
+{
+	EEditorSelection *selection;
+	gboolean html_mode, ret_val;
+
+	html_mode = e_editor_widget_get_html_mode (widget);
+	selection = e_editor_widget_get_selection (widget);
+
+	ret_val = e_editor_widget_exec_command (
+		widget, E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+
+	if (ret_val && !html_mode) {
+		WebKitDOMElement *element;
+		WebKitDOMDocument *document;
+		WebKitDOMNode *next_sibling;
+
+		document = webkit_web_view_get_dom_document (
+			WEBKIT_WEB_VIEW (widget));
+
+		element = webkit_dom_document_query_selector (
+			document, "body>br", NULL);
+
+		next_sibling = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (element));
+
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (next_sibling)) {
+			/* Quote content */
+			next_sibling = WEBKIT_DOM_NODE (
+				e_editor_widget_quote_plain_text_element (
+					widget, WEBKIT_DOM_ELEMENT (next_sibling)));
+			/* Renew spellcheck */
+			e_editor_widget_force_spell_check (widget);
+			/* Insert caret node on right position */
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (element)),
+				e_editor_selection_get_caret_position_node (
+					document),
+				WEBKIT_DOM_NODE (element),
+				NULL);
+			/* Restore caret position */
+			e_editor_selection_restore_caret_position (
+				selection);
+		}
+	}
+
+	return ret_val;
+}
+
+static gboolean
 editor_widget_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
-	EEditorWidget *editor = E_EDITOR_WIDGET (widget);
+	EEditorWidget *editor_widget = E_EDITOR_WIDGET (widget);
 
 	if (event->keyval == GDK_KEY_Tab)
 		return e_editor_widget_exec_command (
-			editor,
+			editor_widget,
 			E_EDITOR_WIDGET_COMMAND_INSERT_TEXT,
 			"\t");
 
 	if ((event->keyval == GDK_KEY_Control_L) ||
 	    (event->keyval == GDK_KEY_Control_R)) {
 
-		editor_widget_set_links_active (editor, TRUE);
+		editor_widget_set_links_active (editor_widget, TRUE);
 	}
 
 	if ((event->keyval == GDK_KEY_Return) ||
 	    (event->keyval == GDK_KEY_KP_Enter)) {
 		EEditorSelection *selection;
 
-		selection = e_editor_widget_get_selection (editor);
+		selection = e_editor_widget_get_selection (editor_widget);
 		/* When user presses ENTER in a citation block, WebKit does
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
 		if (e_editor_selection_is_citation (selection)) {
-			return e_editor_widget_exec_command (
-				editor,
-				E_EDITOR_WIDGET_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT,
-				NULL);
+			return insert_new_line_into_citation (editor_widget);
 		} else {
-			if (end_list_on_return_press_in_plain_text_mode (editor))
+			if (end_list_on_return_press_in_plain_text_mode (editor_widget))
 				return TRUE;
 		}
 	}
@@ -1723,7 +1770,7 @@ editor_widget_key_press_event (GtkWidget *widget,
 	if (event->keyval == GDK_KEY_BackSpace) {
 		EEditorSelection *selection;
 
-		selection = e_editor_widget_get_selection (editor);
+		selection = e_editor_widget_get_selection (editor_widget);
 		if (e_editor_selection_is_indented (selection)) {
 			WebKitDOMElement *caret;
 
@@ -3521,7 +3568,7 @@ static gint
 get_citation_level (WebKitDOMNode *node,
                     gboolean set_plaintext_quoted)
 {
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+	WebKitDOMNode *parent = node;
 	gint level = 0;
 
 	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
@@ -3547,12 +3594,23 @@ e_editor_widget_quote_plain_text_element (EEditorWidget *widget,
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *element_clone;
-	gint level;
+	WebKitDOMNodeList *list;
+	gint ii, length, level;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
 
 	element_clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
 	level = get_citation_level (WEBKIT_DOM_NODE (element), TRUE);
+
+	/* Remove old quote characters if the exists */
+	list = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (element_clone), "span.-x-evo-quoted", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for  (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		webkit_dom_node_remove_child (
+			webkit_dom_node_get_parent_node (node), node, NULL);
+	}
 
 	quote_plain_text_recursive (
 		document, element_clone, element_clone, level);
@@ -3631,8 +3689,7 @@ e_editor_widget_quote_plain_text (EEditorWidget *widget)
 		}
 	}
 
-	quote_plain_text_recursive (
-		document, body_clone, body_clone, 0);
+	quote_plain_text_recursive (document, body_clone, body_clone, 0);
 
 	/* Copy attributes */
 	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
