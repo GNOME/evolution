@@ -80,6 +80,8 @@ void		em_folder_selector_set_default_button_label
 						 const gchar *button_label);
 EMFolderTreeModel *
 		em_folder_selector_get_model	(EMFolderSelector *selector);
+GtkWidget *	em_folder_selector_get_content_area
+						(EMFolderSelector *selector);
 EMFolderTree *	em_folder_selector_get_folder_tree
 						(EMFolderSelector *selector);
 const gchar *	em_folder_selector_get_selected_uri

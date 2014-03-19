@@ -720,6 +720,28 @@ em_folder_selector_get_model (EMFolderSelector *selector)
 	return selector->priv->model;
 }
 
+/**
+ * em_folder_selector_get_content_area:
+ * @selector: an #EMFolderSelector
+ *
+ * Returns the #GtkBox widget containing the dialog's content, including
+ * the #EMFolderTree widget.  This is intended to help extend the dialog
+ * with additional widgets.
+ *
+ * Note, the returned #GtkBox is a child of the #GtkBox returned by
+ * gtk_dialog_get_content_area(), but with a properly set border width
+ * and 6 pixel spacing.
+ *
+ * Returns: a #GtkBox widget
+ **/
+GtkWidget *
+em_folder_selector_get_content_area (EMFolderSelector *selector)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), NULL);
+
+	return selector->priv->content_area;
+}
+
 EMFolderTree *
 em_folder_selector_get_folder_tree (EMFolderSelector *selector)
 {
