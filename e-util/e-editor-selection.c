@@ -4251,9 +4251,19 @@ wrap_lines (EEditorSelection *selection,
 
 			/* If there is temporary hidden space we remove it */
 			text_content = webkit_dom_node_get_text_content (node);
-			if (g_strstr_len (text_content, -1, UNICODE_ZERO_WIDTH_SPACE)) {
-				webkit_dom_character_data_delete_data (
-					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, NULL);
+			if (strstr (text_content, UNICODE_ZERO_WIDTH_SPACE)) {
+				if (g_str_has_prefix (text_content, UNICODE_ZERO_WIDTH_SPACE))
+					webkit_dom_character_data_delete_data (
+						WEBKIT_DOM_CHARACTER_DATA (node),
+						0,
+						1,
+						NULL);
+				if (g_str_has_suffix (text_content, UNICODE_ZERO_WIDTH_SPACE))
+					webkit_dom_character_data_delete_data (
+						WEBKIT_DOM_CHARACTER_DATA (node),
+						g_utf8_strlen (text_content, -1) -1,
+						1,
+						NULL);
 				g_free (text_content);
 				text_content = webkit_dom_node_get_text_content (node);
 			}
@@ -4665,20 +4675,28 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 
 		text_content = webkit_dom_node_get_text_content (paragraph);
 		/* If there is hidden space character in the beginning we remove it */
-		if (g_strstr_len (text_content, -1, UNICODE_ZERO_WIDTH_SPACE)) {
-			WebKitDOMNode *child = webkit_dom_node_get_first_child (paragraph);
+		if (strstr (text_content, UNICODE_ZERO_WIDTH_SPACE)) {
+			if (g_str_has_prefix (text_content, UNICODE_ZERO_WIDTH_SPACE)) {
+				WebKitDOMNode *node;
 
-			if (WEBKIT_DOM_IS_CHARACTER_DATA (child)) {
-				GString *result = e_str_replace_string (
-					text_content, UNICODE_ZERO_WIDTH_SPACE, "");
+				node = webkit_dom_node_get_first_child (paragraph);
 
-				if (result) {
-					webkit_dom_character_data_set_data (
-						WEBKIT_DOM_CHARACTER_DATA (child),
-						result->str,
-						NULL);
-					g_string_free (result, TRUE);
-				}
+				webkit_dom_character_data_delete_data (
+					WEBKIT_DOM_CHARACTER_DATA (node),
+					0,
+					1,
+					NULL);
+			}
+			if (g_str_has_suffix (text_content, UNICODE_ZERO_WIDTH_SPACE)) {
+				WebKitDOMNode *node;
+
+				node = webkit_dom_node_get_last_child (paragraph);
+
+				webkit_dom_character_data_delete_data (
+					WEBKIT_DOM_CHARACTER_DATA (node),
+					g_utf8_strlen (text_content, -1) -1,
+					1,
+					NULL);
 			}
 		}
 		g_free (text_content);

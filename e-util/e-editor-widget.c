@@ -449,9 +449,13 @@ body_input_event_cb (WebKitDOMElement *element,
 
 		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
 		 * character as when we will remove it it will collapse */
-		if (length > 1 && g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE)) {
-			webkit_dom_character_data_replace_data (
-				WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+		if (length > 1) {
+			if (g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+			else if (g_str_has_suffix (text, UNICODE_ZERO_WIDTH_SPACE))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), length - 1, 1, "", NULL);
 		}
 		g_free (text);
 
@@ -4157,8 +4161,9 @@ process_elements (EEditorWidget *widget,
 				regex = g_regex_new (UNICODE_ZERO_WIDTH_SPACE, 0, 0, NULL);
 				tmp = g_regex_replace (
 					regex, content, -1, 0, "", 0, NULL);
-				g_free (content);
+				webkit_dom_node_set_text_content (child, tmp, NULL);
 				g_free (tmp);
+				g_free (content);
 				content = webkit_dom_node_get_text_content (child);
 				g_regex_unref (regex);
 			}
