@@ -4398,10 +4398,11 @@ process_elements (EEditorWidget *widget,
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 		}
 
-		if (to_plain_text) {
-			/* Insert new line when we hit BR element */
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)) {
+			if (to_plain_text) {
+				/* Insert new line when we hit BR element */
 				g_string_append (buffer, changing_mode ? "<br>" : "\n");
+			}
 		}
  next:
 		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
