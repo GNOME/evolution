@@ -440,7 +440,7 @@ sao_folders_add_button_clicked_cb (GtkButton *button,
 
 	dialog = em_folder_selector_new (
 		window, em_folder_tree_model_get_default (),
-		_("Select Folder to Add"), NULL, _("_Add"));
+		_("Select Folder to Add"), _("_Add"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	folder_tree = em_folder_selector_get_folder_tree (selector);

@@ -507,9 +507,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (
-		parent, model,
-		title, NULL, label);
+	dialog = em_folder_selector_new (parent, model, title, label);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
@@ -573,6 +571,7 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	CamelStore *store = NULL;
 	GtkWidget *dialog;
 	GQueue queue = G_QUEUE_INIT;
+	const gchar *caption;
 	const gchar *folder_uri;
 	gchar *folder_name = NULL;
 	GError *error = NULL;
@@ -601,13 +600,15 @@ em_folder_utils_create_folder (GtkWindow *parent,
 	}
 
 	dialog = em_folder_selector_create_new (
-		parent, model,
-		_("Create Folder"),
-		_("Specify where to create the folder:"));
+		parent, model, _("Create Folder"));
 
 	g_object_unref (model);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
+
+	caption = _("Specify where to create the folder:");
+	em_folder_selector_set_caption (selector, caption);
+
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
 	if (initial_uri != NULL)

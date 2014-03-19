@@ -3030,19 +3030,20 @@ post_header_clicked_cb (EComposerPostHeader *header,
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
+	const gchar *caption;
 
 	/* FIXME Limit the folder tree to the NNTP account? */
 	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
 		/* FIXME GTK_WINDOW (composer) */ NULL,
-		model,
-		_("Posting destination"),
-		_("Choose folders to post the message to."),
-		NULL);
+		model, _("Posting destination"), NULL);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
+
+	caption = _("Choose folders to post the message to.");
+	em_folder_selector_set_caption (selector, caption);
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 

@@ -46,16 +46,19 @@ struct _EMFolderSelectorPrivate {
 	EMFolderTree *folder_tree;  /* not referenced */
 	EMFolderTreeModel *model;
 	GtkWidget *alert_bar;
+	GtkWidget *caption_label;
 
 	GtkEntry *name_entry;
 	gchar *selected_uri;
 
 	gboolean can_create;
+	gchar *caption;
 };
 
 enum {
 	PROP_0,
 	PROP_CAN_CREATE,
+	PROP_CAPTION,
 	PROP_MODEL
 };
 
@@ -94,6 +97,12 @@ folder_selector_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_CAPTION:
+			em_folder_selector_set_caption (
+				EM_FOLDER_SELECTOR (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_MODEL:
 			folder_selector_set_model (
 				EM_FOLDER_SELECTOR (object),
@@ -118,6 +127,13 @@ folder_selector_get_property (GObject *object,
 				EM_FOLDER_SELECTOR (object)));
 			return;
 
+		case PROP_CAPTION:
+			g_value_set_string (
+				value,
+				em_folder_selector_get_caption (
+				EM_FOLDER_SELECTOR (object)));
+			return;
+
 		case PROP_MODEL:
 			g_value_set_object (
 				value,
@@ -138,6 +154,7 @@ folder_selector_dispose (GObject *object)
 
 	g_clear_object (&priv->model);
 	g_clear_object (&priv->alert_bar);
+	g_clear_object (&priv->caption_label);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
@@ -151,6 +168,7 @@ folder_selector_finalize (GObject *object)
 	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
 
 	g_free (priv->selected_uri);
+	g_free (priv->caption);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
@@ -247,6 +265,17 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CAPTION,
+		g_param_spec_string (
+			"caption",
+			"Caption",
+			"Brief description above folder tree",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_MODEL,
 		g_param_spec_object (
 			"model",
@@ -319,7 +348,6 @@ folder_activated_cb (EMFolderTree *emft,
 
 static GtkWidget *
 folder_selector_construct (EMFolderSelector *selector,
-                           const gchar *text,
                            const gchar *oklabel)
 {
 	EMailSession *session;
@@ -395,13 +423,18 @@ folder_selector_construct (EMFolderSelector *selector,
 
 	container = vbox;
 
-	if (text != NULL) {
-		widget = gtk_label_new (text);
-		gtk_widget_set_margin_top (widget, 6);
-		gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_LEFT);
-		gtk_box_pack_end (GTK_BOX (container), widget, FALSE, TRUE, 0);
-		gtk_widget_show (widget);
-	}
+	/* This can be made visible by setting the "caption" property. */
+	widget = gtk_label_new (NULL);
+	gtk_widget_set_margin_top (widget, 6);
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_LEFT);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	selector->priv->caption_label = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	g_object_bind_property (
+		selector, "caption",
+		widget, "label",
+		G_BINDING_DEFAULT);
 
 	gtk_widget_grab_focus (GTK_WIDGET (selector->priv->folder_tree));
 
@@ -412,7 +445,6 @@ GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
                         EMFolderTreeModel *model,
                         const gchar *title,
-                        const gchar *text,
                         const gchar *oklabel)
 {
 	EMFolderSelector *selector;
@@ -424,7 +456,7 @@ em_folder_selector_new (GtkWindow *parent,
 		"transient-for", parent,
 		"title", title,
 		"model", model, NULL);
-	folder_selector_construct (selector, text, oklabel);
+	folder_selector_construct (selector, oklabel);
 
 	return GTK_WIDGET (selector);
 }
@@ -461,8 +493,7 @@ folder_selector_create_name_activate (GtkEntry *entry,
 GtkWidget *
 em_folder_selector_create_new (GtkWindow *parent,
                                EMFolderTreeModel *model,
-                               const gchar *title,
-                               const gchar *text)
+                               const gchar *title)
 {
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
@@ -478,8 +509,7 @@ em_folder_selector_create_new (GtkWindow *parent,
 		"title", title,
 		"model", model, NULL);
 
-	container = folder_selector_construct (
-		selector, text, _("C_reate"));
+	container = folder_selector_construct (selector, _("C_reate"));
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
@@ -552,6 +582,53 @@ em_folder_selector_set_can_create (EMFolderSelector *selector,
 	selector->priv->can_create = can_create;
 
 	g_object_notify (G_OBJECT (selector), "can-create");
+}
+
+/**
+ * em_folder_selector_get_caption:
+ * @selector: an #EMFolderSelector
+ *
+ * Returns the folder tree caption, which is an optional brief message
+ * instructing the user what to do.  If no caption has been set, the
+ * function returns %NULL.
+ *
+ * Returns: the folder tree caption, or %NULL
+ **/
+const gchar *
+em_folder_selector_get_caption (EMFolderSelector *selector)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), NULL);
+
+	return selector->priv->caption;
+}
+
+/**
+ * em_folder_selector_set_caption:
+ * @selector: an #EMFolderSelector
+ * @caption: the folder tree caption, or %NULL
+ *
+ * Sets the folder tree caption, which is an optional brief message
+ * instructing the user what to do.  If @caption is %NULL or empty,
+ * the label widget is hidden so as not to waste vertical space.
+ **/
+void
+em_folder_selector_set_caption (EMFolderSelector *selector,
+                                const gchar *caption)
+{
+	gboolean visible;
+
+	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
+
+	if (g_strcmp0 (caption, selector->priv->caption) == 0)
+		return;
+
+	g_free (selector->priv->caption);
+	selector->priv->caption = e_util_strdup_strip (caption);
+
+	visible = (selector->priv->caption != NULL);
+	gtk_widget_set_visible (selector->priv->caption_label, visible);
+
+	g_object_notify (G_OBJECT (selector), "caption");
 }
 
 EMFolderTreeModel *

@@ -64,17 +64,18 @@ GType		em_folder_selector_get_type	(void);
 GtkWidget *	em_folder_selector_new		(GtkWindow *parent,
 						 EMFolderTreeModel *model,
 						 const gchar *title,
-						 const gchar *text,
 						 const gchar *oklabel);
 GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
 						 EMFolderTreeModel *model,
-						 const gchar *title,
-						 const gchar *text);
+						 const gchar *title);
 gboolean	em_folder_selector_get_can_create
 						(EMFolderSelector *selector);
 void		em_folder_selector_set_can_create
 						(EMFolderSelector *selector,
 						 gboolean can_create);
+const gchar *	em_folder_selector_get_caption	(EMFolderSelector *selector);
+void		em_folder_selector_set_caption	(EMFolderSelector *selector,
+						 const gchar *caption);
 EMFolderTreeModel *
 		em_folder_selector_get_model	(EMFolderSelector *selector);
 EMFolderTree *	em_folder_selector_get_folder_tree

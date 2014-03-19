@@ -388,8 +388,7 @@ source_add (GtkWidget *widget,
 	model = em_folder_tree_model_get_default ();
 
 	dialog = em_folder_selector_new (
-		parent, model,
-		_("Add Folder"), NULL, _("_Add"));
+		parent, model, _("Add Folder"), _("_Add"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
