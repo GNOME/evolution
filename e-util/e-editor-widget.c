@@ -232,12 +232,10 @@ e_editor_widget_force_spell_check_for_current_paragraph (EEditorWidget *widget)
 		widget, editor_widget_selection_changed_cb, NULL);
 	e_editor_selection_block_selection_changed (selection);
 
-	caret = e_editor_selection_save_caret_position (selection);
-
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 	element = caret;
 
-	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
 		element = parent;
 		parent = webkit_dom_node_get_parent_element (
 			WEBKIT_DOM_NODE (parent));
@@ -307,7 +305,6 @@ move_caret_into_element (WebKitDOMDocument *document,
 	webkit_dom_dom_selection_remove_all_ranges (window_selection);
 	webkit_dom_dom_selection_add_range (window_selection, new_range);
 }
-
 
 static void
 refresh_spell_check (EEditorWidget *widget,
