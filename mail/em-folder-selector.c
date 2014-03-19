@@ -483,8 +483,7 @@ folder_selector_construct (EMFolderSelector *selector)
 
 GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
-                        EMFolderTreeModel *model,
-                        const gchar *title)
+                        EMFolderTreeModel *model)
 {
 	EMFolderSelector *selector;
 
@@ -493,7 +492,6 @@ em_folder_selector_new (GtkWindow *parent,
 	selector = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
-		"title", title,
 		"model", model, NULL);
 	folder_selector_construct (selector);
 
@@ -531,8 +529,7 @@ folder_selector_create_name_activate (GtkEntry *entry,
 
 GtkWidget *
 em_folder_selector_create_new (GtkWindow *parent,
-                               EMFolderTreeModel *model,
-                               const gchar *title)
+                               EMFolderTreeModel *model)
 {
 	EMFolderSelector *selector;
 	EMFolderTree *folder_tree;
@@ -545,7 +542,6 @@ em_folder_selector_create_new (GtkWindow *parent,
 	selector = g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
-		"title", title,
 		"model", model,
 		"default-button-label", _("C_reate"), NULL);
 

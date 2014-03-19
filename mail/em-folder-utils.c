@@ -507,7 +507,9 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (parent, model, title);
+	dialog = em_folder_selector_new (parent, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
@@ -600,8 +602,9 @@ em_folder_utils_create_folder (GtkWindow *parent,
 		em_folder_tree_model_add_store (model, CAMEL_STORE (service));
 	}
 
-	dialog = em_folder_selector_create_new (
-		parent, model, _("Create Folder"));
+	dialog = em_folder_selector_create_new (parent, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Create Folder"));
 
 	g_object_unref (model);
 

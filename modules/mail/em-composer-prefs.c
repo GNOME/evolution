@@ -439,8 +439,10 @@ sao_folders_add_button_clicked_cb (GtkButton *button,
 	window = GTK_WINDOW (gtk_widget_get_toplevel (widget));
 
 	dialog = em_folder_selector_new (
-		window, em_folder_tree_model_get_default (),
-		_("Select Folder to Add"));
+		window, em_folder_tree_model_get_default ());
+
+	gtk_window_set_title (
+		GTK_WINDOW (dialog), _("Select Folder to Add"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_default_button_label (selector, _("_Add"));

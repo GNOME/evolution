@@ -387,7 +387,9 @@ source_add (GtkWidget *widget,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (parent, model, _("Add Folder"));
+	dialog = em_folder_selector_new (parent, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Folder"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);

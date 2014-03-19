@@ -342,8 +342,9 @@ action_mail_copy_cb (GtkAction *action,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (
-		window, model, _("Copy to Folder"));
+	dialog = em_folder_selector_new (window, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Copy to Folder"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
@@ -843,8 +844,9 @@ action_mail_move_cb (GtkAction *action,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (
-		window, model, _("Move to Folder"));
+	dialog = em_folder_selector_new (window, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Move to Folder"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);

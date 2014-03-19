@@ -62,11 +62,9 @@ struct _EMFolderSelectorClass {
 
 GType		em_folder_selector_get_type	(void);
 GtkWidget *	em_folder_selector_new		(GtkWindow *parent,
-						 EMFolderTreeModel *model,
-						 const gchar *title);
+						 EMFolderTreeModel *model);
 GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
-						 EMFolderTreeModel *model,
-						 const gchar *title);
+						 EMFolderTreeModel *model);
 gboolean	em_folder_selector_get_can_create
 						(EMFolderSelector *selector);
 void		em_folder_selector_set_can_create
