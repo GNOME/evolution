@@ -81,6 +81,7 @@ void		e_action_combo_box_add_separator_before
 void		e_action_combo_box_add_separator_after
 						(EActionComboBox *combo_box,
 						 gint action_value);
+void		e_action_combo_box_update_model	(EActionComboBox *combo_box);
 
 G_END_DECLS
 

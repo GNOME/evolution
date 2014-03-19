@@ -244,13 +244,25 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 		GtkRadioAction *action = list->data;
 		GtkTreePath *path;
 		GtkTreeIter iter;
-		gchar *icon_name;
-		gchar *stock_id;
+		gchar *icon_name = NULL;
+		gchar *stock_id = NULL;
+		gboolean visible = FALSE;
 		gint value;
 
-		g_object_get (
-			action, "icon-name", &icon_name,
-			"stock-id", &stock_id, NULL);
+		g_object_get (action,
+			"icon-name", &icon_name,
+			"stock-id", &stock_id,
+			"visible", &visible,
+			NULL);
+
+		if (!visible) {
+			g_free (icon_name);
+			g_free (stock_id);
+
+			list = g_slist_next (list);
+			continue;
+		}
+
 		combo_box->priv->group_has_icons |=
 			(icon_name != NULL || stock_id != NULL);
 		g_free (icon_name);
@@ -581,4 +593,12 @@ e_action_combo_box_add_separator_after (EActionComboBox *combo_box,
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter, COLUMN_ACTION,
 		NULL, COLUMN_SORT, (gfloat) action_value + 0.5, -1);
+}
+
+void
+e_action_combo_box_update_model (EActionComboBox *combo_box)
+{
+	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
+
+	action_combo_box_update_model (combo_box);
 }

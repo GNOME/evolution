@@ -1090,6 +1090,14 @@ e_editor_get_managed_widget (EEditor *editor,
 	return widget;
 }
 
+GtkWidget *
+e_editor_get_style_combo_box (EEditor *editor)
+{
+	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
+
+	return editor->priv->style_combo_box;
+}
+
 /**
  * e_editor_get_filename:
  * @editor: an #EEditor

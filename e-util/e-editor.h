@@ -82,6 +82,7 @@ GtkWidget *	e_editor_get_widget		(EEditor *editor,
 						 const gchar *widget_name);
 GtkWidget *	e_editor_get_managed_widget	(EEditor *editor,
 						 const gchar *widget_path);
+GtkWidget *	e_editor_get_style_combo_box	(EEditor *editor);
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);

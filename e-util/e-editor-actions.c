@@ -643,6 +643,7 @@ action_mode_cb (GtkRadioAction *action,
 {
 	GtkActionGroup *action_group;
 	EEditorWidget *editor_widget;
+	GtkWidget *style_combo_box;
 	gboolean is_html;
 
 	editor_widget = e_editor_get_editor_widget (editor);
@@ -668,12 +669,23 @@ action_mode_cb (GtkRadioAction *action,
 
 	/* Certain paragraph styles are HTML-only. */
 	gtk_action_set_sensitive (ACTION (STYLE_H1), is_html);
+	gtk_action_set_visible (ACTION (STYLE_H1), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_H2), is_html);
+	gtk_action_set_visible (ACTION (STYLE_H2), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_H3), is_html);
+	gtk_action_set_visible (ACTION (STYLE_H3), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_H4), is_html);
+	gtk_action_set_visible (ACTION (STYLE_H4), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_H5), is_html);
+	gtk_action_set_visible (ACTION (STYLE_H5), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_H6), is_html);
+	gtk_action_set_visible (ACTION (STYLE_H6), is_html);
 	gtk_action_set_sensitive (ACTION (STYLE_ADDRESS), is_html);
+	gtk_action_set_visible (ACTION (STYLE_ADDRESS), is_html);
+
+	/* Hide them from the action combo box as well */
+	style_combo_box = e_editor_get_style_combo_box (editor);
+	e_action_combo_box_update_model (E_ACTION_COMBO_BOX (style_combo_box));
 }
 
 static void
