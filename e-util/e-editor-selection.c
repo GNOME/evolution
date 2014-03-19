@@ -1444,10 +1444,10 @@ insert_new_list (EEditorSelection *selection,
                  EEditorSelectionBlockFormat to,
                  gboolean html_mode)
 {
-	gboolean inserting_ordered_list = FALSE;
+	gboolean inserting_ordered_list = FALSE, empty;
 	gchar *content;
 	WebKitDOMRange *range;
-	WebKitDOMElement *element;
+	WebKitDOMElement *element, *li;
 	WebKitDOMNode *node;
 
 	range = editor_selection_get_current_range (selection);
@@ -1458,8 +1458,9 @@ insert_new_list (EEditorSelection *selection,
 	if (to != E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST)
 		inserting_ordered_list = TRUE;
 
-	/* Sometimes there is UNICODE_ZERO_WIDTH_SPACE so we have to remove it */
-	webkit_dom_node_set_text_content (node, "", NULL);
+	content = webkit_dom_node_get_text_content (node);
+	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
+	g_free (content);
 
 	/* Create list elements */
 	element = webkit_dom_document_create_element (
@@ -1481,12 +1482,26 @@ insert_new_list (EEditorSelection *selection,
 
 	/* We have to use again the hidden space to move caret into newly
 	 * inserted list */
-	content = g_strconcat ("<li>", UNICODE_ZERO_WIDTH_SPACE, "</li>", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element),
-		content,
+	li = webkit_dom_document_create_element (document, "LI", NULL);
+	if (empty) {
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (li),
+			UNICODE_ZERO_WIDTH_SPACE,
+			NULL);
+	} else {
+		/* Copy elements from previous block to list */
+		while (webkit_dom_node_has_child_nodes (node)) {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (li),
+				webkit_dom_node_get_first_child (node),
+				NULL);
+		}
+	}
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (li),
 		NULL);
-	g_free (content);
 
 	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
 	webkit_dom_node_append_child (
