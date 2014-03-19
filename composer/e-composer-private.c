@@ -492,6 +492,7 @@ e_composer_paste_html (EMsgComposer *composer,
 	e_editor_widget_check_magic_links (editor_widget, FALSE);
 	e_editor_widget_force_spell_check (editor_widget);
 
+	e_editor_selection_scroll_to_caret (editor_selection);
 	g_free (html);
 
 	return TRUE;
@@ -550,6 +551,7 @@ e_composer_paste_image (EMsgComposer *composer,
 
 		selection = e_editor_widget_get_selection (editor_widget);
 		e_editor_selection_insert_image (selection, uri);
+		e_editor_selection_scroll_to_caret (selection);
 	} else {
 		EAttachment *attachment;
 
@@ -600,6 +602,7 @@ e_composer_paste_text (EMsgComposer *composer,
 
 		e_editor_widget_check_magic_links (editor_widget, FALSE);
 		e_editor_widget_force_spell_check (editor_widget);
+		e_editor_selection_scroll_to_caret (editor_selection);
 	}
 
 	g_free (text);

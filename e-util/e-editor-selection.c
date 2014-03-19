@@ -5072,3 +5072,15 @@ e_editor_selection_move (EEditorSelection *selection,
 {
 	editor_selection_modify (selection, "move", forward, granularity);
 }
+
+void
+e_editor_selection_scroll_to_caret (EEditorSelection *selection)
+{
+	WebKitDOMElement *caret;
+
+	caret = e_editor_selection_save_caret_position (selection);
+
+	webkit_dom_element_scroll_into_view (caret, TRUE);
+
+	e_editor_selection_clear_caret_position_marker (selection);
+}

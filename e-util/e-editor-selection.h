@@ -223,7 +223,8 @@ void		e_editor_selection_move		(EEditorSelection *selection,
 void		e_editor_selection_extend	(EEditorSelection *selection,
 						 gboolean forward,
 						 EEditorSelectionGranularity granularity);
-
+void		e_editor_selection_scroll_to_caret
+						(EEditorSelection *selection);
 G_END_DECLS
 
 #endif /* E_EDITOR_SELECTION_H */
