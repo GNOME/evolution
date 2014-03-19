@@ -1161,7 +1161,6 @@ em_utils_compose_new_message (EShell *shell,
 
 	composer = create_new_composer (shell, "", folder);
 	composer_set_no_change (composer);
-	e_msg_composer_set_body_text (composer, "", TRUE);
 	e_msg_composer_is_from_new_message (composer, TRUE);
 
 	gtk_widget_show (GTK_WIDGET (composer));

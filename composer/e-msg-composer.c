@@ -2195,6 +2195,7 @@ msg_composer_constructed (GObject *object)
 
 	e_extensible_load_extensions (E_EXTENSIBLE (composer));
 
+	e_msg_composer_set_body_text (composer, "", TRUE);
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed (object);
 }
