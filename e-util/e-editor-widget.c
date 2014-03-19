@@ -4175,6 +4175,33 @@ process_elements (EEditorWidget *widget,
 			skip_node = TRUE;
 		}
 
+		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "Apple-tab-span")) {
+			if (!changing_mode && to_plain_text) {
+				gchar *content, *tmp;
+				GRegex *regex;
+
+				content = webkit_dom_node_get_text_content (child);
+				/* Replace tabs with 4 whitespaces, otherwise they got
+				 * replaced by single whitespace */
+				if (strstr (content, "\x9")) {
+					regex = g_regex_new ("\x9", 0, 0, NULL);
+					tmp = g_regex_replace (
+						regex, content, -1, 0, "    ", 0, NULL);
+					g_string_append (buffer, tmp);
+					g_free (tmp);
+					content = webkit_dom_node_get_text_content (child);
+					g_regex_unref (regex);
+				}
+			}
+			if (to_html) {
+				element_remove_class (
+					WEBKIT_DOM_ELEMENT (child),
+					"Applet-tab-span");
+			}
+
+			skip_node = TRUE;
+		}
+
 		/* Leave blockquotes as they are */
 		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (child)) {
 			if (changing_mode && to_plain_text) {
