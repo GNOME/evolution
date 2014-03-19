@@ -49,6 +49,7 @@ struct _EMFolderSelectorPrivate {
 	EMFolderTreeModel *model;
 	GtkWidget *alert_bar;
 	GtkWidget *caption_label;
+	GtkWidget *content_area;
 
 	GtkEntry *name_entry;
 	gchar *selected_uri;
@@ -77,6 +78,53 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK,
 		em_folder_selector_alert_sink_init))
+
+static void
+folder_selector_create_name_changed (GtkEntry *entry,
+                                     EMFolderSelector *selector)
+{
+	EMFolderTree *folder_tree;
+	gchar *path;
+	const gchar *text = NULL;
+	gboolean active;
+
+	if (gtk_entry_get_text_length (selector->priv->name_entry) > 0)
+		text = gtk_entry_get_text (selector->priv->name_entry);
+
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	path = em_folder_tree_get_selected_uri (folder_tree);
+	active = text && path && !strchr (text, '/');
+	g_free (path);
+
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (selector), GTK_RESPONSE_OK, active);
+}
+
+static void
+folder_selector_selected_cb (EMFolderTree *emft,
+                             CamelStore *store,
+                             const gchar *folder_name,
+                             CamelFolderInfoFlags flags,
+                             EMFolderSelector *selector)
+{
+	if (selector->priv->name_entry != NULL) {
+		folder_selector_create_name_changed (
+			selector->priv->name_entry, selector);
+	} else {
+		gtk_dialog_set_response_sensitive (
+			GTK_DIALOG (selector), GTK_RESPONSE_OK, TRUE);
+	}
+}
+
+static void
+folder_selector_activated_cb (EMFolderTree *emft,
+                              CamelStore *store,
+                              const gchar *folder_name,
+                              EMFolderSelector *selector)
+{
+	gtk_dialog_response (GTK_DIALOG (selector), GTK_RESPONSE_OK);
+}
 
 static void
 folder_selector_set_model (EMFolderSelector *selector,
@@ -172,6 +220,7 @@ folder_selector_dispose (GObject *object)
 	g_clear_object (&priv->model);
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->caption_label);
+	g_clear_object (&priv->content_area);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
@@ -190,6 +239,112 @@ folder_selector_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
+}
+
+static void
+folder_selector_constructed (GObject *object)
+{
+	EMFolderSelector *selector;
+	EMailSession *session;
+	EMFolderTreeModel *model;
+	GtkWidget *content_area;
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (em_folder_selector_parent_class)->constructed (object);
+
+	selector = EM_FOLDER_SELECTOR (object);
+	model = em_folder_selector_get_model (selector);
+	session = em_folder_tree_model_get_session (model);
+
+	gtk_window_set_default_size (GTK_WINDOW (selector), 400, 500);
+	gtk_container_set_border_width (GTK_CONTAINER (selector), 5);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (selector));
+
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+	selector->priv->content_area = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (selector),
+		_("_New"), EM_FOLDER_SELECTOR_RESPONSE_NEW,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		selector->priv->default_button_label, GTK_RESPONSE_OK, NULL);
+
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (selector), GTK_RESPONSE_OK, FALSE);
+	gtk_dialog_set_default_response (
+		GTK_DIALOG (selector), GTK_RESPONSE_OK);
+
+	widget = gtk_dialog_get_widget_for_response (
+		GTK_DIALOG (selector), EM_FOLDER_SELECTOR_RESPONSE_NEW);
+
+	g_object_bind_property (
+		selector, "can-create",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	widget = gtk_dialog_get_widget_for_response (
+		GTK_DIALOG (selector), GTK_RESPONSE_OK);
+
+	/* No need to synchronize properties. */
+	g_object_bind_property (
+		selector, "default-button-label",
+		widget, "label",
+		G_BINDING_DEFAULT);
+
+	widget = e_alert_bar_new ();
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	selector->priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = em_folder_tree_new_with_model (
+		session, E_ALERT_SINK (selector), model);
+	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	selector->priv->folder_tree = EM_FOLDER_TREE (widget);
+	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget, "folder-selected",
+		G_CALLBACK (folder_selector_selected_cb), selector);
+	g_signal_connect (
+		widget, "folder-activated",
+		G_CALLBACK (folder_selector_activated_cb), selector);
+
+	container = selector->priv->content_area;
+
+	/* This can be made visible by setting the "caption" property. */
+	widget = gtk_label_new (NULL);
+	gtk_widget_set_margin_top (widget, 6);
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_LEFT);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, TRUE, 0);
+	selector->priv->caption_label = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	g_object_bind_property (
+		selector, "caption",
+		widget, "label",
+		G_BINDING_DEFAULT);
+
+	gtk_widget_grab_focus (GTK_WIDGET (selector->priv->folder_tree));
 }
 
 static void
@@ -264,6 +419,7 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 	object_class->get_property = folder_selector_get_property;
 	object_class->dispose = folder_selector_dispose;
 	object_class->finalize = folder_selector_finalize;
+	object_class->constructed = folder_selector_constructed;
 
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = folder_selector_response;
@@ -331,171 +487,16 @@ em_folder_selector_init (EMFolderSelector *selector)
 		g_strdup (gettext (DEFAULT_BUTTON_LABEL));
 }
 
-static void
-folder_selector_create_name_changed (GtkEntry *entry,
-                                     EMFolderSelector *selector)
-{
-	EMFolderTree *folder_tree;
-	gchar *path;
-	const gchar *text = NULL;
-	gboolean active;
-
-	if (gtk_entry_get_text_length (selector->priv->name_entry) > 0)
-		text = gtk_entry_get_text (selector->priv->name_entry);
-
-	folder_tree = em_folder_selector_get_folder_tree (selector);
-
-	path = em_folder_tree_get_selected_uri (folder_tree);
-	active = text && path && !strchr (text, '/');
-	g_free (path);
-
-	gtk_dialog_set_response_sensitive (
-		GTK_DIALOG (selector), GTK_RESPONSE_OK, active);
-}
-
-static void
-folder_selected_cb (EMFolderTree *emft,
-                    CamelStore *store,
-                    const gchar *folder_name,
-                    CamelFolderInfoFlags flags,
-                    EMFolderSelector *selector)
-{
-	if (selector->priv->name_entry != NULL) {
-		folder_selector_create_name_changed (
-			selector->priv->name_entry, selector);
-	} else {
-		gtk_dialog_set_response_sensitive (
-			GTK_DIALOG (selector), GTK_RESPONSE_OK, TRUE);
-	}
-}
-
-static void
-folder_activated_cb (EMFolderTree *emft,
-                     CamelStore *store,
-                     const gchar *folder_name,
-                     EMFolderSelector *selector)
-{
-	gtk_dialog_response (GTK_DIALOG (selector), GTK_RESPONSE_OK);
-}
-
-static GtkWidget *
-folder_selector_construct (EMFolderSelector *selector)
-{
-	EMailSession *session;
-	EMFolderTreeModel *model;
-	GtkWidget *content_area;
-	GtkWidget *container;
-	GtkWidget *widget;
-	GtkWidget *vbox;
-
-	model = em_folder_selector_get_model (selector);
-	session = em_folder_tree_model_get_session (model);
-
-	gtk_window_set_default_size (GTK_WINDOW (selector), 400, 500);
-	gtk_container_set_border_width (GTK_CONTAINER (selector), 5);
-
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (selector));
-
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
-	gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
-	gtk_widget_show (vbox);
-
-	container = vbox;
-
-	gtk_dialog_add_buttons (
-		GTK_DIALOG (selector),
-		_("_New"), EM_FOLDER_SELECTOR_RESPONSE_NEW,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		selector->priv->default_button_label, GTK_RESPONSE_OK, NULL);
-
-	gtk_dialog_set_response_sensitive (
-		GTK_DIALOG (selector), GTK_RESPONSE_OK, FALSE);
-	gtk_dialog_set_default_response (
-		GTK_DIALOG (selector), GTK_RESPONSE_OK);
-
-	widget = gtk_dialog_get_widget_for_response (
-		GTK_DIALOG (selector), EM_FOLDER_SELECTOR_RESPONSE_NEW);
-
-	g_object_bind_property (
-		selector, "can-create",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	widget = gtk_dialog_get_widget_for_response (
-		GTK_DIALOG (selector), GTK_RESPONSE_OK);
-
-	/* No need to synchronize properties. */
-	g_object_bind_property (
-		selector, "default-button-label",
-		widget, "label",
-		G_BINDING_DEFAULT);
-
-	widget = e_alert_bar_new ();
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	selector->priv->alert_bar = g_object_ref (widget);
-	/* EAlertBar controls its own visibility. */
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = em_folder_tree_new_with_model (
-		session, E_ALERT_SINK (selector), model);
-	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	selector->priv->folder_tree = EM_FOLDER_TREE (widget);
-	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "folder-selected",
-		G_CALLBACK (folder_selected_cb), selector);
-	g_signal_connect (
-		widget, "folder-activated",
-		G_CALLBACK (folder_activated_cb), selector);
-
-	container = vbox;
-
-	/* This can be made visible by setting the "caption" property. */
-	widget = gtk_label_new (NULL);
-	gtk_widget_set_margin_top (widget, 6);
-	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_LEFT);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, TRUE, 0);
-	selector->priv->caption_label = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
-	g_object_bind_property (
-		selector, "caption",
-		widget, "label",
-		G_BINDING_DEFAULT);
-
-	gtk_widget_grab_focus (GTK_WIDGET (selector->priv->folder_tree));
-
-	return vbox;
-}
-
 GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
                         EMFolderTreeModel *model)
 {
-	EMFolderSelector *selector;
-
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
-	selector = g_object_new (
+	return g_object_new (
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
 		"model", model, NULL);
-	folder_selector_construct (selector);
-
-	return GTK_WIDGET (selector);
 }
 
 static void
@@ -545,10 +546,10 @@ em_folder_selector_create_new (GtkWindow *parent,
 		"model", model,
 		"default-button-label", _("C_reate"), NULL);
 
-	container = folder_selector_construct (selector);
-
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
+
+	container = selector->priv->content_area;
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
