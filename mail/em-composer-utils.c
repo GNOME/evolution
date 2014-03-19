@@ -3037,7 +3037,7 @@ post_header_clicked_cb (EComposerPostHeader *header,
 
 	dialog = em_folder_selector_new (
 		/* FIXME GTK_WINDOW (composer) */ NULL,
-		model, _("Posting destination"), NULL);
+		model, _("Posting destination"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);

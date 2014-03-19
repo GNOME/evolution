@@ -24,7 +24,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
 #include <libemail-engine/libemail-engine.h>
@@ -42,6 +42,8 @@
 /* Dialog response code. */
 #define EM_FOLDER_SELECTOR_RESPONSE_NEW 1
 
+#define DEFAULT_BUTTON_LABEL N_("_OK")
+
 struct _EMFolderSelectorPrivate {
 	EMFolderTree *folder_tree;  /* not referenced */
 	EMFolderTreeModel *model;
@@ -53,12 +55,14 @@ struct _EMFolderSelectorPrivate {
 
 	gboolean can_create;
 	gchar *caption;
+	gchar *default_button_label;
 };
 
 enum {
 	PROP_0,
 	PROP_CAN_CREATE,
 	PROP_CAPTION,
+	PROP_DEFAULT_BUTTON_LABEL,
 	PROP_MODEL
 };
 
@@ -103,6 +107,12 @@ folder_selector_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_DEFAULT_BUTTON_LABEL:
+			em_folder_selector_set_default_button_label (
+				EM_FOLDER_SELECTOR (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_MODEL:
 			folder_selector_set_model (
 				EM_FOLDER_SELECTOR (object),
@@ -131,6 +141,13 @@ folder_selector_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				em_folder_selector_get_caption (
+				EM_FOLDER_SELECTOR (object)));
+			return;
+
+		case PROP_DEFAULT_BUTTON_LABEL:
+			g_value_set_string (
+				value,
+				em_folder_selector_get_default_button_label (
 				EM_FOLDER_SELECTOR (object)));
 			return;
 
@@ -169,6 +186,7 @@ folder_selector_finalize (GObject *object)
 
 	g_free (priv->selected_uri);
 	g_free (priv->caption);
+	g_free (priv->default_button_label);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->finalize (object);
@@ -276,6 +294,17 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_DEFAULT_BUTTON_LABEL,
+		g_param_spec_string (
+			"default-button-label",
+			"Default Button Label",
+			"Label for the dialog's default button",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_MODEL,
 		g_param_spec_object (
 			"model",
@@ -297,6 +326,9 @@ static void
 em_folder_selector_init (EMFolderSelector *selector)
 {
 	selector->priv = EM_FOLDER_SELECTOR_GET_PRIVATE (selector);
+
+	selector->priv->default_button_label =
+		g_strdup (gettext (DEFAULT_BUTTON_LABEL));
 }
 
 static void
@@ -347,8 +379,7 @@ folder_activated_cb (EMFolderTree *emft,
 }
 
 static GtkWidget *
-folder_selector_construct (EMFolderSelector *selector,
-                           const gchar *oklabel)
+folder_selector_construct (EMFolderSelector *selector)
 {
 	EMailSession *session;
 	EMFolderTreeModel *model;
@@ -376,7 +407,7 @@ folder_selector_construct (EMFolderSelector *selector,
 		GTK_DIALOG (selector),
 		_("_New"), EM_FOLDER_SELECTOR_RESPONSE_NEW,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		oklabel ? oklabel : _("_OK"), GTK_RESPONSE_OK, NULL);
+		selector->priv->default_button_label, GTK_RESPONSE_OK, NULL);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK, FALSE);
@@ -390,6 +421,15 @@ folder_selector_construct (EMFolderSelector *selector,
 		selector, "can-create",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
+
+	widget = gtk_dialog_get_widget_for_response (
+		GTK_DIALOG (selector), GTK_RESPONSE_OK);
+
+	/* No need to synchronize properties. */
+	g_object_bind_property (
+		selector, "default-button-label",
+		widget, "label",
+		G_BINDING_DEFAULT);
 
 	widget = e_alert_bar_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -444,8 +484,7 @@ folder_selector_construct (EMFolderSelector *selector,
 GtkWidget *
 em_folder_selector_new (GtkWindow *parent,
                         EMFolderTreeModel *model,
-                        const gchar *title,
-                        const gchar *oklabel)
+                        const gchar *title)
 {
 	EMFolderSelector *selector;
 
@@ -456,7 +495,7 @@ em_folder_selector_new (GtkWindow *parent,
 		"transient-for", parent,
 		"title", title,
 		"model", model, NULL);
-	folder_selector_construct (selector, oklabel);
+	folder_selector_construct (selector);
 
 	return GTK_WIDGET (selector);
 }
@@ -507,9 +546,10 @@ em_folder_selector_create_new (GtkWindow *parent,
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
 		"title", title,
-		"model", model, NULL);
+		"model", model,
+		"default-button-label", _("C_reate"), NULL);
 
-	container = folder_selector_construct (selector, _("C_reate"));
+	container = folder_selector_construct (selector);
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
@@ -629,6 +669,50 @@ em_folder_selector_set_caption (EMFolderSelector *selector,
 	gtk_widget_set_visible (selector->priv->caption_label, visible);
 
 	g_object_notify (G_OBJECT (selector), "caption");
+}
+
+/**
+ * em_folder_selector_get_default_button_label:
+ * @selector: an #EMFolderSelector
+ *
+ * Returns the label for the dialog's default button, which triggers a
+ * #GTK_RESPONSE_OK response ID.
+ *
+ * Returns: the label for the default button
+ **/
+const gchar *
+em_folder_selector_get_default_button_label (EMFolderSelector *selector)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), NULL);
+
+	return selector->priv->default_button_label;
+}
+
+/**
+ * em_folder_selector_set_default_button_label:
+ * @selector: an #EMFolderSelector
+ * @button_label: the label for the default button, or %NULL
+ *
+ * Sets the label for the dialog's default button, which triggers a
+ * #GTK_RESPONSE_OK response ID.  If @button_label is %NULL, the default
+ * button's label is reset to "OK".
+ **/
+void
+em_folder_selector_set_default_button_label (EMFolderSelector *selector,
+                                             const gchar *button_label)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
+
+	if (button_label == NULL)
+		button_label = gettext (DEFAULT_BUTTON_LABEL);
+
+	if (g_strcmp0 (button_label, selector->priv->default_button_label) == 0)
+		return;
+
+	g_free (selector->priv->default_button_label);
+	selector->priv->default_button_label = g_strdup (button_label);
+
+	g_object_notify (G_OBJECT (selector), "default-button-label");
 }
 
 EMFolderTreeModel *

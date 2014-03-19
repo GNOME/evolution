@@ -507,10 +507,11 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (parent, model, title, label);
+	dialog = em_folder_selector_new (parent, model, title);
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
+	em_folder_selector_set_default_button_label (selector, label);
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 

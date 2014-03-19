@@ -387,11 +387,11 @@ source_add (GtkWidget *widget,
 
 	model = em_folder_tree_model_get_default ();
 
-	dialog = em_folder_selector_new (
-		parent, model, _("Add Folder"), _("_Add"));
+	dialog = em_folder_selector_new (parent, model, _("Add Folder"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
+	em_folder_selector_set_default_button_label (selector, _("_Add"));
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 

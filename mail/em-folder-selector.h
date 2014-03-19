@@ -63,8 +63,7 @@ struct _EMFolderSelectorClass {
 GType		em_folder_selector_get_type	(void);
 GtkWidget *	em_folder_selector_new		(GtkWindow *parent,
 						 EMFolderTreeModel *model,
-						 const gchar *title,
-						 const gchar *oklabel);
+						 const gchar *title);
 GtkWidget *	em_folder_selector_create_new	(GtkWindow *parent,
 						 EMFolderTreeModel *model,
 						 const gchar *title);
@@ -76,6 +75,11 @@ void		em_folder_selector_set_can_create
 const gchar *	em_folder_selector_get_caption	(EMFolderSelector *selector);
 void		em_folder_selector_set_caption	(EMFolderSelector *selector,
 						 const gchar *caption);
+const gchar *	em_folder_selector_get_default_button_label
+						(EMFolderSelector *selector);
+void		em_folder_selector_set_default_button_label
+						(EMFolderSelector *selector,
+						 const gchar *button_label);
 EMFolderTreeModel *
 		em_folder_selector_get_model	(EMFolderSelector *selector);
 EMFolderTree *	em_folder_selector_get_folder_tree
