@@ -278,6 +278,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 		editor_hrule_dialog_set_alignment (dialog);
 		editor_hrule_dialog_set_shading (dialog);
 
+		e_editor_widget_set_changed (editor_widget, TRUE);
 	} else {
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 

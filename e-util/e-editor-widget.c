@@ -1119,6 +1119,8 @@ emoticon_read_async_cb (GFile *file,
 	e_editor_selection_restore_caret_position (
 		e_editor_widget_get_selection (widget));
 
+	e_editor_widget_set_changed (widget, TRUE);
+
 	g_free (html);
 	g_free (node_text);
 	g_free (base64_encoded);

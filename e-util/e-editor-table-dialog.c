@@ -122,6 +122,8 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 
 	e_editor_selection_clear_caret_position_marker (editor_selection);
 
+	e_editor_widget_set_changed (editor_widget, TRUE);
+
 	return table;
 }
 
