@@ -922,14 +922,14 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_COPY,
 	  N_("_Copy"),
 	  "<Control>c",
-	  NULL,
+	  N_("Copy selected text to the clipboard"),
 	  G_CALLBACK (action_copy_cb) },
 
 	{ "cut",
 	  GTK_STOCK_CUT,
 	  N_("Cu_t"),
 	  "<Control>x",
-	  NULL,
+	  N_("Cut selected text to the clipboard"),
 	  G_CALLBACK (action_cut_cb) },
 
 	{ "indent",
@@ -957,7 +957,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_PASTE,
 	  N_("_Paste"),
 	  "<Control>v",
-	  NULL,
+	  N_("Paste text from the clipboard"),
 	  G_CALLBACK (action_paste_cb) },
 
 	{ "paste-quote",
@@ -971,7 +971,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_REDO,
 	  N_("_Redo"),
 	  "<Shift><Control>z",
-	  NULL,
+	  N_("Redo the last undone action"),
 	  G_CALLBACK (action_redo_cb) },
 
 	{ "select-all",
@@ -985,7 +985,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_FIND,
 	  N_("_Find..."),
 	  "<Control>f",
-	  NULL,
+	  N_("Search for text"),
 	  G_CALLBACK (action_show_find_cb) },
 
 	{ "find-again",
@@ -999,7 +999,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_FIND_AND_REPLACE,
 	  N_("Re_place..."),
 	  "<Control>h",
-	  NULL,
+	  N_("Search for and replace text"),
 	  G_CALLBACK (action_show_replace_cb) },
 
 	{ "spell-check",
@@ -1013,7 +1013,7 @@ static GtkActionEntry core_entries[] = {
 	  GTK_STOCK_UNDO,
 	  N_("_Undo"),
 	  "<Control>z",
-	  NULL,
+	  N_("Undo the last action"),
 	  G_CALLBACK (action_undo_cb) },
 
 	{ "unindent",
