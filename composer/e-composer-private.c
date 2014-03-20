@@ -872,9 +872,13 @@ composer_move_caret (EMsgComposer *composer)
 	}
 
 	/* If editing message as new don't handle with caret */
-	if (composer->priv->is_from_message) {
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (body), "data-edit-as-new", "", NULL);
+	if (composer->priv->is_from_message || composer->priv->is_from_draft) {
+		if (compser->priv->is_from_message)
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (body),
+				"data-edit-as-new",
+				"",
+				NULL);
 		e_editor_selection_restore_caret_position (editor_selection);
 
 		e_editor_widget_force_spell_check (editor_widget);
