@@ -5396,7 +5396,7 @@ e_editor_widget_set_text_html (EEditorWidget *widget,
 	widget->priv->reload_in_progress = TRUE;
 
 	/* Only convert messages that are in HTML */
-	if (!widget->priv->html_mode && *text) {
+	if (!widget->priv->html_mode && *text && !strstr (text, "data-evo-draft")) {
 		if (strstr (text, "<!-- text/html -->")) {
 			if (!show_lose_formatting_dialog (widget)) {
 				e_editor_widget_set_html_mode (widget, TRUE);
