@@ -4663,9 +4663,12 @@ static gchar *
 process_content_for_saving_as_draft (EEditorWidget *widget)
 {
 	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
 	WebKitDOMElement *element;
+	gchar *content;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	body = webkit_dom_document_get_body (document);
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-caret-position");
 
@@ -4673,9 +4676,17 @@ process_content_for_saving_as_draft (EEditorWidget *widget)
 		webkit_dom_element_set_attribute (
 			element, "style", "display: none; color: red;", NULL);
 
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-evo-draft", "", NULL);
+
 	element = webkit_dom_document_get_document_element (document);
-	return webkit_dom_html_element_get_outer_html (
+	content = webkit_dom_html_element_get_outer_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
+
+	webkit_dom_element_remove_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
+
+	return content;
 }
 
 static gchar *
