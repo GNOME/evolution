@@ -92,6 +92,7 @@ struct _EMsgComposerPrivate {
 
 	CamelMimeMessage *redirect;
 
+	gboolean is_from_draft;
 	gboolean is_from_message;
 	gboolean is_from_new_message;
 	gboolean set_signature_from_message;

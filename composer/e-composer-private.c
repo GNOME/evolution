@@ -131,6 +131,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->charset = e_composer_get_default_charset ();
 
+	priv->is_from_draft = FALSE;
 	priv->is_from_message = FALSE;
 	priv->is_from_new_message = FALSE;
 	priv->set_signature_from_message = FALSE;
