@@ -873,7 +873,7 @@ composer_move_caret (EMsgComposer *composer)
 
 	/* If editing message as new don't handle with caret */
 	if (composer->priv->is_from_message || composer->priv->is_from_draft) {
-		if (compser->priv->is_from_message)
+		if (composer->priv->is_from_message)
 			webkit_dom_element_set_attribute (
 				WEBKIT_DOM_ELEMENT (body),
 				"data-edit-as-new",
