@@ -147,4 +147,9 @@ DISTCHECK_CONFIGURE_FLAGS =		\
 	--disable-weather		\
 	--with-help
 
+@BEHAVE_INSTALLED_TESTS_RULE@
+INSTALLED_TESTS=general_shortcuts mail_shortcuts contacts_shortcuts	\
+	calendar_shortcuts memos_shortcuts view_shortcuts menu_shortcuts
+INSTALLED_TESTS_TYPE=session-exclusive
+
 -include $(top_srcdir)/git.mk

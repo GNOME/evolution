@@ -1411,6 +1411,11 @@ if test "$with_catalog" = "yes"; then
 fi
 AM_CONDITIONAL(GLADE_CATALOG, test "x$with_catalog" != "xno")
 
+dnl ********************************************
+dnl Installed tests
+dnl ********************************************
+BEHAVE_INSTALLED_TESTS
+
 dnl ******************************
 dnl Makefiles
 dnl ******************************
@@ -1592,4 +1597,5 @@ echo "
 	Highlight support:	$msg_text_highlight
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
+	Installed tests:	$enable_installed_tests
 "
