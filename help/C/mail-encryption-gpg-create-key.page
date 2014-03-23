@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="2.32.1" version="0.3" date="2012-02-18" status="final"/>
+    <revision pkgversion="3.11.92" version="0.4" date="2014-03-23" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,8 +22,9 @@
 
   <title>Creating a GPG key</title>
 
-<note style="advanced"><p>These steps are very technical. For average users we recommend using the <link xref="help:seahorse/index" href="https://help.gnome.org/users/seahorse/stable/index"><app>Seahorse</app> application</link> for managing GPG/OpenPGP keys.</p></note>
-<!-- TODO:POST-3-8: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
+<note style="advanced"><p>These steps are very technical. For average users we recommend using the <link xref="help:seahorse/pgp-generate"
+href="https://help.gnome.org/users/seahorse/stable/pgp-generate"><app>Seahorse</app> application</link> for creating GPG/OpenPGP keys.</p></note>
+<!-- TODO:POST-3-12: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
 <p>Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG.</p>
 <steps>
