@@ -41,11 +41,11 @@
 <p>To send a Shared Memo,</p>
 <steps>
 <item><p>Click <guiseq><gui>File</gui><gui>New</gui><gui>Shared Memo</gui></guiseq>, or press <keyseq><key>Shift</key><key>Ctrl</key><key>H</key></keyseq>.</p></item>
-<item><p>Select the Organizer's account name from the drop-down list given next to the Organizer field.</p></item>
-<item><p>In the To field, type a username, then press Enter. Repeat this for additional users.</p></item>
+<item><p>Select the Organizer's account name from the drop-down list given next to the <gui>Organizer</gui> field.</p></item>
+<item><p>In the <gui>To</gui> field, type a username, then press Enter. Repeat this for additional users.</p></item>
 <item><p>Select the task list (under <gui>List</gui>) in which you would like to create the entry.</p></item>
-<item><p>Enter a brief summary in the Summary field.</p></item>
-<item><p>In the Start Date field, type the date this shared memo should appear in the recipients' calendars.</p></item>
+<item><p>Enter a brief summary in the <gui>Summary</gui> field.</p></item>
+<item><p>In the <gui>Start Date</gui> field, type the date this shared memo should appear in the recipients' calendars.</p></item>
 <item><p>Click the <gui style="button">Save</gui> button, or <guiseq><gui>File</gui><gui>Save</gui></guiseq>.</p></item>
 </steps>
 </section>
