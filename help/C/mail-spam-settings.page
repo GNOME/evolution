@@ -37,7 +37,7 @@
 
 <section id="junk-tools">
 <title>Tools</title>
-<p><app>Evolution</app> lets you check for unwanted junk or spam emails by using the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use these tools, you need to make sure that they are installed via the software management tool of your distribution.</p>
+<p><app>Evolution</app> lets you check for unwanted junk or spam email by using the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use these tools, you need to make sure that they are installed via the software management tool of your distribution.</p>
 
 <note style="info package">
   <p>You might need to install <app>Bogofilter</app> or <app>SpamAssassin</app> to perform these steps.</p>
@@ -59,7 +59,7 @@
 
 <section id="preferences">
 <title>Junk Mail Preferences</title>
-<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery accounts. For handling junk mails on IMAP accounts, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
+<note style="tip"><p>The junk mail options discussed in this page refer only to POP and Local Delivery accounts. For handling junk mail on IMAP accounts, see the Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Options</gui></guiseq>.</p></note>
 <p>You can modify how Evolution handles junk mail by changing the Junk Mail Preferences:</p>
 <steps>
 <item><p>Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>.</p></item>

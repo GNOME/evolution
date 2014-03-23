@@ -17,7 +17,7 @@
 
   </info>
 
-<title>Words are wrapped in outgoing mails at 72 characters</title>
+<title>Words are wrapped in outgoing mail at 72 characters</title>
 
 <p>For better readability lines are wrapped after 72 characters. This value is hardcoded and cannot be changed.</p>
 <p>To avoid line breaks within a paragraph, mark the paragraph and choose <guiseq><gui>Format</gui><gui>Paragraph Style</gui><gui>Preformatted</gui></guiseq> in the mail composer.</p>
