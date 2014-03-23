@@ -1,3 +1,21 @@
+Evolution 3.12.0 2014-03-24
+---------------------------
+
+* Forbid header bars in stock GTK+ dialogs. (Matthew Barnes)
+
+Translations:
+	Kenneth Nielsen (da)
+	Christian Kirbach (de)
+	Inaki Larranaga Murgoitio (eu)
+	Jiri Grönroos (fi)
+	Gábor Kelemen (hu)
+	Duarte Loreto (pt)
+	Enrico Nicoletto (pt_BR)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+	Мирослав Николић (sr)
+
+
 Evolution 3.11.92 2014-03-17
 ----------------------------
 
