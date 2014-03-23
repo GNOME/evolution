@@ -6,13 +6,10 @@
 
     <link type="guide" xref="index#data-migration-and-sync"/>
 
-    <revision pkgversion="2.30.2" version="0.6" date="2013-04-20" status="draft"/>
+    <revision pkgversion="3.10.4" version="0.7" date="2014-03-23" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
-    </credit>
-    <credit type="author">
-      <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-sync.html.en -->
     </credit>
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
@@ -29,38 +26,5 @@
 <p>In general it is recommended to use applications and devices that both support the <link href="https://en.wikipedia.org/wiki/ActiveSync">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link href="https://en.wikipedia.org/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
 
  <p>If you can provide good practices or more information on this topic feel free to file a bug report in <link href="https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&amp;component=User%20Documentation">GNOME's bug tracking system</link>.</p>
-
-  <section id="palm">
-    <title>Palm</title>
-<p>To synchronize with a Palm OS device like the PalmPilot(TM) and the Handspring Visor several steps are needed: First, you need to enable synchronization. Second, your computer needs to recognize and access your handheld. Third, you should decide what sort of synchronization behavior you want.</p>
-    <section id="sync-enabling-palm">
-      <title>Enabling Synchronization</title>
-      <p>If you have not used a handheld device with your computer before, you need to configure it via <guiseq><gui>Edit</gui><gui>GNOME Pilot Synchronization…</gui></guiseq>. Make sure that you have read and write permissions on the device, which is normally in <file>/dev/pilot</file>. If that does not work, check in <file>/dev/ttyS0</file> if you have a serial connection, or in <file>/dev/ttyUSB1</file> for a USB connection. You can do this by becoming root user and adding your username to the group that owns this device node. For a USB device on sync, two device nodes are created, <file>ttyUSB0</file> and <file>ttyUSB1</file>. The second node is the one to be used in configuring the device.</p>
-   </section>
-   <section id="sync-selecting-conduits-">
-     <title>Selecting Conduits</title>
-     <p>After your computer and your Palm OS device are communicating, select the conduits you want under the <gui>Pilot Conduits</gui> section. You can use conduits to synchronize data with several applications; the Evolution conduits are labeled <gui>EAddress</gui> for the contacts in your address book; <gui>ECalendar</gui> for your calendar; and <gui>ETodo</gui> for your task list.</p>
-     <p>Click <gui>Enable</gui>, then click <gui>Settings</gui> to change what the conduit does when activated. Your options can vary depending on the conduit, but typically they are as follows:</p>
-     <list>
-       <item><p><gui>Disabled</gui>: Do nothing.</p></item>
-       <item><p><gui>Synchronize</gui>: Copy new data from the computer to the handheld, and from the handheld to the computer. Remove items that were on both systems but have been deleted on one.</p></item>
-       <item><p><gui>Copy From Pilot</gui>: If there is any new data on the handheld device, copy it to the computer.</p></item>
-       <item><p><gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld.</p></item>
-     </list>
-   <p>Select the behavior you want for each conduit you choose to use. If you're not sure, use <gui>Synchronize</gui>.</p>
-  </section>
-
-  <section id="sync-information">
-   <title>Synchronizing Information</title>
-   <p>Use the following procedure to synchronize the data on your Palm OS device with the data you store in Evolution.</p>
-   <list>
-     <item><p>If you want to back up your information before synchronizing, make a copy of the <file>.local/share/evolution</file> directory inside your home directory.</p></item>
-     <item><p>Put your handheld device in its cradle and press the <gui style="button">HotSync</gui> button.</p></item>
-     <item><p>If you use Palm OS version 4.0 and have password protection turned on for your handheld device, you might encounter trouble synchronizing. If this happens, try turning off password protection on your handheld, synchronize it with your desktop computer, and then re-enable password protection on your handheld.</p></item>
-    </list>
-   <p>Now your Palm OS device will synchronize data with Evolution.</p>
-  </section>
-
-  </section>
 
 </page>
