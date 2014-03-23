@@ -8,10 +8,14 @@
     <link type="guide" xref="google-services"/>
     <link type="seealso" xref="mail-account-manage-pop"/>
 
-    <revision pkgversion="2.28.3" version="0.1" date="2010-10-16" status="review"/>
+    <revision pkgversion="3.11.92" version="0.2" date="2014-03-23" status="review"/>
     <credit type="author">
       <name its:translate="no">April Gonzales</name>
       <email its:translate="no">loonycookie@gmail.com</email>
+    </credit>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
     </credit>
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
@@ -35,9 +39,9 @@
     </list>
 </item>
 <item><p>Specify the other required settings for this Gmail feature.</p></item>
-<item><p>To know the Gmail Account settings, click on <guiseq><gui>Configuration instructions</gui><gui>Other</gui><gui>Standard Instructions</gui></guiseq>.</p></item>
+<item><p>To know the Gmail Account settings, click on <gui>Configuration instructions</gui>. Choose <gui>I want to enable POP</gui> and select <gui>Other</gui> from the list of clients.</p></item>
 <item><p>On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Click <gui style="button">Add</gui>. </p></item>
-<item><p>Provide the required information. For the account settings, refer to Step 5 </p></item>
+<item><p>Provide the required information. For the account settings, refer to Step 5.</p></item>
 </steps>
 </page>
 
