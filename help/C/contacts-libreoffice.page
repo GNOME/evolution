@@ -48,7 +48,7 @@
     </item>
     <item>
       <p>Go to
-      <file>/home/username/.local/share/evolution/addressbook/system/addressbook.db</file>
+      <file>~/.local/share/evolution/addressbook/system/addressbook.db</file>
       and click <gui style="button">Open</gui>.</p>
     </item>
   </steps>
