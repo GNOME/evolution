@@ -26,9 +26,9 @@
 <steps>
 <item><p>Select one or more messages.</p></item>
 <item><p>Right-click one of the messages.</p></item>
-<item><p>Click <gui>Mark for Follow Up...</gui>.</p></item>
+<item><p>Click <gui>Mark for Follow Up…</gui>.</p></item>
 </steps>
-<p>You can also do this by selecting the message(s) and clicking <guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up...</gui></guiseq> or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>.</p>
+<p>You can also do this by selecting the message(s) and clicking <guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up…</gui></guiseq> or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>.</p>
 
 <p>A window opens to allow you to set the type of flag and the due date.</p>
 

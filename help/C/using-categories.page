@@ -34,7 +34,7 @@
 <p>To mark an object as belonging to a category,</p>
 <steps>
 <item><p>Double-click the object to bring up the corresponding editor.</p></item>
-<item><p>Click <gui style="button">Categories...</gui>. (If this button is not available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)</p></item>
+<item><p>Click <gui style="button">Categories…</gui>. (If this button is not available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)</p></item>
 <item><p>Select the category from the list. You can select as many or as few categories as you like.</p></item>
 </steps>
 
@@ -46,7 +46,7 @@
 <p>If the default list of categories does not suit your needs, you can add your own categories either directly via <guiseq><gui>Edit</gui><gui>Available Categories</gui></guiseq>, or indirectly when editing an object:</p>
 <steps>
 <item><p>Double-click any object to bring up the corresponding editor.</p></item>
-<item><p>Click <gui style="button">Categories...</gui>. (If this button is not available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)</p></item>
+<item><p>Click <gui style="button">Categories…</gui>. (If this button is not available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)</p></item>
 <item><p>Enter the new category in the entry box at the top.</p></item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>You can now see the category in the <gui>Categories</gui> text field in the editor.</p></item>

@@ -19,7 +19,7 @@
 
 <title>Exporting mail data</title>
 
-<p>To save an email to a file in <link href="https://en.wikipedia.org/wiki/Mbox">mbox</link> format, select an email and click <guiseq><gui>File</gui><gui>Save as mbox...</gui></guiseq> or right-click on the message and click <gui>Save as mbox...</gui>.</p>
+<p>To save an email to a file in <link href="https://en.wikipedia.org/wiki/Mbox">mbox</link> format, select an email and click <guiseq><gui>File</gui><gui>Save as mbox…</gui></guiseq> or right-click on the message and click <gui>Save as mbox…</gui>.</p>
 
 <p>The same steps apply to save a complete mail folder, but you have to mark all messages in it first.</p>
 <p>You can select all messages in a folder by clicking <guiseq><gui>Edit</gui><gui>Select All</gui></guiseq> or pressing <keyseq><key>Ctrl</key><key>A</key></keyseq>.</p>

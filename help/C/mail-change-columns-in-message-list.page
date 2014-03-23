@@ -19,7 +19,7 @@
 
   <title>Changing the message list columns</title>
 
-<p>If you want to change the columns in the mail message list, right-click on the column headers and choose either <gui>Add a Column...</gui> or <gui>Remove This Column</gui>.</p>
+<p>If you want to change the columns in the mail message list, right-click on the column headers and choose either <gui>Add a Column…</gui> or <gui>Remove This Column</gui>.</p>
 <note style="tip"><p>If you have a small display, you can replace the <gui>Subject</gui> column by the <gui>Subject - Trimmed</gui> which will remove prefixes such as "Re:", or you can replace the <gui>From</gui> column which displays the sender's name and email address by the <gui>Sender</gui> column which will only display the sender's name.</p></note>
 
 <note style="tip"><p>If you would like to have the same column layout in all mail folders except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note that this setting also influences <link xref="mail-sorting-message-list#email-threads"><gui>Group by Threads</gui></link> and the <gui>Message Preview</gui> visibility in all folders.</p></note>

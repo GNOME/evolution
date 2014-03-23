@@ -22,7 +22,7 @@
 
 <p>You can insert a horizontal line into the email (at the current position of the cursor) to help divide two sections:</p>
 <steps>
-<item><p>Click <guiseq><gui>Insert</gui><gui>Rule...</gui></guiseq> in the menubar.</p></item>
+<item><p>Click <guiseq><gui>Insert</gui><gui>Rule…</gui></guiseq> in the menubar.</p></item>
 <item><p>Select width, size, and alignment.</p></item>
 <item><p>Select <gui>Shaded</gui> if wanted.</p></item>
 <item><p>Click <gui>Close</gui>.</p></item>

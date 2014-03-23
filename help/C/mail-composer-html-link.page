@@ -24,7 +24,7 @@
 <p>You can insert links into the email:</p>
 <steps>
 <item><p>Select the text that you want to turn into a link.</p></item>
-<item><p>Either click <guiseq><gui>Insert</gui><gui>Link...</gui></guiseq> in the menubar, or right-click on the selected text and click <gui>Insert Link</gui>.</p></item>
+<item><p>Either click <guiseq><gui>Insert</gui><gui>Link…</gui></guiseq> in the menubar, or right-click on the selected text and click <gui>Insert Link</gui>.</p></item>
 <item><p>Enter the address in the <gui>URL</gui> field.</p></item>
 <item><p>Click <gui>Close</gui>.</p></item>
 </steps>

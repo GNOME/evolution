@@ -22,7 +22,7 @@
 
 <p>You can insert a table into the email (at the current position of the cursor):</p>
 <steps>
-<item><p>Click <guiseq><gui>Insert</gui><gui>Table...</gui></guiseq> in the menubar.</p></item>
+<item><p>Click <guiseq><gui>Insert</gui><gui>Table…</gui></guiseq> in the menubar.</p></item>
 <item><p>Select the number of rows and columns.</p></item>
 <item><p>Define the type of layout for the table.</p></item>
 <item><p>Optionally: Select a background color or image for the table.</p></item>

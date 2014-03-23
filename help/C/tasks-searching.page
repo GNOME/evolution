@@ -29,7 +29,7 @@
 
 <section id="search-single">
 <title>Searching in a Single Task</title>
-<p>To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find in Task...</gui></guiseq> from the main menu.</p>
+<p>To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find in Task…</gui></guiseq> from the main menu.</p>
 </section>
 
 <section id="search-many">

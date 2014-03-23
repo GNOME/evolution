@@ -47,7 +47,7 @@
 
 <section id="saving">
 <title>Saving images</title>
-<p>To save an image that is embedded in an HTML email, right-click on the image and click <gui>Save Image...</gui>.</p>
+<p>To save an image that is embedded in an HTML email, right-click on the image and click <gui>Save Image…</gui>.</p>
 <!-- This is available only since version 3.1.5, see https://bugzilla.gnome.org/show_bug.cgi?id=655669 -->
 </section>
 

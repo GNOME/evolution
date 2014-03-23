@@ -27,7 +27,7 @@
 <title>Attaching files</title>
 <p>To attach a file to your email in the composer:</p>
 <steps>
-<item><p>Click <gui>Add Attachment...</gui>, or click <guiseq><gui>Insert</gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>M</key></keyseq>.</p></item>
+<item><p>Click <gui>Add Attachment…</gui>, or click <guiseq><gui>Insert</gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>M</key></keyseq>.</p></item>
 <item><p>Select the file you want to attach.</p></item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 </steps>

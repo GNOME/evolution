@@ -20,7 +20,7 @@
 
 <title>Forwarding a message with its attachments</title>
 
-<p>Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and choose <gui>Attachment</gui>, so the forwarded email and also its attachments get attached to the email you want to send.</p>
+<p>Click <guiseq><gui>Message</gui><gui>Forward as…</gui></guiseq> and choose <gui>Attachment</gui>, so the forwarded email and also its attachments get attached to the email you want to send.</p>
 
 <note style="tip">
 <p>If you want to have this setting by default, set <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Forward Style</gui></guiseq> to <gui>Attachment</gui>.</p>

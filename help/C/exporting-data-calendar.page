@@ -20,5 +20,5 @@
 <title>Exporting calendar data</title>
 
 <p>To export a complete calendar, right-click on the calendar in the list of calendars and click <gui>Save as</gui>. Available formats are iCalendar format (ICS, recommended), comma separated values (CSV), and RDF format.</p>
-<p>If you want to export only one appointment (or task or memo), either select the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar...</gui></guiseq>, or right-click on the appointment and click <gui>Save as iCalendar...</gui>.</p>
+<p>If you want to export only one appointment (or task or memo), either select the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar…</gui></guiseq>, or right-click on the appointment and click <gui>Save as iCalendar…</gui>.</p>
 </page>

@@ -25,7 +25,7 @@
 <p>On the <gui>Receiving Email</gui> page (accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Receiving Email</gui></guiseq>):</p>
 
 <list>
-<item><p>Choose the directory by clicking on the button next to <gui>Path</gui> in the <gui>Configuration</gui> section. Some default folders are available in the list. If the directory is not among those folders, choose the last option <gui>Other...</gui>. This will open a directory chooser window.</p></item>
+<item><p>Choose the directory by clicking on the button next to <gui>Path</gui> in the <gui>Configuration</gui> section. Some default folders are available in the list. If the directory is not among those folders, choose the last option <gui>Other…</gui>. This will open a directory chooser window.</p></item>
 </list>
 
 </section>

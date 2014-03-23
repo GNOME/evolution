@@ -22,7 +22,7 @@
 
 <p>You can insert an image into the email (at the current position of the cursor):</p>
 <steps>
-<item><p>Click <guiseq><gui>Insert</gui><gui>Image...</gui></guiseq> in the menubar.</p></item>
+<item><p>Click <guiseq><gui>Insert</gui><gui>Image…</gui></guiseq> in the menubar.</p></item>
 <item><p>Browse to and select the file.</p></item>
 <item><p>Click <gui>Open</gui>.</p></item>
 </steps>
