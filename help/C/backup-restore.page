@@ -6,7 +6,7 @@
     <link type="guide" xref="index#data-migration-and-sync"/>
     <link type="seealso" xref="data-storage"/>
 
-    <revision pkgversion="3.1.5" version="0.3" date="2011-09-29" status="final"/>
+    <revision pkgversion="3.1.5" version="0.4" date="2014-03-23" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -48,8 +48,8 @@
     not included in the backup file, as these settings are not controlled by
     <app>Evolution</app> and as developers of spam filtering tools might change
     implementation details. If you use Bogofilter you will need to back up
-    <file>~/.bogofilter/</file>. If you use SpamAssassin you will need to back
-    up <file>~/.spamassassin/</file>.</p>
+    the hidden folder <file>~/.bogofilter/</file>. If you use SpamAssassin you
+    will need to back up the hidden folder <file>~/.spamassassin/</file>.</p>
   </note>
 
 </section>
