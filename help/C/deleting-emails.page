@@ -26,7 +26,7 @@
 <title>Deleting emails or attachments permanently</title>
 
 <section id="emails">
-<title>Emails</title>
+<title>Mail</title>
 <p>Evolution deletes emails on IMAP servers by <em>marking</em> the messages for deletion; space is not freed until you <em>expunge</em> the marked emails. </p>
 
 <p>To Expunge a specific folder, go to <guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press <keyseq><key>Ctrl</key><key>E</key></keyseq>. To Expunge all folders, go to <guiseq><gui>File</gui><gui>Empty Trash</gui></guiseq>. This applies to other types of accounts as well.</p>
