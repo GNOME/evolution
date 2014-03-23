@@ -5,7 +5,7 @@
     <desc>Options on notifications of newly received mail.</desc>
 
     <link type="guide" xref="mail-send-and-receive" />
-    <link type="seealso" xref="calendar-alarms-and-reminders.page" />
+    <link type="seealso" xref="calendar-alarms-and-reminders" />
 
     <revision pkgversion="3.0.2" version="0.5" date="2013-06-20" status="final"/>
     <credit type="author">
