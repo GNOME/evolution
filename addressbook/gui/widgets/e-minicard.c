@@ -630,8 +630,9 @@ e_minicard_event (GnomeCanvasItem *item,
 		break;
 	case GDK_MOTION_NOTIFY:
 		if (e_minicard->drag_button_down && event->motion.state & GDK_BUTTON1_MASK) {
-			if (MAX (abs (e_minicard->button_x - event->motion.x),
-				 abs (e_minicard->button_y - event->motion.y)) > 3) {
+			if (gtk_drag_check_threshold (GTK_WIDGET (item->canvas),
+				e_minicard->button_x, e_minicard->button_y,
+				event->motion.x, event->motion.y)) {
 				gint ret_val;
 
 				ret_val = e_minicard_drag_begin (e_minicard, event);

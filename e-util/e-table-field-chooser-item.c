@@ -549,14 +549,14 @@ etfci_maybe_start_drag (ETableFieldChooserItem *etfci,
                         gint x,
                         gint y)
 {
+	GnomeCanvasItem *item;
+
 	if (!etfci->maybe_drag)
 		return FALSE;
 
-	if (MAX (abs (etfci->click_x - x),
-		 abs (etfci->click_y - y)) <= 3)
-		return FALSE;
+	item = GNOME_CANVAS_ITEM (etfci);
 
-	return TRUE;
+	return gtk_drag_check_threshold (GTK_WIDGET (item->canvas), etfci->click_x, etfci->click_y, x, y);
 }
 
 static void

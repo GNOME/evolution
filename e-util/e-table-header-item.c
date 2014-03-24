@@ -1202,6 +1202,8 @@ static gboolean
 ethi_maybe_start_drag (ETableHeaderItem *ethi,
                        GdkEventMotion *event)
 {
+	GnomeCanvasItem *item;
+
 	if (!ethi->maybe_drag)
 		return FALSE;
 
@@ -1210,11 +1212,9 @@ ethi_maybe_start_drag (ETableHeaderItem *ethi,
 		return FALSE;
 	}
 
-	if (MAX (abs (ethi->click_x - event->x),
-		 abs (ethi->click_y - event->y)) <= 3)
-		return FALSE;
+	item = GNOME_CANVAS_ITEM (ethi);
 
-	return TRUE;
+	return gtk_drag_check_threshold (GTK_WIDGET (item->canvas), ethi->click_x, ethi->click_y, event->x, event->y);
 }
 
 static void

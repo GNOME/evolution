@@ -2745,8 +2745,7 @@ eti_event (GnomeCanvasItem *item,
 		gnome_canvas_item_w2i (item, &event_x_item, &event_y_item);
 
 		if (eti->maybe_in_drag) {
-			if (abs (event_x_item - eti->drag_x) >= 3 ||
-			    abs (event_y_item - eti->drag_y) >= 3) {
+			if (gtk_drag_check_threshold (GTK_WIDGET (item->canvas), eti->drag_x, eti->drag_y, event_x_item, event_y_item)) {
 				gboolean drag_handled;
 
 				eti->maybe_in_drag = 0;
