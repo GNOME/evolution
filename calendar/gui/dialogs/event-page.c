@@ -3481,7 +3481,7 @@ init_widgets (EventPage *epage)
 	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (
 		store, &iter,
-		0, _("Customize"),
+		0, _("Custom"),
 		-1);
 
 	gtk_list_store_insert (store, &iter, 0);
