@@ -265,6 +265,9 @@ mail_security_page_get_openpgpg_combo (void)
 		}
 	}
 
+	g_list_free (keys);
+	g_object_unref (keyset);
+
 	widget = gtk_combo_box_new_with_model_and_entry (GTK_TREE_MODEL (store));
 	g_object_unref (store);
 
