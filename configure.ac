@@ -858,6 +858,34 @@ AC_SUBST(MANUAL_NSPR_LIBS)
 AC_SUBST(MANUAL_NSS_CFLAGS)
 AC_SUBST(MANUAL_NSS_LIBS)
 
+dnl ******************************
+dnl libcryptui, aka Seahorse
+dnl ******************************
+AC_ARG_ENABLE([libcryptui],
+	[AS_HELP_STRING([--enable-libcryptui],
+	[Enable libcryptui usage @<:@default=yes@:>@])],
+	[enable_libcryptui="$enableval"], [enable_libcryptui=yes])
+
+if test "x$enable_libcryptui" = "xyes"; then
+	PKG_CHECK_MODULES(
+		[LIBCRYPTUI],
+		[cryptui-0.0],,
+		[AC_MSG_ERROR([
+
+	cryptui-0.0 not found
+
+	If you want to disable support libcryptui usage,
+	please append --disable-libcryptui to configure.
+
+	])])
+
+	AC_DEFINE(HAVE_LIBCRYPTUI, 1, [Define if using libcryptui])
+else
+	enable_libcryptui=no
+fi
+AC_SUBST(LIBCRYPTUI_CFLAGS)
+AC_SUBST(LIBCRYPTUI_LIBS)
+
 dnl *****************
 dnl killall or pkill?
 dnl *****************
@@ -1555,6 +1583,7 @@ fi
 echo "
 	LDAP support:		$msg_ldap
 	Contact Maps:		$enable_contact_maps
+	Libcryptui:		$enable_libcryptui
 	Libnotify:		$HAVE_LIBNOTIFY
 	SSL support:		$msg_ssl
 	SMIME support:		$msg_smime

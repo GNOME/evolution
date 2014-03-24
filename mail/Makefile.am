@@ -47,6 +47,7 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(CERT_UI_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
+	$(LIBCRYPTUI_CFLAGS)				\
 	$(LIBSOUP_CFLAGS)
 
 mailinclude_HEADERS =					\
@@ -223,6 +224,7 @@ libevolution_mail_la_LIBADD =				\
 	$(CANBERRA_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(SMIME_LIBS)					\
+	$(LIBCRYPTUI_LIBS)				\
 	$(LIBSOUP_LIBS)					\
 	$(NULL)
 
