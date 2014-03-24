@@ -342,7 +342,6 @@ mail/e-mail-ui-session.c
 mail/em-composer-utils.c
 mail/em-filter-editor.c
 mail/em-filter-editor-folder-element.c
-mail/em-filter-i18n.h
 mail/em-filter-rule.c
 mail/em-folder-properties.c
 mail/em-folder-selection-button.c
@@ -354,6 +353,7 @@ mail/em-subscription-editor.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
 mail/em-vfolder-editor-rule.c
+mail/filtertypes.xml.in
 mail/importers/elm-importer.c
 mail/importers/evolution-mbox-importer.c
 mail/importers/mail-importer.c
@@ -366,7 +366,8 @@ mail/mail-send-recv.c
 mail/mail-vfolder-ui.c
 mail/message-list.c
 mail/message-list.etspec
-mail/searchtypes.xml
+mail/searchtypes.xml.in
+mail/vfoldertypes.xml.in
 modules/addressbook/autocompletion-config.c
 modules/addressbook/eab-composer-util.c
 modules/addressbook/e-book-shell-backend.c

@@ -2,371 +2,367 @@
 <filterdescription>
 <partset>
  <part name="sender">
-  <title>Sender</title>
+  <_title>Sender</_title>
    <input type="optionlist" name="sender-type">
     <option value="contains">
-        <title>contains</title>
-       <code>(match-all (header-contains "From" ${sender}))</code>
+        <_title>contains</_title>
+	<code>(match-all (header-contains "From" ${sender}))</code>
     </option>
     <option value="not contains">
-        <title>does not contain</title>
+        <_title>does not contain</_title>
         <code>(match-all (not (header-contains "From" ${sender})))</code>
     </option>
     <option value="is">
-        <title>is</title>
-       <code>(match-all (header-matches "From" ${sender}))</code>
+        <_title>is</_title>
+	<code>(match-all (header-matches "From" ${sender}))</code>
     </option>
     <option value="is not">
-        <title>is not</title>
+        <_title>is not</_title>
         <code>(match-all (not (header-matches "From" ${sender})))</code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
         (match-all (header-starts-with "From" ${sender}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
         (match-all (not (header-starts-with "From" ${sender})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
         (match-all (header-ends-with "From" ${sender}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
         (match-all (not (header-ends-with "From" ${sender})))
      </code>
     </option>
    </input>
-   <input type="string" name="sender"/>
+   <input type="string" name="sender" allow-empty="false"/>
  </part>
 
- <!-- NOTE: Do not include Bcc addresses in this search until Camel
-            includes Bcc addresses in its summary database.  Otherwise
-            it kills our search performance by forcing entire messages
-            to be downloaded just to examine their Bcc headers. -->
  <part name="to">
-   <title>Recipients</title>
+   <_title>Recipients</_title>
    <input type="optionlist" name="recipient-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (or (header-contains "To" ${recipient})
-                      (header-contains "Cc" ${recipient})))
+	(match-all (or (header-contains "To" ${recipient})
+	               (header-contains "Cc" ${recipient})))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (or
+	(match-all (not (or
                           (header-contains "To" ${recipient})
-                         (header-contains "Cc" ${recipient}))))
+	                  (header-contains "Cc" ${recipient}))))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (or (header-matches "To" ${recipient})
-                         (header-matches "Cc" ${recipient})))
+	(match-all (or (header-matches "To" ${recipient})
+	    	       (header-matches "Cc" ${recipient})))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (or
+	(match-all (not (or
                (header-matches "To" ${recipient})
-              (header-matches "Cc" ${recipient}))))
+	       (header-matches "Cc" ${recipient}))))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
         (match-all (or (header-starts-with "To" ${recipient})
-                         (header-starts-with "Cc" ${recipient})))
+	    	       (header-starts-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
         (match-all (not (or
                (header-starts-with "To" ${recipient})
-              (header-starts-with "Cc" ${recipient}))))
+	       (header-starts-with "Cc" ${recipient}))))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
         (match-all (or (header-ends-with "To" ${recipient})
-                         (header-ends-with "Cc" ${recipient})))
+	    	       (header-ends-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
         (match-all (not (or
                (header-ends-with "To" ${recipient})
-              (header-ends-with "Cc" ${recipient}))))
+	       (header-ends-with "Cc" ${recipient}))))
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="toonly">
-   <title>To</title>
+   <_title>To</_title>
    <input type="optionlist" name="recipient-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (header-contains "To" ${recipient}))
+	(match-all (header-contains "To" ${recipient}))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (header-contains "To" ${recipient})))
+	(match-all (not (header-contains "To" ${recipient})))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (header-matches "To" ${recipient}))
+	(match-all (header-matches "To" ${recipient}))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (header-matches "To" ${recipient})))
+	(match-all (not (header-matches "To" ${recipient})))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
         (match-all (header-starts-with "To" ${recipient}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
         (match-all (not (header-starts-with "To" ${recipient})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
         (match-all (header-ends-with "To" ${recipient}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
         (match-all (not (header-ends-with "To" ${recipient})))
      </code>
     </option>
     <option value="matches soundex">
-     <title>sounds like</title>
+     <_title>sounds like</_title>
      <code>
-       (match-all (header-soundex "To" ${recipient}))
+	(match-all (header-soundex "To" ${recipient}))
      </code>
     </option>
     <option value="not match soundex">
-     <title>does not sound like</title>
+     <_title>does not sound like</_title>
      <code>
-       (match-all (not (header-soundex "To" ${recipient})))
+	(match-all (not (header-soundex "To" ${recipient})))
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="cc">
-   <title>CC</title>
+   <_title>CC</_title>
    <input type="optionlist" name="recipient-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (header-contains "Cc" ${recipient}))
+	(match-all (header-contains "Cc" ${recipient}))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (header-contains "Cc" ${recipient})))
+	(match-all (not (header-contains "Cc" ${recipient})))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (header-matches "Cc" ${recipient}))
+	(match-all (header-matches "Cc" ${recipient}))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (header-matches "Cc" ${recipient})))
+	(match-all (not (header-matches "Cc" ${recipient})))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
         (match-all (header-starts-with "Cc" ${recipient}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
         (match-all (not (header-starts-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
         (match-all (header-ends-with "Cc" ${recipient}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
         (match-all (not (header-ends-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="matches soundex">
-     <title>sounds like</title>
+     <_title>sounds like</_title>
      <code>
-       (match-all (header-soundex "Cc" ${recipient}))
+	(match-all (header-soundex "Cc" ${recipient}))
      </code>
     </option>
     <option value="not match soundex">
-     <title>does not sound like</title>
+     <_title>does not sound like</_title>
      <code>
-       (match-all (not (header-soundex "Cc" ${recipient})))
+	(match-all (not (header-soundex "Cc" ${recipient})))
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="bcc">
-   <title>BCC</title>
+   <_title>BCC</_title>
    <input type="optionlist" name="recipient-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (header-contains "Bcc" ${recipient}))
+	(match-all (header-contains "Bcc" ${recipient}))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (header-contains "Bcc" ${recipient})))
+	(match-all (not (header-contains "Bcc" ${recipient})))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (header-matches "Bcc" ${recipient}))
+	(match-all (header-matches "Bcc" ${recipient}))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (header-matches "Bcc" ${recipient})))
+	(match-all (not (header-matches "Bcc" ${recipient})))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
         (match-all (header-starts-with "Bcc" ${recipient}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
         (match-all (not (header-starts-with "Bcc" ${recipient})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
         (match-all (header-ends-with "Bcc" ${recipient}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
         (match-all (not (header-ends-with "Bcc" ${recipient})))
      </code>
     </option>
     <option value="matches soundex">
-     <title>sounds like</title>
+     <_title>sounds like</_title>
      <code>
-       (match-all (header-soundex "Bcc" ${recipient}))
+	(match-all (header-soundex "Bcc" ${recipient}))
      </code>
     </option>
     <option value="not match soundex">
-     <title>does not sound like</title>
+     <_title>does not sound like</_title>
      <code>
-       (match-all (not (header-soundex "Bcc" ${recipient})))
+	(match-all (not (header-soundex "Bcc" ${recipient})))
      </code>
     </option>
    </input>
-   <input type="address" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="senderto">
-   <title>Sender or Recipients</title>
+   <_title>Sender or Recipients</_title>
    <input type="optionlist" name="recipient-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (or (header-contains "From" ${recipient})
-                      (header-contains "To" ${recipient})
-                      (header-contains "Cc" ${recipient})))
+	(match-all (or (header-contains "From" ${recipient})
+	               (header-contains "To" ${recipient})
+	               (header-contains "Cc" ${recipient})))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (or
+	(match-all (not (or
                           (header-contains "From" ${recipient})
                           (header-contains "To" ${recipient})
                           (header-contains "Cc" ${recipient}))))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (or (header-matches "From" ${recipient})
-                         (header-matches "To" ${recipient})
-                         (header-matches "Cc" ${recipient})))
+	(match-all (or (header-matches "From" ${recipient})
+	    	       (header-matches "To" ${recipient})
+	    	       (header-matches "Cc" ${recipient})))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (or
+	(match-all (not (or
                (header-matches "From" ${recipient})
                (header-matches "To" ${recipient})
                (header-matches "Cc" ${recipient}))))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
         (match-all (or (header-starts-with "From" ${recipient})
-                         (header-starts-with "To" ${recipient})
-                         (header-starts-with "Cc" ${recipient})))
+	    	       (header-starts-with "To" ${recipient})
+	    	       (header-starts-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
         (match-all (not (or
                (header-starts-with "From" ${recipient})
@@ -375,15 +371,15 @@
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
         (match-all (or (header-ends-with "From" ${recipient})
-                         (header-ends-with "To" ${recipient})
-                         (header-ends-with "Cc" ${recipient})))
+	    	       (header-ends-with "To" ${recipient})
+	    	       (header-ends-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
         (match-all (not (or
                (header-ends-with "From" ${recipient})
@@ -392,70 +388,70 @@
      </code>
     </option>
    </input>
-   <input type="string" name="recipient"/>
+   <input type="address" name="recipient" allow-empty="false"/>
  </part>
 
  <part name="subject">
-   <title>Subject</title>
+   <_title>Subject</_title>
    <input type="optionlist" name="subject-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (header-contains "Subject" ${subject}))
+	(match-all (header-contains "Subject" ${subject}))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (header-contains "Subject" ${subject})))
+	(match-all (not (header-contains "Subject" ${subject})))
      </code>
     </option>
     <option value="has-words">
-     <title>has words</title>
+     <_title>has words</_title>
      <code>
 	(match-all (header-has-words "Subject" ${subject}))
      </code>
     </option>
     <option value="not has-words">
-     <title>does not have words</title>
+     <_title>does not have words</_title>
      <code>
 	(match-all (not (header-has-words "Subject" ${subject})))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (header-matches "Subject" ${subject}))
+	(match-all (header-matches "Subject" ${subject}))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (header-matches "Subject" ${subject})))
+	(match-all (not (header-matches "Subject" ${subject})))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
-       (match-all (header-starts-with "Subject" ${subject}))
+	(match-all (header-starts-with "Subject" ${subject}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
-       (match-all (not (header-starts-with "Subject" ${subject})))
+	(match-all (not (header-starts-with "Subject" ${subject})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
-       (match-all (header-ends-with "Subject" ${subject}))
+	(match-all (header-ends-with "Subject" ${subject}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
-       (match-all (not (header-ends-with "Subject" ${subject})))
+	(match-all (not (header-ends-with "Subject" ${subject})))
      </code>
     </option>
    </input>
@@ -463,89 +459,89 @@
  </part>
 
  <part name="header">
-   <title>Specific header</title>
-   <input type="string" name="header-field"/>
+   <_title>Specific header</_title>
+   <input type="string" name="header-field" allow-empty="false"/>
    <input type="optionlist" name="header-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (header-contains ${header-field} ${word}))
+	(match-all (header-contains ${header-field} ${word}))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (header-contains ${header-field} ${word})))
+	(match-all (not (header-contains ${header-field} ${word})))
      </code>
     </option>
     <option value="has-words">
-     <title>has words</title>
+     <_title>has words</_title>
      <code>
 	(match-all (header-has-words ${header-field} ${word}))
      </code>
     </option>
     <option value="not has-words">
-     <title>does not have words</title>
+     <_title>does not have words</_title>
      <code>
 	(match-all (not (header-has-words ${header-field} ${word})))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (header-matches ${header-field} ${word}))
+	(match-all (header-matches ${header-field} ${word}))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (header-matches ${header-field} ${word})))
+	(match-all (not (header-matches ${header-field} ${word})))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
-       (match-all (header-starts-with ${header-field} ${word}))
+	(match-all (header-starts-with ${header-field} ${word}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
-       (match-all (not (header-starts-with ${header-field} ${word})))
+	(match-all (not (header-starts-with ${header-field} ${word})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
-       (match-all (header-ends-with ${header-field} ${word}))
+	(match-all (header-ends-with ${header-field} ${word}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
-       (match-all (not (header-ends-with ${header-field} ${word})))
+	(match-all (not (header-ends-with ${header-field} ${word})))
      </code>
     </option>
     <option value="exists">
-     <title>exists</title>
+     <_title>exists</_title>
      <code>
-       (match-all (header-exists ${header-field}))
+	(match-all (header-exists ${header-field}))
      </code>
     </option>
     <option value="not exists">
-     <title>does not exist</title>
+     <_title>does not exist</_title>
      <code>
-       (match-all (not (header-exists ${header-field})))
+	(match-all (not (header-exists ${header-field})))
      </code>
     </option>
     <option value="matches soundex">
-     <title>sounds like</title>
+     <_title>sounds like</_title>
      <code>
         (match-all (header-soundex ${header-field} ${word}))
      </code>
     </option>
     <option value="not match soundex">
-     <title>does not sound like</title>
+     <_title>does not sound like</_title>
      <code>
         (match-all (not (header-soundex ${header-field} ${word})))
      </code>
@@ -555,76 +551,76 @@
  </part>
 
  <part name="anyheader">
-   <title>Any header</title>
+   <_title>Any header</_title>
    <input type="optionlist" name="header-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (match-all (header-contains "" ${word}))
+	(match-all (header-contains "" ${word}))
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (match-all (not (header-contains "" ${word})))
+	(match-all (not (header-contains "" ${word})))
      </code>
     </option>
     <option value="has-words">
-     <title>has words</title>
+     <_title>has words</_title>
      <code>
 	(match-all (header-has-words "" ${word}))
      </code>
     </option>
     <option value="not has-words">
-     <title>does not have words</title>
+     <_title>does not have words</_title>
      <code>
 	(match-all (not (header-has-words "" ${word})))
      </code>
     </option>
     <option value="is">
-     <title>is</title>
+     <_title>is</_title>
      <code>
-       (match-all (header-matches "" ${word}))
+	(match-all (header-matches "" ${word}))
      </code>
     </option>
     <option value="is not">
-     <title>is not</title>
+     <_title>is not</_title>
      <code>
-       (match-all (not (header-matches "" ${word})))
+	(match-all (not (header-matches "" ${word})))
      </code>
     </option>
     <option value="starts with">
-     <title>starts with</title>
+     <_title>starts with</_title>
      <code>
-       (match-all (header-starts-with "" ${word}))
+	(match-all (header-starts-with "" ${word}))
      </code>
     </option>
     <option value="not starts with">
-     <title>does not start with</title>
+     <_title>does not start with</_title>
      <code>
-       (match-all (not (header-starts-with "" ${word})))
+	(match-all (not (header-starts-with "" ${word})))
      </code>
     </option>
     <option value="ends with">
-     <title>ends with</title>
+     <_title>ends with</_title>
      <code>
-       (match-all (header-ends-with "" ${word}))
+	(match-all (header-ends-with "" ${word}))
      </code>
     </option>
     <option value="not ends with">
-     <title>does not end with</title>
+     <_title>does not end with</_title>
      <code>
-       (match-all (not (header-ends-with "" ${word})))
+	(match-all (not (header-ends-with "" ${word})))
      </code>
     </option>
     <option value="matches soundex">
-     <title>sounds like</title>
+     <_title>sounds like</_title>
      <code>
         (match-all (header-soundex "" ${word}))
      </code>
     </option>
     <option value="not match soundex">
-     <title>does not sound like</title>
+     <_title>does not sound like</_title>
      <code>
         (match-all (not (header-soundex "" ${word})))
      </code>
@@ -634,51 +630,51 @@
  </part>
 
  <part name="body">
-   <title>Message Body</title>
+   <_title>Message Body</_title>
    <input type="optionlist" name="body-type">
     <option value="contains">
-     <title>contains</title>
+     <_title>contains</_title>
      <code>
-       (body-contains ${word})
+	(body-contains ${word})
      </code>
     </option>
     <option value="not contains">
-     <title>does not contain</title>
+     <_title>does not contain</_title>
      <code>
-       (not (body-contains ${word}))
+	(not (body-contains ${word}))
      </code>
     </option>
    </input>
-   <input type="string" name="word"/>
+   <input type="string" name="word" allow-empty="false"/>
  </part>
  <part name="sexp">
-   <title>Expression</title>
+   <_title>Expression</_title>
    <input type="code" name="code"/>
  </part>
 
  <part name="sent-date">
-  <title>Date sent</title>
+  <_title>Date sent</_title>
   <input type="optionlist" name="date-spec-type">
    <option value="is">
-    <title>is</title>
+    <_title>is</_title>
     <code>
        (match-all (= (get-sent-date) ${versus}))
     </code>
    </option>
    <option value="is-not">
-    <title>is not</title>
+    <_title>is not</_title>
     <code>
        (match-all (not (= (get-sent-date) ${versus})))
     </code>
    </option>
    <option value="before">
-    <title>is before</title>
+    <_title>is before</_title>
     <code>
        (match-all (&lt; (get-sent-date) ${versus}))
     </code>
    </option>
    <option value="after">
-    <title>is after</title>
+    <_title>is after</_title>
     <code>
        (match-all (&gt; (get-sent-date) ${versus}))
     </code>
@@ -688,28 +684,28 @@
  </part>
 
  <part name="recv-date">
-  <title>Date received</title>
+  <_title>Date received</_title>
   <input type="optionlist" name="date-spec-type">
    <option value="is">
-    <title>is</title>
+    <_title>is</_title>
     <code>
        (match-all (= (get-received-date) ${versus}))
     </code>
    </option>
    <option value="is-not">
-    <title>is not</title>
+    <_title>is not</_title>
     <code>
        (match-all (not (= (get-received-date) ${versus})))
     </code>
    </option>
    <option value="before">
-    <title>is before</title>
+    <_title>is before</_title>
     <code>
        (match-all (&lt; (get-received-date) ${versus}))
     </code>
    </option>
    <option value="after">
-    <title>is after</title>
+    <_title>is after</_title>
     <code>
        (match-all (&gt; (get-received-date) ${versus}))
     </code>
@@ -719,16 +715,16 @@
  </part>
 
  <part name="label">
-  <title>Label</title>
+  <_title>Label</_title>
   <input type="optionlist" name="label-type">
    <option value="is">
-    <title>is</title>
+    <_title>is</_title>
     <code func="e_mail_labels_get_filter_code"/>
    </option>
    <option value="is-not">
-    <title>is not</title>
+    <_title>is not</_title>
     <code func="e_mail_labels_get_filter_code"/>
-    </option>
+   </option>
   </input>
   <input type="optionlist" name="versus">
      <dynamic func="e_mail_labels_get_filter_options"/>
@@ -736,28 +732,28 @@
  </part>
 
  <part name="score">
-  <title>Score</title>
+  <_title>Score</_title>
   <input type="optionlist" name="score-type">
    <option value="is">
-    <title>is</title>
+    <_title>is</_title>
     <code>
        (match-all (= (cast-int (user-tag "score")) ${versus}))
     </code>
    </option>
    <option value="is-not">
-    <title>is not</title>
+    <_title>is not</_title>
     <code>
        (match-all (not (= (cast-int (user-tag "score")) ${versus})))
     </code>
    </option>
    <option value="greater-than">
-    <title>is greater than</title>
+    <_title>is greater than</_title>
     <code>
        (match-all (&gt; (cast-int (user-tag "score")) ${versus}))
     </code>
    </option>
    <option value="less-than">
-    <title>is less than</title>
+    <_title>is less than</_title>
     <code>
        (match-all (&lt; (cast-int (user-tag "score")) ${versus}))
     </code>
@@ -767,16 +763,16 @@
  </part>
 
  <part name="size">
-  <title>Size (kB)</title>
+  <_title>Size (kB)</_title>
   <input type="optionlist" name="size-type">
    <option value="greater-than">
-    <title>is greater than</title>
+    <_title>is greater than</_title>
     <code>
        (match-all (&gt; (get-size) ${versus}))
     </code>
    </option>
    <option value="less-than">
-    <title>is less than</title>
+    <_title>is less than</_title>
     <code>
        (match-all (&lt; (get-size) ${versus}))
     </code>
@@ -786,16 +782,16 @@
  </part>
 
  <part name="status">
-  <title>Status</title>
+  <_title>Status</_title>
   <input type="optionlist" name="match-type">
    <option value="is">
-    <title>is</title>
+    <_title>is</_title>
     <code>
      (match-all (system-flag ${flag}))
     </code>
    </option>
    <option value="is not">
-    <title>is not</title>
+    <_title>is not</_title>
     <code>
      (match-all (not (system-flag ${flag})))
     </code>
@@ -803,34 +799,37 @@
   </input>
   <input type="optionlist" name="flag">
    <option value="Answered">
-    <title>Replied to</title>
+    <_title>Replied to</_title>
    </option>
    <option value="Deleted">
-    <title>Deleted</title>
+    <_title>Deleted</_title>
    </option>
    <option value="Draft">
-    <title>Draft</title>
+    <_title>Draft</_title>
    </option>
    <option value="Flagged">
-    <title>Important</title>
+    <_title>Important</_title>
    </option>
    <option value="Seen">
-    <title>Read</title>
+    <_title>Read</_title>
+   </option>
+   <option value="Junk">
+    <_title>Junk</_title>
    </option>
   </input>
  </part>
 
  <part name="follow-up">
-  <title>Follow Up</title>
+  <_title>Follow Up</_title>
   <input type="optionlist" name="match-type">
    <option value="is">
-    <title>is Flagged</title>
+    <_title>is Flagged</_title>
     <code>
      (match-all (not (= (user-tag "follow-up") "")))
     </code>
    </option>
    <option value="is not">
-    <title>is not Flagged</title>
+    <_title>is not Flagged</_title>
     <code>
      (match-all (= (user-tag "follow-up") ""))
     </code>
@@ -839,16 +838,16 @@
  </part>
 
  <part name="completed-on">
-  <title>Completed On</title>
+  <_title>Completed On</_title>
   <input type="optionlist" name="date-spec-type">
    <option value="is set">
-    <title>is set</title>
+    <_title>is set</_title>
     <code>
        (match-all (not (= (user-tag "completed-on") "")))
     </code>
    </option>
    <option value="is not set">
-    <title>is not set</title>
+    <_title>is not set</_title>
     <code>
        (match-all (= (user-tag "completed-on") ""))
     </code>
@@ -857,16 +856,16 @@
  </part>
 
  <part name="attachments">
-  <title>Attachments</title>
+  <_title>Attachments</_title>
   <input type="optionlist" name="match-type">
    <option value="exist">
-    <title>Exist</title>
+    <_title>Exist</_title>
     <code>
      (match-all (system-flag "Attachments"))
     </code>
    </option>
    <option value="not exist">
-    <title>Do Not Exist</title>
+    <_title>Do Not Exist</_title>
     <code>
      (match-all (not (system-flag "Attachments")))
     </code>
@@ -875,39 +874,39 @@
  </part>
 
  <part name="mlist">
-  <title>Mailing list</title>
+  <_title>Mailing list</_title>
    <input type="optionlist" name="mlist-type">
     <option value="is">
-        <title>is</title>
+        <_title>is</_title>
         <code>(match-all (header-matches "x-camel-mlist" ${mlist}))</code>
     </option>
     <option value="is not">
-        <title>is not</title>
+        <_title>is not</_title>
         <code>(match-all (not (header-matches "x-camel-mlist" ${mlist})))</code>
     </option>
     <option value="contains">
-        <title>contains</title>
+        <_title>contains</_title>
         <code>(match-all (header-contains "x-camel-mlist" ${mlist}))</code>
     </option>
     <option value="not contains">
-        <title>does not contain</title>
+        <_title>does not contain</_title>
         <code>(match-all (not (header-contains "x-camel-mlist" ${mlist})))</code>
     </option>
    </input>
-   <input type="string" name="mlist"/>
+   <input type="string" name="mlist" allow-empty="false"/>
  </part>
 
  <part name="regex">
-  <title>Regex Match</title>
+  <_title>Regex Match</_title>
   <input type="optionlist" name="match-type">
    <option value="header">
-    <title>Message Header</title>
+    <_title>Message Header</_title>
     <code>
        (match-all (header-full-regex ${expression}))
     </code>
    </option>
    <option value="body">
-    <title>Message Body</title>
+    <_title>Message Body</_title>
     <code>
        (match-all (body-regex ${expression}))
     </code>
@@ -916,101 +915,31 @@
   <input type="regex" name="expression"/>
  </part>
 
+ <part name="location">
+  <_title>Message Location</_title>
+  <input type="optionlist" name="msglocation-type">
+   <option value="is">
+    <_title>is</_title>
+    <code>
+      (match-all (message-location ${folder}))
+    </code>
+   </option>
+   <option value="is-not">
+    <_title>is not</_title>
+    <code>
+      (match-all (not (message-location ${folder})))
+    </code>
+   </option>
+  </input>
+  <input type="folder-curi" name="folder"/>
+ </part>
+
     <part name="all">
-      <title>Match All</title>
+      <_title>Match All</_title>
       <code>
        (match-all #t)
       </code>
     </part>
 
 </partset>
-
-  <ruleset>
-    <rule grouping="any" source="demand">
-      <_title>Subject or Addresses contains</_title>
-      <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="contains"/>
-          <value name="subject" type="string"/>
-        </part>
-        <part name="sender">
-          <value name="sender-type" type="option" value="contains"/>
-          <value name="sender" type="string"/>
-        </part>
-        <part name="to">
-          <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="address"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Recipients contain</_title>
-      <partset>
-        <part name="to">
-          <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="address"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Message contains</_title>
-      <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="contains"/>
-          <value name="subject" type="string"/>
-        </part>
-        <part name="body">
-          <value name="body-type" type="option" value="contains"/>
-          <value name="word" type="string"/>
-        </part>
-        <part name="sender">
-          <value name="sender-type" type="option" value="contains"/>
-          <value name="sender" type="string"/>
-        </part>
-        <part name="to">
-          <value name="recipient-type" type="option" value="contains"/>
-          <value name="recipient" type="address"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Subject contains</_title>
-      <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="contains"/>
-          <value name="subject" type="string"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Sender contains</_title>
-      <partset>
-        <part name="sender">
-          <value name="sender-type" type="option" value="contains"/>
-          <value name="sender" type="string"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Body contains</_title>
-      <partset>
-        <part name="body">
-          <value name="body-type" type="option" value="contains"/>
-          <value name="word" type="string"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-  </ruleset>
 </filterdescription>

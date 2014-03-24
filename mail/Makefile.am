@@ -228,8 +228,6 @@ libevolution_mail_la_LIBADD =				\
 
 libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
-libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
-
 noinst_PROGRAMS = test-mail-autoconfig
 
 test_mail_autoconfig_CPPFLAGS = \
@@ -249,18 +247,19 @@ test_mail_autoconfig_LDADD = \
 
 # Misc data to install
 filterdir = $(privdatadir)
-filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
+filter_in_files = \
+	filtertypes.xml.in \
+	searchtypes.xml.in \
+	vfoldertypes.xml.in \
+	$(NULL)
+filter_DATA = $(filter_in_files:.xml.in=.xml)
+
+@INTLTOOL_XML_RULE@
 
 error_DATA = mail.error
 errordir = $(privdatadir)/errors
 # provides error rules too
 @EVO_PLUGIN_RULE@
-
-em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
-	echo "/* Automatically generated. Do not edit. */" > $@;	      \
-	cat $(srcdir)/filtertypes.xml $(srcdir)/vfoldertypes.xml $(srcdir)/searchtypes.xml |	      \
-		sed -n -e 's:.*<title>\(.*\)</title>:gchar *s = N_("\1");:p' | \
-		sort -u >> $@
 
 ui_DATA = mail-config.ui mail-dialogs.ui
 
@@ -272,10 +271,8 @@ EXTRA_DIST = 				\
 	$(ui_DATA)			\
 	$(server_in_files)		\
 	$(etspec_DATA)			\
-	filtertypes.xml			\
-	vfoldertypes.xml		\
-	searchtypes.xml			\
-	em-filter-i18n.h
+	$(filter_in_files)		\
+	$(NULL)
 
 # Purify support
 
@@ -295,7 +292,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(ENUM_GENERATED) $(error_DATA) $(filter_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 
