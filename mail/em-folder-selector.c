@@ -29,6 +29,7 @@
 #include <e-util/e-util.h>
 #include <libemail-engine/libemail-engine.h>
 
+#include "e-mail-folder-create-dialog.h"
 #include "em-folder-tree.h"
 #include "em-folder-utils.h"
 #include "em-utils.h"
@@ -49,7 +50,6 @@ struct _EMFolderSelectorPrivate {
 	GtkWidget *content_area;
 	GtkWidget *tree_view_frame;
 
-	GtkEntry *name_entry;
 	gchar *selected_uri;
 
 	gboolean can_create;
@@ -85,28 +85,6 @@ G_DEFINE_TYPE_WITH_CODE (
 		em_folder_selector_alert_sink_init))
 
 static void
-folder_selector_create_name_changed (GtkEntry *entry,
-                                     EMFolderSelector *selector)
-{
-	EMFolderTree *folder_tree;
-	gchar *path;
-	const gchar *text = NULL;
-	gboolean active;
-
-	if (gtk_entry_get_text_length (selector->priv->name_entry) > 0)
-		text = gtk_entry_get_text (selector->priv->name_entry);
-
-	folder_tree = em_folder_selector_get_folder_tree (selector);
-
-	path = em_folder_tree_get_selected_uri (folder_tree);
-	active = text && path && !strchr (text, '/');
-	g_free (path);
-
-	gtk_dialog_set_response_sensitive (
-		GTK_DIALOG (selector), GTK_RESPONSE_OK, active);
-}
-
-static void
 folder_selector_selected_cb (EMFolderTree *emft,
                              CamelStore *store,
                              const gchar *folder_name,
@@ -127,26 +105,60 @@ folder_selector_activated_cb (EMFolderTree *emft,
 }
 
 static void
+folder_selector_folder_created_cb (EMailFolderCreateDialog *dialog,
+                                   CamelStore *store,
+                                   const gchar *folder_name,
+                                   GWeakRef *folder_tree_weak_ref)
+{
+	EMFolderTree *folder_tree;
+
+	folder_tree = g_weak_ref_get (folder_tree_weak_ref);
+
+	if (folder_tree != NULL) {
+		gchar *folder_uri;
+
+		/* Select the newly created folder. */
+		folder_uri = e_mail_folder_uri_build (store, folder_name);
+		em_folder_tree_set_selected (folder_tree, folder_uri, TRUE);
+		g_free (folder_uri);
+
+		g_object_unref (folder_tree);
+	}
+}
+
+static void
 folder_selector_action_add_cb (ETreeViewFrame *tree_view_frame,
                                GtkAction *action,
                                EMFolderSelector *selector)
 {
-	EMFolderTree *folder_tree;
+	GtkWidget *new_dialog;
 	EMailSession *session;
-	const gchar *uri;
+	EMFolderTree *folder_tree;
+	const gchar *initial_uri;
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
-
-	g_object_set_data (
-		G_OBJECT (folder_tree),
-		"select", GUINT_TO_POINTER (1));
-
 	session = em_folder_tree_get_session (folder_tree);
 
-	uri = em_folder_selector_get_selected_uri (selector);
+	new_dialog = e_mail_folder_create_dialog_new (
+		GTK_WINDOW (selector),
+		E_MAIL_UI_SESSION (session));
 
-	em_folder_utils_create_folder (
-		GTK_WINDOW (selector), session, folder_tree, uri);
+	gtk_window_set_modal (GTK_WINDOW (new_dialog), TRUE);
+
+	g_signal_connect_data (
+		new_dialog, "folder-created",
+		G_CALLBACK (folder_selector_folder_created_cb),
+		e_weak_ref_new (folder_tree),
+		(GClosureNotify) e_weak_ref_free, 0);
+
+	initial_uri = em_folder_selector_get_selected_uri (selector);
+
+	folder_tree = em_folder_selector_get_folder_tree (
+		EM_FOLDER_SELECTOR (new_dialog));
+
+	em_folder_tree_set_selected (folder_tree, initial_uri, FALSE);
+
+	gtk_widget_show (new_dialog);
 }
 
 static void
@@ -392,14 +404,9 @@ folder_selector_folder_selected (EMFolderSelector *selector,
                                  CamelStore *store,
                                  const gchar *folder_name)
 {
-	if (selector->priv->name_entry != NULL) {
-		folder_selector_create_name_changed (
-			selector->priv->name_entry, selector);
-	} else {
-		gtk_dialog_set_response_sensitive (
-			GTK_DIALOG (selector), GTK_RESPONSE_OK,
-			(store != NULL) && (folder_name != NULL));
-	}
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (selector), GTK_RESPONSE_OK,
+		(store != NULL) && (folder_name != NULL));
 }
 
 static void
@@ -529,87 +536,6 @@ em_folder_selector_new (GtkWindow *parent,
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent,
 		"model", model, NULL);
-}
-
-static void
-folder_selector_create_name_activate (GtkEntry *entry,
-                                      EMFolderSelector *selector)
-{
-	if (gtk_entry_get_text_length (selector->priv->name_entry) > 0) {
-		EMFolderTree *folder_tree;
-		gchar *path;
-		const gchar *text;
-		gboolean emit_response;
-
-		text = gtk_entry_get_text (selector->priv->name_entry);
-
-		folder_tree = em_folder_selector_get_folder_tree (selector);
-		path = em_folder_tree_get_selected_uri (folder_tree);
-
-		emit_response =
-			(path != NULL) &&
-			(text != NULL) &&
-			(strchr (text, '/') == NULL);
-
-		if (emit_response) {
-			g_signal_emit_by_name (
-				selector, "response", GTK_RESPONSE_OK);
-		}
-
-		g_free (path);
-	}
-}
-
-GtkWidget *
-em_folder_selector_create_new (GtkWindow *parent,
-                               EMFolderTreeModel *model)
-{
-	EMFolderSelector *selector;
-	EMFolderTree *folder_tree;
-	GtkWidget *container;
-	GtkWidget *widget;
-	GtkLabel *label;
-
-	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
-
-	selector = g_object_new (
-		EM_TYPE_FOLDER_SELECTOR,
-		"transient-for", parent,
-		"model", model,
-		"default-button-label", _("C_reate"), NULL);
-
-	folder_tree = em_folder_selector_get_folder_tree (selector);
-	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOINFERIORS);
-
-	container = selector->priv->content_area;
-
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_label_new_with_mnemonic (_("Folder _name:"));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	label = GTK_LABEL (widget);
-
-	widget = gtk_entry_new ();
-	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	selector->priv->name_entry = GTK_ENTRY (widget);
-	gtk_widget_grab_focus (widget);
-	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "changed",
-		G_CALLBACK (folder_selector_create_name_changed), selector);
-	g_signal_connect (
-		widget, "activate",
-		G_CALLBACK (folder_selector_create_name_activate), selector);
-
-	return GTK_WIDGET (selector);
 }
 
 /**
@@ -870,19 +796,6 @@ em_folder_selector_get_selected_uri (EMFolderSelector *selector)
 
 	if (uri == NULL)
 		return NULL;
-
-	if (selector->priv->name_entry != NULL) {
-		const gchar *name;
-		gchar *temp_uri, *escaped_name;
-
-		name = gtk_entry_get_text (selector->priv->name_entry);
-		escaped_name = g_uri_escape_string (name, NULL, TRUE);
-		temp_uri = g_strconcat (uri, "/", escaped_name, NULL);
-
-		g_free (escaped_name);
-		g_free (uri);
-		uri = temp_uri;
-	}
 
 	g_free (selector->priv->selected_uri);
 	selector->priv->selected_uri = uri;  /* takes ownership */

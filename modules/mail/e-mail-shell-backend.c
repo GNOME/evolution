@@ -34,9 +34,9 @@
 #include <mail/e-mail-browser.h>
 #include <mail/e-mail-config-assistant.h>
 #include <mail/e-mail-config-window.h>
+#include <mail/e-mail-folder-create-dialog.h>
 #include <mail/e-mail-reader.h>
 #include <mail/em-composer-utils.h>
-#include <mail/em-folder-utils.h>
 #include <mail/em-utils.h>
 #include <mail/mail-send-recv.h>
 #include <mail/mail-vfolder-ui.h>
@@ -194,6 +194,28 @@ mail_shell_backend_mail_icon_cb (EShellWindow *shell_window,
 }
 
 static void
+mail_shell_backend_folder_created_cb (EMailFolderCreateDialog *dialog,
+                                      CamelStore *store,
+                                      const gchar *folder_name,
+                                      GWeakRef *folder_tree_weak_ref)
+{
+	EMFolderTree *folder_tree;
+
+	folder_tree = g_weak_ref_get (folder_tree_weak_ref);
+
+	if (folder_tree != NULL) {
+		gchar *folder_uri;
+
+		/* Select the newly created folder. */
+		folder_uri = e_mail_folder_uri_build (store, folder_name);
+		em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+		g_free (folder_uri);
+
+		g_object_unref (folder_tree);
+	}
+}
+
+static void
 action_mail_folder_new_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
@@ -202,6 +224,7 @@ action_mail_folder_new_cb (GtkAction *action,
 	EMailSession *session;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
+	GtkWidget *dialog;
 	const gchar *view_name;
 
 	/* Take care not to unnecessarily load the mail shell view. */
@@ -231,8 +254,19 @@ action_mail_folder_new_cb (GtkAction *action,
 	session = em_folder_tree_get_session (folder_tree);
 
 exit:
-	em_folder_utils_create_folder (
-		GTK_WINDOW (shell_window), session, folder_tree, NULL);
+	dialog = e_mail_folder_create_dialog_new (
+		GTK_WINDOW (shell_window),
+		E_MAIL_UI_SESSION (session));
+
+	if (folder_tree != NULL) {
+		g_signal_connect_data (
+			dialog, "folder-created",
+			G_CALLBACK (mail_shell_backend_folder_created_cb),
+			e_weak_ref_new (folder_tree),
+			(GClosureNotify) e_weak_ref_free, 0);
+	}
+
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 static void

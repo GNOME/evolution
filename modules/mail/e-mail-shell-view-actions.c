@@ -25,6 +25,28 @@
 #include "e-mail-shell-view-private.h"
 
 static void
+mail_shell_view_folder_created_cb (EMailFolderCreateDialog *dialog,
+                                   CamelStore *store,
+                                   const gchar *folder_name,
+                                   GWeakRef *folder_tree_weak_ref)
+{
+	EMFolderTree *folder_tree;
+
+	folder_tree = g_weak_ref_get (folder_tree_weak_ref);
+
+	if (folder_tree != NULL) {
+		gchar *folder_uri;
+
+		/* Select the newly created folder. */
+		folder_uri = e_mail_folder_uri_build (store, folder_name);
+		em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+		g_free (folder_uri);
+
+		g_object_unref (folder_tree);
+	}
+}
+
+static void
 action_mail_account_disable_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
@@ -775,7 +797,9 @@ action_mail_folder_new_cb (GtkAction *action,
 	EMailSession *session;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	gchar *selected_uri;
+	GtkWidget *dialog;
+	CamelStore *store = NULL;
+	gchar *folder_name = NULL;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -784,13 +808,25 @@ action_mail_folder_new_cb (GtkAction *action,
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	session = em_folder_tree_get_session (folder_tree);
-	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
 
-	em_folder_utils_create_folder (
+	dialog = e_mail_folder_create_dialog_new (
 		GTK_WINDOW (shell_window),
-		session, folder_tree, selected_uri);
+		E_MAIL_UI_SESSION (session));
 
-	g_free (selected_uri);
+	g_signal_connect_data (
+		dialog, "folder-created",
+		G_CALLBACK (mail_shell_view_folder_created_cb),
+		e_weak_ref_new (folder_tree),
+		(GClosureNotify) e_weak_ref_free, 0);
+
+	if (em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
+		em_folder_selector_set_selected (
+			EM_FOLDER_SELECTOR (dialog), store, folder_name);
+		g_object_unref (store);
+		g_free (folder_name);
+	}
+
+	gtk_widget_show (GTK_WIDGET (dialog));
 }
 
 static void

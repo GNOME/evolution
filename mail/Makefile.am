@@ -84,6 +84,7 @@ mailinclude_HEADERS =					\
 	e-mail-display-popup-extension.h		\
 	e-mail-enums.h					\
 	e-mail-enumtypes.h				\
+	e-mail-folder-create-dialog.h			\
 	e-mail-folder-pane.h				\
 	e-mail-junk-options.h				\
 	e-mail-label-action.h				\
@@ -160,6 +161,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-display.c				\
 	e-mail-display-popup-extension.c		\
 	e-mail-enumtypes.c				\
+	e-mail-folder-create-dialog.c			\
 	e-mail-folder-pane.c				\
 	e-mail-junk-options.c				\
 	e-mail-label-action.c				\

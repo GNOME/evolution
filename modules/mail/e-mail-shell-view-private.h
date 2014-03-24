@@ -27,6 +27,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
+#include <mail/e-mail-folder-create-dialog.h>
 #include <mail/e-mail-label-action.h>
 #include <mail/e-mail-label-dialog.h>
 #include <mail/e-mail-label-list-store.h>
