@@ -44,9 +44,12 @@
 #include "eab-contact-merging.h"
 
 #include "e-contact-editor-fullname.h"
+#include "e-contact-editor-dyntable.h"
 
+#define SLOTS_PER_LINE 2
+#define SLOTS_IN_COLLAPSED_STATE SLOTS_PER_LINE
 #define EMAIL_SLOTS   4
-#define PHONE_SLOTS   8
+#define PHONE_SLOTS   50
 #define IM_SLOTS      4
 #define ADDRESS_SLOTS 3
 
@@ -1316,52 +1319,6 @@ init_item_sensitiveable_combo_box (GtkComboBox *combo)
 		"text", 0, "sensitive", 1, NULL);
 }
 
-/* EContact can get attributes by field ID only,
- * and there is none for TEL, so we need this */
-static GList *
-get_attributes_named (EVCard *vcard,
-                      const gchar *attr_name)
-{
-	GList *attr_list_in;
-	GList *attr_list_out = NULL;
-	GList *l;
-
-	attr_list_in = e_vcard_get_attributes (vcard);
-
-	for (l = attr_list_in; l; l = g_list_next (l)) {
-		EVCardAttribute *attr = l->data;
-		const gchar *name;
-
-		name = e_vcard_attribute_get_name (attr);
-
-		if (!g_ascii_strcasecmp (attr_name, name)) {
-			attr_list_out = g_list_append (
-				attr_list_out,
-				e_vcard_attribute_copy (attr));
-		}
-	}
-
-	return attr_list_out;
-}
-
-/* EContact can set attributes by field ID only,
- * and there is none for TEL, so we need this */
-static void
-set_attributes_named (EVCard *vcard,
-                      const gchar *attr_name,
-                      GList *attr_list)
-{
-	GList *l;
-
-	e_vcard_remove_attributes (vcard, NULL, attr_name);
-
-	for (l = attr_list; l; l = g_list_next (l)) {
-		EVCardAttribute *attr = l->data;
-
-		e_vcard_add_attribute (vcard, e_vcard_attribute_copy (attr));
-	}
-}
-
 static void
 set_arrow_image (EContactEditor *editor,
                  const gchar *arrow_widget,
@@ -1376,6 +1333,22 @@ set_arrow_image (EContactEditor *editor,
 	else
 		gtk_arrow_set (
 			GTK_ARROW (arrow), GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
+}
+
+static gboolean
+is_arrow_image_arrow_down (EContactEditor *editor,
+                           const gchar *arrow_widget)
+{
+	GtkWidget *arrow;
+	gint value;
+
+	arrow  = e_builder_get_widget (editor->priv->builder, arrow_widget);
+	g_object_get (arrow, "arrow-type", &value, NULL);
+
+	if (value == GTK_ARROW_DOWN)
+		return TRUE;
+
+	return FALSE;
 }
 
 static void
@@ -1407,13 +1380,18 @@ static void
 expand_phone (EContactEditor *editor,
               gboolean expanded)
 {
-	const gchar *names[] = {
-		"entry-phone-3", "combobox-phone-3",
-		"entry-phone-4", "combobox-phone-4",
-		"table-phone-extended", NULL
-	};
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+
 	set_arrow_image (editor, "arrow-phone-expand", expanded);
-	expand_widget_list (editor, names, expanded);
+
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+
+	if (expanded)
+		e_contact_editor_dyntable_set_show_max (dyntable, PHONE_SLOTS);
+	else
+		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
 }
 
 static void
@@ -1460,89 +1438,51 @@ init_email (EContactEditor *editor)
 }
 
 static void
-fill_in_phone_record (EContactEditor *editor,
-                      gint record,
-                      const gchar *phone,
-                      gint phone_type)
-{
-	GtkWidget *phone_type_combo_box;
-	GtkWidget *phone_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-phone-%d", record);
-	phone_type_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("entry-phone-%d", record);
-	phone_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	set_combo_box_active (
-		editor, GTK_COMBO_BOX (phone_type_combo_box),
-		phone_type >= 0 ? phone_type : phones_default[record - 1]);
-	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
-
-	if (phone && *phone && record >= 3)
-		expand_phone (editor, TRUE);
-}
-
-static void
-extract_phone_record (EContactEditor *editor,
-                      gint record,
-                      gchar **phone,
-                      gint *phone_type)
-{
-	GtkWidget *phone_type_combo_box;
-	GtkWidget *phone_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-phone-%d", record);
-	phone_type_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("entry-phone-%d", record);
-	phone_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	*phone      = g_strdup (gtk_entry_get_text (GTK_ENTRY (phone_entry)));
-	*phone_type = gtk_combo_box_get_active (GTK_COMBO_BOX (phone_type_combo_box));
-}
-
-static void
 fill_in_phone (EContactEditor *editor)
 {
 	GList *phone_attr_list;
 	GList *l;
-	gint   record_n;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeIter iter;
+
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
 	/* Clear */
 
-	for (record_n = 1; record_n <= PHONE_SLOTS; record_n++) {
-		fill_in_phone_record (editor, record_n, NULL, -1);
-	}
+	e_contact_editor_dyntable_clear_data (dyntable);
 
 	/* Fill in */
 
-	phone_attr_list = get_attributes_named (E_VCARD (editor->priv->contact), "TEL");
+	phone_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_TEL);
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
 
-	for (record_n = 1, l = phone_attr_list;
-		l && record_n <= PHONE_SLOTS; l = g_list_next (l)) {
+	for (l = phone_attr_list;l ; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		gchar           *phone;
 		gint             slot;
+		gint		phone_type;
 
+		slot = get_ui_slot (attr);
+		phone_type = get_phone_type (attr);
 		phone = e_vcard_attribute_get_value (attr);
-		slot = alloc_ui_slot (editor, "entry-phone", get_ui_slot (attr), PHONE_SLOTS);
-		if (slot < 1)
-			break;
 
-		fill_in_phone_record (
-			editor, slot, phone, get_phone_type (attr));
-
-		record_n++;
+		gtk_list_store_append (data_store, &iter);
+		gtk_list_store_set (data_store,&iter,
+		                   DYNTABLE_STORE_COLUMN_SORTORDER, slot,
+		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, phone_type,
+		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, phone,
+		                   -1);
 
 		g_free (phone);
 	}
+
+	e_contact_editor_dyntable_fill_in_data (dyntable);
+	g_list_free_full (phone_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+
+	expand_phone (editor, TRUE);
 }
 
 static void
@@ -1552,45 +1492,54 @@ extract_phone (EContactEditor *editor)
 	GList *old_attr_list;
 	GList *ll;
 	gint   i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean valid;
 
-	for (i = 1; i <= PHONE_SLOTS; i++) {
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
+	tree_model = GTK_TREE_MODEL (data_store);
+
+	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
+	while (valid){
+		gint phone_type;
 		gchar *phone;
-		gint   phone_type;
+		EVCardAttribute *attr;
 
-		extract_phone_record (editor, i, &phone, &phone_type);
+		attr = e_vcard_attribute_new ("", "TEL");
+		gtk_tree_model_get (tree_model,&iter,
+		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &phone_type,
+		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, &phone,
+		                   -1);
 
-		if (!STRING_IS_EMPTY (phone)) {
-			EVCardAttribute *attr;
+		if (phone_type >= 0) {
+			const gchar *type_1;
+			const gchar *type_2;
 
-			attr = e_vcard_attribute_new ("", "TEL");
+			phone_index_to_type (phone_type, &type_1, &type_2);
 
-			if (phone_type >= 0) {
-				const gchar *type_1;
-				const gchar *type_2;
+			e_vcard_attribute_add_param_with_value (
+				attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
 
-				phone_index_to_type (phone_type, &type_1, &type_2);
-
+			if (type_2)
 				e_vcard_attribute_add_param_with_value (
-					attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
-
-				if (type_2)
-					e_vcard_attribute_add_param_with_value (
-						attr, e_vcard_attribute_param_new (EVC_TYPE), type_2);
-
-			}
-
-			e_vcard_attribute_add_value (attr, phone);
-			set_ui_slot (attr, i);
-
-			attr_list = g_list_append (attr_list, attr);
+					attr, e_vcard_attribute_param_new (EVC_TYPE), type_2);
 		}
 
-		g_free (phone);
+		e_vcard_attribute_add_value (attr, phone);
+
+		attr_list = g_list_append (attr_list, attr);
+
+		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
 
 	/* Splice in the old attributes, minus the PHONE_SLOTS first */
 
-	old_attr_list = get_attributes_named (E_VCARD (editor->priv->contact), "TEL");
+	old_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_TEL);
 	for (ll = old_attr_list, i = 1; ll && i <= PHONE_SLOTS; i++) {
 		e_vcard_attribute_free (ll->data);
 		ll = g_list_delete_link (ll, ll);
@@ -1599,81 +1548,82 @@ extract_phone (EContactEditor *editor)
 	old_attr_list = ll;
 	attr_list = g_list_concat (attr_list, old_attr_list);
 
-	set_attributes_named (E_VCARD (editor->priv->contact), "TEL", attr_list);
+	e_contact_set_attributes (editor->priv->contact, E_CONTACT_TEL, attr_list);
 
-	free_attr_list (attr_list);
+	g_list_free_full (attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
-init_phone_record_type (EContactEditor *editor,
-                        gint record)
+init_phone_record_type (EContactEditor *editor)
 {
-	GtkWidget *phone_type_combo_box;
-	GtkWidget *phone_entry;
-	gchar     *widget_name;
-	gint       i;
+	GtkWidget *w;
 	GtkListStore *store;
+	gint i;
+	EContactEditorDynTable *dyntable;
 
-	widget_name = g_strdup_printf ("entry-phone-%d", record);
-	phone_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("combobox-phone-%d", record);
-	phone_type_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (phone_type_combo_box));
-
-	store = GTK_LIST_STORE (
-		gtk_combo_box_get_model (
-		GTK_COMBO_BOX (phone_type_combo_box)));
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	store = e_contact_editor_dyntable_get_combo_store (dyntable);
 
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter,
-			0, e_contact_pretty_name (phones[i].field_id),
-			1, TRUE,
-			-1);
+		gtk_list_store_set (store, &iter,
+		                    DYNTABLE_COMBO_COLUMN_TEXT, e_contact_pretty_name (phones[i].field_id),
+		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
+		                    -1);
 	}
 
-	g_signal_connect_swapped (
-		phone_type_combo_box, "changed",
-		G_CALLBACK (gtk_widget_grab_focus), phone_entry);
-	g_signal_connect (
-		phone_type_combo_box, "changed",
-		G_CALLBACK (object_changed), editor);
-	g_signal_connect (
-		phone_entry, "changed",
-		G_CALLBACK (object_changed), editor);
-	g_signal_connect_swapped (
-		phone_entry, "activate",
-		G_CALLBACK (entry_activated), editor);
+	e_contact_editor_dyntable_set_combo_defaults (dyntable, phones_default, G_N_ELEMENTS (phones_default));
+}
+
+static void
+row_added_phone (EContactEditorDynTable *dyntable, EContactEditor *editor)
+{
+	expand_phone (editor, TRUE);
 }
 
 static void
 init_phone (EContactEditor *editor)
 {
-	gint i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
 
-	expand_phone (editor, FALSE);
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
-	for (i = 1; i <= PHONE_SLOTS; i++)
-		init_phone_record_type (editor, i);
+	e_contact_editor_dyntable_set_max_entries (dyntable, PHONE_SLOTS);
+	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_PER_LINE);
+
+	g_signal_connect (
+		w, "changed",
+		G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (
+		w, "activate",
+		G_CALLBACK (entry_activated), editor);
+	g_signal_connect (
+		w, "row-added",
+		G_CALLBACK (row_added_phone), editor);
+
+	init_phone_record_type (editor);
 }
 
 static void
-sensitize_phone_types (EContactEditor *editor,
-                       GtkWidget *combo_box)
+sensitize_phone_types (EContactEditor *editor)
 {
+	GtkWidget *w;
+	GtkListStore *listStore;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gint i;
 	gboolean valid;
 
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
+	listStore = e_contact_editor_dyntable_get_combo_store (E_CONTACT_EDITOR_DYNTABLE (w));
+	model = GTK_TREE_MODEL (listStore);
+
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
@@ -1682,51 +1632,29 @@ sensitize_phone_types (EContactEditor *editor,
 			return;
 		}
 
-		gtk_list_store_set (
-			GTK_LIST_STORE (model), &iter,
-			1, is_field_supported (editor, phones[i].field_id),
-			-1);
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		                    DYNTABLE_COMBO_COLUMN_SENSITIVE,
+		                    is_field_supported (editor, phones[i].field_id),
+		                    -1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 }
 
 static void
-sensitize_phone_record (EContactEditor *editor,
-                        gint record,
-                        gboolean enabled)
-{
-	GtkWidget *phone_type_combo_box;
-	GtkWidget *phone_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-phone-%d", record);
-	phone_type_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("entry-phone-%d", record);
-	phone_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	gtk_widget_set_sensitive (phone_type_combo_box, enabled);
-	gtk_editable_set_editable (GTK_EDITABLE (phone_entry), enabled);
-
-	sensitize_phone_types (editor, phone_type_combo_box);
-}
-
-static void
 sensitize_phone (EContactEditor *editor)
 {
-	gint i;
+	GtkWidget *w;
+	gboolean enabled = TRUE;
 
-	for (i = 1; i <= PHONE_SLOTS; i++) {
-		gboolean enabled = TRUE;
+	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
 
-		if (!editor->priv->target_editable)
-			enabled = FALSE;
+	if (!editor->priv->target_editable)
+		enabled = FALSE;
 
-		sensitize_phone_record (editor, i, enabled);
-	}
+	gtk_widget_set_sensitive (w, enabled);
+
+	sensitize_phone_types (editor);
 }
 
 static void
@@ -4159,11 +4087,7 @@ expand_web_toggle (EContactEditor *ce)
 static void
 expand_phone_toggle (EContactEditor *ce)
 {
-	GtkWidget *phone_ext_table;
-
-	phone_ext_table = e_builder_get_widget (
-		ce->priv->builder, "table-phone-extended");
-	expand_phone (ce, !gtk_widget_get_visible (phone_ext_table));
+	expand_phone (ce, !is_arrow_image_arrow_down (ce, "arrow-phone-expand"));
 }
 
 static void

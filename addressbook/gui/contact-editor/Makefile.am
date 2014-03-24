@@ -21,7 +21,9 @@ libecontacteditor_la_SOURCES = 			\
 	e-contact-editor.c			\
 	e-contact-editor.h			\
 	e-contact-quick-add.c			\
-	e-contact-quick-add.h
+	e-contact-quick-add.h \
+	e-contact-editor-dyntable.h \
+	e-contact-editor-dyntable.c
 
 libecontacteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
