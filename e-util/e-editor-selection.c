@@ -4936,10 +4936,18 @@ e_editor_selection_save (EEditorSelection *selection)
 		}
 
 		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (split_node);
 
-		webkit_dom_node_insert_before (
-			parent_node, marker_node, split_node, NULL);
+		if (split_node) {
+			parent_node = webkit_dom_node_get_parent_node (split_node);
+
+			webkit_dom_node_insert_before (
+				parent_node, marker_node, split_node, NULL);
+		} else {
+			webkit_dom_node_append_child (
+				webkit_dom_node_get_parent_node (container),
+				marker_node,
+				NULL);
+		}
 	}
 
 	g_object_unref (editor_widget);
