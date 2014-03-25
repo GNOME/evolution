@@ -12,7 +12,8 @@ liborg_gnome_face_la_CPPFLAGS =				\
 	-I$(top_builddir)/composer			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 liborg_gnome_face_la_SOURCES = face.c
 
@@ -24,7 +25,7 @@ liborg_gnome_face_la_LIBADD = 					\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(GTKHTML_LIBS)
 
-liborg_gnome_face_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_face_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 error_DATA = org-gnome-face.error
 

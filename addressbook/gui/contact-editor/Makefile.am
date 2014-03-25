@@ -11,7 +11,8 @@ libecontacteditor_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"contact-editor\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 libecontacteditor_la_SOURCES = 			\
 	eab-editor.c				\
@@ -25,7 +26,7 @@ libecontacteditor_la_SOURCES = 			\
 	e-contact-editor-dyntable.h \
 	e-contact-editor-dyntable.c
 
-libecontacteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libecontacteditor_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libecontacteditor_la_LIBADD =						\
 	$(top_builddir)/e-util/libevolution-util.la			\

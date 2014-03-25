@@ -26,6 +26,7 @@ libemail_engine_la_CPPFLAGS = \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\" \
+	$(CODE_COVERAGE_CFLAGS) \
 	$(NULL)
 
 libmailengineincludedir = $(privincludedir)/libemail-engine
@@ -83,7 +84,7 @@ libemail_engine_la_LIBADD = \
 	$(GTKHTML_LIBS) \
 	$(NULL)
 
-libemail_engine_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libemail_engine_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libemail-engine.pc

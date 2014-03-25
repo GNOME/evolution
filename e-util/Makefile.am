@@ -101,6 +101,7 @@ libevolution_util_la_CPPFLAGS = \
 	$(GEO_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
 	$(GTKSPELL_CFLAGS) \
+	$(CODE_COVERAGE_CFLAGS) \
 	$(NULL)
 
 evolution_util_include_HEADERS =  \
@@ -581,7 +582,7 @@ libevolution_util_la_SOURCES = \
 	$(PLATFORM_SOURCES) \
 	$(NULL)
 
-libevolution_util_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_util_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libevolution_util_la_LIBADD =  \
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la \

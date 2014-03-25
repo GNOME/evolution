@@ -9,11 +9,12 @@ liborg_gnome_image_inline_la_CPPFLAGS =			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKIMAGEVIEW_CFLAGS)
+	$(GTKIMAGEVIEW_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 liborg_gnome_image_inline_la_SOURCES = image-inline.c
 
-liborg_gnome_image_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_image_inline_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 liborg_gnome_image_inline_la_LIBADD =			\
 	$(top_builddir)/mail/libevolution-mail.la	\

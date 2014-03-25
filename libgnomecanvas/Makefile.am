@@ -11,7 +11,8 @@ libgnomecanvas_la_CPPFLAGS = \
 	-DGNOMECANVASPIXMAPDIR=\""$(datadir)/pixmaps"\"	\
 	-DGNOMECANVASBINDIR=\""$(bindir)"\" 		\
 	-DGNOMECANVASLOCALSTATEDIR=\""$(localstatedir)"\" 	\
-	-DG_LOG_DOMAIN=\"GnomeCanvas\"
+	-DG_LOG_DOMAIN=\"GnomeCanvas\"			\
+	$(CODE_COVERAGE_CFLAGS)
 
 libgnomecanvasinclude_HEADERS =			\
 	gailcanvas.h				\
@@ -53,7 +54,7 @@ libgnomecanvas_la_LIBADD = \
 	$(GNOME_PLATFORM_LIBS) \
 	$(MATH_LIB)
 
-libgnomecanvas_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libgnomecanvas_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 

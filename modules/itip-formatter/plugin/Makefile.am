@@ -10,7 +10,8 @@ liborg_gnome_itip_formatter_la_CPPFLAGS =		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 liborg_gnome_itip_formatter_la_SOURCES =		\
 	config-ui.c					\
@@ -19,7 +20,7 @@ liborg_gnome_itip_formatter_la_SOURCES =		\
 	../e-source-conflict-search.c			\
 	../e-source-conflict-search.h
 
-liborg_gnome_itip_formatter_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_itip_formatter_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 liborg_gnome_itip_formatter_la_LIBADD =				\
 	$(top_builddir)/e-util/libevolution-util.la		\

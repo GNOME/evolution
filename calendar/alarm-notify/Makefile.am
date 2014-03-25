@@ -21,7 +21,8 @@ evolution_alarm_notify_CPPFLAGS = 			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(LIBNOTIFY_CFLAGS)				\
 	$(CANBERRA_CFLAGS)				\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 ui_DATA =		\
 	alarm-notify.ui
@@ -57,8 +58,10 @@ evolution_alarm_notify_LDADD =						\
 	$(GTKHTML_LIBS)
 	$(EVOLUTIONALARMNOTIFYICON)
 
+evolution_alarm_notify_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
+
 if OS_WIN32
-evolution_alarm_notify_LDFLAGS = -mwindows
+evolution_alarm_notify_LDFLAGS += -mwindows
 endif
 
 EXTRA_DIST = $(ui_DATA) \

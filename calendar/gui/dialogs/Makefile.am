@@ -1,20 +1,21 @@
 noinst_LTLIBRARIES = libcal-dialogs.la
 
-libcal_dialogs_la_CPPFLAGS = 						\
-	$(AM_CPPFLAGS)							\
-	-DG_LOG_DOMAIN=\"calendar-gui\"					\
-	-I$(top_srcdir)							\
-	-I$(top_builddir)						\
-	-I$(top_srcdir)/calendar					\
-	-I$(top_builddir)/shell						\
-	-I$(top_srcdir)/shell						\
-	-DEVOLUTION_UIDIR=\""$(uidir)"\"				\
-	-DEVOLUTION_ICONDIR=\""$(icondir)"\"				\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
-	-DPREFIX=\""$(prefix)"\"					\
-	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
-	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)
+libcal_dialogs_la_CPPFLAGS = 				\
+	$(AM_CPPFLAGS)					\
+	-DG_LOG_DOMAIN=\"calendar-gui\"			\
+	-I$(top_srcdir)					\
+	-I$(top_builddir)				\
+	-I$(top_srcdir)/calendar			\
+	-I$(top_builddir)/shell				\
+	-I$(top_srcdir)/shell				\
+	-DEVOLUTION_UIDIR=\""$(uidir)"\"		\
+	-DEVOLUTION_ICONDIR=\""$(icondir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
+	-DPREFIX=\""$(prefix)"\"			\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 ecalendarincludedir = $(privincludedir)/calendar/gui/dialogs
 
@@ -44,6 +45,8 @@ ecalendarinclude_HEADERS =		\
 	send-comp.h			\
 	task-editor.h			\
 	task-page.h
+
+libcal_dialogs_la_LDFLAGS = $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libcal_dialogs_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\

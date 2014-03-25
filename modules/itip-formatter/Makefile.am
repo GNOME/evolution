@@ -11,7 +11,8 @@ module_itip_formatter_la_CPPFLAGS =					\
 	-DG_LOG_DOMAIN=\"evolution-module-itip-formatter\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_itip_formatter_la_SOURCES =					\
 	e-conflict-search-selector.c					\
@@ -40,7 +41,7 @@ module_itip_formatter_la_LIBADD =					\
 	$(GTKHTML_LIBS)
 
 module_itip_formatter_la_LDFLAGS =					\
-	-avoid-version -module $(NO_UNDEFINED)
+	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 error_DATA = org-gnome-itip-formatter.error
 errordir = $(privdatadir)/errors

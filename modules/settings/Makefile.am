@@ -9,6 +9,7 @@ module_settings_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(GTKHTML_CFLAGS) \
+	$(CODE_COVERAGE_CFLAGS) \
 	$(NULL)
 
 module_settings_la_SOURCES = \
@@ -68,6 +69,6 @@ module_settings_la_LIBADD = \
 	$(NULL)
 
 module_settings_la_LDFLAGS = \
-	-avoid-version -module $(NO_UNDEFINED)
+	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

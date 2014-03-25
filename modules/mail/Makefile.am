@@ -9,7 +9,8 @@ module_mail_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-module-mail\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_mail_la_SOURCES = \
 	evolution-module-mail.c						\
@@ -53,6 +54,6 @@ module_mail_la_LIBADD = \
 	$(GTKHTML_LIBS)
 
 module_mail_la_LDFLAGS = \
-	-avoid-version -module $(NO_UNDEFINED)
+	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

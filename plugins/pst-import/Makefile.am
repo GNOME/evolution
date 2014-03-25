@@ -18,11 +18,12 @@ liborg_gnome_pst_import_la_CPPFLAGS =			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
-	$(LIBPST_CFLAGS)
+	$(LIBPST_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 liborg_gnome_pst_import_la_SOURCES = pst-importer.c
 
-liborg_gnome_pst_import_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_pst_import_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 liborg_gnome_pst_import_la_LIBADD =				\
 	$(top_builddir)/shell/libevolution-shell.la		\

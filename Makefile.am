@@ -72,6 +72,8 @@ SUBDIRS = 			\
 	sounds			\
 	$(HELP_SUBDIR)
 
+@GNOME_CODE_COVERAGE_RULES@
+
 DISTCLEANFILES = 			\
 	$(builddir)/iconv-detect.h	\
 	$(pkgconfig_in_files)

@@ -62,7 +62,8 @@ libevolution_shell_la_CPPFLAGS =				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(CLUTTER_GTK_CFLAGS)
+	$(CLUTTER_GTK_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)
 
 libevolution_shell_la_SOURCES =			\
 	$(evolution_shell_include_HEADERS)	\
@@ -85,7 +86,7 @@ libevolution_shell_la_SOURCES =			\
 	evo-version.h				\
 	$(NULL)
 
-libevolution_shell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_shell_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libevolution_shell_la_LIBADD =				\
 	$(top_builddir)/e-util/libevolution-util.la	\
@@ -122,7 +123,8 @@ evolution_CPPFLAGS =						\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(CLUTTER_GTK_CFLAGS)
+	$(CLUTTER_GTK_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)
 
 evolution_SOURCES =				\
 	main.c					\
@@ -137,8 +139,10 @@ evolution_LDADD =							\
 	$(CLUTTER_GTK_LIBS)						\
 	$(EVOLUTIONICON)
 
+evolution_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
+
 if OS_WIN32
-evolution_LDFLAGS = -mwindows
+evolution_LDFLAGS += -mwindows
 endif
 
 # Killev utility
@@ -152,9 +156,12 @@ killev_CPPFLAGS =						\
 	$(AM_CPPFLAGS)						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(EVOLUTION_DATA_SERVER_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 killev_SOURCES = killev.c
+
+killev_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
 
 killev_LDADD =							\
 	$(GNOME_PLATFORM_LIBS)					\

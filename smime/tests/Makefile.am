@@ -1,5 +1,7 @@
 noinst_PROGRAMS=import-cert
 
+@GNOME_CODE_COVERAGE_RULES@
+
 TEST_CPPFLAGS=						\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/smime/lib			\

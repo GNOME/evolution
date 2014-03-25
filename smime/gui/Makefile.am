@@ -18,7 +18,8 @@ libevolution_smime_la_CPPFLAGS =			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
-	$(CERT_UI_CFLAGS)
+	$(CERT_UI_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 libevolution_smime_la_SOURCES = 	\
 	ca-trust-dialog.c		\
@@ -42,7 +43,7 @@ libevolution_smime_la_LIBADD =				\
 	$(GTKHTML_LIBS)					\
 	$(CERT_UI_LIBS)
 
-libevolution_smime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_smime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 ui_DATA = smime-ui.ui
 

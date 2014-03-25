@@ -15,7 +15,8 @@ libessmime_la_CPPFLAGS =				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
-	$(CERT_UI_CFLAGS)
+	$(CERT_UI_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 libessmime_la_SOURCES = 	\
 	e-cert.c		\
@@ -34,6 +35,6 @@ libessmime_la_LIBADD =				\
 	$(GTKHTML_LIBS)				\
 	$(CERT_UI_LIBS)
 
-libessmime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libessmime_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

@@ -7,7 +7,8 @@ module_plugin_lib_la_CPPFLAGS = \
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_plugin_lib_la_SOURCES = \
 	evolution-module-plugin-lib.c				\
@@ -21,6 +22,6 @@ module_plugin_lib_la_LIBADD = \
 	$(GTKHTML_LIBS)
 
 module_plugin_lib_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

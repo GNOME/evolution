@@ -7,7 +7,8 @@ module_cal_config_google_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(GDATA_CFLAGS)
+	$(GDATA_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_cal_config_google_la_SOURCES = \
 	evolution-cal-config-google.c				\
@@ -26,6 +27,6 @@ module_cal_config_google_la_LIBADD = \
 	$(GDATA_LIBS)
 
 module_cal_config_google_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

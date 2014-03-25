@@ -15,6 +15,7 @@ module_backup_restore_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)					\
 	$(NULL)
 
 module_backup_restore_la_SOURCES = \
@@ -36,7 +37,7 @@ module_backup_restore_la_LIBADD = \
 	$(NULL)
 
 module_backup_restore_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 privlibexec_PROGRAMS = evolution-backup
 

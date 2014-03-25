@@ -36,7 +36,8 @@ libevolution_mail_composer_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 libevolution_mail_composer_la_SOURCES =		\
 	$(evolution_mail_composer_include_HEADERS) \
@@ -52,7 +53,7 @@ libevolution_mail_composer_la_SOURCES =		\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
-libevolution_mail_composer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_mail_composer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libevolution_mail_composer_la_LIBADD =			\
 	$(top_builddir)/e-util/libevolution-util.la	\

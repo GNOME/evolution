@@ -20,7 +20,8 @@ libeabwidgets_la_CPPFLAGS =				\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
 	$(CHAMPLAIN_CFLAGS)				\
-	$(GEO_CFLAGS)
+	$(GEO_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)
 
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
@@ -71,6 +72,8 @@ libeabwidgets_la_SOURCES =			\
 	ea-addressbook-view.h			\
 	ea-addressbook.c			\
 	ea-addressbook.h
+
+libeabwidgets_la_LDFLAGS = $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/shell/libevolution-shell.la		\

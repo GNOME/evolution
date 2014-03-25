@@ -9,7 +9,8 @@ liborg_gnome_save_calendar_la_CPPFLAGS =		\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 liborg_gnome_save_calendar_la_SOURCES = \
 	save-calendar.c			\
@@ -18,7 +19,8 @@ liborg_gnome_save_calendar_la_SOURCES = \
 	rdf-format.c			\
 	format-handler.h
 
-liborg_gnome_save_calendar_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_save_calendar_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
+
 liborg_gnome_save_calendar_la_LIBADD =	\
 	$(top_builddir)/e-util/libevolution-util.la \
 	$(top_builddir)/shell/libevolution-shell.la \

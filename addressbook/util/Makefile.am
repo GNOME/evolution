@@ -13,13 +13,14 @@ libeabutil_la_CPPFLAGS =				\
 	$(CAMEL_CFLAGS)					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)			\
+	$(CODE_COVERAGE_CFLAGS)
 
 libeabutil_la_SOURCES =					\
 	eab-book-util.c					\
 	eab-book-util.h
 
-libeabutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libeabutil_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libeabutil_la_LIBADD =					\
 	$(top_builddir)/e-util/libevolution-util.la	\

@@ -14,7 +14,8 @@ module_tnef_attachment_la_CPPFLAGS =			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
 	$(GTKHTML_CFLAGS)						\
-	$(TNEF_CFLAGS)
+	$(TNEF_CFLAGS)							\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_tnef_attachment_la_SOURCES =			\
 	e-mail-parser-tnef-attachment.c					\
@@ -30,6 +31,6 @@ module_tnef_attachment_la_LIBADD =				\
 	-lytnef
 
 module_tnef_attachment_la_LDFLAGS =			\
-	-avoid-version -module $(NO_UNDEFINED)
+	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

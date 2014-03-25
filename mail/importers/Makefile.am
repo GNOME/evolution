@@ -9,7 +9,8 @@ libevolution_mail_importers_la_CPPFLAGS = \
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 libevolution_mail_importers_la_SOURCES =	\
 	mail-importer.c				\
@@ -18,7 +19,7 @@ libevolution_mail_importers_la_SOURCES =	\
 	pine-importer.c				\
 	evolution-mbox-importer.c
 
-libevolution_mail_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_mail_importers_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/e-util/libevolution-util.la		\

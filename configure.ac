@@ -197,6 +197,8 @@ LT_INIT(disable-static win32-dll)
 
 PKG_PROG_PKG_CONFIG
 
+GNOME_CODE_COVERAGE
+
 dnl ********************************************
 dnl User / Developer Documentation
 dnl ********************************************
@@ -1597,5 +1599,6 @@ echo "
 	Highlight support:	$msg_text_highlight
 	Plugins:		$msg_plugins
 	User documentation:	$with_help
+	Code coverage (gcov):	$enable_code_coverage
 	Installed tests:	$enable_installed_tests
 "

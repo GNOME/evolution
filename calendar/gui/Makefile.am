@@ -68,7 +68,8 @@ libevolution_calendar_la_CPPFLAGS =			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
-	$(LIBSOUP_CFLAGS)
+	$(LIBSOUP_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 etspec_DATA =				\
 	e-calendar-table.etspec		\
@@ -209,7 +210,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(GTKHTML_LIBS)							\
 	$(LIBSOUP_LIBS)
 
-libevolution_calendar_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_calendar_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 EXTRA_DIST =	 			\
 	$(ui_DATA)			\

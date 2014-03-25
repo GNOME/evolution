@@ -13,9 +13,12 @@ libecontactprint_la_CPPFLAGS =			\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)		\
 	$(GNOME_PLATFORM_CFLAGS)		\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)			\
+	$(CODE_COVERAGE_CFLAGS)
 
 noinst_LTLIBRARIES = libecontactprint.la
+
+libecontactprint_la_LDFLAGS = $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 libecontactprint_la_SOURCES = 			\
 	e-contact-print-types.h			\

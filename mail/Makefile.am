@@ -48,7 +48,8 @@ libevolution_mail_la_CPPFLAGS =				\
 	$(CANBERRA_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(LIBCRYPTUI_CFLAGS)				\
-	$(LIBSOUP_CFLAGS)
+	$(LIBSOUP_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 mailinclude_HEADERS =					\
 	e-http-request.h				\
@@ -228,7 +229,7 @@ libevolution_mail_la_LIBADD =				\
 	$(LIBSOUP_LIBS)					\
 	$(NULL)
 
-libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 noinst_PROGRAMS = test-mail-autoconfig
 

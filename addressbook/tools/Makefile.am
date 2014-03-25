@@ -15,7 +15,8 @@ evolution_addressbook_export_CPPFLAGS =			\
 	-DLIBDIR=\""$(libdir)"\"			\
 	-I$(top_srcdir)/addressbook			\
 	-I$(top_builddir)/addressbook			\
-	$(EVOLUTION_DATA_SERVER_CFLAGS)
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(CODE_COVERAGE_CFLAGS)
 
 evolution_addressbook_export_SOURCES =				\
 	evolution-addressbook-export.c				\
@@ -26,8 +27,10 @@ evolution_addressbook_export_SOURCES =				\
 evolution_addressbook_export_LDADD =				\
 	$(EVOLUTION_DATA_SERVER_LIBS)
 
+evolution_addressbook_export_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
+
 if OS_WIN32
-evolution_addressbook_export_LDFLAGS = -mwindows
+evolution_addressbook_export_LDFLAGS += -mwindows
 endif
 
 EXTRA_DIST = $(privlibexec_SCRIPTS)

@@ -7,7 +7,8 @@ module_cal_config_weather_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(GWEATHER_CFLAGS)
+	$(GWEATHER_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_cal_config_weather_la_SOURCES = \
 	evolution-cal-config-weather.c				\
@@ -22,6 +23,6 @@ module_cal_config_weather_la_LIBADD = \
 	$(GWEATHER_LIBS)
 
 module_cal_config_weather_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

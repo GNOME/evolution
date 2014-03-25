@@ -7,7 +7,8 @@ module_text_highlight_la_CPPFLAGS =					\
 	-DG_LOG_DOMAIN=\"evolution-module-text-highlight\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_text_highlight_la_SOURCES =					\
 	e-mail-display-popup-text-highlight.c				\
@@ -30,6 +31,6 @@ module_text_highlight_la_LIBADD =					\
 	$(GTKHTML_LIBS)
 
 module_text_highlight_la_LDFLAGS =					\
-	-avoid-version -module $(NO_UNDEFINED)
+	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

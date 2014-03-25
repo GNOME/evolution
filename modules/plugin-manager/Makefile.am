@@ -6,7 +6,8 @@ module_plugin_manager_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-plugin-manager\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)
+	$(GTKHTML_CFLAGS)					\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_plugin_manager_la_SOURCES = \
 	evolution-plugin-manager.c
@@ -19,6 +20,6 @@ module_plugin_manager_la_LIBADD = \
 	$(GTKHTML_LIBS)
 
 module_plugin_manager_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk

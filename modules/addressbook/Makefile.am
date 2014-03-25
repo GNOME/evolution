@@ -20,7 +20,8 @@ module_addressbook_la_CPPFLAGS = \
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(CHAMPLAIN_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
-	$(LDAP_CFLAGS)
+	$(LDAP_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\
@@ -68,7 +69,7 @@ module_addressbook_la_LIBADD = \
 
 
 module_addressbook_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 EXTRA_DIST =			\
 	openldap-extract.h

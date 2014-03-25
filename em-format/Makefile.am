@@ -53,7 +53,8 @@ libevolution_mail_formatter_la_CPPFLAGS =		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(GTKHTML_CFLAGS)				\
-	$(LIBSOUP_CFLAGS)
+	$(LIBSOUP_CFLAGS)				\
+	$(CODE_COVERAGE_CFLAGS)
 
 if ENABLE_SMIME
 SMIME_EXTENSIONS = e-mail-parser-application-smime.c
@@ -124,7 +125,7 @@ libevolution_mail_formatter_la_SOURCES =		\
 	e-mail-stripsig-filter.c			\
 	$(SMIME_EXTENSIONS)
 
-libevolution_mail_formatter_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
+libevolution_mail_formatter_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 if ENABLE_SMIME
 SMIME_LIBS =						\

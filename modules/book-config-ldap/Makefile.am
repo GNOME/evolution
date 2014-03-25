@@ -7,7 +7,8 @@ module_book_config_ldap_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
 	$(GTKHTML_CFLAGS)					\
-	$(LDAP_CFLAGS)
+	$(LDAP_CFLAGS)						\
+	$(CODE_COVERAGE_CFLAGS)
 
 module_book_config_ldap_la_SOURCES = \
 	evolution-book-config-ldap.c				\
@@ -22,6 +23,6 @@ module_book_config_ldap_la_LIBADD = \
 	$(LDAP_LIBS)
 
 module_book_config_ldap_la_LDFLAGS = \
-	-module -avoid-version $(NO_UNDEFINED)
+	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 -include $(top_srcdir)/git.mk
