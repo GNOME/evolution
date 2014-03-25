@@ -774,9 +774,10 @@ photo_cache_finalize (GObject *object)
 	g_main_context_unref (priv->main_context);
 
 	g_hash_table_destroy (priv->photo_ht);
+	g_hash_table_destroy (priv->sources_ht);
 
-	g_mutex_lock (&priv->photo_ht_lock);
-	g_mutex_lock (&priv->sources_ht_lock);
+	g_mutex_clear (&priv->photo_ht_lock);
+	g_mutex_clear (&priv->sources_ht_lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_photo_cache_parent_class)->finalize (object);
