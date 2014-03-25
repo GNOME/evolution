@@ -1786,13 +1786,18 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		} else {
 			e_editor_selection_save (selection);
 			e_editor_widget_exec_command (editor_widget, command, value);
+			e_editor_widget_force_spell_check_for_current_paragraph (editor_widget);
 			e_editor_selection_restore (selection);
 		}
 	} else {
 		if (!has_selection)
 			insert_new_list (selection, document, format, html_mode);
-		else
+		else {
+			e_editor_selection_save (selection);
 			e_editor_widget_exec_command (editor_widget, command, value);
+			e_editor_widget_force_spell_check_for_current_paragraph (editor_widget);
+			e_editor_selection_restore (selection);
+		}
 	}
 
 	if (block) {
