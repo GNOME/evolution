@@ -105,6 +105,7 @@ get_syntax (EMailPart *part,
 		if (filename != NULL) {
 			gchar *ext = g_strrstr (filename, ".");
 			if (ext != NULL) {
+				g_free (syntax);
 				syntax = (gchar *) get_syntax_for_ext (ext + 1);
 				syntax = syntax ? g_strdup (syntax) : NULL;
 			}
