@@ -72,7 +72,7 @@ e_table_column_specification_init (ETableColumnSpecification *specification)
 {
 	specification->model_col = 0;
 	specification->compare_col = 0;
-	specification->title = g_strdup ("");
+	specification->title = NULL;
 	specification->pixbuf = NULL;
 
 	specification->expansion = 0;

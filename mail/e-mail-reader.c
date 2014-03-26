@@ -868,20 +868,16 @@ action_mail_move_cb (GtkAction *action,
 	g_free (default_xfer_messages_uri);
 	default_xfer_messages_uri = g_strdup (uri);
 
-	if (uri != NULL) {
+	if (uri != NULL)
 		mail_transfer_messages (
 			session, folder, uids,
 			TRUE, uri, 0, NULL, NULL);
-		uids = NULL;
-	}
 
 exit:
-	if (uids != NULL)
-		g_ptr_array_unref (uids);
-
 	gtk_widget_destroy (dialog);
 
 	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
