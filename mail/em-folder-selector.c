@@ -44,6 +44,7 @@
 struct _EMFolderSelectorPrivate {
 	EMFolderTreeModel *model;
 	GtkWidget *alert_bar;
+	GtkWidget *activity_bar;
 	GtkWidget *caption_label;
 	GtkWidget *content_area;
 	GtkWidget *tree_view_frame;
@@ -241,6 +242,7 @@ folder_selector_dispose (GObject *object)
 
 	g_clear_object (&priv->model);
 	g_clear_object (&priv->alert_bar);
+	g_clear_object (&priv->activity_bar);
 	g_clear_object (&priv->caption_label);
 	g_clear_object (&priv->content_area);
 	g_clear_object (&priv->tree_view_frame);
@@ -318,6 +320,11 @@ folder_selector_constructed (GObject *object)
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	selector->priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
+
+	widget = e_activity_bar_new ();
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	selector->priv->activity_bar = g_object_ref (widget);
+	/* EActivityBar controls its own visibility. */
 
 	widget = e_tree_view_frame_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
