@@ -136,6 +136,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->is_from_new_message = FALSE;
 	priv->set_signature_from_message = FALSE;
 	priv->disable_signature = FALSE;
+	priv->busy = FALSE;
+	priv->saved_editable= FALSE;
 
 	e_composer_actions_init (composer);
 
@@ -316,17 +318,17 @@ e_composer_private_constructed (EMsgComposer *composer)
 	}
 
 	/* Disable actions that start asynchronous activities while an
-	 * asynchronous activity is in progress.  We enforce this with
-	 * a simple inverted binding to EEditor's "busy" property. */
+	 * asynchronous activity is in progress. We enforce this with
+	 * a simple inverted binding to EMsgComposer's "busy" property. */
 
 	g_object_bind_property (
-		editor, "busy",
+		composer, "busy",
 		priv->async_actions, "sensitive",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
 
 	g_object_bind_property (
-		editor, "busy",
+		composer, "busy",
 		priv->header_table, "sensitive",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);

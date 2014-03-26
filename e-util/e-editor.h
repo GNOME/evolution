@@ -27,6 +27,7 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-activity.h>
+#include <e-util/e-activity-bar.h>
 #include <e-util/e-editor-widget.h>
 
 /* Standard GObject macros */
@@ -70,7 +71,6 @@ struct _EEditorClass {
 
 GType		e_editor_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_editor_new			(void);
-gboolean	e_editor_is_busy		(EEditor *editor);
 EEditorWidget *	e_editor_get_editor_widget	(EEditor *editor);
 GtkBuilder *	e_editor_get_builder		(EEditor *editor);
 GtkUIManager *	e_editor_get_ui_manager		(EEditor *editor);
@@ -86,6 +86,7 @@ GtkWidget *	e_editor_get_style_combo_box	(EEditor *editor);
 const gchar *	e_editor_get_filename		(EEditor *editor);
 void		e_editor_set_filename		(EEditor *editor,
 						 const gchar *filename);
+EActivityBar *	e_editor_get_activity_bar	(EEditor *editor);
 EActivity *	e_editor_new_activity		(EEditor *editor);
 void		e_editor_pack_above		(EEditor *editor,
 						 GtkWidget *child);

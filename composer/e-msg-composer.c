@@ -87,6 +87,7 @@ typedef enum {
 
 enum {
 	PROP_0,
+	PROP_BUSY,
 	PROP_EDITOR,
 	PROP_FOCUS_TRACKER,
 	PROP_SHELL
@@ -1993,6 +1994,12 @@ msg_composer_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BUSY:
+			g_value_set_boolean (
+				value, e_msg_composer_is_busy (
+				E_MSG_COMPOSER (object)));
+			return;
+
 		case PROP_FOCUS_TRACKER:
 			g_value_set_object (
 				value, e_msg_composer_get_focus_tracker (
@@ -2052,10 +2059,51 @@ msg_composer_gallery_drag_data_get (GtkIconView *icon_view,
 }
 
 static void
+composer_notify_activity_cb (EActivityBar *activity_bar,
+                             GParamSpec *pspec,
+                             EMsgComposer *composer)
+{
+	EEditor *editor;
+	EEditorWidget *editor_widget;
+	WebKitWebView *web_view;
+	gboolean editable;
+	gboolean busy;
+
+	busy = (e_activity_bar_get_activity (activity_bar) != NULL);
+
+	if (busy == composer->priv->busy)
+		return;
+
+	composer->priv->busy = busy;
+
+	if (busy)
+		e_msg_composer_save_focused_widget (composer);
+
+	editor = e_msg_composer_get_editor (composer);
+	editor_widget = e_editor_get_editor_widget (editor);
+	web_view = WEBKIT_WEB_VIEW (editor_widget);
+
+	if (busy) {
+		editable = webkit_web_view_get_editable (web_view);
+		webkit_web_view_set_editable (web_view, FALSE);
+		composer->priv->saved_editable = editable;
+	} else {
+		editable = composer->priv->saved_editable;
+		webkit_web_view_set_editable (web_view, editable);
+	}
+
+	g_object_notify (G_OBJECT (composer), "busy");
+
+	if (!busy)
+		e_msg_composer_restore_focus_on_composer (composer);
+}
+
+static void
 msg_composer_constructed (GObject *object)
 {
 	EShell *shell;
 	EMsgComposer *composer;
+	EActivityBar *activity_bar;
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
@@ -2104,6 +2152,12 @@ msg_composer_constructed (GObject *object)
 		GTK_WINDOW (composer),
 		"/org/gnome/evolution/mail/composer-window/",
 		E_RESTORE_WINDOW_SIZE);
+
+	activity_bar = e_editor_get_activity_bar (editor);
+	g_signal_connect (
+		activity_bar, "notify::activity",
+		G_CALLBACK (composer_notify_activity_cb), composer);
+
 
 	/* Honor User Preferences */
 
@@ -2334,6 +2388,22 @@ msg_composer_accumulator_false_abort (GSignalInvocationHint *ihint,
 	return v_boolean;
 }
 
+/**
+ * e_msg_composer_is_busy:
+ * @composer: an #EMsgComposer
+ *
+ * Returns %TRUE only while an #EActivity is in progress.
+ *
+ * Returns: whether @composer is busy
+ **/
+gboolean
+e_msg_composer_is_busy (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->priv->busy;
+}
+
 static void
 e_msg_composer_class_init (EMsgComposerClass *class)
 {
@@ -2354,6 +2424,17 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	widget_class->key_press_event = msg_composer_key_press_event;
 
 	class->presend = msg_composer_presend;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BUSY,
+		g_param_spec_boolean (
+			"busy",
+			"Busy",
+			"Whether an activity is in progress",
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,

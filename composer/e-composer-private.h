@@ -92,11 +92,15 @@ struct _EMsgComposerPrivate {
 
 	CamelMimeMessage *redirect;
 
+	gboolean busy;
+	gboolean disable_signature;
 	gboolean is_from_draft;
 	gboolean is_from_message;
 	gboolean is_from_new_message;
+	/* The web view is uneditable while the editor is busy.
+	 * This is used to restore the previous editable state. */
+	gboolean saved_editable;
 	gboolean set_signature_from_message;
-	gboolean disable_signature;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);
