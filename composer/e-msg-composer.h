@@ -190,6 +190,10 @@ void		e_save_spell_languages		(const GList *spell_languages);
 void		e_msg_composer_is_from_new_message
 						(EMsgComposer *composer,
 						 gboolean is_from_new_message);
+void		e_msg_composer_save_focused_widget
+						(EMsgComposer *composer);
+void		e_msg_composer_restore_focus_on_composer
+						(EMsgComposer *composer);
 gboolean	e_msg_composer_is_busy		(EMsgComposer *composer);
 G_END_DECLS
 

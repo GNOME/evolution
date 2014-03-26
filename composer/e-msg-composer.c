@@ -4999,3 +4999,30 @@ e_msg_composer_is_from_new_message (EMsgComposer *composer,
 
 	composer->priv->is_from_new_message = is_from_new_message;
 }
+
+void
+e_msg_composer_save_focused_widget (EMsgComposer *composer)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->priv->focused_entry =
+		gtk_window_get_focus (GTK_WINDOW (composer));
+}
+
+void
+e_msg_composer_restore_focus_on_composer (EMsgComposer *composer)
+{
+	GtkWidget *widget = composer->priv->focused_entry;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (!widget)
+		return;
+
+	gtk_window_set_focus (GTK_WINDOW (composer), widget);
+
+	if (E_IS_EDITOR_WIDGET (widget))
+		e_editor_widget_force_spell_check (E_EDITOR_WIDGET (widget));
+
+	composer->priv->focused_entry = NULL;
+}

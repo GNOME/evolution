@@ -139,6 +139,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->busy = FALSE;
 	priv->saved_editable= FALSE;
 
+	priv->focused_entry = NULL;
+
 	e_composer_actions_init (composer);
 
 	filename = e_composer_find_data_file ("evolution-composer.ui");
