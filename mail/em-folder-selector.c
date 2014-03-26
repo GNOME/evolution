@@ -889,3 +889,38 @@ em_folder_selector_get_selected_uri (EMFolderSelector *selector)
 
 	return uri;
 }
+
+/**
+ * em_folder_selector_new_activity:
+ * @selector: an #EMFolderSelector
+ *
+ * Returns a new #EActivity configured to display status and error messages
+ * directly in the @selector dialog.
+ *
+ * Returns: an #EActivity
+ **/
+EActivity *
+em_folder_selector_new_activity (EMFolderSelector *selector)
+{
+	EActivity *activity;
+	EActivityBar *activity_bar;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), NULL);
+
+	activity = e_activity_new ();
+
+	alert_sink = E_ALERT_SINK (selector);
+	e_activity_set_alert_sink (activity, alert_sink);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	g_object_unref (cancellable);
+
+	activity_bar = E_ACTIVITY_BAR (selector->priv->activity_bar);
+	e_activity_bar_set_activity (activity_bar, activity);
+
+	return activity;
+}
+

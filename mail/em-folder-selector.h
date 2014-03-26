@@ -97,6 +97,7 @@ void		em_folder_selector_set_selected	(EMFolderSelector *selector,
 						 const gchar *folder_name);
 const gchar *	em_folder_selector_get_selected_uri
 						(EMFolderSelector *selector);
+EActivity *	em_folder_selector_new_activity	(EMFolderSelector *selector);
 
 G_END_DECLS
 
