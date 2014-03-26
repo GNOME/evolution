@@ -750,6 +750,46 @@ em_folder_selector_get_folder_tree (EMFolderSelector *selector)
 	return selector->priv->folder_tree;
 }
 
+/**
+ * em_folder_selector_get_selected:
+ * @selector: an #EMFolderSelector
+ * @out_store: return location for a #CamelStore, or %NULL
+ * @out_folder_name: return location for a folder name string, or %NULL
+ *
+ * Sets @out_store and @out_folder_name to the currently selected folder
+ * in the @selector dialog and returns %TRUE.  If only a #CamelStore row
+ * is selected, the function returns the #CamelStore through @out_store,
+ * sets @out_folder_name to %NULL and returns %TRUE.
+ *
+ * If the dialog has no selection, the function leaves @out_store and
+ * @out_folder_name unset and returns %FALSE.
+ *
+ * Unreference the returned #CamelStore with g_object_unref() and free
+ * the returned folder name with g_free() when finished with them.
+ *
+ * Returns: whether a row is selected in the @selector dialog
+ **/
+gboolean
+em_folder_selector_get_selected (EMFolderSelector *selector,
+                                 CamelStore **out_store,
+                                 gchar **out_folder_name)
+{
+	EMFolderTree *folder_tree;
+
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), FALSE);
+
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	if (em_folder_tree_store_root_selected (folder_tree, out_store)) {
+		if (out_folder_name != NULL)
+			*out_folder_name = NULL;
+		return TRUE;
+	}
+
+	return em_folder_tree_get_selected (
+		folder_tree, out_store, out_folder_name);
+}
+
 const gchar *
 em_folder_selector_get_selected_uri (EMFolderSelector *selector)
 {

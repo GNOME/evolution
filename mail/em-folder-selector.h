@@ -84,6 +84,9 @@ GtkWidget *	em_folder_selector_get_content_area
 						(EMFolderSelector *selector);
 EMFolderTree *	em_folder_selector_get_folder_tree
 						(EMFolderSelector *selector);
+gboolean	em_folder_selector_get_selected	(EMFolderSelector *selector,
+						 CamelStore **out_store,
+						 gchar **out_folder_name);
 const gchar *	em_folder_selector_get_selected_uri
 						(EMFolderSelector *selector);
 
