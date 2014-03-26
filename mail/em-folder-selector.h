@@ -58,6 +58,11 @@ struct _EMFolderSelector {
 
 struct _EMFolderSelectorClass {
 	GtkDialogClass parent_class;
+
+	/* Signals */
+	void		(*folder_selected)	(EMFolderSelector *selector,
+						 CamelStore *store,
+						 const gchar *folder_name);
 };
 
 GType		em_folder_selector_get_type	(void);

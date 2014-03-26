@@ -67,6 +67,13 @@ enum {
 	PROP_MODEL
 };
 
+enum {
+	FOLDER_SELECTED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 /* Forward Declarations */
 static void	em_folder_selector_alert_sink_init
 					(EAlertSinkInterface *interface);
@@ -108,13 +115,8 @@ folder_selector_selected_cb (EMFolderTree *emft,
                              CamelFolderInfoFlags flags,
                              EMFolderSelector *selector)
 {
-	if (selector->priv->name_entry != NULL) {
-		folder_selector_create_name_changed (
-			selector->priv->name_entry, selector);
-	} else {
-		gtk_dialog_set_response_sensitive (
-			GTK_DIALOG (selector), GTK_RESPONSE_OK, TRUE);
-	}
+	g_signal_emit (
+		selector, signals[FOLDER_SELECTED], 0, store, folder_name);
 }
 
 static void
@@ -379,6 +381,21 @@ folder_selector_response (GtkDialog *dialog,
 }
 
 static void
+folder_selector_folder_selected (EMFolderSelector *selector,
+                                 CamelStore *store,
+                                 const gchar *folder_name)
+{
+	if (selector->priv->name_entry != NULL) {
+		folder_selector_create_name_changed (
+			selector->priv->name_entry, selector);
+	} else {
+		gtk_dialog_set_response_sensitive (
+			GTK_DIALOG (selector), GTK_RESPONSE_OK,
+			(store != NULL) && (folder_name != NULL));
+	}
+}
+
+static void
 folder_selector_submit_alert (EAlertSink *alert_sink,
                               EAlert *alert)
 {
@@ -423,6 +440,8 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = folder_selector_response;
+
+	class->folder_selected = folder_selector_folder_selected;
 
 	g_object_class_install_property (
 		object_class,
@@ -470,6 +489,16 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+
+	signals[FOLDER_SELECTED] = g_signal_new (
+		"folder-selected",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMFolderSelectorClass, folder_selected),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_STORE,
+		G_TYPE_STRING);
 }
 
 static void
