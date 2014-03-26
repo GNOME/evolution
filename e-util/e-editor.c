@@ -42,7 +42,7 @@
  * EEditor:
  *
  * #EEditor provides GUI for manipulating with properties of #EEditorWidget and
- * it's #EEditorSelection - i.e. toolbars and actions.
+ * its #EEditorSelection - i.e. toolbars and actions.
  */
 
 /* This controls how spelling suggestions are divided between the primary
