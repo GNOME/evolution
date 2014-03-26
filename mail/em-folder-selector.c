@@ -39,17 +39,14 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorPrivate))
 
-/* Dialog response code. */
-#define EM_FOLDER_SELECTOR_RESPONSE_NEW 1
-
 #define DEFAULT_BUTTON_LABEL N_("_OK")
 
 struct _EMFolderSelectorPrivate {
-	EMFolderTree *folder_tree;  /* not referenced */
 	EMFolderTreeModel *model;
 	GtkWidget *alert_bar;
 	GtkWidget *caption_label;
 	GtkWidget *content_area;
+	GtkWidget *tree_view_frame;
 
 	GtkEntry *name_entry;
 	gchar *selected_uri;
@@ -126,6 +123,29 @@ folder_selector_activated_cb (EMFolderTree *emft,
                               EMFolderSelector *selector)
 {
 	gtk_dialog_response (GTK_DIALOG (selector), GTK_RESPONSE_OK);
+}
+
+static void
+folder_selector_action_add_cb (ETreeViewFrame *tree_view_frame,
+                               GtkAction *action,
+                               EMFolderSelector *selector)
+{
+	EMFolderTree *folder_tree;
+	EMailSession *session;
+	const gchar *uri;
+
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	g_object_set_data (
+		G_OBJECT (folder_tree),
+		"select", GUINT_TO_POINTER (1));
+
+	session = em_folder_tree_get_session (folder_tree);
+
+	uri = em_folder_selector_get_selected_uri (selector);
+
+	em_folder_utils_create_folder (
+		GTK_WINDOW (selector), session, folder_tree, uri);
 }
 
 static void
@@ -223,6 +243,7 @@ folder_selector_dispose (GObject *object)
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->caption_label);
 	g_clear_object (&priv->content_area);
+	g_clear_object (&priv->tree_view_frame);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_selector_parent_class)->dispose (object);
@@ -249,6 +270,7 @@ folder_selector_constructed (GObject *object)
 	EMFolderSelector *selector;
 	EMailSession *session;
 	EMFolderTreeModel *model;
+	GtkAction *action;
 	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -275,7 +297,6 @@ folder_selector_constructed (GObject *object)
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (selector),
-		_("_New"), EM_FOLDER_SELECTOR_RESPONSE_NEW,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		selector->priv->default_button_label, GTK_RESPONSE_OK, NULL);
 
@@ -283,14 +304,6 @@ folder_selector_constructed (GObject *object)
 		GTK_DIALOG (selector), GTK_RESPONSE_OK, FALSE);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK);
-
-	widget = gtk_dialog_get_widget_for_response (
-		GTK_DIALOG (selector), EM_FOLDER_SELECTOR_RESPONSE_NEW);
-
-	g_object_bind_property (
-		selector, "can-create",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_dialog_get_widget_for_response (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK);
@@ -306,22 +319,32 @@ folder_selector_constructed (GObject *object)
 	selector->priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	widget = e_tree_view_frame_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	selector->priv->tree_view_frame = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget,
+		"toolbar-action-activate::"
+		E_TREE_VIEW_FRAME_ACTION_ADD,
+		G_CALLBACK (folder_selector_action_add_cb),
+		selector);
+
+	g_object_bind_property (
+		selector, "can-create",
+		widget, "toolbar-visible",
+		G_BINDING_SYNC_CREATE);
 
 	container = widget;
 
 	widget = em_folder_tree_new_with_model (
 		session, E_ALERT_SINK (selector), model);
 	emu_restore_folder_tree_state (EM_FOLDER_TREE (widget));
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	selector->priv->folder_tree = EM_FOLDER_TREE (widget);
+	e_tree_view_frame_set_tree_view (
+		E_TREE_VIEW_FRAME (container),
+		GTK_TREE_VIEW (widget));
+	gtk_widget_grab_focus (widget);
 	gtk_widget_show (widget);
 
 	g_signal_connect (
@@ -346,38 +369,15 @@ folder_selector_constructed (GObject *object)
 		widget, "label",
 		G_BINDING_DEFAULT);
 
-	gtk_widget_grab_focus (GTK_WIDGET (selector->priv->folder_tree));
-}
+	action = e_tree_view_frame_lookup_toolbar_action (
+		E_TREE_VIEW_FRAME (selector->priv->tree_view_frame),
+		E_TREE_VIEW_FRAME_ACTION_ADD);
+	gtk_action_set_tooltip (action, _("Create a new folder"));
 
-static void
-folder_selector_response (GtkDialog *dialog,
-                          gint response_id)
-{
-	EMFolderSelectorPrivate *priv;
-
-	/* Do not chain up.  GtkDialog does not implement this method. */
-
-	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (dialog);
-
-	if (response_id == EM_FOLDER_SELECTOR_RESPONSE_NEW) {
-		EMailSession *session;
-		const gchar *uri;
-
-		g_object_set_data (
-			G_OBJECT (priv->folder_tree),
-			"select", GUINT_TO_POINTER (1));
-
-		session = em_folder_tree_get_session (priv->folder_tree);
-
-		uri = em_folder_selector_get_selected_uri (
-			EM_FOLDER_SELECTOR (dialog));
-
-		em_folder_utils_create_folder (
-			GTK_WINDOW (dialog), session,
-			priv->folder_tree, uri);
-
-		g_signal_stop_emission_by_name (dialog, "response");
-	}
+	action = e_tree_view_frame_lookup_toolbar_action (
+		E_TREE_VIEW_FRAME (selector->priv->tree_view_frame),
+		E_TREE_VIEW_FRAME_ACTION_REMOVE);
+	gtk_action_set_visible (action, FALSE);
 }
 
 static void
@@ -427,7 +427,6 @@ static void
 em_folder_selector_class_init (EMFolderSelectorClass *class)
 {
 	GObjectClass *object_class;
-	GtkDialogClass *dialog_class;
 
 	g_type_class_add_private (class, sizeof (EMFolderSelectorPrivate));
 
@@ -437,9 +436,6 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 	object_class->dispose = folder_selector_dispose;
 	object_class->finalize = folder_selector_finalize;
 	object_class->constructed = folder_selector_constructed;
-
-	dialog_class = GTK_DIALOG_CLASS (class);
-	dialog_class->response = folder_selector_response;
 
 	class->folder_selected = folder_selector_folder_selected;
 
@@ -774,9 +770,15 @@ em_folder_selector_get_content_area (EMFolderSelector *selector)
 EMFolderTree *
 em_folder_selector_get_folder_tree (EMFolderSelector *selector)
 {
+	ETreeViewFrame *tree_view_frame;
+	GtkTreeView *tree_view;
+
 	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), NULL);
 
-	return selector->priv->folder_tree;
+	tree_view_frame = E_TREE_VIEW_FRAME (selector->priv->tree_view_frame);
+	tree_view = e_tree_view_frame_get_tree_view (tree_view_frame);
+
+	return EM_FOLDER_TREE (tree_view);
 }
 
 /**
@@ -833,16 +835,17 @@ em_folder_selector_set_selected (EMFolderSelector *selector,
                                  CamelStore *store,
                                  const gchar *folder_name)
 {
+	EMFolderTree *folder_tree;
 	gchar *folder_uri;
 
 	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (folder_name != NULL);
 
+	folder_tree = em_folder_selector_get_folder_tree (selector);
 	folder_uri = e_mail_folder_uri_build (store, folder_name);
 
-	em_folder_tree_set_selected (
-		selector->priv->folder_tree, folder_uri, FALSE);
+	em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
 
 	g_free (folder_uri);
 }
