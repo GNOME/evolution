@@ -790,6 +790,34 @@ em_folder_selector_get_selected (EMFolderSelector *selector,
 		folder_tree, out_store, out_folder_name);
 }
 
+/**
+ * em_folder_selector_set_selected:
+ * @selector: an #EMFolderSelector
+ * @store: a #CamelStore
+ * @folder_name: a folder name
+ *
+ * Selects the folder given by @store and @folder_name in the @selector
+ * dialog.
+ **/
+void
+em_folder_selector_set_selected (EMFolderSelector *selector,
+                                 CamelStore *store,
+                                 const gchar *folder_name)
+{
+	gchar *folder_uri;
+
+	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (folder_name != NULL);
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
+
+	em_folder_tree_set_selected (
+		selector->priv->folder_tree, folder_uri, FALSE);
+
+	g_free (folder_uri);
+}
+
 const gchar *
 em_folder_selector_get_selected_uri (EMFolderSelector *selector)
 {

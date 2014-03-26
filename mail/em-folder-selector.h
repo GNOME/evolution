@@ -87,6 +87,9 @@ EMFolderTree *	em_folder_selector_get_folder_tree
 gboolean	em_folder_selector_get_selected	(EMFolderSelector *selector,
 						 CamelStore **out_store,
 						 gchar **out_folder_name);
+void		em_folder_selector_set_selected	(EMFolderSelector *selector,
+						 CamelStore *store,
+						 const gchar *folder_name);
 const gchar *	em_folder_selector_get_selected_uri
 						(EMFolderSelector *selector);
 
