@@ -2335,6 +2335,7 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 	gchar *inner_html;
 	gint citation_level = 0;
 	GString *start, *end;
+	gboolean ignore_next_br = FALSE;
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), "", NULL);
@@ -2343,6 +2344,7 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 	next_br = strstr (prev_br, "<br>");
 
 	while (next_br) {
+		gboolean local_ignore_next_br = ignore_next_br;
 		const gchar *citation = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
 		gchar *to_insert = NULL;
@@ -2352,6 +2354,8 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 			prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br));
 
 		with_br = strstr (to_insert, "<br>");
+
+		ignore_next_br = FALSE;
 
 		citation = strstr (to_insert, "##CITATION_");
 		if (citation) {
@@ -2377,7 +2381,7 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 				document, -1, citation_level);
 		}
 
-		if (with_br) {
+		if (with_br && !*rest && !citation &&!local_ignore_next_br) {
 			WebKitDOMNode *paragraph_clone;
 
 			paragraph_clone = webkit_dom_node_clone_node (
@@ -2425,7 +2429,10 @@ parse_html_into_paragraphs (EEditorWidget *widget,
 				NULL);
 		}
 
-		prev_br = next_br + 4;
+		if (citation_end)
+			ignore_next_br = TRUE;
+
+		prev_br = next_br;
 		next_br = strstr (prev_br + 4, "<br>");
 		g_free (to_insert);
 	}
