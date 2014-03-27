@@ -303,6 +303,7 @@ ivcal_getwidget (EImport *ei,
 
 	nb = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (nb), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (nb), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), nb, TRUE, TRUE, 6);
 
 	/* Type of icalendar items */

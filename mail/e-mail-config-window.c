@@ -365,6 +365,7 @@ mail_config_window_constructed (GObject *object)
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_widget_set_margin_bottom (widget, 17);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 1, 1, 1);
 	window->priv->notebook = widget;  /* not referenced */
 	gtk_widget_show (widget);

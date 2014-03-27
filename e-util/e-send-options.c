@@ -516,6 +516,7 @@ setup_widgets (ESendOptionsDialog *sod,
 
 	priv = sod->priv;
 
+	gtk_notebook_set_show_border (priv->notebook, FALSE);
 	if (!priv->gopts_needed) {
 		gtk_notebook_set_show_tabs (priv->notebook, FALSE);
 		gtk_notebook_set_current_page (priv->notebook, 1);

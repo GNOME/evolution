@@ -748,6 +748,7 @@ source_viewer_constructed (GObject *object)
 	gtk_widget_set_margin_bottom (widget, 3);
 	/* leave left margin at zero */
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	viewer->top_panel = widget;  /* do not reference */
 	gtk_widget_show (widget);
