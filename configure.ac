@@ -67,11 +67,6 @@ m4_define([gweather_minimum_version], [3.8])
 m4_define([libcanberra_gtk_minimum_version], [0.25])
 m4_define([libnotify_minimum_version], [0.7])
 
-dnl XXX These versions don't yet exist.  The latest releases
-dnl     link to gtk+-2.0 so we've bumped the versions to some
-dnl     bogus value to force some plugins to be disabled.
-m4_define([gtkimageview_minimum_version], [2.0])
-
 dnl ******************************
 dnl Compiler Warning Flags
 dnl ******************************
@@ -1205,7 +1200,7 @@ dist_plugins_base="$plugins_base_always"
 plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions mail-notification attachment-reminder email-custom-header face templates dbx-import external-editor"
 
 plugins_standard="$plugins_standard_always"
-dist_plugins_standard="$plugins_standard image-inline pst-import"
+dist_plugins_standard="$plugins_standard pst-import"
 
 dnl ******************************************************************
 dnl The following plugins have additional library dependencies.
@@ -1312,33 +1307,6 @@ if test "x$enable_contact_maps" = "xyes"; then
 	])])
 
 	AC_DEFINE(WITH_CONTACT_MAPS, 1, [When defined contacts preview will contain maps])
-fi
-
-dnl *****************************************
-dnl image-inline plugin requires gtkimageview
-dnl *****************************************
-AC_ARG_ENABLE([image-inline],
-	[AS_HELP_STRING([--enable-image-inline],
-	[Enable image-inline plugin @<:@default=no@:>@])],
-	[enable_image_inline="$enableval"], [enable_image_inline=no])
-
-if test "x$enable_image_inline" = "xyes"; then
-	PKG_CHECK_MODULES(GTKIMAGEVIEW, gtkimageview >= gtkimageview_minimum_version, have_imageview=yes, have_imageview=no)
-	AC_SUBST(GTKIMAGEVIEW_CFLAGS)
-	AC_SUBST(GTKIMAGEVIEW_LIBS)
-
-	if test "x$have_imageview" = "xyes"; then
-		plugins_standard="$plugins_standard image-inline"
-	else
-		AC_MSG_ERROR([
-
-	gtkimageview not found (or version < gtkimageview_minimum_version)
-
-	If you want to disable the image-inline plugin,
-	please append --disable-image-inline to configure.
-
-	])
-	fi
 fi
 
 dnl *********************************
@@ -1559,7 +1527,6 @@ plugins/dbx-import/Makefile
 plugins/email-custom-header/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
-plugins/image-inline/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile
 plugins/mailing-list-actions/Makefile
