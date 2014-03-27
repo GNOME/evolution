@@ -480,6 +480,7 @@ plugins/external-editor/org-gnome-external-editor.error.xml
 plugins/face/face.c
 plugins/face/org-gnome-face.eplug.xml
 plugins/face/org-gnome-face.error.xml
+plugins/image-inline/org-gnome-image-inline.eplug.xml
 plugins/mailing-list-actions/mailing-list-actions.c
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
