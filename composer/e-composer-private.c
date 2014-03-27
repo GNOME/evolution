@@ -601,14 +601,15 @@ e_composer_paste_text (EMsgComposer *composer,
 	editor = e_msg_composer_get_editor (composer);
 	editor_widget = e_editor_get_editor_widget (editor);
 	editor_selection = e_editor_widget_get_selection (editor_widget);
-	/* Paste to EEditorWidget when it has focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (editor_widget))) {
-		e_editor_selection_insert_text (editor_selection, text);
+	/* If WebView doesn't have focus, focus it */
+	if (!gtk_widget_has_focus (GTK_WIDGET (editor_widget)))
+		gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
 
-		e_editor_widget_check_magic_links (editor_widget, FALSE);
-		e_editor_widget_force_spell_check (editor_widget);
-		e_editor_selection_scroll_to_caret (editor_selection);
-	}
+	e_editor_selection_insert_text (editor_selection, text);
+
+	e_editor_widget_check_magic_links (editor_widget, FALSE);
+	e_editor_widget_force_spell_check (editor_widget);
+	e_editor_selection_scroll_to_caret (editor_selection);
 
 	g_free (text);
 
