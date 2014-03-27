@@ -420,6 +420,7 @@ ec_rebuild (EConfig *config)
 						0, wn->context->data);
 				} else {
 					root = gtk_notebook_new ();
+					gtk_notebook_set_show_border (GTK_NOTEBOOK (root), FALSE);
 					gtk_widget_show (root);
 				}
 

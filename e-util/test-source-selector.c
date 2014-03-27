@@ -336,6 +336,7 @@ on_idle_create_widget (ESourceRegistry *registry)
 		G_CALLBACK (gtk_main_quit), NULL);
 
 	notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (notebook));
 
 	gtk_notebook_append_page (

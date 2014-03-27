@@ -2283,6 +2283,7 @@ comp_editor_init (CompEditor *editor)
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), express_mode);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->notebook = GTK_NOTEBOOK (widget);
 	gtk_widget_show (widget);
