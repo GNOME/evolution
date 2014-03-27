@@ -332,17 +332,10 @@ shell_searchbar_filter_changed_cb (GtkComboBox *filter_combo_box,
                                    EShellSearchbar *searchbar)
 {
 	EShellView *shell_view;
-	EShellContent *shell_content;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
 
 	e_shell_view_execute_search (shell_view);
-
-	/* Direct the focus away from the filter combo box so the
-	 * next keyboard event doesn't change the selected filter.
-	 * The user is probably trying to navigate search results. */
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	e_shell_content_focus_search_results (shell_content);
 }
 
 static void
