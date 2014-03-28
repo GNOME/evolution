@@ -160,7 +160,7 @@ gchar *		e_util_guess_mime_type		(const gchar *filename,
 
 GSList *	e_util_get_category_filter_options
 						(void);
-GList *		e_util_get_searchable_categories (void);
+GList *		e_util_dup_searchable_categories (void);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_color_to_string

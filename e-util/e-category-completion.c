@@ -61,10 +61,10 @@ category_completion_build_model (GtkEntryCompletion *completion)
 	store = gtk_list_store_new (
 		NUM_COLUMNS, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
 
-	list = e_categories_get_list ();
+	list = e_categories_dup_list ();
 	while (list != NULL) {
 		const gchar *category = list->data;
-		const gchar *filename;
+		gchar *filename;
 		gchar *normalized;
 		gchar *casefolded;
 		GdkPixbuf *pixbuf = NULL;
@@ -72,13 +72,15 @@ category_completion_build_model (GtkEntryCompletion *completion)
 
 		/* Only add user-visible categories. */
 		if (!e_categories_is_searchable (category)) {
+			g_free (list->data);
 			list = g_list_delete_link (list, list);
 			continue;
 		}
 
-		filename = e_categories_get_icon_file_for (category);
+		filename = e_categories_dup_icon_file_for (category);
 		if (filename != NULL && *filename != '\0')
 			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
+		g_free (filename);
 
 		normalized = g_utf8_normalize (
 			category, -1, G_NORMALIZE_DEFAULT);
@@ -97,6 +99,7 @@ category_completion_build_model (GtkEntryCompletion *completion)
 		if (pixbuf != NULL)
 			g_object_unref (pixbuf);
 
+		g_free (list->data);
 		list = g_list_delete_link (list, list);
 	}
 

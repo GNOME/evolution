@@ -1910,7 +1910,7 @@ e_util_get_category_filter_options (void)
 	GSList *res = NULL;
 	GList *clist, *l;
 
-	clist = e_categories_get_list ();
+	clist = e_categories_dup_list ();
 	for (l = clist; l; l = l->next) {
 		const gchar *cname = l->data;
 		struct _filter_option *fo;
@@ -1925,33 +1925,40 @@ e_util_get_category_filter_options (void)
 		res = g_slist_prepend (res, fo);
 	}
 
-	g_list_free (clist);
+	g_list_free_full (clist, g_free);
 
 	return g_slist_reverse (res);
 }
 
 /**
- * e_util_get_searchable_categories:
+ * e_util_dup_searchable_categories:
  *
- * Returns list of searchable categories only. The list should
- * be freed with g_list_free() when done with it, but the items
- * are internal strings, names of categories, which should not
- * be touched in other than read-only way, in other words the same
- * restrictions as for e_categories_get_list() applies here too.
- **/
+ * Returns a list of the searchable categories, with each item being a UTF-8
+ * category name. The list should be freed with g_list_free() when done with it,
+ * and the items should be freed with g_free(). Everything can be freed at once
+ * using g_list_free_full().
+ *
+ * Returns: (transfer full) (element-type utf8): a list of searchable category
+ * names; free with g_list_free_full()
+ */
 GList *
-e_util_get_searchable_categories (void)
+e_util_dup_searchable_categories (void)
 {
 	GList *res = NULL, *all_categories, *l;
 
-	all_categories = e_categories_get_list ();
+	all_categories = e_categories_dup_list ();
 	for (l = all_categories; l; l = l->next) {
-		const gchar *cname = l->data;
+		gchar *cname = l->data;
 
+		/* Steal the string from e_categories_dup_list(). */
 		if (e_categories_is_searchable (cname))
 			res = g_list_prepend (res, (gpointer) cname);
+		else
+			g_free (cname);
 	}
 
+	/* NOTE: Do *not* free the items. They have been freed or stolen
+	 * above. */
 	g_list_free (all_categories);
 
 	return g_list_reverse (res);

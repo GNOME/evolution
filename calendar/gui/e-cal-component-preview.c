@@ -230,9 +230,9 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_string_append_printf (buffer, "<tr><th>%s</th><td>", _("Categories:"));
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category = iter->data;
-		const gchar *icon_file;
+		gchar *icon_file;
 
-		icon_file = e_categories_get_icon_file_for (category);
+		icon_file = e_categories_dup_icon_file_for (category);
 		if (icon_file && g_file_test (icon_file, G_FILE_TEST_EXISTS)) {
 			gchar *uri;
 
@@ -246,6 +246,8 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				g_string_append_len (string, ", ", 2);
 			g_string_append (string, category);
 		}
+
+		g_free (icon_file);
 	}
 	if (string->len > 0)
 		g_string_append_printf (buffer, "%s", string->str);

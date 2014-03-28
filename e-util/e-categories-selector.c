@@ -71,10 +71,10 @@ categories_selector_build_model (ECategoriesSelector *selector)
 		GTK_TREE_SORTABLE (store),
 		COLUMN_CATEGORY, GTK_SORT_ASCENDING);
 
-	list = e_categories_get_list ();
+	list = e_categories_dup_list ();
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category_name = iter->data;
-		const gchar *filename;
+		gchar *filename;
 		GdkPixbuf *pixbuf = NULL;
 		GtkTreeIter iter;
 		gboolean active;
@@ -87,9 +87,10 @@ categories_selector_build_model (ECategoriesSelector *selector)
 				selector->priv->selected_categories,
 				category_name) != NULL);
 
-		filename = e_categories_get_icon_file_for (category_name);
+		filename = e_categories_dup_icon_file_for (category_name);
 		if (filename != NULL)
 			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
+		g_free (filename);
 
 		gtk_list_store_append (store, &iter);
 
@@ -111,7 +112,7 @@ categories_selector_build_model (ECategoriesSelector *selector)
 	gtk_tree_view_set_search_column (
 		GTK_TREE_VIEW (selector), COLUMN_CATEGORY);
 
-	g_list_free (list);
+	g_list_free_full (list, g_free);
 	g_object_unref (store);
 }
 

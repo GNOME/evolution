@@ -115,7 +115,7 @@ categories_icon_theme_hack (void)
 {
 	GtkIconTheme *icon_theme;
 	const gchar *category_name;
-	const gchar *filename;
+	gchar *filename;
 	gchar *dirname;
 
 	/* XXX Allow the category icons to be referenced as named
@@ -125,11 +125,12 @@ categories_icon_theme_hack (void)
 	 * which, so long as it has an icon.  We're just interested in
 	 * the directory components. */
 	category_name = _("Birthday");
-	filename = e_categories_get_icon_file_for (category_name);
+	filename = e_categories_dup_icon_file_for (category_name);
 	g_return_if_fail (filename != NULL && *filename != '\0');
 
 	/* Extract the directory components. */
 	dirname = g_path_get_dirname (filename);
+	g_free (filename);
 
 	/* Add it to the icon theme's search path.  This relies on
 	 * GtkIconTheme's legacy feature of using image files found

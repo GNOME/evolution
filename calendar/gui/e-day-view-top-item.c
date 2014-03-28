@@ -452,15 +452,16 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		gchar *category;
-		const gchar *file;
+		gchar *file;
 		GdkPixbuf *pixbuf;
 
 		category = (gchar *) elem->data;
-		file = e_categories_get_icon_file_for (category);
+		file = e_categories_dup_icon_file_for (category);
 		if (!file)
 			continue;
 
 		pixbuf = gdk_pixbuf_new_from_file (file, NULL);
+		g_free (file);
 		if (pixbuf == NULL)
 			continue;
 

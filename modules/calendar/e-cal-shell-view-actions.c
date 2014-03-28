@@ -1957,10 +1957,10 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 
 	/* Build the category actions. */
 
-	list = e_util_get_searchable_categories ();
+	list = e_util_dup_searchable_categories ();
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
-		const gchar *filename;
+		gchar *filename;
 		GtkAction *action;
 		gchar *action_name;
 
@@ -1971,7 +1971,7 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 		g_free (action_name);
 
 		/* Convert the category icon file to a themed icon name. */
-		filename = e_categories_get_icon_file_for (category_name);
+		filename = e_categories_dup_icon_file_for (category_name);
 		if (filename != NULL && *filename != '\0') {
 			gchar *basename;
 			gchar *cp;
@@ -1988,6 +1988,8 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 			g_free (basename);
 		}
 
+		g_free (filename);
+
 		gtk_radio_action_set_group (radio_action, group);
 		group = gtk_radio_action_get_group (radio_action);
 
@@ -1996,7 +1998,7 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 		gtk_action_group_add_action (action_group, action);
 		g_object_unref (radio_action);
 	}
-	g_list_free (list);
+	g_list_free_full (list, g_free);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);

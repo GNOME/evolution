@@ -64,7 +64,7 @@ gboolean
 e_categories_config_get_icon_for (const gchar *category,
                                   GdkPixbuf **pixbuf)
 {
-	const gchar *icon_file;
+	gchar *icon_file;
 
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 	g_return_val_if_fail (category != NULL, FALSE);
@@ -84,13 +84,14 @@ e_categories_config_get_icon_for (const gchar *category,
 		}
 	}
 
-	icon_file = e_categories_get_icon_file_for (category);
+	icon_file = e_categories_dup_icon_file_for (category);
 	if (!icon_file) {
 		*pixbuf = NULL;
 	} else {
 		/* load the icon in our list */
 		*pixbuf = gdk_pixbuf_new_from_file (icon_file, NULL);
 	}
+	g_free (icon_file);
 
 	g_hash_table_insert (pixbufs_cache, g_strdup (category), *pixbuf == NULL ? NULL : g_object_ref (*pixbuf));
 

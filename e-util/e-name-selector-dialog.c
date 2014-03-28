@@ -128,7 +128,7 @@ name_selector_dialog_populate_categories (ENameSelectorDialog *name_selector_dia
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
 
 	/* Categories are already sorted. */
-	category_list = e_categories_get_list ();
+	category_list = e_categories_dup_list ();
 	for (iter = category_list; iter != NULL; iter = iter->next) {
 		/* Only add user-visible categories. */
 		if (!e_categories_is_searchable (iter->data))
@@ -138,7 +138,7 @@ name_selector_dialog_populate_categories (ENameSelectorDialog *name_selector_dia
 			GTK_COMBO_BOX_TEXT (combo_box), iter->data);
 	}
 
-	g_list_free (category_list);
+	g_list_free_full (category_list, g_free);
 
 	g_signal_connect_swapped (
 		combo_box, "changed",
