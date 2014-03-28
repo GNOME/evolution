@@ -101,7 +101,6 @@
 #include <e-util/e-editor-page-dialog.h>
 #include <e-util/e-editor-paragraph-dialog.h>
 #include <e-util/e-editor-replace-dialog.h>
-#include <e-util/e-editor-selection.h>
 #include <e-util/e-editor-spell-check-dialog.h>
 #include <e-util/e-editor-table-dialog.h>
 #include <e-util/e-editor-text-dialog.h>
@@ -125,6 +124,7 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
+#include <e-util/e-html-editor-selection.h>
 #include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-editor.h>
 #include <e-util/e-html-utils.h>

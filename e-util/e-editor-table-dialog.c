@@ -67,7 +67,7 @@ static WebKitDOMElement *
 editor_table_dialog_create_table (EEditorTableDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *table, *br, *caret, *parent, *element;
@@ -95,7 +95,7 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 		}
 	}
 
-	caret = e_editor_selection_save_caret_position (editor_selection);
+	caret = e_html_editor_selection_save_caret_position (editor_selection);
 
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 	element = caret;
@@ -120,7 +120,7 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 		NULL);
 
-	e_editor_selection_clear_caret_position_marker (editor_selection);
+	e_html_editor_selection_clear_caret_position_marker (editor_selection);
 
 	e_html_editor_view_set_changed (view, TRUE);
 

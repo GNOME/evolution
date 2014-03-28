@@ -480,7 +480,7 @@ e_composer_paste_html (EMsgComposer *composer,
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	gchar *html;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
@@ -492,12 +492,12 @@ e_composer_paste_html (EMsgComposer *composer,
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
-	e_editor_selection_insert_html (editor_selection, html);
+	e_html_editor_selection_insert_html (editor_selection, html);
 
 	e_html_editor_view_check_magic_links (view, FALSE);
 	e_html_editor_view_force_spell_check (view);
 
-	e_editor_selection_scroll_to_caret (editor_selection);
+	e_html_editor_selection_scroll_to_caret (editor_selection);
 	g_free (html);
 
 	return TRUE;
@@ -552,11 +552,11 @@ e_composer_paste_image (EMsgComposer *composer,
 	editor = e_msg_composer_get_editor (composer);
 	html_editor_view = e_html_editor_get_view (editor);
 	if (e_html_editor_view_get_html_mode (html_editor_view)) {
-		EEditorSelection *selection;
+		EHTMLEditorSelection *selection;
 
 		selection = e_html_editor_view_get_selection (html_editor_view);
-		e_editor_selection_insert_image (selection, uri);
-		e_editor_selection_scroll_to_caret (selection);
+		e_html_editor_selection_insert_image (selection, uri);
+		e_html_editor_selection_scroll_to_caret (selection);
 	} else {
 		EAttachment *attachment;
 
@@ -589,7 +589,7 @@ e_composer_paste_text (EMsgComposer *composer,
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	gchar *text;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
@@ -605,11 +605,11 @@ e_composer_paste_text (EMsgComposer *composer,
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
 		gtk_widget_grab_focus (GTK_WIDGET (view));
 
-	e_editor_selection_insert_text (editor_selection, text);
+	e_html_editor_selection_insert_text (editor_selection, text);
 
 	e_html_editor_view_check_magic_links (view, FALSE);
 	e_html_editor_view_force_spell_check (view);
-	e_editor_selection_scroll_to_caret (editor_selection);
+	e_html_editor_selection_scroll_to_caret (editor_selection);
 
 	g_free (text);
 
@@ -827,7 +827,7 @@ composer_move_caret (EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	GSettings *settings;
 	gboolean start_bottom, html_mode, top_signature;
 	gboolean has_paragraphs_in_body = TRUE;
@@ -867,7 +867,7 @@ composer_move_caret (EMsgComposer *composer)
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
 	/* Caret position found => composer mode changed */
 	if (element) {
-		e_editor_selection_restore_caret_position (editor_selection);
+		e_html_editor_selection_restore_caret_position (editor_selection);
 		/* We want to force spellcheck just in case that we switched to plain
 		 * text mode (when switching to html mode, the underlined words are
 		 * preserved */
@@ -884,13 +884,13 @@ composer_move_caret (EMsgComposer *composer)
 				"data-edit-as-new",
 				"",
 				NULL);
-		e_editor_selection_restore_caret_position (editor_selection);
+		e_html_editor_selection_restore_caret_position (editor_selection);
 
 		e_html_editor_view_force_spell_check (view);
 		return;
 	}
 
-	e_editor_selection_block_selection_changed (editor_selection);
+	e_html_editor_selection_block_selection_changed (editor_selection);
 
 	/* When the new message is written from the beginning - note it into body */
 	if (composer->priv->is_from_new_message) {
@@ -912,7 +912,7 @@ composer_move_caret (EMsgComposer *composer)
 	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
 
 	if (!has_paragraphs_in_body) {
-		element = e_editor_selection_get_paragraph_element (
+		element = e_html_editor_selection_get_paragraph_element (
 			editor_selection, document, -1, 0);
 		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_html (
@@ -943,7 +943,7 @@ composer_move_caret (EMsgComposer *composer)
 				}
 			}
 
-			e_editor_selection_restore_caret_position (editor_selection);
+			e_html_editor_selection_restore_caret_position (editor_selection);
 			if (!html_mode)
 				e_html_editor_view_quote_plain_text (view);
 			e_html_editor_view_force_spell_check (view);
@@ -984,11 +984,11 @@ composer_move_caret (EMsgComposer *composer)
 					blockquote = webkit_dom_node_list_item (blockquotes, 0);
 
 					/* FIXME determine when we can skip this */
-					e_editor_selection_wrap_paragraph (
+					e_html_editor_selection_wrap_paragraph (
 						editor_selection,
 						WEBKIT_DOM_ELEMENT (blockquote));
 
-					e_editor_selection_restore_caret_position (editor_selection);
+					e_html_editor_selection_restore_caret_position (editor_selection);
 					e_html_editor_view_quote_plain_text (view);
 					body = webkit_dom_document_get_body (document);
 				}
@@ -1008,7 +1008,7 @@ composer_move_caret (EMsgComposer *composer)
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, new_range);
 
-	e_editor_selection_unblock_selection_changed (editor_selection);
+	e_html_editor_selection_unblock_selection_changed (editor_selection);
 }
 
 static void

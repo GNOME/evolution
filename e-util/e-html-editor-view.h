@@ -29,7 +29,7 @@
 
 #include <camel/camel.h>
 
-#include <e-util/e-editor-selection.h>
+#include <e-util/e-html-editor-selection.h>
 #include <e-util/e-emoticon.h>
 #include <e-util/e-spell-checker.h>
 #include <e-util/e-util-enums.h>
@@ -78,7 +78,7 @@ struct _EHTMLEditorViewClass {
 GType		e_html_editor_view_get_type	(void) G_GNUC_CONST;
 EHTMLEditorView *
 		e_html_editor_view_new		(void);
-EEditorSelection *
+EHTMLEditorSelection *
 		e_html_editor_view_get_selection
 						(EHTMLEditorView *view);
 gboolean	e_html_editor_view_exec_command	(EHTMLEditorView *view,

@@ -211,7 +211,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 {
 	EEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 
 	WebKitDOMDocument *document;
@@ -237,7 +237,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 	if (!rule) {
 		WebKitDOMElement *caret, *parent, *element;
 
-		caret = e_editor_selection_save_caret_position (editor_selection);
+		caret = e_html_editor_selection_save_caret_position (editor_selection);
 
 		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 		element = caret;
@@ -257,7 +257,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 			NULL);
 
-		e_editor_selection_clear_caret_position_marker (editor_selection);
+		e_html_editor_selection_clear_caret_position_marker (editor_selection);
 
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 

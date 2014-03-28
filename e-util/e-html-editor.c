@@ -32,7 +32,7 @@
 #include "e-alert-sink.h"
 #include "e-html-editor-private.h"
 #include "e-editor-utils.h"
-#include "e-editor-selection.h"
+#include "e-html-editor-selection.h"
 
 #define E_HTML_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -42,7 +42,7 @@
  * EHTMLEditor:
  *
  * #EHTMLEditor provides GUI for manipulating with properties of #EHTMLEditorView and
- * its #EEditorSelection - i.e. toolbars and actions.
+ * its #EHTMLEditorSelection - i.e. toolbars and actions.
  */
 
 /* This controls how spelling suggestions are divided between the primary
@@ -97,7 +97,7 @@ action_context_spell_suggest_cb (GtkAction *action,
                                  EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	const gchar *word;
 
 	word = g_object_get_data (G_OBJECT (action), "word");
@@ -106,14 +106,14 @@ action_context_spell_suggest_cb (GtkAction *action,
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_replace_caret_word (selection, word);
+	e_html_editor_selection_replace_caret_word (selection, word);
 }
 
 static void
 html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	WebKitSpellChecker *checker;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
@@ -130,7 +130,7 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	selection = e_html_editor_view_get_selection (view);
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 
-	word = e_editor_selection_get_caret_word (selection);
+	word = e_html_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
 		return;
 
@@ -213,7 +213,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
                                const gchar *language_code)
 {
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	ESpellChecker *spell_checker;
 	ESpellDictionary *dictionary;
 	GtkActionGroup *action_group;
@@ -228,7 +228,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	selection = e_html_editor_view_get_selection (view);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
-	word = e_editor_selection_get_caret_word (selection);
+	word = e_html_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
 		return;
 
@@ -312,7 +312,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
 	WebKitDOMNode *node;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
@@ -418,8 +418,8 @@ html_editor_update_actions (EHTMLEditor *editor,
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 	selection = e_html_editor_view_get_selection (view);
 	visible = FALSE;
-	if ((n_languages > 0) && e_editor_selection_has_text (selection)) {
-		gchar *word = e_editor_selection_get_caret_word (selection);
+	if ((n_languages > 0) && e_html_editor_selection_has_text (selection)) {
+		gchar *word = e_html_editor_selection_get_caret_word (selection);
 		if (word && *word) {
 			webkit_spell_checker_check_spelling_of_string (
 				checker, word, &loc, &len);

@@ -40,7 +40,7 @@ insert_html_file_ready_cb (GFile *file,
                            GAsyncResult *result,
                            EHTMLEditor *editor)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gchar *contents = NULL;
 	gsize length;
 	GError *error = NULL;
@@ -66,7 +66,7 @@ insert_html_file_ready_cb (GFile *file,
 
 	selection = e_html_editor_view_get_selection (
 		e_html_editor_get_view (editor));
-	e_editor_selection_insert_html (selection, contents);
+	e_html_editor_selection_insert_html (selection, contents);
 	g_free (contents);
 
 	g_object_unref (editor);
@@ -77,7 +77,7 @@ insert_text_file_ready_cb (GFile *file,
                            GAsyncResult *result,
                            EHTMLEditor *editor)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gchar *contents;
 	gsize length;
 	GError *error = NULL;
@@ -103,7 +103,7 @@ insert_text_file_ready_cb (GFile *file,
 
 	selection = e_html_editor_view_get_selection (
 		e_html_editor_get_view (editor));
-	e_editor_selection_insert_text (selection, contents);
+	e_html_editor_selection_insert_text (selection, contents);
 	g_free (contents);
 
 	g_object_unref (editor);
@@ -377,12 +377,12 @@ action_context_remove_link_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_unlink (selection);
+	e_html_editor_selection_unlink (selection);
 }
 
 static void
@@ -390,14 +390,14 @@ action_context_spell_add_cb (GtkAction *action,
                              EHTMLEditor *editor)
 {
 	ESpellChecker *spell_checker;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gchar *word;
 
 	spell_checker = e_html_editor_view_get_spell_checker (
 		editor->priv->html_editor_view);
 	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
-	word = e_editor_selection_get_caret_word (selection);
+	word = e_html_editor_selection_get_caret_word (selection);
 	if (word && *word) {
 		e_spell_checker_learn_word (spell_checker, word);
 	}
@@ -408,14 +408,14 @@ action_context_spell_ignore_cb (GtkAction *action,
                                 EHTMLEditor *editor)
 {
 	ESpellChecker *spell_checker;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gchar *word;
 
 	spell_checker = e_html_editor_view_get_spell_checker (
 		editor->priv->html_editor_view);
 	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
-	word = e_editor_selection_get_caret_word (selection);
+	word = e_html_editor_selection_get_caret_word (selection);
 	if (word && *word) {
 		e_spell_checker_ignore_word (spell_checker, word);
 	}
@@ -441,7 +441,7 @@ static void
 action_indent_cb (GtkAction *action,
                   EHTMLEditor *editor)
 {
-	e_editor_selection_indent (editor->priv->selection);
+	e_html_editor_selection_indent (editor->priv->selection);
 }
 
 static void
@@ -504,14 +504,14 @@ action_insert_image_cb (GtkAction *action,
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		EHTMLEditorView *view;
-		EEditorSelection *selection;
+		EHTMLEditorSelection *selection;
 		gchar *uri;
 
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
 		view = e_html_editor_get_view (editor);
 		selection = e_html_editor_view_get_selection (view);
-		e_editor_selection_insert_image (selection, uri);
+		e_html_editor_selection_insert_image (selection, uri);
 
 		g_free (uri);
 	}
@@ -892,14 +892,14 @@ static void
 action_unindent_cb (GtkAction *action,
                     EHTMLEditor *editor)
 {
-	e_editor_selection_unindent (editor->priv->selection);
+	e_html_editor_selection_unindent (editor->priv->selection);
 }
 
 static void
 action_wrap_lines_cb (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	e_editor_selection_wrap_lines (editor->priv->selection);
+	e_html_editor_selection_wrap_lines (editor->priv->selection);
 }
 
 static void
@@ -1108,21 +1108,21 @@ static GtkRadioActionEntry core_justify_entries[] = {
 	  N_("_Center"),
 	  "<Control>e",
 	  N_("Center Alignment"),
-	  E_EDITOR_SELECTION_ALIGNMENT_CENTER },
+	  E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER },
 
 	{ "justify-left",
 	  GTK_STOCK_JUSTIFY_LEFT,
 	  N_("_Left"),
 	  "<Control>l",
 	  N_("Left Alignment"),
-	  E_EDITOR_SELECTION_ALIGNMENT_LEFT },
+	  E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT },
 
 	{ "justify-right",
 	  GTK_STOCK_JUSTIFY_RIGHT,
 	  N_("_Right"),
 	  "<Control>r",
 	  N_("Right Alignment"),
-	  E_EDITOR_SELECTION_ALIGNMENT_RIGHT }
+	  E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT }
 };
 
 static GtkRadioActionEntry core_mode_entries[] = {
@@ -1149,98 +1149,98 @@ static GtkRadioActionEntry core_style_entries[] = {
 	  N_("_Normal"),
 	  "<Control>0",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH },
 
 	{ "style-h1",
 	  NULL,
 	  N_("Header _1"),
 	  "<Control>1",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_H1 },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 },
 
 	{ "style-h2",
 	  NULL,
 	  N_("Header _2"),
 	  "<Control>2",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_H2 },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2 },
 
 	{ "style-h3",
 	  NULL,
 	  N_("Header _3"),
 	  "<Control>3",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_H3 },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3 },
 
 	{ "style-h4",
 	  NULL,
 	  N_("Header _4"),
 	  "<Control>4",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_H4 },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4 },
 
 	{ "style-h5",
 	  NULL,
 	  N_("Header _5"),
 	  "<Control>5",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_H5 },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5 },
 
 	{ "style-h6",
 	  NULL,
 	  N_("Header _6"),
 	  "<Control>6",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_H6 },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6 },
 
         { "style-preformat",
           NULL,
           N_("_Preformatted"),
           "<Control>7",
           NULL,
-          E_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
+          E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE },
 
 	{ "style-address",
 	  NULL,
 	  N_("A_ddress"),
 	  "<Control>8",
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS },
 
         { "style-blockquote",
           NULL,
           N_("_Blockquote"),
           "<Control>9",
           NULL,
-          E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE },
+          E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE },
 
 	{ "style-list-bullet",
 	  NULL,
 	  N_("_Bulleted List"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST },
 
 	{ "style-list-roman",
 	  NULL,
 	  N_("_Roman Numeral List"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN },
 
 	{ "style-list-number",
 	  NULL,
 	  N_("Numbered _List"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST },
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST },
 
 	{ "style-list-alpha",
 	  NULL,
 	  N_("_Alphabetical List"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA }
+	  E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA }
 };
 
 /*****************************************************************************
@@ -1392,7 +1392,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("-2"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_TINY },
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_TINY },
 
 	{ "size-minus-one",
 	  NULL,
@@ -1400,7 +1400,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("-1"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_SMALL },
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_SMALL },
 
 	{ "size-plus-zero",
 	  NULL,
@@ -1408,7 +1408,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+0"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_NORMAL },
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL },
 
 	{ "size-plus-one",
 	  NULL,
@@ -1416,7 +1416,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+1"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_BIG },
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_BIG },
 
 	{ "size-plus-two",
 	  NULL,
@@ -1424,7 +1424,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+2"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_BIGGER },
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_BIGGER },
 
 	{ "size-plus-three",
 	  NULL,
@@ -1432,7 +1432,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+3"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_LARGE },
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_LARGE },
 
 	{ "size-plus-four",
 	  NULL,
@@ -1440,7 +1440,7 @@ static GtkRadioActionEntry html_size_entries[] = {
 	  N_("+4"),
 	  NULL,
 	  NULL,
-	  E_EDITOR_SELECTION_FONT_SIZE_VERY_LARGE }
+	  E_HTML_EDITOR_SELECTION_FONT_SIZE_VERY_LARGE }
 };
 
 /*****************************************************************************
@@ -1829,7 +1829,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, core_justify_entries,
 		G_N_ELEMENTS (core_justify_entries),
-		E_EDITOR_SELECTION_ALIGNMENT_LEFT,
+		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT,
 		NULL, NULL);
 	gtk_action_group_add_radio_actions (
 		action_group, core_mode_entries,
@@ -1839,7 +1839,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, core_style_entries,
 		G_N_ELEMENTS (core_style_entries),
-		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
+		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
@@ -1875,7 +1875,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_radio_actions (
 		action_group, html_size_entries,
 		G_N_ELEMENTS (html_size_entries),
-		E_EDITOR_SELECTION_FONT_SIZE_NORMAL,
+		E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 

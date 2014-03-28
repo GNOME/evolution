@@ -98,7 +98,7 @@ editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	/* Jump to next matching word */
 	if (!jump (dialog)) {
@@ -115,7 +115,7 @@ editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_replace (
+	e_html_editor_selection_replace (
 		selection,
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)));
 }
@@ -127,7 +127,7 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 	gchar *result;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	const gchar *replacement;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
@@ -136,11 +136,12 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 	replacement = gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry));
 
 	while (jump (dialog)) {
-		e_editor_selection_replace (selection, replacement);
+		e_html_editor_selection_replace (selection, replacement);
 		i++;
 
 		/* Jump behind the word */
-		e_editor_selection_move (selection, TRUE, E_EDITOR_SELECTION_GRANULARITY_WORD);
+		e_html_editor_selection_move (
+			selection, TRUE, E_HTML_EDITOR_SELECTION_GRANULARITY_WORD);
 	}
 
 	result = g_strdup_printf (_("%d occurences replaced"), i);

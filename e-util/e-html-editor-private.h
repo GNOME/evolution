@@ -84,7 +84,7 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *scrolled_window;
 
 	EHTMLEditorView *html_editor_view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	gchar *filename;
 

@@ -53,7 +53,7 @@
  * The #EHTMLEditorView is a WebKit-based rich text editor. The view itself
  * only provides means to configure global behavior of the editor. To work
  * with the actual content, current cursor position or current selection,
- * use #EEditorSelection object.
+ * use #EHTMLEditorSelection object.
  */
 
 struct _EHTMLEditorViewPrivate {
@@ -69,7 +69,7 @@ struct _EHTMLEditorViewPrivate {
 	gint reload_in_progress : 1;
 	gint html_mode		: 1;
 
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	WebKitDOMElement *element_under_mouse;
 
@@ -168,7 +168,7 @@ html_editor_view_selection_changed_cb (EHTMLEditorView *view,
 
 	/* When the webview is being (re)loaded, the document is in an
 	 * inconsistant state and there is no selection, so don't propagate
-	 * the signal further to EEditorSelection and others and wait until
+	 * the signal further to EHTMLEditorSelection and others and wait until
 	 * the load is finished. */
 	if (view->priv->reload_in_progress) {
 		g_signal_stop_emission_by_name (view, "selection-changed");
@@ -204,7 +204,7 @@ html_editor_view_should_show_delete_interface_for_element (EHTMLEditorView *view
 void
 e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *view)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
@@ -223,14 +223,14 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 		return;
 
 	selection = e_html_editor_view_get_selection (view);
-	caret = e_editor_selection_save_caret_position (selection);
+	caret = e_html_editor_selection_save_caret_position (selection);
 
 	/* Block callbacks of selection-changed signal as we don't want to
-	 * recount all the block format things in EEditorSelection and here as well
+	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
 	g_signal_handlers_block_by_func (
 		view, html_editor_view_selection_changed_cb, NULL);
-	e_editor_selection_block_selection_changed (selection);
+	e_html_editor_selection_block_selection_changed (selection);
 
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 	element = caret;
@@ -279,9 +279,9 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	/* Unblock the callbacks */
 	g_signal_handlers_unblock_by_func (
 		view, html_editor_view_selection_changed_cb, NULL);
-	e_editor_selection_unblock_selection_changed (selection);
+	e_html_editor_selection_unblock_selection_changed (selection);
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 }
 
 static void
@@ -310,7 +310,7 @@ static void
 refresh_spell_check (EHTMLEditorView *view,
                      gboolean enable_spell_check)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
@@ -331,7 +331,7 @@ refresh_spell_check (EHTMLEditorView *view,
 		NULL);
 
 	selection = e_html_editor_view_get_selection (view);
-	e_editor_selection_save_caret_position (selection);
+	e_html_editor_selection_save_caret_position (selection);
 
 	/* Sometimes the web view is not event focused, so we have to move caret
 	 * into body */
@@ -339,15 +339,15 @@ refresh_spell_check (EHTMLEditorView *view,
 		move_caret_into_element (
 			document,
 			WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 	}
 
 	/* Block callbacks of selection-changed signal as we don't want to
-	 * recount all the block format things in EEditorSelection and here as well
+	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
 	g_signal_handlers_block_by_func (
 		view, html_editor_view_selection_changed_cb, NULL);
-	e_editor_selection_block_selection_changed (selection);
+	e_html_editor_selection_block_selection_changed (selection);
 
 	/* Append some text on the end of the body */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
@@ -383,9 +383,9 @@ refresh_spell_check (EHTMLEditorView *view,
 	/* Unblock the callbacks */
 	g_signal_handlers_unblock_by_func (
 		view, html_editor_view_selection_changed_cb, NULL);
-	e_editor_selection_unblock_selection_changed (selection);
+	e_html_editor_selection_unblock_selection_changed (selection);
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 }
 
 void
@@ -467,7 +467,7 @@ body_input_event_cb (WebKitDOMElement *element,
 				element_add_class (
 					WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
 			} else {
-				e_editor_selection_set_paragraph_style (
+				e_html_editor_selection_set_paragraph_style (
 					e_html_editor_view_get_selection (view),
 					WEBKIT_DOM_ELEMENT (parent),
 					-1, 0, "");
@@ -494,11 +494,11 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			webkit_dom_node_append_child (
 				node,
-				e_editor_selection_get_caret_position_node (
+				e_html_editor_selection_get_caret_position_node (
 					document),
 				NULL);
 
-			e_editor_selection_restore_caret_position (
+			e_html_editor_selection_restore_caret_position (
 				e_html_editor_view_get_selection (view));
 		}
 	}
@@ -817,7 +817,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 		if (!return_pressed)
-			e_editor_selection_save_caret_position (
+			e_html_editor_selection_save_caret_position (
 				e_html_editor_view_get_selection (view));
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
@@ -865,7 +865,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			NULL);
 
 		if (!return_pressed)
-			e_editor_selection_restore_caret_position (
+			e_html_editor_selection_restore_caret_position (
 				e_html_editor_view_get_selection (view));
 
 		g_free (url_end_raw);
@@ -1069,7 +1069,7 @@ emoticon_read_async_cb (GFile *file,
 	if (error || (size == -1))
 		goto out;
 
-	caret_position = e_editor_selection_save_caret_position (
+	caret_position = e_html_editor_selection_save_caret_position (
 		e_html_editor_view_get_selection (view));
 
 	mime_type = g_content_type_get_mime_type (load_context->content_type);
@@ -1116,7 +1116,7 @@ emoticon_read_async_cb (GFile *file,
 			NULL);
 	}
 
-	e_editor_selection_restore_caret_position (
+	e_html_editor_selection_restore_caret_position (
 		e_html_editor_view_get_selection (view));
 
 	e_html_editor_view_set_changed (view, TRUE);
@@ -1281,7 +1281,7 @@ clipboard_text_received (GtkClipboard *clipboard,
                          const gchar *text,
                          EHTMLEditorView *view)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gchar *escaped_text;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -1315,7 +1315,7 @@ clipboard_text_received (GtkClipboard *clipboard,
 
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (element),
-		e_editor_selection_get_caret_position_node (document),
+		e_html_editor_selection_get_caret_position_node (document),
 		NULL);
 
 	blockquote = webkit_dom_document_create_element (document, "blockquote", NULL);
@@ -1335,7 +1335,7 @@ clipboard_text_received (GtkClipboard *clipboard,
 		WEBKIT_DOM_NODE (blockquote),
 		NULL);
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 
 	g_free (escaped_text);
 }
@@ -1617,7 +1617,7 @@ html_editor_view_button_release_event (GtkWidget *widget,
 static gboolean
 end_list_on_return_press_in_plain_text_mode (EHTMLEditorView *view)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *caret, *li, *list, *paragraph;
 	WebKitDOMNode *prev_sibling, *parent;
@@ -1626,7 +1626,7 @@ end_list_on_return_press_in_plain_text_mode (EHTMLEditorView *view)
 		return FALSE;
 
 	selection = e_html_editor_view_get_selection (view);
-	caret = e_editor_selection_save_caret_position (selection);
+	caret = e_html_editor_selection_save_caret_position (selection);
 
 	document = webkit_web_view_get_dom_document (
 		WEBKIT_WEB_VIEW (view));
@@ -1665,7 +1665,7 @@ end_list_on_return_press_in_plain_text_mode (EHTMLEditorView *view)
 		WEBKIT_DOM_NODE (li),
 		NULL);
 
-	paragraph = e_editor_selection_get_paragraph_element (
+	paragraph = e_html_editor_selection_get_paragraph_element (
 		selection, document, -1, 0);
 
 	webkit_dom_html_element_set_inner_html (
@@ -1673,7 +1673,7 @@ end_list_on_return_press_in_plain_text_mode (EHTMLEditorView *view)
 
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (paragraph),
-		e_editor_selection_get_caret_position_node (document),
+		e_html_editor_selection_get_caret_position_node (document),
 		NULL);
 
 	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (list));
@@ -1683,17 +1683,17 @@ end_list_on_return_press_in_plain_text_mode (EHTMLEditorView *view)
 		webkit_dom_node_get_next_sibling (parent),
 		NULL);
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 	return TRUE;
  out:
-	e_editor_selection_clear_caret_position_marker (selection);
+	e_html_editor_selection_clear_caret_position_marker (selection);
 	return FALSE;
 }
 
 static gboolean
 insert_new_line_into_citation (EHTMLEditorView *view)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gboolean html_mode, ret_val;
 
 	html_mode = e_html_editor_view_get_html_mode (view);
@@ -1727,12 +1727,12 @@ insert_new_line_into_citation (EHTMLEditorView *view)
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (
 					WEBKIT_DOM_NODE (element)),
-				e_editor_selection_get_caret_position_node (
+				e_html_editor_selection_get_caret_position_node (
 					document),
 				WEBKIT_DOM_NODE (element),
 				NULL);
 			/* Restore caret position */
-			e_editor_selection_restore_caret_position (
+			e_html_editor_selection_restore_caret_position (
 				selection);
 		}
 	}
@@ -1758,13 +1758,13 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	if ((event->keyval == GDK_KEY_Return) ||
 	    (event->keyval == GDK_KEY_KP_Enter)) {
-		EEditorSelection *selection;
+		EHTMLEditorSelection *selection;
 
 		selection = e_html_editor_view_get_selection (view);
 		/* When user presses ENTER in a citation block, WebKit does
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
-		if (e_editor_selection_is_citation (selection)) {
+		if (e_html_editor_selection_is_citation (selection)) {
 			return insert_new_line_into_citation (view);
 		} else {
 			if (end_list_on_return_press_in_plain_text_mode (view))
@@ -1774,20 +1774,20 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	/* BackSpace in indented block decrease indent level by one */
 	if (event->keyval == GDK_KEY_BackSpace) {
-		EEditorSelection *selection;
+		EHTMLEditorSelection *selection;
 
 		selection = e_html_editor_view_get_selection (view);
-		if (e_editor_selection_is_indented (selection)) {
+		if (e_html_editor_selection_is_indented (selection)) {
 			WebKitDOMElement *caret;
 
-			caret = e_editor_selection_save_caret_position (selection);
+			caret = e_html_editor_selection_save_caret_position (selection);
 
 			if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (caret))) {
-				e_editor_selection_clear_caret_position_marker (selection);
-				e_editor_selection_unindent (selection);
+				e_html_editor_selection_clear_caret_position_marker (selection);
+				e_html_editor_selection_unindent (selection);
 				return TRUE;
 			} else
-				e_editor_selection_clear_caret_position_marker (selection);
+				e_html_editor_selection_clear_caret_position_marker (selection);
 		}
 	}
 
@@ -1797,7 +1797,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 }
 
 static void
-adjust_html_structure_after_ending_list (EEditorSelection *selection,
+adjust_html_structure_after_ending_list (EHTMLEditorSelection *selection,
                                          WebKitDOMDocument *document,
                                          WebKitDOMNode *node)
 {
@@ -1827,7 +1827,7 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
 		between_lists = TRUE;
 
 	parent = webkit_dom_node_get_parent_node (prev_sibling);
-	paragraph = e_editor_selection_get_paragraph_element (
+	paragraph = e_html_editor_selection_get_paragraph_element (
 		selection, document, -1, 0),
 
 	webkit_dom_html_element_set_inner_text (
@@ -1835,7 +1835,7 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
 
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (paragraph),
-		e_editor_selection_get_caret_position_node (document),
+		e_html_editor_selection_get_caret_position_node (document),
 		NULL);
 
 	if (between_lists) {
@@ -1854,11 +1854,11 @@ adjust_html_structure_after_ending_list (EEditorSelection *selection,
 			parent, node, NULL);
 	}
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 }
 
 static gboolean
-surround_text_with_paragraph_if_needed (EEditorSelection *selection,
+surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
                                         WebKitDOMDocument *document,
                                         WebKitDOMNode *node)
 {
@@ -1871,11 +1871,11 @@ surround_text_with_paragraph_if_needed (EEditorSelection *selection,
 	 * paragraph */
 	if (WEBKIT_DOM_IS_TEXT (node) &&
 	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-		element = e_editor_selection_put_node_into_paragraph (
+		element = e_html_editor_selection_put_node_into_paragraph (
 			selection,
 			document,
 			node,
-			e_editor_selection_get_caret_position_node (document));
+			e_html_editor_selection_get_caret_position_node (document));
 
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling)) {
 			webkit_dom_node_remove_child (
@@ -1908,7 +1908,7 @@ html_editor_view_key_release_event (GtkWidget *widget,
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	view = E_HTML_EDITOR_VIEW (widget);
 	range = html_editor_view_get_dom_range (view);
@@ -1937,7 +1937,7 @@ html_editor_view_key_release_event (GtkWidget *widget,
 		node = webkit_dom_range_get_end_container (range, NULL);
 
 		if (surround_text_with_paragraph_if_needed (selection, document, node)) {
-			e_editor_selection_restore_caret_position (selection);
+			e_html_editor_selection_restore_caret_position (selection);
 			node = webkit_dom_range_get_end_container (range, NULL);
 			range = html_editor_view_get_dom_range (view);
 		}
@@ -2376,7 +2376,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			paragraph = webkit_dom_document_create_element (
 				document, "pre", NULL);
 		} else {
-			paragraph = e_editor_selection_get_paragraph_element (
+			paragraph = e_html_editor_selection_get_paragraph_element (
 				e_html_editor_view_get_selection (view),
 				document, -1, citation_level);
 		}
@@ -2444,7 +2444,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			paragraph = webkit_dom_document_create_element (
 				document, "pre", NULL);
 		} else {
-			paragraph = e_editor_selection_get_paragraph_element (
+			paragraph = e_html_editor_selection_get_paragraph_element (
 				e_html_editor_view_get_selection (view),
 				document, -1, citation_level);
 		}
@@ -2539,7 +2539,7 @@ static void
 html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
                                                   WebKitDOMDocument *document_convertor)
 {
-	EEditorSelection *selection = e_html_editor_view_get_selection (view);
+	EHTMLEditorSelection *selection = e_html_editor_view_get_selection (view);
 	gboolean start_bottom;
 	gchar *inner_text, *inner_html;
 	gint ii;
@@ -2563,7 +2563,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 	paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 	if (!paragraph) {
-		paragraph = e_editor_selection_get_paragraph_element (
+		paragraph = e_html_editor_selection_get_paragraph_element (
 			selection, document, -1, 0);
 		webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 		webkit_dom_html_element_set_inner_text (
@@ -2616,12 +2616,12 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 	if (cite_body) {
 		if (!(top_signature && start_bottom))
-			e_editor_selection_save_caret_position (selection);
+			e_html_editor_selection_save_caret_position (selection);
 	} else {
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (paragraph),
 			WEBKIT_DOM_NODE (
-				e_editor_selection_get_caret_position_node (
+				e_html_editor_selection_get_caret_position_node (
 					document)),
 			NULL);
 	}
@@ -2659,7 +2659,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 						NULL);
 					webkit_dom_node_append_child (
 						WEBKIT_DOM_NODE (paragraph),
-						e_editor_selection_get_caret_position_node (
+						e_html_editor_selection_get_caret_position_node (
 							document),
 						NULL);
 				} else {
@@ -2763,14 +2763,14 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 		webkit_dom_node_insert_before (
 			first_child,
-			e_editor_selection_get_caret_position_node (
+			e_html_editor_selection_get_caret_position_node (
 				document),
 			webkit_dom_node_get_first_child (first_child),
 			NULL);
 	}
 
 	body = WEBKIT_DOM_HTML_ELEMENT (e_html_editor_view_quote_plain_text (view));
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 	e_html_editor_view_force_spell_check (view);
 
 	/* Register on input event that is called when the content (body) is modified */
@@ -2898,7 +2898,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		G_CALLBACK (html_editor_view_load_status_changed), NULL);
 
 	view->priv->selection = g_object_new (
-		E_TYPE_EDITOR_SELECTION,
+		E_TYPE_HTML_EDITOR_SELECTION,
 		"html-editor-view", view,
 		NULL);
 
@@ -2994,14 +2994,14 @@ e_html_editor_view_new (void)
  * e_html_editor_view_get_selection:
  * @view: an #EHTMLEditorView
  *
- * Returns an #EEditorSelection object which represents current selection or
- * cursor position within the editor document. The #EEditorSelection allows
+ * Returns an #EHTMLEditorSelection object which represents current selection or
+ * cursor position within the editor document. The #EHTMLEditorSelection allows
  * programmer to manipulate with formatting, selection, styles etc.
  *
- * Returns: An always valid #EEditorSelection object. The object is owned by
+ * Returns: An always valid #EHTMLEditorSelection object. The object is owned by
  * the @view and should never be free'd.
  */
-EEditorSelection *
+EHTMLEditorSelection *
 e_html_editor_view_get_selection (EHTMLEditorView *view)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
@@ -4189,7 +4189,7 @@ process_elements (EHTMLEditorView *view,
 					gchar *content_with_align;
 					gint length;
 					gint word_wrap_length =
-						e_editor_selection_get_word_wrap_length (
+						e_html_editor_selection_get_word_wrap_length (
 							e_html_editor_view_get_selection (view));
 
 					if (g_str_has_prefix (css_align + 12, "center"))
@@ -4589,7 +4589,7 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
                                     WebKitDOMElement *element,
 				    gboolean html_mode)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gint ii, length;
 	WebKitDOMNodeList *paragraphs;
 
@@ -4643,7 +4643,7 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
 							"text-align: right;";
 
 					/* In HTML mode the paragraphs have width limit */
-					e_editor_selection_set_paragraph_style (
+					e_html_editor_selection_set_paragraph_style (
 						selection, WEBKIT_DOM_ELEMENT (node),
 						-1, 0, style_to_add);
 				}
@@ -4721,7 +4721,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
                                          gboolean *wrap,
                                          gboolean *quote)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gint blockquotes_count;
 	gchar *inner_text, *inner_html;
 	gboolean restore = TRUE;
@@ -4757,7 +4757,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 		if (input_start) {
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (input_start),
-				e_editor_selection_get_caret_position_node (
+				e_html_editor_selection_get_caret_position_node (
 					document),
 				NULL);
 		}
@@ -4835,7 +4835,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 		}
 		webkit_dom_node_insert_before (
 			first_child,
-			e_editor_selection_get_caret_position_node (
+			e_html_editor_selection_get_caret_position_node (
 				document),
 			webkit_dom_node_get_first_child (first_child),
 			NULL);
@@ -4852,7 +4852,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 	g_free (inner_html);
 
 	if (restore)
-		e_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore_caret_position (selection);
 }
 
 static gchar *
@@ -4931,7 +4931,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 		paragraph = webkit_dom_node_list_item (paragraphs, ii);
 
-		e_editor_selection_wrap_paragraph (
+		e_html_editor_selection_wrap_paragraph (
 			e_html_editor_view_get_selection (view),
 			WEBKIT_DOM_ELEMENT (paragraph));
 	}
@@ -5056,7 +5056,7 @@ clear_attributes (WebKitDOMDocument *document)
 static void
 convert_when_changing_composer_mode (EHTMLEditorView *view)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gboolean quote = FALSE, wrap = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
@@ -5070,12 +5070,12 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 		view, WEBKIT_DOM_ELEMENT (body), &wrap, &quote);
 
 	if (wrap)
-		e_editor_selection_wrap_paragraphs_in_document (selection, document);
+		e_html_editor_selection_wrap_paragraphs_in_document (selection, document);
 
 	if (quote) {
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 		body = WEBKIT_DOM_HTML_ELEMENT (e_html_editor_view_quote_plain_text (view));
-		e_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore_caret_position (selection);
 	}
 
 	clear_attributes (document);
@@ -5103,7 +5103,7 @@ void
 e_html_editor_view_set_html_mode (EHTMLEditorView *view,
                                   gboolean html_mode)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gboolean is_from_new_message, converted, edit_as_new, message, convert;
 	gboolean reply, hide;
 	WebKitDOMElement *blockquote;
@@ -5167,10 +5167,10 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		gchar *plain;
 
 		/* Save caret position -> it will be restored in e-composer-private.c */
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 
 		if (blockquote) {
-			e_editor_selection_wrap_paragraphs_in_document (
+			e_html_editor_selection_wrap_paragraphs_in_document (
 				selection, document);
 			e_html_editor_view_quote_plain_text (view);
 		}

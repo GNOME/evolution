@@ -52,13 +52,13 @@ editor_text_dialog_set_bold (EEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_set_bold (
+	e_html_editor_selection_set_bold (
 		selection,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->bold_check)));
@@ -69,13 +69,13 @@ editor_text_dialog_set_italic (EEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_set_italic (
+	e_html_editor_selection_set_italic (
 		selection,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->italic_check)));
@@ -86,13 +86,13 @@ editor_text_dialog_set_underline (EEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_set_underline (
+	e_html_editor_selection_set_underline (
 		selection,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->underline_check)));
@@ -103,13 +103,13 @@ editor_text_dialog_set_strikethrough (EEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_set_strikethrough (
+	e_html_editor_selection_set_strikethrough (
 		selection,
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->strikethrough_check)));
@@ -120,7 +120,7 @@ editor_text_dialog_set_color (EEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	GdkRGBA rgba;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
@@ -129,7 +129,7 @@ editor_text_dialog_set_color (EEditorTextDialog *dialog)
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->color_check), &rgba);
-	e_editor_selection_set_font_color (selection, &rgba);
+	e_html_editor_selection_set_font_color (selection, &rgba);
 }
 
 static void
@@ -137,7 +137,7 @@ editor_text_dialog_set_size (EEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	gint size;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
@@ -145,7 +145,7 @@ editor_text_dialog_set_size (EEditorTextDialog *dialog)
 	selection = e_html_editor_view_get_selection (view);
 	size = gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->size_check));
 
-	e_editor_selection_set_font_size (selection, size + 1);
+	e_html_editor_selection_set_font_size (selection, size + 1);
 }
 
 static void
@@ -154,7 +154,7 @@ editor_text_dialog_show (GtkWidget *widget)
 	EEditorTextDialog *dialog;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	GdkRGBA rgba;
 
 	dialog = E_EDITOR_TEXT_DIALOG (widget);
@@ -164,22 +164,22 @@ editor_text_dialog_show (GtkWidget *widget)
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->bold_check),
-		e_editor_selection_is_bold (selection));
+		e_html_editor_selection_is_bold (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->italic_check),
-		e_editor_selection_is_italic (selection));
+		e_html_editor_selection_is_italic (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->underline_check),
-		e_editor_selection_is_underline (selection));
+		e_html_editor_selection_is_underline (selection));
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->strikethrough_check),
-		e_editor_selection_is_strikethrough (selection));
+		e_html_editor_selection_is_strikethrough (selection));
 
 	gtk_combo_box_set_active (
 		GTK_COMBO_BOX (dialog->priv->size_check),
-		e_editor_selection_get_font_size (selection));
+		e_html_editor_selection_get_font_size (selection));
 
-	e_editor_selection_get_font_color (selection, &rgba);
+	e_html_editor_selection_get_font_color (selection, &rgba);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->color_check), &rgba);
 

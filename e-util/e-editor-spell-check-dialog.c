@@ -308,7 +308,7 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -323,7 +323,7 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 	gtk_tree_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
-	e_editor_selection_insert_html (
+	e_html_editor_selection_insert_html (
 		editor_selection, replacement);
 
 	g_free (replacement);
@@ -335,7 +335,7 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -357,7 +357,7 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 			WEBKIT_WEB_VIEW (view), dialog->priv->word,
 			FALSE, TRUE, TRUE)) {
 
-		e_editor_selection_insert_html (
+		e_html_editor_selection_insert_html (
 			editor_selection, replacement);
 	}
 

@@ -1,5 +1,5 @@
 /*
- * e-editor-selection.c
+ * e-html-editor-selection.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include "e-editor-selection.h"
+#include "e-html-editor-selection.h"
 #include "e-html-editor-view.h"
 #include "e-html-editor.h"
 #include "e-editor-utils.h"
@@ -35,22 +35,22 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define E_EDITOR_SELECTION_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_SELECTION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_SELECTION, EEditorSelectionPrivate))
+	((obj), E_TYPE_HTML_EDITOR_SELECTION, EHTMLEditorSelectionPrivate))
 
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define SPACES_PER_INDENTATION 4
 
 /**
- * EEditorSelection:
+ * EHTMLEditorSelection
  *
- * The #EEditorSelection object represents current position of the cursor
+ * The #EHTMLEditorSelection object represents current position of the cursor
  * with the editor or current text selection within the editor. To obtain
- * valid #EEditorSelection, call e_html_editor_view_get_selection().
+ * valid #EHTMLEditorSelection, call e_html_editor_view_get_selection().
  */
 
-struct _EEditorSelectionPrivate {
+struct _EHTMLEditorSelectionPrivate {
 
 	GWeakRef html_editor_view;
 	gulong selection_changed_handler_id;
@@ -72,7 +72,7 @@ struct _EEditorSelectionPrivate {
 	gint word_wrap_length;
 	guint font_size;
 
-	EEditorSelectionAlignment alignment;
+	EHTMLEditorSelectionAlignment alignment;
 };
 
 enum {
@@ -98,13 +98,13 @@ enum {
 static const GdkRGBA black = { 0 };
 
 G_DEFINE_TYPE (
-	EEditorSelection,
-	e_editor_selection,
+	EHTMLEditorSelection,
+	e_html_editor_selection,
 	G_TYPE_OBJECT
 );
 
 static WebKitDOMRange *
-editor_selection_get_current_range (EEditorSelection *selection)
+html_editor_selection_get_current_range (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
@@ -113,7 +113,7 @@ editor_selection_get_current_range (EEditorSelection *selection)
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range = NULL;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, NULL);
 
 	web_view = WEBKIT_WEB_VIEW (view);
@@ -139,7 +139,7 @@ editor_selection_get_current_range (EEditorSelection *selection)
 }
 
 static gboolean
-get_has_style (EEditorSelection *selection,
+get_has_style (EHTMLEditorSelection *selection,
                const gchar *style_tag)
 {
 	WebKitDOMNode *node;
@@ -148,7 +148,7 @@ get_has_style (EEditorSelection *selection,
 	gboolean result;
 	gint tag_len;
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -207,7 +207,7 @@ get_has_style (EEditorSelection *selection,
 }
 
 static gchar *
-get_font_property (EEditorSelection *selection,
+get_font_property (EHTMLEditorSelection *selection,
                    const gchar *font_property)
 {
 	WebKitDOMRange *range;
@@ -215,7 +215,7 @@ get_font_property (EEditorSelection *selection,
 	WebKitDOMElement *element;
 	gchar *value;
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return NULL;
 
@@ -230,8 +230,8 @@ get_font_property (EEditorSelection *selection,
 }
 
 static void
-editor_selection_selection_changed_cb (WebKitWebView *webview,
-                                       EEditorSelection *selection)
+html_editor_selection_selection_changed_cb (WebKitWebView *webview,
+                                            EHTMLEditorSelection *selection)
 {
 	g_object_freeze_notify (G_OBJECT (selection));
 
@@ -255,30 +255,30 @@ editor_selection_selection_changed_cb (WebKitWebView *webview,
 }
 
 void
-e_editor_selection_block_selection_changed (EEditorSelection *selection)
+e_html_editor_selection_block_selection_changed (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_signal_handlers_block_by_func (
-		view, editor_selection_selection_changed_cb, selection);
+		view, html_editor_selection_selection_changed_cb, selection);
 	g_object_unref (view);
 }
 
 void
-e_editor_selection_unblock_selection_changed (EEditorSelection *selection)
+e_html_editor_selection_unblock_selection_changed (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_signal_handlers_unblock_by_func (
-		view, editor_selection_selection_changed_cb, selection);
+		view, html_editor_selection_selection_changed_cb, selection);
 	g_object_unref (view);
 }
 
 static void
-editor_selection_set_html_editor_view (EEditorSelection *selection,
-                                    EHTMLEditorView *view)
+html_editor_selection_set_html_editor_view (EHTMLEditorSelection *selection,
+                                            EHTMLEditorView *view)
 {
 	gulong handler_id;
 
@@ -288,17 +288,17 @@ editor_selection_set_html_editor_view (EEditorSelection *selection,
 
 	handler_id = g_signal_connect (
 		view, "selection-changed",
-		G_CALLBACK (editor_selection_selection_changed_cb),
+		G_CALLBACK (html_editor_selection_selection_changed_cb),
 		selection);
 
 	selection->priv->selection_changed_handler_id = handler_id;
 }
 
 static void
-editor_selection_get_property (GObject *object,
-                               guint property_id,
-                               GValue *value,
-                               GParamSpec *pspec)
+html_editor_selection_get_property (GObject *object,
+                                    guint property_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
 	GdkRGBA rgba = { 0 };
 
@@ -306,112 +306,112 @@ editor_selection_get_property (GObject *object,
 		case PROP_ALIGNMENT:
 			g_value_set_int (
 				value,
-				e_editor_selection_get_alignment (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_get_alignment (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_BACKGROUND_COLOR:
 			g_value_set_string (
 				value,
-				e_editor_selection_get_background_color (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_get_background_color (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_BLOCK_FORMAT:
 			g_value_set_int (
 				value,
-				e_editor_selection_get_block_format (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_get_block_format (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_BOLD:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_bold (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_bold (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_HTML_EDITOR_VIEW:
 			g_value_take_object (
 				value,
-				e_editor_selection_ref_html_editor_view (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_ref_html_editor_view (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_FONT_COLOR:
-			e_editor_selection_get_font_color (
-				E_EDITOR_SELECTION (object), &rgba);
+			e_html_editor_selection_get_font_color (
+				E_HTML_EDITOR_SELECTION (object), &rgba);
 			g_value_set_boxed (value, &rgba);
 			return;
 
 		case PROP_FONT_NAME:
 			g_value_set_string (
 				value,
-				e_editor_selection_get_font_name (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_get_font_name (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_FONT_SIZE:
 			g_value_set_int (
 				value,
-				e_editor_selection_get_font_size (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_get_font_size (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_INDENTED:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_indented (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_indented (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_ITALIC:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_italic (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_italic (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_MONOSPACED:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_monospaced (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_monospaced (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_STRIKETHROUGH:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_strikethrough (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_strikethrough (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_SUBSCRIPT:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_subscript (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_subscript (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_SUPERSCRIPT:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_superscript (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_superscript (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_TEXT:
 			g_value_set_string (
 				value,
-				e_editor_selection_get_string (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_get_string (
+				E_HTML_EDITOR_SELECTION (object)));
 			break;
 
 		case PROP_UNDERLINE:
 			g_value_set_boolean (
 				value,
-				e_editor_selection_is_underline (
-				E_EDITOR_SELECTION (object)));
+				e_html_editor_selection_is_underline (
+				E_HTML_EDITOR_SELECTION (object)));
 			return;
 	}
 
@@ -419,93 +419,93 @@ editor_selection_get_property (GObject *object,
 }
 
 static void
-editor_selection_set_property (GObject *object,
-                               guint property_id,
-                               const GValue *value,
-                               GParamSpec *pspec)
+html_editor_selection_set_property (GObject *object,
+                                    guint property_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ALIGNMENT:
-			e_editor_selection_set_alignment (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_alignment (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_int (value));
 			return;
 
 		case PROP_BACKGROUND_COLOR:
-			e_editor_selection_set_background_color (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_background_color (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_string (value));
 			return;
 
 		case PROP_BOLD:
-			e_editor_selection_set_bold (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_bold (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_HTML_EDITOR_VIEW:
-			editor_selection_set_html_editor_view (
-				E_EDITOR_SELECTION (object),
+			html_editor_selection_set_html_editor_view (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_object (value));
 			return;
 
 		case PROP_FONT_COLOR:
-			e_editor_selection_set_font_color (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_font_color (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boxed (value));
 			return;
 
 		case PROP_BLOCK_FORMAT:
-			e_editor_selection_set_block_format (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_block_format (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_int (value));
 			return;
 
 		case PROP_FONT_NAME:
-			e_editor_selection_set_font_name (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_font_name (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_string (value));
 			return;
 
 		case PROP_FONT_SIZE:
-			e_editor_selection_set_font_size (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_font_size (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_int (value));
 			return;
 
 		case PROP_ITALIC:
-			e_editor_selection_set_italic (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_italic (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_MONOSPACED:
-			e_editor_selection_set_monospaced (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_monospaced (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_STRIKETHROUGH:
-			e_editor_selection_set_strikethrough (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_strikethrough (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_SUBSCRIPT:
-			e_editor_selection_set_subscript (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_subscript (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_SUPERSCRIPT:
-			e_editor_selection_set_superscript (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_superscript (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 
 		case PROP_UNDERLINE:
-			e_editor_selection_set_underline (
-				E_EDITOR_SELECTION (object),
+			e_html_editor_selection_set_underline (
+				E_HTML_EDITOR_SELECTION (object),
 				g_value_get_boolean (value));
 			return;
 	}
@@ -514,12 +514,12 @@ editor_selection_set_property (GObject *object,
 }
 
 static void
-editor_selection_dispose (GObject *object)
+html_editor_selection_dispose (GObject *object)
 {
-	EEditorSelectionPrivate *priv;
+	EHTMLEditorSelectionPrivate *priv;
 	EHTMLEditorView *view;
 
-	priv = E_EDITOR_SELECTION_GET_PRIVATE (object);
+	priv = E_HTML_EDITOR_SELECTION_GET_PRIVATE (object);
 
 	view = g_weak_ref_get (&priv->html_editor_view);
 	if (view != NULL) {
@@ -532,13 +532,13 @@ editor_selection_dispose (GObject *object)
 	g_weak_ref_set (&priv->html_editor_view, NULL);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_editor_selection_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_html_editor_selection_parent_class)->dispose (object);
 }
 
 static void
-editor_selection_finalize (GObject *object)
+html_editor_selection_finalize (GObject *object)
 {
-	EEditorSelection *selection = E_EDITOR_SELECTION (object);
+	EHTMLEditorSelection *selection = E_HTML_EDITOR_SELECTION (object);
 
 	g_free (selection->priv->text);
 	g_free (selection->priv->background_color);
@@ -546,24 +546,24 @@ editor_selection_finalize (GObject *object)
 	g_free (selection->priv->font_family);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_editor_selection_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_html_editor_selection_parent_class)->finalize (object);
 }
 
 static void
-e_editor_selection_class_init (EEditorSelectionClass *class)
+e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EEditorSelectionPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorSelectionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = editor_selection_get_property;
-	object_class->set_property = editor_selection_set_property;
-	object_class->dispose = editor_selection_dispose;
-	object_class->finalize = editor_selection_finalize;
+	object_class->get_property = html_editor_selection_get_property;
+	object_class->set_property = html_editor_selection_set_property;
+	object_class->dispose = html_editor_selection_dispose;
+	object_class->finalize = html_editor_selection_finalize;
 
 	/**
-	 * EEditorSelection:alignment
+	 * EHTMLEditorSelectionalignment
 	 *
 	 * Holds alignment of current paragraph.
 	 */
@@ -575,13 +575,13 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			"alignment",
 			NULL,
 			NULL,
-			E_EDITOR_SELECTION_ALIGNMENT_LEFT,
-			E_EDITOR_SELECTION_ALIGNMENT_RIGHT,
-			E_EDITOR_SELECTION_ALIGNMENT_LEFT,
+			E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT,
+			E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT,
+			E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT,
 			G_PARAM_READWRITE));
 
 	/**
-	 * EEditorSelection:background-color
+	 * EHTMLEditorSelectionbackground-color
 	 *
 	 * Holds background color of current selection or at current cursor
 	 * position.
@@ -597,12 +597,12 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_READWRITE));
 
 	/**
-	 * EEditorSelection:block-format
+	 * EHTMLEditorSelectionblock-format
 	 *
 	 * Holds block format of current paragraph. See
-	 * #EEditorSelectionBlockFormat for valid values.
+	 * #EHTMLEditorSelectionBlockFormat for valid values.
 	 */
-	/* FIXME Convert the EEditorSelectionBlockFormat
+	/* FIXME Convert the EHTMLEditorSelectionBlockFormat
 	 *       enum to a proper type. */
 	g_object_class_install_property (
 		object_class,
@@ -618,7 +618,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:bold
+	 * EHTMLEditorSelectionbold
 	 *
 	 * Holds whether current selection or text at current cursor position
 	 * is bold.
@@ -647,7 +647,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:font-color
+	 * EHTMLEditorSelectionfont-color
 	 *
 	 * Holds font color of current selection or at current cursor position.
 	 */
@@ -663,7 +663,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:font-name
+	 * EHTMLEditorSelectionfont-name
 	 *
 	 * Holds name of font in current selection or at current cursor
 	 * position.
@@ -680,7 +680,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:font-size
+	 * EHTMLEditorSelectionfont-size
 	 *
 	 * Holds point size of current selection or at current cursor position.
 	 */
@@ -698,7 +698,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:indented
+	 * EHTMLEditorSelectionindented
 	 *
 	 * Holds whether current paragraph is indented. This does not include
 	 * citations.
@@ -715,7 +715,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:italic
+	 * EHTMLEditorSelectionitalic
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is italic.
@@ -732,7 +732,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:monospaced
+	 * EHTMLEditorSelectionmonospaced
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is monospaced.
@@ -749,7 +749,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:strikethrough
+	 * EHTMLEditorSelectionstrikethrough
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is strikethrough.
@@ -766,7 +766,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:superscript
+	 * EHTMLEditorSelectionsuperscript
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is in superscript.
@@ -783,7 +783,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:subscript
+	 * EHTMLEditorSelectionsubscript
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is in subscript.
@@ -800,7 +800,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:text
+	 * EHTMLEditorSelectiontext
 	 *
 	 * Holds always up-to-date text of current selection.
 	 */
@@ -816,7 +816,7 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EEditorSelection:underline
+	 * EHTMLEditorSelectionunderline
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is underlined.
@@ -834,11 +834,11 @@ e_editor_selection_class_init (EEditorSelectionClass *class)
 }
 
 static void
-e_editor_selection_init (EEditorSelection *selection)
+e_html_editor_selection_init (EHTMLEditorSelection *selection)
 {
 	GSettings *g_settings;
 
-	selection->priv = E_EDITOR_SELECTION_GET_PRIVATE (selection);
+	selection->priv = E_HTML_EDITOR_SELECTION_GET_PRIVATE (selection);
 
 	g_settings = g_settings_new ("org.gnome.evolution.mail");
 	selection->priv->word_wrap_length =
@@ -847,16 +847,16 @@ e_editor_selection_init (EEditorSelection *selection)
 }
 
 gint
-e_editor_selection_get_word_wrap_length (EEditorSelection *selection)
+e_html_editor_selection_get_word_wrap_length (EHTMLEditorSelection *selection)
 {
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), 72);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), 72);
 
 	return selection->priv->word_wrap_length;
 }
 
 /**
- * e_editor_selection_ref_html_editor_view:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_ref_html_editor_view:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns a new reference to @selection's #EHTMLEditorView.  Unreference
  * the #EHTMLEditorView with g_object_unref() when finished with it.
@@ -864,30 +864,30 @@ e_editor_selection_get_word_wrap_length (EEditorSelection *selection)
  * Returns: an #EHTMLEditorView
  **/
 EHTMLEditorView *
-e_editor_selection_ref_html_editor_view (EEditorSelection *selection)
+e_html_editor_selection_ref_html_editor_view (EHTMLEditorSelection *selection)
 {
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
 	return g_weak_ref_get (&selection->priv->html_editor_view);
 }
 
 /**
- * e_editor_selection_has_text:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_has_text:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection contains any text.
  *
  * Returns: @TRUE when current selection contains text, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_has_text (EEditorSelection *selection)
+e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 {
 	WebKitDOMRange *range;
 	WebKitDOMNode *node;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 	if (webkit_dom_node_get_node_type (node) == 3)
@@ -918,8 +918,8 @@ e_editor_selection_has_text (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_get_caret_word:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_get_caret_word:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns word under cursor.
  *
@@ -927,13 +927,13 @@ e_editor_selection_has_text (EEditorSelection *selection)
  * is no text under cursor or when selection is active. [transfer-full].
  */
 gchar *
-e_editor_selection_get_caret_word (EEditorSelection *selection)
+e_html_editor_selection_get_caret_word (EHTMLEditorSelection *selection)
 {
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 
 	/* Don't operate on the visible selection */
 	range = webkit_dom_range_clone_range (range, NULL);
@@ -943,15 +943,15 @@ e_editor_selection_get_caret_word (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_replace_caret_word:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_replace_caret_word:
+ * @selection: an #EHTMLEditorSelection
  * @replacement: a string to replace current caret word with
  *
  * Replaces current word under cursor with @replacement.
  */
 void
-e_editor_selection_replace_caret_word (EEditorSelection *selection,
-                                       const gchar *replacement)
+e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
+                                            const gchar *replacement)
 {
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
@@ -960,15 +960,15 @@ e_editor_selection_replace_caret_word (EEditorSelection *selection,
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (replacement != NULL);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	web_view = WEBKIT_WEB_VIEW (view);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	document = webkit_web_view_get_dom_document (web_view);
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
@@ -976,26 +976,28 @@ e_editor_selection_replace_caret_word (EEditorSelection *selection,
 	webkit_dom_range_expand (range, "word", NULL);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 
-	e_editor_selection_insert_html (selection, replacement);
+	e_html_editor_selection_insert_html (selection, replacement);
 
 	g_object_unref (view);
 }
 
 /**
- * e_editor_selection_get_string:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_get_string:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns currently selected string.
  *
  * Returns: A pointer to content of current selection. The string is owned by
- * #EEditorSelection and should not be free'd.
+ * #EHTMLEditorSelection and should not be free'd.
  */
 const gchar *
-e_editor_selection_get_string(EEditorSelection *selection)
+e_html_editor_selection_get_string (EHTMLEditorSelection *selection)
 {
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	WebKitDOMRange *range;
 
-	range = editor_selection_get_current_range (selection);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
+
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return NULL;
 
@@ -1006,21 +1008,21 @@ e_editor_selection_get_string(EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_replace:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_replace:
+ * @selection: an #EHTMLEditorSelection
  * @new_string: a string to replace current selection with
  *
  * Replaces currently selected text with @new_string.
  */
 void
-e_editor_selection_replace (EEditorSelection *selection,
-                            const gchar *new_string)
+e_html_editor_selection_replace (EHTMLEditorSelection *selection,
+                                 const gchar *new_string)
 {
 	EHTMLEditorView *view;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	e_html_editor_view_exec_command (
@@ -1030,17 +1032,17 @@ e_editor_selection_replace (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_get_alignment:
- * @selection: #an EEditorSelection
+ * e_html_editor_selection_get_alignment:
+ * @selection: #an EHTMLEditorSelection
  *
  * Returns alignment of current paragraph
  *
- * Returns: #EEditorSelectionAlignment
+ * Returns: #EHTMLEditorSelectionAlignment
  */
-EEditorSelectionAlignment
-e_editor_selection_get_alignment (EEditorSelection *selection)
+EHTMLEditorSelectionAlignment
+e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 {
-	EEditorSelectionAlignment alignment;
+	EHTMLEditorSelectionAlignment alignment;
 	EHTMLEditorView *view;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
@@ -1051,22 +1053,22 @@ e_editor_selection_get_alignment (EEditorSelection *selection)
 	WebKitDOMRange *range;
 
 	g_return_val_if_fail (
-		E_IS_EDITOR_SELECTION (selection),
-		E_EDITOR_SELECTION_ALIGNMENT_LEFT);
+		E_IS_HTML_EDITOR_SELECTION (selection),
+		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
-		return E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 	if (!node)
-		return E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
 	if (WEBKIT_DOM_IS_ELEMENT (node))
 		element = WEBKIT_DOM_ELEMENT (node);
@@ -1078,13 +1080,13 @@ e_editor_selection_get_alignment (EEditorSelection *selection)
 
 	if (!value || !*value ||
 	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
-		alignment = E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
-		alignment = E_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
 	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
-		alignment = E_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
 	} else {
-		alignment = E_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 	}
 
 	g_free (value);
@@ -1093,41 +1095,41 @@ e_editor_selection_get_alignment (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_alignment:
- * @selection: an #EEditorSelection
- * @alignment: an #EEditorSelectionAlignment value to apply
+ * e_html_editor_selection_set_alignment:
+ * @selection: an #EHTMLEditorSelection
+ * @alignment: an #EHTMLEditorSelectionAlignment value to apply
  *
  * Sets alignment of current paragraph to give @alignment.
  */
 void
-e_editor_selection_set_alignment (EEditorSelection *selection,
-                                  EEditorSelectionAlignment alignment)
+e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
+                                       EHTMLEditorSelectionAlignment alignment)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_get_alignment (selection) == alignment)
+	if (e_html_editor_selection_get_alignment (selection) == alignment)
 		return;
 
 	switch (alignment) {
-		case E_EDITOR_SELECTION_ALIGNMENT_CENTER:
+		case E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER:
 			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_CENTER;
 			break;
 
-		case E_EDITOR_SELECTION_ALIGNMENT_LEFT:
+		case E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT:
 			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_LEFT;
 			break;
 
-		case E_EDITOR_SELECTION_ALIGNMENT_RIGHT:
+		case E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT:
 			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_RIGHT;
 			break;
 	}
 
 	selection->priv->alignment = alignment;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	e_html_editor_view_exec_command (view, command, NULL);
@@ -1138,8 +1140,8 @@ e_editor_selection_set_alignment (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_get_background_color:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_get_background_color:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns background color of currently selected text or letter at current
  * cursor position.
@@ -1147,15 +1149,16 @@ e_editor_selection_set_alignment (EEditorSelection *selection,
  * Returns: A string with code of current background color.
  */
 const gchar *
-e_editor_selection_get_background_color (EEditorSelection *selection)
+e_html_editor_selection_get_background_color (EHTMLEditorSelection *selection)
 {
 	WebKitDOMNode *ancestor;
 	WebKitDOMCSSStyleDeclaration *css;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	ancestor = webkit_dom_range_get_common_ancestor_container (
-			selection->priv->range, NULL);
+	range = html_editor_selection_get_current_range (selection);
+
+	ancestor = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (ancestor));
 	selection->priv->background_color =
@@ -1166,24 +1169,24 @@ e_editor_selection_get_background_color (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_background_color:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_background_color:
+ * @selection: an #EHTMLEditorSelection
  * @color: code of new background color to set
  *
  * Changes background color of current selection or letter at current cursor
  * position to @color.
  */
 void
-e_editor_selection_set_background_color (EEditorSelection *selection,
-                                        const gchar *color)
+e_html_editor_selection_set_background_color (EHTMLEditorSelection *selection,
+                                              const gchar *color)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (color != NULL && *color != '\0');
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_BACKGROUND_COLOR;
@@ -1231,90 +1234,90 @@ get_block_node (WebKitDOMRange *range)
 }
 
 /**
- * e_editor_selection_get_block_format:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_get_block_format:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns block format of current paragraph.
  *
- * Returns: #EEditorSelectionBlockFormat
+ * Returns: #EHTMLEditorSelectionBlockFormat
  */
-EEditorSelectionBlockFormat
-e_editor_selection_get_block_format (EEditorSelection *selection)
+EHTMLEditorSelectionBlockFormat
+e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 {
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 	WebKitDOMElement *element;
-	EEditorSelectionBlockFormat result;
+	EHTMLEditorSelectionBlockFormat result;
 
 	g_return_val_if_fail (
-		E_IS_EDITOR_SELECTION (selection),
-		E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
+		E_IS_HTML_EDITOR_SELECTION (selection),
+		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
-		return E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 
 	if (e_editor_dom_node_find_parent_element (node, "UL")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
 	} else if ((element = e_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
 		if (webkit_dom_element_has_attribute (element, "type")) {
 			gchar *type;
 
 			type = webkit_dom_element_get_attribute (element, "type");
 			if (type && ((*type == 'a') || (*type == 'A'))) {
-				result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
+				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
 			} else if (type && ((*type == 'i') || (*type == 'I'))) {
-				result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
+				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
 			} else {
-				result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
 			}
 
 			g_free (type);
 		} else {
-			result = E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
 		}
 	} else if (e_editor_dom_node_find_parent_element (node, "PRE")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
 	} else if (e_editor_dom_node_find_parent_element (node, "ADDRESS")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
 	} else if (e_editor_dom_node_find_parent_element (node, "H1")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H1;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1;
 	} else if (e_editor_dom_node_find_parent_element (node, "H2")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H2;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2;
 	} else if (e_editor_dom_node_find_parent_element (node, "H3")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H3;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3;
 	} else if (e_editor_dom_node_find_parent_element (node, "H4")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H4;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4;
 	} else if (e_editor_dom_node_find_parent_element (node, "H5")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H5;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5;
 	} else if (e_editor_dom_node_find_parent_element (node, "H6")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_H6;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6;
 	} else if ((element = e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
 		if (element_has_class (element, "-x-evo-indented"))
-			result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 		else {
 			WebKitDOMNode *block = get_block_node (range);
 
 			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
-				result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 			else
-				result = E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 		}
 	} else if (e_editor_dom_node_find_parent_element (node, "P")) {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	} else {
-		result = E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	}
 
 	return result;
 }
 
 static void
-remove_br_after_list_end (EEditorSelection *selection)
+remove_br_after_list_end (EHTMLEditorSelection *selection)
 {
-	WebKitDOMRange *range = editor_selection_get_current_range (selection);
+	WebKitDOMRange *range = html_editor_selection_get_current_range (selection);
 	WebKitDOMNode *node = webkit_dom_range_get_end_container (range, NULL);
 
 	if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node)))
@@ -1359,21 +1362,21 @@ put_selection_markers_around_element (WebKitDOMDocument *document,
 }
 
 static void
-change_list_style (EEditorSelection *selection,
+change_list_style (EHTMLEditorSelection *selection,
                    WebKitDOMDocument *document,
-                   EEditorSelectionBlockFormat from,
-                   EEditorSelectionBlockFormat to,
+                   EHTMLEditorSelectionBlockFormat from,
+                   EHTMLEditorSelectionBlockFormat to,
                    gboolean html_mode)
 {
 	WebKitDOMNode *list, *node;
 	WebKitDOMRange *range;
 	gboolean has_selection = g_strcmp0 (
-		e_editor_selection_get_string (selection), "") != 0;
+		e_html_editor_selection_get_string (selection), "") != 0;
 
 	if (!has_selection)
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (!WEBKIT_DOM_IS_ELEMENT (node))
 		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
@@ -1382,26 +1385,26 @@ change_list_style (EEditorSelection *selection,
 		return;
 
 	list = webkit_dom_node_get_parent_node (node);
-	if (from >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
+	if (from >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
 	    !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (list))
 		return;
 
-	if (from == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST &&
+	if (from == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST &&
 	    !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (list))
 		return;
 
-	if ((from >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
-	    to == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) ||
-	    (from == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST &&
-	    to >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST)) {
+	if ((from >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
+	    to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) ||
+	    (from == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST &&
+	    to >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST)) {
 		WebKitDOMElement *new_list;
 
 		new_list = webkit_dom_document_create_element (
 			document,
-			to == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST ? "UL" : "OL",
+			to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST ? "UL" : "OL",
 			NULL);
 
-		if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST && !html_mode) {
+		if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST && !html_mode) {
 			element_add_class (new_list, "-x-evo-ul-plain");
 			webkit_dom_element_set_attribute (
 				new_list, "style", "margin-left: -3ch;", NULL);
@@ -1417,29 +1420,29 @@ change_list_style (EEditorSelection *selection,
 
 		if (has_selection) {
 			put_selection_markers_around_element (document, new_list);
-			e_editor_selection_restore (selection);
+			e_html_editor_selection_restore (selection);
 		}
 	}
 
-	if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
+	if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (list), "type");
-	} else if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
+	} else if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (list), "type", "A", NULL);
-	} else if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
+	} else if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (list), "type", "I", NULL);
 	}
 
 	if (!has_selection)
-		e_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore_caret_position (selection);
 }
 
 static void
-insert_new_list (EEditorSelection *selection,
+insert_new_list (EHTMLEditorSelection *selection,
                  WebKitDOMDocument *document,
-                 EEditorSelectionBlockFormat to,
+                 EHTMLEditorSelectionBlockFormat to,
                  gboolean html_mode)
 {
 	gboolean inserting_ordered_list = FALSE, empty;
@@ -1448,12 +1451,12 @@ insert_new_list (EEditorSelection *selection,
 	WebKitDOMElement *element, *li;
 	WebKitDOMNode *node;
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (!WEBKIT_DOM_IS_ELEMENT (node))
 		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
 
-	if (to != E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST)
+	if (to != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST)
 		inserting_ordered_list = TRUE;
 
 	content = webkit_dom_node_get_text_content (node);
@@ -1464,10 +1467,10 @@ insert_new_list (EEditorSelection *selection,
 	element = webkit_dom_document_create_element (
 		document, inserting_ordered_list ? "OL" : "UL", NULL);
 
-	if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
+	if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (element), "type", "A", NULL);
-	} else if (to == E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
+	} else if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (element), "type", "I", NULL);
 	}
@@ -1503,11 +1506,11 @@ insert_new_list (EEditorSelection *selection,
 
 	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
 	webkit_dom_node_append_child (
-		node, e_editor_selection_get_caret_position_node (document), NULL);
+		node, e_html_editor_selection_get_caret_position_node (document), NULL);
 
 	webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (element), NULL);
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 }
 
 static void
@@ -1563,7 +1566,7 @@ remove_quoting (WebKitDOMElement *element)
 }
 
 static void
-select_nodes_for_format_change (EEditorSelection *selection,
+select_nodes_for_format_change (EHTMLEditorSelection *selection,
                                 WebKitDOMDocument *document)
 {
 	WebKitDOMDOMSelection *window_selection;
@@ -1575,12 +1578,12 @@ select_nodes_for_format_change (EEditorSelection *selection,
 	window_selection = webkit_dom_dom_window_get_selection (window);
 	new_range = webkit_dom_document_create_range (document);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 
 	node = get_block_node (range);
 
 	remove_wrapping (WEBKIT_DOM_ELEMENT (node));
-	e_editor_selection_save_caret_position (selection);
+	e_html_editor_selection_save_caret_position (selection);
 	remove_quoting (WEBKIT_DOM_ELEMENT (node));
 
 	webkit_dom_range_select_node_contents (new_range, node, NULL);
@@ -1589,18 +1592,18 @@ select_nodes_for_format_change (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_set_block_format:
- * @selection: an #EEditorSelection
- * @format: an #EEditorSelectionBlockFormat value
+ * e_html_editor_selection_set_block_format:
+ * @selection: an #EHTMLEditorSelection
+ * @format: an #EHTMLEditorSelectionBlockFormat value
  *
  * Changes block format of current paragraph to @format.
  */
 void
-e_editor_selection_set_block_format (EEditorSelection *selection,
-                                     EEditorSelectionBlockFormat format)
+e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
+                                          EHTMLEditorSelectionBlockFormat format)
 {
 	EHTMLEditorView *view;
-	EEditorSelectionBlockFormat current_format;
+	EHTMLEditorSelectionBlockFormat current_format;
 	EHTMLEditorViewCommand command;
 	const gchar *value;
 	gboolean has_selection = FALSE;
@@ -1609,99 +1612,99 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	WebKitDOMNode *block = NULL;
 	WebKitDOMRange *range;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	current_format = e_editor_selection_get_block_format (selection);
+	current_format = e_html_editor_selection_get_block_format (selection);
 	if (current_format == format) {
 		return;
 	}
 
 	switch (format) {
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "BLOCKQUOTE";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H1:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H1";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H2:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H2";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H3:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H3";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H4:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H4";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H5:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H5";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_H6:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H6";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "P";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "PRE";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
 			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "ADDRESS";
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
 			command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_ORDERED_LIST;
 			to_list = TRUE;
 			value = NULL;
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
 			command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_UNORDERED_LIST;
 			to_list = TRUE;
 			value = NULL;
 			break;
-		case E_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
+		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
 		default:
 			command = E_HTML_EDITOR_VIEW_COMMAND_REMOVE_FORMAT;
 			value = NULL;
 			break;
 	}
 
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0)
+	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0)
 		has_selection = TRUE;
 
 	/* H1 - H6 have bold font by default */
-	if (format >= E_EDITOR_SELECTION_BLOCK_FORMAT_H1 && format <= E_EDITOR_SELECTION_BLOCK_FORMAT_H6)
+	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 && format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
 		selection->priv->is_bold = TRUE;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	html_mode = e_html_editor_view_get_html_mode (view);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	from_list =
-		(current_format == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) ||
-		(current_format >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST);
+		(current_format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) ||
+		(current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST);
 
 	if (from_list && !to_list) {
 		/* First remove (un)ordered list before changing formatting */
-		if (current_format == E_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) {
+		if (current_format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) {
 			e_html_editor_view_exec_command (
 				view,
 				E_HTML_EDITOR_VIEW_COMMAND_INSERT_UNORDERED_LIST, NULL);
 			/*		    ^-- not a typo, "insert" toggles the
 			 *			formatting if already present */
-		} else if (current_format >= E_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
+		} else if (current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
 			e_html_editor_view_exec_command (
 				view,
 				E_HTML_EDITOR_VIEW_COMMAND_INSERT_ORDERED_LIST, NULL);
@@ -1710,7 +1713,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 
 	remove_br_after_list_end (selection);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range) {
 		g_object_unref (view);
 		return;
@@ -1720,7 +1723,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 		WebKitDOMNode *node = get_block_node (range);
 
 		remove_wrapping (WEBKIT_DOM_ELEMENT (node));
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 		remove_quoting (WEBKIT_DOM_ELEMENT (node));
 	}
 
@@ -1738,8 +1741,8 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 				WebKitDOMNode *clone = webkit_dom_node_clone_node (node, TRUE);
 
 				restore_caret = FALSE;
-				if (format == E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-					new = e_editor_selection_get_paragraph_element (
+				if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
+					new = e_html_editor_selection_get_paragraph_element (
 						selection, document, -1, 0);
 				else
 					new = webkit_dom_document_create_element (
@@ -1753,7 +1756,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 				}
 
 				if (!webkit_dom_node_has_child_nodes (node)) {
-					e_editor_selection_clear_caret_position_marker (selection);
+					e_html_editor_selection_clear_caret_position_marker (selection);
 
 					webkit_dom_html_element_set_inner_html (
 						WEBKIT_DOM_HTML_ELEMENT (new),
@@ -1761,7 +1764,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 
 					webkit_dom_node_append_child (
 						WEBKIT_DOM_NODE (new),
-						e_editor_selection_get_caret_position_node (
+						e_html_editor_selection_get_caret_position_node (
 							document),
 						NULL);
 					restore_caret = TRUE;
@@ -1780,21 +1783,21 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			}
 
 			if (restore_caret)
-				e_editor_selection_restore_caret_position (selection);
+				e_html_editor_selection_restore_caret_position (selection);
 		} else {
-			e_editor_selection_save (selection);
+			e_html_editor_selection_save (selection);
 			e_html_editor_view_exec_command (view, command, value);
 			e_html_editor_view_force_spell_check_for_current_paragraph (view);
-			e_editor_selection_restore (selection);
+			e_html_editor_selection_restore (selection);
 		}
 	} else {
 		if (!has_selection)
 			insert_new_list (selection, document, format, html_mode);
 		else {
-			e_editor_selection_save (selection);
+			e_html_editor_selection_save (selection);
 			e_html_editor_view_exec_command (view, command, value);
 			e_html_editor_view_force_spell_check_for_current_paragraph (view);
-			e_editor_selection_restore (selection);
+			e_html_editor_selection_restore (selection);
 		}
 	}
 
@@ -1808,8 +1811,8 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			value = webkit_dom_element_get_attribute (blockquote, "type");
 			if (g_strstr_len (value, -1, "cite")) {
 
-				if (format == E_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
-					block = WEBKIT_DOM_NODE (e_editor_selection_wrap_paragraph (
+				if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
+					block = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph (
 						selection, WEBKIT_DOM_ELEMENT (block)));
 				}
 
@@ -1819,7 +1822,7 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 			g_free (value);
 		}
 
-		e_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore_caret_position (selection);
 	}
 
 	if (!has_selection)
@@ -1828,27 +1831,27 @@ e_editor_selection_set_block_format (EEditorSelection *selection,
 	g_object_unref (view);
 
 	/* When changing the format we need to re-set the alignment */
-	e_editor_selection_set_alignment (selection, selection->priv->alignment);
+	e_html_editor_selection_set_alignment (selection, selection->priv->alignment);
 
 	g_object_notify (G_OBJECT (selection), "block-format");
 }
 
 /**
- * e_editor_selection_get_font_color:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_get_font_color:
+ * @selection: an #EHTMLEditorSelection
  * @rgba: a #GdkRGBA object to be set to current font color
  *
  * Sets @rgba to contain color of current text selection or letter at current
  * cursor position.
  */
 void
-e_editor_selection_get_font_color (EEditorSelection *selection,
-                                   GdkRGBA *rgba)
+e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
+                                        GdkRGBA *rgba)
 {
 	gchar *color;
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
 		color = g_strdup (selection->priv->font_color);
 	} else {
 		color = get_font_property (selection, "color");
@@ -1863,30 +1866,30 @@ e_editor_selection_get_font_color (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_set_font_color:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_font_color:
+ * @selection: an #EHTMLEditorSelection
  * @rgba: a #GdkRGBA
  *
  * Sets font color of current selection or letter at current cursor position to
  * color defined in @rgba.
  */
 void
-e_editor_selection_set_font_color (EEditorSelection *selection,
-                                   const GdkRGBA *rgba)
+e_html_editor_selection_set_font_color (EHTMLEditorSelection *selection,
+                                        const GdkRGBA *rgba)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 	guint32 rgba_value;
 	gchar *color;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
 	if (!rgba)
 		rgba = &black;
 
 	rgba_value = e_rgba_to_value ((GdkRGBA *) rgba);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR;
@@ -1901,8 +1904,8 @@ e_editor_selection_set_font_color (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_get_font_name:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_get_font_name:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns name of font used in current selection or at letter at current cursor
  * position.
@@ -1910,15 +1913,15 @@ e_editor_selection_set_font_color (EEditorSelection *selection,
  * Returns: A string with font name. [transfer-none]
  */
 const gchar *
-e_editor_selection_get_font_name (EEditorSelection *selection)
+e_html_editor_selection_get_font_name (EHTMLEditorSelection *selection)
 {
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	g_free (selection->priv->font_family);
@@ -1930,23 +1933,23 @@ e_editor_selection_get_font_name (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_font_name:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_font_name:
+ * @selection: an #EHTMLEditorSelection
  * @font_name: a font name to apply
  *
  * Sets font name of current selection or of letter at current cursor position
  * to @font_name.
  */
 void
-e_editor_selection_set_font_name (EEditorSelection *selection,
-                                  const gchar *font_name)
+e_html_editor_selection_set_font_name (EHTMLEditorSelection *selection,
+                                       const gchar *font_name)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_FONT_NAME;
@@ -1959,52 +1962,52 @@ e_editor_selection_set_font_name (EEditorSelection *selection,
 
 /**
  * e_editor_Selection_get_font_size:
- * @selection: an #EEditorSelection
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns point size of current selection or of letter at current cursor position.
  */
  guint
-e_editor_selection_get_font_size (EEditorSelection *selection)
+e_html_editor_selection_get_font_size (EHTMLEditorSelection *selection)
 {
 	gchar *size;
 	guint size_int;
 
 	g_return_val_if_fail (
-		E_IS_EDITOR_SELECTION (selection),
-		E_EDITOR_SELECTION_FONT_SIZE_NORMAL);
+		E_IS_HTML_EDITOR_SELECTION (selection),
+		E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
 	size = get_font_property (selection, "size");
 	if (!size)
-		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
 	size_int = atoi (size);
 	g_free (size);
 
 	if (size_int == 0)
-		return E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
 	return size_int;
 }
 
 /**
- * e_editor_selection_set_font_size:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_font_size:
+ * @selection: an #EHTMLEditorSelection
  * @font_size: point size to apply
  *
  * Sets font size of current selection or of letter at current cursor position
  * to @font_size.
  */
 void
-e_editor_selection_set_font_size (EEditorSelection *selection,
-                                  guint font_size)
+e_html_editor_selection_set_font_size (EHTMLEditorSelection *selection,
+                                       guint font_size)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 	gchar *size_str;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	selection->priv->font_size = font_size;
@@ -2019,24 +2022,24 @@ e_editor_selection_set_font_size (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_citation:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_citation:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current paragraph is a citation.
  *
  * Returns: @TRUE when current paragraph is a citation, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_citation (EEditorSelection *selection)
+e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -2067,25 +2070,25 @@ e_editor_selection_is_citation (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_is_indented:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_indented:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current paragraph is indented. This does not include
  * citations.  To check, whether paragraph is a citation, use
- * e_editor_selection_is_citation().
+ * e_html_editor_selection_is_citation().
  *
  * Returns: @TRUE when current paragraph is indented, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_indented (EEditorSelection *selection)
+e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 {
 	WebKitDOMRange *range;
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -2102,9 +2105,9 @@ e_editor_selection_is_indented (EEditorSelection *selection)
 }
 
 static gboolean
-is_in_html_mode (EEditorSelection *selection)
+is_in_html_mode (EHTMLEditorSelection *selection)
 {
-	EHTMLEditorView *view = e_editor_selection_ref_html_editor_view (selection);
+	EHTMLEditorView *view = e_html_editor_selection_ref_html_editor_view (selection);
 	gboolean ret_val;
 
 	g_return_val_if_fail (view != NULL, FALSE);
@@ -2117,23 +2120,23 @@ is_in_html_mode (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_indent:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_indent:
+ * @selection: an #EHTMLEditorSelection
  *
  * Indents current paragraph by one level.
  */
 void
-e_editor_selection_indent (EEditorSelection *selection)
+e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
 		WebKitDOMDocument *document;
 		WebKitDOMRange *range;
 		WebKitDOMNode *node;
@@ -2146,9 +2149,9 @@ e_editor_selection_indent (EEditorSelection *selection)
 		document = webkit_web_view_get_dom_document (
 			WEBKIT_WEB_VIEW (view));
 
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 
-		range = editor_selection_get_current_range (selection);
+		range = html_editor_selection_get_current_range (selection);
 		if (!range) {
 			g_object_unref (view);
 			return;
@@ -2163,7 +2166,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 
 		final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 		if (final_width < 10 && !is_in_html_mode (selection)) {
-			e_editor_selection_restore_caret_position (selection);
+			e_html_editor_selection_restore_caret_position (selection);
 			g_object_unref (view);
 			return;
 		}
@@ -2176,7 +2179,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 			webkit_dom_element_remove_attribute (
 				WEBKIT_DOM_ELEMENT (clone), "style");
 
-		element = e_editor_selection_get_indented_element (
+		element = e_html_editor_selection_get_indented_element (
 			selection, document, final_width);
 
 		webkit_dom_node_append_child (
@@ -2190,7 +2193,7 @@ e_editor_selection_indent (EEditorSelection *selection)
 			node,
 			NULL);
 
-		e_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore_caret_position (selection);
 	} else {
 		command = E_HTML_EDITOR_VIEW_COMMAND_INDENT;
 		e_html_editor_view_exec_command (view, command, NULL);
@@ -2210,39 +2213,39 @@ is_caret_position_node (WebKitDOMNode *node)
 }
 
 static const gchar *
-get_css_alignment_value (EEditorSelectionAlignment alignment)
+get_css_alignment_value (EHTMLEditorSelectionAlignment alignment)
 {
-	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_LEFT)
+	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT)
 		return ""; /* Left is by default on ltr */
 
-	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_CENTER)
+	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER)
 		return  "text-align: center;";
 
-	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_RIGHT)
+	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT)
 		return "text-align: right;";
 
 	return "";
 }
 
 /**
- * e_editor_selection_unindent:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_unindent:
+ * @selection: an #EHTMLEditorSelection
  *
  * Unindents current paragraph by one level.
  */
 void
-e_editor_selection_unindent (EEditorSelection *selection)
+e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
-		EEditorSelectionAlignment alignment;
+	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+		EHTMLEditorSelectionAlignment alignment;
 		gboolean before_node = TRUE, reinsert_caret_position = FALSE;
 		const gchar *align_value;
 		gint word_wrap_length = selection->priv->word_wrap_length;
@@ -2255,12 +2258,12 @@ e_editor_selection_unindent (EEditorSelection *selection)
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 
-		alignment = e_editor_selection_get_alignment (selection);
+		alignment = e_html_editor_selection_get_alignment (selection);
 		align_value = get_css_alignment_value (alignment);
 
-		range = editor_selection_get_current_range (selection);
+		range = html_editor_selection_get_current_range (selection);
 		if (!range) {
 			g_object_unref (view);
 			return;
@@ -2284,13 +2287,13 @@ e_editor_selection_unindent (EEditorSelection *selection)
 		/* Look if we have previous siblings, if so, we have to
 		 * create new blockquote that will include them */
 		if (webkit_dom_node_get_previous_sibling (node))
-			prev_blockquote = e_editor_selection_get_indented_element (
+			prev_blockquote = e_html_editor_selection_get_indented_element (
 				selection, document, width);
 
 		/* Look if we have next siblings, if so, we have to
 		 * create new blockquote that will include them */
 		if (webkit_dom_node_get_next_sibling (node))
-			next_blockquote = e_editor_selection_get_indented_element (
+			next_blockquote = e_html_editor_selection_get_indented_element (
 				selection, document, width);
 
 		/* Copy nodes that are before / after the element that we want to unindent */
@@ -2346,7 +2349,7 @@ e_editor_selection_unindent (EEditorSelection *selection)
 		}
 
 		if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
-			e_editor_selection_set_paragraph_style (
+			e_html_editor_selection_set_paragraph_style (
 				selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, align_value);
 
 		/* Insert the unindented element */
@@ -2373,7 +2376,7 @@ e_editor_selection_unindent (EEditorSelection *selection)
 			WEBKIT_DOM_NODE (element),
 			NULL);
 
-		e_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore_caret_position (selection);
 	} else {
 		command = E_HTML_EDITOR_VIEW_COMMAND_OUTDENT;
 		e_html_editor_view_exec_command (view, command, NULL);
@@ -2387,8 +2390,8 @@ e_editor_selection_unindent (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_is_bold:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_bold:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is bold.
@@ -2396,7 +2399,7 @@ e_editor_selection_unindent (EEditorSelection *selection)
  * Returns @TRUE when selection is bold, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_bold (EEditorSelection *selection)
+e_html_editor_selection_is_bold (EHTMLEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
@@ -2408,9 +2411,9 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -2422,7 +2425,7 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -2454,28 +2457,28 @@ e_editor_selection_is_bold (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_bold:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_bold:
+ * @selection: an #EHTMLEditorSelection
  * @bold: @TRUE to enable bold, @FALSE to disable
  *
  * Toggles bold formatting of current selection or letter at current cursor
  * position, depending on whether @bold is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_bold (EEditorSelection *selection,
-                             gboolean bold)
+e_html_editor_selection_set_bold (EHTMLEditorSelection *selection,
+                                  gboolean bold)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_bold (selection) == bold)
+	if (e_html_editor_selection_is_bold (selection) == bold)
 		return;
 
 	selection->priv->is_bold = bold;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_BOLD;
@@ -2487,8 +2490,8 @@ e_editor_selection_set_bold (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_italic:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_italic:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is italic.
@@ -2496,7 +2499,7 @@ e_editor_selection_set_bold (EEditorSelection *selection,
  * Returns @TRUE when selection is italic, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_italic (EEditorSelection *selection)
+e_html_editor_selection_is_italic (EHTMLEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
@@ -2508,9 +2511,9 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -2522,7 +2525,7 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -2554,28 +2557,28 @@ e_editor_selection_is_italic (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_italic:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_italic:
+ * @selection: an #EHTMLEditorSelection
  * @italic: @TRUE to enable italic, @FALSE to disable
  *
  * Toggles italic formatting of current selection or letter at current cursor
  * position, depending on whether @italic is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_italic (EEditorSelection *selection,
-                               gboolean italic)
+e_html_editor_selection_set_italic (EHTMLEditorSelection *selection,
+                                    gboolean italic)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_italic (selection) == italic)
+	if (e_html_editor_selection_is_italic (selection) == italic)
 		return;
 
 	selection->priv->is_italic = italic;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_ITALIC;
@@ -2609,8 +2612,8 @@ is_monospaced_element (WebKitDOMElement *element)
 }
 
 /**
- * e_editor_selection_is_monospaced:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_monospaced:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is monospaced.
@@ -2618,7 +2621,7 @@ is_monospaced_element (WebKitDOMElement *element)
  * Returns @TRUE when selection is monospaced, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_monospaced (EEditorSelection *selection)
+e_html_editor_selection_is_monospaced (EHTMLEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
@@ -2630,9 +2633,9 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -2644,7 +2647,7 @@ e_editor_selection_is_monospaced (EEditorSelection *selection)
 	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -2698,16 +2701,16 @@ move_caret_into_element (WebKitDOMDocument *document,
 }
 
 /**
- * e_editor_selection_set_monospaced:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_monospaced:
+ * @selection: an #EHTMLEditorSelection
  * @monospaced: @TRUE to enable monospaced, @FALSE to disable
  *
  * Toggles monospaced formatting of current selection or letter at current cursor
  * position, depending on whether @monospaced is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_monospaced (EEditorSelection *selection,
-                                   gboolean monospaced)
+e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
+                                        gboolean monospaced)
 {
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
@@ -2716,18 +2719,18 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *window_selection;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_monospaced (selection) == monospaced)
+	if (e_html_editor_selection_is_monospaced (selection) == monospaced)
 		return;
 
 	selection->priv->is_monospaced = monospaced;
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	web_view = WEBKIT_WEB_VIEW (view);
@@ -2748,13 +2751,13 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 		font_size = selection->priv->font_size;
 		if (font_size == 0)
-			font_size = E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 		font_size_str = g_strdup_printf ("%d", font_size);
 		webkit_dom_element_set_attribute (
 			monospace, "size", font_size_str, NULL);
 		g_free (font_size_str);
 
-		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
+		if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0) {
 			gchar *html, *outer_html;
 
 			webkit_dom_node_append_child (
@@ -2773,9 +2776,9 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 				"<span id=\"-x-evo-selection-end-marker\"></span>",
 				NULL),
 
-			e_editor_selection_insert_html (selection, html);
+			e_html_editor_selection_insert_html (selection, html);
 
-			e_editor_selection_restore (selection);
+			e_html_editor_selection_restore (selection);
 
 			g_free (html);
 			g_free (outer_html);
@@ -2816,9 +2819,9 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 		is_strikethrough = selection->priv->is_strikethrough;
 		font_size = selection->priv->font_size;
 		if (font_size == 0)
-			font_size = E_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
-		if (g_strcmp0 (e_editor_selection_get_string (selection), "") != 0) {
+		if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0) {
 			gchar *html, *outer_html, *inner_html, *beginning, *end;
 			gchar *start_position, *end_position, *font_size_str;
 			WebKitDOMElement *wrapper;
@@ -2873,7 +2876,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 				outer_html,
 				NULL);
 
-			e_editor_selection_restore (selection);
+			e_html_editor_selection_restore (selection);
 
 			g_free (html);
 			g_free (outer_html);
@@ -2923,15 +2926,15 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 
 		/* Re-set formatting */
 		if (is_bold)
-			e_editor_selection_set_bold (selection, TRUE);
+			e_html_editor_selection_set_bold (selection, TRUE);
 		if (is_italic)
-			e_editor_selection_set_italic (selection, TRUE);
+			e_html_editor_selection_set_italic (selection, TRUE);
 		if (is_underline)
-			e_editor_selection_set_underline (selection, TRUE);
+			e_html_editor_selection_set_underline (selection, TRUE);
 		if (is_strikethrough)
-			e_editor_selection_set_strikethrough (selection, TRUE);
+			e_html_editor_selection_set_strikethrough (selection, TRUE);
 
-		e_editor_selection_set_font_size (selection, font_size);
+		e_html_editor_selection_set_font_size (selection, font_size);
 	}
 
 	g_object_unref (view);
@@ -2940,8 +2943,8 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_strikethrough:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_strikethrough:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is striked through.
@@ -2949,7 +2952,7 @@ e_editor_selection_set_monospaced (EEditorSelection *selection,
  * Returns @TRUE when selection is striked through, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_strikethrough (EEditorSelection *selection)
+e_html_editor_selection_is_strikethrough (EHTMLEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
@@ -2961,9 +2964,9 @@ e_editor_selection_is_strikethrough (EEditorSelection *selection)
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -2975,7 +2978,7 @@ e_editor_selection_is_strikethrough (EEditorSelection *selection)
 	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -3007,28 +3010,28 @@ e_editor_selection_is_strikethrough (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_strikethrough:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_strikethrough:
+ * @selection: an #EHTMLEditorSelection
  * @strikethrough: @TRUE to enable strikethrough, @FALSE to disable
  *
  * Toggles strike through formatting of current selection or letter at current
  * cursor position, depending on whether @strikethrough is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_strikethrough (EEditorSelection *selection,
-                                       gboolean strikethrough)
+e_html_editor_selection_set_strikethrough (EHTMLEditorSelection *selection,
+                                           gboolean strikethrough)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_strikethrough (selection) == strikethrough)
+	if (e_html_editor_selection_is_strikethrough (selection) == strikethrough)
 		return;
 
 	selection->priv->is_strikethrough = strikethrough;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH;
@@ -3040,8 +3043,8 @@ e_editor_selection_set_strikethrough (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_subscript:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_subscript:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is in subscript.
@@ -3049,15 +3052,15 @@ e_editor_selection_set_strikethrough (EEditorSelection *selection,
  * Returns @TRUE when selection is in subscript, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_subscript (EEditorSelection *selection)
+e_html_editor_selection_is_subscript (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -3067,7 +3070,7 @@ e_editor_selection_is_subscript (EEditorSelection *selection)
 
 	g_object_unref (view);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	while (node) {
@@ -3088,26 +3091,26 @@ e_editor_selection_is_subscript (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_subscript:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_subscript:
+ * @selection: an #EHTMLEditorSelection
  * @subscript: @TRUE to enable subscript, @FALSE to disable
  *
  * Toggles subscript of current selection or letter at current cursor position,
  * depending on whether @subscript is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_subscript (EEditorSelection *selection,
-                                  gboolean subscript)
+e_html_editor_selection_set_subscript (EHTMLEditorSelection *selection,
+                                       gboolean subscript)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_subscript (selection) == subscript)
+	if (e_html_editor_selection_is_subscript (selection) == subscript)
 		return;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_SUBSCRIPT;
@@ -3119,8 +3122,8 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_superscript:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_superscript:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is in superscript.
@@ -3128,15 +3131,15 @@ e_editor_selection_set_subscript (EEditorSelection *selection,
  * Returns @TRUE when selection is in superscript, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_superscript (EEditorSelection *selection)
+e_html_editor_selection_is_superscript (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -3146,7 +3149,7 @@ e_editor_selection_is_superscript (EEditorSelection *selection)
 
 	g_object_unref (view);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	while (node) {
@@ -3167,26 +3170,26 @@ e_editor_selection_is_superscript (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_superscript:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_superscript:
+ * @selection: an #EHTMLEditorSelection
  * @superscript: @TRUE to enable superscript, @FALSE to disable
  *
  * Toggles superscript of current selection or letter at current cursor position,
  * depending on whether @superscript is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_superscript (EEditorSelection *selection,
-                                    gboolean superscript)
+e_html_editor_selection_set_superscript (EHTMLEditorSelection *selection,
+                                         gboolean superscript)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_superscript (selection) == superscript)
+	if (e_html_editor_selection_is_superscript (selection) == superscript)
 		return;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_SUPERSCRIPT;
@@ -3198,8 +3201,8 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_is_underline:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_is_underline:
+ * @selection: an #EHTMLEditorSelection
  *
  * Returns whether current selection or letter at current cursor position
  * is underlined.
@@ -3207,7 +3210,7 @@ e_editor_selection_set_superscript (EEditorSelection *selection,
  * Returns @TRUE when selection is underlined, @FALSE otherwise.
  */
 gboolean
-e_editor_selection_is_underline (EEditorSelection *selection)
+e_html_editor_selection_is_underline (EHTMLEditorSelection *selection)
 {
 	gboolean ret_val;
 	gchar *value, *text_content;
@@ -3219,9 +3222,9 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
@@ -3233,7 +3236,7 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return FALSE;
 
@@ -3265,28 +3268,28 @@ e_editor_selection_is_underline (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_set_underline:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_set_underline:
+ * @selection: an #EHTMLEditorSelection
  * @underline: @TRUE to enable underline, @FALSE to disable
  *
  * Toggles underline formatting of current selection or letter at current
  * cursor position, depending on whether @underline is @TRUE or @FALSE.
  */
 void
-e_editor_selection_set_underline (EEditorSelection *selection,
-                                  gboolean underline)
+e_html_editor_selection_set_underline (EHTMLEditorSelection *selection,
+                                       gboolean underline)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_editor_selection_is_underline (selection) == underline)
+	if (e_html_editor_selection_is_underline (selection) == underline)
 		return;
 
 	selection->priv->is_underline = underline;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE;
@@ -3298,14 +3301,14 @@ e_editor_selection_set_underline (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_unlink:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_unlink:
+ * @selection: an #EHTMLEditorSelection
  *
  * Removes any links (&lt;A&gt; elements) from current selection or at current
  * cursor position.
  */
 void
-e_editor_selection_unlink (EEditorSelection *selection)
+e_html_editor_selection_unlink (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
@@ -3315,9 +3318,9 @@ e_editor_selection_unlink (EEditorSelection *selection)
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -3347,23 +3350,23 @@ e_editor_selection_unlink (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_create_link:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_create_link:
+ * @selection: an #EHTMLEditorSelection
  * @uri: destination of the new link
  *
  * Converts current selection into a link pointing to @url.
  */
 void
-e_editor_selection_create_link (EEditorSelection *selection,
-                                const gchar *uri)
+e_html_editor_selection_create_link (EHTMLEditorSelection *selection,
+                                     const gchar *uri)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (uri != NULL && *uri != '\0');
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_CREATE_LINK;
@@ -3373,24 +3376,24 @@ e_editor_selection_create_link (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_insert_text:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_insert_text:
+ * @selection: an #EHTMLEditorSelection
  * @plain_text: text to insert
  *
  * Inserts @plain_text at current cursor position. When a text range is selected,
  * it will be replaced by @plain_text.
  */
 void
-e_editor_selection_insert_text (EEditorSelection *selection,
-                                const gchar *plain_text)
+e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
+                                     const gchar *plain_text)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (plain_text != NULL);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT;
@@ -3400,24 +3403,24 @@ e_editor_selection_insert_text (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_insert_html:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_insert_html:
+ * @selection: an #EHTMLEditorSelection
  * @html_text: an HTML code to insert
  *
  * Insert @html_text into document at current cursor position. When a text range
  * is selected, it will be replaced by @html_text.
  */
 void
-e_editor_selection_insert_html (EEditorSelection *selection,
-                                const gchar *html_text)
+e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
+                                     const gchar *html_text)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (html_text != NULL);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
@@ -3437,7 +3440,7 @@ e_editor_selection_insert_html (EEditorSelection *selection,
 typedef struct _LoadContext LoadContext;
 
 struct _LoadContext {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	WebKitDOMElement *element;
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
@@ -3457,7 +3460,7 @@ image_load_stream_read_cb (GInputStream *input_stream,
                            LoadContext *load_context);
 
 static LoadContext *
-image_load_context_new (EEditorSelection *selection)
+image_load_context_new (EHTMLEditorSelection *selection)
 {
 	LoadContext *load_context;
 
@@ -3486,15 +3489,15 @@ image_load_context_free (LoadContext *load_context)
 }
 
 static void
-replace_base64_image_src (EEditorSelection *selection,
-                         WebKitDOMElement *element,
-                         const gchar *base64_content,
-                         const gchar *filename,
-                         const gchar *uri)
+replace_base64_image_src (EHTMLEditorSelection *selection,
+                          WebKitDOMElement *element,
+                          const gchar *base64_content,
+                          const gchar *filename,
+                          const gchar *uri)
 {
 	EHTMLEditorView *view;
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	e_html_editor_view_set_changed (view, TRUE);
@@ -3513,7 +3516,7 @@ replace_base64_image_src (EEditorSelection *selection,
 }
 
 static void
-insert_base64_image (EEditorSelection *selection,
+insert_base64_image (EHTMLEditorSelection *selection,
                      const gchar *base64_content,
                      const gchar *filename,
                      const gchar *uri)
@@ -3523,9 +3526,9 @@ insert_base64_image (EEditorSelection *selection,
 	WebKitDOMElement *element, *caret_position, *resizable_wrapper;
 	WebKitDOMText *text;
 
-	caret_position = e_editor_selection_save_caret_position (selection);
+	caret_position = e_html_editor_selection_save_caret_position (selection);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (
@@ -3574,13 +3577,13 @@ insert_base64_image (EEditorSelection *selection,
 		WEBKIT_DOM_NODE (caret_position),
 		NULL);
 
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 }
 
 static void
 image_load_finish (LoadContext *load_context)
 {
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	GMemoryOutputStream *output_stream;
 	gchar *base64_encoded, *mime_type, *output, *uri;
 	gsize size;
@@ -3657,8 +3660,8 @@ image_load_write_cb (GOutputStream *output_stream,
 
 static void
 image_load_stream_read_cb (GInputStream *input_stream,
-                                GAsyncResult *result,
-                                LoadContext *load_context)
+                           GAsyncResult *result,
+                           LoadContext *load_context)
 {
 	GOutputStream *output_stream;
 	gssize bytes_read;
@@ -3747,7 +3750,7 @@ image_load_query_info_cb (GFile *file,
 }
 
 static void
-image_load_and_insert_async (EEditorSelection *selection,
+image_load_and_insert_async (EHTMLEditorSelection *selection,
                              WebKitDOMElement *element,
                              const gchar *uri)
 {
@@ -3771,18 +3774,18 @@ image_load_and_insert_async (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_insert_image:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_insert_image:
+ * @selection: an #EHTMLEditorSelection
  * @image_uri: an URI of the source image
  *
  * Inserts image at current cursor position using @image_uri as source. When a
  * text range is selected, it will be replaced by the image.
  */
 void
-e_editor_selection_insert_image (EEditorSelection *selection,
-                                 const gchar *image_uri)
+e_html_editor_selection_insert_image (EHTMLEditorSelection *selection,
+                                      const gchar *image_uri)
 {
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
 
 	if (is_in_html_mode (selection)) {
@@ -3808,19 +3811,19 @@ e_editor_selection_insert_image (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_replace_image_src:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_replace_image_src:
+ * @selection: an #EHTMLEditorSelection
  * @image: #WebKitDOMElement representation of image
  * @image_uri: an URI of the source image
  *
  * Replace the src attribute of the given @image with @image_uri.
  */
 void
-e_editor_selection_replace_image_src (EEditorSelection *selection,
-                                      WebKitDOMElement *image,
-                                      const gchar *image_uri)
+e_html_editor_selection_replace_image_src (EHTMLEditorSelection *selection,
+                                           WebKitDOMElement *image,
+                                           const gchar *image_uri)
 {
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
 	g_return_if_fail (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image));
 
@@ -3847,21 +3850,21 @@ e_editor_selection_replace_image_src (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_clear_caret_position_marker:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_clear_caret_position_marker:
+ * @selection: an #EHTMLEditorSelection
  *
  * Removes previously set caret position marker from composer.
  */
 void
-e_editor_selection_clear_caret_position_marker (EEditorSelection *selection)
+e_html_editor_selection_clear_caret_position_marker (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -3879,7 +3882,7 @@ e_editor_selection_clear_caret_position_marker (EEditorSelection *selection)
 }
 
 WebKitDOMNode *
-e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
+e_html_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *element;
 
@@ -3894,15 +3897,15 @@ e_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
 }
 
 /**
- * e_editor_selection_save_caret_position:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_save_caret_position:
+ * @selection: an #EHTMLEditorSelection
  *
  * Saves current caret position in composer.
  *
  * Returns: #WebKitDOMElement that was created on caret position
  */
 WebKitDOMElement *
-e_editor_selection_save_caret_position (EEditorSelection *selection)
+e_html_editor_selection_save_caret_position (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
@@ -3912,24 +3915,24 @@ e_editor_selection_save_caret_position (EEditorSelection *selection)
 	WebKitDOMRange *range;
 	gulong start_offset;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	g_object_unref (view);
 
-	e_editor_selection_clear_caret_position_marker (selection);
+	e_html_editor_selection_clear_caret_position_marker (selection);
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 	if (!range)
 		return NULL;
 
 	start_offset = webkit_dom_range_get_start_offset (range, NULL);
 	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
 
-	caret_node = e_editor_selection_get_caret_position_node (document);
+	caret_node = e_html_editor_selection_get_caret_position_node (document);
 
 	if (WEBKIT_DOM_IS_TEXT (start_offset_node) && start_offset != 0) {
 		WebKitDOMText *split_text;
@@ -3990,13 +3993,13 @@ fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selecti
 }
 
 /**
- * e_editor_selection_restore_caret_position:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_restore_caret_position:
+ * @selection: an #EHTMLEditorSelection
  *
  * Restores previously saved caret position in composer.
  */
 void
-e_editor_selection_restore_caret_position (EEditorSelection *selection)
+e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
@@ -4004,9 +4007,9 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 	gboolean fix_after_quoting;
 	gboolean swap_direction = FALSE;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -4036,7 +4039,7 @@ e_editor_selection_restore_caret_position (EEditorSelection *selection)
 			next_sibling = webkit_dom_node_get_next_sibling (
 				WEBKIT_DOM_NODE (element));
 			if (!WEBKIT_DOM_IS_ELEMENT (next_sibling)) {
-				e_editor_selection_clear_caret_position_marker (selection);
+				e_html_editor_selection_clear_caret_position_marker (selection);
 				return;
 			}
 
@@ -4172,7 +4175,7 @@ find_where_to_break_line (WebKitDOMNode *node,
 }
 
 static WebKitDOMElement *
-wrap_lines (EEditorSelection *selection,
+wrap_lines (EHTMLEditorSelection *selection,
 	    WebKitDOMNode *paragraph,
 	    WebKitDOMDocument *document,
 	    gboolean remove_all_br,
@@ -4190,10 +4193,10 @@ wrap_lines (EEditorSelection *selection,
 
 	if (selection) {
 		paragraph_char_count = g_utf8_strlen (
-			e_editor_selection_get_string (selection), -1);
+			e_html_editor_selection_get_string (selection), -1);
 
 		fragment = webkit_dom_range_clone_contents (
-			editor_selection_get_current_range (selection), NULL);
+			html_editor_selection_get_current_range (selection), NULL);
 
 		/* Select all BR elements or just ours that are used for wrapping.
 		 * We are not removing user BR elements when this function is activated
@@ -4455,7 +4458,7 @@ wrap_lines (EEditorSelection *selection,
 		html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (element));
 
 		/* Overwrite the current selection be the processed content */
-		e_editor_selection_insert_html (selection, html);
+		e_html_editor_selection_insert_html (selection, html);
 
 		g_free (html);
 
@@ -4475,27 +4478,27 @@ wrap_lines (EEditorSelection *selection,
 }
 
 void
-e_editor_selection_set_indented_style (EEditorSelection *selection,
-                                       WebKitDOMElement *element,
-                                       gint width)
+e_html_editor_selection_set_indented_style (EHTMLEditorSelection *selection,
+                                            WebKitDOMElement *element,
+                                            gint width)
 {
-	EEditorSelectionAlignment alignment;
+	EHTMLEditorSelectionAlignment alignment;
 	gchar *style;
 	const gchar *align_value;
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
 	gint start = 0, end = 0;
 
-	alignment = e_editor_selection_get_alignment (selection);
+	alignment = e_html_editor_selection_get_alignment (selection);
 	align_value = get_css_alignment_value (alignment);
 
-	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_LEFT)
+	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT)
 		start = SPACES_PER_INDENTATION;
 
-	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_CENTER) {
+	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER) {
 		start = SPACES_PER_INDENTATION;
 	}
 
-	if (alignment == E_EDITOR_SELECTION_ALIGNMENT_RIGHT) {
+	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT) {
 		start = 0;
 		end = SPACES_PER_INDENTATION;
 	}
@@ -4518,31 +4521,31 @@ e_editor_selection_set_indented_style (EEditorSelection *selection,
 }
 
 WebKitDOMElement *
-e_editor_selection_get_indented_element (EEditorSelection *selection,
-                                         WebKitDOMDocument *document,
-                                         gint width)
+e_html_editor_selection_get_indented_element (EHTMLEditorSelection *selection,
+                                              WebKitDOMDocument *document,
+                                              gint width)
 {
 	WebKitDOMElement *element;
 
 	element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
-	e_editor_selection_set_indented_style (selection, element, width);
+	e_html_editor_selection_set_indented_style (selection, element, width);
 
 	return element;
 }
 
 void
-e_editor_selection_set_paragraph_style (EEditorSelection *selection,
-                                        WebKitDOMElement *element,
-                                        gint width,
-                                        gint offset,
-                                        const gchar *style_to_add)
+e_html_editor_selection_set_paragraph_style (EHTMLEditorSelection *selection,
+                                             WebKitDOMElement *element,
+                                             gint width,
+                                             gint offset,
+                                             const gchar *style_to_add)
 {
-	EEditorSelectionAlignment alignment;
+	EHTMLEditorSelectionAlignment alignment;
 	const gchar *align_value = NULL;
 	char *style = NULL;
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
 
-	alignment = e_editor_selection_get_alignment (selection);
+	alignment = e_html_editor_selection_get_alignment (selection);
 	align_value = get_css_alignment_value (alignment);
 
 	webkit_dom_element_set_class_name (element, "-x-evo-paragraph");
@@ -4562,30 +4565,30 @@ e_editor_selection_set_paragraph_style (EEditorSelection *selection,
 }
 
 WebKitDOMElement *
-e_editor_selection_get_paragraph_element (EEditorSelection *selection,
-                                          WebKitDOMDocument *document,
-                                          gint width,
-                                          gint offset)
+e_html_editor_selection_get_paragraph_element (EHTMLEditorSelection *selection,
+                                               WebKitDOMDocument *document,
+                                               gint width,
+                                               gint offset)
 {
 	WebKitDOMElement *element;
 
 	element = webkit_dom_document_create_element (document, "DIV", NULL);
-	e_editor_selection_set_paragraph_style (selection, element, width, offset, "");
+	e_html_editor_selection_set_paragraph_style (selection, element, width, offset, "");
 
 	return element;
 }
 
 WebKitDOMElement *
-e_editor_selection_put_node_into_paragraph (EEditorSelection *selection,
-                                            WebKitDOMDocument *document,
-                                            WebKitDOMNode *node,
-                                            WebKitDOMNode *caret_position)
+e_html_editor_selection_put_node_into_paragraph (EHTMLEditorSelection *selection,
+                                                 WebKitDOMDocument *document,
+                                                 WebKitDOMNode *node,
+                                                 WebKitDOMNode *caret_position)
 {
 	WebKitDOMRange *range;
 	WebKitDOMElement *container;
 
 	range = webkit_dom_document_create_range (document);
-	container = e_editor_selection_get_paragraph_element (selection, document, -1, 0);
+	container = e_html_editor_selection_get_paragraph_element (selection, document, -1, 0);
 	webkit_dom_range_select_node (range, node, NULL);
 	webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (container), NULL);
 	/* We have to move caret position inside this container */
@@ -4595,29 +4598,29 @@ e_editor_selection_put_node_into_paragraph (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_wrap_lines:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_wrap_lines:
+ * @selection: an #EHTMLEditorSelection
  *
  * Wraps all lines in current selection to be 71 characters long.
  */
 void
-e_editor_selection_wrap_lines (EEditorSelection *selection)
+e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitDOMRange *range;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *active_paragraph, *caret;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	g_object_unref (view);
 
-	caret = e_editor_selection_save_caret_position (selection);
-	if (g_strcmp0 (e_editor_selection_get_string (selection), "") == 0) {
+	caret = e_html_editor_selection_save_caret_position (selection);
+	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
 		WebKitDOMNode *end_container;
 		WebKitDOMNode *parent;
 		WebKitDOMNode *paragraph;
@@ -4626,7 +4629,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 		/* We need to save caret position and restore it after
 		 * wrapping the selection, but we need to save it before we
 		 * start to modify selection */
-		range = editor_selection_get_current_range (selection);
+		range = html_editor_selection_get_current_range (selection);
 		if (!range)
 			return;
 
@@ -4657,12 +4660,12 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 					 * we have to surround it with paragraph div */
 					if (WEBKIT_DOM_IS_TEXT (paragraph))
 						paragraph = WEBKIT_DOM_NODE (
-							e_editor_selection_put_node_into_paragraph (
+							e_html_editor_selection_put_node_into_paragraph (
 								selection, document, paragraph,
 								WEBKIT_DOM_NODE (caret)));
 				} else {
 					/* When some weird element is selected, return */
-					e_editor_selection_clear_caret_position_marker (selection);
+					e_html_editor_selection_clear_caret_position_marker (selection);
 					return;
 				}
 			}
@@ -4709,7 +4712,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 			selection->priv->word_wrap_length);
 
 	} else {
-		e_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save_caret_position (selection);
 		/* If we have selection -> wrap it */
 		wrap_lines (
 			selection, NULL, document, FALSE,
@@ -4719,7 +4722,7 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 	active_paragraph = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-active-paragraph");
 	/* We have to move caret on position where it was before modifying the text */
-	e_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore_caret_position (selection);
 
 	/* Set paragraph as non-active */
 	if (active_paragraph)
@@ -4728,13 +4731,13 @@ e_editor_selection_wrap_lines (EEditorSelection *selection)
 }
 
 WebKitDOMElement *
-e_editor_selection_wrap_paragraph_length (EEditorSelection *selection,
-                                          WebKitDOMElement *paragraph,
-                                          gint length)
+e_html_editor_selection_wrap_paragraph_length (EHTMLEditorSelection *selection,
+                                               WebKitDOMElement *paragraph,
+                                               gint length)
 {
 	WebKitDOMDocument *document;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
 	g_return_val_if_fail (length > 10, NULL);
 
@@ -4761,13 +4764,13 @@ get_citation_level (WebKitDOMNode *node)
 }
 
 void
-e_editor_selection_wrap_paragraphs_in_document (EEditorSelection *selection,
-                                                WebKitDOMDocument *document)
+e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selection,
+                                                     WebKitDOMDocument *document)
 {
 	WebKitDOMNodeList *list;
 	gint ii, length;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
 	list = webkit_dom_document_query_selector_all (
 		document, "div.-x-evo-paragraph:not(#-x-evo-input-start)", NULL);
@@ -4777,7 +4780,7 @@ e_editor_selection_wrap_paragraphs_in_document (EEditorSelection *selection,
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		e_editor_selection_wrap_paragraph_length (
+		e_html_editor_selection_wrap_paragraph_length (
 			selection,
 			WEBKIT_DOM_ELEMENT (node),
 			selection->priv->word_wrap_length - (get_citation_level (node) + 1));
@@ -4785,13 +4788,13 @@ e_editor_selection_wrap_paragraphs_in_document (EEditorSelection *selection,
 }
 
 WebKitDOMElement *
-e_editor_selection_wrap_paragraph (EEditorSelection *selection,
-                                   WebKitDOMElement *paragraph)
+e_html_editor_selection_wrap_paragraph (EHTMLEditorSelection *selection,
+                                        WebKitDOMElement *paragraph)
 {
 	gint indentation_level, citation_level, quote;
 	gint word_wrap_length;
 
-	g_return_val_if_fail (E_IS_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
 
 	word_wrap_length = selection->priv->word_wrap_length;
@@ -4800,28 +4803,28 @@ e_editor_selection_wrap_paragraph (EEditorSelection *selection,
 
 	quote = citation_level ? citation_level + 1 : 0;
 
-	return e_editor_selection_wrap_paragraph_length (
+	return e_html_editor_selection_wrap_paragraph_length (
 		selection,
 		WEBKIT_DOM_ELEMENT (paragraph),
 		word_wrap_length - (SPACES_PER_INDENTATION * indentation_level) - quote);
 }
 
 /**
- * e_editor_selection_save:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_save:
+ * @selection: an #EHTMLEditorSelection
  *
  * Saves current cursor position or current selection range. The selection can
- * be later restored by calling e_editor_selection_restore().
+ * be later restored by calling e_html_editor_selection_restore().
  *
- * Note that calling e_editor_selection_save() overwrites previously saved
+ * Note that calling e_html_editor_selection_save() overwrites previously saved
  * position.
  *
  * Note that this method inserts special markings into the HTML code that are
  * used to later restore the selection. It can happen that by deleting some
  * segments of the document some of the markings are deleted too. In that case
- * restoring the selection by e_editor_selection_restore() can fail. Also by
+ * restoring the selection by e_html_editor_selection_restore() can fail. Also by
  * moving text segments (Cut & Paste) can result in moving the markings
- * elsewhere, thus e_editor_selection_restore() will restore the selection
+ * elsewhere, thus e_html_editor_selection_restore() will restore the selection
  * incorrectly.
  *
  * It is recommended to use this method only when you are not planning to make
@@ -4829,7 +4832,7 @@ e_editor_selection_wrap_paragraph (EEditorSelection *selection,
  * are usually OK).
  */
 void
-e_editor_selection_save (EEditorSelection *selection)
+e_html_editor_selection_save (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
@@ -4838,9 +4841,9 @@ e_editor_selection_save (EEditorSelection *selection)
 	WebKitDOMNode *container;
 	WebKitDOMElement *marker;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	web_view = WEBKIT_WEB_VIEW (view);
@@ -4870,7 +4873,7 @@ e_editor_selection_save (EEditorSelection *selection)
 		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
 	}
 
-	range = editor_selection_get_current_range (selection);
+	range = html_editor_selection_get_current_range (selection);
 
 	if (range != NULL) {
 		WebKitDOMNode *marker_node;
@@ -4957,17 +4960,17 @@ e_editor_selection_save (EEditorSelection *selection)
 }
 
 /**
- * e_editor_selection_restore:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_restore:
+ * @selection: an #EHTMLEditorSelection
  *
  * Restores cursor position or selection range that was saved by
- * e_editor_selection_save().
+ * e_html_editor_selection_save().
  *
- * Note that calling this function without calling e_editor_selection_save()
+ * Note that calling this function without calling e_html_editor_selection_save()
  * before is a programming error and the behavior is undefined.
  */
 void
-e_editor_selection_restore (EEditorSelection *selection)
+e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
@@ -4977,9 +4980,9 @@ e_editor_selection_restore (EEditorSelection *selection)
 	WebKitDOMRange *range;
 	WebKitDOMElement *marker;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	web_view = WEBKIT_WEB_VIEW (view);
@@ -5045,10 +5048,10 @@ e_editor_selection_restore (EEditorSelection *selection)
 }
 
 static void
-editor_selection_modify (EEditorSelection *selection,
-                         const gchar *alter,
-                         gboolean forward,
-                         EEditorSelectionGranularity granularity)
+html_editor_selection_modify (EHTMLEditorSelection *selection,
+                              const gchar *alter,
+                              gboolean forward,
+                              EHTMLEditorSelectionGranularity granularity)
 {
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
@@ -5057,9 +5060,9 @@ editor_selection_modify (EEditorSelection *selection,
 	WebKitDOMDOMSelection *dom_selection;
 	const gchar *granularity_str;
 
-	g_return_if_fail (E_IS_EDITOR_SELECTION (selection));
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_editor_selection_ref_html_editor_view (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
 	web_view = WEBKIT_WEB_VIEW (view);
@@ -5069,10 +5072,10 @@ editor_selection_modify (EEditorSelection *selection,
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	switch (granularity) {
-		case E_EDITOR_SELECTION_GRANULARITY_CHARACTER:
+		case E_HTML_EDITOR_SELECTION_GRANULARITY_CHARACTER:
 			granularity_str = "character";
 			break;
-		case E_EDITOR_SELECTION_GRANULARITY_WORD:
+		case E_HTML_EDITOR_SELECTION_GRANULARITY_WORD:
 			granularity_str = "word";
 			break;
 	}
@@ -5086,45 +5089,45 @@ editor_selection_modify (EEditorSelection *selection,
 }
 
 /**
- * e_editor_selection_extend:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_extend:
+ * @selection: an #EHTMLEditorSelection
  * @forward: whether to extend selection forward or backward
  * @granularity: granularity of the extension
  *
  * Extends current selection in given direction by given granularity.
  */
 void
-e_editor_selection_extend (EEditorSelection *selection,
-                           gboolean forward,
-                           EEditorSelectionGranularity granularity)
+e_html_editor_selection_extend (EHTMLEditorSelection *selection,
+                                gboolean forward,
+                                EHTMLEditorSelectionGranularity granularity)
 {
-	editor_selection_modify (selection, "extend", forward, granularity);
+	html_editor_selection_modify (selection, "extend", forward, granularity);
 }
 
 /**
- * e_editor_selection_move:
- * @selection: an #EEditorSelection
+ * e_html_editor_selection_move:
+ * @selection: an #EHTMLEditorSelection
  * @forward: whether to move the selection forward or backward
  * @granularity: granularity of the movement
  *
  * Moves current selection in given direction by given granularity
  */
 void
-e_editor_selection_move (EEditorSelection *selection,
-                         gboolean forward,
-                         EEditorSelectionGranularity granularity)
+e_html_editor_selection_move (EHTMLEditorSelection *selection,
+                              gboolean forward,
+                              EHTMLEditorSelectionGranularity granularity)
 {
-	editor_selection_modify (selection, "move", forward, granularity);
+	html_editor_selection_modify (selection, "move", forward, granularity);
 }
 
 void
-e_editor_selection_scroll_to_caret (EEditorSelection *selection)
+e_html_editor_selection_scroll_to_caret (EHTMLEditorSelection *selection)
 {
 	WebKitDOMElement *caret;
 
-	caret = e_editor_selection_save_caret_position (selection);
+	caret = e_html_editor_selection_save_caret_position (selection);
 
 	webkit_dom_element_scroll_into_view (caret, TRUE);
 
-	e_editor_selection_clear_caret_position_marker (selection);
+	e_html_editor_selection_clear_caret_position_marker (selection);
 }

@@ -23,7 +23,7 @@
 #endif
 
 #include "e-editor-link-dialog.h"
-#include "e-editor-selection.h"
+#include "e-html-editor-selection.h"
 #include "e-editor-utils.h"
 #include "e-html-editor-view.h"
 
@@ -89,12 +89,12 @@ editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
-	e_editor_selection_unlink (selection);
+	e_html_editor_selection_unlink (selection);
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
@@ -104,7 +104,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSelection *selection;
+	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
@@ -170,7 +170,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 		/* Check whether a text is selected or not */
 		text = webkit_dom_range_get_text (range);
 		if (text && *text) {
-			e_editor_selection_create_link (
+			e_html_editor_selection_create_link (
 				selection,
 				gtk_entry_get_text (
 					GTK_ENTRY (dialog->priv->url_edit)));

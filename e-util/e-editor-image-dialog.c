@@ -63,14 +63,14 @@ static void
 editor_image_dialog_set_src (EEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EEditorSelection *editor_selection;
+	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
-	e_editor_selection_replace_image_src (
+	e_html_editor_selection_replace_image_src (
 		editor_selection,
 		WEBKIT_DOM_ELEMENT (dialog->priv->image),
 		gtk_file_chooser_get_uri (
