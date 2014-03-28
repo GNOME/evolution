@@ -189,7 +189,6 @@ evolution_util_include_HEADERS =  \
 	e-editor-spell-check-dialog.h \
 	e-editor-table-dialog.h \
 	e-editor-text-dialog.h \
-	e-editor-utils.h \
 	e-emoticon-action.h \
 	e-emoticon-chooser-menu.h \
 	e-emoticon-chooser.h \
@@ -211,6 +210,7 @@ evolution_util_include_HEADERS =  \
 	e-focus-tracker.h \
 	e-html-editor-actions.h \
 	e-html-editor-selection.h \
+	e-html-editor-utils.h \
 	e-html-editor-view.h \
 	e-html-editor.h \
 	e-html-utils.h \
@@ -460,7 +460,6 @@ libevolution_util_la_SOURCES = \
 	e-editor-spell-check-dialog.c \
 	e-editor-table-dialog.c \
 	e-editor-text-dialog.c \
-	e-editor-utils.c \
 	e-emoticon-action.c \
 	e-emoticon-chooser-menu.c \
 	e-emoticon-chooser.c \
@@ -483,6 +482,7 @@ libevolution_util_la_SOURCES = \
 	e-html-editor-actions.c \
 	e-html-editor-private.h \
 	e-html-editor-selection.c \
+	e-html-editor-utils.c \
 	e-html-editor-view.c \
 	e-html-editor.c \
 	e-html-utils.c \

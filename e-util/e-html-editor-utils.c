@@ -1,5 +1,5 @@
 /*
- * e-editor-utils.c
+ * e-html-editor-utils.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,11 +22,11 @@
 #include <config.h>
 #endif
 
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include <string.h>
 
 /**
- * e_editor_dom_node_find_parent_element:
+ * e_html_editor_dom_node_find_parent_element:
  * @node: Start node
  * @tagname: Tag name of element to search
  *
@@ -38,8 +38,8 @@
  * then the @node is returned.
  */
 WebKitDOMElement *
-e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
-                                       const gchar *tagname)
+e_html_editor_dom_node_find_parent_element (WebKitDOMNode *node,
+                                            const gchar *tagname)
 {
 	gint taglen = strlen (tagname);
 
@@ -68,7 +68,7 @@ e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
 }
 
 /**
- * e_editor_dom_node_find_child_element:
+ * e_html_editor_dom_node_find_child_element:
  * @node: Start node
  * @tagname: Tag name of element to search.
  *
@@ -80,8 +80,8 @@ e_editor_dom_node_find_parent_element (WebKitDOMNode *node,
  * then the @node is returned.
  */
 WebKitDOMElement *
-e_editor_dom_node_find_child_element (WebKitDOMNode *node,
-                                      const gchar *tagname)
+e_html_editor_dom_node_find_child_element (WebKitDOMNode *node,
+                                           const gchar *tagname)
 {
 	WebKitDOMNode *start_node = node;
 	gint taglen = strlen (tagname);

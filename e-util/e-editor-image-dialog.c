@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <glib/gi18n-lib.h>
 
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 
 #define E_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
@@ -303,7 +303,7 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 	const gchar *url;
 
 	url = gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit));
-	link = e_editor_dom_node_find_parent_element (
+	link = e_html_editor_dom_node_find_parent_element (
 		WEBKIT_DOM_NODE (dialog->priv->image), "A");
 
 	if (link) {
@@ -415,7 +415,7 @@ editor_image_dialog_show (GtkWidget *widget)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->y_padding_edit), val);
 
-	link = e_editor_dom_node_find_parent_element (
+	link = e_html_editor_dom_node_find_parent_element (
 			WEBKIT_DOM_NODE (dialog->priv->image), "A");
 	if (link) {
 		tmp = webkit_dom_html_anchor_element_get_href (

@@ -24,7 +24,7 @@
 
 #include "e-editor-link-dialog.h"
 #include "e-html-editor-selection.h"
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
@@ -126,7 +126,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_editor_dom_node_find_parent_element (
+	link = e_html_editor_dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "A");
 	if (!link) {
 		if ((webkit_dom_range_get_start_container (range, NULL) !=
@@ -136,7 +136,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 
 			WebKitDOMDocumentFragment *fragment;
 			fragment = webkit_dom_range_extract_contents (range, NULL);
-			link = e_editor_dom_node_find_child_element (
+			link = e_html_editor_dom_node_find_child_element (
 				WEBKIT_DOM_NODE (fragment), "A");
 			webkit_dom_range_insert_node (
 				range, WEBKIT_DOM_NODE (fragment), NULL);
@@ -244,7 +244,7 @@ editor_link_dialog_show (GtkWidget *widget)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_editor_dom_node_find_parent_element (
+	link = e_html_editor_dom_node_find_parent_element (
 		webkit_dom_range_get_start_container (range, NULL), "A");
 	if (!link) {
 		if ((webkit_dom_range_get_start_container (range, NULL) !=
@@ -254,7 +254,7 @@ editor_link_dialog_show (GtkWidget *widget)
 
 			WebKitDOMDocumentFragment *fragment;
 			fragment = webkit_dom_range_clone_contents (range, NULL);
-			link = e_editor_dom_node_find_child_element (
+			link = e_html_editor_dom_node_find_child_element (
 					WEBKIT_DOM_NODE (fragment), "A");
 		} else {
 			/* get element that was clicked on */

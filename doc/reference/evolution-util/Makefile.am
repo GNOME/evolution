@@ -18,7 +18,7 @@ CFILE_GLOB = $(top_srcdir)/e-util/*.c
 IGNORE_HFILES = \
 	e-html-editor-actions.h \
 	e-html-editor-private.h \
-	e-editor-utils.h \
+	e-html-editor-utils.h \
 	e-marshal.h \
 	e-table-col-dnd.h \
 	e-table-defines.h \

@@ -27,7 +27,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-color-combo.h"
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
@@ -593,7 +593,7 @@ editor_table_dialog_show (GtkWidget *widget)
 		WebKitDOMRange *range;
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		table = e_editor_dom_node_find_parent_element (
+		table = e_html_editor_dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
 
 		if (!table) {

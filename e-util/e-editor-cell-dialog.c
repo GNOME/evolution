@@ -28,7 +28,7 @@
 #include <stdlib.h>
 
 #include "e-color-combo.h"
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
@@ -140,7 +140,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 
 		index = webkit_dom_html_table_cell_element_get_cell_index (
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
-		table = e_editor_dom_node_find_parent_element (
+		table = e_html_editor_dom_node_find_parent_element (
 				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
 		if (!table) {
 			return;
@@ -169,7 +169,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 	} else if (dialog->priv->scope == SCOPE_ROW) {
 		WebKitDOMElement *row;
 
-		row = e_editor_dom_node_find_parent_element (
+		row = e_html_editor_dom_node_find_parent_element (
 				WEBKIT_DOM_NODE (dialog->priv->cell), "TR");
 		if (!row) {
 			return;
@@ -182,7 +182,7 @@ editor_cell_dialog_set_attribute (EEditorCellDialog *dialog,
 		WebKitDOMElement *table;
 		WebKitDOMHTMLCollection *rows;
 
-		table = e_editor_dom_node_find_parent_element (
+		table = e_html_editor_dom_node_find_parent_element (
 				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
 		if (!table) {
 			return;
@@ -860,10 +860,10 @@ e_editor_cell_dialog_show (EEditorCellDialog *dialog,
 	g_return_if_fail (E_IS_EDITOR_CELL_DIALOG (dialog));
 	g_return_if_fail (cell != NULL);
 
-	dialog->priv->cell = e_editor_dom_node_find_parent_element (cell, "TD");
+	dialog->priv->cell = e_html_editor_dom_node_find_parent_element (cell, "TD");
 	if (dialog->priv->cell == NULL) {
 		dialog->priv->cell =
-			e_editor_dom_node_find_parent_element (cell, "TH");
+			e_html_editor_dom_node_find_parent_element (cell, "TH");
 	}
 
 	class = E_EDITOR_CELL_DIALOG_GET_CLASS (dialog);

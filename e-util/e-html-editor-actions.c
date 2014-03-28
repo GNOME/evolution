@@ -29,7 +29,7 @@
 #include "e-html-editor.h"
 #include "e-html-editor-private.h"
 #include "e-html-editor-actions.h"
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"
@@ -141,9 +141,9 @@ action_context_delete_cell_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
 	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
+		cell = e_html_editor_dom_node_find_parent_element (
 					editor->priv->table_cell, "TH");
 	}
 	g_return_if_fail (cell != NULL);
@@ -176,14 +176,14 @@ action_context_delete_column_cb (GtkAction *action,
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
 	/* Find TD in which the selection starts */
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
 	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
+		cell = e_html_editor_dom_node_find_parent_element (
 					editor->priv->table_cell, "TH");
 	}
 	g_return_if_fail (cell != NULL);
 
-	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
+	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
 	g_return_if_fail (table != NULL);
 
 	rows = webkit_dom_html_table_element_get_rows (
@@ -211,7 +211,7 @@ action_context_delete_row_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
+	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
 	g_return_if_fail (row != NULL);
 
 	webkit_dom_node_remove_child (
@@ -227,7 +227,7 @@ action_context_delete_table_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	table = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
+	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
 	g_return_if_fail (table != NULL);
 
 	webkit_dom_node_remove_child (
@@ -244,14 +244,14 @@ action_context_insert_column_after_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
 	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
+		cell = e_html_editor_dom_node_find_parent_element (
 					editor->priv->table_cell, "TH");
 	}
 	g_return_if_fail (cell != NULL);
 
-	row = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
+	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
 	g_return_if_fail (row != NULL);
 
 	/* Get the first row in the table */
@@ -280,14 +280,14 @@ action_context_insert_column_before_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	cell = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
+	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
 	if (!cell) {
-		cell = e_editor_dom_node_find_parent_element (
+		cell = e_html_editor_dom_node_find_parent_element (
 				editor->priv->table_cell, "TH");
 	}
 	g_return_if_fail (cell != NULL);
 
-	row = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
+	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
 	g_return_if_fail (row != NULL);
 
 	/* Get the first row in the table */
@@ -318,10 +318,10 @@ action_context_insert_row_above_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
+	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
 	g_return_if_fail (row != NULL);
 
-	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
+	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
 	g_return_if_fail (table != NULL);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
@@ -351,10 +351,10 @@ action_context_insert_row_below_cb (GtkAction *action,
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
-	row = e_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
+	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
 	g_return_if_fail (row != NULL);
 
-	table = e_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
+	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
 	g_return_if_fail (table != NULL);
 
 	index = webkit_dom_html_table_row_element_get_row_index (

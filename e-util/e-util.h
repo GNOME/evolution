@@ -103,7 +103,6 @@
 #include <e-util/e-editor-spell-check-dialog.h>
 #include <e-util/e-editor-table-dialog.h>
 #include <e-util/e-editor-text-dialog.h>
-#include <e-util/e-editor-utils.h>
 #include <e-util/e-emoticon-action.h>
 #include <e-util/e-emoticon-chooser-menu.h>
 #include <e-util/e-emoticon-chooser.h>
@@ -125,6 +124,7 @@
 #include <e-util/e-focus-tracker.h>
 #include <e-util/e-html-editor-actions.h>
 #include <e-util/e-html-editor-selection.h>
+#include <e-util/e-html-editor-utils.h>
 #include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-editor.h>
 #include <e-util/e-html-utils.h>

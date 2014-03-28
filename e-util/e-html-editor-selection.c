@@ -25,7 +25,7 @@
 #include "e-html-editor-selection.h"
 #include "e-html-editor-view.h"
 #include "e-html-editor.h"
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 
 #include <e-util/e-util.h>
 
@@ -220,7 +220,7 @@ get_font_property (EHTMLEditorSelection *selection,
 		return NULL;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	element = e_editor_dom_node_find_parent_element (node, "FONT");
+	element = e_html_editor_dom_node_find_parent_element (node, "FONT");
 	if (!element)
 		return NULL;
 
@@ -1259,9 +1259,9 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 
-	if (e_editor_dom_node_find_parent_element (node, "UL")) {
+	if (e_html_editor_dom_node_find_parent_element (node, "UL")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
-	} else if ((element = e_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
+	} else if ((element = e_html_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
 		if (webkit_dom_element_has_attribute (element, "type")) {
 			gchar *type;
 
@@ -1278,23 +1278,23 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 		} else {
 			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
 		}
-	} else if (e_editor_dom_node_find_parent_element (node, "PRE")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "PRE")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
-	} else if (e_editor_dom_node_find_parent_element (node, "ADDRESS")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "ADDRESS")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
-	} else if (e_editor_dom_node_find_parent_element (node, "H1")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "H1")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1;
-	} else if (e_editor_dom_node_find_parent_element (node, "H2")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "H2")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2;
-	} else if (e_editor_dom_node_find_parent_element (node, "H3")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "H3")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3;
-	} else if (e_editor_dom_node_find_parent_element (node, "H4")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "H4")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4;
-	} else if (e_editor_dom_node_find_parent_element (node, "H5")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "H5")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5;
-	} else if (e_editor_dom_node_find_parent_element (node, "H6")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "H6")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6;
-	} else if ((element = e_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
+	} else if ((element = e_html_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
 		if (element_has_class (element, "-x-evo-indented"))
 			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 		else {
@@ -1305,7 +1305,7 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 			else
 				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
 		}
-	} else if (e_editor_dom_node_find_parent_element (node, "P")) {
+	} else if (e_html_editor_dom_node_find_parent_element (node, "P")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	} else {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
@@ -1804,7 +1804,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	if (block) {
 		WebKitDOMElement *blockquote;
 
-		blockquote = e_editor_dom_node_find_parent_element (block, "BLOCKQUOTE");
+		blockquote = e_html_editor_dom_node_find_parent_element (block, "BLOCKQUOTE");
 		if (!html_mode && blockquote && webkit_dom_element_has_attribute (blockquote, "type")) {
 			gchar *value;
 
@@ -2804,7 +2804,7 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 		    is_monospaced_element (WEBKIT_DOM_ELEMENT (node))) {
 			tt_element = WEBKIT_DOM_ELEMENT (node);
 		} else {
-			tt_element = e_editor_dom_node_find_parent_element (node, "FONT");
+			tt_element = e_html_editor_dom_node_find_parent_element (node, "FONT");
 
 			if (!is_monospaced_element (tt_element)) {
 				g_object_unref (view);
@@ -3328,7 +3328,7 @@ e_html_editor_selection_unlink (EHTMLEditorSelection *selection)
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_editor_dom_node_find_parent_element (
+	link = e_html_editor_dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "A");
 
 	if (!link) {
@@ -4644,7 +4644,7 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 			paragraph = parent;
 		} else {
 			WebKitDOMElement *parent_div =
-				e_editor_dom_node_find_parent_element (parent, "DIV");
+				e_html_editor_dom_node_find_parent_element (parent, "DIV");
 
 			if (element_has_class (parent_div, "-x-evo-paragraph")) {
 				paragraph = WEBKIT_DOM_NODE (parent_div);

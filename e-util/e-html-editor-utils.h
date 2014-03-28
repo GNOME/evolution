@@ -1,5 +1,5 @@
 /*
- * e-editor-utils.h
+ * e-html-editor-utils.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,23 +22,23 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef E_EDITOR_UTILS_H
-#define E_EDITOR_UTILS_H
+#ifndef E_HTML_EDITOR_UTILS_H
+#define E_HTML_EDITOR_UTILS_H
 
 #include <webkit/webkitdom.h>
 
 G_BEGIN_DECLS
 
 WebKitDOMElement *
-		e_editor_dom_node_find_parent_element
+		e_html_editor_dom_node_find_parent_element
 						(WebKitDOMNode *node,
 						 const gchar *tagname);
 
 WebKitDOMElement *
-		e_editor_dom_node_find_child_element
+		e_html_editor_dom_node_find_child_element
 						(WebKitDOMNode *node,
 						 const gchar *tagname);
 
 G_END_DECLS
 
-#endif /* E_EDITOR_UTILS_H */
+#endif /* E_HTML_EDITOR_UTILS_H */

@@ -31,7 +31,7 @@
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-html-editor-private.h"
-#include "e-editor-utils.h"
+#include "e-html-editor-utils.h"
 #include "e-html-editor-selection.h"
 
 #define E_HTML_EDITOR_GET_PRIVATE(obj) \
@@ -367,12 +367,12 @@ html_editor_update_actions (EHTMLEditor *editor,
 	 *   - Cursor is on an image that has a URL or target.
 	 */
 	visible = (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
-		(e_editor_dom_node_find_parent_element (node, "A") != NULL));
+		(e_html_editor_dom_node_find_parent_element (node, "A") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_REMOVE_LINK), visible);
 
 	visible = (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
-		(e_editor_dom_node_find_parent_element (node, "TD") != NULL) ||
-		(e_editor_dom_node_find_parent_element (node, "TH") != NULL));
+		(e_html_editor_dom_node_find_parent_element (node, "TD") != NULL) ||
+		(e_html_editor_dom_node_find_parent_element (node, "TH") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
@@ -388,7 +388,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	/* Note the |= (cursor must be in a table cell). */
 	visible |= (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
-		(e_editor_dom_node_find_parent_element (node, "TABLE") != NULL));
+		(e_html_editor_dom_node_find_parent_element (node, "TABLE") != NULL));
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
 
 	/********************** Spell Check Suggestions **********************/
