@@ -150,16 +150,16 @@ enable_disable_composer (EMsgComposer *composer,
                          gboolean enable)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GtkAction *action;
 	GtkActionGroup *action_group;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (editor_widget), enable);
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
 
 	action = E_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -248,7 +248,7 @@ numlines (const gchar *text,
 }
 
 static gint
-get_caret_position (EEditorWidget *widget)
+get_caret_position (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -258,7 +258,7 @@ get_caret_position (EEditorWidget *widget)
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 
@@ -303,10 +303,10 @@ external_editor_thread (gpointer user_data)
 	gchar *editor_cmd_line = NULL, *editor_cmd = NULL, *content;
 	gint fd, position = -1, offset = -1;
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
 	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
 	fd = g_file_open_tmp ("evoXXXXXX", &filename, NULL);
@@ -315,7 +315,7 @@ external_editor_thread (gpointer user_data)
 		d (printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
 
 		/* Push the text (if there is one) from the composer to the file */
-		content = e_editor_widget_get_text_plain (editor_widget);
+		content = e_html_editor_view_get_text_plain (view);
 		g_file_set_contents (filename, content, strlen (content), NULL);
 	} else {
 		struct run_error_dialog_data *data;
@@ -344,7 +344,7 @@ external_editor_thread (gpointer user_data)
 	g_object_unref (settings);
 
 	if (g_strrstr (editor_cmd, "vim") != NULL &&
-	    ((position = get_caret_position (editor_widget)) > 0)) {
+	    ((position = get_caret_position (view)) > 0)) {
 		gchar *tmp = editor_cmd;
 		gint lineno;
 		gboolean set_nofork;
@@ -525,10 +525,10 @@ e_plugin_ui_init (GtkUIManager *manager,
                   EMsgComposer *composer)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
@@ -536,11 +536,11 @@ e_plugin_ui_init (GtkUIManager *manager,
 		entries, G_N_ELEMENTS (entries), composer);
 
 	g_signal_connect (
-		editor_widget, "key_press_event",
+		view, "key_press_event",
 		G_CALLBACK (key_press_cb), composer);
 
 	g_signal_connect (
-		editor_widget, "delete-event",
+		view, "delete-event",
 		G_CALLBACK (delete_cb), composer);
 
 	return TRUE;

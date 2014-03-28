@@ -101,7 +101,7 @@ mail_signature_editor_loaded_cb (GObject *object,
                                  gpointer user_data)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	ESource *source;
 	EMailSignatureEditor *window;
 	ESourceMailSignature *extension;
@@ -144,13 +144,13 @@ mail_signature_editor_loaded_cb (GObject *object,
 	is_html = (g_strcmp0 (mime_type, "text/html") == 0);
 
 	editor = e_mail_signature_editor_get_editor (window);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_html_mode (editor_widget, is_html);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_set_html_mode (view, is_html);
 
 	if (is_html)
-		e_editor_widget_set_text_html (editor_widget, contents);
+		e_html_editor_view_set_text_html (view, contents);
 	else
-		e_editor_widget_set_text_plain (editor_widget, contents);
+		e_html_editor_view_set_text_plain (view, contents);
 
 	g_free (contents);
 
@@ -176,7 +176,7 @@ action_close_cb (GtkAction *action,
                  EMailSignatureEditor *window)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	gboolean something_changed = FALSE;
 	const gchar *original_name;
 	const gchar *signature_name;
@@ -185,9 +185,9 @@ action_close_cb (GtkAction *action,
 	signature_name = gtk_entry_get_text (GTK_ENTRY (window->priv->entry));
 
 	editor = e_mail_signature_editor_get_editor (window);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (editor_widget));
+	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (view));
 	something_changed |= (strcmp (signature_name, original_name) != 0);
 
 	if (something_changed) {
@@ -481,7 +481,7 @@ mail_signature_editor_constructed (GObject *object)
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GtkUIManager *ui_manager;
 	GDBusObject *dbus_object;
 	ESource *source;
@@ -498,7 +498,7 @@ mail_signature_editor_constructed (GObject *object)
 
 	window = E_MAIL_SIGNATURE_EDITOR (object);
 	editor = e_mail_signature_editor_get_editor (window);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
 	ui_manager = e_editor_get_ui_manager (editor);
 
@@ -609,7 +609,7 @@ mail_signature_editor_constructed (GObject *object)
 	if (source == NULL) {
 		gtk_widget_grab_focus (window->priv->entry);
 	} else {
-		gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
+		gtk_widget_grab_focus (GTK_WIDGET (view));
 	}
 
 	/* Load file content only for an existing signature.
@@ -822,7 +822,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	const gchar *mime_type;
 	gchar *contents;
 	EEditor  *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window));
 
@@ -830,14 +830,14 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	source = e_mail_signature_editor_get_source (window);
 
 	editor = e_mail_signature_editor_get_editor (window);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	if (e_editor_widget_get_html_mode (editor_widget)) {
+	if (e_html_editor_view_get_html_mode (view)) {
 		mime_type = "text/html";
-		contents = e_editor_widget_get_text_html (editor_widget);
+		contents = e_html_editor_view_get_text_html (view);
 	} else {
 		mime_type = "text/plain";
-		contents = e_editor_widget_get_text_plain (editor_widget);
+		contents = e_html_editor_view_get_text_plain (view);
 	}
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;

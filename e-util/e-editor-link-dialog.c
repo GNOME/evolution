@@ -25,7 +25,7 @@
 #include "e-editor-link-dialog.h"
 #include "e-editor-selection.h"
 #include "e-editor-utils.h"
-#include "e-editor-widget.h"
+#include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -88,12 +88,12 @@ static void
 editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 	e_editor_selection_unlink (selection);
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
@@ -103,7 +103,7 @@ static void
 editor_link_dialog_ok (EEditorLinkDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -112,10 +112,10 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 	WebKitDOMElement *link;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
@@ -150,7 +150,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 				NULL);
 		} else {
 			/* get element that was clicked on */
-			link = e_editor_widget_get_element_under_mouse_click (widget);
+			link = e_html_editor_view_get_element_under_mouse_click (view);
 			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
 				link = NULL;
 		}
@@ -182,8 +182,8 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 				gtk_entry_get_text (
 					GTK_ENTRY (dialog->priv->label_edit)));
 
-			e_editor_widget_exec_command (
-				widget, E_EDITOR_WIDGET_COMMAND_INSERT_HTML, html);
+			e_html_editor_view_exec_command (
+				view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html);
 
 			g_free (html);
 
@@ -213,7 +213,7 @@ static void
 editor_link_dialog_show (GtkWidget *widget)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	EEditorLinkDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -223,9 +223,9 @@ editor_link_dialog_show (GtkWidget *widget)
 
 	dialog = E_EDITOR_LINK_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
@@ -258,7 +258,7 @@ editor_link_dialog_show (GtkWidget *widget)
 					WEBKIT_DOM_NODE (fragment), "A");
 		} else {
 			/* get element that was clicked on */
-			link = e_editor_widget_get_element_under_mouse_click (editor_widget);
+			link = e_html_editor_view_get_element_under_mouse_click (view);
 			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
 				link = NULL;
 		}

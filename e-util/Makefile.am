@@ -192,7 +192,6 @@ evolution_util_include_HEADERS =  \
 	e-editor-table-dialog.h \
 	e-editor-text-dialog.h \
 	e-editor-utils.h \
-	e-editor-widget.h \
 	e-editor.h \
 	e-emoticon-action.h \
 	e-emoticon-chooser-menu.h \
@@ -213,6 +212,7 @@ evolution_util_include_HEADERS =  \
 	e-filter-part.h \
 	e-filter-rule.h \
 	e-focus-tracker.h \
+	e-html-editor-view.h \
 	e-html-utils.h \
 	e-icon-factory.h \
 	e-image-chooser.h \
@@ -464,7 +464,6 @@ libevolution_util_la_SOURCES = \
 	e-editor-table-dialog.c \
 	e-editor-text-dialog.c \
 	e-editor-utils.c \
-	e-editor-widget.c \
 	e-editor.c \
 	e-emoticon-action.c \
 	e-emoticon-chooser-menu.c \
@@ -485,6 +484,7 @@ libevolution_util_la_SOURCES = \
 	e-filter-part.c \
 	e-filter-rule.c \
 	e-focus-tracker.c \
+	e-html-editor-view.c \
 	e-html-utils.c \
 	e-icon-factory.c \
 	e-image-chooser.c \

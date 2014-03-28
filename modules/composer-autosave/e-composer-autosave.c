@@ -126,14 +126,14 @@ static void
 composer_autosave_changed_cb (EComposerAutosave *autosave)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
-	editor_widget = e_editor_get_editor_widget (editor);
-	autosave->priv->changed = e_editor_widget_get_changed (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	autosave->priv->changed = e_html_editor_view_get_changed (view);
 
 	if (autosave->priv->changed && autosave->priv->timeout_id == 0) {
 		autosave->priv->timeout_id = e_named_timeout_add_seconds (
@@ -167,7 +167,7 @@ static void
 composer_autosave_constructed (GObject *object)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	EExtensible *extensible;
 
 	/* Chain up to parent's constructed() method. */
@@ -176,10 +176,10 @@ composer_autosave_constructed (GObject *object)
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
 	g_signal_connect_swapped (
-		editor_widget, "notify::changed",
+		view, "notify::changed",
 		G_CALLBACK (composer_autosave_changed_cb), object);
 }
 

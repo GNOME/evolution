@@ -64,11 +64,11 @@ editor_image_dialog_set_src (EEditorImageDialog *dialog)
 {
 	EEditor *editor;
 	EEditorSelection *editor_selection;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
-	editor_selection = e_editor_widget_get_selection (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_replace_image_src (
 		editor_selection,

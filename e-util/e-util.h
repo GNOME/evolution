@@ -106,7 +106,6 @@
 #include <e-util/e-editor-table-dialog.h>
 #include <e-util/e-editor-text-dialog.h>
 #include <e-util/e-editor-utils.h>
-#include <e-util/e-editor-widget.h>
 #include <e-util/e-editor.h>
 #include <e-util/e-emoticon-action.h>
 #include <e-util/e-emoticon-chooser-menu.h>
@@ -127,6 +126,7 @@
 #include <e-util/e-filter-part.h>
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
+#include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-image-chooser.h>

@@ -28,7 +28,7 @@
 
 #include "e-selectable.h"
 #include "e-widget-undo.h"
-#include "e-editor-widget.h"
+#include "e-html-editor-view.h"
 
 #define E_FOCUS_TRACKER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -257,16 +257,16 @@ focus_tracker_text_view_update_actions (EFocusTracker *focus_tracker,
 
 static void
 focus_tracker_editor_update_actions (EFocusTracker *focus_tracker,
-                                       EEditorWidget *editor,
-                                       GdkAtom *targets,
-                                       gint n_targets)
+                                     EHTMLEditorView *view,
+                                     GdkAtom *targets,
+                                     gint n_targets)
 {
 	GtkAction *action;
 	gboolean can_copy;
 	gboolean can_cut;
 	gboolean can_paste;
 
-	g_object_get (editor,
+	g_object_get (view,
 		      "can-copy", &can_copy,
 		      "can-cut", &can_cut,
 		      "can-paste", &can_paste,
@@ -368,9 +368,9 @@ focus_tracker_targets_received_cb (GtkClipboard *clipboard,
 			focus_tracker, GTK_TEXT_VIEW (focus),
 			targets, n_targets);
 
-	else if (E_IS_EDITOR_WIDGET (focus))
+	else if (E_IS_HTML_EDITOR_VIEW (focus))
 		focus_tracker_editor_update_actions (
-			focus_tracker, E_EDITOR_WIDGET (focus),
+			focus_tracker, E_HTML_EDITOR_VIEW (focus),
 			targets, n_targets);
 
 	g_object_unref (focus_tracker);
@@ -391,7 +391,7 @@ focus_tracker_set_focus_cb (GtkWindow *window,
 		if (GTK_IS_TEXT_VIEW (focus))
 			break;
 
-		if (E_IS_EDITOR_WIDGET (focus))
+		if (E_IS_HTML_EDITOR_VIEW (focus))
 			break;
 
 		focus = gtk_widget_get_parent (focus);

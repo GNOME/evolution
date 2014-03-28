@@ -64,7 +64,7 @@ jump (EEditorReplaceDialog *dialog)
 	gboolean found;
 
 	webview = WEBKIT_WEB_VIEW (
-			e_editor_get_editor_widget (dialog->priv->editor));
+			e_editor_get_html_editor_view (editor));
 
 	found = webkit_web_view_search_text (
 		webview,
@@ -95,7 +95,8 @@ editor_replace_dialog_skip_cb (EEditorReplaceDialog *dialog)
 static void
 editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 {
-	EEditorWidget *editor_widget;
+	EEditor *editor;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 
 	/* Jump to next matching word */
@@ -109,8 +110,9 @@ editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 		gtk_widget_hide (dialog->priv->result_label);
 	}
 
-	editor_widget = e_editor_get_editor_widget (dialog->priv->editor);
-	selection = e_editor_widget_get_selection (editor_widget);
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_replace (
 		selection,
@@ -122,12 +124,14 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 {
 	gint i = 0;
 	gchar *result;
-	EEditorWidget *widget;
+	EEditor *editor;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	const gchar *replacement;
 
-	widget = e_editor_get_editor_widget (dialog->priv->editor);
-	selection = e_editor_widget_get_selection (widget);
+	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 	replacement = gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry));
 
 	while (jump (dialog)) {

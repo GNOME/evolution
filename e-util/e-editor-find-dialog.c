@@ -71,12 +71,12 @@ editor_find_dialog_find_cb (EEditorFindDialog *dialog)
 {
 	gboolean found;
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 	found = webkit_web_view_search_text (
-			WEBKIT_WEB_VIEW (editor_widget),
+			WEBKIT_WEB_VIEW (view),
 			gtk_entry_get_text (
 				GTK_ENTRY (dialog->priv->entry)),
 			gtk_toggle_button_get_active (
@@ -96,7 +96,7 @@ editor_find_dialog_find_cb (EEditorFindDialog *dialog)
 	 * color scheme). The focus in fact is not given to WebKit, because
 	 * this dialog is modal, but it satisfies it in a way that it paints
 	 * the selection :) */
-	gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
+	gtk_widget_grab_focus (GTK_WIDGET (view));
 
 	if (!found) {
 		gtk_label_set_label (

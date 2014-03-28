@@ -119,7 +119,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	 * Thus the HTML that was loaded into composer contained the i.e. META
 	 * or STYLE definitions in the body.
 	 * So if we want to put something into the message we have to put it into
-	 * the special span element and it will be moved to body in EEditorWidget */
+	 * the special span element and it will be moved to body in EHTMLEditorView */
 	if (qf->priv->credits && *qf->priv->credits) {
 		gchar *credits = g_strdup_printf (
 			"<span class=\"-x-evo-to-body\"><pre>%s</pre></span>", qf->priv->credits);
@@ -128,7 +128,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	}
 
 	/* If we want to cite the message we have to append the special span element
-	 * after the message and cite it in EEditorWidget because of reasons
+	 * after the message and cite it in EHTMLEditorView because of reasons
 	 * mentioned above */
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
 		string = "<span class=\"-x-evo-cite-body\"><span>";

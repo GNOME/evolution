@@ -41,7 +41,7 @@
 /**
  * EEditor:
  *
- * #EEditor provides GUI for manipulating with properties of #EEditorWidget and
+ * #EEditor provides GUI for manipulating with properties of #EHTMLEditorView and
  * its #EEditorSelection - i.e. toolbars and actions.
  */
 
@@ -96,15 +96,15 @@ static void
 action_context_spell_suggest_cb (GtkAction *action,
                                  EEditor *editor)
 {
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	const gchar *word;
 
 	word = g_object_get_data (G_OBJECT (action), "word");
 	g_return_if_fail (word != NULL);
 
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_replace_caret_word (selection, word);
 }
@@ -112,7 +112,7 @@ action_context_spell_suggest_cb (GtkAction *action,
 static void
 editor_inline_spelling_suggestions (EEditor *editor)
 {
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	WebKitSpellChecker *checker;
 	GtkActionGroup *action_group;
@@ -126,8 +126,8 @@ editor_inline_spelling_suggestions (EEditor *editor)
 	guint threshold;
 	gint ii;
 
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 
 	word = e_editor_selection_get_caret_word (selection);
@@ -212,7 +212,7 @@ static void
 editor_spell_checkers_foreach (EEditor *editor,
                                const gchar *language_code)
 {
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	ESpellChecker *spell_checker;
 	ESpellDictionary *dictionary;
@@ -224,9 +224,9 @@ editor_spell_checkers_foreach (EEditor *editor,
 	gint ii = 0;
 	guint merge_id;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (editor_widget);
-	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
+	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	word = e_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
@@ -307,13 +307,13 @@ static void
 editor_update_actions (EEditor *editor,
                        GdkEventButton *event)
 {
-	WebKitWebView *webview;
+	WebKitWebView *web_view;
 	WebKitSpellChecker *checker;
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
 	WebKitDOMNode *node;
 	EEditorSelection *selection;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
@@ -324,17 +324,17 @@ editor_update_actions (EEditor *editor,
 	guint merge_id;
 	gint loc, len;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	spell_checker = e_html_editor_view_get_spell_checker (view);
 
-	webview = WEBKIT_WEB_VIEW (editor_widget);
+	web_view = WEBKIT_WEB_VIEW (view);
 	manager = e_editor_get_ui_manager (editor);
 
 	editor->priv->image = NULL;
 	editor->priv->table_cell = NULL;
 
 	/* Update context menu item visibility. */
-	hit_test = webkit_web_view_get_hit_test_result (webview, event);
+	hit_test = webkit_web_view_get_hit_test_result (web_view, event);
 	g_object_get (
 		G_OBJECT (hit_test),
 		"context", &context,
@@ -416,7 +416,7 @@ editor_update_actions (EEditor *editor,
 
 	/* Decide if we should show spell checking items. */
 	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-	selection = e_editor_widget_get_selection (editor_widget);
+	selection = e_html_editor_view_get_selection (view);
 	visible = FALSE;
 	if ((n_languages > 0) && e_editor_selection_has_text (selection)) {
 		gchar *word = e_editor_selection_get_caret_word (selection);
@@ -459,14 +459,14 @@ editor_update_actions (EEditor *editor,
 static void
 editor_spell_languages_changed (EEditor *editor)
 {
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
 	WebKitWebSettings *settings;
 	gchar *comma_separated;
 	gchar **languages;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	languages = e_spell_checker_list_active_languages (spell_checker, NULL);
 	comma_separated = g_strjoinv (",", languages);
@@ -474,7 +474,7 @@ editor_spell_languages_changed (EEditor *editor)
 
 	/* Set the languages for webview to highlight misspelled words */
 	settings = webkit_web_view_get_settings (
-		WEBKIT_WEB_VIEW (editor->priv->editor_widget));
+		WEBKIT_WEB_VIEW (editor->priv->html_editor_view));
 
 	g_object_set (
 		G_OBJECT (settings),
@@ -487,9 +487,9 @@ editor_spell_languages_changed (EEditor *editor)
 			editor->priv->spell_check_dialog));
 
 	if (*comma_separated)
-		e_editor_widget_force_spell_check (editor->priv->editor_widget);
+		e_html_editor_view_force_spell_check (editor->priv->html_editor_view);
 	else
-		e_editor_widget_turn_spell_check_off (editor->priv->editor_widget);
+		e_html_editor_view_turn_spell_check_off (editor->priv->html_editor_view);
 
 	g_free (comma_separated);
 }
@@ -648,7 +648,7 @@ editor_constructed (GObject *object)
 	priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = GTK_WIDGET (e_editor_get_editor_widget (editor));
+	widget = GTK_WIDGET (e_editor_get_html_editor_view (editor));
 	gtk_container_add (GTK_CONTAINER (priv->scrolled_window), widget);
 	gtk_widget_show (widget);
 	g_signal_connect_swapped (
@@ -699,7 +699,7 @@ editor_constructed (GObject *object)
 		priv->selection, "font-color",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	g_object_bind_property (
-		priv->editor_widget, "editable",
+		priv->html_editor_view, "editable",
 		priv->color_combo_box, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -718,7 +718,7 @@ editor_constructed (GObject *object)
 		editor, "/context-menu/context-input-methods-menu");
 	widget = gtk_menu_item_get_submenu (GTK_MENU_ITEM (widget));
 	g_object_get (
-		G_OBJECT (priv->editor_widget), "im-context", &im_context, NULL);
+		G_OBJECT (priv->html_editor_view), "im-context", &im_context, NULL);
 	gtk_im_multicontext_append_menuitems (
 		GTK_IM_MULTICONTEXT (im_context),
 		GTK_MENU_SHELL (widget));
@@ -754,7 +754,7 @@ editor_dispose (GObject *object)
 	g_clear_object (&priv->style_combo_box);
 	g_clear_object (&priv->scrolled_window);
 
-	g_clear_object (&priv->editor_widget);
+	g_clear_object (&priv->html_editor_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_editor_parent_class)->dispose (object);
@@ -870,8 +870,8 @@ e_editor_init (EEditor *editor)
 	priv->language_actions = gtk_action_group_new ("language");
 	priv->spell_check_actions = gtk_action_group_new ("spell-check");
 	priv->suggestion_actions = gtk_action_group_new ("suggestion");
-	priv->editor_widget = g_object_ref_sink (e_editor_widget_new ());
-	priv->selection = e_editor_widget_get_selection (priv->editor_widget);
+	priv->html_editor_view = g_object_ref_sink (e_html_editor_view_new ());
+	priv->selection = e_html_editor_view_get_selection (priv->html_editor_view);
 
 	filename = editor_find_ui_file ("e-editor-manager.ui");
 	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
@@ -904,17 +904,17 @@ e_editor_new (void)
 }
 
 /**
- * e_editor_get_editor_widget:
+ * e_editor_get_html_editor_view:
  * @editor: an #EEditor
  *
- * Returns instance of #EEditorWidget used in the @editor.
+ * Returns instance of #EHTMLEditorView used in the @editor.
  */
-EEditorWidget *
-e_editor_get_editor_widget (EEditor *editor)
+EHTMLEditorView *
+e_editor_get_html_editor_view (EEditor *editor)
 {
 	g_return_val_if_fail (E_IS_EDITOR (editor), NULL);
 
-	return editor->priv->editor_widget;
+	return editor->priv->html_editor_view;
 }
 
 /**
@@ -1129,7 +1129,7 @@ e_editor_pack_above (EEditor *editor,
  * @as_html: whether the content should be saved as HTML or plain text
  * @error:[out] a #GError
  *
- * Saves current content of the #EEditorWidget into given file. When @as_html
+ * Saves current content of the #EHTMLEditorView into given file. When @as_html
  * is @FALSE, the content is first converted into plain text.
  *
  * Returns: @TRUE when content is succesfully saved, @FALSE otherwise.
@@ -1152,11 +1152,11 @@ e_editor_save (EEditor *editor,
 		return FALSE;
 
 	if (as_html)
-		content = e_editor_widget_get_text_html (
-			E_EDITOR_WIDGET (editor));
+		content = e_html_editor_view_get_text_html (
+			E_HTML_EDITOR_VIEW (editor));
 	else
-		content = e_editor_widget_get_text_plain (
-			E_EDITOR_WIDGET (editor));
+		content = e_html_editor_view_get_text_plain (
+			E_HTML_EDITOR_VIEW (editor));
 
 	if (!content || !*content) {
 		g_set_error (

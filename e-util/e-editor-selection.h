@@ -50,7 +50,7 @@
 
 G_BEGIN_DECLS
 
-struct _EEditorWidget;
+struct _EHTMLEditorView;
 
 typedef struct _EEditorSelection EEditorSelection;
 typedef struct _EEditorSelectionClass EEditorSelectionClass;
@@ -66,8 +66,8 @@ struct _EEditorSelectionClass {
 };
 
 GType		e_editor_selection_get_type	(void) G_GNUC_CONST;
-struct _EEditorWidget *
-		e_editor_selection_ref_editor_widget
+struct _EHTMLEditorView *
+		e_editor_selection_ref_html_editor_view
 						(EEditorSelection *selection);
 void		e_editor_selection_block_selection_changed
 						(EEditorSelection *selection);

@@ -80,11 +80,11 @@ action_pgp_encrypt_cb (GtkToggleAction *action,
                        EMsgComposer *composer)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_set_changed (view, TRUE);
 }
 
 static void
@@ -92,11 +92,11 @@ action_pgp_sign_cb (GtkToggleAction *action,
                     EMsgComposer *composer)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_set_changed (view, TRUE);
 }
 
 static void
@@ -148,7 +148,7 @@ action_save_cb (GtkAction *action,
                 EMsgComposer *composer)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	const gchar *filename;
 	gint fd;
 	GError *error = NULL;
@@ -193,8 +193,8 @@ action_save_cb (GtkAction *action,
 		return;
 	}
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_set_changed (view, TRUE);
 }
 
 static void
@@ -255,11 +255,11 @@ action_smime_encrypt_cb (GtkToggleAction *action,
                          EMsgComposer *composer)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_set_changed (view, TRUE);
 }
 
 static void
@@ -267,11 +267,11 @@ action_smime_sign_cb (GtkToggleAction *action,
                       EMsgComposer *composer)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_set_changed (view, TRUE);
 }
 
 static GtkActionEntry entries[] = {
@@ -455,13 +455,13 @@ e_composer_actions_init (EMsgComposer *composer)
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	gboolean visible;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 	ui_manager = e_editor_get_ui_manager (editor);
 
 	/* Composer Actions */
@@ -506,32 +506,32 @@ e_composer_actions_init (EMsgComposer *composer)
 		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
 
 	g_object_bind_property (
-		editor_widget, "html-mode",
+		view, "html-mode",
 		ACTION (PICTURE_GALLERY), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		e_editor_get_action (editor, "edit-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		e_editor_get_action (editor, "format-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		e_editor_get_action (editor, "insert-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		e_editor_get_action (editor, "options-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		e_editor_get_action (editor, "picture-gallery"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 

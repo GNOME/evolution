@@ -68,17 +68,17 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 {
 	EEditor *editor;
 	EEditorSelection *editor_selection;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *table, *br, *caret, *parent, *element;
 	gint i;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
-	editor_selection = e_editor_widget_get_selection (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (
-		WEBKIT_WEB_VIEW (editor_widget));
+		WEBKIT_WEB_VIEW (view));
 
 	/* Default 3x3 table */
 	table = webkit_dom_document_create_element (document, "TABLE", NULL);
@@ -122,7 +122,7 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 
 	e_editor_selection_clear_caret_position_marker (editor_selection);
 
-	e_editor_widget_set_changed (editor_widget, TRUE);
+	e_html_editor_view_set_changed (view, TRUE);
 
 	return table;
 }
@@ -576,16 +576,16 @@ editor_table_dialog_show (GtkWidget *widget)
 {
 	EEditorTableDialog *dialog;
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
 
 	dialog = E_EDITOR_TABLE_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {

@@ -25,7 +25,7 @@
 #include <e-action-combo-box.h>
 #include <e-color-combo.h>
 #include <e-editor-actions.h>
-#include <e-editor-widget.h>
+#include <e-html-editor-view.h>
 #include <e-editor-find-dialog.h>
 #include <e-editor-replace-dialog.h>
 #include <e-editor-link-dialog.h>
@@ -83,7 +83,7 @@ struct _EEditorPrivate {
 	GtkWidget *style_combo_box;
 	GtkWidget *scrolled_window;
 
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *html_editor_view;
 	EEditorSelection *selection;
 
 	gchar *filename;

@@ -64,8 +64,8 @@ insert_html_file_ready_cb (GFile *file,
 		return;
 	}
 
-	selection = e_editor_widget_get_selection (
-		e_editor_get_editor_widget (editor));
+	selection = e_html_editor_view_get_selection (
+		e_editor_get_html_editor_view (editor));
 	e_editor_selection_insert_html (selection, contents);
 	g_free (contents);
 
@@ -101,8 +101,8 @@ insert_text_file_ready_cb (GFile *file,
 		return;
 	}
 
-	selection = e_editor_widget_get_selection (
-			e_editor_get_editor_widget (editor));
+	selection = e_html_editor_view_get_selection (
+		e_editor_get_html_editor_view (editor));
 	e_editor_selection_insert_text (selection, contents);
 	g_free (contents);
 
@@ -113,11 +113,11 @@ static void
 editor_update_static_spell_actions (EEditor *editor)
 {
 	ESpellChecker *checker;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	guint count;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	checker = e_html_editor_view_get_spell_checker (view);
 
 	count = e_spell_checker_count_active_languages (checker);
 
@@ -376,11 +376,11 @@ static void
 action_context_remove_link_cb (GtkAction *action,
                                EEditor *editor)
 {
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *selection;
 
-	widget = e_editor_get_editor_widget (editor);
-	selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_unlink (selection);
 }
@@ -393,8 +393,9 @@ action_context_spell_add_cb (GtkAction *action,
 	EEditorSelection *selection;
 	gchar *word;
 
-	spell_checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
+	spell_checker = e_html_editor_view_get_spell_checker (
+		editor->priv->html_editor_view);
+	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
 	word = e_editor_selection_get_caret_word (selection);
 	if (word && *word) {
@@ -410,8 +411,9 @@ action_context_spell_ignore_cb (GtkAction *action,
 	EEditorSelection *selection;
 	gchar *word;
 
-	spell_checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
-	selection = e_editor_widget_get_selection (editor->priv->editor_widget);
+	spell_checker = e_html_editor_view_get_spell_checker (
+		editor->priv->html_editor_view);
+	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
 	word = e_editor_selection_get_caret_word (selection);
 	if (word && *word) {
@@ -424,7 +426,7 @@ action_copy_cb (GtkAction *action,
                 EEditor *editor)
 {
 	webkit_web_view_copy_clipboard (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
+		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
 }
 
 static void
@@ -432,7 +434,7 @@ action_cut_cb (GtkAction *action,
                EEditor *editor)
 {
 	webkit_web_view_cut_clipboard (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
+		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
 }
 
 static void
@@ -446,15 +448,15 @@ static void
 action_insert_emoticon_cb (GtkAction *action,
                            EEditor *editor)
 {
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEmoticon *emoticon;
 
 	emoticon = e_emoticon_chooser_get_current_emoticon (
 					E_EMOTICON_CHOOSER (action));
 	g_return_if_fail (emoticon != NULL);
 
-	widget = e_editor_get_editor_widget (editor);
-	e_editor_widget_insert_smiley (widget, emoticon);
+	view = e_editor_get_html_editor_view (editor);
+	e_html_editor_view_insert_smiley (view, emoticon);
 }
 
 static void
@@ -501,14 +503,14 @@ action_insert_image_cb (GtkAction *action,
 	dialog = e_image_chooser_dialog_new (_("Insert Image"), NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		EEditorWidget *editor_widget;
+		EHTMLEditorView *view;
 		EEditorSelection *selection;
 		gchar *uri;
 
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
-		editor_widget = e_editor_get_editor_widget (editor);
-		selection = e_editor_widget_get_selection (editor_widget);
+		view = e_editor_get_html_editor_view (editor);
+		selection = e_html_editor_view_get_selection (view);
 		e_editor_selection_insert_image (selection, uri);
 
 		g_free (uri);
@@ -590,14 +592,14 @@ action_language_cb (GtkToggleAction *toggle_action,
                     EEditor *editor)
 {
 	ESpellChecker *checker;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	const gchar *language_code;
 	GtkAction *add_action;
 	gchar *action_name;
 	gboolean active;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	checker = e_html_editor_view_get_spell_checker (view);
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 
 	active = gtk_toggle_action_get_active (toggle_action);
@@ -618,15 +620,15 @@ static gboolean
 update_mode_combobox (gpointer data)
 {
 	EEditor *editor = data;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GtkAction *action;
 	gboolean is_html;
 
 	if (!E_IS_EDITOR (editor))
 		return FALSE;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	is_html = e_editor_widget_get_html_mode (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	is_html = e_html_editor_view_get_html_mode (view);
 
 	action = gtk_action_group_get_action (
 		editor->priv->core_actions, "mode-html");
@@ -642,12 +644,12 @@ action_mode_cb (GtkRadioAction *action,
                 EEditor *editor)
 {
 	GtkActionGroup *action_group;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GtkWidget *style_combo_box;
 	gboolean is_html;
 
-	editor_widget = e_editor_get_editor_widget (editor);
-	is_html = e_editor_widget_get_html_mode (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	is_html = e_html_editor_view_get_html_mode (view);
 
 	/* This must be done from idle callback, because apparently we can change
 	 * current value in callback of current value change */
@@ -692,14 +694,14 @@ static void
 action_paste_cb (GtkAction *action,
                  EEditor *editor)
 {
-	EEditorWidget *widget = e_editor_get_editor_widget (editor);
+	EHTMLEditorView *view = e_editor_get_html_editor_view (editor);
 
 	/* Paste only if WebView has focus */
-	if (gtk_widget_has_focus (widget)) {
+	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
 		webkit_web_view_paste_clipboard (
-			WEBKIT_WEB_VIEW (widget));
+			WEBKIT_WEB_VIEW (view));
 
-		e_editor_widget_force_spell_check (widget);
+		e_html_editor_view_force_spell_check (view);
 	}
 }
 
@@ -707,11 +709,11 @@ static void
 action_paste_quote_cb (GtkAction *action,
                        EEditor *editor)
 {
-	e_editor_widget_paste_clipboard_quoted (
-		e_editor_get_editor_widget (editor));
+	e_html_editor_view_paste_clipboard_quoted (
+		e_editor_get_html_editor_view (editor));
 
-	e_editor_widget_force_spell_check (
-		e_editor_get_editor_widget (editor));
+	e_html_editor_view_force_spell_check (
+		e_editor_get_html_editor_view (editor));
 }
 
 static void
@@ -819,7 +821,7 @@ action_redo_cb (GtkAction *action,
                 EEditor *editor)
 {
 	webkit_web_view_redo (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
+		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
 }
 
 static void
@@ -827,7 +829,7 @@ action_select_all_cb (GtkAction *action,
                       EEditor *editor)
 {
 	webkit_web_view_select_all (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
+		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
 }
 
 static void
@@ -883,7 +885,7 @@ action_undo_cb (GtkAction *action,
                 EEditor *editor)
 {
 	webkit_web_view_undo (
-		WEBKIT_WEB_VIEW (e_editor_get_editor_widget (editor)));
+		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
 }
 
 static void
@@ -905,10 +907,10 @@ action_show_webkit_inspector_cb (GtkAction *action,
                                  EEditor *editor)
 {
 	WebKitWebInspector *inspector;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 
-	widget = e_editor_get_editor_widget (editor);
-	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (widget));
+	view = e_editor_get_html_editor_view (editor);
+	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (view));
 
 	webkit_web_inspector_show (inspector);
 }
@@ -1130,14 +1132,14 @@ static GtkRadioActionEntry core_mode_entries[] = {
 	  N_("_HTML"),
 	  NULL,
 	  N_("HTML editing mode"),
-	  TRUE },	/* e_editor_widget_set_html_mode */
+	  TRUE },	/* e_html_editor_view_set_html_mode */
 
 	{ "mode-plain",
 	  NULL,
 	  N_("Plain _Text"),
 	  NULL,
 	  N_("Plain text editing mode"),
-	  FALSE }	/* e_editor_widget_set_html_mode */
+	  FALSE }	/* e_html_editor_view_set_html_mode */
 };
 
 static GtkRadioActionEntry core_style_entries[] = {
@@ -1674,7 +1676,7 @@ static void
 editor_actions_setup_languages_menu (EEditor *editor)
 {
 	ESpellChecker *checker;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *list, *link;
@@ -1682,8 +1684,8 @@ editor_actions_setup_languages_menu (EEditor *editor)
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-	editor_widget = e_editor_get_editor_widget (editor);
-	checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	checker = e_html_editor_view_get_spell_checker (view);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	list = e_spell_checker_list_available_dicts (checker);
@@ -1736,7 +1738,7 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->spell_check_actions;;
-	checker = e_editor_widget_get_spell_checker (editor->priv->editor_widget);
+	checker = e_html_editor_view_get_spell_checker (editor->priv->html_editor_view);
 	available_dicts = e_spell_checker_list_available_dicts (checker);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
@@ -1809,14 +1811,14 @@ editor_actions_init (EEditor *editor)
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GSettings *settings;
 
 	g_return_if_fail (E_IS_EDITOR (editor));
 
 	manager = e_editor_get_ui_manager (editor);
 	domain = GETTEXT_PACKAGE;
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
 	/* Core Actions */
 	action_group = editor->priv->core_actions;
@@ -1843,12 +1845,12 @@ editor_actions_init (EEditor *editor)
 
 	action = gtk_action_group_get_action (action_group, "mode-html");
 	g_object_bind_property (
-		editor_widget, "html-mode",
+		view, "html-mode",
 		action, "current-value",
 		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 	/* Synchronize wiget mode with the buttons */
-	e_editor_widget_set_html_mode (editor_widget, TRUE);
+	e_html_editor_view_set_html_mode (view, TRUE);
 
 	/* Face Action */
 	action = e_emoticon_action_new (
@@ -1941,23 +1943,23 @@ editor_actions_init (EEditor *editor)
 	gtk_action_set_sensitive (ACTION (SPELL_CHECK), FALSE);
 
 	g_object_bind_property (
-		editor_widget, "can-redo",
+		view, "can-redo",
 		ACTION (REDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "can-undo",
+		view, "can-undo",
 		ACTION (UNDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "can-copy",
+		view, "can-copy",
 		ACTION (COPY), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "can-cut",
+		view, "can-cut",
 		ACTION (CUT), "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "can-paste",
+		view, "can-paste",
 		ACTION (PASTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
@@ -2002,19 +2004,19 @@ editor_actions_init (EEditor *editor)
 
 	/* Disable all actions and toolbars when editor is not editable */
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		editor->priv->core_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		editor->priv->html_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		editor->priv->spell_check_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
-		editor_widget, "editable",
+		view, "editable",
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 

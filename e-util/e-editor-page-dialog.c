@@ -144,15 +144,15 @@ static void
 editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	view = e_editor_get_html_editor_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
 	e_color_combo_get_current_color (
@@ -169,15 +169,15 @@ static void
 editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	view = e_editor_get_html_editor_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
 	e_color_combo_get_current_color (
@@ -194,15 +194,15 @@ static void
 editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	view = e_editor_get_html_editor_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
 	e_color_combo_get_current_color (
@@ -256,14 +256,14 @@ static void
 editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	gchar *uri;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+	view = e_editor_get_html_editor_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
 	uri = gtk_file_chooser_get_uri (
@@ -280,7 +280,7 @@ static void
 editor_page_dialog_show (GtkWidget *widget)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	EEditorPageDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
@@ -289,9 +289,9 @@ editor_page_dialog_show (GtkWidget *widget)
 
 	dialog = E_EDITOR_PAGE_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
 	tmp = webkit_dom_html_body_element_get_background (
@@ -320,7 +320,7 @@ editor_page_dialog_show (GtkWidget *widget)
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (!tmp || !*tmp) {
 		GdkColor *color;
-		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (editor_widget));
+		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (view));
 		color = &style->text[GTK_STATE_NORMAL];
 
 		rgba.alpha = 1;
@@ -339,7 +339,7 @@ editor_page_dialog_show (GtkWidget *widget)
 	if (!tmp || !*tmp) {
 		GdkColor color;
 		gtk_widget_style_get (
-			GTK_WIDGET (editor_widget), "link-color", &color, NULL);
+			GTK_WIDGET (view), "link-color", &color, NULL);
 
 		rgba.alpha = 1;
 		rgba.red = ((gdouble) color.red) / G_MAXUINT16;
@@ -356,7 +356,7 @@ editor_page_dialog_show (GtkWidget *widget)
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (!tmp || !*tmp) {
 		GdkColor *color;
-		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (editor_widget));
+		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (view));
 		color = &style->base[GTK_STATE_NORMAL];
 
 		rgba.alpha = 1;

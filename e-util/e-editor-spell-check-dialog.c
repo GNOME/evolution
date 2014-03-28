@@ -27,7 +27,7 @@
 #include <glib/gi18n-lib.h>
 #include <enchant/enchant.h>
 
-#include "e-editor-widget.h"
+#include "e-html-editor-view.h"
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"
 
@@ -68,7 +68,7 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
                                     const gchar *word)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	GtkTreeView *tree_view;
 	GtkListStore *store;
 	gchar *markup;
@@ -110,8 +110,8 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 	 * given to WebKit, because this dialog is modal, but it satisfies
 	 * it in a way that it paints the selection :) */
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
-	gtk_widget_grab_focus (GTK_WIDGET (editor_widget));
+	view = e_editor_get_html_editor_view (editor);
+	gtk_widget_grab_focus (GTK_WIDGET (view));
 }
 
 static gboolean
@@ -307,7 +307,7 @@ static void
 editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
@@ -315,8 +315,8 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 	gchar *replacement;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	editor_selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (dialog->priv->tree_view));
@@ -334,7 +334,7 @@ static void
 editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *widget;
+	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
@@ -342,8 +342,8 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 	gchar *replacement;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	widget = e_editor_get_editor_widget (editor);
-	editor_selection = e_editor_widget_get_selection (widget);
+	view = e_editor_get_html_editor_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (dialog->priv->tree_view));
@@ -354,7 +354,7 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 	 * 'replacement'. Repeat until there's at least one occurence of
 	 * 'word' in the document */
 	while (webkit_web_view_search_text (
-			WEBKIT_WEB_VIEW (widget), dialog->priv->word,
+			WEBKIT_WEB_VIEW (view), dialog->priv->word,
 			FALSE, TRUE, TRUE)) {
 
 		e_editor_selection_insert_html (
@@ -413,7 +413,7 @@ static void
 editor_spell_check_dialog_show (GtkWidget *widget)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	EEditorSpellCheckDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -424,9 +424,9 @@ editor_spell_check_dialog_show (GtkWidget *widget)
 	dialog->priv->word = NULL;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
+	view = e_editor_get_html_editor_view (editor);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (editor_widget));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	dialog->priv->selection = webkit_dom_dom_window_get_selection (window);
 
@@ -645,7 +645,7 @@ void
 e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog)
 {
 	EEditor *editor;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
 	GtkComboBox *combo_box;
 	GtkListStore *store;
@@ -657,8 +657,8 @@ e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog
 	g_return_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog));
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
-	spell_checker = e_editor_widget_get_spell_checker (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	languages = e_spell_checker_list_active_languages (
 		spell_checker, &n_languages);

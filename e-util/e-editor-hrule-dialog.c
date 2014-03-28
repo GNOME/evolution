@@ -24,7 +24,7 @@
 
 #include "e-editor-hrule-dialog.h"
 #include "e-editor-utils.h"
-#include "e-editor-widget.h"
+#include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
 #include <webkit/webkitdom.h>
@@ -212,7 +212,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 	EEditorHRuleDialog *dialog;
 	EEditor *editor;
 	EEditorSelection *editor_selection;
-	EEditorWidget *editor_widget;
+	EHTMLEditorView *view;
 
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -221,11 +221,11 @@ editor_hrule_dialog_show (GtkWidget *widget)
 
 	dialog = E_EDITOR_HRULE_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	editor_widget = e_editor_get_editor_widget (editor);
-	editor_selection = e_editor_widget_get_selection (editor_widget);
+	view = e_editor_get_html_editor_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (editor_widget));
+			WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
@@ -233,7 +233,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 		return;
 	}
 
-	rule = e_editor_widget_get_element_under_mouse_click (editor_widget);
+	rule = e_html_editor_view_get_element_under_mouse_click (view);
 	if (!rule) {
 		WebKitDOMElement *caret, *parent, *element;
 
@@ -278,7 +278,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 		editor_hrule_dialog_set_alignment (dialog);
 		editor_hrule_dialog_set_shading (dialog);
 
-		e_editor_widget_set_changed (editor_widget, TRUE);
+		e_html_editor_view_set_changed (view, TRUE);
 	} else {
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 
