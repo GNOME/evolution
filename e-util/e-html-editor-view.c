@@ -135,7 +135,7 @@ html_editor_view_get_dom_range (EHTMLEditorView *view)
 
 static void
 html_editor_view_user_changed_contents_cb (EHTMLEditorView *view,
-                                        gpointer user_data)
+                                           gpointer user_data)
 {
 	WebKitWebView *web_view;
 	gboolean can_redo, can_undo;
@@ -159,7 +159,7 @@ html_editor_view_user_changed_contents_cb (EHTMLEditorView *view,
 
 static void
 html_editor_view_selection_changed_cb (EHTMLEditorView *view,
-                                    gpointer user_data)
+                                       gpointer user_data)
 {
 	WebKitWebView *web_view;
 	gboolean can_copy, can_cut, can_paste;
@@ -196,7 +196,7 @@ html_editor_view_selection_changed_cb (EHTMLEditorView *view,
 
 static gboolean
 html_editor_view_should_show_delete_interface_for_element (EHTMLEditorView *view,
-                                                        WebKitDOMHTMLElement *element)
+                                                           WebKitDOMHTMLElement *element)
 {
 	return FALSE;
 }
@@ -749,9 +749,9 @@ static const gchar *emoticons_icon_names[] = {
 
 static void
 html_editor_view_check_magic_links (EHTMLEditorView *view,
-				 WebKitDOMRange *range,
-				 gboolean include_space_by_user,
-				 GdkEventKey *event)
+                                    WebKitDOMRange *range,
+                                    gboolean include_space_by_user,
+                                    GdkEventKey *event)
 {
 	gchar *node_text;
 	gchar **urls;
@@ -1154,7 +1154,7 @@ emoticon_query_info_async_cb (GFile *file,
 
 void
 e_html_editor_view_insert_smiley (EHTMLEditorView *view,
-                               EEmoticon *emoticon)
+                                  EEmoticon *emoticon)
 {
 	GFile *file;
 	gchar *filename_uri;
@@ -1177,7 +1177,7 @@ e_html_editor_view_insert_smiley (EHTMLEditorView *view,
 
 static void
 html_editor_view_check_magic_smileys (EHTMLEditorView *view,
-                                   WebKitDOMRange *range)
+                                      WebKitDOMRange *range)
 {
 	gint pos;
 	gint state;
@@ -1246,7 +1246,7 @@ html_editor_view_check_magic_smileys (EHTMLEditorView *view,
 
 static void
 html_editor_view_set_links_active (EHTMLEditorView *view,
-                                gboolean active)
+                                   gboolean active)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *style;
@@ -1342,9 +1342,9 @@ clipboard_text_received (GtkClipboard *clipboard,
 
 static void
 html_editor_view_set_property (GObject *object,
-                            guint property_id,
-                            const GValue *value,
-                            GParamSpec *pspec)
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CHANGED:
@@ -1383,9 +1383,9 @@ html_editor_view_set_property (GObject *object,
 
 static void
 html_editor_view_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
-                            GParamSpec *pspec)
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_CAN_COPY:
@@ -1543,7 +1543,7 @@ html_editor_view_save_element_under_mouse_click (GtkWidget *widget)
 
 static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
-                                  GdkEventButton *event)
+                                     GdkEventButton *event)
 {
 	gboolean event_handled;
 
@@ -1570,7 +1570,7 @@ html_editor_view_button_press_event (GtkWidget *widget,
 
 static gboolean
 html_editor_view_button_release_event (GtkWidget *widget,
-                                    GdkEventButton *event)
+                                       GdkEventButton *event)
 {
 	WebKitWebView *webview;
 	WebKitHitTestResult *hit_test;
@@ -1742,7 +1742,7 @@ insert_new_line_into_citation (EHTMLEditorView *view)
 
 static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
-                               GdkEventKey *event)
+                                  GdkEventKey *event)
 {
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
 
@@ -1903,7 +1903,7 @@ surround_text_with_paragraph_if_needed (EEditorSelection *selection,
 
 static gboolean
 html_editor_view_key_release_event (GtkWidget *widget,
-                                 GdkEventKey *event)
+                                    GdkEventKey *event)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
@@ -2010,7 +2010,7 @@ html_editor_view_image_exists_in_cache (const gchar *image_uri)
 
 static gchar *
 html_editor_view_redirect_uri (EHTMLEditorView *view,
-                            const gchar *uri)
+                               const gchar *uri)
 {
 	EImageLoadingPolicy image_policy;
 	GSettings *settings;
@@ -2058,11 +2058,11 @@ html_editor_view_redirect_uri (EHTMLEditorView *view,
 
 static void
 html_editor_view_resource_requested (WebKitWebView *web_view,
-                                  WebKitWebFrame *frame,
-                                  WebKitWebResource *resource,
-                                  WebKitNetworkRequest *request,
-                                  WebKitNetworkResponse *response,
-                                  gpointer user_data)
+                                     WebKitWebFrame *frame,
+                                     WebKitWebResource *resource,
+                                     WebKitNetworkRequest *request,
+                                     WebKitNetworkResponse *response,
+                                     gpointer user_data)
 {
 	const gchar *original_uri;
 
@@ -2537,7 +2537,7 @@ create_text_markers_for_citations_in_element (WebKitDOMElement *element)
 
 static void
 html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
-                                               WebKitDOMDocument *document_convertor)
+                                                  WebKitDOMDocument *document_convertor)
 {
 	EEditorSelection *selection = e_html_editor_view_get_selection (view);
 	gboolean start_bottom;
@@ -2787,7 +2787,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 static void
 html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
-                                                    WebKitDOMDocument *document_convertor)
+                                                       WebKitDOMDocument *document_convertor)
 {
 	gchar *inner_text, *inner_html;
 	WebKitDOMDocument *document;
@@ -3023,8 +3023,8 @@ e_html_editor_view_get_selection (EHTMLEditorView *view)
  */
 gboolean
 e_html_editor_view_exec_command (EHTMLEditorView *view,
-                              EHTMLEditorViewCommand command,
-                              const gchar *value)
+                                EHTMLEditorViewCommand command,
+                                const gchar *value)
 {
 	WebKitDOMDocument *document;
 	const gchar *cmd_str = 0;
@@ -3124,7 +3124,7 @@ e_html_editor_view_get_changed (EHTMLEditorView *view)
  */
 void
 e_html_editor_view_set_changed (EHTMLEditorView *view,
-                             gboolean changed)
+                                gboolean changed)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
@@ -3603,7 +3603,7 @@ get_citation_level (WebKitDOMNode *node,
 
 WebKitDOMElement *
 e_html_editor_view_quote_plain_text_element (EHTMLEditorView *view,
-                                          WebKitDOMElement *element)
+                                             WebKitDOMElement *element)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMNode *element_clone;
@@ -5101,7 +5101,7 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
  */
 void
 e_html_editor_view_set_html_mode (EHTMLEditorView *view,
-                               gboolean html_mode)
+                                  gboolean html_mode)
 {
 	EEditorSelection *selection;
 	gboolean is_from_new_message, converted, edit_as_new, message, convert;
@@ -5220,7 +5220,7 @@ e_html_editor_view_get_inline_spelling (EHTMLEditorView *view)
  */
 void
 e_html_editor_view_set_inline_spelling (EHTMLEditorView *view,
-                                     gboolean inline_spelling)
+                                        gboolean inline_spelling)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
@@ -5258,7 +5258,7 @@ e_html_editor_view_get_magic_links (EHTMLEditorView *view)
  */
 void
 e_html_editor_view_set_magic_links (EHTMLEditorView *view,
-                                 gboolean magic_links)
+                                    gboolean magic_links)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
@@ -5297,7 +5297,7 @@ e_html_editor_view_get_magic_smileys (EHTMLEditorView *view)
  */
 void
 e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
-                                   gboolean magic_smileys)
+                                      gboolean magic_smileys)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
@@ -5381,7 +5381,7 @@ convert_and_load_html_to_plain_text (EHTMLEditorView *view,
 
 void
 e_html_editor_view_convert_and_insert_html_to_plain_text (EHTMLEditorView *view,
-                                                       const gchar *html)
+                                                          const gchar *html)
 {
 	view->priv->convertor_insert = TRUE;
 
@@ -5398,7 +5398,7 @@ e_html_editor_view_convert_and_insert_html_to_plain_text (EHTMLEditorView *view,
  */
 void
 e_html_editor_view_set_text_html (EHTMLEditorView *view,
-                               const gchar *text)
+                                  const gchar *text)
 {
 	view->priv->reload_in_progress = TRUE;
 
@@ -5430,7 +5430,7 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
  */
 void
 e_html_editor_view_set_text_plain (EHTMLEditorView *view,
-                                const gchar *text)
+                                   const gchar *text)
 {
 	view->priv->reload_in_progress = TRUE;
 
@@ -5910,7 +5910,7 @@ e_html_editor_view_get_element_under_mouse_click (EHTMLEditorView *view)
  */
 void
 e_html_editor_view_check_magic_links (EHTMLEditorView *view,
-				   gboolean include_space)
+                                      gboolean include_space)
 {
 	WebKitDOMRange *range;
 
@@ -5922,8 +5922,8 @@ e_html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 static CamelMimePart *
 e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
-                                               WebKitDOMElement *element,
-                                               const gchar *attribute)
+                                                  WebKitDOMElement *element,
+                                                  const gchar *attribute)
 {
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
@@ -6086,7 +6086,7 @@ e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view)
  **/
 void
 e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
-                                                 CamelMimePart *part)
+                                                    CamelMimePart *part)
 {
 	CamelDataWrapper *dw;
 	CamelStream *stream;
