@@ -100,10 +100,6 @@
 
   <chapter>
     <title>HTML Editing</title>
-    <xi:include href="xml/e-editor.xml"/>
-    <xi:include href="xml/e-editor-selection.xml"/>
-    <xi:include href="xml/e-editor-widget.xml"/>
-    <xi:include href="xml/e-editor-dialog.xml"/>
     <xi:include href="xml/e-editor-cell-dialog.xml"/>
     <xi:include href="xml/e-editor-find-dialog.xml"/>
     <xi:include href="xml/e-editor-hrule-dialog.xml"/>
@@ -122,6 +118,10 @@
     <xi:include href="xml/e-emoticon-chooser.xml"/>
     <xi:include href="xml/e-emoticon-chooser-menu.xml"/>
     <xi:include href="xml/e-emoticon-tool-button.xml"/>
+    <xi:include href="xml/e-html-editor.xml"/>
+    <xi:include href="xml/e-html-editor-selection.xml"/>
+    <xi:include href="xml/e-html-editor-widget.xml"/>
+    <xi:include href="xml/e-html-editor-dialog.xml"/>
     <xi:include href="xml/e-image-chooser-dialog.xml"/>
     <xi:include href="xml/e-spell-checker.xml"/>
     <xi:include href="xml/e-spell-dictionary.xml"/>
