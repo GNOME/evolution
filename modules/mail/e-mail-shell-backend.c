@@ -475,7 +475,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 	EShell *shell = E_SHELL (application);
 	EMailBackend *backend;
 	EMailSession *session;
-	EEditor *editor = NULL;
+	EHTMLEditor *editor = NULL;
 	const gchar *backend_name;
 
 	backend = E_MAIL_BACKEND (shell_backend);
@@ -494,7 +494,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 		GSettings *settings;
 		gboolean active = TRUE;
 
-		view = e_editor_get_html_editor_view (editor);
+		view = e_html_editor_get_view (editor);
 
 		settings = g_settings_new ("org.gnome.evolution.mail");
 

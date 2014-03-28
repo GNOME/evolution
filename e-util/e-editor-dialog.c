@@ -29,7 +29,7 @@
 	((obj), E_TYPE_EDITOR_DIALOG, EEditorDialogPrivate))
 
 struct _EEditorDialogPrivate {
-	EEditor *editor;
+	EHTMLEditor *editor;
 
 	GtkBox *button_box;
 	GtkGrid *container;
@@ -47,7 +47,7 @@ G_DEFINE_ABSTRACT_TYPE (
 
 static void
 editor_dialog_set_editor (EEditorDialog *dialog,
-                          EEditor *editor)
+                               EHTMLEditor *editor)
 {
 	dialog->priv->editor = g_object_ref (editor);
 
@@ -64,7 +64,8 @@ editor_dialog_get_property (GObject *object,
 		case PROP_EDITOR:
 			g_value_set_object (
 				value,
-			e_editor_dialog_get_editor (E_EDITOR_DIALOG (object)));
+			e_editor_dialog_get_editor (
+				E_EDITOR_DIALOG (object)));
 			return;
 	}
 
@@ -152,7 +153,7 @@ e_editor_dialog_class_init (EEditorDialogClass *class)
 			"editor",
 			NULL,
 			NULL,
-			E_TYPE_EDITOR,
+			E_TYPE_HTML_EDITOR,
 			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
 }
 
@@ -221,7 +222,7 @@ e_editor_dialog_init (EEditorDialog *dialog)
 		G_CALLBACK (key_press_event_cb), NULL);
 }
 
-EEditor *
+EHTMLEditor *
 e_editor_dialog_get_editor (EEditorDialog *dialog)
 {
 	g_return_val_if_fail (E_IS_EDITOR_DIALOG (dialog), NULL);

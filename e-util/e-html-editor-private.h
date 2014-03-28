@@ -1,5 +1,5 @@
 /*
- * e-editor-private.h
+ * e-html-editor-private.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -18,10 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef E_EDITOR_PRIVATE_H
-#define E_EDITOR_PRIVATE_H
+#ifndef E_HTML_EDITOR_PRIVATE_H
+#define E_HTML_EDITOR_PRIVATE_H
 
-#include <e-editor.h>
+#include <e-html-editor.h>
 #include <e-action-combo-box.h>
 #include <e-color-combo.h>
 #include <e-editor-actions.h>
@@ -47,7 +47,7 @@
 
 G_BEGIN_DECLS
 
-struct _EEditorPrivate {
+struct _EHTMLEditorPrivate {
 	GtkUIManager *manager;
 	GtkActionGroup *core_actions;
 	GtkActionGroup *html_actions;
@@ -96,8 +96,8 @@ struct _EEditorPrivate {
 	gint editor_layout_row;
 };
 
-void		editor_actions_init		(EEditor *editor);
+void		editor_actions_init		(EHTMLEditor *editor);
 
 G_END_DECLS
 
-#endif /* E_EDITOR_PRIVATE_H */
+#endif /* E_HTML_EDITOR_PRIVATE_H */

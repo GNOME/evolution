@@ -26,7 +26,7 @@
 #define E_EDITOR_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <e-util/e-editor.h>
+#include <e-util/e-html-editor.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_DIALOG \
@@ -63,7 +63,7 @@ struct _EEditorDialogClass {
 };
 
 GType		e_editor_dialog_get_type	(void) G_GNUC_CONST;
-EEditor *	e_editor_dialog_get_editor	(EEditorDialog *dialog);
+EHTMLEditor *	e_editor_dialog_get_editor	(EEditorDialog *dialog);
 GtkBox *	e_editor_dialog_get_button_box	(EEditorDialog *dialog);
 GtkGrid *	e_editor_dialog_get_container	(EEditorDialog *dialog);
 

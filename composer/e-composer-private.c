@@ -32,14 +32,14 @@
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	GtkUIManager *ui_manager;
 	const gchar *path;
 	GList *list;
 	guint merge_id;
 
 	editor = e_msg_composer_get_editor (composer);
-	ui_manager = e_editor_get_ui_manager (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 	path = "/main-menu/options-menu/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
@@ -64,14 +64,14 @@ composer_setup_charset_menu (EMsgComposer *composer)
 static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
 	gboolean is_html;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	is_html = e_html_editor_view_get_html_mode (view);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
@@ -94,7 +94,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EComposerHeader *header;
 	EShell *shell;
 	EClientCache *client_cache;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
@@ -109,8 +109,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GError *error = NULL;
 
 	editor = e_msg_composer_get_editor (composer);
-	ui_manager = e_editor_get_ui_manager (editor);
-	view = e_editor_get_html_editor_view (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
+	view = e_html_editor_get_view (editor);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
@@ -164,16 +164,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (composer));
 
-	action = e_editor_get_action (editor, "cut");
+	action = e_html_editor_get_action (editor, "cut");
 	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor, "copy");
+	action = e_html_editor_get_action (editor, "copy");
 	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor, "paste");
+	action = e_html_editor_get_action (editor, "paste");
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor, "select-all");
+	action = e_html_editor_get_action (editor, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 
 	priv->focus_tracker = focus_tracker;
@@ -186,11 +186,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the main menu and toolbar. */
 
-	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -478,7 +478,7 @@ gboolean
 e_composer_paste_html (EMsgComposer *composer,
                        GtkClipboard *clipboard)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	gchar *html;
@@ -490,7 +490,7 @@ e_composer_paste_html (EMsgComposer *composer,
 	g_return_val_if_fail (html != NULL, FALSE);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 	e_editor_selection_insert_html (editor_selection, html);
 
@@ -507,7 +507,7 @@ gboolean
 e_composer_paste_image (EMsgComposer *composer,
                         GtkClipboard *clipboard)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *html_editor_view;
 	EAttachmentStore *store;
 	EAttachmentView *view;
@@ -550,7 +550,7 @@ e_composer_paste_image (EMsgComposer *composer,
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
 	editor = e_msg_composer_get_editor (composer);
-	html_editor_view = e_editor_get_html_editor_view (editor);
+	html_editor_view = e_html_editor_get_view (editor);
 	if (e_html_editor_view_get_html_mode (html_editor_view)) {
 		EEditorSelection *selection;
 
@@ -587,7 +587,7 @@ gboolean
 e_composer_paste_text (EMsgComposer *composer,
                        GtkClipboard *clipboard)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	gchar *text;
@@ -599,7 +599,7 @@ e_composer_paste_text (EMsgComposer *composer,
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 	/* If WebView doesn't have focus, focus it */
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
@@ -825,7 +825,7 @@ insert_paragraph_with_input (WebKitDOMElement *paragraph,
 static void
 composer_move_caret (EMsgComposer *composer)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	GSettings *settings;
@@ -851,7 +851,7 @@ composer_move_caret (EMsgComposer *composer)
 		!composer->priv->is_from_new_message;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 	html_mode = e_html_editor_view_get_html_mode (view);
 
@@ -1023,7 +1023,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	gboolean top_signature;
 	gboolean is_html;
 	GError *error = NULL;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMNodeList *signatures;
@@ -1119,7 +1119,7 @@ insert:
 	/* Remove the old signature and insert the new one. */
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
@@ -1259,7 +1259,7 @@ e_composer_update_signature (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitLoadStatus status;
 
@@ -1272,7 +1272,7 @@ e_composer_update_signature (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
 	/* If document is not loaded, we will wait for him */

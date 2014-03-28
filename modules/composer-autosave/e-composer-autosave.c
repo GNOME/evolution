@@ -125,14 +125,14 @@ composer_autosave_timeout_cb (gpointer user_data)
 static void
 composer_autosave_changed_cb (EComposerAutosave *autosave)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EExtensible *extensible;
 
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	autosave->priv->changed = e_html_editor_view_get_changed (view);
 
 	if (autosave->priv->changed && autosave->priv->timeout_id == 0) {
@@ -166,7 +166,7 @@ composer_autosave_dispose (GObject *object)
 static void
 composer_autosave_constructed (GObject *object)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EExtensible *extensible;
 
@@ -176,7 +176,7 @@ composer_autosave_constructed (GObject *object)
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	g_signal_connect_swapped (
 		view, "notify::changed",

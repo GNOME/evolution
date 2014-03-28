@@ -87,12 +87,12 @@ editor_link_dialog_description_changed (EEditorLinkDialog *dialog)
 static void
 editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *selection;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 	e_editor_selection_unlink (selection);
 
@@ -102,7 +102,7 @@ editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 static void
 editor_link_dialog_ok (EEditorLinkDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	WebKitDOMDocument *document;
@@ -112,7 +112,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 	WebKitDOMElement *link;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -212,7 +212,7 @@ editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
 static void
 editor_link_dialog_show (GtkWidget *widget)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorLinkDialog *dialog;
 	WebKitDOMDocument *document;
@@ -223,7 +223,7 @@ editor_link_dialog_show (GtkWidget *widget)
 
 	dialog = E_EDITOR_LINK_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
@@ -378,7 +378,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 }
 
 GtkWidget *
-e_editor_link_dialog_new (EEditor *editor)
+e_editor_link_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

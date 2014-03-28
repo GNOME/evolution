@@ -210,7 +210,7 @@ static void
 editor_hrule_dialog_show (GtkWidget *widget)
 {
 	EEditorHRuleDialog *dialog;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 
@@ -221,7 +221,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 
 	dialog = E_EDITOR_HRULE_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (
@@ -410,7 +410,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 }
 
 GtkWidget *
-e_editor_hrule_dialog_new (EEditor *editor)
+e_editor_hrule_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

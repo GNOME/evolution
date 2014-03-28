@@ -501,10 +501,10 @@ action_email_custom_header_cb (GtkAction *action,
 	GdkWindow *window;
 	CustomHeaderOptionsDialog *dialog = NULL;
 	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
-	EEditor *editor;
+	EHTMLEditor *editor;
 
 	editor = e_msg_composer_get_editor (composer);
-	ui_manager = e_editor_get_ui_manager (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 	menuitem = gtk_ui_manager_get_widget (ui_manager, "/main-menu/insert-menu/insert-menu-top/Custom Header");
 
 	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
@@ -546,13 +546,13 @@ gboolean
 e_plugin_ui_init (GtkUIManager *ui_manager,
                   EMsgComposer *composer)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 
 	editor = e_msg_composer_get_editor (composer);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
-		e_editor_get_action_group (editor, "composer"),
+		e_html_editor_get_action_group (editor, "composer"),
 		entries, G_N_ELEMENTS (entries), composer);
 
 	return TRUE;

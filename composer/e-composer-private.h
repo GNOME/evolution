@@ -57,7 +57,7 @@ struct _EMsgComposerPrivate {
 
 	gpointer shell;  /* weak pointer */
 
-	EEditor *editor;
+	EHTMLEditor *editor;
 
 	/*** UI Management ***/
 

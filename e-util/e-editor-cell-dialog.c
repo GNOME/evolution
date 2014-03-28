@@ -841,7 +841,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 }
 
 GtkWidget *
-e_editor_cell_dialog_new (EEditor *editor)
+e_editor_cell_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

@@ -64,7 +64,7 @@ struct _EEditorSpellCheckDialogClass {
 GType		e_editor_spell_check_dialog_get_type
 					(void) G_GNUC_CONST;
 GtkWidget *	e_editor_spell_check_dialog_new
-					(EEditor *editor);
+					(EHTMLEditor *editor);
 void		e_editor_spell_check_dialog_update_dictionaries
 					(EEditorSpellCheckDialog *dialog);
 

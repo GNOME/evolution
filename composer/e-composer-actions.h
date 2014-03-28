@@ -18,7 +18,7 @@
 #define E_COMPOSER_ACTIONS_H
 
 #define E_COMPOSER_ACTION(composer, name) \
-	(e_editor_get_action ( \
+	(e_html_editor_get_action ( \
 		e_msg_composer_get_editor ( \
 		E_MSG_COMPOSER (composer)), (name)))
 

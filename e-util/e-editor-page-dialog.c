@@ -143,7 +143,7 @@ G_DEFINE_TYPE (
 static void
 editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
@@ -151,7 +151,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 	gchar *color;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
@@ -168,7 +168,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 static void
 editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
@@ -176,7 +176,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 	gchar *color;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
@@ -193,7 +193,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 static void
 editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
@@ -201,7 +201,7 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	gchar *color;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
@@ -255,14 +255,14 @@ editor_page_dialog_set_background_from_template (EEditorPageDialog *dialog)
 static void
 editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	gchar *uri;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
@@ -279,7 +279,7 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 static void
 editor_page_dialog_show (GtkWidget *widget)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorPageDialog *dialog;
 	WebKitDOMDocument *document;
@@ -289,7 +289,7 @@ editor_page_dialog_show (GtkWidget *widget)
 
 	dialog = E_EDITOR_PAGE_DIALOG (widget);
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
@@ -502,7 +502,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 }
 
 GtkWidget *
-e_editor_page_dialog_new (EEditor *editor)
+e_editor_page_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

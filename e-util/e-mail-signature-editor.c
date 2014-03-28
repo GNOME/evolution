@@ -32,7 +32,7 @@
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSignatureEditorPrivate {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
 	GCancellable *cancellable;
@@ -100,7 +100,7 @@ mail_signature_editor_loaded_cb (GObject *object,
                                  GAsyncResult *result,
                                  gpointer user_data)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	ESource *source;
 	EMailSignatureEditor *window;
@@ -144,7 +144,7 @@ mail_signature_editor_loaded_cb (GObject *object,
 	is_html = (g_strcmp0 (mime_type, "text/html") == 0);
 
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	e_html_editor_view_set_html_mode (view, is_html);
 
 	if (is_html)
@@ -175,7 +175,7 @@ static void
 action_close_cb (GtkAction *action,
                  EMailSignatureEditor *window)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	gboolean something_changed = FALSE;
 	const gchar *original_name;
@@ -185,7 +185,7 @@ action_close_cb (GtkAction *action,
 	signature_name = gtk_entry_get_text (GTK_ENTRY (window->priv->entry));
 
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (view));
 	something_changed |= (strcmp (signature_name, original_name) != 0);
@@ -480,7 +480,7 @@ mail_signature_editor_constructed (GObject *object)
 	EMailSignatureEditor *window;
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GtkUIManager *ui_manager;
 	GDBusObject *dbus_object;
@@ -498,9 +498,9 @@ mail_signature_editor_constructed (GObject *object)
 
 	window = E_MAIL_SIGNATURE_EDITOR (object);
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
-	ui_manager = e_editor_get_ui_manager (editor);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 
 	/* Because we are loading from a hard-coded string, there is
 	 * no chance of I/O errors.  Failure here implies a malformed
@@ -519,10 +519,10 @@ mail_signature_editor_constructed (GObject *object)
 	window->priv->action_group = g_object_ref (action_group);
 
 	/* Hide page properties because it is not inherited in the mail. */
-	action = e_editor_get_action (editor, "properties-page");
+	action = e_html_editor_get_action (editor, "properties-page");
 	gtk_action_set_visible (action, FALSE);
 
-	action = e_editor_get_action (editor, "context-properties-page");
+	action = e_html_editor_get_action (editor, "context-properties-page");
 	gtk_action_set_visible (action, FALSE);
 
 	gtk_ui_manager_ensure_update (ui_manager);
@@ -538,11 +538,11 @@ mail_signature_editor_constructed (GObject *object)
 
 	/* Construct the main menu and toolbar. */
 
-	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -578,16 +578,16 @@ mail_signature_editor_constructed (GObject *object)
 	/* Configure an EFocusTracker to manage selection actions. */
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (window));
 
-	action = e_editor_get_action (editor, "cut");
+	action = e_html_editor_get_action (editor, "cut");
 	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor, "copy");
+	action = e_html_editor_get_action (editor, "copy");
 	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor, "paste");
+	action = e_html_editor_get_action (editor, "paste");
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
 
-	action = e_editor_get_action (editor, "select-all");
+	action = e_html_editor_get_action (editor, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 
 	window->priv->focus_tracker = focus_tracker;
@@ -655,7 +655,7 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 			"editor",
 			NULL,
 			NULL,
-			E_TYPE_EDITOR,
+			E_TYPE_HTML_EDITOR,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -700,7 +700,7 @@ e_mail_signature_editor_init (EMailSignatureEditor *editor)
 {
 	editor->priv = E_MAIL_SIGNATURE_EDITOR_GET_PRIVATE (editor);
 
-	editor->priv->editor = g_object_ref_sink (e_editor_new ());
+	editor->priv->editor = g_object_ref_sink (e_html_editor_new ());
 }
 
 GtkWidget *
@@ -718,7 +718,7 @@ e_mail_signature_editor_new (ESourceRegistry *registry,
 		"source", source, NULL);
 }
 
-EEditor *
+EHTMLEditor *
 e_mail_signature_editor_get_editor (EMailSignatureEditor *editor)
 {
 	g_return_val_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (editor), NULL);
@@ -821,7 +821,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	const gchar *extension_name;
 	const gchar *mime_type;
 	gchar *contents;
-	EEditor  *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 
 	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (window));
@@ -830,7 +830,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	source = e_mail_signature_editor_get_source (window);
 
 	editor = e_mail_signature_editor_get_editor (window);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	if (e_html_editor_view_get_html_mode (view)) {
 		mime_type = "text/html";

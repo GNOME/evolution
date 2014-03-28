@@ -62,12 +62,12 @@ G_DEFINE_TYPE (
 static void
 editor_image_dialog_set_src (EEditorImageDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_replace_image_src (
@@ -674,7 +674,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 }
 
 GtkWidget *
-e_editor_image_dialog_new (EEditor *editor)
+e_editor_image_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

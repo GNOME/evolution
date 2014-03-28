@@ -62,7 +62,7 @@ struct _EEditorFindDialogClass {
 };
 
 GType		e_editor_find_dialog_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_editor_find_dialog_new	(EEditor *editor);
+GtkWidget *	e_editor_find_dialog_new	(EHTMLEditor *editor);
 void		e_editor_find_dialog_find_next	(EEditorFindDialog *dialog);
 
 G_END_DECLS

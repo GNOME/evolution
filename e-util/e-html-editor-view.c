@@ -23,7 +23,7 @@
 #endif
 
 #include "e-html-editor-view.h"
-#include "e-editor.h"
+#include "e-html-editor.h"
 #include "e-emoticon-chooser.h"
 
 #include <e-util/e-util.h>

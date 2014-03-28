@@ -26,8 +26,8 @@
 #include <string.h>
 #include <enchant/enchant.h>
 
-#include "e-editor.h"
-#include "e-editor-private.h"
+#include "e-html-editor.h"
+#include "e-html-editor-private.h"
 #include "e-editor-actions.h"
 #include "e-editor-utils.h"
 #include "e-emoticon-action.h"
@@ -38,7 +38,7 @@
 static void
 insert_html_file_ready_cb (GFile *file,
                            GAsyncResult *result,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	EEditorSelection *selection;
 	gchar *contents = NULL;
@@ -65,7 +65,7 @@ insert_html_file_ready_cb (GFile *file,
 	}
 
 	selection = e_html_editor_view_get_selection (
-		e_editor_get_html_editor_view (editor));
+		e_html_editor_get_view (editor));
 	e_editor_selection_insert_html (selection, contents);
 	g_free (contents);
 
@@ -75,7 +75,7 @@ insert_html_file_ready_cb (GFile *file,
 static void
 insert_text_file_ready_cb (GFile *file,
                            GAsyncResult *result,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	EEditorSelection *selection;
 	gchar *contents;
@@ -102,7 +102,7 @@ insert_text_file_ready_cb (GFile *file,
 	}
 
 	selection = e_html_editor_view_get_selection (
-		e_editor_get_html_editor_view (editor));
+		e_html_editor_get_view (editor));
 	e_editor_selection_insert_text (selection, contents);
 	g_free (contents);
 
@@ -110,13 +110,13 @@ insert_text_file_ready_cb (GFile *file,
 }
 
 static void
-editor_update_static_spell_actions (EEditor *editor)
+editor_update_static_spell_actions (EHTMLEditor *editor)
 {
 	ESpellChecker *checker;
 	EHTMLEditorView *view;
 	guint count;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	checker = e_html_editor_view_get_spell_checker (view);
 
 	count = e_spell_checker_count_active_languages (checker);
@@ -134,7 +134,7 @@ editor_update_static_spell_actions (EEditor *editor)
 
 static void
 action_context_delete_cell_cb (GtkAction *action,
-                               EEditor *editor)
+                               EHTMLEditor *editor)
 {
 	WebKitDOMNode *sibling;
 	WebKitDOMElement *cell;
@@ -167,7 +167,7 @@ action_context_delete_cell_cb (GtkAction *action,
 
 static void
 action_context_delete_column_cb (GtkAction *action,
-                                 EEditor *editor)
+                                 EHTMLEditor *editor)
 {
 	WebKitDOMElement *cell, *table;
 	WebKitDOMHTMLCollection *rows;
@@ -205,7 +205,7 @@ action_context_delete_column_cb (GtkAction *action,
 
 static void
 action_context_delete_row_cb (GtkAction *action,
-                              EEditor *editor)
+                              EHTMLEditor *editor)
 {
 	WebKitDOMElement *row;
 
@@ -221,7 +221,7 @@ action_context_delete_row_cb (GtkAction *action,
 
 static void
 action_context_delete_table_cb (GtkAction *action,
-                                EEditor *editor)
+                                EHTMLEditor *editor)
 {
 	WebKitDOMElement *table;
 
@@ -237,7 +237,7 @@ action_context_delete_table_cb (GtkAction *action,
 
 static void
 action_context_insert_column_after_cb (GtkAction *action,
-                                       EEditor *editor)
+                                       EHTMLEditor *editor)
 {
 	WebKitDOMElement *cell, *row;
 	gulong index;
@@ -273,7 +273,7 @@ action_context_insert_column_after_cb (GtkAction *action,
 
 static void
 action_context_insert_column_before_cb (GtkAction *action,
-                                        EEditor *editor)
+                                        EHTMLEditor *editor)
 {
 	WebKitDOMElement *cell, *row;
 	gulong index;
@@ -309,7 +309,7 @@ action_context_insert_column_before_cb (GtkAction *action,
 
 static void
 action_context_insert_row_above_cb (GtkAction *action,
-                                    EEditor *editor)
+                                    EHTMLEditor *editor)
 {
 	WebKitDOMElement *row, *table;
 	WebKitDOMHTMLCollection *cells;
@@ -342,7 +342,7 @@ action_context_insert_row_above_cb (GtkAction *action,
 
 static void
 action_context_insert_row_below_cb (GtkAction *action,
-                                    EEditor *editor)
+                                    EHTMLEditor *editor)
 {
 	WebKitDOMElement *row, *table;
 	WebKitDOMHTMLCollection *cells;
@@ -374,12 +374,12 @@ action_context_insert_row_below_cb (GtkAction *action,
 
 static void
 action_context_remove_link_cb (GtkAction *action,
-                               EEditor *editor)
+                               EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
 	EEditorSelection *selection;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_unlink (selection);
@@ -387,7 +387,7 @@ action_context_remove_link_cb (GtkAction *action,
 
 static void
 action_context_spell_add_cb (GtkAction *action,
-                             EEditor *editor)
+                             EHTMLEditor *editor)
 {
 	ESpellChecker *spell_checker;
 	EEditorSelection *selection;
@@ -405,7 +405,7 @@ action_context_spell_add_cb (GtkAction *action,
 
 static void
 action_context_spell_ignore_cb (GtkAction *action,
-                                EEditor *editor)
+                                EHTMLEditor *editor)
 {
 	ESpellChecker *spell_checker;
 	EEditorSelection *selection;
@@ -423,30 +423,30 @@ action_context_spell_ignore_cb (GtkAction *action,
 
 static void
 action_copy_cb (GtkAction *action,
-                EEditor *editor)
+                EHTMLEditor *editor)
 {
 	webkit_web_view_copy_clipboard (
-		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
+		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
 }
 
 static void
 action_cut_cb (GtkAction *action,
-               EEditor *editor)
+               EHTMLEditor *editor)
 {
 	webkit_web_view_cut_clipboard (
-		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
+		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
 }
 
 static void
 action_indent_cb (GtkAction *action,
-                  EEditor *editor)
+                  EHTMLEditor *editor)
 {
 	e_editor_selection_indent (editor->priv->selection);
 }
 
 static void
 action_insert_emoticon_cb (GtkAction *action,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
 	EEmoticon *emoticon;
@@ -455,13 +455,13 @@ action_insert_emoticon_cb (GtkAction *action,
 					E_EMOTICON_CHOOSER (action));
 	g_return_if_fail (emoticon != NULL);
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	e_html_editor_view_insert_smiley (view, emoticon);
 }
 
 static void
 action_insert_html_file_cb (GtkToggleAction *action,
-                            EEditor *editor)
+                            EHTMLEditor *editor)
 {
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
@@ -496,7 +496,7 @@ action_insert_html_file_cb (GtkToggleAction *action,
 
 static void
 action_insert_image_cb (GtkAction *action,
-                        EEditor *editor)
+                        EHTMLEditor *editor)
 {
 	GtkWidget *dialog;
 
@@ -509,7 +509,7 @@ action_insert_image_cb (GtkAction *action,
 
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
-		view = e_editor_get_html_editor_view (editor);
+		view = e_html_editor_get_view (editor);
 		selection = e_html_editor_view_get_selection (view);
 		e_editor_selection_insert_image (selection, uri);
 
@@ -521,7 +521,7 @@ action_insert_image_cb (GtkAction *action,
 
 static void
 action_insert_link_cb (GtkAction *action,
-                       EEditor *editor)
+                       EHTMLEditor *editor)
 {
 	if (editor->priv->link_dialog == NULL)
 		editor->priv->link_dialog =
@@ -532,7 +532,7 @@ action_insert_link_cb (GtkAction *action,
 
 static void
 action_insert_rule_cb (GtkAction *action,
-                       EEditor *editor)
+                       EHTMLEditor *editor)
 {
 	if (editor->priv->hrule_dialog == NULL)
 		editor->priv->hrule_dialog =
@@ -543,7 +543,7 @@ action_insert_rule_cb (GtkAction *action,
 
 static void
 action_insert_table_cb (GtkAction *action,
-                        EEditor *editor)
+                        EHTMLEditor *editor)
 {
 	if (editor->priv->table_dialog == NULL)
 		editor->priv->table_dialog =
@@ -554,7 +554,7 @@ action_insert_table_cb (GtkAction *action,
 
 static void
 action_insert_text_file_cb (GtkAction *action,
-                            EEditor *editor)
+                            EHTMLEditor *editor)
 {
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
@@ -589,7 +589,7 @@ action_insert_text_file_cb (GtkAction *action,
 
 static void
 action_language_cb (GtkToggleAction *toggle_action,
-                    EEditor *editor)
+                    EHTMLEditor *editor)
 {
 	ESpellChecker *checker;
 	EHTMLEditorView *view;
@@ -598,7 +598,7 @@ action_language_cb (GtkToggleAction *toggle_action,
 	gchar *action_name;
 	gboolean active;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	checker = e_html_editor_view_get_spell_checker (view);
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 
@@ -607,7 +607,7 @@ action_language_cb (GtkToggleAction *toggle_action,
 
 	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
-	add_action = e_editor_get_action (editor, action_name);
+	add_action = e_html_editor_get_action (editor, action_name);
 	gtk_action_set_visible (add_action, active);
 	g_free (action_name);
 
@@ -619,15 +619,15 @@ action_language_cb (GtkToggleAction *toggle_action,
 static gboolean
 update_mode_combobox (gpointer data)
 {
-	EEditor *editor = data;
+	EHTMLEditor *editor = data;
 	EHTMLEditorView *view;
 	GtkAction *action;
 	gboolean is_html;
 
-	if (!E_IS_EDITOR (editor))
+	if (!E_IS_HTML_EDITOR (editor))
 		return FALSE;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	is_html = e_html_editor_view_get_html_mode (view);
 
 	action = gtk_action_group_get_action (
@@ -641,14 +641,14 @@ update_mode_combobox (gpointer data)
 static void
 action_mode_cb (GtkRadioAction *action,
                 GtkRadioAction *current,
-                EEditor *editor)
+                EHTMLEditor *editor)
 {
 	GtkActionGroup *action_group;
 	EHTMLEditorView *view;
 	GtkWidget *style_combo_box;
 	gboolean is_html;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	is_html = e_html_editor_view_get_html_mode (view);
 
 	/* This must be done from idle callback, because apparently we can change
@@ -686,15 +686,15 @@ action_mode_cb (GtkRadioAction *action,
 	gtk_action_set_visible (ACTION (STYLE_ADDRESS), is_html);
 
 	/* Hide them from the action combo box as well */
-	style_combo_box = e_editor_get_style_combo_box (editor);
+	style_combo_box = e_html_editor_get_style_combo_box (editor);
 	e_action_combo_box_update_model (E_ACTION_COMBO_BOX (style_combo_box));
 }
 
 static void
 action_paste_cb (GtkAction *action,
-                 EEditor *editor)
+                 EHTMLEditor *editor)
 {
-	EHTMLEditorView *view = e_editor_get_html_editor_view (editor);
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	/* Paste only if WebView has focus */
 	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
@@ -707,18 +707,18 @@ action_paste_cb (GtkAction *action,
 
 static void
 action_paste_quote_cb (GtkAction *action,
-                       EEditor *editor)
+                       EHTMLEditor *editor)
 {
 	e_html_editor_view_paste_clipboard_quoted (
-		e_editor_get_html_editor_view (editor));
+		e_html_editor_get_view (editor));
 
 	e_html_editor_view_force_spell_check (
-		e_editor_get_html_editor_view (editor));
+		e_html_editor_get_view (editor));
 }
 
 static void
 action_properties_cell_cb (GtkAction *action,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	if (editor->priv->cell_dialog == NULL) {
 		editor->priv->cell_dialog =
@@ -732,7 +732,7 @@ action_properties_cell_cb (GtkAction *action,
 
 static void
 action_properties_image_cb (GtkAction *action,
-                            EEditor *editor)
+                            EHTMLEditor *editor)
 {
 	if (editor->priv->image_dialog == NULL) {
 		editor->priv->image_dialog =
@@ -746,7 +746,7 @@ action_properties_image_cb (GtkAction *action,
 
 static void
 action_properties_link_cb (GtkAction *action,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	if (editor->priv->link_dialog == NULL) {
 		editor->priv->link_dialog =
@@ -758,7 +758,7 @@ action_properties_link_cb (GtkAction *action,
 
 static void
 action_properties_page_cb (GtkAction *action,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	if (editor->priv->page_dialog == NULL) {
 		editor->priv->page_dialog =
@@ -770,7 +770,7 @@ action_properties_page_cb (GtkAction *action,
 
 static void
 action_properties_paragraph_cb (GtkAction *action,
-                                EEditor *editor)
+                                EHTMLEditor *editor)
 {
 	if (editor->priv->paragraph_dialog == NULL) {
 		editor->priv->paragraph_dialog =
@@ -782,7 +782,7 @@ action_properties_paragraph_cb (GtkAction *action,
 
 static void
 action_properties_rule_cb (GtkAction *action,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	if (editor->priv->hrule_dialog == NULL) {
 		editor->priv->hrule_dialog =
@@ -794,7 +794,7 @@ action_properties_rule_cb (GtkAction *action,
 
 static void
 action_properties_table_cb (GtkAction *action,
-                            EEditor *editor)
+                            EHTMLEditor *editor)
 {
 	if (editor->priv->table_dialog == NULL) {
 		editor->priv->table_dialog =
@@ -806,7 +806,7 @@ action_properties_table_cb (GtkAction *action,
 
 static void
 action_properties_text_cb (GtkAction *action,
-                           EEditor *editor)
+                           EHTMLEditor *editor)
 {
 	if (editor->priv->text_dialog == NULL) {
 		editor->priv->text_dialog =
@@ -818,23 +818,23 @@ action_properties_text_cb (GtkAction *action,
 
 static void
 action_redo_cb (GtkAction *action,
-                EEditor *editor)
+                EHTMLEditor *editor)
 {
 	webkit_web_view_redo (
-		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
+		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
 }
 
 static void
 action_select_all_cb (GtkAction *action,
-                      EEditor *editor)
+                      EHTMLEditor *editor)
 {
 	webkit_web_view_select_all (
-		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
+		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
 }
 
 static void
 action_show_find_cb (GtkAction *action,
-                     EEditor *editor)
+                     EHTMLEditor *editor)
 {
 	if (editor->priv->find_dialog == NULL) {
 		editor->priv->find_dialog = e_editor_find_dialog_new (editor);
@@ -846,7 +846,7 @@ action_show_find_cb (GtkAction *action,
 
 static void
 action_find_again_cb (GtkAction *action,
-                      EEditor *editor)
+                      EHTMLEditor *editor)
 {
 	if (editor->priv->find_dialog == NULL) {
 		return;
@@ -858,7 +858,7 @@ action_find_again_cb (GtkAction *action,
 
 static void
 action_show_replace_cb (GtkAction *action,
-                        EEditor *editor)
+                        EHTMLEditor *editor)
 {
 	if (editor->priv->replace_dialog == NULL) {
 		editor->priv->replace_dialog =
@@ -870,7 +870,7 @@ action_show_replace_cb (GtkAction *action,
 
 static void
 action_spell_check_cb (GtkAction *action,
-                       EEditor *editor)
+                       EHTMLEditor *editor)
 {
 	if (editor->priv->spell_check_dialog == NULL) {
 		editor->priv->spell_check_dialog =
@@ -882,34 +882,34 @@ action_spell_check_cb (GtkAction *action,
 
 static void
 action_undo_cb (GtkAction *action,
-                EEditor *editor)
+                EHTMLEditor *editor)
 {
 	webkit_web_view_undo (
-		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
+		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
 }
 
 static void
 action_unindent_cb (GtkAction *action,
-                    EEditor *editor)
+                    EHTMLEditor *editor)
 {
 	e_editor_selection_unindent (editor->priv->selection);
 }
 
 static void
 action_wrap_lines_cb (GtkAction *action,
-                      EEditor *editor)
+                      EHTMLEditor *editor)
 {
 	e_editor_selection_wrap_lines (editor->priv->selection);
 }
 
 static void
 action_show_webkit_inspector_cb (GtkAction *action,
-                                 EEditor *editor)
+                                 EHTMLEditor *editor)
 {
 	WebKitWebInspector *inspector;
 	EHTMLEditorView *view;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (view));
 
 	webkit_web_inspector_show (inspector);
@@ -1673,7 +1673,7 @@ static GtkActionEntry spell_context_entries[] = {
 };
 
 static void
-editor_actions_setup_languages_menu (EEditor *editor)
+editor_actions_setup_languages_menu (EHTMLEditor *editor)
 {
 	ESpellChecker *checker;
 	EHTMLEditorView *view;
@@ -1684,7 +1684,7 @@ editor_actions_setup_languages_menu (EEditor *editor)
 
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	checker = e_html_editor_view_get_spell_checker (view);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
 
@@ -1728,7 +1728,7 @@ editor_actions_setup_languages_menu (EEditor *editor)
 }
 
 static void
-editor_actions_setup_spell_check_menu (EEditor *editor)
+editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 {
 	ESpellChecker *checker;
 	GtkUIManager *manager;
@@ -1805,7 +1805,7 @@ editor_actions_setup_spell_check_menu (EEditor *editor)
 }
 
 void
-editor_actions_init (EEditor *editor)
+editor_actions_init (EHTMLEditor *editor)
 {
 	GtkAction *action;
 	GtkActionGroup *action_group;
@@ -1814,11 +1814,11 @@ editor_actions_init (EEditor *editor)
 	EHTMLEditorView *view;
 	GSettings *settings;
 
-	g_return_if_fail (E_IS_EDITOR (editor));
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
-	manager = e_editor_get_ui_manager (editor);
+	manager = e_html_editor_get_ui_manager (editor);
 	domain = GETTEXT_PACKAGE;
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	/* Core Actions */
 	action_group = editor->priv->core_actions;

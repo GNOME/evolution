@@ -24,7 +24,7 @@
 
 #include "e-editor-selection.h"
 #include "e-html-editor-view.h"
-#include "e-editor.h"
+#include "e-html-editor.h"
 #include "e-editor-utils.h"
 
 #include <e-util/e-util.h>

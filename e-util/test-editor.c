@@ -62,7 +62,7 @@ handle_error (GError **error)
 }
 
 static GtkPrintOperationResult
-print (EEditor *editor,
+print (EHTMLEditor *editor,
        GtkPrintOperationAction action)
 {
 	WebKitWebFrame *frame;
@@ -73,7 +73,7 @@ print (EEditor *editor,
 	operation = gtk_print_operation_new ();
 
 	frame = webkit_web_view_get_main_frame (
-		WEBKIT_WEB_VIEW (e_editor_get_html_editor_view (editor)));
+		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
 	result = webkit_web_frame_print_full (frame, operation, action, NULL);
 
 	g_object_unref (operation);
@@ -83,7 +83,7 @@ print (EEditor *editor,
 }
 
 static gint
-save_dialog (EEditor *editor)
+save_dialog (EHTMLEditor *editor)
 {
 	GtkWidget *dialog;
 	const gchar *filename;
@@ -100,7 +100,7 @@ save_dialog (EEditor *editor)
 	gtk_file_chooser_set_do_overwrite_confirmation (
 		GTK_FILE_CHOOSER (dialog), TRUE);
 
-	filename = e_editor_get_filename (editor);
+	filename = e_html_editor_get_filename (editor);
 
 	if (filename != NULL)
 		gtk_file_chooser_set_filename (
@@ -116,7 +116,7 @@ save_dialog (EEditor *editor)
 
 		new_filename = gtk_file_chooser_get_filename (
 			GTK_FILE_CHOOSER (dialog));
-		e_editor_set_filename (editor, new_filename);
+		e_html_editor_set_filename (editor, new_filename);
 		g_free (new_filename);
 	}
 
@@ -126,7 +126,7 @@ save_dialog (EEditor *editor)
 }
 
 static void
-view_source_dialog (EEditor *editor,
+view_source_dialog (EHTMLEditor *editor,
                     const gchar *title,
                     gboolean plain_text,
                     gboolean show_source)
@@ -162,10 +162,10 @@ view_source_dialog (EEditor *editor,
 
 	if (plain_text) {
 		html = e_html_editor_view_get_text_plain (
-				e_editor_get_html_editor_view (editor));
+				e_html_editor_get_view (editor));
 	} else {
 		html = e_html_editor_view_get_text_html (
-			e_editor_get_html_editor_view (editor));
+			e_html_editor_get_view (editor));
 	}
 
 	if (show_source || plain_text) {
@@ -191,47 +191,47 @@ view_source_dialog (EEditor *editor,
 
 static void
 action_print_cb (GtkAction *action,
-                 EEditor *editor)
+                 EHTMLEditor *editor)
 {
 	print (editor, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
 action_print_preview_cb (GtkAction *action,
-                         EEditor *editor)
+                         EHTMLEditor *editor)
 {
 	print (editor, GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void
 action_quit_cb (GtkAction *action,
-                EEditor *editor)
+                EHTMLEditor *editor)
 {
 	gtk_main_quit ();
 }
 
 static void
 action_save_cb (GtkAction *action,
-                EEditor *editor)
+                EHTMLEditor *editor)
 {
 	const gchar *filename;
 	gboolean as_html;
 	GError *error = NULL;
 
-	if (e_editor_get_filename (editor) == NULL)
+	if (e_html_editor_get_filename (editor) == NULL)
 		if (save_dialog (editor) == GTK_RESPONSE_CANCEL)
 			return;
 
-	filename = e_editor_get_filename (editor);
-	as_html = (e_html_editor_view_get_html_mode (e_editor_get_html_editor_view (editor)));
+	filename = e_html_editor_get_filename (editor);
+	as_html = (e_html_editor_view_get_html_mode (e_html_editor_get_view (editor)));
 
-	e_editor_save (editor, filename, as_html, &error);
+	e_html_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
 }
 
 static void
 action_save_as_cb (GtkAction *action,
-                   EEditor *editor)
+                   EHTMLEditor *editor)
 {
 	const gchar *filename;
 	gboolean as_html;
@@ -240,20 +240,20 @@ action_save_as_cb (GtkAction *action,
 	if (save_dialog (editor) == GTK_RESPONSE_CANCEL)
 		return;
 
-	filename = e_editor_get_filename (editor);
-	as_html = (e_html_editor_view_get_html_mode (e_editor_get_html_editor_view (editor)));
+	filename = e_html_editor_get_filename (editor);
+	as_html = (e_html_editor_view_get_html_mode (e_html_editor_get_view (editor)));
 
-	e_editor_save (editor, filename, as_html, &error);
+	e_html_editor_save (editor, filename, as_html, &error);
 	handle_error (&error);
 }
 
 static void
 action_toggle_editor (GtkAction *action,
-                      EEditor *editor)
+                      EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	webkit_web_view_set_editable (
 		WEBKIT_WEB_VIEW (view),
 		! webkit_web_view_get_editable (WEBKIT_WEB_VIEW (view)));
@@ -261,33 +261,33 @@ action_toggle_editor (GtkAction *action,
 
 static void
 action_view_html_output (GtkAction *action,
-                         EEditor *editor)
+                         EHTMLEditor *editor)
 {
 	view_source_dialog (editor, _("HTML Output"), FALSE, FALSE);
 }
 
 static void
 action_view_html_source (GtkAction *action,
-                         EEditor *editor)
+                         EHTMLEditor *editor)
 {
 	view_source_dialog (editor, _("HTML Source"), FALSE, TRUE);
 }
 
 static void
 action_view_plain_source (GtkAction *action,
-                          EEditor *editor)
+                          EHTMLEditor *editor)
 {
 	view_source_dialog (editor, _("Plain Source"), TRUE, FALSE);
 }
 
 static void
 action_view_inspector (GtkAction *action,
-                       EEditor *editor)
+                       EHTMLEditor *editor)
 {
 	WebKitWebInspector *inspector;
 	EHTMLEditorView *view;
 
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (view));
 
 	webkit_web_inspector_show (inspector);
@@ -410,7 +410,7 @@ main (gint argc,
 	GtkUIManager *manager;
 	GtkWidget *container;
 	GtkWidget *widget;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitWebInspector *inspector;
 
@@ -422,8 +422,8 @@ main (gint argc,
 
 	gtk_init (&argc, &argv);
 
-	editor = g_object_ref_sink (e_editor_new ());
-	view = e_editor_get_html_editor_view (editor);
+	editor = g_object_ref_sink (e_html_editor_new ());
+	view = e_html_editor_get_view (editor);
 
 	inspector = webkit_web_view_get_inspector (
 		WEBKIT_WEB_VIEW (view));
@@ -447,11 +447,11 @@ main (gint argc,
 
 	container = widget;
 
-	widget = e_editor_get_managed_widget (editor, "/main-menu");
+	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	widget = e_editor_get_managed_widget (editor, "/main-toolbar");
+	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -459,7 +459,7 @@ main (gint argc,
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	manager = e_editor_get_ui_manager (editor);
+	manager = e_html_editor_get_ui_manager (editor);
 
 	gtk_ui_manager_add_ui_from_string (manager, file_ui, -1, &error);
 	handle_error (&error);

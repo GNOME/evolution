@@ -1,5 +1,5 @@
 /*
- * e-editor.h
+ * e-html-editor.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,8 +22,8 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef E_EDITOR_H
-#define E_EDITOR_H
+#ifndef E_HTML_EDITOR_H
+#define E_HTML_EDITOR_H
 
 #include <gtk/gtk.h>
 #include <e-util/e-activity.h>
@@ -31,76 +31,78 @@
 #include <e-util/e-html-editor-view.h>
 
 /* Standard GObject macros */
-#define E_TYPE_EDITOR \
-	(e_editor_get_type ())
-#define E_EDITOR(obj) \
+#define E_TYPE_HTML_EDITOR \
+	(e_html_editor_get_type ())
+#define E_HTML_EDITOR(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_EDITOR, EEditor))
-#define E_EDITOR_CLASS(cls) \
+	((obj), E_TYPE_HTML_EDITOR, EHTMLEditor))
+#define E_HTML_EDITOR_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_EDITOR, EEditorClass))
-#define E_IS_EDITOR(obj) \
+	((cls), E_TYPE_HTML_EDITOR, EHTMLEditorClass))
+#define E_IS_HTML_EDITOR(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_EDITOR))
-#define E_IS_EDITOR_CLASS(cls) \
+	((obj), E_TYPE_HTML_EDITOR))
+#define E_IS_HTML_EDITOR_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_EDITOR))
-#define E_EDITOR_GET_CLASS(obj) \
+	((cls), E_TYPE_HTML_EDITOR))
+#define E_HTML_EDITOR_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_EDITOR, EEditorClass))
+	((obj), E_TYPE_HTML_EDITOR, EHTMLEditorClass))
 
 G_BEGIN_DECLS
 
-typedef struct _EEditor EEditor;
-typedef struct _EEditorClass EEditorClass;
-typedef struct _EEditorPrivate EEditorPrivate;
+typedef struct _EHTMLEditor EHTMLEditor;
+typedef struct _EHTMLEditorClass EHTMLEditorClass;
+typedef struct _EHTMLEditorPrivate EHTMLEditorPrivate;
 
-struct _EEditor {
+struct _EHTMLEditor {
 	GtkGrid parent;
-	EEditorPrivate *priv;
+	EHTMLEditorPrivate *priv;
 };
 
-struct _EEditorClass {
+struct _EHTMLEditorClass {
 	GtkGridClass parent_class;
 
-	void		(*update_actions)	(EEditor *editor,
+	void		(*update_actions)	(EHTMLEditor *editor,
 						 GdkEventButton *event);
 	void		(*spell_languages_changed)
-						(EEditor *editor);
+						(EHTMLEditor *editor);
 };
 
-GType		e_editor_get_type		(void) G_GNUC_CONST;
-GtkWidget *	e_editor_new			(void);
+GType		e_html_editor_get_type		(void) G_GNUC_CONST;
+GtkWidget *	e_html_editor_new		(void);
 EHTMLEditorView *
-		e_editor_get_html_editor_view	(EEditor *editor);
-GtkBuilder *	e_editor_get_builder		(EEditor *editor);
-GtkUIManager *	e_editor_get_ui_manager		(EEditor *editor);
-GtkAction *	e_editor_get_action		(EEditor *editor,
+		e_html_editor_get_view		(EHTMLEditor *editor);
+GtkBuilder *	e_html_editor_get_builder	(EHTMLEditor *editor);
+GtkUIManager *	e_html_editor_get_ui_manager	(EHTMLEditor *editor);
+GtkAction *	e_html_editor_get_action	(EHTMLEditor *editor,
 						 const gchar *action_name);
-GtkActionGroup *e_editor_get_action_group	(EEditor *editor,
+GtkActionGroup *e_html_editor_get_action_group	(EHTMLEditor *editor,
 						 const gchar *group_name);
-GtkWidget *	e_editor_get_widget		(EEditor *editor,
+GtkWidget *	e_html_editor_get_widget	(EHTMLEditor *editor,
 						 const gchar *widget_name);
-GtkWidget *	e_editor_get_managed_widget	(EEditor *editor,
+GtkWidget *	e_html_editor_get_managed_widget
+						(EHTMLEditor *editor,
 						 const gchar *widget_path);
-GtkWidget *	e_editor_get_style_combo_box	(EEditor *editor);
-const gchar *	e_editor_get_filename		(EEditor *editor);
-void		e_editor_set_filename		(EEditor *editor,
+GtkWidget *	e_html_editor_get_style_combo_box
+						(EHTMLEditor *editor);
+const gchar *	e_html_editor_get_filename	(EHTMLEditor *editor);
+void		e_html_editor_set_filename	(EHTMLEditor *editor,
 						 const gchar *filename);
-EActivityBar *	e_editor_get_activity_bar	(EEditor *editor);
-EActivity *	e_editor_new_activity		(EEditor *editor);
-void		e_editor_pack_above		(EEditor *editor,
+EActivityBar *	e_html_editor_get_activity_bar	(EHTMLEditor *editor);
+EActivity *	e_html_editor_new_activity	(EHTMLEditor *editor);
+void		e_html_editor_pack_above	(EHTMLEditor *editor,
 						 GtkWidget *child);
 
 /*****************************************************************************
  * High-Level Editing Interface
  *****************************************************************************/
 
-gboolean	e_editor_save			(EEditor *editor,
+gboolean	e_html_editor_save		(EHTMLEditor *editor,
 						 const gchar *filename,
 						 gboolean as_html,
 						 GError **error);
 
 G_END_DECLS
 
-#endif /* E_EDITOR_H */
+#endif /* E_HTML_EDITOR_H */

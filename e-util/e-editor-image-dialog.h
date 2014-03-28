@@ -62,7 +62,7 @@ struct _EEditorImageDialogClass {
 };
 
 GType		e_editor_image_dialog_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_editor_image_dialog_new	(EEditor *editor);
+GtkWidget *	e_editor_image_dialog_new	(EHTMLEditor *editor);
 void		e_editor_image_dialog_show	(EEditorImageDialog *dialog,
 						 WebKitDOMNode *image);
 

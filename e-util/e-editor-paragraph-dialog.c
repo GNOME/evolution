@@ -50,7 +50,7 @@ editor_paragraph_dialog_constructed (GObject *object)
 {
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EEditorParagraphDialog *dialog;
 
 	dialog = E_EDITOR_PARAGRAPH_DIALOG (object);
@@ -72,7 +72,7 @@ editor_paragraph_dialog_constructed (GObject *object)
 
 	/* Style */
 	widget = e_action_combo_box_new_with_action (
-		GTK_RADIO_ACTION (e_editor_get_action (editor, "style-normal")));
+		GTK_RADIO_ACTION (e_html_editor_get_action (editor, "style-normal")));
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->style_combo = widget;
@@ -99,7 +99,7 @@ editor_paragraph_dialog_constructed (GObject *object)
 	gtk_button_set_use_stock (GTK_BUTTON (widget), TRUE);
 	gtk_activatable_set_related_action (
 		GTK_ACTIVATABLE (widget),
-		e_editor_get_action (editor, "justify-left"));
+		e_html_editor_get_action (editor, "justify-left"));
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	dialog->priv->left_button = widget;
 
@@ -109,7 +109,7 @@ editor_paragraph_dialog_constructed (GObject *object)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	gtk_activatable_set_related_action (
 		GTK_ACTIVATABLE (widget),
-		e_editor_get_action (editor, "justify-center"));
+		e_html_editor_get_action (editor, "justify-center"));
 	dialog->priv->center_button = widget;
 
 	/* Right */
@@ -118,7 +118,7 @@ editor_paragraph_dialog_constructed (GObject *object)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	gtk_activatable_set_related_action (
 		GTK_ACTIVATABLE (widget),
-		e_editor_get_action (editor, "justify-right"));
+		e_html_editor_get_action (editor, "justify-right"));
 	dialog->priv->right_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
@@ -143,7 +143,7 @@ e_editor_paragraph_dialog_init (EEditorParagraphDialog *dialog)
 }
 
 GtkWidget *
-e_editor_paragraph_dialog_new (EEditor *editor)
+e_editor_paragraph_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

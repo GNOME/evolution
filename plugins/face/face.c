@@ -423,7 +423,7 @@ gboolean
 e_plugin_ui_init (GtkUIManager *ui_manager,
                   EMsgComposer *composer)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 
 	static GtkToggleActionEntry entries[] = {
 		{ "face-plugin",
@@ -448,7 +448,7 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_toggle_actions (
-		e_editor_get_action_group (editor, "composer"),
+		e_html_editor_get_action_group (editor, "composer"),
 		entries, G_N_ELEMENTS (entries), composer);
 
 	return TRUE;
@@ -464,11 +464,11 @@ void
 face_handle_send (EPlugin *ep,
                   EMEventTargetComposer *target)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	GtkAction *action;
 
 	editor = e_msg_composer_get_editor (target->composer);
-	action = e_editor_get_action (editor, "face-plugin");
+	action = e_html_editor_get_action (editor, "face-plugin");
 
 	g_return_if_fail (action != NULL);
 

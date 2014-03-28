@@ -67,7 +67,7 @@ static void
 editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
                                     const gchar *word)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GtkTreeView *tree_view;
 	GtkListStore *store;
@@ -110,7 +110,7 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 	 * given to WebKit, because this dialog is modal, but it satisfies
 	 * it in a way that it paints the selection :) */
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	gtk_widget_grab_focus (GTK_WIDGET (view));
 }
 
@@ -306,7 +306,7 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	GtkTreeModel *model;
@@ -315,7 +315,7 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 	gchar *replacement;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
 	selection = gtk_tree_view_get_selection (
@@ -333,7 +333,7 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *editor_selection;
 	GtkTreeModel *model;
@@ -342,7 +342,7 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 	gchar *replacement;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
 	selection = gtk_tree_view_get_selection (
@@ -412,7 +412,7 @@ editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
 static void
 editor_spell_check_dialog_show (GtkWidget *widget)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSpellCheckDialog *dialog;
 	WebKitDOMDocument *document;
@@ -424,7 +424,7 @@ editor_spell_check_dialog_show (GtkWidget *widget)
 	dialog->priv->word = NULL;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
@@ -632,7 +632,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 }
 
 GtkWidget *
-e_editor_spell_check_dialog_new (EEditor *editor)
+e_editor_spell_check_dialog_new (EHTMLEditor *editor)
 {
 	return g_object_new (
 		E_TYPE_EDITOR_SPELL_CHECK_DIALOG,
@@ -644,7 +644,7 @@ e_editor_spell_check_dialog_new (EEditor *editor)
 void
 e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
 	GtkComboBox *combo_box;
@@ -657,7 +657,7 @@ e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog
 	g_return_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog));
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	languages = e_spell_checker_list_active_languages (

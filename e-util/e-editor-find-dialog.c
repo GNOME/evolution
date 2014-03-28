@@ -70,11 +70,11 @@ static void
 editor_find_dialog_find_cb (EEditorFindDialog *dialog)
 {
 	gboolean found;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	found = webkit_web_view_search_text (
 			WEBKIT_WEB_VIEW (view),
 			gtk_entry_get_text (
@@ -202,7 +202,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 }
 
 GtkWidget *
-e_editor_find_dialog_new (EEditor *editor)
+e_editor_find_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

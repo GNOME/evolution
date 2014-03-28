@@ -24,7 +24,7 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <e-util/e-editor.h>
+#include <e-util/e-html-editor.h>
 #include <e-util/e-focus-tracker.h>
 
 /* Standard GObject macros */
@@ -65,7 +65,7 @@ GType		e_mail_signature_editor_get_type
 						(void) G_GNUC_CONST;
 GtkWidget *	e_mail_signature_editor_new	(ESourceRegistry *registry,
 						 ESource *source);
-EEditor *	e_mail_signature_editor_get_editor
+EHTMLEditor *	e_mail_signature_editor_get_editor
 						(EMailSignatureEditor *editor);
 EFocusTracker *	e_mail_signature_editor_get_focus_tracker
 						(EMailSignatureEditor *editor);

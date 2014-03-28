@@ -149,7 +149,7 @@ static void
 enable_disable_composer (EMsgComposer *composer,
                          gboolean enable)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GtkAction *action;
 	GtkActionGroup *action_group;
@@ -157,7 +157,7 @@ enable_disable_composer (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
 
@@ -170,7 +170,7 @@ enable_disable_composer (EMsgComposer *composer,
 	action = E_EDITOR_ACTION_INSERT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
 
-	action_group = e_editor_get_action_group (editor, "composer");
+	action_group = e_html_editor_get_action_group (editor, "composer");
 	gtk_action_group_set_sensitive (action_group, enable);
 }
 
@@ -302,11 +302,11 @@ external_editor_thread (gpointer user_data)
 	GSettings *settings;
 	gchar *editor_cmd_line = NULL, *editor_cmd = NULL, *content;
 	gint fd, position = -1, offset = -1;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	/* prefix temp files with evo so .*vimrc can be setup to recognize them */
 	fd = g_file_open_tmp ("evoXXXXXX", &filename, NULL);
@@ -524,15 +524,15 @@ gboolean
 e_plugin_ui_init (GtkUIManager *manager,
                   EMsgComposer *composer)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 
 	editor = e_msg_composer_get_editor (composer);
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
-		e_editor_get_action_group (editor, "composer"),
+		e_html_editor_get_action_group (editor, "composer"),
 		entries, G_N_ELEMENTS (entries), composer);
 
 	g_signal_connect (

@@ -60,11 +60,12 @@ enum {
 static gboolean
 jump (EEditorReplaceDialog *dialog)
 {
+	EHTMLEditor *editor;
 	WebKitWebView *webview;
 	gboolean found;
 
 	webview = WEBKIT_WEB_VIEW (
-			e_editor_get_html_editor_view (editor));
+			e_html_editor_get_view (editor));
 
 	found = webkit_web_view_search_text (
 		webview,
@@ -95,7 +96,7 @@ editor_replace_dialog_skip_cb (EEditorReplaceDialog *dialog)
 static void
 editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 {
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *selection;
 
@@ -111,7 +112,7 @@ editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 	}
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
 	e_editor_selection_replace (
@@ -124,13 +125,13 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 {
 	gint i = 0;
 	gchar *result;
-	EEditor *editor;
+	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EEditorSelection *selection;
 	const gchar *replacement;
 
 	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
-	view = e_editor_get_html_editor_view (editor);
+	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 	replacement = gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry));
 
@@ -284,7 +285,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 }
 
 GtkWidget *
-e_editor_replace_dialog_new (EEditor *editor)
+e_editor_replace_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (

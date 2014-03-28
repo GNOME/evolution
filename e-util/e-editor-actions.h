@@ -25,7 +25,7 @@
 #define E_EDITOR_ACTIONS_H
 
 #define E_EDITOR_ACTION(editor, name) \
-	(e_editor_get_action (E_EDITOR (editor), (name)))
+	(e_html_editor_get_action (E_HTML_EDITOR (editor), (name)))
 
 #define E_EDITOR_ACTION_BOLD(editor) \
 	E_EDITOR_ACTION ((editor), "bold")
