@@ -25,7 +25,7 @@
 #ifndef E_EDITOR_REPLACE_DIALOG_H
 #define E_EDITOR_REPLACE_DIALOG_H
 
-#include <e-util/e-editor-dialog.h>
+#include <e-util/e-html-editor-dialog.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_REPLACE_DIALOG \
@@ -53,12 +53,12 @@ typedef struct _EEditorReplaceDialogClass EEditorReplaceDialogClass;
 typedef struct _EEditorReplaceDialogPrivate EEditorReplaceDialogPrivate;
 
 struct _EEditorReplaceDialog {
-	EEditorDialog parent;
+	EHTMLEditorDialog parent;
 	EEditorReplaceDialogPrivate *priv;
 };
 
 struct _EEditorReplaceDialogClass {
-	EEditorDialogClass parent_class;
+	EHTMLEditorDialogClass parent_class;
 };
 
 GType		e_editor_replace_dialog_get_type

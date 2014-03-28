@@ -45,7 +45,7 @@ struct _EEditorFindDialogPrivate {
 G_DEFINE_TYPE (
 	EEditorFindDialog,
 	e_editor_find_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
 reset_dialog (EEditorFindDialog *dialog)
@@ -73,7 +73,7 @@ editor_find_dialog_find_cb (EEditorFindDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	found = webkit_web_view_search_text (
 			WEBKIT_WEB_VIEW (view),
@@ -143,7 +143,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 
 	dialog->priv = E_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
@@ -190,7 +190,7 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 	gtk_box_pack_end (box, widget, TRUE, TRUE, 0);
 	box = GTK_BOX (widget);
 
-	box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
+	box = e_html_editor_dialog_get_button_box (E_HTML_EDITOR_DIALOG (dialog));
 	widget = gtk_button_new_from_stock (GTK_STOCK_FIND);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
 	g_signal_connect_swapped (

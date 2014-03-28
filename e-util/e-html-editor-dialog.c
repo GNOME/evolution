@@ -1,5 +1,5 @@
 /*
- * e-editor-dialog.h
+ * e-html-editor-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,13 +22,13 @@
 #include <config.h>
 #endif
 
-#include "e-editor-dialog.h"
+#include "e-html-editor-dialog.h"
 
-#define E_EDITOR_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_DIALOG, EEditorDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_DIALOG, EHTMLEditorDialogPrivate))
 
-struct _EEditorDialogPrivate {
+struct _EHTMLEditorDialogPrivate {
 	EHTMLEditor *editor;
 
 	GtkBox *button_box;
@@ -41,12 +41,12 @@ enum {
 };
 
 G_DEFINE_ABSTRACT_TYPE (
-	EEditorDialog,
-	e_editor_dialog,
+	EHTMLEditorDialog,
+	e_html_editor_dialog,
 	GTK_TYPE_WINDOW);
 
 static void
-editor_dialog_set_editor (EEditorDialog *dialog,
+html_editor_dialog_set_editor (EHTMLEditorDialog *dialog,
                                EHTMLEditor *editor)
 {
 	dialog->priv->editor = g_object_ref (editor);
@@ -55,7 +55,7 @@ editor_dialog_set_editor (EEditorDialog *dialog,
 }
 
 static void
-editor_dialog_get_property (GObject *object,
+html_editor_dialog_get_property (GObject *object,
                             guint property_id,
                             GValue *value,
                             GParamSpec *pspec)
@@ -64,8 +64,8 @@ editor_dialog_get_property (GObject *object,
 		case PROP_EDITOR:
 			g_value_set_object (
 				value,
-			e_editor_dialog_get_editor (
-				E_EDITOR_DIALOG (object)));
+			e_html_editor_dialog_get_editor (
+				E_HTML_EDITOR_DIALOG (object)));
 			return;
 	}
 
@@ -73,15 +73,15 @@ editor_dialog_get_property (GObject *object,
 }
 
 static void
-editor_dialog_set_property (GObject *object,
+html_editor_dialog_set_property (GObject *object,
                             guint property_id,
                             const GValue *value,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_EDITOR:
-			editor_dialog_set_editor (
-				E_EDITOR_DIALOG (object),
+			html_editor_dialog_set_editor (
+				E_HTML_EDITOR_DIALOG (object),
 				g_value_get_object (value));
 			return;
 	}
@@ -90,12 +90,12 @@ editor_dialog_set_property (GObject *object,
 }
 
 static void
-editor_dialog_constructed (GObject *object)
+html_editor_dialog_constructed (GObject *object)
 {
-	EEditorDialog *dialog = E_EDITOR_DIALOG (object);
+	EHTMLEditorDialog *dialog = E_HTML_EDITOR_DIALOG (object);
 
 	/* Chain up to parent implementation first */
-	G_OBJECT_CLASS (e_editor_dialog_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_html_editor_dialog_parent_class)->constructed (object);
 
 	gtk_window_set_transient_for (
 		GTK_WINDOW (dialog),
@@ -104,47 +104,47 @@ editor_dialog_constructed (GObject *object)
 }
 
 static void
-editor_dialog_show (GtkWidget *widget)
+html_editor_dialog_show (GtkWidget *widget)
 {
-	EEditorDialogPrivate *priv;
+	EHTMLEditorDialogPrivate *priv;
 
-	priv = E_EDITOR_DIALOG_GET_PRIVATE (widget);
+	priv = E_HTML_EDITOR_DIALOG_GET_PRIVATE (widget);
 
 	gtk_widget_show_all (GTK_WIDGET (priv->container));
 	gtk_widget_show_all (GTK_WIDGET (priv->button_box));
 
-	GTK_WIDGET_CLASS (e_editor_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_dialog_parent_class)->show (widget);
 }
 
 static void
-editor_dialog_dispose (GObject *object)
+html_editor_dialog_dispose (GObject *object)
 {
-	EEditorDialogPrivate *priv;
+	EHTMLEditorDialogPrivate *priv;
 
-	priv = E_EDITOR_DIALOG_GET_PRIVATE (object);
+	priv = E_HTML_EDITOR_DIALOG_GET_PRIVATE (object);
 
 	g_clear_object (&priv->editor);
 
 	/* Chain up to parent's implementation */
-	G_OBJECT_CLASS (e_editor_dialog_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_html_editor_dialog_parent_class)->dispose (object);
 }
 
 static void
-e_editor_dialog_class_init (EEditorDialogClass *class)
+e_html_editor_dialog_class_init (EHTMLEditorDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = editor_dialog_get_property;
-	object_class->set_property = editor_dialog_set_property;
-	object_class->dispose = editor_dialog_dispose;
-	object_class->constructed = editor_dialog_constructed;
+	object_class->get_property = html_editor_dialog_get_property;
+	object_class->set_property = html_editor_dialog_set_property;
+	object_class->dispose = html_editor_dialog_dispose;
+	object_class->constructed = html_editor_dialog_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_dialog_show;
+	widget_class->show = html_editor_dialog_show;
 
 	g_object_class_install_property (
 		object_class,
@@ -171,13 +171,13 @@ key_press_event_cb (GtkWidget *widget,
 }
 
 static void
-e_editor_dialog_init (EEditorDialog *dialog)
+e_html_editor_dialog_init (EHTMLEditorDialog *dialog)
 {
 	GtkBox *main_layout;
 	GtkGrid *grid;
 	GtkWidget *widget, *button_box;
 
-	dialog->priv = E_EDITOR_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 5));
 	gtk_container_add (GTK_CONTAINER (dialog), GTK_WIDGET (main_layout));
@@ -223,9 +223,26 @@ e_editor_dialog_init (EEditorDialog *dialog)
 }
 
 EHTMLEditor *
-e_editor_dialog_get_editor (EEditorDialog *dialog)
+e_html_editor_dialog_get_editor (EHTMLEditorDialog *dialog)
 {
-	g_return_val_if_fail (E_IS_EDITOR_DIALOG (dialog), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_DIALOG (dialog), NULL);
 
 	return dialog->priv->editor;
 }
+
+GtkGrid *
+e_html_editor_dialog_get_container (EHTMLEditorDialog *dialog)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_DIALOG (dialog), NULL);
+
+	return dialog->priv->container;
+}
+
+GtkBox *
+e_html_editor_dialog_get_button_box (EHTMLEditorDialog *dialog)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_DIALOG (dialog), NULL);
+
+	return dialog->priv->button_box;
+}
+

@@ -35,7 +35,7 @@
 G_DEFINE_TYPE (
 	EEditorParagraphDialog,
 	e_editor_paragraph_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 struct _EEditorParagraphDialogPrivate {
 	GtkWidget *style_combo;
@@ -54,9 +54,9 @@ editor_paragraph_dialog_constructed (GObject *object)
 	EEditorParagraphDialog *dialog;
 
 	dialog = E_EDITOR_PARAGRAPH_DIALOG (object);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == General == */
 	widget = gtk_label_new ("");

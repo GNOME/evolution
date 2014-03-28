@@ -138,7 +138,7 @@ static const Template templates[] = {
 G_DEFINE_TYPE (
 	EEditorPageDialog,
 	e_editor_page_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
 editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
@@ -150,7 +150,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
@@ -175,7 +175,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
@@ -200,7 +200,7 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 	GdkRGBA rgba;
 	gchar *color;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
@@ -261,7 +261,7 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 	WebKitDOMHTMLElement *body;
 	gchar *uri;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
@@ -288,7 +288,7 @@ editor_page_dialog_show (GtkWidget *widget)
 	GdkRGBA rgba;
 
 	dialog = E_EDITOR_PAGE_DIALOG (widget);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -394,7 +394,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 
 	dialog->priv = E_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == Colors == */
 	widget = gtk_label_new ("");

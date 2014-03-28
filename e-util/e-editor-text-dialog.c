@@ -45,7 +45,7 @@ struct _EEditorTextDialogPrivate {
 G_DEFINE_TYPE (
 	EEditorTextDialog,
 	e_editor_text_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
 editor_text_dialog_set_bold (EEditorTextDialog *dialog)
@@ -54,7 +54,7 @@ editor_text_dialog_set_bold (EEditorTextDialog *dialog)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -71,7 +71,7 @@ editor_text_dialog_set_italic (EEditorTextDialog *dialog)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -88,7 +88,7 @@ editor_text_dialog_set_underline (EEditorTextDialog *dialog)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -105,7 +105,7 @@ editor_text_dialog_set_strikethrough (EEditorTextDialog *dialog)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -123,7 +123,7 @@ editor_text_dialog_set_color (EEditorTextDialog *dialog)
 	EHTMLEditorSelection *selection;
 	GdkRGBA rgba;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -140,7 +140,7 @@ editor_text_dialog_set_size (EEditorTextDialog *dialog)
 	EHTMLEditorSelection *selection;
 	gint size;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 	size = gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->priv->size_check));
@@ -158,7 +158,7 @@ editor_text_dialog_show (GtkWidget *widget)
 	GdkRGBA rgba;
 
 	dialog = E_EDITOR_TEXT_DIALOG (widget);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -205,7 +205,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 
 	dialog->priv = E_EDITOR_TEXT_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* Bold */
 	widget = gtk_image_new_from_stock (GTK_STOCK_BOLD, GTK_ICON_SIZE_BUTTON);

@@ -25,7 +25,7 @@
 #ifndef E_EDITOR_TEXT_DIALOG_H
 #define E_EDITOR_TEXT_DIALOG_H
 
-#include <e-util/e-editor-dialog.h>
+#include <e-util/e-html-editor-dialog.h>
 
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_TEXT_DIALOG \
@@ -53,12 +53,12 @@ typedef struct _EEditorTextDialogClass EEditorTextDialogClass;
 typedef struct _EEditorTextDialogPrivate EEditorTextDialogPrivate;
 
 struct _EEditorTextDialog {
-	EEditorDialog parent;
+	EHTMLEditorDialog parent;
 	EEditorTextDialogPrivate *priv;
 };
 
 struct _EEditorTextDialogClass {
-	EEditorDialogClass parent_class;
+	EHTMLEditorDialogClass parent_class;
 };
 
 GType		e_editor_text_dialog_get_type	(void) G_GNUC_CONST;

@@ -48,7 +48,7 @@ struct _EEditorHRuleDialogPrivate {
 G_DEFINE_TYPE (
 	EEditorHRuleDialog,
 	e_editor_hrule_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
 editor_hrule_dialog_set_alignment (EEditorHRuleDialog *dialog)
@@ -220,7 +220,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 	WebKitDOMElement *rule;
 
 	dialog = E_EDITOR_HRULE_DIALOG (widget);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
@@ -312,7 +312,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 
 	dialog->priv = E_EDITOR_HRULE_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == Size == */
 	widget = gtk_label_new ("");

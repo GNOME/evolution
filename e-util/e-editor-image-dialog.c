@@ -57,7 +57,7 @@ struct _EEditorImageDialogPrivate {
 G_DEFINE_TYPE (
 	EEditorImageDialog,
 	e_editor_image_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
 editor_image_dialog_set_src (EEditorImageDialog *dialog)
@@ -66,7 +66,7 @@ editor_image_dialog_set_src (EEditorImageDialog *dialog)
 	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
@@ -461,7 +461,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 
 	dialog->priv = E_EDITOR_IMAGE_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == General == */
 	widget = gtk_label_new ("");

@@ -61,7 +61,7 @@ enum {
 G_DEFINE_TYPE (
 	EEditorSpellCheckDialog,
 	e_editor_spell_check_dialog,
-	E_TYPE_EDITOR_DIALOG)
+	E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
 editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
@@ -109,7 +109,7 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 	 * least with my default color scheme). The focus in fact is not
 	 * given to WebKit, because this dialog is modal, but it satisfies
 	 * it in a way that it paints the selection :) */
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	gtk_widget_grab_focus (GTK_WIDGET (view));
 }
@@ -314,7 +314,7 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 	GtkTreeIter iter;
 	gchar *replacement;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
@@ -341,7 +341,7 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 	GtkTreeIter iter;
 	gchar *replacement;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
@@ -423,7 +423,7 @@ editor_spell_check_dialog_show (GtkWidget *widget)
 	g_free (dialog->priv->word);
 	dialog->priv->word = NULL;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -492,7 +492,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	dialog->priv = E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == Suggestions == */
 	widget = gtk_label_new ("");
@@ -656,7 +656,7 @@ e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog
 
 	g_return_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog));
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 

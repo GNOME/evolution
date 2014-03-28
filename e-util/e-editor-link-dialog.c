@@ -36,7 +36,7 @@
 G_DEFINE_TYPE (
 	EEditorLinkDialog,
 	e_editor_link_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 struct _EEditorLinkDialogPrivate {
 	GtkWidget *url_edit;
@@ -91,7 +91,7 @@ editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 	e_html_editor_selection_unlink (selection);
@@ -111,7 +111,7 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 
@@ -222,7 +222,7 @@ editor_link_dialog_show (GtkWidget *widget)
 	WebKitDOMElement *link;
 
 	dialog = E_EDITOR_LINK_DIALOG (widget);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -319,7 +319,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 
 	dialog->priv = E_EDITOR_LINK_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
@@ -358,7 +358,7 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->label_edit);
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 1);
 
-	button_box = e_editor_dialog_get_button_box (E_EDITOR_DIALOG (dialog));
+	button_box = e_html_editor_dialog_get_button_box (E_HTML_EDITOR_DIALOG (dialog));
 
 	widget = gtk_button_new_with_mnemonic (_("_Remove Link"));
 	g_signal_connect_swapped (

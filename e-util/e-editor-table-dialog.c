@@ -61,7 +61,7 @@ static GdkRGBA white = { 1, 1, 1, 1 };
 G_DEFINE_TYPE (
 	EEditorTableDialog,
 	e_editor_table_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static WebKitDOMElement *
 editor_table_dialog_create_table (EEditorTableDialog *dialog)
@@ -73,7 +73,7 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 	WebKitDOMElement *table, *br, *caret, *parent, *element;
 	gint i;
 
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
@@ -582,7 +582,7 @@ editor_table_dialog_show (GtkWidget *widget)
 	WebKitDOMDOMSelection *selection;
 
 	dialog = E_EDITOR_TABLE_DIALOG (widget);
-	editor = e_editor_dialog_get_editor (E_EDITOR_DIALOG (dialog));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -644,7 +644,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 
 	dialog->priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == General == */
 	widget = gtk_label_new ("");

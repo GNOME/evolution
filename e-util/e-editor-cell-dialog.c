@@ -78,7 +78,7 @@ typedef void (*DOMBoolFunc) (WebKitDOMHTMLTableCellElement *cell, gboolean val, 
 G_DEFINE_TYPE (
 	EEditorCellDialog,
 	e_editor_cell_dialog,
-	E_TYPE_EDITOR_DIALOG);
+	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
 call_cell_dom_func (WebKitDOMHTMLTableCellElement *cell,
@@ -578,7 +578,7 @@ e_editor_cell_dialog_init (EEditorCellDialog *dialog)
 
 	dialog->priv = E_EDITOR_CELL_DIALOG_GET_PRIVATE (dialog);
 
-	main_layout = e_editor_dialog_get_container (E_EDITOR_DIALOG (dialog));
+	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
 	/* == Scope == */
 	widget = gtk_label_new ("");

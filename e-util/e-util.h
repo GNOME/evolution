@@ -92,7 +92,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-editor-cell-dialog.h>
-#include <e-util/e-editor-dialog.h>
 #include <e-util/e-editor-find-dialog.h>
 #include <e-util/e-editor-hrule-dialog.h>
 #include <e-util/e-editor-image-dialog.h>
@@ -123,6 +122,7 @@
 #include <e-util/e-filter-rule.h>
 #include <e-util/e-focus-tracker.h>
 #include <e-util/e-html-editor-actions.h>
+#include <e-util/e-html-editor-dialog.h>
 #include <e-util/e-html-editor-selection.h>
 #include <e-util/e-html-editor-utils.h>
 #include <e-util/e-html-editor-view.h>
