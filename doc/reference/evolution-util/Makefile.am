@@ -16,7 +16,7 @@ CFILE_GLOB = $(top_srcdir)/e-util/*.c
 
 # Ignore all accessiblity headers.
 IGNORE_HFILES = \
-	e-editor-actions.h \
+	e-html-editor-actions.h \
 	e-html-editor-private.h \
 	e-editor-utils.h \
 	e-marshal.h \

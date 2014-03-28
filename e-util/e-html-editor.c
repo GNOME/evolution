@@ -91,7 +91,7 @@ G_DEFINE_TYPE_WITH_CODE (
 		e_html_editor_alert_sink_init))
 
 /* Action callback for context menu spelling suggestions.
- * XXX This should really be in e-editor-actions.c */
+ * XXX This should really be in e-html-editor-actions.c */
 static void
 action_context_spell_suggest_cb (GtkAction *action,
                                  EHTMLEditor *editor)

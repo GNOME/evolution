@@ -161,13 +161,13 @@ enable_disable_composer (EMsgComposer *composer,
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
 
-	action = E_EDITOR_ACTION_EDIT_MENU (editor);
+	action = E_HTML_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
 
-	action = E_EDITOR_ACTION_FORMAT_MENU (editor);
+	action = E_HTML_EDITOR_ACTION_FORMAT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
 
-	action = E_EDITOR_ACTION_INSERT_MENU (editor);
+	action = E_HTML_EDITOR_ACTION_INSERT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
 
 	action_group = e_html_editor_get_action_group (editor, "composer");

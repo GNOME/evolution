@@ -1,4 +1,4 @@
-/* e-editor-actions.c
+/* e-html-editor-actions.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -28,7 +28,7 @@
 
 #include "e-html-editor.h"
 #include "e-html-editor-private.h"
-#include "e-editor-actions.h"
+#include "e-html-editor-actions.h"
 #include "e-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"

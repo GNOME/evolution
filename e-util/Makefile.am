@@ -177,7 +177,6 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
-	e-editor-actions.h \
 	e-editor-cell-dialog.h \
 	e-editor-dialog.h \
 	e-editor-find-dialog.h \
@@ -210,6 +209,7 @@ evolution_util_include_HEADERS =  \
 	e-filter-part.h \
 	e-filter-rule.h \
 	e-focus-tracker.h \
+	e-html-editor-actions.h \
 	e-html-editor-selection.h \
 	e-html-editor-view.h \
 	e-html-editor.h \
@@ -448,7 +448,6 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
-	e-editor-actions.c \
 	e-editor-cell-dialog.c \
 	e-editor-dialog.c \
 	e-editor-find-dialog.c \
@@ -481,6 +480,7 @@ libevolution_util_la_SOURCES = \
 	e-filter-part.c \
 	e-filter-rule.c \
 	e-focus-tracker.c \
+	e-html-editor-actions.c \
 	e-html-editor-private.h \
 	e-html-editor-selection.c \
 	e-html-editor-view.c \

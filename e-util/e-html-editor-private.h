@@ -24,7 +24,7 @@
 #include <e-html-editor.h>
 #include <e-action-combo-box.h>
 #include <e-color-combo.h>
-#include <e-editor-actions.h>
+#include <e-html-editor-actions.h>
 #include <e-html-editor-view.h>
 #include <e-editor-find-dialog.h>
 #include <e-editor-replace-dialog.h>
@@ -42,7 +42,7 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#define ACTION(name) (E_EDITOR_ACTION_##name (editor))
+#define ACTION(name) (E_HTML_EDITOR_ACTION_##name (editor))
 #define WIDGET(name) (E_EDITOR_WIDGETS_##name (editor))
 
 G_BEGIN_DECLS
