@@ -5003,10 +5003,28 @@ e_msg_composer_is_from_new_message (EMsgComposer *composer,
 void
 e_msg_composer_save_focused_widget (EMsgComposer *composer)
 {
+	GtkWidget *widget;
+
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	composer->priv->focused_entry =
-		gtk_window_get_focus (GTK_WINDOW (composer));
+	widget = gtk_window_get_focus (GTK_WINDOW (composer));
+	composer->priv->focused_entry = widget;
+
+	if (E_IS_HTML_EDITOR_VIEW (widget)) {
+		EEditorSelection *selection;
+
+		selection = e_html_editor_view_get_selection (
+			E_HTML_EDITOR_VIEW (widget));
+
+		e_editor_selection_save (selection);
+	}
+
+	if (GTK_IS_EDITABLE (widget)) {
+		gtk_editable_get_selection_bounds (
+			GTK_EDITABLE (widget),
+			&composer->priv->focused_entry_selection_start,
+			&composer->priv->focused_entry_selection_end);
+	}
 }
 
 void
@@ -5021,8 +5039,23 @@ e_msg_composer_restore_focus_on_composer (EMsgComposer *composer)
 
 	gtk_window_set_focus (GTK_WINDOW (composer), widget);
 
-	if (E_IS_HTML_EDITOR_VIEW (widget))
+	if (GTK_IS_EDITABLE (widget)) {
+		gtk_editable_select_region (
+			GTK_EDITABLE (widget),
+			composer->priv->focused_entry_selection_start,
+			composer->priv->focused_entry_selection_end);
+	}
+
+	if (E_IS_HTML_EDITOR_VIEW (widget)) {
+		EEditorSelection *selection;
+
 		e_html_editor_view_force_spell_check (E_HTML_EDITOR_VIEW (widget));
+
+		selection = e_html_editor_view_get_selection (
+			E_HTML_EDITOR_VIEW (widget));
+
+		e_editor_selection_restore (selection);
+	}
 
 	composer->priv->focused_entry = NULL;
 }
