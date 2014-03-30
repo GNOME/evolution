@@ -7,10 +7,10 @@
 
   <name xml:lang="en">evolution</name>
   <shortdesc xml:lang="en">Manage your email, contacts and schedule</shortdesc>
-  <homepage rdf:resource="http://live.gnome.org/Apps/Evolution" />
+  <homepage rdf:resource="https://wiki.gnome.org/Apps/Evolution" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/evolution-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/evolution" />
-  <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=evolution" />
+  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=evolution" />
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
   <programming-language>C</programming-language>
   <programming-language>XML</programming-language>
