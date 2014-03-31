@@ -547,7 +547,7 @@ action_insert_table_cb (GtkAction *action,
 {
 	if (editor->priv->table_dialog == NULL)
 		editor->priv->table_dialog =
-			e_editor_table_dialog_new (editor);
+			e_html_editor_table_dialog_new (editor);
 
 	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));
 }
@@ -798,7 +798,7 @@ action_properties_table_cb (GtkAction *action,
 {
 	if (editor->priv->table_dialog == NULL) {
 		editor->priv->table_dialog =
-			e_editor_table_dialog_new (editor);
+			e_html_editor_table_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->table_dialog));

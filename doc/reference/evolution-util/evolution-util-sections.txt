@@ -1849,21 +1849,21 @@ EHTMLEditorSpellCheckDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-table-dialog</FILE>
-<TITLE>EEditorTableDialog</TITLE>
-EEditorTableDialog
-e_editor_table_dialog_new
+<FILE>e-html-editor-table-dialog</FILE>
+<TITLE>EHTMLEditorTableDialog</TITLE>
+EHTMLEditorTableDialog
+e_html_editor_table_dialog_new
 <SUBSECTION Standard>
-E_EDITOR_TABLE_DIALOG
-E_IS_EDITOR_TABLE_DIALOG
-E_TYPE_EDITOR_TABLE_DIALOG
-E_EDITOR_TABLE_DIALOG_CLASS
-E_IS_EDITOR_TABLE_DIALOG_CLASS
-E_EDITOR_TABLE_DIALOG_GET_CLASS
-EEditorTableDialogClass
-e_editor_table_dialog_get_type
+E_HTML_EDITOR_TABLE_DIALOG
+E_IS_HTML_EDITOR_TABLE_DIALOG
+E_TYPE_HTML_EDITOR_TABLE_DIALOG
+E_HTML_EDITOR_TABLE_DIALOG_CLASS
+E_IS_HTML_EDITOR_TABLE_DIALOG_CLASS
+E_HTML_EDITOR_TABLE_DIALOG_GET_CLASS
+EHTMLEditorTableDialogClass
+e_html_editor_table_dialog_get_type
 <SUBSECTION Private>
-EEditorTableDialogPrivate
+EHTMLEditorTableDialogPrivate
 </SECTION>
 
 <SECTION>

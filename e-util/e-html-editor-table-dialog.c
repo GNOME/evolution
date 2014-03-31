@@ -1,5 +1,5 @@
 /*
- * e-editor-table-dialog.h
+ * e-html-editor-table-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include "e-editor-table-dialog.h"
+#include "e-html-editor-table-dialog.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -31,11 +31,11 @@
 #include "e-image-chooser-dialog.h"
 #include "e-misc-utils.h"
 
-#define E_EDITOR_TABLE_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_TABLE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_TABLE_DIALOG, EEditorTableDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_TABLE_DIALOG, EHTMLEditorTableDialogPrivate))
 
-struct _EEditorTableDialogPrivate {
+struct _EHTMLEditorTableDialogPrivate {
 	GtkWidget *rows_edit;
 	GtkWidget *columns_edit;
 
@@ -59,12 +59,12 @@ struct _EEditorTableDialogPrivate {
 static GdkRGBA white = { 1, 1, 1, 1 };
 
 G_DEFINE_TYPE (
-	EEditorTableDialog,
-	e_editor_table_dialog,
+	EHTMLEditorTableDialog,
+	e_html_editor_table_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
 static WebKitDOMElement *
-editor_table_dialog_create_table (EEditorTableDialog *dialog)
+html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorSelection *editor_selection;
@@ -128,7 +128,7 @@ editor_table_dialog_create_table (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_row_count (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_row_count (EHTMLEditorTableDialog *dialog)
 {
 	WebKitDOMHTMLCollection *rows;
 	gulong ii, current_count, expected_count;
@@ -154,7 +154,7 @@ editor_table_dialog_set_row_count (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_row_count (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_row_count (EHTMLEditorTableDialog *dialog)
 {
 	WebKitDOMHTMLCollection *rows;
 
@@ -168,7 +168,7 @@ editor_table_dialog_get_row_count (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_column_count (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_column_count (EHTMLEditorTableDialog *dialog)
 {
 	WebKitDOMHTMLCollection *rows;
 	gulong ii, row_count, expected_columns;
@@ -206,7 +206,7 @@ editor_table_dialog_set_column_count (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_column_count (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_column_count (EHTMLEditorTableDialog *dialog)
 {
 	WebKitDOMHTMLCollection *rows, *columns;
 	WebKitDOMNode *row;
@@ -225,7 +225,7 @@ editor_table_dialog_get_column_count (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_width (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_width (EHTMLEditorTableDialog *dialog)
 {
 	gchar *width;
 
@@ -259,7 +259,7 @@ editor_table_dialog_set_width (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_width (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_width (EHTMLEditorTableDialog *dialog)
 {
 	gchar *width;
 
@@ -287,7 +287,7 @@ editor_table_dialog_get_width (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_alignment (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_alignment (EHTMLEditorTableDialog *dialog)
 {
 	g_return_if_fail (dialog->priv->table_element);
 
@@ -298,7 +298,7 @@ editor_table_dialog_set_alignment (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_alignment (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_alignment (EHTMLEditorTableDialog *dialog)
 {
 	gchar *alignment;
 
@@ -314,7 +314,7 @@ editor_table_dialog_get_alignment (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_padding (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_padding (EHTMLEditorTableDialog *dialog)
 {
 	gchar *padding;
 
@@ -332,7 +332,7 @@ editor_table_dialog_set_padding (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_padding (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_padding (EHTMLEditorTableDialog *dialog)
 {
 	gchar *padding;
 	gint padding_int;
@@ -354,7 +354,7 @@ editor_table_dialog_get_padding (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_spacing (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_spacing (EHTMLEditorTableDialog *dialog)
 {
 	gchar *spacing;
 
@@ -372,7 +372,7 @@ editor_table_dialog_set_spacing (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_spacing (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_spacing (EHTMLEditorTableDialog *dialog)
 {
 	gchar *spacing;
 	gint spacing_int;
@@ -394,7 +394,7 @@ editor_table_dialog_get_spacing (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_border (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_border (EHTMLEditorTableDialog *dialog)
 {
 	gchar *border;
 
@@ -412,7 +412,7 @@ editor_table_dialog_set_border (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_border (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_border (EHTMLEditorTableDialog *dialog)
 {
 	gchar *border;
 	gint border_int;
@@ -434,7 +434,7 @@ editor_table_dialog_get_border (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_background_color (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_background_color (EHTMLEditorTableDialog *dialog)
 {
 	gchar *color;
 	GdkRGBA rgba;
@@ -453,7 +453,7 @@ editor_table_dialog_set_background_color (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_background_color (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_background_color (EHTMLEditorTableDialog *dialog)
 {
 	gchar *color;
 	GdkRGBA rgba;
@@ -472,7 +472,7 @@ editor_table_dialog_get_background_color (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_set_background_image (EEditorTableDialog *dialog)
+html_editor_table_dialog_set_background_image (EHTMLEditorTableDialog *dialog)
 {
 	const gchar *filename;
 
@@ -493,7 +493,7 @@ editor_table_dialog_set_background_image (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_background_image (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_background_image (EHTMLEditorTableDialog *dialog)
 {
 	g_return_if_fail (dialog->priv->table_element);
 
@@ -518,21 +518,21 @@ editor_table_dialog_get_background_image (EEditorTableDialog *dialog)
 }
 
 static void
-editor_table_dialog_get_values (EEditorTableDialog *dialog)
+html_editor_table_dialog_get_values (EHTMLEditorTableDialog *dialog)
 {
-	editor_table_dialog_get_row_count (dialog);
-	editor_table_dialog_get_column_count (dialog);
-	editor_table_dialog_get_width (dialog);
-	editor_table_dialog_get_alignment (dialog);
-	editor_table_dialog_get_spacing (dialog);
-	editor_table_dialog_get_padding (dialog);
-	editor_table_dialog_get_border (dialog);
-	editor_table_dialog_get_background_color (dialog);
-	editor_table_dialog_get_background_image (dialog);
+	html_editor_table_dialog_get_row_count (dialog);
+	html_editor_table_dialog_get_column_count (dialog);
+	html_editor_table_dialog_get_width (dialog);
+	html_editor_table_dialog_get_alignment (dialog);
+	html_editor_table_dialog_get_spacing (dialog);
+	html_editor_table_dialog_get_padding (dialog);
+	html_editor_table_dialog_get_border (dialog);
+	html_editor_table_dialog_get_background_color (dialog);
+	html_editor_table_dialog_get_background_image (dialog);
 }
 
 static void
-editor_table_dialog_reset_values (EEditorTableDialog *dialog)
+html_editor_table_dialog_reset_values (EHTMLEditorTableDialog *dialog)
 {
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->rows_edit), 3);
@@ -560,28 +560,28 @@ editor_table_dialog_reset_values (EEditorTableDialog *dialog)
 	gtk_file_chooser_unselect_all (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_button));
 
-	editor_table_dialog_set_row_count (dialog);
-	editor_table_dialog_set_column_count (dialog);
-	editor_table_dialog_set_width (dialog);
-	editor_table_dialog_set_alignment (dialog);
-	editor_table_dialog_set_spacing (dialog);
-	editor_table_dialog_set_padding (dialog);
-	editor_table_dialog_set_border (dialog);
-	editor_table_dialog_set_background_color (dialog);
-	editor_table_dialog_set_background_image (dialog);
+	html_editor_table_dialog_set_row_count (dialog);
+	html_editor_table_dialog_set_column_count (dialog);
+	html_editor_table_dialog_set_width (dialog);
+	html_editor_table_dialog_set_alignment (dialog);
+	html_editor_table_dialog_set_spacing (dialog);
+	html_editor_table_dialog_set_padding (dialog);
+	html_editor_table_dialog_set_border (dialog);
+	html_editor_table_dialog_set_background_color (dialog);
+	html_editor_table_dialog_set_background_image (dialog);
 }
 
 static void
-editor_table_dialog_show (GtkWidget *widget)
+html_editor_table_dialog_show (GtkWidget *widget)
 {
-	EEditorTableDialog *dialog;
+	EHTMLEditorTableDialog *dialog;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
 
-	dialog = E_EDITOR_TABLE_DIALOG (widget);
+	dialog = E_HTML_EDITOR_TABLE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
@@ -598,51 +598,51 @@ editor_table_dialog_show (GtkWidget *widget)
 
 		if (!table) {
 			dialog->priv->table_element = WEBKIT_DOM_HTML_TABLE_ELEMENT (
-				editor_table_dialog_create_table (dialog));
-			editor_table_dialog_reset_values (dialog);
+				html_editor_table_dialog_create_table (dialog));
+			html_editor_table_dialog_reset_values (dialog);
 		} else {
 			dialog->priv->table_element =
 				WEBKIT_DOM_HTML_TABLE_ELEMENT (table);
-			editor_table_dialog_get_values (dialog);
+			html_editor_table_dialog_get_values (dialog);
 		}
 	}
 
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_table_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_table_dialog_parent_class)->show (widget);
 }
 
 static void
-editor_table_dialog_hide (GtkWidget *widget)
+html_editor_table_dialog_hide (GtkWidget *widget)
 {
-	EEditorTableDialogPrivate *priv;
+	EHTMLEditorTableDialogPrivate *priv;
 
-	priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (widget);
+	priv = E_HTML_EDITOR_TABLE_DIALOG_GET_PRIVATE (widget);
 
 	priv->table_element = NULL;
 
-	GTK_WIDGET_CLASS (e_editor_table_dialog_parent_class)->hide (widget);
+	GTK_WIDGET_CLASS (e_html_editor_table_dialog_parent_class)->hide (widget);
 }
 
 static void
-e_editor_table_dialog_class_init (EEditorTableDialogClass *class)
+e_html_editor_table_dialog_class_init (EHTMLEditorTableDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorTableDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorTableDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_table_dialog_show;
-	widget_class->hide = editor_table_dialog_hide;
+	widget_class->show = html_editor_table_dialog_show;
+	widget_class->hide = html_editor_table_dialog_hide;
 }
 
 static void
-e_editor_table_dialog_init (EEditorTableDialog *dialog)
+e_html_editor_table_dialog_init (EHTMLEditorTableDialog *dialog)
 {
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = E_EDITOR_TABLE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_TABLE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -667,7 +667,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_table_dialog_set_row_count), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_row_count), dialog);
 	dialog->priv->rows_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Rows:"));
@@ -684,7 +684,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_table_dialog_set_column_count), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_column_count), dialog);
 	dialog->priv->columns_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("C_olumns:"));
@@ -709,7 +709,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_table_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_width), dialog);
 	dialog->priv->width_check = widget;
 
 	widget = gtk_spin_button_new_with_range (1, 100, 1);
@@ -717,7 +717,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_table_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_width), dialog);
 	dialog->priv->width_edit = widget;
 
 	widget = gtk_combo_box_text_new ();
@@ -726,7 +726,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_table_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_width), dialog);
 	dialog->priv->width_units = widget;
 
 	/* Spacing */
@@ -735,7 +735,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_table_dialog_set_spacing), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_spacing), dialog);
 	dialog->priv->spacing_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Spacing:"));
@@ -752,7 +752,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_table_dialog_set_padding), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_padding), dialog);
 	dialog->priv->padding_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Padding:"));
@@ -769,7 +769,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 2, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_table_dialog_set_border), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_border), dialog);
 	dialog->priv->border_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Border:"));
@@ -788,7 +788,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 2, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_table_dialog_set_alignment), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_alignment), dialog);
 	dialog->priv->alignment_combo = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Alignment:"));
@@ -815,7 +815,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "notify::current-color",
-		G_CALLBACK (editor_table_dialog_set_background_color), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_background_color), dialog);
 	dialog->priv->background_color_button = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Color:"));
@@ -841,7 +841,7 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "file-set",
-		G_CALLBACK (editor_table_dialog_set_background_image), dialog);
+		G_CALLBACK (html_editor_table_dialog_set_background_image), dialog);
 	dialog->priv->background_image_button = widget;
 
 	widget =gtk_label_new_with_mnemonic (_("Image:"));
@@ -854,11 +854,11 @@ e_editor_table_dialog_init (EEditorTableDialog *dialog)
 }
 
 GtkWidget *
-e_editor_table_dialog_new (EHTMLEditor *editor)
+e_html_editor_table_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_TABLE_DIALOG,
+			E_TYPE_HTML_EDITOR_TABLE_DIALOG,
 			"editor", editor,
 			"title", N_("Table Properties"),
 			NULL));
