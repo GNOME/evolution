@@ -1673,22 +1673,22 @@ EHTMLEditorHRuleDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-image-dialog</FILE>
-<TITLE>EEditorImageDialog</TITLE>
-EEditorImageDialog
-e_editor_image_dialog_new
-e_editor_image_dialog_show
+<FILE>e-html-editor-image-dialog</FILE>
+<TITLE>EHTMLEditorImageDialog</TITLE>
+EHTMLEditorImageDialog
+e_html_editor_image_dialog_new
+e_html_editor_image_dialog_show
 <SUBSECTION Standard>
-E_EDITOR_IMAGE_DIALOG
-E_IS_EDITOR_IMAGE_DIALOG
-E_TYPE_EDITOR_IMAGE_DIALOG
-E_EDITOR_IMAGE_DIALOG_CLASS
-E_IS_EDITOR_IMAGE_DIALOG_CLASS
-E_EDITOR_IMAGE_DIALOG_GET_CLASS
-EEditorImageDialogClass
-e_editor_image_dialog_get_type
+E_HTML_EDITOR_IMAGE_DIALOG
+E_IS_HTML_EDITOR_IMAGE_DIALOG
+E_TYPE_HTML_EDITOR_IMAGE_DIALOG
+E_HTML_EDITOR_IMAGE_DIALOG_CLASS
+E_IS_HTML_EDITOR_IMAGE_DIALOG_CLASS
+E_HTML_EDITOR_IMAGE_DIALOG_GET_CLASS
+EHTMLEditorImageDialogClass
+e_html_editor_image_dialog_get_type
 <SUBSECTION Private>
-EEditorImageDialogPrivate
+EHTMLEditorImageDialogPrivate
 </SECTION>
 
 <SECTION>

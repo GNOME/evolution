@@ -1,5 +1,5 @@
 /*
- * e-editor-image-dialog.h
+ * e-html-editor-image-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include "e-editor-image-dialog.h"
+#include "e-html-editor-image-dialog.h"
 
 #include <stdlib.h>
 #include <glib/gi18n-lib.h>
@@ -30,11 +30,11 @@
 #include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 
-#define E_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_IMAGE_DIALOG, EEditorImageDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_IMAGE_DIALOG, EHTMLEditorImageDialogPrivate))
 
-struct _EEditorImageDialogPrivate {
+struct _EHTMLEditorImageDialogPrivate {
 	GtkWidget *file_chooser;
 	GtkWidget *description_edit;
 
@@ -55,12 +55,12 @@ struct _EEditorImageDialogPrivate {
 };
 
 G_DEFINE_TYPE (
-	EEditorImageDialog,
-	e_editor_image_dialog,
+	EHTMLEditorImageDialog,
+	e_html_editor_image_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
-editor_image_dialog_set_src (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_src (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorSelection *editor_selection;
@@ -78,7 +78,7 @@ editor_image_dialog_set_src (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_alt (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_alt (EHTMLEditorImageDialog *dialog)
 {
 	webkit_dom_html_image_element_set_alt (
 		dialog->priv->image,
@@ -86,7 +86,7 @@ editor_image_dialog_set_alt (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_width (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_width (EHTMLEditorImageDialog *dialog)
 {
 	gint requested;
 	gulong natural;
@@ -118,7 +118,7 @@ editor_image_dialog_set_width (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_width_units (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
 {
 	gint requested;
 	gulong natural;
@@ -171,7 +171,7 @@ editor_image_dialog_set_width_units (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_height (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_height (EHTMLEditorImageDialog *dialog)
 {
 	gint requested;
 	gulong natural;
@@ -203,7 +203,7 @@ editor_image_dialog_set_height (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_height_units (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
 {
 	gint requested;
 	gulong natural;
@@ -256,7 +256,7 @@ editor_image_dialog_set_height_units (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_alignment (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_alignment (EHTMLEditorImageDialog *dialog)
 {
 	webkit_dom_html_image_element_set_align (
 		dialog->priv->image,
@@ -265,7 +265,7 @@ editor_image_dialog_set_alignment (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_x_padding (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_x_padding (EHTMLEditorImageDialog *dialog)
 {
 	webkit_dom_html_image_element_set_hspace (
 		dialog->priv->image,
@@ -274,7 +274,7 @@ editor_image_dialog_set_x_padding (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_y_padding (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_y_padding (EHTMLEditorImageDialog *dialog)
 {
 	webkit_dom_html_image_element_set_vspace (
 		dialog->priv->image,
@@ -283,7 +283,7 @@ editor_image_dialog_set_y_padding (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_border (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_border (EHTMLEditorImageDialog *dialog)
 {
 	gchar *val;
 
@@ -297,7 +297,7 @@ editor_image_dialog_set_border (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_set_url (EEditorImageDialog *dialog)
+html_editor_image_dialog_set_url (EHTMLEditorImageDialog *dialog)
 {
 	WebKitDOMElement *link;
 	const gchar *url;
@@ -347,7 +347,7 @@ editor_image_dialog_set_url (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_test_url (EEditorImageDialog *dialog)
+html_editor_image_dialog_test_url (EHTMLEditorImageDialog *dialog)
 {
 	gtk_show_uri (
 		gtk_window_get_screen (GTK_WINDOW (dialog)),
@@ -357,14 +357,14 @@ editor_image_dialog_test_url (EEditorImageDialog *dialog)
 }
 
 static void
-editor_image_dialog_show (GtkWidget *widget)
+html_editor_image_dialog_show (GtkWidget *widget)
 {
-	EEditorImageDialog *dialog;
+	EHTMLEditorImageDialog *dialog;
 	WebKitDOMElement *link;
 	gchar *tmp;
 	glong val;
 
-	dialog = E_EDITOR_IMAGE_DIALOG (widget);
+	dialog = E_HTML_EDITOR_IMAGE_DIALOG (widget);
 
 	if (!dialog->priv->image) {
 		return;
@@ -425,41 +425,41 @@ editor_image_dialog_show (GtkWidget *widget)
 	}
 
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->show (widget);
 }
 
 static void
-editor_image_dialog_hide (GtkWidget *widget)
+html_editor_image_dialog_hide (GtkWidget *widget)
 {
-	EEditorImageDialogPrivate *priv;
+	EHTMLEditorImageDialogPrivate *priv;
 
-	priv = E_EDITOR_IMAGE_DIALOG_GET_PRIVATE (widget);
+	priv = E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE (widget);
 
 	priv->image = NULL;
 
-	GTK_WIDGET_CLASS (e_editor_image_dialog_parent_class)->hide (widget);
+	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->hide (widget);
 }
 
 static void
-e_editor_image_dialog_class_init (EEditorImageDialogClass *class)
+e_html_editor_image_dialog_class_init (EHTMLEditorImageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorImageDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorImageDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_image_dialog_show;
-	widget_class->hide = editor_image_dialog_hide;
+	widget_class->show = html_editor_image_dialog_show;
+	widget_class->hide = html_editor_image_dialog_hide;
 }
 
 static void
-e_editor_image_dialog_init (EEditorImageDialog *dialog)
+e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 {
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
 
-	dialog->priv = E_EDITOR_IMAGE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -491,7 +491,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "file-set",
-		G_CALLBACK (editor_image_dialog_set_src), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_src), dialog);
 	dialog->priv->file_chooser = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Source:"));
@@ -505,7 +505,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "notify::text",
-		G_CALLBACK (editor_image_dialog_set_alt), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_alt), dialog);
 	dialog->priv->description_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
@@ -530,7 +530,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_image_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_width), dialog);
 	dialog->priv->width_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Width:"));
@@ -546,7 +546,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_image_dialog_set_width_units), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_width_units), dialog);
 	dialog->priv->width_units = widget;
 
 	/* Height */
@@ -554,7 +554,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_image_dialog_set_height), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_height), dialog);
 	dialog->priv->height_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Height:"));
@@ -570,7 +570,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_image_dialog_set_height_units), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_height_units), dialog);
 	dialog->priv->height_units = widget;
 
 	/* Alignment */
@@ -582,7 +582,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_image_dialog_set_alignment), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_alignment), dialog);
 	dialog->priv->alignment = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Alignment"));
@@ -595,7 +595,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_image_dialog_set_x_padding), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_x_padding), dialog);
 	dialog->priv->x_padding_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_X-Padding:"));
@@ -611,7 +611,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_image_dialog_set_y_padding), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_y_padding), dialog);
 	dialog->priv->y_padding_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Y-Padding:"));
@@ -627,7 +627,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 5, 2, 1, 1);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_image_dialog_set_border), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_border), dialog);
 	dialog->priv->border_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Border:"));
@@ -655,7 +655,7 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_widget_set_hexpand (widget, TRUE);
 	g_signal_connect_swapped (
 		widget, "notify::text",
-		G_CALLBACK (editor_image_dialog_set_url), dialog);
+		G_CALLBACK (html_editor_image_dialog_set_url), dialog);
 	dialog->priv->url_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_URL:"));
@@ -667,30 +667,30 @@ e_editor_image_dialog_init (EEditorImageDialog *dialog)
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_image_dialog_test_url), dialog);
+		G_CALLBACK (html_editor_image_dialog_test_url), dialog);
 	dialog->priv->test_url_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
 GtkWidget *
-e_editor_image_dialog_new (EHTMLEditor *editor)
+e_html_editor_image_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_IMAGE_DIALOG,
+			E_TYPE_HTML_EDITOR_IMAGE_DIALOG,
 			"editor", editor,
 			"title", N_("Image Properties"),
 			NULL));
 }
 
 void
-e_editor_image_dialog_show (EEditorImageDialog *dialog,
-                            WebKitDOMNode *image)
+e_html_editor_image_dialog_show (EHTMLEditorImageDialog *dialog,
+                                 WebKitDOMNode *image)
 {
-	EEditorImageDialogClass *class;
+	EHTMLEditorImageDialogClass *class;
 
-	g_return_if_fail (E_IS_EDITOR_IMAGE_DIALOG (dialog));
+	g_return_if_fail (E_IS_HTML_EDITOR_IMAGE_DIALOG (dialog));
 
 	if (image) {
 		dialog->priv->image = WEBKIT_DOM_HTML_IMAGE_ELEMENT (image);
@@ -698,6 +698,6 @@ e_editor_image_dialog_show (EEditorImageDialog *dialog,
 		dialog->priv->image = NULL;
 	}
 
-	class = E_EDITOR_IMAGE_DIALOG_GET_CLASS (dialog);
+	class = E_HTML_EDITOR_IMAGE_DIALOG_GET_CLASS (dialog);
 	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
 }
