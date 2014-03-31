@@ -1710,21 +1710,21 @@ EHTMLEditorLinkDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-page-dialog</FILE>
-<TITLE>EEditorPageDialog</TITLE>
-EEditorPageDialog
-e_editor_page_dialog_new
+<FILE>e-html-editor-page-dialog</FILE>
+<TITLE>EHTMLEditorPageDialog</TITLE>
+EHTMLEditorPageDialog
+e_html_editor_page_dialog_new
 <SUBSECTION Standard>
-E_EDITOR_PAGE_DIALOG
-E_IS_EDITOR_PAGE_DIALOG
-E_TYPE_EDITOR_PAGE_DIALOG
-E_EDITOR_PAGE_DIALOG_CLASS
-E_IS_EDITOR_PAGE_DIALOG_CLASS
-E_EDITOR_PAGE_DIALOG_GET_CLASS
-EEditorPageDialogClass
-e_editor_page_dialog_get_type
+E_HTML_EDITOR_PAGE_DIALOG
+E_IS_HTML_EDITOR_PAGE_DIALOG
+E_TYPE_HTML_EDITOR_PAGE_DIALOG
+E_HTML_EDITOR_PAGE_DIALOG_CLASS
+E_IS_HTML_EDITOR_PAGE_DIALOG_CLASS
+E_HTML_EDITOR_PAGE_DIALOG_GET_CLASS
+EHTMLEditorPageDialogClass
+e_html_editor_page_dialog_get_type
 <SUBSECTION Private>
-EEditorPageDialogPrivate
+EHTMLEditorPageDialogPrivate
 </SECTION>
 
 <SECTION>

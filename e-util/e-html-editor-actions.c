@@ -762,7 +762,7 @@ action_properties_page_cb (GtkAction *action,
 {
 	if (editor->priv->page_dialog == NULL) {
 		editor->priv->page_dialog =
-			e_editor_page_dialog_new (editor);
+			e_html_editor_page_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->page_dialog));

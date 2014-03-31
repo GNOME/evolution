@@ -1,5 +1,5 @@
 /*
- * e-editor-page-dialog.h
+ * e-html-editor-page-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,18 +22,18 @@
 #include <config.h>
 #endif
 
-#include "e-editor-page-dialog.h"
+#include "e-html-editor-page-dialog.h"
 
 #include <glib/gi18n-lib.h>
 
 #include "e-color-combo.h"
 #include "e-misc-utils.h"
 
-#define E_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_PAGE_DIALOG, EEditorPageDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_PAGE_DIALOG, EHTMLEditorPageDialogPrivate))
 
-struct _EEditorPageDialogPrivate {
+struct _EHTMLEditorPageDialogPrivate {
 	GtkWidget *text_color_picker;
 	GtkWidget *link_color_picker;
 	GtkWidget *background_color_picker;
@@ -136,12 +136,12 @@ static const Template templates[] = {
 };
 
 G_DEFINE_TYPE (
-	EEditorPageDialog,
-	e_editor_page_dialog,
+	EHTMLEditorPageDialog,
+	e_html_editor_page_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
-editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
+html_editor_page_dialog_set_text_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -166,7 +166,7 @@ editor_page_dialog_set_text_color (EEditorPageDialog *dialog)
 }
 
 static void
-editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
+html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -191,7 +191,7 @@ editor_page_dialog_set_link_color (EEditorPageDialog *dialog)
 }
 
 static void
-editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
+html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -217,7 +217,7 @@ editor_page_dialog_set_background_color (EEditorPageDialog *dialog)
 }
 
 static void
-editor_page_dialog_set_background_from_template (EEditorPageDialog *dialog)
+html_editor_page_dialog_set_background_from_template (EHTMLEditorPageDialog *dialog)
 {
 	const Template *tmplt;
 
@@ -253,7 +253,7 @@ editor_page_dialog_set_background_from_template (EEditorPageDialog *dialog)
 }
 
 static void
-editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
+html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -277,17 +277,17 @@ editor_page_dialog_set_background_image (EEditorPageDialog *dialog)
 }
 
 static void
-editor_page_dialog_show (GtkWidget *widget)
+html_editor_page_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorPageDialog *dialog;
+	EHTMLEditorPageDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	gchar *tmp;
 	GdkRGBA rgba;
 
-	dialog = E_EDITOR_PAGE_DIALOG (widget);
+	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
@@ -371,28 +371,28 @@ editor_page_dialog_show (GtkWidget *widget)
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
-	GTK_WIDGET_CLASS (e_editor_page_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_page_dialog_class_init (EEditorPageDialogClass *class)
+e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorPageDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorPageDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_page_dialog_show;
+	widget_class->show = html_editor_page_dialog_show;
 }
 
 static void
-e_editor_page_dialog_init (EEditorPageDialog *dialog)
+e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 {
 	GtkGrid *grid, *main_layout;
 	GtkWidget *widget;
 	gint ii;
 
-	dialog->priv = E_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -413,7 +413,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_widget_set_hexpand (widget, TRUE);
 	g_signal_connect_swapped (
 		widget, "notify::current-color",
-		G_CALLBACK (editor_page_dialog_set_text_color), dialog);
+		G_CALLBACK (html_editor_page_dialog_set_text_color), dialog);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->text_color_picker = widget;
 
@@ -428,7 +428,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_widget_set_hexpand (widget, TRUE);
 	g_signal_connect_swapped (
 		widget, "notify::current-color",
-		G_CALLBACK (editor_page_dialog_set_link_color), dialog);
+		G_CALLBACK (html_editor_page_dialog_set_link_color), dialog);
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->link_color_picker = widget;
 
@@ -443,7 +443,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	gtk_widget_set_hexpand (widget, TRUE);
 	g_signal_connect_swapped (
 		widget, "notify::current-color",
-		G_CALLBACK (editor_page_dialog_set_background_color), dialog);
+		G_CALLBACK (html_editor_page_dialog_set_background_color), dialog);
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 	dialog->priv->background_color_picker = widget;
 
@@ -473,7 +473,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 	}
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_page_dialog_set_background_from_template), dialog);
+		G_CALLBACK (html_editor_page_dialog_set_background_from_template), dialog);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	dialog->priv->background_template_combo = widget;
 
@@ -488,7 +488,7 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 		_("Selection a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	g_signal_connect_swapped (
 		widget, "selection-changed",
-		G_CALLBACK (editor_page_dialog_set_background_image), dialog);
+		G_CALLBACK (html_editor_page_dialog_set_background_image), dialog);
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	dialog->priv->background_image_filechooser = widget;
 
@@ -502,11 +502,11 @@ e_editor_page_dialog_init (EEditorPageDialog *dialog)
 }
 
 GtkWidget *
-e_editor_page_dialog_new (EHTMLEditor *editor)
+e_html_editor_page_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_PAGE_DIALOG,
+			E_TYPE_HTML_EDITOR_PAGE_DIALOG,
 			"editor", editor,
 			"title", N_("Page Properties"),
 			NULL));
