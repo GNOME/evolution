@@ -774,7 +774,7 @@ action_properties_paragraph_cb (GtkAction *action,
 {
 	if (editor->priv->paragraph_dialog == NULL) {
 		editor->priv->paragraph_dialog =
-			e_editor_paragraph_dialog_new (editor);
+			e_html_editor_paragraph_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->paragraph_dialog));

@@ -1,5 +1,5 @@
 /*
- * e-editor-text-dialog.c
+ * e-html-editor-paragraph-dialog.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,22 +22,22 @@
 #include <config.h>
 #endif
 
-#include "e-editor-paragraph-dialog.h"
+#include "e-html-editor-paragraph-dialog.h"
 
 #include <glib/gi18n-lib.h>
 
 #include "e-action-combo-box.h"
 
-#define E_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_PARAGRAPH_DIALOG, EEditorParagraphDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_PARAGRAPH_DIALOG, EHTMLEditorParagraphDialogPrivate))
 
 G_DEFINE_TYPE (
-	EEditorParagraphDialog,
-	e_editor_paragraph_dialog,
+	EHTMLEditorParagraphDialog,
+	e_html_editor_paragraph_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
-struct _EEditorParagraphDialogPrivate {
+struct _EHTMLEditorParagraphDialogPrivate {
 	GtkWidget *style_combo;
 
 	GtkWidget *left_button;
@@ -46,14 +46,14 @@ struct _EEditorParagraphDialogPrivate {
 };
 
 static void
-editor_paragraph_dialog_constructed (GObject *object)
+html_editor_paragraph_dialog_constructed (GObject *object)
 {
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	EHTMLEditor *editor;
-	EEditorParagraphDialog *dialog;
+	EHTMLEditorParagraphDialog *dialog;
 
-	dialog = E_EDITOR_PARAGRAPH_DIALOG (object);
+	dialog = E_HTML_EDITOR_PARAGRAPH_DIALOG (object);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
@@ -125,29 +125,29 @@ editor_paragraph_dialog_constructed (GObject *object)
 }
 
 static void
-e_editor_paragraph_dialog_class_init (EEditorParagraphDialogClass *class)
+e_html_editor_paragraph_dialog_class_init (EHTMLEditorParagraphDialogClass *class)
 {
 	GObjectClass *object_class;
 
 	g_type_class_add_private (
-		class, sizeof (EEditorParagraphDialogPrivate));
+		class, sizeof (EHTMLEditorParagraphDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = editor_paragraph_dialog_constructed;
+	object_class->constructed = html_editor_paragraph_dialog_constructed;
 }
 
 static void
-e_editor_paragraph_dialog_init (EEditorParagraphDialog *dialog)
+e_html_editor_paragraph_dialog_init (EHTMLEditorParagraphDialog *dialog)
 {
-	dialog->priv = E_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_PARAGRAPH_DIALOG_GET_PRIVATE (dialog);
 }
 
 GtkWidget *
-e_editor_paragraph_dialog_new (EHTMLEditor *editor)
+e_html_editor_paragraph_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_PARAGRAPH_DIALOG,
+			E_TYPE_HTML_EDITOR_PARAGRAPH_DIALOG,
 			"editor", editor,
 			"title", N_("Paragraph Properties"),
 			NULL));

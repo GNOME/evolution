@@ -1728,21 +1728,21 @@ EHTMLEditorPageDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-paragraph-dialog</FILE>
-<TITLE>EEditorParagraphDialog</TITLE>
-EEditorParagraphDialog
-e_editor_paragraph_dialog_new
+<FILE>e-html-editor-paragraph-dialog</FILE>
+<TITLE>EHTMLEditorParagraphDialog</TITLE>
+EHTMLEditorParagraphDialog
+e_html_editor_paragraph_dialog_new
 <SUBSECTION Standard>
-E_EDITOR_PARAGRAPH_DIALOG
-E_IS_EDITOR_PARAGRAPH_DIALOG
-E_TYPE_EDITOR_PARAGRAPH_DIALOG
-E_EDITOR_PARAGRAPH_DIALOG_CLASS
-E_IS_EDITOR_PARAGRAPH_DIALOG_CLASS
-E_EDITOR_PARAGRAPH_DIALOG_GET_CLASS
-EEditorParagraphClass
-e_editor_paragraph_dialog_get_type
+E_HTML_EDITOR_PARAGRAPH_DIALOG
+E_IS_HTML_EDITOR_PARAGRAPH_DIALOG
+E_TYPE_HTML_EDITOR_PARAGRAPH_DIALOG
+E_HTML_EDITOR_PARAGRAPH_DIALOG_CLASS
+E_IS_HTML_EDITOR_PARAGRAPH_DIALOG_CLASS
+E_HTML_EDITOR_PARAGRAPH_DIALOG_GET_CLASS
+EHTMLEditorParagraphDialogClass
+e_html_editor_paragraph_dialog_get_type
 <SUBSECTION Private>
-EEditorParagraphDialogPrivate
+EHTMLEditorParagraphDialogPrivate
 </SECTION>
 
 <SECTION>
