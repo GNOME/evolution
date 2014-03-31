@@ -1,5 +1,5 @@
 /*
- * e-editor-test.c
+ * e-html-editor-test.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
