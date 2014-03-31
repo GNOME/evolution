@@ -1637,21 +1637,21 @@ EEditorDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-find-dialog</FILE>
-<TITLE>EEditorFindDialog</TITLE>
-e_editor_find_dialog_new
-e_editor_find_dialog_find_next
+<FILE>e-html-editor-find-dialog</FILE>
+<TITLE>EHTMLEditorFindDialog</TITLE>
+e_html_editor_find_dialog_new
+e_html_editor_find_dialog_find_next
 <SUBSECTION Standard>
-E_EDITOR_FIND_DIALOG
-E_IS_EDITOR_FIND_DIALOG
-E_TYPE_EDITOR_FIND_DIALOG
-E_EDITOR_FIND_DIALOG_CLASS
-E_IS_EDITOR_FIND_DIALOG_CLASS
-E_EDITOR_FIND_DIALOG_GET_CLASS
-EEditorFindDialogClass
-e_editor_find_dialog_get_type
+E_HTML_EDITOR_FIND_DIALOG
+E_IS_HTML_EDITOR_FIND_DIALOG
+E_TYPE_HTML_EDITOR_FIND_DIALOG
+E_HTML_EDITOR_FIND_DIALOG_CLASS
+E_IS_HTML_EDITOR_FIND_DIALOG_CLASS
+E_HTML_EDITOR_FIND_DIALOG_GET_CLASS
+EHTMLEditorFindDialogClass
+e_html_editor_find_dialog_get_type
 <SUBSECTION Private>
-EEditorFindDialogPrivate
+EHTMLEditorFindDialogPrivate
 </SECTION>
 
 <SECTION>

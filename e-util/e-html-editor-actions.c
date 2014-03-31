@@ -837,7 +837,7 @@ action_show_find_cb (GtkAction *action,
                      EHTMLEditor *editor)
 {
 	if (editor->priv->find_dialog == NULL) {
-		editor->priv->find_dialog = e_editor_find_dialog_new (editor);
+		editor->priv->find_dialog = e_html_editor_find_dialog_new (editor);
 		gtk_action_set_sensitive (ACTION (FIND_AGAIN), TRUE);
 	}
 
@@ -852,8 +852,8 @@ action_find_again_cb (GtkAction *action,
 		return;
 	}
 
-	e_editor_find_dialog_find_next (
-		E_EDITOR_FIND_DIALOG (editor->priv->find_dialog));
+	e_html_editor_find_dialog_find_next (
+		E_HTML_EDITOR_FIND_DIALOG (editor->priv->find_dialog));
 }
 
 static void

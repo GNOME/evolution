@@ -1,5 +1,5 @@
 /*
- * e-editor-find-dialog.h
+ * e-html-editor-find-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,16 +22,16 @@
 #include <config.h>
 #endif
 
-#include "e-editor-find-dialog.h"
+#include "e-html-editor-find-dialog.h"
 
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
-#define E_EDITOR_FIND_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_FIND_DIALOG, EEditorFindDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_FIND_DIALOG, EHTMLEditorFindDialogPrivate))
 
-struct _EEditorFindDialogPrivate {
+struct _EHTMLEditorFindDialogPrivate {
 	GtkWidget *entry;
 	GtkWidget *backwards;
 	GtkWidget *case_sensitive;
@@ -43,31 +43,31 @@ struct _EEditorFindDialogPrivate {
 };
 
 G_DEFINE_TYPE (
-	EEditorFindDialog,
-	e_editor_find_dialog,
+	EHTMLEditorFindDialog,
+	e_html_editor_find_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
-reset_dialog (EEditorFindDialog *dialog)
+reset_dialog (EHTMLEditorFindDialog *dialog)
 {
 	gtk_widget_set_sensitive (dialog->priv->find_button, TRUE);
 	gtk_widget_hide (dialog->priv->result_label);
 }
 
 static void
-editor_find_dialog_show (GtkWidget *widget)
+html_editor_find_dialog_show (GtkWidget *widget)
 {
-	EEditorFindDialog *dialog = E_EDITOR_FIND_DIALOG (widget);
+	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
 
 	reset_dialog (dialog);
 	gtk_widget_grab_focus (dialog->priv->entry);
 
 	/* Chain up to parent's implementation */
-	GTK_WIDGET_CLASS (e_editor_find_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->show (widget);
 }
 
 static void
-editor_find_dialog_find_cb (EEditorFindDialog *dialog)
+html_editor_find_dialog_find_cb (EHTMLEditorFindDialog *dialog)
 {
 	gboolean found;
 	EHTMLEditor *editor;
@@ -112,10 +112,10 @@ entry_key_release_event (GtkWidget *widget,
                          gpointer user_data)
 {
 	GdkEventKey *key = &event->key;
-	EEditorFindDialog *dialog = user_data;
+	EHTMLEditorFindDialog *dialog = user_data;
 
 	if (key->keyval == GDK_KEY_Return) {
-		editor_find_dialog_find_cb (dialog);
+		html_editor_find_dialog_find_cb (dialog);
 		return TRUE;
 	}
 
@@ -124,24 +124,24 @@ entry_key_release_event (GtkWidget *widget,
 }
 
 static void
-e_editor_find_dialog_class_init (EEditorFindDialogClass *class)
+e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorFindDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorFindDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_find_dialog_show;
+	widget_class->show = html_editor_find_dialog_show;
 }
 
 static void
-e_editor_find_dialog_init (EEditorFindDialog *dialog)
+e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkBox *box;
 	GtkWidget *widget;
 
-	dialog->priv = E_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -195,18 +195,18 @@ e_editor_find_dialog_init (EEditorFindDialog *dialog)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_find_dialog_find_cb), dialog);
+		G_CALLBACK (html_editor_find_dialog_find_cb), dialog);
 	dialog->priv->find_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
 GtkWidget *
-e_editor_find_dialog_new (EHTMLEditor *editor)
+e_html_editor_find_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_FIND_DIALOG,
+			E_TYPE_HTML_EDITOR_FIND_DIALOG,
 			"editor", editor,
 			"icon-name", GTK_STOCK_FIND,
 			"title", N_("Find"),
@@ -214,11 +214,11 @@ e_editor_find_dialog_new (EHTMLEditor *editor)
 }
 
 void
-e_editor_find_dialog_find_next (EEditorFindDialog *dialog)
+e_html_editor_find_dialog_find_next (EHTMLEditorFindDialog *dialog)
 {
 	if (gtk_entry_get_text_length (GTK_ENTRY (dialog->priv->entry)) == 0) {
 		return;
 	}
 
-	editor_find_dialog_find_cb (dialog);
+	html_editor_find_dialog_find_cb (dialog);
 }

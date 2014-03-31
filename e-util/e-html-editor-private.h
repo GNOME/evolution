@@ -26,8 +26,8 @@
 #include <e-html-editor.h>
 #include <e-html-editor-actions.h>
 #include <e-html-editor-cell-dialog.h>
+#include <e-html-editor-find-dialog.h>
 #include <e-html-editor-view.h>
-#include <e-editor-find-dialog.h>
 #include <e-editor-replace-dialog.h>
 #include <e-editor-link-dialog.h>
 #include <e-editor-hrule-dialog.h>
