@@ -1692,21 +1692,21 @@ EHTMLEditorImageDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-link-dialog</FILE>
-<TITLE>EEditorLinkDialog</TITLE>
-EEditorLinkDialog
-e_editor_link_dialog_new
+<FILE>e-html-editor-link-dialog</FILE>
+<TITLE>EHTMLEditorLinkDialog</TITLE>
+EHTMLEditorLinkDialog
+e_html_editor_link_dialog_new
 <SUBSECTION Standard>
-E_EDITOR_LINK_DIALOG
-E_IS_EDITOR_LINK_DIALOG
-E_TYPE_EDITOR_LINK_DIALOG
-E_EDITOR_LINK_DIALOG_CLASS
-E_IS_EDITOR_LINK_DIALOG_CLASS
-E_EDITOR_LINK_DIALOG_GET_CLASS
-EEditorLinkDialogClass
-e_editor_link_dialog_get_type
+E_HTML_EDITOR_LINK_DIALOG
+E_IS_HTML_EDITOR_LINK_DIALOG
+E_TYPE_HTML_EDITOR_LINK_DIALOG
+E_HTML_EDITOR_LINK_DIALOG_CLASS
+E_IS_HTML_EDITOR_LINK_DIALOG_CLASS
+E_HTML_EDITOR_LINK_DIALOG_GET_CLASS
+EHTMLEditorLinkDialogClass
+e_html_editor_link_dialog_get_type
 <SUBSECTION Private>
-EEditorLinkDialogPrivate
+EHTMLEditorLinkDialogPrivate
 </SECTION>
 
 <SECTION>

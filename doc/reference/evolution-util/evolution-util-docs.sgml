@@ -100,7 +100,6 @@
 
   <chapter>
     <title>HTML Editing</title>
-    <xi:include href="xml/e-editor-link-dialog.xml"/>
     <xi:include href="xml/e-editor-page-dialog.xml"/>
     <xi:include href="xml/e-editor-paragraph-dialog.xml"/>
     <xi:include href="xml/e-editor-replace-dialog.xml"/>
@@ -120,6 +119,7 @@
     <xi:include href="xml/e-html-editor-find-dialog.xml"/>
     <xi:include href="xml/e-html-editor-hrule-dialog.xml"/>
     <xi:include href="xml/e-html-editor-image-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-link-dialog.xml"/>
     <xi:include href="xml/e-html-editor-selection.xml"/>
     <xi:include href="xml/e-html-editor-widget.xml"/>
     <xi:include href="xml/e-image-chooser-dialog.xml"/>

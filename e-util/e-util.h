@@ -91,7 +91,6 @@
 #include <e-util/e-destination-store.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-editor-link-dialog.h>
 #include <e-util/e-editor-page-dialog.h>
 #include <e-util/e-editor-paragraph-dialog.h>
 #include <e-util/e-editor-replace-dialog.h>
@@ -123,6 +122,7 @@
 #include <e-util/e-html-editor-find-dialog.h>
 #include <e-util/e-html-editor-hrule-dialog.h>
 #include <e-util/e-html-editor-image-dialog.h>
+#include <e-util/e-html-editor-link-dialog.h>
 #include <e-util/e-html-editor-selection.h>
 #include <e-util/e-html-editor-utils.h>
 #include <e-util/e-html-editor-view.h>

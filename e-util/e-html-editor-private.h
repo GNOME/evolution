@@ -29,9 +29,9 @@
 #include <e-html-editor-find-dialog.h>
 #include <e-html-editor-hrule-dialog.h>
 #include <e-html-editor-image-dialog.h>
+#include <e-html-editor-link-dialog.h>
 #include <e-html-editor-view.h>
 #include <e-editor-replace-dialog.h>
-#include <e-editor-link-dialog.h>
 #include <e-editor-table-dialog.h>
 #include <e-editor-page-dialog.h>
 #include <e-editor-text-dialog.h>

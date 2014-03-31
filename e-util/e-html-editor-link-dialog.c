@@ -1,5 +1,5 @@
 /*
- * e-editor-link-dialog.h
+ * e-html-editor-link-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,23 +22,23 @@
 #include <config.h>
 #endif
 
-#include "e-editor-link-dialog.h"
+#include "e-html-editor-link-dialog.h"
 #include "e-html-editor-selection.h"
 #include "e-html-editor-utils.h"
 #include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
 
-#define E_EDITOR_LINK_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_LINK_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_LINK_DIALOG, EEditorLinkDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_LINK_DIALOG, EHTMLEditorLinkDialogPrivate))
 
 G_DEFINE_TYPE (
-	EEditorLinkDialog,
-	e_editor_link_dialog,
+	EHTMLEditorLinkDialog,
+	e_html_editor_link_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
-struct _EEditorLinkDialogPrivate {
+struct _EHTMLEditorLinkDialogPrivate {
 	GtkWidget *url_edit;
 	GtkWidget *label_edit;
 	GtkWidget *test_button;
@@ -50,7 +50,7 @@ struct _EEditorLinkDialogPrivate {
 };
 
 static void
-editor_link_dialog_test_link (EEditorLinkDialog *dialog)
+html_editor_link_dialog_test_link (EHTMLEditorLinkDialog *dialog)
 {
 	gtk_show_uri (
 		gtk_window_get_screen (GTK_WINDOW (dialog)),
@@ -60,7 +60,7 @@ editor_link_dialog_test_link (EEditorLinkDialog *dialog)
 }
 
 static void
-editor_link_dialog_url_changed (EEditorLinkDialog *dialog)
+html_editor_link_dialog_url_changed (EHTMLEditorLinkDialog *dialog)
 {
 	if (dialog->priv->label_autofill &&
 	    gtk_widget_is_sensitive (dialog->priv->label_edit)) {
@@ -74,7 +74,7 @@ editor_link_dialog_url_changed (EEditorLinkDialog *dialog)
 }
 
 static gboolean
-editor_link_dialog_description_changed (EEditorLinkDialog *dialog)
+html_editor_link_dialog_description_changed (EHTMLEditorLinkDialog *dialog)
 {
 	const gchar *text;
 
@@ -85,7 +85,7 @@ editor_link_dialog_description_changed (EEditorLinkDialog *dialog)
 }
 
 static void
-editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
+html_editor_link_dialog_remove_link (EHTMLEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -100,7 +100,7 @@ editor_link_dialog_remove_link (EEditorLinkDialog *dialog)
 }
 
 static void
-editor_link_dialog_ok (EEditorLinkDialog *dialog)
+html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -196,13 +196,13 @@ editor_link_dialog_ok (EEditorLinkDialog *dialog)
 }
 
 static gboolean
-editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
+html_editor_link_dialog_entry_key_pressed (EHTMLEditorLinkDialog *dialog,
                                       GdkEventKey *event)
 {
 	/* We can't do thins in key_released, because then you could not open
 	 * this dialog from main menu by pressing enter on Insert->Link action */
 	if (event->keyval == GDK_KEY_Return) {
-		editor_link_dialog_ok (dialog);
+		html_editor_link_dialog_ok (dialog);
 		return TRUE;
 	}
 
@@ -210,18 +210,18 @@ editor_link_dialog_entry_key_pressed (EEditorLinkDialog *dialog,
 }
 
 static void
-editor_link_dialog_show (GtkWidget *widget)
+html_editor_link_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorLinkDialog *dialog;
+	EHTMLEditorLinkDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	dialog = E_EDITOR_LINK_DIALOG (widget);
+	dialog = E_HTML_EDITOR_LINK_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
@@ -296,28 +296,28 @@ editor_link_dialog_show (GtkWidget *widget)
 
  chainup:
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_link_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_link_dialog_class_init (EEditorLinkDialogClass *class)
+e_html_editor_link_dialog_class_init (EHTMLEditorLinkDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorLinkDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorLinkDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_link_dialog_show;
+	widget_class->show = html_editor_link_dialog_show;
 }
 
 static void
-e_editor_link_dialog_init (EEditorLinkDialog *dialog)
+e_html_editor_link_dialog_init (EHTMLEditorLinkDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkBox *button_box;
 	GtkWidget *widget;
 
-	dialog->priv = E_EDITOR_LINK_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_LINK_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -325,10 +325,10 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "notify::text",
-		G_CALLBACK (editor_link_dialog_url_changed), dialog);
+		G_CALLBACK (html_editor_link_dialog_url_changed), dialog);
 	g_signal_connect_swapped (
 		widget, "key-press-event",
-		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);
+		G_CALLBACK (html_editor_link_dialog_entry_key_pressed), dialog);
 	dialog->priv->url_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_URL:"));
@@ -340,17 +340,17 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_link_dialog_test_link), dialog);
+		G_CALLBACK (html_editor_link_dialog_test_link), dialog);
 	dialog->priv->test_button = widget;
 
 	widget = gtk_entry_new ();
 	gtk_grid_attach (main_layout, widget, 1, 1, 2, 1);
 	g_signal_connect_swapped (
 		widget, "key-release-event",
-		G_CALLBACK (editor_link_dialog_description_changed), dialog);
+		G_CALLBACK (html_editor_link_dialog_description_changed), dialog);
 	g_signal_connect_swapped (
 		widget, "key-press-event",
-		G_CALLBACK (editor_link_dialog_entry_key_pressed), dialog);
+		G_CALLBACK (html_editor_link_dialog_entry_key_pressed), dialog);
 	dialog->priv->label_edit = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Description:"));
@@ -363,14 +363,14 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 	widget = gtk_button_new_with_mnemonic (_("_Remove Link"));
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_link_dialog_remove_link), dialog);
+		G_CALLBACK (html_editor_link_dialog_remove_link), dialog);
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->remove_link_button = widget;
 
 	widget = gtk_button_new_from_stock (GTK_STOCK_OK);
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_link_dialog_ok), dialog);
+		G_CALLBACK (html_editor_link_dialog_ok), dialog);
 	gtk_box_pack_end (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->ok_button = widget;
 
@@ -378,11 +378,11 @@ e_editor_link_dialog_init (EEditorLinkDialog *dialog)
 }
 
 GtkWidget *
-e_editor_link_dialog_new (EHTMLEditor *editor)
+e_html_editor_link_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_LINK_DIALOG,
+			E_TYPE_HTML_EDITOR_LINK_DIALOG,
 			"editor", editor,
 			"icon-name", "insert-link",
 			"title", N_("Link Properties"),

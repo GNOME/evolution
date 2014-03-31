@@ -525,7 +525,7 @@ action_insert_link_cb (GtkAction *action,
 {
 	if (editor->priv->link_dialog == NULL)
 		editor->priv->link_dialog =
-			e_editor_link_dialog_new (editor);
+			e_html_editor_link_dialog_new (editor);
 
 	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
 }
@@ -750,7 +750,7 @@ action_properties_link_cb (GtkAction *action,
 {
 	if (editor->priv->link_dialog == NULL) {
 		editor->priv->link_dialog =
-			e_editor_link_dialog_new (editor);
+			e_html_editor_link_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
