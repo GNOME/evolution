@@ -18609,7 +18609,7 @@ msgstr "Vytvořit novou složku pošty"
 
 #: ../modules/mail/e-mail-shell-backend.c:644
 msgid "Mail Accounts"
-msgstr "Účty e-mailu"
+msgstr "Poštovní účty"
 
 #: ../modules/mail/e-mail-shell-backend.c:653
 msgid "Mail Preferences"
