@@ -536,7 +536,7 @@ action_insert_rule_cb (GtkAction *action,
 {
 	if (editor->priv->hrule_dialog == NULL)
 		editor->priv->hrule_dialog =
-			e_editor_hrule_dialog_new (editor);
+			e_html_editor_hrule_dialog_new (editor);
 
 	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
 }
@@ -786,7 +786,7 @@ action_properties_rule_cb (GtkAction *action,
 {
 	if (editor->priv->hrule_dialog == NULL) {
 		editor->priv->hrule_dialog =
-			e_editor_hrule_dialog_new (editor);
+			e_html_editor_hrule_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));

@@ -1,5 +1,5 @@
 /*
- * e-editor-hrule-dialog.h
+ * e-html-editor-hrule-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include "e-editor-hrule-dialog.h"
+#include "e-html-editor-hrule-dialog.h"
 #include "e-html-editor-utils.h"
 #include "e-html-editor-view.h"
 
@@ -30,11 +30,11 @@
 #include <webkit/webkitdom.h>
 #include <stdlib.h>
 
-#define E_EDITOR_HRULE_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_HRULE_DIALOG, EEditorHRuleDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_HRULE_DIALOG, EHTMLEditorHRuleDialogPrivate))
 
-struct _EEditorHRuleDialogPrivate {
+struct _EHTMLEditorHRuleDialogPrivate {
 	GtkWidget *width_edit;
 	GtkWidget *size_edit;
 	GtkWidget *unit_combo;
@@ -46,12 +46,12 @@ struct _EEditorHRuleDialogPrivate {
 };
 
 G_DEFINE_TYPE (
-	EEditorHRuleDialog,
-	e_editor_hrule_dialog,
+	EHTMLEditorHRuleDialog,
+	e_html_editor_hrule_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
-editor_hrule_dialog_set_alignment (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_set_alignment (EHTMLEditorHRuleDialog *dialog)
 {
 	const gchar *alignment;
 
@@ -64,7 +64,7 @@ editor_hrule_dialog_set_alignment (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_get_alignment (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_get_alignment (EHTMLEditorHRuleDialog *dialog)
 {
 	gchar *alignment;
 
@@ -78,7 +78,7 @@ editor_hrule_dialog_get_alignment (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_set_size (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_set_size (EHTMLEditorHRuleDialog *dialog)
 {
 	gchar *size;
 
@@ -95,7 +95,7 @@ editor_hrule_dialog_set_size (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_get_size (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_get_size (EHTMLEditorHRuleDialog *dialog)
 {
 	gchar *size;
 	gint size_int = 0;
@@ -118,7 +118,7 @@ editor_hrule_dialog_get_size (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_set_width (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_set_width (EHTMLEditorHRuleDialog *dialog)
 {
 	gchar *width, *units;
 
@@ -139,7 +139,7 @@ editor_hrule_dialog_set_width (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_get_width (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_get_width (EHTMLEditorHRuleDialog *dialog)
 {
 	gchar *width;
 	const gchar *units;
@@ -172,7 +172,7 @@ editor_hrule_dialog_get_width (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_set_shading (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_set_shading (EHTMLEditorHRuleDialog *dialog)
 {
 	gboolean no_shade;
 
@@ -185,7 +185,7 @@ editor_hrule_dialog_set_shading (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_get_shading (EEditorHRuleDialog *dialog)
+html_editor_hrule_dialog_get_shading (EHTMLEditorHRuleDialog *dialog)
 {
 	g_return_if_fail (WEBKIT_DOM_IS_HTMLHR_ELEMENT (dialog->priv->hr_element));
 
@@ -195,21 +195,21 @@ editor_hrule_dialog_get_shading (EEditorHRuleDialog *dialog)
 }
 
 static void
-editor_hrule_dialog_hide (GtkWidget *widget)
+html_editor_hrule_dialog_hide (GtkWidget *widget)
 {
-	EEditorHRuleDialogPrivate *priv;
+	EHTMLEditorHRuleDialogPrivate *priv;
 
-	priv = E_EDITOR_HRULE_DIALOG_GET_PRIVATE (widget);
+	priv = E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE (widget);
 
 	priv->hr_element = NULL;
 
-	GTK_WIDGET_CLASS (e_editor_hrule_dialog_parent_class)->hide (widget);
+	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }
 
 static void
-editor_hrule_dialog_show (GtkWidget *widget)
+html_editor_hrule_dialog_show (GtkWidget *widget)
 {
-	EEditorHRuleDialog *dialog;
+	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
 	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
@@ -219,7 +219,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 	WebKitDOMDOMSelection *selection;
 	WebKitDOMElement *rule;
 
-	dialog = E_EDITOR_HRULE_DIALOG (widget);
+	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
@@ -229,7 +229,7 @@ editor_hrule_dialog_show (GtkWidget *widget)
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
-		GTK_WIDGET_CLASS (e_editor_hrule_dialog_parent_class)->show (widget);
+		GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->show (widget);
 		return;
 	}
 
@@ -273,44 +273,44 @@ editor_hrule_dialog_show (GtkWidget *widget)
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), FALSE);
 
-		editor_hrule_dialog_set_alignment (dialog);
-		editor_hrule_dialog_set_size (dialog);
-		editor_hrule_dialog_set_alignment (dialog);
-		editor_hrule_dialog_set_shading (dialog);
+		html_editor_hrule_dialog_set_alignment (dialog);
+		html_editor_hrule_dialog_set_size (dialog);
+		html_editor_hrule_dialog_set_alignment (dialog);
+		html_editor_hrule_dialog_set_shading (dialog);
 
 		e_html_editor_view_set_changed (view, TRUE);
 	} else {
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 
-		editor_hrule_dialog_get_alignment (dialog);
-		editor_hrule_dialog_get_size (dialog);
-		editor_hrule_dialog_get_width (dialog);
-		editor_hrule_dialog_get_shading (dialog);
+		html_editor_hrule_dialog_get_alignment (dialog);
+		html_editor_hrule_dialog_get_size (dialog);
+		html_editor_hrule_dialog_get_width (dialog);
+		html_editor_hrule_dialog_get_shading (dialog);
 	}
 
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_hrule_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_hrule_dialog_class_init (EEditorHRuleDialogClass *class)
+e_html_editor_hrule_dialog_class_init (EHTMLEditorHRuleDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorHRuleDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorHRuleDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_hrule_dialog_show;
-	widget_class->hide = editor_hrule_dialog_hide;
+	widget_class->show = html_editor_hrule_dialog_show;
+	widget_class->hide = html_editor_hrule_dialog_hide;
 }
 
 static void
-e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
+e_html_editor_hrule_dialog_init (EHTMLEditorHRuleDialog *dialog)
 {
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 
-	dialog->priv = E_EDITOR_HRULE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -332,7 +332,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), 100);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_hrule_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_hrule_dialog_set_width), dialog);
 	dialog->priv->width_edit = widget;
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 
@@ -347,7 +347,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), "units-percent");
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_hrule_dialog_set_width), dialog);
+		G_CALLBACK (html_editor_hrule_dialog_set_width), dialog);
 	dialog->priv->unit_combo = widget;
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 
@@ -357,7 +357,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), 2);
 	g_signal_connect_swapped (
 		widget, "value-changed",
-		G_CALLBACK (editor_hrule_dialog_set_size), dialog);
+		G_CALLBACK (html_editor_hrule_dialog_set_size), dialog);
 	dialog->priv->size_edit = widget;
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 
@@ -389,7 +389,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	gtk_combo_box_set_active_id (GTK_COMBO_BOX (widget), "left");
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_hrule_dialog_set_alignment), dialog);
+		G_CALLBACK (html_editor_hrule_dialog_set_alignment), dialog);
 	dialog->priv->alignment_combo = widget;
 	gtk_grid_attach (grid, widget, 1, 0, 2, 1);
 
@@ -402,7 +402,7 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 	widget = gtk_check_button_new_with_mnemonic (_("S_haded"));
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_hrule_dialog_set_shading), dialog);
+		G_CALLBACK (html_editor_hrule_dialog_set_shading), dialog);
 	dialog->priv->shaded_check = widget;
 	gtk_grid_attach (grid, widget, 0, 1, 2, 1);
 
@@ -410,11 +410,11 @@ e_editor_hrule_dialog_init (EEditorHRuleDialog *dialog)
 }
 
 GtkWidget *
-e_editor_hrule_dialog_new (EHTMLEditor *editor)
+e_html_editor_hrule_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_HRULE_DIALOG,
+			E_TYPE_HTML_EDITOR_HRULE_DIALOG,
 			"editor", editor,
 			"title", _("Rule properties"),
 			NULL));

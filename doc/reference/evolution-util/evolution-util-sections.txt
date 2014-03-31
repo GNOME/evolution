@@ -1656,20 +1656,20 @@ EHTMLEditorFindDialogPrivate
 
 <SECTION>
 <FILE>e-editor-hrule-dialog</FILE>
-<TITLE>EEditorHRuleDialog</TITLE>
-EEditorHRuleDialog
-e_editor_hrule_dialog_new
+<TITLE>EHTMLEditorHRuleDialog</TITLE>
+EHTMLEditorHRuleDialog
+e_html_editor_hrule_dialog_new
 <SUBSECTION Standard>
-E_EDITOR_HRULE_DIALOG
-E_IS_EDITOR_HRULE_DIALOG
-E_TYPE_EDITOR_HRULE_DIALOG
-E_EDITOR_HRULE_DIALOG_CLASS
-E_IS_EDITOR_HRULE_DIALOG_CLASS
-E_EDITOR_HRULE_DIALOG_GET_CLASS
-EEditorHRuleDialogClass
-e_editor_hrule_dialog_get_type
+E_HTML_EDITOR_HRULE_DIALOG
+E_IS_HTML_EDITOR_HRULE_DIALOG
+E_TYPE_HTML_EDITOR_HRULE_DIALOG
+E_HTML_EDITOR_HRULE_DIALOG_CLASS
+E_IS_HTML_EDITOR_HRULE_DIALOG_CLASS
+E_HTML_EDITOR_HRULE_DIALOG_GET_CLASS
+EHTMLEditorHRuleDialogClass
+e_html_editor_hrule_dialog_get_type
 <SUBSECTION Private>
-EEditorHRuleDialogPrivate
+EHTMLEditorHRuleDialogPrivate
 </SECTION>
 
 <SECTION>
