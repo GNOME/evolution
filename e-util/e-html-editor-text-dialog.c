@@ -1,5 +1,5 @@
 /*
- * e-editor-text-dialog.c
+ * e-html-editor-text-dialog.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,17 +22,17 @@
 #include <config.h>
 #endif
 
-#include "e-editor-text-dialog.h"
+#include "e-html-editor-text-dialog.h"
 
 #include <glib/gi18n-lib.h>
 
 #include "e-color-combo.h"
 
-#define E_EDITOR_TEXT_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_TEXT_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_TEXT_DIALOG, EHTMLEditorTextDialogPrivate))
 
-struct _EEditorTextDialogPrivate {
+struct _EHTMLEditorTextDialogPrivate {
 	GtkWidget *bold_check;
 	GtkWidget *italic_check;
 	GtkWidget *underline_check;
@@ -43,12 +43,12 @@ struct _EEditorTextDialogPrivate {
 };
 
 G_DEFINE_TYPE (
-	EEditorTextDialog,
-	e_editor_text_dialog,
+	EHTMLEditorTextDialog,
+	e_html_editor_text_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
 static void
-editor_text_dialog_set_bold (EEditorTextDialog *dialog)
+html_editor_text_dialog_set_bold (EHTMLEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -65,7 +65,7 @@ editor_text_dialog_set_bold (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_set_italic (EEditorTextDialog *dialog)
+html_editor_text_dialog_set_italic (EHTMLEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -82,7 +82,7 @@ editor_text_dialog_set_italic (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_set_underline (EEditorTextDialog *dialog)
+html_editor_text_dialog_set_underline (EHTMLEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -99,7 +99,7 @@ editor_text_dialog_set_underline (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_set_strikethrough (EEditorTextDialog *dialog)
+html_editor_text_dialog_set_strikethrough (EHTMLEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -116,7 +116,7 @@ editor_text_dialog_set_strikethrough (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_set_color (EEditorTextDialog *dialog)
+html_editor_text_dialog_set_color (EHTMLEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -133,7 +133,7 @@ editor_text_dialog_set_color (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_set_size (EEditorTextDialog *dialog)
+html_editor_text_dialog_set_size (EHTMLEditorTextDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -149,15 +149,15 @@ editor_text_dialog_set_size (EEditorTextDialog *dialog)
 }
 
 static void
-editor_text_dialog_show (GtkWidget *widget)
+html_editor_text_dialog_show (GtkWidget *widget)
 {
-	EEditorTextDialog *dialog;
+	EHTMLEditorTextDialog *dialog;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 	GdkRGBA rgba;
 
-	dialog = E_EDITOR_TEXT_DIALOG (widget);
+	dialog = E_HTML_EDITOR_TEXT_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
@@ -183,27 +183,27 @@ editor_text_dialog_show (GtkWidget *widget)
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->color_check), &rgba);
 
-	GTK_WIDGET_CLASS (e_editor_text_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_text_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_text_dialog_class_init (EEditorTextDialogClass *class)
+e_html_editor_text_dialog_class_init (EHTMLEditorTextDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorTextDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorTextDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_text_dialog_show;
+	widget_class->show = html_editor_text_dialog_show;
 }
 
 static void
-e_editor_text_dialog_init (EEditorTextDialog *dialog)
+e_html_editor_text_dialog_init (EHTMLEditorTextDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkWidget *widget;
 
-	dialog->priv = E_EDITOR_TEXT_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_TEXT_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -215,7 +215,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_text_dialog_set_bold), dialog);
+		G_CALLBACK (html_editor_text_dialog_set_bold), dialog);
 	dialog->priv->bold_check = widget;
 
 	/* Italic */
@@ -226,7 +226,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_text_dialog_set_italic), dialog);
+		G_CALLBACK (html_editor_text_dialog_set_italic), dialog);
 	dialog->priv->italic_check = widget;
 
 	/* Underline */
@@ -237,7 +237,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 2, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_text_dialog_set_underline), dialog);
+		G_CALLBACK (html_editor_text_dialog_set_underline), dialog);
 	dialog->priv->underline_check = widget;
 
 	widget = gtk_image_new_from_stock (GTK_STOCK_STRIKETHROUGH, GTK_ICON_SIZE_BUTTON);
@@ -247,7 +247,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 1, 3, 1, 1);
 	g_signal_connect_swapped (
 		widget, "toggled",
-		G_CALLBACK (editor_text_dialog_set_strikethrough), dialog);
+		G_CALLBACK (html_editor_text_dialog_set_strikethrough), dialog);
 	dialog->priv->strikethrough_check = widget;
 
 	/* Color */
@@ -255,7 +255,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 3, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "notify::current-color",
-		G_CALLBACK (editor_text_dialog_set_color), dialog);
+		G_CALLBACK (html_editor_text_dialog_set_color), dialog);
 	dialog->priv->color_check = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("_Color:"));
@@ -275,7 +275,7 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 3, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_text_dialog_set_size), dialog);
+		G_CALLBACK (html_editor_text_dialog_set_size), dialog);
 	dialog->priv->size_check = widget;
 
 	widget = gtk_label_new_with_mnemonic (_("Si_ze:"));
@@ -287,11 +287,11 @@ e_editor_text_dialog_init (EEditorTextDialog *dialog)
 }
 
 GtkWidget *
-e_editor_text_dialog_new (EHTMLEditor *editor)
+e_html_editor_text_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_TEXT_DIALOG,
+			E_TYPE_HTML_EDITOR_TEXT_DIALOG,
 			"editor", editor,
 			"title", N_("Text Properties"),
 			NULL));

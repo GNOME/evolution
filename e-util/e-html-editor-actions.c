@@ -810,7 +810,7 @@ action_properties_text_cb (GtkAction *action,
 {
 	if (editor->priv->text_dialog == NULL) {
 		editor->priv->text_dialog =
-			e_editor_text_dialog_new (editor);
+			e_html_editor_text_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->text_dialog));

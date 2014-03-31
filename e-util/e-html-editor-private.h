@@ -35,8 +35,8 @@
 #include <e-html-editor-replace-dialog.h>
 #include <e-html-editor-spell-check-dialog.h>
 #include <e-html-editor-table-dialog.h>
+#include <e-html-editor-text-dialog.h>
 #include <e-html-editor-view.h>
-#include <e-editor-text-dialog.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>

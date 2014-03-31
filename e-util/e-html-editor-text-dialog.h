@@ -1,5 +1,5 @@
 /*
- * e-editor-text-dialog.h
+ * e-html-editor-text-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,48 +22,48 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef E_EDITOR_TEXT_DIALOG_H
-#define E_EDITOR_TEXT_DIALOG_H
+#ifndef E_HTML_EDITOR_TEXT_DIALOG_H
+#define E_HTML_EDITOR_TEXT_DIALOG_H
 
 #include <e-util/e-html-editor-dialog.h>
 
 /* Standard GObject macros */
-#define E_TYPE_EDITOR_TEXT_DIALOG \
-	(e_editor_text_dialog_get_type ())
-#define E_EDITOR_TEXT_DIALOG(obj) \
+#define E_TYPE_HTML_EDITOR_TEXT_DIALOG \
+	(e_html_editor_text_dialog_get_type ())
+#define E_HTML_EDITOR_TEXT_DIALOG(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialog))
-#define E_EDITOR_TEXT_DIALOG_CLASS(cls) \
+	((obj), E_TYPE_HTML_EDITOR_TEXT_DIALOG, EHTMLEditorTextDialog))
+#define E_HTML_EDITOR_TEXT_DIALOG_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialogClass))
-#define E_IS_EDITOR_TEXT_DIALOG(obj) \
+	((cls), E_TYPE_HTML_EDITOR_TEXT_DIALOG, EHTMLEditorTextDialogClass))
+#define E_IS_HTML_EDITOR_TEXT_DIALOG(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_EDITOR_TEXT_DIALOG))
-#define E_IS_EDITOR_TEXT_DIALOG_CLASS(cls) \
+	((obj), E_TYPE_HTML_EDITOR_TEXT_DIALOG))
+#define E_IS_HTML_EDITOR_TEXT_DIALOG_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_EDITOR_TEXT_DIALOG))
-#define E_EDITOR_TEXT_DIALOG_GET_CLASS(obj) \
+	((cls), E_TYPE_HTML_EDITOR_TEXT_DIALOG))
+#define E_HTML_EDITOR_TEXT_DIALOG_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_EDITOR_TEXT_DIALOG, EEditorTextDialogClass))
+	((obj), E_TYPE_HTML_EDITOR_TEXT_DIALOG, EHTMLEditorTextDialogClass))
 
 G_BEGIN_DECLS
 
-typedef struct _EEditorTextDialog EEditorTextDialog;
-typedef struct _EEditorTextDialogClass EEditorTextDialogClass;
-typedef struct _EEditorTextDialogPrivate EEditorTextDialogPrivate;
+typedef struct _EHTMLEditorTextDialog EHTMLEditorTextDialog;
+typedef struct _EHTMLEditorTextDialogClass EHTMLEditorTextDialogClass;
+typedef struct _EHTMLEditorTextDialogPrivate EHTMLEditorTextDialogPrivate;
 
-struct _EEditorTextDialog {
+struct _EHTMLEditorTextDialog {
 	EHTMLEditorDialog parent;
-	EEditorTextDialogPrivate *priv;
+	EHTMLEditorTextDialogPrivate *priv;
 };
 
-struct _EEditorTextDialogClass {
+struct _EHTMLEditorTextDialogClass {
 	EHTMLEditorDialogClass parent_class;
 };
 
-GType		e_editor_text_dialog_get_type	(void) G_GNUC_CONST;
-GtkWidget *	e_editor_text_dialog_new	(EHTMLEditor *editor);
+GType		e_html_editor_text_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_html_editor_text_dialog_new	(EHTMLEditor *editor);
 
 G_END_DECLS
 
-#endif /* E_EDITOR_TEXT_DIALOG_H */
+#endif /* E_HTML_EDITOR_TEXT_DIALOG_H */
