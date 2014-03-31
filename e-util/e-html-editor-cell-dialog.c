@@ -123,9 +123,9 @@ for_each_cell_do (WebKitDOMElement *row,
 
 static void
 html_editor_cell_dialog_set_attribute (EHTMLEditorCellDialog *dialog,
-                                  gpointer func,
-                                  GValue *value,
-                                  gpointer user_data)
+                                       gpointer func,
+                                       GValue *value,
+                                       gpointer user_data)
 {
 	if (dialog->priv->scope == SCOPE_CELL) {
 
@@ -853,7 +853,7 @@ e_html_editor_cell_dialog_new (EHTMLEditor *editor)
 
 void
 e_html_editor_cell_dialog_show (EHTMLEditorCellDialog *dialog,
-                           WebKitDOMNode *cell)
+                                WebKitDOMNode *cell)
 {
 	EHTMLEditorCellDialogClass *class;
 

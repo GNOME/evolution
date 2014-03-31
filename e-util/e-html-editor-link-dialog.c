@@ -197,7 +197,7 @@ html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 
 static gboolean
 html_editor_link_dialog_entry_key_pressed (EHTMLEditorLinkDialog *dialog,
-                                      GdkEventKey *event)
+                                           GdkEventKey *event)
 {
 	/* We can't do thins in key_released, because then you could not open
 	 * this dialog from main menu by pressing enter on Insert->Link action */
