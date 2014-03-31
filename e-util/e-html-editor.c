@@ -873,7 +873,7 @@ e_html_editor_init (EHTMLEditor *editor)
 	priv->html_editor_view = g_object_ref_sink (e_html_editor_view_new ());
 	priv->selection = e_html_editor_view_get_selection (priv->html_editor_view);
 
-	filename = html_editor_find_ui_file ("e-editor-manager.ui");
+	filename = html_editor_find_ui_file ("e-html-editor-manager.ui");
 	if (!gtk_ui_manager_add_ui_from_file (priv->manager, filename, &error)) {
 		g_critical ("Couldn't load builder file: %s\n", error->message);
 		g_clear_error (&error);

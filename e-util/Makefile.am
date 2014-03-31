@@ -40,7 +40,7 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 ui_DATA = \
-	e-editor-manager.ui \
+	e-html-editor-manager.ui \
 	e-send-options.ui \
 	e-table-config.ui \
 	e-timezone-dialog.ui \

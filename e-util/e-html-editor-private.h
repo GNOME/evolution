@@ -43,7 +43,7 @@
 #endif
 
 #define ACTION(name) (E_HTML_EDITOR_ACTION_##name (editor))
-#define WIDGET(name) (E_EDITOR_WIDGETS_##name (editor))
+#define WIDGET(name) (E_HTML_EDITOR_WIDGETS_##name (editor))
 
 G_BEGIN_DECLS
 
