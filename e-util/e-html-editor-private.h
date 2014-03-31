@@ -21,10 +21,11 @@
 #ifndef E_HTML_EDITOR_PRIVATE_H
 #define E_HTML_EDITOR_PRIVATE_H
 
-#include <e-html-editor.h>
 #include <e-action-combo-box.h>
 #include <e-color-combo.h>
+#include <e-html-editor.h>
 #include <e-html-editor-actions.h>
+#include <e-html-editor-cell-dialog.h>
 #include <e-html-editor-view.h>
 #include <e-editor-find-dialog.h>
 #include <e-editor-replace-dialog.h>
@@ -35,7 +36,6 @@
 #include <e-editor-image-dialog.h>
 #include <e-editor-text-dialog.h>
 #include <e-editor-paragraph-dialog.h>
-#include <e-editor-cell-dialog.h>
 #include <e-editor-spell-check-dialog.h>
 
 #ifdef HAVE_XFREE

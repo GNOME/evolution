@@ -100,7 +100,6 @@
 
   <chapter>
     <title>HTML Editing</title>
-    <xi:include href="xml/e-editor-cell-dialog.xml"/>
     <xi:include href="xml/e-editor-find-dialog.xml"/>
     <xi:include href="xml/e-editor-hrule-dialog.xml"/>
     <xi:include href="xml/e-editor-image-dialog.xml"/>
@@ -119,6 +118,7 @@
     <xi:include href="xml/e-emoticon-chooser-menu.xml"/>
     <xi:include href="xml/e-emoticon-tool-button.xml"/>
     <xi:include href="xml/e-html-editor.xml"/>
+    <xi:include href="xml/e-html-editor-cell-dialog.xml"/>
     <xi:include href="xml/e-html-editor-selection.xml"/>
     <xi:include href="xml/e-html-editor-widget.xml"/>
     <xi:include href="xml/e-html-editor-dialog.xml"/>

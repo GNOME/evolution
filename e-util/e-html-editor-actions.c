@@ -722,11 +722,11 @@ action_properties_cell_cb (GtkAction *action,
 {
 	if (editor->priv->cell_dialog == NULL) {
 		editor->priv->cell_dialog =
-			e_editor_cell_dialog_new (editor);
+			e_html_editor_cell_dialog_new (editor);
 	}
 
-	e_editor_cell_dialog_show (
-		E_EDITOR_CELL_DIALOG (editor->priv->cell_dialog),
+	e_html_editor_cell_dialog_show (
+		E_HTML_EDITOR_CELL_DIALOG (editor->priv->cell_dialog),
 		editor->priv->table_cell);
 }
 
