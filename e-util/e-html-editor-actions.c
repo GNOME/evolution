@@ -862,7 +862,7 @@ action_show_replace_cb (GtkAction *action,
 {
 	if (editor->priv->replace_dialog == NULL) {
 		editor->priv->replace_dialog =
-			e_editor_replace_dialog_new (editor);
+			e_html_editor_replace_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->replace_dialog));

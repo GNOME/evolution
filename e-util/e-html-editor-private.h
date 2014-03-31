@@ -32,8 +32,8 @@
 #include <e-html-editor-link-dialog.h>
 #include <e-html-editor-page-dialog.h>
 #include <e-html-editor-paragraph-dialog.h>
+#include <e-html-editor-replace-dialog.h>
 #include <e-html-editor-view.h>
-#include <e-editor-replace-dialog.h>
 #include <e-editor-table-dialog.h>
 #include <e-editor-text-dialog.h>
 #include <e-editor-spell-check-dialog.h>

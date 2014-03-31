@@ -1746,21 +1746,21 @@ EHTMLEditorParagraphDialogPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-replace-dialog</FILE>
-<TITLE>EEditorReplaceDialog</TITLE>
-EEditorReplaceDialog
-e_editor_replace_dialog_new
+<FILE>e-html-editor-replace-dialog</FILE>
+<TITLE>EHTMLEditorReplaceDialog</TITLE>
+EHTMLEditorReplaceDialog
+e_html_editor_replace_dialog_new
 <SUBSECTION Standard>
-E_EDITOR_REPLACE_DIALOG
-E_IS_EDITOR_REPLACE_DIALOG
-E_TYPE_EDITOR_REPLACE_DIALOG
-E_EDITOR_REPLACE_DIALOG_CLASS
-E_IS_EDITOR_REPLACE_DIALOG_CLASS
-E_EDITOR_REPLACE_DIALOG_GET_CLASS
-EEditorReplaceDialogClass
-e_editor_replace_dialog_get_type
+E_HTML_EDITOR_REPLACE_DIALOG
+E_IS_HTML_EDITOR_REPLACE_DIALOG
+E_TYPE_HTML_EDITOR_REPLACE_DIALOG
+E_HTML_EDITOR_REPLACE_DIALOG_CLASS
+E_IS_HTML_EDITOR_REPLACE_DIALOG_CLASS
+E_HTML_EDITOR_REPLACE_DIALOG_GET_CLASS
+EHTMLEditorReplaceDialogClass
+e_html_editor_replace_dialog_get_type
 <SUBSECTION Private>
-EEditorReplaceDialogPrivate
+EHTMLEditorReplaceDialogPrivate
 </SECTION>
 
 <SECTION>

@@ -177,7 +177,6 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
-	e-editor-replace-dialog.h \
 	e-editor-spell-check-dialog.h \
 	e-editor-table-dialog.h \
 	e-editor-text-dialog.h \
@@ -209,6 +208,7 @@ evolution_util_include_HEADERS =  \
 	e-html-editor-link-dialog.h \
 	e-html-editor-page-dialog.h \
 	e-html-editor-paragraph-dialog.h \
+	e-html-editor-replace-dialog.h \
 	e-html-editor-selection.h \
 	e-html-editor-utils.h \
 	e-html-editor-view.h \
@@ -448,7 +448,6 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
-	e-editor-replace-dialog.c \
 	e-editor-spell-check-dialog.c \
 	e-editor-table-dialog.c \
 	e-editor-text-dialog.c \
@@ -481,6 +480,7 @@ libevolution_util_la_SOURCES = \
 	e-html-editor-page-dialog.c \
 	e-html-editor-paragraph-dialog.c \
 	e-html-editor-private.h \
+	e-html-editor-replace-dialog.c \
 	e-html-editor-selection.c \
 	e-html-editor-utils.c \
 	e-html-editor-view.c \

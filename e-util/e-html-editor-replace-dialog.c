@@ -1,5 +1,5 @@
 /*
- * e-editor-replace-dialog.h
+ * e-html-editor-replace-dialog.h
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,20 +22,20 @@
 #include <config.h>
 #endif
 
-#include "e-editor-replace-dialog.h"
+#include "e-html-editor-replace-dialog.h"
 
 #include <glib/gi18n-lib.h>
 
-#define E_EDITOR_REPLACE_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_REPLACE_DIALOG, EEditorReplaceDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_REPLACE_DIALOG, EHTMLEditorReplaceDialogPrivate))
 
 G_DEFINE_TYPE (
-	EEditorReplaceDialog,
-	e_editor_replace_dialog,
+	EHTMLEditorReplaceDialog,
+	e_html_editor_replace_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
-struct _EEditorReplaceDialogPrivate {
+struct _EHTMLEditorReplaceDialogPrivate {
 	GtkWidget *search_entry;
 	GtkWidget *replace_entry;
 
@@ -58,7 +58,7 @@ enum {
 };
 
 static gboolean
-jump (EEditorReplaceDialog *dialog)
+jump (EHTMLEditorReplaceDialog *dialog)
 {
 	EHTMLEditor *editor;
 	WebKitWebView *webview;
@@ -82,7 +82,7 @@ jump (EEditorReplaceDialog *dialog)
 }
 
 static void
-editor_replace_dialog_skip_cb (EEditorReplaceDialog *dialog)
+html_editor_replace_dialog_skip_cb (EHTMLEditorReplaceDialog *dialog)
 {
 	if (!jump (dialog)) {
 		gtk_label_set_label (
@@ -95,7 +95,7 @@ editor_replace_dialog_skip_cb (EEditorReplaceDialog *dialog)
 }
 
 static void
-editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
+html_editor_replace_dialog_replace_cb (EHTMLEditorReplaceDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -122,7 +122,7 @@ editor_replace_dialog_replace_cb (EEditorReplaceDialog *dialog)
 }
 
 static void
-editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
+html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 {
 	gint i = 0;
 	gchar *result;
@@ -152,7 +152,7 @@ editor_replace_dialog_replace_all_cb (EEditorReplaceDialog *dialog)
 }
 
 static void
-editor_replace_dialog_entry_changed (EEditorReplaceDialog *dialog)
+html_editor_replace_dialog_entry_changed (EHTMLEditorReplaceDialog *dialog)
 {
 	gboolean ready;
 	ready = ((gtk_entry_get_text_length (
@@ -166,51 +166,37 @@ editor_replace_dialog_entry_changed (EEditorReplaceDialog *dialog)
 }
 
 static void
-editor_replace_dialog_show (GtkWidget *widget)
+html_editor_replace_dialog_show (GtkWidget *widget)
 {
-	EEditorReplaceDialog *dialog = E_EDITOR_REPLACE_DIALOG (widget);
+	EHTMLEditorReplaceDialog *dialog = E_HTML_EDITOR_REPLACE_DIALOG (widget);
 
 	gtk_widget_grab_focus (dialog->priv->search_entry);
 	gtk_widget_hide (dialog->priv->result_label);
 
 	/* Chain up to parent implementation */
-	GTK_WIDGET_CLASS (e_editor_replace_dialog_parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_html_editor_replace_dialog_parent_class)->show (widget);
 }
 
 static void
-e_editor_replace_dialog_class_init (EEditorReplaceDialogClass *class)
+e_html_editor_replace_dialog_class_init (EHTMLEditorReplaceDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	g_type_class_add_private (class, sizeof (EEditorReplaceDialogPrivate));
+	g_type_class_add_private (class, sizeof (EHTMLEditorReplaceDialogPrivate));
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_replace_dialog_show;
-
-	object_class = G_OBJECT_CLASS (klass);
-	object_class->set_property = editor_replace_dialog_set_property;
-	object_class->finalize = editor_replace_dialog_finalize;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITOR,
-		g_param_spec_object (
-			"editor",
-		        NULL,
-		        NULL,
-		        E_TYPE_EDITOR,
-		        G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+	widget_class->show = html_editor_replace_dialog_show;
 }
 
 static void
-e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
+e_html_editor_replace_dialog_init (EHTMLEditorReplaceDialog *dialog)
 {
 	GtkGrid *main_layout;
 	GtkWidget *widget, *layout;
 	GtkBox *button_box;
 
-	dialog->priv = E_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_REPLACE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -219,7 +205,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	dialog->priv->search_entry = widget;
 	g_signal_connect_swapped (
 		widget, "notify::text-length",
-		G_CALLBACK (editor_replace_dialog_entry_changed), dialog);
+		G_CALLBACK (html_editor_replace_dialog_entry_changed), dialog);
 
 	widget = gtk_label_new_with_mnemonic (_("R_eplace:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->search_entry);
@@ -231,7 +217,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	dialog->priv->replace_entry = widget;
 	g_signal_connect_swapped (
 		widget, "notify::text-length",
-		G_CALLBACK (editor_replace_dialog_entry_changed), dialog);
+		G_CALLBACK (html_editor_replace_dialog_entry_changed), dialog);
 
 	widget = gtk_label_new_with_mnemonic (_("_With:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->replace_entry);
@@ -265,7 +251,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	dialog->priv->skip_button = widget;
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_replace_dialog_skip_cb), dialog);
+		G_CALLBACK (html_editor_replace_dialog_skip_cb), dialog);
 
 	widget = gtk_button_new_with_mnemonic (_("_Replace"));
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
@@ -273,7 +259,7 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	dialog->priv->replace_button = widget;
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_replace_dialog_replace_cb), dialog);
+		G_CALLBACK (html_editor_replace_dialog_replace_cb), dialog);
 
 	widget = gtk_button_new_with_mnemonic (_("Replace _All"));
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
@@ -281,19 +267,17 @@ e_editor_replace_dialog_init (EEditorReplaceDialog *dialog)
 	dialog->priv->replace_all_button = widget;
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_replace_dialog_replace_all_cb), dialog);
+		G_CALLBACK (html_editor_replace_dialog_replace_all_cb), dialog);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
 GtkWidget *
-e_editor_replace_dialog_new (EHTMLEditor *editor)
+e_html_editor_replace_dialog_new (EHTMLEditor *editor)
 {
 	return GTK_WIDGET (
 		g_object_new (
-			E_TYPE_EDITOR_REPLACE_DIALOG,
-			"destroy-with-parent", TRUE,
-			"events", GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
+			E_TYPE_HTML_EDITOR_REPLACE_DIALOG,
 			"editor", editor,
 			"icon-name", GTK_STOCK_FIND_AND_REPLACE,
 			"resizable", FALSE,
