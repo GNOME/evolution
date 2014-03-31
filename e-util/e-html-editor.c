@@ -482,8 +482,8 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 		NULL);
 
 	if (editor->priv->spell_check_dialog != NULL)
-		e_editor_spell_check_dialog_update_dictionaries (
-			E_EDITOR_SPELL_CHECK_DIALOG (
+		e_html_editor_spell_check_dialog_update_dictionaries (
+			E_HTML_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
 	if (*comma_separated)

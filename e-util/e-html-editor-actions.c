@@ -874,7 +874,7 @@ action_spell_check_cb (GtkAction *action,
 {
 	if (editor->priv->spell_check_dialog == NULL) {
 		editor->priv->spell_check_dialog =
-			e_editor_spell_check_dialog_new (editor);
+			e_html_editor_spell_check_dialog_new (editor);
 	}
 
 	gtk_window_present (GTK_WINDOW (editor->priv->spell_check_dialog));

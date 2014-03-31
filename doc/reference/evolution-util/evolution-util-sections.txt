@@ -1830,22 +1830,22 @@ EEditorSelectionPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-editor-spell-check-dialog</FILE>
-<TITLE>EEditorSpellCheckDialog</TITLE>
-EEditorSpellCheckDialog
-e_editor_spell_check_dialog_new
-e_editor_spell_check_dialog_update_dictionaries
+<FILE>e-html-editor-spell-check-dialog</FILE>
+<TITLE>EHTMLEditorSpellCheckDialog</TITLE>
+EHTMLEditorSpellCheckDialog
+e_html_editor_spell_check_dialog_new
+e_html_editor_spell_check_dialog_update_dictionaries
 <SUBSECTION Standard>
-E_EDITOR_SPELL_CHECK_DIALOG
-E_IS_EDITOR_SPELL_CHECK_DIALOG
-E_TYPE_EDITOR_SPELL_CHECK_DIALOG
-E_EDITOR_SPELL_CHECK_DIALOG_CLASS
-E_IS_EDITOR_SPELL_CHECK_DIALOG_CLASS
-E_EDITOR_SPELL_CHECK_DIALOG_GET_CLASS
-EEditorSpellCheckDialogClass
-e_editor_spell_check_dialog_get_type
+E_HTML_EDITOR_SPELL_CHECK_DIALOG
+E_IS_HTML_EDITOR_SPELL_CHECK_DIALOG
+E_TYPE_HTML_EDITOR_SPELL_CHECK_DIALOG
+E_HTML_EDITOR_SPELL_CHECK_DIALOG_CLASS
+E_IS_HTML_EDITOR_SPELL_CHECK_DIALOG_CLASS
+E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_CLASS
+EHTMLEditorSpellCheckDialogClass
+e_html_editor_spell_check_dialog_get_type
 <SUBSECTION Private>
-EEditorSpellCheckDialogPrivate
+EHTMLEditorSpellCheckDialogPrivate
 </SECTION>
 
 <SECTION>

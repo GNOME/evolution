@@ -1,5 +1,5 @@
 /*
- * e-editor-spell-dialog.c
+ * e-html-editor-spell-dialog.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include "e-editor-spell-check-dialog.h"
+#include "e-html-editor-spell-check-dialog.h"
 
 #include <glib/gi18n-lib.h>
 #include <enchant/enchant.h>
@@ -31,11 +31,11 @@
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"
 
-#define E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE(obj) \
+#define E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EDITOR_SPELL_CHECK_DIALOG, EEditorSpellCheckDialogPrivate))
+	((obj), E_TYPE_HTML_EDITOR_SPELL_CHECK_DIALOG, EHTMLEditorSpellCheckDialogPrivate))
 
-struct _EEditorSpellCheckDialogPrivate {
+struct _EHTMLEditorSpellCheckDialogPrivate {
 	GtkWidget *add_word_button;
 	GtkWidget *back_button;
 	GtkWidget *dictionary_combo;
@@ -59,13 +59,13 @@ enum {
 };
 
 G_DEFINE_TYPE (
-	EEditorSpellCheckDialog,
-	e_editor_spell_check_dialog,
+	EHTMLEditorSpellCheckDialog,
+	e_html_editor_spell_check_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG)
 
 static void
-editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
-                                    const gchar *word)
+html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
+                                         const gchar *word)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -115,7 +115,7 @@ editor_spell_check_dialog_set_word (EEditorSpellCheckDialog *dialog,
 }
 
 static gboolean
-select_next_word (EEditorSpellCheckDialog *dialog)
+select_next_word (EHTMLEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *anchor, *focus;
 	gulong anchor_offset, focus_offset;
@@ -149,7 +149,7 @@ select_next_word (EEditorSpellCheckDialog *dialog)
 }
 
 static gboolean
-editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_next (EHTMLEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
 	gulong start_offset, end_offset;
@@ -185,7 +185,7 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 
 		/* Found misspelled word! */
 		if (loc != -1) {
-			editor_spell_check_dialog_set_word (dialog, word);
+			html_editor_spell_check_dialog_set_word (dialog, word);
 			g_free (word);
 			return TRUE;
 		}
@@ -207,7 +207,7 @@ editor_spell_check_dialog_next (EEditorSpellCheckDialog *dialog)
 }
 
 static gboolean
-select_previous_word (EEditorSpellCheckDialog *dialog)
+select_previous_word (EHTMLEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *old_anchor_node;
 	WebKitDOMNode *new_anchor_node;
@@ -242,7 +242,7 @@ select_previous_word (EEditorSpellCheckDialog *dialog)
 }
 
 static gboolean
-editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_prev (EHTMLEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
 	gulong start_offset, end_offset;
@@ -282,7 +282,7 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 
 		/* Found misspelled word! */
 		if (loc != -1) {
-			editor_spell_check_dialog_set_word (dialog, word);
+			html_editor_spell_check_dialog_set_word (dialog, word);
 			g_free (word);
 			return TRUE;
 		}
@@ -304,7 +304,7 @@ editor_spell_check_dialog_prev (EEditorSpellCheckDialog *dialog)
 }
 
 static void
-editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_replace (EHTMLEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -327,11 +327,11 @@ editor_spell_check_dialog_replace (EEditorSpellCheckDialog *dialog)
 		editor_selection, replacement);
 
 	g_free (replacement);
-	editor_spell_check_dialog_next (dialog);
+	html_editor_spell_check_dialog_next (dialog);
 }
 
 static void
-editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -362,11 +362,11 @@ editor_spell_check_dialog_replace_all (EEditorSpellCheckDialog *dialog)
 	}
 
 	g_free (replacement);
-	editor_spell_check_dialog_next (dialog);
+	html_editor_spell_check_dialog_next (dialog);
 }
 
 static void
-editor_spell_check_dialog_ignore (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_ignore (EHTMLEditorSpellCheckDialog *dialog)
 {
 	if (dialog->priv->word == NULL)
 		return;
@@ -374,11 +374,11 @@ editor_spell_check_dialog_ignore (EEditorSpellCheckDialog *dialog)
 	e_spell_dictionary_ignore_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
 
-	editor_spell_check_dialog_next (dialog);
+	html_editor_spell_check_dialog_next (dialog);
 }
 
 static void
-editor_spell_check_dialog_learn (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_learn (EHTMLEditorSpellCheckDialog *dialog)
 {
 	if (dialog->priv->word == NULL)
 		return;
@@ -386,11 +386,11 @@ editor_spell_check_dialog_learn (EEditorSpellCheckDialog *dialog)
 	e_spell_dictionary_learn_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
 
-	editor_spell_check_dialog_next (dialog);
+	html_editor_spell_check_dialog_next (dialog);
 }
 
 static void
-editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
+html_editor_spell_check_dialog_set_dictionary (EHTMLEditorSpellCheckDialog *dialog)
 {
 	GtkComboBox *combo_box;
 	GtkTreeModel *model;
@@ -406,19 +406,19 @@ editor_spell_check_dialog_set_dictionary (EEditorSpellCheckDialog *dialog)
 	dialog->priv->current_dict = dictionary;
 
 	/* Update suggestions */
-	editor_spell_check_dialog_set_word (dialog, dialog->priv->word);
+	html_editor_spell_check_dialog_set_word (dialog, dialog->priv->word);
 }
 
 static void
-editor_spell_check_dialog_show (GtkWidget *widget)
+html_editor_spell_check_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EEditorSpellCheckDialog *dialog;
+	EHTMLEditorSpellCheckDialog *dialog;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 
-	dialog = E_EDITOR_SPELL_CHECK_DIALOG (widget);
+	dialog = E_HTML_EDITOR_SPELL_CHECK_DIALOG (widget);
 
 	g_free (dialog->priv->word);
 	dialog->priv->word = NULL;
@@ -431,58 +431,58 @@ editor_spell_check_dialog_show (GtkWidget *widget)
 	dialog->priv->selection = webkit_dom_dom_window_get_selection (window);
 
 	/* Select the first word or quit */
-	if (editor_spell_check_dialog_next (dialog)) {
-		GTK_WIDGET_CLASS (e_editor_spell_check_dialog_parent_class)->
+	if (html_editor_spell_check_dialog_next (dialog)) {
+		GTK_WIDGET_CLASS (e_html_editor_spell_check_dialog_parent_class)->
 			show (widget);
 	}
 }
 
 static void
-editor_spell_check_dialog_finalize (GObject *object)
+html_editor_spell_check_dialog_finalize (GObject *object)
 {
-	EEditorSpellCheckDialogPrivate *priv;
+	EHTMLEditorSpellCheckDialogPrivate *priv;
 
-	priv = E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (object);
+	priv = E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (object);
 
 	g_free (priv->word);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_editor_spell_check_dialog_parent_class)->
+	G_OBJECT_CLASS (e_html_editor_spell_check_dialog_parent_class)->
 		finalize (object);
 }
 
 static void
-editor_spell_check_dialog_constructed (GObject *object)
+html_editor_spell_check_dialog_constructed (GObject *object)
 {
-	EEditorSpellCheckDialog *dialog;
+	EHTMLEditorSpellCheckDialog *dialog;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_editor_spell_check_dialog_parent_class)->
+	G_OBJECT_CLASS (e_html_editor_spell_check_dialog_parent_class)->
 		constructed (object);
 
-	dialog = E_EDITOR_SPELL_CHECK_DIALOG (object);
-	e_editor_spell_check_dialog_update_dictionaries (dialog);
+	dialog = E_HTML_EDITOR_SPELL_CHECK_DIALOG (object);
+	e_html_editor_spell_check_dialog_update_dictionaries (dialog);
 }
 
 static void
-e_editor_spell_check_dialog_class_init (EEditorSpellCheckDialogClass *class)
+e_html_editor_spell_check_dialog_class_init (EHTMLEditorSpellCheckDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
 	GObjectClass *object_class;
 
 	g_type_class_add_private (
-		class, sizeof (EEditorSpellCheckDialogPrivate));
+		class, sizeof (EHTMLEditorSpellCheckDialogPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = editor_spell_check_dialog_finalize;
-	object_class->constructed = editor_spell_check_dialog_constructed;
+	object_class->finalize = html_editor_spell_check_dialog_finalize;
+	object_class->constructed = html_editor_spell_check_dialog_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = editor_spell_check_dialog_show;
+	widget_class->show = html_editor_spell_check_dialog_show;
 }
 
 static void
-e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
+e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 {
 	GtkWidget *widget;
 	GtkGrid *main_layout;
@@ -490,7 +490,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	dialog->priv = E_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
@@ -541,7 +541,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_spell_check_dialog_replace), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_replace), dialog);
 
 	/* Replace All */
 	widget = gtk_button_new_with_mnemonic (_("Replace All"));
@@ -554,7 +554,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_spell_check_dialog_replace_all), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_replace_all), dialog);
 
 	/* Ignore */
 	widget = gtk_button_new_with_mnemonic (_("Ignore"));
@@ -567,7 +567,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_spell_check_dialog_ignore), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_ignore), dialog);
 
 	/* Skip */
 	widget = gtk_button_new_with_mnemonic (_("Skip"));
@@ -580,7 +580,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_spell_check_dialog_next), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_next), dialog);
 
 	/* Back */
 	widget = gtk_button_new_with_mnemonic (_("Back"));
@@ -592,7 +592,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_spell_check_dialog_prev), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_prev), dialog);
 
 	/* Dictionary label */
 	widget = gtk_label_new ("");
@@ -613,7 +613,7 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "changed",
-		G_CALLBACK (editor_spell_check_dialog_set_dictionary), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_set_dictionary), dialog);
 
 	/* Add Word button */
 	widget = gtk_button_new_with_mnemonic (_("Add Word"));
@@ -626,23 +626,23 @@ e_editor_spell_check_dialog_init (EEditorSpellCheckDialog *dialog)
 
 	g_signal_connect_swapped (
 		widget, "clicked",
-		G_CALLBACK (editor_spell_check_dialog_learn), dialog);
+		G_CALLBACK (html_editor_spell_check_dialog_learn), dialog);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
 
 GtkWidget *
-e_editor_spell_check_dialog_new (EHTMLEditor *editor)
+e_html_editor_spell_check_dialog_new (EHTMLEditor *editor)
 {
 	return g_object_new (
-		E_TYPE_EDITOR_SPELL_CHECK_DIALOG,
+		E_TYPE_HTML_EDITOR_SPELL_CHECK_DIALOG,
 		"editor", editor,
 		"title", N_("Spell Checking"),
 		NULL);
 }
 
 void
-e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog)
+e_html_editor_spell_check_dialog_update_dictionaries (EHTMLEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -654,7 +654,7 @@ e_editor_spell_check_dialog_update_dictionaries (EEditorSpellCheckDialog *dialog
 	guint n_languages = 0;
 	guint ii;
 
-	g_return_if_fail (E_IS_EDITOR_SPELL_CHECK_DIALOG (dialog));
+	g_return_if_fail (E_IS_HTML_EDITOR_SPELL_CHECK_DIALOG (dialog));
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
