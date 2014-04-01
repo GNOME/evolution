@@ -13977,7 +13977,7 @@ msgstr "začíná na"
 #. and now for the action area
 #: ../mail/em-filter-rule.c:587
 msgid "Then"
-msgstr "Dále"
+msgstr "Potom"
 
 #: ../mail/em-filter-rule.c:652
 msgid "Add Ac_tion"
