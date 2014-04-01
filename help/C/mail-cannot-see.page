@@ -35,7 +35,7 @@
  </item>
  <!-- Does the following option still exist? -->
  <item>
-  <p>Click <guiseq><gui>Edit</gui><gui>Show Deleted Messages</gui></guiseq> to make sure all messages are visible.</p>
+  <p>Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to make sure all messages are visible.</p>
  </item>
  <item>
   <p>Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. Perhaps it is set to some other folder than the folder you thought of.</p>
