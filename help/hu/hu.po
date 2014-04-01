@@ -5,19 +5,20 @@
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
+# Balázs Úr <urbalazs@gmail.com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution_help master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-09-05 13:01+0000\n"
-"PO-Revision-Date: 2013-09-07 09:41+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"POT-Creation-Date: 2014-04-01 04:11+0000\n"
+"PO-Revision-Date: 2014-04-01 16:41+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -27,119 +28,6 @@ msgstr ""
 "Bence Lukács lukacs.bence1 at gmail dot com, 2011\n"
 "Gabor Kelemen kelemeng at gnome dot hu, 2011, 2012, 2013.\n"
 "Nagy Zoltán dzodzie at gmail dot com, 2011"
-
-#. (itstool) path: info/desc
-#: C/index.page:5
-msgid "Evolution"
-msgstr "Evolution"
-
-#. (itstool) path: info/title
-#: C/index.page:7
-msgctxt "text"
-msgid "Evolution Mail and Calendar"
-msgstr "Evolution levelező és naptár"
-
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Evolution logó"
-
-#. (itstool) path: page/title
-#: C/index.page:23
-msgid "<_:media-1/> Evolution Mail and Calendar"
-msgstr "<_:media-1/> Evolution levelező és naptár"
-
-#. (itstool) path: section/title
-#. (itstool) path: page/title
-#: C/index.page:31 C/intro-application.page:24
-msgid "Getting Started"
-msgstr "Kezdeti lépések"
-
-#. (itstool) path: section/title
-#: C/index.page:35
-msgid "Mail Management"
-msgstr "Levélkezelés"
-
-#. (itstool) path: section/title
-#: C/index.page:37
-msgid "Advanced Mail Management"
-msgstr "Speciális levélkezelés"
-
-#. (itstool) path: info/title
-#: C/index.page:40
-msgctxt "link"
-msgid "Advanced Mail Management (IMAP+ accounts)"
-msgstr "Speciális levélkezelés (IMAP+ fiókok)"
-
-#. (itstool) path: section/title
-#: C/index.page:42 C/intro-first-run.page:54
-msgid "IMAP+"
-msgstr "IMAP+"
-
-#. (itstool) path: section/title
-#: C/index.page:48
-msgid "Mail Composing"
-msgstr "Levélszerkesztés"
-
-#. (itstool) path: section/title
-#: C/index.page:50
-msgid "Advanced Mail Composing"
-msgstr "Speciális levélszerkesztés"
-
-#. (itstool) path: section/title
-#: C/index.page:55
-msgid "Calendar Management"
-msgstr "Naptárkezelés"
-
-#. (itstool) path: section/title
-#: C/index.page:57
-msgid "Advanced Calendar Management"
-msgstr "Speciális naptárkezelés"
-
-#. (itstool) path: section/title
-#: C/index.page:62
-msgid "Contacts Management"
-msgstr "Névjegykezelés"
-
-#. (itstool) path: section/title
-#: C/index.page:66
-msgid "Memos and Tasks Management"
-msgstr "Feljegyzések és feladatok kezelése"
-
-#. (itstool) path: section/title
-#: C/index.page:70
-msgid "Data Migration and Synchronization"
-msgstr "Adatköltöztetés és -szinkronizálás"
-
-#. (itstool) path: section/title
-#: C/index.page:74
-msgid "Corporate Environments"
-msgstr "Vállalati környezetek"
-
-#. (itstool) path: section/title
-#: C/index.page:76
-msgid "Microsoft Exchange"
-msgstr "Microsoft Exchange"
-
-#. (itstool) path: section/title
-#: C/index.page:81
-msgid "Tracking down Problems"
-msgstr "Problémák elhárítása"
-
-#. (itstool) path: section/title
-#: C/index.page:85
-msgid "Common Mail Questions and Problems"
-msgstr "Levelezéssel kapcsolatos gyakori kérdések és problémák"
-
-#. (itstool) path: section/title
-#: C/index.page:89
-msgid "Common Other Questions and Problems"
-msgstr "Egyéb gyakori kérdések és problémák"
-
-#. (itstool) path: section/title
-#: C/index.page:93
-msgid "Further reading"
-msgstr "További olvasnivaló"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:5
@@ -1450,9 +1338,6 @@ msgstr "Keresés összefoglaló alapján:"
 #. (itstool) path: item/p
 #: C/calendar-searching.page:34 C/contacts-searching.page:42
 #: C/memos-searching.page:43 C/tasks-searching.page:43
-#| msgid ""
-#| "Click the search icon <media type=\"image\" mime=\"image/png\" src="
-#| "\"figures/search-icon.png\"/> to expand the drop-down list."
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
 "A legördülő lista kibontásához kattintson a <_:media-1/> keresés ikonra."
@@ -3877,6 +3762,119 @@ msgstr ""
 "Table néven is ismert."
 
 #. (itstool) path: info/desc
+#: C/index.page:5
+msgid "Evolution"
+msgstr "Evolution"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Evolution Mail and Calendar"
+msgstr "Evolution levelező és naptár"
+
+#. (itstool) path: media/span
+#: C/index.page:25
+msgid "Evolution logo"
+msgstr "Evolution logó"
+
+#. (itstool) path: page/title
+#: C/index.page:23
+msgid "<_:media-1/> Evolution Mail and Calendar"
+msgstr "<_:media-1/> Evolution levelező és naptár"
+
+#. (itstool) path: section/title
+#. (itstool) path: page/title
+#: C/index.page:31 C/intro-application.page:24
+msgid "Getting Started"
+msgstr "Kezdeti lépések"
+
+#. (itstool) path: section/title
+#: C/index.page:35
+msgid "Mail Management"
+msgstr "Levélkezelés"
+
+#. (itstool) path: section/title
+#: C/index.page:37
+msgid "Advanced Mail Management"
+msgstr "Speciális levélkezelés"
+
+#. (itstool) path: info/title
+#: C/index.page:40
+msgctxt "link"
+msgid "Advanced Mail Management (IMAP+ accounts)"
+msgstr "Speciális levélkezelés (IMAP+ fiókok)"
+
+#. (itstool) path: section/title
+#: C/index.page:42 C/intro-first-run.page:54
+msgid "IMAP+"
+msgstr "IMAP+"
+
+#. (itstool) path: section/title
+#: C/index.page:48
+msgid "Mail Composing"
+msgstr "Levélszerkesztés"
+
+#. (itstool) path: section/title
+#: C/index.page:50
+msgid "Advanced Mail Composing"
+msgstr "Speciális levélszerkesztés"
+
+#. (itstool) path: section/title
+#: C/index.page:55
+msgid "Calendar Management"
+msgstr "Naptárkezelés"
+
+#. (itstool) path: section/title
+#: C/index.page:57
+msgid "Advanced Calendar Management"
+msgstr "Speciális naptárkezelés"
+
+#. (itstool) path: section/title
+#: C/index.page:62
+msgid "Contacts Management"
+msgstr "Névjegykezelés"
+
+#. (itstool) path: section/title
+#: C/index.page:66
+msgid "Memos and Tasks Management"
+msgstr "Feljegyzések és feladatok kezelése"
+
+#. (itstool) path: section/title
+#: C/index.page:70
+msgid "Data Migration and Synchronization"
+msgstr "Adatköltöztetés és -szinkronizálás"
+
+#. (itstool) path: section/title
+#: C/index.page:74
+msgid "Corporate Environments"
+msgstr "Vállalati környezetek"
+
+#. (itstool) path: section/title
+#: C/index.page:76
+msgid "Microsoft Exchange"
+msgstr "Microsoft Exchange"
+
+#. (itstool) path: section/title
+#: C/index.page:81
+msgid "Tracking down Problems"
+msgstr "Problémák elhárítása"
+
+#. (itstool) path: section/title
+#: C/index.page:85
+msgid "Common Mail Questions and Problems"
+msgstr "Levelezéssel kapcsolatos gyakori kérdések és problémák"
+
+#. (itstool) path: section/title
+#: C/index.page:89
+msgid "Common Other Questions and Problems"
+msgstr "Egyéb gyakori kérdések és problémák"
+
+#. (itstool) path: section/title
+#: C/index.page:93
+msgid "Further reading"
+msgstr "További olvasnivaló"
+
+#. (itstool) path: info/desc
 #: C/intro-application.page:5
 msgid "An introduction to Evolution."
 msgstr "Az Evolution bemutatása."
@@ -4369,13 +4367,11 @@ msgstr "<_:media-1/> Menüsáv"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:47 C/intro-main-window.page:96
 #: C/intro-main-window.page:142
-#| msgid "<_:media-1/> Evolution Mail and Calendar"
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Eszköztár"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:50
-#| msgid "Folder list"
 msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Mappalista"
 
@@ -4511,13 +4507,11 @@ msgstr "A naptár főablak elemei:"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:99
-#| msgid "<_:media-1/> Evolution Mail and Calendar"
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Naptárlista"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:103
-#| msgid "Appointment List"
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Találkozólista"
 
@@ -4595,7 +4589,6 @@ msgstr "<_:media-1/> Címjegyzéklista"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:149
-#| msgid "Creating a contact list"
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Névjegyek listája"
 
@@ -5800,15 +5793,12 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/mail-composer-change-quotation-string.page:38
-#| msgid ""
-#| "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/"
-#| "gnome/sources/dconf-editor/\" style=\"button\">Install dconf-editor</link>"
 msgid ""
 "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Install dconf-editor</link>"
 msgstr ""
-"<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/so"
-"urces/dconf/\" style=\"button\">A dconf-editor telepítése</link>"
+"<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
+"sources/dconf/\" style=\"button\">A dconf-editor telepítése</link>"
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
@@ -6133,11 +6123,6 @@ msgstr "Kattintson a <gui>Megnyitás</gui> gombra."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:30
-#| msgid ""
-#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
-#| "html-composer-insert-image.png\"/> icon in the second bar below the "
-#| "<gui>Subject</gui> line, or drag an image into the text area of the "
-#| "message composer."
 msgid ""
 "Alternately, you can also use the <_:media-1/> icon in the second bar below "
 "the <gui>Subject</gui> line, or drag an image into the text area of the "
@@ -6145,8 +6130,7 @@ msgid ""
 msgstr ""
 "Ennek alternatívájaként használhatja a <_:media-1/> ikont a második "
 "eszköztáron a <gui>Tárgy</gui> sor alatt, vagy a képet át is húzhatja a "
-"levélszerkesztő "
-"szövegterületére."
+"levélszerkesztő szövegterületére."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-link.page:5
@@ -6193,10 +6177,6 @@ msgstr "Nyomja meg a <gui>Bezárás</gui> gombot."
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:32 C/mail-composer-html-rule.page:31
 #: C/mail-composer-html-table.page:32
-#| msgid ""
-#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
-#| "html-composer-insert-link.png\"/> icon in the second bar below the "
-#| "<gui>Subject</gui> line."
 msgid ""
 "Alternately, you can also use the <_:media-1/> icon in the second bar below "
 "the <gui>Subject</gui> line."
@@ -7730,26 +7710,17 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
-#| msgid ""
-#| "To see all recipients, click the <media type=\"image\" src=\"./figures/"
-#| "plus-icon.png\"/> icon next to the <gui>To:</gui> or <gui>Cc:</gui> line, "
-#| "or click the ellipsis (...) at the end of the five displayed addresses."
 msgid ""
 "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
 "gui> or <gui>Cc:</gui> line, or click the ellipsis (...) at the end of the "
 "five displayed addresses."
 msgstr ""
-"Az összes címzett megjelenítéséhez kattintson a <_:media-1/> ikonra a <gui>"
-"Címzett:</gui> vagy <gui>Másolat:</gui> sor mellett, vagy a három pontra (…) "
-"az öt megjelenített cím után."
+"Az összes címzett megjelenítéséhez kattintson a <_:media-1/> ikonra a "
+"<gui>Címzett:</gui> vagy <gui>Másolat:</gui> sor mellett, vagy a három "
+"pontra (…) az öt megjelenített cím után."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
-#| msgid ""
-#| "To collapse all of the message headers and just display the subject and "
-#| "sender in one line, click the icon <media type=\"image\" src=\"./figures/"
-#| "minus-icon.png\"/> next to the <gui>From:</gui> line. This is helpful on "
-#| "small screens."
 msgid ""
 "To collapse all of the message headers and just display the subject and "
 "sender in one line, click the icon <_:media-1/> next to the <gui>From:</gui> "
@@ -7757,8 +7728,7 @@ msgid ""
 msgstr ""
 "Az összes üzenetfejléc összecsukásához, és a tárgy és feladó egy sorban való "
 "megjelenítéséhez kattintson a <_:media-1/> ikonra a <gui>Feladó:</gui> sor "
-"mellett. Ez kis képernyőkön "
-"lehet hasznos."
+"mellett. Ez kis képernyőkön lehet hasznos."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-images-in-html.page:5
@@ -10907,9 +10877,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-searching.page:42
-#| msgid ""
-#| "Click on the search icon <media type=\"image\" mime=\"image/png\" src="
-#| "\"figures/search-icon.png\"/> to expand the drop-down list."
 msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
 "A legördülő lista kibontásához kattintson a <_:media-1/> keresés ikonra."
@@ -12270,13 +12237,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/minimize-to-system-tray.page:29
-#| msgid ""
-#| "In GNOME version 2 you may modify the notification area and set it up to "
-#| "become a system tray by using external applications which might be "
-#| "available for installation in the software management tool of your "
-#| "distribution. Available options are for example <link href=\"http://"
-#| "alltray.trausch.us/\">Alltray</link> or <link href=\"http://code.google."
-#| "com/p/tint2/\">Tint2</link>. This is no longer possible in GNOME 3."
 msgid ""
 "In GNOME version 2 you may modify the notification area and set it up to "
 "become a system tray by using external applications which might be available "
@@ -12287,9 +12247,8 @@ msgstr ""
 "A GNOME 2-ben külső szoftverek használatával módosíthatta az értesítési "
 "területet, és beállíthatta rendszertálcaként való működésre. Ezek a "
 "szoftverek elérhetők lehetnek a disztribúciója csomagkezelőjéből. Ilyen "
-"például a <link href=\"http://code.google.com/p/tint2/\">Tint2</link>. Ez már "
-"nem "
-"érhető el a GNOME 3-ban."
+"például a <link href=\"http://code.google.com/p/tint2/\">Tint2</link>. Ez "
+"már nem érhető el a GNOME 3-ban."
 
 #. (itstool) path: info/desc
 #: C/offline.page:5
@@ -12379,13 +12338,17 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
+#| msgid ""
+#| "To further track down a problem, some debug options are listed on the "
+#| "<link href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution "
+#| "project website</link>."
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
-"href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution project "
+"href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution project "
 "website</link>."
 msgstr ""
 "A probléma további felderítéséhez további hibaelhárítási lehetőségeket talál "
-"az <link href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution "
+"az <link href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution "
 "projekt weboldalán</link>."
 
 #. (itstool) path: page/p
