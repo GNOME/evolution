@@ -50,7 +50,7 @@
 #define SLOTS_IN_COLLAPSED_STATE SLOTS_PER_LINE
 #define EMAIL_SLOTS   4
 #define PHONE_SLOTS   50
-#define IM_SLOTS      4
+#define IM_SLOTS      50
 #define ADDRESS_SLOTS 3
 
 #define EVOLUTION_UI_SLOT_PARAM "X-EVOLUTION-UI-SLOT"
@@ -180,6 +180,20 @@ im_service[] =
 	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") },
 	{ E_CONTACT_IM_SKYPE,     N_ ("Skype")     },
 	{ E_CONTACT_IM_TWITTER,   N_ ("Twitter")   }
+};
+
+static EContactField
+im_service_fetch_set[] =
+{
+	E_CONTACT_IM_AIM,
+	E_CONTACT_IM_JABBER,
+	E_CONTACT_IM_YAHOO,
+	E_CONTACT_IM_GADUGADU,
+	E_CONTACT_IM_MSN,
+	E_CONTACT_IM_ICQ,
+	E_CONTACT_IM_GROUPWISE,
+	E_CONTACT_IM_SKYPE,
+	E_CONTACT_IM_TWITTER
 };
 
 /* Defaults from the table above */
@@ -994,12 +1008,6 @@ email_index_to_location (gint index)
 	return common_location[index].name;
 }
 
-static const gchar *
-im_index_to_location (gint index)
-{
-	return common_location[index].name;
-}
-
 static void
 phone_index_to_type (gint index,
                      const gchar **type_1,
@@ -1011,19 +1019,6 @@ phone_index_to_type (gint index,
 
 static gint
 get_email_location (EVCardAttribute *attr)
-{
-	gint i;
-
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location[i].name))
-			return i;
-	}
-
-	return -1;
-}
-
-static gint
-get_im_location (EVCardAttribute *attr)
 {
 	gint i;
 
@@ -1298,28 +1293,6 @@ sensitize_email (EContactEditor *editor)
 }
 
 static void
-init_item_sensitiveable_combo_box (GtkComboBox *combo)
-{
-	GtkCellRenderer *cell;
-	GtkListStore *store;
-
-	g_return_if_fail (combo != NULL);
-	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
-
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
-	gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
-	g_object_unref (store);
-
-	gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
-
-	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
-	gtk_cell_layout_set_attributes (
-		GTK_CELL_LAYOUT (combo), cell,
-		"text", 0, "sensitive", 1, NULL);
-}
-
-static void
 set_arrow_image (EContactEditor *editor,
                  const gchar *arrow_widget,
                  gboolean expanded)
@@ -1390,6 +1363,24 @@ expand_phone (EContactEditor *editor,
 
 	if (expanded)
 		e_contact_editor_dyntable_set_show_max (dyntable, PHONE_SLOTS);
+	else
+		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
+}
+
+static void
+expand_im (EContactEditor *editor,
+           gboolean expanded)
+{
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+
+	set_arrow_image (editor, "arrow-im-expand", expanded);
+
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+
+	if (expanded)
+		e_contact_editor_dyntable_set_show_max (dyntable, IM_SLOTS);
 	else
 		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
 }
@@ -1532,10 +1523,11 @@ extract_phone (EContactEditor *editor)
 
 		e_vcard_attribute_add_value (attr, phone);
 
-		attr_list = g_list_append (attr_list, attr);
+		attr_list = g_list_prepend (attr_list, attr);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
+	attr_list = g_list_reverse (attr_list);
 
 	/* Splice in the old attributes, minus the PHONE_SLOTS first */
 
@@ -1658,145 +1650,76 @@ sensitize_phone (EContactEditor *editor)
 }
 
 static void
-init_im_record_location (EContactEditor *editor,
-                         gint record)
+row_added_im (EContactEditorDynTable *dyntable, EContactEditor *editor)
 {
-
-#ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_combo_box;
-	GtkListStore *store;
-	gint i;
-	gchar *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (location_combo_box));
-
-	store = GTK_LIST_STORE (
-		gtk_combo_box_get_model (
-		GTK_COMBO_BOX (location_combo_box)));
-
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		GtkTreeIter iter;
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter,
-			0, _(common_location[i].pretty_name),
-			1, TRUE,
-			-1);
-	}
-
-	g_signal_connect (
-		location_combo_box, "changed",
-		G_CALLBACK (object_changed), editor);
-#endif
+	expand_im (editor, TRUE);
 }
 
 static void
-init_im_record_service (EContactEditor *editor,
-                        gint record)
+init_im_record_type (EContactEditor *editor)
 {
-	GtkWidget *service_combo_box;
+	GtkWidget *w;
 	GtkListStore *store;
-	GtkWidget *name_entry;
-	gchar     *widget_name;
-	gint       i;
+	gint i;
+	EContactEditorDynTable *dyntable;
 
-	widget_name = g_strdup_printf ("entry-im-name-%d", record);
-	name_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
-	service_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	if (editor->priv->compress_ui && record > 2) {
-		gtk_widget_hide (name_entry);
-		gtk_widget_hide (service_combo_box);
-	}
-
-	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (service_combo_box));
-
-	store = GTK_LIST_STORE (
-		gtk_combo_box_get_model (
-		GTK_COMBO_BOX (service_combo_box)));
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	store = e_contact_editor_dyntable_get_combo_store (dyntable);
 
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter,
-			0, im_service[i].pretty_name,
-			1, TRUE,
-			-1);
+		gtk_list_store_set (store, &iter,
+		                    DYNTABLE_COMBO_COLUMN_TEXT, im_service[i].pretty_name,
+		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
+		                    -1);
 	}
 
-	g_signal_connect_swapped (
-		service_combo_box, "changed",
-		G_CALLBACK (gtk_widget_grab_focus), name_entry);
-	g_signal_connect (
-		service_combo_box, "changed",
-		G_CALLBACK (object_changed), editor);
-	g_signal_connect (
-		name_entry, "changed",
-		G_CALLBACK (object_changed), editor);
-	g_signal_connect_swapped (
-		name_entry, "activate",
-		G_CALLBACK (entry_activated), editor);
+	e_contact_editor_dyntable_set_combo_defaults (dyntable, im_service_default, G_N_ELEMENTS (im_service_default));
 }
 
 static void
 init_im (EContactEditor *editor)
 {
-	gint i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
 
-	for (i = 1; i <= IM_SLOTS; i++) {
-		init_im_record_service  (editor, i);
-		init_im_record_location (editor, i);
-	}
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+
+	e_contact_editor_dyntable_set_max_entries (dyntable, IM_SLOTS);
+	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_PER_LINE);
+
+	g_signal_connect (
+		w, "changed",
+		G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (
+		w, "activate",
+		G_CALLBACK (entry_activated), editor);
+	g_signal_connect (
+		w, "row-added",
+		G_CALLBACK (row_added_im), editor);
+
+	init_im_record_type (editor);
 }
 
-static void
-fill_in_im_record (EContactEditor *editor,
-                   gint record,
-                   gint service,
-                   const gchar *name,
-                   gint location)
+static gint
+get_service_type (EVCardAttribute *attr)
 {
-	GtkWidget *service_combo_box;
-#ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_combo_box;
-#endif
-	GtkWidget *name_entry;
-	gchar     *widget_name;
+	gint ii;
+	const gchar *name;
+	EContactField field;
 
-	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
-	service_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-#ifdef ENABLE_IM_LOCATION
-	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-#endif
-
-	widget_name = g_strdup_printf ("entry-im-name-%d", record);
-	name_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-#ifdef ENABLE_IM_LOCATION
-	set_combo_box_active (
-		editor, GTK_COMBO_BOX (location_combo_box),
-		location >= 0 ? location : 0);
-#endif
-	set_combo_box_active (
-		editor, GTK_COMBO_BOX (service_combo_box),
-		service >= 0 ? service : im_service_default[record - 1]);
-	set_entry_text (editor, GTK_ENTRY (name_entry), name ? name : "");
+	for (ii = 0; ii < G_N_ELEMENTS (im_service); ii++) {
+		name = e_vcard_attribute_get_name (attr);
+		field = e_contact_field_id_from_vcard (name);
+		if (field == im_service[ii].field)
+			return ii;
+	}
+	return -1;
 }
 
 static void
@@ -1804,167 +1727,153 @@ fill_in_im (EContactEditor *editor)
 {
 	GList *im_attr_list;
 	GList *l;
-	gint   record_n;
-	gint   i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeIter iter;
+
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
 	/* Clear */
 
-	for (record_n = 1; record_n <= IM_SLOTS; record_n++) {
-		fill_in_im_record (editor, record_n, -1, NULL, -1);
-	}
+	e_contact_editor_dyntable_clear_data (dyntable);
 
 	/* Fill in */
 
-	for (record_n = 1, i = 0; i < G_N_ELEMENTS (im_service); i++) {
-		im_attr_list = e_contact_get_attributes (editor->priv->contact, im_service[i].field);
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
 
-		for (l = im_attr_list; l && record_n <= IM_SLOTS; l = g_list_next (l)) {
-			EVCardAttribute *attr = l->data;
-			gchar           *im_name;
-			gint             slot;
+	im_attr_list = e_contact_get_attributes_set (
+			editor->priv->contact,
+			im_service_fetch_set,
+			G_N_ELEMENTS (im_service_fetch_set)
+			);
 
-			im_name = e_vcard_attribute_get_value (attr);
-			slot = alloc_ui_slot (
-				editor, "entry-im-name",
-				get_ui_slot (attr), IM_SLOTS);
-			if (slot < 1)
-				break;
+	for (l = im_attr_list; l; l = g_list_next(l)) {
+		EVCardAttribute *attr = l->data;
+		gchar *im_name;
+		gint   service_type;
+		gint   slot;
 
-			fill_in_im_record (
-				editor, slot, i, im_name,
-				get_im_location (attr));
+		im_name = e_vcard_attribute_get_value (attr);
+		service_type = get_service_type (attr);
 
-			record_n++;
+		slot = get_ui_slot (attr);
+		if (slot < 0)
+			slot = IM_SLOTS + 1; //attach at the end
 
-			g_free (im_name);
-		}
+		gtk_list_store_append (data_store, &iter);
+		gtk_list_store_set (data_store, &iter,
+		                    DYNTABLE_STORE_COLUMN_SORTORDER, slot,
+		                    DYNTABLE_STORE_COLUMN_SELECTED_ITEM, service_type,
+		                    DYNTABLE_STORE_COLUMN_ENTRY_STRING, im_name,
+		                    -1);
 
-		g_list_free_full (im_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+		g_free (im_name);
 	}
-}
 
-static void
-extract_im_record (EContactEditor *editor,
-                   gint record,
-                   gint *service,
-                   gchar **name,
-                   gint *location)
-{
-	GtkWidget *service_combo_box;
-#ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_combo_box;
-#endif
-	GtkWidget *name_entry;
-	gchar     *widget_name;
+	g_list_free_full (im_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 
-	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
-	service_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
+	e_contact_editor_dyntable_fill_in_data (dyntable);
 
-#ifdef ENABLE_IM_LOCATION
-	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-#endif
-
-	widget_name = g_strdup_printf ("entry-im-name-%d", record);
-	name_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	*name  = g_strdup (gtk_entry_get_text (GTK_ENTRY (name_entry)));
-	*service = gtk_combo_box_get_active (GTK_COMBO_BOX (service_combo_box));
-#ifdef ENABLE_IM_LOCATION
-	*location = gtk_combo_box_get_active (GTK_COMBO_BOX (location_combo_box));
-#else
-	*location = 1; /* set everything to HOME */
-#endif
+	expand_im (editor, TRUE);
 }
 
 static void
 extract_im (EContactEditor *editor)
 {
-	GList **service_attr_list;
-	gint    remaining_slots = IM_SLOTS;
-	gint    i;
+	GList *attr_list = NULL;
+	GList *old_attr_list = NULL;
+	GList *ll;
+	gint ii;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean valid;
 
-	service_attr_list = g_new0 (GList *, G_N_ELEMENTS (im_service));
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
+	tree_model = GTK_TREE_MODEL (data_store);
 
-	for (i = 1; i <= IM_SLOTS; i++) {
+	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
+	while (valid) {
+		gint             service_type;
+		gint             slot;
+		gchar           *im_name;
 		EVCardAttribute *attr;
-		gchar           *name;
-		gint             service;
-		gint             location;
 
-		extract_im_record (editor, i, &service, &name, &location);
+		gtk_tree_model_get (tree_model,&iter,
+		                   DYNTABLE_STORE_COLUMN_SORTORDER, &slot,
+		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &service_type,
+		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, &im_name,
+		                   -1);
 
-		if (!STRING_IS_EMPTY (name)) {
-			attr = e_vcard_attribute_new (
-				"", e_contact_vcard_attribute (
-				im_service[service].field));
+		attr = e_vcard_attribute_new ("",
+				e_contact_vcard_attribute (
+				im_service[service_type].field));
 
-			if (location >= 0)
-				e_vcard_attribute_add_param_with_value (
-					attr,
-					e_vcard_attribute_param_new (EVC_TYPE),
-					im_index_to_location (location));
+		/* older evolution versions (<=3.12) will crash if SLOT>4 is stored,
+		 * but if we don't store the slot we loose sortorder.
+		 * this works only for <=4 IM slots. for more, old evolution
+		 * will go through types (AIM, Jabber, ...) and stop after 4
+		 * no matter what x-evo-slot says.
+		 */
+		if (slot < 4)
+			set_ui_slot (attr, slot + 1);
 
-			e_vcard_attribute_add_value (attr, name);
-			set_ui_slot (attr, i);
+		e_vcard_attribute_add_value (attr, im_name);
 
-			service_attr_list[service] = g_list_append (
-				service_attr_list[service], attr);
-		}
+		attr_list = g_list_prepend (attr_list, attr);
 
-		g_free (name);
+		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
+	attr_list = g_list_reverse (attr_list);
 
-	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
-		GList *old_service_attr_list;
-		gint   filled_in_slots;
-		GList *ll;
-		gint   j;
+	/* Splice in the old attributes, minus the IM_SLOTS first */
 
-		/* Splice in the old attributes, minus the filled_in_slots first */
-
-		old_service_attr_list = e_contact_get_attributes (
-			editor->priv->contact, im_service[i].field);
-		filled_in_slots = MIN (
-			remaining_slots,
-			g_list_length (old_service_attr_list));
-		remaining_slots -= filled_in_slots;
-
-		for (ll = old_service_attr_list, j = 0;
-		     ll && j < filled_in_slots; j++) {
-
-			e_vcard_attribute_free (ll->data);
-			ll = g_list_delete_link (ll, ll);
-		}
-
-		old_service_attr_list = ll;
-		service_attr_list[i] = g_list_concat (
-			service_attr_list[i], old_service_attr_list);
-
-		e_contact_set_attributes (
+	old_attr_list = e_contact_get_attributes_set (
 			editor->priv->contact,
-			im_service[i].field,
-			service_attr_list[i]);
-
-		free_attr_list (service_attr_list[i]);
+			im_service_fetch_set,
+			G_N_ELEMENTS (im_service_fetch_set)
+			);
+	for (ll = old_attr_list, ii = 0; ll && ii < IM_SLOTS; ii++) {
+		e_vcard_attribute_free (ll->data);
+		ll = g_list_delete_link (ll, ll);
 	}
 
-	g_free (service_attr_list);
+	old_attr_list = ll;
+	attr_list = g_list_concat (attr_list, old_attr_list);
+
+	for (ii = 0; ii < G_N_ELEMENTS (im_service_fetch_set); ii++) {
+		e_contact_set_attributes (editor->priv->contact, im_service_fetch_set[ii], NULL);
+	}
+
+	for (ll = attr_list; ll; ll = ll->next) {
+		EVCard *vcard;
+		vcard = E_VCARD (editor->priv->contact);
+		e_vcard_append_attribute (vcard, e_vcard_attribute_copy ((EVCardAttribute *) ll->data));
+	}
+
+	g_list_free_full (attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
-sensitize_im_types (EContactEditor *editor,
-                    GtkWidget *combo_box)
+sensitize_im_types (EContactEditor *editor)
 {
+	GtkWidget *w;
+	GtkListStore *list_store;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gint i;
 	gboolean valid;
 
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	list_store = e_contact_editor_dyntable_get_combo_store (E_CONTACT_EDITOR_DYNTABLE (w));
+	model = GTK_TREE_MODEL (list_store);
+
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
@@ -1975,45 +1884,12 @@ sensitize_im_types (EContactEditor *editor,
 
 		gtk_list_store_set (
 			GTK_LIST_STORE (model), &iter,
-			1, is_field_supported (editor, im_service[i].field),
+			DYNTABLE_COMBO_COLUMN_SENSITIVE,
+			is_field_supported (editor, im_service[i].field),
 			-1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
-}
-
-static void
-sensitize_im_record (EContactEditor *editor,
-                     gint record,
-                     gboolean enabled)
-{
-	GtkWidget *service_combo_box;
-#ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_combo_box;
-#endif
-	GtkWidget *name_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
-	service_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-#ifdef ENABLE_IM_LOCATION
-	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-#endif
-
-	widget_name = g_strdup_printf ("entry-im-name-%d", record);
-	name_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	gtk_widget_set_sensitive (service_combo_box, enabled);
-#ifdef ENABLE_IM_LOCATION
-	gtk_widget_set_sensitive (location_combo_box, enabled);
-#endif
-	gtk_editable_set_editable (GTK_EDITABLE (name_entry), enabled);
-	sensitize_im_types (editor, service_combo_box);
 }
 
 static void
@@ -2022,6 +1898,7 @@ sensitize_im (EContactEditor *editor)
 	gint i;
 	gboolean enabled;
 	gboolean no_ims_supported;
+	GtkWidget *w;
 
 	enabled = editor->priv->target_editable;
 	no_ims_supported = TRUE;
@@ -2035,9 +1912,10 @@ sensitize_im (EContactEditor *editor)
 	if (no_ims_supported)
 		enabled = FALSE;
 
-	for (i = 1; i <= IM_SLOTS; i++) {
-		sensitize_im_record (editor, i, enabled);
-	}
+	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
+	gtk_widget_set_sensitive (w, enabled);
+
+	sensitize_im_types (editor);
 }
 
 static void
@@ -4091,6 +3969,12 @@ expand_phone_toggle (EContactEditor *ce)
 }
 
 static void
+expand_im_toggle (EContactEditor *ce)
+{
+	expand_im (ce, !is_arrow_image_arrow_down (ce, "arrow-im-expand"));
+}
+
+static void
 expand_mail_toggle (EContactEditor *ce)
 {
 	GtkWidget *mail;
@@ -4215,6 +4099,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (expand_phone_toggle), e_contact_editor);
+	widget = e_builder_get_widget (
+		e_contact_editor->priv->builder, "button-im-expand");
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (expand_im_toggle), e_contact_editor);
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "button-mail-expand");
 	g_signal_connect_swapped (
