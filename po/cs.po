@@ -18592,7 +18592,7 @@ msgstr "Napsat novou zprávu"
 #: ../modules/mail/e-mail-shell-backend.c:324
 msgctxt "New"
 msgid "Mail Acco_unt"
-msgstr "Úče_t e-mailu"
+msgstr "Poš_tovní účet"
 
 #: ../modules/mail/e-mail-shell-backend.c:326
 msgid "Create a new mail account"
