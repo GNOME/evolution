@@ -16038,7 +16038,7 @@ msgstr "Poslat zprávu vybraným kontaktům"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1576
 #: ../modules/calendar/e-task-shell-view-actions.c:824
 msgid "_Actions"
-msgstr "_Akce"
+msgstr "Č_innosti"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1013
 #: ../modules/calendar/e-memo-shell-view-actions.c:679
