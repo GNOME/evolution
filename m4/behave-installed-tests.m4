@@ -75,28 +75,29 @@ install-exec-am: installed-tests-exec-hook
 install-data-am: installed-tests-data-hook
 uninstall-am: uninstall-tests-hook
 
-META_DIRECTORY=${DESTDIR}/${datadir}/installed-tests/${PACKAGE}
-EXEC_DIRECTORY=${DESTDIR}/${pkglibexecdir}/installed-tests
+META_DIRECTORY=${DESTDIR}${datadir}/installed-tests/${PACKAGE}
+EXEC_DIRECTORY=${DESTDIR}${pkglibexecdir}/installed-tests
+
+BEHAVE_FEATURES=$(wildcard $(srcdir)/tests/*.feature)
+BEHAVE_STEP_DEFINITION=$(wildcard $(srcdir)/tests/steps/*.py)
+BEHAVE_COMMON_FILES=$(srcdir)/tests/environment.py $(srcdir)/tests/common_steps.py
 
 FINAL_TEST_ENVIRONMENT=
 ifneq ($(INSTALLED_TESTS_ENVIRONMENT),)
       FINAL_TEST_ENVIRONMENT="env $(INSTALLED_TESTS_ENVIRONMENT)"
 endif
-BEHAVE_FEATURES=$(notdir $(wildcard tests/*.feature))
-BEHAVE_STEP_DEFINITION=$(notdir $(wildcard tests/steps/*.py))
-BEHAVE_COMMON_FILES=environment.py common_steps.py
 
 installed-tests-exec-hook:
 	@$(MKDIR_P) $(EXEC_DIRECTORY);
 	@for feature in $(BEHAVE_FEATURES); do											\
-	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 tests/$$feature $(EXEC_DIRECTORY);\
+	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 $$feature $(EXEC_DIRECTORY);\
 	done
 	@for common_file in $(BEHAVE_COMMON_FILES); do										\
-	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 tests/$$common_file $(EXEC_DIRECTORY);\
+	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 $$common_file $(EXEC_DIRECTORY);\
 	done
 	@$(MKDIR_P) $(EXEC_DIRECTORY)/steps;
 	@for step_definition in $(BEHAVE_STEP_DEFINITION); do									\
-	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 tests/steps/$$step_definition $(EXEC_DIRECTORY)/steps;\
+	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 $$step_definition $(EXEC_DIRECTORY)/steps;\
 	done
 
 
@@ -126,6 +127,7 @@ uninstall-tests-hook:
 	@for test in $(INSTALLED_TESTS); do\
 	    $(LIBTOOL) --mode=uninstall $(RM) $(META_DIRECTORY)/$$test.test;\
 	done
+
 endif
 '
 
