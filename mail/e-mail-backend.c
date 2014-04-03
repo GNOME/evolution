@@ -199,12 +199,15 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
 
-	if (!e_shell_get_network_available (shell))
+	if (!e_shell_get_network_available (shell)) {
 		camel_session_set_online (CAMEL_SESSION (session), FALSE);
+		camel_operation_cancel_all ();
+	}
 
 	if (e_shell_backend_is_started (shell_backend)) {
 		gboolean ask_to_synchronize;
 		gboolean synchronize = FALSE;
+		GCancellable *cancellable;
 
 		ask_to_synchronize =
 			e_shell_get_network_available (shell) &&
@@ -220,12 +223,16 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			camel_session_set_online (CAMEL_SESSION (session), FALSE);
 		}
 
-		if (!e_activity_get_cancellable (activity)) {
-			GCancellable *cancellable;
-
+		cancellable = e_activity_get_cancellable (activity);
+		if (!cancellable) {
 			cancellable = camel_operation_new ();
 			e_activity_set_cancellable (activity, cancellable);
 			g_object_unref (cancellable);
+		} else {
+			/* Maybe the cancellable just got cancelled when the above
+			   camel_operation_cancel_all() had been called, but we want
+			   it alive for the following "go-offline" operation, thus reset it. */
+			g_cancellable_reset (cancellable);
 		}
 
 		e_shell_backend_add_activity (shell_backend, activity);
@@ -368,6 +375,7 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 	EMailSession *session;
 	ESourceRegistry *registry;
 	GList *list, *link;
+	GCancellable *cancellable;
 	gboolean delete_junk;
 	gboolean empty_trash;
 
@@ -379,7 +387,16 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 
 	camel_application_is_exiting = TRUE;
 
+	camel_operation_cancel_all ();
 	mail_vfolder_shutdown ();
+
+	cancellable = e_activity_get_cancellable (activity);
+	if (cancellable) {
+		/* Maybe the cancellable just got cancelled when the above
+		   camel_operation_cancel_all() had been called, but we want
+		   it alive for the following operations, thus reset it. */
+		g_cancellable_reset (cancellable);
+	}
 
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
@@ -417,9 +434,6 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 			/* local trash requires special handling,
 			 * due to POP3's "delete-expunged" option */
 			CamelFolder *local_trash;
-			GCancellable *cancellable;
-
-			cancellable = e_activity_get_cancellable (activity);
 
 			/* This should be lightning-fast since
 			 * it's just the local trash folder. */
