@@ -1647,7 +1647,7 @@ msgstr "Kontakty Outlook - CSV nebo Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1082
 msgid "Outlook Contacts CSV and Tab Importer"
-msgstr "Importér kontaktů z aplikace Outlook (CSV a Tab)"
+msgstr "Import kontaktů z aplikace Outlook (CSV a Tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1090
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
@@ -1655,7 +1655,7 @@ msgstr "Kontakty Mozilla - CSV nebo Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1091
 msgid "Mozilla Contacts CSV and Tab Importer"
-msgstr "Importér kontaktů z Mozilly (CSV a Tab)"
+msgstr "Import kontaktů z Mozilly (CSV a Tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1099
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
@@ -1663,7 +1663,7 @@ msgstr "Kontakty Evolution - CSV nebo Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:1100
 msgid "Evolution Contacts CSV and Tab Importer"
-msgstr "Importér kontaktů z aplikace Evolution (CSV nebo Tab)"
+msgstr "Import kontaktů z aplikace Evolution (CSV nebo Tab)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:806
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -1671,7 +1671,7 @@ msgstr "LDAP Data Interchange Format (.ldif)"
 
 #: ../addressbook/importers/evolution-ldif-importer.c:807
 msgid "Evolution LDIF importer"
-msgstr "Importér Evolution z LDIF"
+msgstr "Import Evolution z LDIF"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:634
 msgid "vCard (.vcf, .gcrd)"
@@ -1679,7 +1679,7 @@ msgstr "VCard (.vcf, .gcrd)"
 
 #: ../addressbook/importers/evolution-vcard-importer.c:635
 msgid "Evolution vCard Importer"
-msgstr "Importér Evolution z VCard"
+msgstr "Import Evolution z VCard"
 
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
@@ -5149,7 +5149,7 @@ msgstr "soubory iCalendar (.ics)"
 
 #: ../calendar/importers/icalendar-importer.c:610
 msgid "Evolution iCalendar importer"
-msgstr "Importér Evolution z iCalendar"
+msgstr "Import Evolution z iCalendar"
 
 #: ../calendar/importers/icalendar-importer.c:702
 msgid "Reminder!"
@@ -5161,7 +5161,7 @@ msgstr "Soubory vCalendar (.vcf)"
 
 #: ../calendar/importers/icalendar-importer.c:787
 msgid "Evolution vCalendar importer"
-msgstr "Importér Evolution z vCalendar"
+msgstr "Import Evolution z vCalendar"
 
 #: ../calendar/importers/icalendar-importer.c:1064
 msgid "Calendar Events"
@@ -5169,7 +5169,7 @@ msgstr "Události kalendáře"
 
 #: ../calendar/importers/icalendar-importer.c:1108
 msgid "Evolution Calendar intelligent importer"
-msgstr "Inteligentní importér kalendáře Evolution"
+msgstr "Inteligentní import kalendáře Evolution"
 
 #: ../calendar/importers/icalendar-importer.c:1179
 #: ../calendar/importers/icalendar-importer.c:1493
@@ -11182,7 +11182,7 @@ msgstr "Zvolte cíl pro tento import"
 
 #: ../e-util/e-import-assistant.c:365
 msgid "Choose the type of importer to run:"
-msgstr "Vyberte typ importéru, který chcete spustit:"
+msgstr "Vyberte typ importu, který chcete spustit:"
 
 #: ../e-util/e-import-assistant.c:373
 msgid "Import data and settings from _older programs"
@@ -11252,7 +11252,7 @@ msgstr ""
 
 #: ../e-util/e-import-assistant.c:1323
 msgid "Importer Type"
-msgstr "Typ importéru"
+msgstr "Typ importu"
 
 #: ../e-util/e-import-assistant.c:1333
 msgid "Select Information to Import"
@@ -14250,7 +14250,7 @@ msgstr "Probíhá import dat Elm"
 
 #: ../mail/importers/elm-importer.c:374
 msgid "Evolution Elm importer"
-msgstr "Importér Evolution z Elm"
+msgstr "Import Evolution z Elm"
 
 #: ../mail/importers/elm-importer.c:375
 msgid "Import mail from Elm."
@@ -14290,7 +14290,7 @@ msgstr "Berkeley Mailbox (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:494
 msgid "Importer Berkeley Mailbox format folders"
-msgstr "Importér složek ve formátu Berkeley Mailbox"
+msgstr "Import složek ve formátu Berkeley Mailbox"
 
 #: ../mail/importers/mail-importer.c:54
 msgid "Importing mailbox"
@@ -14315,7 +14315,7 @@ msgstr "Probíhá import dat Pine"
 
 #: ../mail/importers/pine-importer.c:475
 msgid "Evolution Pine importer"
-msgstr "Importér Evolution z Pine"
+msgstr "Import Evolution z Pine"
 
 #: ../mail/importers/pine-importer.c:476
 msgid "Import mail from Pine."
