@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-04-01 15:51+0000\n"
-"PO-Revision-Date: 2014-04-03 20:11+0100\n"
+"POT-Creation-Date: 2014-04-04 15:50+0000\n"
+"PO-Revision-Date: 2014-04-04 20:19+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -12572,7 +12572,7 @@ msgstr "Elektronski naslov ni naveden"
 msgid "Missing domain in email address"
 msgstr "V elektronskem naslovu manjka del z domeno"
 
-#: ../mail/e-mail-backend.c:841
+#: ../mail/e-mail-backend.c:855
 msgid "Unknown background operation"
 msgstr "Neznano ozadnje opravilo"
 
