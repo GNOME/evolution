@@ -3205,6 +3205,8 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree,
 		/* TODO : Flags here for better options */
 		} while (skip_read_folders && unread <=0 &&
 			gtk_tree_path_compare (current_path, path));
+
+		gtk_tree_path_free (current_path);
 	}
 
 	if (path) {
@@ -3218,6 +3220,8 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree,
 			priv->cursor_set = TRUE;
 		}
 		gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.5f, 0.0f);
+
+		gtk_tree_path_free (path);
 	}
 
 	return;
