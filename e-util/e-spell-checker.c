@@ -27,6 +27,7 @@
 #include <webkit/webkitspellchecker.h>
 #include <pango/pango.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 #define E_SPELL_CHECKER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -138,7 +139,7 @@ wksc_check_spelling (WebKitSpellChecker *webkit_checker,
 			g_utf8_strncpy (new_word, cstart, word_length);
 
 			word_recognized = e_spell_checker_check_word (
-				checker, new_word, word_length);
+				checker, new_word, strlen (new_word));
 
 			if (word_recognized) {
 				if (misspelling_location != NULL)
