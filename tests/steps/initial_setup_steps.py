@@ -41,7 +41,7 @@ def open_evolution_and_setup_fake_account(context):
 def evo_account_assistant_dummy_dialogs(context):
     # nothing to do here, skip it
     window = context.app.child('Evolution Account Assistant')
-    click_continue(window)
+    click_next(window)
 
 
 @step(u'Complete Identity dialog setting name to "{name}" and email address to "{email}"')
@@ -50,7 +50,7 @@ def evo_account_assistant_identity_dialog(context, name, email):
     window = context.app.child('Evolution Account Assistant')
     window.childLabelled("Full Name:").text = name
     window.childLabelled("Email Address:").text = email
-    click_continue(window)
+    click_next(window)
 
 
 @step(u"Wait for account is being looked up dialog in Evolution Account Assistant")
@@ -64,12 +64,12 @@ def wait_for_account_to_be_looked_up(context):
             "Skip Lookup button didn't dissappear"
 
 
-def click_continue(window):
-    # As initial wizard dialog creates a bunch of 'Continue' buttons
+def click_next(window):
+    # As initial wizard dialog creates a bunch of 'Next' buttons
     # We have to click to the visible and enabled one
     button = None
     for attempt in xrange(0, 10):
-        btns = window.findChildren(lambda x: x.name == 'Continue')
+        btns = window.findChildren(lambda x: x.name == 'Next')
         visible_and_enabled = [x for x in btns if x.showing and STATE_SENSITIVE in x.getState().getStates()]
         if visible_and_enabled == []:
             sleep(0.1)
@@ -108,7 +108,7 @@ def evo_account_assistant_receiving_email_dialog_from_table(context, sending_or_
     btns = window.findChildren(lambda x: x.name == 'Check for Supported Types')
     visible_btns = [w for w in btns if w.showing]
     if visible_btns == []:
-        click_continue(window)
+        click_next(window)
         return
     visible_btns[0].click()
 
@@ -128,7 +128,7 @@ def evo_account_assistant_receiving_email_dialog_from_table(context, sending_or_
     while cancel.showing:
         sleep(0.1)
     check_for_errors(context)
-    click_continue(window)
+    click_next(window)
 
 
 @step(u'Complete Done dialog in Evolution Account Assistant')
