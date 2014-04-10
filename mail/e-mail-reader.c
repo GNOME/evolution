@@ -2594,6 +2594,12 @@ mail_reader_message_seen_cb (gpointer user_data)
 	parts = e_mail_display_get_part_list (display);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	/* zero the timeout id now, if it was not rescheduled */
+	if (g_source_get_id (g_main_current_source ()) == MESSAGE_LIST (message_list)->seen_id)
+		MESSAGE_LIST (message_list)->seen_id = 0;
+
 	if (e_tree_is_dragging (E_TREE (message_list)))
 		return FALSE;
 
