@@ -965,7 +965,7 @@ msgid ""
 "in this folder. Would you like to add it anyway?"
 msgstr ""
 "Имя или электронный адрес этого контактного лица уже\n"
-"существует в этой папке. Всё равно добавить?\"\n"
+"существует в этой папке. Всё равно добавить?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:692
 msgid "Changed Contact:"
