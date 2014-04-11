@@ -2113,7 +2113,11 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 		/* To Translators: It will display "Location: PlaceOfTheMeeting" */
 		tmp = g_markup_printf_escaped (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
+		gtk_widget_set_halign (label, GTK_ALIGN_START);
+		gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.0);
 		gtk_label_set_markup ((GtkLabel *) label, tmp);
+		gtk_label_set_line_wrap ((GtkLabel *) label, TRUE);
+		gtk_label_set_max_width_chars ((GtkLabel *) label, 80);
 		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 		ebox = gtk_event_box_new ();
