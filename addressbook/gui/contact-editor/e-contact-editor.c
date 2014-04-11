@@ -266,14 +266,14 @@ static GtkActionEntry undo_entries[] = {
 
 	{ "undo",
 	  "edit-undo",
-	  NULL,
+	  N_("Undo"),
 	  "<Control>z",
 	  N_("Undo"),
 	  NULL }, /* Handled by EFocusTracker */
 
 	{ "redo",
 	  "edit-redo",
-	  NULL,
+	  N_("Redo"),
 	  "<Control>y",
 	  N_("Redo"),
 	  NULL } /* Handled by EFocusTracker */
