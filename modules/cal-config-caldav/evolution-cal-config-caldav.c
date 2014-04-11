@@ -261,7 +261,7 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "email-address",
 		context->email_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

@@ -240,7 +240,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	port = camel_network_settings_get_port (
 		CAMEL_NETWORK_SETTINGS (settings));
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, "host",
 		priv->host_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -266,7 +266,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		priv->port_entry, "security-method",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, "user",
 		priv->user_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

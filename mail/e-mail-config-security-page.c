@@ -405,7 +405,7 @@ mail_config_security_page_constructed (GObject *object)
 	g_warn_if_fail (GTK_IS_ENTRY (widget));
 #endif /* HAVE_LIBCRYPTUI */
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		openpgp_ext, "key-id",
 		widget, "text",
 		G_BINDING_SYNC_CREATE |
@@ -525,7 +525,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		smime_ext, "signing-certificate",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -631,7 +631,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		smime_ext, "encryption-certificate",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |

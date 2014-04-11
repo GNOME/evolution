@@ -343,7 +343,7 @@ mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
 	gtk_box_pack_start (GTK_BOX (hbox), input, TRUE, TRUE, 0);
 	gtk_widget_show (input);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, entry->name,
 		input, "text",
 		G_BINDING_BIDIRECTIONAL |

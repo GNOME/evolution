@@ -24,6 +24,7 @@
 
 #include "e-interval-chooser.h"
 #include "e-marshal.h"
+#include "e-misc-utils.h"
 #include "e-source-config-backend.h"
 
 #define E_SOURCE_CONFIG_GET_PRIVATE(obj) \
@@ -769,12 +770,12 @@ static void
 source_config_init_candidate (ESourceConfig *config,
                               ESource *scratch_source)
 {
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		scratch_source, "display-name",
 		config->priv->name_label, "label",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		scratch_source, "display-name",
 		config->priv->name_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -1463,7 +1464,7 @@ e_source_config_add_user_entry (ESourceConfig *config,
 		config, scratch_source, _("User"), widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "user",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |

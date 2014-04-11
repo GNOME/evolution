@@ -22,6 +22,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
+#include <e-util/e-util.h>
 #include <libebackend/libebackend.h>
 
 #include "e-mail-config-sendmail-backend.h"
@@ -139,7 +140,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, "custom-binary",
 		custom_binary_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -156,7 +157,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, "custom-args",
 		custom_args_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

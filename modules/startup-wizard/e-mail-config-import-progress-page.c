@@ -199,7 +199,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	page->priv->progress_bar = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		activity, "text",
 		widget, "text",
 		G_BINDING_SYNC_CREATE);
