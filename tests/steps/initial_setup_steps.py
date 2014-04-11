@@ -13,7 +13,7 @@ def open_evolution_and_setup_fake_account(context):
     system("evolution --force-shutdown 2&> /dev/null")
     context.execute_steps(u'* Start a new Evolution instance')
     window = context.app.child(roleName='frame')
-    if window.name == 'Evolution Account Assistant':
+    if window.name == 'Welcome':
         context.execute_steps(u"""
             * Complete Welcome dialog in Evolution Account Assistant
             * Complete Restore from Backup dialog in Evolution Account Assistant
@@ -40,14 +40,14 @@ def open_evolution_and_setup_fake_account(context):
 @step(u'Complete Welcome dialog in Evolution Account Assistant')
 def evo_account_assistant_dummy_dialogs(context):
     # nothing to do here, skip it
-    window = context.app.child('Evolution Account Assistant')
+    window = context.app.child(roleName='frame')
     click_next(window)
 
 
 @step(u'Complete Identity dialog setting name to "{name}" and email address to "{email}"')
 def evo_account_assistant_identity_dialog(context, name, email):
     # nothing to do here, skip it
-    window = context.app.child('Evolution Account Assistant')
+    window = context.app.child(roleName='frame')
     window.childLabelled("Full Name:").text = name
     window.childLabelled("Email Address:").text = email
     click_next(window)
@@ -55,7 +55,7 @@ def evo_account_assistant_identity_dialog(context, name, email):
 
 @step(u"Wait for account is being looked up dialog in Evolution Account Assistant")
 def wait_for_account_to_be_looked_up(context):
-    window = context.app.child('Evolution Account Assistant')
+    window = context.app.child(roleName='frame')
     skip_lookup = window.findChildren(lambda x: x.name == 'Skip Lookup')
     visible_skip_lookup = [x for x in skip_lookup if x.showing]
     if len(visible_skip_lookup) > 0:
@@ -82,7 +82,7 @@ def click_next(window):
 
 @step(u'Complete {sending_or_receiving} Email dialog of Evolution Account Assistant setting')
 def evo_account_assistant_receiving_email_dialog_from_table(context, sending_or_receiving):
-    window = context.app.child('Evolution Account Assistant')
+    window = context.app.child(roleName='frame')
     for row in context.table:
         label = str(row['Field'])
         value = str(row['Value'])
@@ -134,5 +134,5 @@ def evo_account_assistant_receiving_email_dialog_from_table(context, sending_or_
 @step(u'Complete Done dialog in Evolution Account Assistant')
 def evo_account_assistant_done_dialog(context):
     # nothing to do here, skip it
-    window = context.app.child('Evolution Account Assistant')
+    window = context.app.child(roleName='frame')
     window.button('Apply').click()
