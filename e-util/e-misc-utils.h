@@ -184,6 +184,19 @@ gboolean	e_binding_transform_uid_to_source
 						 GValue *target_value,
 						 ESourceRegistry *registry);
 
+gboolean	e_binding_transform_text_non_null
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer user_data);
+
+GBinding *	e_binding_bind_object_text_property
+						(gpointer source,
+						 const gchar *source_property,
+						 gpointer target,
+						 const gchar *target_property,
+						 GBindingFlags flags);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

@@ -849,7 +849,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	is_new_source = !e_source_has_extension (scratch_source, extension_name);
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "host",
 		context->host_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -870,7 +870,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		context->port_combo, "changed",
 		G_CALLBACK (book_config_ldap_port_combo_changed), NULL);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "user",
 		context->auth_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -899,7 +899,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	widget = gtk_bin_get_child (GTK_BIN (context->search_base_combo));
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "root-dn",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -911,7 +911,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "filter",
 		context->search_filter_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

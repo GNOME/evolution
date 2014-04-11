@@ -258,7 +258,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	remote_backend->auth_check = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, "host",
 		remote_backend->host_entry, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -284,7 +284,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		remote_backend->port_entry, "security-method",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		settings, "user",
 		remote_backend->user_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

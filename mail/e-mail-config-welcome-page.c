@@ -20,6 +20,7 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include <e-util/e-util.h>
 #include <libebackend/libebackend.h>
 
 #define E_MAIL_CONFIG_WELCOME_PAGE_GET_PRIVATE(obj) \
@@ -123,7 +124,7 @@ mail_config_welcome_page_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		page, "text",
 		widget, "label",
 		G_BINDING_BIDIRECTIONAL |

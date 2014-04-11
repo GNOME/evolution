@@ -323,7 +323,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		source, "display-name",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -369,7 +369,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "name",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -401,7 +401,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "address",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -452,7 +452,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "reply-to",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -479,7 +479,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 2, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		extension, "organization",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |

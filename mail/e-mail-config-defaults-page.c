@@ -573,7 +573,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	page->priv->drafts_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		composition_ext, "drafts-folder",
 		widget, "folder-uri",
 		G_BINDING_BIDIRECTIONAL |
@@ -602,7 +602,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		gtk_widget_set_sensitive (widget, FALSE);
 	}
 
-	g_object_bind_property (
+	e_binding_bind_object_text_property (
 		submission_ext, "sent-folder",
 		widget, "folder-uri",
 		G_BINDING_BIDIRECTIONAL |
