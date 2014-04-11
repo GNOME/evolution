@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from behave import step
 
-from common_steps import wait_until, check_for_errors
+from common_steps import check_for_errors
 from dogtail.tree import root
 from os import system
 from pyatspi import STATE_SENSITIVE
@@ -67,17 +67,12 @@ def wait_for_account_to_be_looked_up(context):
 def click_next(window):
     # As initial wizard dialog creates a bunch of 'Next' buttons
     # We have to click to the visible and enabled one
-    button = None
-    for attempt in xrange(0, 10):
-        btns = window.findChildren(lambda x: x.name == 'Next')
-        visible_and_enabled = [x for x in btns if x.showing and STATE_SENSITIVE in x.getState().getStates()]
-        if visible_and_enabled == []:
-            sleep(0.1)
-            continue
-        else:
-            button = visible_and_enabled[0]
-            break
-    button.click()
+    buttons = window.findChildren(lambda x: x.name == 'Next' and x.showing and
+                                  STATE_SENSITIVE in x.getState().getStates())
+    if buttons == []:
+        raise Exception("Enabled Next button was not found")
+    else:
+        buttons[0].click()
 
 
 @step(u'Complete {sending_or_receiving} Email dialog of Evolution Account Assistant setting')
