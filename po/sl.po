@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2014-04-04 15:50+0000\n"
-"PO-Revision-Date: 2014-04-04 20:19+0100\n"
+"PO-Revision-Date: 2014-04-12 19:15+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -14052,7 +14052,7 @@ msgstr "Omejitev uporabe"
 #. choose which account to use as the sender when composing a message in this folder
 #: ../mail/em-folder-properties.c:286
 msgid "_Send Account Override:"
-msgstr ""
+msgstr "_Pošlji spremenjena poverila računa:"
 
 #: ../mail/em-folder-properties.c:415
 msgid "Folder Properties"
@@ -14627,7 +14627,7 @@ msgstr "Račun"
 
 #: ../mail/mail-config.ui.h:62
 msgid "Send account overrides"
-msgstr ""
+msgstr "Pošlji spremenjena poverila računa"
 
 #: ../mail/mail-config.ui.h:63
 msgid ""
@@ -14640,6 +14640,7 @@ msgstr ""
 #: ../mail/mail-config.ui.h:64
 msgid "_Folder override has precedence over Recipient override"
 msgstr ""
+"__Spremenjena poverila mape imajo prednost pred spremenjenim prejemnikom"
 
 #: ../mail/mail-config.ui.h:65
 msgid "Send Account"
