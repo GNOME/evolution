@@ -1,3 +1,34 @@
+Evolution 3.12.1 2014-04-14
+---------------------------
+
+Bug Fixes:
+	Bug 545106 - [Automatic Contacts] Adds duplicate email addresses
+	             (Watson Yuuma Sato)
+	Bug 684425 - Do not pass NULL text to gtk_entry_set_text() (Milan Crha)
+	Bug 726110 - Use gtk_drag_check_threshold() instead of hard-coded
+	             values (Milan Crha)
+	Bug 726542 - Unpadded black border on various mail account settings
+	             pages (Milan Crha)
+	Bug 726654 - Search bar's filter change may not steal keyboard focus
+	             (Milan Crha)
+	Bug 727888 - Wrap the Location label in a reminder dialog (Milan Crha)
+	Bug 727967 - Undo/Redo text is not displayed in menus (Milan Crha)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Cancel pending mail operations when going offline or on quit.
+	  (Milan Crha)
+	* EMailDisplay: Install HTML click event handlers on images in all
+	  frames (Tomas Popela)
+
+Translations:
+	Marek Černocký (cs)
+	Christian Kirbach (de)
+	Gianvito Cavasoli (it)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+
+
 Evolution 3.12.0 2014-03-24
 ---------------------------
 
