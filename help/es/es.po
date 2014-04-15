@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-28 05:31+0000\n"
+"POT-Creation-Date: 2014-04-15 03:54+0000\n"
 "PO-Revision-Date: 2014-02-28 16:40+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -277,8 +277,10 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-msgid "Enter the address of the calendar in the <gui>URL</gui> field."
-msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
+#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
+#: C/tasks-webdav.page:31
+msgid "Enter the address in the <gui>URL</gui> field."
+msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
@@ -1074,7 +1076,7 @@ msgid ""
 msgstr ""
 "Después de que haya añadido la reunión a su calendario puede hacer cambios "
 "en la reunión, pero si el organizador original envía otra actualización, sus "
-"cambios se sobreescribirán."
+"cambios se sobrescribirán."
 
 #. (itstool) path: note/p
 #: C/calendar-meetings-replying-to-invitation.page:32
@@ -2709,61 +2711,6 @@ msgstr "Daniel Mustieles (2011-2013), Jorge González (2007-2011)"
 #: C/credits.page:47
 msgid "Authors of the previous version"
 msgstr "Autores de la versión anterior"
-
-#. (itstool) path: item/p
-#: C/credits.page:49
-msgid "Aaron Weber"
-msgstr "Aaron Weber"
-
-#. (itstool) path: item/p
-#: C/credits.page:52
-msgid "Akhil Laddha"
-msgstr "Akhil Laddha"
-
-#. (itstool) path: item/p
-#: C/credits.page:58
-msgid "Duncan Mak"
-msgstr "Duncan Mak"
-
-#. (itstool) path: item/p
-#: C/credits.page:61
-msgid "Ettore Perazzoli"
-msgstr "Ettore Perazzoli"
-
-#. (itstool) path: item/p
-#: C/credits.page:64
-msgid "Francisco Javier F. Serrador"
-msgstr "Francisco Javier F. Serrador"
-
-#. (itstool) path: item/p
-#: C/credits.page:67
-msgid "Jessica Prabhakar"
-msgstr "Jessica Prabhakar"
-
-#. (itstool) path: item/p
-#: C/credits.page:70
-msgid "Kevin Breit"
-msgstr "Kevin Breit"
-
-#. (itstool) path: item/p
-#: C/credits.page:73
-msgid "Mark Moulder"
-msgstr "Mark Moulder"
-
-#. (itstool) path: item/p
-#: C/credits.page:76
-msgid "Novell, Inc."
-msgstr "Novell, Inc."
-
-#. (itstool) path: item/p
-#: C/credits.page:79
-msgid "Radhika Nair"
-msgstr "Radhika Nair"
-
-#. (itstool) path: item/p
-#: C/credits.page:82
-msgid "Srinivasa Ragavan"
-msgstr "Srinivasa Ragavan"
 
 #. (itstool) path: section/title
 #: C/credits.page:89
@@ -6279,11 +6226,6 @@ msgstr ""
 "Pulse <guiseq><gui>Insertar</gui><gui>Enlace...</gui></guiseq> en la barra "
 "de menú o pulse con el botón derecho del ratón sobre el texto seleccionado y "
 "pulse <gui>Insertar enlace</gui>."
-
-#. (itstool) path: item/p
-#: C/mail-composer-html-link.page:28
-msgid "Enter the address in the <gui>URL</gui> field."
-msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:29 C/mail-composer-html-rule.page:28
@@ -9908,15 +9850,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:32
-#| msgid "Marking a Message As Not Junk Mail"
 msgid "Marking a message as read or unread"
 msgstr "Marcar un mensaje como leído o no leído"
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:33
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid ""
 "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
 "key><key>K</key></keyseq>."
@@ -9926,9 +9864,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:34
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid ""
 "To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
 "key><key>Shift</key><key>K</key></keyseq>."
@@ -12952,11 +12887,6 @@ msgid "Choose if you want to be able to view the content also while offline."
 msgstr ""
 "Elija si quiere poder ver el contenido incluso cuando está desconectado."
 
-#. (itstool) path: item/p
-#: C/tasks-caldav.page:29 C/tasks-webdav.page:31
-msgid "Enter the address of the list in the <gui>URL</gui> field."
-msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
-
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
 msgid "The task list will be added to the list of task lists in Evolution."
@@ -13939,6 +13869,45 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
+
+#~ msgid "Enter the address of the calendar in the <gui>URL</gui> field."
+#~ msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
+
+#~ msgid "Aaron Weber"
+#~ msgstr "Aaron Weber"
+
+#~ msgid "Akhil Laddha"
+#~ msgstr "Akhil Laddha"
+
+#~ msgid "Duncan Mak"
+#~ msgstr "Duncan Mak"
+
+#~ msgid "Ettore Perazzoli"
+#~ msgstr "Ettore Perazzoli"
+
+#~ msgid "Francisco Javier F. Serrador"
+#~ msgstr "Francisco Javier F. Serrador"
+
+#~ msgid "Jessica Prabhakar"
+#~ msgstr "Jessica Prabhakar"
+
+#~ msgid "Kevin Breit"
+#~ msgstr "Kevin Breit"
+
+#~ msgid "Mark Moulder"
+#~ msgstr "Mark Moulder"
+
+#~ msgid "Novell, Inc."
+#~ msgstr "Novell, Inc."
+
+#~ msgid "Radhika Nair"
+#~ msgstr "Radhika Nair"
+
+#~ msgid "Srinivasa Ragavan"
+#~ msgstr "Srinivasa Ragavan"
+
+#~ msgid "Enter the address of the list in the <gui>URL</gui> field."
+#~ msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"
