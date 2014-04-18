@@ -100,7 +100,8 @@ static void	caldav_chooser_get_collection_details
 				(SoupSession *session,
 				 SoupMessage *message,
 				 const gchar *path_or_uri,
-				 GSimpleAsyncResult *simple);
+				 GSimpleAsyncResult *simple,
+				 Context *context);
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	ECaldavChooser,
@@ -177,35 +178,6 @@ context_free (Context *context)
 		(GDestroyNotify) g_free);
 
 	g_slice_free (Context, context);
-}
-
-static ETrustPromptResponse
-trust_prompt_sync (const ENamedParameters *parameters,
-                   GCancellable *cancellable,
-                   GError **error)
-{
-	EUserPrompter *prompter;
-	gint response;
-
-	g_return_val_if_fail (parameters != NULL, E_TRUST_PROMPT_RESPONSE_UNKNOWN);
-
-	prompter = e_user_prompter_new ();
-	g_return_val_if_fail (prompter != NULL, E_TRUST_PROMPT_RESPONSE_UNKNOWN);
-
-	response = e_user_prompter_extension_prompt_sync (prompter, "ETrustPrompt::trust-prompt", parameters, NULL, cancellable, error);
-
-	g_object_unref (prompter);
-
-	if (response == 0)
-		return E_TRUST_PROMPT_RESPONSE_REJECT;
-	if (response == 1)
-		return E_TRUST_PROMPT_RESPONSE_ACCEPT;
-	if (response == 2)
-		return E_TRUST_PROMPT_RESPONSE_ACCEPT_TEMPORARILY;
-	if (response == -1)
-		return E_TRUST_PROMPT_RESPONSE_REJECT_TEMPORARILY;
-
-	return E_TRUST_PROMPT_RESPONSE_UNKNOWN;
 }
 
 static void
@@ -907,7 +879,8 @@ static void
 caldav_chooser_get_collection_details (SoupSession *session,
                                        SoupMessage *message,
                                        const gchar *path_or_uri,
-                                       GSimpleAsyncResult *simple)
+                                       GSimpleAsyncResult *simple,
+                                       Context *context)
 {
 	SoupURI *soup_uri;
 
@@ -937,6 +910,8 @@ caldav_chooser_get_collection_details (SoupSession *session,
 		NS_ICAL,   XC ("calendar-color"),
 		NULL);
 
+	e_soup_ssl_trust_connect (message, context->source, context->registry, context->cancellable);
+
 	/* This takes ownership of the message. */
 	soup_session_queue_message (
 		session, message, (SoupSessionCallback)
@@ -959,34 +934,6 @@ caldav_chooser_calendar_home_set_cb (SoupSession *session,
 	GError *error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	if (message->status_code == SOUP_STATUS_SSL_FAILED) {
-		ETrustPromptResponse response;
-		ENamedParameters *parameters;
-		ESourceWebdav *extension;
-
-		extension = e_source_get_extension (context->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
-		parameters = e_named_parameters_new ();
-
-		response = e_source_webdav_prepare_ssl_trust_prompt (extension, message, context->registry, parameters);
-		if (response == E_TRUST_PROMPT_RESPONSE_UNKNOWN) {
-			response = trust_prompt_sync (parameters, context->cancellable, NULL);
-			if (response != E_TRUST_PROMPT_RESPONSE_UNKNOWN)
-				e_source_webdav_store_ssl_trust_prompt (extension, message, response);
-		}
-
-		e_named_parameters_free (parameters);
-
-		if (response == E_TRUST_PROMPT_RESPONSE_ACCEPT ||
-		    response == E_TRUST_PROMPT_RESPONSE_ACCEPT_TEMPORARILY) {
-			g_object_set (context->session, SOUP_SESSION_SSL_STRICT, FALSE, NULL);
-
-			soup_session_queue_message (
-				context->session, g_object_ref (message), (SoupSessionCallback)
-				caldav_chooser_calendar_home_set_cb, simple);
-			return;
-		}
-	}
 
 	doc = caldav_chooser_parse_xml (message, "multistatus", &error);
 
@@ -1127,7 +1074,7 @@ get_collection_details:
 	xmlFreeDoc (doc);
 
 	caldav_chooser_get_collection_details (
-		session, message, calendar_home_set, simple);
+		session, message, calendar_home_set, simple, context);
 
 	g_free (calendar_home_set);
 
@@ -1148,6 +1095,8 @@ retry_propfind:
 		NS_CALDAV, XC ("calendar-home-set"),
 		NS_CALDAV, XC ("calendar-user-address-set"),
 		NULL);
+
+	e_soup_ssl_trust_connect (message, context->source, context->registry, context->cancellable);
 
 	/* This takes ownership of the message. */
 	soup_session_queue_message (
@@ -1408,31 +1357,9 @@ caldav_chooser_try_password_sync (ESourceAuthenticator *auth,
 			g_object_ref (session),
 			(GDestroyNotify) g_object_unref);
 
-	g_object_set (session, SOUP_SESSION_SSL_STRICT, TRUE, NULL);
-	g_object_set (chooser->priv->session, SOUP_SESSION_SSL_STRICT, TRUE, NULL);
+	e_soup_ssl_trust_connect (message, source, chooser->priv->registry, cancellable);
 
-	if (soup_session_send_message (session, message) == SOUP_STATUS_SSL_FAILED) {
-		ETrustPromptResponse response;
-		ENamedParameters *parameters;
-
-		parameters = e_named_parameters_new ();
-
-		response = e_source_webdav_prepare_ssl_trust_prompt (extension, message, chooser->priv->registry, parameters);
-		if (response == E_TRUST_PROMPT_RESPONSE_UNKNOWN) {
-			response = trust_prompt_sync (parameters, cancellable, NULL);
-			if (response != E_TRUST_PROMPT_RESPONSE_UNKNOWN)
-				e_source_webdav_store_ssl_trust_prompt (extension, message, response);
-		}
-
-		e_named_parameters_free (parameters);
-
-		if (response == E_TRUST_PROMPT_RESPONSE_ACCEPT ||
-		    response == E_TRUST_PROMPT_RESPONSE_ACCEPT_TEMPORARILY) {
-			g_object_set (session, SOUP_SESSION_SSL_STRICT, FALSE, NULL);
-			g_object_set (chooser->priv->session, SOUP_SESSION_SSL_STRICT, FALSE, NULL);
-			soup_session_send_message (session, message);
-		}
-	}
+	soup_session_send_message (session, message);
 
 	if (cancel_id > 0)
 		g_cancellable_disconnect (cancellable, cancel_id);
@@ -1617,6 +1544,8 @@ e_caldav_chooser_populate (ECaldavChooser *chooser,
 		NS_WEBDAV, XC ("current-user-principal"),
 		NS_WEBDAV, XC ("principal-URL"),
 		NULL);
+
+	e_soup_ssl_trust_connect (message, source, context->registry, context->cancellable);
 
 	/* This takes ownership of the message. */
 	soup_session_queue_message (
