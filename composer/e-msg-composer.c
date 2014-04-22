@@ -2181,11 +2181,11 @@ msg_composer_constructed (GObject *object)
 	/* Drag-and-Drop Support */
 
 	g_signal_connect (
-		view, "drag-motion",
+		html_editor_view, "drag-motion",
 		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
 	g_signal_connect (
-		view, "drag-data-received",
+		html_editor_view, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
 
 	g_signal_connect (
