@@ -253,10 +253,14 @@ action_uri_copy_cb (GtkAction *action,
 	GtkClipboard *clipboard;
 	const gchar *uri;
 
-	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
+	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
+	gtk_clipboard_set_text (clipboard, uri, -1);
+	gtk_clipboard_store (clipboard);
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	gtk_clipboard_set_text (clipboard, uri, -1);
 	gtk_clipboard_store (clipboard);
 }
