@@ -49,7 +49,7 @@ struct _EHTMLEditorReplaceDialogPrivate {
 	GtkWidget *replace_button;
 	GtkWidget *replace_all_button;
 
-	EEditor *editor;
+	EHTMLEditor *editor;
 };
 
 enum {
@@ -180,7 +180,6 @@ html_editor_replace_dialog_show (GtkWidget *widget)
 static void
 e_html_editor_replace_dialog_class_init (EHTMLEditorReplaceDialogClass *class)
 {
-	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EHTMLEditorReplaceDialogPrivate));

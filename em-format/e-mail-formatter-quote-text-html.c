@@ -63,6 +63,8 @@ emqfe_text_html_format (EMailFormatterExtension *extension,
 	g_output_stream_write_all (
 		stream, string, strlen (string), NULL, cancellable, NULL);
 
+	filtered_stream = g_object_ref (stream);
+
 	if ((qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG) == 0) {
 		CamelMimeFilter *filter;
 		GOutputStream *temp_stream;

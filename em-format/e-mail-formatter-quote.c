@@ -123,7 +123,9 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	if (qf->priv->credits && *qf->priv->credits) {
 		gchar *credits = g_strdup_printf (
 			"<span class=\"-x-evo-to-body\"><pre>%s</pre></span>", qf->priv->credits);
-		camel_stream_write_string (stream, credits, cancellable, NULL);
+		g_output_stream_write_all (
+			stream, credits, strlen (credits),
+			NULL, cancellable, NULL);
 		g_free (credits);
 	}
 

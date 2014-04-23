@@ -1002,7 +1002,7 @@ e_html_editor_selection_get_string (EHTMLEditorSelection *selection)
 		return NULL;
 
 	g_free (selection->priv->text);
-	selection->priv->text = webkit_dom_range_get_text (selection->priv->range);
+	selection->priv->text = webkit_dom_range_get_text (range);
 
 	return selection->priv->text;
 }
@@ -1152,6 +1152,7 @@ const gchar *
 e_html_editor_selection_get_background_color (EHTMLEditorSelection *selection)
 {
 	WebKitDOMNode *ancestor;
+	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);

@@ -1267,7 +1267,8 @@ em_utils_message_to_html (CamelSession *session,
 		*validity_found = is_validity_found;
 
 	if (prepend != NULL && *prepend != '\0')
-	      camel_stream_write_string (mem, prepend, NULL, NULL);
+		g_output_stream_write_all (
+			stream, prepend, strlen (prepend), NULL, NULL, NULL);
 
 	e_mail_formatter_format_sync (
 		formatter, parts_list, stream, 0,
