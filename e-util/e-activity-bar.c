@@ -54,11 +54,43 @@ G_DEFINE_TYPE (
 	e_activity_bar,
 	GTK_TYPE_INFO_BAR)
 
+typedef struct _EActivityBarTimeoutData {
+	EActivityBar *bar;
+	EActivity *activity;
+} EActivityBarTimeoutData;
+
+static void
+activity_bar_timeout_data_free (gpointer ptr)
+{
+	EActivityBarTimeoutData *data = ptr;
+
+	if (data) {
+		g_object_unref (data->activity);
+		g_free (data);
+	}
+}
+
+static gboolean
+activity_bar_timeout_reached (gpointer user_data)
+{
+	EActivityBarTimeoutData *data = user_data;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (E_IS_ACTIVITY_BAR (data->bar), FALSE);
+
+	if (!g_source_is_destroyed (g_main_current_source ()) &&
+	    g_source_get_id (g_main_current_source ()) == data->bar->priv->timeout_id)
+		data->bar->priv->timeout_id = 0;
+
+	return FALSE;
+}
+
 static void
 activity_bar_feedback (EActivityBar *bar)
 {
 	EActivity *activity;
 	EActivityState state;
+	EActivityBarTimeoutData *data;
 
 	activity = e_activity_bar_get_activity (bar);
 	g_return_if_fail (E_IS_ACTIVITY (activity));
@@ -70,11 +102,16 @@ activity_bar_feedback (EActivityBar *bar)
 	if (bar->priv->timeout_id > 0)
 		g_source_remove (bar->priv->timeout_id);
 
+	data = g_new0 (EActivityBarTimeoutData, 1);
+
+	data->bar = bar;
+	data->activity = g_object_ref (activity);
+
 	/* Hold a reference on the EActivity for a short
 	 * period so the activity bar stays visible. */
 	bar->priv->timeout_id = e_named_timeout_add_seconds_full (
-		G_PRIORITY_LOW, FEEDBACK_PERIOD, (GSourceFunc) gtk_false,
-		g_object_ref (activity), (GDestroyNotify) g_object_unref);
+		G_PRIORITY_LOW, FEEDBACK_PERIOD, activity_bar_timeout_reached,
+		data, activity_bar_timeout_data_free);
 }
 
 static void
