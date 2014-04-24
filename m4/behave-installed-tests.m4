@@ -106,7 +106,7 @@ installed-tests-data-hook:
 	@for test in $(INSTALLED_TESTS); do							\
 	    echo "Installing $$test.test to $(META_DIRECTORY)";					\
 	    echo m4_escape([[Test]]) > $(META_DIRECTORY)/$$test.test;				\
-	    echo "Exec=behave $(pkglibexecdir)/installed-tests -t $$test -k -f plain"	\
+	    echo "Exec=behave $(pkglibexecdir)/installed-tests -t $$test -k -f html -o $$test.html -f plain"	\
 	                                           >> $(META_DIRECTORY)/$$test.test;		\
 	    echo "Type=$(INSTALLED_TESTS_TYPE)" >> $(META_DIRECTORY)/$$test.test;		\
 	done
