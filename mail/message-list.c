@@ -1435,7 +1435,7 @@ sanitize_recipients (const gchar *string)
 	gchar **name;
 
 	if (!string || !*string)
-		return (gchar *) "";
+		return g_string_free (recipients, FALSE);
 
 	gstring = g_string_new ("");
 
@@ -1799,7 +1799,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			return (gpointer)(res);
 		}
 		else
-			return (gpointer)("");
+			return (gpointer) g_strdup ("");
 	}
 	case COL_LABELS:{
 		struct LabelsData ld;
@@ -2959,6 +2959,7 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_SENT:
 		case COL_RECEIVED:
 		case COL_SIZE:
+		case COL_FOLLOWUP_FLAG:
 		case COL_FOLLOWUP_FLAG_STATUS:
 		case COL_FOLLOWUP_DUE_BY:
 			return (gpointer) value;
@@ -2970,7 +2971,6 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_RECIPIENTS:
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
-		case COL_FOLLOWUP_FLAG:
 		case COL_LOCATION:
 		case COL_LABELS:
 			return g_strdup (value);
@@ -2995,19 +2995,19 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_SENT:
 		case COL_RECEIVED:
 		case COL_SIZE:
+		case COL_FOLLOWUP_FLAG:
 		case COL_FOLLOWUP_FLAG_STATUS:
 		case COL_FOLLOWUP_DUE_BY:
+		case COL_FROM:
 		case COL_FROM_NORM:
-		case COL_SUBJECT_NORM:
+		case COL_TO:
 		case COL_TO_NORM:
+		case COL_SUBJECT:
+		case COL_SUBJECT_NORM:
 		case COL_SUBJECT_TRIMMED:
 		case COL_COLOUR:
 			break;
 
-		case COL_FROM:
-		case COL_SUBJECT:
-		case COL_TO:
-		case COL_FOLLOWUP_FLAG:
 		case COL_LOCATION:
 		case COL_SENDER:
 		case COL_RECIPIENTS:
@@ -3036,14 +3036,14 @@ message_list_initialize_value (ETreeModel *tree_model,
 		case COL_SENT:
 		case COL_RECEIVED:
 		case COL_SIZE:
-		case COL_FOLLOWUP_FLAG_STATUS:
-		case COL_FOLLOWUP_DUE_BY:
-			return NULL;
-
 		case COL_FROM:
 		case COL_SUBJECT:
 		case COL_TO:
 		case COL_FOLLOWUP_FLAG:
+		case COL_FOLLOWUP_FLAG_STATUS:
+		case COL_FOLLOWUP_DUE_BY:
+			return NULL;
+
 		case COL_LOCATION:
 		case COL_SENDER:
 		case COL_RECIPIENTS:

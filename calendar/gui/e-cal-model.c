@@ -1133,7 +1133,7 @@ cal_model_finalize (GObject *object)
 		}
 		g_object_unref (comp_data);
 	}
-	g_ptr_array_free (priv->objects, FALSE);
+	g_ptr_array_free (priv->objects, TRUE);
 
 	g_mutex_clear (&priv->notify_lock);
 

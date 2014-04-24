@@ -1689,6 +1689,7 @@ e_web_view_init (EWebView *web_view)
 			G_CALLBACK (e_web_view_update_fonts), web_view);
 		web_view->priv->antialiasing_changed_handler_id = handler_id;
 		g_object_unref (settings);
+		g_settings_schema_unref (settings_schema);
 	}
 
 	e_web_view_update_fonts (web_view);

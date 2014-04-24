@@ -839,6 +839,8 @@ e_meeting_list_view_column_set_visible (EMeetingListView *view,
 			break;
 		}
 	}
+
+	g_list_free (cols);
 }
 
 void

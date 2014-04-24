@@ -62,6 +62,8 @@ ecd_get_text (ECellText *cell,
 
 static void
 ecd_free_text (ECellText *cell,
+	       ETableModel *model,
+	       gint col,
                gchar *text)
 {
 	g_free (text);

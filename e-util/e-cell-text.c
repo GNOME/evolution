@@ -217,8 +217,11 @@ ect_real_get_text (ECellText *cell,
 
 static void
 ect_real_free_text (ECellText *cell,
+		    ETableModel *model,
+		    gint col,
                     gchar *text)
 {
+	e_table_model_free_value (model, col, text);
 }
 
 /* This is the default method for setting the ETableModel value based on
@@ -599,7 +602,7 @@ generate_layout (ECellTextView *text_view,
 	if (row >= 0) {
 		gchar *temp = e_cell_text_get_text (ect, ecell_view->e_table_model, model_col, row);
 		layout = build_layout (text_view, row, temp ? temp : "?", width);
-		e_cell_text_free_text (ect, temp);
+		e_cell_text_free_text (ect, ecell_view->e_table_model, model_col, temp);
 	} else
 		layout = build_layout (text_view, row, "Mumbo Jumbo", width);
 
@@ -1143,7 +1146,7 @@ ect_enter_edit (ECellView *ecell_view,
 
 	temp = e_cell_text_get_text (ect, ecell_view->e_table_model, model_col, row);
 	edit->old_text = g_strdup (temp);
-	e_cell_text_free_text (ect, temp);
+	e_cell_text_free_text (ect, ecell_view->e_table_model, model_col, temp);
 	edit->text = g_strdup (edit->old_text);
 
 	if (edit->im_context) {
@@ -1386,7 +1389,7 @@ ect_print (ECellView *ecell_view,
 
 	pango_font_description_free (font_des);
 	g_object_unref (layout);
-	e_cell_text_free_text (ect, string);
+	e_cell_text_free_text (ect, ecell_view->e_table_model, model_col, string);
 }
 
 static gdouble
@@ -1942,6 +1945,8 @@ e_cell_text_get_text (ECellText *cell,
 
 void
 e_cell_text_free_text (ECellText *cell,
+		       ETableModel *model,
+		       gint col,
                        gchar *text)
 {
 	ECellTextClass *class;
@@ -1952,7 +1957,7 @@ e_cell_text_free_text (ECellText *cell,
 	if (class->free_text == NULL)
 		return;
 
-	class->free_text (cell, text);
+	class->free_text (cell, model, col, text);
 }
 
 void
@@ -2800,7 +2805,7 @@ e_cell_text_get_text_by_view (ECellView *cell_view,
 			E_CELL_TEXT (cell_view->ecell),
 			cell_view->e_table_model, col, row);
 		ret = g_strdup (model_text);
-		e_cell_text_free_text (E_CELL_TEXT (cell_view->ecell), model_text);
+		e_cell_text_free_text (E_CELL_TEXT (cell_view->ecell), cell_view->e_table_model, col, model_text);
 	}
 
 	return ret;

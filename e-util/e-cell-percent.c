@@ -62,6 +62,8 @@ ecp_get_text (ECellText *cell,
 
 static void
 ecp_free_text (ECellText *cell,
+	       ETableModel *model,
+	       gint col,
                gchar *text)
 {
 	/* Do Nothing. */

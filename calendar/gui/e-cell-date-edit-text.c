@@ -134,6 +134,8 @@ cell_date_edit_text_get_text (ECellText *cell,
 
 static void
 cell_date_edit_text_free_text (ECellText *cell,
+			       ETableModel *model,
+			       gint col,
                                gchar *text)
 {
 	g_free (text);

@@ -563,7 +563,8 @@ e_cell_date_edit_set_popup_values (ECellDateEdit *ecde)
 		}
 	}
 
-	e_cell_text_free_text (ecell_text, cell_text);
+	e_cell_text_free_text (ecell_text, ecv->e_table_model,
+		ecol->spec->model_col, cell_text);
 }
 
 static void
@@ -963,7 +964,8 @@ e_cell_date_edit_update_cell (ECellDateEdit *ecde,
 			ecol->spec->model_col, ecp->popup_row, NULL);
 	}
 
-	e_cell_text_free_text (ecell_text, old_text);
+	e_cell_text_free_text (ecell_text, ecv->e_table_model,
+		ecol->spec->model_col, old_text);
 }
 
 static void

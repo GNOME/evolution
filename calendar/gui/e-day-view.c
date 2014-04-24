@@ -1146,6 +1146,12 @@ day_view_dispose (GObject *object)
 	g_clear_object (&day_view->time_canvas);
 	g_clear_object (&day_view->priv->model);
 
+	g_free (day_view->priv->marcus_bains_day_view_color);
+	day_view->priv->marcus_bains_day_view_color = NULL;
+
+	g_free (day_view->priv->marcus_bains_time_bar_color);
+	day_view->priv->marcus_bains_time_bar_color = NULL;
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
 }
