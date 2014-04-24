@@ -5,6 +5,7 @@ from dogtail.tree import root
 from dogtail.rawinput import keyCombo
 from time import sleep
 from os import system
+from gi.repository import Gio
 
 
 @step(u'Help section "{name}" is displayed')
@@ -46,6 +47,28 @@ def open_section_by_name(context, section_name):
     context.app.menu('View').click()
     context.app.menu('View').menu('Window').point()
     context.app.menu('View').menu('Window').menuItem(section_name).click()
+
+    # Check that service required for this sections is running
+    required_services = {
+        'Mail': 'org.gnome.evolution.dataserver.Sources',
+        'Calendar': 'org.gnome.evolution.dataserver.Calendar',
+        'Tasks': 'org.gnome.evolution.dataserver.Calendar',
+        'Memos': 'org.gnome.evolution.dataserver.Calendar',
+        'Contacts': 'org.gnome.evolution.dataserver.AddressBook',
+    }
+    required_service = required_services[section_name]
+    bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+    dbus_proxy = Gio.DBusProxy.new_sync(bus, Gio.DBusProxyFlags.NONE, None,
+                                        'org.freedesktop.DBus',
+                                        '/org/freedesktop/DBus',
+                                        'org.freedesktop.DBus', None)
+    for attempt in xrange(0, 10):
+        result = dbus_proxy.call_sync(
+            'ListNames', None, Gio.DBusCallFlags.NO_AUTO_START, 500, None)
+        sleep(1)
+        if True in [required_service in x for x in result[0]]:
+            return
+    raise RuntimeError("%s service was not found" % required_service)
 
 
 @step(u'"{name}" menu is opened')
