@@ -28,10 +28,6 @@ def open_evolution_and_setup_fake_account(context):
             * Complete Account Summary in Evolution Account Assistant
             * Complete Done dialog in Evolution Account Assistant
             """)
-        # Evo doesn't create default addressbook immidiately
-        # We should restart it
-        system("evolution --force-shutdown 2&> /dev/null")
-        context.execute_steps(u'* Start a new Evolution instance')
 
 
 @step(u'Complete Receiving Options in Evolution Account Assistant')
