@@ -5,16 +5,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2014-02-10 05:29+0000\n"
-"PO-Revision-Date: 2014-02-10 10:34+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"POT-Creation-Date: 2014-04-23 16:40+0000\n"
+"PO-Revision-Date: 2014-04-24 14:00+0200\n"
+"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.0\n"
+"X-Generator: Poedit 1.6.4\n"
 
 # #-#-#-#-#  gnome-power-manager.HEAD.el.po (el)  #-#-#-#-#
 # #-#-#-#-#  nautilus.HEAD.el.po (el)  #-#-#-#-#
@@ -291,8 +291,10 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-msgid "Enter the address of the calendar in the <gui>URL</gui> field."
-msgstr "Εισάγετε τη διεύθυνση του ημερολογίου στο πεδίο <gui>URL</gui>."
+#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
+#: C/tasks-webdav.page:31
+msgid "Enter the address in the <gui>URL</gui> field."
+msgstr "Εισάγετε τη διεύθυνση στο πεδίο <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
@@ -2748,61 +2750,6 @@ msgstr "Dimitris Spingos (Δημήτρης Σπίγγος)"
 #: C/credits.page:47
 msgid "Authors of the previous version"
 msgstr "Συγγραφείς της προηγούμενης έκδοσης"
-
-#. (itstool) path: item/p
-#: C/credits.page:49
-msgid "Aaron Weber"
-msgstr "Aaron Weber"
-
-#. (itstool) path: item/p
-#: C/credits.page:52
-msgid "Akhil Laddha"
-msgstr "Akhil Laddha"
-
-#. (itstool) path: item/p
-#: C/credits.page:58
-msgid "Duncan Mak"
-msgstr "Duncan Mak"
-
-#. (itstool) path: item/p
-#: C/credits.page:61
-msgid "Ettore Perazzoli"
-msgstr "Ettore Perazzoli"
-
-#. (itstool) path: item/p
-#: C/credits.page:64
-msgid "Francisco Javier F. Serrador"
-msgstr "Francisco Javier F. Serrador"
-
-#. (itstool) path: item/p
-#: C/credits.page:67
-msgid "Jessica Prabhakar"
-msgstr "Jessica Prabhakar"
-
-#. (itstool) path: item/p
-#: C/credits.page:70
-msgid "Kevin Breit"
-msgstr "Kevin Breit"
-
-#. (itstool) path: item/p
-#: C/credits.page:73
-msgid "Mark Moulder"
-msgstr "Mark Moulder"
-
-#. (itstool) path: item/p
-#: C/credits.page:76
-msgid "Novell, Inc."
-msgstr "Novell, Inc."
-
-#. (itstool) path: item/p
-#: C/credits.page:79
-msgid "Radhika Nair"
-msgstr "Radhika Nair"
-
-#. (itstool) path: item/p
-#: C/credits.page:82
-msgid "Srinivasa Ragavan"
-msgstr "Srinivasa Ragavan"
 
 #. (itstool) path: section/title
 #: C/credits.page:89
@@ -6380,11 +6327,6 @@ msgstr ""
 "Είτε πατήστε <guiseq><gui>εισαγωγή</gui><gui>σύνδεσμος...</gui></guiseq> στη "
 "γραμμή μενού, ή δεξί κλικ στο επιλεγμένο κείμενο και πατήστε <gui>εισαγωγή "
 "συνδέσμου</gui>."
-
-#. (itstool) path: item/p
-#: C/mail-composer-html-link.page:28
-msgid "Enter the address in the <gui>URL</gui> field."
-msgstr "Εισάγετε τη διεύθυνση στο πεδίο <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:29 C/mail-composer-html-rule.page:28
@@ -10051,11 +9993,41 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:32
+#| msgid "Marking a Message As Not Junk Mail"
+msgid "Marking a message as read or unread"
+msgstr "Σημείωση ενός μηνύματος ως διαβασμένο ή αδιάβαστο"
+
+#. (itstool) path: section/p
+#: C/mail-reading-keyboard-shortcuts.page:33
+#| msgid ""
+#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
+#| "key></keyseq>."
+msgid ""
+"To mark the currently selected message as read, press <keyseq><key>Ctrl</"
+"key><key>K</key></keyseq>."
+msgstr ""
+"Για να σημειώσετε ένα μήνυμα ως διαβασμένο, πατήστε <keyseq><key>Ctrl</"
+"key><key>K</key></keyseq>."
+
+#. (itstool) path: section/p
+#: C/mail-reading-keyboard-shortcuts.page:34
+#| msgid ""
+#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
+#| "key></keyseq>."
+msgid ""
+"To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
+"key><key>Shift</key><key>K</key></keyseq>."
+msgstr ""
+"Για να σημειώσετε ένα μήνυμα ως αδιάβαστο, πατήστε <keyseq><key>Ctrl</"
+"key><key>Shift</key><key>K</key></keyseq>."
+
+#. (itstool) path: section/title
+#: C/mail-reading-keyboard-shortcuts.page:38
 msgid "Navigating in a message"
 msgstr "Περιήγηση σε μήνυμα"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:33
+#: C/mail-reading-keyboard-shortcuts.page:39
 msgid ""
 "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
 "page down and press <key>Backspace</key> to page up while reading an email. "
@@ -10068,24 +10040,24 @@ msgstr ""
 "είναι εστιασμένος."
 
 #. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:37
+#: C/mail-reading-keyboard-shortcuts.page:43
 msgid "Navigating in a folder in the message list"
 msgstr "Περιήγηση σε φάκελο στον κατάλογο μηνυμάτων"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:38
+#: C/mail-reading-keyboard-shortcuts.page:44
 msgid "Navigate in the message list by using the arrow keys on the keyboard."
 msgstr ""
 "Περιήγηση στον κατάλογο μηνυμάτων χρησιμοποιώντας τα πλήκτρα βελών στο "
 "πληκτρολόγιο."
 
 #. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:42
+#: C/mail-reading-keyboard-shortcuts.page:48
 msgid "Navigating in a folder's unread mail in the message list"
 msgstr "Περιήγηση στα αδιάβαστα μηνύματα φακέλου στον κατάλογο μηνυμάτων"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:43
+#: C/mail-reading-keyboard-shortcuts.page:49
 msgid ""
 "To go to the next or previous unread messages, press the period (<key>.</"
 "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also "
@@ -10105,12 +10077,12 @@ msgstr ""
 "προηγούμενο αδιάβαστο μήνυμα."
 
 #. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:47
+#: C/mail-reading-keyboard-shortcuts.page:53
 msgid "Navigating in unread mail across folders"
 msgstr "Περιήγηση σε αδιάβαστο μήνυμα μέσα από φακέλους"
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:49
+#: C/mail-reading-keyboard-shortcuts.page:55
 msgid ""
 "You can easily read the unread messages in all the mail folders by using the "
 "<key>Spacebar</key>."
@@ -10119,7 +10091,7 @@ msgstr ""
 "αλληλογραφίας χρησιμοποιώντας το <key>πλήκτρο διαστήματος</key>."
 
 #. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:51
+#: C/mail-reading-keyboard-shortcuts.page:57
 msgid ""
 "When you are in the Mail window, the Spacebar has the following behavior:"
 msgstr ""
@@ -10127,7 +10099,7 @@ msgstr ""
 "ακόλουθη συμπεριφορά:"
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:53
+#: C/mail-reading-keyboard-shortcuts.page:59
 msgid ""
 "When you press the Spacebar for the first time, it takes you to the next "
 "unread message."
@@ -10136,7 +10108,7 @@ msgstr ""
 "επόμενο αδιάβαστο μήνυμα."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:54
+#: C/mail-reading-keyboard-shortcuts.page:60
 msgid ""
 "If the message is more than one screen long, the Spacebar works as <key>Page "
 "Down</key>."
@@ -10145,7 +10117,7 @@ msgstr ""
 "λειτουργεί όπως το <key>Page Down</key>."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:55
+#: C/mail-reading-keyboard-shortcuts.page:61
 msgid ""
 "If you press the Spacebar after you reach the bottom of the page, it takes "
 "you to the next unread message."
@@ -10154,7 +10126,7 @@ msgstr ""
 "σας πάει στο επόμενο μη αναγνωσμένο μήνυμα."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:56
+#: C/mail-reading-keyboard-shortcuts.page:62
 msgid ""
 "If there are no more unread messages in the mailbox, pressing the Spacebar "
 "takes you to the next unread message in the next folder."
@@ -10164,7 +10136,7 @@ msgstr ""
 "μήνυμα στον επόμενο φάκελο."
 
 #. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:57
+#: C/mail-reading-keyboard-shortcuts.page:63
 msgid ""
 "If new messages arrive in a number of folders, the Spacebar toggles between "
 "those folders. This feature allows you to switch to the next unread message "
@@ -13154,11 +13126,6 @@ msgstr ""
 "Επιλέξτε εάν θέλετε να μπορείτε να δείτε το περιεχόμενο επίσης εκτός "
 "σύνδεσης."
 
-#. (itstool) path: item/p
-#: C/tasks-caldav.page:29 C/tasks-webdav.page:31
-msgid "Enter the address of the list in the <gui>URL</gui> field."
-msgstr "Εισάγετε τη διεύθυνση του καταλόγου στο πεδίο <gui>URL</gui>."
-
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
 msgid "The task list will be added to the list of task lists in Evolution."
@@ -14162,6 +14129,45 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Πατήστε στο <_:gui-1/>."
+
+#~ msgid "Enter the address of the calendar in the <gui>URL</gui> field."
+#~ msgstr "Εισάγετε τη διεύθυνση του ημερολογίου στο πεδίο <gui>URL</gui>."
+
+#~ msgid "Aaron Weber"
+#~ msgstr "Aaron Weber"
+
+#~ msgid "Akhil Laddha"
+#~ msgstr "Akhil Laddha"
+
+#~ msgid "Duncan Mak"
+#~ msgstr "Duncan Mak"
+
+#~ msgid "Ettore Perazzoli"
+#~ msgstr "Ettore Perazzoli"
+
+#~ msgid "Francisco Javier F. Serrador"
+#~ msgstr "Francisco Javier F. Serrador"
+
+#~ msgid "Jessica Prabhakar"
+#~ msgstr "Jessica Prabhakar"
+
+#~ msgid "Kevin Breit"
+#~ msgstr "Kevin Breit"
+
+#~ msgid "Mark Moulder"
+#~ msgstr "Mark Moulder"
+
+#~ msgid "Novell, Inc."
+#~ msgstr "Novell, Inc."
+
+#~ msgid "Radhika Nair"
+#~ msgstr "Radhika Nair"
+
+#~ msgid "Srinivasa Ragavan"
+#~ msgstr "Srinivasa Ragavan"
+
+#~ msgid "Enter the address of the list in the <gui>URL</gui> field."
+#~ msgstr "Εισάγετε τη διεύθυνση του καταλόγου στο πεδίο <gui>URL</gui>."
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"
@@ -15251,9 +15257,6 @@ msgstr "Πατήστε στο <_:gui-1/>."
 
 #~ msgid "How to mark a message in Novell Groupwise as not junk."
 #~ msgstr "Σημείωση μηνύματος στο Novell Groupwise ως μη ανεπιθύμητου."
-
-#~ msgid "Marking a Message As Not Junk Mail"
-#~ msgstr "Σημείωση ενός μηνύματος ως επιθυμητό"
 
 #~ msgid "Select the message to mark as not junk in your Junk Mail folder."
 #~ msgstr ""
