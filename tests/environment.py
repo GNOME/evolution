@@ -7,6 +7,7 @@ if not isA11yEnabled():
 
 from common_steps import App, dummy, cleanup
 from dogtail.config import config
+import os
 
 
 def before_all(context):
@@ -29,6 +30,20 @@ def before_all(context):
 
     except Exception as e:
         print("Error in before_all: %s" % e.message)
+
+
+def after_step(context, step):
+    try:
+        if step.status == 'failed' and hasattr(context, "embed"):
+            # Embed screenshot if HTML report is used
+            os.system("dbus-send --print-reply --session --type=method_call " +
+                      "--dest='org.gnome.Shell.Screenshot' " +
+                      "'/org/gnome/Shell/Screenshot' " +
+                      "org.gnome.Shell.Screenshot.Screenshot " +
+                      "boolean:true boolean:false string:/tmp/screenshot.png")
+            context.embed('image/png', open("/tmp/screenshot.png", 'r').read())
+    except Exception as e:
+        print("Error in after_step: %s" % str(e))
 
 
 def after_scenario(context, scenario):
