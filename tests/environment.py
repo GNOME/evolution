@@ -16,6 +16,9 @@ def before_all(context):
     """
 
     try:
+        # Close running evo instances
+        os.system("evolution --force-shutdown > /dev/null")
+
         # Skip dogtail actions to print to stdout
         config.logDebugToStdOut = False
         config.typingDelay = 0.2

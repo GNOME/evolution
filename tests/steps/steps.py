@@ -3,9 +3,9 @@ from behave import step, then
 from common_steps import wait_until
 from dogtail.tree import root
 from dogtail.rawinput import keyCombo
-from time import sleep
+from time import sleep, time
 from os import system
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 
 
 @step(u'Help section "{name}" is displayed')
@@ -42,11 +42,22 @@ def view_is_opened(context, name):
         context.assertion.assertTrue(context.app.menu('Message').showing)
 
 
+def get_visible_searchbar(context):
+    """Wait for searchbar to become visible"""
+    searchbars = context.app.findChildren(lambda x: x.labeller.name == 'Search:' and x.showing)
+    assert wait_until(lambda x: len(x) > 0, searchbars), "No visible searchbars found"
+    return searchbars[0]
+
+
 @step(u'Open "{section_name}" section')
 def open_section_by_name(context, section_name):
+    wait_until(lambda x: x.showing, context.app.menu('View'))
     context.app.menu('View').click()
     context.app.menu('View').menu('Window').point()
     context.app.menu('View').menu('Window').menuItem(section_name).click()
+
+    # Find a search bar
+    context.app.search_bar = get_visible_searchbar(context)
 
     # Check that service required for this sections is running
     required_services = {
@@ -143,3 +154,22 @@ def task_editor_with_title_is_opened(context, title):
 @step(u'Event editor with title "{name}" is displayed')
 def event_editor_with_name_displayed(context, name):
     context.app.event_editor = context.app.window(name)
+
+
+@step(u'Wait for email to synchronize')
+def wait_for_mail_folder_to_synchronize(context):
+    # Wait until Google calendar is loaded
+    for attempt in range(0, 10):
+        start_time = time()
+        try:
+            spinners = context.app.findChildren(lambda x: x.name == 'Spinner')
+            for spinner in spinners:
+                try:
+                    while spinner.showing:
+                        sleep(0.1)
+                        if (time() - start_time) > 180:
+                            raise RuntimeError("Mail takes too long to synchronize")
+                except GLib.GError:
+                    continue
+        except (GLib.GError, TypeError):
+            continue
