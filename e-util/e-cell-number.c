@@ -49,6 +49,8 @@ ecn_get_text (ECellText *cell,
 
 static void
 ecn_free_text (ECellText *cell,
+	       ETableModel *model,
+	       gint col,
                gchar *text)
 {
 	g_free (text);

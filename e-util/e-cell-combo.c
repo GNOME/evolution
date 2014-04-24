@@ -406,7 +406,8 @@ e_cell_combo_select_matching_item (ECellCombo *ecc)
 	if (!found)
 		gtk_tree_selection_unselect_all (selection);
 
-	e_cell_text_free_text (ecell_text, cell_text);
+	e_cell_text_free_text (ecell_text, ecv->e_table_model,
+		ecol->spec->model_col, cell_text);
 }
 
 static void
@@ -819,7 +820,8 @@ e_cell_combo_update_cell (ECellCombo *ecc)
 			ecol->spec->model_col, ecp->popup_row, text);
 	}
 
-	e_cell_text_free_text (ecell_text, old_text);
+	e_cell_text_free_text (ecell_text, ecv->e_table_model,
+		ecol->spec->model_col, old_text);
 	g_free (text);
 }
 

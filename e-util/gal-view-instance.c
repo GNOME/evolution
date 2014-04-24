@@ -273,7 +273,9 @@ load_current_view (GalViewInstance *instance)
 	}
 
 	if (doc == NULL) {
-		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
+		gchar *view_id = g_strdup (gal_view_instance_get_default_view (instance));
+		g_free (instance->current_id);
+		instance->current_id = view_id;
 
 		if (instance->current_id) {
 			gint index = gal_view_collection_get_view_index_by_id (
@@ -291,6 +293,7 @@ load_current_view (GalViewInstance *instance)
 	}
 
 	root = xmlDocGetRootElement (doc);
+	g_free (instance->current_id);
 	instance->current_id = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"current_view", NULL);
 
 	if (instance->current_id != NULL) {

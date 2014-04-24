@@ -106,6 +106,8 @@ struct _ECellTextClass {
 						 gint col,
 						 gint row);
 	void		(*free_text)		(ECellText *cell,
+						 ETableModel *model,
+						 gint col,
 						 gchar *text);
 	void		(*set_value)		(ECellText *cell,
 						 ETableModel *model,
@@ -145,6 +147,8 @@ gchar *		e_cell_text_get_text		(ECellText *cell,
 
 /* Frees the value returned by e_cell_text_get_text(). */
 void		e_cell_text_free_text		(ECellText *cell,
+						 ETableModel *model,
+						 gint col,
 						 gchar *text);
 
 /* Sets the ETableModel value, based on the given string. */

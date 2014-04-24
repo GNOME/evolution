@@ -938,6 +938,7 @@ event_page_finalize (GObject *object)
 	g_ptr_array_free (priv->deleted_attendees, TRUE);
 
 	g_free (priv->old_summary);
+	g_free (priv->user_add);
 
 	priv->alarm_list_dlg_widget = NULL;
 

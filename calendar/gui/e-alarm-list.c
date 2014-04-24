@@ -78,9 +78,22 @@ G_DEFINE_TYPE_WITH_CODE (
 		e_alarm_list_tree_model_init))
 
 static void
+alarm_list_finalize (GObject *object)
+{
+	e_alarm_list_clear (E_ALARM_LIST (object));
+
+	G_OBJECT_CLASS (e_alarm_list_parent_class)->finalize (object);
+}
+
+static void
 e_alarm_list_class_init (EAlarmListClass *class)
 {
+	GObjectClass *object_class;
+
 	column_types[E_ALARM_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = alarm_list_finalize;
 }
 
 static void
