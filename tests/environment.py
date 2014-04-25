@@ -16,9 +16,6 @@ def before_all(context):
     """
 
     try:
-        # Set evolution as default email client
-        os.system("echo 'x-scheme-handler/mailto=evolution.desktop' >>  ~/.local/share/applications/mimeapps.list")
-
         # Close running evo instances
         os.system("evolution --force-shutdown > /dev/null")
 
