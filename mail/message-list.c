@@ -5473,6 +5473,7 @@ message_list_regen_done_cb (GObject *source_object,
 	if (message_list->priv->regen_data == regen_data) {
 		regen_data_unref (message_list->priv->regen_data);
 		message_list->priv->regen_data = NULL;
+		e_tree_set_info_message (E_TREE (message_list), NULL);
 	}
 	g_mutex_unlock (&message_list->priv->regen_lock);
 
