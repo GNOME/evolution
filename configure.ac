@@ -485,7 +485,7 @@ AC_CHECK_FUNCS(mkdtemp)
 dnl **************************************************
 dnl Gnome Icon Theme
 dnl **************************************************
-PKG_CHECK_MODULES([GIT], [gnome-icon-theme >= gnome_icon_theme_minimum_version])
+PKG_CHECK_MODULES([GIT], [adwaita-icon-theme >= gnome_icon_theme_minimum_version])
 
 dnl **************************************************
 dnl Accessibility support
