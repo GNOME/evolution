@@ -49,7 +49,6 @@ m4_define([gtkhtml_minimum_version], [4.5.2])
 m4_define([gdk_pixbuf_minimum_version], [2.24.0])
 m4_define([gcr_minimum_version], [3.4])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
-m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([webkitgtk_minimum_version], [2.0.1])
 m4_define([libgdata_minimum_version], [0.10])
@@ -481,11 +480,6 @@ fi
 
 
 AC_CHECK_FUNCS(mkdtemp)
-
-dnl **************************************************
-dnl Gnome Icon Theme
-dnl **************************************************
-PKG_CHECK_MODULES([GIT], [adwaita-icon-theme >= gnome_icon_theme_minimum_version])
 
 dnl **************************************************
 dnl Accessibility support
