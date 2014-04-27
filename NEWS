@@ -1,3 +1,57 @@
+Evolution 3.13.1 2014-04-28
+---------------------------
+
+Bug Fixes:
+	Bug 340075 - More IM contact fields (Christian Schaarschmidt)
+	Bug 508744 - Select PGP key from a list in mail account properties
+	             (Milan Crha)
+	Bug 545106 - [Automatic Contacts] Adds duplicate email addresses
+	             (Watson Yuuma Sato)
+	Bug 551793 - Alarms dialog: Change "Customize" option (Anup-Allamsetty)
+	Bug 684425 - Do not pass NULL text to gtk_entry_set_text() (Milan Crha)
+	Bug 699797 - Verify SSL trust after redirection (Matt McCutchen)
+	Bug 719417 - Remove em-filter-i18n.h (Matthew Barnes)
+	Bug 724059 - Allow arbitrary number of phone entries in the contact
+	             editor (Christian Schaarschmidt)
+	Bug 726110 - Use gtk_drag_check_threshold() instead of hard-coded
+	             values (Milan Crha)
+	Bug 726542 - Unpadded black border on various mail account settings
+	             pages (Milan Crha)
+	Bug 726654 - Search bar's filter change may not steal keyboard focus
+	             (Milan Crha)
+	Bug 727888 - Wrap the Location label in a reminder dialog (Milan Crha)
+	Bug 727967 - Undo/Redo text is not displayed in menus (Milan Crha)
+
+Other Changes:
+	* User documentation improvements. (Andre Klapper)
+	* Refactor the folder selection dialog to show progress and errors
+	  inline. (Matthew Barnes)
+	* Plugged assorted memory leaks. (Milan Crha)
+	* Add an --enable-code-coverage configure option to enable gcov
+	  support. (Milan Crha)
+	* Installed test suite improvements. (Vadim Rutkovsky)
+	* e-util: Port to thread-safe ECategories API (Philip Withnall)
+	* Cancel pending mail operations when going offline or on quit
+	  (Milan Crha)
+	* EMailDisplay: Install HTML click event handlers on images in all
+	  frames (Tomas Popela)
+	* Reset MessageList::seen_id in mail_reader_message_seen_cb()
+	  (Milan Crha)
+	* Make 'Copy Link Location' copy into both primary and selection
+	  clipboards (Milan Crha)
+
+Translations:
+	Marek Černocký (cs)
+	Christian Kirbach (de)
+	Tom Tryfonidis (el)
+	Fran Dieguez (gl)
+	Gianvito Cavasoli (it)
+	Jiro Matsuzawa (ja)
+	Kjartan Maraas (nb)
+	Yuri Myasoedov (ru)
+	Matej Urbančič (sl)
+
+
 Evolution 3.12.0 2014-03-24
 ---------------------------
 
