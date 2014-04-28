@@ -255,8 +255,8 @@ def get_combobox_textbox_object(contact_editor, section):
         correct_textbox = min(matching_textboxes, key=lambda x: x.position[0])
         result.append((combo, correct_textbox))
 
-    comboboxes = [x[0] for x in result]
-    textboxes = [x[1] for x in result]
+    comboboxes = [x[0] for x in result][::-1]
+    textboxes = [x[1] for x in result][::-1]
 
     return (textboxes, comboboxes)
 
@@ -271,6 +271,12 @@ def set_contact_emails_to_value(context, section):
         textbox.text = ""
 
     for index, row in enumerate(context.table.rows):
+        # Check that we have sufficient amount of textboxes
+        # If not - click plus buttons until we have enough
+	if index == len(textboxes):
+            textboxes[0].parent.child(roleName="push button").click()
+            (textboxes, comboboxes) = get_combobox_textbox_object(
+                context.app.contact_editor, section)
         textboxes[index].text = row['Value']
         if comboboxes[index].combovalue != row['Field']:
             comboboxes[index].combovalue = row['Field']
