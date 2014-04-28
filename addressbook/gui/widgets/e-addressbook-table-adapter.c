@@ -189,7 +189,7 @@ addressbook_value_at (ETableModel *etc,
 		}
 	}
 
-	return (gpointer)(value ? value : "");
+	return g_strdup (value ? value : "");
 }
 
 /* This function sets the value at a particular point in our ETableModel. */

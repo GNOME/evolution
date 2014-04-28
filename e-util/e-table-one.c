@@ -144,6 +144,8 @@ table_one_free_value (ETableModel *etm,
 
 	if (one->source)
 		e_table_model_free_value (one->source, col, value);
+	if (one->data)
+		one->data[col] = one->source ? e_table_model_initialize_value (one->source, col) : NULL;
 }
 
 static gpointer
