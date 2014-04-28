@@ -44,9 +44,10 @@ def view_is_opened(context, name):
 
 def get_visible_searchbar(context):
     """Wait for searchbar to become visible"""
-    searchbars = context.app.findChildren(lambda x: x.labeller.name == 'Search:' and x.showing)
-    assert wait_until(lambda x: len(x) > 0, searchbars), "No visible searchbars found"
-    return searchbars[0]
+    def get_searchbars():
+        return context.app.findChildren(lambda x: x.labeller.name == 'Search:' and x.showing)
+    assert wait_until(lambda x: len(x()) > 0, get_searchbars), "No visible searchbars found"
+    return get_searchbars()[0]
 
 
 @step(u'Open "{section_name}" section')
