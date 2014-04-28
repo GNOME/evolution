@@ -434,8 +434,6 @@ cal_model_calendar_free_value (ETableModel *etm,
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
-		if (value)
-			g_free (value);
 		break;
 	}
 }

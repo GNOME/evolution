@@ -438,7 +438,7 @@ get_categories (ECalModelComponent *comp_data)
 		}
 	}
 
-	return comp_data->priv->categories_str->str;
+	return g_strdup (comp_data->priv->categories_str->str);
 }
 
 static gchar *
@@ -480,24 +480,18 @@ static gpointer
 get_description (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
-	static GString *str = NULL;
-
-	if (str) {
-		g_string_free (str, TRUE);
-		str = NULL;
-	}
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
 	if (prop) {
-		str = g_string_new (NULL);
+		GString *str = g_string_new (NULL);
 		do {
 			str = g_string_append (str, icalproperty_get_description (prop));
 		} while ((prop = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY)));
 
-		return str->str;
+		return g_string_free (str, FALSE);
 	}
 
-	return (gpointer) "";
+	return g_strdup ("");
 }
 
 static ECellDateEditValue *
@@ -597,9 +591,9 @@ get_summary (ECalModelComponent *comp_data)
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
 	if (prop)
-		return (gpointer) icalproperty_get_summary (prop);
+		return g_strdup (icalproperty_get_summary (prop));
 
-	return (gpointer) "";
+	return g_strdup ("");
 }
 
 static gchar *
@@ -1554,8 +1548,8 @@ cal_model_free_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
+	case E_CAL_MODEL_FIELD_DTSTART:
 		break;
-	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		if (value)

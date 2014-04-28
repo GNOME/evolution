@@ -875,9 +875,9 @@ eti_header_structure_changed (ETableHeader *eth,
 	g_return_if_fail (cols && prev_cols && n_cols > 0);
 
         /* Init to ETI_HEADER_UNCHANGED. */
-	state = g_malloc0 (sizeof (gint) * n_cols);
-	prev_state = g_malloc0 (sizeof (gint) * prev_n_cols);
-	reorder = g_malloc0 (sizeof (gint) * n_cols);
+	state = g_malloc0 (sizeof (gint) * (MAX (prev_n_cols, n_cols) + 1));
+	prev_state = g_malloc0 (sizeof (gint) * (MAX (prev_n_cols, n_cols) + 1));
+	reorder = g_malloc0 (sizeof (gint) * (MAX (prev_n_cols, n_cols) + 1));
 
         /* Compare with previously saved column headers. */
 	for (i = 0; i < n_cols && cols[i]; i++) {

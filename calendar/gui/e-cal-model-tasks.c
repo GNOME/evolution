@@ -1066,8 +1066,6 @@ cal_model_tasks_free_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
-		if (value)
-			g_free (value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
@@ -1093,7 +1091,7 @@ cal_model_tasks_initialize_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
-		return g_strdup ("");
+		return (gpointer) "";
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
