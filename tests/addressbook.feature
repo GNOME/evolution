@@ -95,6 +95,7 @@ Feature: Addressbook: File: Create contacts
 
       In vitae ligula risus. Nunc venenatis leo vel leo facilisis porta. Nam sed magna urna, venenatis.
       """
+      * Save the contact
       * Refresh addressbook
       * Select "Doe, Jimmy" contact
       * Open contact editor for selected contact

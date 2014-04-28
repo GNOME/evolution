@@ -123,6 +123,8 @@ def set_field_to_value(context, field_name, field_value):
 @step(u'Save the contact')
 def save_contact(context):
     context.app.contact_editor.button('Save').click()
+    assert wait_until(lambda x: not x.showing, context.app.contact_editor),\
+        "Contact Editor was not hidden"
     assert wait_until(lambda x: x.dead, context.app.contact_editor),\
         "Contact Editor was not closed"
     context.app.contact_editor = None
