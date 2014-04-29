@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from time import sleep
+from time import sleep, localtime, strftime
 from dogtail.utils import isA11yEnabled, enableA11y
 if not isA11yEnabled():
     enableA11y(True)
@@ -29,6 +29,9 @@ def before_all(context):
         # Cleanup existing data before any test
         cleanup()
 
+        # Store scenario start time for session logs
+        context.log_start_time = strftime("%Y-%m-%d %H:%M:%S", localtime())
+
         context.app_class = App('evolution')
 
     except Exception as e:
@@ -56,6 +59,13 @@ def after_scenario(context, scenario):
     try:
         # Stop evolution
         context.app_class.kill()
+
+        # Attach journalctl logs
+        if hasattr(context, "embed"):
+            os.system("journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
+            data = open("/tmp/journal-session.log", 'r').read()
+            if data:
+                context.embed('text/plain', data)
 
         # Make some pause after scenario
         sleep(1)
