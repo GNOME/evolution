@@ -598,6 +598,82 @@
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkFrame" id="sip-frame">
+                                <property name="visible">True</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">none</property>
+
+                                    <child>
+                                      <object class="GtkVBox" id="vbox-sip">
+                                        <property name="visible">True</property>
+                                        <property name="border_width">12</property>
+                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">6</property>
+
+	                                    <child>
+	                                      <object class="EContactEditorDynTable" type-func="e_contact_editor_dyntable_get_type" id="sip-dyntable">
+	                                        <property name="visible">True</property>
+	                                      </object>
+	                                        <packing>
+	                                           <property name="position">0</property>
+	                                        </packing>
+	                                    </child>
+
+	                                   </object>
+                                    </child>
+
+                                    <child type="label">
+                                      <object class="GtkHBox" id="hbox-sip">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">4</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label-sip">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">SIP Address</property>
+                                            <attributes>
+                                              <attribute name="weight" value="bold"/>
+                                            </attributes>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkButton" id="button-sip-expand">
+                                            <property name="width_request">20</property>
+                                            <property name="height_request">20</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="relief">none</property>
+                                            <child internal-child="accessible">
+                                              <object class="AtkObject" id="button-sip-expand-atkobject">
+                                                <property name="AtkObject::accessible-name" translatable="yes">SIP Address</property>
+                                              </object>
+                                            </child>
+                                            <child>
+                                              <object class="GtkArrow" id="arrow-sip-expand">
+                                                <property name="visible">True</property>
+                                                <property name="shadow_type">none</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                    </child>
+
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
                               <object class="GtkFrame" id="frame66">
                                 <property name="visible">True</property>
                                 <property name="label_xalign">0</property>
@@ -670,7 +746,7 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
-                                <property name="position">2</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                           </object>

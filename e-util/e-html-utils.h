@@ -36,6 +36,9 @@
 #define E_TEXT_TO_HTML_CONVERT_ADDRESSES (1 << 5)
 #define E_TEXT_TO_HTML_ESCAPE_8BIT       (1 << 6)
 #define E_TEXT_TO_HTML_CITE              (1 << 7)
+#define E_TEXT_TO_HTML_HIDE_URL_SCHEME   (1 << 8)
+#define E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT (1 << 9)
+#define E_TEXT_TO_HTML_LAST_FLAG         (1 << 10)
 
 gchar *e_text_to_html_full (const gchar *input, guint flags, guint32 color);
 gchar *e_text_to_html      (const gchar *input, guint flags);

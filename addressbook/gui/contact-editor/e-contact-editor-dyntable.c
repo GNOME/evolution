@@ -492,7 +492,9 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 		w = gtk_grid_get_child_at (grid, col + 1, row);
 		class->widget_fill (dyntable, w, str_data);
 
-		g_return_if_fail(pos < dyntable->priv->max_entries);
+		if (pos >= dyntable->priv->max_entries)
+			break;
+
 		valid = gtk_tree_model_iter_next (store, &iter);
 	}
 

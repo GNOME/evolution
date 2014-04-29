@@ -50,6 +50,7 @@
 #define SLOTS_IN_COLLAPSED_STATE SLOTS_PER_LINE
 #define EMAIL_SLOTS   4
 #define PHONE_SLOTS   50
+#define SIP_SLOTS     4
 #define IM_SLOTS      50
 #define ADDRESS_SLOTS 3
 
@@ -123,8 +124,7 @@ static struct {
 	EContactField field_id;
 	const gchar *type_1;
 	const gchar *type_2;
-}
-phones[] = {
+} phones[] = {
 	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL    },
 	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE" },
 	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX"   },
@@ -212,6 +212,7 @@ common_location[] =
 
 /* Default from the table above */
 static const gint email_default[] = { 0, 1, 2, 2 };
+static const gint sips_default[] = { 0, 1, 2, 2 };
 
 #define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
@@ -1017,6 +1018,13 @@ phone_index_to_type (gint index,
 	*type_2 = phones [index].type_2;
 }
 
+static void
+sip_index_to_type (gint index,
+		   const gchar **type_1)
+{
+	*type_1 = common_location[index].name;
+}
+
 static gint
 get_email_location (EVCardAttribute *attr)
 {
@@ -1037,9 +1045,21 @@ get_phone_type (EVCardAttribute *attr)
 
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
 		if (e_vcard_attribute_has_type (attr, phones[i].type_1) &&
-			(phones[i].type_2 == NULL ||
-			 e_vcard_attribute_has_type (attr, phones[i].type_2)))
+		    (phones[i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones[i].type_2)))
 			return i;
+	}
+
+	return -1;
+}
+
+static gint
+get_sip_type (EVCardAttribute *attr)
+{
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (common_location); ii++) {
+		if (e_vcard_attribute_has_type (attr, common_location[ii].name))
+			return ii;
 	}
 
 	return -1;
@@ -1368,6 +1388,24 @@ expand_phone (EContactEditor *editor,
 }
 
 static void
+expand_sip (EContactEditor *editor,
+	    gboolean expanded)
+{
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+
+	set_arrow_image (editor, "arrow-sip-expand", expanded);
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+
+	if (expanded)
+		e_contact_editor_dyntable_set_show_max (dyntable, SIP_SLOTS);
+	else
+		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
+}
+
+static void
 expand_im (EContactEditor *editor,
            gboolean expanded)
 {
@@ -1431,7 +1469,7 @@ init_email (EContactEditor *editor)
 static void
 fill_in_phone (EContactEditor *editor)
 {
-	GList *phone_attr_list;
+	GList *tel_attr_list;
 	GList *l;
 	GtkWidget *w;
 	EContactEditorDynTable *dyntable;
@@ -1447,14 +1485,15 @@ fill_in_phone (EContactEditor *editor)
 
 	/* Fill in */
 
-	phone_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_TEL);
+	tel_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_TEL);
+
 	data_store = e_contact_editor_dyntable_extract_data (dyntable);
 
-	for (l = phone_attr_list;l ; l = g_list_next (l)) {
+	for (l = tel_attr_list; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
-		gchar           *phone;
-		gint             slot;
-		gint		phone_type;
+		gchar *phone;
+		gint slot;
+		gint phone_type;
 
 		slot = get_ui_slot (attr);
 		phone_type = get_phone_type (attr);
@@ -1471,7 +1510,7 @@ fill_in_phone (EContactEditor *editor)
 	}
 
 	e_contact_editor_dyntable_fill_in_data (dyntable);
-	g_list_free_full (phone_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 
 	expand_phone (editor, TRUE);
 }
@@ -1479,10 +1518,10 @@ fill_in_phone (EContactEditor *editor)
 static void
 extract_phone (EContactEditor *editor)
 {
-	GList *attr_list = NULL;
+	GList *tel_attr_list = NULL;
 	GList *old_attr_list;
 	GList *ll;
-	gint   i;
+	gint i;
 	GtkWidget *w;
 	EContactEditorDynTable *dyntable;
 	GtkListStore *data_store;
@@ -1496,17 +1535,17 @@ extract_phone (EContactEditor *editor)
 	tree_model = GTK_TREE_MODEL (data_store);
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
-	while (valid){
+	while (valid) {
 		gint phone_type;
 		gchar *phone;
 		EVCardAttribute *attr;
 
-		attr = e_vcard_attribute_new ("", "TEL");
 		gtk_tree_model_get (tree_model,&iter,
 		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &phone_type,
 		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, &phone,
 		                   -1);
 
+		attr = e_vcard_attribute_new ("", EVC_TEL);
 		if (phone_type >= 0) {
 			const gchar *type_1;
 			const gchar *type_2;
@@ -1523,14 +1562,14 @@ extract_phone (EContactEditor *editor)
 
 		e_vcard_attribute_add_value (attr, phone);
 
-		attr_list = g_list_prepend (attr_list, attr);
+		tel_attr_list = g_list_prepend (tel_attr_list, attr);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
-	attr_list = g_list_reverse (attr_list);
 
 	/* Splice in the old attributes, minus the PHONE_SLOTS first */
 
+	tel_attr_list = g_list_reverse (tel_attr_list);
 	old_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_TEL);
 	for (ll = old_attr_list, i = 1; ll && i <= PHONE_SLOTS; i++) {
 		e_vcard_attribute_free (ll->data);
@@ -1538,11 +1577,11 @@ extract_phone (EContactEditor *editor)
 	}
 
 	old_attr_list = ll;
-	attr_list = g_list_concat (attr_list, old_attr_list);
+	tel_attr_list = g_list_concat (tel_attr_list, old_attr_list);
 
-	e_contact_set_attributes (editor->priv->contact, E_CONTACT_TEL, attr_list);
+	e_contact_set_attributes (editor->priv->contact, E_CONTACT_TEL, tel_attr_list);
 
-	g_list_free_full (attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
@@ -1647,6 +1686,226 @@ sensitize_phone (EContactEditor *editor)
 	gtk_widget_set_sensitive (w, enabled);
 
 	sensitize_phone_types (editor);
+}
+
+static void
+fill_in_sip (EContactEditor *editor)
+{
+	GList *sip_attr_list;
+	GList *l;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeIter iter;
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+
+	/* Clear */
+
+	e_contact_editor_dyntable_clear_data (dyntable);
+
+	/* Fill in */
+
+	sip_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_SIP);
+
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
+
+	for (l = sip_attr_list; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+		gchar *sip;
+		gint sip_type;
+
+		sip_type = get_sip_type (attr);
+		sip = e_vcard_attribute_get_value (attr);
+
+		if (sip_type < 0)
+			sip_type = 2;
+
+		gtk_list_store_append (data_store, &iter);
+		gtk_list_store_set (data_store,&iter,
+		                   DYNTABLE_STORE_COLUMN_SORTORDER, -1,
+		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, sip_type,
+		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, sip,
+		                   -1);
+
+		g_free (sip);
+	}
+
+	e_contact_editor_dyntable_fill_in_data (dyntable);
+	g_list_free_full (sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+
+	expand_sip (editor, TRUE);
+}
+
+static void
+extract_sip (EContactEditor *editor)
+{
+	GList *sip_attr_list = NULL;
+	GList *old_attr_list;
+	GList *ll;
+	gint i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean valid;
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
+	tree_model = GTK_TREE_MODEL (data_store);
+
+	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
+	while (valid) {
+		gint sip_type;
+		gchar *sip;
+		EVCardAttribute *attr;
+
+		gtk_tree_model_get (tree_model,&iter,
+		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &sip_type,
+		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, &sip,
+		                   -1);
+
+		attr = e_vcard_attribute_new ("", EVC_X_SIP);
+		if (sip_type >= 0) {
+			const gchar *type_1;
+
+			sip_index_to_type (sip_type, &type_1);
+
+			e_vcard_attribute_add_param_with_value (
+				attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
+		}
+
+		e_vcard_attribute_add_value (attr, sip);
+
+		sip_attr_list = g_list_prepend (sip_attr_list, attr);
+
+		valid = gtk_tree_model_iter_next (tree_model, &iter);
+	}
+
+	/* Splice in the old attributes, minus the SIP_SLOTS first */
+
+	sip_attr_list = g_list_reverse (sip_attr_list);
+	old_attr_list = e_contact_get_attributes (editor->priv->contact, E_CONTACT_SIP);
+	for (ll = old_attr_list, i = 1; ll && i <= SIP_SLOTS; i++) {
+		e_vcard_attribute_free (ll->data);
+		ll = g_list_delete_link (ll, ll);
+	}
+
+	old_attr_list = ll;
+	sip_attr_list = g_list_concat (sip_attr_list, old_attr_list);
+
+	e_contact_set_attributes (editor->priv->contact, E_CONTACT_SIP, sip_attr_list);
+
+	g_list_free_full (sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+}
+
+static void
+init_sip_record_type (EContactEditor *editor)
+{
+	GtkWidget *w;
+	GtkListStore *store;
+	gint i;
+	EContactEditorDynTable *dyntable;
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	store = e_contact_editor_dyntable_get_combo_store (dyntable);
+
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		GtkTreeIter iter;
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(common_location[i].pretty_name),
+		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
+		                    -1);
+	}
+
+	e_contact_editor_dyntable_set_combo_defaults (dyntable, sips_default, G_N_ELEMENTS (sips_default));
+}
+
+static void
+row_added_sip (EContactEditorDynTable *dyntable,
+	       EContactEditor *editor)
+{
+	expand_sip (editor, TRUE);
+}
+
+static void
+init_sip (EContactEditor *editor)
+{
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+
+	e_contact_editor_dyntable_set_max_entries (dyntable, SIP_SLOTS);
+	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_PER_LINE);
+
+	g_signal_connect (
+		w, "changed",
+		G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (
+		w, "activate",
+		G_CALLBACK (entry_activated), editor);
+	g_signal_connect (
+		w, "row-added",
+		G_CALLBACK (row_added_sip), editor);
+
+	init_sip_record_type (editor);
+}
+
+static void
+sensitize_sip_types (EContactEditor *editor)
+{
+	GtkWidget *w;
+	GtkListStore *listStore;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint i;
+	gboolean valid;
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+	listStore = e_contact_editor_dyntable_get_combo_store (E_CONTACT_EDITOR_DYNTABLE (w));
+	model = GTK_TREE_MODEL (listStore);
+
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		if (!valid) {
+			g_warning (G_STRLOC ": Unexpected end of sip items in combo box");
+			return;
+		}
+
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		                    DYNTABLE_COMBO_COLUMN_SENSITIVE,
+		                    is_field_supported (editor, E_CONTACT_SIP),
+		                    -1);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+}
+
+static void
+sensitize_sip (EContactEditor *editor)
+{
+	GtkWidget *w;
+	gboolean enabled = TRUE;
+
+	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
+
+	if (!editor->priv->target_editable ||
+	    !is_field_supported (editor, E_CONTACT_SIP))
+		enabled = FALSE;
+
+	gtk_widget_set_sensitive (w, enabled);
+
+	sensitize_sip_types (editor);
 }
 
 static void
@@ -2906,6 +3165,7 @@ fill_in_all (EContactEditor *editor)
 	fill_in_simple       (editor);
 	fill_in_email        (editor);
 	fill_in_phone        (editor);
+	fill_in_sip          (editor);
 	fill_in_im           (editor);
 	fill_in_address      (editor);
 }
@@ -2916,6 +3176,7 @@ extract_all (EContactEditor *editor)
 	extract_simple  (editor);
 	extract_email   (editor);
 	extract_phone   (editor);
+	extract_sip     (editor);
 	extract_im      (editor);
 	extract_address (editor);
 }
@@ -2927,6 +3188,7 @@ sensitize_all (EContactEditor *editor)
 	sensitize_simple  (editor);
 	sensitize_email   (editor);
 	sensitize_phone   (editor);
+	sensitize_sip     (editor);
 	sensitize_im      (editor);
 	sensitize_address (editor);
 }
@@ -2942,6 +3204,7 @@ init_all (EContactEditor *editor)
 	init_simple   (editor);
 	init_email    (editor);
 	init_phone    (editor);
+	init_sip      (editor);
 	init_im       (editor);
 	init_personal (editor);
 	init_address  (editor);
@@ -3969,6 +4232,12 @@ expand_phone_toggle (EContactEditor *ce)
 }
 
 static void
+expand_sip_toggle (EContactEditor *ce)
+{
+	expand_sip (ce, !is_arrow_image_arrow_down (ce, "arrow-sip-expand"));
+}
+
+static void
 expand_im_toggle (EContactEditor *ce)
 {
 	expand_im (ce, !is_arrow_image_arrow_down (ce, "arrow-im-expand"));
@@ -4099,6 +4368,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (expand_phone_toggle), e_contact_editor);
+	widget = e_builder_get_widget (
+		e_contact_editor->priv->builder, "button-sip-expand");
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (expand_sip_toggle), e_contact_editor);
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "button-im-expand");
 	g_signal_connect_swapped (
