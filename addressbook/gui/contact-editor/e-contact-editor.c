@@ -1802,7 +1802,7 @@ init_im_record_service (EContactEditor *editor,
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
-			0, im_service[i].pretty_name,
+			0, _(im_service[i].pretty_name),
 			1, TRUE,
 			-1);
 	}
