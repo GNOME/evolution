@@ -1931,7 +1931,7 @@ init_im_record_type (EContactEditor *editor)
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-		                    DYNTABLE_COMBO_COLUMN_TEXT, im_service[i].pretty_name,
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(im_service[i].pretty_name),
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
 		                    -1);
 	}
