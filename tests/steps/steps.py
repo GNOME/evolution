@@ -53,6 +53,7 @@ def get_visible_searchbar(context):
 @step(u'Open "{section_name}" section')
 def open_section_by_name(context, section_name):
     wait_until(lambda x: x.showing, context.app.menu('View'))
+    sleep(0.2)
     context.app.menu('View').click()
     context.app.menu('View').menu('Window').point()
     context.app.menu('View').menu('Window').menuItem(section_name).click()
