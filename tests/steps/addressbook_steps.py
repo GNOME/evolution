@@ -280,7 +280,7 @@ def set_contact_emails_to_value(context, section):
     for index, row in enumerate(context.table.rows):
         # Check that we have sufficient amount of textboxes
         # If not - click plus buttons until we have enough
-	if index == len(textboxes):
+        if index == len(textboxes):
             textboxes[0].parent.child(roleName="push button").click()
             (textboxes, comboboxes) = get_combobox_textbox_object(
                 context.app.contact_editor, section)
