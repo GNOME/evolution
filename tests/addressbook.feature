@@ -131,7 +131,6 @@ Feature: Addressbook: File: Create contacts
         | Calendar:   | caldav://anna-doe.com/calendar.ics |
         | Free/Busy:  | http://anna-doe.com/free-busy      |
         | Video Chat: | http://anna-doe.com/video-chat     |
-        | Field       | Value                              |
         | Profession: | QA Engineer                        |
         | Title:      | Dr.                                |
         | Company:    | Something Ltd.                     |
