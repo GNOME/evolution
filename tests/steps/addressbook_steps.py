@@ -245,6 +245,11 @@ def get_combobox_textbox_object(contact_editor, section):
     if button and (False in [x.showing for x in textboxes]):
         button.click()
 
+    # Scroll to the bottom of the page if possible
+    pagetab = panel.findAncestor(GenericPredicate(roleName='page tab'))
+    for scroll in pagetab.findChildren(lambda x: x.roleName == 'scroll bar'):
+        scroll.value = scroll.maxValue
+
     comboboxes = panel.findChildren(GenericPredicate(roleName='combo box'))
 
     # Rearrange comboboxes and textboxes according to their position
