@@ -994,11 +994,10 @@ web_view_hovering_over_link (EWebView *web_view,
 
 	if (g_str_has_prefix (uri, "mailto:"))
 		format = _("Click to mail %s");
-	else if (g_str_has_prefix (uri, "callto:"))
-		format = _("Click to call %s");
-	else if (g_str_has_prefix (uri, "h323:"))
-		format = _("Click to call %s");
-	else if (g_str_has_prefix (uri, "sip:"))
+	else if (g_str_has_prefix (uri, "callto:") ||
+		 g_str_has_prefix (uri, "h323:") ||
+		 g_str_has_prefix (uri, "sip:") ||
+		 g_str_has_prefix (uri, "tel:"))
 		format = _("Click to call %s");
 	else if (g_str_has_prefix (uri, "##"))
 		message = g_strdup (_("Click to hide/unhide addresses"));

@@ -64,7 +64,7 @@
 struct _EABContactFormatterPrivate {
 	EABContactDisplayMode mode;
 	gboolean render_maps;
-	gboolean supports_callto;
+	gboolean supports_tel;
 	gboolean supports_sip;
 };
 
@@ -88,7 +88,7 @@ G_DEFINE_TYPE (
 	eab_contact_formatter,
 	G_TYPE_OBJECT);
 
-#define E_CREATE_CALLTO_URL	(E_TEXT_TO_HTML_LAST_FLAG << 0)
+#define E_CREATE_TEL_URL	(E_TEXT_TO_HTML_LAST_FLAG << 0)
 #define E_CREATE_SIP_URL	(E_TEXT_TO_HTML_LAST_FLAG << 1)
 
 static gboolean
@@ -303,8 +303,13 @@ maybe_create_url (const gchar *str,
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if ((html_flags & E_CREATE_CALLTO_URL) != 0) {
-		url = "callto:";
+	if ((html_flags & E_CREATE_TEL_URL) != 0) {
+		/* RFC 3966 requires either the phone number begins with '+',
+		   or the URL contains a 'phone-context' parameter, but that
+		   also requires changing phone number for some countries, thus
+		   rather mandate the '+' at the beginning. */
+		if (*str == '+')
+			url = "tel:";
 	} else if ((html_flags & E_CREATE_SIP_URL) != 0) {
 		url = "sip:";
 	}
@@ -798,11 +803,11 @@ render_work_column (EABContactFormatter *formatter,
 	GString *accum = g_string_new ("");
 	guint32 phone_flags = 0, sip_flags = 0;
 
-	if (formatter->priv->supports_callto)
+	if (formatter->priv->supports_tel)
 		phone_flags = E_TEXT_TO_HTML_CONVERT_URLS |
 			      E_TEXT_TO_HTML_HIDE_URL_SCHEME |
 			      E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT |
-			      E_CREATE_CALLTO_URL;
+			      E_CREATE_TEL_URL;
 
 	if (formatter->priv->supports_sip)
 		sip_flags = E_TEXT_TO_HTML_CONVERT_URLS |
@@ -847,11 +852,11 @@ render_personal_column (EABContactFormatter *formatter,
 	GString *accum = g_string_new ("");
 	guint32 phone_flags = 0, sip_flags = 0;
 
-	if (formatter->priv->supports_callto)
+	if (formatter->priv->supports_tel)
 		phone_flags = E_TEXT_TO_HTML_CONVERT_URLS |
 			      E_TEXT_TO_HTML_HIDE_URL_SCHEME |
 			      E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT |
-			      E_CREATE_CALLTO_URL;
+			      E_CREATE_TEL_URL;
 
 	if (formatter->priv->supports_sip)
 		sip_flags = E_TEXT_TO_HTML_CONVERT_URLS |
@@ -1307,7 +1312,7 @@ eab_contact_formatter_init (EABContactFormatter *formatter)
 
 	formatter->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	formatter->priv->render_maps = FALSE;
-	formatter->priv->supports_callto = eab_contact_formatter_scheme_supported ("callto");
+	formatter->priv->supports_tel = eab_contact_formatter_scheme_supported ("tel");
 	formatter->priv->supports_sip = eab_contact_formatter_scheme_supported ("sip");
 }
 

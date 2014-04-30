@@ -231,7 +231,7 @@ is_citation (const guchar *c,
  *     user will only see "www.example.com")
  *
  *   - E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT: set when the whole @input text
- *     represents a URL
+ *     represents a URL; any spaces are removed in the href part.
  *
  * Returns: a newly-allocated string containing HTML
  **/
@@ -302,6 +302,7 @@ e_text_to_html_full (const gchar *input,
 			    !g_ascii_strncasecmp ((gchar *) cur, "callto:", 7) ||
 			    !g_ascii_strncasecmp ((gchar *) cur, "h323:", 5) ||
 			    !g_ascii_strncasecmp ((gchar *) cur, "sip:", 4) ||
+			    !g_ascii_strncasecmp ((gchar *) cur, "tel:", 4) ||
 			    !g_ascii_strncasecmp ((gchar *) cur, "webcal:", 7)) {
 				tmpurl = url_extract (&cur, TRUE, (flags & E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT) != 0);
 				if (tmpurl) {
@@ -335,6 +336,18 @@ e_text_to_html_full (const gchar *input,
 			}
 
 			if (tmpurl) {
+				if ((flags & E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT) != 0) {
+					/* also remove any spaces in refurl */
+					gchar *replaced, **split_url;
+
+					split_url = g_strsplit (refurl, " ", 0);
+					replaced = g_strjoinv ("", split_url);
+					g_strfreev (split_url);
+
+					g_free (refurl);
+					refurl = replaced;
+				}
+
 				out = check_size (
 					&buffer, &buffer_size, out,
 					strlen (refurl) +
