@@ -542,11 +542,24 @@ web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
 {
 	EWebViewClass *class;
 	WebKitWebNavigationReason reason;
-	const gchar *uri;
+	const gchar *uri, *frame_uri;
 
 	reason = webkit_web_navigation_action_get_reason (navigation_action);
 	if (reason != WEBKIT_WEB_NAVIGATION_REASON_LINK_CLICKED)
 		return FALSE;
+
+	uri = webkit_network_request_get_uri (request);
+	frame_uri = webkit_web_frame_get_uri (frame);
+
+	/* Allow navigation through sections in page */
+	if (uri && *uri && frame_uri && *frame_uri) {
+		/* The uri should contain the frame uri and the id of the anchor
+		 * element that is separated from uri by hashtag character */
+		if (g_str_has_prefix (uri, frame_uri) && strstr (uri, "#")) {
+			webkit_web_policy_decision_use (policy_decision);
+			return TRUE;
+		}
+	}
 
 	/* XXX WebKitWebView does not provide a class method for
 	 *     this signal, so we do so we can override the default
@@ -556,8 +569,6 @@ web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
 	g_return_val_if_fail (class->link_clicked != NULL, FALSE);
 
 	webkit_web_policy_decision_ignore (policy_decision);
-
-	uri = webkit_network_request_get_uri (request);
 
 	class->link_clicked (web_view, uri);
 
