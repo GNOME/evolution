@@ -21,6 +21,7 @@
 
 #include <libsoup/soup.h>
 
+#include <stdio.h>
 #include <string.h>
 
 #define d(x)
@@ -93,7 +94,12 @@ file_request_send_async (SoupRequest *request,
 {
 	GSimpleAsyncResult *simple;
 
-	d (printf ("received request for %s\n", soup_uri_to_string (uri, FALSE)));
+	d (
+		SoupURI *soup_uri = soup_request_get_uri (request);
+		gchar *uri = soup_uri_to_string (soup_uri, FALSE);
+		printf ("received request for %s\n", uri);
+		g_free (uri);
+	);
 
 	/* WebKit won't allow us to load data through local file:// protocol
 	 * when using "remote" mail:// protocol, so we have evo-file://
