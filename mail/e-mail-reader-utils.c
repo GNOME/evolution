@@ -879,16 +879,14 @@ e_mail_reader_open_selected (EMailReader *reader)
 		GtkWidget *browser;
 		MessageList *ml;
 
-		browser = e_mail_browser_new (
-			backend, folder, uid,
-			E_MAIL_FORMATTER_MODE_NORMAL);
-
-		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
-		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
+		browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_NORMAL);
 
 		ml = MESSAGE_LIST (e_mail_reader_get_message_list (
 			E_MAIL_READER (browser)));
 		message_list_freeze (ml);
+
+		e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
+		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
 
 		copy_tree_state (reader, E_MAIL_READER (browser));
 		e_mail_reader_set_group_by_threads (

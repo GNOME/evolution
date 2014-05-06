@@ -61,8 +61,6 @@ struct _EMailBrowserClass {
 
 GType		e_mail_browser_get_type		(void);
 GtkWidget *	e_mail_browser_new		(EMailBackend *backend,
-						 CamelFolder *folder,
-						 const gchar *message_uid,
 						 EMailFormatterMode display_mode);
 void		e_mail_browser_close		(EMailBrowser *browser);
 void		e_mail_browser_ask_close_on_reply
