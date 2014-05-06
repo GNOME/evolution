@@ -48,7 +48,7 @@
 
 #define SLOTS_PER_LINE 2
 #define SLOTS_IN_COLLAPSED_STATE SLOTS_PER_LINE
-#define EMAIL_SLOTS   4
+#define EMAIL_SLOTS   50
 #define PHONE_SLOTS   50
 #define SIP_SLOTS     4
 #define IM_SLOTS      50
@@ -179,7 +179,8 @@ im_service[] =
 	{ E_CONTACT_IM_ICQ,       N_ ("ICQ")       },
 	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") },
 	{ E_CONTACT_IM_SKYPE,     N_ ("Skype")     },
-	{ E_CONTACT_IM_TWITTER,   N_ ("Twitter")   }
+	{ E_CONTACT_IM_TWITTER,   N_ ("Twitter")   },
+	{ E_CONTACT_IM_GOOGLE_TALK, N_ ("Google Talk")}
 };
 
 static EContactField
@@ -193,7 +194,8 @@ im_service_fetch_set[] =
 	E_CONTACT_IM_ICQ,
 	E_CONTACT_IM_GROUPWISE,
 	E_CONTACT_IM_SKYPE,
-	E_CONTACT_IM_TWITTER
+	E_CONTACT_IM_TWITTER,
+	E_CONTACT_IM_GOOGLE_TALK
 };
 
 /* Defaults from the table above */
@@ -899,108 +901,28 @@ set_entry_text (EContactEditor *editor,
 }
 
 static void
-set_combo_box_active (EContactEditor *editor,
-                      GtkComboBox *combo_box,
-                      gint active)
+init_email_record_location (EContactEditor *editor)
 {
-	g_signal_handlers_block_matched (
-		combo_box, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
-	gtk_combo_box_set_active (combo_box, active);
-	g_signal_handlers_unblock_matched (
-		combo_box, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
-}
-
-static void
-init_email_record_location (EContactEditor *editor,
-                            gint record)
-{
-	GtkComboBox *location_combo_box;
-	GtkWidget *email_entry;
-	gchar     *widget_name;
-	gint       i;
-	GtkTreeIter iter;
+	GtkWidget *w;
 	GtkListStore *store;
+	gint i;
+	EContactEditorDynTable *dyntable;
 
-	widget_name = g_strdup_printf ("entry-email-%d", record);
-	email_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("combobox-email-%d", record);
-	location_combo_box = GTK_COMBO_BOX (
-		e_builder_get_widget (editor->priv->builder, widget_name));
-	g_free (widget_name);
-
-	store = GTK_LIST_STORE (gtk_combo_box_get_model (location_combo_box));
-	gtk_list_store_clear (store);
+	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	store = e_contact_editor_dyntable_get_combo_store (dyntable);
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+		GtkTreeIter iter;
+
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter,
-			0, _(common_location[i].pretty_name),
-			-1);
+		gtk_list_store_set (store, &iter,
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(common_location[i].pretty_name),
+		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
+		                    -1);
 	}
 
-	g_signal_connect_swapped (
-		location_combo_box, "changed",
-		G_CALLBACK (gtk_widget_grab_focus), email_entry);
-	g_signal_connect (
-		location_combo_box, "changed",
-		G_CALLBACK (object_changed), editor);
-	g_signal_connect (
-		email_entry, "changed",
-		G_CALLBACK (object_changed), editor);
-	g_signal_connect_swapped (
-		email_entry, "activate",
-		G_CALLBACK (entry_activated), editor);
-}
-
-static void
-fill_in_email_record (EContactEditor *editor,
-                      gint record,
-                      const gchar *address,
-                      gint location)
-{
-	GtkWidget *location_combo_box;
-	GtkWidget *email_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-email-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("entry-email-%d", record);
-	email_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	set_combo_box_active (
-		editor, GTK_COMBO_BOX (location_combo_box),
-		location >= 0 ? location : email_default[2]);
-	set_entry_text (editor, GTK_ENTRY (email_entry), address ? address : "");
-}
-
-static void
-extract_email_record (EContactEditor *editor,
-                      gint record,
-                      gchar **address,
-                      gint *location)
-{
-	GtkWidget *location_combo_box;
-	GtkWidget *email_entry;
-	gchar *widget_name;
-	const gchar *text;
-
-	widget_name = g_strdup_printf ("combobox-email-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("entry-email-%d", record);
-	email_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	text = gtk_entry_get_text (GTK_ENTRY (email_entry));
-	*address  = g_strstrip (g_strdup (text));
-	*location = gtk_combo_box_get_active (GTK_COMBO_BOX (location_combo_box));
+	e_contact_editor_dyntable_set_combo_defaults (dyntable, email_default, G_N_ELEMENTS (email_default));
 }
 
 static const gchar *
@@ -1127,99 +1049,55 @@ set_ui_slot (EVCardAttribute *attr,
 	g_free (slot_str);
 }
 
-static gint
-alloc_ui_slot (EContactEditor *editor,
-               const gchar *widget_base,
-               gint preferred_slot,
-               gint num_slots)
-{
-	gchar       *widget_name;
-	GtkWidget   *widget;
-	const gchar *entry_contents;
-	gint         i;
-
-	/* See if we can get the preferred slot */
-
-	if (preferred_slot >= 1) {
-		widget_name = g_strdup_printf ("%s-%d", widget_base, preferred_slot);
-		widget = e_builder_get_widget (editor->priv->builder, widget_name);
-		entry_contents = gtk_entry_get_text (GTK_ENTRY (widget));
-		g_free (widget_name);
-
-		if (STRING_IS_EMPTY (entry_contents))
-			return preferred_slot;
-	}
-
-	/* Find first empty slot */
-
-	for (i = 1; i <= num_slots; i++) {
-		widget_name = g_strdup_printf ("%s-%d", widget_base, i);
-		widget = e_builder_get_widget (editor->priv->builder, widget_name);
-		entry_contents = gtk_entry_get_text (GTK_ENTRY (widget));
-		g_free (widget_name);
-
-		if (STRING_IS_EMPTY (entry_contents))
-			return i;
-	}
-
-	return -1;
-}
-
-static void
-free_attr_list (GList *attr_list)
-{
-	GList *l;
-
-	for (l = attr_list; l; l = g_list_next (l)) {
-		EVCardAttribute *attr = l->data;
-		e_vcard_attribute_free (attr);
-	}
-
-	g_list_free (attr_list);
-}
-
 static void
 fill_in_email (EContactEditor *editor)
 {
 	GList *email_attr_list;
 	GList *l;
-	gint   record_n;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeIter iter;
+
+	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
 	/* Clear */
 
-	for (record_n = 1; record_n <= EMAIL_SLOTS; record_n++) {
-		fill_in_email_record (
-			editor, record_n, NULL, email_default[record_n - 1]);
-	}
+	e_contact_editor_dyntable_clear_data (dyntable);
 
 	/* Fill in */
+
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
 
 	email_attr_list = e_contact_get_attributes (
 		editor->priv->contact, E_CONTACT_EMAIL);
 
-	for (record_n = 1, l = email_attr_list;
-		l && record_n <= EMAIL_SLOTS; l = g_list_next (l)) {
+	for (l = email_attr_list; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		gchar           *email_address;
+		gint             email_location;
 		gint             slot;
 
 		email_address = e_vcard_attribute_get_value (attr);
-		slot = alloc_ui_slot (
-			editor, "entry-email",
-			get_ui_slot (attr), EMAIL_SLOTS);
+		email_location = get_email_location (attr);
+		slot = get_ui_slot (attr);
 		if (slot < 1)
-			break;
+			slot = EMAIL_SLOTS + 1; //add at the end
 
-		fill_in_email_record (
-			editor, slot, email_address,
-			get_email_location (attr));
-
-		record_n++;
+		gtk_list_store_append (data_store, &iter);
+		gtk_list_store_set (data_store, &iter,
+		                    DYNTABLE_STORE_COLUMN_SORTORDER, slot,
+		                    DYNTABLE_STORE_COLUMN_SELECTED_ITEM, email_location,
+		                    DYNTABLE_STORE_COLUMN_ENTRY_STRING, email_address,
+		                    -1);
 
 		g_free (email_address);
 	}
 
 	g_list_free_full (email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+
+	e_contact_editor_dyntable_fill_in_data (dyntable);
 }
 
 static void
@@ -1229,32 +1107,45 @@ extract_email (EContactEditor *editor)
 	GList *old_attr_list;
 	GList *ll;
 	gint   i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	GtkListStore *data_store;
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+	gboolean valid;
 
-	for (i = 1; i <= EMAIL_SLOTS; i++) {
+	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	data_store = e_contact_editor_dyntable_extract_data (dyntable);
+	tree_model = GTK_TREE_MODEL (data_store);
+
+	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
+	while (valid) {
 		gchar *address;
 		gint   location;
+		EVCardAttribute *attr;
 
-		extract_email_record (editor, i, &address, &location);
+		attr = e_vcard_attribute_new (
+			"", e_contact_vcard_attribute (E_CONTACT_EMAIL));
 
-		if (!STRING_IS_EMPTY (address)) {
-			EVCardAttribute *attr;
-			attr = e_vcard_attribute_new (
-				"", e_contact_vcard_attribute (E_CONTACT_EMAIL));
+		gtk_tree_model_get (tree_model,&iter,
+		                   DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &location,
+		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, &address,
+		                   -1);
 
-			if (location >= 0)
-				e_vcard_attribute_add_param_with_value (
-					attr,
-					e_vcard_attribute_param_new (EVC_TYPE),
-					email_index_to_location (location));
+		if (location >= 0)
+			e_vcard_attribute_add_param_with_value (
+				attr,
+				e_vcard_attribute_param_new (EVC_TYPE),
+				email_index_to_location (location));
 
-			e_vcard_attribute_add_value (attr, address);
-			set_ui_slot (attr, i);
+		e_vcard_attribute_add_value (attr, address);
 
-			attr_list = g_list_append (attr_list, attr);
-		}
+		attr_list = g_list_prepend (attr_list, attr);
 
-		g_free (address);
+		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
+	attr_list = g_list_reverse (attr_list);
 
 	/* Splice in the old attributes, minus the EMAIL_SLOTS first */
 
@@ -1269,47 +1160,41 @@ extract_email (EContactEditor *editor)
 
 	e_contact_set_attributes (editor->priv->contact, E_CONTACT_EMAIL, attr_list);
 
-	free_attr_list (attr_list);
-}
-
-static void
-sensitize_email_record (EContactEditor *editor,
-                        gint record,
-                        gboolean enabled)
-{
-	GtkWidget *location_combo_box;
-	GtkWidget *email_entry;
-	gchar     *widget_name;
-
-	widget_name = g_strdup_printf ("combobox-email-%d", record);
-	location_combo_box = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	widget_name = g_strdup_printf ("entry-email-%d", record);
-	email_entry = e_builder_get_widget (editor->priv->builder, widget_name);
-	g_free (widget_name);
-
-	gtk_widget_set_sensitive (location_combo_box, enabled);
-	gtk_editable_set_editable (GTK_EDITABLE (email_entry), enabled);
+	g_list_free_full (attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
 sensitize_email (EContactEditor *editor)
 {
-	gint i;
+	gboolean enabled = FALSE;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+	guint max_entries = SLOTS_IN_COLLAPSED_STATE;
 
-	for (i = 1; i <= EMAIL_SLOTS; i++) {
-		gboolean enabled = TRUE;
+	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
-		if (!editor->priv->target_editable)
-			enabled = FALSE;
-
-		if (E_CONTACT_FIRST_EMAIL_ID + i - 1 <= E_CONTACT_LAST_EMAIL_ID &&
-		    !is_field_supported (editor, E_CONTACT_FIRST_EMAIL_ID + i - 1))
-			enabled = FALSE;
-
-		sensitize_email_record (editor, i, enabled);
+	if (editor->priv->target_editable) {
+		if (is_field_supported (editor, E_CONTACT_EMAIL)) {
+			enabled = TRUE;
+			max_entries = EMAIL_SLOTS;
+		} else if (is_field_supported (editor, E_CONTACT_EMAIL_4)) {
+			enabled = TRUE;
+			max_entries = 4;
+		} else if (is_field_supported (editor, E_CONTACT_EMAIL_3)) {
+			enabled = TRUE;
+			max_entries = 3;
+		} else if (is_field_supported (editor, E_CONTACT_EMAIL_2)) {
+			enabled = TRUE;
+			max_entries = 2;
+		} else if (is_field_supported (editor, E_CONTACT_EMAIL_1)) {
+			enabled = TRUE;
+			max_entries = 1;
+		}
 	}
+
+	gtk_widget_set_sensitive (w, enabled);
+	e_contact_editor_dyntable_set_max_entries (dyntable, max_entries);
 }
 
 static void
@@ -1427,43 +1312,52 @@ static void
 expand_mail (EContactEditor *editor,
              gboolean expanded)
 {
-	GtkTable  *table;
-	GtkWidget *check;
-	const gchar *names[] = {
-		"entry-email-2", "combobox-email-2",
-		"entry-email-3", "combobox-email-3",
-		"entry-email-4", "combobox-email-4",
-		NULL
-	};
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
+
 	set_arrow_image (editor, "arrow-mail-expand", expanded);
-	expand_widget_list (editor, names, expanded);
 
-	/* move 'use html mail' into position */
-	check = e_builder_get_widget (editor->priv->builder, "checkbutton-htmlmail");
-	table = GTK_TABLE (e_builder_get_widget (editor->priv->builder, "email-table"));
-	if (check != NULL && table != NULL) {
-		GtkWidget *parent;
+	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
-		g_object_ref (check);
-		parent = gtk_widget_get_parent (check);
-		gtk_container_remove (GTK_CONTAINER (parent), check);
-		if (expanded)
-			gtk_table_attach_defaults (table, check, 0, 4, 2, 3);
-		else
-			gtk_table_attach_defaults (table, check, 2, 4, 0, 1);
-		g_object_unref (check);
-	}
+	if (expanded)
+		e_contact_editor_dyntable_set_show_max (dyntable, EMAIL_SLOTS);
+	else
+		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
+}
+
+static void
+row_added_mail (EContactEditorDynTable *dyntable, EContactEditor *editor)
+{
+	expand_mail (editor, TRUE);
 }
 
 static void
 init_email (EContactEditor *editor)
 {
-	gint i;
+	GtkWidget *w;
+	EContactEditorDynTable *dyntable;
 
-	for (i = 1; i <= EMAIL_SLOTS; i++)
-		init_email_record_location (editor, i);
+	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 
-	expand_mail (editor, !editor->priv->compress_ui);
+	e_contact_editor_dyntable_set_max_entries (dyntable, EMAIL_SLOTS);
+	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
+
+	g_signal_connect (
+		w, "changed",
+		G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (
+		w, "activate",
+		G_CALLBACK (entry_activated), editor);
+	g_signal_connect (
+		w, "row-added",
+		G_CALLBACK (row_added_mail), editor);
+
+	init_email_record_location (editor);
+
+	expand_mail (editor, TRUE);
 }
 
 static void
@@ -1496,6 +1390,9 @@ fill_in_phone (EContactEditor *editor)
 		gint phone_type;
 
 		slot = get_ui_slot (attr);
+		if (slot < 0)
+			slot = PHONE_SLOTS + 1; /* append at the end */
+
 		phone_type = get_phone_type (attr);
 		phone = e_vcard_attribute_get_value (attr);
 
@@ -1510,9 +1407,8 @@ fill_in_phone (EContactEditor *editor)
 	}
 
 	e_contact_editor_dyntable_fill_in_data (dyntable);
-	g_list_free_full (tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 
-	expand_phone (editor, TRUE);
+	g_list_free_full (tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
@@ -1626,7 +1522,7 @@ init_phone (EContactEditor *editor)
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, PHONE_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
-	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_PER_LINE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
 		w, "changed",
@@ -1639,6 +1535,8 @@ init_phone (EContactEditor *editor)
 		G_CALLBACK (row_added_phone), editor);
 
 	init_phone_record_type (editor);
+
+	expand_phone (editor, TRUE);
 }
 
 static void
@@ -1676,12 +1574,17 @@ static void
 sensitize_phone (EContactEditor *editor)
 {
 	GtkWidget *w;
-	gboolean enabled = TRUE;
+	gboolean enabled = FALSE;
+	int i;
 
 	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
 
-	if (!editor->priv->target_editable)
-		enabled = FALSE;
+	if (editor->priv->target_editable) {
+		enabled = is_field_supported (editor, E_CONTACT_TEL);
+		for (i = 0; i < G_N_ELEMENTS (phones) && !enabled; i++) {
+			enabled = is_field_supported (editor, phones[i].field_id);
+		}
+	}
 
 	gtk_widget_set_sensitive (w, enabled);
 
@@ -1734,8 +1637,6 @@ fill_in_sip (EContactEditor *editor)
 
 	e_contact_editor_dyntable_fill_in_data (dyntable);
 	g_list_free_full (sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
-
-	expand_sip (editor, TRUE);
 }
 
 static void
@@ -1845,7 +1746,7 @@ init_sip (EContactEditor *editor)
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, SIP_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
-	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_PER_LINE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
 		w, "changed",
@@ -1858,6 +1759,8 @@ init_sip (EContactEditor *editor)
 		G_CALLBACK (row_added_sip), editor);
 
 	init_sip_record_type (editor);
+
+	expand_sip (editor, TRUE);
 }
 
 static void
@@ -1950,7 +1853,7 @@ init_im (EContactEditor *editor)
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, IM_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
-	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_PER_LINE);
+	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
 		w, "changed",
@@ -1963,6 +1866,8 @@ init_im (EContactEditor *editor)
 		G_CALLBACK (row_added_im), editor);
 
 	init_im_record_type (editor);
+
+	expand_im (editor, TRUE);
 }
 
 static gint
@@ -2034,8 +1939,6 @@ fill_in_im (EContactEditor *editor)
 	g_list_free_full (im_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 
 	e_contact_editor_dyntable_fill_in_data (dyntable);
-
-	expand_im (editor, TRUE);
 }
 
 static void
@@ -4263,10 +4166,7 @@ expand_im_toggle (EContactEditor *ce)
 static void
 expand_mail_toggle (EContactEditor *ce)
 {
-	GtkWidget *mail;
-
-	mail = e_builder_get_widget (ce->priv->builder, "entry-email-4");
-	expand_mail (ce, !gtk_widget_get_visible (mail));
+	expand_mail (ce, !is_arrow_image_arrow_down (ce, "arrow-mail-expand"));
 }
 
 static void

@@ -969,7 +969,7 @@ e_tree_model_generator_convert_path_to_child_path (ETreeModelGenerator *tree_mod
  * The permutation index is the index of the generated row based on this
  * child row, with the first generated row based on this child row being 0.
  **/
-void
+gboolean
 e_tree_model_generator_convert_iter_to_child_iter (ETreeModelGenerator *tree_model_generator,
                                                    GtkTreeIter *child_iter,
                                                    gint *permutation_n,
@@ -979,9 +979,10 @@ e_tree_model_generator_convert_iter_to_child_iter (ETreeModelGenerator *tree_mod
 	GArray      *group;
 	gint         index;
 	gint         internal_offset = 0;
+	gboolean     iter_is_valid = FALSE;
 
-	g_return_if_fail (E_IS_TREE_MODEL_GENERATOR (tree_model_generator));
-	g_return_if_fail (ITER_IS_VALID (tree_model_generator, generator_iter));
+	g_return_val_if_fail (E_IS_TREE_MODEL_GENERATOR (tree_model_generator), iter_is_valid);
+	g_return_val_if_fail (ITER_IS_VALID (tree_model_generator, generator_iter), iter_is_valid);
 
 	path = gtk_tree_path_new ();
 	ITER_GET (generator_iter, &group, &index);
@@ -1000,11 +1001,14 @@ e_tree_model_generator_convert_iter_to_child_iter (ETreeModelGenerator *tree_mod
 	}
 
 	if (child_iter)
-		gtk_tree_model_get_iter (tree_model_generator->priv->child_model, child_iter, path);
+		iter_is_valid = gtk_tree_model_get_iter (tree_model_generator->priv->child_model, child_iter, path);
+
 	if (permutation_n)
 		*permutation_n = internal_offset;
 
 	gtk_tree_path_free (path);
+
+	return iter_is_valid;
 }
 
 /* ---------------- *

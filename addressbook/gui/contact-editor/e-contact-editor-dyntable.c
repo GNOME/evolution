@@ -257,6 +257,9 @@ add_empty_entry (EContactEditorDynTable *dyntable)
 	GtkWidget *box, *entry;
 	EContactEditorDynTableClass *class;
 
+	if (dyntable->priv->curr_entries >= dyntable->priv->max_entries)
+		return;
+
 	grid = GTK_GRID (dyntable);
 	position_to_grid (dyntable, dyntable->priv->curr_entries, &col, &row);
 
@@ -331,7 +334,9 @@ remove_empty_entries (EContactEditorDynTable *dyntable, gboolean fillup)
 
 	}
 
-	if (fillup && dyntable->priv->curr_entries < dyntable->priv->show_min_entries)
+	if (fillup
+		&& (dyntable->priv->curr_entries < dyntable->priv->show_min_entries
+			    || (dyntable->priv->justified && col < dyntable->priv->columns-1)))
 		add_empty_entry (dyntable);
 
 }
@@ -409,21 +414,28 @@ void
 e_contact_editor_dyntable_set_max_entries (EContactEditorDynTable *dyntable,
                                            guint max)
 {
-	GtkTreeIter iter;
 	GtkTreeModel *store;
-	gboolean holds_data;
+	gint n_children;
 
 	g_return_if_fail (max > 0);
 
 	store = GTK_TREE_MODEL (dyntable->priv->data_store);
-	holds_data = gtk_tree_model_get_iter_first (store, &iter);
-	g_return_if_fail (!holds_data);
+
+	n_children = gtk_tree_model_iter_n_children (store, NULL);
+	if (n_children > max) {
+		g_warning ("Dyntable holds %i items, setting max to %i, instead of %i",
+				n_children, n_children, max);
+		max = n_children;
+	}
 
 	dyntable->priv->max_entries = max;
 	if (dyntable->priv->show_max_entries>max)
 		dyntable->priv->show_max_entries = max;
 	if (dyntable->priv->show_min_entries>max)
 			dyntable->priv->show_min_entries = max;
+
+	remove_empty_entries (dyntable, TRUE);
+	show_button (dyntable);
 }
 
 /* show at least number_of_entries, with or without data */
@@ -492,10 +504,12 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 		w = gtk_grid_get_child_at (grid, col + 1, row);
 		class->widget_fill (dyntable, w, str_data);
 
-		if (pos >= dyntable->priv->max_entries)
-			break;
-
 		valid = gtk_tree_model_iter_next (store, &iter);
+
+		if (valid && pos >= dyntable->priv->max_entries) {
+			g_warning ("dyntable is configured with max_entries = %i, ignoring the rest.", dyntable->priv->max_entries);
+			break;
+		}
 	}
 
 	/* fix visibility of added items */

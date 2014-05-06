@@ -92,7 +92,7 @@ void		e_tree_model_generator_convert_child_iter_to_iter
 GtkTreePath *	e_tree_model_generator_convert_path_to_child_path
 						(ETreeModelGenerator *tree_model_generator,
 						 GtkTreePath *generator_path);
-void		e_tree_model_generator_convert_iter_to_child_iter
+gboolean	e_tree_model_generator_convert_iter_to_child_iter
 						(ETreeModelGenerator *tree_model_generator,
 						 GtkTreeIter *child_iter,
 						 gint *permutation_n,

@@ -832,11 +832,13 @@ utf8_casefold_collate_len (const gchar *str1,
 
 static gchar *
 build_textrep_for_contact (EContact *contact,
-                           EContactField cue_field)
+                           EContactField cue_field,
+                           gint email_num)
 {
 	gchar *name = NULL;
 	gchar *email = NULL;
 	gchar *textrep;
+	GList *l;
 
 	switch (cue_field) {
 		case E_CONTACT_FULL_NAME:
@@ -846,12 +848,11 @@ build_textrep_for_contact (EContact *contact,
 			email = e_contact_get (contact, E_CONTACT_EMAIL_1);
 			break;
 
-		case E_CONTACT_EMAIL_1:
-		case E_CONTACT_EMAIL_2:
-		case E_CONTACT_EMAIL_3:
-		case E_CONTACT_EMAIL_4:
+		case E_CONTACT_EMAIL:
 			name = NULL;
-			email = e_contact_get (contact, cue_field);
+			l = e_contact_get (contact, cue_field);
+			email = strdup (g_list_nth_data (l, email_num));
+			g_list_free_full (l, g_free);
 			break;
 
 		default:
@@ -877,11 +878,11 @@ contact_match_cue (ENameSelectorEntry *name_selector_entry,
                    EContact *contact,
                    const gchar *cue_str,
                    EContactField *matched_field,
-                   gint *matched_field_rank)
+                   gint *matched_field_rank,
+                   gint *matched_email_num)
 {
 	EContactField  fields[] = { E_CONTACT_FULL_NAME, E_CONTACT_NICKNAME, E_CONTACT_FILE_AS,
-				     E_CONTACT_EMAIL_1, E_CONTACT_EMAIL_2, E_CONTACT_EMAIL_3,
-				     E_CONTACT_EMAIL_4 };
+				    E_CONTACT_EMAIL };
 	gchar         *email;
 	gboolean       result = FALSE;
 	gint           cue_len;
@@ -903,36 +904,47 @@ contact_match_cue (ENameSelectorEntry *name_selector_entry,
 	}
 	g_free (email);
 
-	for (i = 0; i < G_N_ELEMENTS (fields); i++) {
+	for (i = 0; i < G_N_ELEMENTS (fields) && result == FALSE; i++) {
+		gint   email_num;
 		gchar *value;
 		gchar *value_sane;
+		GList *emails = NULL, *ll = NULL;
 
 		/* Don't match e-mail addresses in contact lists */
 		if (e_contact_get (contact, E_CONTACT_IS_LIST) &&
-		    fields[i] >= E_CONTACT_FIRST_EMAIL_ID &&
-		    fields[i] <= E_CONTACT_LAST_EMAIL_ID)
+		    fields[i] == E_CONTACT_EMAIL)
 			continue;
 
-		value = e_contact_get (contact, fields[i]);
-		if (!value)
-			continue;
-
-		value_sane = sanitize_string (value);
-		g_free (value);
-
-		ENS_DEBUG (g_print ("Comparing '%s' to '%s'\n", value, cue_str));
-
-		if (!utf8_casefold_collate_len (value_sane, cue_str, cue_len)) {
-			if (matched_field)
-				*matched_field = fields [i];
-			if (matched_field_rank)
-				*matched_field_rank = i;
-
-			result = TRUE;
-			g_free (value_sane);
-			break;
+		if (fields[i] == E_CONTACT_EMAIL) {
+			emails = e_contact_get (contact, fields[i]);
+		} else {
+			value = e_contact_get (contact, fields[i]);
+			if (!value)
+				continue;
+			emails = g_list_append (emails, value);
 		}
-		g_free (value_sane);
+
+		for (ll = emails, email_num = 0; ll; ll = ll->next, email_num++) {
+			value = ll->data;
+			value_sane = sanitize_string (value);
+
+			ENS_DEBUG (g_print ("Comparing '%s' to '%s'\n", value, cue_str));
+
+			if (!utf8_casefold_collate_len (value_sane, cue_str, cue_len)) {
+				if (matched_field)
+					*matched_field = fields[i];
+				if (matched_field_rank)
+					*matched_field_rank = i;
+				if (matched_email_num)
+					*matched_email_num = email_num;
+
+				result = TRUE;
+				g_free (value_sane);
+				break;
+			}
+			g_free (value_sane);
+		}
+		g_list_free_full (emails, g_free);
 	}
 
 	return result;
@@ -944,12 +956,14 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
                           EContact **contact,
                           gchar **text,
                           EContactField *matched_field,
+                          gint *matched_email_num,
                           EBookClient **book_client)
 {
 	GtkTreeIter    iter;
 	EContact      *best_contact = NULL;
 	gint           best_field_rank = G_MAXINT;
 	EContactField  best_field = 0;
+	gint           best_email_num = -1;
 	EBookClient   *best_book_client = NULL;
 
 	g_assert (cue_str);
@@ -965,6 +979,7 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
 	do {
 		EContact      *current_contact;
 		gint           current_field_rank;
+		gint           current_email_num;
 		EContactField  current_field;
 		gboolean       matches;
 
@@ -972,13 +987,15 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
 		if (!current_contact)
 			continue;
 
-		matches = contact_match_cue (name_selector_entry, current_contact, cue_str, &current_field, &current_field_rank);
+		matches = contact_match_cue (name_selector_entry, current_contact, cue_str, &current_field, &current_field_rank, &current_email_num);
 		if (matches && current_field_rank < best_field_rank) {
 			best_contact = current_contact;
 			best_field_rank = current_field_rank;
 			best_field = current_field;
 			best_book_client = e_contact_store_get_client (name_selector_entry->priv->contact_store, &iter);
+			best_email_num = current_email_num;
 		}
+
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (name_selector_entry->priv->contact_store), &iter));
 
 	if (!best_contact)
@@ -987,12 +1004,13 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
 	if (contact)
 		*contact = best_contact;
 	if (text)
-		*text = build_textrep_for_contact (best_contact, best_field);
+		*text = build_textrep_for_contact (best_contact, best_field, best_email_num);
 	if (matched_field)
 		*matched_field = best_field;
 	if (book_client)
 		*book_client = best_book_client;
-
+	if (matched_email_num)
+		*matched_email_num = best_email_num;
 	return TRUE;
 }
 
@@ -1060,6 +1078,7 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	EBookClient   *book_client = NULL;
 	EContactField  matched_field;
 	EDestination  *destination;
+	gint           matched_email_num;
 	gint           cursor_pos;
 	gint           range_start = 0;
 	gint           range_end = 0;
@@ -1088,7 +1107,7 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 
 	cue_str = get_entry_substring (name_selector_entry, range_start, range_end);
 	if (!find_existing_completion (name_selector_entry, cue_str, &contact,
-				       &textrep, &matched_field, &book_client)) {
+				       &textrep, &matched_field, &matched_email_num, &book_client)) {
 		g_free (cue_str);
 		return;
 	}
@@ -1133,9 +1152,8 @@ type_ahead_complete (ENameSelectorEntry *name_selector_entry)
 	if (contact && destination) {
 		gint email_n = 0;
 
-		if (matched_field >= E_CONTACT_FIRST_EMAIL_ID && matched_field <= E_CONTACT_LAST_EMAIL_ID)
-			email_n = matched_field - E_CONTACT_FIRST_EMAIL_ID;
-
+		if (matched_field == E_CONTACT_EMAIL)
+			email_n = matched_email_num;
 		e_destination_set_contact (destination, contact, email_n);
 		if (book_client)
 			e_destination_set_client (destination, book_client);
@@ -2042,6 +2060,7 @@ contact_layout_pixbuffer (GtkCellLayout *cell_layout,
 	GtkTreeIter    contact_store_iter;
 	gint           email_n;
 	EContactPhoto *photo;
+	gboolean       iter_is_valid;
 	GdkPixbuf *pixbuf = NULL;
 
 	if (!name_selector_entry->priv->contact_store)
@@ -2050,10 +2069,14 @@ contact_layout_pixbuffer (GtkCellLayout *cell_layout,
 	gtk_tree_model_filter_convert_iter_to_child_iter (
 		GTK_TREE_MODEL_FILTER (model),
 		&generator_iter, iter);
-	e_tree_model_generator_convert_iter_to_child_iter (
+	iter_is_valid = e_tree_model_generator_convert_iter_to_child_iter (
 		name_selector_entry->priv->email_generator,
 		&contact_store_iter, &email_n,
 		&generator_iter);
+
+	if (!iter_is_valid) {
+		return;
+	}
 
 	contact = e_contact_store_get_contact (name_selector_entry->priv->contact_store, &contact_store_iter);
 	if (!contact) {
@@ -2121,6 +2144,7 @@ contact_layout_formatter (GtkCellLayout *cell_layout,
 	gchar         *file_as_str;
 	gchar         *email_str;
 	gint           email_n;
+	gboolean       iter_is_valid;
 
 	if (!name_selector_entry->priv->contact_store)
 		return;
@@ -2128,10 +2152,14 @@ contact_layout_formatter (GtkCellLayout *cell_layout,
 	gtk_tree_model_filter_convert_iter_to_child_iter (
 		GTK_TREE_MODEL_FILTER (model),
 		&generator_iter, iter);
-	e_tree_model_generator_convert_iter_to_child_iter (
+	iter_is_valid = e_tree_model_generator_convert_iter_to_child_iter (
 		name_selector_entry->priv->email_generator,
 		&contact_store_iter, &email_n,
 		&generator_iter);
+
+	if (!iter_is_valid) {
+		return;
+	}
 
 	contact = e_contact_store_get_contact (name_selector_entry->priv->contact_store, &contact_store_iter);
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);

@@ -63,6 +63,61 @@ struct _EContactPrintContext
 	GSList *contact_list;
 };
 
+/* TODO refactor phone_type
+ * to avoid build dependency loop, code related to phone types was copied from e-contact-editor.c
+ * once e-contact offers some kind of "translation service" code should be removed from here.
+ */
+static struct {
+	EContactField field_id;
+	const gchar *type_1;
+	const gchar *type_2;
+} phones[] = {
+	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL    },
+	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE" },
+	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX"   },
+	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,        NULL    },
+	{ E_CONTACT_PHONE_CAR,          "CAR",                 NULL    },
+	{ E_CONTACT_PHONE_COMPANY,      "X-EVOLUTION-COMPANY", NULL    },
+	{ E_CONTACT_PHONE_HOME,         "HOME",                "VOICE" },
+	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",                "FAX"   },
+	{ E_CONTACT_PHONE_ISDN,         "ISDN",                NULL    },
+	{ E_CONTACT_PHONE_MOBILE,       "CELL",                NULL    },
+	{ E_CONTACT_PHONE_OTHER,        "VOICE",               NULL    },
+	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",                 NULL    },
+	{ E_CONTACT_PHONE_PAGER,        "PAGER",               NULL    },
+	{ E_CONTACT_PHONE_PRIMARY,      "PREF",                NULL    },
+	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,           NULL    },
+	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,           NULL    },
+	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,          NULL    }
+};
+
+static gint
+get_phone_type (EVCardAttribute *attr)
+{
+	gint i;
+
+	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
+		if (e_vcard_attribute_has_type (attr, phones[i].type_1) &&
+		    (phones[i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones[i].type_2)))
+			return i;
+	}
+
+	return -1;
+}
+
+static gint
+get_phone_type_field_id (EVCardAttribute *attr)
+{
+	gint type_index;
+
+	type_index = get_phone_type (attr);
+
+	if (type_index >= 0)
+		return phones [type_index].field_id;
+	else
+		return -1;
+}
+
 static gdouble
 get_font_height (PangoFontDescription *desc)
 {
@@ -227,6 +282,30 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 	}
 }
 
+/*
+ * returns (transfer-full) a formated email or a copy of value if parsing failed.
+ */
+static gchar*
+format_email (const gchar* value)
+{
+	gchar *email = NULL, *name = NULL;
+
+	if (eab_parse_qp_email (value, &name, &email)) {
+		gchar* res;
+		if (name && *name)
+			res = g_strdup_printf ("%s <%s>", name, email);
+		else
+			res = g_strdup_printf ("%s", email);
+
+		g_free (name);
+		g_free (email);
+
+		return res;
+	}
+
+	return g_strdup (value);
+}
+
 static gchar *
 get_contact_string_value (EContact *contact,
                           gint field)
@@ -243,21 +322,8 @@ get_contact_string_value (EContact *contact,
 	    field == E_CONTACT_EMAIL_2 ||
 	    field == E_CONTACT_EMAIL_3 ||
 	    field == E_CONTACT_EMAIL_4) {
-		gchar *email = NULL, *name = NULL;
-
-		if (eab_parse_qp_email (value, &name, &email)) {
-			gchar *res;
-
-			if (name && *name)
-				res = g_strdup_printf ("%s <%s>", name, email);
-			else
-				res = g_strdup_printf ("%s", email);
-
-			g_free (name);
-			g_free (email);
-
-			return res;
-		}
+		gchar* res = format_email (value);
+		return res;
 	}
 	return g_strdup (value);
 }
@@ -296,8 +362,34 @@ e_contact_get_contact_height (EContact *contact,
 			"%s:  %s",
 			e_contact_pretty_name (field), value);
 
-		cntct_height += e_contact_text_height (
-			ctxt->context, ctxt->style->body_font, text);
+		if (field == E_CONTACT_FIRST_EMAIL_ID) {
+			GList *emails = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+			guint n = g_list_length (emails);
+			cntct_height += n * e_contact_text_height (
+						ctxt->context,
+						ctxt->style->body_font,
+						text);
+			g_list_free_full (emails, (GDestroyNotify) e_vcard_attribute_free);
+		} else if (field > E_CONTACT_FIRST_EMAIL_ID &&
+			   field <= E_CONTACT_LAST_EMAIL_ID) {
+			/* ignore */
+		} else if (field == E_CONTACT_FIRST_PHONE_ID) {
+			GList *phones = e_contact_get_attributes (contact, E_CONTACT_TEL);
+			guint n = g_list_length (phones);
+			cntct_height += n * e_contact_text_height (
+						ctxt->context,
+						ctxt->style->body_font,
+						text);
+			g_list_free_full (phones, (GDestroyNotify) e_vcard_attribute_free);
+		} else if (field > E_CONTACT_FIRST_PHONE_ID &&
+			   field <= E_CONTACT_LAST_PHONE_ID) {
+			/* ignore */
+		} else {
+			cntct_height += e_contact_text_height (
+					ctxt->context,
+					ctxt->style->body_font,
+					text);
+		}
 
 		cntct_height += .2 * get_font_height (ctxt->style->body_font);
 
@@ -309,19 +401,116 @@ e_contact_get_contact_height (EContact *contact,
 
 	return cntct_height;
 }
+static void
+print_line (EContactPrintContext *ctxt,
+            const gchar *pretty_name,
+            const gchar *value)
+{
+	GtkPageSetup *setup;
+	gdouble page_height;
+	gint wrapped_lines = 0;
+	gchar *text;
+
+	setup = gtk_print_context_get_page_setup (ctxt->context);
+	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	text = g_strdup_printf (
+		"%s:  %s",
+		pretty_name, value);
+
+
+	if (ctxt->y > page_height)
+		e_contact_start_new_column (ctxt);
+
+	if (ctxt->pages == ctxt->page_nr)
+		e_contact_output (
+			ctxt->context, ctxt->style->body_font,
+			ctxt->x, ctxt->y, ctxt->column_width + 4, text);
+
+	if (get_font_width (ctxt->context,
+		ctxt->style->body_font, text) > ctxt->column_width)
+		wrapped_lines =
+			(get_font_width (ctxt->context,
+			ctxt->style->body_font, text) /
+			(ctxt->column_width + 4)) + 1;
+	ctxt->y =
+		ctxt->y + ((wrapped_lines + 1) *
+		e_contact_text_height (
+			ctxt->context,
+			ctxt->style->body_font,
+			text));
+
+	ctxt->y += .2 * get_font_height (ctxt->style->body_font);
+
+	g_free (text);
+}
+
+static void
+print_emails (EContact *contact,
+              EContactPrintContext *ctxt)
+{
+	gint i;
+	GList *emails, *l;
+
+	emails = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+
+	for (i = 1, l = emails; l; l = g_list_next (l), i++) {
+		EVCardAttribute *attr = l->data;
+		gchar *email_address;
+		gchar *formatted_email;
+		gchar *pretty_name;
+
+		email_address = e_vcard_attribute_get_value (attr);
+		formatted_email = format_email (email_address);
+		pretty_name = g_strdup_printf ("%s %2d", N_ ("Email"), i);
+
+		print_line (ctxt, pretty_name, formatted_email);
+
+		g_free (pretty_name);
+		g_free (email_address);
+		g_free (formatted_email);
+	}
+
+	g_list_free_full (emails, (GDestroyNotify) e_vcard_attribute_free);
+}
+
+static void
+print_phones (EContact *contact,
+              EContactPrintContext * ctxt)
+{
+	GList *phones, *l;
+
+	phones = e_contact_get_attributes (contact, E_CONTACT_TEL);
+
+	for (l = phones; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+		gchar *phone;
+		gint field_id;
+		const gchar *pretty_name;
+
+		phone = e_vcard_attribute_get_value (attr);
+		field_id = get_phone_type_field_id (attr);
+		if (field_id >= 0) {
+			pretty_name = e_contact_pretty_name (field_id);
+		} else {
+			pretty_name = N_ ("unknown phone type");
+		}
+		print_line (ctxt, pretty_name, phone);
+
+		g_free (phone);
+	}
+
+	g_list_free_full (phones, (GDestroyNotify) e_vcard_attribute_free);
+}
 
 static void
 e_contact_print_contact (EContact *contact,
                          EContactPrintContext *ctxt)
 {
-	GtkPageSetup *setup;
 	gchar *file_as;
 	cairo_t *cr;
-	gdouble page_height;
 	gint field;
 
-	setup = gtk_print_context_get_page_setup (ctxt->context);
-	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
 	cr = gtk_print_context_get_cairo_context (ctxt->context);
 	cairo_save (cr);
@@ -353,45 +542,29 @@ e_contact_print_contact (EContact *contact,
 
 	for (field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++)
 	{
-		gchar *value;
-		gchar *text;
-		gint wrapped_lines = 0;
+		if (field == E_CONTACT_FIRST_EMAIL_ID)
+			print_emails (contact, ctxt);
+		else if (field > E_CONTACT_FIRST_EMAIL_ID &&
+			 field <= E_CONTACT_LAST_EMAIL_ID)
+			; /* ignore, all emails are printed in print_emails() */
+		else if (field == E_CONTACT_FIRST_PHONE_ID)
+			print_phones (contact, ctxt);
+		else if (field > E_CONTACT_FIRST_PHONE_ID &&
+			 field <= E_CONTACT_LAST_PHONE_ID)
+			; /* ignore, all phones are printed in print_phones() */
+		else {
+			gchar *value;
 
-		if (ctxt->y > page_height)
-			e_contact_start_new_column (ctxt);
+			value = get_contact_string_value (contact, field);
+			if (value == NULL || *value == '\0') {
+				g_free (value);
+				continue;
+			}
 
-		value = get_contact_string_value (contact, field);
-		if (value == NULL || *value == '\0') {
+			print_line (ctxt, e_contact_pretty_name (field), value);
+
 			g_free (value);
-			continue;
 		}
-
-		text = g_strdup_printf (
-			"%s:  %s",
-			e_contact_pretty_name (field), value);
-
-		if (ctxt->pages == ctxt->page_nr)
-			e_contact_output (
-				ctxt->context, ctxt->style->body_font,
-				ctxt->x, ctxt->y, ctxt->column_width + 4, text);
-
-		if (get_font_width (ctxt->context,
-			ctxt->style->body_font, text) > ctxt->column_width)
-			wrapped_lines =
-				(get_font_width (ctxt->context,
-				ctxt->style->body_font, text) /
-				(ctxt->column_width + 4)) + 1;
-		ctxt->y =
-			ctxt->y + ((wrapped_lines + 1) *
-			e_contact_text_height (
-				ctxt->context,
-				ctxt->style->body_font,
-				text));
-
-		ctxt->y += .2 * get_font_height (ctxt->style->body_font);
-
-		g_free (value);
-		g_free (text);
 	}
 
 	ctxt->y += get_font_height (ctxt->style->headings_font) * .4 + 8;

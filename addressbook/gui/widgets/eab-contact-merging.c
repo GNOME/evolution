@@ -543,40 +543,64 @@ check_if_same (EContact *contact,
                EContact *match)
 {
 	EContactField field;
-	GList *email_attr_list;
-	gint num_of_email;
-	gchar *str = NULL, *string = NULL, *string1 = NULL;
+	gchar *string = NULL, *string1 = NULL;
 	gboolean res = TRUE;
 
-	email_attr_list = e_contact_get_attributes (match, E_CONTACT_EMAIL);
-	num_of_email = g_list_length (email_attr_list);
 
 	for (field = E_CONTACT_FULL_NAME; res && field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
 
-		if ((field == E_CONTACT_EMAIL_1 || field == E_CONTACT_EMAIL_2
-		     || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) && (num_of_email < 4)) {
-			str = (gchar *) e_contact_get_const (contact, field);
-			switch (num_of_email)
-			{
-			case 0:
+		if (field == E_CONTACT_EMAIL_1) {
+			GList *email_attr_list1, *email_attr_list2, *iter1, *iter2;
+			gint num_of_email1, num_of_email2;
+
+			email_attr_list1 = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+			num_of_email1 = g_list_length (email_attr_list1);
+
+			email_attr_list2 = e_contact_get_attributes (match, E_CONTACT_EMAIL);
+			num_of_email2 = g_list_length (email_attr_list2);
+
+			if (num_of_email1 != num_of_email2) {
 				res = FALSE;
 				break;
-			case 1:
-				if ((str && *str) && (g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_1),str)))
-					res = FALSE;
-				break;
-			case 2:
-				if ((str && *str) && (g_ascii_strcasecmp (str,e_contact_get_const (match, E_CONTACT_EMAIL_1))) &&
-						(g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_2),str)))
-					res = FALSE;
-				break;
-			case 3:
-				if ((str && *str) && (g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_1),str)) &&
-						(g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_2),str)) &&
-						(g_ascii_strcasecmp (e_contact_get_const (match, E_CONTACT_EMAIL_3),str)))
-					res = FALSE;
-				break;
+			} else { /* Do pairwise-comparisons on all of the e-mail addresses. */
+				iter1 = email_attr_list1;
+				while (iter1) {
+					gboolean         match = FALSE;
+					EVCardAttribute *attr;
+					gchar           *email_address1;
+
+					attr = iter1->data;
+					email_address1 = e_vcard_attribute_get_value (attr);
+
+					iter2 = email_attr_list2;
+					while ( iter2 && match == FALSE) {
+						gchar *email_address2;
+
+						attr = iter2->data;
+						email_address2 = e_vcard_attribute_get_value (attr);
+
+						if (g_ascii_strcasecmp (email_address1, email_address2) == 0) {
+							match = TRUE;
+						}
+
+						g_free (email_address2);
+						iter2 = g_list_next (iter2);
+					}
+
+					g_free (email_address1);
+					iter1 = g_list_next (iter1);
+
+					if (match == FALSE) {
+						res = FALSE;
+						break;
+					}
+				}
 			}
+
+			g_list_free_full (email_attr_list1, (GDestroyNotify) e_vcard_attribute_free);
+			g_list_free_full (email_attr_list2, (GDestroyNotify) e_vcard_attribute_free);
+		} else if (field > E_CONTACT_FIRST_EMAIL_ID && field <= E_CONTACT_LAST_EMAIL_ID) {
+			/* nothing to do, all emails are checked above */
 		}
 		else {
 			string = (gchar *) e_contact_get_const (contact, field);
@@ -591,8 +615,6 @@ check_if_same (EContact *contact,
 			}
 		}
 	}
-
-	g_list_free_full (email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 
 	return res;
 }
