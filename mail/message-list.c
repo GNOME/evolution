@@ -460,6 +460,9 @@ regen_data_new (MessageList *message_list,
 	regen_data->message_list = g_object_ref (message_list);
 	regen_data->last_row = -1;
 
+	if (message_list->just_set_folder)
+		regen_data->select_uid = g_strdup (message_list->cursor_uid);
+
 	g_mutex_init (&regen_data->select_lock);
 
 	session = message_list_get_session (message_list);
@@ -1064,6 +1067,12 @@ message_list_select_uid (MessageList *message_list,
 				message_list,
 				signals[MESSAGE_SELECTED],
 				0, message_list->cursor_uid);
+	} else if (message_list->just_set_folder) {
+		g_free (message_list->cursor_uid);
+		message_list->cursor_uid = g_strdup (uid);
+		g_signal_emit (
+			message_list,
+			signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
 	} else {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
@@ -5248,7 +5257,7 @@ message_list_regen_tweak_search_results (MessageList *message_list,
 	 * Include the displayed message anyway so it doesn't suddenly
 	 * disappear while the user is reading it. */
 	needs_tweaking =
-		(folder_changed && message_list->cursor_uid != NULL);
+		((folder_changed || message_list->just_set_folder) && message_list->cursor_uid != NULL);
 
 	if (!needs_tweaking)
 		return;

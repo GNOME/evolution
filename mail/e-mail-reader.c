@@ -1654,6 +1654,7 @@ action_mail_show_source_cb (GtkAction *action,
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
+	MessageList *ml;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_ref_folder (reader);
@@ -1661,10 +1662,14 @@ action_mail_show_source_cb (GtkAction *action,
 	g_return_if_fail (uids != NULL && uids->len == 1);
 	message_uid = g_ptr_array_index (uids, 0);
 
-	browser = e_mail_browser_new (
-		backend, NULL, NULL, E_MAIL_FORMATTER_MODE_SOURCE);
+	browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_SOURCE);
+	ml = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
+
+	message_list_freeze (ml);
 	e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 	e_mail_reader_set_message (E_MAIL_READER (browser), message_uid);
+	message_list_thaw (ml);
+
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
 
 	string = g_strdup_printf (_("Retrieving message '%s'"), message_uid);

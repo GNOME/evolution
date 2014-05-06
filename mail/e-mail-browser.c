@@ -1040,8 +1040,6 @@ e_mail_browser_init (EMailBrowser *browser)
 
 GtkWidget *
 e_mail_browser_new (EMailBackend *backend,
-                    CamelFolder *folder,
-                    const gchar *msg_uid,
                     EMailFormatterMode display_mode)
 {
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
