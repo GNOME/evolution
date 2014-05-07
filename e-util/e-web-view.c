@@ -551,14 +551,47 @@ web_view_navigation_policy_decision_requested_cb (EWebView *web_view,
 	uri = webkit_network_request_get_uri (request);
 	frame_uri = webkit_web_frame_get_uri (frame);
 
-	/* Allow navigation through sections in page */
+	/* Allow navigation through fragments in page */
 	if (uri && *uri && frame_uri && *frame_uri) {
-		/* The uri should contain the frame uri and the id of the anchor
-		 * element that is separated from uri by hashtag character */
-		if (g_str_has_prefix (uri, frame_uri) && strstr (uri, "#")) {
-			webkit_web_policy_decision_use (policy_decision);
-			return TRUE;
+		SoupURI *uri_link, *uri_frame;
+
+		uri_link = soup_uri_new (uri);
+		uri_frame = soup_uri_new (frame_uri);
+		if (uri_link && uri_frame) {
+			const gchar *tmp1, *tmp2;
+
+			tmp1 = soup_uri_get_scheme (uri_link);
+			tmp2 = soup_uri_get_scheme (uri_frame);
+
+			/* The scheme on both URIs should be the same */
+			if (tmp1 && tmp2) {
+				if (g_ascii_strcasecmp (tmp1, tmp2) != 0)
+					goto free_uris;
+			}
+
+			tmp1 = soup_uri_get_host (uri_link);
+			tmp2 = soup_uri_get_host (uri_frame);
+
+			/* The host on both URIs should be the same */
+			if (tmp1 && tmp2) {
+				if (g_ascii_strcasecmp (tmp1, tmp2) != 0)
+					goto free_uris;
+			}
+
+			/* URI from link should have fragment set - could be empty */
+			if (soup_uri_get_fragment (uri_link)) {
+				soup_uri_free (uri_link);
+				soup_uri_free (uri_frame);
+				webkit_web_policy_decision_use (policy_decision);
+				return TRUE;
+			}
 		}
+
+ free_uris:
+		if (uri_link)
+			soup_uri_free (uri_link);
+		if (uri_frame)
+			soup_uri_free (uri_frame);
 	}
 
 	/* XXX WebKitWebView does not provide a class method for
@@ -1012,7 +1045,22 @@ web_view_hovering_over_link (EWebView *web_view,
 		format = _("Click to call %s");
 	else if (g_str_has_prefix (uri, "##"))
 		message = g_strdup (_("Click to hide/unhide addresses"));
-	else
+	else if (g_str_has_prefix (uri, "mail:")) {
+		const gchar *fragment;
+		SoupURI *soup_uri;
+
+		soup_uri = soup_uri_new (uri);
+		if (!soup_uri)
+			goto exit;
+
+		fragment = soup_uri_get_fragment (soup_uri);
+		if (*fragment)
+			message = g_strdup_printf (_("Go to the section %s of the message"), fragment);
+		else
+			message = g_strdup (_("Go to the beginning of the message"));
+
+		soup_uri_free (soup_uri);
+	} else
 		message = g_strdup_printf (_("Click to open %s"), uri);
 
 	if (format == NULL)
