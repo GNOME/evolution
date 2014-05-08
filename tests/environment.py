@@ -62,7 +62,7 @@ def after_scenario(context, scenario):
 
         # Attach journalctl logs
         if hasattr(context, "embed"):
-            os.system("journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
+            os.system("pkexec journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
             data = open("/tmp/journal-session.log", 'r').read()
             if data:
                 context.embed('text/plain', data)
