@@ -4231,6 +4231,13 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->priv->categories_dialog = NULL;
 	e_contact_editor->priv->compress_ui = e_shell_get_express_mode (shell);
 
+	/* Make sure custom widget types are available */
+	g_type_ensure (E_TYPE_IMAGE_CHOOSER);
+	g_type_ensure (E_TYPE_CLIENT_COMBO_BOX);
+	g_type_ensure (E_TYPE_CONTACT_EDITOR_DYNTABLE);
+	g_type_ensure (E_TYPE_URL_ENTRY);
+	g_type_ensure (E_TYPE_DATE_EDIT);
+
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "contact-editor.ui");
 
