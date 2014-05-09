@@ -3104,6 +3104,18 @@ extract_all (EContactEditor *editor)
 static void
 sensitize_all (EContactEditor *editor)
 {
+	GtkWidget *focused_widget;
+	gpointer weak_pointer;
+
+	/* Widget changes can cause focus widget change, thus remember the current
+	   widget and restore it after the fill is done; some fill operations
+	   can delete widgets, like the dyntable, thus do the weak_pointer as well.
+	*/
+	focused_widget = gtk_window_get_focus (eab_editor_get_window (EAB_EDITOR (editor)));
+	weak_pointer = focused_widget;
+	if (focused_widget)
+		g_object_add_weak_pointer (G_OBJECT (focused_widget), &weak_pointer);
+
 	sensitize_ok      (editor);
 	sensitize_simple  (editor);
 	sensitize_email   (editor);
@@ -3111,6 +3123,11 @@ sensitize_all (EContactEditor *editor)
 	sensitize_sip     (editor);
 	sensitize_im      (editor);
 	sensitize_address (editor);
+
+	if (weak_pointer) {
+		g_object_remove_weak_pointer (G_OBJECT (focused_widget), &weak_pointer);
+		gtk_widget_grab_focus (focused_widget);
+	}
 }
 
 static void
