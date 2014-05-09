@@ -485,12 +485,8 @@ mdn_message_loaded_cb (EMailReader *reader,
 	if (info == NULL)
 		goto exit;
 
-	if (camel_message_info_user_flag (info, MDN_USER_FLAG)) {
-		alert = e_alert_new ("mdn:sender-notified", NULL);
-		mdn_submit_alert (mdn, reader, alert);
-		g_object_unref (alert);
+	if (camel_message_info_user_flag (info, MDN_USER_FLAG))
 		goto exit;
-	}
 
 	notify_to = mdn_get_notify_to (message);
 	if (notify_to == NULL)
