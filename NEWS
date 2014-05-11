@@ -1,3 +1,25 @@
+Evolution 3.12.2 2014-05-12
+---------------------------
+
+Bug Fixes:
+	Bug 666142 - Filtered message not opened in a separate window
+	             (Milan Crha)
+	Bug 691957 - MDN: Do not show "Sender has been notified..." message
+	             (Milan Crha)
+	Bug 729256 - Busy loop under replace_local_image_links() (Tomas Popela)
+
+Other Changes:
+	* Newly created folders always marked as having subfolders (Milan Crha)
+	* Make 'Copy Link Location' copy into both primary and selection
+	  clipboards (Milan Crha)
+
+Translations:
+	Carles Ferrando (ca@valencia)
+	Tom Tryfonidis (el)
+	Daniel Mustieles (es)
+	Matej Urbančič (sl)
+
+
 Evolution 3.12.1 2014-04-14
 ---------------------------
 
