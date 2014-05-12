@@ -373,4 +373,22 @@
     <_primary>Moving a memo into the memo list '{0}'</_primary>
   </error>
 
+  <error id="refresh-error-events" type="error">
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Failed to refresh calendar '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="refresh-error-tasks" type="error">
+    <!-- Translators: {0} is the name of the task list. -->
+    <_primary>Failed to refresh task list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="refresh-error-memos" type="error">
+    <!-- Translators: {0} is the name of the memo list. -->
+    <_primary>Failed to refresh memo list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
 </error-list>

@@ -23,6 +23,7 @@
 #endif
 
 #include "e-task-shell-view-private.h"
+#include "e-cal-shell-view.h"
 
 static void
 action_task_assign_cb (GtkAction *action,
@@ -300,7 +301,6 @@ action_task_list_refresh_cb (GtkAction *action,
 	ESourceSelector *selector;
 	EClient *client = NULL;
 	ESource *source;
-	GError *error = NULL;
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
@@ -318,15 +318,7 @@ action_task_list_refresh_cb (GtkAction *action,
 
 	g_return_if_fail (e_client_check_refresh_supported (client));
 
-	e_client_refresh_sync (client, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to refresh '%s', %s",
-			G_STRFUNC, e_source_get_display_name (source),
-			error->message);
-		g_error_free (error);
-	}
+	e_cal_shell_view_allow_auth_prompt_and_refresh (E_SHELL_VIEW (task_shell_view), client);
 
 	g_object_unref (client);
 }

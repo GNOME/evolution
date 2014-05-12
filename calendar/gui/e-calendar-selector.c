@@ -214,7 +214,7 @@ source_client_connect_cb (GObject *source_object,
 	titd->src_client = client;
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (titd->selector), titd->destination, cancellable,
+		E_CLIENT_SELECTOR (titd->selector), titd->destination, FALSE, cancellable,
 		destination_client_connect_cb, titd);
 
 	return;
@@ -376,7 +376,7 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 	titd->do_copy = do_copy;
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (selector), source, cancellable,
+		E_CLIENT_SELECTOR (selector), source, FALSE, cancellable,
 		source_client_connect_cb, titd);
 
 exit:

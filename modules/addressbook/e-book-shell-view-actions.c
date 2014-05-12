@@ -200,34 +200,96 @@ action_address_book_properties_cb (GtkAction *action,
 }
 
 static void
+address_book_handle_refresh_done (ESource *source,
+				  EActivity *activity,
+				  const GError *error)
+{
+	EAlertSink *alert_sink;
+	const gchar *display_name;
+
+	alert_sink = e_activity_get_alert_sink (activity);
+	display_name = e_source_get_display_name (source);
+
+	if (e_activity_handle_cancellation (activity, error)) {
+		/* nothing to do */
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"addressbook:refresh-error",
+			display_name, error->message, NULL);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+}
+
+static void
 address_book_refresh_done_cb (GObject *source_object,
                               GAsyncResult *result,
                               gpointer user_data)
 {
 	EClient *client;
-	GError *error = NULL;
+	ESource *source;
+	EActivity *activity;
+	GError *local_error = NULL;
 
 	g_return_if_fail (E_IS_CLIENT (source_object));
 
 	client = E_CLIENT (source_object);
+	source = e_client_get_source (client);
+	activity = user_data;
 
-	e_client_refresh_finish (client, result, &error);
+	e_util_allow_auth_prompt_and_refresh_client_finish (client, result, &local_error);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
+	address_book_handle_refresh_done (source, activity, local_error);
 
-	} else if (error != NULL) {
-		ESource *source;
+	g_clear_object (&activity);
+	g_clear_error (&local_error);
+}
 
-		source = e_client_get_source (client);
+typedef struct _AllowAuthPromptData {
+	EActivity *activity;
+	ESourceSelector *selector;
+} AllowAuthPromptData;
 
-		g_warning (
-			"%s: Failed to refresh '%s', %s",
-			G_STRFUNC, e_source_get_display_name (source),
-			error ? error->message : "Unknown error");
+static void
+address_book_allow_auth_prompt_done_cb (GObject *source_object,
+					GAsyncResult *result,
+					gpointer user_data)
+{
+	ESource *source;
+	ESourceSelector *selector;
+	EActivity *activity;
+	AllowAuthPromptData *data = user_data;
+	GError *local_error = NULL;
 
-		g_error_free (error);
+	g_return_if_fail (E_IS_SOURCE (source_object));
+	g_return_if_fail (user_data != NULL);
+
+	source = E_SOURCE (source_object);
+	activity = data->activity;
+	selector = data->selector;
+
+	g_free (data);
+
+	e_source_allow_auth_prompt_finish (source, result, &local_error);
+
+	address_book_handle_refresh_done (source, activity, local_error);
+
+	if (!local_error) {
+		ESource *primary;
+
+		primary = e_source_selector_ref_primary_selection (selector);
+		if (primary == source)
+			e_source_selector_set_primary_selection (selector, source);
+
+		g_clear_object (&primary);
 	}
+
+	g_clear_object (&activity);
+	g_clear_object (&selector);
+	g_clear_error (&local_error);
 }
 
 static void
@@ -238,15 +300,46 @@ action_address_book_refresh_cb (GtkAction *action,
 	ESourceSelector *selector;
 	EClient *client = NULL;
 	ESource *source;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GCancellable *cancellable;
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source != NULL) {
 		client = e_client_selector_ref_cached_client (
 			E_CLIENT_SELECTOR (selector), source);
+		if (!client) {
+			AllowAuthPromptData *data;
+
+			alert_sink = E_ALERT_SINK (shell_content);
+			activity = e_activity_new ();
+			cancellable = g_cancellable_new ();
+
+			e_activity_set_alert_sink (activity, alert_sink);
+			e_activity_set_cancellable (activity, cancellable);
+
+			data = g_new0 (AllowAuthPromptData, 1);
+			data->activity = activity;
+			data->selector = g_object_ref (selector);
+
+			e_source_allow_auth_prompt (source, cancellable, address_book_allow_auth_prompt_done_cb, data);
+
+			e_shell_backend_add_activity (shell_backend, activity);
+
+			g_object_unref (cancellable);
+		}
+
 		g_object_unref (source);
 	}
 
@@ -255,8 +348,18 @@ action_address_book_refresh_cb (GtkAction *action,
 
 	g_return_if_fail (e_client_check_refresh_supported (client));
 
-	e_client_refresh (client, NULL, address_book_refresh_done_cb, book_shell_view);
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_activity_new ();
+	cancellable = g_cancellable_new ();
 
+	e_activity_set_alert_sink (activity, alert_sink);
+	e_activity_set_cancellable (activity, cancellable);
+
+	e_util_allow_auth_prompt_and_refresh_client (client, cancellable, address_book_refresh_done_cb, activity);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	g_object_unref (cancellable);
 	g_object_unref (client);
 }
 

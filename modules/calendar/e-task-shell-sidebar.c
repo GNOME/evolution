@@ -349,7 +349,7 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	priv->connecting_default_client = g_object_ref (closure->activity);
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (selector), source,
+		E_CLIENT_SELECTOR (selector), source, TRUE,
 		e_activity_get_cancellable (closure->activity),
 		task_shell_sidebar_default_connect_cb, closure);
 }
@@ -780,7 +780,7 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	closure = connect_closure_new (task_shell_sidebar, source);
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (selector), source,
+		E_CLIENT_SELECTOR (selector), source, TRUE,
 		e_activity_get_cancellable (closure->activity),
 		task_shell_sidebar_client_connect_cb, closure);
 }

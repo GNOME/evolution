@@ -162,6 +162,20 @@ GSList *	e_util_get_category_filter_options
 						(void);
 GList *		e_util_dup_searchable_categories (void);
 
+gboolean	e_util_allow_auth_prompt_and_refresh_client_sync
+						(EClient *client,
+						 GCancellable *cancellable,
+						 GError **error);
+void		e_util_allow_auth_prompt_and_refresh_client
+						(EClient *client,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_util_allow_auth_prompt_and_refresh_client_finish
+						(EClient *client,
+						 GAsyncResult *result,
+						 GError **error);
+
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_color_to_string
 						(GBinding *binding,

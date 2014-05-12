@@ -656,6 +656,21 @@ client_cache_cal_connect_cb (GObject *source_object,
 }
 
 static void
+client_cache_source_allow_auth_prompt_done_cb (GObject *source_object,
+					       GAsyncResult *result,
+					       gpointer user_data)
+{
+	GError *local_error = NULL;
+
+	e_source_allow_auth_prompt_finish (E_SOURCE (source_object), result, &local_error);
+
+	if (local_error) {
+		g_debug ("%s: Failed with: %s", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
+	}
+}
+
+static void
 client_cache_source_removed_cb (ESourceRegistry *registry,
                                 ESource *source,
                                 GWeakRef *weak_ref)
@@ -680,6 +695,11 @@ client_cache_source_disabled_cb (ESourceRegistry *registry,
 	client_cache = g_weak_ref_get (weak_ref);
 
 	if (client_cache != NULL) {
+		/* There is not much interest in the result, it just
+		   makes sure a password prompt will be shown the next
+		   time it is needed. */
+		e_source_allow_auth_prompt (source, NULL, client_cache_source_allow_auth_prompt_done_cb, NULL);
+
 		client_ht_remove (client_cache, source);
 		g_object_unref (client_cache);
 	}

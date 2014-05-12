@@ -481,6 +481,35 @@ mail_account_store_constructed (GObject *object)
 }
 
 static void
+mail_account_store_allow_auth_prompt_done_cb (GObject *source_object,
+					      GAsyncResult *result,
+					      gpointer user_data)
+{
+	GError *local_error = NULL;
+
+	e_source_allow_auth_prompt_finish (E_SOURCE (source_object), result, &local_error);
+
+	if (local_error) {
+		g_debug ("%s: Failed with: %s", G_STRFUNC, local_error->message);
+		g_clear_error (&local_error);
+	}
+}
+
+static void
+call_allow_auth_prompt (ESource *source)
+{
+	if (!source)
+		return;
+
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	/* There is not much interest in the result, it just
+	   makes sure a password prompt will be shown the next
+	   time it is needed. */
+	e_source_allow_auth_prompt (source, NULL, mail_account_store_allow_auth_prompt_done_cb, NULL);
+}
+
+static void
 mail_account_store_service_added (EMailAccountStore *store,
                                   CamelService *service)
 {
@@ -643,12 +672,16 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		ESourceMailAccount *extension;
 		const gchar *extension_name;
 
+		call_allow_auth_prompt (source);
+
 		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 		extension = e_source_get_extension (source, extension_name);
 		uid = e_source_mail_account_get_identity_uid (extension);
 
-		if (uid != NULL)
+		if (uid != NULL) {
 			identity = e_source_registry_ref_source (registry, uid);
+			call_allow_auth_prompt (identity);
+		}
 
 		if (identity != NULL && e_source_get_writable (identity)) {
 			e_source_set_enabled (identity, FALSE);
@@ -675,6 +708,8 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		collection = e_source_registry_find_extension (
 			registry, source, E_SOURCE_EXTENSION_COLLECTION);
 		if (collection != NULL) {
+			call_allow_auth_prompt (collection);
+
 			g_object_unref (source);
 			source = collection;
 		}

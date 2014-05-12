@@ -515,6 +515,7 @@ e_client_selector_ref_client_cache (EClientSelector *selector)
  * e_client_selector_get_client_sync:
  * @selector: an #ESourceSelector
  * @source: an #ESource
+ * @call_allow_auth_prompt: whether call allow-auth-prompt on the source first
  * @cancellable: optional #GCancellable object, or %NULL
  * @error: return location for a #GError, or %NULL
  *
@@ -539,6 +540,7 @@ e_client_selector_ref_client_cache (EClientSelector *selector)
 EClient *
 e_client_selector_get_client_sync (EClientSelector *selector,
                                    ESource *source,
+				   gboolean call_allow_auth_prompt,
                                    GCancellable *cancellable,
                                    GError **error)
 {
@@ -552,7 +554,7 @@ e_client_selector_get_client_sync (EClientSelector *selector,
 	closure = e_async_closure_new ();
 
 	e_client_selector_get_client (
-		selector, source, cancellable,
+		selector, source, call_allow_auth_prompt, cancellable,
 		e_async_closure_callback, closure);
 
 	result = e_async_closure_wait (closure);
@@ -600,10 +602,64 @@ client_selector_get_client_done_cb (GObject *source_object,
 	g_object_unref (simple);
 }
 
+typedef struct _AllowAuthPromptData
+{
+	EClientSelector *selector;
+	GSimpleAsyncResult *simple;
+	GCancellable *cancellable;
+} AllowAuthPromptData;
+
+static void
+client_selector_allow_auth_prompt_done_cb (GObject *source_object,
+					   GAsyncResult *result,
+					   gpointer user_data)
+{
+	AllowAuthPromptData *data;
+	ESource *source;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source_object));
+	g_return_if_fail (user_data != NULL);
+
+	data = user_data;
+	source = E_SOURCE (source_object);
+
+	e_source_allow_auth_prompt_finish (source, result, &local_error);
+
+	if (local_error) {
+		g_simple_async_result_take_error (data->simple, local_error);
+		g_simple_async_result_complete (data->simple);
+
+		g_clear_error (&local_error);
+	} else {
+		EClientCache *client_cache;
+		const gchar *extension_name;
+
+		extension_name = e_source_selector_get_extension_name (
+			E_SOURCE_SELECTOR (data->selector));
+
+		client_cache = e_client_selector_ref_client_cache (data->selector);
+
+		e_client_cache_get_client (
+			client_cache, source,
+			extension_name, data->cancellable,
+			client_selector_get_client_done_cb,
+			g_object_ref (data->simple));
+
+		g_object_unref (client_cache);
+	}
+
+	g_clear_object (&data->selector);
+	g_clear_object (&data->simple);
+	g_clear_object (&data->cancellable);
+	g_free (data);
+}
+
 /**
  * e_client_selector_get_client:
  * @selector: an #ESourceSelector
  * @source: an #ESource
+ * @call_allow_auth_prompt: whether call allow-auth-prompt on the source first
  * @cancellable: optional #GCancellable object, or %NULL
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
@@ -627,13 +683,12 @@ client_selector_get_client_done_cb (GObject *source_object,
 void
 e_client_selector_get_client (EClientSelector *selector,
                               ESource *source,
+			      gboolean call_allow_auth_prompt,
                               GCancellable *cancellable,
                               GAsyncReadyCallback callback,
                               gpointer user_data)
 {
-	EClientCache *client_cache;
 	GSimpleAsyncResult *simple;
-	const gchar *extension_name;
 
 	g_return_if_fail (E_IS_CLIENT_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -644,18 +699,33 @@ e_client_selector_get_client (EClientSelector *selector,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	extension_name = e_source_selector_get_extension_name (
-		E_SOURCE_SELECTOR (selector));
+	if (call_allow_auth_prompt) {
+		AllowAuthPromptData *data;
 
-	client_cache = e_client_selector_ref_client_cache (selector);
+		data = g_new0 (AllowAuthPromptData, 1);
+		data->selector = g_object_ref (selector);
+		data->simple = g_object_ref (simple);
+		data->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
 
-	e_client_cache_get_client (
-		client_cache, source,
-		extension_name, cancellable,
-		client_selector_get_client_done_cb,
-		g_object_ref (simple));
+		e_source_allow_auth_prompt (source, cancellable,
+			client_selector_allow_auth_prompt_done_cb, data);
+	} else {
+		EClientCache *client_cache;
+		const gchar *extension_name;
 
-	g_object_unref (client_cache);
+		extension_name = e_source_selector_get_extension_name (
+			E_SOURCE_SELECTOR (selector));
+
+		client_cache = e_client_selector_ref_client_cache (selector);
+
+		e_client_cache_get_client (
+			client_cache, source,
+			extension_name, cancellable,
+			client_selector_get_client_done_cb,
+			g_object_ref (simple));
+
+		g_object_unref (client_cache);
+	}
 
 	g_object_unref (simple);
 }

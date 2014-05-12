@@ -339,7 +339,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	/* XXX No way to cancel this? */
 	e_client_selector_get_client (
 		E_CLIENT_SELECTOR (selector),
-		source, NULL,
+		source, TRUE, NULL,
 		book_shell_view_client_connect_cb,
 		g_object_ref (view));
 

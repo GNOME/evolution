@@ -629,3 +629,86 @@ e_cal_shell_view_type_register (GTypeModule *type_module)
 	e_cal_shell_view_register_type (type_module);
 }
 
+static void
+cal_shell_view_allow_auth_prompt_and_refresh_done_cb (GObject *source_object,
+						      GAsyncResult *result,
+						      gpointer user_data)
+{
+	EClient *client;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	ESource *source;
+	const gchar *display_name;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_CAL_CLIENT (source_object));
+
+	client = E_CLIENT (source_object);
+	source = e_client_get_source (client);
+	activity = user_data;
+	alert_sink = e_activity_get_alert_sink (activity);
+	display_name = e_source_get_display_name (source);
+
+	e_util_allow_auth_prompt_and_refresh_client_finish (client, result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		const gchar *error_message;
+
+		switch (e_cal_client_get_source_type (E_CAL_CLIENT (client))) {
+		default:
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			error_message = "calendar:refresh-error-events";
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			error_message = "calendar:refresh-error-tasks";
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			error_message = "calendar:refresh-error-memos";
+			break;
+		}
+		e_alert_submit (
+			alert_sink,
+			error_message,
+			display_name, local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	g_clear_object (&activity);
+}
+
+void
+e_cal_shell_view_allow_auth_prompt_and_refresh (EShellView *shell_view,
+						EClient *client)
+{
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_activity_new ();
+	cancellable = g_cancellable_new ();
+
+	e_activity_set_alert_sink (activity, alert_sink);
+	e_activity_set_cancellable (activity, cancellable);
+
+	e_util_allow_auth_prompt_and_refresh_client (client, cancellable,
+		cal_shell_view_allow_auth_prompt_and_refresh_done_cb, activity);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	g_object_unref (cancellable);
+}

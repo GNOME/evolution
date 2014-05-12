@@ -1964,6 +1964,72 @@ e_util_dup_searchable_categories (void)
 	return g_list_reverse (res);
 }
 
+gboolean
+e_util_allow_auth_prompt_and_refresh_client_sync (EClient *client,
+						  GCancellable *cancellable,
+						  GError **error)
+{
+	g_return_val_if_fail (E_IS_CLIENT (client), FALSE);
+
+	if (!e_source_allow_auth_prompt_sync (e_client_get_source (client), cancellable, error))
+		return FALSE;
+
+	return e_client_refresh_sync (client, cancellable, error);
+}
+
+static void
+util_allow_auth_prompt_and_refresh_client_thread (GTask *task,
+						  gpointer source_object,
+						  gpointer task_data,
+						  GCancellable *cancellable)
+{
+	gboolean success;
+	GError *local_error = NULL;
+
+	success = e_util_allow_auth_prompt_and_refresh_client_sync (
+		E_CLIENT (source_object),
+		cancellable, &local_error);
+
+	if (local_error != NULL) {
+		g_task_return_error (task, local_error);
+	} else {
+		g_task_return_boolean (task, success);
+	}
+}
+
+void
+e_util_allow_auth_prompt_and_refresh_client (EClient *client,
+					     GCancellable *cancellable,
+					     GAsyncReadyCallback callback,
+					     gpointer user_data)
+{
+	GTask *task;
+
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	task = g_task_new (client, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_util_allow_auth_prompt_and_refresh_client);
+
+	g_task_run_in_thread (task, util_allow_auth_prompt_and_refresh_client_thread);
+
+	g_object_unref (task);
+}
+
+gboolean
+e_util_allow_auth_prompt_and_refresh_client_finish (EClient *client,
+						    GAsyncResult *result,
+						    GError **error)
+{
+	g_return_val_if_fail (E_IS_CLIENT (client), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, client), FALSE);
+
+	g_return_val_if_fail (
+		g_async_result_is_tagged (
+		result, e_util_allow_auth_prompt_and_refresh_client), FALSE);
+
+	return g_task_propagate_boolean (G_TASK (result), error);
+}
+
 /**
  * e_binding_transform_color_to_string:
  * @binding: a #GBinding

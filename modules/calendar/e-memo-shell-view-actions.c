@@ -23,6 +23,7 @@
 #endif
 
 #include "e-memo-shell-view-private.h"
+#include "e-cal-shell-view.h"
 
 static void
 action_memo_delete_cb (GtkAction *action,
@@ -277,7 +278,6 @@ action_memo_list_refresh_cb (GtkAction *action,
 	ESourceSelector *selector;
 	EClient *client = NULL;
 	ESource *source;
-	GError *error = NULL;
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
@@ -295,15 +295,7 @@ action_memo_list_refresh_cb (GtkAction *action,
 
 	g_return_if_fail (e_client_check_refresh_supported (client));
 
-	e_client_refresh_sync (client, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to refresh '%s', %s",
-			G_STRFUNC, e_source_get_display_name (source),
-			error->message);
-		g_error_free (error);
-	}
+	e_cal_shell_view_allow_auth_prompt_and_refresh (E_SHELL_VIEW (memo_shell_view), client);
 
 	g_object_unref (client);
 }

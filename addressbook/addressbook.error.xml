@@ -65,6 +65,11 @@
     <secondary>{0}</secondary>
   </error>
 
+  <error id="refresh-error" type="error">
+    <_primary>Failed to refresh address book '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
   <error id="prompt-save" type="question" default="GTK_RESPONSE_YES">
     <_primary>Would you like to save your changes?</_primary>
     <_secondary>You have made modifications to this contact. Do you want to save these changes?</_secondary>

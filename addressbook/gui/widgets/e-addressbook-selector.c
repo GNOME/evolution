@@ -327,7 +327,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	merge_context->pending_adds = TRUE;
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (selector), destination, NULL,
+		E_CLIENT_SELECTOR (selector), destination, FALSE, NULL,
 		target_client_connect_cb, merge_context);
 
 	return TRUE;

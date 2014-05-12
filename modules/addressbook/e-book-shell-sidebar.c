@@ -225,6 +225,9 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 			refresh_supported =
 				e_client_check_refresh_supported (client);
 			g_object_unref (client);
+		} else {
+			/* It's also used to allow-auth-prompt for the source */
+			refresh_supported = TRUE;
 		}
 
 		g_object_unref (source);

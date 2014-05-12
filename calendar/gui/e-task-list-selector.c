@@ -217,7 +217,7 @@ task_list_selector_process_data (ESourceSelector *selector,
 
 	if (source != NULL) {
 		e_client_selector_get_client (
-			E_CLIENT_SELECTOR (selector), source, NULL,
+			E_CLIENT_SELECTOR (selector), source, FALSE, NULL,
 			client_connect_cb, g_strdup (old_uid));
 		g_object_unref (source);
 	}
@@ -372,7 +372,7 @@ task_list_selector_data_dropped (ESourceSelector *selector,
 	dd->list = cal_comp_selection_get_string_list (selection_data);
 
 	e_client_selector_get_client (
-		E_CLIENT_SELECTOR (selector), destination, NULL,
+		E_CLIENT_SELECTOR (selector), destination, FALSE, NULL,
 		client_connect_for_drop_cb, dd);
 
 	return TRUE;

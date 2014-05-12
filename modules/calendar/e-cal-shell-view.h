@@ -21,6 +21,7 @@
 #ifndef E_CAL_SHELL_VIEW_H
 #define E_CAL_SHELL_VIEW_H
 
+#include <e-util/e-util.h>
 #include <shell/e-shell-view.h>
 
 /* Standard GObject macros */
@@ -59,6 +60,10 @@ struct _ECalShellViewClass {
 
 GType		e_cal_shell_view_get_type	(void);
 void		e_cal_shell_view_type_register	(GTypeModule *type_module);
+
+void		e_cal_shell_view_allow_auth_prompt_and_refresh
+						(EShellView *shell_view,
+						 EClient *client);
 
 G_END_DECLS
 
