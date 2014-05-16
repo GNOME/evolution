@@ -154,7 +154,7 @@ class App(object):
             assert not self.isRunning(), "Application cannot be stopped"
 
         command = "%s %s" % (self.appCommand, self.parameters)
-        self.pid = run(command, timeout=1)
+        self.pid = run(command, timeout=5)
 
         assert self.isRunning(), "Application failed to start"
         return root.application(self.a11yAppName)
