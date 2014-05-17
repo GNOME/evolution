@@ -1,0 +1,45 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic" style="task"
+      id="assistant-more">
+  <info>
+    <revision version="1.0" date="2014-05-17" status="review"/>
+    <link type="guide" xref="index#assistant"/>
+    <credit type="author copyright">
+      <name>Julita Inca</name>
+      <email>yrazes@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Know more about the receiveing mail options of Evolution.</desc>
+  </info>
+
+  <title>Evolution Account Assistant</title>
+
+      <item>
+         <p>USENET news</p>
+         <p>You can connect to new email server and download a list of available new digests.</p>
+      </item>
+
+      <item>
+          <p>Local delivery</p>
+          <p>You can move your email from the spool (where the email waits for delivery) and store it in your home directory. 
+             You need provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, 
+             choose the Standard Unix Mbox Spool option instead.</p>
+      </item>
+      <item>
+          <p>MH-format mail directories</p>
+          <p>You can download your email using MH or another MH-style application.</p>
+      </item>
+      <item>
+          <p>Maildir-format mail directories</p>
+          <p>You can download your email using Qmail or another Maildir-style application.</p>
+      </item>
+      <item>
+          <p>Standard Unix mbox spool directory</p>
+          <p>You can red and store your email in the mail spool file on you local system.</p>
+      </item>
+
+</page>

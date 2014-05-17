@@ -46,6 +46,10 @@
     <title>Server Type</title>
           <p>The most commonly used options are:</p>
        <item>
+          <p>None</p>
+          <p>If you do not plan to use Evolution to receive your messages.</p>
+       </item>
+       <item>
           <p>Exchange Web Services</p>
   	  <p>You use it, if your company allows you to use it. You may also sync your calendar, contacts and notes.</p>
        </item>
@@ -53,7 +57,8 @@
           <p>IMAP+</p>
  	  <p>You can use this option if you use an email service like Gmail, Hotmail, Yahoo or another one.</p>
           <note>
-              <p>If you have ordered your messages in files in your mail inbox, IMAP will keep the structure and will show your messages in the same order as you put them.</p>
+              <p>If you have ordered your messages in files in your mail inbox, IMAP will keep the structure 
+                 and will show your messages in the same order as you put them.</p>
               <p>IMAP will also make an offline copy in your device, so you can access to your messages online from other multiple devices.</p>
           </note>  
        </item>
@@ -61,26 +66,19 @@
           <p>POP</p>
 	  <p>You can download your mail to your disk for permanent storage, freeing up space on the email server.</p>
 	  <note>
-              <p>You can use this option in case your email server gives you a small inbox space, but remember that all your messages will be deleted from the                 email server. Make sure you have a backup of all your messages.</p>
+              <p>You can use this option in case your email server gives you a small inbox space, 
+                 but remember that all your messages will be deleted from the email server. Make sure you have a backup of all your messages.</p>
           </note>
       </item>
-      <item>
-          <p>USENET news</p>
-          <p>You can connect to new email servers and download a list of available new digests.</p>
-      </item>
-      <item>
-          <p>Local delivery</p>
-      </item>
-      <item>
-          <p>MH-format mail directories</p>
-      </item>
-      <item>
-          <p>Maildir-format mail directories</p>
-      </item>
-      <item>
-          <p>Standard Unix mbox spool directory</p>
-      </item>
-   </list>  
+
+   </list>
+   <table frame="all">
+     <tr>
+      <td>  
+          <p>Please see the rest of the options for receiving email <link xref="assistant-more">here</link>.</p>
+      </td>
+     </tr> 
+   </table>
    <list>
       <title>Configuration</title>
 
