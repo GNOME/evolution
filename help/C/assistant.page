@@ -27,32 +27,94 @@
 
   <section id="restore-backup">
   <title>Restore from a backup file</title>
-	<p>Select your <gui>backup</gui>, if you have a file to do it; then click on <gui>Continue</gui>.</p>
+	<p>Select your <gui>backup</gui> (if you have a file to do it), then click on <gui>Continue</gui>.</p>
   </section>
 
 <section id="identity">
   <title>Identity</title>
-	<p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
-     <p>Optinally, you can hiddenly copy all the sending mails to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>    
-  </section>
+	<p>Enter your name and email address to identify yourself, then click on <gui>Continue</gui>.</p>
+        <note>
+           <p>Optinally, register another email account on <gui>Reply-To</gui> if you want to copy all the messages you send to another account.</p> 
+           <p>The name of the organization you belong is also optional. It will appear the moment somebody import you as his/her contact.</p>    
+        </note>  
+</section>
     
 
-<section id="receive-mail">
+<section id="receiving-email">
   <title>Receiving Email</title> 
    <list>
     <title>Server Type</title>
-    <p>The most commonly used options are:</p>
-    <item><p>Exchange Web Services</p>
-	<p>It is used for companies. If your company allows you to use it, you may also sync your calendar, contacts and notes.</p>
-    </item>
-    <item><p>IMAP+</p>
-	<p>If you use Gmail, Hotmail or Yahoo, this is your option. </p>
-        <p>Keep the same structure as the source by making an offline copy in your device.</p>
-    </item>
-    <item><p>POP</p>
-	<p>You can download all your mails from the source, if your server gives you a small inbox space.</p>  
-        <p> By using POP, all your mails will be deleted from the source server, make sure you have a backup of all your mails.</p>
-    </item>
+          <p>The most commonly used options are:</p>
+       <item>
+          <p>Exchange Web Services</p>
+  	  <p>You use it, if your company allows you to use it. You may also sync your calendar, contacts and notes.</p>
+       </item>
+       <item>
+          <p>IMAP+</p>
+ 	  <p>You can use this option if you use an email service like Gmail, Hotmail, Yahoo or another one.</p>
+          <note>
+              <p>If you have ordered your messages in files in your mail inbox, IMAP will keep the structure and will show your messages in the same order as you put them.</p>
+              <p>IMAP will also make an offline copy in your device, so you can access to your messages online from other multiple devices.</p>
+          </note>  
+       </item>
+       <item>
+          <p>POP</p>
+	  <p>You can download your mail to your disk for permanent storage, freeing up space on the email server.</p>
+	  <note>
+              <p>You can use this option in case your email server gives you a small inbox space, but remember that all your messages will be deleted from the                 email server. Make sure you have a backup of all your messages.</p>
+          </note>
+      </item>
+      <item>
+          <p>USENET news</p>
+          <p>You can connect to new email servers and download a list of available new digests.</p>
+      </item>
+      <item>
+          <p>Local delivery</p>
+      </item>
+      <item>
+          <p>MH-format mail directories</p>
+      </item>
+      <item>
+          <p>Maildir-format mail directories</p>
+      </item>
+      <item>
+          <p>Standard Unix mbox spool directory</p>
+      </item>
    </list>  
+   <list>
+      <title>Configuration</title>
+
+   </list>  
+   <list>  
+      <title>Security</title>
+
+   </list>  
+   <list>  
+      <title>Authentication</title>
+
+   </list>  
+
+
 </section>
+
+<section id="sending-email">
+  <title>Sending Email</title>
+        <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
+     <p>Optinally, you can hiddenly copy all the messages you send to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>
+  </section>
+
+<section id="account-summary">
+  <title>Account Summary</title>
+        <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
+     <p>Optinally, you can hiddenly copy all the messages you send to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>
+  </section>
+
+<section id="done">
+  <title>Done</title>
+        <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
+     <p>Optinally, you can hiddenly copy all the messages you send to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>
+  </section>
+
+
+
 </page>
