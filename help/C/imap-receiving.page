@@ -1,0 +1,58 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic" style="task"
+      id="imap-receiving">
+  <info>
+    <revision version="1.0" date="2014-05-17" status="review"/>
+    <link type="guide" xref="index#assistant"/>
+    <credit type="author copyright">
+      <name>Julita Inca</name>
+      <email>yrazes@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Know more about the receiveing mail options of Evolution.</desc>
+  </info>
+  <title>IMAP+</title>
+   <list>
+      <title>Configuration</title>
+        <item>
+          <p>Server</p>   
+          <p>Type the name server of the email service you use. E.g.:<gui>imap.gmail.com</gui> with the port number <gui>993</gui>, if you use Gmail;
+             or you can type <gui>imap.mail.yahoo.com</gui> and choose the port number <gui>993</gui>, if you use Yahoo. </p> 
+        </item>
+
+        <item>
+          <p>Username</p>
+          <p>Enter your email account. E.g.:username@gmail.com or username2@yahoo.com.</p>
+        </item>
+   </list>
+   <list>
+      <title>Security</title>
+       <item> 
+         <p>Encryption method:</p>
+         <p>No encryption</p>
+         <p>STARTTLS after connecting</p>
+         <p>SSL on a dedicated port</p>
+       </item>
+   </list>
+   <list>
+      <title>Authentication</title>
+       <item>
+         <p>Password</p>
+       </item>
+       <item>
+          <p>NTLM/SPA</p>
+       </item>
+       <item>
+          <p>GSSAPI</p>
+       </item>
+       <item>
+          <p>DIGEST-MD5</p>
+       </item>
+       <item>
+          <p>CRAM-MD5</p>   
+       </item>
+   </list>
+</page>

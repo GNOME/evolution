@@ -1,0 +1,18 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic" style="task"
+      id="pop-receiving">
+  <info>
+    <revision version="1.0" date="2014-05-17" status="review"/>
+    <link type="guide" xref="index#assistant"/>
+    <credit type="author copyright">
+      <name>Julita Inca</name>
+      <email>yrazes@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Know more about the receiveing mail options of Evolution.</desc>
+  </info>
+  <title>POP</title>
+</page>

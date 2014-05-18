@@ -51,11 +51,12 @@
        </item>
        <item>
           <p>Exchange Web Services</p>
-  	  <p>You use it, if your company allows you to use it. You may also sync your calendar, contacts and notes.</p>
+  	  <p>Use this option, if your company allows you to use it. You may also sync your calendar, contacts and notes when you <link xref="exchange-receiving">configure it</link>.</p>
        </item>
        <item>
           <p>IMAP+</p>
- 	  <p>You can use this option if you use an email service like Gmail, Hotmail, Yahoo or another one.</p>
+ 	  <p>You can use this option if you use an email service like Gmail, Hotmail, Yahoo or another one. 
+             See how to <link xref="imap-receiving">configure it.</link></p>
           <note>
               <p>If you have ordered your messages in files in your mail inbox, IMAP will keep the structure 
                  and will show your messages in the same order as you put them.</p>
@@ -64,7 +65,8 @@
        </item>
        <item>
           <p>POP</p>
-	  <p>You can download your mail to your disk for permanent storage, freeing up space on the email server.</p>
+	  <p>You can download your mail to your disk for permanent storage, freeing up space on the email server. 
+             See how to <link xref="pop-receiving">configure it.</link></p>
 	  <note>
               <p>You can use this option in case your email server gives you a small inbox space, 
                  but remember that all your messages will be deleted from the email server. Make sure you have a backup of all your messages.</p>
@@ -79,19 +81,6 @@
       </td>
      </tr> 
    </table>
-   <list>
-      <title>Configuration</title>
-
-   </list>  
-   <list>  
-      <title>Security</title>
-
-   </list>  
-   <list>  
-      <title>Authentication</title>
-
-   </list>  
-
 
 </section>
 

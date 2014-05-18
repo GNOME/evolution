@@ -17,7 +17,7 @@
   </info>
 
   <title>Evolution Account Assistant</title>
-
+    <list>
       <item>
          <p>USENET news</p>
          <p>You can connect to new email server and download a list of available new digests.</p>
@@ -39,7 +39,11 @@
       </item>
       <item>
           <p>Standard Unix mbox spool directory</p>
+          <p>You can red and store your email in the mail spool directory on you local system.</p>
+      </item>
+      <item>
+          <p>Standard Unix mbox spool file</p> 
           <p>You can red and store your email in the mail spool file on you local system.</p>
       </item>
-
+    </list>
 </page>
