@@ -18848,7 +18848,7 @@ msgstr "_Nová složka…"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1861
 msgid "Show Message _Preview"
-msgstr "_Náhled zprávy"
+msgstr "Zobrazovat _náhled zprávy"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1863
 msgid "Show message preview pane"
