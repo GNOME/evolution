@@ -3,7 +3,7 @@
       type="topic" id="send-invitation">
 
   <info>
-    <desc>Invite your friends by scheduling the appointments.</desc>
+    <desc>Send invitations for appointments to your contacts via email.</desc>
 
     <link type="guide" xref="calendar" group="#send-invitations"/>
 
@@ -20,8 +20,8 @@
 
   </info>
 
-<title>Send meetings and invitations</title>
-<p>Invite your friends by scheduling the appointments.</p>
+<title>Send meetings or invitations</title>
+<p>Send invitations for appointments to your contacts via email.</p>
 
 
 

@@ -86,8 +86,18 @@
 
 <section id="sending-email">
   <title>Sending Email</title>
-        <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
-     <p>Optinally, you can hiddenly copy all the messages you send to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>
+   <list>
+    <title>Server Type</title>
+          <p>The most commonly used options are:</p>
+       <item>
+          <p>SMTP</p>
+          <p>Use this protocol when you have configured <link xref="imap-sending">IMAP</link>, <link xref="pop-sending">POP</link>, <link xref="exchange-sending">Exchange</link> or another receiving email protocol.</p>
+       </item>
+       <item>
+          <p>Sendmail</p>
+  	  <p>Use this option, if your company allows you to use it.</p>
+       </item>
+    </list>
   </section>
 
 <section id="account-summary">
