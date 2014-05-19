@@ -266,7 +266,7 @@ msgid ""
 "different address book from the side bar in the Contacts view."
 msgstr ""
 "„{0}“ je adresář pouze pro čtení a nemůže být změněn. Vyberte prosím v "
-"bočním panelu v zobrazení kontaktů jiný adresář."
+"postranním panelu v zobrazení kontaktů jiný adresář."
 
 #: ../addressbook/addressbook.error.xml.h:45
 msgid "Cannot save a contact, address book is still opening"
@@ -9617,11 +9617,11 @@ msgstr "Jestli má být nástrojová lišta viditelná."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Sidebar is visible"
-msgstr "Boční panel je viditelný"
+msgstr "Postranní panel je viditelný"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:20
 msgid "Whether the sidebar should be visible."
-msgstr "Jestli má být boční panel viditelný."
+msgstr "Jestli má být postranní panel viditelný."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:21
 msgid "Statusbar is visible"
@@ -9637,11 +9637,11 @@ msgstr "ID nebo alias komponenty, kterou standardně zobrazit po spuštění."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
 msgid "Default sidebar width"
-msgstr "Výchozí šířka bočního panelu"
+msgstr "Výchozí šířka postranního panelu"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "The default width for the sidebar, in pixels."
-msgstr "Výchozí šířka bočního panelu v pixelech."
+msgstr "Výchozí šířka postranního panelu v pixelech."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -20819,11 +20819,11 @@ msgstr "_Okno"
 
 #: ../shell/e-shell-window-actions.c:1157
 msgid "Show Side _Bar"
-msgstr "Zobrazovat _boční panel"
+msgstr "Zobrazovat _postranní panel"
 
 #: ../shell/e-shell-window-actions.c:1159
 msgid "Show the side bar"
-msgstr "Zobrazovat boční panel"
+msgstr "Zobrazovat postranní panel"
 
 #: ../shell/e-shell-window-actions.c:1165
 msgid "Show _Buttons"
