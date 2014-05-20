@@ -908,10 +908,12 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	ESourceRegistry *registry;
 	CamelStore *parent_store;
 	CamelFolder *folder;
+	CamelFolderInfoFlags flags = 0;
+	MailFolderCache *folder_cache;
 	MessageList *message_list;
 	guint selected_count;
 	GString *buffer;
-	gboolean store_is_local;
+	gboolean store_is_local, is_inbox;
 	const gchar *display_name;
 	const gchar *folder_name;
 	const gchar *uid;
@@ -955,6 +957,11 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	folder_name = camel_folder_get_display_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
+
+	folder_cache = e_mail_session_get_folder_cache (
+		e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend)));
+	mail_folder_cache_get_folder_info_flags (folder_cache, parent_store, folder_name, &flags);
+	is_inbox = (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX;
 
 	num_deleted = camel_folder_summary_get_deleted_count (folder->summary);
 	num_junked = camel_folder_summary_get_junk_count (folder->summary);
@@ -1015,19 +1022,19 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		}
 
 	/* "Drafts" folder */
-	} else if (em_utils_folder_is_drafts (registry, folder)) {
+	} else if (!is_inbox && em_utils_folder_is_drafts (registry, folder)) {
 		g_string_append_printf (
 			buffer, ngettext ("%d draft", "%d drafts",
 			num_visible), num_visible);
 
 	/* "Outbox" folder */
-	} else if (em_utils_folder_is_outbox (registry, folder)) {
+	} else if (!is_inbox && em_utils_folder_is_outbox (registry, folder)) {
 		g_string_append_printf (
 			buffer, ngettext ("%d unsent", "%d unsent",
 			num_visible), num_visible);
 
 	/* "Sent" folder */
-	} else if (em_utils_folder_is_sent (registry, folder)) {
+	} else if (!is_inbox && em_utils_folder_is_sent (registry, folder)) {
 		g_string_append_printf (
 			buffer, ngettext ("%d sent", "%d sent",
 			num_visible), num_visible);
