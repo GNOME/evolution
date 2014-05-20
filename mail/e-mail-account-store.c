@@ -125,7 +125,7 @@ mail_account_store_get_iter (EMailAccountStore *store,
 static gint
 mail_account_store_default_compare (CamelService *service_a,
                                     CamelService *service_b,
-                                    EMailAccountStore *store)
+                                    gpointer user_data)
 {
 	const gchar *display_name_a;
 	const gchar *display_name_b;
@@ -158,6 +158,29 @@ mail_account_store_default_compare (CamelService *service_a,
 		display_name_b = "";
 
 	return g_utf8_collate (display_name_a, display_name_b);
+}
+
+static gint
+mail_account_store_get_defailt_index (EMailAccountStore *store,
+				      CamelService *service)
+{
+	GQueue *current_order;
+	gint intended_position;
+
+	g_return_val_if_fail (E_IS_MAIL_ACCOUNT_STORE (store), -1);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), -1);
+
+	current_order = g_queue_new ();
+	e_mail_account_store_queue_services (store, current_order);
+
+	g_queue_insert_sorted (current_order, service,
+		(GCompareDataFunc) mail_account_store_default_compare, NULL);
+
+	intended_position = g_queue_index (current_order, service);
+
+	g_queue_free (current_order);
+
+	return intended_position;
 }
 
 static void
@@ -1115,10 +1138,10 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 	ESourceRegistry *registry;
 	ESource *collection;
 	ESource *source;
-	GtkTreeIter iter;
-	const gchar *filename;
+	GtkTreeIter iter, sibling;
 	const gchar *icon_name = NULL;
 	const gchar *uid;
+	gint intended_position;
 	gboolean builtin;
 	gboolean enabled;
 	gboolean online_account = FALSE;
@@ -1181,19 +1204,12 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 
 	g_object_unref (source);
 
-	/* Where do we insert new services now that accounts can be
-	 * reordered?  This is just a simple policy I came up with.
-	 * It's certainly subject to debate and tweaking.
-	 *
-	 * Always insert new services in row 0 initially.  Then test
-	 * for the presence of the sort order file.  If present, the
-	 * user has messed around with the ordering so leave the new
-	 * service at row 0.  If not present, services are sorted in
-	 * their default order.  So re-apply the default order using
-	 * e_mail_account_store_reorder_services(store, NULL) so the
-	 * new service moves to its proper default position. */
-
-	gtk_list_store_prepend (GTK_LIST_STORE (store), &iter);
+	intended_position = mail_account_store_get_defailt_index (store, service);
+	if (intended_position >= 0 &&
+	    gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (store), &sibling, NULL, intended_position))
+		gtk_list_store_insert_before (GTK_LIST_STORE (store), &iter, &sibling);
+	else
+		gtk_list_store_prepend (GTK_LIST_STORE (store), &iter);
 
 	gtk_list_store_set (
 		GTK_LIST_STORE (store), &iter,
@@ -1218,11 +1234,6 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		g_signal_emit (store, signals[SERVICE_ENABLED], 0, service);
 	else
 		g_signal_emit (store, signals[SERVICE_DISABLED], 0, service);
-
-	filename = store->priv->sort_order_filename;
-
-	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-		e_mail_account_store_reorder_services (store, NULL);
 }
 
 void
@@ -1425,6 +1436,56 @@ e_mail_account_store_have_enabled_service (EMailAccountStore *store,
 	return found;
 }
 
+static GQueue *
+mail_account_store_ensure_all_services_in_queue (GQueue *current_order,
+						 GQueue *ordered_services)
+{
+	GHashTable *known_services;
+	GHashTableIter iter;
+	gpointer key, value;
+	GQueue *use_order;
+	GList *link;
+
+	g_return_val_if_fail (current_order != NULL, NULL);
+	g_return_val_if_fail (ordered_services != NULL, NULL);
+
+	known_services = g_hash_table_new (g_str_hash, g_str_equal);
+
+	for (link = g_queue_peek_head_link (current_order); link != NULL; link = g_list_next (link)) {
+		CamelService *service = link->data;
+
+		if (!service)
+			continue;
+
+		g_hash_table_insert (known_services, (gpointer) camel_service_get_uid (service), service);
+	}
+
+	use_order = g_queue_new ();
+
+	for (link = g_queue_peek_head_link (ordered_services); link != NULL; link = g_list_next (link)) {
+		CamelService *service = link->data, *found;
+
+		if (!service)
+			continue;
+
+		found = g_hash_table_lookup (known_services, camel_service_get_uid (service));
+		if (found) {
+			g_hash_table_remove (known_services, camel_service_get_uid (found));
+			g_queue_push_tail (use_order, found);
+		}
+	}
+
+	g_hash_table_iter_init (&iter, known_services);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		g_queue_insert_sorted (use_order, value, (GCompareDataFunc)
+			mail_account_store_default_compare, NULL);
+	}
+
+	g_hash_table_destroy (known_services);
+
+	return use_order;
+}
+
 void
 e_mail_account_store_reorder_services (EMailAccountStore *store,
                                        GQueue *ordered_services)
@@ -1447,13 +1508,6 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 	if (ordered_services != NULL && g_queue_is_empty (ordered_services))
 		ordered_services = NULL;
 
-	/* If the length of the custom ordering disagrees with the
-	 * number of rows in the store, revert to default ordering. */
-	if (ordered_services != NULL) {
-		if (g_queue_get_length (ordered_services) != n_children)
-			ordered_services = NULL;
-	}
-
 	use_default_order = (ordered_services == NULL);
 
 	/* Build a queue of CamelServices in the order they appear in
@@ -1468,7 +1522,11 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 
 		g_queue_sort (
 			default_order, (GCompareDataFunc)
-			mail_account_store_default_compare, store);
+			mail_account_store_default_compare, NULL);
+
+		ordered_services = default_order;
+	} else {
+		default_order = mail_account_store_ensure_all_services_in_queue (current_order, ordered_services);
 
 		ordered_services = default_order;
 	}
@@ -1488,7 +1546,8 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 		old_pos = g_queue_link_index (current_order, matching_link);
 
 		matching_link->data = NULL;
-		new_order[new_pos++] = old_pos;
+		if (new_pos < n_children)
+			new_order[new_pos++] = old_pos;
 	}
 
 	if (new_pos == n_children) {
@@ -1496,6 +1555,8 @@ e_mail_account_store_reorder_services (EMailAccountStore *store,
 		g_signal_emit (
 			store, signals[SERVICES_REORDERED], 0,
 			use_default_order);
+	} else {
+		g_warn_if_reached ();
 	}
 
 	g_free (new_order);
