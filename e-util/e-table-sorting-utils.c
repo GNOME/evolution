@@ -391,6 +391,24 @@ e_table_sorting_utils_tree_sort (ETreeModel *source,
 		map_table[i] = map_copy[map[i]];
 	}
 
+	for (j = 0; j < cols; j++) {
+		ETableColumnSpecification *spec;
+		ETableCol *col;
+
+		spec = e_table_sort_info_sorting_get_nth (
+			sort_info, j, &closure.sort_type[j]);
+
+		col = e_table_header_get_column_by_spec (full_header, spec);
+		if (col == NULL) {
+			gint last = e_table_header_count (full_header) - 1;
+			col = e_table_header_get_column (full_header, last);
+		}
+
+		for (i = 0; i < count; i++) {
+			e_tree_model_free_value (source, col->spec->compare_col, closure.vals[i * cols + j]);
+		}
+	}
+
 	g_free (map);
 	g_free (map_copy);
 

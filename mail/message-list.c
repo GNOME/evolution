@@ -1650,10 +1650,15 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 		tag = camel_message_info_user_tag (msg_info, "due-by");
 		if (tag && *tag) {
+			gint64 *res;
+
 			due_by = camel_header_decode_date (tag, NULL);
-			return GINT_TO_POINTER (due_by);
+			res = g_new0 (gint64, 1);
+			*res = (gint64) due_by;
+
+			return res;
 		} else {
-			return GINT_TO_POINTER (0);
+			return NULL;
 		}
 	}
 	case COL_FOLLOWUP_FLAG:
@@ -1678,21 +1683,31 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		return (gpointer) get_normalised_string (message_list, msg_info, col);
 	case COL_SENT: {
 		struct LatestData ld;
+		gint64 *res;
+
 		ld.sent = TRUE;
 		ld.latest = 0;
 
 		for_node_and_subtree_if_collapsed (message_list, node, msg_info, latest_foreach, &ld);
 
-		return GINT_TO_POINTER (ld.latest);
+		res = g_new0 (gint64, 1);
+		*res = (gint64) ld.latest;
+
+		return res;
 	}
 	case COL_RECEIVED: {
 		struct LatestData ld;
+		gint64 *res;
+
 		ld.sent = FALSE;
 		ld.latest = 0;
 
 		for_node_and_subtree_if_collapsed (message_list, node, msg_info, latest_foreach, &ld);
 
-		return GINT_TO_POINTER (ld.latest);
+		res = g_new0 (gint64, 1);
+		*res = (gint64) ld.latest;
+
+		return res;
 	}
 	case COL_TO:
 		str = camel_message_info_to (msg_info);
@@ -1850,17 +1865,18 @@ ml_tree_value_at_ex (ETreeModel *etm,
 }
 
 static gchar *
-filter_date (time_t date)
+filter_date (const gint64 *pdate)
 {
 	time_t nowdate = time (NULL);
-	time_t yesdate;
+	time_t yesdate, date;
 	struct tm then, now, yesterday;
 	gchar buf[26];
 	gboolean done = FALSE;
 
-	if (date == 0)
+	if (!pdate || *pdate == 0)
 		return g_strdup (_("?"));
 
+	date = (time_t) *pdate;
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);
 	if (then.tm_mday == now.tm_mday &&
@@ -2913,6 +2929,7 @@ message_list_sort_value_at (ETreeModel *tree_model,
 {
 	MessageList *message_list;
 	struct LatestData ld;
+	gint64 *res;
 
 	message_list = MESSAGE_LIST (tree_model);
 
@@ -2930,7 +2947,11 @@ message_list_sort_value_at (ETreeModel *tree_model,
 		e_tree_model_node_traverse (
 			tree_model, path, latest_foreach, &ld);
 
-	return GINT_TO_POINTER (ld.latest);
+
+	res = g_new0 (gint64, 1);
+	*res = (gint64) ld.latest;
+
+	return res;
 }
 
 static gpointer
@@ -2965,12 +2986,9 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_ATTACHMENT:
 		case COL_DELETED:
 		case COL_UNREAD:
-		case COL_SENT:
-		case COL_RECEIVED:
 		case COL_SIZE:
 		case COL_FOLLOWUP_FLAG:
 		case COL_FOLLOWUP_FLAG_STATUS:
-		case COL_FOLLOWUP_DUE_BY:
 			return (gpointer) value;
 
 		case COL_FROM:
@@ -2983,6 +3001,20 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_LOCATION:
 		case COL_LABELS:
 			return g_strdup (value);
+
+		case COL_SENT:
+		case COL_RECEIVED:
+		case COL_FOLLOWUP_DUE_BY:
+			if (value) {
+				gint64 *res;
+				const gint64 *pvalue = value;
+
+				res = g_new0 (gint64, 1);
+				*res = *pvalue;
+
+				return res;
+			} else
+				return value;
 
 		default:
 			g_return_val_if_reached (NULL);
@@ -3001,12 +3033,9 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_ATTACHMENT:
 		case COL_DELETED:
 		case COL_UNREAD:
-		case COL_SENT:
-		case COL_RECEIVED:
 		case COL_SIZE:
 		case COL_FOLLOWUP_FLAG:
 		case COL_FOLLOWUP_FLAG_STATUS:
-		case COL_FOLLOWUP_DUE_BY:
 		case COL_FROM:
 		case COL_FROM_NORM:
 		case COL_TO:
@@ -3023,6 +3052,9 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
+		case COL_SENT:
+		case COL_RECEIVED:
+		case COL_FOLLOWUP_DUE_BY:
 			g_free (value);
 			break;
 
@@ -3133,7 +3165,7 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_SENT:
 		case COL_RECEIVED:
 		case COL_FOLLOWUP_DUE_BY:
-			return filter_date (GPOINTER_TO_INT (value));
+			return filter_date (value);
 
 		case COL_SIZE:
 			return filter_size (GPOINTER_TO_INT (value));

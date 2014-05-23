@@ -11,9 +11,9 @@
 
   <ETableColumn model_col="5" compare_col="21" _title="Subject" expansion="1.6" minimum_width="32" resizable="true" cell="render_tree" compare="string" search="string"/>
 
-  <ETableColumn model_col="6" _title="Date" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
+  <ETableColumn model_col="6" _title="Date" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="pointer-integer64"/>
 
-  <ETableColumn model_col="7" _title="Received" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
+  <ETableColumn model_col="7" _title="Received" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="pointer-integer64"/>
 
   <ETableColumn model_col="8" compare_col="22" _title="To" expansion="1.0" minimum_width="32" resizable="true" cell="render_text" compare="address_compare" search="string" priority="5"/>
 
@@ -23,7 +23,7 @@
 
   <ETableColumn model_col="11" _title="Follow Up Flag" expansion="0.2" minimum_width="32" resizable="true" cell="render_text" compare="collate"/>
 
-  <ETableColumn model_col="12" _title="Due By" expansion="0.2" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
+  <ETableColumn model_col="12" _title="Due By" expansion="0.2" minimum_width="32" resizable="true" cell="render_date" compare="pointer-integer64"/>
 
   <ETableColumn model_col="13" _title="Location" expansion="0.2" minimum_width="32" resizable="true" cell="render_text" compare="collate"/>
 

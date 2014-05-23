@@ -43,10 +43,12 @@ ecd_get_text (ECellText *cell,
               gint col,
               gint row)
 {
-	time_t date = GPOINTER_TO_INT (e_table_model_value_at (model, col, row));
+	gint64 *pdate = e_table_model_value_at (model, col, row);
 	const gchar *fmt_component, *fmt_part = NULL;
+	gchar *res;
 
-	if (date == 0) {
+	if (!pdate || *pdate == 0) {
+		e_table_model_free_value (model, col, pdate);
 		return g_strdup (_("?"));
 	}
 
@@ -56,8 +58,11 @@ ecd_get_text (ECellText *cell,
 	else
 		fmt_part = "table";
 
-	return e_datetime_format_format (
-		fmt_component, fmt_part, DTFormatKindDateTime, date);
+	res = e_datetime_format_format (fmt_component, fmt_part, DTFormatKindDateTime, (time_t) *pdate);
+
+	e_table_model_free_value (model, col, pdate);
+
+	return res;
 }
 
 static void

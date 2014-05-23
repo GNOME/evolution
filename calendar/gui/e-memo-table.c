@@ -400,10 +400,6 @@ memo_table_constructed (GObject *object)
 	cell = e_table_extras_get_cell (extras, "date");
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
 
-	/* set proper format component for a default 'date' cell renderer */
-	cell = e_table_extras_get_cell (extras, "date");
-	e_cell_date_set_format_component (E_CELL_DATE (cell), "calendar");
-
 	/* Construct the table */
 
 	etspecfile = g_build_filename (
