@@ -107,6 +107,15 @@ e_strint_compare (gconstpointer data1,
 	return e_int_compare (GINT_TO_POINTER (int1), GINT_TO_POINTER (int2));
 }
 
+static gint
+e_int64ptr_compare (gconstpointer data1,
+		    gconstpointer data2)
+{
+	const gint64 *pa = data1, *pb = data2;
+
+	return (*pa == *pb) ? 0 : (*pa < *pb) ? -1 : 1;
+}
+
 /* UTF-8 strncasecmp - not optimized */
 
 static gint
@@ -276,6 +285,9 @@ e_table_extras_init (ETableExtras *extras)
 	e_table_extras_add_compare (
 		extras, "string-integer",
 		(GCompareDataFunc) e_strint_compare);
+	e_table_extras_add_compare (
+		extras, "pointer-integer64",
+		(GCompareDataFunc) e_int64ptr_compare);
 
 	e_table_extras_add_search (extras, "string", e_string_search);
 
