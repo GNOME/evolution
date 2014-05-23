@@ -904,7 +904,13 @@ event_page_dispose (GObject *object)
 		priv->builder = NULL;
 	}
 
+	if (priv->alarm_time_combo) {
+		g_signal_handlers_disconnect_matched (priv->alarm_time_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, object);
+	}
+
 	if (priv->alarm_list_store != NULL) {
+		g_signal_handlers_disconnect_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, object);
+
 		g_object_unref (priv->alarm_list_store);
 		priv->alarm_list_store = NULL;
 	}
