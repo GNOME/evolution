@@ -81,12 +81,10 @@ struct _EMailReaderPrivate {
 	 * message is selected before the retrieval has completed. */
 	GCancellable *retrieving_message;
 
-	/* These flags work together to prevent message selection
-	 * restoration after a folder switch from automatically
-	 * marking the message as read.  We only want that to
-	 * happen when the -user- selects a message. */
+	/* These flags work to prevent a folder switch from
+	 * automatically marking the message as read. We only want
+	 * that to happen when the -user- selects a message. */
 	guint folder_was_just_selected : 1;
-	guint restoring_message_selection : 1;
 	guint avoid_next_mark_as_seen : 1;
 
 	guint group_by_threads : 1;
@@ -2672,8 +2670,12 @@ mail_reader_load_status_changed_cb (EMailReader *reader,
 	if (priv->schedule_mark_seen &&
 	    E_IS_MAIL_VIEW (reader) &&
 	    e_mail_display_get_part_list (display) &&
-	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)))
-		schedule_timeout_mark_seen (reader);
+	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader))) {
+		if (priv->folder_was_just_selected)
+		    priv->folder_was_just_selected = FALSE;
+		else
+		    schedule_timeout_mark_seen (reader);
+	}
 }
 
 static gboolean
@@ -2786,8 +2788,6 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 			message_uid, message);
 
 exit:
-	priv->restoring_message_selection = FALSE;
-
 	if (error != NULL) {
 		EPreviewPane *preview_pane;
 		EWebView *web_view;
@@ -2880,7 +2880,6 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 		}
 	} else {
 		e_mail_display_set_part_list (display, NULL);
-		priv->restoring_message_selection = FALSE;
 	}
 
 	priv->message_selected_timeout_id = 0;
@@ -2913,12 +2912,6 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		priv->message_selected_timeout_id = 0;
 	}
 
-	/* If a folder was just selected then we are now automatically
-	 * restoring the previous message selection.  We behave slightly
-	 * differently than if the user had selected the message. */
-	priv->restoring_message_selection = priv->folder_was_just_selected;
-	priv->folder_was_just_selected = FALSE;
-
 	if (message_list_selected_count (message_list) != 1) {
 		EMailDisplay *display;
 
@@ -2926,7 +2919,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		e_mail_display_set_part_list (display, NULL);
 		e_web_view_clear (E_WEB_VIEW (display));
 
-	} else if (priv->restoring_message_selection) {
+	} else if (priv->folder_was_just_selected) {
 		/* Skip the timeout if we're restoring the previous message
 		 * selection.  The timeout is there for when we're scrolling
 		 * rapidly through the message list. */
@@ -3061,6 +3054,12 @@ mail_reader_set_message (EMailReader *reader,
                          const gchar *message_uid)
 {
 	GtkWidget *message_list;
+	EMailReaderPrivate *priv;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	/* For a case when the preview panel had been disabled */
+	priv->folder_was_just_selected = FALSE;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -3181,7 +3180,6 @@ mail_reader_message_loaded (EMailReader *reader,
 
 	/* Determine whether to mark the message as read. */
 	if (message != NULL &&
-	    !priv->restoring_message_selection &&
 	    !priv->avoid_next_mark_as_seen &&
 	    maybe_schedule_timeout_mark_seen (reader)) {
 		g_clear_error (&error);
