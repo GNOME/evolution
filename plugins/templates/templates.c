@@ -1041,6 +1041,56 @@ action_reply_with_template_cb (GtkAction *action,
 	g_ptr_array_unref (uids);
 }
 
+static gint
+compare_ptr_array_uids_by_subject (gconstpointer ptr1,
+				   gconstpointer ptr2,
+				   gpointer user_data)
+{
+	CamelFolderSummary *summary = user_data;
+	CamelMessageInfo *mi1, *mi2;
+	const gchar * const *puid1 = ptr1, * const *puid2 = ptr2;
+	const gchar *subject1, *subject2;
+	gint res;
+
+	if (!puid1 || !*puid1) {
+		if (!puid2 || !*puid2)
+			return 0;
+
+		return -1;
+	} else if (!puid2 || !*puid2) {
+		return 1;
+	}
+
+	mi1 = camel_folder_summary_get (summary, *puid1);
+	mi2 = camel_folder_summary_get (summary, *puid2);
+
+	if (!mi1) {
+		if (!mi2)
+			return 0;
+
+		camel_message_info_unref (mi2);
+		return -1;
+	} else if (!mi2) {
+		camel_message_info_unref (mi1);
+		return 1;
+	}
+
+	subject1 = camel_message_info_subject (mi1);
+	subject2 = camel_message_info_subject (mi2);
+
+	if (!subject1)
+		subject1 = "";
+	if (!subject2)
+		subject2 = "";
+
+	res = g_utf8_collate (subject1, subject2);
+
+	camel_message_info_unref (mi1);
+	camel_message_info_unref (mi2);
+
+	return res;
+}
+
 static void
 build_template_menus_recurse (CamelStore *local_store,
                               GtkUIManager *ui_manager,
@@ -1122,6 +1172,9 @@ build_template_menus_recurse (CamelStore *local_store,
 
 		/* Get the UIDs for this folder and add them to the menu. */
 		uids = camel_folder_get_uids (folder);
+		if (uids && folder->summary)
+			g_ptr_array_sort_with_data (uids, compare_ptr_array_uids_by_subject, folder->summary);
+
 		for (ii = 0; uids && ii < uids->len; ii++) {
 			CamelMimeMessage *template;
 			const gchar *uid = uids->pdata[ii];
