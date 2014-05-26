@@ -78,9 +78,9 @@ static const struct {
 	gint days;
 } empty_trash_frequency[] = {
 	{ N_("On exit, every time"), 0 },
-	{ N_("On exit, once per day"), 1 },
-	{ N_("On exit, once per week"), 7 },
-	{ N_("On exit, once per month"), 30 },
+	{ N_("Once per day"), 1 },
+	{ N_("Once per week"), 7 },
+	{ N_("Once per month"), 30 },
 	{ N_("Immediately, on folder leave"), -1 }
 };
 

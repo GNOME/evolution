@@ -953,6 +953,126 @@ receive_get_folder (CamelFilterDriver *d,
 
 /* ********************************************************************** */
 
+static gboolean
+delete_junk_sync (CamelStore *store,
+		  GCancellable *cancellable,
+		  GError **error)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	guint32 flags;
+	guint32 mask;
+	guint ii;
+
+	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
+
+	folder = camel_store_get_junk_folder_sync (store, cancellable, error);
+	if (folder == NULL)
+		return FALSE;
+
+	uids = camel_folder_get_uids (folder);
+	flags = mask = CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN;
+
+	camel_folder_freeze (folder);
+
+	for (ii = 0; ii < uids->len; ii++) {
+		const gchar *uid = uids->pdata[ii];
+		camel_folder_set_message_flags (folder, uid, flags, mask);
+	}
+
+	camel_folder_thaw (folder);
+
+	camel_folder_free_uids (folder, uids);
+	g_object_unref (folder);
+
+	return TRUE;
+}
+
+struct TestShouldData
+{
+	gint64 last_delete_junk;
+	gint64 last_expunge;
+};
+
+static void
+test_should_delete_junk_or_expunge (CamelStore *store,
+				    gboolean *should_delete_junk,
+				    gboolean *should_expunge)
+{
+	static GMutex mutex;
+	static GHashTable *last_expunge = NULL;
+
+	GSettings *settings;
+	const gchar *uid;
+	gint64 trash_empty_date = 0, junk_empty_date = 0;
+	gint trash_empty_days = 0, junk_empty_days = 0;
+	gint64 now;
+
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (should_delete_junk != NULL);
+	g_return_if_fail (should_expunge != NULL);
+
+	*should_delete_junk = FALSE;
+	*should_expunge = FALSE;
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	g_return_if_fail (uid != NULL);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	now = time (NULL) / 60 / 60 / 24;
+
+	*should_delete_junk = g_settings_get_boolean (settings, "junk-empty-on-exit");
+	*should_expunge = g_settings_get_boolean (settings, "trash-empty-on-exit");
+
+	if (*should_delete_junk || *should_expunge) {
+		junk_empty_days = g_settings_get_int (settings, "junk-empty-on-exit-days");
+		junk_empty_date = g_settings_get_int (settings, "junk-empty-date");
+
+		trash_empty_days = g_settings_get_int (settings, "trash-empty-on-exit-days");
+		trash_empty_date = g_settings_get_int (settings, "trash-empty-date");
+
+		g_mutex_lock (&mutex);
+		if (!last_expunge) {
+			last_expunge = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+		} else {
+			struct TestShouldData *tsd;
+
+			tsd = g_hash_table_lookup (last_expunge, uid);
+			if (tsd) {
+				junk_empty_date = tsd->last_delete_junk;
+				trash_empty_date = tsd->last_expunge;
+			}
+		}
+		g_mutex_unlock (&mutex);
+	}
+
+	*should_delete_junk = *should_delete_junk && junk_empty_days > 0 && junk_empty_date + junk_empty_days <= now;
+	*should_expunge = *should_expunge && trash_empty_days > 0 && trash_empty_date + trash_empty_days <= now;
+
+	if (*should_delete_junk || *should_expunge) {
+		struct TestShouldData *tsd;
+
+		if (*should_delete_junk)
+			junk_empty_date = now;
+		if (*should_expunge)
+			trash_empty_date = now;
+
+		g_mutex_lock (&mutex);
+		tsd = g_hash_table_lookup (last_expunge, uid);
+		if (!tsd) {
+			tsd = g_new0 (struct TestShouldData, 1);
+			g_hash_table_insert (last_expunge, g_strdup (uid), tsd);
+		}
+
+		tsd->last_delete_junk = junk_empty_date;
+		tsd->last_expunge = trash_empty_date;
+		g_mutex_unlock (&mutex);
+	}
+
+	g_object_unref (settings);
+}
+
 static void
 get_folders (CamelStore *store,
              GPtrArray *folders,
@@ -1006,6 +1126,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 	CamelFolder *folder;
 	gint i;
 	gboolean success;
+	gboolean delete_junk = FALSE, expunge = FALSE;
 	GError *local_error = NULL;
 	gulong handler_id = 0;
 
@@ -1023,12 +1144,19 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 	camel_operation_push_message (m->info->cancellable, _("Updating..."));
 
+	test_should_delete_junk_or_expunge (m->store, &delete_junk, &expunge);
+
+	if (delete_junk && !delete_junk_sync (m->store, cancellable, error)) {
+		camel_operation_pop_message (m->info->cancellable);
+		goto exit;
+	}
+
 	for (i = 0; i < m->folders->len; i++) {
 		folder = e_mail_session_uri_to_folder_sync (
 			E_MAIL_SESSION (m->info->session),
 			m->folders->pdata[i], 0,
 			cancellable, &local_error);
-		if (folder && camel_folder_synchronize_sync (folder, FALSE, cancellable, &local_error))
+		if (folder && camel_folder_synchronize_sync (folder, expunge, cancellable, &local_error))
 			camel_folder_refresh_info_sync (folder, cancellable, &local_error);
 
 		if (local_error != NULL) {
@@ -1169,6 +1297,85 @@ receive_update_got_store (CamelStore *store,
 	}
 }
 
+
+struct _refresh_local_store_msg {
+	MailMsg base;
+
+	CamelStore *store;
+	gboolean delete_junk;
+	gboolean expunge_trash;
+};
+
+static gchar *
+refresh_local_store_desc (struct _refresh_local_store_msg *m)
+{
+	const gchar *display_name;
+
+	display_name = camel_service_get_display_name (CAMEL_SERVICE (m->store));
+
+	if (m->delete_junk && m->expunge_trash)
+		return g_strdup_printf (_("Deleting junk and expunging trash at '%s'"), display_name);
+	else if (m->delete_junk)
+		return g_strdup_printf (_("Deleting junk at '%s'"), display_name);
+	else
+		return g_strdup_printf (_("Expunging trash at '%s'"), display_name);
+}
+
+static void
+refresh_local_store_exec (struct _refresh_local_store_msg *m,
+			  GCancellable *cancellable,
+			  GError **error)
+{
+	if (m->delete_junk && !delete_junk_sync (m->store, cancellable, error))
+		return;
+
+	if (m->expunge_trash) {
+		CamelFolder *trash;
+
+		trash = camel_store_get_trash_folder_sync (m->store, cancellable, error);
+
+		if (trash != NULL) {
+			e_mail_folder_expunge_sync (trash, cancellable, error);
+			g_object_unref (trash);
+		}
+	}
+}
+
+static void
+refresh_local_store_free (struct _refresh_local_store_msg *m)
+{
+	g_object_unref (m->store);
+}
+
+static MailMsgInfo refresh_local_store_info = {
+	sizeof (struct _refresh_local_store_msg),
+	(MailMsgDescFunc) refresh_local_store_desc,
+	(MailMsgExecFunc) refresh_local_store_exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) refresh_local_store_free
+};
+
+static void
+maybe_delete_junk_or_expunge_local_store (EMailSession *session)
+{
+	CamelStore *store;
+	gboolean delete_junk = FALSE, expunge_trash = FALSE;
+	struct _refresh_local_store_msg *m;
+
+	store = e_mail_session_get_local_store (session);
+	test_should_delete_junk_or_expunge (store, &delete_junk, &expunge_trash);
+
+	if (!delete_junk && !expunge_trash)
+		return;
+
+	m = mail_msg_new (&refresh_local_store_info);
+	m->store = g_object_ref (store);
+	m->delete_junk = delete_junk;
+	m->expunge_trash = expunge_trash;
+
+	mail_msg_unordered_push (m);
+}
+
 static CamelService *
 ref_default_transport (EMailSession *session)
 {
@@ -1240,6 +1447,8 @@ send_receive (GtkWindow *parent,
 
 	if (transport != NULL)
 		g_object_unref (transport);
+
+	maybe_delete_junk_or_expunge_local_store (session);
 
 	scan = g_list_copy (data->infos);
 
