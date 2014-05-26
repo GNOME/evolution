@@ -350,10 +350,9 @@ commit_changes (UIData *ui)
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
+	/* A floating GVariant is returned, which is consumed by the g_settings_set_value() */
 	v = g_variant_builder_end (&b);
 	g_settings_set_value (ui->settings, CONF_KEY_ATTACH_REMINDER_CLUES, v);
-
-	g_variant_unref (v);
 }
 
 static void
