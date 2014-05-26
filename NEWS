@@ -1,3 +1,50 @@
+Evolution 3.13.2 2014-05-26
+---------------------------
+
+Bug Fixes:
+	Bug 685323 - Provide SIP field for contacts (Milan Crha)
+	Bug 729256 - Busy loop under replace_local_image_links() (Tomas Popela)
+	Bug 729084 - Use tel: URI instead of callto: for phone numbers (Milan Crha)
+	Bug 653892 - Allow to enter more than four email addresses (Christian Schaarschmidt)
+	Bug 666142 - Filtered message not opened in a separate window (Milan Crha)
+	Bug 691957 - MDN: Do not show "Sender has been notified..." message (Milan Crha)
+	Bug 678843 - May re-prompt password on account re-enable (Milan Crha)
+	Bug 563048 - Prefer Inbox type over other types in folder description (Milan Crha)
+	Bug 730145 - Switching folders marks message as seen (Carl Schaefer)
+	Bug 730199 - [MessageList] Support dates with value larger than 2^32 (Milan Crha)
+
+Miscellaneous:
+	EFileRequest: Fix build with additional debug messages enabled (Tomas Popela)
+	EContactEditor: IM service name not localized properly (Milan Crha)
+	EContactEditor: IM field is focused after editor open (Milan Crha)
+	EWebView: Allow navigation in page through HTML anchor elements (Tomas Popela)
+	EWebView: Rework how link with fragment is detected, use SoupURI for it (Tomas Popela)
+	EContactEditor: Restore focused widget in sensitize_all() (Milan Crha)
+	EContactEditor: Make sure custom widget types are available (Milan Crha)
+	Custom mail account order reset on an account add or remove (Milan Crha)
+	Update tar format to tar-ustar (Yanko Kaneti)
+	Updated German translation (Christian Kirbach)
+	Runtime criticals when closing an appointment editor with reminders (Milan Crha)
+	tests: fix searchbar lookup (Vadim Rutkovsky)
+	tests: add necessary comboboxes in contact editor if needed (Vadim Rutkovsky)
+	tests: wait until contact editor is hidden while saving (Vadim Rutkovsky)
+	tests: attach journald logs to html report (Vadim Rutkovsky)
+	tests: make a small pause for menu to appear (Vadim Rutkovsky)
+	tests: scroll to the bottom of contact editor if needed (Vadim Rutkovsky)
+	tests: remove extra table header from addressbook.feature (Vadim Rutkovsky)
+	tests: eliminate tabs from tests (Vadim Rutkovsky)
+	tests: run pkexec journalctl (Vadim Rutkovsky)
+	tests: make addressbook_contacts test shorter (Vadim Rutkovsky)
+	tests: correctly search for combobox-textbox pair (Vadim Rutkovsky)
+	tests: give an app 5 secs to start (Vadim Rutkovsky)
+
+Translations:
+	Matej Urbančič (sl)
+	Juhani Numminen (fi)
+	Yuri Myasoedov (ru)
+	Carles Ferrando (ca@valencia)
+	Marek Černocký (cs)
+
 Evolution 3.13.1 2014-04-28
 ---------------------------
 
