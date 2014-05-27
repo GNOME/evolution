@@ -5748,6 +5748,7 @@ message_list_regen_done_cb (GObject *source_object,
 		signals[MESSAGE_LIST_BUILT], 0);
 
 	message_list->priv->any_row_changed = FALSE;
+	message_list->just_set_folder = FALSE;
 }
 
 static gboolean
