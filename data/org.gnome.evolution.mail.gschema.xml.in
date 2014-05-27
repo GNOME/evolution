@@ -229,6 +229,11 @@
       <_summary>Show photo of the sender</_summary>
       <_description>Show the photo of the sender in the message reading pane.</_description>
     </key>
+    <key name="search-gravatar-for-photo" type="b">
+      <default>false</default>
+      <_summary>Search gravatar.com for photo of the sender</_summary>
+      <_description>Allow searching also at gravatar.com for photo of the sender.</_description>
+    </key>
     <key name="mark-seen" type="b">
       <default>true</default>
       <_summary>Mark as Seen after specified timeout</_summary>

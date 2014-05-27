@@ -26,6 +26,16 @@
 
 #define AVATAR_BASE_URI "http://www.gravatar.com/avatar/"
 
+struct _EGravatarPhotoSourcePrivate
+{
+	gboolean enabled;
+};
+
+enum {
+	PROP_0,
+	PROP_ENABLED
+};
+
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
@@ -67,6 +77,11 @@ gravatar_photo_source_get_photo_thread (GSimpleAsyncResult *simple,
 	gchar *hash;
 	gchar *uri;
 	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_GRAVATAR_PHOTO_SOURCE (source_object));
+
+	if (!e_gravatar_photo_source_get_enabled (E_GRAVATAR_PHOTO_SOURCE (source_object)))
+		return;
 
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
@@ -191,8 +206,61 @@ gravatar_photo_source_get_photo_finish (EPhotoSource *photo_source,
 }
 
 static void
+gravatar_photo_source_set_property (GObject *object,
+				    guint property_id,
+				    const GValue *value,
+				    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ENABLED:
+			e_gravatar_photo_source_set_enabled (
+				E_GRAVATAR_PHOTO_SOURCE (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gravatar_photo_source_get_property (GObject *object,
+				    guint property_id,
+				    GValue *value,
+				    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ENABLED:
+			g_value_set_boolean (
+				value,
+				e_gravatar_photo_source_get_enabled (
+				E_GRAVATAR_PHOTO_SOURCE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 e_gravatar_photo_source_class_init (EGravatarPhotoSourceClass *class)
 {
+	GObjectClass *object_class;
+
+	g_type_class_add_private (class, sizeof (EGravatarPhotoSourcePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = gravatar_photo_source_set_property;
+	object_class->get_property = gravatar_photo_source_get_property;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ENABLED,
+		g_param_spec_boolean (
+			"enabled",
+			"Enabled",
+			"Whether can search for contact photos",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -210,6 +278,17 @@ e_gravatar_photo_source_interface_init (EPhotoSourceInterface *iface)
 static void
 e_gravatar_photo_source_init (EGravatarPhotoSource *photo_source)
 {
+	GSettings *settings;
+
+	photo_source->priv = E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE (photo_source);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	g_settings_bind (settings, "search-gravatar-for-photo",
+			 photo_source, "enabled",
+			  G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	g_object_unref (settings);
 }
 
 void
@@ -243,3 +322,24 @@ e_gravatar_get_hash (const gchar *email_address)
 	return hash;
 }
 
+gboolean
+e_gravatar_photo_source_get_enabled (EGravatarPhotoSource *photo_source)
+{
+	g_return_val_if_fail (E_IS_GRAVATAR_PHOTO_SOURCE (photo_source), FALSE);
+
+	return photo_source->priv->enabled;
+}
+
+void
+e_gravatar_photo_source_set_enabled (EGravatarPhotoSource *photo_source,
+				     gboolean enabled)
+{
+	g_return_if_fail (E_IS_GRAVATAR_PHOTO_SOURCE (photo_source));
+
+	if ((photo_source->priv->enabled ? 1 : 0) == (enabled ? 1 : 0))
+		return;
+
+	photo_source->priv->enabled = enabled;
+
+	g_object_notify (G_OBJECT (photo_source), "enabled");
+}

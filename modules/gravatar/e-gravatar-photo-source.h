@@ -60,6 +60,11 @@ void		e_gravatar_photo_source_type_register
 						(GTypeModule *type_module);
 EPhotoSource *	e_gravatar_photo_source_new	(void);
 gchar *		e_gravatar_get_hash		(const gchar *email_address);
+gboolean	e_gravatar_photo_source_get_enabled
+						(EGravatarPhotoSource *photo_source);
+void		e_gravatar_photo_source_set_enabled
+						(EGravatarPhotoSource *photo_source,
+						 gboolean enabled);
 
 G_END_DECLS
 
