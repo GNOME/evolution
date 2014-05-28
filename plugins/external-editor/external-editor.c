@@ -201,6 +201,8 @@ update_composer_text (GArray *array)
 
 	enable_composer (composer);
 
+	gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), TRUE);
+
 	g_free (text);
 
 	return FALSE;
