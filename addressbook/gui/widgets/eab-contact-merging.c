@@ -37,6 +37,22 @@
 
 #include <camel/camel.h>
 
+/* should be kept in synch with e-contact-editor */
+static EContactField
+im_fetch_set[] =
+{
+	E_CONTACT_IM_AIM,
+	E_CONTACT_IM_JABBER,
+	E_CONTACT_IM_YAHOO,
+	E_CONTACT_IM_GADUGADU,
+	E_CONTACT_IM_MSN,
+	E_CONTACT_IM_ICQ,
+	E_CONTACT_IM_GROUPWISE,
+	E_CONTACT_IM_SKYPE,
+	E_CONTACT_IM_TWITTER,
+	E_CONTACT_IM_GOOGLE_TALK
+};
+
 typedef struct dropdown_data dropdown_data;
 typedef enum {
 	E_CONTACT_MERGING_ADD,
@@ -70,6 +86,7 @@ struct dropdown_data {
 static void match_query_callback (EContact *contact, EContact *match, EABContactMatchType type, gpointer closure);
 
 #define SIMULTANEOUS_MERGING_REQUESTS 20
+#define EVOLUTION_UI_SLOT_PARAM "X-EVOLUTION-UI-SLOT"
 
 static GList *merging_queue = NULL;
 static gint running_merge_requests = 0;
@@ -288,7 +305,7 @@ dropdown_changed (GtkWidget *dropdown,
 }
 
 static void
-email_dropdown_changed (GtkWidget *dropdown,
+attr_dropdown_changed (GtkWidget *dropdown,
                         dropdown_data *data)
 {
 	gchar *str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
@@ -327,6 +344,98 @@ remove_contact_ready_cb (GObject *source_object,
 		add_contact_ready_cb, lookup);
 }
 
+static void
+create_dropdowns_for_multival_attr(GList *match_attr_list,
+                                   GList *contact_attr_list,
+                                   GList **use_attr_list,
+                                   gint *row,
+                                   GtkTable *table,
+                                   gchar *label_str)
+{
+	GtkWidget *label, *hbox, *dropdown;
+	GList *miter, *citer;
+	GHashTable *match_attrs; /* attr in the 'match' contact from address book */
+
+	match_attrs = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
+
+	for (miter = match_attr_list; miter; miter = g_list_next (miter)) {
+		EVCardAttribute *attr = miter->data;
+		gchar *value;
+
+		value = e_vcard_attribute_get_value (attr);
+		if (value && *value) {
+			g_hash_table_insert (match_attrs, value, attr);
+			*use_attr_list = g_list_prepend (*use_attr_list, attr);
+		} else {
+			g_free (value);
+		}
+	}
+
+	*use_attr_list = g_list_reverse (*use_attr_list);
+
+	for (citer = contact_attr_list; citer; citer = g_list_next (citer)) {
+		EVCardAttribute *attr = citer->data;
+		gchar *value;
+
+		value = e_vcard_attribute_get_value (attr);
+		if (value && *value) {
+			if (!g_hash_table_lookup (match_attrs, value)) {
+				dropdown_data *data;
+
+				/* the attr is not set in both contacts */
+				*use_attr_list = g_list_append (*use_attr_list, attr);
+
+				/* remove to avoid collisions with match UI_SLOTs */
+				e_vcard_attribute_remove_param (attr, EVOLUTION_UI_SLOT_PARAM);
+
+				(*row)++;
+				label = gtk_label_new (label_str);
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, *row, *row + 1);
+
+				dropdown = gtk_combo_box_text_new ();
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), value);
+
+				data = g_new0 (dropdown_data, 1);
+
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
+
+				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
+				data->email_attr_list_item = g_list_last (*use_attr_list);
+				data->email_attr = attr;
+
+				g_signal_connect (
+					dropdown, "changed",
+					G_CALLBACK (attr_dropdown_changed), data);
+				g_object_set_data_full (G_OBJECT (dropdown), "eab-contact-merging::dropdown-data", data, g_free);
+
+				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
+				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, *row, *row + 1);
+				gtk_widget_show ((GtkWidget *) dropdown);
+			}
+		}
+		g_free (value);
+	}
+	g_hash_table_destroy (match_attrs);
+}
+
+static void
+set_attributes(EContact *contact, EContactField field, GList *use_attr_list)
+{
+	GList *miter, *citer;
+
+	citer = NULL;
+	for (miter = use_attr_list; miter; miter = g_list_next (miter)) {
+		if (miter->data)
+			citer = g_list_prepend (citer, miter->data);
+	}
+	citer = g_list_reverse (citer);
+	e_contact_set_attributes (contact, field, citer);
+	g_list_free (citer);
+}
+
 static gint
 mergeit (EContactMergingLookup *lookup)
 {
@@ -336,8 +445,10 @@ mergeit (EContactMergingLookup *lookup)
 	GtkTable *table;
 	EContactField field;
 	gchar *string = NULL, *string1 = NULL;
-	GList *match_email_attr_list, *contact_email_attr_list, *miter, *citer, *use_email_attr_list;
-	GHashTable *match_emails; /* emails in the 'match' contact */
+	GList *use_email_attr_list, *contact_email_attr_list, *match_email_attr_list;
+	GList *use_tel_attr_list, *contact_tel_attr_list, *match_tel_attr_list;
+	GList *use_im_attr_list, *contact_im_attr_list, *match_im_attr_list;
+	GList *use_sip_attr_list, *contact_sip_attr_list, *match_sip_attr_list;
 	gint row = -1;
 	gint value = 0, result;
 
@@ -363,25 +474,6 @@ mergeit (EContactMergingLookup *lookup)
 		_("_Merge"), GTK_RESPONSE_OK,
 		NULL);
 
-	match_emails = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
-	match_email_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_EMAIL);
-	contact_email_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_EMAIL);
-	use_email_attr_list = NULL;
-
-	for (miter = match_email_attr_list; miter; miter = g_list_next (miter)) {
-		EVCardAttribute *attr = miter->data;
-		gchar *email;
-
-		email = e_vcard_attribute_get_value (attr);
-		if (email && *email) {
-			g_hash_table_insert (match_emails, email, attr);
-			use_email_attr_list = g_list_prepend (use_email_attr_list, attr);
-		} else {
-			g_free (email);
-		}
-	}
-
-	use_email_attr_list = g_list_reverse (use_email_attr_list);
 
 	/*we match all the string fields of the already existing contact and the new contact.*/
 	for (field = E_CONTACT_FULL_NAME; field != (E_CONTACT_LAST_SIMPLE_STRING -1); field++) {
@@ -391,74 +483,13 @@ mergeit (EContactMergingLookup *lookup)
 
 		/*the field must exist in the new as well as the duplicate contact*/
 		if (string && *string) {
-			if (field == E_CONTACT_EMAIL_1) {
-				for (citer = contact_email_attr_list; citer; citer = g_list_next (citer)) {
-					EVCardAttribute *attr = citer->data;
-					gchar *email;
-
-					email = e_vcard_attribute_get_value (attr);
-					if (email && *email) {
-						if (!g_hash_table_lookup (match_emails, email)) {
-							dropdown_data *data;
-
-							/* the email is not set in both contacts */
-							use_email_attr_list = g_list_append (use_email_attr_list, attr);
-
-							row++;
-							label = gtk_label_new (_("Email"));
-							hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-							gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
-							gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
-
-							dropdown = gtk_combo_box_text_new ();
-							gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), email);
-
-							data = g_new0 (dropdown_data, 1);
-
-							gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
-
-							gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
-							data->field = E_CONTACT_EMAIL;
-							data->match = lookup->match;
-							data->email_attr_list_item = g_list_last (use_email_attr_list);
-							data->email_attr = attr;
-
-							g_signal_connect (
-								dropdown, "changed",
-								G_CALLBACK (email_dropdown_changed), data);
-							g_object_set_data_full (G_OBJECT (dropdown), "eab-contact-merging::dropdown-data", data, g_free);
-
-							hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-							gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
-							gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
-							gtk_widget_show ((GtkWidget *) dropdown);
-						}
-					}
-					g_free (email);
-				}
+			if ((field >= E_CONTACT_FIRST_EMAIL_ID && field <= E_CONTACT_LAST_EMAIL_ID) ||
+			    (field >= E_CONTACT_FIRST_PHONE_ID && field <= E_CONTACT_LAST_PHONE_ID) ||
+			    (field >= E_CONTACT_IM_AIM_HOME_1 && field <= E_CONTACT_IM_ICQ_WORK_3) ) {
+				/* ignore multival attributes, they are compared after this for-loop */
 				continue;
 			}
 
-			if (field == E_CONTACT_EMAIL_2 || field == E_CONTACT_EMAIL_3 || field == E_CONTACT_EMAIL_4) {
-				/* emails are compared above */
-				continue;
-			}
-
-			if (((field == E_CONTACT_FULL_NAME) && (!g_ascii_strcasecmp (string, string1)))) {
-				row++;
-				label = gtk_label_new (e_contact_pretty_name (field));
-				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, row, row + 1);
-
-				label = gtk_label_new (string);
-				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
-				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 1, 2, row, row + 1);
-				continue;
-			}
-
-			/*for all string fields except name and email*/
 			if (!(string1 && *string1) || (g_ascii_strcasecmp (string, string1))) {
 				row++;
 				label = gtk_label_new (e_contact_pretty_name (field));
@@ -468,24 +499,24 @@ mergeit (EContactMergingLookup *lookup)
 				data = g_new0 (dropdown_data, 1);
 				dropdown = gtk_combo_box_text_new ();
 				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string);
-				e_contact_set (lookup->match, field, string);
 
 				if (string1 && *string1)
 					gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string1);
 				else
 					gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
 
-				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
 				data->field = field;
 				data->match = lookup->match;
-
-				if (field == E_CONTACT_NICKNAME || field == E_CONTACT_GIVEN_NAME)
-					gtk_widget_set_sensitive ((GtkWidget *) dropdown, FALSE);
 
 				g_signal_connect (
 					dropdown, "changed",
 					G_CALLBACK (dropdown_changed), data);
 				g_object_set_data_full (G_OBJECT (dropdown), "eab-contact-merging::dropdown-data", data, g_free);
+
+				if (field == E_CONTACT_NICKNAME || field == E_CONTACT_GIVEN_NAME || field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_FULL_NAME)
+					gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 1);
+				else
+					gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
 
 				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) dropdown, FALSE, FALSE, 0);
@@ -494,6 +525,30 @@ mergeit (EContactMergingLookup *lookup)
 			}
 		}
 	}
+
+	match_email_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_EMAIL);
+	contact_email_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_EMAIL);
+	use_email_attr_list = NULL;
+	create_dropdowns_for_multival_attr (match_email_attr_list, contact_email_attr_list,
+	                                   &use_email_attr_list, &row, table, _("Email"));
+
+	match_tel_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_TEL);
+	contact_tel_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_TEL);
+	use_tel_attr_list = NULL;
+	create_dropdowns_for_multival_attr (match_tel_attr_list, contact_tel_attr_list,
+	                                   &use_tel_attr_list, &row, table, _("Phone"));
+
+	match_sip_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_SIP);
+	contact_sip_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_SIP);
+	use_sip_attr_list = NULL;
+	create_dropdowns_for_multival_attr (match_sip_attr_list, contact_sip_attr_list,
+	                                   &use_sip_attr_list, &row, table, _("SIP"));
+
+	match_im_attr_list = e_contact_get_attributes_set (lookup->match, im_fetch_set, G_N_ELEMENTS (im_fetch_set));
+	contact_im_attr_list = e_contact_get_attributes_set (lookup->contact, im_fetch_set, G_N_ELEMENTS (im_fetch_set));
+	use_im_attr_list = NULL;
+	create_dropdowns_for_multival_attr (match_im_attr_list, contact_im_attr_list,
+	                                   &use_im_attr_list, &row, table, _("IM"));
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 420, 300);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));
@@ -506,15 +561,22 @@ mergeit (EContactMergingLookup *lookup)
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	switch (result) {
+		gint ii;
+		GList *ll;
 	case GTK_RESPONSE_OK:
-		citer = NULL;
-		for (miter = use_email_attr_list; miter; miter = g_list_next (miter)) {
-			if (miter->data)
-				citer = g_list_prepend (citer, miter->data);
+		set_attributes (lookup->match, E_CONTACT_EMAIL, use_email_attr_list);
+		set_attributes (lookup->match, E_CONTACT_TEL, use_tel_attr_list);
+		set_attributes (lookup->match, E_CONTACT_SIP, use_sip_attr_list);
+
+		for (ii = 0; ii < G_N_ELEMENTS (im_fetch_set); ii++) {
+			e_contact_set_attributes (lookup->match, im_fetch_set[ii], NULL);
 		}
-		citer = g_list_reverse (citer);
-		e_contact_set_attributes (lookup->match, E_CONTACT_EMAIL, citer);
-		g_list_free (citer);
+
+		for (ll = use_im_attr_list; ll; ll = ll->next) {
+			EVCard *vcard;
+			vcard = E_VCARD (lookup->match);
+			e_vcard_append_attribute (vcard, e_vcard_attribute_copy ((EVCardAttribute *) ll->data));
+		}
 
 		g_object_unref (lookup->contact);
 		lookup->contact = g_object_ref (lookup->match);
@@ -530,10 +592,22 @@ mergeit (EContactMergingLookup *lookup)
 		break;
 	}
 	gtk_widget_destroy (dialog);
+
 	g_list_free_full (match_email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 	g_list_free_full (contact_email_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 	g_list_free (use_email_attr_list);
-	g_hash_table_destroy (match_emails);
+
+	g_list_free_full (match_tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (contact_tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (use_tel_attr_list);
+
+	g_list_free_full (match_im_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (contact_im_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (use_im_attr_list);
+
+	g_list_free_full (match_sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free_full (contact_sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
+	g_list_free (use_sip_attr_list);
 
 	return value;
 }
