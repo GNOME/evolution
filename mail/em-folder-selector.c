@@ -290,6 +290,7 @@ folder_selector_construct (EMFolderSelector *emfs,
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 6);
+	gtk_widget_set_size_request (widget, -1, 240);
 	gtk_widget_show (widget);
 
 	container = widget;
