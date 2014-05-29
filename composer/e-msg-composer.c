@@ -4919,7 +4919,7 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	GdkWindow *window;
 	GtkWidget *widget;
-	const gchar *subject;
+	const gchar *subject, *message_name;
 	gint response;
 
 	editor = GTKHTML_EDITOR (composer);
@@ -4940,11 +4940,13 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	subject = e_composer_header_table_get_subject (table);
 
 	if (subject == NULL || *subject == '\0')
-		subject = _("Untitled Message");
+		message_name = "mail-composer:exit-unsaved-no-subject";
+	else
+		message_name = "mail-composer:exit-unsaved";
 
 	response = e_alert_run_dialog_for_args (
 		GTK_WINDOW (composer),
-		"mail-composer:exit-unsaved",
+		message_name,
 		subject, NULL);
 
 	switch (response) {

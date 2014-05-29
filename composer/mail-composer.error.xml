@@ -43,6 +43,14 @@
   <button _label="_Save Draft" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="exit-unsaved-no-subject" type="warning" default="GTK_RESPONSE_CANCEL">
+  <_primary>Are you sure you want to discard the message you are composing?</_primary>
+  <_secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</_secondary>
+  <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
+  <button _label="_Continue Editing" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Save Draft" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="no-build-message" type="error">
   <_primary>Could not create message.</_primary>
   <_secondary>Because &quot;{0}&quot;, you may need to select different mail options.</_secondary>
