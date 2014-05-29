@@ -341,6 +341,7 @@ folder_selector_constructed (GObject *object)
 	widget = e_tree_view_frame_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	selector->priv->tree_view_frame = g_object_ref (widget);
+	gtk_widget_set_size_request (widget, -1, 240);
 	gtk_widget_show (widget);
 
 	g_signal_connect (
