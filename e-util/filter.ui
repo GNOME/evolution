@@ -169,6 +169,7 @@
                     <property name="hscrollbar_policy">automatic</property>
                     <property name="vscrollbar_policy">automatic</property>
                     <property name="shadow_type">in</property>
+                    <property name="width_request">220</property>
                     <child>
                       <object class="GtkTreeView" id="rule_tree_view">
                         <property name="visible">True</property>
