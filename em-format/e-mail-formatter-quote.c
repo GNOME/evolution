@@ -134,7 +134,6 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	 * mentioned above */
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
 		string = "<span class=\"-x-evo-cite-body\"><span>";
-		string = "</blockquote>";
 		g_output_stream_write_all (
 			stream, string, strlen (string),
 			NULL, cancellable, NULL);
