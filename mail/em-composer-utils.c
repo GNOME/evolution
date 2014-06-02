@@ -602,6 +602,14 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	AsyncContext *async_context;
 	GCancellable *cancellable;
 
+	if (!camel_session_get_online (CAMEL_SESSION (session))) {
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (composer),
+			"mail-composer:saving-to-outbox", NULL);
+		e_msg_composer_save_to_outbox (composer);
+		return;
+	}
+
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->message = g_object_ref (message);
 	async_context->composer = g_object_ref (composer);
