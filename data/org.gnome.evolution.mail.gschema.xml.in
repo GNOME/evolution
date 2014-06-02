@@ -140,6 +140,11 @@
       <_summary>Encode filenames in an Outlook/GMail way</_summary>
       <_description>Encode filenames in the mail headers same as Outlook or GMail do, to let them display correctly filenames with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.</_description>
     </key>
+    <key name="composer-use-outbox" type="b">
+      <default>false</default>
+      <_summary>Send messages through Outbox folder</_summary>
+      <_description>Always save messages to Outbox folder when sending, to let a user choose when the messages should be sent.</_description>
+    </key>
     <key name="composer-top-signature" type="b">
       <default>false</default>
       <_summary>Put personalized signatures at the top of replies</_summary>

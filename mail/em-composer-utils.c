@@ -601,6 +601,16 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 {
 	AsyncContext *async_context;
 	GCancellable *cancellable;
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
+		e_msg_composer_save_to_outbox (composer);
+		g_object_unref (settings);
+		return;
+	}
+
+	g_object_unref (settings);
 
 	if (!camel_session_get_online (CAMEL_SESSION (session))) {
 		e_alert_run_dialog_for_args (

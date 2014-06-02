@@ -1135,6 +1135,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkUseOutbox");
+	g_settings_bind (
+		settings, "composer-use-outbox",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkIgnoreListReplyTo");
 	g_settings_bind (
 		settings, "composer-ignore-list-reply-to",
