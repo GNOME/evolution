@@ -361,6 +361,11 @@
       <default>'quoted'</default>
       <_summary>Default reply style</_summary>
     </key>
+    <key name="prompt-on-accel-send" type="b">
+      <default>true</default>
+      <_summary>Prompt on send when using key accelerator (Ctrl+Enter)</_summary>
+      <_description>Prompt the user when he or she tries to send a message with a key accelerator.</_description>
+    </key>
     <key name="prompt-on-empty-subject" type="b">
       <default>true</default>
       <_summary>Prompt on empty subject</_summary>

@@ -22,8 +22,63 @@
 #include "e-composer-actions.h"
 #include "e-composer-private.h"
 
+#include <e-util/e-util.h>
+
 #include <errno.h>
 #include <fcntl.h>
+
+/* because 'composer' is compiled before 'mail' folder */
+static gboolean
+composer_copy_em_utils_prompt_user (GtkWindow *parent,
+				    const gchar *promptkey,
+				    const gchar *tag,
+				    ...)
+{
+	GtkWidget *dialog;
+	GtkWidget *check = NULL;
+	GtkWidget *container;
+	va_list ap;
+	gint button;
+	GSettings *settings;
+	EAlert *alert = NULL;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
+	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
+		g_object_unref (settings);
+		return TRUE;
+	}
+
+	va_start (ap, tag);
+	alert = e_alert_new_valist (tag, ap);
+	va_end (ap);
+
+	dialog = e_alert_dialog_new (parent, alert);
+	g_object_unref (alert);
+
+	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+
+	if (promptkey) {
+		check = gtk_check_button_new_with_mnemonic (
+			_("_Do not show this message again"));
+		gtk_box_pack_start (
+			GTK_BOX (container), check, FALSE, FALSE, 0);
+		gtk_widget_show (check);
+	}
+
+	button = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (promptkey)
+		g_settings_set_boolean (
+			settings, promptkey,
+			!gtk_toggle_button_get_active (
+				GTK_TOGGLE_BUTTON (check)));
+
+	gtk_widget_destroy (dialog);
+
+	g_object_unref (settings);
+
+	return button == GTK_RESPONSE_YES;
+}
 
 static void
 action_attach_cb (GtkAction *action,
@@ -261,6 +316,23 @@ action_smime_sign_cb (GtkToggleAction *action,
 	gtkhtml_editor_set_changed (editor, TRUE);
 }
 
+static gboolean
+composer_actions_accel_activate_cb (GtkAccelGroup *accel_group,
+				    GObject *acceleratable,
+				    guint keyval,
+				    GdkModifierType modifier,
+				    gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+
+	if (keyval == GDK_KEY_Return && (modifier & GDK_MODIFIER_MASK) == GDK_CONTROL_MASK &&
+	    !composer_copy_em_utils_prompt_user (GTK_WINDOW (composer), "prompt-on-accel-send",
+		"mail-composer:prompt-accel-send", NULL)) {
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static GtkActionEntry entries[] = {
 
 	{ "attach",
@@ -440,6 +512,7 @@ void
 e_composer_actions_init (EMsgComposer *composer)
 {
 	GtkActionGroup *action_group;
+	GtkAccelGroup *accel_group;
 	GtkUIManager *ui_manager;
 	GtkhtmlEditor *editor;
 	EWebViewGtkHTML *web_view;
@@ -520,4 +593,8 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	gtk_action_set_visible (ACTION (SMIME_ENCRYPT), visible);
 	gtk_action_set_visible (ACTION (SMIME_SIGN), visible);
+
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+	g_signal_connect (accel_group, "accel-activate",
+		G_CALLBACK (composer_actions_accel_activate_cb), composer);
 }

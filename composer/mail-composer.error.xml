@@ -95,4 +95,11 @@
   <_secondary>The message will be saved to your local Outbox folder, because the destination service is currently unavailable. You can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
  </error>
 
+ <error id="prompt-accel-send" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to send the message?</_primary>
+  <_secondary xml:space="preserve">A keyboard accelerator to send the message had been pressed. Either cancel message send, if it was done by an accident, or send the message.</_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Send" response="GTK_RESPONSE_YES"/>
+ </error>
+
 </error-list>

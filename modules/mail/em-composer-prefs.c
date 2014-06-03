@@ -1075,6 +1075,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkPromptAccelSend");
+	g_settings_bind (
+		settings, "prompt-on-accel-send",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
 	g_settings_bind (
 		settings, "prompt-on-empty-subject",
