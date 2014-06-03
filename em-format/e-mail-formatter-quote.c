@@ -90,9 +90,6 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 			NULL, cancellable, NULL);
 	}
 
-	g_output_stream_write_all (
-		stream, "<br>", 4, NULL, cancellable, NULL);
-
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
 		string = "<!--+GtkHTML:<DATA class=\"ClueFlow\" "
 			"key=\"orig\" value=\"1\">-->\n"
