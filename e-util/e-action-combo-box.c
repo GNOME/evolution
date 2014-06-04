@@ -21,6 +21,7 @@
 #endif
 
 #include "e-action-combo-box.h"
+#include "e-misc-utils.h"
 
 #include <glib/gi18n.h>
 
@@ -513,13 +514,13 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 
 	if (combo_box->priv->action_group != NULL) {
 		combo_box->priv->group_sensitive_handler_id =
-			g_signal_connect (
+			e_signal_connect_notify (
 				combo_box->priv->action_group,
 				"notify::sensitive", G_CALLBACK (
 				action_combo_box_action_group_notify_cb),
 				combo_box);
 		combo_box->priv->group_visible_handler_id =
-			g_signal_connect (
+			e_signal_connect_notify (
 				combo_box->priv->action_group,
 				"notify::visible", G_CALLBACK (
 				action_combo_box_action_group_notify_cb),

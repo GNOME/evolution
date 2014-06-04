@@ -1165,7 +1165,7 @@ et_build_item (ETree *tree)
 	g_signal_connect (
 		tree->priv->item, "start_drag",
 		G_CALLBACK (item_start_drag), tree);
-	g_signal_connect (
+	e_signal_connect_notify (
 		tree->priv->item, "notify::is-editing",
 		G_CALLBACK (tree_item_is_editing_changed_cb), tree);
 }
@@ -1283,7 +1283,7 @@ et_setup_table_canvas_vadjustment (ETree *tree)
 
 	if (vadjustment) {
 		tree->priv->table_canvas_vadjustment = g_object_ref (vadjustment);
-		g_signal_connect (
+		e_signal_connect_notify (
 			vadjustment, "notify::value",
 			G_CALLBACK (e_tree_table_canvas_scrolled_cb), tree);
 	}
@@ -1336,7 +1336,7 @@ e_tree_setup_table (ETree *tree)
 		G_CALLBACK (tree_canvas_reflow), tree);
 
 	et_setup_table_canvas_vadjustment (tree);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		tree->priv->table_canvas, "notify::vadjustment",
 		G_CALLBACK (et_setup_table_canvas_vadjustment), tree);
 

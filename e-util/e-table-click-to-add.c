@@ -414,7 +414,7 @@ finish_editing (ETableClickToAdd *etcta)
 			etcta->row, "key_press",
 			G_CALLBACK (item_key_press), etcta);
 
-		g_signal_connect (
+		e_signal_connect_notify (
 			etcta->row, "notify::is-editing",
 			G_CALLBACK (table_click_to_add_row_is_editing_changed_cb), etcta);
 
@@ -472,7 +472,7 @@ etcta_event (GnomeCanvasItem *item,
 				etcta->row, "key_press",
 				G_CALLBACK (item_key_press), etcta);
 
-			g_signal_connect (
+			e_signal_connect_notify (
 				etcta->row, "notify::is-editing",
 				G_CALLBACK (table_click_to_add_row_is_editing_changed_cb), etcta);
 

@@ -368,7 +368,7 @@ etgl_realize (GnomeCanvasItem *item)
 		etgl->item, "start_drag",
 		G_CALLBACK (etgl_start_drag), etgl);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		etgl->item, "notify::is-editing",
 		G_CALLBACK (etgl_item_is_editing_changed_cb), etgl);
 

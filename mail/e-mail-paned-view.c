@@ -1059,7 +1059,7 @@ e_mail_paned_view_init (EMailPanedView *view)
 {
 	view->priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		view, "notify::group-by-threads",
 		G_CALLBACK (mail_paned_view_notify_group_by_threads_cb),
 		NULL);

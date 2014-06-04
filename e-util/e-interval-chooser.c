@@ -21,6 +21,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-util-enums.h"
+#include "e-misc-utils.h"
 
 #define E_INTERVAL_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -129,7 +130,7 @@ e_interval_chooser_init (EIntervalChooser *chooser)
 	chooser->priv->spin_button = GTK_SPIN_BUTTON (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		widget, "notify::value",
 		G_CALLBACK (interval_chooser_notify_interval), chooser);
 
@@ -144,7 +145,7 @@ e_interval_chooser_init (EIntervalChooser *chooser)
 	chooser->priv->combo_box = GTK_COMBO_BOX (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		widget, "notify::active",
 		G_CALLBACK (interval_chooser_notify_interval), chooser);
 }

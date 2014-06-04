@@ -29,6 +29,7 @@
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
+#include "e-misc-utils.h"
 
 #define E_ATTACHMENT_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -132,12 +133,12 @@ attachment_bar_set_store (EAttachmentBar *bar,
 		GTK_TREE_VIEW (bar->priv->tree_view),
 		bar->priv->model);
 
-	g_signal_connect_object (
+	e_signal_connect_notify_object (
 		bar->priv->model, "notify::num-attachments",
 		G_CALLBACK (attachment_bar_update_status), bar,
 		G_CONNECT_SWAPPED);
 
-	g_signal_connect_object (
+	e_signal_connect_notify_object (
 		bar->priv->model, "notify::total-size",
 		G_CALLBACK (attachment_bar_update_status), bar,
 		G_CONNECT_SWAPPED);

@@ -115,11 +115,11 @@ offline_alert_window_added_cb (GtkApplication *application,
 	/* Connect these signals after we have the first EShellWindow
 	 * to avoid false-positive signals during EShell initialization. */
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell, "notify::online",
 		G_CALLBACK (offline_alert_online_cb), extension);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell, "notify::network-available",
 		G_CALLBACK (offline_alert_network_available_cb), extension);
 

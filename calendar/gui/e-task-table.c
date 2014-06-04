@@ -315,22 +315,22 @@ task_table_set_model (ETaskTable *task_table,
 		task_table);
 
 	/* redraw on drawing options change */
-	g_signal_connect (
+	e_signal_connect_notify (
 		model, "notify::highlight-due-today",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		model, "notify::color-due-today",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		model, "notify::highlight-overdue",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		model, "notify::color-overdue",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);

@@ -454,7 +454,7 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		shell_window, "/main-menu");
 	gtk_widget_show (main_menu);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_menubar_update_new_menu), NULL);
 
@@ -572,7 +572,7 @@ shell_window_construct_sidebar (EShellWindow *shell_window)
 	shell_window->priv->sidebar_notebook = g_object_ref (notebook);
 	gtk_widget_show (notebook);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_set_notebook_page), notebook);
 
@@ -600,7 +600,7 @@ shell_window_construct_content (EShellWindow *shell_window)
 	shell_window->priv->content_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_set_notebook_page), widget);
 
@@ -665,7 +665,7 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 	shell_window->priv->status_notebook = g_object_ref (notebook);
 	gtk_widget_show (notebook);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (shell_window_set_notebook_page), notebook);
 
@@ -747,15 +747,15 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 
 	/* Listen for changes that affect the shell window. */
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		action, "notify::icon-name",
 		G_CALLBACK (e_shell_window_update_icon), shell_window);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		shell_view, "notify::title",
 		G_CALLBACK (e_shell_window_update_title), shell_window);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		shell_view, "notify::view-id",
 		G_CALLBACK (e_shell_window_update_view_menu), shell_window);
 

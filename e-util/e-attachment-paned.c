@@ -26,6 +26,7 @@
 
 #include <glib/gi18n.h>
 
+#include "e-misc-utils.h"
 #include "e-attachment-view.h"
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
@@ -744,15 +745,15 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	paned->priv->status_label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		paned->priv->expander, "notify::expanded",
 		G_CALLBACK (attachment_paned_notify_cb), paned);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		paned->priv->model, "notify::num-attachments",
 		G_CALLBACK (attachment_paned_update_status), paned);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		paned->priv->model, "notify::total-size",
 		G_CALLBACK (attachment_paned_update_status), paned);
 

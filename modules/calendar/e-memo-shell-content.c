@@ -533,7 +533,7 @@ memo_shell_content_constructed (GObject *object)
 		G_CALLBACK (memo_shell_content_selection_change_cb),
 		object);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		priv->memo_table, "notify::is-editing",
 		G_CALLBACK (memo_shell_content_is_editing_changed_cb), shell_view);
 

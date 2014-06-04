@@ -29,9 +29,15 @@
  * extended through e_tree_view_frame_insert_toolbar_action().
  **/
 
-#include "e-tree-view-frame.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <libebackend/libebackend.h>
+
+#include "e-misc-utils.h"
+
+#include "e-tree-view-frame.h"
 
 #define E_TREE_VIEW_FRAME_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -937,13 +943,13 @@ e_tree_view_frame_set_tree_view (ETreeViewFrame *tree_view_frame,
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		tree_view, "notify::reorderable",
 		G_CALLBACK (tree_view_frame_notify_reorderable_cb),
 		tree_view_frame);
 	tree_view_frame->priv->notify_reorderable_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		selection, "notify::mode",
 		G_CALLBACK (tree_view_frame_notify_select_mode_cb),
 		tree_view_frame);

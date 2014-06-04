@@ -816,7 +816,7 @@ mail_session_idle_refresh_cb (EMailSession *session)
 
 	/* Listen for network state changes and force a
 	 * mail store refresh when coming back online. */
-	g_signal_connect (
+	e_signal_connect_notify (
 		session, "notify::online",
 		G_CALLBACK (mail_session_force_refresh), NULL);
 
@@ -1045,7 +1045,7 @@ mail_session_constructed (GObject *object)
 		G_CALLBACK (mail_session_source_disabled_cb), session);
 	session->priv->source_disabled_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		registry, "notify::default-mail-account",
 		G_CALLBACK (mail_session_default_mail_account_cb), session);
 	session->priv->default_mail_account_handler_id = handler_id;

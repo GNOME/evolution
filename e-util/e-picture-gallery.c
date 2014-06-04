@@ -25,6 +25,7 @@
 #include "e-picture-gallery.h"
 
 #include "e-icon-factory.h"
+#include "e-misc-utils.h"
 
 #define E_PICTURE_GALLERY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -377,7 +378,7 @@ picture_gallery_constructed (GObject *object)
 	gtk_target_table_free (targets, n_targets);
 	gtk_target_list_unref (list);
 
-	g_signal_connect (object, "notify::visible", G_CALLBACK (visible_cb), NULL);
+	e_signal_connect_notify (object, "notify::visible", G_CALLBACK (visible_cb), NULL);
 }
 
 static void

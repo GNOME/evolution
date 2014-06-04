@@ -197,6 +197,24 @@ GBinding *	e_binding_bind_object_text_property
 						 const gchar *target_property,
 						 GBindingFlags flags);
 
+gulong		e_signal_connect_notify		(gpointer instance,
+						 const gchar *notify_name,
+						 GCallback c_handler,
+						 gpointer user_data);
+gulong		e_signal_connect_notify_after	(gpointer instance,
+						 const gchar *notify_name,
+						 GCallback c_handler,
+						 gpointer user_data);
+gulong		e_signal_connect_notify_swapped	(gpointer instance,
+						 const gchar *notify_name,
+						 GCallback c_handler,
+						 gpointer user_data);
+gulong		e_signal_connect_notify_object	(gpointer instance,
+						 const gchar *notify_name,
+						 GCallback c_handler,
+						 gpointer gobject,
+						 GConnectFlags connect_flags);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

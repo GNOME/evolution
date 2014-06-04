@@ -447,7 +447,7 @@ treeview_add_column (CertPage *cp,
 	g_signal_connect (
 		item, "toggled",
 		G_CALLBACK (header_popup_item_toggled), column);
-	g_signal_connect (
+	e_signal_connect_notify (
 		column, "notify::visible",
 		G_CALLBACK (treeview_column_visibility_changed), item);
 }

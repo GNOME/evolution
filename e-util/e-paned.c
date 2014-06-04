@@ -26,6 +26,8 @@
 
 #include <glib/gi18n-lib.h>
 
+#include "e-misc-utils.h"
+
 #define E_PANED_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_PANED, EPanedPrivate))
@@ -375,11 +377,11 @@ e_paned_init (EPaned *paned)
 	paned->priv->proportion = 0.5;
 	paned->priv->fixed_resize = TRUE;
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		paned, "notify::orientation",
 		G_CALLBACK (paned_notify_orientation_cb), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		paned, "notify::position",
 		G_CALLBACK (paned_notify_position_cb), NULL);
 }
@@ -470,6 +472,9 @@ e_paned_set_proportion (EPaned *paned,
 {
 	g_return_if_fail (E_IS_PANED (paned));
 	g_return_if_fail (CLAMP (proportion, 0.0, 1.0) == proportion);
+
+	if (paned->priv->proportion == proportion)
+		return;
 
 	paned->priv->proportion = proportion;
 

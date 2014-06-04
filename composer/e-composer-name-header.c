@@ -221,7 +221,7 @@ composer_name_header_constructed (GObject *object)
 		NULL);
 	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		object, "notify::visible",
 		G_CALLBACK (composer_name_header_visible_changed_cb), object);
 

@@ -381,7 +381,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	view = e_contact_map_get_view (E_CONTACT_MAP (map));
 	champlain_view_set_zoom_level (view, 2);
 	priv->map = E_CONTACT_MAP (map);
-	g_signal_connect (
+	e_signal_connect_notify (
 		view, "notify::zoom-level",
 		G_CALLBACK (contact_map_window_zoom_level_changed_cb), window);
 	g_signal_connect (

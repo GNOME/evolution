@@ -1485,10 +1485,10 @@ contact_list_editor_constructed (GObject *object)
 		e_name_selector_peek_model (editor->priv->name_selector),
 		"Members", _("_Members"), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		editor, "notify::book",
 		G_CALLBACK (contact_list_editor_notify_cb), NULL);
-	g_signal_connect (
+	e_signal_connect_notify (
 		editor, "notify::editable",
 		G_CALLBACK (contact_list_editor_notify_cb), NULL);
 

@@ -659,7 +659,7 @@ get_widget (EFilterRule *fr,
 
 	g_object_set_data (G_OBJECT (add), "scrolled-window", scrolledwindow);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		vadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_height_cb), scrolledwindow);
 

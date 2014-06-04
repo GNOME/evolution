@@ -25,6 +25,8 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-misc-utils.h"
+
 #define E_CATEGORY_COMPLETION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CATEGORY_COMPLETION, ECategoryCompletionPrivate))
@@ -353,11 +355,11 @@ category_completion_track_entry (GtkEntryCompletion *completion)
 
 	g_object_ref (priv->last_known_entry);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		priv->last_known_entry, "notify::cursor-position",
 		G_CALLBACK (category_completion_update_prefix), completion);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		priv->last_known_entry, "notify::text",
 		G_CALLBACK (category_completion_update_prefix), completion);
 

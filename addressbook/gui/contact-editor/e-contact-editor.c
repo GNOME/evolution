@@ -4373,7 +4373,7 @@ e_contact_editor_constructed (GObject *object)
 		GTK_WINDOW (editor->priv->app),
 		gtk_ui_manager_get_accel_group (editor->priv->ui_manager));
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		editor->priv->focus_tracker, "notify::focus",
 		G_CALLBACK (contact_editor_focus_widget_changed_cb), editor);
 
@@ -4614,7 +4614,7 @@ e_contact_editor_set_property (GObject *object,
 			editor->priv->target_client = editor->priv->source_client;
 			g_object_ref (editor->priv->target_client);
 
-			editor->priv->target_editable_id = g_signal_connect (
+			editor->priv->target_editable_id = e_signal_connect_notify (
 				editor->priv->target_client, "notify::readonly",
 				G_CALLBACK (notify_readonly_cb), editor);
 
@@ -4661,7 +4661,7 @@ e_contact_editor_set_property (GObject *object,
 		editor->priv->target_client = target_client;
 		g_object_ref (editor->priv->target_client);
 
-		editor->priv->target_editable_id = g_signal_connect (
+		editor->priv->target_editable_id = e_signal_connect_notify (
 			editor->priv->target_client, "notify::readonly",
 			G_CALLBACK (notify_readonly_cb), editor);
 

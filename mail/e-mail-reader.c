@@ -3968,7 +3968,7 @@ connect_signals:
 		display, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		display, "notify::load-status",
 		G_CALLBACK (mail_reader_load_status_changed_cb), reader);
 

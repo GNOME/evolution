@@ -1798,7 +1798,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		widget, "notify::sensitive",
 		G_CALLBACK (emse_notebook_sensitive_changed_cb), editor);
 

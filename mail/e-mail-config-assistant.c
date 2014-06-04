@@ -733,7 +733,7 @@ mail_config_assistant_constructed (GObject *object)
 		page, "email-address",
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		page, "notify::active-backend",
 		G_CALLBACK (mail_config_assistant_notify_account_backend),
 		assistant);
@@ -816,7 +816,7 @@ mail_config_assistant_constructed (GObject *object)
 		page, "email-address",
 		G_BINDING_SYNC_CREATE);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		page, "notify::active-backend",
 		G_CALLBACK (mail_config_assistant_notify_transport_backend),
 		assistant);

@@ -407,7 +407,7 @@ cal_shell_content_constructed (GObject *object)
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
 		calendar_view = gnome_calendar_get_calendar_view (calendar, ii);
 
-		g_signal_connect (
+		e_signal_connect_notify (
 			calendar_view, "notify::is-editing",
 			G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
@@ -465,7 +465,7 @@ cal_shell_content_constructed (GObject *object)
 		G_CALLBACK (e_cal_shell_view_taskpad_open_task),
 		shell_view);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		widget, "notify::is-editing",
 		G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
@@ -511,7 +511,7 @@ cal_shell_content_constructed (GObject *object)
 		G_CALLBACK (e_cal_shell_view_memopad_open_memo),
 		shell_view);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		widget, "notify::is-editing",
 		G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
@@ -527,7 +527,7 @@ cal_shell_content_constructed (GObject *object)
 	e_shell_view_set_view_instance (shell_view, view_instance);
 	g_object_unref (view_instance);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		shell_view, "notify::view-id",
 		G_CALLBACK (cal_shell_content_notify_view_id_cb),
 		object);

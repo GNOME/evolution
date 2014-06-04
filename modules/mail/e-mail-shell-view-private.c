@@ -567,7 +567,7 @@ mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
 void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view)
 {
-	g_signal_connect (
+	e_signal_connect_notify (
 		mail_shell_view, "notify::view-id",
 		G_CALLBACK (mail_shell_view_notify_view_id_cb), NULL);
 }

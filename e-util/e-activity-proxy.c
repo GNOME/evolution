@@ -19,6 +19,7 @@
  */
 
 #include "e-activity-proxy.h"
+#include "e-misc-utils.h"
 
 #include <config.h>
 #include <glib/gi18n.h>
@@ -361,7 +362,7 @@ e_activity_proxy_set_activity (EActivityProxy *proxy,
 			G_OBJECT (activity), (GWeakNotify)
 			activity_proxy_weak_notify_cb, proxy);
 
-		g_signal_connect_swapped (
+		e_signal_connect_notify_swapped (
 			activity, "notify::state",
 			G_CALLBACK (activity_proxy_feedback), proxy);
 

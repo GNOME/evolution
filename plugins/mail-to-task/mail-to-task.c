@@ -791,7 +791,7 @@ do_manage_comp_idle (struct _manage_comp *mc)
 			/* Force editor's title change */
 			comp_editor_title_changed (GTK_WIDGET (editor), NULL, mc);
 
-			g_signal_connect (
+			e_signal_connect_notify (
 				editor, "notify::title",
 				G_CALLBACK (comp_editor_title_changed), mc);
 			g_signal_connect (

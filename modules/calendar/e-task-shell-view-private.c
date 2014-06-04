@@ -210,7 +210,7 @@ task_shell_view_notify_view_id_cb (EShellView *shell_view)
 void
 e_task_shell_view_private_init (ETaskShellView *task_shell_view)
 {
-	g_signal_connect (
+	e_signal_connect_notify (
 		task_shell_view, "notify::view-id",
 		G_CALLBACK (task_shell_view_notify_view_id_cb), NULL);
 }

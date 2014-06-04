@@ -396,7 +396,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	if (mts->model)
 		g_object_ref (mts->model);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		mts->model, "notify::free-busy-template",
 		G_CALLBACK (free_busy_template_changed_cb), mts);
 

@@ -429,7 +429,7 @@ schedule_page_construct (SchedulePage *spage,
 		return NULL;
 	}
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		editor, "notify::client",
 		G_CALLBACK (sensitize_widgets), spage);
 

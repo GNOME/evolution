@@ -33,6 +33,7 @@
 #include "e-dialog-widgets.h"
 #include "e-filter-rule.h"
 #include "e-rule-context.h"
+#include "e-misc-utils.h"
 
 #define E_FILTER_RULE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -903,10 +904,10 @@ filter_rule_get_widget (EFilterRule *rule,
 	vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0));
 	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		hadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
-	g_signal_connect (
+	e_signal_connect_notify (
 		vadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_height_cb), scrolledwindow);
 

@@ -143,7 +143,7 @@ memo_shell_view_notify_view_id_cb (EShellView *shell_view)
 void
 e_memo_shell_view_private_init (EMemoShellView *memo_shell_view)
 {
-	g_signal_connect (
+	e_signal_connect_notify (
 		memo_shell_view, "notify::view-id",
 		G_CALLBACK (memo_shell_view_notify_view_id_cb), NULL);
 }

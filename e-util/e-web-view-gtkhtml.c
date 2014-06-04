@@ -1792,6 +1792,9 @@ e_web_view_gtkhtml_set_animate (EWebViewGtkHTML *web_view,
 
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
+	if (gtk_html_get_animate (GTK_HTML (web_view)) == animate)
+		return;
+
 	gtk_html_set_animate (GTK_HTML (web_view), animate);
 
 	g_object_notify (G_OBJECT (web_view), "animate");
@@ -1817,6 +1820,9 @@ e_web_view_gtkhtml_set_caret_mode (EWebViewGtkHTML *web_view,
 	 *     so we can get a "notify::caret-mode" signal. */
 
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (gtk_html_get_caret_mode (GTK_HTML (web_view)) == caret_mode)
+		return;
 
 	gtk_html_set_caret_mode (GTK_HTML (web_view), caret_mode);
 
@@ -1845,6 +1851,9 @@ e_web_view_gtkhtml_set_disable_printing (EWebViewGtkHTML *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
+	if (web_view->priv->disable_printing == disable_printing)
+		return;
+
 	web_view->priv->disable_printing = disable_printing;
 
 	g_object_notify (G_OBJECT (web_view), "disable-printing");
@@ -1863,6 +1872,9 @@ e_web_view_gtkhtml_set_disable_save_to_disk (EWebViewGtkHTML *web_view,
                                              gboolean disable_save_to_disk)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (web_view->priv->disable_save_to_disk == disable_save_to_disk)
+		return;
 
 	web_view->priv->disable_save_to_disk = disable_save_to_disk;
 
@@ -1890,6 +1902,9 @@ e_web_view_gtkhtml_set_editable (EWebViewGtkHTML *web_view,
 
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
+	if (gtk_html_get_editable (GTK_HTML (web_view)) == editable)
+		return;
+
 	gtk_html_set_editable (GTK_HTML (web_view), editable);
 
 	g_object_notify (G_OBJECT (web_view), "editable");
@@ -1915,6 +1930,9 @@ e_web_view_gtkhtml_set_inline_spelling (EWebViewGtkHTML *web_view,
 	 *     so we get a "notify::inline-spelling" signal. */
 
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (gtk_html_get_inline_spelling (GTK_HTML (web_view)) == inline_spelling)
+		return;
 
 	gtk_html_set_inline_spelling (GTK_HTML (web_view), inline_spelling);
 
@@ -1942,6 +1960,9 @@ e_web_view_gtkhtml_set_magic_links (EWebViewGtkHTML *web_view,
 
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
+	if (gtk_html_get_magic_links (GTK_HTML (web_view)) == magic_links)
+		return;
+
 	gtk_html_set_magic_links (GTK_HTML (web_view), magic_links);
 
 	g_object_notify (G_OBJECT (web_view), "magic-links");
@@ -1968,6 +1989,9 @@ e_web_view_gtkhtml_set_magic_smileys (EWebViewGtkHTML *web_view,
 
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
+	if (gtk_html_get_magic_smileys (GTK_HTML (web_view)) == magic_smileys)
+		return;
+
 	gtk_html_set_magic_smileys (GTK_HTML (web_view), magic_smileys);
 
 	g_object_notify (G_OBJECT (web_view), "magic-smileys");
@@ -1986,6 +2010,9 @@ e_web_view_gtkhtml_set_selected_uri (EWebViewGtkHTML *web_view,
                                      const gchar *selected_uri)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (g_strcmp0 (web_view->priv->selected_uri, selected_uri) == 0)
+		return;
 
 	g_free (web_view->priv->selected_uri);
 	web_view->priv->selected_uri = g_strdup (selected_uri);
@@ -2006,6 +2033,9 @@ e_web_view_gtkhtml_set_cursor_image (EWebViewGtkHTML *web_view,
                                      GdkPixbufAnimation *image)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (web_view->priv->cursor_image == image)
+		return;
 
 	if (image != NULL)
 		g_object_ref (image);
@@ -2031,6 +2061,9 @@ e_web_view_gtkhtml_set_open_proxy (EWebViewGtkHTML *web_view,
                                    GtkAction *open_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (web_view->priv->open_proxy == open_proxy)
+		return;
 
 	if (open_proxy != NULL) {
 		g_return_if_fail (GTK_IS_ACTION (open_proxy));
@@ -2067,6 +2100,9 @@ e_web_view_gtkhtml_set_print_proxy (EWebViewGtkHTML *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
 
+	if (web_view->priv->print_proxy == print_proxy)
+		return;
+
 	if (print_proxy != NULL) {
 		g_return_if_fail (GTK_IS_ACTION (print_proxy));
 		g_object_ref (print_proxy);
@@ -2093,6 +2129,9 @@ e_web_view_gtkhtml_set_save_as_proxy (EWebViewGtkHTML *web_view,
                                       GtkAction *save_as_proxy)
 {
 	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (web_view));
+
+	if (web_view->priv->save_as_proxy == save_as_proxy)
+		return;
 
 	if (save_as_proxy != NULL) {
 		g_return_if_fail (GTK_IS_ACTION (save_as_proxy));
