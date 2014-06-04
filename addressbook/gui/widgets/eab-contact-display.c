@@ -513,7 +513,7 @@ eab_contact_display_init (EABContactDisplay *display)
 		web_view, "create-plugin-widget",
 		G_CALLBACK (contact_display_object_requested), display);
 #endif
-	g_signal_connect (
+	e_signal_connect_notify (
 		web_view, "notify::load-status",
 		G_CALLBACK (contact_display_load_status_changed), NULL);
 	g_signal_connect (

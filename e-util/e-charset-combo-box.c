@@ -276,7 +276,7 @@ charset_combo_box_constructed (GObject *object)
 	e_action_combo_box_add_separator_after (
 		E_ACTION_COMBO_BOX (object), g_slist_length (group));
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		object, "notify::charset",
 		G_CALLBACK (charset_combo_box_notify_charset_cb), NULL);
 }

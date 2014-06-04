@@ -22,6 +22,8 @@
 
 #include <glib/gi18n.h>
 
+#include "e-misc-utils.h"
+
 #define E_ONLINE_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate))
@@ -154,11 +156,11 @@ e_online_button_init (EOnlineButton *button)
 	button->priv->image = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		button, "notify::online",
 		G_CALLBACK (online_button_update_tooltip), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		button, "notify::sensitive",
 		G_CALLBACK (online_button_update_tooltip), NULL);
 }

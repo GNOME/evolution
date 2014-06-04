@@ -26,6 +26,7 @@
 #include "e-alert-bar.h"
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
+#include "e-misc-utils.h"
 
 #define E_SOURCE_CONFIG_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -275,7 +276,7 @@ source_config_dialog_constructed (GObject *object)
 	priv->alert_bar = g_object_ref (widget);
 	/* EAlertBar controls its own visibility. */
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		priv->alert_bar, "notify::visible",
 		G_CALLBACK (source_config_alert_bar_visible_cb), object);
 

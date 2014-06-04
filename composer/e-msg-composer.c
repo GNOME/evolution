@@ -2039,28 +2039,28 @@ msg_composer_constructed (GObject *object)
 
 	/* Configure Headers */
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::destinations-bcc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::destinations-cc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::destinations-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::identity-uid",
 		G_CALLBACK (msg_composer_mail_identity_changed_cb), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::reply-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::signature-uid",
 		G_CALLBACK (e_composer_update_signature), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::subject",
 		G_CALLBACK (msg_composer_subject_changed_cb), composer);
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		table, "notify::subject",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 

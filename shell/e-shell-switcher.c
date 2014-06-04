@@ -33,6 +33,8 @@
 #include <glib/gi18n.h>
 #include <libebackend/libebackend.h>
 
+#include <e-util/e-util.h>
+
 #define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
@@ -377,7 +379,7 @@ shell_switcher_screen_changed (GtkWidget *widget,
 
 	if (settings != NULL) {
 		priv->settings = g_object_ref (settings);
-		priv->settings_handler_id = g_signal_connect_swapped (
+		priv->settings_handler_id = e_signal_connect_notify_swapped (
 			settings, "notify::gtk-toolbar-style",
 			G_CALLBACK (shell_switcher_toolbar_style_changed_cb),
 			widget);

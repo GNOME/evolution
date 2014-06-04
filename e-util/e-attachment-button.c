@@ -25,6 +25,7 @@
 #endif
 
 #include "e-attachment-button.h"
+#include "e-misc-utils.h"
 
 #define E_ATTACHMENT_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -776,7 +777,7 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 			G_BINDING_SYNC_CREATE);
 		button->priv->shown_binding = binding;
 
-		handler_id = g_signal_connect_swapped (
+		handler_id = e_signal_connect_notify_swapped (
 			attachment, "notify::reference",
 			G_CALLBACK (attachment_button_update_cell_view),
 			button);

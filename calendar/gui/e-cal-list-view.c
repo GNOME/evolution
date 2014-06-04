@@ -324,7 +324,7 @@ setup_e_table (ECalListView *cal_list_view)
 		cal_list_view->table, "cursor_change",
 		G_CALLBACK (e_cal_list_view_cursor_change_cb),
 		cal_list_view);
-	g_signal_connect_after (
+	e_signal_connect_notify_after (
 		cal_list_view->table, "notify::is-editing",
 		G_CALLBACK (e_cal_list_view_table_editing_changed_cb),
 		cal_list_view);

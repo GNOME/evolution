@@ -310,7 +310,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_icon_view = g_object_ref_sink (widget);
 	g_free (gallery_path);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		composer, "notify::html-mode",
 		G_CALLBACK (composer_update_gallery_visibility), NULL);
 

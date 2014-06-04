@@ -1185,62 +1185,62 @@ day_view_constructed (GObject *object)
 	 * disconnect signal handlers in dispose(). */
 	day_view->priv->model = g_object_ref (model);
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-monday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_monday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-tuesday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_tuesday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-wednesday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_wednesday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-thursday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_thursday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-friday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_friday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-saturday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_saturday_handler_id = handler_id;
 
-	handler_id = g_signal_connect (
+	handler_id = e_signal_connect_notify (
 		model, "notify::work-day-sunday",
 		G_CALLBACK (day_view_notify_work_day_cb), day_view);
 	day_view->priv->notify_work_day_sunday_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
+	handler_id = e_signal_connect_notify_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (day_view_notify_week_start_day_cb), day_view);
 	day_view->priv->notify_week_start_day_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
+	handler_id = e_signal_connect_notify_swapped (
 		model, "notify::work-day-start-hour",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 	day_view->priv->notify_work_day_start_hour_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
+	handler_id = e_signal_connect_notify_swapped (
 		model, "notify::work-day-start-minute",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 	day_view->priv->notify_work_day_start_minute_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
+	handler_id = e_signal_connect_notify_swapped (
 		model, "notify::work-day-end-hour",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 	day_view->priv->notify_work_day_end_hour_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
+	handler_id = e_signal_connect_notify_swapped (
 		model, "notify::work-day-end-minute",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 	day_view->priv->notify_work_day_end_minute_handler_id = handler_id;

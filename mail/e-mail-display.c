@@ -606,18 +606,18 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 		/* When EAttachmentBar is expanded/collapsed it does not
 		 * emit size-allocate signal despite it changes it's height. */
-		g_signal_connect (
+		e_signal_connect_notify (
 			widget, "notify::expanded",
 			G_CALLBACK (mail_display_plugin_widget_resize),
 			display);
-		g_signal_connect (
+		e_signal_connect_notify (
 			widget, "notify::active-view",
 			G_CALLBACK (mail_display_plugin_widget_resize),
 			display);
 
 		/* Always hide an attachment bar without attachments */
 		store = e_attachment_bar_get_store (E_ATTACHMENT_BAR (widget));
-		g_signal_connect (
+		e_signal_connect_notify (
 			store, "notify::num-attachments",
 			G_CALLBACK (mail_display_attachment_count_changed),
 			box);
@@ -668,11 +668,11 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 			/* Show/hide the attachment when the EAttachmentButton
 			 * is expanded/collapsed or shown/hidden. */
-			g_signal_connect (
+			e_signal_connect_notify (
 				widget, "notify::expanded",
 				G_CALLBACK (attachment_button_expanded),
 				display);
-			g_signal_connect (
+			e_signal_connect_notify (
 				widget, "notify::visible",
 				G_CALLBACK (attachment_button_expanded),
 				display);
@@ -994,7 +994,7 @@ mail_display_frame_created (WebKitWebView *web_view,
 	d (printf ("Frame %s created!\n", webkit_web_frame_get_name (frame)));
 
 	/* Call bind_func of all parts written in this frame */
-	g_signal_connect (
+	e_signal_connect_notify (
 		frame, "notify::load-status",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
 }
@@ -1523,7 +1523,7 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect (
 		display, "frame-created",
 		G_CALLBACK (mail_display_frame_created), NULL);
-	g_signal_connect (
+	e_signal_connect_notify (
 		display, "notify::uri",
 		G_CALLBACK (mail_display_uri_changed), NULL);
 	g_signal_connect (
@@ -1547,7 +1547,7 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_update_fonts (E_WEB_VIEW (display));
 
 	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (display));
-	g_signal_connect (
+	e_signal_connect_notify (
 		main_frame, "notify::load-status",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
 
@@ -1641,33 +1641,52 @@ e_mail_display_set_mode (EMailDisplay *display,
 	display->priv->formatter = formatter;
 	mail_display_update_formatter_colors (display);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		formatter, "notify::image-loading-policy",
 		G_CALLBACK (formatter_image_loading_policy_changed_cb),
 		display);
 
-	g_object_connect (
-		formatter,
-		"swapped-object-signal::notify::charset",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::image-loading-policy",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::mark-citations",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::show-sender-photo",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::show-real-date",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::animate-images",
-			G_CALLBACK (e_mail_display_reload), display,
-		"swapped-object-signal::notify::body-color",
-			G_CALLBACK (e_mail_display_update_colors), display,
-		"swapped-object-signal::notify::citation-color",
-			G_CALLBACK (e_mail_display_update_colors), display,
-		"swapped-object-signal::notify::frame-color",
-			G_CALLBACK (e_mail_display_update_colors), display,
-		"swapped-object-signal::notify::header-color",
-			G_CALLBACK (e_mail_display_update_colors), display,
+	e_signal_connect_notify_object (
+		formatter, "notify::charset",
+		G_CALLBACK (e_mail_display_reload), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::image-loading-policy",
+		G_CALLBACK (e_mail_display_reload), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::mark-citations",
+		G_CALLBACK (e_mail_display_reload), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::show-sender-photo",
+		G_CALLBACK (e_mail_display_reload), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::show-real-date",
+		G_CALLBACK (e_mail_display_reload), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::animate-images",
+		G_CALLBACK (e_mail_display_reload), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::body-color",
+		G_CALLBACK (e_mail_display_update_colors), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::citation-color",
+		G_CALLBACK (e_mail_display_update_colors), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::frame-color",
+		G_CALLBACK (e_mail_display_update_colors), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::header-color",
+		G_CALLBACK (e_mail_display_update_colors), display, G_CONNECT_SWAPPED);
+
+	g_object_connect (formatter,
 		"swapped-object-signal::need-redraw",
 			G_CALLBACK (e_mail_display_reload), display,
 		NULL);

@@ -1699,7 +1699,7 @@ e_web_view_init (EWebView *web_view)
 		web_view, "document-load-finished",
 		G_CALLBACK (style_updated_cb), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		web_view, "notify::load-status",
 		G_CALLBACK (web_view_load_status_changed_cb), NULL);
 

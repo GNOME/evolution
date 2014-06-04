@@ -26,6 +26,7 @@
 #include <editor/gtkhtml-spell-language.h>
 #include <editor/gtkhtml-spell-checker.h>
 
+#include "e-misc-utils.h"
 #include "e-spell-entry.h"
 
 #define E_SPELL_ENTRY_GET_PRIVATE(obj) \
@@ -878,7 +879,7 @@ e_spell_entry_init (ESpellEntry *spell_entry)
 	g_signal_connect (
 		spell_entry, "changed",
 		G_CALLBACK (spell_entry_changed), NULL);
-	g_signal_connect (
+	e_signal_connect_notify (
 		spell_entry, "notify::scroll-offset",
 		G_CALLBACK (spell_entry_notify_scroll_offset), NULL);
 

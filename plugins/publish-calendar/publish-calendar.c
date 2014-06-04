@@ -1009,7 +1009,7 @@ e_plugin_lib_enable (EPlugin *ep,
 		g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (online_state_changed), NULL);
 		if (enable) {
 			online = e_shell_get_online (shell);
-			g_signal_connect (
+			e_signal_connect_notify (
 				shell, "notify::online",
 				G_CALLBACK (online_state_changed), NULL);
 		}

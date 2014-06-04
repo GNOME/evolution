@@ -1147,7 +1147,7 @@ et_build_groups (ETable *et)
 	g_signal_connect (
 		et->group, "start_drag",
 		G_CALLBACK (group_start_drag), et);
-	g_signal_connect (
+	e_signal_connect_notify (
 		et->group, "notify::is-editing",
 		G_CALLBACK (group_is_editing_changed_cb), et);
 
@@ -1529,7 +1529,7 @@ e_table_setup_table (ETable *e_table,
 		g_signal_connect (
 			e_table->click_to_add, "cursor_change",
 			G_CALLBACK (click_to_add_cursor_change), e_table);
-		g_signal_connect (
+		e_signal_connect_notify (
 			e_table->click_to_add, "notify::is-editing",
 			G_CALLBACK (click_to_add_is_editing_changed_cb), e_table);
 	}
@@ -2211,7 +2211,7 @@ et_set_property (GObject *object,
 				etable->click_to_add, "cursor_change",
 				G_CALLBACK (click_to_add_cursor_change),
 				etable);
-			g_signal_connect (
+			e_signal_connect_notify (
 				etable->click_to_add, "notify::is-editing",
 				G_CALLBACK (click_to_add_is_editing_changed_cb), etable);
 		} else {

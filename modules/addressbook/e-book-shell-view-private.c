@@ -330,7 +330,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			G_CALLBACK (contacts_removed),
 			book_shell_view, G_CONNECT_SWAPPED);
 
-		g_signal_connect_object (
+		e_signal_connect_notify_object (
 			model, "notify::query",
 			G_CALLBACK (model_query_changed_cb),
 			book_shell_view, G_CONNECT_SWAPPED);
@@ -490,7 +490,7 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 	priv->uid_to_view = uid_to_view;
 	priv->preview_index = -1;
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		book_shell_view, "notify::view-id",
 		G_CALLBACK (book_shell_view_notify_view_id_cb), NULL);
 }

@@ -1171,7 +1171,7 @@ e_shell_init (EShell *shell)
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell, "notify::online",
 		G_CALLBACK (shell_notify_online_cb), NULL);
 

@@ -16,6 +16,7 @@
  */
 
 #include "e-activity-bar.h"
+#include "e-misc-utils.h"
 
 #include <config.h>
 
@@ -388,7 +389,7 @@ e_activity_bar_set_activity (EActivityBar *bar,
 			G_OBJECT (activity), (GWeakNotify)
 			activity_bar_weak_notify_cb, bar);
 
-		g_signal_connect_swapped (
+		e_signal_connect_notify_swapped (
 			activity, "notify::state",
 			G_CALLBACK (activity_bar_feedback), bar);
 

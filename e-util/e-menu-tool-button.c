@@ -23,6 +23,7 @@
 #endif
 
 #include "e-menu-tool-button.h"
+#include "e-misc-utils.h"
 
 #define E_MENU_TOOL_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -241,7 +242,7 @@ e_menu_tool_button_init (EMenuToolButton *button)
 
 	button->priv->prefer_item = NULL;
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		button, "notify::menu",
 		G_CALLBACK (menu_tool_button_update_button), NULL);
 }

@@ -519,31 +519,31 @@ gnome_calendar_constructed (GObject *object)
 	gcal->priv->views[GNOME_CAL_WORK_WEEK_VIEW] = calendar_view;
 	g_object_ref_sink (calendar_view);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-monday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-tuesday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-wednesday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-thursday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-friday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-saturday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		calendar_view, "notify::working-day-sunday",
 		G_CALLBACK (gnome_calendar_update_time_range), gcal);
 
@@ -591,7 +591,7 @@ gnome_calendar_constructed (GObject *object)
 		calendar_view, "selection-changed",
 		G_CALLBACK (view_selection_changed_cb), gcal);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (gnome_calendar_notify_week_start_day_cb), gcal);
 

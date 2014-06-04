@@ -28,6 +28,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "e-dialog-widgets.h"
+#include "e-misc-utils.h"
 
 #define E_SEARCH_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -235,7 +236,7 @@ search_bar_set_web_view (ESearchBar *search_bar,
 
 	search_bar->priv->web_view = g_object_ref (web_view);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		web_view, "notify::load-status",
 		G_CALLBACK (web_view_load_status_changed_cb), search_bar);
 }

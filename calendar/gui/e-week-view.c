@@ -772,7 +772,7 @@ week_view_constructed (GObject *object)
 
 	e_week_view_recalc_display_start_day (E_WEEK_VIEW (object));
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (week_view_notify_week_start_day_cb), object);
 

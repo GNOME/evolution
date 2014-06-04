@@ -182,7 +182,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	activity = e_mail_config_import_progress_page_get_activity (page);
 
 	/* The activity state affects the "check-complete" result. */
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		activity, "notify::state",
 		G_CALLBACK (e_mail_config_page_changed), page);
 

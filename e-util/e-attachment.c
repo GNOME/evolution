@@ -33,6 +33,7 @@
 #include "e-attachment-store.h"
 #include "e-icon-factory.h"
 #include "e-mktemp.h"
+#include "e-misc-utils.h"
 
 #define E_ATTACHMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -997,51 +998,51 @@ e_attachment_init (EAttachment *attachment)
 	g_mutex_init (&attachment->priv->property_lock);
 	g_mutex_init (&attachment->priv->idle_lock);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::encrypted",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::file-info",
 		G_CALLBACK (attachment_update_file_info_columns), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::file-info",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::loading",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::loading",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::percent",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_file_info_columns), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::saving",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::saving",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		attachment, "notify::signed",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 

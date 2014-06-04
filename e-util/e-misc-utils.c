@@ -2256,3 +2256,239 @@ e_binding_bind_object_text_property (gpointer source,
 					    e_binding_transform_text_non_null,
 					    NULL, NULL);
 }
+
+typedef struct _EConnectNotifyData {
+	GConnectFlags flags;
+	GValue *old_value;
+
+	GCallback c_handler;
+	gpointer user_data;
+} EConnectNotifyData;
+
+static EConnectNotifyData *
+e_connect_notify_data_new (GCallback c_handler,
+			   gpointer user_data,
+			   guint32 connect_flags)
+{
+	EConnectNotifyData *connect_data;
+
+	connect_data = g_new0 (EConnectNotifyData, 1);
+	connect_data->flags = connect_flags;
+	connect_data->c_handler = c_handler;
+	connect_data->user_data = user_data;
+
+	return connect_data;
+}
+
+static void
+e_connect_notify_data_free (EConnectNotifyData *data)
+{
+	if (!data)
+		return;
+
+	if (data->old_value) {
+		g_value_unset (data->old_value);
+		g_free (data->old_value);
+	}
+	g_free (data);
+}
+
+static gboolean
+e_value_equal (GValue *value1,
+	       GValue *value2)
+{
+	if (value1 == value2)
+		return TRUE;
+
+	if (!value1 || !value2)
+		return FALSE;
+
+	#define testType(_uc,_lc) G_STMT_START { \
+		if (G_VALUE_HOLDS_ ## _uc (value1)) \
+			return g_value_get_ ## _lc (value1) == g_value_get_ ## _lc (value2); \
+	} G_STMT_END
+
+	testType (BOOLEAN, boolean);
+	testType (BOXED, boxed);
+	testType (CHAR, schar);
+	testType (DOUBLE, double);
+	testType (ENUM, enum);
+	testType (FLAGS, flags);
+	testType (FLOAT, float);
+	testType (GTYPE, gtype);
+	testType (INT, int);
+	testType (INT64, int64);
+	testType (LONG, long);
+	testType (OBJECT, object);
+	testType (POINTER, pointer);
+	testType (UCHAR, uchar);
+	testType (UINT, uint);
+	testType (UINT64, uint64);
+	testType (ULONG, ulong);
+
+	#undef testType
+
+	if (G_VALUE_HOLDS_PARAM (value1)) {
+		GParamSpec *param1, *param2;
+
+		param1 = g_value_get_param (value1);
+		param2 = g_value_get_param (value2);
+
+		return param1 && param2 &&
+			g_strcmp0 (param1->name, param2->name) == 0 &&
+			param1->flags == param2->flags &&
+			param1->value_type == param2->value_type &&
+			param1->owner_type == param2->owner_type;
+	} else if (G_VALUE_HOLDS_STRING (value1)) {
+		const gchar *string1, *string2;
+
+		string1 = g_value_get_string (value1);
+		string2 = g_value_get_string (value2);
+
+		return g_strcmp0 (string1, string2) == 0;
+	} else if (G_VALUE_HOLDS_VARIANT (value1)) {
+		GVariant *variant1, *variant2;
+
+		variant1 = g_value_get_variant (value1);
+		variant2 = g_value_get_variant (value2);
+
+		return variant1 == variant2 ||
+			(variant1 && variant2 && g_variant_equal (variant1, variant2));
+	}
+
+	return FALSE;
+}
+
+static void
+e_signal_connect_notify_cb (gpointer instance,
+			    GParamSpec *param,
+			    gpointer user_data)
+{
+	EConnectNotifyData *connect_data = user_data;
+	GValue *value;
+
+	g_return_if_fail (connect_data != NULL);
+
+	value = g_new0 (GValue, 1);
+	g_value_init (value, param->value_type);
+	g_object_get_property (instance, param->name, value);
+
+	if (!e_value_equal (connect_data->old_value, value)) {
+		typedef void (* NotifyCBType) (gpointer instance, GParamSpec *param, gpointer user_data);
+		NotifyCBType c_handler = (NotifyCBType) connect_data->c_handler;
+
+		if (connect_data->old_value) {
+			g_value_unset (connect_data->old_value);
+			g_free (connect_data->old_value);
+		}
+		connect_data->old_value = value;
+
+		if (connect_data->flags == G_CONNECT_SWAPPED) {
+			c_handler (connect_data->user_data, param, instance);
+		} else {
+			c_handler (instance, param, connect_data->user_data);
+		}
+	} else {
+		g_value_unset (value);
+		g_free (value);
+	}
+}
+
+gulong
+e_signal_connect_notify (gpointer instance,
+			 const gchar *notify_name,
+			 GCallback c_handler,
+			 gpointer user_data)
+{
+	EConnectNotifyData *connect_data;
+
+	g_return_val_if_fail (g_str_has_prefix (notify_name, "notify::"), 0);
+
+	connect_data = e_connect_notify_data_new (c_handler, user_data, 0);
+
+	return g_signal_connect_data (instance,
+				      notify_name,
+				      G_CALLBACK (e_signal_connect_notify_cb),
+				      connect_data,
+				      (GClosureNotify) e_connect_notify_data_free,
+				      0);
+}
+
+gulong
+e_signal_connect_notify_after (gpointer instance,
+			       const gchar *notify_name,
+			       GCallback c_handler,
+			       gpointer user_data)
+{
+	EConnectNotifyData *connect_data;
+
+	g_return_val_if_fail (g_str_has_prefix (notify_name, "notify::"), 0);
+
+	connect_data = e_connect_notify_data_new (c_handler, user_data, G_CONNECT_AFTER);
+
+	return g_signal_connect_data (instance,
+				      notify_name,
+				      G_CALLBACK (e_signal_connect_notify_cb),
+				      connect_data,
+				      (GClosureNotify) e_connect_notify_data_free,
+				      G_CONNECT_AFTER);
+}
+
+gulong
+e_signal_connect_notify_swapped (gpointer instance,
+				 const gchar *notify_name,
+				 GCallback c_handler,
+				 gpointer user_data)
+{
+	EConnectNotifyData *connect_data;
+
+	g_return_val_if_fail (g_str_has_prefix (notify_name, "notify::"), 0);
+
+	connect_data = e_connect_notify_data_new (c_handler, user_data, G_CONNECT_SWAPPED);
+
+	return g_signal_connect_data (instance,
+				      notify_name,
+				      G_CALLBACK (e_signal_connect_notify_cb),
+				      connect_data,
+				      (GClosureNotify) e_connect_notify_data_free,
+				      0);
+}
+
+gulong
+e_signal_connect_notify_object (gpointer instance,
+				const gchar *notify_name,
+				GCallback c_handler,
+				gpointer gobject,
+				GConnectFlags connect_flags)
+{
+	EConnectNotifyData *connect_data;
+	GClosure *closure;
+
+	g_return_val_if_fail (g_str_has_prefix (notify_name, "notify::"), 0);
+
+	if (!gobject) {
+		if ((connect_flags & G_CONNECT_SWAPPED) != 0)
+			return e_signal_connect_notify_swapped (instance, notify_name, c_handler, gobject);
+		else if ((connect_flags & G_CONNECT_AFTER) != 0)
+			e_signal_connect_notify_after (instance, notify_name, c_handler, gobject);
+		else
+			g_warn_if_fail (connect_flags == 0);
+
+		return e_signal_connect_notify (instance, notify_name, c_handler, gobject);
+	}
+
+	g_return_val_if_fail (G_IS_OBJECT (gobject), 0);
+
+	connect_data = e_connect_notify_data_new (c_handler, gobject, connect_flags & G_CONNECT_SWAPPED);
+	closure = g_cclosure_new (
+		G_CALLBACK (e_signal_connect_notify_cb),
+		connect_data,
+		(GClosureNotify) e_connect_notify_data_free);
+
+	g_object_watch_closure (G_OBJECT (gobject), closure);
+
+	return g_signal_connect_closure (instance,
+					 notify_name,
+					 closure,
+					 connect_flags & G_CONNECT_AFTER);
+}

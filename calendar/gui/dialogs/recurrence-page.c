@@ -284,7 +284,7 @@ recurrence_page_constructor (GType type,
 	/* Keep the calendar updated as the user twizzles widgets. */
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (object));
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		editor, "notify::changed",
 		G_CALLBACK (preview_recur), object);
 
@@ -2619,7 +2619,7 @@ recurrence_page_construct (RecurrencePage *rpage,
 
 	init_widgets (rpage);
 
-	g_signal_connect_swapped (
+	e_signal_connect_notify_swapped (
 		editor, "notify::client",
 		G_CALLBACK (sensitize_buttons), rpage);
 

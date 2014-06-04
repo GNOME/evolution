@@ -327,19 +327,19 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	/* Bunch of chores to do when the active view changes. */
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_icon), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_title), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_view_menu), NULL);
 
-	g_signal_connect (
+	e_signal_connect_notify (
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_search_menu), NULL);
 
