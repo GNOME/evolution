@@ -666,7 +666,17 @@ static void
 cal_shell_backend_use_system_timezone_changed_cb (GSettings *settings,
                                                   const gchar *key)
 {
-	g_signal_emit_by_name (settings, "changed::timezone", timezone);
+	/* the '-1' is a trick to emit the change the first time */
+	static gint old_value = -1;
+	gboolean value;
+
+	value = g_settings_get_boolean (settings, key);
+
+	if ((value ? 1 : 0) != old_value) {
+		old_value = value ? 1 : 0;
+
+		g_signal_emit_by_name (settings, "changed::timezone", timezone);
+	}
 }
 
 static void

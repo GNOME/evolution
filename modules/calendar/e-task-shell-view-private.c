@@ -88,7 +88,21 @@ task_shell_view_hide_completed_tasks_changed_cb (GSettings *settings,
                                                  const gchar *key,
                                                  ETaskShellView *task_shell_view)
 {
-	task_shell_view_process_completed_tasks (task_shell_view);
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (task_shell_view->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (task_shell_view->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (task_shell_view->priv->old_settings, key);
+
+		task_shell_view_process_completed_tasks (task_shell_view);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
 }
 
 static void
@@ -210,6 +224,8 @@ task_shell_view_notify_view_id_cb (EShellView *shell_view)
 void
 e_task_shell_view_private_init (ETaskShellView *task_shell_view)
 {
+	task_shell_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
 	e_signal_connect_notify (
 		task_shell_view, "notify::view-id",
 		G_CALLBACK (task_shell_view_notify_view_id_cb), NULL);
@@ -553,7 +569,11 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 void
 e_task_shell_view_private_finalize (ETaskShellView *task_shell_view)
 {
-	/* XXX Nothing to do? */
+	if (task_shell_view->priv->old_settings) {
+		g_hash_table_destroy (task_shell_view->priv->old_settings);
+		task_shell_view->priv->old_settings = NULL;
+	}
+
 }
 
 void
