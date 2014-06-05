@@ -909,6 +909,24 @@
    </option>
   </input>
  </part>
+ <part name="location">
+  <_title>Message Location</_title>
+  <input type="optionlist" name="msglocation-type">
+   <option value="is">
+    <_title>is</_title>
+    <code>
+      (match-all (message-location ${folder}))
+    </code>
+   </option>
+   <option value="is-not">
+    <_title>is not</_title>
+    <code>
+      (match-all (not (message-location ${folder})))
+    </code>
+   </option>
+  </input>
+  <input type="folder" name="folder"/>
+ </part>
 
     <part name="all">
       <_title>Match All</_title>
