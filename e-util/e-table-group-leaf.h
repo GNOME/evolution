@@ -90,6 +90,8 @@ struct _ETableGroupLeaf {
 	gint etgl_start_drag_id;
 
 	ESelectionModel *selection_model;
+
+	gulong notify_is_editing_id;
 };
 
 struct _ETableGroupLeafClass {

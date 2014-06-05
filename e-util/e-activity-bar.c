@@ -389,7 +389,7 @@ e_activity_bar_set_activity (EActivityBar *bar,
 			G_OBJECT (activity), (GWeakNotify)
 			activity_bar_weak_notify_cb, bar);
 
-		e_signal_connect_notify_swapped (
+		g_signal_connect_swapped (
 			activity, "notify::state",
 			G_CALLBACK (activity_bar_feedback), bar);
 

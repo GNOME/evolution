@@ -47,6 +47,7 @@
 
 struct _EMeetingTimeSelectorPrivate {
 	gboolean use_24_hour_format;
+	gulong notify_free_busy_template_id;
 };
 
 /* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
@@ -251,6 +252,8 @@ meeting_time_selector_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			mts->model, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, mts);
+		e_signal_disconnect_notify_handler (mts->model, &mts->priv->notify_free_busy_template_id);
+
 		g_object_unref (mts->model);
 		mts->model = NULL;
 	}
@@ -396,7 +399,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	if (mts->model)
 		g_object_ref (mts->model);
 
-	e_signal_connect_notify_swapped (
+	mts->priv->notify_free_busy_template_id = e_signal_connect_notify_swapped (
 		mts->model, "notify::free-busy-template",
 		G_CALLBACK (free_busy_template_changed_cb), mts);
 

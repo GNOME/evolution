@@ -609,7 +609,7 @@ e_buffer_tagger_connect (GtkTextView *textview)
 	g_signal_connect (
 		buffer, "delete-range",
 		G_CALLBACK (buffer_delete_range), NULL);
-	e_signal_connect_notify (
+	g_signal_connect (
 		buffer, "notify::cursor-position",
 		G_CALLBACK (buffer_cursor_position), NULL);
 
