@@ -59,6 +59,8 @@ struct _EMailDisplayPrivate {
 	GHashTable *widgets;
 
 	guint scheduled_reload;
+
+	GHashTable *old_settings;
 };
 
 enum {
@@ -1135,6 +1137,22 @@ mail_display_dispose (GObject *object)
 }
 
 static void
+mail_display_finalize (GObject *object)
+{
+	EMailDisplayPrivate *priv;
+
+	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
+
+	if (priv->old_settings) {
+		g_hash_table_destroy (priv->old_settings);
+		priv->old_settings = NULL;
+	}
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_display_parent_class)->finalize (object);
+}
+
+static void
 mail_display_constructed (GObject *object)
 {
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
@@ -1406,6 +1424,28 @@ mail_display_set_fonts (EWebView *web_view,
 }
 
 static void
+e_mail_display_test_change_and_update_fonts_cb (EMailDisplay *mail_display,
+						const gchar *key,
+						GSettings *settings)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (mail_display->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (mail_display->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (mail_display->priv->old_settings, key);
+
+		e_web_view_update_fonts (E_WEB_VIEW (mail_display));
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
+static void
 e_mail_display_class_init (EMailDisplayClass *class)
 {
 	GObjectClass *object_class;
@@ -1419,6 +1459,7 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	object_class->set_property = mail_display_set_property;
 	object_class->get_property = mail_display_get_property;
 	object_class->dispose = mail_display_dispose;
+	object_class->finalize = mail_display_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
@@ -1496,6 +1537,8 @@ e_mail_display_init (EMailDisplay *display)
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
+	display->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
 	/* Set invalid mode so that MODE property initialization is run
 	 * completely (see e_mail_display_set_mode) */
 	display->priv->mode = E_MAIL_FORMATTER_MODE_INVALID;
@@ -1536,13 +1579,13 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->settings = g_settings_new ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::monospace-font",
-		G_CALLBACK (e_web_view_update_fonts), display);
+		G_CALLBACK (e_mail_display_test_change_and_update_fonts_cb), display);
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::variable-width-font",
-		G_CALLBACK (e_web_view_update_fonts), display);
+		G_CALLBACK (e_mail_display_test_change_and_update_fonts_cb), display);
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::use-custom-font",
-		G_CALLBACK (e_web_view_update_fonts), display);
+		G_CALLBACK (e_mail_display_test_change_and_update_fonts_cb), display);
 
 	e_web_view_update_fonts (E_WEB_VIEW (display));
 

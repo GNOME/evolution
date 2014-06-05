@@ -727,15 +727,20 @@ edvti_second_zone_changed_cb (GSettings *settings,
 {
 	EDayViewTimeItem *time_item = user_data;
 	EDayView *day_view;
+	icaltimezone *second_zone;
 	gchar *location;
 
 	g_return_if_fail (user_data != NULL);
 	g_return_if_fail (E_IS_DAY_VIEW_TIME_ITEM (time_item));
 
 	location = calendar_config_get_day_second_zone ();
-	time_item->priv->second_zone =
-		location ? icaltimezone_get_builtin_timezone (location) : NULL;
+	second_zone = location ? icaltimezone_get_builtin_timezone (location) : NULL;
 	g_free (location);
+
+	if (second_zone == time_item->priv->second_zone)
+		return;
+
+	time_item->priv->second_zone = second_zone;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	gtk_widget_set_size_request (

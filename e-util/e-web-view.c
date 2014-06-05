@@ -69,6 +69,8 @@ struct _EWebViewPrivate {
 
 	GSettings *aliasing_settings;
 	gulong antialiasing_changed_handler_id;
+
+	GHashTable *old_settings;
 };
 
 struct _AsyncContext {
@@ -897,6 +899,11 @@ web_view_finalize (GObject *object)
 	while (!g_queue_is_empty (&priv->highlights))
 		g_free (g_queue_pop_head (&priv->highlights));
 
+	if (priv->old_settings) {
+		g_hash_table_destroy (priv->old_settings);
+		priv->old_settings = NULL;
+	}
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
 }
@@ -1407,6 +1414,28 @@ web_view_selectable_select_all (ESelectable *selectable)
 	e_web_view_select_all (E_WEB_VIEW (selectable));
 }
 
+static void
+e_web_view_test_change_and_update_fonts_cb (EWebView *web_view,
+					    const gchar *key,
+					    GSettings *settings)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (web_view->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (web_view->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (web_view->priv->old_settings, key);
+
+		e_web_view_update_fonts (web_view);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
 static gpointer
 web_view_disable_webkit_3rd_party_plugins (gpointer unused)
 {
@@ -1670,6 +1699,8 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
+	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
 	/* XXX No WebKitWebView class method pointers to
 	 *     override so we have to use signal handlers. */
 
@@ -1727,11 +1758,11 @@ e_web_view_init (EWebView *web_view)
 	web_view->priv->font_settings = g_object_ref (settings);
 	handler_id = g_signal_connect_swapped (
 		settings, "changed::font-name",
-		G_CALLBACK (e_web_view_update_fonts), web_view);
+		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
 	web_view->priv->font_name_changed_handler_id = handler_id;
 	handler_id = g_signal_connect_swapped (
 		settings, "changed::monospace-font-name",
-		G_CALLBACK (e_web_view_update_fonts), web_view);
+		G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
 	web_view->priv->monospace_font_name_changed_handler_id = handler_id;
 	g_object_unref (settings);
 
@@ -1744,7 +1775,7 @@ e_web_view_init (EWebView *web_view)
 		web_view->priv->aliasing_settings = g_object_ref (settings);
 		handler_id = g_signal_connect_swapped (
 			settings, "changed::antialiasing",
-			G_CALLBACK (e_web_view_update_fonts), web_view);
+			G_CALLBACK (e_web_view_test_change_and_update_fonts_cb), web_view);
 		web_view->priv->antialiasing_changed_handler_id = handler_id;
 		g_object_unref (settings);
 		g_settings_schema_unref (settings_schema);

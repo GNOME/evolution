@@ -73,11 +73,24 @@ settings_jh_headers_changed (GSettings *settings,
 	gchar **strv;
 	gint i;
 
+	strv = g_settings_get_strv (settings, "junk-custom-header");
+	if (key) {
+		for (i = 0, node = config->jh_header; strv[i] && node; i++, node = g_slist_next (node)) {
+			if (g_strcmp0 (node->data, strv[i]) != 0)
+				break;
+		}
+
+		/* both lists are read to the end, thus they are the same */
+		if (!node && !strv[i]) {
+			g_strfreev (strv);
+			return;
+		}
+	}
+
 	g_slist_foreach (config->jh_header, (GFunc) g_free, NULL);
 	g_slist_free (config->jh_header);
 	config->jh_header = NULL;
 
-	strv = g_settings_get_strv (settings, "junk-custom-header");
 	for (i = 0; strv[i] != NULL; i++)
 		config->jh_header = g_slist_append (config->jh_header, g_strdup (strv[i]));
 	g_strfreev (strv);
@@ -108,6 +121,9 @@ settings_jh_check_changed (GSettings *settings,
                            const gchar *key,
                            EMailSession *session)
 {
+	if (key && config->jh_check == g_settings_get_boolean (settings, "junk-check-custom-header"))
+		return;
+
 	config->jh_check = g_settings_get_boolean (settings, "junk-check-custom-header");
 	if (!config->jh_check) {
 		camel_session_set_junk_headers (

@@ -120,6 +120,8 @@ struct _ETaskShellViewPrivate {
 	guint update_completed_timeout;
 
 	guint confirm_purge : 1;
+
+	GHashTable *old_settings;
 };
 
 void		e_task_shell_view_private_init
