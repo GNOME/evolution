@@ -123,6 +123,8 @@ struct _GnomeCalendarPrivate {
 	gboolean lview_select_daten_range;
 
 	GCancellable *cancellable;
+
+	gulong notify_week_start_day_id;
 };
 
 struct _ViewData {
@@ -591,7 +593,7 @@ gnome_calendar_constructed (GObject *object)
 		calendar_view, "selection-changed",
 		G_CALLBACK (view_selection_changed_cb), gcal);
 
-	e_signal_connect_notify_swapped (
+	gcal->priv->notify_week_start_day_id = e_signal_connect_notify_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (gnome_calendar_notify_week_start_day_cb), gcal);
 
@@ -1575,6 +1577,7 @@ gnome_calendar_do_dispose (GObject *object)
 
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_by_data (priv->model, object);
+		e_signal_disconnect_notify_handler (priv->model, &priv->notify_week_start_day_id);
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}

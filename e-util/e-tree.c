@@ -1283,7 +1283,7 @@ et_setup_table_canvas_vadjustment (ETree *tree)
 
 	if (vadjustment) {
 		tree->priv->table_canvas_vadjustment = g_object_ref (vadjustment);
-		e_signal_connect_notify (
+		g_signal_connect (
 			vadjustment, "notify::value",
 			G_CALLBACK (e_tree_table_canvas_scrolled_cb), tree);
 	}
@@ -1336,7 +1336,7 @@ e_tree_setup_table (ETree *tree)
 		G_CALLBACK (tree_canvas_reflow), tree);
 
 	et_setup_table_canvas_vadjustment (tree);
-	e_signal_connect_notify_swapped (
+	g_signal_connect_swapped (
 		tree->priv->table_canvas, "notify::vadjustment",
 		G_CALLBACK (et_setup_table_canvas_vadjustment), tree);
 

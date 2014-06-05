@@ -35,6 +35,9 @@ struct _ECategoryCompletionPrivate {
 	GtkWidget *last_known_entry;
 	gchar *create;
 	gchar *prefix;
+
+	gulong notify_cursor_position_id;
+	gulong notify_text_id;
 };
 
 enum {
@@ -346,6 +349,8 @@ category_completion_track_entry (GtkEntryCompletion *completion)
 		g_signal_handlers_disconnect_matched (
 			priv->last_known_entry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, completion);
+		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_cursor_position_id);
+		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_text_id);
 		g_object_unref (priv->last_known_entry);
 	}
 
@@ -358,11 +363,11 @@ category_completion_track_entry (GtkEntryCompletion *completion)
 
 	g_object_ref (priv->last_known_entry);
 
-	e_signal_connect_notify_swapped (
+	priv->notify_cursor_position_id = e_signal_connect_notify_swapped (
 		priv->last_known_entry, "notify::cursor-position",
 		G_CALLBACK (category_completion_update_prefix), completion);
 
-	e_signal_connect_notify_swapped (
+	priv->notify_text_id = e_signal_connect_notify_swapped (
 		priv->last_known_entry, "notify::text",
 		G_CALLBACK (category_completion_update_prefix), completion);
 
@@ -417,6 +422,8 @@ category_completion_dispose (GObject *object)
 		g_signal_handlers_disconnect_matched (
 			priv->last_known_entry, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
+		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_cursor_position_id);
+		e_signal_disconnect_notify_handler (priv->last_known_entry, &priv->notify_text_id);
 		g_object_unref (priv->last_known_entry);
 		priv->last_known_entry = NULL;
 	}

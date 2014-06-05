@@ -58,6 +58,11 @@ struct _ETaskTablePrivate {
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
+
+	gulong notify_highlight_due_today_id;
+	gulong notify_color_due_today_id;
+	gulong notify_highlight_overdue_id;
+	gulong notify_color_overdue_id;
 };
 
 enum {
@@ -315,26 +320,25 @@ task_table_set_model (ETaskTable *task_table,
 		task_table);
 
 	/* redraw on drawing options change */
-	e_signal_connect_notify (
+	task_table->priv->notify_highlight_due_today_id = e_signal_connect_notify (
 		model, "notify::highlight-due-today",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
 
-	e_signal_connect_notify (
+	task_table->priv->notify_color_due_today_id = e_signal_connect_notify (
 		model, "notify::color-due-today",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
 
-	e_signal_connect_notify (
+	task_table->priv->notify_highlight_overdue_id = e_signal_connect_notify (
 		model, "notify::highlight-overdue",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
 
-	e_signal_connect_notify (
+	task_table->priv->notify_color_overdue_id = e_signal_connect_notify (
 		model, "notify::color-overdue",
 		G_CALLBACK (task_table_queue_draw_cb),
 		task_table);
-
 }
 
 static void
@@ -428,7 +432,13 @@ task_table_dispose (GObject *object)
 	}
 
 	if (priv->model != NULL) {
-		g_signal_handlers_disconnect_by_func (priv->model, task_table_queue_draw_cb, object);
+		g_signal_handlers_disconnect_by_data (priv->model, object);
+
+		e_signal_disconnect_notify_handler (priv->model, &priv->notify_highlight_due_today_id);
+		e_signal_disconnect_notify_handler (priv->model, &priv->notify_color_due_today_id);
+		e_signal_disconnect_notify_handler (priv->model, &priv->notify_highlight_overdue_id);
+		e_signal_disconnect_notify_handler (priv->model, &priv->notify_color_overdue_id);
+
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}

@@ -33,6 +33,7 @@
 struct _ESettingsWebViewGtkHTMLPrivate {
 	GtkCssProvider *css_provider;
 	GSettings *settings;
+	GHashTable *old_values;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -148,7 +149,21 @@ settings_web_view_gtkhtml_changed_cb (GSettings *settings,
                                       const gchar *key,
                                       ESettingsWebViewGtkHTML *extension)
 {
-	settings_web_view_gtkhtml_load_style (extension);
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (extension->priv->old_values, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (extension->priv->old_values, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (extension->priv->old_values, key);
+
+		settings_web_view_gtkhtml_load_style (extension);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
 }
 
 static void
@@ -227,6 +242,11 @@ settings_web_view_gtkhtml_dispose (GObject *object)
 			settings_web_view_gtkhtml_changed_cb, object);
 	}
 
+	if (priv->old_values) {
+		g_hash_table_destroy (priv->old_values);
+		priv->old_values = NULL;
+	}
+
 	g_clear_object (&priv->css_provider);
 	g_clear_object (&priv->settings);
 
@@ -289,6 +309,8 @@ e_settings_web_view_gtkhtml_init (ESettingsWebViewGtkHTML *extension)
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	extension->priv->settings = settings;
+
+	extension->priv->old_values = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 }
 
 void

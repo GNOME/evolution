@@ -108,9 +108,7 @@ etgl_dispose (GObject *object)
 				etgl->item,
 				etgl->etgl_start_drag_id);
 
-		g_signal_handlers_disconnect_by_func (
-			etgl->item,
-			etgl_item_is_editing_changed_cb, etgl);
+		e_signal_disconnect_notify_handler (etgl->item, &etgl->notify_is_editing_id);
 
 		etgl->etgl_cursor_change_id = 0;
 		etgl->etgl_cursor_activated_id = 0;
@@ -368,7 +366,7 @@ etgl_realize (GnomeCanvasItem *item)
 		etgl->item, "start_drag",
 		G_CALLBACK (etgl_start_drag), etgl);
 
-	e_signal_connect_notify (
+	etgl->notify_is_editing_id = e_signal_connect_notify (
 		etgl->item, "notify::is-editing",
 		G_CALLBACK (etgl_item_is_editing_changed_cb), etgl);
 

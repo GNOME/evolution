@@ -606,18 +606,18 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 		/* When EAttachmentBar is expanded/collapsed it does not
 		 * emit size-allocate signal despite it changes it's height. */
-		e_signal_connect_notify (
+		g_signal_connect (
 			widget, "notify::expanded",
 			G_CALLBACK (mail_display_plugin_widget_resize),
 			display);
-		e_signal_connect_notify (
+		g_signal_connect (
 			widget, "notify::active-view",
 			G_CALLBACK (mail_display_plugin_widget_resize),
 			display);
 
 		/* Always hide an attachment bar without attachments */
 		store = e_attachment_bar_get_store (E_ATTACHMENT_BAR (widget));
-		e_signal_connect_notify (
+		g_signal_connect (
 			store, "notify::num-attachments",
 			G_CALLBACK (mail_display_attachment_count_changed),
 			box);
@@ -668,11 +668,11 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 			/* Show/hide the attachment when the EAttachmentButton
 			 * is expanded/collapsed or shown/hidden. */
-			e_signal_connect_notify (
+			g_signal_connect (
 				widget, "notify::expanded",
 				G_CALLBACK (attachment_button_expanded),
 				display);
-			e_signal_connect_notify (
+			g_signal_connect (
 				widget, "notify::visible",
 				G_CALLBACK (attachment_button_expanded),
 				display);
@@ -994,7 +994,7 @@ mail_display_frame_created (WebKitWebView *web_view,
 	d (printf ("Frame %s created!\n", webkit_web_frame_get_name (frame)));
 
 	/* Call bind_func of all parts written in this frame */
-	e_signal_connect_notify (
+	g_signal_connect (
 		frame, "notify::load-status",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
 }

@@ -1006,10 +1006,12 @@ e_plugin_lib_enable (EPlugin *ep,
 	EShell *shell = e_shell_get_default ();
 
 	if (shell) {
-		g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (online_state_changed), NULL);
+		static gulong notify_online_id = 0;
+
+		e_signal_disconnect_notify_handler (shell, &notify_online_id);
 		if (enable) {
 			online = e_shell_get_online (shell);
-			e_signal_connect_notify (
+			notify_online_id = e_signal_connect_notify (
 				shell, "notify::online",
 				G_CALLBACK (online_state_changed), NULL);
 		}

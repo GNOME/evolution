@@ -102,6 +102,8 @@ struct _EWeekViewPrivate {
 	 * week_start_day, but if the Sat & Sun are compressed and the
 	 * week starts on Sunday then we have to use Saturday. */
 	GDateWeekday display_start_day;
+
+	gulong notify_week_start_day_id;
 };
 
 typedef struct {
@@ -724,8 +726,10 @@ week_view_dispose (GObject *object)
 
 	e_week_view_cancel_layout (week_view);
 
-	if (model)
+	if (model) {
 		g_signal_handlers_disconnect_by_data (model, object);
+		e_signal_disconnect_notify_handler (model, &week_view->priv->notify_week_start_day_id);
+	}
 
 	if (week_view->events) {
 		e_week_view_free_events (week_view);
@@ -761,18 +765,20 @@ week_view_dispose (GObject *object)
 static void
 week_view_constructed (GObject *object)
 {
+	EWeekView *week_view;
 	ECalModel *model;
 	ECalendarView *calendar_view;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_week_view_parent_class)->constructed (object);
 
+	week_view = E_WEEK_VIEW (object);
 	calendar_view = E_CALENDAR_VIEW (object);
 	model = e_calendar_view_get_model (calendar_view);
 
 	e_week_view_recalc_display_start_day (E_WEEK_VIEW (object));
 
-	e_signal_connect_notify_swapped (
+	week_view->priv->notify_week_start_day_id = e_signal_connect_notify_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (week_view_notify_week_start_day_cb), object);
 

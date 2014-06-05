@@ -2394,6 +2394,16 @@ e_signal_connect_notify_cb (gpointer instance,
 	}
 }
 
+/**
+ * e_signal_connect_notify:
+ *
+ * This installs a special handler in front of @c_handler, which will
+ * call the @c_handler only if the property value changed since the last
+ * time it was checked. Due to this, these handlers cannot be disconnected
+ * by by any of the g_signal_handlers_* functions, but only with the returned
+ * handler ID. A convenient e_signal_disconnect_notify_handler() was added
+ * to make it easier.
+ **/
 gulong
 e_signal_connect_notify (gpointer instance,
 			 const gchar *notify_name,
@@ -2414,6 +2424,16 @@ e_signal_connect_notify (gpointer instance,
 				      0);
 }
 
+/**
+ * e_signal_connect_notify_after:
+ *
+ * This installs a special handler in front of @c_handler, which will
+ * call the @c_handler only if the property value changed since the last
+ * time it was checked. Due to this, these handlers cannot be disconnected
+ * by by any of the g_signal_handlers_* functions, but only with the returned
+ * handler ID. A convenient e_signal_disconnect_notify_handler() was added
+ * to make it easier.
+ **/
 gulong
 e_signal_connect_notify_after (gpointer instance,
 			       const gchar *notify_name,
@@ -2434,6 +2454,16 @@ e_signal_connect_notify_after (gpointer instance,
 				      G_CONNECT_AFTER);
 }
 
+/**
+ * e_signal_connect_notify_swapped:
+ *
+ * This installs a special handler in front of @c_handler, which will
+ * call the @c_handler only if the property value changed since the last
+ * time it was checked. Due to this, these handlers cannot be disconnected
+ * by by any of the g_signal_handlers_* functions, but only with the returned
+ * handler ID. A convenient e_signal_disconnect_notify_handler() was added
+ * to make it easier.
+ **/
 gulong
 e_signal_connect_notify_swapped (gpointer instance,
 				 const gchar *notify_name,
@@ -2454,6 +2484,16 @@ e_signal_connect_notify_swapped (gpointer instance,
 				      0);
 }
 
+/**
+ * e_signal_connect_notify_object:
+ *
+ * This installs a special handler in front of @c_handler, which will
+ * call the @c_handler only if the property value changed since the last
+ * time it was checked. Due to this, these handlers cannot be disconnected
+ * by by any of the g_signal_handlers_* functions, but only with the returned
+ * handler ID. A convenient e_signal_disconnect_notify_handler() was added
+ * to make it easier.
+ **/
 gulong
 e_signal_connect_notify_object (gpointer instance,
 				const gchar *notify_name,
@@ -2491,4 +2531,29 @@ e_signal_connect_notify_object (gpointer instance,
 					 notify_name,
 					 closure,
 					 connect_flags & G_CONNECT_AFTER);
+}
+
+/**
+ * e_signal_disconnect_notify_handler:
+ *
+ * Convenient handler disconnect function to be used with
+ * returned handler IDs from:
+ *    e_signal_connect_notify()
+ *    e_signal_connect_notify_after()
+ *    e_signal_connect_notify_swapped()
+ *    e_signal_connect_notify_object()
+ * but not necessarily only with these functions.
+ **/
+void
+e_signal_disconnect_notify_handler (gpointer instance,
+				    gulong *handler_id)
+{
+	g_return_if_fail (instance != NULL);
+	g_return_if_fail (handler_id != NULL);
+
+	if (!*handler_id)
+		return;
+
+	g_signal_handler_disconnect (instance, *handler_id);
+	*handler_id = 0;
 }

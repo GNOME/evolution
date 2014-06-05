@@ -228,6 +228,9 @@ gulong		e_signal_connect_notify_object	(gpointer instance,
 						 GCallback c_handler,
 						 gpointer gobject,
 						 GConnectFlags connect_flags);
+void		e_signal_disconnect_notify_handler
+						(gpointer instance,
+						 gulong *handler_id);
 
 G_END_DECLS
 
