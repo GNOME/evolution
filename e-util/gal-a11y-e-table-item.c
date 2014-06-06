@@ -874,7 +874,7 @@ eti_header_structure_changed (ETableHeader *eth,
 
 	g_return_if_fail (cols && prev_cols && n_cols > 0);
 
-        /* Init to ETI_HEADER_UNCHANGED. */
+	/* Init to ETI_HEADER_UNCHANGED. */
 	state = g_malloc0 (sizeof (gint) * (MAX (prev_n_cols, n_cols) + 1));
 	prev_state = g_malloc0 (sizeof (gint) * (MAX (prev_n_cols, n_cols) + 1));
 	reorder = g_malloc0 (sizeof (gint) * (MAX (prev_n_cols, n_cols) + 1));
@@ -975,16 +975,15 @@ eti_real_initialize (AtkObject *obj,
 
 	model = eti->table_model;
 
-	g_signal_connect (
+	g_signal_connect_object (
 		model, "model-rows-inserted",
-		G_CALLBACK (eti_rows_inserted), obj);
-	g_signal_connect (
+		G_CALLBACK (eti_rows_inserted), obj, 0);
+	g_signal_connect_object (
 		model, "model-rows-deleted",
-		G_CALLBACK (eti_rows_deleted), obj);
-	g_signal_connect (
+		G_CALLBACK (eti_rows_deleted), obj, 0);
+	g_signal_connect_object (
 		eti->header, "structure_change",
-		G_CALLBACK (eti_header_structure_changed), obj);
-
+		G_CALLBACK (eti_header_structure_changed), obj, 0);
 }
 
 static void
