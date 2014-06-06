@@ -1182,6 +1182,56 @@ send_receive_account_item_activate_cb (GtkMenuItem *menu_item,
 	mail_receive_service (service);
 }
 
+typedef struct _EMenuItemSensitivityData {
+	GObject *service;
+	GtkWidget *menu_item;
+} EMenuItemSensitivityData;
+
+static void
+free_menu_item_sensitivity_data (gpointer ptr)
+{
+	EMenuItemSensitivityData *data = ptr;
+
+	if (!data)
+		return;
+
+	g_object_unref (data->service);
+	g_object_unref (data->menu_item);
+	g_free (data);
+}
+
+static gboolean
+update_menu_item_sensitivity_cb (gpointer user_data)
+{
+	EMenuItemSensitivityData *data = user_data;
+	gboolean is_online = FALSE;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	g_object_get (data->service, "online", &is_online, NULL);
+
+	gtk_widget_set_sensitive (data->menu_item, is_online);
+
+	return FALSE;
+}
+
+static void
+service_online_state_changed_cb (GObject *service,
+				 GParamSpec *param,
+				 GObject *menu_item)
+{
+	EMenuItemSensitivityData *data;
+
+	g_return_if_fail (G_IS_OBJECT (service));
+	g_return_if_fail (GTK_IS_WIDGET (menu_item));
+
+	data = g_new0 (EMenuItemSensitivityData, 1);
+	data->service = g_object_ref (service);
+	data->menu_item = g_object_ref (menu_item);
+
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, update_menu_item_sensitivity_cb, data, free_menu_item_sensitivity_data);
+}
+
 static void
 send_receive_add_to_menu (SendReceiveData *data,
                           CamelService *service,
@@ -1211,10 +1261,10 @@ send_receive_add_to_menu (SendReceiveData *data,
 		else
 			object = camel_service_ref_session (service);
 
-		g_object_bind_property (
-			object, "online",
-			menu_item, "sensitive",
-			G_BINDING_SYNC_CREATE);
+		e_signal_connect_notify_object (
+			object, "notify::online",
+			G_CALLBACK (service_online_state_changed_cb), menu_item,
+			0);
 
 		g_object_unref (object);
 	}
