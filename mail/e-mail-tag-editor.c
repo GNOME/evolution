@@ -247,6 +247,10 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 
 	content_area = gtk_dialog_get_content_area (dialog);
 
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	g_type_ensure (E_TYPE_DATE_EDIT);
+
 	/* Load the rest of the UI from the builder file. */
 
 	builder = gtk_builder_new ();

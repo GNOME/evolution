@@ -1238,6 +1238,7 @@ memo_page_construct (MemoPage *mpage)
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
+	g_type_ensure (E_TYPE_CLIENT_COMBO_BOX);
 	g_type_ensure (E_TYPE_DATE_EDIT);
 	g_type_ensure (E_TYPE_SPELL_ENTRY);
 

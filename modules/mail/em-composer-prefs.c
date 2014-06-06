@@ -1042,8 +1042,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
-	E_TYPE_MAIL_JUNK_OPTIONS;
-	EM_TYPE_FOLDER_SELECTION_BUTTON;
+	g_type_ensure (E_TYPE_MAIL_JUNK_OPTIONS);
 
 	prefs->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
