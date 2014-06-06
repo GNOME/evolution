@@ -1445,6 +1445,8 @@ contact_list_editor_constructed (GObject *object)
 	editor->priv->editable = TRUE;
 	editor->priv->allows_contact_lists = TRUE;
 
+	g_type_ensure (E_TYPE_CLIENT_COMBO_BOX);
+
 	editor->priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (
 		editor->priv->builder, "contact-list-editor.ui");

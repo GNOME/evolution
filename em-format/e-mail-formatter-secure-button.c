@@ -270,6 +270,10 @@ secure_button_clicked_cb (GtkWidget *widget,
 
 	g_return_if_fail (validity != NULL);
 
+	/* Make sure our custom widget classes are registered with
+	 * GType before we load the GtkBuilder definition file. */
+	g_type_ensure (E_TYPE_DATE_EDIT);
+
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
 
