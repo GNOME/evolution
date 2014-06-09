@@ -885,6 +885,7 @@ composer_move_caret (EMsgComposer *composer)
 				"",
 				NULL);
 		e_html_editor_selection_restore_caret_position (editor_selection);
+		e_html_editor_selection_scroll_to_caret (editor_selection);
 
 		e_html_editor_view_force_spell_check (view);
 		return;
