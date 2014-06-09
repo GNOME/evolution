@@ -1,3 +1,31 @@
+Evolution 3.12.3 2014-06-09
+---------------------------
+
+Bug Fixes:
+	Bug 563048 - Prefer Inbox type over other types in folder description (Milan Crha)
+	Bug 730145 - Switching folders marks message as seen (Carl Schaefer)
+	Bug 730199 - [MessageList] Support dates with value larger than 2^32 (Milan Crha)
+	Bug 730756 - Incorrect g_variant_unref() call after g_variant_builder_end() (Milan Crha)
+	Bug 730144 - Sort Templates menu items alphabetically (Milan Crha)
+	Bug 730110 - Search results include also last email looked at (Milan Crha)
+	Bug 729905 - [external-editor] Mark composer changed after message body set (Milan Crha)
+	Bug 729667 - Create Folder window is much too short (Milan Crha)
+	Bug 729303 - Default width of Message Filters window is too small (Milan Crha)
+	Bug 731082 - Send mail in offline mode should use Outbox folder (Milan Crha)
+	Bug 730738 - Extra new line at the beginning of the message in Edit as New (Milan Crha)
+	Bug 730977 - Online state change received in a dedicated thread (Milan Crha)
+	Bug 731321 - Missing custom types when loading .ui definition (Milan Crha)
+	Bug 668006 - Crash when dragging column headers of Tasks list (Milan Crha)
+
+Miscellaneous:
+	Custom mail account order reset on an account add or remove (Milan Crha)
+	Update tar format to tar-ustar (Yanko Kaneti)
+	Updated German Help translation (Christian Kirbach)
+	Runtime criticals when closing an appointment editor with reminders (Milan Crha)
+	Ignore false GObject property change notifications (Milan Crha)
+	Properly disconnect signal handlers added with e_signal_connect_notify*() (Milan Crha)
+	Ignore false GSettings key change notifications (Milan Crha)
+
 Evolution 3.12.2 2014-05-12
 ---------------------------
 
