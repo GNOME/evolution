@@ -1081,7 +1081,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		(active_id != NULL) ? active_id : "");
 
 	if (!is_html)
-		g_string_append (html_buffer, "<PRE>\n");
+		g_string_append (html_buffer, "<PRE>");
 
 	/* The signature dash convention ("-- \n") is specified
 	 * in the "Son of RFC 1036", section 4.3.2.
@@ -1092,8 +1092,8 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		const gchar *delim_nl;
 
 		if (is_html) {
-			delim = "-- \n<BR>";
-			delim_nl = "\n-- \n<BR>";
+			delim = "-- <BR>";
+			delim_nl = "\n-- <BR>";
 		} else {
 			delim = "-- \n";
 			delim_nl = "\n-- \n";
@@ -1111,7 +1111,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	g_string_append_len (html_buffer, contents, length);
 
 	if (!is_html)
-		g_string_append (html_buffer, "</PRE>\n");
+		g_string_append (html_buffer, "</PRE>");
 
 	g_string_append (html_buffer, "</SPAN>");
 	g_free (contents);
