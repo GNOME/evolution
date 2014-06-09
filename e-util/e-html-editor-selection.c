@@ -40,7 +40,10 @@
 	((obj), E_TYPE_HTML_EDITOR_SELECTION, EHTMLEditorSelectionPrivate))
 
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
+#define UNICODE_NBSP "\xc2\xa0"
+
 #define SPACES_PER_INDENTATION 4
+#define SPACES_PER_LIST_LEVEL 8
 
 /**
  * EHTMLEditorSelection
@@ -1032,6 +1035,27 @@ e_html_editor_selection_replace (EHTMLEditorSelection *selection,
 }
 
 /**
+ * e_html_editor_selection_get_list_alignment_from_node:
+ * @node: #an WebKitDOMNode
+ *
+ * Returns alignment of given list.
+ *
+ * Returns: #EHTMLEditorSelectionAlignment
+ */
+EHTMLEditorSelectionAlignment
+e_html_editor_selection_get_list_alignment_from_node (WebKitDOMNode *node)
+{
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-left"))
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-center"))
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-right"))
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+
+	return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+}
+
+/**
  * e_html_editor_selection_get_alignment:
  * @selection: #an EHTMLEditorSelection
  *
@@ -1094,6 +1118,121 @@ e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 	return alignment;
 }
 
+static void
+set_ordered_list_type_to_element (WebKitDOMElement *list,
+                                  EHTMLEditorSelectionBlockFormat format)
+{
+	if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST)
+		webkit_dom_element_remove_attribute (list, "type");
+	else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA)
+		webkit_dom_element_set_attribute (list, "type", "A", NULL);
+	else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN)
+		webkit_dom_element_set_attribute (list, "type", "I", NULL);
+}
+
+static WebKitDOMElement *
+create_list_element (EHTMLEditorSelection *selection,
+                     WebKitDOMDocument *document,
+                     EHTMLEditorSelectionBlockFormat format,
+		     gint level,
+                     gboolean html_mode)
+{
+	WebKitDOMElement *list;
+	gint offset = -SPACES_PER_LIST_LEVEL;
+	gboolean inserting_unordered_list =
+		format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+
+	list = webkit_dom_document_create_element (
+		document, inserting_unordered_list  ? "UL" : "OL", NULL);
+
+	set_ordered_list_type_to_element (list, format);
+
+	if (level >= 0)
+		offset = (level + 1) * -SPACES_PER_LIST_LEVEL;
+
+	if (!html_mode)
+		e_html_editor_selection_set_paragraph_style (
+			selection, list, -1, offset, "");
+
+	return list;
+}
+
+static void
+remove_node (WebKitDOMNode *node)
+{
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (node), node, NULL);
+}
+
+static void
+format_change_list_from_list (EHTMLEditorSelection *selection,
+                              WebKitDOMDocument *document,
+                              EHTMLEditorSelectionBlockFormat to,
+                              gboolean html_mode)
+{
+	gboolean after_selection_end = FALSE;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker, *new_list;
+	WebKitDOMNode *source_list, *source_list_clone, *current_list, *item;
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	if (!selection_start_marker || !selection_end_marker)
+		return;
+
+	new_list = create_list_element (selection, document, to, 0, html_mode);
+
+	/* Copy elements from previous block to list */
+	item = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+	source_list = webkit_dom_node_get_parent_node (item);
+	current_list = source_list;
+	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (source_list), "-x-evo-indented"))
+		element_add_class (WEBKIT_DOM_ELEMENT (new_list), "-x-evo-indented");
+
+	while (item) {
+		WebKitDOMNode *next_item = webkit_dom_node_get_next_sibling (item);
+
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
+			webkit_dom_node_append_child (
+				after_selection_end ?
+					source_list_clone : WEBKIT_DOM_NODE (new_list),
+				WEBKIT_DOM_NODE (item),
+				NULL);
+		}
+
+		if (webkit_dom_node_contains (item, WEBKIT_DOM_NODE (selection_end_marker))) {
+			source_list_clone = webkit_dom_node_clone_node (current_list, FALSE);
+			after_selection_end = TRUE;
+		}
+
+		if (!next_item) {
+			if (after_selection_end)
+				break;
+			current_list = webkit_dom_node_get_next_sibling (current_list);
+			next_item = webkit_dom_node_get_first_child (current_list);
+		}
+		item = next_item;
+	}
+
+	if (webkit_dom_node_has_child_nodes (source_list_clone))
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (source_list),
+			WEBKIT_DOM_NODE (source_list_clone),
+			webkit_dom_node_get_next_sibling (source_list), NULL);
+	if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (new_list)))
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (source_list),
+			WEBKIT_DOM_NODE (new_list),
+			webkit_dom_node_get_next_sibling (source_list), NULL);
+	if (!webkit_dom_node_has_child_nodes (source_list))
+		remove_node (source_list);
+}
+
 /**
  * e_html_editor_selection_set_alignment:
  * @selection: an #EHTMLEditorSelection
@@ -1107,6 +1246,10 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 {
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
+	const gchar *class = "";
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMNode *parent;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
@@ -1116,6 +1259,7 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 	switch (alignment) {
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER:
 			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_CENTER;
+			class  = "-x-evo-list-item-align-center";
 			break;
 
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT:
@@ -1124,6 +1268,7 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT:
 			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_RIGHT;
+			class  = "-x-evo-list-item-align-right";
 			break;
 	}
 
@@ -1132,7 +1277,35 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	e_html_editor_view_exec_command (view, command, NULL);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	e_html_editor_selection_save (selection);
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+
+	if (!selection_start_marker) {
+		g_object_unref (view);
+		return;
+	}
+
+	parent = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent)) {
+		element_remove_class (
+			WEBKIT_DOM_ELEMENT (parent),
+			"-x-evo-list-item-align-center");
+		element_remove_class (
+			WEBKIT_DOM_ELEMENT (parent),
+			"-x-evo-list-item-align-right");
+
+		element_add_class (WEBKIT_DOM_ELEMENT (parent), class);
+	} else {
+		e_html_editor_view_exec_command (view, command, NULL);
+	}
+
+	e_html_editor_selection_restore (selection);
 
 	g_object_unref (view);
 
@@ -1235,6 +1408,45 @@ get_block_node (WebKitDOMRange *range)
 }
 
 /**
+ * e_html_editor_selection_get_list_format_from_node:
+ * @node: an #WebKitDOMNode
+ *
+ * Returns block format of given list.
+ *
+ * Returns: #EHTMLEditorSelectionBlockFormat
+ */
+EHTMLEditorSelectionBlockFormat
+e_html_editor_selection_get_list_format_from_node (WebKitDOMNode *node)
+{
+	EHTMLEditorSelectionBlockFormat format =
+		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node))
+		return -1;
+
+	if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node))
+		return format;
+
+	if (WEBKIT_DOM_IS_ELEMENT (node)) {
+		gchar *type_value = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "type");
+
+		if (!type_value)
+			return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+
+		if (!*type_value)
+			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+		else if (g_ascii_strcasecmp (type_value, "A") == 0)
+			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
+		else if (g_ascii_strcasecmp (type_value, "I") == 0)
+			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
+		g_free (type_value);
+	}
+
+	return -1;
+}
+
+/**
  * e_html_editor_selection_get_block_format:
  * @selection: an #EHTMLEditorSelection
  *
@@ -1315,203 +1527,53 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 	return result;
 }
 
-static void
-remove_br_after_list_end (EHTMLEditorSelection *selection)
+static gboolean
+is_caret_position_node (WebKitDOMNode *node)
 {
-	WebKitDOMRange *range = html_editor_selection_get_current_range (selection);
-	WebKitDOMNode *node = webkit_dom_range_get_end_container (range, NULL);
-
-	if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node)))
-		webkit_dom_node_remove_child (
-			node,
-			webkit_dom_node_get_last_child (node),
-			NULL);
+	return element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-position");
 }
 
 static void
-move_items_from_list_to_list (WebKitDOMElement *from,
-                              WebKitDOMElement *to)
+merge_list_into_list (WebKitDOMNode *from,
+                      WebKitDOMNode *to,
+                      gboolean insert_before)
 {
-	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (from)))
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (to),
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (from)),
-			NULL);
-}
+	WebKitDOMNode *item;
 
-static void
-put_selection_markers_around_element (WebKitDOMDocument *document,
-                                      WebKitDOMElement *element)
-{
-	WebKitDOMElement *marker;
-
-	marker = webkit_dom_document_create_element (document, "span", NULL);
-	webkit_dom_element_set_id (marker, "-x-evo-selection-start-marker");
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-		WEBKIT_DOM_NODE (marker),
-		WEBKIT_DOM_NODE (element),
-		NULL);
-
-	marker = webkit_dom_document_create_element (document, "span", NULL);
-	webkit_dom_element_set_id (marker, "-x-evo-selection-end-marker");
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-		WEBKIT_DOM_NODE (marker),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-		NULL);
-}
-
-static void
-change_list_style (EHTMLEditorSelection *selection,
-                   WebKitDOMDocument *document,
-                   EHTMLEditorSelectionBlockFormat from,
-                   EHTMLEditorSelectionBlockFormat to,
-                   gboolean html_mode)
-{
-	WebKitDOMNode *list, *node;
-	WebKitDOMRange *range;
-	gboolean has_selection = g_strcmp0 (
-		e_html_editor_selection_get_string (selection), "") != 0;
-
-	if (!has_selection)
-		e_html_editor_selection_save_caret_position (selection);
-
-	range = html_editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_ELEMENT (node))
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
-
-	if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (node))
+	if (!(to && from))
 		return;
 
-	list = webkit_dom_node_get_parent_node (node);
-	if (from >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
-	    !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (list))
-		return;
-
-	if (from == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST &&
-	    !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (list))
-		return;
-
-	if ((from >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST &&
-	    to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) ||
-	    (from == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST &&
-	    to >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST)) {
-		WebKitDOMElement *new_list;
-
-		new_list = webkit_dom_document_create_element (
-			document,
-			to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST ? "UL" : "OL",
-			NULL);
-
-		if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST && !html_mode) {
-			element_add_class (new_list, "-x-evo-ul-plain");
-			webkit_dom_element_set_attribute (
-				new_list, "style", "margin-left: -3ch;", NULL);
-		}
-
-		move_items_from_list_to_list (WEBKIT_DOM_ELEMENT (list), new_list);
-
-		list = webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (list),
-			WEBKIT_DOM_NODE (new_list),
-			list,
-			NULL);
-
-		if (has_selection) {
-			put_selection_markers_around_element (document, new_list);
-			e_html_editor_selection_restore (selection);
-		}
+	while ((item = webkit_dom_node_get_first_child (from)) != NULL) {
+		if (insert_before)
+			webkit_dom_node_insert_before (
+				to, item, webkit_dom_node_get_last_child (to), NULL);
+		else
+			webkit_dom_node_append_child (to, item, NULL);
 	}
 
-	if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
-		webkit_dom_element_remove_attribute (
-			WEBKIT_DOM_ELEMENT (list), "type");
-	} else if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (list), "type", "A", NULL);
-	} else if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (list), "type", "I", NULL);
-	}
+	if (!webkit_dom_node_has_child_nodes (from))
+		remove_node (from);
 
-	if (!has_selection)
-		e_html_editor_selection_restore_caret_position (selection);
 }
 
 static void
-insert_new_list (EHTMLEditorSelection *selection,
-                 WebKitDOMDocument *document,
-                 EHTMLEditorSelectionBlockFormat to,
-                 gboolean html_mode)
+merge_lists_if_possible (WebKitDOMNode *list)
 {
-	gboolean inserting_ordered_list = FALSE, empty;
-	gchar *content;
-	WebKitDOMRange *range;
-	WebKitDOMElement *element, *li;
-	WebKitDOMNode *node;
+	EHTMLEditorSelectionBlockFormat format, prev, next;
+	WebKitDOMNode *prev_sibling, *next_sibling;
 
-	range = html_editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_ELEMENT (node))
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+	prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (list));
+	next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (list));
 
-	if (to != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST)
-		inserting_ordered_list = TRUE;
+	format = e_html_editor_selection_get_list_format_from_node (list),
+	prev = e_html_editor_selection_get_list_format_from_node (prev_sibling);
+	next = e_html_editor_selection_get_list_format_from_node (next_sibling);
 
-	content = webkit_dom_node_get_text_content (node);
-	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
-	g_free (content);
+	if (format == prev && format != -1 && prev != -1)
+		merge_list_into_list (prev_sibling, list, TRUE);
 
-	/* Create list elements */
-	element = webkit_dom_document_create_element (
-		document, inserting_ordered_list ? "OL" : "UL", NULL);
-
-	if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA) {
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (element), "type", "A", NULL);
-	} else if (to == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN) {
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (element), "type", "I", NULL);
-	}
-
-	if (!html_mode && !inserting_ordered_list) {
-		element_add_class (element, "-x-evo-ul-plain");
-		webkit_dom_element_set_attribute (
-			element, "style", "margin-left: -3ch;", NULL);
-	}
-
-	/* We have to use again the hidden space to move caret into newly
-	 * inserted list */
-	li = webkit_dom_document_create_element (document, "LI", NULL);
-	if (empty) {
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (li),
-			UNICODE_ZERO_WIDTH_SPACE,
-			NULL);
-	} else {
-		/* Copy elements from previous block to list */
-		while (webkit_dom_node_has_child_nodes (node)) {
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (li),
-				webkit_dom_node_get_first_child (node),
-				NULL);
-		}
-	}
-
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (li),
-		NULL);
-
-	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
-	webkit_dom_node_append_child (
-		node, e_html_editor_selection_get_caret_position_node (document), NULL);
-
-	webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (element), NULL);
-
-	e_html_editor_selection_restore_caret_position (selection);
+	if (format == next && format != -1 && next != -1)
+		merge_list_into_list (next_sibling, list, FALSE);
 }
 
 static void
@@ -1523,11 +1585,8 @@ remove_wrapping (WebKitDOMElement *element)
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-wrap-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (br), br, NULL);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 }
 
 static void
@@ -1540,9 +1599,7 @@ remove_quoting (WebKitDOMElement *element)
 		element, "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (br), br, NULL);
+		remove_node (webkit_dom_node_list_item (list, ii));
 	}
 
 	list = webkit_dom_element_query_selector_all (
@@ -1559,37 +1616,400 @@ remove_quoting (WebKitDOMElement *element)
 				NULL);
 		}
 
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (nd), nd, NULL);
+		remove_node (nd);
 	}
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 }
 
-static void
-select_nodes_for_format_change (EHTMLEditorSelection *selection,
-                                WebKitDOMDocument *document)
+static gboolean
+node_is_list (WebKitDOMNode *node)
 {
-	WebKitDOMDOMSelection *window_selection;
-	WebKitDOMRange *range, *new_range;
-	WebKitDOMNode *node;
-	WebKitDOMDOMWindow *window;
+	return node && (
+		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node));
+}
 
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-	new_range = webkit_dom_document_create_range (document);
+static gint
+get_citation_level (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+	gint level = 0;
 
-	range = html_editor_selection_get_current_range (selection);
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+		    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "type"))
+			level++;
 
-	node = get_block_node (range);
+		parent = webkit_dom_node_get_parent_node (parent);
+	}
 
-	remove_wrapping (WEBKIT_DOM_ELEMENT (node));
-	e_html_editor_selection_save_caret_position (selection);
-	remove_quoting (WEBKIT_DOM_ELEMENT (node));
+	return level;
+}
 
-	webkit_dom_range_select_node_contents (new_range, node, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (window_selection);
-	webkit_dom_dom_selection_add_range (window_selection, new_range);
+static void
+format_change_block_to_block (EHTMLEditorSelection *selection,
+                              EHTMLEditorSelectionBlockFormat format,
+                              EHTMLEditorView *view,
+                              const gchar *value,
+                              WebKitDOMDocument *document)
+{
+	gboolean after_selection_end, quoted = FALSE;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
+	WebKitDOMNode *block, *next_block;
+
+	e_html_editor_selection_save (selection);
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+	block = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-temp-text-wrapper")) {
+		block = webkit_dom_node_get_parent_node (block);
+		remove_wrapping (WEBKIT_DOM_ELEMENT (block));
+		remove_quoting (WEBKIT_DOM_ELEMENT (block));
+		quoted = TRUE;
+	}
+
+	/* Process all blocks that are in the selection one by one */
+	while (block) {
+		WebKitDOMNode *child;
+
+		after_selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
+
+		next_block = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (block));
+
+		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
+			element = e_html_editor_selection_get_paragraph_element (
+				selection, document, -1, 0);
+		else
+			element = webkit_dom_document_create_element (
+				document, value, NULL);
+
+		while ((child = webkit_dom_node_get_first_child (block)))
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (element), child, NULL);
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (block),
+			WEBKIT_DOM_NODE (element),
+			block,
+			NULL);
+
+		remove_node (block);
+
+		block = next_block;
+
+		if (after_selection_end)
+			break;
+	}
+
+	if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH &&
+	    !e_html_editor_view_get_html_mode (view)) {
+		gint citation_level, quote;
+
+		citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
+		quote = citation_level ? citation_level + 1 : 0;
+
+		element = e_html_editor_selection_wrap_paragraph_length (
+			selection, element, selection->priv->word_wrap_length - quote);
+	}
+
+	if (quoted)
+		e_html_editor_view_quote_plain_text_element (view, element);
+
+	e_html_editor_selection_restore (selection);
+}
+
+static void
+remove_node_if_empty (WebKitDOMNode *node)
+{
+	if (!WEBKIT_DOM_IS_NODE (node))
+		return;
+
+	if (!webkit_dom_node_get_first_child (node)) {
+		remove_node (node);
+	} else {
+		gchar *text_content;
+
+		text_content = webkit_dom_node_get_text_content (node);
+		if (!text_content)
+			remove_node (node);
+
+		if (text_content && !*text_content)
+			remove_node (node);
+
+		g_free (text_content);
+	}
+}
+
+static void
+format_change_block_to_list (EHTMLEditorSelection *selection,
+                             EHTMLEditorSelectionBlockFormat format,
+                             EHTMLEditorView *view,
+                             WebKitDOMDocument *document)
+{
+	gboolean after_selection_end;
+	gboolean html_mode = e_html_editor_view_get_html_mode (view);
+	WebKitDOMElement *selection_start_marker, *selection_end_marker, *item, *list;
+	WebKitDOMNode *block, *next_block;
+
+	e_html_editor_selection_save (selection);
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+	block = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	list = create_list_element (selection, document, format, 0, html_mode);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-temp-text-wrapper")) {
+		WebKitDOMElement *element;
+
+		block = webkit_dom_node_get_parent_node (block);
+
+		remove_wrapping (WEBKIT_DOM_ELEMENT (block));
+		remove_quoting (WEBKIT_DOM_ELEMENT (block));
+
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
+
+		element = webkit_dom_document_query_selector (
+			document, "body>br", NULL);
+
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			WEBKIT_DOM_NODE (list),
+			WEBKIT_DOM_NODE (element),
+			NULL);
+
+		selection_start_marker = webkit_dom_document_query_selector (
+			document, "span#-x-evo-selection-start-marker", NULL);
+		selection_end_marker = webkit_dom_document_query_selector (
+			document, "span#-x-evo-selection-end-marker", NULL);
+		block = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_start_marker));
+	} else
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (block),
+			WEBKIT_DOM_NODE (list),
+			block,
+			NULL);
+
+	/* Process all blocks that are in the selection one by one */
+	while (block) {
+		gboolean empty = FALSE;
+		gchar *content;
+		WebKitDOMNode *child;
+
+		after_selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
+
+		next_block = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (block));
+
+		item = webkit_dom_document_create_element (document, "LI", NULL);
+		content = webkit_dom_node_get_text_content (block);
+
+		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
+		g_free (content);
+
+		/* We have to use again the hidden space to move caret into newly inserted list */
+		if (empty) {
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (item),
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
+		}
+
+		while ((child = webkit_dom_node_get_first_child (block)))
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (item), child, NULL);
+
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (list), WEBKIT_DOM_NODE (item), NULL);
+
+		remove_node (block);
+
+		block = next_block;
+
+		if (after_selection_end)
+			break;
+	}
+
+	merge_lists_if_possible (WEBKIT_DOM_NODE (list));
+
+	e_html_editor_view_force_spell_check (view);
+	e_html_editor_selection_restore (selection);
+}
+
+static void
+format_change_list_to_list (EHTMLEditorSelection *selection,
+                            EHTMLEditorSelectionBlockFormat format,
+                            WebKitDOMDocument *document,
+                            gboolean html_mode)
+{
+	EHTMLEditorSelectionBlockFormat prev = 0, next = 0;
+	gboolean done = FALSE, indented = FALSE;
+	gboolean selection_starts_in_first_child, selection_ends_in_last_child;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *prev_list, *current_list, *next_list;
+
+	e_html_editor_selection_save (selection);
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	current_list = webkit_dom_node_get_parent_node (
+		webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_start_marker)));
+
+	prev_list = webkit_dom_node_get_parent_node (
+		webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_start_marker)));
+
+	next_list = webkit_dom_node_get_parent_node (
+		webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_end_marker)));
+
+	selection_starts_in_first_child =
+		webkit_dom_node_contains (
+			webkit_dom_node_get_first_child (current_list),
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+	selection_ends_in_last_child =
+		webkit_dom_node_contains (
+			webkit_dom_node_get_last_child (current_list),
+			WEBKIT_DOM_NODE (selection_end_marker));
+
+	indented = element_has_class (WEBKIT_DOM_ELEMENT (current_list), "-x-evo-indented");
+
+	if (!prev_list || !next_list || indented) {
+		format_change_list_from_list (selection, document, format, html_mode);
+		goto out;
+	}
+
+	if (webkit_dom_node_is_same_node (prev_list, next_list)) {
+		prev_list = webkit_dom_node_get_previous_sibling (
+			webkit_dom_node_get_parent_node (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (selection_start_marker))));
+		next_list = webkit_dom_node_get_next_sibling (
+			webkit_dom_node_get_parent_node (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (selection_end_marker))));
+		if (!prev_list || !next_list) {
+			format_change_list_from_list (selection, document, format, html_mode);
+			goto out;
+		}
+	}
+
+	prev = e_html_editor_selection_get_list_format_from_node (prev_list);
+	next = e_html_editor_selection_get_list_format_from_node (next_list);
+
+	if (format == prev && format != -1 && prev != -1) {
+		if (selection_starts_in_first_child && selection_ends_in_last_child) {
+			done = TRUE;
+			merge_list_into_list (current_list, prev_list, FALSE);
+		}
+	}
+
+	if (format == next && format != -1 && next != -1) {
+		if (selection_starts_in_first_child && selection_ends_in_last_child) {
+			done = TRUE;
+			merge_list_into_list (next_list, prev_list, FALSE);
+		}
+	}
+
+	if (done)
+		goto out;
+
+	format_change_list_from_list (selection, document, format, html_mode);
+out:
+	e_html_editor_selection_restore (selection);
+}
+
+static void
+format_change_list_to_block (EHTMLEditorSelection *selection,
+                             EHTMLEditorSelectionBlockFormat format,
+                             WebKitDOMDocument *document)
+{
+	gboolean after_end = FALSE;
+	WebKitDOMElement *selection_start, *element, *selection_end;
+	WebKitDOMNode *source_list, *next_item, *item, *source_list_clone;
+
+	e_html_editor_selection_save (selection);
+
+	selection_start = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	item = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start));
+	source_list = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (item));
+	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (source_list),
+		WEBKIT_DOM_NODE (source_list_clone),
+		webkit_dom_node_get_next_sibling (source_list),
+		NULL);
+
+	next_item = item;
+
+	/* Process all nodes that are in selection one by one */
+	while (next_item) {
+		WebKitDOMNode *tmp;
+
+		tmp = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (next_item));
+
+		if (!after_end) {
+			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
+				element = e_html_editor_selection_get_paragraph_element (selection, document, -1, 0);
+			else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE)
+				element = webkit_dom_document_create_element (document, "PRE", NULL);
+			else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
+				element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+			else
+				element = e_html_editor_selection_get_paragraph_element (selection, document, -1, 0);
+
+			after_end = webkit_dom_node_contains (next_item, WEBKIT_DOM_NODE (selection_end));
+
+			while (webkit_dom_node_get_first_child (next_item)) {
+				WebKitDOMNode *node = webkit_dom_node_get_first_child (next_item);
+
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (element), node, NULL);
+			}
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (source_list),
+				WEBKIT_DOM_NODE (element),
+				source_list_clone,
+				NULL);
+
+			remove_node (next_item);
+
+			next_item = tmp;
+		} else {
+			webkit_dom_node_append_child (
+				source_list_clone, next_item, NULL);
+
+			next_item = tmp;
+		}
+	}
+
+	remove_node_if_empty (source_list_clone);
+	remove_node_if_empty (source_list);
+
+	e_html_editor_selection_restore (selection);
 }
 
 /**
@@ -1605,12 +2025,10 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 {
 	EHTMLEditorView *view;
 	EHTMLEditorSelectionBlockFormat current_format;
-	EHTMLEditorViewCommand command;
 	const gchar *value;
 	gboolean has_selection = FALSE;
 	gboolean from_list = FALSE, to_list = FALSE, html_mode;
 	WebKitDOMDocument *document;
-	WebKitDOMNode *block = NULL;
 	WebKitDOMRange *range;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
@@ -1622,60 +2040,47 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 
 	switch (format) {
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "BLOCKQUOTE";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H1";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H2";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H3";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H4";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H5";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "H6";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "P";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "PRE";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
-			command = E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK;
 			value = "ADDRESS";
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
-			command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_ORDERED_LIST;
 			to_list = TRUE;
 			value = NULL;
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
-			command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_UNORDERED_LIST;
 			to_list = TRUE;
 			value = NULL;
 			break;
 		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
 		default:
-			command = E_HTML_EDITOR_VIEW_COMMAND_REMOVE_FORMAT;
 			value = NULL;
 			break;
 	}
@@ -1684,7 +2089,8 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 		has_selection = TRUE;
 
 	/* H1 - H6 have bold font by default */
-	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 && format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
+	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
+	    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
 		selection->priv->is_bold = TRUE;
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
@@ -1694,25 +2100,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	from_list =
-		(current_format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) ||
-		(current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST);
-
-	if (from_list && !to_list) {
-		/* First remove (un)ordered list before changing formatting */
-		if (current_format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST) {
-			e_html_editor_view_exec_command (
-				view,
-				E_HTML_EDITOR_VIEW_COMMAND_INSERT_UNORDERED_LIST, NULL);
-			/*		    ^-- not a typo, "insert" toggles the
-			 *			formatting if already present */
-		} else if (current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST) {
-			e_html_editor_view_exec_command (
-				view,
-				E_HTML_EDITOR_VIEW_COMMAND_INSERT_ORDERED_LIST, NULL);
-		}
-	}
-
-	remove_br_after_list_end (selection);
+		current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
 
 	range = html_editor_selection_get_current_range (selection);
 	if (!range) {
@@ -1720,114 +2108,20 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 		return;
 	}
 
-	if (!from_list && !has_selection) {
-		WebKitDOMNode *node = get_block_node (range);
+	if (from_list && to_list)
+		format_change_list_to_list (selection, format, document, html_mode);
 
-		remove_wrapping (WEBKIT_DOM_ELEMENT (node));
-		e_html_editor_selection_save_caret_position (selection);
-		remove_quoting (WEBKIT_DOM_ELEMENT (node));
-	}
+	if (!from_list && !to_list)
+		format_change_block_to_block (selection, format, view, value, document);
 
-	if (from_list && to_list) {
-		change_list_style (
-			selection, document, current_format, format, html_mode);
-	} else if (!to_list && !has_selection) {
-		gboolean restore_caret = TRUE;
-		/* If there is no selection in composer we will change the format of
-		 * the element that has caret inside */
-		if (!has_selection) {
-			if (!from_list) {
-				WebKitDOMElement *new;
-				WebKitDOMNode *node = get_block_node (range);
-				WebKitDOMNode *clone = webkit_dom_node_clone_node (node, TRUE);
+	if (from_list && !to_list)
+		format_change_list_to_block (selection, format, document);
 
-				restore_caret = FALSE;
-				if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-					new = e_html_editor_selection_get_paragraph_element (
-						selection, document, -1, 0);
-				else
-					new = webkit_dom_document_create_element (
-						document, value, NULL);
-
-				while (webkit_dom_node_has_child_nodes (clone)) {
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (new),
-						webkit_dom_node_get_first_child (clone),
-						NULL);
-				}
-
-				if (!webkit_dom_node_has_child_nodes (node)) {
-					e_html_editor_selection_clear_caret_position_marker (selection);
-
-					webkit_dom_html_element_set_inner_html (
-						WEBKIT_DOM_HTML_ELEMENT (new),
-						UNICODE_ZERO_WIDTH_SPACE, NULL);
-
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (new),
-						e_html_editor_selection_get_caret_position_node (
-							document),
-						NULL);
-					restore_caret = TRUE;
-				}
-
-				webkit_dom_node_replace_child (
-					webkit_dom_node_get_parent_node (node),
-					WEBKIT_DOM_NODE (new),
-					node,
-					NULL);
-
-				block = WEBKIT_DOM_NODE (new);
-			} else {
-				select_nodes_for_format_change (selection, document);
-				e_html_editor_view_exec_command (view, command, value);
-			}
-
-			if (restore_caret)
-				e_html_editor_selection_restore_caret_position (selection);
-		} else {
-			e_html_editor_selection_save (selection);
-			e_html_editor_view_exec_command (view, command, value);
-			e_html_editor_view_force_spell_check_for_current_paragraph (view);
-			e_html_editor_selection_restore (selection);
-		}
-	} else {
-		if (!has_selection)
-			insert_new_list (selection, document, format, html_mode);
-		else {
-			e_html_editor_selection_save (selection);
-			e_html_editor_view_exec_command (view, command, value);
-			e_html_editor_view_force_spell_check_for_current_paragraph (view);
-			e_html_editor_selection_restore (selection);
-		}
-	}
-
-	if (block) {
-		WebKitDOMElement *blockquote;
-
-		blockquote = e_html_editor_dom_node_find_parent_element (block, "BLOCKQUOTE");
-		if (!html_mode && blockquote && webkit_dom_element_has_attribute (blockquote, "type")) {
-			gchar *value;
-
-			value = webkit_dom_element_get_attribute (blockquote, "type");
-			if (g_strstr_len (value, -1, "cite")) {
-
-				if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH) {
-					block = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph (
-						selection, WEBKIT_DOM_ELEMENT (block)));
-				}
-
-				block = WEBKIT_DOM_NODE (e_html_editor_view_quote_plain_text_element (
-					view, WEBKIT_DOM_ELEMENT (block)));
-			}
-			g_free (value);
-		}
-
-		e_html_editor_selection_restore_caret_position (selection);
-	}
+	if (!from_list && to_list)
+		format_change_block_to_list (selection, format, view, document);
 
 	if (!has_selection)
-		e_html_editor_view_force_spell_check_for_current_paragraph (view);
+		e_html_editor_view_force_spell_check (view);
 
 	g_object_unref (view);
 
@@ -2099,10 +2393,7 @@ e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 
 	element = webkit_dom_node_get_parent_element (node);
 
-	if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
-		return element_has_class (element, "-x-evo-indented");
-
-	return FALSE;
+	return element_has_class (element, "-x-evo-indented");
 }
 
 static gboolean
@@ -2120,6 +2411,20 @@ is_in_html_mode (EHTMLEditorSelection *selection)
 	return ret_val;
 }
 
+static gint
+get_list_level (WebKitDOMNode *node)
+{
+	gint level = 0;
+
+	while (node && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
+		if (node_is_list (node))
+			level++;
+		node = webkit_dom_node_get_parent_node (node);
+	}
+
+	return level;
+}
+
 /**
  * e_html_editor_selection_indent:
  * @selection: an #EHTMLEditorSelection
@@ -2129,6 +2434,7 @@ is_in_html_mode (EHTMLEditorSelection *selection)
 void
 e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 {
+	gboolean has_selection;
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
@@ -2137,12 +2443,13 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+	has_selection = g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0;
+
+	if (!has_selection) {
 		WebKitDOMDocument *document;
 		WebKitDOMRange *range;
-		WebKitDOMNode *node;
-		WebKitDOMNode *clone;
-		WebKitDOMElement *element;
+		WebKitDOMNode *node, *clone;
+		WebKitDOMElement *element, *caret_position;
 		gint word_wrap_length = selection->priv->word_wrap_length;
 		gint level;
 		gint final_width = 0;
@@ -2150,7 +2457,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		document = webkit_web_view_get_dom_document (
 			WEBKIT_WEB_VIEW (view));
 
-		e_html_editor_selection_save_caret_position (selection);
+		caret_position = e_html_editor_selection_save_caret_position (selection);
 
 		range = html_editor_selection_get_current_range (selection);
 		if (!range) {
@@ -2162,6 +2469,35 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		if (!WEBKIT_DOM_IS_ELEMENT (node))
 			node = WEBKIT_DOM_NODE (
 				webkit_dom_node_get_parent_element (node));
+
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node)) {
+			gboolean html_mode = e_html_editor_view_get_html_mode (view);
+			WebKitDOMElement *list;
+			WebKitDOMNode *source_list = webkit_dom_node_get_parent_node (node);
+			EHTMLEditorSelectionBlockFormat format;
+
+			format = e_html_editor_selection_get_list_format_from_node (source_list);
+
+			list = create_list_element (
+				selection, document, format, get_list_level (node), html_mode);
+
+			element_add_class (list, "-x-evo-indented");
+			webkit_dom_node_insert_before (
+				source_list, WEBKIT_DOM_NODE (list), node, NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (list), node, NULL);
+			if (!webkit_dom_node_contains (node, WEBKIT_DOM_NODE (caret_position))) {
+				webkit_dom_node_append_child (
+					node, WEBKIT_DOM_NODE (caret_position), NULL);
+			}
+
+			merge_lists_if_possible (WEBKIT_DOM_NODE (list));
+
+			e_html_editor_selection_restore_caret_position (selection);
+
+			g_object_unref (view);
+			return;
+		}
 
 		level = get_indentation_level (WEBKIT_DOM_ELEMENT (node));
 
@@ -2197,20 +2533,18 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		e_html_editor_selection_restore_caret_position (selection);
 	} else {
 		command = E_HTML_EDITOR_VIEW_COMMAND_INDENT;
+		e_html_editor_selection_save (selection);
 		e_html_editor_view_exec_command (view, command, NULL);
 	}
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
+	if (has_selection)
+		e_html_editor_selection_restore (selection);
+
 	g_object_unref (view);
 
 	g_object_notify (G_OBJECT (selection), "indented");
-}
-
-static gboolean
-is_caret_position_node (WebKitDOMNode *node)
-{
-	return element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-position");
 }
 
 static const gchar *
@@ -2228,6 +2562,74 @@ get_css_alignment_value (EHTMLEditorSelectionAlignment alignment)
 	return "";
 }
 
+static void
+unindent_list (EHTMLEditorSelection *selection,
+               WebKitDOMDocument *document)
+{
+	gboolean after = FALSE;
+	WebKitDOMElement *new_list;
+	WebKitDOMNode *source_list, *source_list_clone, *current_list, *item;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMElement *selection_end_marker;
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	if (!selection_start_marker || !selection_end_marker)
+		return;
+
+	/* Copy elements from previous block to list */
+	item = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+	source_list = webkit_dom_node_get_parent_node (item);
+	new_list = WEBKIT_DOM_ELEMENT (
+		webkit_dom_node_clone_node (source_list, FALSE));
+	current_list = source_list;
+	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (source_list),
+		WEBKIT_DOM_NODE (source_list_clone),
+		webkit_dom_node_get_next_sibling (source_list),
+		NULL);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (source_list), "-x-evo-indented"))
+		element_add_class (WEBKIT_DOM_ELEMENT (new_list), "-x-evo-indented");
+
+	while (item) {
+		WebKitDOMNode *next_item = webkit_dom_node_get_next_sibling (item);
+
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
+			if (after) {
+				webkit_dom_node_append_child (
+					source_list_clone, WEBKIT_DOM_NODE (item), NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (source_list),
+					item,
+					webkit_dom_node_get_next_sibling (source_list),
+					NULL);
+			}
+		}
+
+		if (webkit_dom_node_contains (item, WEBKIT_DOM_NODE (selection_end_marker)))
+			after = TRUE;
+
+		if (!next_item) {
+			if (after)
+				break;
+
+			current_list = webkit_dom_node_get_next_sibling (current_list);
+			next_item = webkit_dom_node_get_first_child (current_list);
+		}
+		item = next_item;
+	}
+
+	remove_node_if_empty (source_list_clone);
+	remove_node_if_empty (source_list);
+}
 /**
  * e_html_editor_selection_unindent:
  * @selection: an #EHTMLEditorSelection
@@ -2237,6 +2639,7 @@ get_css_alignment_value (EHTMLEditorSelectionAlignment alignment)
 void
 e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 {
+	gboolean has_selection;
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 
@@ -2245,7 +2648,9 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+	has_selection = g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0;
+
+	if (!has_selection) {
 		EHTMLEditorSelectionAlignment alignment;
 		gboolean before_node = TRUE, reinsert_caret_position = FALSE;
 		const gchar *align_value;
@@ -2275,6 +2680,16 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
 
 		element = webkit_dom_node_get_parent_element (node);
+
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node)) {
+			e_html_editor_selection_save (selection);
+			e_html_editor_selection_clear_caret_position_marker (selection);
+
+			unindent_list (selection, document);
+			e_html_editor_selection_restore (selection);
+			g_object_unref (view);
+			return;
+		}
 
 		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
 			return;
@@ -2306,14 +2721,14 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			if (is_caret_position_node (child)) {
 				reinsert_caret_position = TRUE;
 				caret_node = webkit_dom_node_clone_node (child, TRUE);
-				webkit_dom_node_remove_child (clone, child, NULL);
+				remove_node (child);
 				continue;
 			}
 
 			if (webkit_dom_node_is_equal_node (child, node)) {
 				before_node = FALSE;
 				node_clone = webkit_dom_node_clone_node (child, TRUE);
-				webkit_dom_node_remove_child (clone, child, NULL);
+				remove_node (child);
 				continue;
 			}
 
@@ -2324,7 +2739,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 				child,
 				NULL);
 
-			webkit_dom_node_remove_child (clone, child, NULL);
+			remove_node (child);
 		}
 
 		element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
@@ -2372,18 +2787,19 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 		}
 
 		/* Remove old blockquote */
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			WEBKIT_DOM_NODE (element),
-			NULL);
+		remove_node (WEBKIT_DOM_NODE (element));
 
 		e_html_editor_selection_restore_caret_position (selection);
 	} else {
 		command = E_HTML_EDITOR_VIEW_COMMAND_OUTDENT;
+		e_html_editor_selection_save (selection);
 		e_html_editor_view_exec_command (view, command, NULL);
 	}
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
+	if (has_selection)
+		e_html_editor_selection_restore (selection);
 
 	g_object_unref (view);
 
@@ -3872,12 +4288,8 @@ e_html_editor_selection_clear_caret_position_marker (EHTMLEditorSelection *selec
 
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
 
-	if (element) {
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			WEBKIT_DOM_NODE (element),
-			NULL);
-	}
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
 
 	g_object_unref (view);
 }
@@ -3984,10 +4396,7 @@ fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selecti
 		webkit_dom_node_get_previous_sibling (next_sibling),
 		NULL);
 
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (prev_sibling),
-		prev_sibling,
-		NULL);
+	remove_node (prev_sibling);
 
 	webkit_dom_dom_selection_modify (
 		window_selection, "move", "backward", "character");
@@ -4045,11 +4454,7 @@ e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 			}
 
 			if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-paragraph")) {
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (element)),
-					WEBKIT_DOM_NODE (element),
-					NULL);
+				remove_node (WEBKIT_DOM_NODE (element));
 
 				move_caret_into_element (
 					document, WEBKIT_DOM_ELEMENT (next_sibling));
@@ -4069,11 +4474,7 @@ e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 				fix_after_quoting = FALSE;
 		}
 
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (
-				WEBKIT_DOM_NODE (element)),
-			WEBKIT_DOM_NODE (element),
-			NULL);
+		remove_node (WEBKIT_DOM_NODE (element));
 
 		if (fix_after_quoting)
 			fix_quoting_nodes_after_caret_restoration (
@@ -4120,36 +4521,41 @@ find_where_to_break_line (WebKitDOMNode *node,
 		uc = g_utf8_get_char (str);
 		if (!uc) {
 			g_free (text_start);
-			if (pos <= max_len) {
+			if (pos <= max_len)
 				return pos;
-			} else {
+			else
 				return last_space;
-			}
 		}
 
 		/* If last_space is zero then the word is longer than
-		 * word_wrap_length characters, so continue untill we find
+		 * word_wrap_length characters, so continue until we find
 		 * a space */
 		if ((pos > max_len) && (last_space > 0)) {
 			if (last_space > word_wrap_length) {
 				g_free (text_start);
 				return last_space;
 			}
+
 			if (last_space > max_len) {
 				if (g_unichar_isspace (g_utf8_get_char (text_start)))
 					ret_val = 1;
 
 				g_free (text_start);
-
 				return ret_val;
 			}
+
+			if (last_space == max_len - 1) {
+				uc = g_utf8_get_char (str);
+				if (g_unichar_isspace (uc))
+					last_space++;
+			}
+
 			g_free (text_start);
 			return last_space;
 		}
 
-		if (g_unichar_isspace (uc)) {
+		if (g_unichar_isspace (uc))
 			last_space = pos;
-		}
 
 		pos += 1;
 		str = g_utf8_next_char (str);
@@ -4230,21 +4636,20 @@ wrap_lines (EHTMLEditorSelection *selection,
 
 	/* And remove them */
 	br_count = webkit_dom_node_list_get_length (wrap_br);
-	for (ii = 0; ii < br_count; ii++) {
-		WebKitDOMNode *br = webkit_dom_node_list_item (wrap_br, ii);
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (br), br, NULL);
-	}
+	for (ii = 0; ii < br_count; ii++)
+		remove_node (webkit_dom_node_list_item (wrap_br, ii));
 
 	if (selection)
 		node = WEBKIT_DOM_NODE (fragment);
 	else {
 		webkit_dom_node_normalize (paragraph_clone);
 		node = webkit_dom_node_get_first_child (paragraph_clone);
-		text_content = webkit_dom_node_get_text_content (node);
-		if (g_strcmp0 ("\n", text_content) == 0)
-			node = webkit_dom_node_get_next_sibling (node);
-		g_free (text_content);
+		if (node) {
+			text_content = webkit_dom_node_get_text_content (node);
+			if (g_strcmp0 ("\n", text_content) == 0)
+				node = webkit_dom_node_get_next_sibling (node);
+			g_free (text_content);
+		}
 	}
 
 	start_node = node;
@@ -4268,7 +4673,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 				if (g_str_has_suffix (text_content, UNICODE_ZERO_WIDTH_SPACE))
 					webkit_dom_character_data_delete_data (
 						WEBKIT_DOM_CHARACTER_DATA (node),
-						g_utf8_strlen (text_content, -1) -1,
+						g_utf8_strlen (text_content, -1) - 1,
 						1,
 						NULL);
 				g_free (text_content);
@@ -4375,13 +4780,27 @@ wrap_lines (EHTMLEditorSelection *selection,
 			element_add_class (element, "-x-evo-wrap-br");
 
 			if (offset > 0 && offset <= word_wrap_length) {
-				if (offset != length_left) {
+				if (offset != length_left)
 					webkit_dom_text_split_text (
 						WEBKIT_DOM_TEXT (node), offset, NULL);
-				}
+
 				if (webkit_dom_node_get_next_sibling (node)) {
+					gchar *nd_content;
 					WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
+
 					nd = webkit_dom_node_get_next_sibling (node);
+					nd_content = webkit_dom_node_get_text_content (nd);
+					if (nd_content && *nd_content) {
+						if (g_str_has_prefix (nd_content, " "))
+							webkit_dom_character_data_replace_data (
+								WEBKIT_DOM_CHARACTER_DATA (nd), 0, 1, "", NULL);
+						g_free (nd_content);
+						nd_content = webkit_dom_node_get_text_content (nd);
+						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0)
+							remove_node (nd);
+						g_free (nd_content);
+					}
+
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (node),
 						WEBKIT_DOM_NODE (element),
@@ -4394,13 +4813,27 @@ wrap_lines (EHTMLEditorSelection *selection,
 						NULL);
 				}
 			} else if (offset > word_wrap_length) {
-				if (offset != length_left) {
+				if (offset != length_left)
 					webkit_dom_text_split_text (
 						WEBKIT_DOM_TEXT (node), offset + 1, NULL);
-				}
+
 				if (webkit_dom_node_get_next_sibling (node)) {
+					gchar *nd_content;
 					WebKitDOMNode *nd = webkit_dom_node_get_next_sibling (node);
+
 					nd = webkit_dom_node_get_next_sibling (node);
+					nd_content = webkit_dom_node_get_text_content (nd);
+					if (nd_content && *nd_content) {
+						if (g_str_has_prefix (nd_content, " "))
+							webkit_dom_character_data_replace_data (
+								WEBKIT_DOM_CHARACTER_DATA (nd), 0, 1, "", NULL);
+						g_free (nd_content);
+						nd_content = webkit_dom_node_get_text_content (nd);
+						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0)
+							remove_node (nd);
+						g_free (nd_content);
+					}
+
 					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (node),
 						WEBKIT_DOM_NODE (element),
@@ -4428,6 +4861,9 @@ wrap_lines (EHTMLEditorSelection *selection,
 		}
 		len += length_left - offset;
  next_node:
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node))
+			len = 0;
+
 		/* Move to next node */
 		if (webkit_dom_node_has_child_nodes (node)) {
 			node = webkit_dom_node_get_first_child (node);
@@ -4549,7 +4985,7 @@ e_html_editor_selection_set_paragraph_style (EHTMLEditorSelection *selection,
 	alignment = e_html_editor_selection_get_alignment (selection);
 	align_value = get_css_alignment_value (alignment);
 
-	webkit_dom_element_set_class_name (element, "-x-evo-paragraph");
+	element_add_class (element, "-x-evo-paragraph");
 	if (!is_in_html_mode (selection)) {
 		style = g_strdup_printf (
 			"width: %dch; word-wrap: normal; %s %s",
@@ -4748,22 +5184,6 @@ e_html_editor_selection_wrap_paragraph_length (EHTMLEditorSelection *selection,
 		NULL, WEBKIT_DOM_NODE (paragraph), document, FALSE, length);
 }
 
-static gint
-get_citation_level (WebKitDOMNode *node)
-{
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
-	gint level = 0;
-
-	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent))
-			level++;
-
-		parent = webkit_dom_node_get_parent_node (parent);
-	}
-
-	return level;
-}
-
 void
 e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selection,
                                                      WebKitDOMDocument *document)
@@ -4779,12 +5199,28 @@ e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selec
 	length = webkit_dom_node_list_get_length (list);
 
 	for (ii = 0; ii < length; ii++) {
+		gint quote, citation_level;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		e_html_editor_selection_wrap_paragraph_length (
-			selection,
-			WEBKIT_DOM_ELEMENT (node),
-			selection->priv->word_wrap_length - (get_citation_level (node) + 1));
+		citation_level = get_citation_level (node);
+		quote = citation_level ? citation_level + 1 : 0;
+
+		if (node_is_list (node)) {
+			WebKitDOMNode *item = webkit_dom_node_get_first_child (node);
+
+			while (item && WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
+				e_html_editor_selection_wrap_paragraph_length (
+					selection,
+					WEBKIT_DOM_ELEMENT (item),
+					selection->priv->word_wrap_length - quote);
+				item = webkit_dom_node_get_next_sibling (item);
+			}
+		} else {
+			e_html_editor_selection_wrap_paragraph_length (
+				selection,
+				WEBKIT_DOM_ELEMENT (node),
+				selection->priv->word_wrap_length - quote);
+		}
 	}
 }
 
@@ -4793,7 +5229,7 @@ e_html_editor_selection_wrap_paragraph (EHTMLEditorSelection *selection,
                                         WebKitDOMElement *paragraph)
 {
 	gint indentation_level, citation_level, quote;
-	gint word_wrap_length;
+	gint final_width, word_wrap_length, offset = 0;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
@@ -4802,12 +5238,26 @@ e_html_editor_selection_wrap_paragraph (EHTMLEditorSelection *selection,
 	indentation_level = get_indentation_level (paragraph);
 	citation_level = get_citation_level (WEBKIT_DOM_NODE (paragraph));
 
+	if (node_is_list (WEBKIT_DOM_NODE (paragraph)) ||
+	    WEBKIT_DOM_IS_HTMLLI_ELEMENT (paragraph)) {
+
+		gint list_level = get_list_level (WEBKIT_DOM_NODE (paragraph));
+		indentation_level = 0;
+
+		if (list_level > 0)
+			offset = list_level * -SPACES_PER_LIST_LEVEL;
+		else
+			offset = -SPACES_PER_LIST_LEVEL;
+	}
+
 	quote = citation_level ? citation_level + 1 : 0;
+	quote *= 2;
+
+	final_width = word_wrap_length - quote + offset;
+	final_width -= SPACES_PER_INDENTATION * indentation_level;
 
 	return e_html_editor_selection_wrap_paragraph_length (
-		selection,
-		WEBKIT_DOM_ELEMENT (paragraph),
-		word_wrap_length - (SPACES_PER_INDENTATION * indentation_level) - quote);
+		selection, WEBKIT_DOM_ELEMENT (paragraph), final_width);
 }
 
 /**
@@ -4854,25 +5304,13 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 	/* First remove all markers (if present) */
 	marker = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
-	if (marker != NULL) {
-		WebKitDOMNode *marker_node;
-		WebKitDOMNode *parent_node;
-
-		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (marker_node);
-		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
-	}
+	if (marker != NULL)
+		remove_node (WEBKIT_DOM_NODE (marker));
 
 	marker = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-end-marker");
-	if (marker != NULL) {
-		WebKitDOMNode *marker_node;
-		WebKitDOMNode *parent_node;
-
-		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (marker_node);
-		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
-	}
+	if (marker != NULL)
+		remove_node (WEBKIT_DOM_NODE (marker));
 
 	range = html_editor_selection_get_current_range (selection);
 
@@ -4880,9 +5318,7 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 		WebKitDOMNode *marker_node;
 		WebKitDOMNode *parent_node;
 		WebKitDOMNode *split_node;
-		glong start_offset;
-
-		start_offset = webkit_dom_range_get_start_offset (range, NULL);
+		glong offset;
 
 		marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
@@ -4890,13 +5326,23 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 			marker, "-x-evo-selection-start-marker");
 
 		container = webkit_dom_range_get_start_container (range, NULL);
-		if (WEBKIT_DOM_IS_TEXT (container) && start_offset != 0) {
+		offset = webkit_dom_range_get_start_offset (range, NULL);
+
+		if (WEBKIT_DOM_IS_TEXT (container)) {
 			WebKitDOMText *split_text;
 
 			split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (container),
-				start_offset, NULL);
+				WEBKIT_DOM_TEXT (container), offset, NULL);
 			split_node = WEBKIT_DOM_NODE (split_text);
+		} else if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (container)) {
+			webkit_dom_node_insert_before (
+				container,
+				WEBKIT_DOM_NODE (marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (container)),
+				NULL);
+
+			goto end_marker;
 		} else {
 			if (!webkit_dom_node_get_previous_sibling (container)) {
 				split_node = webkit_dom_node_get_parent_node (
@@ -4910,25 +5356,40 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 				split_node = container;
 		}
 
-		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (split_node);
+		if (!split_node) {
+			webkit_dom_node_insert_before (
+				container,
+				WEBKIT_DOM_NODE (marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (container)),
+				NULL);
+		} else {
+			marker_node = WEBKIT_DOM_NODE (marker);
+			parent_node = webkit_dom_node_get_parent_node (split_node);
 
-		webkit_dom_node_insert_before (
-			parent_node, marker_node, split_node, NULL);
-
+			webkit_dom_node_insert_before (
+				parent_node, marker_node, split_node, NULL);
+		}
+ end_marker:
 		marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
 		webkit_dom_element_set_id (
 			marker, "-x-evo-selection-end-marker");
 
 		container = webkit_dom_range_get_end_container (range, NULL);
-		if (WEBKIT_DOM_IS_TEXT (container) && start_offset != 0) {
+		offset = webkit_dom_range_get_end_offset (range, NULL);
+
+		if (WEBKIT_DOM_IS_TEXT (container) && offset != 0) {
 			WebKitDOMText *split_text;
 
 			split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (container),
-				start_offset, NULL);
+				WEBKIT_DOM_TEXT (container), offset, NULL);
 			split_node = WEBKIT_DOM_NODE (split_text);
+		} else if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (container)) {
+			webkit_dom_node_append_child (
+				container, WEBKIT_DOM_NODE (marker), NULL);
+			g_object_unref (view);
+			return;
 		} else {
 			if (!webkit_dom_node_get_previous_sibling (container)) {
 				split_node = webkit_dom_node_get_parent_node (
@@ -4951,7 +5412,7 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 				parent_node, marker_node, split_node, NULL);
 		} else {
 			webkit_dom_node_append_child (
-				webkit_dom_node_get_parent_node (container),
+				WEBKIT_DOM_NODE (container),
 				marker_node,
 				NULL);
 		}
@@ -4994,52 +5455,33 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 	range = webkit_dom_document_create_range (document);
 
 	if (range != NULL) {
-		WebKitDOMNode *marker_node;
-		WebKitDOMNode *parent_node;
-
 		marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 		if (!marker) {
 			marker = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-end-marker");
-
-			if (marker) {
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (marker)),
-					WEBKIT_DOM_NODE (marker),
-					NULL);
-			}
+			if (marker)
+				remove_node (WEBKIT_DOM_NODE (marker));
 			return;
 		}
 
-		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (marker_node);
-
-		webkit_dom_range_set_start_after (range, marker_node, NULL);
-		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
+		webkit_dom_range_set_start_after (
+			range, WEBKIT_DOM_NODE (marker), NULL);
+		remove_node (WEBKIT_DOM_NODE (marker));
 
 		marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 		if (!marker) {
 			marker = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
-
-			if (marker) {
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (marker)),
-					WEBKIT_DOM_NODE (marker),
-					NULL);
-			}
+			if (marker)
+				remove_node (WEBKIT_DOM_NODE (marker));
 			return;
 		}
 
-		marker_node = WEBKIT_DOM_NODE (marker);
-		parent_node = webkit_dom_node_get_parent_node (marker_node);
-
-		webkit_dom_range_set_end_before (range, marker_node, NULL);
-		webkit_dom_node_remove_child (parent_node, marker_node, NULL);
+		webkit_dom_range_set_end_before (
+			range, WEBKIT_DOM_NODE (marker), NULL);
+		remove_node (WEBKIT_DOM_NODE (marker));
 
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
