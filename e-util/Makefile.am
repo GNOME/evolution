@@ -40,6 +40,7 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 ui_DATA = \
+	e-html-editor-manager.ui \
 	e-send-options.ui \
 	e-table-config.ui \
 	e-timezone-dialog.ui \
@@ -60,6 +61,7 @@ noinst_PROGRAMS = \
 	test-category-completion \
 	test-contact-store \
 	test-dateedit \
+	test-html-editor \
 	test-mail-signatures \
 	test-name-selector \
 	test-preferences-window \
@@ -99,7 +101,7 @@ libevolution_util_la_CPPFLAGS = \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
 	$(GEO_CFLAGS) \
-	$(GTKHTML_CFLAGS) \
+	$(ENCHANT_CFLAGS) \
 	$(GTKSPELL_CFLAGS) \
 	$(CODE_COVERAGE_CFLAGS) \
 	$(NULL)
@@ -165,6 +167,8 @@ evolution_util_include_HEADERS =  \
 	e-client-cache.h \
 	e-client-combo-box.h \
 	e-client-selector.h \
+	e-color-chooser-widget.h \
+	e-color-combo.h \
 	e-config.h \
 	e-contact-store.h \
 	e-data-capture.h \
@@ -173,6 +177,11 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
+	e-emoticon-action.h \
+	e-emoticon-chooser-menu.h \
+	e-emoticon-chooser.h \
+	e-emoticon-tool-button.h \
+	e-emoticon.h \
 	e-event.h \
 	e-file-request.h \
 	e-file-utils.h \
@@ -187,9 +196,27 @@ evolution_util_include_HEADERS =  \
 	e-filter-part.h \
 	e-filter-rule.h \
 	e-focus-tracker.h \
+	e-html-editor-actions.h \
+	e-html-editor-cell-dialog.h \
+	e-html-editor-dialog.h \
+	e-html-editor-find-dialog.h \
+	e-html-editor-hrule-dialog.h \
+	e-html-editor-image-dialog.h \
+	e-html-editor-link-dialog.h \
+	e-html-editor-page-dialog.h \
+	e-html-editor-paragraph-dialog.h \
+	e-html-editor-replace-dialog.h \
+	e-html-editor-selection.h \
+	e-html-editor-spell-check-dialog.h \
+	e-html-editor-table-dialog.h \
+	e-html-editor-text-dialog.h \
+	e-html-editor-utils.h \
+	e-html-editor-view.h \
+	e-html-editor.h \
 	e-html-utils.h \
 	e-icon-factory.h \
 	e-image-chooser.h \
+	e-image-chooser-dialog.h \
 	e-import-assistant.h \
 	e-import.h \
 	e-interval-chooser.h \
@@ -252,6 +279,8 @@ evolution_util_include_HEADERS =  \
 	e-source-selector-dialog.h \
 	e-source-selector.h \
 	e-source-util.h \
+	e-spell-checker.h \
+	e-spell-dictionary.h \
 	e-spell-entry.h \
 	e-spell-text-view.h \
 	e-stock-request.h \
@@ -305,7 +334,6 @@ evolution_util_include_HEADERS =  \
 	e-url-entry.h \
 	e-util-enums.h \
 	e-util-enumtypes.h \
-	e-web-view-gtkhtml.h \
 	e-web-view-preview.h \
 	e-web-view.h \
 	e-widget-undo.h \
@@ -410,6 +438,8 @@ libevolution_util_la_SOURCES = \
 	e-client-cache.c \
 	e-client-combo-box.c \
 	e-client-selector.c \
+	e-color-chooser-widget.c \
+	e-color-combo.c \
 	e-config.c \
 	e-contact-store.c \
 	e-data-capture.c \
@@ -418,6 +448,11 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
+	e-emoticon-action.c \
+	e-emoticon-chooser-menu.c \
+	e-emoticon-chooser.c \
+	e-emoticon-tool-button.c \
+	e-emoticon.c \
 	e-event.c \
 	e-file-request.c \
 	e-file-utils.c \
@@ -432,9 +467,28 @@ libevolution_util_la_SOURCES = \
 	e-filter-part.c \
 	e-filter-rule.c \
 	e-focus-tracker.c \
+	e-html-editor-actions.c \
+	e-html-editor-cell-dialog.c \
+	e-html-editor-dialog.c \
+	e-html-editor-find-dialog.c \
+	e-html-editor-hrule-dialog.c \
+	e-html-editor-image-dialog.c \
+	e-html-editor-link-dialog.c \
+	e-html-editor-page-dialog.c \
+	e-html-editor-paragraph-dialog.c \
+	e-html-editor-private.h \
+	e-html-editor-replace-dialog.c \
+	e-html-editor-selection.c \
+	e-html-editor-spell-check-dialog.c \
+	e-html-editor-table-dialog.c \
+	e-html-editor-text-dialog.c \
+	e-html-editor-utils.c \
+	e-html-editor-view.c \
+	e-html-editor.c \
 	e-html-utils.c \
 	e-icon-factory.c \
 	e-image-chooser.c \
+	e-image-chooser-dialog.c \
 	e-import-assistant.c \
 	e-import.c \
 	e-interval-chooser.c \
@@ -497,6 +551,8 @@ libevolution_util_la_SOURCES = \
 	e-source-selector-dialog.c \
 	e-source-selector.c \
 	e-source-util.c \
+	e-spell-checker.c \
+	e-spell-dictionary.c \
 	e-spell-entry.c \
 	e-spell-text-view.c \
 	e-stock-request.c \
@@ -547,7 +603,6 @@ libevolution_util_la_SOURCES = \
 	e-url-entry.c \
 	e-util-enumtypes.c \
 	e-util-private.h \
-	e-web-view-gtkhtml.c \
 	e-web-view-preview.c \
 	e-web-view.c \
 	e-widget-undo.c \
@@ -590,7 +645,7 @@ libevolution_util_la_LIBADD =  \
 	$(EVOLUTION_DATA_SERVER_LIBS) \
 	$(GNOME_PLATFORM_LIBS) \
 	$(GEO_LIBS) \
-	$(GTKHTML_LIBS) \
+	$(ENCHANT_LIBS) \
 	$(GTKSPELL_LIBS) \
 	$(INTLLIBS) \
 	$(MATH_LIB) \
@@ -624,6 +679,10 @@ test_contact_store_LDADD = $(TEST_LDADD)
 test_dateedit_CPPFLAGS = $(TEST_CPPFLAGS)
 test_dateedit_SOURCES = test-dateedit.c
 test_dateedit_LDADD = $(TEST_LDADD)
+
+test_html_editor_CPPFLAGS = $(TEST_CPPFLAGS)
+test_html_editor_SOURCES = test-html-editor.c
+test_html_editor_LDADD = $(TEST_LDADD)
 
 test_mail_signatures_CPPFLAGS = $(TEST_CPPFLAGS)
 test_mail_signatures_SOURCES = test-mail-signatures.c

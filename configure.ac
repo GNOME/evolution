@@ -48,9 +48,10 @@ m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [4.5.2])
 m4_define([gdk_pixbuf_minimum_version], [2.24.0])
 m4_define([gcr_minimum_version], [3.4])
+m4_define([enchant_minimum_version], [1.1.7])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
-m4_define([webkitgtk_minimum_version], [2.0.1])
+m4_define([webkitgtk_minimum_version], [2.2.0])
 m4_define([libgdata_minimum_version], [0.10])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
@@ -286,6 +287,15 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 AC_SUBST(EVOLUTION_DATA_SERVER_CFLAGS)
 AC_SUBST(EVOLUTION_DATA_SERVER_LIBS)
 
+
+dnl ****************
+dnl Enchant Library
+dnl ****************
+PKG_CHECK_MODULES([ENCHANT],
+	[enchant >= enchant_minimum_version])
+AC_SUBST(ENCHANT_CFLAGS)
+AC_SUBST(ENCHANT_LIBS)
+
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
 dnl ******************************
@@ -482,6 +492,42 @@ fi
 AC_CHECK_FUNCS(mkdtemp)
 
 dnl **************************************************
+dnl iso-codes
+dnl **************************************************
+AC_MSG_CHECKING([for iso-codes package])
+have_iso_codes=no
+if $PKG_CONFIG --exists iso-codes; then
+	if $PKG_CONFIG iso-codes --atleast-version=0.49; then
+		have_iso_codes=yes
+		AC_MSG_RESULT([$have_iso_codes])
+	else
+		AC_MSG_WARN([iso-codes detected, but version 0.49 or later is required due to licensing])
+	fi
+else
+	AC_MSG_RESULT([$have_iso_codes])
+fi
+
+if test "x$have_iso_codes" = "xyes"; then
+	AC_MSG_CHECKING([whether iso-codes has iso-639 and iso-3166 domains])
+	if $PKG_CONFIG --variable=domains iso-codes | grep 639 >/dev/null 2>&1 && \
+		$PKG_CONFIG --variable=domains iso-codes | grep 3166 >/dev/null 2>&1 ; then
+			result=yes
+	else
+		result=no
+		have_iso_codes=no
+	fi
+	AC_MSG_RESULT([$result])
+fi
+
+if test "x$have_iso_codes" = "xyes"; then
+	AC_DEFINE_UNQUOTED([ISO_CODES_PREFIX],
+		["`$PKG_CONFIG --variable=prefix iso-codes`"],
+		[ISO codes prefix])
+	AC_DEFINE([HAVE_ISO_CODES], [1],
+		[Define if you have the iso-codes package])
+fi
+
+dnl **************************************************
 dnl Accessibility support
 dnl **************************************************
 PKG_CHECK_MODULES([A11Y], [atk])
@@ -566,16 +612,6 @@ fi
 AM_CONDITIONAL(SUNLDAP, [test x$with_sunldap != xno])
 
 AC_DEFINE(HANDLE_LIBICAL_MEMORY, 1, [Define it once memory returned by libical is free'ed properly])
-
-dnl *************************
-dnl GTKHTML check
-dnl XXX Drop the version from the package name?
-dnl *************************
-PKG_CHECK_MODULES([GTKHTML],
-	[libgtkhtml-4.0 >= gtkhtml_minimum_version
-	 gtkhtml-editor-4.0])
-AC_SUBST(GTKHTML_CFLAGS)
-AC_SUBST(GTKHTML_LIBS)
 
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)

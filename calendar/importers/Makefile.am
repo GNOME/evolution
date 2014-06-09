@@ -9,8 +9,8 @@ libevolution_calendar_importers_la_CPPFLAGS = 		\
 	-I$(top_builddir)/calendar			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
+	$(NULL)
 
 libevolution_calendar_importers_la_SOURCES = \
 	evolution-calendar-importer.h	     \
@@ -23,6 +23,6 @@ libevolution_calendar_importers_la_LIBADD =			\
 	$(top_builddir)/shell/libevolution-shell.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 -include $(top_srcdir)/git.mk

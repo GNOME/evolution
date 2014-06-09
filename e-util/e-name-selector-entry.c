@@ -511,10 +511,10 @@ is_quoted_at (const gchar *string,
 		gunichar c = g_utf8_get_char (p);
 
 		if (c == '"')
-			quoted = ~quoted;
+			quoted = !quoted;
 	}
 
-	return quoted ? TRUE : FALSE;
+	return quoted;
 }
 
 static gint
@@ -530,7 +530,7 @@ get_index_at_position (const gchar *string,
 		gunichar c = g_utf8_get_char (p);
 
 		if (c == '"')
-			quoted = ~quoted;
+			quoted = !quoted;
 		else if (c == ',' && !quoted)
 			n++;
 	}

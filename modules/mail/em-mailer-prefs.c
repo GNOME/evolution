@@ -28,7 +28,6 @@
 
 #include "em-mailer-prefs.h"
 
-#include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 
 #include <shell/e-shell-utils.h>
@@ -738,7 +737,7 @@ image_loading_policy_always_cb (GtkToggleButton *toggle_button)
 
 		g_settings_set_enum (
 			settings, "image-loading-policy",
-			E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
+			E_IMAGE_LOADING_POLICY_ALWAYS);
 
 		g_object_unref (settings);
 	}
@@ -754,7 +753,7 @@ image_loading_policy_sometimes_cb (GtkToggleButton *toggle_button)
 
 		g_settings_set_enum (
 			settings, "image-loading-policy",
-			E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES);
+			E_IMAGE_LOADING_POLICY_SOMETIMES);
 
 		g_object_unref (settings);
 	}
@@ -770,7 +769,7 @@ image_loading_policy_never_cb (GtkToggleButton *toggle_button)
 
 		g_settings_set_enum (
 			settings, "image-loading-policy",
-			E_MAIL_IMAGE_LOADING_POLICY_NEVER);
+			E_IMAGE_LOADING_POLICY_NEVER);
 
 		g_object_unref (settings);
 	}
@@ -1006,7 +1005,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		prefs->builder, "radImagesNever");
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
-		val == E_MAIL_IMAGE_LOADING_POLICY_NEVER);
+		val == E_IMAGE_LOADING_POLICY_NEVER);
 	gtk_widget_set_sensitive (widget, writable);
 
 	g_signal_connect (
@@ -1017,7 +1016,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		prefs->builder, "radImagesSometimes");
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
-		val == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES);
+		val == E_IMAGE_LOADING_POLICY_SOMETIMES);
 	gtk_widget_set_sensitive (widget, writable);
 
 	g_signal_connect (
@@ -1028,7 +1027,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		prefs->builder, "radImagesAlways");
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (widget),
-		val == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
+		val == E_IMAGE_LOADING_POLICY_ALWAYS);
 	gtk_widget_set_sensitive (widget, writable);
 
 	g_signal_connect (

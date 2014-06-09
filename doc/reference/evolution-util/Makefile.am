@@ -16,6 +16,9 @@ CFILE_GLOB = $(top_srcdir)/e-util/*.c
 
 # Ignore all accessiblity headers.
 IGNORE_HFILES = \
+	e-html-editor-actions.h \
+	e-html-editor-private.h \
+	e-html-editor-utils.h \
 	e-marshal.h \
 	e-table-col-dnd.h \
 	e-table-defines.h \
@@ -52,14 +55,12 @@ GTKDOC_CFLAGS  =					\
 	-I$(top_builddir)				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(NULL)
 
 GTKDOC_LIBS = 						\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)					\
 	$(NULL)
 
 # Extra options to supply to gtkdoc-mkdb

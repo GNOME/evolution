@@ -791,13 +791,7 @@ alarm_check_toggled_cb (WebKitDOMHTMLInputElement *check1,
 	WebKitDOMElement *check2;
 	gchar *id;
 
-#if WEBKIT_CHECK_VERSION(2,2,0)  /* XXX should really be (2,1,something) */
-	id = webkit_dom_element_get_id (
-		WEBKIT_DOM_ELEMENT (check1));
-#else
-	id = webkit_dom_html_element_get_id (
-		WEBKIT_DOM_HTML_ELEMENT (check1));
-#endif
+	id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (check1));
 
 	if (g_strcmp0 (id, CHECKBOX_INHERIT_ALARM)) {
 		check2 = webkit_dom_document_get_element_by_id (
@@ -906,11 +900,7 @@ append_info_item_row (ItipView *view,
 		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
 
 	id = g_strdup_printf ("%s_row_%d", table_id, item->id);
-#if WEBKIT_CHECK_VERSION(2,2,0)  /* XXX should really be (2,1,something) */
 	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (row), id);
-#else
-	webkit_dom_html_element_set_id (row, id);
-#endif
 	g_free (id);
 
 	switch (item->type) {
@@ -932,7 +922,7 @@ append_info_item_row (ItipView *view,
 	}
 
 	cell = webkit_dom_html_table_row_element_insert_cell (
-		(WebKitDOMHTMLTableRowElement *) row, -1, NULL);
+		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
 
 	if (icon_name) {
 		WebKitDOMElement *image;
@@ -953,7 +943,7 @@ append_info_item_row (ItipView *view,
 	}
 
 	cell = webkit_dom_html_table_row_element_insert_cell (
-		(WebKitDOMHTMLTableRowElement *) row, -1, NULL);
+		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
 
 	webkit_dom_html_element_set_inner_html (cell, item->message, NULL);
 

@@ -1089,6 +1089,50 @@ e_str_without_underscores (const gchar *string)
 	return new_string;
 }
 
+/**
+ * e_str_replace_string
+ * @text: the string to replace
+ * @before: the string to be replaced
+ * @after: the string to replaced with
+ *
+ * Replaces every occurrence of the string @before with the string @after in
+ * the string @text and returns a #GString with result that should be freed
+ * with g_string_free().
+ *
+ * Returns: a newly-allocated #GString
+ */
+GString *
+e_str_replace_string (const gchar *text,
+                      const gchar *before,
+                      const gchar *after)
+{
+	const gchar *p, *next;
+	GString *str;
+	gint find_len;
+
+	g_return_val_if_fail (text != NULL, NULL);
+	g_return_val_if_fail (before != NULL, NULL);
+	g_return_val_if_fail (*before, NULL);
+
+	find_len = strlen (before);
+	str = g_string_new ("");
+
+	p = text;
+	while (next = strstr (p, before), next) {
+		if (p < next)
+			g_string_append_len (str, p, next - p);
+
+		if (after && *after)
+			g_string_append (str, after);
+
+		p = next + find_len;
+	}
+
+	g_string_append (str, p);
+
+	return str;
+}
+
 gint
 e_str_compare (gconstpointer x,
                gconstpointer y)

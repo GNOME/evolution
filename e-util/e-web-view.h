@@ -197,11 +197,24 @@ GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
+void		e_web_view_create_and_add_css_style_sheet
+						(WebKitDOMDocument* document,
+						 const gchar *style_sheet_id);
 void		e_web_view_add_css_rule_into_style_sheet
 						(EWebView *web_view,
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
 						 const gchar *style);
+gboolean	element_has_id			(WebKitDOMElement *element,
+						 const gchar* id);
+gboolean	element_has_tag			(WebKitDOMElement *element,
+						 const gchar* tag);
+gboolean	element_has_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		element_add_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		element_remove_class		(WebKitDOMElement *element,
+						 const gchar* class);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */

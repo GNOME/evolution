@@ -63,16 +63,3 @@ e_composer_spell_header_new_button (ESourceRegistry *registry,
 		"registry", registry, NULL);
 }
 
-void
-e_composer_spell_header_set_languages (EComposerSpellHeader *header,
-                                       GList *languages)
-{
-	ESpellEntry *spell_entry;
-
-	g_return_if_fail (header != NULL);
-
-	spell_entry = E_SPELL_ENTRY (E_COMPOSER_HEADER (header)->input_widget);
-	g_return_if_fail (spell_entry != NULL);
-
-	e_spell_entry_set_languages (spell_entry, languages);
-}

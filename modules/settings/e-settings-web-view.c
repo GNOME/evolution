@@ -31,7 +31,8 @@
 	((obj), E_TYPE_SETTINGS_WEB_VIEW, ESettingsWebViewPrivate))
 
 struct _ESettingsWebViewPrivate {
-	gint placeholder;
+	GtkCssProvider *css_provider;
+	GSettings *settings;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -39,32 +40,194 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_settings_web_view,
 	E_TYPE_EXTENSION)
 
+/* replaces content of color string */
 static void
-settings_web_view_constructed (GObject *object)
+settings_web_view_fix_color_string (gchar *color_string)
+{
+	GdkColor color;
+
+	if (color_string == NULL)
+		return;
+
+	if (strlen (color_string) < 13)
+		return;
+
+	if (!gdk_color_parse (color_string, &color))
+		return;
+
+	sprintf (
+		color_string, "#%02x%02x%02x",
+		(gint) color.red * 256 / 65536,
+		(gint) color.green * 256 / 65536,
+		(gint) color.blue * 256 / 65536);
+}
+
+static void
+settings_web_view_load_style (ESettingsWebView *extension)
+{
+	GString *buffer;
+	gchar *citation_color;
+	gchar *monospace_font;
+	gchar *variable_font;
+	gboolean custom_fonts;
+	gboolean mark_citations;
+	EExtensible *extensible;
+	GtkStyleContext *style_context;
+	GSettings *settings;
+	GError *error = NULL;
+
+	/* Some of our mail and composer preferences are passed down to
+	 * GtkHtml through style properties, unfortunately.  This builds
+	 * a style sheet for the EWebView using values from GSettings. */
+
+	settings = extension->priv->settings;
+
+	custom_fonts =
+		g_settings_get_boolean (settings, "use-custom-font");
+	monospace_font =
+		g_settings_get_string (settings, "monospace-font");
+	variable_font =
+		g_settings_get_string (settings, "variable-width-font");
+	mark_citations =
+		g_settings_get_boolean (settings, "mark-citations");
+	citation_color =
+		g_settings_get_string (settings, "citation-color");
+
+	buffer = g_string_new ("EWebViewGtkHTML {\n");
+
+	settings_web_view_fix_color_string (citation_color);
+
+	if (custom_fonts && variable_font != NULL)
+		g_string_append_printf (
+			buffer, "  font: %s;\n", variable_font);
+
+	if (custom_fonts && monospace_font != NULL)
+		g_string_append_printf (
+			buffer, "  -GtkHTML-fixed-font-name: '%s';\n",
+			monospace_font);
+
+	if (mark_citations && citation_color != NULL)
+		g_string_append_printf (
+			buffer, "  -GtkHTML-cite-color: %s;\n",
+			citation_color);
+
+	g_string_append (buffer, "}\n");
+
+	gtk_css_provider_load_from_data (
+		extension->priv->css_provider,
+		buffer->str, buffer->len, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	g_string_free (buffer, TRUE);
+
+	g_free (monospace_font);
+	g_free (variable_font);
+	g_free (citation_color);
+
+	extensible = e_extension_get_extensible (E_EXTENSION (extension));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (extensible));
+	gtk_style_context_invalidate (style_context);
+}
+
+static void
+settings_web_view_changed_cb (GSettings *settings,
+                              const gchar *key,
+                              ESettingsWebView *extension)
+{
+	settings_web_view_load_style (extension);
+}
+
+static void
+settings_web_view_realize (GtkWidget *widget,
+                           ESettingsWebView *extension)
 {
 	GSettings *settings;
-	EExtensible *extensible;
 
-	extensible = e_extension_get_extensible (E_EXTENSION (object));
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = extension->priv->settings;
 
 	g_settings_bind (
 		settings, "composer-inline-spelling",
-		extensible, "inline-spelling",
+		widget, "inline-spelling",
 		G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 		settings, "composer-magic-links",
-		extensible, "magic-links",
+		widget, "magic-links",
 		G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 		settings, "composer-magic-smileys",
-		extensible, "magic-smileys",
+		widget, "magic-smileys",
 		G_SETTINGS_BIND_GET);
 
-	g_object_unref (settings);
+	gtk_style_context_add_provider (
+		gtk_widget_get_style_context (widget),
+		GTK_STYLE_PROVIDER (extension->priv->css_provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	settings_web_view_load_style (extension);
+
+	/* Reload the style sheet when certain settings change. */
+
+	g_signal_connect (
+		settings, "changed::use-custom-font",
+		G_CALLBACK (settings_web_view_changed_cb), extension);
+
+	g_signal_connect (
+		settings, "changed::monospace-font",
+		G_CALLBACK (settings_web_view_changed_cb), extension);
+
+	g_signal_connect (
+		settings, "changed::variable-width-font",
+		G_CALLBACK (settings_web_view_changed_cb), extension);
+
+	g_signal_connect (
+		settings, "changed::mark-citations",
+		G_CALLBACK (settings_web_view_changed_cb), extension);
+
+	g_signal_connect (
+		settings, "changed::citation-color",
+		G_CALLBACK (settings_web_view_changed_cb), extension);
+}
+
+static void
+settings_web_view_dispose (GObject *object)
+{
+	ESettingsWebViewPrivate *priv;
+
+	priv = E_SETTINGS_WEB_VIEW_GET_PRIVATE (object);
+
+	if (priv->settings != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			priv->settings,
+			settings_web_view_changed_cb, object);
+	}
+
+	g_clear_object (&priv->css_provider);
+	g_clear_object (&priv->settings);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_settings_web_view_parent_class)->dispose (object);
+}
+
+static void
+settings_web_view_constructed (GObject *object)
+{
+	EExtensible *extensible;
+
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
+
+	/* Wait to bind settings until the EWebView is realized so
+	 * GtkhtmlEditor has a chance to install a GtkHTMLEditorAPI.
+	 * Otherwise our settings will have no effect. */
+
+	g_signal_connect (
+		extensible, "realize",
+		G_CALLBACK (settings_web_view_realize), object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_web_view_parent_class)->
@@ -80,6 +243,7 @@ e_settings_web_view_class_init (ESettingsWebViewClass *class)
 	g_type_class_add_private (class, sizeof (ESettingsWebViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = settings_web_view_dispose;
 	object_class->constructed = settings_web_view_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
@@ -94,7 +258,14 @@ e_settings_web_view_class_finalize (ESettingsWebViewClass *class)
 static void
 e_settings_web_view_init (ESettingsWebView *extension)
 {
+	GSettings *settings;
+
 	extension->priv = E_SETTINGS_WEB_VIEW_GET_PRIVATE (extension);
+
+	extension->priv->css_provider = gtk_css_provider_new ();
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	extension->priv->settings = settings;
 }
 
 void

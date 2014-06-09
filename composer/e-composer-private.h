@@ -32,7 +32,6 @@
 #include <libebackend/libebackend.h>
 
 #include "e-composer-actions.h"
-#include "e-composer-activity.h"
 #include "e-composer-header-table.h"
 
 #ifdef HAVE_XFREE
@@ -58,11 +57,11 @@ struct _EMsgComposerPrivate {
 
 	gpointer shell;  /* weak pointer */
 
+	EHTMLEditor *editor;
+
 	/*** UI Management ***/
 
 	GtkWidget *header_table;
-	GtkWidget *activity_bar;
-	GtkWidget *alert_bar;
 	GtkWidget *attachment_paned;
 
 	EFocusTracker *focus_tracker;
@@ -82,10 +81,6 @@ struct _EMsgComposerPrivate {
 
 	GtkWidget *address_dialog;
 
-	GHashTable *inline_images;
-	GHashTable *inline_images_by_url;
-	GList *current_images;
-
 	gchar *mime_type;
 	gchar *mime_body;
 	gchar *charset;
@@ -97,9 +92,18 @@ struct _EMsgComposerPrivate {
 
 	CamelMimeMessage *redirect;
 
+	gboolean busy;
+	gboolean disable_signature;
+	gboolean is_from_draft;
 	gboolean is_from_message;
+	gboolean is_from_new_message;
+	/* The web view is uneditable while the editor is busy.
+	 * This is used to restore the previous editable state. */
+	gboolean saved_editable;
+	gboolean set_signature_from_message;
 
-	gchar *selected_signature_uid;
+	gint focused_entry_selection_start;
+	gint focused_entry_selection_end;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);
@@ -121,6 +125,9 @@ gboolean	e_composer_paste_text		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
 gboolean	e_composer_paste_uris		(EMsgComposer *composer,
 						 GtkClipboard *clipboard);
+gboolean	e_composer_selection_is_base64_uris
+						(EMsgComposer *composer,
+						 GtkSelectionData *selection);
 gboolean	e_composer_selection_is_image_uris
 						(EMsgComposer *composer,
 						 GtkSelectionData *selection);

@@ -27,15 +27,19 @@
 /* Initial height of the picture gallery. */
 #define GALLERY_INITIAL_HEIGHT 150
 
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
+
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
+	EHTMLEditor *editor;
 	GtkUIManager *ui_manager;
 	const gchar *path;
 	GList *list;
 	guint merge_id;
 
-	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	editor = e_msg_composer_get_editor (composer);
+	ui_manager = e_html_editor_get_ui_manager (editor);
 	path = "/main-menu/options-menu/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
@@ -58,62 +62,22 @@ composer_setup_charset_menu (EMsgComposer *composer)
 }
 
 static void
-msg_composer_url_requested_cb (GtkHTML *html,
-                               const gchar *uri,
-                               GtkHTMLStream *stream,
-                               EMsgComposer *composer)
-{
-	GByteArray *array;
-	GHashTable *hash_table;
-	CamelDataWrapper *wrapper;
-	CamelStream *camel_stream;
-	CamelMimePart *mime_part;
-
-	hash_table = composer->priv->inline_images_by_url;
-	mime_part = g_hash_table_lookup (hash_table, uri);
-
-	if (mime_part == NULL) {
-		hash_table = composer->priv->inline_images;
-		mime_part = g_hash_table_lookup (hash_table, uri);
-	}
-
-	/* If this is not an inline image request,
-	 * allow the signal emission to continue. */
-	if (mime_part == NULL)
-		return;
-
-	array = g_byte_array_new ();
-	camel_stream = camel_stream_mem_new_with_byte_array (array);
-	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-	camel_data_wrapper_decode_to_stream_sync (
-		wrapper, camel_stream, NULL, NULL);
-
-	gtk_html_write (html, stream, (gchar *) array->data, array->len);
-
-	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
-
-	g_object_unref (camel_stream);
-
-	/* gtk_html_end() destroys the GtkHTMLStream, so we need to
-	 * stop the signal emission so nothing else tries to use it. */
-	g_signal_stop_emission_by_name (html, "url-requested");
-}
-
-static void
 composer_update_gallery_visibility (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	GtkToggleAction *toggle_action;
 	gboolean gallery_active;
-	gboolean html_mode;
+	gboolean is_html;
 
-	editor = GTKHTML_EDITOR (composer);
-	html_mode = gtkhtml_editor_get_html_mode (editor);
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	is_html = e_html_editor_view_get_html_mode (view);
 
 	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
 	gallery_active = gtk_toggle_action_get_active (toggle_action);
 
-	if (html_mode && gallery_active) {
+	if (is_html && gallery_active) {
 		gtk_widget_show (composer->priv->gallery_scrolled_window);
 		gtk_widget_show (composer->priv->gallery_icon_view);
 	} else {
@@ -122,30 +86,16 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	}
 }
 
-static void
-composer_spell_languages_changed (EMsgComposer *composer,
-                                  GList *languages)
-{
-	EComposerHeader *header;
-	EComposerHeaderTable *table;
-
-	table = e_msg_composer_get_header_table (composer);
-	header = e_composer_header_table_get_header (
-		table, E_COMPOSER_HEADER_SUBJECT);
-
-	e_composer_spell_header_set_languages (
-		E_COMPOSER_SPELL_HEADER (header), languages);
-}
-
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
 	EFocusTracker *focus_tracker;
+	EComposerHeader *header;
 	EShell *shell;
-	EWebViewGtkHTML *web_view;
 	EClientCache *client_cache;
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
 	GtkWidget *container;
@@ -158,14 +108,14 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gint ii;
 	GError *error = NULL;
 
-	editor = GTKHTML_EDITOR (composer);
-	ui_manager = gtkhtml_editor_get_ui_manager (editor);
+	editor = e_msg_composer_get_editor (composer);
+	ui_manager = e_html_editor_get_ui_manager (editor);
+	view = e_html_editor_get_view (editor);
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
 	shell = e_msg_composer_get_shell (composer);
 	client_cache = e_shell_get_client_cache (shell);
-	web_view = e_msg_composer_get_web_view (composer);
 
 	/* Each composer window gets its own window group. */
 	window = GTK_WINDOW (composer);
@@ -179,19 +129,17 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->extra_hdr_names = g_ptr_array_new ();
 	priv->extra_hdr_values = g_ptr_array_new ();
 
-	priv->inline_images = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) NULL);
-
-	priv->inline_images_by_url = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
-
 	priv->charset = e_composer_get_default_charset ();
 
+	priv->is_from_draft = FALSE;
 	priv->is_from_message = FALSE;
+	priv->is_from_new_message = FALSE;
+	priv->set_signature_from_message = FALSE;
+	priv->disable_signature = FALSE;
+	priv->busy = FALSE;
+	priv->saved_editable= FALSE;
+
+	priv->focused_entry = NULL;
 
 	e_composer_actions_init (composer);
 
@@ -216,48 +164,58 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (composer));
 
-	action = gtkhtml_editor_get_action (editor, "cut");
+	action = e_html_editor_get_action (editor, "cut");
 	e_focus_tracker_set_cut_clipboard_action (focus_tracker, action);
 
-	action = gtkhtml_editor_get_action (editor, "copy");
+	action = e_html_editor_get_action (editor, "copy");
 	e_focus_tracker_set_copy_clipboard_action (focus_tracker, action);
 
-	action = gtkhtml_editor_get_action (editor, "paste");
+	action = e_html_editor_get_action (editor, "paste");
 	e_focus_tracker_set_paste_clipboard_action (focus_tracker, action);
 
-	action = gtkhtml_editor_get_action (editor, "select-all");
+	action = e_html_editor_get_action (editor, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 
 	priv->focus_tracker = focus_tracker;
 
-	container = editor->vbox;
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (composer), widget);
+	gtk_widget_show (widget);
 
-	/* Construct the activity bar. */
+	container = widget;
 
-	widget = e_activity_bar_new ();
+	/* Construct the main menu and toolbar. */
+
+	widget = e_html_editor_get_managed_widget (editor, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->activity_bar = g_object_ref_sink (widget);
-	/* EActivityBar controls its own visibility. */
+	gtk_widget_show (widget);
 
-	/* Construct the alert bar for errors. */
-
-	widget = e_alert_bar_new ();
+	widget = e_html_editor_get_managed_widget (editor, "/main-toolbar");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->alert_bar = g_object_ref_sink (widget);
-	/* EAlertBar controls its own visibility. */
+	gtk_widget_show (widget);
 
 	/* Construct the header table. */
 
 	widget = e_composer_header_table_new (client_cache);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
-	priv->header_table = g_object_ref_sink (widget);
+	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_signal_connect (
-		G_OBJECT (composer), "spell-languages-changed",
-		G_CALLBACK (composer_spell_languages_changed), NULL);
+	header = e_composer_header_table_get_header (
+		E_COMPOSER_HEADER_TABLE (widget),
+		E_COMPOSER_HEADER_SUBJECT);
+	g_object_bind_property (
+		view, "spell-checker",
+		header->input_widget, "spell-checker",
+		G_BINDING_SYNC_CREATE);
+
+	/* Construct the editing toolbars.  We'll have to reparent
+	 * the embedded EHTMLEditorView a little further down. */
+
+	widget = GTK_WIDGET (editor);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
 	/* Construct the attachment paned. */
 
@@ -267,8 +225,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
-		web_view, "editable",
-		widget, "editable",
+		view, "editable",
+		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	container = e_attachment_paned_get_content_area (
@@ -288,13 +246,13 @@ e_composer_private_constructed (EMsgComposer *composer)
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (widget, -1, GALLERY_INITIAL_HEIGHT);
 	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
-	priv->gallery_scrolled_window = g_object_ref_sink (widget);
+	priv->gallery_scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Reparent the scrolled window containing the GtkHTML widget
-	 * into the content area of the top attachment pane. */
+	/* Reparent the scrolled window containing the web view
+	 * widget into the content area of the top attachment pane. */
 
-	widget = GTK_WIDGET (web_view);
+	widget = GTK_WIDGET (view);
 	widget = gtk_widget_get_parent (widget);
 	gtk_widget_reparent (widget, container);
 
@@ -310,16 +268,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->gallery_icon_view = g_object_ref_sink (widget);
 	g_free (gallery_path);
 
-	e_signal_connect_notify (
-		composer, "notify::html-mode",
-		G_CALLBACK (composer_update_gallery_visibility), NULL);
+	e_signal_connect_notify_swapped (
+		view, "notify::mode",
+		G_CALLBACK (composer_update_gallery_visibility), composer);
 
 	g_signal_connect_swapped (
 		ACTION (PICTURE_GALLERY), "toggled",
 		G_CALLBACK (composer_update_gallery_visibility), composer);
 
-	/* XXX What is this for? */
-	g_object_set_data (G_OBJECT (composer), "vbox", editor->vbox);
+	/* Initial sync */
+	composer_update_gallery_visibility (composer);
 
 	/* Bind headers to their corresponding actions. */
 
@@ -361,20 +319,21 @@ e_composer_private_constructed (EMsgComposer *composer)
 			G_BINDING_SYNC_CREATE);
 	}
 
-	/* Install a handler for inline images. */
+	/* Disable actions that start asynchronous activities while an
+	 * asynchronous activity is in progress. We enforce this with
+	 * a simple inverted binding to EMsgComposer's "busy" property. */
 
-	/* XXX We no longer use GtkhtmlEditor::uri-requested because it
-	 *     conflicts with EWebView's url_requested() method, which
-	 *     unconditionally launches an async operation.  I changed
-	 *     GtkHTML::url-requested to be a G_SIGNAL_RUN_LAST so that
-	 *     our handler runs first.  If we can handle the request
-	 *     we'll stop the signal emission to prevent EWebView from
-	 *     launching an async operation.  Messy, but works until we
-	 *     switch to WebKit.  --mbarnes */
+	g_object_bind_property (
+		composer, "busy",
+		priv->async_actions, "sensitive",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
-	g_signal_connect (
-		web_view, "url-requested",
-		G_CALLBACK (msg_composer_url_requested_cb), composer);
+	g_object_bind_property (
+		composer, "busy",
+		priv->header_table, "sensitive",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	g_object_unref (settings);
 }
@@ -389,19 +348,14 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->shell = NULL;
 	}
 
+	if (composer->priv->editor != NULL) {
+		g_object_unref (composer->priv->editor);
+		composer->priv->editor = NULL;
+	}
+
 	if (composer->priv->header_table != NULL) {
 		g_object_unref (composer->priv->header_table);
 		composer->priv->header_table = NULL;
-	}
-
-	if (composer->priv->activity_bar != NULL) {
-		g_object_unref (composer->priv->activity_bar);
-		composer->priv->activity_bar = NULL;
-	}
-
-	if (composer->priv->alert_bar != NULL) {
-		g_object_unref (composer->priv->alert_bar);
-		composer->priv->alert_bar = NULL;
 	}
 
 	if (composer->priv->attachment_paned != NULL) {
@@ -434,11 +388,10 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->composer_actions = NULL;
 	}
 
-	g_clear_object (&composer->priv->gallery_icon_view);
-	g_clear_object (&composer->priv->gallery_scrolled_window);
-
-	g_hash_table_remove_all (composer->priv->inline_images);
-	g_hash_table_remove_all (composer->priv->inline_images_by_url);
+	if (composer->priv->gallery_scrolled_window != NULL) {
+		g_object_unref (composer->priv->gallery_scrolled_window);
+		composer->priv->gallery_scrolled_window = NULL;
+	}
 
 	if (composer->priv->redirect != NULL) {
 		g_object_unref (composer->priv->redirect);
@@ -462,10 +415,6 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
-	g_free (composer->priv->selected_signature_uid);
-
-	g_hash_table_destroy (composer->priv->inline_images);
-	g_hash_table_destroy (composer->priv->inline_images_by_url);
 }
 
 gchar *
@@ -525,92 +474,13 @@ e_composer_get_default_charset (void)
 	return charset;
 }
 
-gchar *
-e_composer_decode_clue_value (const gchar *encoded_value)
-{
-	GString *buffer;
-	const gchar *cp;
-
-	/* Decode a GtkHtml "ClueFlow" value. */
-
-	g_return_val_if_fail (encoded_value != NULL, NULL);
-
-	buffer = g_string_sized_new (strlen (encoded_value));
-
-	/* Copy the value, decoding escaped characters as we go. */
-	cp = encoded_value;
-	while (*cp != '\0') {
-		if (*cp == '.') {
-			cp++;
-			switch (*cp) {
-				case '.':
-					g_string_append_c (buffer, '.');
-					break;
-				case '1':
-					g_string_append_c (buffer, '"');
-					break;
-				case '2':
-					g_string_append_c (buffer, '=');
-					break;
-				default:
-					/* Invalid escape sequence. */
-					g_string_free (buffer, TRUE);
-					return NULL;
-			}
-		} else
-			g_string_append_c (buffer, *cp);
-		cp++;
-	}
-
-	return g_string_free (buffer, FALSE);
-}
-
-gchar *
-e_composer_encode_clue_value (const gchar *decoded_value)
-{
-	gchar *encoded_value;
-	gchar **strv;
-
-	/* Encode a GtkHtml "ClueFlow" value. */
-
-	g_return_val_if_fail (decoded_value != NULL, NULL);
-
-	/* XXX This is inefficient but easy to understand. */
-
-	encoded_value = g_strdup (decoded_value);
-
-	/* Substitution: '.' --> '..' (do this first) */
-	if (strchr (encoded_value, '.') != NULL) {
-		strv = g_strsplit (encoded_value, ".", 0);
-		g_free (encoded_value);
-		encoded_value = g_strjoinv ("..", strv);
-		g_strfreev (strv);
-	}
-
-	/* Substitution: '"' --> '.1' */
-	if (strchr (encoded_value, '"') != NULL) {
-		strv = g_strsplit (encoded_value, """", 0);
-		g_free (encoded_value);
-		encoded_value = g_strjoinv (".1", strv);
-		g_strfreev (strv);
-	}
-
-	/* Substitution: '=' --> '.2' */
-	if (strchr (encoded_value, '=') != NULL) {
-		strv = g_strsplit (encoded_value, "=", 0);
-		g_free (encoded_value);
-		encoded_value = g_strjoinv (".2", strv);
-		g_strfreev (strv);
-	}
-
-	return encoded_value;
-}
-
 gboolean
 e_composer_paste_html (EMsgComposer *composer,
                        GtkClipboard *clipboard)
 {
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	EHTMLEditorSelection *editor_selection;
 	gchar *html;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
@@ -619,9 +489,15 @@ e_composer_paste_html (EMsgComposer *composer,
 	html = e_clipboard_wait_for_html (clipboard);
 	g_return_val_if_fail (html != NULL, FALSE);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_insert_html (editor, html);
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
+	e_html_editor_selection_insert_html (editor_selection, html);
 
+	e_html_editor_view_check_magic_links (view, FALSE);
+	e_html_editor_view_force_spell_check (view);
+
+	e_html_editor_selection_scroll_to_caret (editor_selection);
 	g_free (html);
 
 	return TRUE;
@@ -631,7 +507,8 @@ gboolean
 e_composer_paste_image (EMsgComposer *composer,
                         GtkClipboard *clipboard)
 {
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
+	EHTMLEditorView *html_editor_view;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	GdkPixbuf *pixbuf = NULL;
@@ -643,7 +520,6 @@ e_composer_paste_image (EMsgComposer *composer,
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
 
-	editor = GTKHTML_EDITOR (composer);
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 
@@ -673,9 +549,15 @@ e_composer_paste_image (EMsgComposer *composer,
 
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
-	if (gtkhtml_editor_get_html_mode (editor))
-		gtkhtml_editor_insert_image (editor, uri);
-	else {
+	editor = e_msg_composer_get_editor (composer);
+	html_editor_view = e_html_editor_get_view (editor);
+	if (e_html_editor_view_get_html_mode (html_editor_view)) {
+		EHTMLEditorSelection *selection;
+
+		selection = e_html_editor_view_get_selection (html_editor_view);
+		e_html_editor_selection_insert_image (selection, uri);
+		e_html_editor_selection_scroll_to_caret (selection);
+	} else {
 		EAttachment *attachment;
 
 		attachment = e_attachment_new_for_uri (uri);
@@ -705,7 +587,9 @@ gboolean
 e_composer_paste_text (EMsgComposer *composer,
                        GtkClipboard *clipboard)
 {
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	EHTMLEditorSelection *editor_selection;
 	gchar *text;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
@@ -714,8 +598,18 @@ e_composer_paste_text (EMsgComposer *composer,
 	text = gtk_clipboard_wait_for_text (clipboard);
 	g_return_val_if_fail (text != NULL, FALSE);
 
-	editor = GTKHTML_EDITOR (composer);
-	gtkhtml_editor_insert_text (editor, text);
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
+	/* If WebView doesn't have focus, focus it */
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	e_html_editor_selection_insert_text (editor_selection, text);
+
+	e_html_editor_view_check_magic_links (view, FALSE);
+	e_html_editor_view_force_spell_check (view);
+	e_html_editor_selection_scroll_to_caret (editor_selection);
 
 	g_free (text);
 
@@ -757,6 +651,35 @@ e_composer_paste_uris (EMsgComposer *composer,
 }
 
 gboolean
+e_composer_selection_is_base64_uris (EMsgComposer *composer,
+                                     GtkSelectionData *selection)
+{
+	gboolean all_base64_uris = TRUE;
+	gchar **uris;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (selection != NULL, FALSE);
+
+	uris = gtk_selection_data_get_uris (selection);
+
+	if (!uris)
+		return FALSE;
+
+	for (ii = 0; uris[ii] != NULL; ii++) {
+		if (!((g_str_has_prefix (uris[ii], "data:") || strstr (uris[ii], ";data:"))
+		    && strstr (uris[ii], ";base64,"))) {
+			all_base64_uris = FALSE;
+			break;
+		}
+	}
+
+	g_strfreev (uris);
+
+	return all_base64_uris;
+}
+
+gboolean
 e_composer_selection_is_image_uris (EMsgComposer *composer,
                                     GtkSelectionData *selection)
 {
@@ -769,7 +692,7 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 
 	uris = gtk_selection_data_get_uris (selection);
 
-	if (uris == NULL)
+	if (!uris)
 		return FALSE;
 
 	for (ii = 0; uris[ii] != NULL; ii++) {
@@ -859,19 +782,255 @@ use_top_signature (EMsgComposer *composer)
 }
 
 static void
+composer_size_allocate_cb (GtkWidget *widget,
+			   gpointer user_data)
+{
+	GtkWidget *scrolled_window;
+	GtkAdjustment *adj;
+
+	scrolled_window = gtk_widget_get_parent (GTK_WIDGET (widget));
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
+
+	/* Scroll only when there is some size allocated */
+	if (gtk_adjustment_get_upper (adj) != 0.0) {
+		/* Scroll web view down to caret */
+		gtk_adjustment_set_value (adj, gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj));
+		gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window), adj);
+		/* Disconnect because we don't want to scroll down the view on every window size change */
+		g_signal_handlers_disconnect_by_func (
+			widget, G_CALLBACK (composer_size_allocate_cb), NULL);
+	}
+}
+
+static void
+insert_paragraph_with_input (WebKitDOMElement *paragraph,
+                             WebKitDOMElement *body)
+{
+	WebKitDOMNode *node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+	if (node) {
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (paragraph),
+			node,
+			NULL);
+	} else {
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (paragraph),
+			NULL);
+	}
+}
+
+static void
+composer_move_caret (EMsgComposer *composer)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	EHTMLEditorSelection *editor_selection;
+	GSettings *settings;
+	gboolean start_bottom, html_mode, top_signature;
+	gboolean has_paragraphs_in_body = TRUE;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *input_start, *element, *signature;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMNodeList *list, *blockquotes;
+	WebKitDOMRange *new_range;
+
+	/* When there is an option composer-reply-start-bottom set we have
+	 * to move the caret between reply and signature. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+	g_object_unref (settings);
+
+	top_signature =
+		use_top_signature (composer) &&
+		!composer->priv->is_from_message &&
+		!composer->priv->is_from_new_message;
+
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	editor_selection = e_html_editor_view_get_selection (view);
+	html_mode = e_html_editor_view_get_html_mode (view);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (window);
+
+	body = webkit_dom_document_get_body (document);
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
+	new_range = webkit_dom_document_create_range (document);
+
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
+	/* Caret position found => composer mode changed */
+	if (element) {
+		e_html_editor_selection_restore_caret_position (editor_selection);
+		/* We want to force spellcheck just in case that we switched to plain
+		 * text mode (when switching to html mode, the underlined words are
+		 * preserved */
+		if (!html_mode)
+			e_html_editor_view_force_spell_check (view);
+		return;
+	}
+
+	/* If editing message as new don't handle with caret */
+	if (composer->priv->is_from_message || composer->priv->is_from_draft) {
+		if (composer->priv->is_from_message)
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (body),
+				"data-edit-as-new",
+				"",
+				NULL);
+		e_html_editor_selection_restore_caret_position (editor_selection);
+		e_html_editor_selection_scroll_to_caret (editor_selection);
+
+		e_html_editor_view_force_spell_check (view);
+		return;
+	}
+
+	e_html_editor_selection_block_selection_changed (editor_selection);
+
+	/* When the new message is written from the beginning - note it into body */
+	if (composer->priv->is_from_new_message) {
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
+	}
+
+	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
+	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature", NULL);
+	/* Situation when wrapped paragraph is just in signature and not in message body */
+	if (webkit_dom_node_list_get_length (list) == 1) {
+		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
+			has_paragraphs_in_body = FALSE;
+	}
+
+	if (webkit_dom_node_list_get_length (list) == 0)
+		has_paragraphs_in_body = FALSE;
+
+	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
+
+	if (!has_paragraphs_in_body) {
+		element = e_html_editor_selection_get_paragraph_element (
+			editor_selection, document, -1, 0);
+		webkit_dom_element_set_id (element, "-x-evo-input-start");
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
+		if (top_signature)
+			element_add_class (element, "-x-evo-top-signature");
+	}
+
+	if (start_bottom) {
+		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
+			if (!has_paragraphs_in_body) {
+				if (!top_signature) {
+					webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						signature ?
+							webkit_dom_node_get_parent_node (
+								WEBKIT_DOM_NODE (signature)) :
+							webkit_dom_node_get_next_sibling (
+								webkit_dom_node_list_item (
+									blockquotes, 0)),
+						NULL);
+				} else {
+					webkit_dom_node_append_child (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				}
+			}
+
+			e_html_editor_selection_restore_caret_position (editor_selection);
+			if (!html_mode)
+				e_html_editor_view_quote_plain_text (view);
+			e_html_editor_view_force_spell_check (view);
+
+			input_start = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-input-start");
+			if (input_start)
+				webkit_dom_range_select_node_contents (
+					new_range, WEBKIT_DOM_NODE (input_start), NULL);
+
+			webkit_dom_range_collapse (new_range, FALSE, NULL);
+		} else {
+			if (!has_paragraphs_in_body)
+				insert_paragraph_with_input (
+					element, WEBKIT_DOM_ELEMENT (body));
+
+			webkit_dom_range_select_node_contents (
+				new_range,
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body)),
+				NULL);
+			webkit_dom_range_collapse (new_range, TRUE, NULL);
+		}
+
+		g_signal_connect (
+			view, "size-allocate",
+			G_CALLBACK (composer_size_allocate_cb), NULL);
+	} else {
+		/* Move caret on the beginning of message */
+		if (!has_paragraphs_in_body) {
+			insert_paragraph_with_input (
+				element, WEBKIT_DOM_ELEMENT (body));
+
+			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
+				if (!html_mode) {
+					WebKitDOMNode *blockquote;
+
+					blockquote = webkit_dom_node_list_item (blockquotes, 0);
+
+					/* FIXME determine when we can skip this */
+					e_html_editor_selection_wrap_paragraph (
+						editor_selection,
+						WEBKIT_DOM_ELEMENT (blockquote));
+
+					e_html_editor_selection_restore_caret_position (editor_selection);
+					e_html_editor_view_quote_plain_text (view);
+					body = webkit_dom_document_get_body (document);
+				}
+			}
+		}
+
+		e_html_editor_view_force_spell_check (view);
+
+		webkit_dom_range_select_node_contents (
+			new_range,
+			WEBKIT_DOM_NODE (
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
+			NULL);
+		webkit_dom_range_collapse (new_range, TRUE, NULL);
+	}
+
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, new_range);
+
+	e_html_editor_selection_unblock_selection_changed (editor_selection);
+}
+
+static void
 composer_load_signature_cb (EMailSignatureComboBox *combo_box,
                             GAsyncResult *result,
                             EMsgComposer *composer)
 {
 	GString *html_buffer = NULL;
-	GtkhtmlEditor *editor;
 	gchar *contents = NULL;
 	gsize length = 0;
 	const gchar *active_id;
-	gchar *encoded_uid = NULL;
 	gboolean top_signature;
 	gboolean is_html;
 	GError *error = NULL;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *signatures;
+	gulong list_length, ii;
+	GSettings *settings;
+	gboolean start_bottom;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -887,7 +1046,12 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	 * Always put the signature at the bottom for that case. */
 	top_signature =
 		use_top_signature (composer) &&
-		!composer->priv->is_from_message;
+		!composer->priv->is_from_message &&
+		!composer->priv->is_from_new_message;
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
+	g_object_unref (settings);
 
 	if (contents == NULL)
 		goto insert;
@@ -911,24 +1075,13 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	/* The combo box active ID is the signature's ESource UID. */
 	active_id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
 
-	if (active_id != NULL && *active_id != '\0')
-		encoded_uid = e_composer_encode_clue_value (active_id);
-
 	g_string_append_printf (
 		html_buffer,
-		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-		"    key=\"signature\" value=\"1\">-->"
-		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-		"    key=\"signature_name\" value=\"uid:%s\">-->",
-		(encoded_uid != NULL) ? encoded_uid : "");
-
-	g_string_append (
-		html_buffer,
-		"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\""
-		" CELLPADDING=\"0\"><TR><TD>");
+		"<SPAN class=\"-x-evo-signature\" id=\"1\" name=\"%s\">",
+		(active_id != NULL) ? active_id : "");
 
 	if (!is_html)
-		g_string_append (html_buffer, "<PRE>\n");
+		g_string_append (html_buffer, "<PRE>");
 
 	/* The signature dash convention ("-- \n") is specified
 	 * in the "Son of RFC 1036", section 4.3.2.
@@ -939,8 +1092,8 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		const gchar *delim_nl;
 
 		if (is_html) {
-			delim = "-- \n<BR>";
-			delim_nl = "\n-- \n<BR>";
+			delim = "-- <BR>";
+			delim_nl = "\n-- <BR>";
 		} else {
 			delim = "-- \n";
 			delim_nl = "\n-- \n";
@@ -958,73 +1111,148 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	g_string_append_len (html_buffer, contents, length);
 
 	if (!is_html)
-		g_string_append (html_buffer, "</PRE>\n");
+		g_string_append (html_buffer, "</PRE>");
 
-	if (top_signature)
-		g_string_append (html_buffer, "<BR>");
-
-	g_string_append (html_buffer, "</TD></TR></TABLE>");
-
-	g_free (encoded_uid);
+	g_string_append (html_buffer, "</SPAN>");
 	g_free (contents);
 
 insert:
 	/* Remove the old signature and insert the new one. */
 
-	editor = GTKHTML_EDITOR (composer);
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
 
-	/* This prevents our command before/after callbacks from
-	 * screwing around with the signature as we insert it. */
-	composer->priv->in_signature_insert = TRUE;
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-	gtkhtml_editor_freeze (editor);
-	gtkhtml_editor_run_command (editor, "cursor-position-save");
-	gtkhtml_editor_undo_begin (editor, "Set signature", "Reset signature");
+	signatures = webkit_dom_document_get_elements_by_class_name (
+		document, "-x-evo-signature");
+	list_length = webkit_dom_node_list_get_length (signatures);
+	for (ii = 0; ii < list_length; ii++) {
+		WebKitDOMNode *node;
+		gchar *id;
 
-	gtkhtml_editor_run_command (editor, "block-selection");
-	gtkhtml_editor_run_command (editor, "cursor-bod");
-	if (gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1")) {
-		gtkhtml_editor_run_command (editor, "select-paragraph");
-		gtkhtml_editor_run_command (editor, "delete");
-		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
-		gtkhtml_editor_run_command (editor, "delete-back");
+		node = webkit_dom_node_list_item (signatures, ii);
+		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
+
+		/* When we are editing a message with signature we need to set active
+		 * signature id in signature combo box otherwise no signature will be
+		 * added but we have to do it just once when the composer opens */
+		if (composer->priv->is_from_message && composer->priv->set_signature_from_message) {
+			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
+			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
+			g_free (name);
+			composer->priv->set_signature_from_message = FALSE;
+		}
+
+		if (id && (strlen (id) == 1) && (*id == '1')) {
+			/* We have to remove the div containing the span with signature */
+			WebKitDOMNode *next_sibling;
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (node);
+			next_sibling = webkit_dom_node_get_next_sibling (parent);
+
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
+				webkit_dom_node_remove_child (
+					webkit_dom_node_get_parent_node (next_sibling),
+					next_sibling,
+					NULL);
+
+			webkit_dom_node_remove_child (
+				webkit_dom_node_get_parent_node (parent),
+				parent,
+				NULL);
+
+			g_free (id);
+			break;
+		}
+
+		g_free (id);
 	}
-	gtkhtml_editor_run_command (editor, "unblock-selection");
 
 	if (html_buffer != NULL) {
-		gtkhtml_editor_run_command (editor, "insert-paragraph");
-		if (!gtkhtml_editor_run_command (editor, "cursor-backward"))
-			gtkhtml_editor_run_command (editor, "insert-paragraph");
-		else
-			gtkhtml_editor_run_command (editor, "cursor-forward");
+		if (*html_buffer->str) {
+			WebKitDOMElement *element;
+			WebKitDOMHTMLElement *body;
 
-		gtkhtml_editor_set_paragraph_data (editor, "orig", "0");
-		gtkhtml_editor_run_command (editor, "indent-zero");
-		gtkhtml_editor_run_command (editor, "style-normal");
-		gtkhtml_editor_insert_html (editor, html_buffer->str);
+			body = webkit_dom_document_get_body (document);
+			element = webkit_dom_document_create_element (document, "DIV", NULL);
+
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
+
+			if (top_signature) {
+				WebKitDOMNode *signature_inserted;
+				WebKitDOMNode *child =
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+				WebKitDOMElement *br =
+					webkit_dom_document_create_element (
+						document, "br", NULL);
+
+				if (start_bottom) {
+					signature_inserted = webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						child,
+						NULL);
+				} else {
+					WebKitDOMElement *input_start =
+						webkit_dom_document_get_element_by_id (
+							document, "-x-evo-input-start");
+					/* When we are using signature on top the caret
+					 * should be before the signature */
+					signature_inserted = webkit_dom_node_insert_before (
+						WEBKIT_DOM_NODE (body),
+						WEBKIT_DOM_NODE (element),
+						input_start ?
+							webkit_dom_node_get_next_sibling (
+								WEBKIT_DOM_NODE (input_start)) :
+							child,
+						NULL);
+				}
+
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (br),
+					webkit_dom_node_get_next_sibling (signature_inserted),
+					NULL);
+			} else {
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
+		}
 
 		g_string_free (html_buffer, TRUE);
-
-	} else if (top_signature) {
-		/* Insert paragraph after the signature ClueFlow stuff. */
-		if (gtkhtml_editor_run_command (editor, "cursor-forward"))
-			gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
-	gtkhtml_editor_undo_end (editor);
-	gtkhtml_editor_run_command (editor, "cursor-position-restore");
-	gtkhtml_editor_thaw (editor);
-
-	composer->priv->in_signature_insert = FALSE;
+	composer_move_caret (composer);
 
 exit:
 	g_object_unref (composer);
 }
 
-static gboolean
-is_null_or_none (const gchar *text)
+static void
+composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
+					  GParamSpec *pspec,
+					  EMsgComposer *composer)
 {
-	return !text || g_strcmp0 (text, "none") == 0;
+	WebKitLoadStatus status;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	status = webkit_web_view_get_load_status (webkit_web_view);
+
+	if (status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	g_signal_handlers_disconnect_by_func (
+		webkit_web_view,
+		G_CALLBACK (composer_web_view_load_status_changed_cb),
+		NULL);
+
+	e_composer_update_signature (composer);
 }
 
 void
@@ -1032,29 +1260,35 @@ e_composer_update_signature (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	const gchar *signature_uid;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	WebKitLoadStatus status;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* Do nothing if we're redirecting a message. */
-	if (composer->priv->redirect)
+	/* Do nothing if we're redirecting a message or we disabled the signature * on purpose */
+	if (composer->priv->redirect || composer->priv->disable_signature)
 		return;
 
 	table = e_msg_composer_get_header_table (composer);
-	signature_uid = e_composer_header_table_get_signature_uid (table);
-
-	/* this is a case when the signature combo cleared itself for a reload */
-	if (!signature_uid)
-		return;
-
-	if (g_strcmp0 (signature_uid, composer->priv->selected_signature_uid) == 0 ||
-	    (is_null_or_none (signature_uid) && is_null_or_none (composer->priv->selected_signature_uid)))
-		return;
-
-	g_free (composer->priv->selected_signature_uid);
-	composer->priv->selected_signature_uid = g_strdup (signature_uid);
-
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
+	/* If document is not loaded, we will wait for him */
+	if (status != WEBKIT_LOAD_FINISHED) {
+		/* Disconnect previous handlers */
+		g_signal_handlers_disconnect_by_func (
+			WEBKIT_WEB_VIEW (view),
+			G_CALLBACK (composer_web_view_load_status_changed_cb),
+			composer);
+		g_signal_connect (
+			WEBKIT_WEB_VIEW(view), "notify::load-status",
+			G_CALLBACK (composer_web_view_load_status_changed_cb),
+			composer);
+		return;
+	}
 
 	/* XXX Signature files should be local and therefore load quickly,
 	 *     so while we do load them asynchronously we don't allow for

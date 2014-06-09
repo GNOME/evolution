@@ -359,8 +359,6 @@ static void
 web_view_init_web_settings (WebKitWebView *web_view)
 {
 	WebKitWebSettings *web_settings;
-	GObjectClass *class;
-	GParamSpec *pspec;
 
 	web_settings = webkit_web_settings_new ();
 
@@ -373,18 +371,8 @@ web_view_init_web_settings (WebKitWebView *web_view)
 		"enable-offline-web-application-cache", FALSE,
 		"enable-site-specific-quirks", TRUE,
 		"enable-scripts", FALSE,
+		"respect-image-orientation", TRUE,
 		NULL);
-
-	/* This property was introduced in WebKitGTK 2.0,
-	 * so check for it and enable it if it's present. */
-	class = G_OBJECT_GET_CLASS (web_settings);
-	pspec = g_object_class_find_property (
-		class, "respect-image-orientation");
-	if (pspec != NULL) {
-		g_object_set (
-			G_OBJECT (web_settings),
-			pspec->name, TRUE, NULL);
-	}
 
 	g_object_bind_property (
 		web_settings, "enable-caret-browsing",
@@ -3377,9 +3365,9 @@ e_web_view_install_request_handler (EWebView *web_view,
 	soup_session_add_feature_by_type (session, handler_type);
 }
 
-static void
-create_and_add_css_style_sheet (WebKitDOMDocument *document,
-                                const gchar *style_sheet_id)
+void
+e_web_view_create_and_add_css_style_sheet (WebKitDOMDocument *document,
+                                           const gchar *style_sheet_id)
 {
 	WebKitDOMElement *style_element;
 
@@ -3388,15 +3376,9 @@ create_and_add_css_style_sheet (WebKitDOMDocument *document,
 	if (!style_element) {
 		/* Create new <style> element */
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
-#if WEBKIT_CHECK_VERSION(2,2,0)  /* XXX should really be (2,1,something) */
 		webkit_dom_element_set_id (
 			WEBKIT_DOM_ELEMENT (style_element),
 			style_sheet_id);
-#else
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (style_element),
-			style_sheet_id);
-#endif
 		webkit_dom_html_style_element_set_media (
 			WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element),
 			"screen");
@@ -3427,7 +3409,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
 
 	if (!style_element) {
-		create_and_add_css_style_sheet (document, style_sheet_id);
+		e_web_view_create_and_add_css_style_sheet (document, style_sheet_id);
 		style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
 	}
 
@@ -3550,4 +3532,126 @@ e_web_view_add_css_rule_into_style_sheet (EWebView *view,
 		style_sheet_id,
 		selector,
 		style);
+}
+
+gboolean
+element_has_id (WebKitDOMElement *element,
+                const gchar* id)
+{
+	gchar *element_id;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_id = webkit_dom_element_get_id (element);
+
+	if (g_ascii_strcasecmp (element_id, id) != 0) {
+		g_free (element_id);
+		return FALSE;
+	}
+	g_free (element_id);
+
+	return TRUE;
+}
+
+gboolean
+element_has_tag (WebKitDOMElement *element,
+                 const gchar* tag)
+{
+	gchar *element_tag;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_tag = webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
+
+	if (g_ascii_strcasecmp (element_tag, tag) != 0) {
+		g_free (element_tag);
+		return FALSE;
+	}
+	g_free (element_tag);
+
+	return TRUE;
+}
+
+gboolean
+element_has_class (WebKitDOMElement *element,
+                const gchar* class)
+{
+	gchar *element_class;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strstr_len (element_class, -1, class)) {
+		g_free (element_class);
+		return TRUE;
+	}
+	g_free (element_class);
+
+	return FALSE;
+}
+
+void
+element_add_class (WebKitDOMElement *element,
+                   const gchar* class)
+{
+	gchar *element_class;
+	gchar *new_class;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return;
+
+	if (element_has_class (element, class))
+		return;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strcmp0 (element_class, "") == 0)
+		new_class = g_strdup (class);
+	else
+		new_class = g_strconcat (element_class, " ", class, NULL);
+
+	webkit_dom_element_set_class_name (element, new_class);
+
+	g_free (element_class);
+	g_free (new_class);
+}
+
+void
+element_remove_class (WebKitDOMElement *element,
+                      const gchar* class)
+{
+	gchar *element_class;
+	GString *result;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return;
+
+	if (!element_has_class (element, class))
+		return;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strcmp0 (element_class, class) == 0) {
+		webkit_dom_element_remove_attribute (element, "class");
+		g_free (element_class);
+		return;
+	}
+
+	result = e_str_replace_string (element_class, class, "");
+	if (result) {
+		webkit_dom_element_set_class_name (element, result->str);
+		g_string_free (result, TRUE);
+	}
+
+	g_free (element_class);
 }

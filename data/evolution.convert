@@ -128,7 +128,6 @@ composer-show-post-from = /apps/evolution/mail/composer/show_post_from
 composer-show-post-reply-to = /apps/evolution/mail/composer/show_post_reply_to
 composer-show-reply-to = /apps/evolution/mail/composer/show_mail_reply_to
 composer-sign-reply-if-signed = /apps/evolution/mail/composer/sign_reply_if_signed
-composer-spell-color = /apps/evolution/mail/composer/spell_color
 composer-spell-languages = /apps/evolution/mail/composer/spell_languages
 composer-top-signature = /apps/evolution/mail/composer/top_signature
 default-account = /apps/evolution/mail/default_account

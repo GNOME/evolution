@@ -95,11 +95,6 @@
       <_summary>Send HTML mail by default</_summary>
       <_description>Send HTML mail by default.</_description>
     </key>
-    <key name="composer-spell-color" type="s">
-      <default>'#FFFF00000000'</default>
-      <_summary>Spell checking color</_summary>
-      <_description>Underline color for misspelled words when using inline spelling.</_description>
-    </key>
     <key name="composer-spell-languages" type="as">
       <default>[]</default>
       <_summary>Spell checking languages</_summary>
@@ -164,6 +159,16 @@
       <default>''</default>
       <_summary>List of localized 'Re'</_summary>
       <_description>Comma-separated list of localized 'Re' abbreviations to skip in a subject text when replying to a message, as an addition to the standard "Re" prefix. An example is 'SV,AV'.</_description>
+    </key>
+    <key name="composer-developer-mode" type="b">
+      <default>false</default>
+      <_summary>Enable developer mode</_summary>
+      <_description>Enables some hidden actions and tools aimed for development and debugging.</_description>
+    </key>
+    <key name="composer-word-wrap-length" type="i">
+      <default>71</default>
+      <_summary>Number of characters for wrapping</_summary>
+      <_description>Will autowrap lines after given number of characters.</_description>
     </key>
     <key name="drag-and-drop-save-file-format" type="s">
       <default>'mbox'</default>

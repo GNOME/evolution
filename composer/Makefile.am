@@ -10,7 +10,6 @@ evolution_mail_composer_includedir = $(privincludedir)/composer
 
 evolution_mail_composer_include_HEADERS = 	\
 	e-composer-actions.h			\
-	e-composer-activity.h			\
 	e-composer-common.h			\
 	e-composer-from-header.h		\
 	e-composer-header-table.h		\
@@ -36,13 +35,12 @@ libevolution_mail_composer_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"composer\"					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)						\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)						\
+	$(NULL)
 
 libevolution_mail_composer_la_SOURCES =		\
 	$(evolution_mail_composer_include_HEADERS) \
 	e-composer-actions.c			\
-	e-composer-activity.c			\
 	e-composer-from-header.c		\
 	e-composer-header-table.c		\
 	e-composer-header.c			\
@@ -63,7 +61,7 @@ libevolution_mail_composer_la_LIBADD =			\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 ui_DATA = evolution-composer.ui
 

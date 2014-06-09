@@ -332,7 +332,7 @@ static void
 settings_deprecated_image_loading_policy_cb (GSettings *settings,
                                              const gchar *key)
 {
-	EMailImageLoadingPolicy policy;
+	EImageLoadingPolicy policy;
 
 	policy = g_settings_get_enum (settings, "image-loading-policy");
 	e_settings_deprecated_set_int_with_change_test (settings, "load-http-images", policy);

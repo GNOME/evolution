@@ -12,9 +12,9 @@ libeabutil_la_CPPFLAGS =				\
 	-I$(top_srcdir)/shell				\
 	$(CAMEL_CFLAGS)					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
+	$(NULL)
 
 libeabutil_la_SOURCES =					\
 	eab-book-util.c					\
@@ -27,8 +27,8 @@ libeabutil_la_LIBADD =					\
 	$(top_builddir)/shell/libevolution-shell.la	\
 	$(CAMEL_LIBS)					\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
-	$(GTKHTML_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)				\
+	$(NULL)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

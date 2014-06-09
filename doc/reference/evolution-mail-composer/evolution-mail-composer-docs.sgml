@@ -16,7 +16,6 @@
   <chapter>
     <title>Mail Composition</title>
     <xi:include href="xml/e-msg-composer.xml"/>
-    <xi:include href="xml/e-composer-activity.xml"/>
     <xi:include href="xml/e-composer-header-table.xml"/>
     <xi:include href="xml/e-composer-header.xml"/>
     <xi:include href="xml/e-composer-from-header.xml"/>

@@ -34,10 +34,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <gtkhtml/gtkhtml.h>
-#include <editor/gtkhtml-spell-language.h>
-#include <libedataserver/libedataserver.h>
-
 #include <composer/e-msg-composer.h>
 
 #include <shell/e-shell-utils.h>
@@ -55,53 +51,6 @@ G_DEFINE_TYPE (
 	EMComposerPrefs,
 	em_composer_prefs,
 	GTK_TYPE_VBOX)
-
-static gboolean
-composer_prefs_map_string_to_color (GValue *value,
-                                    GVariant *variant,
-                                    gpointer user_data)
-{
-	GdkColor color;
-	const gchar *string;
-	gboolean success = FALSE;
-
-	string = g_variant_get_string (variant, NULL);
-	if (gdk_color_parse (string, &color)) {
-		g_value_set_boxed (value, &color);
-		success = TRUE;
-	}
-
-	return success;
-}
-
-static GVariant *
-composer_prefs_map_color_to_string (const GValue *value,
-                                    const GVariantType *expected_type,
-                                    gpointer user_data)
-{
-	GVariant *variant;
-	const GdkColor *color;
-
-	color = g_value_get_boxed (value);
-	if (color == NULL) {
-		variant = g_variant_new_string ("");
-	} else {
-		gchar *string;
-
-		/* Encode the color manually because CSS styles expect
-		 * color codes as #rrggbb, whereas gdk_color_to_string()
-		 * returns color codes as #rrrrggggbbbb. */
-		string = g_strdup_printf (
-			"#%02x%02x%02x",
-			(gint) color->red * 256 / 65536,
-			(gint) color->green * 256 / 65536,
-			(gint) color->blue * 256 / 65536);
-		variant = g_variant_new_string (string);
-		g_free (string);
-	}
-
-	return variant;
-}
 
 static void
 composer_prefs_dispose (GObject *object)
@@ -168,7 +117,7 @@ spell_language_save (EMComposerPrefs *prefs)
 	/* Build a list of active spell languages. */
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 	while (valid) {
-		const GtkhtmlSpellLanguage *language;
+		ESpellDictionary *language;
 		gboolean active;
 
 		gtk_tree_model_get (
@@ -191,36 +140,36 @@ spell_language_save (EMComposerPrefs *prefs)
 static void
 spell_setup (EMComposerPrefs *prefs)
 {
-	const GList *available_languages;
-	GList *active_languages;
+	GList *list, *link;
 	GtkListStore *store;
 
 	store = GTK_LIST_STORE (prefs->language_model);
-	available_languages = gtkhtml_spell_language_get_available ();
 
-	active_languages = e_load_spell_languages ();
+	list = e_spell_checker_list_available_dicts (prefs->spell_checker);
 
 	/* Populate the GtkListStore. */
-	while (available_languages != NULL) {
-		const GtkhtmlSpellLanguage *language;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESpellDictionary *dictionary;
 		GtkTreeIter tree_iter;
 		const gchar *name;
+		const gchar *code;
 		gboolean active;
 
-		language = available_languages->data;
-		name = gtkhtml_spell_language_get_name (language);
-		active = (g_list_find (active_languages, language) != NULL);
+		dictionary = E_SPELL_DICTIONARY (link->data);
+		name = e_spell_dictionary_get_name (dictionary);
+		code = e_spell_dictionary_get_code (dictionary);
+
+		active = e_spell_checker_get_language_active (
+			prefs->spell_checker, code);
 
 		gtk_list_store_append (store, &tree_iter);
 
 		gtk_list_store_set (
 			store, &tree_iter,
-			0, active, 1, name, 2, language, -1);
-
-		available_languages = available_languages->next;
+			0, active, 1, name, 2, dictionary, -1);
 	}
 
-	g_list_free (active_languages);
+	g_list_free (list);
 }
 
 #define MAIL_SEND_ACCOUNT_OVERRIDE_KEY "sao-mail-send-account-override"
@@ -1006,10 +955,15 @@ static EMConfigItem emcp_items[] = {
 	  (gchar *) "vboxSpellChecking",
 	  emcp_widget_glade },
 
-	{ E_CONFIG_PAGE,
-	  (gchar *) "90.accountoverride",
-	  (gchar *) "send-account-override-grid",
-	  emcp_widget_glade }
+	{ E_CONFIG_SECTION_TABLE,
+	  (gchar *) "20.spellcheck/00.languages",
+	  (gchar *) "languages-table",
+	  emcp_widget_glade },
+
+	{ E_CONFIG_SECTION,
+	  (gchar *) "20.spellcheck/00.options",
+	  (gchar *) "spell-options-vbox",
+	  emcp_widget_glade },
 };
 
 static void
@@ -1050,6 +1004,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	prefs->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
+
+	prefs->spell_checker = e_spell_checker_new ();
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
 	 * @Id: org.gnome.evolution.mail.composerPrefs
@@ -1134,6 +1090,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "spinWordWrapLength");
+	g_settings_bind (
+		settings, "composer-word-wrap-length",
+		widget, "value",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkOutlookFilenames");
 	g_settings_bind (
 		settings, "composer-outlook-filenames",
@@ -1193,9 +1155,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	view = GTK_TREE_VIEW (widget);
 	store = gtk_list_store_new (
 		3, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER);
-	g_signal_connect_swapped (
-		store, "row-changed",
-		G_CALLBACK (spell_language_save), prefs);
 	prefs->language_model = GTK_TREE_MODEL (store);
 	gtk_tree_view_set_model (view, prefs->language_model);
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -1215,18 +1174,13 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	info_pixmap = e_builder_get_widget (prefs->builder, "pixmapSpellInfo");
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (info_pixmap),
-		"dialog-information", GTK_ICON_SIZE_BUTTON);
-
-	widget = e_builder_get_widget (prefs->builder, "colorButtonSpellCheckColor");
-	g_settings_bind_with_mapping (
-		settings, "composer-spell-color",
-		widget, "color",
-		G_SETTINGS_BIND_DEFAULT,
-		composer_prefs_map_string_to_color,
-		composer_prefs_map_color_to_string,
-		NULL, (GDestroyNotify) NULL);
+		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 
 	spell_setup (prefs);
+
+	g_signal_connect_swapped (
+		store, "row-changed",
+		G_CALLBACK (spell_language_save), prefs);
 
 	/* Forwards and Replies */
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");

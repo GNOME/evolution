@@ -73,8 +73,10 @@ emqfe_text_plain_format (EMailFormatterExtension *extension,
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 
+	/* XXX Should we define a separate EMailFormatter property
+	 *     for using CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION? */
 	if (e_mail_formatter_get_mark_citations (formatter))
-		text_flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+		text_flags |= CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION;
 
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (mime_part);

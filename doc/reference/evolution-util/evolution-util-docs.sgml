@@ -94,9 +94,37 @@
     <title>HTML Rendering</title>
     <xi:include href="xml/e-web-view.xml"/>
     <xi:include href="xml/e-web-view-preview.xml"/>
-    <xi:include href="xml/e-web-view-gtkhtml.xml"/>
     <xi:include href="xml/e-file-request.xml"/>
     <xi:include href="xml/e-stock-request.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>HTML Editing</title>
+    <xi:include href="xml/e-color-chooser-widget.xml"/>
+    <xi:include href="xml/e-color-combo.xml"/>
+    <xi:include href="xml/e-emoticon.xml"/>
+    <xi:include href="xml/e-emoticon-action.xml"/>
+    <xi:include href="xml/e-emoticon-chooser.xml"/>
+    <xi:include href="xml/e-emoticon-chooser-menu.xml"/>
+    <xi:include href="xml/e-emoticon-tool-button.xml"/>
+    <xi:include href="xml/e-html-editor.xml"/>
+    <xi:include href="xml/e-html-editor-cell-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-find-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-hrule-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-image-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-link-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-page-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-paragraph-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-replace-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-selection.xml"/>
+    <xi:include href="xml/e-html-editor-spell-check-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-table-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-text-dialog.xml"/>
+    <xi:include href="xml/e-html-editor-widget.xml"/>
+    <xi:include href="xml/e-image-chooser-dialog.xml"/>
+    <xi:include href="xml/e-spell-checker.xml"/>
+    <xi:include href="xml/e-spell-dictionary.xml"/>
   </chapter>
 
   <chapter>

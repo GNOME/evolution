@@ -18,10 +18,10 @@ libeabwidgets_la_CPPFLAGS =				\
 	-I$(top_builddir)/shell				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(CHAMPLAIN_CFLAGS)				\
 	$(GEO_CFLAGS)					\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
+	$(NULL)
 
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
@@ -81,9 +81,9 @@ libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/addressbook/util/libeabutil.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)						\
 	$(CHAMPLAIN_LIBS)					\
-	$(GEO_LIBS)
+	$(GEO_LIBS)						\
+	$(NULL)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

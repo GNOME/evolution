@@ -11,8 +11,8 @@ module_itip_formatter_la_CPPFLAGS =					\
 	-DG_LOG_DOMAIN=\"evolution-module-itip-formatter\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)						\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)						\
+	$(NULL)
 
 module_itip_formatter_la_SOURCES =					\
 	e-conflict-search-selector.c					\
@@ -38,7 +38,7 @@ module_itip_formatter_la_LIBADD =					\
 	$(top_builddir)/libemail-engine/libemail-engine.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 module_itip_formatter_la_LDFLAGS =					\
 	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)

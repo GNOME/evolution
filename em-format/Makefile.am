@@ -52,9 +52,9 @@ libevolution_mail_formatter_la_CPPFLAGS =		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(LIBSOUP_CFLAGS)				\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
+	$(NULL)
 
 if ENABLE_SMIME
 SMIME_EXTENSIONS = e-mail-parser-application-smime.c
@@ -139,9 +139,9 @@ libevolution_mail_formatter_la_LIBADD =			\
 	$(top_builddir)/libemail-engine/libemail-engine.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)					\
 	$(LIBSOUP_LIBS)					\
-	$(SMIME_LIBS)
+	$(SMIME_LIBS)					\
+	$(NULL)
 
 BUILT_SOURCES = \
 	$(ENUM_GENERATED) \

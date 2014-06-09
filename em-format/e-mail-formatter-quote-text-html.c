@@ -59,7 +59,7 @@ emqfe_text_html_format (EMailFormatterExtension *extension,
 
 	qf_context = (EMailFormatterQuoteContext *) context;
 
-	string = "\n<!-- text/html -->\n";
+	string = "<!-- text/html -->";
 	g_output_stream_write_all (
 		stream, string, strlen (string), NULL, cancellable, NULL);
 

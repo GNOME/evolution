@@ -265,8 +265,7 @@ mail_shell_view_mail_display_needs_key (EMailDisplay *mail_display,
 		if (!frame)
 			return FALSE;
 		dom = webkit_web_frame_get_dom_document (frame);
-		/* intentionally used "static_cast" */
-		element = webkit_dom_html_document_get_active_element ((WebKitDOMHTMLDocument *) dom);
+		element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
 
 		if (element)
 			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));

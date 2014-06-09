@@ -18,7 +18,9 @@
 #define E_COMPOSER_ACTIONS_H
 
 #define E_COMPOSER_ACTION(composer, name) \
-	(gtkhtml_editor_get_action (GTKHTML_EDITOR (composer), (name)))
+	(e_html_editor_get_action ( \
+		e_msg_composer_get_editor ( \
+		E_MSG_COMPOSER (composer)), (name)))
 
 #define E_COMPOSER_ACTION_ATTACH(composer) \
 	E_COMPOSER_ACTION ((composer), "attach")

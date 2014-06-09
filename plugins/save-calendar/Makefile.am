@@ -9,8 +9,8 @@ liborg_gnome_save_calendar_la_CPPFLAGS =		\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)				\
+	$(NULL)
 
 liborg_gnome_save_calendar_la_SOURCES = \
 	save-calendar.c			\
@@ -26,7 +26,7 @@ liborg_gnome_save_calendar_la_LIBADD =	\
 	$(top_builddir)/shell/libevolution-shell.la \
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)			\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 EXTRA_DIST = org-gnome-save-calendar.eplug.xml
 

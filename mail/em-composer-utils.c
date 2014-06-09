@@ -296,9 +296,11 @@ composer_presend_check_recipients (EMsgComposer *composer,
 
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && num_post == 0) {
-		e_alert_submit (
-			E_ALERT_SINK (composer),
-			"mail:send-no-recipients", NULL);
+		EHTMLEditor *editor;
+
+		editor = e_msg_composer_get_editor (composer);
+		e_alert_submit (E_ALERT_SINK (editor), "mail:send-no-recipients", NULL);
+
 		goto finished;
 	}
 
@@ -443,6 +445,8 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
                                       EMailSession *session)
 {
 	EDestination **recipients;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	EComposerHeaderTable *table;
 	GSettings *settings;
 	gboolean check_passed = TRUE;
@@ -453,9 +457,12 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	html_mode = e_html_editor_view_get_html_mode (view);
+
 	table = e_msg_composer_get_header_table (composer);
 	recipients = e_composer_header_table_get_destinations (table);
-	html_mode = gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer));
 
 	send_html = g_settings_get_boolean (settings, "composer-send-html");
 	confirm_html = g_settings_get_boolean (settings, "prompt-on-unwanted-html");
@@ -585,8 +592,13 @@ exit:
 	g_clear_error (&local_error);
 
 	if (set_changed) {
-		gtkhtml_editor_set_changed (
-			GTKHTML_EDITOR (async_context->composer), TRUE);
+		EHTMLEditor *editor;
+		EHTMLEditorView *view;
+
+		editor = e_msg_composer_get_editor (async_context->composer);
+		view = e_html_editor_get_view (editor);
+		e_html_editor_view_set_changed (view, TRUE);
+
 		gtk_window_present (GTK_WINDOW (async_context->composer));
 	}
 
@@ -638,14 +650,15 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 static void
 composer_set_no_change (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 
 	g_return_if_fail (composer != NULL);
 
-	editor = GTKHTML_EDITOR (composer);
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
 
-	gtkhtml_editor_drop_undo (editor);
-	gtkhtml_editor_set_changed (editor, FALSE);
+	e_html_editor_view_set_changed (view, FALSE);
 }
 
 /* delete original messages from Outbox folder */
@@ -690,7 +703,14 @@ composer_save_to_drafts_complete (GObject *source_object,
 {
 	EActivity *activity;
 	AsyncContext *async_context;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	GError *local_error = NULL;
+
+	async_context = (AsyncContext *) user_data;
+
+	editor = e_msg_composer_get_editor (async_context->composer);
+	view = e_html_editor_get_view (editor);
 
 	/* We don't really care if this failed.  If something other than
 	 * cancellation happened, emit a runtime warning so the error is
@@ -704,13 +724,11 @@ composer_save_to_drafts_complete (GObject *source_object,
 		E_MAIL_SESSION (source_object), result, &local_error);
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
-		gtkhtml_editor_set_changed (
-			GTKHTML_EDITOR (async_context->composer), TRUE);
+		e_html_editor_view_set_changed (view, TRUE);
 		g_error_free (local_error);
 
 	} else if (local_error != NULL) {
-		gtkhtml_editor_set_changed (
-			GTKHTML_EDITOR (async_context->composer), TRUE);
+		e_html_editor_view_set_changed (view, TRUE);
 		g_warning ("%s", local_error->message);
 		g_error_free (local_error);
 
@@ -738,35 +756,32 @@ composer_save_to_drafts_cleanup (GObject *source_object,
 	EActivity *activity;
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
 	async_context = (AsyncContext *) user_data;
 
+	editor = e_msg_composer_get_editor (async_context->composer);
+	view = e_html_editor_get_view (editor);
+
 	activity = async_context->activity;
 	alert_sink = e_activity_get_alert_sink (activity);
 	cancellable = e_activity_get_cancellable (activity);
 
-	e_mail_folder_append_message_finish (
-		CAMEL_FOLDER (source_object), result,
-		&async_context->message_uid, &local_error);
-
 	if (e_activity_handle_cancellation (activity, local_error)) {
-		g_warn_if_fail (async_context->message_uid == NULL);
-		gtkhtml_editor_set_changed (
-			GTKHTML_EDITOR (async_context->composer), TRUE);
+		e_html_editor_view_set_changed (view, TRUE);
 		async_context_free (async_context);
 		g_error_free (local_error);
 		return;
 
 	} else if (local_error != NULL) {
-		g_warn_if_fail (async_context->message_uid == NULL);
 		e_alert_submit (
 			alert_sink,
 			"mail-composer:save-to-drafts-error",
 			local_error->message, NULL);
-		gtkhtml_editor_set_changed (
-			GTKHTML_EDITOR (async_context->composer), TRUE);
+		e_html_editor_view_set_changed (view, TRUE);
 		async_context_free (async_context);
 		g_error_free (local_error);
 		return;
@@ -830,12 +845,17 @@ composer_save_to_drafts_got_folder (GObject *source_object,
 {
 	EActivity *activity;
 	CamelFolder *drafts_folder;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
 	async_context = (AsyncContext *) user_data;
 
 	activity = async_context->activity;
+
+	editor = e_msg_composer_get_editor (async_context->composer);
+	view = e_html_editor_get_view (editor);
 
 	drafts_folder = e_mail_session_uri_to_folder_finish (
 		E_MAIL_SESSION (source_object), result, &local_error);
@@ -846,8 +866,7 @@ composer_save_to_drafts_got_folder (GObject *source_object,
 		((drafts_folder == NULL) && (local_error != NULL)));
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
-		gtkhtml_editor_set_changed (
-			GTKHTML_EDITOR (async_context->composer), TRUE);
+		e_html_editor_view_set_changed (view, TRUE);
 		async_context_free (async_context);
 		g_error_free (local_error);
 		return;
@@ -865,8 +884,7 @@ composer_save_to_drafts_got_folder (GObject *source_object,
 			GTK_WINDOW (async_context->composer),
 			"mail:ask-default-drafts", NULL);
 		if (response != GTK_RESPONSE_YES) {
-			gtkhtml_editor_set_changed (
-				GTKHTML_EDITOR (async_context->composer), TRUE);
+			e_html_editor_view_set_changed (view, TRUE);
 			async_context_free (async_context);
 			return;
 		}
@@ -1155,6 +1173,7 @@ em_utils_compose_new_message (EShell *shell,
 
 	composer = create_new_composer (shell, "", folder);
 	composer_set_no_change (composer);
+	e_msg_composer_is_from_new_message (composer, TRUE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
@@ -1770,7 +1789,7 @@ forward_non_attached (EMailBackend *backend,
 	forward = quoting_text (QUOTING_FORWARD);
 	text = em_utils_message_to_html (
 		CAMEL_SESSION (session), message,
-		forward, flags, NULL, NULL, &validity_found);
+		forward, flags, NULL, NULL, NULL, &validity_found);
 
 	if (text != NULL) {
 		CamelDataWrapper *content;
@@ -2818,15 +2837,9 @@ composer_set_body (EMsgComposer *composer,
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
 	CamelSession *session;
-	GSettings *settings;
-	gboolean start_bottom, has_body_text = FALSE;
 	guint32 validity_found = 0;
 
 	session = e_msg_composer_ref_session (composer);
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-
-	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 
 	switch (style) {
 	case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
@@ -2842,9 +2855,9 @@ composer_set_body (EMsgComposer *composer,
 		original = quoting_text (QUOTING_ORIGINAL);
 		text = em_utils_message_to_html (
 			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS,
-			parts_list, start_bottom ? "<BR>" : NULL, &validity_found);
+			parts_list, "<span id=\"-x-evolution-reply-citation\">",
+			"</span>", &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
-		has_body_text = text && *text;
 		g_free (text);
 		g_free (original);
 		emu_update_composers_security (composer, validity_found);
@@ -2856,40 +2869,14 @@ composer_set_body (EMsgComposer *composer,
 		credits = attribution_format (message);
 		text = em_utils_message_to_html (
 			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
-			parts_list, start_bottom ? "<BR>" : NULL, &validity_found);
+			parts_list, "<span id=\"-x-evolution-reply-citation\">",
+			"</span>", &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
-		has_body_text = text && *text;
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;
 	}
-
-	if (has_body_text && start_bottom) {
-		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
-		gboolean move_cursor_to_end;
-		gboolean top_signature;
-
-		/* If we are placing signature on top, then move cursor to the end,
-		 * otherwise try to find the signature place and place cursor just
-		 * before the signature. We added there an empty line already. */
-		gtkhtml_editor_run_command (editor, "block-selection");
-		gtkhtml_editor_run_command (editor, "cursor-bod");
-
-		top_signature = g_settings_get_boolean (settings, "composer-top-signature");
-
-		move_cursor_to_end = top_signature ||
-			!gtkhtml_editor_search_by_data (
-				editor, 1, "ClueFlow", "signature", "1");
-
-		if (move_cursor_to_end)
-			gtkhtml_editor_run_command (editor, "cursor-eod");
-		else
-			gtkhtml_editor_run_command (editor, "selection-move-left");
-		gtkhtml_editor_run_command (editor, "unblock-selection");
-	}
-
-	g_object_unref (settings);
 
 	g_object_unref (session);
 }
@@ -2900,13 +2887,14 @@ em_utils_construct_composer_text (CamelSession *session,
                                   EMailPartList *parts_list)
 {
 	gchar *text, *credits;
+	gboolean start_bottom = FALSE;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	credits = attribution_format (message);
 	text = em_utils_message_to_html (
 		session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
-		parts_list, NULL, NULL);
+		parts_list, NULL, start_bottom ? "<BR>" : NULL, NULL);
 	g_free (credits);
 
 	return text;

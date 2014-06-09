@@ -398,15 +398,22 @@ mail_signature_manager_constructed (GObject *object)
 static void
 mail_signature_manager_add_signature (EMailSignatureManager *manager)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	ESourceRegistry *registry;
-	GtkWidget *editor;
+	GtkWidget *widget;
 
 	registry = e_mail_signature_manager_get_registry (manager);
 
-	editor = e_mail_signature_editor_new (registry, NULL);
-	gtkhtml_editor_set_html_mode (
-		GTKHTML_EDITOR (editor), manager->priv->prefer_html);
-	mail_signature_manager_emit_editor_created (manager, editor);
+	widget = e_mail_signature_editor_new (registry, NULL);
+
+	editor = e_mail_signature_editor_get_editor (
+		E_MAIL_SIGNATURE_EDITOR (widget));
+	view = e_html_editor_get_view (editor);
+	e_html_editor_view_set_html_mode (
+		view, manager->priv->prefer_html);
+
+	mail_signature_manager_emit_editor_created (manager, widget);
 
 	gtk_widget_grab_focus (manager->priv->tree_view);
 }
@@ -435,6 +442,7 @@ mail_signature_manager_editor_created (EMailSignatureManager *manager,
 
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 	gtk_window_set_position (GTK_WINDOW (editor), position);
+	gtk_widget_set_size_request (GTK_WIDGET (editor), 450, 300);
 	gtk_widget_show (GTK_WIDGET (editor));
 }
 

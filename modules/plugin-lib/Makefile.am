@@ -7,8 +7,8 @@ module_plugin_lib_la_CPPFLAGS = \
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)					\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)					\
+	$(NULL)
 
 module_plugin_lib_la_SOURCES = \
 	evolution-module-plugin-lib.c				\
@@ -19,7 +19,7 @@ module_plugin_lib_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 module_plugin_lib_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)

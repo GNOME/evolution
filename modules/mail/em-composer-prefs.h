@@ -23,7 +23,6 @@
 #define EM_COMPOSER_PREFS_H
 
 #include <gtk/gtk.h>
-#include <gtkhtml/gtkhtml.h>
 
 #include <shell/e-shell.h>
 
@@ -67,7 +66,9 @@ struct _EMComposerPrefs {
 	GtkComboBox *reply_style;
 
 	/* Signatures */
-	GtkHTML *sig_preview;
+	EWebViewPreview *sig_preview;
+
+	ESpellChecker *spell_checker;
 };
 
 struct _EMComposerPrefsClass {

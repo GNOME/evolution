@@ -6,8 +6,8 @@ module_plugin_manager_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-plugin-manager\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)					\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)					\
+	$(NULL)
 
 module_plugin_manager_la_SOURCES = \
 	evolution-plugin-manager.c
@@ -17,7 +17,7 @@ module_plugin_manager_la_LIBADD = \
 	$(top_builddir)/shell/libevolution-shell.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 module_plugin_manager_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)

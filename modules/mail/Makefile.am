@@ -9,8 +9,8 @@ module_mail_la_CPPFLAGS = \
 	-DG_LOG_DOMAIN=\"evolution-module-mail\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)					\
 	$(GNOME_PLATFORM_CFLAGS)					\
-	$(GTKHTML_CFLAGS)						\
-	$(CODE_COVERAGE_CFLAGS)
+	$(CODE_COVERAGE_CFLAGS)						\
+	$(NULL)
 
 module_mail_la_SOURCES = \
 	evolution-module-mail.c						\
@@ -51,7 +51,7 @@ module_mail_la_LIBADD = \
 	$(libevolution_mail_settings_la)				\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(GTKHTML_LIBS)
+	$(NULL)
 
 module_mail_la_LDFLAGS = \
 	-avoid-version -module $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)

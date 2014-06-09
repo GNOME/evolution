@@ -14,7 +14,6 @@ module_backup_restore_la_CPPFLAGS = \
 	-DLIBDIR=\""$(libdir)"\"				\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)					\
 	$(CODE_COVERAGE_CFLAGS)					\
 	$(NULL)
 
@@ -33,7 +32,6 @@ module_backup_restore_la_LIBADD = \
 	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)						\
 	$(NULL)
 
 module_backup_restore_la_LDFLAGS = \
@@ -53,7 +51,6 @@ evolution_backup_CPPFLAGS =					\
 	-DDBUS_SERVICES_DIR=\"'${datadir}'/dbus-1/services\"	\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
-	$(GTKHTML_CFLAGS)					\
 	$(NULL)
 
 evolution_backup_SOURCES =					\
@@ -64,7 +61,6 @@ evolution_backup_LDADD =					\
 	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
-	$(GTKHTML_LIBS)						\
 	$(NULL)
 
 if OS_WIN32

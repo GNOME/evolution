@@ -1385,13 +1385,13 @@ gboolean
 init_composer_actions (GtkUIManager *ui_manager,
                        EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	EHTMLEditor *editor;
 
-	editor = GTKHTML_EDITOR (composer);
+	editor = e_msg_composer_get_editor (composer);
 
 	/* Add actions to the "composer" action group. */
 	gtk_action_group_add_actions (
-		gtkhtml_editor_get_action_group (editor, "composer"),
+		e_html_editor_get_action_group (editor, "composer"),
 		composer_entries, G_N_ELEMENTS (composer_entries), composer);
 
 	return TRUE;
