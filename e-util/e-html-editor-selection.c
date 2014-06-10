@@ -4566,7 +4566,10 @@ find_where_to_break_line (WebKitDOMNode *node,
 	if (g_unichar_isspace (g_utf8_get_char (position))) {
 		ret_val = max_len + 1;
 	} else {
-		if (last_space < max_len) {
+		if (last_space == 0) {
+			/* If word is longer than word_wrap_length, we cannot wrap it */
+			ret_val = length;
+		} else if (last_space < max_len) {
 			ret_val = last_space;
 		} else {
 			if (length > word_wrap_length)
