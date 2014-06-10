@@ -2409,7 +2409,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		g_free (to_insert);
 	}
 
-	if (g_utf8_strlen (prev_br, -1) > 0) {
+	if (g_utf8_strlen (prev_br, -1) > 0 && (g_strcmp0 (prev_br, "<br>") != 0)) {
 		WebKitDOMElement *paragraph;
 
 		if (use_pre) {
