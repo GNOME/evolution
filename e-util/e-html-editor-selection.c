@@ -2486,10 +2486,10 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 				source_list, WEBKIT_DOM_NODE (list), node, NULL);
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (list), node, NULL);
-			if (!webkit_dom_node_contains (node, WEBKIT_DOM_NODE (caret_position))) {
+
+			if (!webkit_dom_node_contains (node, WEBKIT_DOM_NODE (caret_position)))
 				webkit_dom_node_append_child (
 					node, WEBKIT_DOM_NODE (caret_position), NULL);
-			}
 
 			merge_lists_if_possible (WEBKIT_DOM_NODE (list));
 
@@ -2519,6 +2519,22 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		element = e_html_editor_selection_get_indented_element (
 			selection, document, final_width);
 
+		/* Reinsert caret position node if the node is missing it */
+		if (!webkit_dom_node_contains (clone, WEBKIT_DOM_NODE (caret_position))) {
+			gchar *text_content = webkit_dom_node_get_text_content (clone);
+			if (!*text_content) {
+				webkit_dom_html_element_set_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (clone),
+					UNICODE_ZERO_WIDTH_SPACE,
+					NULL);
+			}
+			g_free (text_content);
+			webkit_dom_node_append_child (
+				clone,
+				WEBKIT_DOM_NODE (caret_position),
+				NULL);
+		}
+
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (element),
 			clone,
@@ -2537,7 +2553,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		e_html_editor_view_exec_command (view, command, NULL);
 	}
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	e_html_editor_view_force_spell_check (view);
 
 	if (has_selection)
 		e_html_editor_selection_restore (selection);
@@ -2686,6 +2702,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			e_html_editor_selection_clear_caret_position_marker (selection);
 
 			unindent_list (selection, document);
+			e_html_editor_view_force_spell_check (view);
 			e_html_editor_selection_restore (selection);
 			g_object_unref (view);
 			return;
@@ -2698,7 +2715,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 
 		level = get_indentation_level (element);
 		width = word_wrap_length - SPACES_PER_INDENTATION * level;
-		clone = WEBKIT_DOM_NODE (webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE));
+		clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
 
 		/* Look if we have previous siblings, if so, we have to
 		 * create new blockquote that will include them */
@@ -2738,8 +2755,6 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 					WEBKIT_DOM_NODE (next_blockquote),
 				child,
 				NULL);
-
-			remove_node (child);
 		}
 
 		element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
@@ -2757,10 +2772,9 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 
 		/* Reinsert the caret position */
 		if (reinsert_caret_position) {
-			webkit_dom_node_insert_before (
+			webkit_dom_node_append_child (
 				node_clone,
 				caret_node,
-				webkit_dom_node_get_first_child (node_clone),
 				NULL);
 		}
 
@@ -2796,7 +2810,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 		e_html_editor_view_exec_command (view, command, NULL);
 	}
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	e_html_editor_view_force_spell_check (view);
 
 	if (has_selection)
 		e_html_editor_selection_restore (selection);

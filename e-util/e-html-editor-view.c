@@ -4602,11 +4602,7 @@ process_elements (EHTMLEditorView *view,
 		 * signature we are not adding the BR element */
 		if (!next_sibling)
 			add_br = FALSE;
-
-		if (element_has_class (webkit_dom_node_get_parent_element (node), "-x-evo-indented"))
-			add_br = FALSE;
-
-		if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
+		else if (next_sibling && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (next_sibling)) {
 			if (webkit_dom_element_query_selector (
 				WEBKIT_DOM_ELEMENT (next_sibling),
 				"span.-x-evo-signature", NULL)) {
