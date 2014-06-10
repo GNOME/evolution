@@ -4301,12 +4301,12 @@ process_elements (EHTMLEditorView *view,
 			GRegex *regex;
 
 			content = webkit_dom_node_get_text_content (child);
-			/* Replace tabs with 4 whitespaces, otherwise they got
+			/* Replace tabs with 8 whitespaces, otherwise they got
 			 * replaced by single whitespace */
 			if (strstr (content, "\x9")) {
 				regex = g_regex_new ("\x9", 0, 0, NULL);
 				tmp = g_regex_replace (
-					regex, content, -1, 0, "    ", 0, NULL);
+					regex, content, -1, 0, "        ", 0, NULL);
 				webkit_dom_node_set_text_content (child, tmp, NULL);
 				g_free (content);
 				g_free (tmp);
@@ -4413,7 +4413,7 @@ process_elements (EHTMLEditorView *view,
 				if (strstr (content, "\x9")) {
 					regex = g_regex_new ("\x9", 0, 0, NULL);
 					tmp = g_regex_replace (
-						regex, content, -1, 0, "    ", 0, NULL);
+						regex, content, -1, 0, "        ", 0, NULL);
 					g_string_append (buffer, tmp);
 					g_free (tmp);
 					content = webkit_dom_node_get_text_content (child);
