@@ -5,15 +5,15 @@ if isA11yEnabled() is False:
 
 from time import time, sleep
 from functools import wraps
-from os import strerror, errno, kill, system
-from signal import signal, alarm, SIGALRM, SIGKILL
-from subprocess import Popen
+from os import strerror, errno, system
+from signal import signal, alarm, SIGALRM
+from subprocess import Popen, PIPE
 from behave import step
 from gi.repository import GLib, Gio
+import fcntl, os
 
 from dogtail.rawinput import keyCombo, absoluteMotion, pressKey
 from dogtail.tree import root
-from dogtail.utils import run
 from unittest import TestCase
 
 
@@ -125,7 +125,8 @@ class App(object):
             self.a11yAppName = self.internCommand
 
         # Trap weird bus errors
-        for attempt in xrange(0, 10):
+        for attempt in xrange(0, 30):
+            sleep(1)
             try:
                 return self.a11yAppName in [x.name for x in root.applications()]
             except GLib.GError:
@@ -140,7 +141,7 @@ class App(object):
             keyCombo('<Control><Alt><Shift>R')
 
         try:
-            kill(self.pid, SIGKILL)
+            self.process.kill()
         except:
             # Fall back to killall
             Popen("killall " + self.appCommand, shell=True).wait()
@@ -153,8 +154,11 @@ class App(object):
             self.kill()
             assert not self.isRunning(), "Application cannot be stopped"
 
-        command = "%s %s" % (self.appCommand, self.parameters)
-        self.pid = run(command, timeout=5)
+        #command = "%s %s" % (self.appCommand, self.parameters)
+        #self.pid = run(command, timeout=5)
+        self.process = Popen(self.appCommand.split() + self.parameters.split(),
+                             stdout=PIPE, stderr=PIPE, bufsize=0)
+        self.pid = self.process.pid
 
         assert self.isRunning(), "Application failed to start"
         return root.application(self.a11yAppName)
@@ -222,3 +226,13 @@ def check_for_errors(context):
                 system("rm -rf %s > /dev/null" % folder)
 
             raise RuntimeError("Error occurred: %s" % messages)
+
+
+def non_block_read(output):
+    fd = output.fileno()
+    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+    try:
+        return output.read()
+    except:
+        return ""

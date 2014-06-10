@@ -5,7 +5,7 @@ from dogtail.utils import isA11yEnabled, enableA11y
 if not isA11yEnabled():
     enableA11y(True)
 
-from common_steps import App, dummy, cleanup
+from common_steps import App, dummy, cleanup, non_block_read
 from dogtail.config import config
 import os
 
@@ -57,15 +57,20 @@ def after_scenario(context, scenario):
     Kill evolution (in order to make this reliable we send sigkill)
     """
     try:
-        # Stop evolution
-        context.app_class.kill()
-
         # Attach journalctl logs
         if hasattr(context, "embed"):
             os.system("pkexec journalctl /usr/bin/gnome-session --no-pager -o cat --since='%s'> /tmp/journal-session.log" % context.log_start_time)
             data = open("/tmp/journal-session.log", 'r').read()
             if data:
                 context.embed('text/plain', data)
+
+            context.app_class.kill()
+
+            stdout = non_block_read(context.app_class.process.stdout)
+            stderr = non_block_read(context.app_class.process.stderr)
+
+            context.embed('text/plain', '\n'.join(stdout))
+            context.embed('text/plain', '\n'.join(stderr))
 
         # Make some pause after scenario
         sleep(1)
