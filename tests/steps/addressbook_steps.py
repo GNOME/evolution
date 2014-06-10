@@ -258,7 +258,7 @@ def get_combobox_textbox_object(contact_editor, section):
         combo_row = combo.position[1]
         matching_textboxes = [
             x for x in textboxes
-            if (x.position[1] - combo_row < 10) and (x.position[0] > combo.position[0])]
+            if ((x.position[1] - combo_row) == 0) and (x.position[0] > combo.position[0])]
         if (matching_textboxes != []):
             correct_textbox = min(matching_textboxes, key=lambda x: x.position[0])
             result.append((combo, correct_textbox))
