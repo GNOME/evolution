@@ -69,8 +69,11 @@ def after_scenario(context, scenario):
             stdout = non_block_read(context.app_class.process.stdout)
             stderr = non_block_read(context.app_class.process.stderr)
 
-            context.embed('text/plain', '\n'.join(stdout))
-            context.embed('text/plain', '\n'.join(stderr))
+            if stdout:
+                context.embed('text/plain', stdout)
+
+            if stderr:
+                context.embed('text/plain', stderr)
 
         # Make some pause after scenario
         sleep(1)
