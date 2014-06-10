@@ -645,10 +645,30 @@ mail_send_message (struct _send_queue_msg *m,
 			/* silently ignore */
 			goto exit;
 		}
+		if (camel_service_get_connection_status (service) != CAMEL_SERVICE_CONNECTED) {
+			EMailSession *session;
+			ESourceRegistry *registry;
+			ESource *source;
 
-		if (!camel_service_connect_sync (
-			service, cancellable, error))
-			goto exit;
+			/* Make sure user will be asked for a password, in case he/she cancelled it */
+			session = E_MAIL_SESSION (camel_service_ref_session (service));
+			registry = e_mail_session_get_registry (session);
+			source = e_source_registry_ref_source (registry, camel_service_get_uid (service));
+			g_object_unref (session);
+
+			if (source) {
+				gboolean success;
+
+				success = e_source_allow_auth_prompt_sync (source, cancellable, error);
+				g_object_unref (source);
+
+				if (!success)
+					goto exit;
+			}
+
+			if (!camel_service_connect_sync (service, cancellable, error))
+				goto exit;
+		}
 
 		/* expand, or remove empty, group addresses */
 		em_utils_expand_groups (CAMEL_INTERNET_ADDRESS (recipients));
