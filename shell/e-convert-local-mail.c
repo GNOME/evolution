@@ -274,6 +274,13 @@ migrate_mbox_to_maildir (EShell *shell,
 	g_object_unref (maildir_service);
 	g_thread_unref (thread);
 
+	/* Folders can leave notifications in the main loop which would be delivered
+	   on idle, but these can be left in the main loop longer than the temporary
+	   CamelSession object is alive, which leads to a crash, because of
+	   the CamelStore's descendant being freed too early. */
+	while (g_main_context_pending (NULL))
+		g_main_context_iteration (NULL, TRUE);
+
 	return TRUE;
 }
 
