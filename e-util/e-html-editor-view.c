@@ -749,6 +749,15 @@ static const gchar *emoticons_icon_names[] = {
 	"face-worried"
 };
 
+static gboolean
+is_return_key (GdkEventKey *event)
+{
+	return (
+	    (event->keyval == GDK_KEY_Return) ||
+	    (event->keyval == GDK_KEY_Linefeed) ||
+	    (event->keyval == GDK_KEY_KP_Enter));
+}
+
 static void
 html_editor_view_check_magic_links (EHTMLEditorView *view,
                                     WebKitDOMRange *range,
@@ -765,15 +774,8 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	gboolean return_pressed = FALSE;
 
 	if (event != NULL) {
-		if ((event->keyval == GDK_KEY_Return) ||
-		    (event->keyval == GDK_KEY_Linefeed) ||
-		    (event->keyval == GDK_KEY_KP_Enter)) {
-
-			return_pressed = TRUE;
-		}
-
-		if (event->keyval == GDK_KEY_space)
-			include_space = TRUE;
+		return_pressed = is_return_key (event);
+		include_space = (event->keyval == GDK_KEY_space);
 	} else {
 		include_space = include_space_by_user;
 	}
@@ -1744,8 +1746,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		html_editor_view_set_links_active (view, TRUE);
 	}
 
-	if ((event->keyval == GDK_KEY_Return) ||
-	    (event->keyval == GDK_KEY_KP_Enter)) {
+	if (is_return_key (event)) {
 		EHTMLEditorSelection *selection;
 
 		selection = e_html_editor_view_get_selection (view);
@@ -1864,18 +1865,11 @@ html_editor_view_key_release_event (GtkWidget *widget,
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
-	if (view->priv->magic_smileys &&
-	    view->priv->html_mode) {
+	if (view->priv->magic_smileys && view->priv->html_mode)
 		html_editor_view_check_magic_smileys (view, range);
-	}
 
-	if ((event->keyval == GDK_KEY_Return) ||
-	    (event->keyval == GDK_KEY_Linefeed) ||
-	    (event->keyval == GDK_KEY_KP_Enter) ||
-	    (event->keyval == GDK_KEY_space)) {
-
+	if (is_return_key (event) || (event->keyval == GDK_KEY_space)) {
 		html_editor_view_check_magic_links (view, range, FALSE, event);
-
 		mark_node_as_paragraph_after_ending_list (selection, document);
 	} else {
 		WebKitDOMNode *node;
