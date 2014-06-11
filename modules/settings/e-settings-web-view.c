@@ -33,6 +33,8 @@
 struct _ESettingsWebViewPrivate {
 	GtkCssProvider *css_provider;
 	GSettings *settings;
+
+	GHashTable *old_settings;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -138,7 +140,21 @@ settings_web_view_changed_cb (GSettings *settings,
                               const gchar *key,
                               ESettingsWebView *extension)
 {
-	settings_web_view_load_style (extension);
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (extension->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (extension->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (extension->priv->old_settings, key);
+
+		settings_web_view_load_style (extension);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
 }
 
 static void
@@ -215,6 +231,22 @@ settings_web_view_dispose (GObject *object)
 }
 
 static void
+settings_web_view_finalize (GObject *object)
+{
+	ESettingsWebViewPrivate *priv;
+
+	priv = E_SETTINGS_WEB_VIEW_GET_PRIVATE (object);
+
+	if (priv->old_settings) {
+		g_hash_table_destroy (priv->old_settings);
+		priv->old_settings = NULL;
+	}
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_settings_web_view_parent_class)->finalize (object);
+}
+
+static void
 settings_web_view_constructed (GObject *object)
 {
 	EExtensible *extensible;
@@ -244,6 +276,7 @@ e_settings_web_view_class_init (ESettingsWebViewClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = settings_web_view_dispose;
+	object_class->finalize = settings_web_view_finalize;
 	object_class->constructed = settings_web_view_constructed;
 
 	extension_class = E_EXTENSION_CLASS (class);
@@ -266,6 +299,8 @@ e_settings_web_view_init (ESettingsWebView *extension)
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	extension->priv->settings = settings;
+
+	extension->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 }
 
 void

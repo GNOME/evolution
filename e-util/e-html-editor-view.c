@@ -84,6 +84,8 @@ struct _EHTMLEditorViewPrivate {
 	gboolean convertor_insert;
 
 	WebKitWebView *convertor_web_view;
+
+	GHashTable *old_settings;
 };
 
 enum {
@@ -1539,6 +1541,11 @@ html_editor_view_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->inline_images);
 
+	if (priv->old_settings) {
+		g_hash_table_destroy (priv->old_settings);
+		priv->old_settings = NULL;
+	}
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->finalize (object);
 }
@@ -2816,6 +2823,28 @@ html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
 }
 
 static void
+e_html_editor_settings_changed_cb (GSettings *settings,
+				   const gchar *key,
+				   EHTMLEditorView *view)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (view->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (view->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (view->priv->old_settings, key);
+
+		e_html_editor_view_update_fonts (view);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
+static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
 	WebKitWebSettings *settings;
@@ -2843,6 +2872,8 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		NULL);
 
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (view), settings);
+
+	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 
 	/* Override the spell-checker, use our own */
 	checker = e_spell_checker_new ();
@@ -2876,12 +2907,12 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		NULL);
 
 	g_settings = g_settings_new ("org.gnome.desktop.interface");
-	g_signal_connect_swapped (
+	g_signal_connect (
 		g_settings, "changed::font-name",
-		G_CALLBACK (e_html_editor_view_update_fonts), view);
-	g_signal_connect_swapped (
+		G_CALLBACK (e_html_editor_settings_changed_cb), view);
+	g_signal_connect (
 		g_settings, "changed::monospace-font-name",
-		G_CALLBACK (e_html_editor_view_update_fonts), view);
+		G_CALLBACK (e_html_editor_settings_changed_cb), view);
 	view->priv->font_settings = g_settings;
 
 	/* This schema is optional.  Use if available. */
@@ -2890,9 +2921,9 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		"org.gnome.settings-daemon.plugins.xsettings", FALSE);
 	if (settings_schema != NULL) {
 		g_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
-		g_signal_connect_swapped (
+		g_signal_connect (
 			settings, "changed::antialiasing",
-			G_CALLBACK (e_html_editor_view_update_fonts), view);
+			G_CALLBACK (e_html_editor_settings_changed_cb), view);
 		view->priv->aliasing_settings = g_settings;
 	}
 
