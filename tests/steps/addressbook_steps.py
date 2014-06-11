@@ -226,7 +226,7 @@ def property_in_contact_window_is_set_to(context, field, expected):
     assert unicode(actual) == expected, "Incorrect value"
 
 
-def get_combobox_textbox_object(contact_editor, section):
+def get_combobox_textbox_object(contact_editor, section, scroll_to_bottom=True):
     """Get a list of paired 'combobox-textbox' objects in contact editor"""
     section_names = {
         'Ims': 'Instant Messaging',
@@ -245,10 +245,14 @@ def get_combobox_textbox_object(contact_editor, section):
     if button and (False in [x.showing for x in textboxes]):
         button.click()
 
-    # Scroll to the bottom of the page if possible
+    # Scroll to the bottom of the page if needed
+
     pagetab = panel.findAncestor(GenericPredicate(roleName='page tab'))
     for scroll in pagetab.findChildren(lambda x: x.roleName == 'scroll bar'):
-        scroll.value = scroll.maxValue
+        if scroll_to_bottom:
+            scroll.value = scroll.maxValue
+        else:
+            scroll.value = 0
 
     comboboxes = panel.findChildren(GenericPredicate(roleName='combo box'))
 
@@ -266,12 +270,12 @@ def get_combobox_textbox_object(contact_editor, section):
     comboboxes = [x[0] for x in result][::-1]
     textboxes = [x[1] for x in result][::-1]
 
-    return (textboxes, comboboxes)
+    return (textboxes, comboboxes, button)
 
 
 @step(u'Set {section} in contact editor to')
 def set_contact_emails_to_value(context, section):
-    (textboxes, comboboxes) = get_combobox_textbox_object(
+    (textboxes, comboboxes, collapse_button) = get_combobox_textbox_object(
         context.app.contact_editor, section)
 
     # clear existing data
@@ -283,7 +287,7 @@ def set_contact_emails_to_value(context, section):
         # If not - click plus buttons until we have enough
         if index == len(textboxes):
             textboxes[0].parent.child(roleName="push button").click()
-            (textboxes, comboboxes) = get_combobox_textbox_object(
+            (textboxes, comboboxes, collapse_button) = get_combobox_textbox_object(
                 context.app.contact_editor, section)
         textboxes[index].text = row['Value']
         if comboboxes[index].combovalue != row['Field']:
@@ -292,8 +296,8 @@ def set_contact_emails_to_value(context, section):
 
 @then(u'{section} are set to')
 def emails_are_set_to(context, section):
-    (textboxes, comboboxes) = get_combobox_textbox_object(
-        context.app.contact_editor, section)
+    (textboxes, comboboxes,collapse_button) = get_combobox_textbox_object(
+        context.app.contact_editor, section, False)
 
     actual = []
     for index, textbox in enumerate(textboxes):
@@ -310,6 +314,9 @@ def emails_are_set_to(context, section):
 
     assert actual == expected, "Incorrect %s value:\nexpected:%s\n but was:%s" % (
         row['Field'], expected, actual)
+
+    # Collapse the section after check
+    collapse_button.click()
 
 
 @step(u'Tick "Wants to receive HTML mail" checkbox')
