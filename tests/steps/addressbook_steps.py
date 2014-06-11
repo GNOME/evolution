@@ -237,6 +237,14 @@ def get_combobox_textbox_object(contact_editor, section, scroll_to_bottom=True):
     panel = lbl.findAncestor(GenericPredicate(roleName='panel'))
     textboxes = panel.findChildren(GenericPredicate(roleName='text'))
 
+    # Scroll to the bottom of the page if needed
+    pagetab = panel.findAncestor(GenericPredicate(roleName='page tab'))
+    for scroll in pagetab.findChildren(lambda x: x.roleName == 'scroll bar'):
+        if scroll_to_bottom:
+            scroll.value = scroll.maxValue
+        else:
+            scroll.value = 0
+
     # Expand section if button exists
     button = panel.findChild(
         GenericPredicate(roleName='push button', name=section),
@@ -244,15 +252,6 @@ def get_combobox_textbox_object(contact_editor, section, scroll_to_bottom=True):
     # Expand button if any of textboxes is not visible
     if button and (False in [x.showing for x in textboxes]):
         button.click()
-
-    # Scroll to the bottom of the page if needed
-
-    pagetab = panel.findAncestor(GenericPredicate(roleName='page tab'))
-    for scroll in pagetab.findChildren(lambda x: x.roleName == 'scroll bar'):
-        if scroll_to_bottom:
-            scroll.value = scroll.maxValue
-        else:
-            scroll.value = 0
 
     comboboxes = panel.findChildren(GenericPredicate(roleName='combo box'))
 
