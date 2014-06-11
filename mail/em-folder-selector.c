@@ -115,6 +115,9 @@ folder_selector_dispose (GObject *object)
 	}
 
 	if (emfs->priv->model != NULL) {
+		if (emfs->priv->model && emfs->priv->model != em_folder_tree_model_get_default ())
+			em_folder_tree_model_remove_all_stores (emfs->priv->model);
+
 		g_object_unref (emfs->priv->model);
 		emfs->priv->model = NULL;
 	}

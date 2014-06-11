@@ -640,6 +640,13 @@ folder_tree_model_dispose (GObject *object)
 	}
 
 	if (priv->session != NULL) {
+		MailFolderCache *folder_cache;
+
+		folder_cache = e_mail_session_get_folder_cache (priv->session);
+		g_signal_handlers_disconnect_matched (
+			folder_cache, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+
 		g_object_unref (priv->session);
 		priv->session = NULL;
 	}
@@ -936,8 +943,16 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 		g_object_ref (session);
 	}
 
-	if (model->priv->session != NULL)
+	if (model->priv->session != NULL) {
+		MailFolderCache *folder_cache;
+
+		folder_cache = e_mail_session_get_folder_cache (model->priv->session);
+		g_signal_handlers_disconnect_matched (
+			folder_cache, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, model);
+
 		g_object_unref (model->priv->session);
+	}
 
 	model->priv->session = session;
 
@@ -1660,6 +1675,29 @@ em_folder_tree_model_remove_store (EMFolderTreeModel *model,
 	folder_tree_model_remove_folders (model, si, &iter);
 
 	store_info_unref (si);
+}
+
+/* This is necessary, because of circular dependency between the model
+   and its row references */
+void
+em_folder_tree_model_remove_all_stores (EMFolderTreeModel *model)
+{
+	GList *list, *link;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	g_mutex_lock (&model->priv->store_index_lock);
+	list = g_hash_table_get_keys (model->priv->store_index);
+	g_list_foreach (list, (GFunc) g_object_ref, NULL);
+	g_mutex_unlock (&model->priv->store_index_lock);
+
+	for (link = list; link; link = g_list_next (link)) {
+		CamelStore *store = link->data;
+
+		em_folder_tree_model_remove_store (model, store);
+	}
+
+	g_list_free_full (list, g_object_unref);
 }
 
 GList *
