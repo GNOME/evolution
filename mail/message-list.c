@@ -5651,9 +5651,7 @@ message_list_regen_done_cb (GObject *source_object,
 					message_list,
 					signals[MESSAGE_SELECTED], 0, NULL);
 
-			/* Do not update cursor on folder change signal, to not lose user's
-			 * scroll bar position */
-			} else if (!regen_data->folder_changed || !table_item) {
+			} else {
 				GNode *parent = node;
 
 				while ((parent = parent->parent) != NULL) {
