@@ -295,8 +295,8 @@ def set_contact_emails_to_value(context, section):
 
 @then(u'{section} are set to')
 def emails_are_set_to(context, section):
-    (textboxes, comboboxes,collapse_button) = get_combobox_textbox_object(
-        context.app.contact_editor, section, False)
+    (textboxes, comboboxes, collapse_button) = get_combobox_textbox_object(
+        context.app.contact_editor, section, section != 'IMs')
 
     actual = []
     for index, textbox in enumerate(textboxes):
