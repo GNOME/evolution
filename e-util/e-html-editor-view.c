@@ -3142,7 +3142,7 @@ get_quotation_for_level (gint quote_level)
 	GString *output = g_string_new ("");
 
 	for (ii = 0; ii < quote_level; ii++) {
-		g_string_append (output, "<span class=\"quote_character\">");
+		g_string_append (output, "<span class=\"-x-evo-quote-character\">");
 		g_string_append (output, QUOTE_SYMBOL);
 		g_string_append (output, " ");
 		g_string_append (output, "</span>");
@@ -5918,7 +5918,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		".quote_character "
+		".-x-evo-quote-character "
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
@@ -5926,8 +5926,8 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		".quote_character+"
-		".quote_character"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character"
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
@@ -5935,9 +5935,9 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		".quote_character+"
-		".quote_character+"
-		".quote_character"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character"
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
@@ -5945,10 +5945,10 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		".quote_character+"
-		".quote_character+"
-		".quote_character+"
-		".quote_character"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character"
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
@@ -5956,11 +5956,11 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		".quote_character+"
-		".quote_character+"
-		".quote_character+"
-		".quote_character+"
-		".quote_character"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character+"
+		".-x-evo-quote-character"
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
