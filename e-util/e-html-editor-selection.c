@@ -1712,7 +1712,7 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 		gint citation_level, quote;
 
 		citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
-		quote = citation_level ? citation_level + 1 : 0;
+		quote = citation_level ? citation_level * 2 : 0;
 
 		element = e_html_editor_selection_wrap_paragraph_length (
 			selection, element, selection->priv->word_wrap_length - quote);
@@ -5220,7 +5220,7 @@ e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selec
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		citation_level = get_citation_level (node);
-		quote = citation_level ? citation_level + 1 : 0;
+		quote = citation_level ? citation_level * 2 : 0;
 
 		if (node_is_list (node)) {
 			WebKitDOMNode *item = webkit_dom_node_get_first_child (node);
@@ -5267,8 +5267,7 @@ e_html_editor_selection_wrap_paragraph (EHTMLEditorSelection *selection,
 			offset = -SPACES_PER_LIST_LEVEL;
 	}
 
-	quote = citation_level ? citation_level + 1 : 0;
-	quote *= 2;
+	quote = citation_level ? citation_level * 2 : 0;
 
 	final_width = word_wrap_length - quote + offset;
 	final_width -= SPACES_PER_INDENTATION * indentation_level;

@@ -2339,7 +2339,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		} else {
 			paragraph = e_html_editor_selection_get_paragraph_element (
 				e_html_editor_view_get_selection (view),
-				document, -1, citation_level);
+				document, -1, 0);
 		}
 
 		if (with_br && !*rest && !citation &&!local_ignore_next_br) {
@@ -2412,7 +2412,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		} else {
 			paragraph = e_html_editor_selection_get_paragraph_element (
 				e_html_editor_view_get_selection (view),
-				document, -1, citation_level);
+				document, -1, 0);
 		}
 
 		webkit_dom_html_element_set_inner_html (
