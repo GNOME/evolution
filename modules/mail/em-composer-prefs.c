@@ -955,11 +955,6 @@ static EMConfigItem emcp_items[] = {
 	  (gchar *) "vboxSpellChecking",
 	  emcp_widget_glade },
 
-	{ E_CONFIG_SECTION_TABLE,
-	  (gchar *) "20.spellcheck/00.languages",
-	  (gchar *) "languages-table",
-	  emcp_widget_glade },
-
 	{ E_CONFIG_SECTION,
 	  (gchar *) "20.spellcheck/00.options",
 	  (gchar *) "spell-options-vbox",
