@@ -252,6 +252,9 @@ folder_selector_dispose (GObject *object)
 
 	priv = EM_FOLDER_SELECTOR_GET_PRIVATE (object);
 
+	if (priv->model && priv->model != em_folder_tree_model_get_default ())
+		em_folder_tree_model_remove_all_stores (priv->model);
+
 	g_clear_object (&priv->model);
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->activity_bar);

@@ -403,9 +403,11 @@ mail_folder_create_dialog_folder_selected (EMFolderSelector *selector,
 
 	dialog = E_MAIL_FOLDER_CREATE_DIALOG (selector);
 
-	gtk_dialog_set_response_sensitive (
-		GTK_DIALOG (dialog), GTK_RESPONSE_OK,
-		mail_folder_create_dialog_inputs_are_valid (dialog));
+	/* Can be NULL during dispose, when the folder tree model is being cleared */
+	if (dialog->priv->name_entry)
+		gtk_dialog_set_response_sensitive (
+			GTK_DIALOG (dialog), GTK_RESPONSE_OK,
+			mail_folder_create_dialog_inputs_are_valid (dialog));
 }
 
 static void
