@@ -397,7 +397,7 @@ client_selector_constructed (GObject *object)
 		/* XXX GNetworkAddress will happily take a NULL host
 		 *     but then crash while enumerating the address,
 		 *     so watch out for that. */
-		if (host == NULL)
+		if (host == NULL || !*host || g_ascii_strcasecmp (host, "localhost") == 0)
 			g_clear_object (&socket_connectable);
 
 		if (socket_connectable != NULL) {
