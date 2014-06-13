@@ -1427,7 +1427,7 @@ e_html_editor_selection_get_list_format_from_node (WebKitDOMNode *node)
 	if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node))
 		return format;
 
-	if (WEBKIT_DOM_IS_ELEMENT (node)) {
+	if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node)) {
 		gchar *type_value = webkit_dom_element_get_attribute (
 			WEBKIT_DOM_ELEMENT (node), "type");
 
@@ -1441,6 +1441,8 @@ e_html_editor_selection_get_list_format_from_node (WebKitDOMNode *node)
 		else if (g_ascii_strcasecmp (type_value, "I") == 0)
 			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
 		g_free (type_value);
+
+		return format;
 	}
 
 	return -1;
