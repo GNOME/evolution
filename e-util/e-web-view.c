@@ -1049,7 +1049,7 @@ web_view_hovering_over_link (EWebView *web_view,
 			goto exit;
 
 		fragment = soup_uri_get_fragment (soup_uri);
-		if (*fragment)
+		if (fragment && *fragment)
 			message = g_strdup_printf (_("Go to the section %s of the message"), fragment);
 		else
 			message = g_strdup (_("Go to the beginning of the message"));
