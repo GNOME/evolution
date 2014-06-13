@@ -36,6 +36,7 @@
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewPrivate))
 
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
+#define UNICODE_NBSP "\xc2\xa0"
 
 #define URL_PATTERN \
 	"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?" \
@@ -2387,9 +2388,13 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		}
 
 		if (rest && *rest){
+			gchar *rest_to_insert = g_strdup (rest);
 			GString *space_to_nbsp;
 
-			space_to_nbsp = replace_string_spaces_with_nbsp_in_prefix (rest);
+			g_strchomp (rest_to_insert);
+			space_to_nbsp = e_str_replace_string (
+				rest_to_insert, " ", "&nbsp;");
+
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (paragraph),
 				space_to_nbsp->str,
@@ -2399,7 +2404,9 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				WEBKIT_DOM_NODE (blockquote),
 				WEBKIT_DOM_NODE (paragraph),
 				NULL);
+
 			g_string_free (space_to_nbsp, TRUE);
+			g_free (rest_to_insert);
 		}
 
 		if (citation_end)
@@ -4353,6 +4360,16 @@ process_elements (EHTMLEditorView *view,
 			if (to_plain_text && !changing_mode) {
 				gchar *style;
 				const gchar *css_align;
+
+				if (strstr (content, UNICODE_NBSP)) {
+					GString *nbsp_free;
+
+					nbsp_free = e_str_replace_string (
+						content, UNICODE_NBSP, " ");
+
+					g_free (content);
+					content = g_string_free (nbsp_free, FALSE);
+				}
 
 				style = webkit_dom_element_get_attribute (
 					WEBKIT_DOM_ELEMENT (node), "style");
