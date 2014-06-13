@@ -4851,14 +4851,18 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 	EHTMLEditorView *view;
 	GByteArray *array;
 	gchar *text;
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
 
 	array = g_byte_array_new ();
-	text = e_html_editor_view_get_text_plain (view);
+	text = webkit_dom_html_element_get_inner_text (body);
 	g_byte_array_append (array, (guint8 *) text, strlen (text));
 	g_free (text);
 
