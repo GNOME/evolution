@@ -4761,7 +4761,6 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
 	gint ii, length;
 	WebKitDOMNodeList *paragraphs;
 
-	html_mode = e_html_editor_view_get_html_mode (view);
 	selection = e_html_editor_view_get_selection (view);
 
 	paragraphs = webkit_dom_element_query_selector_all (
@@ -4799,22 +4798,22 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
 			/* If the paragraph is inside indented paragraph don't set
 			 * the style as it will be inherited */
 			if (!element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented")) {
+				const gchar *style_to_add = "";
 				style = webkit_dom_element_get_attribute (
 					WEBKIT_DOM_ELEMENT (node), "style");
 
 				if ((css_align = strstr (style, "text-align: "))) {
-					const gchar *style_to_add;
-
 					style_to_add = g_str_has_prefix (
 						css_align + 12, "center") ?
 							"text-align: center;" :
 							"text-align: right;";
-
-					/* In HTML mode the paragraphs have width limit */
-					e_html_editor_selection_set_paragraph_style (
-						selection, WEBKIT_DOM_ELEMENT (node),
-						-1, 0, style_to_add);
 				}
+
+				/* In plain text mode the paragraphs have width limit */
+				e_html_editor_selection_set_paragraph_style (
+					selection, WEBKIT_DOM_ELEMENT (node),
+					-1, 0, style_to_add);
+
 				g_free (style);
 			}
 		}
@@ -5279,6 +5278,10 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 		body = WEBKIT_DOM_HTML_ELEMENT (e_html_editor_view_quote_plain_text (view));
 		e_html_editor_selection_restore_caret_position (selection);
 	}
+
+	toggle_paragraphs_style (view);
+	toggle_smileys (view);
+	remove_images (view);
 
 	clear_attributes (document);
 
