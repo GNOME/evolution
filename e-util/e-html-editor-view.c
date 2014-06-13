@@ -3034,8 +3034,8 @@ e_html_editor_view_get_selection (EHTMLEditorView *view)
  */
 gboolean
 e_html_editor_view_exec_command (EHTMLEditorView *view,
-                                EHTMLEditorViewCommand command,
-                                const gchar *value)
+                                 EHTMLEditorViewCommand command,
+                                 const gchar *value)
 {
 	WebKitDOMDocument *document;
 	const gchar *cmd_str = 0;
@@ -3274,6 +3274,7 @@ quote_node (WebKitDOMDocument *document,
 	next_sibling = webkit_dom_node_get_next_sibling (node);
 
 	is_html_node =
+		!WEBKIT_DOM_IS_TEXT (prev_sibling) &&
 		!WEBKIT_DOM_IS_COMMENT (prev_sibling) && (
 		WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling) ||
 		element_has_tag (WEBKIT_DOM_ELEMENT (prev_sibling), "b") ||
