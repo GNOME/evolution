@@ -2268,27 +2268,6 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		G_TYPE_NONE, 0);
 }
 
-static GString *
-replace_string_spaces_with_nbsp_in_prefix (const gchar *text)
-{
-	GString *str;
-	gint counter = 0;
-
-	g_return_val_if_fail (text != NULL, NULL);
-
-	str = g_string_new ("");
-
-	while (g_str_has_prefix (text + counter, " ")) {
-		g_string_append (str, "&nbsp;");
-
-		counter++;
-	}
-
-	g_string_append (str, text + counter);
-
-	return str;
-}
-
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
  * into paragraphs.
  * HTML code in that format we can get by taking innerText from some element,
