@@ -5144,8 +5144,16 @@ free_message_info_data (gpointer uid,
                         struct sort_array_data *sort_data)
 {
 	if (data->values) {
-		/* values in this array are not newly allocated, even ml_tree_value_at_ex
-		 * returns gpointer, not a gconstpointer */
+		gint ii;
+
+		for (ii = 0; ii < sort_data->sort_columns->len && ii < data->values->len; ii++) {
+			struct sort_column_data *scol = g_ptr_array_index (sort_data->sort_columns, ii);
+
+			message_list_free_value ((ETreeModel *) sort_data->message_list,
+				scol->col->spec->compare_col,
+				g_ptr_array_index (data->values, ii));
+		}
+
 		g_ptr_array_free (data->values, TRUE);
 	}
 
