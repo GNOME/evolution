@@ -279,8 +279,7 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	}
 
 	/* Remove the text that we inserted on the end of the paragraph */
-	webkit_dom_node_remove_child (
-		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (text), NULL);
+	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
 	g_signal_handlers_unblock_by_func (
@@ -383,8 +382,7 @@ refresh_spell_check (EHTMLEditorView *view,
 	}
 
 	/* Remove the text that we inserted on the end of the body */
-	webkit_dom_node_remove_child (
-		WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (text), NULL);
+	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
 	g_signal_handlers_unblock_by_func (
@@ -434,13 +432,9 @@ body_input_event_cb (WebKitDOMElement *element,
 				gchar *text = webkit_dom_node_get_text_content (
 					prev_sibling);
 
-				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0) {
-					webkit_dom_node_remove_child (
-						webkit_dom_node_get_parent_node (
-							prev_sibling),
-						prev_sibling,
-						NULL);
-				}
+				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0)
+					remove_node (prev_sibling);
+
 				g_free (text);
 			}
 
@@ -611,10 +605,7 @@ put_body_in_citation (WebKitDOMDocument *document)
 		WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
 		gchar *inner_html, *with_citation;
 
-		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (cite_body),
-			NULL);
+		remove_node (WEBKIT_DOM_NODE (cite_body));
 
 		inner_html = webkit_dom_html_element_get_inner_html (body);
 		with_citation = g_strconcat (
@@ -648,10 +639,7 @@ move_elements_to_body (WebKitDOMDocument *document)
 				NULL);
 		}
 
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (node),
-			NULL);
+		remove_node (node);
 	}
 }
 
@@ -954,9 +942,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 						tmp,
 						NULL);
 
-					webkit_dom_node_remove_child (
-						webkit_dom_node_get_parent_node (node),
-						node, NULL);
+					remove_node (node);
 
 					g_free (tmp);
 				}
@@ -994,9 +980,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 						tmp,
 						NULL);
 
-					webkit_dom_node_remove_child (
-						webkit_dom_node_get_parent_node (node),
-						node, NULL);
+					remove_node (node);
 
 					g_free (tmp);
 				}
@@ -1293,12 +1277,8 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 	if (active) {
 		style = webkit_dom_document_get_element_by_id (
 				document, "--evolution-editor-style-a");
-		if (style) {
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (style)),
-				WEBKIT_DOM_NODE (style), NULL);
-		}
+		if (style)
+			remove_node (WEBKIT_DOM_NODE (style));
 	} else {
 		WebKitDOMHTMLHeadElement *head;
 		head = webkit_dom_document_get_head (document);
@@ -1834,12 +1814,8 @@ surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
 			node,
 			e_html_editor_selection_get_caret_position_node (document));
 
-		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling)) {
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (next_sibling),
-				next_sibling,
-				NULL);
-		}
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
+			remove_node (next_sibling);
 
 		/* Tab character */
 		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
@@ -2549,14 +2525,10 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 					WEBKIT_DOM_NODE (paragraph)),
 				NULL);
 
-			webkit_dom_node_remove_child (
-				node, webkit_dom_node_get_first_child (node), NULL);
+			remove_node (webkit_dom_node_get_first_child (node));
 		}
 
-		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (body_convertor),
-			WEBKIT_DOM_NODE (node),
-			NULL);
+		remove_node (node);
 	}
 
 	repair_gmail_blockquotes (document_convertor);
@@ -3330,12 +3302,8 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 		node,
 		NULL);
 
-	if (is_html_node) {
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (node),
-			node,
-			NULL);
-	}
+	if (is_html_node)
+		remove_node (node);
 
 	g_free (quotation);
 }
@@ -3474,10 +3442,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			if (g_str_has_suffix (text_content, "\n")) {
 				insert_quote_symbols_before_node (
 					document, node, quote_level, FALSE);
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (node),
-					node,
-					NULL);
+				remove_node (node);
 				g_free (text_content);
 				node = next_sibling;
 				skip_node = TRUE;
@@ -3618,11 +3583,8 @@ e_html_editor_view_quote_plain_text_element (EHTMLEditorView *view,
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (element_clone), "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for  (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (node), node, NULL);
-	}
+	for  (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 
 	quote_plain_text_recursive (
 		document, element_clone, element_clone, level);
@@ -3678,26 +3640,16 @@ e_html_editor_view_quote_plain_text (EHTMLEditorView *view)
 		WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (blockquote);
 		WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (blockquote);
 
-		if (prev_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (prev_sibling),
-				prev_sibling,
-				NULL);
-		}
-		if (next_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling)) {
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (next_sibling),
-				next_sibling,
-				NULL);
-		}
+		if (prev_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling))
+			remove_node (prev_sibling);
+
+		if (next_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
+			remove_node (next_sibling);
+
 		if (webkit_dom_node_has_child_nodes (blockquote)) {
 			WebKitDOMNode *child = webkit_dom_node_get_first_child (blockquote);
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)) {
-				webkit_dom_node_remove_child (
-					blockquote,
-					child,
-					NULL);
-			}
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
+				remove_node (child);
 		}
 	}
 
@@ -4414,12 +4366,8 @@ process_elements (EHTMLEditorView *view,
 				g_string_append (buffer, content);
 				g_free (content);
 			}
-			if (to_html) {
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (child),
-					child,
-					NULL);
-			}
+			if (to_html)
+				remove_node (child);
 
 			skip_node = TRUE;
 		}
@@ -4578,10 +4526,7 @@ process_elements (EHTMLEditorView *view,
 					WEBKIT_DOM_NODE (img),
 					child,
 					NULL);
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (child),
-					child,
-					NULL);
+				remove_node (child);
 				skip_node = TRUE;
 			}
 		}
@@ -4654,12 +4599,8 @@ remove_wrapping (EHTMLEditorView *view)
 	list = webkit_dom_document_query_selector_all (document, "br.-x-evo-wrap-br", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (node), node, NULL);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 }
 
 static void
@@ -4674,12 +4615,8 @@ remove_images_in_element (EHTMLEditorView *view,
 		element, "img:not(.-x-evo-smiley-img)", NULL);
 
 	length = webkit_dom_node_list_get_length (images);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *img = webkit_dom_node_list_item (images, ii);
-
-		webkit_dom_node_remove_child (
-			webkit_dom_node_get_parent_node (img), img, NULL);
-	}
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (images, ii));
 }
 
 static void
@@ -4915,16 +4852,10 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 		from = WEBKIT_DOM_NODE (main_blockquote);
 	} else {
 		if (signature) {
-			signature_clone = webkit_dom_node_clone_node (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (signature)),
-				TRUE);
-
-			webkit_dom_node_remove_child (
-				WEBKIT_DOM_NODE (element),
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (signature)),
-				NULL);
+			WebKitDOMNode *parent = webkit_dom_node_get_parent_node (
+				WEBKIT_DOM_NODE (signature));
+			signature_clone = webkit_dom_node_clone_node (parent, TRUE);
+			remove_node (parent);
 		}
 		from = WEBKIT_DOM_NODE (element);
 	}
@@ -5113,7 +5044,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 		WebKitDOMNode *node = webkit_dom_node_list_item (paragraphs, ii);
 		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
-		webkit_dom_node_remove_child (parent, node, NULL);
+		remove_node (node);
 		webkit_dom_node_normalize (parent);
 	}
 
@@ -5123,8 +5054,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 	process_elements (view, source, FALSE, FALSE, TRUE, plain_text);
 
 	if (clean)
-		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (body), source, NULL);
+		remove_node (source);
 
 	/* Return text content between <body> and </body> */
 	return g_string_free (plain_text, FALSE);
@@ -5205,12 +5135,8 @@ clear_attributes (WebKitDOMDocument *document)
 	}
 
 	/* Remove everything from HEAD element */
-	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (head))) {
-		webkit_dom_node_remove_child (
-			WEBKIT_DOM_NODE (head),
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)),
-			NULL);
-	}
+	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (head)))
+		remove_node (WEBKIT_DOM_NODE (head));
 
 	/* Remove non Evolution attributes from BODY element */
 	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
@@ -5691,10 +5617,7 @@ e_html_editor_view_remove_embed_styles (EHTMLEditorView *view)
 	sheet = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-composer-sheet");
 
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (sheet)),
-		WEBKIT_DOM_NODE (sheet),
-		NULL);
+	remove_node (WEBKIT_DOM_NODE (sheet));
 }
 
 static const gchar *

@@ -1158,13 +1158,6 @@ create_list_element (EHTMLEditorSelection *selection,
 }
 
 static void
-remove_node (WebKitDOMNode *node)
-{
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (node), node, NULL);
-}
-
-static void
 format_change_list_from_list (EHTMLEditorSelection *selection,
                               WebKitDOMDocument *document,
                               EHTMLEditorSelectionBlockFormat to,
@@ -1732,28 +1725,6 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 	}
 
 	e_html_editor_selection_restore (selection);
-}
-
-static void
-remove_node_if_empty (WebKitDOMNode *node)
-{
-	if (!WEBKIT_DOM_IS_NODE (node))
-		return;
-
-	if (!webkit_dom_node_get_first_child (node)) {
-		remove_node (node);
-	} else {
-		gchar *text_content;
-
-		text_content = webkit_dom_node_get_text_content (node);
-		if (!text_content)
-			remove_node (node);
-
-		if (text_content && !*text_content)
-			remove_node (node);
-
-		g_free (text_content);
-	}
 }
 
 static void

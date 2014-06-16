@@ -3655,3 +3655,32 @@ element_remove_class (WebKitDOMElement *element,
 
 	g_free (element_class);
 }
+
+void
+remove_node (WebKitDOMNode *node)
+{
+	webkit_dom_node_remove_child (
+		webkit_dom_node_get_parent_node (node), node, NULL);
+}
+
+void
+remove_node_if_empty (WebKitDOMNode *node)
+{
+	if (!WEBKIT_DOM_IS_NODE (node))
+		return;
+
+	if (!webkit_dom_node_get_first_child (node)) {
+		remove_node (node);
+	} else {
+		gchar *text_content;
+
+		text_content = webkit_dom_node_get_text_content (node);
+		if (!text_content)
+			remove_node (node);
+
+		if (text_content && !*text_content)
+			remove_node (node);
+
+		g_free (text_content);
+	}
+}
