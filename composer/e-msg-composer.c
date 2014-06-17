@@ -2378,6 +2378,21 @@ msg_composer_key_press_event (GtkWidget *widget,
 		return TRUE;
 	}
 
+	if (((event)->state & GDK_SHIFT_MASK) && ((event)->keyval == GDK_KEY_Insert)) {
+		g_signal_emit_by_name (WEBKIT_WEB_VIEW (view), "paste-clipboard");
+		return TRUE;
+	}
+
+	if (((event)->state & GDK_CONTROL_MASK) && ((event)->keyval == GDK_KEY_Insert)) {
+		g_signal_emit_by_name (WEBKIT_WEB_VIEW (view), "copy-clipboard");
+		return TRUE;
+	}
+
+	if (((event)->state & GDK_SHIFT_MASK) && ((event)->keyval == GDK_KEY_Delete)) {
+		g_signal_emit_by_name (WEBKIT_WEB_VIEW (view), "cut-clipboard");
+		return TRUE;
+	}
+
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_msg_composer_parent_class)->
 		key_press_event (widget, event);
