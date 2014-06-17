@@ -6126,34 +6126,30 @@ e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
 
 	added = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	for (ii = 0; ii < length; ii++) {
-		CamelMimePart *part;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *src = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (node), "src");
-
-		if (!g_hash_table_lookup (added, src)) {
-			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "src", uid_domain);
-			parts = g_list_append (parts, part);
-			g_hash_table_insert (
-				added, src, (gpointer) camel_mime_part_get_content_id (part));
-		}
-		g_free (src);
-	}
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		const gchar *id;
+		gchar *cid;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		gchar *src = webkit_dom_element_get_attribute (
 			WEBKIT_DOM_ELEMENT (node), "src");
 
 		if ((id = g_hash_table_lookup (added, src)) != NULL) {
-			gchar *cid = g_strdup_printf ("cid:%s", id);
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
-			g_free (cid);
+			cid = g_strdup_printf ("cid:%s", id);
+		} else {
+			CamelMimePart *part;
+
+			part = e_html_editor_view_add_inline_image_from_element (
+				view, WEBKIT_DOM_ELEMENT (node), "src", uid_domain);
+			parts = g_list_append (parts, part);
+
+			id = camel_mime_part_get_content_id (part);
+			cid = g_strdup_printf ("cid:%s", id);
+
+			g_hash_table_insert (added, src, (gpointer) id);
 		}
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
 		g_free (src);
+		g_free (cid);
 	}
 
 	list = webkit_dom_document_query_selector_all (
@@ -6161,36 +6157,30 @@ e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		CamelMimePart *part;
+		const gchar *id;
+		gchar *cid = NULL;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 		gchar *src = webkit_dom_element_get_attribute (
 			WEBKIT_DOM_ELEMENT (node), "background");
 
-		if (!g_hash_table_lookup (added, src)) {
+		if ((id = g_hash_table_lookup (added, src)) != NULL) {
+			cid = g_strdup_printf ("cid:%s", id);
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
+		} else {
 			part = e_html_editor_view_add_inline_image_from_element (
 				view, WEBKIT_DOM_ELEMENT (node), "background", uid_domain);
 			if (part) {
 				parts = g_list_append (parts, part);
-				g_hash_table_insert (
-					added, src,
-					(gpointer) camel_mime_part_get_content_id (part));
+				id = camel_mime_part_get_content_id (part);
+				g_hash_table_insert (added, src, (gpointer) id);
+				cid = g_strdup_printf ("cid:%s", id);
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
 			}
 		}
 		g_free (src);
-	}
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *src = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (node), "background");
-		const gchar *id;
-
-		if ((id = g_hash_table_lookup (added, src)) != NULL) {
-			gchar *cid = g_strdup_printf ("cid:%s", id);
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
-			g_free (cid);
-		}
-		g_free (src);
+		g_free (cid);
 	}
 
 	g_hash_table_destroy (added);
