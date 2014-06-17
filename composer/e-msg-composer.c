@@ -1829,6 +1829,8 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
                                     guint time,
                                     EMsgComposer *composer)
 {
+	GdkAtom atom;
+	gchar *name;
 	EAttachmentView *view;
 	EHTMLEditor *editor;
 	EHTMLEditorView *html_editor_view;
@@ -1837,6 +1839,48 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	editor = e_msg_composer_get_editor (composer);
 	html_editor_view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (html_editor_view);
+
+	atom = gtk_selection_data_get_target (selection);
+	name = gdk_atom_name (atom);
+
+	if (g_strcmp0 (name, "UTF8_STRING") == 0 || g_strcmp0 (name, "text/html") == 0) {
+		gboolean is_text;
+		const guchar *data;
+		gint length;
+		gint list_len, len;
+		gchar *text;
+
+		is_text = g_strcmp0 (name, "UTF8_STRING") == 0;
+
+		data = gtk_selection_data_get_data (selection);
+		length = gtk_selection_data_get_length (selection);
+
+		if (!data || length < 0) {
+			g_free (name);
+			return;
+		}
+
+		list_len = length;
+		do {
+			text = next_uri ((guchar **) &data, &len, &list_len);
+			if (is_text)
+				e_html_editor_selection_insert_text (editor_selection, text);
+			else
+				e_html_editor_selection_insert_html (editor_selection, text);
+		} while (list_len);
+
+		e_html_editor_view_check_magic_links (html_editor_view, FALSE);
+		e_html_editor_view_force_spell_check (html_editor_view);
+
+		e_html_editor_selection_scroll_to_caret (editor_selection);
+
+		/* Stop the signal from propagating */
+		g_signal_stop_emission_by_name (widget, "drag-data-received");
+		g_free (name);
+		return;
+	}
+
+	g_free (name);
 
 	/* HTML mode has a few special cases for drops... */
 	if (e_html_editor_view_get_html_mode (html_editor_view)) {
