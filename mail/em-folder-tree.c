@@ -1259,6 +1259,7 @@ folder_tree_constructed (GObject *object)
 	priv->selection_changed_handler_id = handler_id;
 
 	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_column_set_sizing (
 		column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_append_column (tree_view, column);
