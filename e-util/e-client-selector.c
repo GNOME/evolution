@@ -629,8 +629,7 @@ client_selector_allow_auth_prompt_done_cb (GObject *source_object,
 	if (local_error) {
 		g_simple_async_result_take_error (data->simple, local_error);
 		g_simple_async_result_complete (data->simple);
-
-		g_clear_error (&local_error);
+		local_error = NULL;
 	} else {
 		EClientCache *client_cache;
 		const gchar *extension_name;
