@@ -2899,17 +2899,37 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	/* Cancel the previous message retrieval activity. */
 	g_cancellable_cancel (priv->retrieving_message);
 
-	/* Cancel the seen timer. */
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	if (message_list != NULL && message_list->seen_id) {
-		g_source_remove (message_list->seen_id);
-		message_list->seen_id = 0;
-	}
-
 	/* Cancel the message selected timer. */
 	if (priv->message_selected_timeout_id > 0) {
 		g_source_remove (priv->message_selected_timeout_id);
 		priv->message_selected_timeout_id = 0;
+	}
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	if (message_list) {
+		EMailPartList *parts;
+		const gchar *cursor_uid, *format_uid;
+
+		parts = e_mail_display_get_part_list (e_mail_reader_get_mail_display (reader));
+
+		cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		if (parts != NULL)
+			format_uid = e_mail_part_list_get_message_uid (parts);
+		else
+			format_uid = NULL;
+
+		/* It can happen when the message was loaded that quickly that
+		   it was delivered before this callback. */
+		if (g_strcmp0 (cursor_uid, format_uid) == 0) {
+			e_mail_reader_changed (reader);
+			return;
+		}
+	}
+
+	/* Cancel the seen timer. */
+	if (message_list != NULL && message_list->seen_id) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
 	}
 
 	if (message_list_selected_count (message_list) != 1) {
