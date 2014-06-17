@@ -158,7 +158,8 @@ void		e_html_editor_view_add_inline_image_from_mime_part
 						(EHTMLEditorView *view,
                                                  CamelMimePart *part);
 GList *		e_html_editor_view_get_parts_for_inline_images
-						(EHTMLEditorView *view);
+						(EHTMLEditorView *view,
+						 const gchar *uid_domain);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

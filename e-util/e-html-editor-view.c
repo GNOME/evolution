@@ -6042,7 +6042,8 @@ e_html_editor_view_check_magic_links (EHTMLEditorView *view,
 static CamelMimePart *
 e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
                                                   WebKitDOMElement *element,
-                                                  const gchar *attribute)
+                                                  const gchar *attribute,
+						  const gchar *uid_domain)
 {
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
@@ -6092,7 +6093,7 @@ e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
 	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
 	g_object_unref (wrapper);
 
-	cid = camel_header_msgid_generate ();
+	cid = camel_header_msgid_generate (uid_domain);
 	camel_mime_part_set_content_id (part, cid);
 	name = webkit_dom_element_get_attribute (element, "data-name");
 	camel_mime_part_set_filename (part, name);
@@ -6107,7 +6108,8 @@ out:
 }
 
 GList *
-e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view)
+e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
+						const gchar *uid_domain)
 {
 	GHashTable *added;
 	GList *parts = NULL;
@@ -6131,7 +6133,7 @@ e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view)
 
 		if (!g_hash_table_lookup (added, src)) {
 			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "src");
+				view, WEBKIT_DOM_ELEMENT (node), "src", uid_domain);
 			parts = g_list_append (parts, part);
 			g_hash_table_insert (
 				added, src, (gpointer) camel_mime_part_get_content_id (part));
@@ -6165,7 +6167,7 @@ e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view)
 
 		if (!g_hash_table_lookup (added, src)) {
 			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "background");
+				view, WEBKIT_DOM_ELEMENT (node), "background", uid_domain);
 			if (part) {
 				parts = g_list_append (parts, part);
 				g_hash_table_insert (

@@ -229,8 +229,7 @@ mdn_notify_sender (ESource *identity_source,
 	const gchar *transport_uid;
 	const gchar *self_address;
 	const gchar *sent_folder_uri;
-	gchar *fake_msgid;
-	gchar *hostname;
+	const gchar *hostname;
 	gchar *receipt_subject;
 	gchar *disposition;
 	gchar *recipient;
@@ -275,13 +274,11 @@ mdn_notify_sender (ESource *identity_source,
 	transport_uid = e_source_mail_submission_get_transport_uid (
 		E_SOURCE_MAIL_SUBMISSION (extension));
 
-	/* We use camel_header_msgid_generate() to get a canonical
-	 * hostname, then skip the part leading to '@' */
-	fake_msgid = camel_header_msgid_generate ();
-	hostname = strchr (fake_msgid, '@');
-	g_return_if_fail (hostname != NULL);
-
-	hostname++;
+	hostname = self_address ? strchr (self_address, '@') : NULL;
+	if (hostname)
+		hostname++;
+	else
+		hostname = "localhost";
 
 	/* Create toplevel container. */
 	body = camel_multipart_new ();
@@ -351,7 +348,6 @@ mdn_notify_sender (ESource *identity_source,
 
 	g_free (ua);
 	g_free (recipient);
-	g_free (fake_msgid);
 	g_free (disposition);
 
 	part = camel_mime_part_new ();

@@ -1096,7 +1096,8 @@ composer_build_message (EMsgComposer *composer,
 	CamelMimePart *part;
 	GByteArray *data;
 	ESource *source;
-	gchar *charset;
+	gchar *charset, *message_uid;
+	const gchar *from_domain;
 	gint i;
 
 	priv = composer->priv;
@@ -1153,9 +1154,25 @@ composer_build_message (EMsgComposer *composer,
 
 	context->message = camel_mime_message_new ();
 
+	if (context->from && camel_internet_address_get (context->from, 0, NULL, &from_domain)) {
+		const gchar *at = strchr (from_domain, '@');
+		if (at)
+			from_domain = at + 1;
+		else
+			from_domain = NULL;
+	} else {
+		from_domain = NULL;
+	}
+
+	if (!from_domain || !*from_domain)
+		from_domain = "localhost";
+
+	message_uid = camel_header_msgid_generate (from_domain);
+
 	/* Explicitly generate a Message-ID header here so it's
 	 * consistent for all outbound streams (SMTP, Fcc, etc). */
-	camel_mime_message_set_message_id (context->message, NULL);
+	camel_mime_message_set_message_id (context->message, message_uid);
+	g_free (message_uid);
 
 	build_message_headers (composer, context->message, FALSE);
 	for (i = 0; i < priv->extra_hdr_names->len; i++) {
@@ -1343,7 +1360,7 @@ composer_build_message (EMsgComposer *composer,
 
 		editor = e_msg_composer_get_editor (composer);
 		view = e_html_editor_get_view (editor);
-		inline_images = e_html_editor_view_get_parts_for_inline_images (view);
+		inline_images = e_html_editor_view_get_parts_for_inline_images (view, from_domain);
 
 		data = g_byte_array_new ();
 		text = e_html_editor_view_get_text_html (view);
