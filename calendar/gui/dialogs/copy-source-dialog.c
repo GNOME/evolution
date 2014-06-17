@@ -142,13 +142,15 @@ dest_source_connected_cb (GObject *source_object,
 			ftd.dest_client = csdd->dest_client;
 
 			for (l = obj_list; l != NULL; l = l->next) {
+				icalcomp = NULL;
+
 				/* FIXME: process recurrences */
 				/* FIXME: process errors */
-				e_cal_client_get_object_sync (
+				if (e_cal_client_get_object_sync (
 					csdd->dest_client,
 					icalcomponent_get_uid (l->data),
-					NULL, &icalcomp, NULL, NULL);
-				if (icalcomp != NULL) {
+					NULL, &icalcomp, NULL, NULL) &&
+				    icalcomp != NULL) {
 					e_cal_client_modify_object_sync (
 						csdd->dest_client, l->data,
 						CALOBJ_MOD_ALL, NULL, NULL);
