@@ -1071,6 +1071,45 @@ composer_add_evolution_format_header (CamelMedium *medium,
 	g_string_free (string, TRUE);
 }
 
+static gchar *
+msg_composer_generate_msg_id (EMsgComposer *composer)
+{
+	CamelInternetAddress *from;
+	gchar *tmp, *msg_id;
+	const gchar *from_domain = NULL;
+
+	from = e_msg_composer_get_from (composer);
+	if (from && camel_internet_address_get (from, 0, NULL, &from_domain)) {
+		const gchar *at = strchr (from_domain, '@');
+		if (at)
+			from_domain = at + 1;
+		else
+			from_domain = NULL;
+	} else {
+		from_domain = NULL;
+	}
+
+	if (!from_domain || !*from_domain)
+		from_domain = "localhost";
+
+	msg_id = camel_header_msgid_generate ();
+	tmp = strchr (msg_id, '@');
+	if (!tmp) {
+		g_clear_object (&from);
+		return msg_id;
+	}
+
+	tmp[1] = '\0';
+
+	tmp = msg_id;
+	msg_id = g_strconcat (tmp, from_domain, NULL);
+
+	g_clear_object (&from);
+	g_free (tmp);
+
+	return msg_id;
+}
+
 static void
 composer_build_message (EMsgComposer *composer,
                         ComposerFlags flags,
@@ -1099,7 +1138,7 @@ composer_build_message (EMsgComposer *composer,
 	CamelMimePart *part;
 	GByteArray *data;
 	ESource *source;
-	gchar *charset;
+	gchar *charset, *message_id;
 	gint i;
 
 	priv = composer->priv;
@@ -1161,7 +1200,9 @@ composer_build_message (EMsgComposer *composer,
 
 	/* Explicitly generate a Message-ID header here so it's
 	 * consistent for all outbound streams (SMTP, Fcc, etc). */
-	camel_mime_message_set_message_id (context->message, NULL);
+	message_id = msg_composer_generate_msg_id (composer);
+	camel_mime_message_set_message_id (context->message, message_id);
+	g_free (message_id);
 
 	build_message_headers (composer, context->message, FALSE);
 	for (i = 0; i < priv->extra_hdr_names->len; i++) {
@@ -4510,7 +4551,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
 	g_object_unref (wrapper);
 
-	cid = camel_header_msgid_generate ();
+	cid = msg_composer_generate_msg_id (composer);
 	camel_mime_part_set_content_id (part, cid);
 	name = g_path_get_basename (dec_file_name);
 	camel_mime_part_set_filename (part, name);
