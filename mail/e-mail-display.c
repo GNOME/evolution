@@ -505,6 +505,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	GList *head, *link;
 	EMailPart *part = NULL;
 	GtkWidget *widget = NULL;
+	GWeakRef *weakref;
 	gchar *part_id, *type, *object_uri;
 
 	part_id = g_hash_table_lookup (param, "data");
@@ -517,8 +518,14 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 	display = E_MAIL_DISPLAY (web_view);
 
-	widget = g_hash_table_lookup (display->priv->widgets, part_id);
+	weakref = g_hash_table_lookup (display->priv->widgets, part_id);
+	if (weakref)
+		widget = g_weak_ref_get (weakref);
+
 	if (widget != NULL) {
+		/* This cannot be the last reference; thread-safety is assured,
+		   because this runs in the main thread only. */
+		g_object_unref (widget);
 		d (printf ("Handeled %s widget request from cache\n", part_id));
 		return widget;
 	}
@@ -708,7 +715,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 	g_hash_table_insert (
 		display->priv->widgets,
-		g_strdup (object_uri), g_object_ref (widget));
+		g_strdup (object_uri), e_weak_ref_new (widget));
 
 exit:
 	if (part != NULL)
@@ -1019,7 +1026,7 @@ mail_display_uri_changed (EMailDisplay *display,
 		(GHashFunc) g_str_hash,
 		(GEqualFunc) g_str_equal,
 		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
+		(GDestroyNotify) e_weak_ref_free);
 }
 
 static void
