@@ -270,8 +270,12 @@ html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 			GTK_FILE_CHOOSER (
 				dialog->priv->background_image_filechooser));
 
-	webkit_dom_html_body_element_set_background (
-		WEBKIT_DOM_HTML_BODY_ELEMENT (body), uri ? uri : "");
+	if (uri && *uri) {
+		e_html_editor_selection_replace_image_src (
+			e_html_editor_view_get_selection (view),
+			WEBKIT_DOM_ELEMENT (body),
+			uri);
+	}
 
 	g_free (uri);
 }

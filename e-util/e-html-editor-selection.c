@@ -3939,9 +3939,16 @@ replace_base64_image_src (EHTMLEditorSelection *selection,
 	e_html_editor_view_set_changed (view, TRUE);
 	g_object_unref (view);
 
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (element),
-		base64_content);
+	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element))
+		webkit_dom_html_image_element_set_src (
+			WEBKIT_DOM_HTML_IMAGE_ELEMENT (element),
+			base64_content);
+	else
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (element),
+			"background",
+			base64_content,
+			NULL);
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (element), "data-uri", uri, NULL);
 	webkit_dom_element_set_attribute (
@@ -4249,24 +4256,26 @@ e_html_editor_selection_insert_image (EHTMLEditorSelection *selection,
 /**
  * e_html_editor_selection_replace_image_src:
  * @selection: an #EHTMLEditorSelection
- * @image: #WebKitDOMElement representation of image
+ * @element: #WebKitDOMElement element
  * @image_uri: an URI of the source image
  *
- * Replace the src attribute of the given @image with @image_uri.
+ * If given @element is image we will replace the src attribute of it with base64
+ * data from given @image_uri. Otherwise we will set the base64 data to
+ * the background attribute of given @element.
  */
 void
 e_html_editor_selection_replace_image_src (EHTMLEditorSelection *selection,
-                                           WebKitDOMElement *image,
+                                           WebKitDOMElement *element,
                                            const gchar *image_uri)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
-	g_return_if_fail (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image));
+	g_return_if_fail (element && WEBKIT_DOM_IS_ELEMENT (element));
 
 	if (strstr (image_uri, ";base64,")) {
 		if (g_str_has_prefix (image_uri, "data:"))
 			replace_base64_image_src (
-				selection, image, image_uri, "", "");
+				selection, element, image_uri, "", "");
 		if (strstr (image_uri, ";data")) {
 			const gchar *base64_data = strstr (image_uri, ";") + 1;
 			gchar *filename;
@@ -4278,11 +4287,11 @@ e_html_editor_selection_replace_image_src (EHTMLEditorSelection *selection,
 			filename = g_strndup (image_uri, filename_length);
 
 			replace_base64_image_src (
-				selection, image, base64_data, filename, "");
+				selection, element, base64_data, filename, "");
 			g_free (filename);
 		}
 	} else
-		image_load_and_insert_async (selection, image, image_uri);
+		image_load_and_insert_async (selection, element, image_uri);
 }
 
 /**

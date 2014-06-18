@@ -170,7 +170,7 @@ void		e_html_editor_selection_insert_html
 						 const gchar *html_text);
 void		e_html_editor_selection_replace_image_src
 						(EHTMLEditorSelection *selection,
-						 WebKitDOMElement *image,
+						 WebKitDOMElement *element,
 						 const gchar *image_uri);
 void		e_html_editor_selection_insert_image
 						(EHTMLEditorSelection *selection,
