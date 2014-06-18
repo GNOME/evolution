@@ -292,8 +292,6 @@ mail_junk_options_constructed (GObject *object)
 
 	list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 
-	/* Label + combo box has a 12px left margin so it's
-	 * aligned with the junk mail options above it. */
 	widget = gtk_label_new (_("Junk filtering software:"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_widget_set_margin_left (widget, 12);
