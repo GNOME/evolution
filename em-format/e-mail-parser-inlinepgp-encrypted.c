@@ -60,9 +60,7 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 	GList *head, *link;
 	GError *local_error = NULL;
 
-	if (g_cancellable_is_cancelled (cancellable) ||
-	    /* avoid recursion */
-	    (part_id->str && part_id->len > 20 && g_str_has_suffix (part_id->str, ".inlinepgp_encrypted")))
+	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
 	cipher = camel_gpg_context_new (e_mail_parser_get_session (parser));
