@@ -245,6 +245,8 @@ EHTMLEditorSelectionBlockFormat
 EHTMLEditorSelectionAlignment
 		e_html_editor_selection_get_list_alignment_from_node
 						(WebKitDOMNode *node);
+void		remove_wrapping_from_element	(WebKitDOMElement *element);
+void		remove_quoting_from_element	(WebKitDOMElement *element);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_H */

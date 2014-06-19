@@ -1571,8 +1571,8 @@ merge_lists_if_possible (WebKitDOMNode *list)
 		merge_list_into_list (next_sibling, list, FALSE);
 }
 
-static void
-remove_wrapping (WebKitDOMElement *element)
+void
+remove_wrapping_from_element (WebKitDOMElement *element)
 {
 	WebKitDOMNodeList *list;
 	gint ii, length;
@@ -1586,11 +1586,11 @@ remove_wrapping (WebKitDOMElement *element)
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 }
 
-static void
-remove_quoting (WebKitDOMElement *element)
+void
+remove_quoting_from_element (WebKitDOMElement *element)
 {
-	WebKitDOMNodeList *list;
 	gint ii, length;
+	WebKitDOMNodeList *list;
 
 	list = webkit_dom_element_query_selector_all (
 		element, "span.-x-evo-quoted", NULL);
@@ -1602,17 +1602,17 @@ remove_quoting (WebKitDOMElement *element)
 		element, "span.-x-evo-temp-text-wrapper", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *nd = webkit_dom_node_list_item (list, ii);
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
-		while (webkit_dom_node_has_child_nodes (nd)) {
+		while (webkit_dom_node_get_first_child (node))
 			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (nd),
-				webkit_dom_node_get_first_child (nd),
-				nd,
+				parent,
+				webkit_dom_node_get_first_child (node),
+				node,
 				NULL);
-		}
 
-		remove_node (nd);
+		remove_node (node);
 	}
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
@@ -1706,11 +1706,11 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 		if (webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
 			quoted = TRUE;
-			remove_quoting (WEBKIT_DOM_ELEMENT (block));
+			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
 		}
 
 		if (!html_mode)
-			remove_wrapping (WEBKIT_DOM_ELEMENT (block));
+			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
 
 		after_selection_end = webkit_dom_node_contains (
 			block, WEBKIT_DOM_NODE (selection_end_marker));
@@ -1872,8 +1872,8 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 		next_block = webkit_dom_node_get_next_sibling (
 			WEBKIT_DOM_NODE (block));
 
-		remove_wrapping (WEBKIT_DOM_ELEMENT (block));
-		remove_quoting (WEBKIT_DOM_ELEMENT (block));
+		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
+		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
 
 		item = webkit_dom_document_create_element (document, "LI", NULL);
 		content = webkit_dom_node_get_text_content (block);

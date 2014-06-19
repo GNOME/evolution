@@ -3703,38 +3703,13 @@ e_html_editor_view_dequote_plain_text (EHTMLEditorView *view)
 		document, "blockquote.-x-evo-plaintext-quoted", NULL);
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNodeList *list;
 		WebKitDOMElement *element;
-		gint jj, list_length;
 
 		element = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (paragraphs, ii));
 
 		if (is_citation_node (WEBKIT_DOM_NODE (element))) {
 			element_remove_class (element, "-x-evo-plaintext-quoted");
-
-			list = webkit_dom_element_query_selector_all (
-				element, "span.-x-evo-quoted", NULL);
-			list_length = webkit_dom_node_list_get_length (list);
-			for (jj = 0; jj < list_length; jj++) {
-				WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
-
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (node),
-					node,
-					NULL);
-			}
-			list = webkit_dom_element_query_selector_all (
-				element, "span.-x-evo-temp-text-wrapper", NULL);
-			list_length = webkit_dom_node_list_get_length (list);
-			for (jj = 0; jj < list_length; jj++) {
-				WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
-
-				webkit_dom_node_replace_child (
-					webkit_dom_node_get_parent_node (node),
-					webkit_dom_node_get_first_child (node),
-					node,
-					NULL);
-			}
+			remove_quoting_from_element (element);
 		}
 	}
 }
@@ -4588,7 +4563,7 @@ process_elements (EHTMLEditorView *view,
 }
 
 static void
-remove_wrapping (EHTMLEditorView *view)
+remove_wrapping_from_view (EHTMLEditorView *view)
 {
 	gint length;
 	gint ii;
@@ -5271,7 +5246,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
-		remove_wrapping (view);
+		remove_wrapping_from_view (view);
 	} else {
 		gchar *plain;
 
