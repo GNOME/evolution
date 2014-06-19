@@ -1037,15 +1037,17 @@ emoticon_read_async_cb (GFile *file,
 	EHTMLEditorView *view = load_context->view;
 	EEmoticon *emoticon = load_context->emoticon;
 	GError *error = NULL;
-	gchar *html, *node_text = NULL, *mime_type;
+	gboolean misplaced_selection = FALSE, empty = FALSE;
+	gchar *html, *node_text = NULL, *mime_type, *content;
 	gchar *base64_encoded, *output, *data;
 	const gchar *emoticon_start;
 	GFileInputStream *input_stream;
 	GOutputStream *output_stream;
 	gssize size;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *span, *caret_position;
-	WebKitDOMNode *node;
+	WebKitDOMElement *span, *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *node, *insert_before, *prev_sibling, *next_sibling;
+	WebKitDOMNode *selection_end_marker_parent;
 	WebKitDOMRange *range;
 
 	input_stream = g_file_read_finish (file, result, &error);
@@ -1060,47 +1062,97 @@ emoticon_read_async_cb (GFile *file,
 	if (error || (size == -1))
 		goto out;
 
-	caret_position = e_html_editor_selection_save_caret_position (
-		e_html_editor_view_get_selection (view));
+	e_html_editor_selection_save (e_html_editor_view_get_selection (view));
 
-	if (caret_position) {
-		WebKitDOMNode *parent;
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
 
-		parent = webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (caret_position));
+	/* If the selection was not saved, move it into the first child of body */
+	if (!selection_start_marker || !selection_end_marker) {
+		WebKitDOMHTMLElement *body;
 
-		/* Situation when caret is restored in body and not in paragraph */
-		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-			caret_position = WEBKIT_DOM_ELEMENT (
-				webkit_dom_node_remove_child (
-					WEBKIT_DOM_NODE (parent),
-					WEBKIT_DOM_NODE (caret_position),
-					NULL));
-
-			caret_position = WEBKIT_DOM_ELEMENT (
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (parent)),
-					WEBKIT_DOM_NODE (caret_position),
-					webkit_dom_node_get_first_child (
-						webkit_dom_node_get_first_child (
-							WEBKIT_DOM_NODE (parent))),
-					NULL));
-		}
+		body = webkit_dom_document_get_body (document);
+		selection_start_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_start_marker, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
+		selection_end_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_end_marker, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
 	}
 
+	/* Sometimes selection end marker is in body. Move it into next sibling */
+	selection_end_marker_parent = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_end_marker));
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (selection_end_marker_parent)) {
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (
+				WEBKIT_DOM_NODE (selection_start_marker)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			NULL);
+	}
+	selection_end_marker_parent = webkit_dom_node_get_parent_node (
+		WEBKIT_DOM_NODE (selection_end_marker));
+
+	/* Determine before what node we have to insert the smiley */
+	insert_before = WEBKIT_DOM_NODE (selection_start_marker);
+	prev_sibling = webkit_dom_node_get_previous_sibling (
+		WEBKIT_DOM_NODE (selection_start_marker));
+	if (prev_sibling) {
+		if (webkit_dom_node_is_same_node (
+			prev_sibling, WEBKIT_DOM_NODE (selection_end_marker))) {
+			insert_before = WEBKIT_DOM_NODE (selection_end_marker);
+		} else {
+			prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+			if (prev_sibling &&
+			    webkit_dom_node_is_same_node (
+				prev_sibling, WEBKIT_DOM_NODE (selection_end_marker))) {
+				insert_before = WEBKIT_DOM_NODE (selection_end_marker);
+			}
+		}
+	} else
+		insert_before = WEBKIT_DOM_NODE (selection_start_marker);
+
+	/* Look if selection is misplaced - that means that the selection was
+	 * restored before the previously inserted smiley in situations when we
+	 * are writing more smileys in a row */
+	next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
+	if (next_sibling && WEBKIT_DOM_IS_ELEMENT (next_sibling))
+		if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-smiley-wrapper"))
+			misplaced_selection = TRUE;
+
 	mime_type = g_content_type_get_mime_type (load_context->content_type);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	range = html_editor_view_get_dom_range (view);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (WEBKIT_DOM_IS_TEXT (node))
 		node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	span = webkit_dom_document_create_element (document, "SPAN", NULL);
 
 	data = g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream));
-
 	base64_encoded = g_base64_encode ((const guchar *) data, size);
 	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+
+	content = webkit_dom_node_get_text_content (selection_end_marker_parent);
+	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
+	g_free (content);
 
 	/* Insert span with image representation and another one with text
 	 * represetation and hide/show them dependant on active composer mode */
@@ -1110,17 +1162,39 @@ emoticon_read_async_cb (GFile *file,
 		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
 		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"/>"
 		"<span class=\"-x-evo-smiley-text\" style=\"display: none;\">%s"
-		"</span></span>&#8203;",
+		"</span></span>%s",
 		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
-		load_context->name, emoticon ? emoticon->text_face : "");
+		load_context->name, emoticon ? emoticon->text_face : "",
+		empty ? "&#8203;" : "");
 
-	span = WEBKIT_DOM_ELEMENT (
+	span = webkit_dom_document_create_element (document, "SPAN", NULL);
+
+	if (misplaced_selection) {
+		/* Insert smiley and selection markers after it */
 		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (
-				WEBKIT_DOM_NODE (caret_position)),
-			WEBKIT_DOM_NODE (span),
-			WEBKIT_DOM_NODE (caret_position),
-			NULL));
+			webkit_dom_node_get_parent_node (insert_before),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_next_sibling (next_sibling),
+			NULL);
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (insert_before),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_next_sibling (next_sibling),
+			NULL);
+		span = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (insert_before),
+				WEBKIT_DOM_NODE (span),
+				webkit_dom_node_get_next_sibling (next_sibling),
+				NULL));
+	} else {
+		span = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (insert_before),
+				WEBKIT_DOM_NODE (span),
+				insert_before,
+				NULL));
+	}
 
 	webkit_dom_html_element_set_outer_html (
 		WEBKIT_DOM_HTML_ELEMENT (span), html, NULL);
@@ -1137,7 +1211,7 @@ emoticon_read_async_cb (GFile *file,
 		}
 	}
 
-	e_html_editor_selection_restore_caret_position (
+	e_html_editor_selection_restore (
 		e_html_editor_view_get_selection (view));
 
 	e_html_editor_view_set_changed (view, TRUE);
@@ -1773,6 +1847,27 @@ html_editor_view_key_press_event (GtkWidget *widget,
 }
 
 static void
+fix_paragraph_structure_after_pressing_enter_after_smiley (EHTMLEditorSelection *selection,
+                                                           WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_query_selector (
+		document, "span.-x-evo-smiley-wrapper > br", NULL);
+
+	if (element) {
+		WebKitDOMNode *parent;
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (
+				webkit_dom_node_get_parent_node (parent)),
+			UNICODE_ZERO_WIDTH_SPACE,
+			NULL);
+	}
+}
+
+static void
 mark_node_as_paragraph_after_ending_list (EHTMLEditorSelection *selection,
                                           WebKitDOMDocument *document)
 {
@@ -1855,6 +1950,8 @@ html_editor_view_key_release_event (GtkWidget *widget,
 	if (is_return_key (event) || (event->keyval == GDK_KEY_space)) {
 		html_editor_view_check_magic_links (view, range, FALSE, event);
 		mark_node_as_paragraph_after_ending_list (selection, document);
+		if (view->priv->html_mode)
+			fix_paragraph_structure_after_pressing_enter_after_smiley (selection, document);
 	} else {
 		WebKitDOMNode *node;
 
