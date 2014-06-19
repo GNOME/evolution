@@ -5787,18 +5787,12 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append (
 		stylesheet,
-		"span.-x-evo-resizable-wrapper "
-		"{\n"
-		"  resize: both; \n"
-		"  overflow: hidden; \n"
-		"  display: inline-block; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
 		"span.-x-evo-resizable-wrapper:hover "
 		"{\n"
 		"  outline: 1px dashed red; \n"
+		"  resize: both; \n"
+		"  overflow: hidden; \n"
+		"  display: inline-block; \n"
 		"}\n");
 
 	g_string_append (
