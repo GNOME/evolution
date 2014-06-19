@@ -1659,6 +1659,36 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 		document, "span#-x-evo-selection-start-marker", NULL);
 	selection_end_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-end-marker", NULL);
+
+	/* If the selection was not saved, move it into the first child of body */
+	if (!selection_start_marker || !selection_end_marker) {
+		WebKitDOMHTMLElement *body;
+
+		body = webkit_dom_document_get_body (document);
+		selection_start_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_start_marker, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
+		selection_end_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_end_marker, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
+	}
+
 	block = webkit_dom_node_get_parent_node (
 		WEBKIT_DOM_NODE (selection_start_marker));
 	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-temp-text-wrapper"))
@@ -1744,6 +1774,36 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 		document, "span#-x-evo-selection-start-marker", NULL);
 	selection_end_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-end-marker", NULL);
+
+	/* If the selection was not saved, move it into the first child of body */
+	if (!selection_start_marker || !selection_end_marker) {
+		WebKitDOMHTMLElement *body;
+
+		body = webkit_dom_document_get_body (document);
+		selection_start_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_start_marker, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
+		selection_end_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_end_marker, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
+	}
+
 	block = webkit_dom_node_get_parent_node (
 		WEBKIT_DOM_NODE (selection_start_marker));
 	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-temp-text-wrapper"))
@@ -5388,6 +5448,10 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 				split_node = container;
 		}
 
+		/* Don't save selection straight into body */
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (split_node))
+			return;
+
 		if (!split_node) {
 			webkit_dom_node_insert_before (
 				container,
@@ -5433,6 +5497,14 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 					split_node);
 			} else
 				split_node = container;
+		}
+
+		/* Don't save selection straight into body */
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (split_node)) {
+			marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+			remove_node (WEBKIT_DOM_NODE (marker));
+			return;
 		}
 
 		marker_node = WEBKIT_DOM_NODE (marker);
