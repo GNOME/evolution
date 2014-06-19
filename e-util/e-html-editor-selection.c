@@ -1699,6 +1699,8 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 	/* Process all blocks that are in the selection one by one */
 	while (block) {
 		gboolean quoted = FALSE;
+		gboolean empty = FALSE;
+		gchar *content;
 		WebKitDOMNode *child;
 
 		if (webkit_dom_element_query_selector (
@@ -1722,6 +1724,18 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 		else
 			element = webkit_dom_document_create_element (
 				document, value, NULL);
+
+		content = webkit_dom_node_get_text_content (block);
+
+		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
+		g_free (content);
+
+		if (empty) {
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (element),
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
+		}
 
 		while ((child = webkit_dom_node_get_first_child (block)))
 			webkit_dom_node_append_child (
