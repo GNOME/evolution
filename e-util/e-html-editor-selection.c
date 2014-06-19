@@ -2133,6 +2133,8 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	/* When changing the format we need to re-set the alignment */
 	e_html_editor_selection_set_alignment (selection, selection->priv->alignment);
 
+	e_html_editor_view_set_changed (view, TRUE);
+
 	g_object_notify (G_OBJECT (selection), "block-format");
 }
 
