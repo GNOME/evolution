@@ -3405,6 +3405,29 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 	g_free (quotation);
 }
 
+static gboolean
+element_is_selection_marker (WebKitDOMElement *element)
+{
+	gboolean is_marker = FALSE;
+
+	is_marker =
+		element_has_id (element, "-x-evo-selection-start-marker") ||
+		element_has_id (element, "-x-evo-selection-end-marker");
+
+	return is_marker;
+}
+
+static gboolean
+check_if_suppress_next_node (WebKitDOMNode *node)
+{
+	if (node && WEBKIT_DOM_IS_ELEMENT (node))
+		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node)))
+			if (!webkit_dom_node_get_previous_sibling (node))
+				return FALSE;
+
+	return TRUE;
+}
+
 static void
 quote_plain_text_recursive (WebKitDOMDocument *document,
 			    WebKitDOMNode *node,
@@ -3459,10 +3482,12 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			goto next_node;
 		}
 
-		if (element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-selection-start-marker") ||
-		    element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-selection-end-marker")) {
+		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node))) {
 			move_next = TRUE;
-			suppress_next = TRUE;
+			/* If there is collapsed selection in the beginning of line
+			 * we cannot suppress first text that is after the end of
+			 * selection */
+			suppress_next = check_if_suppress_next_node (prev_sibling);
 			goto next_node;
 		}
 
