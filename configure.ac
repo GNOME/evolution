@@ -1055,6 +1055,13 @@ PKG_CHECK_MODULES([GDATA], [libgdata >= libgdata_minimum_version])
 AC_SUBST(GDATA_CFLAGS)
 AC_SUBST(GDATA_LIBS)
 
+dnl ***********************************
+dnl GTasks require more latest libgdata
+dnl ***********************************
+if `$PKG_CONFIG --atleast-version=0.15.1 libgdata`; then
+	AC_DEFINE(HAVE_GDATA_0_15_1, 1, [Define to 1 if you have the libgdata package >= 0.15.1])
+fi
+
 dnl ****************************
 dnl Check for ical_set_unknown_token_handling_setting function
 dnl ****************************

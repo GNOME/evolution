@@ -1,5 +1,5 @@
 /*
- * evolution-cal-config-google.c
+ * e-cal-config-google.c
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,6 +24,7 @@
 
 #include "e-google-chooser-button.h"
 #include "e-google-chooser-dialog.h"
+#include "module-cal-config-google.h"
 
 typedef ESourceConfigBackend ECalConfigGoogle;
 typedef ESourceConfigBackendClass ECalConfigGoogleClass;
@@ -33,10 +34,6 @@ typedef struct _Context Context;
 struct _Context {
 	GtkWidget *google_button;
 };
-
-/* Module Entry Points */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
 
 /* Forward Declarations */
 GType e_cal_config_google_get_type (void);
@@ -183,16 +180,8 @@ e_cal_config_google_init (ESourceConfigBackend *backend)
 {
 }
 
-G_MODULE_EXPORT void
-e_module_load (GTypeModule *type_module)
+void
+e_cal_config_google_type_register (GTypeModule *type_module)
 {
-	e_google_chooser_type_register (type_module);
-	e_google_chooser_button_type_register (type_module);
-	e_google_chooser_dialog_type_register (type_module);
 	e_cal_config_google_register_type (type_module);
-}
-
-G_MODULE_EXPORT void
-e_module_unload (GTypeModule *type_module)
-{
 }
