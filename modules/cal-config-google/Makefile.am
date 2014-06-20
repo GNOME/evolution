@@ -11,13 +11,16 @@ module_cal_config_google_la_CPPFLAGS = \
 	$(NULL)
 
 module_cal_config_google_la_SOURCES = \
-	evolution-cal-config-google.c				\
+	e-cal-config-google.c					\
+	e-cal-config-gtasks.c					\
 	e-google-chooser-button.c				\
 	e-google-chooser-button.h				\
 	e-google-chooser-dialog.c				\
 	e-google-chooser-dialog.h				\
 	e-google-chooser.c					\
-	e-google-chooser.h
+	e-google-chooser.h					\
+	module-cal-config-google.c				\
+	module-cal-config-google.h
 
 module_cal_config_google_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\
