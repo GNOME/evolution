@@ -4823,6 +4823,9 @@ process_elements (EHTMLEditorView *view,
 				remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
+			if (!webkit_dom_node_has_child_nodes (child))
+				if (!changing_mode && to_plain_text)
+					g_string_append (buffer, "\n");
 		}
 
 		/* Signature */
