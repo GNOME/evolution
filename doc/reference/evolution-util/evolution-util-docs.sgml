@@ -111,7 +111,6 @@
     <xi:include href="xml/e-html-editor-cell-dialog.xml"/>
     <xi:include href="xml/e-html-editor-dialog.xml"/>
     <xi:include href="xml/e-html-editor-find-dialog.xml"/>
-    <xi:include href="xml/e-html-editor-hrule-dialog.xml"/>
     <xi:include href="xml/e-html-editor-image-dialog.xml"/>
     <xi:include href="xml/e-html-editor-link-dialog.xml"/>
     <xi:include href="xml/e-html-editor-page-dialog.xml"/>
@@ -121,7 +120,6 @@
     <xi:include href="xml/e-html-editor-spell-check-dialog.xml"/>
     <xi:include href="xml/e-html-editor-table-dialog.xml"/>
     <xi:include href="xml/e-html-editor-text-dialog.xml"/>
-    <xi:include href="xml/e-html-editor-widget.xml"/>
     <xi:include href="xml/e-image-chooser-dialog.xml"/>
     <xi:include href="xml/e-spell-checker.xml"/>
     <xi:include href="xml/e-spell-dictionary.xml"/>
