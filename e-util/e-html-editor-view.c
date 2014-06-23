@@ -3898,6 +3898,10 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			element_has_tag (WEBKIT_DOM_ELEMENT (node), "u");
 
 		if (is_html_node) {
+			if (!prev_sibling)
+				insert_quote_symbols_before_node (
+					document, node, quote_level, FALSE);
+
 			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling))
 				insert_quote_symbols_before_node (
 					document, prev_sibling, quote_level, TRUE);
