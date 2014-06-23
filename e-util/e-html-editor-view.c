@@ -2622,6 +2622,79 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		G_TYPE_NONE, 0);
 }
 
+static gboolean
+create_anchor_for_link (const GMatchInfo *info,
+                        GString *res,
+                        gpointer data)
+{
+	gchar *match;
+	gboolean address_surrounded;
+
+	match = g_match_info_fetch (info, 0);
+
+	address_surrounded =
+		strstr (match, "@") &&
+		g_str_has_prefix (match, "&lt;") &&
+		g_str_has_suffix (match, "&gt;");
+
+	if (address_surrounded)
+		g_string_append (res, "&lt;");
+
+	g_string_append (res, "<a href=\"");
+	if (strstr (match, "@")) {
+		g_string_append (res, "mailto:");
+		if (address_surrounded) {
+			g_string_append (res, match + 4);
+			g_string_truncate (res, res->len - 4);
+		} else
+			g_string_append (res, match);
+
+		g_string_append (res, "\">");
+		if (address_surrounded) {
+			g_string_append (res, match + 4);
+			g_string_truncate (res, res->len - 4);
+		} else
+			g_string_append (res, match);
+	} else {
+		g_string_append (res, match);
+		g_string_append (res, "\">");
+		g_string_append (res, match);
+	}
+	g_string_append (res, "</a>");
+
+	if (address_surrounded)
+		g_string_append (res, "&gt;");
+
+	g_warning ("%s", res->str);
+	g_free (match);
+
+	return FALSE;
+}
+
+static gboolean
+replace_to_nbsp (const GMatchInfo *info,
+                 GString *res,
+                 gpointer data)
+{
+	gchar *match;
+	gint ii, length = 0;
+
+	match = g_match_info_fetch (info, 0);
+
+	/* Replace tabs with 8 whitespaces */
+	if (strstr (match, "\x9"))
+		length = 8;
+	else
+		length = strlen (match);
+
+	for (ii = 0; ii < length; ii++)
+		g_string_append (res, "&nbsp;");
+
+	g_free (match);
+
+	return FALSE;
+}
+
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
  * into paragraphs.
  * HTML code in that format we can get by taking innerText from some element,
@@ -2638,12 +2711,17 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	gint citation_level = 0;
 	GString *start, *end;
 	gboolean ignore_next_br = FALSE;
+	GRegex *regex_nbsp = NULL, *regex_links = NULL;
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), "", NULL);
 
 	prev_br = html;
 	next_br = strstr (prev_br, "<br>");
+
+	/* Replace tabs and 2+ spaces with non breaking spaces */
+	regex_nbsp = g_regex_new ("\\s{2,}|\x9", 0, 0, NULL);
+	regex_links = g_regex_new (URL_PATTERN, 0, 0, NULL);
 
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
@@ -2721,16 +2799,35 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		}
 
 		if (rest && *rest){
-			gchar *rest_to_insert = g_strdup (rest);
-			GString *space_to_nbsp;
+			gchar *truncated = g_strdup (rest);
+			gchar *rest_to_insert;
 
-			g_strchomp (rest_to_insert);
-			space_to_nbsp = e_str_replace_string (
-				rest_to_insert, " ", "&nbsp;");
+			g_strchomp (truncated);
+
+			rest_to_insert = g_regex_replace_eval (
+				regex_nbsp, truncated, -1, 0, 0, replace_to_nbsp, NULL, NULL);
+			g_free (truncated);
+
+			if (strstr (rest_to_insert, "http") ||
+			    strstr (rest_to_insert, "ftp") ||
+			    strstr (rest_to_insert, "@")) {
+				truncated = g_regex_replace_eval (
+					regex_links,
+					rest_to_insert,
+					-1,
+					0,
+					0,
+					create_anchor_for_link,
+					NULL,
+					NULL);
+
+				g_free (rest_to_insert);
+				rest_to_insert = truncated;
+			}
 
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (paragraph),
-				space_to_nbsp->str,
+				rest_to_insert,
 				NULL);
 
 			webkit_dom_node_append_child (
@@ -2738,7 +2835,6 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				WEBKIT_DOM_NODE (paragraph),
 				NULL);
 
-			g_string_free (space_to_nbsp, TRUE);
 			g_free (rest_to_insert);
 		}
 
@@ -2783,6 +2879,8 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), end->str, NULL);
 
+	g_regex_unref (regex_nbsp);
+	g_regex_unref (regex_links);
 	g_free (inner_html);
 	g_string_free (start, TRUE);
 	g_string_free (end, TRUE);
@@ -4732,7 +4830,7 @@ process_elements (EHTMLEditorView *view,
 				GRegex *regex;
 
 				content = webkit_dom_node_get_text_content (child);
-				/* Replace tabs with 4 whitespaces, otherwise they got
+				/* Replace tabs with 8 whitespaces, otherwise they got
 				 * replaced by single whitespace */
 				if (strstr (content, "\x9")) {
 					regex = g_regex_new ("\x9", 0, 0, NULL);
