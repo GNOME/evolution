@@ -5947,6 +5947,16 @@ convert_and_load_html_to_plain_text (EHTMLEditorView *view,
 }
 
 void
+e_html_editor_view_convert_and_insert_plain_text (EHTMLEditorView *view,
+                                                  const gchar *text)
+{
+	view->priv->convertor_insert = TRUE;
+
+	webkit_web_view_load_string (
+		view->priv->convertor_web_view, text, "text/plain", NULL, "file://");
+}
+
+void
 e_html_editor_view_convert_and_insert_html_to_plain_text (EHTMLEditorView *view,
                                                           const gchar *html)
 {

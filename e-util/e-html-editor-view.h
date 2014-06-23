@@ -118,6 +118,9 @@ gchar *		e_html_editor_view_get_text_html_for_drafts
 						(EHTMLEditorView *view);
 gchar *		e_html_editor_view_get_text_plain
 						(EHTMLEditorView *view);
+void		e_html_editor_view_convert_and_insert_plain_text
+						(EHTMLEditorView *view,
+						 const gchar *text);
 void		e_html_editor_view_convert_and_insert_html_to_plain_text
 						(EHTMLEditorView *view,
 						 const gchar *html);

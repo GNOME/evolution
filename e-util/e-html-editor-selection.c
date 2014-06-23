@@ -3900,7 +3900,6 @@ e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
                                      const gchar *plain_text)
 {
 	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (plain_text != NULL);
@@ -3908,8 +3907,7 @@ e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT;
-	e_html_editor_view_exec_command (view, command, plain_text);
+	e_html_editor_view_convert_and_insert_plain_text (view, plain_text);
 
 	g_object_unref (view);
 }
@@ -3936,12 +3934,11 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
-	if (e_html_editor_view_get_html_mode (view)) {
+	if (e_html_editor_view_get_html_mode (view))
 		e_html_editor_view_exec_command (view, command, html_text);
-	} else {
+	else
 		e_html_editor_view_convert_and_insert_html_to_plain_text (
 			view, html_text);
-	}
 
 	g_object_unref (view);
 }
