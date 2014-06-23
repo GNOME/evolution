@@ -1,3 +1,89 @@
+Evolution 3.13.3 2014-06-23
+---------------------------
+
+* Evolution now uses WebKitGTK3 also in message composer,
+  the dependency on GtkHTML had been completely dropped.
+  This effort had been started by Dan Vrátil and finally
+  finished by Tomáš Popela. Thanks to both for it.
+
+Bug Fixes:
+	Bug 730756 - Incorrect g_variant_unref() call after g_variant_builder_end() (Milan Crha)
+	Bug 730144 - Sort Templates menu items alphabetically (Milan Crha)
+	Bug 726746 - Allow to auto-empty trash without needing to exit (Milan Crha)
+	Bug 730743 - Add an option to disable sender's photo search at gravatar.com (Milan Crha)
+	Bug 730110 - Search results include also last email looked at (Milan Crha)
+	Bug 729905 - [external-editor] Mark composer changed after message body set (Milan Crha)
+	Bug 729963 - Include SIP, IM and TEL while merging contacts + Allow to select GivenName, FN (Christian Schaarschmidt)
+	Bug 729667 - Create Folder window is much too short (Milan Crha)
+	Bug 729303 - Default width of Message Filters window is too small (Milan Crha)
+	Bug 731082 - Send mail in offline mode should use Outbox folder (Milan Crha)
+	Bug 604346 - Ctrl+Enter sends mail without asking confirmation (Milan Crha)
+	Bug 730738 - Extra new line at the beginning of the message in Edit as New (Milan Crha)
+	Bug 227536 - Add "Message Location" filter option (Milan Crha)
+	Bug 730977 - Online state change received in a dedicated thread (Milan Crha)
+	Bug 731321 - Missing custom types when loading .ui definition (Milan Crha)
+	Bug 668006 - Crash when dragging column headers of Tasks list (Milan Crha)
+	Bug 540362 - [webkit-composer] Use webkit for composer (Tomas Popela)
+	Bug 731416 - [webkit-composer] Busy-loop when replying to an email (Tomas Popela)
+	Bug 678843 - May re-prompt password on message send (Milan Crha)
+	Bug 731278 - Next message is not selected after move (Milan Crha)
+	Bug 704663 - Crash under em_folder_tree_model_add_store() (Milan Crha)
+	Bug 731551 - [webkit-composer] Whitespace lost on message reply (plain text) (Tomas Popela)
+	Bug 731549 - EMFolderTree: Text column doesn't expand with recent gtk+ (Sebastian Keller)
+	Bug 702703 - Be able to overwrite domain in Message IDs (Milan Crha)
+	Bug 731231 - Automatic 'mark as seen' sometimes cancelled incorrectly (Milan Crha)
+	Bug 731590 - Crash on calendar Copy (Milan Crha)
+	Bug 731767 - [webkit-composer] Inline images not attached to the email (Tomas Popela)
+	Bug 731721 - Reorder junk filtering configuration UI (Milan Crha)
+	Bug 731770 - Sometimes crashes when trying to load images in e-mails (Milan Crha)
+	Bug 731604 - Recursive inline-PGP-signed text not shown properly (Milan Crha)
+	Bug 731766 - [webkit-composer] Emoticon cannot be inserted at the end of the email (Tomas Popela)
+	Bug 652132 - Google Tasks support (Milan Crha)
+
+Miscellaneous:
+	Add "Send messages through Outbox folder" option (Milan Crha)
+	Ignore false GObject property change notifications (Milan Crha)
+	Properly disconnect signal handlers added with e_signal_connect_notify*() (Milan Crha)
+	Ignore false GSettings key change notifications (Milan Crha)
+	Fix possible crash after migrate of mbox to maildir (Milan Crha)
+	Fix runtime warnings when opening Edit->Preferences (Milan Crha)
+	Check whether value really changed in callbacks of GSettings::changed signal (Milan Crha)
+	Fix memory leaks when generating message list (Milan Crha)
+	Crash in client_selector_allow_auth_prompt_done_cb() on error (Milan Crha)
+	EClientSelector: Do not check connection for empty or "localhost" host (Milan Crha)
+	EHTMLEditor: Fix various bugs in block in/undent (Tomas Popela)
+	EHTMLEditor: Set right width to paragraphs that are quoted (Tomas Popela)
+	EHTMLEditor: Fix block format change with selection in quoted content (Tomas Popela)
+	EHTMLEditor: Move remove_node and remove_node_if_empty to EWebView (Tomas Popela)
+	EHTMLEditor: When setting the body background image set it as its base64 data instead of uri (Tomas Popela)
+	EHTMLEditor: Make functions that remove quote and wrap elements public (Tomas Popela)
+	EHTMLEditorSelection: Return the format of list that we determined for ordered list (Tomas Popela)
+	EHTMLEditorSelection: When changing the format of block set EHTMLEditorView as changed (Tomas Popela)
+	EHTMLEditorSelection: Don't try to save selection markers straight into body (Tomas Popela)
+	EHTMLEditorSelection: Fix caret position when changing block format (Tomas Popela)
+	EHTMLEditorView: Replace Tab character with 8 spaces instead of 4 (Tomas Popela)
+	EHTMLEditorView: Skip BR on the end of HTML that's parsed into paragraphs (Tomas Popela)
+	EHTMLEditorView: Rename quote_character class to -x-evo-quote-character (Tomas Popela)
+	EHTMLEditorView: Introduce is_return_key and use it where possible (Tomas Popela)
+	EHTMLEditorView: When changing from html to plain text mode adjust composer's content (Tomas Popela)
+	EHTMLEditorView: Remove unused function (Tomas Popela)
+	EHTMLEditorView: Activate inline image resize just when hovering over image (Tomas Popela)
+	EHTMLEditorView: When quoting the elements correctly skip the selection markers (Tomas Popela)
+	EHTMLEditorView: Improve the writing into quoted content (Tomas Popela)
+	EWebView: Check if the link has fragment (Tomas Popela)
+	tests: capture stdout (Vadim Rutkovsky)
+	tests: don't use pkexec (Vadim Rutkovsky)
+	tests: correctly calculate combobox/textbox pair (Vadim Rutkovsky)
+	tests: don't attach empty stdout / stderr (Vadim Rutkovsky)
+	tests: correctly fetch combobox/textbox pair in contact editor (Vadim Rutkovsky)
+	tests: correctly detect if contact editor section needs expanding (Vadim Rutkovsky)
+	tests: don't scroll up if we're checking IMs (Vadim Rutkovsky)
+	tests: fix ugly scrolling problem (Vadim Rutkovsky)
+
+Translations:
+	Alexandre Franke (fr)
+	Muhammet Kara (tr)
+
 Evolution 3.13.2 2014-05-26
 ---------------------------
 
