@@ -574,20 +574,20 @@ style_updated_cb (EWebView *web_view)
 	gchar *style;
 	GtkStateFlags state_flags;
 	GtkStyleContext *style_context;
-	GtkWidgetPath *widget_path;
+	gboolean backdrop;
 
 	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (web_view));
-	style_context = gtk_style_context_new ();
-	widget_path = gtk_widget_path_new ();
-	gtk_widget_path_append_type (widget_path, GTK_TYPE_WINDOW);
-	gtk_style_context_set_path (style_context, widget_path);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_ENTRY);
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
+	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	gtk_style_context_get_background_color (
-		style_context,
-		state_flags | GTK_STATE_FLAG_FOCUSED,
-		&color);
-	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	if (gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
+			&color))
+		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	else
+		color_value = g_strdup("#ffffff");
+
 	style = g_strconcat ("background-color: ", color_value, ";", NULL);
 
 	e_web_view_add_css_rule_into_style_sheet (
@@ -599,11 +599,14 @@ style_updated_cb (EWebView *web_view)
 	g_free (color_value);
 	g_free (style);
 
-	gtk_style_context_get_color (
-		style_context,
-		state_flags | GTK_STATE_FLAG_FOCUSED,
-		&color);
-	color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	if (gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
+			&color))
+		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	else
+		color_value = g_strdup("#000000");
+
 	style = g_strconcat ("color: ", color_value, ";", NULL);
 
 	e_web_view_add_css_rule_into_style_sheet (
@@ -611,9 +614,6 @@ style_updated_cb (EWebView *web_view)
 		"-e-web-view-css-sheet",
 		".-e-web-view-text-color",
 		style);
-
-	gtk_widget_path_free (widget_path);
-	g_object_unref (style_context);
 
 	g_free (color_value);
 	g_free (style);
