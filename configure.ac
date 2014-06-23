@@ -45,7 +45,6 @@ m4_define([soup_minimum_version], [2.42])
 m4_define([soup_encoded_version], [SOUP_VERSION_2_42])
 
 m4_define([eds_minimum_version], [evo_version])
-m4_define([gtkhtml_minimum_version], [4.5.2])
 m4_define([gdk_pixbuf_minimum_version], [2.24.0])
 m4_define([gcr_minimum_version], [3.4])
 m4_define([enchant_minimum_version], [1.1.7])
