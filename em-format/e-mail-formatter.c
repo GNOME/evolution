@@ -489,20 +489,21 @@ mail_formatter_update_style (EMailFormatter *formatter,
 	GtkStyleContext *style_context;
 	GtkWidgetPath *widget_path;
 	GdkRGBA rgba;
+	gboolean backdrop;
 
 	g_object_freeze_notify (G_OBJECT (formatter));
 
-	/* derive colors from top-level window */
 	style_context = gtk_style_context_new ();
 	widget_path = gtk_widget_path_new ();
 	gtk_widget_path_append_type (widget_path, GTK_TYPE_WINDOW);
 	gtk_style_context_set_path (style_context, widget_path);
-	gtk_style_context_invalidate (style_context);
+	backdrop = (state & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	gtk_style_context_save (style_context);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_TOOLBAR);
-
-	gtk_style_context_get_background_color (style_context, state, &rgba);
+	if (!gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_bg_color" : "theme_bg_color",
+			&rgba))
+		gdk_rgba_parse (&rgba, "#eeeeee");
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_BODY, &rgba);
 
@@ -512,20 +513,27 @@ mail_formatter_update_style (EMailFormatter *formatter,
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_FRAME, &rgba);
 
-	gtk_style_context_restore (style_context);
-	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_ENTRY);
-
-	gtk_style_context_get_color (style_context, state, &rgba);
+	if (!gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
+			&rgba))
+		gdk_rgba_parse (&rgba, "#000000");
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_HEADER, &rgba);
 
-	gtk_style_context_get_background_color (
-		style_context, state | GTK_STATE_FLAG_FOCUSED, &rgba);
+	if (!gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
+			&rgba))
+		gdk_rgba_parse (&rgba, "#ffffff");
 	e_mail_formatter_set_color  (
 		formatter, E_MAIL_FORMATTER_COLOR_CONTENT, &rgba);
 
-	gtk_style_context_get_color (
-		style_context, state | GTK_STATE_FLAG_FOCUSED, &rgba);
+	if (!gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
+			&rgba))
+		gdk_rgba_parse (&rgba, "#000000");
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_TEXT, &rgba);
 
@@ -605,7 +613,7 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 	gdk_rgba_parse (rgba, "#3f3f3f");
 
 	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_HEADER];
-	gdk_rgba_parse (rgba, "#eeeeee");
+	gdk_rgba_parse (rgba, "#000000");
 
 	rgba = &class->colors[E_MAIL_FORMATTER_COLOR_TEXT];
 	gdk_rgba_parse (rgba, "#000000");
