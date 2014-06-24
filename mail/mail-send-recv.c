@@ -1114,14 +1114,18 @@ receive_update_got_folderinfo (GObject *source_object,
 
 	/* Ignore cancellations. */
 	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (info != NULL);
+		g_warn_if_fail (info == NULL);
 		g_error_free (local_error);
+
+		receive_done (send_info);
 
 	/* XXX Need to hand this off to an EAlertSink. */
 	} else if (local_error != NULL) {
-		g_warn_if_fail (info != NULL);
+		g_warn_if_fail (info == NULL);
 		g_warning ("%s: %s", G_STRFUNC, local_error->message);
 		g_error_free (local_error);
+
+		receive_done (send_info);
 
 	/* CamelFolderInfo may be NULL even if no error occurred. */
 	} else if (info != NULL) {
