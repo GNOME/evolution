@@ -456,9 +456,14 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
   </error>
 
+  <error id="failed-connect" type="warning">
+    <_primary>Failed to connect account &quot;{0}&quot;.</_primary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
+  </error>
+
   <error id="disconnect" type="warning">
     <_primary>Failed to disconnect account &quot;{0}&quot;.</_primary>
-    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+    <_secondary>The reported error was &quot;{1}&quot;.</_secondary>
   </error>
 
   <error id="folder-unsubscribe" type="warning">

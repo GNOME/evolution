@@ -27,6 +27,9 @@
 #include <glib/gi18n.h>
 
 #include <shell/e-shell.h>
+#include <shell/e-shell-content.h>
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window.h>
 #include <e-util/e-util.h>
 
 #include "e-mail-account-store.h"
@@ -426,6 +429,75 @@ format_service_name (CamelService *service)
 	g_free (user);
 
 	return pretty_url;
+}
+
+static void
+report_error_to_ui (CamelService *service,
+		    const gchar *folder_name,
+		    const GError *error)
+{
+	EShellView *shell_view = NULL;
+	gchar *tmp = NULL;
+	const gchar *display_name, *ident;
+
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (error != NULL);
+
+	if (folder_name) {
+		tmp = g_strdup_printf ("%s: %s",
+			camel_service_get_display_name (service),
+			folder_name);
+		display_name = tmp;
+		ident = "mail:no-refresh-folder";
+	} else {
+		display_name = camel_service_get_display_name (service);
+		ident = "mail:failed-connect";
+	}
+
+	if (send_recv_dialog) {
+		GtkWidget *parent;
+
+		parent = gtk_widget_get_parent (send_recv_dialog);
+		if (parent && E_IS_SHELL_WINDOW (parent)) {
+			EShellWindow *shell_window = E_SHELL_WINDOW (parent);
+
+			shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+		}
+	}
+
+	if (!shell_view) {
+		EShell *shell;
+		GtkWindow *active_window;
+
+		shell = e_shell_get_default ();
+		active_window = e_shell_get_active_window (shell);
+
+		if (E_IS_SHELL_WINDOW (active_window)) {
+			EShellWindow *shell_window = E_SHELL_WINDOW (active_window);
+
+			shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+		}
+	}
+
+	if (shell_view) {
+		EShellContent *shell_content;
+		EAlertSink *alert_sink;
+		EAlert *alert;
+
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		alert_sink = E_ALERT_SINK (shell_content);
+
+		alert = e_alert_new (ident, display_name, error->message, NULL);
+
+		e_alert_sink_submit_alert (alert_sink, alert);
+
+		g_object_unref (alert);
+	} else {
+		/* This may not happen, but just in case... */
+		g_warning ("%s: %s '%s': %s\n", G_STRFUNC, ident, display_name, error->message);
+	}
+
+	g_free (tmp);
 }
 
 static send_info_t
@@ -1161,21 +1233,18 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 		if (local_error != NULL) {
 			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-				const gchar *account_name = NULL, *full_name;
+				CamelStore *store = m->store;
+				const gchar *full_name;
 
 				if (folder) {
-					CamelStore *store = camel_folder_get_parent_store (folder);
-
-					account_name = camel_service_get_display_name (CAMEL_SERVICE (store));
+					store = camel_folder_get_parent_store (folder);
 					full_name = camel_folder_get_full_name (folder);
-				} else
+				} else {
+					store = m->store;
 					full_name = (const gchar *) m->folders->pdata[i];
+				}
 
-				g_warning (
-					"Failed to refresh folder '%s%s%s': %s",
-					account_name ? account_name : "",
-					account_name ? ": " : "",
-					full_name, local_error->message);
+				report_error_to_ui (CAMEL_SERVICE (store), full_name, local_error);
 			}
 
 			g_clear_error (&local_error);
@@ -1250,7 +1319,7 @@ receive_update_got_folderinfo (GObject *source_object,
 	/* XXX Need to hand this off to an EAlertSink. */
 	} else if (local_error != NULL) {
 		g_warn_if_fail (info == NULL);
-		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		report_error_to_ui (send_info->service, NULL, local_error);
 		g_error_free (local_error);
 
 		receive_done (send_info);
