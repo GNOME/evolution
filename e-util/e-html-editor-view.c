@@ -2752,14 +2752,11 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				to_insert + 4 + (with_br - to_insert) : to_insert;
 		}
 
-		if (use_pre) {
-			paragraph = webkit_dom_document_create_element (
-				document, "pre", NULL);
-		} else {
+		if (use_pre)
+			paragraph = webkit_dom_document_create_element (document, "pre", NULL);
+		else
 			paragraph = e_html_editor_selection_get_paragraph_element (
-				e_html_editor_view_get_selection (view),
-				document, -1, 0);
-		}
+				e_html_editor_view_get_selection (view), document, -1, 0);
 
 		if (with_br && !*rest && !citation &&!local_ignore_next_br) {
 			WebKitDOMNode *paragraph_clone;
@@ -2847,26 +2844,51 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	}
 
 	if (g_utf8_strlen (prev_br, -1) > 0 && (g_strcmp0 (prev_br, "<br>") != 0)) {
+		gchar *truncated = g_strdup (
+			g_str_has_prefix (prev_br, "<br>") ? prev_br + 4 : prev_br);
+		gchar *rest_to_insert;
 		WebKitDOMElement *paragraph;
 
-		if (use_pre) {
-			paragraph = webkit_dom_document_create_element (
-				document, "pre", NULL);
-		} else {
+		if (use_pre)
+			paragraph = webkit_dom_document_create_element (document, "pre", NULL);
+		else
 			paragraph = e_html_editor_selection_get_paragraph_element (
-				e_html_editor_view_get_selection (view),
-				document, -1, 0);
+				e_html_editor_view_get_selection (view), document, -1, 0);
+
+		g_strchomp (truncated);
+
+		rest_to_insert = g_regex_replace_eval (
+			regex_nbsp, truncated, -1, 0, 0, replace_to_nbsp, NULL, NULL);
+		g_free (truncated);
+
+		if (strstr (rest_to_insert, "http") ||
+		    strstr (rest_to_insert, "ftp") ||
+		    strstr (rest_to_insert, "@")) {
+			truncated = g_regex_replace_eval (
+				regex_links,
+				rest_to_insert,
+				-1,
+				0,
+				0,
+				create_anchor_for_link,
+				NULL,
+				NULL);
+
+			g_free (rest_to_insert);
+			rest_to_insert = truncated;
 		}
 
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (paragraph),
-			g_str_has_prefix (prev_br, "<br>") ? prev_br + 4 : prev_br,
+			rest_to_insert,
 			NULL);
 
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (blockquote),
 			WEBKIT_DOM_NODE (paragraph),
 			NULL);
+
+		g_free (rest_to_insert);
 	}
 
 	/* Replace text markers with actual HTML blockquotes */
