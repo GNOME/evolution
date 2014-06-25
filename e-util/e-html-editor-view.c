@@ -2766,7 +2766,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (paragraph_clone),
-				"&nbsp;",
+				"<br>",
 				NULL);
 
 			webkit_dom_node_append_child (
@@ -2824,7 +2824,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (paragraph),
-				rest_to_insert,
+				*rest_to_insert ? rest_to_insert : "<br>",
 				NULL);
 
 			webkit_dom_node_append_child (
@@ -2880,7 +2880,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (paragraph),
-			rest_to_insert,
+			*rest_to_insert ? rest_to_insert : "<br>",
 			NULL);
 
 		webkit_dom_node_append_child (
@@ -5045,6 +5045,10 @@ process_elements (EHTMLEditorView *view,
 
 		gboolean add_br = TRUE;
 		WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
+		WebKitDOMNode *last_child = webkit_dom_node_get_last_child (node);
+
+		if (last_child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (last_child))
+			add_br = FALSE;
 
 		/* If we don't have next sibling (last element in body) or next element is
 		 * signature we are not adding the BR element */
