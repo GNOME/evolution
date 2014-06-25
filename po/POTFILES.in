@@ -228,6 +228,7 @@ e-util/e-filter-rule.c
 e-util/e-focus-tracker.c
 e-util/e-html-editor-actions.c
 e-util/e-html-editor-cell-dialog.c
+e-util/e-html-editor-dialog.c
 e-util/e-html-editor-find-dialog.c
 e-util/e-html-editor-hrule-dialog.c
 e-util/e-html-editor-image-dialog.c
@@ -240,6 +241,7 @@ e-util/e-html-editor-table-dialog.c
 e-util/e-html-editor-text-dialog.c
 e-util/e-html-editor-view.c
 e-util/e-html-editor.c
+e-util/e-image-chooser-dialog.c
 e-util/e-image-chooser.c
 e-util/e-import-assistant.c
 e-util/e-interval-chooser.c
