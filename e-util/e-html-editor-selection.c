@@ -3943,6 +3943,22 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	g_object_unref (view);
 }
 
+void
+e_html_editor_selection_insert_as_text (EHTMLEditorSelection *selection,
+                                        const gchar *html_text)
+{
+	EHTMLEditorView *view;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+	g_return_if_fail (html_text != NULL);
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	e_html_editor_view_convert_and_insert_html_to_plain_text (view, html_text);
+
+	g_object_unref (view);
+}
 
 /************************* image_load_and_insert_async() *************************/
 

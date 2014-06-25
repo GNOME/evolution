@@ -705,6 +705,16 @@ action_paste_cb (GtkAction *action,
 }
 
 static void
+action_paste_as_text_cb (GtkAction *action,
+                         EHTMLEditor *editor)
+{
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	e_html_editor_view_paste_as_text (view);
+	e_html_editor_view_force_spell_check (view);
+}
+
+static void
 action_paste_quote_cb (GtkAction *action,
                        EHTMLEditor *editor)
 {
@@ -1337,6 +1347,14 @@ static GtkActionEntry html_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL },
+
+	{ "paste-as-text",
+	  NULL,
+	  N_("Paste As _Text"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_paste_as_text_cb) },
+
 };
 
 static GtkToggleActionEntry html_toggle_entries[] = {

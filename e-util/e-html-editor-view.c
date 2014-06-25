@@ -1589,6 +1589,21 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 }
 
 static void
+clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
+                                           const gchar *text,
+                                           EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+
+	if (!text || !*text)
+		return;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	e_html_editor_selection_insert_as_text (selection, text);
+}
+
+static void
 clipboard_text_received (GtkClipboard *clipboard,
                          const gchar *text,
                          EHTMLEditorView *view)
@@ -2270,6 +2285,21 @@ html_editor_view_key_release_event (GtkWidget *widget,
 	/* Chain up to parent's key_release_event() method. */
 	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
 		key_release_event (widget, event);
+}
+
+static void
+html_editor_view_paste_as_text (EHTMLEditorView *view)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get_for_display (
+		gdk_display_get_default (),
+		GDK_SELECTION_CLIPBOARD);
+
+	gtk_clipboard_request_text (
+		clipboard,
+		(GtkClipboardTextReceivedFunc) clipboard_text_received_for_paste_as_text,
+		view);
 }
 
 static void
@@ -6040,6 +6070,20 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
 
 	webkit_web_view_load_string (
 		WEBKIT_WEB_VIEW (view), text, "text/plain", NULL, "file://");
+}
+
+/**
+ * e_html_editor_view_paste_as_text:
+ * @view: an #EHTMLEditorView
+ *
+ * Pastes current content of clipboard into the editor without formatting
+ */
+void
+e_html_editor_view_paste_as_text (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	html_editor_view_paste_as_text (view);
 }
 
 /**

@@ -12,6 +12,7 @@
       <menuitem action='copy'/>
       <menuitem action='paste'/>
       <menuitem action='paste-quote'/>
+      <menuitem action='paste-as-text'/>
       <separator/>
       <menuitem action='select-all'/>
       <separator/>
@@ -145,6 +146,7 @@
     <menuitem action='copy'/>
     <menuitem action='paste'/>
     <menuitem action='paste-quote'/>
+    <menuitem action='paste-as-text'/>
     <separator/>
     <menuitem action='context-insert-link'/>
     <menuitem action='context-remove-link'/>

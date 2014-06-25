@@ -130,6 +130,8 @@ void		e_html_editor_view_set_text_html
 void		e_html_editor_view_set_text_plain
 						(EHTMLEditorView *view,
 						 const gchar *text);
+void		e_html_editor_view_paste_as_text
+						(EHTMLEditorView *view);
 void		e_html_editor_view_paste_clipboard_quoted
 						(EHTMLEditorView *view);
 void		e_html_editor_view_embed_styles	(EHTMLEditorView *view);

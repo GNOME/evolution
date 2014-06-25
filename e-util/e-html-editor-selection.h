@@ -165,7 +165,13 @@ const gchar *	e_html_editor_selection_get_string
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_replace	(EHTMLEditorSelection *selection,
 						 const gchar *new_string);
+void		e_html_editor_selection_insert_text
+						(EHTMLEditorSelection *selection,
+						 const gchar *plain_text);
 void		e_html_editor_selection_insert_html
+						(EHTMLEditorSelection *selection,
+						 const gchar *html_text);
+void		e_html_editor_selection_insert_as_text
 						(EHTMLEditorSelection *selection,
 						 const gchar *html_text);
 void		e_html_editor_selection_replace_image_src
@@ -175,9 +181,6 @@ void		e_html_editor_selection_replace_image_src
 void		e_html_editor_selection_insert_image
 						(EHTMLEditorSelection *selection,
 						 const gchar *image_uri);
-void		e_html_editor_selection_insert_text
-						(EHTMLEditorSelection *selection,
-						 const gchar *plain_text);
 void 		e_html_editor_selection_clear_caret_position_marker
 						(EHTMLEditorSelection *selection);
 WebKitDOMNode *
