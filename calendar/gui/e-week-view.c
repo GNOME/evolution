@@ -4767,6 +4767,14 @@ e_week_view_show_popup_menu (EWeekView *week_view,
                              GdkEvent *button_event,
                              gint event_num)
 {
+	guint timeout;
+
+	timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (week_view), "tooltip-timeout"));
+	if (timeout) {
+		g_source_remove (timeout);
+		g_object_set_data (G_OBJECT (week_view), "tooltip-timeout", NULL);
+	}
+
 	week_view->popup_event_num = event_num;
 
 	e_calendar_view_popup_event (E_CALENDAR_VIEW (week_view), button_event);

@@ -1907,26 +1907,31 @@ e_calendar_view_send (ECalendarView *cal_view,
 		g_object_unref (send_comp);
 }
 
-static gboolean
-tooltip_grab (GtkWidget *tooltip,
-              GdkEvent *key_event,
-              ECalendarView *view)
+static void
+tooltip_ungrab (ECalendarView *view,
+		guint32 event_time)
 {
-	GtkWidget *widget;
 	GdkDevice *keyboard;
-	guint32 event_time;
-
-	widget = g_object_get_data (G_OBJECT (view), "tooltip-window");
-	if (widget == NULL)
-		return TRUE;
-
-	event_time = gdk_event_get_time (key_event);
 
 	while (!g_queue_is_empty (&view->priv->grabbed_keyboards)) {
 		keyboard = g_queue_pop_head (&view->priv->grabbed_keyboards);
 		gdk_device_ungrab (keyboard, event_time);
 		g_object_unref (keyboard);
 	}
+}
+
+static gboolean
+tooltip_key_event (GtkWidget *tooltip,
+		   GdkEvent *key_event,
+		   ECalendarView *view)
+{
+	GtkWidget *widget;
+
+	widget = g_object_get_data (G_OBJECT (view), "tooltip-window");
+	if (widget == NULL)
+		return TRUE;
+
+	tooltip_ungrab (view, gdk_event_get_time (key_event));
 
 	gtk_widget_destroy (widget);
 	g_object_set_data (G_OBJECT (view), "tooltip-window", NULL);
@@ -1991,6 +1996,16 @@ e_calendar_view_move_tip (GtkWidget *widget,
 
 	gtk_window_move (GTK_WINDOW (widget), x, y);
 	gtk_widget_show (widget);
+}
+
+static void
+tooltip_window_destroyed_cb (gpointer user_data,
+			     GObject *gone)
+{
+	ECalendarView *view = user_data;
+
+	tooltip_ungrab (view, GDK_CURRENT_TIME);
+	g_object_unref (view);
 }
 
 /*
@@ -2237,9 +2252,10 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	g_signal_connect (
 		pevent->tooltip, "key-press-event",
-		G_CALLBACK (tooltip_grab), data->cal_view);
+		G_CALLBACK (tooltip_key_event), data->cal_view);
 	pevent->timeout = -1;
 
+	g_object_weak_ref (G_OBJECT (pevent->tooltip), tooltip_window_destroyed_cb, g_object_ref (data->cal_view));
 	g_object_set_data (G_OBJECT (data->cal_view), "tooltip-window", pevent->tooltip);
 	g_object_unref (newcomp);
 
