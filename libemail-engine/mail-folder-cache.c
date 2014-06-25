@@ -386,7 +386,8 @@ store_info_insert_folder_info (StoreInfo *store_info,
 
 	folder_info_ht = store_info->folder_info_ht;
 
-	g_hash_table_insert (
+	/* Replace both key and value, because the key gets freed as soon as the value */
+	g_hash_table_replace (
 		folder_info_ht,
 		folder_info->full_name,
 		folder_info_ref (folder_info));
