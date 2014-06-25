@@ -5681,11 +5681,34 @@ e_html_editor_selection_move (EHTMLEditorSelection *selection,
 void
 e_html_editor_selection_scroll_to_caret (EHTMLEditorSelection *selection)
 {
+	glong element_top, element_left;
+	glong window_top, window_left, window_right, window_bottom;
+	EHTMLEditorView *view;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
 	WebKitDOMElement *caret;
 
 	caret = e_html_editor_selection_save_caret_position (selection);
 
-	webkit_dom_element_scroll_into_view (caret, TRUE);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	g_object_unref (view);
+
+	window = webkit_dom_document_get_default_view (document);
+
+	window_top = webkit_dom_dom_window_get_scroll_y (window);
+	window_left = webkit_dom_dom_window_get_scroll_x (window);
+	window_bottom = window_top + webkit_dom_dom_window_get_inner_height (window);
+	window_right = window_left + webkit_dom_dom_window_get_inner_width (window);
+
+	element_left = webkit_dom_element_get_offset_left (caret);
+	element_top = webkit_dom_element_get_offset_top (caret);
+
+	/* Check if caret is inside viewport, if not move to it */
+	if (!(element_top >= window_top && element_top <= window_bottom &&
+	     element_left >= window_left && element_left <= window_right)) {
+		webkit_dom_element_scroll_into_view (caret, TRUE);
+	}
 
 	e_html_editor_selection_clear_caret_position_marker (selection);
 }
