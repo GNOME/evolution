@@ -696,24 +696,22 @@ action_paste_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	/* Paste only if WebView has focus */
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
-		webkit_web_view_paste_clipboard (
-			WEBKIT_WEB_VIEW (view));
+	/* If WebView doesn't have focus, focus it */
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
 
-		e_html_editor_view_force_spell_check (view);
-	}
+	webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (view));
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
 action_paste_quote_cb (GtkAction *action,
                        EHTMLEditor *editor)
 {
-	e_html_editor_view_paste_clipboard_quoted (
-		e_html_editor_get_view (editor));
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	e_html_editor_view_force_spell_check (
-		e_html_editor_get_view (editor));
+	e_html_editor_view_paste_clipboard_quoted (view);
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
@@ -961,7 +959,7 @@ static GtkActionEntry core_entries[] = {
 	{ "paste",
 	  "edit-paste",
 	  N_("_Paste"),
-	  "<Control>v",
+	  NULL, /* Widgets are treating Ctrl + v shortcut themselves */
 	  N_("Paste text from the clipboard"),
 	  G_CALLBACK (action_paste_cb) },
 
