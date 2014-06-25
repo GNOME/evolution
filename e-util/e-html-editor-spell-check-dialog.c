@@ -31,6 +31,8 @@
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"
 
+#include "e-dialog-widgets.h"
+
 #define E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_SPELL_CHECK_DIALOG, EHTMLEditorSpellCheckDialogPrivate))
@@ -531,11 +533,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 	gtk_grid_attach (main_layout, widget, 0, 1, 1, 5);
 
 	/* Replace */
-	widget = gtk_button_new_with_mnemonic (_("Replace"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_CONVERT, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("edit-find-replace", _("Replace"));
 	gtk_grid_attach (main_layout, widget, 1, 1, 1, 1);
 	dialog->priv->replace_button = widget;
 
@@ -545,10 +543,6 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 
 	/* Replace All */
 	widget = gtk_button_new_with_mnemonic (_("Replace All"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON));
 	gtk_grid_attach (main_layout, widget, 1, 2, 1, 1);
 	dialog->priv->replace_all_button = widget;
 
@@ -557,11 +551,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 		G_CALLBACK (html_editor_spell_check_dialog_replace_all), dialog);
 
 	/* Ignore */
-	widget = gtk_button_new_with_mnemonic (_("Ignore"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_CLEAR, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("edit-clear", _("Ignore"));
 	gtk_grid_attach (main_layout, widget, 1, 3, 1, 1);
 	dialog->priv->ignore_button = widget;
 
@@ -570,11 +560,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 		G_CALLBACK (html_editor_spell_check_dialog_ignore), dialog);
 
 	/* Skip */
-	widget = gtk_button_new_with_mnemonic (_("Skip"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("go-next", _("Skip"));
 	gtk_grid_attach (main_layout, widget, 1, 4, 1, 1);
 	dialog->priv->skip_button = widget;
 
@@ -583,11 +569,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 		G_CALLBACK (html_editor_spell_check_dialog_next), dialog);
 
 	/* Back */
-	widget = gtk_button_new_with_mnemonic (_("Back"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("go-previous", _("Back"));
 	gtk_grid_attach (main_layout, widget, 1, 5, 1, 1);
 
 	g_signal_connect_swapped (
@@ -616,11 +598,7 @@ e_html_editor_spell_check_dialog_init (EHTMLEditorSpellCheckDialog *dialog)
 		G_CALLBACK (html_editor_spell_check_dialog_set_dictionary), dialog);
 
 	/* Add Word button */
-	widget = gtk_button_new_with_mnemonic (_("Add Word"));
-	gtk_button_set_image (
-		GTK_BUTTON (widget),
-		gtk_image_new_from_stock (
-			GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+	widget = e_dialog_button_new_with_icon ("list-add", _("Add word"));
 	gtk_grid_attach (main_layout, widget, 1, 7, 1, 1);
 	dialog->priv->add_word_button = widget;
 

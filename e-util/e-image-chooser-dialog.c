@@ -18,6 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <glib/gi18n-lib.h>
+
 #include "e-image-chooser-dialog.h"
 
 #define E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE(obj) \
@@ -159,10 +165,10 @@ image_chooser_dialog_constructed (GObject *object)
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (file_chooser),
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (
 		GTK_DIALOG (file_chooser),
-		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT);
+		_("_Open"), GTK_RESPONSE_ACCEPT);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (file_chooser), GTK_RESPONSE_ACCEPT);
 

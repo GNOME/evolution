@@ -1169,7 +1169,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	info_pixmap = e_builder_get_widget (prefs->builder, "pixmapSpellInfo");
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (info_pixmap),
-		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
+		"dialog-information", GTK_ICON_SIZE_BUTTON);
 
 	spell_setup (prefs);
 

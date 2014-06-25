@@ -469,8 +469,8 @@ action_insert_html_file_cb (GtkToggleAction *action,
 	dialog = gtk_file_chooser_dialog_new (
 		_("Insert HTML File"), NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("HTML file"));
@@ -562,8 +562,8 @@ action_insert_text_file_cb (GtkAction *action,
 	dialog = gtk_file_chooser_dialog_new (
 		_("Insert text file"), NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Text file"));
@@ -924,21 +924,21 @@ action_show_webkit_inspector_cb (GtkAction *action,
 static GtkActionEntry core_entries[] = {
 
 	{ "copy",
-	  GTK_STOCK_COPY,
+	  "edit-copy",
 	  N_("_Copy"),
 	  "<Control>c",
 	  N_("Copy selected text to the clipboard"),
 	  G_CALLBACK (action_copy_cb) },
 
 	{ "cut",
-	  GTK_STOCK_CUT,
+	  "edit-cut",
 	  N_("Cu_t"),
 	  "<Control>x",
 	  N_("Cut selected text to the clipboard"),
 	  G_CALLBACK (action_cut_cb) },
 
 	{ "indent",
-	  GTK_STOCK_INDENT,
+	  "format-indent-more",
 	  N_("_Increase Indent"),
 	  "<Control>bracketright",
 	  N_("Increase Indent"),
@@ -959,7 +959,7 @@ static GtkActionEntry core_entries[] = {
 	  G_CALLBACK (action_insert_text_file_cb) },
 
 	{ "paste",
-	  GTK_STOCK_PASTE,
+	  "edit-paste",
 	  N_("_Paste"),
 	  "<Control>v",
 	  N_("Paste text from the clipboard"),
@@ -973,21 +973,21 @@ static GtkActionEntry core_entries[] = {
 	  G_CALLBACK (action_paste_quote_cb) },
 
 	{ "redo",
-	  GTK_STOCK_REDO,
+	  "edit-redo",
 	  N_("_Redo"),
 	  "<Shift><Control>z",
 	  N_("Redo the last undone action"),
 	  G_CALLBACK (action_redo_cb) },
 
 	{ "select-all",
-	  GTK_STOCK_SELECT_ALL,
+	  "edit-select-all",
 	  N_("Select _All"),
 	  "<Control>a",
 	  NULL,
 	  G_CALLBACK (action_select_all_cb) },
 
 	{ "show-find",
-	  GTK_STOCK_FIND,
+	  "edit-find",
 	  N_("_Find..."),
 	  "<Control>f",
 	  N_("Search for text"),
@@ -1001,28 +1001,28 @@ static GtkActionEntry core_entries[] = {
 	  G_CALLBACK (action_find_again_cb) },
 
 	{ "show-replace",
-	  GTK_STOCK_FIND_AND_REPLACE,
+	  "edit-find-replace",
 	  N_("Re_place..."),
 	  "<Control>h",
 	  N_("Search for and replace text"),
 	  G_CALLBACK (action_show_replace_cb) },
 
 	{ "spell-check",
-	  GTK_STOCK_SPELL_CHECK,
+	  "tools-check-spelling",
 	  N_("Check _Spelling..."),
 	  "F7",
 	  NULL,
 	  G_CALLBACK (action_spell_check_cb) },
 
 	{ "undo",
-	  GTK_STOCK_UNDO,
+	  "edit-undo",
 	  N_("_Undo"),
 	  "<Control>z",
 	  N_("Undo the last action"),
 	  G_CALLBACK (action_undo_cb) },
 
 	{ "unindent",
-	  GTK_STOCK_UNINDENT,
+	  "format-indent-less",
 	  N_("_Decrease Indent"),
 	  "<Control>bracketleft",
 	  N_("Decrease Indent"),
@@ -1104,21 +1104,21 @@ static GtkActionEntry core_entries[] = {
 static GtkRadioActionEntry core_justify_entries[] = {
 
 	{ "justify-center",
-	  GTK_STOCK_JUSTIFY_CENTER,
+	  "format-justify-center",
 	  N_("_Center"),
 	  "<Control>e",
 	  N_("Center Alignment"),
 	  E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER },
 
 	{ "justify-left",
-	  GTK_STOCK_JUSTIFY_LEFT,
+	  "format-justify-left",
 	  N_("_Left"),
 	  "<Control>l",
 	  N_("Left Alignment"),
 	  E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT },
 
 	{ "justify-right",
-	  GTK_STOCK_JUSTIFY_RIGHT,
+	  "format-justify-right",
 	  N_("_Right"),
 	  "<Control>r",
 	  N_("Right Alignment"),
@@ -1344,7 +1344,7 @@ static GtkActionEntry html_entries[] = {
 static GtkToggleActionEntry html_toggle_entries[] = {
 
 	{ "bold",
-	  GTK_STOCK_BOLD,
+	  "format-text-bold",
 	  N_("_Bold"),
 	  "<Control>b",
 	  N_("Bold"),
@@ -1352,7 +1352,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  FALSE },
 
 	{ "italic",
-	  GTK_STOCK_ITALIC,
+	  "format-text-italic",
 	  N_("_Italic"),
 	  "<Control>i",
 	  N_("Italic"),
@@ -1368,7 +1368,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  FALSE },
 
 	{ "strikethrough",
-	  GTK_STOCK_STRIKETHROUGH,
+	  "format-text-strikethrough",
 	  N_("_Strikethrough"),
 	  NULL,
 	  N_("Strikethrough"),
@@ -1376,7 +1376,7 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  FALSE },
 
 	{ "underline",
-	  GTK_STOCK_UNDERLINE,
+	  "format-text-underline",
 	  N_("_Underline"),
 	  "<Control>u",
 	  N_("Underline"),

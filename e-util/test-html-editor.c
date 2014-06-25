@@ -93,8 +93,8 @@ save_dialog (EHTMLEditor *editor)
 		_("Save As"),
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))),
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_ACCEPT,
 		NULL);
 
 	gtk_file_chooser_set_do_overwrite_confirmation (
@@ -141,7 +141,7 @@ view_source_dialog (EHTMLEditor *editor,
 		title,
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+		_("_Close"), GTK_RESPONSE_CLOSE,
 		NULL);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -296,35 +296,35 @@ action_view_inspector (GtkAction *action,
 static GtkActionEntry file_entries[] = {
 
 	{ "print",
-	  GTK_STOCK_PRINT,
+	  "document-print",
 	  N_("_Print..."),
-	  NULL,
+	  "<Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_cb) },
 
 	{ "print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
+	  "document-print-preview",
 	  N_("Print Pre_view"),
-	  NULL,
+	  "<Control><Shift>p",
 	  NULL,
 	  G_CALLBACK (action_print_preview_cb) },
 
 	{ "quit",
-	  GTK_STOCK_QUIT,
+	  "application-exit",
 	  N_("_Quit"),
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_quit_cb) },
 
 	{ "save",
-	  GTK_STOCK_SAVE,
+	  "document-save",
 	  N_("_Save"),
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_save_cb) },
 
 	{ "save-as",
-	  GTK_STOCK_SAVE_AS,
+	  "document-save-as",
 	  N_("Save _As..."),
 	  NULL,
 	  NULL,

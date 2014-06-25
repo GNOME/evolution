@@ -22,7 +22,10 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n-lib.h>
+
 #include "e-html-editor-dialog.h"
+#include "e-dialog-widgets.h"
 
 #define E_HTML_EDITOR_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -190,7 +193,7 @@ e_html_editor_dialog_init (EHTMLEditorDialog *dialog)
 	dialog->priv->container = grid;
 
 	/* == Button box == */
-	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
+	widget = e_dialog_button_new_with_icon ("window-close", _("_Close"));
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (gtk_widget_hide), dialog);

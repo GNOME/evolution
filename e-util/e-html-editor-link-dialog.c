@@ -367,7 +367,7 @@ e_html_editor_link_dialog_init (EHTMLEditorLinkDialog *dialog)
 	gtk_box_pack_start (button_box, widget, FALSE, FALSE, 5);
 	dialog->priv->remove_link_button = widget;
 
-	widget = gtk_button_new_from_stock (GTK_STOCK_OK);
+	widget = gtk_button_new_with_mnemonic (_("_OK"));
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (html_editor_link_dialog_ok), dialog);

@@ -23,6 +23,7 @@
 #endif
 
 #include "e-html-editor-find-dialog.h"
+#include "e-dialog-widgets.h"
 
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
@@ -191,7 +192,7 @@ e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
 	box = GTK_BOX (widget);
 
 	box = e_html_editor_dialog_get_button_box (E_HTML_EDITOR_DIALOG (dialog));
-	widget = gtk_button_new_from_stock (GTK_STOCK_FIND);
+	widget = e_dialog_button_new_with_icon ("edit-find", _("_Find"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -208,7 +209,7 @@ e_html_editor_find_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_FIND_DIALOG,
 			"editor", editor,
-			"icon-name", GTK_STOCK_FIND,
+			"icon-name", "edit-find",
 			"title", N_("Find"),
 			NULL));
 }

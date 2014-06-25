@@ -278,7 +278,7 @@ e_html_editor_replace_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_REPLACE_DIALOG,
 			"editor", editor,
-			"icon-name", GTK_STOCK_FIND_AND_REPLACE,
+			"icon-name", "edit-find-replace",
 			"resizable", FALSE,
 			"title", N_("Replace"),
 			"transient-for", gtk_widget_get_toplevel (GTK_WIDGET (editor)),

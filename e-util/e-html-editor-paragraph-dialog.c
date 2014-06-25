@@ -95,7 +95,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Left */
-	widget = gtk_toggle_button_new_with_label (GTK_STOCK_JUSTIFY_LEFT);
+	widget = gtk_toggle_button_new_with_label (_("_Left"));
 	gtk_button_set_use_stock (GTK_BUTTON (widget), TRUE);
 	gtk_activatable_set_related_action (
 		GTK_ACTIVATABLE (widget),
@@ -104,7 +104,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	dialog->priv->left_button = widget;
 
 	/* Center */
-	widget = gtk_toggle_button_new_with_label (GTK_STOCK_JUSTIFY_CENTER);
+	widget = gtk_toggle_button_new_with_label (_("_Center"));
 	gtk_button_set_use_stock (GTK_BUTTON (widget), TRUE);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	gtk_activatable_set_related_action (
@@ -113,7 +113,7 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	dialog->priv->center_button = widget;
 
 	/* Right */
-	widget = gtk_toggle_button_new_with_label (GTK_STOCK_JUSTIFY_RIGHT);
+	widget = gtk_toggle_button_new_with_label (_("_Right"));
 	gtk_button_set_use_stock (GTK_BUTTON (widget), TRUE);
 	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
 	gtk_activatable_set_related_action (
