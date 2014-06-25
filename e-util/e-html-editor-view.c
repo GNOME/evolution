@@ -5394,19 +5394,20 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 
 		first_child = webkit_dom_node_get_first_child (
 			WEBKIT_DOM_NODE (element));
-
-		if (!webkit_dom_node_has_child_nodes (first_child)) {
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (first_child),
-				UNICODE_ZERO_WIDTH_SPACE,
+		if (first_child) {
+			if (!webkit_dom_node_has_child_nodes (first_child)) {
+				webkit_dom_html_element_set_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (first_child),
+					UNICODE_ZERO_WIDTH_SPACE,
+					NULL);
+			}
+			webkit_dom_node_insert_before (
+				first_child,
+				e_html_editor_selection_get_caret_position_node (
+					document),
+				webkit_dom_node_get_first_child (first_child),
 				NULL);
 		}
-		webkit_dom_node_insert_before (
-			first_child,
-			e_html_editor_selection_get_caret_position_node (
-				document),
-			webkit_dom_node_get_first_child (first_child),
-			NULL);
 
 		*wrap = TRUE;
 	}
