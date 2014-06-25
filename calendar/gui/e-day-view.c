@@ -465,6 +465,7 @@ static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
 static void tooltip_destroy (EDayView *day_view, GnomeCanvasItem *item);
+static EDayViewEvent *tooltip_get_view_event (EDayView *day_view, gint day, gint event_num);
 
 enum {
 	PROP_0,
@@ -4488,7 +4489,10 @@ e_day_view_show_popup_menu (EDayView *day_view,
                             gint day,
                             gint event_num)
 {
-	tooltip_destroy (day_view, NULL);
+	EDayViewEvent *pevent = tooltip_get_view_event (day_view, day, event_num);
+
+	if (pevent && pevent->canvas_item)
+		tooltip_destroy (day_view, pevent->canvas_item);
 
 	day_view->popup_event_day = day;
 	day_view->popup_event_num = event_num;
