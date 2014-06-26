@@ -63,61 +63,6 @@ struct _EContactPrintContext
 	GSList *contact_list;
 };
 
-/* TODO refactor phone_type
- * to avoid build dependency loop, code related to phone types was copied from e-contact-editor.c
- * once e-contact offers some kind of "translation service" code should be removed from here.
- */
-static struct {
-	EContactField field_id;
-	const gchar *type_1;
-	const gchar *type_2;
-} phones[] = {
-	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL    },
-	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE" },
-	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX"   },
-	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,        NULL    },
-	{ E_CONTACT_PHONE_CAR,          "CAR",                 NULL    },
-	{ E_CONTACT_PHONE_COMPANY,      "X-EVOLUTION-COMPANY", NULL    },
-	{ E_CONTACT_PHONE_HOME,         "HOME",                "VOICE" },
-	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",                "FAX"   },
-	{ E_CONTACT_PHONE_ISDN,         "ISDN",                NULL    },
-	{ E_CONTACT_PHONE_MOBILE,       "CELL",                NULL    },
-	{ E_CONTACT_PHONE_OTHER,        "VOICE",               NULL    },
-	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",                 NULL    },
-	{ E_CONTACT_PHONE_PAGER,        "PAGER",               NULL    },
-	{ E_CONTACT_PHONE_PRIMARY,      "PREF",                NULL    },
-	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,           NULL    },
-	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,           NULL    },
-	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,          NULL    }
-};
-
-static gint
-get_phone_type (EVCardAttribute *attr)
-{
-	gint i;
-
-	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
-		if (e_vcard_attribute_has_type (attr, phones[i].type_1) &&
-		    (phones[i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones[i].type_2)))
-			return i;
-	}
-
-	return -1;
-}
-
-static gint
-get_phone_type_field_id (EVCardAttribute *attr)
-{
-	gint type_index;
-
-	type_index = get_phone_type (attr);
-
-	if (type_index >= 0)
-		return phones [type_index].field_id;
-	else
-		return -1;
-}
-
 static gdouble
 get_font_height (PangoFontDescription *desc)
 {
@@ -458,15 +403,14 @@ print_emails (EContact *contact,
 		EVCardAttribute *attr = l->data;
 		gchar *email_address;
 		gchar *formatted_email;
-		gchar *pretty_name;
+		const gchar *pretty_name;
 
 		email_address = e_vcard_attribute_get_value (attr);
 		formatted_email = format_email (email_address);
-		pretty_name = g_strdup_printf ("%s %2d", N_ ("Email"), i);
+		pretty_name = eab_get_email_label_text (attr);
 
 		print_line (ctxt, pretty_name, formatted_email);
 
-		g_free (pretty_name);
 		g_free (email_address);
 		g_free (formatted_email);
 	}
@@ -485,16 +429,10 @@ print_phones (EContact *contact,
 	for (l = phones; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		gchar *phone;
-		gint field_id;
 		const gchar *pretty_name;
 
 		phone = e_vcard_attribute_get_value (attr);
-		field_id = get_phone_type_field_id (attr);
-		if (field_id >= 0) {
-			pretty_name = e_contact_pretty_name (field_id);
-		} else {
-			pretty_name = N_ ("unknown phone type");
-		}
+		pretty_name = eab_get_phone_label_text (attr);
 		print_line (ctxt, pretty_name, phone);
 
 		g_free (phone);

@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 #include "addressbook/gui/widgets/eab-contact-display.h"
+#include "addressbook/util/eab-book-util.h"
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include <glib/gi18n.h>
@@ -350,7 +351,7 @@ create_dropdowns_for_multival_attr(GList *match_attr_list,
                                    GList **use_attr_list,
                                    gint *row,
                                    GtkTable *table,
-                                   gchar *label_str)
+                                   const gchar * (*label_str) (EVCardAttribute*) )
 {
 	GtkWidget *label, *hbox, *dropdown;
 	GList *miter, *citer;
@@ -389,7 +390,7 @@ create_dropdowns_for_multival_attr(GList *match_attr_list,
 				e_vcard_attribute_remove_param (attr, EVOLUTION_UI_SLOT_PARAM);
 
 				(*row)++;
-				label = gtk_label_new (label_str);
+				label = gtk_label_new (label_str (attr));
 				hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget *) label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *) hbox, 0, 1, *row, *row + 1);
@@ -530,25 +531,25 @@ mergeit (EContactMergingLookup *lookup)
 	contact_email_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_EMAIL);
 	use_email_attr_list = NULL;
 	create_dropdowns_for_multival_attr (match_email_attr_list, contact_email_attr_list,
-	                                   &use_email_attr_list, &row, table, _("Email"));
+	                                   &use_email_attr_list, &row, table, eab_get_email_label_text);
 
 	match_tel_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_TEL);
 	contact_tel_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_TEL);
 	use_tel_attr_list = NULL;
 	create_dropdowns_for_multival_attr (match_tel_attr_list, contact_tel_attr_list,
-	                                   &use_tel_attr_list, &row, table, _("Phone"));
+	                                   &use_tel_attr_list, &row, table, eab_get_phone_label_text);
 
 	match_sip_attr_list = e_contact_get_attributes (lookup->match, E_CONTACT_SIP);
 	contact_sip_attr_list = e_contact_get_attributes (lookup->contact, E_CONTACT_SIP);
 	use_sip_attr_list = NULL;
 	create_dropdowns_for_multival_attr (match_sip_attr_list, contact_sip_attr_list,
-	                                   &use_sip_attr_list, &row, table, _("SIP"));
+	                                   &use_sip_attr_list, &row, table, eab_get_sip_label_text);
 
 	match_im_attr_list = e_contact_get_attributes_set (lookup->match, im_fetch_set, G_N_ELEMENTS (im_fetch_set));
 	contact_im_attr_list = e_contact_get_attributes_set (lookup->contact, im_fetch_set, G_N_ELEMENTS (im_fetch_set));
 	use_im_attr_list = NULL;
 	create_dropdowns_for_multival_attr (match_im_attr_list, contact_im_attr_list,
-	                                   &use_im_attr_list, &row, table, _("IM"));
+	                                   &use_im_attr_list, &row, table, eab_get_im_label_text);
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 420, 300);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), GTK_WIDGET (table));

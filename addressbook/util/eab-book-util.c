@@ -24,10 +24,244 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n.h>
 #include <string.h>
 
 #include "e-util/e-util.h"
 #include "eab-book-util.h"
+
+static EABTypeLabel
+email_types[] =
+{
+	{ -1, "WORK",  NULL, N_ ("Work Email")  },
+	{ -1, "HOME",  NULL, N_ ("Home Email")  },
+	{ -1, "OTHER", NULL, N_ ("Other Email") }
+};
+
+static EABTypeLabel
+sip_types[] =
+{
+	{ E_CONTACT_SIP, "WORK",  NULL, N_ ("Work SIP")  },
+	{ E_CONTACT_SIP, "HOME",  NULL, N_ ("Home SIP")  },
+	{ E_CONTACT_SIP, "OTHER", NULL, N_ ("Other SIP") }
+};
+
+static EABTypeLabel
+eab_phone_types[] = {
+	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL,    NULL   },
+	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE", NULL   },
+	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX",   NULL   },
+	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,        NULL,    NULL   },
+	{ E_CONTACT_PHONE_CAR,          "CAR",                 NULL,    NULL   },
+	{ E_CONTACT_PHONE_COMPANY,      "X-EVOLUTION-COMPANY", NULL,    NULL   },
+	{ E_CONTACT_PHONE_HOME,         "HOME",                "VOICE", NULL   },
+	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",                "FAX",   NULL   },
+	{ E_CONTACT_PHONE_ISDN,         "ISDN",                NULL,    NULL   },
+	{ E_CONTACT_PHONE_MOBILE,       "CELL",                NULL,    NULL   },
+	{ E_CONTACT_PHONE_OTHER,        "VOICE",               NULL,    NULL   },
+	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",                 NULL,    NULL   },
+	{ E_CONTACT_PHONE_PAGER,        "PAGER",               NULL,    NULL   },
+	{ E_CONTACT_PHONE_PRIMARY,      "PREF",                NULL,    NULL   },
+	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,           NULL,    NULL   },
+	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,           NULL,    NULL   },
+	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,          NULL,    NULL   }
+};
+static gboolean eab_phone_types_init = TRUE;
+
+static EABTypeLabel
+eab_im_service[] =
+{
+	{ E_CONTACT_IM_AIM,         NULL, NULL, N_ ("AIM")       },
+	{ E_CONTACT_IM_JABBER,      NULL, NULL, N_ ("Jabber")    },
+	{ E_CONTACT_IM_YAHOO,       NULL, NULL, N_ ("Yahoo")     },
+	{ E_CONTACT_IM_GADUGADU,    NULL, NULL, N_ ("Gadu-Gadu") },
+	{ E_CONTACT_IM_MSN,         NULL, NULL, N_ ("MSN")       },
+	{ E_CONTACT_IM_ICQ,         NULL, NULL, N_ ("ICQ")       },
+	{ E_CONTACT_IM_GROUPWISE,   NULL, NULL, N_ ("GroupWise") },
+	{ E_CONTACT_IM_SKYPE,       NULL, NULL, N_ ("Skype")     },
+	{ E_CONTACT_IM_TWITTER,     NULL, NULL, N_ ("Twitter")   },
+	{ E_CONTACT_IM_GOOGLE_TALK, NULL, NULL, N_ ("Google Talk")}
+};
+
+const EABTypeLabel*
+eab_get_email_type_labels (gint *n_elements)
+{
+	*n_elements = G_N_ELEMENTS (email_types);
+	return email_types;
+}
+
+gint
+eab_get_email_type_index (EVCardAttribute *attr)
+{
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (email_types); ii++) {
+		if (e_vcard_attribute_has_type (attr, email_types[ii].type_1))
+			return ii;
+	}
+
+	return -1;
+}
+
+void
+eab_email_index_to_type (gint index, const gchar **type_1)
+{
+	*type_1 = email_types[index].type_1;
+}
+
+const gchar*
+eab_get_email_label_text (EVCardAttribute *attr)
+{
+	const gchar *result;
+	gint n_elements;
+	gint index = eab_get_email_type_index (attr);
+
+	if (index >= 0) {
+		result = _(eab_get_email_type_labels (&n_elements) [index].text);
+	} else {
+		result = _("Email");
+	}
+
+	return result;
+}
+
+const EABTypeLabel*
+eab_get_sip_type_labels (gint *n_elements)
+{
+	*n_elements = G_N_ELEMENTS (sip_types);
+	return sip_types;
+}
+
+gint
+eab_get_sip_type_index (EVCardAttribute *attr)
+{
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (sip_types); ii++) {
+		if (e_vcard_attribute_has_type (attr, sip_types[ii].type_1))
+			return ii;
+	}
+
+	return -1;
+}
+
+void
+eab_sip_index_to_type (gint index, const gchar **type_1)
+{
+	*type_1 = sip_types[index].type_1;
+}
+
+const gchar*
+eab_get_sip_label_text (EVCardAttribute *attr)
+{
+	const gchar *result;
+	gint n_elements;
+	gint index = eab_get_sip_type_index (attr);
+
+	if (index >= 0) {
+		result = _(eab_get_sip_type_labels (&n_elements) [index].text);
+	} else {
+		result = _("SIP");
+	}
+
+	return result;
+}
+
+const EABTypeLabel*
+eab_get_im_type_labels (gint *n_elements)
+{
+	*n_elements = G_N_ELEMENTS (eab_im_service);
+	return eab_im_service;
+}
+
+gint
+eab_get_im_type_index (EVCardAttribute *attr)
+{
+	gint ii;
+	const gchar *name;
+	EContactField field;
+
+	for (ii = 0; ii < G_N_ELEMENTS (eab_im_service); ii++) {
+		name = e_vcard_attribute_get_name (attr);
+		field = e_contact_field_id_from_vcard (name);
+		if (field == eab_im_service[ii].field_id)
+			return ii;
+	}
+	return -1;
+}
+
+const gchar *
+eab_get_im_label_text (EVCardAttribute *attr)
+{
+	const gchar *result;
+	gint index = eab_get_im_type_index (attr);
+
+	if (index >= 0) {
+		result = _(eab_im_service [index].text);
+	} else {
+		result = _("IM");
+	}
+
+	return result;
+}
+
+const EABTypeLabel*
+eab_get_phone_type_labels (gint *n_elements)
+{
+	*n_elements = G_N_ELEMENTS (eab_phone_types);
+
+	if (eab_phone_types_init) {
+		gint i;
+		eab_phone_types_init = FALSE;
+		for (i = 0; i < *n_elements; i++) {
+			eab_phone_types[i].text = e_contact_pretty_name (eab_phone_types[i].field_id);
+		}
+	}
+
+	return eab_phone_types;
+}
+
+/*
+ * return the index within eab_phone_types[]
+ */
+gint
+eab_get_phone_type_index (EVCardAttribute *attr)
+{
+	gint i;
+
+	for (i = 0; i < G_N_ELEMENTS (eab_phone_types); i++) {
+		if (e_vcard_attribute_has_type (attr, eab_phone_types[i].type_1) &&
+		    (eab_phone_types[i].type_2 == NULL || e_vcard_attribute_has_type (attr, eab_phone_types[i].type_2)))
+			return i;
+	}
+
+	return -1;
+}
+
+const gchar*
+eab_get_phone_label_text (EVCardAttribute *attr)
+{
+	const gchar *result;
+	gint n_elements;
+	gint index = eab_get_phone_type_index (attr);
+
+	if (index >= 0) {
+		result = _(eab_get_phone_type_labels (&n_elements) [index].text);
+	} else {
+		result = _("Phone");
+	}
+
+	return result;
+}
+
+void
+eab_phone_index_to_type (gint index,
+                         const gchar **type_1,
+                         const gchar **type_2)
+{
+	*type_1 = eab_phone_types [index].type_1;
+	*type_2 = eab_phone_types [index].type_2;
+}
 
 /* Copied from camel_strstrcase */
 static gchar *

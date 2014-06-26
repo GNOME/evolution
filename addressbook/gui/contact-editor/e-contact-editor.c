@@ -40,6 +40,7 @@
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/util/eab-book-util.h"
 
 #include "eab-contact-merging.h"
 
@@ -120,31 +121,7 @@ enum {
 	DYNAMIC_LIST_ADDRESS
 };
 
-static struct {
-	EContactField field_id;
-	const gchar *type_1;
-	const gchar *type_2;
-} phones[] = {
-	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL    },
-	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE" },
-	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX"   },
-	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,        NULL    },
-	{ E_CONTACT_PHONE_CAR,          "CAR",                 NULL    },
-	{ E_CONTACT_PHONE_COMPANY,      "X-EVOLUTION-COMPANY", NULL    },
-	{ E_CONTACT_PHONE_HOME,         "HOME",                "VOICE" },
-	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",                "FAX"   },
-	{ E_CONTACT_PHONE_ISDN,         "ISDN",                NULL    },
-	{ E_CONTACT_PHONE_MOBILE,       "CELL",                NULL    },
-	{ E_CONTACT_PHONE_OTHER,        "VOICE",               NULL    },
-	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",                 NULL    },
-	{ E_CONTACT_PHONE_PAGER,        "PAGER",               NULL    },
-	{ E_CONTACT_PHONE_PRIMARY,      "PREF",                NULL    },
-	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,           NULL    },
-	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,           NULL    },
-	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,          NULL    }
-};
-
-/* Defaults from the table above */
+/* Defaults selected from eab_phone_types */
 static const gint phones_default[] = { 1, 6, 9, 2, 7, 12, 10, 10 };
 
 static EContactField addresses[] = {
@@ -165,24 +142,9 @@ static const gchar *address_name[] = {
 	"other"
 };
 
-static struct {
-	EContactField field;
-	const gchar *pretty_name;
-}
-im_service[] =
-{
-	{ E_CONTACT_IM_AIM,       N_ ("AIM")       },
-	{ E_CONTACT_IM_JABBER,    N_ ("Jabber")    },
-	{ E_CONTACT_IM_YAHOO,     N_ ("Yahoo")     },
-	{ E_CONTACT_IM_GADUGADU,  N_ ("Gadu-Gadu") },
-	{ E_CONTACT_IM_MSN,       N_ ("MSN")       },
-	{ E_CONTACT_IM_ICQ,       N_ ("ICQ")       },
-	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") },
-	{ E_CONTACT_IM_SKYPE,     N_ ("Skype")     },
-	{ E_CONTACT_IM_TWITTER,   N_ ("Twitter")   },
-	{ E_CONTACT_IM_GOOGLE_TALK, N_ ("Google Talk")}
-};
-
+/*
+ * keep fetch_set in sync with labels from eab_im_service
+ */
 static EContactField
 im_service_fetch_set[] =
 {
@@ -198,19 +160,9 @@ im_service_fetch_set[] =
 	E_CONTACT_IM_GOOGLE_TALK
 };
 
-/* Defaults from the table above */
+/* Defaults selected from eab_get_im_type_labels */
 static const gint im_service_default[] = { 0, 2, 4, 5 };
 
-static struct {
-	const gchar *name;
-	const gchar *pretty_name;
-}
-common_location[] =
-{
-	{ "WORK",  N_ ("Work")  },
-	{ "HOME",  N_ ("Home")  },
-	{ "OTHER", N_ ("Other") }
-};
 
 /* Default from the table above */
 static const gint email_default[] = { 0, 1, 2, 2 };
@@ -905,86 +857,25 @@ init_email_record_location (EContactEditor *editor)
 {
 	GtkWidget *w;
 	GtkListStore *store;
-	gint i;
+	gint i, n_elements;
 	EContactEditorDynTable *dyntable;
+	const EABTypeLabel *email_types = eab_get_email_type_labels (&n_elements);
 
 	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
 	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 	store = e_contact_editor_dyntable_get_combo_store (dyntable);
 
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+	for (i = 0; i < n_elements; i++) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-		                    DYNTABLE_COMBO_COLUMN_TEXT, _(common_location[i].pretty_name),
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(email_types[i].text),
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
 		                    -1);
 	}
 
 	e_contact_editor_dyntable_set_combo_defaults (dyntable, email_default, G_N_ELEMENTS (email_default));
-}
-
-static const gchar *
-email_index_to_location (gint index)
-{
-	return common_location[index].name;
-}
-
-static void
-phone_index_to_type (gint index,
-                     const gchar **type_1,
-                     const gchar **type_2)
-{
-	*type_1 = phones [index].type_1;
-	*type_2 = phones [index].type_2;
-}
-
-static void
-sip_index_to_type (gint index,
-		   const gchar **type_1)
-{
-	*type_1 = common_location[index].name;
-}
-
-static gint
-get_email_location (EVCardAttribute *attr)
-{
-	gint i;
-
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location[i].name))
-			return i;
-	}
-
-	return -1;
-}
-
-static gint
-get_phone_type (EVCardAttribute *attr)
-{
-	gint i;
-
-	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
-		if (e_vcard_attribute_has_type (attr, phones[i].type_1) &&
-		    (phones[i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones[i].type_2)))
-			return i;
-	}
-
-	return -1;
-}
-
-static gint
-get_sip_type (EVCardAttribute *attr)
-{
-	gint ii;
-
-	for (ii = 0; ii < G_N_ELEMENTS (common_location); ii++) {
-		if (e_vcard_attribute_has_type (attr, common_location[ii].name))
-			return ii;
-	}
-
-	return -1;
 }
 
 static EVCardAttributeParam *
@@ -1080,7 +971,7 @@ fill_in_email (EContactEditor *editor)
 		gint             slot;
 
 		email_address = e_vcard_attribute_get_value (attr);
-		email_location = get_email_location (attr);
+		email_location = eab_get_email_type_index (attr);
 		slot = get_ui_slot (attr);
 		if (slot < 1)
 			slot = EMAIL_SLOTS + 1; //add at the end
@@ -1133,11 +1024,14 @@ extract_email (EContactEditor *editor)
 		                   DYNTABLE_STORE_COLUMN_ENTRY_STRING, &address,
 		                   -1);
 
-		if (location >= 0)
+		if (location >= 0) {
+			const gchar *type;
+			eab_email_index_to_type (location, &type);
 			e_vcard_attribute_add_param_with_value (
 				attr,
 				e_vcard_attribute_param_new (EVC_TYPE),
-				email_index_to_location (location));
+				type);
+		}
 
 		e_vcard_attribute_add_value (attr, address);
 
@@ -1393,7 +1287,7 @@ fill_in_phone (EContactEditor *editor)
 		if (slot < 0)
 			slot = PHONE_SLOTS + 1; /* append at the end */
 
-		phone_type = get_phone_type (attr);
+		phone_type = eab_get_phone_type_index (attr);
 		phone = e_vcard_attribute_get_value (attr);
 
 		gtk_list_store_append (data_store, &iter);
@@ -1446,7 +1340,7 @@ extract_phone (EContactEditor *editor)
 			const gchar *type_1;
 			const gchar *type_2;
 
-			phone_index_to_type (phone_type, &type_1, &type_2);
+			eab_phone_index_to_type (phone_type, &type_1, &type_2);
 
 			e_vcard_attribute_add_param_with_value (
 				attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
@@ -1485,19 +1379,21 @@ init_phone_record_type (EContactEditor *editor)
 {
 	GtkWidget *w;
 	GtkListStore *store;
-	gint i;
+	gint i, n_elements;
 	EContactEditorDynTable *dyntable;
+	const EABTypeLabel *eab_phone_types;
 
 	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
 	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 	store = e_contact_editor_dyntable_get_combo_store (dyntable);
+	eab_phone_types = eab_get_phone_type_labels (&n_elements);
 
-	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
+	for (i = 0; i < n_elements; i++) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-		                    DYNTABLE_COMBO_COLUMN_TEXT, e_contact_pretty_name (phones[i].field_id),
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(eab_phone_types[i].text),
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
 		                    -1);
 	}
@@ -1546,8 +1442,9 @@ sensitize_phone_types (EContactEditor *editor)
 	GtkListStore *listStore;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gint i;
+	gint i, n_elements;
 	gboolean valid;
+	const EABTypeLabel *eab_phone_types;
 
 	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
 	listStore = e_contact_editor_dyntable_get_combo_store (E_CONTACT_EDITOR_DYNTABLE (w));
@@ -1555,7 +1452,8 @@ sensitize_phone_types (EContactEditor *editor)
 
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
-	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
+	eab_phone_types = eab_get_phone_type_labels (&n_elements);
+	for (i = 0; i < n_elements; i++) {
 		if (!valid) {
 			g_warning (G_STRLOC ": Unexpected end of phone items in combo box");
 			return;
@@ -1563,7 +1461,7 @@ sensitize_phone_types (EContactEditor *editor)
 
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE,
-		                    is_field_supported (editor, phones[i].field_id),
+		                    is_field_supported (editor, eab_phone_types[i].field_id),
 		                    -1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -1575,14 +1473,16 @@ sensitize_phone (EContactEditor *editor)
 {
 	GtkWidget *w;
 	gboolean enabled = FALSE;
-	int i;
+	gint i, n_elements;
+	const EABTypeLabel *eab_phone_types;
 
 	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
 
+	eab_phone_types = eab_get_phone_type_labels (&n_elements);
 	if (editor->priv->target_editable) {
 		enabled = is_field_supported (editor, E_CONTACT_TEL);
-		for (i = 0; i < G_N_ELEMENTS (phones) && !enabled; i++) {
-			enabled = is_field_supported (editor, phones[i].field_id);
+		for (i = 0; i < n_elements && !enabled; i++) {
+			enabled = is_field_supported (editor, eab_phone_types[i].field_id);
 		}
 	}
 
@@ -1619,7 +1519,7 @@ fill_in_sip (EContactEditor *editor)
 		gchar *sip;
 		gint sip_type;
 
-		sip_type = get_sip_type (attr);
+		sip_type = eab_get_sip_type_index (attr);
 		sip = e_vcard_attribute_get_value (attr);
 
 		if (sip_type < 0)
@@ -1673,7 +1573,7 @@ extract_sip (EContactEditor *editor)
 		if (sip_type >= 0) {
 			const gchar *type_1;
 
-			sip_index_to_type (sip_type, &type_1);
+			eab_sip_index_to_type (sip_type, &type_1);
 
 			e_vcard_attribute_add_param_with_value (
 				attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
@@ -1708,19 +1608,20 @@ init_sip_record_type (EContactEditor *editor)
 {
 	GtkWidget *w;
 	GtkListStore *store;
-	gint i;
+	gint i, n_elements;
 	EContactEditorDynTable *dyntable;
+	const EABTypeLabel *sip_types = eab_get_sip_type_labels (&n_elements);
 
 	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
 	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 	store = e_contact_editor_dyntable_get_combo_store (dyntable);
 
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+	for (i = 0; i < n_elements; i++) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-		                    DYNTABLE_COMBO_COLUMN_TEXT, _(common_location[i].pretty_name),
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(sip_types[i].text),
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
 		                    -1);
 	}
@@ -1770,8 +1671,9 @@ sensitize_sip_types (EContactEditor *editor)
 	GtkListStore *listStore;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gint i;
+	gint i, n_elements;
 	gboolean valid;
+	const EABTypeLabel *sip_types = eab_get_sip_type_labels (&n_elements);
 
 	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
 	listStore = e_contact_editor_dyntable_get_combo_store (E_CONTACT_EDITOR_DYNTABLE (w));
@@ -1779,7 +1681,7 @@ sensitize_sip_types (EContactEditor *editor)
 
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
+	for (i = 0; i < n_elements; i++) {
 		if (!valid) {
 			g_warning (G_STRLOC ": Unexpected end of sip items in combo box");
 			return;
@@ -1787,7 +1689,7 @@ sensitize_sip_types (EContactEditor *editor)
 
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE,
-		                    is_field_supported (editor, E_CONTACT_SIP),
+		                    is_field_supported (editor, sip_types[i].field_id),
 		                    -1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -1822,19 +1724,21 @@ init_im_record_type (EContactEditor *editor)
 {
 	GtkWidget *w;
 	GtkListStore *store;
-	gint i;
+	gint i, n_elements;
 	EContactEditorDynTable *dyntable;
+	const EABTypeLabel *im_service;
 
 	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
 	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
 	store = e_contact_editor_dyntable_get_combo_store (dyntable);
 
-	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
+	im_service = eab_get_im_type_labels (&n_elements);
+	for (i = 0; i < n_elements; i++) {
 		GtkTreeIter iter;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter,
-		                    DYNTABLE_COMBO_COLUMN_TEXT, _(im_service[i].pretty_name),
+		                    DYNTABLE_COMBO_COLUMN_TEXT, _(im_service[i].text),
 		                    DYNTABLE_COMBO_COLUMN_SENSITIVE, TRUE,
 		                    -1);
 	}
@@ -1868,22 +1772,6 @@ init_im (EContactEditor *editor)
 	init_im_record_type (editor);
 
 	expand_im (editor, TRUE);
-}
-
-static gint
-get_service_type (EVCardAttribute *attr)
-{
-	gint ii;
-	const gchar *name;
-	EContactField field;
-
-	for (ii = 0; ii < G_N_ELEMENTS (im_service); ii++) {
-		name = e_vcard_attribute_get_name (attr);
-		field = e_contact_field_id_from_vcard (name);
-		if (field == im_service[ii].field)
-			return ii;
-	}
-	return -1;
 }
 
 static void
@@ -1920,7 +1808,7 @@ fill_in_im (EContactEditor *editor)
 		gint   slot;
 
 		im_name = e_vcard_attribute_get_value (attr);
-		service_type = get_service_type (attr);
+		service_type = eab_get_im_type_index (attr);
 
 		slot = get_ui_slot (attr);
 		if (slot < 0)
@@ -1966,6 +1854,7 @@ extract_im (EContactEditor *editor)
 		gint             slot;
 		gchar           *im_name;
 		EVCardAttribute *attr;
+		const EABTypeLabel *im_service = eab_get_im_type_labels (&service_type);
 
 		gtk_tree_model_get (tree_model,&iter,
 		                   DYNTABLE_STORE_COLUMN_SORTORDER, &slot,
@@ -1975,7 +1864,7 @@ extract_im (EContactEditor *editor)
 
 		attr = e_vcard_attribute_new ("",
 				e_contact_vcard_attribute (
-				im_service[service_type].field));
+				im_service[service_type].field_id));
 
 		/* older evolution versions (<=3.12) will crash if SLOT>4 is stored,
 		 * but if we don't store the slot we loose sortorder.
@@ -2029,8 +1918,9 @@ sensitize_im_types (EContactEditor *editor)
 	GtkListStore *list_store;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	gint i;
+	gint i, n_elements;
 	gboolean valid;
+	const EABTypeLabel *im_service = eab_get_im_type_labels (&n_elements);
 
 	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
 	list_store = e_contact_editor_dyntable_get_combo_store (E_CONTACT_EDITOR_DYNTABLE (w));
@@ -2038,7 +1928,7 @@ sensitize_im_types (EContactEditor *editor)
 
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
-	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
+	for (i = 0; i < n_elements; i++) {
 		if (!valid) {
 			g_warning (G_STRLOC ": Unexpected end of im items in combo box");
 			return;
@@ -2047,7 +1937,7 @@ sensitize_im_types (EContactEditor *editor)
 		gtk_list_store_set (
 			GTK_LIST_STORE (model), &iter,
 			DYNTABLE_COMBO_COLUMN_SENSITIVE,
-			is_field_supported (editor, im_service[i].field),
+			is_field_supported (editor, im_service[i].field_id),
 			-1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -2057,16 +1947,17 @@ sensitize_im_types (EContactEditor *editor)
 static void
 sensitize_im (EContactEditor *editor)
 {
-	gint i;
+	gint i, n_elements;
 	gboolean enabled;
 	gboolean no_ims_supported;
 	GtkWidget *w;
+	const EABTypeLabel *im_service = eab_get_im_type_labels (&n_elements);
 
 	enabled = editor->priv->target_editable;
 	no_ims_supported = TRUE;
 
-	for (i = 0; i < G_N_ELEMENTS (im_service); i++)
-		if (is_field_supported (editor, im_service[i].field)) {
+	for (i = 0; i < n_elements; i++)
+		if (is_field_supported (editor, im_service[i].field_id)) {
 			no_ims_supported = FALSE;
 			break;
 		}

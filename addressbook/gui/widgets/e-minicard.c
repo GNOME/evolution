@@ -83,17 +83,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static struct {
-	const gchar *name;
-	const gchar *pretty_name;
-}
-common_location[] =
-{
-	{ "WORK",  N_ ("Work Email")  },
-	{ "HOME",  N_ ("Home Email")  },
-	{ "OTHER", N_ ("Other Email") }
-};
-
 static guint signals[LAST_SIGNAL] = {0, };
 
 G_DEFINE_TYPE (EMinicard, e_minicard, GNOME_TYPE_CANVAS_GROUP)
@@ -815,19 +804,6 @@ add_field (EMinicard *e_minicard,
 	g_free (string);
 }
 
-static const gchar *
-get_email_location (EVCardAttribute *attr)
-{
-	gint i;
-
-	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location[i].name))
-			return _(common_location[i].pretty_name);
-	}
-
-	return _("Other Email");
-}
-
 static void
 add_email_field (EMinicard *e_minicard,
                  GList *email_list,
@@ -856,7 +832,7 @@ add_email_field (EMinicard *e_minicard,
 		if (is_list) {
 			name = (gchar *)"";
 		} else {
-			tmp = get_email_location ((EVCardAttribute *) l->data);
+			tmp = eab_get_email_label_text ((EVCardAttribute *) l->data);
 			name = g_strdup_printf ("%s:", tmp);
 		}
 

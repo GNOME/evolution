@@ -27,6 +27,36 @@
 
 G_BEGIN_DECLS
 
+typedef struct {
+	EContactField field_id;
+	const gchar *type_1;
+	const gchar *type_2;
+	const gchar *text;
+} EABTypeLabel;
+
+const EABTypeLabel *eab_get_phone_type_labels 	(gint *n_elements);
+const gchar *	eab_get_phone_label_text 	(EVCardAttribute *attr);
+gint		eab_get_phone_type_index 	(EVCardAttribute *attr);
+void		eab_phone_index_to_type 	(gint index,
+						 const gchar **type_1,
+						 const gchar **type_2);
+
+const EABTypeLabel *eab_get_im_type_labels	(gint *n_elements);
+gint		eab_get_im_type_index 		(EVCardAttribute *attr);
+const gchar * 	eab_get_im_label_text		(EVCardAttribute *attr);
+
+const EABTypeLabel *eab_get_email_type_labels 	(gint *n_elements);
+const gchar *	eab_get_email_label_text 	(EVCardAttribute *attr);
+gint		eab_get_email_type_index 	(EVCardAttribute *attr);
+void		eab_email_index_to_type 	(gint index,
+						 const gchar **type_1);
+
+const EABTypeLabel *eab_get_sip_type_labels 	(gint *n_elements);
+const gchar *	eab_get_sip_label_text 		(EVCardAttribute *attr);
+gint		eab_get_sip_type_index 		(EVCardAttribute *attr);
+void		eab_sip_index_to_type 		(gint index,
+						 const gchar **type_1);
+
 GSList *	eab_contact_list_from_string	(const gchar *str);
 gchar *		eab_contact_list_to_string	(const GSList *contacts);
 
