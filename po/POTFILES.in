@@ -35,6 +35,7 @@ addressbook/printing/e-contact-print.c
 addressbook/tools/evolution-addressbook-export.c
 addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
+addressbook/util/eab-book-util.c
 calendar/alarm-notify/alarm-notify-dialog.c
 [type: gettext/glade]calendar/alarm-notify/alarm-notify.ui
 calendar/alarm-notify/alarm-queue.c
