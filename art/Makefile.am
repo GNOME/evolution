@@ -1,4 +1,5 @@
 images_DATA = \
+	working.png			\
 	world_map-960.png		\
 	plus.png			\
 	minus.png

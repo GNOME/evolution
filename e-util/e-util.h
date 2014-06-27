@@ -169,6 +169,7 @@
 #include <e-util/e-source-util.h>
 #include <e-util/e-spell-entry.h>
 #include <e-util/e-spell-text-view.h>
+#include <e-util/e-spinner.h>
 #include <e-util/e-stock-request.h>
 #include <e-util/e-table-click-to-add.h>
 #include <e-util/e-table-col-dnd.h>

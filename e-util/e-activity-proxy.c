@@ -18,15 +18,19 @@
  *
  */
 
-#include "e-activity-proxy.h"
-#include "e-misc-utils.h"
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <glib/gi18n.h>
 
 #include <libedataserver/libedataserver.h>
 
 #include "e-dialog-widgets.h"
+#include "e-misc-utils.h"
+#include "e-spinner.h"
+
+#include "e-activity-proxy.h"
 
 #define E_ACTIVITY_PROXY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -282,8 +286,8 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	proxy->priv->image = widget;
 
-	widget = gtk_spinner_new ();
-	gtk_spinner_start (GTK_SPINNER (widget));
+	widget = e_spinner_new ();
+	e_spinner_start (E_SPINNER (widget));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 3);
 	proxy->priv->spinner = widget;
 
