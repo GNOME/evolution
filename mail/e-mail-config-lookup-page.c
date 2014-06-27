@@ -14,11 +14,15 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <glib/gi18n-lib.h>
+
+#include "e-util/e-util.h"
 
 #include "e-mail-config-lookup-page.h"
-
-#include <config.h>
-#include <glib/gi18n-lib.h>
 
 /* Forward Declarations */
 static void	e_mail_config_lookup_page_interface_init
@@ -59,8 +63,8 @@ mail_config_lookup_page_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_spinner_new ();
-	gtk_spinner_start (GTK_SPINNER (widget));
+	widget = e_spinner_new ();
+	e_spinner_start (E_SPINNER (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

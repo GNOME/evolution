@@ -15,15 +15,18 @@
  *
  */
 
-#include "e-activity-bar.h"
-#include "e-misc-utils.h"
-
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <glib/gi18n-lib.h>
 #include <libedataserver/libedataserver.h>
 
 #include "e-dialog-widgets.h"
+#include "e-misc-utils.h"
+#include "e-spinner.h"
+
+#include "e-activity-bar.h"
 
 #define E_ACTIVITY_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -313,8 +316,8 @@ e_activity_bar_init (EActivityBar *bar)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->image = widget;
 
-	widget = gtk_spinner_new ();
-	gtk_spinner_start (GTK_SPINNER (widget));
+	widget = e_spinner_new ();
+	e_spinner_start (E_SPINNER (widget));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->spinner = widget;
 

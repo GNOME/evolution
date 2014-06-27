@@ -283,6 +283,7 @@ evolution_util_include_HEADERS =  \
 	e-spell-dictionary.h \
 	e-spell-entry.h \
 	e-spell-text-view.h \
+	e-spinner.h \
 	e-stock-request.h \
 	e-table-click-to-add.h \
 	e-table-col-dnd.h \
@@ -555,6 +556,7 @@ libevolution_util_la_SOURCES = \
 	e-spell-dictionary.c \
 	e-spell-entry.c \
 	e-spell-text-view.c \
+	e-spinner.c \
 	e-stock-request.c \
 	e-table-click-to-add.c \
 	e-table-col.c \

@@ -9,6 +9,7 @@ images_DATA = \
 	rect.png			\
 	ribbon.jpg			\
 	texture.png			\
+	working.png			\
 	world_map-960.png
 
 EXTRA_DIST = 				\
