@@ -2620,6 +2620,27 @@ e_web_view_update_actions (EWebView *web_view)
 	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0);
 }
 
+static gboolean
+element_is_in_pre_tag (WebKitDOMNode *node)
+{
+	WebKitDOMElement *element;
+
+	if (!node)
+		return FALSE;
+
+	while (element = webkit_dom_node_get_parent_element (node), element) {
+		node = WEBKIT_DOM_NODE (element);
+
+		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (element)) {
+			return TRUE;
+		} else if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
+			break;
+		}
+	}
+
+	return FALSE;
+}
+
 static gchar *
 web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 {
@@ -2640,6 +2661,9 @@ web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 		if (range != NULL) {
+			gchar *inner_html;
+			WebKitDOMNode *node;
+
 			fragment = webkit_dom_range_clone_contents (
 				range, NULL);
 
@@ -2649,8 +2673,16 @@ web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 				WEBKIT_DOM_NODE (element),
 				WEBKIT_DOM_NODE (fragment), NULL);
 
-			return webkit_dom_html_element_get_inner_html (
+			inner_html = webkit_dom_html_element_get_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (element));
+			node = webkit_dom_range_get_start_container (range, NULL);
+			if (element_is_in_pre_tag (node)) {
+				gchar *tmp = inner_html;
+				inner_html = g_strconcat ("<pre>", tmp, "</pre>", NULL);
+				g_free (tmp);
+			}
+
+			return inner_html;
 		}
 	}
 
