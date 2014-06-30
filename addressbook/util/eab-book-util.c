@@ -33,17 +33,17 @@
 static EABTypeLabel
 email_types[] =
 {
-	{ -1, "WORK",  NULL, N_ ("Work Email")  },
-	{ -1, "HOME",  NULL, N_ ("Home Email")  },
-	{ -1, "OTHER", NULL, N_ ("Other Email") }
+	{ -1, "WORK",  NULL, NC_ ("addressbook-label", "Work Email")  },
+	{ -1, "HOME",  NULL, NC_ ("addressbook-label", "Home Email")  },
+	{ -1, "OTHER", NULL, NC_ ("addressbook-label", "Other Email") }
 };
 
 static EABTypeLabel
 sip_types[] =
 {
-	{ E_CONTACT_SIP, "WORK",  NULL, N_ ("Work SIP")  },
-	{ E_CONTACT_SIP, "HOME",  NULL, N_ ("Home SIP")  },
-	{ E_CONTACT_SIP, "OTHER", NULL, N_ ("Other SIP") }
+	{ E_CONTACT_SIP, "WORK",  NULL, NC_ ("addressbook-label", "Work SIP")  },
+	{ E_CONTACT_SIP, "HOME",  NULL, NC_ ("addressbook-label", "Home SIP")  },
+	{ E_CONTACT_SIP, "OTHER", NULL, NC_ ("addressbook-label", "Other SIP") }
 };
 
 static EABTypeLabel
@@ -71,16 +71,16 @@ static gboolean eab_phone_types_init = TRUE;
 static EABTypeLabel
 eab_im_service[] =
 {
-	{ E_CONTACT_IM_AIM,         NULL, NULL, N_ ("AIM")       },
-	{ E_CONTACT_IM_JABBER,      NULL, NULL, N_ ("Jabber")    },
-	{ E_CONTACT_IM_YAHOO,       NULL, NULL, N_ ("Yahoo")     },
-	{ E_CONTACT_IM_GADUGADU,    NULL, NULL, N_ ("Gadu-Gadu") },
-	{ E_CONTACT_IM_MSN,         NULL, NULL, N_ ("MSN")       },
-	{ E_CONTACT_IM_ICQ,         NULL, NULL, N_ ("ICQ")       },
-	{ E_CONTACT_IM_GROUPWISE,   NULL, NULL, N_ ("GroupWise") },
-	{ E_CONTACT_IM_SKYPE,       NULL, NULL, N_ ("Skype")     },
-	{ E_CONTACT_IM_TWITTER,     NULL, NULL, N_ ("Twitter")   },
-	{ E_CONTACT_IM_GOOGLE_TALK, NULL, NULL, N_ ("Google Talk")}
+	{ E_CONTACT_IM_AIM,         NULL, NULL, NC_ ("addressbook-label", "AIM")       },
+	{ E_CONTACT_IM_JABBER,      NULL, NULL, NC_ ("addressbook-label", "Jabber")    },
+	{ E_CONTACT_IM_YAHOO,       NULL, NULL, NC_ ("addressbook-label", "Yahoo")     },
+	{ E_CONTACT_IM_GADUGADU,    NULL, NULL, NC_ ("addressbook-label", "Gadu-Gadu") },
+	{ E_CONTACT_IM_MSN,         NULL, NULL, NC_ ("addressbook-label", "MSN")       },
+	{ E_CONTACT_IM_ICQ,         NULL, NULL, NC_ ("addressbook-label", "ICQ")       },
+	{ E_CONTACT_IM_GROUPWISE,   NULL, NULL, NC_ ("addressbook-label", "GroupWise") },
+	{ E_CONTACT_IM_SKYPE,       NULL, NULL, NC_ ("addressbook-label", "Skype")     },
+	{ E_CONTACT_IM_TWITTER,     NULL, NULL, NC_ ("addressbook-label", "Twitter")   },
+	{ E_CONTACT_IM_GOOGLE_TALK, NULL, NULL, NC_ ("addressbook-label", "Google Talk")}
 };
 
 const EABTypeLabel*
@@ -119,7 +119,11 @@ eab_get_email_label_text (EVCardAttribute *attr)
 	if (index >= 0) {
 		result = _(eab_get_email_type_labels (&n_elements) [index].text);
 	} else {
-		result = _("Email");
+		/* To Translators:
+		 * if an email address type is not one of the predefined types,
+		 * this generic label is used instead of one of the predefined labels.
+		 */
+		result = C_("addressbook-label", "Email");
 	}
 
 	return result;
@@ -161,7 +165,12 @@ eab_get_sip_label_text (EVCardAttribute *attr)
 	if (index >= 0) {
 		result = _(eab_get_sip_type_labels (&n_elements) [index].text);
 	} else {
-		result = _("SIP");
+		/* To Translators:
+		 * if a SIP address type is not one of the predefined types,
+		 * this generic label is used instead of one of the predefined labels.
+		 * SIP=Session Initiation Protocol, used for voice over IP
+		 */
+		result = C_("addressbook-label", "SIP");
 	}
 
 	return result;
@@ -199,7 +208,12 @@ eab_get_im_label_text (EVCardAttribute *attr)
 	if (index >= 0) {
 		result = _(eab_im_service [index].text);
 	} else {
-		result = _("IM");
+		/* To Translators:
+		 * if an IM address type is not one of the predefined types,
+		 * this generic label is used instead of one of the predefined labels.
+		 * IM=Instant Messaging
+		 */
+		result = C_("addressbook-label", "IM");
 	}
 
 	return result;
@@ -248,7 +262,11 @@ eab_get_phone_label_text (EVCardAttribute *attr)
 	if (index >= 0) {
 		result = _(eab_get_phone_type_labels (&n_elements) [index].text);
 	} else {
-		result = _("Phone");
+		/* To Translators:
+		 * if a phone number type is not one of the predefined types,
+		 * this generic label is used instead of one of the predefined labels.
+		 */
+		result = C_("addressbook-label", "Phone");
 	}
 
 	return result;
