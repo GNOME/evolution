@@ -1470,22 +1470,7 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 	if (e_html_editor_dom_node_find_parent_element (node, "UL")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
 	} else if ((element = e_html_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
-		if (webkit_dom_element_has_attribute (element, "type")) {
-			gchar *type;
-
-			type = webkit_dom_element_get_attribute (element, "type");
-			if (type && ((*type == 'a') || (*type == 'A'))) {
-				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
-			} else if (type && ((*type == 'i') || (*type == 'I'))) {
-				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
-			} else {
-				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
-			}
-
-			g_free (type);
-		} else {
-			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
-		}
+		result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (element));
 	} else if (e_html_editor_dom_node_find_parent_element (node, "PRE")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
 	} else if (e_html_editor_dom_node_find_parent_element (node, "ADDRESS")) {
@@ -1510,8 +1495,16 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 
 			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
 				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-			else
-				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+			else {
+				/* Paragraphs inside quote */
+				if ((element = e_html_editor_dom_node_find_parent_element (node, "DIV")) != NULL)
+					if (element_has_class (element, "-x-evo-paragraph"))
+						result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+					else
+						result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+				else
+					result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
+			}
 		}
 	} else if (e_html_editor_dom_node_find_parent_element (node, "P")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
