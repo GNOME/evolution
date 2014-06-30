@@ -4676,7 +4676,7 @@ find_where_to_break_line (WebKitDOMNode *node,
 		if ((pos > max_len) && (last_space > 0)) {
 			if (last_space > word_wrap_length) {
 				g_free (text_start);
-				return last_space;
+				return last_space - 1;
 			}
 
 			if (last_space > max_len) {
@@ -4883,7 +4883,17 @@ wrap_lines (EHTMLEditorSelection *selection,
 					len += anchor_length;
 
 				g_free (text_content);
+				/* If there is space after the anchor don't try to
+				 * wrap before it */
 				node = webkit_dom_node_get_next_sibling (node);
+				if (WEBKIT_DOM_IS_TEXT (node)) {
+					text_content = webkit_dom_node_get_text_content (node);
+					if (g_strcmp0 (text_content, " ") == 0) {
+						node = webkit_dom_node_get_next_sibling (node);
+						len++;
+					}
+					g_free (text_content);
+				}
 				continue;
 			}
 
