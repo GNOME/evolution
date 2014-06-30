@@ -654,37 +654,6 @@
         <property name="position">0</property>
       </packing>
     </child>
-    <child>
-      <object class="GtkFrame" id="frame7">
-        <property name="visible">True</property>
-        <property name="label_xalign">0</property>
-        <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow7">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="border_width">6</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkTextView" id="cert_description">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child type="label">
-          <object class="GtkLabel" id="label68">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">Certificate details</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="position">1</property>
-      </packing>
-    </child>
   </object>
   <object class="GtkDialog" id="cert-trust-dialog">
     <property name="title" translatable="yes">Email Certificate Trust Settings</property>

@@ -36,6 +36,15 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
+/* XXX Hack to disable p11-kit's pkcs11.h header, since
+ *     NSS headers supply the same PKCS #11 definitions. */
+#define PKCS11_H 1
+
+#define GCR_API_SUBJECT_TO_CHANGE
+#include "gcr/gcr.h"
+
+#include "smime/lib/e-cert.h"
+
 #define E_CERT_SELECTOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CERT_SELECTOR, ECertSelectorPrivate))
@@ -43,7 +52,8 @@
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
-	GtkWidget *combobox, *description;
+	GtkWidget *combobox;
+	GcrCertificateWidget *cert_widget;
 };
 
 enum {
@@ -111,20 +121,13 @@ ecs_cert_changed (GtkWidget *w,
 {
 	struct _ECertSelectorPrivate *p = ecs->priv;
 	CERTCertListNode *node;
-	GtkTextBuffer *buffer;
-	GString *text;
 
-	text = g_string_new ("");
 	node = ecs_find_current (ecs);
 	if (node) {
-		/* FIXME: add serial no, validity date, uses */
-		g_string_append_printf (text, _("Issued to:\n  Subject: %s\n"), node->cert->subjectName);
-		g_string_append_printf (text, _("Issued by:\n  Subject: %s\n"), node->cert->issuerName);
+		ECert *ecert = e_cert_new (CERT_DupCertificate ((CERTCertificate *) node->cert));
+		gcr_certificate_widget_set_certificate (p->cert_widget, GCR_CERTIFICATE (ecert));
+		g_object_unref (ecert);
 	}
-
-	buffer = gtk_text_view_get_buffer ((GtkTextView *) p->description);
-	gtk_text_buffer_set_text (buffer, text->str, text->len);
-	g_string_free (text, TRUE);
 }
 
 /**
@@ -167,10 +170,12 @@ e_cert_selector_new (gint type,
 	e_load_ui_builder_definition (builder, "smime-ui.ui");
 
 	p->combobox = e_builder_get_widget (builder, "cert_combobox");
-	p->description = e_builder_get_widget (builder, "cert_description");
+	p->cert_widget = gcr_certificate_widget_new (NULL);
 
 	w = e_builder_get_widget (builder, "cert_selector_vbox");
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (ecs));
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (p->cert_widget));
+	gtk_widget_show (GTK_WIDGET (p->cert_widget));
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 3);
 	gtk_window_set_title (GTK_WINDOW (ecs), _("Select certificate"));
 
