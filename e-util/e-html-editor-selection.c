@@ -1157,6 +1157,25 @@ create_list_element (EHTMLEditorSelection *selection,
 	return list;
 }
 
+static WebKitDOMNode *
+get_list_item_node_from_child (WebKitDOMNode *child)
+{
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (child);
+
+	while (parent && !WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	return parent;
+}
+
+static WebKitDOMNode *
+get_list_node_from_child (WebKitDOMNode *child)
+{
+	WebKitDOMNode *parent = get_list_item_node_from_child (child);
+
+	return webkit_dom_node_get_parent_node (parent);
+}
+
 static void
 format_change_list_from_list (EHTMLEditorSelection *selection,
                               WebKitDOMDocument *document,
@@ -1178,7 +1197,7 @@ format_change_list_from_list (EHTMLEditorSelection *selection,
 	new_list = create_list_element (selection, document, to, 0, html_mode);
 
 	/* Copy elements from previous block to list */
-	item = webkit_dom_node_get_parent_node (
+	item = get_list_item_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
 	source_list = webkit_dom_node_get_parent_node (item);
 	current_list = source_list;
@@ -1642,6 +1661,21 @@ get_citation_level (WebKitDOMNode *node)
 	return level;
 }
 
+static WebKitDOMNode *
+get_parent_block_node_from_child (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
+	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	return parent;
+}
+
 static void
 format_change_block_to_block (EHTMLEditorSelection *selection,
                               EHTMLEditorSelectionBlockFormat format,
@@ -1688,10 +1722,8 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 			NULL);
 	}
 
-	block = webkit_dom_node_get_parent_node (
+	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
-	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-temp-text-wrapper"))
-		block = webkit_dom_node_get_parent_node (block);
 
 	html_mode = e_html_editor_view_get_html_mode (view);
 
@@ -1714,8 +1746,7 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 		after_selection_end = webkit_dom_node_contains (
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
-		next_block = webkit_dom_node_get_next_sibling (
-			WEBKIT_DOM_NODE (block));
+		next_block = webkit_dom_node_get_next_sibling (block);
 
 		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
 			element = e_html_editor_selection_get_paragraph_element (
@@ -1817,10 +1848,8 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 			NULL);
 	}
 
-	block = webkit_dom_node_get_parent_node (
+	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
-	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-temp-text-wrapper"))
-		block = webkit_dom_node_get_parent_node (block);
 
 	list = create_list_element (selection, document, format, 0, html_mode);
 
@@ -1945,17 +1974,14 @@ format_change_list_to_list (EHTMLEditorSelection *selection,
 	selection_end_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-end-marker", NULL);
 
-	current_list = webkit_dom_node_get_parent_node (
-		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (selection_start_marker)));
+	current_list = get_list_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker));
 
-	prev_list = webkit_dom_node_get_parent_node (
-		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (selection_start_marker)));
+	prev_list = get_list_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker));
 
-	next_list = webkit_dom_node_get_parent_node (
-		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (selection_end_marker)));
+	next_list = get_list_node_from_child (
+		WEBKIT_DOM_NODE (selection_end_marker));
 
 	selection_starts_in_first_child =
 		webkit_dom_node_contains (
@@ -2030,7 +2056,8 @@ format_change_list_to_block (EHTMLEditorSelection *selection,
 	selection_end = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-end-marker", NULL);
 
-	item = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start));
+	item = get_list_item_node_from_child (
+		WEBKIT_DOM_NODE (selection_start));
 	source_list = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (item));
 	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
 
