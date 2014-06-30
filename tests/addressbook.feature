@@ -23,11 +23,11 @@ Feature: Addressbook: File: Create contacts
       * Set "Full Name..." in contact editor to "Jimmy Doe"
       * Set "Nickname:" in contact editor to "Unknown"
       * Set emails in contact editor to
-        | Field | Value                    |
-        | Work  | jimmy.doe@company.com    |
-        | Home  | jimmy_doe_72@gmail.com   |
-        | Other | jimmydoe72@yahoo.com     |
-        | Other | xxjimmyxx@free_email.com |
+        | Field       | Value                    |
+        | Work Email  | jimmy.doe@company.com    |
+        | Home Email  | jimmy_doe_72@gmail.com   |
+        | Other Email | jimmydoe72@yahoo.com     |
+        | Other Email | xxjimmyxx@free_email.com |
       * Tick "Wants to receive HTML mail" checkbox
       * Set phones in contact editor to
         | Field           | Value |
