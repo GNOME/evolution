@@ -4925,6 +4925,44 @@ e_msg_composer_get_reply_to (EMsgComposer *composer)
 }
 
 /**
+ * e_msg_composer_get_raw_message_text_without_signature:
+ *
+ * Returns the text/plain of the message from composer without signature
+ **/
+GByteArray *
+e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GByteArray *array;
+	gint ii, length;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	array = g_byte_array_new ();
+
+	list = webkit_dom_document_query_selector_all (
+		document, "body > *:not(.-x-evo-signature-wrapper)", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		gchar *text;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		text = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (node));
+		g_byte_array_append (array, (guint8 *) text, strlen (text));
+		g_free (text);
+	}
+
+	return array;
+}
+
+/**
  * e_msg_composer_get_raw_message_text:
  *
  * Returns the text/plain of the message from composer

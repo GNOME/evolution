@@ -1177,6 +1177,7 @@ insert:
 
 			body = webkit_dom_document_get_body (document);
 			element = webkit_dom_document_create_element (document, "DIV", NULL);
+			webkit_dom_element_set_class_name (element, "-x-evo-signature-wrapper");
 
 			webkit_dom_html_element_set_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);

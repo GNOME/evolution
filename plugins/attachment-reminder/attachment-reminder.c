@@ -86,7 +86,8 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 	if (check_for_attachment (t->composer))
 		return;
 
-	raw_msg_barray = e_msg_composer_get_raw_message_text (t->composer);
+	raw_msg_barray =
+		e_msg_composer_get_raw_message_text_without_signature (t->composer);
 	if (!raw_msg_barray)
 		return;
 

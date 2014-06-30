@@ -181,6 +181,8 @@ EComposerHeaderTable *
 EAttachmentView *
 		e_msg_composer_get_attachment_view
 						(EMsgComposer *composer);
+GByteArray *	e_msg_composer_get_raw_message_text_without_signature
+						(EMsgComposer *composer);
 GByteArray *	e_msg_composer_get_raw_message_text
 						(EMsgComposer *composer);
 
