@@ -1608,6 +1608,12 @@ remove_quoting_from_element (WebKitDOMElement *element)
 		remove_node (node);
 	}
 
+	list = webkit_dom_element_query_selector_all (
+		element, "br.-x-evo-temp-br", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
+
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 }
 
