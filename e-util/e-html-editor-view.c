@@ -3362,6 +3362,13 @@ replace_to_nbsp (const GMatchInfo *info,
 	return FALSE;
 }
 
+static gboolean
+surround_links_with_anchor (const gchar *text)
+{
+	return (strstr (text, "http") || strstr (text, "ftp") ||
+		strstr (text, "www") || strstr (text, "@"));
+}
+
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
  * into paragraphs.
  * HTML code in that format we can get by taking innerText from some element,
@@ -3480,9 +3487,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				NULL);
 			g_free (truncated);
 
-			if (strstr (rest_to_insert, "http") ||
-			    strstr (rest_to_insert, "ftp") ||
-			    strstr (rest_to_insert, "@")) {
+			if (surround_links_with_anchor (rest_to_insert)) {
 				truncated = g_regex_replace_eval (
 					regex_links,
 					rest_to_insert,
@@ -3543,9 +3548,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			NULL);
 		g_free (truncated);
 
-		if (strstr (rest_to_insert, "http") ||
-		    strstr (rest_to_insert, "ftp") ||
-		    strstr (rest_to_insert, "@")) {
+		if (surround_links_with_anchor (rest_to_insert)) {
 			truncated = g_regex_replace_eval (
 				regex_links,
 				rest_to_insert,
