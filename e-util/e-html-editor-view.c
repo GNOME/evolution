@@ -2794,11 +2794,6 @@ quote_node (WebKitDOMDocument *document,
 	if (quote_level == 1 && next_sibling && WEBKIT_DOM_IS_HTML_PRE_ELEMENT (next_sibling))
 		return;
 
-	if (next_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) &&
-	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (webkit_dom_node_get_next_sibling (next_sibling))) {
-		insert_newline = TRUE;
-	}
-
 	/* Do temporary wrapper */
 	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
 	webkit_dom_element_set_class_name (wrapper, "-x-evo-temp-text-wrapper");
@@ -2961,8 +2956,10 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			goto next_node;
 		}
 
-		if (webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (node)) != 0)
-			goto with_children;
+		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node))
+			if (webkit_dom_element_get_child_element_count (
+				WEBKIT_DOM_ELEMENT (node)) != 0)
+				goto with_children;
 
 		/* Even in plain text mode we can have some basic html element
 		 * like anchor and others. When Forwaring e-mail as Quoted EMFormat
