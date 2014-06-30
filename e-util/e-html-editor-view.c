@@ -50,6 +50,7 @@
 
 /* Keep synchronized with the same value in EHTMLEditorSelection */
 #define SPACES_PER_LIST_LEVEL 8
+#define TAB_LENGTH 8
 
 /**
  * EHTMLEditorView:
@@ -3323,18 +3324,35 @@ create_anchor_for_link (const GMatchInfo *info,
 static gboolean
 replace_to_nbsp (const GMatchInfo *info,
                  GString *res,
-                 gpointer data)
+                 gboolean use_nbsp)
 {
-	gchar *match;
-	gint ii, length = 0;
+	gchar *match, *previous_tab;
+	const gchar *string;
+	gint ii, length = 0, start = 0;
 
 	match = g_match_info_fetch (info, 0);
+	g_match_info_fetch_pos (info, 0, &start, NULL);
+	string = g_match_info_get_string (info);
 
-	/* Replace tabs with 8 whitespaces */
-	if (strstr (match, "\x9"))
-		length = 8;
-	else
-		length = strlen (match);
+	if (start > 0) {
+		previous_tab = g_strrstr_len (string, start, "\x9");
+		if (previous_tab && *previous_tab) {
+			char *act_tab = NULL;
+			act_tab = strstr (previous_tab + 1, "\x9");
+
+			if (act_tab && *act_tab) {
+				length = act_tab - previous_tab - 1;
+				length = TAB_LENGTH - length;
+			}
+		}
+	}
+
+	if (length == 0) {
+		if (strstr (match, "\x9"))
+			length = TAB_LENGTH - (start %  TAB_LENGTH);
+		else
+			length = strlen (match);
+	}
 
 	for (ii = 0; ii < length; ii++)
 		g_string_append (res, "&nbsp;");
@@ -3368,8 +3386,9 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	prev_br = html;
 	next_br = strstr (prev_br, "<br>");
 
-	/* Replace tabs and 2+ spaces with non breaking spaces */
-	regex_nbsp = g_regex_new ("\\s{2,}|\x9", 0, 0, NULL);
+	/* Replace single spaces on the beginning of line, 2+ spaces and
+	 * tabulators with non breaking spaces */
+	regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9", 0, 0, NULL);
 	regex_links = g_regex_new (URL_PATTERN, 0, 0, NULL);
 
 	while (next_br) {
@@ -3451,7 +3470,14 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			g_strchomp (truncated);
 
 			rest_to_insert = g_regex_replace_eval (
-				regex_nbsp, truncated, -1, 0, 0, replace_to_nbsp, NULL, NULL);
+				regex_nbsp,
+				truncated,
+				-1,
+				0,
+				0,
+				(GRegexEvalCallback) replace_to_nbsp,
+				NULL,
+				NULL);
 			g_free (truncated);
 
 			if (strstr (rest_to_insert, "http") ||
@@ -3507,7 +3533,14 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		g_strchomp (truncated);
 
 		rest_to_insert = g_regex_replace_eval (
-			regex_nbsp, truncated, -1, 0, 0, replace_to_nbsp, NULL, NULL);
+			regex_nbsp,
+			truncated,
+			-1,
+			0,
+			0,
+			(GRegexEvalCallback) replace_to_nbsp,
+			NULL,
+			NULL);
 		g_free (truncated);
 
 		if (strstr (rest_to_insert, "http") ||
@@ -4745,6 +4778,22 @@ remove_style_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "style");
 }
 */
+static gboolean
+replace_to_whitespaces (const GMatchInfo *info,
+                        GString *res,
+                        gpointer data)
+{
+	gint ii, length = 0;
+	gint chars_count = GPOINTER_TO_INT (data);
+
+	length = TAB_LENGTH - (chars_count %  TAB_LENGTH);
+
+	for (ii = 0; ii < length; ii++)
+		g_string_append (res, " ");
+
+	return FALSE;
+}
+
 static void
 process_elements (EHTMLEditorView *view,
                   WebKitDOMNode *node,
@@ -4808,16 +4857,30 @@ process_elements (EHTMLEditorView *view,
 		if (WEBKIT_DOM_IS_TEXT (child)) {
 			gchar *content, *tmp;
 			GRegex *regex;
+			gint char_count = 0;
 
 			content = webkit_dom_node_get_text_content (child);
 			/* Replace tabs with 8 whitespaces, otherwise they got
 			 * replaced by single whitespace */
 			if (strstr (content, "\x9")) {
+				gchar *start_of_line = g_strrstr_len (
+					buffer->str, -1, "\n") + 1;
+
+				if (start_of_line && *start_of_line)
+					char_count = strlen (start_of_line);
+
 				regex = g_regex_new ("\x9", 0, 0, NULL);
-				tmp = g_regex_replace (
-					regex, content, -1, 0, "        ", 0, NULL);
-				webkit_dom_node_set_text_content (child, tmp, NULL);
-				g_free (content);
+				tmp = g_regex_replace_eval (
+					regex,
+					content,
+					-1,
+					0,
+					0,
+					(GRegexEvalCallback) replace_to_whitespaces,
+					GINT_TO_POINTER (char_count),
+					NULL);
+
+				g_string_append (buffer, tmp);
 				g_free (tmp);
 				content = webkit_dom_node_get_text_content (child);
 				g_regex_unref (regex);
@@ -4921,14 +4984,29 @@ process_elements (EHTMLEditorView *view,
 			if (!changing_mode && to_plain_text) {
 				gchar *content, *tmp;
 				GRegex *regex;
+				gint char_count = 0;
 
 				content = webkit_dom_node_get_text_content (child);
 				/* Replace tabs with 8 whitespaces, otherwise they got
 				 * replaced by single whitespace */
 				if (strstr (content, "\x9")) {
+					gchar *start_of_line = g_strrstr_len (
+						buffer->str, -1, "\n") + 1;
+
+					if (start_of_line && *start_of_line)
+						char_count = strlen (start_of_line);
+
 					regex = g_regex_new ("\x9", 0, 0, NULL);
-					tmp = g_regex_replace (
-						regex, content, -1, 0, "        ", 0, NULL);
+					tmp = g_regex_replace_eval (
+						regex,
+						content,
+						-1,
+						0,
+						0,
+						(GRegexEvalCallback) replace_to_whitespaces,
+						GINT_TO_POINTER (char_count),
+						NULL);
+
 					g_string_append (buffer, tmp);
 					g_free (tmp);
 					content = webkit_dom_node_get_text_content (child);
