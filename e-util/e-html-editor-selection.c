@@ -5746,6 +5746,8 @@ e_html_editor_selection_scroll_to_caret (EHTMLEditorSelection *selection)
 	WebKitDOMElement *caret;
 
 	caret = e_html_editor_selection_save_caret_position (selection);
+	if (!caret)
+		return;
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
