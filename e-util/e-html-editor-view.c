@@ -3872,6 +3872,14 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 		first_child = webkit_dom_node_get_first_child (
 			WEBKIT_DOM_NODE (body));
+		if (!first_child) {
+			paragraph = e_html_editor_selection_get_paragraph_element (
+				selection, document, -1, 0);
+			first_child = webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (paragraph),
+				NULL);
+		}
 
 		webkit_dom_node_insert_before (
 			first_child,
