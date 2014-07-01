@@ -2668,9 +2668,9 @@ mail_reader_load_status_changed_cb (EMailReader *reader,
 	    e_mail_display_get_part_list (display) &&
 	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader))) {
 		if (priv->folder_was_just_selected)
-		    priv->folder_was_just_selected = FALSE;
+			priv->folder_was_just_selected = FALSE;
 		else
-		    schedule_timeout_mark_seen (reader);
+			schedule_timeout_mark_seen (reader);
 	}
 }
 
@@ -2984,6 +2984,22 @@ mail_reader_emit_folder_loaded (EMailReader *reader)
 		priv->avoid_next_mark_as_seen = FALSE;
 
 	g_signal_emit (reader, signals[FOLDER_LOADED], 0);
+}
+
+static void
+mail_reader_message_list_built_cb (MessageList *message_list,
+				   EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	mail_reader_emit_folder_loaded (reader);
+
+	/* No cursor_uid means that there will not be emitted any
+	   "cursor-changed" and "message-selected" signal, thus
+	   unset the "just selected folder" flag */
+	if (!message_list->cursor_uid)
+		priv->folder_was_just_selected = FALSE;
 }
 
 static EAlertSink *
@@ -4014,9 +4030,9 @@ connect_signals:
 		message_list, "right-click",
 		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
 
-	g_signal_connect_swapped (
+	g_signal_connect_after (
 		message_list, "message-list-built",
-		G_CALLBACK (mail_reader_emit_folder_loaded), reader);
+		G_CALLBACK (mail_reader_message_list_built_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "double-click",
