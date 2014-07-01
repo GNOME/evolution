@@ -1551,15 +1551,6 @@ use_top_signature (EMsgComposer *composer)
 	return top_signature;
 }
 
-/* FIXME WEBKIT Nope....*/
-#define NO_SIGNATURE_TEXT	\
-	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
-	"                     key=\"signature\" " \
-	"                   value=\"1\">-->" \
-	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
-	"                     key=\"signature_name\" " \
-	"                   value=\"uid:Noname\">--><BR>"
-
 static void
 set_editor_text (EMsgComposer *composer,
                  const gchar *text,
