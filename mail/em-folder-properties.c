@@ -480,7 +480,9 @@ emfp_dialog_got_quota_info (CamelFolder *folder,
 		g_error_free (error);
 		return;
 
-	/* FIXME Add an EAlert for failing to get quota info. */
+	} else if (error != NULL && context->folder != NULL) {
+		g_debug ("%s: Failed to get quota information: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
 	} else if (error != NULL) {
 		g_warn_if_fail (context->folder == NULL);
 		e_alert_submit (
