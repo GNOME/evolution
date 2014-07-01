@@ -445,56 +445,69 @@ sao_folders_add_button_clicked_cb (GtkButton *button,
 	selector = EM_FOLDER_SELECTOR (dialog);
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
 	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOSELECT);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		const gchar *uri;
+		GList *list, *folder_uris;
 
-		uri = em_folder_selector_get_selected_uri (selector);
-		if (uri && *uri) {
-			gboolean found = FALSE;
+		model = gtk_tree_view_get_model (tree_view);
 
-			selection = gtk_tree_view_get_selection (tree_view);
-			model = gtk_tree_view_get_model (tree_view);
+		folder_uris = em_folder_tree_get_selected_uris (folder_tree);
 
-			if (gtk_tree_model_get_iter_first (model, &iter)) {
-				do {
-					gchar *old_uri = NULL;
+		for (list = folder_uris; list; list = g_list_next (list)) {
+			const gchar *uri = list->data;
 
-					gtk_tree_model_get (model, &iter, 1, &old_uri, -1);
+			if (uri && *uri) {
+				gboolean found = FALSE;
 
-					found = g_strcmp0 (uri, old_uri) == 0;
+				if (gtk_tree_model_get_iter_first (model, &iter)) {
+					do {
+						gchar *old_uri = NULL;
 
-					g_free (old_uri);
-				} while (!found && gtk_tree_model_iter_next (model, &iter));
+						gtk_tree_model_get (model, &iter, 1, &old_uri, -1);
+
+						found = g_strcmp0 (uri, old_uri) == 0;
+
+						g_free (old_uri);
+					} while (!found && gtk_tree_model_iter_next (model, &iter));
+				}
+
+				if (!found) {
+					EMailSendAccountOverride *account_override;
+					GtkListStore *list_store;
+					CamelSession *session;
+					gchar *markup;
+
+					list_store = GTK_LIST_STORE (model);
+					session = g_object_get_data (G_OBJECT (builder), MAIL_CAMEL_SESSION_KEY);
+					markup = e_mail_folder_uri_to_markup (session, uri, NULL);
+
+					gtk_list_store_append (list_store, &iter);
+					gtk_list_store_set (list_store, &iter, 0, markup, 1, uri, -1);
+
+					g_free (markup);
+
+					sao_block_changed_handler (builder);
+
+					account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
+					e_mail_send_account_override_set_for_folder (account_override, uri, account_uid);
+
+					sao_unblock_changed_handler (builder);
+				}
+
+				if (!list->next) {
+					selection = gtk_tree_view_get_selection (tree_view);
+
+					gtk_tree_selection_unselect_all (selection);
+					gtk_tree_selection_select_iter (selection, &iter);
+				}
 			}
-
-			if (!found) {
-				EMailSendAccountOverride *account_override;
-				GtkListStore *list_store;
-				CamelSession *session;
-				gchar *markup;
-
-				list_store = GTK_LIST_STORE (model);
-				session = g_object_get_data (G_OBJECT (builder), MAIL_CAMEL_SESSION_KEY);
-				markup = e_mail_folder_uri_to_markup (session, uri, NULL);
-
-				gtk_list_store_append (list_store, &iter);
-				gtk_list_store_set (list_store, &iter, 0, markup, 1, uri, -1);
-
-				g_free (markup);
-
-				sao_block_changed_handler (builder);
-
-				account_override = g_object_get_data (G_OBJECT (builder), MAIL_SEND_ACCOUNT_OVERRIDE_KEY);
-				e_mail_send_account_override_set_for_folder (account_override, uri, account_uid);
-
-				sao_unblock_changed_handler (builder);
-			}
-
-			gtk_tree_selection_unselect_all (selection);
-			gtk_tree_selection_select_iter (selection, &iter);
 		}
+
+		g_list_free_full (folder_uris, g_free);
 	}
 
 	gtk_widget_destroy (dialog);
