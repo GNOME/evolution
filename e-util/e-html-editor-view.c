@@ -6126,6 +6126,16 @@ convert_and_load_html_to_plain_text (EHTMLEditorView *view,
 		view->priv->convertor_web_view, html, NULL, NULL, "file://");
 }
 
+static void
+convert_and_load_plain_text (EHTMLEditorView *view,
+                             const gchar *text)
+{
+	view->priv->convertor_insert = FALSE;
+
+	webkit_web_view_load_string (
+		view->priv->convertor_web_view, text, "text/plain", NULL, "file://");
+}
+
 void
 e_html_editor_view_convert_and_insert_plain_text (EHTMLEditorView *view,
                                                   const gchar *text)
@@ -6170,7 +6180,7 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 			}
 			convert_and_load_html_to_plain_text (view, text);
 		} else {
-			convert_and_load_html_to_plain_text (view, text);
+			convert_and_load_plain_text (view, text);
 		}
 	} else {
 		webkit_web_view_load_string (
@@ -6191,8 +6201,7 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
 {
 	view->priv->reload_in_progress = TRUE;
 
-	webkit_web_view_load_string (
-		WEBKIT_WEB_VIEW (view), text, "text/plain", NULL, "file://");
+	convert_and_load_plain_text (view, text);
 }
 
 /**
