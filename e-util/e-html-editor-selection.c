@@ -1055,6 +1055,38 @@ e_html_editor_selection_get_list_alignment_from_node (WebKitDOMNode *node)
 	return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 }
 
+static EHTMLEditorSelectionAlignment
+e_html_editor_selection_get_alignment_from_node (WebKitDOMNode *node)
+{
+	EHTMLEditorSelectionAlignment alignment;
+	gchar *value;
+	WebKitDOMCSSStyleDeclaration *style;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+
+	document = webkit_dom_node_get_owner_document (node);
+	window = webkit_dom_document_get_default_view (document);
+
+	style = webkit_dom_dom_window_get_computed_style (
+		window, WEBKIT_DOM_ELEMENT (node), NULL);
+	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
+
+	if (!value || !*value ||
+	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+	} else {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	}
+
+	g_free (value);
+
+	return alignment;
+}
+
 /**
  * e_html_editor_selection_get_alignment:
  * @selection: #an EHTMLEditorSelection
@@ -2471,6 +2503,18 @@ e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 	return ret_val;
 }
 
+static WebKitDOMElement*
+get_element_for_inspection (WebKitDOMRange *range)
+{
+	WebKitDOMNode *node;
+
+	node = webkit_dom_range_get_end_container (range, NULL);
+	if (!WEBKIT_DOM_IS_ELEMENT (node))
+		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+
+	return webkit_dom_node_get_parent_element (node);
+}
+
 /**
  * e_html_editor_selection_is_indented:
  * @selection: an #EHTMLEditorSelection
@@ -2484,9 +2528,8 @@ e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 gboolean
 e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 {
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
 	WebKitDOMElement *element;
+	WebKitDOMRange *range;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
@@ -2494,13 +2537,29 @@ e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 	if (!range)
 		return FALSE;
 
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_ELEMENT (node))
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+		element = get_element_for_inspection (range);
+		return element_has_class (element, "-x-evo-indented");
+	} else {
+		/* If there is a selection search in it and don't look just in
+		 * the end container */
+		WebKitDOMDocumentFragment *fragment;
 
-	element = webkit_dom_node_get_parent_element (node);
+		fragment = webkit_dom_range_clone_contents (range, NULL);
 
-	return element_has_class (element, "-x-evo-indented");
+		if (fragment) {
+			element = webkit_dom_document_fragment_query_selector (
+				fragment, ".-x-evo-indented", NULL);
+
+			if (element)
+				return TRUE;
+
+			element = get_element_for_inspection (range);
+			return element_has_class (element, "-x-evo-indented");
+		}
+	}
+
+	return FALSE;
 }
 
 static gboolean
@@ -2532,6 +2591,73 @@ get_list_level (WebKitDOMNode *node)
 	return level;
 }
 
+static WebKitDOMNode *
+get_parent_block_node (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent;
+
+	parent = webkit_dom_node_get_parent_node (node);
+
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		node = parent;
+		parent = webkit_dom_node_get_parent_node (parent);
+	}
+
+	return node;
+}
+
+static void
+indent_list (EHTMLEditorSelection *selection,
+             WebKitDOMDocument *document)
+{
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *item, *next_item;
+	gboolean after_selection_end = FALSE;
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	item = get_parent_block_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
+		gboolean html_mode = is_in_html_mode (selection);
+		WebKitDOMElement *list;
+		WebKitDOMNode *source_list = webkit_dom_node_get_parent_node (item);
+		EHTMLEditorSelectionBlockFormat format;
+
+		format = e_html_editor_selection_get_list_format_from_node (source_list);
+
+		list = create_list_element (
+			selection, document, format, get_list_level (item), html_mode);
+
+		element_add_class (list, "-x-evo-indented");
+
+		webkit_dom_node_insert_before (
+			source_list, WEBKIT_DOM_NODE (list), item, NULL);
+
+		while (item) {
+			after_selection_end = webkit_dom_node_contains (
+				item, WEBKIT_DOM_NODE (selection_end_marker));
+
+			next_item = webkit_dom_node_get_next_sibling (item);
+
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (list), item, NULL);
+
+			item = next_item;
+
+			if (after_selection_end)
+				break;
+		}
+
+		merge_lists_if_possible (WEBKIT_DOM_NODE (list));
+	}
+}
+
 /**
  * e_html_editor_selection_indent:
  * @selection: an #EHTMLEditorSelection
@@ -2541,129 +2667,165 @@ get_list_level (WebKitDOMNode *node)
 void
 e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 {
-	gboolean has_selection;
 	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *block;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	has_selection = g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0;
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-	if (!has_selection) {
-		WebKitDOMDocument *document;
-		WebKitDOMRange *range;
-		WebKitDOMNode *node, *clone;
-		WebKitDOMElement *element, *caret_position;
-		gint word_wrap_length = selection->priv->word_wrap_length;
-		gint level;
-		gint final_width = 0;
+	e_html_editor_selection_save (selection);
 
-		document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
 
-		caret_position = e_html_editor_selection_save_caret_position (selection);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
 
-		range = html_editor_selection_get_current_range (selection);
-		if (!range) {
-			g_object_unref (view);
-			return;
-		}
+	/* If the selection was not saved, move it into the first child of body */
+	if (!selection_start_marker || !selection_end_marker) {
+		WebKitDOMHTMLElement *body;
 
-		node = webkit_dom_range_get_end_container (range, NULL);
-		if (!WEBKIT_DOM_IS_ELEMENT (node))
-			node = WEBKIT_DOM_NODE (
-				webkit_dom_node_get_parent_element (node));
-
-		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node)) {
-			gboolean html_mode = e_html_editor_view_get_html_mode (view);
-			WebKitDOMElement *list;
-			WebKitDOMNode *source_list = webkit_dom_node_get_parent_node (node);
-			EHTMLEditorSelectionBlockFormat format;
-
-			format = e_html_editor_selection_get_list_format_from_node (source_list);
-
-			list = create_list_element (
-				selection, document, format, get_list_level (node), html_mode);
-
-			element_add_class (list, "-x-evo-indented");
-			webkit_dom_node_insert_before (
-				source_list, WEBKIT_DOM_NODE (list), node, NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (list), node, NULL);
-
-			if (!webkit_dom_node_contains (node, WEBKIT_DOM_NODE (caret_position)))
-				webkit_dom_node_append_child (
-					node, WEBKIT_DOM_NODE (caret_position), NULL);
-
-			merge_lists_if_possible (WEBKIT_DOM_NODE (list));
-
-			e_html_editor_selection_restore_caret_position (selection);
-
-			g_object_unref (view);
-			return;
-		}
-
-		level = get_indentation_level (WEBKIT_DOM_ELEMENT (node));
-
-		final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-		if (final_width < 10 && !is_in_html_mode (selection)) {
-			e_html_editor_selection_restore_caret_position (selection);
-			g_object_unref (view);
-			return;
-		}
-
-		element = webkit_dom_node_get_parent_element (node);
-		clone = webkit_dom_node_clone_node (node, TRUE);
-
-		/* Remove style and let the paragraph inherit it from parent */
-		if (element_has_class (WEBKIT_DOM_ELEMENT (clone), "-x-evo-paragraph"))
-			webkit_dom_element_remove_attribute (
-				WEBKIT_DOM_ELEMENT (clone), "style");
-
-		element = e_html_editor_selection_get_indented_element (
-			selection, document, final_width);
-
-		/* Reinsert caret position node if the node is missing it */
-		if (!webkit_dom_node_contains (clone, WEBKIT_DOM_NODE (caret_position))) {
-			gchar *text_content = webkit_dom_node_get_text_content (clone);
-			if (!*text_content) {
-				webkit_dom_html_element_set_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (clone),
-					UNICODE_ZERO_WIDTH_SPACE,
-					NULL);
-			}
-			g_free (text_content);
-			webkit_dom_node_append_child (
-				clone,
-				WEBKIT_DOM_NODE (caret_position),
-				NULL);
-		}
-
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (element),
-			clone,
+		body = webkit_dom_document_get_body (document);
+		selection_start_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_start_marker, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
 			NULL);
-
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (element),
-			node,
+		selection_end_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_end_marker, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
 			NULL);
-
-		e_html_editor_selection_restore_caret_position (selection);
-	} else {
-		command = E_HTML_EDITOR_VIEW_COMMAND_INDENT;
-		e_html_editor_selection_save (selection);
-		e_html_editor_view_exec_command (view, command, NULL);
 	}
 
+	block = get_parent_block_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	while (block) {
+		gboolean after_selection_end = FALSE;
+		gint ii, length, level, final_width = 0;
+		gint word_wrap_length = selection->priv->word_wrap_length;
+		WebKitDOMElement *element;
+		WebKitDOMNode *next_block, *block_to_process;
+		WebKitDOMNodeList *list;
+
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		list = webkit_dom_element_query_selector_all (
+			WEBKIT_DOM_ELEMENT (block),
+			".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
+			NULL);
+
+		length = webkit_dom_node_list_get_length (list);
+		if (length == 0) {
+			block_to_process = block;
+
+			after_selection_end = webkit_dom_node_contains (
+				block_to_process, WEBKIT_DOM_NODE (selection_end_marker));
+
+			if (node_is_list (block_to_process)) {
+				indent_list (selection, document);
+				if (!after_selection_end) {
+					block = next_block;
+					continue;
+				} else
+					goto out;
+			}
+
+			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block_to_process));
+
+			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
+			if (final_width < 10 && !is_in_html_mode (selection)) {
+				if (!after_selection_end) {
+					block = next_block;
+					continue;
+				} else
+					goto out;
+			}
+
+			element = e_html_editor_selection_get_indented_element (
+				selection, document, final_width);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (block_to_process),
+				WEBKIT_DOM_NODE (element),
+				block_to_process,
+				NULL);
+
+			/* Remove style and let the paragraph inherit it from parent */
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-paragraph"))
+				webkit_dom_element_remove_attribute (
+					WEBKIT_DOM_ELEMENT (block_to_process), "style");
+
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (element),
+				block_to_process,
+				NULL);
+
+			if (after_selection_end)
+				goto out;
+		}
+
+		for (ii = 0; ii < length; ii++) {
+			block_to_process = webkit_dom_node_list_item (list, ii);
+
+			after_selection_end = webkit_dom_node_contains (
+				block_to_process, WEBKIT_DOM_NODE (selection_end_marker));
+
+			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block_to_process));
+
+			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
+			if (final_width < 10 && !is_in_html_mode (selection))
+				continue;
+
+			element = e_html_editor_selection_get_indented_element (
+				selection, document, final_width);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (block_to_process),
+				WEBKIT_DOM_NODE (element),
+				block_to_process,
+				NULL);
+
+			/* Remove style and let the paragraph inherit it from parent */
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-paragraph"))
+				webkit_dom_element_remove_attribute (
+					WEBKIT_DOM_ELEMENT (block_to_process), "style");
+
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (element),
+				block_to_process,
+				NULL);
+
+			if (after_selection_end)
+				goto out;
+		}
+
+		block = next_block;
+	}
+
+ out:
 	e_html_editor_view_force_spell_check (view);
 
-	if (has_selection)
-		e_html_editor_selection_restore (selection);
+	e_html_editor_selection_restore (selection);
 
 	g_object_unref (view);
 
@@ -2691,9 +2853,9 @@ unindent_list (EHTMLEditorSelection *selection,
 {
 	gboolean after = FALSE;
 	WebKitDOMElement *new_list;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *source_list, *source_list_clone, *current_list, *item;
-	WebKitDOMElement *selection_start_marker;
-	WebKitDOMElement *selection_end_marker;
+	WebKitDOMNode *prev_item;
 
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
@@ -2704,7 +2866,7 @@ unindent_list (EHTMLEditorSelection *selection,
 		return;
 
 	/* Copy elements from previous block to list */
-	item = webkit_dom_node_get_parent_node (
+	item = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
 	source_list = webkit_dom_node_get_parent_node (item);
 	new_list = WEBKIT_DOM_ELEMENT (
@@ -2721,20 +2883,21 @@ unindent_list (EHTMLEditorSelection *selection,
 	if (element_has_class (WEBKIT_DOM_ELEMENT (source_list), "-x-evo-indented"))
 		element_add_class (WEBKIT_DOM_ELEMENT (new_list), "-x-evo-indented");
 
+	prev_item = source_list;
+
 	while (item) {
 		WebKitDOMNode *next_item = webkit_dom_node_get_next_sibling (item);
 
 		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
-			if (after) {
-				webkit_dom_node_append_child (
+			if (after)
+				prev_item = webkit_dom_node_append_child (
 					source_list_clone, WEBKIT_DOM_NODE (item), NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (source_list),
+			else
+				prev_item = webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (prev_item),
 					item,
-					webkit_dom_node_get_next_sibling (source_list),
+					webkit_dom_node_get_next_sibling (prev_item),
 					NULL);
-			}
 		}
 
 		if (webkit_dom_node_contains (item, WEBKIT_DOM_NODE (selection_end_marker)))
@@ -2762,165 +2925,184 @@ unindent_list (EHTMLEditorSelection *selection,
 void
 e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 {
-	gboolean has_selection;
 	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
+	EHTMLEditorSelectionAlignment alignment;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *block;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	has_selection = g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0;
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-	if (!has_selection) {
-		EHTMLEditorSelectionAlignment alignment;
-		gboolean before_node = TRUE, reinsert_caret_position = FALSE;
-		const gchar *align_value;
-		gint word_wrap_length = selection->priv->word_wrap_length;
-		gint level, width;
-		WebKitDOMDocument *document;
-		WebKitDOMElement *element;
-		WebKitDOMElement *prev_blockquote = NULL, *next_blockquote = NULL;
-		WebKitDOMNode *node, *clone, *node_clone, *caret_node;
-		WebKitDOMRange *range;
+	e_html_editor_selection_save (selection);
 
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
 
-		e_html_editor_selection_save_caret_position (selection);
+	/* If the selection was not saved, move it into the first child of body */
+	if (!selection_start_marker || !selection_end_marker) {
+		WebKitDOMHTMLElement *body;
 
-		alignment = e_html_editor_selection_get_alignment (selection);
-		align_value = get_css_alignment_value (alignment);
-
-		range = html_editor_selection_get_current_range (selection);
-		if (!range) {
-			g_object_unref (view);
-			return;
-		}
-
-		node = webkit_dom_range_get_end_container (range, NULL);
-		if (!WEBKIT_DOM_IS_ELEMENT (node))
-			node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
-
-		element = webkit_dom_node_get_parent_element (node);
-
-		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node)) {
-			e_html_editor_selection_save (selection);
-			e_html_editor_selection_clear_caret_position_marker (selection);
-
-			unindent_list (selection, document);
-			e_html_editor_view_force_spell_check (view);
-			e_html_editor_selection_restore (selection);
-			g_object_unref (view);
-			return;
-		}
-
-		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
-			return;
-
-		element_add_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-to-unindent");
-
-		level = get_indentation_level (element);
-		width = word_wrap_length - SPACES_PER_INDENTATION * level;
-		clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
-
-		/* Look if we have previous siblings, if so, we have to
-		 * create new blockquote that will include them */
-		if (webkit_dom_node_get_previous_sibling (node))
-			prev_blockquote = e_html_editor_selection_get_indented_element (
-				selection, document, width);
-
-		/* Look if we have next siblings, if so, we have to
-		 * create new blockquote that will include them */
-		if (webkit_dom_node_get_next_sibling (node))
-			next_blockquote = e_html_editor_selection_get_indented_element (
-				selection, document, width);
-
-		/* Copy nodes that are before / after the element that we want to unindent */
-		while (webkit_dom_node_has_child_nodes (clone)) {
-			WebKitDOMNode *child;
-
-			child = webkit_dom_node_get_first_child (clone);
-
-			if (is_caret_position_node (child)) {
-				reinsert_caret_position = TRUE;
-				caret_node = webkit_dom_node_clone_node (child, TRUE);
-				remove_node (child);
-				continue;
-			}
-
-			if (webkit_dom_node_is_equal_node (child, node)) {
-				before_node = FALSE;
-				node_clone = webkit_dom_node_clone_node (child, TRUE);
-				remove_node (child);
-				continue;
-			}
-
-			webkit_dom_node_append_child (
-				before_node ?
-					WEBKIT_DOM_NODE (prev_blockquote) :
-					WEBKIT_DOM_NODE (next_blockquote),
-				child,
-				NULL);
-		}
-
-		element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
-
-		/* Insert blockqoute with nodes that were before the element that we want to unindent */
-		if (prev_blockquote) {
-			if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-					WEBKIT_DOM_NODE (prev_blockquote),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			}
-		}
-
-		/* Reinsert the caret position */
-		if (reinsert_caret_position) {
-			webkit_dom_node_append_child (
-				node_clone,
-				caret_node,
-				NULL);
-		}
-
-		if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
-			e_html_editor_selection_set_paragraph_style (
-				selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, align_value);
-
-		/* Insert the unindented element */
+		body = webkit_dom_document_get_body (document);
+		selection_start_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_start_marker, "-x-evo-selection-start-marker");
 		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			node_clone,
-			WEBKIT_DOM_NODE (element),
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
 			NULL);
-
-		/* Insert blockqoute with nodes that were after the element that we want to unindent */
-		if (next_blockquote) {
-			if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-					WEBKIT_DOM_NODE (next_blockquote),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			}
-		}
-
-		/* Remove old blockquote */
-		remove_node (WEBKIT_DOM_NODE (element));
-
-		e_html_editor_selection_restore_caret_position (selection);
-	} else {
-		command = E_HTML_EDITOR_VIEW_COMMAND_OUTDENT;
-		e_html_editor_selection_save (selection);
-		e_html_editor_view_exec_command (view, command, NULL);
+		selection_end_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_end_marker, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
 	}
 
+	block = get_parent_block_node (
+		WEBKIT_DOM_NODE (selection_start_marker));
+
+	while (block) {
+		gboolean after_selection_end = FALSE;
+		gint ii, length;
+		WebKitDOMNode *next_block;
+		WebKitDOMNodeList *list;
+
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		list = webkit_dom_element_query_selector_all (
+			WEBKIT_DOM_ELEMENT (block),
+			".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
+			NULL);
+
+		after_selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
+
+		length = webkit_dom_node_list_get_length (list);
+		if (length == 0 && node_is_list (block)) {
+			unindent_list (selection, document);
+			if (!after_selection_end) {
+				block = next_block;
+				continue;
+			} else
+				goto out;
+		}
+
+		for (ii = 0; ii < length; ii++) {
+			gboolean before_node = TRUE;
+			const gchar *align_value;
+			gint word_wrap_length = selection->priv->word_wrap_length;
+			gint level, width;
+			WebKitDOMElement *element;
+			WebKitDOMElement *prev_blockquote = NULL, *next_blockquote = NULL;
+			WebKitDOMNode *block_to_process, *node_clone, *child;
+
+			block_to_process = webkit_dom_node_list_item (list, ii);
+
+			alignment = e_html_editor_selection_get_alignment_from_node (block_to_process);
+			align_value = get_css_alignment_value (alignment);
+
+			element = webkit_dom_node_get_parent_element (block_to_process);
+
+			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
+				continue;
+
+			element_add_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-to-unindent");
+
+			level = get_indentation_level (element);
+			width = word_wrap_length - SPACES_PER_INDENTATION * level;
+
+			/* Look if we have previous siblings, if so, we have to
+			 * create new blockquote that will include them */
+			if (webkit_dom_node_get_previous_sibling (block_to_process))
+				prev_blockquote = e_html_editor_selection_get_indented_element (
+					selection, document, width);
+
+			/* Look if we have next siblings, if so, we have to
+			 * create new blockquote that will include them */
+			if (webkit_dom_node_get_next_sibling (block_to_process))
+				next_blockquote = e_html_editor_selection_get_indented_element (
+					selection, document, width);
+
+			/* Copy nodes that are before / after the element that we want to unindent */
+			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))) {
+				if (webkit_dom_node_is_equal_node (child, block_to_process)) {
+					before_node = FALSE;
+					node_clone = webkit_dom_node_clone_node (child, TRUE);
+					remove_node (child);
+					continue;
+				}
+
+				webkit_dom_node_append_child (
+					before_node ?
+						WEBKIT_DOM_NODE (prev_blockquote) :
+						WEBKIT_DOM_NODE (next_blockquote),
+					child,
+					NULL);
+			}
+
+			element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
+
+			/* Insert blockqoute with nodes that were before the element that we want to unindent */
+			if (prev_blockquote) {
+				if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+						WEBKIT_DOM_NODE (prev_blockquote),
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				}
+			}
+
+			if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
+				e_html_editor_selection_set_paragraph_style (
+					selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, align_value);
+
+			/* Insert the unindented element */
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+				node_clone,
+				WEBKIT_DOM_NODE (element),
+				NULL);
+
+			/* Insert blockqoute with nodes that were after the element that we want to unindent */
+			if (next_blockquote) {
+				if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (next_blockquote))) {
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+						WEBKIT_DOM_NODE (next_blockquote),
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				}
+			}
+
+			/* Remove old blockquote */
+			remove_node (WEBKIT_DOM_NODE (element));
+
+			if (after_selection_end)
+				goto out;
+		}
+		block = next_block;
+	}
+ out:
 	e_html_editor_view_force_spell_check (view);
 
-	if (has_selection)
-		e_html_editor_selection_restore (selection);
+	e_html_editor_selection_restore (selection);
 
 	g_object_unref (view);
 
