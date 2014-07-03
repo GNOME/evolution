@@ -6178,10 +6178,8 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 					WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
 				return;
 			}
-			convert_and_load_html_to_plain_text (view, text);
-		} else {
-			convert_and_load_plain_text (view, text);
 		}
+		convert_and_load_html_to_plain_text (view, text);
 	} else {
 		webkit_web_view_load_string (
 			WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
