@@ -64,11 +64,11 @@ Feature: Addressbook: File: Create contacts
       * Open contact editor for selected contact
       Then "Nickname:" property is set to "Unknown"
        And Emails are set to
-        | Field | Value                    |
-        | Work  | jimmy.doe@company.com    |
-        | Home  | jimmy_doe_72@gmail.com   |
-        | Other | jimmydoe72@yahoo.com     |
-        | Other | xxjimmyxx@free_email.com |
+        | Field       | Value                    |
+        | Work Email  | jimmy.doe@company.com    |
+        | Home Email  | jimmy_doe_72@gmail.com   |
+        | Other Email | jimmydoe72@yahoo.com     |
+        | Other Email | xxjimmyxx@free_email.com |
        And "Wants to receive HTML mail" checkbox is ticked
        And Phones are set to
         | Field           | Value |
