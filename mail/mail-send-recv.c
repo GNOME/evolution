@@ -431,28 +431,23 @@ format_service_name (CamelService *service)
 	return pretty_url;
 }
 
-static void
-report_error_to_ui (CamelService *service,
-		    const gchar *folder_name,
-		    const GError *error)
+struct ReportErrorToUIData
 {
+	gchar *display_name;
+	gchar *error_ident;
+	GError *error;
+};
+
+static gboolean
+report_error_to_ui_cb (gpointer user_data)
+{
+	struct ReportErrorToUIData *data = user_data;
 	EShellView *shell_view = NULL;
-	gchar *tmp = NULL;
-	const gchar *display_name, *ident;
 
-	g_return_if_fail (CAMEL_IS_SERVICE (service));
-	g_return_if_fail (error != NULL);
-
-	if (folder_name) {
-		tmp = g_strdup_printf ("%s: %s",
-			camel_service_get_display_name (service),
-			folder_name);
-		display_name = tmp;
-		ident = "mail:no-refresh-folder";
-	} else {
-		display_name = camel_service_get_display_name (service);
-		ident = "mail:failed-connect";
-	}
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (data->display_name != NULL, FALSE);
+	g_return_val_if_fail (data->error_ident != NULL, FALSE);
+	g_return_val_if_fail (data->error != NULL, FALSE);
 
 	if (send_recv_dialog) {
 		GtkWidget *parent;
@@ -487,15 +482,53 @@ report_error_to_ui (CamelService *service,
 		shell_content = e_shell_view_get_shell_content (shell_view);
 		alert_sink = E_ALERT_SINK (shell_content);
 
-		alert = e_alert_new (ident, display_name, error->message, NULL);
+		alert = e_alert_new (data->error_ident, data->display_name, data->error->message, NULL);
 
 		e_alert_sink_submit_alert (alert_sink, alert);
 
 		g_object_unref (alert);
 	} else {
 		/* This may not happen, but just in case... */
-		g_warning ("%s: %s '%s': %s\n", G_STRFUNC, ident, display_name, error->message);
+		g_warning ("%s: %s '%s': %s\n", G_STRFUNC, data->error_ident, data->display_name, data->error->message);
 	}
+
+	g_free (data->display_name);
+	g_free (data->error_ident);
+	g_error_free (data->error);
+	g_free (data);
+
+	return FALSE;
+}
+
+static void
+report_error_to_ui (CamelService *service,
+		    const gchar *folder_name,
+		    const GError *error)
+{
+	gchar *tmp = NULL;
+	const gchar *display_name, *ident;
+	struct ReportErrorToUIData *data;
+
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+	g_return_if_fail (error != NULL);
+
+	if (folder_name) {
+		tmp = g_strdup_printf ("%s: %s",
+			camel_service_get_display_name (service),
+			folder_name);
+		display_name = tmp;
+		ident = "mail:no-refresh-folder";
+	} else {
+		display_name = camel_service_get_display_name (service);
+		ident = "mail:failed-connect";
+	}
+
+	data = g_new0 (struct ReportErrorToUIData, 1);
+	data->display_name = g_strdup (display_name);
+	data->error_ident = g_strdup (ident);
+	data->error = g_error_copy (error);
+
+	g_idle_add_full (G_PRIORITY_DEFAULT, report_error_to_ui_cb, data, NULL);
 
 	g_free (tmp);
 }
