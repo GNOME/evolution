@@ -145,7 +145,9 @@ static void	e_calendar_item_get_day_style	(ECalendarItem *calitem,
 						 GdkColor **fg_color,
 						 GdkColor **box_color,
 						 gboolean *bold,
-						 gboolean *italic);
+						 gboolean *italic,
+						 GdkColor *local_bg_color,
+						 GdkColor *local_fg_color);
 static void	e_calendar_item_check_selection_end
 						(ECalendarItem *calitem,
 						 gint start_month,
@@ -886,7 +888,7 @@ e_calendar_item_realize (GnomeCanvasItem *item)
 
 	calitem = E_CALENDAR_ITEM (item);
 
-	e_calendar_item_style_set (GTK_WIDGET (item->canvas), calitem);
+	e_calendar_item_style_updated (GTK_WIDGET (item->canvas), calitem);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (calitem));
 }
@@ -914,21 +916,20 @@ e_calendar_item_update (GnomeCanvasItem *item,
 {
 	GnomeCanvasItemClass *item_class;
 	ECalendarItem *calitem;
-	GtkStyle *style;
 	gint char_height, width, height, space, space_per_cal, space_per_cell;
 	gint rows, cols, xthickness, ythickness;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
+	GtkBorder padding;
 
 	item_class = GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class);
 	if (item_class->update != NULL)
 		item_class->update (item, i2c, flags);
 
 	calitem = E_CALENDAR_ITEM (item);
-	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
-	xthickness = style->xthickness;
-	ythickness = style->ythickness;
+	gtk_style_context_get_padding (gtk_widget_get_style_context (GTK_WIDGET (item->canvas)), 0, &padding);
+	xthickness = padding.left;
+	ythickness = padding.top;
 
 	item->x1 = calitem->x1;
 	item->y1 = calitem->y1;
@@ -936,10 +937,9 @@ e_calendar_item_update (GnomeCanvasItem *item,
 	item->y2 = calitem->y2 >= calitem->y1 ? calitem->y2 : calitem->y1;
 
 	/* Set up Pango prerequisites */
-	font_desc = style->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 
 	/*
@@ -1055,7 +1055,6 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 	GtkWidget *widget;
 	GtkStyleContext *style_context;
 	gint char_height, row, col, row_y, bar_height, col_x;
-	const PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	GdkRGBA bg_color;
@@ -1072,14 +1071,11 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 	style_context = gtk_widget_get_style_context (widget);
 
 	/* Set up Pango prerequisites */
-	font_desc = calitem->font_desc;
-	if (!font_desc)
-		font_desc = gtk_style_context_get_font (
-			style_context, GTK_STATE_FLAG_NORMAL);
 	pango_context = gtk_widget_get_pango_context (
 		GTK_WIDGET (canvas_item->canvas));
+	/* It's OK when the calitem->font_desc is NUL, then the currently set font is used */
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, calitem->font_desc,
 		pango_context_get_language (pango_context));
 
 	char_height =
@@ -1206,8 +1202,6 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
-	GtkStyle *style;
-	PangoFontDescription *font_desc;
 	struct tm tmp_tm;
 	GdkRectangle clip_rect;
 	GDateWeekday start_weekday;
@@ -1222,6 +1216,9 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+	GtkBorder padding;
+	PangoFontDescription *font_desc;
+	GdkRGBA rgba;
 
 #if 0
 	g_print (
@@ -1230,22 +1227,23 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 #endif
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = gtk_widget_get_style (widget);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
-	if (!font_desc)
-		font_desc = style->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
+	if (!font_desc)
+		font_desc = pango_context_get_font_description (pango_context);
+	font_desc = pango_font_description_copy (font_desc);
 
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
-	xthickness = style->xthickness;
-	ythickness = style->ythickness;
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	xthickness = padding.left;
+	ythickness = padding.top;
 	arrow_button_size =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
 		+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
@@ -1267,8 +1265,10 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 
 	/* Just return if the month is outside the given area. */
 	if (month_x >= width || month_x + calitem->month_width <= 0
-	    || month_y >= height || month_y + calitem->month_height <= 0)
+	    || month_y >= height || month_y + calitem->month_height <= 0) {
+		pango_font_description_free (font_desc);
 		return;
+	}
 
 	month = calitem->month + row * calitem->cols + col;
 	year = calitem->year + month / 12;
@@ -1290,7 +1290,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	else
 		max_x -= E_CALENDAR_ITEM_XPAD_AFTER_MONTH_NAME;
 
-	text_y = month_y + style->ythickness
+	text_y = month_y + padding.top
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME;
 	clip_rect.x = month_x + min_x;
 	clip_rect.x = MAX (0, clip_rect.x);
@@ -1313,7 +1313,8 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 		gdk_cairo_rectangle (cr, &clip_rect);
 		cairo_clip (cr);
 
-		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+		e_utils_get_theme_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
+		gdk_cairo_set_source_rgba (cr, &rgba);
 
 		if (row == 0 && col == 0) {
 			PangoLayout *layout_yr;
@@ -1388,6 +1389,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 
 	if (clip_width <= 0 || clip_height <= 0) {
 		g_object_unref (layout);
+		pango_font_description_free (font_desc);
 		return;
 	}
 
@@ -1421,7 +1423,8 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_CELLS;
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &style->base[GTK_STATE_SELECTED]);
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &rgba);
+	gdk_cairo_set_source_rgba (cr, &rgba);
 	cairo_rectangle (
 		cr, cells_x ,
 		text_y - E_CALENDAR_ITEM_YPAD_ABOVE_CELLS - 1,
@@ -1433,7 +1436,8 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	pango_layout_set_font_description (layout, font_desc);
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		text_x += (7 - 1) * calitem->cell_width;
-	gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
+	e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+	gdk_cairo_set_source_rgba (cr, &rgba);
 	for (day = 0; day < 7; day++) {
 		cairo_save (cr);
 		layout_set_day_text (calitem, layout, weekday);
@@ -1452,7 +1456,8 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	/* Draw the rectangle around the week number. */
 	if (calitem->show_week_numbers) {
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &style->base[GTK_STATE_SELECTED]);
+		e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &rgba);
+		gdk_cairo_set_source_rgba (cr, &rgba);
 		cairo_rectangle (
 			cr, cells_x, cells_y - (cells_y - text_y + 2) ,
 				-20, E_CALENDAR_ROWS_PER_MONTH * calitem->cell_height + 18);
@@ -1466,6 +1471,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 
 	g_object_unref (layout);
 	cairo_restore (cr);
+	pango_font_description_free (font_desc);
 }
 
 static const gchar *
@@ -1511,9 +1517,9 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
-	GtkStyle *style;
 	PangoFontDescription *font_desc;
 	GdkColor *bg_color, *fg_color, *box_color;
+	GdkRGBA rgba;
 	struct tm today_tm;
 	time_t t;
 	gint char_height, min_cell_width, min_cell_height;
@@ -1533,17 +1539,17 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = gtk_widget_get_style (widget);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
-	if (!font_desc)
-		font_desc = style->font_desc;
 
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
+	if (!font_desc)
+		font_desc = pango_context_get_font_description (pango_context);
+	font_desc = pango_font_description_copy (font_desc);
 
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
@@ -1640,8 +1646,8 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 				get_digit_fomat (), digit);
 
 			cairo_save (cr);
-			gdk_cairo_set_source_color (
-				cr, &style->text[GTK_STATE_ACTIVE]);
+			e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+			gdk_cairo_set_source_rgba (cr, &rgba);
 			pango_layout_set_font_description (layout, font_desc);
 			pango_layout_set_text (layout, buffer, num_chars);
 			cairo_move_to (cr, text_x, text_y);
@@ -1652,6 +1658,8 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 
 		for (dcol = 0; dcol < 7; dcol++) {
 			if (draw_day) {
+				GdkColor local_bg_color, local_fg_color;
+
 				day_x = cells_x +
 					((gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 					? 7 - 1 - dcol : dcol) * calitem->cell_width;
@@ -1717,7 +1725,9 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 						&fg_color,
 						&box_color,
 						&bold,
-						&italic);
+						&italic,
+						&local_bg_color,
+						&local_fg_color);
 
 				/* Draw the background, if set. */
 				if (bg_color) {
@@ -1771,8 +1781,8 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 					gdk_cairo_set_source_color (
 						cr, fg_color);
 				} else {
-					gdk_cairo_set_source_color (
-						cr, &style->fg[GTK_STATE_NORMAL]);
+					e_utils_get_theme_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
+					gdk_cairo_set_source_rgba (cr, &rgba);
 				}
 
 				if (bold) {
@@ -1830,6 +1840,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 	g_object_unref (layout);
 
 	pango_font_metrics_unref (font_metrics);
+	pango_font_description_free (font_desc);
 }
 
 gint
@@ -2085,7 +2096,6 @@ static void
 e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 {
 	GnomeCanvasItem *canvas_item;
-	GtkStyle *style;
 	gint max_day_width, digit, max_digit_width, max_week_number_digit_width;
 	gint char_height, width, min_cell_width, min_cell_height;
 	gchar buffer[64];
@@ -2095,24 +2105,25 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	GDateWeekday weekday;
+	GtkWidget *widget;
+	GtkBorder padding;
 
 	canvas_item = GNOME_CANVAS_ITEM (calitem);
-	style = gtk_widget_get_style (GTK_WIDGET (canvas_item->canvas));
-
-	if (!style)
-		return;
+	widget = GTK_WIDGET (canvas_item->canvas);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
 	wkfont_desc = calitem->week_number_font_desc;
-	if (!font_desc)
-		font_desc = style->font_desc;
 
 	pango_context = gtk_widget_create_pango_context (
 		GTK_WIDGET (canvas_item->canvas));
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
+	if (!font_desc)
+		font_desc = pango_context_get_font_description (pango_context);
+	font_desc = pango_font_description_copy (font_desc);
 	layout = pango_layout_new (pango_context);
 
 	char_height =
@@ -2175,7 +2186,7 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 			+ E_CALENDAR_ITEM_XPAD_AFTER_WEEK_NUMBERS + 1;
 	}
 
-	calitem->min_month_height = style->ythickness * 2
+	calitem->min_month_height = padding.top * 2
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME + char_height
 		+ E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME + 1
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_DAY_LETTERS
@@ -2203,6 +2214,7 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	g_object_unref (layout);
 	g_object_unref (pango_context);
 	pango_font_metrics_unref (font_metrics);
+	pango_font_description_free (font_desc);
 }
 
 static void
@@ -2220,13 +2232,13 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
                                GdkColor **fg_color,
                                GdkColor **box_color,
                                gboolean *bold,
-                               gboolean *italic)
+                               gboolean *italic,
+			       GdkColor *local_bg_color,
+			       GdkColor *local_fg_color)
 {
 	GtkWidget *widget;
-	GtkStyle *style;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas);
-	style = gtk_widget_get_style (widget);
 
 	*bg_color = NULL;
 	*fg_color = NULL;
@@ -2240,22 +2252,31 @@ e_calendar_item_get_day_style (ECalendarItem *calitem,
 	if (today)
 		*box_color = &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX];
 
-	if (prev_or_next_month)
-		*fg_color = &style->mid[gtk_widget_get_state (widget)];
+	if (prev_or_next_month) {
+		*fg_color = local_fg_color;
+		e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, local_fg_color);
+	}
 
 	if (selected) {
-		if (has_focus) {
-			*fg_color = &style->text[GTK_STATE_SELECTED];
-			*bg_color = &style->base[GTK_STATE_SELECTED];
-		} else {
-			*fg_color = &style->text[GTK_STATE_ACTIVE];
-			*bg_color = &style->base[GTK_STATE_ACTIVE];
+		*bg_color = local_bg_color;
+		*fg_color = local_fg_color;
 
-			if ((*bg_color)->red == style->base[GTK_STATE_NORMAL].red &&
-			    (*bg_color)->green == style->base[GTK_STATE_NORMAL].green &&
-			    (*bg_color)->blue == style->base[GTK_STATE_NORMAL].blue) {
-				*fg_color = &style->text[GTK_STATE_SELECTED];
-				*bg_color = &style->base[GTK_STATE_SELECTED];
+		if (has_focus) {
+			e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, local_bg_color);
+			e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, local_fg_color);
+		} else {
+			GdkColor base_bg;
+
+			e_utils_get_theme_color_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, local_bg_color);
+			e_utils_get_theme_color_color (widget, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, local_fg_color);
+
+			e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
+
+			if (local_bg_color->red == base_bg.red &&
+			    local_bg_color->green == base_bg.green &&
+			    local_bg_color->blue == base_bg.blue) {
+				e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, local_bg_color);
+				e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, local_fg_color);
 			}
 		}
 	}
@@ -2613,32 +2634,28 @@ e_calendar_item_convert_position_to_day (ECalendarItem *calitem,
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
-	GtkStyle *style;
+	GtkBorder padding;
 	gint xthickness, ythickness, char_height;
 	gint x, y, row, col, cells_x, cells_y, day_row, day_col;
 	gint first_day_offset, days_in_month, days_in_prev_month;
 	gint week_num_x1, week_num_x2;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = gtk_widget_get_style (widget);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
 
-	font_desc = calitem->font_desc;
-	if (!font_desc)
-		font_desc = style->font_desc;
 	pango_context = gtk_widget_create_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, calitem->font_desc,
 		pango_context_get_language (pango_context));
 
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
-	xthickness = style->xthickness;
-	ythickness = style->ythickness;
+	xthickness = padding.left;
+	ythickness = padding.top;
 
 	pango_font_metrics_unref (font_metrics);
 
@@ -3413,28 +3430,20 @@ e_calendar_item_set_selection_if_emission (ECalendarItem *calitem,
 }
 
 void
-e_calendar_item_style_set (GtkWidget *widget,
-                           ECalendarItem *calitem)
+e_calendar_item_style_updated (GtkWidget *widget,
+			       ECalendarItem *calitem)
 {
-	GtkStyle *style;
-	GdkColor *color;
+	GdkRGBA selected_bg, fg, base_bg;
 
-	style = gtk_widget_get_style (widget);
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &selected_bg);
+	e_utils_get_theme_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
 
-	color = &style->bg[GTK_STATE_SELECTED];
-	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX] = *color;
-
-	color = &style->base[GTK_STATE_NORMAL];
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG] = *color;
-
-	color = &style->bg[GTK_STATE_SELECTED];
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED] = *color;
-
-	color = &style->fg[GTK_STATE_INSENSITIVE];
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG] = *color;
-
-	color = &style->fg[GTK_STATE_INSENSITIVE];
-	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG] = *color;
+	e_rgba_to_color (&selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX]);
+	e_rgba_to_color (&base_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG]);
+	e_rgba_to_color (&selected_bg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED]);
+	e_rgba_to_color (&fg, &calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG]);
+	e_rgba_to_color (&fg, &calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG]);
 
 	e_calendar_item_recalc_sizes (calitem);
 }

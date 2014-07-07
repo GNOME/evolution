@@ -2817,12 +2817,15 @@ gnome_canvas_draw_background (GnomeCanvas *canvas,
                               gint width,
                               gint height)
 {
-	GtkStyle *style;
+	GtkStyleContext *style_context;
+	GdkRGBA rgba;
 
-	style = gtk_widget_get_style (GTK_WIDGET (canvas));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (canvas));
+	if (!gtk_style_context_lookup_color (style_context, "theme_bg_color", &rgba))
+		gdk_rgba_parse (&rgba, "#aaaaaa");
 
 	cairo_save (cr);
-	gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+	gdk_cairo_set_source_rgba (cr, &rgba);
 	cairo_paint (cr);
 	cairo_restore (cr);
 }

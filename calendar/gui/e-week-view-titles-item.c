@@ -126,7 +126,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 {
 	EWeekViewTitlesItem *titles_item;
 	EWeekView *week_view;
-	GtkStyle *style;
+	GdkRGBA bg_bg, light_bg, dark_bg;
 	gint col_width, col, date_width, date_x;
 	gchar buffer[128];
 	GtkAllocation allocation;
@@ -147,18 +147,21 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	gtk_widget_get_allocation (
 		GTK_WIDGET (canvas_item->canvas), &allocation);
 
-	style = gtk_widget_get_style (GTK_WIDGET (week_view));
+	e_utils_get_theme_color (GTK_WIDGET (week_view), "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_bg);
+	e_utils_shade_color (&bg_bg, &dark_bg, E_UTILS_DARKNESS_MULT);
+	e_utils_shade_color (&bg_bg, &light_bg, E_UTILS_LIGHTNESS_MULT);
+
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 
 	/* Draw the shadow around the dates. */
-	gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+	gdk_cairo_set_source_rgba (cr, &light_bg);
 	cairo_move_to (cr, 1.5 - x, 1.5 - y);
 	cairo_rel_line_to (cr, allocation.width - 1, 0);
 	cairo_move_to (cr, 1.5 - x, 2.5 - y);
 	cairo_rel_line_to (cr, 0, allocation.height - 1);
 	cairo_stroke (cr);
 
-	gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+	gdk_cairo_set_source_rgba (cr, &dark_bg);
 	cairo_rectangle (cr, 0.5 - x, 0.5 - y, allocation.width - 1, allocation.height);
 	cairo_stroke (cr);
 
@@ -213,12 +216,12 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Draw the lines down the left and right of the date cols. */
 		if (col != 0) {
-			gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+			gdk_cairo_set_source_rgba (cr, &light_bg);
 			cairo_move_to (cr, week_view->col_offsets[col] - x + 0.5, 4.5 - y);
 			cairo_rel_line_to (cr, 0, allocation.height - 8);
 			cairo_stroke (cr);
 
-			gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+			gdk_cairo_set_source_rgba (cr, &dark_bg);
 			cairo_move_to (cr, week_view->col_offsets[col] - x - 0.5, 4.5 - y);
 			cairo_rel_line_to (cr, 0, allocation.height - 8);
 			cairo_stroke (cr);

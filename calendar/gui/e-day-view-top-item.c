@@ -68,7 +68,7 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	GdkColor bg_color;
+	GdkRGBA bg_color;
 	GdkPoint points[3];
 	gint c1, c2;
 
@@ -98,11 +98,11 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 
 	cairo_save (cr);
 	/* Fill it in. */
-	if (gdk_color_parse (
+	if (gdk_rgba_parse (&bg_color,
 		e_cal_model_get_color_for_component (
 		e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
-		event->comp_data), &bg_color)) {
-		gdk_cairo_set_source_color (cr, &bg_color);
+		event->comp_data))) {
+		gdk_cairo_set_source_rgba (cr, &bg_color);
 	} else {
 		gdk_cairo_set_source_color (
 			cr, &day_view->colors
@@ -139,7 +139,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	GtkStyle *style;
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
@@ -152,7 +151,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	gboolean draw_start_triangle, draw_end_triangle;
 	GSList *categories_list, *elem;
 	PangoLayout *layout;
-	GdkColor bg_color;
+	GdkRGBA bg_color, rgba;
 	cairo_pattern_t *pat;
 	guint16 red, green, blue;
 	gdouble cc = 65535.0;
@@ -182,15 +181,14 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	if (gdk_color_parse (
+	if (gdk_rgba_parse (&bg_color,
 		e_cal_model_get_color_for_component (
 		e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
-		event->comp_data), &bg_color)) {
+		event->comp_data))) {
 		red = bg_color.red;
 		green = bg_color.green;
 		blue = bg_color.blue;
@@ -308,7 +306,8 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	time_width = e_day_view_get_time_string_width (day_view);
 
-	gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+	e_utils_get_theme_color (GTK_WIDGET (day_view), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
+	gdk_cairo_set_source_rgba (cr, &rgba);
 
 	if (event->start > day_view->day_starts[start_day]) {
 		offset = day_view->first_hour_shown * 60
@@ -574,14 +573,13 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 {
 	EDayViewTopItem *top_item;
 	EDayView *day_view;
-	GtkStyle *style;
 	gchar buffer[128];
 	GtkAllocation allocation;
 	GdkRectangle clip_rect;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
 	PangoLayout *layout;
-	GdkColor bg, light, dark;
+	GdkRGBA bg, fg, light, dark;
 	gboolean show_dates;
 
 	top_item = E_DAY_VIEW_TOP_ITEM (canvas_item);
@@ -589,7 +587,6 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	g_return_if_fail (day_view != NULL);
 	show_dates = top_item->priv->show_dates;
 
-	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gtk_widget_get_allocation (
 		GTK_WIDGET (canvas_item->canvas), &allocation);
 	canvas_width = allocation.width;
@@ -600,14 +597,15 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
-	bg = style->bg[GTK_STATE_NORMAL];
-	light = style->light[GTK_STATE_NORMAL];
-	dark = style->dark[GTK_STATE_NORMAL];
+	e_utils_get_theme_color (GTK_WIDGET (day_view), "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
+	e_utils_get_theme_color (GTK_WIDGET (day_view), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+	e_utils_shade_color (&bg, &light, E_UTILS_LIGHTNESS_MULT);
+	e_utils_shade_color (&bg, &dark, E_UTILS_DARKNESS_MULT);
 
 	if (show_dates) {
 		/* Draw the shadow around the dates. */
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &light);
+		gdk_cairo_set_source_rgba (cr, &light);
 		cairo_move_to (cr, left_edge - x, 1 - y);
 		cairo_line_to (cr, canvas_width - 2 - x, 1 - y);
 		cairo_move_to (cr, left_edge - x, 2 - y);
@@ -616,7 +614,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		cairo_restore (cr);
 
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &dark);
+		gdk_cairo_set_source_rgba (cr, &dark);
 		cairo_move_to (cr, left_edge - x, item_height - 1 - y);
 		cairo_line_to (cr, canvas_width - 1 - x, item_height - 1 - y);
 		cairo_move_to (cr, canvas_width - 1 - x, 1 - y);
@@ -626,7 +624,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Draw the background for the dates. */
 		cairo_save (cr);
-		gdk_cairo_set_source_color (cr, &bg);
+		gdk_cairo_set_source_rgba (cr, &bg);
 		cairo_rectangle (
 			cr, left_edge + 2 - x, 2 - y,
 			canvas_width - left_edge - 3,
@@ -709,8 +707,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			date_x = day_view->day_offsets[day] +
 				(clip_rect.width - date_width) / 2;
 
-			gdk_cairo_set_source_color (
-				cr, &style->fg[GTK_STATE_NORMAL]);
+			gdk_cairo_set_source_rgba (cr, &fg);
 			cairo_move_to (cr, date_x - x, 3 - y);
 			pango_cairo_show_layout (cr, layout);
 
@@ -720,7 +717,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			/* Draw the lines down the left and right of the date cols. */
 			if (day != 0) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &light);
+				gdk_cairo_set_source_rgba (cr, &light);
 				cairo_move_to (
 					cr, day_view->day_offsets[day] - x,
 					4 - y);
@@ -728,7 +725,7 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 					cr, day_view->day_offsets[day] - x,
 					item_height - 4 - y);
 				cairo_stroke (cr);
-				gdk_cairo_set_source_color (cr, &dark);
+				gdk_cairo_set_source_rgba (cr, &dark);
 				cairo_move_to (
 					cr, day_view->day_offsets[day] - 1 - x,
 					4 - y);

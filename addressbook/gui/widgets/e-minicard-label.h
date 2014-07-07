@@ -67,7 +67,7 @@ struct _EMinicardLabelClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	void (* style_set) (EMinicardLabel *label, GtkStyle *previous_style);
+	void (* style_updated) (EMinicardLabel *label);
 };
 
 GType      e_minicard_label_get_type (void);

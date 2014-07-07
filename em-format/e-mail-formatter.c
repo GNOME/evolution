@@ -503,7 +503,7 @@ mail_formatter_update_style (EMailFormatter *formatter,
 			style_context,
 			backdrop ? "theme_unfocused_bg_color" : "theme_bg_color",
 			&rgba))
-		gdk_rgba_parse (&rgba, "#eeeeee");
+		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_BG_COLOR);
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_BODY, &rgba);
 
@@ -517,7 +517,7 @@ mail_formatter_update_style (EMailFormatter *formatter,
 			style_context,
 			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
 			&rgba))
-		gdk_rgba_parse (&rgba, "#000000");
+		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_FG_COLOR);
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_HEADER, &rgba);
 
@@ -525,7 +525,7 @@ mail_formatter_update_style (EMailFormatter *formatter,
 			style_context,
 			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
 			&rgba))
-		gdk_rgba_parse (&rgba, "#ffffff");
+		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_BASE_COLOR);
 	e_mail_formatter_set_color  (
 		formatter, E_MAIL_FORMATTER_COLOR_CONTENT, &rgba);
 
@@ -533,7 +533,7 @@ mail_formatter_update_style (EMailFormatter *formatter,
 			style_context,
 			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
 			&rgba))
-		gdk_rgba_parse (&rgba, "#000000");
+		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_FG_COLOR);
 	e_mail_formatter_set_color (
 		formatter, E_MAIL_FORMATTER_COLOR_TEXT, &rgba);
 

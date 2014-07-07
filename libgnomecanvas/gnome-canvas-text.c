@@ -1184,12 +1184,13 @@ static void
 gnome_canvas_text_apply_font_desc (GnomeCanvasText *text)
 {
 	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
 	GtkWidget *widget;
-	GtkStyle *style;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas);
-	style = gtk_widget_get_style (widget);
-	font_desc = pango_font_description_copy (style->font_desc);
+	pango_context = gtk_widget_create_pango_context (widget);
+	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
+	g_object_unref (pango_context);
 
 	if (text->font_desc)
 		pango_font_description_merge (font_desc, text->font_desc, TRUE);

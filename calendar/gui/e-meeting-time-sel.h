@@ -69,7 +69,7 @@ G_BEGIN_DECLS
 /* This is used to specify the format used when displaying the dates.
  * The abbreviated format is like 'Sun 12/9/99'.
  * The short format is like '12/9/99'.
- * The actual format used is determined in e_meeting_time_selector_style_set (),
+ * The actual format used is determined in e_meeting_time_selector_style_updated (),
  * once we know the font being used.
  */
 typedef enum

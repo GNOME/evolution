@@ -272,7 +272,6 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	EDayViewTimeItem *time_item;
 	ECalendarView *cal_view;
 	ECalModel *model;
-	GtkStyle *style;
 	const gchar *suffix;
 	gchar buffer[64], *midnight_day = NULL, *midnight_month = NULL;
 	gint time_divisions;
@@ -284,32 +283,30 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	gint max_suffix_width, max_minute_or_suffix_width;
 	PangoLayout *layout;
 	PangoContext *context;
-	PangoFontDescription *small_font_desc;
 	PangoFontMetrics *large_font_metrics, *small_font_metrics;
-	GdkColor fg, dark;
+	GtkWidget *widget;
+	GdkRGBA fg, dark;
 	GdkColor mb_color;
 
 	time_item = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	g_return_if_fail (day_view != NULL);
 
+	widget = GTK_WIDGET (day_view);
 	cal_view = E_CALENDAR_VIEW (day_view);
 	model = e_calendar_view_get_model (cal_view);
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
-	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	small_font_desc = style->font_desc;
-
 	context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
+	small_font_metrics = pango_context_get_metrics (
+		context, NULL,
+		pango_context_get_language (context));
 	large_font_metrics = pango_context_get_metrics (
 		context, day_view->large_font_desc,
 		pango_context_get_language (context));
-	small_font_metrics = pango_context_get_metrics (
-		context, small_font_desc,
-		pango_context_get_language (context));
 
-	fg = style->fg[GTK_STATE_NORMAL];
-	dark = style->dark[GTK_STATE_NORMAL];
+	e_utils_get_theme_color (widget, "theme_fg_color,theme_text_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &dark);
 
 	/* The start and end of the long horizontal line between hours. */
 	long_line_x1 =
@@ -496,7 +493,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			 * between hours and display as one long string,
 			 * e.g. "14:00" or "2 pm". */
 			cairo_save (cr);
-			gdk_cairo_set_source_color (cr, &dark);
+			gdk_cairo_set_source_rgba (cr, &dark);
 			cairo_save (cr);
 			cairo_set_line_width (cr, 0.7);
 			cairo_move_to (cr, long_line_x1, row_y);
@@ -520,7 +517,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			if (show_midnight_date)
 				gdk_cairo_set_source_color (cr, &mb_color);
 			else
-				gdk_cairo_set_source_color (cr, &fg);
+				gdk_cairo_set_source_rgba (cr, &fg);
 			layout = pango_cairo_create_layout (cr);
 			pango_layout_set_text (layout, buffer, -1);
 			pango_layout_get_pixel_size (layout, &minute_width, NULL);
@@ -541,7 +538,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				 * large font. */
 
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &dark);
+				gdk_cairo_set_source_rgba (cr, &dark);
 				if (show_midnight_date)
 					g_snprintf (buffer, sizeof (buffer), "%s", midnight_day);
 				else
@@ -559,7 +556,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				if (show_midnight_date)
 					gdk_cairo_set_source_color (cr, &mb_color);
 				else
-					gdk_cairo_set_source_color (cr, &fg);
+					gdk_cairo_set_source_rgba (cr, &fg);
 				layout = pango_cairo_create_layout (cr);
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (
@@ -578,7 +575,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				/* Within the hour - draw a short line before
 				 * the time. */
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &dark);
+				gdk_cairo_set_source_rgba (cr, &dark);
 				cairo_set_line_width (cr, 0.7);
 				cairo_move_to (cr, short_line_x1, row_y);
 				cairo_line_to (cr, long_line_x2, row_y);
@@ -607,7 +604,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 				if (show_midnight_date)
 					gdk_cairo_set_source_color (cr, &mb_color);
 				else
-					gdk_cairo_set_source_color (cr, &fg);
+					gdk_cairo_set_source_rgba (cr, &fg);
 				layout = pango_cairo_create_layout (cr);
 				pango_layout_set_text (layout, buffer, -1);
 				pango_layout_set_font_description (
@@ -1061,21 +1058,17 @@ e_day_view_time_item_set_day_view (EDayViewTimeItem *time_item,
 
 /* Returns the minimum width needed for the column, by adding up all the
  * maximum widths of the strings. The string widths are all calculated in
- * the style_set handlers of EDayView and EDayViewTimeCanvas. */
+ * the style_updated handlers of EDayView and EDayViewTimeCanvas. */
 gint
 e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 {
 	EDayView *day_view;
-	GtkStyle *style;
 	gint digit, large_digit_width, max_large_digit_width = 0;
 	gint max_suffix_width, max_minute_or_suffix_width;
 	gint column_width_default, column_width_60_min_rows;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	g_return_val_if_fail (day_view != NULL, 0);
-
-	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	g_return_val_if_fail (style != NULL, 0);
 
 	/* Find the maximum width a digit can have. FIXME: We could use pango's
 	 * approximation function, but I worry it won't be precise enough. Also

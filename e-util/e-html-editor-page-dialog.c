@@ -322,18 +322,8 @@ html_editor_page_dialog_show (GtkWidget *widget)
 
 	tmp = webkit_dom_html_body_element_get_text (
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp) {
-		GdkColor *color;
-		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (view));
-		color = &style->text[GTK_STATE_NORMAL];
-
-		rgba.alpha = 1;
-		rgba.red = ((gdouble) color->red) / G_MAXUINT16;
-		rgba.green = ((gdouble) color->green) / G_MAXUINT16;
-		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
-	} else {
-		gdk_rgba_parse (&rgba, tmp);
-	}
+	if (!tmp || !*tmp || !gdk_rgba_parse (&rgba, tmp))
+		e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
 	g_free (tmp);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
@@ -358,19 +348,8 @@ html_editor_page_dialog_show (GtkWidget *widget)
 
 	tmp = webkit_dom_html_body_element_get_bg_color (
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp) {
-		GdkColor *color;
-		GtkStyle *style = gtk_widget_get_style (GTK_WIDGET (view));
-		color = &style->base[GTK_STATE_NORMAL];
-
-		rgba.alpha = 1;
-		rgba.red = ((gdouble) color->red) / G_MAXUINT16;
-		rgba.green = ((gdouble) color->green) / G_MAXUINT16;
-		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
-
-	} else {
-		gdk_rgba_parse (&rgba, tmp);
-	}
+	if (!tmp || !*tmp || !gdk_rgba_parse (&rgba, tmp))
+		e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &rgba);
 	g_free (tmp);
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);

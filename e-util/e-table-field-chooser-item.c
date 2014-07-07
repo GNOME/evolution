@@ -227,15 +227,15 @@ etfci_update (GnomeCanvasItem *item,
 static void
 etfci_font_load (ETableFieldChooserItem *etfci)
 {
+	PangoContext *pango_context;
 	GtkWidget *widget;
-	GtkStyle *style;
 
 	if (etfci->font_desc)
 		pango_font_description_free (etfci->font_desc);
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
-	style = gtk_widget_get_style (widget);
-	etfci->font_desc = pango_font_description_copy (style->font_desc);
+	pango_context = gtk_widget_get_pango_context (widget);
+	etfci->font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
 }
 
 static void

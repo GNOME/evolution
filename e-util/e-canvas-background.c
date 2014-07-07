@@ -57,7 +57,7 @@ struct _ECanvasBackgroundPrivate {
 };
 
 enum {
-	STYLE_SET,
+	STYLE_UPDATED,
 	LAST_SIGNAL
 };
 
@@ -208,8 +208,7 @@ ecb_point (GnomeCanvasItem *item,
 }
 
 static void
-ecb_style_set (ECanvasBackground *ecb,
-               GtkStyle *previous_style)
+ecb_style_updated (ECanvasBackground *ecb)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
 
@@ -233,7 +232,7 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	item_class->point = ecb_point;
 	item_class->bounds = ecb_bounds;
 
-	ecb_class->style_set = ecb_style_set;
+	ecb_class->style_updated = ecb_style_updated;
 
 	g_object_class_install_property (
 		object_class,
@@ -265,14 +264,13 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 			0, G_MAXUINT, 0,
 			G_PARAM_READWRITE));
 
-	ecb_signals[STYLE_SET] = g_signal_new (
-		"style_set",
+	ecb_signals[STYLE_UPDATED] = g_signal_new (
+		"style_updated",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ECanvasBackgroundClass, style_set),
+		G_STRUCT_OFFSET (ECanvasBackgroundClass, style_updated),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_STYLE);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 

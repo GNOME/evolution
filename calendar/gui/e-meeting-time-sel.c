@@ -105,8 +105,7 @@ static void e_meeting_time_selector_autopick_menu_detacher (GtkWidget *widget,
 							    GtkMenu   *menu);
 static void e_meeting_time_selector_realize (GtkWidget *widget);
 static void e_meeting_time_selector_unrealize (GtkWidget *widget);
-static void e_meeting_time_selector_style_set (GtkWidget *widget,
-					       GtkStyle  *previous_style);
+static void e_meeting_time_selector_style_updated (GtkWidget *widget);
 static gint e_meeting_time_selector_draw (GtkWidget *widget, cairo_t *cr);
 static void e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts, cairo_t *cr);
 static void e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
@@ -291,7 +290,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = e_meeting_time_selector_realize;
 	widget_class->unrealize = e_meeting_time_selector_unrealize;
-	widget_class->style_set = e_meeting_time_selector_style_set;
+	widget_class->style_updated = e_meeting_time_selector_style_updated;
 	widget_class->draw = e_meeting_time_selector_draw;
 
 	g_object_class_install_property (
@@ -1072,17 +1071,15 @@ style_change_idle_func (EMeetingTimeSelector *mts)
 	GtkWidget *widget;
 	gint hour, max_hour_width;
 	/*int maxheight;      */
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
 	/* Set up Pango prerequisites */
 	widget = GTK_WIDGET (mts);
-	font_desc = gtk_widget_get_style (widget)->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
 
@@ -1140,13 +1137,12 @@ style_change_idle_func (EMeetingTimeSelector *mts)
 }
 
 static void
-e_meeting_time_selector_style_set (GtkWidget *widget,
-                                   GtkStyle *previous_style)
+e_meeting_time_selector_style_updated (GtkWidget *widget)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (widget);
 
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_updated)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_updated) (widget);
 
 	if (!mts->style_change_idle_id)
 		mts->style_change_idle_id = g_idle_add (

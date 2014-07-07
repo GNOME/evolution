@@ -38,6 +38,8 @@
 
 #include <libgnomecanvas/gnome-canvas-widget.h>
 
+#include "e-misc-utils.h"
+
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
 
 #define E_CALENDAR_SMALL_FONT \
@@ -66,8 +68,7 @@
 
 static void e_calendar_dispose		(GObject	*object);
 static void e_calendar_realize		(GtkWidget	*widget);
-static void e_calendar_style_set	(GtkWidget	*widget,
-					 GtkStyle	*previous_style);
+static void e_calendar_style_updated	(GtkWidget	*widget);
 static void e_calendar_get_preferred_width (GtkWidget *widget,
 					    gint      *minimal_width,
 					    gint      *natural_width);
@@ -126,7 +127,7 @@ e_calendar_class_init (ECalendarClass *class)
 	object_class->dispose = e_calendar_dispose;
 
 	widget_class->realize = e_calendar_realize;
-	widget_class->style_set = e_calendar_style_set;
+	widget_class->style_updated = e_calendar_style_updated;
 	widget_class->get_preferred_width = e_calendar_get_preferred_width;
 	widget_class->get_preferred_height = e_calendar_get_preferred_height;
 	widget_class->size_allocate = e_calendar_size_allocate;
@@ -140,13 +141,17 @@ e_calendar_init (ECalendar *cal)
 {
 	GnomeCanvasGroup *canvas_group;
 	PangoFontDescription *small_font_desc;
+	PangoContext *pango_context;
 	GtkWidget *button, *pixmap;
 	AtkObject *a11y;
+
+	pango_context = gtk_widget_create_pango_context (GTK_WIDGET (cal));
+	g_warn_if_fail (pango_context != NULL);
 
 	/* Create the small font. */
 
 	small_font_desc = pango_font_description_copy (
-		gtk_widget_get_style (GTK_WIDGET (cal))->font_desc);
+		pango_context_get_font_description (pango_context));
 	pango_font_description_set_size (
 		small_font_desc,
 		E_CALENDAR_SMALL_FONT_PTSIZE * PANGO_SCALE);
@@ -161,6 +166,7 @@ e_calendar_init (ECalendar *cal)
 			NULL));
 
 	pango_font_description_free (small_font_desc);
+	g_object_unref (pango_context);
 
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = gtk_button_new ();
@@ -311,42 +317,42 @@ e_calendar_dispose (GObject *object)
 }
 
 static void
-e_calendar_realize (GtkWidget *widget)
+e_calendar_update_window_background (GtkWidget *widget)
 {
-	GtkStyle *style;
 	GdkWindow *window;
+	GdkRGBA bg_bg;
 
-	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->realize) (widget);
+	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_bg);
 
 	/* Set the background of the canvas window to the normal color,
 	 * or the arrow buttons are not displayed properly. */
-	style = gtk_widget_get_style (widget);
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-	gdk_window_set_background (window, &style->bg[GTK_STATE_NORMAL]);
+	gdk_window_set_background_rgba (window, &bg_bg);
 }
 
 static void
-e_calendar_style_set (GtkWidget *widget,
-                      GtkStyle *previous_style)
+e_calendar_realize (GtkWidget *widget)
+{
+	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->realize) (widget);
+
+	e_calendar_update_window_background (widget);
+}
+
+static void
+e_calendar_style_updated (GtkWidget *widget)
 {
 	ECalendar *e_calendar;
 
 	e_calendar = E_CALENDAR (widget);
-	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set) (widget,
-							       previous_style);
+	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_updated)
+		(*GTK_WIDGET_CLASS (e_calendar_parent_class)->style_updated) (widget);
 
 	/* Set the background of the canvas window to the normal color,
 	 * or the arrow buttons are not displayed properly. */
-	if (gtk_widget_get_realized (widget)) {
-		GtkStyle *style;
-		GdkWindow *window;
+	if (gtk_widget_get_realized (widget))
+		e_calendar_update_window_background (widget);
 
-		style = gtk_widget_get_style (widget);
-		window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-		gdk_window_set_background (window, &style->bg[GTK_STATE_NORMAL]);
-	}
-	e_calendar_item_style_set (widget, e_calendar->calitem);
+	e_calendar_item_style_updated (widget, e_calendar->calitem);
 }
 
 static void
@@ -355,15 +361,15 @@ e_calendar_get_preferred_width (GtkWidget *widget,
                                 gint *natural)
 {
 	ECalendar *cal;
-	GtkStyle *style;
+	GtkBorder padding;
 	gint col_width;
 
 	cal = E_CALENDAR (widget);
-	style = gtk_widget_get_style (GTK_WIDGET (cal));
 
 	g_object_get ((cal->calitem), "column_width", &col_width, NULL);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
 
-	*minimum = *natural = col_width * cal->min_cols + style->xthickness * 2;
+	*minimum = *natural = col_width * cal->min_cols + padding.left * 2;
 }
 
 static void
@@ -372,15 +378,15 @@ e_calendar_get_preferred_height (GtkWidget *widget,
                                  gint *natural)
 {
 	ECalendar *cal;
-	GtkStyle *style;
+	GtkBorder padding;
 	gint row_height;
 
 	cal = E_CALENDAR (widget);
-	style = gtk_widget_get_style (GTK_WIDGET (cal));
 
 	g_object_get ((cal->calitem), "row_height", &row_height, NULL);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
 
-	*minimum = *natural = row_height * cal->min_rows + style->ythickness * 2;
+	*minimum = *natural = row_height * cal->min_rows + padding.top * 2;
 }
 
 static void
@@ -388,9 +394,8 @@ e_calendar_size_allocate (GtkWidget *widget,
                           GtkAllocation *allocation)
 {
 	ECalendar *cal;
-	GtkStyle *style;
+	GtkBorder padding;
 	GtkAllocation old_allocation;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	gdouble old_x2, old_y2, new_x2, new_y2;
@@ -398,17 +403,16 @@ e_calendar_size_allocate (GtkWidget *widget,
 	gboolean is_rtl;
 
 	cal = E_CALENDAR (widget);
-	style = gtk_widget_get_style (widget);
-	xthickness = style->xthickness;
-	ythickness = style->ythickness;
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
+	xthickness = padding.left;
+	ythickness = padding.top;
 
 	(*GTK_WIDGET_CLASS (e_calendar_parent_class)->size_allocate) (widget, allocation);
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (widget)->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 
 	/* Set the scroll region to its allocated size, if changed. */
@@ -540,17 +544,21 @@ e_calendar_get_border_size (ECalendar *cal,
                             gint *left,
                             gint *right)
 {
-	GtkStyle *style;
+	GtkStyleContext *style_context;
 
 	g_return_if_fail (E_IS_CALENDAR (cal));
 
-	style = gtk_widget_get_style (GTK_WIDGET (cal));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (cal));
 
-	if (style) {
-		*top    = style->ythickness;
-		*bottom = style->ythickness;
-		*left   = style->xthickness;
-		*right  = style->xthickness;
+	if (style_context) {
+		GtkBorder padding;
+
+		gtk_style_context_get_padding (style_context, 0, &padding);
+
+		*top    = padding.top;
+		*bottom = padding.top;
+		*left   = padding.left;
+		*right  = padding.left;
 	} else {
 		*top = *bottom = *left = *right = 0;
 	}

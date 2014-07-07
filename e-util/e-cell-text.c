@@ -535,8 +535,8 @@ build_layout (ECellTextView *text_view,
 	if (text_view->edit || width <= 0)
 		return layout;
 
-	if (ect->font_name)
-	{
+	if (ect->font_name) {
+		PangoContext *pango_context;
 		PangoFontDescription *desc = NULL, *fixed_desc = NULL;
 		gchar *fixed_family = NULL;
 		gint fixed_size = 0;
@@ -549,7 +549,8 @@ build_layout (ECellTextView *text_view,
 			fixed_points = !pango_font_description_get_size_is_absolute (fixed_desc);
 		}
 
-		desc = pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas))->font_desc);
+		pango_context = gtk_widget_get_pango_context (GTK_WIDGET (((GnomeCanvasItem *) ecell_view->e_table_item_view)->canvas));
+		desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
 		pango_font_description_set_family (desc, fixed_family);
 		if (fixed_points)
 			pango_font_description_set_size (desc, fixed_size);
@@ -708,21 +709,24 @@ ect_draw (ECellView *ecell_view,
 	CellEdit *edit = text_view->edit;
 	gboolean selected;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
-	GtkStyle *style;
+	GdkRGBA fg_rgba, bg_rgba;
 	gint x_origin, y_origin, vspacing;
 
 	cairo_save (cr);
-	style = gtk_widget_get_style (canvas);
 
 	selected = flags & E_CELL_SELECTED;
 
 	if (selected) {
 		if (gtk_widget_has_focus (canvas))
-			gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_SELECTED]);
+			e_utils_get_theme_color (canvas, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, &fg_rgba);
 		else
-			gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_ACTIVE]);
+			e_utils_get_theme_color (canvas, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg_rgba);
+		gdk_cairo_set_source_rgba (cr, &fg_rgba);
 	} else {
-		gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_NORMAL]);
+		gboolean color_overwritten = FALSE;
+
+		e_utils_get_theme_color (canvas, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
+		gdk_cairo_set_source_rgba (cr, &fg_rgba);
 
 		if (ect->color_column != -1) {
 			gchar *color_spec;
@@ -731,8 +735,51 @@ ect_draw (ECellView *ecell_view,
 			color_spec = e_table_model_value_at (
 				ecell_view->e_table_model,
 				ect->color_column, row);
-			if (color_spec && gdk_color_parse (color_spec, &color))
+			if (color_spec && gdk_color_parse (color_spec, &color)) {
 				gdk_cairo_set_source_color (cr, &color);
+				color_overwritten = TRUE;
+			}
+
+			if (color_spec)
+				e_table_model_free_value (ecell_view->e_table_model, ect->color_column, color_spec);
+		}
+
+		if (!color_overwritten && ect->bg_color_column != -1) {
+			GdkColor bg_color;
+			gchar *color_spec;
+
+			/* if the background color is overwritten and the text color is not, then
+			   pick either black or white text color, because the theme text color might
+			   be hard to read on the overwritten background */
+			color_spec = e_table_model_value_at (
+				ecell_view->e_table_model,
+				ect->bg_color_column, row);
+
+			if (color_spec && gdk_color_parse (color_spec, &bg_color)) {
+				guint16 red, green, blue;
+				gdouble	cc = 65535.0;
+				GdkRGBA rgba;
+
+				red = bg_color.red;
+				green = bg_color.green;
+				blue = bg_color.blue;
+				rgba.alpha = 1.0;
+
+				if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7)) {
+					rgba.red = 0.0;
+					rgba.green = 0.0;
+					rgba.blue = 0.0;
+				} else {
+					rgba.red = 1.0;
+					rgba.green = 1.0;
+					rgba.blue = 1.0;
+				}
+
+				gdk_cairo_set_source_rgba (cr, &rgba);
+			}
+
+			if (color_spec)
+				e_table_model_free_value (ecell_view->e_table_model, ect->bg_color_column, color_spec);
 		}
 	}
 
@@ -762,9 +809,19 @@ ect_draw (ECellView *ecell_view,
 		if (edit->selection_start != edit->selection_end) {
 			cairo_region_t *clip_region;
 			gint indices[2];
-			GtkStateType state;
 
-			state = edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
+			if (edit->has_selection) {
+				if (gtk_widget_has_focus (canvas)) {
+					e_utils_get_theme_color (canvas, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, &bg_rgba);
+					e_utils_get_theme_color (canvas, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, &fg_rgba);
+				} else {
+					e_utils_get_theme_color (canvas, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg_rgba);
+					e_utils_get_theme_color (canvas, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg_rgba);
+				}
+			} else {
+				e_utils_get_theme_color (canvas, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &bg_rgba);
+				e_utils_get_theme_color (canvas, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
+			}
 
 			indices[0] = MIN (edit->selection_start, edit->selection_end);
 			indices[1] = MAX (edit->selection_start, edit->selection_end);
@@ -775,10 +832,10 @@ ect_draw (ECellView *ecell_view,
 			cairo_clip (cr);
 			cairo_region_destroy (clip_region);
 
-			gdk_cairo_set_source_color (cr, &style->base[state]);
+			gdk_cairo_set_source_rgba (cr, &bg_rgba);
 			cairo_paint (cr);
 
-			gdk_cairo_set_source_color (cr, &style->text[state]);
+			gdk_cairo_set_source_rgba (cr, &fg_rgba);
 			cairo_move_to (cr, x_origin, y_origin);
 			pango_cairo_show_layout (cr, layout);
 		} else {
@@ -1312,7 +1369,6 @@ ect_print (ECellView *ecell_view,
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	ECellTextView *ectView = (ECellTextView *) ecell_view;
 	GtkWidget *canvas = GTK_WIDGET (ectView->canvas);
-	GtkStyle *style;
 	PangoDirection dir;
 	gboolean strikeout, underline;
 	cairo_t *cr;
@@ -1334,10 +1390,9 @@ ect_print (ECellView *ecell_view,
 	cairo_rectangle (cr, 2, 2, width + 2, height + 2);
 	cairo_clip (cr);
 
-	style = gtk_widget_get_style (canvas);
 	pango_context = gtk_widget_get_pango_context (canvas);
 	font_metrics = pango_context_get_metrics (
-		pango_context, style->font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 	ty = (gdouble)(text_height -
 		pango_font_metrics_get_ascent (font_metrics) -

@@ -50,6 +50,7 @@
 #include "e-table-subset.h"
 #include "e-table-utils.h"
 #include "e-unicode.h"
+#include "e-misc-utils.h"
 #include "gal-a11y-e-table.h"
 
 #define COLUMN_HEADER_HEIGHT 16
@@ -1216,18 +1217,34 @@ changed_idle (gpointer data)
 }
 
 static void
+et_canvas_style_updated (GtkWidget *widget)
+{
+	GdkColor color;
+
+	GTK_WIDGET_CLASS (e_table_parent_class)->style_updated (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
+
+	gnome_canvas_item_set (
+		E_TABLE (widget)->white_item,
+		"fill_color_gdk", &color,
+		NULL);
+}
+
+static void
 et_canvas_realize (GtkWidget *canvas,
                    ETable *e_table)
 {
 	GtkWidget *widget;
-	GtkStyle *style;
+	GdkColor color;
 
 	widget = GTK_WIDGET (e_table->table_canvas);
-	style = gtk_widget_get_style (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	gnome_canvas_item_set (
 		e_table->white_item,
-		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &color,
 		NULL);
 
 	CHECK_HORIZONTAL (e_table);
@@ -1428,7 +1445,7 @@ e_table_setup_table (ETable *e_table,
                      ETableModel *model)
 {
 	GtkWidget *widget;
-	GtkStyle *style;
+	GdkColor color;
 
 	e_table->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	g_signal_connect (
@@ -1471,14 +1488,15 @@ e_table_setup_table (ETable *e_table,
 		G_CALLBACK (table_canvas_reflow), e_table);
 
 	widget = GTK_WIDGET (e_table->table_canvas);
-	style = gtk_widget_get_style (widget);
 
 	gtk_widget_show (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	e_table->white_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->table_canvas),
 		e_canvas_background_get_type (),
-		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &color,
 		NULL);
 
 	g_signal_connect (
@@ -2598,12 +2616,10 @@ e_table_drag_highlight (ETable *table,
 	GtkAllocation allocation;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
-	GtkStyle *style;
 
 	g_return_if_fail (E_IS_TABLE (table));
 
 	scrollable = GTK_SCROLLABLE (table->table_canvas);
-	style = gtk_widget_get_style (GTK_WIDGET (table));
 	gtk_widget_get_allocation (GTK_WIDGET (scrollable), &allocation);
 
 	if (row != -1) {
@@ -2622,11 +2638,15 @@ e_table_drag_highlight (ETable *table,
 		y += gtk_adjustment_get_value (adjustment);
 
 		if (table->drop_highlight == NULL) {
+			GdkColor fg;
+
+			e_utils_get_theme_color_color (GTK_WIDGET (table), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+
 			table->drop_highlight = gnome_canvas_item_new (
 				gnome_canvas_root (table->table_canvas),
 				gnome_canvas_rect_get_type (),
 				"fill_color", NULL,
-				"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
+				"outline_color_gdk", &fg,
 				NULL);
 		}
 		gnome_canvas_item_set (
@@ -3157,6 +3177,7 @@ e_table_class_init (ETableClass *class)
 	widget_class->unrealize = et_unrealize;
 	widget_class->get_preferred_width = et_get_preferred_width;
 	widget_class->get_preferred_height = et_get_preferred_height;
+	widget_class->style_updated = et_canvas_style_updated;
 
 	widget_class->focus = et_focus;
 

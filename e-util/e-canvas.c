@@ -338,25 +338,22 @@ pick_current_item (GnomeCanvas *canvas,
 }
 
 static void
-canvas_style_set_recursive (GnomeCanvasItem *item,
-                            GtkStyle *previous_style)
+canvas_style_updated_recursive (GnomeCanvasItem *item)
 {
-	guint signal_id = g_signal_lookup ("style_set", G_OBJECT_TYPE (item));
+	guint signal_id = g_signal_lookup ("style_updated", G_OBJECT_TYPE (item));
 	if (signal_id >= 1) {
 		GSignalQuery query;
 		g_signal_query (signal_id, &query);
 		if (query.return_type == G_TYPE_NONE &&
-			query.n_params == 1 &&
-			query.param_types[0] == GTK_TYPE_STYLE) {
-			g_signal_emit (item, signal_id, 0, previous_style);
+			query.n_params == 0) {
+			g_signal_emit (item, signal_id, 0);
 		}
 	}
 
 	if (GNOME_IS_CANVAS_GROUP (item)) {
 		GList *items = GNOME_CANVAS_GROUP (item)->item_list;
 		for (; items; items = items->next)
-			canvas_style_set_recursive (
-				items->data, previous_style);
+			canvas_style_updated_recursive (items->data);
 	}
 }
 
@@ -426,12 +423,13 @@ canvas_unrealize (GtkWidget *widget)
 }
 
 static void
-canvas_style_set (GtkWidget *widget,
-                  GtkStyle *previous_style)
+canvas_style_updated (GtkWidget *widget)
 {
-	canvas_style_set_recursive (
+	GTK_WIDGET_CLASS (e_canvas_parent_class)->style_updated (widget);
+
+	canvas_style_updated_recursive (
 		GNOME_CANVAS_ITEM (gnome_canvas_root (
-		GNOME_CANVAS (widget))), previous_style);
+		GNOME_CANVAS (widget))));
 }
 
 static gint
@@ -605,7 +603,7 @@ e_canvas_class_init (ECanvasClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = canvas_realize;
 	widget_class->unrealize = canvas_unrealize;
-	widget_class->style_set = canvas_style_set;
+	widget_class->style_updated = canvas_style_updated;
 	widget_class->button_press_event = canvas_button_event;
 	widget_class->button_release_event = canvas_button_event;
 	widget_class->key_press_event = canvas_key_event;

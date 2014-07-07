@@ -63,8 +63,7 @@ struct _ECanvasBackground {
 struct _ECanvasBackgroundClass {
 	GnomeCanvasItemClass parent_class;
 
-	void		(*style_set)		(ECanvasBackground *eti,
-						 GtkStyle *previous_style);
+	void		(*style_updated)	(ECanvasBackground *eti);
 };
 
 GType		e_canvas_background_get_type	(void) G_GNUC_CONST;

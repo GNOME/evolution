@@ -234,8 +234,7 @@ struct _ETextClass {
 						 GdkEvent *button_event,
 						 gint pos,
 						 GtkMenu *menu);
-	void		(*style_set)		(EText *text,
-						 GtkStyle *previous_style);
+	void		(*style_updated)	(EText *text);
 };
 
 GType		e_text_get_type			(void) G_GNUC_CONST;

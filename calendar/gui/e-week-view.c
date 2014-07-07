@@ -111,7 +111,7 @@ typedef struct {
 	ECalModelComponent *comp_data;
 } AddEventData;
 
-static void e_week_view_set_colors (EWeekView *week_view, GtkWidget *widget);
+static void e_week_view_set_colors (EWeekView *week_view);
 static void e_week_view_recalc_cell_sizes (EWeekView *week_view);
 static gboolean e_week_view_get_next_tab_event (EWeekView *week_view,
 						GtkDirectionType direction,
@@ -768,6 +768,7 @@ week_view_constructed (GObject *object)
 	EWeekView *week_view;
 	ECalModel *model;
 	ECalendarView *calendar_view;
+	PangoContext *pango_context;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_week_view_parent_class)->constructed (object);
@@ -775,6 +776,13 @@ week_view_constructed (GObject *object)
 	week_view = E_WEEK_VIEW (object);
 	calendar_view = E_CALENDAR_VIEW (object);
 	model = e_calendar_view_get_model (calendar_view);
+
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
+	g_warn_if_fail (pango_context != NULL);
+	week_view->small_font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
+	pango_font_description_set_size (
+		week_view->small_font_desc,
+		E_WEEK_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
 
 	e_week_view_recalc_display_start_day (E_WEEK_VIEW (object));
 
@@ -814,7 +822,7 @@ week_view_realize (GtkWidget *widget)
 	week_view = E_WEEK_VIEW (widget);
 
 	/* Allocate the colors. */
-	e_week_view_set_colors (week_view, widget);
+	e_week_view_set_colors (week_view);
 
 	/* Create the pixmaps. */
 	week_view->reminder_icon =
@@ -851,12 +859,44 @@ week_view_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);
 }
 
+static GdkColor
+e_week_view_get_text_color (EWeekView *week_view,
+                            EWeekViewEvent *event)
+{
+	GdkColor color;
+	guint16 red, green, blue;
+	gdouble	cc = 65535.0;
+
+	red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red;
+	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
+	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
+
+	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
+	     &color)) {
+		red = color.red;
+		green = color.green;
+		blue = color.blue;
+	}
+
+	color.pixel = 0;
+
+	if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7)) {
+		color.red = 0.0;
+		color.green = 0.0;
+		color.blue = 0.0;
+	} else {
+		color.red = 65535.0f;
+		color.green = 65535.0f;
+		color.blue = 65535.0f;
+	}
+
+	return color;
+}
+
 static void
-week_view_style_set (GtkWidget *widget,
-                     GtkStyle *previous_style)
+week_view_style_updated (GtkWidget *widget)
 {
 	EWeekView *week_view;
-	GtkStyle *style;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
 	gint span_num;
@@ -867,30 +907,39 @@ week_view_style_set (GtkWidget *widget,
 	PangoLayout *layout;
 	EWeekViewEventSpan *span;
 
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_updated)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_updated) (widget);
 
 	week_view = E_WEEK_VIEW (widget);
-	style = gtk_widget_get_style (widget);
 
-	e_week_view_set_colors (week_view, widget);
+	e_week_view_set_colors (week_view);
 	if (week_view->spans) {
-		for (span_num = 0; span_num < week_view->spans->len;
-				span_num++) {
-			span = &g_array_index (week_view->spans,
-					EWeekViewEventSpan, span_num);
-			if (span->text_item) {
-				gnome_canvas_item_set (
-					span->text_item,
-					"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
-					NULL);
+		for (span_num = 0; span_num < week_view->spans->len; span_num++) {
+			span = &g_array_index (week_view->spans, EWeekViewEventSpan, span_num);
+			if (span->text_item && span->background_item) {
+				gint event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (span->background_item), "event-num"));
+				EWeekViewEvent *event = NULL;
+
+				if (is_array_index_in_bounds (week_view->events, event_num))
+					event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+				if (event) {
+					GdkColor text_color;
+
+					text_color = e_week_view_get_text_color (week_view, event);
+
+					gnome_canvas_item_set (
+						span->text_item,
+						"fill_color_gdk", &text_color,
+						NULL);
+				}
 			}
 		}
 	}
 
 	/* Set up Pango prerequisites */
-	font_desc = style->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
+	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
@@ -955,7 +1004,7 @@ week_view_style_set (GtkWidget *widget,
 	if (week_view->small_font_desc) {
 		pango_layout_set_font_description (layout, week_view->small_font_desc);
 		week_view->small_digit_width = get_digit_width (layout);
-		pango_layout_set_font_description (layout, style->font_desc);
+		pango_layout_set_font_description (layout, font_desc);
 	}
 	week_view->max_day_width = max_day_width;
 	week_view->max_abbr_day_width = max_abbr_day_width;
@@ -971,6 +1020,7 @@ week_view_style_set (GtkWidget *widget,
 
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
+	pango_font_description_free (font_desc);
 }
 
 static void
@@ -1432,7 +1482,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = week_view_realize;
 	widget_class->unrealize = week_view_unrealize;
-	widget_class->style_set = week_view_style_set;
+	widget_class->style_updated = week_view_style_updated;
 	widget_class->size_allocate = week_view_size_allocate;
 	widget_class->focus_in_event = week_view_focus_in;
 	widget_class->focus_out_event = week_view_focus_out;
@@ -1533,14 +1583,9 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->last_edited_comp_string = NULL;
 
-	/* Create the small font. */
+	/* Create the small font in constructed. */
 	week_view->use_small_font = TRUE;
-
-	week_view->small_font_desc =
-		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc);
-	pango_font_description_set_size (
-		week_view->small_font_desc,
-		E_WEEK_VIEW_SMALL_FONT_PTSIZE * PANGO_SCALE);
+	week_view->small_font_desc = NULL;
 
 	/* String to use in 12-hour time format for times in the morning. */
 	week_view->am_string = _("am");
@@ -1685,55 +1730,35 @@ color_inc (GdkColor c,
 }
 
 static void
-e_week_view_set_colors (EWeekView *week_view,
-                        GtkWidget *widget)
+e_week_view_set_colors (EWeekView *week_view)
 {
-	GtkStyle *style;
+	GtkWidget *widget = GTK_WIDGET (week_view);
+	GdkRGBA base_bg, bg_bg, text_fg, selected_bg, selected_fg, unfocused_selected_bg, dark_bg, light_bg;
 
-	style = gtk_widget_get_style (widget);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
+	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_bg);
+	e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text_fg);
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &selected_bg);
+	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &selected_fg);
+	e_utils_get_theme_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, &unfocused_selected_bg);
 
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS] = style->base[GTK_STATE_INSENSITIVE];
-	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS] = style->base[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND] = style->base[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER] = style->dark[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT] = style->text[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_GRID] = style->dark[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED] = style->base[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED] = style->bg[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = style->text[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = style->text[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = style->base[GTK_STATE_SELECTED];
+	e_utils_shade_color (&bg_bg, &dark_bg, E_UTILS_DARKNESS_MULT);
+	e_utils_shade_color (&bg_bg, &light_bg, E_UTILS_LIGHTNESS_MULT);
+
+	e_rgba_to_color (&bg_bg, &week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS]);
+	e_rgba_to_color (&base_bg, &week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS]);
+	e_rgba_to_color (&base_bg, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
+	e_rgba_to_color (&dark_bg, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER]);
+	e_rgba_to_color (&text_fg, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
+	e_rgba_to_color (&dark_bg, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+	e_rgba_to_color (&selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+	e_rgba_to_color (&unfocused_selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED]);
+	e_rgba_to_color (&text_fg, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+	e_rgba_to_color (&selected_fg, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
+	e_rgba_to_color (&selected_bg, &week_view->colors[E_WEEK_VIEW_COLOR_TODAY]);
+
 	week_view->colors[E_WEEK_VIEW_COLOR_TODAY_BACKGROUND] = get_today_background (week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND]);
 	week_view->colors[E_WEEK_VIEW_COLOR_MONTH_NONWORKING_DAY] = color_inc (week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS], -0x0A0A);
-}
-
-static GdkColor
-e_week_view_get_text_color (EWeekView *week_view,
-                            EWeekViewEvent *event,
-                            GtkWidget *widget)
-{
-	GtkStyle *style;
-	GdkColor bg_color;
-	guint16 red, green, blue;
-	gdouble	cc = 65535.0;
-
-	red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red;
-	green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green;
-	blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue;
-
-	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
-	     &bg_color)) {
-		red = bg_color.red;
-		green = bg_color.green;
-		blue = bg_color.blue;
-	}
-
-	style = gtk_widget_get_style (widget);
-
-	if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7))
-		return style->black;
-	else
-		return style->white;
 }
 
 static void
@@ -1743,9 +1768,7 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 	gint row, col;
 	GtkAllocation allocation;
 	GtkWidget *widget;
-	GtkStyle *style;
 	gint width, height, time_width;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 
@@ -1795,18 +1818,14 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 			- week_view->row_offsets[row];
 	}
 
-	/* If the font hasn't been set yet just return. */
 	widget = GTK_WIDGET (week_view);
-	style = gtk_widget_get_style (widget);
-	if (!style)
-		return;
-	font_desc = style->font_desc;
-	if (!font_desc)
-		return;
 
 	pango_context = gtk_widget_get_pango_context (widget);
+	if (!pango_context)
+		return;
+
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 
 	/* Calculate the number of rows of events in each cell, for the large
@@ -3377,7 +3396,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	gdouble text_x, text_y, text_w, text_h;
 	gchar *text, *end_of_line;
 	gint line_len, text_width;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
@@ -3421,10 +3439,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	}
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
 
@@ -3475,13 +3492,10 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
 		const gchar *summary;
-		GtkWidget *widget;
 		GdkColor color;
 		gboolean free_text = FALSE;
 
-		widget = (GtkWidget *) week_view;
-
-		color = e_week_view_get_text_color (week_view, event, widget);
+		color = e_week_view_get_text_color (week_view, event);
 		summary = get_comp_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
 
 		span->text_item =

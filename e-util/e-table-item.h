@@ -200,8 +200,7 @@ struct _ETableItemClass {
 						 gint row,
 						 gint col,
 						 GdkEvent *event);
-	void		(*style_set)		(ETableItem *eti,
-						 GtkStyle *previous_style);
+	void		(*style_updated)	(ETableItem *eti);
 	void		(*selection_model_removed)
 						(ETableItem *eti,
 						 ESelectionModel *selection);

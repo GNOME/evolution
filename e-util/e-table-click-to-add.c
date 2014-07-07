@@ -42,7 +42,7 @@
 
 enum {
 	CURSOR_CHANGE,
-	STYLE_SET,
+	STYLE_UPDATED,
 	LAST_SIGNAL
 };
 
@@ -76,26 +76,28 @@ etcta_cursor_change (GObject *object,
 }
 
 static void
-etcta_style_set (ETableClickToAdd *etcta,
-                 GtkStyle *previous_style)
+etcta_style_updated (ETableClickToAdd *etcta)
 {
 	GtkWidget *widget;
-	GtkStyle *style;
+	GdkColor fg, bg, text;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
-	style = gtk_widget_get_style (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+	e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
+	e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 	if (etcta->rect)
 		gnome_canvas_item_set (
 			etcta->rect,
-			"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
-			"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+			"outline_color_gdk", &fg,
+			"fill_color_gdk", &bg,
 			NULL);
 
 	if (etcta->text)
 		gnome_canvas_item_set (
 			etcta->text,
-			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+			"fill_color_gdk", &text,
 			NULL);
 }
 
@@ -258,10 +260,13 @@ static void
 create_rect_and_text (ETableClickToAdd *etcta)
 {
 	GtkWidget *widget;
-	GtkStyle *style;
+	GdkColor fg, bg, text;
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
-	style = gtk_widget_get_style (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+	e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
+	e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 	if (!etcta->rect)
 		etcta->rect = gnome_canvas_item_new (
@@ -271,8 +276,8 @@ create_rect_and_text (ETableClickToAdd *etcta)
 			"y1", (gdouble) 0,
 			"x2", (gdouble) etcta->width - 1,
 			"y2", (gdouble) etcta->height - 1,
-			"outline_color_gdk", &style->fg[GTK_STATE_NORMAL],
-			"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+			"outline_color_gdk", &fg,
+			"fill_color_gdk", &bg,
 			NULL);
 
 	if (!etcta->text)
@@ -281,7 +286,7 @@ create_rect_and_text (ETableClickToAdd *etcta)
 			e_text_get_type (),
 			"text", etcta->message ? etcta->message : "",
 			"width", etcta->width - 4,
-			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+			"fill_color_gdk", &text,
 			NULL);
 }
 
@@ -552,7 +557,7 @@ e_table_click_to_add_class_init (ETableClickToAddClass *class)
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	class->cursor_change = NULL;
-	class->style_set = etcta_style_set;
+	class->style_updated = etcta_style_updated;
 
 	object_class->dispose = etcta_dispose;
 	object_class->set_property = etcta_set_property;
@@ -635,15 +640,14 @@ e_table_click_to_add_class_init (ETableClickToAddClass *class)
 		G_TYPE_INT,
 		G_TYPE_INT);
 
-	etcta_signals[STYLE_SET] = g_signal_new (
-		"style_set",
+	etcta_signals[STYLE_UPDATED] = g_signal_new (
+		"style_updated",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableClickToAddClass, style_set),
+		G_STRUCT_OFFSET (ETableClickToAddClass, style_updated),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_STYLE);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	gal_a11y_e_table_click_to_add_init ();
 }

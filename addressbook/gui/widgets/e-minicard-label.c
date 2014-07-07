@@ -38,7 +38,7 @@ static void e_minicard_label_get_property  (GObject *object, guint property_id, 
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
 static void e_minicard_label_reflow (GnomeCanvasItem *item, gint flags);
-static void e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style);
+static void e_minicard_label_style_updated (EMinicardLabel *label);
 
 static void e_minicard_label_resize_children (EMinicardLabel *e_minicard_label);
 
@@ -57,7 +57,7 @@ enum {
 };
 
 enum {
-	STYLE_SET,
+	STYLE_UPDATED,
 	LAST_SIGNAL
 };
 
@@ -77,7 +77,7 @@ e_minicard_label_class_init (EMinicardLabelClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	item_class = (GnomeCanvasItemClass *) class;
 
-	class->style_set = e_minicard_label_style_set;
+	class->style_updated = e_minicard_label_style_updated;
 
 	object_class->set_property = e_minicard_label_set_property;
 	object_class->get_property = e_minicard_label_get_property;
@@ -162,15 +162,14 @@ e_minicard_label_class_init (EMinicardLabelClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
-	e_minicard_label_signals[STYLE_SET] = g_signal_new (
-		"style_set",
+	e_minicard_label_signals[STYLE_UPDATED] = g_signal_new (
+		"style_updated",
 		G_TYPE_FROM_CLASS (object_class),
 		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EMinicardLabelClass, style_set),
+		G_STRUCT_OFFSET (EMinicardLabelClass, style_updated),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_STYLE);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	/* GnomeCanvasItem method overrides */
 	item_class->realize = e_minicard_label_realize;
@@ -418,27 +417,33 @@ set_colors (EMinicardLabel *label)
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (label);
 
 	if ((item->flags & GNOME_CANVAS_ITEM_REALIZED)) {
-		GnomeCanvas *canvas;
-		GtkStyle *style;
+		GdkColor text;
+		GtkWidget *widget;
 
-		canvas = GNOME_CANVAS_ITEM (label)->canvas;
-		style = gtk_widget_get_style (GTK_WIDGET (canvas));
+		widget = GTK_WIDGET (GNOME_CANVAS_ITEM (label)->canvas);
+
+		e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 		if (label->has_focus) {
+			GdkColor outline, fill;
+
+			e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &outline);
+			e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &fill);
+
 			gnome_canvas_item_set (
 				label->rect,
-				"outline_color_gdk", &style->mid[GTK_STATE_SELECTED],
-				"fill_color_gdk", &style->bg[GTK_STATE_NORMAL],
+				"outline_color_gdk", &outline,
+				"fill_color_gdk", &fill,
 				NULL);
 
 			gnome_canvas_item_set (
 				label->field,
-				"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+				"fill_color_gdk", &text,
 				NULL);
 
 			gnome_canvas_item_set (
 				label->fieldname,
-				"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+				"fill_color_gdk", &text,
 				NULL);
 		}
 		else {
@@ -450,20 +455,19 @@ set_colors (EMinicardLabel *label)
 
 			gnome_canvas_item_set (
 				label->field,
-				"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+				"fill_color_gdk", &text,
 				NULL);
 
 			gnome_canvas_item_set (
 				label->fieldname,
-				"fill_color_gdk", &style->text[GTK_STATE_NORMAL],
+				"fill_color_gdk", &text,
 				NULL);
 		}
 	}
 }
 
 static void
-e_minicard_label_style_set (EMinicardLabel *label,
-                            GtkStyle *previous_style)
+e_minicard_label_style_updated (EMinicardLabel *label)
 {
 	set_colors (label);
 }

@@ -2029,11 +2029,11 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	icalcomponent *clone_comp;
 	time_t t_start, t_end;
 	ECalendarViewEvent *pevent;
-	GtkStyle *style = gtk_widget_get_default_style ();
 	GtkWidget *widget;
 	GdkWindow *window;
 	GdkDisplay *display;
 	GdkDeviceManager *device_manager;
+	GdkRGBA bg_rgba, fg_rgba;
 	GQueue *grabbed_keyboards;
 	ECalComponent *newcomp = e_cal_component_new ();
 	icaltimezone *zone, *default_zone;
@@ -2046,6 +2046,9 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (data->cal_view), FALSE);
+
+	e_utils_get_theme_color (GTK_WIDGET (data->cal_view), "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg_rgba);
+	e_utils_get_theme_color (GTK_WIDGET (data->cal_view), "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg_rgba);
 
 	model = e_calendar_view_get_model (data->cal_view);
 
@@ -2092,8 +2095,8 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *) ebox, hbox);
-	gtk_widget_modify_bg (ebox, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
-	gtk_widget_modify_fg (label, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	gtk_widget_override_background_color (ebox, GTK_STATE_FLAG_NORMAL, &bg_rgba);
+	gtk_widget_override_color (label, GTK_STATE_FLAG_NORMAL, &fg_rgba);
 
 	gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
 	g_free (tmp);

@@ -78,7 +78,7 @@ enum {
 	CLICK,
 	KEY_PRESS,
 	START_DRAG,
-	STYLE_SET,
+	STYLE_UPDATED,
 	SELECTION_MODEL_REMOVED,
 	SELECTION_MODEL_ADDED,
 	LAST_SIGNAL
@@ -127,16 +127,16 @@ static void e_table_item_redraw_row (ETableItem *eti, gint row);
  * how much you want their respective channels modified (and in what direction).
  * if it can't do the specified modification, it does it in the oppositon direction */
 static void
-e_hsv_tweak (GdkColor *color,
+e_hsv_tweak (GdkRGBA *rgba,
              gdouble delta_h,
              gdouble delta_s,
              gdouble delta_v)
 {
 	gdouble h, s, v, r, g, b;
 
-	r = color->red / 65535.0f;
-	g = color->green / 65535.0f;
-	b = color->blue / 65535.0f;
+	r = rgba->red;
+	g = rgba->green;
+	b = rgba->blue;
 
 	gtk_rgb_to_hsv (r, g, b, &h, &s, &v);
 
@@ -160,9 +160,9 @@ e_hsv_tweak (GdkColor *color,
 
 	gtk_hsv_to_rgb (h, s, v, &r, &g, &b);
 
-	color->red = r * 65535.0f;
-	color->green = g * 65535.0f;
-	color->blue = b * 65535.0f;
+	rgba->red = r;
+	rgba->green = g;
+	rgba->blue = b;
 }
 
 inline static gint
@@ -307,85 +307,44 @@ eti_editing (ETableItem *eti)
 		return TRUE;
 }
 
-inline static GdkColor *
+static void
 eti_get_cell_background_color (ETableItem *eti,
                                gint row,
                                gint col,
                                gboolean selected,
-                               gboolean *allocatedp)
+                               GdkRGBA *background)
 {
 	ECellView *ecell_view = eti->cell_views[col];
 	GtkWidget *canvas;
-	GdkColor *background, bg;
-	GtkStyle *style;
 	gchar *color_spec = NULL;
-	gboolean allocated = FALSE;
 
 	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
-	style = gtk_widget_get_style (canvas);
 
 	if (selected) {
 		if (gtk_widget_has_focus (canvas))
-			background = &style->bg[GTK_STATE_SELECTED];
+			e_utils_get_theme_color (canvas, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, background);
 		else
-			background = &style->bg[GTK_STATE_ACTIVE];
+			e_utils_get_theme_color (canvas, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, background);
 	} else {
-		background = &style->base[GTK_STATE_NORMAL];
+		e_utils_get_theme_color (canvas, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, background);
 	}
 
 	color_spec = e_cell_get_bg_color (ecell_view, row);
 
 	if (color_spec != NULL) {
-		if (gdk_color_parse (color_spec, &bg)) {
-			background = gdk_color_copy (&bg);
-			allocated = TRUE;
-		}
+		GdkRGBA bg;
+
+		if (gdk_rgba_parse (&bg, color_spec))
+			*background = bg;
 	}
 
 	if (eti->alternating_row_colors) {
 		if (row % 2) {
 
 		} else {
-			if (!allocated) {
-				background = gdk_color_copy (background);
-				allocated = TRUE;
-			}
 			e_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
 		}
 	}
-	if (allocatedp)
-		*allocatedp = allocated;
-
-	return background;
-}
-
-inline static GdkColor *
-eti_get_cell_foreground_color (ETableItem *eti,
-                               gint row,
-                               gint col,
-                               gboolean selected,
-                               gboolean *allocated)
-{
-	GtkWidget *canvas;
-	GdkColor *foreground;
-	GtkStyle *style;
-
-	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
-	style = gtk_widget_get_style (canvas);
-
-	if (allocated)
-		*allocated = FALSE;
-
-	if (selected) {
-		if (gtk_widget_has_focus (canvas))
-			foreground = &style->fg[GTK_STATE_SELECTED];
-		else
-			foreground = &style->fg[GTK_STATE_ACTIVE];
-	} else {
-		foreground = &style->text[GTK_STATE_NORMAL];
-	}
-
-	return foreground;
 }
 
 static void
@@ -1888,7 +1847,7 @@ eti_unrealize (GnomeCanvasItem *item)
 static void
 eti_draw_grid_line (ETableItem *eti,
                     cairo_t *cr,
-                    GtkStyle *style,
+                    const GdkRGBA *rgba,
                     gint x1,
                     gint y1,
                     gint x2,
@@ -1897,7 +1856,7 @@ eti_draw_grid_line (ETableItem *eti,
 	cairo_save (cr);
 
 	cairo_set_line_width (cr, 1.0);
-	gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+	gdk_cairo_set_source_rgba (cr, rgba);
 
 	cairo_move_to (cr, x1 + 0.5, y1 + 0.5);
 	cairo_line_to (cr, x2 + 0.5, y2 + 0.5);
@@ -1926,8 +1885,11 @@ eti_draw (GnomeCanvasItem *item,
 	cairo_matrix_t i2c;
 	gdouble eti_base_x, eti_base_y, lower_right_y, lower_right_x;
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
-	GtkStyle *style = gtk_widget_get_style (canvas);
+	GdkRGBA line_color;
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
+
+	e_utils_get_theme_color (canvas, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &line_color);
+	e_utils_shade_color (&line_color, &line_color, E_UTILS_DARKNESS_MULT);
 
 	/*
 	 * Find out our real position after grouping
@@ -2021,7 +1983,7 @@ eti_draw (GnomeCanvasItem *item,
 	f_found = FALSE;
 
 	if (eti->horizontal_draw_grid && first_row == 0)
-		eti_draw_grid_line (eti, cr, style, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
+		eti_draw_grid_line (eti, cr, &line_color, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
 
 	yd += height_extra;
 
@@ -2048,8 +2010,7 @@ eti_draw (GnomeCanvasItem *item,
 			gboolean col_selected = selected;
 			gboolean cursor = FALSE;
 			ECellFlags flags;
-			gboolean free_background;
-			GdkColor *background;
+			GdkRGBA background;
 			gint x1, x2, y1, y2;
 			cairo_pattern_t *pat;
 
@@ -2071,24 +2032,24 @@ eti_draw (GnomeCanvasItem *item,
 			x2 = x1 + ecol->width;
 			y2 = yd + height;
 
-			background = eti_get_cell_background_color (eti, row, col, col_selected, &free_background);
+			eti_get_cell_background_color (eti, row, col, col_selected, &background);
 
 			cairo_save (cr);
 			pat = cairo_pattern_create_linear (0, y1, 0, y2);
 			cairo_pattern_add_color_stop_rgba (
-				pat, 0.0, background->red / 65535.0 ,
-				background->green / 65535.0,
-				background->blue / 65535.0, selected ? 0.8: 1.0);
+				pat, 0.0, background.red,
+				background.green,
+				background.blue, selected ? 0.8: 1.0);
 			if (selected)
 				cairo_pattern_add_color_stop_rgba (
-					pat, 0.5, background->red / 65535.0 ,
-					background->green / 65535.0,
-					background->blue / 65535.0, 0.9);
+					pat, 0.5, background.red,
+					background.green,
+					background.blue, 0.9);
 
 			cairo_pattern_add_color_stop_rgba (
-				pat, 1, background->red / 65535.0 ,
-				background->green / 65535.0,
-				background->blue / 65535.0, selected ? 0.8 : 1.0);
+				pat, 1, background.red,
+				background.green,
+				background.blue, selected ? 0.8 : 1.0);
 			cairo_rectangle (cr, x1, y1, ecol->width, height - 1);
 			cairo_set_source (cr, pat);
 			cairo_fill_preserve (cr);
@@ -2100,25 +2061,22 @@ eti_draw (GnomeCanvasItem *item,
 			cairo_save (cr);
 			cairo_set_line_width (cr, 1.0);
 			cairo_set_source_rgba (
-				cr, background->red / 65535.0 ,
-				background->green / 65535.0,
-				background->blue / 65535.0, 1);
+				cr, background.red,
+				background.green,
+				background.blue, 1);
 			cairo_move_to (cr, x1, y1);
 			cairo_line_to (cr, x2, y1);
 			cairo_stroke (cr);
 
 			cairo_set_line_width (cr, 1.0);
 			cairo_set_source_rgba (
-				cr, background->red / 65535.0 ,
-				background->green / 65535.0,
-				background->blue / 65535.0, 1);
+				cr, background.red,
+				background.green,
+				background.blue, 1);
 			cairo_move_to (cr, x1, y2);
 			cairo_line_to (cr, x2, y2);
 			cairo_stroke (cr);
 			cairo_restore (cr);
-
-			if (free_background)
-				gdk_color_free (background);
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
 			flags |= gtk_widget_has_focus (canvas) ? E_CELL_FOCUSED : 0;
@@ -2175,7 +2133,7 @@ eti_draw (GnomeCanvasItem *item,
 		yd += height;
 
 		if (eti->horizontal_draw_grid) {
-			eti_draw_grid_line (eti, cr, style, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
+			eti_draw_grid_line (eti, cr, &line_color, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
 			yd++;
 		}
 	}
@@ -2186,7 +2144,7 @@ eti_draw (GnomeCanvasItem *item,
 		for (col = first_col; col <= last_col; col++) {
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
-			eti_draw_grid_line (eti, cr, style, xd, y_offset, xd, yd - 1);
+			eti_draw_grid_line (eti, cr, &line_color, xd, y_offset, xd, yd - 1);
 
 			/*
 			 * This looks wierd, but it is to draw the last line
@@ -2201,17 +2159,22 @@ eti_draw (GnomeCanvasItem *item,
 	 */
 	if (eti->draw_focus && f_found) {
 		static const double dash[] = { 1.0, 1.0 };
+		GdkRGBA bg, fg;
+
+		e_utils_get_theme_color (canvas, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
+		e_utils_get_theme_color (canvas, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
+
 		cairo_set_line_width (cr, 1.0);
 		cairo_rectangle (
 			cr,
 			f_x1 + 0.5, f_x2 + 0.5,
 			f_x2 - f_x1 - 1, f_y2 - f_y1);
 
-		gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+		gdk_cairo_set_source_rgba (cr, &bg);
 		cairo_stroke_preserve (cr);
 
 		cairo_set_dash (cr, dash, G_N_ELEMENTS (dash), 0.0);
-		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+		gdk_cairo_set_source_rgba (cr, &fg);
 		cairo_stroke (cr);
 	}
 }
@@ -3105,8 +3068,7 @@ eti_event (GnomeCanvasItem *item,
 }
 
 static void
-eti_style_set (ETableItem *eti,
-               GtkStyle *previous_style)
+eti_style_updated (ETableItem *eti)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
 
@@ -3118,7 +3080,7 @@ eti_style_set (ETableItem *eti,
 		gint n_cells = eti->n_cells;
 
 		for (i = 0; i < n_cells; i++) {
-			e_cell_style_set (eti->cell_views[i], previous_style);
+			e_cell_style_updated (eti->cell_views[i]);
 		}
 	}
 
@@ -3156,7 +3118,7 @@ e_table_item_class_init (ETableItemClass *class)
 	class->click = NULL;
 	class->key_press = NULL;
 	class->start_drag = NULL;
-	class->style_set = eti_style_set;
+	class->style_updated = eti_style_updated;
 	class->selection_model_removed = NULL;
 	class->selection_model_added = NULL;
 
@@ -3392,15 +3354,14 @@ e_table_item_class_init (ETableItemClass *class)
 		G_TYPE_INT,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	eti_signals[STYLE_SET] = g_signal_new (
-		"style_set",
+	eti_signals[STYLE_UPDATED] = g_signal_new (
+		"style_updated",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETableItemClass, style_set),
+		G_STRUCT_OFFSET (ETableItemClass, style_updated),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_STYLE);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	eti_signals[SELECTION_MODEL_REMOVED] = g_signal_new (
 		"selection_model_removed",
