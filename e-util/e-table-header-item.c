@@ -907,7 +907,6 @@ static void
 ethi_realize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-	GtkStyle *style;
 	GtkTargetEntry  ethi_drop_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
@@ -915,10 +914,13 @@ ethi_realize (GnomeCanvasItem *item)
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)-> realize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->realize)(item);
 
-	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
+	if (!ethi->font_desc) {
+		PangoContext *pango_context;
 
-	if (!ethi->font_desc)
-		ethi_font_set (ethi, style->font_desc);
+		pango_context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
+
+		ethi_font_set (ethi, pango_context_get_font_description (pango_context));
+	}
 
 	/*
 	 * Now, configure DnD

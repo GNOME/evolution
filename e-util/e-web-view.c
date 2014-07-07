@@ -586,7 +586,7 @@ style_updated_cb (EWebView *web_view)
 			&color))
 		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	else
-		color_value = g_strdup("#ffffff");
+		color_value = g_strdup (E_UTILS_DEFAULT_THEME_BASE_COLOR);
 
 	style = g_strconcat ("background-color: ", color_value, ";", NULL);
 
@@ -605,7 +605,7 @@ style_updated_cb (EWebView *web_view)
 			&color))
 		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
 	else
-		color_value = g_strdup("#000000");
+		color_value = g_strdup (E_UTILS_DEFAULT_THEME_FG_COLOR);
 
 	style = g_strconcat ("color: ", color_value, ";", NULL);
 

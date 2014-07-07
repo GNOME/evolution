@@ -86,8 +86,7 @@ struct _ETableClickToAddClass {
 	void		(*cursor_change)	(ETableClickToAdd *etcta,
 						 gint row,
 						 gint col);
-	void		(*style_set)		(ETableClickToAdd *etcta,
-						 GtkStyle *previous_style);
+	void		(*style_updated)	(ETableClickToAdd *etcta);
 };
 
 GType		e_table_click_to_add_get_type	(void) G_GNUC_CONST;

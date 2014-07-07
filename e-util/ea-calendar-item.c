@@ -1192,8 +1192,7 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 {
 	GnomeCanvasItem *item;
 	GtkWidget *widget;
-	GtkStyle *style;
-	PangoFontDescription *font_desc;
+	GtkBorder padding;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	gint char_height, xthickness, ythickness, text_y;
@@ -1207,23 +1206,20 @@ e_calendar_item_get_day_extents (ECalendarItem *calitem,
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
-	style = gtk_widget_get_style (widget);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
 
 	/* Set up Pango prerequisites */
-	font_desc = calitem->font_desc;
-	if (!font_desc)
-		font_desc = style->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, calitem->font_desc,
 		pango_context_get_language (pango_context));
 
 	char_height =
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
-	xthickness = style->xthickness;
-	ythickness = style->ythickness;
+	xthickness = padding.left;
+	ythickness = padding.top;
 
 	new_year = year;
 	new_month = month;

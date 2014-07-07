@@ -46,6 +46,7 @@
 #include "e-tree-selection-model.h"
 #include "e-tree-table-adapter.h"
 #include "e-tree.h"
+#include "e-misc-utils.h"
 #include "gal-a11y-e-tree.h"
 
 #define COLUMN_HEADER_HEIGHT 16
@@ -1171,16 +1172,17 @@ et_build_item (ETree *tree)
 }
 
 static void
-et_canvas_style_set (GtkWidget *widget,
-                     GtkStyle *prev_style)
+et_canvas_style_updated (GtkWidget *widget)
 {
-	GtkStyle *style;
+	GdkColor color;
 
-	style = gtk_widget_get_style (widget);
+	GTK_WIDGET_CLASS (e_tree_parent_class)->style_updated (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	gnome_canvas_item_set (
 		E_TREE (widget)->priv->white_item,
-		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &color,
 		NULL);
 }
 
@@ -1293,7 +1295,7 @@ static void
 e_tree_setup_table (ETree *tree)
 {
 	GtkWidget *widget;
-	GtkStyle *style;
+	GdkColor color;
 
 	tree->priv->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	g_signal_connect (
@@ -1341,14 +1343,15 @@ e_tree_setup_table (ETree *tree)
 		G_CALLBACK (et_setup_table_canvas_vadjustment), tree);
 
 	widget = GTK_WIDGET (tree->priv->table_canvas);
-	style = gtk_widget_get_style (widget);
 
 	gtk_widget_show (widget);
+
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	tree->priv->white_item = gnome_canvas_item_new (
 		gnome_canvas_root (tree->priv->table_canvas),
 		e_canvas_background_get_type (),
-		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &color,
 		NULL);
 
 	g_signal_connect (
@@ -2809,7 +2812,7 @@ e_tree_class_init (ETreeClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->grab_focus = et_grab_focus;
 	widget_class->unrealize = et_unrealize;
-	widget_class->style_set = et_canvas_style_set;
+	widget_class->style_updated = et_canvas_style_updated;
 	widget_class->focus = et_focus;
 
 	class->start_drag = et_real_start_drag;

@@ -61,7 +61,6 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 {
 	EWeekView *week_view;
 	ECalModel *model;
-	GtkStyle *style;
 	gint right_edge, bottom_edge, date_width, date_x, line_y;
 	gboolean show_day_name, show_month_name, selected;
 	gchar buffer[128], *format_string;
@@ -77,13 +76,12 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 
 	week_view = e_week_view_main_item_get_week_view (main_item);
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 
 	multi_week_view = e_week_view_get_multi_week_view (week_view);
 
 	/* Set up Pango prerequisites */
-	font_desc = pango_font_description_copy (style->font_desc);
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
+	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));

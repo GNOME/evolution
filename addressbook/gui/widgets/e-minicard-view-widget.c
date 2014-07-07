@@ -45,9 +45,8 @@ static void	e_minicard_view_widget_reflow	(ECanvas *canvas);
 static void	e_minicard_view_widget_size_allocate
 						(GtkWidget *widget,
 						 GtkAllocation *allocation);
-static void	e_minicard_view_widget_style_set
-						(GtkWidget *widget,
-						 GtkStyle *previous_style);
+static void	e_minicard_view_widget_style_updated
+						(GtkWidget *widget);
 static void	e_minicard_view_widget_realize	(GtkWidget *widget);
 static gboolean	e_minicard_view_widget_real_focus_in_event
 						(GtkWidget *widget,
@@ -90,7 +89,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 	object_class->dispose = e_minicard_view_widget_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->style_set = e_minicard_view_widget_style_set;
+	widget_class->style_updated = e_minicard_view_widget_style_updated;
 	widget_class->realize = e_minicard_view_widget_realize;
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
 	widget_class->focus_in_event = e_minicard_view_widget_real_focus_in_event;
@@ -372,33 +371,33 @@ right_click (EMinicardView *view,
 }
 
 static void
-e_minicard_view_widget_style_set (GtkWidget *widget,
-                                  GtkStyle *previous_style)
+e_minicard_view_widget_style_updated (GtkWidget *widget)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
-	GtkStyle *style;
 
-	style = gtk_widget_get_style (widget);
+	if (view->background) {
+		GdkColor color;
 
-	if (view->background)
-		gnome_canvas_item_set (
-			view->background, "fill_color_gdk",
-			&style->base[GTK_STATE_NORMAL], NULL);
+		e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
-	GTK_WIDGET_CLASS (e_minicard_view_widget_parent_class)->
-		style_set (widget, previous_style);
+		gnome_canvas_item_set (view->background, "fill_color_gdk", &color, NULL);
+	}
+
+	GTK_WIDGET_CLASS (e_minicard_view_widget_parent_class)->style_updated (widget);
 }
 
 static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
-	GtkStyle *style = gtk_widget_get_style (widget);
+	GdkColor color;
+
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &color);
 
 	view->background = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (view)),
 		e_canvas_background_get_type (),
-		"fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+		"fill_color_gdk", &color,
 		NULL);
 
 	view->emv = gnome_canvas_item_new (

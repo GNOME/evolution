@@ -75,25 +75,21 @@ G_DEFINE_TYPE_WITH_CODE (
 static void
 colorize_items (EWeekdayChooser *chooser)
 {
-	GdkColor *outline, *focus_outline;
-	GdkColor *fill, *sel_fill;
-	GdkColor *text_fill, *sel_text_fill;
-	GtkStateType state;
-	GtkStyle *style;
+	GdkColor outline, focus_outline;
+	GdkColor fill, sel_fill;
+	GdkColor text_fill, sel_text_fill;
 	GDateWeekday weekday;
+	GtkWidget *widget;
 	gint ii;
 
-	state = gtk_widget_get_state (GTK_WIDGET (chooser));
-	style = gtk_widget_get_style (GTK_WIDGET (chooser));
+	widget = GTK_WIDGET (chooser);
 
-	outline = &style->fg[state];
-	focus_outline = &style->bg[state];
-
-	fill = &style->base[state];
-	text_fill = &style->fg[state];
-
-	sel_fill = &style->bg[GTK_STATE_SELECTED];
-	sel_text_fill = &style->fg[GTK_STATE_SELECTED];
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &outline);
+	e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &focus_outline);
+	e_utils_get_theme_color_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &fill);
+	e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &text_fill);
+	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &sel_fill);
+	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &sel_text_fill);
 
 	weekday = e_weekday_chooser_get_week_start_day (chooser);
 
@@ -101,17 +97,17 @@ colorize_items (EWeekdayChooser *chooser)
 		GdkColor *f, *t, *o;
 
 		if (chooser->priv->selected_weekdays[weekday]) {
-			f = sel_fill;
-			t = sel_text_fill;
+			f = &sel_fill;
+			t = &sel_text_fill;
 		} else {
-			f = fill;
-			t = text_fill;
+			f = &fill;
+			t = &text_fill;
 		}
 
 		if (weekday == chooser->priv->focus_day)
-			o = focus_outline;
+			o = &focus_outline;
 		else
-			o = outline;
+			o = &outline;
 
 		gnome_canvas_item_set (
 			chooser->priv->boxes[ii],
@@ -247,14 +243,12 @@ weekday_chooser_size_allocate (GtkWidget *widget,
 }
 
 static void
-weekday_chooser_style_set (GtkWidget *widget,
-                           GtkStyle *previous_style)
+weekday_chooser_style_updated (GtkWidget *widget)
 {
 	GtkWidgetClass *widget_class;
 	EWeekdayChooser *chooser;
 	EWeekdayChooserPrivate *priv;
 	gint max_width;
-	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
@@ -264,10 +258,9 @@ weekday_chooser_style_set (GtkWidget *widget,
 	priv = chooser->priv;
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (widget)->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (
-		pango_context, font_desc,
+		pango_context, NULL,
 		pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
 
@@ -296,9 +289,9 @@ weekday_chooser_style_set (GtkWidget *widget,
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
 
-	/* Chain up to parent's style_set() method. */
+	/* Chain up to parent's style_updated() method. */
 	widget_class = GTK_WIDGET_CLASS (e_weekday_chooser_parent_class);
-	widget_class->style_set (widget, previous_style);
+	widget_class->style_updated (widget);
 }
 
 static void
@@ -372,7 +365,7 @@ e_weekday_chooser_class_init (EWeekdayChooserClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = weekday_chooser_realize;
 	widget_class->size_allocate = weekday_chooser_size_allocate;
-	widget_class->style_set = weekday_chooser_style_set;
+	widget_class->style_updated = weekday_chooser_style_updated;
 	widget_class->get_preferred_height = weekday_chooser_get_preferred_height;
 	widget_class->get_preferred_width = weekday_chooser_get_preferred_width;
 	widget_class->focus = weekday_chooser_focus;

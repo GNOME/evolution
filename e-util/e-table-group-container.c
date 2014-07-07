@@ -152,7 +152,7 @@ e_table_group_container_construct (GnomeCanvasGroup *parent,
 	ETableColumnSpecification *spec;
 	ETableCol *col;
 	GtkWidget *widget;
-	GtkStyle *style;
+	PangoContext *pango_context;
 	GtkSortType sort_type;
 
 	spec = e_table_sort_info_grouping_get_nth (sort_info, n, &sort_type);
@@ -171,8 +171,8 @@ e_table_group_container_construct (GnomeCanvasGroup *parent,
 	etgc->ascending = (sort_type == GTK_SORT_ASCENDING);
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etgc)->canvas);
-	style = gtk_widget_get_style (widget);
-	etgc->font_desc = pango_font_description_copy (style->font_desc);
+	pango_context = gtk_widget_get_pango_context (widget);
+	etgc->font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
 
 	etgc->open = TRUE;
 }

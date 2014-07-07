@@ -167,8 +167,6 @@ setup_e_table (ECalListView *cal_list_view)
 	ETableSpecification *specification;
 	GList *strings;
 	ECell *cell, *popup_cell;
-	GnomeCanvas *canvas;
-	GtkStyle *style;
 	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *etspecfile;
@@ -301,15 +299,6 @@ setup_e_table (ECalListView *cal_list_view)
 
 	g_object_unref (specification);
 	g_free (etspecfile);
-
-	/* Make sure text is readable on top of our color coding */
-
-	canvas = GNOME_CANVAS (cal_list_view->table->table_canvas);
-	style = gtk_widget_get_style (GTK_WIDGET (canvas));
-
-	style->fg[GTK_STATE_SELECTED] = style->text[GTK_STATE_NORMAL];
-	style->fg[GTK_STATE_ACTIVE]   = style->text[GTK_STATE_NORMAL];
-	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 
 	/* Connect signals */
 	g_signal_connect (

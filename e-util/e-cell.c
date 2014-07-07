@@ -661,14 +661,13 @@ e_cell_get_bg_color (ECellView *ecell_view,
 }
 
 void
-e_cell_style_set (ECellView *ecell_view,
-                  GtkStyle *previous_style)
+e_cell_style_updated (ECellView *ecell_view)
 {
 	ECellClass *class;
 
 	class = E_CELL_GET_CLASS (ecell_view->ecell);
 
-	if (class->style_set != NULL)
-		class->style_set (ecell_view, previous_style);
+	if (class->style_updated != NULL)
+		class->style_updated (ecell_view);
 }
 

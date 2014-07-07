@@ -264,7 +264,7 @@ mail_shell_sidebar_get_preferred_width (GtkWidget *widget,
 	EMailShellSidebar *sidebar;
 	PangoLayout *layout;
 	PangoRectangle ink_rect;
-	GtkStyle *style;
+	GtkBorder padding;
 	gint border;
 	gint sidebar_width;
 	gint screen_width;
@@ -280,12 +280,12 @@ mail_shell_sidebar_get_preferred_width (GtkWidget *widget,
 	pango_layout_get_pixel_extents (layout, &ink_rect, NULL);
 	g_object_unref (layout);
 
-	style = gtk_widget_get_style (widget);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (widget), 0, &padding);
 
 	screen_width = guess_screen_width (sidebar);
 
 	/* Thickness of frame shadow plus some slack for padding. */
-	border = 2 * style->xthickness + 4;
+	border = 2 * padding.left + 4;
 	sidebar_width = ink_rect.width + border;
 	sidebar_width = MIN (sidebar_width, screen_width / 4);
 	*minimum_width = *natural_width = MAX (*natural_width, sidebar_width);

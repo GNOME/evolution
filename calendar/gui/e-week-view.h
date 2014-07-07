@@ -227,7 +227,7 @@ struct _EWeekView {
 	PangoFontDescription *small_font_desc;
 
 	/* The widths of various pieces of text, used to determine which of
-	 * several date formats to display, set in e_week_view_style_set (). */
+	 * several date formats to display, set in e_week_view_style_updated (). */
 	gint space_width;		/* One space character ' '. */
 	gint colon_width;		/* Size of ':' in the font. */
 	gint slash_width;		/* Size of '/' in the font. */

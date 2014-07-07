@@ -295,6 +295,7 @@ week_view_event_item_button_release (EWeekViewEventItem *event_item,
 
 static void
 week_view_draw_time (EWeekView *week_view,
+		     GdkColor bg_color,
                      cairo_t *cr,
                      gint time_x,
                      gint time_y,
@@ -302,24 +303,38 @@ week_view_draw_time (EWeekView *week_view,
                      gint minute)
 {
 	ECalModel *model;
-	GtkStyle *style;
 	gint hour_to_display, suffix_width;
 	gint time_y_normal_font, time_y_small_font;
 	const gchar *suffix;
 	gchar buffer[128];
 	PangoLayout *layout;
 	PangoFontDescription *small_font_desc;
+	PangoContext *pango_context;
+	GdkColor color;
+	gdouble	cc = 65535.0;
+
+	color.pixel = 0;
+
+	if ((bg_color.red / cc > 0.7) || (bg_color.green / cc > 0.7) || (bg_color.blue / cc > 0.7)) {
+		color.red = 0.0;
+		color.green = 0.0;
+		color.blue = 0.0;
+	} else {
+		color.red = 65535.0f;
+		color.green = 65535.0f;
+		color.blue = 65535.0f;
+	}
 
 	cairo_save (cr);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
-	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	small_font_desc = week_view->small_font_desc;
 
-	gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
+	gdk_cairo_set_source_color (cr, &color);
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
+	pango_context = gtk_widget_create_pango_context (GTK_WIDGET (week_view));
 
 	time_y_normal_font = time_y_small_font = time_y;
 	if (small_font_desc)
@@ -330,6 +345,10 @@ week_view_draw_time (EWeekView *week_view,
 		&suffix, &suffix_width);
 
 	if (week_view->use_small_font && week_view->small_font_desc) {
+		PangoFontDescription *font_desc;
+
+		font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
+
 		g_snprintf (
 			buffer, sizeof (buffer), "%2i:%02i",
 			hour_to_display, minute);
@@ -362,7 +381,7 @@ week_view_draw_time (EWeekView *week_view,
 			time_y_small_font);
 		pango_cairo_show_layout (cr, layout);
 
-		pango_layout_set_font_description (layout, style->font_desc);
+		pango_layout_set_font_description (layout, font_desc);
 
 		time_x += week_view->small_digit_width * 2;
 
@@ -376,6 +395,8 @@ week_view_draw_time (EWeekView *week_view,
 				time_y_normal_font);
 			pango_cairo_show_layout (cr, layout);
 		}
+
+		pango_font_description_free (font_desc);
 	} else {
 		/* Draw the start time in one go. */
 		g_snprintf (
@@ -398,6 +419,7 @@ week_view_draw_time (EWeekView *week_view,
 		}
 
 	}
+	g_object_unref (pango_context);
 	g_object_unref (layout);
 
 	cairo_restore (cr);
@@ -895,7 +917,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_start) {
 			week_view_draw_time (
-				week_view, cr, time_x,
+				week_view, bg_color, cr, time_x,
 				time_y, start_hour, start_minute);
 			time_x += time_width;
 		}
@@ -903,7 +925,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		if (draw_end) {
 			time_x += E_WEEK_VIEW_EVENT_TIME_SPACING;
 			week_view_draw_time (
-				week_view, cr, time_x,
+				week_view, bg_color, cr, time_x,
 				time_y, end_hour, end_minute);
 			time_x += time_width;
 		}
@@ -1058,7 +1080,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_clip (cr);
 
 			week_view_draw_time (
-				week_view, cr, time_x,
+				week_view, bg_color, cr, time_x,
 				time_y, start_hour, start_minute);
 
 			cairo_restore (cr);
@@ -1086,7 +1108,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			 * the minimum calculated above. */
 			if (time_x >= min_end_time_x) {
 				week_view_draw_time (
-					week_view, cr, time_x,
+					week_view, bg_color, cr, time_x,
 					time_y, end_hour, end_minute);
 				max_icon_x -= time_width
 					+ E_WEEK_VIEW_EVENT_TIME_X_PAD;

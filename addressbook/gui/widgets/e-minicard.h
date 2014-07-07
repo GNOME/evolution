@@ -102,7 +102,7 @@ struct _EMinicardClass
 	gint (* drag_begin) (EMinicard *minicard, GdkEvent *event);
 	void (* open_contact) (EMinicard *minicard, EContact *contact);
 
-	void (* style_set) (EMinicard *minicard, GtkStyle *previous_style);
+	void (* style_updated) (EMinicard *minicard);
 };
 
 typedef struct _EMinicardField EMinicardField;

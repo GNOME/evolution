@@ -383,7 +383,7 @@ gint	e_calendar_item_get_week_number		(ECalendarItem *calitem,
 						 gint day,
 						 gint month,
 						 gint year);
-void	e_calendar_item_style_set		(GtkWidget *widget,
+void	e_calendar_item_style_updated		(GtkWidget *widget,
 						 ECalendarItem *calitem);
 
 G_END_DECLS

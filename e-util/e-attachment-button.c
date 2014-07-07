@@ -480,14 +480,12 @@ attachment_button_dispose (GObject *object)
 }
 
 static void
-attachment_button_style_set (GtkWidget *widget,
-                             GtkStyle *previous_style)
+attachment_button_style_updated (GtkWidget *widget)
 {
 	EAttachmentButton *button;
 
-	/* Chain up to parent's style_set() method. */
-	GTK_WIDGET_CLASS (e_attachment_button_parent_class)->
-		style_set (widget, previous_style);
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (e_attachment_button_parent_class)->style_updated (widget);
 
 	button = E_ATTACHMENT_BUTTON (widget);
 	attachment_button_update_pixbufs (button);
@@ -507,7 +505,7 @@ e_attachment_button_class_init (EAttachmentButtonClass *class)
 	object_class->dispose = attachment_button_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->style_set = attachment_button_style_set;
+	widget_class->style_updated = attachment_button_style_updated;
 
 	g_object_class_install_property (
 		object_class,

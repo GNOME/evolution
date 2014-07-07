@@ -111,6 +111,34 @@ guint32		e_color_to_value		(const GdkColor *color);
 
 guint32		e_rgba_to_value			(const GdkRGBA *rgba);
 
+void		e_rgba_to_color			(const GdkRGBA *rgba,
+						 GdkColor *color);
+
+void		e_utils_get_theme_color		(GtkWidget *widget,
+						 const gchar *color_names,
+						 const gchar *fallback_color_ident,
+						 GdkRGBA *rgba);
+
+void		e_utils_get_theme_color_color	(GtkWidget *widget,
+						 const gchar *color_names,
+						 const gchar *fallback_color_ident,
+						 GdkColor *color);
+
+#define E_UTILS_LIGHTNESS_MULT	1.3
+#define E_UTILS_DARKNESS_MULT	0.7
+#define E_UTILS_DEFAULT_THEME_BG_COLOR				"#AAAAAA"
+#define E_UTILS_DEFAULT_THEME_BASE_COLOR			"#FFFFFF"
+#define E_UTILS_DEFAULT_THEME_FG_COLOR				"#000000"
+#define E_UTILS_DEFAULT_THEME_TEXT_COLOR			"#000000"
+#define E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR			"#729fcf"
+#define E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR			"#000000"
+#define E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR	"#808080"
+#define E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR	"#000000"
+
+void		e_utils_shade_color		(const GdkRGBA *a,
+						 GdkRGBA *b,
+						 gdouble mult);
+
 /* This only makes a filename safe for usage as a filename.
  * It still may have shell meta-characters in it. */
 gchar *		e_format_number			(gint number);

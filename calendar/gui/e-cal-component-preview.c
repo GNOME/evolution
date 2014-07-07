@@ -438,7 +438,7 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
 
 	g_signal_connect (
-		preview, "style-set",
+		preview, "style-updated",
 		G_CALLBACK (load_comp), NULL);
 }
 

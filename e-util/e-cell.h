@@ -193,8 +193,7 @@ struct _ECellClass {
 	gchar *		(*get_bg_color)		(ECellView *ecell_view,
 						 gint row);
 
-	void		(*style_set)		(ECellView *ecell_view,
-						 GtkStyle *previous_style);
+	void		(*style_updated)	(ECellView *ecell_view);
 };
 
 GType		e_cell_get_type			(void) G_GNUC_CONST;
@@ -249,8 +248,7 @@ gboolean	e_cell_max_width_by_row_implemented
 						(ECellView *ecell_view);
 gchar *		e_cell_get_bg_color		(ECellView *ecell_view,
 						 gint row);
-void		e_cell_style_set		(ECellView *ecell_view,
-						 GtkStyle *previous_style);
+void		e_cell_style_updated		(ECellView *ecell_view);
 
 void		e_cell_focus			(ECellView *ecell_view,
 						 gint model_col,

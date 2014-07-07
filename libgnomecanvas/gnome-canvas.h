@@ -195,7 +195,7 @@ void gnome_canvas_item_construct (GnomeCanvasItem *item, GnomeCanvasGroup *paren
 /* Configure an item using the standard Gtk argument mechanism.  The last
  * argument must be a NULL pointer.
  */
-void gnome_canvas_item_set (GnomeCanvasItem *item, const gchar *first_arg_name, ...);
+void gnome_canvas_item_set (GnomeCanvasItem *item, const gchar *first_arg_name, ...) G_GNUC_NULL_TERMINATED;
 
 /* Used only for language wrappers and the like */
 void gnome_canvas_item_set_valist (GnomeCanvasItem *item,

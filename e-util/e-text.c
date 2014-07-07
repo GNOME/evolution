@@ -52,6 +52,7 @@
 #include "e-marshal.h"
 #include "e-text-event-processor-emacs-like.h"
 #include "e-unicode.h"
+#include "e-misc-utils.h"
 #include "gal-a11y-e-text.h"
 
 G_DEFINE_TYPE (EText, e_text, GNOME_TYPE_CANVAS_ITEM)
@@ -380,31 +381,34 @@ reset_layout (EText *text)
 
 	if (text->layout == NULL) {
 		create_layout (text);
-	}
-	else {
-		GtkStyle *style;
+	} else {
+		PangoContext *pango_context;
+		PangoFontDescription *font_desc;
 
-		style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
+		pango_context = gtk_widget_create_pango_context (GTK_WIDGET (item->canvas));
+		font_desc = pango_context_get_font_description (pango_context);
 
 		if (text->font_desc) {
 			pango_font_description_free (text->font_desc);
 		}
 		text->font_desc = pango_font_description_new ();
-		if (!pango_font_description_get_size_is_absolute (style->font_desc))
+		if (!pango_font_description_get_size_is_absolute (font_desc))
 			pango_font_description_set_size (
 				text->font_desc,
-				pango_font_description_get_size (style->font_desc));
+				pango_font_description_get_size (font_desc));
 		else
 			pango_font_description_set_absolute_size (
 				text->font_desc,
-				pango_font_description_get_size (style->font_desc));
+				pango_font_description_get_size (font_desc));
 		pango_font_description_set_family (
 			text->font_desc,
-			pango_font_description_get_family (style->font_desc));
+			pango_font_description_get_family (font_desc));
 		pango_layout_set_font_description (text->layout, text->font_desc);
 
 		pango_layout_set_text (text->layout, text->text, -1);
 		reset_layout_attrs (text);
+
+		g_object_unref (pango_context);
 	}
 
 	if (!text->button_down) {
@@ -1214,19 +1218,19 @@ e_text_draw (GnomeCanvasItem *item,
 	gint xpos, ypos;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
-	GtkStyle *style;
-	GtkStateType state;
+	GdkRGBA rgba;
+	gboolean backdrop;
 
 	text = E_TEXT (item);
 	canvas = GNOME_CANVAS_ITEM (text)->canvas;
 	widget = GTK_WIDGET (canvas);
-	state = gtk_widget_get_state (widget);
-	style = gtk_widget_get_style (widget);
+	backdrop = (gtk_widget_get_state_flags (widget) & GTK_STATE_FLAG_BACKDROP) != 0;
 
 	cairo_save (cr);
 
 	if (!text->rgba_set) {
-		gdk_cairo_set_source_color (cr, &style->fg[state]);
+		e_utils_get_theme_color (widget, backdrop ? "theme_unfocused_fg_color,theme_fg_color" : "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
+		gdk_cairo_set_source_rgba (cr, &rgba);
 	} else {
 		cairo_set_source_rgba (
 			cr,
@@ -1279,9 +1283,6 @@ e_text_draw (GnomeCanvasItem *item,
 		if (text->selection_start != text->selection_end) {
 			cairo_region_t *clip_region;
 			gint indices[2];
-			GtkStateType state;
-
-			state = GTK_STATE_ACTIVE;
 
 			indices[0] = MIN (
 				text->selection_start,
@@ -1302,10 +1303,13 @@ e_text_draw (GnomeCanvasItem *item,
 			cairo_clip (cr);
 			cairo_region_destroy (clip_region);
 
-			gdk_cairo_set_source_color (cr, &style->base[state]);
+			e_utils_get_theme_color (widget, backdrop ? "theme_unfocused_base_color,theme_base_color" : "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &rgba);
+
+			gdk_cairo_set_source_rgba (cr, &rgba);
 			cairo_paint (cr);
 
-			gdk_cairo_set_source_color (cr, &style->text[state]);
+			e_utils_get_theme_color (widget, backdrop ? "theme_unfocused_text_color,theme_text_color" : "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+			gdk_cairo_set_source_rgba (cr, &rgba);
 			cairo_move_to (cr, xpos, ypos);
 			pango_cairo_show_layout (cr, text->layout);
 		} else {

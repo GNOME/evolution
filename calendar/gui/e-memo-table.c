@@ -455,7 +455,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	ECalModelComponent *comp_data;
 	gint row = -1, col = -1;
 	GtkWidget *box, *l, *w;
-	GtkStyle *style = gtk_widget_get_default_style ();
+	GdkRGBA sel_bg, sel_fg, norm_bg, norm_text;
 	gchar *tmp;
 	const gchar *str;
 	GString *tmp2;
@@ -499,6 +499,11 @@ memo_table_query_tooltip (GtkWidget *widget,
 		return FALSE;
 	}
 
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &sel_bg);
+	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &sel_fg);
+	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &norm_bg);
+	e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &norm_text);
+
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
 	str = e_calendar_view_get_icalcomponent_summary (
@@ -517,8 +522,8 @@ memo_table_query_tooltip (GtkWidget *widget,
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 	w = gtk_event_box_new ();
 
-	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
-	gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &sel_bg);
+	gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &sel_fg);
 	gtk_container_add (GTK_CONTAINER (w), l);
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	g_free (tmp);
@@ -528,7 +533,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	free_text = FALSE;
 
 	w = gtk_event_box_new ();
-	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
+	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &norm_bg);
 
 	l = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_add (GTK_CONTAINER (w), l);
@@ -559,7 +564,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 		g_free (tmp);
 
-		gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_NORMAL]));
+		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
 	e_cal_component_get_dtstart (new_comp, &dtstart);
@@ -623,7 +628,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 
-		gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_NORMAL]));
+		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
 	g_string_free (tmp2, TRUE);
@@ -653,7 +658,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 
-		gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_NORMAL]));
+		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
 	g_string_free (tmp2, TRUE);

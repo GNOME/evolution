@@ -464,8 +464,8 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	GtkWidget *widget;
 	GtkWidget *popwin_child;
 	GtkWidget *popup_child;
-	GtkStyle *popwin_style;
-	GtkStyle *popup_style;
+	GtkBorder popwin_padding;
+	GtkBorder popup_padding;
 	GdkWindow *window;
 	GtkBin *popwin;
 	GtkScrolledWindow *popup;
@@ -533,18 +533,18 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;
 
 	popwin_child = gtk_bin_get_child (popwin);
-	popwin_style = gtk_widget_get_style (popwin_child);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (popwin_child), 0, &popwin_padding);
 
 	popup_child = gtk_bin_get_child (GTK_BIN (popup));
-	popup_style = gtk_widget_get_style (popup_child);
+	gtk_style_context_get_padding (gtk_widget_get_style_context (popup_child), 0, &popup_padding);
 
 	/* Calculate the desired width. */
 	*width = list_requisition.width
-		+ 2 * popwin_style->xthickness
+		+ 2 * popwin_padding.left
 		+ 2 * gtk_container_get_border_width (GTK_CONTAINER (popwin_child))
 		+ 2 * gtk_container_get_border_width (GTK_CONTAINER (popup))
 		+ 2 * gtk_container_get_border_width (GTK_CONTAINER (popup_child))
-		+ 2 * popup_style->xthickness;
+		+ 2 * popup_padding.left;
 
 	/* Use at least the same width as the column. */
 	if (*width < column_width)
@@ -558,11 +558,11 @@ e_cell_combo_get_popup_pos (ECellCombo *ecc,
 	}
 
 	/* Calculate all the borders etc. that we need to add to the height. */
-	work_height = (2 * popwin_style->ythickness
+	work_height = (2 * popwin_padding.top
 		       + 2 * gtk_container_get_border_width (GTK_CONTAINER (popwin_child))
 		       + 2 * gtk_container_get_border_width (GTK_CONTAINER (popup))
 		       + 2 * gtk_container_get_border_width (GTK_CONTAINER (popup_child))
-		       + 2 * popup_style->xthickness);
+		       + 2 * popup_padding.top);
 
 	widget = gtk_scrolled_window_get_hscrollbar (popup);
 	gtk_widget_get_preferred_size (widget, &requisition, NULL);

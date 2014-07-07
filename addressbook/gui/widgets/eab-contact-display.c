@@ -517,7 +517,7 @@ eab_contact_display_init (EABContactDisplay *display)
 		web_view, "notify::load-status",
 		G_CALLBACK (contact_display_load_status_changed), NULL);
 	g_signal_connect (
-		web_view, "style-set",
+		web_view, "style-updated",
 		G_CALLBACK (load_contact), NULL);
 
 	e_web_view_install_request_handler (E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);

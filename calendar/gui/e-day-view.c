@@ -42,6 +42,7 @@
 #include "dialogs/recur-comp.h"
 #include "dialogs/goto-dialog.h"
 #include "dialogs/save-comp.h"
+#include "e-util/e-util.h"
 
 #include "calendar-config.h"
 #include "comp-util.h"
@@ -169,7 +170,7 @@ static GtkTargetEntry target_table[] = {
 	{ (gchar *) "application/x-e-calendar-event", 0, 0 }
 };
 
-static void e_day_view_set_colors (EDayView *day_view, GtkWidget *widget);
+static void e_day_view_set_colors (EDayView *day_view);
 static gboolean e_day_view_update_scroll_regions (EDayView *day_view);
 static gboolean e_day_view_get_next_tab_event (EDayView *day_view,
 					       GtkDirectionType direction,
@@ -575,11 +576,9 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 
 static GdkColor
 e_day_view_get_text_color (EDayView *day_view,
-                           EDayViewEvent *event,
-                           GtkWidget *widget)
+                           EDayViewEvent *event)
 {
-	GtkStyle *style;
-	GdkColor bg_color;
+	GdkColor color;
 	guint16 red, green, blue;
 	gdouble	cc = 65535.0;
 
@@ -588,18 +587,23 @@ e_day_view_get_text_color (EDayView *day_view,
 	blue = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue;
 
 	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
-	     &bg_color)) {
-		red = bg_color.red;
-		green = bg_color.green;
-		blue = bg_color.blue;
+	     &color)) {
+		red = color.red;
+		green = color.green;
+		blue = color.blue;
 	}
 
-	style = gtk_widget_get_style (widget);
+	if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7)) {
+		color.red = 0.0;
+		color.green = 0.0;
+		color.blue = 0.0;
+	} else {
+		color.red = 65535.0f;
+		color.green = 65535.0f;
+		color.blue = 65535.0f;
+	}
 
-	if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7))
-		return style->black;
-	else
-		return style->white;
+	return color;
 }
 
 /* Returns the selected time range. */
@@ -1259,7 +1263,7 @@ day_view_realize (GtkWidget *widget)
 
 	/* Allocate the colors. */
 
-	e_day_view_set_colors (day_view, widget);
+	e_day_view_set_colors (day_view);
 
 	/* Create the pixmaps. */
 	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
@@ -1320,8 +1324,7 @@ day_view_size_allocate (GtkWidget *widget,
 }
 
 static void
-day_view_style_set (GtkWidget *widget,
-                    GtkStyle *previous_style)
+day_view_style_updated (GtkWidget *widget)
 {
 	EDayView *day_view;
 	gint hour;
@@ -1341,17 +1344,17 @@ day_view_style_set (GtkWidget *widget,
 	EDayViewEvent *event;
 	GdkColor color;
 
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_updated)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_updated) (widget);
 
 	day_view = E_DAY_VIEW (widget);
-	e_day_view_set_colors (day_view, widget);
+	e_day_view_set_colors (day_view);
 
 	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++) {
 		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
 			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
 			if (event->canvas_item) {
-				color = e_day_view_get_text_color (day_view, event, widget);
+				color = e_day_view_get_text_color (day_view, event);
 				gnome_canvas_item_set (
 					event->canvas_item,
 					"fill_color_gdk", &color,
@@ -1362,7 +1365,7 @@ day_view_style_set (GtkWidget *widget,
 	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 		if (event->canvas_item) {
-			color = e_day_view_get_text_color (day_view, event, widget);
+			color = e_day_view_get_text_color (day_view, event);
 			gnome_canvas_item_set (
 				event->canvas_item,
 				"fill_color_gdk", &color,
@@ -1371,8 +1374,8 @@ day_view_style_set (GtkWidget *widget,
 	}
 
 	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (widget)->font_desc;
 	pango_context = gtk_widget_get_pango_context (widget);
+	font_desc = pango_context_get_font_description (pango_context);
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
 		pango_context_get_language (pango_context));
@@ -1841,7 +1844,7 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->realize = day_view_realize;
 	widget_class->unrealize = day_view_unrealize;
 	widget_class->size_allocate = day_view_size_allocate;
-	widget_class->style_set = day_view_style_set;
+	widget_class->style_updated = day_view_style_updated;
 	widget_class->focus = day_view_focus;
 	widget_class->key_press_event = day_view_key_press;
 	widget_class->focus_in_event = day_view_focus_in;
@@ -2649,28 +2652,40 @@ e_day_view_new (ECalModel *model)
 }
 
 static void
-e_day_view_set_colors (EDayView *day_view,
-                       GtkWidget *widget)
+e_day_view_set_colors (EDayView *day_view)
 {
-	GtkStyle *style;
+	GtkWidget *widget = GTK_WIDGET (day_view);
+	GdkRGBA base_bg, bg_bg, selected_bg, unfocused_selected_bg, dark_bg, light_bg;
 
-	style = gtk_widget_get_style (widget);
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
+	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_bg);
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &selected_bg);
+	e_utils_get_theme_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, &unfocused_selected_bg);
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING] = style->base[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING] = style->bg[GTK_STATE_ACTIVE];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED] = style->base[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED] = style->bg[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID] = style->dark[GTK_STATE_NORMAL];
+	e_utils_shade_color (&bg_bg, &dark_bg, E_UTILS_DARKNESS_MULT);
+	e_utils_shade_color (&bg_bg, &light_bg, E_UTILS_LIGHTNESS_MULT);
+
+	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
+	e_rgba_to_color (&bg_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+	e_rgba_to_color (&selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
+	e_rgba_to_color (&unfocused_selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
+	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
+	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
+	e_rgba_to_color (&selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
+	e_rgba_to_color (&light_bg, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
+	e_rgba_to_color (&selected_bg, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
+	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
+	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER]);
+	e_rgba_to_color (&base_bg, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+	e_rgba_to_color (&dark_bg, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+
 	day_view->colors[E_DAY_VIEW_COLOR_BG_MULTIDAY_TODAY] = get_today_background (day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING]);
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS] = style->dark[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED] = style->bg[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID] = style->light[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR] = style->base[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND] = style->base[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER] = style->dark[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND] = style->bg[GTK_STATE_ACTIVE];
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER] = style->dark[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE] = style->dark[GTK_STATE_PRELIGHT];
+
+	bg_bg.red = 0.5;
+	bg_bg.green = 1.0;
+	bg_bg.blue = 1.0;
+
+	e_rgba_to_color (&bg_bg, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 }
 
 static void
@@ -2733,8 +2748,6 @@ e_day_view_recalc_cell_sizes (EDayView *day_view)
 	PangoLayout *layout;
 	gint pango_width;
 	gint days_shown;
-
-	g_return_if_fail (gtk_widget_get_style (GTK_WIDGET (day_view)) != NULL);
 
 	days_shown = e_day_view_get_days_shown (day_view);
 
@@ -5657,12 +5670,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (!event->canvas_item) {
-		GtkWidget *widget;
 		GdkColor color;
 
-		widget = (GtkWidget *) day_view;
-
-		color = e_day_view_get_text_color (day_view, event, widget);
+		color = e_day_view_get_text_color (day_view, event);
 
 		event->canvas_item =
 			gnome_canvas_item_new (
@@ -5845,12 +5855,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		}
 
 		if (!event->canvas_item) {
-			GtkWidget *widget;
 			GdkColor color;
 
-			widget = (GtkWidget *) day_view;
-
-			color = e_day_view_get_text_color (day_view, event, widget);
+			color = e_day_view_get_text_color (day_view, event);
 
 			event->canvas_item = gnome_canvas_item_new (
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
