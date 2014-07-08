@@ -591,6 +591,7 @@ mail_send_message (struct _send_queue_msg *m,
 	CamelMimeMessage *message;
 	gint i;
 	GError *local_error = NULL;
+	gboolean did_connect = FALSE;
 
 	message = camel_folder_get_message_sync (
 		queue, uid, cancellable, error);
@@ -646,9 +647,13 @@ mail_send_message (struct _send_queue_msg *m,
 			goto exit;
 		}
 
-		if (!camel_service_connect_sync (
-			service, cancellable, error))
-			goto exit;
+		if (camel_service_get_connection_status (service) != CAMEL_SERVICE_CONNECTED) {
+			if (!camel_service_connect_sync (
+				service, cancellable, error))
+				goto exit;
+
+			did_connect = TRUE;
+		}
 
 		/* expand, or remove empty, group addresses */
 		em_utils_expand_groups (CAMEL_INTERNET_ADDRESS (recipients));
@@ -821,6 +826,19 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 exit:
+	if (did_connect) {
+		/* Disconnect regardless of error or cancellation,
+		 * but be mindful of these conditions when calling
+		 * camel_service_disconnect_sync(). */
+		if (g_cancellable_is_cancelled (cancellable)) {
+			camel_service_disconnect_sync (service, FALSE, NULL, NULL);
+		} else if (local_error != NULL) {
+			camel_service_disconnect_sync (service, FALSE, cancellable, NULL);
+		} else {
+			camel_service_disconnect_sync (service, TRUE, cancellable, &local_error);
+		}
+	}
+
 	if (local_error != NULL)
 		g_propagate_error (error, local_error);
 
