@@ -86,6 +86,7 @@ struct _EMailReaderPrivate {
 	 * that to happen when the -user- selects a message. */
 	guint folder_was_just_selected : 1;
 	guint avoid_next_mark_as_seen : 1;
+	guint did_try_to_open_message : 1;
 
 	guint group_by_threads : 1;
 
@@ -2905,6 +2906,13 @@ mail_reader_message_selected_cb (EMailReader *reader,
 		priv->message_selected_timeout_id = 0;
 	}
 
+	if (priv->folder_was_just_selected && message_uid) {
+		if (priv->did_try_to_open_message)
+			priv->folder_was_just_selected = FALSE;
+		else
+			priv->did_try_to_open_message = TRUE;
+	}
+
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	if (message_list) {
 		EMailPartList *parts;
@@ -3071,6 +3079,7 @@ mail_reader_set_folder (EMailReader *reader,
 		e_web_view_clear (E_WEB_VIEW (display));
 
 		priv->folder_was_just_selected = (folder != NULL);
+		priv->did_try_to_open_message = FALSE;
 
 		/* This is to make sure any post-poned changes in Search
 		 * Folders will be propagated on folder selection. */
