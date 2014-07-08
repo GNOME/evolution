@@ -24,6 +24,7 @@
 #include <libebackend/libebackend.h>
 
 #include <mail/e-mail-config-auth-check.h>
+#include <mail/e-mail-config-page.h>
 #include <mail/e-mail-config-service-page.h>
 
 #define E_MAIL_CONFIG_SMTP_BACKEND_GET_PRIVATE(obj) \
@@ -43,6 +44,18 @@ G_DEFINE_DYNAMIC_TYPE (
 	EMailConfigSmtpBackend,
 	e_mail_config_smtp_backend,
 	E_TYPE_MAIL_CONFIG_SERVICE_BACKEND)
+
+static void
+server_requires_auth_toggled_cb (GtkToggleButton *toggle,
+				 EMailConfigServiceBackend *backend)
+{
+	EMailConfigServicePage *page;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
+
+	page = e_mail_config_service_backend_get_page (backend);
+	e_mail_config_page_changed (E_MAIL_CONFIG_PAGE (page));
+}
 
 static void
 mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
@@ -124,6 +137,9 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 3, 1);
 	priv->auth_required_toggle = widget;  /* do not reference */
 	gtk_widget_show (widget);
+
+	g_signal_connect_object (widget, "toggled",
+		G_CALLBACK (server_requires_auth_toggled_cb), backend, 0);
 
 	text = _("Security");
 	markup = g_markup_printf_escaped ("<b>%s</b>", text);
