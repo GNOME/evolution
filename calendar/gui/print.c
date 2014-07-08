@@ -298,8 +298,11 @@ build_month (ECalModel *model,
 
 	weekday = e_weekday_from_tm_wday (d_week);
 
+	/* Figure out which square we want to put the 1 in. */
+	weekday = (weekday + 7 - week_start_day) % 7;
+
 	for (i = 0; i < d_month; i++)
-		days[d_week + i] = i + 1;
+		days[weekday + i] = i + 1;
 
 	if (start)
 		*start = e_weekday_get_days_between (week_start_day, weekday);
