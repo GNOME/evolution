@@ -33,7 +33,8 @@ gsettings_SCHEMAS =							\
 @INTLTOOL_XML_NOMERGE_RULE@
 appdatadir = $(datadir)/appdata
 appdata_in_files = evolution.appdata.xml.in
-dist_appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+appdata_files = $(appdata_in_files:.xml.in=.xml)
+dist_appdata_DATA = $(appdata_files)
 
 @GSETTINGS_RULES@
 
@@ -75,7 +76,7 @@ EXTRA_DIST =					\
 	$(gsettings_SCHEMAS:.xml=.xml.in)
 
 DISTCLEANFILES =		\
-	$(app_data_in_files)	\
+	$(appdata_files)	\
 	$(gsettings_SCHEMAS)
 
 -include $(top_srcdir)/git.mk
