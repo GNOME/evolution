@@ -850,7 +850,7 @@ exit:
 		 * camel_service_disconnect_sync(). */
 		if (g_cancellable_is_cancelled (cancellable)) {
 			camel_service_disconnect_sync (service, FALSE, NULL, NULL);
-		} else if (error != NULL) {
+		} else if (local_error != NULL) {
 			camel_service_disconnect_sync (service, FALSE, cancellable, NULL);
 		} else {
 			camel_service_disconnect_sync (service, TRUE, cancellable, &local_error);
