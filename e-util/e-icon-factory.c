@@ -29,9 +29,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#ifdef HAVE_GNOME_DESKTOP
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-desktop-thumbnail.h>
 #undef GNOME_DESKTOP_USE_UNSTABLE_API
+#endif
 
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
@@ -147,9 +149,11 @@ e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf,
 	if (height <= 0)
 		height = 1;
 
+	#ifdef HAVE_GNOME_DESKTOP
 	/* because this can only scale down, not up */
 	if (gdk_pixbuf_get_width (pixbuf) > width && gdk_pixbuf_get_height (pixbuf) > height)
 		return gnome_desktop_thumbnail_scale_down_pixbuf (pixbuf, width, height);
+	#endif
 
 	return gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 }
@@ -166,6 +170,7 @@ e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf,
 gchar *
 e_icon_factory_create_thumbnail (const gchar *filename)
 {
+#ifdef HAVE_GNOME_DESKTOP
 	static GnomeDesktopThumbnailFactory *thumbnail_factory = NULL;
 	struct stat file_stat;
 	gchar *thumbnail = NULL;
@@ -211,4 +216,7 @@ e_icon_factory_create_thumbnail (const gchar *filename)
 	}
 
 	return thumbnail;
+#else
+	return NULL;
+#endif /* HAVE_GNOME_DESKTOP */
 }

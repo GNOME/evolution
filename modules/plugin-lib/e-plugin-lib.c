@@ -25,7 +25,7 @@
 #include "e-plugin-lib.h"
 
 #ifdef G_OS_WIN32
-#include <libedataserver/e-data-server-util.h> /* for e_util_replace_prefix() */
+#include <libedataserver/libedataserver.h> /* for e_util_replace_prefix() */
 #endif
 
 #include <string.h>

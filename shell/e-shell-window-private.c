@@ -260,9 +260,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GtkWindow *window;
 	guint merge_id;
 	const gchar *id;
+	GSettings *settings;
 
 #ifndef G_OS_WIN32
-	GSettings *settings;
 	GtkActionGroup *action_group;
 #endif
 

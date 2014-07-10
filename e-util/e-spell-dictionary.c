@@ -20,6 +20,7 @@
 #include <config.h>
 #endif
 
+#include "e-util-private.h"
 #include "e-spell-dictionary.h"
 #include "e-spell-checker.h"
 
@@ -69,27 +70,6 @@ G_DEFINE_TYPE (
 #undef DATADIR
 #endif
 #include <shlobj.h>
-static HMODULE hmodule;
-
-BOOL WINAPI
-DllMain (HINSTANCE hinstDLL,
-         DWORD fdwReason,
-         LPVOID lpvReserved);
-
-BOOL WINAPI
-DllMain (HINSTANCE hinstDLL,
-         DWORD fdwReason,
-         LPVOID lpvReserved)
-{
-	switch (fdwReason)
-    {
-    case DLL_PROCESS_ATTACH:
-		hmodule = hinstDLL;
-		break;
-    }
-
-	return TRUE;
-}
 
 static gchar *
 _get_iso_codes_prefix (void)
@@ -101,7 +81,7 @@ _get_iso_codes_prefix (void)
 	if (beenhere)
 		return retval;
 
-	if (!(temp_dir = g_win32_get_package_installation_directory_of_module ((gpointer) hmodule))) {
+	if (!(temp_dir = g_win32_get_package_installation_directory_of_module (_e_get_dll_hmodule ()))) {
 		strcpy (retval, ISO_CODES_PREFIX);
 		return retval;
 	}

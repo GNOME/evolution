@@ -25,14 +25,9 @@
 
 #include "e-source-ldap.h"
 
-#ifndef G_OS_WIN32
 #include <ldap.h>
 #ifndef SUNLDAP
 #include <ldap_schema.h>
-#endif
-#else
-#include <winldap.h>
-#include "openldap-extract.h"
 #endif
 
 /* Combo box ordering */

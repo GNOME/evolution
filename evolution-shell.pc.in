@@ -19,6 +19,6 @@ Name: evolution-shell
 Description: libraries needed for Evolution shell components
 Version: @VERSION@
 Requires: gtk+-3.0 libebackend-1.2 webkitgtk-3.0
-Requires.private: gnome-desktop-3.0
+Requires.private: @GNOME_DESKTOP_DEPENDENCY@
 Libs: -L${privlibdir} -levolution-shell -levolution-util -Wl,-R${privlibdir}
 Cflags: -I${privincludedir}

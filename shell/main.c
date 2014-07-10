@@ -38,7 +38,9 @@
 #ifdef DATADIR
 #undef DATADIR
 #endif
+#ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0601
+#endif
 #include <windows.h>
 #include <conio.h>
 #include <io.h>
@@ -48,6 +50,9 @@
 #ifndef PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION
 #define PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION 0x00000002
 #endif
+
+#include "e-util/e-util-private.h"
+
 #endif
 
 #include <libxml/xmlmemory.h>

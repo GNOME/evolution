@@ -4,7 +4,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 INTERFACE_VERSION=3.0
 
 %-$(INTERFACE_VERSION).pc: %.pc
-	 cp $< $@
+	cat $< | grep -x -v "Requires.private: " >$@
 
 pkgconfig_in_files =					\
 	evolution-calendar-$(INTERFACE_VERSION).pc	\
