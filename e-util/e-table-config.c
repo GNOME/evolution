@@ -1105,8 +1105,6 @@ e_table_config_new (const gchar *header,
 
 	dialog = GTK_DIALOG (config->dialog_toplevel);
 
-	gtk_widget_ensure_style (config->dialog_toplevel);
-
 	widget = gtk_dialog_get_content_area (dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 0);
 

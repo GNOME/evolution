@@ -456,8 +456,6 @@ build_quick_add_dialog (QuickAdd *qa)
 		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
-	gtk_widget_ensure_style (dialog);
-
 	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

@@ -531,8 +531,6 @@ build_dialog (GtkWindow *parent,
 		"/org/gnome/evolution/mail/send-recv-window/",
 		E_RESTORE_WINDOW_SIZE);
 
-	gtk_widget_ensure_style ((GtkWidget *) gd);
-
 	container = gtk_dialog_get_action_area (gd);
 	gtk_container_set_border_width (GTK_CONTAINER (container), 6);
 

@@ -418,8 +418,6 @@ emfp_dialog_run (AsyncContext *context)
 		_("_Close"), GTK_RESPONSE_OK, NULL);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
 
-	gtk_widget_ensure_style (dialog);
-
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 12);
 
