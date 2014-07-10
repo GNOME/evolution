@@ -1315,8 +1315,6 @@ alarm_dialog_run (GtkWidget *parent,
 
 	alarm_to_dialog (&dialog);
 
-	gtk_widget_ensure_style (dialog.toplevel);
-
 	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog.toplevel));
 	gtk_container_set_border_width (GTK_CONTAINER (container), 12);
 

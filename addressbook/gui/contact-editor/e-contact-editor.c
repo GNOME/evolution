@@ -4140,7 +4140,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		e_builder_get_widget (builder, "contact editor");
 	widget = e_contact_editor->priv->app;
 
-	gtk_widget_ensure_style (widget);
 	gtk_window_set_type_hint (
 		GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_NORMAL);
 	container = gtk_dialog_get_action_area (GTK_DIALOG (widget));

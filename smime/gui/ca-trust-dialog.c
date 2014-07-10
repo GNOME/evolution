@@ -89,8 +89,6 @@ ca_trust_dialog_show (ECert *cert,
 
 	ctd_data->dialog = e_builder_get_widget (ctd_data->builder, "ca-trust-dialog");
 
-	gtk_widget_ensure_style (ctd_data->dialog);
-
 	dialog = GTK_DIALOG (ctd_data->dialog);
 	action_area = gtk_dialog_get_action_area (dialog);
 	content_area = gtk_dialog_get_content_area (dialog);
