@@ -153,8 +153,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	PangoLayout *layout;
 	GdkRGBA bg_color, rgba;
 	cairo_pattern_t *pat;
-	guint16 red, green, blue;
-	gdouble cc = 65535.0;
+	gdouble red, green, blue;
 	gdouble x0, y0, rect_height, rect_width, radius;
 
 	day_view = e_day_view_top_item_get_day_view (top_item);
@@ -193,9 +192,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		green = bg_color.green;
 		blue = bg_color.blue;
 	} else {
-		red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red;
-		green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green;
-		blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue;
+		red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red / 65535.0;
+		green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green / 65535.0;
+		blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue / 65535.0;
 	}
 
 	/* Fill the background with white to play with transparency */
@@ -226,7 +225,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_set_source_rgb (cr, red / cc, green / cc, blue / cc);
+	cairo_set_source_rgb (cr, red, green, blue);
 	cairo_set_line_width (cr, 1.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
@@ -247,13 +246,13 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	pat = cairo_pattern_create_linear (
 		item_x - x + 5.5, item_y + 2.5 - y,
 		item_x - x + 5, item_y - y + item_h + 7.5);
-	cairo_pattern_add_color_stop_rgba (pat, 1, red / cc, green / cc, blue / cc, 0.8);
-	cairo_pattern_add_color_stop_rgba (pat, 0, red / cc, green / cc, blue / cc, 0.4);
+	cairo_pattern_add_color_stop_rgba (pat, 1, red, green, blue, 0.8);
+	cairo_pattern_add_color_stop_rgba (pat, 0, red, green, blue, 0.4);
 	cairo_set_source (cr, pat);
 	cairo_fill_preserve (cr);
 	cairo_pattern_destroy (pat);
 
-	cairo_set_source_rgba (cr, red / cc, green / cc, blue / cc, 0);
+	cairo_set_source_rgba (cr, red, green, blue, 0);
 	cairo_set_line_width (cr, 0.5);
 	cairo_stroke (cr);
 	cairo_restore (cr);
