@@ -138,8 +138,10 @@ cp (const gchar *src,
 			em_migrate_set_progress (((gdouble) total) / ((gdouble) st.st_size));
 	} while (total < st.st_size);
 
+	#ifndef G_OS_WIN32
 	if (fsync (writefd) == -1)
 		goto exception;
+	#endif
 
 	close (readfd);
 	if (close (writefd) == -1)

@@ -275,9 +275,23 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 gcr-3 >= gcr_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 gnome-desktop-3.0 >= gnome_desktop_minimum_version
 	 gsettings-desktop-schemas >= gsettings_desktop_schemas_minimum_version
 	 webkitgtk-3.0 >= webkitgtk_minimum_version])
+
+GNOME_DESKTOP_DEPENDENCY=""
+AC_ARG_ENABLE([gnome-desktop],
+	[AS_HELP_STRING([--enable-gnome-desktop],
+	[Enable GNOME desktop dependency for thumbnails @<:@default=yes@:>@])],
+	[enable_gnome_desktop="$enableval"], [enable_gnome_desktop=yes])
+
+if test "$enable_gnome_desktop" = "yes"; then
+	GNOME_DESKTOP_DEPENDENCY=gnome-desktop-3.0
+	PKG_CHECK_MODULES([GNOME_DESKTOP], [$GNOME_DESKTOP_DEPENDENCY >= gnome_desktop_minimum_version])
+	GNOME_PLATFORM_CFLAGS="$GNOME_PLATFORM_CFLAGS $GNOME_DESKTOP_CFLAGS"
+	GNOME_PLATFORM_LIBS="$GNOME_PLATFORM_LIBS $GNOME_DESKTOP_LIBS"
+	AC_DEFINE(HAVE_GNOME_DESKTOP, 1, [gnome-desktop])
+fi
+AC_SUBST(GNOME_DESKTOP_DEPENDENCY)
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -482,6 +496,11 @@ else
 	fi
 fi
 
+dnl **************************************************
+dnl wait.h is not available on win32
+dnl **************************************************
+
+AC_CHECK_HEADERS(sys/wait.h, AC_DEFINE(HAVE_SYS_WAIT_H, 1, [Have <sys/wait.h>]))
 
 AC_CHECK_FUNCS(mkdtemp)
 

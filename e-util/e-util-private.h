@@ -34,6 +34,8 @@
 
 #define fsync(fd) 0
 
+gpointer _e_get_dll_hmodule (void) G_GNUC_CONST;
+
 const gchar *_e_get_bindir (void) G_GNUC_CONST;
 const gchar *_e_get_datadir (void) G_GNUC_CONST;
 const gchar *_e_get_ecpsdir (void) G_GNUC_CONST;

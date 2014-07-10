@@ -178,3 +178,8 @@ GETTER(sounddir)
 GETTER(sysconfdir)
 GETTER(toolsdir)
 GETTER(uidir)
+
+gpointer _e_get_dll_hmodule (void)
+{
+	return hmodule;
+}
