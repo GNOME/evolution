@@ -4871,11 +4871,14 @@ process_elements (EHTMLEditorView *view,
 			/* Replace tabs with 8 whitespaces, otherwise they got
 			 * replaced by single whitespace */
 			if (strstr (content, "\x9")) {
-				gchar *start_of_line = g_strrstr_len (
-					buffer->str, -1, "\n") + 1;
+				if (buffer->str && *buffer->str) {
+					gchar *start_of_line = g_strrstr_len (
+						buffer->str, -1, "\n") + 1;
 
-				if (start_of_line && *start_of_line)
-					char_count = strlen (start_of_line);
+					if (start_of_line && *start_of_line)
+							char_count = strlen (start_of_line);
+				} else
+					char_count = 0;
 
 				regex = g_regex_new ("\x9", 0, 0, NULL);
 				tmp = g_regex_replace_eval (
@@ -4998,11 +5001,14 @@ process_elements (EHTMLEditorView *view,
 				/* Replace tabs with 8 whitespaces, otherwise they got
 				 * replaced by single whitespace */
 				if (strstr (content, "\x9")) {
-					gchar *start_of_line = g_strrstr_len (
-						buffer->str, -1, "\n") + 1;
+					if (buffer->str && *buffer->str) {
+						gchar *start_of_line = g_strrstr_len (
+							buffer->str, -1, "\n") + 1;
 
-					if (start_of_line && *start_of_line)
-						char_count = strlen (start_of_line);
+						if (start_of_line && *start_of_line)
+							char_count = strlen (start_of_line);
+					} else
+						char_count = 0;
 
 					regex = g_regex_new ("\x9", 0, 0, NULL);
 					tmp = g_regex_replace_eval (
