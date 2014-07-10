@@ -1574,7 +1574,6 @@ smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
 sounds/Makefile
-evolution-zip
 evolution-calendar.pc
 evolution-mail.pc
 evolution-shell.pc

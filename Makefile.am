@@ -32,7 +32,6 @@ EXTRA_DIST = 			\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
-	evolution-zip.in	\
 	gtk-doc.make
 
 if ENABLE_SMIME
