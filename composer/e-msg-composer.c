@@ -1021,21 +1021,20 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 
 static void
 composer_add_evolution_composer_mode_header (CamelMedium *medium,
-                                             ComposerFlags flags)
+                                             EMsgComposer *composer)
 {
-	GString *string;
+	gboolean html_mode;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 
-	string = g_string_sized_new (128);
-
-	if (flags & COMPOSER_FLAG_HTML_MODE)
-		g_string_append (string, "text/html");
-	else
-		g_string_append (string, "text/plain");
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	html_mode = e_html_editor_view_get_html_mode (view);
 
 	camel_medium_add_header (
-		medium, "X-Evolution-Composer-Mode", string->str);
-
-	g_string_free (string, TRUE);
+		medium,
+		"X-Evolution-Composer-Mode",
+		html_mode ? "text/html" : "text/plain");
 }
 
 static void
@@ -1223,7 +1222,7 @@ composer_build_message (EMsgComposer *composer,
 
 	/* X-Evolution-Composer-Mode */
 	composer_add_evolution_composer_mode_header (
-		CAMEL_MEDIUM (context->message), flags);
+		CAMEL_MEDIUM (context->message), composer);
 
 	if (flags & COMPOSER_FLAG_SAVE_DRAFT) {
 		gchar *text;
