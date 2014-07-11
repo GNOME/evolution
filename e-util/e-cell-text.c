@@ -718,9 +718,9 @@ ect_draw (ECellView *ecell_view,
 
 	if (selected) {
 		if (gtk_widget_has_focus (canvas))
-			e_utils_get_theme_color (canvas, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, &fg_rgba);
-		else
 			e_utils_get_theme_color (canvas, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg_rgba);
+		else
+			e_utils_get_theme_color (canvas, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, &fg_rgba);
 		gdk_cairo_set_source_rgba (cr, &fg_rgba);
 	} else {
 		gboolean color_overwritten = FALSE;
