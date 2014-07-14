@@ -1,3 +1,41 @@
+Evolution 3.12.4 2014-07-14
+---------------------------
+
+Bug Fixes:
+	Bug 731278 - Next message is not selected after move (Milan Crha)
+	Bug 704663 - Crash under em_folder_tree_model_add_store() (Milan Crha)
+	Bug 731549 - EMFolderTree: Text column doesn't expand with recent gtk+ (Sebastian Keller)
+	Bug 702703 - Do not use local machine's domain in Message IDs (Milan Crha)
+	Bug 731231 - Automatic 'mark as seen' sometimes cancelled incorrectly (Milan Crha)
+	Bug 731590 - Crash on calendar Copy (Milan Crha)
+	Bug 731770 - Sometimes crashes when trying to load images in e-mails (Milan Crha)
+	Bug 731604 - Recursive inline-PGP-signed text not shown properly (Milan Crha)
+	Bug 652132 - Google Tasks support (Milan Crha)
+	Bug 731872 - EWebView: Use named colors from themes (Sebastian Keller)
+	Bug 719379 - Send/Receive dialog doesn't close on errors properly (Milan Crha)
+	Bug 607753 - Appointment tooltip sometimes 'stick' to screen (Milan Crha)
+	Bug 732180 - Excessive CPU usage due to GtkSpinner (Milan Crha)
+	Bug 732091 - Automatically mark message as read sometimes doesn't work (Milan Crha)
+	Bug 732502 - Ignore get_quota errors in folder properties (Milan Crha)
+	Bug 732140 - Allow multiple folder selection when creating Send account overrides (Milan Crha)
+	Bug 732091 - Automatically mark message as read sometimes doesn't work (take 2) (Milan Crha)
+	Bug 732541 - Small calendar print doesn't follow week-start-day option (Milan Crha)
+	Bug 722068 - Make Evolution build under Win32 (Milan Crha)
+
+Miscellaneous:
+	Fix possible crash after migrate of mbox to maildir (Milan Crha)
+	EClientSelector: Do not check connection for empty or "localhost" host (Milan Crha)
+	Fix memory leaks when generating message list (Milan Crha)
+	store_info_insert_folder_info: Use g_hash_table_replace() to avoid use-after-free (Milan Crha)
+	Reply to selection in text-highlight part loses white-spaces (Milan Crha)
+	Replace GtkStyle usages with GtkStyleContext (Milan Crha)
+	SMTP part of a new mail account dialog doesn't update UI properly (Milan Crha)
+	Disconnect the store when connected it on send from an Outbox (Milan Crha)
+	Remove usages of deprecated gtk_widget_ensure_style() (Milan Crha)
+	Remove unused and obsolete evolution-zip.in (Milan Crha)
+	Correct draw of all-day events in a day/work-week view (Milan Crha)
+	Incorrect text color for selected cells in ETree/ETable (Milan Crha)
+
 Evolution 3.12.3 2014-06-09
 ---------------------------
 
