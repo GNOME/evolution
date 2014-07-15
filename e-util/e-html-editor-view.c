@@ -5184,33 +5184,35 @@ process_elements (EHTMLEditorView *view,
 			gint char_count = 0;
 
 			content = webkit_dom_node_get_text_content (child);
-			/* Replace tabs with 8 whitespaces, otherwise they got
-			 * replaced by single whitespace */
-			if (strstr (content, "\x9")) {
-				if (buffer->str && *buffer->str) {
-					gchar *start_of_line = g_strrstr_len (
-						buffer->str, -1, "\n") + 1;
+			if (!changing_mode && to_plain_text) {
+				/* Replace tabs with 8 whitespaces, otherwise they got
+				 * replaced by single whitespace */
+				if (strstr (content, "\x9")) {
+					if (buffer->str && *buffer->str) {
+						gchar *start_of_line = g_strrstr_len (
+							buffer->str, -1, "\n") + 1;
 
-					if (start_of_line && *start_of_line)
-							char_count = strlen (start_of_line);
-				} else
-					char_count = 0;
+						if (start_of_line && *start_of_line)
+								char_count = strlen (start_of_line);
+					} else
+						char_count = 0;
 
-				regex = g_regex_new ("\x9", 0, 0, NULL);
-				tmp = g_regex_replace_eval (
-					regex,
-					content,
-					-1,
-					0,
-					0,
-					(GRegexEvalCallback) replace_to_whitespaces,
-					GINT_TO_POINTER (char_count),
-					NULL);
+					regex = g_regex_new ("\x9", 0, 0, NULL);
+					tmp = g_regex_replace_eval (
+						regex,
+						content,
+						-1,
+						0,
+						0,
+						(GRegexEvalCallback) replace_to_whitespaces,
+						GINT_TO_POINTER (char_count),
+						NULL);
 
-				g_string_append (buffer, tmp);
-				g_free (tmp);
-				content = webkit_dom_node_get_text_content (child);
-				g_regex_unref (regex);
+					g_string_append (buffer, tmp);
+					g_free (tmp);
+					content = webkit_dom_node_get_text_content (child);
+					g_regex_unref (regex);
+				}
 			}
 
 			if (strstr (content, UNICODE_ZERO_WIDTH_SPACE)) {
