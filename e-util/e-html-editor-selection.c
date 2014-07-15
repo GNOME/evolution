@@ -2522,6 +2522,10 @@ get_element_for_inspection (WebKitDOMRange *range)
 	WebKitDOMNode *node;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
+	/* No selection or whole body selected */
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node))
+		return NULL;
+
 	return WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
 }
 
