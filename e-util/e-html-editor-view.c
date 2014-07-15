@@ -3419,6 +3419,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	GString *start, *end;
 	gboolean ignore_next_br = FALSE;
 	GRegex *regex_nbsp = NULL, *regex_links = NULL;
+	gboolean first_element = TRUE;
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), "", NULL);
@@ -3540,23 +3541,38 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				*rest_to_insert ? rest_to_insert : "<br>",
 				NULL);
 
+			if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0)
+				webkit_dom_html_element_set_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (paragraph), "<br>", NULL);
+
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (blockquote),
 				WEBKIT_DOM_NODE (paragraph),
 				NULL);
 
 			g_free (rest_to_insert);
+		} else if (rest && !*rest && first_element) {
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (paragraph),
+				"<br class=\"-x-evo-first-br\">",
+				NULL);
+
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (blockquote),
+				WEBKIT_DOM_NODE (paragraph),
+				NULL);
 		}
 
 		if (citation_end)
 			ignore_next_br = TRUE;
 
+		first_element = FALSE;
 		prev_br = next_br;
 		next_br = strstr (prev_br + 4, "<br>");
 		g_free (to_insert);
 	}
 
-	if (g_utf8_strlen (prev_br, -1) > 0 && (g_strcmp0 (prev_br, "<br>") != 0)) {
+	if (g_utf8_strlen (prev_br, -1) > 0) {
 		gchar *truncated = g_strdup (
 			g_str_has_prefix (prev_br, "<br>") ? prev_br + 4 : prev_br);
 		gchar *rest_to_insert;
@@ -3598,8 +3614,15 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (paragraph),
-			*rest_to_insert ? rest_to_insert : "<br>",
+			*rest_to_insert ?
+				rest_to_insert : "<br class=\"-x-evo-last-br\">",
 			NULL);
+
+		if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0)
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (paragraph),
+				"<br class=\"-x-evo-last-br\">",
+				NULL);
 
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (blockquote),
