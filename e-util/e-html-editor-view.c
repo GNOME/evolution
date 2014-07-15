@@ -292,28 +292,6 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 }
 
 static void
-move_caret_into_element (WebKitDOMDocument *document,
-                         WebKitDOMElement *element)
-{
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
-	WebKitDOMRange *new_range;
-
-	if (!element)
-		return;
-
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-	new_range = webkit_dom_document_create_range (document);
-
-	webkit_dom_range_select_node_contents (
-		new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, FALSE, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (window_selection);
-	webkit_dom_dom_selection_add_range (window_selection, new_range);
-}
-
-static void
 refresh_spell_check (EHTMLEditorView *view,
                      gboolean enable_spell_check)
 {
@@ -321,6 +299,7 @@ refresh_spell_check (EHTMLEditorView *view,
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMRange *end_range, *actual;
 	WebKitDOMText *text;
@@ -338,15 +317,38 @@ refresh_spell_check (EHTMLEditorView *view,
 		NULL);
 
 	selection = e_html_editor_view_get_selection (view);
-	e_html_editor_selection_save_caret_position (selection);
+	e_html_editor_selection_save (selection);
 
-	/* Sometimes the web view is not event focused, so we have to move caret
-	 * into body */
-	if (!webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position")) {
-		move_caret_into_element (
-			document,
-			WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
-		e_html_editor_selection_save_caret_position (selection);
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	/* Sometimes the web view is not focused, so we have to save the selection
+	 * manually into the body */
+	if (!selection_start_marker || !selection_end_marker) {
+		selection_start_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_start_marker, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
+		selection_end_marker = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			selection_end_marker, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_first_child (
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body))),
+			NULL);
 	}
 
 	/* Block callbacks of selection-changed signal as we don't want to
@@ -391,7 +393,7 @@ refresh_spell_check (EHTMLEditorView *view,
 		view, html_editor_view_selection_changed_cb, NULL);
 	e_html_editor_selection_unblock_selection_changed (selection);
 
-	e_html_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore (selection);
 }
 
 void
@@ -719,9 +721,9 @@ body_input_event_cb (WebKitDOMElement *element,
 						NULL);
 				}
 			}
-			e_html_editor_view_force_spell_check (view);
 		}
 		e_html_editor_selection_restore (selection);
+		e_html_editor_view_force_spell_check (view);
 	}
 }
 

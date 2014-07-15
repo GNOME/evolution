@@ -1983,8 +1983,8 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 
 	merge_lists_if_possible (WEBKIT_DOM_NODE (list));
 
-	e_html_editor_view_force_spell_check (view);
 	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
@@ -2163,7 +2163,6 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	EHTMLEditorView *view;
 	EHTMLEditorSelectionBlockFormat current_format;
 	const gchar *value;
-	gboolean has_selection = FALSE;
 	gboolean from_list = FALSE, to_list = FALSE, html_mode;
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
@@ -2222,9 +2221,6 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 			break;
 	}
 
-	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0)
-		has_selection = TRUE;
-
 	/* H1 - H6 have bold font by default */
 	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
 	    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
@@ -2257,8 +2253,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	if (!from_list && to_list)
 		format_change_block_to_list (selection, format, view, document);
 
-	if (!has_selection)
-		e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check (view);
 
 	g_object_unref (view);
 
@@ -2821,11 +2816,9 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 
 		block = next_block;
 	}
-
  out:
-	e_html_editor_view_force_spell_check (view);
-
 	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check (view);
 
 	g_object_unref (view);
 
@@ -3100,9 +3093,8 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 		block = next_block;
 	}
  out:
-	e_html_editor_view_force_spell_check (view);
-
 	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check (view);
 
 	g_object_unref (view);
 
