@@ -5373,6 +5373,8 @@ process_elements (EHTMLEditorView *view,
 					}
 				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
+				if (to_html)
+					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
 
