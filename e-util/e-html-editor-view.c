@@ -2918,6 +2918,29 @@ check_if_suppress_next_node (WebKitDOMNode *node)
 }
 
 static void
+quote_br_node (WebKitDOMNode *node,
+               gint quote_level)
+{
+	gchar *quotation, *content;
+
+	quotation = get_quotation_for_level (quote_level);
+
+	content = g_strconcat (
+		"<span class=\"-x-evo-quoted\">",
+		quotation,
+		"</span><br class=\"-x-evo-temp-br\">",
+		NULL);
+
+	webkit_dom_html_element_set_outer_html (
+		WEBKIT_DOM_HTML_ELEMENT (node),
+		content,
+		NULL);
+
+	g_free (content);
+	g_free (quotation);
+}
+
+static void
 quote_plain_text_recursive (WebKitDOMDocument *document,
 			    WebKitDOMNode *node,
 			    WebKitDOMNode *start_node,
@@ -3036,6 +3059,13 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
 			goto not_br;
+		else if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-first-br") ||
+		         element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-last-br")) {
+			quote_br_node (node, quote_level);
+			node = next_sibling;
+			skip_node = TRUE;
+			goto next_node;
+		}
 
 		if (!prev_sibling) {
 			WebKitDOMNode *parent;
@@ -3069,24 +3099,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		}
 
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
-			gchar *quotation, *content;
-
-			quotation = get_quotation_for_level (quote_level);
-
-			content = g_strconcat (
-				"<span class=\"-x-evo-quoted\">",
-				quotation,
-				"</span><br class=\"-x-evo-temp-br\">",
-				NULL);
-
-			webkit_dom_html_element_set_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (node),
-				content,
-				NULL);
-
-			g_free (content);
-			g_free (quotation);
-
+			quote_br_node (prev_sibling, quote_level);
 			node = next_sibling;
 			skip_node = TRUE;
 			goto next_node;
@@ -3975,14 +3988,18 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
                                                        WebKitDOMDocument *document_convertor)
 {
 	EHTMLEditorSelection *selection = e_html_editor_view_get_selection (view);
+	gboolean has_selection;
 	gchar *inner_text, *inner_html;
 	gint citation_level;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *caret, *element;
+	WebKitDOMElement *element;
 	WebKitDOMHTMLElement *convertor_body;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
+	remove_input_event_listener_from_body (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
 	convertor_body = webkit_dom_document_get_body (document_convertor);
 
 	inner_text = webkit_dom_html_element_get_inner_text (convertor_body);
@@ -3991,56 +4008,283 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		WEBKIT_DOM_HTML_ELEMENT (element), inner_text, NULL);
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
-
 	parse_html_into_paragraphs (view, document, element, inner_html, FALSE);
+
 	g_free (inner_html);
 
-	caret = e_html_editor_selection_save_caret_position (selection);
-	citation_level = get_citation_level (WEBKIT_DOM_NODE (caret), FALSE);
-	/* Pasting into citation */
+	has_selection = g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0;
+
+	range = html_editor_view_get_dom_range (view);
+	node = webkit_dom_range_get_end_container (range, NULL);
+	citation_level = get_citation_level (node, FALSE);
+	/* Pasting into the citation */
 	if (citation_level > 0) {
-		WebKitDOMNode *parent;
+		gint length;
+		gint word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMElement *br;
+		WebKitDOMNode *first_paragraph, *last_paragraph;
+		WebKitDOMNode *child, *parent;
 
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (caret));
-		/* Pasting into empty line in citation */
-		if (is_citation_node (parent)) {
+		e_html_editor_selection_save (selection);
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		first_paragraph = webkit_dom_node_get_first_child (
+			WEBKIT_DOM_NODE (element));
+		last_paragraph = webkit_dom_node_get_last_child (
+			WEBKIT_DOM_NODE (element));
+
+		length = word_wrap_length - 2 * citation_level;
+
+		/* Pasting text that was parsed just into one paragraph */
+		if (webkit_dom_node_is_same_node (first_paragraph, last_paragraph)) {
+			WebKitDOMNode *child, *parent;
+
+			parent = webkit_dom_node_get_parent_node (
+				WEBKIT_DOM_NODE (selection_start_marker));
+
+			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
+			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
+
+			while ((child = webkit_dom_node_get_first_child (first_paragraph)))
+				webkit_dom_node_insert_before (
+					parent,
+					child,
+					WEBKIT_DOM_NODE (selection_start_marker),
+					NULL);
+
+			parent = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
+				selection, WEBKIT_DOM_ELEMENT (parent), length));
 			quote_plain_text_recursive (
-				document,
-				WEBKIT_DOM_NODE (element),
-				WEBKIT_DOM_NODE (element),
-				citation_level);
+				document, parent, parent, citation_level);
 
+			goto delete;
+		}
+
+		/* Pasting content parsed into the multiple paragraphs */
+		parent = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
+		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
+
+		/* Move the elements from the first paragraph before the selection start element */
+		while ((child = webkit_dom_node_get_first_child (first_paragraph)))
 			webkit_dom_node_insert_before (
 				parent,
-				WEBKIT_DOM_NODE (element),
-				webkit_dom_node_get_next_sibling (
-					WEBKIT_DOM_NODE (caret)),
+				child,
+				WEBKIT_DOM_NODE (selection_start_marker),
 				NULL);
 
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element),
-				WEBKIT_DOM_NODE (caret),
-				NULL);
+		remove_node (first_paragraph);
 
-			remove_node (
-				webkit_dom_node_get_next_sibling (
-					WEBKIT_DOM_NODE (element)));
+		/* If the BR element is on the last position, remove it as we don't need it */
+		child = webkit_dom_node_get_last_child (parent);
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
+			remove_node (child);
 
-			e_html_editor_selection_restore_caret_position (selection);
+		parent = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_end_marker)),
 
-			goto out;
+		child = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (selection_end_marker));
+		/* Move the elements that are in the same paragraph as the selection end
+		 * on the end of pasted text, but avoid BR on the end of paragraph */
+		while (child) {
+			WebKitDOMNode *next_child =
+				webkit_dom_node_get_next_sibling  (child);
+			if (!(!next_child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)))
+				webkit_dom_node_append_child (last_paragraph, child, NULL);
+			child = next_child;
 		}
-	}
 
-	e_html_editor_selection_clear_caret_position_marker (selection);
+		/* Caret will be restored on the end of pasted text */
+		webkit_dom_node_append_child (
+			last_paragraph,
+			e_html_editor_selection_get_caret_position_node (document),
+			NULL);
+
+		if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper"))
+			parent = webkit_dom_node_get_parent_node (parent);
+
+		/* Insert the paragraph with the end of the pasted text after
+		 * the paragraph that contains the selection end */
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (parent),
+			last_paragraph,
+			webkit_dom_node_get_next_sibling (parent),
+			NULL);
+
+		/* Wrap, quote and move all paragraphs from pasted text into the body */
+		while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))) {
+			child = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
+				selection, WEBKIT_DOM_ELEMENT (child), length));
+			quote_plain_text_recursive (
+				document,
+				WEBKIT_DOM_NODE (child),
+				WEBKIT_DOM_NODE (child),
+				citation_level);
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (last_paragraph),
+				child,
+				last_paragraph,
+				NULL);
+		}
+
+		webkit_dom_node_normalize (last_paragraph);
+
+		last_paragraph = WEBKIT_DOM_NODE (
+			e_html_editor_selection_wrap_paragraph_length (
+				selection, WEBKIT_DOM_ELEMENT (last_paragraph), length));
+		quote_plain_text_recursive (
+			document, last_paragraph, last_paragraph, citation_level);
+
+		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
+		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
+
+		parent = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		parent = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
+			selection, WEBKIT_DOM_ELEMENT (parent), length));
+		quote_plain_text_recursive (document, parent, parent, citation_level);
+
+		/* If the pasted text begun or ended with a new line we have to
+		 * quote these paragraphs as well */
+		br = webkit_dom_element_query_selector (
+			WEBKIT_DOM_ELEMENT (last_paragraph), "br.-x-evo-last-br", NULL);
+		if (br) {
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (br));
+			quote_plain_text_recursive (document, parent, parent, citation_level);
+			webkit_dom_element_remove_attribute (br, "class");
+		}
+
+		br = webkit_dom_document_query_selector (
+			document, "* > br.-x-evo-first-br", NULL);
+		if (br) {
+			WebKitDOMNode *parent;
+
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (br));
+			quote_plain_text_recursive (document, parent, parent, citation_level);
+			webkit_dom_element_remove_attribute (br, "class");
+		}
+ delete:
+		e_html_editor_selection_restore (selection);
+		/* Remove the text that was meant to be replaced by the pasted text */
+		if (has_selection)
+			e_html_editor_view_exec_command (
+				view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+		e_html_editor_selection_restore_caret_position (selection);
+		goto out;
+	}
 
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
 	e_html_editor_view_exec_command (
 		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
 	g_free (inner_html);
+
+	e_html_editor_selection_save (selection);
+
+	element = webkit_dom_document_query_selector (
+		document, "* > br.-x-evo-first-br", NULL);
+	if (element) {
+		WebKitDOMNode *next_sibling;
+		WebKitDOMNode *parent;
+
+		parent = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (element));
+
+		next_sibling = webkit_dom_node_get_next_sibling (parent);
+		if (next_sibling)
+			remove_node (WEBKIT_DOM_NODE (parent));
+		else
+			webkit_dom_element_remove_attribute (element, "class");
+	}
+
+	element = webkit_dom_document_query_selector (
+		document, "* > br.-x-evo-last-br", NULL);
+	if (element) {
+		WebKitDOMNode *parent;
+		WebKitDOMNode *child;
+		WebKitDOMElement *selection_marker;
+
+		parent = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (element));
+
+		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent));
+		node = webkit_dom_node_get_first_child (node);
+		if (node) {
+			inner_html = webkit_dom_node_get_text_content (node);
+			if (g_str_has_prefix (inner_html, UNICODE_NBSP))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+			g_free (inner_html);
+		}
+
+		selection_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		if (has_selection) {
+			/* Everything after the selection end marker have to be in separate
+			 * paragraph */
+			child = webkit_dom_node_get_next_sibling (
+				WEBKIT_DOM_NODE (selection_marker));
+			/* Move the elements that are in the same paragraph as the selection end
+			 * on the end of pasted text, but avoid BR on the end of paragraph */
+			while (child) {
+				WebKitDOMNode *next_child =
+					webkit_dom_node_get_next_sibling  (child);
+				if (!(!next_child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)))
+					webkit_dom_node_append_child (parent, child, NULL);
+				child = next_child;
+			}
+
+			remove_node (WEBKIT_DOM_NODE (element));
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (selection_marker))),
+				parent,
+				webkit_dom_node_get_next_sibling (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (selection_marker))),
+				NULL);
+			node = parent;
+		} else
+			node = webkit_dom_node_get_next_sibling (parent);
+
+		/* Restore caret on the end of pasted text */
+		webkit_dom_node_insert_before (
+			node,
+			WEBKIT_DOM_NODE (selection_marker),
+			webkit_dom_node_get_first_child (node),
+			NULL);
+
+		selection_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		webkit_dom_node_insert_before (
+			node,
+			WEBKIT_DOM_NODE (selection_marker),
+			webkit_dom_node_get_first_child (node),
+			NULL);
+
+		if (!has_selection)
+			remove_node (parent);
+	}
+
+	e_html_editor_selection_restore (selection);
  out:
 	e_html_editor_view_force_spell_check (view);
+	e_html_editor_selection_scroll_to_caret (selection);
+
+	register_input_event_listener_on_body (view);
 
 	g_free (inner_text);
 }

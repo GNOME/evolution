@@ -4134,9 +4134,13 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
-	if (e_html_editor_view_get_html_mode (view))
+	if (e_html_editor_view_get_html_mode (view)) {
 		e_html_editor_view_exec_command (view, command, html_text);
-	else
+		e_html_editor_view_check_magic_links (view, FALSE);
+		e_html_editor_view_force_spell_check (view);
+
+		e_html_editor_selection_scroll_to_caret (selection);
+	} else
 		e_html_editor_view_convert_and_insert_html_to_plain_text (
 			view, html_text);
 
@@ -5238,12 +5242,12 @@ wrap_lines (EHTMLEditorSelection *selection,
 	} else {
 		webkit_dom_node_normalize (paragraph_clone);
 
-		/* Replace paragraph with wrapped one */
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (paragraph),
-			paragraph_clone,
-			paragraph,
-			NULL);
+		node = webkit_dom_node_get_parent_node (paragraph);
+		if (node) {
+			/* Replace paragraph with wrapped one */
+			webkit_dom_node_replace_child (
+				node, paragraph_clone, paragraph, NULL);
+		}
 
 		return WEBKIT_DOM_ELEMENT (paragraph_clone);
 	}

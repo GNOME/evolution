@@ -492,12 +492,11 @@ e_composer_paste_html (EMsgComposer *composer,
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
+	/* If Web View doesn't have focus, focus it */
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
 	e_html_editor_selection_insert_html (editor_selection, html);
 
-	e_html_editor_view_check_magic_links (view, FALSE);
-	e_html_editor_view_force_spell_check (view);
-
-	e_html_editor_selection_scroll_to_caret (editor_selection);
 	g_free (html);
 
 	return TRUE;
@@ -606,10 +605,6 @@ e_composer_paste_text (EMsgComposer *composer,
 		gtk_widget_grab_focus (GTK_WIDGET (view));
 
 	e_html_editor_selection_insert_text (editor_selection, text);
-
-	e_html_editor_view_check_magic_links (view, FALSE);
-	e_html_editor_view_force_spell_check (view);
-	e_html_editor_selection_scroll_to_caret (editor_selection);
 
 	g_free (text);
 
