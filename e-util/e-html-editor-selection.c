@@ -1911,7 +1911,7 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 			WEBKIT_DOM_NODE (element),
 			NULL);
 
-		block = webkit_dom_node_get_parent_node (
+		block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 	} else
 		webkit_dom_node_insert_before (
@@ -2498,16 +2498,31 @@ e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 	return ret_val;
 }
 
+static WebKitDOMNode *
+get_parent_indented_block (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent, *block = NULL;
+
+	parent = webkit_dom_node_get_parent_node (node);
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented"))
+		block = parent;
+
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented"))
+			block = parent;
+		parent = webkit_dom_node_get_parent_node (parent);
+	}
+
+	return block;
+}
+
 static WebKitDOMElement*
 get_element_for_inspection (WebKitDOMRange *range)
 {
 	WebKitDOMNode *node;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_ELEMENT (node))
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
-
-	return webkit_dom_node_get_parent_element (node);
+	return WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
 }
 
 /**
@@ -2586,21 +2601,6 @@ get_list_level (WebKitDOMNode *node)
 	return level;
 }
 
-static WebKitDOMNode *
-get_parent_block_node (WebKitDOMNode *node)
-{
-	WebKitDOMNode *parent;
-
-	parent = webkit_dom_node_get_parent_node (node);
-
-	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		node = parent;
-		parent = webkit_dom_node_get_parent_node (parent);
-	}
-
-	return node;
-}
-
 static void
 indent_list (EHTMLEditorSelection *selection,
              WebKitDOMDocument *document)
@@ -2653,6 +2653,34 @@ indent_list (EHTMLEditorSelection *selection,
 	}
 }
 
+static void
+indent_block (EHTMLEditorSelection *selection,
+              WebKitDOMDocument *document,
+              WebKitDOMNode *block,
+              gint width)
+{
+	WebKitDOMElement *element;
+
+	element = e_html_editor_selection_get_indented_element (
+		selection, document, width);
+
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (block),
+		WEBKIT_DOM_NODE (element),
+		block,
+		NULL);
+
+	/* Remove style and let the paragraph inherit it from parent */
+	if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (block), "style");
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element),
+		block,
+		NULL);
+}
+
 /**
  * e_html_editor_selection_indent:
  * @selection: an #EHTMLEditorSelection
@@ -2663,6 +2691,7 @@ void
 e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
+	gboolean after_selection_start = FALSE, after_selection_end = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *block;
@@ -2711,15 +2740,16 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			NULL);
 	}
 
-	block = get_parent_block_node (
+	block = get_parent_indented_block (
 		WEBKIT_DOM_NODE (selection_start_marker));
+	if (!block)
+		block = get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
 
 	while (block) {
-		gboolean after_selection_end = FALSE;
 		gint ii, length, level, final_width = 0;
 		gint word_wrap_length = selection->priv->word_wrap_length;
-		WebKitDOMElement *element;
-		WebKitDOMNode *next_block, *block_to_process;
+		WebKitDOMNode *next_block;
 		WebKitDOMNodeList *list;
 
 		next_block = webkit_dom_node_get_next_sibling (block);
@@ -2729,23 +2759,30 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
 			NULL);
 
+		after_selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
+
 		length = webkit_dom_node_list_get_length (list);
+		if (length == 0 && node_is_list (block)) {
+			indent_list (selection, document);
+			if (!after_selection_end) {
+				block = next_block;
+				continue;
+			} else
+				goto out;
+		}
+
 		if (length == 0) {
-			block_to_process = block;
-
-			after_selection_end = webkit_dom_node_contains (
-				block_to_process, WEBKIT_DOM_NODE (selection_end_marker));
-
-			if (node_is_list (block_to_process)) {
-				indent_list (selection, document);
-				if (!after_selection_end) {
+			if (!after_selection_start) {
+				after_selection_start = webkit_dom_node_contains (
+					block, WEBKIT_DOM_NODE (selection_start_marker));
+				if (!after_selection_start) {
 					block = next_block;
 					continue;
-				} else
-					goto out;
+				}
 			}
 
-			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block_to_process));
+			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
 
 			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 			if (final_width < 10 && !is_in_html_mode (selection)) {
@@ -2756,59 +2793,36 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 					goto out;
 			}
 
-			element = e_html_editor_selection_get_indented_element (
-				selection, document, final_width);
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (block_to_process),
-				WEBKIT_DOM_NODE (element),
-				block_to_process,
-				NULL);
-
-			/* Remove style and let the paragraph inherit it from parent */
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-paragraph"))
-				webkit_dom_element_remove_attribute (
-					WEBKIT_DOM_ELEMENT (block_to_process), "style");
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element),
-				block_to_process,
-				NULL);
+			indent_block (selection, document, block, final_width);
 
 			if (after_selection_end)
 				goto out;
 		}
 
 		for (ii = 0; ii < length; ii++) {
+			WebKitDOMNode *block_to_process;
+
 			block_to_process = webkit_dom_node_list_item (list, ii);
 
 			after_selection_end = webkit_dom_node_contains (
 				block_to_process, WEBKIT_DOM_NODE (selection_end_marker));
 
-			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block_to_process));
+			if (!after_selection_start) {
+				after_selection_start = webkit_dom_node_contains (
+					block_to_process,
+					WEBKIT_DOM_NODE (selection_start_marker));
+				if (!after_selection_start)
+					continue;
+			}
+
+			level = get_indentation_level (
+				WEBKIT_DOM_ELEMENT (block_to_process));
 
 			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 			if (final_width < 10 && !is_in_html_mode (selection))
 				continue;
 
-			element = e_html_editor_selection_get_indented_element (
-				selection, document, final_width);
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (block_to_process),
-				WEBKIT_DOM_NODE (element),
-				block_to_process,
-				NULL);
-
-			/* Remove style and let the paragraph inherit it from parent */
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-paragraph"))
-				webkit_dom_element_remove_attribute (
-					WEBKIT_DOM_ELEMENT (block_to_process), "style");
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element),
-				block_to_process,
-				NULL);
+			indent_block (selection, document, block_to_process, final_width);
 
 			if (after_selection_end)
 				goto out;
@@ -2909,6 +2923,104 @@ unindent_list (EHTMLEditorSelection *selection,
 	remove_node_if_empty (source_list_clone);
 	remove_node_if_empty (source_list);
 }
+
+static void
+unindent_block (EHTMLEditorSelection *selection,
+                WebKitDOMDocument *document,
+                WebKitDOMNode *block)
+{
+	gboolean before_node = TRUE;
+	const gchar *align_value;
+	gint word_wrap_length = selection->priv->word_wrap_length;
+	gint level, width;
+	EHTMLEditorSelectionAlignment alignment;
+	WebKitDOMElement *element;
+	WebKitDOMElement *prev_blockquote = NULL, *next_blockquote = NULL;
+	WebKitDOMNode *block_to_process, *node_clone, *child;
+
+	block_to_process = block;
+
+	alignment = e_html_editor_selection_get_alignment_from_node (block_to_process);
+	align_value = get_css_alignment_value (alignment);
+
+	element = webkit_dom_node_get_parent_element (block_to_process);
+
+	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
+		return;
+
+	element_add_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-to-unindent");
+
+	level = get_indentation_level (element);
+	width = word_wrap_length - SPACES_PER_INDENTATION * level;
+
+	/* Look if we have previous siblings, if so, we have to
+	 * create new blockquote that will include them */
+	if (webkit_dom_node_get_previous_sibling (block_to_process))
+		prev_blockquote = e_html_editor_selection_get_indented_element (
+			selection, document, width);
+
+	/* Look if we have next siblings, if so, we have to
+	 * create new blockquote that will include them */
+	if (webkit_dom_node_get_next_sibling (block_to_process))
+		next_blockquote = e_html_editor_selection_get_indented_element (
+			selection, document, width);
+
+	/* Copy nodes that are before / after the element that we want to unindent */
+	while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))) {
+		if (webkit_dom_node_is_equal_node (child, block_to_process)) {
+			before_node = FALSE;
+			node_clone = webkit_dom_node_clone_node (child, TRUE);
+			remove_node (child);
+			continue;
+		}
+
+		webkit_dom_node_append_child (
+			before_node ?
+				WEBKIT_DOM_NODE (prev_blockquote) :
+				WEBKIT_DOM_NODE (next_blockquote),
+			child,
+			NULL);
+	}
+
+	element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
+
+	/* Insert blockqoute with nodes that were before the element that we want to unindent */
+	if (prev_blockquote) {
+		if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+				WEBKIT_DOM_NODE (prev_blockquote),
+				WEBKIT_DOM_NODE (element),
+				NULL);
+		}
+	}
+
+	if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
+		e_html_editor_selection_set_paragraph_style (
+			selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, align_value);
+
+	/* Insert the unindented element */
+	webkit_dom_node_insert_before (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+		node_clone,
+		WEBKIT_DOM_NODE (element),
+		NULL);
+
+	/* Insert blockqoute with nodes that were after the element that we want to unindent */
+	if (next_blockquote) {
+		if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (next_blockquote))) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+				WEBKIT_DOM_NODE (next_blockquote),
+				WEBKIT_DOM_NODE (element),
+				NULL);
+		}
+	}
+
+	/* Remove old blockquote */
+	remove_node (WEBKIT_DOM_NODE (element));
+}
+
 /**
  * e_html_editor_selection_unindent:
  * @selection: an #EHTMLEditorSelection
@@ -2919,7 +3031,7 @@ void
 e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
-	EHTMLEditorSelectionAlignment alignment;
+	gboolean after_selection_start = FALSE, after_selection_end = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *block;
@@ -2967,11 +3079,13 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			NULL);
 	}
 
-	block = get_parent_block_node (
+	block = get_parent_indented_block (
 		WEBKIT_DOM_NODE (selection_start_marker));
+	if (!block)
+		block = get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
 
 	while (block) {
-		gboolean after_selection_end = FALSE;
 		gint ii, length;
 		WebKitDOMNode *next_block;
 		WebKitDOMNodeList *list;
@@ -2996,96 +3110,40 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 				goto out;
 		}
 
+		if (length == 0) {
+			if (!after_selection_start) {
+				after_selection_start = webkit_dom_node_contains (
+					block, WEBKIT_DOM_NODE (selection_start_marker));
+				if (!after_selection_start) {
+					block = next_block;
+					continue;
+				}
+			}
+
+			unindent_block (selection, document, block);
+
+			if (after_selection_end)
+				goto out;
+		}
+
 		for (ii = 0; ii < length; ii++) {
-			gboolean before_node = TRUE;
-			const gchar *align_value;
-			gint word_wrap_length = selection->priv->word_wrap_length;
-			gint level, width;
-			WebKitDOMElement *element;
-			WebKitDOMElement *prev_blockquote = NULL, *next_blockquote = NULL;
-			WebKitDOMNode *block_to_process, *node_clone, *child;
+			WebKitDOMNode *block_to_process;
 
 			block_to_process = webkit_dom_node_list_item (list, ii);
 
-			alignment = e_html_editor_selection_get_alignment_from_node (block_to_process);
-			align_value = get_css_alignment_value (alignment);
+			after_selection_end = webkit_dom_node_contains (
+				block_to_process,
+				WEBKIT_DOM_NODE (selection_end_marker));
 
-			element = webkit_dom_node_get_parent_element (block_to_process);
-
-			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
-				continue;
-
-			element_add_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-to-unindent");
-
-			level = get_indentation_level (element);
-			width = word_wrap_length - SPACES_PER_INDENTATION * level;
-
-			/* Look if we have previous siblings, if so, we have to
-			 * create new blockquote that will include them */
-			if (webkit_dom_node_get_previous_sibling (block_to_process))
-				prev_blockquote = e_html_editor_selection_get_indented_element (
-					selection, document, width);
-
-			/* Look if we have next siblings, if so, we have to
-			 * create new blockquote that will include them */
-			if (webkit_dom_node_get_next_sibling (block_to_process))
-				next_blockquote = e_html_editor_selection_get_indented_element (
-					selection, document, width);
-
-			/* Copy nodes that are before / after the element that we want to unindent */
-			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))) {
-				if (webkit_dom_node_is_equal_node (child, block_to_process)) {
-					before_node = FALSE;
-					node_clone = webkit_dom_node_clone_node (child, TRUE);
-					remove_node (child);
+			if (!after_selection_start) {
+				after_selection_start = webkit_dom_node_contains (
+					block_to_process,
+					WEBKIT_DOM_NODE (selection_start_marker));
+				if (!after_selection_start)
 					continue;
-				}
-
-				webkit_dom_node_append_child (
-					before_node ?
-						WEBKIT_DOM_NODE (prev_blockquote) :
-						WEBKIT_DOM_NODE (next_blockquote),
-					child,
-					NULL);
 			}
 
-			element_remove_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-to-unindent");
-
-			/* Insert blockqoute with nodes that were before the element that we want to unindent */
-			if (prev_blockquote) {
-				if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (prev_blockquote))) {
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-						WEBKIT_DOM_NODE (prev_blockquote),
-						WEBKIT_DOM_NODE (element),
-						NULL);
-				}
-			}
-
-			if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
-				e_html_editor_selection_set_paragraph_style (
-					selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, align_value);
-
-			/* Insert the unindented element */
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-				node_clone,
-				WEBKIT_DOM_NODE (element),
-				NULL);
-
-			/* Insert blockqoute with nodes that were after the element that we want to unindent */
-			if (next_blockquote) {
-				if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (next_blockquote))) {
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-						WEBKIT_DOM_NODE (next_blockquote),
-						WEBKIT_DOM_NODE (element),
-						NULL);
-				}
-			}
-
-			/* Remove old blockquote */
-			remove_node (WEBKIT_DOM_NODE (element));
+			unindent_block (selection, document, block_to_process);
 
 			if (after_selection_end)
 				goto out;

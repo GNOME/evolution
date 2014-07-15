@@ -2157,10 +2157,23 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		/* BackSpace in indented block decrease indent level by one */
 		if (e_html_editor_selection_is_indented (selection)) {
 			WebKitDOMElement *caret;
+			WebKitDOMNode *prev_sibling;
 
 			caret = e_html_editor_selection_save_caret_position (selection);
 
-			if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (caret))) {
+			/* Empty text node before caret */
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (caret));
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
+				gchar *content;
+
+				content = webkit_dom_node_get_text_content (prev_sibling);
+				if (g_strcmp0 (content, "") == 0)
+					prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+				g_free (content);
+			}
+
+			if (!prev_sibling) {
 				e_html_editor_selection_clear_caret_position_marker (selection);
 				e_html_editor_selection_unindent (selection);
 				return TRUE;
