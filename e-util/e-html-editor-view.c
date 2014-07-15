@@ -84,7 +84,7 @@ struct _EHTMLEditorViewPrivate {
 	GSettings *aliasing_settings;
 
 	gboolean convertor_insert;
-	gboolean had_selection_before_key_press;
+	gboolean body_input_event_removed;
 
 	WebKitWebView *convertor_web_view;
 
@@ -605,7 +605,7 @@ body_input_event_cb (WebKitDOMElement *element,
 	}
 
 	/* Writing into quoted content */
-	if (!view->priv->html_mode && !view->priv->had_selection_before_key_press) {
+	if (!view->priv->html_mode) {
 		gint citation_level, length, word_wrap_length;
 		EHTMLEditorSelection *selection;
 		WebKitDOMElement *element;
@@ -886,6 +886,45 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 }
 
 static void
+remove_input_event_listener_from_body (EHTMLEditorView *view)
+{
+	if (!view->priv->body_input_event_removed) {
+		WebKitDOMDocument *document;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		webkit_dom_event_target_remove_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (
+				webkit_dom_document_get_body (document)),
+			"input",
+			G_CALLBACK (body_input_event_cb),
+			FALSE);
+
+		view->priv->body_input_event_removed = TRUE;
+	}
+}
+
+static void
+register_input_event_listener_on_body (EHTMLEditorView *view)
+{
+	if (view->priv->body_input_event_removed) {
+		WebKitDOMDocument *document;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (
+				webkit_dom_document_get_body (document)),
+			"input",
+			G_CALLBACK (body_input_event_cb),
+			FALSE,
+			view);
+
+		view->priv->body_input_event_removed = FALSE;
+	}
+}
+
+static void
 html_editor_view_load_status_changed (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
@@ -910,12 +949,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	repair_gmail_blockquotes (document);
 
 	/* Register on input event that is called when the content (body) is modified */
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (body),
-		"input",
-		G_CALLBACK (body_input_event_cb),
-		FALSE,
-		view);
+	register_input_event_listener_on_body (view);
 
 	if (view->priv->html_mode)
 		change_cid_images_src_to_base64 (view);
@@ -2118,7 +2152,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			}
 			e_html_editor_selection_restore (selection);
 		} else
-			view->priv->had_selection_before_key_press = TRUE;
+			remove_input_event_listener_from_body (view);
 
 		/* BackSpace in indented block decrease indent level by one */
 		if (e_html_editor_selection_is_indented (selection)) {
@@ -2239,9 +2273,9 @@ html_editor_view_key_release_event (GtkWidget *widget,
 	range = html_editor_view_get_dom_range (view);
 	selection = e_html_editor_view_get_selection (view);
 
-	view->priv->had_selection_before_key_press = FALSE;
-
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
+
+	register_input_event_listener_on_body (view);
 
 	if (view->priv->magic_smileys && view->priv->html_mode)
 		html_editor_view_check_magic_smileys (view, range);
@@ -4132,7 +4166,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 
 	g_free (comma_separated);
 
-	view->priv->had_selection_before_key_press = FALSE;
+	view->priv->body_input_event_removed = TRUE;
 	view->priv->convertor_insert = FALSE;
 
 	view->priv->convertor_web_view =
