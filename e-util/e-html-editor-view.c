@@ -2133,8 +2133,10 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		/* When user presses ENTER in a citation block, WebKit does
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
-		if (e_html_editor_selection_is_citation (selection))
+		if (e_html_editor_selection_is_citation (selection)) {
+			remove_input_event_listener_from_body (view);
 			return (insert_new_line_into_citation (view, "")) ? TRUE : FALSE;
+		}
 	}
 
 	if (event->keyval == GDK_KEY_BackSpace) {
