@@ -2051,7 +2051,7 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 			webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
 
 			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (selection_end_marker));
+				WEBKIT_DOM_NODE (selection_start_marker));
 
 			if (WEBKIT_DOM_IS_ELEMENT (prev_sibling))
 				success = element_has_class (
