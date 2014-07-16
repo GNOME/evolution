@@ -543,15 +543,15 @@ render_title_block (EABContactFormatter *formatter,
 	} else if (photo && photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri && *photo->data.uri) {
 		gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
 		const gchar *uri = photo->data.uri;
-		/* WebKit 2.2 doesn't re-escape URIs, thus do this only for versions before this */
-		#if !WEBKIT_CHECK_VERSION(2,2,0)
+		/* WebKit 2.2.x doesn't re-escape URIs, thus do this for versions before and after this */
+		#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
 		gchar *unescaped = g_uri_unescape_string (photo->data.uri, NULL);
 		uri = unescaped;
 		#endif
 		g_string_append_printf (
 			buffer, "<img border=\"1\" src=\"%s%s\">",
 			is_local ? "evo-" : "", uri);
-		#if !WEBKIT_CHECK_VERSION(2,2,0)
+		#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
 		g_free (unescaped);
 		#endif
 	}
@@ -1061,8 +1061,8 @@ render_compact (EABContactFormatter *formatter,
 			photo->data.uri && *photo->data.uri) {
 			gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
 			const gchar *uri = photo->data.uri;
-			/* WebKit 2.2 doesn't re-escape URIs, thus do this only for versions before this */
-			#if !WEBKIT_CHECK_VERSION(2,2,0)
+			/* WebKit 2.2.x doesn't re-escape URIs, thus do this for versions before and after this */
+			#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
 			gchar *unescaped = g_uri_unescape_string (photo->data.uri, NULL);
 			uri = unescaped;
 			#endif
@@ -1071,7 +1071,7 @@ render_compact (EABContactFormatter *formatter,
 				"<img width=\"%d\" height=\"%d\" src=\"%s%s\">",
 				calced_width, calced_height,
 				is_local ? "evo-" : "", uri);
-			#if !WEBKIT_CHECK_VERSION(2,2,0)
+			#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
 			g_free (unescaped);
 			#endif
 		} else {
