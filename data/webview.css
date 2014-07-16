@@ -23,6 +23,11 @@ span.navigable, div.navigable, p.navigable {
   color: #003399;
 }
 
+img#__evo-contact-photo {
+  max-width: 96px;
+  max-height: 96px;
+}
+
 img.navigable {
   cursor: pointer;
   margin-right: 4px;

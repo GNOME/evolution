@@ -537,7 +537,8 @@ render_title_block (EABContactFormatter *formatter,
 				photo->data.inlined.data,
 				photo->data.inlined.length);
 		g_string_append_printf (
-			buffer, "<img border=\"1\" src=\"data:%s;base64,%s\">",
+			buffer,
+			"<img id=\"__evo-contact-photo\" border=\"1\" src=\"data:%s;base64,%s\">",
 			photo->data.inlined.mime_type,
 			photo_data);
 	} else if (photo && photo->type == E_CONTACT_PHOTO_TYPE_URI && photo->data.uri && *photo->data.uri) {
@@ -549,7 +550,7 @@ render_title_block (EABContactFormatter *formatter,
 		uri = unescaped;
 		#endif
 		g_string_append_printf (
-			buffer, "<img border=\"1\" src=\"%s%s\">",
+			buffer, "<img id=\"__evo-contact-photo\" border=\"1\" src=\"%s%s\">",
 			is_local ? "evo-" : "", uri);
 		#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
 		g_free (unescaped);
@@ -1068,7 +1069,7 @@ render_compact (EABContactFormatter *formatter,
 			#endif
 			g_string_append_printf (
 				buffer,
-				"<img width=\"%d\" height=\"%d\" src=\"%s%s\">",
+				"<img id=\"__evo-contact-photo\" width=\"%d\" height=\"%d\" src=\"%s%s\">",
 				calced_width, calced_height,
 				is_local ? "evo-" : "", uri);
 			#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
@@ -1082,7 +1083,7 @@ render_compact (EABContactFormatter *formatter,
 					photo->data.inlined.length);
 			g_string_append_printf (
 				buffer,
-				"<img border=\"1\" src=\"data:%s;base64,%s\" "
+				"<img id=\"__evo-contact-photo\" border=\"1\" src=\"data:%s;base64,%s\" "
 					"width=\"%d\" height=\"%d\">",
 				photo->data.inlined.mime_type,
 				photo_data,
