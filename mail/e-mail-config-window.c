@@ -317,8 +317,7 @@ mail_config_window_constructed (GObject *object)
 	window = E_MAIL_CONFIG_WINDOW (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_window_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_window_parent_class)->constructed (object);
 
 	mail_config_window_setup_scratch_sources (window);
 

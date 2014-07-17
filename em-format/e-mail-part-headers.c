@@ -206,8 +206,7 @@ mail_part_headers_constructed (GObject *object)
 	part = E_MAIL_PART (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_part_headers_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_part_headers_parent_class)->constructed (object);
 
 	e_mail_part_set_mime_type (part, E_MAIL_PART_HEADERS_MIME_TYPE);
 }

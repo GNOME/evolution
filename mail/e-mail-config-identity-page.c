@@ -246,8 +246,7 @@ mail_config_identity_page_constructed (GObject *object)
 	page = E_MAIL_CONFIG_IDENTITY_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_identity_page_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_identity_page_parent_class)->constructed (object);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	registry = e_mail_config_identity_page_get_registry (page);

@@ -90,6 +90,9 @@ settings_client_cache_constructed (GObject *object)
 	EExtension *extension;
 	EExtensible *extensible;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_settings_client_cache_parent_class)->constructed (object);
+
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 

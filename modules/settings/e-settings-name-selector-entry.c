@@ -63,8 +63,7 @@ settings_name_selector_entry_constructed (GObject *object)
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
 	/* Chain up to parent's consturcted() method. */
-	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->constructed (object);
 
 	g_settings_bind (
 		extension->priv->settings, "completion-minimum-query-length",

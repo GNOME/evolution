@@ -87,8 +87,7 @@ settings_mail_part_headers_constructed (GObject *object)
 	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_mail_part_headers_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_mail_part_headers_parent_class)->constructed (object);
 }
 
 static void

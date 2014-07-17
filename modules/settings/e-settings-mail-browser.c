@@ -35,8 +35,7 @@ settings_mail_browser_constructed (GObject *object)
 	GSettings *settings;
 
 	/* Chain up parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_mail_browser_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_mail_browser_parent_class)->constructed (object);
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 

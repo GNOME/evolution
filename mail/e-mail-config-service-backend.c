@@ -145,8 +145,7 @@ mail_config_service_backend_constructed (GObject *object)
 	mail_config_service_backend_init_collection (backend);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_service_backend_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_service_backend_parent_class)->constructed (object);
 }
 
 static gboolean

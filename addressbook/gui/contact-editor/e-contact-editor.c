@@ -4365,6 +4365,9 @@ e_contact_editor_constructed (GObject *object)
 	GtkAction *action;
 	GError *error = NULL;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+
 	editor->priv->focus_tracker = e_focus_tracker_new (GTK_WINDOW (editor->priv->app));
 	editor->priv->ui_manager = gtk_ui_manager_new ();
 

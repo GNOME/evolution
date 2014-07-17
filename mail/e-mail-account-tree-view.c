@@ -70,8 +70,7 @@ mail_account_tree_view_constructed (GObject *object)
 	GtkCellRenderer *cell_renderer;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_account_tree_view_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_account_tree_view_parent_class)->constructed (object);
 
 	tree_view = GTK_TREE_VIEW (object);
 

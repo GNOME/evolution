@@ -371,8 +371,7 @@ proxy_preferences_constructed (GObject *object)
 	gboolean show_advanced;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_proxy_preferences_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_proxy_preferences_parent_class)->constructed (object);
 
 	preferences = E_PROXY_PREFERENCES (object);
 	registry = e_proxy_preferences_get_registry (preferences);

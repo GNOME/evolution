@@ -614,8 +614,7 @@ mail_shell_backend_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_shell_backend_parent_class)->constructed (object);
 
 	mail_shell_backend_init_importers ();
 

@@ -250,6 +250,9 @@ source_config_dialog_constructed (GObject *object)
 	GtkWidget *widget;
 	gulong handler_id;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_source_config_dialog_parent_class)->constructed (object);
+
 	priv = E_SOURCE_CONFIG_DIALOG_GET_PRIVATE (object);
 
 	config = GTK_WIDGET (priv->config);

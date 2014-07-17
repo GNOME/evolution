@@ -169,8 +169,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	page = E_MAIL_CONFIG_IMPORT_PROGRESS_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_import_progress_page_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_import_progress_page_parent_class)->constructed (object);
 
 	gtk_orientable_set_orientation (
 		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);

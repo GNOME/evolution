@@ -351,8 +351,7 @@ mail_signature_script_dialog_constructed (GObject *object)
 	gchar *markup;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_signature_script_dialog_parent_class)->constructed (object);
 
 	dialog = E_MAIL_SIGNATURE_SCRIPT_DIALOG (object);
 

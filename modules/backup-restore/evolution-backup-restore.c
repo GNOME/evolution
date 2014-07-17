@@ -362,8 +362,7 @@ evolution_backup_restore_assistant_constructed (GObject *object)
 	extensible = e_extension_get_extensible (extension);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (evolution_backup_restore_assistant_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (evolution_backup_restore_assistant_parent_class)->constructed (object);
 
 	assistant = E_MAIL_CONFIG_ASSISTANT (extensible);
 
@@ -433,8 +432,7 @@ evolution_backup_restore_menu_items_constructed (GObject *object)
 	extensible = e_extension_get_extensible (extension);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (evolution_backup_restore_menu_items_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (evolution_backup_restore_menu_items_parent_class)->constructed (object);
 
 	shell_window = E_SHELL_WINDOW (extensible);
 	action_group = e_shell_window_get_action_group (shell_window, "shell");

@@ -241,6 +241,9 @@ source_ldap_constructed (GObject *object)
 	ESourceExtension *other_extension;
 	const gchar *extension_name;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_source_ldap_parent_class)->constructed (object);
+
 	this_extension = E_SOURCE_EXTENSION (object);
 	source = e_source_extension_ref_source (this_extension);
 

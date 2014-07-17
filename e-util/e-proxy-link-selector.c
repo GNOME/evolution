@@ -149,8 +149,7 @@ proxy_link_selector_constructed (GObject *object)
 		(GDestroyNotify) g_object_unref);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_proxy_link_selector_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_proxy_link_selector_parent_class)->constructed (object);
 
 	/* This triggers a model rebuild, so chain up first. */
 	e_source_selector_set_show_icons (selector, TRUE);

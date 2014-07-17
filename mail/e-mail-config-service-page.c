@@ -431,8 +431,7 @@ mail_config_service_page_constructed (GObject *object)
 	page = E_MAIL_CONFIG_SERVICE_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_service_page_parent_class)->constructed (object);
 
 	mail_config_service_page_init_backends (page);
 }

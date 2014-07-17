@@ -228,8 +228,7 @@ static void
 name_selector_entry_constructed (GObject *object)
 {
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_name_selector_entry_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_name_selector_entry_parent_class)->constructed (object);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }

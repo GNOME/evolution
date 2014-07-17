@@ -42,8 +42,7 @@ photo_cache_gravatar_loader_constructed (GObject *object)
 	EPhotoSource *photo_source;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_photo_cache_gravatar_loader_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_photo_cache_gravatar_loader_parent_class)->constructed (object);
 
 	loader = E_PHOTO_CACHE_GRAVATAR_LOADER (object);
 	photo_cache = photo_cache_gravatar_loader_get_photo_cache (loader);

@@ -508,8 +508,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	page = E_MAIL_CONFIG_DEFAULTS_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_defaults_page_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_defaults_page_parent_class)->constructed (object);
 
 	source = e_mail_config_defaults_page_get_account_source (page);
 	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;

@@ -215,8 +215,7 @@ mail_config_google_summary_constructed (GObject *object)
 	extension = E_MAIL_CONFIG_GOOGLE_SUMMARY (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_google_summary_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_google_summary_parent_class)->constructed (object);
 
 	page = mail_config_google_summary_get_summary_page (extension);
 

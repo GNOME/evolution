@@ -113,6 +113,9 @@ web_inspector_constructed (GObject *object)
 	WebKitWebSettings *settings;
 	WebKitWebInspector *inspector;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_web_inspector_parent_class)->constructed (object);
+
 	extension = E_WEB_INSPECTOR (object);
 	web_view = web_inspector_get_web_view (extension);
 	settings = webkit_web_view_get_settings (web_view);

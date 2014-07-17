@@ -709,8 +709,7 @@ folder_tree_model_constructed (GObject *object)
 		GTK_SORT_ASCENDING);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->constructed (object);
 }
 
 static void

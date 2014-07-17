@@ -137,6 +137,9 @@ attachment_icon_view_constructed (GObject *object)
 	GtkCellLayout *cell_layout;
 	GtkCellRenderer *renderer;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_attachment_icon_view_parent_class)->constructed (object);
+
 	cell_layout = GTK_CELL_LAYOUT (object);
 
 	/* This needs to happen after constructor properties are set

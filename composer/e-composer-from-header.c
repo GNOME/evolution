@@ -54,8 +54,7 @@ composer_from_header_constructed (GObject *object)
 	header->input_widget = g_object_ref_sink (widget);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_composer_from_header_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_composer_from_header_parent_class)->constructed (object);
 }
 
 static void
