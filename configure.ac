@@ -507,7 +507,21 @@ AC_CHECK_FUNCS(mkdtemp)
 dnl **************************************************
 dnl Gnome Icon Theme
 dnl **************************************************
-PKG_CHECK_MODULES([GIT], [gnome-icon-theme >= gnome_icon_theme_minimum_version])
+AC_MSG_CHECKING(for icon theme)
+PKG_CHECK_EXISTS([gnome-icon-theme >= gnome_icon_theme_minimum_version],
+		 have_icon_theme=yes, have_icon_theme=no)
+if test "x$have_icon_theme" != "xyes"; then
+	PKG_CHECK_EXISTS([adwaita-icon-theme],
+		 have_icon_theme=yes, have_icon_theme=no)
+fi
+
+if test "x$have_icon_theme" != "xyes"; then
+   AC_MSG_RESULT(no)
+   AC_MSG_FAILURE([You need to have gnome-icon-theme or adwaita-icon-theme installed.])
+else
+   AC_MSG_RESULT(yes)
+fi
+
 
 dnl **************************************************
 dnl Accessibility support
