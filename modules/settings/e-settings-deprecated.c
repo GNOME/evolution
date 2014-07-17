@@ -491,8 +491,7 @@ settings_deprecated_constructed (GObject *object)
 	priv = E_SETTINGS_DEPRECATED_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_deprecated_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_deprecated_parent_class)->constructed (object);
 
 	/* Migrate values from deprecated to preferred keys. */
 

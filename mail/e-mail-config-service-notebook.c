@@ -202,8 +202,7 @@ static void
 mail_config_service_notebook_constructed (GObject *object)
 {
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_service_notebook_parent_class)->constructed (object);
 
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (object), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (object), FALSE);

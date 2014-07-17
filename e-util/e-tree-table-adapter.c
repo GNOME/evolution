@@ -815,8 +815,7 @@ tree_table_adapter_constructed (GObject *object)
 	etta = E_TREE_TABLE_ADAPTER (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_tree_table_adapter_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_tree_table_adapter_parent_class)->constructed (object);
 
 	source_model = e_tree_table_adapter_get_source_model (etta);
 

@@ -143,8 +143,7 @@ mail_print_config_headers_constructed (GObject *object)
 	config = E_MAIL_PRINT_CONFIG_HEADERS (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_print_config_headers_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_print_config_headers_parent_class)->constructed (object);
 
 	tree_view_frame = E_TREE_VIEW_FRAME (object);
 	tree_view = e_tree_view_frame_get_tree_view (tree_view_frame);

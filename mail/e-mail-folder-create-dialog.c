@@ -322,8 +322,7 @@ mail_folder_create_dialog_constructed (GObject *object)
 	}
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_folder_create_dialog_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_folder_create_dialog_parent_class)->constructed (object);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Create Folder"));
 

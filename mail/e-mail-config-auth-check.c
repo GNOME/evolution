@@ -328,8 +328,7 @@ mail_config_auth_check_constructed (GObject *object)
 	const gchar *text;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_auth_check_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_auth_check_parent_class)->constructed (object);
 
 	auth_check = E_MAIL_CONFIG_AUTH_CHECK (object);
 	backend = e_mail_config_auth_check_get_backend (auth_check);

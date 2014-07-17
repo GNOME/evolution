@@ -661,6 +661,9 @@ source_config_constructed (GObject *object)
 	ESource *original_source;
 	ESource *collection_source = NULL;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_source_config_parent_class)->constructed (object);
+
 	config = E_SOURCE_CONFIG (object);
 	registry = e_source_config_get_registry (config);
 	original_source = e_source_config_get_original_source (config);

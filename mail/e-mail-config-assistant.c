@@ -648,8 +648,7 @@ mail_config_assistant_constructed (GObject *object)
 	assistant = E_MAIL_CONFIG_ASSISTANT (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_assistant_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_assistant_parent_class)->constructed (object);
 
 	title = _("Evolution Account Assistant");
 	gtk_window_set_title (GTK_WINDOW (assistant), title);

@@ -598,10 +598,12 @@ html_editor_constructed (GObject *object)
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 	EHTMLEditorPrivate *priv = editor->priv;
 	GtkIMMulticontext *im_context;
-
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
 	GtkToolItem *tool_item;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_html_editor_parent_class)->constructed (object);
 
 	/* Construct the editing toolbars. */
 

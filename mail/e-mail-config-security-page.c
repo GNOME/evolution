@@ -305,8 +305,7 @@ mail_config_security_page_constructed (GObject *object)
 	page = E_MAIL_CONFIG_SECURITY_PAGE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_security_page_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_security_page_parent_class)->constructed (object);
 
 	source = e_mail_config_security_page_get_identity_source (page);
 

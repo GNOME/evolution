@@ -66,8 +66,7 @@ settings_date_edit_constructed (GObject *object)
 	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_date_edit_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_date_edit_parent_class)->constructed (object);
 }
 
 static void

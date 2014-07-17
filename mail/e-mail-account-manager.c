@@ -601,8 +601,7 @@ mail_account_manager_constructed (GObject *object)
 	store = e_mail_account_manager_get_store (manager);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_account_manager_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_account_manager_parent_class)->constructed (object);
 
 	g_object_bind_property (
 		store, "busy",

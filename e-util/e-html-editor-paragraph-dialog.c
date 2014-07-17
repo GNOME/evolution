@@ -53,6 +53,9 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 	EHTMLEditor *editor;
 	EHTMLEditorParagraphDialog *dialog;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_html_editor_paragraph_dialog_parent_class)->constructed (object);
+
 	dialog = E_HTML_EDITOR_PARAGRAPH_DIALOG (object);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 

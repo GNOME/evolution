@@ -226,8 +226,7 @@ composer_name_header_constructed (GObject *object)
 		G_CALLBACK (composer_name_header_visible_changed_cb), object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_composer_name_header_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_composer_name_header_parent_class)->constructed (object);
 
 	e_composer_header_set_title_tooltip (
 		E_COMPOSER_HEADER (object),

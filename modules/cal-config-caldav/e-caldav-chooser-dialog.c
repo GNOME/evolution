@@ -255,8 +255,7 @@ caldav_chooser_dialog_constructed (GObject *object)
 	dialog = E_CALDAV_CHOOSER_DIALOG (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_caldav_chooser_dialog_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_caldav_chooser_dialog_parent_class)->constructed (object);
 
 	switch (e_caldav_chooser_get_source_type (dialog->priv->chooser)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:

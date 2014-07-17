@@ -180,8 +180,7 @@ google_chooser_dialog_constructed (GObject *object)
 	dialog = E_GOOGLE_CHOOSER_DIALOG (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_google_chooser_dialog_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_google_chooser_dialog_parent_class)->constructed (object);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),

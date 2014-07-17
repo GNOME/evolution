@@ -238,8 +238,7 @@ table_column_selector_constructed (GObject *object)
 	selector = E_TABLE_COLUMN_SELECTOR (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_table_column_selector_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_table_column_selector_parent_class)->constructed (object);
 
 	tree_view_frame = E_TREE_VIEW_FRAME (object);
 	tree_view = e_tree_view_frame_get_tree_view (tree_view_frame);

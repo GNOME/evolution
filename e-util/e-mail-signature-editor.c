@@ -493,8 +493,7 @@ mail_signature_editor_constructed (GObject *object)
 	GError *error = NULL;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_signature_editor_parent_class)->constructed (object);
 
 	window = E_MAIL_SIGNATURE_EDITOR (object);
 	editor = e_mail_signature_editor_get_editor (window);

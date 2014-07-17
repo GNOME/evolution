@@ -648,8 +648,7 @@ mail_config_provider_page_constructed (GObject *object)
 	page = E_MAIL_CONFIG_PROVIDER_PAGE (object);
 
 	/* Chain up parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_provider_page_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_provider_page_parent_class)->constructed (object);
 
 	gtk_box_set_spacing (GTK_BOX (object), 6);
 

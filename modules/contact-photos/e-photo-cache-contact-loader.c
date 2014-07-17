@@ -165,8 +165,7 @@ photo_cache_contact_loader_constructed (GObject *object)
 	gulong handler_id;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_photo_cache_contact_loader_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_photo_cache_contact_loader_parent_class)->constructed (object);
 
 	loader = E_PHOTO_CACHE_CONTACT_LOADER (object);
 	photo_cache = photo_cache_contact_loader_get_photo_cache (loader);

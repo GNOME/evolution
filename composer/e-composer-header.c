@@ -213,6 +213,9 @@ composer_header_constructed (GObject *object)
 
 	header = E_COMPOSER_HEADER (object);
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_composer_header_parent_class)->constructed (object);
+
 	if (header->input_widget == NULL) {
 		g_critical (
 			"EComposerHeader's input_widget "

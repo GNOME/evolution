@@ -459,8 +459,7 @@ html_editor_spell_check_dialog_constructed (GObject *object)
 	EHTMLEditorSpellCheckDialog *dialog;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_html_editor_spell_check_dialog_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_html_editor_spell_check_dialog_parent_class)->constructed (object);
 
 	dialog = E_HTML_EDITOR_SPELL_CHECK_DIALOG (object);
 	e_html_editor_spell_check_dialog_update_dictionaries (dialog);

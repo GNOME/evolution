@@ -194,6 +194,9 @@ book_config_birthdays_constructed (GObject *object)
 	GtkWidget *widget;
 	const gchar *label;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_book_config_birthdays_parent_class)->constructed (object);
+
 	birthdays = E_BOOK_CONFIG_BIRTHDAYS (object);
 	config = book_config_birthdays_get_config (birthdays);
 

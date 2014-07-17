@@ -207,6 +207,9 @@ source_selector_dialog_constructed (GObject *object)
 	GtkWidget *widget;
 	gchar *label_text;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_source_selector_dialog_parent_class)->constructed (object);
+
 	dialog = E_SOURCE_SELECTOR_DIALOG (object);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

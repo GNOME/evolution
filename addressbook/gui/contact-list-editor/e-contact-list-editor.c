@@ -1436,8 +1436,7 @@ contact_list_editor_constructed (GObject *object)
 	editor = E_CONTACT_LIST_EDITOR (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_contact_list_editor_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_contact_list_editor_parent_class)->constructed (object);
 
 	shell = eab_editor_get_shell (EAB_EDITOR (editor));
 	client_cache = e_shell_get_client_cache (shell);

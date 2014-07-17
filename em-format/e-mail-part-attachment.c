@@ -92,8 +92,7 @@ mail_part_attachment_constructed (GObject *object)
 	priv = E_MAIL_PART_ATTACHMENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_part_attachment_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_part_attachment_parent_class)->constructed (object);
 
 	e_mail_part_set_mime_type (part, E_MAIL_PART_ATTACHMENT_MIME_TYPE);
 	e_mail_part_set_is_attachment (part, TRUE);

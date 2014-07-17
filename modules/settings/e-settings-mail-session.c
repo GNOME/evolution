@@ -131,8 +131,7 @@ settings_mail_session_constructed (GObject *object)
 		(GDestroyNotify) g_object_unref);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_mail_session_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_mail_session_parent_class)->constructed (object);
 }
 
 static void

@@ -120,8 +120,7 @@ google_chooser_button_constructed (GObject *object)
 	button = E_GOOGLE_CHOOSER_BUTTON (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_google_chooser_button_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_google_chooser_button_parent_class)->constructed (object);
 
 	widget = gtk_label_new (_("Default User Calendar"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);

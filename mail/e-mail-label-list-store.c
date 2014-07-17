@@ -382,8 +382,7 @@ mail_label_list_store_constructed (GObject *object)
 	mail_label_list_store_ensure_defaults (store);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_label_list_store_parent_class)->constructed (object);
 }
 
 static void

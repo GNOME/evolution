@@ -244,8 +244,7 @@ mail_signature_combo_box_constructed (GObject *object)
 	GtkCellRenderer *cell_renderer;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_signature_combo_box_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_signature_combo_box_parent_class)->constructed (object);
 
 	combo_box = GTK_COMBO_BOX (object);
 	cell_layout = GTK_CELL_LAYOUT (object);

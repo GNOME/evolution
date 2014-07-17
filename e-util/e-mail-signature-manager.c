@@ -256,8 +256,7 @@ mail_signature_manager_constructed (GObject *object)
 	GtkWidget *hbox;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_signature_manager_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_signature_manager_parent_class)->constructed (object);
 
 	manager = E_MAIL_SIGNATURE_MANAGER (object);
 	registry = e_mail_signature_manager_get_registry (manager);

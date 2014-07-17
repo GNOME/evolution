@@ -262,8 +262,7 @@ settings_web_view_constructed (GObject *object)
 		G_CALLBACK (settings_web_view_realize), object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_web_view_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_web_view_parent_class)->constructed (object);
 }
 
 static void

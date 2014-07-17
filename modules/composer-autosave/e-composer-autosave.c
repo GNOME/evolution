@@ -171,8 +171,7 @@ composer_autosave_constructed (GObject *object)
 	EExtensible *extensible;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_composer_autosave_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_composer_autosave_parent_class)->constructed (object);
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));

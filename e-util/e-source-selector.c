@@ -885,6 +885,9 @@ source_selector_constructed (GObject *object)
 	ESourceSelector *selector;
 	gulong handler_id;
 
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_source_selector_parent_class)->constructed (object);
+
 	selector = E_SOURCE_SELECTOR (object);
 	registry = e_source_selector_get_registry (selector);
 

@@ -52,8 +52,7 @@ settings_spell_checker_constructed (GObject *object)
 	guint ii;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_settings_spell_checker_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_settings_spell_checker_parent_class)->constructed (object);
 
 	/* This only initializes the active spell languages, it does not
 	 * write changes back to GSettings.  Only the ESpellChecker used

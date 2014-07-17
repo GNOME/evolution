@@ -170,8 +170,7 @@ mail_signature_tree_view_constructed (GObject *object)
 	GtkListStore *list_store;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_signature_tree_view_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_signature_tree_view_parent_class)->constructed (object);
 
 	list_store = gtk_list_store_new (
 		NUM_COLUMNS,

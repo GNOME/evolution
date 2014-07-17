@@ -250,8 +250,7 @@ mail_config_sidebar_constructed (GObject *object)
 	sidebar = E_MAIL_CONFIG_SIDEBAR (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_mail_config_sidebar_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_mail_config_sidebar_parent_class)->constructed (object);
 
 	gtk_orientable_set_orientation (
 		GTK_ORIENTABLE (sidebar), GTK_ORIENTATION_VERTICAL);

@@ -757,8 +757,7 @@ composer_header_table_constructed (GObject *object)
 	gint row_padding;
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_composer_header_table_parent_class)->
-		constructed (object);
+	G_OBJECT_CLASS (e_composer_header_table_parent_class)->constructed (object);
 
 	table = E_COMPOSER_HEADER_TABLE (object);
 
