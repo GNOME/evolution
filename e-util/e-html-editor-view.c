@@ -2056,6 +2056,10 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 			if (WEBKIT_DOM_IS_ELEMENT (prev_sibling))
 				success = element_has_class (
 					WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted");
+			/* We really have to be in the beginning of paragraph and
+			 * not on the beginning of some line in the paragraph */
+			if (success && webkit_dom_node_get_previous_sibling (prev_sibling))
+				success = FALSE;
 		}
 
 		if (view->priv->html_mode)
