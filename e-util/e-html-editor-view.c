@@ -4785,16 +4785,10 @@ process_blockquote (WebKitDOMElement *blockquote)
 	length = webkit_dom_node_list_get_length (list);
 	for (jj = 0; jj < length; jj++) {
 		WebKitDOMNode *quoted_node;
-		gchar *text_content, *tmp = NULL;
+		gchar *text_content;
 
 		quoted_node = webkit_dom_node_list_item (list, jj);
 		text_content = webkit_dom_node_get_text_content (quoted_node);
-		if (webkit_dom_node_get_previous_sibling (quoted_node)) {
-			tmp = g_strconcat ("<br>", text_content, NULL);
-			g_free (text_content);
-			text_content = tmp;
-		}
-
 		webkit_dom_html_element_set_outer_html (
 			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
 
@@ -4807,16 +4801,10 @@ process_blockquote (WebKitDOMElement *blockquote)
 	length = webkit_dom_node_list_get_length (list);
 	for (jj = 0; jj < length; jj++) {
 		WebKitDOMNode *quoted_node;
-		gchar *text_content, *tmp = NULL;
+		gchar *text_content;
 
 		quoted_node = webkit_dom_node_list_item (list, jj);
 		text_content = webkit_dom_node_get_text_content (quoted_node);
-		if (webkit_dom_node_get_previous_sibling (quoted_node)) {
-			tmp = g_strconcat ("<br>", text_content, NULL);
-			g_free (text_content);
-			text_content = tmp;
-		}
-
 		webkit_dom_html_element_set_outer_html (
 			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
 
@@ -5404,6 +5392,7 @@ process_elements (EHTMLEditorView *view,
 				remove_node (child);
 
 			skip_node = TRUE;
+			goto next;
 		}
 
 		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "Apple-tab-span")) {
@@ -5449,6 +5438,7 @@ process_elements (EHTMLEditorView *view,
 			}
 
 			skip_node = TRUE;
+			goto next;
 		}
 
 		/* Leave blockquotes as they are */
@@ -5459,6 +5449,7 @@ process_elements (EHTMLEditorView *view,
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
+				goto next;
 			} else {
 				if (!changing_mode && to_plain_text) {
 					if (get_citation_level (child, FALSE) == 0) {
@@ -5508,6 +5499,7 @@ process_elements (EHTMLEditorView *view,
 			}
 
 			skip_node = TRUE;
+			goto next;
 		}
 
 		/* Leave paragraphs as they are */
@@ -5518,6 +5510,7 @@ process_elements (EHTMLEditorView *view,
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
+				goto next;
 			}
 			if (to_html) {
 				remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
@@ -5553,6 +5546,7 @@ process_elements (EHTMLEditorView *view,
 						skip_nl = TRUE;
 					}
 					skip_node = TRUE;
+					goto next;
 				}
 			}
 		}
@@ -5568,6 +5562,7 @@ process_elements (EHTMLEditorView *view,
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
+				goto next;
 			}
 			if (to_html) {
 				WebKitDOMElement *img;
@@ -5585,6 +5580,7 @@ process_elements (EHTMLEditorView *view,
 					NULL);
 				remove_node (child);
 				skip_node = TRUE;
+				goto next;
 			}
 		}
 
@@ -5605,6 +5601,23 @@ process_elements (EHTMLEditorView *view,
 			if (to_plain_text) {
 				/* Insert new line when we hit BR element */
 				g_string_append (buffer, changing_mode ? "<br>" : "\n");
+			}
+		}
+
+		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (child)) {
+			if (changing_mode && to_plain_text) {
+				content = webkit_dom_html_element_get_outer_html (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_node = TRUE;
+			}
+			if (!changing_mode && to_plain_text) {
+				content = webkit_dom_html_element_get_inner_text (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_node = TRUE;
 			}
 		}
  next:
@@ -5638,6 +5651,10 @@ process_elements (EHTMLEditorView *view,
 				add_br = FALSE;
 			}
 		}
+
+		/* Don't put unnecessary NL after the citation */
+		if (add_br)
+			add_br = !is_citation_node (node);
 
 		content = webkit_dom_node_get_text_content (node);
 		if (add_br && g_utf8_strlen (content, -1) > 0 && !skip_nl)
