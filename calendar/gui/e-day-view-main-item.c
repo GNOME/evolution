@@ -1147,7 +1147,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (can_draw_in_region (draw_region, rect_x, rect_y, rect_width, rect_height)) {
 				cairo_save (cr);
-				gdk_cairo_set_source_color (cr, &day_view->colors[gtk_widget_has_focus (GTK_WIDGET (day_view)) ? E_DAY_VIEW_COLOR_BG_SELECTED : E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED]);
+				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
 				cairo_rectangle (cr, rect_x, rect_y, rect_width, rect_height);
 				cairo_fill (cr);
 				cairo_restore (cr);
