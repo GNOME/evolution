@@ -738,6 +738,8 @@ body_input_event_cb (WebKitDOMElement *element,
 		length = word_wrap_length - 2 * citation_level;
 
 		if (element && citation_level > 0) {
+			gchar *content;
+			gint text_length;
 			WebKitDOMElement *block;
 			gboolean remove_quoting = FALSE;
 
@@ -762,8 +764,12 @@ body_input_event_cb (WebKitDOMElement *element,
 				block = webkit_dom_node_get_parent_element (
 					WEBKIT_DOM_NODE (block));
 
+			content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (block));
+			text_length = g_utf8_strlen (content, -1);
+			g_free (content);
+
 			/* Wrap and quote the line */
-			if (!remove_quoting) {
+			if (!remove_quoting && text_length >= word_wrap_length) {
 				remove_quoting_from_element (block);
 
 				block = e_html_editor_selection_wrap_paragraph_length (
