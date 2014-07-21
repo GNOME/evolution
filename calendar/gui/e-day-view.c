@@ -4502,7 +4502,10 @@ e_day_view_show_popup_menu (EDayView *day_view,
                             gint day,
                             gint event_num)
 {
-	EDayViewEvent *pevent = tooltip_get_view_event (day_view, day, event_num);
+	EDayViewEvent *pevent = NULL;
+
+	if (event_num >= 0)
+		pevent = tooltip_get_view_event (day_view, day, event_num);
 
 	if (pevent && pevent->canvas_item)
 		tooltip_destroy (day_view, pevent->canvas_item);
