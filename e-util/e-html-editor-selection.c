@@ -1567,10 +1567,14 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 }
 
 static gboolean
-is_selection_position_node (WebKitDOMElement *element)
+is_selection_position_node (WebKitDOMNode *node)
 {
-	if (!element || !WEBKIT_DOM_IS_ELEMENT (element))
+	WebKitDOMElement *element;
+
+	if (!node || !WEBKIT_DOM_IS_ELEMENT (node))
 		return FALSE;
+
+	element = WEBKIT_DOM_ELEMENT (node);
 
 	return element_has_id (element, "-x-evo-caret-position") ||
 	       element_has_id (element, "-x-evo-selection-start-marker") ||
@@ -5141,7 +5145,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 			}
 			g_free (text_content);
 		} else {
-			if (is_selection_position_node (WEBKIT_DOM_ELEMENT (node))) {
+			if (is_selection_position_node (node)) {
 				node = webkit_dom_node_get_next_sibling (node);
 				continue;
 			}
@@ -6010,8 +6014,7 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 		selection_start_marker =
 			webkit_dom_node_get_next_sibling (selection_start_marker);
 
-		ok = is_selection_position_node (
-			WEBKIT_DOM_ELEMENT (selection_start_marker));
+		ok = is_selection_position_node (selection_start_marker);
 
 		if (ok) {
 			ok = FALSE;
@@ -6019,8 +6022,7 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 				selection_end_marker = webkit_dom_node_get_next_sibling (
 					selection_start_marker);
 
-				ok = is_selection_position_node (
-					WEBKIT_DOM_ELEMENT (selection_end_marker));
+				ok = is_selection_position_node (selection_end_marker);
 				if (ok) {
 					remove_node (selection_start_marker);
 					remove_node (selection_end_marker);
