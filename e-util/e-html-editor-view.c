@@ -522,6 +522,62 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 	return paragraph;
 }
 
+static gchar *
+get_quotation_for_level (gint quote_level)
+{
+	gint ii;
+	GString *output = g_string_new ("");
+
+	for (ii = 0; ii < quote_level; ii++) {
+		g_string_append (output, "<span class=\"-x-evo-quote-character\">");
+		g_string_append (output, QUOTE_SYMBOL);
+		g_string_append (output, " ");
+		g_string_append (output, "</span>");
+	}
+
+	return g_string_free (output, FALSE);
+}
+
+static void
+quote_plain_text_element_after_wrapping (WebKitDOMDocument *document,
+                                         WebKitDOMElement *element,
+                                         gint quote_level)
+{
+	WebKitDOMNodeList *list;
+	WebKitDOMNode *quoted_node;
+	gint length, ii;
+	gchar *quotation;
+
+	quoted_node = WEBKIT_DOM_NODE (
+		webkit_dom_document_create_element (document, "SPAN", NULL));
+	webkit_dom_element_set_class_name (
+		WEBKIT_DOM_ELEMENT (quoted_node), "-x-evo-quoted");
+	quotation = get_quotation_for_level (quote_level);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (quoted_node), quotation, NULL);
+
+	list = webkit_dom_element_query_selector_all (
+		element, "br.-x-evo-wrap-br", NULL);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		quoted_node,
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+		NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *br = webkit_dom_node_list_item (list, ii);
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (br),
+			webkit_dom_node_clone_node (quoted_node, TRUE),
+			webkit_dom_node_get_next_sibling (br),
+			NULL);
+	}
+
+	g_free (quotation);
+}
+
 static void
 body_input_event_cb (WebKitDOMElement *element,
                      WebKitDOMEvent *event,
@@ -713,7 +769,8 @@ body_input_event_cb (WebKitDOMElement *element,
 				block = e_html_editor_selection_wrap_paragraph_length (
 					selection, block, length);
 				webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-				block = e_html_editor_view_quote_plain_text_element (view, block);
+				quote_plain_text_element_after_wrapping (
+					document, WEBKIT_DOM_ELEMENT (block), citation_level);
 				element = webkit_dom_document_query_selector (
 					document, "span#-x-evo-selection-start-marker", NULL);
 				if (!element) {
@@ -2746,22 +2803,6 @@ is_citation_node (WebKitDOMNode *node)
 	}
 }
 
-static gchar *
-get_quotation_for_level (gint quote_level)
-{
-	gint ii;
-	GString *output = g_string_new ("");
-
-	for (ii = 0; ii < quote_level; ii++) {
-		g_string_append (output, "<span class=\"-x-evo-quote-character\">");
-		g_string_append (output, QUOTE_SYMBOL);
-		g_string_append (output, " ");
-		g_string_append (output, "</span>");
-	}
-
-	return g_string_free (output, FALSE);
-}
-
 static void
 insert_quote_symbols (WebKitDOMHTMLElement *element,
                       gint quote_level,
@@ -3228,6 +3269,7 @@ e_html_editor_view_quote_plain_text_element (EHTMLEditorView *view,
 	for  (ii = 0; ii < length; ii++)
 		remove_node (webkit_dom_node_list_item (list, ii));
 
+	webkit_dom_node_normalize (element_clone);
 	quote_plain_text_recursive (
 		document, element_clone, element_clone, level);
 
@@ -3295,6 +3337,7 @@ e_html_editor_view_quote_plain_text (EHTMLEditorView *view)
 		}
 	}
 
+	webkit_dom_node_normalize (body_clone);
 	quote_plain_text_recursive (document, body_clone, body_clone, 0);
 
 	/* Copy attributes */
@@ -4093,10 +4136,12 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 					WEBKIT_DOM_NODE (selection_start_marker),
 					NULL);
 
-			parent = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
-				selection, WEBKIT_DOM_ELEMENT (parent), length));
-			quote_plain_text_recursive (
-				document, parent, parent, citation_level);
+			parent = WEBKIT_DOM_NODE (
+				e_html_editor_selection_wrap_paragraph_length (
+					selection, WEBKIT_DOM_ELEMENT (parent), length));
+			webkit_dom_node_normalize (parent);
+			quote_plain_text_element_after_wrapping (
+				document, WEBKIT_DOM_ELEMENT (parent), citation_level);
 
 			goto delete;
 		}
@@ -4159,11 +4204,8 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))) {
 			child = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
 				selection, WEBKIT_DOM_ELEMENT (child), length));
-			quote_plain_text_recursive (
-				document,
-				WEBKIT_DOM_NODE (child),
-				WEBKIT_DOM_NODE (child),
-				citation_level);
+			quote_plain_text_element_after_wrapping (
+				document, WEBKIT_DOM_ELEMENT (child), citation_level);
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (last_paragraph),
 				child,
@@ -4176,8 +4218,8 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		last_paragraph = WEBKIT_DOM_NODE (
 			e_html_editor_selection_wrap_paragraph_length (
 				selection, WEBKIT_DOM_ELEMENT (last_paragraph), length));
-		quote_plain_text_recursive (
-			document, last_paragraph, last_paragraph, citation_level);
+		quote_plain_text_element_after_wrapping (
+			document, WEBKIT_DOM_ELEMENT (last_paragraph), citation_level);
 
 		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
@@ -4186,7 +4228,8 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			WEBKIT_DOM_NODE (selection_start_marker));
 		parent = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
 			selection, WEBKIT_DOM_ELEMENT (parent), length));
-		quote_plain_text_recursive (document, parent, parent, citation_level);
+		quote_plain_text_element_after_wrapping (
+			document, WEBKIT_DOM_ELEMENT (parent), citation_level);
 
 		/* If the pasted text begun or ended with a new line we have to
 		 * quote these paragraphs as well */
