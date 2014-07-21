@@ -3430,6 +3430,7 @@ create_anchor_for_link (const GMatchInfo *info,
                         GString *res,
                         gpointer data)
 {
+	gint offset = 0;
 	gchar *match;
 	gboolean address_surrounded;
 
@@ -3441,27 +3442,29 @@ create_anchor_for_link (const GMatchInfo *info,
 		g_str_has_suffix (match, "&gt;");
 
 	if (address_surrounded)
+		offset += 4;
+
+	if (g_str_has_prefix (match, "&nbsp;"))
+		offset += 6;
+
+	if (address_surrounded)
 		g_string_append (res, "&lt;");
 
 	g_string_append (res, "<a href=\"");
 	if (strstr (match, "@")) {
 		g_string_append (res, "mailto:");
-		if (address_surrounded) {
-			g_string_append (res, match + 4);
+		g_string_append (res, match + offset);
+		if (address_surrounded)
 			g_string_truncate (res, res->len - 4);
-		} else
-			g_string_append (res, match);
 
 		g_string_append (res, "\">");
-		if (address_surrounded) {
-			g_string_append (res, match + 4);
+		g_string_append (res, match + offset);
+		if (address_surrounded)
 			g_string_truncate (res, res->len - 4);
-		} else
-			g_string_append (res, match);
 	} else {
-		g_string_append (res, match);
+		g_string_append (res, match + offset);
 		g_string_append (res, "\">");
-		g_string_append (res, match);
+		g_string_append (res, match + offset);
 	}
 	g_string_append (res, "</a>");
 
