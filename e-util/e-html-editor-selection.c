@@ -1984,7 +1984,6 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 	merge_lists_if_possible (WEBKIT_DOM_NODE (list));
 
 	e_html_editor_selection_restore (selection);
-	e_html_editor_view_force_spell_check (view);
 }
 
 static void
@@ -2253,7 +2252,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	if (!from_list && to_list)
 		format_change_block_to_list (selection, format, view, document);
 
-	e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 
@@ -2836,7 +2835,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 	}
  out:
 	e_html_editor_selection_restore (selection);
-	e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 
@@ -3156,7 +3155,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 	}
  out:
 	e_html_editor_selection_restore (selection);
-	e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 

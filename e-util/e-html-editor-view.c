@@ -216,7 +216,8 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *caret, *parent, *element;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMElement *parent, *element;
 	WebKitDOMRange *end_range, *actual;
 	WebKitDOMText *text;
 
@@ -231,7 +232,15 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 		return;
 
 	selection = e_html_editor_view_get_selection (view);
-	caret = e_html_editor_selection_save_caret_position (selection);
+	e_html_editor_selection_save (selection);
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	if (!selection_start_marker || !selection_end_marker)
+		return;
 
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EHTMLEditorSelection and here as well
@@ -240,11 +249,15 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 		view, html_editor_view_selection_changed_cb, NULL);
 	e_html_editor_selection_block_selection_changed (selection);
 
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
-	element = caret;
+	parent = webkit_dom_node_get_parent_element (
+		WEBKIT_DOM_NODE (selection_start_marker));
 
-	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		element = parent;
+	while (parent &&
+	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
 		parent = webkit_dom_node_get_parent_element (
 			WEBKIT_DOM_NODE (parent));
 	}
@@ -252,7 +265,10 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	/* Append some text on the end of the element */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
 	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (text), NULL);
+		webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_end_marker)),
+		WEBKIT_DOM_NODE (text),
+		NULL);
 
 	/* Create range that's pointing on the end of this text */
 	end_range = webkit_dom_document_create_range (document);
@@ -263,7 +279,7 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	/* Move on the beginning of the paragraph */
 	actual = webkit_dom_document_create_range (document);
 	webkit_dom_range_select_node_contents (
-		actual, WEBKIT_DOM_NODE (element), NULL);
+		actual, WEBKIT_DOM_NODE (parent), NULL);
 	webkit_dom_range_collapse (actual, TRUE, NULL);
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, actual);
@@ -288,7 +304,7 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 		view, html_editor_view_selection_changed_cb, NULL);
 	e_html_editor_selection_unblock_selection_changed (selection);
 
-	e_html_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore (selection);
 }
 
 static void
@@ -720,10 +736,12 @@ body_input_event_cb (WebKitDOMElement *element,
 						WEBKIT_DOM_NODE (marker),
 						NULL);
 				}
+				e_html_editor_selection_restore (selection);
+				e_html_editor_view_force_spell_check_for_current_paragraph (view);
+				return;
 			}
 		}
 		e_html_editor_selection_restore (selection);
-		e_html_editor_view_force_spell_check (view);
 	}
 }
 
@@ -2107,7 +2125,7 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 			remove_node_if_empty (
 				webkit_dom_node_get_next_sibling (
 					WEBKIT_DOM_NODE (paragraph)));
-			e_html_editor_view_force_spell_check (view);
+			e_html_editor_view_force_spell_check_for_current_paragraph (view);
 		}
 	}
 
