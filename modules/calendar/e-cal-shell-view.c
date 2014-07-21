@@ -38,7 +38,8 @@ cal_shell_view_add_action_button (GtkBox *box,
 	GtkWidget *button, *icon;
 
 	button = gtk_button_new ();
-	icon = gtk_action_create_icon (action, GTK_ICON_SIZE_BUTTON);
+	icon = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
+	gtk_image_set_pixel_size (GTK_IMAGE (icon), 16);
 	gtk_button_set_image (GTK_BUTTON (button), icon);
 	gtk_box_pack_start (box, button, FALSE, FALSE, 0);
 	gtk_widget_show (button);
