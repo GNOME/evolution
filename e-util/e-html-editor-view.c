@@ -3157,10 +3157,14 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			goto next_node;
 		}
 
-		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
+		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling)) {
+				move_next = TRUE;
+				goto next_node;
+			}
 			goto not_br;
-		else if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-first-br") ||
-		         element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-last-br")) {
+		} else if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-first-br") ||
+		           element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-last-br")) {
 			quote_br_node (node, quote_level);
 			node = next_sibling;
 			skip_node = TRUE;
