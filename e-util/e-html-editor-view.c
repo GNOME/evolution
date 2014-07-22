@@ -545,10 +545,13 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 				e_html_editor_selection_get_word_wrap_length (selection);
 			WebKitDOMNode *node;
 
-			citation_level = get_citation_level (next_sibling, FALSE);
+			node = webkit_dom_node_get_first_child (next_sibling);
+			while (node && is_citation_node (node))
+				node = webkit_dom_node_get_first_child (node);
+
+			citation_level = get_citation_level (node, FALSE);
 			length = word_wrap_length - 2 * citation_level;
 
-			node = webkit_dom_node_get_first_child (next_sibling);
 			/* Rewrap and requote first block after the newly inserted line */
 			if (node && WEBKIT_DOM_IS_ELEMENT (node)) {
 				remove_quoting_from_element (WEBKIT_DOM_ELEMENT (node));
