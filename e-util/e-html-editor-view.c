@@ -4386,6 +4386,23 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 
 		if (!has_selection)
 			remove_node (parent);
+	} else {
+		/* When pasting the content that was copied from the composer, WebKit
+		 * restores the selection wrongly, thus is saved wrongly and we have
+		 * to fix it */
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (
+				WEBKIT_DOM_NODE (selection_start_marker)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_next_sibling (
+				WEBKIT_DOM_NODE (selection_start_marker)),
+			NULL);
 	}
 
 	e_html_editor_selection_restore (selection);
