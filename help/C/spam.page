@@ -3,7 +3,7 @@
       type="topic" id="spam">
 
   <info>
-    <desc>You can remove automatically the spam and set what mails you do not want to receive.</desc>
+    <desc>You can set options to automatically handle the spam mail.</desc>
 
     <link type="guide" xref="mail" group="#spams"/>
 
@@ -21,7 +21,7 @@
   </info>
 
 <title>Unwanted (spam) emails</title>
-<p>You can remove automatically the spam and set what mails you do not want to receive.</p>
+<p>You can remove automatically the spam and set what mail you do not want to receive.</p>
 
 
 </page>
