@@ -3,7 +3,7 @@
       type="topic" id="organise-mail">
 
   <info>
-    <desc>You can check your mails by date, subject and organise them in folders or sort them by date, subject or destinary.</desc>
+    <desc>You can sorte your mails by date, subject or any other column header. Also you can organise them in folders or category.</desc>
 
     <link type="guide" xref="mail" group="#organise-mails"/>
 
@@ -20,8 +20,8 @@
 
   </info>
 
-<title>Set and organise emails</title>
-<p>You can check your mails by date, subject and organise them in folders or sort them by date, subject or destinary.</p>
+<title>Sorte and organise mail</title>
+<p>You can sorte your mails by date, subject or any other column header. Also you can organise them in folders or category.</p>
 
 
 </page>

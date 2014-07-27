@@ -3,7 +3,7 @@
       type="topic" id="check-mail">
 
   <info>
-    <desc>See mails from specific account.</desc>
+    <desc>Check your mailbox from specific account.</desc>
 
     <link type="guide" xref="mail" group="#check-mails"/>
 
@@ -21,7 +21,7 @@
   </info>
 
 <title>Check your mail</title>
-<p>See mails from specific account.</p>
+<p>Check your mailbox from specific account.</p>
 
 
 </page>
