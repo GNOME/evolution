@@ -209,6 +209,24 @@ html_editor_view_should_show_delete_interface_for_element (EHTMLEditorView *view
 	return FALSE;
 }
 
+static WebKitDOMElement *
+get_parent_block_element (WebKitDOMNode *node)
+{
+	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+	while (parent &&
+	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+
+	return parent;
+}
+
 void
 e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *view)
 {
@@ -249,24 +267,13 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 		view, html_editor_view_selection_changed_cb, NULL);
 	e_html_editor_selection_block_selection_changed (selection);
 
-	parent = webkit_dom_node_get_parent_element (
-		WEBKIT_DOM_NODE (selection_start_marker));
-
-	while (parent &&
-	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
+	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker));
 
 	/* Append some text on the end of the element */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
 	webkit_dom_node_append_child (
-		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (selection_end_marker)),
+		WEBKIT_DOM_NODE (get_parent_block_element (
+			WEBKIT_DOM_NODE (selection_end_marker))),
 		WEBKIT_DOM_NODE (text),
 		NULL);
 
