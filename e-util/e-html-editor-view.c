@@ -350,6 +350,9 @@ refresh_spell_check (EHTMLEditorView *view,
 	/* Sometimes the web view is not focused, so we have to save the selection
 	 * manually into the body */
 	if (!selection_start_marker || !selection_end_marker) {
+		if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)))
+			return;
+
 		selection_start_marker = webkit_dom_document_create_element (
 			document, "SPAN", NULL);
 		webkit_dom_element_set_id (
