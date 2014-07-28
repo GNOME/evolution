@@ -1753,7 +1753,7 @@ e_mail_folder_uri_build (CamelStore *store,
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 
 	encoded_uid = camel_url_encode (uid, ":;@/");
-	encoded_name = camel_url_encode (folder_name, "#");
+	encoded_name = camel_url_encode (folder_name, ":;@?#");
 
 	uri = g_strdup_printf ("folder://%s/%s", encoded_uid, encoded_name);
 
