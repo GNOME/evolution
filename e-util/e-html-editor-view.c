@@ -4415,13 +4415,15 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			WEBKIT_DOM_NODE (element));
 
 		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent));
-		node = webkit_dom_node_get_first_child (node);
 		if (node) {
-			inner_html = webkit_dom_node_get_text_content (node);
-			if (g_str_has_prefix (inner_html, UNICODE_NBSP))
-				webkit_dom_character_data_replace_data (
-					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
-			g_free (inner_html);
+			node = webkit_dom_node_get_first_child (node);
+			if (node) {
+				inner_html = webkit_dom_node_get_text_content (node);
+				if (g_str_has_prefix (inner_html, UNICODE_NBSP))
+					webkit_dom_character_data_replace_data (
+						WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+				g_free (inner_html);
+			}
 		}
 
 		selection_marker = webkit_dom_document_get_element_by_id (
@@ -4454,25 +4456,53 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 						WEBKIT_DOM_NODE (selection_marker))),
 				NULL);
 			node = parent;
-		} else
+		} else {
 			node = webkit_dom_node_get_next_sibling (parent);
+			if (!node) {
+				WebKitDOMNode *first_child, *tmp;
 
-		/* Restore caret on the end of pasted text */
-		webkit_dom_node_insert_before (
-			node,
-			WEBKIT_DOM_NODE (selection_marker),
-			webkit_dom_node_get_first_child (node),
-			NULL);
+				/* When pasting content that does not contain just the
+				 * one line text WebKit inserts all the content after the
+				 * first line into one element. So we have to take it out
+				 * of this element and insert it after that element. */
+				tmp = webkit_dom_node_get_parent_node (parent);
+				first_child = webkit_dom_node_get_first_child (tmp);
+				while (first_child) {
+					WebKitDOMNode *next_child =
+						webkit_dom_node_get_next_sibling  (first_child);
+					if (webkit_dom_node_has_child_nodes (first_child))
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (tmp),
+							first_child,
+							tmp,
+							NULL);
+					first_child = next_child;
+				}
+				remove_node (tmp);
+			}
+		}
 
-		selection_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
-		webkit_dom_node_insert_before (
-			node,
-			WEBKIT_DOM_NODE (selection_marker),
-			webkit_dom_node_get_first_child (node),
-			NULL);
+		if (node) {
+			/* Restore caret on the end of pasted text */
+			webkit_dom_node_insert_before (
+				node,
+				WEBKIT_DOM_NODE (selection_marker),
+				webkit_dom_node_get_first_child (node),
+				NULL);
 
-		if (!has_selection)
+			selection_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+			webkit_dom_node_insert_before (
+				node,
+				WEBKIT_DOM_NODE (selection_marker),
+				webkit_dom_node_get_first_child (node),
+				NULL);
+		}
+
+		if (element)
+			webkit_dom_element_remove_attribute (element, "class");
+
+		if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)) && !has_selection)
 			remove_node (parent);
 	} else {
 		/* When pasting the content that was copied from the composer, WebKit
