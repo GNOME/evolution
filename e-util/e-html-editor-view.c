@@ -852,7 +852,7 @@ body_input_event_cb (WebKitDOMElement *element,
 		}
 
 		/* We have to process elements only inside normal block */
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+		parent = WEBKIT_DOM_NODE (get_parent_block_element (WEBKIT_DOM_NODE (element)));
 		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
 			e_html_editor_selection_restore (selection);
 			return;
