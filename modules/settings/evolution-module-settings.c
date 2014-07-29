@@ -22,6 +22,7 @@
 #include "e-settings-comp-editor.h"
 #include "e-settings-date-edit.h"
 #include "e-settings-deprecated.h"
+#include "e-settings-html-editor-view.h"
 #include "e-settings-mail-browser.h"
 #include "e-settings-mail-formatter.h"
 #include "e-settings-mail-part-headers.h"
@@ -33,7 +34,6 @@
 #include "e-settings-name-selector-entry.h"
 #include "e-settings-spell-checker.h"
 #include "e-settings-spell-entry.h"
-#include "e-settings-web-view.h"
 #include "e-settings-weekday-chooser.h"
 
 /* Module Entry Points */
@@ -50,6 +50,7 @@ e_module_load (GTypeModule *type_module)
 	e_settings_comp_editor_type_register (type_module);
 	e_settings_date_edit_type_register (type_module);
 	e_settings_deprecated_type_register (type_module);
+	e_settings_html_editor_view_type_register (type_module);
 	e_settings_mail_browser_type_register (type_module);
 	e_settings_mail_formatter_type_register (type_module);
 	e_settings_mail_part_headers_type_register (type_module);
@@ -61,7 +62,6 @@ e_module_load (GTypeModule *type_module)
 	e_settings_name_selector_entry_type_register (type_module);
 	e_settings_spell_checker_type_register (type_module);
 	e_settings_spell_entry_type_register (type_module);
-	e_settings_web_view_type_register (type_module);
 	e_settings_weekday_chooser_type_register (type_module);
 }
 

@@ -80,6 +80,7 @@ struct _EHTMLEditorViewPrivate {
 
 	GHashTable *inline_images;
 
+	GSettings *mail_settings;
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
@@ -238,6 +239,9 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	WebKitDOMElement *parent, *element;
 	WebKitDOMRange *end_range, *actual;
 	WebKitDOMText *text;
+
+	if (!view->priv->inline_spelling)
+		return;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
@@ -431,7 +435,8 @@ e_html_editor_view_turn_spell_check_off (EHTMLEditorView *view)
 void
 e_html_editor_view_force_spell_check (EHTMLEditorView *view)
 {
-	refresh_spell_check (view, TRUE);
+	if (view->priv->inline_spelling)
+		refresh_spell_check (view, TRUE);
 }
 
 static gint
@@ -1158,6 +1163,9 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 
 	if (view->priv->html_mode)
 		change_cid_images_src_to_base64 (view);
+
+	if (!view->priv->inline_spelling)
+		e_html_editor_view_turn_spell_check_off (view);
 }
 
 /* Based on original use_pictograms() from GtkHTML */
@@ -2044,19 +2052,21 @@ html_editor_view_dispose (GObject *object)
 	}
 
 	if (priv->aliasing_settings != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->aliasing_settings, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
+		g_signal_handlers_disconnect_by_data (priv->aliasing_settings, object);
 		g_object_unref (priv->aliasing_settings);
 		priv->aliasing_settings = NULL;
 	}
 
 	if (priv->font_settings != NULL) {
-		g_signal_handlers_disconnect_matched (
-			priv->font_settings, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
+		g_signal_handlers_disconnect_by_data (priv->font_settings, object);
 		g_object_unref (priv->font_settings);
 		priv->font_settings = NULL;
+	}
+
+	if (priv->mail_settings != NULL) {
+		g_signal_handlers_disconnect_by_data (priv->mail_settings, object);
+		g_object_unref (priv->mail_settings);
+		priv->mail_settings = NULL;
 	}
 
 	g_hash_table_remove_all (priv->inline_images);
@@ -4646,6 +4656,9 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		G_CALLBACK (e_html_editor_settings_changed_cb), view);
 	view->priv->font_settings = g_settings;
 
+	g_settings = g_settings_new ("org.gnome.evolution.mail");
+	view->priv->mail_settings = g_settings;
+
 	/* This schema is optional.  Use if available. */
 	settings_schema = g_settings_schema_source_lookup (
 		g_settings_schema_source_get_default (),
@@ -6551,6 +6564,11 @@ e_html_editor_view_set_inline_spelling (EHTMLEditorView *view,
 
 	view->priv->inline_spelling = inline_spelling;
 
+	if (inline_spelling)
+		e_html_editor_view_force_spell_check (view);
+	else
+		e_html_editor_view_turn_spell_check_off (view);
+
 	g_object_notify (G_OBJECT (view), "inline-spelling");
 }
 
@@ -6905,32 +6923,46 @@ citation_color_level_5 (void)
 void
 e_html_editor_view_update_fonts (EHTMLEditorView *view)
 {
-	GString *stylesheet;
-	gchar *base64;
-	gchar *aa = NULL;
-	WebKitWebSettings *settings;
-	PangoFontDescription *ms, *vw;
-	const gchar *styles[] = { "normal", "oblique", "italic" };
-	const gchar *smoothing = NULL;
-	GtkStyleContext *context;
+	gboolean mark_citations, use_custom_font;
 	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
-	gchar *font;
+	gchar *base64, *font, *aa = NULL, *citation_color;
+	const gchar *styles[] = { "normal", "oblique", "italic" };
+	const gchar *smoothing = NULL;
+	GString *stylesheet;
+	GtkStyleContext *context;
+	PangoFontDescription *ms, *vw;
+	WebKitWebSettings *settings;
 
-	font = g_settings_get_string (
-		view->priv->font_settings,
-		"monospace-font-name");
-	ms = pango_font_description_from_string (
-		font ? font : "monospace 10");
-	g_free (font);
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	use_custom_font = g_settings_get_boolean (
+		view->priv->mail_settings, "use-custom-font");
+
+	if (use_custom_font) {
+		font = g_settings_get_string (
+			view->priv->mail_settings, "monospace-font");
+		ms = pango_font_description_from_string (font ? font : "monospace 10");
+		g_free (font);
+	} else {
+		font = g_settings_get_string (
+			view->priv->font_settings, "monospace-font-name");
+		ms = pango_font_description_from_string (font ? font : "monospace 10");
+		g_free (font);
+	}
 
 	if (view->priv->html_mode) {
-		font = g_settings_get_string (
-				view->priv->font_settings,
-				"font-name");
-		vw = pango_font_description_from_string (
-				font ? font : "serif 10");
-		g_free (font);
+		if (use_custom_font) {
+			font = g_settings_get_string (
+				view->priv->mail_settings, "variable-width-font");
+			vw = pango_font_description_from_string (font ? font : "serif 10");
+			g_free (font);
+		} else {
+			font = g_settings_get_string (
+				view->priv->font_settings, "font-name");
+			vw = pango_font_description_from_string (font ? font : "serif 10");
+			g_free (font);
+		}
 	} else {
 		/* When in plain text mode, force monospace font */
 		vw = pango_font_description_copy (ms);
@@ -7092,6 +7124,11 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  -webkit-margin-after: 0em; \n"
 		"}\n");
 
+	citation_color = g_settings_get_string (
+		view->priv->mail_settings, "citation-color");
+	mark_citations = g_settings_get_boolean (
+		view->priv->mail_settings, "mark-citations");
+
 	g_string_append (
 		stylesheet,
 		"blockquote[type=cite] "
@@ -7099,9 +7136,15 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  padding: 0.0ex 0ex;\n"
 		"  margin: 0ex;\n"
 		"  -webkit-margin-start: 0em; \n"
-		"  -webkit-margin-end : 0em; \n"
-		"  color: #737373 !important;\n"
-		"}\n");
+		"  -webkit-margin-end : 0em; \n");
+
+	if (mark_citations && citation_color)
+		g_string_append_printf (
+			stylesheet,
+			"  color: %s !important; \n",
+			citation_color);
+
+	g_string_append (stylesheet, "}\n");
 
 	g_string_append (
 		stylesheet,

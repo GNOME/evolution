@@ -27,6 +27,8 @@ module_settings_la_SOURCES = \
 	e-settings-date-edit.h \
 	e-settings-deprecated.c \
 	e-settings-deprecated.h \
+	e-settings-html-editor-view.c \
+	e-settings-html-editor-view.h \
 	e-settings-mail-browser.c \
 	e-settings-mail-browser.h \
 	e-settings-mail-formatter.c \
@@ -49,8 +51,6 @@ module_settings_la_SOURCES = \
 	e-settings-spell-checker.h \
 	e-settings-spell-entry.c \
 	e-settings-spell-entry.h \
-	e-settings-web-view.c \
-	e-settings-web-view.h \
 	e-settings-weekday-chooser.c \
 	e-settings-weekday-chooser.h \
 	$(NULL)

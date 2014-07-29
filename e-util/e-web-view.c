@@ -86,9 +86,6 @@ enum {
 	PROP_CURSOR_IMAGE_SRC,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
-	PROP_INLINE_SPELLING,
-	PROP_MAGIC_LINKS,
-	PROP_MAGIC_SMILEYS,
 	PROP_OPEN_PROXY,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
@@ -712,24 +709,6 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_INLINE_SPELLING:
-			e_web_view_set_inline_spelling (
-				E_WEB_VIEW (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_MAGIC_LINKS:
-			e_web_view_set_magic_links (
-				E_WEB_VIEW (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_MAGIC_SMILEYS:
-			e_web_view_set_magic_smileys (
-				E_WEB_VIEW (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_OPEN_PROXY:
 			e_web_view_set_open_proxy (
 				E_WEB_VIEW (object),
@@ -785,24 +764,6 @@ web_view_get_property (GObject *object,
 		case PROP_DISABLE_SAVE_TO_DISK:
 			g_value_set_boolean (
 				value, e_web_view_get_disable_save_to_disk (
-				E_WEB_VIEW (object)));
-			return;
-
-		case PROP_INLINE_SPELLING:
-			g_value_set_boolean (
-				value, e_web_view_get_inline_spelling (
-				E_WEB_VIEW (object)));
-			return;
-
-		case PROP_MAGIC_LINKS:
-			g_value_set_boolean (
-				value, e_web_view_get_magic_links (
-				E_WEB_VIEW (object)));
-			return;
-
-		case PROP_MAGIC_SMILEYS:
-			g_value_set_boolean (
-				value, e_web_view_get_magic_smileys (
 				E_WEB_VIEW (object)));
 			return;
 
@@ -1522,36 +1483,6 @@ e_web_view_class_init (EWebViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_INLINE_SPELLING,
-		g_param_spec_boolean (
-			"inline-spelling",
-			"Inline Spelling",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_MAGIC_LINKS,
-		g_param_spec_boolean (
-			"magic-links",
-			"Magic Links",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_MAGIC_SMILEYS,
-		g_param_spec_boolean (
-			"magic-smileys",
-			"Magic Smileys",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_OPEN_PROXY,
 		g_param_spec_object (
 			"open-proxy",
@@ -2114,102 +2045,6 @@ e_web_view_set_editable (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);
-}
-
-gboolean
-e_web_view_get_inline_spelling (EWebView *web_view)
-{
-#if 0  /* WEBKIT - XXX No equivalent property? */
-	/* XXX This is just here to maintain symmetry
-	 *     with e_web_view_set_inline_spelling(). */
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
-
-	return gtk_html_get_inline_spelling (GTK_HTML (web_view));
-#endif
-
-	return FALSE;
-}
-
-void
-e_web_view_set_inline_spelling (EWebView *web_view,
-                                gboolean inline_spelling)
-{
-#if 0  /* WEBKIT - XXX No equivalent property? */
-	/* XXX GtkHTML does not utilize GObject properties as well
-	 *     as it could.  This just wraps gtk_html_set_inline_spelling()
-	 *     so we get a "notify::inline-spelling" signal. */
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	gtk_html_set_inline_spelling (GTK_HTML (web_view), inline_spelling);
-
-	g_object_notify (G_OBJECT (web_view), "inline-spelling");
-#endif
-}
-
-gboolean
-e_web_view_get_magic_links (EWebView *web_view)
-{
-#if 0  /* WEBKIT - XXX No equivalent property? */
-	/* XXX This is just here to maintain symmetry
-	 *     with e_web_view_set_magic_links(). */
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
-
-	return gtk_html_get_magic_links (GTK_HTML (web_view));
-#endif
-
-	return FALSE;
-}
-
-void
-e_web_view_set_magic_links (EWebView *web_view,
-                            gboolean magic_links)
-{
-#if 0  /* WEBKIT - XXX No equivalent property? */
-	/* XXX GtkHTML does not utilize GObject properties as well
-	 *     as it could.  This just wraps gtk_html_set_magic_links()
-	 *     so we can get a "notify::magic-links" signal. */
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	gtk_html_set_magic_links (GTK_HTML (web_view), magic_links);
-
-	g_object_notify (G_OBJECT (web_view), "magic-links");
-#endif
-}
-
-gboolean
-e_web_view_get_magic_smileys (EWebView *web_view)
-{
-#if 0  /* WEBKIT - No equivalent property? */
-	/* XXX This is just here to maintain symmetry
-	 *     with e_web_view_set_magic_smileys(). */
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
-
-	return gtk_html_get_magic_smileys (GTK_HTML (web_view));
-#endif
-
-	return FALSE;
-}
-
-void
-e_web_view_set_magic_smileys (EWebView *web_view,
-                              gboolean magic_smileys)
-{
-#if 0  /* WEBKIT - No equivalent property? */
-	/* XXX GtkHTML does not utilize GObject properties as well
-	 *     as it could.  This just wraps gtk_html_set_magic_smileys()
-	 *     so we can get a "notify::magic-smileys" signal. */
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	gtk_html_set_magic_smileys (GTK_HTML (web_view), magic_smileys);
-
-	g_object_notify (G_OBJECT (web_view), "magic-smileys");
-#endif
 }
 
 const gchar *
