@@ -210,7 +210,7 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 /* Helper for html_editor_update_actions() */
 static void
 html_editor_spell_checkers_foreach (EHTMLEditor *editor,
-                               const gchar *language_code)
+                                    const gchar *language_code)
 {
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
@@ -305,7 +305,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 
 static void
 html_editor_update_actions (EHTMLEditor *editor,
-                       GdkEventButton *event)
+                            GdkEventButton *event)
 {
 	WebKitWebView *web_view;
 	WebKitSpellChecker *checker;
@@ -496,8 +496,8 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 
 static gboolean
 html_editor_show_popup (EHTMLEditor *editor,
-                   GdkEventButton *event,
-                   gpointer user_data)
+                        GdkEventButton *event,
+                        gpointer user_data)
 {
 	GtkWidget *menu;
 
@@ -543,7 +543,7 @@ html_editor_find_ui_file (const gchar *basename)
 
 static void
 html_editor_parent_changed (GtkWidget *widget,
-                       GtkWidget *previous_parent)
+                            GtkWidget *previous_parent)
 {
 	GtkWidget *top_level;
 	EHTMLEditor *editor = E_HTML_EDITOR (widget);
@@ -559,9 +559,9 @@ html_editor_parent_changed (GtkWidget *widget,
 
 static void
 html_editor_set_property (GObject *object,
-                     guint property_id,
-                     const GValue *value,
-                     GParamSpec *pspec)
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_FILENAME:
@@ -577,9 +577,9 @@ html_editor_set_property (GObject *object,
 
 static void
 html_editor_get_property (GObject *object,
-                     guint property_id,
-                     GValue *value,
-                     GParamSpec *pspec)
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_FILENAME:
@@ -764,7 +764,7 @@ html_editor_dispose (GObject *object)
 
 static void
 html_editor_submit_alert (EAlertSink *alert_sink,
-                     EAlert *alert)
+                          EAlert *alert)
 {
 	EHTMLEditorPrivate *priv;
 	EAlertBar *alert_bar;
@@ -942,7 +942,7 @@ e_html_editor_get_ui_manager (EHTMLEditor *editor)
  */
 GtkAction *
 e_html_editor_get_action (EHTMLEditor *editor,
-                     const gchar *action_name)
+                          const gchar *action_name)
 {
 	GtkUIManager *manager;
 	GtkAction *action = NULL;
@@ -978,7 +978,7 @@ e_html_editor_get_action (EHTMLEditor *editor,
  */
 GtkActionGroup *
 e_html_editor_get_action_group (EHTMLEditor *editor,
-                           const gchar *group_name)
+                                const gchar *group_name)
 {
 	GtkUIManager *manager;
 	GList *list;
@@ -1005,7 +1005,7 @@ e_html_editor_get_action_group (EHTMLEditor *editor,
 
 GtkWidget *
 e_html_editor_get_managed_widget (EHTMLEditor *editor,
-                             const gchar *widget_path)
+                                  const gchar *widget_path)
 {
 	GtkUIManager *manager;
 	GtkWidget *widget;
@@ -1053,7 +1053,7 @@ e_html_editor_get_filename (EHTMLEditor *editor)
  */
 void
 e_html_editor_set_filename (EHTMLEditor *editor,
-                       const gchar *filename)
+                            const gchar *filename)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
@@ -1114,7 +1114,7 @@ e_html_editor_new_activity (EHTMLEditor *editor)
  */
 void
 e_html_editor_pack_above (EHTMLEditor *editor,
-                     GtkWidget *child)
+                          GtkWidget *child)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 	g_return_if_fail (GTK_IS_WIDGET (child));
@@ -1138,9 +1138,9 @@ e_html_editor_pack_above (EHTMLEditor *editor,
  */
 gboolean
 e_html_editor_save (EHTMLEditor *editor,
-               const gchar *filename,
-               gboolean as_html,
-               GError **error)
+                    const gchar *filename,
+                    gboolean as_html,
+                    GError **error)
 {
 	GFile *file;
 	GFileOutputStream *stream;
