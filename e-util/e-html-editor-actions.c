@@ -1956,7 +1956,6 @@ editor_actions_init (EHTMLEditor *editor)
 
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), FALSE);
 
 	g_object_bind_property (
 		view, "can-redo",
