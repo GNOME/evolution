@@ -5588,12 +5588,11 @@ process_elements (EHTMLEditorView *view,
 			} else {
 				if (!changing_mode && to_plain_text) {
 					if (get_citation_level (child, FALSE) == 0) {
-						gchar *value;
-						value = webkit_dom_element_get_attribute (
+						gchar *value = webkit_dom_element_get_attribute (
 							WEBKIT_DOM_ELEMENT (child), "type");
-						if (value && g_strcmp0 (value, "cite") == 0) {
+
+						if (value && g_strcmp0 (value, "cite") == 0)
 							g_string_append (buffer, "\n");
-						}
 						g_free (value);
 					}
 				}
@@ -5651,8 +5650,8 @@ process_elements (EHTMLEditorView *view,
 				remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
-			if (!webkit_dom_node_has_child_nodes (child))
-				if (!changing_mode && to_plain_text)
+			if (!changing_mode && to_plain_text)
+				if (!webkit_dom_node_has_child_nodes (child))
 					g_string_append (buffer, "\n");
 		}
 
@@ -5734,8 +5733,12 @@ process_elements (EHTMLEditorView *view,
 
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)) {
 			if (to_plain_text) {
-				/* Insert new line when we hit BR element */
-				g_string_append (buffer, changing_mode ? "<br>" : "\n");
+				/* Insert new line when we hit the BR element that is
+				 * not the last element in the block */
+				if (!webkit_dom_node_is_same_node (
+					child, webkit_dom_node_get_last_child (node))) {
+					g_string_append (buffer, changing_mode ? "<br>" : "\n");
+				}
 			}
 		}
 
@@ -5772,7 +5775,8 @@ process_elements (EHTMLEditorView *view,
 		WebKitDOMNode *last_child = webkit_dom_node_get_last_child (node);
 
 		if (last_child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (last_child))
-			add_br = FALSE;
+			if (webkit_dom_node_get_previous_sibling (last_child))
+				add_br = FALSE;
 
 		/* If we don't have next sibling (last element in body) or next element is
 		 * signature we are not adding the BR element */
@@ -5787,12 +5791,8 @@ process_elements (EHTMLEditorView *view,
 			}
 		}
 
-		/* Don't put unnecessary NL after the citation */
-		if (add_br)
-			add_br = !is_citation_node (node);
-
 		content = webkit_dom_node_get_text_content (node);
-		if (add_br && g_utf8_strlen (content, -1) > 0 && !skip_nl)
+		if (add_br && !skip_nl)
 			g_string_append (buffer, changing_mode ? "<br>" : "\n");
 
 		g_free (content);
