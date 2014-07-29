@@ -400,15 +400,16 @@ html_editor_spell_check_dialog_set_dictionary (EHTMLEditorSpellCheckDialog *dial
 	ESpellDictionary *dictionary;
 
 	combo_box = GTK_COMBO_BOX (dialog->priv->dictionary_combo);
-	gtk_combo_box_get_active_iter (combo_box, &iter);
-	model = gtk_combo_box_get_model (combo_box);
+	if (gtk_combo_box_get_active_iter (combo_box, &iter)) {
+		model = gtk_combo_box_get_model (combo_box);
 
-	gtk_tree_model_get (model, &iter, 1, &dictionary, -1);
+		gtk_tree_model_get (model, &iter, 1, &dictionary, -1);
 
-	dialog->priv->current_dict = dictionary;
+		dialog->priv->current_dict = dictionary;
 
-	/* Update suggestions */
-	html_editor_spell_check_dialog_set_word (dialog, dialog->priv->word);
+		/* Update suggestions */
+		html_editor_spell_check_dialog_set_word (dialog, dialog->priv->word);
+	}
 }
 
 static void
