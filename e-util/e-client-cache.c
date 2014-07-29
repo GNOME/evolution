@@ -1276,6 +1276,8 @@ e_client_cache_get_client (EClientCache *client_cache,
 	g_warn_if_reached ();  /* Should never happen. */
 
 exit:
+	if (client_data)
+		client_data_unref (client_data);
 	g_object_unref (simple);
 }
 
