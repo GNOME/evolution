@@ -32,7 +32,8 @@ EXTRA_DIST = 			\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
-	gtk-doc.make
+	gtk-doc.make		\
+	tests
 
 if ENABLE_SMIME
 SMIME_SUBDIR=smime
