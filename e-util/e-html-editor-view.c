@@ -6183,6 +6183,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 static gchar *
 process_content_for_plain_text (EHTMLEditorView *view)
 {
+	EHTMLEditorSelection *selection;
 	gboolean converted, wrap = FALSE, quote = FALSE, clean = FALSE;
 	gint length, ii;
 	GString *plain_text;
@@ -6197,6 +6198,8 @@ process_content_for_plain_text (EHTMLEditorView *view)
 	converted = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted");
 	source = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
+
+	selection = e_html_editor_view_get_selection (view);
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (view->priv->html_mode) {
@@ -6246,7 +6249,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 	}
 
 	paragraphs = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (source), ".-x-evo-paragraph", NULL);
+		WEBKIT_DOM_ELEMENT (source), "body > .-x-evo-paragraph", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {
@@ -6264,15 +6267,13 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 				if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
 					e_html_editor_selection_wrap_paragraph (
-						e_html_editor_view_get_selection (view),
-						WEBKIT_DOM_ELEMENT (item));
+						selection, WEBKIT_DOM_ELEMENT (item));
 				}
 				item = next_item;
 			}
 		} else {
 			e_html_editor_selection_wrap_paragraph (
-				e_html_editor_view_get_selection (view),
-				WEBKIT_DOM_ELEMENT (paragraph));
+				selection, WEBKIT_DOM_ELEMENT (paragraph));
 		}
 	}
 
