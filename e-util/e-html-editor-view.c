@@ -2281,48 +2281,130 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 			success = WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (
 				webkit_dom_node_get_parent_element (
 					WEBKIT_DOM_NODE (block)));
+	}
 
-		if (success) {
-			gchar *inner_html;
-			WebKitDOMElement *paragraph;
+	if (success && citation_level == 1) {
+		gchar *inner_html;
+		WebKitDOMElement *paragraph;
 
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (block));
-			webkit_dom_element_set_id (
-				WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
+		inner_html = webkit_dom_html_element_get_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (block));
+		webkit_dom_element_set_id (
+			WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
 
-			paragraph = insert_new_line_into_citation (view, inner_html);
-			g_free (inner_html);
+		paragraph = insert_new_line_into_citation (view, inner_html);
+		g_free (inner_html);
 
-			if (view->priv->html_mode) {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (paragraph),
-					WEBKIT_DOM_NODE (selection_start_marker),
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (paragraph)),
-					NULL);
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (paragraph),
-					WEBKIT_DOM_NODE (selection_end_marker),
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (paragraph)),
-					NULL);
+		if (view->priv->html_mode) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (paragraph),
+				WEBKIT_DOM_NODE (selection_start_marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (paragraph)),
+				NULL);
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (paragraph),
+				WEBKIT_DOM_NODE (selection_end_marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (paragraph)),
+				NULL);
 
+		}
+
+		remove_quoting_from_element (paragraph);
+		remove_wrapping_from_element (paragraph);
+
+		if (block)
+			remove_node (WEBKIT_DOM_NODE (block));
+		block = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-to-remove");
+		if (block)
+			remove_node (WEBKIT_DOM_NODE (block));
+		remove_node_if_empty (
+			webkit_dom_node_get_next_sibling (
+				WEBKIT_DOM_NODE (paragraph)));
+	}
+
+	if (success && citation_level > 1) {
+		gint length, word_wrap_length;
+		EHTMLEditorSelection *selection;
+		WebKitDOMNode *parent;
+
+		selection = e_html_editor_view_get_selection (view);
+		word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
+		length =  word_wrap_length - 2 * (citation_level - 1);
+
+		if (view->priv->html_mode) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (block),
+				WEBKIT_DOM_NODE (selection_start_marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (block)),
+				NULL);
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (block),
+				WEBKIT_DOM_NODE (selection_end_marker),
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (block)),
+				NULL);
+
+		}
+
+		remove_quoting_from_element (block);
+		remove_wrapping_from_element (block);
+
+		block = e_html_editor_selection_wrap_paragraph_length (
+			selection, block, length);
+		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+		quote_plain_text_element_after_wrapping (
+			document, block, citation_level - 1);
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (block));
+
+		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block))) {
+			/* Currect block is in the beginning of citation, just move it
+			 * before the citation where already is */
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (block),
+				parent,
+				NULL);
+		} else if (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block))) {
+			/* Currect block is at the end of the citation, just move it
+			 * after the citation where already is */
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (block),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+		} else {
+			/* Current block is somewhere in the middle of the citation
+			 * so we need to split the citation and insert the block into
+			 * the citation that is one level lower */
+			WebKitDOMNode *clone, *child;
+
+			clone = webkit_dom_node_clone_node (parent, FALSE);
+
+			/* Move nodes that are after the currect block into the
+			 * new blockquote */
+			child = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block));
+			while (child) {
+				WebKitDOMNode *next = webkit_dom_node_get_next_sibling (child);
+				webkit_dom_node_append_child (clone, child, NULL);
+				child = next;
 			}
 
-			remove_quoting_from_element (paragraph);
-			remove_wrapping_from_element (paragraph);
+			clone = webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				clone,
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
 
-			if (block)
-				remove_node (WEBKIT_DOM_NODE (block));
-			block = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-to-remove");
-			if (block)
-				remove_node (WEBKIT_DOM_NODE (block));
-			remove_node_if_empty (
-				webkit_dom_node_get_next_sibling (
-					WEBKIT_DOM_NODE (paragraph)));
-			e_html_editor_view_force_spell_check_for_current_paragraph (view);
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (block),
+				clone,
+				NULL);
 		}
 	}
 
@@ -2369,6 +2451,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			e_html_editor_selection_save (selection);
 			if (change_quoted_block_to_normal (view)) {
 				e_html_editor_selection_restore (selection);
+				e_html_editor_view_force_spell_check_for_current_paragraph (view);
 				return TRUE;
 			}
 			e_html_editor_selection_restore (selection);
