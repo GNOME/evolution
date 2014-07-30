@@ -28,15 +28,16 @@
 
   <section id="restore-backup">
   <title>Restore from a backup file</title>
-	<p>Select your <gui>backup</gui> (if you have a file to do it), then click on <gui>Continue</gui>.</p>
+	<p>Select your <gui>backup</gui>, in case you have a file to restore mailbox from previous version, then click on <gui>Continue</gui>.
+           If you do not have a backup, click on <gui>Continue</gui>.</p>
   </section>
 
 <section id="identity">
   <title>Identity</title>
 	<p>Enter your name and email address to identify yourself, then click on <gui>Continue</gui>.</p>
         <note>
-           <p>Optionally, register another email account on <gui>Reply-To</gui> if you want to copy all the messages you send to another account.</p> 
-           <p>The name of the organization you belong is also optional. It will appear the moment somebody import you as his/her contact.</p>    
+           <p>Optionally, register another email account on <gui>Reply-To</gui> if you want to copy all the messages you send.</p> 
+           <p>The name of the organization you belong is also optional. It will appear when somebody import you as his/her contact.</p>    
         </note>  
 </section>
     
@@ -92,11 +93,14 @@
           <p>The most commonly used options are:</p>
        <item>
           <p>SMTP</p>
-          <p>Use this protocol when you have configured <link xref="imap-sending">IMAP</link>, <link xref="pop-sending">POP</link>, <link xref="exchange-sending">Exchange</link> or another receiving email protocol.</p>
+          <p>This network protocol is used for transmitting your messages to an email server on Internet. 
+             Use this option if you have configured <link xref="imap-sending">IMAP</link>, <link xref="pop-sending">POP</link>, 
+             <link xref="exchange-sending">Exchange</link> or another receiving email protocol.</p>
+
        </item>
        <item>
           <p>Sendmail</p>
-  	  <p>Use this option, if your company allows you to use it.</p>
+  	  <p>Use this option, if you know how to configure your own server mail and if your company allows you to use it.</p>
        </item>
     </list>
   </section>

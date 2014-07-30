@@ -3,7 +3,7 @@
       type="topic" id="add-account">
 
   <info>
-    <desc>Add, edit or remove an account.</desc>
+    <desc>Add, edit or remove an email account.</desc>
 
     <link type="guide" xref="mail" group="#adding-account"/>
 
@@ -21,7 +21,7 @@
 
   </info>
 
-<title>Manage an account</title>
+<title>Account management</title>
 <p> Add an account.</p>
 
 
