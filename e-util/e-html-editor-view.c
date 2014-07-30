@@ -5746,11 +5746,26 @@ process_elements (EHTMLEditorView *view,
 
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)) {
 			if (to_plain_text) {
+				if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-wrap-br")) {
+					g_string_append (buffer, changing_mode ? "<br>" : "\n");
+					goto next;
+				}
+
 				/* Insert new line when we hit the BR element that is
 				 * not the last element in the block */
 				if (!webkit_dom_node_is_same_node (
 					child, webkit_dom_node_get_last_child (node))) {
 					g_string_append (buffer, changing_mode ? "<br>" : "\n");
+				} else {
+					/* In citations in the empty lines the BR element
+					 * is on the end and we have to put NL there */
+					WebKitDOMNode *parent;
+
+					parent = webkit_dom_node_get_parent_node (child);
+					parent = webkit_dom_node_get_parent_node (parent);
+
+					if (is_citation_node (parent))
+						g_string_append (buffer, changing_mode ? "<br>" : "\n");
 				}
 			}
 		}
