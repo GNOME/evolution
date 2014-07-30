@@ -17,9 +17,10 @@
   </info>
 
   <title>Evolution Account Assistant</title>
-
-  <p>The assistant helps you configure your account. You need to add the following settings.</p>
-
+  <p>The first time you run <app>Evolution</app>, it opens the first-run assistant.
+     This assistant helps you to set up your email account and import data from other applications.
+     Follow the instructions in each window, accepting the default or recommended setting for each choice: 
+  </p>
   <section id="welcome">
   <title>Welcome</title>
 	<p>Click <gui>Continue</gui> to pass the welcome message of the assistant.</p>
@@ -34,7 +35,7 @@
   <title>Identity</title>
 	<p>Enter your name and email address to identify yourself, then click on <gui>Continue</gui>.</p>
         <note>
-           <p>Optinally, register another email account on <gui>Reply-To</gui> if you want to copy all the messages you send to another account.</p> 
+           <p>Optionally, register another email account on <gui>Reply-To</gui> if you want to copy all the messages you send to another account.</p> 
            <p>The name of the organization you belong is also optional. It will appear the moment somebody import you as his/her contact.</p>    
         </note>  
 </section>

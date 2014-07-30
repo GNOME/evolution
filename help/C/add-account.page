@@ -8,7 +8,8 @@
     <link type="guide" xref="mail" group="#adding-account"/>
 
     <revision pkgversion="3.10.2" version="0.5" date="2014-02-03" status="review"/>      
-    
+    <revision pkgversion="3.10.2" version="0.6" date="2014-08-30" status="review"/>
+
     <credit type="author">
       <name its:translate="no">Julita Inca</name>
       <email its:translate="no">yrazes@gmail.com</email>
@@ -20,7 +21,7 @@
 
   </info>
 
-<title>Add an account</title>
+<title>Manage an account</title>
 <p> Add an account.</p>
 
 
