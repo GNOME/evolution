@@ -3,13 +3,14 @@
       type="topic" id="intro">
 
   <info>
-    <desc>Keep your personal information such as your emails and shedule in one place.</desc>
+    <desc>Keep your personal information such as your emails and schedule in one place.</desc>
 
     <link type="guide" xref="index" group="#first"/>
 
     <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="draft"/>
-    <revision pkgversion="3.10.2" version="0.5" date="2014-02-12" status="review"/>      
-    
+    <revision pkgversion="3.10.3" version="0.5" date="2014-02-12" status="review"/>      
+    <revision pkgversion="3.10.3" version="0.6" date="2014-07-30" status="review"/>
+
     <credit type="author">
       <name its:translate="no">Brian Grohe</name>
       <email its:translate="no">grohe43@gmail.com</email>
@@ -33,10 +34,19 @@
 
 <title>Introduction to Evolution</title>
 
-<p><app>Evolution</app> is a personal information management application that combines email client funcionalities with agenda, address book, to-do list and notes in one place.</p>
+<p><app>Evolution</app> is a personal information management application that combines email client 
+features with calendar, address book, to-do list and notes, in one place.</p>
 
-<p>By default <app>Evolution</app> opens the <gui>Mail</gui> view ready to <link xref="check-mail">check your mail</link> (if not, use the <link xref="assistant">assistant</link>). You need to swith to the <gui>Calendar</gui> view to <link xref="conf-appointment">make an appointment</link>, to the <gui>Contact</gui> view to <link xref="add-contact">save your contact</link>, to the <gui>Task</gui> view to <link xref="add-memo">plan a to-do list</link>, and to the <gui>Memo</gui> view to <link xref="add-memo">add a task</link>.</p>
+<p>By default, <app>Evolution</app> opens the <gui>Mail</gui> view where you can <link xref="check-mail">check your mail</link>. If your mail is not there, you can use the <link xref="assistant">assistant</link> to configure it. 
+You can switch to the <gui>Calendar</gui> view to <link xref="conf-appointment">make an appointment</link>, 
+or to the <gui>Contact</gui> view to <link xref="add-contact">save your contacts</link>, 
+or to the <gui>Task</gui> view to <link xref="add-memo">plan a to-do list</link>,
+or to the <gui>Memo</gui> view to <link xref="add-memo">add a task</link>.</p>
 
-<note style="advanced"><p>When Evolution starts, it remembers the last view that you used. You can click on the specific view to start to work. </p><p>These <gui>Views</gui> are placed in the bottom left of the Window.</p></note>
+<note style="advanced">
+ <p>When Evolution starts, it remembers the last view that you used. 
+    You can click on the specific view to start to work. </p>
+ <p>These views are placed in the bottom of the left in the window (the so-called "switcher").</p>
+</note>
 
 </page>
