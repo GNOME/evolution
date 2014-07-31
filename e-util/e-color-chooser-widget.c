@@ -240,8 +240,10 @@ e_color_chooser_widget_init (EColorChooserWidget *widget)
 	if (swatch) {
 		GtkWidgetClass *swatch_class;
 		swatch_class = GTK_WIDGET_GET_CLASS (swatch);
-		origin_swatch_button_press_event = swatch_class->button_press_event;
-		swatch_class->button_press_event = color_chooser_widget_button_press_event;
+		if (swatch_class->button_press_event != color_chooser_widget_button_press_event) {
+			origin_swatch_button_press_event = swatch_class->button_press_event;
+			swatch_class->button_press_event = color_chooser_widget_button_press_event;
+		}
 	}
 
 	g_signal_connect (
