@@ -12,7 +12,7 @@
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
-    <desc>Know more about the receiveing mail options of Evolution.</desc>
+    <desc>Know more about the receiving mail options of Evolution.</desc>
   </info>
   
   <title>IMAP+</title>
@@ -22,11 +22,11 @@
           <p>Server</p>   
           <p>Type the name server of the email service you use. E.g.:<gui>imap.gmail.com</gui>, if you use Gmail;
              or you can type <gui>imap.mail.yahoo.com</gui>, in case you use Yahoo. </p> 
-          <note>
-             <p>You can either user the port 143 or 993 depeding on the <gui>security</gui> option you use for encryption.</p>
-          </note>
         </item>
-
+        <item>
+          <p>Port</p>
+             <p>You can either use the port 143 or 993 depending on the <gui>security</gui> option you use for encryption.</p>
+        </item>
         <item>
           <p>Username</p>
           <p>Enter your email account. E.g.:username@gmail.com or username2@yahoo.com.</p>
@@ -41,25 +41,30 @@
          <p>There are two ways to establish an encrypted network connection to provide communication security over Internet:</p>
              <item>
                  <p>STARTTLS after connecting</p>
-                 <p>Accept connections on a port which is initially encrypted. The STARTTLS negotiation takes place a part of the initial connection 
-                    before an interactive session is established. No explicit command is required to secure the connection, use the port 993 for this.</p>                 </item>
+                 <p>Accept connections on a port which is initially encrypted. The STARTTLS negotiation takes place a part 
+                    of the initial connection before an interactive session is established. 
+                    No explicit command is required to secure the connection, use the port 993 for this.
+                 </p>                 
+             </item>
              <item>
                  <p>SSL on a dedicated port</p>
-                 <p>Connect to the IMAP server's standard port (port 143) to establish an interactive session with the server, then issue a STARTTLS command.
-                    This performs a negotiation with the IMAP server that, in effect, wrappers the unsecured connection with an encryption layer. 
-                    Once the connection is encrypted, it is safe to authenticate the user with a mechanism as simple as a plain-text password. </p>
+                 <p>Connect to the IMAP server's standard port (port 143) to establish an interactive session with the server,
+                    then issue a STARTTLS command. This performs a negotiation with the IMAP server that, in effect, wrappers
+                    the unsecured connection with an encryption layer. Once the connection is encrypted, it is safe to
+                    authenticate the user with a mechanism as simple as a plain-text password. </p>
              </item>
    </list>
    <list>
       <title>Authentication</title>
        <item>
          <p>Password</p>
-         <p> If the network connection is already secured at the transport layer, then simple plain-text password authentication 
-             should be sufficient for most users.</p>
+         <p> If the network connection is already secured at the transport layer, then simple plain-text password 
+             authentication should be sufficient for most users.</p>
        </item>
        <item>
           <p>GSSAPI</p>
-          <p>As corporate worker may have already obteined a valid Kerberos token to access internal company resources as email.</p>
+          <p>As corporate worker may have already obtained a valid Kerberos token to access internal company resources 
+             as email.</p>
        </item>
        <item>
           <p>DIGEST-MD5</p>
@@ -71,9 +76,11 @@
        </item>
    </list>
 
+<p>Click on <gui>Continue</gui> to configure <link xref="receiving-option">Receiving Options</link>.</p>
+
   <note style="important">
-   <p>When you finished to configure the <gui>Receiving Email</gui> part, you can <gui>Go Back</gui> to choose another protocol to receive email or you can 
-      <gui>Continue</gui>. If you selected <gui>Continue</gui> you will be able to configure <link xref="receiving-option">Receiving Options</link>.</p>
+      <p>You can change the protocol during the configuration in the <gui>Receiving Email</gui> part, 
+      by clicking <gui>Go Back</gui>.</p>
   </note> 
 
 

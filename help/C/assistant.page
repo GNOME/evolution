@@ -28,16 +28,16 @@
 
   <section id="restore-backup">
   <title>Restore from a backup file</title>
-	<p>Select your <gui>backup</gui>, in case you have a file to restore mailbox from previous version, then click on <gui>Continue</gui>.
-           If you do not have a backup, click on <gui>Continue</gui>.</p>
+	<p>Check <gui>Restore from a backup file</gui>, in case you have a file to restore mailbox from previous version, 
+           then click on <gui>Continue</gui>. If you do not have a backup, click on <gui>Continue</gui>.</p>
   </section>
 
 <section id="identity">
   <title>Identity</title>
 	<p>Enter your name and email address to identify yourself, then click on <gui>Continue</gui>.</p>
         <note>
-           <p>Optionally, register another email account on <gui>Reply-To</gui> if you want to copy all the messages you send.</p> 
-           <p>The name of the organization you belong is also optional. It will appear when somebody import you as his/her contact.</p>    
+           <p>Optionally, register another email account on <gui>Reply-To</gui> if you want to send a copy of all the messages you send.</p> 
+           <p>Also you can enter the name of your organization. This lets you to group easily in the contact list.</p>    
         </note>  
 </section>
     
@@ -79,7 +79,7 @@
    <table frame="all">
      <tr>
       <td>  
-          <p>Please see the rest of the options for receiving email <link xref="assistant-more">here</link>.</p>
+          <p>See other options for receiving email, <link xref="assistant-more">here</link>.</p>
       </td>
      </tr> 
    </table>
@@ -108,15 +108,14 @@
 <section id="account-summary">
   <title>Account Summary</title>
         <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
-     <p>Optinally, you can hiddenly copy all the messages you send to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>
+     <p>Optionally, you can send a copy of all your messages secretly to your another account.</p> 
+     <p>You can also register the name of the organization you belong. 
+        It will appear the moment somebody import you as his/her contact.</p>
   </section>
 
 <section id="done">
   <title>Done</title>
-        <p>Enter your name and email to identify yourself, then click on <gui>Continue</gui>.</p>
-     <p>Optinally, you can hiddenly copy all the messages you send to another account. You can also register the name of the organization you belong. It will appear the moment somebody import you as his/her contact.</p>
-  </section>
-
-
+        <p>You get a message for completing the configuration successfully.</p>
+</section>
 
 </page>
