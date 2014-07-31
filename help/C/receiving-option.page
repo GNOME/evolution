@@ -19,28 +19,28 @@
     <list>
         <item>
            <p>Checking for New Mail</p>
-              <p><gui>Check for new messages every</gui>, lets you set up how many minutes your messages can be refreshed.</p> 
-              <p><gui>Check for new messages in all folders</gui>.</p>
-              <p><gui>Check for new messages in subscribed folders</gui>.</p>
-              <p><gui>Use Quick Resync if the server supports it</gui>.</p>
-              <p><gui>Listen for server change notifications</gui>.</p>
+              <p><gui>Check for new messages every</gui> to set up how many minutes your messages can be refreshed.</p> 
+              <p><gui>Check for new messages in all folders</gui> to alert you if new message arrives in any folder you have.</p>
+              <p><gui>Check for new messages in subscribed folders</gui> to subscribe folders on the IMAP server before you can view them.</p>
+              <p><gui>Use Quick Resync if the server supports it</gui> to support <gui>IMAP4 Extensions for Quick Mailbox Resynchronization</gui>.</p>
+              <p><gui>Listen for server change notifications</gui> to configure your <gui>EWS</gui> account and refresh all the folders periodically.</p>
         </item>
         <item>
             <p>Folders</p>
-            <p>Show only subscribed folders.</p>
+            <p><gui>Show only subscribed folders</gui> to make messages visible stored in subscribed folders.</p>
         </item>
         <item>
             <p>Options</p>
-            <p>Apply filters to new messages in all folders. Apply filters to new messages in Inbox on this server.</p>
-            <p>Check new messages for Junk contents. Only check for Junk messages in the INBOX folder.</p>
-            <p>Automatically synchronize remote mail locally.</p>
+            <p><gui>Apply filters to new messages in all folders</gui> to activate filtering action in messages directly in remote servers. There is also a partial configuration as <gui>Apply filters to new messages in Inbox on this server</gui> to activate filtering for incoming messages.</p>
+
+            <p><gui>Check new messages for Junk contents</gui> to move to the <gui>Junk folder</gui> unwanted junk or spam emails. You can also check <gui>Only check for Junk messages in the INBOX folder</gui> if you only want to scan junk messages from your Inbox.</p>
+            <p><gui>Automatically synchronize remote mail locally</gui>. to activate synchronization between local and remote server.</p>
         </item>
     </list>
 
+  <p>Click <gui>Continue</gui> you will be able to configure <link xref="imap-sending">Sending Email</link>.</p>
   <note style="important">
-   <p>When you finished to configure the <gui>Receiving Email options</gui> part, you can <gui>Go Back</gui> 
-      to change any option of the IMAP protocol to receive an email or you can <gui>Continue</gui>. 
-      If you selected <gui>Continue</gui> you will be able to configure <link xref="imap-sending">Sending Email</link>.</p>
+   <p>You can edit the configuration of <gui>Receiving Email IMAP options</gui> by clicking <gui>Go Back</gui>.</p>
   </note>
 
 </page>
