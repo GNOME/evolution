@@ -53,6 +53,8 @@ G_DEFINE_TYPE (
 	e_color_chooser_widget,
 	GTK_TYPE_COLOR_CHOOSER_WIDGET);
 
+static gboolean (* origin_swatch_button_press_event) (GtkWidget *widget, GdkEventButton *event);
+
 /* UGLY UGLY UGLY!
  * GtkColorChooserWidget sends "color-activated" signal
  * only when user double-clicks the color. This is totally stupid
@@ -71,15 +73,23 @@ static gboolean
 color_chooser_widget_button_press_event (GtkWidget *widget,
                                          GdkEventButton *event)
 {
-	if ((event->type == GDK_BUTTON_PRESS) &&
-	    (event->button == GDK_BUTTON_PRIMARY)) {
+	GtkWidget *parent;
 
+	g_return_val_if_fail (origin_swatch_button_press_event != NULL, FALSE);
+
+	/* Override the behaviour only for GtkColorSwatch which is part of the EColorChooserWidget */
+	parent = widget;
+	while (parent && !E_IS_COLOR_CHOOSER_WIDGET (parent))
+		parent = gtk_widget_get_parent (parent);
+
+	if (parent &&
+	    event->type == GDK_BUTTON_PRESS &&
+	    event->button == GDK_BUTTON_PRIMARY) {
 		g_signal_emit_by_name (widget, "activate");
-
 		return TRUE;
 	}
 
-	return FALSE;
+	return origin_swatch_button_press_event (widget, event);
 }
 
 static void
@@ -230,6 +240,7 @@ e_color_chooser_widget_init (EColorChooserWidget *widget)
 	if (swatch) {
 		GtkWidgetClass *swatch_class;
 		swatch_class = GTK_WIDGET_GET_CLASS (swatch);
+		origin_swatch_button_press_event = swatch_class->button_press_event;
 		swatch_class->button_press_event = color_chooser_widget_button_press_event;
 	}
 
