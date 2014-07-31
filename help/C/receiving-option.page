@@ -12,18 +12,18 @@
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
-    <desc>Know more about the receiveing mail IMAP options of Evolution.</desc>
+    <desc>Know more about the receiving mail IMAP options of Evolution.</desc>
   </info>
 
   <title>Receiving Option for IMAP+</title>
     <list>
         <item>
            <p>Checking for New Mail</p>
-              <p>Check for new messages every <gui>X</gui> minutes, where <gui>X</gui> is the quantity of minutes you set to check your messages.</p> 
-              <p>Check for new messages in all forlders.</p>
-              <p>Check for new messages in suscribed folders.</p>
-              <p>Use Quick Resync if the server supports it.</p>
-              <p>Listen for server change notifications.</p>
+              <p><gui>Check for new messages every</gui>, lets you set up how many minutes your messages can be refreshed.</p> 
+              <p><gui>Check for new messages in all folders</gui>.</p>
+              <p><gui>Check for new messages in subscribed folders</gui>.</p>
+              <p><gui>Use Quick Resync if the server supports it</gui>.</p>
+              <p><gui>Listen for server change notifications</gui>.</p>
         </item>
         <item>
             <p>Folders</p>
@@ -38,8 +38,9 @@
     </list>
 
   <note style="important">
-   <p>When you finished to configure the <gui>Receiving Email options</gui> part, you can <gui>Go Back</gui> to change any option of the IMAP protocol 
-      to receive an email or you can <gui>Continue</gui>. If you selected <gui>Continue</gui> you will be able to configure <link xref="imap-sending">Sending Email</link>.</p>
+   <p>When you finished to configure the <gui>Receiving Email options</gui> part, you can <gui>Go Back</gui> 
+      to change any option of the IMAP protocol to receive an email or you can <gui>Continue</gui>. 
+      If you selected <gui>Continue</gui> you will be able to configure <link xref="imap-sending">Sending Email</link>.</p>
   </note>
 
 </page>
