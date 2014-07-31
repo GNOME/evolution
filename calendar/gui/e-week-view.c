@@ -3294,6 +3294,28 @@ tooltip_destroy (EWeekView *week_view,
 }
 
 static gboolean
+e_week_view_handle_tooltip_timeout (gpointer user_data)
+{
+	ECalendarViewEventData *data = user_data;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	return e_calendar_view_get_tooltips (data);
+}
+
+static void
+e_week_view_destroy_tooltip_timeout_data (gpointer ptr)
+{
+	ECalendarViewEventData *data = ptr;
+
+	if (data) {
+		g_object_set_data ((GObject *) data->cal_view, "tooltip-timeout", NULL);
+		g_object_unref (data->cal_view);
+		g_free (data);
+	}
+}
+
+static gboolean
 tooltip_event_cb (GnomeCanvasItem *item,
                   GdkEvent *event,
                   EWeekView *view)
@@ -3315,14 +3337,14 @@ tooltip_event_cb (GnomeCanvasItem *item,
 			pevent->y = ((GdkEventCrossing *) event)->y_root;
 			pevent->tooltip = NULL;
 
-			data->cal_view = (ECalendarView *) view;
+			data->cal_view = g_object_ref (view);
 			data->day = -1;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 			pevent->timeout = e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, 500,
-				(GSourceFunc) e_calendar_view_get_tooltips,
-				data, (GDestroyNotify) g_free);
+				e_week_view_handle_tooltip_timeout,
+				data, e_week_view_destroy_tooltip_timeout_data);
 			g_object_set_data ((GObject *) view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
 			return TRUE;
@@ -3992,14 +4014,14 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		pevent->y = (gint) event_y_root;
 		pevent->tooltip = NULL;
 
-		data->cal_view = (ECalendarView *) week_view;
+		data->cal_view = g_object_ref (week_view);
 		data->day = -1;
 		data->event_num = nevent;
 		data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
 		pevent->timeout = e_named_timeout_add_full (
 			G_PRIORITY_DEFAULT, 500,
-			(GSourceFunc) e_calendar_view_get_tooltips,
-			data, (GDestroyNotify) g_free);
+			e_week_view_handle_tooltip_timeout,
+			data, e_week_view_destroy_tooltip_timeout_data);
 		g_object_set_data ((GObject *) week_view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
 		return TRUE;
