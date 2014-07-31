@@ -1715,6 +1715,9 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 
+	if (targets == NULL || n_targets < 0)
+		return;
+
 	/* Order is important here to ensure common use cases are
 	 * handled correctly.  See GNOME bug #603715 for details. */
 
