@@ -5880,10 +5880,12 @@ process_elements (EHTMLEditorView *view,
 					WebKitDOMNode *parent;
 
 					parent = webkit_dom_node_get_parent_node (child);
-					parent = webkit_dom_node_get_parent_node (parent);
+					if (webkit_dom_node_get_next_sibling (parent)) {
+						parent = webkit_dom_node_get_parent_node (parent);
 
-					if (is_citation_node (parent))
-						g_string_append (buffer, changing_mode ? "<br>" : "\n");
+						if (is_citation_node (parent))
+							g_string_append (buffer, changing_mode ? "<br>" : "\n");
+					}
 				}
 			}
 		}
