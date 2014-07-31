@@ -1116,17 +1116,19 @@ composer_build_message (EMsgComposer *composer,
 	context->session = e_msg_composer_ref_session (composer);
 	context->from = e_msg_composer_get_from (composer);
 
-	if (flags & COMPOSER_FLAG_PGP_SIGN)
-		context->pgp_sign = TRUE;
+	if (!(flags & COMPOSER_FLAG_SAVE_DRAFT)) {
+		if (flags & COMPOSER_FLAG_PGP_SIGN)
+			context->pgp_sign = TRUE;
 
-	if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
-		context->pgp_encrypt = TRUE;
+		if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
+			context->pgp_encrypt = TRUE;
 
-	if (flags & COMPOSER_FLAG_SMIME_SIGN)
-		context->smime_sign = TRUE;
+		if (flags & COMPOSER_FLAG_SMIME_SIGN)
+			context->smime_sign = TRUE;
 
-	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
-		context->smime_encrypt = TRUE;
+		if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
+			context->smime_encrypt = TRUE;
+	}
 
 	context->need_thread =
 		context->pgp_sign || context->pgp_encrypt ||
