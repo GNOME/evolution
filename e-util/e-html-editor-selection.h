@@ -161,6 +161,8 @@ void		e_html_editor_selection_unlink	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_create_link
 						(EHTMLEditorSelection *selection,
 						 const gchar *uri);
+gboolean	e_html_editor_selection_is_collapsed
+						(EHTMLEditorSelection *selection);
 const gchar *	e_html_editor_selection_get_string
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_replace	(EHTMLEditorSelection *selection,

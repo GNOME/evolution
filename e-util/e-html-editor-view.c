@@ -2482,7 +2482,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 		/* BackSpace pressed in the beginning of quoted content changes
 		 * format to normal and inserts text into body */
-		if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+		if (e_html_editor_selection_is_collapsed (selection)) {
 			e_html_editor_selection_save (selection);
 			if (change_quoted_block_to_normal (view)) {
 				e_html_editor_selection_restore (selection);
@@ -4337,7 +4337,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 
 	g_free (inner_html);
 
-	has_selection = g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0;
+	has_selection = !e_html_editor_selection_is_collapsed (selection);
 
 	range = html_editor_view_get_dom_range (view);
 	node = webkit_dom_range_get_end_container (range, NULL);

@@ -985,6 +985,28 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 }
 
 /**
+ * e_html_editor_selection_is_collapsed:
+ * @selection: an #EHTMLEditorSelection
+ *
+ * Returns if selection is collapsed.
+ *
+ * Returns: Whether the selection is collapsed (just caret) or not (someting is selected).
+ */
+gboolean
+e_html_editor_selection_is_collapsed (EHTMLEditorSelection *selection)
+{
+	WebKitDOMRange *range;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), TRUE);
+
+	range = html_editor_selection_get_current_range (selection);
+	if (!range)
+		return TRUE;
+
+	return webkit_dom_range_get_collapsed (range, NULL);
+}
+
+/**
  * e_html_editor_selection_get_string:
  * @selection: an #EHTMLEditorSelection
  *
@@ -2288,7 +2310,7 @@ e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
 	gchar *color;
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+	if (e_html_editor_selection_is_collapsed (selection)) {
 		color = g_strdup (selection->priv->font_color);
 	} else {
 		color = get_font_property (selection, "color");
@@ -2559,7 +2581,7 @@ e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 	if (!range)
 		return FALSE;
 
-	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+	if (e_html_editor_selection_is_collapsed (selection)) {
 		element = get_element_for_inspection (range);
 		return element_has_class (element, "-x-evo-indented");
 	} else {
@@ -3539,7 +3561,7 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 			monospace, "size", font_size_str, NULL);
 		g_free (font_size_str);
 
-		if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0) {
+		if (!e_html_editor_selection_is_collapsed (selection)) {
 			gchar *html, *outer_html;
 
 			webkit_dom_node_append_child (
@@ -3603,7 +3625,7 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 		if (font_size == 0)
 			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
-		if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") != 0) {
+		if (!e_html_editor_selection_is_collapsed (selection)) {
 			gchar *html, *outer_html, *inner_html, *beginning, *end;
 			gchar *start_position, *end_position, *font_size_str;
 			WebKitDOMElement *wrapper;
@@ -5500,7 +5522,7 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 	g_object_unref (view);
 
 	caret = e_html_editor_selection_save_caret_position (selection);
-	if (g_strcmp0 (e_html_editor_selection_get_string (selection), "") == 0) {
+	if (e_html_editor_selection_is_collapsed (selection)) {
 		WebKitDOMNode *end_container;
 		WebKitDOMNode *parent;
 		WebKitDOMNode *paragraph;
