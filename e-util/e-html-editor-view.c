@@ -4309,6 +4309,31 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 }
 
 static void
+fix_structure_after_pasting_multiline_content (WebKitDOMNode *node)
+{
+	WebKitDOMNode *first_child, *parent;
+
+	/* When pasting content that does not contain just the
+	 * one line text WebKit inserts all the content after the
+	 * first line into one element. So we have to take it out
+	 * of this element and insert it after that element. */
+	parent = webkit_dom_node_get_parent_node (node);
+	first_child = webkit_dom_node_get_first_child (parent);
+	while (first_child) {
+		WebKitDOMNode *next_child =
+			webkit_dom_node_get_next_sibling  (first_child);
+		if (webkit_dom_node_has_child_nodes (first_child))
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				first_child,
+				parent,
+				NULL);
+		first_child = next_child;
+	}
+	remove_node (parent);
+}
+
+static void
 html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
                                                        WebKitDOMDocument *document_convertor)
 {
@@ -4586,28 +4611,8 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			node = parent;
 		} else {
 			node = webkit_dom_node_get_next_sibling (parent);
-			if (!node) {
-				WebKitDOMNode *first_child, *tmp;
-
-				/* When pasting content that does not contain just the
-				 * one line text WebKit inserts all the content after the
-				 * first line into one element. So we have to take it out
-				 * of this element and insert it after that element. */
-				tmp = webkit_dom_node_get_parent_node (parent);
-				first_child = webkit_dom_node_get_first_child (tmp);
-				while (first_child) {
-					WebKitDOMNode *next_child =
-						webkit_dom_node_get_next_sibling  (first_child);
-					if (webkit_dom_node_has_child_nodes (first_child))
-						webkit_dom_node_insert_before (
-							webkit_dom_node_get_parent_node (tmp),
-							first_child,
-							tmp,
-							NULL);
-					first_child = next_child;
-				}
-				remove_node (tmp);
-			}
+			if (!node)
+				fix_structure_after_pasting_multiline_content (parent);
 		}
 
 		if (node) {
@@ -4637,11 +4642,20 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		 * restores the selection wrongly, thus is saved wrongly and we have
 		 * to fix it */
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMNode *paragraph, *parent;
 
 		selection_start_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 		selection_end_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
+
+		paragraph = webkit_dom_node_get_parent_node (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		parent = webkit_dom_node_get_parent_node (paragraph);
+		if (element_has_class (WEBKIT_DOM_ELEMENT (paragraph), "-x-evo-paragraph") &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph"))
+			fix_structure_after_pasting_multiline_content (paragraph);
+
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (
 				WEBKIT_DOM_NODE (selection_start_marker)),
