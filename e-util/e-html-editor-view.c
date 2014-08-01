@@ -6441,15 +6441,17 @@ static gchar *
 process_content_for_html (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMNode *body;
-	WebKitDOMElement *element;
+	WebKitDOMNode *body, *document_clone;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
+	document_clone = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
+	body = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "body", NULL));
 	process_elements (view, body, TRUE, FALSE, FALSE, NULL);
-	element = webkit_dom_document_get_document_element (document);
+
 	return webkit_dom_html_element_get_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+		WEBKIT_DOM_HTML_ELEMENT (document_clone));
 }
 
 static gboolean
