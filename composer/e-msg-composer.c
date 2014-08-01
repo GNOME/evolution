@@ -2331,6 +2331,8 @@ msg_composer_dispose (GObject *object)
 		shell, msg_composer_quit_requested_cb, composer);
 	g_signal_handlers_disconnect_by_func (
 		shell, msg_composer_prepare_for_quit_cb, composer);
+	g_signal_handlers_disconnect_by_func (
+		composer, msg_composer_notify_header_cb, NULL);
 
 	e_composer_private_dispose (composer);
 
