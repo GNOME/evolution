@@ -44,6 +44,7 @@
 
 #define SPACES_PER_INDENTATION 4
 #define SPACES_PER_LIST_LEVEL 8
+#define MINIMAL_PARAGRAPH_WIDTH 5
 
 /**
  * EHTMLEditorSelection
@@ -2841,7 +2842,8 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
 
 			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-			if (final_width < 10 && !is_in_html_mode (selection)) {
+			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
+			    !is_in_html_mode (selection)) {
 				if (!after_selection_end) {
 					block = next_block;
 					continue;
@@ -2875,7 +2877,8 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 				WEBKIT_DOM_ELEMENT (block_to_process));
 
 			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-			if (final_width < 10 && !is_in_html_mode (selection))
+			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
+			    !is_in_html_mode (selection))
 				continue;
 
 			indent_block (selection, document, block_to_process, final_width);
@@ -5668,7 +5671,7 @@ e_html_editor_selection_wrap_paragraph_length (EHTMLEditorSelection *selection,
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
-	g_return_val_if_fail (length > 10, NULL);
+	g_return_val_if_fail (length >= MINIMAL_PARAGRAPH_WIDTH, NULL);
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (paragraph));
 
