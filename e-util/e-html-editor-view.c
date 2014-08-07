@@ -6344,7 +6344,8 @@ static gchar *
 process_content_for_plain_text (EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
-	gboolean converted, wrap = FALSE, quote = FALSE, clean = FALSE;
+	gboolean wrap = FALSE, quote = FALSE, clean = FALSE;
+	gboolean converted, is_from_new_message;
 	gint length, ii;
 	GString *plain_text;
 	WebKitDOMDocument *document;
@@ -6357,13 +6358,15 @@ process_content_for_plain_text (EHTMLEditorView *view)
 	body = WEBKIT_DOM_NODE (webkit_dom_document_get_body (document));
 	converted = webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted");
+	is_from_new_message = webkit_dom_element_has_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-new-message");
 	source = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), TRUE);
 
 	selection = e_html_editor_view_get_selection (view);
 
 	/* If composer is in HTML mode we have to move the content to plain version */
 	if (view->priv->html_mode) {
-		if (converted) {
+		if (converted || is_from_new_message) {
 			toggle_paragraphs_style_in_element (
 				view, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
@@ -6395,8 +6398,8 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 				paragraph = webkit_dom_node_list_item (paragraphs, ii);
 
-				webkit_dom_element_set_id (
-					WEBKIT_DOM_ELEMENT (paragraph), "");
+				webkit_dom_element_remove_attribute (
+					WEBKIT_DOM_ELEMENT (paragraph), "id");
 			}
 			g_object_unref (paragraphs);
 
