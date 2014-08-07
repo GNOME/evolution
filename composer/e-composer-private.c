@@ -1004,6 +1004,9 @@ composer_move_caret (EMsgComposer *composer)
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, new_range);
 
+	g_object_unref (list);
+	g_object_unref (blockquotes);
+
 	e_html_editor_selection_unblock_selection_changed (editor_selection);
 }
 

@@ -917,6 +917,8 @@ e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 		}
 	}
 
+	g_object_unref (node);
+
 	return FALSE;
 }
 
@@ -1272,6 +1274,7 @@ format_change_list_from_list (EHTMLEditorSelection *selection,
 		}
 
 		if (webkit_dom_node_contains (item, WEBKIT_DOM_NODE (selection_end_marker))) {
+			g_object_unref (source_list_clone);
 			source_list_clone = webkit_dom_node_clone_node (current_list, FALSE);
 			after_selection_end = TRUE;
 		}
@@ -1659,6 +1662,8 @@ remove_wrapping_from_element (WebKitDOMElement *element)
 		remove_node (webkit_dom_node_list_item (list, ii));
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
+
+	g_object_unref (list);
 }
 
 void
@@ -1672,6 +1677,7 @@ remove_quoting_from_element (WebKitDOMElement *element)
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++)
 		remove_node (webkit_dom_node_list_item (list, ii));
+	g_object_unref (list);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "span.-x-evo-temp-text-wrapper", NULL);
@@ -1689,12 +1695,14 @@ remove_quoting_from_element (WebKitDOMElement *element)
 
 		remove_node (node);
 	}
+	g_object_unref (list);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-temp-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++)
 		remove_node (webkit_dom_node_list_item (list, ii));
+	g_object_unref (list);
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 }
@@ -2592,14 +2600,18 @@ e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 		fragment = webkit_dom_range_clone_contents (range, NULL);
 
 		if (fragment) {
+			gboolean ret_val = TRUE;
+
 			element = webkit_dom_document_fragment_query_selector (
 				fragment, ".-x-evo-indented", NULL);
 
-			if (element)
-				return TRUE;
+			if (!element) {
+				element = get_element_for_inspection (range);
+				ret_val = element_has_class (element, "-x-evo-indented");
+			}
 
-			element = get_element_for_inspection (range);
-			return element_has_class (element, "-x-evo-indented");
+			g_object_unref (fragment);
+			return ret_val;
 		}
 	}
 
@@ -2861,6 +2873,8 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			if (after_selection_end)
 				goto out;
 		}
+
+		g_object_unref (list);
 
 		block = next_block;
 	}
@@ -3182,6 +3196,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			if (after_selection_end)
 				goto out;
 		}
+		g_object_unref (list);
 		block = next_block;
 	}
  out:
@@ -3563,12 +3578,13 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 
 		if (!e_html_editor_selection_is_collapsed (selection)) {
 			gchar *html, *outer_html;
+			WebKitDOMNode *range_clone;
+
+			range_clone = WEBKIT_DOM_NODE (
+				webkit_dom_range_clone_contents (range, NULL));
 
 			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (monospace),
-				WEBKIT_DOM_NODE (
-					webkit_dom_range_clone_contents (range, NULL)),
-				NULL);
+				WEBKIT_DOM_NODE (monospace), range_clone, NULL);
 
 			outer_html = webkit_dom_html_element_get_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (monospace));
@@ -5032,6 +5048,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 		/* And remove them */
 		for (ii = 0; ii < br_count; ii++)
 			remove_node (webkit_dom_node_list_item (wrap_br, ii));
+		g_object_unref (wrap_br);
 	} else {
 		if (!webkit_dom_node_has_child_nodes (paragraph))
 			return WEBKIT_DOM_ELEMENT (paragraph);
@@ -5687,6 +5704,7 @@ e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selec
 				selection->priv->word_wrap_length - quote);
 		}
 	}
+	g_object_unref (list);
 }
 
 WebKitDOMElement *

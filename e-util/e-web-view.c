@@ -2536,6 +2536,7 @@ web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 		if (text != NULL)
 			return text;
 	}
+	g_object_unref (frames);
 
 	return NULL;
 }
@@ -2568,6 +2569,7 @@ e_web_view_get_selection_html (EWebView *web_view)
 		if (text != NULL)
 			return text;
 	}
+	g_object_unref (frames);
 
 	return NULL;
 }
@@ -3368,6 +3370,7 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 			selector,
 			style);
 	}
+	g_object_unref (frames);
 }
 
 /**

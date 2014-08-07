@@ -80,6 +80,7 @@ replace_local_image_links (WebKitDOMDocument *document)
 		g_free (new_src);
 		g_free (src);
 	}
+	g_object_unref (list);
 
 	list = webkit_dom_document_get_elements_by_tag_name ( document, "iframe");
 	length = webkit_dom_node_list_get_length (list);
@@ -96,6 +97,7 @@ replace_local_image_links (WebKitDOMDocument *document)
 		if (content_document && WEBKIT_DOM_IS_DOCUMENT (content_document))
 			replace_local_image_links (content_document);
 	}
+	g_object_unref (list);
 }
 
 static void

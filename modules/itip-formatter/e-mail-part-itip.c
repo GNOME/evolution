@@ -95,6 +95,8 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 		if (length > 0)
 			element = WEBKIT_DOM_ELEMENT (
 				webkit_dom_node_list_item (nodes, 0));
+
+		g_object_unref (nodes);
 	}
 
 	g_return_if_fail (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element));

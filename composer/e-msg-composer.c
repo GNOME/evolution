@@ -3180,6 +3180,8 @@ set_signature_gui (EMsgComposer *composer)
 		g_free (id);
 	}
 
+	g_object_unref (nodes);
+
 	/* The combo box active ID is the signature's ESource UID. */
 	if (uid != NULL) {
 		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
@@ -4972,6 +4974,8 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 		g_byte_array_append (array, (guint8 *) text, strlen (text));
 		g_free (text);
 	}
+
+	g_object_unref (list);
 
 	return array;
 }

@@ -294,6 +294,7 @@ get_caret_position (EHTMLEditorView *view)
 		}
 	}
 
+	g_object_unref (nodes);
 	return webkit_dom_range_get_start_offset (range, NULL) + range_count;
 }
 

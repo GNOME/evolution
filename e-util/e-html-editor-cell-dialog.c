@@ -332,6 +332,8 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 
 	dialog->priv->cell = new_cell;
 
+	g_object_unref (nodes);
+
 	g_free (tagname);
 }
 
