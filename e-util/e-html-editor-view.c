@@ -1206,7 +1206,9 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	if (view->priv->html_mode)
 		change_cid_images_src_to_base64 (view);
 
-	if (!view->priv->inline_spelling)
+	if (view->priv->inline_spelling)
+		e_html_editor_view_force_spell_check (view);
+	else
 		e_html_editor_view_turn_spell_check_off (view);
 }
 
