@@ -5090,8 +5090,12 @@ wrap_lines (EHTMLEditorSelection *selection,
 
 			while (nd) {
 				WebKitDOMNode *next_nd = webkit_dom_node_get_next_sibling (nd);
-				if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (nd))
-					remove_node (nd);
+				if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (nd)) {
+					if (remove_all_br)
+						remove_node (nd);
+					else if (element_has_class (WEBKIT_DOM_ELEMENT (nd), "-x-evo-wrap-br"))
+						remove_node (nd);
+				}
 				nd = next_nd;
 			}
 		}
