@@ -1709,6 +1709,15 @@ remove_quoting_from_element (WebKitDOMElement *element)
 }
 
 static gboolean
+node_is_list_or_item (WebKitDOMNode *node)
+{
+	return node && (
+		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLLI_ELEMENT (node));
+}
+
+static gboolean
 node_is_list (WebKitDOMNode *node)
 {
 	return node && (
@@ -2810,7 +2819,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
 		length = webkit_dom_node_list_get_length (list);
-		if (length == 0 && node_is_list (block)) {
+		if (length == 0 && node_is_list_or_item (block)) {
 			indent_list (selection, document);
 			if (!after_selection_end) {
 				block = next_block;
@@ -3150,7 +3159,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
 		length = webkit_dom_node_list_get_length (list);
-		if (length == 0 && node_is_list (block)) {
+		if (length == 0 && node_is_list_or_item (block)) {
 			unindent_list (selection, document);
 			if (!after_selection_end) {
 				block = next_block;
@@ -5722,9 +5731,7 @@ e_html_editor_selection_wrap_paragraph (EHTMLEditorSelection *selection,
 	indentation_level = get_indentation_level (paragraph);
 	citation_level = get_citation_level (WEBKIT_DOM_NODE (paragraph));
 
-	if (node_is_list (WEBKIT_DOM_NODE (paragraph)) ||
-	    WEBKIT_DOM_IS_HTMLLI_ELEMENT (paragraph)) {
-
+	if (node_is_list_or_item (WEBKIT_DOM_NODE (paragraph))) {
 		gint list_level = get_list_level (WEBKIT_DOM_NODE (paragraph));
 		indentation_level = 0;
 
