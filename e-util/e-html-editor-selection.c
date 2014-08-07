@@ -1375,6 +1375,7 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 	}
 
 	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 
