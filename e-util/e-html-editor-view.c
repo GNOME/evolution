@@ -5275,7 +5275,6 @@ process_list_to_plain_text (EHTMLEditorView *view,
 					}
 					if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node) &&
 					    element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")) {
-						/* put spaces before line characters -> wordwraplength - indentation */
 						g_string_append (line, "\n");
 						/* put spaces before line characters -> wordwraplength - indentation */
 						for (ii = 0; ii < level; ii++)
