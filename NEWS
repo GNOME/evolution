@@ -1,3 +1,23 @@
+Evolution 3.12.5 2014-08-11
+---------------------------
+
+Bug Fixes:
+	Bug 732892 - Scale-down contact images in message preview (Tomas Popela)
+	Bug 733295 - configure.ac: Also check for adwaita-icon-theme (Frédéric Péters)
+	Bug 733917 - Critical warning when hiding the tooltip above the event (Milan Crha)
+
+Miscellaneous:
+	Images in contact preview are not shown with webkitgtk3 2.4.x (Tomas Popela)
+	Add missing chain-up-s to parent's constructed() method (Milan Crha)
+	Always use selected color for selected region in EDayView (Milan Crha)
+	e_day_view_show_popup_menu: Avoid runtime warning from tooltip_get_view_event (Milan Crha)
+	Calendar View: Use smaller icons in the Search bar (Milan Crha)
+	e_mail_folder_uri_build: Encode special characters in folder names (Milan Crha)
+	e_client_cache_get_client: Fix a memory leak (Milan Crha)
+
+Translations:
+	Christian Kirbach (de)
+
 Evolution 3.12.4 2014-07-14
 ---------------------------
 
