@@ -1828,7 +1828,7 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
                               const gchar *value,
                               WebKitDOMDocument *document)
 {
-	gboolean after_selection_end, html_mode;
+	gboolean after_selection_end = FALSE, html_mode;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
 	WebKitDOMNode *block, *next_block;
 
@@ -1873,7 +1873,7 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 	html_mode = e_html_editor_view_get_html_mode (view);
 
 	/* Process all blocks that are in the selection one by one */
-	while (block) {
+	while (block && !after_selection_end) {
 		gboolean quoted = FALSE;
 		gboolean empty = FALSE;
 		gchar *content;
@@ -1938,9 +1938,6 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 
 		if (quoted)
 			e_html_editor_view_quote_plain_text_element (view, element);
-
-		if (after_selection_end)
-			break;
 	}
 
 	e_html_editor_selection_restore (selection);
@@ -1952,7 +1949,7 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
                              EHTMLEditorView *view,
                              WebKitDOMDocument *document)
 {
-	gboolean after_selection_end, in_quote = FALSE;
+	gboolean after_selection_end = FALSE, in_quote = FALSE;
 	gboolean html_mode = e_html_editor_view_get_html_mode (view);
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *item, *list;
 	WebKitDOMNode *block, *next_block;
@@ -2034,7 +2031,7 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 			NULL);
 
 	/* Process all blocks that are in the selection one by one */
-	while (block) {
+	while (block && !after_selection_end) {
 		gboolean empty = FALSE;
 		gchar *content;
 		WebKitDOMNode *child, *parent;
@@ -2089,9 +2086,6 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 		}
 
 		block = next_block;
-
-		if (after_selection_end)
-			break;
 	}
 
 	merge_lists_if_possible (WEBKIT_DOM_NODE (list));
@@ -2753,7 +2747,7 @@ indent_list (EHTMLEditorSelection *selection,
 		webkit_dom_node_insert_before (
 			source_list, WEBKIT_DOM_NODE (list), item, NULL);
 
-		while (item) {
+		while (item && !after_selection_end) {
 			after_selection_end = webkit_dom_node_contains (
 				item, WEBKIT_DOM_NODE (selection_end_marker));
 
@@ -2763,9 +2757,6 @@ indent_list (EHTMLEditorSelection *selection,
 				WEBKIT_DOM_NODE (list), item, NULL);
 
 			item = next_item;
-
-			if (after_selection_end)
-				break;
 		}
 
 		merge_lists_if_possible (WEBKIT_DOM_NODE (list));
@@ -2865,7 +2856,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
-	while (block) {
+	while (block && !after_selection_end) {
 		gint ii, length, level, final_width = 0;
 		gint word_wrap_length = selection->priv->word_wrap_length;
 		WebKitDOMNode *next_block;
@@ -2884,39 +2875,28 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 		length = webkit_dom_node_list_get_length (list);
 		if (length == 0 && node_is_list_or_item (block)) {
 			indent_list (selection, document);
-			if (!after_selection_end) {
-				block = next_block;
-				continue;
-			} else
-				goto out;
+			goto next;
 		}
 
 		if (length == 0) {
 			if (!after_selection_start) {
 				after_selection_start = webkit_dom_node_contains (
 					block, WEBKIT_DOM_NODE (selection_start_marker));
-				if (!after_selection_start) {
-					block = next_block;
-					continue;
-				}
+				if (!after_selection_start)
+					goto next;
 			}
 
 			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
 
 			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-			    !is_in_html_mode (selection)) {
-				if (!after_selection_end) {
-					block = next_block;
-					continue;
-				} else
-					goto out;
-			}
+			    !is_in_html_mode (selection))
+				goto next;
 
 			indent_block (selection, document, block, final_width);
 
 			if (after_selection_end)
-				goto out;
+				goto next;
 		}
 
 		for (ii = 0; ii < length; ii++) {
@@ -2946,14 +2926,16 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			indent_block (selection, document, block_to_process, final_width);
 
 			if (after_selection_end)
-				goto out;
+				break;
 		}
 
+ next:
 		g_object_unref (list);
 
-		block = next_block;
+		if (!after_selection_end)
+			block = next_block;
 	}
- out:
+
 	e_html_editor_selection_restore (selection);
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
@@ -3211,7 +3193,7 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 		block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
-	while (block) {
+	while (block && !after_selection_end) {
 		gint ii, length;
 		WebKitDOMNode *next_block;
 		WebKitDOMNodeList *list;
@@ -3229,27 +3211,21 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 		length = webkit_dom_node_list_get_length (list);
 		if (length == 0 && node_is_list_or_item (block)) {
 			unindent_list (selection, document);
-			if (!after_selection_end) {
-				block = next_block;
-				continue;
-			} else
-				goto out;
+			goto next;
 		}
 
 		if (length == 0) {
 			if (!after_selection_start) {
 				after_selection_start = webkit_dom_node_contains (
 					block, WEBKIT_DOM_NODE (selection_start_marker));
-				if (!after_selection_start) {
-					block = next_block;
-					continue;
-				}
+				if (!after_selection_start)
+					goto next;
 			}
 
 			unindent_block (selection, document, block);
 
 			if (after_selection_end)
-				goto out;
+				goto next;
 		}
 
 		for (ii = 0; ii < length; ii++) {
@@ -3272,12 +3248,13 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			unindent_block (selection, document, block_to_process);
 
 			if (after_selection_end)
-				goto out;
+				break;
 		}
+ next:
 		g_object_unref (list);
 		block = next_block;
 	}
- out:
+
 	e_html_editor_selection_restore (selection);
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
