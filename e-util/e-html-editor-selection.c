@@ -2187,6 +2187,7 @@ out:
 static void
 format_change_list_to_block (EHTMLEditorSelection *selection,
                              EHTMLEditorSelectionBlockFormat format,
+                             const gchar *value,
                              WebKitDOMDocument *document)
 {
 	gboolean after_end = FALSE;
@@ -2221,13 +2222,11 @@ format_change_list_to_block (EHTMLEditorSelection *selection,
 
 		if (!after_end) {
 			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-				element = e_html_editor_selection_get_paragraph_element (selection, document, -1, 0);
-			else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE)
-				element = webkit_dom_document_create_element (document, "PRE", NULL);
-			else if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
-				element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+				element = e_html_editor_selection_get_paragraph_element (
+					selection, document, -1, 0);
 			else
-				element = e_html_editor_selection_get_paragraph_element (selection, document, -1, 0);
+				element = webkit_dom_document_create_element (
+					document, value, NULL);
 
 			after_end = webkit_dom_node_contains (next_item, WEBKIT_DOM_NODE (selection_end));
 
@@ -2360,7 +2359,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 		format_change_block_to_block (selection, format, view, value, document);
 
 	if (from_list && !to_list)
-		format_change_list_to_block (selection, format, document);
+		format_change_list_to_block (selection, format, value, document);
 
 	if (!from_list && to_list)
 		format_change_block_to_list (selection, format, view, document);
