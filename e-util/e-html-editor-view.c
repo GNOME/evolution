@@ -5621,7 +5621,7 @@ process_elements (EHTMLEditorView *view,
 			}
 
 			if (to_plain_text && !changing_mode) {
-				gchar *style;
+				gchar *class;
 				const gchar *css_align;
 
 				if (strstr (content, UNICODE_NBSP)) {
@@ -5634,10 +5634,8 @@ process_elements (EHTMLEditorView *view,
 					content = g_string_free (nbsp_free, FALSE);
 				}
 
-				style = webkit_dom_element_get_attribute (
-					WEBKIT_DOM_ELEMENT (node), "style");
-
-				if ((css_align = strstr (style, "text-align: "))) {
+				class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (node));
+				if ((css_align = strstr (class, "-x-evo-align-"))) {
 					gchar *align;
 					gchar *content_with_align;
 					gint length;
@@ -5645,11 +5643,14 @@ process_elements (EHTMLEditorView *view,
 						e_html_editor_selection_get_word_wrap_length (
 							e_html_editor_view_get_selection (view));
 
-					if (!g_str_has_prefix (css_align + 12, "left")) {
-						if (g_str_has_prefix (css_align + 12, "center"))
+					if (!g_str_has_prefix (css_align + 13, "left")) {
+						if (g_str_has_prefix (css_align + 13, "center"))
 							length = (word_wrap_length - g_utf8_strlen (content, -1)) / 2;
 						else
 							length = word_wrap_length - g_utf8_strlen (content, -1);
+
+						if (length < 0)
+							length = 0;
 
 						if (g_str_has_suffix (content, " ")) {
 							char *tmp;
@@ -5675,7 +5676,7 @@ process_elements (EHTMLEditorView *view,
 					}
 				}
 
-				g_free (style);
+				g_free (class);
 			}
 
 			if (to_plain_text || changing_mode)
@@ -5775,6 +5776,10 @@ process_elements (EHTMLEditorView *view,
 					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
+
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (child) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
+			process_blockquote (WEBKIT_DOM_ELEMENT (child));
 
 		if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (child) ||
 		    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (child)) {
@@ -6426,7 +6431,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 	}
 
 	paragraphs = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (source), "body > .-x-evo-paragraph", NULL);
+		WEBKIT_DOM_ELEMENT (source), ".-x-evo-paragraph", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {
@@ -7287,7 +7292,28 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append (
 		stylesheet,
-		".-x-evo-list-item-alignt-left "
+		".-x-evo-align-left "
+		"{\n"
+		"  text-align: left; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".-x-evo-align-center "
+		"{\n"
+		"  text-align: center; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".-x-evo-align-right "
+		"{\n"
+		"  text-align: right; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		".-x-evo-list-item-align-left "
 		"{\n"
 		"  text-align: left; \n"
 		"}\n");

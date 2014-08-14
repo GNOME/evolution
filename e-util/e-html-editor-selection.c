@@ -1303,6 +1303,41 @@ format_change_list_from_list (EHTMLEditorSelection *selection,
 		remove_node (source_list);
 }
 
+static gboolean
+node_is_list_or_item (WebKitDOMNode *node)
+{
+	return node && (
+		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLLI_ELEMENT (node));
+}
+
+static gboolean
+node_is_list (WebKitDOMNode *node)
+{
+	return node && (
+		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node));
+}
+
+static void
+set_block_alignment (WebKitDOMElement *element,
+                     const gchar *class)
+{
+	WebKitDOMElement *parent;
+
+	element_remove_class (element, "-x-evo-align-center");
+	element_remove_class (element, "-x-evo-align-right");
+	element_add_class (element, class);
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		element_remove_class (parent, "-x-evo-align-center");
+		element_remove_class (parent, "-x-evo-align-right");
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+}
+
 /**
  * e_html_editor_selection_set_alignment:
  * @selection: an #EHTMLEditorSelection
@@ -1315,11 +1350,11 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
                                        EHTMLEditorSelectionAlignment alignment)
 {
 	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-	const gchar *class = "";
+	gboolean after_selection_end = FALSE;
+	const gchar *class = "", *list_class = "";
 	WebKitDOMDocument *document;
-	WebKitDOMElement *selection_start_marker;
-	WebKitDOMNode *parent;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *block;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
@@ -1328,17 +1363,16 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 
 	switch (alignment) {
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER:
-			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_CENTER;
-			class  = "-x-evo-list-item-align-center";
+			class = "-x-evo-align-center";
+			list_class = "-x-evo-list-item-align-center";
 			break;
 
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT:
-			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_LEFT;
 			break;
 
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT:
-			command = E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_RIGHT;
-			class  = "-x-evo-list-item-align-right";
+			class = "-x-evo-align-right";
+			list_class = "-x-evo-list-item-align-right";
 			break;
 	}
 
@@ -1353,26 +1387,72 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
 
 	if (!selection_start_marker) {
 		g_object_unref (view);
 		return;
 	}
 
-	parent = webkit_dom_node_get_parent_node (
+	block = webkit_dom_node_get_parent_node (
 		WEBKIT_DOM_NODE (selection_start_marker));
 
-	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent)) {
-		element_remove_class (
-			WEBKIT_DOM_ELEMENT (parent),
-			"-x-evo-list-item-align-center");
-		element_remove_class (
-			WEBKIT_DOM_ELEMENT (parent),
-			"-x-evo-list-item-align-right");
+	while (block && !after_selection_end) {
+		WebKitDOMNode *next_block;
 
-		element_add_class (WEBKIT_DOM_ELEMENT (parent), class);
-	} else {
-		e_html_editor_view_exec_command (view, command, NULL);
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		after_selection_end = webkit_dom_node_contains (
+			block, WEBKIT_DOM_NODE (selection_end_marker));
+
+		if (node_is_list (block)) {
+			WebKitDOMNode *item = webkit_dom_node_get_first_child (block);
+
+			while (item && WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
+				element_remove_class (
+					WEBKIT_DOM_ELEMENT (item),
+					"-x-evo-list-item-align-center");
+				element_remove_class (
+					WEBKIT_DOM_ELEMENT (item),
+					"-x-evo-list-item-align-right");
+
+				element_add_class (WEBKIT_DOM_ELEMENT (item), list_class);
+				after_selection_end = webkit_dom_node_contains (
+					item, WEBKIT_DOM_NODE (selection_end_marker));
+				if (after_selection_end)
+					break;
+				item = webkit_dom_node_get_next_sibling (item);
+			}
+		} else {
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-indented")) {
+				gint ii, length;
+				WebKitDOMNodeList *list;
+
+				list = webkit_dom_element_query_selector_all (
+					WEBKIT_DOM_ELEMENT (block),
+					".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
+					NULL);
+				length = webkit_dom_node_list_get_length (list);
+
+				for (ii = 0; ii < length; ii++) {
+					WebKitDOMNode *item = webkit_dom_node_list_item (list, ii);
+
+					set_block_alignment (WEBKIT_DOM_ELEMENT (item), class);
+
+					after_selection_end = webkit_dom_node_contains (
+						item, WEBKIT_DOM_NODE (selection_end_marker));
+					if (after_selection_end)
+						break;
+				}
+
+				g_object_unref (list);
+			} else {
+				set_block_alignment (WEBKIT_DOM_ELEMENT (block), class);
+			}
+		}
+
+		block = next_block;
 	}
 
 	e_html_editor_selection_restore (selection);
@@ -1707,23 +1787,6 @@ remove_quoting_from_element (WebKitDOMElement *element)
 	g_object_unref (list);
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
-}
-
-static gboolean
-node_is_list_or_item (WebKitDOMNode *node)
-{
-	return node && (
-		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
-		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node) ||
-		WEBKIT_DOM_IS_HTMLLI_ELEMENT (node));
-}
-
-static gboolean
-node_is_list (WebKitDOMNode *node)
-{
-	return node && (
-		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
-		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node));
 }
 
 static gint
@@ -2901,16 +2964,16 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 }
 
 static const gchar *
-get_css_alignment_value (EHTMLEditorSelectionAlignment alignment)
+get_css_alignment_value_class (EHTMLEditorSelectionAlignment alignment)
 {
 	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT)
 		return ""; /* Left is by default on ltr */
 
 	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER)
-		return  "text-align: center;";
+		return "-x-evo-align-center";
 
 	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT)
-		return "text-align: right;";
+		return "-x-evo-align-right";
 
 	return "";
 }
@@ -2991,7 +3054,6 @@ unindent_block (EHTMLEditorSelection *selection,
                 WebKitDOMNode *block)
 {
 	gboolean before_node = TRUE;
-	const gchar *align_value;
 	gint word_wrap_length = selection->priv->word_wrap_length;
 	gint level, width;
 	EHTMLEditorSelectionAlignment alignment;
@@ -3002,11 +3064,11 @@ unindent_block (EHTMLEditorSelection *selection,
 	block_to_process = block;
 
 	alignment = e_html_editor_selection_get_alignment_from_node (block_to_process);
-	align_value = get_css_alignment_value (alignment);
 
 	element = webkit_dom_node_get_parent_element (block_to_process);
 
-	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element))
+	if (!WEBKIT_DOM_IS_HTML_DIV_ELEMENT (element) &&
+	    !element_has_class (element, "-x-evo-indented"))
 		return;
 
 	element_add_class (WEBKIT_DOM_ELEMENT (block_to_process), "-x-evo-to-unindent");
@@ -3056,9 +3118,13 @@ unindent_block (EHTMLEditorSelection *selection,
 		}
 	}
 
-	if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph"))
+	if (level == 1 && element_has_class (WEBKIT_DOM_ELEMENT (node_clone), "-x-evo-paragraph")) {
 		e_html_editor_selection_set_paragraph_style (
-			selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, align_value);
+			selection, WEBKIT_DOM_ELEMENT (node_clone), word_wrap_length, 0, "");
+		element_add_class (
+			WEBKIT_DOM_ELEMENT (node_clone),
+			get_css_alignment_value_class (alignment));
+	}
 
 	/* Insert the unindented element */
 	webkit_dom_node_insert_before (
@@ -5418,39 +5484,17 @@ e_html_editor_selection_set_indented_style (EHTMLEditorSelection *selection,
                                             WebKitDOMElement *element,
                                             gint width)
 {
-	EHTMLEditorSelectionAlignment alignment;
 	gchar *style;
-	const gchar *align_value;
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
-	gint start = 0, end = 0;
-
-	alignment = e_html_editor_selection_get_alignment (selection);
-	align_value = get_css_alignment_value (alignment);
-
-	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT)
-		start = SPACES_PER_INDENTATION;
-
-	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER) {
-		start = SPACES_PER_INDENTATION;
-	}
-
-	if (alignment == E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT) {
-		start = 0;
-		end = SPACES_PER_INDENTATION;
-	}
 
 	webkit_dom_element_set_class_name (element, "-x-evo-indented");
-	/* We don't want vertical space bellow and above blockquote inserted by
-	 * WebKit's User Agent Stylesheet. We have to override it through style attribute. */
+
 	if (is_in_html_mode (selection))
-		style = g_strdup_printf (
-			"-webkit-margin-start: %dch; -webkit-margin-end : %dch; %s",
-			start, end, align_value);
+		style = g_strdup_printf ("margin-left: %dch;", SPACES_PER_INDENTATION);
 	else
 		style = g_strdup_printf (
-			"-webkit-margin-start: %dch; -webkit-margin-end : %dch; "
-			"word-wrap: normal; width: %dch; %s",
-			start, end, word_wrap_length, align_value);
+			"margin-left: %dch; word-wrap: normal; width: %dch;",
+			SPACES_PER_INDENTATION, word_wrap_length);
 
 	webkit_dom_element_set_attribute (element, "style", style, NULL);
 	g_free (style);
@@ -5463,7 +5507,7 @@ e_html_editor_selection_get_indented_element (EHTMLEditorSelection *selection,
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL);
+	element = webkit_dom_document_create_element (document, "DIV", NULL);
 	e_html_editor_selection_set_indented_style (selection, element, width);
 
 	return element;
@@ -5477,22 +5521,20 @@ e_html_editor_selection_set_paragraph_style (EHTMLEditorSelection *selection,
                                              const gchar *style_to_add)
 {
 	EHTMLEditorSelectionAlignment alignment;
-	const gchar *align_value = NULL;
 	char *style = NULL;
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
 
 	alignment = e_html_editor_selection_get_alignment (selection);
-	align_value = get_css_alignment_value (alignment);
 
 	element_add_class (element, "-x-evo-paragraph");
+	element_add_class (element, get_css_alignment_value_class (alignment));
 	if (!is_in_html_mode (selection)) {
 		style = g_strdup_printf (
-			"width: %dch; word-wrap: normal; %s %s",
-			(word_wrap_length + offset), align_value, style_to_add);
+			"width: %dch; word-wrap: normal; %s",
+			(word_wrap_length + offset), style_to_add);
 	} else {
-		if (*align_value || *style_to_add)
-			style = g_strdup_printf (
-				"%s %s", align_value, style_to_add);
+		if (*style_to_add)
+			style = g_strdup_printf ("%s", style_to_add);
 	}
 	if (style) {
 		webkit_dom_element_set_attribute (element, "style", style, NULL);
