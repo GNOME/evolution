@@ -2476,6 +2476,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	if (is_return_key (event)) {
 		EHTMLEditorSelection *selection;
+		EHTMLEditorSelectionBlockFormat format;
 
 		selection = e_html_editor_view_get_selection (view);
 		/* When user presses ENTER in a citation block, WebKit does
@@ -2485,6 +2486,14 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			remove_input_event_listener_from_body (view);
 			return (insert_new_line_into_citation (view, "")) ? TRUE : FALSE;
 		}
+
+		/* When the return is pressed in a H1-6 element, WebKit doesn't
+		 * continue with the same element, but creates normal paragraph,
+		 * so we have to unset the bold font. */
+		format = e_html_editor_selection_get_block_format (selection);
+		if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
+		    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
+			e_html_editor_selection_set_bold (selection, FALSE);
 	}
 
 	if (event->keyval == GDK_KEY_BackSpace) {
