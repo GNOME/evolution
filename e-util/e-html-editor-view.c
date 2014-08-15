@@ -4313,6 +4313,13 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 			NULL);
 	}
 
+	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-last-br", NULL);
+	if (paragraph)
+		webkit_dom_element_remove_attribute (paragraph, "class");
+	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-first-br", NULL);
+	if (paragraph)
+		webkit_dom_element_remove_attribute (paragraph, "class");
+
 	if (!e_html_editor_view_get_html_mode (view))
 		e_html_editor_selection_wrap_paragraphs_in_document (
 			selection, document);
