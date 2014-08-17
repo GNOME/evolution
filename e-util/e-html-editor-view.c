@@ -2342,24 +2342,26 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 		paragraph = insert_new_line_into_citation (view, inner_html);
 		g_free (inner_html);
 
-		if (view->priv->html_mode) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (paragraph),
-				WEBKIT_DOM_NODE (selection_start_marker),
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (paragraph)),
-				NULL);
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (paragraph),
-				WEBKIT_DOM_NODE (selection_end_marker),
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (paragraph)),
-				NULL);
+		if (paragraph) {
+			if (view->priv->html_mode) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (paragraph),
+					WEBKIT_DOM_NODE (selection_start_marker),
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (paragraph)),
+					NULL);
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (paragraph),
+					WEBKIT_DOM_NODE (selection_end_marker),
+					webkit_dom_node_get_first_child (
+						WEBKIT_DOM_NODE (paragraph)),
+					NULL);
 
+			}
+
+			remove_quoting_from_element (paragraph);
+			remove_wrapping_from_element (paragraph);
 		}
-
-		remove_quoting_from_element (paragraph);
-		remove_wrapping_from_element (paragraph);
 
 		if (block)
 			remove_node (WEBKIT_DOM_NODE (block));
@@ -2367,9 +2369,11 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 			document, "-x-evo-to-remove");
 		if (block)
 			remove_node (WEBKIT_DOM_NODE (block));
-		remove_node_if_empty (
-			webkit_dom_node_get_next_sibling (
-				WEBKIT_DOM_NODE (paragraph)));
+
+		if (paragraph)
+			remove_node_if_empty (
+				webkit_dom_node_get_next_sibling (
+					WEBKIT_DOM_NODE (paragraph)));
 	}
 
 	if (success && citation_level > 1) {
