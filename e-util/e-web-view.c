@@ -3529,8 +3529,15 @@ element_remove_class (WebKitDOMElement *element,
 void
 remove_node (WebKitDOMNode *node)
 {
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (node), node, NULL);
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+
+	/* Check if the parent exists, if so it means that the node is still
+	 * in the DOM or at least the parent is. If it doesn't exists it is not
+	 * in the DOM and we can free it. */
+	if (parent)
+		webkit_dom_node_remove_child (parent, node, NULL);
+	else
+		g_object_unref (node);
 }
 
 void
