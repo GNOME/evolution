@@ -30,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-18 15:42+0000\n"
-"PO-Revision-Date: 2014-05-21 22:35+0100\n"
+"POT-Creation-Date: 2014-08-20 03:44+0000\n"
+"PO-Revision-Date: 2014-08-20 14:26+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -53,7 +53,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
-#| msgid "Back up and restore your Evolution data and settings."
 msgid "Back up and restore your <app>Evolution</app> data and settings."
 msgstr ""
 "So sichern und stellen Sie wieder Ihre <app>Evolution</app>-Daten und "
@@ -66,10 +65,6 @@ msgstr "Sichern und Wiederherstellen"
 
 #. (itstool) path: page/p
 #: C/backup-restore.page:24
-#| msgid ""
-#| "You can back up your Evolution data. The backup saves your settings, "
-#| "mail, contacts, tasks, memos and calendars. It will be stored in a gzip-"
-#| "compressed tar archive file."
 msgid ""
 "You can back up your <app>Evolution</app> data. The backup saves your "
 "settings, mail, contacts, tasks, memos and calendars. It will be stored in a "
@@ -86,9 +81,6 @@ msgstr "Datensicherung"
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:33
-#| msgid ""
-#| "Select <guiseq><gui>File</gui><gui>Back up Evolution Data...</gui></"
-#| "guiseq>."
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Back up Evolution Data…</gui></guiseq>."
 msgstr ""
@@ -106,9 +98,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:41 C/backup-restore.page:69
-#| msgid ""
-#| "You will be asked to close Evolution. Answer with <gui style=\"button"
-#| "\">Yes</gui>."
 msgid ""
 "You will be asked to close <app>Evolution</app>. Answer with <gui style="
 "\"button\">Yes</gui>."
@@ -118,13 +107,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:47
-#| msgid ""
-#| "Note that your <link xref=\"mail-spam\">spam filtering</link> settings "
-#| "are not included in the backup file, as these settings are not controlled "
-#| "by Evolution and as developers of spam filtering tools might change "
-#| "implementation details. If you use Bogofilter you will need to back up "
-#| "<file>~/.bogofilter/</file>. If you use SpamAssassin you will need to "
-#| "back up <file>~/.spamassassin/</file>."
 msgid ""
 "Note that your <link xref=\"mail-spam\">spam filtering</link> settings are "
 "not included in the backup file, as these settings are not controlled by "
@@ -148,9 +130,6 @@ msgstr "Wiederherstellung"
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:62
-#| msgid ""
-#| "Select <guiseq><gui>File</gui><gui>Restore Evolution Data...</gui></"
-#| "guiseq>."
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Restore Evolution Data…</gui></guiseq>."
 msgstr ""
@@ -165,9 +144,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:75
-#| msgid ""
-#| "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
-#| "restore Evolution data from a backup file."
 msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore <app>Evolution</app> data from a backup file."
@@ -192,13 +168,6 @@ msgstr "Allgemeine Einstellungen"
 
 #. (itstool) path: section/p
 #: C/calendar-alarms-and-reminders.page:31
-#| msgid ""
-#| "Under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and "
-#| "Tasks</gui><gui>Reminders</gui></guiseq> you can select those calendars "
-#| "for which you want to receive reminder notifications. If you do not "
-#| "select a calendar, you will not receive reminders for any events in this "
-#| "calendar. You can also define whether to show a reminder for every "
-#| "appointment and for every birthday and anniversary."
 msgid ""
 "Under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
 "gui><gui>Reminders</gui></guiseq> you can select those calendars for which "
@@ -284,7 +253,6 @@ msgstr "Einen CalDAV-Kalender verwenden"
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:28 C/calendar-google.page:29
 #: C/calendar-weather.page:24 C/calendar-webdav.page:23
-#| msgid "To add such a calendar to Evolution, perform the following steps:"
 msgid ""
 "To add such a calendar to <app>Evolution</app>, perform the following steps:"
 msgstr "So fügen Sie einen solchen Kalender in <app>Evolution</app> hinzu:"
@@ -368,7 +336,6 @@ msgstr "Klicken Sie auf <gui style=\"button\">Anwenden</gui>."
 #: C/calendar-caldav.page:63 C/calendar-google.page:59
 #: C/calendar-local.page:50 C/calendar-weather.page:60
 #: C/calendar-webdav.page:59
-#| msgid "The calendar will be added to the list of calendars in Evolution."
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr ""
@@ -532,17 +499,6 @@ msgstr "Planungsgitter:"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:76
-#| msgid ""
-#| "The Schedule Grid shows the published Free/Busy information for the "
-#| "people you have invited. This is where you compare schedules to find free "
-#| "time to schedule the appointment. Individuals have visible scheduling "
-#| "information only if they use the same Novell GroupWise or Microsoft "
-#| "Exchange server you do (that is, if they are in the same organization as "
-#| "you), or if they publish free/busy information at a web address (URL) "
-#| "that you can reach and you have entered that web address for the specific "
-#| "contact in the <link xref=\"contacts-usage-edit-contact\">Contact Editor</"
-#| "link> under <guiseq><gui>Personal information</gui><gui>Web Addresses</"
-#| "gui><gui>Free/Busy</gui></guiseq>."
 msgid ""
 "The Schedule Grid shows the published Free/Busy information for the people "
 "you have invited. This is where you compare schedules to find free time to "
@@ -594,10 +550,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:97
-#| msgid ""
-#| "The default server can be defined under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
-#| "Information</gui><gui>Default Free/Busy Server</gui></guiseq>."
 msgid ""
 "The default server can be defined under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
@@ -615,13 +567,6 @@ msgstr "Verfügbarkeitsinformationen abrufen ohne einen GroupWare-Server"
 
 #. (itstool) path: section/p
 #: C/calendar-free-busy.page:110
-#| msgid ""
-#| "If individuals give you a URL for Free/Busy data or for their web "
-#| "calendar, you can add the URL under <guiseq><gui>Personal Information</"
-#| "gui><gui>Web Addresses</gui></guiseq> in the <link xref=\"contacts-usage-"
-#| "edit-contact\">Contact Editor</link>. Then, when you schedule a meeting "
-#| "with them, Evolution looks up the schedule and displays it in the Free/"
-#| "Busy data."
 msgid ""
 "If individuals give you a URL for Free/Busy data or for their web calendar, "
 "you can add the URL under <guiseq><gui>Personal Information</gui><gui>Web "
@@ -677,10 +622,6 @@ msgstr "Erscheinungsbild von Terminen"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-appointment-display.page:36
-#| msgid ""
-#| "The following calendar-related options are available under "
-#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
-#| "gui><gui>Display</gui></guiseq>."
 msgid ""
 "The following calendar-related options are available under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
@@ -716,9 +657,6 @@ msgstr "Endzeiten von Terminen in Wochen- und Monatsansicht anzeigen:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:51
-#| msgid ""
-#| "If there is space, Evolution shows the end times in the week and month "
-#| "views for each appointment."
 msgid ""
 "If there is space, <app>Evolution</app> shows the end times in the week and "
 "month views for each appointment."
@@ -754,7 +692,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:65
-#| msgid "Show recurring events in italic in bottom left calendar"
 msgid "Show recurring events in italic in bottom left calendar."
 msgstr "Wiederkehrende Ereignisse im unteren linken Kalender kursiv anzeigen."
 
@@ -802,10 +739,6 @@ msgstr "Allgemeine Optionen zur Formatierung"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-general-formatting.page:32
-#| msgid ""
-#| "The following options are available under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>General</"
-#| "gui></guiseq>."
 msgid ""
 "The following options are available under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</gui></"
@@ -922,7 +855,6 @@ msgstr "Verfügbare Ansichten"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:28
-#| msgid "Evolution offers five different views of your calendar data:"
 msgid "<app>Evolution</app> offers five different views of your calendar data:"
 msgstr ""
 "<app>Evolution</app> bietet fünf verschiedene Ansichten Ihrer Kalenderdaten:"
@@ -1009,8 +941,6 @@ msgstr "Einen weiteren lokalen Kalender hinzufügen"
 
 #. (itstool) path: page/p
 #: C/calendar-local.page:22
-#| msgid ""
-#| "To add another local calendar to Evolution, perform the following steps:"
 msgid ""
 "To add another local calendar to <app>Evolution</app>, perform the following "
 "steps:"
@@ -1031,6 +961,10 @@ msgid ""
 "app> should only read from the file or if <app>Evolution</app> can also add "
 "and alter items in that file."
 msgstr ""
+"Wenn Sie eine bestehende Kalenderdatei wählen, die sich bereits auf Ihrem "
+"Rechner befindet, so müssen Sie deren Ort angeben, und ob <app>Evolution</"
+"app> nur die Datei lesen darf oder ob <app>Evolution</app> auch Objekte in "
+"dieser Datei verändern darf."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
@@ -1360,14 +1294,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/calendar-meetings-sending-invitation.page:107
-#| msgid ""
-#| "In Evolution, a meeting can have only one organizer, and only the "
-#| "organizer can add participants to that meeting. Though it is possible to "
-#| "change the organizer of a meeting, this is not recommended as a means to "
-#| "invite additional participants to meetings. If you want to invite "
-#| "additional people to a meeting and are not that meeting's organizer, it "
-#| "is recommended that you forward the invitation message you received from "
-#| "the original meeting organiser to additional participants."
 msgid ""
 "In <app>Evolution</app>, a meeting can have only one organizer, and only the "
 "organizer can add participants to that meeting. Though it is possible to "
@@ -1407,12 +1333,6 @@ msgstr "Kalenderveröffentlichung"
 
 #. (itstool) path: page/p
 #: C/calendar-publishing.page:30
-#| msgid ""
-#| "In order to make one of your calendars available to the public, you can "
-#| "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Calendar and Tasks</gui><gui>Publishing "
-#| "Information</gui><gui>Locations</gui><gui style=\"button\">Add</gui></"
-#| "guiseq>."
 msgid ""
 "In order to make one of your calendars available to the public, you can "
 "define calendars to be uploaded to a web server under <guiseq><gui>Edit</"
@@ -1538,7 +1458,6 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#| msgid "Evolution displays the search results."
 msgid "<app>Evolution</app> displays the search results."
 msgstr "<app>Evolution</app> zeigt die Suchergebnisse an."
 
@@ -1609,7 +1528,6 @@ msgstr "Zeitzonen verwenden"
 
 #. (itstool) path: page/p
 #: C/calendar-timezones.page:27
-#| msgid "Evolution supports using multiple time zones."
 msgid "<app>Evolution</app> supports using multiple time zones."
 msgstr "<app>Evolution</app> unterstützt die Nutzung mehrerer Zeitzonen."
 
@@ -1620,10 +1538,6 @@ msgstr "Ihre globale(n) Zeitzone(n) festlegen"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:32
-#| msgid ""
-#| "By default Evolution uses the system-wide time zone. This can be changed "
-#| "under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and "
-#| "Tasks</gui><gui>General</gui><gui>Time</gui><gui>Time zone</gui></guiseq>."
 msgid ""
 "By default <app>Evolution</app> uses the system-wide time zone. This can be "
 "changed under <guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar "
@@ -1637,12 +1551,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:37
-#| msgid ""
-#| "If you deal a lot with people in another specific time zone you can "
-#| "display that second time zone in the day view of the calendar. You can "
-#| "set a second time zone under <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Calendar and Tasks</gui><gui>General</gui><gui>Time</"
-#| "gui><gui>Second zone</gui></guiseq>."
 msgid ""
 "If you deal a lot with people in another specific time zone you can display "
 "that second time zone in the day view of the calendar. You can set a second "
@@ -1715,10 +1623,6 @@ msgstr "Falls Sie den Termindialog verwenden:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:61
-#| msgid ""
-#| "To show the time as <link xref=\"calendar-free-busy\">busy</link> to "
-#| "others, click <guiseq><gui>Options</gui><gui>Show Time as Busy</gui></"
-#| "guiseq>."
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
@@ -1767,9 +1671,6 @@ msgstr "Einen Termin bearbeiten"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-edit-appointment.page:22
-#| msgid ""
-#| "If you want to change an appointment that already exists in your "
-#| "calendars,"
 msgid ""
 "If you want to change an appointment that already exists in your calendars:"
 msgstr ""
@@ -1995,16 +1896,6 @@ msgstr "Personen automatisch in meine Kontakte aufnehmen"
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:27
-#| msgid ""
-#| "You can add people automatically to your contacts when you reply to "
-#| "received email. Enable the plugin <gui>Automatic Contacts</gui> by going "
-#| "to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on "
-#| "<gui>Automatic Contacts</gui> so that it shows a check mark. Then go to "
-#| "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</"
-#| "gui><gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create "
-#| "address book entries when sending emails</gui> option and select an "
-#| "address book in the drop-down field below that will receive the new "
-#| "contacts."
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
@@ -2050,10 +1941,6 @@ msgstr "Automatische Vervollständigung der E-Mail-Empfänger"
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:32
-#| msgid ""
-#| "You can enter the first three letters of names and email addresses in the "
-#| "recipients text field and Evolution will present you with a list of "
-#| "matches from your address books."
 msgid ""
 "You can enter the first three letters of names and email addresses in the "
 "recipients text field and <app>Evolution</app> will present you with a list "
@@ -2065,10 +1952,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:36
-#| msgid ""
-#| "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
-#| "gui><gui>Contacts</gui><gui>Autocompletion</gui></guiseq> and choose the "
-#| "address books from the list that Evolution should look in for matches."
 msgid ""
 "To enable autocompletion, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Contacts</gui> <gui>Autocompletion</gui></guiseq> and choose the "
@@ -2119,8 +2002,6 @@ msgstr "Ein Google-Adressbuch verwenden"
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:23
-#| msgid ""
-#| "To add such an address book to Evolution, perform the following steps:"
 msgid ""
 "To add such an address book to <app>Evolution</app>, perform the following "
 "steps:"
@@ -2128,9 +2009,6 @@ msgstr "So fügen Sie ein solches Adressbuch in <app>Evolution</app> hinzu:"
 
 #. (itstool) path: item/p
 #: C/contacts-google.page:28 C/contacts-ldap.page:40 C/contacts-local.page:27
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Address Book</gui></"
-#| "guiseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></guiseq>."
 msgstr ""
@@ -2139,8 +2017,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:53 C/contacts-local.page:41
-#| msgid ""
-#| "The address book will be added to the list of address books in Evolution."
 msgid ""
 "The address book will be added to the list of address books in "
 "<app>Evolution</app>."
@@ -2274,9 +2150,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:103
-#| msgid ""
-#| "Timeout (minutes): The maximum time Evolution attempts to download data "
-#| "from the server before giving up."
 msgid ""
 "Timeout (minutes): The maximum time <app>Evolution</app> attempts to "
 "download data from the server before giving up."
@@ -2346,9 +2219,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:142
-#| msgid ""
-#| "To prevent excess network traffic, Evolution does not normally load data "
-#| "from the LDAP server upon opening."
 msgid ""
 "To prevent excess network traffic, <app>Evolution</app> does not normally "
 "load data from the LDAP server upon opening."
@@ -2358,12 +2228,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:146
-#| msgid ""
-#| "Depending on your server settings, you might not be able to edit all the "
-#| "fields in a contact stored on an LDAP server. Some servers prohibit some "
-#| "or all changes, and others use a smaller set of fields than Evolution "
-#| "allows. Check with your system administrator if you need different "
-#| "settings."
 msgid ""
 "Depending on your server settings, you might not be able to edit all the "
 "fields in a contact stored on an LDAP server. Some servers prohibit some or "
@@ -2380,7 +2244,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/contacts-libreoffice.page:17
-#| msgid "Using data from Evolution address books in LibreOffice documents."
 msgid ""
 "Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
@@ -2394,9 +2257,6 @@ msgstr "Kontakte in LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
-#| msgid ""
-#| "You can use your Evolution address books in LibreOffice as a data source. "
-#| "The following steps refer to LibreOffice version 3.3.3."
 msgid ""
 "You can use your <app>Evolution</app> address books in LibreOffice as a data "
 "source. The following steps refer to LibreOffice version 3.3.3."
@@ -2407,10 +2267,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
-#| msgid ""
-#| "Click <guiseq><gui>Edit</gui><gui>Exchange Database...</gui></guiseq> in "
-#| "the menu bar. This will bring up the <gui>Exchange databases</gui> dialog "
-#| "box."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
@@ -2421,10 +2277,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
-#| msgid ""
-#| "In the right pane under <gui>Available Databases</gui>, "
-#| "<gui>EvolutionLocal</gui> is available as a source. Click on the small "
-#| "triangle to get the list of your Evolution address books."
 msgid ""
 "In the right pane under <gui>Available Databases</gui>, <gui>EvolutionLocal</"
 "gui> is available as a source. Click on the small triangle to get the list "
@@ -2443,9 +2295,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:41
-#| msgid ""
-#| "In case it is not listed already, click <gui style=\"button\">Browse...</"
-#| "gui>. A file chooser dialog opens."
 msgid ""
 "In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
 "A file chooser dialog opens."
@@ -2455,10 +2304,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:45
-#| msgid ""
-#| "As Evolution stores its data in a hidden directory, press "
-#| "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-#| "displayed."
 msgid ""
 "As <app>Evolution</app> stores its data in a hidden directory, press "
 "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
@@ -2480,11 +2325,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:56
-#| msgid ""
-#| "This makes the Evolution address book the default data source for "
-#| "LibreOffice. You can now select a field to insert into an LibreOffice "
-#| "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-#| "guiseq>."
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
@@ -2508,9 +2348,6 @@ msgstr "Ein weiteres lokales Adressbuch hinzufügen"
 
 #. (itstool) path: page/p
 #: C/contacts-local.page:22
-#| msgid ""
-#| "To add another local address book to Evolution, perform the following "
-#| "steps:"
 msgid ""
 "To add another local address book to <app>Evolution</app>, perform the "
 "following steps:"
@@ -2555,9 +2392,6 @@ msgstr "Einen einzelnen Kontakt durchsuchen"
 
 #. (itstool) path: section/p
 #: C/contacts-searching.page:33
-#| msgid ""
-#| "To find text in the displayed contact, select <guiseq><gui>Edit</"
-#| "gui><gui>Find in Contact...</gui></guiseq> from the main menu."
 msgid ""
 "To find text in the displayed contact, select <guiseq><gui>Edit</"
 "gui><gui>Find in Contact…</gui></guiseq> from the main menu."
@@ -2597,11 +2431,6 @@ msgstr "Einen Kontakt hinzufügen"
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:24
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, "
-#| "or right-click in a blank space in the list of contacts and click "
-#| "<gui>New Contact...</gui>, or press <keyseq><key>Shift</key><key>Ctrl</"
-#| "key><key>C</key></keyseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact</gui></guiseq>, or "
 "right-click in a blank space in the list of contacts and click <gui>New "
@@ -2659,7 +2488,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:57
-#| msgid "Select <gui>Add to Address Book...</gui>."
 msgid "Select <gui>Add to Address Book…</gui>."
 msgstr "Wählen Sie <gui>Zum Adressbuch hinzufügen …</gui>."
 
@@ -2792,9 +2620,6 @@ msgstr "Eine Kontaktliste erstellen"
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:44
-#| msgid ""
-#| "Click <guiseq><gui>File</gui><gui>New</gui><gui>Contact List</gui></"
-#| "guiseq>."
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Contact List</gui></guiseq>."
 msgstr ""
@@ -2803,11 +2628,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:55
-#| msgid ""
-#| "Specify the list members by either entering the names or email addresses "
-#| "of contacts (the text field supports autocompletion), or by dragging "
-#| "contacts from the Contacts window into the list, or by using the <gui "
-#| "style=\"button\">Select...</gui> button."
 msgid ""
 "Specify the list members by either entering the names or email addresses of "
 "contacts (the text field supports autocompletion), or by dragging contacts "
@@ -2845,8 +2665,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/contacts-using-contact-lists.page:73
-#| msgid ""
-#| "The contact list will be added to the chosen address book in Evolution."
 msgid ""
 "The contact list will be added to the chosen address book in <app>Evolution</"
 "app>."
@@ -3151,9 +2969,6 @@ msgstr ""
 
 #. (itstool) path: choose/p
 #: C/default-browser.page:64
-#| msgid ""
-#| "Please see <link href=\"help:gnome-help/net-default-browser\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link xref=\"help:gnome-help/net-default-browser\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/net-default-browser\">the GNOME "
@@ -3201,9 +3016,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/default-browser.page:83
-#| msgid ""
-#| "Please see <link href=\"help:gnome-help/net-default-email\">the GNOME "
-#| "Desktop Help</link>."
 msgid ""
 "Please see <link xref=\"help:gnome-help/net-default-email\" href=\"https://"
 "help.gnome.org/users/gnome-help/stable/net-default-email\">the GNOME Desktop "
@@ -3589,13 +3401,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:27
-#| msgid ""
-#| "Go to the folder in which Thunderbird stores its data. On a Linux system, "
-#| "Thunderbird's files are located in the hidden folder <file>$HOME/."
-#| "thunderbird/12345678</file>. <file>12345678</file> will be a random "
-#| "string. If you cannot see the <file>.thunderbird</file> folder, make sure "
-#| "to <link href=\"help:gnome-help/files-hidden#show-hidden\">show hidden "
-#| "files</link> in the file selector dialog."
 msgid ""
 "Go to the folder in which Thunderbird stores its data. On a Linux system, "
 "Thunderbird's files are located in the hidden folder <file>$HOME/."
@@ -4190,10 +3995,6 @@ msgstr "Eine Einführung in Evolution."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:25
-#| msgid ""
-#| "Evolution is a stable and versatile personal information manager for the "
-#| "GNOME project. Evolution allows you to keep your calendars, mail, address "
-#| "books and tasks in one place."
 msgid ""
 "Evolution allows you to access your personal information like your "
 "calendars, mail, address books and tasks in one place."
@@ -5298,7 +5099,6 @@ msgstr "Kontoeinstellungen für E-Mail-Ordner im Maildir-Format"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-maildir-format-directories.page:24
-#| msgid "Evolution supports the following headers:"
 msgid "Evolution supports the Maildir++ specification."
 msgstr "Evolution unterstützt die Maildir++-Spezifikation."
 
@@ -8406,10 +8206,6 @@ msgstr "Einen GPG-Schlüssel erstellen"
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-create-key.page:25
-#| msgid ""
-#| "These steps are very technical. For average users we recommend using the "
-#| "<link href=\"help:seahorse/index\"><app>Seahorse</app> application</link> "
-#| "for managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
 "<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
@@ -10204,15 +10000,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:32
-#| msgid "Saving a New Message as a Template"
 msgid "Marking a message as read or unread"
 msgstr "Eine Nachricht als gelesen oder ungelesen markieren"
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:33
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid ""
 "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
 "key><key>K</key></keyseq>."
@@ -10222,9 +10014,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:34
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid ""
 "To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
 "key><key>Shift</key><key>K</key></keyseq>."
@@ -10421,11 +10210,6 @@ msgstr "lokalisiert"
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:31
-#, fuzzy
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/new-mail-notification.png' "
-#| "md5='25a4373da392793406910cd883f0c21c'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10995,11 +10779,6 @@ msgstr "Nachrichten als PDF speichern"
 
 #. (itstool) path: page/p
 #: C/mail-save-as-pdf.page:22
-#| msgid ""
-#| "In order to save emails in the PDF file format, select <guiseq><gui>File</"
-#| "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. "
-#| "See <link href=\"help:gnome-help/printing\">the desktop help</link> for "
-#| "general information on printing."
 msgid ""
 "In order to save emails in the PDF file format, select <guiseq><gui>File</"
 "gui><gui>Print</gui></guiseq> and then choose <gui>Print to File</gui>. See "
@@ -12836,14 +12615,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/offline.page:28
-#, fuzzy
-#| msgid ""
-#| "If the problem persists and you are sure you have not clicked the icon, "
-#| "but you can still reach the network from other apps on your system "
-#| "(browsers, FTP, SSH, ping etc.) it may be that your network connection is "
-#| "not properly configured. For more information please take a look at the "
-#| "<link href=\"help:gnome-help/net-problem\">Desktop help</link> or seek "
-#| "help from your distribution support forums, mailing lists etc."
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but "
 "you can still reach the network from other apps on your system (browsers, "
@@ -12855,18 +12626,12 @@ msgid ""
 msgstr ""
 "Falls das Problem weiter besteht und Sie sicher sind, nicht auf das Symbol "
 "geklickt zu haben, und andere Netzwerk/Internet-Anwendungen (wie Web-"
-"Browser, FTP, SSH usw) funktionieren, so könnte es sein, dass NetworkManager "
-"(NM) nicht richtig eingestellt ist. Viele Linux-Distributionen setzen NM zur "
-"Verwaltung der Verbindungen ein. Wenn dieser installiert ist, so verwendet "
-"ihn Evolution zur Erkennung, ob das Netzwerk aktiviert ist. NM könnte "
-"installiert aber nicht richtig eingestellt sein, so dass das Netzwerk zwar "
-"funktioniert, aber Evolution dies nicht erkennt (Beachten Sie, dass andere "
-"GNOME-Anwendungen aus gleichem Grund auch Probleme haben können). Abhilfe "
-"bringt die Konfiguration von NM, so dass dieser Ihre Netzwerk-Schnittstellen "
-"verwaltet. Dies ist einfach zu erledigen, aber nicht Teil dieser "
-"Dokumentation. Für weitere Informationen lesen Sie bitte in der <link href="
-"\"help:gnome-help#net\">GNOME-Hilfe</link> und ersuchen Sie Hilfe aus "
-"Internet-Foren zu Ihrer Distribution, Mailing-Listen usw."
+"Browser, FTP, SSH usw.) funktionieren, so könnte es sein, dass Ihre "
+"Netzwerkverbindung nicht richtig eingestellt ist. Für weitere Informationen "
+"lesen Sie bitte in der <link xref=\"help:gnome-help/net-problem\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/net-problem\">GNOME-Hilfe</"
+"link> und ersuchen Sie Hilfe aus Internet-Foren zu Ihrer Distribution, "
+"Mailing-Listen usw."
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
@@ -12900,10 +12665,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-debug-how-to.page:25
-#| msgid ""
-#| "To further track down a problem, some debug options are listed on the "
-#| "<link href=\"http://projects.gnome.org/evolution/bugs.shtml\">Evolution "
-#| "project website</link>."
 msgid ""
 "To further track down a problem, some debug options are listed on the <link "
 "href=\"https://wiki.gnome.org/Apps/Evolution/Debugging\">Evolution project "
@@ -12934,13 +12695,6 @@ msgstr "Hilfe erhalten"
 
 #. (itstool) path: page/p
 #: C/problems-getting-help.page:24
-#| msgid ""
-#| "To receive help on problems you can send an email to the <link href="
-#| "\"http://mail.gnome.org/mailman/listinfo/evolution-list\">Evolution "
-#| "mailing list</link> or talk to developers and other users in the IRC chat "
-#| "channel #evolution on the server irc.gimp.net. To connect to an IRC "
-#| "server you can for example <link href=\"help:empathy/irc-manage\">use the "
-#| "internet messenger application <app>Empathy</app></link>."
 msgid ""
 "To receive help on problems you can send an email to the <link href=\"http://"
 "mail.gnome.org/mailman/listinfo/evolution-list\">Evolution mailing list</"
