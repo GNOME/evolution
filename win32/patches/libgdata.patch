@@ -1,0 +1,158 @@
+diff -upr -x .deps -x .libs -x '*.la' libgdata-0.15.1.old/Makefile.am libgdata-0.15.1/Makefile.am
+--- libgdata-0.15.1.old/Makefile.am	2014-06-20 21:01:11 +0000
++++ libgdata-0.15.1/Makefile.am	2014-06-20 20:58:04 +0000
+@@ -1,4 +1,4 @@
+-SUBDIRS = . gdata/tests po docs
++SUBDIRS = . po docs
+ 
+ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ 
+diff -upr -x .deps -x .libs -x '*.la' libgdata-0.15.1.old/Makefile.in libgdata-0.15.1/Makefile.in
+--- libgdata-0.15.1.old/Makefile.in	2014-06-20 21:01:11 +0000
++++ libgdata-0.15.1/Makefile.in	2014-06-20 20:58:04 +0000
+@@ -775,7 +775,7 @@ target_alias = @target_alias@
+ top_build_prefix = @top_build_prefix@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+-SUBDIRS = . gdata/tests po docs
++SUBDIRS = . po docs
+ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+ DISTCHECK_CONFIGURE_FLAGS = --enable-introspection --enable-gtk-doc
+ MAINTAINERCLEANFILES = $(GITIGNORE_MAINTAINERCLEANFILES_TOPLEVEL) \
+diff -upr -x .deps -x .libs -x '*.la' libgdata-0.15.1.old/configure libgdata-0.15.1/configure
+--- libgdata-0.15.1.old/configure	2014-06-20 21:01:11 +0000
++++ libgdata-0.15.1/configure	2014-06-20 20:58:04 +0000
+@@ -16239,96 +16239,6 @@ fi
+ 
+ 
+ 
+-pkg_failed=no
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for UHTTPMOCK" >&5
+-$as_echo_n "checking for UHTTPMOCK... " >&6; }
+-
+-if test -n "$UHTTPMOCK_CFLAGS"; then
+-    pkg_cv_UHTTPMOCK_CFLAGS="$UHTTPMOCK_CFLAGS"
+- elif test -n "$PKG_CONFIG"; then
+-    if test -n "$PKG_CONFIG" && \
+-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libuhttpmock-0.0\""; } >&5
+-  ($PKG_CONFIG --exists --print-errors "libuhttpmock-0.0") 2>&5
+-  ac_status=$?
+-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+-  test $ac_status = 0; }; then
+-  pkg_cv_UHTTPMOCK_CFLAGS=`$PKG_CONFIG --cflags "libuhttpmock-0.0" 2>/dev/null`
+-		      test "x$?" != "x0" && pkg_failed=yes
+-else
+-  pkg_failed=yes
+-fi
+- else
+-    pkg_failed=untried
+-fi
+-if test -n "$UHTTPMOCK_LIBS"; then
+-    pkg_cv_UHTTPMOCK_LIBS="$UHTTPMOCK_LIBS"
+- elif test -n "$PKG_CONFIG"; then
+-    if test -n "$PKG_CONFIG" && \
+-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libuhttpmock-0.0\""; } >&5
+-  ($PKG_CONFIG --exists --print-errors "libuhttpmock-0.0") 2>&5
+-  ac_status=$?
+-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+-  test $ac_status = 0; }; then
+-  pkg_cv_UHTTPMOCK_LIBS=`$PKG_CONFIG --libs "libuhttpmock-0.0" 2>/dev/null`
+-		      test "x$?" != "x0" && pkg_failed=yes
+-else
+-  pkg_failed=yes
+-fi
+- else
+-    pkg_failed=untried
+-fi
+-
+-
+-
+-if test $pkg_failed = yes; then
+-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-
+-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+-        _pkg_short_errors_supported=yes
+-else
+-        _pkg_short_errors_supported=no
+-fi
+-        if test $_pkg_short_errors_supported = yes; then
+-	        UHTTPMOCK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libuhttpmock-0.0" 2>&1`
+-        else
+-	        UHTTPMOCK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libuhttpmock-0.0" 2>&1`
+-        fi
+-	# Put the nasty error message in config.log where it belongs
+-	echo "$UHTTPMOCK_PKG_ERRORS" >&5
+-
+-	as_fn_error $? "Package requirements (libuhttpmock-0.0) were not met:
+-
+-$UHTTPMOCK_PKG_ERRORS
+-
+-Consider adjusting the PKG_CONFIG_PATH environment variable if you
+-installed software in a non-standard prefix.
+-
+-Alternatively, you may set the environment variables UHTTPMOCK_CFLAGS
+-and UHTTPMOCK_LIBS to avoid the need to call pkg-config.
+-See the pkg-config man page for more details." "$LINENO" 5
+-elif test $pkg_failed = untried; then
+-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+-is in your PATH or set the PKG_CONFIG environment variable to the full
+-path to pkg-config.
+-
+-Alternatively, you may set the environment variables UHTTPMOCK_CFLAGS
+-and UHTTPMOCK_LIBS to avoid the need to call pkg-config.
+-See the pkg-config man page for more details.
+-
+-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+-See \`config.log' for more details" "$LINENO" 5; }
+-else
+-	UHTTPMOCK_CFLAGS=$pkg_cv_UHTTPMOCK_CFLAGS
+-	UHTTPMOCK_LIBS=$pkg_cv_UHTTPMOCK_LIBS
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+-$as_echo "yes" >&6; }
+-
+-fi
+ 
+ # Various necessary functions and headers
+ for ac_func in strchr
+diff -upr -x .deps -x .libs -x '*.la' libgdata-0.15.1.old/configure.ac libgdata-0.15.1/configure.ac
+--- libgdata-0.15.1.old/configure.ac	2014-06-20 21:01:11 +0000
++++ libgdata-0.15.1/configure.ac	2014-06-20 20:58:04 +0000
+@@ -123,11 +123,6 @@ AC_SUBST([GNOME_PACKAGES_PRIVATE])
+ AC_SUBST([GNOME_PACKAGES])
+ AC_SUBST([GOA_ENABLED])
+ 
+-dnl ****************************
+-dnl Check for uhttpmock
+-dnl ****************************
+-PKG_CHECK_MODULES(UHTTPMOCK, libuhttpmock-0.0)
+-
+ # Various necessary functions and headers
+ AC_CHECK_FUNCS([strchr])
+ AC_CHECK_FUNCS([strstr])
+diff -upr -x .deps -x .libs -x '*.la' libgdata-0.15.1.old/gdata/gdata.symbols libgdata-0.15.1/gdata/gdata.symbols
+--- libgdata-0.15.1.old/gdata/gdata.symbols	2014-06-20 21:01:11 +0000
++++ libgdata-0.15.1/gdata/gdata.symbols	2014-06-20 21:02:28 +0000
+@@ -965,9 +965,6 @@ gdata_documents_entry_get_quota_used
+ gdata_documents_service_copy_document
+ gdata_documents_service_copy_document_async
+ gdata_documents_service_copy_document_finish
+-gdata_goa_authorizer_get_type
+-gdata_goa_authorizer_new
+-gdata_goa_authorizer_get_goa_object
+ gdata_documents_document_get_thumbnail_uri
+ gdata_tasks_task_get_type
+ gdata_tasks_task_new
+@@ -1087,8 +1084,6 @@ gdata_freebase_topic_value_is_image
+ gdata_freebase_topic_result_get_type
+ gdata_freebase_topic_result_new
+ gdata_freebase_topic_result_dup_object
+-gdata_freebase_result_error_get_type
+-gdata_freebase_result_error_quark
+ gdata_freebase_result_get_type
+ gdata_freebase_result_new
+ gdata_freebase_result_dup_variant

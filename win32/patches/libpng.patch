@@ -1,0 +1,86 @@
+diff -upr -x .deps -x .libs -x '*.la' libpng-1.6.7.old/scripts/makefile.msys libpng-1.6.7/scripts/makefile.msys
+--- libpng-1.6.7.old/scripts/makefile.msys	2014-05-17 04:40:44 +0000
++++ libpng-1.6.7/scripts/makefile.msys	2014-05-17 05:27:20 +0000
+@@ -12,7 +12,7 @@
+ # For conditions of distribution and use, see the disclaimer
+ # and license in png.h
+ # # # # # # # # # # # # # # # # #
+-prefix=/usr/local
++prefix?=/usr/local
+ exec_prefix=$(prefix)
+ 
+ # Library name:
+@@ -29,8 +29,8 @@ OLDSO=libpng.dll
+ # Where the zlib library and include files are located.
+ #ZLIBLIB=../zlib
+ #ZLIBINC=../zlib
+-ZLIBLIB=/usr/local/lib
+-ZLIBINC=/usr/local/include
++ZLIBLIB=$(prefix)/lib
++ZLIBINC=$(prefix)/include
+ 
+ # Compiler, linker, lib and other tools
+ CC = gcc
+@@ -97,15 +97,14 @@ pnglibconf.h: scripts/pnglibconf.h.prebu
+ 
+ static: libpng$(A) pngtest$(EXE)
+ 
+-shared: $(LIBSOMAJ)
+-	$(CC) -shared -Wl,-soname,$(LIBSOMAJ) -o $(LIBSO)
++shared: libpng$(A)
++	$(CC) -shared scripts/symbols.def $(LDFLAGS) -L$(ZLIBLIB) libpng$(A) $(LIBS) -o $(LIBSO) -Wl,--enable-auto-image-base -Xlinker --out-implib -Xlinker $(LIBSO)$(A)
++	cp $(LIBSO) $(LIBSOMAJ)
++	cp $(LIBSO)$(A) $(LIBSOMAJ)$(A)
+ 
+ $(LIBSO): $(LIBSOMAJ)
+ 	$(LN_SF) $(LIBSOMAJ) $(LIBSO)
+ 
+-$(LIBSOMAJ):
+-	$(CC) -shared -Wl,-soname,$(LIBSOMAJ) -o $(LIBSOMAJ)
+-
+ libpng$(A): $(OBJS)
+ 	$(AR_RC) $@ $(OBJS)
+ 	$(RANLIB) $@
+@@ -144,8 +143,10 @@ install-shared: install-headers $(LIBSOM
+ 	-@if [ ! -d $(DL) ]; then $(MKDIR_P) $(DL); fi
+ 	-@$(RM_F) $(DL)/$(LIBSO)
+ 	-@$(RM_F) $(DL)/$(OLDSO)
+-	cp $(LIBSO) $(DL)/$(LIBSOREL)
+-	(cd $(DL); \
++	cp $(LIBSO).a $(DL)/$(LIBSO).a
++	cp $(LIBSOMAJ).a $(DL)/$(LIBSOMAJ).a
++	cp $(LIBSO) $(DB)/$(LIBSOREL)
++	(cd $(DB); \
+ 	$(LN_SF) $(LIBSOREL) $(LIBSO); \
+ 	$(LN_SF) $(LIBSO) $(OLDSO))
+ 
+diff -upr -x .deps -x .libs -x '*.la' libpng-1.6.7.old/scripts/symbols.def libpng-1.6.7/scripts/symbols.def
+--- libpng-1.6.7.old/scripts/symbols.def	2013-11-14 19:03:02 +0000
++++ libpng-1.6.7/scripts/symbols.def	2014-05-17 04:56:00 +0000
+@@ -1,10 +1,3 @@
+-;Version 1.6.7
+-;--------------------------------------------------------------
+-; LIBPNG symbol list as a Win32 DEF file
+-; Contains all the symbols that can be exported from libpng
+-;--------------------------------------------------------------
+-LIBRARY
+-
+ EXPORTS
+  png_access_version_number @1
+  png_set_sig_bytes @2
+@@ -109,7 +102,6 @@ EXPORTS
+  png_free_default @101
+  png_error @102
+  png_chunk_error @103
+- png_err @104
+  png_warning @105
+  png_chunk_warning @106
+  png_benign_error @107
+@@ -190,7 +182,6 @@ EXPORTS
+  png_get_header_version @182
+  png_get_libpng_ver @183
+  png_permit_mng_features @184
+- png_set_strip_error_numbers @185
+  png_set_user_limits @186
+  png_get_user_width_max @187
+  png_get_user_height_max @188

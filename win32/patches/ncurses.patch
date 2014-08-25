@@ -1,0 +1,15 @@
+diff -upr ncurses-5.9.old/include/curses.tail ncurses-5.9/include/curses.tail
+--- ncurses-5.9.old/include/curses.tail	2014-03-19 18:30:52 +0000
++++ ncurses-5.9/include/curses.tail	2014-03-19 18:31:25 +0000
+@@ -142,6 +142,11 @@ extern NCURSES_EXPORT(char *) _traceccha
+ #define _tracech_t		_tracechtype
+ #define _tracech_t2		_tracechtype2
+ #endif
++
++#if defined(__MINGW32__)
++#undef trace
++#endif
++
+ extern NCURSES_EXPORT(char *) _tracemouse (const MEVENT *);
+ extern NCURSES_EXPORT(void) trace (const unsigned int);
+ 

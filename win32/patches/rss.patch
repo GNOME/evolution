@@ -1,0 +1,101 @@
+diff --git a/configure.ac b/configure.ac
+index 6679ab5..f7fdae5 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -104,6 +104,7 @@ PKG_CHECK_MODULES(EVOLUTION_RSS_EPLUGIN,
+    libsoup$SOUP >= $LIBSOUP_REQUIRED dnl
+    $EVOLUTION_PLUGIN_CHECK dnl
+    evolution-shell$EVOLUTION_BASE_VERSION_S >= $EVOLUTION_REQUIRED dnl
++   evolution-mail$EVOLUTION_BASE_VERSION_S >= $EVOLUTION_REQUIRED dnl
+    $EVOLUTION_ADDITIONAL dnl
+    libebook-1.2 dnl
+ ])
+@@ -316,12 +317,6 @@ AC_SUBST(RENDER_CFLAGS)
+ AC_SUBST(RENDER)
+ AC_SUBST(RENDER_N)
+ 
+-dnl ***********
+-dnl GConf stuff
+-dnl ***********
+-AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
+-AM_GCONF_SOURCE_2
+-
+ dnl ***************
+ dnl Gsettings stuff
+ dnl ***************
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 91f2671..c0c6ecd 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -130,8 +130,12 @@ evolution_module_rss_la_CPPFLAGS =			\
+         $(AM_CPPFLAGS)					\
+         -I$(top_srcdir)					\
+         -DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
+-        -DG_LOG_DOMAIN=\"evolution-module-rss\"		\
+-        $(EVOLUTION_RSS_EPLUGIN_LIBS)
++        -DG_LOG_DOMAIN=\"evolution-module-rss\"
++
++evolution_module_rss_la_LIBADD =			\
++        $(EVOLUTION_RSS_EPLUGIN_LIBS)			\
++	$(DATASERVER_LIBS)
++
+ 
+ 
+ evolution_module_rss_la_LDFLAGS =		\
+diff --git a/src/e-mail-formatter-evolution-rss.c b/src/e-mail-formatter-evolution-rss.c
+index 6ae8d16..fd581d1 100644
+--- a/src/e-mail-formatter-evolution-rss.c
++++ b/src/e-mail-formatter-evolution-rss.c
+@@ -30,7 +30,6 @@
+ #include <libedataserver/libedataserver.h>
+ 
+ #include <glib/gi18n-lib.h>
+-#include <X11/Xlib.h>
+ #include <camel/camel.h>
+ 
+ #include "misc.h"
+diff --git a/src/rss-config-factory.c b/src/rss-config-factory.c
+index a4f22e8..3529a64 100644
+--- a/src/rss-config-factory.c
++++ b/src/rss-config-factory.c
+@@ -552,11 +552,18 @@ folder_cb (GtkWidget *widget, gpointer data)
+ 	model = em_folder_tree_model_get_default ();
+ #endif
+ #if EVOLUTION_VERSION >= 30303
++#if EVOLUTION_VERSION >= 31301
++	dialog = em_folder_selector_new (window, model);
++	em_folder_selector_set_can_create (EM_FOLDER_SELECTOR (dialog), TRUE);
++	em_folder_selector_set_caption (EM_FOLDER_SELECTOR (dialog), _("Move to Folder"));
++	em_folder_selector_set_default_button_label (EM_FOLDER_SELECTOR (dialog), _("M_ove"));
++#else
+ 	dialog = em_folder_selector_new (
+ 			window,
+ 			model,
+ 			EM_FOLDER_SELECTOR_CAN_CREATE,
+ 			_("Move to Folder"), NULL, _("M_ove"));
++#endif
+ #else
+ 	dialog = em_folder_selector_new (
+ 			window,
+diff --git a/src/rss-evo-common.c b/src/rss-evo-common.c
+index 1a96862..269565b 100644
+--- a/src/rss-evo-common.c
++++ b/src/rss-evo-common.c
+@@ -55,6 +55,17 @@
+ #include <libsoup/soup-gnome-features.h>
+ #endif
+ 
++#ifdef G_OS_WIN32
++#include <winsock2.h>
++#include <ws2tcpip.h>
++#ifdef HAVE_WSPIAPI_H
++#include <wspiapi.h>
++#endif
++
++#define IN6_ARE_ADDR_EQUAL(a,b) IN6_ADDR_EQUAL(a,b)
++
++#endif
++
+ #define d(x)
+ 
+ #include "rss-evo-common.h"

@@ -1,0 +1,191 @@
+diff -upr libgweather-3.10.2.old//configure libgweather-3.10.2/configure
+--- libgweather-3.10.2.old//configure	2014-02-02 16:39:52 +0000
++++ libgweather-3.10.2/configure	2014-04-15 14:05:25 +0000
+@@ -15884,16 +15884,16 @@ case "$am__api_version" in
+     ;;
+ esac
+ 
+-INTLTOOL_REQUIRED_VERSION_AS_INT=`echo 0.50.0 | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
++INTLTOOL_REQUIRED_VERSION_AS_INT=`echo 0.40.0 | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
+ INTLTOOL_APPLIED_VERSION=`intltool-update --version | head -1 | cut -d" " -f3`
+ INTLTOOL_APPLIED_VERSION_AS_INT=`echo $INTLTOOL_APPLIED_VERSION | awk -F. '{ print $ 1 * 1000 + $ 2 * 100 + $ 3; }'`
+-if test -n "0.50.0"; then
+-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for intltool >= 0.50.0" >&5
+-$as_echo_n "checking for intltool >= 0.50.0... " >&6; }
++if test -n "0.40.0"; then
++    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for intltool >= 0.40.0" >&5
++$as_echo_n "checking for intltool >= 0.40.0... " >&6; }
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $INTLTOOL_APPLIED_VERSION found" >&5
+ $as_echo "$INTLTOOL_APPLIED_VERSION found" >&6; }
+     test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge "$INTLTOOL_REQUIRED_VERSION_AS_INT" ||
+-	as_fn_error $? "Your intltool is too old.  You need intltool 0.50.0 or later." "$LINENO" 5
++	as_fn_error $? "Your intltool is too old.  You need intltool 0.40.0 or later." "$LINENO" 5
+ fi
+ 
+ # Extract the first word of "intltool-update", so it can be a program name with args.
+diff -upr libgweather-3.10.2.old//libgweather/weather-owm.c libgweather-3.10.2/libgweather/weather-owm.c
+--- libgweather-3.10.2.old//libgweather/weather-owm.c	2014-04-15 14:03:39 +0000
++++ libgweather-3.10.2/libgweather/weather-owm.c	2014-04-15 13:58:56 +0000
+@@ -29,7 +29,6 @@
+ #include <math.h>
+ #include <time.h>
+ #include <unistd.h>
+-#include <langinfo.h>
+ 
+ #include <libxml/parser.h>
+ #include <libxml/xpath.h>
+@@ -130,32 +129,20 @@ static time_t
+ date_to_time_t (const xmlChar *str, const char * tzid)
+ {
+     struct tm time = { 0 };
+-    GTimeZone *tz;
+     GDateTime *dt;
+     time_t rval;
++    GTimeVal tv;
+     char *after;
+ 
+-    after = strptime ((const char*) str, "%Y-%m-%dT%T", &time);
+-    if (after == NULL) {
++    if (!g_time_val_from_iso8601 ((const char*) str, &tv)) {
+ 	g_warning ("Cannot parse date string \"%s\"", str);
+ 	return 0;
+     }
+ 
+-    if (*after == 'Z')
+-	tzid = "UTC";
+-
+-    tz = g_time_zone_new (tzid);
+-    dt = g_date_time_new (tz,
+-			  time.tm_year + 1900,
+-			  time.tm_mon + 1,
+-			  time.tm_mday,
+-			  time.tm_hour,
+-			  time.tm_min,
+-			  time.tm_sec);
++    dt = g_date_time_new_from_timeval_local (&tv);
+ 
+     rval = g_date_time_to_unix (dt);
+ 
+-    g_time_zone_unref (tz);
+     g_date_time_unref (dt);
+ 
+     return rval;
+diff -upr libgweather-3.10.2.old//libgweather/weather-priv.h libgweather-3.10.2/libgweather/weather-priv.h
+--- libgweather-3.10.2.old//libgweather/weather-priv.h	2014-04-15 14:03:39 +0000
++++ libgweather-3.10.2/libgweather/weather-priv.h	2014-04-15 13:58:57 +0000
+@@ -32,7 +32,7 @@
+ #include "gweather-location.h"
+ 
+ #ifdef _WIN32
+-#include "gweather-win32.h"
++#define localtime_r(t,tmp) (localtime (t) ? ((*tmp) = *localtime (t), tmp) : NULL)
+ #endif
+ 
+ void        _gweather_gettext_init (void);
+diff -upr libgweather-3.10.2.old//libgweather/weather-yahoo.c libgweather-3.10.2/libgweather/weather-yahoo.c
+--- libgweather-3.10.2.old//libgweather/weather-yahoo.c	2014-04-15 14:03:39 +0000
++++ libgweather-3.10.2/libgweather/weather-yahoo.c	2014-04-15 13:58:57 +0000
+@@ -151,10 +151,35 @@ date_to_time_t (const xmlChar *str)
+ {
+     struct tm time = { 0 };
+ 
++    #ifdef G_OS_WIN32
++    char mnthname[10] = {0};
++    int day, month, year;
++    const gchar tm_months[][4] = {
++	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
++	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
++    };
++    if (sscanf ((const char*) str, "%d %3s %4d", &day, mnthname, &year) != 3) {
++	g_warning ("Cannot parse date string \"%s\"", str);
++	return 0;
++    }
++    for (month = 0; month < 12; month++) {
++	if (g_ascii_strcasecmp (tm_months[month], mnthname) == 0) {
++            break;
++        }
++    }
++    if (month == 12) {
++	g_warning ("Cannot parse date string \"%s\"", str);
++	return 0;
++    }
++    time.tm_mday = day;
++    time.tm_mon = month;
++    time.tm_year = year - 1900;
++    #else
+     if (!strptime ((const char*) str, "%d %b %Y", &time)) {
+ 	g_warning ("Cannot parse date string \"%s\"", str);
+ 	return 0;
+     }
++    #endif
+ 
+     return mktime(&time);
+ }
+diff -upr libgweather-3.10.2.old//libgweather/weather-yrno.c libgweather-3.10.2/libgweather/weather-yrno.c
+--- libgweather-3.10.2.old//libgweather/weather-yrno.c	2014-04-15 14:03:39 +0000
++++ libgweather-3.10.2/libgweather/weather-yrno.c	2014-04-15 13:58:57 +0000
+@@ -91,32 +91,20 @@ static time_t
+ date_to_time_t (const xmlChar *str, const char * tzid)
+ {
+     struct tm time = { 0 };
+-    GTimeZone *tz;
+     GDateTime *dt;
+     time_t rval;
++    GTimeVal tv;
+     char *after;
+ 
+-    after = strptime ((const char*) str, "%Y-%m-%dT%T", &time);
+-    if (after == NULL) {
++    if (!g_time_val_from_iso8601 ((const char*) str, &tv)) {
+ 	g_warning ("Cannot parse date string \"%s\"", str);
+ 	return 0;
+     }
+ 
+-    if (*after == 'Z')
+-	tzid = "UTC";
+-
+-    tz = g_time_zone_new (tzid);
+-    dt = g_date_time_new (tz,
+-			  time.tm_year + 1900,
+-			  time.tm_mon + 1,
+-			  time.tm_mday,
+-			  time.tm_hour,
+-			  time.tm_min,
+-			  time.tm_sec);
++    dt = g_date_time_new_from_timeval_local (&tv);
+ 
+     rval = g_date_time_to_unix (dt);
+ 
+-    g_time_zone_unref (tz);
+     g_date_time_unref (dt);
+ 
+     return rval;
+diff -upr libgweather-3.10.2.old//libgweather/weather.c libgweather-3.10.2/libgweather/weather.c
+--- libgweather-3.10.2.old//libgweather/weather.c	2014-04-15 14:03:39 +0000
++++ libgweather-3.10.2/libgweather/weather.c	2014-04-15 13:58:57 +0000
+@@ -28,7 +28,10 @@
+ #include <math.h>
+ #include <time.h>
+ #include <unistd.h>
++
++#ifdef HAVE_NL_LANGINFO
+ #include <langinfo.h>
++#endif
+ 
+ #include <gtk/gtk.h>
+ #include <gdk-pixbuf/gdk-pixbuf.h>
+@@ -701,12 +704,14 @@ gweather_info_get_conditions (GWeatherIn
+ static gboolean
+ is_locale_metric (void)
+ {
++#ifdef HAVE_NL_LANGINFO
+     const char *fmt;
+     fmt = nl_langinfo (_NL_MEASUREMENT_MEASUREMENT);
+ 
+     if (fmt && *fmt == 2)
+ 	return FALSE;
+     else
++#endif /* HAVE_NL_LANGINFO */
+ 	return TRUE;
+ }
+ 

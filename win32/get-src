@@ -1,0 +1,83 @@
+#!/bin/bash
+
+OK=0
+MKPWD=$PWD
+URLLINK=$1
+DOWNLOADEDFILE=$2
+EXTRACTTO=$4
+EXTRACTEDDIR=$5
+
+if test "$DOWNLOADEDFILE" = "0" ; then
+	DOWNLOADEDFILE=$3 ;
+else
+	URLLINK="$URLLINK/$DOWNLOADEDFILE" ;
+fi
+
+if test ! -f "downloads/$DOWNLOADEDFILE" ; then
+	cd downloads && \
+	wget --no-check-certificate $URLLINK && \
+	cd .. && \
+	OK=1
+else
+	OK=1
+fi
+if test "$OK" = "0" ; then
+	exit 1;
+fi
+
+case "$DOWNLOADEDFILE" in
+   *.7z)
+	if test "$EXTRACTEDDIR" = "" ; then
+		EXTRACTEDDIR=${DOWNLOADEDFILE%%.7z}
+	fi
+	if test ! -d "src/${EXTRACTEDDIR}" ; then
+		echo " * Unpacking '$DOWNLOADEDFILE'..."
+		if test "$EXTRACTTO" != "" ; then
+			cd $EXTRACTTO &&
+			7za x -y $MKPWD/downloads/$DOWNLOADEDFILE >/dev/null &&
+			cd $MKPWD
+		else
+			cd src && \
+			7za x -y ../downloads/$DOWNLOADEDFILE >/dev/null && \
+			cd ..
+		fi
+	fi
+	;;
+   *.zip)
+	if test "$EXTRACTEDDIR" = "" ; then
+		EXTRACTEDDIR=${DOWNLOADEDFILE%%.zip}
+	fi
+	if test ! -d "src/${EXTRACTEDDIR}" ; then
+		echo " * Unpacking '$DOWNLOADEDFILE'..."
+		if test "$EXTRACTTO" != "" ; then
+			cd $EXTRACTTO &&
+			unzip -o $MKPWD/downloads/$DOWNLOADEDFILE >/dev/null &&
+			cd $MKPWD
+		else
+			cd src && \
+			unzip -o ../downloads/$DOWNLOADEDFILE >/dev/null && \
+			cd ..
+		fi
+	fi
+	;;
+   *.tar*|*.tgz)
+	if test "$EXTRACTEDDIR" = "" ; then
+		case "$DOWNLOADEDFILE" in
+		   *.tar*) EXTRACTEDDIR=${DOWNLOADEDFILE%%.tar*} ;;
+		   *.tgz)  EXTRACTEDDIR=${DOWNLOADEDFILE%%.tgz*} ;;
+		   *) echo "unknown archive type for tar case: '$DOWNLOADEDFILE'"; exit 1; ;;
+		esac
+	fi
+	if test ! -d "src/$EXTRACTEDDIR" ; then
+		echo " * Unpacking '$DOWNLOADEDFILE'..."
+		if test "$EXTRACTTO" = "" ; then
+			EXTRACTTO=src
+		fi
+		if test ! -d "$EXTRACTTO" ; then
+			mkdir -p "$EXTRACTTO"; 
+		fi
+		tar -xf downloads/$DOWNLOADEDFILE --directory=$EXTRACTTO
+	fi
+	;;
+   *) echo "unknown archive type '$DOWNLOADEDFILE'"; exit 1; ;;
+esac

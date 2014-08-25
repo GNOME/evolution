@@ -1,0 +1,35 @@
+diff -upr fontconfig-2.11.0/src/fcatomic.h fontconfig-2.11.0.new/src/fcatomic.h
+--- fontconfig-2.11.0/src/fcatomic.h	2013-10-11 03:10:18 +0000
++++ fontconfig-2.11.0.new/src/fcatomic.h	2014-01-10 21:56:13 +0000
+@@ -51,6 +51,7 @@
+ /* mingw32 does not have MemoryBarrier.
+  * MemoryBarrier may be defined as a macro or a function.
+  * Just make a failsafe version for ourselves. */
++#undef MemoryBarrier
+ #ifdef MemoryBarrier
+ #define HBMemoryBarrier MemoryBarrier
+ #else
+diff -upr fontconfig-2.11.0/test/Makefile fontconfig-2.11.0.new/test/Makefile
+--- fontconfig-2.11.0/test/Makefile	2014-01-10 22:09:27 +0000
++++ fontconfig-2.11.0.new/test/Makefile	2014-01-10 22:00:23 +0000
+@@ -78,7 +78,7 @@ PRE_UNINSTALL = :
+ POST_UNINSTALL = :
+ build_triplet = i686-pc-mingw32
+ host_triplet = i686-pc-mingw32
+-check_PROGRAMS = test-migration$(EXEEXT) $(am__EXEEXT_1)
++check_PROGRAMS =
+ #am__append_1 = test-pthread
+ subdir = test
+ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
+diff -upr fontconfig-2.11.0/test/Makefile.in fontconfig-2.11.0.new/test/Makefile.in
+--- fontconfig-2.11.0/test/Makefile.in	2013-10-11 04:28:47 +0000
++++ fontconfig-2.11.0.new/test/Makefile.in	2014-01-10 21:59:55 +0000
+@@ -78,7 +78,7 @@ PRE_UNINSTALL = :
+ POST_UNINSTALL = :
+ build_triplet = @build@
+ host_triplet = @host@
+-check_PROGRAMS = test-migration$(EXEEXT) $(am__EXEEXT_1)
++check_PROGRAMS = 
+ @HAVE_PTHREAD_TRUE@am__append_1 = test-pthread
+ subdir = test
+ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \

@@ -1,0 +1,42 @@
+diff -upr tzdata2014b.old/Makefile tzdata2014b/Makefile
+--- tzdata2014b.old/Makefile	2014-03-30 17:49:03 +0000
++++ tzdata2014b/Makefile	2014-03-30 20:19:53 +0000
+@@ -52,7 +52,7 @@ TOPDIR=		/usr/local
+ # Use an absolute path name for TZDIR unless you're just testing the software.
+ 
+ TZDIR_BASENAME=	zoneinfo
+-TZDIR=		$(TOPDIR)/etc/$(TZDIR_BASENAME)
++TZDIR=		$(TOPDIR)/share/$(TZDIR_BASENAME)
+ 
+ # Types to try, as an alternative to time_t.  int64_t should be first.
+ TIME_T_ALTERNATIVES= int64_t int32_t uint32_t uint64_t
+@@ -223,7 +223,7 @@ GCC_DEBUG_FLAGS = -Dlint -g3 -O3 -fno-co
+ # before the first Monday in January when a "%V" format is used and January 1
+ # falls on a Friday, Saturday, or Sunday.
+ 
+-CFLAGS=
++CFLAGS=-DHAVE_SYS_WAIT_H=0 -DHAVE_LINK=0 -DHAVE_SYMLINK=0 -DHAVE_STDINT_H=1
+ 
+ # Linker flags.  Default to $(LFLAGS) for backwards compatibility
+ # to tzcode2012h and earlier.
+diff -upr tzdata2014b.old/zic.c tzdata2014b/zic.c
+--- tzdata2014b.old/zic.c	2014-03-30 17:49:03 +0000
++++ tzdata2014b/zic.c	2014-03-30 17:52:02 +0000
+@@ -16,7 +16,7 @@
+ typedef int_fast64_t	zic_t;
+ #define ZIC_MIN INT_FAST64_MIN
+ #define ZIC_MAX INT_FAST64_MAX
+-#define SCNdZIC SCNdFAST64
++#define SCNdZIC "lld"
+ 
+ #ifndef ZIC_MAX_ABBR_LEN_WO_WARN
+ #define ZIC_MAX_ABBR_LEN_WO_WARN	6
+@@ -2814,7 +2814,7 @@ mkdirs(char *argname)
+ 			** created by some other multiprocessor, so we get
+ 			** to do extra checking.
+ 			*/
+-			if (mkdir(name, MKDIR_UMASK) != 0) {
++			if (mkdir(name) != 0) {
+ 				const char *e = strerror(errno);
+ 
+ 				if (errno != EEXIST || !itsdir(name)) {

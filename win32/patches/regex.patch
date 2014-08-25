@@ -1,0 +1,48 @@
+diff -upr -x .deps -x .libs -x '*.la' regex-20090805.old/lib/gettext.h regex-20090805/lib/gettext.h
+--- regex-20090805.old/lib/gettext.h	2009-08-05 19:37:29 +0000
++++ regex-20090805/lib/gettext.h	2014-05-31 06:05:12 +0000
+@@ -178,7 +178,7 @@ npgettext_aux (const char *domain,
+ #include <string.h>
+ 
+ #define _LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS \
+-  (((__GNUC__ >= 3 || __GNUG__ >= 2) && !__STRICT_ANSI__) \
++  (((__GNUC__ >= 3 || __GNUG__ >= 2) && (defined(__STRICT_ANSI__) && !__STRICT_ANSI__)) \
+    /* || __STDC_VERSION__ >= 199901L */ )
+ 
+ #if !_LIBGETTEXT_HAVE_VARIABLE_SIZE_ARRAYS
+diff -upr -x .deps -x .libs -x '*.la' regex-20090805.old/lib/regex.h regex-20090805/lib/regex.h
+--- regex-20090805.old/lib/regex.h	2009-08-05 19:37:32 +0000
++++ regex-20090805/lib/regex.h	2014-05-31 06:05:29 +0000
+@@ -630,7 +630,7 @@ extern int re_exec (const char *);
+    'configure' might #define 'restrict' to those words, so pick a
+    different name.  */
+ #ifndef _Restrict_
+-# if 199901L <= __STDC_VERSION__
++# if (defined(__STDC_VERSION__) && 199901L <= __STDC_VERSION__)
+ #  define _Restrict_ restrict
+ # elif 2 < __GNUC__ || (2 == __GNUC__ && 95 <= __GNUC_MINOR__)
+ #  define _Restrict_ __restrict
+@@ -642,9 +642,9 @@ extern int re_exec (const char *);
+    sys/cdefs.h's definition of __restrict_arr, though, as it
+    mishandles gcc -ansi -pedantic.  */
+ #ifndef _Restrict_arr_
+-# if ((199901L <= __STDC_VERSION__					\
++# if (((defined(__STDC_VERSION__) && 199901L <= __STDC_VERSION__)	\
+        || ((3 < __GNUC__ || (3 == __GNUC__ && 1 <= __GNUC_MINOR__))	\
+-	   && !__STRICT_ANSI__))					\
++	   && (!defined(__STRICT_ANSI__) || !__STRICT_ANSI__)))					\
+       && !defined __GNUG__)
+ #  define _Restrict_arr_ _Restrict_
+ # else
+diff -upr -x .deps -x .libs -x '*.la' regex-20090805.old/lib/regex_internal.h regex-20090805/lib/regex_internal.h
+--- regex-20090805.old/lib/regex_internal.h	2009-08-05 19:37:33 +0000
++++ regex-20090805/lib/regex_internal.h	2014-05-31 06:05:50 +0000
+@@ -338,7 +338,7 @@ typedef struct
+     Idx idx;			/* for BACK_REF */
+     re_context_type ctx_type;	/* for ANCHOR */
+   } opr;
+-#if __GNUC__ >= 2 && !__STRICT_ANSI__
++#if __GNUC__ >= 2 && (defined(__STRICT_ANSI__) && !__STRICT_ANSI__)
+   re_token_type_t type : 8;
+ #else
+   re_token_type_t type;

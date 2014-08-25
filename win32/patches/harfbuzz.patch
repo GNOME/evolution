@@ -1,0 +1,25 @@
+diff -upr harfbuzz-0.9.27.old//Makefile.in harfbuzz-0.9.27/Makefile.in
+--- harfbuzz-0.9.27.old//Makefile.in	2014-03-18 17:07:54 +0000
++++ harfbuzz-0.9.27/Makefile.in	2014-04-20 18:18:47 +0000
+@@ -365,7 +365,7 @@ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ NULL = 
+ ACLOCAL_AMFLAGS = -I m4
+-SUBDIRS = src util test docs
++SUBDIRS = src
+ EXTRA_DIST = \
+ 	autogen.sh \
+ 	harfbuzz.doap \
+diff -upr harfbuzz-0.9.27.old//src/hb-common.cc harfbuzz-0.9.27/src/hb-common.cc
+--- harfbuzz-0.9.27.old//src/hb-common.cc	2014-03-16 20:40:33 +0000
++++ harfbuzz-0.9.27/src/hb-common.cc	2014-04-20 18:16:17 +0000
+@@ -33,6 +33,9 @@
+ 
+ #include <locale.h>
+ 
++extern "C" {
++_CRTIMP char* __cdecl __MINGW_NOTHROW	strdup (const char*) __MINGW_ATTRIB_MALLOC;
++}
+ 
+ /* hb_options_t */
+ 

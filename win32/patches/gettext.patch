@@ -1,0 +1,97 @@
+diff -upr gettext-0.18.3.1.old/gettext-tools/gnulib-lib/Makefile gettext-0.18.3.1/gettext-tools/gnulib-lib/Makefile
+--- gettext-0.18.3.1.old/gettext-tools/gnulib-lib/Makefile	2014-05-08 15:10:25 +0000
++++ gettext-0.18.3.1/gettext-tools/gnulib-lib/Makefile	2014-05-07 19:38:11 +0000
+@@ -129,7 +129,7 @@ am__append_12 = $(LTLIBCROCO) $(LTLIBGLI
+ #am__append_17 = libxml_rpl.la
+ #am__append_18 = libxml_rpl.la
+ #am__append_19 = term-styled-ostream.c
+-am__append_20 = ../woe32dll/c++term-styled-ostream.cc
++#am__append_20 = ../woe32dll/c++term-styled-ostream.cc
+ am__append_21 = uniconv/u8-conv-from-enc.c
+ am__append_22 = unilbrk/u8-possible-linebreaks.c
+ am__append_23 = unilbrk/u8-width-linebreaks.c
+@@ -475,7 +475,7 @@ am__libgettextlib_la_SOURCES_DIST = copy
+ 	findprog.h findprog.c fstrcmp.h fstrcmp.c full-write.h \
+ 	full-write.c fwriteerror.h fwriteerror.c gcd.h gcd.c gettext.h \
+ 	../woe32dll/gettextlib-exports.c hash.h hash.c html-ostream.c \
+-	html-styled-ostream.c ../woe32dll/c++html-styled-ostream.cc \
++	 \
+ 	javacomp.h javacomp.c javaexec.h javaexec.c javaversion.h \
+ 	javaversion.c gl_linkedhash_list.h gl_linkedhash_list.c \
+ 	gl_anyhash_list1.h gl_anyhash_list2.h gl_anylinked_list1.h \
+@@ -490,8 +490,8 @@ am__libgettextlib_la_SOURCES_DIST = copy
+ 	sig-handler.c size_max.h spawn-pipe.h spawn-pipe.c striconv.h \
+ 	striconv.c striconveh.h striconveh.c striconveha.h \
+ 	striconveha.c strnlen1.h strnlen1.c styled-ostream.c \
+-	tempname.c term-ostream.c term-styled-ostream.c \
+-	../woe32dll/c++term-styled-ostream.cc glthread/threadlib.c \
++	tempname.c term-ostream.c \
++	 glthread/threadlib.c \
+ 	glthread/tls.h glthread/tls.c tmpdir.h tmpdir.c trim.c \
+ 	uniconv/u8-conv-from-enc.c unilbrk/lbrktables.c \
+ 	unilbrk/u8-possible-linebreaks.c unilbrk/u8-width-linebreaks.c \
+@@ -509,9 +509,9 @@ am__libgettextlib_la_SOURCES_DIST = copy
+ 	xvasprintf.c xasprintf.c
+ am__objects_1 = ../woe32dll/gettextlib-exports.lo
+ #am__objects_2 = html-styled-ostream.lo
+-am__objects_3 = ../woe32dll/c++html-styled-ostream.lo
++#am__objects_3 = ../woe32dll/c++html-styled-ostream.lo
+ #am__objects_4 = term-styled-ostream.lo
+-am__objects_5 = ../woe32dll/c++term-styled-ostream.lo
++#am__objects_5 = ../woe32dll/c++term-styled-ostream.lo
+ am__objects_6 = uniconv/u8-conv-from-enc.lo
+ am__objects_7 = unilbrk/u8-possible-linebreaks.lo
+ am__objects_8 = unilbrk/u8-width-linebreaks.lo
+@@ -545,7 +545,7 @@ am_libgettextlib_la_OBJECTS = copy-acl.l
+ 	fd-hook.lo fd-ostream.lo fd-safer-flag.lo dup-safer-flag.lo \
+ 	file-ostream.lo findprog.lo fstrcmp.lo full-write.lo \
+ 	fwriteerror.lo gcd.lo $(am__objects_1) hash.lo html-ostream.lo \
+-	$(am__objects_2) $(am__objects_3) javacomp.lo javaexec.lo \
++	$(am__objects_2) javacomp.lo javaexec.lo \
+ 	javaversion.lo gl_linkedhash_list.lo gl_list.lo \
+ 	localcharset.lo localename.lo glthread/lock.lo malloca.lo \
+ 	mbchar.lo mbiter.lo mbslen.lo mbsstr.lo mbswidth.lo mbuiter.lo \
+@@ -555,7 +555,7 @@ am_libgettextlib_la_OBJECTS = copy-acl.l
+ 	safe-read.lo safe-write.lo sh-quote.lo sig-handler.lo \
+ 	spawn-pipe.lo striconv.lo striconveh.lo striconveha.lo \
+ 	strnlen1.lo styled-ostream.lo tempname.lo term-ostream.lo \
+-	$(am__objects_4) $(am__objects_5) glthread/threadlib.lo \
++	$(am__objects_4) glthread/threadlib.lo \
+ 	glthread/tls.lo tmpdir.lo trim.lo $(am__objects_6) \
+ 	unilbrk/lbrktables.lo $(am__objects_7) $(am__objects_8) \
+ 	unilbrk/ulc-common.lo $(am__objects_9) $(am__objects_10) \
+diff -upr gettext-0.18.3.1.old/gettext-tools/src/write-catalog.c gettext-0.18.3.1/gettext-tools/src/write-catalog.c
+--- gettext-0.18.3.1.old/gettext-tools/src/write-catalog.c	2012-12-10 01:59:06 +0000
++++ gettext-0.18.3.1/gettext-tools/src/write-catalog.c	2014-05-07 19:41:40 +0000
+@@ -240,7 +240,7 @@ message catalog has plural form translat
+         }
+ 
+       style_file_prepare ();
+-      stream = term_styled_ostream_create (fd, filename, style_file_name);
++      stream = NULL; /*term_styled_ostream_create (fd, filename, style_file_name);*/
+       if (stream == NULL)
+         stream = fd_ostream_create (fd, filename, true);
+       output_syntax->print (mdlp, stream, page_width, debug);
+@@ -286,11 +286,11 @@ message catalog has plural form translat
+       stream = file_ostream_create (fp);
+ 
+ #if ENABLE_COLOR
+-      if (output_syntax->supports_color && color_mode == color_html)
++      /*if (output_syntax->supports_color && color_mode == color_html)
+         {
+           html_styled_ostream_t html_stream;
+ 
+-          /* Convert mdlp to UTF-8 encoding.  */
++          /* Convert mdlp to UTF-8 encoding.  * /
+           if (mdlp->encoding != po_charset_utf8)
+             {
+               mdlp = msgdomain_list_copy (mdlp, 0);
+@@ -302,7 +302,7 @@ message catalog has plural form translat
+           output_syntax->print (mdlp, html_stream, page_width, debug);
+           ostream_free (html_stream);
+         }
+-      else
++      else*/
+ #endif
+         {
+           output_syntax->print (mdlp, stream, page_width, debug);

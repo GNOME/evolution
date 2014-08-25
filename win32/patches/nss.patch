@@ -1,0 +1,464 @@
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/include/md/_win32_errors.h nss-3.15.4/nspr/pr/include/md/_win32_errors.h
+--- nss-3.15.4.old/nspr/pr/include/md/_win32_errors.h	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/include/md/_win32_errors.h	2014-07-29 18:09:32 +0000
+@@ -6,8 +6,8 @@
+ #ifndef nspr_win32_errors_h___
+ #define nspr_win32_errors_h___
+ 
++#include <winsock2.h>
+ #include <windows.h>
+-#include <winsock.h>
+ #include <errno.h>
+ 
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/include/md/_win95.h nss-3.15.4/nspr/pr/include/md/_win95.h
+--- nss-3.15.4.old/nspr/pr/include/md/_win95.h	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/include/md/_win95.h	2014-07-29 18:09:32 +0000
+@@ -8,8 +8,8 @@
+ 
+ #include "prio.h"
+ 
++#include <winsock2.h>
+ #include <windows.h>
+-#include <winsock.h>
+ #include <errno.h>
+ 
+ /*
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/include/md/_winnt.h nss-3.15.4/nspr/pr/include/md/_winnt.h
+--- nss-3.15.4.old/nspr/pr/include/md/_winnt.h	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/include/md/_winnt.h	2014-07-29 18:09:32 +0000
+@@ -16,8 +16,8 @@
+     #define _WIN32_WINNT 0x0400
+ #endif /* _WIN32_WINNT */
+ 
++#include <winsock2.h>
+ #include <windows.h>
+-#include <winsock.h>
+ #ifdef __MINGW32__
+ #include <mswsock.h>
+ #endif
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/include/pratom.h nss-3.15.4/nspr/pr/include/pratom.h
+--- nss-3.15.4.old/nspr/pr/include/pratom.h	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nspr/pr/include/pratom.h	2014-07-29 18:09:32 +0000
+@@ -14,6 +14,11 @@
+ #include "prtypes.h"
+ #include "prlock.h"
+ 
++#ifdef _WIN32
++#include <winsock2.h>
++#include <windows.h>
++#endif
++
+ PR_BEGIN_EXTERN_C
+ 
+ /*
+@@ -78,20 +83,20 @@ NSPR_API(PRInt32)	PR_AtomicAdd(PRInt32 *
+ **    the macros and functions won't be compatible and can't be used
+ **    interchangeably.
+ */
+-#if defined(_WIN32) && !defined(_WIN32_WCE) && \
+-    (!defined(_MSC_VER) || (_MSC_VER >= 1310))
++#if defined(_WIN32) && !defined(_WIN32_WCE)
+ 
++#if defined(_MSC_VER)
++#if (_MSC_VER >= 1310)
+ long __cdecl _InterlockedIncrement(long volatile *Addend);
+ long __cdecl _InterlockedDecrement(long volatile *Addend);
+ long __cdecl _InterlockedExchange(long volatile *Target, long Value);
+ long __cdecl _InterlockedExchangeAdd(long volatile *Addend, long Value);
++#endif
+ 
+-#ifdef _MSC_VER
+ #pragma intrinsic(_InterlockedIncrement)
+ #pragma intrinsic(_InterlockedDecrement)
+ #pragma intrinsic(_InterlockedExchange)
+ #pragma intrinsic(_InterlockedExchangeAdd)
+-#endif
+ 
+ #define PR_ATOMIC_INCREMENT(val) _InterlockedIncrement((long volatile *)(val))
+ #define PR_ATOMIC_DECREMENT(val) _InterlockedDecrement((long volatile *)(val))
+@@ -100,6 +105,15 @@ long __cdecl _InterlockedExchangeAdd(lon
+ #define PR_ATOMIC_ADD(ptr, val) \
+         (_InterlockedExchangeAdd((long volatile *)(ptr), (long)(val)) + (val))
+ 
++#elif defined(__MINGW32__)
++#define PR_ATOMIC_INCREMENT(val) InterlockedIncrement((long volatile *)(val))
++#define PR_ATOMIC_DECREMENT(val) InterlockedDecrement((long volatile *)(val))
++#define PR_ATOMIC_SET(val, newval) \
++        InterlockedExchange((long volatile *)(val), (long)(newval))
++#define PR_ATOMIC_ADD(ptr, val) \
++        (InterlockedExchangeAdd((long volatile *)(ptr), (long)(val)) + (val))
++#endif
++
+ #elif ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 1)) && \
+       ((defined(__APPLE__) && \
+            (defined(__ppc__) || defined(__i386__) || defined(__x86_64__))) || \
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/prosdep.c nss-3.15.4/nspr/pr/src/md/prosdep.c
+--- nss-3.15.4.old/nspr/pr/src/md/prosdep.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/prosdep.c	2014-07-29 18:09:32 +0000
+@@ -10,6 +10,7 @@
+ #include <unistd.h>
+ #endif
+ #ifdef _WIN32
++#include <winsock2.h>
+ #include <windows.h>
+ #endif 
+ #ifdef XP_BEOS
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/ntdllmn.c nss-3.15.4/nspr/pr/src/md/windows/ntdllmn.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/ntdllmn.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/ntdllmn.c	2014-07-29 18:09:32 +0000
+@@ -16,6 +16,7 @@
+  * or not.
+  */
+ 
++#include <winsock2.h>
+ #include <windows.h>
+ #include <primpl.h>
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/ntgc.c nss-3.15.4/nspr/pr/src/md/windows/ntgc.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/ntgc.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/ntgc.c	2014-07-29 18:09:32 +0000
+@@ -7,6 +7,7 @@
+  * GC related routines
+  *
+  */
++#include <winsock2.h>
+ #include <windows.h>
+ #include "primpl.h"
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/ntio.c nss-3.15.4/nspr/pr/src/md/windows/ntio.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/ntio.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/ntio.c	2014-07-29 18:09:32 +0000
+@@ -2461,7 +2461,7 @@ _PR_MD_WRITE(PRFileDesc *fd, const void
+ PRInt32
+ _PR_MD_SOCKETAVAILABLE(PRFileDesc *fd)
+ {
+-    PRInt32 result;
++    u_long result;
+ 
+     if (ioctlsocket(fd->secret->md.osfd, FIONREAD, &result) < 0) {
+ 		PR_SetError(PR_BAD_DESCRIPTOR_ERROR, WSAGetLastError());
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/ntmisc.c nss-3.15.4/nspr/pr/src/md/windows/ntmisc.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/ntmisc.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/ntmisc.c	2014-07-29 18:09:32 +0000
+@@ -10,6 +10,7 @@
+ 
+ #include "primpl.h"
+ #include <math.h>     /* for fabs() */
++#include <winsock2.h>
+ #include <windows.h>
+ 
+ char *_PR_MD_GET_ENV(const char *name)
+@@ -769,10 +770,14 @@ PRStatus _PR_WaitWindowsProcess(PRProces
+         return PR_FAILURE;
+     }
+     PR_ASSERT(dwRetVal == WAIT_OBJECT_0);
+-    if (exitCode != NULL &&
+-            GetExitCodeProcess(process->md.handle, exitCode) == FALSE) {
+-        PR_SetError(PR_UNKNOWN_ERROR, GetLastError());
+-        return PR_FAILURE;
++    if (exitCode != NULL) {
++	    DWORD dwExitCode = 0;
++            if (GetExitCodeProcess(process->md.handle, &dwExitCode) == FALSE) {
++		*exitCode = dwExitCode;
++		PR_SetError(PR_UNKNOWN_ERROR, GetLastError());
++		return PR_FAILURE;
++	}
++	*exitCode = dwExitCode;
+     }
+     CloseHandle(process->md.handle);
+     PR_DELETE(process);
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/w32rng.c nss-3.15.4/nspr/pr/src/md/windows/w32rng.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/w32rng.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/w32rng.c	2014-07-29 18:09:32 +0000
+@@ -3,6 +3,7 @@
+  * License, v. 2.0. If a copy of the MPL was not distributed with this
+  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ 
++#include <winsock2.h>
+ #include <windows.h>
+ #include <time.h>
+ #include <io.h>
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/w95dllmain.c nss-3.15.4/nspr/pr/src/md/windows/w95dllmain.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/w95dllmain.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/w95dllmain.c	2014-07-29 18:09:32 +0000
+@@ -10,6 +10,7 @@
+  * nspr.
+  */
+ 
++#include <winsock2.h>
+ #include <windows.h>
+ #include <primpl.h>
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/w95sock.c nss-3.15.4/nspr/pr/src/md/windows/w95sock.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/w95sock.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/w95sock.c	2014-07-29 18:09:32 +0000
+@@ -110,7 +110,7 @@ _MD_CloseSocket(PROsfd osfd)
+ PRInt32
+ _MD_SocketAvailable(PRFileDesc *fd)
+ {
+-    PRInt32 result;
++    u_long result;
+ 
+     if (ioctlsocket(fd->secret->md.osfd, FIONREAD, &result) < 0) {
+         PR_SetError(PR_BAD_DESCRIPTOR_ERROR, WSAGetLastError());
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/md/windows/win32_errors.c nss-3.15.4/nspr/pr/src/md/windows/win32_errors.c
+--- nss-3.15.4.old/nspr/pr/src/md/windows/win32_errors.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/md/windows/win32_errors.c	2014-07-29 18:09:32 +0000
+@@ -6,6 +6,7 @@
+ #include "prerror.h"
+ #include "prlog.h"
+ #include <errno.h>
++#include <winsock2.h>
+ #include <windows.h>
+ 
+ /*
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nspr/pr/src/misc/prtpool.c nss-3.15.4/nspr/pr/src/misc/prtpool.c
+--- nss-3.15.4.old/nspr/pr/src/misc/prtpool.c	2013-11-09 09:49:40 +0000
++++ nss-3.15.4/nspr/pr/src/misc/prtpool.c	2014-07-29 18:09:32 +0000
+@@ -12,6 +12,7 @@
+  *
+  */
+ #ifdef OPT_WINNT
++#include <winsock2.h>
+ #include <windows.h>
+ #endif
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/cmd/crmftest/Makefile nss-3.15.4/nss/cmd/crmftest/Makefile
+--- nss-3.15.4.old/nss/cmd/crmftest/Makefile	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/cmd/crmftest/Makefile	2014-07-29 18:09:32 +0000
+@@ -58,7 +58,7 @@ include $(CORE_DEPTH)/coreconf/rules.mk
+ LDDIST = $(DIST)/lib
+ 
+ ifeq (,$(filter-out WIN%,$(OS_TARGET)))
+-EXTRA_LIBS += $(LDDIST)/sectool.lib
++EXTRA_LIBS += $(LDDIST)/$(LIB_PREFIX)sectool.$(LIB_SUFFIX)
+ endif
+ 
+ include ../platrules.mk
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/cmd/manifest.mn nss-3.15.4/nss/cmd/manifest.mn
+--- nss-3.15.4.old/nss/cmd/manifest.mn	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/cmd/manifest.mn	2014-07-29 18:09:32 +0000
+@@ -47,7 +47,6 @@ DIRS = lib  \
+  selfserv  \
+  signtool \
+  signver \
+- $(SHLIBSIGN_SRCDIR) \
+  smimetools  \
+  ssltap  \
+  strsclnt \
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/cmd/p7env/p7env.c nss-3.15.4/nss/cmd/p7env/p7env.c
+--- nss-3.15.4.old/nss/cmd/p7env/p7env.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/cmd/p7env/p7env.c	2014-07-29 18:09:32 +0000
+@@ -14,6 +14,14 @@
+ #include "certdb.h"
+ #include "nss.h"
+ 
++#if defined(XP_WIN32)
++#include <winsock2.h>
++#include <windows.h>
++#ifdef EncryptFile
++#undef EncryptFile
++#endif
++#endif
++
+ #if defined(XP_UNIX)
+ #include <unistd.h>
+ #endif
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/cmd/platlibs.mk nss-3.15.4/nss/cmd/platlibs.mk
+--- nss-3.15.4.old/nss/cmd/platlibs.mk	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/cmd/platlibs.mk	2014-07-29 18:09:32 +0000
+@@ -80,6 +80,7 @@ EXTRA_LIBS += \
+ 	$(DIST)/lib/$(LIB_PREFIX)cryptohi.$(LIB_SUFFIX) \
+ 	$(DIST)/lib/$(LIB_PREFIX)pk11wrap.$(LIB_SUFFIX) \
+ 	$(DIST)/lib/$(LIB_PREFIX)certdb.$(LIB_SUFFIX) \
++	$(DIST)/lib/$(LIB_PREFIX)certhi.$(LIB_SUFFIX) \
+ 	$(SOFTOKENLIB) \
+ 	$(CRYPTOLIB) \
+ 	$(DIST)/lib/$(LIB_PREFIX)nsspki.$(LIB_SUFFIX) \
+@@ -95,10 +96,19 @@ EXTRA_LIBS += \
+ 	$(NULL)
+ 
+ # $(PROGRAM) has NO explicit dependencies on $(OS_LIBS)
+-#OS_LIBS += \
++ifdef NS_USE_GCC
++    OS_LIBS += \
++	-lws2_32 \
++	-lwsock32 \
++	-lwinmm \
++	$(NULL)
++else
++    OS_LIBS += \
+ 	wsock32.lib \
+ 	winmm.lib \
+ 	$(NULL)
++endif
++
+ else
+ 
+ EXTRA_LIBS += \
+@@ -167,10 +177,19 @@ EXTRA_LIBS += \
+ 	$(NULL)
+ 
+ # $(PROGRAM) has NO explicit dependencies on $(OS_LIBS)
+-#OS_LIBS += \
++ifdef NS_USE_GCC
++    OS_LIBS += \
++	-lws2_32 \
++	-lwsock32 \
++	-lwinmm \
++	$(NULL)
++else
++    OS_LIBS += \
+ 	wsock32.lib \
+ 	winmm.lib \
+ 	$(NULL)
++endif
++
+ else
+ 
+ # $(PROGRAM) has explicit dependencies on $(EXTRA_LIBS)
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/cmd/shlibsign/shlibsign.c nss-3.15.4/nss/cmd/shlibsign/shlibsign.c
+--- nss-3.15.4.old/nss/cmd/shlibsign/shlibsign.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/cmd/shlibsign/shlibsign.c	2014-07-29 18:09:32 +0000
+@@ -560,7 +560,7 @@ softokn_Init(CK_FUNCTION_LIST_PTR pFunct
+     CK_C_INITIALIZE_ARGS initArgs;
+     char *moduleSpec = NULL;
+ 
+-    initArgs.CreateMutex = NULL;
++    initArgs.GenerateMutex = NULL;
+     initArgs.DestroyMutex = NULL;
+     initArgs.LockMutex = NULL;
+     initArgs.UnlockMutex = NULL;
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/coreconf/WINNT.mk nss-3.15.4/nss/coreconf/WINNT.mk
+--- nss-3.15.4.old/nss/coreconf/WINNT.mk	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/coreconf/WINNT.mk	2014-07-29 18:09:32 +0000
+@@ -12,9 +12,14 @@ include $(CORE_DEPTH)/coreconf/WIN32.mk
+ DEFINES += -DWINNT
+ 
+ #
+-# Win NT needs -GT so that fibers can work
++# MinGW needs IE 4.0 to have SHGetSpecialFolderPath functions
++# MSVC needs -GT so that fibers can work
+ #
+-OS_CFLAGS += -GT
++ifdef NS_USE_GCC
++    OS_CFLAGS += -D_WIN32_IE=0x0400
++else
++    OS_CFLAGS += -GT
++endif
+ 
+ # WINNT uses the lib prefix, Win95 doesn't
+ NSPR31_LIB_PREFIX = lib
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/ckfw/wrap.c nss-3.15.4/nss/lib/ckfw/wrap.c
+--- nss-3.15.4.old/nss/lib/ckfw/wrap.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/ckfw/wrap.c	2014-07-29 18:09:32 +0000
+@@ -107,7 +107,7 @@ nssCKFW_GetThreadSafeState(CK_C_INITIALI
+     *pLocking_state = MultiThreaded;
+     return CKR_OK;
+   }
+-  if ((CK_CREATEMUTEX) NULL != pInitArgs->CreateMutex) functionCount++;
++  if ((CK_CREATEMUTEX) NULL != pInitArgs->GenerateMutex) functionCount++;
+   if ((CK_DESTROYMUTEX) NULL != pInitArgs->DestroyMutex) functionCount++;
+   if ((CK_LOCKMUTEX) NULL != pInitArgs->LockMutex) functionCount++;
+   if ((CK_UNLOCKMUTEX) NULL != pInitArgs->UnlockMutex) functionCount++;
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/libpkix/pkix_pl_nss/system/pkix_pl_object.c nss-3.15.4/nss/lib/libpkix/pkix_pl_nss/system/pkix_pl_object.c
+--- nss-3.15.4.old/nss/lib/libpkix/pkix_pl_nss/system/pkix_pl_object.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/libpkix/pkix_pl_nss/system/pkix_pl_object.c	2014-07-29 18:09:32 +0000
+@@ -480,6 +480,8 @@ cleanup:
+  *  work as proxy function to a real objects.
+  *  
+  */
++#undef ERROR
++
+ PKIX_Error *
+ pkix_pl_Object_RegisterSelf(void *plContext)
+ {
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/softoken/legacydb/manifest.mn nss-3.15.4/nss/lib/softoken/legacydb/manifest.mn
+--- nss-3.15.4.old/nss/lib/softoken/legacydb/manifest.mn	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/softoken/legacydb/manifest.mn	2014-07-29 18:09:32 +0000
+@@ -12,6 +12,8 @@ LIBRARY_NAME = nssdbm
+ LIBRARY_VERSION = 3
+ MAPFILE = $(OBJDIR)/nssdbm.def
+ 
++OS_CFLAGS += -I../../../../../dbm/include
++
+ DEFINES += -DSHLIB_SUFFIX=\"$(DLL_SUFFIX)\" -DSHLIB_PREFIX=\"$(DLL_PREFIX)\"
+ 
+ CSRCS = \
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/softoken/pkcs11.c nss-3.15.4/nss/lib/softoken/pkcs11.c
+--- nss-3.15.4.old/nss/lib/softoken/pkcs11.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/softoken/pkcs11.c	2014-07-29 18:09:32 +0000
+@@ -2855,7 +2855,7 @@ CK_RV nsc_CommonInitialize(CK_VOID_PTR p
+ 
+    /* initialize the key and cert db's */
+     if (init_args && (!(init_args->flags & CKF_OS_LOCKING_OK))) {
+-        if (init_args->CreateMutex && init_args->DestroyMutex &&
++        if (init_args->GenerateMutex && init_args->DestroyMutex &&
+             init_args->LockMutex && init_args->UnlockMutex) {
+             /* softoken always uses NSPR (ie. OS locking), and doesn't know how
+              * to use the lock functions provided by the application.
+@@ -2863,7 +2863,7 @@ CK_RV nsc_CommonInitialize(CK_VOID_PTR p
+             crv = CKR_CANT_LOCK;
+             return crv;
+         }
+-        if (init_args->CreateMutex || init_args->DestroyMutex ||
++        if (init_args->GenerateMutex || init_args->DestroyMutex ||
+             init_args->LockMutex || init_args->UnlockMutex) {
+             /* only some of the lock functions were provided by the
+              * application. This is invalid per PKCS#11 spec.
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/ssl/sslmutex.c nss-3.15.4/nss/lib/ssl/sslmutex.c
+--- nss-3.15.4.old/nss/lib/ssl/sslmutex.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/ssl/sslmutex.c	2014-07-29 18:09:32 +0000
+@@ -6,6 +6,11 @@
+ /* This ifdef should match the one in sslsnce.c */
+ #if defined(XP_UNIX) || defined(XP_WIN32) || defined (XP_OS2) || defined(XP_BEOS)
+ 
++#if defined(XP_WIN32)
++#include <winsock2.h>
++#include <windows.h>
++#endif
++
+ #include "sslmutex.h"
+ #include "prerr.h"
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/util/pkcs11t.h nss-3.15.4/nss/lib/util/pkcs11t.h
+--- nss-3.15.4.old/nss/lib/util/pkcs11t.h	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/util/pkcs11t.h	2014-07-29 18:09:32 +0000
+@@ -1181,7 +1181,7 @@ typedef CK_CALLBACK_FUNCTION(CK_RV, CK_U
+ /* CK_C_INITIALIZE_ARGS provides the optional arguments to
+  * C_Initialize */
+ typedef struct CK_C_INITIALIZE_ARGS {
+-  CK_CREATEMUTEX CreateMutex;
++  CK_CREATEMUTEX GenerateMutex;
+   CK_DESTROYMUTEX DestroyMutex;
+   CK_LOCKMUTEX LockMutex;
+   CK_UNLOCKMUTEX UnlockMutex;
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/lib/util/secport.c nss-3.15.4/nss/lib/util/secport.c
+--- nss-3.15.4.old/nss/lib/util/secport.c	2014-07-29 17:38:22 +0000
++++ nss-3.15.4/nss/lib/util/secport.c	2014-07-29 18:09:32 +0000
+@@ -31,6 +31,10 @@
+ #if defined(XP_UNIX) || defined(XP_OS2) || defined(XP_BEOS)
+ #include <stdlib.h>
+ #else
++#if defined(XP_WIN32)
++#include <winsock2.h>
++#include <windows.h>
++#endif
+ #include "wtypes.h"
+ #endif
+ 
+diff -upr -x .deps -x .libs -x '*.la' nss-3.15.4.old/nss/nss.pc nss-3.15.4/nss/nss.pc
+--- nss-3.15.4.old/nss/nss.pc	2014-07-29 17:44:30 +0000
++++ nss-3.15.4/nss/nss.pc	2014-07-29 18:09:32 +0000
+@@ -0,0 +1,10 @@
++exec_prefix=${prefix}
++libdir=${exec_prefix}/lib
++includedir=${prefix}/include/nss
++
++Name: NSS
++Description: The Netscape Security Services
++Version: 3.15.4
++Requires: nspr
++Libs: -L${exec_prefix}/lib -lssl3 -lsmime3 -lnss3 -lnssutil3
++Cflags: -I${prefix}/include/nss

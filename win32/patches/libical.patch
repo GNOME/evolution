@@ -1,0 +1,169 @@
+diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltime.c libical-1.0/src/libical/icaltime.c
+--- libical-1.0.old/src/libical/icaltime.c	2013-04-14 17:24:42 +0000
++++ libical-1.0/src/libical/icaltime.c	2014-08-03 13:58:29 +0000
+@@ -61,7 +61,7 @@
+ #undef gmtime_r
+ 
+ /* The gmtime() in Microsoft's C library is MT-safe */
+-#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
++#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):memset(tmp, 0, sizeof(*tmp)))
+ #endif
+ 
+ #ifdef HAVE_PTHREAD
+@@ -205,11 +205,7 @@ icaltime_from_timet_with_zone(const time
+ 
+     /* Convert the time_t to a struct tm in UTC time. We can trust gmtime
+        for this. */
+-#ifdef HAVE_PTHREAD
+     gmtime_r (&tm, &t);
+-#else
+-    t = *(gmtime (&tm));
+-#endif
+      
+     tt.year   = t.tm_year + 1900;
+     tt.month  = t.tm_mon + 1;
+diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltimezone.c libical-1.0/src/libical/icaltimezone.c
+--- libical-1.0.old/src/libical/icaltimezone.c	2013-04-14 17:24:42 +0000
++++ libical-1.0/src/libical/icaltimezone.c	2014-08-03 13:59:38 +0000
+@@ -61,12 +61,19 @@ static pthread_mutex_t builtin_mutex = P
+ #undef gmtime_r
+ 
+ /* The gmtime() in Microsoft's C library is MT-safe */
+-#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
++#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):memset(tmp, 0, sizeof(*tmp)))
+ 
+ // MSVC lacks the POSIX macro S_ISDIR, however it's a trivial one:
+ #ifndef S_ISDIR
+ #define S_ISDIR(m) (((m) & _S_IFMT) == _S_IFDIR)
+ #endif
++
++#define DIR_SEPARATOR "\\"
++
++#else
++
++#define DIR_SEPARATOR "/"
++
+ #endif
+ 
+ #if defined(_MSC_VER)
+@@ -75,7 +82,7 @@ static pthread_mutex_t builtin_mutex = P
+ #endif
+ 
+ /** This is the toplevel directory where the timezone data is installed in. */
+-#define ZONEINFO_DIRECTORY	PACKAGE_DATA_DIR "/zoneinfo"
++#define ZONEINFO_DIRECTORY	PACKAGE_DATA_DIR DIR_SEPARATOR "zoneinfo"
+ 
+ /** The prefix we use to uniquely identify TZIDs.
+     It must begin and end with forward slashes.
+@@ -1702,10 +1709,10 @@ icaltimezone_parse_zone_tab		(void)
+ 	return;
+     }
+ #ifndef USE_BUILTIN_TZDATA
+-    snprintf (filename, filename_len, "%s/%s", icaltzutil_get_zone_directory (),
++    snprintf (filename, filename_len, "%s" DIR_SEPARATOR "%s", icaltzutil_get_zone_directory (),
+ 	      ZONES_TAB_SYSTEM_FILENAME);
+ #else    
+-    snprintf (filename, filename_len, "%s/%s", get_zone_directory(),
++    snprintf (filename, filename_len, "%s" DIR_SEPARATOR "%s", get_zone_directory(),
+ 	      ZONES_TAB_FILENAME);
+ #endif    
+ 
+@@ -1823,7 +1830,7 @@ icaltimezone_load_builtin_timezone	(ical
+ 	goto out;
+     }
+ 
+-    snprintf (filename, filename_len, "%s/%s.ics", get_zone_directory(),
++    snprintf (filename, filename_len, "%s " DIR_SEPARATOR " %s.ics", get_zone_directory(),
+ 	      zone->location);
+ 
+     fp = fopen (filename, "r");
+diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltz-util.c libical-1.0/src/libical/icaltz-util.c
+--- libical-1.0.old/src/libical/icaltz-util.c	2013-04-14 17:24:42 +0000
++++ libical-1.0/src/libical/icaltz-util.c	2014-08-03 12:54:17 +0000
+@@ -50,7 +50,7 @@
+ # endif
+ #endif
+ 
+-#ifdef _MSC_VER
++#ifdef WIN32
+ #if !defined(HAVE_BYTESWAP_H) && !defined(HAVE_SYS_ENDIAN_H) && !defined(HAVE_ENDIAN_H)
+ #define bswap_16(x) (((x) << 8) & 0xff00) | (((x) >> 8 ) & 0xff)
+ #define bswap_32(x) (((x) << 24) & 0xff000000)  \
+@@ -67,6 +67,11 @@
+                     | (((x) & 0x00000000000000ffull) << 56))
+ #endif
+ #include <io.h>
++#include <sys/param.h> /* for BYTE_ORDER */
++#endif
++
++#ifdef WIN32
++#include <windows.h>
+ #endif
+ 
+ #if defined(__APPLE__)
+@@ -191,6 +196,7 @@ zname_from_stridx (char *str, long int i
+ static void
+ set_zonedir (void)
+ {
++	#ifndef WIN32
+ 	char file_path[PATH_MAX];
+ 	const char *fname = ZONES_TAB_SYSTEM_FILENAME;
+ 	int i;	
+@@ -202,6 +208,42 @@ set_zonedir (void)
+ 			break;
+ 		}
+ 	}
++
++	#else
++	#define ZONEINFO_REL_PATH "..\\share\\zoneinfo"
++	if (!zdir) {
++		HMODULE lib = LoadLibrary("libical.dll");
++		if (lib) {
++			static char win32_path[PATH_MAX * 2 + 32 + 1]; 
++			DWORD read = GetModuleFileNameA (lib, win32_path, PATH_MAX * 2);
++			FreeLibrary(lib);
++
++			if (read > 0) {
++				char *backslash;
++				int cut_path_at;
++
++				win32_path[read] = 0;
++
++				backslash = strrchr(win32_path, '\\');
++				if (backslash)
++					backslash[1] = 0;
++
++				strcat (win32_path, ZONEINFO_REL_PATH);
++				cut_path_at = strlen (win32_path);
++				strcat (win32_path, "\\");
++				strcat (win32_path, ZONES_TAB_SYSTEM_FILENAME);
++
++				if (!access (win32_path, F_OK|R_OK)) {
++					win32_path[cut_path_at] = 0;
++					zdir = win32_path;
++				} else {
++					fprintf (stderr, "libical: Failed to find '%s'\n", win32_path);
++				}
++			}
++		}
++	}
++	#undef ZONEINFO_REL_PATH
++	#endif
+ }
+ 
+ 
+@@ -256,6 +298,14 @@ icaltzutil_fetch_timezone (const char *l
+ 
+ 	full_path = (char *) malloc (strlen (basedir) + strlen (location) + 2);
+ 	sprintf (full_path,"%s/%s",basedir, location);
++	#ifdef WIN32
++	pos = strlen(basedir);
++	while(full_path[pos]) {
++		if (full_path[pos] == '/')
++			full_path[pos] = '\\';
++		pos++;
++	}
++	#endif
+ 
+ 	if ((f = fopen (full_path, "rb")) == 0) {
+ 		icalerror_set_errno (ICAL_FILE_ERROR);

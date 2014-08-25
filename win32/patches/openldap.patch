@@ -1,0 +1,82 @@
+diff -upr openldap-2.4.9.old/Makefile openldap-2.4.9/Makefile
+--- openldap-2.4.9.old/Makefile	2014-03-26 05:17:05 +0000
++++ openldap-2.4.9/Makefile	2014-03-26 21:20:23 +0000
+@@ -264,7 +264,7 @@ FORCE:
+ ## top-level directory of the distribution or, alternatively, at
+ ## <http://www.OpenLDAP.org/license.html>.
+ 
+-SUBDIRS= include libraries clients servers tests doc
++SUBDIRS= include libraries clients servers
+ CLEANDIRS=
+ INSTALLDIRS= 
+ 
+diff -upr openldap-2.4.9.old/Makefile.in openldap-2.4.9/Makefile.in
+--- openldap-2.4.9.old/Makefile.in	2014-03-26 05:17:05 +0000
++++ openldap-2.4.9/Makefile.in	2014-03-26 21:20:00 +0000
+@@ -13,7 +13,7 @@
+ ## top-level directory of the distribution or, alternatively, at
+ ## <http://www.OpenLDAP.org/license.html>.
+ 
+-SUBDIRS= include libraries clients servers tests doc
++SUBDIRS= include libraries clients servers
+ CLEANDIRS=
+ INSTALLDIRS= 
+ 
+diff -upr openldap-2.4.9.old/include/ldap_pvt_thread.h openldap-2.4.9/include/ldap_pvt_thread.h
+--- openldap-2.4.9.old/include/ldap_pvt_thread.h	2014-03-26 05:17:20 +0000
++++ openldap-2.4.9/include/ldap_pvt_thread.h	2014-03-26 21:19:42 +0000
+@@ -61,7 +61,7 @@ ldap_pvt_thread_set_concurrency LDAP_P((
+ #define	LDAP_PVT_THREAD_SET_STACK_SIZE
+ #ifndef LDAP_PVT_THREAD_STACK_SIZE
+ 	/* LARGE stack. Will be twice as large on 64 bit machine. */
+-#define LDAP_PVT_THREAD_STACK_SIZE	( 1 * 1024 * 1024 * sizeof(void *) )
++#define LDAP_PVT_THREAD_STACK_SIZE	( 1 * 1024 * 1024 * 4 )
+ /* May be explicitly defined to zero to disable it */
+ #elif LDAP_PVT_THREAD_STACK_SIZE == 0
+ #undef LDAP_PVT_THREAD_SET_STACK_SIZE
+diff -upr openldap-2.4.9.old/include/portable.h openldap-2.4.9/include/portable.h
+--- openldap-2.4.9.old/include/portable.h	2014-03-26 05:17:20 +0000
++++ openldap-2.4.9/include/portable.h	2014-03-26 21:19:42 +0000
+@@ -1086,7 +1086,7 @@
+ #define snprintf _snprintf
+ 
+ /* Define like ber_socklen_t if <sys/socket.h> does not define. */
+-#define socklen_t int
++/*#define socklen_t int*/
+ 
+ /* Define to `signed int' if <sys/types.h> does not define. */
+ /* #undef ssize_t */
+diff -upr openldap-2.4.9.old/libraries/libldap_r/Makefile openldap-2.4.9/libraries/libldap_r/Makefile
+--- openldap-2.4.9.old/libraries/libldap_r/Makefile	2014-03-26 05:17:20 +0000
++++ openldap-2.4.9/libraries/libldap_r/Makefile	2014-03-26 21:19:42 +0000
+@@ -304,10 +304,10 @@ LIB_DEFS = -DLDAP_LIBRARY
+ 
+ XDEFS = -DLDAP_R_COMPILE -I$(XXDIR)
+ XLIBS = $(LIBRARY) $(LDAP_LIBLBER_LA) $(LDAP_LIBLUTIL_A)
+-XXLIBS = $(SECURITY_LIBS) $(LUTIL_LIBS)
++XXLIBS = $(SECURITY_LIBS) $(LUTIL_LIBS) -lgcrypt
+ XXXLIBS = $(LTHREAD_LIBS)
+-NT_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS)
+-UNIX_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS) $(LTHREAD_LIBS)
++NT_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS) -lgcrypt
++UNIX_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS) $(LTHREAD_LIBS) -lgcrypt
+ 
+ .links : Makefile
+ 	@for i in $(XXSRCS); do \
+diff -upr openldap-2.4.9.old/libraries/libldap_r/Makefile.in openldap-2.4.9/libraries/libldap_r/Makefile.in
+--- openldap-2.4.9.old/libraries/libldap_r/Makefile.in	2014-03-26 05:17:20 +0000
++++ openldap-2.4.9/libraries/libldap_r/Makefile.in	2014-03-26 21:19:42 +0000
+@@ -53,10 +53,10 @@ LIB_DEFS = -DLDAP_LIBRARY
+ 
+ XDEFS = -DLDAP_R_COMPILE -I$(XXDIR)
+ XLIBS = $(LIBRARY) $(LDAP_LIBLBER_LA) $(LDAP_LIBLUTIL_A)
+-XXLIBS = $(SECURITY_LIBS) $(LUTIL_LIBS)
++XXLIBS = $(SECURITY_LIBS) $(LUTIL_LIBS) -lgcrypt
+ XXXLIBS = $(LTHREAD_LIBS)
+-NT_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS)
+-UNIX_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS) $(LTHREAD_LIBS)
++NT_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS) -lgcrypt
++UNIX_LINK_LIBS = $(LDAP_LIBLBER_LA) $(AC_LIBS) $(SECURITY_LIBS) $(LTHREAD_LIBS) -lgcrypt
+ 
+ .links : Makefile
+ 	@for i in $(XXSRCS); do \

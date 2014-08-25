@@ -1,0 +1,56 @@
+diff -upr -x .deps -x .libs -x '*.la' liboauth-1.0.1.old/src/Makefile liboauth-1.0.1/src/Makefile
+--- liboauth-1.0.1.old/src/Makefile	2014-06-20 20:41:31 +0000
++++ liboauth-1.0.1/src/Makefile	2014-06-20 20:38:41 +0000
+@@ -249,7 +249,7 @@ ACLOCAL_AMFLAGS = -I m4
+ lib_LTLIBRARIES = liboauth.la
+ include_HEADERS = oauth.h 
+ liboauth_la_SOURCES = oauth.c config.h hash.c xmalloc.c xmalloc.h oauth_http.c
+-liboauth_la_LDFLAGS = -Wall -export-symbols-regex '^oauth_.*' -Wl,--as-needed -version-info 8:5:8
++liboauth_la_LDFLAGS = -Wall -export-symbols-regex '^oauth_.*' -Wl,--as-needed -version-info 8:5:8 -no-undefined
+ liboauth_la_LIBADD = -LC:/MinGW/msys/1.0/build/local/deps/lib -lssl3 -lsmime3 -lnss3 -lnssutil3 -lplds4 -lplc4 -lnspr4  
+ liboauth_la_CFLAGS = -Wall -IC:/MinGW/msys/1.0/build/local/deps/include/nss -IC:/MinGW/msys/1.0/build/local/deps/include/nspr  
+ all: config.h
+diff -upr -x .deps -x .libs -x '*.la' liboauth-1.0.1.old/src/oauth.c liboauth-1.0.1/src/oauth.c
+--- liboauth-1.0.1.old/src/oauth.c	2014-06-20 20:43:07 +0000
++++ liboauth-1.0.1/src/oauth.c	2014-05-17 20:27:28 +0000
+@@ -48,8 +48,10 @@
+ #include <unistd.h>
+ #else
+ #define snprintf _snprintf
++#ifndef strncasecmp
+ #define strncasecmp strnicmp
+ #endif
++#endif
+ 
+ /**
+  * Base64 encode one byte
+@@ -520,7 +522,7 @@ char *oauth_serialize_url_parameters (in
+  */
+ #if !defined HAVE_OPENSSL_HMAC_H && !defined USE_NSS
+ /* pre liboauth-0.7.2 and possible future versions that don't use OpenSSL or NSS */
+-char *oauth_gen_nonce() {
++char *oauth_gen_nonce(void) {
+   char *nc;
+   static int rndinit = 1;
+   const char *chars = "abcdefghijklmnopqrstuvwxyz"
+@@ -557,7 +559,7 @@ char *oauth_gen_nonce() {
+ #  define MY_RAND RAND_bytes
+ #  define MY_SRAND ;
+ #endif
+-char *oauth_gen_nonce() {
++char *oauth_gen_nonce(void) {
+   char *nc;
+   unsigned char buf;
+   const char *chars = "abcdefghijklmnopqrstuvwxyz"
+diff -upr -x .deps -x .libs -x '*.la' liboauth-1.0.1.old/src/oauth.h liboauth-1.0.1/src/oauth.h
+--- liboauth-1.0.1.old/src/oauth.h	2014-06-20 20:43:07 +0000
++++ liboauth-1.0.1/src/oauth.h	2014-05-17 20:27:28 +0000
+@@ -262,7 +262,7 @@ char *oauth_serialize_url_parameters (in
+  *
+  * @return zero terminated random string.
+  */
+-char *oauth_gen_nonce();
++char *oauth_gen_nonce(void);
+ 
+ /**
+  * string compare function for oauth parameters.

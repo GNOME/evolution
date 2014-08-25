@@ -1,0 +1,18 @@
+diff -upr bison-3.0.2.old/Makefile.am bison-3.0.2/Makefile.am
+--- bison-3.0.2.old/Makefile.am	2013-08-02 15:35:13 +0000
++++ bison-3.0.2/Makefile.am	2014-05-08 07:40:11 +0000
+@@ -54,12 +54,12 @@ noinst_LIBRARIES =
+ include build-aux/local.mk
+ include data/local.mk
+ include djgpp/local.mk
+-include doc/local.mk
++#include doc/local.mk
+ include etc/local.mk
+ include examples/local.mk
+ include lib/local.mk
+ include src/local.mk
+-include tests/local.mk
++#include tests/local.mk
+ 
+ # See comments in build-aux/git-version-gen.  However, we make .version depend
+ # on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the

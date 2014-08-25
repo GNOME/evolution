@@ -1,0 +1,18 @@
+diff -upr freetype-2.5.2/src/gzip/ftgzip.c freetype-2.5.2.new/src/gzip/ftgzip.c
+--- freetype-2.5.2/src/gzip/ftgzip.c	2013-08-29 15:53:13 +0000
++++ freetype-2.5.2.new/src/gzip/ftgzip.c	2014-01-10 20:14:37 +0000
+@@ -45,6 +44,14 @@
+ #error "gzip code does not support PIC yet"
+ #endif
+ 
++#ifndef __int64
++# define __int64 long long
++#endif
++typedef long _off_t;
++typedef _off_t	off_t;
++typedef __int64 _off64_t;
++typedef __int64 off64_t;
++
+ #ifdef FT_CONFIG_OPTION_SYSTEM_ZLIB
+ 
+ #include <zlib.h>

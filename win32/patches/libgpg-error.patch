@@ -1,0 +1,12 @@
+diff -upr libgpg-error-1.12.old/po/LINGUAS libgpg-error-1.12/po/LINGUAS
+--- libgpg-error-1.12.old/po/LINGUAS	2014-04-27 14:43:44 +0000
++++ libgpg-error-1.12/po/LINGUAS	2014-04-27 14:44:04 +0000
+@@ -7,8 +7,6 @@ fr
+ it
+ ja
+ nl
+-pl
+-ro
+ sv
+ uk
+ vi

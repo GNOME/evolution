@@ -1,0 +1,202 @@
+diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/Makefile.am dbus-1.8.0/dbus/Makefile.am
+--- dbus-1.8.0.old/dbus/Makefile.am	2014-01-20 13:40:21 +0000
++++ dbus-1.8.0/dbus/Makefile.am	2014-08-09 12:50:47 +0000
+@@ -304,8 +304,8 @@ if DBUS_WIN
+ # this code is used, we don't actually need libstdc++.
+ noinst_LTLIBRARIES += libdbus-init-win.la
+ libdbus_init_win_la_SOURCES = dbus-init-win.cpp
+-libdbus_1_la_LIBADD += libdbus-init-win.la
+-libdbus_internal_la_LIBADD += libdbus-init-win.la
++libdbus_1_la_LIBADD += libdbus-init-win.la -lole32
++libdbus_internal_la_LIBADD += libdbus-init-win.la -lole32
+ endif
+ 
+ noinst_PROGRAMS =
+diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/dbus-sysdeps-win.c dbus-1.8.0/dbus/dbus-sysdeps-win.c
+--- dbus-1.8.0.old/dbus/dbus-sysdeps-win.c	2014-01-07 11:32:53 +0000
++++ dbus-1.8.0/dbus/dbus-sysdeps-win.c	2014-08-09 13:35:34 +0000
+@@ -55,6 +55,7 @@
+ #include <ws2tcpip.h>
+ #include <wincrypt.h>
+ #include <iphlpapi.h>
++#include <shlobj.h>
+ 
+ /* Declarations missing in mingw's and windows sdk 7.0 headers */
+ extern BOOL WINAPI ConvertStringSidToSidA (LPCSTR  StringSid, PSID *Sid);
+@@ -3379,6 +3380,139 @@ _dbus_lookup_session_address (dbus_bool_
+   return TRUE;
+ }
+ 
++static char *
++get_special_folder (int csidl)
++{
++  char path[MAX_PATH+1];
++  HRESULT hr;
++  LPITEMIDLIST pidl = NULL;
++  BOOL b;
++  char *retval = NULL;
++
++  hr = SHGetSpecialFolderLocation (NULL, csidl, &pidl);
++  if (hr == S_OK)
++    {
++      b = SHGetPathFromIDListA (pidl, path);
++      if (b)
++	retval = strdup (path);
++      CoTaskMemFree (pidl);
++    }
++  return retval;
++}
++
++static char *
++get_windows_directory_root (void)
++{
++  char windowsdir[MAX_PATH];
++
++  if (GetWindowsDirectory (windowsdir, MAX_PATH))
++    {
++      /* Usually X:\Windows, but in terminal server environments
++       * might be an UNC path, AFAIK.
++       */
++      int len;
++
++      if (!*windowsdir)
++	return strdup("C:\\");
++
++      len = strlen(windowsdir);
++      if (len < MAX_PATH - 1 && windowsdir[len - 1] != '\\' && windowsdir[len - 1] != '/') {
++        char sep[2] = {0, 0}, *p;
++
++        for (p = windowsdir; *p && !*sep; p++) {
++          if (*p == '/' || *p == '\\') {
++            sep[0] = *p;
++            break;
++          }
++        }
++	
++	strcat(windowsdir, sep);
++      }
++      return strdup(windowsdir);
++    }
++  else
++    return strdup("C:\\");
++}
++
++static dbus_bool_t
++_dbus_set_user_home (DBusString *homedir)
++{
++  const char *env;
++  char *tmp = NULL;
++
++  env = _dbus_getenv("HOME");
++
++  /* Only believe HOME if it is an absolute path and exists.
++   *
++   * We only do this check on Windows for a couple of reasons.
++   * Historically, we only did it there because we used to ignore $HOME
++   * on UNIX.  There are concerns about enabling it now on UNIX because
++   * of things like autofs.  In short, if the user has a bogus value in
++   * $HOME then they get what they pay for...
++   */
++  if (env)
++    {
++      /* In case HOME is Unix-style (it happens), convert it to
++       * Windows style.
++       */
++      char *p;
++      tmp = strdup(env);
++      while ((p = strchr(tmp, '/')) != NULL) {
++        *p = '\\';
++      }
++
++      if (!((tmp[0] == '\\' || (((tmp[0] >= 'a' && tmp[0] <= 'z') || (tmp[0] >= 'A' && tmp[0] <= 'Z')) && tmp[1] == ':')) &&
++           GetFileAttributesA (tmp) != INVALID_FILE_ATTRIBUTES &&
++           (GetFileAttributesA (tmp) & FILE_ATTRIBUTE_DIRECTORY) != 0))
++        {
++          env = NULL;
++          free(tmp);
++          tmp = NULL;
++        }
++    }
++
++  if (!tmp)
++    {
++      /* USERPROFILE is probably the closest equivalent to $HOME? */
++      env = _dbus_getenv("USERPROFILE");
++      if (env != NULL)
++        tmp = strdup(env);
++    }
++
++  if (!tmp)
++    tmp = get_special_folder(CSIDL_PROFILE);
++
++  if (!tmp)
++    tmp = get_windows_directory_root();
++
++  if (tmp) {
++    _dbus_string_append (homedir, tmp);
++    free(tmp);
++    return TRUE;
++  }
++
++  return FALSE;
++}
++
++static void
++_dbus_set_homedir_from_drive_and_path_env(DBusString *homedir)
++{
++  const char *homepath;
++  const char *homedrive;
++
++  homedrive = _dbus_getenv("HOMEDRIVE");
++  if (homedrive != NULL && *homedrive != '\0')
++    {
++      _dbus_string_append(homedir,homedrive);
++    }
++
++  homepath = _dbus_getenv("HOMEPATH");
++  if (homepath != NULL && *homepath != '\0')
++    {
++      _dbus_string_append(homedir,homepath);
++    }
++}
++
+ /**
+  * Appends the directory in which a keyring for the given credentials
+  * should be stored.  The credentials should have either a Windows or
+@@ -3398,8 +3532,6 @@ _dbus_append_keyring_directory_for_crede
+ {
+   DBusString homedir;
+   DBusString dotdir;
+-  const char *homepath;
+-  const char *homedrive;
+ 
+   _dbus_assert (credentials != NULL);
+   _dbus_assert (!_dbus_credentials_are_anonymous (credentials));
+@@ -3407,18 +3539,16 @@ _dbus_append_keyring_directory_for_crede
+   if (!_dbus_string_init (&homedir))
+     return FALSE;
+ 
+-  homedrive = _dbus_getenv("HOMEDRIVE");
+-  if (homedrive != NULL && *homedrive != '\0')
+-    {
+-      _dbus_string_append(&homedir,homedrive);
+-    }
++  _dbus_set_homedir_from_drive_and_path_env(&homedir);
++  /* It's a default folder, like X:\, try to use a better one, in user's home directory */
++  if (_dbus_string_get_length(&homedir) <= 3) {
++     _dbus_string_set_length(&homedir, 0);
++     if (!_dbus_set_user_home(&homedir)) {
++       _dbus_string_set_length(&homedir, 0);
++       _dbus_set_homedir_from_drive_and_path_env(&homedir);
++     }
++  }
+ 
+-  homepath = _dbus_getenv("HOMEPATH");
+-  if (homepath != NULL && *homepath != '\0')
+-    {
+-      _dbus_string_append(&homedir,homepath);
+-    }
+-  
+ #ifdef DBUS_ENABLE_EMBEDDED_TESTS
+   {
+     const char *override;

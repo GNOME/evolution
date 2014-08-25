@@ -1,0 +1,130 @@
+#!/bin/bash
+
+HOW=$1
+PREFIX=$2
+WHAT=$3
+PATCHES=$4
+CFGPARAMS=$5
+VERBOSE=$6
+SRCDIR=$7
+MKPARAMS=
+PATCHAFTERCFG=0
+
+if test "$HOW" = "m" -o "$HOW" = "mmi" ; then
+	MKPARAMS=$CFGPARAMS
+fi
+
+PATCHAFTERCFG=0
+if test "${PATCHES:0:1}" = "@" ; then
+	PATCHAFTERCFG=1
+	PATCHES=${PATCHES:1}
+fi 
+
+if test "$SRCDIR" = "" ; then
+	SRCDIR=src/$WHAT
+fi
+
+cd $SRCDIR
+
+if test "$?" != "0" ; then
+	exit 1
+fi
+
+export BINARY_PATH=$PREFIX/bin
+export INCLUDE_PATH=$PREFIX/include
+export LIBRARY_PATH=$PREFIX/lib
+
+if test "$PATCHAFTERCFG" != "1" ; then
+	for p in $PATCHES; do patch -p1 -f --fuzz=0 <../../patches/$p; done
+fi
+
+if test "${HOW:0:1}" = "r" ; then
+	echo " * Running autoreconf for '$WHAT'..."
+
+	HOW=${HOW:1}
+	if test "$VERBOSE" != "1" ; then
+		autoreconf --force --install >/dev/null
+
+	else
+		autoreconf --force --install
+	fi
+
+	if test "$?" != "0" ; then
+		exit 1
+	fi
+fi
+
+if test "${HOW:0:1}" = "a" ; then
+	AUTOGENSH=
+	if test -f "./autogen.sh" ; then
+		AUTOGENSH="./autogen.sh"
+		AUTOGENPARAMS="$CFGPARAMS --prefix=$PREFIX"
+	else
+		AUTOGENSH="autoreconf -fi"
+		AUTOGENPARAMS=
+	fi
+
+	echo " * Running $AUTOGENSH for '$WHAT'..."
+
+	HOW=${HOW:1}
+	if test "$CFGPARAMS" != "" -a "${CFGPARAMS%%^}" != "" -a "${CFGPARAMS%%^}" != "$CFGPARAMS" ; then
+		AUTOGENPARAMS="${CFGPARAMS%%^}"
+		CFGPARAMS="${CFGPARAMS##*^}"
+	fi
+	if test "$VERBOSE" != "1" ; then
+		$AUTOGENSH $AUTOGENPARAMS >/dev/null
+	else
+		$AUTOGENSH $AUTOGENPARAMS 
+	fi
+
+	if test "$?" != "0" ; then
+		exit 1
+	fi
+fi
+
+if test "$HOW" = "cmmi" ; then
+	echo " * Configuring '$WHAT'..."
+
+	make clean &>/dev/null
+
+	FIRSTPARAM=${CFGPARAMS%% }
+	if test "$FIRSTPARAM" != "" -a "${FIRSTPARAM%%/}" != "" -a "${FIRSTPARAM%%/}" != "$FIRSTPARAM" ; then
+		if test "$VERBOSE" != "1" ; then
+			$CFGPARAMS --prefix=$PREFIX  >/dev/null
+
+		else
+			$CFGPARAMS --prefix=$PREFIX
+		fi
+	elif test "$VERBOSE" != "1" ; then
+		./configure --prefix=$PREFIX $CFGPARAMS >/dev/null
+
+	else
+		./configure --prefix=$PREFIX $CFGPARAMS
+	fi
+
+	if test "$?" != "0" ; then
+		exit 1
+	fi
+fi
+
+if test "$PATCHAFTERCFG" = "1" ; then
+	for p in $PATCHES; do patch -p1 -f --fuzz=0 <../../patches/$p; done
+fi
+
+if test "$VERBOSE" != "1" ; then
+	echo " * Building '$WHAT'..." && \
+	make $MKPARAMS >/dev/null && \
+	if test "$HOW" != "m" ; then
+		make install $MKPARAMS >/dev/null
+	fi
+else
+	echo " * Building '$WHAT'..." && \
+	make V=1 $MKPARAMS && \
+	if test "$HOW" != "m" ; then
+		make install V=1 $MKPARAMS
+	fi
+fi
+
+if test "$?" != "0" ; then
+	exit 1
+fi

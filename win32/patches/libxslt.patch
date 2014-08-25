@@ -1,0 +1,24 @@
+diff -upr -x .deps -x .libs -x '*.la' libxslt-1.1.28.old/Makefile.am libxslt-1.1.28/Makefile.am
+--- libxslt-1.1.28.old/Makefile.am	2014-05-18 08:43:11 +0000
++++ libxslt-1.1.28/Makefile.am	2014-05-18 08:29:50 +0000
+@@ -2,7 +2,6 @@ SUBDIRS = \
+ 	libxslt \
+ 	libexslt \
+ 	xsltproc \
+-	doc \
+ 	$(PYTHON_SUBDIR) \
+ 	tests
+ 
+diff -upr -x .deps -x .libs -x '*.la' libxslt-1.1.28.old/libxslt/security.c libxslt-1.1.28/libxslt/security.c
+--- libxslt-1.1.28.old/libxslt/security.c	2012-11-21 07:22:59 +0000
++++ libxslt-1.1.28/libxslt/security.c	2014-05-18 08:42:42 +0000
+@@ -40,6 +40,9 @@
+ #define INVALID_FILE_ATTRIBUTES ((DWORD)-1)
+ #endif
+ #endif
++#if defined(WIN32)
++#include "win32config.h"
++#endif
+ 
+ #ifndef HAVE_STAT
+ #  ifdef HAVE__STAT

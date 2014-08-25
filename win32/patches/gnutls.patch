@@ -1,0 +1,21 @@
+diff -upr gnutls-3.2.12.old/lib/libgnutls.map gnutls-3.2.12/lib/libgnutls.map
+--- gnutls-3.2.12.old/lib/libgnutls.map	2014-03-24 22:56:11 +0000
++++ gnutls-3.2.12/lib/libgnutls.map	2014-03-23 20:24:12 +0000
+@@ -936,6 +936,7 @@ GNUTLS_PRIVATE {
+     _gnutls_read_uint24;
+     _gnutls_get_cred;
+     _gnutls_recv_int;
++    _gnutls_vasprintf;
+     # Internal symbols needed by libgnutls-openssl:
+     _gnutls_pkix1_asn;
+     _gnutls_x509_parse_dn_oid;
+diff -upr gnutls-3.2.12.old/lib/vasprintf.c gnutls-3.2.12/lib/vasprintf.c
+--- gnutls-3.2.12.old/lib/vasprintf.c	2014-03-24 22:56:11 +0000
++++ gnutls-3.2.12/lib/vasprintf.c	2014-03-23 20:24:12 +0000
+@@ -1,5 +1,6 @@
+ #include <config.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include "vasprintf.h"
+ 
+ #ifndef HAVE_VASPRINTF
