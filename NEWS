@@ -1,3 +1,53 @@
+Evolution 3.13.5 2014-08-25
+---------------------------
+
+Bug Fixes:
+	Bug 733825 - Busy loop/deadlock when changing paragraph style in quoted part (Tomas Popela)
+	Bug 733725 - Runtime critical when pasting test from the same composer instance (Tomas Popela)
+	Bug 733846 - Empty lines removed on send (quoted text edited) (Tomas Popela)
+	Bug 733953 - Citation marks incorrectly transformed on send (Tomas Popela)
+	Bug 733956 - Multiple quotations should be deleted by one (Tomas Popela)
+	Bug 733954 - Enter doesn't delete selection with cited text (Tomas Popela)
+	Bug 733917 - Critical warning when hiding the tooltip above the event (Milan Crha)
+	Bug 733918 - Color chooser for citation color is not working in Composer (Milan Crha)
+	Bug 733973 - Calling e_html_editor_view_get_text_html() changes editors content (Tomas Popela)
+
+Miscellaneous:
+	e_mail_folder_uri_build: Encode special characters in folder names (Milan Crha)
+	e_client_cache_get_client: Fix a memory leak (Milan Crha)
+	Propagate settings from Prefences to the EHTMLEditorView (Tomas Popela)
+	Include 'tests' folder in the distribution tarball (Milan Crha)
+	doap category apps (Olav Vitters)
+	Reduce the memory used by DOM variables (Tomas Popela)
+	Updated German help translation and screen-shots (Christian Kirbach)
+	EHTMLEditor - Fix indentation after EEditor -> EHTMLEditor rename (Tomas Popela)
+	EHTMLEditor - Change the way how the Indent/Unindent and Alignment works (Tomas Popela)
+	EHTMLEditorActions - Allow the action that shows the spell check dialog (Tomas Popela)
+	EHTMLEditorSelection - Introduce e_html_editor_selection_is_collapsed and use it where possible (Tomas Popela)
+	EHTMLEditorSelection - Fix the spell check after settings alignment (Tomas Popela)
+	EHTMLEditorSelection - Fix the unindentation of the list (Tomas Popela)
+	EHTMLEditorSelection - Limit the paragraph minimal width to 5 characters (Tomas Popela)
+	EHTMLEditorSelection - Remove just the BR elements that are used for the wrapping unless it is forced (Tomas Popela)
+	EHTMLEditorSelection - Simplify some loops and free more of the WebKit DOM variables (Tomas Popela)
+	EHTMLEditorSpellCheckDialog - Avoid crash when no iter was set in the dictionaries combo box (Tomas Popela)
+	EHTMLEditorView - Avoid forcing of the spell check when the body has no children (Tomas Popela)
+	EHTMLEditorView - Avoid wrapping of the preformatted block when it is inside the quoted text (Tomas Popela)
+	EHTMLEditorView - Wrap just paragraphs that are not in the quoted content (Tomas Popela)
+	EHTMLEditorView - Don't insert the new line character, when the empty line in the quoted content is on the end of it (Tomas Popela)
+	EHTMLEditorView - Fix the HTML structure after pasting the multiline content that was copied from composer (Tomas Popela)
+	EHTMLEditorView - Turn on the spell check if the inline spelling option is set (Tomas Popela)
+	EHTMLEditorView - Remove the unneeded comment (Tomas Popela)
+	EHTMLEditorView - Process the plain text version the right way when sending the HTML mail (Tomas Popela)
+	EHTMLEditorView - Fix critical warning when creating Address and Header 1 - 6 blocks (Tomas Popela)
+	EHTMLEditorView - Unset the bold font when the return is pressed in the Heading 1 - 6 block (Tomas Popela)
+	EHTMLEditorView - Fix changing of the format from the list to the Address and Heading 1 - 6 formats (Tomas Popela)
+	EHTMLEditorView - Remove classes that were used for marking the BR elements from converted text (Tomas Popela)
+	EHTMLEditorView - Avoid critical warnings when pressing backspace on the beginning of the quoted content (Tomas Popela)
+	EWebView - If the parent of the node that we want to remove doesn't exist, just free it (Tomas Popela)
+
+Translations:
+	Christian Kirbach (de)
+
 Evolution 3.13.4 2014-07-28
 ---------------------------
 
