@@ -478,7 +478,7 @@ msgstr "_Почтовый индекс:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:44
 msgid "_State/Province:"
-msgstr "Область, край:"
+msgstr "_Область, край:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:45
 msgid "_Country:"
@@ -828,7 +828,7 @@ msgstr ""
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "_Hide addresses when sending mail to this list"
-msgstr "Скрывать адреса при отправке почты в этот список"
+msgstr "_Скрывать адреса при отправке почты в этот список"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
 msgid "Add an email to the List"
@@ -4757,7 +4757,7 @@ msgstr "Показывать _только рабочие часы"
 
 #: ../calendar/gui/e-meeting-time-sel.c:601
 msgid "Show _zoomed out"
-msgstr "Показывать уменьшенный"
+msgstr "Показывать _уменьшенный"
 
 #: ../calendar/gui/e-meeting-time-sel.c:619
 msgid "_Update free/busy"
@@ -4769,7 +4769,7 @@ msgstr "<_<"
 
 #: ../calendar/gui/e-meeting-time-sel.c:656
 msgid "_Autopick"
-msgstr "Автовыбор"
+msgstr "_Автовыбор"
 
 #: ../calendar/gui/e-meeting-time-sel.c:673
 msgid ">_>"
@@ -13700,7 +13700,7 @@ msgstr "_Копировать адрес эл. почты"
 
 #: ../e-util/e-web-view.c:325
 msgid "_Copy Image"
-msgstr "Копировать изображение"
+msgstr "_Копировать изображение"
 
 #: ../e-util/e-web-view.c:327
 msgid "Copy the image to the clipboard"
@@ -14399,11 +14399,11 @@ msgstr "Создание сообщений"
 
 #: ../mail/e-mail-config-defaults-page.c:679
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Всегда отправлять копию на:"
+msgstr "Всегда отправлять _копию на:"
 
 #: ../mail/e-mail-config-defaults-page.c:704
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Всегда отправлять слепую копию на:"
+msgstr "Всегда отправлять _слепую копию на:"
 
 #: ../mail/e-mail-config-defaults-page.c:739
 msgid "Message Receipts"
@@ -15094,7 +15094,7 @@ msgstr "Показать следующее сообщение"
 
 #: ../mail/e-mail-reader.c:2082
 msgid "Next _Important Message"
-msgstr "Следующему важному сообщению"
+msgstr "Следующему _важному сообщению"
 
 #: ../mail/e-mail-reader.c:2084
 msgid "Display the next important message"
@@ -15110,7 +15110,7 @@ msgstr "Показать следующее обсуждение"
 
 #: ../mail/e-mail-reader.c:2096
 msgid "Next _Unread Message"
-msgstr "Следующему непрочитанному сообщению"
+msgstr "Следующему _непрочитанному сообщению"
 
 #: ../mail/e-mail-reader.c:2098
 msgid "Display the next unread message"
@@ -15233,7 +15233,7 @@ msgstr "Восстановить выделенные сообщения"
 
 #: ../mail/e-mail-reader.c:2215
 msgid "_Normal Size"
-msgstr "Обычный размер"
+msgstr "_Обычный размер"
 
 #: ../mail/e-mail-reader.c:2217
 msgid "Reset the text to its original size"
@@ -16652,7 +16652,7 @@ msgstr "Лицензионное соглашение"
 
 #: ../mail/mail-dialogs.ui.h:20
 msgid "_Tick this to accept the license agreement"
-msgstr "Установите, чтобы принять лицензионное соглашение"
+msgstr "_Отметьте, чтобы принять лицензионное соглашение"
 
 #: ../mail/mail-dialogs.ui.h:22
 msgid "_Accept License"
@@ -17788,7 +17788,7 @@ msgstr "Обновить выделенную адресную книгу"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1023
 msgid "Address Book _Map"
-msgstr "Карта адресной книги"
+msgstr "_Карта адресной книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1025
 msgid "Show map with all contacts from selected address book"
@@ -17889,7 +17889,7 @@ msgstr "Карта адресной книги"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1169
 msgid "Contact _Preview"
-msgstr "Предварительный просмотр контакта"
+msgstr "_Предварительный просмотр контакта"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1171
 msgid "Show contact preview window"
@@ -17897,7 +17897,7 @@ msgstr "Показать окно просмотра контакта"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1177
 msgid "Show _Maps"
-msgstr "Показывать карты"
+msgstr "Показывать _карты"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1179
 msgid "Show maps in contact preview window"
@@ -18592,11 +18592,11 @@ msgstr "Формат времени:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "_12 hour (AM/PM)"
-msgstr "12-часовой (AM/PM)"
+msgstr "_12-часовой"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:17
 msgid "_24 hour"
-msgstr "24-часовой"
+msgstr "_24-часовой"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:18
 #: ../modules/calendar/e-cal-shell-view-actions.c:1707
@@ -18661,7 +18661,7 @@ msgstr "Сигналы"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
 msgid "_Ask for confirmation when deleting items"
-msgstr "Запрашивать подтверждение при удалении элементов"
+msgstr "_Запрашивать подтверждение при удалении элементов"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "_Time divisions:"
@@ -18669,11 +18669,11 @@ msgstr "_Деления времени:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "_Show appointment end times in week and month view"
-msgstr "_Отображать время окончания встреч в обзоре недели и месяца"
+msgstr "_Отображать время окончания встреч при просмотре недели и месяца"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:50
 msgid "_Compress weekends in month view"
-msgstr "Ужимать выходные дни в представлении месяца"
+msgstr "_Сжимать выходные дни при просмотре месяца"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:51
 msgid "Show week _numbers"
@@ -18705,7 +18705,7 @@ msgstr "Выделять _просроченные задачи"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:60
 msgid "_Hide completed tasks after"
-msgstr "Скрывать выполненные задачи через"
+msgstr "_Скрывать выполненные задачи через"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Display reminders in _notification area only"
@@ -20502,7 +20502,7 @@ msgstr "Обновить список папок этой учётной зап�
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1633
 msgid "_Download Messages for Offline Usage"
-msgstr "Загрузить сообщения для автономной работы"
+msgstr "_Загрузить сообщения для автономной работы"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Download messages of accounts and folders marked for offline usage"
@@ -21496,7 +21496,7 @@ msgstr "Выберите адресную книгу для списка кон�
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:777
 msgid "Synchronize with _buddy list now"
-msgstr "Синхронизировать со списком контактов сейчас"
+msgstr "_Синхронизировать со списком контактов сейчас"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid "BBDB"
@@ -22561,7 +22561,7 @@ msgstr "Создать новое окно с этим обзором"
 
 #: ../shell/e-shell-window-actions.c:972
 msgid "Available Cate_gories"
-msgstr "Доступные категории"
+msgstr "Доступные _категории"
 
 #: ../shell/e-shell-window-actions.c:974
 msgid "Manage available categories"
@@ -22665,7 +22665,7 @@ msgstr "_Окно"
 
 #: ../shell/e-shell-window-actions.c:1157
 msgid "Show Side _Bar"
-msgstr "_Показывать _боковую панель"
+msgstr "Показывать _боковую панель"
 
 #: ../shell/e-shell-window-actions.c:1159
 msgid "Show the side bar"
@@ -23228,19 +23228,19 @@ msgstr "По _компании"
 
 #: ../views/calendar/galview.xml.h:1
 msgid "_Day View"
-msgstr "Как день"
+msgstr "Как _день"
 
 #: ../views/calendar/galview.xml.h:2
 msgid "_Work Week View"
-msgstr "Как рабочую неделю"
+msgstr "Как _рабочую неделю"
 
 #: ../views/calendar/galview.xml.h:3
 msgid "W_eek View"
-msgstr "Как неделю"
+msgstr "Как _неделю"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
-msgstr "Как месяц"
+msgstr "Как _месяц"
 
 #: ../views/mail/galview.xml.h:1
 msgid "_Messages"
