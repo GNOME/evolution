@@ -5846,33 +5846,35 @@ process_elements (EHTMLEditorView *view,
 		}
 
 		/* Signature */
-		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (child)) {
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (child) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-signature-wrapper")) {
 			WebKitDOMNode *first_child;
 
 			first_child = webkit_dom_node_get_first_child (child);
-			if (WEBKIT_DOM_IS_ELEMENT (first_child)) {
-				if (element_has_class (
-					WEBKIT_DOM_ELEMENT (first_child),
-					"-x-evo-signature")) {
 
-					if (to_html) {
-						remove_base_attributes (
-							WEBKIT_DOM_ELEMENT (first_child));
-						remove_evolution_attributes (
-							WEBKIT_DOM_ELEMENT (first_child));
-					}
-					if (to_plain_text && !changing_mode) {
-						g_string_append (buffer, "\n");
-						content = webkit_dom_html_element_get_inner_text (
-							WEBKIT_DOM_HTML_ELEMENT (first_child));
-						g_string_append (buffer, content);
-						g_free (content);
-						skip_nl = TRUE;
-					}
-					skip_node = TRUE;
-					goto next;
-				}
+			if (to_html) {
+				remove_base_attributes (
+					WEBKIT_DOM_ELEMENT (first_child));
+				remove_evolution_attributes (
+					WEBKIT_DOM_ELEMENT (first_child));
 			}
+			if (to_plain_text && !changing_mode) {
+				g_string_append (buffer, "\n");
+				content = webkit_dom_html_element_get_inner_text (
+					WEBKIT_DOM_HTML_ELEMENT (first_child));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_nl = TRUE;
+			}
+			if (to_plain_text && changing_mode) {
+				content = webkit_dom_html_element_get_outer_html (
+					WEBKIT_DOM_HTML_ELEMENT (child));
+				g_string_append (buffer, content);
+				g_free (content);
+				skip_node = TRUE;
+			}
+			skip_node = TRUE;
+			goto next;
 		}
 
 		/* Replace smileys with their text representation */
@@ -6724,8 +6726,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 	} else {
 		gchar *plain;
 
-		/* Save caret position -> it will be restored in e-composer-private.c */
-		e_html_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save (selection);
 
 		if (blockquote) {
 			e_html_editor_selection_wrap_paragraphs_in_document (
@@ -6739,9 +6740,15 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 		plain = process_content_for_mode_change (view);
 
-		if (*plain)
-			webkit_web_view_load_string (
-				WEBKIT_WEB_VIEW (view), plain, NULL, NULL, "file://");
+		if (*plain) {
+			webkit_dom_html_element_set_outer_html (
+				WEBKIT_DOM_HTML_ELEMENT (
+					webkit_dom_document_get_document_element (document)),
+				plain,
+				NULL);
+			e_html_editor_selection_restore (selection);
+			e_html_editor_view_force_spell_check (view);
+		}
 
 		g_free (plain);
 	}

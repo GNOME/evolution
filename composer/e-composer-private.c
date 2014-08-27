@@ -859,18 +859,6 @@ composer_move_caret (EMsgComposer *composer)
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 	new_range = webkit_dom_document_create_range (document);
 
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
-	/* Caret position found => composer mode changed */
-	if (element) {
-		e_html_editor_selection_restore_caret_position (editor_selection);
-		/* We want to force spellcheck just in case that we switched to plain
-		 * text mode (when switching to html mode, the underlined words are
-		 * preserved */
-		if (!html_mode)
-			e_html_editor_view_force_spell_check (view);
-		return;
-	}
-
 	/* If editing message as new don't handle with caret */
 	if (composer->priv->is_from_message || composer->priv->is_from_draft) {
 		if (composer->priv->is_from_message)
