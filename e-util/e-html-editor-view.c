@@ -6583,8 +6583,8 @@ clear_attributes (WebKitDOMDocument *document)
 	g_object_unref (attributes);
 
 	/* Remove everything from HEAD element */
-	while (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (head)))
-		remove_node (WEBKIT_DOM_NODE (head));
+	while (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)))
+		remove_node (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)));
 
 	/* Remove non Evolution attributes from BODY element */
 	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
