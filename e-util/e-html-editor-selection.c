@@ -3552,28 +3552,6 @@ e_html_editor_selection_is_monospaced (EHTMLEditorSelection *selection)
 	return ret_val;
 }
 
-static void
-move_caret_into_element (WebKitDOMDocument *document,
-			 WebKitDOMElement *element)
-{
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
-	WebKitDOMRange *new_range;
-
-	if (!element)
-		return;
-
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-	new_range = webkit_dom_document_create_range (document);
-
-	webkit_dom_range_select_node_contents (
-			new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, FALSE, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (window_selection);
-	webkit_dom_dom_selection_add_range (window_selection, new_range);
-}
-
 /**
  * e_html_editor_selection_set_monospaced:
  * @selection: an #EHTMLEditorSelection
@@ -3666,7 +3644,8 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 			webkit_dom_range_insert_node (
 				range, WEBKIT_DOM_NODE (monospace), NULL);
 
-			move_caret_into_element (document, monospace);
+			e_html_editor_selection_move_caret_into_element (
+				document, monospace);
 		}
 	} else {
 		gboolean is_bold, is_italic, is_underline, is_strikethrough;
@@ -4750,6 +4729,28 @@ e_html_editor_selection_replace_image_src (EHTMLEditorSelection *selection,
 		image_load_and_insert_async (selection, element, image_uri);
 }
 
+void
+e_html_editor_selection_move_caret_into_element (WebKitDOMDocument *document,
+                                                 WebKitDOMElement *element)
+{
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *window_selection;
+	WebKitDOMRange *new_range;
+
+	if (!element)
+		return;
+
+	window = webkit_dom_document_get_default_view (document);
+	window_selection = webkit_dom_dom_window_get_selection (window);
+	new_range = webkit_dom_document_create_range (document);
+
+	webkit_dom_range_select_node_contents (
+			new_range, WEBKIT_DOM_NODE (element), NULL);
+	webkit_dom_range_collapse (new_range, FALSE, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (window_selection);
+	webkit_dom_dom_selection_add_range (window_selection, new_range);
+}
+
 /**
  * e_html_editor_selection_clear_caret_position_marker:
  * @selection: an #EHTMLEditorSelection
@@ -4940,14 +4941,14 @@ e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 			if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-paragraph")) {
 				remove_node (WEBKIT_DOM_NODE (element));
 
-				move_caret_into_element (
+				e_html_editor_selection_move_caret_into_element (
 					document, WEBKIT_DOM_ELEMENT (next_sibling));
 
 				goto out;
 			}
 		}
 
-		move_caret_into_element (document, element);
+		e_html_editor_selection_move_caret_into_element (document, element);
 
 		if (fix_after_quoting) {
 			prev_sibling = webkit_dom_node_get_previous_sibling (
@@ -6221,15 +6222,18 @@ e_html_editor_selection_scroll_to_caret (EHTMLEditorSelection *selection)
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *caret;
+	WebKitDOMElement *selection_start_marker;
 
-	caret = e_html_editor_selection_save_caret_position (selection);
-	if (!caret)
-		return;
+	e_html_editor_selection_save (selection);
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	g_object_unref (view);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	if (!selection_start_marker)
+		return;
 
 	window = webkit_dom_document_get_default_view (document);
 
@@ -6238,14 +6242,14 @@ e_html_editor_selection_scroll_to_caret (EHTMLEditorSelection *selection)
 	window_bottom = window_top + webkit_dom_dom_window_get_inner_height (window);
 	window_right = window_left + webkit_dom_dom_window_get_inner_width (window);
 
-	element_left = webkit_dom_element_get_offset_left (caret);
-	element_top = webkit_dom_element_get_offset_top (caret);
+	element_left = webkit_dom_element_get_offset_left (selection_start_marker);
+	element_top = webkit_dom_element_get_offset_top (selection_start_marker);
 
 	/* Check if caret is inside viewport, if not move to it */
 	if (!(element_top >= window_top && element_top <= window_bottom &&
 	     element_left >= window_left && element_left <= window_right)) {
-		webkit_dom_element_scroll_into_view (caret, TRUE);
+		webkit_dom_element_scroll_into_view (selection_start_marker, TRUE);
 	}
 
-	e_html_editor_selection_clear_caret_position_marker (selection);
+	e_html_editor_selection_restore (selection);
 }

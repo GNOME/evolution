@@ -867,10 +867,8 @@ composer_move_caret (EMsgComposer *composer)
 				"data-edit-as-new",
 				"",
 				NULL);
-		e_html_editor_selection_restore_caret_position (editor_selection);
-		e_html_editor_selection_scroll_to_caret (editor_selection);
 
-		e_html_editor_view_force_spell_check (view);
+		e_html_editor_selection_scroll_to_caret (editor_selection);
 		return;
 	}
 
@@ -930,7 +928,6 @@ composer_move_caret (EMsgComposer *composer)
 			e_html_editor_selection_restore_caret_position (editor_selection);
 			if (!html_mode)
 				e_html_editor_view_quote_plain_text (view);
-			e_html_editor_view_force_spell_check (view);
 
 			input_start = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-input-start");
@@ -979,8 +976,6 @@ composer_move_caret (EMsgComposer *composer)
 			}
 		}
 
-		e_html_editor_view_force_spell_check (view);
-
 		webkit_dom_range_select_node_contents (
 			new_range,
 			WEBKIT_DOM_NODE (
@@ -994,6 +989,8 @@ composer_move_caret (EMsgComposer *composer)
 
 	g_object_unref (list);
 	g_object_unref (blockquotes);
+
+	e_html_editor_view_force_spell_check (view);
 
 	e_html_editor_selection_unblock_selection_changed (editor_selection);
 }
@@ -1253,7 +1250,8 @@ e_composer_update_signature (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* Do nothing if we're redirecting a message or we disabled the signature * on purpose */
+	/* Do nothing if we're redirecting a message or we disabled
+	 * the signature on purpose */
 	if (composer->priv->redirect || composer->priv->disable_signature)
 		return;
 

@@ -1202,6 +1202,14 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	move_elements_to_body (document);
 	repair_gmail_blockquotes (document);
 
+	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
+		/* Restore the selection how it was when the draft was saved */
+		e_html_editor_selection_move_caret_into_element (
+			document, WEBKIT_DOM_ELEMENT (body));
+		e_html_editor_selection_restore (
+			e_html_editor_view_get_selection (view));
+	}
+
 	/* Register on input event that is called when the content (body) is modified */
 	register_input_event_listener_on_body (view);
 
@@ -6185,17 +6193,11 @@ process_content_for_saving_as_draft (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMElement *element, *document_element;
+	WebKitDOMElement *document_element;
 	gchar *content;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
-	element = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-caret-position");
-
-	if (element)
-		webkit_dom_element_set_attribute (
-			element, "style", "display: none; color: red;", NULL);
 
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft", "", NULL);
@@ -6206,10 +6208,6 @@ process_content_for_saving_as_draft (EHTMLEditorView *view)
 
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
-
-	if (element)
-		webkit_dom_element_set_attribute (
-			element, "style", "color: red;", NULL);
 
 	return content;
 }

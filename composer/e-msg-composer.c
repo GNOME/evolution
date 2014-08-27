@@ -1239,12 +1239,12 @@ composer_build_message (EMsgComposer *composer,
 		data = g_byte_array_new ();
 
 		e_html_editor_view_embed_styles (view);
-		e_html_editor_selection_save_caret_position (selection);
+		e_html_editor_selection_save (selection);
 
 		text = e_html_editor_view_get_text_html_for_drafts (view);
 
 		e_html_editor_view_remove_embed_styles (view);
-		e_html_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore (selection);
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 
