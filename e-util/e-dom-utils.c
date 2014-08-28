@@ -282,15 +282,9 @@ e_dom_utils_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 	if (!style_element) {
 		/* Create new <style> element */
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
-#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
 		webkit_dom_element_set_id (
 			style_element,
 			style_sheet_id);
-#else
-		webkit_dom_html_element_set_id (
-			WEBKIT_DOM_HTML_ELEMENT (style_element),
-			style_sheet_id);
-#endif
 		webkit_dom_html_style_element_set_media (
 			WEBKIT_DOM_HTML_STYLE_ELEMENT (style_element),
 			"screen");
@@ -448,11 +442,7 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 	gboolean hidden;
 
 	document = user_data;
-#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
 	id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (event_target));
-#else
-	id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (event_target));
-#endif
 
 	list_id = g_strconcat ("list-", id, NULL);
 	list = webkit_dom_document_get_element_by_id (document, list_id);
@@ -1131,11 +1121,8 @@ display_mode_toggle_button_cb (WebKitDOMElement *button,
 	GError *error = NULL;
 	gchar *element_id;
 
-#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
 	element_id = webkit_dom_element_get_id (button);
-#else
-	element_id = webkit_dom_html_element_get_id (WEBKIT_DOM_HTML_ELEMENT (button));
-#endif
+
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,

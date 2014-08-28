@@ -1104,7 +1104,7 @@ chainup:
 	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->
 		button_press_event (widget, event);
 }
-
+#if 0
 static gchar *
 mail_display_redirect_uri (EWebView *web_view,
                            const gchar *uri)
@@ -1230,7 +1230,7 @@ mail_display_suggest_filename (EWebView *web_view,
 	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
 		suggest_filename (web_view, uri);
 }
-
+#endif
 static void
 mail_display_get_font_settings (GSettings *settings,
                                 PangoFontDescription **monospace,
@@ -1291,8 +1291,10 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
+#if 0
 	web_view_class->redirect_uri = mail_display_redirect_uri;
 	web_view_class->suggest_filename = mail_display_suggest_filename;
+#endif
 	web_view_class->set_fonts = mail_display_set_fonts;
 
 	g_object_class_install_property (

@@ -26,7 +26,8 @@
 
 #include <string.h>
 
-#include <e-util/e-util.h>
+#include <e-util/e-dom-utils.h>
+#include <libedataserver/libedataserver.h>
 
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;

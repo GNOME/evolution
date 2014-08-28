@@ -1855,7 +1855,7 @@ attachment_load_write_cb (GOutputStream *output_stream,
 		load_context->total_num_bytes, attachment);
 
 	if (bytes_written < load_context->bytes_read) {
-		g_memmove (
+		memmove (
 			load_context->buffer,
 			load_context->buffer + bytes_written,
 			load_context->bytes_read - bytes_written);
@@ -2762,7 +2762,7 @@ attachment_save_write_cb (GOutputStream *output_stream,
 	input_stream = save_context->input_stream;
 
 	if (bytes_written < save_context->bytes_read) {
-		g_memmove (
+		memmove (
 			save_context->buffer,
 			save_context->buffer + bytes_written,
 			save_context->bytes_read - bytes_written);

@@ -20,7 +20,6 @@
 #define MODULE_ITIP_FORMATTER_DOM_UTILS_H
 
 #include <webkitdom/webkitdom.h>
-#include <webkit2/webkit2.h>
 
 #include <gtk/gtk.h>
 
