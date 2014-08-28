@@ -3528,8 +3528,8 @@ e_msg_composer_new_with_message (EShell *shell,
 	} else {
 		CamelMimePart *mime_part;
 		gboolean is_html = FALSE;
-		gchar *html;
-		gssize length;
+		gchar *html = NULL;
+		gssize length = 0;
 
 		mime_part = CAMEL_MIME_PART (message);
 		content_type = camel_mime_part_get_content_type (mime_part);
