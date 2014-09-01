@@ -46,7 +46,7 @@ export PATH=$BUILD_ROOT_DEPS/bin:$BUILD_ROOT_EVO/bin:$PATH_DEFAULT
 export LD_LIBRARY_PATH=$BUILD_ROOT_DEPS/lib:$BUILD_ROOT_EVO/lib:/lib
 export PKG_CONFIG_PATH=$BUILD_ROOT_DEPS/lib/pkgconfig:$BUILD_ROOT_EVO/lib/pkgconfig:$BUILD_ROOT_DEPS/share/pkgconfig:$BUILD_ROOT_EVO/share/pkgconfig
 export ACLOCAL_FLAGS="-I $BUILD_ROOT_DEPS/share/aclocal -I $BUILD_ROOT_EVO/share/aclocal -I /share/aclocal"
-export GSETTINGS_SCHEMA_DIR=$BUILD_ROOT_DEPS/share/glib-2.0/schemas:$BUILD_ROOT_EVO/share/glib-2.0/schemas
+export GSETTINGS_SCHEMA_DIR=$BUILD_ROOT_EVO/share/glib-2.0/schemas
 if [ "$1" = "debug" -o "$2" = "debug" ] ; then
 	export CFLAGS="$CFLAGS -g -O0 -Wall -DMSVCRT_VERSION=710"
 else
