@@ -1752,7 +1752,7 @@ action_mail_zoom_100_cb (GtkAction *action,
 
 	display = e_mail_reader_get_mail_display (reader);
 
-	webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (display), 1.0);
+	e_web_view_zoom_100 (E_WEB_VIEW (display));
 }
 
 static void
@@ -1763,7 +1763,7 @@ action_mail_zoom_in_cb (GtkAction *action,
 
 	display = e_mail_reader_get_mail_display (reader);
 
-	webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (display));
+	e_web_view_zoom_in (E_WEB_VIEW (display));
 }
 
 static void
@@ -1774,7 +1774,7 @@ action_mail_zoom_out_cb (GtkAction *action,
 
 	display = e_mail_reader_get_mail_display (reader);
 
-	webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (display));
+	e_web_view_zoom_out (E_WEB_VIEW (display));
 }
 
 static void
