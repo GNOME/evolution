@@ -3317,6 +3317,14 @@ exit:
 }
 
 static void
+full_name_editor_closed_cb (GtkWidget *widget,
+			    gpointer data)
+{
+	if (GTK_IS_WIDGET (widget))
+		gtk_widget_destroy (widget);
+}
+
+static void
 full_name_response (GtkDialog *dialog,
                     gint response,
                     EContactEditor *editor)
@@ -3355,19 +3363,10 @@ full_name_response (GtkDialog *dialog,
 		file_as_set_style (editor, style);
 	}
 
+	g_signal_handlers_disconnect_by_func (editor, G_CALLBACK (full_name_editor_closed_cb), dialog);
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	editor->priv->fullname_dialog = NULL;
-}
-
-static gint
-full_name_editor_delete_event_cb (GtkWidget *widget,
-                                  GdkEvent *event,
-                                  gpointer data)
-{
-	if (GTK_IS_WIDGET (widget))
-		gtk_widget_destroy (widget);
-
-	return TRUE;
 }
 
 static void
@@ -3396,7 +3395,7 @@ full_name_clicked (GtkWidget *button,
 	/* Close the fullname dialog if the editor is closed */
 	g_signal_connect_swapped (
 		editor, "editor_closed",
-		G_CALLBACK (full_name_editor_delete_event_cb), dialog);
+		G_CALLBACK (full_name_editor_closed_cb), dialog);
 
 	gtk_widget_show (GTK_WIDGET (dialog));
 	editor->priv->fullname_dialog = GTK_WIDGET (dialog);
