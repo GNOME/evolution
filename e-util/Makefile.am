@@ -104,6 +104,7 @@ libevolution_util_la_CPPFLAGS = \
 	$(ENCHANT_CFLAGS) \
 	$(GTKSPELL_CFLAGS) \
 	$(CODE_COVERAGE_CFLAGS) \
+	$(AUTOAR_CFLAGS) \
 	$(NULL)
 
 evolution_util_include_HEADERS =  \
@@ -649,6 +650,7 @@ libevolution_util_la_LIBADD =  \
 	$(GEO_LIBS) \
 	$(ENCHANT_LIBS) \
 	$(GTKSPELL_LIBS) \
+	$(AUTOAR_LIBS) \
 	$(INTLLIBS) \
 	$(MATH_LIB) \
 	$(NULL)

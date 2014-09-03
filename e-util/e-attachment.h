@@ -99,6 +99,12 @@ gboolean	e_attachment_get_saving		(EAttachment *attachment);
 gboolean	e_attachment_get_shown		(EAttachment *attachment);
 void		e_attachment_set_shown		(EAttachment *attachment,
 						 gboolean shown);
+gboolean	e_attachment_get_save_self	(EAttachment *attachment);
+void		e_attachment_set_save_self	(EAttachment *attachment,
+						 gboolean save_self);
+gboolean	e_attachment_get_save_extracted	(EAttachment *attachment);
+void		e_attachment_set_save_extracted	(EAttachment *attachment,
+						 gboolean save_extracted);
 camel_cipher_validity_encrypt_t
 		e_attachment_get_encrypted	(EAttachment *attachment);
 void		e_attachment_set_encrypted	(EAttachment *attachment,
