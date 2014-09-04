@@ -609,8 +609,6 @@ main (gint argc,
 	if (setup_only)
 		exit (0);
 
-	e_web_view_initialize_webkit ();
-
 	categories_icon_theme_hack ();
 	gtk_accel_map_load (e_get_accels_filename ());
 

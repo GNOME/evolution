@@ -645,7 +645,6 @@ mail_paned_view_constructed (GObject *object)
 	priv->display = g_object_new (
 		E_TYPE_MAIL_DISPLAY,
 		"headers-collapsable", TRUE,
-		"group", e_mail_display_get_web_view_group (),
 		NULL);
 
 	view = E_MAIL_VIEW (object);

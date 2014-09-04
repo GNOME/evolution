@@ -355,7 +355,6 @@ mail_printer_new_web_view (const gchar *charset,
 	web_view = g_object_new (
 		E_TYPE_MAIL_DISPLAY,
 		"mode", E_MAIL_FORMATTER_MODE_PRINTING,
-		"group", e_mail_display_get_web_view_group (),
 		NULL);
 
 	/* XXX EMailDisplay enables frame flattening to prevent scrollable

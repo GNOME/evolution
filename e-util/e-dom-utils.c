@@ -18,6 +18,11 @@
 
 #include "e-dom-utils.h"
 
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+
 #include "../web-extensions/evolution-web-extension.h"
 
 #include <config.h>
@@ -875,8 +880,7 @@ e_dom_utils_get_active_element_name (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *element;
 
-	element = webkit_dom_html_document_get_active_element (
-		WEBKIT_DOM_HTML_DOCUMENT (document));
+	element = webkit_dom_document_get_active_element (document);
 
 	if (!element)
 		return NULL;
@@ -891,8 +895,7 @@ e_dom_utils_get_active_element_name (WebKitDOMDocument *document)
 		if (!content_document)
 			break;
 
-		element = webkit_dom_html_document_get_active_element (
-			WEBKIT_DOM_HTML_DOCUMENT (content_document));
+		element = webkit_dom_document_get_active_element (content_document);
 	}
 
 	return webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
@@ -1099,7 +1102,7 @@ e_dom_utils_get_document_from_point (WebKitDOMDocument *document,
 	WebKitDOMElement *element;
 
 	if (x == 0 && y == 0)
-		element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (document));
+		element = webkit_dom_document_get_active_element (document);
 	else
 		element = find_element_from_point (document, x, y, NULL);
 

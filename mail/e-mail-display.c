@@ -167,6 +167,7 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 		e_mail_formatter_update_style (formatter, state_flags);
 }
 
+#if 0
 static void
 mail_display_plugin_widget_disconnect_children (GtkWidget *widget,
                                                 gpointer mail_display)
@@ -189,7 +190,7 @@ mail_display_plugin_widget_disconnect (gpointer widget_uri,
 			mail_display_plugin_widget_disconnect_children,
 			mail_display);
 }
-
+#endif
 static gboolean
 mail_display_process_mailto (EWebView *web_view,
                              const gchar *mailto_uri,
@@ -224,6 +225,7 @@ decide_policy_cb (WebKitWebView *web_view,
                   WebKitPolicyDecisionType type)
 {
 	WebKitNavigationPolicyDecision *navigation_decision;
+	WebKitNavigationAction *navigation_action;
 	WebKitURIRequest *request;
 	const gchar *uri;
 
@@ -231,9 +233,16 @@ decide_policy_cb (WebKitWebView *web_view,
 		return FALSE;
 
 	navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
+	navigation_action = webkit_navigation_policy_decision_get_navigation_action (navigation_decision);
+	request = webkit_navigation_action_get_request (navigation_action);
 
-	request = webkit_navigation_policy_decision_get_request (navigation_decision);
 	uri = webkit_uri_request_get_uri (request);
+
+	if (!uri || !*uri) {
+		g_warning ("asdasdasdasdadasdasd");
+		webkit_policy_decision_ignore (decision);
+		return TRUE;
+	}
 
 	if (g_str_has_prefix (uri, "file://")) {
 		gchar *filename;
@@ -902,7 +911,7 @@ mail_parts_bind_dom (WebKitWebView *web_view,
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
 }
-
+#if 0
 static void
 mail_display_uri_changed (EMailDisplay *display,
                           GParamSpec *pspec,
@@ -923,7 +932,7 @@ mail_display_uri_changed (EMailDisplay *display,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 }
-
+#endif
 static void
 mail_display_set_property (GObject *object,
                            guint property_id,
@@ -1016,7 +1025,7 @@ mail_display_dispose (GObject *object)
 		g_source_remove (priv->scheduled_reload);
 		priv->scheduled_reload = 0;
 	}
-
+#if 0
 	if (priv->widgets != NULL) {
 		g_hash_table_foreach (
 			priv->widgets,
@@ -1024,7 +1033,7 @@ mail_display_dispose (GObject *object)
 		g_hash_table_destroy (priv->widgets);
 		priv->widgets = NULL;
 	}
-
+#endif
 	if (priv->settings != NULL)
 		g_signal_handlers_disconnect_matched (
 			priv->settings, G_SIGNAL_MATCH_DATA,
@@ -1047,12 +1056,88 @@ mail_display_dispose (GObject *object)
 }
 
 static void
+mail_display_get_font_settings (GSettings *settings,
+                                PangoFontDescription **monospace,
+                                PangoFontDescription **variable)
+{
+	gboolean use_custom_font;
+	gchar *monospace_font;
+	gchar *variable_font;
+
+	use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
+
+	if (!use_custom_font) {
+		*monospace = NULL;
+		*variable = NULL;
+		return;
+	}
+
+	monospace_font = g_settings_get_string (settings, "monospace-font");
+	variable_font = g_settings_get_string (settings, "variable-width-font");
+
+	*monospace = (monospace_font != NULL) ?
+		pango_font_description_from_string (monospace_font) : NULL;
+	*variable = (variable_font != NULL) ?
+		pango_font_description_from_string (variable_font) : NULL;
+
+	g_free (monospace_font);
+	g_free (variable_font);
+}
+
+static void
+mail_display_set_fonts (EWebView *web_view,
+                        PangoFontDescription **monospace,
+                        PangoFontDescription **variable)
+{
+	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
+
+	mail_display_get_font_settings (display->priv->settings, monospace, variable);
+}
+static void
+mail_display_web_view_initialize (WebKitWebView *web_view)
+{
+	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
+	GSettings *settings;
+	GSettingsSchema *settings_schema;
+	WebKitSettings *webkit_settings;
+	PangoFontDescription *ms = NULL, *vw = NULL;
+
+	webkit_settings = webkit_web_view_get_settings (web_view);
+
+	g_object_set (webkit_settings,
+		"enable-frame-flattening", TRUE,
+		NULL);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	mail_display_get_font_settings (settings, &ms, &vw);
+
+	/* Optional schema */
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (), id, FALSE);
+
+	if (settings_schema)
+		settings = g_settings_new (id);
+	else
+		settings = NULL;
+
+	e_web_view_update_fonts_settings (
+		g_settings_new ("org.gnome.desktop.interface"),
+		settings,
+		ms, vw, GTK_WIDGET (web_view));
+
+	pango_font_description_free (ms);
+	pango_font_description_free (vw);
+}
+
+static void
 mail_display_constructed (GObject *object)
 {
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->constructed (object);
+
+	mail_display_web_view_initialize (WEBKIT_WEB_VIEW (object));
 }
 
 static void
@@ -1231,44 +1316,6 @@ mail_display_suggest_filename (EWebView *web_view,
 		suggest_filename (web_view, uri);
 }
 #endif
-static void
-mail_display_get_font_settings (GSettings *settings,
-                                PangoFontDescription **monospace,
-                                PangoFontDescription **variable)
-{
-	gboolean use_custom_font;
-	gchar *monospace_font;
-	gchar *variable_font;
-
-	use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
-
-	if (!use_custom_font) {
-		*monospace = NULL;
-		*variable = NULL;
-		return;
-	}
-
-	monospace_font = g_settings_get_string (settings, "monospace-font");
-	variable_font = g_settings_get_string (settings, "variable-width-font");
-
-	*monospace = (monospace_font != NULL) ?
-		pango_font_description_from_string (monospace_font) : NULL;
-	*variable = (variable_font != NULL) ?
-		pango_font_description_from_string (variable_font) : NULL;
-
-	g_free (monospace_font);
-	g_free (variable_font);
-}
-
-static void
-mail_display_set_fonts (EWebView *web_view,
-                        PangoFontDescription **monospace,
-                        PangoFontDescription **variable)
-{
-	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
-
-	mail_display_get_font_settings (display->priv->settings, monospace, variable);
-}
 
 static void
 e_mail_display_class_init (EMailDisplayClass *class)
@@ -2094,7 +2141,7 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 static void
 mail_display_update_fonts (EMailDisplay *display)
 {
-	e_web_view_update_fonts (E_WEB_VIEW (display), e_mail_display_get_web_view_group ());
+	e_web_view_update_fonts (E_WEB_VIEW (display));
 }
 
 static void
@@ -2168,16 +2215,6 @@ e_mail_display_init (EMailDisplay *display)
 	e_web_view_register_uri_scheme (
 		E_WEB_VIEW (display), MAIL_URI_SCHEME,
 		mail_mail_uri_scheme_appeared_cb, display);
-#if 0
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_HTTP_REQUEST);
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
-#endif
 }
 
 static void
@@ -2204,63 +2241,11 @@ e_mail_display_update_colors (EMailDisplay *display,
 	g_free (color_value);
 }
 
-static void
-mail_display_initialize_group (WebKitWebViewGroup *web_view_group)
-{
-	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
-	GSettings *settings;
-	GSettingsSchema *settings_schema;
-	WebKitSettings *wk_settings;
-	PangoFontDescription *ms = NULL, *vw = NULL;
-
-	wk_settings = webkit_web_view_group_get_settings (web_view_group);
-
-	e_web_view_initialize_settings (wk_settings);
-
-	g_object_set (wk_settings,
-		"enable-frame-flattening", TRUE,
-		NULL);
-
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	mail_display_get_font_settings (settings, &ms, &vw);
-
-	/* Optional schema */
-	settings_schema = g_settings_schema_source_lookup (
-		g_settings_schema_source_get_default (), id, FALSE);
-
-	if (settings_schema)
-		settings = g_settings_new (id);
-	else
-		settings = NULL;
-
-	e_web_view_update_fonts_settings (
-		g_settings_new ("org.gnome.desktop.interface"),
-		settings,
-		web_view_group, ms, vw, NULL);
-
-	pango_font_description_free (ms);
-	pango_font_description_free (vw);
-}
-
-WebKitWebViewGroup *
-e_mail_display_get_web_view_group (void)
-{
-	static WebKitWebViewGroup *web_view_group = NULL;
-
-	if (!web_view_group) {
-		web_view_group = webkit_web_view_group_new ("Evolution Mail WebView Group");
-		mail_display_initialize_group (web_view_group);
-	}
-
-	return web_view_group;
-}
-
 GtkWidget *
 e_mail_display_new (void)
 {
 	return g_object_new (
 		E_TYPE_MAIL_DISPLAY,
-		"group", e_mail_display_get_web_view_group (),
 		NULL);
 }
 

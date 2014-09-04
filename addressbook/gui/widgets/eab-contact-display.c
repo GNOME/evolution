@@ -555,7 +555,6 @@ eab_contact_display_new (void)
 {
 	return g_object_new (
 		EAB_TYPE_CONTACT_DISPLAY,
-		"group", e_web_view_get_web_view_group (),
 		NULL);
 }
 
