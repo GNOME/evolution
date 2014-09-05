@@ -1338,6 +1338,21 @@ set_block_alignment (WebKitDOMElement *element,
 	}
 }
 
+static WebKitDOMNode *
+get_parent_block_node_from_child (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
+	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	return parent;
+}
+
 /**
  * e_html_editor_selection_set_alignment:
  * @selection: an #EHTMLEditorSelection
@@ -1395,7 +1410,7 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 		return;
 	}
 
-	block = webkit_dom_node_get_parent_node (
+	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
 
 	while (block && !after_selection_end) {
@@ -1549,11 +1564,7 @@ get_block_node (WebKitDOMRange *range)
 	WebKitDOMNode *node;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	if (!WEBKIT_DOM_IS_ELEMENT (node))
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
-
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-temp-text-wrapper"))
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+	node = get_parent_block_node_from_child (node);
 
 	return node;
 }
@@ -1804,21 +1815,6 @@ get_citation_level (WebKitDOMNode *node)
 	}
 
 	return level;
-}
-
-static WebKitDOMNode *
-get_parent_block_node_from_child (WebKitDOMNode *node)
-{
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
-
-	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
-	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
-	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
-	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
-	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
-		parent = webkit_dom_node_get_parent_node (parent);
-
-	return parent;
 }
 
 static void

@@ -577,6 +577,21 @@ return_pressed_in_empty_line (EHTMLEditorSelection *selection,
 	return FALSE;
 }
 
+static WebKitDOMNode *
+get_parent_block_node_from_child (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
+	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	return parent;
+}
+
 static WebKitDOMElement *
 insert_new_line_into_citation (EHTMLEditorView *view,
                                const gchar *html_to_insert)
@@ -604,7 +619,7 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 		selection_start_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 
-		current_block = webkit_dom_node_get_parent_node (
+		current_block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
 		block_clone = webkit_dom_node_clone_node (current_block, TRUE);
@@ -910,8 +925,7 @@ body_input_event_cb (WebKitDOMElement *element,
 			WebKitDOMElement *block;
 			gboolean remove_quoting = FALSE;
 
-			block = webkit_dom_node_get_parent_element (
-				WEBKIT_DOM_NODE (element));
+			block = WEBKIT_DOM_ELEMENT (parent);
 			if (webkit_dom_element_query_selector (
 				WEBKIT_DOM_ELEMENT (block), ".-x-evo-quoted", NULL)) {
 				WebKitDOMNode *prev_sibling;
@@ -926,10 +940,6 @@ body_input_event_cb (WebKitDOMElement *element,
 					remove_quoting = element_has_class (
 						WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted");
 			}
-
-			if (element_has_class (block, "-x-evo-temp-text-wrapper"))
-				block = webkit_dom_node_get_parent_element (
-					WEBKIT_DOM_NODE (block));
 
 			content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (block));
 			text_length = g_utf8_strlen (content, -1);
@@ -1625,7 +1635,7 @@ emoticon_read_async_cb (GFile *file,
 	}
 
 	/* Sometimes selection end marker is in body. Move it into next sibling */
-	selection_end_marker_parent = webkit_dom_node_get_parent_node (
+	selection_end_marker_parent = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_end_marker));
 	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (selection_end_marker_parent)) {
 		webkit_dom_node_insert_before (
@@ -2302,17 +2312,13 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 	if (!selection_start_marker || !selection_end_marker)
 		return FALSE;
 
-	block = webkit_dom_node_get_parent_element (
-		WEBKIT_DOM_NODE (selection_start_marker));
+	block = WEBKIT_DOM_ELEMENT (get_parent_block_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker)));
 
 	citation_level = get_citation_level (
 		WEBKIT_DOM_NODE (selection_start_marker), FALSE);
 
 	if (selection_start_marker && citation_level > 0) {
-		if (element_has_class (block, "-x-evo-temp-text-wrapper"))
-			block = webkit_dom_node_get_parent_element (
-				WEBKIT_DOM_NODE (block));
-
 		if (webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block), ".-x-evo-quoted", NULL)) {
 
@@ -4444,7 +4450,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		if (webkit_dom_node_is_same_node (first_paragraph, last_paragraph)) {
 			WebKitDOMNode *child, *parent;
 
-			parent = webkit_dom_node_get_parent_node (
+			parent = get_parent_block_node_from_child (
 				WEBKIT_DOM_NODE (selection_start_marker));
 
 			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
@@ -4468,7 +4474,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		}
 
 		/* Pasting content parsed into the multiple paragraphs */
-		parent = webkit_dom_node_get_parent_node (
+		parent = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
 		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
@@ -4489,7 +4495,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
 			remove_node (child);
 
-		parent = webkit_dom_node_get_parent_node (
+		parent = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_end_marker)),
 
 		child = webkit_dom_node_get_next_sibling (
@@ -4509,9 +4515,6 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			last_paragraph,
 			e_html_editor_selection_get_caret_position_node (document),
 			NULL);
-
-		if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper"))
-			parent = webkit_dom_node_get_parent_node (parent);
 
 		/* Insert the paragraph with the end of the pasted text after
 		 * the paragraph that contains the selection end */
@@ -4545,7 +4548,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (parent));
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (parent));
 
-		parent = webkit_dom_node_get_parent_node (
+		parent = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 		parent = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
 			selection, WEBKIT_DOM_ELEMENT (parent), length));
@@ -4700,7 +4703,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		selection_end_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 
-		paragraph = webkit_dom_node_get_parent_node (
+		paragraph = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 		parent = webkit_dom_node_get_parent_node (paragraph);
 		if (element_has_class (WEBKIT_DOM_ELEMENT (paragraph), "-x-evo-paragraph") &&
