@@ -1,6 +1,6 @@
-diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/Makefile.am dbus-1.8.0/dbus/Makefile.am
---- dbus-1.8.0.old/dbus/Makefile.am	2014-01-20 13:40:21 +0000
-+++ dbus-1.8.0/dbus/Makefile.am	2014-08-09 12:50:47 +0000
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' dbus-1.8.0.old/dbus/Makefile.am dbus-1.8.0/dbus/Makefile.am
+--- dbus-1.8.0.old/dbus/Makefile.am	2014-09-05 16:09:18 +0000
++++ dbus-1.8.0/dbus/Makefile.am	2014-09-05 16:09:40 +0000
 @@ -304,8 +304,8 @@ if DBUS_WIN
  # this code is used, we don't actually need libstdc++.
  noinst_LTLIBRARIES += libdbus-init-win.la
@@ -12,9 +12,30 @@ diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/Makefile.am dbus-1.8.0
  endif
  
  noinst_PROGRAMS =
-diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/dbus-sysdeps-win.c dbus-1.8.0/dbus/dbus-sysdeps-win.c
---- dbus-1.8.0.old/dbus/dbus-sysdeps-win.c	2014-01-07 11:32:53 +0000
-+++ dbus-1.8.0/dbus/dbus-sysdeps-win.c	2014-08-09 13:35:34 +0000
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' dbus-1.8.0.old/dbus/dbus-sysdeps-util-win.c dbus-1.8.0/dbus/dbus-sysdeps-util-win.c
+--- dbus-1.8.0.old/dbus/dbus-sysdeps-util-win.c	2014-09-05 16:09:18 +0000
++++ dbus-1.8.0/dbus/dbus-sysdeps-util-win.c	2014-09-05 16:09:28 +0000
+@@ -1555,13 +1555,12 @@ _dbus_replace_install_prefix (const char
+   if ((!_dbus_get_install_root(runtime_prefix, len) ||
+        strncmp (configure_time_path, DBUS_PREFIX "/",
+                 strlen (DBUS_PREFIX) + 1))) {
+-     strcat (retval, configure_time_path);
+-     return retval;
++     strcpy (retval, configure_time_path);
++  } else {
++     strcpy (retval, runtime_prefix);
++     strcat (retval, configure_time_path + strlen (DBUS_PREFIX) + 1);
+   }
+ 
+-  strcpy (retval, runtime_prefix);
+-  strcat (retval, configure_time_path + strlen (DBUS_PREFIX) + 1);
+-
+   /* Somehow, in some situations, backslashes get collapsed in the string.
+    * Since windows C library accepts both forward and backslashes as
+    * path separators, convert all backslashes to forward slashes.
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' dbus-1.8.0.old/dbus/dbus-sysdeps-win.c dbus-1.8.0/dbus/dbus-sysdeps-win.c
+--- dbus-1.8.0.old/dbus/dbus-sysdeps-win.c	2014-09-05 16:09:18 +0000
++++ dbus-1.8.0/dbus/dbus-sysdeps-win.c	2014-09-05 16:09:40 +0000
 @@ -55,6 +55,7 @@
  #include <ws2tcpip.h>
  #include <wincrypt.h>
@@ -172,7 +193,7 @@ diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/dbus-sysdeps-win.c dbu
  
    _dbus_assert (credentials != NULL);
    _dbus_assert (!_dbus_credentials_are_anonymous (credentials));
-@@ -3407,18 +3539,16 @@ _dbus_append_keyring_directory_for_crede
+@@ -3407,18 +3539,12 @@ _dbus_append_keyring_directory_for_crede
    if (!_dbus_string_init (&homedir))
      return FALSE;
  
@@ -181,14 +202,10 @@ diff -upr -x .deps -x .libs -x '*.la' dbus-1.8.0.old/dbus/dbus-sysdeps-win.c dbu
 -    {
 -      _dbus_string_append(&homedir,homedrive);
 -    }
-+  _dbus_set_homedir_from_drive_and_path_env(&homedir);
-+  /* It's a default folder, like X:\, try to use a better one, in user's home directory */
-+  if (_dbus_string_get_length(&homedir) <= 3) {
++  _dbus_string_set_length(&homedir, 0);
++  if (!_dbus_set_user_home(&homedir)) {
 +     _dbus_string_set_length(&homedir, 0);
-+     if (!_dbus_set_user_home(&homedir)) {
-+       _dbus_string_set_length(&homedir, 0);
-+       _dbus_set_homedir_from_drive_and_path_env(&homedir);
-+     }
++     _dbus_set_homedir_from_drive_and_path_env(&homedir);
 +  }
  
 -  homepath = _dbus_getenv("HOMEPATH");

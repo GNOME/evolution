@@ -54,7 +54,8 @@ $(BUILD_ROOT_EVO)/lib/pkgconfig/libedataserver-1.2.pc:
 	@if test ! -f "../../evolution-data-server/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution-data-server/"; \
 	fi
-	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution-data-server "" "--enable-weather --disable-goa --disable-uoa --disable-examples --without-libdb --with-openldap=$(BUILD_ROOT_DEPS) $(DISABLE_GTK_DOC)" $(VERBOSE)
+	@cd "$(BUILD_ROOT_EVO)/libexec" && export WIN32_SERVICELIBEXECDIR=`pwd -W` && cd - >/dev/null && \
+	./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution-data-server "" "--enable-weather --disable-goa --disable-uoa --disable-examples --without-libdb --with-openldap=$(BUILD_ROOT_DEPS) $(DISABLE_GTK_DOC)" $(VERBOSE)
 
 evolution-master: env evolution-data-server-master $(BUILD_ROOT_EVO)/lib/pkgconfig/evolution-shell-3.0.pc
 
@@ -66,7 +67,7 @@ $(BUILD_ROOT_EVO)/lib/pkgconfig/evolution-shell-3.0.pc:
 	@if test ! -f "../../evolution/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution/"; \
 	fi
-	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution "" "--enable-plugins=all --enable-weather --disable-canberra --disable-contact-maps --disable-goa --disable-libcryptui --disable-bogofilter --disable-spamassassin --disable-text-highlight --disable-pst-import --disable-gnome-desktop --without-clutter --without-help $(DISABLE_GTK_DOC)" $(VERBOSE)
+	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution "" "--enable-plugins=all --enable-weather --disable-canberra --disable-contact-maps --disable-goa --disable-libcryptui --disable-bogofilter --disable-spamassassin --disable-text-highlight --disable-pst-import --disable-gnome-desktop --disable-autoar --without-clutter --without-help $(DISABLE_GTK_DOC)" $(VERBOSE)
 
 evolution-ews-master: env evolution-master $(BUILD_ROOT_EVO)/lib/evolution-data-server/libeews-1.2.dll.a
 
@@ -586,7 +587,7 @@ gdk-pixbuf: env giflib libpng libjpeg libtiff jasper glib $(BUILD_ROOT_DEPS)/lib
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/gdk-pixbuf-2.0.pc:
 	@./get-src https://download.gnome.org/sources/gdk-pixbuf/2.30 gdk-pixbuf-2.30.2.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gdk-pixbuf-2.30.2 "" "--disable-static --with-libjasper" $(VERBOSE)
+	@./build cmmi "$(BUILD_ROOT_DEPS)" gdk-pixbuf-2.30.2 "" "--disable-static --disable-modules --with-libjasper" $(VERBOSE)
 
 libcroco: env glib $(BUILD_ROOT_DEPS)/lib/pkgconfig/libcroco-0.6.pc
 

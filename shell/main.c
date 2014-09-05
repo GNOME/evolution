@@ -41,17 +41,10 @@
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0601
 #endif
-#include <windows.h>
-#include <conio.h>
-#include <io.h>
-#ifndef PROCESS_DEP_ENABLE
-#define PROCESS_DEP_ENABLE 0x00000001
-#endif
-#ifndef PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION
-#define PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION 0x00000002
-#endif
 
+#include <windows.h>
 #include "e-util/e-util-private.h"
+#include <libedataserver/libedataserver.h>
 
 #endif
 
@@ -431,50 +424,7 @@ main (gint argc,
 	GError *error = NULL;
 
 #ifdef G_OS_WIN32
-	gchar *path;
-
-	/* Reduce risks */
-	{
-		typedef BOOL (WINAPI *t_SetDllDirectoryA) (LPCSTR lpPathName);
-		t_SetDllDirectoryA p_SetDllDirectoryA;
-
-		p_SetDllDirectoryA = GetProcAddress (
-			GetModuleHandle ("kernel32.dll"),
-			"SetDllDirectoryA");
-		if (p_SetDllDirectoryA)
-			(*p_SetDllDirectoryA) ("");
-	}
-#ifndef _WIN64
-	{
-		typedef BOOL (WINAPI *t_SetProcessDEPPolicy) (DWORD dwFlags);
-		t_SetProcessDEPPolicy p_SetProcessDEPPolicy;
-
-		p_SetProcessDEPPolicy = GetProcAddress (
-			GetModuleHandle ("kernel32.dll"),
-			"SetProcessDEPPolicy");
-		if (p_SetProcessDEPPolicy)
-			(*p_SetProcessDEPPolicy) (
-				PROCESS_DEP_ENABLE |
-				PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
-	}
-#endif
-
-	if (fileno (stdout) != -1 && _get_osfhandle (fileno (stdout)) != -1) {
-		/* stdout is fine, presumably redirected to a file or pipe */
-	} else {
-		typedef BOOL (* WINAPI AttachConsole_t) (DWORD);
-
-		AttachConsole_t p_AttachConsole =
-			(AttachConsole_t) GetProcAddress (
-			GetModuleHandle ("kernel32.dll"), "AttachConsole");
-
-		if (p_AttachConsole && p_AttachConsole (ATTACH_PARENT_PROCESS)) {
-			freopen ("CONOUT$", "w", stdout);
-			dup2 (fileno (stdout), 1);
-			freopen ("CONOUT$", "w", stderr);
-			dup2 (fileno (stderr), 2);
-		}
-	}
+	e_util_win32_initialize ();
 #endif
 
 	/* Make ElectricFence work.  */
@@ -521,13 +471,6 @@ main (gint argc,
 	e_gdbus_templates_init_main_thread ();
 
 #ifdef G_OS_WIN32
-	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
-
-	if (!g_setenv ("PATH", path, TRUE))
-		g_warning ("Could not set PATH for Evolution and its child processes");
-
-	g_free (path);
-
 	if (register_handlers || reinstall || show_icons) {
 		_e_win32_register_mailer ();
 		_e_win32_register_addressbook ();

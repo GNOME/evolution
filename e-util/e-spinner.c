@@ -22,6 +22,8 @@
 
 #include <gtk/gtk.h>
 
+#include "e-util/e-util-private.h"
+
 #include "e-spinner.h"
 
 #define MAIN_IMAGE_FILENAME	"working.png"
@@ -112,7 +114,15 @@ e_spinner_constructed (GObject *object)
 
 	spinner = E_SPINNER (object);
 
+#ifdef G_OS_WIN32
+	{
+		gchar *filename = g_strconcat (EVOLUTION_IMAGESDIR, G_DIR_SEPARATOR_S, MAIN_IMAGE_FILENAME, NULL);
+		main_pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+		g_free (filename);
+	}
+#else
 	main_pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR G_DIR_SEPARATOR_S MAIN_IMAGE_FILENAME, &error);
+#endif
 	if (!main_pixbuf) {
 		g_warning ("%s: Failed to load image: %s", error ? error->message : "Unknown error", G_STRFUNC);
 		g_clear_error (&error);

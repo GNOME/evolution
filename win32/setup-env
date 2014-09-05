@@ -58,6 +58,7 @@ export LDFLAGS="$LDFLAGS -L$BUILD_ROOT_DEPS/lib -L$BUILD_ROOT_EVO/lib -L/lib"
 mkdir -p $BUILD_ROOT_DEPS/bin 2>/dev/null
 mkdir -p $BUILD_ROOT_DEPS/include 2>/dev/null
 mkdir -p $BUILD_ROOT_DEPS/lib 2>/dev/null
+mkdir -p $BUILD_ROOT_DEPS/libexec 2>/dev/null
 mkdir -p $BUILD_ROOT_DEPS/share/aclocal 2>/dev/null
 mkdir -p $BUILD_ROOT_DEPS/etc/dbus-1/session.d 2>/dev/null
 #mkdir -p $BUILD_ROOT_DEPS/share/dbus-1 2>/dev/null
@@ -65,6 +66,7 @@ mkdir -p $BUILD_ROOT_DEPS/etc/dbus-1/session.d 2>/dev/null
 mkdir -p $BUILD_ROOT_EVO/bin 2>/dev/null
 mkdir -p $BUILD_ROOT_EVO/include 2>/dev/null
 mkdir -p $BUILD_ROOT_EVO/lib 2>/dev/null
+mkdir -p $BUILD_ROOT_EVO/libexec 2>/dev/null
 mkdir -p $BUILD_ROOT_EVO/share/aclocal 2>/dev/null
 #mkdir -p $BUILD_ROOT_EVO/share/dbus-1 2>/dev/null
 
@@ -72,5 +74,8 @@ mkdir -p $BUILD_ROOT_EVO/share/aclocal 2>/dev/null
 #ln -s $BUILD_ROOT_DEPS/share/dbus-1 /usr/local/share/dbus-1
 
 if [ -f "session-local.conf.in" ] ; then
-	cat session-local.conf.in | sed 's|@BUILD_ROOT_EVO@|'$BUILD_ROOT_EVO'/share/dbus-1/services|g' >$BUILD_ROOT_DEPS/etc/dbus-1/session.d/session-local.conf
+	cd $BUILD_ROOT_EVO
+	WLIKE_PWD=`pwd -W | sed 's|/|\\\\\\\\|g'`
+	cd - >/dev/null
+	cat session-local.conf.in | sed 's|@BUILD_ROOT_EVO@|'$WLIKE_PWD'\\share\\dbus-1\\services|g' >$BUILD_ROOT_DEPS/etc/dbus-1/session-local.conf
 fi
