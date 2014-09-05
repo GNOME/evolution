@@ -3210,6 +3210,7 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
                                   gint quote_level,
                                   gboolean is_html_node)
 {
+	gboolean skip;
 	gchar *quotation;
 	WebKitDOMElement *element;
 
@@ -3219,7 +3220,11 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element), quotation, NULL);
 
-	if (is_html_node) {
+	/* Don't insert temporary BR before BR that is used for wrapping */
+	skip = WEBKIT_DOM_IS_HTMLBR_ELEMENT (node);
+	skip = skip && element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br");
+
+	if (is_html_node && !skip) {
 		WebKitDOMElement *new_br;
 
 		new_br = webkit_dom_document_create_element (document, "br", NULL);
