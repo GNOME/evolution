@@ -2705,6 +2705,102 @@ html_editor_view_key_release_event (GtkWidget *widget,
 		}
 	}
 
+	/* This will fix the structure after the situations where some text
+	 * inside the quoted content is selected and afterwards deleted with
+	 * BackSpace or Delete. */
+	if ((event->keyval == GDK_KEY_BackSpace) ||
+	    (event->keyval == GDK_KEY_Delete)) {
+		gint level;
+		WebKitDOMNode *node, *parent;
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMElement *element;
+
+		e_html_editor_selection_save (selection);
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		level = get_citation_level (
+			WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+		if (level == 0)
+			goto restore;
+
+		node = webkit_dom_node_get_previous_sibling (
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
+			node = webkit_dom_node_get_previous_sibling (node);
+
+		if (node)
+			goto restore;
+
+		parent = get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+		node = webkit_dom_node_get_previous_sibling (parent);
+		if (!node) {
+			/* Situation where the start of the selection was in the
+			 * multiple quoted content and that start on the beginning
+			 * of the citation.
+			 *
+			 * >
+			 * >> |
+			 * >> xx|x
+			 * */
+			node = webkit_dom_node_get_parent_node (parent);
+			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
+				goto restore;
+			node = webkit_dom_node_get_previous_sibling (node);
+			if (!node)
+				goto restore;
+			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (webkit_dom_node_get_parent_node (node)))
+				goto restore;
+		}
+
+		element = webkit_dom_element_query_selector (
+			WEBKIT_DOM_ELEMENT (node), "span.-x-evo-quote-character > br", NULL);
+		if (element) {
+			WebKitDOMNode *tmp;
+
+			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
+				/* We have to select the right block when the selection
+				 * started on the end of the citation that is
+				 * inside another citation.
+				 *
+				 * >>|
+				 * > xx|x
+				 */
+				/* <span class="-x-evo-quote-character"> */
+				node = webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (element));
+				/* <span class="-x-evo-quoted"> */
+				node = webkit_dom_node_get_parent_node (node);
+				/* right block */
+				node = webkit_dom_node_get_parent_node (node);
+			}
+
+			webkit_dom_node_append_child (
+				node, WEBKIT_DOM_NODE (selection_start_marker), NULL);
+
+			while ((tmp = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker))))
+				webkit_dom_node_append_child (node, tmp, NULL);
+
+			webkit_dom_node_insert_before (
+				node,
+				WEBKIT_DOM_NODE (selection_end_marker),
+				webkit_dom_node_get_next_sibling (
+					WEBKIT_DOM_NODE (selection_start_marker)),
+				NULL);
+
+			webkit_dom_node_append_child (
+				node, WEBKIT_DOM_NODE (element), NULL);
+			remove_node (parent);
+		}
+ restore:
+		e_html_editor_selection_restore (selection);
+	}
+
 	if ((event->keyval == GDK_KEY_Control_L) ||
 	    (event->keyval == GDK_KEY_Control_R)) {
 
