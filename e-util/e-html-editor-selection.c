@@ -2612,7 +2612,8 @@ get_parent_indented_block (WebKitDOMNode *node)
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented"))
 		block = parent;
 
-	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_HTML_ELEMENT (parent)) {
 		if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-indented"))
 			block = parent;
 		parent = webkit_dom_node_get_parent_node (parent);
