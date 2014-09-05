@@ -4911,6 +4911,8 @@ e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	g_object_unref (view);
 
+	e_html_editor_selection_block_selection_changed (selection);
+
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-caret-position");
 	fix_after_quoting = element_has_class (element, "-x-evo-caret-quoting");
@@ -4936,6 +4938,7 @@ e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 				WEBKIT_DOM_NODE (element));
 			if (!WEBKIT_DOM_IS_ELEMENT (next_sibling)) {
 				e_html_editor_selection_clear_caret_position_marker (selection);
+				e_html_editor_selection_unblock_selection_changed (selection);
 				return;
 			}
 
@@ -4982,6 +4985,8 @@ e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
 				window_selection, "move", "forward", "character");
 		}
 	}
+
+	e_html_editor_selection_unblock_selection_changed (selection);
 }
 
 static gint
