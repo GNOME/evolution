@@ -166,26 +166,6 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/enchant.pc:
 
 nss: env moztools $(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pc
 
-$(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pcAAA:
-	@./get-src ftp://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_15_4_RTM/src nss-3.15.4-with-nspr-4.10.2.tar.gz "" "" "nss-3.15.4"
-	@cd src/nss-3.15.4/ && \
-	(patch -p1 -f <../../patches/nss.patch || echo a > /dev/null) && \
-	export BUILD_OPT=1 && \
-	export OS_TARGET=WINNT && \
-	export NS_USE_GCC=1 && \
-	export NSPR_USE_GCC=1 && \
-	export NSPR_PREFIX=`pwd`/dist/WINNT6.1_gcc_OPT.OBJ && \
-	../../build cmmi "$(BUILD_ROOT_DEPS)" nspr "" "--host=i586-pc-mingw32 --prefix=$(BUILD_ROOT_DEPS) --with-dist-prefix=`pwd`/dist/WINNT6.1_gcc_OPT.OBJ --with-dist-includedir=`pwd`/dist/WINNT6.1_gcc_OPT.OBJ/include --enable-win32-target=WINNT" $(VERBOSE) "nspr" && \
-	mv $(BUILD_ROOT_DEPS)/lib/libnspr4.dll $(BUILD_ROOT_DEPS)/bin/ && \
-	mv $(BUILD_ROOT_DEPS)/lib/libplc4.dll $(BUILD_ROOT_DEPS)/bin/ && \
-	mv $(BUILD_ROOT_DEPS)/lib/libplds4.dll $(BUILD_ROOT_DEPS)/bin/ && \
-	../../build m "$(BUILD_ROOT_DEPS)" nss "" "all" $(VERBOSE) "nss" && \
-	cp -rf dist/public/* "$(BUILD_ROOT_DEPS)/include/" && \
-	mv dist/WINNT6.1_gcc_OPT.OBJ/lib/*.dll "$(BUILD_ROOT_DEPS)/bin/" && \
-	mv dist/WINNT6.1_gcc_OPT.OBJ/lib/* "$(BUILD_ROOT_DEPS)/lib/" && \
-	echo "prefix=$(BUILD_ROOT_DEPS)" >$(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pc && \
-	cat nss/nss.pc >>$(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pc
-
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pc:
 	@./get-src ftp://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_15_4_RTM/src nss-3.15.4-with-nspr-4.10.2.tar.gz "" "" "nss-3.15.4"
 	@cd src/nss-3.15.4/ && \
@@ -200,6 +180,9 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pc:
 	mv $(BUILD_ROOT_DEPS)/lib/nspr4.dll $(BUILD_ROOT_DEPS)/bin/libnspr4.dll && \
 	mv $(BUILD_ROOT_DEPS)/lib/plc4.dll $(BUILD_ROOT_DEPS)/bin/libplc4.dll && \
 	mv $(BUILD_ROOT_DEPS)/lib/plds4.dll $(BUILD_ROOT_DEPS)/bin/libplds4.dll && \
+	mv $(BUILD_ROOT_DEPS)/lib/nspr4.a $(BUILD_ROOT_DEPS)/lib/libnspr4.a && \
+	mv $(BUILD_ROOT_DEPS)/lib/plc4.a $(BUILD_ROOT_DEPS)/lib/libplc4.a && \
+	mv $(BUILD_ROOT_DEPS)/lib/plds4.a $(BUILD_ROOT_DEPS)/lib/libplds4.a && \
 	mv dist/WIN954.0_gcc_OPT.OBJ/lib/*.dll "$(BUILD_ROOT_DEPS)/bin/" && \
 	mv dist/WIN954.0_gcc_OPT.OBJ/lib/* "$(BUILD_ROOT_DEPS)/lib/" && \
 	echo "prefix=$(BUILD_ROOT_DEPS)" >$(BUILD_ROOT_DEPS)/lib/pkgconfig/nss.pc && \
@@ -587,7 +570,7 @@ gdk-pixbuf: env giflib libpng libjpeg libtiff jasper glib $(BUILD_ROOT_DEPS)/lib
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/gdk-pixbuf-2.0.pc:
 	@./get-src https://download.gnome.org/sources/gdk-pixbuf/2.30 gdk-pixbuf-2.30.2.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gdk-pixbuf-2.30.2 "" "--disable-static --disable-modules --with-libjasper" $(VERBOSE)
+	@./build cmmi "$(BUILD_ROOT_DEPS)" gdk-pixbuf-2.30.2 "" "--disable-static --with-libjasper" $(VERBOSE)
 
 libcroco: env glib $(BUILD_ROOT_DEPS)/lib/pkgconfig/libcroco-0.6.pc
 

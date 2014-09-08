@@ -25,6 +25,7 @@ evolution_addressbook_export_SOURCES =				\
 	evolution-addressbook-export.h
 
 evolution_addressbook_export_LDADD =				\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)
 
 evolution_addressbook_export_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)

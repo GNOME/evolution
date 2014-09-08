@@ -25,16 +25,21 @@ fi
 # empty value means 'stable', anything else means 'master' type in Makefile
 export EVO_BUILD_TYPE=$1
 
-export BUILD_ROOT_DEPS=$BUILD_ROOT_BASE/deps
-if [ "x$EVO_BUILD_TYPE" != "x" -a "x$EVO_BUILD_TYPE" != "xstable" ] ; then
+if [ "x$EVO_BUILD_TYPE" == "x" ] ; then
+	# Build 'master' as default
+	export EVO_BUILD_SUFFIX="-master"
+	export EVO_BUILD_TYPE="master"
+elif [ "x$EVO_BUILD_TYPE" != "xstable" ] ; then
 	# Build custom builds like from 'master', aka from relative path checkouts
 	export EVO_BUILD_SUFFIX="-master"
-	export BUILD_ROOT_EVO="$BUILD_ROOT_BASE/evo-$EVO_BUILD_TYPE"
 else
 	# Build from tarballs
 	export EVO_BUILD_SUFFIX="-stable"
-	export BUILD_ROOT_EVO=$BUILD_ROOT_BASE/evo
+	export EVO_BUILD_TYPE="stable"
 fi
+
+export BUILD_ROOT_EVO=$BUILD_ROOT_BASE/$EVO_BUILD_TYPE
+export BUILD_ROOT_DEPS=$BUILD_ROOT_EVO
 
 if [ "$PATH_DEFAULT" = "" ] ; then
 	export PATH_DEFAULT=$PATH
