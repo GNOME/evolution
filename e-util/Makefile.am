@@ -97,6 +97,7 @@ libevolution_util_la_CPPFLAGS = \
 	-DEVOLUTION_TOOLSDIR=\""$(privlibexecdir)"\" \
 	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
+	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
 	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \
@@ -178,6 +179,7 @@ evolution_util_include_HEADERS =  \
 	e-destination-store.h \
 	e-dialog-utils.h \
 	e-dialog-widgets.h \
+	e-dom-utils.h \
 	e-emoticon-action.h \
 	e-emoticon-chooser-menu.h \
 	e-emoticon-chooser.h \
@@ -450,6 +452,7 @@ libevolution_util_la_SOURCES = \
 	e-destination-store.c \
 	e-dialog-utils.c \
 	e-dialog-widgets.c \
+	e-dom-utils.c \
 	e-emoticon-action.c \
 	e-emoticon-chooser-menu.c \
 	e-emoticon-chooser.c \

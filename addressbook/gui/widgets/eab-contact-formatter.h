@@ -75,7 +75,6 @@ void		eab_contact_formatter_format_contact
 						(EABContactFormatter *formatter,
 						 EContact *contact,
 						 GString *output_buffer);
-void		eab_contact_formatter_bind_dom	(WebKitDOMDocument *document);
 
 G_END_DECLS
 

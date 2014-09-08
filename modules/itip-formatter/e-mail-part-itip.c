@@ -76,45 +76,26 @@ mail_part_itip_finalize (GObject *object)
 
 static void
 mail_part_itip_bind_dom_element (EMailPart *part,
-                                 WebKitDOMElement *element)
+                                 GDBusProxy *evolution_web_extension,
+                                 guint64 page_id,
+                                 const gchar *element_id)
 {
-	GString *buffer;
-	WebKitDOMDocument *document;
-	ItipView *view;
 	EMailPartItip *pitip;
 
 	pitip = E_MAIL_PART_ITIP (part);
 
-	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		WebKitDOMNodeList *nodes;
-		guint length;
-
-		nodes = webkit_dom_element_get_elements_by_tag_name (
-			element, "iframe");
-		length = webkit_dom_node_list_get_length (nodes);
-		if (length > 0)
-			element = WEBKIT_DOM_ELEMENT (
-				webkit_dom_node_list_item (nodes, 0));
-
-		g_object_unref (nodes);
-	}
+	/* FIXME XXX WK2 checks */
+#if 0
+	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element))
+		element = webkit_dom_element_query_selector (
+			element, "iframe", NULL);
 
 	g_return_if_fail (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element));
 
-	buffer = g_string_new ("");
 	document = webkit_dom_html_iframe_element_get_content_document (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
-
-	view = itip_view_new (pitip, pitip->client_cache);
-	g_object_set_data_full (
-		G_OBJECT (element), "view", view,
-		(GDestroyNotify) g_object_unref);
-
-	itip_view_create_dom_bindings (
-		view, webkit_dom_document_get_document_element (document));
-
-	itip_view_init_view (view);
-	g_string_free (buffer, TRUE);
+#endif
+	itip_view_new (pitip, pitip->client_cache, element_id, page_id);
 }
 
 static void

@@ -39,8 +39,7 @@ e_mail_display_popup_extension_default_init (EMailDisplayPopupExtensionInterface
  * on every extension so that they can add their items to the menu.
  */
 void
-e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *extension,
-                                               WebKitHitTestResult *context)
+e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *extension)
 {
 	EMailDisplayPopupExtensionInterface *iface;
 
@@ -49,5 +48,5 @@ e_mail_display_popup_extension_update_actions (EMailDisplayPopupExtension *exten
 	iface = E_MAIL_DISPLAY_POPUP_EXTENSION_GET_INTERFACE (extension);
 	g_return_if_fail (iface->update_actions != NULL);
 
-	iface->update_actions (extension, context);
+	iface->update_actions (extension);
 }

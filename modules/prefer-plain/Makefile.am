@@ -1,4 +1,4 @@
-SUBDIRS=plugin
+SUBDIRS=plugin web-extension
 
 module_LTLIBRARIES = module-prefer-plain.la
 

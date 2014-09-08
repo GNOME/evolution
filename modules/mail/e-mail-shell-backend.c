@@ -112,7 +112,8 @@ message_parsed_cb (GObject *source_object,
 
 	parts_list = e_mail_parser_parse_finish (parser, res, NULL);
 
-	soup_session = webkit_get_default_session ();
+//	soup_session = webkit_get_default_session ();
+	soup_session = NULL;
 	mails = g_object_get_data (G_OBJECT (soup_session), "mails");
 	if (!mails) {
 		mails = g_hash_table_new_full (

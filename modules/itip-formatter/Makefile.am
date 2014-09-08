@@ -1,4 +1,4 @@
-SUBDIRS = plugin
+SUBDIRS = plugin web-extension
 
 @EVO_PLUGIN_RULE@
 
@@ -27,7 +27,8 @@ module_itip_formatter_la_SOURCES =					\
 	e-source-conflict-search.h					\
 	itip-view.c							\
 	itip-view.h							\
-	evolution-module-itip-formatter.c
+	evolution-module-itip-formatter.c				\
+	itip-view-elements-defines.h
 
 module_itip_formatter_la_LIBADD =					\
 	$(top_builddir)/e-util/libevolution-util.la			\

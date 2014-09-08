@@ -71,6 +71,7 @@ SUBDIRS = 			\
 	art			\
 	plugins			\
 	modules			\
+	web-extensions		\
 	$(MAINT_SUBDIR)		\
 	doc			\
 	ui			\

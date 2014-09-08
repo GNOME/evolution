@@ -23,6 +23,8 @@
 #include <shell/e-shell-window.h>
 #include "mail/e-mail-browser.h"
 
+#include "web-extension/module-text-highlight-web-extension.h"
+
 #include <libebackend/libebackend.h>
 
 #include <glib/gi18n-lib.h>
@@ -36,7 +38,8 @@ typedef struct _EMailDisplayPopupTextHighlight {
 
 	GtkActionGroup *action_group;
 
-	WebKitDOMDocument *document;
+	GDBusProxy *web_extension;
+	gint web_extension_watch_name_id;
 } EMailDisplayPopupTextHighlight;
 
 typedef struct _EMailDisplayPopupTextHighlightClass {
@@ -107,33 +110,85 @@ static GtkActionEntry entries[] = {
 };
 
 static void
-reformat (GtkAction *old,
-          GtkAction *action,
-          gpointer user_data)
+web_extension_proxy_created_cb (GDBusProxy *proxy,
+                                GAsyncResult *result,
+                                EMailDisplayPopupTextHighlight *th_extension)
 {
-	EMailDisplayPopupTextHighlight *th_extension;
-	WebKitDOMDocument *doc;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *frame_element;
+	GError *error = NULL;
+
+	th_extension->web_extension = g_dbus_proxy_new_finish (result, &error);
+	if (!th_extension->web_extension) {
+		g_warning ("Error creating web extension proxy: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+web_extension_appeared_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           const gchar *name_owner,
+                           EMailDisplayPopupTextHighlight *th_extension)
+{
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		name,
+		MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_OBJECT_PATH,
+		MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_INTERFACE,
+		NULL,
+		(GAsyncReadyCallback)web_extension_proxy_created_cb,
+		th_extension);
+}
+
+static void
+web_extension_vanished_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           EMailDisplayPopupTextHighlight *th_extension)
+{
+	g_clear_object (&th_extension->web_extension);
+}
+
+static void
+mail_display_popup_prefer_plain_watch_web_extension (EMailDisplayPopupTextHighlight *th_extension)
+{
+	th_extension->web_extension_watch_name_id =
+		g_bus_watch_name (
+			G_BUS_TYPE_SESSION,
+			MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_SERVICE_NAME,
+			G_BUS_NAME_WATCHER_FLAGS_NONE,
+			(GBusNameAppearedCallback) web_extension_appeared_cb,
+			(GBusNameVanishedCallback) web_extension_vanished_cb,
+			th_extension, NULL);
+}
+
+static void
+reformat_get_document_uri_cb (GDBusProxy *web_extension,
+                              GAsyncResult *result,
+                              GtkAction *action)
+{
 	SoupURI *soup_uri;
 	GHashTable *query;
 	gchar *uri;
+	GVariant *result_variant;
 
-	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
-	doc = th_extension->document;
-	if (!doc)
-		return;
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		const gchar *document_uri;
 
-	uri = webkit_dom_document_get_document_uri (doc);
-	soup_uri = soup_uri_new (uri);
-	g_free (uri);
+		g_variant_get (result_variant, "(&s)", &document_uri);
+		soup_uri = soup_uri_new (document_uri);
+		g_variant_unref (result_variant);
+	}
 
 	if (!soup_uri)
-		goto exit;
+		return;
 
 	if (!soup_uri->query) {
 		soup_uri_free (soup_uri);
-		goto exit;
+		return;
 	}
 
 	query = soup_form_decode (soup_uri->query);
@@ -149,16 +204,31 @@ reformat (GtkAction *old,
 	soup_uri_free (soup_uri);
 
 	/* Get frame's window and from the window the actual <iframe> element */
-	window = webkit_dom_document_get_default_view (doc);
-	frame_element = webkit_dom_dom_window_get_frame_element (window);
-	webkit_dom_html_iframe_element_set_src (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (frame_element), uri);
+	g_dbus_proxy_call (
+		web_extension,
+		"ChangeIFrameSource",
+		g_variant_new ("(s)", uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (uri);
 
-	/* The frame has been reloaded, the document pointer is invalid now */
-exit:
-	th_extension->document = NULL;
+	if (!th_extension->web_extension)
+		return;
+
+	/* Get URI from saved document */
+	g_dbus_proxy_call (
+		th_extension->web_extension,
+		"GetDocumentURI",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		(GAsyncReadyCallback) reformat_get_document_uri_cb,
+		action);
 }
 
 static GtkActionGroup *
@@ -272,34 +342,28 @@ create_group (EMailDisplayPopupExtension *extension)
 }
 
 static void
-update_actions (EMailDisplayPopupExtension *extension,
-                WebKitHitTestResult *context)
+get_document_uri_cb (GDBusProxy *web_extension,
+                     GAsyncResult *result,
+                     EMailDisplayPopupTextHighlight *th_extension)
 {
-	EMailDisplayPopupTextHighlight *th_extension;
-	WebKitDOMNode *node;
-	WebKitDOMDocument *document;
-	gchar *uri;
+	GVariant *result_variant;
+	gchar *document_uri;
 
-	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
-
-	if (th_extension->action_group == NULL) {
-		th_extension->action_group = create_group (extension);
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		g_variant_get (result_variant, "(s)", &document_uri);
+		g_variant_unref (result_variant);
 	}
-
-	th_extension->document = NULL;
-	g_object_get (G_OBJECT (context), "inner-node", &node, NULL);
-	document = webkit_dom_node_get_owner_document (node);
-	uri = webkit_dom_document_get_document_uri (document);
 
 	/* If the part below context menu was made by text-highlight formatter,
 	 * then try to check what formatter it's using at the moment and set
 	 * it as active in the popup menu */
-	if (uri && strstr (uri, ".text-highlight") != NULL) {
+	if (document_uri && strstr (document_uri, ".text-highlight") != NULL) {
 		SoupURI *soup_uri;
 		gtk_action_group_set_visible (
 			th_extension->action_group, TRUE);
 
-		soup_uri = soup_uri_new (uri);
+		soup_uri = soup_uri_new (document_uri);
 		if (soup_uri && soup_uri->query) {
 			GHashTable *query = soup_form_decode (soup_uri->query);
 			gchar *highlighter;
@@ -329,12 +393,63 @@ update_actions (EMailDisplayPopupExtension *extension,
 			th_extension->action_group, FALSE);
 	}
 
-	/* Set the th_extension->document AFTER changing the active action to
-	 * prevent the reformat() from doing some crazy reformatting
-	 * (reformat() returns immediatelly when th_extension->document is NULL) */
-	th_extension->document = document;
 
-	g_free (uri);
+	g_free (document_uri);
+}
+
+static void
+update_actions (EMailDisplayPopupExtension *extension)
+{
+	EMailDisplay *display;
+	EMailDisplayPopupTextHighlight *th_extension;
+	gint32 x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+
+	display = E_MAIL_DISPLAY (e_extension_get_extensible (
+			E_EXTENSION (extension)));
+
+	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (extension);
+
+	if (th_extension->action_group == NULL) {
+		th_extension->action_group = create_group (extension);
+	}
+
+	/* In WK2 you can't get the node on what WebKitHitTest was performed,
+	 * we have to use other way */
+	device_manager = gdk_display_get_device_manager (
+		gtk_widget_get_display (GTK_WIDGET(display)));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (
+		gtk_widget_get_window (GTK_WIDGET (display)), pointer, &x, &y, NULL);
+
+	if (!th_extension->web_extension)
+       		return;
+
+	g_dbus_proxy_call (
+		th_extension->web_extension,
+		"SaveDocumentFromPoint",
+		g_variant_new (
+			"(tii)",
+			webkit_web_view_get_page_id (
+				WEBKIT_WEB_VIEW (display)),
+			x, y),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	/* Get URI from saved document */
+	g_dbus_proxy_call (
+		th_extension->web_extension,
+		"GetDocumentURI",
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		(GAsyncReadyCallback) get_document_uri_cb,
+		th_extension);
 }
 
 void
@@ -370,4 +485,6 @@ static void
 e_mail_display_popup_text_highlight_init (EMailDisplayPopupTextHighlight *extension)
 {
 	extension->action_group = NULL;
+
+	mail_display_popup_prefer_plain_watch_web_extension (extension);
 }

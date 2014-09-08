@@ -1890,6 +1890,7 @@ action_mail_zoom_in_cb (GtkAction *action,
                         EMailReader *reader)
 {
 	EMailDisplay *display;
+	gdouble zoom_level;
 
 	display = e_mail_reader_get_mail_display (reader);
 
@@ -1901,6 +1902,7 @@ action_mail_zoom_out_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMailDisplay *display;
+	gdouble zoom_level;
 
 	display = e_mail_reader_get_mail_display (reader);
 
@@ -2638,33 +2640,21 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 	const gchar *action_name;
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (reader))) {
-		WebKitWebFrame *frame;
-		WebKitDOMDocument *dom;
-		WebKitDOMElement *element;
 		EMailDisplay *display;
-		gchar *name = NULL;
+		GDBusProxy *web_extension;
 
 		display = e_mail_reader_get_mail_display (reader);
-		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (display));
+		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+		if (web_extension) {
+			GVariant *result;
 
-		if (frame != NULL) {
-			dom = webkit_web_frame_get_dom_document (frame);
-			/* intentionally used "static_cast" */
-			element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
+			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
+			if (result) {
+				gboolean need_input = g_variant_get_boolean (result);
+				g_variant_unref (result);
 
-			if (element != NULL)
-				name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
-
-			/* If INPUT or TEXTAREA has focus,
-			 * then any key press should go there. */
-			if (name != NULL &&
-			    (g_ascii_strcasecmp (name, "INPUT") == 0 ||
-			     g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-				g_free (name);
-				return FALSE;
-			}
-			g_free (name);
-		}
+				if (need_input)
+					return FALSE;
 	}
 
 	if ((event->state & GDK_CONTROL_MASK) != 0)

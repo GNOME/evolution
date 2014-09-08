@@ -28,6 +28,7 @@
 #include "e-mail-formatter-extension.h"
 #include "e-mail-formatter-utils.h"
 #include "e-mail-part.h"
+#include "e-mail-meta-remove-filter.h"
 
 #define d(x)
 
@@ -1047,6 +1048,8 @@ e_mail_formatter_format_text (EMailFormatter *formatter,
 	CamelMimeFilter *filter;
 	const gchar *charset = NULL;
 	CamelMimeFilter *windows = NULL;
+	/* FIXME XXX WK2 */
+	CamelMimeFilter *meta_remove = NULL;
 	CamelMimePart *mime_part;
 	CamelContentType *mime_type;
 

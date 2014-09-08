@@ -26,6 +26,8 @@
 
 #include "e-util/e-util-private.h"
 
+#include "web-extension/module-mail-web-extension.h"
+
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
@@ -250,35 +252,30 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-mail_shell_view_mail_display_needs_key (EMailDisplay *mail_display,
-                                        gboolean with_input)
+mail_shell_view_mail_display_needs_key (EMailShellView *mail_shell_view,
+                                        EMailDisplay *mail_display)
 {
-	gboolean needs_key = FALSE;
-
 	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
-		WebKitWebFrame *frame;
-		WebKitDOMDocument *dom;
-		WebKitDOMElement *element;
-		gchar *name = NULL;
+		GDBusProxy *web_extension;
 
-		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display));
-		if (!frame)
-			return FALSE;
-		dom = webkit_web_frame_get_dom_document (frame);
-		element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
+		/* Intentionally use Evolution Web Extension */
+		web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (mail_display));
+		if (web_extension) {
+			GVariant *result;
 
-		if (element)
-			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
+			result = g_dbus_proxy_get_cached_property (web_extension, "NeedInput");
+			if (result) {
+				gboolean need_input;
 
-		/* if INPUT or TEXTAREA has focus, then any key press should go there */
-		if (name && ((with_input && g_ascii_strcasecmp (name, "INPUT") == 0) || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-			needs_key = TRUE;
+				need_input = g_variant_get_boolean (result);
+				g_variant_unref (result);
+
+				return need_input;
+			}
 		}
-
-		g_free (name);
 	}
 
-	return needs_key;
+	return FALSE;
 }
 
 static gboolean
@@ -313,42 +310,11 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			action = ACTION (MAIL_SMART_BACKWARD);
 			break;
 
-		case GDK_KEY_Home:
-		case GDK_KEY_Left:
-		case GDK_KEY_Up:
-		case GDK_KEY_Right:
-		case GDK_KEY_Down:
-		case GDK_KEY_Next:
-		case GDK_KEY_End:
-		case GDK_KEY_Begin:
-			/* If Caret mode is enabled don't try to process these keys */
-			if (e_web_view_get_caret_mode (E_WEB_VIEW (mail_display)))
-				return FALSE;
-		case GDK_KEY_Prior:
-			if (!mail_shell_view_mail_display_needs_key (mail_display, FALSE) &&
-			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
-			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
-				WebKitDOMDocument *document;
-				WebKitDOMDOMWindow *window;
-
-				document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (mail_display));
-				window = webkit_dom_document_get_default_view (document);
-
-				/* Workaround WebKit bug for key navigation, when inner IFRAME is focused.
-				 * EMailView's inner IFRAMEs have disabled scrolling, but WebKit doesn't post
-				 * key navigation events to parent's frame, thus the view doesn't scroll.
-				 * This is a poor workaround for this issue, the main frame is focused,
-				 * which has scrolling enabled.
-				*/
-				webkit_dom_dom_window_focus (window);
-			}
-
-			return FALSE;
 		default:
 			return FALSE;
 	}
 
-	if (mail_shell_view_mail_display_needs_key (mail_display, TRUE))
+	if (mail_shell_view_mail_display_needs_key (mail_shell_view, mail_display))
 		return FALSE;
 
 	gtk_action_activate (action);
@@ -563,12 +529,77 @@ mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
 	e_mail_reader_avoid_next_mark_as_seen (E_MAIL_READER (mail_view));
 }
 
+static void
+web_extension_proxy_created_cb (GDBusProxy *proxy,
+                                GAsyncResult *result,
+                                EMailShellView *mail_shell_view)
+{
+	GError *error = NULL;
+
+	mail_shell_view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
+	if (!mail_shell_view->priv->web_extension) {
+		g_warning ("Error creating web extension proxy: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+web_extension_appeared_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           const gchar *name_owner,
+                           EMailShellView *mail_shell_view)
+{
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
+		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		name,
+		MODULE_MAIL_WEB_EXTENSION_OBJECT_PATH,
+		MODULE_MAIL_WEB_EXTENSION_INTERFACE,
+		NULL,
+		(GAsyncReadyCallback)web_extension_proxy_created_cb,
+		mail_shell_view);
+}
+
+static void
+web_extension_vanished_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           EMailShellView *mail_shell_view)
+{
+	g_clear_object (&mail_shell_view->priv->web_extension);
+}
+
+static void
+mail_shell_view_watch_web_extension (EMailShellView *mail_shell_view)
+{
+	mail_shell_view->priv->web_extension_watch_name_id =
+		g_bus_watch_name (
+			G_BUS_TYPE_SESSION,
+			MODULE_MAIL_WEB_EXTENSION_SERVICE_NAME,
+			G_BUS_NAME_WATCHER_FLAGS_NONE,
+			(GBusNameAppearedCallback) web_extension_appeared_cb,
+			(GBusNameVanishedCallback) web_extension_vanished_cb,
+			mail_shell_view, NULL);
+}
+
+GDBusProxy *
+e_mail_shell_view_get_web_extension_proxy (EMailShellView *mail_shell_view)
+{
+	g_return_val_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view), NULL);
+
+	return mail_shell_view->priv->web_extension;
+}
+
 void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view)
 {
 	e_signal_connect_notify (
 		mail_shell_view, "notify::view-id",
 		G_CALLBACK (mail_shell_view_notify_view_id_cb), NULL);
+
+	mail_shell_view_watch_web_extension (mail_shell_view);
 }
 
 void
@@ -799,6 +830,12 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		priv->prepare_for_quit_handler_id = 0;
 	}
 
+	if (priv->web_extension_watch_name_id > 0) {
+		g_bus_unwatch_name (priv->web_extension_watch_name_id);
+		priv->web_extension_watch_name_id = 0;
+	}
+
+	g_clear_object (&priv->web_extension);
 	g_clear_object (&priv->mail_shell_backend);
 	g_clear_object (&priv->mail_shell_content);
 	g_clear_object (&priv->mail_shell_sidebar);

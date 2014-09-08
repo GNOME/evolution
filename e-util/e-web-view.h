@@ -28,7 +28,7 @@
 #ifndef E_WEB_VIEW_H
 #define E_WEB_VIEW_H
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 #include <e-util/e-activity.h>
 
 /* Standard GObject macros */
@@ -55,6 +55,15 @@ G_BEGIN_DECLS
 typedef struct _EWebView EWebView;
 typedef struct _EWebViewClass EWebViewClass;
 typedef struct _EWebViewPrivate EWebViewPrivate;
+
+typedef enum {
+	CID_URI_SCHEME,
+	FILE_URI_SCHEME,
+	MAIL_URI_SCHEME,
+	EVO_HTTP_URI_SCHEME,
+	EVO_HTTPS_URI_SCHEME,
+	GTK_STOCK_URI_SCHEME
+} EURIScheme;
 
 struct _EWebView {
 	WebKitWebView parent;
@@ -101,6 +110,15 @@ struct _EWebViewClass {
 
 GType		e_web_view_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_web_view_new			(void);
+WebKitSettings *
+		e_web_view_get_default_webkit_settings
+						(void);
+void		e_web_view_update_fonts_settings
+						(GSettings *font_settings,
+						 GSettings *aliasing_settings,
+						 PangoFontDescription *ms_font,
+						 PangoFontDescription *vw_font,
+						 GtkWidget *view_widget);
 void		e_web_view_clear		(EWebView *web_view);
 void		e_web_view_load_string		(EWebView *web_view,
 						 const gchar *string);
@@ -111,7 +129,20 @@ gchar *		e_web_view_redirect_uri		(EWebView *web_view,
 gchar *		e_web_view_suggest_filename	(EWebView *web_view,
 						 const gchar *uri);
 void		e_web_view_reload		(EWebView *web_view);
-gchar *		e_web_view_get_html		(EWebView *web_view);
+void		e_web_view_get_content_html	(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+const gchar *	e_web_view_get_content_html_finish
+						(EWebView *web_view,
+						 GAsyncResult *result,
+						 GError **error);
+const gchar *	e_web_view_get_content_html_sync
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GError **error);
+GDBusProxy *	e_web_view_get_web_extension_proxy
+						(EWebView *web_view);
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
 void		e_web_view_set_caret_mode	(EWebView *web_view,
 						 gboolean caret_mode);
@@ -180,7 +211,19 @@ void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);
 void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
-gchar *		e_web_view_get_selection_html	(EWebView *web_view);
+void		e_web_view_get_selection_content_html
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+const gchar *	e_web_view_get_selection_content_html_finish
+						(EWebView *web_view,
+						 GAsyncResult *result,
+						 GError **error);
+const gchar *	e_web_view_get_selection_content_html_sync
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GError **error);
 void		e_web_view_update_fonts		(EWebView *web_view);
 void		e_web_view_cursor_image_copy	(EWebView *web_view);
 void		e_web_view_cursor_image_save	(EWebView *web_view);
@@ -192,6 +235,10 @@ void		e_web_view_request		(EWebView *web_view,
 GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 						 GAsyncResult *result,
 						 GError **error);
+void		e_web_view_register_uri_scheme	(EWebView *web_view,
+						 EURIScheme scheme,
+						 gpointer user_callback,
+						 gpointer user_data);
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);

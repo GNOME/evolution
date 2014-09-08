@@ -36,8 +36,11 @@
 #include "e-http-request.h"
 #include "e-mail-display-popup-extension.h"
 #include "e-mail-request.h"
+#include "e-mail-ui-session.h"
 #include "em-composer-utils.h"
 #include "em-utils.h"
+
+#include <web-extensions/evolution-web-extension.h>
 
 #define d(x)
 
@@ -61,6 +64,8 @@ struct _EMailDisplayPrivate {
 	guint scheduled_reload;
 
 	GHashTable *old_settings;
+
+	guint web_extension_headers_collapsed_signal_id;
 };
 
 enum {
@@ -71,8 +76,6 @@ enum {
 	PROP_MODE,
 	PROP_PART_LIST
 };
-
-static CamelDataCache *emd_global_http_cache = NULL;
 
 static const gchar *ui =
 "<ui>"
@@ -152,29 +155,6 @@ formatter_image_loading_policy_changed_cb (GObject *object,
 		e_mail_display_reload (display);
 }
 
-static gboolean
-mail_display_image_exists_in_cache (const gchar *image_uri)
-{
-	gchar *filename;
-	gchar *hash;
-	gboolean exists = FALSE;
-
-	g_return_val_if_fail (emd_global_http_cache != NULL, FALSE);
-
-	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
-	filename = camel_data_cache_get_filename (
-		emd_global_http_cache, "http", hash);
-
-	if (filename != NULL) {
-		exists = g_file_test (filename, G_FILE_TEST_EXISTS);
-		g_free (filename);
-	}
-
-	g_free (hash);
-
-	return exists;
-}
-
 static void
 mail_display_update_formatter_colors (EMailDisplay *display)
 {
@@ -188,6 +168,7 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 		e_mail_formatter_update_style (formatter, state_flags);
 }
 
+#if 0
 static void
 mail_display_plugin_widget_disconnect_children (GtkWidget *widget,
                                                 gpointer mail_display)
@@ -210,7 +191,7 @@ mail_display_plugin_widget_disconnect (gpointer widget_uri,
 			mail_display_plugin_widget_disconnect_children,
 			mail_display);
 }
-
+#endif
 static gboolean
 mail_display_process_mailto (EWebView *web_view,
                              const gchar *mailto_uri,
@@ -240,14 +221,29 @@ mail_display_process_mailto (EWebView *web_view,
 }
 
 static gboolean
-mail_display_link_clicked (WebKitWebView *web_view,
-                           WebKitWebFrame *frame,
-                           WebKitNetworkRequest *request,
-                           WebKitWebNavigationAction *navigation_action,
-                           WebKitWebPolicyDecision *policy_decision,
-                           gpointer user_data)
+decide_policy_cb (WebKitWebView *web_view,
+                  WebKitPolicyDecision *decision,
+                  WebKitPolicyDecisionType type)
 {
-	const gchar *uri = webkit_network_request_get_uri (request);
+	WebKitNavigationPolicyDecision *navigation_decision;
+	WebKitNavigationAction *navigation_action;
+	WebKitURIRequest *request;
+	const gchar *uri;
+
+	if (type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION)
+		return FALSE;
+
+	navigation_decision = WEBKIT_NAVIGATION_POLICY_DECISION (decision);
+	navigation_action = webkit_navigation_policy_decision_get_navigation_action (navigation_decision);
+	request = webkit_navigation_action_get_request (navigation_action);
+
+	uri = webkit_uri_request_get_uri (request);
+
+	if (!uri || !*uri) {
+		g_warning ("asdasdasdasdadasdasd");
+		webkit_policy_decision_ignore (decision);
+		return TRUE;
+	}
 
 	if (g_str_has_prefix (uri, "file://")) {
 		gchar *filename;
@@ -255,8 +251,9 @@ mail_display_link_clicked (WebKitWebView *web_view,
 		filename = g_filename_from_uri (uri, NULL, NULL);
 
 		if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-			webkit_web_policy_decision_ignore (policy_decision);
-			webkit_network_request_set_uri (request, "about:blank");
+			webkit_policy_decision_ignore (decision);
+			/* FIXME XXX WK2 Not sure if the request will be changed there */
+			webkit_uri_request_set_uri (request, "about:blank");
 			g_free (filename);
 			return TRUE;
 		}
@@ -266,17 +263,17 @@ mail_display_link_clicked (WebKitWebView *web_view,
 
 	if (mail_display_process_mailto (E_WEB_VIEW (web_view), uri, NULL)) {
 		/* do nothing, function handled the "mailto:" uri already */
-		webkit_web_policy_decision_ignore (policy_decision);
+		webkit_policy_decision_ignore (decision);
 		return TRUE;
 
 	} else if (g_ascii_strncasecmp (uri, "thismessage:", 12) == 0) {
 		/* ignore */
-		webkit_web_policy_decision_ignore (policy_decision);
+		webkit_policy_decision_ignore (decision);
 		return TRUE;
 
 	} else if (g_ascii_strncasecmp (uri, "cid:", 4) == 0) {
 		/* ignore */
-		webkit_web_policy_decision_ignore (policy_decision);
+		webkit_policy_decision_ignore (decision);
 		return TRUE;
 
 	}
@@ -284,7 +281,7 @@ mail_display_link_clicked (WebKitWebView *web_view,
 	/* Let WebKit handle it. */
 	return FALSE;
 }
-
+#if 0
 static void
 mail_display_resource_requested (WebKitWebView *web_view,
                                  WebKitWebFrame *frame,
@@ -725,114 +722,7 @@ exit:
 
 	return widget;
 }
-
-static void
-toggle_headers_visibility (WebKitDOMElement *button,
-                           WebKitDOMEvent *event,
-                           WebKitWebView *web_view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *short_headers, *full_headers;
-	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
-	gboolean expanded;
-	const gchar *path;
-	gchar *css_value;
-
-	document = webkit_web_view_get_dom_document (web_view);
-
-	short_headers = webkit_dom_document_get_element_by_id (
-		document, "__evo-short-headers");
-	if (short_headers == NULL)
-		return;
-
-	css_short = webkit_dom_element_get_style (short_headers);
-
-	full_headers = webkit_dom_document_get_element_by_id (
-		document, "__evo-full-headers");
-	if (full_headers == NULL)
-		return;
-
-	css_full = webkit_dom_element_get_style (full_headers);
-	css_value = webkit_dom_css_style_declaration_get_property_value (
-		css_full, "display");
-	expanded = (g_strcmp0 (css_value, "table") == 0);
-	g_free (css_value);
-
-	webkit_dom_css_style_declaration_set_property (
-		css_full, "display",
-		expanded ? "none" : "table", "", NULL);
-	webkit_dom_css_style_declaration_set_property (
-		css_short, "display",
-		expanded ? "table" : "none", "", NULL);
-
-	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
-	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
-
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
-
-	e_mail_display_set_headers_collapsed (
-		E_MAIL_DISPLAY (web_view), expanded);
-
-	d (printf ("Headers %s!\n", expanded ? "collapsed" : "expanded"));
-}
-
-static void
-toggle_address_visibility (WebKitDOMElement *button,
-                           WebKitDOMEvent *event)
-{
-	WebKitDOMElement *full_addr, *ellipsis;
-	WebKitDOMElement *parent;
-	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
-	const gchar *path;
-	gboolean expanded;
-
-	/* <b> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
-	/* <td> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
-
-	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
-
-	if (!full_addr)
-		return;
-
-	css_full = webkit_dom_element_get_style (full_addr);
-
-	ellipsis = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-ellipsis", NULL);
-
-	if (!ellipsis)
-		return;
-
-	css_ellipsis = webkit_dom_element_get_style (ellipsis);
-
-	expanded = (g_strcmp0 (
-		webkit_dom_css_style_declaration_get_property_value (
-		css_full, "display"), "inline") == 0);
-
-	webkit_dom_css_style_declaration_set_property (
-		css_full, "display", (expanded ? "none" : "inline"), "", NULL);
-	webkit_dom_css_style_declaration_set_property (
-		css_ellipsis, "display", (expanded ? "inline" : "none"), "", NULL);
-
-	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
-	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
-
-	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
-		button = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
-
-		if (!button)
-			return;
-	}
-
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
-}
-
+#endif
 static void
 add_color_css_rule_for_web_view (EWebView *view,
                                  const gchar *color_name,
@@ -930,87 +820,148 @@ setup_image_click_event_listeners_on_document (WebKitDOMDocument *document,
 }
 
 static void
-setup_dom_bindings (WebKitWebView *web_view,
-                    WebKitWebFrame *frame,
-                    gpointer user_data)
+headers_collapsed_signal_cb (GDBusConnection *connection,
+                          const gchar *sender_name,
+                          const gchar *object_path,
+                          const gchar *interface_name,
+                          const gchar *signal_name,
+                          GVariant *parameters,
+                          EMailDisplay *display)
 {
-	WebKitDOMDocument *document;
+	gboolean expanded;
 
-	document = webkit_web_frame_get_dom_document (frame);
+	if (g_strcmp0 (signal_name, "HeadersCollapsed") != 0)
+		return;
 
-	setup_image_click_event_listeners_on_document (document, web_view);
+	if (parameters)
+		g_variant_get (parameters, "(b)", &expanded);
+
+	e_mail_display_set_headers_collapsed (display, expanded);
 }
 
 static void
-mail_parts_bind_dom (GObject *object,
-                     GParamSpec *pspec,
+setup_dom_bindings (WebKitWebView *web_view,
+                    WebKitLoadEvent load_event,
+                    gpointer user_data)
+{
+	GDBusProxy *web_extension;
+	EMailDisplay *display;
+
+	if (load_event != WEBKIT_LOAD_FINISHED)
+		return;
+
+	display = E_MAIL_DISPLAY (web_view);
+
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
+
+
+	if (web_extension) {
+		if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
+			display->priv->web_extension_headers_collapsed_signal_id =
+				g_dbus_connection_signal_subscribe (
+					g_dbus_proxy_get_connection (web_extension),
+					g_dbus_proxy_get_name (web_extension),
+					EVOLUTION_WEB_EXTENSION_INTERFACE,
+					"RecurToggled",
+					EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+					NULL,
+					G_DBUS_SIGNAL_FLAGS_NONE,
+					(GDBusSignalCallback) headers_collapsed_signal_cb,
+					display,
+					NULL);
+		}
+
+		g_dbus_proxy_call (
+			web_extension,
+			"EMailDisplayBindDOM",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (web_view)),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+ 			NULL);
+	}
+}
+
+static void
+mail_element_exists_cb (GDBusProxy *web_extension,
+                        GAsyncResult *result,
+                        EMailPart *part)
+{
+	gboolean element_exists = FALSE;
+	GVariant *result_variant;
+	guint64 page_id;
+
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
+	if (result_variant) {
+		g_variant_get (result_variant, "(bt)", &element_exists, &page_id);
+		g_variant_unref (result_variant);
+	}
+
+	if (element_exists)
+		e_mail_part_bind_dom_element (
+			part,
+			web_extension,
+			page_id,
+			e_mail_part_get_id (part));
+
+	g_object_unref (part);
+}
+
+static void
+mail_parts_bind_dom (WebKitWebView *web_view,
+                     WebKitLoadEvent load_event,
                      gpointer user_data)
 {
-	WebKitWebFrame *frame;
-	WebKitLoadStatus load_status;
-	WebKitWebView *web_view;
-	WebKitDOMDocument *document;
 	EMailDisplay *display;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
-	const gchar *frame_name;
+	GDBusProxy *web_extension;
 
-	frame = WEBKIT_WEB_FRAME (object);
-	load_status = webkit_web_frame_get_load_status (frame);
-
-	if (load_status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
-	web_view = webkit_web_frame_get_web_view (frame);
 	display = E_MAIL_DISPLAY (web_view);
 	if (display->priv->part_list == NULL)
 		return;
 
 	initialize_web_view_colors (display);
-	frame_name = webkit_web_frame_get_name (frame);
-	if (frame_name == NULL || *frame_name == '\0')
-		frame_name = ".message.headers";
 
-	document = webkit_web_view_get_dom_document (web_view);
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (!web_extension)
+		return;
 
 	e_mail_part_list_queue_parts (
-		display->priv->part_list, frame_name, &queue);
+		display->priv->part_list, NULL, &queue);
 	head = g_queue_peek_head_link (&queue);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		EMailPart *part = E_MAIL_PART (link->data);
-		WebKitDOMElement *element;
 		const gchar *part_id;
 
-		/* Iterate only the parts rendered in
-		 * the frame and all it's subparts. */
-		if (!e_mail_part_id_has_prefix (part, frame_name))
-			break;
-
 		part_id = e_mail_part_get_id (part);
-		element = find_element_by_id (document, part_id);
 
-		if (element != NULL)
-			e_mail_part_bind_dom_element (part, element);
+		g_dbus_proxy_call (
+			web_extension,
+			"ElementExists",
+			g_variant_new (
+				"(ts)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (display)),
+				part_id),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			(GAsyncReadyCallback)mail_element_exists_cb,
+			g_object_ref (part));
 	}
 
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
 }
-
-static void
-mail_display_frame_created (WebKitWebView *web_view,
-                            WebKitWebFrame *frame,
-                            gpointer user_data)
-{
-	d (printf ("Frame %s created!\n", webkit_web_frame_get_name (frame)));
-
-	/* Call bind_func of all parts written in this frame */
-	g_signal_connect (
-		frame, "notify::load-status",
-		G_CALLBACK (mail_parts_bind_dom), NULL);
-}
-
+#if 0
 static void
 mail_display_uri_changed (EMailDisplay *display,
                           GParamSpec *pspec,
@@ -1031,7 +982,7 @@ mail_display_uri_changed (EMailDisplay *display,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) e_weak_ref_free);
 }
-
+#endif
 static void
 mail_display_set_property (GObject *object,
                            guint property_id,
@@ -1124,7 +1075,7 @@ mail_display_dispose (GObject *object)
 		g_source_remove (priv->scheduled_reload);
 		priv->scheduled_reload = 0;
 	}
-
+#if 0
 	if (priv->widgets != NULL) {
 		g_hash_table_foreach (
 			priv->widgets,
@@ -1132,11 +1083,19 @@ mail_display_dispose (GObject *object)
 		g_hash_table_destroy (priv->widgets);
 		priv->widgets = NULL;
 	}
-
+#endif
 	if (priv->settings != NULL)
 		g_signal_handlers_disconnect_matched (
 			priv->settings, G_SIGNAL_MATCH_DATA,
 			0, 0, NULL, NULL, object);
+
+	if (priv->web_extension_headers_collapsed_signal_id > 0) {
+		g_dbus_connection_signal_unsubscribe (
+			g_dbus_proxy_get_connection (
+				e_web_view_get_web_extension_proxy (E_WEB_VIEW (object))),
+			priv->web_extension_headers_collapsed_signal_id);
+		priv->web_extension_headers_collapsed_signal_id = 0;
+	}
 
 	g_clear_object (&priv->part_list);
 	g_clear_object (&priv->formatter);
@@ -1163,12 +1122,89 @@ mail_display_finalize (GObject *object)
 }
 
 static void
+mail_display_get_font_settings (GSettings *settings,
+                                PangoFontDescription **monospace,
+                                PangoFontDescription **variable)
+{
+	gboolean use_custom_font;
+	gchar *monospace_font;
+	gchar *variable_font;
+
+	use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
+
+	if (!use_custom_font) {
+		*monospace = NULL;
+		*variable = NULL;
+		return;
+	}
+
+	monospace_font = g_settings_get_string (settings, "monospace-font");
+	variable_font = g_settings_get_string (settings, "variable-width-font");
+
+	*monospace = (monospace_font != NULL) ?
+		pango_font_description_from_string (monospace_font) : NULL;
+	*variable = (variable_font != NULL) ?
+		pango_font_description_from_string (variable_font) : NULL;
+
+	g_free (monospace_font);
+	g_free (variable_font);
+}
+
+static void
+mail_display_set_fonts (EWebView *web_view,
+                        PangoFontDescription **monospace,
+                        PangoFontDescription **variable)
+{
+	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
+
+	mail_display_get_font_settings (display->priv->settings, monospace, variable);
+}
+
+static void
+mail_display_web_view_initialize (WebKitWebView *web_view)
+{
+	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
+	GSettings *settings;
+	GSettingsSchema *settings_schema;
+	WebKitSettings *webkit_settings;
+	PangoFontDescription *ms = NULL, *vw = NULL;
+
+	webkit_settings = webkit_web_view_get_settings (web_view);
+
+	g_object_set (webkit_settings,
+		"enable-frame-flattening", TRUE,
+		NULL);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	mail_display_get_font_settings (settings, &ms, &vw);
+
+	/* Optional schema */
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (), id, FALSE);
+
+	if (settings_schema)
+		settings = g_settings_new (id);
+	else
+		settings = NULL;
+
+	e_web_view_update_fonts_settings (
+		g_settings_new ("org.gnome.desktop.interface"),
+		settings,
+		ms, vw, GTK_WIDGET (web_view));
+
+	pango_font_description_free (ms);
+	pango_font_description_free (vw);
+}
+
+static void
 mail_display_constructed (GObject *object)
 {
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->constructed (object);
+
+	mail_display_web_view_initialize (WEBKIT_WEB_VIEW (object));
 }
 
 static void
@@ -1197,14 +1233,10 @@ mail_display_button_press_event (GtkWidget *widget,
                                  GdkEventButton *event)
 {
 	EWebView *web_view = E_WEB_VIEW (widget);
-	WebKitHitTestResult *hit_test;
 	GList *list, *link;
 
 	if (event->button != 3)
 		goto chainup;
-
-	hit_test = webkit_web_view_get_hit_test_result (
-		WEBKIT_WEB_VIEW (web_view), event);
 
 	list = e_extensible_list_extensions (
 		E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
@@ -1215,18 +1247,16 @@ mail_display_button_press_event (GtkWidget *widget,
 			continue;
 
 		e_mail_display_popup_extension_update_actions (
-			E_MAIL_DISPLAY_POPUP_EXTENSION (extension), hit_test);
+			E_MAIL_DISPLAY_POPUP_EXTENSION (extension));
 	}
 	g_list_free (list);
-
-	g_object_unref (hit_test);
 
 chainup:
 	/* Chain up to parent's button_press_event() method. */
 	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->
 		button_press_event (widget, event);
 }
-
+#if 0
 static gchar *
 mail_display_redirect_uri (EWebView *web_view,
                            const gchar *uri)
@@ -1240,54 +1270,6 @@ mail_display_redirect_uri (EWebView *web_view,
 
 	if (part_list == NULL)
 		goto chainup;
-
-	/* Redirect cid:part_id to mail://mail_id/cid:part_id */
-	if (g_str_has_prefix (uri, "cid:")) {
-		CamelFolder *folder;
-		const gchar *message_uid;
-
-		folder = e_mail_part_list_get_folder (part_list);
-		message_uid = e_mail_part_list_get_message_uid (part_list);
-
-		/* Always write raw content of CID object. */
-		return e_mail_part_build_uri (
-			folder, message_uid,
-			"part_id", G_TYPE_STRING, uri,
-			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_CID, NULL);
-	}
-
-	/* WebKit won't allow to load a local file when displaying
-	 * "remote" mail:// protocol, so we need to handle this manually. */
-	if (g_str_has_prefix (uri, "file:")) {
-		gchar *content = NULL;
-		gchar *content_type;
-		gchar *filename;
-		gchar *encoded;
-		gchar *new_uri;
-		gsize length = 0;
-
-		filename = g_filename_from_uri (uri, NULL, NULL);
-		if (filename == NULL)
-			goto chainup;
-
-		if (!g_file_get_contents (filename, &content, &length, NULL)) {
-			g_free (filename);
-			goto chainup;
-		}
-
-		encoded = g_base64_encode ((guchar *) content, length);
-		content_type = g_content_type_guess (filename, NULL, 0, NULL);
-
-		new_uri = g_strdup_printf (
-			"data:%s;base64,%s", content_type, encoded);
-
-		g_free (content_type);
-		g_free (content);
-		g_free (filename);
-		g_free (encoded);
-
-		return new_uri;
-	}
 
 	uri_is_http =
 		g_str_has_prefix (uri, "http:") ||
@@ -1407,29 +1389,26 @@ mail_display_suggest_filename (EWebView *web_view,
 	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->
 		suggest_filename (web_view, uri);
 }
-
+#endif
 static void
-mail_display_set_fonts (EWebView *web_view,
-                        PangoFontDescription **monospace,
-                        PangoFontDescription **variable)
+mail_display_get_font_settings (GSettings *settings,
+                                PangoFontDescription **monospace,
+                                PangoFontDescription **variable)
 {
 	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
 	gboolean use_custom_font;
 	gchar *monospace_font;
 	gchar *variable_font;
 
-	use_custom_font = g_settings_get_boolean (
-		display->priv->settings, "use-custom-font");
+	use_custom_font = g_settings_get_boolean (settings, "use-custom-font");
 	if (!use_custom_font) {
 		*monospace = NULL;
 		*variable = NULL;
 		return;
 	}
 
-	monospace_font = g_settings_get_string (
-		display->priv->settings, "monospace-font");
-	variable_font = g_settings_get_string (
-		display->priv->settings, "variable-width-font");
+	monospace_font = g_settings_get_string (settings, "monospace-font");
+	variable_font = g_settings_get_string (settings, "variable-width-font");
 
 	*monospace = (monospace_font != NULL) ?
 		pango_font_description_from_string (monospace_font) : NULL;
@@ -1438,6 +1417,16 @@ mail_display_set_fonts (EWebView *web_view,
 
 	g_free (monospace_font);
 	g_free (variable_font);
+}
+
+static void
+mail_display_set_fonts (EWebView *web_view,
+                        PangoFontDescription **monospace,
+                        PangoFontDescription **variable)
+{
+	EMailDisplay *display = E_MAIL_DISPLAY (web_view);
+
+	mail_display_get_font_settings (display->priv->settings, monospace, variable);
 }
 
 static void
@@ -1546,8 +1535,10 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
+#if 0
 	web_view_class->redirect_uri = mail_display_redirect_uri;
 	web_view_class->suggest_filename = mail_display_suggest_filename;
+#endif
 	web_view_class->set_fonts = mail_display_set_fonts;
 
 	g_object_class_install_property (
@@ -1606,12 +1597,754 @@ e_mail_display_class_init (EMailDisplayClass *class)
 }
 
 static void
+mail_display_process_uri_scheme_finished_cb (EMailDisplay *display,
+                                             GAsyncResult *result,
+                                             WebKitURISchemeRequest *request)
+{
+	GError *error = NULL;
+
+	if (!g_task_propagate_boolean (G_TASK (result), &error)) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_warning ("URI %s cannot be processed: %s",
+				webkit_uri_scheme_request_get_uri (request),
+				error ? error->message : "Unknown error");
+		}
+		g_object_unref (request);
+		if (error)
+			g_error_free (error);
+	}
+}
+
+static void
+mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                 EMailDisplay *display)
+{
+	EMailPartList *part_list;
+	EMailPart *part;
+	GInputStream *stream;
+	const gchar *uri;
+	const gchar *mime_type;
+	GByteArray *byte_array;
+	CamelStream *output_stream;
+	GCancellable *cancellable = NULL;
+	CamelDataWrapper *dw;
+	CamelMimePart *mime_part;
+
+	part_list = e_mail_display_get_part_list (display);
+	uri = webkit_uri_scheme_request_get_uri (request);
+	part = e_mail_part_list_ref_part (part_list, uri);
+	mime_type = e_mail_part_get_mime_type (part);
+	mime_part = e_mail_part_ref_mime_part (part);
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+
+	g_return_if_fail (dw);
+
+	byte_array = g_byte_array_new ();
+	output_stream = camel_stream_mem_new ();
+
+	/* We retain ownership of the byte array. */
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (output_stream), byte_array);
+
+	camel_data_wrapper_decode_to_stream_sync (
+		dw, output_stream, cancellable, NULL);
+
+	stream = g_memory_input_stream_new_from_bytes (
+		g_byte_array_free_to_bytes (byte_array));
+
+	webkit_uri_scheme_request_finish (request, stream, -1, mime_type);
+
+	g_object_unref (mime_part);
+	g_object_unref (stream);
+	g_object_unref (part);
+}
+
+static gssize
+copy_stream_to_stream (CamelStream *input,
+                       GMemoryInputStream *output,
+                       GCancellable *cancellable)
+{
+	gchar *buff;
+	gssize read_len = 0;
+	gssize total_len = 0;
+
+	g_seekable_seek (G_SEEKABLE (input), 0, G_SEEK_SET, cancellable, NULL);
+
+	buff = g_malloc (4096);
+	while ((read_len = camel_stream_read (input, buff, 4096, cancellable, NULL)) > 0) {
+
+		g_memory_input_stream_add_data (output, buff, read_len, g_free);
+
+		total_len += read_len;
+
+		buff = g_malloc (4096);
+	}
+
+	/* Free the last unused buffer */
+	g_free (buff);
+
+	return total_len;
+}
+
+static void
+redirect_handler (SoupMessage *msg,
+                  gpointer user_data)
+{
+	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
+		SoupSession *soup_session = user_data;
+		SoupURI *new_uri;
+		const gchar *new_loc;
+
+		new_loc = soup_message_headers_get_list (msg->response_headers, "Location");
+		if (!new_loc)
+			return;
+
+		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
+		if (!new_uri) {
+			soup_message_set_status_full (
+				msg,
+				SOUP_STATUS_MALFORMED,
+				"Invalid Redirect URL");
+			return;
+		}
+
+		soup_message_set_uri (msg, new_uri);
+		soup_session_requeue_message (soup_session, msg);
+
+		soup_uri_free (new_uri);
+	}
+}
+
+static void
+send_and_handle_redirection (SoupSession *session,
+                             SoupMessage *message,
+                             gchar **new_location)
+{
+	gchar *old_uri = NULL;
+
+	g_return_if_fail (message != NULL);
+
+	if (new_location) {
+		old_uri = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+	}
+
+	soup_message_set_flags (message, SOUP_MESSAGE_NO_REDIRECT);
+	soup_message_add_header_handler (
+		message, "got_body", "Location",
+		G_CALLBACK (redirect_handler), session);
+	soup_message_headers_append (message->request_headers, "Connection", "close");
+	soup_session_send_message (session, message);
+
+	if (new_location) {
+		gchar *new_loc = soup_uri_to_string (soup_message_get_uri (message), FALSE);
+
+		if (new_loc && old_uri && !g_str_equal (new_loc, old_uri)) {
+			*new_location = new_loc;
+		} else {
+			g_free (new_loc);
+		}
+	}
+
+	g_free (old_uri);
+}
+
+static void
+web_view_process_http_uri_scheme_request (GTask *task,
+                                          gpointer source_object,
+                                          gpointer task_data,
+                                          GCancellable *cancellable)
+{
+	SoupURI *soup_uri;
+	gchar *evo_uri, *uri;
+	gchar *mail_uri;
+	const gchar *user_cache_dir;
+	const gchar *content_type;
+	GInputStream *stream = NULL;
+	gboolean force_load_images = FALSE;
+	gboolean ret_val = FALSE;
+	EMailImageLoadingPolicy image_policy;
+	gchar *uri_md5;
+	EShell *shell;
+	GSettings *settings;
+	CamelDataCache *cache;
+	CamelStream *cache_stream;
+	GHashTable *query;
+	gint uri_len;
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
+
+	/* Remove the __evo-mail query */
+	soup_uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
+
+	if (!soup_uri_get_query (soup_uri)) {
+		g_task_return_boolean (task, FALSE);
+		soup_uri_free (soup_uri);
+		return;
+	}
+
+	query = soup_form_decode (soup_uri_get_query (soup_uri));
+	mail_uri = g_hash_table_lookup (query, "__evo-mail");
+	if (mail_uri)
+		mail_uri = g_strdup (mail_uri);
+
+	g_hash_table_remove (query, "__evo-mail");
+
+	/* Remove __evo-load-images if present (and in such case set
+	 * force_load_images to TRUE) */
+	force_load_images = g_hash_table_remove (query, "__evo-load-images");
+
+	soup_uri_set_query_from_form (soup_uri, query);
+	g_hash_table_unref (query);
+
+	evo_uri = soup_uri_to_string (soup_uri, FALSE);
+
+	if (camel_debug_start ("emformat:requests")) {
+		printf ("%s: looking for '%s'\n", G_STRFUNC, evo_uri);
+		camel_debug_end ();
+	}
+
+	/* Remove the "evo-" prefix from scheme */
+	uri_len = strlen (evo_uri);
+	uri = NULL;
+	if (evo_uri && (uri_len > 5)) {
+		/* Remove trailing "?" if there is no URI query */
+		if (evo_uri[uri_len - 1] == '?') {
+			uri = g_strndup (evo_uri + 4, uri_len - 5);
+		} else {
+			uri = g_strdup (evo_uri + 4);
+		}
+		g_free (evo_uri);
+	}
+
+	if (!uri || !*uri)
+		goto cleanup;
+
+	/* Use MD5 hash of the URI as a filname of the resourec cache file.
+	 * We were previously using the URI as a filename but the URI is
+	 * sometimes too long for a filename. */
+	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, uri, -1);
+
+	/* Open Evolution's cache */
+	user_cache_dir = e_get_user_cache_dir ();
+	cache = camel_data_cache_new (user_cache_dir, NULL);
+	if (cache) {
+		camel_data_cache_set_expire_age (cache, 24 * 60 * 60);
+		camel_data_cache_set_expire_access (cache, 2 * 60 * 60);
+	}
+
+	/* Found item in cache! */
+	cache_stream = camel_data_cache_get (cache, "http", uri_md5, NULL);
+	if (cache_stream)
+		goto process;
+
+	/* If the item is not in the cache and Evolution is in offline mode then
+	 * quit regardless any image loading policy */
+	shell = e_shell_get_default ();
+	if (!e_shell_get_online (shell)) {
+		goto cleanup;
+	}
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	image_policy = g_settings_get_enum (settings, "image-loading-policy");
+	g_object_unref (settings);
+
+	/* Item not found in cache, but image loading policy allows us to fetch
+	 * it from the interwebs */
+	if (!force_load_images && mail_uri &&
+	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES)) {
+		CamelObjectBag *registry;
+		gchar *decoded_uri;
+		EMailPartList *part_list;
+
+		registry = e_mail_part_list_get_registry ();
+		decoded_uri = soup_uri_decode (mail_uri);
+
+		part_list = camel_object_bag_get (registry, decoded_uri);
+		if (part_list) {
+			EShellBackend *shell_backend;
+			EMailBackend *backend;
+			EMailSession *session;
+			CamelInternetAddress *addr;
+			CamelMimeMessage *message;
+			gboolean known_address = FALSE;
+			GError *error = NULL;
+
+			shell_backend =
+				e_shell_get_backend_by_name (shell, "mail");
+			backend = E_MAIL_BACKEND (shell_backend);
+			session = e_mail_backend_get_session (backend);
+
+			message = e_mail_part_list_get_message (part_list);
+			addr = camel_mime_message_get_from (message);
+
+			e_mail_ui_session_check_known_address_sync (
+				E_MAIL_UI_SESSION (session),
+				addr, FALSE, cancellable,
+				&known_address, &error);
+
+			if (error != NULL) {
+				g_warning ("%s: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			}
+
+			if (known_address)
+				force_load_images = TRUE;
+
+			g_object_unref (part_list);
+		}
+
+		g_free (decoded_uri);
+	}
+
+	if ((image_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS) ||
+	    force_load_images) {
+
+		SoupSession *session;
+		SoupMessage *message;
+		GError *error;
+		EProxy *proxy;
+
+		session = soup_session_sync_new_with_options (
+				SOUP_SESSION_TIMEOUT, 90,
+				NULL);
+
+		proxy = e_proxy_new ();
+		e_proxy_setup_proxy (proxy);
+
+		if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+			SoupURI *proxy_uri;
+
+			proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+
+			g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+		}
+
+		g_clear_object (&proxy);
+
+		message = soup_message_new (SOUP_METHOD_GET, uri);
+		soup_message_headers_append (
+			message->request_headers, "User-Agent", "Evolution/" VERSION);
+
+		send_and_handle_redirection (session, message, NULL);
+
+		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
+			g_warning ("Failed to request %s (code %d)", uri, message->status_code);
+			goto cleanup;
+		}
+
+		/* Write the response body to cache */
+		error = NULL;
+		cache_stream = camel_data_cache_add (cache, "http", uri_md5, &error);
+		if (error != NULL) {
+			g_warning (
+				"Failed to create cache file for '%s': %s",
+				uri, error->message);
+			g_clear_error (&error);
+		} else {
+			camel_stream_write (
+				cache_stream, message->response_body->data,
+				message->response_body->length, cancellable, &error);
+
+			if (error != NULL) {
+				if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+					g_warning (
+						"Failed to write data to cache stream: %s",
+						error->message);
+				g_clear_error (&error);
+				g_object_unref (cache_stream);
+				goto cleanup;
+			}
+
+			g_seekable_seek (G_SEEKABLE (cache_stream), 0, G_SEEK_SET, cancellable, NULL);
+
+		}
+
+		g_object_unref (message);
+		g_object_unref (session);
+	}
+
+ process:
+	if (cache_stream) {
+		gssize len;
+
+		stream = g_memory_input_stream_new ();
+
+		len = copy_stream_to_stream (
+			cache_stream,
+			G_MEMORY_INPUT_STREAM (stream), cancellable);
+
+		camel_stream_close (cache_stream, cancellable, NULL);
+
+		g_object_unref (cache_stream);
+
+		/* When succesfully read some data from cache then
+		 * get mimetype and return the stream to WebKit.
+		 * Otherwise try to fetch the resource again from the network. */
+		if (len > 0) {
+			GFile *file;
+			GFileInfo *info;
+			gchar *path;
+
+			path = camel_data_cache_get_filename (cache, "http", uri_md5);
+			file = g_file_new_for_path (path);
+
+			info = g_file_query_info (
+				file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				0, cancellable, NULL);
+
+			content_type = g_file_info_get_content_type (info);
+
+			webkit_uri_scheme_request_finish (
+				request, stream, len, content_type);
+
+			ret_val = TRUE;
+
+			g_object_unref (request);
+			g_object_unref (stream);
+
+			d (
+				printf ("'%s' found in cache (%d bytes, %s)\n",
+				uri, len, content_type));
+
+			g_object_unref (info);
+			g_object_unref (file);
+			g_free (path);
+		} else {
+			d (printf ("Failed to load '%s' from cache.\n", uri));
+		}
+	}
+ cleanup:
+	if (cache)
+		g_object_unref (cache);
+
+	if (soup_uri)
+		soup_uri_free (soup_uri);
+
+	g_free (uri);
+	g_free (uri_md5);
+	g_free (mail_uri);
+
+	g_task_return_boolean (task, ret_val);
+}
+
+static void
+mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                  EMailDisplay *display)
+{
+	GTask *task;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cancellable = g_cancellable_new ();
+
+	task = g_task_new (
+		display, cancellable,
+		(GAsyncReadyCallback) mail_display_process_uri_scheme_finished_cb,
+		request);
+
+	g_task_set_task_data (task, g_object_ref (request), NULL);
+	g_task_run_in_thread (task, web_view_process_http_uri_scheme_request);
+
+	g_object_unref (task);
+	g_object_unref (cancellable);
+}
+
+static void
+mail_display_process_mail_uri_scheme_request (GTask *task,
+                                              gpointer source_object,
+                                              gpointer task_data,
+                                              GCancellable *cancellable)
+{
+	GInputStream *stream = NULL;
+	EMailFormatter *formatter;
+	EMailPartList *part_list;
+	CamelStream *output_stream;
+	GByteArray *byte_array;
+	GHashTable *query;
+	const gchar *val, *uri;
+	const gchar *default_charset, *charset;
+	SoupURI *soup_uri;
+	EMailFormatterContext context = { 0 };
+	EMailDisplay *display = E_MAIL_DISPLAY (source_object);
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	part_list = display->priv->part_list;
+
+	if (camel_debug_start ("emformat:requests")) {
+		printf ("%s: found part-list %p for full_uri '%s'\n", G_STRFUNC, part_list, uri);
+		camel_debug_end ();
+	}
+
+	if (!part_list) {
+		g_task_return_boolean (task, FALSE);
+		return;
+	}
+
+	soup_uri = soup_uri_new (uri);
+	if (!soup_uri || !soup_uri->query) {
+		if (soup_uri)
+			soup_uri_free (soup_uri);
+		g_task_return_boolean (task, FALSE);
+		return;
+	}
+	query = soup_form_decode (soup_uri->query);
+
+	val = g_hash_table_lookup (query, "headers_collapsed");
+	if (val && atoi (val) == 1)
+		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED;
+
+	val = g_hash_table_lookup (query, "headers_collapsable");
+	if (val && atoi (val) == 1)
+		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE;
+
+	val = g_hash_table_lookup (query, "mode");
+	if (val)
+		context.mode = atoi (val);
+
+	default_charset = g_hash_table_lookup (query, "formatter_default_charset");
+	charset = g_hash_table_lookup (query, "formatter_charset");
+
+	context.part_list = g_object_ref (part_list);
+	context.uri = g_strdup (uri);
+
+	formatter = display->priv->formatter;
+
+	if (default_charset && *default_charset != '\0')
+		e_mail_formatter_set_default_charset (formatter, default_charset);
+	if (charset && *charset != '\0')
+		e_mail_formatter_set_charset (formatter, charset);
+
+	byte_array = g_byte_array_new ();
+	output_stream = camel_stream_mem_new ();
+
+	/* We retain ownership of the byte array. */
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (output_stream), byte_array);
+
+	val = g_hash_table_lookup (query, "part_id");
+	if (val) {
+		EMailPart *part;
+		const gchar *mime_type;
+		gchar *part_id;
+
+		part_id = soup_uri_decode (val);
+		part = e_mail_part_list_ref_part (part_list, part_id);
+		if (!part) {
+			if (camel_debug_start ("emformat:requests")) {
+				printf ("%s: part with id '%s' not found\n", G_STRFUNC, val);
+				camel_debug_end ();
+			}
+
+			g_free (part_id);
+			goto no_part;
+		}
+		g_free (part_id);
+
+		mime_type = g_hash_table_lookup (query, "mime_type");
+
+		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE)
+			mime_type = "application/vnd.evolution.source";
+
+		if (context.mode == E_MAIL_FORMATTER_MODE_CID) {
+			CamelDataWrapper *dw;
+			CamelMimePart *mime_part;
+
+			mime_part = e_mail_part_ref_mime_part (part);
+			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+			if (!dw)
+				goto no_part;
+
+			camel_data_wrapper_decode_to_stream_sync (
+				dw, output_stream, cancellable, NULL);
+
+			g_object_unref (mime_part);
+		} else {
+			if (!mime_type)
+				mime_type = e_mail_part_get_mime_type (part);
+
+			e_mail_formatter_format_as (
+				formatter, &context, part,
+				output_stream, mime_type,
+				cancellable);
+		}
+
+		g_object_unref (part);
+	} else {
+		e_mail_formatter_format_sync (
+			formatter, part_list, output_stream,
+			context.flags, context.mode, cancellable);
+	}
+
+ no_part:
+	g_clear_object (&output_stream);
+	g_clear_object (&context.part_list);
+
+	if (byte_array->data == NULL) {
+		gchar *data;
+
+		data = g_strdup_printf (
+			"<p align='center'>%s</p>",
+			_("The message has no text content."));
+		g_byte_array_append (
+			byte_array, (guint8 *) data, strlen (data));
+		g_free (data);
+	}
+
+	stream = g_memory_input_stream_new_from_bytes (
+		g_byte_array_free_to_bytes (byte_array));
+
+	webkit_uri_scheme_request_finish (request, stream, -1, "text/html");
+
+	g_object_unref (stream);
+
+	if (query)
+		g_hash_table_destroy (query);
+
+	if (soup_uri)
+		soup_uri_free (soup_uri);
+
+	g_task_return_boolean (task, TRUE);
+}
+
+static GInputStream *
+get_empty_image_stream (void)
+{
+	GdkPixbuf *pixbuf;
+	gchar *buffer;
+	gsize length;
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+	gdk_pixbuf_fill (pixbuf, 0x00000000); /* transparent black */
+	gdk_pixbuf_save_to_buffer (pixbuf, &buffer, &length, "png", NULL, NULL);
+	g_object_unref (pixbuf);
+
+	return g_memory_input_stream_new_from_data (buffer, length, g_free);
+}
+
+static void
+mail_display_process_contact_photo_uri_scheme_request (GTask *task,
+                                                       gpointer source_object,
+                                                       gpointer task_data,
+                                                       GCancellable *cancellable)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *mail_backend;
+	EMailSession *mail_session;
+	EPhotoCache *photo_cache;
+	CamelInternetAddress *cia;
+	GInputStream *stream = NULL;
+	const gchar *uri;
+	const gchar *email_address;
+	const gchar *escaped_string;
+	gchar *unescaped_string;
+	GError *error = NULL;
+	SoupURI *soup_uri;
+	GHashTable *uri_query;
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
+
+	/* XXX Is this really the only way to obtain
+	 *     the mail session instance from here? */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	mail_backend = E_MAIL_BACKEND (shell_backend);
+	mail_session = e_mail_backend_get_session (mail_backend);
+
+	photo_cache = e_mail_ui_session_get_photo_cache (
+		E_MAIL_UI_SESSION (mail_session));
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	soup_uri = soup_uri_new (uri);
+	if (!soup_uri || !soup_uri->query)
+		goto exit;
+
+	uri_query = soup_form_decode (soup_uri->query);
+	escaped_string = g_hash_table_lookup (uri_query, "mailaddr");
+	if (escaped_string == NULL || *escaped_string == '\0')
+		goto exit;
+
+	cia = camel_internet_address_new ();
+
+	unescaped_string = g_uri_unescape_string (escaped_string, NULL);
+	camel_address_decode (CAMEL_ADDRESS (cia), unescaped_string);
+	g_free (unescaped_string);
+
+	if (camel_internet_address_get (cia, 0, NULL, &email_address))
+		e_photo_cache_get_photo_sync (
+			photo_cache, email_address,
+			cancellable, &stream, &error);
+
+	g_object_unref (cia);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_clear_error (&error);
+	} else if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
+	}
+
+exit:
+	if (!stream)
+		stream = get_empty_image_stream ();
+
+	webkit_uri_scheme_request_finish (request, stream, -1, "image/*");
+
+	g_object_unref (request);
+	g_object_unref (stream);
+
+	if (uri_query)
+		g_hash_table_destroy (uri_query);
+
+	if (soup_uri)
+		soup_uri_free (soup_uri);
+
+	g_task_return_boolean (task, TRUE);
+}
+
+static void
+mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
+                                  EMailDisplay *display)
+{
+	GTask *task;
+	GCancellable *cancellable;
+	const gchar *uri;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	cancellable = g_cancellable_new ();
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	task = g_task_new (
+		display, cancellable,
+		(GAsyncReadyCallback) mail_display_process_uri_scheme_finished_cb,
+		request);
+
+	g_task_set_task_data (task, g_object_ref (request), NULL);
+
+	if (g_ascii_strncasecmp (uri, "mail://contact-photo", 20) == 0)
+		g_task_run_in_thread (task, mail_display_process_contact_photo_uri_scheme_request);
+	else
+		g_task_run_in_thread (task, mail_display_process_mail_uri_scheme_request);
+
+	g_object_unref (task);
+	g_object_unref (cancellable);
+}
+
+static void
+mail_display_update_fonts (EMailDisplay *display)
+{
+	e_web_view_update_fonts (E_WEB_VIEW (display));
+}
+
+static void
 e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
-	const gchar *user_cache_dir;
-	WebKitWebSettings *settings;
-	WebKitWebFrame *main_frame;
 	GtkActionGroup *actions;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
@@ -1625,26 +2358,21 @@ e_mail_display_init (EMailDisplay *display)
 	display->priv->force_image_load = FALSE;
 	display->priv->scheduled_reload = 0;
 
-	webkit_web_view_set_full_content_zoom (WEBKIT_WEB_VIEW (display), TRUE);
-
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (display));
-	g_object_set (settings, "enable-frame-flattening", TRUE, NULL);
-
 	g_signal_connect (
-		display, "navigation-policy-decision-requested",
-		G_CALLBACK (mail_display_link_clicked), NULL);
+		display, "decide-policy",
+		G_CALLBACK (decide_policy_cb), NULL);
+#if 0
 	g_signal_connect (
 		display, "resource-request-starting",
 		G_CALLBACK (mail_display_resource_requested), NULL);
+#endif
 	g_signal_connect (
 		display, "process-mailto",
 		G_CALLBACK (mail_display_process_mailto), NULL);
+#if 0
 	g_signal_connect (
 		display, "create-plugin-widget",
 		G_CALLBACK (mail_display_plugin_widget_requested), NULL);
-	g_signal_connect (
-		display, "frame-created",
-		G_CALLBACK (mail_display_frame_created), NULL);
 	e_signal_connect_notify (
 		display, "notify::uri",
 		G_CALLBACK (mail_display_uri_changed), NULL);
@@ -1657,7 +2385,7 @@ e_mail_display_init (EMailDisplay *display)
 	g_signal_connect_after (
 		display, "drag-data-get",
 		G_CALLBACK (mail_display_drag_data_get), display);
-
+#endif
 	display->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::monospace-font",
@@ -1673,7 +2401,10 @@ e_mail_display_init (EMailDisplay *display)
 
 	main_frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (display));
 	e_signal_connect_notify (
-		main_frame, "notify::load-status",
+		main_frame, "load-changed",
+		G_CALLBACK (setup_dom_bindings), NULL);
+	e_signal_connect_notify (
+		main_frame, "load-changed",
 		G_CALLBACK (mail_parts_bind_dom), NULL);
 
 	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
@@ -1683,25 +2414,18 @@ e_mail_display_init (EMailDisplay *display)
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
 
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_MAIL_REQUEST);
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_HTTP_REQUEST);
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_FILE_REQUEST);
-	e_web_view_install_request_handler (
-		E_WEB_VIEW (display), E_TYPE_STOCK_REQUEST);
-
-	if (emd_global_http_cache == NULL) {
-		user_cache_dir = e_get_user_cache_dir ();
-		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
-
-		/* cache expiry - 2 hour access, 1 day max */
-		camel_data_cache_set_expire_age (
-			emd_global_http_cache, 24 * 60 * 60);
-		camel_data_cache_set_expire_access (
-			emd_global_http_cache, 2 * 60 * 60);
-	}
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), EVO_HTTP_URI_SCHEME,
+		mail_http_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), EVO_HTTPS_URI_SCHEME,
+		mail_http_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), CID_URI_SCHEME,
+		mail_cid_uri_scheme_appeared_cb, display);
+	e_web_view_register_uri_scheme (
+		E_WEB_VIEW (display), MAIL_URI_SCHEME,
+		mail_mail_uri_scheme_appeared_cb, display);
 }
 
 static void
@@ -1919,7 +2643,7 @@ e_mail_display_load (EMailDisplay *display,
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	display->priv->force_image_load = FALSE;
+	e_mail_display_set_force_load_images (display, FALSE);
 
 	part_list = display->priv->part_list;
 	if (part_list == NULL) {
@@ -2080,84 +2804,43 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_free (str);
 }
 
-static gchar *
-mail_display_get_frame_selection_text (WebKitDOMElement *iframe)
+const gchar *
+e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
+                                              GCancellable *cancellable,
+                                              GError **error)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
+	GDBusProxy *web_extension;
 
-	document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
-		WebKitDOMRange *range;
+ 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
+/* FIXME XXX
+ 	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
+ 		return NULL;
+*/
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (web_extension) {
+		GVariant *result;
+		const gchar *text_content = NULL;
 
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		if (range != NULL)
-			return webkit_dom_range_to_string (range, NULL);
-	}
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"GetDocumentContentText",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (display))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
 
-	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *text;
-
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = mail_display_get_frame_selection_text (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL) {
-			g_object_unref (frames);
-			return text;
+		if (result) {
+			g_variant_get (result, "(&s)", &text_content);
+			g_variant_unref (result);
+			return text_content;
 		}
 	}
 
-	g_object_unref (frames);
-
-	return NULL;
-}
-
-gchar *
-e_mail_display_get_selection_plain_text (EMailDisplay *display)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
-
-	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
-
-	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (display)))
-		return NULL;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
-	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
-
-	for (ii = 0; ii < length; ii++) {
-		gchar *text;
-		WebKitDOMNode *node;
-
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = mail_display_get_frame_selection_text (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL) {
-			g_object_unref (frames);
-			return text;
-		}
-	}
-
-	g_object_unref (frames);
-
-	return NULL;
+ 	return NULL;
 }
 
 void
@@ -2165,7 +2848,7 @@ e_mail_display_load_images (EMailDisplay *display)
 {
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	display->priv->force_image_load = TRUE;
+	e_mail_display_set_force_load_images (display, TRUE);
 	e_web_view_reload (E_WEB_VIEW (display));
 }
 
@@ -2173,8 +2856,29 @@ void
 e_mail_display_set_force_load_images (EMailDisplay *display,
                                       gboolean force_load_images)
 {
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+	GDBusProxy *web_extension;
 
-	display->priv->force_image_load = force_load_images;
+ 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
+
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (web_extension) {
+		g_dbus_connection_call (
+			g_dbus_proxy_get_connection (web_extension),
+			g_dbus_proxy_get_name (web_extension),
+			EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"Set",
+			g_variant_new (
+				"(ssv)",
+				EVOLUTION_WEB_EXTENSION_INTERFACE,
+				"ForceImageLoad",
+				g_variant_new_boolean (force_load_images)),
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
+	}
 }
 

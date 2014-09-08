@@ -52,7 +52,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include "e-shell.h"
 #include "e-shell-migrate.h"
@@ -571,6 +571,7 @@ main (gint argc,
 	g_object_unref (settings);
 #endif
 
+	/* FIXME XXX WK2 - Look if we still need this it looks like it's not. */
 	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=683548 */
 	if (!quit)
 		g_type_ensure (WEBKIT_TYPE_WEB_VIEW);
