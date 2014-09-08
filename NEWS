@@ -1,3 +1,18 @@
+Evolution 3.12.6 2014-09-08
+---------------------------
+
+Miscellaneous:
+	Updated German help translation and screen-shots (Christian Kirbach)
+	Use-after-free of a full name editor when closing a contact editor (Milan Crha)
+
+Translations:
+	MarMav (el)
+	ngoswami (as)
+	Lasse Liehu (fi)
+	Manoj Kumar Giri (or)
+	Sweta Kothari (gu)
+	Mattias Eriksson (sv)
+
 Evolution 3.12.5 2014-08-11
 ---------------------------
 
