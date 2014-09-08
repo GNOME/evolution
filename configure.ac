@@ -1209,16 +1209,16 @@ dnl *******************
 dnl If you add something here, consider whether or not you also need to add it to one or more .pc.in
 dnl files (for Connector, etc)
 
-privlibdir='${libdir}'/evolution/$BASE_VERSION
+privlibdir='${libdir}'/evolution
 AC_SUBST(privlibdir)
 
-privlibexecdir='${libexecdir}'/evolution/$BASE_VERSION
+privlibexecdir='${libexecdir}'/evolution
 AC_SUBST(privlibexecdir)
 
-privdatadir='${datadir}'/evolution/$BASE_VERSION
+privdatadir='${datadir}'/evolution
 AC_SUBST(privdatadir)
 
-privincludedir='${includedir}'/evolution-$BASE_VERSION
+privincludedir='${includedir}'/evolution
 AC_SUBST(privincludedir)
 
 moduledir="$privlibdir/modules"
