@@ -1092,166 +1092,40 @@ sensitize_email (EContactEditor *editor)
 }
 
 static void
-set_arrow_image (EContactEditor *editor,
-                 const gchar *arrow_widget,
-                 gboolean expanded)
+row_added_cb (GtkExpander *expander)
 {
-	GtkWidget *arrow;
-
-	arrow = e_builder_get_widget (editor->priv->builder, arrow_widget);
-	if (expanded)
-		gtk_arrow_set (
-			GTK_ARROW (arrow), GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	else
-		gtk_arrow_set (
-			GTK_ARROW (arrow), GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
-}
-
-static gboolean
-is_arrow_image_arrow_down (EContactEditor *editor,
-                           const gchar *arrow_widget)
-{
-	GtkWidget *arrow;
-	gint value;
-
-	arrow  = e_builder_get_widget (editor->priv->builder, arrow_widget);
-	g_object_get (arrow, "arrow-type", &value, NULL);
-
-	if (value == GTK_ARROW_DOWN)
-		return TRUE;
-
-	return FALSE;
-}
-
-static void
-expand_widget_list (EContactEditor *editor,
-                    const gchar **widget_names,
-                    gboolean expanded)
-{
-	gint i;
-	for (i = 0; widget_names[i]; i++)
-		gtk_widget_set_visible (
-			e_builder_get_widget (editor->priv->builder, widget_names[i]),
-			expanded);
-}
-
-static void
-expand_web (EContactEditor *editor,
-            gboolean expanded)
-{
-	const gchar *names[] = {
-		"label-videourl", "label-fburl",
-		"entry-videourl", "entry-fburl",
-		NULL
-	};
-	set_arrow_image (editor, "arrow-web-expand", expanded);
-	expand_widget_list (editor, names, expanded);
-}
-
-static void
-expand_phone (EContactEditor *editor,
-              gboolean expanded)
-{
-	GtkWidget *w;
-	EContactEditorDynTable *dyntable;
-
-	set_arrow_image (editor, "arrow-phone-expand", expanded);
-
-	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
-
-	if (expanded)
-		e_contact_editor_dyntable_set_show_max (dyntable, PHONE_SLOTS);
-	else
-		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
-}
-
-static void
-expand_sip (EContactEditor *editor,
-	    gboolean expanded)
-{
-	GtkWidget *w;
-	EContactEditorDynTable *dyntable;
-
-	set_arrow_image (editor, "arrow-sip-expand", expanded);
-
-	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
-
-	if (expanded)
-		e_contact_editor_dyntable_set_show_max (dyntable, SIP_SLOTS);
-	else
-		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
-}
-
-static void
-expand_im (EContactEditor *editor,
-           gboolean expanded)
-{
-	GtkWidget *w;
-	EContactEditorDynTable *dyntable;
-
-	set_arrow_image (editor, "arrow-im-expand", expanded);
-
-	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
-
-	if (expanded)
-		e_contact_editor_dyntable_set_show_max (dyntable, IM_SLOTS);
-	else
-		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
-}
-
-static void
-expand_mail (EContactEditor *editor,
-             gboolean expanded)
-{
-	GtkWidget *w;
-	EContactEditorDynTable *dyntable;
-
-	set_arrow_image (editor, "arrow-mail-expand", expanded);
-
-	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
-
-	if (expanded)
-		e_contact_editor_dyntable_set_show_max (dyntable, EMAIL_SLOTS);
-	else
-		e_contact_editor_dyntable_set_show_max (dyntable, SLOTS_IN_COLLAPSED_STATE);
-}
-
-static void
-row_added_mail (EContactEditorDynTable *dyntable, EContactEditor *editor)
-{
-	expand_mail (editor, TRUE);
+	/* newly added row is always visible, setting expanded=true */
+	gtk_expander_set_expanded (expander, TRUE);
 }
 
 static void
 init_email (EContactEditor *editor)
 {
-	GtkWidget *w;
 	EContactEditorDynTable *dyntable;
+	GtkExpander *expander;
 
-	w = e_builder_get_widget (editor->priv->builder, "mail-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	expander = GTK_EXPANDER (
+			e_builder_get_widget (editor->priv->builder, "expander-contact-email"));
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (
+			e_builder_get_widget (editor->priv->builder, "mail-dyntable"));
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, EMAIL_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
 	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
-		w, "changed",
+		dyntable, "changed",
 		G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (
-		w, "activate",
+		dyntable, "activate",
 		G_CALLBACK (entry_activated), editor);
-	g_signal_connect (
-		w, "row-added",
-		G_CALLBACK (row_added_mail), editor);
+	g_signal_connect_swapped (
+		dyntable, "row-added",
+		G_CALLBACK (row_added_cb), expander);
 
 	init_email_record_location (editor);
 
-	expand_mail (editor, TRUE);
+	gtk_expander_set_expanded (expander, TRUE);
 }
 
 static void
@@ -1402,37 +1276,33 @@ init_phone_record_type (EContactEditor *editor)
 }
 
 static void
-row_added_phone (EContactEditorDynTable *dyntable, EContactEditor *editor)
-{
-	expand_phone (editor, TRUE);
-}
-
-static void
 init_phone (EContactEditor *editor)
 {
-	GtkWidget *w;
 	EContactEditorDynTable *dyntable;
+	GtkExpander *expander;
 
-	w = e_builder_get_widget (editor->priv->builder, "phone-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	expander = GTK_EXPANDER (
+			e_builder_get_widget (editor->priv->builder, "expander-contact-phone"));
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (
+			e_builder_get_widget (editor->priv->builder, "phone-dyntable"));
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, PHONE_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
 	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
-		w, "changed",
+		dyntable, "changed",
 		G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (
-		w, "activate",
+		dyntable, "activate",
 		G_CALLBACK (entry_activated), editor);
-	g_signal_connect (
-		w, "row-added",
-		G_CALLBACK (row_added_phone), editor);
+	g_signal_connect_swapped (
+		dyntable, "row-added",
+		G_CALLBACK (row_added_cb), expander);
 
 	init_phone_record_type (editor);
 
-	expand_phone (editor, TRUE);
+	gtk_expander_set_expanded (expander, TRUE);
 }
 
 static void
@@ -1630,38 +1500,33 @@ init_sip_record_type (EContactEditor *editor)
 }
 
 static void
-row_added_sip (EContactEditorDynTable *dyntable,
-	       EContactEditor *editor)
-{
-	expand_sip (editor, TRUE);
-}
-
-static void
 init_sip (EContactEditor *editor)
 {
-	GtkWidget *w;
 	EContactEditorDynTable *dyntable;
+	GtkExpander *expander;
 
-	w = e_builder_get_widget (editor->priv->builder, "sip-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	expander = GTK_EXPANDER (
+			e_builder_get_widget (editor->priv->builder, "expander-contact-sip"));
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (
+			e_builder_get_widget (editor->priv->builder, "sip-dyntable"));
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, SIP_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
 	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
-		w, "changed",
+		dyntable, "changed",
 		G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (
-		w, "activate",
+		dyntable, "activate",
 		G_CALLBACK (entry_activated), editor);
-	g_signal_connect (
-		w, "row-added",
-		G_CALLBACK (row_added_sip), editor);
+	g_signal_connect_swapped (
+		dyntable, "row-added",
+		G_CALLBACK (row_added_cb), expander);
 
 	init_sip_record_type (editor);
 
-	expand_sip (editor, TRUE);
+	gtk_expander_set_expanded (expander, TRUE);
 }
 
 static void
@@ -1714,12 +1579,6 @@ sensitize_sip (EContactEditor *editor)
 }
 
 static void
-row_added_im (EContactEditorDynTable *dyntable, EContactEditor *editor)
-{
-	expand_im (editor, TRUE);
-}
-
-static void
 init_im_record_type (EContactEditor *editor)
 {
 	GtkWidget *w;
@@ -1749,29 +1608,31 @@ init_im_record_type (EContactEditor *editor)
 static void
 init_im (EContactEditor *editor)
 {
-	GtkWidget *w;
 	EContactEditorDynTable *dyntable;
+	GtkExpander *expander;
 
-	w = e_builder_get_widget (editor->priv->builder, "im-dyntable");
-	dyntable = E_CONTACT_EDITOR_DYNTABLE (w);
+	expander = GTK_EXPANDER (
+			e_builder_get_widget (editor->priv->builder, "expander-contact-im"));
+	dyntable = E_CONTACT_EDITOR_DYNTABLE (
+			e_builder_get_widget (editor->priv->builder, "im-dyntable"));
 
 	e_contact_editor_dyntable_set_max_entries (dyntable, IM_SLOTS);
 	e_contact_editor_dyntable_set_num_columns (dyntable, SLOTS_PER_LINE, TRUE);
 	e_contact_editor_dyntable_set_show_min (dyntable, SLOTS_IN_COLLAPSED_STATE);
 
 	g_signal_connect (
-		w, "changed",
+		dyntable, "changed",
 		G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (
-		w, "activate",
+		dyntable, "activate",
 		G_CALLBACK (entry_activated), editor);
-	g_signal_connect (
-		w, "row-added",
-		G_CALLBACK (row_added_im), editor);
+	g_signal_connect_swapped (
+		dyntable, "row-added",
+		G_CALLBACK (row_added_cb), expander);
 
 	init_im_record_type (editor);
 
-	expand_im (editor, TRUE);
+	gtk_expander_set_expanded (expander, TRUE);
 }
 
 static void
@@ -1972,17 +1833,6 @@ sensitize_im (EContactEditor *editor)
 }
 
 static void
-init_personal (EContactEditor *editor)
-{
-	gtk_expander_set_expanded (
-		GTK_EXPANDER (e_builder_get_widget (
-			editor->priv->builder, "expander-personal-misc")),
-		!editor->priv->compress_ui);
-
-	expand_web (editor, !editor->priv->compress_ui);
-}
-
-static void
 init_address_textview (EContactEditor *editor,
                        gint record)
 {
@@ -2042,11 +1892,6 @@ init_address (EContactEditor *editor)
 
 	for (i = 0; i < ADDRESS_SLOTS; i++)
 		init_address_record (editor, i);
-
-	gtk_expander_set_expanded (
-		GTK_EXPANDER (e_builder_get_widget (
-			editor->priv->builder, "expander-address-other")),
-		!editor->priv->compress_ui);
 }
 
 static void
@@ -2953,6 +2798,52 @@ sensitize_simple (EContactEditor *editor)
 }
 
 static void
+configure_expander_state (EContactEditor *editor,
+                          GSettings *settings,
+                          const gchar *widget,
+                          const gchar *settings_key)
+{
+	GtkExpander *expander;
+	gboolean expand;
+
+	expander = GTK_EXPANDER (e_builder_get_widget (editor->priv->builder, widget));
+	expand   = g_settings_get_boolean (settings, settings_key);
+	gtk_expander_set_expanded (expander, expand);
+}
+
+static void
+configure_expander_initial_state (EContactEditor *editor)
+{
+	if (editor->priv->compress_ui) {
+		GtkBuilder *builder = editor->priv->builder;
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-email")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-phone")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-phone")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-sip")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-im")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-personal-web")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-personal-job")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-personal-misc")), FALSE);
+		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-address-other")), FALSE);
+	} else {
+		GSettings *settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+		configure_expander_state (editor, settings, "expander-contact-email", "editor-expand-contact-email");
+		configure_expander_state (editor, settings, "expander-contact-phone", "editor-expand-contact-phone");
+		configure_expander_state (editor, settings, "expander-contact-sip",   "editor-expand-contact-sip");
+		configure_expander_state (editor, settings, "expander-contact-im",    "editor-expand-contact-im");
+
+		configure_expander_state (editor, settings, "expander-personal-web",  "editor-expand-personal-web");
+		configure_expander_state (editor, settings, "expander-personal-job",  "editor-expand-personal-job");
+		configure_expander_state (editor, settings, "expander-personal-misc", "editor-expand-personal-misc");
+
+		configure_expander_state (editor, settings, "expander-address-other", "editor-expand-mailing-other");
+
+		g_object_unref (settings);
+	}
+}
+
+static void
 fill_in_all (EContactEditor *editor)
 {
 	GtkWidget *focused_widget;
@@ -2974,6 +2865,11 @@ fill_in_all (EContactEditor *editor)
 	fill_in_sip          (editor);
 	fill_in_im           (editor);
 	fill_in_address      (editor);
+
+	/* set expander state after dyntables have been filled,
+	 * otherwise dyntable and expander can get out of synch
+	 */
+	configure_expander_initial_state (editor);
 
 	if (weak_pointer) {
 		g_object_remove_weak_pointer (G_OBJECT (focused_widget), &weak_pointer);
@@ -3022,6 +2918,44 @@ sensitize_all (EContactEditor *editor)
 }
 
 static void
+configure_widget_visibility (EContactEditor *editor,
+                             GSettings *settings,
+                             const gchar *widget_name,
+                             const gchar *settings_name)
+{
+	gboolean  is_visible;
+	GtkWidget *widget;
+
+	is_visible = g_settings_get_boolean (settings, settings_name);
+	widget = e_builder_get_widget (editor->priv->builder, widget_name);
+	gtk_widget_set_visible (widget, is_visible);
+}
+
+static void
+configure_visibility (EContactEditor *editor)
+{
+	GSettings *settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+	configure_widget_visibility (editor, settings, "vbox-contact-phone", "editor-show-contact-phone");
+	configure_widget_visibility (editor, settings, "vbox-contact-sip",   "editor-show-contact-sip");
+	configure_widget_visibility (editor, settings, "vbox-contact-im",    "editor-show-contact-im");
+
+	configure_widget_visibility (editor, settings, "scrolledwindow-mailing", "editor-show-mailing-tab");
+	configure_widget_visibility (editor, settings, "frame-mailing-home",     "editor-show-mailing-home");
+	configure_widget_visibility (editor, settings, "frame-mailing-work",     "editor-show-mailing-work");
+	configure_widget_visibility (editor, settings, "expander-address-other", "editor-show-mailing-other");
+
+	configure_widget_visibility (editor, settings, "scrolledwindow-personal", "editor-show-personal-tab");
+	configure_widget_visibility (editor, settings, "expander-personal-web",   "editor-show-personal-web");
+	configure_widget_visibility (editor, settings, "expander-personal-job",   "editor-show-personal-job");
+	configure_widget_visibility (editor, settings, "expander-personal-misc",  "editor-show-personal-misc");
+
+	configure_widget_visibility (editor, settings, "scrolledwindow-notes", "editor-show-notes-tab");
+
+	g_object_unref (settings);
+}
+
+static void
 init_all (EContactEditor *editor)
 {
 	const gchar *contents[] = { "viewport1", "viewport2", "viewport3", "text-comments" };
@@ -3034,8 +2968,9 @@ init_all (EContactEditor *editor)
 	init_phone    (editor);
 	init_sip      (editor);
 	init_im       (editor);
-	init_personal (editor);
 	init_address  (editor);
+
+	configure_visibility (editor);
 
 	/* with so many scrolled windows, we need to
 	 * do some manual sizing */
@@ -4044,36 +3979,56 @@ setup_tab_order (GtkBuilder *builder)
 }
 
 static void
-expand_web_toggle (EContactEditor *ce)
+expand_dyntable (GtkExpander *expander,
+		 EContactEditorDynTable *dyntable,
+		 gint max_slots)
 {
-	GtkWidget *widget;
-
-	widget = e_builder_get_widget (ce->priv->builder, "label-videourl");
-	expand_web (ce, !gtk_widget_get_visible (widget));
+	if (gtk_expander_get_expanded (expander)) {
+		e_contact_editor_dyntable_set_show_max (dyntable, max_slots);
+	} else {
+		e_contact_editor_dyntable_set_show_max (dyntable,
+				SLOTS_IN_COLLAPSED_STATE);
+	}
 }
 
 static void
-expand_phone_toggle (EContactEditor *ce)
+expander_contact_mail_cb (GObject *object,
+                          GParamSpec *param_spec,
+                          gpointer user_data)
 {
-	expand_phone (ce, !is_arrow_image_arrow_down (ce, "arrow-phone-expand"));
+	expand_dyntable (GTK_EXPANDER (object),
+			E_CONTACT_EDITOR_DYNTABLE (user_data),
+			EMAIL_SLOTS);
 }
 
 static void
-expand_sip_toggle (EContactEditor *ce)
+expander_contact_phone_cb (GObject *object,
+                           GParamSpec *param_spec,
+                           gpointer user_data)
 {
-	expand_sip (ce, !is_arrow_image_arrow_down (ce, "arrow-sip-expand"));
+	expand_dyntable (GTK_EXPANDER (object),
+			E_CONTACT_EDITOR_DYNTABLE (user_data),
+			PHONE_SLOTS);
 }
 
 static void
-expand_im_toggle (EContactEditor *ce)
+expander_contact_sip_cb (GObject *object,
+                         GParamSpec *param_spec,
+                         gpointer user_data)
 {
-	expand_im (ce, !is_arrow_image_arrow_down (ce, "arrow-im-expand"));
+	expand_dyntable (GTK_EXPANDER (object),
+			E_CONTACT_EDITOR_DYNTABLE (user_data),
+			SIP_SLOTS);
 }
 
 static void
-expand_mail_toggle (EContactEditor *ce)
+expander_contact_im_cb (GObject *object,
+                        GParamSpec *param_spec,
+                        gpointer user_data)
 {
-	expand_mail (ce, !is_arrow_image_arrow_down (ce, "arrow-mail-expand"));
+	expand_dyntable (GTK_EXPANDER (object),
+			E_CONTACT_EDITOR_DYNTABLE (user_data),
+			IM_SLOTS);
 }
 
 static void
@@ -4097,7 +4052,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	EShell *shell;
 	EClientCache *client_cache;
 	GtkWidget *container;
-	GtkWidget *widget, *label;
+	GtkWidget *widget, *label, *dyntable;
 	GtkEntryCompletion *completion;
 
 	e_contact_editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
@@ -4188,31 +4143,34 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (show_help_cb), e_contact_editor);
+
 	widget = e_builder_get_widget (
-		e_contact_editor->priv->builder, "button-web-expand");
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (expand_web_toggle), e_contact_editor);
+		e_contact_editor->priv->builder, "expander-contact-phone");
+	dyntable = e_builder_get_widget (
+		e_contact_editor->priv->builder, "phone-dyntable");
+	g_signal_connect (widget, "notify::expanded",
+	                  G_CALLBACK (expander_contact_phone_cb), dyntable);
+
 	widget = e_builder_get_widget (
-		e_contact_editor->priv->builder, "button-phone-expand");
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (expand_phone_toggle), e_contact_editor);
+		e_contact_editor->priv->builder, "expander-contact-sip");
+	dyntable = e_builder_get_widget (
+		e_contact_editor->priv->builder, "sip-dyntable");
+	g_signal_connect (widget, "notify::expanded",
+	                  G_CALLBACK (expander_contact_sip_cb), dyntable);
+
 	widget = e_builder_get_widget (
-		e_contact_editor->priv->builder, "button-sip-expand");
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (expand_sip_toggle), e_contact_editor);
+		e_contact_editor->priv->builder, "expander-contact-im");
+	dyntable = e_builder_get_widget (
+		e_contact_editor->priv->builder, "im-dyntable");
+	g_signal_connect (widget, "notify::expanded",
+	                  G_CALLBACK (expander_contact_im_cb), dyntable);
+
 	widget = e_builder_get_widget (
-		e_contact_editor->priv->builder, "button-im-expand");
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (expand_im_toggle), e_contact_editor);
-	widget = e_builder_get_widget (
-		e_contact_editor->priv->builder, "button-mail-expand");
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (expand_mail_toggle), e_contact_editor);
+		e_contact_editor->priv->builder, "expander-contact-email");
+	dyntable = e_builder_get_widget (
+		e_contact_editor->priv->builder, "mail-dyntable");
+	g_signal_connect (widget, "notify::expanded",
+	                  G_CALLBACK (expander_contact_mail_cb), dyntable);
 
 	widget = e_builder_get_widget (
 		e_contact_editor->priv->builder, "entry-fullname");
