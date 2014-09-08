@@ -14,7 +14,6 @@
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
     
-
 </info>
 
 <title>Handling localized "Re:" in subjects</title>
@@ -23,7 +22,7 @@
 
 <list>
 <item><p>Open the <app>Terminal</app> application.</p></item>
-<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-localized-re 'AW:,SV:'</cmd> (in case that you want "AW:" and "SV:" to be recognized).</p></item>
+<item><p>Run the command <cmd>gsettings set org.gnome.evolution.mail composer-localized-re 'AW,SV'</cmd> (in case that you want "AW:" and "SV:" to be recognized).</p></item>
 </list>
 <p>You can also use the <app>dconf-editor</app> application to do this.</p>
 
