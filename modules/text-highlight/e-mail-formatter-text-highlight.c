@@ -22,10 +22,6 @@
 #include "e-mail-formatter-text-highlight.h"
 #include "languages.h"
 
-/* FIXME Delete these once we can use GSubprocess. */
-#include <gio/gunixinputstream.h>
-#include <gio/gunixoutputstream.h>
-
 #include <em-format/e-mail-formatter-extension.h>
 #include <em-format/e-mail-formatter.h>
 #include <em-format/e-mail-part-utils.h>
@@ -35,7 +31,6 @@
 #include <libedataserver/libedataserver.h>
 
 #include <glib/gi18n-lib.h>
-#include <X11/Xlib.h>
 #include <camel/camel.h>
 
 typedef EMailFormatterExtension EMailFormatterTextHighlight;
@@ -47,9 +42,10 @@ typedef EExtensionClass EMailFormatterTextHighlightLoaderClass;
 typedef struct _TextHighlightClosure TextHighlightClosure;
 
 struct _TextHighlightClosure {
-	GMainLoop *main_loop;
-	GError *input_error;
-	GError *output_error;
+	CamelStream *read_stream;
+	GOutputStream *output_stream;
+	GCancellable *cancellable;
+	GError *error;
 };
 
 GType e_mail_formatter_text_highlight_get_type (void);
@@ -122,30 +118,29 @@ get_syntax (EMailPart *part,
 	return syntax;
 }
 
-static void
-text_highlight_input_spliced (GObject *source_object,
-                              GAsyncResult *result,
-                              gpointer user_data)
+static gpointer
+text_hightlight_read_data_thread (gpointer user_data)
 {
 	TextHighlightClosure *closure = user_data;
+	gchar buffer[10240];
 
-	g_output_stream_splice_finish (
-		G_OUTPUT_STREAM (source_object),
-		result, &closure->input_error);
-}
+	g_return_val_if_fail (closure != NULL, NULL);
 
-static void
-text_highlight_output_spliced (GObject *source_object,
-                               GAsyncResult *result,
-                               gpointer user_data)
-{
-	TextHighlightClosure *closure = user_data;
+	while (!camel_stream_eos (closure->read_stream) &&
+	       !g_cancellable_set_error_if_cancelled (closure->cancellable, &closure->error)) {
+		gssize read;
+		gsize wrote = 0;
 
-	g_output_stream_splice_finish (
-		G_OUTPUT_STREAM (source_object),
-		result, &closure->output_error);
+		read = camel_stream_read (closure->read_stream, buffer, 10240, closure->cancellable, &closure->error);
+		if (read < 0 || closure->error)
+			break;
 
-	g_main_loop_quit (closure->main_loop);
+		if (!g_output_stream_write_all (closure->output_stream, buffer, read, &wrote, closure->cancellable, &closure->error) ||
+		    (gssize) wrote != read || closure->error)
+			break;
+	}
+
+	return NULL;
 }
 
 static gboolean
@@ -157,104 +152,65 @@ text_highlight_feed_data (GOutputStream *output_stream,
                           GError **error)
 {
 	TextHighlightClosure closure;
-	GInputStream *input_stream = NULL;
-	GOutputStream *temp_stream = NULL;
-	GInputStream *stdout_stream = NULL;
-	GOutputStream *stdin_stream = NULL;
-	GMainContext *main_context;
-	gchar *utf8_data;
-	gconstpointer data;
-	gsize size;
-	gboolean success;
+	CamelContentType *content_type;
+	CamelStream *write_stream;
+	gboolean success = TRUE;
+	GThread *thread;
 
-	/* We need to dump CamelDataWrapper to a buffer, force the content
-	 * to valid UTF-8, feed the UTF-8 data to the 'highlight' process,
-	 * read the converted data back and feed it to the CamelStream. */
+	closure.read_stream = camel_stream_fs_new_with_fd (pipe_stdout);
+	closure.output_stream = output_stream;
+	closure.cancellable = cancellable;
+	closure.error = NULL;
 
-	/* FIXME Use GSubprocess once we can require GLib 2.40. */
+	write_stream = camel_stream_fs_new_with_fd (pipe_stdin);
 
-	temp_stream = g_memory_output_stream_new_resizable ();
+	thread = g_thread_new (NULL, text_hightlight_read_data_thread, &closure);
 
-	success = camel_data_wrapper_decode_to_output_stream_sync (
-		data_wrapper, temp_stream, cancellable, error);
+	content_type = camel_data_wrapper_get_mime_type_field (data_wrapper);
+	if (content_type) {
+		const gchar *charset = camel_content_type_param (content_type, "charset");
 
-	if (!success)
-		goto exit;
+		/* Convert to UTF-8 charset, if needed, which the 'highlight' expects;
+		   it can cope with non-UTF-8 letters, thus no need for a content UTF-8-validation */
+		if (charset && g_ascii_strcasecmp (charset, "utf-8") != 0) {
+			CamelMimeFilter *filter;
 
-	main_context = g_main_context_new ();
+			filter = camel_mime_filter_charset_new (charset, "UTF-8");
+			if (filter != NULL) {
+				CamelStream *filtered = camel_stream_filter_new (write_stream);
 
-	closure.main_loop = g_main_loop_new (main_context, FALSE);
-	closure.input_error = NULL;
-	closure.output_error = NULL;
+				if (filtered) {
+					camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered), filter);
+					g_object_unref (write_stream);
+					write_stream = filtered;
+				}
 
-	g_main_context_push_thread_default (main_context);
-
-	data = g_memory_output_stream_get_data (
-		G_MEMORY_OUTPUT_STREAM (temp_stream));
-	size = g_memory_output_stream_get_data_size (
-		G_MEMORY_OUTPUT_STREAM (temp_stream));
-
-	/* FIXME Write a GConverter that does this so we can decode
-	 *       straight to the stdin pipe and skip all this extra
-	 *       buffering. */
-	utf8_data = e_util_utf8_data_make_valid ((gchar *) data, size);
-
-	g_clear_object (&temp_stream);
-
-	/* Takes ownership of the UTF-8 string. */
-	input_stream = g_memory_input_stream_new_from_data (
-		utf8_data, -1, (GDestroyNotify) g_free);
-
-	stdin_stream = g_unix_output_stream_new (pipe_stdin, TRUE);
-	stdout_stream = g_unix_input_stream_new (pipe_stdout, TRUE);
-
-	/* Splice the streams together. */
-
-	/* GCancellable is only supposed to be used in one operation
-	 * at a time.  Skip it here and use it for reading converted
-	 * data, since that operation terminates the main loop. */
-	g_output_stream_splice_async (
-		stdin_stream, input_stream,
-		G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
-		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
-		G_PRIORITY_DEFAULT, NULL,
-		text_highlight_input_spliced,
-		&closure);
-
-	g_output_stream_splice_async (
-		output_stream, stdout_stream,
-		G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
-		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
-		G_PRIORITY_DEFAULT, cancellable,
-		text_highlight_output_spliced,
-		&closure);
-
-	g_main_loop_run (closure.main_loop);
-
-	g_main_context_pop_thread_default (main_context);
-
-	g_main_context_unref (main_context);
-	g_main_loop_unref (closure.main_loop);
-
-	g_clear_object (&input_stream);
-	g_clear_object (&stdin_stream);
-	g_clear_object (&stdout_stream);
-
-	if (closure.input_error != NULL) {
-		g_propagate_error (error, closure.input_error);
-		g_clear_error (&closure.output_error);
-		success = FALSE;
-		goto exit;
+				g_object_unref (filter);
+			}
+		}
 	}
 
-	if (closure.output_error != NULL) {
-		g_propagate_error (error, closure.output_error);
+	if (camel_data_wrapper_decode_to_stream_sync (data_wrapper, write_stream, cancellable, error) < 0) {
+		g_cancellable_cancel (cancellable);
 		success = FALSE;
-		goto exit;
+	} else {
+		/* Close the stream, thus the highlight knows no more data will come */
+		g_clear_object (&write_stream);
 	}
 
-exit:
-	g_clear_object (&temp_stream);
+	g_thread_join (thread);
+
+	g_clear_object (&closure.read_stream);
+	g_clear_object (&write_stream);
+
+	if (closure.error) {
+		if (error && !*error)
+			g_propagate_error (error, closure.error);
+		else
+			g_clear_error (&closure.error);
+
+		return FALSE;
+	}
 
 	return success;
 }
