@@ -467,11 +467,11 @@ format_full_headers (EMailFormatter *formatter,
 		g_string_append (buffer, "</td>");
 
 		g_object_unref (image_part);
-		g_free (face_header_value);
 	}
 
 	g_string_append (buffer, "</tr></table>");
 
+	g_free (face_header_value);
 	g_object_unref (mime_part);
 }
 
