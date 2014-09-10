@@ -5727,6 +5727,7 @@ process_elements (EHTMLEditorView *view,
 
 					g_string_append (buffer, tmp);
 					g_free (tmp);
+					g_free (content);
 					content = webkit_dom_node_get_text_content (child);
 					g_regex_unref (regex);
 				}
@@ -5860,13 +5861,13 @@ process_elements (EHTMLEditorView *view,
 
 					g_string_append (buffer, tmp);
 					g_free (tmp);
-					content = webkit_dom_node_get_text_content (child);
 					g_regex_unref (regex);
 				} else if (content && *content) {
 					/* Some it happens that some text is written inside
 					 * the tab span element, so save it. */
 					g_string_append (buffer, content);
 				}
+				g_free (content);
 			}
 			if (to_html) {
 				element_remove_class (
@@ -6116,11 +6117,8 @@ process_elements (EHTMLEditorView *view,
 			}
 		}
 
-		content = webkit_dom_node_get_text_content (node);
 		if (add_br && !skip_nl)
 			g_string_append (buffer, changing_mode ? "<br>" : "\n");
-
-		g_free (content);
 	}
 
 	g_object_unref (nodes);
