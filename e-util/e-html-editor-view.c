@@ -5862,6 +5862,10 @@ process_elements (EHTMLEditorView *view,
 					g_free (tmp);
 					content = webkit_dom_node_get_text_content (child);
 					g_regex_unref (regex);
+				} else if (content && *content) {
+					/* Some it happens that some text is written inside
+					 * the tab span element, so save it. */
+					g_string_append (buffer, content);
 				}
 			}
 			if (to_html) {
