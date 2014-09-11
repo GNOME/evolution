@@ -2658,6 +2658,7 @@ e_calendar_item_convert_position_to_day (ECalendarItem *calitem,
 	ythickness = padding.top;
 
 	pango_font_metrics_unref (font_metrics);
+	g_object_unref (pango_context);
 
 	*entire_week = FALSE;
 
