@@ -4471,6 +4471,8 @@ fix_structure_after_pasting_multiline_content (WebKitDOMNode *node)
 	 * first line into one element. So we have to take it out
 	 * of this element and insert it after that element. */
 	parent = webkit_dom_node_get_parent_node (node);
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
+		return;
 	first_child = webkit_dom_node_get_first_child (parent);
 	while (first_child) {
 		WebKitDOMNode *next_child =
