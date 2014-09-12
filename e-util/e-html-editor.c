@@ -352,7 +352,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 	visible = (WEBKIT_DOM_IS_HTMLHR_ELEMENT (node));
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_RULE), visible);
 
-	visible = (webkit_dom_node_get_node_type (node) == 3);
+	visible = (WEBKIT_DOM_IS_TEXT (node));
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TEXT), visible);
 
 	visible =

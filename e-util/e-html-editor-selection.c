@@ -894,16 +894,16 @@ e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 	range = html_editor_selection_get_current_range (selection);
 
 	node = webkit_dom_range_get_start_container (range, NULL);
-	if (webkit_dom_node_get_node_type (node) == 3)
+	if (WEBKIT_DOM_IS_TEXT (node))
 		return TRUE;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
-	if (webkit_dom_node_get_node_type (node) == 3)
+	if (WEBKIT_DOM_IS_TEXT (node))
 		return TRUE;
 
 	node = WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL));
 	while (node) {
-		if (webkit_dom_node_get_node_type (node) == 3)
+		if (WEBKIT_DOM_IS_TEXT (node))
 			return TRUE;
 
 		if (webkit_dom_node_has_child_nodes (node)) {

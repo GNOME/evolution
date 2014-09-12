@@ -287,7 +287,7 @@ get_caret_position (EHTMLEditorView *view)
 			node, webkit_dom_dom_selection_get_anchor_node (selection))) {
 
 			break;
-		} else if (webkit_dom_node_get_node_type (node) == 3) {
+		} else if (WEBKIT_DOM_IS_TEXT (node)) {
 			gchar *text = webkit_dom_node_get_text_content (node);
 			range_count += strlen (text);
 			g_free (text);
