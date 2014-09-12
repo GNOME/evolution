@@ -110,6 +110,7 @@ enum {
 	STOP_LOADING,
 	UPDATE_ACTIONS,
 	PROCESS_MAILTO,
+	REGISTER_URI_HANDLERS,
 	LAST_SIGNAL
 };
 
@@ -1745,6 +1746,16 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
+
+	signals[REGISTER_URI_HANDLERS] = g_signal_new (
+		"register-uri-handlers",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EWebViewClass, register_uri_handlers),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		WEBKIT_TYPE_WEB_CONTEXT);
 }
 
 static void
@@ -1780,12 +1791,6 @@ web_view_process_uri_scheme_finished_cb (EWebView *web_view,
 		if (error)
 			g_error_free (error);
 	}
-}
-
-static void
-web_view_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                     EWebView *web_view)
-{
 }
 
 static void
@@ -1835,12 +1840,12 @@ web_view_process_file_uri_scheme_request (GTask *task,
 }
 
 static void
-web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                      EWebView *web_view)
+web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 {
+	EWebView *web_view;
 	GTask *task;
 
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	web_view = E_WEB_VIEW (webkit_uri_scheme_request_get_web_view (request));
 
 	task = g_task_new (
 		web_view, NULL,
@@ -1854,20 +1859,7 @@ web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 }
 
 static void
-web_view_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                      EWebView *web_view)
-{
-}
-
-static void
-web_view_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                      EWebView *web_view)
-{
-}
-
-static void
-web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                           EWebView *web_view)
+web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 {
 	SoupURI *uri;
 	GHashTable *query = NULL;
@@ -1968,73 +1960,6 @@ web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 
 	g_object_unref (context);
 	g_free (content_type);
-}
-
-void
-e_web_view_register_uri_scheme (EWebView *web_view,
-                                EURIScheme scheme,
-                                gpointer user_callback,
-				gpointer user_data)
-{
-	WebKitWebContext *context;
-	gpointer callback = NULL;
-	const gchar *uri_scheme;
-
-	static GHashTable *hash_table = NULL;
-
-	if (!hash_table)
-		hash_table = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
-
-	context = webkit_web_context_get_default ();
-
-	callback = user_callback;
-
-	switch (scheme) {
-		case CID_URI_SCHEME:
-			uri_scheme = "cid";
-			if (!callback)
-				callback = web_view_cid_uri_scheme_appeared_cb;
-			break;
-		case FILE_URI_SCHEME:
-			uri_scheme = "evo-file";
-			if (!callback)
-				callback = web_view_file_uri_scheme_appeared_cb;
-			break;
-		case MAIL_URI_SCHEME:
-			uri_scheme = "mail";
-			if (!callback)
-				callback = web_view_mail_uri_scheme_appeared_cb;
-			break;
-		case EVO_HTTP_URI_SCHEME:
-			uri_scheme = "evo-http";
-			if (!callback)
-				callback = web_view_http_uri_scheme_appeared_cb;
-			break;
-		case EVO_HTTPS_URI_SCHEME:
-			uri_scheme = "evo-https";
-			if (!callback)
-				callback = web_view_http_uri_scheme_appeared_cb;
-			break;
-		case GTK_STOCK_URI_SCHEME:
-			uri_scheme = "gtk-stock";
-			if (!callback)
-				callback = web_view_gtk_stock_uri_scheme_appeared_cb;
-			break;
-		default:
-			return;
-	}
-
-	if (g_hash_table_lookup (hash_table, uri_scheme))
-		return;
-
-	g_hash_table_insert (hash_table, (gpointer) uri_scheme, callback);
-
-	webkit_web_context_register_uri_scheme (
-		context,
-		uri_scheme,
-		(WebKitURISchemeRequestCallback) callback,
-		user_data ? user_data : web_view,
-		NULL);
 }
 
 static void
@@ -2278,7 +2203,7 @@ e_web_view_get_default_webkit_settings (void)
 
 static void
 initialize_web_extensions_cb (WebKitWebContext *web_context,
-                              gpointer user_data)
+                              EWebView *view)
 {
 	/* Set the web extensions dir before the process is launched */
 	webkit_web_context_set_web_extensions_directory (
@@ -2286,6 +2211,22 @@ initialize_web_extensions_cb (WebKitWebContext *web_context,
 
 	webkit_web_context_set_cache_model (
 		web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"evo-file",
+		(WebKitURISchemeRequestCallback) web_view_file_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"gtk-stock",
+		(WebKitURISchemeRequestCallback) web_view_gtk_stock_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	g_signal_emit (view, signals[REGISTER_URI_HANDLERS], 0, web_context);
 }
 
 void
@@ -2346,7 +2287,7 @@ e_web_view_init (EWebView *web_view)
 
 	g_signal_connect (
 		webkit_web_context_get_default (), "initialize-web-extensions",
-		G_CALLBACK (initialize_web_extensions_cb), NULL);
+		G_CALLBACK (initialize_web_extensions_cb), web_view);
 
 	g_signal_connect (
 		web_view, "load-changed",
@@ -2368,9 +2309,6 @@ e_web_view_init (EWebView *web_view)
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
 	web_view_watch_web_extension (web_view);
-
-	e_web_view_register_uri_scheme (web_view, FILE_URI_SCHEME, NULL, NULL);
-	e_web_view_register_uri_scheme (web_view, GTK_STOCK_URI_SCHEME, NULL, NULL);
 
 	settings = g_settings_new ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
@@ -3948,30 +3886,7 @@ e_web_view_request_finish (EWebView *web_view,
 
 	return g_object_ref (async_context->input_stream);
 }
-/*
-void
-e_web_view_install_request_handler (EWebView *web_view,
-                                    GType handler_type)
-{
-	SoupSession *session;
-	SoupSessionFeature *feature;
 
-//	session = webkit_get_default_session ();
-	session = NULL;
-
-	feature = soup_session_get_feature (session, SOUP_TYPE_REQUESTER);
-	if (feature != NULL) {
-		g_object_ref (feature);
-	} else {
-		feature = SOUP_SESSION_FEATURE (soup_requester_new ());
-		soup_session_add_feature (session, feature);
-	}
-
-	soup_session_feature_add_feature (feature, handler_type);
-
-	g_object_unref (feature);
-}
-*/
 /**
  * e_web_view_create_and_add_css_style_sheet:
  * @web_view: an #EWebView
