@@ -775,7 +775,7 @@ body_input_event_cb (WebKitDOMElement *element,
 	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
 	 * to move caret into right space. When this callback is called it is not
 	 * necassary anymore so remove it */
-	if (e_html_editor_view_get_html_mode (view)) {
+	if (view->priv->html_mode) {
 		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
 
 		if (parent) {
@@ -860,26 +860,32 @@ body_input_event_cb (WebKitDOMElement *element,
 
 	/* Writing into quoted content */
 	if (!view->priv->html_mode) {
-		gint citation_level, length, word_wrap_length;
+		gint citation_level;
 		EHTMLEditorSelection *selection;
-		WebKitDOMElement *element;
 		WebKitDOMDocument *document;
-		WebKitDOMNode *parent;
+		WebKitDOMElement *element;
+		WebKitDOMNode *node, *parent;
+		WebKitDOMRange *range;
+
+		range = html_editor_view_get_dom_range (view);
+		node = webkit_dom_range_get_end_container (range, NULL);
+
+		citation_level = get_citation_level (node, FALSE);
+		if (citation_level == 0)
+			return;
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		selection = e_html_editor_view_get_selection (view);
-		word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
 
 		element = webkit_dom_document_query_selector (
 			document, "span#-x-evo-selection-start-marker", NULL);
 		if (element)
 			return;
 
+		selection = e_html_editor_view_get_selection (view);
 		e_html_editor_selection_save (selection);
+
 		element = webkit_dom_document_query_selector (
 			document, "span#-x-evo-selection-start-marker", NULL);
-
 		/* If the selection was not saved, move it into the first child of body */
 		if (!element) {
 			WebKitDOMHTMLElement *body;
@@ -916,14 +922,15 @@ body_input_event_cb (WebKitDOMElement *element,
 			return;
 		}
 
-		citation_level = get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
-		length = word_wrap_length - 2 * citation_level;
-
-		if (element && citation_level > 0) {
+		if (element) {
 			gchar *content;
-			gint text_length;
+			gint text_length, word_wrap_length, length;
 			WebKitDOMElement *block;
 			gboolean remove_quoting = FALSE;
+
+			word_wrap_length =
+				e_html_editor_selection_get_word_wrap_length (selection);
+			length = word_wrap_length - 2 * citation_level;
 
 			block = WEBKIT_DOM_ELEMENT (parent);
 			if (webkit_dom_element_query_selector (
