@@ -11,25 +11,26 @@
 # Gnome 2012-03 Finnish translation sprint participants:
 # Niklas Laxström
 # Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>, 2010.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2014.
 # Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2012, 2013, 2014.
 #
-# Juhani Numminen <juhaninumminen0@gmail.com>, 2014.
-#
-#: ../shell/main.c:555
+#: ../shell/main.c:559
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-04-30 14:12+0000\n"
-"PO-Revision-Date: 2014-03-22 12:47+0200\n"
-"Last-Translator: Juhani Numminen <juhaninumminen0@gmail.com>\n"
-"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2014-09-14 15:02+0000\n"
+"PO-Revision-Date: 2014-09-14 19:24+0300\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
+"Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Launchpad-Export-Date: 2010-09-13 15:08+0000\n"
+"X-POT-Import-Date: 2012-03-05 15:05:59+0000\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -223,8 +224,8 @@ msgid ""
 "You are trying to add addresses that are part of this list already. Would "
 "you like to add them anyway?"
 msgstr ""
-"Yrität lisätä sähköpostiosoitteita, jotka ovat jo tällä listalla. Haluatko "
-"lisätä ne joka tapauksessa?"
+"Olet lisäämässä osoitteita, jotka ovat jo tässä luettelossa. Haluatko lisätä "
+"ne silti?"
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "Skip duplicates"
@@ -271,7 +272,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:45
 msgid "Cannot save a contact, address book is still opening"
-msgstr "Yhteystietoa ei voi tallentaa, sillä osoitekirja avautuu vielä"
+msgstr "Yhteystiedon tallennus ei onnistu, osoitekirja avautuu edelleen"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:47
@@ -279,8 +280,8 @@ msgid ""
 "Cannot save a contact to the address book '{0}', because it is still "
 "opening. Either wait till it's opened, or select a different address book."
 msgstr ""
-"Yhteystietoa ei voi tallentaa osoitekirjaan ”{0}”, koska se avautuu vielä. "
-"Voit odottaa, että osoitekirja avautuu, tai valita toisen osoitekirjan."
+"Yhteystiedon tallennus osoitekirjaan '{0}' ei onnistu, koska osoitekirja "
+"avautuu edelleen. Odota sen avautumista, tai valitse toinen osoitekirja."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:752
@@ -540,8 +541,8 @@ msgstr "O_hje"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3661
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3591
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
 #: ../addressbook/gui/contact-editor/fullname.ui.h:14
@@ -690,21 +691,21 @@ msgstr "Virhe poistettaessa yhteystietoa"
 msgid "Contact Editor - %s"
 msgstr "Yhteystietojen muokkain - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3658
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3588
 msgid "Please select an image for this contact"
 msgstr "Valitse kuva tälle henkilölle"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3662
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3592
 #: ../e-util/e-category-editor.c:146 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:624
 msgid "_Open"
 msgstr "_Avaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3663
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3593
 msgid "_No image"
 msgstr "_Ei kuvaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4012
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3942
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -712,28 +713,28 @@ msgstr ""
 "Yhteystieto on virheellinen:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4018
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3948
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' sisältää virheellisen muotoilun"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4026
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3956
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "'%s' ei voi olla tuleva päivä"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4034
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3964
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' sisältää virheellisen muotoilun"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4047
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4061
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3977
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3991
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' on tyhjä"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4076
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4006
 msgid "Invalid contact."
 msgstr "Virheellinen yhteystieto."
 
@@ -997,8 +998,9 @@ msgid "Conflicting Contact:"
 msgstr "Ristiriitainen yhteystieto:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:735
+#| msgid "Contact: "
 msgid "Old Contact:"
-msgstr "Vanhat yhteystiedot: "
+msgstr "Vanha yhteystieto:"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../modules/addressbook/e-book-shell-view-actions.c:1150
@@ -1851,7 +1853,7 @@ msgstr "tuntia"
 #: ../calendar/alarm-notify/alarm-notify.ui.h:12
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:4
 #: ../calendar/gui/dialogs/event-page.ui.h:19 ../e-util/filter.ui.h:6
-#: ../e-util/e-interval-chooser.c:138
+#: ../e-util/e-interval-chooser.c:139
 #: ../mail/e-mail-config-provider-page.c:526
 msgid "minutes"
 msgstr "minuutti"
@@ -2496,8 +2498,7 @@ msgstr "Luokka"
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
 #: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:53
 #: ../em-format/e-mail-formatter-print-headers.c:203
-#: ../mail/filtertypes.xml.in.h:45 ../mail/searchtypes.xml.in.h:47
-#: ../mail/vfoldertypes.xml.in.h:48
+#: ../mail/em-filter-i18n.h:6
 msgid "Attachments"
 msgstr "Liitteet"
 
@@ -3823,8 +3824,8 @@ msgstr "Työn alla"
 #: ../calendar/gui/e-cal-model-tasks.c:314
 #: ../calendar/gui/e-cal-model-tasks.c:556
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
-#: ../calendar/gui/e-task-table.c:217 ../calendar/gui/e-task-table.c:232
-#: ../calendar/gui/e-task-table.c:657 ../calendar/gui/print.c:3588
+#: ../calendar/gui/e-task-table.c:222 ../calendar/gui/e-task-table.c:237
+#: ../calendar/gui/e-task-table.c:667 ../calendar/gui/print.c:3591
 #: ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
@@ -4154,12 +4155,14 @@ msgstr "WWW-sivu:"
 #: ../calendar/gui/e-calendar-selector.c:356
 #: ../modules/calendar/e-cal-shell-view-private.c:1096
 #, c-format
+#| msgid "Copying an event into the calendar '{0}'"
 msgid "Copying an event into the calendar %s"
 msgstr "Kopioidaan tapahtumaa kalenteriin %s"
 
 #: ../calendar/gui/e-calendar-selector.c:357
 #: ../modules/calendar/e-cal-shell-view-private.c:1095
 #, c-format
+#| msgid "Moving an event into the calendar '{0}'"
 msgid "Moving an event into the calendar %s"
 msgstr "Siirretään tapahtumaa kalenteriin %s"
 
@@ -7232,9 +7235,8 @@ msgid "_Try Again"
 msgstr "_Yritä uudelleen"
 
 #: ../composer/mail-composer.error.xml.h:33
-#, fuzzy
 msgid "Your message was sent, but an error occurred during post-processing."
-msgstr "Tapahtui virhe käsiteltäessä: %s"
+msgstr "Viestisi lähetettiin, mutta jälkikäsittelyn yhteydessä tapahtui virhe."
 
 #: ../composer/mail-composer.error.xml.h:34
 msgid "Saving message to Outbox."
@@ -7260,6 +7262,8 @@ msgid ""
 "Evolution is a personal information management application that provides "
 "integrated mail, calendaring and address book functionality."
 msgstr ""
+"Evolution on henkilökohtaisen tiedon hallintasovellus, joka tarjoaa "
+"sähköpostin, kalenterin ja osoitekirjan."
 
 #: ../data/evolution.appdata.xml.in.h:2
 msgid ""
@@ -7268,6 +7272,10 @@ msgid ""
 "compliance and security. Evolution can also integrate smoothly with "
 "Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) extension."
 msgstr ""
+"Evolution tukee lukuisia standardeja tiedostomuotoja ja verkkoprotokollia "
+"tiedonvaihtoa varten, painoarvoa on asetettu erityisesti standardien "
+"noudattamiseen ja tietoturvaan. Evolution voi myös integroitua Microsoft "
+"Exchange -palvelimeen Exchange Web Services (EWS) -laajennuksen avulla."
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1032
 #: ../modules/mailto-handler/evolution-mailto-handler.c:210
@@ -8557,16 +8565,16 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
 msgstr ""
-"Määrittää käytetäänkö samaa kirjasinta sekä \"Lähettäjä\"- että "
-"\"Vastaanottaja\"-riveillä \"Viestit\"-sarakkeessa käytettäessä pystynäkymää."
+"Määrittää käytetäänkö samaa fonttia sekä \"Lähettäjä\"- että \"Vastaanottaja"
+"\"-riveillä \"Viestit\"-sarakkeessa käytettäessä pystynäkymää."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Määrittää käytetäänkö samaa kirjasinta sekä \"Lähettäjä\"- että "
-"\"Vastaanottaja\"-riveillä \"Viestit\"-sarakkeessa käytettäessä pystynäkymää."
+"Määrittää käytetäänkö samaa fonttia sekä \"Lähettäjä\"- että \"Vastaanottaja"
+"\"-riveillä \"Viestit\"-sarakkeessa käytettäessä pystynäkymää."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show deleted messages in the message-list"
@@ -11444,20 +11452,22 @@ msgid ""
 msgstr "Tulostusjärjestelmä ei kertonut tarkempia tietoja virheestä."
 
 #: ../e-util/e-proxy-editor.c:314
+#| msgid "Method:"
 msgid "_Method:"
 msgstr "_Menetelmä:"
 
 #: ../e-util/e-proxy-editor.c:336
 msgid "Defer to Desktop Settings"
-msgstr ""
+msgstr "Käytä työpöydän asetuksia"
 
 #: ../e-util/e-proxy-editor.c:340
 msgid "_Open Desktop Settings"
-msgstr "_Avaa työpöytäasetukset"
+msgstr "_Avaa työpöydän asetukset"
 
 #: ../e-util/e-proxy-editor.c:366
+#| msgid "January"
 msgid "Manual"
-msgstr "Manuaalinen"
+msgstr "Manuaalisesti"
 
 #: ../e-util/e-proxy-editor.c:385
 msgid "_HTTP Proxy:"
@@ -11478,6 +11488,7 @@ msgid "_Ignore Hosts:"
 msgstr "Älä välitä"
 
 #: ../e-util/e-proxy-editor.c:504
+#| msgid "Automatic Contacts"
 msgid "Automatic"
 msgstr "Automaattinen"
 
@@ -12098,14 +12109,13 @@ msgid "Please choose another name."
 msgstr "Valitse toinen nimi."
 
 #: ../e-util/filter.error.xml.h:12
-#, fuzzy
 #| msgid "Missing date."
 msgid "Missing condition."
-msgstr "Päiväys puuttuu."
+msgstr "Ehto puuttuu."
 
 #: ../e-util/filter.error.xml.h:13
 msgid "Filter should have at least one condition."
-msgstr ""
+msgstr "Suodattimella tulee olla vähintään yksi ehto."
 
 #: ../e-util/filter.error.xml.h:14
 msgid "Missing value."
@@ -12113,7 +12123,7 @@ msgstr "Arvo puuttuu."
 
 #: ../e-util/filter.error.xml.h:15
 msgid "One or more values cannot be empty."
-msgstr ""
+msgstr "Yksi tai useampi arvo ei voi olla tyhjä."
 
 #. Translators: description of a "popup" action
 #: ../e-util/gal-a11y-e-cell-popup.c:127
@@ -12569,11 +12579,10 @@ msgstr "_Ohita haku"
 msgid "Evolution Account Assistant"
 msgstr "Evolutionin sähköpostitilien apulainen"
 
-#: ../mail/e-mail-config-assistant.c:936
-#, fuzzy
+#: ../mail/e-mail-config-assistant.c:935
 #| msgid "_Restore Defaults"
 msgid "_Revise Details"
-msgstr "_Palauta oletukset"
+msgstr "_Tarkista tiedot"
 
 #: ../mail/e-mail-config-auth-check.c:350
 msgid "Check for Supported Types"
@@ -13614,7 +13623,7 @@ msgstr "Näytä viesti kaikilla otsakkeillaan"
 msgid "Retrieving message"
 msgstr "Noudetaan viesti"
 
-#: ../mail/e-mail-reader.c:3778
+#: ../mail/e-mail-reader.c:3822
 #: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "_Välitä"
@@ -14643,6 +14652,7 @@ msgid "_Folder override has precedence over Recipient override"
 msgstr ""
 
 #: ../mail/mail-config.ui.h:65
+#| msgid "Source Account"
 msgid "Send Account"
 msgstr "Lähetystili"
 
@@ -15101,7 +15111,7 @@ msgstr ""
 "Haluatko varmasti poistaa kaikki poistetut viestit kaikista kansioista?"
 
 #: ../mail/mail.error.xml.h:39
-#: ../modules/mail/e-mail-shell-view-actions.c:1555
+#: ../modules/mail/e-mail-shell-view-actions.c:1519
 msgid "_Empty Trash"
 msgstr "_Tyhjennä roskakori"
 
@@ -15829,28 +15839,28 @@ msgstr "Mikä tahansa otsake"
 msgid "Subject or Addresses contains"
 msgstr "Aihe tai lähettäjät sisältävät"
 
-#: ../mail/searchtypes.xml.in.h:55
-#: ../modules/mail/e-mail-shell-view-actions.c:2038
+#: ../mail/searchtypes.xml.h:2
+#: ../modules/mail/e-mail-shell-view-actions.c:2002
 msgid "Recipients contain"
 msgstr "Vastaanottajat sisältää"
 
-#: ../mail/searchtypes.xml.in.h:56
-#: ../modules/mail/e-mail-shell-view-actions.c:2031
+#: ../mail/searchtypes.xml.h:3
+#: ../modules/mail/e-mail-shell-view-actions.c:1995
 msgid "Message contains"
 msgstr "Viesti sisältää"
 
-#: ../mail/searchtypes.xml.in.h:57
-#: ../modules/mail/e-mail-shell-view-actions.c:2052
+#: ../mail/searchtypes.xml.h:4
+#: ../modules/mail/e-mail-shell-view-actions.c:2016
 msgid "Subject contains"
 msgstr "Otsikko sisältää"
 
-#: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2045
+#: ../mail/searchtypes.xml.h:5
+#: ../modules/mail/e-mail-shell-view-actions.c:2009
 msgid "Sender contains"
 msgstr "Lähettäjä sisältää"
 
-#: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2024
+#: ../mail/searchtypes.xml.h:6
+#: ../modules/mail/e-mail-shell-view-actions.c:1988
 msgid "Body contains"
 msgstr "Runko sisältää"
 
@@ -16564,7 +16574,7 @@ msgstr "Noudetaan"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:820
 msgid "Limit:"
-msgstr "Rajoitus:"
+msgstr "Raja:"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:831
 msgid "contacts"
@@ -16589,9 +16599,10 @@ msgstr "Vältä IfMatch-komentoa (vaaditaan Apache-versiolle < 2.2.8)"
 msgid "HTTP Error: %s"
 msgstr "HTTP-virhe: %s"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:441
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:469
+#| msgid "Could not parse PGP message: "
 msgid "Could not parse response"
-msgstr "Vastauksen jäsentäminen epäonnistui"
+msgstr "Vastauksen tulkitseminen ei onnistunut"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:450
 msgid "Empty response"
@@ -19166,14 +19177,14 @@ msgstr ""
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
 msgid "Evolution is currently offline due to a network outage."
-msgstr "Evolution ei ole verkossa, koska verkko ei ole käytettävissä."
+msgstr ""
+"Evolution on yhteydettömässä tilassa, koska verkko ei ole käytettävissä."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
-msgstr "Evolution palaa verkkoon, kun verkkoyhteys on muodostettu."
+msgstr "Evolution palaa yhdistettyyn tilaan, kun verkko on taas käytettävissä."
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Author(s)"
@@ -19358,11 +19369,11 @@ msgstr "_Muotoile..."
 msgid "_Other languages"
 msgstr "_Muut kielet"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:482
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Text Highlight"
 msgstr "Tekstin korostus"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:483
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
 msgid "Syntax highlighting of mail parts"
 msgstr ""
 
@@ -20671,8 +20682,7 @@ msgstr "Tallennetaan käyttöliittymän tilaa"
 #: ../shell/e-shell-window-actions.c:73
 msgid "translator-credits"
 msgstr ""
-"Juhani Numminen, 2014\n"
-"Ville-Pekka Vainio, 2010\n"
+"Jiri Grönroos, 2012-2014\n"
 "Ilkka Tuohela, 2002-2009\n"
 "Timo Jyrinki, 2008\n"
 "Sami Pesonen, 2001-2003\n"
@@ -21154,7 +21164,7 @@ msgstr "Varmenteen nimi"
 #: ../smime/gui/certificate-manager.c:81
 #: ../smime/gui/certificate-manager.c:101
 msgid "Issued To Organization"
-msgstr "Myönnetty rganisaatiolle"
+msgstr "Myönnetty organisaatiolle"
 
 #: ../smime/gui/certificate-manager.c:82
 #: ../smime/gui/certificate-manager.c:102
@@ -21189,7 +21199,7 @@ msgstr "Myöntäjäorganisaatio"
 #: ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Issued By Organizational Unit"
-msgstr "Myöntäjäorganisaatioyksikkö"
+msgstr "Myöntäjä organisaatioyksikkö"
 
 #: ../smime/gui/certificate-manager.c:88
 #: ../smime/gui/certificate-manager.c:108
