@@ -3319,7 +3319,7 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
                                   gint quote_level,
                                   gboolean is_html_node)
 {
-	gboolean skip;
+	gboolean skip, wrap_br;
 	gchar *quotation;
 	WebKitDOMElement *element;
 
@@ -3331,7 +3331,8 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 
 	/* Don't insert temporary BR before BR that is used for wrapping */
 	skip = WEBKIT_DOM_IS_HTMLBR_ELEMENT (node);
-	skip = skip && element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br");
+	wrap_br = element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br");
+	skip = skip && wrap_br;
 
 	if (is_html_node && !skip) {
 		WebKitDOMElement *new_br;
@@ -3352,7 +3353,7 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 		node,
 		NULL);
 
-	if (is_html_node)
+	if (is_html_node && !wrap_br)
 		remove_node (node);
 
 	g_free (quotation);
@@ -3496,11 +3497,19 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			element_has_tag (WEBKIT_DOM_ELEMENT (node), "u");
 
 		if (is_html_node) {
-			if (!prev_sibling)
+			gboolean wrap_br;
+
+			wrap_br =
+				prev_sibling &&
+				WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
+				element_has_class (
+					WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-wrap-br");
+
+			if (!prev_sibling || wrap_br)
 				insert_quote_symbols_before_node (
 					document, node, quote_level, FALSE);
 
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling))
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) && !wrap_br)
 				insert_quote_symbols_before_node (
 					document, prev_sibling, quote_level, TRUE);
 
