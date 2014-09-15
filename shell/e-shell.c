@@ -46,6 +46,8 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL, EShellPrivate))
 
+#define SET_ONLINE_TIMEOUT_SECONDS 5
+
 struct _EShellPrivate {
 	GQueue alerts;
 	ESourceRegistry *registry;
@@ -64,6 +66,7 @@ struct _EShellPrivate {
 	gchar *module_directory;
 
 	guint inhibit_cookie;
+	guint set_online_timeout_id;
 
 	gulong backend_died_handler_id;
 
@@ -261,6 +264,20 @@ shell_add_actions (GApplication *application)
 		G_CALLBACK (shell_action_quit_cb), application);
 	g_action_map_add_action (action_map, G_ACTION (action));
 	g_object_unref (action);
+}
+
+static gboolean
+e_shell_set_online_cb (gpointer user_data)
+{
+	EShell *shell = user_data;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	shell->priv->set_online_timeout_id = 0;
+
+	e_shell_set_online (shell, TRUE);
+
+	return FALSE;
 }
 
 static void
@@ -661,6 +678,11 @@ shell_dispose (GObject *object)
 	EAlert *alert;
 
 	priv = E_SHELL_GET_PRIVATE (object);
+
+	if (priv->set_online_timeout_id > 0) {
+		g_source_remove (priv->set_online_timeout_id);
+		priv->set_online_timeout_id = 0;
+	}
 
 	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
 		g_signal_handlers_disconnect_by_func (
@@ -1666,7 +1688,18 @@ e_shell_set_network_available (EShell *shell,
 		shell->priv->auto_reconnect = TRUE;
 	} else if (network_available && shell->priv->auto_reconnect) {
 		g_message ("Connection established.  Going online.");
-		e_shell_set_online (shell, TRUE);
+
+		/* Wait some seconds to give the network enough time to become
+		 * fully available. */
+		if (shell->priv->set_online_timeout_id > 0) {
+			g_source_remove (shell->priv->set_online_timeout_id);
+			shell->priv->set_online_timeout_id = 0;
+		}
+
+		shell->priv->set_online_timeout_id = e_named_timeout_add_seconds_full (
+			G_PRIORITY_DEFAULT, SET_ONLINE_TIMEOUT_SECONDS, e_shell_set_online_cb,
+			g_object_ref (shell), g_object_unref);
+
 		shell->priv->auto_reconnect = FALSE;
 	}
 }
