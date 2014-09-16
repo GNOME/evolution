@@ -109,9 +109,6 @@ struct _EWebViewClass {
 	void		(*update_actions)	(EWebView *web_view);
 	gboolean	(*process_mailto)	(EWebView *web_view,
 						 const gchar *mailto_uri);
-	void		(*register_uri_handlers)
-						(EWebView *web_view,
-						 WebKitWebContext *context);
 };
 
 GType		e_web_view_get_type		(void) G_GNUC_CONST;

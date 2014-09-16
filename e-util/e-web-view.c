@@ -110,7 +110,6 @@ enum {
 	STOP_LOADING,
 	UPDATE_ACTIONS,
 	PROCESS_MAILTO,
-	REGISTER_URI_HANDLERS,
 	LAST_SIGNAL
 };
 
@@ -1960,16 +1959,6 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
-
-	signals[REGISTER_URI_HANDLERS] = g_signal_new (
-		"register-uri-handlers",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EWebViewClass, register_uri_handlers),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		WEBKIT_TYPE_WEB_CONTEXT);
 }
 
 static void

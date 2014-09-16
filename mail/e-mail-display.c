@@ -1877,39 +1877,6 @@ mail_display_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 }
 
 static void
-mail_display_register_uri_handlers (EWebView *web_view,
-                                    WebKitWebContext *web_context)
-{
-	webkit_web_context_register_uri_scheme (
-		web_context,
-		"evo-http",
-		(WebKitURISchemeRequestCallback) mail_display_http_uri_scheme_appeared_cb,
-		NULL,
-		NULL);
-
-	webkit_web_context_register_uri_scheme (
-		web_context,
-		"evo-https",
-		(WebKitURISchemeRequestCallback) mail_display_http_uri_scheme_appeared_cb,
-		NULL,
-		NULL);
-
-	webkit_web_context_register_uri_scheme (
-		web_context,
-		"mail",
-		(WebKitURISchemeRequestCallback) mail_display_mail_uri_scheme_appeared_cb,
-		NULL,
-		NULL);
-
-	webkit_web_context_register_uri_scheme (
-		web_context,
-		"cid",
-		(WebKitURISchemeRequestCallback) mail_display_cid_uri_scheme_appeared_cb,
-		NULL,
-		NULL);
-}
-
-static void
 mail_display_constructed (GObject *object)
 {
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
@@ -2158,7 +2125,6 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	web_view_class->redirect_uri = mail_display_redirect_uri;
 	web_view_class->suggest_filename = mail_display_suggest_filename;
 #endif
-	web_view_class->register_uri_handlers = mail_display_register_uri_handlers;
 	web_view_class->set_fonts = mail_display_set_fonts;
 
 	g_object_class_install_property (
