@@ -3480,6 +3480,7 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-private-browsing", TRUE,
 		"enable-smooth-scrolling", TRUE,
 		"media-playback-allows-inline", FALSE,
+		"respect-image-orientation", TRUE,
 		NULL);
 }
 
