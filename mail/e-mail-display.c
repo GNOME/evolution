@@ -2098,14 +2098,9 @@ mail_display_suggest_filename (EWebView *web_view,
 #endif
 
 static void
-e_mail_display_class_init (EMailDisplayClass *class)
+mail_display_initialize_web_context (void)
 {
-	GObjectClass *object_class;
-	EWebViewClass *web_view_class;
-	GtkWidgetClass *widget_class;
 	WebKitWebContext *web_context = webkit_web_context_get_default ();
-
-	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
 
 	webkit_web_context_register_uri_scheme (
 		web_context,
@@ -2134,6 +2129,18 @@ e_mail_display_class_init (EMailDisplayClass *class)
 		(WebKitURISchemeRequestCallback) mail_display_cid_uri_scheme_appeared_cb,
 		NULL,
 		NULL);
+}
+
+static void
+e_mail_display_class_init (EMailDisplayClass *class)
+{
+	GObjectClass *object_class;
+	EWebViewClass *web_view_class;
+	GtkWidgetClass *widget_class;
+
+	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
+
+	mail_display_initialize_web_context ();
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_display_constructed;

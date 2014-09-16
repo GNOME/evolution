@@ -1737,13 +1737,9 @@ web_view_selectable_select_all (ESelectable *selectable)
 }
 
 static void
-e_web_view_class_init (EWebViewClass *class)
+web_view_initialize_web_context (void)
 {
-	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 	WebKitWebContext *web_context = webkit_web_context_get_default ();
-
-	g_type_class_add_private (class, sizeof (EWebViewPrivate));
 
 	webkit_web_context_set_cache_model (
 		web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
@@ -1761,6 +1757,17 @@ e_web_view_class_init (EWebViewClass *class)
 		(WebKitURISchemeRequestCallback) web_view_gtk_stock_uri_scheme_appeared_cb,
 		NULL,
 		NULL);
+}
+
+static void
+e_web_view_class_init (EWebViewClass *class)
+{
+	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
+
+	g_type_class_add_private (class, sizeof (EWebViewPrivate));
+
+	web_view_initialize_web_context ();
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = web_view_constructor;
