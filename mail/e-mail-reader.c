@@ -2834,12 +2834,12 @@ schedule_timeout_mark_seen (EMailReader *reader)
 
 static void
 mail_reader_load_status_changed_cb (EMailReader *reader,
-                                    GParamSpec *pspec,
+                                    WebKitLoadEvent event,
                                     EMailDisplay *display)
 {
 	EMailReaderPrivate *priv;
 
-	if (webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (display)) != WEBKIT_LOAD_FINISHED)
+	if (event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -4235,9 +4235,9 @@ connect_signals:
 		display, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
-	e_signal_connect_notify_swapped (
-		display, "notify::load-status",
-		G_CALLBACK (mail_reader_load_status_changed_cb), reader);
+	e_signal_connect_swapped (
+		display, "load-changed",
+		G_CALLBACK (mail_reader_load_changed_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-selected",

@@ -1210,22 +1210,18 @@ exit:
 }
 
 static void
-composer_web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
-					  GParamSpec *pspec,
-					  EMsgComposer *composer)
+composer_web_view_load_changed_cb (WebKitWebView *webkit_web_view,
+                                   WebKitLoadEvent load_event,
+                                   EMsgComposer *composer)
 {
-	WebKitLoadStatus status;
-
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	status = webkit_web_view_get_load_status (webkit_web_view);
-
-	if (status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	g_signal_handlers_disconnect_by_func (
 		webkit_web_view,
-		G_CALLBACK (composer_web_view_load_status_changed_cb),
+		G_CALLBACK (composer_web_view_load_changed_cb),
 		NULL);
 
 	e_composer_update_signature (composer);
@@ -1252,17 +1248,16 @@ e_composer_update_signature (EMsgComposer *composer)
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
 	/* If document is not loaded, we will wait for him */
-	if (status != WEBKIT_LOAD_FINISHED) {
+	if (webkit_web_view_is_loading (WEBKIT_WEB_VIEW (view))) {
 		/* Disconnect previous handlers */
 		g_signal_handlers_disconnect_by_func (
 			WEBKIT_WEB_VIEW (view),
-			G_CALLBACK (composer_web_view_load_status_changed_cb),
+			G_CALLBACK (composer_web_view_load_changed_cb),
 			composer);
 		g_signal_connect (
-			WEBKIT_WEB_VIEW(view), "notify::load-status",
-			G_CALLBACK (composer_web_view_load_status_changed_cb),
+			WEBKIT_WEB_VIEW(view), "load-changed",
+			G_CALLBACK (composer_web_view_load_changed_cb),
 			composer);
 		return;
 	}

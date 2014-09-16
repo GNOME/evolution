@@ -6852,14 +6852,13 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 }
 
 static void
-html_editor_view_load_status_changed (EHTMLEditorView *view)
+html_editor_view_load_changed (EHTMLEditorView *view,
+                               WebKitLoadEvent load_event)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
-	WebKitLoadStatus status;
 
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
-	if (status != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	/* Dispatch queued operations - as we are using this just for load
@@ -7069,19 +7068,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE);
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 
-	g_object_set (
-		G_OBJECT (settings),
-		"enable-developer-extras", TRUE,
-		"enable-dom-paste", TRUE,
-		"enable-file-access-from-file-uris", TRUE,
-		"enable-plugins", FALSE,
-		"enable-scripts", FALSE,
-		"enable-spell-checking", TRUE,
-		"respect-image-orientation", TRUE,
-		NULL);
-
-	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (view), settings);
-
 	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 
 	/* Override the spell-checker, use our own */
@@ -7107,13 +7093,19 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		view, "resource-request-starting",
 		G_CALLBACK (html_editor_view_resource_requested), NULL);
 	g_signal_connect (
-		view, "notify::load-status",
-		G_CALLBACK (html_editor_view_load_status_changed), NULL);
+		view, "load-changed",
+		G_CALLBACK (html_editor_view_load_changed), NULL);
+
+	e_signal_connect (
+		webkit_web_context_get_default (), "initialize-web-extensions",
+		G_CALLBACK (initialize_web_extensions_cb), NULL);
 
 	view->priv->selection = g_object_new (
 		E_TYPE_HTML_EDITOR_SELECTION,
 		"html-editor-view", view,
 		NULL);
+
+	html_editor_view_watch_web_extension (view);
 
 	g_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	g_signal_connect (
