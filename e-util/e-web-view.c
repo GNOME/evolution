@@ -3517,19 +3517,6 @@ e_web_view_update_fonts (EWebView *web_view)
 	pango_font_description_free (vw);
 }
 
-WebKitWebViewGroup *
-e_web_view_get_web_view_group (void)
-{
-	static WebKitWebViewGroup *web_view_group = NULL;
-
-	if (!web_view_group) {
-		web_view_group = webkit_web_view_group_new ("Evolution WebView Group");
-		web_view_initialize_group (web_view_group);
-	}
-
-	return web_view_group;
-}
-
 void
 e_web_view_initialize_webkit (void)
 {
