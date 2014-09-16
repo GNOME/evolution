@@ -25,7 +25,7 @@
 #ifndef E_HTML_EDITOR_VIEW_H
 #define E_HTML_EDITOR_VIEW_H
 
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include <camel/camel.h>
 
