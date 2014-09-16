@@ -2103,8 +2103,37 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	GObjectClass *object_class;
 	EWebViewClass *web_view_class;
 	GtkWidgetClass *widget_class;
+	WebKitWebContext *web_context = webkit_web_context_get_default ();
 
 	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"evo-http",
+		(WebKitURISchemeRequestCallback) mail_display_http_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"evo-https",
+		(WebKitURISchemeRequestCallback) mail_display_http_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"mail",
+		(WebKitURISchemeRequestCallback) mail_display_mail_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"cid",
+		(WebKitURISchemeRequestCallback) mail_display_cid_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_display_constructed;
