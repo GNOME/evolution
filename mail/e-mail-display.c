@@ -1514,89 +1514,6 @@ mail_display_drag_data_get (GtkWidget *widget,
 }
 
 static void
-e_mail_display_class_init (EMailDisplayClass *class)
-{
-	GObjectClass *object_class;
-	EWebViewClass *web_view_class;
-	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = mail_display_constructed;
-	object_class->set_property = mail_display_set_property;
-	object_class->get_property = mail_display_get_property;
-	object_class->dispose = mail_display_dispose;
-	object_class->finalize = mail_display_finalize;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->realize = mail_display_realize;
-	widget_class->style_updated = mail_display_style_updated;
-	widget_class->button_press_event = mail_display_button_press_event;
-
-	web_view_class = E_WEB_VIEW_CLASS (class);
-#if 0
-	web_view_class->redirect_uri = mail_display_redirect_uri;
-	web_view_class->suggest_filename = mail_display_suggest_filename;
-#endif
-	web_view_class->set_fonts = mail_display_set_fonts;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FORMATTER,
-		g_param_spec_pointer (
-			"formatter",
-			"Mail Formatter",
-			NULL,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADERS_COLLAPSABLE,
-		g_param_spec_boolean (
-			"headers-collapsable",
-			"Headers Collapsable",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADERS_COLLAPSED,
-		g_param_spec_boolean (
-			"headers-collapsed",
-			"Headers Collapsed",
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_MODE,
-		g_param_spec_enum (
-			"mode",
-			"Mode",
-			NULL,
-			E_TYPE_MAIL_FORMATTER_MODE,
-			E_MAIL_FORMATTER_MODE_NORMAL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_PART_LIST,
-		g_param_spec_pointer (
-			"part-list",
-			"Part List",
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-}
-
-static void
 mail_display_process_uri_scheme_finished_cb (EMailDisplay *display,
                                              GAsyncResult *result,
                                              WebKitURISchemeRequest *request)
@@ -1616,9 +1533,9 @@ mail_display_process_uri_scheme_finished_cb (EMailDisplay *display,
 }
 
 static void
-mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                 EMailDisplay *display)
+mail_display_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 {
+	EMailDisplay *display;
 	EMailPartList *part_list;
 	EMailPart *part;
 	GInputStream *stream;
@@ -1629,6 +1546,10 @@ mail_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 	GCancellable *cancellable = NULL;
 	CamelDataWrapper *dw;
 	CamelMimePart *mime_part;
+
+	display = E_MAIL_DISPLAY (webkit_uri_scheme_request_get_web_view (request));
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
 	part_list = e_mail_display_get_part_list (display);
 	uri = webkit_uri_scheme_request_get_uri (request);
@@ -2027,11 +1948,13 @@ web_view_process_http_uri_scheme_request (GTask *task,
 }
 
 static void
-mail_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                  EMailDisplay *display)
+mail_display_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 {
+	EMailDisplay *display;
 	GTask *task;
 	GCancellable *cancellable;
+
+	display = E_MAIL_DISPLAY (webkit_uri_scheme_request_get_web_view (request));
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
@@ -2306,12 +2229,14 @@ exit:
 }
 
 static void
-mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                  EMailDisplay *display)
+mail_display_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 {
+	EMailDisplay *display;
 	GTask *task;
 	GCancellable *cancellable;
 	const gchar *uri;
+
+	display = E_MAIL_DISPLAY (webkit_uri_scheme_request_get_web_view (request));
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
@@ -2333,6 +2258,125 @@ mail_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
 
 	g_object_unref (task);
 	g_object_unref (cancellable);
+}
+
+static void
+mail_display_initialize_web_context (void)
+{
+	WebKitWebContext *web_context = webkit_web_context_get_default ();
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"evo-http",
+		(WebKitURISchemeRequestCallback) mail_display_http_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"evo-https",
+		(WebKitURISchemeRequestCallback) mail_display_http_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"mail",
+		(WebKitURISchemeRequestCallback) mail_display_mail_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"cid",
+		(WebKitURISchemeRequestCallback) mail_display_cid_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+}
+
+static void
+e_mail_display_class_init (EMailDisplayClass *class)
+{
+	GObjectClass *object_class;
+	EWebViewClass *web_view_class;
+	GtkWidgetClass *widget_class;
+
+	g_type_class_add_private (class, sizeof (EMailDisplayPrivate));
+
+	mail_display_initialize_web_context ();
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = mail_display_constructed;
+	object_class->set_property = mail_display_set_property;
+	object_class->get_property = mail_display_get_property;
+	object_class->dispose = mail_display_dispose;
+	object_class->finalize = mail_display_finalize;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = mail_display_realize;
+	widget_class->style_updated = mail_display_style_updated;
+	widget_class->button_press_event = mail_display_button_press_event;
+
+	web_view_class = E_WEB_VIEW_CLASS (class);
+#if 0
+	web_view_class->redirect_uri = mail_display_redirect_uri;
+	web_view_class->suggest_filename = mail_display_suggest_filename;
+#endif
+	web_view_class->set_fonts = mail_display_set_fonts;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FORMATTER,
+		g_param_spec_pointer (
+			"formatter",
+			"Mail Formatter",
+			NULL,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADERS_COLLAPSABLE,
+		g_param_spec_boolean (
+			"headers-collapsable",
+			"Headers Collapsable",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADERS_COLLAPSED,
+		g_param_spec_boolean (
+			"headers-collapsed",
+			"Headers Collapsed",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODE,
+		g_param_spec_enum (
+			"mode",
+			"Mode",
+			NULL,
+			E_TYPE_MAIL_FORMATTER_MODE,
+			E_MAIL_FORMATTER_MODE_NORMAL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PART_LIST,
+		g_param_spec_pointer (
+			"part-list",
+			"Part List",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -2413,19 +2457,6 @@ e_mail_display_init (EMailDisplay *display)
 		G_N_ELEMENTS (mailto_entries), display);
 	ui_manager = e_web_view_get_ui_manager (E_WEB_VIEW (display));
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
-
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), EVO_HTTP_URI_SCHEME,
-		mail_http_uri_scheme_appeared_cb, display);
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), EVO_HTTPS_URI_SCHEME,
-		mail_http_uri_scheme_appeared_cb, display);
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), CID_URI_SCHEME,
-		mail_cid_uri_scheme_appeared_cb, display);
-	e_web_view_register_uri_scheme (
-		E_WEB_VIEW (display), MAIL_URI_SCHEME,
-		mail_mail_uri_scheme_appeared_cb, display);
 }
 
 static void

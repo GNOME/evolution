@@ -1597,12 +1597,223 @@ e_web_view_test_change_and_update_fonts_cb (EWebView *web_view,
 }
 
 static void
+web_view_process_uri_scheme_finished_cb (EWebView *web_view,
+                                         GAsyncResult *result,
+                                         WebKitURISchemeRequest *request)
+{
+ 	GError *error = NULL;
+
+	if (!g_task_propagate_boolean (G_TASK (result), &error)) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			g_warning ("URI %s cannot be processed: %s",
+				webkit_uri_scheme_request_get_uri (request),
+				error ? error->message : "Unknown error");
+		}
+		g_object_unref (request);
+		if (error)
+			g_error_free (error);
+	}
+}
+
+static void
+web_view_process_file_uri_scheme_request (GTask *task,
+                                          gpointer source_object,
+                                          gpointer task_data,
+                                          GCancellable *cancellable)
+{
+	gboolean ret_val = FALSE;
+	const gchar *uri;
+	gchar *content = NULL;
+	gchar *content_type = NULL;
+	gchar *filename = NULL;
+	GInputStream *stream;
+	gsize length = 0;
+	GError *error = NULL;
+	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
+
+	uri = webkit_uri_scheme_request_get_uri (request);
+
+	filename = g_filename_from_uri (strstr (uri, "file"), NULL, &error);
+	if (!filename)
+		goto out;
+
+	if (!g_file_get_contents (filename, &content, &length, &error))
+		goto out;
+
+	content_type = g_content_type_guess (filename, NULL, 0, NULL);
+
+	stream = g_memory_input_stream_new_from_data (content, length, g_free);
+
+	webkit_uri_scheme_request_finish (request, stream, length, content_type);
+
+	ret_val = TRUE;
+ out:
+	g_free (content_type);
+	g_free (content);
+	g_free (filename);
+
+	if (ret_val)
+		g_object_unref (request);
+
+	if (error)
+		g_task_return_error (task, error);
+	else
+		g_task_return_boolean (task, ret_val);
+}
+
+static void
+web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
+{
+	EWebView *web_view;
+	GTask *task;
+
+	web_view = E_WEB_VIEW (webkit_uri_scheme_request_get_web_view (request));
+
+	task = g_task_new (
+		web_view, NULL,
+		(GAsyncReadyCallback) web_view_process_uri_scheme_finished_cb,
+		request);
+
+	g_task_set_task_data (task, g_object_ref (request), NULL);
+	g_task_run_in_thread (task, web_view_process_file_uri_scheme_request);
+
+	g_object_unref (task);
+}
+
+static void
+web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
+{
+	SoupURI *uri;
+	GHashTable *query = NULL;
+	GtkStyleContext *context;
+	GtkWidgetPath *path;
+	GtkIconSet *icon_set;
+	gssize size = GTK_ICON_SIZE_BUTTON;
+	gchar *a_size;
+	gchar *buffer = NULL;
+	gchar *content_type = NULL;
+	gsize buff_len = 0;
+	GError *local_error = NULL;
+
+	uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
+
+	if (uri && uri->query)
+		query = soup_form_decode (uri->query);
+
+	if (query) {
+		a_size = g_hash_table_lookup (query, "size");
+		if (a_size != NULL)
+			size = atoi (a_size);
+		g_hash_table_destroy (query);
+	}
+
+	/* Try style context first */
+	context = gtk_style_context_new ();
+	path = gtk_widget_path_new ();
+	gtk_widget_path_append_type (path, GTK_TYPE_WINDOW);
+	gtk_widget_path_append_type (path, GTK_TYPE_BUTTON);
+	gtk_style_context_set_path (context, path);
+	gtk_widget_path_free (path);
+
+	if (icon_set != NULL) {
+		GdkPixbuf *pixbuf;
+
+		pixbuf = gtk_icon_set_render_icon_pixbuf (
+			icon_set, context, size);
+		gdk_pixbuf_save_to_buffer (
+			pixbuf, &buffer, &buff_len,
+			"png", &local_error, NULL);
+		g_object_unref (pixbuf);
+	/* Fallback to icon theme */
+	} else {
+		GtkIconTheme *icon_theme;
+		GtkIconInfo *icon_info;
+		const gchar *filename;
+
+		icon_theme = gtk_icon_theme_get_default ();
+
+		icon_info = gtk_icon_theme_lookup_icon (
+			icon_theme, uri->host, size,
+			GTK_ICON_LOOKUP_USE_BUILTIN);
+
+		filename = gtk_icon_info_get_filename (icon_info);
+		if (filename != NULL) {
+			g_file_get_contents (
+				filename, &buffer, &buff_len, &local_error);
+			content_type =
+				g_content_type_guess (filename, NULL, 0, NULL);
+
+		} else {
+			GdkPixbuf *pixbuf;
+
+			pixbuf = gtk_icon_info_get_builtin_pixbuf (icon_info);
+			if (pixbuf != NULL) {
+				gdk_pixbuf_save_to_buffer (
+					pixbuf, &buffer, &buff_len,
+					"png", &local_error, NULL);
+				g_object_unref (pixbuf);
+			}
+		}
+
+		gtk_icon_info_free (icon_info);
+	}
+
+	/* Sanity check */
+	g_return_if_fail (
+		((buffer != NULL) && (local_error == NULL)) ||
+		((buffer == NULL) && (local_error != NULL)));
+
+	if (!content_type)
+		content_type = g_strdup ("image/png");
+
+	if (buffer != NULL) {
+		GInputStream *stream;
+
+		stream = g_memory_input_stream_new_from_data (
+			buffer, buff_len, (GDestroyNotify) g_free);
+
+		webkit_uri_scheme_request_finish (
+			request, stream, buff_len, content_type);
+
+		g_object_unref (stream);
+	}
+
+	g_object_unref (context);
+	g_free (content_type);
+}
+
+static void
+web_view_initialize_web_context (void)
+{
+	WebKitWebContext *web_context = webkit_web_context_get_default ();
+
+	webkit_web_context_set_cache_model (
+		web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"evo-file",
+		(WebKitURISchemeRequestCallback) web_view_file_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+
+	webkit_web_context_register_uri_scheme (
+		web_context,
+		"gtk-stock",
+		(WebKitURISchemeRequestCallback) web_view_gtk_stock_uri_scheme_appeared_cb,
+		NULL,
+		NULL);
+}
+
+static void
 e_web_view_class_init (EWebViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EWebViewPrivate));
+
+	web_view_initialize_web_context ();
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = web_view_constructor;
@@ -1784,273 +1995,6 @@ e_web_view_selectable_init (ESelectableInterface *iface)
 }
 
 static void
-web_view_process_uri_scheme_finished_cb (EWebView *web_view,
-                                         GAsyncResult *result,
-                                         WebKitURISchemeRequest *request)
-{
- 	GError *error = NULL;
-
-	if (!g_task_propagate_boolean (G_TASK (result), &error)) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-			g_warning ("URI %s cannot be processed: %s",
-				webkit_uri_scheme_request_get_uri (request),
-				error ? error->message : "Unknown error");
-		}
-		g_object_unref (request);
-		if (error)
-			g_error_free (error);
-	}
-}
-
-static void
-web_view_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                     EWebView *web_view)
-{
-}
-
-static void
-web_view_process_file_uri_scheme_request (GTask *task,
-                                          gpointer source_object,
-                                          gpointer task_data,
-                                          GCancellable *cancellable)
-{
-	gboolean ret_val = FALSE;
-	const gchar *uri;
-	gchar *content = NULL;
-	gchar *content_type = NULL;
-	gchar *filename = NULL;
-	GInputStream *stream;
-	gsize length = 0;
-	GError *error = NULL;
-	WebKitURISchemeRequest *request = WEBKIT_URI_SCHEME_REQUEST (task_data);
-
-	uri = webkit_uri_scheme_request_get_uri (request);
-
-	filename = g_filename_from_uri (strstr (uri, "file"), NULL, &error);
-	if (!filename)
-		goto out;
-
-	if (!g_file_get_contents (filename, &content, &length, &error))
-		goto out;
-
-	content_type = g_content_type_guess (filename, NULL, 0, NULL);
-
-	stream = g_memory_input_stream_new_from_data (content, length, g_free);
-
-	webkit_uri_scheme_request_finish (request, stream, length, content_type);
-
-	ret_val = TRUE;
- out:
-	g_free (content_type);
-	g_free (content);
-	g_free (filename);
-
-	if (ret_val)
-		g_object_unref (request);
-
-	if (error)
-		g_task_return_error (task, error);
-	else
-		g_task_return_boolean (task, ret_val);
-}
-
-static void
-web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                      EWebView *web_view)
-{
-	GTask *task;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	task = g_task_new (
-		web_view, NULL,
-		(GAsyncReadyCallback) web_view_process_uri_scheme_finished_cb,
-		request);
-
-	g_task_set_task_data (task, g_object_ref (request), NULL);
-	g_task_run_in_thread (task, web_view_process_file_uri_scheme_request);
-
-	g_object_unref (task);
-}
-
-static void
-web_view_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                      EWebView *web_view)
-{
-}
-
-static void
-web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request,
-                                           EWebView *web_view)
-{
-	SoupURI *uri;
-	GHashTable *query = NULL;
-	GtkStyleContext *context;
-	GtkWidgetPath *path;
-	GtkIconSet *icon_set;
-	gssize size = GTK_ICON_SIZE_BUTTON;
-	gchar *a_size;
-	gchar *buffer = NULL;
-	gchar *content_type = NULL;
-	gsize buff_len = 0;
-	GError *local_error = NULL;
-
-	uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
-
-	if (uri && uri->query)
-		query = soup_form_decode (uri->query);
-
-	if (query) {
-		a_size = g_hash_table_lookup (query, "size");
-		if (a_size != NULL)
-			size = atoi (a_size);
-		g_hash_table_destroy (query);
-	}
-
-	/* Try style context first */
-	context = gtk_style_context_new ();
-	path = gtk_widget_path_new ();
-	gtk_widget_path_append_type (path, GTK_TYPE_WINDOW);
-	gtk_widget_path_append_type (path, GTK_TYPE_BUTTON);
-	gtk_style_context_set_path (context, path);
-	gtk_widget_path_free (path);
-
-	if (icon_set != NULL) {
-		GdkPixbuf *pixbuf;
-
-		pixbuf = gtk_icon_set_render_icon_pixbuf (
-			icon_set, context, size);
-		gdk_pixbuf_save_to_buffer (
-			pixbuf, &buffer, &buff_len,
-			"png", &local_error, NULL);
-		g_object_unref (pixbuf);
-	/* Fallback to icon theme */
-	} else {
-		GtkIconTheme *icon_theme;
-		GtkIconInfo *icon_info;
-		const gchar *filename;
-
-		icon_theme = gtk_icon_theme_get_default ();
-
-		icon_info = gtk_icon_theme_lookup_icon (
-			icon_theme, uri->host, size,
-			GTK_ICON_LOOKUP_USE_BUILTIN);
-
-		filename = gtk_icon_info_get_filename (icon_info);
-		if (filename != NULL) {
-			g_file_get_contents (
-				filename, &buffer, &buff_len, &local_error);
-			content_type =
-				g_content_type_guess (filename, NULL, 0, NULL);
-
-		} else {
-			GdkPixbuf *pixbuf;
-
-			pixbuf = gtk_icon_info_get_builtin_pixbuf (icon_info);
-			if (pixbuf != NULL) {
-				gdk_pixbuf_save_to_buffer (
-					pixbuf, &buffer, &buff_len,
-					"png", &local_error, NULL);
-				g_object_unref (pixbuf);
-			}
-		}
-
-		gtk_icon_info_free (icon_info);
-	}
-
-	/* Sanity check */
-	g_return_if_fail (
-		((buffer != NULL) && (local_error == NULL)) ||
-		((buffer == NULL) && (local_error != NULL)));
-
-	if (!content_type)
-		content_type = g_strdup ("image/png");
-
-	if (buffer != NULL) {
-		GInputStream *stream;
-
-		stream = g_memory_input_stream_new_from_data (
-			buffer, buff_len, (GDestroyNotify) g_free);
-
-		webkit_uri_scheme_request_finish (
-			request, stream, buff_len, content_type);
-
-		g_object_unref (stream);
-	}
-
-	g_object_unref (context);
-	g_free (content_type);
-}
-
-void
-e_web_view_register_uri_scheme (EWebView *web_view,
-                                EURIScheme scheme,
-                                gpointer user_callback,
-				gpointer user_data)
-{
-	WebKitWebContext *context;
-	gpointer callback = NULL;
-	const gchar *uri_scheme;
-
-	static GHashTable *hash_table = NULL;
-
-	if (!hash_table)
-		hash_table = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
-
-	context = webkit_web_context_get_default ();
-
-	callback = user_callback;
-
-	switch (scheme) {
-		case CID_URI_SCHEME:
-			uri_scheme = "cid";
-			if (!callback)
-				callback = web_view_cid_uri_scheme_appeared_cb;
-			break;
-		case FILE_URI_SCHEME:
-			uri_scheme = "evo-file";
-			if (!callback)
-				callback = web_view_file_uri_scheme_appeared_cb;
-			break;
-		case MAIL_URI_SCHEME:
-			uri_scheme = "mail";
-			if (!callback)
-				callback = web_view_mail_uri_scheme_appeared_cb;
-			break;
-		case EVO_HTTP_URI_SCHEME:
-			uri_scheme = "evo-http";
-			if (!callback)
-				callback = web_view_http_uri_scheme_appeared_cb;
-			break;
-		case EVO_HTTPS_URI_SCHEME:
-			uri_scheme = "evo-https";
-			if (!callback)
-				callback = web_view_http_uri_scheme_appeared_cb;
-			break;
-		case GTK_STOCK_URI_SCHEME:
-			uri_scheme = "gtk-stock";
-			if (!callback)
-				callback = web_view_gtk_stock_uri_scheme_appeared_cb;
-			break;
-		default:
-			return;
-	}
-
-	if (g_hash_table_lookup (hash_table, uri_scheme))
-		return;
-
-	g_hash_table_insert (hash_table, (gpointer) uri_scheme, callback);
-
-	webkit_web_context_register_uri_scheme (
-		context,
-		uri_scheme,
-		(WebKitURISchemeRequestCallback) callback,
-		user_data ? user_data : web_view,
-		NULL);
-
-}
-
-static void
 web_view_update_fonts (EWebView *web_view)
 {
 	e_web_view_update_fonts (web_view);
@@ -2142,9 +2086,6 @@ e_web_view_init (EWebView *web_view)
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
 
 	web_view_watch_web_extension (web_view);
-
-	e_web_view_register_uri_scheme (web_view, FILE_URI_SCHEME, NULL, NULL);
-	e_web_view_register_uri_scheme (web_view, GTK_STOCK_URI_SCHEME, NULL, NULL);
 
 	settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
@@ -3477,7 +3418,6 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-offline-web-application-cache", FALSE,
 		"enable-page-cache", FALSE,
 		"enable-plugins", FALSE,
-		"enable-private-browsing", TRUE,
 		"enable-smooth-scrolling", TRUE,
 		"media-playback-allows-inline", FALSE,
 		"respect-image-orientation", TRUE,
@@ -3485,15 +3425,11 @@ e_web_view_get_default_webkit_settings (void)
 }
 
 static void
-initialize_web_extensions_cb (WebKitWebContext *web_context,
-                              gpointer user_data)
+initialize_web_extensions_cb (WebKitWebContext *web_context)
 {
 	/* Set the web extensions dir before the process is launched */
 	webkit_web_context_set_web_extensions_directory (
 		web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
-
-	webkit_web_context_set_cache_model (
-		web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 }
 
 void
@@ -3515,20 +3451,6 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	pango_font_description_free (ms);
 	pango_font_description_free (vw);
-}
-
-void
-e_web_view_initialize_webkit (void)
-{
-	WebKitWebContext *web_context;
-
-	web_context = webkit_web_context_get_default ();
-
-	/* Set the web extensions dir before the process is launched */
-	webkit_web_context_set_web_extensions_directory (
-		web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
-
-	webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 }
 
 /* Helper for e_web_view_cursor_image_copy() */
@@ -4017,18 +3939,7 @@ e_web_view_request_finish (EWebView *web_view,
 
 	return g_object_ref (async_context->input_stream);
 }
-/*
-void
-e_web_view_install_request_handler (EWebView *web_view,
-                                    GType handler_type)
-{
-	SoupSession *session;
 
-//	session = webkit_get_default_session ();
-	session = NULL;
-	soup_session_add_feature_by_type (session, handler_type);
-}
-*/
 /**
  * e_web_view_create_and_add_css_style_sheet:
  * @web_view: an #EWebView
