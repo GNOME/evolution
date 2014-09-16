@@ -11,14 +11,12 @@ libmoduleitipformatterwebextension_la_CPPFLAGS =	\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)			\
-	$(GTKHTML_CFLAGS)				\
 	$(WEB_EXTENSIONS_CFLAGS)
 
 libmoduleitipformatterwebextension_la_LIBADD =		\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
-	$(GTKHTML_LIBS)					\
 	$(WEB_EXTENSIONS_LIBS)
 
 libmoduleitipformatterwebextension_la_LDFLAGS =		\
