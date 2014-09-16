@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #include <glib/gi18n-lib.h>
 
-#include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
 
 #define E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE(obj) \

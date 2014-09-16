@@ -213,7 +213,6 @@ evolution_util_include_HEADERS =  \
 	e-html-editor-spell-check-dialog.h \
 	e-html-editor-table-dialog.h \
 	e-html-editor-text-dialog.h \
-	e-html-editor-utils.h \
 	e-html-editor-view.h \
 	e-html-editor.h \
 	e-html-utils.h \
@@ -487,7 +486,6 @@ libevolution_util_la_SOURCES = \
 	e-html-editor-spell-check-dialog.c \
 	e-html-editor-table-dialog.c \
 	e-html-editor-text-dialog.c \
-	e-html-editor-utils.c \
 	e-html-editor-view.c \
 	e-html-editor.c \
 	e-html-utils.c \

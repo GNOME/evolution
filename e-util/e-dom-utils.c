@@ -27,6 +27,8 @@
 
 #include <config.h>
 
+#include <string.h>
+
 static void
 replace_local_image_links (WebKitDOMElement *element)
 {
@@ -1277,4 +1279,94 @@ e_dom_utils_module_vcard_inline_set_iframe_src (WebKitDOMDocument *document,
 
 	webkit_dom_html_iframe_element_set_src (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe), src);
+}
+
+/**
+ * e_html_editor_dom_node_find_parent_element:
+ * @node: Start node
+ * @tagname: Tag name of element to search
+ *
+ * Recursively searches for first occurance of element with given @tagname
+ * that is parent of given @node.
+ *
+ * Returns: A #WebKitDOMElement with @tagname representing parent of @node or
+ * @NULL when @node has no parent with given @tagname. When @node matches @tagname,
+ * then the @node is returned.
+ */
+WebKitDOMElement *
+e_html_editor_dom_node_find_parent_element (WebKitDOMNode *node,
+                                            const gchar *tagname)
+{
+	gint taglen = strlen (tagname);
+
+	while (node) {
+
+		if (WEBKIT_DOM_IS_ELEMENT (node)) {
+			gchar *node_tagname;
+
+			node_tagname = webkit_dom_element_get_tag_name (
+						WEBKIT_DOM_ELEMENT (node));
+
+			if (node_tagname &&
+			    (strlen (node_tagname) == taglen) &&
+			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
+				g_free (node_tagname);
+				return WEBKIT_DOM_ELEMENT (node);
+			}
+
+			g_free (node_tagname);
+		}
+
+		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+	}
+
+	return NULL;
+}
+
+/**
+ * e_html_editor_dom_node_find_child_element:
+ * @node: Start node
+ * @tagname: Tag name of element to search.
+ *
+ * Recursively searches for first occurence of element with given @tagname that
+ * is a child of @node.
+ *
+ * Returns: A #WebKitDOMElement with @tagname representing a child of @node or
+ * @NULL when @node has no child with given @tagname. When @node matches @tagname,
+ * then the @node is returned.
+ */
+WebKitDOMElement *
+e_html_editor_dom_node_find_child_element (WebKitDOMNode *node,
+                                           const gchar *tagname)
+{
+	WebKitDOMNode *start_node = node;
+	gint taglen = strlen (tagname);
+
+	do {
+		if (WEBKIT_DOM_IS_ELEMENT (node)) {
+			gchar *node_tagname;
+
+			node_tagname = webkit_dom_element_get_tag_name (
+					WEBKIT_DOM_ELEMENT (node));
+
+			if (node_tagname &&
+			    (strlen (node_tagname) == taglen) &&
+			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
+				g_free (node_tagname);
+				return WEBKIT_DOM_ELEMENT (node);
+			}
+
+			g_free (node_tagname);
+		}
+
+		if (webkit_dom_node_has_child_nodes (node)) {
+			node = webkit_dom_node_get_first_child (node);
+		} else if (webkit_dom_node_get_next_sibling (node)) {
+			node = webkit_dom_node_get_next_sibling (node);
+		} else {
+			node = webkit_dom_node_get_parent_node (node);
+		}
+	} while (!webkit_dom_node_is_same_node (node, start_node));
+
+	return NULL;
 }

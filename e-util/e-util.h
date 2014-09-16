@@ -125,7 +125,6 @@
 #include <e-util/e-html-editor-spell-check-dialog.h>
 #include <e-util/e-html-editor-table-dialog.h>
 #include <e-util/e-html-editor-text-dialog.h>
-#include <e-util/e-html-editor-utils.h>
 #include <e-util/e-html-editor-view.h>
 #include <e-util/e-html-editor.h>
 #include <e-util/e-html-utils.h>

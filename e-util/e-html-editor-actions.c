@@ -29,7 +29,6 @@
 #include "e-html-editor.h"
 #include "e-html-editor-private.h"
 #include "e-html-editor-actions.h"
-#include "e-html-editor-utils.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"

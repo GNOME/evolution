@@ -102,6 +102,14 @@ void		e_dom_utils_module_vcard_inline_set_iframe_src
 						(WebKitDOMDocument *document,
 						 const gchar *button_id,
 						 const gchar *src);
+WebKitDOMElement *
+		e_html_editor_dom_node_find_parent_element (
+						WebKitDOMNode *node,
+						const gchar *tagname);
+WebKitDOMElement *
+		e_html_editor_dom_node_find_child_element (
+						WebKitDOMNode *node,
+						const gchar *tagname);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

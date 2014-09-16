@@ -31,7 +31,6 @@
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-html-editor-private.h"
-#include "e-html-editor-utils.h"
 #include "e-html-editor-selection.h"
 
 #define E_HTML_EDITOR_GET_PRIVATE(obj) \

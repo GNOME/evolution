@@ -23,7 +23,6 @@
 #endif
 
 #include "e-html-editor-hrule-dialog.h"
-#include "e-html-editor-utils.h"
 #include "e-html-editor-view.h"
 
 #include <glib/gi18n-lib.h>
