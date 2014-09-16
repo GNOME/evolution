@@ -2221,7 +2221,6 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-offline-web-application-cache", FALSE,
 		"enable-page-cache", FALSE,
 		"enable-plugins", FALSE,
-		"enable-private-browsing", TRUE,
 		"enable-smooth-scrolling", TRUE,
 		"media-playback-allows-inline", FALSE,
 		NULL);
