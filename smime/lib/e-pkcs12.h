@@ -50,6 +50,16 @@ struct _EPKCS12Class {
 	void (*_epkcs12_reserved4) (void);
 };
 
+#define E_PKCS12_ERROR e_pkcs12_error_quark ()
+GQuark e_pkcs12_error_quark (void) G_GNUC_CONST;
+
+typedef enum
+{
+	E_PKCS12_ERROR_CANCELED,
+	E_PKCS12_ERROR_NSS_FAILED,
+	E_PKCS12_ERROR_FAILED
+} EPKCS12Errors;
+
 GType                e_pkcs12_get_type     (void);
 
 EPKCS12 *             e_pkcs12_new (void);
@@ -62,6 +72,10 @@ gboolean             e_pkcs12_set_token    (void);
 #endif
 
 gboolean             e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error);
-gboolean             e_pkcs12_export_to_file   (EPKCS12 *pkcs12, const gchar *path, GList *certs, GError **error);
+gboolean             e_pkcs12_export_to_file   (GList *certs,
+                                                GFile *file,
+                                                const gchar *pwd,
+                                                gboolean save_chain,
+                                                GError **error);
 
 #endif /* _E_CERT_H_ */

@@ -68,6 +68,8 @@ enum {
 #define ECMC_TREE_VIEW(o) ecmc->priv->o->treeview
 #define PAGE_TREE_VIEW(o) o->treeview
 
+#define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
+
 typedef struct {
 	GType type;
 	const gchar *column_title;
@@ -161,6 +163,16 @@ struct _ECertManagerConfigPrivate {
 	CertPage *contactcerts_page;
 	CertPage *authoritycerts_page;
 };
+
+typedef struct {
+	GFile 	  **file;
+	GtkWidget *entry1;
+	GtkWidget *entry2;
+	GtkWidget *match_label;
+	GtkWidget *save_button;
+	CertPage  *cp;
+	ECert     *cert;
+} BackupData;
 
 static void view_cert (GtkWidget *button, CertPage *cp);
 static void edit_cert (GtkWidget *button, CertPage *cp);
@@ -405,6 +417,8 @@ treeview_selection_changed (GtkTreeSelection *selection,
 		gtk_widget_set_sensitive (cp->edit_button, cert_selected);
 	if (cp->view_button)
 		gtk_widget_set_sensitive (cp->view_button, cert_selected);
+	if (cp->backup_button)
+		gtk_widget_set_sensitive (cp->backup_button, cert_selected);
 }
 
 static void
@@ -548,6 +562,309 @@ view_cert (GtkWidget *button,
 			g_object_unref (cert);
 		}
 	}
+}
+
+static gboolean
+cert_backup_dialog_sensitize (GtkWidget *widget,
+                              GdkEvent *event,
+                              BackupData *data)
+{
+
+	const gchar *txt1, *txt2;
+	gboolean is_sensitive = TRUE;
+
+	txt1 = gtk_entry_get_text (GTK_ENTRY (data->entry1));
+	txt2 = gtk_entry_get_text (GTK_ENTRY (data->entry2));
+
+	if (*data->file == NULL)
+		is_sensitive = FALSE;
+
+	if (STRING_IS_EMPTY (txt1) && STRING_IS_EMPTY (txt2)) {
+		gtk_widget_set_visible (data->match_label, FALSE);
+		is_sensitive = FALSE;
+	} else if (g_strcmp0 (txt1, txt2) == 0) {
+		gtk_widget_set_visible (data->match_label, FALSE);
+	} else {
+		gtk_widget_set_visible (data->match_label, TRUE);
+		is_sensitive = FALSE;
+	}
+
+	gtk_widget_set_sensitive (data->save_button, is_sensitive);
+
+	return FALSE;
+}
+
+static void
+cert_backup_dialog_maybe_correct_extension (GtkFileChooser *file_chooser)
+{
+	gchar *name = gtk_file_chooser_get_current_name (file_chooser);
+
+	if (!g_str_has_suffix (name, ".p12")) {
+		gchar *new_name = g_strconcat (name, ".p12", NULL);
+		gtk_file_chooser_set_current_name (file_chooser, new_name);
+		g_free (new_name);
+	}
+
+	g_free (name);
+}
+
+static void
+cert_backup_dialog_file_chooser_save_activate_cb (GtkWidget *button,
+						  GtkFileChooser *file_chooser)
+{
+	cert_backup_dialog_maybe_correct_extension (file_chooser);
+}
+
+static gboolean
+cert_backup_dialog_file_chooser_save_event_cb (GtkWidget *button,
+					       GdkEvent *event,
+					       GtkFileChooser *file_chooser)
+{
+	cert_backup_dialog_maybe_correct_extension (file_chooser);
+
+	return FALSE;
+}
+
+static void
+run_cert_backup_dialog_file_chooser (GtkButton *file_button,
+                                     BackupData *data)
+{
+	GtkWidget *filesel, *button;
+	GtkFileFilter *filter;
+	gchar *filename;
+
+	filesel = gtk_file_chooser_dialog_new (
+		_("Select a file to backup your key and certificate..."), NULL,
+		GTK_FILE_CHOOSER_ACTION_SAVE,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_OK,
+		NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (filesel), TRUE);
+	/* To Translators:
+	 * %s-backup.p12 is the default file name suggested by the file selection dialog,
+	 * when a user wants to backup one of her/his private keys/certificates.
+	 * For example: gnomedev-backup.p12
+	 */
+	filename = g_strdup_printf (_("%s-backup.p12"), e_cert_get_nickname (data->cert));
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), filename);
+	g_free (filename);
+
+	if (*data->file) {
+		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (filesel), *data->file, NULL);
+	}
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, data->cp->cert_filter_name);
+	gtk_file_filter_add_mime_type (filter, "application/x-pkcs12");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("All files"));
+	gtk_file_filter_add_pattern (filter, "*");
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+
+	button = gtk_dialog_get_widget_for_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+	g_signal_connect (button, "activate",
+		G_CALLBACK (cert_backup_dialog_file_chooser_save_activate_cb), filesel);
+	g_signal_connect (button, "enter-notify-event",
+		G_CALLBACK (cert_backup_dialog_file_chooser_save_event_cb), filesel);
+
+	if (gtk_dialog_run (GTK_DIALOG (filesel)) == GTK_RESPONSE_OK) {
+		gchar *basename;
+
+		if (*data->file) {
+			g_object_unref (*data->file);
+			*data->file = NULL;
+		}
+
+		*data->file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (filesel));
+
+		basename = g_file_get_basename (*data->file);
+		gtk_button_set_label (file_button, basename);
+		g_free (basename);
+	}
+
+	/* destroy dialog to get rid of it in the GUI */
+	gtk_widget_destroy (filesel);
+
+	cert_backup_dialog_sensitize (GTK_WIDGET (file_button), NULL, data);
+	gtk_widget_grab_focus (GTK_WIDGET (data->entry1));
+}
+
+static gint
+run_cert_backup_dialog (CertPage *cp,
+                        ECert *cert,
+                        GFile **file,
+                        gchar **password,
+                        gboolean *save_chain)
+{
+	gint row = 0, col = 0, response;
+	const gchar *format = "<span foreground=\"red\">%s</span>";
+	gchar *markup;
+	GtkWidget *dialog, *content_area, *button, *label, *chain;
+	GtkGrid *grid;
+	GtkDialogFlags flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
+	BackupData data;
+
+	data.cp = cp;
+	data.cert = cert;
+	data.file = file;
+
+	dialog = gtk_dialog_new_with_buttons (
+		"Backup Certificate", NULL, flags,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_OK,
+		NULL);
+	g_object_set (dialog, "resizable", FALSE, NULL);
+
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	g_object_set (content_area, "border-width", 6, NULL);
+
+	grid = GTK_GRID (gtk_grid_new ());
+	g_object_set (grid, "column-spacing", 12, NULL);
+	g_object_set (grid, "row-spacing", 6, NULL);
+
+	/* filename selection */
+	label = gtk_label_new_with_mnemonic (_("_File name:"));
+	g_object_set (label, "halign", GTK_ALIGN_START, NULL);
+	gtk_grid_attach (grid, label, col++, row, 1, 1);
+
+	/* FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it */
+	button = gtk_button_new_with_label (_("Please select a file..."));
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (run_cert_backup_dialog_file_chooser),
+		&data);
+	g_signal_connect (
+		button, "focus-in-event",
+		G_CALLBACK (cert_backup_dialog_sensitize),
+		&data);
+	gtk_grid_attach (grid, button, col++, row++, 1, 1);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+
+	/* cert chain option */
+	col = 1;
+	chain = gtk_check_button_new_with_mnemonic (_("_Include certificate chain in the backup"));
+	gtk_grid_attach (grid, chain, col, row++, 1, 1);
+
+	/* password */
+	col = 0;
+	/* To Translators: this text was copied from Firefox */
+	label = gtk_label_new (_("The certificate backup password you set here protects "
+		"the backup file that you are about to create.\nYou must set this password to proceed with the backup."));
+	gtk_grid_attach (grid, label, col, row++, 2, 1);
+
+	col = 0;
+	label = gtk_label_new_with_mnemonic (_("_Password:"));
+	g_object_set (label, "halign", GTK_ALIGN_START, NULL);
+	gtk_grid_attach (grid, label, col++, row, 1, 1);
+
+	data.entry1 = gtk_entry_new ();
+	g_signal_connect(
+		data.entry1, "key-release-event",
+		G_CALLBACK (cert_backup_dialog_sensitize),
+		&data);
+	gtk_entry_set_visibility (GTK_ENTRY (data.entry1), FALSE);
+	gtk_grid_attach (grid, data.entry1, col++, row++, 1, 1);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (data.entry1));
+
+	col = 0;
+	label = gtk_label_new_with_mnemonic (_("_Repeat Password:"));
+	g_object_set (label, "halign", GTK_ALIGN_START, NULL);
+	gtk_grid_attach (grid, label, col++, row, 1, 1);
+
+	data.entry2 = gtk_entry_new ();
+	g_signal_connect(
+		data.entry2, "key-release-event",
+		G_CALLBACK (cert_backup_dialog_sensitize),
+		&data);
+	gtk_entry_set_visibility (GTK_ENTRY (data.entry2), FALSE);
+	gtk_grid_attach (grid, data.entry2, col++, row++, 1, 1);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (data.entry2));
+
+	col = 0;
+	label = gtk_label_new (""); /* force grid to create a row for match_label */
+	gtk_grid_attach (grid, label, col++, row, 1, 1);
+
+	data.match_label = gtk_label_new ("");
+	g_object_set (data.match_label, "halign", GTK_ALIGN_START, NULL);
+	markup = g_markup_printf_escaped (format, _("Passwords do not match"));
+	gtk_label_set_markup (GTK_LABEL (data.match_label), markup);
+	g_free (markup);
+	gtk_grid_attach (grid, data.match_label, col, row++, 1, 1);
+	gtk_widget_set_visible (data.match_label, FALSE);
+
+	col = 0;
+	/* To Translators: this text was copied from Firefox */
+	label = gtk_label_new (_("Important:\nIf you forget your certificate backup password, "
+		"you will not be able to restore this backup later.\nPlease record it in a safe location."));
+	gtk_grid_attach (grid, label, col, row++, 2, 1);
+
+	/* add widget to dialog and show all */
+	gtk_widget_show_all (GTK_WIDGET (grid));
+	gtk_container_add (GTK_CONTAINER (content_area), GTK_WIDGET (grid));
+
+	data.save_button = gtk_dialog_get_widget_for_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+	gtk_widget_set_sensitive (data.save_button, FALSE);
+
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	*password = strdup (gtk_entry_get_text (GTK_ENTRY (data.entry1)));
+	*save_chain = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (chain));
+
+	gtk_widget_destroy (dialog);
+
+	return response;
+}
+
+static void
+backup_cert (GtkWidget *button,
+             CertPage *cp)
+{
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (cp->treeview), NULL, &iter)) {
+		ECert *cert;
+
+		gtk_tree_model_get (
+			GTK_TREE_MODEL (cp->streemodel),
+			&iter,
+			cp->columns_count - 1,
+			&cert,
+			-1);
+
+		if (cert) {
+			GFile *file = NULL;
+			gchar *password = NULL;
+			gboolean save_chain = FALSE;
+
+			if (run_cert_backup_dialog (cp, cert, &file, &password, &save_chain) == GTK_RESPONSE_OK) {
+				if (!file) {
+					e_notice (
+						gtk_widget_get_toplevel (GTK_WIDGET (cp->treeview)),
+						GTK_MESSAGE_ERROR, "%s", _("No file name provided"));
+				} else if (cp->cert_type == E_CERT_USER) {
+					GError *error = NULL;
+					if (!e_cert_db_export_pkcs12_file (cert, file, password, save_chain, &error)) {
+						report_and_free_error (cp, _("Failed to backup key and certificate"), error);
+					}
+				} else {
+					g_warn_if_reached ()
+					;
+				}
+			}
+
+			if (file)
+				g_object_unref (file);
+			if (password) {
+				memset (password, 0, strlen (password));
+				g_free (password);
+			}
+
+			g_object_unref (cert);
+		}
+	}
+
 }
 
 static void
@@ -894,6 +1211,12 @@ initialize_ui (CertPage *cp)
 		g_signal_connect (
 			cp->view_button, "clicked",
 			G_CALLBACK (view_cert), cp);
+
+	if (cp->backup_button)
+		g_signal_connect(
+			cp->backup_button, "clicked",
+			G_CALLBACK (backup_cert),
+			cp);
 }
 
 static void
@@ -1105,8 +1428,7 @@ e_cert_manager_config_init (ECertManagerConfig *ecmc)
 	gtk_widget_show_all (widget);
 
 	/* FIXME: remove when implemented */
-	gtk_widget_set_sensitive (priv->yourcerts_page->backup_button, FALSE);
-	gtk_widget_set_sensitive (priv->yourcerts_page->backup_all_button, FALSE);
+	gtk_widget_set_visible (priv->yourcerts_page->backup_all_button, FALSE);
 }
 
 GtkWidget *

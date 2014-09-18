@@ -80,6 +80,8 @@ static gboolean handle_error (gint myerr);
 
 G_DEFINE_TYPE (EPKCS12, e_pkcs12, G_TYPE_OBJECT)
 
+G_DEFINE_QUARK (e-pkcs12-error-quark, e_pkcs12_error)
+
 static void
 e_pkcs12_class_init (EPKCS12Class *class)
 {
@@ -285,12 +287,112 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12,
 	return rv;
 }
 
+static void
+encoder_output_cb (void *arg,
+                   const char *buf,
+                   unsigned long len)
+{
+	GError *error = NULL;
+
+	g_output_stream_write (G_OUTPUT_STREAM (arg), buf, len, NULL, &error);
+
+	if (error != NULL) {
+		g_warning ("I/O error during certificate backup, error message: %s", error->message);
+		g_error_free (error);
+	}
+}
+
 gboolean
-e_pkcs12_export_to_file (EPKCS12 *pkcs12,
-                         const gchar *path,
-                         GList *certs,
+e_pkcs12_export_to_file (GList *certs,
+                         GFile *file,
+                         const gchar *pwd,
+                         gboolean save_chain,
                          GError **error)
 {
+	GList *link;
+	SECStatus srv = SECSuccess;
+	GFileOutputStream *output_stream;
+	SEC_PKCS12ExportContext *p12exp = NULL;
+	SEC_PKCS12SafeInfo *keySafe = NULL, *certSafe = NULL;
+	SECItem password;
+
+	password.data = (guchar *) strdup (pwd);
+	password.len = strlen (pwd);
+
+	p12exp = SEC_PKCS12CreateExportContext (
+			NULL /* SECKEYGetPasswordKey pwfn*/,
+			NULL /* void *pwfnarg */,
+			NULL /* slot */,
+			NULL /* void *wincx*/);
+	if (!p12exp) {
+		gint err_code = PORT_GetError ();
+		*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to create export context, err_code: %i"), err_code);
+		goto error;
+	}
+
+	srv = SEC_PKCS12AddPasswordIntegrity (p12exp, &password, SEC_OID_SHA1);
+	if (srv != SECSuccess)  {
+		gint err_code = PORT_GetError();
+		*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to setup password integrity, err_code: %i"), err_code);
+		goto error;
+	}
+
+	for (link = certs; link; link = g_list_next (link)) {
+		keySafe = NULL,	certSafe = NULL;
+		keySafe = SEC_PKCS12CreateUnencryptedSafe (p12exp);
+		certSafe = SEC_PKCS12CreatePasswordPrivSafe (p12exp, &password, SEC_OID_PKCS12_V2_PBE_WITH_SHA1_AND_40_BIT_RC2_CBC);
+		if (!keySafe || !certSafe) {
+			gint err_code = PORT_GetError();
+			*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to create safe bag, err_code: %i"), err_code);
+			goto error;
+		}
+
+		srv = SEC_PKCS12AddCertOrChainAndKey (
+				p12exp /* SEC_PKCS12ExportContext *p12ctxt */,
+				certSafe,
+				NULL   /* void *certNestedDest */,
+				e_cert_get_internal_cert (E_CERT (link->data)),
+				CERT_GetDefaultCertDB () /* CERTCertDBHandle *certDb */,
+				keySafe,
+				NULL    /* void *keyNestedDest*/,
+				PR_TRUE /* PRBool shroudKey */,
+				&password /* SECItem *pwItem */,
+				SEC_OID_PKCS12_V2_PBE_WITH_SHA1_AND_3KEY_TRIPLE_DES_CBC/* SECOidTag algorithm */,
+				save_chain /* includeCertChain */);
+		if (srv != SECSuccess) {
+			gint err_code = PORT_GetError ();
+			*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to add key/cert to the store, err_code: %i"), err_code);
+			goto error;
+		}
+	}
+
+	output_stream = g_file_replace (file, NULL, TRUE, G_FILE_CREATE_PRIVATE, NULL, error);
+	if (!output_stream) {
+		goto error;
+	}
+	srv = SEC_PKCS12Encode (
+		p12exp,
+		encoder_output_cb /* SEC_PKCS12EncoderOutputCallback output */,
+		output_stream     /* void *outputarg */);
+	if (!g_output_stream_close (G_OUTPUT_STREAM (output_stream), NULL, error))
+		goto error;
+
+	if (srv != SECSuccess) {
+		gint err_code = PORT_GetError ();
+		*error = g_error_new (E_PKCS12_ERROR, E_PKCS12_ERROR_NSS_FAILED, _("Unable to write store to disk, err_code: %i"), err_code);
+		goto error;
+	}
+
+	SEC_PKCS12DestroyExportContext (p12exp);
+	SECITEM_ZfreeItem (&password, PR_FALSE); /* free password.data */
+
+	return TRUE;
+
+ error:
+	SECITEM_ZfreeItem (&password, PR_FALSE); /* free password.data */
+	if (p12exp)
+		SEC_PKCS12DestroyExportContext (p12exp);
+
 	return FALSE;
 }
 

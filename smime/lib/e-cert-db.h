@@ -23,6 +23,7 @@
 #define _E_CERT_DB_H_
 
 #include <glib-object.h>
+#include <gio/gio.h>
 #include "e-cert.h"
 #include <cert.h>
 
@@ -99,6 +100,12 @@ gboolean             e_cert_db_import_certs_from_file (ECertDB *cert_db,
 gboolean             e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 						   const gchar *file_path,
 						   GError **error);
+
+gboolean             e_cert_db_export_pkcs12_file (ECert *cert,
+                                                   GFile *file,
+                                                   const gchar *password,
+                                                   gboolean save_chain,
+                                                   GError **error);
 
 gboolean             e_cert_db_login_to_slot      (ECertDB *cert_db,
 						   PK11SlotInfo *slot);

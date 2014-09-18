@@ -363,19 +363,85 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 	return collectArgs;
 }
 
-#ifdef notyet
-PRBool
-ucs2_ascii_conversion_fn (PRBool toUnicode,
-                          guchar *inBuf,
-                          guint inBufLen,
-                          guchar *outBuf,
-                          guint maxOutBufLen,
-                          guint *outBufLen,
-                          PRBool swapBytes)
+/*
+ * copy from pk12util.c
+ */
+static SECStatus
+p12u_SwapUnicodeBytes(SECItem *uniItem)
 {
-	printf ("in ucs2_ascii_conversion_fn\n");
+	unsigned int i;
+	unsigned char a;
+	if ((uniItem == NULL) || (uniItem->len % 2)) {
+		return SECFailure;
+	}
+	for (i = 0; i < uniItem->len; i += 2) {
+		a = uniItem->data[i];
+		uniItem->data[i] = uniItem->data[i+1];
+		uniItem->data[i+1] = a;
+	}
+	return SECSuccess;
 }
+
+/*
+ * copy from pk12util.c
+ */
+static PRBool
+p12u_ucs2_ascii_conversion_function(PRBool	   toUnicode,
+				    unsigned char *inBuf,
+				    unsigned int   inBufLen,
+				    unsigned char *outBuf,
+				    unsigned int   maxOutBufLen,
+				    unsigned int  *outBufLen,
+				    PRBool	   swapBytes)
+{
+	SECItem it = { 0 };
+	SECItem *dup = NULL;
+	PRBool ret;
+
+#ifdef DEBUG_CONVERSION
+	if (pk12_debugging) {
+		unsigned int i;
+		printf ("Converted from:\n");
+		for (i = 0; i < inBufLen; i++) {
+			printf("%2x ", inBuf[i]);
+			/*if ((i % 60) == 0) printf ("\n");*/
+		}
+		printf ("\n");
+	}
 #endif
+
+	it.data = inBuf;
+	it.len = inBufLen;
+	dup = SECITEM_DupItem(&it);
+	/* If converting Unicode to ASCII, swap bytes before conversion
+	 * as neccessary.
+	 */
+	if (!toUnicode && swapBytes) {
+		if (p12u_SwapUnicodeBytes(dup) != SECSuccess) {
+			SECITEM_ZfreeItem(dup, PR_TRUE);
+			return PR_FALSE;
+		}
+	}
+	/* Perform the conversion. */
+	ret = PORT_UCS2_UTF8Conversion (toUnicode, dup->data, dup->len,
+					outBuf, maxOutBufLen, outBufLen);
+	if (dup)
+		SECITEM_ZfreeItem(dup, PR_TRUE);
+
+#ifdef DEBUG_CONVERSION
+	if (pk12_debugging) {
+		unsigned int ii;
+		printf ("Converted to:\n");
+		for (ii = 0; ii < *outBufLen; ii++) {
+			printf ("%2x ", outBuf[ii]);
+			/*if ((i % 60) == 0) printf ("\n");*/
+		}
+		printf ("\n");
+	}
+#endif
+
+	return ret;
+}
 
 static gchar * PR_CALLBACK
 pk11_password (PK11SlotInfo *slot,
@@ -421,9 +487,7 @@ initialize_nss (void)
 	SEC_PKCS12EnableCipher (PKCS12_DES_56, 1);
 	SEC_PKCS12EnableCipher (PKCS12_DES_EDE3_168, 1);
 	SEC_PKCS12SetPreferredCipher (PKCS12_DES_EDE3_168, 1);
-#ifdef notyet
-	PORT_SetUCS2_ASCIIConversionFunction (ucs2_ascii_conversion_fn);
-#endif
+	PORT_SetUCS2_ASCIIConversionFunction (p12u_ucs2_ascii_conversion_function);
 }
 
 static void
@@ -1117,6 +1181,30 @@ e_cert_db_import_pkcs12_file (ECertDB *cert_db,
 		g_propagate_error (error, e);
 		return FALSE;
 	}
+
+	return TRUE;
+}
+
+gboolean
+e_cert_db_export_pkcs12_file (ECert *cert,
+                              GFile *file,
+                              const gchar *password,
+                              gboolean save_chain,
+                              GError **error)
+{
+	GError *e = NULL;
+	GList *list = NULL;
+
+	g_return_val_if_fail (cert != NULL, FALSE);
+	list = g_list_append (list, cert);
+
+	if (!e_pkcs12_export_to_file (list, file, password, save_chain, &e)) {
+		g_list_free (list);
+		g_propagate_error (error, e);
+		return FALSE;
+	}
+
+	g_list_free (list);
 
 	return TRUE;
 }
