@@ -5033,7 +5033,7 @@ find_where_to_break_line (WebKitDOMNode *node,
 
 			if (last_space == max_len - 1) {
 				uc = g_utf8_get_char (str);
-				if (g_unichar_isspace (uc))
+				if (g_unichar_isspace (uc) || str[0] == '-')
 					last_space++;
 			}
 
@@ -5041,7 +5041,7 @@ find_where_to_break_line (WebKitDOMNode *node,
 			return last_space;
 		}
 
-		if (g_unichar_isspace (uc))
+		if (g_unichar_isspace (uc) || str[0] == '-')
 			last_space = pos;
 
 		pos += 1;
