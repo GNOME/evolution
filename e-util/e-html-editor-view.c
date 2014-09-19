@@ -6773,6 +6773,28 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 	e_html_editor_view_force_spell_check (view);
 }
 
+static void
+wrap_paragraphs_in_quoted_content (EHTMLEditorSelection *selection,
+                                   WebKitDOMDocument *document)
+{
+	gint ii, length;
+	WebKitDOMNodeList *paragraphs;
+
+	paragraphs = webkit_dom_document_query_selector_all (
+		document, "blockquote[type=cite] > .-x-evo-paragraph", NULL);
+
+	length = webkit_dom_node_list_get_length (paragraphs);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *paragraph;
+
+		paragraph = webkit_dom_node_list_item (paragraphs, ii);
+
+		e_html_editor_selection_wrap_paragraph (
+			selection, WEBKIT_DOM_ELEMENT (paragraph));
+	}
+	g_object_unref (paragraphs);
+}
+
 /**
  * e_html_editor_view_set_html_mode:
  * @view: an #EHTMLEditorView
@@ -6851,8 +6873,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		e_html_editor_selection_save (selection);
 
 		if (blockquote) {
-			e_html_editor_selection_wrap_paragraphs_in_document (
-				selection, document);
+			wrap_paragraphs_in_quoted_content (selection, document);
 			e_html_editor_view_quote_plain_text (view);
 		}
 
