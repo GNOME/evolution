@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2014-09-01 03:42+0000\n"
-"PO-Revision-Date: 2014-09-01 16:16+0530\n"
+"PO-Revision-Date: 2014-09-22 12:33+0530\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -1026,7 +1026,6 @@ msgstr ""
 "ફેરફારોને સંગ્રહવા માંગો છો?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:677
-#, fuzzy
 #| msgid ""
 #| "The name or email address of this contact already exists\n"
 #| "in this folder.  Would you like to add it anyway?"
@@ -2371,80 +2370,69 @@ msgstr "કૅલેન્ડર '{0}' માં ઘટનાની નકલ �
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:89
-#, fuzzy
 #| msgid "Unable to find this task in any task list"
 msgid "Failed to copy a task into the task list '{0}'"
-msgstr "કોઈપણ બાબત યાદીમાં આ બાબત શોધવામાં અસમર્થ"
+msgstr "કાર્ય યાદી '{0}' માં કાર્યની નકલ કરવામાં નિષ્ફળતા"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:91
-#, fuzzy
 #| msgid "Delete remote memo list '{0}'?"
 msgid "Failed to copy a memo into the memo list '{0}'"
-msgstr "શું દૂરસ્થ મેમો યાદી '{0}' કાઢી નાંખવી છે?"
+msgstr "મેમો યાદી '{0}' માં મેમોની નકલ કરવામાં નિષ્ફળતા"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to move an event into the calendar '{0}'"
-msgstr "કેલેન્ડર '%s' માં મુલાકાત મળી"
+msgstr "કૅલેન્ડર '{0}' માં ઘટનાને ખસેડતી વખતે નિષ્ફળતા"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:95
-#, fuzzy
 #| msgid "Delete remote task list '{0}'?"
 msgid "Failed to move a task into the task list '{0}'"
-msgstr "શું કાર્ય યાદી '{0}' કાઢી નાંખવી છે?"
+msgstr "કાર્ય યાદી '{0}' માં કાર્યને ખસેડતી વખતે નિષ્ફળતા"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:97
-#, fuzzy
 #| msgid "Delete remote memo list '{0}'?"
 msgid "Failed to move a memo into the memo list '{0}'"
-msgstr "શું દૂરસ્થ મેમો યાદી '{0}' કાઢી નાંખવી છે?"
+msgstr "મેમો યાદી '{0}' માં મેમોને ખસેડતી વખતે નિષ્ફળતા"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Copying an event into the calendar '{0}'"
-msgstr "કેલેન્ડર '%s' માં મુલાકાત મળી"
+msgstr "કૅલેન્ડર '{0}' માં ઘટનાની નકલ કરી રહ્યા છે"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:101
-#, fuzzy
 #| msgid "Error loading task list '{0}'"
 msgid "Copying a task into the task list '{0}'"
-msgstr "બાબત યાદી લાવવામાં ભૂલ '{0}'"
+msgstr "કાર્ય યાદી '{0}' માં કાર્યની નકલ કરી રહ્યા છે"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:103
-#, fuzzy
 #| msgid "Delete remote memo list '{0}'?"
 msgid "Copying a memo into the memo list '{0}'"
-msgstr "શું દૂરસ્થ મેમો યાદી '{0}' કાઢી નાંખવી છે?"
+msgstr "મેમો યાદી '{0}' માં મેમોની નકલ કરી રહ્યા છે"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Moving an event into the calendar '{0}'"
-msgstr "કેલેન્ડર '%s' માં મુલાકાત મળી"
+msgstr "કૅલેન્ડર '{0}' માં ઘટનાને ખસેડી રહ્યા છે"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:107
-#, fuzzy
 #| msgid "Error loading task list '{0}'"
 msgid "Moving a task into the task list '{0}'"
-msgstr "બાબત યાદી લાવવામાં ભૂલ '{0}'"
+msgstr "કાર્ય યાદી '{0}' માં કાર્યને ખસેડી રહ્યા છે"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:109
-#, fuzzy
 #| msgid "Delete remote memo list '{0}'?"
 msgid "Moving a memo into the memo list '{0}'"
-msgstr "શું દૂરસ્થ મેમો યાદી '{0}' કાઢી નાંખવી છે?"
+msgstr "મેમો યાદી '{0}' માં મેમોને ખસેડી રહ્યા છે"
 
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -2888,10 +2876,9 @@ msgstr "છાપો (_P)..."
 #: ../modules/calendar/e-cal-shell-view-actions.c:1801
 #: ../modules/calendar/e-memo-shell-view-actions.c:821
 #: ../modules/calendar/e-task-shell-view-actions.c:1020
-#, fuzzy
 #| msgid "Preview"
 msgid "Pre_view..."
-msgstr "પૂર્વદર્શન"
+msgstr "પૂર્વદર્શન (_v)..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1280
 msgid "Save current changes"
@@ -3890,34 +3877,29 @@ msgid "Time zone:"
 msgstr "ટાઈમ ઝોન:"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:35
-#, fuzzy
 #| msgid "Status:"
 msgid "_Status:"
-msgstr "સ્થિતિ:"
+msgstr "પરિસ્થિતિ (_S):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:36
-#, fuzzy
 #| msgid "_Date completed:"
 msgid "Date _completed:"
-msgstr "પૂર્ણ થયેલ તારીખ (_D):"
+msgstr "પૂર્ણ થયેલ તારીખ (_c):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:37
-#, fuzzy
 #| msgid "P_ercent complete:"
 msgid "_Percent complete:"
-msgstr "ટકા પૂર્ણ થયું (_e):"
+msgstr "ટકાવારી સમાપ્ત (_P):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:38
-#, fuzzy
 #| msgid "Priority:"
 msgid "Priorit_y:"
-msgstr "પ્રાધાન્ય:"
+msgstr "પ્રાધાન્ય (_y):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:39
-#, fuzzy
 #| msgid "_Classification:"
 msgid "C_lassification:"
-msgstr "વર્ગીકરણ (_C):"
+msgstr "વર્ગીકરણ (_l):"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:40
 msgid "_Web Page:"
@@ -4204,17 +4186,17 @@ msgstr "વેબ પાનું:"
 
 #: ../calendar/gui/e-calendar-selector.c:355
 #: ../modules/calendar/e-cal-shell-view-private.c:1096
-#, fuzzy, c-format
+#, c-format
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Copying an event into the calendar %s"
-msgstr "કેલેન્ડર '%s' માં મુલાકાત મળી"
+msgstr "કૅલેન્ડર %s માં ઘટનાની નકલ કરી રહ્યા છે"
 
 #: ../calendar/gui/e-calendar-selector.c:356
 #: ../modules/calendar/e-cal-shell-view-private.c:1095
-#, fuzzy, c-format
+#, c-format
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Moving an event into the calendar %s"
-msgstr "કેલેન્ડર '%s' માં મુલાકાત મળી"
+msgstr "કૅલેન્ડર %s માં ઘટનાને ખસેડી રહ્યા છે"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:1
 msgid "Click to add a task"
@@ -7302,6 +7284,8 @@ msgid ""
 "Evolution is a personal information management application that provides "
 "integrated mail, calendaring and address book functionality."
 msgstr ""
+"Evolution એ એક વ્યક્તિગત જાણકારી સંચાલન કાર્યક્રમ છે કે જે એકત્રિત થયેલ મેઇલ, કૅલેન્ડરીંગ અને "
+"સરનામાં પુસ્તિકા કાર્યક્ષમતાને પૂરુ પાડે છે."
 
 #: ../data/evolution.appdata.xml.in.h:2
 msgid ""
@@ -7330,10 +7314,9 @@ msgid "Manage your email, contacts and schedule"
 msgstr "તમારું ઈમેઈલ, સંપર્કો અને સમયક્રમની વ્યવસ્થા કરો"
 
 #: ../data/evolution.desktop.in.in.h:5
-#, fuzzy
 #| msgid "mail;calendar;contact;addressbook;task;"
 msgid "email;calendar;contact;addressbook;task;"
-msgstr "મેઇલ;કૅલેન્ડર;સંપર્ક;સરનામાંપુસ્તિકા;કાર્ય;"
+msgstr "ઇમેઇલ;કૅલેન્ડર;સંપર્ક;સરનામાંપુસ્તિકા;કાર્ય;"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -8040,7 +8023,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "(Deprecated) Work days"
-msgstr ""
+msgstr "(અપ્રચલિત) કાર્ય દિવસો"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid ""
@@ -8486,10 +8469,9 @@ msgid "Default charset in which to display messages."
 msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
-#, fuzzy
 #| msgid "Load images for HTML messages over HTTP"
 msgid "Automatically load images for HTML messages over HTTP"
-msgstr "HTTP ઉપર HTML સંદેશો માટે ઇમેજો ને લોડ કરો"
+msgstr "HTTP ઉપર HTML સંદેશો માટે આપમેળે ઇમેજો ને લોડ કરો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid "Show Animations"
@@ -8508,10 +8490,9 @@ msgid "Show all the headers when viewing a messages."
 msgstr "બધા હેડરને બતાવો જ્યારે સંદેશાને જોઇ રહ્યા હોય."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
-#, fuzzy
 #| msgid "Show all the headers when viewing a messages."
 msgid "List of headers to show when viewing a message."
-msgstr "બધા હેડરને બતાવો જ્યારે સંદેશાને જોઇ રહ્યા હોય."
+msgstr "બતાવવા માટે હેડરોની યાદી જ્યારે સંદેશાને જોઇ રહ્યા હોય."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid ""
@@ -9165,10 +9146,9 @@ msgstr ""
 "ઓછો ૩૦ સેકન્ડોનો હોવો જ જોઈએ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
-#, fuzzy
 #| msgid "Default forward style"
 msgid "(Deprecated) Default forward style"
-msgstr "મૂળભુત આગળ ધપાવવાની શૈલી"
+msgstr "(અપ્રચલિત) મૂળભૂત ફોર્વડ શૈલી"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid ""
@@ -9177,10 +9157,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#, fuzzy
 #| msgid "Default reply style"
 msgid "(Deprecated) Default reply style"
-msgstr "વળતા જવાબની મૂળભુત શૈલી"
+msgstr "(અપ્રચલિત) મૂળભૂત જવાબ શૈલી"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid ""
@@ -9189,10 +9168,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
-#, fuzzy
 #| msgid "List of custom headers and whether they are enabled."
 msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "કસ્ટમ હેડરોની યાદી અને શું તેઓ સક્રિય છે."
+msgstr "(અપ્રચલિત) વૈવિધ્ય હેડરોની યાદી અને ક્યાંતો તેઓ સક્રિય થયેલ છે."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
@@ -9201,10 +9179,9 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
-#, fuzzy
 #| msgid "Load images for HTML messages over HTTP"
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "HTTP ઉપર HTML સંદેશો માટે ઇમેજો ને લોડ કરો"
+msgstr "(અપ્રચલિત) HTTP ઉપર HTML સંદેશો માટે ઇમેજો ને લોડ કરો"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid ""
@@ -11398,7 +11375,7 @@ msgstr "પદ્દતિ (_M):"
 
 #: ../e-util/e-proxy-editor.c:336
 msgid "Defer to Desktop Settings"
-msgstr ""
+msgstr "ડેસ્કટોપ સુયોજનોથી અલગ"
 
 #: ../e-util/e-proxy-editor.c:340
 #| msgid "Junk Settings"
@@ -11446,11 +11423,11 @@ msgstr "સીધુ જોડાણ વાપરો, પ્રોક્સી �
 
 #: ../e-util/e-proxy-preferences.c:177
 msgid "Switch to Basic Proxy Preferences"
-msgstr ""
+msgstr "મૂળભૂત પ્રોક્સી પસંદગીઓમાં જાઓ"
 
 #: ../e-util/e-proxy-preferences.c:179
 msgid "Switch to Advanced Proxy Preferences"
-msgstr ""
+msgstr "ઉન્નત પ્રોક્સી પસંદગીઓમાં જાઓ"
 
 #: ../e-util/e-proxy-preferences.c:462
 msgid "Apply custom proxy settings to these accounts:"
@@ -11693,10 +11670,9 @@ msgid "click to add"
 msgstr "ઉમેરવા માટે ક્લિક કરો"
 
 #: ../e-util/e-table-column-selector.c:264
-#, fuzzy
 #| msgid "Move selected messages to another folder"
 msgid "Move selected column names to top"
-msgstr "બીજા ફોલ્ડરમાં પસંદ થયેલ સંદેશાઓને ખસેડો"
+msgstr "ટોચે પસંદ થયેલ સ્તંભ નામોને ખસેડો"
 
 #: ../e-util/e-table-column-selector.c:269
 #, fuzzy
@@ -11741,10 +11717,9 @@ msgid "Show Fields"
 msgstr "ક્ષેત્રો બતાવો"
 
 #: ../e-util/e-table-config.c:559
-#, fuzzy
 #| msgid "Choose a folder for saving sent messages."
 msgid "Choose the order of information to appear in the message list."
-msgstr "મોકલેલ સંદેશાને સંગ્રહવા માટે ફોલ્ડરને પસંદ કરો."
+msgstr "સંદેશા યાદીમાં દેખાવા માટે જાણકારીનાં ક્રમને પસંદ કરો."
 
 #: ../e-util/e-table-field-chooser-dialog.c:226
 msgid "Add a Column"
@@ -11936,11 +11911,11 @@ msgstr ""
 
 #: ../e-util/e-widget-undo.c:445
 msgid "Undo 'Delete text'"
-msgstr ""
+msgstr "'કાઢી નાંખેલ લખાણને'  પાછુ લાવો"
 
 #: ../e-util/e-widget-undo.c:447
 msgid "Redo 'Delete text'"
-msgstr ""
+msgstr "'કાઢી નાંખેલ લખાણને' ફરી પાછુ લાવો"
 
 #: ../e-util/ea-calendar-item.c:314 ../e-util/ea-calendar-item.c:323
 msgid "%d %B %Y"
@@ -12423,12 +12398,11 @@ msgid "Open _Online Accounts"
 msgstr "ઓનલાઇન ખાતાને ખોલો (_O)"
 
 #: ../mail/e-mail-account-manager.c:143 ../mail/e-mail-account-manager.c:230
-#, fuzzy
 #| msgid ""
 #| "This option will connect to the server by way of the GNOME Online "
 #| "Accounts service"
 msgid "This account was created through the Online Accounts service."
-msgstr "આ વિકલ્પ GNOME ઓનલાઇન ખાતુ સેવા દ્દારા સર્વરમાં જોડાશે"
+msgstr "ઓનલાઇન ખાતા સેવા મારફતે આ ખાતુ બનાવેલ છે."
 
 #: ../mail/e-mail-account-manager.c:689
 msgid "_Reset Order"
@@ -12497,10 +12471,9 @@ msgid "Evolution Account Assistant"
 msgstr "ઈવોલ્યુશન ખાતા મદદનીશ"
 
 #: ../mail/e-mail-config-assistant.c:935
-#, fuzzy
 #| msgid "_Restore Defaults"
 msgid "_Revise Details"
-msgstr "મૂળભૂત પુન:સંગ્રહો (_R)"
+msgstr "વિગતો પૂનરાવર્તિત કરો (_R)"
 
 #: ../mail/e-mail-config-auth-check.c:349
 msgid "Check for Supported Types"
@@ -12933,10 +12906,9 @@ msgid "Color"
 msgstr "રંગ"
 
 #: ../mail/e-mail-print-config-headers.c:165
-#, fuzzy
 #| msgid "Move selected messages to another folder"
 msgid "Move selected headers to top"
-msgstr "બીજા ફોલ્ડરમાં પસંદ થયેલ સંદેશાઓને ખસેડો"
+msgstr "ટોચે પસંદ થયેલ હેડરને ખસેડો"
 
 #: ../mail/e-mail-print-config-headers.c:170
 #, fuzzy
@@ -16533,13 +16505,13 @@ msgstr "મૂળભૂત:mm"
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:259
 msgid "Fahrenheit (°F)"
-msgstr ""
+msgstr "ફેરન્હાઇટ (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:264
 msgid "Centigrade (°C)"
-msgstr ""
+msgstr "સેન્ટીગ્રેડ (°C)"
 
 #. Translators: This is the temperature in kelvin.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:268
