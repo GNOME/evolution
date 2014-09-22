@@ -1,3 +1,49 @@
+Evolution 3.13.6 2014-09-22
+---------------------------
+
+Bug Fixes:
+	Bug 707647 - gnome-autoar integration in attachments (Ting-Wei Lan)
+	Bug 736123 - Refactor contact-editor: use GtkExpander instead of custom code (Christian Schaarschmidt)
+	Bug 735130 - Security Information dialog needs to resize properly (Federico Mena Quintero)
+	Bug 727618 - User docs are incorrect about command for localized Re: subjects (Jannick Hemelhof)
+	Bug 341802 - Make Evolution installed directories names without version (Milan Crha)
+	Bug 724909 - Highlight module hangs on large attachments (Milan Crha)
+	Bug 736476 - Space lost on the end of line (Tomas Popela)
+	Bug 728329 - Evolution fails to get back online (Jonas Hahnfeld)
+	Bug 268592 - Allow user certificate backup (Christian Schaarschmidt)
+
+Miscellaneous:
+	EHTMLEditor - Use get_parent_block_node_from_child where possible (Tomas Popela)
+	EHTMLEditorSelection - Avoid the runtime warning when the caret was saved outside of the body (Tomas Popela)
+	EHTMLEditorSelection - Disable the selection-changed callback when restoring the caret position (Tomas Popela)
+	EHTMLEditorSelection - Allow text to be wrapped on the dash character (Tomas Popela)
+	EHTMLEditorView - Correctly remove all child nodes from the HEAD element (Tomas Popela)
+	EHTMLEditorView - Avoid extra new line when quoting the text (Tomas Popela)
+	EHTMLEditorView - Fix the HTML structure after the selected text inside the quoted content is deleted (Tomas Popela)
+	EHTMLEditorView - Save the text that can be written inside the tabulator wrapper (Tomas Popela)
+	EHTMLEditorView - Fix the leaks of the node content inside the process_elements function (Tomas Popela)
+	EHTMLEditorView - Don't try to fix the HTML structure after pasting when it is not needed (Tomas Popela)
+	EHTMLEditorView - Correctly quote the wrapped paragraphs with links inside (Tomas Popela)
+	EHTMLEditorView - When switching composer mode, wrap manually just the paragraphs that are inside quoted content. (Tomas Popela)
+	Add Win32 build	scripts	into sources (Milan Crha)
+	When changing the composer mode from HTML to Plain Text avoid reloading of the web view (Tomas Popela)
+	Fix handling of the selection in the composer when saving the message draft (Tomas Popela)
+	[win32/setup-env] Correct GSETTINGS_SCHEMA_DIR value (Milan Crha)
+	EMailReader - Call zoom in/out methods from EWebView instead of the WebKit ones (Tomas Popela)
+	Use-after-free of a full name editor when closing a contact editor (Milan Crha)
+	Miscellaneous Win32 related changes (Milan Crha)
+	Fix a build break under Win32 (Milan Crha)
+	format_full_headers: Avoid possible memory leak (Milan Crha)
+	ECalendarItem: Fix a memory leak (Milan Crha)
+	Replace the webkit_dom_node_get_node_type function with equivalent macros (Tomas Popela)
+
+Translations:
+	Yuri Myasoedov (ru)
+	Ville-Pekka Vainio (fi)
+	Shantha kumar (ta)
+	Saibal Ray (bn_IN)
+	Sandeep Sheshrao Shedmake (mr)
+
 Evolution 3.13.5 2014-08-25
 ---------------------------
 
