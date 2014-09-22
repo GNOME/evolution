@@ -712,7 +712,7 @@ run_cert_backup_dialog (CertPage *cp,
 	data.file = file;
 
 	dialog = gtk_dialog_new_with_buttons (
-		"Backup Certificate", NULL, flags,
+		_("Backup Certificate"), NULL, flags,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_Save"), GTK_RESPONSE_OK,
 		NULL);
