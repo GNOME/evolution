@@ -55,7 +55,23 @@
 #define IM_SLOTS      50
 #define ADDRESS_SLOTS 3
 
+/* represents index in address_name */
+#define ADDRESS_SLOT_HOME  1
+#define ADDRESS_SLOT_WORK  0
+#define ADDRESS_SLOT_OTHER 2
+
 #define EVOLUTION_UI_SLOT_PARAM "X-EVOLUTION-UI-SLOT"
+
+#define CHECK_PHONE 	1
+#define CHECK_SIP 	2
+#define CHECK_IM	3
+#define CHECK_HOME	4
+#define CHECK_WORK	5
+#define CHECK_OTHER	6
+#define CHECK_WEB	7
+#define CHECK_JOB	8
+#define CHECK_MISC	9
+#define CHECK_NOTE	10
 
 /* IM columns */
 enum {
@@ -1529,6 +1545,397 @@ init_sip (EContactEditor *editor)
 	gtk_expander_set_expanded (expander, TRUE);
 }
 
+static gboolean
+check_dyntable_for_data (EContactEditor *editor,
+                         const gchar *name)
+{
+	EContactEditorDynTable *dyntable;
+	GtkTreeModel *tree_model;
+	GtkTreeIter iter;
+
+	dyntable   = E_CONTACT_EDITOR_DYNTABLE (e_builder_get_widget (editor->priv->builder, name));
+	tree_model = GTK_TREE_MODEL (e_contact_editor_dyntable_extract_data (dyntable));
+
+	return gtk_tree_model_get_iter_first (tree_model, &iter);
+}
+
+static void
+extract_address_textview (EContactEditor *editor,
+                          gint record,
+                          EContactAddress *address)
+{
+	gchar         *textview_name;
+	GtkWidget     *textview;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter    iter_1, iter_2;
+
+	textview_name = g_strdup_printf ("textview-%s-address", address_name[record]);
+	textview = e_builder_get_widget (editor->priv->builder, textview_name);
+	g_free (textview_name);
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	gtk_text_buffer_get_start_iter (text_buffer, &iter_1);
+
+	/* Skip blank lines */
+	while (gtk_text_iter_get_chars_in_line (&iter_1) < 1 &&
+	       !gtk_text_iter_is_end (&iter_1))
+		gtk_text_iter_forward_line (&iter_1);
+
+	if (gtk_text_iter_is_end (&iter_1))
+		return;
+
+	iter_2 = iter_1;
+	gtk_text_iter_forward_to_line_end (&iter_2);
+
+	/* Extract street (first line of text) */
+	address->street = gtk_text_iter_get_text (&iter_1, &iter_2);
+
+	iter_1 = iter_2;
+	gtk_text_iter_forward_line (&iter_1);
+
+	if (gtk_text_iter_is_end (&iter_1))
+		return;
+
+	gtk_text_iter_forward_to_end (&iter_2);
+
+	/* Extract extended address (remaining lines of text) */
+	address->ext = gtk_text_iter_get_text (&iter_1, &iter_2);
+}
+
+static gchar *
+extract_address_field (EContactEditor *editor,
+                       gint record,
+                       const gchar *widget_field_name)
+{
+	gchar     *entry_name;
+	GtkWidget *entry;
+
+	entry_name = g_strdup_printf (
+		"entry-%s-%s", address_name[record], widget_field_name);
+	entry = e_builder_get_widget (editor->priv->builder, entry_name);
+	g_free (entry_name);
+
+	return g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+}
+
+static void
+extract_address_from_gui (EContactEditor* editor,
+                          EContactAddress* address,
+                          gint record)
+{
+	extract_address_textview (editor, record, address);
+	address->locality = extract_address_field (editor, record, "city");
+	address->region = extract_address_field (editor, record, "state");
+	address->code = extract_address_field (editor, record, "zip");
+	address->country = extract_address_field (editor, record, "country");
+	address->po = extract_address_field (editor, record, "pobox");
+}
+
+static gboolean
+check_address_for_data (EContactEditor *editor,
+                        gint record)
+{
+	gboolean has_data = FALSE;
+	EContactAddress *address;
+
+	address = g_new0 (EContactAddress, 1);
+
+	extract_address_from_gui (editor, address, record);
+	if (!STRING_IS_EMPTY (address->street)   ||
+	    !STRING_IS_EMPTY (address->ext)      ||
+	    !STRING_IS_EMPTY (address->locality) ||
+	    !STRING_IS_EMPTY (address->region)   ||
+	    !STRING_IS_EMPTY (address->code)     ||
+	    !STRING_IS_EMPTY (address->po)       ||
+	    !STRING_IS_EMPTY (address->country)) {
+		has_data = TRUE;
+	}
+
+	g_free (address);
+
+	return has_data;
+}
+
+static gboolean
+check_web_for_data (EContactEditor *editor)
+{
+	GtkBuilder *b = editor->priv->builder;
+
+	return  !STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-homepage")))) ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-weblog"))))   ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-caluri"))))   ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-fburl"))))    ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-videourl")))) ;
+}
+
+static gboolean
+check_job_for_data (EContactEditor *editor)
+{
+	GtkBuilder *b = editor->priv->builder;
+
+	return  !STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-manager"))))    ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-assistant"))))  ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-profession")))) ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-jobtitle"))))   ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-company"))))    ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-department")))) ||
+		!STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-office"))));
+}
+
+static gboolean
+check_misc_for_data (EContactEditor *editor)
+{
+	GtkBuilder *b = editor->priv->builder;
+	gint year, month, day;
+
+	return  !STRING_IS_EMPTY (gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (b, "entry-spouse")))) ||
+		e_date_edit_get_date (E_DATE_EDIT (e_builder_get_widget (b, "dateedit-birthday")), &year, &month, &day) ||
+		e_date_edit_get_date (E_DATE_EDIT (e_builder_get_widget (b, "dateedit-anniversary")), &year, &month, &day);
+}
+
+static gboolean
+check_notes_for_data (EContactEditor *editor)
+{
+	GtkWidget *tv = e_builder_get_widget (editor->priv->builder, "text-comments");
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+
+	return gtk_text_buffer_get_char_count (buffer) > 0;
+}
+
+static gboolean
+check_section_for_data (EContactEditor *editor,
+                        gint check)
+{
+	gboolean has_data = TRUE;
+
+	switch (check) {
+	case CHECK_PHONE:
+		has_data = check_dyntable_for_data (editor, "phone-dyntable");
+		break;
+	case CHECK_SIP:
+		has_data = check_dyntable_for_data (editor, "sip-dyntable");
+		break;
+	case CHECK_IM:
+		has_data = check_dyntable_for_data (editor, "im-dyntable");
+		break;
+	case CHECK_HOME:
+		has_data = check_address_for_data (editor, ADDRESS_SLOT_HOME);
+		break;
+	case CHECK_WORK:
+		has_data = check_address_for_data (editor, ADDRESS_SLOT_WORK);
+		break;
+	case CHECK_OTHER:
+		has_data = check_address_for_data (editor, ADDRESS_SLOT_OTHER);
+		break;
+	case CHECK_WEB:
+		has_data = check_web_for_data (editor);
+		break;
+	case CHECK_JOB:
+		has_data = check_job_for_data (editor);
+		break;
+	case CHECK_MISC:
+		has_data = check_misc_for_data (editor);
+		break;
+	case CHECK_NOTE:
+		has_data = check_notes_for_data (editor);
+		break;
+	default:
+		g_warning ("unknown data check requested");
+	}
+
+	return has_data;
+}
+
+static void
+config_sensitize_item (EContactEditor *editor,
+                       const gchar *item_name,
+                       gint check)
+{
+	GtkWidget *item;
+	gboolean has_data;
+
+	has_data = check_section_for_data (editor, check);
+	item     = e_builder_get_widget (editor->priv->builder, item_name);
+
+	if (has_data) {
+		gtk_widget_set_sensitive (item, FALSE);
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
+	} else {
+		gtk_widget_set_sensitive (item, TRUE);
+	}
+}
+
+static void
+config_sensitize_cb (GtkWidget *button,
+                     EContactEditor *editor)
+{
+	config_sensitize_item (editor, "menuitem-config-phone", CHECK_PHONE);
+	config_sensitize_item (editor, "menuitem-config-sip", CHECK_SIP);
+	config_sensitize_item (editor, "menuitem-config-im", CHECK_IM);
+
+	config_sensitize_item (editor, "menuitem-config-web", CHECK_WEB);
+	config_sensitize_item (editor, "menuitem-config-job", CHECK_JOB);
+	config_sensitize_item (editor, "menuitem-config-misc", CHECK_MISC);
+
+	config_sensitize_item (editor, "menuitem-config-home", CHECK_HOME);
+	config_sensitize_item (editor, "menuitem-config-work", CHECK_WORK);
+	config_sensitize_item (editor, "menuitem-config-other", CHECK_OTHER);
+
+	config_sensitize_item (editor, "menuitem-config-notes", CHECK_NOTE);
+}
+
+/*
+ * get the value from GSettings and check if there is data in the widget.
+ * if no data is found set_visible (value), set_visible (true) otherwise
+ *
+ * Returns: the new visibility
+ */
+static gboolean
+configure_widget_visibility (EContactEditor *editor,
+                             GSettings *settings,
+                             const gchar *widget_name,
+                             const gchar *settings_name,
+                             gint check)
+{
+	gboolean  config, has_data;
+	GtkWidget *widget;
+
+	config = g_settings_get_boolean (settings, settings_name);
+	widget = e_builder_get_widget (editor->priv->builder, widget_name);
+	has_data = check_section_for_data (editor, check);
+
+	gtk_widget_set_visible (widget, config || has_data);
+
+	return config || has_data;
+}
+
+static void
+configure_visibility (EContactEditor *editor)
+{
+	gboolean show_tab;
+	GSettings *settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+	configure_widget_visibility (editor, settings, "vbox-contact-phone", "editor-show-contact-phone", CHECK_PHONE);
+	configure_widget_visibility (editor, settings, "vbox-contact-sip",   "editor-show-contact-sip",   CHECK_SIP);
+	configure_widget_visibility (editor, settings, "vbox-contact-im",    "editor-show-contact-im",    CHECK_IM);
+
+	show_tab  = configure_widget_visibility (editor, settings, "frame-mailing-home",     "editor-show-mailing-home",  CHECK_HOME);
+	show_tab |= configure_widget_visibility (editor, settings, "frame-mailing-work",     "editor-show-mailing-work",  CHECK_WORK);
+	show_tab |= configure_widget_visibility (editor, settings, "expander-address-other", "editor-show-mailing-other", CHECK_OTHER);
+	gtk_widget_set_visible (
+			e_builder_get_widget (editor->priv->builder, "scrolledwindow-mailing"),
+			show_tab);
+
+	show_tab  = configure_widget_visibility (editor, settings, "expander-personal-web",  "editor-show-personal-web",  CHECK_WEB);
+	show_tab |= configure_widget_visibility (editor, settings, "expander-personal-job",  "editor-show-personal-job",  CHECK_JOB);
+	show_tab |= configure_widget_visibility (editor, settings, "expander-personal-misc", "editor-show-personal-misc", CHECK_MISC);
+	gtk_widget_set_visible (
+			e_builder_get_widget (editor->priv->builder, "scrolledwindow-personal"),
+			show_tab);
+
+	configure_widget_visibility (editor, settings, "scrolledwindow-notes", "editor-show-notes", CHECK_NOTE);
+
+	g_object_unref (settings);
+}
+
+static void
+config_menuitem_save (EContactEditor *editor,
+                      GSettings *settings,
+                      const gchar *item_name,
+                      const gchar *key)
+{
+	GtkWidget *item;
+	gboolean active, sensitive;
+
+	item      = e_builder_get_widget (editor->priv->builder, item_name);
+	active    = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
+	sensitive = gtk_widget_get_sensitive (item);
+
+	if (sensitive)
+		g_settings_set_boolean (settings, key, active);
+}
+
+static void
+config_save_cb (GtkWidget *button,
+                EContactEditor *editor)
+{
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+	config_menuitem_save (editor, settings, "menuitem-config-phone", "editor-show-contact-phone");
+	config_menuitem_save (editor, settings, "menuitem-config-sip",   "editor-show-contact-sip");
+	config_menuitem_save (editor, settings, "menuitem-config-im",    "editor-show-contact-im");
+
+	config_menuitem_save (editor, settings, "menuitem-config-web",   "editor-show-personal-web");
+	config_menuitem_save (editor, settings, "menuitem-config-job",   "editor-show-personal-job");
+	config_menuitem_save (editor, settings, "menuitem-config-misc",  "editor-show-personal-misc");
+
+	config_menuitem_save (editor, settings, "menuitem-config-home",  "editor-show-mailing-home");
+	config_menuitem_save (editor, settings, "menuitem-config-work",  "editor-show-mailing-work");
+	config_menuitem_save (editor, settings, "menuitem-config-other", "editor-show-mailing-other");
+
+	config_menuitem_save (editor, settings, "menuitem-config-notes", "editor-show-notes");
+
+	g_object_unref (settings);
+
+	configure_visibility (editor);
+}
+
+static void
+init_config_menuitem (EContactEditor *editor,
+                      GSettings *settings,
+                      const gchar *item_name,
+                      const gchar *key)
+{
+	gboolean show;
+	GtkWidget *item;
+
+	show = g_settings_get_boolean (settings, key);
+	item = e_builder_get_widget (editor->priv->builder, item_name);
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), show);
+
+	g_signal_connect (
+		item, "activate",
+		G_CALLBACK (config_save_cb), editor);
+}
+
+static void
+init_config (EContactEditor *editor)
+{
+	GtkWidget *button, *menu;
+	GSettings *settings;
+
+	button = e_builder_get_widget (editor->priv->builder, "button-config");
+	menu   = e_builder_get_widget (editor->priv->builder, "menu-editor-config");
+	gtk_menu_button_set_popup (GTK_MENU_BUTTON (button), menu);
+
+	/* save resources by only doing the data checks and sensitizing upon request,
+	 * instead of doing it with each change in object_changed()
+	 */
+	g_signal_connect (
+		button, "clicked",
+		G_CALLBACK (config_sensitize_cb), editor);
+
+	settings = g_settings_new ("org.gnome.evolution.addressbook");
+
+	init_config_menuitem (editor, settings, "menuitem-config-phone", "editor-show-contact-phone");
+	init_config_menuitem (editor, settings, "menuitem-config-sip",   "editor-show-contact-sip");
+	init_config_menuitem (editor, settings, "menuitem-config-im",    "editor-show-contact-im");
+
+	init_config_menuitem (editor, settings, "menuitem-config-web",   "editor-show-personal-web");
+	init_config_menuitem (editor, settings, "menuitem-config-job",   "editor-show-personal-job");
+	init_config_menuitem (editor, settings, "menuitem-config-misc",  "editor-show-personal-misc");
+
+	init_config_menuitem (editor, settings, "menuitem-config-home",  "editor-show-mailing-home");
+	init_config_menuitem (editor, settings, "menuitem-config-work",  "editor-show-mailing-work");
+	init_config_menuitem (editor, settings, "menuitem-config-other", "editor-show-mailing-other");
+
+	init_config_menuitem (editor, settings, "menuitem-config-notes", "editor-show-notes");
+
+	g_object_unref (settings);
+}
+
 static void
 sensitize_sip_types (EContactEditor *editor)
 {
@@ -1892,6 +2299,10 @@ init_address (EContactEditor *editor)
 
 	for (i = 0; i < ADDRESS_SLOTS; i++)
 		init_address_record (editor, i);
+
+	gtk_expander_set_expanded (
+				GTK_EXPANDER (e_builder_get_widget (editor->priv->builder, "expander-address-other")),
+				!editor->priv->compress_ui);
 }
 
 static void
@@ -1999,65 +2410,6 @@ fill_in_address (EContactEditor *editor)
 		fill_in_address_record (editor, i);
 }
 
-static void
-extract_address_textview (EContactEditor *editor,
-                          gint record,
-                          EContactAddress *address)
-{
-	gchar         *textview_name;
-	GtkWidget     *textview;
-	GtkTextBuffer *text_buffer;
-	GtkTextIter    iter_1, iter_2;
-
-	textview_name = g_strdup_printf ("textview-%s-address", address_name[record]);
-	textview = e_builder_get_widget (editor->priv->builder, textview_name);
-	g_free (textview_name);
-
-	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-	gtk_text_buffer_get_start_iter (text_buffer, &iter_1);
-
-	/* Skip blank lines */
-	while (gtk_text_iter_get_chars_in_line (&iter_1) < 1 &&
-	       !gtk_text_iter_is_end (&iter_1))
-		gtk_text_iter_forward_line (&iter_1);
-
-	if (gtk_text_iter_is_end (&iter_1))
-		return;
-
-	iter_2 = iter_1;
-	gtk_text_iter_forward_to_line_end (&iter_2);
-
-	/* Extract street (first line of text) */
-	address->street = gtk_text_iter_get_text (&iter_1, &iter_2);
-
-	iter_1 = iter_2;
-	gtk_text_iter_forward_line (&iter_1);
-
-	if (gtk_text_iter_is_end (&iter_1))
-		return;
-
-	gtk_text_iter_forward_to_end (&iter_2);
-
-	/* Extract extended address (remaining lines of text) */
-	address->ext = gtk_text_iter_get_text (&iter_1, &iter_2);
-}
-
-static gchar *
-extract_address_field (EContactEditor *editor,
-                       gint record,
-                       const gchar *widget_field_name)
-{
-	gchar     *entry_name;
-	GtkWidget *entry;
-
-	entry_name = g_strdup_printf (
-		"entry-%s-%s", address_name[record], widget_field_name);
-	entry = e_builder_get_widget (editor->priv->builder, entry_name);
-	g_free (entry_name);
-
-	return g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
-}
-
 static gchar *
 append_to_address_label (gchar *address_label,
                          const gchar *part,
@@ -2134,13 +2486,7 @@ extract_address_record (EContactEditor *editor,
 
 	address = g_new0 (EContactAddress, 1);
 
-	extract_address_textview (editor, record, address);
-	address->locality = extract_address_field (editor, record, "city");
-	address->region = extract_address_field (editor, record, "state");
-	address->code = extract_address_field (editor, record, "zip");
-	address->country = extract_address_field (editor, record, "country");
-	address->po = extract_address_field (editor, record, "pobox");
-
+	extract_address_from_gui (editor, address, record);
 	if (!STRING_IS_EMPTY (address->street)   ||
 	    !STRING_IS_EMPTY (address->ext)      ||
 	    !STRING_IS_EMPTY (address->locality) ||
@@ -2798,52 +3144,6 @@ sensitize_simple (EContactEditor *editor)
 }
 
 static void
-configure_expander_state (EContactEditor *editor,
-                          GSettings *settings,
-                          const gchar *widget,
-                          const gchar *settings_key)
-{
-	GtkExpander *expander;
-	gboolean expand;
-
-	expander = GTK_EXPANDER (e_builder_get_widget (editor->priv->builder, widget));
-	expand   = g_settings_get_boolean (settings, settings_key);
-	gtk_expander_set_expanded (expander, expand);
-}
-
-static void
-configure_expander_initial_state (EContactEditor *editor)
-{
-	if (editor->priv->compress_ui) {
-		GtkBuilder *builder = editor->priv->builder;
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-email")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-phone")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-phone")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-sip")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-contact-im")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-personal-web")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-personal-job")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-personal-misc")), FALSE);
-		gtk_expander_set_expanded (GTK_EXPANDER (e_builder_get_widget (builder, "expander-address-other")), FALSE);
-	} else {
-		GSettings *settings = g_settings_new ("org.gnome.evolution.addressbook");
-
-		configure_expander_state (editor, settings, "expander-contact-email", "editor-expand-contact-email");
-		configure_expander_state (editor, settings, "expander-contact-phone", "editor-expand-contact-phone");
-		configure_expander_state (editor, settings, "expander-contact-sip",   "editor-expand-contact-sip");
-		configure_expander_state (editor, settings, "expander-contact-im",    "editor-expand-contact-im");
-
-		configure_expander_state (editor, settings, "expander-personal-web",  "editor-expand-personal-web");
-		configure_expander_state (editor, settings, "expander-personal-job",  "editor-expand-personal-job");
-		configure_expander_state (editor, settings, "expander-personal-misc", "editor-expand-personal-misc");
-
-		configure_expander_state (editor, settings, "expander-address-other", "editor-expand-mailing-other");
-
-		g_object_unref (settings);
-	}
-}
-
-static void
 fill_in_all (EContactEditor *editor)
 {
 	GtkWidget *focused_widget;
@@ -2866,10 +3166,11 @@ fill_in_all (EContactEditor *editor)
 	fill_in_im           (editor);
 	fill_in_address      (editor);
 
-	/* set expander state after dyntables have been filled,
-	 * otherwise dyntable and expander can get out of synch
+	/* Visibility of sections and status of menuitems in the config-menu depend on data
+	 * they have to be initialized here instead of init_all() and sensitize_all()
 	 */
-	configure_expander_initial_state (editor);
+	configure_visibility (editor);
+	config_sensitize_cb (NULL, editor);
 
 	if (weak_pointer) {
 		g_object_remove_weak_pointer (G_OBJECT (focused_widget), &weak_pointer);
@@ -2918,41 +3219,17 @@ sensitize_all (EContactEditor *editor)
 }
 
 static void
-configure_widget_visibility (EContactEditor *editor,
-                             GSettings *settings,
-                             const gchar *widget_name,
-                             const gchar *settings_name)
+init_personal (EContactEditor *editor)
 {
-	gboolean  is_visible;
-	GtkWidget *widget;
-
-	is_visible = g_settings_get_boolean (settings, settings_name);
-	widget = e_builder_get_widget (editor->priv->builder, widget_name);
-	gtk_widget_set_visible (widget, is_visible);
-}
-
-static void
-configure_visibility (EContactEditor *editor)
-{
-	GSettings *settings = g_settings_new ("org.gnome.evolution.addressbook");
-
-	configure_widget_visibility (editor, settings, "vbox-contact-phone", "editor-show-contact-phone");
-	configure_widget_visibility (editor, settings, "vbox-contact-sip",   "editor-show-contact-sip");
-	configure_widget_visibility (editor, settings, "vbox-contact-im",    "editor-show-contact-im");
-
-	configure_widget_visibility (editor, settings, "scrolledwindow-mailing", "editor-show-mailing-tab");
-	configure_widget_visibility (editor, settings, "frame-mailing-home",     "editor-show-mailing-home");
-	configure_widget_visibility (editor, settings, "frame-mailing-work",     "editor-show-mailing-work");
-	configure_widget_visibility (editor, settings, "expander-address-other", "editor-show-mailing-other");
-
-	configure_widget_visibility (editor, settings, "scrolledwindow-personal", "editor-show-personal-tab");
-	configure_widget_visibility (editor, settings, "expander-personal-web",   "editor-show-personal-web");
-	configure_widget_visibility (editor, settings, "expander-personal-job",   "editor-show-personal-job");
-	configure_widget_visibility (editor, settings, "expander-personal-misc",  "editor-show-personal-misc");
-
-	configure_widget_visibility (editor, settings, "scrolledwindow-notes", "editor-show-notes-tab");
-
-	g_object_unref (settings);
+	gtk_expander_set_expanded (
+				GTK_EXPANDER (e_builder_get_widget (editor->priv->builder, "expander-personal-web")),
+				!editor->priv->compress_ui);
+	gtk_expander_set_expanded (
+				GTK_EXPANDER (e_builder_get_widget (editor->priv->builder, "expander-personal-job")),
+				!editor->priv->compress_ui);
+	gtk_expander_set_expanded (
+				GTK_EXPANDER (e_builder_get_widget (editor->priv->builder, "expander-personal-misc")),
+				!editor->priv->compress_ui);
 }
 
 static void
@@ -2968,9 +3245,9 @@ init_all (EContactEditor *editor)
 	init_phone    (editor);
 	init_sip      (editor);
 	init_im       (editor);
+	init_personal (editor);
 	init_address  (editor);
-
-	configure_visibility (editor);
+	init_config   (editor);
 
 	/* with so many scrolled windows, we need to
 	 * do some manual sizing */

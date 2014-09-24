@@ -50,46 +50,6 @@
       <_summary>Show preview pane</_summary>
       <_description>Whether to show the preview pane.</_description>
     </key>
-    <key name="editor-expand-contact-email" type="b">
-      <default>true</default>
-      <_summary>Expand Contact-Tab / Email Section</_summary>
-      <_description>Defines the initial state of the Email Section</_description>
-    </key>
-    <key name="editor-expand-contact-phone" type="b">
-      <default>true</default>
-      <_summary>Expand Contact-Tab / Phone Section</_summary>
-      <_description>Defines the initial state of the Phone Section</_description>
-    </key>
-    <key name="editor-expand-contact-sip" type="b">
-      <default>true</default>
-      <_summary>Expand Contact-Tab / SIP Section</_summary>
-      <_description>Defines the initial state of the SIP Section</_description>
-    </key>
-     <key name="editor-expand-contact-im" type="b">
-      <default>true</default>
-      <_summary>Expand Contact-Tab / IM Section</_summary>
-      <_description>Defines the initial state of the IM Section</_description>
-    </key>
-    <key name="editor-expand-personal-web" type="b">
-      <default>true</default>
-      <_summary>Expand Personal-Tab / Web Section</_summary>
-      <_description>Defines the initial state of the Web Address Section</_description>
-    </key>
-    <key name="editor-expand-personal-job" type="b">
-      <default>true</default>
-      <_summary>Expand Personal-Tab / Job Section</_summary>
-      <_description>Defines the initial state of the Job Section</_description>
-    </key>
-    <key name="editor-expand-personal-misc" type="b">
-      <default>true</default>
-      <_summary>Expand Personal-Tab / Miscellaneous Section</_summary>
-      <_description>Defines the initial state of the Miscellaneous Section</_description>
-    </key>
-    <key name="editor-expand-mailing-other" type="b">
-      <default>true</default>
-      <_summary>Expand Mailing-Tab / Other Section</_summary>
-      <_description>Defines the initial state of the Other Address Section</_description>
-    </key>
     <key type="b" name="editor-show-contact-phone">
       <_default>true</_default>
       <summary>Show phone numbers</summary>
@@ -104,11 +64,6 @@
       <_default>true</_default>
       <summary>Show IM addresses</summary>
       <_description>Whether to show IM addresses in the editor</_description>
-    </key>
-    <key type="b" name="editor-show-mailing-tab">
-      <_default>true</_default>
-      <summary>Show mailing addresses</summary>
-      <_description>Whether to show mailing addresses tab (home, work, other) in the editor</_description>
     </key>
     <key type="b" name="editor-show-mailing-home">
       <_default>true</_default>
@@ -125,11 +80,6 @@
       <summary>Show mailing Other addresses</summary>
       <_description>Whether to show mailing addresses Other in the editor</_description>
     </key>
-    <key type="b" name="editor-show-personal-tab">
-      <_default>true</_default>
-      <summary>Show personal information</summary>
-      <_description>Whether to show personal information tab (Web Address, Job, Misc.) in the editor</_description>
-    </key>
     <key type="b" name="editor-show-personal-web">
       <_default>true</_default>
       <summary>Show web addresses</summary>
@@ -145,7 +95,7 @@
       <summary>Show Miscellaneous information</summary>
       <_description>Whether to show Miscellaneous information in the editor</_description>
     </key>
-    <key type="b" name="editor-show-notes-tab">
+    <key type="b" name="editor-show-notes">
       <_default>true</_default>
       <summary>Show notes-tab</summary>
       <_description>Whether to show notes in the editor</_description>
