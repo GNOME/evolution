@@ -92,7 +92,7 @@ $(BUILD_ROOT_EVO)/share/glib-2.0/schemas/org.gnome.evolution.plugin.evolution-rs
 	@if test ! -f "../../evolution-rss/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution-rss/"; \
 	fi
-	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution-rss "rss.patch" "" $(VERBOSE)
+	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution-rss "../evolution/win32/patches/rss.patch" "" $(VERBOSE)
 
 gcr: env gtk dbus $(BUILD_ROOT_DEPS)/lib/pkgconfig/gcr-3.pc
 

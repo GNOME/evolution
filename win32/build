@@ -35,7 +35,12 @@ export INCLUDE_PATH=$PREFIX/include
 export LIBRARY_PATH=$PREFIX/lib
 
 if test "$PATCHAFTERCFG" != "1" ; then
-	for p in $PATCHES; do patch -p1 -f --fuzz=0 <../../patches/$p; done
+	for p in $PATCHES; do
+		case "$p" in
+			(*"/"*) patch -p1 -f --fuzz=0 <$p ;;
+			(*) patch -p1 -f --fuzz=0 <../../patches/$p ;;
+		esac
+	done
 fi
 
 if test "${HOW:0:1}" = "r" ; then
@@ -108,7 +113,12 @@ if test "$HOW" = "cmmi" ; then
 fi
 
 if test "$PATCHAFTERCFG" = "1" ; then
-	for p in $PATCHES; do patch -p1 -f --fuzz=0 <../../patches/$p; done
+	for p in $PATCHES; do
+		case "$p" in
+			(*"/"*) patch -p1 -f --fuzz=0 <$p ;;
+			(*) patch -p1 -f --fuzz=0 <../../patches/$p ;;
+		esac
+	done
 fi
 
 if test "$VERBOSE" != "1" ; then
