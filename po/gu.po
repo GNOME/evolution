@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug."
 "cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-09-01 03:42+0000\n"
-"PO-Revision-Date: 2014-09-22 12:33+0530\n"
+"POT-Creation-Date: 2014-09-26 03:45+0000\n"
+"PO-Revision-Date: 2014-09-26 15:47+0530\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -183,7 +183,6 @@ msgid "Category editor not available."
 msgstr "વર્ગ સંપાદક ઉપલબ્ધ નથી."
 
 #: ../addressbook/addressbook.error.xml.h:18
-#| msgid "Unable to open address book"
 msgid "Unable to open address book '{0}'"
 msgstr "સરનામા પુસ્તિકા '{0}' ખોલવાનું અસમર્થ"
 
@@ -591,7 +590,7 @@ msgstr "મદદ (_H)"
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3592
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3591
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
 #: ../addressbook/gui/contact-editor/fullname.ui.h:14
@@ -636,7 +635,6 @@ msgstr "મદદ (_H)"
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:70
 #: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:623
 #: ../smime/gui/e-cert-selector.c:232 ../smime/gui/smime-ui.ui.h:23
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "રદ કરો (_C)"
 
@@ -731,22 +729,21 @@ msgstr "સંપર્ક કાઢી નાંખવામાં ભૂલ"
 msgid "Contact Editor - %s"
 msgstr "સંપર્ક સંપાદક - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3589
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3588
 msgid "Please select an image for this contact"
 msgstr "મહેરબાની કરીને આ સંપર્ક માટે ચિત્ર પસંદ કરો"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3593
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3592
 #: ../e-util/e-category-editor.c:146 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:624
-#| msgid "Open"
 msgid "_Open"
 msgstr "ખોલો (_O)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3594
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3593
 msgid "_No image"
 msgstr "કોઈ ચિત્ર નથી (_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3943
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3942
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -754,28 +751,28 @@ msgstr ""
 "સંપર્ક માહિતી અયોગ્ય છે:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3949
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3948
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "'%s' નું બંધારણ અયોગ્ય છે"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3957
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3956
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "'%s' ને ભવિષ્યની તારીખ કરી શકાતી નથી"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3965
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3964
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' નું બંધારણ અયોગ્ય છે"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3978
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3992
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3977
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3991
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' ખાલી છે"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4007
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4006
 msgid "Invalid contact."
 msgstr "અયોગ્ય સંપર્ક."
 
@@ -804,7 +801,6 @@ msgstr "અયોગ્ય સંપર્ક."
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
 #: ../shell/main.c:172 ../smime/gui/e-cert-selector.c:233
 #: ../smime/gui/smime-ui.ui.h:24
-#| msgid "OK"
 msgid "_OK"
 msgstr "બરાબર (_O)"
 
@@ -960,13 +956,11 @@ msgstr "ટોચ (_T)"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 #: ../e-util/filter.ui.h:20
-#| msgid "_Update"
 msgid "_Up"
 msgstr "ઉપર (_U)"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
 #: ../e-util/filter.ui.h:21
-#| msgid "Move _Down"
 msgid "_Down"
 msgstr "નીચે (_D)"
 
@@ -1014,7 +1008,6 @@ msgid "Duplicate Contact Detected"
 msgstr "નકલી સંપર્ક કાઢી નખાયો"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:674
-#, fuzzy
 #| msgid ""
 #| "The name or email of this contact already exists in this folder. Would "
 #| "you like to save the changes anyway?"
@@ -1022,7 +1015,8 @@ msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
 msgstr ""
-"આ સંપર્કનુ નામ અથવા ઇમેઅલ પહેલેથી જ આ ફોલ્ડરમાં અસ્તિત્વ ધરાવે છે. શું તમે તેને કોઇપણ રીતે "
+"આ સંપર્કનુ નામ અથવા ઇમેઇલ સરનામું પહેલેથી જ આ ફોલ્ડરમાં અસ્તિત્વ ધરાવે છે. શું તમે તેને કોઇપણ "
+"રીતે "
 "ફેરફારોને સંગ્રહવા માંગો છો?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:677
@@ -1049,7 +1043,6 @@ msgid "Conflicting Contact:"
 msgstr "સંપર્ક અલગ પડે છે:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:735
-#| msgid "Contact: "
 msgid "Old Contact:"
 msgstr "જૂનો સંપર્ક: "
 
@@ -1357,7 +1350,6 @@ msgstr "સંપર્ક નક્ષો"
 
 #. Zoom-in button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:412
-#| msgid "_Zoom In"
 msgid "Zoom _In"
 msgstr "મોટુ કરો (_I)"
 
@@ -1370,7 +1362,6 @@ msgstr "નાનું કરો (_O)"
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
 #: ../shell/e-shell-window-actions.c:1021
-#| msgid "_Find Now"
 msgid "_Find"
 msgstr "શોધો (_F)"
 
@@ -1857,7 +1848,6 @@ msgid "_Edit"
 msgstr "ફેરફાર કરો (_E)"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:5
-#| msgid "Print"
 msgid "_Print"
 msgstr "છાપો (_P)"
 
@@ -2364,7 +2354,6 @@ msgstr "મેમો યાદી ઓફલાઈન વપરાશ માટ�
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:87
-#| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to copy an event into the calendar '{0}'"
 msgstr "કૅલેન્ડર '{0}' માં ઘટનાની નકલ કરવાનું નિષ્ફળ"
 
@@ -2813,7 +2802,6 @@ msgstr "વર્તમાન વિન્ડોને બંધ કરો"
 #: ../e-util/e-text.c:2089 ../e-util/e-web-view-gtkhtml.c:452
 #: ../e-util/e-web-view.c:342 ../mail/e-mail-browser.c:133
 #: ../shell/e-shell-window-actions.c:930
-#| msgid "_Copy..."
 msgid "_Copy"
 msgstr "નકલ કરો (_C)"
 
@@ -2853,7 +2841,6 @@ msgstr "મદદ દર્શાવો"
 #: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-focus-tracker.c:735
 #: ../e-util/e-text.c:2101 ../mail/e-mail-browser.c:147
 #: ../shell/e-shell-window-actions.c:965
-#| msgid "_Pascal"
 msgid "_Paste"
 msgstr "ચોંટાડો (_P)"
 
@@ -2896,7 +2883,6 @@ msgstr "વર્તમાન ફેરફારોને સંગ્રહો 
 #: ../calendar/gui/dialogs/comp-editor.c:1292 ../e-util/e-focus-tracker.c:745
 #: ../e-util/e-web-view-gtkhtml.c:462 ../e-util/e-web-view.c:352
 #: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:1042
-#| msgid "Select All"
 msgid "Select _All"
 msgstr "બધુ પસંદ કરો (_A)"
 
@@ -6907,7 +6893,6 @@ msgid "Open New Message window"
 msgstr "નવા સંદેશા વિન્ડો ખોલો"
 
 #: ../composer/e-composer-actions.c:289 ../shell/e-shell-window-actions.c:979
-#| msgid "Mail Preferences"
 msgid "_Preferences"
 msgstr "પસંદગીઓ (_P)"
 
@@ -7257,7 +7242,6 @@ msgid "Saving message to Outbox."
 msgstr "આઉટબોક્સમાં સંદેશાનો સંગ્રહ કરી રહ્યા છે"
 
 #: ../composer/mail-composer.error.xml.h:35
-#, fuzzy
 #| msgid ""
 #| "Because you are working offline, the message will be saved to your local "
 #| "Outbox folder. When you are back online you can send the message by "
@@ -7267,9 +7251,8 @@ msgid ""
 "destination service is currently unavailable. You can send the message by "
 "clicking the Send/Receive button in Evolution's toolbar."
 msgstr ""
-"કારણ કે તમે ઓફલાઇન તરીકે કામ કરી રહ્યા હોય, તો સંદેશો તમારી સ્થાનિક આઉટબોક્સ ફોલ્ડરમાં "
-"સંગ્રહાશે. જ્યારે તમે પાછા ઓનલાઇન થાવ ત્યારે તમે Evolution ની સાધનપટ્ટીમાં મોકલો/પ્રાપ્ત "
-"કરો બટનને ક્લિક કરીને સંદેશાને મોકલી શકો છો."
+"તો સંદેશો તમારી સ્થાનિક આઉટબોક્સ ફોલ્ડરમાં સંગ્રહાશે. કારણ કે લક્ષ્ય સેવા હાલમાં બિનઉપલબ્ધ છે. "
+"તમે Evolution ની સાધનપટ્ટીમાં મોકલો/પ્રાપ્ત કરો બટનને ક્લિક કરીને સંદેશાને મોકલી શકો છો."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -8010,16 +7993,17 @@ msgid "Sunday is a work day"
 msgstr "રવિવાર કાર્ય દિવસ છે"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
-#, fuzzy
 #| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
-msgstr "અઠવાડિયું શરૂ થાય તે દિવસ, રવિવાર (0) થી શનિવાર (6)"
+msgstr "(અપ્રચલિત) અઠવાડિયું શરૂ થાય તે દિવસ, રવિવાર (0) થી શનિવાર (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
 msgstr ""
+"આ કી આવૃત્તિ 3.10 માં અપ્રચલિત થયેલ છે અને લાંબા સમય સુધી વાપરેલ હોવુ જોઇએ નહિં. તેને બદલે "
+"\"week-start-day-name\" ને વાપરો."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "(Deprecated) Work days"
@@ -9166,6 +9150,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
 msgstr ""
+"આ કી આવૃત્તિ 3.10 માં અપ્રચલિત થયેલ છે અને લાંબા સમય સુધી વાપરેલ હોવુ જોઇએ નહિં. તેને બદલે "
+"\"reply-style-name\" ને વાપરો."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 #| msgid "List of custom headers and whether they are enabled."
@@ -9177,6 +9163,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
 msgstr ""
+"આ કી આવૃત્તિ 3.10 માં અપ્રચલિત થયેલ છે અને લાંબા સમય સુધી વાપરેલ હોવુ જોઇએ નહિં. તેને બદલે "
+"\"show-headers\" ને વાપરો."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 #| msgid "Load images for HTML messages over HTTP"
@@ -9188,9 +9176,10 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
+"આ કી આવૃત્તિ 3.10 માં અપ્રચલિત થયેલ છે અને લાંબા સમય સુધી વાપરેલ હોવુ જોઇએ નહિં. તેને બદલે "
+"\"image-loading-policy\" ને વાપરો."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
-#, fuzzy
 #| msgid ""
 #| "Asks whether to close the message window when the user forwards or "
 #| "replies to the message shown in the window"
@@ -9198,7 +9187,8 @@ msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
-"શું સંદેશની વિન્ડોને બંધ કરવુ તે પૂછે છે જ્યારે વપરાશકર્તા વિન્ડોમાં બતાવેલ પ્રમાણે સંદેશામાં આગળ "
+"(અપ્રચલિત) શું સંદેશની વિન્ડોને બંધ કરવુ તે પૂછે છે જ્યારે વપરાશકર્તા વિન્ડોમાં બતાવેલ પ્રમાણે "
+"સંદેશામાં આગળ "
 "ધપાવે અથવા જવાબ આપે"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
@@ -9206,6 +9196,8 @@ msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
 msgstr ""
+"આ કી આવૃત્તિ 3.10 માં અપ્રચલિત થયેલ છે અને લાંબા સમય સુધી વાપરેલ હોવી જોઇએ નહિં. તેને બદલે "
+"\"browser-close-on-reply-policy\" ને વાપરો."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -10063,7 +10055,6 @@ msgstr "પરિસ્થિતિ પકડવાનું (_t)"
 #: ../e-util/e-table-config.ui.h:2
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:281
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:191
-#| msgid "_Append"
 msgid "_Apply"
 msgstr "લાગુ કરો (_A)"
 
@@ -10288,7 +10279,6 @@ msgstr "%s (%d%% પૂર્ણ થયું)"
 
 #. Translators: Escape is a keyboard binding.
 #: ../e-util/e-alert-bar.c:118
-#| msgid "Close this message"
 msgid "Close this message (Escape)"
 msgstr "આ સંદેશાને બંધ કરો (Escape)"
 
@@ -10371,7 +10361,6 @@ msgid "S_ave All"
 msgstr "બધું સંગ્રહો (_a)"
 
 #: ../e-util/e-attachment-view.c:391
-#| msgid "Sa_ve"
 msgid "Sa_ve As"
 msgstr "આ તરીકે સંગ્રહો (_v)"
 
@@ -10379,7 +10368,6 @@ msgstr "આ તરીકે સંગ્રહો (_v)"
 #: ../plugins/save-calendar/save-calendar.c:349
 #: ../plugins/save-calendar/save-calendar.c:380
 #: ../plugins/save-calendar/save-calendar.c:411
-#| msgid "Save _As..."
 msgid "Save _As"
 msgstr "આ રીતે સંગ્રહો (_A)"
 
@@ -11369,7 +11357,6 @@ msgid "The printing system did not report any additional details about the error
 msgstr "છાપન સિસ્ટમ ભૂલ વિશે કોઈપણ વધારાની વિગતોનો અહેવાલ આપ્યો નથી."
 
 #: ../e-util/e-proxy-editor.c:314
-#| msgid "Method:"
 msgid "_Method:"
 msgstr "પદ્દતિ (_M):"
 
@@ -11378,42 +11365,34 @@ msgid "Defer to Desktop Settings"
 msgstr "ડેસ્કટોપ સુયોજનોથી અલગ"
 
 #: ../e-util/e-proxy-editor.c:340
-#| msgid "Junk Settings"
 msgid "_Open Desktop Settings"
 msgstr "ડેસ્કટોપ સુયોજનોને ખોલો (_O)"
 
 #: ../e-util/e-proxy-editor.c:366
-#| msgid "January"
 msgid "Manual"
 msgstr "પુસ્તિકા"
 
 #: ../e-util/e-proxy-editor.c:385
-#| msgid "H_TTP Proxy:"
 msgid "_HTTP Proxy:"
 msgstr "HTTP પ્રોક્સી (_H):"
 
 #: ../e-util/e-proxy-editor.c:416
-#| msgid "H_TTP Proxy:"
 msgid "H_TTPS Proxy:"
 msgstr "HTTPS પ્રોક્સી (_T):"
 
 #: ../e-util/e-proxy-editor.c:447
-#| msgid "SOC_KS Proxy:"
 msgid "_Socks Proxy:"
 msgstr "Socks પ્રોક્સી (_S):"
 
 #: ../e-util/e-proxy-editor.c:478
-#| msgid "Ignore"
 msgid "_Ignore Hosts:"
 msgstr "યજમાનો અવગણો (_I):"
 
 #: ../e-util/e-proxy-editor.c:504
-#| msgid "Automatic Contacts"
 msgid "Automatic"
 msgstr "સ્વયં"
 
 #: ../e-util/e-proxy-editor.c:523
-#| msgid "Configuration"
 msgid "Configuration _URL:"
 msgstr "રૂપરેખાંકન URL (_U):"
 
@@ -11440,17 +11419,14 @@ msgid ""
 msgstr ""
 
 #: ../e-util/e-proxy-selector.c:85
-#| msgid "_Custom binary:"
 msgid "Custom Proxy"
 msgstr "વૈવિધ્ય પ્રોક્સી"
 
 #: ../e-util/e-proxy-selector.c:487
-#| msgid "Create a new appointment"
 msgid "Create a new proxy profile"
 msgstr "નવી પ્રોક્સી રૂપરેખાને બનાવો"
 
 #: ../e-util/e-proxy-selector.c:492
-#| msgid "Delete the selected memo list"
 msgid "Delete the selected proxy profile"
 msgstr "પસંદ થયેલ પ્રોક્સી રૂપરેખાને કાઢી નાંખો"
 
@@ -11687,12 +11663,10 @@ msgid "Move selected column names down one row"
 msgstr "બીજી સરનામાં પુસ્તિકામાં પસંદ થયેલ સંપર્કોને ખસેડો"
 
 #: ../e-util/e-table-column-selector.c:279
-#| msgid "Move selected messages to another folder"
 msgid "Move selected column names to bottom"
 msgstr "નીચે પસંદ થયેલ સ્તંભ નામોને ખસેડો"
 
 #: ../e-util/e-table-column-selector.c:284
-#| msgid "Select all visible memos"
 msgid "Select all column names"
 msgstr "બધા સ્તંભ નામોને પસંદ કરો"
 
@@ -11820,12 +11794,10 @@ msgid "UTC"
 msgstr "UTC"
 
 #: ../e-util/e-url-entry.c:108
-#| msgid "Click here to go to URL"
 msgid "Click here to open the URL"
 msgstr "URL ને ખોલવા અહિંયા ક્લિક કરો"
 
 #: ../e-util/e-url-entry.c:110
-#| msgid "Enter Passphrase"
 msgid "Enter a URL here"
 msgstr "અહિંયા URL દાખલ કરો"
 
@@ -11887,7 +11859,6 @@ msgid "Save the image to a file"
 msgstr "ફાઇલમાં ચિત્રને સંગ્રહો"
 
 #: ../e-util/e-web-view.c:2970
-#| msgid "Copy the image to the clipboard"
 msgid "Copying image to clipboard"
 msgstr "ક્લિપબોર્ડમાં ઇમેજની નકલ કરી રહ્યા છે"
 
@@ -11897,7 +11868,6 @@ msgstr "ચિત્રને સંગ્રહો"
 
 #: ../e-util/e-web-view.c:3194
 #, c-format
-#| msgid "Moving messages to '%s'"
 msgid "Saving image to '%s'"
 msgstr "'%s' માં ઇમેજને સંગ્રહી રહ્યા છે"
 
@@ -11993,7 +11963,6 @@ msgid "Please choose another name."
 msgstr "મહેરબાની કરીને બીજું નામ પસંદ કરો."
 
 #: ../e-util/filter.error.xml.h:12
-#| msgid "Missing date."
 msgid "Missing condition."
 msgstr "ખોવાયેલ શરત."
 
@@ -12002,7 +11971,6 @@ msgid "Filter should have at least one condition."
 msgstr "ફિલ્ટર પાસે ઓછામાં ઓછુ એક શરત હોવી જોઇએ."
 
 #: ../e-util/filter.error.xml.h:14
-#| msgid "Missing date."
 msgid "Missing value."
 msgstr "ખોવાયેલ કિંમત."
 
@@ -12067,12 +12035,10 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "આ સહી ઓળખવા માટે મહેરબાની કરીને અનન્ય નામ પૂરું પાડો."
 
 #: ../e-util/widgets.error.xml.h:6
-#| msgid "Copy the image to the clipboard"
 msgid "Unable to copy image to clipboard."
 msgstr "ક્લિપબોર્ડમાં ઇમેજની નકલ કરવાનું અસમર્થ."
 
 #: ../e-util/widgets.error.xml.h:7
-#| msgid "Unable to save {0}."
 msgid "Unable to save image."
 msgstr "ઇમેજને સંગ્રહ કરવાનું અસમર્થ"
 
@@ -12149,7 +12115,6 @@ msgid "Invalid folder URI '%s'"
 msgstr "અમાન્ય ફોલ્ડર URI '%s'"
 
 #: ../libemail-engine/e-mail-session-utils.c:539
-#| msgid "No HTML stream available"
 msgid "No mail transport service available"
 msgstr "મેઇલ પરિવહન સેવા ઉપલબ્ધ નથી"
 
@@ -12393,7 +12358,6 @@ msgstr[1] ""
 "\"%s\"."
 
 #: ../mail/e-mail-account-manager.c:117 ../mail/e-mail-account-manager.c:204
-#| msgid "All Accounts"
 msgid "Open _Online Accounts"
 msgstr "ઓનલાઇન ખાતાને ખોલો (_O)"
 
@@ -12457,7 +12421,6 @@ msgstr "(વિષય નથી)"
 
 #. GtkAssistant's back button label.
 #: ../mail/e-mail-config-assistant.c:46
-#| msgid "Go Back"
 msgid "Go _Back"
 msgstr "પાછા જાવ (_B)"
 
@@ -12723,7 +12686,6 @@ msgstr "પસંદ કરો"
 #: ../mail/e-mail-config-security-page.c:452
 #: ../mail/e-mail-config-security-page.c:558 ../mail/mail-dialogs.ui.h:5
 #: ../shell/e-shell-window-actions.c:1007
-#| msgid "Clea_r"
 msgid "_Clear"
 msgstr "સાફ કરો (_C)"
 
@@ -12923,12 +12885,10 @@ msgid "Move selected headers down one row"
 msgstr "બીજા ફોલ્ડરમાં પસંદ થયેલ સંદેશાઓને ખસેડો"
 
 #: ../mail/e-mail-print-config-headers.c:180
-#| msgid "Move selected messages to another folder"
 msgid "Move selected headers to bottom"
 msgstr "નીચે પસંદ થયેલ હેડરને ખસેડો"
 
 #: ../mail/e-mail-print-config-headers.c:185
-#| msgid "Select all text"
 msgid "Select all headers"
 msgstr "બધા હેડરને પસંદ કરો"
 
@@ -13573,7 +13533,6 @@ msgid "Parsing message"
 msgstr "સંદેશાનુ પદચ્છેદન કરી રહ્યા છે"
 
 #: ../mail/e-mail-request.c:199
-#| msgid "These messages are not copies."
 msgid "The message has no text content."
 msgstr "સંદેશા પાસે લખાણ સમાવિષ્ટ નથી."
 
@@ -14351,8 +14310,6 @@ msgid "Quoted"
 msgstr "અવતરણ ચિહ્ન થયેલ"
 
 #: ../mail/mail-config.ui.h:24
-#| msgctxt "ReplyForward"
-#| msgid "Do not quote"
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "અવતરચિહ્ન લગાવો નહિં"
@@ -14447,7 +14404,6 @@ msgstr "ખાતરી"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
 #: ../mail/mail-config.ui.h:54
-#| msgid "Search Folders"
 msgid "Use for Folders"
 msgstr "ફોલ્ડરો માટે વાપરો"
 
@@ -14456,7 +14412,6 @@ msgid "A_dd"
 msgstr "ઉમેરો (_d)"
 
 #: ../mail/mail-config.ui.h:57
-#| msgid "_Remove"
 msgid "Re_move"
 msgstr "દૂર કરો (_m)"
 
@@ -14469,7 +14424,6 @@ msgstr "મોકલનાર અથવા રસીદો"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
 #: ../mail/mail-config.ui.h:61 ../modules/mail/em-composer-prefs.c:883
-#| msgid "_Account:"
 msgid "Account"
 msgstr "ખાતુ"
 
@@ -14490,7 +14444,6 @@ msgid "_Folder override has precedence over Recipient override"
 msgstr ""
 
 #: ../mail/mail-config.ui.h:65
-#| msgid "Source Account"
 msgid "Send Account"
 msgstr "ખાતુ મોકલો"
 
@@ -15330,12 +15283,10 @@ msgid "Should Evolution close this window when replying or forwarding?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:134
-#| msgid "_Always"
 msgid "_Yes, Always"
 msgstr "હાં, હંમેશા (_Y)"
 
 #: ../mail/mail.error.xml.h:135
-#| msgid "Never"
 msgid "_No, Never"
 msgstr "નાં, ક્યારેય નહિ (_N)"
 
@@ -15435,7 +15386,6 @@ msgid "Failed to retrieve messages."
 msgstr "સંદેશાઓને પાછા લાવવામાં નિષ્ફળતા."
 
 #: ../mail/mail.error.xml.h:163
-#| msgid "Failed to save messages to disk."
 msgid "Failed to mark messages as read."
 msgstr "વાંચવા તરીકે સંદેશાને ચિહ્નિત કરવાનું નિષ્ફળ."
 
@@ -15806,7 +15756,6 @@ msgid "Re_fresh"
 msgstr "પુનઃતાજું કરો (_f)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:915
-#| msgid "Rename the selected address book"
 msgid "Refresh the selected address book"
 msgstr "પસંદ થયેલ સરનામાં પુસ્તિકાને તાજુ કરો"
 
@@ -16496,7 +16445,6 @@ msgstr "ફાઇલને સુધારવા માટે Evolution ને �
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:187
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "મૂળભૂત:mm"
@@ -16519,7 +16467,6 @@ msgid "Kelvin (K)"
 msgstr "કેલ્વિન (K)"
 
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:270
-#| msgid "_Units:"
 msgid "Units:"
 msgstr "એકમો:"
 
@@ -16924,7 +16871,6 @@ msgid "Rename the selected calendar"
 msgstr "પસંદ થયેલ કૅલેન્ડરનુ પુન:નામ બદલો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1427
-#| msgid "Find _next"
 msgid "Find _Next"
 msgstr "આગળનાંને શોધો (_N)"
 
@@ -16933,7 +16879,6 @@ msgid "Find next occurrence of the current search string"
 msgstr "હાલની શોધેલ શબ્દમાળા ની પછીની ઘટનાને શોધો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1434
-#| msgid "Find _previous"
 msgid "Find _Previous"
 msgstr "પહેલાંનુ શોધો (_P)"
 
@@ -16942,7 +16887,6 @@ msgid "Find previous occurrence of the current search string"
 msgstr "હાલની શોધેલ શબ્દમાળાની પહેલાંની ઘટનાને શોધો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1441
-#| msgid "Stop _running search"
 msgid "Stop _Running Search"
 msgstr "ચાલતી શોધને બંધ કરો (_R)"
 
@@ -17122,7 +17066,6 @@ msgstr "સાર સમાવે છે"
 #: ../modules/calendar/e-memo-shell-view-actions.c:828
 #: ../modules/calendar/e-task-shell-view-actions.c:1013
 #: ../modules/calendar/e-task-shell-view-actions.c:1027
-#| msgid "_Print..."
 msgid "Print..."
 msgstr "છાપો..."
 
@@ -18395,7 +18338,6 @@ msgstr ""
 "   %R - પ્રાપ્તકર્તા સરનામાં માટે સ્ટેન્ડ"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:128
-#| msgid "Start in offline mode"
 msgid "Send mail also when in offline _mode"
 msgstr "મેઇલ મોકલો જ્યારે ઓફલાઇન સ્થિતિમાં હોય તોપણ (_m)"
 
@@ -18473,7 +18415,6 @@ msgid "None"
 msgstr "કંઈ નહિં"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:670
-#| msgid "Mark Me_ssages as Read"
 msgid "Marking messages as read..."
 msgstr "વાંચવા તરીકે સંદેશાને ચિહ્નિત કરી રહ્યા છે..."
 
@@ -18852,17 +18793,14 @@ msgid "Send / Receive"
 msgstr "મોકલો / મેળવો"
 
 #: ../modules/mail/em-composer-prefs.c:443
-#| msgid "Select Folder"
 msgid "Select Folder to Add"
 msgstr "ઉમેરવા માટે ફોલ્ડરને પસંદ કરો"
 
 #: ../modules/mail/em-composer-prefs.c:901
-#| msgid "F_older"
 msgid "Folder"
 msgstr "ફોલ્ડર"
 
 #: ../modules/mail/em-composer-prefs.c:937
-#| msgid "Recipients"
 msgid "Recipient"
 msgstr "પ્રાપ્તિકર્તા"
 
@@ -19139,11 +19077,11 @@ msgstr "આ તરીકે બંધારિત કરો (_F)..."
 msgid "_Other languages"
 msgstr "બીજી ભાષાઓ (_O)"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:482
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Text Highlight"
 msgstr "લખાણ પ્રકાશિત"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:483
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
 msgid "Syntax highlighting of mail parts"
 msgstr "મેઇલ ભાગમાં સિન્ટેક્ષ પ્રકાશિત કરી રહ્યા છે"
 
@@ -19590,7 +19528,6 @@ msgstr ""
 "Vim એ \"gvim -f\" ને વાપરવા માટે"
 
 #: ../plugins/external-editor/external-editor.c:124
-#| msgid "Automatically launch when a new mail is edited"
 msgid "_Automatically launch when a new mail is edited"
 msgstr "આપમેળે શરૂ કરો જ્યારે નવાં મેઇલમાં ફેરફાર થયેલ હોય (_A)"
 
@@ -20371,7 +20308,6 @@ msgid "Select destination file"
 msgstr "અંતિમ મુકામ ફાઈલ પસંદ કરો"
 
 #: ../plugins/save-calendar/save-calendar.c:190
-#| msgid "_Save"
 msgid "_Save As"
 msgstr "આ રીતે સંગ્રહ કરો (_S)"
 
@@ -20409,19 +20345,19 @@ msgstr "ટેમ્પ્લેટ તરીકે સંગ્રહ કરો
 msgid "Save as Template"
 msgstr "ટેમ્પ્લેટ તરીકે સંગ્રહ કરો"
 
-#: ../shell/e-shell.c:302
+#: ../shell/e-shell.c:319
 msgid "Preparing to go offline..."
 msgstr "ઓફલાઇન જવા માટે તૈયારી કરી રહ્યા છે..."
 
-#: ../shell/e-shell.c:355
+#: ../shell/e-shell.c:372
 msgid "Preparing to go online..."
 msgstr "ઓનલાઇન જવા માટે તૈયારી કરી રહ્યા છીએ..."
 
-#: ../shell/e-shell.c:436
+#: ../shell/e-shell.c:453
 msgid "Preparing to quit"
 msgstr "બહાર નીકળવાની તૈયારી કરી રહ્યા છીએ"
 
-#: ../shell/e-shell.c:442
+#: ../shell/e-shell.c:459
 msgid "Preparing to quit..."
 msgstr "બહાર નીકળવાની તૈયારી કરી રહ્યા છીએ..."
 
@@ -20541,7 +20477,6 @@ msgid "Show Evolution's shortcut keys"
 msgstr "Evolution ટૂંકાણ કીઓને બતાવો"
 
 #: ../shell/e-shell-window-actions.c:993
-#| msgid "Quit"
 msgid "_Quit"
 msgstr "બહાર નીકળો (_Q)"
 
@@ -20694,7 +20629,6 @@ msgid "Display window buttons using the desktop toolbar setting"
 msgstr "વિન્ડો બટનો ડેસ્કટોપ સાધનપટ્ટી સુયોજનોની મદદથી પ્રદર્શિત કરવા"
 
 #: ../shell/e-shell-window-actions.c:1236
-#| msgid "Save Current View"
 msgid "Delete Current View"
 msgstr "વર્તમાન દેખાવને કાઢો"
 
@@ -20738,7 +20672,6 @@ msgstr "દૃશ્ય પસંદ કરો: %s"
 
 #: ../shell/e-shell-window-actions.c:1775
 #, c-format
-#| msgid "Select view: %s"
 msgid "Delete view: %s"
 msgstr "દેખાવને કાઢો: %s"
 
@@ -21044,7 +20977,6 @@ msgstr ""
 
 #: ../smime/gui/component.c:55
 #, c-format
-#| msgid "Enter the password for '%s'"
 msgid "Enter the password for '%s', token '%s'"
 msgstr "'%s' માટે પાસવર્ડને દાખલ કરો, ટોકન '%s'"
 
