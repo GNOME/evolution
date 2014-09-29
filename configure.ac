@@ -68,17 +68,29 @@ m4_define([libcanberra_gtk_minimum_version], [0.25])
 m4_define([libnotify_minimum_version], [0.7])
 
 dnl ******************************
+dnl Initialize maintainer mode
+dnl ******************************
+AM_MAINTAINER_MODE([enable])
+
+dnl ******************************
 dnl Compiler Warning Flags
 dnl ******************************
+proposed_warning_flags=
+
+if test "x$enable_maintainer_mode" = "xyes" ; then
+	proposed_warning_flags="-Wall -Wextra -Wdeprecated-declarations"
+else
+	proposed_warning_flags="-Wno-deprecated-declarations"
+fi
+
 AS_COMPILER_FLAGS(WARNING_FLAGS,
-	"-Wall -Wextra
-	-Wdeprecated-declarations
+	"$proposed_warning_flags
 	-Wno-missing-field-initializers
 	-Wno-sign-compare
 	-Wno-unused-parameter
 	-Wdeclaration-after-statement
 	-Werror-implicit-function-declaration
-	-Wformat-security -Winit-self
+	-Wformat -Wformat-security -Winit-self
 	-Wmissing-declarations -Wmissing-include-dirs
 	-Wmissing-noreturn -Wnested-externs -Wpointer-arith
 	-Wredundant-decls -Wundef -Wwrite-strings")
@@ -131,11 +143,6 @@ dnl *************************************
 dnl Put the ACLOCAL flags in the Makefile
 dnl *************************************
 ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
-
-dnl ******************************
-dnl Initialize maintainer mode
-dnl ******************************
-AM_MAINTAINER_MODE([enable])
 
 if test "$evo_version" != "$evo_stable_version"; then
 	AC_DEFINE(STABLE_VERSION, ["evo_stable_version"],
