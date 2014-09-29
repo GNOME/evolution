@@ -6846,6 +6846,8 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 		convert_when_changing_composer_mode (view);
 
+		e_html_editor_selection_scroll_to_caret (selection);
+
 		goto out;
 	}
 
