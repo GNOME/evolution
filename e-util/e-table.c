@@ -1903,8 +1903,6 @@ e_table_construct (ETable *e_table,
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
 	g_return_val_if_fail (E_IS_TABLE_SPECIFICATION (specification), NULL);
 
-	g_object_ref (etm);
-
 	state = g_object_ref (specification->state);
 
 	e_table = et_real_construct (e_table, etm, ete, specification, state);
