@@ -28,8 +28,10 @@
 #include <stdlib.h>
 
 #include "e-color-combo.h"
+#include "e-dialog-widgets.h"
 #include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
+#include "e-misc-utils.h"
 #include "e-misc-utils.h"
 
 #define E_HTML_EDITOR_CELL_DIALOG_GET_PRIVATE(obj) \
@@ -58,6 +60,8 @@ struct _EHTMLEditorCellDialogPrivate {
 	GtkWidget *background_color_picker;
 	GtkWidget *background_image_chooser;
 
+	GtkWidget *remove_image_button;
+
 	WebKitDOMElement *cell;
 	guint scope;
 };
@@ -69,7 +73,7 @@ enum {
 	SCOPE_TABLE
 } DialogScope;
 
-static GdkRGBA white = { 1, 1, 1, 1 };
+static GdkRGBA transparent = { 0, 0, 0, 0 };
 
 typedef void (*DOMStrFunc) (WebKitDOMHTMLTableCellElement *cell, const gchar *val, gpointer user_data);
 typedef void (*DOMUlongFunc) (WebKitDOMHTMLTableCellElement *cell, gulong val, gpointer user_data);
@@ -414,13 +418,16 @@ html_editor_cell_dialog_set_row_span (EHTMLEditorCellDialog *dialog)
 static void
 html_editor_cell_dialog_set_background_color (EHTMLEditorCellDialog *dialog)
 {
-	gchar *color;
+	gchar *color = NULL;
 	GdkRGBA rgba;
 	GValue val = { 0 };
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
+	if (rgba.alpha != 0.0)
+		color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
+	else
+		color = g_strdup ("");
 
 	g_value_init (&val, G_TYPE_STRING);
 	g_value_take_string (&val, color);
@@ -434,31 +441,51 @@ html_editor_cell_dialog_set_background_color (EHTMLEditorCellDialog *dialog)
 static void
 cell_set_background_image (WebKitDOMHTMLTableCellElement *cell,
                            const gchar *uri,
-                           gpointer user_data)
+                           EHTMLEditorCellDialog *dialog)
 {
-	if (!uri || !*uri) {
-		webkit_dom_element_remove_attribute (
-			WEBKIT_DOM_ELEMENT (cell), "background");
-	} else {
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (cell), "background", uri, NULL);
-	}
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+
+	if (uri && *uri) {
+		e_html_editor_selection_replace_image_src (
+			e_html_editor_view_get_selection (view),
+			WEBKIT_DOM_ELEMENT (cell),
+			uri);
+	} else
+		remove_image_attributes_from_element (WEBKIT_DOM_ELEMENT (cell));
+
+	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 }
 
 static void
 html_editor_cell_dialog_set_background_image (EHTMLEditorCellDialog *dialog)
 {
-	const gchar *uri;
+	gchar *uri;
 	GValue val = { 0 };
 
 	uri = gtk_file_chooser_get_uri (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
 
 	g_value_init (&val, G_TYPE_STRING);
-	g_value_take_string (&val, (gchar *) uri);
+	g_value_take_string (&val, uri);
 
 	html_editor_cell_dialog_set_attribute (
-		dialog, cell_set_background_image, &val, NULL);
+		dialog, cell_set_background_image, &val, dialog);
+}
+
+static void
+html_editor_cell_dialog_remove_image (EHTMLEditorCellDialog *dialog)
+{
+	remove_image_attributes_from_element (
+		WEBKIT_DOM_ELEMENT (dialog->priv->cell));
+
+	gtk_file_chooser_unselect_all (
+		GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
+
+	gtk_widget_set_sensitive (dialog->priv->remove_image_button, FALSE);
 }
 
 static void
@@ -529,7 +556,7 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 	if (webkit_dom_element_has_attribute (
 		WEBKIT_DOM_ELEMENT (dialog->priv->cell), "background")) {
 		tmp = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (dialog->priv->cell), "background");
+			WEBKIT_DOM_ELEMENT (dialog->priv->cell), "data-uri");
 
 		gtk_file_chooser_set_uri (
 			GTK_FILE_CHOOSER (dialog->priv->background_image_chooser),
@@ -543,17 +570,20 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 
 	tmp = webkit_dom_html_table_cell_element_get_bg_color (
 		WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (dialog->priv->cell));
-	if (!tmp || *tmp) {
-		color = white;
-	}
-	if (gdk_rgba_parse (&color, tmp)) {
-		e_color_combo_set_current_color (
-			E_COLOR_COMBO (dialog->priv->background_color_picker),
-			&color);
+	if (tmp && *tmp) {
+		if (gdk_rgba_parse (&color, tmp)) {
+			e_color_combo_set_current_color (
+				E_COLOR_COMBO (dialog->priv->background_color_picker),
+				&color);
+		} else {
+			e_color_combo_set_current_color (
+				E_COLOR_COMBO (dialog->priv->background_color_picker),
+				&transparent);
+		}
 	} else {
 		e_color_combo_set_current_color (
 			E_COLOR_COMBO (dialog->priv->background_color_picker),
-			&white);
+			&transparent);
 	}
 	g_free (tmp);
 
@@ -574,6 +604,7 @@ e_html_editor_cell_dialog_class_init (EHTMLEditorCellDialogClass *class)
 static void
 e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 {
+	GtkBox *box;
 	GtkGrid *main_layout, *grid;
 	GtkWidget *widget;
 	GtkFileFilter *file_filter;
@@ -799,7 +830,8 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 
 	/* Color */
 	widget = e_color_combo_new ();
-	e_color_combo_set_default_color (E_COLOR_COMBO (widget), &white);
+	e_color_combo_set_default_color (E_COLOR_COMBO (widget), &transparent);
+	e_color_combo_set_default_label (E_COLOR_COMBO (widget), _("Transparent"));
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
@@ -838,6 +870,17 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_chooser);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+
+	box = e_html_editor_dialog_get_button_box (E_HTML_EDITOR_DIALOG (dialog));
+	widget = e_dialog_button_new_with_icon (NULL, _("_Remove image"));
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (html_editor_cell_dialog_remove_image), dialog);
+	dialog->priv->remove_image_button = widget;
+
+	gtk_widget_set_sensitive (dialog->priv->remove_image_button, FALSE);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
+	gtk_box_reorder_child (box, widget, 0);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

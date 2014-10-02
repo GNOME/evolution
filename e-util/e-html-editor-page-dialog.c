@@ -28,6 +28,7 @@
 
 #include "e-color-combo.h"
 #include "e-misc-utils.h"
+#include "e-dialog-widgets.h"
 
 #define E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -40,6 +41,8 @@ struct _EHTMLEditorPageDialogPrivate {
 
 	GtkWidget *background_template_combo;
 	GtkWidget *background_image_filechooser;
+
+	GtkWidget *remove_image_button;
 };
 
 typedef struct _Template {
@@ -207,8 +210,10 @@ html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
+	if (rgba.alpha != 0.0)
+		color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
+	else
+		color = g_strdup ("");
 
 	webkit_dom_html_body_element_set_bg_color (
 		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
@@ -270,14 +275,39 @@ html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 			GTK_FILE_CHOOSER (
 				dialog->priv->background_image_filechooser));
 
-	if (uri && *uri) {
+	if (uri && *uri)
 		e_html_editor_selection_replace_image_src (
 			e_html_editor_view_get_selection (view),
 			WEBKIT_DOM_ELEMENT (body),
 			uri);
-	}
+	else
+		remove_image_attributes_from_element (
+			WEBKIT_DOM_ELEMENT (body));
+
+	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 
 	g_free (uri);
+}
+
+static void
+html_editor_page_dialog_remove_image (EHTMLEditorPageDialog *dialog)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
+
+	remove_image_attributes_from_element (WEBKIT_DOM_ELEMENT (body));
+
+	gtk_file_chooser_unselect_all (
+		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
+
+	gtk_widget_set_sensitive (dialog->priv->remove_image_button, FALSE);
 }
 
 static void
@@ -371,6 +401,7 @@ e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 static void
 e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 {
+	GtkBox *box;
 	GtkGrid *grid, *main_layout;
 	GtkWidget *widget;
 	gint ii;
@@ -480,6 +511,17 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), dialog->priv->background_image_filechooser);
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+
+	box = e_html_editor_dialog_get_button_box (E_HTML_EDITOR_DIALOG (dialog));
+	widget = e_dialog_button_new_with_icon (NULL, _("_Remove image"));
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (html_editor_page_dialog_remove_image), dialog);
+	dialog->priv->remove_image_button = widget;
+
+	gtk_widget_set_sensitive (dialog->priv->remove_image_button, FALSE);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);
+	gtk_box_reorder_child (box, widget, 0);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }
