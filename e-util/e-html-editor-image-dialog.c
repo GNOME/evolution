@@ -77,7 +77,7 @@ html_editor_image_dialog_set_src (EHTMLEditorImageDialog *dialog)
 	e_html_editor_selection_replace_image_src (
 		editor_selection, WEBKIT_DOM_ELEMENT (dialog->priv->image), uri);
 
-	g_fre (uri);
+	g_free (uri);
 }
 
 static void
