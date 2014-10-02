@@ -918,7 +918,8 @@ e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 		}
 	}
 
-	g_object_unref (node);
+	if (node)
+		g_object_unref (node);
 
 	return FALSE;
 }
