@@ -383,6 +383,44 @@ color_combo_swatch_color_changed (EColorCombo *combo,
 }
 
 static void
+draw_transparent_graphic (cairo_t *cr,
+                          gint width,
+                          gint height)
+{
+	gint ii, step, x_offset, y_offset;
+
+	step = height / 2;
+	x_offset = width % step;
+	y_offset = height % step;
+
+	for (ii = 0; ii < width; ii += step) {
+		if (ii % 2)
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		else
+			cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+
+		if (ii + step >= width)
+			cairo_rectangle (cr, ii, 0, step + x_offset, step);
+		else
+			cairo_rectangle (cr, ii, 0, step, step);
+
+		cairo_fill (cr);
+
+		if (ii % 2)
+			cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+		else
+			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+
+		if (ii + step >= width)
+			cairo_rectangle (cr, ii, step, step + x_offset, step + y_offset);
+		else
+			cairo_rectangle (cr, ii, step, step, step + y_offset);
+
+		cairo_fill (cr);
+	}
+}
+
+static void
 color_combo_draw_frame_cb (GtkWidget *widget,
                            cairo_t *cr,
                            gpointer user_data)
@@ -398,9 +436,13 @@ color_combo_draw_frame_cb (GtkWidget *widget,
 	width = allocation.width;
 	height = allocation.height;
 
-	cairo_rectangle (cr, 0, 0, width - 10, height);
-	cairo_set_source_rgb (cr, rgba.red, rgba.green, rgba.blue);
-	cairo_fill (cr);
+	if (rgba.alpha == 0) {
+		draw_transparent_graphic (cr, width, height);
+	} else {
+		cairo_set_source_rgb (cr, rgba.red, rgba.green, rgba.blue);
+		cairo_rectangle (cr, 0, 0, width, height);
+		cairo_fill (cr);
+	}
 }
 
 static void
@@ -411,6 +453,7 @@ color_combo_set_default_color_cb (EColorCombo *combo,
 
 	e_color_combo_get_default_color (combo, &color);
 	e_color_combo_set_current_color (combo, &color);
+	e_color_combo_set_default_transparent (combo, (color.alpha == 0));
 
 	g_signal_emit (combo, signals[ACTIVATED], 0, &color);
 }
@@ -683,7 +726,7 @@ e_color_combo_init (EColorCombo *combo)
 
 	combo->priv = E_COLOR_COMBO_GET_PRIVATE (combo);
 
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
 	gtk_container_add (GTK_CONTAINER (combo), widget);
 
 	container = widget;
@@ -878,10 +921,8 @@ e_color_combo_set_default_color (EColorCombo *combo,
 		color = &black;
 
 	if (combo->priv->default_color) {
-
-		if (gdk_rgba_equal (color, combo->priv->default_color)) {
+		if (gdk_rgba_equal (color, combo->priv->default_color))
 			return;
-		}
 
 		gdk_rgba_free (combo->priv->default_color);
 	}
@@ -889,6 +930,8 @@ e_color_combo_set_default_color (EColorCombo *combo,
 
 	gtk_color_chooser_set_rgba (
 		GTK_COLOR_CHOOSER (combo->priv->chooser_widget), color);
+
+	e_color_combo_set_default_transparent (combo, (color->alpha == 0));
 
 	g_object_notify (G_OBJECT (combo), "default-color");
 }
@@ -927,6 +970,8 @@ e_color_combo_set_default_transparent (EColorCombo *combo,
 	g_return_if_fail (E_IS_COLOR_COMBO (combo));
 
 	combo->priv->default_transparent = transparent;
+	if (transparent)
+		combo->priv->default_color->alpha = 0;
 
 	g_object_notify (G_OBJECT (combo), "default-transparent");
 }
