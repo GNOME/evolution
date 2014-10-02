@@ -1251,7 +1251,7 @@ e_rgba_to_value (const GdkRGBA *rgba)
  * @rgba: a source #GdkRGBA
  * @color: a destination #GdkColor
  *
- * Converts @rgba into @color, but loses the alpha chnnel from @rgba.
+ * Converts @rgba into @color, but loses the alpha channel from @rgba.
  **/
 void
 e_rgba_to_color (const GdkRGBA *rgba,
