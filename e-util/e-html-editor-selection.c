@@ -99,7 +99,7 @@ enum {
 	PROP_UNDERLINE
 };
 
-static const GdkRGBA black = { 0 };
+static const GdkRGBA black = { 0, 0, 0, 1 };
 
 G_DEFINE_TYPE (
 	EHTMLEditorSelection,
