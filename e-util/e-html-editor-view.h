@@ -165,6 +165,8 @@ void		e_html_editor_view_add_inline_image_from_mime_part
 GList *		e_html_editor_view_get_parts_for_inline_images
 						(EHTMLEditorView *view,
 						 const gchar *uid_domain);
+void		remove_image_attributes_from_element
+						(WebKitDOMElement *element);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

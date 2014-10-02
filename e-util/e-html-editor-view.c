@@ -6160,10 +6160,38 @@ remove_wrapping_from_view (EHTMLEditorView *view)
 	g_object_unref (list);
 }
 
+void
+remove_image_attributes_from_element (WebKitDOMElement *element)
+{
+	webkit_dom_element_remove_attribute (element, "background");
+	webkit_dom_element_remove_attribute (element, "data-uri");
+	webkit_dom_element_remove_attribute (element, "data-inline");
+	webkit_dom_element_remove_attribute (element, "data-name");
+}
+
+static void
+remove_background_images_in_document (WebKitDOMDocument *document)
+{
+	gint length, ii;
+	WebKitDOMNodeList *elements;
+
+	elements = webkit_dom_document_query_selector_all (
+		document, "[background][data-inline]", NULL);
+
+	length = webkit_dom_node_list_get_length (elements);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (elements, ii));
+
+		remove_image_attributes_from_element (element);
+	}
+
+	g_object_unref (elements);
+}
+
 static void
 remove_images_in_element (EHTMLEditorView *view,
-                          WebKitDOMElement *element,
-                          gboolean html_mode)
+                          WebKitDOMElement *element)
 {
 	gint length, ii;
 	WebKitDOMNodeList *images;
@@ -6186,9 +6214,7 @@ remove_images (EHTMLEditorView *view)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	remove_images_in_element (
-		view,
-		WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)),
-		view->priv->html_mode);
+		view, WEBKIT_DOM_ELEMENT (webkit_dom_document_get_body (document)));
 }
 
 static void
@@ -6521,7 +6547,9 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			toggle_paragraphs_style_in_element (
 				view, WEBKIT_DOM_ELEMENT (source), FALSE);
 			remove_images_in_element (
-				view, WEBKIT_DOM_ELEMENT (source), FALSE);
+				view, WEBKIT_DOM_ELEMENT (source));
+			remove_background_images_in_document (
+				document);
 		} else {
 			gchar *inner_html;
 			WebKitDOMElement *div;
@@ -6761,6 +6789,7 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 	toggle_paragraphs_style (view);
 	toggle_smileys (view);
 	remove_images (view);
+	remove_background_images_in_document (document);
 
 	clear_attributes (document);
 
@@ -6882,6 +6911,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
 		remove_images (view);
+		remove_background_images_in_document (document);
 
 		plain = process_content_for_mode_change (view);
 
