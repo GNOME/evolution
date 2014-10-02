@@ -321,7 +321,6 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	gchar *tmp;
 	GdkRGBA rgba;
 
-	printf ("%s\n", __FUNCTION__);
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
@@ -331,7 +330,6 @@ html_editor_page_dialog_show (GtkWidget *widget)
 
 	tmp = webkit_dom_element_get_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-uri");
-	printf ("%s\n", tmp);
 	if (tmp && *tmp) {
 		gint ii;
 		gchar *fname = g_filename_from_uri (tmp, NULL, NULL);
