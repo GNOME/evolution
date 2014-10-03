@@ -133,256 +133,100 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
  *****************************************************************************/
 
 static void
+html_editor_call_simple_proxy_function (EHTMLEditor *editor,
+                                        const gchar *function)
+{
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		function,
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
 action_context_delete_cell_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
-	WebKitDOMNode *sibling;
-	WebKitDOMElement *cell;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (cell));
-	if (!sibling) {
-		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (cell));
-	}
-
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (cell)),
-		WEBKIT_DOM_NODE (cell), NULL);
-
-	if (sibling) {
-		webkit_dom_html_table_cell_element_set_col_span (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling),
-			webkit_dom_html_table_cell_element_get_col_span (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling)) + 1);
-	}
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogDeleteCell");
 }
 
 static void
 action_context_delete_column_cb (GtkAction *action,
                                  EHTMLEditor *editor)
 {
-	WebKitDOMElement *cell, *table;
-	WebKitDOMHTMLCollection *rows;
-	gulong index, length, ii;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	/* Find TD in which the selection starts */
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	rows = webkit_dom_html_table_element_get_rows (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
-	length = webkit_dom_html_collection_get_length (rows);
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *row;
-
-		row = webkit_dom_html_collection_item (rows, ii);
-
-		webkit_dom_html_table_row_element_delete_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
-	}
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogDeleteColumn");
 }
 
 static void
 action_context_delete_row_cb (GtkAction *action,
                               EHTMLEditor *editor)
 {
-	WebKitDOMElement *row;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)),
-		WEBKIT_DOM_NODE (row), NULL);
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogDeleteRow");
 }
 
 static void
 action_context_delete_table_cb (GtkAction *action,
                                 EHTMLEditor *editor)
 {
-	WebKitDOMElement *table;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
-	g_return_if_fail (table != NULL);
-
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-		WEBKIT_DOM_NODE (table), NULL);
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogDeleteTable");
 }
 
 static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EHTMLEditor *editor)
 {
-	WebKitDOMElement *cell, *row;
-	gulong index;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-					editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
-	g_return_if_fail (row != NULL);
-
-	/* Get the first row in the table */
-	row = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	while (row) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index + 1, NULL);
-
-		row = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
-	}
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogInsertColumnAfter");
 }
 
 static void
 action_context_insert_column_before_cb (GtkAction *action,
                                         EHTMLEditor *editor)
 {
-	WebKitDOMElement *cell, *row;
-	gulong index;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	cell = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TD");
-	if (!cell) {
-		cell = e_html_editor_dom_node_find_parent_element (
-				editor->priv->table_cell, "TH");
-	}
-	g_return_if_fail (cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
-	g_return_if_fail (row != NULL);
-
-	/* Get the first row in the table */
-	row = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_first_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row))));
-
-	index = webkit_dom_html_table_cell_element_get_cell_index (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-
-	while (row) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index - 1, NULL);
-
-		row = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
-	}
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogInsertColumnBefore");
 }
 
 static void
 action_context_insert_row_above_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
-	WebKitDOMElement *row, *table;
-	WebKitDOMHTMLCollection *cells;
-	WebKitDOMHTMLElement *new_row;
-	gulong index, cell_count, ii;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-
-	new_row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index, NULL);
-
-	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-	cell_count = webkit_dom_html_collection_get_length (cells);
-	for (ii = 0; ii < cell_count; ii++) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
-	}
-
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogInsertRowAbove");
 }
 
 static void
 action_context_insert_row_below_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
-	WebKitDOMElement *row, *table;
-	WebKitDOMHTMLCollection *cells;
-	WebKitDOMHTMLElement *new_row;
-	gulong index, cell_count, ii;
-
-	g_return_if_fail (editor->priv->table_cell != NULL);
-
-	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
-	g_return_if_fail (row != NULL);
-
-	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
-	g_return_if_fail (table != NULL);
-
-	index = webkit_dom_html_table_row_element_get_row_index (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-
-	new_row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), index + 1, NULL);
-
-	cells = webkit_dom_html_table_row_element_get_cells (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
-	cell_count = webkit_dom_html_collection_get_length (cells);
-	for (ii = 0; ii < cell_count; ii++) {
-		webkit_dom_html_table_row_element_insert_cell (
-			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
-	}
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorDialogInsertRowBelow");
 }
 
 static void
 action_context_remove_link_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorSelection *selection;
-
-	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
-
-	e_html_editor_selection_unlink (selection);
+	html_editor_call_simple_proxy_function (
+		editor, "EHTMLEditorSelectionDOMUnlink");
 }
 
 static void
@@ -748,8 +592,7 @@ action_properties_cell_cb (GtkAction *action,
 	}
 
 	e_html_editor_cell_dialog_show (
-		E_HTML_EDITOR_CELL_DIALOG (editor->priv->cell_dialog),
-		editor->priv->table_cell);
+		E_HTML_EDITOR_CELL_DIALOG (editor->priv->cell_dialog));
 }
 
 static void
@@ -762,8 +605,7 @@ action_properties_image_cb (GtkAction *action,
 	}
 
 	e_html_editor_image_dialog_show (
-		E_HTML_EDITOR_IMAGE_DIALOG (editor->priv->image_dialog),
-		editor->priv->image);
+		E_HTML_EDITOR_IMAGE_DIALOG (editor->priv->image_dialog));
 }
 
 static void
@@ -925,7 +767,8 @@ action_unindent_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_selection_unindent (editor->priv->selection);
+		html_editor_call_simple_proxy_function (
+			editor, "EHTMLEditorSelectionDOMUnindent");
 }
 
 static void
@@ -935,7 +778,8 @@ action_wrap_lines_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		e_html_editor_selection_wrap_lines (editor->priv->selection);
+		html_editor_call_simple_proxy_function (
+			editor, "EHTMLEditorSelectionDOMWrapLines");
 }
 
 static void

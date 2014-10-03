@@ -91,9 +91,6 @@ struct _EHTMLEditorPrivate {
 
 	guint spell_suggestions_merge_id;
 
-	WebKitDOMNode *image;
-	WebKitDOMNode *table_cell;
-
 	gint editor_layout_row;
 };
 

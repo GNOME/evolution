@@ -78,6 +78,8 @@ struct _EWebViewPrivate {
 	guint web_extension_watch_name_id;
 
 	WebKitFindController *find_controller;
+	gulong found_text_handler_id;
+	gulong failed_to_find_text_handler_id;
 };
 
 struct _AsyncContext {
@@ -397,11 +399,11 @@ web_view_set_find_controller (EWebView *web_view)
 	find_controller =
 		webkit_web_view_get_find_controller (WEBKIT_WEB_VIEW (web_view));
 
-	g_signal_connect (
+	web_view->priv->found_text_handler_id = g_signal_connect (
 		find_controller, "found-text",
 		G_CALLBACK (webkit_find_controller_found_text_cb), web_view);
 
-	g_signal_connect (
+	web_view->priv->failed_to_find_text_handler_id = g_signal_connect (
 		find_controller, "failed-to-find-text",
 		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), web_view);
 
@@ -411,19 +413,13 @@ web_view_set_find_controller (EWebView *web_view)
 static void
 web_view_update_document_highlights (EWebView *web_view)
 {
-	WebKitFindController *find_controller;
 	GList *head, *link;
-
-	if (!web_view->priv->find_controller)
-		web_view_set_find_controller (web_view);
-
-	find_controller = web_view->priv->find_controller;
 
 	head = g_queue_peek_head_link (&web_view->priv->highlights);
 
 	for (link = head; link != NULL; link = g_list_next (link)) {
 		webkit_find_controller_search (
-			find_controller,
+			web_view->priv->find_controller,
 			link->data,
 			WEBKIT_FIND_OPTIONS_NONE,
 			G_MAXUINT);
@@ -896,6 +892,20 @@ web_view_dispose (GObject *object)
 		priv->web_extension_watch_name_id = 0;
 	}
 
+	if (priv->found_text_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->find_controller,
+			priv->found_text_handler_id);
+		priv->found_text_handler_id = 0;
+	}
+
+	if (priv->failed_to_find_text_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->find_controller,
+			priv->failed_to_find_text_handler_id);
+		priv->failed_to_find_text_handler_id = 0;
+	}
+
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->open_proxy);
 	g_clear_object (&priv->print_proxy);
@@ -1266,7 +1276,7 @@ web_extension_appeared_cb (GDBusConnection *connection,
 		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
 		EVOLUTION_WEB_EXTENSION_INTERFACE,
 		NULL,
-		(GAsyncReadyCallback)web_extension_proxy_created_cb,
+		(GAsyncReadyCallback) web_extension_proxy_created_cb,
 		web_view);
 }
 
@@ -1288,7 +1298,8 @@ web_view_watch_web_extension (EWebView *web_view)
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			web_view, NULL);
+			web_view,
+			NULL);
 }
 
 GDBusProxy *
@@ -2078,6 +2089,8 @@ e_web_view_init (EWebView *web_view)
 		web_view, "state-flags-changed",
 		G_CALLBACK (style_updated_cb), NULL);
 
+	web_view_set_find_controller (web_view);
+
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
 
@@ -2714,9 +2727,6 @@ void
 e_web_view_clear_highlights (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (!web_view->priv->find_controller)
-		web_view_set_find_controller (web_view);
 
 	webkit_find_controller_search_finish (web_view->priv->find_controller);
 
@@ -4018,163 +4028,5 @@ e_web_view_add_css_rule_into_style_sheet (EWebView *web_view,
 			NULL,
 			NULL,
 			NULL);
-	}
-}
-
-gboolean
-element_has_id (WebKitDOMElement *element,
-                const gchar* id)
-{
-	gchar *element_id;
-
-	if (!element)
-		return FALSE;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element))
-		return FALSE;
-
-	element_id = webkit_dom_element_get_id (element);
-
-	if (g_ascii_strcasecmp (element_id, id) != 0) {
-		g_free (element_id);
-		return FALSE;
-	}
-	g_free (element_id);
-
-	return TRUE;
-}
-
-gboolean
-element_has_tag (WebKitDOMElement *element,
-                 const gchar* tag)
-{
-	gchar *element_tag;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element))
-		return FALSE;
-
-	element_tag = webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
-
-	if (g_ascii_strcasecmp (element_tag, tag) != 0) {
-		g_free (element_tag);
-		return FALSE;
-	}
-	g_free (element_tag);
-
-	return TRUE;
-}
-
-gboolean
-element_has_class (WebKitDOMElement *element,
-                const gchar* class)
-{
-	gchar *element_class;
-
-	if (!element)
-		return FALSE;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element))
-		return FALSE;
-
-	element_class = webkit_dom_element_get_class_name (element);
-
-	if (g_strstr_len (element_class, -1, class)) {
-		g_free (element_class);
-		return TRUE;
-	}
-	g_free (element_class);
-
-	return FALSE;
-}
-
-void
-element_add_class (WebKitDOMElement *element,
-                   const gchar* class)
-{
-	gchar *element_class;
-	gchar *new_class;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element))
-		return;
-
-	if (element_has_class (element, class))
-		return;
-
-	element_class = webkit_dom_element_get_class_name (element);
-
-	if (g_strcmp0 (element_class, "") == 0)
-		new_class = g_strdup (class);
-	else
-		new_class = g_strconcat (element_class, " ", class, NULL);
-
-	webkit_dom_element_set_class_name (element, new_class);
-
-	g_free (element_class);
-	g_free (new_class);
-}
-
-void
-element_remove_class (WebKitDOMElement *element,
-                      const gchar* class)
-{
-	gchar *element_class;
-	GString *result;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element))
-		return;
-
-	if (!element_has_class (element, class))
-		return;
-
-	element_class = webkit_dom_element_get_class_name (element);
-
-	if (g_strcmp0 (element_class, class) == 0) {
-		webkit_dom_element_remove_attribute (element, "class");
-		g_free (element_class);
-		return;
-	}
-
-	result = e_str_replace_string (element_class, class, "");
-	if (result) {
-		webkit_dom_element_set_class_name (element, result->str);
-		g_string_free (result, TRUE);
-	}
-
-	g_free (element_class);
-}
-
-void
-remove_node (WebKitDOMNode *node)
-{
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
-
-	/* Check if the parent exists, if so it means that the node is still
-	 * in the DOM or at least the parent is. If it doesn't exists it is not
-	 * in the DOM and we can free it. */
-	if (parent)
-		webkit_dom_node_remove_child (parent, node, NULL);
-	else
-		g_object_unref (node);
-}
-
-void
-remove_node_if_empty (WebKitDOMNode *node)
-{
-	if (!WEBKIT_DOM_IS_NODE (node))
-		return;
-
-	if (!webkit_dom_node_get_first_child (node)) {
-		remove_node (node);
-	} else {
-		gchar *text_content;
-
-		text_content = webkit_dom_node_get_text_content (node);
-		if (!text_content)
-			remove_node (node);
-
-		if (text_content && !*text_content)
-			remove_node (node);
-
-		g_free (text_content);
 	}
 }

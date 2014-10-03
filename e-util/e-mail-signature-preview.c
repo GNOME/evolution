@@ -56,30 +56,27 @@ G_DEFINE_TYPE (
 	E_TYPE_WEB_VIEW)
 
 static void
-signature_preview_document_loaded_cb (WebKitWebView *web_view,
-                                      WebKitWebFrame *web_frame,
-                                      gpointer user_data)
+signature_preview_load_changed_cb (WebKitWebView *web_view,
+                                   WebKitLoadEvent load_event)
 {
 	GDBusProxy *web_extension;
-	GVariant* result;
 
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
 	if (web_extension) {
-		result = g_dbus_proxy_call_sync (
-				web_extension,
-				"ReplaceLocalImageLinks",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (web_view)),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL, //cancellable
-				NULL);
-		if (result)
-			g_variant_unref (result);
+		g_dbus_proxy_call (
+			web_extension,
+			"ReplaceLocalImageLinks",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (web_view)),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
 }
 
@@ -122,16 +119,14 @@ mail_signature_preview_load_cb (ESource *source,
 	mime_type = e_source_mail_signature_get_mime_type (extension);
 
 	if (g_strcmp0 (mime_type, "text/html") == 0) {
-		webkit_web_view_load_string (
-			WEBKIT_WEB_VIEW (preview), contents,
-			"text/html", "UTF-8", "file:///");
+		webkit_web_view_load_html (
+			WEBKIT_WEB_VIEW (preview), contents, "file:///");
 	} else {
 		gchar *string;
 
 		string = g_markup_printf_escaped ("<pre>%s</pre>", contents);
-		webkit_web_view_load_string (
-			WEBKIT_WEB_VIEW (preview), string,
-			"text/html", "UTF-8", "file:///");
+		webkit_web_view_load_html (
+			WEBKIT_WEB_VIEW (preview), string, "file:///");
 		g_free (string);
 	}
 
@@ -337,7 +332,7 @@ e_mail_signature_preview_init (EMailSignaturePreview *preview)
 
 	g_signal_connect (
 		preview, "load-changed",
-		G_CALLBACK (signature_preview_document_loaded_cb), NULL);
+		G_CALLBACK (signature_preview_load_changed_cb), NULL);
 }
 
 GtkWidget *

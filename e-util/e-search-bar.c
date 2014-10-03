@@ -245,26 +245,17 @@ search_bar_toggled_cb (ESearchBar *search_bar)
 static void
 web_view_load_changed_cb (WebKitWebView *webkit_web_view,
                           WebKitLoadEvent load_event,
-                          gpointer user_data)
+                          ESearchBar *search_bar)
 {
-	ESearchBar *search_bar;
-
-	status = webkit_web_view_get_load_status (webkit_web_view);
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
-
-	if (!user_data)
-		return;
-
-	search_bar = E_SEARCH_BAR (user_data);
 
 	if (gtk_widget_get_visible (GTK_WIDGET (search_bar))) {
 		if (search_bar->priv->active_search != NULL) {
 		       search_bar_find (search_bar, TRUE);
 		}
-	} else {
+	} else
 		e_web_view_update_highlights (search_bar->priv->web_view);
-	}
 }
 
 static void
@@ -284,7 +275,7 @@ search_bar_set_web_view (ESearchBar *search_bar,
 	search_bar->priv->find_controller = find_controller;
 
 	e_signal_connect_notify (
-		web_view, "notify::changed",
+		web_view, "load-changed",
 		G_CALLBACK (web_view_load_changed_cb), search_bar);
 
 	g_signal_connect (

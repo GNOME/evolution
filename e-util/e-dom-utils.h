@@ -110,6 +110,18 @@ WebKitDOMElement *
 		e_html_editor_dom_node_find_child_element (
 						WebKitDOMNode *node,
 						const gchar *tagname);
+gboolean	element_has_id			(WebKitDOMElement *element,
+						 const gchar* id);
+gboolean	element_has_tag			(WebKitDOMElement *element,
+						 const gchar* tag);
+gboolean	element_has_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		element_add_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		element_remove_class		(WebKitDOMElement *element,
+						 const gchar* class);
+void		remove_node			(WebKitDOMNode *node);
+void		remove_node_if_empty		(WebKitDOMNode *node);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

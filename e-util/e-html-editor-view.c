@@ -31,6 +31,8 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "web-extensions/e-html-editor-web-extension.h"
+
 #define E_HTML_EDITOR_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewPrivate))
@@ -90,6 +92,9 @@ struct _EHTMLEditorViewPrivate {
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
 	gboolean remove_initial_input_line;
+
+	GDBusProxy *web_extension;
+	guint web_extension_watch_name_id;
 
 	GHashTable *old_settings;
 
@@ -2295,6 +2300,14 @@ html_editor_view_dispose (GObject *object)
 		priv->mail_settings = NULL;
 	}
 
+	if (priv->web_extension_watch_name_id > 0) {
+		g_bus_unwatch_name (priv->web_extension_watch_name_id);
+		priv->web_extension_watch_name_id = 0;
+	}
+
+	g_clear_object (&priv->selection);
+	g_clear_object (&priv->web_extension);
+
 	g_hash_table_remove_all (priv->inline_images);
 
 	/* Chain up to parent's dispose() method. */
@@ -2322,10 +2335,22 @@ html_editor_view_finalize (GObject *object)
 static void
 html_editor_view_constructed (GObject *object)
 {
+
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->constructed (object);
+/* FIXME WK2
+	WebKitSettings *web_settings;
+
+	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
+	g_object_set (
+		G_OBJECT (web_settings),
+		"enable-dom-paste", TRUE,
+		"enable-file-access-from-file-uris", TRUE,
+		"enable-spell-checking", TRUE,
+		NULL);
+*/
 }
 
 static void
@@ -2993,6 +3018,118 @@ html_editor_view_resource_requested (WebKitWebView *web_view,
 }
 
 static void
+web_extension_proxy_created_cb (GDBusProxy *proxy,
+                                GAsyncResult *result,
+                                EHTMLEditorView *view)
+{
+	GError *error = NULL;
+
+	view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
+	if (!view->priv->web_extension) {
+		g_warning ("Error creating web extension proxy: %s\n", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+web_extension_appeared_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           const gchar *name_owner,
+                           EHTMLEditorView *view)
+{
+	g_dbus_proxy_new (
+		connection,
+		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
+		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		name,
+		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		E_HTML_EDITOR_WEB_EXTENSION_INTERFACE
+		NULL,
+		(GAsyncReadyCallback) web_extension_proxy_created_cb,
+		view);
+}
+
+static void
+web_extension_vanished_cb (GDBusConnection *connection,
+                           const gchar *name,
+                           EHTMLEditorView *view)
+{
+	g_clear_object (&web_view->priv->web_extension);
+}
+
+static void
+html_editor_view_watch_web_extension (EHTMLEditorView *view)
+{
+	view->priv->web_extension_watch_name_id =
+		g_bus_watch_name (
+			G_BUS_TYPE_SESSION,
+			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+			G_BUS_NAME_WATCHER_FLAGS_NONE,
+			(GBusNameAppearedCallback) web_extension_appeared_cb,
+			(GBusNameVanishedCallback) web_extension_vanished_cb,
+			view,
+			NULL);
+}
+
+GDBusProxy *
+e_html_editor_view_get_web_extension_proxy (EHTMLEditorView *view)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+
+	return view->priv->web_extension;
+}
+
+static GObjectConstructParam*
+find_property(guint n_properties,
+              GObjectConstructParam* properties,
+              GParamSpec* param_spec)
+{
+	while (n_properties--) {
+		if (properties->pspec == param_spec)
+			return properties;
+		properties++;
+	}
+
+	return NULL;
+}
+
+static GObject*
+html_editor_view_constructor (GType type,
+                              guint n_construct_properties,
+                              GObjectConstructParam *construct_properties)
+{
+	GObjectClass* object_class;
+	GParamSpec* param_spec;
+	GObjectConstructParam *param = NULL;
+
+	object_class = G_OBJECT_CLASS(g_type_class_ref(type));
+	g_return_val_if_fail(object_class != NULL, NULL);
+
+	if (construct_properties && n_construct_properties != 0) {
+		param_spec = g_object_class_find_property(object_class, "settings");
+		if ((param = find_property(n_construct_properties, construct_properties, param_spec)))
+			g_value_take_object (param->value, e_web_view_get_default_webkit_settings ());
+		param_spec = g_object_class_find_property(object_class, "user-content-manager");
+		if ((param = find_property(n_construct_properties, construct_properties, param_spec)))
+			g_value_take_object (param->value, webkit_user_content_manager_new ());
+	}
+
+	g_type_class_unref (object_class);
+
+	return G_OBJECT_CLASS (e_web_view_parent_class)->constructor(type, n_construct_properties, construct_properties);
+}
+
+static void
+html_editor_view_initialize_web_context (void)
+{
+	WebKitWebContext *web_context = webkit_web_context_get_default ();
+
+	webkit_web_context_set_cache_model (
+		web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+}
+
+static void
 e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 {
 	GObjectClass *object_class;
@@ -3000,7 +3137,10 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 
 	g_type_class_add_private (class, sizeof (EHTMLEditorViewPrivate));
 
+	html_editor_view_initialize_web_context ();
+
 	object_class = G_OBJECT_CLASS (class);
+	object_class->constructor = html_editor_view_constructor;
 	object_class->get_property = html_editor_view_get_property;
 	object_class->set_property = html_editor_view_set_property;
 	object_class->dispose = html_editor_view_dispose;
@@ -5061,6 +5201,14 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 }
 
 static void
+initialize_web_extensions_cb (WebKitWebContext *web_context)
+{
+	/* Set the web extensions dir before the process is launched */
+	webkit_web_context_set_web_extensions_directory (
+		web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
+}
+
+static void
 e_html_editor_settings_changed_cb (GSettings *settings,
 				   const gchar *key,
 				   EHTMLEditorView *view)
@@ -5112,94 +5260,6 @@ e_html_editor_view_get_selection (EHTMLEditorView *view)
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
 
 	return view->priv->selection;
-}
-
-/**
- * e_html_editor_view_exec_command:
- * @view: an #EHTMLEditorView
- * @command: an #EHTMLEditorViewCommand to execute
- * @value: value of the command (or @NULL if the command does not require value)
- *
- * The function will fail when @value is @NULL or empty but the current @command
- * requires a value to be passed. The @value is ignored when the @command does
- * not expect any value.
- *
- * Returns: @TRUE when the command was succesfully executed, @FALSE otherwise.
- */
-gboolean
-e_html_editor_view_exec_command (EHTMLEditorView *view,
-                                 EHTMLEditorViewCommand command,
-                                 const gchar *value)
-{
-	WebKitDOMDocument *document;
-	const gchar *cmd_str = 0;
-	gboolean has_value;
-
-	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
-
-#define CHECK_COMMAND(cmd,str,val) case cmd:\
-	if (val) {\
-		g_return_val_if_fail (value && *value, FALSE);\
-	}\
-	has_value = val; \
-	cmd_str = str;\
-	break;
-
-	switch (command) {
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_BACKGROUND_COLOR, "BackColor", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_BOLD, "Bold", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_COPY, "Copy", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_CREATE_LINK, "CreateLink", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_CUT, "Cut", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_DEFAULT_PARAGRAPH_SEPARATOR, "DefaultParagraphSeparator", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_DELETE, "Delete", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FIND_STRING, "FindString", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FONT_NAME, "FontName", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FONT_SIZE, "FontSize", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FONT_SIZE_DELTA, "FontSizeDelta", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR, "ForeColor", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FORMAT_BLOCK, "FormatBlock", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE, "ForwardDelete", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_HILITE_COLOR, "HiliteColor", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INDENT, "Indent", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_HORIZONTAL_RULE, "InsertHorizontalRule", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, "InsertHTML", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_IMAGE, "InsertImage", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_LINE_BREAK, "InsertLineBreak", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, "InsertNewlineInQuotedContent", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_ORDERED_LIST, "InsertOrderedList", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_PARAGRAPH, "InsertParagraph", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "InsertText", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_UNORDERED_LIST, "InsertUnorderedList", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_ITALIC, "Italic", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_CENTER, "JustifyCenter", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_FULL, "JustifyFull", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_LEFT, "JustifyLeft", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_NONE, "JustifyNone", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_RIGHT, "JustifyRight", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_OUTDENT, "Outdent", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_PASTE, "Paste", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_PASTE_AND_MATCH_STYLE, "PasteAndMatchStyle", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_PASTE_AS_PLAIN_TEXT, "PasteAsPlainText", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_PRINT, "Print", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_REDO, "Redo", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_REMOVE_FORMAT, "RemoveFormat", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_SELECT_ALL, "SelectAll", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH, "Strikethrough", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "StyleWithCSS", TRUE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_SUBSCRIPT, "Subscript", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_SUPERSCRIPT, "Superscript", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_TRANSPOSE, "Transpose", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE, "Underline", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_UNDO, "Undo", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_UNLINK, "Unlink", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_UNSELECT, "Unselect", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_USE_CSS, "UseCSS", TRUE)
-	}
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	return webkit_dom_document_exec_command (
-		document, cmd_str, FALSE, has_value ? value : "" );
 }
 
 /**

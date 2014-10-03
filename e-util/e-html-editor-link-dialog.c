@@ -103,93 +103,27 @@ html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EHTMLEditorSelection *selection;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
-	WebKitDOMElement *link;
+	GDBusProxy *web_extension;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
-
-	if (!dom_selection ||
-	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
-		gtk_widget_hide (GTK_WIDGET (dialog));
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
 		return;
-	}
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_html_editor_dom_node_find_parent_element (
-			webkit_dom_range_get_start_container (range, NULL), "A");
-	if (!link) {
-		if ((webkit_dom_range_get_start_container (range, NULL) !=
-			webkit_dom_range_get_end_container (range, NULL)) ||
-		    (webkit_dom_range_get_start_offset (range, NULL) !=
-			webkit_dom_range_get_end_offset (range, NULL))) {
-
-			WebKitDOMDocumentFragment *fragment;
-			fragment = webkit_dom_range_extract_contents (range, NULL);
-			link = e_html_editor_dom_node_find_child_element (
-				WEBKIT_DOM_NODE (fragment), "A");
-			webkit_dom_range_insert_node (
-				range, WEBKIT_DOM_NODE (fragment), NULL);
-
-			webkit_dom_dom_selection_set_base_and_extent (
-				dom_selection,
-				webkit_dom_range_get_start_container (range, NULL),
-				webkit_dom_range_get_start_offset (range, NULL),
-				webkit_dom_range_get_end_container (range, NULL),
-				webkit_dom_range_get_end_offset (range, NULL),
-				NULL);
-		} else {
-			/* get element that was clicked on */
-			link = e_html_editor_view_get_element_under_mouse_click (view);
-			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-				link = NULL;
-		}
-	}
-
-	if (link) {
-		webkit_dom_html_anchor_element_set_href (
-			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link),
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)));
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (link),
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit)),
-			NULL);
-	} else {
-		gchar *text;
-
-		/* Check whether a text is selected or not */
-		text = webkit_dom_range_get_text (range);
-		if (text && *text) {
-			e_html_editor_selection_create_link (
-				selection,
-				gtk_entry_get_text (
-					GTK_ENTRY (dialog->priv->url_edit)));
-		} else {
-			gchar *html = g_strdup_printf (
-				"<a href=\"%s\">%s</a>",
-				gtk_entry_get_text (
-					GTK_ENTRY (dialog->priv->url_edit)),
-				gtk_entry_get_text (
-					GTK_ENTRY (dialog->priv->label_edit)));
-
-			e_html_editor_view_exec_command (
-				view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html);
-
-			g_free (html);
-
-		}
-
-		g_free (text);
-	}
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorLinkDialogOk",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)),
+			gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
@@ -212,88 +146,59 @@ static void
 html_editor_link_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 	EHTMLEditorLinkDialog *dialog;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
-	WebKitDOMElement *link;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
 	dialog = E_HTML_EDITOR_LINK_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	/* Reset to default values */
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), "http://");
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->label_edit), "");
 	gtk_widget_set_sensitive (dialog->priv->label_edit, TRUE);
 	gtk_widget_set_sensitive (dialog->priv->remove_link_button, TRUE);
+
 	dialog->priv->label_autofill = TRUE;
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorLinkDialogShow",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	/* No selection at all */
-	if (!dom_selection ||
-	    webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		gtk_widget_set_sensitive (dialog->priv->remove_link_button, FALSE);
-		goto chainup;
-	}
+	if (result) {
+		const gchar *href, *inner_text;
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_html_editor_dom_node_find_parent_element (
-		webkit_dom_range_get_start_container (range, NULL), "A");
-	if (!link) {
-		if ((webkit_dom_range_get_start_container (range, NULL) !=
-			webkit_dom_range_get_end_container (range, NULL)) ||
-		    (webkit_dom_range_get_start_offset (range, NULL) !=
-			webkit_dom_range_get_end_offset (range, NULL))) {
+		g_variant_get (result, "(&s&s)", &href, &inner_text);
 
-			WebKitDOMDocumentFragment *fragment;
-			fragment = webkit_dom_range_clone_contents (range, NULL);
-			link = e_html_editor_dom_node_find_child_element (
-					WEBKIT_DOM_NODE (fragment), "A");
-		} else {
-			/* get element that was clicked on */
-			link = e_html_editor_view_get_element_under_mouse_click (view);
-			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-				link = NULL;
-		}
-	}
-
-	if (link) {
-		gchar *href, *text;
-
-		href = webkit_dom_html_anchor_element_get_href (
-				WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));
-		text = webkit_dom_html_element_get_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (link));
-
-		gtk_entry_set_text (
-			GTK_ENTRY (dialog->priv->url_edit), href);
-		gtk_entry_set_text (
-			GTK_ENTRY (dialog->priv->label_edit), text);
-
-		g_free (text);
-		g_free (href);
-	} else {
-		gchar *text;
-
-		text = webkit_dom_range_get_text (range);
-		if (text && *text) {
+		if (href && *href) {
 			gtk_entry_set_text (
-				GTK_ENTRY (dialog->priv->label_edit), text);
-			gtk_widget_set_sensitive (
-				dialog->priv->label_edit, FALSE);
-			gtk_widget_set_sensitive (
-				dialog->priv->remove_link_button, FALSE);
+				GTK_ENTRY (dialog->priv->url_edit), href);
 		}
-		g_free (text);
+
+		if (inner_text && *inner_text) {
+			gtk_widget_set_sensitive (
+				dialog->priv->label_edit, TRUE);
+			if (!href || !*href) {
+				gtk_widget_set_sensitive (
+					dialog->priv->label_edit, FALSE);
+				gtk_widget_set_sensitive (
+					dialog->priv->remove_link_button, FALSE);
+			}
+		}
+		g_variant_unref (result);
 	}
 
- chainup:
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->show (widget);
 }

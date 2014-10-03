@@ -200,16 +200,22 @@ evolution_util_include_HEADERS =  \
 	e-filter-rule.h \
 	e-focus-tracker.h \
 	e-html-editor-actions.h \
+	e-html-editor-actions-dom-functions.h \
 	e-html-editor-cell-dialog.h \
+	e-html-editor-cell-dialog-dom-functions.h \
 	e-html-editor-dialog.h \
 	e-html-editor-find-dialog.h \
 	e-html-editor-hrule-dialog.h \
+	e-html-editor-hrule-dialog-dom-functions.h \
 	e-html-editor-image-dialog.h \
+	e-html-editor-image-dialog-dom-functions.h \
 	e-html-editor-link-dialog.h \
+	e-html-editor-link-dialog-dom-functions.h \
 	e-html-editor-page-dialog.h \
 	e-html-editor-paragraph-dialog.h \
 	e-html-editor-replace-dialog.h \
 	e-html-editor-selection.h \
+	e-html-editor-selection-dom-functions.h \
 	e-html-editor-spell-check-dialog.h \
 	e-html-editor-table-dialog.h \
 	e-html-editor-text-dialog.h \
@@ -472,17 +478,23 @@ libevolution_util_la_SOURCES = \
 	e-filter-rule.c \
 	e-focus-tracker.c \
 	e-html-editor-actions.c \
+	e-html-editor-actions-dom-functions.c \
 	e-html-editor-cell-dialog.c \
+	e-html-editor-cell-dialog-dom-functions.c \
 	e-html-editor-dialog.c \
 	e-html-editor-find-dialog.c \
 	e-html-editor-hrule-dialog.c \
+	e-html-editor-hrule-dialog-dom-functions.c \
 	e-html-editor-image-dialog.c \
+	e-html-editor-image-dialog-dom-functions.c \
 	e-html-editor-link-dialog.c \
+	e-html-editor-link-dialog-dom-functions.c \
 	e-html-editor-page-dialog.c \
 	e-html-editor-paragraph-dialog.c \
 	e-html-editor-private.h \
 	e-html-editor-replace-dialog.c \
 	e-html-editor-selection.c \
+	e-html-editor-selection-dom-functions.c \
 	e-html-editor-spell-check-dialog.c \
 	e-html-editor-table-dialog.c \
 	e-html-editor-text-dialog.c \

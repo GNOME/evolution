@@ -304,7 +304,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 
 static void
 html_editor_update_actions (EHTMLEditor *editor,
-                            GdkEventButton *event)
+                            guint flags)
 {
 	WebKitWebView *web_view;
 	WebKitSpellChecker *checker;
@@ -329,29 +329,16 @@ html_editor_update_actions (EHTMLEditor *editor,
 	web_view = WEBKIT_WEB_VIEW (view);
 	manager = e_html_editor_get_ui_manager (editor);
 
-	editor->priv->image = NULL;
-	editor->priv->table_cell = NULL;
-
-	/* Update context menu item visibility. */
-	hit_test = webkit_web_view_get_hit_test_result (web_view, event);
-	g_object_get (
-		G_OBJECT (hit_test),
-		"context", &context,
-		"inner-node", &node, NULL);
-	g_object_unref (hit_test);
-
-	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
+	visible = (flags & E_HTML_EDITOR_NODE_IS_IMAGE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
-	if (visible)
-		editor->priv->image = node;
 
-	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK);
+	visible = (flags & E_HTML_EDITOR_NODE_IS_ANCHOR);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
 
-	visible = (WEBKIT_DOM_IS_HTMLHR_ELEMENT (node));
+	visible = (flags & E_HTML_EDITOR_NODE_IS_HR);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_RULE), visible);
 
-	visible = (WEBKIT_DOM_IS_TEXT (node));
+	visible = (flags & E_HTML_EDITOR_NODE_IS_TEXT);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TEXT), visible);
 
 	visible =
@@ -365,13 +352,10 @@ html_editor_update_actions (EHTMLEditor *editor,
 	 *   - Cursor is on a link.
 	 *   - Cursor is on an image that has a URL or target.
 	 */
-	visible = (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
-		(e_html_editor_dom_node_find_parent_element (node, "A") != NULL));
+	visible = (flags & E_HTML_EDITOR_NODE_IS_ANCHOR);
 	gtk_action_set_visible (ACTION (CONTEXT_REMOVE_LINK), visible);
 
-	visible = (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
-		(e_html_editor_dom_node_find_parent_element (node, "TD") != NULL) ||
-		(e_html_editor_dom_node_find_parent_element (node, "TH") != NULL));
+	visible = (flags & E_HTML_EDITOR_NODE_IS_TABLE_CELL);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_CELL), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_COLUMN), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_DELETE_ROW), visible);
@@ -382,12 +366,8 @@ html_editor_update_actions (EHTMLEditor *editor,
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_ROW_BELOW), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_TABLE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
-	if (visible)
-		editor->priv->table_cell = node;
 
-	/* Note the |= (cursor must be in a table cell). */
-	visible |= (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
-		(e_html_editor_dom_node_find_parent_element (node, "TABLE") != NULL));
+	visible = (flags & E_HTML_EDITOR_NODE_IS_TABLE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_TABLE), visible);
 
 	/********************** Spell Check Suggestions **********************/
@@ -494,24 +474,34 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 }
 
 static gboolean
-html_editor_show_popup (EHTMLEditor *editor,
-                        GdkEventButton *event,
-                        gpointer user_data)
+html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
+                             WebKitContextMenu *context_menu,
+                             GdkEvent *event,
+                             WebKitHitTestResult *hit_test_result,
+                             EHTMLEditor *editor)
 {
+	WebKitHitTestResultContext context;
 	GtkWidget *menu;
+	guint flags = 0;
 
+	if (!hit_test_result)
+		return FALSE;
+
+	webkit_context_menu_remove_all (context_menu);
+
+	/* COUNT FLAGS */
 	menu = e_html_editor_get_managed_widget (editor, "/context-menu");
 
-	g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, event);
+	g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, flags);
 
-	if (event != NULL)
+	if (event)
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,
-			user_data, event->button, event->time);
+			GTK_WIDGET (webkit_web_view), event->button, event->time);
 	else
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,
-			user_data, 0, gtk_get_current_event_time ());
+			GTK_WIDGET (webkit_web_view), 0, gtk_get_current_event_time ());
 
 	return TRUE;
 }
@@ -652,9 +642,9 @@ html_editor_constructed (GObject *object)
 	widget = GTK_WIDGET (e_html_editor_get_view (editor));
 	gtk_container_add (GTK_CONTAINER (priv->scrolled_window), widget);
 	gtk_widget_show (widget);
-	g_signal_connect_swapped (
-		widget, "popup-event",
-		G_CALLBACK (html_editor_show_popup), editor);
+	g_signal_connect (
+		widget, "context-menu",
+		G_CALLBACK (html_editor_context_menu_cb), editor);
 
 	/* Add some combo boxes to the "edit" toolbar. */
 
@@ -834,7 +824,7 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
-		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+		G_TYPE_UINT);
 
 	signals[SPELL_LANGUAGES_CHANGED] = g_signal_new (
 		"spell-languages-changed",

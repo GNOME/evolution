@@ -66,173 +66,145 @@ G_DEFINE_TYPE (
 	e_html_editor_table_dialog,
 	E_TYPE_HTML_EDITOR_DIALOG);
 
-static WebKitDOMElement *
-html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorSelection *editor_selection;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *table, *br, *caret, *parent, *element;
-	gint i;
-
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
-
-	document = webkit_web_view_get_dom_document (
-		WEBKIT_WEB_VIEW (view));
-
-	/* Default 3x3 table */
-	table = webkit_dom_document_create_element (document, "TABLE", NULL);
-	for (i = 0; i < 3; i++) {
-		WebKitDOMHTMLElement *row;
-		gint j;
-
-		row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
-
-		for (j = 0; j < 3; j++) {
-			webkit_dom_html_table_row_element_insert_cell (
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
-		}
-	}
-
-	caret = e_html_editor_selection_save_caret_position (editor_selection);
-
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
-	element = caret;
-
-	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		element = parent;
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
-
-	br = webkit_dom_document_create_element (document, "BR", NULL);
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (br),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-		NULL);
-
-	/* Insert the table into body below the caret */
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (table),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-		NULL);
-
-	e_html_editor_selection_clear_caret_position_marker (editor_selection);
-
-	e_html_editor_view_set_changed (view, TRUE);
-
-	return table;
-}
-
 static void
 html_editor_table_dialog_set_row_count (EHTMLEditorTableDialog *dialog)
 {
-	WebKitDOMHTMLCollection *rows;
-	gulong ii, current_count, expected_count;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	rows = webkit_dom_html_table_element_get_rows (dialog->priv->table_element);
-	current_count = webkit_dom_html_collection_get_length (rows);
-	expected_count = gtk_spin_button_get_value (
-				GTK_SPIN_BUTTON (dialog->priv->rows_edit));
-
-	if (current_count < expected_count) {
-		for (ii = 0; ii < expected_count - current_count; ii++) {
-			webkit_dom_html_table_element_insert_row (
-				dialog->priv->table_element, -1, NULL);
-		}
-	} else if (current_count > expected_count) {
-		for (ii = 0; ii < current_count - expected_count; ii++) {
-			webkit_dom_html_table_element_delete_row (
-				dialog->priv->table_element, -1, NULL);
-		}
-	}
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetRowCount",
+		g_variant_new (
+			"(tu)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			gtk_spin_button_get_value (
+				GTK_SPIN_BUTTON (dialog->priv->rows_edit))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 static void
 html_editor_table_dialog_get_row_count (EHTMLEditorTableDialog *dialog)
 {
-	WebKitDOMHTMLCollection *rows;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	rows = webkit_dom_html_table_element_get_rows (dialog->priv->table_element);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetRowCount",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->rows_edit),
-		webkit_dom_html_collection_get_length (rows));
+	if (result) {
+		gulong value;
+
+		g_variant_get (result, "(u)", &value);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->rows_edit), value);
+		g_variant_unref (result);
+	}
 }
 
 static void
 html_editor_table_dialog_set_column_count (EHTMLEditorTableDialog *dialog)
 {
-	WebKitDOMHTMLCollection *rows;
-	gulong ii, row_count, expected_columns;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	rows = webkit_dom_html_table_element_get_rows (dialog->priv->table_element);
-	row_count = webkit_dom_html_collection_get_length (rows);
-	expected_columns = gtk_spin_button_get_value (
-			GTK_SPIN_BUTTON (dialog->priv->columns_edit));
-
-	for (ii = 0; ii < row_count; ii++) {
-		WebKitDOMHTMLTableRowElement *row;
-		WebKitDOMHTMLCollection *cells;
-		gulong jj, current_columns;
-
-		row = WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (
-			webkit_dom_html_collection_item (rows, ii));
-
-		cells = webkit_dom_html_table_row_element_get_cells (row);
-		current_columns = webkit_dom_html_collection_get_length (cells);
-
-		if (current_columns < expected_columns) {
-			for (jj = 0; jj < expected_columns - current_columns; jj++) {
-				webkit_dom_html_table_row_element_insert_cell (
-					row, -1, NULL);
-			}
-		} else if (expected_columns < current_columns) {
-			for (jj = 0; jj < current_columns - expected_columns; jj++) {
-				webkit_dom_html_table_row_element_delete_cell (
-					row, -1, NULL);
-			}
-		}
-	}
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetColumnCount",
+		g_variant_new (
+			"(tu)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			gtk_spin_button_get_value (
+				GTK_SPIN_BUTTON (dialog->priv->columns_edit))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 static void
 html_editor_table_dialog_get_column_count (EHTMLEditorTableDialog *dialog)
 {
-	WebKitDOMHTMLCollection *rows, *columns;
-	WebKitDOMNode *row;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	rows = webkit_dom_html_table_element_get_rows (dialog->priv->table_element);
-	row = webkit_dom_html_collection_item (rows, 0);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetColumnsCount",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	columns = webkit_dom_html_table_row_element_get_cells (
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
+	if (result) {
+		gulong value;
 
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->columns_edit),
-		webkit_dom_html_collection_get_length (columns));
+		g_variant_get (result, "(u)", &value);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->columns_edit), value);
+		g_variant_unref (result);
+	}
 }
 
 static void
 html_editor_table_dialog_set_width (EHTMLEditorTableDialog *dialog)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 	gchar *width;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	if (gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->width_check))) {
@@ -256,17 +228,53 @@ html_editor_table_dialog_set_width (EHTMLEditorTableDialog *dialog)
 		gtk_widget_set_sensitive (dialog->priv->width_units, FALSE);
 	}
 
-	webkit_dom_html_table_element_set_width (
-		dialog->priv->table_element, width);
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetWidth",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			width),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
 	g_free (width);
 }
 
 static void
 html_editor_table_dialog_get_width (EHTMLEditorTableDialog *dialog)
 {
-	gchar *width;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
+	const gchar *width;
 
-	width = webkit_dom_html_table_element_get_width (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetWidth",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (!result)
+		return;
+
+	g_variant_get (result, "(&s)", &width);
+
 	if (!width || !*width || g_ascii_strncasecmp (width, "auto", 4) == 0) {
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->width_check), FALSE);
@@ -286,50 +294,104 @@ html_editor_table_dialog_get_width (EHTMLEditorTableDialog *dialog)
 			((strstr (width, "%") == NULL) ?
 				"units-px" : "units-percent"));
 	}
-	g_free (width);
+
+	g_variant_unref (result);
 }
 
 static void
 html_editor_table_dialog_set_alignment (EHTMLEditorTableDialog *dialog)
 {
-	g_return_if_fail (dialog->priv->table_element);
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 
-	webkit_dom_html_table_element_set_align (
-		dialog->priv->table_element,
-		gtk_combo_box_get_active_id (
-			GTK_COMBO_BOX (dialog->priv->alignment_combo)));
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetAlignment",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			gtk_combo_box_get_active_id (
+				GTK_COMBO_BOX (dialog->priv->alignment_combo))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 static void
 html_editor_table_dialog_get_alignment (EHTMLEditorTableDialog *dialog)
 {
-	gchar *alignment;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	alignment = webkit_dom_html_table_element_get_align (
-			dialog->priv->table_element);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetAlignment",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->alignment_combo), alignment);
+	if (result) {
+		gchar *value;
 
-	g_free (alignment);
+		g_variant_get (result, "(&s)", &value);
+		gtk_combo_box_set_active_id (
+			GTK_COMBO_BOX (dialog->priv->alignment_combo), value);
+		g_variant_unref (result);
+	}
 }
 
 static void
 html_editor_table_dialog_set_padding (EHTMLEditorTableDialog *dialog)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 	gchar *padding;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	padding = g_strdup_printf (
 		"%d",
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->padding_edit)));
+		gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->priv->padding_edit)));
 
-	webkit_dom_html_table_element_set_cell_padding (
-		dialog->priv->table_element, padding);
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetPadding",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			padding).
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (padding);
 }
@@ -337,39 +399,74 @@ html_editor_table_dialog_set_padding (EHTMLEditorTableDialog *dialog)
 static void
 html_editor_table_dialog_get_padding (EHTMLEditorTableDialog *dialog)
 {
-	gchar *padding;
-	gint padding_int;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	padding = webkit_dom_html_table_element_get_cell_padding (
-			dialog->priv->table_element);
-	if (!padding || !*padding) {
-		padding_int = 0;
-	} else {
-		padding_int = atoi (padding);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetPadding",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		gchar *value;
+		gint value_int;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value)
+			value_int = 0;
+		else
+			value_int = atoi (value);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->padding_edit), value_int);
+		g_variant_unref (result);
 	}
-
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->padding_edit), padding_int);
-
-	g_free (padding);
 }
 
 static void
 html_editor_table_dialog_set_spacing (EHTMLEditorTableDialog *dialog)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 	gchar *spacing;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	spacing = g_strdup_printf (
 		"%d",
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->spacing_edit)));
+		gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->priv->spacing_edit)));
 
-	webkit_dom_html_table_element_set_cell_spacing (
-		dialog->priv->table_element, spacing);
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetSpacing",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			spacing).
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (spacing);
 }
@@ -377,39 +474,74 @@ html_editor_table_dialog_set_spacing (EHTMLEditorTableDialog *dialog)
 static void
 html_editor_table_dialog_get_spacing (EHTMLEditorTableDialog *dialog)
 {
-	gchar *spacing;
-	gint spacing_int;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	spacing = webkit_dom_html_table_element_get_cell_spacing (
-			dialog->priv->table_element);
-	if (!spacing || !*spacing) {
-		spacing_int = 0;
-	} else {
-		spacing_int = atoi (spacing);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetSpacing",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		gchar *value;
+		gint value_int;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value)
+			value_int = 0;
+		else
+			value_int = atoi (value);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->spacing_edit), value_int);
+		g_variant_unref (result);
 	}
-
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->spacing_edit), spacing_int);
-
-	g_free (spacing);
 }
 
 static void
 html_editor_table_dialog_set_border (EHTMLEditorTableDialog *dialog)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 	gchar *border;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	border = g_strdup_printf (
 		"%d",
-			gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (dialog->priv->border_edit)));
+		gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (dialog->priv->border_edit)));
 
-	webkit_dom_html_table_element_set_border (
-		dialog->priv->table_element, border);
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetBorder",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			border).
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (border);
 }
@@ -417,43 +549,77 @@ html_editor_table_dialog_set_border (EHTMLEditorTableDialog *dialog)
 static void
 html_editor_table_dialog_get_border (EHTMLEditorTableDialog *dialog)
 {
-	gchar *border;
-	gint border_int;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	border = webkit_dom_html_table_element_get_border (
-			dialog->priv->table_element);
-	if (!border || !*border) {
-		border_int = 0;
-	} else {
-		border_int = atoi (border);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"EHTMLEditorTableDialogGetBorder",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		gchar *value;
+		gint value_int;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value)
+			value_int = 0;
+		else
+			value_int = atoi (value);
+		gtk_spin_button_set_value (
+			GTK_SPIN_BUTTON (dialog->priv->border_edit), value_int);
+		g_variant_unref (result);
 	}
-
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->border_edit), border_int);
-
-	g_free (border);
 }
 
 static void
 html_editor_table_dialog_set_background_color (EHTMLEditorTableDialog *dialog)
 {
-	gchar *color;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	gchar *color
 	GdkRGBA rgba;
 
-	g_return_if_fail (dialog->priv->table_element);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_button), &rgba);
-
 	if (rgba.alpha != 0.0)
 		color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	else
 		color = g_strdup ("");
 
-	webkit_dom_html_table_element_set_bg_color (
-		dialog->priv->table_element, color);
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogSetBgColor",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			color).
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (color);
 }

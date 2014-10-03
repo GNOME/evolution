@@ -148,22 +148,33 @@ html_editor_page_dialog_set_text_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	GDBusProxy *web_extension;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-	webkit_dom_html_body_element_set_text (
-		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+
+	g_dbus_proxy_call (
+		web_extension,
+		"BodySetTextColor",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			color),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (color);
 }
@@ -173,22 +184,33 @@ html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	GDBusProxy *web_extension;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
-	webkit_dom_html_body_element_set_link (
-		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+
+	g_dbus_proxy_call (
+		web_extension,
+		"BodySetLinkColor",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			color),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (color);
 }
@@ -198,15 +220,15 @@ html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	GDBusProxy *web_extension;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
@@ -215,8 +237,18 @@ html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 	else
 		color = g_strdup ("");
 
-	webkit_dom_html_body_element_set_bg_color (
-		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+	g_dbus_proxy_call (
+		web_extension,
+		"BodySetBgColor",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			color),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (color);
 }
@@ -262,27 +294,34 @@ html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	GDBusProxy *web_extension;
 	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	uri = gtk_file_chooser_get_uri (
-			GTK_FILE_CHOOSER (
-				dialog->priv->background_image_filechooser));
+		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
 
 	if (uri && *uri)
 		e_html_editor_selection_replace_image_src (
-			e_html_editor_view_get_selection (view),
-			WEBKIT_DOM_ELEMENT (body),
-			uri);
+			e_html_editor_view_get_selection (view), "body", uri);
 	else
-		remove_image_attributes_from_element (
-			WEBKIT_DOM_ELEMENT (body));
+		g_dbus_proxy_call (
+			web_extension,
+			"RemoveImageAttributesFromElement",
+			g_variant_new (
+				"(ts)",
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+				"body"),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 
 	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 
@@ -316,73 +355,140 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	EHTMLEditorPageDialog *dialog;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-	gchar *tmp;
+	GDBusProxy *web_extension;
 	GdkRGBA rgba;
+	GVariant *result;
 
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"ElementGetAttributeBySelector",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (
+				WEBKIT_WEB_VIEW (view)),
+			"body",
+			"data-uri"),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	tmp = webkit_dom_element_get_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-uri");
-	if (tmp && *tmp) {
-		gint ii;
-		gchar *fname = g_filename_from_uri (tmp, NULL, NULL);
-		for (ii = 0; ii < G_N_ELEMENTS (templates); ii++) {
-			const Template *tmplt = &templates[ii];
+	if (result) {
+		const gchar *value;
 
-			if (g_strcmp0 (tmplt->filename, fname) == 0) {
-				gtk_combo_box_set_active (
-					GTK_COMBO_BOX (dialog->priv->background_template_combo),
-					ii);
-				break;
+		g_variant_get (result, "(&s)", &value);
+
+		if (value && *value) {
+			gint ii;
+			gchar *fname = g_filename_from_uri (value, NULL, NULL);
+			for (ii = 0; ii < G_N_ELEMENTS (templates); ii++) {
+				const Template *tmplt = &templates[ii];
+
+				if (g_strcmp0 (tmplt->filename, fname) == 0) {
+					gtk_combo_box_set_active (
+						GTK_COMBO_BOX (dialog->priv->background_template_combo),
+						ii);
+					break;
+				}
 			}
+			g_free (fname);
+		} else {
+			gtk_combo_box_set_active (
+				GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
 		}
-		g_free (fname);
-	} else {
-		gtk_combo_box_set_active (
-			GTK_COMBO_BOX (dialog->priv->background_template_combo), 0);
+		g_variant_unref (result);
 	}
-	g_free (tmp);
 
-	tmp = webkit_dom_html_body_element_get_text (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp || !gdk_rgba_parse (&rgba, tmp))
-		e_utils_get_theme_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
-	g_free (tmp);
-	e_color_combo_set_current_color (
-		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"BodyGetTextColor",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	tmp = webkit_dom_html_body_element_get_link (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp) {
-		GdkColor color;
-		gtk_widget_style_get (
-			GTK_WIDGET (view), "link-color", &color, NULL);
+	if (result) {
+		const gchar *value;
 
-		rgba.alpha = 1;
-		rgba.red = ((gdouble) color.red) / G_MAXUINT16;
-		rgba.green = ((gdouble) color.green) / G_MAXUINT16;
-		rgba.blue = ((gdouble) color.blue) / G_MAXUINT16;
-	} else {
-		gdk_rgba_parse (&rgba, tmp);
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value || !gdk_rgba_parse (&rgba, value))
+			e_utils_get_theme_color (
+				widget,
+				"theme_text_color",
+				E_UTILS_DEFAULT_THEME_TEXT_COLOR,
+				&rgba);
+		e_color_combo_set_current_color (
+			E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
+		g_variant_unref (result);
 	}
-	g_free (tmp);
-	e_color_combo_set_current_color (
-		E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
 
-	tmp = webkit_dom_html_body_element_get_bg_color (
-			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-	if (!tmp || !*tmp || !gdk_rgba_parse (&rgba, tmp))
-		e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &rgba);
-	g_free (tmp);
-	e_color_combo_set_current_color (
-		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"BodyGetLinkColor",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value) {
+			GdkColor color;
+			gtk_widget_style_get (
+				GTK_WIDGET (view), "link-color", &color, NULL);
+
+			rgba.alpha = 1;
+			rgba.red = ((gdouble) color.red) / G_MAXUINT16;
+			rgba.green = ((gdouble) color.green) / G_MAXUINT16;
+			rgba.blue = ((gdouble) color.blue) / G_MAXUINT16;
+		} else {
+			gdk_rgba_parse (&rgba, value);
+		}
+		e_color_combo_set_current_color (
+			E_COLOR_COMBO (dialog->priv->link_color_picker), &rgba);
+		g_variant_unref (result);
+	}
+
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"BodyGetBgColor",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		const gchar *value;
+
+		g_variant_get (result, "(&s)", &value);
+		if (!value || !*value || !gdk_rgba_parse (&rgba, value))
+			e_utils_get_theme_color (
+			widget,
+			"theme_base_color",
+			E_UTILS_DEFAULT_THEME_BASE_COLOR,
+			&rgba);
+		e_color_combo_set_current_color (
+			E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
+		g_variant_unref (result);
+	}
 
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->show (widget);
 }

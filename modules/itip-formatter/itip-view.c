@@ -2657,13 +2657,13 @@ itip_view_ref_source (ItipView *view)
 	}
 
 	result = g_dbus_proxy_call_sync (
-			view->priv->web_extension,
-			"SelectGetValue",
-			g_variant_new ("(s)", SELECT_ESOURCE),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
+		view->priv->web_extension,
+		"SelectGetValue",
+		g_variant_new ("(s)", SELECT_ESOURCE),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
 	if (result) {
 		const gchar *uid;

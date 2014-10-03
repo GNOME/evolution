@@ -78,12 +78,12 @@ struct _EHTMLEditorViewClass {
 GType		e_html_editor_view_get_type	(void) G_GNUC_CONST;
 EHTMLEditorView *
 		e_html_editor_view_new		(void);
+GDBusProxy *
+		e_html_editor_view_get_web_extension_proxy
+						(EHTMLEditorView *view);
 EHTMLEditorSelection *
 		e_html_editor_view_get_selection
 						(EHTMLEditorView *view);
-gboolean	e_html_editor_view_exec_command	(EHTMLEditorView *view,
-						 EHTMLEditorViewCommand command,
-						 const gchar *value);
 gboolean	e_html_editor_view_get_changed	(EHTMLEditorView *view);
 void		e_html_editor_view_set_changed	(EHTMLEditorView *view,
 						 gboolean changed);
@@ -138,12 +138,15 @@ void		e_html_editor_view_embed_styles	(EHTMLEditorView *view);
 void		e_html_editor_view_remove_embed_styles
 						(EHTMLEditorView *view);
 void		e_html_editor_view_update_fonts	(EHTMLEditorView *view);
+/*
 WebKitDOMElement *
 		e_html_editor_view_get_element_under_mouse_click
 						(EHTMLEditorView *view);
+*/
 void		e_html_editor_view_check_magic_links
 						(EHTMLEditorView *view,
 						 gboolean while_typing);
+/*
 WebKitDOMElement *
 		e_html_editor_view_quote_plain_text_element
 						(EHTMLEditorView *view,
@@ -151,6 +154,7 @@ WebKitDOMElement *
 WebKitDOMElement *
 		e_html_editor_view_quote_plain_text
 						(EHTMLEditorView *view);
+*/
 void		e_html_editor_view_dequote_plain_text
 						(EHTMLEditorView *view);
 void		e_html_editor_view_turn_spell_check_off

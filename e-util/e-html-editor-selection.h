@@ -178,11 +178,12 @@ void		e_html_editor_selection_insert_as_text
 						 const gchar *html_text);
 void		e_html_editor_selection_replace_image_src
 						(EHTMLEditorSelection *selection,
-						 WebKitDOMElement *element,
+						 const gchar *selector,
 						 const gchar *image_uri);
 void		e_html_editor_selection_insert_image
 						(EHTMLEditorSelection *selection,
 						 const gchar *image_uri);
+/*
 void		e_html_editor_selection_move_caret_into_element
 						(WebKitDOMDocument *document,
 						 WebKitDOMElement *element);
@@ -237,6 +238,7 @@ WebKitDOMElement *
 		e_html_editor_selection_wrap_paragraph
 						(EHTMLEditorSelection *selection,
 						 WebKitDOMElement *paragraph);
+*/
 void		e_html_editor_selection_save	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_restore	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_move	(EHTMLEditorSelection *selection,
@@ -247,6 +249,7 @@ void		e_html_editor_selection_extend	(EHTMLEditorSelection *selection,
 						 EHTMLEditorSelectionGranularity granularity);
 void		e_html_editor_selection_scroll_to_caret
 						(EHTMLEditorSelection *selection);
+/*
 EHTMLEditorSelectionBlockFormat
 		e_html_editor_selection_get_list_format_from_node
 						(WebKitDOMNode *node);
@@ -255,6 +258,7 @@ EHTMLEditorSelectionAlignment
 						(WebKitDOMNode *node);
 void		remove_wrapping_from_element	(WebKitDOMElement *element);
 void		remove_quoting_from_element	(WebKitDOMElement *element);
+*/
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_H */

@@ -235,10 +235,6 @@ void		e_web_view_request		(EWebView *web_view,
 GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 						 GAsyncResult *result,
 						 GError **error);
-void		e_web_view_register_uri_scheme	(EWebView *web_view,
-						 EURIScheme scheme,
-						 gpointer user_callback,
-						 gpointer user_data);
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
@@ -250,18 +246,6 @@ void		e_web_view_add_css_rule_into_style_sheet
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
 						 const gchar *style);
-gboolean	element_has_id			(WebKitDOMElement *element,
-						 const gchar* id);
-gboolean	element_has_tag			(WebKitDOMElement *element,
-						 const gchar* tag);
-gboolean	element_has_class		(WebKitDOMElement *element,
-						 const gchar* class);
-void		element_add_class		(WebKitDOMElement *element,
-						 const gchar* class);
-void		element_remove_class		(WebKitDOMElement *element,
-						 const gchar* class);
-void		remove_node			(WebKitDOMNode *node);
-void		remove_node_if_empty		(WebKitDOMNode *node);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */
