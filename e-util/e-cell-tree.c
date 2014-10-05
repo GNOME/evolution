@@ -227,8 +227,20 @@ draw_expander (ECellTreeView *ectv,
 			break;
 	}
 
-	if (expander_style == GTK_EXPANDER_EXPANDED)
+	/* XXX GTK 3.13.7 broke backward-compat on which state flag controls
+	 *     how an expander is drawn.
+	 *
+	 *     Older versions used GTK_STATE_FLAG_ACTIVE, 3.13.7 and later
+	 *     changed it to GTK_STATE_FLAG_CHECKED.
+	 *
+	 *     See https://bugzilla.gnome.org/733967 for details. */
+	if (expander_style == GTK_EXPANDER_EXPANDED) {
+#if GTK_CHECK_VERSION(3,13,7)
+		flags |= GTK_STATE_FLAG_CHECKED;
+#else
 		flags |= GTK_STATE_FLAG_ACTIVE;
+#endif
+	}
 
 	gtk_style_context_set_state (style_context, flags);
 
