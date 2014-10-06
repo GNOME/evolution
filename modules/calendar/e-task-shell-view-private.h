@@ -24,7 +24,7 @@
 #include "e-task-shell-view.h"
 
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <libecal/libecal.h>
 
 #include "shell/e-shell-utils.h"
@@ -33,14 +33,13 @@
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-cal-model-tasks.h"
-#include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/print.h"
-#include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/task-editor.h"
+
+#include "e-cal-base-shell-sidebar.h"
 
 #include "e-task-shell-backend.h"
 #include "e-task-shell-content.h"
-#include "e-task-shell-sidebar.h"
 #include "e-task-shell-view-actions.h"
 
 #define E_TASK_SHELL_VIEW_GET_PRIVATE(obj) \
@@ -83,11 +82,7 @@ struct _ETaskShellViewPrivate {
 	/* These are just for convenience. */
 	ETaskShellBackend *task_shell_backend;
 	ETaskShellContent *task_shell_content;
-	ETaskShellSidebar *task_shell_sidebar;
-
-	/* sidebar signal handlers */
-	gulong client_added_handler_id;
-	gulong client_removed_handler_id;
+	ECalBaseShellSidebar *task_shell_sidebar;
 
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
@@ -97,7 +92,6 @@ struct _ETaskShellViewPrivate {
 	gulong popup_event_handler_id;
 	gulong selection_change_1_handler_id;
 	gulong selection_change_2_handler_id;
-	gulong status_message_handler_id;
 
 	ECalModel *model;
 	gulong model_changed_handler_id;
@@ -115,7 +109,6 @@ struct _ETaskShellViewPrivate {
 	gulong settings_hide_completed_tasks_units_handler_id;
 	gulong settings_hide_completed_tasks_value_handler_id;
 
-	EActivity *activity;
 	guint update_timeout;
 	guint update_completed_timeout;
 
@@ -142,10 +135,6 @@ void		e_task_shell_view_open_task
 					 ECalModelComponent *comp_data);
 void		e_task_shell_view_delete_completed
 					(ETaskShellView *task_shell_view);
-void		e_task_shell_view_set_status_message
-					(ETaskShellView *task_shell_view,
-					 const gchar *status_message,
-					 gdouble percent);
 void		e_task_shell_view_update_sidebar
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_update_search_filter

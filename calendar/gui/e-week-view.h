@@ -26,7 +26,6 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "e-calendar-view.h"
-#include "gnome-cal.h"
 
 /*
  * EWeekView - displays the Week & Month views of the calendar.

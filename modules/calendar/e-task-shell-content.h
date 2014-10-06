@@ -1,5 +1,6 @@
 /*
- * e-task-shell-content.h
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,15 +8,11 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef E_TASK_SHELL_CONTENT_H
@@ -25,8 +22,9 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-task-table.h>
+
+#include "e-cal-base-shell-content.h"
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_CONTENT \
@@ -53,44 +51,27 @@ typedef struct _ETaskShellContent ETaskShellContent;
 typedef struct _ETaskShellContentClass ETaskShellContentClass;
 typedef struct _ETaskShellContentPrivate ETaskShellContentPrivate;
 
-enum {
-	E_TASK_SHELL_CONTENT_SELECTION_SINGLE = 1 << 0,
-	E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE = 1 << 1,
-	E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN = 1 << 2,
-	E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT = 1 << 3,
-	E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE = 1 << 4,
-	E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE = 1 << 5,
-	E_TASK_SHELL_CONTENT_SELECTION_HAS_URL = 1 << 6
-};
-
 struct _ETaskShellContent {
-	EShellContent parent;
+	ECalBaseShellContent parent;
 	ETaskShellContentPrivate *priv;
 };
 
 struct _ETaskShellContentClass {
-	EShellContentClass parent_class;
+	ECalBaseShellContentClass parent_class;
 };
 
-GType		e_task_shell_content_get_type	(void);
-void		e_task_shell_content_type_register
-					(GTypeModule *type_module);
-GtkWidget *	e_task_shell_content_new
-					(EShellView *shell_view);
-ECalModel *	e_task_shell_content_get_task_model
-					(ETaskShellContent *task_shell_content);
-ETaskTable *	e_task_shell_content_get_task_table
-					(ETaskShellContent *task_shell_content);
-EPreviewPane *	e_task_shell_content_get_preview_pane
-					(ETaskShellContent *task_shell_content);
+GType		e_task_shell_content_get_type		(void);
+void		e_task_shell_content_type_register	(GTypeModule *type_module);
+GtkWidget *	e_task_shell_content_new		(EShellView *shell_view);
+ETaskTable *	e_task_shell_content_get_task_table	(ETaskShellContent *task_shell_content);
+EPreviewPane *	e_task_shell_content_get_preview_pane	(ETaskShellContent *task_shell_content);
 gboolean	e_task_shell_content_get_preview_visible
-					(ETaskShellContent *task_shell_content);
+							(ETaskShellContent *task_shell_content);
 void		e_task_shell_content_set_preview_visible
-					(ETaskShellContent *task_shell_content,
-					 gboolean preview_visible);
+							(ETaskShellContent *task_shell_content,
+							 gboolean preview_visible);
 EShellSearchbar *
-		e_task_shell_content_get_searchbar
-					(ETaskShellContent *task_shell_content);
+		e_task_shell_content_get_searchbar	(ETaskShellContent *task_shell_content);
 
 G_END_DECLS
 

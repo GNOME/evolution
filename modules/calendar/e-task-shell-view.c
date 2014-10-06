@@ -1,5 +1,6 @@
 /*
- * e-task-shell-view.c
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,93 +8,35 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <gtk/gtk.h>
+
+#include "e-cal-base-shell-sidebar.h"
+#include "e-task-shell-content.h"
+#include "e-task-shell-view.h"
+
 #include "e-task-shell-view-private.h"
+
+#define E_TASK_SHELL_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TASK_SHELL_VIEW, ETaskShellViewPrivate))
+
+G_DEFINE_DYNAMIC_TYPE (ETaskShellView, e_task_shell_view, E_TYPE_CAL_BASE_SHELL_VIEW)
 
 enum {
 	PROP_0,
 	PROP_CONFIRM_PURGE
 };
-
-G_DEFINE_DYNAMIC_TYPE (
-	ETaskShellView,
-	e_task_shell_view,
-	E_TYPE_SHELL_VIEW)
-
-static void
-task_shell_view_set_property (GObject *object,
-                              guint property_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_CONFIRM_PURGE:
-			e_task_shell_view_set_confirm_purge (
-				E_TASK_SHELL_VIEW (object),
-				g_value_get_boolean (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-task_shell_view_get_property (GObject *object,
-                              guint property_id,
-                              GValue *value,
-                              GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_CONFIRM_PURGE:
-			g_value_set_boolean (
-				value, e_task_shell_view_get_confirm_purge (
-				E_TASK_SHELL_VIEW (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-task_shell_view_dispose (GObject *object)
-{
-	e_task_shell_view_private_dispose (E_TASK_SHELL_VIEW (object));
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_task_shell_view_parent_class)->dispose (object);
-}
-
-static void
-task_shell_view_finalize (GObject *object)
-{
-	e_task_shell_view_private_finalize (E_TASK_SHELL_VIEW (object));
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_task_shell_view_parent_class)->finalize (object);
-}
-
-static void
-task_shell_view_constructed (GObject *object)
-{
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_task_shell_view_parent_class)->constructed (object);
-
-	e_task_shell_view_private_constructed (E_TASK_SHELL_VIEW (object));
-}
 
 static void
 task_shell_view_execute_search (EShellView *shell_view)
@@ -109,6 +52,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	ETaskTable *task_table;
 	EWebView *web_view;
 	ECalModel *model;
+	ECalDataModel *data_model;
 	icaltimezone *timezone;
 	struct icaltimetype current_time;
 	time_t start_range;
@@ -128,6 +72,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	model = e_task_table_get_model (task_table);
+	data_model = e_cal_model_get_data_model (model);
 	timezone = e_cal_model_get_timezone (model);
 	current_time = icaltime_current_time_with_zone (timezone);
 	now_time = time_day_begin (icaltime_as_timet (current_time));
@@ -279,11 +224,10 @@ task_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	e_cal_model_set_search_query (model, query);
+	e_cal_data_model_set_filter (data_model, query);
 	g_free (query);
 
-	preview_pane =
-		e_task_shell_content_get_preview_pane (task_shell_content);
+	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
 
 	web_view = e_preview_pane_get_web_view (preview_pane);
 	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
@@ -318,8 +262,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gboolean refresh_supported;
 
 	/* Chain up to parent's update_actions() method. */
-	E_SHELL_VIEW_CLASS (e_task_shell_view_parent_class)->
-		update_actions (shell_view);
+	E_SHELL_VIEW_CLASS (e_task_shell_view_parent_class)->update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
@@ -327,38 +270,37 @@ task_shell_view_update_actions (EShellView *shell_view)
 	state = e_shell_content_check_state (shell_content);
 
 	single_task_selected =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_SINGLE);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_SINGLE);
 	multiple_tasks_selected =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_MULTIPLE);
 	selection_is_assignable =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_CAN_ASSIGN);
 	sources_are_editable =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_EDITABLE);
 	some_tasks_complete =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_COMPLETE);
 	some_tasks_incomplete =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE);
 	selection_has_url =
-		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_URL);
+		(state & E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_URL);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	state = e_shell_sidebar_check_state (shell_sidebar);
 
 	has_primary_source =
-		(state & E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+		(state & E_CAL_BASE_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
 	primary_source_is_writable =
-		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
+		(state & E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
 	primary_source_is_removable =
-		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+		(state & E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
 	primary_source_is_remote_deletable =
-		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOTE_DELETABLE);
+		(state & E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOTE_DELETABLE);
 	primary_source_in_collection =
-		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
+		(state & E_CAL_BASE_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 	refresh_supported =
-		(state & E_TASK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
+		(state & E_CAL_BASE_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
-	any_tasks_selected =
-		(single_task_selected || multiple_tasks_selected);
+	any_tasks_selected = (single_task_selected || multiple_tasks_selected);
 
 	action = ACTION (TASK_ASSIGN);
 	sensitive =
@@ -443,10 +385,72 @@ task_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
+task_shell_view_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CONFIRM_PURGE:
+			e_task_shell_view_set_confirm_purge (
+				E_TASK_SHELL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_shell_view_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CONFIRM_PURGE:
+			g_value_set_boolean (
+				value, e_task_shell_view_get_confirm_purge (
+				E_TASK_SHELL_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_shell_view_dispose (GObject *object)
+{
+	e_task_shell_view_private_dispose (E_TASK_SHELL_VIEW (object));
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_task_shell_view_parent_class)->dispose (object);
+}
+
+static void
+task_shell_view_finalize (GObject *object)
+{
+	e_task_shell_view_private_finalize (E_TASK_SHELL_VIEW (object));
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_task_shell_view_parent_class)->finalize (object);
+}
+
+static void
+task_shell_view_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_task_shell_view_parent_class)->constructed (object);
+
+	e_task_shell_view_private_constructed (E_TASK_SHELL_VIEW (object));
+}
+
+static void
 e_task_shell_view_class_init (ETaskShellViewClass *class)
 {
 	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
+	ECalBaseShellViewClass *cal_base_shell_view_class;
 
 	g_type_class_add_private (class, sizeof (ETaskShellViewPrivate));
 
@@ -465,9 +469,12 @@ e_task_shell_view_class_init (ETaskShellViewClass *class)
 	shell_view_class->search_options = "/task-search-options";
 	shell_view_class->search_rules = "tasktypes.xml";
 	shell_view_class->new_shell_content = e_task_shell_content_new;
-	shell_view_class->new_shell_sidebar = e_task_shell_sidebar_new;
+	shell_view_class->new_shell_sidebar = e_cal_base_shell_sidebar_new;
 	shell_view_class->execute_search = task_shell_view_execute_search;
 	shell_view_class->update_actions = task_shell_view_update_actions;
+
+	cal_base_shell_view_class = E_CAL_BASE_SHELL_VIEW_CLASS (class);
+	cal_base_shell_view_class->source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 
 	g_object_class_install_property (
 		object_class,
@@ -491,8 +498,7 @@ e_task_shell_view_class_finalize (ETaskShellViewClass *class)
 static void
 e_task_shell_view_init (ETaskShellView *task_shell_view)
 {
-	task_shell_view->priv =
-		E_TASK_SHELL_VIEW_GET_PRIVATE (task_shell_view);
+	task_shell_view->priv = E_TASK_SHELL_VIEW_GET_PRIVATE (task_shell_view);
 
 	e_task_shell_view_private_init (task_shell_view);
 }

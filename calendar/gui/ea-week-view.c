@@ -29,7 +29,7 @@
 
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
-#include "ea-gnome-calendar.h"
+#include "e-month-view.h"
 
 static const gchar * ea_week_view_get_name (AtkObject *accessible);
 static const gchar * ea_week_view_get_description (AtkObject *accessible);
@@ -84,9 +84,7 @@ static const gchar *
 ea_week_view_get_name (AtkObject *accessible)
 {
 	EWeekView *week_view;
-	GnomeCalendar *gcal;
-	const gchar *label_text;
-	GnomeCalendarViewType view_type;
+	gchar *label_text;
 	GtkWidget *widget;
 	gint n_events;
 	gchar *event_str, *name_str;
@@ -98,9 +96,8 @@ ea_week_view_get_name (AtkObject *accessible)
 		return NULL;
 
 	week_view = E_WEEK_VIEW (widget);
-	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
 
-	label_text = ea_gnome_calendar_get_label_description (gcal);
+	label_text = e_calendar_view_get_description_text (E_CALENDAR_VIEW (week_view));
 
 	n_events = atk_object_get_n_accessible_children (accessible);
 	/* the child main item is always there */
@@ -112,9 +109,7 @@ ea_week_view_get_name (AtkObject *accessible)
 	else
 		event_str = g_strdup (_("It has no events."));
 
-	view_type = gnome_calendar_get_view (gcal);
-
-	if (view_type == GNOME_CAL_MONTH_VIEW)
+	if (E_IS_MONTH_VIEW (week_view))
 		name_str = g_strdup_printf (
 			_("Month View: %s. %s"),
 			label_text, event_str);
@@ -127,6 +122,7 @@ ea_week_view_get_name (AtkObject *accessible)
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_str);
 	g_free (name_str);
 	g_free (event_str);
+	g_free (label_text);
 
 	return accessible->name;
 }
@@ -148,13 +144,7 @@ ea_week_view_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 	else {
-		GnomeCalendar *gcal;
-		GnomeCalendarViewType view_type;
-
-		gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view));
-		view_type = gnome_calendar_get_view (gcal);
-
-		if (view_type == GNOME_CAL_MONTH_VIEW)
+		if (E_IS_MONTH_VIEW (week_view))
 			return _("calendar view for a month");
 		else
 			return _("calendar view for one or more weeks");
@@ -188,12 +178,14 @@ ea_week_view_get_n_children (AtkObject *accessible)
 
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_index);
-		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-				       event->spans_index + 0);
+		if (event->spans_index >= 0 && event->spans_index < week_view->spans->len) {
+			span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+					       event->spans_index + 0);
 
-		/* at least one of the event spans is visible, count it */
-		if (span->text_item)
-			++count;
+			/* at least one of the event spans is visible, count it */
+			if (span->text_item)
+				++count;
+		}
 	}
 
 	/* add the number of visible jump buttons */
@@ -250,6 +242,10 @@ ea_week_view_ref_child (AtkObject *accessible,
 
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_index);
+
+		if (event->spans_index < 0 || !week_view->spans || event->spans_index >= week_view->spans->len)
+			continue;
+
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 				       event->spans_index + span_num);
 

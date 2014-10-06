@@ -27,6 +27,7 @@
 #include "ea-calendar-helpers.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
+#include "e-cal-ops.h"
 #include "dialogs/goto-dialog.h"
 #include <glib/gi18n.h>
 
@@ -41,7 +42,7 @@ static void ea_cal_view_event_added_cb (ECalendarView *cal_view,
                                         gpointer data);
 
 static gboolean idle_dates_changed (gpointer data);
-static void ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data);
+static void ea_cal_model_time_range_changed_cb (ECalModel *model, time_t start, time_t end, gpointer data);
 
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean action_interface_do_action (AtkAction *action, gint i);
@@ -102,7 +103,7 @@ ea_cal_view_real_initialize (AtkObject *accessible,
                              gpointer data)
 {
 	ECalendarView *cal_view;
-	GnomeCalendar *gcal;
+	ECalModel *model;
 	static AtkRole role = ATK_ROLE_INVALID;
 
 	g_return_if_fail (EA_IS_CAL_VIEW (accessible));
@@ -126,13 +127,13 @@ ea_cal_view_real_initialize (AtkObject *accessible,
 		cal_view, "event_added",
 		G_CALLBACK (ea_cal_view_event_added_cb), NULL);
 
-	/* listen for date changes of calendar */
-	gcal = e_calendar_view_get_calendar (cal_view);
+	/* listen for date changes */
+	model = e_calendar_view_get_model (cal_view);
 
-	if (gcal)
-		g_signal_connect (
-			gcal, "dates_shown_changed",
-			G_CALLBACK (ea_cal_view_dates_change_cb), accessible);
+	if (model)
+		g_signal_connect_after (
+			model, "time-range-changed",
+			G_CALLBACK (ea_cal_model_time_range_changed_cb), accessible);
 }
 
 static AtkObject *
@@ -267,8 +268,10 @@ idle_dates_changed (gpointer data)
 }
 
 static void
-ea_cal_view_dates_change_cb (GnomeCalendar *gcal,
-                             gpointer data)
+ea_cal_model_time_range_changed_cb (ECalModel *model,
+				    time_t start,
+				    time_t end,
+				    gpointer data)
 {
 	g_idle_add (idle_dates_changed, data);
 }
@@ -317,35 +320,25 @@ action_interface_do_action (AtkAction *action,
 		return FALSE;
 
 	cal_view = E_CALENDAR_VIEW (widget);
-	 switch (index) {
-	 case 0:
-		 /* New Appointment */
-		 e_calendar_view_new_appointment (cal_view);
-		 break;
-	 case 1:
-		 /* New All Day Event */
-		 e_calendar_view_get_selected_time_range (cal_view,
-						     &dtstart, &dtend);
-		 e_calendar_view_new_appointment_for (cal_view,
-						 dtstart, dtend, TRUE, FALSE);
-		 break;
-	 case 2:
-		 /* New Meeting */
-		 e_calendar_view_get_selected_time_range (cal_view,
-						     &dtstart, &dtend);
-		 e_calendar_view_new_appointment_for (cal_view,
-						 dtstart, dtend, FALSE, TRUE);
-		 break;
-#if 0  /* FIXME Have to go through GnomeCalendar */
-	 case 3:
-		 /* Go to today */
-		 break;
-		 calendar_goto_today (e_calendar_view_get_calendar (cal_view));
-	 case 4:
-		 /* Go to date */
-		 goto_dialog (e_calendar_view_get_calendar (cal_view));
-		 break;
-#endif
+	switch (index) {
+	case 0:
+		/* New Appointment */
+		e_calendar_view_new_appointment (cal_view);
+		break;
+	case 1:
+		/* New All Day Event */
+		e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+		e_cal_ops_new_component_editor_from_model (
+			e_calendar_view_get_model (cal_view), NULL,
+			dtstart, dtend, FALSE, TRUE);
+		break;
+	case 2:
+		/* New Meeting */
+		e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+		e_cal_ops_new_component_editor_from_model (
+			e_calendar_view_get_model (cal_view), NULL,
+			dtstart, dtend, TRUE, FALSE);
+		break;
 	 default:
 		 return_value = FALSE;
 		 break;

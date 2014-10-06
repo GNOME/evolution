@@ -49,6 +49,8 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 
+#include "e-alert-sink.h"
+#include "e-client-cache.h"
 #include "e-filter-option.h"
 #include "e-util-private.h"
 
@@ -2345,6 +2347,146 @@ e_util_allow_auth_prompt_and_refresh_client_finish (EClient *client,
 		result, e_util_allow_auth_prompt_and_refresh_client), FALSE);
 
 	return g_task_propagate_boolean (G_TASK (result), error);
+}
+
+/**
+ * e_util_get_open_source_job_info:
+ * @extension_name: an extension name of the source
+ * @source_display_name: an ESource's display name
+ * @description: (out) (transfer-full): a description to use
+ * @alert_ident: (out) (transfer-full): an alert ident to use on failure
+ * @alert_arg_0: (out) (transfer-full): an alert argument 0 to use on failure
+ *
+ * Populates @desription, @alert_ident and @alert_arg_0 to be used
+ * to open an #ESource with extension @extension_name. The values
+ * can be used for functions like e_alert_sink_submit_thread_job().
+ *
+ * If #TRUE is returned, then the caller is responsible to free
+ * all @desription, @alert_ident and @alert_arg_0 with g_free(),
+ * when no longer needed.
+ *
+ * Returns: #TRUE, if the values for @desription, @alert_ident and @alert_arg_0
+ *     were set for the given @extension_name; when #FALSE is returned, then
+ *     none of these out variables are changed.
+ *
+ * Since: 3.14
+ **/
+gboolean
+e_util_get_open_source_job_info (const gchar *extension_name,
+				 const gchar *source_display_name,
+				 gchar **description,
+				 gchar **alert_ident,
+				 gchar **alert_arg_0)
+{
+	g_return_val_if_fail (extension_name != NULL, FALSE);
+	g_return_val_if_fail (source_display_name != NULL, FALSE);
+	g_return_val_if_fail (description != NULL, FALSE);
+	g_return_val_if_fail (alert_ident != NULL, FALSE);
+	g_return_val_if_fail (alert_arg_0 != NULL, FALSE);
+
+	if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
+		*alert_ident = g_strdup ("calendar:failed-open-calendar");
+		*description = g_strdup_printf (_("Opening calendar '%s'"), source_display_name);
+	} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0) {
+		*alert_ident = g_strdup ("calendar:failed-open-memos");
+		*description = g_strdup_printf (_("Opening memo list '%s'"), source_display_name);
+	} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_TASK_LIST) == 0) {
+		*alert_ident = g_strdup ("calendar:failed-open-tasks");
+		*description = g_strdup_printf (_("Opening task list '%s'"), source_display_name);
+	} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_ADDRESS_BOOK) == 0) {
+		*alert_ident = g_strdup ("addressbook:load-error");
+		*description = g_strdup_printf (_("Opening address book '%s'"), source_display_name);
+	} else {
+		return FALSE;
+	}
+
+	*alert_arg_0 = g_strdup (source_display_name);
+
+	return TRUE;
+}
+
+/**
+ * e_util_propagate_open_source_job_error:
+ * @job_data: an #EAlertSinkThreadJobData instance
+ * @extension_name: what extension name had beeing opened
+ * @local_error: (allow none): a #GError as obtained in a thread job; can be NULL for success
+ * @error: (allow none): an output #GError, to which propagate the @local_error
+ *
+ * Propagates (and cosumes) the @local_error into the @error, eventually
+ * changes alert_ident for the @job_data for well-known error codes,
+ * where is available better error description.
+ *
+ * Since: 3.14
+ **/
+void
+e_util_propagate_open_source_job_error (EAlertSinkThreadJobData *job_data,
+					const gchar *extension_name,
+					GError *local_error,
+					GError **error)
+{
+	const gchar *alert_ident = NULL;
+
+	g_return_if_fail (job_data != NULL);
+	g_return_if_fail (extension_name != NULL);
+
+	if (!local_error)
+		return;
+
+	if (!error) {
+		g_error_free (local_error);
+		return;
+	}
+
+	if (g_error_matches (local_error, E_CLIENT_ERROR, E_CLIENT_ERROR_REPOSITORY_OFFLINE)) {
+		if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
+			alert_ident = "calendar:prompt-no-contents-offline-calendar";
+		} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0) {
+			alert_ident = "calendar:prompt-no-contents-offline-memos";
+		} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_TASK_LIST) == 0) {
+			alert_ident = "calendar:prompt-no-contents-offline-tasks";
+		} else if (g_ascii_strcasecmp (extension_name, E_SOURCE_EXTENSION_ADDRESS_BOOK) == 0) {
+		}
+	}
+
+	if (alert_ident)
+		e_alert_sink_thread_job_set_alert_ident (job_data, alert_ident);
+
+	g_propagate_error (error, local_error);
+}
+
+EClient *
+e_util_open_client_sync (EAlertSinkThreadJobData *job_data,
+			 EClientCache *client_cache,
+			 const gchar *extension_name,
+			 ESource *source,
+			 GCancellable *cancellable,
+			 GError **error)
+{
+	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
+	EClient *client = NULL;
+	GError *local_error = NULL;
+
+	g_warn_if_fail (e_util_get_open_source_job_info (extension_name,
+		e_source_get_display_name (source), &description, &alert_ident, &alert_arg_0));
+
+	camel_operation_push_message (cancellable, "%s", description);
+
+	client = e_client_cache_get_client_sync (client_cache, source, extension_name, cancellable, &local_error);
+
+	camel_operation_pop_message (cancellable);
+
+	if (!client) {
+		e_alert_sink_thread_job_set_alert_ident (job_data, alert_ident);
+		e_alert_sink_thread_job_set_alert_arg_0 (job_data, alert_arg_0);
+
+		e_util_propagate_open_source_job_error (job_data, extension_name, local_error, error);
+	}
+
+	g_free (description);
+	g_free (alert_ident);
+	g_free (alert_arg_0);
+
+	return client;
 }
 
 /**

@@ -26,8 +26,13 @@
 #ifndef GOTO_DIALOG_H
 #define GOTO_DIALOG_H
 
-#include "calendar/gui/gnome-cal.h"
+#include "calendar/gui/e-cal-data-model.h"
+#include "calendar/gui/e-calendar-view.h"
 
-void goto_dialog (GtkWindow *parent, GnomeCalendar *gcal);
+gboolean	goto_dialog_run	(GtkWindow *parent,
+				 ECalDataModel *data_model,
+				 const GDate *from_date,
+				 ECalendarViewMoveType *out_move_type,
+				 time_t *out_exact_date);
 
 #endif

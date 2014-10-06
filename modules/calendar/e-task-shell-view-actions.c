@@ -22,6 +22,9 @@
 #include <config.h>
 #endif
 
+#include <calendar/gui/e-cal-ops.h>
+
+#include "e-cal-base-shell-view.h"
 #include "e-task-shell-view-private.h"
 #include "e-cal-shell-view.h"
 
@@ -79,21 +82,10 @@ action_task_forward_cb (GtkAction *action,
                         ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
 	ECalComponent *comp;
-	icalcomponent *clone;
 	GSList *list;
-
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-
-	registry = e_shell_get_registry (shell);
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
@@ -104,52 +96,28 @@ action_task_forward_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only forward the first selected task. */
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
+	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
+	g_return_if_fail (comp != NULL);
 
-	itip_send_comp (
-		registry, E_CAL_COMPONENT_METHOD_PUBLISH, comp,
-		comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+	itip_send_component (e_task_table_get_model (task_table),
+		E_CAL_COMPONENT_METHOD_PUBLISH, comp,
+		comp_data->client, NULL, NULL, NULL, TRUE, FALSE, TRUE);
 
 	g_object_unref (comp);
 }
 
 static void
 action_task_list_copy_cb (GtkAction *action,
-                          ETaskShellView *task_shell_view)
+			  EShellView *shell_view)
 {
-	ETaskShellSidebar *task_shell_sidebar;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
-	ESourceSelector *selector;
-	ESource *source;
-
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-
-	registry = e_shell_get_registry (shell);
-
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
-	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
-
-	copy_source_dialog (
-		GTK_WINDOW (shell_window), registry,
-		source, E_CAL_CLIENT_SOURCE_TYPE_TASKS);
-
-	g_object_unref (source);
+	e_cal_base_shell_view_copy_calendar (shell_view);
 }
 
 static void
 action_task_list_delete_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
-	ETaskShellSidebar *task_shell_sidebar;
+	ECalBaseShellSidebar *task_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	ESource *source;
@@ -160,7 +128,7 @@ action_task_list_delete_cb (GtkAction *action,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	selector = e_cal_base_shell_sidebar_get_selector (task_shell_sidebar);
 
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
@@ -257,7 +225,7 @@ action_task_list_properties_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	ETaskShellSidebar *task_shell_sidebar;
+	ECalBaseShellSidebar *task_shell_sidebar;
 	ECalClientSourceType source_type;
 	ESource *source;
 	ESourceSelector *selector;
@@ -270,7 +238,7 @@ action_task_list_properties_cb (GtkAction *action,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	selector = e_cal_base_shell_sidebar_get_selector (task_shell_sidebar);
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
@@ -297,13 +265,13 @@ static void
 action_task_list_refresh_cb (GtkAction *action,
                              ETaskShellView *task_shell_view)
 {
-	ETaskShellSidebar *task_shell_sidebar;
+	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	EClient *client = NULL;
 	ESource *source;
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	selector = e_cal_base_shell_sidebar_get_selector (task_shell_sidebar);
 
 	source = e_source_selector_ref_primary_selection (selector);
 
@@ -318,7 +286,7 @@ action_task_list_refresh_cb (GtkAction *action,
 
 	g_return_if_fail (e_client_check_refresh_supported (client));
 
-	e_cal_shell_view_allow_auth_prompt_and_refresh (E_SHELL_VIEW (task_shell_view), client);
+	e_cal_base_shell_view_allow_auth_prompt_and_refresh (E_SHELL_VIEW (task_shell_view), client);
 
 	g_object_unref (client);
 }
@@ -327,11 +295,11 @@ static void
 action_task_list_rename_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
-	ETaskShellSidebar *task_shell_sidebar;
+	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	selector = e_cal_base_shell_sidebar_get_selector (task_shell_sidebar);
 
 	e_source_selector_edit_primary_selection (selector);
 }
@@ -340,12 +308,12 @@ static void
 action_task_list_select_one_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
-	ETaskShellSidebar *task_shell_sidebar;
+	ECalBaseShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *primary;
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	selector = e_cal_base_shell_sidebar_get_selector (task_shell_sidebar);
 
 	primary = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (primary != NULL);
@@ -405,30 +373,21 @@ static void
 action_task_new_cb (GtkAction *action,
                     ETaskShellView *task_shell_view)
 {
-	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
-	ECalClient *client;
-	ECalComponent *comp;
-	CompEditor *editor;
+	EClient *client = NULL;
 	GSList *list;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
 	list = e_task_table_get_selected (task_table);
-	if (list == NULL) {
-		ECalModel *model;
-
-		model = e_task_table_get_model (task_table);
-		client = e_cal_model_ref_default_client (model);
-	} else {
+	if (list) {
 		ECalModelComponent *comp_data;
 
 		comp_data = list->data;
@@ -436,17 +395,10 @@ action_task_new_cb (GtkAction *action,
 		g_slist_free (list);
 	}
 
-	g_return_if_fail (client != NULL);
+	e_cal_ops_new_component_editor (shell_window, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
+		client ? e_source_get_uid (e_client_get_source (client)) : NULL, FALSE);
 
-	editor = task_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
-	comp = cal_comp_task_new_with_defaults (client);
-	comp_editor_edit_comp (editor, comp);
-
-	gtk_window_present (GTK_WINDOW (editor));
-
-	g_object_unref (comp);
-
-	g_object_unref (client);
+	g_clear_object (&client);
 }
 
 static void

@@ -31,7 +31,7 @@
 gboolean
 recur_component_dialog (ECalClient *client,
                         ECalComponent *comp,
-                        CalObjModType *mod,
+                        ECalObjModType *mod,
                         GtkWindow *parent,
                         gboolean delegated)
 {
@@ -112,17 +112,46 @@ recur_component_dialog (ECalClient *client,
 	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_this)))
-		*mod = CALOBJ_MOD_THIS;
+		*mod = E_CAL_OBJ_MOD_THIS;
 	else if (rb_prior && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_prior)))
-		*mod = CALOBJ_MOD_THISANDPRIOR;
+		*mod = E_CAL_OBJ_MOD_THIS_AND_PRIOR;
 	else if (rb_future && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_future)))
-		*mod = CALOBJ_MOD_THISANDFUTURE;
+		*mod = E_CAL_OBJ_MOD_THIS_AND_FUTURE;
 	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb_all))) {
-		*mod = CALOBJ_MOD_ALL;
-
+		*mod = E_CAL_OBJ_MOD_ALL;
 	}
 
 	gtk_widget_destroy (dialog);
 
 	return ret;
+}
+
+gboolean
+recur_icalcomp_dialog (ECalClient *client,
+		       icalcomponent *icalcomp,
+		       ECalObjModType *mod,
+		       GtkWindow *parent,
+		       gboolean delegated)
+{
+	ECalComponent *comp;
+	gboolean res;
+
+	g_return_val_if_fail (icalcomp != NULL, FALSE);
+
+	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
+	if (!comp)
+		return FALSE;
+
+	if (!e_cal_component_is_instance (comp)) {
+		*mod = E_CAL_OBJ_MOD_ALL;
+		g_object_unref (comp);
+
+		return TRUE;
+	}
+
+	res = recur_component_dialog (client, comp, mod, parent, delegated);
+
+	g_object_unref (comp);
+
+	return res;
 }

@@ -1,5 +1,6 @@
 /*
- * e-memo-shell-backend.h
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,21 +8,17 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef E_MEMO_SHELL_BACKEND_H
 #define E_MEMO_SHELL_BACKEND_H
 
-#include <shell/e-shell-backend.h>
+#include "e-cal-base-shell-backend.h"
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_BACKEND \
@@ -49,17 +46,16 @@ typedef struct _EMemoShellBackendClass EMemoShellBackendClass;
 typedef struct _EMemoShellBackendPrivate EMemoShellBackendPrivate;
 
 struct _EMemoShellBackend {
-	EShellBackend parent;
+	ECalBaseShellBackend parent;
 	EMemoShellBackendPrivate *priv;
 };
 
 struct _EMemoShellBackendClass {
-	EShellBackendClass parent_class;
+	ECalBaseShellBackendClass parent_class;
 };
 
-GType		e_memo_shell_backend_get_type	(void);
-void		e_memo_shell_backend_type_register
-					(GTypeModule *type_module);
+GType		e_memo_shell_backend_get_type		(void);
+void		e_memo_shell_backend_type_register	(GTypeModule *type_module);
 
 G_END_DECLS
 

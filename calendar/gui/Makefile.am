@@ -11,11 +11,13 @@ ecalendarinclude_HEADERS =			\
 	comp-util.h				\
 	e-alarm-list.h				\
 	e-cal-config.h				\
+	e-cal-data-model.h			\
+	e-cal-data-model-subscriber.h		\
 	e-cal-event.h				\
 	e-cal-list-view.h			\
 	e-cal-model-calendar.h			\
 	e-cal-model.h				\
-	e-calendar-selector.h			\
+	e-cal-ops.h				\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-date-time-list.h                      \
@@ -40,7 +42,6 @@ ecalendarinclude_HEADERS =			\
 	e-week-view.h				\
 	e-weekday-chooser.h			\
 	e-timezone-entry.h			\
-	gnome-cal.h				\
 	itip-utils.h				\
 	misc.h					\
 	tag-calendar.h
@@ -91,20 +92,24 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-component-preview.h		\
 	e-cal-config.c				\
 	e-cal-config.h				\
+	e-cal-data-model.c			\
+	e-cal-data-model.h			\
+	e-cal-data-model-subscriber.c		\
+	e-cal-data-model-subscriber.h		\
 	e-cal-event.c				\
 	e-cal-event.h				\
+	e-cal-list-view.c			\
+	e-cal-list-view.h			\
 	e-cal-model-calendar.c			\
 	e-cal-model-calendar.h			\
 	e-cal-model.c				\
 	e-cal-model.h				\
-	e-cal-list-view.c			\
-	e-cal-list-view.h			\
 	e-cal-model-memos.c			\
 	e-cal-model-memos.h			\
 	e-cal-model-tasks.c			\
 	e-cal-model-tasks.h			\
-	e-calendar-selector.c			\
-	e-calendar-selector.h			\
+	e-cal-ops.h				\
+	e-cal-ops.c				\
 	e-calendar-view.c			\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
@@ -134,8 +139,6 @@ libevolution_calendar_la_SOURCES = \
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
-	e-memo-list-selector.c			\
-	e-memo-list-selector.h			\
 	e-memo-table.c				\
 	e-memo-table.h				\
 	e-month-view.c				\
@@ -144,8 +147,6 @@ libevolution_calendar_la_SOURCES = \
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\
 	e-select-names-renderer.h		\
-	e-task-list-selector.c			\
-	e-task-list-selector.h			\
 	e-task-table.c				\
 	e-task-table.h				\
 	e-week-view-event-item.c		\
@@ -162,8 +163,6 @@ libevolution_calendar_la_SOURCES = \
 	e-weekday-chooser.h			\
 	e-timezone-entry.c			\
 	e-timezone-entry.h			\
-	gnome-cal.c				\
-	gnome-cal.h				\
 	itip-utils.c				\
 	itip-utils.h				\
 	misc.c					\
@@ -193,9 +192,7 @@ libevolution_calendar_la_SOURCES = \
 	ea-week-view-cell.c			\
 	ea-week-view-cell.h			\
 	ea-jump-button.c			\
-	ea-jump-button.h			\
-	ea-gnome-calendar.c			\
-	ea-gnome-calendar.h
+	ea-jump-button.h
 
 libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/composer/libevolution-mail-composer.la		\

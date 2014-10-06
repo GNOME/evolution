@@ -426,10 +426,10 @@ itip_get_comp_attendee (ESourceRegistry *registry,
 
 			return user_email;
 		}
-
-		g_free (address);
-		address = NULL;
 	}
+
+	g_free (address);
+	address = NULL;
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	list = e_source_registry_list_enabled (registry, extension_name);
@@ -1124,37 +1124,34 @@ comp_description (ECalComponent *comp,
 }
 
 static gboolean
-comp_server_send (ECalComponentItipMethod method,
-                  ECalComponent *comp,
-                  ECalClient *cal_client,
-                  icalcomponent *zones,
-                  GSList **users)
+comp_server_send_sync (ECalComponentItipMethod method,
+		       ECalComponent *comp,
+		       ECalClient *cal_client,
+		       icalcomponent *zones,
+		       GSList **users,
+		       GCancellable *cancellable,
+		       GError **error)
 {
 	icalcomponent *top_level, *returned_icalcomp = NULL;
 	gboolean retval = TRUE;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
-	d (printf ("itip-utils.c: comp_server_send: calling e_cal_send_objects... \n"));
+	d (printf ("itip-utils.c: comp_server_send_sync: calling e_cal_send_objects... \n"));
 
 	e_cal_client_send_objects_sync (
 		cal_client, top_level, users,
-		&returned_icalcomp, NULL, &error);
+		&returned_icalcomp, cancellable, &local_error);
 
-	if (g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_ID_ALREADY_EXISTS)) {
-		e_notice (
-			NULL, GTK_MESSAGE_ERROR,
-			_("Unable to book a resource, the "
-			"new event collides with some other."));
-		g_error_free (error);
+	if (g_error_matches (local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_ID_ALREADY_EXISTS)) {
+		g_propagate_error (error, g_error_new (local_error->domain, local_error->code,
+			_("Unable to book a resource, the new event collides with some other.")));
+		g_clear_error (&local_error);
 		retval = FALSE;
 
-	} else if (error != NULL) {
-		e_notice (
-			NULL, GTK_MESSAGE_ERROR,
-			_("Unable to book a resource, error: %s"),
-			error->message);
-		g_error_free (error);
+	} else if (local_error != NULL) {
+		g_prefix_error (&local_error, "%s", _("Unable to book a resource, error: "));
+		g_propagate_error (error, local_error);
 		retval = FALSE;
 	}
 
@@ -1672,18 +1669,90 @@ setup_from (ECalComponentItipMethod method,
 	g_object_unref (registry);
 }
 
-gboolean
-itip_send_comp (ESourceRegistry *registry,
-                ECalComponentItipMethod method,
-                ECalComponent *send_comp,
-                ECalClient *cal_client,
-                icalcomponent *zones,
-                GSList *attachments_list,
-                GSList *users,
-                gboolean strip_alarms,
-                gboolean only_new_attendees)
+typedef struct {
+	ESourceRegistry *registry;
+	ECalComponentItipMethod method;
+	ECalComponent *send_comp;
+	ECalClient *cal_client;
+	icalcomponent *zones;
+	GSList *attachments_list;
+	GSList *users;
+	gboolean strip_alarms;
+	gboolean only_new_attendees;
+	gboolean ensure_master_object;
+
+	gboolean finished;
+	gboolean success;
+} ItipSendComponentData;
+
+static void
+itip_send_component_data_free (ItipSendComponentData *isc)
 {
-	EShell *shell;
+	if (isc) {
+		g_clear_object (&isc->registry);
+		g_clear_object (&isc->send_comp);
+		g_clear_object (&isc->cal_client);
+		if (isc->zones)
+			icalcomponent_free (isc->zones);
+		g_slist_free_full (isc->attachments_list, g_object_unref); /* CamelMimePart */
+		g_slist_free_full (isc->users, g_free);
+		g_free (isc);
+	}
+}
+
+static void
+itip_send_component_begin (ItipSendComponentData *isc,
+			   GCancellable *cancellable,
+			   GError **error)
+{
+	g_return_if_fail (isc != NULL);
+
+	isc->finished = FALSE;
+
+	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (isc->cal_client)) {
+		isc->success = TRUE;
+		isc->finished = TRUE;
+		return;
+	}
+
+	if (isc->ensure_master_object && e_cal_component_is_instance (isc->send_comp)) {
+		/* Ensure we send the master object, not the instance only */
+		icalcomponent *icalcomp = NULL;
+		const gchar *uid = NULL;
+
+		e_cal_component_get_uid (isc->send_comp, &uid);
+		if (e_cal_client_get_object_sync (isc->cal_client, uid, NULL, &icalcomp, cancellable, NULL) && icalcomp) {
+			ECalComponent *send_comp;
+
+			send_comp = e_cal_component_new_from_icalcomponent (icalcomp);
+			if (send_comp) {
+				g_object_unref (isc->send_comp);
+				isc->send_comp = send_comp;
+			}
+		}
+	}
+
+	/* Give the server a chance to manipulate the comp */
+	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH) {
+		d (printf ("itip-utils.c: itip_send_component_begin: calling comp_server_send_sync... \n"));
+		if (!comp_server_send_sync (isc->method, isc->send_comp, isc->cal_client, isc->zones, &isc->users, cancellable, error)) {
+			isc->success = FALSE;
+			isc->finished = TRUE;
+			return;
+		}
+	}
+
+	/* check whether backend could handle sending requests/updates */
+	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH &&
+	    e_client_check_capability (E_CLIENT (isc->cal_client), CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
+		isc->success = TRUE;
+		isc->finished = TRUE;
+	}
+}
+
+static void
+itip_send_component_finish (ItipSendComponentData *isc)
+{
 	GSettings *settings;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -1694,83 +1763,58 @@ itip_send_comp (ESourceRegistry *registry,
 	gchar *ical_string = NULL;
 	gchar *content_type = NULL;
 	gchar *subject = NULL;
-	gboolean use_24_hour_format;
-	gboolean retval = FALSE;
+	gboolean use_24hour_format;
 
-	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+	g_return_if_fail (isc != NULL);
 
-	/* FIXME Pass this in. */
-	shell = e_shell_get_default ();
+	if (isc->finished)
+		return;
+
+	isc->success = FALSE;
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
-
-	use_24_hour_format =
-		g_settings_get_boolean (settings, "use-24hour-format");
-
+	use_24hour_format = g_settings_get_boolean (settings, "use-24hour-format");
 	g_object_unref (settings);
 
 	default_zone = calendar_config_get_icaltimezone ();
 
-	/* check whether backend could handle auto-saving requests/updates */
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (cal_client))
-		return TRUE;
-
-	/* Give the server a chance to manipulate the comp */
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
-		d (printf ("itip-utils.c: itip_send_comp: calling comp_server_send... \n"));
-		if (!comp_server_send (method, send_comp, cal_client, zones, &users))
-			goto cleanup;
-	}
-
-	/* check whether backend could handle sending requests/updates */
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH &&
-		e_client_check_capability (
-			E_CLIENT (cal_client),
-		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
-		if (users) {
-			g_slist_foreach (users, (GFunc) g_free, NULL);
-			g_slist_free (users);
-		}
-		return TRUE;
-	}
-
 	/* Tidy up the comp */
 	comp = comp_compliant (
-		registry, method, send_comp, cal_client,
-		zones, default_zone, strip_alarms);
+		isc->registry, isc->method, isc->send_comp, isc->cal_client,
+		isc->zones, default_zone, isc->strip_alarms);
 
 	if (comp == NULL)
 		goto cleanup;
 
 	/* Recipients */
 	destinations = comp_to_list (
-		registry, method, comp, users, FALSE,
-		only_new_attendees ? g_object_get_data (
-		G_OBJECT (send_comp), "new-attendees") : NULL);
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
+		isc->registry, isc->method, comp, isc->users, FALSE,
+		isc->only_new_attendees ? g_object_get_data (
+		G_OBJECT (isc->send_comp), "new-attendees") : NULL);
+	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (destinations == NULL) {
 			/* We sent them all via the server */
-			retval = TRUE;
+			isc->success = TRUE;
 			goto cleanup;
 		}
 	}
 
 	/* Subject information */
-	subject = comp_subject (registry, method, comp);
+	subject = comp_subject (isc->registry, isc->method, comp);
 
-	composer = e_msg_composer_new (shell);
+	composer = e_msg_composer_new (e_shell_get_default ());
 	table = e_msg_composer_get_header_table (composer);
 
-	setup_from (method, send_comp, cal_client, table);
+	setup_from (isc->method, isc->send_comp, isc->cal_client, table);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, destinations);
 
 	e_destination_freev (destinations);
 
 	/* Content type */
-	content_type = comp_content_type (comp, method);
+	content_type = comp_content_type (comp, isc->method);
 
-	top_level = comp_toplevel_with_zones (method, comp, cal_client, zones);
+	top_level = comp_toplevel_with_zones (isc->method, comp, isc->cal_client, isc->zones);
 	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
@@ -1782,10 +1826,9 @@ itip_send_comp (ESourceRegistry *registry,
 		gchar *body;
 
 		filename = comp_filename (comp);
-		description = comp_description (comp, use_24_hour_format);
+		description = comp_description (comp, use_24hour_format);
 
-		body = camel_text_to_html (
-			description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+		body = camel_text_to_html (description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		e_msg_composer_set_body_text (composer, body, TRUE);
 		g_free (body);
 
@@ -1804,31 +1847,160 @@ itip_send_comp (ESourceRegistry *registry,
 		g_free (description);
 	}
 
-	append_cal_attachments (composer, comp, attachments_list);
+	append_cal_attachments (composer, comp, isc->attachments_list);
 
-	if ((method == E_CAL_COMPONENT_METHOD_PUBLISH) && !users)
+	if (isc->method == E_CAL_COMPONENT_METHOD_PUBLISH && !isc->users)
 		gtk_widget_show (GTK_WIDGET (composer));
 	else
 		e_msg_composer_send (composer);
 
-	retval = TRUE;
+	isc->success = TRUE;
 
-cleanup:
-	if (comp != NULL)
-		g_object_unref (comp);
+ cleanup:
+	g_clear_object (&comp);
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
-
-	if (users) {
-		g_slist_foreach (users, (GFunc) g_free, NULL);
-		g_slist_free (users);
-	}
-
 	g_free (content_type);
 	g_free (subject);
 	g_free (ical_string);
+}
 
-	return retval;
+static void
+itip_send_component_finish_and_free (gpointer ptr)
+{
+	ItipSendComponentData *isc = ptr;
+
+	if (isc) {
+		itip_send_component_finish (isc);
+		itip_send_component_data_free (isc);
+	}
+}
+
+static void
+itip_send_component_thread (EAlertSinkThreadJobData *job_data,
+			    gpointer user_data,
+			    GCancellable *cancellable,
+			    GError **error)
+{
+	ItipSendComponentData *isc = user_data;
+
+	g_return_if_fail (isc != NULL);
+
+	itip_send_component_begin (isc, cancellable, error);
+}
+
+void
+itip_send_component (ECalModel *model,
+		     ECalComponentItipMethod method,
+		     ECalComponent *send_comp,
+		     ECalClient *cal_client,
+		     icalcomponent *zones,
+		     GSList *attachments_list,
+		     GSList *users,
+		     gboolean strip_alarms,
+		     gboolean only_new_attendees,
+		     gboolean ensure_master_object)
+{
+	ESourceRegistry *registry;
+	ECalDataModel *data_model;
+	ESource *source;
+	const gchar *alert_ident;
+	const gchar *description;
+	GCancellable *cancellable;
+	ItipSendComponentData *isc;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (E_IS_CAL_CLIENT (cal_client));
+
+	switch (e_cal_client_get_source_type (cal_client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			description = _("Sending an event");
+			alert_ident = "calendar:failed-send-event";
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			description = _("Sending a memo");
+			alert_ident = "calendar:failed-send-memo";
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			description = _("Sending a task");
+			alert_ident = "calendar:failed-send-task";
+			break;
+		default:
+			g_warn_if_reached ();
+			break;
+	}
+
+	registry = e_cal_model_get_registry (model);
+	data_model = e_cal_model_get_data_model (model);
+	source = e_client_get_source (E_CLIENT (cal_client));
+
+	isc = g_new0 (ItipSendComponentData, 1);
+	isc->registry = g_object_ref (registry);
+	isc->method = method;
+	isc->send_comp = g_object_ref (send_comp);
+	isc->cal_client = g_object_ref (cal_client);
+	if (zones) {
+		isc->zones = icalcomponent_new_clone (zones);
+	}
+	if (attachments_list) {
+		isc->attachments_list = g_slist_copy (attachments_list);
+		g_slist_foreach (isc->attachments_list, (GFunc) g_object_ref, NULL);
+	}
+	if (users) {
+		GSList *link;
+
+		isc->users = g_slist_copy (users);
+		for (link = isc->users; link; link = g_slist_next (link)) {
+			link->data = g_strdup (link->data);
+		}
+	}
+	isc->strip_alarms = strip_alarms;
+	isc->only_new_attendees = only_new_attendees;
+	isc->ensure_master_object = ensure_master_object;
+	isc->success = FALSE;
+	isc->finished = FALSE;
+
+	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
+		e_source_get_display_name (source), itip_send_component_thread,
+		isc, itip_send_component_finish_and_free);
+
+	g_clear_object (&cancellable);
+}
+
+gboolean
+itip_send_comp_sync (ESourceRegistry *registry,
+		     ECalComponentItipMethod method,
+		     ECalComponent *send_comp,
+		     ECalClient *cal_client,
+		     icalcomponent *zones,
+		     GSList *attachments_list,
+		     GSList *users,
+		     gboolean strip_alarms,
+		     gboolean only_new_attendees,
+		     GCancellable *cancellable,
+		     GError **error)
+{
+	ItipSendComponentData isc;
+
+	isc.registry = registry;
+	isc.method = method;
+	isc.send_comp = send_comp;
+	isc.cal_client = cal_client;
+	isc.zones = zones;
+	isc.attachments_list = attachments_list;
+	isc.users = users;
+	isc.strip_alarms = strip_alarms;
+	isc.only_new_attendees = only_new_attendees;
+
+	isc.finished = FALSE;
+	isc.success = FALSE;
+
+	itip_send_component_begin (&isc, cancellable, error);
+	itip_send_component_finish (&isc);
+
+	g_slist_free_full (isc.users, g_free);
+
+	return isc.success;
 }
 
 gboolean

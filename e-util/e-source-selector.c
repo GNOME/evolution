@@ -76,6 +76,8 @@ enum {
 	PRIMARY_SELECTION_CHANGED,
 	POPUP_EVENT,
 	DATA_DROPPED,
+	SOURCE_SELECTED,
+	SOURCE_UNSELECTED,
 	NUM_SIGNALS
 };
 
@@ -476,6 +478,9 @@ source_selector_source_added_cb (ESourceRegistry *registry,
 	source_selector_build_model (selector);
 
 	source_selector_expand_to_source (selector, source);
+
+	if (e_source_selector_source_is_selected (selector, source))
+		g_signal_emit (selector, signals[SOURCE_SELECTED], 0, source);
 }
 
 static void
@@ -513,6 +518,9 @@ source_selector_source_removed_cb (ESourceRegistry *registry,
 	if (!e_source_has_extension (source, extension_name))
 		return;
 
+	if (e_source_selector_source_is_selected (selector, source))
+		g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
+
 	source_selector_build_model (selector);
 }
 
@@ -534,6 +542,9 @@ source_selector_source_enabled_cb (ESourceRegistry *registry,
 	source_selector_build_model (selector);
 
 	source_selector_expand_to_source (selector, source);
+
+	if (e_source_selector_source_is_selected (selector, source))
+		g_signal_emit (selector, signals[SOURCE_SELECTED], 0, source);
 }
 
 static void
@@ -550,6 +561,9 @@ source_selector_source_disabled_cb (ESourceRegistry *registry,
 
 	if (!e_source_has_extension (source, extension_name))
 		return;
+
+	if (e_source_selector_source_is_selected (selector, source))
+		g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
 
 	source_selector_build_model (selector);
 }
@@ -1254,7 +1268,7 @@ source_selector_get_source_selected (ESourceSelector *selector,
 	return selected;
 }
 
-static void
+static gboolean
 source_selector_set_source_selected (ESourceSelector *selector,
                                      ESource *source,
                                      gboolean selected)
@@ -1265,17 +1279,21 @@ source_selector_set_source_selected (ESourceSelector *selector,
 	extension_name = e_source_selector_get_extension_name (selector);
 
 	if (!e_source_has_extension (source, extension_name))
-		return;
+		return FALSE;
 
 	extension = e_source_get_extension (source, extension_name);
 
 	if (!E_IS_SOURCE_SELECTABLE (extension))
-		return;
+		return FALSE;
 
 	if (selected != e_source_selectable_get_selected (extension)) {
 		e_source_selectable_set_selected (extension, selected);
 		e_source_selector_queue_write (selector, source);
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 static gboolean
@@ -1431,6 +1449,22 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 		E_TYPE_SOURCE,
 		GDK_TYPE_DRAG_ACTION,
 		G_TYPE_UINT);
+
+	signals[SOURCE_SELECTED] = g_signal_new (
+		"source-selected",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ESourceSelectorClass, source_selected),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, E_TYPE_SOURCE);
+
+	signals[SOURCE_UNSELECTED] = g_signal_new (
+		"source-unselected",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ESourceSelectorClass, source_unselected),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, E_TYPE_SOURCE);
 }
 
 static void
@@ -1833,9 +1867,10 @@ e_source_selector_select_source (ESourceSelector *selector,
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
 	g_return_if_fail (class->set_source_selected != NULL);
 
-	class->set_source_selected (selector, source, TRUE);
-
-	g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	if (class->set_source_selected (selector, source, TRUE)) {
+		g_signal_emit (selector, signals[SOURCE_SELECTED], 0, source);
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	}
 }
 
 /**
@@ -1869,9 +1904,10 @@ e_source_selector_unselect_source (ESourceSelector *selector,
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
 	g_return_if_fail (class->set_source_selected != NULL);
 
-	class->set_source_selected (selector, source, FALSE);
-
-	g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	if (class->set_source_selected (selector, source, FALSE)) {
+		g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	}
 }
 
 /**
@@ -1891,6 +1927,7 @@ e_source_selector_select_exclusive (ESourceSelector *selector,
 	GHashTable *source_index;
 	GHashTableIter iter;
 	gpointer key;
+	gboolean any_changed = FALSE;
 
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -1903,10 +1940,17 @@ e_source_selector_select_exclusive (ESourceSelector *selector,
 
 	while (g_hash_table_iter_next (&iter, &key, NULL)) {
 		gboolean selected = e_source_equal (key, source);
-		class->set_source_selected (selector, key, selected);
+		if (class->set_source_selected (selector, key, selected)) {
+			any_changed = TRUE;
+			if (selected)
+				g_signal_emit (selector, signals[SOURCE_SELECTED], 0, key);
+			else
+				g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, key);
+		}
 	}
 
-	g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	if (any_changed)
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
 }
 
 /**

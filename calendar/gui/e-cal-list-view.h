@@ -29,7 +29,6 @@
 #include <e-util/e-util.h>
 
 #include "e-calendar-view.h"
-#include "gnome-cal.h"
 
 /*
  * ECalListView - displays calendar events in an ETable.

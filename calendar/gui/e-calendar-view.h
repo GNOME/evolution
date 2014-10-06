@@ -26,7 +26,6 @@
 #include <libecal/libecal.h>
 
 #include "e-cal-model.h"
-#include "gnome-cal.h"
 #include "dialogs/comp-editor.h"
 
 /* Standard GObject macros */
@@ -127,6 +126,13 @@ typedef enum {
 	EDIT_EVENT_FORCE_APPOINTMENT
 } EEditEventMode;
 
+typedef enum {
+	E_CALENDAR_VIEW_MOVE_PREVIOUS,
+	E_CALENDAR_VIEW_MOVE_NEXT,
+	E_CALENDAR_VIEW_MOVE_TO_TODAY,
+	E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY
+} ECalendarViewMoveType;
+
 struct _ECalendarViewClass {
 	GtkTableClass parent_class;
 
@@ -142,8 +148,9 @@ struct _ECalendarViewClass {
 						 ECalendarViewEvent *event);
 	void		(*event_added)		(ECalendarView *day_view,
 						 ECalendarViewEvent *event);
-	void		(*user_created)		(ECalendarView *cal_view,
-						 ECalClient *where_was_created);
+	void		(*move_view_range)	(ECalendarView *cal_view,
+						 ECalendarViewMoveType move_type,
+						 gint64 exact_date);
 
 	/* Virtual methods */
 	GList *		(*get_selected_events)	(ECalendarView *cal_view);
@@ -159,33 +166,27 @@ struct _ECalendarViewClass {
 						(ECalendarView *cal_view,
 						 time_t *start_time,
 						 time_t *end_time);
+	void		(*precalc_visible_time_range)
+						(ECalendarView *cal_view,
+						 time_t in_start_time,
+						 time_t in_end_time,
+						 time_t *out_start_time,
+						 time_t *out_end_time);
 	void		(*update_query)		(ECalendarView *cal_view);
 	void		(*open_event)		(ECalendarView *cal_view);
 	void		(*paste_text)		(ECalendarView *cal_view);
 };
 
 GType		e_calendar_view_get_type	(void);
-GnomeCalendar *	e_calendar_view_get_calendar	(ECalendarView *cal_view);
-void		e_calendar_view_set_calendar	(ECalendarView *cal_view,
-						 GnomeCalendar *calendar);
 ECalModel *	e_calendar_view_get_model	(ECalendarView *cal_view);
 icaltimezone *	e_calendar_view_get_timezone	(ECalendarView *cal_view);
 void		e_calendar_view_set_timezone	(ECalendarView *cal_view,
 						 icaltimezone *zone);
-const gchar *	e_calendar_view_get_default_category
-						(ECalendarView *cal_view);
-void		e_calendar_view_set_default_category
-						(ECalendarView *cal_view,
-						 const gchar *category);
 gint		e_calendar_view_get_time_divisions
 						(ECalendarView *cal_view);
 void		e_calendar_view_set_time_divisions
 						(ECalendarView *cal_view,
 						 gint time_divisions);
-void		e_calendar_view_set_status_message
-						(ECalendarView *cal_view,
-						 const gchar *message,
-						 gint percent);
 GtkTargetList *	e_calendar_view_get_copy_target_list
 						(ECalendarView *cal_view);
 GtkTargetList *	e_calendar_view_get_paste_target_list
@@ -205,6 +206,12 @@ gboolean	e_calendar_view_get_visible_time_range
 						(ECalendarView *cal_view,
 						 time_t *start_time,
 						 time_t *end_time);
+void		e_calendar_view_precalc_visible_time_range
+						(ECalendarView *cal_view,
+						 time_t in_start_time,
+						 time_t in_end_time,
+						 time_t *out_start_time,
+						 time_t *out_end_time);
 void		e_calendar_view_update_query	(ECalendarView *cal_view);
 
 void		e_calendar_view_delete_selected_occurrence
@@ -218,18 +225,12 @@ CompEditor *	e_calendar_view_open_event_with_flags
 void		e_calendar_view_popup_event	(ECalendarView *cal_view,
 						 GdkEvent *button_event);
 
-gboolean	e_calendar_view_add_event	(ECalendarView *cal_view,
+void		e_calendar_view_add_event	(ECalendarView *cal_view,
 						 ECalClient *client,
 						 time_t dtstart,
 						 icaltimezone *default_zone,
 						 icalcomponent *icalcomp,
 						 gboolean in_top_canvas);
-void		e_calendar_view_new_appointment_for
-						(ECalendarView *cal_view,
-						 time_t dtstart,
-						 time_t dtend,
-						 gboolean all_day,
-						 gboolean meeting);
 void		e_calendar_view_new_appointment_full
 						(ECalendarView *cal_view,
 						 gboolean all_day,
@@ -242,23 +243,11 @@ void		e_calendar_view_edit_appointment
 						 icalcomponent *icalcomp,
 						 EEditEventMode mode);
 void		e_calendar_view_open_event	(ECalendarView *cal_view);
-void		e_calendar_view_modify_and_send	(ECalendarView *cal_view,
-						 ECalComponent *comp,
-						 ECalClient *client,
-						 CalObjModType mod,
-						 GtkWindow *toplevel,
-						 gboolean new);
-gboolean	e_calendar_view_modify		(ECalendarView *cal_view,
-						 ECalComponent *comp,
-						 ECalClient *client,
-						 CalObjModType mod);
-void		e_calendar_view_send		(ECalendarView *cal_view,
-						 ECalComponent *comp,
-						 ECalClient *client,
-						 CalObjModType mod,
-						 GtkWindow *toplevel,
-						 gboolean strip_alarms,
-						 gboolean only_new_attendees);
+gchar *		e_calendar_view_get_description_text
+						(ECalendarView *cal_view);
+void		e_calendar_view_move_view_range	(ECalendarView *cal_view,
+						 ECalendarViewMoveType mode_type,
+						 time_t exact_date);
 gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
 
 void		e_calendar_view_move_tip	(GtkWidget *widget,
@@ -270,9 +259,12 @@ const gchar *	e_calendar_view_get_icalcomponent_summary
 						 icalcomponent *icalcomp,
 						 gboolean *free_text);
 
-void		e_calendar_view_emit_user_created
-						(ECalendarView *cal_view,
-						 ECalClient *where_was_created);
+void		e_calendar_view_component_created_cb
+						(ECalModel *model,
+						 ECalClient *client,
+						 icalcomponent *original_icalcomp,
+						 const gchar *new_uid,
+						 gpointer user_data);
 
 void		draw_curved_rectangle		(cairo_t *cr,
 						 gdouble x0,

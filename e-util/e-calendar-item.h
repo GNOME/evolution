@@ -385,6 +385,12 @@ gint	e_calendar_item_get_week_number		(ECalendarItem *calitem,
 						 gint year);
 void	e_calendar_item_style_updated		(GtkWidget *widget,
 						 ECalendarItem *calitem);
+gboolean
+	e_calendar_item_convert_position_to_date
+						(ECalendarItem *calitem,
+						 gint event_x,
+						 gint event_y,
+						 GDate *date);
 
 G_END_DECLS
 

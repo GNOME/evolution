@@ -1,5 +1,6 @@
 /*
- * e-task-shell-content.c
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,30 +8,26 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include "e-task-shell-content.h"
-
+#include <string.h>
 #include <glib/gi18n.h>
 
-#include "shell/e-shell-utils.h"
+#include <calendar/gui/comp-util.h>
+#include <calendar/gui/e-cal-component-preview.h>
+#include <calendar/gui/e-cal-model-tasks.h>
 
-#include "calendar/gui/comp-util.h"
-#include "calendar/gui/e-cal-component-preview.h"
-#include "calendar/gui/e-cal-model-tasks.h"
+#include "e-cal-base-shell-sidebar.h"
+#include "e-task-shell-content.h"
 
 #define E_TASK_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,7 +38,6 @@ struct _ETaskShellContentPrivate {
 	GtkWidget *task_table;
 	GtkWidget *preview_pane;
 
-	ECalModel *task_model;
 	GtkOrientation orientation;
 
 	gchar *current_uid;
@@ -51,18 +47,12 @@ struct _ETaskShellContentPrivate {
 
 enum {
 	PROP_0,
-	PROP_MODEL,
 	PROP_ORIENTATION,
 	PROP_PREVIEW_VISIBLE
 };
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	ETaskShellContent,
-	e_task_shell_content,
-	E_TYPE_SHELL_CONTENT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		GTK_TYPE_ORIENTABLE, NULL))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ETaskShellContent, e_task_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT, 0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (GTK_TYPE_ORIENTABLE, NULL))
 
 static void
 task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
@@ -182,7 +172,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	EWebView *web_view;
 	const gchar *uid;
 
-	task_model = e_task_shell_content_get_task_model (task_shell_content);
+	task_model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (task_shell_content));
 	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
 
 	web_view = e_preview_pane_get_web_view (preview_pane);
@@ -262,33 +252,6 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 }
 
 static void
-task_shell_content_restore_state_cb (EShellWindow *shell_window,
-                                     EShellView *shell_view,
-                                     EShellContent *shell_content)
-{
-	ETaskShellContentPrivate *priv;
-	GSettings *settings;
-
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (shell_content);
-
-	/* Bind GObject properties to settings keys. */
-
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-
-	g_settings_bind (
-		settings, "task-hpane-position",
-		priv->paned, "hposition",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "task-vpane-position",
-		priv->paned, "vposition",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (settings);
-}
-
-static void
 task_shell_content_is_editing_changed_cb (ETaskTable *task_table,
                                           GParamSpec *param,
                                           EShellView *shell_view)
@@ -296,266 +259,6 @@ task_shell_content_is_editing_changed_cb (ETaskTable *task_table,
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	e_shell_view_update_actions (shell_view);
-}
-
-static GtkOrientation
-task_shell_content_get_orientation (ETaskShellContent *task_shell_content)
-{
-	return task_shell_content->priv->orientation;
-}
-
-static void
-task_shell_content_set_orientation (ETaskShellContent *task_shell_content,
-                                    GtkOrientation orientation)
-{
-	if (task_shell_content->priv->orientation == orientation)
-		return;
-
-	task_shell_content->priv->orientation = orientation;
-
-	g_object_notify (G_OBJECT (task_shell_content), "orientation");
-}
-
-static void
-task_shell_content_set_property (GObject *object,
-                                 guint property_id,
-                                 const GValue *value,
-                                 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_ORIENTATION:
-			task_shell_content_set_orientation (
-				E_TASK_SHELL_CONTENT (object),
-				g_value_get_enum (value));
-			return;
-
-		case PROP_PREVIEW_VISIBLE:
-			e_task_shell_content_set_preview_visible (
-				E_TASK_SHELL_CONTENT (object),
-				g_value_get_boolean (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-task_shell_content_get_property (GObject *object,
-                                 guint property_id,
-                                 GValue *value,
-                                 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_MODEL:
-			g_value_set_object (
-				value,
-				e_task_shell_content_get_task_model (
-				E_TASK_SHELL_CONTENT (object)));
-			return;
-
-		case PROP_ORIENTATION:
-			g_value_set_enum (
-				value,
-				task_shell_content_get_orientation (
-				E_TASK_SHELL_CONTENT (object)));
-			return;
-
-		case PROP_PREVIEW_VISIBLE:
-			g_value_set_boolean (
-				value,
-				e_task_shell_content_get_preview_visible (
-				E_TASK_SHELL_CONTENT (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-task_shell_content_dispose (GObject *object)
-{
-	ETaskShellContentPrivate *priv;
-
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
-
-	if (priv->paned != NULL) {
-		g_object_unref (priv->paned);
-		priv->paned = NULL;
-	}
-
-	if (priv->task_table != NULL) {
-		g_object_unref (priv->task_table);
-		priv->task_table = NULL;
-	}
-
-	if (priv->preview_pane != NULL) {
-		g_object_unref (priv->preview_pane);
-		priv->preview_pane = NULL;
-	}
-
-	if (priv->task_model != NULL) {
-		g_object_unref (priv->task_model);
-		priv->task_model = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_task_shell_content_parent_class)->dispose (object);
-}
-
-static void
-task_shell_content_finalize (GObject *object)
-{
-	ETaskShellContentPrivate *priv;
-
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
-
-	g_free (priv->current_uid);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_task_shell_content_parent_class)->finalize (object);
-}
-
-static void
-task_shell_content_constructed (GObject *object)
-{
-	ETaskShellContentPrivate *priv;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellContent *shell_content;
-	EShellTaskbar *shell_taskbar;
-	ESourceRegistry *registry;
-	GalViewInstance *view_instance;
-	GtkTargetList *target_list;
-	GtkTargetEntry *targets;
-	GtkWidget *container;
-	GtkWidget *widget;
-	gint n_targets;
-
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_task_shell_content_parent_class)->constructed (object);
-
-	shell_content = E_SHELL_CONTENT (object);
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-
-	registry = e_shell_get_registry (shell);
-	priv->task_model = e_cal_model_tasks_new (registry);
-
-	/* Build content widgets. */
-
-	container = GTK_WIDGET (object);
-
-	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->paned = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		object, "orientation",
-		widget, "orientation",
-		G_BINDING_SYNC_CREATE);
-
-	container = priv->paned;
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_task_table_new (shell_view, priv->task_model);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->task_table = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = priv->paned;
-
-	widget = e_cal_component_preview_new ();
-	gtk_widget_show (widget);
-
-	g_signal_connect_swapped (
-		widget, "status-message",
-		G_CALLBACK (e_shell_taskbar_set_message),
-		shell_taskbar);
-
-	widget = e_preview_pane_new (E_WEB_VIEW (widget));
-	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	priv->preview_pane = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		object, "preview-visible",
-		widget, "visible",
-		G_BINDING_SYNC_CREATE);
-
-	target_list = gtk_target_list_new (NULL, 0);
-	e_target_list_add_calendar_targets (target_list, 0);
-	targets = gtk_target_table_new_from_list (target_list, &n_targets);
-
-	e_table_drag_source_set (
-		E_TABLE (priv->task_table),
-		GDK_BUTTON1_MASK, targets, n_targets,
-		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
-
-	gtk_target_table_free (targets, n_targets);
-	gtk_target_list_unref (target_list);
-
-	g_signal_connect_swapped (
-		priv->task_table, "table-drag-data-get",
-		G_CALLBACK (task_shell_content_table_drag_data_get_cb),
-		object);
-
-	g_signal_connect_swapped (
-		priv->task_table, "table-drag-data-delete",
-		G_CALLBACK (task_shell_content_table_drag_data_delete_cb),
-		object);
-
-	g_signal_connect_swapped (
-		priv->task_table, "cursor-change",
-		G_CALLBACK (task_shell_content_cursor_change_cb),
-		object);
-
-	g_signal_connect_swapped (
-		priv->task_table, "selection-change",
-		G_CALLBACK (task_shell_content_selection_change_cb),
-		object);
-
-	e_signal_connect_notify (
-		priv->task_table, "notify::is-editing",
-		G_CALLBACK (task_shell_content_is_editing_changed_cb), shell_view);
-
-	g_signal_connect_swapped (
-		priv->task_model, "model-row-changed",
-		G_CALLBACK (task_shell_content_model_row_changed_cb),
-		object);
-
-	/* Load the view instance. */
-
-	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
-	g_signal_connect_swapped (
-		view_instance, "display-view",
-		G_CALLBACK (task_shell_content_display_view_cb),
-		object);
-	e_shell_view_set_view_instance (shell_view, view_instance);
-	gal_view_instance_load (view_instance);
-	g_object_unref (view_instance);
-
-	/* Restore pane positions from the last session once
-	 * the shell view is fully initialized and visible. */
-	g_signal_connect (
-		shell_window, "shell-view-created::tasks",
-		G_CALLBACK (task_shell_content_restore_state_cb),
-		shell_content);
 }
 
 static guint32
@@ -584,6 +287,9 @@ task_shell_content_check_state (EShellContent *shell_content)
 		const gchar *cap;
 		gboolean read_only;
 
+		if (!comp_data)
+			continue;
+
 		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
@@ -609,19 +315,19 @@ task_shell_content_check_state (EShellContent *shell_content)
 	g_slist_free (list);
 
 	if (n_selected == 1)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_SINGLE;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_MULTIPLE;
 	if (assignable)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_CAN_ASSIGN;
 	if (editable)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_EDITABLE;
 	if (n_complete > 0)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_COMPLETE;
 	if (n_incomplete > 0)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE;
 	if (has_url)
-		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_URL;
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_URL;
 
 	return state;
 }
@@ -629,11 +335,257 @@ task_shell_content_check_state (EShellContent *shell_content)
 static void
 task_shell_content_focus_search_results (EShellContent *shell_content)
 {
-	ETaskShellContentPrivate *priv;
+	ETaskShellContent *task_shell_content;
 
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 
-	gtk_widget_grab_focus (priv->task_table);
+	gtk_widget_grab_focus (task_shell_content->priv->task_table);
+}
+
+static GtkOrientation
+task_shell_content_get_orientation (ETaskShellContent *task_shell_content)
+{
+	return task_shell_content->priv->orientation;
+}
+
+static void
+task_shell_content_set_orientation (ETaskShellContent *task_shell_content,
+                                    GtkOrientation orientation)
+{
+	if (task_shell_content->priv->orientation == orientation)
+		return;
+
+	task_shell_content->priv->orientation = orientation;
+
+	g_object_notify (G_OBJECT (task_shell_content), "orientation");
+}
+
+static void
+task_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
+{
+	ETaskShellContent *task_shell_content;
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+	GSettings *settings;
+
+	task_shell_content = E_TASK_SHELL_CONTENT (cal_base_shell_content);
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (task_shell_content));
+
+	/* Bind GObject properties to settings keys. */
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	g_settings_bind (
+		settings, "task-hpane-position",
+		task_shell_content->priv->paned, "hposition",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "task-vpane-position",
+		task_shell_content->priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
+
+	/* Finally load the view instance */
+	view_instance = e_shell_view_get_view_instance (shell_view);
+	gal_view_instance_load (view_instance);
+
+	/* Show everything known by default */
+	e_cal_model_set_time_range (e_cal_base_shell_content_get_model (cal_base_shell_content), 0, 0);
+}
+
+static void
+task_shell_content_set_property (GObject *object,
+				 guint property_id,
+				 const GValue *value,
+				 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ORIENTATION:
+			task_shell_content_set_orientation (
+				E_TASK_SHELL_CONTENT (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			e_task_shell_content_set_preview_visible (
+				E_TASK_SHELL_CONTENT (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_shell_content_get_property (GObject *object,
+				 guint property_id,
+				 GValue *value,
+				 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ORIENTATION:
+			g_value_set_enum (
+				value,
+				task_shell_content_get_orientation (
+				E_TASK_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_PREVIEW_VISIBLE:
+			g_value_set_boolean (
+				value,
+				e_task_shell_content_get_preview_visible (
+				E_TASK_SHELL_CONTENT (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+task_shell_content_dispose (GObject *object)
+{
+	ETaskShellContent *task_shell_content = E_TASK_SHELL_CONTENT (object);
+
+	g_clear_object (&task_shell_content->priv->paned);
+	g_clear_object (&task_shell_content->priv->task_table);
+	g_clear_object (&task_shell_content->priv->preview_pane);
+
+	g_free (task_shell_content->priv->current_uid);
+	task_shell_content->priv->current_uid = NULL;
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_task_shell_content_parent_class)->dispose (object);
+}
+
+static void
+task_shell_content_constructed (GObject *object)
+{
+	ETaskShellContent *task_shell_content;
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellTaskbar *shell_taskbar;
+	ECalModel *model;
+	GalViewInstance *view_instance;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
+	GtkWidget *container;
+	GtkWidget *widget;
+	gint n_targets;
+
+	task_shell_content = E_TASK_SHELL_CONTENT (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_task_shell_content_parent_class)->constructed (object);
+
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (task_shell_content));
+
+	shell_content = E_SHELL_CONTENT (object);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
+
+	/* Build content widgets. */
+
+	container = GTK_WIDGET (object);
+
+	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	task_shell_content->priv->paned = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	g_object_bind_property (
+		object, "orientation",
+		widget, "orientation",
+		G_BINDING_SYNC_CREATE);
+
+	container = task_shell_content->priv->paned;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = e_task_table_new (shell_view, model);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	task_shell_content->priv->task_table = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = task_shell_content->priv->paned;
+
+	widget = e_cal_component_preview_new ();
+	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "status-message",
+		G_CALLBACK (e_shell_taskbar_set_message),
+		shell_taskbar);
+
+	widget = e_preview_pane_new (E_WEB_VIEW (widget));
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+	task_shell_content->priv->preview_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	g_object_bind_property (
+		object, "preview-visible",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	target_list = gtk_target_list_new (NULL, 0);
+	e_target_list_add_calendar_targets (target_list, 0);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
+	e_table_drag_source_set (
+		E_TABLE (task_shell_content->priv->task_table),
+		GDK_BUTTON1_MASK, targets, n_targets,
+		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (target_list);
+
+	g_signal_connect_swapped (
+		task_shell_content->priv->task_table, "table-drag-data-get",
+		G_CALLBACK (task_shell_content_table_drag_data_get_cb),
+		object);
+
+	g_signal_connect_swapped (
+		task_shell_content->priv->task_table, "table-drag-data-delete",
+		G_CALLBACK (task_shell_content_table_drag_data_delete_cb),
+		object);
+
+	g_signal_connect_swapped (
+		task_shell_content->priv->task_table, "cursor-change",
+		G_CALLBACK (task_shell_content_cursor_change_cb),
+		object);
+
+	g_signal_connect_swapped (
+		task_shell_content->priv->task_table, "selection-change",
+		G_CALLBACK (task_shell_content_selection_change_cb),
+		object);
+
+	e_signal_connect_notify (
+		task_shell_content->priv->task_table, "notify::is-editing",
+		G_CALLBACK (task_shell_content_is_editing_changed_cb), shell_view);
+
+	g_signal_connect_swapped (
+		model, "model-row-changed",
+		G_CALLBACK (task_shell_content_model_row_changed_cb), object);
+
+	/* Prepare the view instance. */
+
+	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
+	g_signal_connect_swapped (
+		view_instance, "display-view",
+		G_CALLBACK (task_shell_content_display_view_cb),
+		object);
+	e_shell_view_set_view_instance (shell_view, view_instance);
+	g_object_unref (view_instance);
 }
 
 static void
@@ -641,6 +593,7 @@ e_task_shell_content_class_init (ETaskShellContentClass *class)
 {
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
+	ECalBaseShellContentClass *cal_base_shell_content_class;
 
 	g_type_class_add_private (class, sizeof (ETaskShellContentPrivate));
 
@@ -648,23 +601,15 @@ e_task_shell_content_class_init (ETaskShellContentClass *class)
 	object_class->set_property = task_shell_content_set_property;
 	object_class->get_property = task_shell_content_get_property;
 	object_class->dispose = task_shell_content_dispose;
-	object_class->finalize = task_shell_content_finalize;
 	object_class->constructed = task_shell_content_constructed;
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = task_shell_content_check_state;
-	shell_content_class->focus_search_results =
-		task_shell_content_focus_search_results;
+	shell_content_class->focus_search_results = task_shell_content_focus_search_results;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
-		g_param_spec_object (
-			"model",
-			"Model",
-			"The task table model",
-			E_TYPE_CAL_MODEL,
-			G_PARAM_READABLE));
+	cal_base_shell_content_class = E_CAL_BASE_SHELL_CONTENT_CLASS (class);
+	cal_base_shell_content_class->new_cal_model = e_cal_model_tasks_new;
+	cal_base_shell_content_class->view_created = task_shell_content_view_created;
 
 	g_object_class_install_property (
 		object_class,
@@ -689,8 +634,7 @@ e_task_shell_content_class_finalize (ETaskShellContentClass *class)
 static void
 e_task_shell_content_init (ETaskShellContent *task_shell_content)
 {
-	task_shell_content->priv =
-		E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
+	task_shell_content->priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -714,20 +658,10 @@ e_task_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-ECalModel *
-e_task_shell_content_get_task_model (ETaskShellContent *task_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
-
-	return task_shell_content->priv->task_model;
-}
-
 ETaskTable *
 e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 {
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
+	g_return_val_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
 	return E_TASK_TABLE (task_shell_content->priv->task_table);
 }
@@ -735,8 +669,7 @@ e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 EPreviewPane *
 e_task_shell_content_get_preview_pane (ETaskShellContent *task_shell_content)
 {
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
+	g_return_val_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
 	return E_PREVIEW_PANE (task_shell_content->priv->preview_pane);
 }
@@ -744,8 +677,7 @@ e_task_shell_content_get_preview_pane (ETaskShellContent *task_shell_content)
 gboolean
 e_task_shell_content_get_preview_visible (ETaskShellContent *task_shell_content)
 {
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_CONTENT (task_shell_content), FALSE);
+	g_return_val_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content), FALSE);
 
 	return task_shell_content->priv->preview_visible;
 }
@@ -777,8 +709,7 @@ e_task_shell_content_get_searchbar (ETaskShellContent *task_shell_content)
 	EShellContent *shell_content;
 	GtkWidget *widget;
 
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
+	g_return_val_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
 	shell_content = E_SHELL_CONTENT (task_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -786,4 +717,3 @@ e_task_shell_content_get_searchbar (ETaskShellContent *task_shell_content)
 
 	return E_SHELL_SEARCHBAR (widget);
 }
-

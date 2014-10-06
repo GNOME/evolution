@@ -70,7 +70,9 @@ struct _ECalModelMemosClass {
 };
 
 GType		e_cal_model_memos_get_type	(void);
-ECalModel *	e_cal_model_memos_new		(ESourceRegistry *registry);
+ECalModel *	e_cal_model_memos_new		(ECalDataModel *data_model,
+						 ESourceRegistry *registry,
+						 EShell *shell);
 
 G_END_DECLS
 

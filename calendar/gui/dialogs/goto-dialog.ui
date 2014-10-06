@@ -174,7 +174,7 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button4</action-widget>
+      <action-widget response="-3">button4</action-widget>
       <action-widget response="-6">button5</action-widget>
     </action-widgets>
   </object>

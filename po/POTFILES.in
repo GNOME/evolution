@@ -53,7 +53,6 @@ calendar/gui/dialogs/comp-editor-page.c
 calendar/gui/dialogs/comp-editor-util.c
 calendar/gui/dialogs/copy-source-dialog.c
 calendar/gui/dialogs/delete-comp.c
-calendar/gui/dialogs/delete-error.c
 [type: gettext/glade]calendar/gui/dialogs/e-delegate-dialog.ui
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.c
@@ -78,13 +77,12 @@ calendar/gui/ea-cal-view.c
 calendar/gui/ea-cal-view-event.c
 calendar/gui/ea-day-view.c
 calendar/gui/ea-day-view-main-item.c
-calendar/gui/ea-gnome-calendar.c
 calendar/gui/ea-jump-button.c
 calendar/gui/e-alarm-list.c
 calendar/gui/ea-week-view.c
 calendar/gui/ea-week-view-main-item.c
 calendar/gui/e-cal-component-preview.c
-calendar/gui/e-calendar-selector.c
+calendar/gui/e-cal-data-model.c
 calendar/gui/e-calendar-table.etspec
 calendar/gui/e-calendar-view.c
 calendar/gui/e-cal-list-view.c
@@ -92,6 +90,7 @@ calendar/gui/e-cal-list-view.etspec
 calendar/gui/e-cal-model.c
 calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
+calendar/gui/e-cal-ops.c
 calendar/gui/e-cell-date-edit-text.c
 calendar/gui/e-day-view.c
 calendar/gui/e-day-view-time-item.c
@@ -107,7 +106,6 @@ calendar/gui/e-task-table.c
 calendar/gui/e-timezone-entry.c
 calendar/gui/e-week-view.c
 calendar/gui/e-week-view-main-item.c
-calendar/gui/gnome-cal.c
 calendar/gui/itip-utils.c
 calendar/gui/memotypes.xml
 calendar/gui/misc.c
@@ -182,6 +180,7 @@ e-util/e-activity-proxy.c
 e-util/e-activity.c
 e-util/e-alert-bar.c
 e-util/e-alert-dialog.c
+e-util/e-alert-sink.c
 e-util/e-attachment-bar.c
 e-util/e-attachment-dialog.c
 e-util/e-attachment-handler-image.c
@@ -420,10 +419,11 @@ modules/cal-config-webcal/evolution-cal-config-webcal.c
 modules/calendar/e-cal-attachment-handler.c
 modules/calendar/e-calendar-preferences.c
 [type: gettext/glade]modules/calendar/e-calendar-preferences.ui
+modules/calendar/e-cal-base-shell-backend.c
+modules/calendar/e-cal-base-shell-sidebar.c
 modules/calendar/e-cal-shell-backend.c
 modules/calendar/e-cal-shell-content.c
 modules/calendar/e-cal-shell-migrate.c
-modules/calendar/e-cal-shell-sidebar.c
 modules/calendar/e-cal-shell-view-actions.c
 modules/calendar/e-cal-shell-view.c
 modules/calendar/e-cal-shell-view-memopad.c
@@ -432,14 +432,12 @@ modules/calendar/e-cal-shell-view-taskpad.c
 modules/calendar/e-memo-shell-backend.c
 modules/calendar/e-memo-shell-content.c
 modules/calendar/e-memo-shell-migrate.c
-modules/calendar/e-memo-shell-sidebar.c
 modules/calendar/e-memo-shell-view-actions.c
 modules/calendar/e-memo-shell-view.c
 modules/calendar/e-memo-shell-view-private.c
 modules/calendar/e-task-shell-backend.c
 modules/calendar/e-task-shell-content.c
 modules/calendar/e-task-shell-migrate.c
-modules/calendar/e-task-shell-sidebar.c
 modules/calendar/e-task-shell-view-actions.c
 modules/calendar/e-task-shell-view.c
 modules/calendar/e-task-shell-view-private.c

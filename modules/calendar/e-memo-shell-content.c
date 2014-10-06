@@ -1,5 +1,6 @@
 /*
- * e-memo-shell-content.c
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,31 +8,29 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <string.h>
+#include <glib/gi18n-lib.h>
+
+#include <calendar/gui/e-cal-model-memos.h>
+
+#include <calendar/gui/comp-util.h>
+#include <calendar/gui/e-cal-component-preview.h>
+#include <calendar/gui/e-cal-model-memos.h>
+#include <calendar/gui/e-memo-table.h>
+
+#include "e-cal-base-shell-sidebar.h"
 #include "e-memo-shell-content.h"
-
-#include <glib/gi18n.h>
-
-#include "shell/e-shell-utils.h"
-
-#include "calendar/gui/comp-util.h"
-#include "calendar/gui/e-cal-component-preview.h"
-#include "calendar/gui/e-cal-model-memos.h"
-#include "calendar/gui/e-memo-table.h"
 
 #define E_MEMO_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -42,7 +41,6 @@ struct _EMemoShellContentPrivate {
 	GtkWidget *memo_table;
 	GtkWidget *preview_pane;
 
-	ECalModel *memo_model;
 	GtkOrientation orientation;
 
 	gchar *current_uid;
@@ -52,18 +50,12 @@ struct _EMemoShellContentPrivate {
 
 enum {
 	PROP_0,
-	PROP_MODEL,
 	PROP_ORIENTATION,
 	PROP_PREVIEW_VISIBLE
 };
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	EMemoShellContent,
-	e_memo_shell_content,
-	E_TYPE_SHELL_CONTENT,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		GTK_TYPE_ORIENTABLE, NULL))
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMemoShellContent, e_memo_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT, 0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (GTK_TYPE_ORIENTABLE, NULL))
 
 static void
 memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
@@ -183,7 +175,7 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	EWebView *web_view;
 	const gchar *uid;
 
-	memo_model = e_memo_shell_content_get_memo_model (memo_shell_content);
+	memo_model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (memo_shell_content));
 	preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_content);
 
 	web_view = e_preview_pane_get_web_view (preview_pane);
@@ -265,33 +257,6 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 }
 
 static void
-memo_shell_content_restore_state_cb (EShellWindow *shell_window,
-                                     EShellView *shell_view,
-                                     EShellContent *shell_content)
-{
-	EMemoShellContentPrivate *priv;
-	GSettings *settings;
-
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
-
-	/* Bind GObject properties to settings keys. */
-
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-
-	g_settings_bind (
-		settings, "memo-hpane-position",
-		priv->paned, "hposition",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_settings_bind (
-		settings, "memo-vpane-position",
-		priv->paned, "vposition",
-		G_SETTINGS_BIND_DEFAULT);
-
-	g_object_unref (settings);
-}
-
-static void
 memo_shell_content_is_editing_changed_cb (EMemoTable *memo_table,
                                           GParamSpec *param,
                                           EShellView *shell_view)
@@ -299,6 +264,61 @@ memo_shell_content_is_editing_changed_cb (EMemoTable *memo_table,
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	e_shell_view_update_actions (shell_view);
+}
+
+static guint32
+memo_shell_content_check_state (EShellContent *shell_content)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	GSList *list, *iter;
+	gboolean editable = TRUE;
+	gboolean has_url = FALSE;
+	gint n_selected;
+	guint32 state = 0;
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	n_selected = e_table_selected_count (E_TABLE (memo_table));
+
+	list = e_memo_table_get_selected (memo_table);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		icalproperty *prop;
+		gboolean read_only;
+
+		if (!comp_data)
+			continue;
+
+		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
+		editable &= !read_only;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
+		has_url |= (prop != NULL);
+	}
+	g_slist_free (list);
+
+	if (n_selected == 1)
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_SINGLE;
+	if (n_selected > 1)
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (editable)
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_IS_EDITABLE;
+	if (has_url)
+		state |= E_CAL_BASE_SHELL_CONTENT_SELECTION_HAS_URL;
+
+	return state;
+}
+
+static void
+memo_shell_content_focus_search_results (EShellContent *shell_content)
+{
+	EMemoShellContent *memo_shell_content;
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+
+	gtk_widget_grab_focus (memo_shell_content->priv->memo_table);
 }
 
 static GtkOrientation
@@ -317,6 +337,41 @@ memo_shell_content_set_orientation (EMemoShellContent *memo_shell_content,
 	memo_shell_content->priv->orientation = orientation;
 
 	g_object_notify (G_OBJECT (memo_shell_content), "orientation");
+}
+
+static void
+memo_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
+{
+	EMemoShellContent *memo_shell_content;
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+	GSettings *settings;
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (cal_base_shell_content);
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (memo_shell_content));
+
+	/* Bind GObject properties to settings keys. */
+
+	settings = g_settings_new ("org.gnome.evolution.calendar");
+
+	g_settings_bind (
+		settings, "memo-hpane-position",
+		memo_shell_content->priv->paned, "hposition",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
+		settings, "memo-vpane-position",
+		memo_shell_content->priv->paned, "vposition",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_object_unref (settings);
+
+	/* Finally load the view instance */
+	view_instance = e_shell_view_get_view_instance (shell_view);
+	gal_view_instance_load (view_instance);
+
+	/* Show everything known by default */
+	e_cal_model_set_time_range (e_cal_base_shell_content_get_model (cal_base_shell_content), 0, 0);
 }
 
 static void
@@ -344,18 +399,11 @@ memo_shell_content_set_property (GObject *object,
 
 static void
 memo_shell_content_get_property (GObject *object,
-                                 guint property_id,
-                                 GValue *value,
-                                 GParamSpec *pspec)
+				 guint property_id,
+				 GValue *value,
+				 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_MODEL:
-			g_value_set_object (
-				value,
-				e_memo_shell_content_get_memo_model (
-				E_MEMO_SHELL_CONTENT (object)));
-			return;
-
 		case PROP_ORIENTATION:
 			g_value_set_enum (
 				value,
@@ -377,57 +425,27 @@ memo_shell_content_get_property (GObject *object,
 static void
 memo_shell_content_dispose (GObject *object)
 {
-	EMemoShellContentPrivate *priv;
+	EMemoShellContent *memo_shell_content = E_MEMO_SHELL_CONTENT (object);
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	g_clear_object (&memo_shell_content->priv->paned);
+	g_clear_object (&memo_shell_content->priv->memo_table);
+	g_clear_object (&memo_shell_content->priv->preview_pane);
 
-	if (priv->paned != NULL) {
-		g_object_unref (priv->paned);
-		priv->paned = NULL;
-	}
-
-	if (priv->memo_table != NULL) {
-		g_object_unref (priv->memo_table);
-		priv->memo_table = NULL;
-	}
-
-	if (priv->preview_pane != NULL) {
-		g_object_unref (priv->preview_pane);
-		priv->preview_pane = NULL;
-	}
-
-	if (priv->memo_model != NULL) {
-		g_object_unref (priv->memo_model);
-		priv->memo_model = NULL;
-	}
+	g_free (memo_shell_content->priv->current_uid);
+	memo_shell_content->priv->current_uid = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->dispose (object);
 }
 
 static void
-memo_shell_content_finalize (GObject *object)
-{
-	EMemoShellContentPrivate *priv;
-
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
-
-	g_free (priv->current_uid);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->finalize (object);
-}
-
-static void
 memo_shell_content_constructed (GObject *object)
 {
-	EMemoShellContentPrivate *priv;
-	EShell *shell;
+	EMemoShellContent *memo_shell_content;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
+	ECalModel *model;
 	GalViewInstance *view_instance;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
@@ -435,19 +453,16 @@ memo_shell_content_constructed (GObject *object)
 	GtkWidget *widget;
 	gint n_targets;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	memo_shell_content = E_MEMO_SHELL_CONTENT (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_memo_shell_content_parent_class)->constructed (object);
 
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (memo_shell_content));
+
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-
-	registry = e_shell_get_registry (shell);
-	priv->memo_model = e_cal_model_memos_new (registry);
 
 	/* Build content widgets. */
 
@@ -455,7 +470,7 @@ memo_shell_content_constructed (GObject *object)
 
 	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->paned = g_object_ref (widget);
+	memo_shell_content->priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
@@ -463,7 +478,7 @@ memo_shell_content_constructed (GObject *object)
 		widget, "orientation",
 		G_BINDING_SYNC_CREATE);
 
-	container = priv->paned;
+	container = memo_shell_content->priv->paned;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -476,12 +491,12 @@ memo_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_memo_table_new (shell_view, priv->memo_model);
+	widget = e_memo_table_new (shell_view, model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->memo_table = g_object_ref (widget);
+	memo_shell_content->priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = priv->paned;
+	container = memo_shell_content->priv->paned;
 
 	widget = e_cal_component_preview_new ();
 	gtk_widget_show (widget);
@@ -493,7 +508,7 @@ memo_shell_content_constructed (GObject *object)
 
 	widget = e_preview_pane_new (E_WEB_VIEW (widget));
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
-	priv->preview_pane = g_object_ref (widget);
+	memo_shell_content->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
@@ -506,7 +521,7 @@ memo_shell_content_constructed (GObject *object)
 	targets = gtk_target_table_new_from_list (target_list, &n_targets);
 
 	e_table_drag_source_set (
-		E_TABLE (priv->memo_table),
+		E_TABLE (memo_shell_content->priv->memo_table),
 		GDK_BUTTON1_MASK, targets, n_targets,
 		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
 
@@ -514,35 +529,35 @@ memo_shell_content_constructed (GObject *object)
 	gtk_target_list_unref (target_list);
 
 	g_signal_connect_swapped (
-		priv->memo_table, "table-drag-data-get",
+		memo_shell_content->priv->memo_table, "table-drag-data-get",
 		G_CALLBACK (memo_shell_content_table_drag_data_get_cb),
 		object);
 
 	g_signal_connect_swapped (
-		priv->memo_table, "table-drag-data-delete",
+		memo_shell_content->priv->memo_table, "table-drag-data-delete",
 		G_CALLBACK (memo_shell_content_table_drag_data_delete_cb),
 		object);
 
 	g_signal_connect_swapped (
-		priv->memo_table, "cursor-change",
+		memo_shell_content->priv->memo_table, "cursor-change",
 		G_CALLBACK (memo_shell_content_cursor_change_cb),
 		object);
 
 	g_signal_connect_swapped (
-		priv->memo_table, "selection-change",
+		memo_shell_content->priv->memo_table, "selection-change",
 		G_CALLBACK (memo_shell_content_selection_change_cb),
 		object);
 
 	e_signal_connect_notify (
-		priv->memo_table, "notify::is-editing",
+		memo_shell_content->priv->memo_table, "notify::is-editing",
 		G_CALLBACK (memo_shell_content_is_editing_changed_cb), shell_view);
 
 	g_signal_connect_swapped (
-		priv->memo_model, "model-row-changed",
+		model, "model-row-changed",
 		G_CALLBACK (memo_shell_content_model_row_changed_cb),
 		object);
 
-	/* Load the view instance. */
+	/* Prepare the view instance. */
 
 	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
 	g_signal_connect_swapped (
@@ -550,68 +565,7 @@ memo_shell_content_constructed (GObject *object)
 		G_CALLBACK (memo_shell_content_display_view_cb),
 		object);
 	e_shell_view_set_view_instance (shell_view, view_instance);
-	gal_view_instance_load (view_instance);
 	g_object_unref (view_instance);
-
-	/* Restore pane positions from the last session once
-	 * the shell view is fully initialized and visible. */
-	g_signal_connect (
-		shell_window, "shell-view-created::memos",
-		G_CALLBACK (memo_shell_content_restore_state_cb),
-		shell_content);
-}
-
-static guint32
-memo_shell_content_check_state (EShellContent *shell_content)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
-	GSList *list, *iter;
-	gboolean editable = TRUE;
-	gboolean has_url = FALSE;
-	gint n_selected;
-	guint32 state = 0;
-
-	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-
-	n_selected = e_table_selected_count (E_TABLE (memo_table));
-
-	list = e_memo_table_get_selected (memo_table);
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalModelComponent *comp_data = iter->data;
-		icalproperty *prop;
-		gboolean read_only;
-
-		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
-		editable &= !read_only;
-
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_URL_PROPERTY);
-		has_url |= (prop != NULL);
-	}
-	g_slist_free (list);
-
-	if (n_selected == 1)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_SINGLE;
-	if (n_selected > 1)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_MULTIPLE;
-	if (editable)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT;
-	if (has_url)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL;
-
-	return state;
-}
-
-static void
-memo_shell_content_focus_search_results (EShellContent *shell_content)
-{
-	EMemoShellContentPrivate *priv;
-
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
-
-	gtk_widget_grab_focus (priv->memo_table);
 }
 
 static void
@@ -619,6 +573,7 @@ e_memo_shell_content_class_init (EMemoShellContentClass *class)
 {
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
+	ECalBaseShellContentClass *cal_base_shell_content_class;
 
 	g_type_class_add_private (class, sizeof (EMemoShellContentPrivate));
 
@@ -626,23 +581,15 @@ e_memo_shell_content_class_init (EMemoShellContentClass *class)
 	object_class->set_property = memo_shell_content_set_property;
 	object_class->get_property = memo_shell_content_get_property;
 	object_class->dispose = memo_shell_content_dispose;
-	object_class->finalize = memo_shell_content_finalize;
 	object_class->constructed = memo_shell_content_constructed;
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->check_state = memo_shell_content_check_state;
-	shell_content_class->focus_search_results =
-		memo_shell_content_focus_search_results;
+	shell_content_class->focus_search_results = memo_shell_content_focus_search_results;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
-		g_param_spec_object (
-			"model",
-			"Model",
-			"The memo table model",
-			E_TYPE_CAL_MODEL,
-			G_PARAM_READABLE));
+	cal_base_shell_content_class = E_CAL_BASE_SHELL_CONTENT_CLASS (class);
+	cal_base_shell_content_class->new_cal_model = e_cal_model_memos_new;
+	cal_base_shell_content_class->view_created = memo_shell_content_view_created;
 
 	g_object_class_install_property (
 		object_class,
@@ -667,8 +614,7 @@ e_memo_shell_content_class_finalize (EMemoShellContentClass *class)
 static void
 e_memo_shell_content_init (EMemoShellContent *memo_shell_content)
 {
-	memo_shell_content->priv =
-		E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
+	memo_shell_content->priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -692,20 +638,10 @@ e_memo_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-ECalModel *
-e_memo_shell_content_get_memo_model (EMemoShellContent *memo_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
-
-	return memo_shell_content->priv->memo_model;
-}
-
 EMemoTable *
 e_memo_shell_content_get_memo_table (EMemoShellContent *memo_shell_content)
 {
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+	g_return_val_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
 
 	return E_MEMO_TABLE (memo_shell_content->priv->memo_table);
 }
@@ -713,8 +649,7 @@ e_memo_shell_content_get_memo_table (EMemoShellContent *memo_shell_content)
 EPreviewPane *
 e_memo_shell_content_get_preview_pane (EMemoShellContent *memo_shell_content)
 {
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+	g_return_val_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
 
 	return E_PREVIEW_PANE (memo_shell_content->priv->preview_pane);
 }
@@ -722,8 +657,7 @@ e_memo_shell_content_get_preview_pane (EMemoShellContent *memo_shell_content)
 gboolean
 e_memo_shell_content_get_preview_visible (EMemoShellContent *memo_shell_content)
 {
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), FALSE);
+	g_return_val_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content), FALSE);
 
 	return memo_shell_content->priv->preview_visible;
 }
@@ -755,8 +689,7 @@ e_memo_shell_content_get_searchbar (EMemoShellContent *memo_shell_content)
 	EShellContent *shell_content;
 	GtkWidget *widget;
 
-	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+	g_return_val_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
 
 	shell_content = E_SHELL_CONTENT (memo_shell_content);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -764,4 +697,3 @@ e_memo_shell_content_get_searchbar (EMemoShellContent *memo_shell_content)
 
 	return E_SHELL_SEARCHBAR (widget);
 }
-

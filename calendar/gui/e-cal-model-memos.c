@@ -49,15 +49,28 @@ G_DEFINE_TYPE_WITH_CODE (
 		e_cal_model_memos_table_model_init))
 
 static void
-cal_model_memos_fill_component_from_model (ECalModel *model,
-                                           ECalModelComponent *comp_data,
-                                           ETableModel *source_model,
-                                           gint row)
+cal_model_memos_store_values_from_model (ECalModel *model,
+					 ETableModel *source_model,
+					 gint row,
+					 GHashTable *values)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
+	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+	g_return_if_fail (values != NULL);
+
+	/* nothing is stored from UI currently */
+}
+
+static void
+cal_model_memos_fill_component_from_values (ECalModel *model,
+					    ECalModelComponent *comp_data,
+					    GHashTable *values)
 {
 	icaltimetype start;
+
 	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
 	g_return_if_fail (comp_data != NULL);
-	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
+	g_return_if_fail (values != NULL);
 
 	start = icalcomponent_get_dtstart (comp_data->icalcomp);
 	if (icaltime_compare_date_only (start, icaltime_null_time ()) == 0) {
@@ -103,7 +116,6 @@ cal_model_memos_set_value_at (ETableModel *etm,
 {
 	ECalModelComponent *comp_data;
 	ECalModelMemos *model = (ECalModelMemos *) etm;
-	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST);
@@ -120,19 +132,7 @@ cal_model_memos_set_value_at (ETableModel *etm,
 		return;
 	}
 
-	/* TODO ask about mod type */
-	e_cal_client_modify_object_sync (
-		comp_data->client, comp_data->icalcomp,
-		CALOBJ_MOD_ALL, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			G_STRLOC ": Could not modify the object! %s",
-			error->message);
-
-		/* TODO Show error dialog */
-		g_error_free (error);
-	}
+	e_cal_model_modify_component (E_CAL_MODEL (model), comp_data, E_CAL_OBJ_MOD_ALL);
 }
 
 static gboolean
@@ -226,7 +226,8 @@ e_cal_model_memos_class_init (ECalModelMemosClass *class)
 	ECalModelClass *model_class;
 
 	model_class = E_CAL_MODEL_CLASS (class);
-	model_class->fill_component_from_model = cal_model_memos_fill_component_from_model;
+	model_class->store_values_from_model = cal_model_memos_store_values_from_model;
+	model_class->fill_component_from_values = cal_model_memos_fill_component_from_values;
 }
 
 static void
@@ -256,12 +257,19 @@ e_cal_model_memos_init (ECalModelMemos *model)
 }
 
 ECalModel *
-e_cal_model_memos_new (ESourceRegistry *registry)
+e_cal_model_memos_new (ECalDataModel *data_model,
+		       ESourceRegistry *registry,
+		       EShell *shell)
 {
+	g_return_val_if_fail (E_IS_CAL_DATA_MODEL (data_model), NULL);
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (
 		E_TYPE_CAL_MODEL_MEMOS,
-		"registry", registry, NULL);
+		"data-model", data_model,
+		"registry", registry,
+		"shell", shell,
+		NULL);
 }
 

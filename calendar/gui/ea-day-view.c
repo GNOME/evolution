@@ -27,7 +27,6 @@
 #include "ea-cal-view-event.h"
 
 #include "ea-calendar-helpers.h"
-#include "ea-gnome-calendar.h"
 #include <glib/gi18n.h>
 
 static const gchar * ea_day_view_get_name (AtkObject *accessible);
@@ -82,9 +81,7 @@ static const gchar *
 ea_day_view_get_name (AtkObject *accessible)
 {
 	EDayView *day_view;
-	GnomeCalendar *gcal;
-	const gchar *label_text;
-	GnomeCalendarViewType view_type;
+	gchar *label_text;
 	GtkWidget *widget;
 	gint n_events;
 	gchar *event_str, *name_str;
@@ -96,9 +93,8 @@ ea_day_view_get_name (AtkObject *accessible)
 		return NULL;
 
 	day_view = E_DAY_VIEW (widget);
-	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
 
-	label_text = ea_gnome_calendar_get_label_description (gcal);
+	label_text = e_calendar_view_get_description_text (E_CALENDAR_VIEW (day_view));
 
 	n_events = atk_object_get_n_accessible_children (accessible);
 	/* the child main item is always there */
@@ -117,8 +113,7 @@ ea_day_view_get_name (AtkObject *accessible)
 		10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006." */
 		event_str = g_strdup (_("It has no events."));
 
-	view_type = gnome_calendar_get_view (gcal);
-	if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
+	if (e_day_view_get_work_week_view (day_view))
 		/* To translators: First %s is the week, for example "July 10th -
 		July 14th, 2006". Second %s is the number of events in this work
 		week, for example "It has %d event/events." or  "It has no events." */
@@ -136,6 +131,7 @@ ea_day_view_get_name (AtkObject *accessible)
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_str);
 	g_free (name_str);
 	g_free (event_str);
+	g_free (label_text);
 
 	return accessible->name;
 }
@@ -157,13 +153,7 @@ ea_day_view_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 	else {
-		GnomeCalendar *gcal;
-		GnomeCalendarViewType view_type;
-
-		gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
-		view_type = gnome_calendar_get_view (gcal);
-
-		if (view_type == GNOME_CAL_WORK_WEEK_VIEW)
+		if (e_day_view_get_work_week_view (day_view))
 			return _("calendar view for a work week");
 		else
 			return _("calendar view for one or more days");

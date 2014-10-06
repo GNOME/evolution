@@ -184,7 +184,7 @@ proxy_link_selector_get_source_selected (ESourceSelector *selector,
 	return selected;
 }
 
-static void
+static gboolean
 proxy_link_selector_set_source_selected (ESourceSelector *selector,
                                          ESource *source,
                                          gboolean selected)
@@ -201,10 +201,10 @@ proxy_link_selector_set_source_selected (ESourceSelector *selector,
 	/* Make sure this source has an Authentication extension. */
 	extension_name = e_source_selector_get_extension_name (selector);
 	if (!e_source_has_extension (source, extension_name))
-		return;
+		return FALSE;
 
 	extension = e_source_get_extension (source, extension_name);
-	g_return_if_fail (E_IS_SOURCE_AUTHENTICATION (extension));
+	g_return_val_if_fail (E_IS_SOURCE_AUTHENTICATION (extension), FALSE);
 
 	if (selected)
 		target_source = link_selector->priv->target_source;
@@ -218,7 +218,11 @@ proxy_link_selector_set_source_selected (ESourceSelector *selector,
 		e_source_authentication_set_proxy_uid (
 			extension, new_target_uid);
 		e_source_selector_queue_write (selector, source);
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 static void

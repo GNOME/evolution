@@ -46,12 +46,15 @@ typedef struct
 	ECalendar *ecal;
 	GtkWidget *vbox;
 
-	GnomeCalendar *gcal;
 	gint year_val;
 	gint month_val;
 	gint day_val;
 
-	GCancellable *cancellable;
+	ETagCalendar *tag_calendar;
+
+	ECalDataModel *data_model;
+	ECalendarViewMoveType *out_move_type;
+	time_t *out_exact_date;
 } GoToDialog;
 
 static GoToDialog *dlg = NULL;
@@ -86,23 +89,6 @@ month_changed (GtkToggleButton *toggle,
 		dlg->ecal->calitem, dlg->year_val, dlg->month_val);
 }
 
-static void
-ecal_date_range_changed (ECalendarItem *calitem,
-                         gpointer user_data)
-{
-	GoToDialog *dlg = user_data;
-	ECalModel *model;
-	ECalClient *client;
-
-	model = gnome_calendar_get_model (dlg->gcal);
-	client = e_cal_model_ref_default_client (model);
-
-	if (client != NULL) {
-		tag_calendar_by_client (dlg->ecal, client, dlg->cancellable);
-		g_object_unref (client);
-	}
-}
-
 /* Event handler for day groups in the month item.  A button press makes
  * the calendar jump to the selected day and destroys the Go-to dialog box. */
 static void
@@ -111,14 +97,12 @@ ecal_event (ECalendarItem *calitem,
 {
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
-	ECalModel *model;
 	struct icaltimetype tt = icaltime_null_time ();
 	icaltimezone *timezone;
 	time_t et;
 
-	model = gnome_calendar_get_model (dlg->gcal);
 	e_calendar_item_get_selection (calitem, &start_date, &end_date);
-	timezone = e_cal_model_get_timezone (model);
+	timezone = e_cal_data_model_get_timezone (dlg->data_model);
 
 	tt.year = g_date_get_year (&start_date);
 	tt.month = g_date_get_month (&start_date);
@@ -126,9 +110,10 @@ ecal_event (ECalendarItem *calitem,
 
 	et = icaltime_as_timet_with_zone (tt, timezone);
 
-	gnome_calendar_goto (dlg->gcal, et);
+	*(dlg->out_move_type) = E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY;
+	*(dlg->out_exact_date) = et;
 
-	gtk_dialog_response (GTK_DIALOG (dlg->dialog), GTK_RESPONSE_NONE);
+	gtk_dialog_response (GTK_DIALOG (dlg->dialog), GTK_RESPONSE_APPLY);
 }
 
 /* Returns the current time, for the ECalendarItem. */
@@ -164,6 +149,8 @@ create_ecal (GoToDialog *dlg)
 	ECalendarItem *calitem;
 
 	dlg->ecal = E_CALENDAR (e_calendar_new ());
+	dlg->tag_calendar = e_tag_calendar_new (dlg->ecal);
+
 	calitem = dlg->ecal->calitem;
 
 	gnome_canvas_item_set (
@@ -179,14 +166,6 @@ create_ecal (GoToDialog *dlg)
 		calitem,
 		get_current_time,
 		dlg, NULL);
-
-	ecal_date_range_changed (calitem, dlg);
-}
-
-static void
-goto_today (GoToDialog *dlg)
-{
-	gnome_calendar_goto_today (dlg->gcal);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available. */
@@ -224,27 +203,29 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 		G_CALLBACK (year_changed), dlg);
 
 	g_signal_connect (
-		dlg->ecal->calitem, "date_range_changed",
-		G_CALLBACK (ecal_date_range_changed), dlg);
-	g_signal_connect (
 		dlg->ecal->calitem, "selection_changed",
 		G_CALLBACK (ecal_event), dlg);
 }
 
+/* Create a copy, thus a move to a distant date will not cause large event lookups */
+
 /* Creates a "goto date" dialog and runs it */
-void
-goto_dialog (GtkWindow *parent,
-             GnomeCalendar *gcal)
+gboolean
+goto_dialog_run (GtkWindow *parent,
+		 ECalDataModel *data_model,
+		 const GDate *from_date,
+		 ECalendarViewMoveType *out_move_type,
+		 time_t *out_exact_date)
 {
-	ECalModel *model;
-	time_t start_time;
-	struct icaltimetype tt;
-	icaltimezone *timezone;
-	gint b;
+	gint response;
 
 	if (dlg) {
-		return;
+		return FALSE;
 	}
+
+	g_return_val_if_fail (E_IS_CAL_DATA_MODEL (data_model), FALSE);
+	g_return_val_if_fail (out_move_type != NULL, FALSE);
+	g_return_val_if_fail (out_exact_date != NULL, FALSE);
 
 	dlg = g_new0 (GoToDialog, 1);
 
@@ -253,20 +234,31 @@ goto_dialog (GtkWindow *parent,
 	e_load_ui_builder_definition (dlg->builder, "goto-dialog.ui");
 
 	if (!get_widgets (dlg)) {
-		g_message ("goto_dialog(): Could not find all widgets in the XML file!");
+		g_message ("goto_dialog_run(): Could not find all widgets in the XML file!");
 		g_free (dlg);
-		return;
+		dlg = NULL;
+		return FALSE;
 	}
-	dlg->gcal = gcal;
-	dlg->cancellable = g_cancellable_new ();
 
-	model = gnome_calendar_get_model (gcal);
-	timezone = e_cal_model_get_timezone (model);
-	e_cal_model_get_time_range (model, &start_time, NULL);
-	tt = icaltime_from_timet_with_zone (start_time, FALSE, timezone);
-	dlg->year_val = tt.year;
-	dlg->month_val = tt.month - 1;
-	dlg->day_val = tt.day;
+	dlg->data_model = e_cal_data_model_new_clone (data_model);
+	dlg->out_move_type = out_move_type;
+	dlg->out_exact_date = out_exact_date;
+
+	if (from_date) {
+		dlg->year_val = g_date_get_year (from_date);
+		dlg->month_val = g_date_get_month (from_date) - 1;
+		dlg->day_val = g_date_get_day (from_date);
+	} else {
+		struct icaltimetype tt;
+		icaltimezone *timezone;
+
+		timezone = e_cal_data_model_get_timezone (dlg->data_model);
+		tt = icaltime_current_time_with_zone (timezone);
+
+		dlg->year_val = tt.year;
+		dlg->month_val = tt.month - 1;
+		dlg->day_val = tt.day;
+	}
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->month_combobox), dlg->month_val);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->year), dlg->year_val);
@@ -281,21 +273,29 @@ goto_dialog (GtkWindow *parent,
 
 	dlg->ecal->calitem->selection_set = TRUE;
 	dlg->ecal->calitem->selection_start_month_offset = 0;
-	dlg->ecal->calitem->selection_start_day = tt.day;
+	dlg->ecal->calitem->selection_start_day = dlg->day_val;
 	dlg->ecal->calitem->selection_end_month_offset = 0;
-	dlg->ecal->calitem->selection_end_day = tt.day;
+	dlg->ecal->calitem->selection_end_day = dlg->day_val;
 
 	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (dlg->ecal->calitem));
 
-	b = gtk_dialog_run (GTK_DIALOG (dlg->dialog));
+	e_tag_calendar_subscribe (dlg->tag_calendar, dlg->data_model);
+
+	response = gtk_dialog_run (GTK_DIALOG (dlg->dialog));
+
+	e_tag_calendar_unsubscribe (dlg->tag_calendar, dlg->data_model);
+
 	gtk_widget_destroy (dlg->dialog);
 
-	if (b == 0)
-		goto_today (dlg);
+	if (response == GTK_RESPONSE_ACCEPT)
+		*(dlg->out_move_type) = E_CALENDAR_VIEW_MOVE_TO_TODAY;
 
 	g_object_unref (dlg->builder);
-	g_cancellable_cancel (dlg->cancellable);
-	g_object_unref (dlg->cancellable);
+	g_clear_object (&dlg->tag_calendar);
+	g_clear_object (&dlg->data_model);
+
 	g_free (dlg);
 	dlg = NULL;
+
+	return response == GTK_RESPONSE_ACCEPT || response == GTK_RESPONSE_APPLY;
 }

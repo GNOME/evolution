@@ -37,9 +37,9 @@
 #include <glib/gstdio.h>
 
 #include "dialogs/delete-comp.h"
-#include "dialogs/delete-error.h"
 #include "dialogs/memo-editor.h"
 #include "e-cal-model-memos.h"
+#include "e-cal-ops.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
 #include "print.h"
@@ -68,7 +68,6 @@ enum {
 enum {
 	OPEN_COMPONENT,
 	POPUP_EVENT,
-	STATUS_MESSAGE,
 	LAST_SIGNAL
 };
 
@@ -110,16 +109,6 @@ memo_table_emit_popup_event (EMemoTable *memo_table,
 	g_signal_emit (memo_table, signal_id, 0, event);
 }
 
-static void
-memo_table_emit_status_message (EMemoTable *memo_table,
-                                const gchar *message,
-                                gdouble percent)
-{
-	guint signal_id = signals[STATUS_MESSAGE];
-
-	g_signal_emit (memo_table, signal_id, 0, message, percent);
-}
-
 /* Returns the current time, for the ECellDateEdit items.
  * FIXME: Should probably use the timezone of the item rather than the
  * current timezone, though that may be difficult to get from here. */
@@ -151,51 +140,14 @@ memo_table_get_current_time (ECellDateEdit *ecde,
 	return tmp_tm;
 }
 
-static void
-memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
-                                       const gchar *message,
-                                       gint progress,
-                                       ECalClientSourceType type)
-{
-	gdouble percent = (gdouble) progress;
-
-	memo_table_emit_status_message (memo_table, message, percent);
-}
-
-static void
-memo_table_model_cal_view_complete_cb (EMemoTable *memo_table,
-                                       const GError *error,
-                                       ECalClientSourceType type)
-{
-	memo_table_emit_status_message (memo_table, NULL, -1.0);
-}
-
 /* Deletes all of the selected components in the table */
 static void
 delete_selected_components (EMemoTable *memo_table)
 {
-	GSList *objs, *l;
-	const gchar *status_message;
+	GSList *objs;
 
 	objs = e_memo_table_get_selected (memo_table);
-
-	status_message = _("Deleting selected objects");
-	memo_table_emit_status_message (memo_table, status_message, -1.0);
-
-	for (l = objs; l; l = l->next) {
-		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
-		GError *error = NULL;
-
-		e_cal_client_remove_object_sync (
-			comp_data->client,
-			icalcomponent_get_uid (comp_data->icalcomp),
-			NULL, CALOBJ_MOD_THIS, NULL, &error);
-		delete_error_dialog (error, E_CAL_COMPONENT_JOURNAL);
-		g_clear_error (&error);
-	}
-
-	memo_table_emit_status_message (memo_table, NULL, -1.0);
-
+	e_cal_ops_delete_ecalmodel_components (memo_table->priv->model, objs);
 	g_slist_free (objs);
 }
 
@@ -206,16 +158,6 @@ memo_table_set_model (EMemoTable *memo_table,
 	g_return_if_fail (memo_table->priv->model == NULL);
 
 	memo_table->priv->model = g_object_ref (model);
-
-	g_signal_connect_swapped (
-		model, "cal-view-progress",
-		G_CALLBACK (memo_table_model_cal_view_progress_cb),
-		memo_table);
-
-	g_signal_connect_swapped (
-		model, "cal-view-complete",
-		G_CALLBACK (memo_table_model_cal_view_complete_cb),
-		memo_table);
 }
 
 static void
@@ -841,117 +783,6 @@ memo_table_copy_clipboard (ESelectable *selectable)
 	memo_table->tmp_vcal = NULL;
 }
 
-/* Helper for memo_table_paste_clipboard() */
-static void
-clipboard_get_calendar_data (EMemoTable *memo_table,
-                             const gchar *text)
-{
-	icalcomponent *icalcomp;
-	gchar *uid;
-	ECalComponent *comp;
-	ECalClient *client;
-	ECalModel *model;
-	icalcomponent_kind kind;
-	const gchar *status_message;
-
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
-
-	if (!text || !*text)
-		return;
-
-	icalcomp = icalparser_parse_string (text);
-	if (!icalcomp)
-		return;
-
-	/* check the type of the component */
-	kind = icalcomponent_isa (icalcomp);
-	if (kind != ICAL_VCALENDAR_COMPONENT &&
-	    kind != ICAL_VEVENT_COMPONENT &&
-	    kind != ICAL_VTODO_COMPONENT &&
-	    kind != ICAL_VJOURNAL_COMPONENT) {
-		return;
-	}
-
-	model = e_memo_table_get_model (memo_table);
-	client = e_cal_model_ref_default_client (model);
-
-	status_message = _("Updating objects");
-	memo_table_emit_status_message (memo_table, status_message, -1.0);
-
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent_kind child_kind;
-		icalcomponent *subcomp;
-		icalcomponent *vcal_comp;
-
-		vcal_comp = icalcomp;
-		subcomp = icalcomponent_get_first_component (
-			vcal_comp, ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT ||
-			    child_kind == ICAL_VTODO_COMPONENT ||
-			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				ECalComponent *tmp_comp;
-				GError *error = NULL;
-
-				uid = e_cal_component_gen_uid ();
-				tmp_comp = e_cal_component_new ();
-				e_cal_component_set_icalcomponent (
-					tmp_comp,
-					icalcomponent_new_clone (subcomp));
-				e_cal_component_set_uid (tmp_comp, uid);
-				g_free (uid);
-				uid = NULL;
-
-				/* FIXME Should we convert start/due/complete
-				 *       times?  Also, need error handling.*/
-				e_cal_client_create_object_sync (
-					client,
-					e_cal_component_get_icalcomponent (tmp_comp),
-					NULL, NULL, &error);
-
-				g_object_unref (tmp_comp);
-
-				if (error != NULL) {
-					g_warning (
-						"%s: Failed to create object: %s",
-						G_STRFUNC, error->message);
-					g_error_free (error);
-				}
-			}
-			subcomp = icalcomponent_get_next_component (
-				vcal_comp, ICAL_ANY_COMPONENT);
-		}
-	} else {
-		GError *error = NULL;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomp);
-		uid = e_cal_component_gen_uid ();
-		e_cal_component_set_uid (comp, (const gchar *) uid);
-		g_free (uid);
-		uid = NULL;
-
-		e_cal_client_create_object_sync (
-			client,
-			e_cal_component_get_icalcomponent (comp),
-			NULL, NULL, &error);
-
-		g_object_unref (comp);
-
-		if (error != NULL) {
-			g_warning (
-				"%s: Failed to create object: %s",
-				G_STRFUNC, error->message);
-			g_error_free (error);
-		}
-	}
-
-	memo_table_emit_status_message (memo_table, NULL, -1.0);
-
-	g_object_unref (client);
-}
-
 static void
 memo_table_paste_clipboard (ESelectable *selectable)
 {
@@ -985,11 +816,14 @@ memo_table_paste_clipboard (ESelectable *selectable)
 
 	/* Paste iCalendar data into the table. */
 	} else if (e_clipboard_wait_is_calendar_available (clipboard)) {
-		gchar *calendar_source;
+		ECalModel *model;
+		gchar *ical_str;
 
-		calendar_source = e_clipboard_wait_for_calendar (clipboard);
-		clipboard_get_calendar_data (memo_table, calendar_source);
-		g_free (calendar_source);
+		model = e_memo_table_get_model (memo_table);
+
+		ical_str = e_clipboard_wait_for_calendar (clipboard);
+		e_cal_ops_paste_components (model, ical_str);
+		g_free (ical_str);
 	}
 }
 
@@ -1154,16 +988,6 @@ e_memo_table_class_init (EMemoTableClass *class)
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
-
-	signals[STATUS_MESSAGE] = g_signal_new (
-		"status-message",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EMemoTableClass, status_message),
-		NULL, NULL,
-		e_marshal_VOID__STRING_DOUBLE,
-		G_TYPE_NONE, 2,
-		G_TYPE_STRING, G_TYPE_DOUBLE);
 }
 
 static void

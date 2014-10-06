@@ -1,5 +1,6 @@
 /*
- * e-cal-shell-view.h
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,22 +8,18 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef E_CAL_SHELL_VIEW_H
 #define E_CAL_SHELL_VIEW_H
 
 #include <e-util/e-util.h>
-#include <shell/e-shell-view.h>
+#include "e-cal-base-shell-view.h"
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_VIEW \
@@ -50,20 +47,16 @@ typedef struct _ECalShellViewClass ECalShellViewClass;
 typedef struct _ECalShellViewPrivate ECalShellViewPrivate;
 
 struct _ECalShellView {
-	EShellView parent;
+	ECalBaseShellView parent;
 	ECalShellViewPrivate *priv;
 };
 
 struct _ECalShellViewClass {
-	EShellViewClass parent_class;
+	ECalBaseShellViewClass parent_class;
 };
 
-GType		e_cal_shell_view_get_type	(void);
-void		e_cal_shell_view_type_register	(GTypeModule *type_module);
-
-void		e_cal_shell_view_allow_auth_prompt_and_refresh
-						(EShellView *shell_view,
-						 EClient *client);
+GType		e_cal_shell_view_get_type		(void);
+void		e_cal_shell_view_type_register		(GTypeModule *type_module);
 
 G_END_DECLS
 

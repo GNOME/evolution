@@ -23,25 +23,9 @@
 #endif
 
 #include "e-util/e-util-private.h"
+#include <calendar/gui/e-cal-ops.h>
 
 #include "e-memo-shell-view-private.h"
-
-static void
-memo_shell_view_model_row_appended_cb (EMemoShellView *memo_shell_view,
-                                       ECalModel *model)
-{
-	EMemoShellSidebar *memo_shell_sidebar;
-	ECalClient *client;
-
-	/* This is the "Click to Add" handler. */
-
-	client = e_cal_model_ref_default_client (model);
-
-	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
-	e_memo_shell_sidebar_add_client (memo_shell_sidebar, E_CLIENT (client));
-
-	g_object_unref (client);
-}
 
 static void
 memo_shell_view_table_popup_event_cb (EShellView *shell_view,
@@ -51,36 +35,6 @@ memo_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 	widget_path = "/memo-popup";
 	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
-}
-
-static void
-memo_shell_view_selector_client_added_cb (EMemoShellView *memo_shell_view,
-                                          ECalClient *client)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
-	ECalModel *model;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	model = e_memo_table_get_model (memo_table);
-
-	e_cal_model_add_client (model, client);
-}
-
-static void
-memo_shell_view_selector_client_removed_cb (EMemoShellView *memo_shell_view,
-                                            ECalClient *client)
-{
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
-	ECalModel *model;
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	model = e_memo_table_get_model (memo_table);
-
-	e_cal_model_remove_client (model, client);
 }
 
 static gboolean
@@ -175,18 +129,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	priv->memo_shell_content = g_object_ref (shell_content);
 	priv->memo_shell_sidebar = g_object_ref (shell_sidebar);
 
-	handler_id = g_signal_connect_swapped (
-		priv->memo_shell_sidebar, "client-added",
-		G_CALLBACK (memo_shell_view_selector_client_added_cb),
-		memo_shell_view);
-	priv->client_added_handler_id = handler_id;
-
-	handler_id = g_signal_connect_swapped (
-		priv->memo_shell_sidebar, "client-removed",
-		G_CALLBACK (memo_shell_view_selector_client_removed_cb),
-		memo_shell_view);
-	priv->client_removed_handler_id = handler_id;
-
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
 	priv->client_cache = e_shell_get_client_cache (shell);
@@ -228,12 +170,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		memo_shell_view);
 	priv->selection_change_2_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
-		priv->memo_table, "status-message",
-		G_CALLBACK (e_memo_shell_view_set_status_message),
-		memo_shell_view);
-	priv->status_message_handler_id = handler_id;
-
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
 	priv->model = e_memo_table_get_model (priv->memo_table);
@@ -259,14 +195,14 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 
 	handler_id = g_signal_connect_swapped (
 		priv->model, "row-appended",
-		G_CALLBACK (memo_shell_view_model_row_appended_cb),
+		G_CALLBACK (e_cal_base_shell_view_model_row_appended),
 		memo_shell_view);
 	priv->row_appended_handler_id = handler_id;
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
-	priv->selector = e_memo_shell_sidebar_get_selector (
-		E_MEMO_SHELL_SIDEBAR (shell_sidebar));
+	priv->selector = e_cal_base_shell_sidebar_get_selector (
+		E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
 	g_object_ref (priv->selector);
 
 	handler_id = g_signal_connect_swapped (
@@ -285,12 +221,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		(GHookFunc) e_memo_shell_view_update_search_filter,
 		memo_shell_view);
 
-	/* Keep the ECalModel in sync with the sidebar. */
-	g_object_bind_property (
-		shell_sidebar, "default-client",
-		priv->model, "default-client",
-		G_BINDING_SYNC_CREATE);
-
 	e_memo_shell_view_actions_init (memo_shell_view);
 	e_memo_shell_view_update_sidebar (memo_shell_view);
 	e_memo_shell_view_update_search_filter (memo_shell_view);
@@ -300,20 +230,6 @@ void
 e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
-
-	if (priv->client_added_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->memo_shell_sidebar,
-			priv->client_added_handler_id);
-		priv->client_added_handler_id = 0;
-	}
-
-	if (priv->client_removed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->memo_shell_sidebar,
-			priv->client_removed_handler_id);
-		priv->client_removed_handler_id = 0;
-	}
 
 	if (priv->backend_error_handler_id > 0) {
 		g_signal_handler_disconnect (
@@ -348,13 +264,6 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 			priv->memo_table,
 			priv->selection_change_2_handler_id);
 		priv->selection_change_2_handler_id = 0;
-	}
-
-	if (priv->status_message_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->memo_table,
-			priv->status_message_handler_id);
-		priv->status_message_handler_id = 0;
 	}
 
 	if (priv->model_changed_handler_id > 0) {
@@ -407,15 +316,6 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 	g_clear_object (&priv->memo_table);
 	g_clear_object (&priv->model);
 	g_clear_object (&priv->selector);
-
-	if (memo_shell_view->priv->activity != NULL) {
-		/* XXX Activity is not cancellable. */
-		e_activity_set_state (
-			memo_shell_view->priv->activity,
-			E_ACTIVITY_COMPLETED);
-		g_object_unref (memo_shell_view->priv->activity);
-		memo_shell_view->priv->activity = NULL;
-	}
 }
 
 void
@@ -428,84 +328,16 @@ void
 e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
                              ECalModelComponent *comp_data)
 {
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
-	CompEditor *editor;
-	CompEditorFlags flags = 0;
-	ECalComponent *comp;
-	icalcomponent *clone;
-	const gchar *uid;
+	EShellContent *shell_content;
+	ECalModel *model;
 
 	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (memo_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
 
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (memo_shell_view));
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (shell_content));
 
-	registry = e_shell_get_registry (shell);
-
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-	editor = comp_editor_find_instance (uid);
-
-	if (editor != NULL)
-		goto exit;
-
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
-
-	if (e_cal_component_has_organizer (comp))
-		flags |= COMP_EDITOR_IS_SHARED;
-
-	if (itip_organizer_is_user (registry, comp, comp_data->client))
-		flags |= COMP_EDITOR_USER_ORG;
-
-	editor = memo_editor_new (comp_data->client, shell, flags);
-	comp_editor_edit_comp (editor, comp);
-
-	g_object_unref (comp);
-
-exit:
-	gtk_window_present (GTK_WINDOW (editor));
-}
-
-void
-e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
-                                      const gchar *status_message,
-                                      gdouble percent)
-{
-	EActivity *activity;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-
-	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (memo_shell_view));
-
-	activity = memo_shell_view->priv->activity;
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	if (status_message == NULL || *status_message == '\0') {
-		if (activity != NULL) {
-			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-			g_object_unref (activity);
-			activity = NULL;
-		}
-
-	} else if (activity == NULL) {
-		activity = e_activity_new ();
-		e_activity_set_percent (activity, percent);
-		e_activity_set_text (activity, status_message);
-		e_shell_backend_add_activity (shell_backend, activity);
-
-	} else {
-		e_activity_set_percent (activity, percent);
-		e_activity_set_text (activity, status_message);
-	}
-
-	memo_shell_view->priv->activity = activity;
+	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp);
 }
 
 void
@@ -547,4 +379,3 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 
 	g_string_free (string, TRUE);
 }
-

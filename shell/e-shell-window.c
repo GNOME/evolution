@@ -1610,6 +1610,122 @@ e_shell_window_set_toolbar_visible (EShellWindow *shell_window,
 	g_object_notify (G_OBJECT (shell_window), "toolbar-visible");
 }
 
+typedef struct {
+	EShellWindow *shell_window;
+	ESource *source;
+	gchar *extension_name;
+	EShellWindowConnetClientFunc connected_cb;
+	gpointer user_data;
+	GDestroyNotify destroy_user_data;
+
+	EClient *client;
+} ConnectClientData;
+
+static void
+connect_client_data_free (gpointer ptr)
+{
+	ConnectClientData *cc_data = ptr;
+
+	if (cc_data) {
+		if (cc_data->client && cc_data->connected_cb)
+			cc_data->connected_cb (cc_data->shell_window, cc_data->client, cc_data->user_data);
+
+		g_clear_object (&cc_data->shell_window);
+		g_clear_object (&cc_data->source);
+		g_clear_object (&cc_data->client);
+		g_free (cc_data->extension_name);
+
+		if (cc_data->destroy_user_data)
+			cc_data->destroy_user_data (cc_data->user_data);
+
+		g_free (cc_data);
+	}
+}
+
+static void
+shell_window_connect_client_thread (EAlertSinkThreadJobData *job_data,
+				    gpointer user_data,
+				    GCancellable *cancellable,
+				    GError **error)
+{
+	ConnectClientData *cc_data = user_data;
+	EShell *shell;
+	EClientCache *client_cache;
+	GError *local_error = NULL;
+
+	g_return_if_fail (cc_data != NULL);
+
+	shell = e_shell_window_get_shell (cc_data->shell_window);
+	client_cache = e_shell_get_client_cache (shell);
+
+	cc_data->client = e_client_cache_get_client_sync (client_cache,
+		cc_data->source, cc_data->extension_name, cancellable, &local_error);
+
+	e_util_propagate_open_source_job_error (job_data, cc_data->extension_name, local_error, error);
+}
+
+/**
+ * e_shell_window_connect_client:
+ * @shell_window: an #EShellWindow
+ * @source: an #ESource to connect to
+ * @extension_name: an extension name
+ * @connected_cb: a callback to be called when the client is opened
+ * @user_data: a user data passed to @connected_cb
+ * @destroy_user_data: (allow none): callback to free @user_data when no longer needed
+ *
+ * Get's an #EClient from shell's #EClientCache in a dedicated thread, thus
+ * the operation doesn't block UI. The @connected_cb is called in the main thread,
+ * but only when the operation succeeded. Any failure is propageted to UI.
+ *
+ * Since: 3.14
+ **/
+void
+e_shell_window_connect_client (EShellWindow *shell_window,
+			       ESource *source,
+			       const gchar *extension_name,
+			       EShellWindowConnetClientFunc connected_cb,
+			       gpointer user_data,
+			       GDestroyNotify destroy_user_data)
+{
+	ConnectClientData *cc_data;
+	EShellView *shell_view;
+	EActivity *activity;
+	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (extension_name != NULL);
+	g_return_if_fail (connected_cb != NULL);
+
+	shell_view = e_shell_window_get_shell_view (shell_window,
+		e_shell_window_get_active_view (shell_window));
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (!e_util_get_open_source_job_info (extension_name, e_source_get_display_name (source),
+		&description, &alert_ident, &alert_arg_0)) {
+		g_warn_if_reached ();
+		return;
+	}
+
+	cc_data = g_new0 (ConnectClientData, 1);
+	cc_data->shell_window = g_object_ref (shell_window);
+	cc_data->source = g_object_ref (source);
+	cc_data->extension_name = g_strdup (extension_name);
+	cc_data->connected_cb = connected_cb;
+	cc_data->user_data = user_data;
+	cc_data->destroy_user_data = destroy_user_data;
+	cc_data->client = NULL;
+
+	activity = e_shell_view_submit_thread_job (shell_view, description, alert_ident, alert_arg_0,
+		shell_window_connect_client_thread, cc_data, connect_client_data_free);
+
+	g_clear_object (&activity);
+	g_free (description);
+	g_free (alert_ident);
+	g_free (alert_arg_0);
+}
+
 /**
  * e_shell_window_register_new_item_actions:
  * @shell_window: an #EShellWindow

@@ -46,7 +46,7 @@ static AtkObject * ea_day_view_main_item_get_parent (AtkObject *accessible);
 static gint ea_day_view_main_item_get_index_in_parent (AtkObject *accessible);
 
 /* callbacks */
-static void ea_day_view_main_item_dates_change_cb (GnomeCalendar *gcal, gpointer data);
+static void ea_day_view_main_item_time_range_changed_cb (ECalModel *model, time_t start, time_t end, gpointer data);
 static void ea_day_view_main_item_time_change_cb (EDayView *day_view, gpointer data);
 
 /* component interface */
@@ -187,7 +187,7 @@ AtkObject *
 ea_day_view_main_item_new (GObject *obj)
 {
 	AtkObject *accessible;
-	GnomeCalendar *gcal;
+	ECalModel *model;
 	EDayViewMainItem *main_item;
 	EDayView *day_view;
 
@@ -216,11 +216,11 @@ ea_day_view_main_item_new (GObject *obj)
 		accessible);
 
 	/* listen for date changes of calendar */
-	gcal = e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view));
-	if (gcal)
-		g_signal_connect (
-			gcal, "dates_shown_changed",
-			G_CALLBACK (ea_day_view_main_item_dates_change_cb),
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	if (model)
+		g_signal_connect_after (
+			model, "time-range-changed",
+			G_CALLBACK (ea_day_view_main_item_time_range_changed_cb),
 			accessible);
 
 	return accessible;
@@ -373,12 +373,14 @@ ea_day_view_main_item_get_index_in_parent (AtkObject *accessible)
 /* callbacks */
 
 static void
-ea_day_view_main_item_dates_change_cb (GnomeCalendar *gcal,
-                                       gpointer data)
+ea_day_view_main_item_time_range_changed_cb (ECalModel *model,
+					     time_t start,
+					     time_t end,
+					     gpointer data)
 {
 	EaDayViewMainItem *ea_main_item;
 
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (data);
 	g_return_if_fail (EA_IS_DAY_VIEW_MAIN_ITEM (data));
 

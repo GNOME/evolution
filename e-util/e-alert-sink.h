@@ -61,6 +61,31 @@ GType		e_alert_sink_get_type		(void) G_GNUC_CONST;
 void		e_alert_sink_submit_alert	(EAlertSink *alert_sink,
 						 EAlert *alert);
 
+struct _EActivity;
+
+struct _EAlertSinkThreadJobData;
+typedef struct _EAlertSinkThreadJobData EAlertSinkThreadJobData;
+
+typedef void	(* EAlertSinkThreadJobFunc)	(EAlertSinkThreadJobData *job_data,
+						 gpointer user_data,
+						 GCancellable *cancellable,
+						 GError **error);
+
+struct _EActivity *
+		e_alert_sink_submit_thread_job	(EAlertSink *alert_sink,
+						 const gchar *description,
+						 const gchar *alert_ident,
+						 const gchar *alert_arg_0,
+						 EAlertSinkThreadJobFunc func,
+						 gpointer user_data,
+						 GDestroyNotify free_user_data);
+void		e_alert_sink_thread_job_set_alert_ident
+						(EAlertSinkThreadJobData *job_data,
+						 const gchar *alert_ident);
+void		e_alert_sink_thread_job_set_alert_arg_0
+						(EAlertSinkThreadJobData *job_data,
+						 const gchar *alert_arg_0);
+
 G_END_DECLS
 
 #endif /* E_ALERT_SINK_H */

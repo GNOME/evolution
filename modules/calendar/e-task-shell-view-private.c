@@ -22,26 +22,10 @@
 #include <config.h>
 #endif
 
-#include "e-task-shell-view-private.h"
-
 #include "e-util/e-util-private.h"
+#include <calendar/gui/e-cal-ops.h>
 
-static void
-task_shell_view_model_row_appended_cb (ETaskShellView *task_shell_view,
-                                       ECalModel *model)
-{
-	ETaskShellSidebar *task_shell_sidebar;
-	ECalClient *client;
-
-	/* This is the "Click to Add" handler. */
-
-	client = e_cal_model_ref_default_client (model);
-
-	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-	e_task_shell_sidebar_add_client (task_shell_sidebar, E_CLIENT (client));
-
-	g_object_unref (client);
-}
+#include "e-task-shell-view-private.h"
 
 static gboolean
 task_shell_view_process_completed_tasks_cb (gpointer user_data)
@@ -113,36 +97,6 @@ task_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 	widget_path = "/task-popup";
 	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
-}
-
-static void
-task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
-                                          ECalClient *client)
-{
-	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
-	ECalModel *model;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
-
-	e_cal_model_add_client (model, client);
-}
-
-static void
-task_shell_view_selector_client_removed_cb (ETaskShellView *task_shell_view,
-                                            ECalClient *client)
-{
-	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
-	ECalModel *model;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
-
-	e_cal_model_remove_client (model, client);
 }
 
 static gboolean
@@ -260,18 +214,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	priv->settings = g_settings_new ("org.gnome.evolution.calendar");
 
-	handler_id = g_signal_connect_object (
-		priv->task_shell_sidebar, "client-added",
-		G_CALLBACK (task_shell_view_selector_client_added_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
-	priv->client_added_handler_id = handler_id;
-
-	handler_id = g_signal_connect_object (
-		priv->task_shell_sidebar, "client-removed",
-		G_CALLBACK (task_shell_view_selector_client_removed_cb),
-		task_shell_view, G_CONNECT_SWAPPED);
-	priv->client_removed_handler_id = handler_id;
-
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
 	priv->client_cache = e_shell_get_client_cache (shell);
@@ -313,12 +255,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 	priv->selection_change_2_handler_id = handler_id;
 
-	handler_id = g_signal_connect_swapped (
-		priv->task_table, "status-message",
-		G_CALLBACK (e_task_shell_view_set_status_message),
-		task_shell_view);
-	priv->status_message_handler_id = handler_id;
-
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
 	priv->model = e_task_table_get_model (priv->task_table);
@@ -344,14 +280,14 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	handler_id = g_signal_connect_swapped (
 		priv->model, "row-appended",
-		G_CALLBACK (task_shell_view_model_row_appended_cb),
+		G_CALLBACK (e_cal_base_shell_view_model_row_appended),
 		task_shell_view);
 	priv->rows_appended_handler_id = handler_id;
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
-	priv->selector = e_task_shell_sidebar_get_selector (
-		E_TASK_SHELL_SIDEBAR (shell_sidebar));
+	priv->selector = e_cal_base_shell_sidebar_get_selector (
+		E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
 	g_object_ref (priv->selector);
 
 	handler_id = g_signal_connect_swapped (
@@ -375,12 +311,6 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		priv->settings, "confirm-purge",
 		shell_view, "confirm-purge",
 		G_SETTINGS_BIND_DEFAULT);
-
-	/* Keep the ECalModel in sync with the sidebar. */
-	g_object_bind_property (
-		shell_sidebar, "default-client",
-		priv->model, "default-client",
-		G_BINDING_SYNC_CREATE);
 
 	/* Hide Completed Tasks (enable/units/value) */
 	handler_id = g_signal_connect (
@@ -417,20 +347,6 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 
-	if (priv->client_added_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->task_shell_sidebar,
-			priv->client_added_handler_id);
-		priv->client_added_handler_id = 0;
-	}
-
-	if (priv->client_removed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->task_shell_sidebar,
-			priv->client_removed_handler_id);
-		priv->client_removed_handler_id = 0;
-	}
-
 	if (priv->backend_error_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->client_cache,
@@ -464,13 +380,6 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 			priv->task_table,
 			priv->selection_change_2_handler_id);
 		priv->selection_change_2_handler_id = 0;
-	}
-
-	if (priv->status_message_handler_id > 0) {
-		g_signal_handler_disconnect (
-			priv->task_table,
-			priv->status_message_handler_id);
-		priv->status_message_handler_id = 0;
 	}
 
 	if (priv->model_changed_handler_id > 0) {
@@ -546,15 +455,6 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 	g_clear_object (&priv->selector);
 	g_clear_object (&priv->settings);
 
-	if (task_shell_view->priv->activity != NULL) {
-		/* XXX Activity is not cancellable. */
-		e_activity_set_state (
-			task_shell_view->priv->activity,
-			E_ACTIVITY_COMPLETED);
-		g_object_unref (task_shell_view->priv->activity);
-		task_shell_view->priv->activity = NULL;
-	}
-
 	if (priv->update_timeout > 0) {
 		g_source_remove (priv->update_timeout);
 		priv->update_timeout = 0;
@@ -580,57 +480,16 @@ void
 e_task_shell_view_open_task (ETaskShellView *task_shell_view,
                              ECalModelComponent *comp_data)
 {
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
-	CompEditor *editor;
-	CompEditorFlags flags = 0;
-	ECalComponent *comp;
-	icalcomponent *clone;
-	icalproperty *prop;
-	const gchar *uid;
+	EShellContent *shell_content;
+	ECalModel *model;
 
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
 
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (task_shell_view));
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (shell_content));
 
-	registry = e_shell_get_registry (shell);
-
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-	editor = comp_editor_find_instance (uid);
-
-	if (editor != NULL)
-		goto exit;
-
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
-
-	prop = icalcomponent_get_first_property (
-		comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	if (prop != NULL)
-		flags |= COMP_EDITOR_IS_ASSIGNED;
-
-	if (itip_organizer_is_user (registry, comp, comp_data->client))
-		flags |= COMP_EDITOR_USER_ORG;
-
-	if (!e_cal_component_has_attendees (comp))
-		flags |= COMP_EDITOR_USER_ORG;
-
-	editor = task_editor_new (comp_data->client, shell, flags);
-	comp_editor_edit_comp (editor, comp);
-
-	g_object_unref (comp);
-
-	if (flags & COMP_EDITOR_IS_ASSIGNED)
-		task_editor_show_assignment (TASK_EDITOR (editor));
-
-exit:
-	gtk_window_present (GTK_WINDOW (editor));
+	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp);
 }
 
 void
@@ -638,100 +497,13 @@ e_task_shell_view_delete_completed (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
 	ECalModel *model;
-	GList *list, *link;
-	const gchar *sexp;
 
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
-
-	sexp = "(is-completed?)";
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
-	model = e_task_shell_content_get_task_model (task_shell_content);
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (task_shell_content));
 
-	e_task_shell_view_set_status_message (
-		task_shell_view, _("Expunging"), -1.0);
-
-	list = e_cal_model_list_clients (model);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		ECalClient *client = E_CAL_CLIENT (link->data);
-		GSList *objects, *obj;
-		GError *error = NULL;
-
-		if (e_client_is_readonly (E_CLIENT (client)))
-			continue;
-
-		e_cal_client_get_object_list_sync (
-			client, sexp, &objects, NULL, &error);
-
-		if (error != NULL) {
-			g_warning (
-				"%s: Failed to get object list: %s",
-				G_STRFUNC, error->message);
-			g_clear_error (&error);
-			continue;
-		}
-
-		for (obj = objects; obj != NULL; obj = obj->next) {
-			icalcomponent *component = obj->data;
-			const gchar *uid;
-
-			uid = icalcomponent_get_uid (component);
-
-			e_cal_client_remove_object_sync (
-				client, uid, NULL,
-				CALOBJ_MOD_THIS, NULL, &error);
-
-			if (error != NULL) {
-				g_warning (
-					"%s: Failed to remove object: %s",
-					G_STRFUNC, error->message);
-				g_clear_error (&error);
-			}
-		}
-
-		e_cal_client_free_icalcomp_slist (objects);
-	}
-
-	g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
-	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
-}
-
-void
-e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
-                                      const gchar *status_message,
-                                      gdouble percent)
-{
-	EActivity *activity;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-
-	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
-
-	activity = task_shell_view->priv->activity;
-	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	if (status_message == NULL || *status_message == '\0') {
-		if (activity != NULL) {
-			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-			g_object_unref (activity);
-			activity = NULL;
-		}
-
-	} else if (activity == NULL) {
-		activity = e_activity_new ();
-		e_activity_set_percent (activity, percent);
-		e_activity_set_text (activity, status_message);
-		e_shell_backend_add_activity (shell_backend, activity);
-
-	} else {
-		e_activity_set_percent (activity, percent);
-		e_activity_set_text (activity, status_message);
-	}
-
-	task_shell_view->priv->activity = activity;
+	e_cal_ops_delete_completed_tasks (model);
 }
 
 void
@@ -773,4 +545,3 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 
 	g_string_free (string, TRUE);
 }
-

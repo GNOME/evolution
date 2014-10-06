@@ -79,9 +79,6 @@ struct _ETaskTableClass {
 						 ECalModelComponent *comp_data);
 	void	(*popup_event)			(ETaskTable *task_table,
 						 GdkEvent *event);
-	void	(*status_message)		(ETaskTable *task_table,
-						 const gchar *message,
-						 gdouble percent);
 };
 
 GType		e_task_table_get_type		(void);

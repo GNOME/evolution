@@ -29,7 +29,6 @@ ecalendarinclude_HEADERS =		\
 	comp-editor-util.h		\
 	copy-source-dialog.h		\
 	delete-comp.h			\
-	delete-error.h			\
 	e-delegate-dialog.h		\
 	e-send-options-utils.h		\
 	event-editor.h			\
@@ -73,8 +72,6 @@ libcal_dialogs_la_SOURCES =		\
 	copy-source-dialog.h		\
 	delete-comp.c			\
 	delete-comp.h			\
-	delete-error.c			\
-	delete-error.h			\
 	e-delegate-dialog.c		\
 	e-delegate-dialog.h		\
 	e-send-options-utils.c		\

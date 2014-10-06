@@ -30,6 +30,8 @@
 #include <libecal/libecal.h>
 
 #include <shell/e-shell.h>
+#include <shell/e-shell-view.h>
+#include <shell/e-shell-window.h>
 
 #define E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -117,160 +119,106 @@ attachment_handler_get_component (EAttachment *attachment)
 	return component;
 }
 
-static gboolean
-attachment_handler_update_objects (ECalClient *client,
-                                   icalcomponent *component)
+typedef struct {
+	EShell *shell;
+	ESource *source;
+	icalcomponent *icalcomp;
+	const gchar *extension_name;
+} ImportComponentData;
+
+static void
+import_component_data_free (gpointer ptr)
 {
-	icalcomponent_kind kind;
-	icalcomponent *vcalendar;
-	gboolean success;
-	GError *error = NULL;
+	ImportComponentData *icd = ptr;
 
-	kind = icalcomponent_isa (component);
+	if (icd) {
+		g_clear_object (&icd->shell);
+		g_clear_object (&icd->source);
+		if (icd->icalcomp)
+			icalcomponent_free (icd->icalcomp);
+		g_free (icd);
+	}
+}
 
-	switch (kind) {
-		case ICAL_VTODO_COMPONENT:
+static void
+import_component_thread (EAlertSinkThreadJobData *job_data,
+			 gpointer user_data,
+			 GCancellable *cancellable,
+			 GError **error)
+{
+	ImportComponentData *icd = user_data;
+	icalcomponent_kind need_kind = ICAL_ANY_COMPONENT;
+	icalcomponent *subcomp, *vcalendar;
+	icalcompiter iter;
+	EClient *e_client;
+	ECalClient *client = NULL;
+
+	g_return_if_fail (icd != NULL);
+
+	e_client = e_util_open_client_sync (job_data, e_shell_get_client_cache (icd->shell), icd->extension_name, icd->source, cancellable, error);
+	if (e_client)
+		client = E_CAL_CLIENT (e_client);
+
+	if (!client)
+		return;
+
+	if (g_str_equal (icd->extension_name, E_SOURCE_EXTENSION_CALENDAR))
+		need_kind = ICAL_VEVENT_COMPONENT;
+	else if (g_str_equal (icd->extension_name, E_SOURCE_EXTENSION_MEMO_LIST))
+		need_kind = ICAL_VJOURNAL_COMPONENT;
+	else if (g_str_equal (icd->extension_name, E_SOURCE_EXTENSION_TASK_LIST))
+		need_kind = ICAL_VTODO_COMPONENT;
+
+	if (need_kind == ICAL_ANY_COMPONENT) {
+		g_warn_if_reached ();
+		goto out;
+	}
+
+	iter = icalcomponent_begin_component (icd->icalcomp, ICAL_ANY_COMPONENT);
+
+	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
+		icalcomponent_kind kind;
+
+		kind = icalcomponent_isa (subcomp);
+		icalcompiter_next (&iter);
+
+		if (kind == need_kind)
+			continue;
+
+		if (kind == ICAL_VTIMEZONE_COMPONENT)
+			continue;
+
+		icalcomponent_remove_component (icd->icalcomp, subcomp);
+		icalcomponent_free (subcomp);
+	}
+
+	switch (icalcomponent_isa (icd->icalcomp)) {
 		case ICAL_VEVENT_COMPONENT:
+		case ICAL_VJOURNAL_COMPONENT:
+		case ICAL_VTODO_COMPONENT:
 			vcalendar = e_cal_util_new_top_level ();
-			if (icalcomponent_get_method (component) == ICAL_METHOD_CANCEL)
+			if (icalcomponent_get_method (icd->icalcomp) == ICAL_METHOD_CANCEL)
 				icalcomponent_set_method (vcalendar, ICAL_METHOD_CANCEL);
 			else
 				icalcomponent_set_method (vcalendar, ICAL_METHOD_PUBLISH);
-			icalcomponent_add_component (
-				vcalendar, icalcomponent_new_clone (component));
+			icalcomponent_add_component (vcalendar, icalcomponent_new_clone (icd->icalcomp));
 			break;
 
 		case ICAL_VCALENDAR_COMPONENT:
-			vcalendar = icalcomponent_new_clone (component);
+			vcalendar = icalcomponent_new_clone (icd->icalcomp);
 			if (!icalcomponent_get_first_property (vcalendar, ICAL_METHOD_PROPERTY))
 				icalcomponent_set_method (vcalendar, ICAL_METHOD_PUBLISH);
 			break;
 
 		default:
-			return FALSE;
+			goto out;
 	}
 
-	success = e_cal_client_receive_objects_sync (
-		client, vcalendar, NULL, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to receive objects: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	e_cal_client_receive_objects_sync (client, vcalendar, cancellable, error);
 
 	icalcomponent_free (vcalendar);
-
-	return success;
-}
-
-static void
-attachment_handler_import_event (GObject *source_object,
-                                 GAsyncResult *result,
-                                 gpointer user_data)
-{
-	EAttachment *attachment = user_data;
-	EClient *client;
-	icalcomponent *component;
-	icalcomponent *subcomponent;
-	icalcompiter iter;
-	GError *error = NULL;
-
-	client = e_cal_client_connect_finish (result, &error);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_object_unref (attachment);
-		g_error_free (error);
-		return;
-	}
-
-	component = attachment_handler_get_component (attachment);
-	g_return_if_fail (component != NULL);
-
-	iter = icalcomponent_begin_component (component, ICAL_ANY_COMPONENT);
-
-	while ((subcomponent = icalcompiter_deref (&iter)) != NULL) {
-		icalcomponent_kind kind;
-
-		kind = icalcomponent_isa (subcomponent);
-		icalcompiter_next (&iter);
-
-		if (kind == ICAL_VEVENT_COMPONENT)
-			continue;
-
-		if (kind == ICAL_VTIMEZONE_COMPONENT)
-			continue;
-
-		icalcomponent_remove_component (component, subcomponent);
-		icalcomponent_free (subcomponent);
-	}
-
-	/* XXX Do something with the return value. */
-	attachment_handler_update_objects (E_CAL_CLIENT (client), component);
-
-	g_object_unref (attachment);
-	g_object_unref (client);
-}
-
-static void
-attachment_handler_import_todo (GObject *source_object,
-                                GAsyncResult *result,
-                                gpointer user_data)
-{
-	EAttachment *attachment = user_data;
-	EClient *client;
-	icalcomponent *component;
-	icalcomponent *subcomponent;
-	icalcompiter iter;
-	GError *error = NULL;
-
-	client = e_cal_client_connect_finish (result, &error);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	if (error != NULL) {
-		g_warning ("%s: %s", G_STRFUNC, error->message);
-		g_object_unref (attachment);
-		g_error_free (error);
-		return;
-	}
-
-	component = attachment_handler_get_component (attachment);
-	g_return_if_fail (component != NULL);
-
-	iter = icalcomponent_begin_component (component, ICAL_ANY_COMPONENT);
-
-	while ((subcomponent = icalcompiter_deref (&iter)) != NULL) {
-		icalcomponent_kind kind;
-
-		kind = icalcomponent_isa (subcomponent);
-		icalcompiter_next (&iter);
-
-		if (kind == ICAL_VTODO_COMPONENT)
-			continue;
-
-		if (kind == ICAL_VTIMEZONE_COMPONENT)
-			continue;
-
-		icalcomponent_remove_component (component, subcomponent);
-		icalcomponent_free (subcomponent);
-	}
-
-	/* XXX Do something with the return value. */
-	attachment_handler_update_objects (E_CAL_CLIENT (client), component);
-
-	g_object_unref (attachment);
-	g_object_unref (client);
+ out:
+	g_clear_object (&client);
 }
 
 static void
@@ -286,6 +234,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
                                const gchar *title)
 {
 	EShell *shell;
+	EShellWindow *shell_window = NULL;
 	GtkWidget *dialog;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -308,6 +257,25 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		default:
 			g_return_if_reached ();
 	}
+
+	if (E_IS_SHELL_WINDOW (parent)) {
+		shell_window = E_SHELL_WINDOW (parent);
+		shell = e_shell_window_get_shell (shell_window);
+	} else {
+		GList *windows, *wlink;
+
+		shell = e_shell_get_default ();
+
+		windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+		for (wlink = windows; wlink; wlink = g_list_next (wlink)) {
+			if (E_IS_SHELL_WINDOW (wlink->data)) {
+				shell_window = E_SHELL_WINDOW (wlink->data);
+				break;
+			}
+		}
+	}
+
+	g_return_if_fail (shell_window != NULL);
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
@@ -339,7 +307,6 @@ attachment_handler_run_dialog (GtkWindow *parent,
 
 	container = widget;
 
-	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
 	widget = e_source_selector_new (registry, extension_name);
 	selector = E_SOURCE_SELECTOR (widget);
@@ -355,35 +322,59 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		goto exit;
 
 	source = e_source_selector_ref_primary_selection (selector);
-	if (source == NULL)
-		goto exit;
+	if (source != NULL) {
+		EShellView *shell_view;
+		EActivity *activity;
+		icalcomponent *icalcomp;
+		ImportComponentData *icd;
+		const gchar *description;
+		const gchar *alert_ident;
 
-	switch (source_type) {
-	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-		e_cal_client_connect (
-			source, source_type, NULL,
-			attachment_handler_import_event,
-			g_object_ref (attachment));
-		break;
-	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-		e_cal_client_connect (
-			source, source_type, NULL,
-			attachment_handler_import_todo,
-			g_object_ref (attachment));
-		break;
-	default:
-		break;
+		icalcomp = attachment_handler_get_component (attachment);
+
+		switch (source_type) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+				description = _("Importing an event");
+				alert_ident = "calendar:failed-create-event";
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+				description = _("Importing a memo");
+				alert_ident = "calendar:failed-create-memo";
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				description = _("Importing a task");
+				alert_ident = "calendar:failed-create-task";
+				break;
+			default:
+				g_warn_if_reached ();
+				return;
+		}
+
+		shell_view = e_shell_window_get_shell_view (shell_window,
+			e_shell_window_get_active_view (shell_window));
+
+		icd = g_new0 (ImportComponentData, 1);
+		icd->shell = g_object_ref (shell);
+		icd->source = g_object_ref (source);
+		icd->icalcomp = icalcomponent_new_clone (icalcomp);
+		icd->extension_name = extension_name;
+
+		activity = e_shell_view_submit_thread_job (shell_view, description, alert_ident,
+			e_source_get_display_name (source), import_component_thread, icd,
+			import_component_data_free);
+
+		g_clear_object (&activity);
+		g_object_unref (source);
 	}
-
-	g_object_unref (source);
 
  exit:
 	gtk_widget_destroy (dialog);
 }
 
 static void
-attachment_handler_import_to_calendar (GtkAction *action,
-                                       EAttachmentHandler *handler)
+attachment_handler_import_ical (EAttachmentHandler *handler,
+				ECalClientSourceType source_type,
+				const gchar *title)
 {
 	EAttachment *attachment;
 	EAttachmentView *view;
@@ -399,40 +390,31 @@ attachment_handler_import_to_calendar (GtkAction *action,
 	g_return_if_fail (g_list_length (selected) == 1);
 	attachment = E_ATTACHMENT (selected->data);
 
-	attachment_handler_run_dialog (
-		parent, attachment,
-		E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
-		_("Select a Calendar"));
+	attachment_handler_run_dialog (parent, attachment, source_type, title);
 
 	g_object_unref (attachment);
 	g_list_free (selected);
 }
 
 static void
+attachment_handler_import_to_calendar (GtkAction *action,
+                                       EAttachmentHandler *handler)
+{
+	attachment_handler_import_ical (handler, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, _("Select a Calendar"));
+}
+
+static void
+attachment_handler_import_to_memos (GtkAction *action,
+                                    EAttachmentHandler *handler)
+{
+	attachment_handler_import_ical (handler, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, _("Select a Memo List"));
+}
+
+static void
 attachment_handler_import_to_tasks (GtkAction *action,
                                     EAttachmentHandler *handler)
 {
-	EAttachment *attachment;
-	EAttachmentView *view;
-	GList *selected;
-	gpointer parent;
-
-	view = e_attachment_handler_get_view (handler);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	attachment = E_ATTACHMENT (selected->data);
-
-	attachment_handler_run_dialog (
-		parent, attachment,
-		E_CAL_CLIENT_SOURCE_TYPE_TASKS,
-		_("Select a Task List"));
-
-	g_object_unref (attachment);
-	g_list_free (selected);
+	attachment_handler_import_ical (handler, E_CAL_CLIENT_SOURCE_TYPE_TASKS, _("Select a Task List"));
 }
 
 static GtkActionEntry standard_entries[] = {
@@ -444,9 +426,16 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (attachment_handler_import_to_calendar) },
 
+	{ "import-to-memos",
+	  "stock_mail-import",
+	  N_("I_mport to Memo List"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (attachment_handler_import_to_memos) },
+
 	{ "import-to-tasks",
 	  "stock_mail-import",
-	  N_("I_mport to Tasks"),
+	  N_("I_mport to Task List"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (attachment_handler_import_to_tasks) }
@@ -462,6 +451,7 @@ cal_attachment_handler_update_actions (EAttachmentView *view)
 	icalcomponent *subcomponent;
 	icalcomponent_kind kind;
 	gboolean is_vevent = FALSE;
+	gboolean is_vjournal = FALSE;
 	gboolean is_vtodo = FALSE;
 
 	selected = e_attachment_view_get_selected_attachments (view);
@@ -482,11 +472,15 @@ cal_attachment_handler_update_actions (EAttachmentView *view)
 
 	kind = icalcomponent_isa (subcomponent);
 	is_vevent = (kind == ICAL_VEVENT_COMPONENT);
+	is_vjournal = (kind == ICAL_VJOURNAL_COMPONENT);
 	is_vtodo = (kind == ICAL_VTODO_COMPONENT);
 
 exit:
 	action = e_attachment_view_get_action (view, "import-to-calendar");
 	gtk_action_set_visible (action, is_vevent);
+
+	action = e_attachment_view_get_action (view, "import-to-memos");
+	gtk_action_set_visible (action, is_vjournal);
 
 	action = e_attachment_view_get_action (view, "import-to-tasks");
 	gtk_action_set_visible (action, is_vtodo);

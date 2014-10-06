@@ -1,5 +1,6 @@
 /*
- * e-cal-shell-content.h
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,15 +8,11 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef E_CAL_SHELL_CONTENT_H
@@ -27,7 +24,9 @@
 
 #include <calendar/gui/e-memo-table.h>
 #include <calendar/gui/e-task-table.h>
-#include <calendar/gui/gnome-cal.h>
+#include <calendar/gui/e-calendar-view.h>
+
+#include "e-cal-base-shell-content.h"
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_CONTENT \
@@ -50,47 +49,60 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	E_CAL_VIEW_KIND_DAY = 0,
+	E_CAL_VIEW_KIND_WORKWEEK,
+	E_CAL_VIEW_KIND_WEEK,
+	E_CAL_VIEW_KIND_MONTH,
+	E_CAL_VIEW_KIND_LIST,
+	E_CAL_VIEW_KIND_LAST
+} ECalViewKind;
+
 typedef struct _ECalShellContent ECalShellContent;
 typedef struct _ECalShellContentClass ECalShellContentClass;
 typedef struct _ECalShellContentPrivate ECalShellContentPrivate;
 
-enum {
-	E_CAL_SHELL_CONTENT_SELECTION_SINGLE = 1 << 0,
-	E_CAL_SHELL_CONTENT_SELECTION_MULTIPLE = 1 << 1,
-	E_CAL_SHELL_CONTENT_SELECTION_IS_EDITABLE = 1 << 2,
-	E_CAL_SHELL_CONTENT_SELECTION_IS_INSTANCE = 1 << 3,
-	E_CAL_SHELL_CONTENT_SELECTION_IS_MEETING = 1 << 4,
-	E_CAL_SHELL_CONTENT_SELECTION_IS_ORGANIZER = 1 << 5,
-	E_CAL_SHELL_CONTENT_SELECTION_IS_RECURRING = 1 << 6,
-	E_CAL_SHELL_CONTENT_SELECTION_CAN_DELEGATE = 1 << 7
-};
-
 struct _ECalShellContent {
-	EShellContent parent;
+	ECalBaseShellContent parent;
 	ECalShellContentPrivate *priv;
 };
 
 struct _ECalShellContentClass {
-	EShellContentClass parent_class;
+	ECalBaseShellContentClass parent_class;
 };
 
-GType		e_cal_shell_content_get_type	(void);
-void		e_cal_shell_content_type_register
-					(GTypeModule *type_module);
-GtkWidget *	e_cal_shell_content_new	(EShellView *shell_view);
-ECalModel *	e_cal_shell_content_get_model
-					(ECalShellContent *cal_shell_content);
-GnomeCalendar *	e_cal_shell_content_get_calendar
-					(ECalShellContent *cal_shell_content);
-EMemoTable *	e_cal_shell_content_get_memo_table
-					(ECalShellContent *cal_shell_content);
-ETaskTable *	e_cal_shell_content_get_task_table
-					(ECalShellContent *cal_shell_content);
+GType		e_cal_shell_content_get_type		(void);
+void		e_cal_shell_content_type_register	(GTypeModule *type_module);
+GtkWidget *	e_cal_shell_content_new			(EShellView *shell_view);
+
+GtkNotebook *	e_cal_shell_content_get_calendar_notebook
+							(ECalShellContent *cal_shell_content);
+EMemoTable *	e_cal_shell_content_get_memo_table	(ECalShellContent *cal_shell_content);
+ETaskTable *	e_cal_shell_content_get_task_table	(ECalShellContent *cal_shell_content);
 EShellSearchbar *
-		e_cal_shell_content_get_searchbar
-					(ECalShellContent *cal_shell_content);
-void		e_cal_shell_content_save_state
-					(ECalShellContent *cal_shell_content);
+		e_cal_shell_content_get_searchbar	(ECalShellContent *cal_shell_content);
+void		e_cal_shell_content_set_current_view_id	(ECalShellContent *cal_shell_content,
+							 ECalViewKind view_kind);
+ECalViewKind	e_cal_shell_content_get_current_view_id	(ECalShellContent *cal_shell_content);
+ECalendarView *	e_cal_shell_content_get_calendar_view	(ECalShellContent *cal_shell_content,
+							 ECalViewKind view_kind);
+ECalendarView *	e_cal_shell_content_get_current_calendar_view
+							(ECalShellContent *cal_shell_content);
+void		e_cal_shell_content_save_state		(ECalShellContent *cal_shell_content);
+void		e_cal_shell_content_get_current_range	(ECalShellContent *cal_shell_content,
+							 time_t *range_start,
+							 time_t *range_end);
+void		e_cal_shell_content_get_current_range_dates
+							(ECalShellContent *cal_shell_content,
+							 GDate *range_start,
+							 GDate *range_end);
+void		e_cal_shell_content_move_view_range	(ECalShellContent *cal_shell_content,
+							 ECalendarViewMoveType move_type,
+							 time_t exact_date);
+void		e_cal_shell_content_update_filters	(ECalShellContent *cal_shell_content,
+							 const gchar *cal_filter,
+							 time_t start_range,
+							 time_t end_range);
 
 G_END_DECLS
 

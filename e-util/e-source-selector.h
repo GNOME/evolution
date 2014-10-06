@@ -64,7 +64,7 @@ struct _ESourceSelectorClass {
 	/* Methods */
 	gboolean	(*get_source_selected)	(ESourceSelector *selector,
 						 ESource *source);
-	void		(*set_source_selected)	(ESourceSelector *selector,
+	gboolean	(*set_source_selected)	(ESourceSelector *selector,
 						 ESource *source,
 						 gboolean selected);
 
@@ -80,6 +80,10 @@ struct _ESourceSelectorClass {
 						 ESource *destination,
 						 GdkDragAction action,
 						 guint target_info);
+	void		(*source_selected)	(ESourceSelector *selector,
+						 ESource *source);
+	void		(*source_unselected)	(ESourceSelector *selector,
+						 ESource *source);
 
 	gpointer padding1;
 	gpointer padding2;

@@ -28,11 +28,66 @@
 
 #include <libecal/libecal.h>
 #include <e-util/e-util.h>
+#include <calendar/gui/e-cal-data-model.h>
 
-void tag_calendar_by_client (ECalendar *ecal, ECalClient *client, GCancellable *cancellable);
-void tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp,
-			   ECalClient *client, icaltimezone *display_zone,
-			   gboolean clear_first, gboolean comp_is_on_server,
-			   gboolean can_recur_events_italic, GCancellable *cancellable);
+/* Standard GObject macros */
+#define E_TYPE_TAG_CALENDAR \
+	(e_tag_calendar_get_type ())
+#define E_TAG_CALENDAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TAG_CALENDAR, ETagCalendar))
+#define E_TAG_CALENDAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TAG_CALENDAR, ETagCalendarClass))
+#define E_IS_TAG_CALENDAR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TAG_CALENDAR))
+#define E_IS_TAG_CALENDAR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TAG_CALENDAR))
+#define E_TAG_CALENDAR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TAG_CALENDAR, ETagCalendarClass))
+
+G_BEGIN_DECLS
+
+typedef struct _ETagCalendar ETagCalendar;
+typedef struct _ETagCalendarClass ETagCalendarClass;
+typedef struct _ETagCalendarPrivate ETagCalendarPrivate;
+
+struct _ETagCalendar {
+	GObject parent;
+	ETagCalendarPrivate *priv;
+};
+
+struct _ETagCalendarClass {
+	GObjectClass parent_class;
+};
+
+GType		e_tag_calendar_get_type		(void);
+
+ETagCalendar *	e_tag_calendar_new		(ECalendar *calendar);
+ECalendar *	e_tag_calendar_get_calendar	(ETagCalendar *tag_calendar);
+gboolean	e_tag_calendar_get_recur_events_italic
+						(ETagCalendar *tag_calendar);
+void		e_tag_calendar_set_recur_events_italic
+						(ETagCalendar *tag_calendar,
+						 gboolean recur_events_italic);
+void		e_tag_calendar_subscribe	(ETagCalendar *tag_calendar,
+						 ECalDataModel *data_model);
+void		e_tag_calendar_unsubscribe	(ETagCalendar *tag_calendar,
+						 ECalDataModel *data_model);
+
+
+void		tag_calendar_by_comp		(ECalendar *ecal,
+						 ECalComponent *comp,
+						 ECalClient *client,
+						 icaltimezone *display_zone,
+						 gboolean clear_first,
+						 gboolean comp_is_on_server,
+						 gboolean can_recur_events_italic,
+						 GCancellable *cancellable);
+
+G_END_DECLS
 
 #endif

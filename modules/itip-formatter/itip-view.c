@@ -4615,11 +4615,11 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
 
 		e_cal_component_rescan (comp);
 
-		if (itip_send_comp (
+		if (itip_send_comp_sync (
 				view->priv->registry,
 				E_CAL_COMPONENT_METHOD_REPLY,
 				comp, pitip->current_client,
-				pitip->top_level, NULL, NULL, TRUE, FALSE) &&
+				pitip->top_level, NULL, NULL, TRUE, FALSE, NULL, NULL) &&
 				pitip->folder) {
 			camel_folder_set_message_flags (
 				pitip->folder, pitip->uid,
@@ -4922,9 +4922,9 @@ send_comp_to_attendee (ESourceRegistry *registry,
 	}
 
 	/* FIXME send the attachments in the request */
-	status = itip_send_comp (
+	status = itip_send_comp_sync (
 		registry, method, send_comp,
-		client, NULL, NULL, NULL, TRUE, FALSE);
+		client, NULL, NULL, NULL, TRUE, FALSE, NULL, NULL);
 
 	g_object_unref (send_comp);
 
@@ -5158,11 +5158,11 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 
 	if (itip_view_get_update (view)) {
 		e_cal_component_commit_sequence (comp);
-		itip_send_comp (
+		itip_send_comp_sync (
 			view->priv->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST,
 			comp, pitip->current_client,
-			NULL, NULL, NULL, TRUE, FALSE);
+			NULL, NULL, NULL, TRUE, FALSE, NULL, NULL);
 	}
 
 	update_item_progress_info (pitip, view, _("Saving changes to the calendar. Please wait..."));
@@ -5293,11 +5293,11 @@ send_item (EMailPartItip *pitip,
 	comp = get_real_item (pitip);
 
 	if (comp != NULL) {
-		itip_send_comp (
+		itip_send_comp_sync (
 			view->priv->registry,
 			E_CAL_COMPONENT_METHOD_REQUEST,
 			comp, pitip->current_client,
-			NULL, NULL, NULL, TRUE, FALSE);
+			NULL, NULL, NULL, TRUE, FALSE, NULL, NULL);
 		g_object_unref (comp);
 
 		switch (pitip->type) {

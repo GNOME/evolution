@@ -81,9 +81,6 @@ struct _EMemoTableClass {
 						 ECalModelComponent *comp_data);
 	void	(*popup_event)			(EMemoTable *memo_table,
 						 GdkEvent *event);
-	void	(*status_message)		(EMemoTable *memo_table,
-						 const gchar *message,
-						 gdouble percent);
 };
 
 GType		e_memo_table_get_type		(void);

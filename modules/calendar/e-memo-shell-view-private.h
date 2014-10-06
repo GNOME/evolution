@@ -24,20 +24,19 @@
 #include "e-memo-shell-view.h"
 
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include "shell/e-shell-utils.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
-#include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/print.h"
-#include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/memo-editor.h"
+
+#include "e-cal-base-shell-sidebar.h"
 
 #include "e-memo-shell-backend.h"
 #include "e-memo-shell-content.h"
-#include "e-memo-shell-sidebar.h"
 #include "e-memo-shell-view-actions.h"
 
 #define E_MEMO_SHELL_VIEW_GET_PRIVATE(obj) \
@@ -75,11 +74,7 @@ struct _EMemoShellViewPrivate {
 	/* These are just for convenience. */
 	EMemoShellBackend *memo_shell_backend;
 	EMemoShellContent *memo_shell_content;
-	EMemoShellSidebar *memo_shell_sidebar;
-
-	/* sidebar signal handlers */
-	gulong client_added_handler_id;
-	gulong client_removed_handler_id;
+	ECalBaseShellSidebar *memo_shell_sidebar;
 
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
@@ -89,7 +84,6 @@ struct _EMemoShellViewPrivate {
 	gulong popup_event_handler_id;
 	gulong selection_change_1_handler_id;
 	gulong selection_change_2_handler_id;
-	gulong status_message_handler_id;
 
 	ECalModel *model;
 	gulong model_changed_handler_id;
@@ -100,8 +94,6 @@ struct _EMemoShellViewPrivate {
 	ESourceSelector *selector;
 	gulong selector_popup_event_handler_id;
 	gulong primary_selection_changed_handler_id;
-
-	EActivity *activity;
 };
 
 void		e_memo_shell_view_private_init
@@ -120,10 +112,6 @@ void		e_memo_shell_view_actions_init
 void		e_memo_shell_view_open_memo
 					(EMemoShellView *memo_shell_view,
 					 ECalModelComponent *comp_data);
-void		e_memo_shell_view_set_status_message
-					(EMemoShellView *memo_shell_view,
-					 const gchar *status_message,
-					 gdouble percent);
 void		e_memo_shell_view_update_sidebar
 					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_update_search_filter

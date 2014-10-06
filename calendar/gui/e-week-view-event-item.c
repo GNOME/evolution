@@ -157,10 +157,7 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 		if (editing && event &&
 			editing->comp_data == event->comp_data &&
 			is_comp_data_valid (editing) &&
-			(!event->comp_data ||
-			 !is_icalcomp_on_the_server (
-				event->comp_data->icalcomp,
-				event->comp_data->client)))
+			(!event->comp_data || event->comp_data->is_new_component))
 			return TRUE;
 	}
 

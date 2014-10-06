@@ -30,9 +30,9 @@
 
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "e-calendar-view.h"
 #include "dialogs/delete-comp.h"
 
-#include "gnome-cal.h"
 #include "shell/e-shell-window.h"
 #include "shell/e-shell-view.h"
 
@@ -198,31 +198,28 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 }
 
 /**
- * cal_comp_confirm_delete_empty_comp:
- * @comp: A calendar component.
- * @client: Calendar client where the component purportedly lives.
- * @widget: Widget to be used as the basis for UTF8 conversion.
+ * cal_comp_is_on_server_sync:
+ * @comp: an #ECalComponent
+ * @client: an #ECalClient
+ * @cancellable: (allow none): a #GCancellable
+ * @error: (out): (allow none): a #GError
  *
- * Assumming a calendar component with an empty SUMMARY property (as per
- * string_is_empty()), asks whether the user wants to delete it based on
- * whether the appointment is on the calendar server or not.  If the
- * component is on the server, this function will present a confirmation
- * dialog and delete the component if the user tells it to.  If the component
- * is not on the server it will just return TRUE.
+ * Checks whether @client contains @comp. A "No Such Object" error is not
+ * propagated to the caller, any other errors are.
  *
- * Return value: A result code indicating whether the component
- * was not on the server and is to be deleted locally, whether it
- * was on the server and the user deleted it, or whether the
- * user cancelled the deletion.
+ * Returns: #TRUE, when the @client contains @comp, #FALSE when not or on error.
+ *    The @error is not set when the @client doesn't contain the @comp.
  **/
 gboolean
-cal_comp_is_on_server (ECalComponent *comp,
-                       ECalClient *client)
+cal_comp_is_on_server_sync (ECalComponent *comp,
+			    ECalClient *client,
+			    GCancellable *cancellable,
+			    GError **error)
 {
 	const gchar *uid;
 	gchar *rid = NULL;
 	icalcomponent *icalcomp = NULL;
-	GError *error = NULL;
+	GError *local_error = NULL;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
@@ -244,33 +241,34 @@ cal_comp_is_on_server (ECalComponent *comp,
 		rid = e_cal_component_get_recurid_as_string (comp);
 	}
 
-	e_cal_client_get_object_sync (
-		client, uid, rid, &icalcomp, NULL, &error);
-
-	if (icalcomp != NULL) {
+	if (e_cal_client_get_object_sync (client, uid, rid, &icalcomp, cancellable, &local_error) &&
+	    icalcomp != NULL) {
 		icalcomponent_free (icalcomp);
 		g_free (rid);
 
 		return TRUE;
 	}
 
-	if (!g_error_matches (error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND))
-		g_warning (G_STRLOC ": %s", error->message);
+	if (g_error_matches (local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND))
+		g_clear_error (&local_error);
+	else
+		g_propagate_error (error, local_error);
 
-	g_clear_error (&error);
 	g_free (rid);
 
 	return FALSE;
 }
 
 /**
- * is_icalcomp_on_the_server:
- * same as @cal_comp_is_on_server, only the component parameter is
+ * cal_comp_is_icalcomp_on_server_sync:
+ * The same as cal_comp_is_on_server_sync(), only the component parameter is
  * icalcomponent, not the ECalComponent.
  **/
 gboolean
-is_icalcomp_on_the_server (icalcomponent *icalcomp,
-                           ECalClient *client)
+cal_comp_is_icalcomp_on_server_sync (icalcomponent *icalcomp,
+				     ECalClient *client,
+				     GCancellable *cancellable,
+				     GError **error)
 {
 	gboolean on_server;
 	ECalComponent *comp;
@@ -278,10 +276,11 @@ is_icalcomp_on_the_server (icalcomponent *icalcomp,
 	if (!icalcomp || !client || !icalcomponent_get_uid (icalcomp))
 		return FALSE;
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
+	if (!comp)
+		return FALSE;
 
-	on_server = cal_comp_is_on_server (comp, client);
+	on_server = cal_comp_is_on_server_sync (comp, client, cancellable, error);
 
 	g_object_unref (comp);
 
@@ -289,7 +288,7 @@ is_icalcomp_on_the_server (icalcomponent *icalcomp,
 }
 
 /**
- * cal_comp_event_new_with_defaults:
+ * cal_comp_event_new_with_defaults_sync:
  *
  * Creates a new VEVENT component and adds any default alarms to it as set in
  * the program's configuration values, but only if not the all_day event.
@@ -297,11 +296,13 @@ is_icalcomp_on_the_server (icalcomponent *icalcomp,
  * Return value: A newly-created calendar component.
  **/
 ECalComponent *
-cal_comp_event_new_with_defaults (ECalClient *client,
-                                  gboolean all_day,
-                                  gboolean use_default_reminder,
-                                  gint default_reminder_interval,
-                                  EDurationType default_reminder_units)
+cal_comp_event_new_with_defaults_sync (ECalClient *client,
+				       gboolean all_day,
+				       gboolean use_default_reminder,
+				       gint default_reminder_interval,
+				       EDurationType default_reminder_units,
+				       GCancellable *cancellable,
+				       GError **error)
 {
 	icalcomponent *icalcomp = NULL;
 	ECalComponent *comp;
@@ -309,7 +310,9 @@ cal_comp_event_new_with_defaults (ECalClient *client,
 	icalproperty *icalprop;
 	ECalComponentAlarmTrigger trigger;
 
-	e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL);
+	if (client && !e_cal_client_get_default_object_sync (client, &icalcomp, cancellable, error))
+		return NULL;
+
 	if (icalcomp == NULL)
 		icalcomp = icalcomponent_new (ICAL_VEVENT_COMPONENT);
 
@@ -368,21 +371,25 @@ cal_comp_event_new_with_defaults (ECalClient *client,
 }
 
 ECalComponent *
-cal_comp_event_new_with_current_time (ECalClient *client,
-                                      gboolean all_day,
-                                      gboolean use_default_reminder,
-                                      gint default_reminder_interval,
-                                      EDurationType default_reminder_units)
+cal_comp_event_new_with_current_time_sync (ECalClient *client,
+					   gboolean all_day,
+					   gboolean use_default_reminder,
+					   gint default_reminder_interval,
+					   EDurationType default_reminder_units,
+					   GCancellable *cancellable,
+					   GError **error)
 {
 	ECalComponent *comp;
 	struct icaltimetype itt;
 	ECalComponentDateTime dt;
 	icaltimezone *zone;
 
-	comp = cal_comp_event_new_with_defaults (
+	comp = cal_comp_event_new_with_defaults_sync (
 		client, all_day, use_default_reminder,
-		default_reminder_interval, default_reminder_units);
-	g_return_val_if_fail (comp != NULL, NULL);
+		default_reminder_interval, default_reminder_units,
+		cancellable, error);
+	if (!comp)
+		return NULL;
 
 	zone = calendar_config_get_icaltimezone ();
 
@@ -410,12 +417,16 @@ cal_comp_event_new_with_current_time (ECalClient *client,
 }
 
 ECalComponent *
-cal_comp_task_new_with_defaults (ECalClient *client)
+cal_comp_task_new_with_defaults_sync (ECalClient *client,
+				      GCancellable *cancellable,
+				      GError **error)
 {
 	ECalComponent *comp;
 	icalcomponent *icalcomp = NULL;
 
-	e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL);
+	if (client && !e_cal_client_get_default_object_sync (client, &icalcomp, cancellable, error))
+		return NULL;
+
 	if (icalcomp == NULL)
 		icalcomp = icalcomponent_new (ICAL_VTODO_COMPONENT);
 
@@ -430,12 +441,16 @@ cal_comp_task_new_with_defaults (ECalClient *client)
 }
 
 ECalComponent *
-cal_comp_memo_new_with_defaults (ECalClient *client)
+cal_comp_memo_new_with_defaults_sync (ECalClient *client,
+				      GCancellable *cancellable,
+				      GError **error)
 {
 	ECalComponent *comp;
 	icalcomponent *icalcomp = NULL;
 
-	e_cal_client_get_default_object_sync (client, &icalcomp, NULL, NULL);
+	if (client && !e_cal_client_get_default_object_sync (client, &icalcomp, cancellable, error))
+		return NULL;
+
 	if (icalcomp == NULL)
 		icalcomp = icalcomponent_new (ICAL_VJOURNAL_COMPONENT);
 
@@ -470,26 +485,23 @@ cal_comp_update_time_by_active_window (ECalComponent *comp,
 		if (g_strcmp0 (active_view, "calendar") == 0) {
 			EShellContent *shell_content;
 			EShellView *shell_view;
-			GnomeCalendar *gnome_cal;
+			ECalendarView *cal_view;
 			time_t start = 0, end = 0;
 			icaltimezone *zone;
 			struct icaltimetype itt;
 			icalcomponent *icalcomp;
 			icalproperty *prop;
 
-			shell_view = e_shell_window_peek_shell_view (
-				shell_window, "calendar");
+			shell_view = e_shell_window_peek_shell_view (shell_window, "calendar");
 			g_return_if_fail (shell_view != NULL);
 
-			gnome_cal = NULL;
+			cal_view = NULL;
 			shell_content = e_shell_view_get_shell_content (shell_view);
-			g_object_get (shell_content, "calendar", &gnome_cal, NULL);
-			g_return_if_fail (gnome_cal != NULL);
+			g_object_get (shell_content, "current-view", &cal_view, NULL);
+			g_return_if_fail (cal_view != NULL);
+			g_return_if_fail (e_calendar_view_get_visible_time_range (cal_view, &start, &end));
 
-			gnome_calendar_get_current_time_range (gnome_cal, &start, &end);
-			g_return_if_fail (start != 0);
-
-			zone = e_cal_model_get_timezone (gnome_calendar_get_model (gnome_cal));
+			zone = e_cal_model_get_timezone (e_calendar_view_get_model (cal_view));
 			itt = icaltime_from_timet_with_zone (start, FALSE, zone);
 
 			icalcomp = e_cal_component_get_icalcomponent (comp);
@@ -502,6 +514,8 @@ cal_comp_update_time_by_active_window (ECalComponent *comp,
 			}
 
 			e_cal_component_rescan (comp);
+
+			g_clear_object (&cal_view);
 		}
 	}
 }
@@ -724,37 +738,28 @@ cal_comp_set_dtend_with_oldzone (ECalClient *client,
 	e_cal_component_free_datetime (&olddate);
 }
 
-void
-comp_util_sanitize_recurrence_master (ECalComponent *comp,
-                                      ECalClient *client)
+gboolean
+comp_util_sanitize_recurrence_master_sync (ECalComponent *comp,
+					   ECalClient *client,
+					   GCancellable *cancellable,
+					   GError **error)
 {
 	ECalComponent *master = NULL;
 	icalcomponent *icalcomp = NULL;
 	ECalComponentRange rid;
 	ECalComponentDateTime sdt;
 	const gchar *uid;
-	GError *error = NULL;
 
 	/* Get the master component */
 	e_cal_component_get_uid (comp, &uid);
 
-	e_cal_client_get_object_sync (
-		client, uid, NULL, &icalcomp, NULL, &error);
+	if (!e_cal_client_get_object_sync (client, uid, NULL, &icalcomp, cancellable, error))
+		return FALSE;
 
-	if (error != NULL) {
-		g_warning (
-			"Unable to get the master component: %s",
-			error->message);
-		g_error_free (error);
-		return;
-	}
-
-	master = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (master, icalcomp)) {
-		icalcomponent_free (icalcomp);
-		g_object_unref (master);
-		g_return_if_reached ();
-		return;
+	master = e_cal_component_new_from_icalcomponent (icalcomp);
+	if (!master) {
+		g_warn_if_reached ();
+		return FALSE;
 	}
 
 	/* Compare recur id and start date */
@@ -772,9 +777,16 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp,
 
 		e_cal_component_get_dtend (comp, &edt);
 
-		g_return_if_fail (msdt.value != NULL);
-		g_return_if_fail (medt.value != NULL);
-		g_return_if_fail (edt.value != NULL);
+		if (!msdt.value || !medt.value || !edt.value) {
+			g_warn_if_reached ();
+			e_cal_component_free_datetime (&msdt);
+			e_cal_component_free_datetime (&medt);
+			e_cal_component_free_datetime (&edt);
+			e_cal_component_free_datetime (&sdt);
+			e_cal_component_free_range (&rid);
+			g_object_unref (master);
+			return FALSE;
+		}
 
 		sdt.value->year = msdt.value->year;
 		sdt.value->month = msdt.value->month;
@@ -800,6 +812,8 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp,
 	e_cal_component_set_recurid (comp, NULL);
 
 	g_object_unref (master);
+
+	return TRUE;
 }
 
 gchar *
@@ -820,6 +834,102 @@ icalcomp_suggest_filename (icalcomponent *icalcomp,
 		summary = default_name;
 
 	return g_strconcat (summary, ".ics", NULL);
+}
+
+void
+cal_comp_get_instance_times (ECalClient *client,
+			     icalcomponent *icalcomp,
+			     const icaltimezone *default_zone,
+			     time_t *instance_start,
+			     gboolean *start_is_date,
+			     time_t *instance_end,
+			     gboolean *end_is_date,
+			     GCancellable *cancellable)
+{
+	struct icaltimetype start_time, end_time;
+	const icaltimezone *zone = default_zone;
+
+	g_return_if_fail (E_IS_CAL_CLIENT (client));
+	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (instance_start != NULL);
+	g_return_if_fail (instance_end != NULL);
+
+	start_time = icalcomponent_get_dtstart (icalcomp);
+	end_time = icalcomponent_get_dtend (icalcomp);
+
+	if (start_time.zone) {
+		zone = start_time.zone;
+	} else {
+		icalparameter *param = NULL;
+		icalproperty *prop = icalcomponent_get_first_property (icalcomp, ICAL_DTSTART_PROPERTY);
+
+		if (prop) {
+			param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+			if (param) {
+				const gchar *tzid = NULL;
+				icaltimezone *st_zone = NULL;
+
+				tzid = icalparameter_get_tzid (param);
+				if (tzid)
+					e_cal_client_get_timezone_sync (client, tzid, &st_zone, cancellable, NULL);
+
+				if (st_zone)
+					zone = st_zone;
+			}
+	       }
+	}
+
+	*instance_start = icaltime_as_timet_with_zone (start_time, zone);
+	if (start_is_date)
+		*start_is_date = start_time.is_date;
+
+	if (end_time.zone) {
+		zone = end_time.zone;
+	} else {
+		icalparameter *param = NULL;
+		icalproperty *prop = icalcomponent_get_first_property (icalcomp, ICAL_DTSTART_PROPERTY);
+
+		if (prop) {
+			param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+			if (param) {
+				const gchar *tzid = NULL;
+				icaltimezone *end_zone = NULL;
+
+				tzid = icalparameter_get_tzid (param);
+				if (tzid)
+					e_cal_client_get_timezone_sync (client, tzid, &end_zone, cancellable, NULL);
+
+				if (end_zone)
+					zone = end_zone;
+			}
+	       }
+
+	}
+
+	*instance_end = icaltime_as_timet_with_zone (end_time, zone);
+	if (end_is_date)
+		*end_is_date = end_time.is_date;
+}
+
+time_t
+cal_comp_gdate_to_timet (const GDate *date,
+			 const icaltimezone *with_zone)
+{
+	struct tm tm;
+	struct icaltimetype tt;
+
+	g_return_val_if_fail (date != NULL, (time_t) -1);
+	g_return_val_if_fail (g_date_valid (date), (time_t) -1);
+
+	g_date_to_struct_tm (date, &tm);
+
+	tt = tm_to_icaltimetype (&tm, TRUE);
+	if (with_zone)
+		return icaltime_as_timet_with_zone (tt, with_zone);
+
+	return icaltime_as_timet (tt);
 }
 
 typedef struct _AsyncContext {

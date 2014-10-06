@@ -27,10 +27,10 @@
 
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
+#include <calendar/gui/e-cal-model.h>
 
 void		copy_source_dialog		(GtkWindow *parent,
-						 ESourceRegistry *registry,
-						 ESource *source,
-						 ECalClientSourceType type);
+						 ECalModel *model,
+						 ESource *from_source);
 
 #endif /* COPY_SOURCE_DIALOG_H */

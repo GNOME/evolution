@@ -207,6 +207,25 @@ gboolean	e_util_allow_auth_prompt_and_refresh_client_finish
 						 GAsyncResult *result,
 						 GError **error);
 
+gboolean	e_util_get_open_source_job_info	(const gchar *extension_name,
+						 const gchar *source_display_name,
+						 gchar **description,
+						 gchar **alert_ident,
+						 gchar **alert_arg_0);
+struct _EAlertSinkThreadJobData;
+void		e_util_propagate_open_source_job_error
+						(struct _EAlertSinkThreadJobData *job_data,
+						 const gchar *extension_name,
+						 GError *local_error,
+						 GError **error);
+struct _EClientCache;
+EClient *	e_util_open_client_sync		(struct _EAlertSinkThreadJobData *job_data,
+						 struct _EClientCache *client_cache,
+						 const gchar *extension_name,
+						 ESource *source,
+						 GCancellable *cancellable,
+						 GError **error);
+
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_color_to_string
 						(GBinding *binding,

@@ -48,7 +48,7 @@ conflict_search_selector_get_source_selected (ESourceSelector *selector,
 	return e_source_conflict_search_get_include_me (extension);
 }
 
-static void
+static gboolean
 conflict_search_selector_set_source_selected (ESourceSelector *selector,
                                            ESource *source,
                                            gboolean selected)
@@ -59,16 +59,20 @@ conflict_search_selector_set_source_selected (ESourceSelector *selector,
 	/* Make sure this source is a calendar. */
 	extension_name = e_source_selector_get_extension_name (selector);
 	if (!e_source_has_extension (source, extension_name))
-		return;
+		return FALSE;
 
 	extension_name = E_SOURCE_EXTENSION_CONFLICT_SEARCH;
 	extension = e_source_get_extension (source, extension_name);
-	g_return_if_fail (E_IS_SOURCE_CONFLICT_SEARCH (extension));
+	g_return_val_if_fail (E_IS_SOURCE_CONFLICT_SEARCH (extension), FALSE);
 
 	if (selected != e_source_conflict_search_get_include_me (extension)) {
 		e_source_conflict_search_set_include_me (extension, selected);
 		e_source_selector_queue_write (selector, source);
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 static void

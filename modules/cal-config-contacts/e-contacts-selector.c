@@ -44,7 +44,7 @@ contacts_selector_get_source_selected (ESourceSelector *selector,
 	return e_source_contacts_get_include_me (extension);
 }
 
-static void
+static gboolean
 contacts_selector_set_source_selected (ESourceSelector *selector,
                                        ESource *source,
                                        gboolean selected)
@@ -55,16 +55,20 @@ contacts_selector_set_source_selected (ESourceSelector *selector,
 	/* Make sure this source is an address book. */
 	extension_name = e_source_selector_get_extension_name (selector);
 	if (!e_source_has_extension (source, extension_name))
-		return;
+		return FALSE;
 
 	extension_name = E_SOURCE_EXTENSION_CONTACTS_BACKEND;
 	extension = e_source_get_extension (source, extension_name);
-	g_return_if_fail (E_IS_SOURCE_CONTACTS (extension));
+	g_return_val_if_fail (E_IS_SOURCE_CONTACTS (extension), FALSE);
 
 	if (selected != e_source_contacts_get_include_me (extension)) {
 		e_source_contacts_set_include_me (extension, selected);
 		e_source_selector_queue_write (selector, source);
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 static void

@@ -24,7 +24,7 @@
 #include "e-cal-shell-view.h"
 
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <libecal/libecal.h>
 
@@ -37,18 +37,17 @@
 #include <calendar/gui/e-calendar-view.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
-#include <calendar/gui/gnome-cal.h>
 #include <calendar/gui/print.h>
-#include <calendar/gui/dialogs/copy-source-dialog.h>
 #include <calendar/gui/dialogs/event-editor.h>
 #include <calendar/gui/dialogs/goto-dialog.h>
 #include <calendar/gui/dialogs/memo-editor.h>
 #include <calendar/gui/dialogs/select-source-dialog.h>
 #include <calendar/gui/dialogs/task-editor.h>
 
+#include "e-cal-base-shell-sidebar.h"
+
 #include "e-cal-shell-backend.h"
 #include "e-cal-shell-content.h"
-#include "e-cal-shell-sidebar.h"
 #include "e-cal-shell-view-actions.h"
 
 #define E_CAL_SHELL_VIEW_GET_PRIVATE(obj) \
@@ -90,11 +89,7 @@ struct _ECalShellViewPrivate {
 	/* These are just for convenience. */
 	ECalShellBackend *cal_shell_backend;
 	ECalShellContent *cal_shell_content;
-	ECalShellSidebar *cal_shell_sidebar;
-
-	/* sidebar signal handlers */
-	gulong client_added_handler_id;
-	gulong client_removed_handler_id;
+	ECalBaseShellSidebar *cal_shell_sidebar;
 
 	EShell *shell;
 	gulong prepare_for_quit_handler_id;
@@ -102,23 +97,13 @@ struct _ECalShellViewPrivate {
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
 
-	GnomeCalendar *calendar;
-	gulong dates_shown_changed_handler_id;
-
 	struct {
 		ECalendarView *calendar_view;
 		gulong popup_event_handler_id;
 		gulong selection_changed_handler_id;
-		gulong user_created_handler_id;
-	} views[GNOME_CAL_LAST_VIEW];
+	} views[E_CAL_VIEW_KIND_LAST];
 
 	ECalModel *model;
-	gulong status_message_handler_id;
-
-	ECalendar *date_navigator;
-	gulong scroll_event_handler_id;
-	gulong date_range_changed_handler_id;
-	gulong selection_changed_handler_id;
 
 	ESourceSelector *selector;
 	gulong selector_popup_event_handler_id;
@@ -126,19 +111,13 @@ struct _ECalShellViewPrivate {
 	EMemoTable *memo_table;
 	gulong memo_table_popup_event_handler_id;
 	gulong memo_table_selection_change_handler_id;
-	gulong memo_table_status_message_handler_id;
 
 	ETaskTable *task_table;
 	gulong task_table_popup_event_handler_id;
 	gulong task_table_selection_change_handler_id;
-	gulong task_table_status_message_handler_id;
 
 	/* The last time explicitly selected by the user. */
 	time_t base_view_time;
-
-	EActivity *calendar_activity;
-	EActivity *memopad_activity;
-	EActivity *taskpad_activity;
 
 	/* Time-range searching */
 	EActivity *searching_activity;
@@ -168,20 +147,6 @@ void		e_cal_shell_view_private_finalize
 
 void		e_cal_shell_view_actions_init
 					(ECalShellView *cal_shell_view);
-void		e_cal_shell_view_execute_search
-					(ECalShellView *cal_shell_view);
-void		e_cal_shell_view_open_event
-					(ECalShellView *cal_shell_view,
-					 ECalModelComponent *comp_data);
-void		e_cal_shell_view_set_status_message
-					(ECalShellView *cal_shell_view,
-					 const gchar *status_message,
-					 gdouble percent);
-void		e_cal_shell_view_transfer_item_to
-					(ECalShellView *cal_shell_view,
-					 ECalendarViewEvent *event,
-					 ECalClient *destination_client,
-					 gboolean remove);
 void		e_cal_shell_view_update_sidebar
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_update_search_filter
@@ -201,10 +166,6 @@ void		e_cal_shell_view_memopad_actions_update
 void		e_cal_shell_view_memopad_open_memo
 					(ECalShellView *cal_shell_view,
 					 ECalModelComponent *comp_data);
-void		e_cal_shell_view_memopad_set_status_message
-					(ECalShellView *cal_shell_view,
-					 const gchar *status_message,
-					 gdouble percent);
 
 /* Task Pad Utilities */
 
@@ -215,10 +176,6 @@ void		e_cal_shell_view_taskpad_actions_update
 void		e_cal_shell_view_taskpad_open_task
 					(ECalShellView *cal_shell_view,
 					 ECalModelComponent *comp_data);
-void		e_cal_shell_view_taskpad_set_status_message
-					(ECalShellView *cal_shell_view,
-					 const gchar *status_message,
-					 gdouble percent);
 
 G_END_DECLS
 

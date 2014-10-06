@@ -22,6 +22,8 @@
 #include <config.h>
 #endif
 
+#include <calendar/gui/e-cal-ops.h>
+
 #include "e-cal-shell-view-private.h"
 
 /* Much of this file is based on e-memo-shell-view-actions.c. */
@@ -31,21 +33,10 @@ action_calendar_memopad_forward_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
-	icalcomponent *clone;
 	GSList *list;
-
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
-
-	registry = e_shell_get_registry (shell);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
@@ -56,13 +47,12 @@ action_calendar_memopad_forward_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only forward the first selected memo. */
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
+	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
+	g_return_if_fail (comp != NULL);
 
-	itip_send_comp (
-		registry, E_CAL_COMPONENT_METHOD_PUBLISH, comp,
-		comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
+	itip_send_component (e_memo_table_get_model (memo_table),
+		E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client,
+		NULL, NULL, NULL, TRUE, FALSE, TRUE);
 
 	g_object_unref (comp);
 }
@@ -71,20 +61,15 @@ static void
 action_calendar_memopad_new_cb (GtkAction *action,
                                 ECalShellView *cal_shell_view)
 {
-	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
-	ECalClient *client;
-	ECalComponent *comp;
-	CompEditor *editor;
 	GSList *list;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
@@ -94,15 +79,8 @@ action_calendar_memopad_new_cb (GtkAction *action,
 	comp_data = list->data;
 	g_slist_free (list);
 
-	client = comp_data->client;
-	comp = cal_comp_memo_new_with_defaults (client);
-	cal_comp_update_time_by_active_window (comp, shell);
-	editor = memo_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
-	comp_editor_edit_comp (editor, comp);
-
-	gtk_window_present (GTK_WINDOW (editor));
-
-	g_object_unref (comp);
+	e_cal_ops_new_component_editor (shell_window, E_CAL_CLIENT_SOURCE_TYPE_MEMOS,
+		e_source_get_uid (e_client_get_source (E_CLIENT (comp_data->client))), FALSE);
 }
 
 static void
@@ -399,83 +377,14 @@ void
 e_cal_shell_view_memopad_open_memo (ECalShellView *cal_shell_view,
                                     ECalModelComponent *comp_data)
 {
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	ESourceRegistry *registry;
-	CompEditor *editor;
-	CompEditorFlags flags = 0;
-	ECalComponent *comp;
-	icalcomponent *clone;
-	const gchar *uid;
+	EShellContent *shell_content;
+	ECalModel *model;
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
 
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell = e_shell_window_get_shell (shell_window);
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (shell_content));
 
-	registry = e_shell_get_registry (shell);
-
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-	editor = comp_editor_find_instance (uid);
-
-	if (editor != NULL)
-		goto exit;
-
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
-
-	if (e_cal_component_has_organizer (comp))
-		flags |= COMP_EDITOR_IS_SHARED;
-
-	if (itip_organizer_is_user (registry, comp, comp_data->client))
-		flags |= COMP_EDITOR_USER_ORG;
-
-	editor = memo_editor_new (comp_data->client, shell, flags);
-	comp_editor_edit_comp (editor, comp);
-
-	g_object_unref (comp);
-
-exit:
-	gtk_window_present (GTK_WINDOW (editor));
-}
-
-void
-e_cal_shell_view_memopad_set_status_message (ECalShellView *cal_shell_view,
-                                             const gchar *status_message,
-                                             gdouble percent)
-{
-	EActivity *activity;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-
-	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
-
-	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	activity = cal_shell_view->priv->memopad_activity;
-
-	if (status_message == NULL || *status_message == '\0') {
-		if (activity != NULL) {
-			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-			g_object_unref (activity);
-			activity = NULL;
-		}
-
-	} else if (activity == NULL) {
-		activity = e_activity_new ();
-		e_activity_set_percent (activity, percent);
-		e_activity_set_text (activity, status_message);
-		e_shell_backend_add_activity (shell_backend, activity);
-
-	} else {
-		e_activity_set_percent (activity, percent);
-		e_activity_set_text (activity, status_message);
-	}
-
-	cal_shell_view->priv->memopad_activity = activity;
+	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp);
 }

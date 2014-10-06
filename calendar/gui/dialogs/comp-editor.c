@@ -551,7 +551,7 @@ save_comp (CompEditor *editor)
 		priv->comp, get_attachment_list (editor));
 	icalcomp = e_cal_component_get_icalcomponent (priv->comp);
 	/* send the component to the server */
-	if (!cal_comp_is_on_server (priv->comp, priv->cal_client)) {
+	if (!cal_comp_is_on_server_sync (priv->comp, priv->cal_client, NULL, NULL)) {
 		gchar *uid = NULL;
 		result = e_cal_client_create_object_sync (
 			priv->cal_client, icalcomp, &uid, NULL, &error);
@@ -567,8 +567,7 @@ save_comp (CompEditor *editor)
 			e_cal_component_has_recurrences (priv->comp);
 
 		if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
-			comp_util_sanitize_recurrence_master (
-				priv->comp, priv->cal_client);
+			comp_util_sanitize_recurrence_master_sync (priv->comp, priv->cal_client, NULL, NULL);
 
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
@@ -637,7 +636,7 @@ save_comp (CompEditor *editor)
 		if (priv->source_client &&
 		    !e_source_equal (e_client_get_source (E_CLIENT (priv->cal_client)),
 				     e_client_get_source (E_CLIENT (priv->source_client))) &&
-		    cal_comp_is_on_server (priv->comp, priv->source_client)) {
+		    cal_comp_is_on_server_sync (priv->comp, priv->source_client, NULL, NULL)) {
 			/* Comp found a new home. Remove it from old one. */
 			GError *error = NULL;
 
@@ -1088,7 +1087,7 @@ save_and_close_editor (CompEditor *editor,
 					has_recurrences = e_cal_component_has_recurrences (comp);
 
 					if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
-						comp_util_sanitize_recurrence_master (comp, priv->cal_client);
+						comp_util_sanitize_recurrence_master_sync (comp, priv->cal_client, NULL, NULL);
 
 					comp_editor_edit_comp (editor, comp);
 				} else {
@@ -3485,10 +3484,10 @@ real_send_comp (CompEditor *editor,
 		e_client_check_capability (
 			E_CLIENT (priv->cal_client),
 			CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
-		if (itip_send_comp (
+		if (itip_send_comp_sync (
 			registry, method, send_comp, priv->cal_client,
 			NULL, NULL, users, strip_alarms,
-			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
+			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY, NULL, NULL)) {
 			g_object_unref (send_comp);
 			return TRUE;
 		}
@@ -3497,7 +3496,7 @@ real_send_comp (CompEditor *editor,
 		GSList *attach_list = NULL;
 		GSList *mime_attach_list, *attach;
 
-		/* mime_attach_list is freed by itip_send_comp */
+		/* mime_attach_list is freed by itip_send_comp_sync */
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
 
 		for (attach = mime_attach_list; attach; attach = attach->next) {
@@ -3515,10 +3514,10 @@ real_send_comp (CompEditor *editor,
 			g_slist_free (attach_list);
 		}
 
-		if (itip_send_comp (
+		if (itip_send_comp_sync (
 			registry, method, send_comp, priv->cal_client,
 			NULL, mime_attach_list, users, strip_alarms,
-			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
+			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY, NULL, NULL)) {
 			gboolean saved = save_comp (editor);
 
 			g_object_unref (send_comp);

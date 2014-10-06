@@ -28,7 +28,6 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "e-calendar-view.h"
-#include "gnome-cal.h"
 
 /*
  * EDayView - displays the Day & Work-Week views of the calendar.

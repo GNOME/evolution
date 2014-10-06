@@ -1,5 +1,6 @@
 /*
- * e-memo-shell-content.h
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2014 Red Hat, Inc. (www.redhat.com)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -7,15 +8,11 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #ifndef E_MEMO_SHELL_CONTENT_H
@@ -26,6 +23,8 @@
 #include <shell/e-shell-view.h>
 
 #include <calendar/gui/e-memo-table.h>
+
+#include "e-cal-base-shell-content.h"
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_CONTENT \
@@ -52,41 +51,26 @@ typedef struct _EMemoShellContent EMemoShellContent;
 typedef struct _EMemoShellContentClass EMemoShellContentClass;
 typedef struct _EMemoShellContentPrivate EMemoShellContentPrivate;
 
-enum {
-	E_MEMO_SHELL_CONTENT_SELECTION_SINGLE = 1 << 0,
-	E_MEMO_SHELL_CONTENT_SELECTION_MULTIPLE = 1 << 1,
-	E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT = 1 << 2,
-	E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL = 1 << 3
-};
-
 struct _EMemoShellContent {
-	EShellContent parent;
+	ECalBaseShellContent parent;
 	EMemoShellContentPrivate *priv;
 };
 
 struct _EMemoShellContentClass {
-	EShellContentClass parent_class;
+	ECalBaseShellContentClass parent_class;
 };
 
-GType		e_memo_shell_content_get_type	(void);
-void		e_memo_shell_content_type_register
-					(GTypeModule *type_module);
-GtkWidget *	e_memo_shell_content_new
-					(EShellView *shell_view);
-ECalModel *	e_memo_shell_content_get_memo_model
-					(EMemoShellContent *memo_shell_conent);
-EMemoTable *	e_memo_shell_content_get_memo_table
-					(EMemoShellContent *memo_shell_content);
-EPreviewPane *	e_memo_shell_content_get_preview_pane
-					(EMemoShellContent *memo_shell_content);
-gboolean	e_memo_shell_content_get_preview_visible
-					(EMemoShellContent *memo_shell_content);
-void		e_memo_shell_content_set_preview_visible
-					(EMemoShellContent *memo_shell_content,
-					 gboolean preview_visible);
+GType		e_memo_shell_content_get_type		(void);
+void		e_memo_shell_content_type_register	(GTypeModule *type_module);
+GtkWidget *	e_memo_shell_content_new		(EShellView *shell_view);
+
+EMemoTable *	e_memo_shell_content_get_memo_table	(EMemoShellContent *memo_shell_content);
+EPreviewPane *	e_memo_shell_content_get_preview_pane	(EMemoShellContent *memo_shell_content);
+gboolean	e_memo_shell_content_get_preview_visible(EMemoShellContent *memo_shell_content);
+void		e_memo_shell_content_set_preview_visible(EMemoShellContent *memo_shell_content,
+							 gboolean preview_visible);
 EShellSearchbar *
-		e_memo_shell_content_get_searchbar
-					(EMemoShellContent *memo_shell_content);
+		e_memo_shell_content_get_searchbar	(EMemoShellContent *memo_shell_content);
 
 G_END_DECLS
 

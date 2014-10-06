@@ -41,7 +41,7 @@ alarm_selector_get_source_selected (ESourceSelector *selector,
 	return e_source_alarms_get_include_me (extension);
 }
 
-static void
+static gboolean
 alarm_selector_set_source_selected (ESourceSelector *selector,
                                     ESource *source,
                                     gboolean selected)
@@ -52,16 +52,20 @@ alarm_selector_set_source_selected (ESourceSelector *selector,
 	/* Make sure this source is a calendar. */
 	extension_name = e_source_selector_get_extension_name (selector);
 	if (!e_source_has_extension (source, extension_name))
-		return;
+		return FALSE;
 
 	extension_name = E_SOURCE_EXTENSION_ALARMS;
 	extension = e_source_get_extension (source, extension_name);
-	g_return_if_fail (E_IS_SOURCE_ALARMS (extension));
+	g_return_val_if_fail (E_IS_SOURCE_ALARMS (extension), FALSE);
 
 	if (selected != e_source_alarms_get_include_me (extension)) {
 		e_source_alarms_set_include_me (extension, selected);
 		e_source_selector_queue_write (selector, source);
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 static void

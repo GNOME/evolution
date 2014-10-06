@@ -22,6 +22,7 @@
 #include <libical/ical.h>
 #include <string.h>
 #include <libecal/libecal.h>
+#include <calendar/gui/e-cal-model.h>
 
 G_BEGIN_DECLS
 
@@ -68,15 +69,27 @@ const gchar *	itip_strip_mailto		(const gchar *address);
 gchar *		itip_get_comp_attendee		(ESourceRegistry *registry,
 						 ECalComponent *comp,
 						 ECalClient *cal_client);
-gboolean	itip_send_comp			(ESourceRegistry *registry,
+gboolean	itip_send_comp_sync		(ESourceRegistry *registry,
 						 ECalComponentItipMethod method,
-						 ECalComponent *comp,
+						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 icalcomponent *zones,
 						 GSList *attachments_list,
 						 GSList *users,
 						 gboolean strip_alarms,
-						 gboolean only_new_attendees);
+						 gboolean only_new_attendees,
+						 GCancellable *cancellable,
+						 GError **error);
+void		itip_send_component		(ECalModel *model,
+						 ECalComponentItipMethod method,
+						 ECalComponent *send_comp,
+						 ECalClient *cal_client,
+						 icalcomponent *zones,
+						 GSList *attachments_list,
+						 GSList *users,
+						 gboolean strip_alarms,
+						 gboolean only_new_attendees,
+						 gboolean ensure_master_object);
 gboolean	itip_publish_begin		(ECalComponent *pub_comp,
 						 ECalClient *cal_client,
 						 gboolean cloned,

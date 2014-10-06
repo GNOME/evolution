@@ -28,6 +28,7 @@
 #include <libecal/libecal.h>
 
 #include <e-util/e-util.h>
+#include <calendar/gui/e-cal-data-model.h>
 
 struct _EShell;
 
@@ -43,24 +44,40 @@ gboolean cal_comp_util_compare_event_timezones (ECalComponent *comp,
 /* Returns the number of icons owned by the ECalComponent */
 gint     cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs);
 
-gboolean cal_comp_is_on_server (ECalComponent *comp,
-				ECalClient *client);
-gboolean is_icalcomp_on_the_server (icalcomponent *icalcomp, ECalClient *client);
+gboolean	cal_comp_is_on_server_sync	(ECalComponent *comp,
+						 ECalClient *client,
+						 GCancellable *cancellable,
+						 GError **error);
+gboolean	cal_comp_is_icalcomp_on_server_sync
+						(icalcomponent *icalcomp,
+						 ECalClient *client,
+						 GCancellable *cancellable,
+						 GError **error);
 
-ECalComponent *	cal_comp_event_new_with_defaults
+ECalComponent *	cal_comp_event_new_with_defaults_sync
 						(ECalClient *client,
 						 gboolean all_day,
 						 gboolean use_default_reminder,
 						 gint default_reminder_interval,
-						 EDurationType default_reminder_units);
-ECalComponent *	cal_comp_event_new_with_current_time
+						 EDurationType default_reminder_units,
+						 GCancellable *cancellable,
+						 GError **error);
+ECalComponent *	cal_comp_event_new_with_current_time_sync
 						(ECalClient *client,
 						 gboolean all_day,
 						 gboolean use_default_reminder,
 						 gint default_reminder_interval,
-						 EDurationType default_reminder_units);
-ECalComponent *cal_comp_task_new_with_defaults (ECalClient *client);
-ECalComponent *cal_comp_memo_new_with_defaults (ECalClient *client);
+						 EDurationType default_reminder_units,
+						 GCancellable *cancellable,
+						 GError **error);
+ECalComponent *	cal_comp_task_new_with_defaults_sync
+						(ECalClient *client,
+						 GCancellable *cancellable,
+						 GError **error);
+ECalComponent *	cal_comp_memo_new_with_defaults_sync
+						(ECalClient *client,
+						 GCancellable *cancellable,
+						 GError **error);
 
 void cal_comp_update_time_by_active_window (ECalComponent *comp, struct _EShell *shell);
 
@@ -70,9 +87,24 @@ GSList *cal_comp_selection_get_string_list (GtkSelectionData *data);
 void cal_comp_set_dtstart_with_oldzone (ECalClient *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
 void cal_comp_set_dtend_with_oldzone (ECalClient *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
 
-void comp_util_sanitize_recurrence_master (ECalComponent *comp, ECalClient *client);
+gboolean	comp_util_sanitize_recurrence_master_sync
+						(ECalComponent *comp,
+						 ECalClient *client,
+						 GCancellable *cancellable,
+						 GError **error);
 
 gchar *icalcomp_suggest_filename (icalcomponent *icalcomp, const gchar *default_name);
+
+void		cal_comp_get_instance_times	(ECalClient *client,
+						 icalcomponent *icalcomp,
+						 const icaltimezone *default_zone,
+						 time_t *instance_start,
+						 gboolean *start_is_date,
+						 time_t *instance_end,
+						 gboolean *end_is_date,
+						 GCancellable *cancellable);
+time_t		cal_comp_gdate_to_timet		(const GDate *date,
+						 const icaltimezone *with_zone);
 
 void cal_comp_transfer_item_to			(ECalClient *src_client,
 						 ECalClient *dest_client,

@@ -246,6 +246,14 @@ void		e_shell_view_remote_delete_source
 						(EShellView *shell_view,
 						 ESource *source);
 
+EActivity *	e_shell_view_submit_thread_job	(EShellView *shell_view,
+						 const gchar *description,
+						 const gchar *alert_ident,
+						 const gchar *alert_arg_0,
+						 EAlertSinkThreadJobFunc func,
+						 gpointer user_data,
+						 GDestroyNotify free_user_data);
+
 G_END_DECLS
 
 #endif /* E_SHELL_VIEW_H */

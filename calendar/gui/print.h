@@ -26,17 +26,19 @@
 
 #include <e-util/e-util.h>
 
-#include "calendar/gui/gnome-cal.h"
+#include "calendar/gui/e-calendar-view.h"
 
 typedef enum {
-	PRINT_VIEW_DAY,
-	PRINT_VIEW_WEEK,
-	PRINT_VIEW_MONTH,
-	PRINT_VIEW_YEAR,
-	PRINT_VIEW_LIST
-} PrintView;
+	E_PRINT_VIEW_DAY,
+	E_PRINT_VIEW_WORKWEEK,
+	E_PRINT_VIEW_WEEK,
+	E_PRINT_VIEW_MONTH,
+	E_PRINT_VIEW_LIST
+} EPrintView;
 
-void		print_calendar			(GnomeCalendar *gcal,
+void		print_calendar			(ECalendarView *cal_view,
+						 ETable *tasks_table,
+						 EPrintView print_view_type,
 						 GtkPrintOperationAction action,
 						 time_t start);
 void		print_comp			(ECalComponent *comp,

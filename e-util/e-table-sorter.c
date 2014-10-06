@@ -169,6 +169,34 @@ table_sorter_sort (ETableSorter *table_sorter)
 
 	g_qsort_with_data (table_sorter->sorted, rows, sizeof (gint), qsort_callback, &qd);
 
+	for (j = 0; j < cols; j++) {
+		ETableColumnSpecification *spec;
+		ETableCol *col;
+		GtkSortType sort_type;
+
+		if (j < group_cols)
+			spec = e_table_sort_info_grouping_get_nth (
+				table_sorter->sort_info,
+				j, &sort_type);
+		else
+			spec = e_table_sort_info_sorting_get_nth (
+				table_sorter->sort_info,
+				j - group_cols, &sort_type);
+
+		col = e_table_header_get_column_by_spec (
+			table_sorter->full_header, spec);
+		if (col == NULL) {
+			gint last = e_table_header_count (
+				table_sorter->full_header) - 1;
+			col = e_table_header_get_column (
+				table_sorter->full_header, last);
+		}
+
+		for (i = 0; i < rows; i++) {
+			e_table_model_free_value (table_sorter->source, col->spec->model_col, qd.vals[i * cols + j]);
+		}
+	}
+
 	g_free (qd.vals);
 	g_free (qd.ascending);
 	g_free (qd.compare);

@@ -26,7 +26,7 @@
 #ifndef _EA_CALENDAR_H__
 #define _EA_CALENDAR_H__
 
-void gnome_calendar_a11y_init (void);
+void e_calendar_a11y_init (void);
 void e_day_view_main_item_a11y_init (void);
 void e_week_view_main_item_a11y_init (void);
 

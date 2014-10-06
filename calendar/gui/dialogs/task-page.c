@@ -528,6 +528,7 @@ task_page_finalize (GObject *object)
 
 	g_strfreev (priv->address_strings);
 	g_free (priv->fallback_address);
+	g_free (priv->user_add);
 
 	g_ptr_array_foreach (
 		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
@@ -745,6 +746,7 @@ task_page_fill_widgets (CompEditorPage *page,
 		gchar *name = NULL;
 		gchar *mailto = NULL;
 
+		g_free (priv->user_add);
 		priv->user_add = itip_get_comp_attendee (
 			registry, comp, client);
 
