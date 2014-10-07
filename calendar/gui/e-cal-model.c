@@ -1502,10 +1502,10 @@ cal_model_duplicate_value (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return g_strdup (value);
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
@@ -1577,10 +1577,10 @@ cal_model_initialize_value (ETableModel *etm,
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 		return g_strdup (priv->default_category ? priv->default_category:"");
-	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return g_strdup ("");
+	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :

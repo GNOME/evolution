@@ -354,6 +354,8 @@ table_sorter_dispose (GObject *object)
 	g_clear_object (&table_sorter->full_header);
 	g_clear_object (&table_sorter->source);
 
+	table_sorter_clean (table_sorter);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_sorter_parent_class)->dispose (object);
 }

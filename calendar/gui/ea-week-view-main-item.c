@@ -574,9 +574,10 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 		"ea-week-view-cell-table");
 	if (!cell_data) {
 		cell_data = ea_cell_table_create (weeks_shown, 7, TRUE);
-		g_object_set_data (
+		g_object_set_data_full (
 			G_OBJECT (ea_main_item),
-			"ea-week-view-cell-table", cell_data);
+			"ea-week-view-cell-table", cell_data,
+			(GDestroyNotify) ea_cell_table_destroy);
 	}
 	return cell_data;
 }
@@ -584,19 +585,11 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 static void
 ea_week_view_main_item_destory_cell_data (EaWeekViewMainItem *ea_main_item)
 {
-	EaCellTable *cell_data;
-
 	g_return_if_fail (ea_main_item);
 
-	cell_data = g_object_get_data (
+	g_object_set_data (
 		G_OBJECT (ea_main_item),
-		"ea-week-view-cell-table");
-	if (cell_data) {
-		g_object_set_data (
-			G_OBJECT (ea_main_item),
-			"ea-week-view-cell-table", NULL);
-		ea_cell_table_destroy (cell_data);
-	}
+		"ea-week-view-cell-table", NULL);
 }
 
 /* Atk Component Interface */

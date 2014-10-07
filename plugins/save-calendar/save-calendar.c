@@ -95,8 +95,7 @@ on_type_combobox_changed (GtkComboBox *combobox,
 }
 
 static void
-format_handlers_foreach_free (gpointer data,
-                              gpointer user_data)
+format_handlers_foreach_free (gpointer data)
 {
 	FormatHandler *handler = data;
 
@@ -127,7 +126,7 @@ ask_destination_and_save (ESourceSelector *selector,
 	GtkWidget *dialog = NULL;
 	gchar *dest_uri = NULL;
 
-	GList *format_handlers = NULL;
+	GList *format_handlers = NULL, *link;
 
 	/* The available formathandlers */
 	format_handlers = g_list_append (format_handlers,
@@ -153,8 +152,9 @@ ask_destination_and_save (ESourceSelector *selector,
 		GTK_CELL_LAYOUT (combo),
 		renderer, "text", DEST_NAME_COLUMN, NULL);
 
-	while (format_handlers) {
-		handler = format_handlers->data;
+	for (link = format_handlers; link; link = g_list_next (link)) {
+		handler = link->data;
+
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter, DEST_NAME_COLUMN,
@@ -173,8 +173,6 @@ ask_destination_and_save (ESourceSelector *selector,
 			if (handler->options_widget)
 				gtk_widget_show (handler->options_widget);
 		}
-
-		format_handlers = g_list_next (format_handlers);
 	}
 
 	g_signal_connect (
@@ -228,8 +226,7 @@ ask_destination_and_save (ESourceSelector *selector,
 	}
 
 	/* Free the handlers */
-	g_list_foreach (format_handlers, format_handlers_foreach_free, NULL);
-	g_list_free (format_handlers);
+	g_list_free_full (format_handlers, format_handlers_foreach_free);
 
 	/* Now we can destroy it */
 	gtk_widget_destroy (dialog);
