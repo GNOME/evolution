@@ -1520,6 +1520,7 @@ e_utils_shade_color (const GdkRGBA *a,
 	b->red = red;
 	b->green = green;
 	b->blue = blue;
+	b->alpha = a->alpha;
 }
 
 static gint

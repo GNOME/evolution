@@ -25,13 +25,20 @@
 
 #include <glib/gi18n.h>
 
+#include "e-util/gal-a11y-e-text.h"
+
 #include "ea-cal-view-event.h"
 #include "ea-calendar-helpers.h"
 #include "ea-day-view.h"
 #include "ea-week-view.h"
 
-static void	ea_cal_view_event_class_init	(EaCalViewEventClass *klass);
-static void	ea_cal_view_event_init		(EaCalViewEvent *a11y);
+static void	atk_component_interface_init	(AtkComponentIface *iface);
+static void	atk_action_interface_init	(AtkActionIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (EaCalViewEvent, ea_cal_view_event, GAL_A11Y_TYPE_E_TEXT,
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT, atk_component_interface_init)
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_ACTION, atk_action_interface_init))
+
 static void	ea_cal_view_event_dispose	(GObject *object);
 static const gchar *
 		ea_cal_view_event_get_name	(AtkObject *accessible);
@@ -46,7 +53,6 @@ static AtkStateSet *
 		ea_cal_view_event_ref_state_set	(AtkObject *accessible);
 
 /* component interface */
-static void	atk_component_interface_init	(AtkComponentIface *iface);
 static void	ea_cal_view_get_extents		(AtkComponent *component,
 						 gint *x,
 						 gint *y,
@@ -54,7 +60,6 @@ static void	ea_cal_view_get_extents		(AtkComponent *component,
 						 gint *height,
 						 AtkCoordType coord_type);
 /* action interface */
-static void	atk_action_interface_init	(AtkActionIface *iface);
 static gboolean	ea_cal_view_event_do_action	(AtkAction *action,
 						 gint i);
 static gint	ea_cal_view_event_get_n_actions	(AtkAction *action);
@@ -69,72 +74,6 @@ static gint n_ea_cal_view_event_destroyed = 0;
 static void ea_cal_view_finalize (GObject *object);
 #endif
 
-static gpointer parent_class = NULL;
-
-GType
-ea_cal_view_event_get_type (void)
-{
-	static GType type = 0;
-	AtkObjectFactory *factory;
-	GTypeQuery query;
-	GType derived_atk_type;
-
-	if (!type) {
-		static GTypeInfo tinfo = {
-			sizeof (EaCalViewEventClass),
-			(GBaseInitFunc) NULL, /* base init */
-			(GBaseFinalizeFunc) NULL, /* base finalize */
-			(GClassInitFunc) ea_cal_view_event_class_init, /* class init */
-			(GClassFinalizeFunc) NULL, /* class finalize */
-			NULL, /* class data */
-			sizeof (EaCalViewEvent), /* instance size */
-			0, /* nb preallocs */
-			(GInstanceInitFunc) ea_cal_view_event_init, /* instance init */
-			NULL /* value table */
-		};
-
-		static const GInterfaceInfo atk_component_info = {
-			(GInterfaceInitFunc) atk_component_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		static const GInterfaceInfo atk_action_info = {
-			(GInterfaceInitFunc) atk_action_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-
-		/*
-		 * Figure out the size of the class and instance
-		 * we are run-time deriving from (atk object for E_TEXT, in this case)
-		 */
-
-		factory = atk_registry_get_factory (
-			atk_get_default_registry (),
-			E_TYPE_TEXT);
-		derived_atk_type = atk_object_factory_get_accessible_type (factory);
-		g_type_query (derived_atk_type, &query);
-
-		tinfo.class_size = query.class_size;
-		tinfo.instance_size = query.instance_size;
-
-		/* we inherit the component, text and other interfaces from E_TEXT */
-		type = g_type_register_static (
-			derived_atk_type,
-			"EaCalViewEvent", &tinfo, 0);
-		g_type_add_interface_static (
-			type, ATK_TYPE_COMPONENT,
-			&atk_component_info);
-		g_type_add_interface_static (
-			type, ATK_TYPE_ACTION,
-			&atk_action_info);
-
-	}
-
-	return type;
-}
-
 static void
 ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 {
@@ -143,8 +82,6 @@ ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 #ifdef ACC_DEBUG
 	gobject_class->finalize = ea_cal_view_finalize;
 #endif
-
-	parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->dispose = ea_cal_view_event_dispose;
 
@@ -171,7 +108,7 @@ ea_cal_view_event_init (EaCalViewEvent *a11y)
 #ifdef ACC_DEBUG
 static void ea_cal_view_finalize (GObject *object)
 {
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (ea_cal_view_event_parent_class)->finalize (object);
 
 	++n_ea_cal_view_event_destroyed;
 	printf (
@@ -265,7 +202,7 @@ ea_cal_view_event_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (ea_cal_view_event_parent_class)->dispose (object);
 }
 
 static const gchar *
@@ -317,7 +254,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		alarm_string, recur_string, meeting_string);
 	g_free (summary_string);
 
-	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, name_string);
+	ATK_OBJECT_CLASS (ea_cal_view_event_parent_class)->set_name (accessible, name_string);
 #ifdef ACC_DEBUG
 	printf (
 		"EvoAcc:  name for event accobj=%p, is %s\n",

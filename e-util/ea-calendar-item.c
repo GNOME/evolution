@@ -1097,9 +1097,10 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 			n_cells / EA_CALENDAR_COLUMN_NUM,
 			EA_CALENDAR_COLUMN_NUM,
 			FALSE);
-		g_object_set_data (
+		g_object_set_data_full (
 			G_OBJECT (ea_calitem),
-			"ea-calendar-cell-table", cell_data);
+			"ea-calendar-cell-table", cell_data,
+			(GDestroyNotify) ea_cell_table_destroy);
 	}
 	return cell_data;
 }
@@ -1107,19 +1108,11 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 static void
 ea_calendar_item_destory_cell_data (EaCalendarItem *ea_calitem)
 {
-	EaCellTable *cell_data;
-
 	g_return_if_fail (ea_calitem);
 
-	cell_data = g_object_get_data (
+	g_object_set_data (
 		G_OBJECT (ea_calitem),
-		"ea-calendar-cell-table");
-	if (cell_data) {
-		g_object_set_data (
-			G_OBJECT (ea_calitem),
-			"ea-calendar-cell-table", NULL);
-		ea_cell_table_destroy (cell_data);
-	}
+		"ea-calendar-cell-table", NULL);
 }
 
 static gboolean

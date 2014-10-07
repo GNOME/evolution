@@ -1707,6 +1707,8 @@ print_day_details (GtkPrintContext *context,
 	/* use font like with 30 minutes time division */
 	rows_with_30_mins = (pdi.end_hour - pdi.start_hour) * (60 / 30);
 
+	pango_font_description_free (font);
+
 	/* print the short events. */
 	if (top > bottom)
 		max_font_size = ((top - bottom) / rows_with_30_mins) - 4;
@@ -2865,6 +2867,8 @@ print_work_week_day_details (GtkPrintContext *context,
 	/* use font like with 30 minutes time division */
 	rows_with_30_mins = (pdi.end_hour - pdi.start_hour) * (60 / 30);
 
+	pango_font_description_free (font);
+
 	/* print the short events. */
 	if (top > bottom)
 		max_font_size = ((top - bottom) / rows_with_30_mins) - 4;
@@ -3500,8 +3504,9 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		print_text (
 			context, font, title, PANGO_ALIGN_CENTER, 0.0, width,
 			0.1, header_size - 0.1);
-		pango_font_description_free (font);
 	}
+
+	pango_font_description_free (font);
 
 	top += header_size + 30;
 

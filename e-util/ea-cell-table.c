@@ -78,6 +78,7 @@ ea_cell_table_destroy (EaCellTable *cell_data)
 			g_object_unref (cell_data->cells[index]);
 
 	g_free (cell_data->cells);
+	g_free (cell_data);
 }
 
 gpointer

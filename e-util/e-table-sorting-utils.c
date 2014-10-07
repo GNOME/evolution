@@ -49,6 +49,7 @@ etsu_compare (ETableModel *source,
 	for (j = 0; j < sort_count; j++) {
 		ETableColumnSpecification *spec;
 		ETableCol *col;
+		gpointer value1, value2;
 
 		spec = e_table_sort_info_sorting_get_nth (
 			sort_info, j, &sort_type);
@@ -59,12 +60,14 @@ etsu_compare (ETableModel *source,
 			col = e_table_header_get_column (full_header, last);
 		}
 
-		comp_val = (*col->compare) (
-			e_table_model_value_at (
-				source, col->spec->compare_col, row1),
-			e_table_model_value_at (
-				source, col->spec->compare_col, row2),
-			cmp_cache);
+		value1 = e_table_model_value_at (source, col->spec->compare_col, row1);
+		value2 = e_table_model_value_at (source, col->spec->compare_col, row2);
+
+		comp_val = (*col->compare) (value1, value2, cmp_cache);
+
+		e_table_model_free_value (source, col->spec->compare_col, value1);
+		e_table_model_free_value (source, col->spec->compare_col, value2);
+
 		if (comp_val != 0)
 			break;
 	}
