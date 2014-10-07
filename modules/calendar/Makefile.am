@@ -32,6 +32,8 @@ module_calendar_la_SOURCES = \
 	e-cal-shell-backend.h		\
 	e-cal-shell-content.c		\
 	e-cal-shell-content.h		\
+	e-cal-shell-migrate.c		\
+	e-cal-shell-migrate.h		\
 	e-cal-shell-view.c		\
 	e-cal-shell-view.h		\
 	e-cal-shell-view-actions.c	\
@@ -46,6 +48,8 @@ module_calendar_la_SOURCES = \
 	e-memo-shell-backend.h		\
 	e-memo-shell-content.c		\
 	e-memo-shell-content.h		\
+	e-memo-shell-migrate.c		\
+	e-memo-shell-migrate.h		\
 	e-memo-shell-view.c		\
 	e-memo-shell-view.h		\
 	e-memo-shell-view-actions.c	\
@@ -56,6 +60,8 @@ module_calendar_la_SOURCES = \
 	e-task-shell-backend.h		\
 	e-task-shell-content.c		\
 	e-task-shell-content.h		\
+	e-task-shell-migrate.c		\
+	e-task-shell-migrate.h		\
 	e-task-shell-view.c		\
 	e-task-shell-view.h		\
 	e-task-shell-view-actions.c	\
