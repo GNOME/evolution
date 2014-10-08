@@ -135,6 +135,17 @@ proxy_editor_load (EProxyEditor *editor)
 		GTK_SPIN_BUTTON (editor->priv->https_port_spin_button),
 		(gdouble) port);
 
+	host = e_source_proxy_dup_socks_host (extension);
+	gtk_entry_set_text (
+		GTK_ENTRY (editor->priv->socks_host_entry),
+		(host != NULL) ? host : "");
+	g_free (host);
+
+	port = e_source_proxy_get_socks_port (extension);
+	gtk_spin_button_set_value (
+		GTK_SPIN_BUTTON (editor->priv->socks_port_spin_button),
+		(gdouble) port);
+
 	g_object_unref (source);
 }
 
