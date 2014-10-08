@@ -52,6 +52,9 @@ struct _EProxyPreferencesPrivate {
 	/* The widgets are not referenced. */
 	GtkWidget *proxy_selector;
 	GtkWidget *proxy_editor;
+	GtkWidget *toplevel;
+
+	gulong toplevel_notify_id;
 
 	GMutex commit_lock;
 	guint commit_timeout_id;
@@ -69,6 +72,10 @@ enum {
 /* Forward Declarations */
 static void	proxy_preferences_commit_changes
 					(EProxyPreferences *preferences);
+static void	proxy_preferences_toplevel_notify_visible_cb
+					(GtkWidget *widget,
+					 GParamSpec *param,
+					 EProxyPreferences *preferences);
 
 G_DEFINE_TYPE (
 	EProxyPreferences,
@@ -90,6 +97,8 @@ proxy_preferences_commit_stash (EProxyPreferences *preferences,
                                 ESource *source,
                                 gboolean start_timeout)
 {
+	gboolean commit_now = FALSE;
+
 	g_mutex_lock (&preferences->priv->commit_lock);
 
 	g_hash_table_replace (
@@ -103,6 +112,30 @@ proxy_preferences_commit_stash (EProxyPreferences *preferences,
 	}
 
 	if (start_timeout) {
+		if (!preferences->priv->toplevel) {
+			GtkWidget *toplevel;
+
+			toplevel = gtk_widget_get_toplevel (GTK_WIDGET (preferences));
+
+			if (toplevel) {
+				g_object_weak_ref (G_OBJECT (toplevel),
+					(GWeakNotify) g_nullify_pointer, &preferences->priv->toplevel);
+
+				preferences->priv->toplevel_notify_id = g_signal_connect (
+					toplevel, "notify::visible",
+					G_CALLBACK (proxy_preferences_toplevel_notify_visible_cb), preferences);
+
+				preferences->priv->toplevel = toplevel;
+
+				if (!gtk_widget_get_visible (toplevel)) {
+					start_timeout = FALSE;
+					commit_now = TRUE;
+				}
+			}
+		}
+	}
+
+	if (start_timeout) {
 		preferences->priv->commit_timeout_id =
 			e_named_timeout_add_seconds (
 				COMMIT_DELAY_SECS,
@@ -111,6 +144,9 @@ proxy_preferences_commit_stash (EProxyPreferences *preferences,
 	}
 
 	g_mutex_unlock (&preferences->priv->commit_lock);
+
+	if (commit_now)
+		e_proxy_preferences_submit (preferences);
 }
 
 static GList *
@@ -242,6 +278,19 @@ proxy_preferences_commit_changes (EProxyPreferences *preferences)
 }
 
 static void
+proxy_preferences_toplevel_notify_visible_cb (GtkWidget *widget,
+					      GParamSpec *param,
+					      EProxyPreferences *preferences)
+{
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (E_IS_PROXY_PREFERENCES (preferences));
+
+	/* The toplevel widget was hidden, save anything pending immediately */
+	if (!gtk_widget_get_visible (widget))
+		e_proxy_preferences_submit (preferences);
+}
+
+static void
 proxy_preferences_source_changed_cb (ESourceRegistry *registry,
                                      ESource *source,
                                      EProxyPreferences *preferences)
@@ -322,6 +371,18 @@ proxy_preferences_dispose (GObject *object)
 
 	priv = E_PROXY_PREFERENCES_GET_PRIVATE (object);
 
+	if (priv->toplevel) {
+		g_object_weak_unref (G_OBJECT (priv->toplevel),
+			(GWeakNotify) g_nullify_pointer, &priv->toplevel);
+
+		if (priv->toplevel_notify_id) {
+			g_signal_handler_disconnect (priv->toplevel, priv->toplevel_notify_id);
+			priv->toplevel_notify_id = 0;
+		}
+
+		priv->toplevel = NULL;
+	}
+
 	if (priv->source_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->registry,
@@ -332,6 +393,9 @@ proxy_preferences_dispose (GObject *object)
 	if (priv->commit_timeout_id > 0) {
 		g_source_remove (priv->commit_timeout_id);
 		priv->commit_timeout_id = 0;
+
+		/* Make sure the changes are committed, or at least its write invoked */
+		proxy_preferences_commit_changes (E_PROXY_PREFERENCES (object));
 	}
 
 	g_clear_object (&priv->registry);
