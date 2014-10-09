@@ -123,7 +123,6 @@ composer/e-composer-private.c
 composer/e-msg-composer.c
 composer/mail-composer.error.xml
 data/evolution-alarm-notify.desktop.in.in
-data/evolution.appdata.xml.in
 data/evolution.desktop.in.in
 data/org.gnome.evolution.addressbook.gschema.xml.in
 data/org.gnome.evolution.bogofilter.gschema.xml.in
@@ -292,6 +291,7 @@ e-util/gal-a11y-e-table-column-header.c
 e-util/gal-view-instance-save-as-dialog.c
 e-util/gal-view-instance.c
 e-util/widgets.error.xml
+evolution.appdata.xml.in
 libemail-engine/camel-null-store.c
 libemail-engine/camel-sasl-xoauth2.c
 libemail-engine/e-mail-authenticator.c
