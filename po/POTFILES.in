@@ -9,25 +9,25 @@ addressbook/gui/contact-editor/e-contact-quick-add.c
 [type: gettext/glade]addressbook/gui/contact-editor/fullname.ui
 [type: gettext/glade]addressbook/gui/contact-list-editor/contact-list-editor.ui
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
-addressbook/gui/widgets/eab-contact-merging.c
 addressbook/gui/widgets/addresstypes.xml
+addressbook/gui/widgets/ea-addressbook-view.c
+addressbook/gui/widgets/eab-contact-display.c
+addressbook/gui/widgets/eab-contact-formatter.c
+addressbook/gui/widgets/eab-contact-merging.c
+addressbook/gui/widgets/eab-gui-util.c
 addressbook/gui/widgets/e-addressbook-model.c
 addressbook/gui/widgets/e-addressbook-reflow-adapter.c
 addressbook/gui/widgets/e-addressbook-table-adapter.c
 addressbook/gui/widgets/e-addressbook-view.c
 addressbook/gui/widgets/e-addressbook-view.etspec
-addressbook/gui/widgets/e-contact-map-window.c
-addressbook/gui/widgets/e-contact-map.c
-addressbook/gui/widgets/e-minicard-label.c
-addressbook/gui/widgets/e-minicard-view-widget.c
-addressbook/gui/widgets/e-minicard-view.c
-addressbook/gui/widgets/e-minicard.c
-addressbook/gui/widgets/ea-addressbook-view.c
-addressbook/gui/widgets/ea-minicard-view.c
 addressbook/gui/widgets/ea-minicard.c
-addressbook/gui/widgets/eab-contact-display.c
-addressbook/gui/widgets/eab-contact-formatter.c
-addressbook/gui/widgets/eab-gui-util.c
+addressbook/gui/widgets/ea-minicard-view.c
+addressbook/gui/widgets/e-contact-map.c
+addressbook/gui/widgets/e-contact-map-window.c
+addressbook/gui/widgets/e-minicard.c
+addressbook/gui/widgets/e-minicard-label.c
+addressbook/gui/widgets/e-minicard-view.c
+addressbook/gui/widgets/e-minicard-view-widget.c
 addressbook/importers/evolution-csv-importer.c
 addressbook/importers/evolution-ldif-importer.c
 addressbook/importers/evolution-vcard-importer.c
@@ -122,7 +122,6 @@ composer/e-composer-private.c
 composer/e-msg-composer.c
 composer/mail-composer.error.xml
 data/evolution-alarm-notify.desktop.in.in
-data/evolution.appdata.xml.in
 data/evolution.desktop.in.in
 data/org.gnome.evolution.addressbook.gschema.xml.in
 data/org.gnome.evolution.bogofilter.gschema.xml.in
@@ -169,19 +168,16 @@ em-format/e-mail-parser-multipart-encrypted.c
 em-format/e-mail-parser-multipart-signed.c
 em-format/e-mail-part-headers.c
 em-format/e-mail-part-utils.c
-[type: gettext/glade]e-util/e-send-options.ui
-[type: gettext/glade]e-util/e-table-config.ui
-[type: gettext/glade]e-util/e-timezone-dialog.ui
-[type: gettext/glade]e-util/filter.ui
-[type: gettext/glade]e-util/gal-view-instance-save-as-dialog.ui
+e-util/ea-calendar-item.c
 e-util/e-action-combo-box.c
 e-util/e-activity-bar.c
-e-util/e-activity-proxy.c
 e-util/e-activity.c
+e-util/e-activity-proxy.c
 e-util/e-alert-bar.c
 e-util/e-alert-dialog.c
 e-util/e-alert-sink.c
 e-util/e-attachment-bar.c
+e-util/e-attachment.c
 e-util/e-attachment-dialog.c
 e-util/e-attachment-handler-image.c
 e-util/e-attachment-icon-view.c
@@ -189,12 +185,11 @@ e-util/e-attachment-paned.c
 e-util/e-attachment-store.c
 e-util/e-attachment-tree-view.c
 e-util/e-attachment-view.c
-e-util/e-attachment.c
 e-util/e-book-source-config.c
 e-util/e-buffer-tagger.c
-e-util/e-cal-source-config.c
-e-util/e-calendar-item.c
 e-util/e-calendar.c
+e-util/e-calendar-item.c
+e-util/e-cal-source-config.c
 e-util/e-canvas-background.c
 e-util/e-canvas-vbox.c
 e-util/e-categories-config.c
@@ -204,13 +199,13 @@ e-util/e-categories-selector.c
 e-util/e-category-completion.c
 e-util/e-category-editor.c
 e-util/e-cell-combo.c
-e-util/e-cell-date-edit.c
 e-util/e-cell-date.c
+e-util/e-cell-date-edit.c
 e-util/e-cell-percent.c
 e-util/e-cell-pixbuf.c
 e-util/e-cell-text.c
-e-util/e-charset-combo-box.c
 e-util/e-charset.c
+e-util/e-charset-combo-box.c
 e-util/e-client-cache.c
 e-util/e-color-chooser-widget.c
 e-util/e-color-combo.c
@@ -227,6 +222,7 @@ e-util/e-filter-part.c
 e-util/e-filter-rule.c
 e-util/e-focus-tracker.c
 e-util/e-html-editor-actions.c
+e-util/e-html-editor.c
 e-util/e-html-editor-cell-dialog.c
 e-util/e-html-editor-dialog.c
 e-util/e-html-editor-find-dialog.c
@@ -240,9 +236,8 @@ e-util/e-html-editor-spell-check-dialog.c
 e-util/e-html-editor-table-dialog.c
 e-util/e-html-editor-text-dialog.c
 e-util/e-html-editor-view.c
-e-util/e-html-editor.c
-e-util/e-image-chooser-dialog.c
 e-util/e-image-chooser.c
+e-util/e-image-chooser-dialog.c
 e-util/e-import-assistant.c
 e-util/e-interval-chooser.c
 e-util/e-mail-identity-combo-box.c
@@ -271,19 +266,22 @@ e-util/e-search-bar.c
 e-util/e-selection-model-array.c
 e-util/e-selection-model.c
 e-util/e-send-options.c
-e-util/e-source-config-dialog.c
+[type: gettext/glade]e-util/e-send-options.ui
 e-util/e-source-config.c
+e-util/e-source-config-dialog.c
 e-util/e-source-selector-dialog.c
 e-util/e-spell-dictionary.c
 e-util/e-spell-entry.c
 e-util/e-system.error.xml
+e-util/e-table.c
 e-util/e-table-click-to-add.c
 e-util/e-table-col.c
 e-util/e-table-column-selector.c
 e-util/e-table-config.c
+[type: gettext/glade]e-util/e-table-config.ui
+e-util/e-table-field-chooser.c
 e-util/e-table-field-chooser-dialog.c
 e-util/e-table-field-chooser-item.c
-e-util/e-table-field-chooser.c
 e-util/e-table-group-container.c
 e-util/e-table-group-leaf.c
 e-util/e-table-header-item.c
@@ -291,32 +289,34 @@ e-util/e-table-item.c
 e-util/e-table-selection-model.c
 e-util/e-table-sorter.c
 e-util/e-table-utils.c
-e-util/e-table.c
 e-util/e-text.c
 e-util/e-timezone-dialog.c
-e-util/e-tree-selection-model.c
+[type: gettext/glade]e-util/e-timezone-dialog.ui
 e-util/e-tree.c
+e-util/e-tree-selection-model.c
 e-util/e-url-entry.c
+e-util/evolution-source-viewer.c
 e-util/e-web-view.c
 e-util/e-widget-undo.c
-e-util/ea-calendar-item.c
-e-util/evolution-source-viewer.c
 e-util/filter.error.xml
+[type: gettext/glade]e-util/filter.ui
+e-util/gal-a11y-e-cell.c
 e-util/gal-a11y-e-cell-popup.c
 e-util/gal-a11y-e-cell-toggle.c
 e-util/gal-a11y-e-cell-tree.c
-e-util/gal-a11y-e-cell.c
 e-util/gal-a11y-e-table-click-to-add.c
 e-util/gal-a11y-e-table-column-header.c
-e-util/gal-view-instance-save-as-dialog.c
 e-util/gal-view-instance.c
+e-util/gal-view-instance-save-as-dialog.c
+[type: gettext/glade]e-util/gal-view-instance-save-as-dialog.ui
 e-util/widgets.error.xml
+evolution.appdata.xml.in
 libemail-engine/camel-null-store.c
 libemail-engine/camel-sasl-xoauth2.c
 libemail-engine/e-mail-authenticator.c
 libemail-engine/e-mail-folder-utils.c
-libemail-engine/e-mail-session-utils.c
 libemail-engine/e-mail-session.c
+libemail-engine/e-mail-session-utils.c
 libemail-engine/e-mail-store-utils.c
 libemail-engine/mail-config.c
 libemail-engine/mail-folder-cache.c
@@ -410,18 +410,18 @@ modules/cal-config-caldav/e-caldav-chooser.c
 modules/cal-config-caldav/e-caldav-chooser-dialog.c
 modules/cal-config-caldav/evolution-cal-config-caldav.c
 modules/cal-config-contacts/evolution-cal-config-contacts.c
+modules/cal-config-google/e-cal-config-google.c
 modules/cal-config-google/e-google-chooser-button.c
 modules/cal-config-google/e-google-chooser.c
 modules/cal-config-google/e-google-chooser-dialog.c
-modules/cal-config-google/e-cal-config-google.c
 modules/cal-config-local/evolution-cal-config-local.c
 modules/cal-config-weather/evolution-cal-config-weather.c
 modules/cal-config-webcal/evolution-cal-config-webcal.c
 modules/calendar/e-cal-attachment-handler.c
-modules/calendar/e-calendar-preferences.c
-[type: gettext/glade]modules/calendar/e-calendar-preferences.ui
 modules/calendar/e-cal-base-shell-backend.c
 modules/calendar/e-cal-base-shell-sidebar.c
+modules/calendar/e-calendar-preferences.c
+[type: gettext/glade]modules/calendar/e-calendar-preferences.ui
 modules/calendar/e-cal-shell-backend.c
 modules/calendar/e-cal-shell-content.c
 modules/calendar/e-cal-shell-migrate.c
