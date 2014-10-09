@@ -31,11 +31,6 @@ gsettings_SCHEMAS =							\
 	org.gnome.evolution.plugin.templates.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
-appdatadir = $(datadir)/appdata
-appdata_in_files = evolution.appdata.xml.in
-appdata_files = $(appdata_in_files:.xml.in=.xml)
-dist_appdata_DATA = $(appdata_files)
-
 @GSETTINGS_RULES@
 
 convertdir = $(datadir)/GConf/gsettings
@@ -69,14 +64,12 @@ CLEANFILES =					\
 	$(desktop_DATA)
 
 EXTRA_DIST =					\
-	$(appdata_in_files)			\
 	$(autostart_in_files)			\
 	$(desktop_in_files)			\
 	$(convert_DATA)				\
 	$(gsettings_SCHEMAS:.xml=.xml.in)
 
 DISTCLEANFILES =		\
-	$(appdata_files)	\
 	$(gsettings_SCHEMAS)
 
 -include $(top_srcdir)/git.mk

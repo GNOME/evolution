@@ -12,8 +12,15 @@ pkgconfig_in_files =					\
 	evolution-shell-$(INTERFACE_VERSION).pc
 pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=-$(INTERFACE_VERSION).pc)
 
+@INTLTOOL_XML_RULE@
+appdatadir = $(datadir)/appdata
+appdata_in_files = evolution.appdata.xml.in
+appdata_files = $(appdata_in_files:.xml.in=.xml)
+dist_appdata_DATA = $(appdata_files)
+
 EXTRA_DIST = 			\
 	$(pkgconfig_DATA)	\
+	$(appdata_in_files)	\
 	AUTHORS			\
 	COPYING-DOCS		\
 	COPYING.LGPL2		\
@@ -76,7 +83,8 @@ SUBDIRS = 			\
 
 DISTCLEANFILES = 			\
 	$(builddir)/iconv-detect.h	\
-	$(pkgconfig_in_files)
+	$(pkgconfig_in_files)		\
+	$(appdata_files)
 
 MAINTAINERCLEANFILES =			\
 	$(srcdir)/ABOUT-NLS		\

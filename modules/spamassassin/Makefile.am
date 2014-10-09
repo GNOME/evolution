@@ -24,7 +24,7 @@ module_spamassassin_la_LIBADD = \
 module_spamassassin_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
-@INTLTOOL_XML_NOMERGE_RULE@
+@INTLTOOL_XML_RULE@
 metainfodir = $(datadir)/appdata
 metainfo_in_files = evolution-spamassassin.metainfo.xml.in
 metainfo_files = $(metainfo_in_files:.xml.in=.xml)
