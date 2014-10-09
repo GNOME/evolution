@@ -1452,7 +1452,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 	pango_layout_set_font_description (layout, font_desc);
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		text_x += (7 - 1) * calitem->cell_width;
-	e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+	e_utils_get_theme_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
 	gdk_cairo_set_source_rgba (cr, &rgba);
 	for (day = 0; day < 7; day++) {
 		cairo_save (cr);
@@ -1662,7 +1662,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 				get_digit_fomat (), digit);
 
 			cairo_save (cr);
-			e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+			e_utils_get_theme_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
 			gdk_cairo_set_source_rgba (cr, &rgba);
 			pango_layout_set_font_description (layout, font_desc);
 			pango_layout_set_text (layout, buffer, num_chars);

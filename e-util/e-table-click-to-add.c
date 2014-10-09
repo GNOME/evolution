@@ -85,7 +85,7 @@ etcta_style_updated (ETableClickToAdd *etcta)
 
 	e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
 	e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
-	e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
+	e_utils_get_theme_color_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 	if (etcta->rect)
 		gnome_canvas_item_set (
@@ -266,7 +266,7 @@ create_rect_and_text (ETableClickToAdd *etcta)
 
 	e_utils_get_theme_color_color (widget, "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
 	e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
-	e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
+	e_utils_get_theme_color_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 	if (!etcta->rect)
 		etcta->rect = gnome_canvas_item_new (

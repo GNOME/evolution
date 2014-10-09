@@ -1836,7 +1836,7 @@ e_week_view_set_colors (EWeekView *week_view)
 
 	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_bg);
 	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_bg);
-	e_utils_get_theme_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text_fg);
+	e_utils_get_theme_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text_fg);
 	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &selected_bg);
 	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &selected_fg);
 	e_utils_get_theme_color (widget, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, &unfocused_selected_bg);

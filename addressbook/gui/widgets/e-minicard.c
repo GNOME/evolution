@@ -272,7 +272,7 @@ set_selected (EMinicard *minicard,
 			NULL);
 	} else {
 		e_utils_get_theme_color_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &header);
-		e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
+		e_utils_get_theme_color_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 		gnome_canvas_item_set (
 			minicard->rect,
