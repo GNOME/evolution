@@ -23,4 +23,14 @@ module_spamassassin_la_LIBADD = \
 module_spamassassin_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
+@INTLTOOL_XML_RULE@
+metainfodir = $(datadir)/appdata
+metainfo_in_files = evolution-spamassassin.metainfo.xml.in
+metainfo_files = $(metainfo_in_files:.xml.in=.xml)
+dist_metainfo_DATA = $(metainfo_files)
+
+EXTRA_DIST = $(metainfo_in_files)
+
+DISTCLEANFILES = $(metainfo_files)
+
 -include $(top_srcdir)/git.mk

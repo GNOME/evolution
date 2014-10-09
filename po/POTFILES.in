@@ -381,6 +381,7 @@ modules/backup-restore/evolution-backup-restore.c
 modules/backup-restore/evolution-backup-tool.c
 modules/backup-restore/org-gnome-backup-restore.error.xml
 modules/bogofilter/evolution-bogofilter.c
+modules/bogofilter/evolution-bogofilter.metainfo.xml.in
 modules/book-config-google/evolution-book-config-google.c
 modules/book-config-ldap/evolution-book-config-ldap.c
 modules/book-config-webdav/evolution-book-config-webdav.c
@@ -451,6 +452,7 @@ modules/prefer-plain/e-mail-parser-prefer-plain.c
 modules/prefer-plain/plugin/config-ui.c
 modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml
 modules/spamassassin/evolution-spamassassin.c
+modules/spamassassin/evolution-spamassassin.metainfo.xml.in
 modules/startup-wizard/e-mail-config-import-page.c
 modules/startup-wizard/e-mail-config-import-progress-page.c
 modules/startup-wizard/e-startup-assistant.c
