@@ -725,7 +725,7 @@ ect_draw (ECellView *ecell_view,
 	} else {
 		gboolean color_overwritten = FALSE;
 
-		e_utils_get_theme_color (canvas, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
+		e_utils_get_theme_color (canvas, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
 		gdk_cairo_set_source_rgba (cr, &fg_rgba);
 
 		if (ect->color_column != -1) {
@@ -820,7 +820,7 @@ ect_draw (ECellView *ecell_view,
 				}
 			} else {
 				e_utils_get_theme_color (canvas, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &bg_rgba);
-				e_utils_get_theme_color (canvas, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
+				e_utils_get_theme_color (canvas, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
 			}
 
 			indices[0] = MIN (edit->selection_start, edit->selection_end);

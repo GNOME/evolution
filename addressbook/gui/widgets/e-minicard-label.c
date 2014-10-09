@@ -422,7 +422,7 @@ set_colors (EMinicardLabel *label)
 
 		widget = GTK_WIDGET (GNOME_CANVAS_ITEM (label)->canvas);
 
-		e_utils_get_theme_color_color (widget, "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
+		e_utils_get_theme_color_color (widget, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &text);
 
 		if (label->has_focus) {
 			GdkColor outline, fill;

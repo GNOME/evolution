@@ -1308,7 +1308,7 @@ e_text_draw (GnomeCanvasItem *item,
 			gdk_cairo_set_source_rgba (cr, &rgba);
 			cairo_paint (cr);
 
-			e_utils_get_theme_color (widget, backdrop ? "theme_unfocused_text_color,theme_text_color" : "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
+			e_utils_get_theme_color (widget, backdrop ? "theme_unfocused_text_color,theme_text_color,theme_fg_color" : "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &rgba);
 			gdk_cairo_set_source_rgba (cr, &rgba);
 			cairo_move_to (cr, xpos, ypos);
 			pango_cairo_show_layout (cr, text->layout);
