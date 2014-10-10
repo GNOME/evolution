@@ -317,6 +317,14 @@ mail_autoconfig_parse_text (GMarkupParseContext *context,
 			closure->result->set = TRUE;
 		}
 
+		/* "password-encrypted" apparently maps to CRAM-MD5,
+		 * or at least that's how Thunderbird interprets it. */
+
+		if (g_str_equal (string->str, "password-encrypted")) {
+			closure->result->auth_mechanism = g_strdup ("CRAM-MD5");
+			closure->result->set = TRUE;
+		}
+
 		/* XXX Other <authentication> values not handled,
 		 *     but they are corner cases for the most part. */
 	}
