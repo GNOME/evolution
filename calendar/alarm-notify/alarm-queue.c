@@ -332,6 +332,24 @@ lookup_queued_alarm (CompQueuedAlarms *cqa,
 	return NULL;
 }
 
+static void
+alarm_queue_discard_alarm_cb (GObject *source,
+			      GAsyncResult *result,
+			      gpointer user_data)
+{
+	ECalClient *client = E_CAL_CLIENT (source);
+	GError *error = NULL;
+
+	g_return_if_fail (client != NULL);
+
+	if (!e_cal_client_discard_alarm_finish (client, result, &error))
+		g_warning ("Failed to discard alarm at '%s': %s",
+			e_source_get_display_name (e_client_get_source (E_CLIENT (client))),
+			error ? error->message : "Unknown error");
+
+	g_clear_error (&error);
+}
+
 /* Removes an alarm from the list of alarms of a component.  If the alarm was
  * the last one listed for the component, it removes the component itself.
  */
@@ -364,9 +382,10 @@ remove_queued_alarm (CompQueuedAlarms *cqa,
 		id = e_cal_component_get_id (cqa->alarms->comp);
 		if (id) {
 			cqa->expecting_update = TRUE;
-			e_cal_client_discard_alarm_sync (
+			e_cal_client_discard_alarm (
 				cqa->parent_client->cal_client, id->uid,
-				id->rid, qa->instance->auid, NULL, &error);
+				id->rid, qa->instance->auid, NULL,
+				alarm_queue_discard_alarm_cb, NULL);
 			cqa->expecting_update = FALSE;
 
 			if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED)) {
