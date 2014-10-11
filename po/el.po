@@ -41,21 +41,24 @@
 # Simos Xenitellis <simos.lists@googlemail.com>, 2010.
 # Michael Kotsarinis <mk73628@gmail.com>, 2011.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013, 2014.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2014.
+#
+#: ../shell/main.c:559
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-08-13 15:41+0000\n"
-"PO-Revision-Date: 2014-08-14 03:12+0200\n"
-"Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
-"Language-Team: team@lists.gnome.gr\n"
+"POT-Creation-Date: 2014-10-10 15:48+0000\n"
+"PO-Revision-Date: 2014-10-10 21:41+0300\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"Language-Team: Ελληνικά <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.5\n"
+"X-Generator: Gtranslator 2.91.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Project-Style: gnome\n"
 
@@ -573,7 +576,7 @@ msgstr "_Βοήθεια"
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3592
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3591
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
 #: ../addressbook/gui/contact-editor/fullname.ui.h:14
@@ -614,7 +617,7 @@ msgstr "_Βοήθεια"
 #: ../plugins/face/face.c:291 ../plugins/mail-to-task/mail-to-task.c:593
 #: ../plugins/publish-calendar/publish-calendar.c:806
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
-#: ../plugins/save-calendar/save-calendar.c:189 ../shell/e-shell-content.c:659
+#: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:70
 #: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:623
 #: ../smime/gui/e-cert-selector.c:232 ../smime/gui/smime-ui.ui.h:23
@@ -712,21 +715,21 @@ msgstr "Σφάλμα αφαίρεσης επαφής"
 msgid "Contact Editor - %s"
 msgstr "Επεξεργαστής επαφών - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3589
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3588
 msgid "Please select an image for this contact"
 msgstr "Παρακαλούμε επιλέξτε μια εικόνα για αυτή την επαφή"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3593
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3592
 #: ../e-util/e-category-editor.c:146 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:624
 msgid "_Open"
 msgstr "Ά_νοιγμα"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3594
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3593
 msgid "_No image"
 msgstr "_Χωρίς εικόνα"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3943
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3942
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -734,28 +737,28 @@ msgstr ""
 "Τα δεδομένα επαφής δεν είναι έγκυρα:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3949
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3948
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "Το '%s' δεν έχει έγκυρη μορφή"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3957
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3956
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "'%s' δεν μπορεί να είναι μελλοντική ημερομηνία"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3965
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3964
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s'%s' δεν έχει έγκυρη μορφή"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3978
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3992
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3977
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3991
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s'%s' είναι κενό"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4007
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4006
 msgid "Invalid contact."
 msgstr "Μη έγκυρη επαφή."
 
@@ -1844,8 +1847,8 @@ msgid "_Dismiss"
 msgstr "_Ακύρωση"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../calendar/alarm-notify/alarm-queue.c:1835
-#: ../calendar/alarm-notify/alarm-queue.c:1845
+#: ../calendar/alarm-notify/alarm-queue.c:1854
+#: ../calendar/alarm-notify/alarm-queue.c:1864
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../modules/itip-formatter/itip-view.c:1503
 #: ../modules/itip-formatter/itip-view.c:1614
@@ -1885,49 +1888,49 @@ msgstr "ώρες"
 msgid "minutes"
 msgstr "λεπτά"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1678
-#: ../calendar/alarm-notify/alarm-queue.c:1815
+#: ../calendar/alarm-notify/alarm-queue.c:1697
+#: ../calendar/alarm-notify/alarm-queue.c:1834
 msgid "No summary available."
 msgstr "Δεν υπάρχει διαθέσιμη περίληψη."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1687
-#: ../calendar/alarm-notify/alarm-queue.c:1689
+#: ../calendar/alarm-notify/alarm-queue.c:1706
+#: ../calendar/alarm-notify/alarm-queue.c:1708
 msgid "No description available."
 msgstr "Δεν υπάρχει διαθέσιμη περιγραφή."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1697
+#: ../calendar/alarm-notify/alarm-queue.c:1716
 msgid "No location information available."
 msgstr "Δεν υπάρχουν διαθέσιμες πληροφορίες τοποθεσίας."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1702
-#: ../calendar/alarm-notify/alarm-queue.c:1806
-#: ../calendar/alarm-notify/alarm-queue.c:2147
+#: ../calendar/alarm-notify/alarm-queue.c:1721
+#: ../calendar/alarm-notify/alarm-queue.c:1825
+#: ../calendar/alarm-notify/alarm-queue.c:2166
 msgid "Evolution Reminders"
 msgstr "Υπενθυμίσεις Evolution"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1746
+#: ../calendar/alarm-notify/alarm-queue.c:1765
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
 msgstr[0] "Έχετε %d υπενθύμιση"
 msgstr[1] "Έχετε %d υπενθυμίσεις"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1965
+#: ../calendar/alarm-notify/alarm-queue.c:1984
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1966 ../mail/mail-dialogs.ui.h:21
+#: ../calendar/alarm-notify/alarm-queue.c:1985 ../mail/mail-dialogs.ui.h:21
 #: ../mail/mail.error.xml.h:139
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
 msgid "_No"
 msgstr "Ό_χι"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1967 ../mail/mail.error.xml.h:138
+#: ../calendar/alarm-notify/alarm-queue.c:1986 ../mail/mail.error.xml.h:138
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
 msgid "_Yes"
 msgstr "_Ναι"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1971
+#: ../calendar/alarm-notify/alarm-queue.c:1990
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -1944,7 +1947,7 @@ msgstr ""
 "\n"
 "Είστε βέβαιοι για την εκτέλεση του προγράμματος;"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1986
+#: ../calendar/alarm-notify/alarm-queue.c:2005
 msgid "Do not ask me about this program again."
 msgstr "Να μην ξαναγίνει η ερώτηση για αυτό το πρόγραμμα."
 
@@ -3218,7 +3221,7 @@ msgstr "Δια_θεσιμότητα"
 msgid "Query free / busy information for the attendees"
 msgstr "Ερώτηση πληροφοριών διαθεσιμότητας για τους παρευρισκόμενους"
 
-#: ../calendar/gui/dialogs/event-editor.c:306 ../calendar/gui/print.c:3499
+#: ../calendar/gui/dialogs/event-editor.c:306 ../calendar/gui/print.c:3503
 msgid "Appointment"
 msgstr "Ραντεβού"
 
@@ -3463,7 +3466,7 @@ msgstr "Επιλογή ημερομηνίας"
 msgid "Select _Today"
 msgstr "Επιλογή _σημερινής ημέρας"
 
-#: ../calendar/gui/dialogs/memo-editor.c:105 ../calendar/gui/print.c:3503
+#: ../calendar/gui/dialogs/memo-editor.c:105 ../calendar/gui/print.c:3507
 msgid "Memo"
 msgstr "Σημείωμα"
 
@@ -3798,7 +3801,7 @@ msgstr "Ειδοποίηση μόνο νέων συμ_μετεχόντων"
 msgid "_Send Options"
 msgstr "Επιλογές απο_στολής"
 
-#: ../calendar/gui/dialogs/task-editor.c:148 ../calendar/gui/print.c:3501
+#: ../calendar/gui/dialogs/task-editor.c:148 ../calendar/gui/print.c:3505
 #: ../e-util/e-send-options.c:553
 msgid "Task"
 msgstr "Εργασία"
@@ -3882,7 +3885,7 @@ msgstr "Αόριστο"
 #: ../calendar/gui/e-cal-model-tasks.c:310
 #: ../calendar/gui/e-cal-model-tasks.c:552 ../calendar/gui/e-task-table.c:218
 #: ../calendar/gui/e-task-table.c:233 ../calendar/gui/e-task-table.c:665
-#: ../calendar/gui/print.c:3585 ../calendar/gui/tasktypes.xml.h:11
+#: ../calendar/gui/print.c:3590 ../calendar/gui/tasktypes.xml.h:11
 msgid "Not Started"
 msgstr "Δεν έχει ξεκινήσει"
 
@@ -3893,7 +3896,7 @@ msgstr "Δεν έχει ξεκινήσει"
 #: ../calendar/gui/e-cal-model-tasks.c:554
 #: ../calendar/gui/e-cal-model-tasks.c:635 ../calendar/gui/e-task-table.c:220
 #: ../calendar/gui/e-task-table.c:235 ../calendar/gui/e-task-table.c:666
-#: ../calendar/gui/print.c:3588
+#: ../calendar/gui/print.c:3593
 msgid "In Progress"
 msgstr "Σε εξέλιξη"
 
@@ -3904,7 +3907,7 @@ msgstr "Σε εξέλιξη"
 #: ../calendar/gui/e-cal-model-tasks.c:556
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
 #: ../calendar/gui/e-task-table.c:222 ../calendar/gui/e-task-table.c:237
-#: ../calendar/gui/e-task-table.c:667 ../calendar/gui/print.c:3591
+#: ../calendar/gui/e-task-table.c:667 ../calendar/gui/print.c:3596
 #: ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
@@ -3916,7 +3919,7 @@ msgstr "Ολοκληρώθηκε"
 #: ../calendar/gui/e-cal-model-tasks.c:316
 #: ../calendar/gui/e-cal-model-tasks.c:558 ../calendar/gui/e-task-table.c:224
 #: ../calendar/gui/e-task-table.c:239 ../calendar/gui/e-task-table.c:668
-#: ../calendar/gui/print.c:3594 ../mail/mail-send-recv.c:853
+#: ../calendar/gui/print.c:3599 ../mail/mail-send-recv.c:853
 msgid "Canceled"
 msgstr "Ακυρώθηκε"
 
@@ -3972,32 +3975,32 @@ msgstr "Μετάβαση στο σήμερα"
 msgid "Go to Date"
 msgstr "Μετάβαση στην ημερομηνία"
 
-#: ../calendar/gui/ea-cal-view-event.c:297
+#: ../calendar/gui/ea-cal-view-event.c:234
 msgid "It has reminders."
 msgstr "Έχει υπενθυμίσεις."
 
-#: ../calendar/gui/ea-cal-view-event.c:300
+#: ../calendar/gui/ea-cal-view-event.c:237
 msgid "It has recurrences."
 msgstr "Έχει επανεμφανίσεις."
 
-#: ../calendar/gui/ea-cal-view-event.c:303
+#: ../calendar/gui/ea-cal-view-event.c:240
 msgid "It is a meeting."
 msgstr "Είναι μια συνάντηση."
 
-#: ../calendar/gui/ea-cal-view-event.c:310
+#: ../calendar/gui/ea-cal-view-event.c:247
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Συμβάν ημερολογίου: Η περίληψη είναι %s."
 
-#: ../calendar/gui/ea-cal-view-event.c:313
+#: ../calendar/gui/ea-cal-view-event.c:250
 msgid "Calendar Event: It has no summary."
 msgstr "Συμβάν ημερολογίου: Δεν έχει περίληψη."
 
-#: ../calendar/gui/ea-cal-view-event.c:336
+#: ../calendar/gui/ea-cal-view-event.c:273
 msgid "calendar view event"
 msgstr "προβολή συμβάντος ημερολογίου"
 
-#: ../calendar/gui/ea-cal-view-event.c:568
+#: ../calendar/gui/ea-cal-view-event.c:505
 msgid "Grab Focus"
 msgstr "Λήψη εστίασης"
 
@@ -4353,7 +4356,7 @@ msgstr "Διοργανωτής: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2132
-#: ../calendar/gui/e-meeting-time-sel.c:2663 ../calendar/gui/print.c:3539
+#: ../calendar/gui/e-meeting-time-sel.c:2663 ../calendar/gui/print.c:3544
 #, c-format
 msgid "Location: %s"
 msgstr "Τοποθεσία: %s"
@@ -4485,14 +4488,14 @@ msgstr ""
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:1992 ../calendar/gui/e-week-view.c:1591
 #: ../calendar/gui/print.c:1076 ../calendar/gui/print.c:1095
-#: ../calendar/gui/print.c:2636 ../calendar/gui/print.c:2656
+#: ../calendar/gui/print.c:2638 ../calendar/gui/print.c:2658
 msgid "am"
 msgstr "π.μ."
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1995 ../calendar/gui/e-week-view.c:1594
 #: ../calendar/gui/print.c:1081 ../calendar/gui/print.c:1097
-#: ../calendar/gui/print.c:2641 ../calendar/gui/print.c:2658
+#: ../calendar/gui/print.c:2643 ../calendar/gui/print.c:2660
 msgid "pm"
 msgstr "μ.μ."
 
@@ -4503,7 +4506,7 @@ msgstr "μ.μ."
 #. * order but don't change the specifiers or add
 #. * anything.
 #: ../calendar/gui/e-day-view.c:2795 ../calendar/gui/e-day-view-top-item.c:850
-#: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2092
+#: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2094
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -4713,7 +4716,7 @@ msgstr ""
 "Περίληψη: %s\n"
 "Τοποθεσία: %s"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2661 ../calendar/gui/print.c:3528
+#: ../calendar/gui/e-meeting-time-sel.c:2661 ../calendar/gui/print.c:3533
 #, c-format
 msgid "Summary: %s"
 msgstr "Περίληψη: %s"
@@ -4798,7 +4801,7 @@ msgstr "Κλικ εδώ για προσθήκη σημειώματος"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../calendar/gui/e-task-table.c:730 ../calendar/gui/print.c:2417
+#: ../calendar/gui/e-task-table.c:730 ../calendar/gui/print.c:2419
 #: ../calendar/importers/icalendar-importer.c:78
 #: ../calendar/importers/icalendar-importer.c:1072
 #: ../modules/calendar/e-calendar-preferences.ui.h:61
@@ -4837,7 +4840,7 @@ msgstr "Επιλέξτε ζώνη ώρας"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:224 ../calendar/gui/print.c:2071
+#: ../calendar/gui/e-week-view-main-item.c:224 ../calendar/gui/print.c:2073
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -5132,66 +5135,66 @@ msgstr "Κυ"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:3322
+#: ../calendar/gui/print.c:3326
 msgid " to "
 msgstr " με "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:3332
+#: ../calendar/gui/print.c:3336
 msgid " (Completed "
 msgstr " (Ολοκληρωμένο "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:3338
+#: ../calendar/gui/print.c:3342
 msgid "Completed "
 msgstr "Ολοκληρωμένο "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:3348
+#: ../calendar/gui/print.c:3352
 msgid " (Due "
 msgstr " (Λήξη "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:3355
+#: ../calendar/gui/print.c:3359
 msgid "Due "
 msgstr "Λήξη "
 
-#: ../calendar/gui/print.c:3558
+#: ../calendar/gui/print.c:3563
 msgid "Attendees: "
 msgstr "Παρευρισκόμενοι: "
 
-#: ../calendar/gui/print.c:3602
+#: ../calendar/gui/print.c:3607
 #, c-format
 msgid "Status: %s"
 msgstr "Κατάσταση: %s"
 
-#: ../calendar/gui/print.c:3618
+#: ../calendar/gui/print.c:3623
 #, c-format
 msgid "Priority: %s"
 msgstr "Προτεραιότητα: %s"
 
-#: ../calendar/gui/print.c:3636
+#: ../calendar/gui/print.c:3641
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Ποσοστό ολοκλήρωσης: %i"
 
-#: ../calendar/gui/print.c:3650
+#: ../calendar/gui/print.c:3655
 #, c-format
 msgid "URL: %s"
 msgstr "Διεύθυνση: %s"
 
-#: ../calendar/gui/print.c:3664
+#: ../calendar/gui/print.c:3669
 #, c-format
 msgid "Categories: %s"
 msgstr "Κατηγορίες: %s"
 
-#: ../calendar/gui/print.c:3675
+#: ../calendar/gui/print.c:3680
 msgid "Contacts: "
 msgstr "Επαφές: "
 
@@ -7343,28 +7346,6 @@ msgstr "Evolution Alarm Notify"
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
 msgid "Calendar event notifications"
 msgstr "Ειδοποιήσεις συμβάντων ημερολογίου"
-
-#: ../data/evolution.appdata.xml.in.h:1
-msgid ""
-"Evolution is a personal information management application that provides "
-"integrated mail, calendaring and address book functionality."
-msgstr ""
-"Το Evolution είναι μια προσωπική εφαρμογή διαχείρισης πληροφοριών που "
-"παρέχει ολοκληρωμένη λειτουργικότητα αλληλογραφίας, ημερολογίου και βιβλίου "
-"διευθύνσεων."
-
-#: ../data/evolution.appdata.xml.in.h:2
-msgid ""
-"Evolution supports a wide range of industry standard data formats and "
-"network protocols for information exchange, with an emphasis on standards "
-"compliance and security. Evolution can also integrate smoothly with "
-"Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) extension."
-msgstr ""
-"Το Evolution υποστηρίζει μια ευρεία περιοχή βιομηχανιών προτύπων μορφών "
-"δεδομένων και πρωτοκόλλων δικτύου για ανταλλαγή πληροφοριών, με έμφαση στα "
-"πρότυπα συμμόρφωσης και ασφαλείας. Το Evolution μπορεί επίσης να ενσωματώσει "
-"ομαλά το Microsoft Exchange μέσα από την επέκταση \"Exchange Web Services"
-"\" (EWS)."
 
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1032
 #: ../modules/mailto-handler/evolution-mailto-handler.c:210
@@ -10689,9 +10670,9 @@ msgid "Sa_ve As"
 msgstr "Αποθή_κευση ως..."
 
 #: ../e-util/e-attachment-view.c:400
-#: ../plugins/save-calendar/save-calendar.c:349
-#: ../plugins/save-calendar/save-calendar.c:380
-#: ../plugins/save-calendar/save-calendar.c:411
+#: ../plugins/save-calendar/save-calendar.c:346
+#: ../plugins/save-calendar/save-calendar.c:377
+#: ../plugins/save-calendar/save-calendar.c:408
 msgid "Save _As"
 msgstr "Αποθή_κευση ως"
 
@@ -11343,7 +11324,7 @@ msgstr "Βρείτε αντικείμενα που πληρούν τα παρα�
 #. protocol:
 #. name:
 #: ../e-util/e-filter-rule.c:846 ../e-util/e-mail-identity-combo-box.c:472
-#: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:549
+#: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:560
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
@@ -11698,65 +11679,65 @@ msgstr ""
 "Το σύστημα εκτύπωσης δεν ανέφερε περισσότερες λεπτομέρειες για αυτό το "
 "σφάλμα."
 
-#: ../e-util/e-proxy-editor.c:314
+#: ../e-util/e-proxy-editor.c:325
 msgid "_Method:"
 msgstr "_Μέθοδος:"
 
-#: ../e-util/e-proxy-editor.c:336
+#: ../e-util/e-proxy-editor.c:347
 msgid "Defer to Desktop Settings"
 msgstr "Αναβολή των ρυθμίσεων επιφάνειας εργασίας"
 
-#: ../e-util/e-proxy-editor.c:340
+#: ../e-util/e-proxy-editor.c:351
 msgid "_Open Desktop Settings"
 msgstr "Ά_νοιγμα ρυθμίσεων επιφάνειας εργασίας"
 
-#: ../e-util/e-proxy-editor.c:366
+#: ../e-util/e-proxy-editor.c:377
 msgid "Manual"
 msgstr "Χειροκίνητα"
 
-#: ../e-util/e-proxy-editor.c:385
+#: ../e-util/e-proxy-editor.c:396
 msgid "_HTTP Proxy:"
 msgstr "Διαμεσολαβητής H_TTP:"
 
-#: ../e-util/e-proxy-editor.c:416
+#: ../e-util/e-proxy-editor.c:427
 msgid "H_TTPS Proxy:"
 msgstr "Διαμεσολαβητής H_TTPS:"
 
-#: ../e-util/e-proxy-editor.c:447
+#: ../e-util/e-proxy-editor.c:458
 msgid "_Socks Proxy:"
 msgstr "Διαμεσολαβητής _Socks:"
 
-#: ../e-util/e-proxy-editor.c:478
+#: ../e-util/e-proxy-editor.c:489
 msgid "_Ignore Hosts:"
 msgstr "_Παράβλεψη κεντρικών υπολογιστών:"
 
-#: ../e-util/e-proxy-editor.c:504
+#: ../e-util/e-proxy-editor.c:515
 msgid "Automatic"
 msgstr "Αυτόματα"
 
-#: ../e-util/e-proxy-editor.c:523
+#: ../e-util/e-proxy-editor.c:534
 msgid "Configuration _URL:"
 msgstr "Διεύθυνση ρυ_θμίσεων:"
 
-#: ../e-util/e-proxy-editor.c:552
+#: ../e-util/e-proxy-editor.c:563
 msgid "Use a direct connection, no proxying required."
 msgstr "Χρησιμοποιήστε μια άμεση σύνδεση, δεν απαιτείται διαμεσολαβητής."
 
-#: ../e-util/e-proxy-preferences.c:177
+#: ../e-util/e-proxy-preferences.c:213
 msgid "Switch to Basic Proxy Preferences"
 msgstr "Εναλλαγή στις βασικές προτιμήσεις διαμεσολαβητή"
 
-#: ../e-util/e-proxy-preferences.c:179
+#: ../e-util/e-proxy-preferences.c:215
 msgid "Switch to Advanced Proxy Preferences"
 msgstr "Εναλλαγή στις προχωρημένες προτιμήσεις διαμεσολαβητή"
 
-#: ../e-util/e-proxy-preferences.c:462
+#: ../e-util/e-proxy-preferences.c:526
 msgid "Apply custom proxy settings to these accounts:"
 msgstr ""
 "Εφαρμογή των προσαρμοσμένων ρυθμίσεων διαμεσολαβητή σε αυτούς τους "
 "λογαριασμούς:"
 
-#: ../e-util/e-proxy-preferences.c:497
+#: ../e-util/e-proxy-preferences.c:561
 msgid ""
 "<b>Advanced Proxy Preferences</b> lets you define alternate network proxies "
 "and apply them to specific accounts"
@@ -12422,6 +12403,28 @@ msgstr "Αδυναμία φόρτωσης υπογραφής."
 msgid "Could not save signature."
 msgstr "Αδυναμία αποθήκευσης υπογραφής."
 
+#: ../evolution.appdata.xml.in.h:1
+msgid ""
+"Evolution is a personal information management application that provides "
+"integrated mail, calendaring and address book functionality."
+msgstr ""
+"Το Evolution είναι μια προσωπική εφαρμογή διαχείρισης πληροφοριών που "
+"παρέχει ολοκληρωμένη λειτουργικότητα αλληλογραφίας, ημερολογίου και βιβλίου "
+"διευθύνσεων."
+
+#: ../evolution.appdata.xml.in.h:2
+msgid ""
+"Evolution supports a wide range of industry standard data formats and "
+"network protocols for information exchange, with an emphasis on standards "
+"compliance and security. Evolution can also integrate smoothly with "
+"Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) extension."
+msgstr ""
+"Το Evolution υποστηρίζει μια ευρεία περιοχή βιομηχανιών προτύπων μορφών "
+"δεδομένων και πρωτοκόλλων δικτύου για ανταλλαγή πληροφοριών, με έμφαση στα "
+"πρότυπα συμμόρφωσης και ασφαλείας. Το Evolution μπορεί επίσης να ενσωματώσει "
+"ομαλά το Microsoft Exchange μέσα από την επέκταση \"Exchange Web Services"
+"\" (EWS)."
+
 #: ../libemail-engine/camel-sasl-xoauth2.c:26
 msgid "OAuth2"
 msgstr "OAuth2"
@@ -12777,11 +12780,11 @@ msgstr "Όνομα λογαριασμού"
 msgid "Default"
 msgstr "Προεπιλογή"
 
-#: ../mail/e-mail-autoconfig.c:611
+#: ../mail/e-mail-autoconfig.c:619
 msgid "No email address provided"
 msgstr "Δε δόθηκε διεύθυνση ηλεκτρονικής αλληλογγραφίας"
 
-#: ../mail/e-mail-autoconfig.c:620
+#: ../mail/e-mail-autoconfig.c:628
 msgid "Missing domain in email address"
 msgstr "Έλλειψη τομέα στη διεύθυνση ηλεκτρονικής αλληλογγραφίας"
 
@@ -16696,8 +16699,14 @@ msgid "Convert message text to _Unicode"
 msgstr "Μετατροπή κειμένου μηνύματος σε _Unicode"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:473
+#: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:1
 msgid "Bogofilter"
 msgstr "Bogofilter"
+
+#: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:2
+#| msgid "Junk filtering software:"
+msgid "Junk filter using Bogofilter"
+msgstr "Φιλτράρισμα ανεπιθύμητων με Bogofilter"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:441
 msgid "Standard LDAP Port"
@@ -19591,8 +19600,14 @@ msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Αυτό θα κάνει το SpamAssasin πιο αξιόπιστο, αλλά και πιο αργό."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:558
+#: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:1
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
+
+#: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
+#| msgid "Junk filtering software:"
+msgid "Junk filter using SpamAssassin"
+msgstr "Φιλτράρισμα ανεπιθύμητων με SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -19633,11 +19648,11 @@ msgstr "Μο_ρφοποίηση ως..."
 msgid "_Other languages"
 msgstr "Ά_λλες γλώσσες"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:482
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Text Highlight"
 msgstr "Επισήμανση κειμένου"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:483
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
 msgid "Syntax highlighting of mail parts"
 msgstr "Τονισμός σύνταξης των μερών αλληλογραφίας"
 
@@ -20878,27 +20893,27 @@ msgstr "%FT%T"
 msgid "RDF (.rdf)"
 msgstr "RDF (.rdf)"
 
-#: ../plugins/save-calendar/save-calendar.c:120
+#: ../plugins/save-calendar/save-calendar.c:119
 msgid "_Format:"
 msgstr "_Μορφή:"
 
-#: ../plugins/save-calendar/save-calendar.c:186
+#: ../plugins/save-calendar/save-calendar.c:184
 msgid "Select destination file"
 msgstr "Επιλογή αρχείου προορισμού"
 
-#: ../plugins/save-calendar/save-calendar.c:190
+#: ../plugins/save-calendar/save-calendar.c:188
 msgid "_Save As"
 msgstr "_Αποθήκευση ως"
 
-#: ../plugins/save-calendar/save-calendar.c:347
+#: ../plugins/save-calendar/save-calendar.c:344
 msgid "Save the selected calendar to disk"
 msgstr "Αποθήκευση των επιλεγμένων ημερολογίων στο δίσκο"
 
-#: ../plugins/save-calendar/save-calendar.c:378
+#: ../plugins/save-calendar/save-calendar.c:375
 msgid "Save the selected memo list to disk"
 msgstr "Αποθήκευση της επιλεγμένης λίστας σημειωμάτων στο δίσκο"
 
-#: ../plugins/save-calendar/save-calendar.c:409
+#: ../plugins/save-calendar/save-calendar.c:406
 msgid "Save the selected task list to disk"
 msgstr "Αποθήκευση των επιλεγμένων εργασιών στο δίσκο"
 
@@ -20924,19 +20939,19 @@ msgstr "Αποθήκευση ως πρό_τυπο"
 msgid "Save as Template"
 msgstr "Αποθήκευση ως πρότυπο"
 
-#: ../shell/e-shell.c:302
+#: ../shell/e-shell.c:319
 msgid "Preparing to go offline..."
 msgstr "Προετοιμασία για εργασία εκτός σύνδεσης..."
 
-#: ../shell/e-shell.c:355
+#: ../shell/e-shell.c:372
 msgid "Preparing to go online..."
 msgstr "Προετοιμασία για εργασία με σύνδεση..."
 
-#: ../shell/e-shell.c:436
+#: ../shell/e-shell.c:453
 msgid "Preparing to quit"
 msgstr "Προετοιμασία για τερματισμό"
 
-#: ../shell/e-shell.c:442
+#: ../shell/e-shell.c:459
 msgid "Preparing to quit..."
 msgstr "Προετοιμασία για τερματισμό..."
 
