@@ -240,6 +240,8 @@ alert_dialog_constructed (GObject *object)
 	gtk_label_set_attributes (GTK_LABEL (widget), list);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 40);
+	gtk_label_set_max_width_chars (GTK_LABEL (widget), 60);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (widget, FALSE);
@@ -248,6 +250,8 @@ alert_dialog_constructed (GObject *object)
 	widget = gtk_label_new (secondary);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 60);
+	gtk_label_set_max_width_chars (GTK_LABEL (widget), 80);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_can_focus (widget, FALSE);
