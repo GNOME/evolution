@@ -70,6 +70,7 @@ module_calendar_la_SOURCES = \
 	e-task-shell-view-private.h
 
 module_calendar_la_LIBADD = \
+	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
 	$(top_builddir)/shell/libevolution-shell.la		\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la	\
@@ -79,6 +80,7 @@ module_calendar_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
+	$(MATH_LIB) \
 	$(NULL)
 
 module_calendar_la_LDFLAGS = \
