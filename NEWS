@@ -1,3 +1,47 @@
+Evolution 3.12.7 2014-10-13
+---------------------------
+
+Bug Fixes:
+	Bug 735130 - Security Information dialog needs to resize properly (Federico Mena Quintero)
+	Bug 724909 - Highlight module hangs on large attachments (Milan Crha)
+	Bug 728329 - Evolution fails to get back online (Jonas Hahnfeld)
+	Bug 737791 - Adapt to changed GtkStateFlags semantics for expanders (Matthew Barnes)
+	Bug 737381 - SOCKS Proxy Setting not shown in UI (Milan Crha)
+	Bug 737340 - theme_text_color is no longer in gtk 3.14 (Jérémy Lal)
+	Bug 738296 - Handle "password-encrypted" in autoconfig data (Matthew Barnes)
+
+Miscellaneous:
+	format_full_headers: Avoid possible memory leak (Milan Crha)
+	ECalendarItem: Fix a memory leak (Milan Crha)
+	ETable: Fix a leak of an ETreeModel (Milan Crha)
+	Fix various memory leaks and invalid memory usages (Milan Crha)
+	Use INTLTOOL_XML_RULE for appdata files (Milan Crha)
+	Add metainfo.xml files for bogofilter and spamassassin plugins (Milan Crha)
+	[Alarm Notify] Avoid UI freeze on an alarm dismiss (Milan Crha)
+
+Translations:
+	Shankar Prasad (kn)
+	Mattias Eriksson (sv)
+	Ville-Pekka Vainio (fi)
+	Krishnababu Krothapalli (te)
+	Dušan Kazik (sk)
+	Rajesh Ranjan (hi)
+	victory (ja)
+	Sandeep Sheshrao Shedmake (mr)
+	Shantha kumar (ta)
+	Sweta Kothari (gu)
+	Piotr Drąg (pl)
+	Rafael Ferreira (pt_BR)
+	Andika Triwidada (id)
+	Milo Casagrande (it)
+	Nilamdyuti Goswami (as)
+	Gábor Kelemen (hu)
+	Krasimir Chonov (bg)
+	Efstathios Iosifidis (el)
+	Мирослав Николић (sr)
+	Мирослав Николић (sr@latin)
+	Rūdolfs Mazurs (lv)
+
 Evolution 3.12.6 2014-09-08
 ---------------------------
 
