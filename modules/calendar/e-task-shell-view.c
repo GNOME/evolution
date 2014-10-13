@@ -201,13 +201,14 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 			categories = e_util_dup_searchable_categories ();
 			category_name = g_list_nth_data (categories, value);
-			g_list_free_full (categories, g_free);
 
 			temp = g_strdup_printf (
 				"(and (has-categories? \"%s\") %s)",
 				category_name, query);
 			g_free (query);
 			query = temp;
+
+			g_list_free_full (categories, g_free);
 			break;
 		}
 	}
