@@ -2932,6 +2932,7 @@ em_utils_reply_to_message (EShell *shell,
 	EMsgComposer *composer;
 	ESource *source;
 	gchar *identity_uid = NULL;
+	const gchar *evo_source_header;
 	guint32 flags;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -2999,6 +3000,18 @@ em_utils_reply_to_message (EShell *shell,
 		g_object_unref (postto);
 	g_object_unref (to);
 	g_object_unref (cc);
+
+	evo_source_header = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "X-Evolution-Content-Source");
+	if (g_strcmp0 (evo_source_header, "selection") == 0) {
+		EHTMLEditor *editor;
+		EHTMLEditorView *view;
+
+		editor = e_msg_composer_get_editor (composer);
+		view = e_html_editor_get_view (editor);
+
+		e_html_editor_view_set_is_message_from_selection (view, TRUE);
+	}
 
 	composer_set_body (composer, message, style, parts_list);
 

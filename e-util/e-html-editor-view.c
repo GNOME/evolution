@@ -86,6 +86,8 @@ struct _EHTMLEditorViewPrivate {
 
 	gboolean convertor_insert;
 	gboolean body_input_event_removed;
+	gboolean is_message_from_draft;
+	gboolean is_message_from_selection;
 
 	WebKitWebView *convertor_web_view;
 
@@ -4991,6 +4993,8 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_free (comma_separated);
 
 	view->priv->body_input_event_removed = TRUE;
+	view->priv->is_message_from_draft = FALSE;
+	view->priv->is_message_from_selection = FALSE;
 	view->priv->convertor_insert = FALSE;
 
 	view->priv->convertor_web_view =
@@ -7166,8 +7170,19 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 {
 	view->priv->reload_in_progress = TRUE;
 
+	if (view->priv->is_message_from_draft) {
+		webkit_web_view_load_string (
+			WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
+		return;
+	}
+
+	if (view->priv->is_message_from_selection && !view->priv->html_mode) {
+		convert_and_load_html_to_plain_text (view, text);
+		return;
+	}
+
 	/* Only convert messages that are in HTML */
-	if (!view->priv->html_mode && *text && !strstr (text, "data-evo-draft")) {
+	if (!view->priv->html_mode) {
 		if (strstr (text, "<!-- text/html -->")) {
 			if (!show_lose_formatting_dialog (view)) {
 				e_html_editor_view_set_html_mode (view, TRUE);
@@ -7177,10 +7192,9 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 			}
 		}
 		convert_and_load_html_to_plain_text (view, text);
-	} else {
+	} else
 		webkit_web_view_load_string (
 			WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
-	}
 }
 
 /**
@@ -7952,4 +7966,30 @@ e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
 	g_free (base64_encoded);
 	g_free (mime_type);
 	g_object_unref (stream);
+}
+
+void
+e_html_editor_view_set_is_message_from_draft (EHTMLEditorView *view,
+                                              gboolean value)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	view->priv->is_message_from_draft = value;
+}
+
+gboolean
+e_html_editor_view_is_message_from_draft (EHTMLEditorView *view)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
+
+	return view->priv->is_message_from_draft;
+}
+
+void
+e_html_editor_view_set_is_message_from_selection (EHTMLEditorView *view,
+                                                  gboolean value)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	view->priv->is_message_from_selection = value;
 }

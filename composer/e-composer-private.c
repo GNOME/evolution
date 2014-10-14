@@ -131,7 +131,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->charset = e_composer_get_default_charset ();
 
-	priv->is_from_draft = FALSE;
 	priv->is_from_message = FALSE;
 	priv->is_from_new_message = FALSE;
 	priv->set_signature_from_message = FALSE;
@@ -824,7 +823,7 @@ composer_move_caret (EMsgComposer *composer)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *editor_selection;
 	GSettings *settings;
-	gboolean start_bottom, html_mode, top_signature;
+	gboolean start_bottom, html_mode, top_signature, is_from_draft;
 	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -849,6 +848,7 @@ composer_move_caret (EMsgComposer *composer)
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 	html_mode = e_html_editor_view_get_html_mode (view);
+	is_from_draft = e_html_editor_view_is_message_from_draft (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
@@ -860,7 +860,7 @@ composer_move_caret (EMsgComposer *composer)
 	new_range = webkit_dom_document_create_range (document);
 
 	/* If editing message as new don't handle with caret */
-	if (composer->priv->is_from_message || composer->priv->is_from_draft) {
+	if (composer->priv->is_from_message || is_from_draft) {
 		if (composer->priv->is_from_message)
 			webkit_dom_element_set_attribute (
 				WEBKIT_DOM_ELEMENT (body),

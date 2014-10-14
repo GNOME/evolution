@@ -1866,6 +1866,10 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		header = header->next;
 	}
 
+	camel_medium_add_header (
+		CAMEL_MEDIUM (new_message),
+		"X-Evolution-Content-Source", "selection");
+
 	camel_mime_part_set_encoding (
 		CAMEL_MIME_PART (new_message),
 		CAMEL_TRANSFER_ENCODING_8BIT);

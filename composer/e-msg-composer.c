@@ -3093,15 +3093,20 @@ handle_multipart (EMsgComposer *composer,
 			}
 
 		} else if (depth == 0 && i == 0) {
+			EHTMLEditor *editor;
+			gboolean is_from_draft, is_html = FALSE;
 			gchar *html;
 			gssize length;
-			gboolean is_html = FALSE;
+
+			editor = e_msg_composer_get_editor (composer);
+			is_from_draft = e_html_editor_view_is_message_from_draft (
+				e_html_editor_get_view (editor));
 
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
 
 			/* If we are opening message from Drafts */
-			if (composer->priv->is_from_draft) {
+			if (is_from_draft) {
 				/* Extract the body */
 				CamelDataWrapper *dw;
 
@@ -3272,6 +3277,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	struct _camel_header_raw *xev;
 	gchar *identity_uid;
 	gint len, i;
+	gboolean is_from_draft;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -3414,8 +3420,10 @@ e_msg_composer_new_with_message (EShell *shell,
 	composer_mode = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "X-Evolution-Composer-Mode");
 
-	if (composer_mode && *composer_mode)
-		composer->priv->is_from_draft = TRUE;
+	if (composer_mode && *composer_mode) {
+		is_from_draft = TRUE;
+		e_html_editor_view_set_is_message_from_draft (view, is_from_draft);
+	}
 
 	if (format != NULL) {
 		gchar **flags;
@@ -3547,7 +3555,7 @@ e_msg_composer_new_with_message (EShell *shell,
 		}
 
 		/* If we are opening message from Drafts */
-		if (composer->priv->is_from_draft) {
+		if (is_from_draft) {
 			/* Extract the body */
 			CamelDataWrapper *dw;
 

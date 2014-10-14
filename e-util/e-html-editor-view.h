@@ -167,6 +167,14 @@ GList *		e_html_editor_view_get_parts_for_inline_images
 						 const gchar *uid_domain);
 void		remove_image_attributes_from_element
 						(WebKitDOMElement *element);
+gboolean	e_html_editor_view_is_message_from_draft
+						(EHTMLEditorView *view);
+void		e_html_editor_view_set_is_message_from_draft
+						(EHTMLEditorView *view,
+						 gboolean value);
+void		e_html_editor_view_set_is_message_from_selection
+						(EHTMLEditorView *view,
+						 gboolean value);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */
