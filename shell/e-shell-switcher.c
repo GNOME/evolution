@@ -53,6 +53,7 @@ struct _EShellSwitcherPrivate {
 	GtkSettings *settings;
 	gulong settings_handler_id;
 	gboolean toolbar_visible;
+	gint hpaned_handle_size;
 };
 
 enum {
@@ -115,7 +116,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 	}
 
 	/* Figure out how many rows and columns we'll use. */
-	btns_per_row = MAX (1, allocation.width / (max_width + H_PADDING));
+	btns_per_row = MAX (1, (allocation.width - 1) / (max_width + H_PADDING + H_PADDING - switcher->priv->hpaned_handle_size));
 	if (!icons_only) {
 		/* If using text buttons, we want to try to have a
 		 * completely filled-in grid, but if we can't, we want
@@ -150,19 +151,21 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 
 	/* Layout the buttons. */
 	for (i = row_last; i >= 0; i--) {
-		gint len, extra_width;
+		gint len, extra_width, left_width;
 
+		left_width = allocation.width - 1;
 		x = H_PADDING + allocation.x;
 		y -= max_height;
 		len = g_list_length (rows[i]);
-		if (!icons_only)
-			extra_width =
-				(allocation.width - (len * max_width) -
-				(len * H_PADDING)) / len;
-		else
-			extra_width = 0;
-		for (p = rows[i]; p != NULL; p = p->next) {
+		for (p = rows[i]; p != NULL; p = p->next, len--) {
 			GtkAllocation child_allocation;
+
+			if (!icons_only)
+				extra_width =
+					(left_width - (len * max_width) -
+					(len * H_PADDING + H_PADDING - switcher->priv->hpaned_handle_size)) / len;
+			else
+				extra_width = 0;
 
 			child_allocation.x = x;
 			child_allocation.y = y;
@@ -173,6 +176,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 				GTK_WIDGET (p->data), &child_allocation);
 
 			x += child_allocation.width + H_PADDING;
+			left_width = left_width - child_allocation.width - H_PADDING;
 		}
 
 		y -= V_PADDING;
@@ -451,6 +455,31 @@ shell_switcher_style_changed (EShellSwitcher *switcher,
 	g_object_notify (G_OBJECT (switcher), "toolbar-style");
 }
 
+static void
+shell_switcher_read_handle_size (EShellSwitcher *switcher)
+{
+	GtkWidget *paned;
+
+	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
+
+	paned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_style_get (paned, "handle-size", &switcher->priv->hpaned_handle_size, NULL);
+	gtk_widget_destroy (paned);
+
+	if (switcher->priv->hpaned_handle_size < 0)
+		switcher->priv->hpaned_handle_size = 0;
+	else if (switcher->priv->hpaned_handle_size > H_PADDING)
+		switcher->priv->hpaned_handle_size = H_PADDING;
+}
+
+static void
+shell_switcher_style_updated_cb (EShellSwitcher *switcher)
+{
+	g_return_if_fail (E_IS_SHELL_SWITCHER (switcher));
+
+	shell_switcher_read_handle_size (switcher);
+}
+
 static GtkIconSize
 shell_switcher_get_icon_size (GtkToolShell *shell)
 {
@@ -568,6 +597,12 @@ e_shell_switcher_init (EShellSwitcher *switcher)
 	gtk_widget_set_has_window (GTK_WIDGET (switcher), FALSE);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (switcher));
+
+	switcher->priv->hpaned_handle_size = 5;
+
+	shell_switcher_read_handle_size (switcher);
+
+	g_signal_connect (switcher, "style-updated", G_CALLBACK (shell_switcher_style_updated_cb), NULL);
 }
 
 static void
