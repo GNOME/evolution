@@ -5262,14 +5262,16 @@ wrap_lines (EHTMLEditorSelection *selection,
 				text_content = webkit_dom_node_get_text_content (node);
 				anchor_length = g_utf8_strlen (text_content, -1);
 				if (len + anchor_length > word_wrap_length) {
-					element = webkit_dom_document_create_element (
-						document, "BR", NULL);
-					element_add_class (element, "-x-evo-wrap-br");
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (element),
-						node,
-						NULL);
+					if (webkit_dom_node_get_previous_sibling (node)) {
+						element = webkit_dom_document_create_element (
+							document, "BR", NULL);
+						element_add_class (element, "-x-evo-wrap-br");
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							node,
+							NULL);
+					}
 					len = anchor_length;
 				} else
 					len += anchor_length;
