@@ -3674,6 +3674,12 @@ e_html_editor_view_quote_plain_text_element (EHTMLEditorView *view,
 	quote_plain_text_recursive (
 		document, element_clone, element_clone, level);
 
+	/* Set citation as quoted */
+	if (is_citation_node (element_clone))
+		element_add_class (
+			WEBKIT_DOM_ELEMENT (element_clone),
+			"-x-evo-plaintext-quoted");
+
 	/* Replace old element with one, that is quoted */
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
