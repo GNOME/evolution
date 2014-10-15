@@ -45,6 +45,13 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	E_CAL_DATA_MODEL_VIEW_STATE_START,
+	E_CAL_DATA_MODEL_VIEW_STATE_PROGRESS,
+	E_CAL_DATA_MODEL_VIEW_STATE_COMPLETE,
+	E_CAL_DATA_MODEL_VIEW_STATE_STOP
+} ECalDataModelViewState;
+
 typedef struct _ECalDataModel ECalDataModel;
 typedef struct _ECalDataModelClass ECalDataModelClass;
 typedef struct _ECalDataModelPrivate ECalDataModelPrivate;
@@ -56,6 +63,14 @@ struct _ECalDataModel {
 
 struct _ECalDataModelClass {
 	GObjectClass parent_class;
+
+	/* Signals */
+	void (* view_state_changed)	(ECalDataModel *data_model,
+					 ECalClientView *view,
+					 ECalDataModelViewState state,
+					 guint percent,
+					 const gchar *message,
+					 const GError *error);
 };
 
 typedef GCancellable * (* ECalDataModelSubmitThreadJobFunc)

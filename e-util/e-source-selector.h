@@ -143,6 +143,20 @@ void		e_source_selector_update_row	(ESourceSelector *selector,
 						 ESource *source);
 void		e_source_selector_update_all_rows
 						(ESourceSelector *selector);
+void		e_source_selector_set_source_tooltip
+						(ESourceSelector *selector,
+						 ESource *source,
+						 const gchar *tooltip);
+gchar *		e_source_selector_dup_source_tooltip
+						(ESourceSelector *selector,
+						 ESource *source);
+void		e_source_selector_set_source_is_busy
+						(ESourceSelector *selector,
+						 ESource *source,
+						 gboolean is_busy);
+gboolean	e_source_selector_get_source_is_busy
+						(ESourceSelector *selector,
+						 ESource *source);
 
 G_END_DECLS
 

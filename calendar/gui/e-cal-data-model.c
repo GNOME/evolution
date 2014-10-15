@@ -59,6 +59,13 @@ enum {
 	PROP_TIMEZONE
 };
 
+enum {
+	VIEW_STATE_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
+
 G_DEFINE_TYPE (ECalDataModel, e_cal_data_model, G_TYPE_OBJECT)
 
 typedef struct _ComponentData {
@@ -297,6 +304,73 @@ subscriber_data_free (gpointer ptr)
 		g_clear_object (&subs_data->subscriber);
 		g_free (subs_data);
 	}
+}
+
+typedef struct _ViewStateChangedData {
+	ECalDataModel *data_model;
+	ECalClientView *view;
+	ECalDataModelViewState state;
+	guint percent;
+	gchar *message;
+	GError *error;
+} ViewStateChangedData;
+
+static void
+view_state_changed_data_free (gpointer ptr)
+{
+	ViewStateChangedData *vscd = ptr;
+
+	if (vscd) {
+		g_clear_object (&vscd->data_model);
+		g_clear_object (&vscd->view);
+		g_clear_error (&vscd->error);
+		g_free (vscd->message);
+		g_free (vscd);
+	}
+}
+
+static gboolean
+cal_data_model_emit_view_state_changed_timeout_cb (gpointer user_data)
+{
+	ViewStateChangedData *vscd = user_data;
+
+	g_return_val_if_fail (vscd != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CAL_DATA_MODEL (vscd->data_model), FALSE);
+	g_return_val_if_fail (E_IS_CAL_CLIENT_VIEW (vscd->view), FALSE);
+
+	g_signal_emit (vscd->data_model, signals[VIEW_STATE_CHANGED], 0,
+		vscd->view, vscd->state, vscd->percent, vscd->message, vscd->error);
+
+	return FALSE;
+}
+
+static void
+cal_data_model_emit_view_state_changed (ECalDataModel *data_model,
+					ECalClientView *view,
+					ECalDataModelViewState state,
+					guint percent,
+					const gchar *message,
+					const GError *error)
+{
+	ViewStateChangedData *vscd;
+
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
+	g_return_if_fail (E_IS_CAL_CLIENT_VIEW (view));
+
+	if (e_cal_data_model_get_disposing (data_model))
+		return;
+
+	vscd = g_new0 (ViewStateChangedData, 1);
+	vscd->data_model = g_object_ref (data_model);
+	vscd->view = g_object_ref (view);
+	vscd->state = state;
+	vscd->percent = percent;
+	vscd->message = g_strdup (message);
+	vscd->error = error ? g_error_copy (error) : NULL;
+
+	g_timeout_add_full (G_PRIORITY_DEFAULT, 1,
+		cal_data_model_emit_view_state_changed_timeout_cb,
+		vscd, view_state_changed_data_free);
 }
 
 typedef void (* InternalThreadJobFunc) (ECalDataModel *data_model, gpointer user_data);
@@ -1261,6 +1335,8 @@ cal_data_model_view_progress (ECalClientView *view,
 			      ECalDataModel *data_model)
 {
 	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
+
+	cal_data_model_emit_view_state_changed (data_model, view, E_CAL_DATA_MODEL_VIEW_STATE_PROGRESS, percent, message, NULL);
 }
 
 static void
@@ -1296,6 +1372,8 @@ cal_data_model_view_complete (ECalClientView *view,
 		g_hash_table_destroy (view_data->lost_components);
 		view_data->lost_components = NULL;
 	}
+
+	cal_data_model_emit_view_state_changed (data_model, view, E_CAL_DATA_MODEL_VIEW_STATE_COMPLETE, 0, NULL, error);
 
 	view_data_unlock (view_data);
 	view_data_unref (view_data);
@@ -1387,8 +1465,10 @@ cal_data_model_create_view_thread (EAlertSinkThreadJobData *job_data,
 
 	g_free (filter);
 
-	if (!g_cancellable_is_cancelled (cancellable))
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		cal_data_model_emit_view_state_changed (data_model, view, E_CAL_DATA_MODEL_VIEW_STATE_START, 0, NULL, NULL);
 		e_cal_client_view_start (view, error);
+	}
 
 	g_clear_object (&view);
 }
@@ -1442,6 +1522,7 @@ cal_data_model_update_client_view (ECalDataModel *data_model,
 
 	if (view_data->view) {
 		view_data_disconnect_view (view_data);
+		cal_data_model_emit_view_state_changed (data_model, view_data->view, E_CAL_DATA_MODEL_VIEW_STATE_STOP, 0, NULL, NULL);
 		g_clear_object (&view_data->view);
 	}
 
@@ -1555,6 +1636,9 @@ cal_data_model_remove_client_view (ECalDataModel *data_model,
 		g_hash_table_remove_all (view_data->components);
 
 		cal_data_model_thaw_all_subscribers (data_model);
+
+		if (view_data->view)
+			cal_data_model_emit_view_state_changed (data_model, view_data->view, E_CAL_DATA_MODEL_VIEW_STATE_STOP, 0, NULL, NULL);
 
 		view_data->is_used = FALSE;
 		view_data_unlock (view_data);
@@ -1818,6 +1902,15 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 			"Time Zone",
 			NULL,
 			G_PARAM_READWRITE));
+
+	signals[VIEW_STATE_CHANGED] = g_signal_new (
+		"view-state-changed",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ECalDataModelClass, view_state_changed),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 5, E_TYPE_CAL_CLIENT_VIEW, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_STRING, G_TYPE_ERROR);
 }
 
 static void

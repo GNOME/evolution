@@ -21,6 +21,7 @@
 #define OPENED_KEY "sources-opened-key"
 #define SOURCE_TYPE_KEY "sources-source-type-key"
 #define EXTENSION_NAME_KEY "sources-extension-name-key"
+#define TOOLTIP_ENTRY_KEY "sources-tooltip-entry-key"
 
 static void
 dump_selection (ESourceSelector *selector,
@@ -99,6 +100,19 @@ disable_widget_if_opened_cb (ESourceSelector *selector,
 }
 
 static void
+enable_widget_if_any_selected (ESourceSelector *selector,
+			       GtkWidget *widget)
+{
+	ESource *source;
+	gboolean sensitive;
+
+	source = e_source_selector_ref_primary_selection (selector);
+	sensitive = (source != NULL);
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_clear_object (&source);
+}
+
+static void
 open_selected_clicked_cb (GtkWidget *button,
                           ESourceSelector *selector)
 {
@@ -171,12 +185,44 @@ close_selected_clicked_cb (GtkWidget *button,
 	g_object_unref (source);
 }
 
+static void
+flip_busy_clicked_cb (GtkWidget *button,
+		      ESourceSelector *selector)
+{
+	ESource *source;
+
+	source = e_source_selector_ref_primary_selection (selector);
+	if (source)
+		e_source_selector_set_source_is_busy (selector, source,
+			!e_source_selector_get_source_is_busy (selector, source));
+
+	g_clear_object (&source);
+}
+
+static void
+set_tooltip_clicked_cb (GtkWidget *button,
+			ESourceSelector *selector)
+{
+	ESource *source;
+	GtkEntry *entry;
+
+	entry = g_object_get_data (G_OBJECT (button), TOOLTIP_ENTRY_KEY);
+	g_return_if_fail (entry != NULL);
+
+	source = e_source_selector_ref_primary_selection (selector);
+	if (source)
+		e_source_selector_set_source_tooltip (selector, source,
+			gtk_entry_get_text (entry));
+
+	g_clear_object (&source);
+}
+
 static GtkWidget *
 create_page (ESourceRegistry *registry,
              const gchar *extension_name,
              ECalClientSourceType source_type)
 {
-	GtkWidget *widget, *subwindow, *selector, *button_box;
+	GtkWidget *widget, *subwindow, *selector, *button_box, *entry;
 	GtkGrid *grid;
 	GHashTable *opened_sources;
 
@@ -234,6 +280,31 @@ create_page (ESourceRegistry *registry,
 	g_signal_connect (
 		selector, "primary-selection-changed",
 		G_CALLBACK (enable_widget_if_opened_cb), widget);
+
+	widget = gtk_button_new_with_label ("Flip busy status");
+	gtk_widget_set_margin_top (widget, 10);
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (flip_busy_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (enable_widget_if_any_selected), widget);
+
+	entry = gtk_entry_new ();
+	gtk_container_add (GTK_CONTAINER (button_box), entry);
+
+	widget = gtk_button_new_with_label ("Set Tooltip");
+	g_object_set_data (G_OBJECT (widget), TOOLTIP_ENTRY_KEY, entry);
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (set_tooltip_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (enable_widget_if_any_selected), widget);
 
 	widget = gtk_label_new ("");
 	g_object_set (

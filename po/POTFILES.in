@@ -419,6 +419,7 @@ modules/cal-config-weather/evolution-cal-config-weather.c
 modules/cal-config-webcal/evolution-cal-config-webcal.c
 modules/calendar/e-cal-attachment-handler.c
 modules/calendar/e-cal-base-shell-backend.c
+modules/calendar/e-cal-base-shell-content.c
 modules/calendar/e-cal-base-shell-sidebar.c
 modules/calendar/e-calendar-preferences.c
 [type: gettext/glade]modules/calendar/e-calendar-preferences.ui

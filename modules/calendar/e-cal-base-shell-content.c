@@ -21,7 +21,7 @@
 #endif
 
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include "e-cal-base-shell-sidebar.h"
 #include "e-cal-base-shell-view.h"
@@ -31,6 +31,7 @@ struct _ECalBaseShellContentPrivate {
 	ECalDataModel *data_model;
 	ECalModel *model;
 	gulong object_created_id;
+	gulong view_state_changed_id;
 };
 
 enum {
@@ -103,6 +104,47 @@ cal_base_shell_content_object_created_cb (ECalBaseShellContent *cal_base_shell_c
 }
 
 static void
+cal_base_sahell_content_view_state_changed_cb (ECalDataModel *data_model,
+					       ECalClientView *view,
+					       ECalDataModelViewState state,
+					       guint percent,
+					       const gchar *message,
+					       const GError *error,
+					       ECalBaseShellContent *cal_base_shell_content)
+{
+	EShellView *shell_view;
+	EShellSidebar *shell_sidebar;
+	ESourceSelector *selector;
+	ESource *source;
+
+	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_base_shell_content));
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
+
+	selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
+	source = e_client_get_source (E_CLIENT (e_cal_client_view_get_client (view)));
+
+	if (state == E_CAL_DATA_MODEL_VIEW_STATE_START ||
+	    state == E_CAL_DATA_MODEL_VIEW_STATE_PROGRESS) {
+		e_source_selector_set_source_is_busy (selector, source, TRUE);
+
+		if (message) {
+			gchar *tooltip;
+
+			/* Translators: This is a running activity whose percent complete is known. */
+			tooltip = g_strdup_printf (_("%s (%d%% complete)"), message, percent);
+			e_source_selector_set_source_tooltip (selector, source, tooltip);
+			g_free (tooltip);
+		}
+	} else {
+		e_source_selector_set_source_is_busy (selector, source, FALSE);
+		e_source_selector_set_source_tooltip (selector, source, NULL);
+	}
+}
+
+static void
 cal_base_shell_content_view_created_cb (EShellWindow *shell_window,
 					EShellView *shell_view,
 					ECalBaseShellContent *cal_base_shell_content)
@@ -135,6 +177,10 @@ cal_base_shell_content_view_created_cb (EShellWindow *shell_window,
 	selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
 	g_signal_connect (selector, "notify::primary-selection",
 		G_CALLBACK (cal_base_shell_content_primary_selection_changed_cb), cal_base_shell_content);
+
+	cal_base_shell_content->priv->view_state_changed_id = g_signal_connect (
+		cal_base_shell_content->priv->data_model, "view-state-changed",
+		G_CALLBACK (cal_base_sahell_content_view_state_changed_cb), cal_base_shell_content);
 
 	klass = E_CAL_BASE_SHELL_CONTENT_GET_CLASS (cal_base_shell_content);
 	g_return_if_fail (klass != NULL);
@@ -203,6 +249,12 @@ cal_base_shell_content_dispose (GObject *object)
 	cal_base_shell_content = E_CAL_BASE_SHELL_CONTENT (object);
 
 	e_cal_data_model_set_disposing (cal_base_shell_content->priv->data_model, TRUE);
+
+	if (cal_base_shell_content->priv->view_state_changed_id != 0) {
+		g_signal_handler_disconnect (cal_base_shell_content->priv->data_model,
+			cal_base_shell_content->priv->view_state_changed_id);
+		cal_base_shell_content->priv->view_state_changed_id = 0;
+	}
 
 	if (cal_base_shell_content->priv->object_created_id != 0) {
 		g_signal_handler_disconnect (cal_base_shell_content->priv->model,
