@@ -796,24 +796,19 @@ composer_size_allocate_cb (GtkWidget *widget,
 	}
 }
 
-static void
-insert_paragraph_with_input (WebKitDOMElement *paragraph,
-                             WebKitDOMElement *body)
+static WebKitDOMElement *
+prepare_paragraph (EHTMLEditorSelection *selection,
+                   WebKitDOMDocument *document)
 {
-	WebKitDOMNode *node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+	WebKitDOMElement *br, *paragraph;
 
-	if (node) {
-		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (paragraph),
-			node,
-			NULL);
-	} else {
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (paragraph),
-			NULL);
-	}
+	paragraph = e_html_editor_selection_get_paragraph_element (
+		selection, document, -1, 0);
+	br = webkit_dom_document_create_element (document, "BR", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (br), NULL);
+
+	return paragraph;
 }
 
 static void
@@ -823,14 +818,14 @@ composer_move_caret (EMsgComposer *composer)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *editor_selection;
 	GSettings *settings;
-	gboolean start_bottom, html_mode, top_signature, is_from_draft;
+	gboolean start_bottom, top_signature, is_from_draft;
 	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMElement *input_start, *element, *signature;
+	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *list, *blockquotes;
+	WebKitDOMNodeList *list;
 	WebKitDOMRange *new_range;
 
 	/* When there is an option composer-reply-start-bottom set we have
@@ -847,7 +842,6 @@ composer_move_caret (EMsgComposer *composer)
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
-	html_mode = e_html_editor_view_get_html_mode (view);
 	is_from_draft = e_html_editor_view_is_message_from_draft (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
@@ -875,120 +869,92 @@ composer_move_caret (EMsgComposer *composer)
 	e_html_editor_selection_block_selection_changed (editor_selection);
 
 	/* When the new message is written from the beginning - note it into body */
-	if (composer->priv->is_from_new_message) {
+	if (composer->priv->is_from_new_message)
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
-	}
 
 	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
-	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature", NULL);
+	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
 	/* Situation when wrapped paragraph is just in signature and not in message body */
-	if (webkit_dom_node_list_get_length (list) == 1) {
+	if (webkit_dom_node_list_get_length (list) == 1)
 		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
 			has_paragraphs_in_body = FALSE;
+
+	if (signature && top_signature) {
+		element_add_class (signature, "-x-evo-top-signature");
+		element = prepare_paragraph (editor_selection, document);
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (element),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature)),
+			NULL);
 	}
 
 	if (webkit_dom_node_list_get_length (list) == 0)
 		has_paragraphs_in_body = FALSE;
 
-	blockquotes = webkit_dom_document_get_elements_by_tag_name (document, "blockquote");
-
 	if (!has_paragraphs_in_body) {
-		element = e_html_editor_selection_get_paragraph_element (
-			editor_selection, document, -1, 0);
-		webkit_dom_element_set_id (element, "-x-evo-input-start");
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element), UNICODE_ZERO_WIDTH_SPACE, NULL);
-		if (top_signature)
-			element_add_class (element, "-x-evo-top-signature");
+		element = prepare_paragraph (editor_selection, document);
+		if (top_signature) {
+			if (start_bottom) {
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+					NULL);
+			}
+		} else {
+			if (start_bottom) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					WEBKIT_DOM_NODE (signature),
+					NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+					NULL);
+			}
+		}
+	} else {
+		element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
+		if (!element && top_signature) {
+			element = prepare_paragraph (editor_selection, document);
+			if (start_bottom) {
+					webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					WEBKIT_DOM_NODE (signature),
+					NULL);
+			}
+		}
 	}
 
-	if (start_bottom) {
-		if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-			if (!has_paragraphs_in_body) {
-				if (!top_signature) {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						signature ?
-							webkit_dom_node_get_parent_node (
-								WEBKIT_DOM_NODE (signature)) :
-							webkit_dom_node_get_next_sibling (
-								webkit_dom_node_list_item (
-									blockquotes, 0)),
-						NULL);
-				} else {
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						NULL);
-				}
-			}
+	webkit_dom_range_select_node_contents (
+		new_range, WEBKIT_DOM_NODE (element), NULL);
+	webkit_dom_range_collapse (new_range, TRUE, NULL);
 
-			e_html_editor_selection_restore_caret_position (editor_selection);
-			if (!html_mode)
-				e_html_editor_view_quote_plain_text (view);
-
-			input_start = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-input-start");
-			if (input_start)
-				webkit_dom_range_select_node_contents (
-					new_range, WEBKIT_DOM_NODE (input_start), NULL);
-
-			webkit_dom_range_collapse (new_range, FALSE, NULL);
-		} else {
-			if (!has_paragraphs_in_body)
-				insert_paragraph_with_input (
-					element, WEBKIT_DOM_ELEMENT (body));
-
-			webkit_dom_range_select_node_contents (
-				new_range,
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body)),
-				NULL);
-			webkit_dom_range_collapse (new_range, TRUE, NULL);
-		}
-
+	if (start_bottom)
 		g_signal_connect (
 			view, "size-allocate",
 			G_CALLBACK (composer_size_allocate_cb), NULL);
-	} else {
-		/* Move caret on the beginning of message */
-		if (!has_paragraphs_in_body) {
-			insert_paragraph_with_input (
-				element, WEBKIT_DOM_ELEMENT (body));
-
-			if (webkit_dom_node_list_get_length (blockquotes) != 0) {
-				if (!html_mode) {
-					WebKitDOMNode *blockquote;
-
-					blockquote = webkit_dom_node_list_item (blockquotes, 0);
-
-					/* FIXME determine when we can skip this */
-					e_html_editor_selection_wrap_paragraph (
-						editor_selection,
-						WEBKIT_DOM_ELEMENT (blockquote));
-
-					e_html_editor_selection_restore_caret_position (editor_selection);
-					e_html_editor_view_quote_plain_text (view);
-					body = webkit_dom_document_get_body (document);
-				}
-			}
-		}
-
-		webkit_dom_range_select_node_contents (
-			new_range,
-			WEBKIT_DOM_NODE (
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))),
-			NULL);
-		webkit_dom_range_collapse (new_range, TRUE, NULL);
-	}
 
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, new_range);
 
 	g_object_unref (list);
-	g_object_unref (blockquotes);
 
 	e_html_editor_view_force_spell_check (view);
 
@@ -1108,43 +1074,33 @@ insert:
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	signatures = webkit_dom_document_get_elements_by_class_name (
-		document, "-x-evo-signature");
+		document, "-x-evo-signature-wrapper");
 	list_length = webkit_dom_node_list_get_length (signatures);
 	for (ii = 0; ii < list_length; ii++) {
-		WebKitDOMNode *node;
+		WebKitDOMNode *wrapper, *signature;
 		gchar *id;
 
-		node = webkit_dom_node_list_item (signatures, ii);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (node));
+		wrapper = webkit_dom_node_list_item (signatures, ii);
+		signature = webkit_dom_node_get_first_child (wrapper);
+		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
 
 		/* When we are editing a message with signature we need to set active
 		 * signature id in signature combo box otherwise no signature will be
 		 * added but we have to do it just once when the composer opens */
 		if (composer->priv->is_from_message && composer->priv->set_signature_from_message) {
-			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "name");
+			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
 			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
 			g_free (name);
 			composer->priv->set_signature_from_message = FALSE;
 		}
 
 		if (id && (strlen (id) == 1) && (*id == '1')) {
+			/* If the top signature was set we have to remove the NL
+			 * that was inserted after it */
+			if (top_signature)
+				remove_node (webkit_dom_node_get_next_sibling (wrapper));
 			/* We have to remove the div containing the span with signature */
-			WebKitDOMNode *next_sibling;
-			WebKitDOMNode *parent;
-
-			parent = webkit_dom_node_get_parent_node (node);
-			next_sibling = webkit_dom_node_get_next_sibling (parent);
-
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
-				webkit_dom_node_remove_child (
-					webkit_dom_node_get_parent_node (next_sibling),
-					next_sibling,
-					NULL);
-
-			webkit_dom_node_remove_child (
-				webkit_dom_node_get_parent_node (parent),
-				parent,
-				NULL);
+			remove_node (wrapper);
 
 			g_free (id);
 			break;
@@ -1152,6 +1108,7 @@ insert:
 
 		g_free (id);
 	}
+	g_object_unref (signatures);
 
 	if (html_buffer != NULL) {
 		if (*html_buffer->str) {
@@ -1166,15 +1123,11 @@ insert:
 				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
 
 			if (top_signature) {
-				WebKitDOMNode *signature_inserted;
 				WebKitDOMNode *child =
 					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-				WebKitDOMElement *br =
-					webkit_dom_document_create_element (
-						document, "br", NULL);
 
 				if (start_bottom) {
-					signature_inserted = webkit_dom_node_insert_before (
+					webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
 						child,
@@ -1185,7 +1138,7 @@ insert:
 							document, "-x-evo-input-start");
 					/* When we are using signature on top the caret
 					 * should be before the signature */
-					signature_inserted = webkit_dom_node_insert_before (
+					webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
 						input_start ?
@@ -1194,12 +1147,6 @@ insert:
 							child,
 						NULL);
 				}
-
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (br),
-					webkit_dom_node_get_next_sibling (signature_inserted),
-					NULL);
 			} else {
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (body),

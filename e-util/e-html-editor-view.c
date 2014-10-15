@@ -4211,17 +4211,52 @@ create_text_markers_for_citations_in_element (WebKitDOMElement *element)
 	return count;
 }
 
+static WebKitDOMElement *
+prepare_paragraph (EHTMLEditorSelection *selection,
+                   WebKitDOMDocument *document,
+                   gboolean with_selection)
+{
+	WebKitDOMElement *element, *paragraph;
+
+	paragraph = e_html_editor_selection_get_paragraph_element (
+		selection, document, -1, 0);
+	webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
+
+	if (with_selection) {
+		element = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			element, "-x-evo-selection-start-marker");
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (element), NULL);
+
+		element = webkit_dom_document_create_element (
+			document, "SPAN", NULL);
+		webkit_dom_element_set_id (
+			element, "-x-evo-selection-end-marker");
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (element), NULL);
+	}
+
+	element = webkit_dom_document_create_element (document, "BR", NULL);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (element), NULL);
+
+	return paragraph;
+}
+
 static void
 html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
                                                   WebKitDOMDocument *document_convertor)
 {
 	EHTMLEditorSelection *selection = e_html_editor_view_get_selection (view);
-	gboolean start_bottom;
+	gboolean start_bottom, empty;
 	gchar *inner_text, *inner_html;
-	gint ii;
+	gint ii, length;
 	GSettings *settings;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *paragraph, *new_blockquote, *top_signature;
+	WebKitDOMElement *paragraph, *wrapper, *top_signature;
 	WebKitDOMElement *cite_body, *signature;
 	WebKitDOMHTMLElement *body, *body_convertor;
 	WebKitDOMNodeList *list;
@@ -4237,35 +4272,84 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
 
-	paragraph = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
-	if (!paragraph) {
-		paragraph = e_html_editor_selection_get_paragraph_element (
-			selection, document, -1, 0);
-		webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
-		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (paragraph), UNICODE_ZERO_WIDTH_SPACE, NULL);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
-			WEBKIT_DOM_NODE (paragraph),
-			NULL);
+	cite_body = webkit_dom_document_query_selector (
+		document_convertor, "span.-x-evo-cite-body", NULL);
+
+	/* Wrapper when the processed text will be placed. */
+	wrapper = webkit_dom_document_create_element (
+		document, cite_body ? "blockquote" : "div", NULL);
+	if (cite_body) {
+		webkit_dom_element_set_attribute (wrapper, "type", "cite", NULL);
+		webkit_dom_element_set_attribute (wrapper, "id", "-x-evo-main-cite", NULL);
 	}
 
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (wrapper), NULL);
+
+	/* Remove all previously inserted paragraphs. */
+	list = webkit_dom_document_query_selector_all (
+		document, ".-x-evo-paragraph", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
+	g_object_unref (list);
+
+	/* Insert the paragraph where the caret will be. */
+	paragraph = prepare_paragraph (selection, document, TRUE);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (body),
+		WEBKIT_DOM_NODE (paragraph),
+		start_bottom ?
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (wrapper)) :
+			WEBKIT_DOM_NODE (wrapper),
+		NULL);
+
+	/* Insert signature (if presented) to the right position. */
+	top_signature = webkit_dom_document_query_selector (
+		document, ".-x-evo-top-signature", NULL);
+	signature = webkit_dom_document_query_selector (
+		document, ".-x-evo-signature-wrapper", NULL);
+	if (signature) {
+		if (top_signature) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (signature),
+				start_bottom ?
+					WEBKIT_DOM_NODE (wrapper) :
+					webkit_dom_node_get_next_sibling (
+						WEBKIT_DOM_NODE (paragraph)),
+				NULL);
+			/* Insert NL after the signature */
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (prepare_paragraph (
+					selection, document, FALSE)),
+				webkit_dom_node_get_next_sibling (
+					WEBKIT_DOM_NODE (signature)),
+				NULL);
+		} else {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (signature),
+				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (
+					start_bottom ? paragraph : wrapper)),
+				NULL);
+		}
+	}
+
+	/* Move elements to body */
 	list = webkit_dom_document_query_selector_all (
 		document_convertor, "span.-x-evo-to-body", NULL);
 	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
-		WebKitDOMNode *node;
+		WebKitDOMNode *node, *child;
 
 		node = webkit_dom_node_list_item (list, ii);
-		while (webkit_dom_node_has_child_nodes (node)) {
+		while ((child = webkit_dom_node_get_first_child (node))) {
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (body),
-				webkit_dom_node_clone_node (
-					webkit_dom_node_get_first_child (node), TRUE),
-				webkit_dom_node_get_next_sibling (
-					WEBKIT_DOM_NODE (paragraph)),
+				child,
+				WEBKIT_DOM_NODE (wrapper),
 				NULL);
-
-			remove_node (webkit_dom_node_get_first_child (node));
 		}
 
 		remove_node (node);
@@ -4273,181 +4357,37 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 	g_object_unref (list);
 
 	repair_gmail_blockquotes (document_convertor);
-
 	create_text_markers_for_citations_in_document (document_convertor);
 
 	/* Get innertText from convertor */
 	inner_text = webkit_dom_html_element_get_inner_text (body_convertor);
-
-	cite_body = webkit_dom_document_query_selector (
-		document_convertor, "span.-x-evo-cite-body", NULL);
-
-	top_signature = webkit_dom_document_query_selector (
-		document, ".-x-evo-top-signature", NULL);
-	signature = webkit_dom_document_query_selector (
-		document, "span.-x-evo-signature", NULL);
-
-	if (cite_body) {
-		if (!(top_signature && start_bottom))
-			e_html_editor_selection_save_caret_position (selection);
-	} else {
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (paragraph),
-			WEBKIT_DOM_NODE (
-				e_html_editor_selection_get_caret_position_node (
-					document)),
-			NULL);
-	}
-
-	new_blockquote = webkit_dom_document_create_element (
-		document, "blockquote", NULL);
-	webkit_dom_element_set_attribute (
-		new_blockquote, "type", "cite", NULL);
-
 	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (new_blockquote), inner_text, NULL);
+		WEBKIT_DOM_HTML_ELEMENT (wrapper), inner_text, NULL);
 	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (new_blockquote));
+		WEBKIT_DOM_HTML_ELEMENT (wrapper));
 
-	if (cite_body) {
-		webkit_dom_element_set_attribute (
-			new_blockquote, "id", "-x-evo-main-cite", NULL);
+	empty = (webkit_dom_element_get_child_element_count (
+		WEBKIT_DOM_ELEMENT (body_convertor)) == 1);
+	empty &= WEBKIT_DOM_IS_HTMLBR_ELEMENT (
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body_convertor)));
 
-		parse_html_into_paragraphs (
-			view, document, new_blockquote, inner_html, FALSE);
+	if (!empty)
+		parse_html_into_paragraphs (view, document, wrapper, inner_html, FALSE);
 
-		if (start_bottom) {
-			if (signature) {
-				WebKitDOMNode *parent =
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (signature));
-				if (top_signature) {
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (new_blockquote),
-						NULL);
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (paragraph),
-						NULL);
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (paragraph),
-						e_html_editor_selection_get_caret_position_node (
-							document),
-						NULL);
-				} else {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (new_blockquote),
-						WEBKIT_DOM_NODE (parent),
-						NULL);
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (paragraph),
-						webkit_dom_node_get_next_sibling (
-							WEBKIT_DOM_NODE (new_blockquote)),
-						NULL);
-				}
-			} else {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (new_blockquote),
-					NULL);
+	if (!cite_body) {
+		if (!empty) {
+			WebKitDOMNode *child;
+
+			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (wrapper)))) {
 				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (paragraph),
-					webkit_dom_node_get_next_sibling (
-						WEBKIT_DOM_NODE (new_blockquote)),
-					NULL);
-			}
-		} else {
-			if (signature) {
-				WebKitDOMNode *parent =
-					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (signature));
-
-				if (top_signature) {
-					WebKitDOMElement *br;
-
-					br = webkit_dom_document_create_element (
-						document, "BR", NULL);
-
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (new_blockquote),
-						NULL);
-					/* Insert NL after signature */
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (br),
-						webkit_dom_node_get_next_sibling (
-							WEBKIT_DOM_NODE (paragraph)),
-						NULL);
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (parent),
-						WEBKIT_DOM_NODE (br),
-						NULL);
-				} else
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (new_blockquote),
-						WEBKIT_DOM_NODE (parent),
-						NULL);
-			} else {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (new_blockquote),
-					NULL);
-			}
-		}
-	} else {
-		WebKitDOMNode *signature_clone, *first_child;
-
-		if (signature) {
-			signature_clone = webkit_dom_node_clone_node (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (signature)),
-				TRUE);
-		}
-
-		parse_html_into_paragraphs (
-			view, document, WEBKIT_DOM_ELEMENT (body),
-			inner_html, FALSE);
-
-		if (signature) {
-			if (!top_signature) {
-				signature_clone = webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					signature_clone,
-					NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					signature_clone,
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (body)),
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (wrapper)),
+					child,
+					WEBKIT_DOM_NODE (wrapper),
 					NULL);
 			}
 		}
 
-		first_child = webkit_dom_node_get_first_child (
-			WEBKIT_DOM_NODE (body));
-		if (!first_child) {
-			paragraph = e_html_editor_selection_get_paragraph_element (
-				selection, document, -1, 0);
-			first_child = webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (paragraph),
-				NULL);
-		}
-
-		webkit_dom_node_insert_before (
-			first_child,
-			e_html_editor_selection_get_caret_position_node (
-				document),
-			webkit_dom_node_get_first_child (first_child),
-			NULL);
+		remove_node (WEBKIT_DOM_NODE (wrapper));
 	}
 
 	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-last-br", NULL);
@@ -4457,14 +4397,25 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 	if (paragraph)
 		webkit_dom_element_remove_attribute (paragraph, "class");
 
-	if (!e_html_editor_view_get_html_mode (view))
+	if (!e_html_editor_view_get_html_mode (view)) {
 		e_html_editor_selection_wrap_paragraphs_in_document (
 			selection, document);
-	if (webkit_dom_document_query_selector (document, "blockquote[type=cite]", NULL))
-		body = WEBKIT_DOM_HTML_ELEMENT (
-			e_html_editor_view_quote_plain_text (view));
 
-	e_html_editor_selection_restore_caret_position (selection);
+		list = webkit_dom_document_query_selector_all (
+			document, "body > blockquote[type=cite]", NULL);
+
+		length = webkit_dom_node_list_get_length (list);
+
+		for (ii = 0; ii < length; ii++) {
+			e_html_editor_view_quote_plain_text_element (
+				view,
+				WEBKIT_DOM_ELEMENT (
+					webkit_dom_node_list_item (list, ii)));
+		}
+		g_object_unref (list);
+	}
+
+	e_html_editor_selection_restore (selection);
 	e_html_editor_view_force_spell_check (view);
 
 	/* Register on input event that is called when the content (body) is modified */
