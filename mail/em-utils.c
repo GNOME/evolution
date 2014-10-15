@@ -1446,10 +1446,10 @@ check_prefix (const gchar *subject,
 
 gboolean
 em_utils_is_re_in_subject (const gchar *subject,
-                           gint *skip_len)
+                           gint *skip_len,
+			   const gchar * const *use_prefixes_strv)
 {
-	GSettings *settings;
-	gchar *prefixes, **prefixes_strv;
+	gchar **prefixes_strv;
 	gboolean res;
 	gint ii;
 
@@ -1464,17 +1464,24 @@ em_utils_is_re_in_subject (const gchar *subject,
 	if (check_prefix (subject, "Re", skip_len))
 		return TRUE;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	prefixes = g_settings_get_string (settings, "composer-localized-re");
-	g_object_unref (settings);
+	if (use_prefixes_strv) {
+		prefixes_strv = (gchar **) use_prefixes_strv;
+	} else {
+		GSettings *settings;
+		gchar *prefixes;
 
-	if (!prefixes || !*prefixes) {
+		settings = g_settings_new ("org.gnome.evolution.mail");
+		prefixes = g_settings_get_string (settings, "composer-localized-re");
+		g_object_unref (settings);
+
+		if (!prefixes || !*prefixes) {
+			g_free (prefixes);
+			return FALSE;
+		}
+
+		prefixes_strv = g_strsplit (prefixes, ",", -1);
 		g_free (prefixes);
-		return FALSE;
 	}
-
-	prefixes_strv = g_strsplit (prefixes, ",", -1);
-	g_free (prefixes);
 
 	if (!prefixes_strv)
 		return FALSE;
@@ -1488,7 +1495,8 @@ em_utils_is_re_in_subject (const gchar *subject,
 			res = check_prefix (subject, prefix, skip_len);
 	}
 
-	g_strfreev (prefixes_strv);
+	if (!use_prefixes_strv)
+		g_strfreev (prefixes_strv);
 
 	return res;
 }

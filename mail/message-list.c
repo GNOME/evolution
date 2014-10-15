@@ -116,6 +116,10 @@ struct _MessageListPrivate {
 	const gchar *newest_read_uid;
 	time_t oldest_unread_date;
 	const gchar *oldest_unread_uid;
+
+	GSettings *mail_settings;
+	gchar **re_prefixes;
+	GMutex re_prefixes_lock;
 };
 
 /* XXX Plain GNode suffers from O(N) tail insertions, and that won't
@@ -776,8 +780,11 @@ get_normalised_string (MessageList *message_list,
 
 		subject = string;
 		while (found_re) {
+			g_mutex_lock (&message_list->priv->re_prefixes_lock);
 			found_re = em_utils_is_re_in_subject (
-				subject, &skip_len) && skip_len > 0;
+				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes) && skip_len > 0;
+			g_mutex_unlock (&message_list->priv->re_prefixes_lock);
+
 			if (found_re)
 				subject += skip_len;
 
@@ -1529,7 +1536,8 @@ add_all_labels_foreach (ETreeModel *etm,
 }
 
 static const gchar *
-get_trimmed_subject (CamelMessageInfo *info)
+get_trimmed_subject (CamelMessageInfo *info,
+		     MessageList *message_list)
 {
 	const gchar *subject;
 	const gchar *mlist;
@@ -1561,8 +1569,10 @@ get_trimmed_subject (CamelMessageInfo *info)
 		while (found_re) {
 			found_re = FALSE;
 
+			g_mutex_lock (&message_list->priv->re_prefixes_lock);
 			found_re = em_utils_is_re_in_subject (
-				subject, &skip_len) && skip_len > 0;
+				subject, &skip_len, (const gchar * const *) message_list->priv->re_prefixes) && skip_len > 0;
+			g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 			if (found_re)
 				subject += skip_len;
 
@@ -1677,7 +1687,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		str = camel_message_info_subject (msg_info);
 		return (gpointer)(str ? str : "");
 	case COL_SUBJECT_TRIMMED:
-		str = get_trimmed_subject (msg_info);
+		str = get_trimmed_subject (msg_info, message_list);
 		return (gpointer)(str ? str : "");
 	case COL_SUBJECT_NORM:
 		return (gpointer) get_normalised_string (message_list, msg_info, col);
@@ -2726,6 +2736,7 @@ message_list_dispose (GObject *object)
 	g_clear_object (&priv->session);
 	g_clear_object (&priv->folder);
 	g_clear_object (&priv->invisible);
+	g_clear_object (&priv->mail_settings);
 
 	g_clear_object (&message_list->extras);
 
@@ -2757,9 +2768,11 @@ message_list_finalize (GObject *object)
 	g_free (message_list->search);
 	g_free (message_list->frozen_search);
 	g_free (message_list->cursor_uid);
+	g_strfreev (message_list->priv->re_prefixes);
 
 	g_mutex_clear (&message_list->priv->regen_lock);
 	g_mutex_clear (&message_list->priv->thread_tree_lock);
+	g_mutex_clear (&message_list->priv->re_prefixes_lock);
 
 	clear_selection (message_list, &message_list->priv->clipboard);
 
@@ -3366,6 +3379,7 @@ message_list_init (MessageList *message_list)
 
 	g_mutex_init (&message_list->priv->regen_lock);
 	g_mutex_init (&message_list->priv->thread_tree_lock);
+	g_mutex_init (&message_list->priv->re_prefixes_lock);
 
 	/* TODO: Should this only get the selection if we're realised? */
 	p = message_list->priv;
@@ -3395,6 +3409,9 @@ message_list_init (MessageList *message_list)
 	/* FIXME This is currently unused. */
 	target_list = gtk_target_list_new (NULL, 0);
 	message_list->priv->paste_target_list = target_list;
+
+	message_list->priv->mail_settings = g_settings_new ("org.gnome.evolution.mail");
+	message_list->priv->re_prefixes = NULL;
 }
 
 static void
@@ -5866,6 +5883,7 @@ mail_regen_list (MessageList *message_list,
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
 	RegenData *old_regen_data;
+	gchar *prefixes;
 
 	/* Report empty search as NULL, not as one/two-space string. */
 	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
@@ -5877,6 +5895,12 @@ mail_regen_list (MessageList *message_list,
 		message_list->search = g_strdup (search);
 		return;
 	}
+
+	g_mutex_lock (&message_list->priv->re_prefixes_lock);
+	g_strfreev (message_list->priv->re_prefixes);
+	prefixes = g_settings_get_string (message_list->priv->mail_settings, "composer-localized-re");
+	message_list->priv->re_prefixes = g_strsplit (prefixes ? prefixes : "", ",", -1);
+	g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 

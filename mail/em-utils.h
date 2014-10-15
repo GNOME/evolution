@@ -76,7 +76,8 @@ gchar *em_utils_url_unescape_amp (const gchar *url);
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 
 gboolean	em_utils_is_re_in_subject	(const gchar *subject,
-						 gint *skip_len);
+						 gint *skip_len,
+						 const gchar * const *use_prefixes_strv);
 
 G_END_DECLS
 
