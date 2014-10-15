@@ -277,6 +277,9 @@ e_html_editor_selection_unblock_selection_changed (EHTMLEditorSelection *selecti
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_signal_handlers_unblock_by_func (
 		view, html_editor_selection_selection_changed_cb, selection);
+
+	html_editor_selection_selection_changed_cb (WEBKIT_WEB_VIEW (view), selection);
+
 	g_object_unref (view);
 }
 
