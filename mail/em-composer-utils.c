@@ -2147,7 +2147,7 @@ reply_get_composer (EShell *shell,
 	if ((subject = (gchar *) camel_mime_message_get_subject (message))) {
 		gboolean skip_len = -1;
 
-		if (em_utils_is_re_in_subject (subject, &skip_len) && skip_len > 0)
+		if (em_utils_is_re_in_subject (subject, &skip_len, NULL) && skip_len > 0)
 			subject = subject + skip_len;
 
 		subject = g_strdup_printf ("Re: %s", subject);

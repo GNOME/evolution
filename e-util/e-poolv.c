@@ -26,13 +26,8 @@
 
 struct _EPoolv {
 	guchar length;
-	gchar *s[1];
+	const gchar *s[1];
 };
-
-static GHashTable *poolv_pool;
-static CamelMemPool *poolv_mempool;
-
-G_LOCK_DEFINE_STATIC (poolv);
 
 /**
  * e_poolv_new:
@@ -57,17 +52,6 @@ e_poolv_new (guint size)
 	poolv = g_malloc0 (sizeof (*poolv) + (size - 1) * sizeof (gchar *));
 	poolv->length = size;
 
-	G_LOCK (poolv);
-
-	if (!poolv_pool)
-		poolv_pool = g_hash_table_new (g_str_hash, g_str_equal);
-
-	if (!poolv_mempool)
-		poolv_mempool = camel_mempool_new (
-			32 * 1024, 512, CAMEL_MEMPOOL_ALIGN_BYTE);
-
-	G_UNLOCK (poolv);
-
 	return poolv;
 }
 
@@ -91,26 +75,21 @@ e_poolv_set (EPoolv *poolv,
              gchar *str,
              gint freeit)
 {
+	const gchar *old_str;
+
 	g_return_val_if_fail (poolv != NULL, NULL);
 	g_return_val_if_fail (index >= 0 && index < poolv->length, NULL);
 
 	if (!str) {
+		camel_pstring_free (poolv->s[index]);
 		poolv->s[index] = NULL;
 		return poolv;
 	}
 
-	G_LOCK (poolv);
+	old_str = poolv->s[index];
+	poolv->s[index] = (gchar *) camel_pstring_add (str, freeit);
 
-	if ((poolv->s[index] = g_hash_table_lookup (poolv_pool, str)) != NULL) {
-	} else {
-		poolv->s[index] = camel_mempool_strdup (poolv_mempool, str);
-		g_hash_table_insert (poolv_pool, poolv->s[index], poolv->s[index]);
-	}
-
-	G_UNLOCK (poolv);
-
-	if (freeit)
-		g_free (str);
+	camel_pstring_free (old_str);
 
 	return poolv;
 }
@@ -147,7 +126,13 @@ e_poolv_get (EPoolv *poolv,
 void
 e_poolv_destroy (EPoolv *poolv)
 {
+	gint ii;
+
 	g_return_if_fail (poolv != NULL);
+
+	for (ii = 0; ii < poolv->length; ii++) {
+		camel_pstring_free (poolv->s[ii]);
+	}
 
 	g_free (poolv);
 }
