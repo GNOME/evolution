@@ -1821,6 +1821,148 @@ get_citation_level (WebKitDOMNode *node)
 	return level;
 }
 
+static gboolean
+is_citation_node (WebKitDOMNode *node)
+{
+	char *value;
+
+	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
+		return FALSE;
+
+	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
+
+	/* citation == <blockquote type='cite'> */
+	if (g_strcmp0 (value, "cite") == 0) {
+		g_free (value);
+		return TRUE;
+	} else {
+		g_free (value);
+		return FALSE;
+	}
+}
+
+static gboolean
+process_block_to_block (EHTMLEditorSelection *selection,
+                        EHTMLEditorView *view,
+			WebKitDOMDocument *document,
+                        EHTMLEditorSelectionBlockFormat format,
+			const gchar *value,
+                        WebKitDOMNode *block,
+                        WebKitDOMNode *end_block,
+                        gboolean html_mode)
+{
+	gboolean after_selection_end = FALSE;
+	WebKitDOMNode *next_block;
+
+	while (!after_selection_end && block) {
+		gboolean quoted = FALSE;
+		gboolean empty = FALSE;
+		gchar *content;
+		WebKitDOMNode *child;
+		WebKitDOMElement *element;
+
+		if (is_citation_node (block)) {
+			gboolean finished;
+
+			next_block = webkit_dom_node_get_next_sibling (block);
+			finished = process_block_to_block (
+				selection,
+				view,
+				document,
+				format,
+				value,
+				webkit_dom_node_get_first_child (block),
+				end_block,
+				html_mode);
+
+			if (finished)
+				return TRUE;
+
+			block = next_block;
+
+			continue;
+		}
+
+		if (webkit_dom_element_query_selector (
+			WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
+			quoted = TRUE;
+			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
+		}
+
+		if (!html_mode)
+			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
+
+		after_selection_end = webkit_dom_node_is_same_node (block, end_block);
+
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
+			element = e_html_editor_selection_get_paragraph_element (
+				selection, document, -1, 0);
+		else
+			element = webkit_dom_document_create_element (
+				document, value, NULL);
+
+		content = webkit_dom_node_get_text_content (block);
+
+		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
+		g_free (content);
+
+		while ((child = webkit_dom_node_get_first_child (block))) {
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
+				empty = FALSE;
+
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (element), child, NULL);
+		}
+
+		if (empty) {
+			WebKitDOMElement *br;
+
+			br = webkit_dom_document_create_element (
+				document, "BR", NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (br), NULL);
+		}
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (block),
+			WEBKIT_DOM_NODE (element),
+			block,
+			NULL);
+
+		remove_node (block);
+
+		if (!next_block && !after_selection_end) {
+			gint citation_level;
+
+			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
+
+			if (citation_level > 0) {
+				next_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+				next_block = webkit_dom_node_get_next_sibling (next_block);
+			}
+		}
+
+		block = next_block;
+
+		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH && !html_mode) {
+			gint citation_level, quote;
+
+			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
+			quote = citation_level ? citation_level * 2 : 0;
+
+			element = e_html_editor_selection_wrap_paragraph_length (
+				selection, element, selection->priv->word_wrap_length - quote);
+		}
+
+		if (quoted)
+			e_html_editor_view_quote_plain_text_element (view, element);
+	}
+
+	return after_selection_end;
+}
+
 static void
 format_change_block_to_block (EHTMLEditorSelection *selection,
                               EHTMLEditorSelectionBlockFormat format,
@@ -1830,7 +1972,7 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 {
 	gboolean after_selection_end = FALSE, html_mode;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
-	WebKitDOMNode *block, *next_block;
+	WebKitDOMNode *block, *next_block, *end_block;
 
 	e_html_editor_selection_save (selection);
 	selection_start_marker = webkit_dom_document_query_selector (
@@ -1870,75 +2012,14 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
 
+	end_block = get_parent_block_node_from_child (
+		WEBKIT_DOM_NODE (selection_end_marker));
+
 	html_mode = e_html_editor_view_get_html_mode (view);
 
 	/* Process all blocks that are in the selection one by one */
-	while (block && !after_selection_end) {
-		gboolean quoted = FALSE;
-		gboolean empty = FALSE;
-		gchar *content;
-		WebKitDOMNode *child;
-
-		if (webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
-			quoted = TRUE;
-			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
-		}
-
-		if (!html_mode)
-			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
-
-		after_selection_end = webkit_dom_node_contains (
-			block, WEBKIT_DOM_NODE (selection_end_marker));
-
-		next_block = webkit_dom_node_get_next_sibling (block);
-
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-			element = e_html_editor_selection_get_paragraph_element (
-				selection, document, -1, 0);
-		else
-			element = webkit_dom_document_create_element (
-				document, value, NULL);
-
-		content = webkit_dom_node_get_text_content (block);
-
-		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
-		g_free (content);
-
-		if (empty) {
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element),
-				UNICODE_ZERO_WIDTH_SPACE,
-				NULL);
-		}
-
-		while ((child = webkit_dom_node_get_first_child (block)))
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element), child, NULL);
-
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (block),
-			WEBKIT_DOM_NODE (element),
-			block,
-			NULL);
-
-		remove_node (block);
-
-		block = next_block;
-
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH && !html_mode) {
-			gint citation_level, quote;
-
-			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
-			quote = citation_level ? citation_level * 2 : 0;
-
-			element = e_html_editor_selection_wrap_paragraph_length (
-				selection, element, selection->priv->word_wrap_length - quote);
-		}
-
-		if (quoted)
-			e_html_editor_view_quote_plain_text_element (view, element);
-	}
+	process_block_to_block (
+		selection, view, document, format, value, block, end_block, html_mode);
 
 	e_html_editor_selection_restore (selection);
 }
@@ -2051,17 +2132,23 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
 		g_free (content);
 
-		/* We have to use again the hidden space to move caret into newly inserted list */
-		if (empty) {
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (item),
-				UNICODE_ZERO_WIDTH_SPACE,
-				NULL);
-		}
+		while ((child = webkit_dom_node_get_first_child (block))) {
+			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
+				empty = FALSE;
 
-		while ((child = webkit_dom_node_get_first_child (block)))
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (item), child, NULL);
+		}
+
+		/* We have to use again the hidden space to move caret into newly inserted list */
+		if (empty) {
+			WebKitDOMElement *br;
+
+			br = webkit_dom_document_create_element (
+				document, "BR", NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (item), WEBKIT_DOM_NODE (br), NULL);
+		}
 
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (list), WEBKIT_DOM_NODE (item), NULL);
