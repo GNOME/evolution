@@ -1121,14 +1121,34 @@ move_elements_to_body (WebKitDOMDocument *document)
 	gint ii;
 
 	list = webkit_dom_document_query_selector_all (
-		document, "span.-x-evo-to-body", NULL);
+		document, "span.-x-evo-to-body[data-headers]", NULL);
 	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
+		WebKitDOMNode *child;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		while (webkit_dom_node_has_child_nodes (node)) {
+		while ((child = webkit_dom_node_get_first_child (node))) {
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (body),
-				webkit_dom_node_get_first_child (node),
+				child,
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (body)),
+				NULL);
+		}
+
+		remove_node (node);
+	}
+	g_object_unref (list);
+
+	list = webkit_dom_document_query_selector_all (
+		document, "span.-x-evo-to-body[data-credits]", NULL);
+	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
+		WebKitDOMNode *child;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		while ((child = webkit_dom_node_get_first_child (node))) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				child,
 				webkit_dom_node_get_first_child (
 					WEBKIT_DOM_NODE (body)),
 				NULL);
@@ -4343,10 +4363,31 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 		}
 	}
 
-	/* Move elements to body */
+	/* Move credits to the body */
 	list = webkit_dom_document_query_selector_all (
-		document_convertor, "span.-x-evo-to-body", NULL);
-	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
+		document_convertor, "span.-x-evo-to-body[data-credits]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node, *child;
+
+		node = webkit_dom_node_list_item (list, ii);
+		while ((child = webkit_dom_node_get_first_child (node))) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				child,
+				WEBKIT_DOM_NODE (wrapper),
+				NULL);
+		}
+
+		remove_node (node);
+	}
+	g_object_unref (list);
+
+	/* Move headers to body */
+	list = webkit_dom_document_query_selector_all (
+		document_convertor, "span.-x-evo-to-body[data-headers]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node, *child;
 
 		node = webkit_dom_node_list_item (list, ii);

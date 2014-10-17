@@ -122,10 +122,10 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	 * the special span element and it will be moved to body in EHTMLEditorView */
 	if (qf->priv->credits && *qf->priv->credits) {
 		gchar *credits = g_strdup_printf (
-			"<span class=\"-x-evo-to-body\"><pre>%s</pre></span>", qf->priv->credits);
+			"<span class=\"-x-evo-to-body\" data-credits><pre>%s</pre></span>",
+			qf->priv->credits);
 		g_output_stream_write_all (
-			stream, credits, strlen (credits),
-			NULL, cancellable, NULL);
+			stream, credits, strlen (credits), NULL, cancellable, NULL);
 		g_free (credits);
 	}
 
@@ -135,8 +135,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
 		string = "<span class=\"-x-evo-cite-body\"><span>";
 		g_output_stream_write_all (
-			stream, string, strlen (string),
-			NULL, cancellable, NULL);
+			stream, string, strlen (string), NULL, cancellable, NULL);
 	}
 }
 

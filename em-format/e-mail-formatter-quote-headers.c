@@ -32,6 +32,9 @@
 #include "e-mail-inline-filter.h"
 #include "e-mail-part-headers.h"
 
+#define HEADER_PREFIX "<span class=\"-x-evo-to-body\" data-headers><pre>"
+#define HEADER_SUFFIX "</pre></span>"
+
 typedef EMailFormatterExtension EMailFormatterQuoteHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteHeadersClass;
 
@@ -69,12 +72,16 @@ emfqe_format_text_header (EMailFormatter *emf,
 	else
 		html = value;
 
+	g_string_append_printf (buffer, HEADER_PREFIX);
+
 	if (flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD)
 		g_string_append_printf (
-			buffer, "<b>%s</b>: %s<br>", label, html);
+			buffer, "<b>%s</b>: %s", label, html);
 	else
 		g_string_append_printf (
-			buffer, "%s: %s<br>", label, html);
+			buffer, "%s: %s", label, html);
+
+	g_string_append_printf (buffer, HEADER_SUFFIX);
 
 	g_free (mhtml);
 }
@@ -253,7 +260,9 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 
 	g_strfreev (default_headers);
 
-	g_string_append (buffer, "<br>\n");
+	g_string_append (buffer, HEADER_PREFIX);
+	g_string_append (buffer, "<br>");
+	g_string_append (buffer, HEADER_SUFFIX);
 
 	g_output_stream_write_all (
 		stream, buffer->str, buffer->len, NULL, cancellable, NULL);
