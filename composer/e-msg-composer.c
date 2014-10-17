@@ -3277,7 +3277,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	struct _camel_header_raw *xev;
 	gchar *identity_uid;
 	gint len, i;
-	gboolean is_from_draft;
+	gboolean is_from_draft = FALSE;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
