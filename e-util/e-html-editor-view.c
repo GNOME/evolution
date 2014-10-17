@@ -3886,8 +3886,8 @@ replace_to_nbsp (const GMatchInfo *info,
                  GString *res,
                  gboolean use_nbsp)
 {
-	gchar *match, *previous_tab;
-	const gchar *string;
+	gchar *match;
+	const gchar *string, *previous_tab;
 	gint ii, length = 0, start = 0;
 
 	match = g_match_info_fetch (info, 0);
@@ -3897,7 +3897,7 @@ replace_to_nbsp (const GMatchInfo *info,
 	if (start > 0) {
 		previous_tab = g_strrstr_len (string, start, "\x9");
 		if (previous_tab && *previous_tab) {
-			char *act_tab = NULL;
+			const char *act_tab = NULL;
 			act_tab = strstr (previous_tab + 1, "\x9");
 
 			if (act_tab && *act_tab) {
@@ -3908,9 +3908,11 @@ replace_to_nbsp (const GMatchInfo *info,
 	}
 
 	if (length == 0) {
-		if (strstr (match, "\x9"))
+		if (strstr (match, "\x9")) {
+			gint tab_count = strlen (match);
 			length = TAB_LENGTH - (start %  TAB_LENGTH);
-		else
+			length += (tab_count - 1) * TAB_LENGTH;
+		} else
 			length = strlen (match);
 	}
 
