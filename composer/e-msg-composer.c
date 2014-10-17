@@ -1527,31 +1527,6 @@ composer_build_message_finish (EMsgComposer *composer,
 
 /* Signatures */
 
-static gboolean
-use_top_signature (EMsgComposer *composer)
-{
-	EMsgComposerPrivate *priv;
-	GSettings *settings;
-	gboolean top_signature;
-
-	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
-
-	/* The composer had been created from a stored message, thus the
-	 * signature placement is either there already, or pt it at the
-	 * bottom regardless of a preferences (which is for reply anyway,
-	 * not for Edit as new) */
-	if (priv->is_from_message)
-		return FALSE;
-
-	/* FIXME This should be an EMsgComposer property. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
-	top_signature = g_settings_get_boolean (
-		settings, "composer-top-signature");
-	g_object_unref (settings);
-
-	return top_signature;
-}
-
 static void
 set_editor_text (EMsgComposer *composer,
                  const gchar *text,
@@ -1583,23 +1558,13 @@ set_editor_text (EMsgComposer *composer,
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-
-	if (!composer->priv->is_from_message && use_top_signature (composer)) {
-		gchar *body;
-		/* put marker to the top */
-		body = g_strdup_printf ("<BR>%s", text);
-		e_html_editor_view_set_text_html (view, body);
-		g_free (body);
-	} else {
-		if (is_html)
-			e_html_editor_view_set_text_html (view, text);
-		else
-			e_html_editor_view_set_text_plain (view, text);
-	}
+	if (is_html)
+		e_html_editor_view_set_text_html (view, text);
+	else
+		e_html_editor_view_set_text_plain (view, text);
 
 	if (set_signature)
 		e_composer_update_signature (composer);
-
 }
 
 /* Miscellaneous callbacks.  */
