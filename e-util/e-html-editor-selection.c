@@ -1970,9 +1970,9 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
                               const gchar *value,
                               WebKitDOMDocument *document)
 {
-	gboolean after_selection_end = FALSE, html_mode;
-	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
-	WebKitDOMNode *block, *next_block, *end_block;
+	gboolean html_mode;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *block, *end_block;
 
 	e_html_editor_selection_save (selection);
 	selection_start_marker = webkit_dom_document_query_selector (
