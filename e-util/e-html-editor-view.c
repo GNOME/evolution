@@ -3396,6 +3396,9 @@ element_is_selection_marker (WebKitDOMElement *element)
 static gboolean
 check_if_suppress_next_node (WebKitDOMNode *node)
 {
+	if (!node)
+		return FALSE;
+
 	if (node && WEBKIT_DOM_IS_ELEMENT (node))
 		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node)))
 			if (!webkit_dom_node_get_previous_sibling (node))
@@ -3437,17 +3440,26 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 	gboolean move_next = FALSE;
 	gboolean suppress_next = FALSE;
 	gboolean is_html_node = FALSE;
+	gboolean next = FALSE;
 	WebKitDOMNode *next_sibling, *prev_sibling;
 
 	node = webkit_dom_node_get_first_child (node);
 
 	while (node) {
+		gchar *text_content;
+
 		skip_node = FALSE;
 		move_next = FALSE;
 		is_html_node = FALSE;
 
-		if (WEBKIT_DOM_IS_COMMENT (node))
+		if (WEBKIT_DOM_IS_COMMENT (node) ||
+		    WEBKIT_DOM_IS_HTML_META_ELEMENT (node) ||
+		    WEBKIT_DOM_IS_HTML_STYLE_ELEMENT (node) ||
+		    WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
+
+			move_next = TRUE;
 			goto next_node;
+		}
 
 		prev_sibling = webkit_dom_node_get_previous_sibling (node);
 		next_sibling = webkit_dom_node_get_next_sibling (node);
@@ -3462,8 +3474,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 				quote_node (document, node, quote_level);
 				node = next_sibling;
 				skip_node = TRUE;
-			} else
-				suppress_next = FALSE;
+			}
 
 			goto next_node;
 		}
@@ -3478,34 +3489,24 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 			move_next = TRUE;
 			suppress_next = TRUE;
+			next = FALSE;
 			goto next_node;
 		}
 
 		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node))) {
-			move_next = TRUE;
 			/* If there is collapsed selection in the beginning of line
 			 * we cannot suppress first text that is after the end of
 			 * selection */
 			suppress_next = check_if_suppress_next_node (prev_sibling);
-			goto next_node;
-		}
-
-		if (WEBKIT_DOM_IS_HTML_META_ELEMENT (node)) {
-			goto next_node;
-		}
-		if (WEBKIT_DOM_IS_HTML_STYLE_ELEMENT (node)) {
-			move_next = TRUE;
-			goto next_node;
-		}
-		if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node)) {
+			if (suppress_next)
+				next = FALSE;
 			move_next = TRUE;
 			goto next_node;
 		}
 
-		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node))
-			if (webkit_dom_element_get_child_element_count (
-				WEBKIT_DOM_ELEMENT (node)) != 0)
-				goto with_children;
+		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) &&
+		    webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (node)) != 0)
+			goto with_children;
 
 		/* Even in plain text mode we can have some basic html element
 		 * like anchor and others. When Forwaring e-mail as Quoted EMFormat
@@ -3566,23 +3567,10 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			goto next_node;
 		}
 
-		if (!prev_sibling) {
-			WebKitDOMNode *parent;
-
-			parent = webkit_dom_node_get_parent_node (node);
-
-			/* BR in the beginning of the citation */
-			if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent))
-				insert_quote_symbols_before_node (
-					document, node, quote_level, FALSE);
-		}
-
 		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
 		    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (next_sibling) &&
 		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
 			/* Situation when anchors are alone on line */
-			gchar *text_content;
-
 			text_content = webkit_dom_node_get_text_content (prev_sibling);
 
 			if (g_str_has_suffix (text_content, "\n")) {
@@ -3607,20 +3595,28 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		if (!prev_sibling && !next_sibling) {
 			WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
-			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) {
+			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) ||
+			    WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) ||
+			    (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+			     !is_citation_node (parent))) {
 				insert_quote_symbols_before_node (
 					document, node, quote_level, FALSE);
+
+				goto next_node;
 			}
 		}
 
 		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
 		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper")) {
-			gchar *text_content;
-
 			text_content = webkit_dom_node_get_text_content (prev_sibling);
-			if (g_strcmp0 (text_content, "") == 0)
+			if (text_content && !*text_content) {
 				insert_quote_symbols_before_node (
 					document, node, quote_level, FALSE);
+
+				g_free (text_content);
+				goto next_node;
+
+			}
 
 			g_free (text_content);
 		}
@@ -3628,12 +3624,30 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		if (is_citation_node (prev_sibling)) {
 			insert_quote_symbols_before_node (
 				document, node, quote_level, FALSE);
+			goto next_node;
 		}
- not_br:
-		if (g_strcmp0 (webkit_dom_node_get_text_content (node), "") == 0) {
+
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node) &&
+		    !next_sibling &&
+		    element_is_selection_marker (WEBKIT_DOM_ELEMENT (prev_sibling))) {
+			insert_quote_symbols_before_node (
+				document, node, quote_level, FALSE);
+			goto next_node;
+		}
+
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
 			move_next = TRUE;
 			goto next_node;
 		}
+
+ not_br:
+		text_content = webkit_dom_node_get_text_content (node);
+		if (text_content && !*text_content) {
+			g_free (text_content);
+			move_next = TRUE;
+			goto next_node;
+		}
+		g_free (text_content);
 
 		quote_node (document, node, quote_level);
 
@@ -3656,6 +3670,14 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 			move_next = TRUE;
 		}
  next_node:
+		if (next) {
+			suppress_next = FALSE;
+			next = FALSE;
+		}
+
+		if (suppress_next)
+			next = TRUE;
+
 		if (!skip_node) {
 			/* Move to next node */
 			if (!move_next && webkit_dom_node_has_child_nodes (node)) {
