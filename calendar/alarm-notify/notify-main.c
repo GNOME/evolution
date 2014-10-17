@@ -56,8 +56,6 @@ main (gint argc,
 
 	gtk_init (&argc, &argv);
 
-	e_gdbus_templates_init_main_thread ();
-
 	alarm_notify_service = alarm_notify_new (NULL, &error);
 
 	if (error != NULL) {

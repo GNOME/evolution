@@ -1123,7 +1123,12 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 
 	LOCK_PROPS ();
 
-	client = e_cal_client_view_get_client (view);
+	client = e_cal_client_view_ref_client (view);
+	if (!client) {
+		UNLOCK_PROPS ();
+		return;
+	}
+
 	view_data = g_hash_table_lookup (data_model->priv->views, client);
 	if (view_data) {
 		view_data_ref (view_data);
@@ -1132,8 +1137,10 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 
 	UNLOCK_PROPS ();
 
-	if (!view_data)
+	if (!view_data) {
+		g_clear_object (&client);
 		return;
+	}
 
 	view_data_lock (view_data);
 
@@ -1194,8 +1201,6 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 		cal_data_model_thaw_all_subscribers (data_model);
 
 		if (to_expand_recurrences) {
-			ECalClient *client = e_cal_client_view_get_client (view);
-
 			view_data_lock (view_data);
 			view_data->to_expand_recurrences = g_slist_concat (
 				view_data->to_expand_recurrences, to_expand_recurrences);
@@ -1209,6 +1214,8 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 
 	view_data_unlock (view_data);
 	view_data_unref (view_data);
+
+	g_clear_object (&client);
 }
 
 static void
@@ -1233,14 +1240,22 @@ cal_data_model_view_objects_removed (ECalClientView *view,
 				     ECalDataModel *data_model)
 {
 	ViewData *view_data;
+	ECalClient *client;
 	const GSList *link;
 
 	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 
 	LOCK_PROPS ();
 
-	view_data = g_hash_table_lookup (data_model->priv->views,
-		e_cal_client_view_get_client (view));
+	client = e_cal_client_view_ref_client (view);
+	if (!client) {
+		UNLOCK_PROPS ();
+		return;
+	}
+
+	view_data = g_hash_table_lookup (data_model->priv->views, client);
+
+	g_clear_object (&client);
 
 	if (view_data) {
 		view_data_ref (view_data);
@@ -1345,13 +1360,22 @@ cal_data_model_view_complete (ECalClientView *view,
 			      ECalDataModel *data_model)
 {
 	ViewData *view_data;
+	ECalClient *client;
 
 	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 
 	LOCK_PROPS ();
 
-	view_data = g_hash_table_lookup (data_model->priv->views,
-		e_cal_client_view_get_client (view));
+	client = e_cal_client_view_ref_client (view);
+	if (!client) {
+		UNLOCK_PROPS ();
+		return;
+	}
+
+	view_data = g_hash_table_lookup (data_model->priv->views, client);
+
+	g_clear_object (&client);
+
 	if (view_data) {
 		view_data_ref (view_data);
 		g_warn_if_fail (view_data->view == view);

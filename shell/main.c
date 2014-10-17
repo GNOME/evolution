@@ -468,8 +468,6 @@ main (gint argc,
 	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
 #endif
 
-	e_gdbus_templates_init_main_thread ();
-
 #ifdef G_OS_WIN32
 	if (register_handlers || reinstall || show_icons) {
 		_e_win32_register_mailer ();

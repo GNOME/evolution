@@ -96,9 +96,6 @@ AS_COMPILER_FLAGS(WARNING_FLAGS,
 	-Wredundant-decls -Wundef -Wwrite-strings")
 AC_SUBST(WARNING_FLAGS)
 
-dnl Need to stop using e-passwords.h before we can restore
-dnl -DEDS_DISABLE_DEPRECATED
-
 dnl Other useful compiler warnings for test builds only.
 dnl These may produce warnings we have no control over,
 dnl or false positives we don't always want to see.
@@ -109,6 +106,10 @@ dnl	-Wformat-nonliteral
 dnl	-Wstrict-aliasing=2
 
 AM_CPPFLAGS="$WARNING_FLAGS -fno-strict-aliasing"
+
+if test "x$enable_maintainer_mode" = "xyes" ; then
+	 AM_CPPFLAGS="$AM_CPPFLAGS -DEDS_DISABLE_DEPRECATED"
+fi
 
 dnl Warn about API usage that violates our minimum requirements.
 AM_CPPFLAGS="$AM_CPPFLAGS -DGLIB_VERSION_MAX_ALLOWED=glib_encoded_version"

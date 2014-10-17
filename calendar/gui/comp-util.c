@@ -1129,19 +1129,19 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 		success = e_cal_client_get_object_sync (dest_client, uid, NULL, &icalcomp, cancellable, &local_error);
 		if (success) {
 			success = e_cal_client_modify_object_sync (
-				dest_client, icalcomp_event, CALOBJ_MOD_ALL, cancellable, error);
+				dest_client, icalcomp_event, E_CAL_OBJ_MOD_ALL, cancellable, error);
 
 			icalcomponent_free (icalcomp);
 			if (!success)
 				goto exit;
 
 			if (!do_copy) {
-				ECalObjModType mod_type = CALOBJ_MOD_THIS;
+				ECalObjModType mod_type = E_CAL_OBJ_MOD_THIS;
 
 				/* Remove the item from the source calendar. */
 				if (e_cal_util_component_is_instance (icalcomp_event) ||
 				    e_cal_util_component_has_recurrences (icalcomp_event))
-					mod_type = CALOBJ_MOD_ALL;
+					mod_type = E_CAL_OBJ_MOD_ALL;
 
 				success = e_cal_client_remove_object_sync (
 						src_client, uid, NULL, mod_type, cancellable, error);
@@ -1257,7 +1257,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 					if (did_add) {
 						success = e_cal_client_modify_object_sync (
 							dest_client, subcomp,
-							CALOBJ_MOD_THIS, cancellable, error);
+							E_CAL_OBJ_MOD_THIS, cancellable, error);
 					} else {
 						/* just in case there are only detached instances and no master object */
 						did_add = TRUE;
@@ -1278,12 +1278,12 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			goto exit;
 
 		if (!do_copy) {
-			ECalObjModType mod_type = CALOBJ_MOD_THIS;
+			ECalObjModType mod_type = E_CAL_OBJ_MOD_THIS;
 
 			/* Remove the item from the source calendar. */
 			if (e_cal_util_component_is_instance (icalcomp_event) ||
 			    e_cal_util_component_has_recurrences (icalcomp_event))
-				mod_type = CALOBJ_MOD_ALL;
+				mod_type = E_CAL_OBJ_MOD_ALL;
 
 			success = e_cal_client_remove_object_sync (src_client, uid, NULL, mod_type, cancellable, error);
 			if (!success)

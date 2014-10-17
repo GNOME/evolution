@@ -119,7 +119,7 @@ struct _CompEditorPrivate {
 
 	gboolean saved;
 
-	CalObjModType mod;
+	ECalObjModType mod;
 
 	gboolean existing_org;
 	gboolean user_org;
@@ -566,10 +566,10 @@ save_comp (CompEditor *editor)
 		has_recurrences =
 			e_cal_component_has_recurrences (priv->comp);
 
-		if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
+		if (has_recurrences && priv->mod == E_CAL_OBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master_sync (priv->comp, priv->cal_client, NULL, NULL);
 
-		if (priv->mod == CALOBJ_MOD_THIS) {
+		if (priv->mod == E_CAL_OBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
 			e_cal_component_set_rrule_list (priv->comp, NULL);
 			e_cal_component_set_exdate_list (priv->comp, NULL);
@@ -578,7 +578,7 @@ save_comp (CompEditor *editor)
 		result = e_cal_client_modify_object_sync (
 			priv->cal_client, icalcomp, priv->mod, NULL, &error);
 
-		if (priv->mod == CALOBJ_MOD_THIS) {
+		if (priv->mod == E_CAL_OBJ_MOD_THIS) {
 			if (result && ((flags & COMP_EDITOR_DELEGATE) ||
 				!e_cal_component_has_organizer (clone) ||
 				itip_organizer_is_user (registry, clone, priv->cal_client) ||
@@ -644,11 +644,11 @@ save_comp (CompEditor *editor)
 				e_cal_component_has_recurrences (priv->comp))
 				e_cal_client_remove_object_sync (
 					priv->source_client, orig_uid_copy,
-					NULL, CALOBJ_MOD_ALL, NULL, &error);
+					NULL, E_CAL_OBJ_MOD_ALL, NULL, &error);
 			else
 				e_cal_client_remove_object_sync (
 					priv->source_client,
-					orig_uid_copy, NULL, CALOBJ_MOD_THIS, NULL, &error);
+					orig_uid_copy, NULL, E_CAL_OBJ_MOD_THIS, NULL, &error);
 
 			if (error != NULL) {
 				g_warning (
@@ -987,7 +987,7 @@ save_and_close_editor (CompEditor *editor,
 			GTK_WINDOW (editor), delegated))
 			return;
 	} else if (e_cal_component_is_instance (priv->comp))
-		priv->mod = CALOBJ_MOD_THIS;
+		priv->mod = E_CAL_OBJ_MOD_THIS;
 
 	comp = comp_editor_get_current_comp (editor, &correct);
 	e_cal_component_get_summary (comp, &text);
@@ -1027,7 +1027,7 @@ save_and_close_editor (CompEditor *editor,
 			} else
 				e_cal_client_remove_object_sync (
 					priv->cal_client, uid, NULL,
-					CALOBJ_MOD_THIS, NULL, &error);
+					E_CAL_OBJ_MOD_THIS, NULL, &error);
 
 			g_clear_error (&error);
 		}
@@ -1086,7 +1086,7 @@ save_and_close_editor (CompEditor *editor,
 
 					has_recurrences = e_cal_component_has_recurrences (comp);
 
-					if (has_recurrences && priv->mod == CALOBJ_MOD_ALL)
+					if (has_recurrences && priv->mod == E_CAL_OBJ_MOD_ALL)
 						comp_util_sanitize_recurrence_master_sync (comp, priv->cal_client, NULL, NULL);
 
 					comp_editor_edit_comp (editor, comp);
@@ -2112,7 +2112,7 @@ comp_editor_init (CompEditor *editor)
 	priv->pages = NULL;
 	priv->changed = FALSE;
 	priv->needs_send = FALSE;
-	priv->mod = CALOBJ_MOD_ALL;
+	priv->mod = E_CAL_OBJ_MOD_ALL;
 	priv->existing_org = FALSE;
 	priv->user_org = FALSE;
 	priv->warned = FALSE;
@@ -3444,7 +3444,7 @@ real_send_comp (CompEditor *editor,
 
 	registry = e_shell_get_registry (shell);
 
-	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {
+	if (priv->mod == E_CAL_OBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {
 		/* Ensure we send the master object, not the instance only */
 		icalcomponent *icalcomp = NULL;
 		const gchar *uid = NULL;
@@ -3637,11 +3637,11 @@ comp_editor_delete_comp (CompEditor *editor)
 		e_cal_component_has_recurrences (priv->comp))
 		e_cal_client_remove_object_sync (
 			priv->cal_client, uid, NULL,
-			CALOBJ_MOD_ALL, NULL, NULL);
+			E_CAL_OBJ_MOD_ALL, NULL, NULL);
 	else
 		e_cal_client_remove_object_sync (
 			priv->cal_client, uid, NULL,
-			CALOBJ_MOD_THIS, NULL, NULL);
+			E_CAL_OBJ_MOD_THIS, NULL, NULL);
 	close_dialog (editor);
 }
 

@@ -5169,7 +5169,7 @@ update_attendee_status_icalcomp (EMailPartItip *pitip,
 
 	e_cal_client_modify_object (
 		pitip->current_client,
-		icalcomp, rid ? CALOBJ_MOD_THIS : CALOBJ_MOD_ALL,
+		icalcomp, rid ? E_CAL_OBJ_MOD_THIS : E_CAL_OBJ_MOD_ALL,
 		pitip->cancellable,
 		modify_object_cb,
 		view);

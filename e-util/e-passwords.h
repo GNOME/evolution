@@ -22,7 +22,7 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef EDS_DISABLE_DEPRECATED
+#ifndef EVO_DISABLE_DEPRECATED
 
 #ifndef E_PASSWORDS_H
 #define E_PASSWORDS_H
@@ -68,4 +68,4 @@ G_END_DECLS
 
 #endif /* E_PASSWORDS_H */
 
-#endif /* EDS_DISABLE_DEPRECATED */
+#endif /* EVO_DISABLE_DEPRECATED */

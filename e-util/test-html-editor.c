@@ -1,5 +1,5 @@
 /*
- * e-html-editor-test.c
+ * test-html-editor.c
  *
  * Copyright (C) 2012 Dan Vrátil <dvratil@redhat.com>
  *
@@ -17,6 +17,10 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <gtk/gtk.h>
 #include <e-util/e-util.h>

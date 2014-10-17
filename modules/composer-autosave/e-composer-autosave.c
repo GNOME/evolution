@@ -15,6 +15,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-composer-autosave.h"
 
 #include <composer/e-msg-composer.h>

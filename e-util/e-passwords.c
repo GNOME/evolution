@@ -45,6 +45,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
+#include <libsoup/soup.h>
+
 /* XXX Yeah, yeah... */
 #define SECRET_API_SUBJECT_TO_CHANGE
 
@@ -103,18 +105,18 @@ static GQueue message_queue = G_QUEUE_INIT;
 static gint idle_id;
 static gint ep_online_state = TRUE;
 
-static EUri *
+static SoupURI *
 ep_keyring_uri_new (const gchar *string,
                     GError **error)
 {
-	EUri *uri;
+	SoupURI *uri;
 
-	uri = e_uri_new (string);
+	uri = soup_uri_new (string);
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	/* LDAP URIs do not have usernames, so use the URI as the username. */
-	if (uri->user == NULL && uri->protocol != NULL &&
-			(strcmp (uri->protocol, "ldap") == 0|| strcmp (uri->protocol, "google") == 0))
+	if (uri->user == NULL && uri->scheme != NULL &&
+			(strcmp (uri->scheme, "ldap") == 0|| strcmp (uri->scheme, "google") == 0))
 		uri->user = g_strdelimit (g_strdup (string), "/=", '_');
 
 	/* Make sure the URI has the required components. */
@@ -123,7 +125,7 @@ ep_keyring_uri_new (const gchar *string,
 			error, G_IO_ERROR,
 			G_IO_ERROR_INVALID_ARGUMENT,
 			_("Keyring key is unusable: no user or host name"));
-		e_uri_free (uri);
+		soup_uri_free (uri);
 		uri = NULL;
 	}
 
@@ -212,7 +214,7 @@ static void
 ep_remember_password (EPassMsg *msg)
 {
 	gchar *password;
-	EUri *uri;
+	SoupURI *uri;
 	GError *error = NULL;
 
 	password = g_hash_table_lookup (password_cache, msg->key);
@@ -233,7 +235,7 @@ ep_remember_password (EPassMsg *msg)
 		"application", "Evolution",
 		"user", uri->user,
 		"server", uri->host,
-		"protocol", uri->protocol,
+		"protocol", uri->scheme,
 		NULL);
 
 	/* Only remove the password from the session hash
@@ -243,7 +245,7 @@ ep_remember_password (EPassMsg *msg)
 	else
 		g_propagate_error (&msg->error, error);
 
-	e_uri_free (uri);
+	soup_uri_free (uri);
 
 exit:
 	if (!msg->noreply)
@@ -253,7 +255,7 @@ exit:
 static void
 ep_forget_password (EPassMsg *msg)
 {
-	EUri *uri;
+	SoupURI *uri;
 	GError *error = NULL;
 
 	g_hash_table_remove (password_cache, msg->key);
@@ -280,7 +282,7 @@ ep_forget_password (EPassMsg *msg)
 	if (error != NULL)
 		g_propagate_error (&msg->error, error);
 
-	e_uri_free (uri);
+	soup_uri_free (uri);
 
 exit:
 	if (!msg->noreply)
@@ -290,7 +292,7 @@ exit:
 static void
 ep_get_password (EPassMsg *msg)
 {
-	EUri *uri;
+	SoupURI *uri;
 	gchar *password;
 	GError *error = NULL;
 
@@ -310,7 +312,7 @@ ep_get_password (EPassMsg *msg)
 		"application", "Evolution",
 		"user", uri->user,
 		"server", uri->host,
-		"protocol", uri->protocol,
+		"protocol", uri->scheme,
 		NULL);
 
 	if (msg->password != NULL)
@@ -335,7 +337,7 @@ done:
 	if (error != NULL)
 		g_propagate_error (&msg->error, error);
 
-	e_uri_free (uri);
+	soup_uri_free (uri);
 
 exit:
 	if (!msg->noreply)

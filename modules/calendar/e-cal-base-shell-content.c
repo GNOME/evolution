@@ -116,6 +116,7 @@ cal_base_sahell_content_view_state_changed_cb (ECalDataModel *data_model,
 	EShellSidebar *shell_sidebar;
 	ESourceSelector *selector;
 	ESource *source;
+	ECalClient *client;
 
 	shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_base_shell_content));
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
@@ -124,7 +125,11 @@ cal_base_sahell_content_view_state_changed_cb (ECalDataModel *data_model,
 	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
 
 	selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
-	source = e_client_get_source (E_CLIENT (e_cal_client_view_get_client (view)));
+	client = e_cal_client_view_ref_client (view);
+	g_return_if_fail (client != NULL);
+
+	source = e_client_get_source (E_CLIENT (client));
+	g_clear_object (&client);
 
 	if (state == E_CAL_DATA_MODEL_VIEW_STATE_START ||
 	    state == E_CAL_DATA_MODEL_VIEW_STATE_PROGRESS) {

@@ -437,7 +437,7 @@ cal_ops_delete_components_thread (EAlertSinkThreadJobData *job_data,
 
 		if (!e_cal_client_remove_object_sync (
 			comp_data->client, icalcomponent_get_uid (comp_data->icalcomp),
-			rid, CALOBJ_MOD_THIS, cancellable, error)) {
+			rid, E_CAL_OBJ_MOD_THIS, cancellable, error)) {
 			ESource *source = e_client_get_source (E_CLIENT (comp_data->client));
 			e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 			/* Stop on the first error */
@@ -1130,7 +1130,7 @@ cal_ops_delete_completed_thread (EAlertSinkThreadJobData *job_data,
 
 			uid = icalcomponent_get_uid (icalcomp);
 
-			if (!e_cal_client_remove_object_sync (client, uid, NULL, CALOBJ_MOD_THIS, cancellable, error)) {
+			if (!e_cal_client_remove_object_sync (client, uid, NULL, E_CAL_OBJ_MOD_THIS, cancellable, error)) {
 				ESource *source = e_client_get_source (E_CLIENT (client));
 				e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 				break;

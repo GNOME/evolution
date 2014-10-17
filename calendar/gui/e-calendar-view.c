@@ -108,7 +108,7 @@ G_DEFINE_ABSTRACT_TYPE_WITH_CODE (
 static void
 calendar_view_add_retract_data (ECalComponent *comp,
                                 const gchar *retract_comment,
-                                CalObjModType mod)
+                                ECalObjModType mod)
 {
 	icalcomponent *icalcomp = NULL;
 	icalproperty *icalprop = NULL;
@@ -121,7 +121,7 @@ calendar_view_add_retract_data (ECalComponent *comp,
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
 	icalcomponent_add_property (icalcomp, icalprop);
 
-	if (mod == CALOBJ_MOD_ALL)
+	if (mod == E_CAL_OBJ_MOD_ALL)
 		icalprop = icalproperty_new_x ("All");
 	else
 		icalprop = icalproperty_new_x ("This");
@@ -189,7 +189,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		if (retract) {
 			icalcomponent *icalcomp;
 
-			calendar_view_add_retract_data (comp, retract_comment, CALOBJ_MOD_ALL);
+			calendar_view_add_retract_data (comp, retract_comment, E_CAL_OBJ_MOD_ALL);
 			icalcomp = e_cal_component_get_icalcomponent (comp);
 			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
 
