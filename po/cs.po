@@ -16053,7 +16053,7 @@ msgstr "Mapa adresáře"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1066
 msgid "Contact _Preview"
-msgstr "_Náhled kontaktů"
+msgstr "_Náhled kontaktu"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1068
 msgid "Show contact preview window"
