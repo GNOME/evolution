@@ -623,9 +623,13 @@ skip_send:
 
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
+		camel_operation_push_message (cancellable, _("Posting message to '%s'"), camel_folder_get_full_name (folder));
+
 		camel_folder_append_message_sync (
 			folder, context->message, context->info,
 			NULL, cancellable, &error);
+
+		camel_operation_pop_message (cancellable);
 
 		g_object_unref (folder);
 
@@ -685,10 +689,15 @@ skip_send:
 		((folder == NULL) && (error != NULL)));
 
 	/* Append the message. */
-	if (folder != NULL)
+	if (folder != NULL) {
+		camel_operation_push_message (cancellable, _("Storing sent message to '%s'"), camel_folder_get_full_name (folder));
+
 		camel_folder_append_message_sync (
 			folder, context->message,
 			context->info, NULL, cancellable, &error);
+
+		camel_operation_pop_message (cancellable);
+	}
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		goto exit;
@@ -716,9 +725,13 @@ skip_send:
 
 		g_clear_error (&error);
 
+		camel_operation_push_message (cancellable, _("Storing sent message to '%s'"), camel_folder_get_full_name (local_sent_folder));
+
 		camel_folder_append_message_sync (
 			local_sent_folder, context->message,
 			context->info, NULL, cancellable, &error);
+
+		camel_operation_pop_message (cancellable);
 	}
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))

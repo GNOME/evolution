@@ -696,8 +696,13 @@ mail_send_message (struct _send_queue_msg *m,
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, uri, 0, cancellable, &local_error);
 		if (folder != NULL) {
+			camel_operation_push_message (cancellable, _("Posting message to '%s'"), camel_folder_get_full_name (folder));
+
 			camel_folder_append_message_sync (
 				folder, message, info, NULL, cancellable, &local_error);
+
+			camel_operation_pop_message (cancellable);
+
 			g_object_unref (folder);
 			folder = NULL;
 		}
@@ -750,10 +755,15 @@ mail_send_message (struct _send_queue_msg *m,
 			((folder == NULL) && (local_error != NULL)) ||
 			((folder != NULL) && (local_error == NULL)));
 
-		if (local_error == NULL)
+		if (local_error == NULL) {
+			camel_operation_push_message (cancellable, _("Storing sent message to '%s'"), camel_folder_get_full_name (folder));
+
 			camel_folder_append_message_sync (
 				folder, message, info, NULL,
 				cancellable, &local_error);
+
+			camel_operation_pop_message (cancellable);
+		}
 
 		if (g_error_matches (
 			local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -781,9 +791,13 @@ mail_send_message (struct _send_queue_msg *m,
 			g_clear_error (&local_error);
 			folder = g_object_ref (local_sent_folder);
 
+			camel_operation_push_message (cancellable, _("Storing sent message to '%s'"), camel_folder_get_full_name (folder));
+
 			camel_folder_append_message_sync (
 				folder, message, info, NULL,
 				cancellable, &local_error);
+
+			camel_operation_pop_message (cancellable);
 
 			if (g_error_matches (
 				local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
