@@ -1115,7 +1115,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	AtkObject *parent;
 	const gchar *name;
 
-	g_return_val_if_fail (item && item->cols >= 0 && item->rows >= 0, NULL);
+	g_return_val_if_fail (item && item->cols >= 0, NULL);
 	a11y = g_object_new (gal_a11y_e_table_item_get_type (), NULL);
 
 	atk_object_initialize (ATK_OBJECT (a11y), item);
@@ -1133,7 +1133,7 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	GET_PRIVATE (a11y)->item = item;
 	/* Initialize cell data. */
 	GET_PRIVATE (a11y)->cols = item->cols;
-	GET_PRIVATE (a11y)->rows = item->rows;
+	GET_PRIVATE (a11y)->rows = item->rows >= 0 ? item->rows : 0;
 
 	GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);
 	if (GET_PRIVATE (a11y)->columns == NULL)

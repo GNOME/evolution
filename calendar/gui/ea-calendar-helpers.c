@@ -89,6 +89,10 @@ ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 	/* parent of canvas_item->canvas is the EDayView or EWeekView widget */
 	canvas = canvas_item->canvas;
 	view_widget = gtk_widget_get_parent (GTK_WIDGET (canvas));
+
+	if (view_widget && GTK_IS_BOX (view_widget))
+		view_widget = gtk_widget_get_parent (view_widget);
+
 	if (!view_widget || !E_IS_CALENDAR_VIEW (view_widget))
 		return NULL;
 
