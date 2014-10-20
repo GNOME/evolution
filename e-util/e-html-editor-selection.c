@@ -1345,16 +1345,22 @@ set_block_alignment (WebKitDOMElement *element,
 static WebKitDOMNode *
 get_parent_block_node_from_child (WebKitDOMNode *node)
 {
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+	WebKitDOMElement *parent = WEBKIT_DOM_ELEMENT (
+		webkit_dom_node_get_parent_node (node));
 
-	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
-	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
-	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
-	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
-	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
-		parent = webkit_dom_node_get_parent_node (parent);
+	 if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
+	     element_has_tag (parent, "b") ||
+	     element_has_tag (parent, "i") ||
+	     element_has_tag (parent, "u"))
+		parent = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)));
 
-	return parent;
+	if (element_has_class (parent, "-x-evo-temp-text-wrapper") ||
+	    element_has_class (parent, "-x-evo-signature"))
+		parent = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)));
+
+	return WEBKIT_DOM_NODE (parent);
 }
 
 /**
