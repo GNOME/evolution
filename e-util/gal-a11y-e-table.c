@@ -132,9 +132,10 @@ et_get_n_children (AtkObject *accessible)
 	et = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
 
 	if (et && et->group) {
-		if (E_IS_TABLE_GROUP_LEAF (et->group))
-			n = 1;
-		else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
+		if (E_IS_TABLE_GROUP_LEAF (et->group)) {
+			if (find_first_table_item (et->group))
+				n++;
+		} else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
 			ETableGroupContainer *etgc = (ETableGroupContainer *) et->group;
 			n = g_list_length (etgc->children);
 		}
@@ -162,11 +163,13 @@ et_ref_child (AtkObject *accessible,
 	if (i == 0 || i < child_no - 1) {
 		if (E_IS_TABLE_GROUP_LEAF (et->group)) {
 			ETableItem *eti = find_first_table_item (et->group);
-			AtkObject *aeti = eti_get_accessible (eti, accessible);
-			if (aeti)
-				g_object_ref (aeti);
-			return aeti;
-
+			AtkObject *aeti;
+			if (eti) {
+				aeti = eti_get_accessible (eti, accessible);
+				if (aeti)
+					g_object_ref (aeti);
+				return aeti;
+			}
 		} else if (E_IS_TABLE_GROUP_CONTAINER (et->group)) {
 			ETableGroupContainer *etgc = (ETableGroupContainer *) et->group;
 			ETableGroupContainerChildNode *child_node = g_list_nth_data (etgc->children, i);
@@ -179,7 +182,9 @@ et_ref_child (AtkObject *accessible,
 				return aeti;
 			}
 		}
-	} else if (i == child_no -1) {
+	}
+
+	if (i == child_no -1) {
 		ETableClickToAdd * etcta;
 
 		if (et && et->use_click_to_add && et->click_to_add) {

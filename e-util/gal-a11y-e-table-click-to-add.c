@@ -145,7 +145,13 @@ etcta_get_name (AtkObject *obj)
 static gint
 etcta_get_n_children (AtkObject *accessible)
 {
-	return 1;
+	ETableClickToAdd * etcta;
+
+	etcta = E_TABLE_CLICK_TO_ADD (
+		atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (accessible)));
+
+	return (etcta->rect || etcta->row) ? 1 : 0;
 }
 
 static AtkObject *
