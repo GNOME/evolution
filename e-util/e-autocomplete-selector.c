@@ -97,5 +97,7 @@ e_autocomplete_selector_new (ESourceRegistry *registry)
 	return g_object_new (
 		E_TYPE_AUTOCOMPLETE_SELECTOR,
 		"extension-name", E_SOURCE_EXTENSION_ADDRESS_BOOK,
-		"registry", registry, NULL);
+		"registry", registry,
+		"show-icons", FALSE,
+		NULL);
 }
