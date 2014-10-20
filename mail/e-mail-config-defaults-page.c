@@ -36,6 +36,7 @@ struct _EMailConfigDefaultsPagePrivate {
 
 	GtkWidget *drafts_button;  /* not referenced */
 	GtkWidget *sent_button;    /* not referenced */
+	GtkWidget *archive_button; /* not referenced */
 	GtkWidget *replies_toggle; /* not referenced */
 	GtkWidget *trash_toggle;   /* not referenced */
 	GtkWidget *junk_toggle;    /* not referenced */
@@ -624,9 +625,33 @@ mail_config_defaults_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	text = _("Archi_ve Folder:");
+	widget = gtk_label_new_with_mnemonic (text);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
+	gtk_widget_show (widget);
+
+	label = GTK_LABEL (widget);
+
+	text = _("Choose a folder to archive messages to.");
+	widget = em_folder_selection_button_new (session, "", text);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 1, 1);
+	page->priv->archive_button = widget;  /* not referenced */
+	gtk_widget_show (widget);
+
+	e_binding_bind_object_text_property (
+		account_ext, "archive-folder",
+		widget, "folder-uri",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	widget = gtk_button_new_with_mnemonic (_("_Restore Defaults"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_START);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 6, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 7, 1, 1);
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (
@@ -642,7 +667,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for deleted messages."),
 		"real-trash-path", "use-real-trash-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
 		gtk_widget_show (widget);
 	}
 
@@ -652,7 +677,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		_("Choose a folder for junk messages."),
 		"real-junk-path", "use-real-junk-path");
 	if (widget != NULL) {
-		gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
+		gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 2, 1);
 		gtk_widget_show (widget);
 	}
 

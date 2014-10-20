@@ -101,6 +101,7 @@
     <menuitem action='mail-popup-undelete'/>
     <menuitem action='mail-popup-copy'/>
     <menuitem action='mail-popup-move'/>
+    <menuitem action='mail-popup-archive'/>
     <separator/>
     <menuitem action='mail-popup-mark-read'/>
     <menuitem action='mail-popup-mark-unread'/>

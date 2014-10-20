@@ -44,6 +44,7 @@ typedef struct {
 	gboolean jh_check;
 	gboolean book_lookup;
 	gboolean book_lookup_local_only;
+	gchar *local_archive_folder;
 } MailConfig;
 
 extern gint camel_header_param_encode_filenames_in_rfc_2047;
@@ -149,6 +150,15 @@ settings_int_value_changed (GSettings *settings,
 	*save_location = g_settings_get_int (settings, key);
 }
 
+static void
+settings_string_value_changed (GSettings *settings,
+			       const gchar *key,
+                               gchar **save_location)
+{
+	g_free (*save_location);
+	*save_location = g_settings_get_string (settings, key);
+}
+
 gint
 mail_config_get_address_count (void)
 {
@@ -230,6 +240,14 @@ mail_config_get_lookup_book_local_only (void)
 	return config->book_lookup_local_only;
 }
 
+gchar *
+mail_config_dup_local_archive_folder (void)
+{
+	g_return_val_if_fail (config != NULL, NULL);
+
+	return g_strdup (config->local_archive_folder);
+}
+
 /* Config struct routines */
 void
 mail_config_init (EMailSession *session)
@@ -291,6 +309,13 @@ mail_config_init (EMailSession *session)
 		&config->book_lookup_local_only);
 	config->book_lookup_local_only = g_settings_get_boolean (
 		mail_settings, "junk-lookup-addressbook-local-only");
+
+	g_signal_connect (
+		mail_settings, "changed::local-archive-folder",
+		G_CALLBACK (settings_string_value_changed),
+		&config->local_archive_folder);
+	config->local_archive_folder = g_settings_get_string (
+		mail_settings, "local-archive-folder");
 
 	settings_jh_check_changed (mail_settings, NULL, session);
 }

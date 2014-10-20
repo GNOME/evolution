@@ -72,6 +72,7 @@
         <separator/>
         <menuitem action='mail-copy'/>
         <menuitem action='mail-move'/>
+        <menuitem action='mail-archive'/>
         <separator/>
         <menu action='mail-mark-as-menu'>
           <menuitem action="mail-mark-read"/>

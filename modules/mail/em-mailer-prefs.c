@@ -1075,6 +1075,18 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	container = e_builder_get_widget (prefs->builder, "archive-mail-hbox");
+	widget = em_folder_selection_button_new (session, "", _("Choose a folder to archive messages to."));
+	gtk_widget_set_hexpand (widget, FALSE);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (prefs->builder, "lblArchiveMailFolder")), widget);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	g_settings_bind (
+		settings, "local-archive-folder",
+		widget, "folder-uri",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersAdd"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, FALSE);

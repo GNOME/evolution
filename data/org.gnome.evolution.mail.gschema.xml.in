@@ -562,6 +562,12 @@
     <child name="subscription-window" schema="org.gnome.evolution.window"/>
     <child name="vfolder-window" schema="org.gnome.evolution.window"/>
 
+    <key name="local-archive-folder" type="s">
+      <default>''</default>
+      <_summary>An Archive folder for On This Computer folders.</_summary>
+      <_description>An Archive folder to use for Messages|Archive... feature when in an On This Computer folder.</_description>
+    </key>
+
     <!-- The following keys are deprecated. -->
 
     <key name="forward-style" type="i">

@@ -819,6 +819,108 @@ action_mail_message_open_cb (GtkAction *action,
 	e_mail_reader_open_selected_mail (reader);
 }
 
+static gchar *
+mail_reader_get_archive_folder_from_folder (CamelFolder *folder,
+					    ESourceRegistry *registry,
+					    GPtrArray *uids,
+					    gboolean deep_uids_check)
+{
+	CamelStore *store;
+	ESource *source = NULL;
+	gchar *archive_folder = NULL;
+
+	if (!folder)
+		return NULL;
+
+	store = camel_folder_get_parent_store (folder);
+	if (g_strcmp0 (E_MAIL_SESSION_LOCAL_UID, camel_service_get_uid (CAMEL_SERVICE (store))) == 0) {
+		return mail_config_dup_local_archive_folder ();
+	}
+
+	if (CAMEL_IS_VEE_FOLDER (folder) && uids && uids->len > 0) {
+		CamelVeeFolder *vee_folder = CAMEL_VEE_FOLDER (folder);
+		CamelFolder *orig_folder;
+
+		store = NULL;
+
+		if (deep_uids_check) {
+			gint ii;
+
+			for (ii = 0; ii < uids->len; ii++) {
+				orig_folder = camel_vee_folder_get_vee_uid_folder (vee_folder, uids->pdata[ii]);
+				if (orig_folder) {
+					if (store && camel_folder_get_parent_store (orig_folder) != store) {
+						/* Do not know which archive folder to use when there are
+						   selected messages from multiple accounts/stores. */
+						store = NULL;
+						break;
+					}
+
+					store = camel_folder_get_parent_store (orig_folder);
+				}
+			}
+		} else {
+			orig_folder = camel_vee_folder_get_vee_uid_folder (CAMEL_VEE_FOLDER (folder), uids->pdata[0]);
+			if (orig_folder)
+				store = camel_folder_get_parent_store (orig_folder);
+		}
+	}
+
+	if (store)
+		source = e_source_registry_ref_source (registry, camel_service_get_uid (CAMEL_SERVICE (store)));
+
+	if (source) {
+		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+			ESourceMailAccount *account_ext;
+
+			account_ext = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+			archive_folder = e_source_mail_account_dup_archive_folder (account_ext);
+			if (!archive_folder || !*archive_folder) {
+				g_free (archive_folder);
+				archive_folder = NULL;
+			}
+		}
+
+		g_object_unref (source);
+	}
+
+	return archive_folder;
+}
+
+static void
+action_mail_archive_cb (GtkAction *action,
+			EMailReader *reader)
+{
+	CamelFolder *folder;
+	EMailBackend *backend;
+	EMailSession *session;
+	EShell *shell;
+	ESourceRegistry *registry;
+	GPtrArray *uids;
+	gchar *archive_folder;
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
+
+	uids = e_mail_reader_get_selected_uids (reader);
+	g_return_if_fail (uids != NULL);
+
+	folder = e_mail_reader_ref_folder (reader);
+	archive_folder = mail_reader_get_archive_folder_from_folder (folder, registry, uids, TRUE);
+
+	if (archive_folder != NULL)
+		mail_transfer_messages (
+			session, folder, uids,
+			TRUE, archive_folder, 0, NULL, NULL);
+
+	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
+	g_free (archive_folder);
+}
+
 static void
 action_mail_move_cb (GtkAction *action,
                      EMailReader *reader)
@@ -1868,6 +1970,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Add sender to address book"),
 	  G_CALLBACK (action_mail_add_sender_cb) },
 
+	{ "mail-archive",
+	  "mail-move",
+	  N_("_Archive..."),
+	  "<Shift><Control>a",
+	  N_("Move selected messages to the Archive folder for the account"),
+	  G_CALLBACK (action_mail_archive_cb) },
+
 	{ "mail-check-for-junk",
 	  "mail-mark-junk",
 	  N_("Check for _Junk"),
@@ -2323,6 +2432,10 @@ static GtkActionEntry mail_reader_search_folder_entries[] = {
 };
 
 static EPopupActionEntry mail_reader_popup_entries[] = {
+
+	{ "mail-popup-archive",
+	  NULL,
+	  "mail-archive" },
 
 	{ "mail-popup-copy",
 	  NULL,
@@ -3361,6 +3474,11 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-archive";
+	sensitive = any_messages_selected && (state & E_MAIL_READER_FOLDER_ARCHIVE_FOLDER_SET) != 0;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-check-for-junk";
 	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -4098,6 +4216,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean is_mailing_list;
 	gboolean is_junk_folder = FALSE;
 	gboolean is_vtrash_folder = FALSE;
+	gboolean archive_folder_set = FALSE;
 	guint32 state = 0;
 	guint ii;
 
@@ -4114,6 +4233,8 @@ e_mail_reader_check_state (EMailReader *reader)
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (folder != NULL) {
+		gchar *archive_folder;
+
 		store = camel_folder_get_parent_store (folder);
 		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
 		is_junk_folder =
@@ -4122,6 +4243,12 @@ e_mail_reader_check_state (EMailReader *reader)
 		drafts_or_outbox =
 			em_utils_folder_is_drafts (registry, folder) ||
 			em_utils_folder_is_outbox (registry, folder);
+
+		archive_folder = mail_reader_get_archive_folder_from_folder (folder, registry, uids, TRUE);
+		if (archive_folder && *archive_folder)
+			archive_folder_set = TRUE;
+
+		g_free (archive_folder);
 	}
 
 	/* Initialize this flag based on whether there are any
@@ -4248,6 +4375,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_FOLDER_IS_JUNK;
 	if (is_vtrash_folder)
 		state |= E_MAIL_READER_FOLDER_IS_VTRASH;
+	if (archive_folder_set)
+		state |= E_MAIL_READER_FOLDER_ARCHIVE_FOLDER_SET;
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
