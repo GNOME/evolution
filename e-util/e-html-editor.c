@@ -30,6 +30,7 @@
 #include "e-alert-bar.h"
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
+#include "e-html-editor-defines.h"
 #include "e-html-editor-private.h"
 #include "e-html-editor-selection.h"
 
@@ -310,7 +311,6 @@ html_editor_update_actions (EHTMLEditor *editor,
 	WebKitSpellChecker *checker;
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
-	WebKitDOMNode *node;
 	EHTMLEditorSelection *selection;
 	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
@@ -480,7 +480,6 @@ html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
                              WebKitHitTestResult *hit_test_result,
                              EHTMLEditor *editor)
 {
-	WebKitHitTestResultContext context;
 	GtkWidget *menu;
 	guint flags = 0;
 
@@ -497,7 +496,7 @@ html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
 	if (event)
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,
-			GTK_WIDGET (webkit_web_view), event->button, event->time);
+			GTK_WIDGET (webkit_web_view), ((GdkEventButton*) event)->button, event->time);
 	else
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,

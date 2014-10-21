@@ -1,5 +1,5 @@
 /*
- * e-html-editor-actions-dom-functions.h
+ * e-html-editor-table-dialog-dom-functions.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,57 +16,29 @@
  *
  */
 
-#ifndef E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H
-#define E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H
+#ifndef E_HTML_TABLE_DIALOG_DOM_FUNCTIONS_H
+#define E_HTML_TABLE_DIALOG_DOM_FUNCTIONS_H
 
 #include <webkitdom/webkitdom.h>
 
 G_BEGIN_DECLS
 
-void		e_html_editor_cell_dialog_mark_current_cell_element
+void		e_html_editor_table_dialog_set_row_count
 						(WebKitDOMDocument *document,
-						 const gchar *id);
+						 gulong expected_count);
 
-void		e_html_editor_cell_dialog_set_element_v_align
-						(WebKitDOMDocument *document,
-						 const gchar *v_align,
-						 guint scope);
+gulong		e_html_editor_table_dialog_get_row_count
+						(WebKitDOMDocument *document);
 
-void		e_html_editor_cell_dialog_set_element_align
+void		e_html_editor_table_dialog_set_column_count
 						(WebKitDOMDocument *document,
-						 const gchar *align,
-						 guint scope);
+						 gulong expected_columns);
 
-void		e_html_editor_cell_dialog_set_element_no_wrap
-						(WebKitDOMDocument *document,
-						 gboolean wrap_text,
-						 guint scope);
+gulong		e_html_editor_table_dialog_get_column_count
+						(WebKitDOMDocument *document);
 
-void		e_html_editor_cell_dialog_set_element_header_style
-						(WebKitDOMDocument *document,
-						 gboolean header_style,
-						 guint scope);
-
-void		e_html_editor_cell_dialog_set_element_width
-						(WebKitDOMDocument *document,
-						 const gchar *width,
-						 guint scope);
-
-void		e_html_editor_cell_dialog_set_element_col_span
-						(WebKitDOMDocument *document,
-						 glong span,
-						 guint scope);
-
-void		e_html_editor_cell_dialog_set_element_row_span
-						(WebKitDOMDocument *document,
-						 glong span,
-						 guint scope);
-
-void		e_html_editor_cell_dialog_set_element_bg_color
-						(WebKitDOMDocument *document,
-						 const gchar *color,
-						 guint scope);
+gboolean	e_html_editor_table_dialog_show (WebKitDOMDocument *document);
 
 G_END_DECLS
 
-#endif /* E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H */
+#endif /* E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H */

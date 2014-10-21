@@ -3080,6 +3080,77 @@ e_html_editor_view_get_web_extension_proxy (EHTMLEditorView *view)
 	return view->priv->web_extension;
 }
 
+GVariant *
+e_html_editor_view_get_element_attribute (EHTMLEditorView *view,
+                                          const gchar *selector,
+                                          const gchar *attribute)
+{
+	if (!view->priv->web_extension)
+		return;
+
+	return g_dbus_proxy_call_sync (
+		view->priv->web_extension,
+		"ElementGetAttributeBySelector",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			selector,
+			attribute),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+void
+e_html_editor_view_set_element_attribute (EHTMLEditorView *view,
+                                          const gchar *selector,
+                                          const gchar *attribute,
+					  const gchar *value)
+{
+	if (!view->priv->web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		view->priv->web_extension,
+		"ElementSetAttributeBySelector",
+		g_variant_new (
+			"(tsss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			selector,
+			attribute,
+			value),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+void
+e_html_editor_view_remove_element_attribute (EHTMLEditorView *view,
+                                             const gchar *selector,
+                                             const gchar *attribute)
+{
+	if (!view->priv->web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		view->priv->web_extension,
+		"ElementRemoveAttributeBySelector",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			selector,
+			attribute),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
 static GObjectConstructParam*
 find_property(guint n_properties,
               GObjectConstructParam* properties,
@@ -6274,15 +6345,6 @@ remove_wrapping_from_view (EHTMLEditorView *view)
 		remove_node (webkit_dom_node_list_item (list, ii));
 
 	g_object_unref (list);
-}
-
-void
-remove_image_attributes_from_element (WebKitDOMElement *element)
-{
-	webkit_dom_element_remove_attribute (element, "background");
-	webkit_dom_element_remove_attribute (element, "data-uri");
-	webkit_dom_element_remove_attribute (element, "data-inline");
-	webkit_dom_element_remove_attribute (element, "data-name");
 }
 
 static void

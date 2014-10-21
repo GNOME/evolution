@@ -148,33 +148,19 @@ html_editor_page_dialog_set_text_color (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
 	GdkRGBA rgba;
 	gchar *color;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
 	e_color_combo_get_current_color (
 		E_COLOR_COMBO (dialog->priv->text_color_picker), &rgba);
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 
-	g_dbus_proxy_call (
-		web_extension,
-		"BodySetTextColor",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			color),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_set_element_attribute (
+		view, "body", "text", color);
 
 	g_free (color);
 }
@@ -199,18 +185,8 @@ html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 
-	g_dbus_proxy_call (
-		web_extension,
-		"BodySetLinkColor",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			color),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_set_element_attribute (
+		view, "body", "link", color);
 
 	g_free (color);
 }
@@ -237,18 +213,8 @@ html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 	else
 		color = g_strdup ("");
 
-	g_dbus_proxy_call (
-		web_extension,
-		"BodySetBgColor",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			color),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_set_element_attribute (
+		view, "body", "bgcolor", color);
 
 	g_free (color);
 }
@@ -312,7 +278,7 @@ html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 	else
 		g_dbus_proxy_call (
 			web_extension,
-			"RemoveImageAttributesFromElement",
+			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new (
 				"(ts)",
 				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
@@ -333,15 +299,26 @@ html_editor_page_dialog_remove_image (EHTMLEditorPageDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
+	GDBusProxy *web_extension;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	remove_image_attributes_from_element (WEBKIT_DOM_ELEMENT (body));
+	g_dbus_proxy_call (
+		web_extension,
+		"RemoveImageAttributesFromElementBySelector",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			"body"),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	gtk_file_chooser_unselect_all (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
@@ -366,19 +343,8 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	if (!web_extension)
 		return;
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"ElementGetAttributeBySelector",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (
-				WEBKIT_WEB_VIEW (view)),
-			"body",
-			"data-uri"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "body", "data-uri");
 
 	if (result) {
 		const gchar *value;
@@ -406,16 +372,7 @@ html_editor_page_dialog_show (GtkWidget *widget)
 		g_variant_unref (result);
 	}
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"BodyGetTextColor",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (view, "body", "text");
 
 	if (result) {
 		const gchar *value;
@@ -432,16 +389,7 @@ html_editor_page_dialog_show (GtkWidget *widget)
 		g_variant_unref (result);
 	}
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"BodyGetLinkColor",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (view, "body", "link");
 
 	if (result) {
 		const gchar *value;
@@ -464,16 +412,7 @@ html_editor_page_dialog_show (GtkWidget *widget)
 		g_variant_unref (result);
 	}
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"BodyGetBgColor",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (view, "body", "bgcolor");
 
 	if (result) {
 		const gchar *value;

@@ -60,6 +60,12 @@ void		e_html_editor_selection_dom_create_link
 						(WebKitDOMDocument *document,
 						 const gchar *uri);
 
+void		e_html_editor_selection_dom_save
+						(WebKitDOMDocument *document);
+
+void		e_html_editor_selection_dom_restore
+						(WebKitDOMDocument *document);
+
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_DOM_FUNCTIONS_H */

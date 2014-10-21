@@ -81,6 +81,19 @@ EHTMLEditorView *
 GDBusProxy *
 		e_html_editor_view_get_web_extension_proxy
 						(EHTMLEditorView *view);
+GVariant *	e_html_editor_view_get_element_attribute
+						(EHTMLEditorView *view,
+						 const gchar *selector,
+						 const gchar *attribute);
+void		e_html_editor_view_set_element_attribute
+						(EHTMLEditorView *view,
+						 const gchar *selector,
+						 const gchar *attribute,
+						 const gchar *value);
+void		e_html_editor_view_remove_element_attribute
+						(EHTMLEditorView *view,
+						 const gchar *selector,
+						 const gchar *attribute);
 EHTMLEditorSelection *
 		e_html_editor_view_get_selection
 						(EHTMLEditorView *view);

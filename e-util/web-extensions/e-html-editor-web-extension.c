@@ -25,9 +25,15 @@
 #include <string.h>
 
 #include <e-util/e-dom-utils.h>
+#include <e-util/e-html-editor-actions-dom-functions.h>
 #include <e-util/e-html-editor-cell-dialog-dom-functions.h>
+#include <e-util/e-html-editor-dom-functions.h>
+#include <e-util/e-html-editor-hrule-dialog-dom-functions.h>
 #include <e-util/e-html-editor-image-dialog-dom-functions.h>
 #include <e-util/e-html-editor-link-dialog-dom-functions.h>
+#include <e-util/e-html-editor-selection-dom-functions.h>
+#include <e-util/e-html-editor-table-dialog-dom-functions.h>
+#include <e-util/e-html-editor-view-dom-functions.h>
 
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;
@@ -94,9 +100,20 @@ static const char introspection_xml[] =
 "      <arg type='s' name='attribute' direction='in'/>"
 "      <arg type='s' name='value' direction='out'/>"
 "    </method>"
+"    <method name='ElementGetAttributeBySelector'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='selector' direction='in'/>"
+"      <arg type='s' name='attribute' direction='in'/>"
+"      <arg type='s' name='value' direction='out'/>"
+"    </method>"
 "    <method name='ElementRemoveAttribute'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='s' name='attribute' direction='in'/>"
+"    </method>"
+"    <method name='ElementRemoveAttributeBySelector'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='selector' direction='in'/>"
 "      <arg type='s' name='attribute' direction='in'/>"
 "    </method>"
 "    <method name='ElementSetAttribute'>"
@@ -105,188 +122,23 @@ static const char introspection_xml[] =
 "      <arg type='s' name='attribute' direction='in'/>"
 "      <arg type='s' name='value' direction='in'/>"
 "    </method>"
+"    <method name='ElementSetAttributeBySelector'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='selector' direction='in'/>"
+"      <arg type='s' name='attribute' direction='in'/>"
+"      <arg type='s' name='value' direction='in'/>"
+"    </method>"
 "    <method name='ElementGetTagName'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_id' direction='in'/>"
 "      <arg type='s' name='tag_name' direction='out'/>"
 "    </method>"
-"    <method name='TableCellElementGetAlign'>"
+"<!-- ********************************************************* -->"
+"<!--     Functions that are specific to composer               -->"
+"<!-- ********************************************************* -->"
+"    <method name='RemoveImageAttributesFromElementBySelector'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='align' direction='out'/>"
-"    </method>"
-"    <method name='TableCellElementGetVAlign'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='v_align' direction='out'/>"
-"    </method>"
-"    <method name='TableCellElementGetNoWrap'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='b' name='no_wrap' direction='out'/>"
-"    </method>"
-"    <method name='TableCellElementGetWidth'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='width' direction='out'/>"
-"    </method>"
-"    <method name='TableCellElementGetRowSpan'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='row_span' direction='out'/>"
-"    </method>"
-"    <method name='TableCellElementGetColSpan'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='col_span' direction='out'/>"
-"    </method>"
-"    <method name='TableCellElementGetBgColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='color' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementSetAlt'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementGetAlt'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementSetWidth'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementGetWidth'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementSetHeight'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementGetHeight'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementGetNaturalWidth'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementGetNaturalHeight'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementSetAlign'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementSetHSpace'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementGetHSpace'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementSetVSpace'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementGetVSpace'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='i' name='value' direction='out'/>"
-"    </method>"
-"    <method name='ImageElementSetBorder'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='ImageElementGetBorder'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='BodySetTextColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='BodyGetTextColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='BodySetLinkColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='BodyGetLinkColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='BodySetBgColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='BodyGetBgColor'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='BodyGetBackground'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='HRElementSetAlign'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='HRElementGetAlign'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='HRElementSetSize'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='HRElementGetSize'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='HRElementSetWidth'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='in'/>"
-"    </method>"
-"    <method name='HRElementGetWidth'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='s' name='value' direction='out'/>"
-"    </method>"
-"    <method name='HRElementSetNoShade'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='b' name='value' direction='in'/>"
-"    </method>"
-"    <method name='HRElementGetNoShade'>"
-"      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='s' name='element_id' direction='in'/>"
-"      <arg type='b' name='value' direction='out'/>"
+"      <arg type='s' name='selector' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorCellDialog      -->"
@@ -335,6 +187,22 @@ static const char introspection_xml[] =
 "      <arg type='u' name='scope' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
+"<!--     Functions that are used in EHTMLEditorHRuleDialog      -->"
+"<!-- ********************************************************* -->"
+"    <method name='EHTMLEditorHRuleDialogFindHRule'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='HRElementSetNoShade'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='value' direction='in'/>"
+"    </method>"
+"    <method name='HRElementGetNoShade'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='value' direction='out'/>"
+"    </method>"
+"<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorImageDialog     -->"
 "<!-- ********************************************************* -->"
 "    <method name='EHTMLEditorImageDialogSetElementUrl'>"
@@ -345,6 +213,56 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='value' direction='out'/>"
 "    </method>"
+"    <method name='ImageElementSetWidth'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='in'/>"
+"    </method>"
+"    <method name='ImageElementGetWidth'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ImageElementSetHeight'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='in'/>"
+"    </method>"
+"    <method name='ImageElementGetHeight'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ImageElementGetNaturalWidth'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ImageElementGetNaturalHeight'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ImageElementSetHSpace'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='in'/>"
+"    </method>"
+"    <method name='ImageElementGetHSpace'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ImageElementSetVSpace'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='in'/>"
+"    </method>"
+"    <method name='ImageElementGetVSpace'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='value' direction='out'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorLinkDialog      -->"
 "<!-- ********************************************************* -->"
@@ -352,6 +270,44 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='url' direction='in'/>"
 "      <arg type='s' name='inner_text' direction='in'/>"
+"    </method>"
+"<!-- ********************************************************* -->"
+"<!--     Functions that are used in EHTMLEditorTableDialog     -->"
+"<!-- ********************************************************* -->"
+"    <method name='EHTMLEditorTableDialogSetRowCount'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='value' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorTableDialogGetRowCount'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='value' direction='out'/>"
+"    </method>"
+"    <method name='EHTMLEditorTableDialogSetColumnCount'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='value' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorTableDialogGetColumnCount'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='value' direction='out'/>"
+"    </method>"
+"    <method name='EHTMLEditorTableDialogShow'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='created_new_table' direction='out'/>"
+"    </method>"
+"    <method name='TableCellElementGetNoWrap'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='no_wrap' direction='out'/>"
+"    </method>"
+"    <method name='TableCellElementGetRowSpan'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='row_span' direction='out'/>"
+"    </method>"
+"    <method name='TableCellElementGetColSpan'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='i' name='col_span' direction='out'/>"
 "    </method>"
 "  </interface>"
 "</node>";
@@ -429,6 +385,27 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation,
 			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "ElementGetAttributeBySelector") == 0) {
+		const gchar *attribute, *selector;
+		gchar *value = NULL;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s&s)", &page_id, &selector, &attribute);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_query_selector (document, selector, NULL);
+		if (element)
+			value = webkit_dom_element_get_attribute (element, attribute);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
 	} else if (g_strcmp0 (method_name, "ElementRemoveAttribute") == 0) {
 		const gchar *element_id, *attribute;
 		WebKitDOMElement *element;
@@ -443,6 +420,24 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			webkit_dom_element_remove_attribute (element, attribute);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ElementRemoveAttributeBySelector") == 0) {
+		const gchar *attribute, *selector;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s&s)", &page_id, &selector, &attribute);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_query_selector (document, selector, NULL);
 		if (element)
 			webkit_dom_element_remove_attribute (element, attribute);
 
@@ -468,6 +463,25 @@ handle_method_call (GDBusConnection *connection,
 				element, attribute, value, NULL);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ElementSetAttributeBySelector") == 0) {
+		const gchar *attribute, *selector, *value;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s&s)", &page_id, &selector, &attribute, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_query_selector (document, selector, NULL);
+		if (element)
+			webkit_dom_element_set_attribute (
+				element, attribute, value, NULL);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "ElementGetTagName") == 0) {
 		const gchar *element_id;
 		gchar *value = NULL;
@@ -488,157 +502,12 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation,
 			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "TableCellElementGetAlign") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_align (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "TableCellElementGetVAlign") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_v_align (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "TableCellElementGetNoWrap") == 0) {
-		const gchar *element_id;
-		gboolean value = FALSE;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_no_wrap (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (value));
-	} else if (g_strcmp0 (method_name, "TableCellElementGetWidth") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_width (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "TableCellElementGetRowSpan") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_row_span (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
-	} else if (g_strcmp0 (method_name, "TableCellElementGetColSpan") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_col_span (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
-	} else if (g_strcmp0 (method_name, "TableCellElementGetBgColor") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_table_cell_element_get_bg_color (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementGetAlt") == 0) {
-		const gchar *element_id, *value;
-		gchar *value = NULL;
+	} else if (g_strcmp0 (method_name, "RemoveImageAttributesFromElementBySelector") == 0) {
+		const gchar *selector;
 		WebKitDOMElement *element;
 
 		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
+			parameters, "(t&s)", &selector);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -646,579 +515,15 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_alt (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementSetAlt") == 0) {
-		const gchar *element_id, *value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s&s)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_alt (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
+		element = webkit_dom_document_query_selector (document, selector, NULL);
+		if (element) {
+			webkit_dom_element_remove_attribute (element, "background");
+			webkit_dom_element_remove_attribute (element, "data-uri");
+			webkit_dom_element_remove_attribute (element, "data-inline");
+			webkit_dom_element_remove_attribute (element, "data-name");
+		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementSetWidth") == 0) {
-		const gchar *element_id;
-		glong value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&si)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_width (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementGetWidth") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_width (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
-	} else if (g_strcmp0 (method_name, "ImageElementSetHeight") == 0) {
-		const gchar *element_id;
-		glong value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&si)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_width (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementGetHeight") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_height (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
-	} else if (g_strcmp0 (method_name, "ImageElementGetNaturalWidth") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_natural_width (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
-	} else if (g_strcmp0 (method_name, "ImageElementGetNaturalHeight") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_natural_height (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
-	} else if (g_strcmp0 (method_name, "ImageElementSetAlign") == 0) {
-		const gchar *element_id, *value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&ss)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_align (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementSetHSpace") == 0) {
-		const gchar *element_id;
-		glong value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&si)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_hspace (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementGetHSpace") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_hspace (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value);
-	} else if (g_strcmp0 (method_name, "ImageElementSetVSpace") == 0) {
-		const gchar *element_id;
-		glong value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&si)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_vspace (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementGetVSpace") == 0) {
-		const gchar *element_id;
-		glong value = 0;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_vspace (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value);
-	} else if (g_strcmp0 (method_name, "ImageElementSetBorder") == 0) {
-		const gchar *element_id, *value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&si)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_image_element_set_border (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "ImageElementGetBorder") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_image_element_get_border (
-				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "BodySetTextColor") == 0) {
-		const gchar *value;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		webkit_dom_html_body_element_set_text (
-			webkit_dom_document_get_body (document), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "BodyGetTextColor") == 0) {
-		gchar *value = NULL;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = webkit_dom_html_body_element_get_text (
-			webkit_dom_document_get_body (document));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "BodySetLinkColor") == 0) {
-		const gchar *value;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		webkit_dom_html_body_element_set_link (
-			webkit_dom_document_get_body (document), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "BodyGetLinkColor") == 0) {
-		gchar *value = NULL;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = webkit_dom_html_body_element_get_link (
-			webkit_dom_document_get_body (document));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "BodySetBgColor") == 0) {
-		const gchar *value;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		webkit_dom_html_body_element_set_bg_color (
-			webkit_dom_document_get_body (document), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "BodyGetBgColor") == 0) {
-		gchar *value = NULL;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = webkit_dom_html_body_element_get_bg_color (
-			webkit_dom_document_get_body (document));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "BodyGetBackground") == 0) {
-		gchar *value = NULL;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		value = webkit_dom_html_body_element_get_background (
-			webkit_dom_document_get_body (document));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "HRElementSetAlign") == 0) {
-		const gchar *element_id, *value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s&s)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_hr_element_set_align (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "HRElementGetAlign") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_hr_element_get_align (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "HRElementSetSize") == 0) {
-		const gchar *element_id, *value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s&s)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_hr_element_set_size (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "HRElementGetSize") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_hr_element_get_size (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "HRElementSetWidth") == 0) {
-		const gchar *element_id, *value;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s&s)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_hr_element_set_width (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "HRElementGetSize") == 0) {
-		const gchar *element_id;
-		gchar *value = NULL;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_hr_element_get_width (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
-	} else if (g_strcmp0 (method_name, "HRElementSetNoShade") == 0) {
-		gboolean value = FALSE;
-		const gchar *element_id;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&sb)", &page_id, &element_id, &value);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			webkit_dom_html_hr_element_set_no_shade (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element), value);
-
-		g_dbus_method_invocation_return_value (invocation, NULL);
-	} else if (g_strcmp0 (method_name, "HRElementGetNoShade") == 0) {
-		gboolean *value = FALSE;
-		const gchar *element_id;
-		WebKitDOMElement *element;
-
-		g_variant_get (
-			parameters, "(t&s)", &page_id, &element_id);
-
-		web_page = get_webkit_web_page_or_return_dbus_error (
-			invocation, web_extension, page_id);
-		if (!web_page)
-			return;
-
-		document = webkit_web_page_get_dom_document (web_page);
-		element = webkit_dom_document_get_element_by_id (document, element_id);
-		if (element)
-			value = webkit_dom_html_hr_element_get_no_shade (
-				WEBKIT_DOM_HTML_HR_ELEMENT (element));
-
-		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (value));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorCellDialogMarkCurrentCellElement") == 0) {
 		const gchar *element_id;
 
@@ -1354,6 +659,59 @@ handle_method_call (GDBusConnection *connection,
 		e_html_editor_cell_dialog_set_element_bg_color (document, value, scope);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorHRuleDialogFindHRule") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_hrule_dialog_find_hrule (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "HRElementSetNoShade") == 0) {
+		gboolean value = FALSE;
+		const gchar *element_id;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&sb)", &page_id, &element_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			webkit_dom_html_hr_element_set_no_shade (
+				WEBKIT_DOM_HTML_HR_ELEMENT (element), value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "HRElementGetNoShade") == 0) {
+		gboolean *value = FALSE;
+		const gchar *element_id;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_hr_element_get_no_shade (
+				WEBKIT_DOM_HTML_HR_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_boolean (value));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorImageDialogSetElementUrl") == 0) {
 		const gchar *value;
 		guint scope;
@@ -1386,6 +744,212 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation,
 			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "ImageElementSetWidth") == 0) {
+		const gchar *element_id;
+		glong value;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&si)", &page_id, &element_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			webkit_dom_html_image_element_set_width (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ImageElementGetWidth") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_image_element_get_width (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value));
+	} else if (g_strcmp0 (method_name, "ImageElementSetHeight") == 0) {
+		const gchar *element_id;
+		glong value;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&si)", &page_id, &element_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			webkit_dom_html_image_element_set_width (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ImageElementGetHeight") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_image_element_get_height (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value));
+	} else if (g_strcmp0 (method_name, "ImageElementGetNaturalWidth") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_image_element_get_natural_width (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value));
+	} else if (g_strcmp0 (method_name, "ImageElementGetNaturalHeight") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_image_element_get_natural_height (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value));
+	} else if (g_strcmp0 (method_name, "ImageElementSetHSpace") == 0) {
+		const gchar *element_id;
+		glong value;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&si)", &page_id, &element_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			webkit_dom_html_image_element_set_hspace (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ImageElementGetHSpace") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_image_element_get_hspace (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value);
+	} else if (g_strcmp0 (method_name, "ImageElementSetVSpace") == 0) {
+		const gchar *element_id;
+		glong value;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&si)", &page_id, &element_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			webkit_dom_html_image_element_set_vspace (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ImageElementGetVSpace") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (
+			parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_image_element_get_vspace (
+				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorLinkDialogOk") == 0) {
 		const gchar *url, *inner_text;
 
@@ -1400,6 +964,139 @@ handle_method_call (GDBusConnection *connection,
 		e_html_editor_link_dialog_ok (document, url, inner_text);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogSetRowCount") == 0) {
+		gulong value;
+
+		g_variant_get (parameters, "(tu)", &page_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_table_dialog_set_row_count (document, value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogGetRowCount") == 0) {
+		gulong value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = e_html_editor_table_dialog_get_row_count (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_uint32 (value));
+	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogSetColumnCount") == 0) {
+		gulong value;
+
+		g_variant_get (parameters, "(tu)", &page_id, &value);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_table_dialog_set_column_count (document, value);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogGetColumnCount") == 0) {
+		gulong value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = e_html_editor_table_dialog_get_column_count (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_uint32 (value));
+	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogShow") == 0) {
+		gboolean created_new_table;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		created_new_table = e_html_editor_table_dialog_show (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_boolean (created_new_table));
+	} else if (g_strcmp0 (method_name, "TableCellElementGetNoWrap") == 0) {
+		const gchar *element_id;
+		gboolean value = FALSE;
+		WebKitDOMElement *element;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_table_cell_element_get_no_wrap (
+				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_boolean (value));
+	} else if (g_strcmp0 (method_name, "TableCellElementGetRowSpan") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_table_cell_element_get_row_span (
+				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value));
+	} else if (g_strcmp0 (method_name, "TableCellElementGetColSpan") == 0) {
+		const gchar *element_id;
+		glong value = 0;
+		WebKitDOMElement *element;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &element_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		element = webkit_dom_document_get_element_by_id (document, element_id);
+		if (element)
+			value = webkit_dom_html_table_cell_element_get_col_span (
+				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_int32 (value));
 	}
 }
 

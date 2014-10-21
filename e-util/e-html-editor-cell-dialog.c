@@ -29,9 +29,7 @@
 
 #include "e-color-combo.h"
 #include "e-dialog-widgets.h"
-#include "e-html-editor-utils.h"
 #include "e-image-chooser-dialog.h"
-#include "e-misc-utils.h"
 #include "e-misc-utils.h"
 
 #define E_HTML_EDITOR_CELL_DIALOG_GET_PRIVATE(obj) \
@@ -371,7 +369,7 @@ html_editor_cell_dialog_set_background_image (EHTMLEditorCellDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GDBusProxy *web_extension;
-	const gchar *uri;
+	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
@@ -382,15 +380,10 @@ html_editor_cell_dialog_set_background_image (EHTMLEditorCellDialog *dialog)
 	uri = gtk_file_chooser_get_uri (
 		GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
 
-	if (!uri || !*uri) {
-		e_html_editor_selection_replace_image_src (
-			e_html_editor_view_get_selection (view),
-			"#-x-evo-current-cell",
-			uri);
-	} else {
+	if (uri && *uri)
 		g_dbus_proxy_call (
 			web_extension,
-			"RemoveImageAttributesFromElement",
+			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new (
 				"(ts)",
 				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
@@ -400,9 +393,15 @@ html_editor_cell_dialog_set_background_image (EHTMLEditorCellDialog *dialog)
 			NULL,
 			NULL,
 			NULL);
-	}
+	else
+		e_html_editor_selection_replace_image_src (
+			e_html_editor_view_get_selection (view),
+			"#-x-evo-current-cell",
+			uri);
 
 	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
+
+	g_free (uri);
 }
 
 static void
@@ -411,7 +410,6 @@ html_editor_cell_dialog_remove_image (EHTMLEditorCellDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GDBusProxy *web_extension;
-	const gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
@@ -421,7 +419,7 @@ html_editor_cell_dialog_remove_image (EHTMLEditorCellDialog *dialog)
 
 	g_dbus_proxy_call (
 		web_extension,
-		"RemoveImageAttributesFromElement",
+		"RemoveImageAttributesFromElementBySelector",
 		g_variant_new (
 			"(ts)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
@@ -448,7 +446,7 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 	GVariant *result;
 	GdkRGBA color;
 
-	dialog = E_HTML_EDITOR_CELL_DIALOG (dialog);
+	dialog = E_HTML_EDITOR_CELL_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
@@ -458,17 +456,8 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetAlign",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-cell", "align");
 
 	if (result) {
 		const gchar *align;
@@ -480,17 +469,8 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 		g_variant_unref (result);
 	}
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetVAlign",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-cell", "valign");
 
 	if (result) {
 		const gchar *v_align;
@@ -545,17 +525,8 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 		g_variant_unref (result);
 	}
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetWidth",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-cell", "width");
 
 	if (result) {
 		const gchar *width;
@@ -640,19 +611,9 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 		g_variant_get (result, "(b)", &has_background);
 		if (has_background) {
 			g_variant_unref (result);
-			result = g_dbus_proxy_call_sync (
-				web_extension,
-				"ElementGetAttribute",
-				g_variant_new (
-					"(tss)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (view)),
-					"-x-evo-current-cell",
-					"data-uri"),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				NULL,
-				NULL);
+
+			result = e_html_editor_view_get_element_attribute (
+				view, "#-x-evo-current-cell", "data-uri");
 
 			if (result) {
 				const gchar *value;
@@ -672,17 +633,8 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 		}
 	}
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"TableCellElementGetBgColor",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-cell", "bgcolor");
 
 	if (result) {
 		const gchar *bg_color;
@@ -716,28 +668,13 @@ html_editor_cell_dialog_hide (GtkWidget *widget)
 	EHTMLEditor *editor;
 	EHTMLEditorCellDialog *dialog;
 	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
 
 	dialog = E_HTML_EDITOR_CELL_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	g_dbus_proxy_call (
-		web_extension,
-		"ElementRemoveAttribute",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-cell",
-			"id"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_remove_element_attribute (
+		view, "#-x-evo-current-cell", "id");
 
 	GTK_WIDGET_CLASS (e_html_editor_cell_dialog_parent_class)->hide (widget);
 }

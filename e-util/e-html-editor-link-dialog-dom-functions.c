@@ -119,7 +119,8 @@ e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 	/* No selection at all */
 	if (!dom_selection ||
 	    webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
-		return;
+		result = g_variant_new ("(ss)", "", "");
+		return result;
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);

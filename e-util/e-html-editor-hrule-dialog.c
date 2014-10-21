@@ -51,28 +51,16 @@ html_editor_hrule_dialog_set_alignment (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
+	const gchar *value;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	g_dbus_proxy_call (
-		web_extension,
-		"HRElementSetAlign",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr",
-			gtk_combo_box_get_active_id (
-				GTK_COMBO_BOX (dialog->priv->alignment_combo))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	value = gtk_combo_box_get_active_id (
+		GTK_COMBO_BOX (dialog->priv->alignment_combo));
+
+	e_html_editor_view_set_element_attribute (
+		view, "#-x-evo-current-hr", "align", value);
 }
 
 static void
@@ -80,26 +68,13 @@ html_editor_hrule_dialog_get_alignment (EHTMLEditorHRuleDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
 	GVariant *result;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"HRElementGetAlign",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-hr", "align");
 
 	if (result) {
 		const gchar *value;
@@ -117,32 +92,17 @@ html_editor_hrule_dialog_set_size (EHTMLEditorHRuleDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	gchar *size;
-	GDBusProxy *web_extension;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
 	size = g_strdup_printf (
 		"%d",
 		(gint) gtk_spin_button_get_value (
 			GTK_SPIN_BUTTON (dialog->priv->size_edit)));
 
-	g_dbus_proxy_call (
-		web_extension,
-		"HRElementGetAlign",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr",
-			size),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_set_element_attribute (
+		view, "#-x-evo-current-hr", "size", size);
 
 	g_free (size);
 }
@@ -153,25 +113,12 @@ html_editor_hrule_dialog_get_size (EHTMLEditorHRuleDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GVariant *result;
-	GDBusProxy *web_extension;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"HRElementGetSize",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-hr", "size");
 
 	if (result) {
 		const gchar *value;
@@ -198,13 +145,9 @@ html_editor_hrule_dialog_set_width (EHTMLEditorHRuleDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	gchar *width, *units;
-	GDBusProxy *web_extension;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
 	units = gtk_combo_box_text_get_active_text (
 			GTK_COMBO_BOX_TEXT (dialog->priv->unit_combo));
@@ -214,19 +157,8 @@ html_editor_hrule_dialog_set_width (EHTMLEditorHRuleDialog *dialog)
 			GTK_SPIN_BUTTON (dialog->priv->width_edit)),
 		units);
 
-	g_dbus_proxy_call (
-		web_extension,
-		"HRElementSetWidth",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr",
-			width),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_set_element_attribute (
+		view, "#-x-evo-current-hr", "width", width);
 
 	g_free (units);
 	g_free (width);
@@ -238,25 +170,12 @@ html_editor_hrule_dialog_get_width (EHTMLEditorHRuleDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	GVariant *result;
-	GDBusProxy *web_extension;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"HRElementGetWidth",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+	result = e_html_editor_view_get_element_attribute (
+		view, "#-x-evo-current-hr", "width");
 
 	if (result) {
 		const gchar *value, *units;
@@ -357,28 +276,13 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 	EHTMLEditor *editor;
 	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	g_dbus_proxy_call (
-		web_extension,
-		"ElementRemoveAttribute",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-current-hr",
-			"id"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_remove_element_attribute (
+		view, "#-x-evo-current-hr", "id");
 
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }

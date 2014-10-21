@@ -20,64 +20,14 @@
 
 #include "e-dom-utils.h"
 
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
 static WebKitDOMElement *
 get_current_table_element (WebKitDOMDocument *document)
 {
 	return webkit_dom_document_get_element_by_id (document, "-x-evo-current-table");
-}
-
-static WebKitDOMElement *
-e_html_editor_table_dialog_create_table (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *table, *br, *caret, *parent, *element;
-	gint i;
-
-	/* Default 3x3 table */
-	table = webkit_dom_document_create_element (document, "TABLE", NULL);
-	for (i = 0; i < 3; i++) {
-		WebKitDOMHTMLElement *row;
-		gint j;
-
-		row = webkit_dom_html_table_element_insert_row (
-			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
-
-		for (j = 0; j < 3; j++) {
-			webkit_dom_html_table_row_element_insert_cell (
-				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
-		}
-	}
-
-	caret = e_html_editor_selection_dom_save_caret_position (document);
-
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
-	element = caret;
-
-	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		element = parent;
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
-
-	br = webkit_dom_document_create_element (document, "BR", NULL);
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (br),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-		NULL);
-
-	/* Insert the table into body below the caret */
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (table),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-		NULL);
-
-	e_html_editor_selection_dom_clear_caret_position_marker (document);
-
-	/* FIXME WK2
-	e_html_editor_view_set_changed (view, TRUE);*/
-
-	return table;
 }
 
 void
@@ -183,152 +133,86 @@ e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 	return webkit_dom_html_collection_get_length (columns);
 }
 
-void
-e_html_editor_table_dialog_set_width (WebKitDOMDocument *document,
-                                      const gchar *width)
+static
+create_table (WebKitDOMDocument *document)
 {
-	WebKitDOMElement *table_element;
+	WebKitDOMElement *table, *br, *caret, *parent, *element;
+	gint i;
 
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return;
+	/* Default 3x3 table */
+	table = webkit_dom_document_create_element (document, "TABLE", NULL);
+	for (i = 0; i < 3; i++) {
+		WebKitDOMHTMLElement *row;
+		gint j;
 
-	webkit_dom_html_table_element_set_width (table_element, width);
+		row = webkit_dom_html_table_element_insert_row (
+			WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
+
+		for (j = 0; j < 3; j++) {
+			webkit_dom_html_table_row_element_insert_cell (
+				WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
+		}
+	}
+
+	webkit_dom_element_set_id (table, "-x-evo-current-table");
+
+	caret = e_html_editor_selection_dom_save_caret_position (document);
+
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
+	element = caret;
+
+	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		element = parent;
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+
+	br = webkit_dom_document_create_element (document, "BR", NULL);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (parent),
+		WEBKIT_DOM_NODE (br),
+		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+		NULL);
+
+	/* Insert the table into body below the caret */
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (parent),
+		WEBKIT_DOM_NODE (table),
+		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+		NULL);
+
+	e_html_editor_selection_dom_clear_caret_position_marker (document);
+
+	/* FIXME WK2
+	e_html_editor_view_set_changed (view, TRUE);*/
+
+	return table;
 }
 
-gchar *
-e_html_editor_table_dialog_get_width (WebKitDOMDocument *document)
+gboolean
+e_html_editor_table_dialog_show (WebKitDOMDocument *document)
 {
-	WebKitDOMElement *table_element;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
 
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return NULL;
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
+		WebKitDOMElement *table;
+		WebKitDOMRange *range;
 
-	return webkit_dom_html_table_element_get_width (table_element);
-}
+		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		table = e_html_editor_dom_node_find_parent_element (
+			webkit_dom_range_get_start_container (range, NULL), "TABLE");
 
-void
-e_html_editor_table_dialog_set_alignment (WebKitDOMDocument *document.
-                                          const gchar *value)
-{
-	WebKitDOMElement *table_element;
+		if (table) {
+			webkit_dom_element_set_id (table, "-x-evo-current-table");
+			return FALSE;
+		} else {
+			create_table (document);
+			return TRUE;
+		}
+	}
 
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return;
-
-	webkit_dom_html_table_element_set_align (table_element, value);
-}
-
-gchar *
-e_html_editor_table_dialog_get_alignment (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return NULL;
-
-	return webkit_dom_html_table_element_get_align (table_element);
-}
-
-void
-e_html_editor_table_dialog_set_padding (WebKitDOMDocument *document.
-                                        const gchar *value)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return;
-
-	webkit_dom_html_table_element_set_cell_padding (table_element, value);
-}
-
-gchar *
-e_html_editor_table_dialog_get_padding (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return NULL;
-
-	return webkit_dom_html_table_element_get_cell_padding (table_element);
-}
-
-void
-e_html_editor_table_dialog_set_spacing (WebKitDOMDocument *document.
-                                        const gchar *value)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return;
-
-	webkit_dom_html_table_element_set_cell_spacing (table_element, value);
-}
-
-gchar *
-e_html_editor_table_dialog_get_spacing (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return NULL;
-
-	return webkit_dom_html_table_element_get_cell_spacing (table_element);
-}
-
-void
-e_html_editor_table_dialog_set_border (WebKitDOMDocument *document.
-                                       const gchar *value)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return;
-
-	webkit_dom_html_table_element_set_border (table_element, value);
-}
-
-gchar *
-e_html_editor_table_dialog_get_border (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return NULL;
-
-	return webkit_dom_html_table_element_get_border (table_element);
-}
-
-void
-e_html_editor_table_dialog_set_bg_color (WebKitDOMDocument *document.
-                                         const gchar *value)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return;
-
-	webkit_dom_html_table_element_set_bg_color (table_element, value);
-}
-
-gchar *
-e_html_editor_table_dialog_get_bg_color (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *table_element;
-
-	table_element = get_current_table_element (document);
-	if (!table_element)
-		return NULL;
-
-	return webkit_dom_html_table_element_get_bg_color (table_element);
+	return FALSE;
 }
