@@ -40,7 +40,6 @@
 static const gchar *authors[] = {
 	"The Evolution Team",
 	"",
-	"Matthew Barnes <mbarnes@redhat.com>",
 	"Milan Crha <mcrha@redhat.com>",
 	"Fabiano Fid\xC3\xAAncio <fabiano@fidencio.org>",
 	"",
