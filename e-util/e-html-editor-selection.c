@@ -1958,8 +1958,9 @@ process_block_to_block (EHTMLEditorSelection *selection,
 			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
 			quote = citation_level ? citation_level * 2 : 0;
 
-			element = e_html_editor_selection_wrap_paragraph_length (
-				selection, element, selection->priv->word_wrap_length - quote);
+			if (citation_level > 0)
+				element = e_html_editor_selection_wrap_paragraph_length (
+					selection, element, selection->priv->word_wrap_length - quote);
 		}
 
 		if (quoted)
@@ -5779,8 +5780,12 @@ e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selec
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
+	/* Only wrap paragraphs that are inside the quoted content, others are
+	 * wrapped by CSS. */
 	list = webkit_dom_document_query_selector_all (
-		document, "div.-x-evo-paragraph:not(#-x-evo-input-start)", NULL);
+		document,
+		"blockquote[type=cite] > div.-x-evo-paragraph:not(#-x-evo-input-start)",
+		NULL);
 
 	length = webkit_dom_node_list_get_length (list);
 
