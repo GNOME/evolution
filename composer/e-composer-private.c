@@ -131,7 +131,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->charset = e_composer_get_default_charset ();
 
-	priv->is_from_message = FALSE;
 	priv->is_from_new_message = FALSE;
 	priv->set_signature_from_message = FALSE;
 	priv->disable_signature = FALSE;
@@ -818,7 +817,9 @@ composer_move_caret (EMsgComposer *composer)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *editor_selection;
 	GSettings *settings;
-	gboolean start_bottom, top_signature, is_from_draft;
+	gboolean start_bottom, top_signature;
+	gboolean is_message_from_draft;
+	gboolean is_message_from_edit_as_new;
 	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
@@ -834,15 +835,17 @@ composer_move_caret (EMsgComposer *composer)
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 
-	top_signature =
-		use_top_signature (composer) &&
-		!composer->priv->is_from_message &&
-		!composer->priv->is_from_new_message;
-
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
-	is_from_draft = e_html_editor_view_is_message_from_draft (view);
+	is_message_from_draft = e_html_editor_view_is_message_from_draft (view);
+	is_message_from_edit_as_new =
+		e_html_editor_view_is_message_from_edit_as_new (view);
+
+	top_signature =
+		use_top_signature (composer) &&
+		!is_message_from_edit_as_new &&
+		!composer->priv->is_from_new_message;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
@@ -854,8 +857,8 @@ composer_move_caret (EMsgComposer *composer)
 	new_range = webkit_dom_document_create_range (document);
 
 	/* If editing message as new don't handle with caret */
-	if (composer->priv->is_from_message || is_from_draft) {
-		if (composer->priv->is_from_message)
+	if (is_message_from_edit_as_new || is_message_from_draft) {
+		if (is_message_from_edit_as_new)
 			webkit_dom_element_set_attribute (
 				WEBKIT_DOM_ELEMENT (body),
 				"data-edit-as-new",
@@ -993,6 +996,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	gulong list_length, ii;
 	GSettings *settings;
 	gboolean start_bottom;
+	gboolean is_message_from_edit_as_new;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -1004,11 +1008,16 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		goto exit;
 	}
 
-	/* "Edit as New Message" sets "priv->is_from_message".
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	is_message_from_edit_as_new =
+		e_html_editor_view_is_message_from_edit_as_new (view);
+
+	/* "Edit as New Message" sets is_message_from_edit_as_new.
 	 * Always put the signature at the bottom for that case. */
 	top_signature =
 		use_top_signature (composer) &&
-		!composer->priv->is_from_message &&
+		!is_message_from_edit_as_new &&
 		!composer->priv->is_from_new_message;
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
@@ -1081,9 +1090,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 insert:
 	/* Remove the old signature and insert the new one. */
 
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	signatures = webkit_dom_document_get_elements_by_class_name (
@@ -1100,7 +1106,7 @@ insert:
 		/* When we are editing a message with signature we need to set active
 		 * signature id in signature combo box otherwise no signature will be
 		 * added but we have to do it just once when the composer opens */
-		if (composer->priv->is_from_message && composer->priv->set_signature_from_message) {
+		if (is_message_from_edit_as_new && composer->priv->set_signature_from_message) {
 			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
 			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
 			g_free (name);

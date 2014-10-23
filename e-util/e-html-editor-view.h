@@ -175,6 +175,11 @@ void		e_html_editor_view_set_is_message_from_draft
 void		e_html_editor_view_set_is_message_from_selection
 						(EHTMLEditorView *view,
 						 gboolean value);
+gboolean	e_html_editor_view_is_message_from_edit_as_new
+						(EHTMLEditorView *view);
+void		e_html_editor_view_set_is_message_from_edit_as_new
+						(EHTMLEditorView *view,
+						 gboolean value);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

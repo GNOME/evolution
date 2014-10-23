@@ -1586,6 +1586,8 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 static void
 msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
 	EMailSignatureComboBox *combo_box;
 	ESourceMailComposition *mc;
 	ESourceOpenPGP *pgp;
@@ -1598,6 +1600,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean pgp_sign;
 	gboolean smime_sign;
 	gboolean smime_encrypt;
+	gboolean is_message_from_edit_as_new;
 	const gchar *extension_name;
 	const gchar *uid;
 
@@ -1630,21 +1633,26 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 			composer->priv->mime_type,
 			"text/calendar", 13) != 0);
 
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	is_message_from_edit_as_new =
+		e_html_editor_view_is_message_from_edit_as_new (view);
+
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
 	active = gtk_toggle_action_get_active (action);
-	active &= composer->priv->is_from_message;
+	active &= is_message_from_edit_as_new;
 	active |= (can_sign && pgp_sign);
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
 	active = gtk_toggle_action_get_active (action);
-	active &= composer->priv->is_from_message;
+	active &= is_message_from_edit_as_new;
 	active |= (can_sign && smime_sign);
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
 	active = gtk_toggle_action_get_active (action);
-	active &= composer->priv->is_from_message;
+	active &= is_message_from_edit_as_new;
 	active |= smime_encrypt;
 	gtk_toggle_action_set_active (action, active);
 
@@ -3043,19 +3051,19 @@ handle_multipart (EMsgComposer *composer,
 
 		} else if (depth == 0 && i == 0) {
 			EHTMLEditor *editor;
-			gboolean is_from_draft, is_html = FALSE;
+			gboolean is_message_from_draft, is_html = FALSE;
 			gchar *html;
 			gssize length;
 
 			editor = e_msg_composer_get_editor (composer);
-			is_from_draft = e_html_editor_view_is_message_from_draft (
+			is_message_from_draft = e_html_editor_view_is_message_from_draft (
 				e_html_editor_get_view (editor));
 
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
 
 			/* If we are opening message from Drafts */
-			if (is_from_draft) {
+			if (is_message_from_draft) {
 				/* Extract the body */
 				CamelDataWrapper *dw;
 
@@ -3226,7 +3234,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	struct _camel_header_raw *xev;
 	gchar *identity_uid;
 	gint len, i;
-	gboolean is_from_draft = FALSE;
+	gboolean is_message_from_draft = FALSE;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -3370,8 +3378,8 @@ e_msg_composer_new_with_message (EShell *shell,
 		CAMEL_MEDIUM (message), "X-Evolution-Composer-Mode");
 
 	if (composer_mode && *composer_mode) {
-		is_from_draft = TRUE;
-		e_html_editor_view_set_is_message_from_draft (view, is_from_draft);
+		is_message_from_draft = TRUE;
+		e_html_editor_view_set_is_message_from_draft (view, TRUE);
 	}
 
 	if (format != NULL) {
@@ -3504,7 +3512,7 @@ e_msg_composer_new_with_message (EShell *shell,
 		}
 
 		/* If we are opening message from Drafts */
-		if (is_from_draft) {
+		if (is_message_from_draft) {
 			/* Extract the body */
 			CamelDataWrapper *dw;
 
@@ -3531,7 +3539,7 @@ e_msg_composer_new_with_message (EShell *shell,
 		e_msg_composer_set_pending_body (composer, html, length, is_html);
 	}
 
-	priv->is_from_message = TRUE;
+	e_html_editor_view_set_is_message_from_edit_as_new (view, TRUE);
 	priv->set_signature_from_message = TRUE;
 
 	/* We wait until now to set the body text because we need to
