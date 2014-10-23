@@ -67,6 +67,9 @@
       <separator/>
       <menu action='paragraph-style-menu'>
         <menuitem action='style-normal'/>
+        <menuitem action='style-preformat'/>
+        <menuitem action='style-address'/>
+        <menuitem action='style-blockquote'/>
         <separator/>
         <menuitem action='style-h1'/>
         <menuitem action='style-h2'/>
@@ -79,9 +82,6 @@
         <menuitem action='style-list-roman'/>
         <menuitem action='style-list-number'/>
         <menuitem action='style-list-alpha'/>
-        <separator/>
-        <menuitem action='style-address'/>
-        <menuitem action='style-preformat'/>
       </menu>
       <menu action='justify-menu'>
         <menuitem action='justify-left'/>
