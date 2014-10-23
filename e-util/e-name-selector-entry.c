@@ -63,6 +63,8 @@ struct _ENameSelectorEntryPrivate {
 
 	/* For asynchronous operations. */
 	GQueue cancellables;
+
+	GHashTable *known_contacts; /* gchar * ~> 1 */
 };
 
 enum {
@@ -205,6 +207,11 @@ name_selector_entry_dispose (GObject *object)
 	if (priv->contact_store) {
 		g_object_unref (priv->contact_store);
 		priv->contact_store = NULL;
+	}
+
+	if (priv->known_contacts) {
+		g_hash_table_destroy (priv->known_contacts);
+		priv->known_contacts = NULL;
 	}
 
 	g_slist_foreach (priv->user_query_fields, (GFunc) g_free, NULL);
@@ -371,6 +378,77 @@ e_name_selector_entry_class_init (ENameSelectorEntryClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE, 1, G_TYPE_POINTER);
+}
+
+static gchar *
+describe_contact (EContact *contact)
+{
+	GString *description;
+	const gchar *str;
+	GList *emails, *link;
+
+	g_return_val_if_fail (E_IS_CONTACT (contact), NULL);
+
+	emails = e_contact_get (contact, E_CONTACT_EMAIL);
+	/* Cannot merge one contact with multiple addresses with another contact */
+	if (!e_contact_get (contact, E_CONTACT_IS_LIST) && emails && emails->next) {
+		deep_free_list (emails);
+		return NULL;
+	}
+
+	description = g_string_new ("");
+
+	if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
+		g_string_append (description, "list\n");
+	} else {
+		g_string_append (description, "indv\n");
+	}
+
+	str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+	g_string_append (description, str ? str : "");
+	g_string_append (description, "\n");
+
+	str = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
+	g_string_append (description, str ? str : "");
+	g_string_append (description, "\n");
+
+	emails = e_contact_get (contact, E_CONTACT_EMAIL);
+	emails = g_list_sort (emails, (GCompareFunc) g_ascii_strcasecmp);
+	for (link = emails; link; link = g_list_next (link)) {
+		str = link->data;
+
+		g_string_append (description, str ? str : "");
+		g_string_append (description, "\n");
+	}
+
+	deep_free_list (emails);
+
+	return g_string_free (description, FALSE);
+}
+
+static gboolean
+is_duplicate_contact_and_remember (ENameSelectorEntry *nsentry,
+				   EContact *contact)
+{
+	gchar *description;
+
+	g_return_val_if_fail (E_IS_NAME_SELECTOR_ENTRY (nsentry), FALSE);
+	g_return_val_if_fail (E_IS_CONTACT (contact), FALSE);
+
+	description = describe_contact (contact);
+	if (!description) {
+		/* Might be a contact with multiple addresses */
+		return FALSE;
+	}
+
+	if (g_hash_table_lookup (nsentry->priv->known_contacts, description)) {
+		g_free (description);
+		return TRUE;
+	}
+
+	g_hash_table_insert (nsentry->priv->known_contacts, description, GINT_TO_POINTER (1));
+
+	return FALSE;
 }
 
 /* Remove unquoted commas and control characters from string */
@@ -1161,6 +1239,7 @@ clear_completion_model (ENameSelectorEntry *name_selector_entry)
 		return;
 
 	e_contact_store_set_query (name_selector_entry->priv->contact_store, NULL);
+	g_hash_table_remove_all (name_selector_entry->priv->known_contacts);
 	priv->is_completing = FALSE;
 }
 
@@ -1184,6 +1263,8 @@ update_completion_model (ENameSelectorEntry *name_selector_entry)
 		cue_str = get_entry_substring (name_selector_entry, range_start, range_end);
 		set_completion_query (name_selector_entry, cue_str);
 		g_free (cue_str);
+
+		g_hash_table_remove_all (name_selector_entry->priv->known_contacts);
 	} else {
 		/* N/A; Clear completion model */
 		clear_completion_model (name_selector_entry);
@@ -2169,6 +2250,9 @@ generate_contact_rows (EContactStore *contact_store,
 	contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
 	if (!contact_uid)
 		return 0;  /* Can happen with broken databases */
+
+	if (is_duplicate_contact_and_remember (name_selector_entry, contact))
+		return 0;
 
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		return 1;
@@ -3231,6 +3315,7 @@ e_name_selector_entry_init (ENameSelectorEntry *name_selector_entry)
 
 	name_selector_entry->priv->minimum_query_length = 3;
 	name_selector_entry->priv->show_address = FALSE;
+	name_selector_entry->priv->known_contacts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	/* Edit signals */
 
