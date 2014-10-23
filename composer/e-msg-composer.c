@@ -1539,25 +1539,9 @@ set_editor_text (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
 
-	/*
-	 *
-	 * Keeping Signatures in the beginning of composer
-	 * ------------------------------------------------
-	 *
-	 * Purists are gonna blast me for this.
-	 * But there are so many people (read Outlook users) who want this.
-	 * And Evo is an exchange-client, Outlook-replacement etc.
-	 * So Here it goes :(
-	 *
-	 * -- Sankar
-	 *
-	 */
-
-	/* "Edit as New Message" sets "priv->is_from_message".
-	 * Always put the signature at the bottom for that case. */
-
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
+
 	if (is_html)
 		e_html_editor_view_set_text_html (view, text);
 	else

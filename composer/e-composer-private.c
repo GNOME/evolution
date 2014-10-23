@@ -880,6 +880,19 @@ composer_move_caret (EMsgComposer *composer)
 		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
 			has_paragraphs_in_body = FALSE;
 
+	/*
+	 *
+	 * Keeping Signatures in the beginning of composer
+	 * ------------------------------------------------
+	 *
+	 * Purists are gonna blast me for this.
+	 * But there are so many people (read Outlook users) who want this.
+	 * And Evo is an exchange-client, Outlook-replacement etc.
+	 * So Here it goes :(
+	 *
+	 * -- Sankar
+	 *
+	 */
 	if (signature && top_signature) {
 		element_add_class (signature, "-x-evo-top-signature");
 		element = prepare_paragraph (editor_selection, document);
