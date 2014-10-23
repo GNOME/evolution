@@ -1218,14 +1218,6 @@ composer_build_message (EMsgComposer *composer,
 		g_free (encoded_organization);
 	}
 
-	/* X-Evolution-Format */
-	composer_add_evolution_format_header (
-		CAMEL_MEDIUM (context->message), flags);
-
-	/* X-Evolution-Composer-Mode */
-	composer_add_evolution_composer_mode_header (
-		CAMEL_MEDIUM (context->message), composer);
-
 	if (flags & COMPOSER_FLAG_SAVE_DRAFT) {
 		gchar *text;
 		EHTMLEditor *editor;
@@ -1235,6 +1227,14 @@ composer_build_message (EMsgComposer *composer,
 		editor = e_msg_composer_get_editor (composer);
 		view = e_html_editor_get_view (editor);
 		selection = e_html_editor_view_get_selection (view);
+
+		/* X-Evolution-Format */
+		composer_add_evolution_format_header (
+			CAMEL_MEDIUM (context->message), flags);
+
+		/* X-Evolution-Composer-Mode */
+		composer_add_evolution_composer_mode_header (
+			CAMEL_MEDIUM (context->message), composer);
 
 		data = g_byte_array_new ();
 
