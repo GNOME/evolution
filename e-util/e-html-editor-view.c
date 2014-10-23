@@ -4316,7 +4316,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
                                                   WebKitDOMDocument *document_convertor)
 {
 	EHTMLEditorSelection *selection = e_html_editor_view_get_selection (view);
-	gboolean start_bottom, empty;
+	gboolean start_bottom, empty = FALSE;
 	gchar *inner_text, *inner_html;
 	gint ii, length;
 	GSettings *settings;
@@ -4452,10 +4452,16 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (wrapper));
 
-	empty = (webkit_dom_element_get_child_element_count (
-		WEBKIT_DOM_ELEMENT (body_convertor)) == 1);
-	empty &= WEBKIT_DOM_IS_HTMLBR_ELEMENT (
-		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body_convertor)));
+	length = webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (body_convertor));
+	if (length <= 1) {
+		empty = TRUE;
+		if (length == 1) {
+			WebKitDOMNode *child;
+
+			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body_convertor));
+			empty = child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (child);
+		}
+	}
 
 	if (!empty)
 		parse_html_into_paragraphs (view, document, wrapper, inner_html, FALSE);
