@@ -276,15 +276,16 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 		view, html_editor_view_selection_changed_cb, NULL);
 	e_html_editor_selection_block_selection_changed (selection);
 
-	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker));
+	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_end_marker));
 
 	/* Append some text on the end of the element */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
 	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (get_parent_block_element (
-			WEBKIT_DOM_NODE (selection_end_marker))),
+		WEBKIT_DOM_NODE (parent),
 		WEBKIT_DOM_NODE (text),
 		NULL);
+
+	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start_marker));
 
 	/* Create range that's pointing on the end of this text */
 	end_range = webkit_dom_document_create_range (document);
