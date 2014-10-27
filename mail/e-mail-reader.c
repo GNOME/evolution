@@ -734,6 +734,34 @@ action_mail_mark_unimportant_cb (GtkAction *action,
 }
 
 static void
+action_mail_mark_ignore_thread_sub_cb (GtkAction *action,
+					 EMailReader *reader)
+{
+	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_SUBSET_SET);
+}
+
+static void
+action_mail_mark_unignore_thread_sub_cb (GtkAction *action,
+					 EMailReader *reader)
+{
+	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_SUBSET_UNSET);
+}
+
+static void
+action_mail_mark_ignore_thread_whole_cb (GtkAction *action,
+					 EMailReader *reader)
+{
+	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_WHOLE_SET);
+}
+
+static void
+action_mail_mark_unignore_thread_whole_cb (GtkAction *action,
+					   EMailReader *reader)
+{
+	e_mail_reader_mark_selected_ignore_thread (reader, E_IGNORE_THREAD_WHOLE_UNSET);
+}
+
+static void
 action_mail_mark_unread_cb (GtkAction *action,
                             EMailReader *reader)
 {
@@ -2110,6 +2138,20 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Force images in HTML mail to be loaded"),
 	  G_CALLBACK (action_mail_load_images_cb) },
 
+	{ "mail-mark-ignore-thread-sub",
+	  NULL,
+	  N_("_Ignore Sub-Thread"),
+	  NULL,
+	  N_("Mark new mails in a sub-thread as read automatically"),
+	  G_CALLBACK (action_mail_mark_ignore_thread_sub_cb) },
+
+	{ "mail-mark-ignore-thread-whole",
+	  NULL,
+	  N_("_Ignore Thread"),
+	  NULL,
+	  N_("Mark new mails in this thread as read automatically"),
+	  G_CALLBACK (action_mail_mark_ignore_thread_whole_cb) },
+
 	{ "mail-mark-important",
 	  "mail-mark-important",
 	  N_("_Important"),
@@ -2137,6 +2179,20 @@ static GtkActionEntry mail_reader_entries[] = {
 	  "<Control>k",
 	  N_("Mark the selected messages as having been read"),
 	  G_CALLBACK (action_mail_mark_read_cb) },
+
+	{ "mail-mark-unignore-thread-sub",
+	  NULL,
+	  N_("Do not _Ignore Sub-Thread"),
+	  NULL,
+	  N_("Do not mark new mails in a sub-thread as read automatically"),
+	  G_CALLBACK (action_mail_mark_unignore_thread_sub_cb) },
+
+	{ "mail-mark-unignore-thread-whole",
+	  NULL,
+	  N_("Do not _Ignore Thread"),
+	  NULL,
+	  N_("Do not mark new mails in this thread as read automatically"),
+	  G_CALLBACK (action_mail_mark_unignore_thread_whole_cb) },
 
 	{ "mail-mark-unimportant",
 	  NULL,
@@ -2461,6 +2517,14 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  NULL,
 	  "mail-forward" },
 
+	{ "mail-popup-mark-ignore-thread-sub",
+	  N_("_Ignore Sub-Thread"),
+	  "mail-mark-ignore-thread-sub" },
+
+	{ "mail-popup-mark-ignore-thread-whole",
+	  N_("_Ignore Thread"),
+	  "mail-mark-ignore-thread-whole" },
+
 	{ "mail-popup-mark-important",
 	  N_("Mark as _Important"),
 	  "mail-mark-important" },
@@ -2476,6 +2540,14 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	{ "mail-popup-mark-read",
 	  N_("Mar_k as Read"),
 	  "mail-mark-read" },
+
+	{ "mail-popup-mark-unignore-thread-sub",
+	  N_("Do not _Ignore Sub-Thread"),
+	  "mail-mark-unignore-thread-sub" },
+
+	{ "mail-popup-mark-unignore-thread-whole",
+	  N_("Do not _Ignore Thread"),
+	  "mail-mark-unignore-thread-whole" },
 
 	{ "mail-popup-mark-unimportant",
 	  N_("Mark as Uni_mportant"),
@@ -3396,6 +3468,8 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean multiple_messages_selected;
 	gboolean selection_has_attachment_messages;
 	gboolean selection_has_deleted_messages;
+	gboolean selection_has_ignore_thread_messages;
+	gboolean selection_has_notignore_thread_messages;
 	gboolean selection_has_important_messages;
 	gboolean selection_has_junk_messages;
 	gboolean selection_has_not_junk_messages;
@@ -3425,6 +3499,10 @@ mail_reader_update_actions (EMailReader *reader,
 		(state & E_MAIL_READER_SELECTION_HAS_ATTACHMENTS);
 	selection_has_deleted_messages =
 		(state & E_MAIL_READER_SELECTION_HAS_DELETED);
+	selection_has_ignore_thread_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_IGNORE_THREAD);
+	selection_has_notignore_thread_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_NOTIGNORE_THREAD);
 	selection_has_important_messages =
 		(state & E_MAIL_READER_SELECTION_HAS_IMPORTANT);
 	selection_has_junk_messages =
@@ -3584,6 +3662,18 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-mark-ignore-thread-sub";
+	sensitive = selection_has_notignore_thread_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
+
+	action_name = "mail-mark-ignore-thread-whole";
+	sensitive = selection_has_notignore_thread_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
+
 	action_name = "mail-mark-important";
 	sensitive = selection_has_unimportant_messages;
 	action = e_mail_reader_get_action (reader, action_name);
@@ -3605,6 +3695,18 @@ mail_reader_update_actions (EMailReader *reader,
 	sensitive = selection_has_unread_messages;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-unignore-thread-sub";
+	sensitive = selection_has_ignore_thread_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
+
+	action_name = "mail-mark-unignore-thread-whole";
+	sensitive = selection_has_ignore_thread_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action_name = "mail-mark-unimportant";
 	sensitive = selection_has_important_messages;
@@ -4203,6 +4305,8 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean can_flag_for_followup = FALSE;
 	gboolean has_attachments = FALSE;
 	gboolean has_deleted = FALSE;
+	gboolean has_ignore_thread = FALSE;
+	gboolean has_notignore_thread = FALSE;
 	gboolean has_important = FALSE;
 	gboolean has_junk = FALSE;
 	gboolean has_not_junk = FALSE;
@@ -4330,6 +4434,11 @@ e_mail_reader_check_state (EMailReader *reader)
 		string = camel_message_info_mlist (info);
 		is_mailing_list &= (string != NULL && *string != '\0');
 
+		has_ignore_thread = has_ignore_thread ||
+			camel_message_info_user_flag (info, "ignore-thread");
+		has_notignore_thread = has_notignore_thread ||
+			!camel_message_info_user_flag (info, "ignore-thread");
+
 		camel_message_info_unref (info);
 	}
 
@@ -4355,6 +4464,10 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_HAS_ATTACHMENTS;
 	if (has_deleted)
 		state |= E_MAIL_READER_SELECTION_HAS_DELETED;
+	if (has_ignore_thread)
+		state |= E_MAIL_READER_SELECTION_HAS_IGNORE_THREAD;
+	if (has_notignore_thread)
+		state |= E_MAIL_READER_SELECTION_HAS_NOTIGNORE_THREAD;
 	if (has_important)
 		state |= E_MAIL_READER_SELECTION_HAS_IMPORTANT;
 	if (has_junk)

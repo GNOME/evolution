@@ -90,6 +90,16 @@ void		mail_filter_folder		(EMailSession *session,
 						 const gchar *type,
 						 gboolean notify);
 
+void		mail_process_folder_changes	(CamelFolder *folder,
+						 CamelFolderChangeInfo *changes,
+						 void (*process) (CamelFolder *folder,
+								  CamelFolderChangeInfo *changes,
+								  GCancellable *cancellable,
+								  GError **error,
+								  gpointer user_data),
+						 void (* done) (gpointer user_data),
+						 gpointer user_data);
+
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 

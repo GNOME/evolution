@@ -541,5 +541,24 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <secondary>{1}</secondary>
   </error>
 
+  <error id="failed-mark-ignore-thread" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Failed to mark thread to be ignored in folder '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-mark-unignore-thread" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Failed to unmark thread from being ignored in folder '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-mark-ignore-subthread" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Failed to mark sub-thread to be ignored in folder '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-mark-unignore-subthread" type="error" default="GTK_RESPONSE_YES">
+    <_primary>Failed to unmark sub-thread from being ignored in folder '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
 </error-list>
 

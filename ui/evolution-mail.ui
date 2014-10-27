@@ -112,6 +112,10 @@
     <menuitem action='mail-popup-flag-for-followup'/>
     <menuitem action="mail-popup-flag-clear"/>
     <menuitem action="mail-popup-flag-completed"/>
+    <menuitem action='mail-popup-mark-ignore-thread-whole'/>
+    <menuitem action='mail-popup-mark-ignore-thread-sub'/>
+    <menuitem action='mail-popup-mark-unignore-thread-whole'/>
+    <menuitem action='mail-popup-mark-unignore-thread-sub'/>
     <menu action='mail-label-menu'>
       <menuitem action='mail-label-none'/>
       <separator/>

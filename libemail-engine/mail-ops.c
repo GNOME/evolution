@@ -1532,3 +1532,86 @@ mail_execute_shell_command (CamelFilterDriver *driver,
 	g_spawn_async (NULL, argv, NULL, 0, NULL, data, NULL, NULL);
 }
 
+/* ** Process Folder Changes *********************************************** */
+
+struct _process_folder_changes_msg {
+	MailMsg base;
+
+	CamelFolder *folder;
+	CamelFolderChangeInfo *changes;
+	void (*process) (CamelFolder *folder,
+			 CamelFolderChangeInfo *changes,
+			 GCancellable *cancellable,
+			 GError **error,
+			 gpointer user_data);
+	void (* done) (gpointer user_data);
+	gpointer user_data;
+};
+
+static gchar *
+process_folder_changes_desc (struct _process_folder_changes_msg *m)
+{
+	return g_strdup_printf (
+		_("Processing folder changes in '%s'"), camel_folder_get_full_name (m->folder));
+}
+
+static void
+process_folder_changes_exec (struct _process_folder_changes_msg *m,
+			     GCancellable *cancellable,
+			     GError **error)
+{
+	m->process (m->folder, m->changes, cancellable, error, m->user_data);
+}
+
+static void
+process_folder_changes_done (struct _process_folder_changes_msg *m)
+{
+	if (m->done)
+		m->done (m->user_data);
+}
+
+static void
+process_folder_changes_free (struct _process_folder_changes_msg *m)
+{
+	g_clear_object (&m->folder);
+	camel_folder_change_info_free (m->changes);
+}
+
+static MailMsgInfo process_folder_changes_info = {
+	sizeof (struct _process_folder_changes_msg),
+	(MailMsgDescFunc) process_folder_changes_desc,
+	(MailMsgExecFunc) process_folder_changes_exec,
+	(MailMsgDoneFunc) process_folder_changes_done,
+	(MailMsgFreeFunc) process_folder_changes_free
+};
+
+void
+mail_process_folder_changes (CamelFolder *folder,
+			     CamelFolderChangeInfo *changes,
+			     void (*process) (CamelFolder *folder,
+					      CamelFolderChangeInfo *changes,
+					      GCancellable *cancellable,
+					      GError **error,
+					      gpointer user_data),
+			     void (* done) (gpointer user_data),
+			     gpointer user_data)
+{
+	struct _process_folder_changes_msg *m;
+	CamelFolderChangeInfo *changes_copy;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (changes != NULL);
+	g_return_if_fail (process != NULL);
+
+	changes_copy = camel_folder_change_info_new ();
+	camel_folder_change_info_cat (changes_copy, changes);
+
+	m = mail_msg_new (&process_folder_changes_info);
+	m->folder = g_object_ref (folder);
+	m->changes = changes_copy;
+	m->process = process;
+	m->done = done;
+	m->user_data = user_data;
+
+	mail_msg_unordered_push (m);
+}

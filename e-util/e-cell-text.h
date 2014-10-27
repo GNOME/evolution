@@ -89,6 +89,7 @@ struct _ECellText {
 	gint strikeout_column;
 	gint underline_column;
 	gint bold_column;
+	gint italic_column;
 
 	/* This column in the ETable should return a string specifying a color,
 	 * either a color name like "red" or a color spec like "rgb:F/0/0".

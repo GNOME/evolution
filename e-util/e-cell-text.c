@@ -82,6 +82,7 @@ enum {
 	PROP_UNDERLINE_COLUMN,
 	PROP_BOLD_COLUMN,
 	PROP_COLOR_COLUMN,
+	PROP_ITALIC_COLUMN,
 	PROP_EDITABLE,
 	PROP_BG_COLOR_COLUMN
 };
@@ -411,7 +412,7 @@ build_attr_list (ECellTextView *text_view,
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	PangoAttrList *attrs = pango_attr_list_new ();
-	gboolean bold, strikeout, underline;
+	gboolean bold, strikeout, underline, italic;
 
 	bold = ect->bold_column >= 0 &&
 		row >= 0 &&
@@ -422,29 +423,37 @@ build_attr_list (ECellTextView *text_view,
 	underline = ect->underline_column >= 0 &&
 		row >= 0 &&
 		e_table_model_value_at (ecell_view->e_table_model, ect->underline_column, row);
+	italic = ect->italic_column >= 0 &&
+		row >= 0 &&
+		e_table_model_value_at (ecell_view->e_table_model, ect->italic_column, row);
 
-	if (bold || strikeout || underline) {
-		if (bold) {
-			PangoAttribute *attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
-			attr->start_index = 0;
-			attr->end_index = text_length;
+	if (bold) {
+		PangoAttribute *attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+		attr->start_index = 0;
+		attr->end_index = text_length;
 
-			pango_attr_list_insert_before (attrs, attr);
-		}
-		if (strikeout) {
-			PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
-			attr->start_index = 0;
-			attr->end_index = text_length;
+		pango_attr_list_insert_before (attrs, attr);
+	}
+	if (strikeout) {
+		PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
+		attr->start_index = 0;
+		attr->end_index = text_length;
 
-			pango_attr_list_insert_before (attrs, attr);
-		}
-		if (underline) {
-			PangoAttribute *attr = pango_attr_underline_new (TRUE);
-			attr->start_index = 0;
-			attr->end_index = text_length;
+		pango_attr_list_insert_before (attrs, attr);
+	}
+	if (underline) {
+		PangoAttribute *attr = pango_attr_underline_new (TRUE);
+		attr->start_index = 0;
+		attr->end_index = text_length;
 
-			pango_attr_list_insert_before (attrs, attr);
-		}
+		pango_attr_list_insert_before (attrs, attr);
+	}
+	if (italic) {
+		PangoAttribute *attr = pango_attr_style_new (PANGO_STYLE_ITALIC);
+		attr->start_index = 0;
+		attr->end_index = text_length;
+
+		pango_attr_list_insert_before (attrs, attr);
 	}
 	return attrs;
 }
@@ -1566,6 +1575,10 @@ ect_set_property (GObject *object,
 		text->bold_column = g_value_get_int (value);
 		break;
 
+	case PROP_ITALIC_COLUMN:
+		text->italic_column = g_value_get_int (value);
+		break;
+
 	case PROP_COLOR_COLUMN:
 		text->color_column = g_value_get_int (value);
 		break;
@@ -1605,6 +1618,10 @@ ect_get_property (GObject *object,
 
 	case PROP_BOLD_COLUMN:
 		g_value_set_int (value, text->bold_column);
+		break;
+
+	case PROP_ITALIC_COLUMN:
+		g_value_set_int (value, text->italic_column);
 		break;
 
 	case PROP_COLOR_COLUMN:
@@ -1716,6 +1733,16 @@ e_cell_text_class_init (ECellTextClass *class)
 		g_param_spec_int (
 			"bold_column",
 			"Bold Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ITALIC_COLUMN,
+		g_param_spec_int (
+			"italic-column",
+			"Italic Column",
 			NULL,
 			-1, G_MAXINT, -1,
 			G_PARAM_READWRITE));
@@ -1916,6 +1943,7 @@ e_cell_text_init (ECellText *ect)
 	ect->strikeout_column = -1;
 	ect->underline_column = -1;
 	ect->bold_column = -1;
+	ect->italic_column = -1;
 	ect->color_column = -1;
 	ect->bg_color_column = -1;
 	ect->editable = TRUE;

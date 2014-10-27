@@ -53,6 +53,16 @@ void		e_mail_reader_unsubscribe_folder_name
 guint		e_mail_reader_mark_selected	(EMailReader *reader,
 						 guint32 mask,
 						 guint32 set);
+typedef enum {
+	E_IGNORE_THREAD_WHOLE_SET,
+	E_IGNORE_THREAD_WHOLE_UNSET,
+	E_IGNORE_THREAD_SUBSET_SET,
+	E_IGNORE_THREAD_SUBSET_UNSET
+} EIgnoreThreadKind;
+
+void		e_mail_reader_mark_selected_ignore_thread
+						(EMailReader *reader,
+						 EIgnoreThreadKind kind);
 guint		e_mail_reader_open_selected	(EMailReader *reader);
 void		e_mail_reader_print		(EMailReader *reader,
 						 GtkPrintOperationAction action);

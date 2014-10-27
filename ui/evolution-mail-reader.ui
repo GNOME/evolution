@@ -87,6 +87,11 @@
           <menuitem action="mail-flag-for-followup"/>
           <menuitem action="mail-flag-clear"/>
           <menuitem action="mail-flag-completed"/>
+          <separator/>
+          <menuitem action="mail-mark-ignore-thread-whole"/>
+          <menuitem action="mail-mark-ignore-thread-sub"/>
+          <menuitem action="mail-mark-unignore-thread-whole"/>
+          <menuitem action="mail-mark-unignore-thread-sub"/>
         </menu>
         <menuitem action='mail-filters-apply'/>
         <menuitem action='mail-check-for-junk'/>

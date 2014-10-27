@@ -1792,6 +1792,9 @@ ml_tree_value_at_ex (ETreeModel *etm,
 
 		return (gpointer) colour;
 	}
+	case COL_ITALIC: {
+		return GINT_TO_POINTER (camel_message_info_user_flag (msg_info, "ignore-thread") ? 1 : 0);
+	}
 	case COL_LOCATION: {
 		/* Fixme : freeing memory stuff (mem leaks) */
 		CamelStore *store;
@@ -1961,6 +1964,7 @@ static ECell * create_composite_cell (gint col)
 	g_object_set (
 		cell_date,
 		"bold_column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
 		"color_column", COL_COLOUR,
 		NULL);
 
@@ -1968,6 +1972,7 @@ static ECell * create_composite_cell (gint col)
 	g_object_set (
 		cell_from,
 		"bold_column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
 		"color_column", COL_COLOUR,
 		NULL);
 
@@ -2053,6 +2058,7 @@ message_list_create_extras (void)
 	g_object_set (
 		cell,
 		"bold_column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
 		"color_column", COL_COLOUR,
 		NULL);
 	e_table_extras_add_cell (extras, "render_date", cell);
@@ -2063,6 +2069,7 @@ message_list_create_extras (void)
 	g_object_set (
 		cell,
 		"bold_column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
 		"color_column", COL_COLOUR,
 		NULL);
 	e_table_extras_add_cell (extras, "render_text", cell);
@@ -2077,6 +2084,7 @@ message_list_create_extras (void)
 	g_object_set (
 		cell,
 		"bold_column", COL_UNREAD,
+		"italic-column", COL_ITALIC,
 		"color_column", COL_COLOUR,
 		NULL);
 	e_table_extras_add_cell (extras, "render_size", cell);
@@ -3057,6 +3065,7 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_SUBJECT_NORM:
 		case COL_SUBJECT_TRIMMED:
 		case COL_COLOUR:
+		case COL_ITALIC:
 			break;
 
 		case COL_LOCATION:

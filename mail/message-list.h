@@ -83,7 +83,8 @@ enum {
 	/* Invisible columns */
 	COL_DELETED,
 	COL_UNREAD,
-	COL_COLOUR
+	COL_COLOUR,
+	COL_ITALIC
 };
 
 #define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \

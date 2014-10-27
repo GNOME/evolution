@@ -773,6 +773,302 @@ e_mail_reader_mark_selected (EMailReader *reader,
 	return ii;
 }
 
+static guint
+summary_msgid_hash (gconstpointer key)
+{
+	const CamelSummaryMessageID *id = (const CamelSummaryMessageID *) key;
+
+	return id->id.part.lo;
+}
+
+static gboolean
+summary_msgid_equal (gconstpointer a,
+		     gconstpointer b)
+{
+	return ((const CamelSummaryMessageID *) a)->id.id == ((const CamelSummaryMessageID *) b)->id.id;
+}
+
+typedef struct {
+	CamelFolder *folder;
+	GSList *uids;
+	EIgnoreThreadKind kind;
+} MarkIgnoreThreadData;
+
+static void
+mark_ignore_thread_data_free (gpointer ptr)
+{
+	MarkIgnoreThreadData *mit = ptr;
+
+	if (mit) {
+		g_clear_object (&mit->folder);
+		g_slist_free_full (mit->uids, (GDestroyNotify) camel_pstring_free);
+		g_free (mit);
+	}
+}
+
+static void
+insert_to_checked_msgids (GHashTable *checked_msgids,
+			  const CamelSummaryMessageID *msgid)
+{
+	CamelSummaryMessageID *msgid_copy;
+
+	if (!msgid)
+		return;
+
+	msgid_copy = g_new0 (CamelSummaryMessageID, 1);
+	memcpy (msgid_copy, msgid, sizeof (CamelSummaryMessageID));
+
+	g_hash_table_insert (checked_msgids, msgid_copy, GINT_TO_POINTER (1));
+}
+
+static gboolean
+mark_ignore_thread_traverse_uids (CamelFolder *folder,
+				  const gchar *uid,
+				  GHashTable *checked_uids,
+				  GHashTable *checked_msgids,
+				  gboolean whole_thread,
+				  gboolean ignore_thread,
+				  GCancellable *cancellable,
+				  GError **error)
+{
+	GSList *to_check;
+	GPtrArray *uids;
+	gint ii;
+	gboolean success;
+
+	success = !g_cancellable_set_error_if_cancelled (cancellable, error);
+	if (!success)
+		return success;
+
+	if (g_hash_table_contains (checked_uids, uid))
+		return success;
+
+	to_check = g_slist_prepend (NULL, (gpointer) camel_pstring_strdup (uid));
+
+	while (to_check != NULL && !g_cancellable_set_error_if_cancelled (cancellable, error)) {
+		CamelMessageInfo *mi;
+		const CamelSummaryMessageID *msgid;
+		const CamelSummaryReferences *references;
+		const gchar *uid = to_check->data;
+		gchar *sexp;
+		GError *local_error = NULL;
+
+		to_check = g_slist_remove (to_check, uid);
+
+		if (!uid || g_hash_table_contains (checked_uids, uid)) {
+			camel_pstring_free (uid);
+			continue;
+		}
+
+		g_hash_table_insert (checked_uids, (gpointer) camel_pstring_strdup (uid), GINT_TO_POINTER (1));
+
+		mi = camel_folder_get_message_info (folder, uid);
+		if (!mi || !camel_message_info_message_id (mi)) {
+			camel_pstring_free (uid);
+			continue;
+		}
+
+		camel_message_info_set_user_flag (mi, "ignore-thread", ignore_thread);
+
+		msgid = camel_message_info_message_id (mi);
+		insert_to_checked_msgids (checked_msgids, msgid);
+
+		if (whole_thread) {
+			/* Search for parents */
+			references = camel_message_info_references (mi);
+			if (references) {
+				GString *expr = NULL;
+
+				for (ii = 0; ii < references->size; ii++) {
+					if (references->references[ii].id.id == 0 ||
+					    g_hash_table_contains (checked_msgids, &references->references[ii]))
+						continue;
+
+					insert_to_checked_msgids (checked_msgids, &references->references[ii]);
+
+					if (!expr)
+						expr = g_string_new ("(match-all (or ");
+
+					g_string_append_printf (expr, "(= \"msgid\" \"%lu %lu\")",
+						(gulong) references->references[ii].id.part.hi,
+						(gulong) references->references[ii].id.part.lo);
+				}
+
+				if (expr) {
+					g_string_append (expr, "))");
+
+					uids = camel_folder_search_by_expression (folder, expr->str, cancellable, &local_error);
+					if (uids) {
+						for (ii = 0; ii < uids->len; ii++) {
+							const gchar *refruid = uids->pdata[ii];
+
+							if (refruid && !g_hash_table_contains (checked_uids, refruid))
+								to_check = g_slist_prepend (to_check, (gpointer) camel_pstring_strdup (refruid));
+						}
+
+						camel_folder_search_free (folder, uids);
+					}
+
+					g_string_free (expr, TRUE);
+
+					if (local_error) {
+						g_propagate_error (error, local_error);
+						camel_message_info_unref (mi);
+						camel_pstring_free (uid);
+						success = FALSE;
+						break;
+					}
+				}
+			}
+		}
+
+		/* Search for children */
+		sexp = g_strdup_printf ("(match-all (= \"references\" \"%lu %lu\"))", (gulong) msgid->id.part.hi, (gulong) msgid->id.part.lo);
+		uids = camel_folder_search_by_expression (folder, sexp, cancellable, &local_error);
+		if (uids) {
+			for (ii = 0; ii < uids->len; ii++) {
+				const gchar *refruid = uids->pdata[ii];
+
+				if (refruid && !g_hash_table_contains (checked_uids, refruid)) {
+					CamelMessageInfo *refrmi = camel_folder_get_message_info (folder, refruid);
+
+					if (refrmi && camel_message_info_message_id (refrmi) &&
+					    !g_hash_table_contains (checked_msgids, camel_message_info_message_id (refrmi))) {
+						/* The 'references' filter search can return false positives */
+						references = camel_message_info_references (refrmi);
+						if (references) {
+							gint jj;
+
+							for (jj = 0; jj < references->size; jj++) {
+								if (references->references[jj].id.id == msgid->id.id) {
+									to_check = g_slist_prepend (to_check, (gpointer) camel_pstring_strdup (refruid));
+									break;
+								}
+							}
+						}
+					}
+
+					if (refrmi)
+						camel_message_info_unref (refrmi);
+				}
+			}
+
+			camel_folder_search_free (folder, uids);
+		}
+		g_free (sexp);
+
+		camel_message_info_unref (mi);
+		camel_pstring_free (uid);
+
+		if (local_error) {
+			g_propagate_error (error, local_error);
+			success = FALSE;
+			break;
+		}
+	}
+
+	g_slist_free_full (to_check, (GDestroyNotify) camel_pstring_free);
+
+	return success;
+}
+
+static void
+mail_reader_utils_mark_ignore_thread_thread (EAlertSinkThreadJobData *job_data,
+					     gpointer user_data,
+					     GCancellable *cancellable,
+					     GError **error)
+{
+	MarkIgnoreThreadData *mit = user_data;
+	GHashTable *checked_uids; /* gchar * (UID) ~> 1 */
+	GHashTable *checked_msgids; /* CamelSummaryMessageID * ~> 1 */
+	gboolean ignore_thread, whole_thread;
+	GSList *link;
+
+	g_return_if_fail (mit != NULL);
+
+	camel_folder_freeze (mit->folder);
+
+	whole_thread = mit->kind == E_IGNORE_THREAD_WHOLE_SET || mit->kind == E_IGNORE_THREAD_WHOLE_UNSET;
+	ignore_thread = mit->kind == E_IGNORE_THREAD_WHOLE_SET || mit->kind == E_IGNORE_THREAD_SUBSET_SET;
+
+	checked_uids = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) camel_pstring_free, NULL);
+	checked_msgids = g_hash_table_new_full (summary_msgid_hash, summary_msgid_equal, g_free, NULL);
+
+	for (link = mit->uids; link; link = g_slist_next (link)) {
+		if (!mark_ignore_thread_traverse_uids (mit->folder, link->data, checked_uids, checked_msgids,
+			whole_thread, ignore_thread, cancellable, error)) {
+			break;
+		}
+	}
+
+	camel_folder_thaw (mit->folder);
+
+	g_hash_table_destroy (checked_msgids);
+	g_hash_table_destroy (checked_uids);
+}
+
+void
+e_mail_reader_mark_selected_ignore_thread (EMailReader *reader,
+					   EIgnoreThreadKind kind)
+{
+	CamelFolder *folder;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	folder = e_mail_reader_ref_folder (reader);
+
+	if (folder != NULL) {
+		GPtrArray *uids;
+		guint ii;
+
+		uids = e_mail_reader_get_selected_uids (reader);
+		if (uids && uids->len > 0) {
+			MarkIgnoreThreadData *mit;
+			EAlertSink *alert_sink;
+			EActivity *activity;
+			const gchar *description = NULL, *alert_id = NULL;
+
+			switch (kind) {
+			case E_IGNORE_THREAD_WHOLE_SET:
+				description = _("Marking thread to be ignored");
+				alert_id = "mail:failed-mark-ignore-thread";
+				break;
+			case E_IGNORE_THREAD_WHOLE_UNSET:
+				description = _("Unmarking thread from being ignored");
+				alert_id = "mail:failed-mark-unignore-thread";
+				break;
+			case E_IGNORE_THREAD_SUBSET_SET:
+				description = _("Marking sub-thread to be ignored");
+				alert_id = "mail:failed-mark-ignore-subthread";
+				break;
+			case E_IGNORE_THREAD_SUBSET_UNSET:
+				description = _("Unmarking sub-thread from being ignored");
+				alert_id = "mail:failed-mark-unignore-subthread";
+				break;
+			}
+
+			mit = g_new0 (MarkIgnoreThreadData, 1);
+			mit->folder = g_object_ref (folder);
+			mit->kind = kind;
+
+			for (ii = 0; ii < uids->len; ii++) {
+				mit->uids = g_slist_prepend (mit->uids, (gpointer) camel_pstring_strdup (uids->pdata[ii]));
+			}
+
+			alert_sink = e_mail_reader_get_alert_sink (reader);
+
+			activity = e_alert_sink_submit_thread_job (alert_sink, description, alert_id,
+				camel_folder_get_full_name (folder), mail_reader_utils_mark_ignore_thread_thread,
+				mit, mark_ignore_thread_data_free);
+
+			g_clear_object (&activity);
+		}
+
+		g_ptr_array_unref (uids);
+		g_object_unref (folder);
+	}
+}
+
 static void
 copy_tree_state (EMailReader *src_reader,
                  EMailReader *des_reader)

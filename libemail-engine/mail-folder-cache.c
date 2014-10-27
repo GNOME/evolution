@@ -43,6 +43,7 @@
 #include <libemail-engine/mail-mt.h>
 
 #include "mail-folder-cache.h"
+#include "mail-ops.h"
 #include "e-mail-utils.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-session.h"
@@ -854,12 +855,87 @@ update_1folder (MailFolderCache *cache,
 	}
 }
 
+static gboolean
+folder_cache_check_ignore_thread (CamelFolder *folder,
+				  CamelMessageInfo *info,
+				  GCancellable *cancellable,
+				  GError **error)
+{
+	const CamelSummaryReferences *references;
+	gboolean has_ignore_thread = FALSE, first_ignore_thread = FALSE, found_first_msgid = FALSE;
+	guint64 first_msgid;
+	GString *expr = NULL;
+	gint ii;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+	g_return_val_if_fail (info != NULL, FALSE);
+
+	references = camel_message_info_references (info);
+	if (!references || references->size <= 0)
+		return FALSE;
+
+	first_msgid = references->references[0].id.id;
+
+	for (ii = 0; ii < references->size; ii++) {
+		if (references->references[ii].id.id == 0)
+			continue;
+
+		if (!expr)
+			expr = g_string_new ("(match-all (or ");
+
+		g_string_append_printf (expr, "(= \"msgid\" \"%lu %lu\")",
+			(gulong) references->references[ii].id.part.hi,
+			(gulong) references->references[ii].id.part.lo);
+	}
+
+	if (expr) {
+		GPtrArray *uids;
+
+		g_string_append (expr, "))");
+
+		uids = camel_folder_search_by_expression (folder, expr->str, cancellable, error);
+		if (uids) {
+			for (ii = 0; ii < uids->len; ii++) {
+				const gchar *refruid = uids->pdata[ii];
+				CamelMessageInfo *refrinfo;
+
+				refrinfo = camel_folder_get_message_info (folder, refruid);
+				if (!refrinfo)
+					continue;
+
+				if (first_msgid && camel_message_info_message_id (refrinfo) &&
+				    camel_message_info_message_id (refrinfo)->id.id == first_msgid) {
+					/* The first msgid in the references is In-ReplyTo, which is the master;
+					   the rest is just a guess. */
+					found_first_msgid = TRUE;
+					first_ignore_thread = camel_message_info_user_flag (refrinfo, "ignore-thread");
+					break;
+				}
+
+				has_ignore_thread = has_ignore_thread || camel_message_info_user_flag (refrinfo, "ignore-thread");
+
+				camel_message_info_unref (refrinfo);
+			}
+
+			camel_folder_search_free (folder, uids);
+		}
+
+		g_string_free (expr, TRUE);
+	}
+
+	return (found_first_msgid && first_ignore_thread) || (!found_first_msgid && has_ignore_thread);
+}
+
 static void
-folder_changed_cb (CamelFolder *folder,
-                   CamelFolderChangeInfo *changes,
-                   MailFolderCache *cache)
+folder_cache_process_folder_changes_thread (CamelFolder *folder,
+					    CamelFolderChangeInfo *changes,
+					    GCancellable *cancellable,
+					    GError **error,
+					    gpointer user_data)
 {
 	static GHashTable *last_newmail_per_folder = NULL;
+	static GMutex last_newmail_per_folder_mutex;
+	MailFolderCache *cache = user_data;
 	time_t latest_received, new_latest_received;
 	CamelFolder *local_drafts;
 	CamelFolder *local_outbox;
@@ -874,10 +950,15 @@ folder_changed_cb (CamelFolder *folder,
 	guint32 flags;
 	gchar *uid = NULL, *sender = NULL, *subject = NULL;
 
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (changes != NULL);
+	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
+
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 	session = camel_service_ref_session (CAMEL_SERVICE (parent_store));
 
+	g_mutex_lock (&last_newmail_per_folder_mutex);
 	if (last_newmail_per_folder == NULL)
 		last_newmail_per_folder = g_hash_table_new (
 			g_direct_hash, g_direct_equal);
@@ -886,6 +967,7 @@ folder_changed_cb (CamelFolder *folder,
 	latest_received = GPOINTER_TO_INT (
 		g_hash_table_lookup (last_newmail_per_folder, folder));
 	new_latest_received = latest_received;
+	g_mutex_unlock (&last_newmail_per_folder_mutex);
 
 	local_drafts = e_mail_session_get_local_folder (
 		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_DRAFTS);
@@ -901,11 +983,21 @@ folder_changed_cb (CamelFolder *folder,
 	    && changes && (changes->uid_added->len > 0)) {
 		/* for each added message, check to see that it is
 		 * brand new, not junk and not already deleted */
-		for (i = 0; i < changes->uid_added->len; i++) {
+		for (i = 0; i < changes->uid_added->len && !g_cancellable_is_cancelled (cancellable); i++) {
 			info = camel_folder_get_message_info (
 				folder, changes->uid_added->pdata[i]);
 			if (info) {
+				GError *local_error = NULL;
+
 				flags = camel_message_info_flags (info);
+				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
+				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
+				    folder_cache_check_ignore_thread (folder, info, cancellable, &local_error)) {
+					camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+					camel_message_info_set_user_flag (info, "ignore-thread", TRUE);
+					flags = flags | CAMEL_MESSAGE_SEEN;
+				}
+
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_JUNK) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
@@ -929,14 +1021,22 @@ folder_changed_cb (CamelFolder *folder,
 				}
 
 				camel_message_info_unref (info);
+
+				if (local_error) {
+					g_propagate_error (error, local_error);
+					break;
+				}
 			}
 		}
 	}
 
-	if (new > 0)
+	if (new > 0) {
+		g_mutex_lock (&last_newmail_per_folder_mutex);
 		g_hash_table_insert (
 			last_newmail_per_folder, folder,
 			GINT_TO_POINTER (new_latest_received));
+		g_mutex_unlock (&last_newmail_per_folder_mutex);
+	}
 
 	folder_info = mail_folder_cache_ref_folder_info (
 		cache, parent_store, full_name);
@@ -952,6 +1052,19 @@ folder_changed_cb (CamelFolder *folder,
 	g_free (subject);
 
 	g_object_unref (session);
+}
+
+static void
+folder_changed_cb (CamelFolder *folder,
+                   CamelFolderChangeInfo *changes,
+                   MailFolderCache *cache)
+{
+	if (!changes)
+		return;
+
+	mail_process_folder_changes (folder, changes,
+		folder_cache_process_folder_changes_thread,
+		g_object_unref, g_object_ref (cache));
 }
 
 static void
