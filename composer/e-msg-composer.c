@@ -4276,6 +4276,9 @@ e_msg_composer_set_body (EMsgComposer *composer,
 
 	table = e_msg_composer_get_header_table (composer);
 
+	/* Disable signature */
+	priv->disable_signature = TRUE;
+
 	identity_uid = e_composer_header_table_get_identity_uid (table);
 	source = e_composer_header_table_ref_source (table, identity_uid);
 

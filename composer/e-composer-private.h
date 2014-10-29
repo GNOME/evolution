@@ -98,6 +98,7 @@ struct _EMsgComposerPrivate {
 	CamelMimeMessage *redirect;
 
 	gboolean is_from_message;
+	gboolean disable_signature;
 
 	gchar *selected_signature_uid;
 };

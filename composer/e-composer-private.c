@@ -192,6 +192,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->charset = e_composer_get_default_charset ();
 
 	priv->is_from_message = FALSE;
+	priv->disable_signature = FALSE;
 
 	e_composer_actions_init (composer);
 
@@ -883,6 +884,9 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		goto exit;
 	}
 
+	if (composer->priv->disable_signature)
+		goto exit;
+
 	/* "Edit as New Message" sets "priv->is_from_message".
 	 * Always put the signature at the bottom for that case. */
 	top_signature =
@@ -1036,8 +1040,9 @@ e_composer_update_signature (EMsgComposer *composer)
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* Do nothing if we're redirecting a message. */
-	if (composer->priv->redirect)
+	/* Do nothing if we're redirecting a message or we disabled
+	 * the signature on purpose */
+	if (composer->priv->redirect || composer->priv->disable_signature)
 		return;
 
 	table = e_msg_composer_get_header_table (composer);
