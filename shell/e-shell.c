@@ -67,6 +67,7 @@ struct _EShellPrivate {
 
 	guint inhibit_cookie;
 	guint set_online_timeout_id;
+	guint prepare_quit_timeout_id;
 
 	gulong backend_died_handler_id;
 
@@ -421,6 +422,11 @@ shell_ready_for_quit (EShell *shell,
 		shell->priv->inhibit_cookie = 0;
 	}
 
+	if (shell->priv->prepare_quit_timeout_id) {
+		g_source_remove (shell->priv->prepare_quit_timeout_id);
+		shell->priv->prepare_quit_timeout_id = 0;
+	}
+
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a
 	 * watched window will modify the watched windows list, which
@@ -433,6 +439,20 @@ shell_ready_for_quit (EShell *shell,
 		gtk_main_quit ();
 }
 
+static gboolean
+shell_ask_quit_with_pending_activities (EShell *shell)
+{
+	GList *windows;
+
+	windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+
+	return e_alert_run_dialog_for_args (windows ? windows->data : NULL,
+		"shell:ask-quit-with-pending", NULL) == GTK_RESPONSE_OK;
+}
+
+static gboolean
+shell_prepare_for_quit_timeout_cb (gpointer user_data);
+
 static void
 shell_prepare_for_quit (EShell *shell)
 {
@@ -440,8 +460,15 @@ shell_prepare_for_quit (EShell *shell)
 	GList *list, *iter;
 
 	/* Are preparations already in progress? */
-	if (shell->priv->preparing_for_quit != NULL)
+	if (shell->priv->preparing_for_quit != NULL) {
+		if (shell_ask_quit_with_pending_activities (shell)) {
+			e_activity_cancel (shell->priv->preparing_for_quit);
+			camel_operation_cancel_all ();
+
+			shell_ready_for_quit (shell, shell->priv->preparing_for_quit, TRUE);
+		}
 		return;
+	}
 
 	application = GTK_APPLICATION (shell);
 
@@ -470,12 +497,31 @@ shell_prepare_for_quit (EShell *shell)
 		shell, signals[PREPARE_FOR_QUIT], 0,
 		shell->priv->preparing_for_quit);
 
+	shell->priv->prepare_quit_timeout_id =
+		e_named_timeout_add_seconds (60, shell_prepare_for_quit_timeout_cb, shell);
+
 	g_object_unref (shell->priv->preparing_for_quit);
 
 	/* Desensitize all watched windows to prevent user action. */
 	list = gtk_application_get_windows (application);
 	for (iter = list; iter != NULL; iter = iter->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (iter->data), FALSE);
+}
+
+static gboolean
+shell_prepare_for_quit_timeout_cb (gpointer user_data)
+{
+	EShell *shell = user_data;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	g_return_val_if_fail (shell->priv->preparing_for_quit != 0, FALSE);
+
+	shell->priv->prepare_quit_timeout_id = 0;
+
+	/* This asks whether to quit or wait and does all the work */
+	shell_prepare_for_quit (shell);
+
+	return FALSE;
 }
 
 static gboolean
@@ -682,6 +728,11 @@ shell_dispose (GObject *object)
 	if (priv->set_online_timeout_id > 0) {
 		g_source_remove (priv->set_online_timeout_id);
 		priv->set_online_timeout_id = 0;
+	}
+
+	if (priv->prepare_quit_timeout_id) {
+		g_source_remove (priv->prepare_quit_timeout_id);
+		priv->prepare_quit_timeout_id = 0;
 	}
 
 	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
