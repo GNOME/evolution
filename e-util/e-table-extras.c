@@ -117,7 +117,7 @@ e_int64ptr_compare (gconstpointer data1,
 		return (*pa == *pb) ? 0 : (*pa < *pb) ? -1 : 1;
 
 	/* sort unset values before set */
-	return pa ? 1 : -1;
+	return (!pa && !pb) ? 0 : (pa ? 1 : -1);
 }
 
 /* UTF-8 strncasecmp - not optimized */
