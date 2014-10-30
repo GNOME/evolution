@@ -4337,6 +4337,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 	/* Insert the paragraph where the caret will be. */
 	paragraph = prepare_paragraph (selection, document, TRUE);
+	webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 	webkit_dom_node_insert_before (
 		WEBKIT_DOM_NODE (body),
 		WEBKIT_DOM_NODE (paragraph),
