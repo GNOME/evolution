@@ -104,13 +104,13 @@ cal_base_shell_content_object_created_cb (ECalBaseShellContent *cal_base_shell_c
 }
 
 static void
-cal_base_sahell_content_view_state_changed_cb (ECalDataModel *data_model,
-					       ECalClientView *view,
-					       ECalDataModelViewState state,
-					       guint percent,
-					       const gchar *message,
-					       const GError *error,
-					       ECalBaseShellContent *cal_base_shell_content)
+cal_base_shell_content_view_state_changed_cb (ECalDataModel *data_model,
+					      ECalClientView *view,
+					      ECalDataModelViewState state,
+					      guint percent,
+					      const gchar *message,
+					      const GError *error,
+					      ECalBaseShellContent *cal_base_shell_content)
 {
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
@@ -126,7 +126,9 @@ cal_base_sahell_content_view_state_changed_cb (ECalDataModel *data_model,
 
 	selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
 	client = e_cal_client_view_ref_client (view);
-	g_return_if_fail (client != NULL);
+	/* Can be NULL when the corresponding source had been removed or disabled */
+	if (!client)
+		return;
 
 	source = e_client_get_source (E_CLIENT (client));
 	g_clear_object (&client);
@@ -185,7 +187,7 @@ cal_base_shell_content_view_created_cb (EShellWindow *shell_window,
 
 	cal_base_shell_content->priv->view_state_changed_id = g_signal_connect (
 		cal_base_shell_content->priv->data_model, "view-state-changed",
-		G_CALLBACK (cal_base_sahell_content_view_state_changed_cb), cal_base_shell_content);
+		G_CALLBACK (cal_base_shell_content_view_state_changed_cb), cal_base_shell_content);
 
 	klass = E_CAL_BASE_SHELL_CONTENT_GET_CLASS (cal_base_shell_content);
 	g_return_if_fail (klass != NULL);

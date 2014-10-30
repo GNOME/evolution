@@ -2187,6 +2187,11 @@ e_source_selector_source_is_selected (ESourceSelector *selector,
 	/* Make sure the ESource is in our tree model. */
 	source_index = selector->priv->source_index;
 	reference = g_hash_table_lookup (source_index, source);
+
+	/* Can be NULL when the source was just removed */
+	if (!reference)
+		return FALSE;
+
 	g_return_val_if_fail (gtk_tree_row_reference_valid (reference), FALSE);
 
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
