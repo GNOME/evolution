@@ -429,7 +429,15 @@ alert_set_tag (EAlert *alert,
 static gboolean
 alert_timeout_cb (gpointer user_data)
 {
-	EAlert *alert = E_ALERT (user_data);
+	EAlert *alert = user_data;
+
+	if (g_source_is_destroyed (g_main_current_source ()))
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_ALERT (alert), FALSE);
+
+	if (g_source_get_id (g_main_current_source ()) == alert->priv->timeout_id)
+		alert->priv->timeout_id = 0;
 
 	e_alert_response (alert, alert->priv->default_response);
 

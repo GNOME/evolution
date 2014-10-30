@@ -62,11 +62,46 @@ G_DEFINE_TYPE (
 	e_activity_proxy,
 	GTK_TYPE_FRAME)
 
+typedef struct {
+	EActivityProxy *proxy; /* Not referenced */
+	EActivity *activity;   /* Referenced */
+} UnsetTimeoutData;
+
+static void
+unset_timeout_data_free (gpointer ptr)
+{
+	UnsetTimeoutData *utd = ptr;
+
+	if (utd) {
+		g_object_unref (utd->activity);
+		g_free (utd);
+	}
+}
+
+static gboolean
+activity_proxy_unset_timeout_id (gpointer user_data)
+{
+	UnsetTimeoutData *utd = user_data;
+
+	g_return_val_if_fail (utd != NULL, FALSE);
+
+	if (g_source_is_destroyed (g_main_current_source ()))
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_ACTIVITY_PROXY (utd->proxy), FALSE);
+
+	if (g_source_get_id (g_main_current_source ()) == utd->proxy->priv->timeout_id)
+		utd->proxy->priv->timeout_id = 0;
+
+	return FALSE;
+}
+
 static void
 activity_proxy_feedback (EActivityProxy *proxy)
 {
 	EActivity *activity;
 	EActivityState state;
+	UnsetTimeoutData *utd;
 
 	activity = e_activity_proxy_get_activity (proxy);
 	g_return_if_fail (E_IS_ACTIVITY (activity));
@@ -78,11 +113,15 @@ activity_proxy_feedback (EActivityProxy *proxy)
 	if (proxy->priv->timeout_id > 0)
 		g_source_remove (proxy->priv->timeout_id);
 
+	utd = g_new0 (UnsetTimeoutData, 1);
+	utd->proxy = proxy;
 	/* Hold a reference on the EActivity for a short
 	 * period so the activity proxy stays visible. */
+	utd->activity = g_object_ref (activity);
+
 	proxy->priv->timeout_id = e_named_timeout_add_seconds_full (
-		G_PRIORITY_LOW, FEEDBACK_PERIOD, (GSourceFunc) gtk_false,
-		g_object_ref (activity), (GDestroyNotify) g_object_unref);
+		G_PRIORITY_LOW, FEEDBACK_PERIOD, activity_proxy_unset_timeout_id,
+		utd, unset_timeout_data_free);
 }
 
 static void
