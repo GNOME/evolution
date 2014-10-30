@@ -1970,6 +1970,49 @@ process_block_to_block (EHTMLEditorSelection *selection,
 	return after_selection_end;
 }
 
+static WebKitDOMElement *
+create_selection_marker (WebKitDOMDocument *document,
+                         gboolean start)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_create_element (
+		document, "SPAN", NULL);
+	webkit_dom_element_set_id (
+		element,
+		start ? "-x-evo-selection-start-marker" :
+			"-x-evo-selection-end-marker");
+
+	return element;
+}
+
+static void
+add_selection_markers_into_element_start (WebKitDOMDocument *document,
+                                          WebKitDOMElement *element,
+                                          WebKitDOMElement **selection_start_marker,
+                                          WebKitDOMElement **selection_end_marker)
+{
+	WebKitDOMElement *marker;
+
+	marker = create_selection_marker (document, FALSE);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (marker),
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+		NULL);
+	if (selection_end_marker)
+		*selection_end_marker = marker;
+
+	marker = create_selection_marker (document, TRUE);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (marker),
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+		NULL);
+	if (selection_start_marker)
+		*selection_start_marker = marker;
+}
+
 static void
 format_change_block_to_block (EHTMLEditorSelection *selection,
                               EHTMLEditorSelectionBlockFormat format,
@@ -1990,30 +2033,16 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 	/* If the selection was not saved, move it into the first child of body */
 	if (!selection_start_marker || !selection_end_marker) {
 		WebKitDOMHTMLElement *body;
+		WebKitDOMNode *child;
 
 		body = webkit_dom_document_get_body (document);
-		selection_start_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_start_marker, "-x-evo-selection-start-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
-		selection_end_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_end_marker, "-x-evo-selection-end-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		add_selection_markers_into_element_start (
+			document,
+			WEBKIT_DOM_ELEMENT (child),
+			&selection_start_marker,
+			&selection_end_marker);
 	}
 
 	block = get_parent_block_node_from_child (
@@ -2052,30 +2081,16 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 	/* If the selection was not saved, move it into the first child of body */
 	if (!selection_start_marker || !selection_end_marker) {
 		WebKitDOMHTMLElement *body;
+		WebKitDOMNode *child;
 
 		body = webkit_dom_document_get_body (document);
-		selection_start_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_start_marker, "-x-evo-selection-start-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
-		selection_end_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_end_marker, "-x-evo-selection-end-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		add_selection_markers_into_element_start (
+			document,
+			WEBKIT_DOM_ELEMENT (child),
+			&selection_start_marker,
+			&selection_end_marker);
 	}
 
 	block = get_parent_block_node_from_child (
@@ -2919,30 +2934,16 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 	/* If the selection was not saved, move it into the first child of body */
 	if (!selection_start_marker || !selection_end_marker) {
 		WebKitDOMHTMLElement *body;
+		WebKitDOMNode *child;
 
 		body = webkit_dom_document_get_body (document);
-		selection_start_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_start_marker, "-x-evo-selection-start-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
-		selection_end_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_end_marker, "-x-evo-selection-end-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		add_selection_markers_into_element_start (
+			document,
+			WEBKIT_DOM_ELEMENT (child),
+			&selection_start_marker,
+			&selection_end_marker);
 	}
 
 	block = get_parent_indented_block (
@@ -3256,30 +3257,16 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 	/* If the selection was not saved, move it into the first child of body */
 	if (!selection_start_marker || !selection_end_marker) {
 		WebKitDOMHTMLElement *body;
+		WebKitDOMNode *child;
 
 		body = webkit_dom_document_get_body (document);
-		selection_start_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_start_marker, "-x-evo-selection-start-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
-		selection_end_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_end_marker, "-x-evo-selection-end-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		add_selection_markers_into_element_start (
+			document,
+			WEBKIT_DOM_ELEMENT (child),
+			&selection_start_marker,
+			&selection_end_marker);
 	}
 
 	block = get_parent_indented_block (
@@ -5686,30 +5673,16 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 	/* If the selection was not saved, move it into the first child of body */
 	if (!selection_start_marker || !selection_end_marker) {
 		WebKitDOMHTMLElement *body;
+		WebKitDOMNode *child;
 
 		body = webkit_dom_document_get_body (document);
-		selection_start_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_start_marker, "-x-evo-selection-start-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
-		selection_end_marker = webkit_dom_document_create_element (
-			document, "SPAN", NULL);
-		webkit_dom_element_set_id (
-			selection_end_marker, "-x-evo-selection-end-marker");
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_first_child (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL);
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+		add_selection_markers_into_element_start (
+			document,
+			WEBKIT_DOM_ELEMENT (child),
+			&selection_start_marker,
+			&selection_end_marker);
 	}
 
 	block = get_parent_block_node_from_child (
