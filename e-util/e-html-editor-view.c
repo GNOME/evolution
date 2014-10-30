@@ -93,6 +93,8 @@ struct _EHTMLEditorViewPrivate {
 	WebKitWebView *convertor_web_view;
 
 	GHashTable *old_settings;
+
+	GdkEventKey *key_event;
 };
 
 enum {
@@ -829,238 +831,6 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 }
 
 static void
-body_input_event_cb (WebKitDOMElement *element,
-                     WebKitDOMEvent *event,
-                     EHTMLEditorView *view)
-{
-	WebKitDOMNode *node;
-	WebKitDOMRange *range = html_editor_view_get_dom_range (view);
-
-	e_html_editor_view_set_changed (view, TRUE);
-
-	node = webkit_dom_range_get_end_container (range, NULL);
-
-	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
-	 * to move caret into right space. When this callback is called it is not
-	 * necassary anymore so remove it */
-	if (view->priv->html_mode) {
-		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
-
-		if (parent) {
-			WebKitDOMNode *prev_sibling;
-
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (parent));
-
-			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
-				gchar *text = webkit_dom_node_get_text_content (
-					prev_sibling);
-
-				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0)
-					remove_node (prev_sibling);
-
-				g_free (text);
-			}
-
-		}
-	}
-
-	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
-		glong length = g_utf8_strlen (text, -1);
-		WebKitDOMNode *parent;
-
-		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
-		 * character as when we will remove it it will collapse */
-		if (length > 1) {
-			if (g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE))
-				webkit_dom_character_data_replace_data (
-					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
-			else if (g_str_has_suffix (text, UNICODE_ZERO_WIDTH_SPACE))
-				webkit_dom_character_data_replace_data (
-					WEBKIT_DOM_CHARACTER_DATA (node), length - 1, 1, "", NULL);
-		}
-		g_free (text);
-
-		parent = webkit_dom_node_get_parent_node (node);
-		if ((WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) ||
-		    WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) &&
-		    !element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph")) {
-			if (e_html_editor_view_get_html_mode (view)) {
-				element_add_class (
-					WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
-			} else {
-				e_html_editor_selection_set_paragraph_style (
-					e_html_editor_view_get_selection (view),
-					WEBKIT_DOM_ELEMENT (parent),
-					-1, 0, "");
-			}
-		}
-
-		/* When new smiley is added we have to use UNICODE_HIDDEN_SPACE to set the
-		 * caret position to right place. It is removed when user starts typing. But
-		 * when the user will press left arrow he will move the caret into
-		 * smiley wrapper. If he will start to write there we have to move the written
-		 * text out of the wrapper and move caret to right place */
-		if (WEBKIT_DOM_IS_ELEMENT (parent) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-wrapper")) {
-			WebKitDOMDocument *document;
-
-			document = webkit_web_view_get_dom_document (
-				WEBKIT_WEB_VIEW (view));
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent),
-				e_html_editor_selection_get_caret_position_node (
-					document),
-				webkit_dom_node_get_next_sibling (parent),
-				NULL);
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent),
-				node,
-				webkit_dom_node_get_next_sibling (parent),
-				NULL);
-			e_html_editor_selection_restore_caret_position (
-				e_html_editor_view_get_selection (view));
-		}
-	}
-
-	/* Writing into quoted content */
-	if (!view->priv->html_mode) {
-		gint citation_level;
-		EHTMLEditorSelection *selection;
-		WebKitDOMDocument *document;
-		WebKitDOMElement *element;
-		WebKitDOMNode *node, *parent;
-		WebKitDOMRange *range;
-
-		range = html_editor_view_get_dom_range (view);
-		node = webkit_dom_range_get_end_container (range, NULL);
-
-		citation_level = get_citation_level (node, FALSE);
-		if (citation_level == 0)
-			return;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		element = webkit_dom_document_query_selector (
-			document, "span#-x-evo-selection-start-marker", NULL);
-		if (element)
-			return;
-
-		selection = e_html_editor_view_get_selection (view);
-		e_html_editor_selection_save (selection);
-
-		element = webkit_dom_document_query_selector (
-			document, "span#-x-evo-selection-start-marker", NULL);
-		/* If the selection was not saved, move it into the first child of body */
-		if (!element) {
-			WebKitDOMHTMLElement *body;
-
-			body = webkit_dom_document_get_body (document);
-			element = webkit_dom_document_create_element (
-				document, "SPAN", NULL);
-			webkit_dom_element_set_id (
-				element, "-x-evo-selection-end-marker");
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-				WEBKIT_DOM_NODE (element),
-				webkit_dom_node_get_first_child (
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (body))),
-				NULL);
-			element = webkit_dom_document_create_element (
-				document, "SPAN", NULL);
-			webkit_dom_element_set_id (
-				element, "-x-evo-selection-start-marker");
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-				WEBKIT_DOM_NODE (element),
-				webkit_dom_node_get_first_child (
-					webkit_dom_node_get_first_child (
-						WEBKIT_DOM_NODE (body))),
-				NULL);
-		}
-
-		/* We have to process elements only inside normal block */
-		parent = WEBKIT_DOM_NODE (get_parent_block_element (WEBKIT_DOM_NODE (element)));
-		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
-			e_html_editor_selection_restore (selection);
-			return;
-		}
-
-		if (element) {
-			gchar *content;
-			gint text_length, word_wrap_length, length;
-			WebKitDOMElement *block;
-			gboolean remove_quoting = FALSE;
-
-			word_wrap_length =
-				e_html_editor_selection_get_word_wrap_length (selection);
-			length = word_wrap_length - 2 * citation_level;
-
-			block = WEBKIT_DOM_ELEMENT (parent);
-			if (webkit_dom_element_query_selector (
-				WEBKIT_DOM_ELEMENT (block), ".-x-evo-quoted", NULL)) {
-				WebKitDOMNode *prev_sibling;
-				WebKitDOMElement *selection_end_marker;
-
-				selection_end_marker = webkit_dom_document_query_selector (
-					document, "span#-x-evo-selection-end-marker", NULL);
-				prev_sibling = webkit_dom_node_get_previous_sibling (
-					WEBKIT_DOM_NODE (selection_end_marker));
-
-				if (WEBKIT_DOM_IS_ELEMENT (prev_sibling))
-					remove_quoting = element_has_class (
-						WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted");
-			}
-
-			content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (block));
-			text_length = g_utf8_strlen (content, -1);
-			g_free (content);
-
-			/* Wrap and quote the line */
-			if (!remove_quoting && text_length >= word_wrap_length) {
-				remove_quoting_from_element (block);
-
-				block = e_html_editor_selection_wrap_paragraph_length (
-					selection, block, length);
-				webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-				quote_plain_text_element_after_wrapping (
-					document, WEBKIT_DOM_ELEMENT (block), citation_level);
-				element = webkit_dom_document_query_selector (
-					document, "span#-x-evo-selection-start-marker", NULL);
-				if (!element) {
-					WebKitDOMElement *marker;
-
-					marker = webkit_dom_document_create_element (
-						document, "SPAN", NULL);
-					webkit_dom_element_set_id (
-						marker, "-x-evo-selection-start-marker");
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (block),
-						WEBKIT_DOM_NODE (marker),
-						NULL);
-					marker = webkit_dom_document_create_element (
-						document, "SPAN", NULL);
-					webkit_dom_element_set_id (
-						marker, "-x-evo-selection-end-marker");
-					webkit_dom_node_append_child (
-						WEBKIT_DOM_NODE (block),
-						WEBKIT_DOM_NODE (marker),
-						NULL);
-				}
-				e_html_editor_selection_restore (selection);
-				e_html_editor_view_force_spell_check_for_current_paragraph (view);
-				return;
-			}
-		}
-		e_html_editor_selection_restore (selection);
-	}
-}
-
-static void
 set_base64_to_element_attribute (EHTMLEditorView *view,
                                  WebKitDOMElement *element,
                                  const gchar *attribute)
@@ -1242,89 +1012,6 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "type", "cite", NULL);
 	}
 	g_object_unref (list);
-}
-
-static void
-remove_input_event_listener_from_body (EHTMLEditorView *view)
-{
-	if (!view->priv->body_input_event_removed) {
-		WebKitDOMDocument *document;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		webkit_dom_event_target_remove_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (
-				webkit_dom_document_get_body (document)),
-			"input",
-			G_CALLBACK (body_input_event_cb),
-			FALSE);
-
-		view->priv->body_input_event_removed = TRUE;
-	}
-}
-
-static void
-register_input_event_listener_on_body (EHTMLEditorView *view)
-{
-	if (view->priv->body_input_event_removed) {
-		WebKitDOMDocument *document;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (
-				webkit_dom_document_get_body (document)),
-			"input",
-			G_CALLBACK (body_input_event_cb),
-			FALSE,
-			view);
-
-		view->priv->body_input_event_removed = FALSE;
-	}
-}
-
-static void
-html_editor_view_load_status_changed (EHTMLEditorView *view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-	WebKitLoadStatus status;
-
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
-	if (status != WEBKIT_LOAD_FINISHED)
-		return;
-
-	view->priv->reload_in_progress = FALSE;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
-
-	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-
-	put_body_in_citation (document);
-	move_elements_to_body (document);
-	repair_gmail_blockquotes (document);
-
-	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
-		/* Restore the selection how it was when the draft was saved */
-		e_html_editor_selection_move_caret_into_element (
-			document, WEBKIT_DOM_ELEMENT (body));
-		e_html_editor_selection_restore (
-			e_html_editor_view_get_selection (view));
-	}
-
-	/* Register on input event that is called when the content (body) is modified */
-	register_input_event_listener_on_body (view);
-
-	if (view->priv->html_mode)
-		change_cid_images_src_to_base64 (view);
-
-	if (view->priv->inline_spelling)
-		e_html_editor_view_force_spell_check (view);
-	else
-		e_html_editor_view_turn_spell_check_off (view);
 }
 
 /* Based on original use_pictograms() from GtkHTML */
@@ -1984,6 +1671,411 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 }
 
 static void
+fix_paragraph_structure_after_pressing_enter_after_smiley (EHTMLEditorSelection *selection,
+                                                           WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_query_selector (
+		document, "span.-x-evo-smiley-wrapper > br", NULL);
+
+	if (element) {
+		WebKitDOMNode *parent;
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (
+				webkit_dom_node_get_parent_node (parent)),
+			UNICODE_ZERO_WIDTH_SPACE,
+			NULL);
+	}
+}
+
+static void
+mark_node_as_paragraph_after_ending_list (EHTMLEditorSelection *selection,
+                                          WebKitDOMDocument *document)
+{
+	gint ii, length;
+	WebKitDOMNodeList *list;
+
+	/* When pressing Enter on empty line in the list WebKit will end that
+	 * list and inserts <div><br></div> so mark it for wrapping */
+	list = webkit_dom_document_query_selector_all (
+		document, "body > div:not(.-x-evo-paragraph) > br", NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_get_parent_node (
+			webkit_dom_node_list_item (list, ii));
+
+		e_html_editor_selection_set_paragraph_style (
+			selection, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
+	}
+	g_object_unref (list);
+}
+
+static gboolean
+surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
+                                        WebKitDOMDocument *document,
+                                        WebKitDOMNode *node)
+{
+	WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
+	WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	WebKitDOMElement *element;
+
+	/* All text in composer has to be written in div elements, so if
+	 * we are writing something straight to the body, surround it with
+	 * paragraph */
+	if (WEBKIT_DOM_IS_TEXT (node) &&
+	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
+		element = e_html_editor_selection_put_node_into_paragraph (
+			selection,
+			document,
+			node,
+			e_html_editor_selection_get_caret_position_node (document));
+
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
+			remove_node (next_sibling);
+
+		/* Tab character */
+		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Apple-tab-span")) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (element),
+				prev_sibling,
+				webkit_dom_node_get_first_child (
+					WEBKIT_DOM_NODE (element)),
+				NULL);
+		}
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+body_input_event_cb (WebKitDOMElement *element,
+                     WebKitDOMEvent *event,
+                     EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+	GdkEventKey *key_event;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range = html_editor_view_get_dom_range (view);
+	WebKitDOMDocument *document;
+
+	selection = e_html_editor_view_get_selection (view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	e_html_editor_view_set_changed (view, TRUE);
+	key_event = view->priv->key_event;
+
+	if (view->priv->magic_smileys && view->priv->html_mode)
+		html_editor_view_check_magic_smileys (view, range);
+
+	if (is_return_key (key_event) || (key_event->keyval == GDK_KEY_space)) {
+		html_editor_view_check_magic_links (view, range, FALSE, key_event);
+		mark_node_as_paragraph_after_ending_list (selection, document);
+		if (view->priv->html_mode)
+			fix_paragraph_structure_after_pressing_enter_after_smiley (
+				selection, document);
+	} else {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_range_get_end_container (range, NULL);
+
+		if (surround_text_with_paragraph_if_needed (selection, document, node)) {
+			e_html_editor_selection_restore_caret_position (selection);
+			node = webkit_dom_range_get_end_container (range, NULL);
+			range = html_editor_view_get_dom_range (view);
+		}
+
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			gchar *text;
+
+			text = webkit_dom_node_get_text_content (node);
+
+			if (g_strcmp0 (text, "") != 0 && !g_unichar_isspace (g_utf8_get_char (text))) {
+				WebKitDOMNode *prev_sibling;
+
+				prev_sibling = webkit_dom_node_get_previous_sibling (node);
+
+				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
+					html_editor_view_check_magic_links (view, range, FALSE, key_event);
+			}
+			g_free (text);
+		}
+	}
+
+	node = webkit_dom_range_get_end_container (range, NULL);
+
+	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
+	 * to move caret into right space. When this callback is called it is not
+	 * necassary anymore so remove it */
+	if (view->priv->html_mode) {
+		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+		if (parent) {
+			WebKitDOMNode *prev_sibling;
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (parent));
+
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
+				gchar *text = webkit_dom_node_get_text_content (
+					prev_sibling);
+
+				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0)
+					remove_node (prev_sibling);
+
+				g_free (text);
+			}
+
+		}
+	}
+
+	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
+		glong length = g_utf8_strlen (text, -1);
+		WebKitDOMNode *parent;
+
+		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
+		 * character as when we will remove it it will collapse */
+		if (length > 1) {
+			if (g_str_has_prefix (text, UNICODE_ZERO_WIDTH_SPACE))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
+			else if (g_str_has_suffix (text, UNICODE_ZERO_WIDTH_SPACE))
+				webkit_dom_character_data_replace_data (
+					WEBKIT_DOM_CHARACTER_DATA (node), length - 1, 1, "", NULL);
+		}
+		g_free (text);
+
+		parent = webkit_dom_node_get_parent_node (node);
+		if ((WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (parent) ||
+		    WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) &&
+		    !element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph")) {
+			if (e_html_editor_view_get_html_mode (view)) {
+				element_add_class (
+					WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph");
+			} else {
+				e_html_editor_selection_set_paragraph_style (
+					selection,
+					WEBKIT_DOM_ELEMENT (parent),
+					-1, 0, "");
+			}
+		}
+
+		/* When new smiley is added we have to use UNICODE_HIDDEN_SPACE to set the
+		 * caret position to right place. It is removed when user starts typing. But
+		 * when the user will press left arrow he will move the caret into
+		 * smiley wrapper. If he will start to write there we have to move the written
+		 * text out of the wrapper and move caret to right place */
+		if (WEBKIT_DOM_IS_ELEMENT (parent) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-wrapper")) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				e_html_editor_selection_get_caret_position_node (
+					document),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				node,
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+			e_html_editor_selection_restore_caret_position (selection);
+		}
+	}
+
+	/* Writing into quoted content */
+	if (!view->priv->html_mode) {
+		gint citation_level;
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMNode *node, *parent;
+		WebKitDOMRange *range;
+
+		range = html_editor_view_get_dom_range (view);
+		node = webkit_dom_range_get_end_container (range, NULL);
+
+		citation_level = get_citation_level (node, FALSE);
+		if (citation_level == 0)
+			return;
+
+		selection_start_marker = webkit_dom_document_query_selector (
+			document, "span#-x-evo-selection-start-marker", NULL);
+		if (selection_start_marker)
+			return;
+
+		e_html_editor_selection_save (selection);
+
+		selection_start_marker = webkit_dom_document_query_selector (
+			document, "span#-x-evo-selection-start-marker", NULL);
+		selection_end_marker = webkit_dom_document_query_selector (
+			document, "span#-x-evo-selection-end-marker", NULL);
+		/* If the selection was not saved, move it into the first child of body */
+		if (!selection_start_marker || !selection_end_marker) {
+			WebKitDOMHTMLElement *body;
+			WebKitDOMNode *child;
+
+			body = webkit_dom_document_get_body (document);
+			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+
+			add_selection_markers_into_element_start (
+				document,
+				WEBKIT_DOM_ELEMENT (child),
+				&selection_start_marker,
+				&selection_end_marker);
+		}
+
+		/* We have to process elements only inside normal block */
+		parent = WEBKIT_DOM_NODE (get_parent_block_element (
+			WEBKIT_DOM_NODE (selection_start_marker)));
+		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
+			e_html_editor_selection_restore (selection);
+			return;
+		}
+
+		if (selection_start_marker) {
+			gchar *content;
+			gint text_length, word_wrap_length, length;
+			WebKitDOMElement *block;
+			gboolean remove_quoting = FALSE;
+
+			word_wrap_length =
+				e_html_editor_selection_get_word_wrap_length (selection);
+			length = word_wrap_length - 2 * citation_level;
+
+			block = WEBKIT_DOM_ELEMENT (parent);
+			if (webkit_dom_element_query_selector (
+				WEBKIT_DOM_ELEMENT (block), ".-x-evo-quoted", NULL)) {
+				WebKitDOMNode *prev_sibling;
+
+				prev_sibling = webkit_dom_node_get_previous_sibling (
+					WEBKIT_DOM_NODE (selection_end_marker));
+
+				if (WEBKIT_DOM_IS_ELEMENT (prev_sibling))
+					remove_quoting = element_has_class (
+						WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted");
+			}
+
+			content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (block));
+			text_length = g_utf8_strlen (content, -1);
+			g_free (content);
+
+			/* Wrap and quote the line */
+			if (!remove_quoting && text_length >= word_wrap_length) {
+				remove_quoting_from_element (block);
+
+				block = e_html_editor_selection_wrap_paragraph_length (
+					selection, block, length);
+				webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+				quote_plain_text_element_after_wrapping (
+					document, WEBKIT_DOM_ELEMENT (block), citation_level);
+				selection_start_marker = webkit_dom_document_query_selector (
+					document, "span#-x-evo-selection-start-marker", NULL);
+				if (!selection_start_marker)
+					add_selection_markers_into_element_end (
+						document,
+						WEBKIT_DOM_ELEMENT (block),
+						NULL,
+						NULL);
+
+				e_html_editor_selection_restore (selection);
+				e_html_editor_view_force_spell_check_for_current_paragraph (view);
+				return;
+			}
+		}
+		e_html_editor_selection_restore (selection);
+	}
+}
+
+static void
+remove_input_event_listener_from_body (EHTMLEditorView *view)
+{
+	if (!view->priv->body_input_event_removed) {
+		WebKitDOMDocument *document;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		webkit_dom_event_target_remove_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (
+				webkit_dom_document_get_body (document)),
+			"input",
+			G_CALLBACK (body_input_event_cb),
+			FALSE);
+
+		view->priv->body_input_event_removed = TRUE;
+	}
+}
+
+static void
+register_input_event_listener_on_body (EHTMLEditorView *view)
+{
+	if (view->priv->body_input_event_removed) {
+		WebKitDOMDocument *document;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		webkit_dom_event_target_add_event_listener (
+			WEBKIT_DOM_EVENT_TARGET (
+				webkit_dom_document_get_body (document)),
+			"input",
+			G_CALLBACK (body_input_event_cb),
+			FALSE,
+			view);
+
+		view->priv->body_input_event_removed = FALSE;
+	}
+}
+
+static void
+html_editor_view_load_status_changed (EHTMLEditorView *view)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+	WebKitLoadStatus status;
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
+	if (status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	view->priv->reload_in_progress = FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
+
+	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
+
+	put_body_in_citation (document);
+	move_elements_to_body (document);
+	repair_gmail_blockquotes (document);
+
+	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
+		/* Restore the selection how it was when the draft was saved */
+		e_html_editor_selection_move_caret_into_element (
+			document, WEBKIT_DOM_ELEMENT (body));
+		e_html_editor_selection_restore (
+			e_html_editor_view_get_selection (view));
+	}
+
+	/* Register on input event that is called when the content (body) is modified */
+	register_input_event_listener_on_body (view);
+
+	if (view->priv->html_mode)
+		change_cid_images_src_to_base64 (view);
+
+	if (view->priv->inline_spelling)
+		e_html_editor_view_force_spell_check (view);
+	else
+		e_html_editor_view_turn_spell_check_off (view);
+}
+
+static void
 clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
                                            const gchar *text,
                                            EHTMLEditorView *view)
@@ -2563,6 +2655,8 @@ html_editor_view_key_press_event (GtkWidget *widget,
 {
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
 
+	view->priv->key_event = event;
+
 	if (event->keyval == GDK_KEY_Tab)
 		return e_html_editor_view_exec_command (
 			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
@@ -2649,142 +2743,19 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		key_press_event (widget, event);
 }
 
-static void
-fix_paragraph_structure_after_pressing_enter_after_smiley (EHTMLEditorSelection *selection,
-                                                           WebKitDOMDocument *document)
-{
-	WebKitDOMElement *element;
-
-	element = webkit_dom_document_query_selector (
-		document, "span.-x-evo-smiley-wrapper > br", NULL);
-
-	if (element) {
-		WebKitDOMNode *parent;
-
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (
-				webkit_dom_node_get_parent_node (parent)),
-			UNICODE_ZERO_WIDTH_SPACE,
-			NULL);
-	}
-}
-
-static void
-mark_node_as_paragraph_after_ending_list (EHTMLEditorSelection *selection,
-                                          WebKitDOMDocument *document)
-{
-	gint ii, length;
-	WebKitDOMNodeList *list;
-
-	/* When pressing Enter on empty line in the list WebKit will end that
-	 * list and inserts <div><br></div> so mark it for wrapping */
-	list = webkit_dom_document_query_selector_all (
-		document, "body > div:not(.-x-evo-paragraph) > br", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_get_parent_node (
-			webkit_dom_node_list_item (list, ii));
-
-		e_html_editor_selection_set_paragraph_style (
-			selection, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
-	}
-	g_object_unref (list);
-}
-
-static gboolean
-surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
-                                        WebKitDOMDocument *document,
-                                        WebKitDOMNode *node)
-{
-	WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
-	WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (node);
-	WebKitDOMElement *element;
-
-	/* All text in composer has to be written in div elements, so if
-	 * we are writing something straight to the body, surround it with
-	 * paragraph */
-	if (WEBKIT_DOM_IS_TEXT (node) &&
-	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-		element = e_html_editor_selection_put_node_into_paragraph (
-			selection,
-			document,
-			node,
-			e_html_editor_selection_get_caret_position_node (document));
-
-		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))
-			remove_node (next_sibling);
-
-		/* Tab character */
-		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Apple-tab-span")) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (element),
-				prev_sibling,
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (element)),
-				NULL);
-		}
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static gboolean
 html_editor_view_key_release_event (GtkWidget *widget,
                                     GdkEventKey *event)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMRange *range;
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 
 	view = E_HTML_EDITOR_VIEW (widget);
-	range = html_editor_view_get_dom_range (view);
-	selection = e_html_editor_view_get_selection (view);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-
 	register_input_event_listener_on_body (view);
 
-	if (view->priv->magic_smileys && view->priv->html_mode)
-		html_editor_view_check_magic_smileys (view, range);
-
-	if (is_return_key (event) || (event->keyval == GDK_KEY_space)) {
-		html_editor_view_check_magic_links (view, range, FALSE, event);
-		mark_node_as_paragraph_after_ending_list (selection, document);
-		if (view->priv->html_mode)
-			fix_paragraph_structure_after_pressing_enter_after_smiley (selection, document);
-	} else {
-		WebKitDOMNode *node;
-
-		node = webkit_dom_range_get_end_container (range, NULL);
-
-		if (surround_text_with_paragraph_if_needed (selection, document, node)) {
-			e_html_editor_selection_restore_caret_position (selection);
-			node = webkit_dom_range_get_end_container (range, NULL);
-			range = html_editor_view_get_dom_range (view);
-		}
-
-		if (WEBKIT_DOM_IS_TEXT (node)) {
-			gchar *text;
-
-			text = webkit_dom_node_get_text_content (node);
-
-			if (g_strcmp0 (text, "") != 0 && !g_unichar_isspace (g_utf8_get_char (text))) {
-				WebKitDOMNode *prev_sibling;
-
-				prev_sibling = webkit_dom_node_get_previous_sibling (node);
-
-				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
-					html_editor_view_check_magic_links (view, range, FALSE, event);
-			}
-			g_free (text);
-		}
-	}
+	selection = e_html_editor_view_get_selection (view);
+	if (!e_html_editor_selection_is_collapsed (selection))
+		goto out;
 
 	/* This will fix the structure after the situations where some text
 	 * inside the quoted content is selected and afterwards deleted with
@@ -2792,9 +2763,12 @@ html_editor_view_key_release_event (GtkWidget *widget,
 	if ((event->keyval == GDK_KEY_BackSpace) ||
 	    (event->keyval == GDK_KEY_Delete)) {
 		gint level;
-		WebKitDOMNode *node, *parent;
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
 		WebKitDOMElement *element;
+		WebKitDOMDocument *document;
+		WebKitDOMNode *node, *parent;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
 
 		e_html_editor_selection_save (selection);
 		selection_start_marker = webkit_dom_document_get_element_by_id (
@@ -2887,7 +2861,7 @@ html_editor_view_key_release_event (GtkWidget *widget,
 
 		html_editor_view_set_links_active (view, FALSE);
 	}
-
+ out:
 	/* Chain up to parent's key_release_event() method. */
 	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
 		key_release_event (widget, event);
