@@ -6601,13 +6601,9 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 
 		restore = input_start ? TRUE : FALSE;
 
-		if (input_start) {
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (input_start),
-				e_html_editor_selection_get_caret_position_node (
-					document),
-				NULL);
-		}
+		if (input_start)
+			add_selection_markers_into_element_start (
+				document, WEBKIT_DOM_ELEMENT (input_start), NULL, NULL);
 		from = WEBKIT_DOM_NODE (main_blockquote);
 	} else {
 		if (signature) {
@@ -6670,15 +6666,11 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 			if (!webkit_dom_node_has_child_nodes (first_child)) {
 				webkit_dom_html_element_set_inner_html (
 					WEBKIT_DOM_HTML_ELEMENT (first_child),
-					UNICODE_ZERO_WIDTH_SPACE,
+					"<br>",
 					NULL);
 			}
-			webkit_dom_node_insert_before (
-				first_child,
-				e_html_editor_selection_get_caret_position_node (
-					document),
-				webkit_dom_node_get_first_child (first_child),
-				NULL);
+			add_selection_markers_into_element_start (
+				document, WEBKIT_DOM_ELEMENT (first_child), NULL, NULL);
 		}
 	}
 
@@ -6692,7 +6684,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 	g_free (inner_html);
 
 	if (restore)
-		e_html_editor_selection_restore_caret_position (selection);
+		e_html_editor_selection_restore (selection);
 }
 
 static gchar *
