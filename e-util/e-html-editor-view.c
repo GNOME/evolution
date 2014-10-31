@@ -4229,7 +4229,10 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			if (rest_to_insert && *rest_to_insert && prevent_block && paragraph) {
 				glong length = 0;
 
-				length = get_decoded_line_length (document, rest);
+				if (strstr (rest, "&"))
+					length = get_decoded_line_length (document, rest);
+				else
+					length = g_utf8_strlen (rest, -1);
 
 				/* End the block if there is line with less that 62 characters. */
 				/* The shorter line can also mean that there is a long word on next
