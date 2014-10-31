@@ -934,17 +934,22 @@ put_body_in_citation (WebKitDOMDocument *document)
 
 	if (cite_body) {
 		WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
-		gchar *inner_html, *with_citation;
+		WebKitDOMNode *citation;
+		WebKitDOMNode *sibling;
 
-		remove_node (WEBKIT_DOM_NODE (cite_body));
+		citation = WEBKIT_DOM_NODE (
+			webkit_dom_document_create_element (document, "blockquote", NULL));
+		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (citation), "-x-evo-main-cite");
+		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (citation), "type", "cite", NULL);
 
-		inner_html = webkit_dom_html_element_get_inner_html (body);
-		with_citation = g_strconcat (
-			"<blockquote type=\"cite\" id=\"-x-evo-main-cite\">",
-			inner_html, "</span>", NULL);
-		webkit_dom_html_element_set_inner_html (body, with_citation, NULL);
-		g_free (inner_html);
-		g_free (with_citation);
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			citation,
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			NULL);
+
+		while ((sibling = webkit_dom_node_get_next_sibling (citation)))
+			webkit_dom_node_append_child (citation, sibling, NULL);
 	}
 }
 
