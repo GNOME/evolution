@@ -1758,6 +1758,12 @@ forward_non_attached (EMailBackend *backend,
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
 	forward = quoting_text (QUOTING_FORWARD);
+	if (style == E_MAIL_FORWARD_STYLE_INLINE && forward) {
+		gchar *tmp = forward;
+		forward = g_strconcat (forward, "<br>", NULL);
+		g_free (tmp);
+	}
+
 	text = em_utils_message_to_html (
 		CAMEL_SESSION (session), message,
 		forward, flags, NULL, NULL, &validity_found);
