@@ -1493,10 +1493,12 @@ new_component_data_free (gpointer ptr)
 			}
 
 			if (editor) {
-				g_signal_connect (editor, "object-created",
-					G_CALLBACK (cal_ops_emit_model_object_created), ncd->model);
+				if (ncd->model) {
+					g_signal_connect (editor, "object-created",
+						G_CALLBACK (cal_ops_emit_model_object_created), ncd->model);
 
-				g_object_set_data_full (G_OBJECT (editor), "e-cal-ops-model", g_object_ref (ncd->model), g_object_unref);
+					g_object_set_data_full (G_OBJECT (editor), "e-cal-ops-model", g_object_ref (ncd->model), g_object_unref);
+				}
 
 				comp_editor_edit_comp (editor, ncd->comp);
 				gtk_window_present (GTK_WINDOW (editor));
