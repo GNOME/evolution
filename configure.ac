@@ -60,7 +60,6 @@ m4_define([libpst_minimum_version], [0.6.54])
 dnl Optional Packages
 m4_define([champlain_minimum_version], [0.12])
 m4_define([clutter_gtk_minimum_version], [0.90])
-m4_define([geoclue_minimum_version], [0.12.0])
 m4_define([geocode_glib_minimum_version], [3.10])
 m4_define([gladeui_minimum_version], [3.10.0])
 m4_define([gweather_minimum_version], [3.8])
@@ -215,7 +214,6 @@ case "$host" in
 	DL_LIB=''
 	SOFTOKN3_LIB=''
 	CHAMPLAIN_REQUIREMENT=''
-	GEOCLUE_REQUIREMENT=''
 	;;
 *openbsd*|*freebsd*)
 	os_win32=no
@@ -1276,7 +1274,7 @@ fi
 AM_CONDITIONAL(ENABLE_WEATHER, [test "x$enable_weather" != "xno"])
 
 dnl ********************************************************************
-dnl maps in contacts preview requires champlain-gtk, geoclue and clutter
+dnl maps in contacts preview requires champlain-gtk and clutter
 dnl ********************************************************************
 AC_ARG_ENABLE([contact-maps],
 	[AS_HELP_STRING([--enable-contact-maps],
@@ -1298,11 +1296,10 @@ if test "x$enable_contact_maps" = "xyes"; then
 
 	PKG_CHECK_MODULES(
 		[GEO],
-		[geoclue >= geoclue_minimum_version
-		 geocode-glib-1.0 >= geocode_glib_minimum_version],,
+		[geocode-glib-1.0 >= geocode_glib_minimum_version],,
 		[AC_MSG_ERROR([
 
-	geoclue and/or geocode-glib not found.
+	geocode-glib not found.
 
 	If you want to disable the contact maps feature,
 	please append --disable-contact-maps to configure.

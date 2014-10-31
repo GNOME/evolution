@@ -26,8 +26,6 @@
 
 #include <champlain/champlain.h>
 #include <champlain-gtk/champlain-gtk.h>
-#include <geoclue/geoclue-address.h>
-#include <geoclue/geoclue-position.h>
 #include <geocode-glib/geocode-glib.h>
 
 #include <clutter/clutter.h>
