@@ -94,6 +94,8 @@ struct _EHTMLEditorViewPrivate {
 	GHashTable *old_settings;
 
 	GdkEventKey *key_event;
+
+	GQueue *post_reload_operations;
 };
 
 enum {
@@ -121,12 +123,41 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static CamelDataCache *emd_global_http_cache = NULL;
 
+typedef void (*PostReloadOperationFunc) (EHTMLEditorView *view, gpointer data);
+
+typedef struct {
+	PostReloadOperationFunc func;
+	gpointer data;
+	GDestroyNotify data_free_func;
+} PostReloadOperation;
+
 G_DEFINE_TYPE_WITH_CODE (
 	EHTMLEditorView,
 	e_html_editor_view,
 	WEBKIT_TYPE_WEB_VIEW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
+
+static void
+html_editor_view_queue_post_reload_operation (EHTMLEditorView *view,
+                                            PostReloadOperationFunc func,
+                                            gpointer data,
+                                            GDestroyNotify data_free_func)
+{
+	PostReloadOperation *op;
+
+	g_return_if_fail (func != NULL);
+
+	if (view->priv->post_reload_operations == NULL)
+		view->priv->post_reload_operations = g_queue_new ();
+
+	op = g_new0 (PostReloadOperation, 1);
+	op->func = func;
+	op->data = data;
+	op->data_free_func = data_free_func;
+
+	g_queue_push_head (view->priv->post_reload_operations, op);
+}
 
 static WebKitDOMRange *
 html_editor_view_get_dom_range (EHTMLEditorView *view)
@@ -7392,6 +7423,22 @@ void
 e_html_editor_view_set_text_plain (EHTMLEditorView *view,
                                    const gchar *text)
 {
+	WebKitLoadStatus status;
+
+	/* It can happen that the view is not ready yet (it is in the middle of
+	 * another load operation) so we have to queue the current operation and
+	 * redo it again when the view is ready. This was happening when loading
+	 * the stuff in EMailSignatureEditor. */
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
+	if (status != WEBKIT_LOAD_FINISHED) {
+		html_editor_view_queue_post_reload_operation (
+			view,
+			(PostReloadOperationFunc) e_html_editor_view_set_text_plain,
+			g_strdup (text),
+			g_free);
+		return;
+	}
+
 	view->priv->reload_in_progress = TRUE;
 
 	html_editor_convert_view_content (view, text);
