@@ -90,6 +90,7 @@ struct _EMailSessionPrivate {
 	GPtrArray *local_folder_uris;
 
 	guint preparing_flush;
+	guint outbox_flush_id;
 	GMutex preparing_flush_lock;
 };
 
@@ -154,8 +155,7 @@ session_forward_to_flush_outbox_cb (gpointer user_data)
 	session->priv->preparing_flush = 0;
 	g_mutex_unlock (&session->priv->preparing_flush_lock);
 
-	/* Connect to this and call mail_send in the main email client.*/
-	g_signal_emit (session, signals[FLUSH_OUTBOX], 0);
+	e_mail_session_flush_outbox (session);
 
 	return FALSE;
 }
@@ -904,10 +904,19 @@ mail_session_dispose (GObject *object)
 	g_ptr_array_set_size (priv->local_folders, 0);
 	g_ptr_array_set_size (priv->local_folder_uris, 0);
 
+	g_mutex_lock (&priv->preparing_flush_lock);
+
 	if (priv->preparing_flush > 0) {
 		g_source_remove (priv->preparing_flush);
 		priv->preparing_flush = 0;
 	}
+
+	if (priv->outbox_flush_id > 0) {
+		g_source_remove (priv->outbox_flush_id);
+		priv->outbox_flush_id = 0;
+	}
+
+	g_mutex_unlock (&priv->preparing_flush_lock);
 
 	if (priv->local_store != NULL) {
 		g_object_unref (priv->local_store);
@@ -2367,3 +2376,74 @@ e_mail_session_create_vfolder_context (EMailSession *session)
 	return class->create_vfolder_context (session);
 }
 
+static gboolean
+mail_session_flush_outbox_timeout_cb (gpointer user_data)
+{
+	EMailSession *session = user_data;
+
+	if (g_source_is_destroyed (g_main_current_source ()))
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+
+	g_mutex_lock (&session->priv->preparing_flush_lock);
+	if (session->priv->outbox_flush_id == g_source_get_id (g_main_current_source ()))
+		session->priv->outbox_flush_id = 0;
+	g_mutex_unlock (&session->priv->preparing_flush_lock);
+
+	e_mail_session_flush_outbox (session);
+
+	return FALSE;
+}
+
+void
+e_mail_session_flush_outbox (EMailSession *session)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	g_mutex_lock (&session->priv->preparing_flush_lock);
+	if (session->priv->outbox_flush_id > 0) {
+		g_source_remove (session->priv->outbox_flush_id);
+		session->priv->outbox_flush_id = 0;
+	}
+	g_mutex_unlock (&session->priv->preparing_flush_lock);
+
+	/* Connect to this and call mail_send in the main email client.*/
+	g_signal_emit (session, signals[FLUSH_OUTBOX], 0);
+}
+
+void
+e_mail_session_schedule_outbox_flush (EMailSession *session,
+				      gint delay_minutes)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (delay_minutes >= 0);
+
+	if (delay_minutes == 0) {
+		e_mail_session_flush_outbox (session);
+		return;
+	}
+
+	g_mutex_lock (&session->priv->preparing_flush_lock);
+	if (session->priv->outbox_flush_id > 0) {
+		g_source_remove (session->priv->outbox_flush_id);
+		session->priv->outbox_flush_id = 0;
+	}
+
+	session->priv->outbox_flush_id = e_named_timeout_add_seconds (60 * delay_minutes, mail_session_flush_outbox_timeout_cb, session);
+
+	g_mutex_unlock (&session->priv->preparing_flush_lock);
+}
+
+void
+e_mail_session_cancel_scheduled_outbox_flush (EMailSession *session)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	g_mutex_lock (&session->priv->preparing_flush_lock);
+	if (session->priv->outbox_flush_id > 0) {
+		g_source_remove (session->priv->outbox_flush_id);
+		session->priv->outbox_flush_id = 0;
+	}
+	g_mutex_unlock (&session->priv->preparing_flush_lock);
+}

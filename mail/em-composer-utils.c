@@ -965,6 +965,7 @@ composer_save_to_outbox_completed (GObject *source_object,
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
 	AsyncContext *async_context;
+	GSettings *settings;
 	GError *local_error = NULL;
 
 	session = E_MAIL_SESSION (source_object);
@@ -1004,6 +1005,18 @@ composer_save_to_outbox_completed (GObject *source_object,
 	g_object_weak_ref (
 		G_OBJECT (activity), (GWeakNotify)
 		gtk_widget_destroy, async_context->composer);
+
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
+		gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
+
+		if (delay_flush == 0) {
+			e_mail_session_flush_outbox (session);
+		} else if (delay_flush > 0) {
+			e_mail_session_schedule_outbox_flush (session, delay_flush);
+		}
+	}
+	g_object_unref (settings);
 
 exit:
 	async_context_free (async_context);

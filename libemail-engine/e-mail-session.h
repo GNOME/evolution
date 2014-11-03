@@ -151,6 +151,14 @@ EMVFolderContext *
 		e_mail_session_create_vfolder_context
 						(EMailSession *session);
 
+void		e_mail_session_flush_outbox	(EMailSession *session);
+void		e_mail_session_schedule_outbox_flush
+						(EMailSession *session,
+						 gint delay_minutes);
+void		e_mail_session_cancel_scheduled_outbox_flush
+						(EMailSession *session);
+
+
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source
 						(GBinding *binding,

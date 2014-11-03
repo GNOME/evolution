@@ -1097,6 +1097,8 @@ mail_send_queue (EMailSession *session,
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
+	e_mail_session_cancel_scheduled_outbox_flush (session);
+
 	m = mail_msg_new (&send_queue_info);
 	m->session = g_object_ref (session);
 	m->queue = g_object_ref (queue);

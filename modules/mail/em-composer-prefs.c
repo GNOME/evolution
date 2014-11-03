@@ -974,6 +974,40 @@ static EMConfigItem emcp_items[] = {
 	  emcp_widget_glade },
 };
 
+static gboolean
+em_composer_prefs_outbox_delay_setting_to_id (GValue *value,
+					      GVariant *variant,
+					      gpointer user_data)
+{
+	gint to_set = g_variant_get_int32 (variant);
+	gchar *str;
+
+	if (to_set < 0)
+		to_set = -1;
+	else if (to_set != 0 && to_set != 5)
+		to_set = 5;
+
+	str = g_strdup_printf ("%d", to_set);
+	g_value_set_string (value, str);
+	g_free (str);
+
+	return TRUE;
+}
+
+static GVariant *
+em_composer_prefs_outbox_delay_id_to_setting (const GValue *value,
+					      const GVariantType *expected_type,
+					      gpointer user_data)
+{
+	gint to_set;
+
+	to_set = g_value_get_string (value) ? atoi (g_value_get_string (value)) : -1;
+	if (to_set == 0 && g_strcmp0 (g_value_get_string (value), "0") != 0)
+		to_set = -1;
+
+	return g_variant_new_int32 (to_set);
+}
+
 static void
 emcp_free (EConfig *ec,
            GSList *items,
@@ -995,6 +1029,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkListStore *store;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
+	GtkComboBoxText *combo_text;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	EMailBackend *mail_backend;
@@ -1115,6 +1150,26 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		settings, "composer-use-outbox",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
+
+	widget = e_builder_get_widget (prefs->builder, "comboboxFlushOutbox");
+
+	combo_text = GTK_COMBO_BOX_TEXT (widget);
+	gtk_combo_box_text_append (combo_text, "-1", _("Keep in Outbox"));
+	gtk_combo_box_text_append (combo_text,  "0", _("Send immediately"));
+	gtk_combo_box_text_append (combo_text,  "5", _("Send after 5 minutes"));
+
+	g_settings_bind_with_mapping (
+		settings, "composer-delay-outbox-flush",
+		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT,
+		em_composer_prefs_outbox_delay_setting_to_id,
+		em_composer_prefs_outbox_delay_id_to_setting,
+		NULL, NULL);
+
+	g_object_bind_property (
+		e_builder_get_widget (prefs->builder, "chkUseOutbox"), "active",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkIgnoreListReplyTo");
 	g_settings_bind (
