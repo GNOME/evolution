@@ -396,7 +396,13 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 		   camel_operation_cancel_all() had been called, but we want
 		   it alive for the following operations, thus reset it. */
 		g_cancellable_reset (cancellable);
+	} else {
+		cancellable = camel_operation_new ();
+		e_activity_set_cancellable (activity, cancellable);
+		g_object_unref (cancellable);
 	}
+
+	e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
 
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
