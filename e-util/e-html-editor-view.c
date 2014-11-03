@@ -84,14 +84,12 @@ struct _EHTMLEditorViewPrivate {
 	GSettings *font_settings;
 	GSettings *aliasing_settings;
 
-	gboolean convertor_insert;
+	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
 	gboolean is_editting_signature;
-
-	WebKitWebView *convertor_web_view;
 
 	GHashTable *old_settings;
 
@@ -2038,50 +2036,6 @@ register_input_event_listener_on_body (EHTMLEditorView *view)
 }
 
 static void
-html_editor_view_load_status_changed (EHTMLEditorView *view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-	WebKitLoadStatus status;
-
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
-	if (status != WEBKIT_LOAD_FINISHED)
-		return;
-
-	view->priv->reload_in_progress = FALSE;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
-
-	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-
-	put_body_in_citation (document);
-	move_elements_to_body (document);
-	repair_gmail_blockquotes (document);
-
-	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
-		/* Restore the selection how it was when the draft was saved */
-		e_html_editor_selection_move_caret_into_element (
-			document, WEBKIT_DOM_ELEMENT (body));
-		e_html_editor_selection_restore (
-			e_html_editor_view_get_selection (view));
-	}
-
-	/* Register on input event that is called when the content (body) is modified */
-	register_input_event_listener_on_body (view);
-
-	if (view->priv->html_mode)
-		change_cid_images_src_to_base64 (view);
-
-	if (view->priv->inline_spelling)
-		e_html_editor_view_force_spell_check (view);
-	else
-		e_html_editor_view_turn_spell_check_off (view);
-}
-
-static void
 clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
                                            const gchar *text,
                                            EHTMLEditorView *view)
@@ -2288,11 +2242,6 @@ html_editor_view_dispose (GObject *object)
 	priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (object);
 
 	g_clear_object (&priv->selection);
-
-	if (priv->convertor_web_view != NULL) {
-		g_object_unref (priv->convertor_web_view);
-		priv->convertor_web_view = NULL;
-	}
 
 	if (priv->aliasing_settings != NULL) {
 		g_signal_handlers_disconnect_by_data (priv->aliasing_settings, object);
@@ -4448,19 +4397,20 @@ quote_plain_text_elements_after_wrapping_in_document (WebKitDOMDocument *documen
 }
 
 static void
-html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
-                                                  WebKitDOMDocument *document_convertor)
+html_editor_convert_view_content (EHTMLEditorView *view,
+                                  const gchar *preferred_text)
 {
 	EHTMLEditorSelection *selection = e_html_editor_view_get_selection (view);
 	gboolean start_bottom, empty = FALSE;
-	gchar *inner_text, *inner_html;
+	gchar *inner_html;
 	gint ii, length;
 	GSettings *settings;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *paragraph, *wrapper, *top_signature;
-	WebKitDOMElement *cite_body, *signature;
-	WebKitDOMHTMLElement *body, *body_convertor;
+	WebKitDOMElement *paragraph, *content_wrapper, *top_signature;
+	WebKitDOMElement *cite_body, *signature, *wrapper;
+	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *list;
+	WebKitDOMNode *node;
 
 	settings = g_settings_new ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
@@ -4468,24 +4418,25 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
-	body_convertor = webkit_dom_document_get_body (document_convertor);
+	/* Wrapper that will represent the new body. */
+	wrapper = webkit_dom_document_create_element (document, "div", NULL);
 
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
 
 	cite_body = webkit_dom_document_query_selector (
-		document_convertor, "span.-x-evo-cite-body", NULL);
+		document, "span.-x-evo-cite-body", NULL);
 
-	/* Wrapper when the processed text will be placed. */
-	wrapper = webkit_dom_document_create_element (
+	/* content_wrapper when the processed text will be placed. */
+	content_wrapper = webkit_dom_document_create_element (
 		document, cite_body ? "blockquote" : "div", NULL);
 	if (cite_body) {
-		webkit_dom_element_set_attribute (wrapper, "type", "cite", NULL);
-		webkit_dom_element_set_attribute (wrapper, "id", "-x-evo-main-cite", NULL);
+		webkit_dom_element_set_attribute (content_wrapper, "type", "cite", NULL);
+		webkit_dom_element_set_attribute (content_wrapper, "id", "-x-evo-main-cite", NULL);
 	}
 
 	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (wrapper), NULL);
+		WEBKIT_DOM_NODE (wrapper), WEBKIT_DOM_NODE (content_wrapper), NULL);
 
 	/* Remove all previously inserted paragraphs. */
 	list = webkit_dom_document_query_selector_all (
@@ -4499,31 +4450,31 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 	paragraph = prepare_paragraph (selection, document, TRUE);
 	webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (body),
+		WEBKIT_DOM_NODE (wrapper),
 		WEBKIT_DOM_NODE (paragraph),
 		start_bottom ?
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (wrapper)) :
-			WEBKIT_DOM_NODE (wrapper),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (content_wrapper)) :
+			WEBKIT_DOM_NODE (content_wrapper),
 		NULL);
 
 	/* Insert signature (if presented) to the right position. */
 	top_signature = webkit_dom_document_query_selector (
 		document, ".-x-evo-top-signature", NULL);
 	signature = webkit_dom_document_query_selector (
-		document, ".-x-evo-signature-wrapper", NULL);
+		document, ".-x-evo-signature-content_wrapper", NULL);
 	if (signature) {
 		if (top_signature) {
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (wrapper),
 				WEBKIT_DOM_NODE (signature),
 				start_bottom ?
-					WEBKIT_DOM_NODE (wrapper) :
+					WEBKIT_DOM_NODE (content_wrapper) :
 					webkit_dom_node_get_next_sibling (
 						WEBKIT_DOM_NODE (paragraph)),
 				NULL);
 			/* Insert NL after the signature */
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (wrapper),
 				WEBKIT_DOM_NODE (prepare_paragraph (
 					selection, document, FALSE)),
 				webkit_dom_node_get_next_sibling (
@@ -4531,17 +4482,17 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 				NULL);
 		} else {
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (wrapper),
 				WEBKIT_DOM_NODE (signature),
 				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (
-					start_bottom ? paragraph : wrapper)),
+					start_bottom ? paragraph : content_wrapper)),
 				NULL);
 		}
 	}
 
 	/* Move credits to the body */
 	list = webkit_dom_document_query_selector_all (
-		document_convertor, "span.-x-evo-to-body[data-credits]", NULL);
+		document, "span.-x-evo-to-body[data-credits]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node, *child;
@@ -4549,9 +4500,9 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 		node = webkit_dom_node_list_item (list, ii);
 		while ((child = webkit_dom_node_get_first_child (node))) {
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				child,
 				WEBKIT_DOM_NODE (wrapper),
+				child,
+				WEBKIT_DOM_NODE (content_wrapper),
 				NULL);
 		}
 
@@ -4561,7 +4512,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 
 	/* Move headers to body */
 	list = webkit_dom_document_query_selector_all (
-		document_convertor, "span.-x-evo-to-body[data-headers]", NULL);
+		document, "span.-x-evo-to-body[data-headers]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node, *child;
@@ -4569,9 +4520,9 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 		node = webkit_dom_node_list_item (list, ii);
 		while ((child = webkit_dom_node_get_first_child (node))) {
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				child,
 				WEBKIT_DOM_NODE (wrapper),
+				child,
+				WEBKIT_DOM_NODE (content_wrapper),
 				NULL);
 		}
 
@@ -4579,55 +4530,86 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 	}
 	g_object_unref (list);
 
-	repair_gmail_blockquotes (document_convertor);
-	create_text_markers_for_citations_in_document (document_convertor);
+	repair_gmail_blockquotes (document);
+	create_text_markers_for_citations_in_document (document);
 
-	/* Get innertText from convertor */
-	inner_text = webkit_dom_html_element_get_inner_text (body_convertor);
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (wrapper), inner_text, NULL);
+	if (preferred_text && *preferred_text)
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (content_wrapper), preferred_text, NULL);
+	else {
+		gchar *inner_text;
+
+		inner_text = webkit_dom_html_element_get_inner_text (body);
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (content_wrapper), inner_text, NULL);
+
+		g_free (inner_text);
+	}
+
 	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (wrapper));
+		WEBKIT_DOM_HTML_ELEMENT (content_wrapper));
 
-	length = webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (body_convertor));
+	/* Replace the old body with the new one. */
+	node = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
+	webkit_dom_node_replace_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (body)),
+		node,
+		WEBKIT_DOM_NODE (body),
+		NULL);
+	body = WEBKIT_DOM_HTML_ELEMENT (node);
+
+	/* Copy all to nodes to the new body. */
+	while ((node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (wrapper)))) {
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (node),
+			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+			NULL);
+	}
+	remove_node (WEBKIT_DOM_NODE (wrapper));
+
+	/* FIXME XXX */
+	length = webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (body));
 	if (length <= 1) {
 		empty = TRUE;
 		if (length == 1) {
 			WebKitDOMNode *child;
 
-			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body_convertor));
+			child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
 			empty = child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (child);
 		}
 	}
 
+	if (preferred_text && *preferred_text)
+		empty = FALSE;
+
 	if (!empty)
-		parse_html_into_paragraphs (view, document, wrapper, inner_html);
+		parse_html_into_paragraphs (view, document, content_wrapper, inner_html);
 
 	if (!cite_body) {
 		if (!empty) {
 			WebKitDOMNode *child;
 
-			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (wrapper)))) {
+			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (content_wrapper)))) {
 				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (wrapper)),
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (content_wrapper)),
 					child,
-					WEBKIT_DOM_NODE (wrapper),
+					WEBKIT_DOM_NODE (content_wrapper),
 					NULL);
 			}
 		}
 
-		remove_node (WEBKIT_DOM_NODE (wrapper));
+		remove_node (WEBKIT_DOM_NODE (content_wrapper));
 	}
 
 	if (view->priv->is_message_from_edit_as_new || view->priv->is_editting_signature) {
+		WebKitDOMNode *child;
+
 		remove_node (WEBKIT_DOM_NODE (paragraph));
-		add_selection_markers_into_element_start (
-			document,
-			WEBKIT_DOM_ELEMENT (
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body))),
-			NULL,
-			NULL);
+		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+		if (child)
+			add_selection_markers_into_element_start (
+				document, WEBKIT_DOM_ELEMENT (child), NULL, NULL);
 	}
 
 	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-last-br", NULL);
@@ -4656,7 +4638,6 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 		view);
 
 	g_free (inner_html);
-	g_free (inner_text);
 }
 
 static void
@@ -4688,27 +4669,38 @@ fix_structure_after_pasting_multiline_content (WebKitDOMNode *node)
 
 static void
 html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
-                                                       WebKitDOMDocument *document_convertor)
+                                                       gboolean is_html,
+                                                       const gchar *html)
 {
 	EHTMLEditorSelection *selection = e_html_editor_view_get_selection (view);
 	gboolean has_selection;
-	gchar *inner_text, *inner_html;
+	gchar *inner_html;
 	gint citation_level;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
-	WebKitDOMHTMLElement *convertor_body;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
 	remove_input_event_listener_from_body (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	convertor_body = webkit_dom_document_get_body (document_convertor);
 
-	inner_text = webkit_dom_html_element_get_inner_text (convertor_body);
 	element = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_html_element_set_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element), inner_text, NULL);
+	if (is_html) {
+		gchar *inner_text;
+
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
+		inner_text = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element), inner_text, NULL);
+
+		g_free (inner_text);
+	} else
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
+
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
 	parse_html_into_paragraphs (view, document, element, inner_html);
@@ -5021,28 +5013,6 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	e_html_editor_selection_scroll_to_caret (selection);
 
 	register_input_event_listener_on_body (view);
-
-	g_free (inner_text);
-}
-
-static void
-html_plain_text_convertor_load_status_changed (WebKitWebView *web_view,
-                                               GParamSpec *pspec,
-                                               EHTMLEditorView *view)
-{
-	WebKitDOMDocument *document_convertor;
-
-	if (webkit_web_view_get_load_status (web_view) != WEBKIT_LOAD_FINISHED)
-		return;
-
-	document_convertor = webkit_web_view_get_dom_document (web_view);
-
-	if (view->priv->convertor_insert)
-		html_editor_view_insert_converted_html_into_selection (
-			view, document_convertor);
-	else
-		html_editor_view_process_document_from_convertor (
-			view, document_convertor);
 }
 
 static void
@@ -5064,150 +5034,6 @@ e_html_editor_settings_changed_cb (GSettings *settings,
 		e_html_editor_view_update_fonts (view);
 	} else if (new_value) {
 		g_variant_unref (new_value);
-	}
-}
-
-static void
-e_html_editor_view_init (EHTMLEditorView *view)
-{
-	WebKitWebSettings *settings;
-	GSettings *g_settings;
-	GSettingsSchema *settings_schema;
-	ESpellChecker *checker;
-	gchar **languages;
-	gchar *comma_separated;
-	const gchar *user_cache_dir;
-
-	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
-
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE);
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
-
-	g_object_set (
-		G_OBJECT (settings),
-		"enable-developer-extras", TRUE,
-		"enable-dom-paste", TRUE,
-		"enable-file-access-from-file-uris", TRUE,
-		"enable-plugins", FALSE,
-		"enable-scripts", FALSE,
-		"enable-spell-checking", TRUE,
-		"respect-image-orientation", TRUE,
-		NULL);
-
-	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (view), settings);
-
-	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
-
-	/* Override the spell-checker, use our own */
-	checker = e_spell_checker_new ();
-	webkit_set_text_checker (G_OBJECT (checker));
-	g_object_unref (checker);
-
-	/* Don't use CSS when possible to preserve compatibility with older
-	 * versions of Evolution or other MUAs */
-	e_html_editor_view_exec_command (
-		view, E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "false");
-
-	g_signal_connect (
-		view, "user-changed-contents",
-		G_CALLBACK (html_editor_view_user_changed_contents_cb), NULL);
-	g_signal_connect (
-		view, "selection-changed",
-		G_CALLBACK (html_editor_view_selection_changed_cb), NULL);
-	g_signal_connect (
-		view, "should-show-delete-interface-for-element",
-		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);
-	g_signal_connect (
-		view, "resource-request-starting",
-		G_CALLBACK (html_editor_view_resource_requested), NULL);
-	g_signal_connect (
-		view, "notify::load-status",
-		G_CALLBACK (html_editor_view_load_status_changed), NULL);
-
-	view->priv->selection = g_object_new (
-		E_TYPE_HTML_EDITOR_SELECTION,
-		"html-editor-view", view,
-		NULL);
-
-	g_settings = g_settings_new ("org.gnome.desktop.interface");
-	g_signal_connect (
-		g_settings, "changed::font-name",
-		G_CALLBACK (e_html_editor_settings_changed_cb), view);
-	g_signal_connect (
-		g_settings, "changed::monospace-font-name",
-		G_CALLBACK (e_html_editor_settings_changed_cb), view);
-	view->priv->font_settings = g_settings;
-
-	g_settings = g_settings_new ("org.gnome.evolution.mail");
-	view->priv->mail_settings = g_settings;
-
-	/* This schema is optional.  Use if available. */
-	settings_schema = g_settings_schema_source_lookup (
-		g_settings_schema_source_get_default (),
-		"org.gnome.settings-daemon.plugins.xsettings", FALSE);
-	if (settings_schema != NULL) {
-		g_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
-		g_signal_connect (
-			settings, "changed::antialiasing",
-			G_CALLBACK (e_html_editor_settings_changed_cb), view);
-		view->priv->aliasing_settings = g_settings;
-	}
-
-	view->priv->inline_images = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_free);
-
-	e_html_editor_view_update_fonts (view);
-
-	/* Give spell check languages to WebKit */
-	languages = e_spell_checker_list_active_languages (checker, NULL);
-	comma_separated = g_strjoinv (",", languages);
-	g_strfreev (languages);
-
-	g_object_set (
-		G_OBJECT (settings),
-		"spell-checking-languages", comma_separated,
-		NULL);
-
-	g_free (comma_separated);
-
-	view->priv->body_input_event_removed = TRUE;
-	view->priv->is_message_from_draft = FALSE;
-	view->priv->is_message_from_selection = FALSE;
-	view->priv->is_message_from_edit_as_new = FALSE;
-	view->priv->convertor_insert = FALSE;
-
-	view->priv->convertor_web_view =
-		g_object_ref_sink (WEBKIT_WEB_VIEW (webkit_web_view_new ()));
-	settings = webkit_web_view_get_settings (view->priv->convertor_web_view);
-
-	g_object_set (
-		G_OBJECT (settings),
-		"enable-scripts", FALSE,
-		"enable-plugins", FALSE,
-		NULL);
-
-	g_signal_connect (
-		view->priv->convertor_web_view, "notify::load-status",
-		G_CALLBACK (html_plain_text_convertor_load_status_changed), view);
-
-	/* Make WebKit think we are displaying a local file, so that it
-	 * does not block loading resources from file:// protocol */
-	webkit_web_view_load_string (
-		WEBKIT_WEB_VIEW (view), "", "text/html", "UTF-8", "file://");
-
-	html_editor_view_set_links_active (view, FALSE);
-
-	if (emd_global_http_cache == NULL) {
-		user_cache_dir = e_get_user_cache_dir ();
-		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
-
-		/* cache expiry - 2 hour access, 1 day max */
-		camel_data_cache_set_expire_age (
-			emd_global_http_cache, 24 * 60 * 60);
-		camel_data_cache_set_expire_access (
-			emd_global_http_cache, 2 * 60 * 60);
 	}
 }
 
@@ -6981,6 +6807,74 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 }
 
 static void
+html_editor_view_load_status_changed (EHTMLEditorView *view)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+	WebKitLoadStatus status;
+
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
+	if (status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	/* Dispatch queued operations */
+	while (view->priv->post_reload_operations &&
+	       !g_queue_is_empty (view->priv->post_reload_operations)) {
+
+		PostReloadOperation *op;
+
+		op = g_queue_pop_head (view->priv->post_reload_operations);
+
+		op->func (view, op->data);
+
+		if (op->data_free_func)
+			op->data_free_func (op->data);
+		g_free (op);
+
+		return;
+	}
+
+	view->priv->reload_in_progress = FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
+
+	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
+	webkit_dom_element_set_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
+
+	if (view->priv->convert_in_situ) {
+		html_editor_convert_view_content (view, NULL);
+		view->priv->convert_in_situ = FALSE;
+
+		return;
+	}
+
+	put_body_in_citation (document);
+	move_elements_to_body (document);
+	repair_gmail_blockquotes (document);
+
+	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
+		/* Restore the selection how it was when the draft was saved */
+		e_html_editor_selection_move_caret_into_element (
+			document, WEBKIT_DOM_ELEMENT (body));
+		e_html_editor_selection_restore (
+			e_html_editor_view_get_selection (view));
+	}
+
+	/* Register on input event that is called when the content (body) is modified */
+	register_input_event_listener_on_body (view);
+
+	if (view->priv->html_mode)
+		change_cid_images_src_to_base64 (view);
+
+	if (view->priv->inline_spelling)
+		e_html_editor_view_force_spell_check (view);
+	else
+		e_html_editor_view_turn_spell_check_off (view);
+}
+
+static void
 wrap_paragraphs_in_quoted_content (EHTMLEditorSelection *selection,
                                    WebKitDOMDocument *document)
 {
@@ -7109,6 +7003,143 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
  out:
 	g_object_notify (G_OBJECT (view), "html-mode");
+}
+
+static void
+e_html_editor_view_init (EHTMLEditorView *view)
+{
+	WebKitWebSettings *settings;
+	GSettings *g_settings;
+	GSettingsSchema *settings_schema;
+	ESpellChecker *checker;
+	gchar **languages;
+	gchar *comma_separated;
+	const gchar *user_cache_dir;
+
+	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
+
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE);
+	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
+
+	g_object_set (
+		G_OBJECT (settings),
+		"enable-developer-extras", TRUE,
+		"enable-dom-paste", TRUE,
+		"enable-file-access-from-file-uris", TRUE,
+		"enable-plugins", FALSE,
+		"enable-scripts", FALSE,
+		"enable-spell-checking", TRUE,
+		"respect-image-orientation", TRUE,
+		NULL);
+
+	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (view), settings);
+
+	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
+	/* Override the spell-checker, use our own */
+	checker = e_spell_checker_new ();
+	webkit_set_text_checker (G_OBJECT (checker));
+	g_object_unref (checker);
+
+	/* Don't use CSS when possible to preserve compatibility with older
+	 * versions of Evolution or other MUAs */
+	e_html_editor_view_exec_command (
+		view, E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "false");
+
+	g_signal_connect (
+		view, "user-changed-contents",
+		G_CALLBACK (html_editor_view_user_changed_contents_cb), NULL);
+	g_signal_connect (
+		view, "selection-changed",
+		G_CALLBACK (html_editor_view_selection_changed_cb), NULL);
+	g_signal_connect (
+		view, "should-show-delete-interface-for-element",
+		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);
+	g_signal_connect (
+		view, "resource-request-starting",
+		G_CALLBACK (html_editor_view_resource_requested), NULL);
+	g_signal_connect (
+		view, "notify::load-status",
+		G_CALLBACK (html_editor_view_load_status_changed), NULL);
+
+	view->priv->selection = g_object_new (
+		E_TYPE_HTML_EDITOR_SELECTION,
+		"html-editor-view", view,
+		NULL);
+
+	g_settings = g_settings_new ("org.gnome.desktop.interface");
+	g_signal_connect (
+		g_settings, "changed::font-name",
+		G_CALLBACK (e_html_editor_settings_changed_cb), view);
+	g_signal_connect (
+		g_settings, "changed::monospace-font-name",
+		G_CALLBACK (e_html_editor_settings_changed_cb), view);
+	view->priv->font_settings = g_settings;
+
+	g_settings = g_settings_new ("org.gnome.evolution.mail");
+	view->priv->mail_settings = g_settings;
+
+	/* This schema is optional.  Use if available. */
+	settings_schema = g_settings_schema_source_lookup (
+		g_settings_schema_source_get_default (),
+		"org.gnome.settings-daemon.plugins.xsettings", FALSE);
+	if (settings_schema != NULL) {
+		g_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
+		g_signal_connect (
+			settings, "changed::antialiasing",
+			G_CALLBACK (e_html_editor_settings_changed_cb), view);
+		view->priv->aliasing_settings = g_settings;
+	}
+
+	view->priv->inline_images = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
+
+	e_html_editor_view_update_fonts (view);
+
+	/* Give spell check languages to WebKit */
+	languages = e_spell_checker_list_active_languages (checker, NULL);
+	comma_separated = g_strjoinv (",", languages);
+	g_strfreev (languages);
+
+	g_object_set (
+		G_OBJECT (settings),
+		"spell-checking-languages", comma_separated,
+		NULL);
+
+	g_free (comma_separated);
+
+	view->priv->body_input_event_removed = TRUE;
+	view->priv->is_message_from_draft = FALSE;
+	view->priv->is_message_from_selection = FALSE;
+	view->priv->is_message_from_edit_as_new = FALSE;
+	view->priv->is_editting_signature = FALSE;
+	view->priv->convert_in_situ = FALSE;
+
+	g_object_set (
+		G_OBJECT (settings),
+		"enable-scripts", FALSE,
+		"enable-plugins", FALSE,
+		NULL);
+
+	/* Make WebKit think we are displaying a local file, so that it
+	 * does not block loading resources from file:// protocol */
+	webkit_web_view_load_string (
+		WEBKIT_WEB_VIEW (view), "", "text/html", "UTF-8", "file://");
+
+	html_editor_view_set_links_active (view, FALSE);
+
+	if (emd_global_http_cache == NULL) {
+		user_cache_dir = e_get_user_cache_dir ();
+		emd_global_http_cache = camel_data_cache_new (user_cache_dir, NULL);
+
+		/* cache expiry - 2 hour access, 1 day max */
+		camel_data_cache_set_expire_age (
+			emd_global_http_cache, 24 * 60 * 60);
+		camel_data_cache_set_expire_access (
+			emd_global_http_cache, 2 * 60 * 60);
+	}
 }
 
 /**
@@ -7292,44 +7323,18 @@ e_html_editor_view_get_text_plain (EHTMLEditorView *view)
 	return process_content_for_plain_text (view);
 }
 
-static void
-convert_and_load_html_to_plain_text (EHTMLEditorView *view,
-                                     const gchar *html)
-{
-	view->priv->convertor_insert = FALSE;
-
-	webkit_web_view_load_string (
-		view->priv->convertor_web_view, html, NULL, NULL, "file://");
-}
-
-static void
-convert_and_load_plain_text (EHTMLEditorView *view,
-                             const gchar *text)
-{
-	view->priv->convertor_insert = FALSE;
-
-	webkit_web_view_load_string (
-		view->priv->convertor_web_view, text, "text/plain", NULL, "file://");
-}
-
 void
 e_html_editor_view_convert_and_insert_plain_text (EHTMLEditorView *view,
                                                   const gchar *text)
 {
-	view->priv->convertor_insert = TRUE;
-
-	webkit_web_view_load_string (
-		view->priv->convertor_web_view, text, "text/plain", NULL, "file://");
+	html_editor_view_insert_converted_html_into_selection (view, FALSE, text);
 }
 
 void
 e_html_editor_view_convert_and_insert_html_to_plain_text (EHTMLEditorView *view,
                                                           const gchar *html)
 {
-	view->priv->convertor_insert = TRUE;
-
-	webkit_web_view_load_string (
-		view->priv->convertor_web_view, html, NULL, NULL, "file://");
+	html_editor_view_insert_converted_html_into_selection (view, TRUE, html);
 }
 
 /**
@@ -7352,7 +7357,9 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 	}
 
 	if (view->priv->is_message_from_selection && !view->priv->html_mode) {
-		convert_and_load_html_to_plain_text (view, text);
+		webkit_web_view_load_string (
+			WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
+		view->priv->convert_in_situ = TRUE;
 		return;
 	}
 
@@ -7366,7 +7373,9 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 				return;
 			}
 		}
-		convert_and_load_html_to_plain_text (view, text);
+		webkit_web_view_load_string (
+			WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
+		view->priv->convert_in_situ = TRUE;
 	} else
 		webkit_web_view_load_string (
 			WEBKIT_WEB_VIEW (view), text, NULL, NULL, "file://");
@@ -7385,7 +7394,7 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
 {
 	view->priv->reload_in_progress = TRUE;
 
-	convert_and_load_plain_text (view, text);
+	html_editor_convert_view_content (view, text);
 }
 
 /**
