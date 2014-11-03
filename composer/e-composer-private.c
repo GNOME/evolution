@@ -865,7 +865,18 @@ composer_move_caret (EMsgComposer *composer)
 				"",
 				NULL);
 
-		e_html_editor_selection_scroll_to_caret (editor_selection);
+		if (e_html_editor_view_get_html_mode (view) &&
+		    is_message_from_edit_as_new) {
+
+			webkit_dom_range_select_node_contents (
+				new_range, WEBKIT_DOM_NODE (body), NULL);
+			webkit_dom_range_collapse (new_range, TRUE, NULL);
+
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			webkit_dom_dom_selection_add_range (dom_selection, new_range);
+		} else
+			e_html_editor_selection_scroll_to_caret (editor_selection);
+
 		return;
 	}
 
