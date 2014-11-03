@@ -4145,6 +4145,9 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			if (first_element)
 				citation_was_first_element = TRUE;
 
+			if (paragraph)
+				append_new_paragraph (blockquote, &paragraph);
+
 			citation_mark = g_utf8_substring (
 				citation, 0, g_utf8_pointer_to_offset (citation, rest));
 
