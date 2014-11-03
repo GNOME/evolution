@@ -4280,11 +4280,11 @@ handle_mailto (EMsgComposer *composer,
 	g_free (subject);
 
 	if (body) {
-		gchar *htmlbody;
+		gchar *html_body;
 
-		htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		set_editor_text (composer, htmlbody, TRUE, TRUE);
-		g_free (htmlbody);
+		html_body = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+		set_editor_text (composer, html_body, TRUE, TRUE);
+		g_free (html_body);
 	}
 }
 
