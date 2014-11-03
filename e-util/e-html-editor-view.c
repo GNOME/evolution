@@ -89,6 +89,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
+	gboolean is_editting_signature;
 
 	WebKitWebView *convertor_web_view;
 
@@ -4618,7 +4619,7 @@ html_editor_view_process_document_from_convertor (EHTMLEditorView *view,
 		remove_node (WEBKIT_DOM_NODE (wrapper));
 	}
 
-	if (view->priv->is_message_from_edit_as_new) {
+	if (view->priv->is_message_from_edit_as_new || view->priv->is_editting_signature) {
 		remove_node (WEBKIT_DOM_NODE (paragraph));
 		add_selection_markers_into_element_start (
 			document,
@@ -8182,4 +8183,13 @@ e_html_editor_view_set_is_message_from_edit_as_new (EHTMLEditorView *view,
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
 	view->priv->is_message_from_edit_as_new = value;
+}
+
+void
+e_html_editor_view_set_is_editting_signature (EHTMLEditorView *view,
+                                              gboolean value)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	view->priv->is_editting_signature = value;
 }
