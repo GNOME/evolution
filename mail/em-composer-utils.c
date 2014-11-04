@@ -715,13 +715,10 @@ composer_save_to_drafts_complete (GObject *source_object,
 	/* We don't really care if this failed.  If something other than
 	 * cancellation happened, emit a runtime warning so the error is
 	 * not completely lost. */
-
-	async_context = (AsyncContext *) user_data;
-
-	activity = async_context->activity;
-
 	e_mail_session_handle_draft_headers_finish (
 		E_MAIL_SESSION (source_object), result, &local_error);
+
+	activity = async_context->activity;
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
 		e_html_editor_view_set_changed (view, TRUE);
