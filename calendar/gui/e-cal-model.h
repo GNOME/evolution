@@ -326,6 +326,10 @@ void		e_cal_model_update_status_message
 						 const gchar *message,
 						 gdouble percent);
 
+ECellDateEditValue *
+		e_cal_model_copy_cell_date_value
+						(const ECellDateEditValue *value);
+
 G_END_DECLS
 
 #endif /* E_CAL_MODEL_H */

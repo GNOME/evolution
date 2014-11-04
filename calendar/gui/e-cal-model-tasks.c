@@ -207,7 +207,7 @@ get_completed (ECalModelComponent *comp_data)
 			comp_data->completed->zone = NULL;
 	}
 
-	return comp_data->completed;
+	return e_cal_model_copy_cell_date_value (comp_data->completed);
 }
 
 static ECellDateEditValue *
@@ -237,7 +237,7 @@ get_due (ECalModelComponent *comp_data)
 			comp_data->due->zone = NULL;
 	}
 
-	return comp_data->due;
+	return e_cal_model_copy_cell_date_value (comp_data->due);
 }
 
 static gpointer
@@ -1027,16 +1027,7 @@ cal_model_tasks_duplicate_value (ETableModel *etm,
 		return g_strdup (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		if (value) {
-			ECellDateEditValue *dv, *orig_dv;
-
-			orig_dv = (ECellDateEditValue *) value;
-			dv = g_new0 (ECellDateEditValue, 1);
-			*dv = *orig_dv;
-
-			return dv;
-		}
-		break;
+		return e_cal_model_copy_cell_date_value (value);
 
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
@@ -1062,6 +1053,9 @@ cal_model_tasks_free_value (ETableModel *etm,
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
+		if (value)
+			g_free (value);
+		break;
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
