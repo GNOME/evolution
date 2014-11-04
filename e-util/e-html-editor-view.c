@@ -6848,9 +6848,10 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	if (status != WEBKIT_LOAD_FINISHED)
 		return;
 
-	/* Dispatch queued operations */
-	while (view->priv->post_reload_operations &&
-	       !g_queue_is_empty (view->priv->post_reload_operations)) {
+	/* Dispatch queued operations - as we are using this just for load
+	 * operations load just the latest request and throw away the rest. */
+	if (view->priv->post_reload_operations &&
+	    !g_queue_is_empty (view->priv->post_reload_operations)) {
 
 		PostReloadOperation *op;
 
@@ -6861,6 +6862,8 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		if (op->data_free_func)
 			op->data_free_func (op->data);
 		g_free (op);
+
+		g_queue_clear (view->priv->post_reload_operations);
 
 		return;
 	}
@@ -7379,6 +7382,22 @@ void
 e_html_editor_view_set_text_html (EHTMLEditorView *view,
                                   const gchar *text)
 {
+	WebKitLoadStatus status;
+
+	/* It can happen that the view is not ready yet (it is in the middle of
+	 * another load operation) so we have to queue the current operation and
+	 * redo it again when the view is ready. This was happening when loading
+	 * the stuff in EMailSignatureEditor. */
+	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
+	if (status != WEBKIT_LOAD_FINISHED) {
+		html_editor_view_queue_post_reload_operation (
+			view,
+			(PostReloadOperationFunc) e_html_editor_view_set_text_html,
+			g_strdup (text),
+			g_free);
+		return;
+	}
+
 	view->priv->reload_in_progress = TRUE;
 
 	if (view->priv->is_message_from_draft) {
