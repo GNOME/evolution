@@ -115,6 +115,7 @@ cell_date_edit_text_get_text (ECellText *cell,
 	ECellDateEditValue *dv = e_table_model_value_at (model, col, row);
 	icaltimezone *timezone;
 	struct tm tmp_tm;
+	gchar *res;
 
 	if (!dv)
 		return g_strdup ("");
@@ -127,9 +128,13 @@ cell_date_edit_text_get_text (ECellText *cell,
 	 * it will be set to the current timezone. See set_value (). */
 	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, timezone);
 
-	return e_datetime_format_format_tm (
+	res = e_datetime_format_format_tm (
 		"calendar", "table", dv->tt.is_date ?
 		DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
+
+	e_table_model_free_value (model, col, dv);
+
+	return res;
 }
 
 static void

@@ -93,7 +93,7 @@ get_dtend (ECalModelCalendar *model,
 			comp_data->dtend->zone = NULL;
 	}
 
-	return comp_data->dtend;
+	return e_cal_model_copy_cell_date_value (comp_data->dtend);
 }
 
 static gpointer
@@ -358,16 +358,7 @@ cal_model_calendar_duplicate_value (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		if (value) {
-			ECellDateEditValue *dv, *orig_dv;
-
-			orig_dv = (ECellDateEditValue *) value;
-			dv = g_new0 (ECellDateEditValue, 1);
-			*dv = *orig_dv;
-
-			return dv;
-		}
-		break;
+		return e_cal_model_copy_cell_date_value (value);
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		return g_strdup (value);
@@ -390,6 +381,9 @@ cal_model_calendar_free_value (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
+		if (value)
+			g_free (value);
+		break;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		break;

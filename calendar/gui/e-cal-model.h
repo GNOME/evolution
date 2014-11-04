@@ -323,6 +323,10 @@ void		e_cal_model_util_set_value	(GHashTable *values,
 gpointer	e_cal_model_util_get_value	(GHashTable *values,
 						 gint column);
 
+ECellDateEditValue *
+		e_cal_model_copy_cell_date_value
+						(const ECellDateEditValue *value);
+
 G_END_DECLS
 
 #endif /* E_CAL_MODEL_H */

@@ -365,7 +365,7 @@ get_dtstart (ECalModel *model,
 			comp_data->dtstart->zone = NULL;
 	}
 
-	return comp_data->dtstart;
+	return e_cal_model_copy_cell_date_value (comp_data->dtstart);
 }
 
 static ECellDateEditValue *
@@ -373,40 +373,39 @@ get_datetime_from_utc (ECalModel *model,
                        ECalModelComponent *comp_data,
                        icalproperty_kind propkind,
                        struct icaltimetype (*get_value) (const icalproperty *prop),
-                                                         ECellDateEditValue **buffer)
+		       ECellDateEditValue **buffer)
 {
-	ECalModelPrivate *priv;
-	struct icaltimetype tt_value;
-	icalproperty *prop;
-	ECellDateEditValue *res;
+	g_return_val_if_fail (buffer != NULL, NULL);
 
-	g_return_val_if_fail (buffer!= NULL, NULL);
+	if (!*buffer) {
+		ECalModelPrivate *priv;
+		struct icaltimetype tt_value;
+		icalproperty *prop;
+		ECellDateEditValue *res;
 
-	if (*buffer)
-		return *buffer;
+		priv = model->priv;
 
-	priv = model->priv;
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, propkind);
+		if (!prop)
+			return NULL;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, propkind);
-	if (!prop)
-		return NULL;
+		tt_value = get_value (prop);
 
-	tt_value = get_value (prop);
+		/* these are always in UTC, thus convert to default zone, if any and done */
+		if (priv->zone)
+			icaltimezone_convert_time (&tt_value, icaltimezone_get_utc_timezone (), priv->zone);
 
-	/* these are always in UTC, thus convert to default zone, if any and done */
-	if (priv->zone)
-		icaltimezone_convert_time (&tt_value, icaltimezone_get_utc_timezone (), priv->zone);
+		if (!icaltime_is_valid_time (tt_value) || icaltime_is_null_time (tt_value))
+			return NULL;
 
-	if (!icaltime_is_valid_time (tt_value) || icaltime_is_null_time (tt_value))
-		return NULL;
+		res = g_new0 (ECellDateEditValue, 1);
+		res->tt = tt_value;
+		res->zone = NULL;
 
-	res = g_new0 (ECellDateEditValue, 1);
-	res->tt = tt_value;
-	res->zone = NULL;
+		*buffer = res;
+	}
 
-	*buffer = res;
-
-	return res;
+	return e_cal_model_copy_cell_date_value (*buffer);
 }
 
 static gpointer
@@ -1509,16 +1508,7 @@ cal_model_duplicate_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
-		if (value) {
-			ECellDateEditValue *dv, *orig_dv;
-
-			orig_dv = (ECellDateEditValue *) value;
-			dv = g_new0 (ECellDateEditValue, 1);
-			*dv = *orig_dv;
-
-			return dv;
-		}
-		break;
+		return e_cal_model_copy_cell_date_value (value);
 	}
 
 	return NULL;
@@ -1542,8 +1532,8 @@ cal_model_free_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
-	case E_CAL_MODEL_FIELD_DTSTART:
 		break;
+	case E_CAL_MODEL_FIELD_DTSTART:
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		if (value)
@@ -3364,4 +3354,21 @@ e_cal_model_emit_object_created (ECalModel *model,
 	g_return_if_fail (E_IS_CAL_CLIENT (where));
 
 	g_signal_emit (model, signals[OBJECT_CREATED], 0, where);
+}
+
+
+ECellDateEditValue *
+e_cal_model_copy_cell_date_value (const ECellDateEditValue *value)
+{
+	ECellDateEditValue *copy;
+
+	if (!value)
+		return NULL;
+
+
+	copy = g_new0 (ECellDateEditValue, 1);
+	copy->tt = value->tt;
+	copy->zone = value->zone;
+
+	return copy;
 }
