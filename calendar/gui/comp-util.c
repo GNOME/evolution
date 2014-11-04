@@ -150,8 +150,11 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		 * of the start and end times, using their own timezones and
 		 * the given timezone. */
-		e_cal_client_get_timezone_sync (
-			client, start_datetime.tzid, &start_zone, NULL, NULL);
+		if (start_datetime.tzid)
+			e_cal_client_get_timezone_sync (client, start_datetime.tzid, &start_zone, NULL, NULL);
+		else
+			start_zone = NULL;
+
 		if (start_zone == NULL)
 			goto out;
 
@@ -168,8 +171,11 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 				goto out;
 		}
 
-		e_cal_client_get_timezone_sync (
-			client, end_datetime.tzid, &end_zone, NULL, NULL);
+		if (end_datetime.tzid)
+			e_cal_client_get_timezone_sync (client, end_datetime.tzid, &end_zone, NULL, NULL);
+		else
+			end_zone = NULL;
+
 		if (end_zone == NULL)
 			goto out;
 
