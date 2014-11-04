@@ -546,6 +546,9 @@ mark_all_read_thread (GSimpleAsyncResult *simple,
 
 		camel_folder_thaw (folder);
 
+		/* Save changes to the server immediately. */
+		camel_folder_synchronize_sync (folder, FALSE, cancellable, &error);
+
 		camel_folder_free_uids (folder, uids);
 		g_object_unref (folder);
 	}
