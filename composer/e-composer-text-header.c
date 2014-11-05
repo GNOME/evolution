@@ -28,11 +28,6 @@
 #define E_COMPOSER_TEXT_HEADER_GET_ENTRY(header) \
 	(GTK_ENTRY (E_COMPOSER_HEADER (header)->input_widget))
 
-struct _EComposerTextHeaderPrivate {
-	GtkLinkButton *linkbtn;
-	guint destination_index;
-};
-
 G_DEFINE_TYPE (
 	EComposerTextHeader,
 	e_composer_text_header,
