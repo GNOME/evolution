@@ -1806,6 +1806,9 @@ body_input_event_cb (WebKitDOMElement *element,
 	e_html_editor_view_set_changed (view, TRUE);
 	key_event = view->priv->key_event;
 
+	if (!key_event)
+		return;
+
 	if (view->priv->magic_smileys && view->priv->html_mode)
 		html_editor_view_check_magic_smileys (view, range);
 
