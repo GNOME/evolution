@@ -828,8 +828,10 @@ static void
 action_redo_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
-	webkit_web_view_redo (
-		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		webkit_web_view_redo (WEBKIT_WEB_VIEW (view));
 }
 
 static void
@@ -892,8 +894,10 @@ static void
 action_undo_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
-	webkit_web_view_undo (
-		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		webkit_web_view_undo (WEBKIT_WEB_VIEW (view));
 }
 
 static void

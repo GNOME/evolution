@@ -174,6 +174,12 @@ e_composer_private_constructed (EMsgComposer *composer)
 	action = e_html_editor_get_action (editor, "select-all");
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 
+	action = e_html_editor_get_action (editor, "undo");
+	e_focus_tracker_set_undo_action (focus_tracker, action);
+
+	action = e_html_editor_get_action (editor, "redo");
+	e_focus_tracker_set_redo_action (focus_tracker, action);
+
 	priv->focus_tracker = focus_tracker;
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
@@ -298,7 +304,16 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 			case E_COMPOSER_HEADER_REPLY_TO:
 				action = ACTION (VIEW_REPLY_TO);
+				e_widget_undo_attach (
+					GTK_WIDGET (header->input_widget),
+					focus_tracker);
 				break;
+
+			case E_COMPOSER_HEADER_SUBJECT:
+				e_widget_undo_attach (
+					GTK_WIDGET (header->input_widget),
+					focus_tracker);
+				continue;
 
 			default:
 				continue;
