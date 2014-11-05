@@ -2643,6 +2643,17 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	view->priv->key_event = event;
 
+	if (event->keyval == GDK_KEY_Menu) {
+		gboolean event_handled;
+
+		html_editor_view_save_element_under_mouse_click (widget);
+		g_signal_emit (
+			widget, signals[POPUP_EVENT],
+			0, event, &event_handled);
+
+		return event_handled;
+	}
+
 	if (event->keyval == GDK_KEY_Tab)
 		return e_html_editor_view_exec_command (
 			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");

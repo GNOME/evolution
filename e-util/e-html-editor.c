@@ -1178,3 +1178,4 @@ e_html_editor_save (EHTMLEditor *editor,
 	return TRUE;
 }
 
+
