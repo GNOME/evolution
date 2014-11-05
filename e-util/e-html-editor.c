@@ -735,6 +735,7 @@ html_editor_dispose (GObject *object)
 
 	g_clear_object (&priv->manager);
 	g_clear_object (&priv->core_actions);
+	g_clear_object (&priv->core_editor_actions);
 	g_clear_object (&priv->html_actions);
 	g_clear_object (&priv->context_actions);
 	g_clear_object (&priv->html_context_actions);
@@ -866,6 +867,7 @@ e_html_editor_init (EHTMLEditor *editor)
 
 	priv->manager = gtk_ui_manager_new ();
 	priv->core_actions = gtk_action_group_new ("core");
+	priv->core_editor_actions = gtk_action_group_new ("core-editor");
 	priv->html_actions = gtk_action_group_new ("html");
 	priv->context_actions = gtk_action_group_new ("core-context");
 	priv->html_context_actions = gtk_action_group_new ("html-context");

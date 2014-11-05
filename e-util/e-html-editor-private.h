@@ -50,6 +50,7 @@ G_BEGIN_DECLS
 struct _EHTMLEditorPrivate {
 	GtkUIManager *manager;
 	GtkActionGroup *core_actions;
+	GtkActionGroup *core_editor_actions;
 	GtkActionGroup *html_actions;
 	GtkActionGroup *context_actions;
 	GtkActionGroup *html_context_actions;

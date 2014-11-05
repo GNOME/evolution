@@ -631,7 +631,7 @@ update_mode_combobox (gpointer data)
 	is_html = e_html_editor_view_get_html_mode (view);
 
 	action = gtk_action_group_get_action (
-		editor->priv->core_actions, "mode-html");
+		editor->priv->core_editor_actions, "mode-html");
 	gtk_radio_action_set_current_value (
 		GTK_RADIO_ACTION (action), (is_html ? 1 : 0));
 
@@ -945,40 +945,12 @@ static GtkActionEntry core_entries[] = {
 	  N_("Cut selected text to the clipboard"),
 	  G_CALLBACK (action_cut_cb) },
 
-	{ "indent",
-	  "format-indent-more",
-	  N_("_Increase Indent"),
-	  "<Control>bracketright",
-	  N_("Increase Indent"),
-	  G_CALLBACK (action_indent_cb) },
-
-	{ "insert-html-file",
-	  NULL,
-	  N_("_HTML File..."),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_insert_html_file_cb) },
-
-	{ "insert-text-file",
-	  NULL,
-	  N_("Te_xt File..."),
-	  NULL,
-	  NULL,
-	  G_CALLBACK (action_insert_text_file_cb) },
-
 	{ "paste",
 	  "edit-paste",
 	  N_("_Paste"),
 	  NULL, /* Widgets are treating Ctrl + v shortcut themselves */
 	  N_("Paste text from the clipboard"),
 	  G_CALLBACK (action_paste_cb) },
-
-	{ "paste-quote",
-	  NULL,
-	  N_("Paste _Quotation"),
-	  "<Shift><Control>v",
-	  NULL,
-	  G_CALLBACK (action_paste_quote_cb) },
 
 	{ "redo",
 	  "edit-redo",
@@ -994,61 +966,12 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  G_CALLBACK (action_select_all_cb) },
 
-	{ "show-find",
-	  "edit-find",
-	  N_("_Find..."),
-	  "<Control>f",
-	  N_("Search for text"),
-	  G_CALLBACK (action_show_find_cb) },
-
-	{ "find-again",
-	  NULL,
-	  N_("Find A_gain"),
-	  "<Control>g",
-	  NULL,
-	  G_CALLBACK (action_find_again_cb) },
-
-	{ "show-replace",
-	  "edit-find-replace",
-	  N_("Re_place..."),
-	  "<Control>h",
-	  N_("Search for and replace text"),
-	  G_CALLBACK (action_show_replace_cb) },
-
-	{ "spell-check",
-	  "tools-check-spelling",
-	  N_("Check _Spelling..."),
-	  "F7",
-	  NULL,
-	  G_CALLBACK (action_spell_check_cb) },
-
 	{ "undo",
 	  "edit-undo",
 	  N_("_Undo"),
 	  "<Control>z",
 	  N_("Undo the last action"),
 	  G_CALLBACK (action_undo_cb) },
-
-	{ "unindent",
-	  "format-indent-less",
-	  N_("_Decrease Indent"),
-	  "<Control>bracketleft",
-	  N_("Decrease Indent"),
-	  G_CALLBACK (action_unindent_cb) },
-
-	{ "wrap-lines",
-	  NULL,
-	  N_("_Wrap Lines"),
-	  "<Control>k",
-	  NULL,
-	  G_CALLBACK (action_wrap_lines_cb) },
-
-	{ "webkit-inspector",
-          NULL,
-          N_("Open Inspector"),
-          NULL,
-          NULL,
-          G_CALLBACK (action_show_webkit_inspector_cb) },
 
 	/* Menus */
 
@@ -1107,6 +1030,86 @@ static GtkActionEntry core_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static GtkActionEntry core_editor_entries[] = {
+
+	{ "indent",
+	  "format-indent-more",
+	  N_("_Increase Indent"),
+	  "<Control>bracketright",
+	  N_("Increase Indent"),
+	  G_CALLBACK (action_indent_cb) },
+
+	{ "insert-html-file",
+	  NULL,
+	  N_("_HTML File..."),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_insert_html_file_cb) },
+
+	{ "insert-text-file",
+	  NULL,
+	  N_("Te_xt File..."),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_insert_text_file_cb) },
+
+	{ "paste-quote",
+	  NULL,
+	  N_("Paste _Quotation"),
+	  "<Shift><Control>v",
+	  NULL,
+	  G_CALLBACK (action_paste_quote_cb) },
+
+	{ "show-find",
+	  "edit-find",
+	  N_("_Find..."),
+	  "<Control>f",
+	  N_("Search for text"),
+	  G_CALLBACK (action_show_find_cb) },
+
+	{ "find-again",
+	  NULL,
+	  N_("Find A_gain"),
+	  "<Control>g",
+	  NULL,
+	  G_CALLBACK (action_find_again_cb) },
+
+	{ "show-replace",
+	  "edit-find-replace",
+	  N_("Re_place..."),
+	  "<Control>h",
+	  N_("Search for and replace text"),
+	  G_CALLBACK (action_show_replace_cb) },
+
+	{ "spell-check",
+	  "tools-check-spelling",
+	  N_("Check _Spelling..."),
+	  "F7",
+	  NULL,
+	  G_CALLBACK (action_spell_check_cb) },
+
+	{ "unindent",
+	  "format-indent-less",
+	  N_("_Decrease Indent"),
+	  "<Control>bracketleft",
+	  N_("Decrease Indent"),
+	  G_CALLBACK (action_unindent_cb) },
+
+	{ "wrap-lines",
+	  NULL,
+	  N_("_Wrap Lines"),
+	  "<Control>k",
+	  NULL,
+	  G_CALLBACK (action_wrap_lines_cb) },
+
+	{ "webkit-inspector",
+          NULL,
+          N_("Open Inspector"),
+          NULL,
+          NULL,
+          G_CALLBACK (action_show_webkit_inspector_cb) },
 };
 
 static GtkRadioActionEntry core_justify_entries[] = {
@@ -1842,6 +1845,13 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_group_add_actions (
 		action_group, core_entries,
 		G_N_ELEMENTS (core_entries), editor);
+	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+
+	action_group = editor->priv->core_editor_actions;
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_actions (
+		action_group, core_editor_entries,
+		G_N_ELEMENTS (core_editor_entries), editor);
 	gtk_action_group_add_radio_actions (
 		action_group, core_justify_entries,
 		G_N_ELEMENTS (core_justify_entries),
@@ -2020,7 +2030,7 @@ editor_actions_init (EHTMLEditor *editor)
 	/* Disable all actions and toolbars when editor is not editable */
 	g_object_bind_property (
 		view, "editable",
-		editor->priv->core_actions, "sensitive",
+		editor->priv->core_editor_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	g_object_bind_property (
 		view, "editable",
