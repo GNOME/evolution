@@ -767,13 +767,19 @@ composer_save_to_drafts_cleanup (GObject *source_object,
 	alert_sink = e_activity_get_alert_sink (activity);
 	cancellable = e_activity_get_cancellable (activity);
 
+	e_mail_folder_append_message_finish (
+		CAMEL_FOLDER (source_object), result,
+		&async_context->message_uid, &local_error);
+
 	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_warn_if_fail (async_context->message_uid == NULL);
 		e_html_editor_view_set_changed (view, TRUE);
 		async_context_free (async_context);
 		g_error_free (local_error);
 		return;
 
 	} else if (local_error != NULL) {
+		g_warn_if_fail (async_context->message_uid == NULL);
 		e_alert_submit (
 			alert_sink,
 			"mail-composer:save-to-drafts-error",
