@@ -202,9 +202,22 @@ alert_bar_response_cb (EAlert *alert,
 	if (g_queue_remove (queue, alert))
 		g_object_unref (alert);
 
-	if (g_queue_is_empty (queue))
+	if (g_queue_is_empty (queue)) {
+		GtkWidget *action_area;
+		GList *children;
+
 		gtk_widget_hide (GTK_WIDGET (alert_bar));
-	else if (was_head) {
+
+		action_area = gtk_info_bar_get_action_area (GTK_INFO_BAR (alert_bar));
+
+		/* Remove all buttons from the previous alert. */
+		children = gtk_container_get_children (GTK_CONTAINER (action_area));
+		while (children != NULL) {
+			GtkWidget *child = GTK_WIDGET (children->data);
+			gtk_container_remove (GTK_CONTAINER (action_area), child);
+			children = g_list_delete_link (children, children);
+		}
+	} else if (was_head) {
 		GtkInfoBar *info_bar = GTK_INFO_BAR (alert_bar);
 		gtk_info_bar_response (info_bar, response_id);
 		alert_bar_show_alert (alert_bar);
