@@ -425,23 +425,30 @@ static void
 action_copy_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
-	webkit_web_view_copy_clipboard (
-		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (view));
 }
 
 static void
 action_cut_cb (GtkAction *action,
                EHTMLEditor *editor)
 {
-	webkit_web_view_cut_clipboard (
-		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
 }
 
 static void
 action_indent_cb (GtkAction *action,
                   EHTMLEditor *editor)
 {
-	e_html_editor_selection_indent (editor->priv->selection);
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		e_html_editor_selection_indent (editor->priv->selection);
 }
 
 static void
@@ -697,11 +704,11 @@ action_paste_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	/* If WebView doesn't have focus, focus it */
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
+		webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (view));
 
-	webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (view));
-	e_html_editor_view_force_spell_check (view);
+		e_html_editor_view_force_spell_check (view);
+	}
 }
 
 static void
@@ -710,8 +717,10 @@ action_paste_as_text_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	e_html_editor_view_paste_as_text (view);
-	e_html_editor_view_force_spell_check (view);
+	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
+		e_html_editor_view_paste_as_text (view);
+		e_html_editor_view_force_spell_check (view);
+	}
 }
 
 static void
@@ -720,8 +729,10 @@ action_paste_quote_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	e_html_editor_view_paste_clipboard_quoted (view);
-	e_html_editor_view_force_spell_check (view);
+	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
+		e_html_editor_view_paste_clipboard_quoted (view);
+		e_html_editor_view_force_spell_check (view);
+	}
 }
 
 static void
@@ -838,8 +849,10 @@ static void
 action_select_all_cb (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	webkit_web_view_select_all (
-		WEBKIT_WEB_VIEW (e_html_editor_get_view (editor)));
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		webkit_web_view_select_all (WEBKIT_WEB_VIEW (view));
 }
 
 static void
@@ -858,9 +871,8 @@ static void
 action_find_again_cb (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	if (editor->priv->find_dialog == NULL) {
+	if (editor->priv->find_dialog == NULL)
 		return;
-	}
 
 	e_html_editor_find_dialog_find_next (
 		E_HTML_EDITOR_FIND_DIALOG (editor->priv->find_dialog));
@@ -904,14 +916,20 @@ static void
 action_unindent_cb (GtkAction *action,
                     EHTMLEditor *editor)
 {
-	e_html_editor_selection_unindent (editor->priv->selection);
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		e_html_editor_selection_unindent (editor->priv->selection);
 }
 
 static void
 action_wrap_lines_cb (GtkAction *action,
                       EHTMLEditor *editor)
 {
-	e_html_editor_selection_wrap_lines (editor->priv->selection);
+	EHTMLEditorView *view = e_html_editor_get_view (editor);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
+		e_html_editor_selection_wrap_lines (editor->priv->selection);
 }
 
 static void
