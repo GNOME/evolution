@@ -181,7 +181,9 @@ composer_autosave_constructed (GObject *object)
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
 	view = e_html_editor_get_view (editor);
 
-	e_signal_connect_notify_swapped (
+	/* Do not use e_signal_connect_notify_swapped() here,
+	   this module relies on "false" change notifications. */
+	g_signal_connect_swapped (
 		view, "notify::changed",
 		G_CALLBACK (composer_autosave_changed_cb), object);
 }
