@@ -476,6 +476,14 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_secondary xml:space="preserve">{0}</_secondary>
   </error>
 
+  <error id="no-retrieve-message-offline" type="warning">
+    <_primary>Message is not available in offline.</_primary>
+    <_secondary>This can be due to the message not being downloaded yet. The folder, or the account, can be marked
+for offline synchronization. Then, once the account is online again, use File-&gt;Download
+Messages for Offline Usage, when this folder is selected, to make sure that all the messages
+in the folder will be available in offline.</_secondary>
+  </error>
+
   <error id="folder-open" type="error">
     <_primary>Failed to open folder.</_primary>
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>

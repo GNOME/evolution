@@ -2981,10 +2981,18 @@ exit:
 		preview_pane = e_mail_reader_get_preview_pane (reader);
 		web_view = e_preview_pane_get_web_view (preview_pane);
 
-		e_alert_submit (
-			E_ALERT_SINK (web_view),
-			"mail:no-retrieve-message",
-			error->message, NULL);
+		if (g_error_matches (error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_UNAVAILABLE) &&
+		    CAMEL_IS_OFFLINE_FOLDER (folder) &&
+		    camel_service_get_connection_status (CAMEL_SERVICE (camel_folder_get_parent_store (folder))) != CAMEL_SERVICE_CONNECTED)
+			e_alert_submit (
+				E_ALERT_SINK (web_view),
+				"mail:no-retrieve-message-offline",
+				NULL);
+		else
+			e_alert_submit (
+				E_ALERT_SINK (web_view),
+				"mail:no-retrieve-message",
+				error->message, NULL);
 	}
 
 	g_clear_error (&error);
