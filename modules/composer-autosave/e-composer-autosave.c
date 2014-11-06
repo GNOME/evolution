@@ -171,7 +171,9 @@ composer_autosave_constructed (GObject *object)
 
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 
-	e_signal_connect_notify_swapped (
+	/* Do not use e_signal_connect_notify_swapped() here,
+	   this module relies on "false" change notifications. */
+	g_signal_connect_swapped (
 		extensible, "notify::changed",
 		G_CALLBACK (composer_autosave_changed_cb), object);
 }
