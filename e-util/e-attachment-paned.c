@@ -55,6 +55,7 @@ struct _EAttachmentPanedPrivate {
 	GtkWidget *content_area;
 
 	gint active_view;
+	gint vpaned_handle_size;
 	gboolean expanded;
 	gboolean resize_toplevel;
 };
@@ -99,11 +100,21 @@ attachment_paned_notify_cb (EAttachmentPaned *paned,
 
 	label = GTK_LABEL (paned->priv->show_hide_label);
 
-	/* Update the expander label. */
-	if (gtk_expander_get_expanded (expander))
+	/* Update the expander label and set the right bottom margin around the handle. */
+	if (gtk_expander_get_expanded (expander)) {
+		gint bottom, value;
+
 		text = _("Hide Attachment _Bar");
-	else
+
+		bottom = gtk_widget_get_margin_bottom (paned->priv->controls_container);
+		value = bottom - paned->priv->vpaned_handle_size;
+
+		gtk_widget_set_margin_bottom (
+			paned->priv->controls_container, (value < 0) ? 0 : value);
+	} else {
+		gtk_widget_set_margin_bottom (paned->priv->controls_container, 6);
 		text = _("Show Attachment _Bar");
+	}
 
 	gtk_label_set_text_with_mnemonic (label, text);
 
@@ -596,6 +607,19 @@ e_attachment_paned_class_init (EAttachmentPanedClass *class)
 }
 
 static void
+attachment_paned_style_updated_cb (EAttachmentPaned *paned)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_PANED (paned));
+
+	gtk_widget_style_get (
+		GTK_WIDGET (paned), "handle-size",
+		&paned->priv->vpaned_handle_size, NULL);
+
+	if (paned->priv->vpaned_handle_size < 0)
+		paned->priv->vpaned_handle_size = 0;
+}
+
+static void
 e_attachment_paned_init (EAttachmentPaned *paned)
 {
 	EAttachmentView *view;
@@ -671,9 +695,18 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	paned->priv->content_area = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	paned->priv->vpaned_handle_size = 5;
+	attachment_paned_style_updated_cb (paned);
+
+	g_signal_connect (
+		GTK_PANED (paned), "style-updated",
+		G_CALLBACK (attachment_paned_style_updated_cb), NULL);
+
 	container = widget;
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_widget_set_margin_right (widget, 6);
+	gtk_widget_set_margin_left (widget, 6);
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	paned->priv->controls_container = widget;
 	gtk_widget_show (widget);
