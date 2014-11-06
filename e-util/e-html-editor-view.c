@@ -89,7 +89,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
-	gboolean is_editting_signature;
+	gboolean remove_initial_input_line;
 
 	GHashTable *old_settings;
 
@@ -4647,7 +4647,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		remove_node (WEBKIT_DOM_NODE (content_wrapper));
 	}
 
-	if (view->priv->is_message_from_edit_as_new || view->priv->is_editting_signature) {
+	if (view->priv->is_message_from_edit_as_new || view->priv->remove_initial_input_line) {
 		WebKitDOMNode *child;
 
 		remove_node (WEBKIT_DOM_NODE (paragraph));
@@ -7162,7 +7162,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->is_message_from_draft = FALSE;
 	view->priv->is_message_from_selection = FALSE;
 	view->priv->is_message_from_edit_as_new = FALSE;
-	view->priv->is_editting_signature = FALSE;
+	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
 
 	g_object_set (
@@ -8275,10 +8275,10 @@ e_html_editor_view_set_is_message_from_edit_as_new (EHTMLEditorView *view,
 }
 
 void
-e_html_editor_view_set_is_editting_signature (EHTMLEditorView *view,
-                                              gboolean value)
+e_html_editor_view_set_remove_initial_input_line (EHTMLEditorView *view,
+                                                  gboolean value)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
-	view->priv->is_editting_signature = value;
+	view->priv->remove_initial_input_line = value;
 }

@@ -499,7 +499,7 @@ mail_signature_editor_constructed (GObject *object)
 	editor = e_mail_signature_editor_get_editor (window);
 	view = e_html_editor_get_view (editor);
 
-	e_html_editor_view_set_is_editting_signature (view, TRUE);
+	e_html_editor_view_set_remove_initial_input_line (view, TRUE);
 
 	ui_manager = e_html_editor_get_ui_manager (editor);
 

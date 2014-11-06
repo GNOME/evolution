@@ -4352,7 +4352,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	EHTMLEditorView *view;
 	ESource *source;
 	const gchar *identity_uid;
-	gchar *buff;
+	const gchar *content;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -4366,14 +4366,11 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	identity_uid = e_composer_header_table_get_identity_uid (table);
 	source = e_composer_header_table_ref_source (table, identity_uid);
 
-	buff = g_markup_printf_escaped (
-		"<b>%s</b>",
-		_("The composer contains a non-text "
-		"message body, which cannot be edited."));
-	set_editor_text (composer, buff, TRUE, FALSE);
-	g_free (buff);
+	content = _("The composer contains a non-text message body, which cannot be edited.");
+	set_editor_text (composer, content, TRUE, FALSE);
 
 	e_html_editor_view_set_html_mode (view, FALSE);
+	e_html_editor_view_set_remove_initial_input_line (view, TRUE);
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);
 
 	g_free (priv->mime_body);
