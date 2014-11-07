@@ -329,6 +329,20 @@ action_smime_sign_cb (GtkToggleAction *action,
 	e_html_editor_view_set_changed (view, TRUE);
 }
 
+static void
+composer_actions_toolbar_option_toggled_cb (GtkToggleAction *toggle_action,
+					    EMsgComposer *composer)
+{
+	GtkAction *action;
+
+	action = GTK_ACTION (toggle_action);
+
+	/* Show the action only after the first time the option is used */
+	if (!gtk_action_get_visible (action) &&
+	    gtk_toggle_action_get_active (toggle_action))
+		gtk_action_set_visible (action, TRUE);
+}
+
 static gboolean
 composer_actions_accel_activate_cb (GtkAccelGroup *accel_group,
 				    GObject *acceleratable,
@@ -496,6 +510,54 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  G_CALLBACK (action_smime_sign_cb),
 	  FALSE },
 
+	{ "toolbar-pgp-encrypt",
+	  "security-high",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
+	{ "toolbar-pgp-sign",
+	  "stock_signature",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
+	{ "toolbar-prioritize-message",
+	  "emblem-important",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
+	{ "toolbar-request-read-receipt",
+	  "mail-forward",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
+	{ "toolbar-smime-encrypt",
+	  "security-high",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
+	{ "toolbar-smime-sign",
+	  "stock_signature",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  FALSE },
+
 	{ "view-bcc",
 	  NULL,
 	  N_("_Bcc Field"),
@@ -518,7 +580,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,
 	  N_("Toggles whether the Reply-To field is displayed"),
 	  NULL,  /* Handled by property bindings */
-	  FALSE },
+	  FALSE }
 };
 
 void
@@ -530,6 +592,7 @@ e_composer_actions_init (EMsgComposer *composer)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	gboolean visible;
+	GIcon *gcr_gnupg_icon;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -577,6 +640,66 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	g_object_set (
 		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
+
+	#define init_toolbar_option(x, always_visible)	\
+		gtk_action_set_visible (ACTION (TOOLBAR_ ## x), always_visible); \
+		g_object_bind_property ( \
+			ACTION (x), "active", \
+			ACTION (TOOLBAR_ ## x), "active", \
+			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL); \
+		g_object_bind_property ( \
+			ACTION (x), "label", \
+			ACTION (TOOLBAR_ ## x), "label", \
+			G_BINDING_SYNC_CREATE); \
+		g_object_bind_property ( \
+			ACTION (x), "tooltip", \
+			ACTION (TOOLBAR_ ## x), "tooltip", \
+			G_BINDING_SYNC_CREATE); \
+		g_object_bind_property ( \
+			ACTION (x), "sensitive", \
+			ACTION (TOOLBAR_ ## x), "sensitive", \
+			G_BINDING_SYNC_CREATE); \
+		g_signal_connect (ACTION (TOOLBAR_ ## x), "toggled", \
+			G_CALLBACK (composer_actions_toolbar_option_toggled_cb), composer);
+
+	init_toolbar_option (PGP_SIGN, FALSE);
+	init_toolbar_option (PGP_ENCRYPT, FALSE);
+	init_toolbar_option (PRIORITIZE_MESSAGE, TRUE);
+	init_toolbar_option (REQUEST_READ_RECEIPT, TRUE);
+	init_toolbar_option (SMIME_SIGN, FALSE);
+	init_toolbar_option (SMIME_ENCRYPT, FALSE);
+
+	#undef init_toolbar_option
+
+	/* Borrow a GnuPG icon from gcr to distinguish between GPG and S/MIME Sign/Encrypt actions */
+	gcr_gnupg_icon = g_themed_icon_new ("gcr-gnupg");
+	if (gcr_gnupg_icon) {
+		GIcon *temp_icon;
+		GIcon *action_icon;
+		GEmblem *emblem;
+		GtkAction *action;
+
+		emblem = g_emblem_new (gcr_gnupg_icon);
+
+		action = ACTION (TOOLBAR_PGP_SIGN);
+		action_icon = g_themed_icon_new (gtk_action_get_icon_name (action));
+		temp_icon = g_emblemed_icon_new (action_icon, emblem);
+		g_object_unref (action_icon);
+
+		gtk_action_set_gicon (action, temp_icon);
+		g_object_unref (temp_icon);
+
+		action = ACTION (TOOLBAR_PGP_ENCRYPT);
+		action_icon = g_themed_icon_new (gtk_action_get_icon_name (action));
+		temp_icon = g_emblemed_icon_new (action_icon, emblem);
+		g_object_unref (action_icon);
+
+		gtk_action_set_gicon (action, temp_icon);
+		g_object_unref (temp_icon);
+
+		g_object_unref (emblem);
+		g_object_unref (gcr_gnupg_icon);
+	}
 
 	g_object_bind_property (
 		view, "html-mode",
