@@ -4070,7 +4070,7 @@ check_if_end_paragraph (const gchar *input,
 		if (length_next_word > 0 && next_br < next_space)
 			length_next_word = 0;
 
-		if (length_next_word + length < 62)
+		if (length_next_word + length < 72)
 			return TRUE;
 	}
 
@@ -4238,7 +4238,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				if (length < 62 && check_if_end_paragraph (next_br, length))
 					append_new_paragraph (blockquote, &paragraph);
 
-				if (length > 76)
+				if (length > 72)
 					append_new_paragraph (blockquote, &paragraph);
 			}
 
