@@ -631,12 +631,16 @@ mail_ui_session_user_alert (CamelSession *session,
 	g_free (display_name);
 }
 
+extern gint camel_application_is_exiting;
+
 static void
 mail_ui_session_refresh_service (EMailSession *session,
                                  CamelService *service)
 {
-	if (camel_session_get_online (CAMEL_SESSION (session)))
+	if (!camel_application_is_exiting &&
+	    camel_session_get_online (CAMEL_SESSION (session))) {
 		mail_receive_service (service);
+	}
 }
 
 static EMVFolderContext *
