@@ -2211,28 +2211,28 @@ msg_composer_constructed (GObject *object)
 
 	/* Configure Headers */
 
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_destinations_bcc_handler = e_signal_connect_notify_swapped (
 		table, "notify::destinations-bcc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_destinations_cc_handler = e_signal_connect_notify_swapped (
 		table, "notify::destinations-cc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_destinations_to_handler = e_signal_connect_notify_swapped (
 		table, "notify::destinations-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_identity_uid_handler = e_signal_connect_notify_swapped (
 		table, "notify::identity-uid",
 		G_CALLBACK (msg_composer_mail_identity_changed_cb), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_reply_to_handler = e_signal_connect_notify_swapped (
 		table, "notify::reply-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_signature_uid_handler = e_signal_connect_notify_swapped (
 		table, "notify::signature-uid",
 		G_CALLBACK (e_composer_update_signature), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_subject_changed_handler = e_signal_connect_notify_swapped (
 		table, "notify::subject",
 		G_CALLBACK (msg_composer_subject_changed_cb), composer);
-	e_signal_connect_notify_swapped (
+	composer->priv->notify_subject_handler = e_signal_connect_notify_swapped (
 		table, "notify::subject",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 
@@ -2274,11 +2274,12 @@ static void
 msg_composer_dispose (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
+	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	EShell *shell;
 
-	if (composer->priv->address_dialog != NULL) {
-		gtk_widget_destroy (composer->priv->address_dialog);
-		composer->priv->address_dialog = NULL;
+	if (priv->address_dialog != NULL) {
+		gtk_widget_destroy (priv->address_dialog);
+		priv->address_dialog = NULL;
 	}
 
 	/* FIXME Our EShell is already unreferenced. */
@@ -2288,8 +2289,27 @@ msg_composer_dispose (GObject *object)
 		shell, msg_composer_quit_requested_cb, composer);
 	g_signal_handlers_disconnect_by_func (
 		shell, msg_composer_prepare_for_quit_cb, composer);
-	g_signal_handlers_disconnect_by_func (
-		composer, msg_composer_notify_header_cb, NULL);
+
+	if (priv->header_table != NULL) {
+		EComposerHeaderTable *table;
+
+		table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
+
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_destinations_bcc_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_destinations_cc_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_destinations_to_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_identity_uid_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_reply_to_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_destinations_to_handler);
+		e_signal_disconnect_notify_handler (
+			table, &priv->notify_subject_changed_handler);
+	}
 
 	e_composer_private_dispose (composer);
 

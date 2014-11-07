@@ -103,6 +103,15 @@ struct _EMsgComposerPrivate {
 
 	gint focused_entry_selection_start;
 	gint focused_entry_selection_end;
+
+	gulong notify_destinations_bcc_handler;
+	gulong notify_destinations_cc_handler;
+	gulong notify_destinations_to_handler;
+	gulong notify_identity_uid_handler;
+	gulong notify_reply_to_handler;
+	gulong notify_signature_uid_handler;
+	gulong notify_subject_handler;
+	gulong notify_subject_changed_handler;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);
