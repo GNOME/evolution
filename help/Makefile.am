@@ -238,6 +238,6 @@ HELP_FILES = \
 	xinclude-mail-account-identity.xml \
 	xinclude-searching.xml
 
-HELP_LINGUAS = cs de el en_GB es eu fr gl hu mk oc ru sl sv te zh_CN
+HELP_LINGUAS = cs de el en_GB es eu fr gl hu ja mk oc ru sl sv te zh_CN
 
 -include $(top_srcdir)/git.mk
