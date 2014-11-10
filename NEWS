@@ -1,3 +1,35 @@
+Evolution 3.12.8 2014-11-10
+---------------------------
+
+Bug Fixes:
+	Bug 729305 - EAlertDialog too wide with wrapped GtkLabel-s (Milan Crha)
+	Bug 737330 - EShellSwitcher: Count with GtkPaned::handle-size for button widths (Milan Crha)
+	Bug 738453 - Inefficient sort by subject in message list (Milan Crha)
+	Bug 738463 - [a11y] Fix various problems with fetching children (Mike Gorse)
+	Bug 650670 - Duplicate entries when contact is in several address books (Milan Crha)
+	Bug 739375 - Crash when sort folder with Due By column (Milan Crha)
+	Bug 739386 - Forward style Inline is missing a line break (Milan Crha)
+	Bug 739364 - Drop references to geoclue (Milan Crha)
+	Bug 676471 - Double free when sorting by date columns in calendar (Milan Crha)
+	Bug 739605 - Remove alert buttons on the alert bar hide (Milan Crha)
+	Bug 739562 - Message composer autosave not updating (Milan Crha)
+
+Miscellaneous:
+	Update AUTHORS, MAINTAINERS, doap, etc. (Matthew Barnes)
+	Address two possible places causing runtime warning on a GSource removal (Milan Crha)
+	cal_comp_util_compare_event_timezones: Do not ask with NULL tzid (Milan Crha)
+	[Mark-All-Read] Save changes to the server immediately (Milan Crha)
+	Avoid automatic mail account update when the application is exiting (Milan Crha)
+
+Translations:
+	Fran Diéguez (gl)
+	Daniel Mustieles (es)
+	Marek Černocký (cs)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Bernd Homuth (de)
+	Guillaume Bernard (fr)
+
 Evolution 3.12.7 2014-10-13
 ---------------------------
 
