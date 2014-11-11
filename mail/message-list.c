@@ -3421,6 +3421,7 @@ message_list_init (MessageList *message_list)
 
 	message_list->priv->mail_settings = g_settings_new ("org.gnome.evolution.mail");
 	message_list->priv->re_prefixes = NULL;
+	message_list->priv->group_by_threads = TRUE;
 }
 
 static void
@@ -4536,6 +4537,7 @@ message_list_set_group_by_threads (MessageList *message_list,
 		return;
 
 	message_list->priv->group_by_threads = group_by_threads;
+	e_tree_set_grouped_view (E_TREE (message_list), group_by_threads);
 
 	g_object_notify (G_OBJECT (message_list), "group-by-threads");
 

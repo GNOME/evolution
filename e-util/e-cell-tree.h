@@ -66,6 +66,7 @@ struct _ECellTree {
 	ECell parent;
 
 	gboolean draw_lines;
+	gboolean grouped_view;
 
 	ECell *subcell;
 };
@@ -82,6 +83,9 @@ void		e_cell_tree_construct		(ECellTree *ect,
 						 ECell *subcell);
 ECellView *	e_cell_tree_view_get_subcell_view
 						(ECellView *ect);
+gboolean	e_cell_tree_get_grouped_view	(ECellTree *cell_tree);
+void		e_cell_tree_set_grouped_view	(ECellTree *cell_tree,
+						 gboolean grouped_view);
 
 G_END_DECLS
 

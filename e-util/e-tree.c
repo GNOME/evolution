@@ -36,6 +36,7 @@
 #include "e-canvas-background.h"
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
+#include "e-cell-tree.h"
 #include "e-table-column-specification.h"
 #include "e-table-header-item.h"
 #include "e-table-header.h"
@@ -205,6 +206,8 @@ struct _ETreePrivate {
 	guint state_change_freeze;
 
 	gboolean is_dragging;
+
+	gboolean grouped_view;
 };
 
 static guint signals[LAST_SIGNAL];
@@ -659,6 +662,7 @@ e_tree_init (ETree *tree)
 	tree->priv->state_change_freeze = 0;
 
 	tree->priv->is_dragging = FALSE;
+	tree->priv->grouped_view = TRUE;
 }
 
 /* Grab_focus handler for the ETree */
@@ -1528,6 +1532,28 @@ et_table_rows_deleted (ETableModel *table_model,
 }
 
 static void
+e_tree_update_full_header_grouped_view (ETree *tree)
+{
+	gint ii, sz;
+
+	g_return_if_fail (E_IS_TREE (tree));
+
+	if (!tree->priv->full_header)
+		return;
+
+	sz = e_table_header_count (tree->priv->full_header);
+	for (ii = 0; ii < sz; ii++) {
+		ETableCol *col;
+
+		col = e_table_header_get_column (tree->priv->full_header, ii);
+		if (!col || !E_IS_CELL_TREE (col->ecell))
+			continue;
+
+		e_cell_tree_set_grouped_view (E_CELL_TREE (col->ecell), tree->priv->grouped_view);
+	}
+}
+
+static void
 et_connect_to_etta (ETree *tree)
 {
 	tree->priv->table_model_change_id = g_signal_connect (
@@ -1570,6 +1596,8 @@ et_real_construct (ETree *tree,
 	tree->priv->draw_focus = specification->draw_focus;
 	tree->priv->cursor_mode = specification->cursor_mode;
 	tree->priv->full_header = e_table_spec_to_full_header (specification, ete);
+
+	e_tree_update_full_header_grouped_view (tree);
 
 	connect_header (tree, state);
 
@@ -3278,4 +3306,26 @@ e_tree_is_editing (ETree *tree)
 	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
 
 	return tree->priv->item && e_table_item_is_editing (E_TABLE_ITEM (tree->priv->item));
+}
+
+void
+e_tree_set_grouped_view (ETree *tree,
+			 gboolean grouped_view)
+{
+	g_return_if_fail (E_IS_TREE (tree));
+
+	if ((tree->priv->grouped_view ? 1 : 0) == (grouped_view ? 1 : 0))
+		return;
+
+	tree->priv->grouped_view = grouped_view;
+
+	e_tree_update_full_header_grouped_view (tree);
+}
+
+gboolean
+e_tree_get_grouped_view (ETree *tree)
+{
+	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
+
+	return tree->priv->grouped_view;
 }

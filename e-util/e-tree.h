@@ -253,6 +253,10 @@ void		e_tree_thaw_state_change	(ETree *tree);
 
 gboolean	e_tree_is_editing		(ETree *tree);
 
+gboolean	e_tree_get_grouped_view		(ETree *tree);
+void		e_tree_set_grouped_view		(ETree *tree,
+						 gboolean grouped_view);
+
 G_END_DECLS
 
 #endif /* E_TREE_H */

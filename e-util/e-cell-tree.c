@@ -109,10 +109,12 @@ offset_of_node (ETableModel *table_model,
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (table_model, row);
 	ETreePath path = e_cell_tree_get_node (table_model, row);
+	gint visible_depth;
 
-	if (visible_depth_of_node (table_model, row) >= 0 ||
+	visible_depth = visible_depth_of_node (table_model, row);
+	if (visible_depth >= 0 ||
 	    e_tree_model_node_is_expandable (tree_model, path)) {
-		return (visible_depth_of_node (table_model, row) + 1) * INDENT_AMOUNT;
+		return (MAX (visible_depth, 1)) * INDENT_AMOUNT;
 	} else {
 		return 0;
 	}
@@ -280,12 +282,12 @@ ect_draw (ECellView *ecell_view,
 	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 	ETreePath node;
 	GdkRectangle rect;
-	gint offset, subcell_offset;
+	gint offset, subcell_offset = 0;
 
 	cairo_save (cr);
 
 	/* only draw the tree effects if we're the active sort */
-	if (/* XXX */ TRUE) {
+	if (E_CELL_TREE (tree_view->cell_view.ecell)->grouped_view) {
 		tree_view->prelit = FALSE;
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
@@ -668,7 +670,7 @@ ect_print (ECellView *ecell_view,
 
 	cairo_save (cr);
 
-	if (/* XXX only if we're the active sort */ TRUE) {
+	if (E_CELL_TREE (tree_view->cell_view.ecell)->grouped_view) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 		ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
@@ -831,6 +833,7 @@ e_cell_tree_construct (ECellTree *ect,
 		g_object_ref_sink (subcell);
 
 	ect->draw_lines = draw_lines;
+	ect->grouped_view = TRUE;
 }
 
 /**
@@ -858,3 +861,19 @@ e_cell_tree_new (gboolean draw_lines,
 	return (ECell *) ect;
 }
 
+gboolean
+e_cell_tree_get_grouped_view (ECellTree *cell_tree)
+{
+	g_return_val_if_fail (E_IS_CELL_TREE (cell_tree), FALSE);
+
+	return cell_tree->grouped_view;
+}
+
+void
+e_cell_tree_set_grouped_view (ECellTree *cell_tree,
+			      gboolean grouped_view)
+{
+	g_return_if_fail (E_IS_CELL_TREE (cell_tree));
+
+	cell_tree->grouped_view = grouped_view;
+}
