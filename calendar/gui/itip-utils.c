@@ -132,7 +132,7 @@ itip_get_user_identities (ESourceRegistry *registry)
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 
-	list = e_source_registry_list_sources (registry, extension_name);
+	list = e_source_registry_list_enabled (registry, extension_name);
 
 	identities = g_new0 (gchar *, g_list_length (list) + 1);
 
