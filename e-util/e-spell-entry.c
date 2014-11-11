@@ -66,6 +66,8 @@ word_misspelled (ESpellEntry *entry,
 	const gchar *text;
 	gchar *word;
 	gboolean result = TRUE;
+	GSList *li;
+	gssize wlen;
 
 	if (start == end)
 		return FALSE;
@@ -75,16 +77,13 @@ word_misspelled (ESpellEntry *entry,
 
 	g_strlcpy (word, text + start, end - start + 1);
 
-	if (g_unichar_isalpha (*word)) {
-		GSList *li;
-		gssize wlen = strlen (word);
+	wlen = strlen (word);
 
-		for (li = entry->priv->checkers; li; li = g_slist_next (li)) {
-			GtkhtmlSpellChecker *checker = li->data;
-			if (gtkhtml_spell_checker_check_word (checker, word, wlen)) {
-				result = FALSE;
-				break;
-			}
+	for (li = entry->priv->checkers; li; li = g_slist_next (li)) {
+		GtkhtmlSpellChecker *checker = li->data;
+		if (gtkhtml_spell_checker_check_word (checker, word, wlen)) {
+			result = FALSE;
+			break;
 		}
 	}
 
