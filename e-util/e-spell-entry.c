@@ -66,7 +66,8 @@ word_misspelled (ESpellEntry *entry,
 {
 	const gchar *text;
 	gchar *word;
-	gboolean result = TRUE;
+	ESpellChecker *spell_checker;
+	gboolean result;
 
 	if (start == end)
 		return FALSE;
@@ -76,14 +77,8 @@ word_misspelled (ESpellEntry *entry,
 
 	g_strlcpy (word, text + start, end - start + 1);
 
-	if (g_unichar_isalpha (*word)) {
-		ESpellChecker *spell_checker;
-		gssize wlen = strlen (word);
-
-		spell_checker = e_spell_entry_get_spell_checker (entry);
-		if (e_spell_checker_check_word (spell_checker, word, wlen))
-			result = FALSE;
-	}
+	spell_checker = e_spell_entry_get_spell_checker (entry);
+	result = !e_spell_checker_check_word (spell_checker, word, -1);
 
 	g_free (word);
 
