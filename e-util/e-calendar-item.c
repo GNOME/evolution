@@ -1054,7 +1054,7 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 	ECalendarItem *calitem;
 	GtkWidget *widget;
 	GtkStyleContext *style_context;
-	gint char_height, row, col, row_y, bar_height, col_x;
+	gint char_height, row, col, row_y, bar_height;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	GdkRGBA bg_color;
@@ -1148,26 +1148,6 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 		gtk_style_context_restore (style_context);
 
 		for (col = 0; col < calitem->cols; col++) {
-			if (col != 0) {
-				col_x = calitem->x1 + calitem->x_offset
-					+ calitem->month_width * col;
-
-				gtk_style_context_save (style_context);
-				gtk_style_context_add_class (
-					style_context,
-					GTK_STYLE_CLASS_SEPARATOR);
-				cairo_save (cr);
-				gtk_render_line (
-					style_context, cr,
-					(gdouble) col_x - 1 - x,
-					(gdouble) row_y + border.top + 1 - y,
-					(gdouble) row_y + bar_height -
-						border.bottom - 2 - y,
-					(gdouble) col_x - x);
-				cairo_restore (cr);
-				gtk_style_context_restore (style_context);
-			}
-
 			e_calendar_item_draw_month (
 				calitem, cr, x, y,
 				width, height, row, col);
