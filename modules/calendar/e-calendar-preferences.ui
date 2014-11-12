@@ -120,6 +120,7 @@
           <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
             <property name="spacing">12</property>
+            <property name="vexpand">False</property>
             <child>
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
@@ -643,10 +644,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label6">
+          <object class="GtkLabel" id="label65">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">Alerts</property>
+            <property name="label" translatable="yes">Date/Time Format</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -658,11 +659,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox3">
+          <object class="GtkHBox" id="hbox27">
             <property name="visible">True</property>
             <property name="spacing">12</property>
             <child>
-              <object class="GtkLabel" id="label9">
+              <object class="GtkLabel" id="label66">
                 <property name="visible">True</property>
               </object>
               <packing>
@@ -672,23 +673,17 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="alerts">
+              <object class="GtkTable" id="datetime_format_table">
                 <property name="visible">True</property>
-                <property name="spacing">6</property>
+                <property name="n_columns">3</property>
                 <child>
-                  <object class="GtkCheckButton" id="confirm_delete">
-                    <property name="label" translatable="yes">_Ask for confirmation when deleting items</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -739,7 +734,7 @@
           <object class="GtkLabel" id="label17">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">General</property>
+            <property name="label" translatable="yes">View Options</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -896,10 +891,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label65">
+          <object class="GtkLabel" id="label6">
             <property name="visible">True</property>
             <property name="xalign">0</property>
-            <property name="label" translatable="yes">Date/Time Format</property>
+            <property name="label" translatable="yes">Alerts</property>
             <attributes>
               <attribute name="weight" value="bold"/>
             </attributes>
@@ -911,11 +906,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox27">
+          <object class="GtkHBox" id="hbox3">
             <property name="visible">True</property>
             <property name="spacing">12</property>
             <child>
-              <object class="GtkLabel" id="label66">
+              <object class="GtkLabel" id="label9">
                 <property name="visible">True</property>
               </object>
               <packing>
@@ -925,17 +920,23 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTable" id="datetime_format_table">
+              <object class="GtkVBox" id="alerts">
                 <property name="visible">True</property>
-                <property name="n_columns">3</property>
+                <property name="spacing">6</property>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkCheckButton" id="confirm_delete">
+                    <property name="label" translatable="yes">_Ask for confirmation when deleting items</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
               </object>
               <packing>
