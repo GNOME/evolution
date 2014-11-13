@@ -82,7 +82,7 @@ is_part_enabled (const gchar *key)
 	gboolean res = TRUE;
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
 
 	res = g_settings_get_boolean (settings, key);
 
@@ -538,7 +538,7 @@ sound_file_set_cb (GtkFileChooser *file_chooser,
 	gchar *file;
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
 	file = gtk_file_chooser_get_filename (file_chooser);
 
 	g_settings_set_string (settings, CONF_KEY_SOUND_FILE, (file != NULL) ? file : "");
@@ -580,7 +580,7 @@ sound_notify_idle_cb (gpointer user_data)
 
 	g_return_val_if_fail (data != NULL, FALSE);
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
 	file = g_settings_get_string (settings, CONF_KEY_SOUND_FILE);
 
 	do_play_sound (
@@ -663,7 +663,7 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
 
 	g_settings_bind (
 		settings, CONF_KEY_ENABLED_SOUND,
@@ -780,7 +780,7 @@ get_cfg_widget (void)
 	GSettings *settings;
 	const gchar *text;
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.mail-notification");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
 	gtk_widget_show (widget);

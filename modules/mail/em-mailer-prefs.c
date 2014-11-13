@@ -112,7 +112,7 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
-	preferences->settings = g_settings_new ("org.gnome.evolution.mail");
+	preferences->settings = e_util_ref_settings ("org.gnome.evolution.mail");
 }
 
 static gboolean
@@ -733,7 +733,7 @@ image_loading_policy_always_cb (GtkToggleButton *toggle_button)
 	if (gtk_toggle_button_get_active (toggle_button)) {
 		GSettings *settings;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		g_settings_set_enum (
 			settings, "image-loading-policy",
@@ -749,7 +749,7 @@ image_loading_policy_sometimes_cb (GtkToggleButton *toggle_button)
 	if (gtk_toggle_button_get_active (toggle_button)) {
 		GSettings *settings;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		g_settings_set_enum (
 			settings, "image-loading-policy",
@@ -765,7 +765,7 @@ image_loading_policy_never_cb (GtkToggleButton *toggle_button)
 	if (gtk_toggle_button_get_active (toggle_button)) {
 		GSettings *settings;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		g_settings_set_enum (
 			settings, "image-loading-policy",
@@ -839,7 +839,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	EMConfigTargetPrefs *target;
 	GSList *l;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */

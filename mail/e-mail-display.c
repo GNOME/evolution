@@ -1658,7 +1658,7 @@ e_mail_display_init (EMailDisplay *display)
 		display, "drag-data-get",
 		G_CALLBACK (mail_display_drag_data_get), display);
 
-	display->priv->settings = g_settings_new ("org.gnome.evolution.mail");
+	display->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_signal_connect_swapped (
 		display->priv->settings , "changed::monospace-font",
 		G_CALLBACK (e_mail_display_test_change_and_update_fonts_cb), display);

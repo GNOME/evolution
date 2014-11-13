@@ -453,7 +453,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 	g_date_clear (&start_date, 1);
 	g_date_clear (&end_date, 1);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone"))
 		zone = e_cal_util_get_system_timezone ();

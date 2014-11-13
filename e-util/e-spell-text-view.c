@@ -27,6 +27,7 @@
 #include <gtkspell/gtkspell.h>
 #endif
 
+#include "e-misc-utils.h"
 #include "e-spell-text-view.h"
 
 /**
@@ -69,7 +70,7 @@ e_spell_text_view_attach (GtkTextView *text_view)
 	gchar **strv;
 	gboolean success;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* do nothing, if spell-checking is disabled */
 	if (!g_settings_get_boolean (settings, "composer-inline-spelling")) {

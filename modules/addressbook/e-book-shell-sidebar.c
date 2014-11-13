@@ -166,7 +166,7 @@ book_shell_sidebar_constructed (GObject *object)
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	g_settings_bind_with_mapping (
 		settings, "primary-addressbook",

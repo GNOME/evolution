@@ -112,7 +112,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	ui_manager = e_html_editor_get_ui_manager (editor);
 	view = e_html_editor_get_view (editor);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	shell = e_msg_composer_get_shell (composer);
 	client_cache = e_shell_get_client_cache (shell);
@@ -460,7 +460,7 @@ e_composer_get_default_charset (void)
 	GSettings *settings;
 	gchar *charset;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	charset = g_settings_get_string (settings, "composer-charset");
 
@@ -766,7 +766,7 @@ add_signature_delimiter (EMsgComposer *composer)
 	gboolean signature_delim;
 
 	/* FIXME This should be an EMsgComposer property. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	signature_delim = !g_settings_get_boolean (
 		settings, "composer-no-signature-delim");
 	g_object_unref (settings);
@@ -781,7 +781,7 @@ use_top_signature (EMsgComposer *composer)
 	gboolean top_signature;
 
 	/* FIXME This should be an EMsgComposer property. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	top_signature = g_settings_get_boolean (
 		settings, "composer-top-signature");
 	g_object_unref (settings);
@@ -846,7 +846,7 @@ composer_move_caret (EMsgComposer *composer)
 
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 
@@ -1046,7 +1046,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		!is_message_from_edit_as_new &&
 		!composer->priv->is_from_new_message;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 

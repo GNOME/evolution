@@ -3,6 +3,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-misc-utils.h"
 #include "e-source-config-dialog.h"
 
 static void
@@ -52,6 +53,8 @@ main (gint argc,
 	g_object_unref (source);
 
 	gtk_main ();
+
+	e_util_cleanup_settings ();
 
 	return 0;
 }

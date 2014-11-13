@@ -5650,7 +5650,7 @@ extract_itip_data (EMailPartItip *pitip,
 
 	/* Add default reminder if the config says so */
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	use_default_reminder =
 		g_settings_get_boolean (settings, "use-default-reminder");
@@ -6146,7 +6146,7 @@ itip_view_init_view (ItipView *view)
 		g_free (html);
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone"))
 		to_zone = e_cal_util_get_system_timezone ();

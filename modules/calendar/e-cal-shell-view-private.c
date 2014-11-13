@@ -191,7 +191,7 @@ system_timezone_monitor_changed (GFileMonitor *handle,
 	    event != G_FILE_MONITOR_EVENT_CREATED)
 		return;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	g_signal_emit_by_name (settings, "changed::timezone", "timezone");
 	g_object_unref (settings);
 }
@@ -484,7 +484,7 @@ cal_searching_get_search_range_years (ECalShellView *cal_shell_view)
 	GSettings *settings;
 	gint search_range_years;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	search_range_years =
 		g_settings_get_int (settings, "search-range-years");

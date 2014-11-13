@@ -136,7 +136,7 @@ cal_base_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 
 	/* Bind GObject properties to settings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind_with_mapping (
 		settings, primary_source_key,

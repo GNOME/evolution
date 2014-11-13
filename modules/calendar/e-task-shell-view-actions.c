@@ -1067,7 +1067,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 
 	/* Bind GObject properties to settings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		settings, "show-task-preview",

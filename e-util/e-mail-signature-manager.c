@@ -24,6 +24,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-dialog-widgets.h"
+#include "e-misc-utils.h"
 #include "e-mail-signature-preview.h"
 #include "e-mail-signature-tree-view.h"
 #include "e-mail-signature-script-dialog.h"
@@ -338,7 +339,7 @@ mail_signature_manager_constructed (GObject *object)
 	manager->priv->add_script_button = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	settings = g_settings_new ("org.gnome.desktop.lockdown");
+	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
 
 	g_settings_bind (
 		settings, "disable-command-line",

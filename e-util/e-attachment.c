@@ -189,7 +189,7 @@ attachment_get_default_charset (void)
 
 	/* XXX This doesn't really belong here. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	charset = g_settings_get_string (settings, "composer-charset");
 	if (charset == NULL || *charset == '\0') {
 		g_free (charset);
@@ -3173,7 +3173,7 @@ attachment_save_got_output_stream (SaveContext *save_context)
 		AutoarPref *arpref;
 		AutoarExtract *arextract;
 
-		settings = g_settings_new (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
+		settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
 		arpref = autoar_pref_new_with_gsettings (settings);
 		autoar_pref_set_delete_if_succeed (arpref, FALSE);
 

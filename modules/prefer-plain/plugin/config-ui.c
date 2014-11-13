@@ -163,7 +163,7 @@ e_plugin_lib_enable (EPlugin *ep,
 
 	if (enable) {
 
-		epp_settings = g_settings_new ("org.gnome.evolution.plugin.prefer-plain");
+		epp_settings = e_util_ref_settings ("org.gnome.evolution.plugin.prefer-plain");
 		key = g_settings_get_string (epp_settings, "mode");
 		if (key) {
 			for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {

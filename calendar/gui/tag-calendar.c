@@ -671,7 +671,7 @@ e_tag_calendar_constructed (GObject *object)
 
 	gtk_widget_set_has_tooltip (GTK_WIDGET (tag_calendar->priv->calendar), TRUE);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		settings, "recur-events-italic",
@@ -1028,7 +1028,7 @@ tag_calendar_by_comp (ECalendar *ecal,
 	if (!prepare_tag (ecal, &closure, display_zone, clear_first))
 		return;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	closure.skip_transparent_events = FALSE;
 	closure.recur_events_italic =

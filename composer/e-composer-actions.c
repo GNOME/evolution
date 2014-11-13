@@ -42,7 +42,7 @@ composer_copy_em_utils_prompt_user (GtkWindow *parent,
 	GSettings *settings;
 	EAlert *alert = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
 		g_object_unref (settings);

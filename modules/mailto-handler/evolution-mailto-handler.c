@@ -150,7 +150,7 @@ mailto_handler_prompt (EMailtoHandler *extension)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 12);
 	gtk_widget_show (widget);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "prompt-check-if-default-mailer",
@@ -181,7 +181,7 @@ mailto_handler_check (EMailtoHandler *extension)
 	GAppInfo *app_info = NULL;
 	GError *error = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	check_mailto_handler = g_settings_get_boolean (
 		settings, "prompt-check-if-default-mailer");

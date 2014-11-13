@@ -90,7 +90,7 @@ action_event_new_cb (GtkAction *action,
 	shell_backend = e_shell_get_backend_by_name (shell, "calendar");
 	e_shell_backend_set_prefer_new_item (shell_backend, action_name);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	e_cal_ops_new_event_editor (shell_window, NULL, is_meeting, is_all_day,
 		g_settings_get_boolean (settings, "use-default-reminder"),
@@ -257,7 +257,7 @@ cal_shell_backend_constructed (GObject *object)
 		e_calendar_preferences_new,
 		600);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		settings, "prefer-new-item",

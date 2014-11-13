@@ -282,6 +282,9 @@ void		e_signal_disconnect_notify_handler
 						(gpointer instance,
 						 gulong *handler_id);
 
+GSettings *	e_util_ref_settings		(const gchar *schema_id);
+void		e_util_cleanup_settings		(void);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

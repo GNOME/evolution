@@ -16,6 +16,7 @@ evolution_addressbook_export_CPPFLAGS =			\
 	-I$(top_srcdir)/addressbook			\
 	-I$(top_builddir)/addressbook			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)			\
 	$(CODE_COVERAGE_CFLAGS)
 
 evolution_addressbook_export_SOURCES =				\
@@ -26,7 +27,8 @@ evolution_addressbook_export_SOURCES =				\
 
 evolution_addressbook_export_LDADD =				\
 	$(top_builddir)/e-util/libevolution-util.la		\
-	$(EVOLUTION_DATA_SERVER_LIBS)
+	$(EVOLUTION_DATA_SERVER_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)
 
 evolution_addressbook_export_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
 

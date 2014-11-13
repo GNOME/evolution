@@ -1039,7 +1039,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	registry = e_shell_get_registry (shell);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */

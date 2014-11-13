@@ -124,7 +124,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	folder = e_mail_reader_ref_folder (reader);
 	window = e_mail_reader_get_window (reader);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	prompt_delete_in_vfolder = g_settings_get_boolean (
 		settings, "prompt-on-delete-in-vfolder");

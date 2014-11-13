@@ -200,7 +200,7 @@ e_settings_html_editor_view_init (ESettingsHTMLEditorView *extension)
 
 	extension->priv = E_SETTINGS_HTML_EDITOR_VIEW_GET_PRIVATE (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	extension->priv->settings = settings;
 
 	extension->priv->old_settings = g_hash_table_new_full (

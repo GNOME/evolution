@@ -26,6 +26,7 @@
 #endif
 
 #include <string.h>
+#include <e-util/e-util.h>
 #include "config-data.h"
 
 /* Whether we have initied ourselves by reading
@@ -60,7 +61,7 @@ ensure_inited (void)
 	if (calendar_settings)
 		return;
 
-	calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
+	calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 }
 
 icaltimezone *

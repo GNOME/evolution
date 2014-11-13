@@ -361,7 +361,7 @@ attachment_bar_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	/* Set up property-to-GSettings bindings. */
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	g_settings_bind (
 		settings, "attachment-view",
 		object, "active-view",

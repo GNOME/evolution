@@ -33,7 +33,7 @@ e_module_load (GTypeModule *type_module)
 	gchar **disabled_plugins;
 	gint i = 0;
 
-	settings = g_settings_new ("org.gnome.evolution");
+	settings = e_util_ref_settings ("org.gnome.evolution");
 	disabled_plugins = g_settings_get_strv (settings, "disabled-eplugins");
 
 	for (i = 0; disabled_plugins && disabled_plugins[i] != NULL; i++) {

@@ -74,7 +74,7 @@ settings_mail_part_headers_constructed (GObject *object)
 	extension = E_SETTINGS_MAIL_PART_HEADERS (object);
 	part = settings_mail_part_headers_get_extensible (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind_with_mapping (
 		settings, "show-headers",

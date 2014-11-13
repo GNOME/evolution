@@ -496,6 +496,7 @@ main (gint argc,
 	gtk_main ();
 
 	g_object_unref (editor);
+	e_util_cleanup_settings ();
 
 	return 0;
 }

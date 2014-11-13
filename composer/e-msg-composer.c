@@ -2179,7 +2179,7 @@ msg_composer_constructed (GObject *object)
 	/* Honor User Preferences */
 
 	/* FIXME This should be an EMsgComposer property. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
 	active = g_settings_get_boolean (settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
@@ -5111,7 +5111,7 @@ e_save_spell_languages (const GList *spell_dicts)
 	g_ptr_array_add (lang_array, NULL);
 
 	/* Save the language codes to GSettings. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_settings_set_strv (
 		settings, "composer-spell-languages",
 		(const gchar * const *) lang_array->pdata);

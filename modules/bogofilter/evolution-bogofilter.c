@@ -502,7 +502,7 @@ e_bogofilter_init (EBogofilter *extension)
 {
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.bogofilter");
+	settings = e_util_ref_settings ("org.gnome.evolution.bogofilter");
 	g_settings_bind (
 		settings, "utf8-for-spam-filter",
 		G_OBJECT (extension), "convert-to-unicode",

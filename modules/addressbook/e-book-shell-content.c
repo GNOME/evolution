@@ -92,7 +92,7 @@ book_shell_content_restore_state_cb (EShellWindow *shell_window,
 
 	/* Bind GObject properties to GSettings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	g_settings_bind (
 		settings, "hpane-position",

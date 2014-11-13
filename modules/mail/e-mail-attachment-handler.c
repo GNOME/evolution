@@ -147,7 +147,7 @@ mail_attachment_handler_forward (GtkAction *action,
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	style = g_settings_get_enum (settings, "forward-style-name");
 	g_object_unref (settings);
 
@@ -172,7 +172,7 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 	message = mail_attachment_handler_get_selected_message (handler);
 	g_return_if_fail (message != NULL);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	style = g_settings_get_enum (settings, "reply-style-name");
 	g_object_unref (settings);
 

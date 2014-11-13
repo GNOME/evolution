@@ -363,7 +363,7 @@ attachment_paned_constructed (GObject *object)
 
 	priv = E_ATTACHMENT_PANED_GET_PRIVATE (object);
 
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
 	/* Set up property-to-property bindings. */
 

@@ -45,7 +45,7 @@ settings_map_string_to_icaltimezone (GValue *value,
 	const gchar *location = NULL;
 	icaltimezone *timezone = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone"))
 		timezone = e_cal_util_get_system_timezone ();
@@ -75,7 +75,7 @@ settings_meeting_store_constructed (GObject *object)
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		settings, "default-reminder-interval",

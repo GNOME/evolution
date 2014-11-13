@@ -68,7 +68,7 @@ settings_mail_formatter_constructed (GObject *object)
 	extension = E_SETTINGS_MAIL_FORMATTER (object);
 	formatter = settings_mail_formatter_get_extensible (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind_with_mapping (
 		settings, "citation-color",

@@ -2032,7 +2032,7 @@ ask_drop_folder (EMFolderTree *folder_tree,
 	g_return_val_if_fail (src_folder_uri != NULL, FALSE);
 	g_return_val_if_fail (des_full_name != NULL || des_store != NULL, FALSE);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	set_value = g_settings_get_string (settings, key);
 
 	if (g_strcmp0 (set_value, "never") == 0) {

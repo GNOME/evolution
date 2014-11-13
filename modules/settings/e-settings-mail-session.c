@@ -85,7 +85,7 @@ settings_mail_session_idle_cb (gpointer user_data)
 
 	session = E_MAIL_SESSION (user_data);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* Need to delay the settings binding to give EMailSession a
 	 * chance to set up its junk filter table.  The junk filters
@@ -113,7 +113,7 @@ settings_mail_session_constructed (GObject *object)
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	if (E_IS_MAIL_UI_SESSION (extensible)) {
 		g_settings_bind (

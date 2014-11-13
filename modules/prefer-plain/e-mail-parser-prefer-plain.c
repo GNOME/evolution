@@ -28,6 +28,7 @@
 #include <em-format/e-mail-part-utils.h>
 
 #include <libebackend/libebackend.h>
+#include <e-util/e-util.h>
 
 #define d(x)
 
@@ -485,7 +486,7 @@ e_mail_parser_prefer_plain_init (EMailParserPreferPlain *parser)
 	gchar *key;
 	gint i;
 
-	parser->settings = g_settings_new ("org.gnome.evolution.plugin.prefer-plain");
+	parser->settings = e_util_ref_settings ("org.gnome.evolution.plugin.prefer-plain");
 	g_settings_bind_with_mapping (
 		parser->settings, "mode",
 		parser, "mode", G_SETTINGS_BIND_DEFAULT,

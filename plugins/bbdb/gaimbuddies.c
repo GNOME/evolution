@@ -122,7 +122,7 @@ bbdb_sync_buddy_list_check (void)
 	gchar *md5;
 	gchar *blist_path;
 	gchar *last_sync_str;
-	GSettings *settings = g_settings_new (CONF_SCHEMA);
+	GSettings *settings = e_util_ref_settings (CONF_SCHEMA);
 
 	blist_path = get_buddy_filename ();
 	if (stat (blist_path, &statbuf) < 0) {
@@ -177,7 +177,7 @@ store_last_sync_idle_cb (gpointer data)
 
 	md5 = get_md5_as_string (blist_path);
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 	g_settings_set_string (
 		settings, CONF_KEY_GAIM_LAST_SYNC_TIME, last_sync_time);
 	g_settings_set_string (

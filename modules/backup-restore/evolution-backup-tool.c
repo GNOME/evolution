@@ -544,7 +544,7 @@ restore (const gchar *filename,
 		if (restored_version != NULL && *restored_version != '\0') {
 			GSettings *settings;
 
-			settings = g_settings_new ("org.gnome.evolution");
+			settings = e_util_ref_settings ("org.gnome.evolution");
 			g_settings_set_string (
 				settings, "version", restored_version);
 			g_object_unref (settings);
@@ -1020,6 +1020,7 @@ main (gint argc,
 	gtk_main ();
 
 	g_object_unref (cancellable);
+	e_util_cleanup_settings ();
 
 	return result;
 }

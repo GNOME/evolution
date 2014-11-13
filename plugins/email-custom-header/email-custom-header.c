@@ -205,7 +205,7 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch,
 	g_return_val_if_fail (mch != NULL || EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (mch), FALSE);
 	priv = mch->priv;
 
-	settings = g_settings_new (ECM_SETTINGS_ID);
+	settings = e_util_ref_settings (ECM_SETTINGS_ID);
 	epech_load_from_settings (settings, ECM_SETTINGS_KEY, mch);
 	g_object_unref (settings);
 
@@ -600,7 +600,7 @@ commit_changes (ConfigData *cd)
 
 	g_ptr_array_add (headers, NULL);
 
-	settings = g_settings_new (ECM_SETTINGS_ID);
+	settings = e_util_ref_settings (ECM_SETTINGS_ID);
 	g_settings_set_strv (settings, ECM_SETTINGS_KEY, (const gchar * const *) headers->pdata);
 	g_object_unref (settings);
 
@@ -912,7 +912,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_widget_set_sensitive (cd->header_edit, FALSE);
 
 	/* Populate tree view with values from settings */
-	settings = g_settings_new (ECM_SETTINGS_ID);
+	settings = e_util_ref_settings (ECM_SETTINGS_ID);
 	headers = g_settings_get_strv (settings, ECM_SETTINGS_KEY);
 	g_object_unref (settings);
 

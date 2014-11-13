@@ -49,7 +49,7 @@ settings_mail_reader_idle_cb (EExtension *extension)
 
 	extensible = e_extension_get_extensible (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "forward-style-name",

@@ -29,6 +29,7 @@
 
 #include <libebook/libebook.h>
 
+#include <e-util/e-util.h>
 #include "e-util/e-util-private.h"
 
 #include "evolution-addressbook-export.h"
@@ -157,6 +158,8 @@ main (gint argc,
 	}
 
 	g_object_unref (actctx.registry);
+
+	e_util_cleanup_settings ();
 
 	/*FIXME:should free actctx's some gchar * field, such as output_file! but since the program will end, so that will not cause mem leak.  */
 

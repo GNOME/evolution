@@ -547,7 +547,7 @@ update_timestamp (EPublishUri *uri)
 	uri->last_pub_time = g_strdup_printf ("%d", (gint) time (NULL));
 
 	uris_array = g_ptr_array_new_full (3, g_free);
-	settings = g_settings_new (PC_SETTINGS_ID);
+	settings = e_util_ref_settings (PC_SETTINGS_ID);
 	set_uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
 
 	for (ii = 0; set_uris && set_uris[ii]; ii++) {
@@ -638,7 +638,7 @@ url_list_changed (PublishUIData *ui)
 
 	g_ptr_array_add (uris, NULL);
 
-	settings = g_settings_new (PC_SETTINGS_ID);
+	settings = e_util_ref_settings (PC_SETTINGS_ID);
 	g_settings_set_strv (settings, PC_SETTINGS_URIS, (const gchar * const *) uris->pdata);
 	g_object_unref (settings);
 
@@ -1023,7 +1023,7 @@ e_plugin_lib_enable (EPlugin *ep,
 		GThread *thread = NULL;
 		GError *error = NULL;
 
-		settings = g_settings_new (PC_SETTINGS_ID);
+		settings = e_util_ref_settings (PC_SETTINGS_ID);
 		uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
 		g_object_unref (settings);
 

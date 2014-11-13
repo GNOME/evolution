@@ -62,7 +62,7 @@ get_check_interval (void)
 	GSettings *settings;
 	gint res = BBDB_BLIST_DEFAULT_CHECK_INTERVAL;
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 	res = g_settings_get_int (settings, CONF_KEY_GAIM_CHECK_INTERVAL);
 
 	g_object_unref (settings);
@@ -251,7 +251,7 @@ bbdb_handle_send (EPlugin *ep,
 	GSettings *settings;
 	gboolean enable;
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 	enable = g_settings_get_boolean (settings, CONF_KEY_ENABLE);
 	g_object_unref (settings);
 
@@ -447,7 +447,7 @@ bbdb_create_book_client (gint type,
 	gboolean enable = TRUE;
 	gchar *uid;
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 
 	/* Check to see if we're supposed to be running */
 	if (type == AUTOMATIC_CONTACTS_ADDRESSBOOK)
@@ -494,7 +494,7 @@ bbdb_check_gaim_enabled (void)
 	GSettings *settings;
 	gboolean   gaim_enabled;
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 	gaim_enabled = g_settings_get_boolean (settings, CONF_KEY_ENABLE_GAIM);
 
 	g_object_unref (settings);
@@ -523,7 +523,7 @@ enable_toggled_cb (GtkWidget *widget,
 	gboolean active;
 	ESource *selected_source;
 	gchar *addressbook;
-	GSettings *settings = g_settings_new (CONF_SCHEMA);
+	GSettings *settings = e_util_ref_settings (CONF_SCHEMA);
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
@@ -560,7 +560,7 @@ enable_gaim_toggled_cb (GtkWidget *widget,
 	gboolean active;
 	ESource *selected_source;
 	gchar *addressbook_gaim;
-	GSettings *settings = g_settings_new (CONF_SCHEMA);
+	GSettings *settings = e_util_ref_settings (CONF_SCHEMA);
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
@@ -605,7 +605,7 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	source = e_source_combo_box_ref_active (source_combo_box);
 	uid = (source != NULL) ? e_source_get_uid (source) : "";
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK, uid);
 	g_object_unref (settings);
 
@@ -624,7 +624,7 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
 	source = e_source_combo_box_ref_active (source_combo_box);
 	uid = (source != NULL) ? e_source_get_uid (source) : "";
 
-	settings = g_settings_new (CONF_SCHEMA);
+	settings = e_util_ref_settings (CONF_SCHEMA);
 	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, uid);
 	g_object_unref (settings);
 
@@ -681,7 +681,7 @@ bbdb_create_config_widget (void)
 	GtkWidget *gaim_label;
 	GtkWidget *button;
 	gchar *str;
-	GSettings *settings = g_settings_new (CONF_SCHEMA);
+	GSettings *settings = e_util_ref_settings (CONF_SCHEMA);
 
 	/* A structure to pass some stuff around */
 	stuff = g_new0 (struct bbdb_stuff, 1);

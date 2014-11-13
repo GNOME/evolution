@@ -496,7 +496,7 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		view = e_html_editor_get_view (editor);
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		active = g_settings_get_boolean (
 			settings, "composer-send-html");
@@ -717,7 +717,7 @@ mail_shell_backend_constructed (GObject *object)
 		CAMEL_SESSION (mail_session), E_MAIL_SESSION_VFOLDER_UID);
 	g_return_if_fail (vstore != NULL);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "enable-unmatched",
@@ -770,7 +770,7 @@ mail_shell_backend_delete_junk_policy_decision (EMailBackend *backend)
 	gint empty_days = 0;
 	gint now;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	now = time (NULL) / 60 / 60 / 24;
 
@@ -804,7 +804,7 @@ mail_shell_backend_empty_trash_policy_decision (EMailBackend *backend)
 	gint empty_days = 0;
 	gint now;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	now = time (NULL) / 60 / 60 / 24;
 

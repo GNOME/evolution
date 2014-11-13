@@ -351,7 +351,7 @@ e_week_view_layout_get_day_position (gint day,
 
 		g_return_if_fail (day < 7);
 
-		settings = g_settings_new ("org.gnome.evolution.calendar");
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 		if (g_settings_get_boolean (settings, "work-day-monday"))
 			work_days[0] = 1, n_work_days_mon_wed++;

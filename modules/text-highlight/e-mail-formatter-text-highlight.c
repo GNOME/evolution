@@ -280,15 +280,14 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			goto exit;
 		}
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		if (g_settings_get_boolean (settings, "use-custom-font"))
 			font = g_settings_get_string (
 				settings, "monospace-font");
 		g_object_unref (settings);
 
 		if (font == NULL) {
-			settings = g_settings_new (
-				"org.gnome.desktop.interface");
+			settings = e_util_ref_settings ("org.gnome.desktop.interface");
 			font = g_settings_get_string (
 				settings, "monospace-font-name");
 			g_object_unref (settings);

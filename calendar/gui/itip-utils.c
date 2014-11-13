@@ -1772,7 +1772,7 @@ itip_send_component_finish (ItipSendComponentData *isc)
 
 	isc->success = FALSE;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	use_24hour_format = g_settings_get_boolean (settings, "use-24hour-format");
 	g_object_unref (settings);
 

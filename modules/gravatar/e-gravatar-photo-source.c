@@ -282,7 +282,7 @@ e_gravatar_photo_source_init (EGravatarPhotoSource *photo_source)
 
 	photo_source->priv = E_GRAVATAR_PHOTO_SOURCE_GET_PRIVATE (photo_source);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (settings, "search-gravatar-for-photo",
 			 photo_source, "enabled",

@@ -53,7 +53,7 @@ calendar_config_get_timezone (void)
 	GSettings *settings;
 	gchar *retval = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	retval = g_settings_get_string (settings, "timezone");
 	g_object_unref (settings);
 	if (!retval)

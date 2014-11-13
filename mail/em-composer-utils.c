@@ -455,7 +455,7 @@ composer_presend_check_unwanted_html (EMsgComposer *composer,
 	gboolean confirm_html;
 	gint ii;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
@@ -615,7 +615,7 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	GCancellable *cancellable;
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
 		e_msg_composer_save_to_outbox (composer);
 		g_object_unref (settings);
@@ -1009,7 +1009,7 @@ composer_save_to_outbox_completed (GObject *source_object,
 		G_OBJECT (activity), (GWeakNotify)
 		gtk_widget_destroy, async_context->composer);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
 		gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
 
@@ -1525,7 +1525,7 @@ quoting_text (QuotingTextEnum type)
 	GSettings *settings;
 	gchar *text;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	text = g_settings_get_string (settings, conf_messages[type].conf_key);
 	g_object_unref (settings);
 
@@ -1577,7 +1577,7 @@ em_utils_edit_message (EShell *shell,
 		gint i;
 		GSList *clue_list = NULL;
 
-		settings = g_settings_new ("org.gnome.evolution.plugin.templates");
+		settings = e_util_ref_settings ("org.gnome.evolution.plugin.templates");
 
 		/* Get the list from GSettings */
 		strv = g_settings_get_strv (settings, "template-placeholders");
@@ -1660,7 +1660,7 @@ emu_update_composers_security (EMsgComposer *composer,
 
 	g_return_if_fail (composer != NULL);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	sign_by_default =
 		(validity_found & E_MAIL_PART_VALIDITY_SIGNED) != 0 &&
@@ -2328,7 +2328,7 @@ get_reply_to (CamelMimeMessage *message)
 		GSettings *settings;
 		gboolean ignore_list_reply_to;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		ignore_list_reply_to = g_settings_get_boolean (
 			settings, "composer-ignore-list-reply-to");
 		g_object_unref (settings);

@@ -42,7 +42,7 @@ settings_spell_entry_constructed (GObject *object)
 	extension = E_EXTENSION (object);
 	extensible = e_extension_get_extensible (extension);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "composer-inline-spelling",

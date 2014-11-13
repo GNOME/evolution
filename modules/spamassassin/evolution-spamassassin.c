@@ -588,7 +588,7 @@ e_spam_assassin_init (ESpamAssassin *extension)
 {
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.spamassassin");
+	settings = e_util_ref_settings ("org.gnome.evolution.spamassassin");
 
 	g_settings_bind (
 		settings, "local-only",

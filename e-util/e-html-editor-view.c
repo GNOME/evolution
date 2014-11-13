@@ -2944,7 +2944,7 @@ html_editor_view_redirect_uri (EHTMLEditorView *view,
 		/* Check Evolution's cache */
 		image_exists = html_editor_view_image_exists_in_cache (uri);
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		image_policy = g_settings_get_enum (settings, "image-loading-policy");
 		g_object_unref (settings);
 		/* If the URI is not cached and we are not allowed to load it
@@ -4457,7 +4457,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 	WebKitDOMNodeList *list;
 	WebKitDOMNode *node;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 
@@ -7115,7 +7115,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		"html-editor-view", view,
 		NULL);
 
-	g_settings = g_settings_new ("org.gnome.desktop.interface");
+	g_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	g_signal_connect (
 		g_settings, "changed::font-name",
 		G_CALLBACK (e_html_editor_settings_changed_cb), view);
@@ -7124,7 +7124,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		G_CALLBACK (e_html_editor_settings_changed_cb), view);
 	view->priv->font_settings = g_settings;
 
-	g_settings = g_settings_new ("org.gnome.evolution.mail");
+	g_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	view->priv->mail_settings = g_settings;
 
 	/* This schema is optional.  Use if available. */
@@ -7132,7 +7132,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		g_settings_schema_source_get_default (),
 		"org.gnome.settings-daemon.plugins.xsettings", FALSE);
 	if (settings_schema != NULL) {
-		g_settings = g_settings_new ("org.gnome.settings-daemon.plugins.xsettings");
+		g_settings = e_util_ref_settings ("org.gnome.settings-daemon.plugins.xsettings");
 		g_signal_connect (
 			settings, "changed::antialiasing",
 			G_CALLBACK (e_html_editor_settings_changed_cb), view);

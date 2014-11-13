@@ -106,7 +106,7 @@ e_settings_name_selector_entry_init (ESettingsNameSelectorEntry *extension)
 	extension->priv =
 		E_SETTINGS_NAME_SELECTOR_ENTRY_GET_PRIVATE (extension);
 	extension->priv->settings =
-		g_settings_new ("org.gnome.evolution.addressbook");
+		e_util_ref_settings ("org.gnome.evolution.addressbook");
 }
 
 void

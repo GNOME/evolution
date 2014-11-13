@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <libedataserver/libedataserver.h>
 
+#include "e-misc-utils.h"
 #include "e-tree-view-frame.h"
 
 static GtkTreeView *tree_view;
@@ -369,6 +370,8 @@ main (gint argc,
 	build_test_window ();
 
 	gtk_main ();
+
+	e_util_cleanup_settings ();
 
 	return 0;
 }

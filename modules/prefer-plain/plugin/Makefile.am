@@ -18,6 +18,7 @@ liborg_gnome_prefer_plain_la_SOURCES =		\
 liborg_gnome_prefer_plain_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
 
 liborg_gnome_prefer_plain_la_LIBADD =				\
+	$(top_builddir)/e-util/libevolution-util.la		\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)					\
 	$(NULL)

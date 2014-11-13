@@ -110,7 +110,7 @@ em_utils_prompt_user (GtkWindow *parent,
 	GSettings *settings;
 	EAlert *alert = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
 		g_object_unref (settings);
@@ -950,7 +950,7 @@ em_utils_selection_set_urilist (GtkSelectionData *data,
 	if (tmpdir == NULL)
 		return;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* Save format is mbox unless pdf is explicitly requested. */
 	save_file_format = g_settings_get_string (
@@ -1223,7 +1223,7 @@ em_utils_message_to_html (CamelSession *session,
 
 		/* FIXME We should be getting this from the
 		 *       current view, not the global setting. */
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		charset = g_settings_get_string (settings, "charset");
 		if (charset && *charset)
 			e_mail_formatter_set_default_charset (formatter, charset);
@@ -1475,7 +1475,7 @@ em_utils_is_re_in_subject (const gchar *subject,
 		GSettings *settings;
 		gchar *prefixes;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		prefixes = g_settings_get_string (settings, "composer-localized-re");
 		g_object_unref (settings);
 

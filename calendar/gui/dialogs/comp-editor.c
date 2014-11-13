@@ -2102,7 +2102,7 @@ comp_editor_init (CompEditor *editor)
 
 	active_editors = g_list_prepend (active_editors, editor);
 
-	priv->calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
+	priv->calendar_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	/* Each editor window gets its own window group. */
 	window = GTK_WINDOW (editor);

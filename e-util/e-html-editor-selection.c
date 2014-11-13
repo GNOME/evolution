@@ -847,7 +847,7 @@ e_html_editor_selection_init (EHTMLEditorSelection *selection)
 
 	selection->priv = E_HTML_EDITOR_SELECTION_GET_PRIVATE (selection);
 
-	g_settings = g_settings_new ("org.gnome.evolution.mail");
+	g_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	selection->priv->word_wrap_length =
 		g_settings_get_int (g_settings, "composer-word-wrap-length");
 	g_object_unref (g_settings);

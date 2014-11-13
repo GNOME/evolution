@@ -83,7 +83,7 @@ empe_itip_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append_printf (part_id, ".itip");
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.itip");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
 
 	shell = e_shell_get_default ();
 	client_cache = e_shell_get_client_cache (shell);

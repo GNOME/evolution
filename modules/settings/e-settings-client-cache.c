@@ -43,7 +43,7 @@ settings_map_string_to_icaltimezone (GValue *value,
 	const gchar *location = NULL;
 	icaltimezone *timezone = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone"))
 		timezone = e_cal_util_get_system_timezone ();
@@ -70,7 +70,7 @@ settings_client_cache_client_connected_cb (EClientCache *client_cache,
 	if (E_IS_CAL_CLIENT (client)) {
 		GSettings *settings;
 
-		settings = g_settings_new ("org.gnome.evolution.calendar");
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 		g_settings_bind_with_mapping (
 			settings, "timezone",

@@ -349,7 +349,7 @@ create_default_shell (void)
 	gboolean online = TRUE;
 	GError *error = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
 	/* Requesting online or offline mode from the command-line
 	 * should be persistent, just like selecting it in the UI. */
@@ -528,15 +528,15 @@ main (gint argc,
 		shell_force_shutdown ();
 
 	if (disable_preview) {
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		g_settings_set_boolean (settings, "safe-list", TRUE);
 		g_object_unref (settings);
 
-		settings = g_settings_new ("org.gnome.evolution.addressbook");
+		settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 		g_settings_set_boolean (settings, "show-preview", FALSE);
 		g_object_unref (settings);
 
-		settings = g_settings_new ("org.gnome.evolution.calendar");
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 		g_settings_set_boolean (settings, "show-memo-preview", FALSE);
 		g_settings_set_boolean (settings, "show-task-preview", FALSE);
 		g_object_unref (settings);
@@ -559,7 +559,7 @@ main (gint argc,
 	gtk_accel_map_load (e_get_accels_filename ());
 
 #ifdef DEVELOPMENT
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	skip_warning_dialog = g_settings_get_boolean (
 		settings, "skip-warning-dialog");
 
@@ -636,6 +636,8 @@ exit:
 		g_warning ("Shell not finalized on exit");
 
 	gtk_accel_map_save (e_get_accels_filename ());
+
+	e_util_cleanup_settings ();
 
 	return 0;
 }

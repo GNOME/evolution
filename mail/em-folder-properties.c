@@ -366,7 +366,7 @@ emfp_dialog_run (AsyncContext *context)
 	context->unread = camel_folder_summary_get_unread_count (summary);
 	deleted = camel_folder_summary_get_deleted_count (summary);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	hide_deleted = !g_settings_get_boolean (settings, "show-deleted");
 	g_object_unref (settings);
 

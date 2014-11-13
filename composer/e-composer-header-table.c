@@ -270,7 +270,7 @@ composer_header_table_setup_mail_headers (EComposerHeaderTable *table)
 	GSettings *settings;
 	gint ii;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeader *header;
@@ -341,7 +341,7 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 	GSettings *settings;
 	gint ii;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		EComposerHeader *header;

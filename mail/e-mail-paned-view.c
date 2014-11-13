@@ -223,7 +223,7 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
 
 	/* Bind GObject properties to GSettings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "hpaned-size",
@@ -524,7 +524,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	shell = e_shell_window_get_shell (shell_window);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* FIXME This should be an EMailReader property. */
 	global_view_setting = g_settings_get_boolean (
@@ -655,7 +655,7 @@ mail_paned_view_constructed (GObject *object)
 	/* FIXME This should be an EMailPanedView property, so
 	 *       it can be configured from the settings module. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "headers-collapsed",
@@ -853,7 +853,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 		em_utils_folder_is_outbox (registry, folder) ||
 		em_utils_folder_is_sent (registry, folder);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	global_view_setting = g_settings_get_boolean (
 		settings, "global-view-setting");
 	g_object_unref (settings);

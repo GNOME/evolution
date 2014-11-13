@@ -863,7 +863,7 @@ web_view_constructed (GObject *object)
 #ifndef G_OS_WIN32
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.desktop.lockdown");
+	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
 
 	g_settings_bind (
 		settings, "disable-printing",
@@ -1673,7 +1673,7 @@ e_web_view_init (EWebView *web_view)
 	e_web_view_install_request_handler (web_view, E_TYPE_FILE_REQUEST);
 	e_web_view_install_request_handler (web_view, E_TYPE_STOCK_REQUEST);
 
-	settings = g_settings_new ("org.gnome.desktop.interface");
+	settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
 	handler_id = g_signal_connect_swapped (
 		settings, "changed::font-name",
@@ -1690,7 +1690,7 @@ e_web_view_init (EWebView *web_view)
 	settings_schema = g_settings_schema_source_lookup (
 		g_settings_schema_source_get_default (), id, FALSE);
 	if (settings_schema != NULL) {
-		settings = g_settings_new (id);
+		settings = e_util_ref_settings (id);
 		web_view->priv->aliasing_settings = g_object_ref (settings);
 		handler_id = g_signal_connect_swapped (
 			settings, "changed::antialiasing",

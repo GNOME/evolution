@@ -1311,7 +1311,7 @@ action_mail_reply_all_check (CamelFolder *folder,
 			GSettings *settings;
 			const gchar *key;
 
-			settings = g_settings_new ("org.gnome.evolution.mail");
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 			key = "prompt-on-reply-many-recips";
 			g_settings_set_boolean (settings, key, FALSE);
@@ -1352,7 +1352,7 @@ action_mail_reply_all_cb (GtkAction *action,
 
 	state = e_mail_reader_check_state (reader);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	key = "prompt-on-reply-many-recips";
 	ask = g_settings_get_boolean (settings, key);
@@ -1404,7 +1404,7 @@ action_mail_reply_group_cb (GtkAction *action,
 
 	state = e_mail_reader_check_state (reader);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	key = "composer-group-reply-to-list";
 	reply_list = g_settings_get_boolean (settings, key);
@@ -1481,7 +1481,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		return;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	key = "composer-ignore-list-reply-to";
 	ask_ignore_list_reply_to = g_settings_get_boolean (settings, key);
@@ -1617,7 +1617,7 @@ action_mail_reply_sender_cb (GtkAction *action,
 
 	state = e_mail_reader_check_state (reader);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	key = "prompt-on-list-reply-to";
 	ask_list_reply_to = g_settings_get_boolean (settings, key);
@@ -2881,7 +2881,7 @@ maybe_schedule_timeout_mark_seen (EMailReader *reader)
 	    e_tree_is_dragging (E_TREE (message_list)))
 		return FALSE;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* FIXME These should be EMailReader properties. */
 	schedule_timeout =
@@ -4111,7 +4111,7 @@ e_mail_reader_init (EMailReader *reader,
 
 	/* Bind GObject properties to GSettings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
@@ -4192,7 +4192,7 @@ e_mail_reader_init (EMailReader *reader,
 #ifndef G_OS_WIN32
 	/* Lockdown integration. */
 
-	settings = g_settings_new ("org.gnome.desktop.lockdown");
+	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
 
 	action_name = "mail-print";
 	action = e_mail_reader_get_action (reader, action_name);

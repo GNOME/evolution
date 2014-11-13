@@ -259,7 +259,7 @@ mail_config_init (EMailSession *session)
 
 	config = g_new0 (MailConfig, 1);
 
-	mail_settings = g_settings_new ("org.gnome.evolution.mail");
+	mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* Composer Configuration */
 

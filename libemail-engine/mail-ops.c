@@ -1273,7 +1273,7 @@ sync_folder_exec (struct _sync_folder_msg *m,
 		GSettings *settings;
 		gboolean delete_junk;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		expunge = g_settings_get_boolean (settings, "trash-empty-on-exit") &&
 			  g_settings_get_int (settings, "trash-empty-on-exit-days") == -1;

@@ -465,7 +465,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
 	gtk_widget_set_can_default (clue_remove, TRUE);
 
-	ui->settings = g_settings_new ("org.gnome.evolution.plugin.templates");
+	ui->settings = e_util_ref_settings ("org.gnome.evolution.plugin.templates");
 
 	ui->treeview = clue_treeview;
 

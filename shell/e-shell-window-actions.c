@@ -826,7 +826,7 @@ action_work_offline_cb (GtkAction *action,
 
 	/* XXX The boolean sense of the setting is backwards.  Would
 	 *     be more intuitive and less error-prone as "start-online". */
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	g_settings_set_boolean (settings, "start-offline", TRUE);
 	g_object_unref (settings);
 }
@@ -852,7 +852,7 @@ action_work_online_cb (GtkAction *action,
 
 	/* XXX The boolean sense of the setting is backwards.  Would
 	 *     be more intuitive and less error-prone as "start-online". */
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 	g_settings_set_boolean (settings, "start-offline", FALSE);
 	g_object_unref (settings);
 }

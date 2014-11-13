@@ -103,5 +103,7 @@ main (gint argc,
 
 	gtk_main ();
 
+	e_util_cleanup_settings ();
+
 	return 0;
 }

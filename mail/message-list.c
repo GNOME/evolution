@@ -1942,12 +1942,12 @@ static ECell * create_composite_cell (gint col)
 	gint alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
 	gboolean same_font = FALSE;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	show_email = g_settings_get_boolean (settings, "show-email");
 	same_font = g_settings_get_boolean (settings, "vertical-view-fonts");
 	g_object_unref (settings);
 	if (!same_font) {
-		settings = g_settings_new ("org.gnome.desktop.interface");
+		settings = e_util_ref_settings ("org.gnome.desktop.interface");
 		fixed_name = g_settings_get_string (settings, "monospace-font-name");
 		g_object_unref (settings);
 	}
@@ -3419,7 +3419,7 @@ message_list_init (MessageList *message_list)
 	target_list = gtk_target_list_new (NULL, 0);
 	message_list->priv->paste_target_list = target_list;
 
-	message_list->priv->mail_settings = g_settings_new ("org.gnome.evolution.mail");
+	message_list->priv->mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	message_list->priv->re_prefixes = NULL;
 	message_list->priv->group_by_threads = TRUE;
 }

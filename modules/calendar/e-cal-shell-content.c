@@ -634,7 +634,7 @@ cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
 	const gchar *key;
 	const gchar *view_id;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	paned = cal_shell_content->priv->hpaned;
 
 	shell_content = E_SHELL_CONTENT (cal_shell_content);
@@ -1621,7 +1621,7 @@ cal_shell_content_constructed (GObject *object)
 		G_CALLBACK (cal_shell_content_notify_view_id_cb),
 		cal_shell_content);
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		settings, "tag-vpane-position",

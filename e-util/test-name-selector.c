@@ -106,6 +106,7 @@ main (gint argc,
 
 	g_object_unref (registry);
 	g_object_unref (client_cache);
+	e_util_cleanup_settings ();
 
 	return 0;
 }

@@ -93,7 +93,7 @@ calendar_preferences_map_string_to_icaltimezone (GValue *value,
 	const gchar *location = NULL;
 	icaltimezone *timezone = NULL;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone"))
 		timezone = e_cal_util_get_system_timezone ();
@@ -124,7 +124,7 @@ calendar_preferences_map_icaltimezone_to_string (const GValue *value,
 	gchar *location_str = NULL;
 	icaltimezone *timezone;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone")) {
 		location_str = g_settings_get_string (settings, "timezone");
@@ -424,7 +424,7 @@ start_of_day_changed (GtkWidget *widget,
 		return;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_set_int (settings, "day-start-hour", start_hour);
 	g_settings_set_int (settings, "day-start-minute", start_minute);
@@ -458,7 +458,7 @@ end_of_day_changed (GtkWidget *widget,
 		return;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_set_int (settings, "day-end-hour", end_hour);
 	g_settings_set_int (settings, "day-end-minute", end_minute);
@@ -524,7 +524,7 @@ show_config (ECalendarPreferences *prefs)
 {
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	/* Day's second zone */
 	update_day_second_zone_caption (prefs);
@@ -586,7 +586,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	GtkWidget *table;
 	GSList *l;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
@@ -761,7 +761,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	/* These settings control the "Birthdays & Anniversaries" backend. */
 
 	eds_settings =
-		g_settings_new ("org.gnome.evolution-data-server.calendar");
+		e_util_ref_settings ("org.gnome.evolution-data-server.calendar");
 
 	widget = e_builder_get_widget (prefs->builder, "ba_reminder");
 	g_settings_bind (

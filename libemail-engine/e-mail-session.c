@@ -738,7 +738,7 @@ mail_session_force_refresh (EMailSession *session)
 		return;
 
 	/* FIXME EMailSession should define properties for these. */
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	unconditionally =
 		g_settings_get_boolean (settings, "send-recv-on-start") &&
 		g_settings_get_boolean (settings, "send-recv-all-on-start");
@@ -1112,7 +1112,7 @@ mail_session_constructed (GObject *object)
 	 * before starting the first mail store refresh. */
 	mail_msg_init ();
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* The application is not yet fully initialized at this point,
 	 * so run the first mail store refresh from an idle callback. */
@@ -1587,7 +1587,7 @@ mail_session_forward_to_sync (CamelSession *session,
 		GSettings *settings;
 		gboolean flush_outbox;
 
-		settings = g_settings_new ("org.gnome.evolution.mail");
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		flush_outbox = g_settings_get_boolean (settings, "flush-outbox");
 		g_object_unref (settings);
 

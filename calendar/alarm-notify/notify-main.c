@@ -29,6 +29,8 @@
 #include <stdlib.h>
 #include <glib/gi18n.h>
 
+#include <e-util/e-util.h>
+
 #include "alarm-notify.h"
 #include "config-data.h"
 
@@ -83,6 +85,7 @@ main (gint argc,
 
 	g_object_unref (alarm_notify_service);
 	config_data_cleanup ();
+	e_util_cleanup_settings ();
 
 	return exit_status;
 }

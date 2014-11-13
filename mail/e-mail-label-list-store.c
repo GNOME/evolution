@@ -26,6 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <camel/camel.h>
+#include <e-util/e-util.h>
 
 #define E_MAIL_LABEL_LIST_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -358,7 +359,7 @@ mail_label_list_store_constructed (GObject *object)
 	store = E_MAIL_LABEL_LIST_STORE (object);
 
 	/* Connect to GSettings' change notifications */
-	store->priv->mail_settings = g_settings_new ("org.gnome.evolution.mail");
+	store->priv->mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_signal_connect (
 		store->priv->mail_settings, "changed::labels",
 		G_CALLBACK (labels_settings_changed_cb), store);

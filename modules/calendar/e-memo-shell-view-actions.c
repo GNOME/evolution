@@ -867,7 +867,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 
 	/* Bind GObject properties to settings keys. */
 
-	memo_settings = g_settings_new ("org.gnome.evolution.calendar");
+	memo_settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		memo_settings, "show-memo-preview",

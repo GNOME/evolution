@@ -101,7 +101,7 @@ shell_migrate_get_version (EShell *shell,
 	*minor = 0;
 	*micro = 0;
 
-	settings = g_settings_new ("org.gnome.evolution");
+	settings = e_util_ref_settings ("org.gnome.evolution");
 	string = g_settings_get_string (settings, "version");
 
 	if (string != NULL) {
@@ -197,7 +197,7 @@ shell_migrate_save_current_version (void)
 	 * This implies an awareness of module behavior from within the
 	 * application core, but practical considerations overrule here. */
 
-	settings = g_settings_new ("org.gnome.evolution");
+	settings = e_util_ref_settings ("org.gnome.evolution");
 
 	version = g_strdup_printf (
 		"%d.%d.%d",

@@ -1813,7 +1813,7 @@ static void
 configure_visibility (EContactEditor *editor)
 {
 	gboolean show_tab;
-	GSettings *settings = g_settings_new ("org.gnome.evolution.addressbook");
+	GSettings *settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	configure_widget_visibility (editor, settings, "vbox-contact-phone", "editor-show-contact-phone", CHECK_PHONE);
 	configure_widget_visibility (editor, settings, "vbox-contact-sip",   "editor-show-contact-sip",   CHECK_SIP);
@@ -1861,7 +1861,7 @@ config_save_cb (GtkWidget *button,
 {
 	GSettings *settings;
 
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	config_menuitem_save (editor, settings, "menuitem-config-phone", "editor-show-contact-phone");
 	config_menuitem_save (editor, settings, "menuitem-config-sip",   "editor-show-contact-sip");
@@ -1917,7 +1917,7 @@ init_config (EContactEditor *editor)
 		button, "clicked",
 		G_CALLBACK (config_sensitize_cb), editor);
 
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	init_config_menuitem (editor, settings, "menuitem-config-phone", "editor-show-contact-phone");
 	init_config_menuitem (editor, settings, "menuitem-config-sip",   "editor-show-contact-sip");
@@ -2445,7 +2445,7 @@ set_address_label (EContact *contact,
 		return;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 	format_address = g_settings_get_boolean (settings, "address-formatting");
 	g_object_unref (settings);
 

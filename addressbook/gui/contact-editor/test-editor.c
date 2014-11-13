@@ -75,7 +75,7 @@ editor_closed_cb (EContactEditor *ce,
 	g_object_unref (ce);
 
 	if (count == 0)
-		exit (0);
+		gtk_main_quit ();
 }
 
 gint
@@ -110,6 +110,7 @@ main (gint argc,
 
 	gtk_main ();
 
-	/* Not reached. */
+	e_util_cleanup_settings ();
+
 	return 0;
 }

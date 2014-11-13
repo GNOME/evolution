@@ -172,7 +172,7 @@ mail_shell_sidebar_constructed (GObject *object)
 		widget, "key-file",
 		G_BINDING_SYNC_CREATE);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "side-bar-search",

@@ -36,7 +36,7 @@
 static gboolean
 get_include_face_by_default (void)
 {
-	GSettings *settings = g_settings_new ("org.gnome.evolution.plugin.face-picture");
+	GSettings *settings = e_util_ref_settings ("org.gnome.evolution.plugin.face-picture");
 	gboolean res;
 
 	res = g_settings_get_boolean (settings, SETTINGS_KEY);
@@ -49,7 +49,7 @@ get_include_face_by_default (void)
 static void
 set_include_face_by_default (gboolean value)
 {
-	GSettings *settings = g_settings_new ("org.gnome.evolution.plugin.face-picture");
+	GSettings *settings = e_util_ref_settings ("org.gnome.evolution.plugin.face-picture");
 
 	g_settings_set_boolean (settings, SETTINGS_KEY, value);
 

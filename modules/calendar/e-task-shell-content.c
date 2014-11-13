@@ -373,7 +373,7 @@ task_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 
 	/* Bind GObject properties to settings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	g_settings_bind (
 		settings, "task-hpane-position",

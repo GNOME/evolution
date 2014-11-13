@@ -95,7 +95,7 @@ migrateURI (const gchar *xml,
 
 	uris_array = g_ptr_array_new_full (3, g_free);
 
-	settings = g_settings_new (PC_SETTINGS_ID);
+	settings = e_util_ref_settings (PC_SETTINGS_ID);
 	set_uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
 
 	for (ii = 0; set_uris && set_uris[ii]; ii++) {

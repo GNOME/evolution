@@ -1386,7 +1386,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	/* Bind GObject properties to GSettings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	g_settings_bind (
 		settings, "show-preview",

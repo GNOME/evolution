@@ -1052,7 +1052,7 @@ gnome_calendar_getwidget (EImport *ei,
 	GSettings *settings;
 	gboolean done_cal, done_tasks;
 
-	settings = g_settings_new ("org.gnome.evolution.importer");
+	settings = e_util_ref_settings ("org.gnome.evolution.importer");
 	done_cal = g_settings_get_boolean (settings, "gnome-calendar-done-calendar");
 	done_tasks = g_settings_get_boolean (settings, "gnome-calendar-done-tasks");
 	g_object_unref (settings);
@@ -1405,7 +1405,7 @@ get_users_timezone (void)
 	icaltimezone *zone = NULL;
 	gchar *location;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	if (g_settings_get_boolean (settings, "use-system-timezone")) {
 		location = e_cal_util_get_system_timezone_location ();

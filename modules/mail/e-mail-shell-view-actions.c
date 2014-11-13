@@ -1320,7 +1320,7 @@ action_mail_smart_backward_cb (GtkAction *action,
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	magic_spacebar = g_settings_get_boolean (settings, "magic-spacebar");
 	g_object_unref (settings);
 
@@ -1404,7 +1404,7 @@ action_mail_smart_forward_cb (GtkAction *action,
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	magic_spacebar = g_settings_get_boolean (settings, "magic-spacebar");
 	g_object_unref (settings);
 
@@ -2217,7 +2217,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	/* Bind GObject properties for GSettings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	g_settings_bind (
 		settings, "show-deleted",

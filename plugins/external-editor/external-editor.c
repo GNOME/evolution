@@ -80,7 +80,7 @@ ee_editor_command_changed (GtkWidget *textbox)
 	d (printf ("\n\aeditor is : [%s] \n\a", editor));
 
 	/* GSettings access for every key-press. Sucky ? */
-	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
 	g_settings_set_string (settings, "command", editor);
 	g_object_unref (settings);
 }
@@ -94,7 +94,7 @@ ee_editor_immediate_launch_changed (GtkWidget *checkbox)
 	immediately = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
 	d (printf ("\n\aimmediate launch is : [%d] \n\a", immediately));
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
 	g_settings_set_boolean (settings, "launch-on-key-press", immediately);
 	g_object_unref (settings);
 }
@@ -112,7 +112,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	textbox = gtk_entry_new ();
 	label = gtk_label_new (_("Command to be executed to launch the editor: "));
 	help = gtk_label_new (_("For XEmacs use \"xemacs\"\nFor Vim use \"gvim -f\""));
-	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
 
 	editor = g_settings_get_string (settings, "command");
 	if (editor) {
@@ -340,7 +340,7 @@ external_editor_thread (gpointer user_data)
 		goto finished;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
 	editor_cmd = g_settings_get_string (settings, "command");
 	if (!editor_cmd) {
 		if (!(editor_cmd = g_strdup (g_getenv ("EDITOR"))) )
@@ -491,7 +491,7 @@ key_press_cb (GtkWidget *widget,
 		break;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.plugin.external-editor");
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
 	immediately = g_settings_get_boolean (settings, "launch-on-key-press");
 	g_object_unref (settings);
 	if (!immediately)

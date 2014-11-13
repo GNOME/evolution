@@ -34,6 +34,7 @@
 #include "e-emoticon-chooser.h"
 #include "e-image-chooser-dialog.h"
 #include "e-spell-checker.h"
+#include "e-misc-utils.h"
 
 static void
 insert_html_file_ready_cb (GFile *file,
@@ -2067,7 +2068,7 @@ editor_actions_init (EHTMLEditor *editor)
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	gtk_action_set_visible (
 		ACTION (WEBKIT_INSPECTOR),
 		g_settings_get_boolean (settings, "composer-developer-mode"));

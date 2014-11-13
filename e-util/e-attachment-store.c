@@ -34,6 +34,7 @@
 #endif
 
 #include "e-mktemp.h"
+#include "e-misc-utils.h"
 
 #define E_ATTACHMENT_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -525,7 +526,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	option_format_box = GTK_BOX (option_format_box_widget);
 	gtk_box_pack_start (extra_box, option_format_box_widget, FALSE, FALSE, 0);
 
-	settings = g_settings_new (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
+	settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
 	arpref = autoar_pref_new_with_gsettings (settings);
 
 	option_format_label = gtk_label_new (
@@ -693,7 +694,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 #ifdef HAVE_AUTOAR
 		mime_type = e_attachment_dup_mime_type (attachment);
-		settings = g_settings_new (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
+		settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
 		arpref = autoar_pref_new_with_gsettings (settings);
 		if (!autoar_pref_check_file_name (arpref, name) &&
 		    !autoar_pref_check_mime_type_d (arpref, mime_type)) {
@@ -733,7 +734,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 			GSettings *settings;
 			GList *iter;
 
-			settings = g_settings_new (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
+			settings = e_util_ref_settings (AUTOAR_PREF_DEFAULT_GSCHEMA_ID);
 			arpref = autoar_pref_new_with_gsettings (settings);
 
 			for (iter = attachment_list; iter != NULL; iter = iter->next) {

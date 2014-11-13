@@ -15,11 +15,17 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-mail-parser-prefer-plain.h"
 #include "e-mail-display-popup-prefer-plain.h"
 
 #include <gmodule.h>
 #include <gio/gio.h>
+
+#include <e-util/e-util.h>
 
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -32,7 +38,7 @@ e_module_load (GTypeModule *type_module)
 	gchar **disabled_plugins;
 	gint i = 0;
 
-	settings = g_settings_new ("org.gnome.evolution");
+	settings = e_util_ref_settings ("org.gnome.evolution");
 	disabled_plugins = g_settings_get_strv (settings, "disabled-eplugins");
 
 	for (i = 0; disabled_plugins && disabled_plugins[i] != NULL; i++) {

@@ -1472,7 +1472,7 @@ e_shell_create_shell_window (EShell *shell,
 	if (view_name != NULL) {
 		GSettings *settings;
 
-		settings = g_settings_new ("org.gnome.evolution.shell");
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
 		g_settings_set_string (
 			settings, "default-component-id", view_name);
 		g_object_unref (settings);

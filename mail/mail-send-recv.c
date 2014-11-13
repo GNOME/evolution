@@ -1121,7 +1121,7 @@ test_should_delete_junk_or_expunge (CamelStore *store,
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
 	g_return_if_fail (uid != NULL);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	now = time (NULL) / 60 / 60 / 24;
 

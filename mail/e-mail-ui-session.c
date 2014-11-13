@@ -228,7 +228,7 @@ main_get_filter_driver (CamelSession *session,
 
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (session);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);

@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include "e-dateedit.h"
+#include "e-misc-utils.h"
 
 static void delete_event_cb		(GtkWidget	*widget,
 					 GdkEventAny	*event,
@@ -184,6 +185,8 @@ main (gint argc,
 	gtk_widget_show (window);
 
 	gtk_main ();
+
+	e_util_cleanup_settings ();
 
 	return 0;
 }

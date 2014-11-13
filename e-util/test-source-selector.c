@@ -470,6 +470,7 @@ main (gint argc,
 	gtk_main ();
 
 	g_object_unref (registry);
+	e_util_cleanup_settings ();
 
 	return 0;
 }

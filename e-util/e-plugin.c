@@ -28,6 +28,7 @@
 
 #include "e-plugin.h"
 #include "e-util-private.h"
+#include "e-misc-utils.h"
 
 /* plugin debug */
 #define pd(x)
@@ -121,7 +122,7 @@ ep_set_enabled (const gchar *id,
 	} else
 		ep_disabled = g_slist_prepend (ep_disabled, g_strdup (id));
 
-	settings = g_settings_new ("org.gnome.evolution");
+	settings = e_util_ref_settings ("org.gnome.evolution");
 	array = g_ptr_array_new ();
 	for (link = ep_disabled; link != NULL; link = link->next)
 		g_ptr_array_add (array, link->data);
@@ -505,7 +506,7 @@ e_plugin_load_plugins (void)
 		E_TYPE_PLUGIN_HOOK, (ETypeFunc)
 		plugin_hook_load_subclass, eph_types);
 
-	settings = g_settings_new ("org.gnome.evolution");
+	settings = e_util_ref_settings ("org.gnome.evolution");
 	strv = g_settings_get_strv (settings, "disabled-eplugins");
 	for (i = 0, ep_disabled = NULL; strv[i] != NULL; i++)
 		ep_disabled = g_slist_append (ep_disabled, g_strdup (strv[i]));

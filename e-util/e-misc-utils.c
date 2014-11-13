@@ -3017,3 +3017,67 @@ e_signal_disconnect_notify_handler (gpointer instance,
 	g_signal_handler_disconnect (instance, *handler_id);
 	*handler_id = 0;
 }
+
+static GMutex settings_hash_lock;
+static GHashTable *settings_hash = NULL;
+
+/**
+ * e_util_ref_settings:
+ * @schema_id: the id of the schema to reference settings for
+ *
+ * Either returns an existing referenced #GSettings object for the given @schema_id,
+ * or creates a new one and remembers it for later use, to avoid having too many
+ * #GSettings objects created for the same @schema_id.
+ *
+ * Returns: A #GSettings for the given @schema_id. The returned #GSettings object
+ *   is referenced, thus free it with g_object_unref() when done with it.
+ *
+ * Since: 3.14
+ **/
+GSettings *
+e_util_ref_settings (const gchar *schema_id)
+{
+	GSettings *settings;
+
+	g_return_val_if_fail (schema_id != NULL, NULL);
+	g_return_val_if_fail (*schema_id, NULL);
+
+	g_mutex_lock (&settings_hash_lock);
+
+	if (!settings_hash) {
+		settings_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	}
+
+	settings = g_hash_table_lookup (settings_hash, schema_id);
+	if (!settings) {
+		settings = g_settings_new (schema_id);
+		g_hash_table_insert (settings_hash, g_strdup (schema_id), settings);
+	}
+
+	if (settings)
+		g_object_ref (settings);
+
+	g_mutex_unlock (&settings_hash_lock);
+
+	return settings;
+}
+
+/**
+ * e_util_cleanup_settings:
+ *
+ * Frees all the memory taken by e_util_ref_settings().
+ *
+ * Since: 3.14
+ **/
+void
+e_util_cleanup_settings (void)
+{
+	g_mutex_lock (&settings_hash_lock);
+
+	if (settings_hash) {
+		g_hash_table_destroy (settings_hash);
+		settings_hash = NULL;
+	}
+
+	g_mutex_unlock (&settings_hash_lock);
+}

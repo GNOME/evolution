@@ -154,7 +154,7 @@ e_cal_config_target_new_prefs (ECalConfig *ecp)
 	t = e_config_target_new (
 		&ecp->config, EC_CONFIG_TARGET_PREFS, sizeof (*t));
 
-	t->settings = g_settings_new ("org.gnome.evolution.calendar");
+	t->settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	return t;
 }

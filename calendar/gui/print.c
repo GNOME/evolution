@@ -118,7 +118,7 @@ get_day_view_time_divisions (void)
 	GSettings *settings;
 	gint time_divisions;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	time_divisions = g_settings_get_int (settings, "time-divisions");
 	if (time_divisions < 5 || time_divisions > 30)
@@ -643,7 +643,7 @@ get_show_week_numbers (void)
 	GSettings *settings;
 	gboolean show_week_numbers;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	show_week_numbers =
 		g_settings_get_boolean (settings, "show-week-numbers");

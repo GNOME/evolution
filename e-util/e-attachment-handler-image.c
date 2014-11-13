@@ -27,6 +27,8 @@
 #include <glib/gi18n.h>
 #include <gdesktop-enums.h>
 
+#include "e-misc-utils.h"
+
 #define E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_HANDLER_IMAGE, EAttachmentHandlerImagePrivate))
@@ -64,7 +66,7 @@ action_image_set_as_background_saved_cb (EAttachment *attachment,
 	GError *error = NULL;
 
 	view = e_attachment_handler_get_view (handler);
-	settings = g_settings_new ("org.gnome.desktop.background");
+	settings = e_util_ref_settings ("org.gnome.desktop.background");
 
 	file = e_attachment_save_finish (attachment, result, &error);
 

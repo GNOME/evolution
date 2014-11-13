@@ -33,7 +33,7 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
 	GtkToolbarStyle style;
 	const gchar *string;
 
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
 	style = gtk_radio_action_get_current_value (action);
 
@@ -68,7 +68,7 @@ shell_window_init_switcher_style (EShellWindow *shell_window)
 	GtkToolbarStyle style;
 	gchar *string;
 
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
 	action = ACTION (SWITCHER_STYLE_ICONS);
 	string = g_settings_get_string (settings, "buttons-style");
@@ -346,7 +346,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 #ifndef G_OS_WIN32
 	/* Support lockdown. */
 
-	settings = g_settings_new ("org.gnome.desktop.lockdown");
+	settings = e_util_ref_settings ("org.gnome.desktop.lockdown");
 
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
 
@@ -404,7 +404,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	/* Bind GObject properties to GSettings keys. */
 
-	settings = g_settings_new ("org.gnome.evolution.shell");
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
 	/* Use G_SETTINGS_BIND_GET_NO_CHANGES so shell windows
 	 * are initialized to the most recently used shell view,

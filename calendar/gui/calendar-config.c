@@ -52,7 +52,7 @@ calendar_config_init (void)
 	if (config)
 		return;
 
-	config = g_settings_new ("org.gnome.evolution.calendar");
+	config = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	/* will be freed together with EShell */
 	g_object_set_data_full (
@@ -102,7 +102,7 @@ calendar_config_get_timezone (void)
 	GSettings *settings;
 	gboolean use_system_timezone;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	use_system_timezone =
 		g_settings_get_boolean (settings, "use-system-timezone");
@@ -445,7 +445,7 @@ calendar_config_get_prefer_meeting (void)
 	gchar *prefer_new_item;
 	gboolean prefer_meeting;
 
-	settings = g_settings_new ("org.gnome.evolution.calendar");
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	prefer_new_item = g_settings_get_string (settings, "prefer-new-item");
 	prefer_meeting = g_strcmp0 (prefer_new_item, "event-meeting-new") == 0;

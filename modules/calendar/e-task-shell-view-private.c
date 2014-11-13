@@ -212,7 +212,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	priv->task_shell_content = g_object_ref (shell_content);
 	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
 
-	priv->settings = g_settings_new ("org.gnome.evolution.calendar");
+	priv->settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
