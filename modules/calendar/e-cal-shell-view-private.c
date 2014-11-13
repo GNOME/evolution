@@ -192,7 +192,9 @@ system_timezone_monitor_changed (GFileMonitor *handle,
 		return;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
-	g_signal_emit_by_name (settings, "changed::timezone", "timezone");
+	/* GSettings Bindings rely on quarks */
+	g_signal_emit_by_name (settings, "changed::timezone",
+		g_quark_to_string (g_quark_from_string ("timezone")));
 	g_object_unref (settings);
 }
 
