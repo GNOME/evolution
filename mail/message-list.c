@@ -5911,6 +5911,7 @@ mail_regen_list (MessageList *message_list,
 	g_strfreev (message_list->priv->re_prefixes);
 	prefixes = g_settings_get_string (message_list->priv->mail_settings, "composer-localized-re");
 	message_list->priv->re_prefixes = g_strsplit (prefixes ? prefixes : "", ",", -1);
+	g_free (prefixes);
 	g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 
 	g_mutex_lock (&message_list->priv->regen_lock);
