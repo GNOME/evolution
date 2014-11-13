@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-11-12 10:15+0000\n"
-"PO-Revision-Date: 2014-11-12 13:24+0100\n"
+"POT-Creation-Date: 2014-11-13 09:49+0000\n"
+"PO-Revision-Date: 2014-11-13 13:04+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -132,10 +132,9 @@ msgid "Unable to perform search."
 msgstr "No se puede efectuar la búsqueda."
 
 #: ../addressbook/addressbook.error.xml.h:20
-#, fuzzy
 #| msgid "Unable to open address book '{0}'"
 msgid "Failed to refresh address book '{0}'"
-msgstr "No se puede abrir la libreta de direcciones «{0}»"
+msgstr "Falló al actualizar la libreta de direcciones «{0}»"
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "Would you like to save your changes?"
@@ -209,7 +208,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.ui.h:22
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:19
 #: ../calendar/gui/dialogs/task-page.ui.h:30
-#: ../e-util/e-mail-signature-manager.c:326
+#: ../e-util/e-mail-signature-manager.c:327
 #: ../e-util/e-name-selector-dialog.c:995 ../e-util/filter.ui.h:16
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
@@ -468,7 +467,7 @@ msgstr "Cumpleaños"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:39
 msgid "Miscellaneous"
-msgstr "Miscelánea"
+msgstr "Información variada"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:40
 msgid "Personal Information"
@@ -561,12 +560,12 @@ msgstr "Opciones"
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:15
 #: ../calendar/gui/dialogs/recurrence-page.c:2322
 #: ../composer/e-composer-actions.c:267 ../e-util/e-activity-bar.c:340
-#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:490
-#: ../e-util/e-attachment-store.c:634 ../e-util/e-attachment-view.c:370
+#: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:491
+#: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:370
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
-#: ../e-util/e-html-editor-actions.c:479 ../e-util/e-html-editor-actions.c:572
+#: ../e-util/e-html-editor-actions.c:480 ../e-util/e-html-editor-actions.c:573
 #: ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
@@ -574,7 +573,7 @@ msgstr "Opciones"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:833 ../e-util/e-web-view.c:3043
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3043
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -604,7 +603,7 @@ msgstr "_Cancelar"
 #: ../calendar/calendar.error.xml.h:47
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:395
-#: ../e-util/e-attachment-store.c:635
+#: ../e-util/e-attachment-store.c:636
 #: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3044
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
@@ -614,58 +613,49 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:56
-#, fuzzy
 #| msgid "Telephone"
 msgid "Show Telephone"
-msgstr "Teléfono"
+msgstr "Mostrar teléfono"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:57
-#, fuzzy
 #| msgid "_To This Address"
 msgid "Show SIP Address"
-msgstr "_A esta dirección"
+msgstr "Mostrar dirección SIP"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:58
-#, fuzzy
 #| msgid "Instant Messaging"
 msgid "Show Instant Messaging"
-msgstr "Mensajería instantánea"
+msgstr "Mostrar mensajería instantánea"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
-#, fuzzy
 #| msgid "Web Addresses"
 msgid "Show Web Addresses"
-msgstr "Páginas web"
+msgstr "Mostrar direcciones web"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:60
-#, fuzzy
 #| msgid "Show the second time zone"
 msgid "Show Job section"
-msgstr "Muestra la segunda zona horaria"
+msgstr "Mostrar la sección de trabajo"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:61
-#, fuzzy
 #| msgid "Miscellaneous"
 msgid "Show Miscellaneous"
-msgstr "Miscelánea"
+msgstr "Mostrar datos varios"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:62
-#, fuzzy
 #| msgid "Mailing Address"
 msgid "Show Home Mailing Address"
-msgstr "Dirección de correo"
+msgstr "Mostrar la dirección postal personal"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:63
-#, fuzzy
 #| msgid "Mailing Address"
 msgid "Show Work Mailing Address"
-msgstr "Dirección de correo"
+msgstr "Mostrar la dirección postal de trabajo"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:64
-#, fuzzy
 #| msgid "Mailing Address"
 msgid "Show Other Mailing Address"
-msgstr "Dirección de correo"
+msgstr "Mostrar otras direcciones postales"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:65
 msgid "Show Notes"
@@ -673,7 +663,7 @@ msgstr "Mostrar notas"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
-#: ../e-util/e-html-editor-actions.c:993
+#: ../e-util/e-html-editor-actions.c:994
 msgid "_Undo"
 msgstr "Des_hacer"
 
@@ -684,7 +674,7 @@ msgstr "Deshacer"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/dialogs/comp-editor.c:1305
-#: ../e-util/e-html-editor-actions.c:979
+#: ../e-util/e-html-editor-actions.c:980
 msgid "_Redo"
 msgstr "_Rehacer"
 
@@ -717,8 +707,8 @@ msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3684
-#: ../e-util/e-attachment-store.c:488 ../e-util/e-category-editor.c:146
-#: ../e-util/e-html-editor-actions.c:480 ../e-util/e-html-editor-actions.c:573
+#: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
+#: ../e-util/e-html-editor-actions.c:481 ../e-util/e-html-editor-actions.c:574
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:941
 msgid "_Open"
@@ -915,7 +905,7 @@ msgstr "Quitar una dirección de correo-e de la lista"
 #: ../calendar/gui/dialogs/event-page.ui.h:23
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:21
 #: ../calendar/gui/dialogs/task-page.ui.h:31 ../e-util/e-attachment-view.c:424
-#: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:366
+#: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:367
 #: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
 #: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
 #: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:54
@@ -1427,7 +1417,7 @@ msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1331
 #: ../calendar/gui/dialogs/comp-editor.c:1242
 #: ../e-util/e-categories-editor.c:282 ../e-util/e-focus-tracker.c:785
-#: ../e-util/evolution-source-viewer.c:804
+#: ../e-util/evolution-source-viewer.c:805
 #: ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1125
 #: ../modules/calendar/e-cal-shell-view-actions.c:1434
@@ -1639,7 +1629,7 @@ msgstr "_Reducir"
 # En conflicto con _Buscar del menu principal
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:1971
+#: ../e-util/e-html-editor-actions.c:1972
 #: ../e-util/e-html-editor-find-dialog.c:195
 #: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
@@ -1759,38 +1749,38 @@ msgstr "Importador de vCard de Evolution"
 msgid "Page %d"
 msgstr "Página %d"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:53
+#: ../addressbook/tools/evolution-addressbook-export.c:54
 msgid "Specify the output file instead of standard output"
 msgstr "Especifique el archivo de salida en lugar del la salida estándar"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:54
+#: ../addressbook/tools/evolution-addressbook-export.c:55
 msgid "OUTPUTFILE"
 msgstr "ARCHIVO-DE-SALIDA"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:57
+#: ../addressbook/tools/evolution-addressbook-export.c:58
 msgid "List local address book folders"
 msgstr "Listar las carpetas de libretas de direcciones locales"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:60
+#: ../addressbook/tools/evolution-addressbook-export.c:61
 msgid "Show cards as vcard or csv file"
 msgstr "Mostrar tarjetas como un archivo vcard o csv"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:61
+#: ../addressbook/tools/evolution-addressbook-export.c:62
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:110
+#: ../addressbook/tools/evolution-addressbook-export.c:111
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Error en los argumentos de la línea de comandos, use la opción --help para "
 "ver el uso."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:124
+#: ../addressbook/tools/evolution-addressbook-export.c:125
 msgid "Only support csv or vcard format."
 msgstr "Sólo se soportan los los formatos csv o vcard."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:155
+#: ../addressbook/tools/evolution-addressbook-export.c:156
 msgid "Unhandled error"
 msgstr "Error no tratado"
 
@@ -1825,11 +1815,10 @@ msgid "Work SIP"
 msgstr "SIP del trabajo"
 
 #: ../addressbook/util/eab-book-util.c:45
-#, fuzzy
 #| msgid "Home Page"
 msgctxt "addressbook-label"
 msgid "Home SIP"
-msgstr "Página personal"
+msgstr "SIP personal"
 
 #: ../addressbook/util/eab-book-util.c:46
 msgctxt "addressbook-label"
@@ -1968,8 +1957,8 @@ msgstr "_Posponer"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-categories-editor.c:278 ../e-util/e-html-editor-actions.c:1002
-#: ../e-util/e-mail-signature-manager.c:356 ../e-util/filter.ui.h:17
+#: ../e-util/e-categories-editor.c:278 ../e-util/e-html-editor-actions.c:1003
+#: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:170
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:58
 #: ../plugins/attachment-reminder/attachment-reminder.c:562
@@ -2618,24 +2607,21 @@ msgstr "Falló al enviar una tarea a la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-#, fuzzy
 #| msgid "Error loading calendar '{0}'"
 msgid "Error creating view for a calendar '{0}'"
-msgstr "Error al cargar el calendario «{0}»"
+msgstr "Error al crear la vista para un calendario «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-#, fuzzy
 #| msgid "Error loading task list '{0}'"
 msgid "Error creating view for a task list '{0}'"
-msgstr "Error al cargar la lista de tareas «{0}»"
+msgstr "Error al crear la vista para una lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-#, fuzzy
 #| msgid "Error loading memo list '{0}'"
 msgid "Error creating view for a memo list '{0}'"
-msgstr "Error al cargar la lista de notas «{0}»"
+msgstr "Error al crear la vista para una lista de notas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:129
@@ -2699,30 +2685,26 @@ msgstr "Moviendo una nota a la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:153
-#, fuzzy
 #| msgid "Delete remote calendar '{0}'?"
 msgid "Failed to refresh calendar '{0}'"
-msgstr "¿Quiere eliminar el calendario remoto «{0}»?"
+msgstr "Falló al actualizar el calendario «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:155
-#, fuzzy
 #| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to refresh task list '{0}'"
-msgstr "Falló al mover una tarea en la lista de tareas «{0}»"
+msgstr "Falló al actualizar la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:157
-#, fuzzy
 #| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to refresh memo list '{0}'"
-msgstr "Falló al mover una nota en la lista de notas «{0}»"
+msgstr "Falló al actualizar la lista de notas «{0}»"
 
 #: ../calendar/calendar.error.xml.h:158
-#, fuzzy
 #| msgid "Make this Occurrence _Movable"
 msgid "Failed to make an occurrence movable"
-msgstr "Hacer esta repetición _movible"
+msgstr "Falló al hacer una ocurrencia movible"
 
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -3106,7 +3088,7 @@ msgstr "Cerrar la ventana actual"
 
 #. copy menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775
-#: ../e-util/e-html-editor-actions.c:958 ../e-util/e-text.c:2089
+#: ../e-util/e-html-editor-actions.c:959 ../e-util/e-text.c:2089
 #: ../e-util/e-web-view.c:339 ../mail/e-mail-browser.c:133
 #: ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
@@ -3122,7 +3104,7 @@ msgstr "Copiar la selección"
 
 #. cut menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770
-#: ../e-util/e-html-editor-actions.c:965 ../e-util/e-text.c:2075
+#: ../e-util/e-html-editor-actions.c:966 ../e-util/e-text.c:2075
 #: ../mail/e-mail-browser.c:140 ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "Cor_tar"
@@ -3146,7 +3128,7 @@ msgstr "Ver la ayuda"
 
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780
-#: ../e-util/e-html-editor-actions.c:972 ../e-util/e-text.c:2101
+#: ../e-util/e-html-editor-actions.c:973 ../e-util/e-text.c:2101
 #: ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "_Pegar"
@@ -3187,7 +3169,7 @@ msgid "Save current changes and close editor"
 msgstr "Guardar los cambios actuales y cerrar el editor"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790
-#: ../e-util/e-html-editor-actions.c:986 ../e-util/e-web-view.c:349
+#: ../e-util/e-html-editor-actions.c:987 ../e-util/e-web-view.c:349
 #: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Seleccionar _todo"
@@ -3203,14 +3185,14 @@ msgid "_Classification"
 msgstr "_Clasificación"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1328
-#: ../e-util/e-html-editor-actions.c:1009
+#: ../e-util/e-html-editor-actions.c:1010
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:163
 #: ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Archivo"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1342
-#: ../e-util/e-html-editor-actions.c:1030
+#: ../e-util/e-html-editor-actions.c:1031
 msgid "_Insert"
 msgstr "_Insertar"
 
@@ -3220,7 +3202,7 @@ msgid "_Options"
 msgstr "_Opciones"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
-#: ../e-util/e-html-editor-actions.c:1051 ../mail/e-mail-browser.c:177
+#: ../e-util/e-html-editor-actions.c:1052 ../mail/e-mail-browser.c:177
 #: ../shell/e-shell-window-actions.c:1120 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Ver"
@@ -3321,7 +3303,7 @@ msgstr ""
 "actualización por correo"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3748
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:120
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:121
 msgid "attachment"
 msgstr "adjunto"
 
@@ -3340,22 +3322,22 @@ msgid "Destination is read only"
 msgstr "El destino es de sólo lectura"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:209
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying an event into the calendar %s"
 msgid "Copying events to the calendar '%s'"
-msgstr "Copiando un evento al calendario %s"
+msgstr "Copiando eventos al calendario «%s»"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:215
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying a memo into the memo list '{0}'"
 msgid "Copying memos to the memo list '%s'"
-msgstr "Copiando una nota a la lista de notas «{0}»"
+msgstr "Copiando notas a la lista de notas «%s»"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:221
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying a task into the task list '{0}'"
 msgid "Copying tasks to the task list '%s'"
-msgstr "Copiando una tarea a la lista de tareas «{0}»"
+msgstr "Copiando tareas a la lista de tareas «%s»"
 
 #: ../calendar/gui/dialogs/delete-comp.c:215
 msgid "_Delete this item from all other recipient's mailboxes?"
@@ -4370,22 +4352,22 @@ msgid "Web Page:"
 msgstr "Página web:"
 
 #: ../calendar/gui/e-cal-data-model.c:1608
-#, fuzzy, c-format
+#, c-format
 #| msgid "Creating folder '%s'"
 msgid "Creating view for calendar '%s'"
-msgstr "Creando carpeta «%s»"
+msgstr "Creando vista para el calendario «%s»"
 
 #: ../calendar/gui/e-cal-data-model.c:1612
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening task list '%s'"
 msgid "Creating view for task list '%s'"
-msgstr "Abriendo lista de tareas «%s»"
+msgstr "Creando vista para la lista de tareas «%s»"
 
 #: ../calendar/gui/e-cal-data-model.c:1616
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening memo list '%s'"
 msgid "Creating view for memo list '%s'"
-msgstr "Abriendo lista de notas «%s»"
+msgstr "Creando vista para la lista de notas «%s»"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:1
 msgid "Click to add a task"
@@ -4469,36 +4451,32 @@ msgid "Delete selected events"
 msgstr "Eliminar los acontecimientos seleccionados"
 
 #: ../calendar/gui/e-calendar-view.c:810
-#, fuzzy
 #| msgid "The attachment does not contain a valid calendar message"
 msgid "Pasted text doesn't contain valid iCalendar data"
-msgstr "El adjunto no contiene un mensaje de calendario válido"
+msgstr "El texto pegado no contiene datos de iCalendar válidos"
 
 #: ../calendar/gui/e-calendar-view.c:821 ../calendar/gui/e-cal-ops.c:1540
 msgid "Default calendar not found"
 msgstr "Calendario predeterminado no encontrado"
 
 #: ../calendar/gui/e-calendar-view.c:826 ../calendar/gui/e-cal-ops.c:1543
-#, fuzzy
 #| msgid "Default Memo Client"
 msgid "Default memo list not found"
-msgstr "Cliente de notas predeterminado"
+msgstr "Lista de notas predeterminada no encontrada"
 
 #: ../calendar/gui/e-calendar-view.c:831 ../calendar/gui/e-cal-ops.c:1546
-#, fuzzy
 #| msgid "Default Task Client"
 msgid "Default task list not found"
-msgstr "Cliente de tareas predeterminado"
+msgstr "Lista de tareas predeterminada no encontrada"
 
 #: ../calendar/gui/e-calendar-view.c:918
 msgid "No suitable component found"
-msgstr ""
+msgstr "No se ha encontrado un componente adecuado"
 
 #: ../calendar/gui/e-calendar-view.c:988
-#, fuzzy
 #| msgid "Loading Calendar"
 msgid "Pasting iCalendar data"
-msgstr "Cargando calendario"
+msgstr "Pegando datos de iCalendar"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
@@ -4596,7 +4574,7 @@ msgstr "Desconocido"
 #: ../modules/calendar/e-cal-base-shell-backend.c:361
 #, c-format
 msgid "Source with UID '%s' not found"
-msgstr ""
+msgstr "No se encontró la fuente con el UID «%s»"
 
 #: ../calendar/gui/e-cal-model.c:1267 ../calendar/gui/e-cal-ops.c:184
 #: ../calendar/gui/e-cal-ops.c:1325
@@ -4697,100 +4675,92 @@ msgid "Modifying an event"
 msgstr "Modificar un evento"
 
 #: ../calendar/gui/e-cal-ops.c:287
-#, fuzzy
 #| msgid "Missing name."
 msgid "Modifying a memo"
-msgstr "Falta el nombre."
+msgstr "Modificando una nota"
 
 #: ../calendar/gui/e-cal-ops.c:291
-#, fuzzy
 #| msgid "Loading task list"
 msgid "Modifying a task"
-msgstr "Cargando lista de tareas"
+msgstr "Modificando una tarea"
 
 #: ../calendar/gui/e-cal-ops.c:387
-#, fuzzy
 #| msgid "Removing attachments"
 msgid "Removing an event"
-msgstr "Quitando adjuntos"
+msgstr "Quitando un evento"
 
 #: ../calendar/gui/e-cal-ops.c:391
-#, fuzzy
 #| msgid "Removing attachments"
 msgid "Removing a memo"
-msgstr "Quitando adjuntos"
+msgstr "Quitando una nota"
 
 #: ../calendar/gui/e-cal-ops.c:395
-#, fuzzy
 #| msgid "Removing attachments"
 msgid "Removing a task"
-msgstr "Quitando adjuntos"
+msgstr "Quitando una tarea"
 
 #: ../calendar/gui/e-cal-ops.c:484
-#, fuzzy, c-format
+#, c-format
 #| msgid "Meeting information sent"
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
-msgstr[0] "Información de reunión enviada"
-msgstr[1] "Información de reunión enviada"
+msgstr[0] "Eliminando un evento"
+msgstr[1] "Eliminando %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:488
-#, fuzzy, c-format
+#, c-format
 #| msgid "Delete Memo"
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "Eliminar nota"
-msgstr[1] "Eliminar nota"
+msgstr[0] "Eliminando una nota"
+msgstr[1] "Eliminando %d notas"
 
 #: ../calendar/gui/e-cal-ops.c:492
-#, fuzzy, c-format
+#, c-format
 #| msgid "Delete Task"
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "Eliminar tarea"
-msgstr[1] "Eliminar tarea"
+msgstr[0] "Eliminando una tarea"
+msgstr[1] "Eliminando %d tareas"
 
 #: ../calendar/gui/e-cal-ops.c:692
-#, fuzzy, c-format
+#, c-format
 #| msgid "Print this event"
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
-msgstr[0] "Imprime este acontecimiento"
-msgstr[1] "Imprime este acontecimiento"
+msgstr[0] "Pegando un evento"
+msgstr[1] "Pegando %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:707
-#, fuzzy, c-format
+#, c-format
 #| msgid "Print this memo"
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
-msgstr[0] "Imprimir esta nota"
-msgstr[1] "Imprimir esta nota"
+msgstr[0] "Pegando una nota"
+msgstr[1] "Pegando %d notas"
 
 #: ../calendar/gui/e-cal-ops.c:722
-#, fuzzy, c-format
+#, c-format
 #| msgid "Print this task"
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
-msgstr[0] "Imprimir esta tarea"
-msgstr[1] "Imprimir esta tarea"
+msgstr[0] "Pegando una tarea"
+msgstr[1] "Pegando %d tareas"
 
 #: ../calendar/gui/e-cal-ops.c:820
-#, fuzzy
 #| msgid "Updating objects"
 msgid "Updating an event"
-msgstr "Actualizando objetos"
+msgstr "Actualizando un evento"
 
 #: ../calendar/gui/e-cal-ops.c:824
-#, fuzzy
 #| msgid "Updating objects"
 msgid "Updating a memo"
-msgstr "Actualizando objetos"
+msgstr "Actualizando una nota"
 
 #: ../calendar/gui/e-cal-ops.c:828
-#, fuzzy
 #| msgid "Updating objects"
 msgid "Updating a task"
-msgstr "Actualizando objetos"
+msgstr "Actualizando una tarea"
 
 #: ../calendar/gui/e-cal-ops.c:933
 #, fuzzy, c-format
@@ -4811,40 +4781,37 @@ msgid "Getting tasks to purge in the task list '%s'"
 msgstr "Moviendo una tarea a la lista de tareas «{0}»"
 
 #: ../calendar/gui/e-cal-ops.c:962
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving an event into the calendar %s"
 msgid "Purging events in the calendar '%s'"
-msgstr "Moviendo un evento al calendario %s"
+msgstr "Purgando eventos en el calendario «%s»"
 
 #: ../calendar/gui/e-cal-ops.c:966
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving a memo into the memo list '{0}'"
 msgid "Purging memos in the memo list '%s'"
-msgstr "Moviendo una nota a la lista de notas «{0}»"
+msgstr "Purgando notas en la lista de notas «%s»"
 
 #: ../calendar/gui/e-cal-ops.c:970
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving a task into the task list '{0}'"
 msgid "Purging tasks in the task list '%s'"
-msgstr "Moviendo una tarea a la lista de tareas «{0}»"
+msgstr "Purgando tareas en la lista de tareas «%s»"
 
 #: ../calendar/gui/e-cal-ops.c:1068
-#, fuzzy
 #| msgid "Purging"
 msgid "Purging events"
-msgstr "Compactando"
+msgstr "Purgando eventos"
 
 #: ../calendar/gui/e-cal-ops.c:1072
-#, fuzzy
 #| msgid "Print Memos"
 msgid "Purging memos"
-msgstr "Imprimir notas"
+msgstr "Purgando notas"
 
 #: ../calendar/gui/e-cal-ops.c:1076
-#, fuzzy
 #| msgid "Print Tasks"
 msgid "Purging tasks"
-msgstr "Imprimir tareas"
+msgstr "Purgando tareas"
 
 #: ../calendar/gui/e-cal-ops.c:1178
 #, fuzzy
@@ -4860,44 +4827,44 @@ msgstr[0] "Moviendo un evento"
 msgstr[1] "Moviendo %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:2035
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying Items"
 msgid "Copying an event"
 msgid_plural "Copying %d events"
-msgstr[0] "Copiando elementos"
-msgstr[1] "Copiando elementos"
+msgstr[0] "Copiando un evento"
+msgstr[1] "Copiando %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:2041
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving Items"
 msgid "Moving an memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "Moviendo elementos"
-msgstr[1] "Moviendo elementos"
+msgstr[0] "Moviendo una nota"
+msgstr[1] "Moviendo %d notas"
 
 #: ../calendar/gui/e-cal-ops.c:2042
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying Items"
 msgid "Copying an memo"
 msgid_plural "Copying %d memos"
-msgstr[0] "Copiando elementos"
-msgstr[1] "Copiando elementos"
+msgstr[0] "Copiando una nota"
+msgstr[1] "Copiando %d notas"
 
 #: ../calendar/gui/e-cal-ops.c:2048
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving Items"
 msgid "Moving an task"
 msgid_plural "Moving %d tasks"
-msgstr[0] "Moviendo elementos"
-msgstr[1] "Moviendo elementos"
+msgstr[0] "Moviendo una tarea"
+msgstr[1] "Moviendo %d tareas"
 
 #: ../calendar/gui/e-cal-ops.c:2049
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying Items"
 msgid "Copying an task"
 msgid_plural "Copying %d tasks"
-msgstr[0] "Copiando elementos"
-msgstr[1] "Copiando elementos"
+msgstr[0] "Copiando una tarea"
+msgstr[1] "Copiando %d tareas"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:165
@@ -5394,32 +5361,28 @@ msgstr ""
 "otro."
 
 #: ../calendar/gui/itip-utils.c:1153
-#, fuzzy
 #| msgid "Unable to book a resource, error: %s"
 msgid "Unable to book a resource, error: "
-msgstr "No se pudo reservar un recurso, error: %s"
+msgstr "No se pudo reservar un recurso, error: "
 
 #: ../calendar/gui/itip-utils.c:1324
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
 #: ../calendar/gui/itip-utils.c:1917
-#, fuzzy
 #| msgid "Sending message"
 msgid "Sending an event"
-msgstr "Enviando mensaje"
+msgstr "Enviando un evento"
 
 #: ../calendar/gui/itip-utils.c:1921
-#, fuzzy
 #| msgid "Sending mail"
 msgid "Sending a memo"
-msgstr "Envío de correo"
+msgstr "Enviando una nota"
 
 #: ../calendar/gui/itip-utils.c:1925
-#, fuzzy
 #| msgid "Sending details:"
 msgid "Sending a task"
-msgstr "Detalles de envío:"
+msgstr "Envinado una tarea"
 
 #: ../calendar/gui/print.c:664
 msgid "1st"
@@ -9119,10 +9082,9 @@ msgstr ""
 "estándar. Por ejemplo, «SV,AV»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
-#, fuzzy
 #| msgid "Enable express mode"
 msgid "Enable developer mode"
-msgstr "Activar modo exprés"
+msgstr "Activar el modo de desarrollador"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
@@ -9131,7 +9093,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Number of characters for wrapping"
-msgstr ""
+msgstr "Número de caracteres al ajustar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid "Will autowrap lines after given number of characters."
@@ -10579,7 +10541,7 @@ msgstr "Formatear parte como HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:197
-#: ../e-util/e-html-editor-actions.c:1407
+#: ../e-util/e-html-editor-actions.c:1408
 msgid "Plain Text"
 msgstr "Texto plano"
 
@@ -10882,10 +10844,9 @@ msgid "Close this message (Escape)"
 msgstr "Cerrar este mensaje (Escape)"
 
 #: ../e-util/e-alert-sink.c:246
-#, fuzzy
 #| msgid "Failed to create thread: %s"
 msgid "Failed to create a thread: "
-msgstr "Falló al crear la conversación: %s"
+msgstr "Falló al crear una conversación: "
 
 #: ../e-util/e-attachment-bar.c:660 ../e-util/e-attachment-paned.c:736
 msgid "Icon View"
@@ -10904,14 +10865,13 @@ msgid "Attached message"
 msgstr "Mensaje adjunto"
 
 #: ../e-util/e-attachment.c:2104 ../e-util/e-attachment.c:3101
-#, fuzzy
 #| msgid "Import cancelled."
 msgid "Operation was cancelled"
-msgstr "Importación cancelada."
+msgstr "Operación cancelada"
 
 #. Translators: Default attachment filename.
 #: ../e-util/e-attachment.c:2264 ../e-util/e-attachment.c:2963
-#: ../e-util/e-attachment.c:3334 ../e-util/e-attachment-store.c:690
+#: ../e-util/e-attachment.c:3334 ../e-util/e-attachment-store.c:691
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
@@ -10969,15 +10929,15 @@ msgstr "Nombre del _archivo:"
 msgid "MIME Type:"
 msgstr "Tipo MIME:"
 
-#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:520
+#: ../e-util/e-attachment-dialog.c:382 ../e-util/e-attachment-store.c:521
 msgid "_Suggest automatic display of attachment"
 msgstr "_Sugerir mostrar automáticamente el adjunto"
 
-#: ../e-util/e-attachment-handler-image.c:96
+#: ../e-util/e-attachment-handler-image.c:98
 msgid "Could not set as background"
 msgstr "No se pudo establecer como fondo"
 
-#: ../e-util/e-attachment-handler-image.c:146
+#: ../e-util/e-attachment-handler-image.c:148
 msgid "Set as _Background"
 msgstr "Establecer como _fondo"
 
@@ -10999,35 +10959,35 @@ msgstr "Ocultar _barra de adjuntos"
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../e-util/e-attachment-store.c:485
+#: ../e-util/e-attachment-store.c:486
 msgid "Add Attachment"
 msgstr "Añadir adjunto"
 
-#: ../e-util/e-attachment-store.c:492 ../e-util/e-attachment-store.c:494
+#: ../e-util/e-attachment-store.c:493 ../e-util/e-attachment-store.c:495
 msgid "A_ttach"
 msgstr "_Adjuntar"
 
-#: ../e-util/e-attachment-store.c:532
+#: ../e-util/e-attachment-store.c:533
 msgid "Archive selected directories using this format:"
 msgstr ""
 
-#: ../e-util/e-attachment-store.c:625
+#: ../e-util/e-attachment-store.c:626
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Guarda el adjunto"
 msgstr[1] "Guardar los adjuntos"
 
-#: ../e-util/e-attachment-store.c:652
+#: ../e-util/e-attachment-store.c:653
 #, fuzzy
 #| msgid "Could not load the attachment"
 msgid "Do _not extract files from the attachment"
 msgstr "No se pudo cargar el adjunto"
 
-#: ../e-util/e-attachment-store.c:657
+#: ../e-util/e-attachment-store.c:658
 msgid "Save extracted files _only"
-msgstr ""
+msgstr "Guardar _sólo los archivos extraídos"
 
-#: ../e-util/e-attachment-store.c:662
+#: ../e-util/e-attachment-store.c:663
 msgid "Save extracted files and the original _archive"
 msgstr ""
 
@@ -11129,19 +11089,19 @@ msgid "Month Calendar"
 msgstr "Calendario mensual"
 
 #. This is a strftime() format. %B = Month name.
-#: ../e-util/e-calendar-item.c:1343 ../e-util/e-calendar-item.c:2221
+#: ../e-util/e-calendar-item.c:1323 ../e-util/e-calendar-item.c:2201
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
-#: ../e-util/e-calendar-item.c:1345
+#: ../e-util/e-calendar-item.c:1325
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../e-util/e-calendar-item.c:1382
+#: ../e-util/e-calendar-item.c:1362
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -11365,10 +11325,9 @@ msgstr ""
 "No se puede crear un objeto cliente a partir de un nombre de extensión «%s»"
 
 #: ../e-util/e-color-chooser-widget.c:124
-#, fuzzy
 #| msgid "Use custom fonts"
 msgid "Choose custom color"
-msgstr "Usar tipografía personalizada"
+msgstr "Elegir el color personalizado"
 
 #: ../e-util/e-color-combo.c:81
 msgid "black"
@@ -11399,17 +11358,15 @@ msgid "purple #2"
 msgstr "púrpura nº2"
 
 #: ../e-util/e-color-combo.c:88
-#, fuzzy
 #| msgid "Every day"
 #| msgid_plural "Every %d days"
 msgid "very dark gray"
-msgstr "Cada día"
+msgstr "gris muy oscuro"
 
 #: ../e-util/e-color-combo.c:90
-#, fuzzy
 #| msgid "Mark as _Unread"
 msgid "dark red"
-msgstr "Marcar como no _leído"
+msgstr "rojo oscuro"
 
 #: ../e-util/e-color-combo.c:91
 msgid "red-orange"
@@ -11440,16 +11397,14 @@ msgid "dark grey"
 msgstr "gris oscuro"
 
 #: ../e-util/e-color-combo.c:99
-#, fuzzy
 #| msgid "3rd"
 msgid "red"
-msgstr "3"
+msgstr "rojo"
 
 #: ../e-util/e-color-combo.c:100
-#, fuzzy
 #| msgid "Changed"
 msgid "orange"
-msgstr "Modificados"
+msgstr "naranja"
 
 #: ../e-util/e-color-combo.c:101
 msgid "lime"
@@ -11476,10 +11431,9 @@ msgid "gray"
 msgstr "gris"
 
 #: ../e-util/e-color-combo.c:108
-#, fuzzy
 #| msgid "Image"
 msgid "magenta"
-msgstr "Imagen"
+msgstr "magenta"
 
 #: ../e-util/e-color-combo.c:109
 msgid "bright orange"
@@ -11502,10 +11456,9 @@ msgid "bright blue"
 msgstr "azul brillante"
 
 #: ../e-util/e-color-combo.c:114
-#, fuzzy
 #| msgid "_Required people"
 msgid "red purple"
-msgstr "Personas _requeridas"
+msgstr "rojo púrpura"
 
 #: ../e-util/e-color-combo.c:115
 msgid "light grey"
@@ -11516,10 +11469,9 @@ msgid "pink"
 msgstr "rosa"
 
 #: ../e-util/e-color-combo.c:118
-#, fuzzy
 #| msgid "daylight savings time"
 msgid "light orange"
-msgstr "Hora de verano"
+msgstr "naranja claro"
 
 #: ../e-util/e-color-combo.c:119
 msgid "light yellow"
@@ -11688,10 +11640,9 @@ msgstr "Tr_iste"
 
 #. Translators: ;-)
 #: ../e-util/e-emoticon-chooser.c:43
-#, fuzzy
 #| msgid "_Window"
 msgid "_Wink"
-msgstr "_Ventana"
+msgstr "_Guiño de ojo"
 
 #. Translators: :-P
 #: ../e-util/e-emoticon-chooser.c:45
@@ -11705,10 +11656,9 @@ msgstr "Ri_endo"
 
 #. Translators: :-|
 #: ../e-util/e-emoticon-chooser.c:49
-#, fuzzy
 #| msgid "_Plain text"
 msgid "_Plain"
-msgstr "_Texto plano"
+msgstr "_Plano"
 
 #. Translators: :-!
 #: ../e-util/e-emoticon-chooser.c:51
@@ -11782,10 +11732,9 @@ msgstr "De_moníaco"
 
 #. Translators: :-(|)
 #: ../e-util/e-emoticon-chooser.c:79
-#, fuzzy
 #| msgid "_Mon"
 msgid "_Monkey"
-msgstr "_Lun"
+msgstr "_Mono"
 
 #: ../e-util/e-file-utils.c:120
 msgid "(Unknown Filename)"
@@ -11993,606 +11942,542 @@ msgstr "Entrante"
 msgid "Outgoing"
 msgstr "Saliente"
 
-#: ../e-util/e-html-editor-actions.c:56
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:57
 #| msgid "Failed to open folder."
 msgid "Failed to insert HTML file."
-msgstr "Falló al abrir la carpeta."
+msgstr "Falló al insertar el archivo HTML."
 
-#: ../e-util/e-html-editor-actions.c:93
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:94
 #| msgid "Failed to import certificate"
 msgid "Failed to insert text file."
-msgstr "Falló al importar el certificado"
+msgstr "Falló al insertar el archivo de texto."
 
-#: ../e-util/e-html-editor-actions.c:477
+#: ../e-util/e-html-editor-actions.c:478
 msgid "Insert HTML File"
 msgstr "Insertar archivo HTML"
 
-#: ../e-util/e-html-editor-actions.c:483
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:484
 #| msgid "HTML _Mode"
 msgid "HTML file"
-msgstr "_Modo HTML"
+msgstr "Archivo HTML"
 
-#: ../e-util/e-html-editor-actions.c:510
-#: ../e-util/e-html-editor-actions.c:1291
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:511
+#: ../e-util/e-html-editor-actions.c:1292
 #| msgid "Inline Image"
 msgid "Insert Image"
-msgstr "Imagen en línea"
+msgstr "Insertar imagen"
 
-#: ../e-util/e-html-editor-actions.c:570
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:571
 #| msgid "Increase the text size"
 msgid "Insert text file"
-msgstr "Incrementar el tamaño del texto"
+msgstr "Insertar archivo de texto"
 
-#: ../e-util/e-html-editor-actions.c:576
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:577
 #| msgid "Select a file"
 msgid "Text file"
-msgstr "Elija un archivo"
+msgstr "Archivo de texto"
 
-#: ../e-util/e-html-editor-actions.c:960
+#: ../e-util/e-html-editor-actions.c:961
 #, fuzzy
 #| msgid "Copy selected events to the clipboard"
 msgid "Copy selected text to the clipboard"
 msgstr "Copiar los acontecimientos seleccionados al portapapeles"
 
-#: ../e-util/e-html-editor-actions.c:967
+#: ../e-util/e-html-editor-actions.c:968
 #, fuzzy
 #| msgid "Cut selected events to the clipboard"
 msgid "Cut selected text to the clipboard"
 msgstr "Cortar los acontecimientos seleccionados al portapapeles"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../e-util/e-html-editor-actions.c:974
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:975
 #| msgid "Paste events from the clipboard"
 msgid "Paste text from the clipboard"
-msgstr "Pega los acontecimientos desde el portapapeles"
+msgstr "Pegar texto desde el portapapeles"
 
-#: ../e-util/e-html-editor-actions.c:981
+#: ../e-util/e-html-editor-actions.c:982
 msgid "Redo the last undone action"
 msgstr "Rehacer la última acción deshecha"
 
-#: ../e-util/e-html-editor-actions.c:995
+#: ../e-util/e-html-editor-actions.c:996
 msgid "Undo the last action"
 msgstr "Deshacer la última acción"
 
-#: ../e-util/e-html-editor-actions.c:1016
+#: ../e-util/e-html-editor-actions.c:1017
 msgid "For_mat"
 msgstr "_Formato"
 
-#: ../e-util/e-html-editor-actions.c:1023
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1024
 #| msgid "Tool_bar Style"
 msgid "_Paragraph Style"
-msgstr "Estilo de la _barra de herramientas"
+msgstr "Estilo de _párrafo"
 
-#: ../e-util/e-html-editor-actions.c:1037
+#: ../e-util/e-html-editor-actions.c:1038
 #: ../e-util/e-html-editor-image-dialog.c:591
-#, fuzzy
 #| msgid "A_lignment"
 msgid "_Alignment"
-msgstr "A_lineación"
+msgstr "_Alineación"
 
-#: ../e-util/e-html-editor-actions.c:1044
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1045
 #| msgid "_Languages"
 msgid "Current _Languages"
-msgstr "_Idiomas"
+msgstr "_Idiomas actuales"
 
-#: ../e-util/e-html-editor-actions.c:1061
+#: ../e-util/e-html-editor-actions.c:1062
 msgid "_Increase Indent"
 msgstr "Aumen_tar sangrado"
 
-#: ../e-util/e-html-editor-actions.c:1063
+#: ../e-util/e-html-editor-actions.c:1064
 msgid "Increase Indent"
 msgstr "Aumentar sangrado"
 
-#: ../e-util/e-html-editor-actions.c:1068
+#: ../e-util/e-html-editor-actions.c:1069
 msgid "_HTML File..."
 msgstr "Archivo _HTML…"
 
-#: ../e-util/e-html-editor-actions.c:1075
+#: ../e-util/e-html-editor-actions.c:1076
 msgid "Te_xt File..."
 msgstr "Archivo de _texto…"
 
-#: ../e-util/e-html-editor-actions.c:1082
+#: ../e-util/e-html-editor-actions.c:1083
 msgid "Paste _Quotation"
 msgstr "Pegar _cita"
 
 # En conflicto con _Buscar del menu principal
-#: ../e-util/e-html-editor-actions.c:1089
-#| msgid "_Find"
+#: ../e-util/e-html-editor-actions.c:1090
 msgid "_Find..."
 msgstr "_Buscar…"
 
-#: ../e-util/e-html-editor-actions.c:1091
+#: ../e-util/e-html-editor-actions.c:1092
 msgid "Search for text"
 msgstr "Buscar texto"
 
-#: ../e-util/e-html-editor-actions.c:1096
+#: ../e-util/e-html-editor-actions.c:1097
 msgid "Find A_gain"
-msgstr ""
+msgstr "Buscar otr_a vez"
 
-#: ../e-util/e-html-editor-actions.c:1103
-#| msgid "_Replace"
+#: ../e-util/e-html-editor-actions.c:1104
 msgid "Re_place..."
 msgstr "_Reemplazar…"
 
-#: ../e-util/e-html-editor-actions.c:1105
+#: ../e-util/e-html-editor-actions.c:1106
 msgid "Search for and replace text"
 msgstr "Buscar y reemplazar texto"
 
-#: ../e-util/e-html-editor-actions.c:1110
-#| msgid "Canceling..."
+#: ../e-util/e-html-editor-actions.c:1111
 msgid "Check _Spelling..."
 msgstr "Comprobar la _ortografía…"
 
-#: ../e-util/e-html-editor-actions.c:1117
+#: ../e-util/e-html-editor-actions.c:1118
 msgid "_Decrease Indent"
-msgstr ""
+msgstr "_Disminuir sangrado"
 
-#: ../e-util/e-html-editor-actions.c:1119
+#: ../e-util/e-html-editor-actions.c:1120
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Disminuir sangrado"
 
-#: ../e-util/e-html-editor-actions.c:1124
-#| msgid "Max lines"
+#: ../e-util/e-html-editor-actions.c:1125
 msgid "_Wrap Lines"
 msgstr "A_juste de líneas"
 
-#: ../e-util/e-html-editor-actions.c:1131
+#: ../e-util/e-html-editor-actions.c:1132
 msgid "Open Inspector"
-msgstr ""
+msgstr "Abrir el inspector"
 
 #. Center
-#: ../e-util/e-html-editor-actions.c:1141
+#: ../e-util/e-html-editor-actions.c:1142
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
-msgstr ""
+msgstr "_Centrado"
 
-#: ../e-util/e-html-editor-actions.c:1143
-#| msgid "A_lignment"
+#: ../e-util/e-html-editor-actions.c:1144
 msgid "Center Alignment"
 msgstr "Alineación central"
 
 #. Left
-#: ../e-util/e-html-editor-actions.c:1148
+#: ../e-util/e-html-editor-actions.c:1149
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
-#| msgid "Left:"
 msgid "_Left"
 msgstr "I_zquierda"
 
-#: ../e-util/e-html-editor-actions.c:1150
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1151
 #| msgid "A_lignment"
 msgid "Left Alignment"
-msgstr "A_lineación"
+msgstr "Alineación izquierda"
 
 #. Right
-#: ../e-util/e-html-editor-actions.c:1155
+#: ../e-util/e-html-editor-actions.c:1156
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
-#, fuzzy
 #| msgid "Right:"
 msgid "_Right"
-msgstr "Derecha:"
+msgstr "_Derecha"
 
-#: ../e-util/e-html-editor-actions.c:1157
-#| msgid "A_lignment"
+#: ../e-util/e-html-editor-actions.c:1158
 msgid "Right Alignment"
 msgstr "Alineación derecha"
 
-#: ../e-util/e-html-editor-actions.c:1165
+#: ../e-util/e-html-editor-actions.c:1166
 #: ../modules/text-highlight/languages.c:72
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../e-util/e-html-editor-actions.c:1167
+#: ../e-util/e-html-editor-actions.c:1168
 msgid "HTML editing mode"
 msgstr "Modo de edición en HTML"
 
-#: ../e-util/e-html-editor-actions.c:1172
-#| msgid "Plain Text"
+#: ../e-util/e-html-editor-actions.c:1173
 msgid "Plain _Text"
 msgstr "_Texto plano"
 
-#: ../e-util/e-html-editor-actions.c:1174
-#| msgid "Plain Text Mode"
+#: ../e-util/e-html-editor-actions.c:1175
 msgid "Plain text editing mode"
 msgstr "Modo de edición en texto plano"
 
-#: ../e-util/e-html-editor-actions.c:1182
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1183
 #| msgid "Normal"
 msgid "_Normal"
-msgstr "Normal"
+msgstr "_Normal"
 
-#: ../e-util/e-html-editor-actions.c:1189
-#| msgid "Header"
+#: ../e-util/e-html-editor-actions.c:1190
 msgid "Header _1"
 msgstr "Cabecera _1"
 
-#: ../e-util/e-html-editor-actions.c:1196
-#| msgid "Header"
+#: ../e-util/e-html-editor-actions.c:1197
 msgid "Header _2"
 msgstr "Cabecera _2"
 
-#: ../e-util/e-html-editor-actions.c:1203
-#| msgid "Header"
+#: ../e-util/e-html-editor-actions.c:1204
 msgid "Header _3"
 msgstr "Cabecera _3"
 
-#: ../e-util/e-html-editor-actions.c:1210
-#| msgid "Header"
+#: ../e-util/e-html-editor-actions.c:1211
 msgid "Header _4"
 msgstr "Cabecera _4"
 
-#: ../e-util/e-html-editor-actions.c:1217
-#| msgid "Header"
+#: ../e-util/e-html-editor-actions.c:1218
 msgid "Header _5"
 msgstr "Cabecera _5"
 
-#: ../e-util/e-html-editor-actions.c:1224
-#| msgid "Header"
+#: ../e-util/e-html-editor-actions.c:1225
 msgid "Header _6"
 msgstr "Cabecera _6"
 
-#: ../e-util/e-html-editor-actions.c:1231
-#| msgid "View _Unformatted"
+#: ../e-util/e-html-editor-actions.c:1232
 msgid "_Preformatted"
 msgstr "_Preformateado"
 
-#: ../e-util/e-html-editor-actions.c:1238
-#| msgid "Address"
+#: ../e-util/e-html-editor-actions.c:1239
 msgid "A_ddress"
 msgstr "_Dirección"
 
-#: ../e-util/e-html-editor-actions.c:1245
+#: ../e-util/e-html-editor-actions.c:1246
 msgid "_Blockquote"
-msgstr ""
+msgstr "_Bloque"
 
-#: ../e-util/e-html-editor-actions.c:1252
-#| msgid "D_elete Memo List"
+#: ../e-util/e-html-editor-actions.c:1253
 msgid "_Bulleted List"
 msgstr "Lista de _topos"
 
-#: ../e-util/e-html-editor-actions.c:1259
+#: ../e-util/e-html-editor-actions.c:1260
 msgid "_Roman Numeral List"
-msgstr ""
+msgstr "Lista de números _romanos"
 
-#: ../e-util/e-html-editor-actions.c:1266
-#| msgid "Retrieve _List"
+#: ../e-util/e-html-editor-actions.c:1267
 msgid "Numbered _List"
 msgstr "Lista _numerada"
 
-#: ../e-util/e-html-editor-actions.c:1273
+#: ../e-util/e-html-editor-actions.c:1274
 msgid "_Alphabetical List"
-msgstr ""
+msgstr "Lista _alfabética"
 
-#: ../e-util/e-html-editor-actions.c:1289
-#: ../e-util/e-html-editor-actions.c:1326
-#| msgid "Save _Image..."
+#: ../e-util/e-html-editor-actions.c:1290
+#: ../e-util/e-html-editor-actions.c:1327
 msgid "_Image..."
 msgstr "_Imagen…"
 
-#: ../e-util/e-html-editor-actions.c:1296
-#: ../e-util/e-html-editor-actions.c:1333
+#: ../e-util/e-html-editor-actions.c:1297
+#: ../e-util/e-html-editor-actions.c:1334
 msgid "_Link..."
 msgstr "_Enlazar…"
 
-#: ../e-util/e-html-editor-actions.c:1298
-#| msgid "_Insert"
+#: ../e-util/e-html-editor-actions.c:1299
 msgid "Insert Link"
 msgstr "Insertar enlace"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1304
-#: ../e-util/e-html-editor-actions.c:1348
-#| msgid "_Rename..."
+#: ../e-util/e-html-editor-actions.c:1305
+#: ../e-util/e-html-editor-actions.c:1349
 msgid "_Rule..."
 msgstr "_Regla…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1307
-#| msgid "_Insert"
+#: ../e-util/e-html-editor-actions.c:1308
 msgid "Insert Rule"
 msgstr "Insertar regla"
 
-#: ../e-util/e-html-editor-actions.c:1312
-#: ../e-util/e-html-editor-actions.c:1355
+#: ../e-util/e-html-editor-actions.c:1313
+#: ../e-util/e-html-editor-actions.c:1356
 msgid "_Table..."
 msgstr "_Tabla…"
 
-#: ../e-util/e-html-editor-actions.c:1314
-#| msgid "_Insert"
+#: ../e-util/e-html-editor-actions.c:1315
 msgid "Insert Table"
 msgstr "Insertar tabla"
 
-#: ../e-util/e-html-editor-actions.c:1319
+#: ../e-util/e-html-editor-actions.c:1320
 msgid "_Cell..."
 msgstr "_Celda…"
 
-#: ../e-util/e-html-editor-actions.c:1340
-#| msgid "Save _Image..."
+#: ../e-util/e-html-editor-actions.c:1341
 msgid "Pa_ge..."
 msgstr "_Página…"
 
-#: ../e-util/e-html-editor-actions.c:1364
-#| msgid "Folder Size"
+#: ../e-util/e-html-editor-actions.c:1365
 msgid "Font _Size"
 msgstr "_Tamaño de la tipografía"
 
-#: ../e-util/e-html-editor-actions.c:1371
-#| msgid "_Forward style:"
+#: ../e-util/e-html-editor-actions.c:1372
 msgid "_Font Style"
 msgstr "_Estilo de la tipografía"
 
-#: ../e-util/e-html-editor-actions.c:1378
+#: ../e-util/e-html-editor-actions.c:1379
 msgid "Paste As _Text"
-msgstr ""
+msgstr "Pegar como _texto"
 
-#: ../e-util/e-html-editor-actions.c:1389
+#: ../e-util/e-html-editor-actions.c:1390
 #: ../e-util/e-html-editor-text-dialog.c:214
-#| msgid "Bold"
 msgid "_Bold"
 msgstr "_Negrita"
 
-#: ../e-util/e-html-editor-actions.c:1391
+#: ../e-util/e-html-editor-actions.c:1392
 msgid "Bold"
 msgstr "Negrita"
 
-#: ../e-util/e-html-editor-actions.c:1397
+#: ../e-util/e-html-editor-actions.c:1398
 #: ../e-util/e-html-editor-text-dialog.c:225
-#| msgid "Italy"
 msgid "_Italic"
 msgstr "_Cursiva"
 
-#: ../e-util/e-html-editor-actions.c:1399
-#| msgid "Italy"
+#: ../e-util/e-html-editor-actions.c:1400
 msgid "Italic"
 msgstr "Cursiva"
 
-#: ../e-util/e-html-editor-actions.c:1405
-#| msgid "Plain Text"
+#: ../e-util/e-html-editor-actions.c:1406
 msgid "_Plain Text"
 msgstr "Texto _plano"
 
-#: ../e-util/e-html-editor-actions.c:1413
+#: ../e-util/e-html-editor-actions.c:1414
 #: ../e-util/e-html-editor-text-dialog.c:246
-#| msgid "Strikeout"
 msgid "_Strikethrough"
 msgstr "_Tachado"
 
-#: ../e-util/e-html-editor-actions.c:1415
-#| msgid "Strikeout"
+#: ../e-util/e-html-editor-actions.c:1416
 msgid "Strikethrough"
 msgstr "Tachado"
 
-#: ../e-util/e-html-editor-actions.c:1421
+#: ../e-util/e-html-editor-actions.c:1422
 #: ../e-util/e-html-editor-text-dialog.c:236
-#| msgid "Undefined"
 msgid "_Underline"
 msgstr "S_ubrayado"
 
-#: ../e-util/e-html-editor-actions.c:1423
-#| msgid "Undefined"
+#: ../e-util/e-html-editor-actions.c:1424
 msgid "Underline"
 msgstr "Subrayado"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1433
+#: ../e-util/e-html-editor-actions.c:1434
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1441
+#: ../e-util/e-html-editor-actions.c:1442
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1449
+#: ../e-util/e-html-editor-actions.c:1450
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1457
+#: ../e-util/e-html-editor-actions.c:1458
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1465
+#: ../e-util/e-html-editor-actions.c:1466
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1473
+#: ../e-util/e-html-editor-actions.c:1474
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1481
+#: ../e-util/e-html-editor-actions.c:1482
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1500
-#| msgid "_Contents"
+#: ../e-util/e-html-editor-actions.c:1501
 msgid "Cell Contents"
 msgstr "Contenido de la celda"
 
-#: ../e-util/e-html-editor-actions.c:1507
+#: ../e-util/e-html-editor-actions.c:1508
 msgid "Column"
 msgstr "Columna"
 
-#: ../e-util/e-html-editor-actions.c:1514
+#: ../e-util/e-html-editor-actions.c:1515
 msgid "Row"
 msgstr "Fila"
 
-#: ../e-util/e-html-editor-actions.c:1521
-#: ../e-util/e-html-editor-actions.c:1606
+#: ../e-util/e-html-editor-actions.c:1522
+#: ../e-util/e-html-editor-actions.c:1607
 msgid "Table"
 msgstr "Tabla"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1531
-#| msgid "Table Cell"
+#: ../e-util/e-html-editor-actions.c:1532
 msgid "Table Delete"
 msgstr "Eliminar tabla"
 
-#: ../e-util/e-html-editor-actions.c:1538 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1539 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1546
-#| msgid "Table Cell"
+#: ../e-util/e-html-editor-actions.c:1547
 msgid "Table Insert"
 msgstr "Insertar tabla"
 
-#: ../e-util/e-html-editor-actions.c:1553
+#: ../e-util/e-html-editor-actions.c:1554
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../e-util/e-html-editor-actions.c:1571
-#| msgid "Column Width"
+#: ../e-util/e-html-editor-actions.c:1572
 msgid "Column After"
 msgstr "Columna posterior"
 
-#: ../e-util/e-html-editor-actions.c:1578
+#: ../e-util/e-html-editor-actions.c:1579
 msgid "Column Before"
-msgstr ""
+msgstr "Columna anterior"
 
-#: ../e-util/e-html-editor-actions.c:1585
+#: ../e-util/e-html-editor-actions.c:1586
 msgid "Insert _Link"
 msgstr "Inserta en_lace"
 
-#: ../e-util/e-html-editor-actions.c:1592
+#: ../e-util/e-html-editor-actions.c:1593
 msgid "Row Above"
-msgstr ""
+msgstr "Fila superior"
 
-#: ../e-util/e-html-editor-actions.c:1599
+#: ../e-util/e-html-editor-actions.c:1600
 msgid "Row Below"
-msgstr ""
+msgstr "Fila inferior"
 
-#: ../e-util/e-html-editor-actions.c:1613
+#: ../e-util/e-html-editor-actions.c:1614
 msgid "Cell..."
 msgstr "Celda…"
 
-#: ../e-util/e-html-editor-actions.c:1620
+#: ../e-util/e-html-editor-actions.c:1621
 msgid "Image..."
 msgstr "Imagen…"
 
-#: ../e-util/e-html-editor-actions.c:1627
+#: ../e-util/e-html-editor-actions.c:1628
 msgid "Link..."
-msgstr ""
+msgstr "Enlazar…"
 
-#: ../e-util/e-html-editor-actions.c:1634
+#: ../e-util/e-html-editor-actions.c:1635
 msgid "Page..."
 msgstr "Página…"
 
-#: ../e-util/e-html-editor-actions.c:1641
+#: ../e-util/e-html-editor-actions.c:1642
 msgid "Paragraph..."
 msgstr "Párrafo…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1649
+#: ../e-util/e-html-editor-actions.c:1650
 msgid "Rule..."
 msgstr "Regla…"
 
-#: ../e-util/e-html-editor-actions.c:1656
+#: ../e-util/e-html-editor-actions.c:1657
 msgid "Table..."
 msgstr "Tabla…"
 
-#: ../e-util/e-html-editor-actions.c:1663
+#: ../e-util/e-html-editor-actions.c:1664
 msgid "Text..."
 msgstr "Texto…"
 
-#: ../e-util/e-html-editor-actions.c:1670
+#: ../e-util/e-html-editor-actions.c:1671
 msgid "Remove Link"
 msgstr "Quitar enlace"
 
-#: ../e-util/e-html-editor-actions.c:1687
-#| msgid "Add \"%s\" to Dictionary"
+#: ../e-util/e-html-editor-actions.c:1688
 msgid "Add Word to Dictionary"
 msgstr "Añadir palabra al diccionario"
 
-#: ../e-util/e-html-editor-actions.c:1694
-#| msgid "Color for _misspelled words:"
+#: ../e-util/e-html-editor-actions.c:1695
 msgid "Ignore Misspelled Word"
 msgstr "Ignorar palabra mal escrita"
 
-#: ../e-util/e-html-editor-actions.c:1701
+#: ../e-util/e-html-editor-actions.c:1702
 msgid "Add Word To"
 msgstr "Añadir palabra a"
 
-#: ../e-util/e-html-editor-actions.c:1710
-#| msgid "(no suggestions)"
+#: ../e-util/e-html-editor-actions.c:1711
 msgid "More Suggestions"
 msgstr "Más sugerencias"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1818
+#: ../e-util/e-html-editor-actions.c:1819
 #, c-format
-#| msgid "Add \"%s\" to Dictionary"
 msgid "%s Dictionary"
 msgstr "Diccionario %s"
 
-#: ../e-util/e-html-editor-actions.c:1905
-msgid "_Emoticon"
-msgstr ""
-
 #: ../e-util/e-html-editor-actions.c:1906
-#| msgid "Insert Send options"
+msgid "_Emoticon"
+msgstr "_Emoticono"
+
+#: ../e-util/e-html-editor-actions.c:1907
 msgid "Insert Emoticon"
 msgstr "Insertar un emoticono"
 
-#: ../e-util/e-html-editor-actions.c:1974
+#: ../e-util/e-html-editor-actions.c:1975
 msgid "Re_place"
 msgstr "_Reemplazar"
 
-#: ../e-util/e-html-editor-actions.c:1977
-#| msgid "Image"
+#: ../e-util/e-html-editor-actions.c:1978
 msgid "_Image"
 msgstr "_Imagen"
 
-#: ../e-util/e-html-editor-actions.c:1980
+#: ../e-util/e-html-editor-actions.c:1981
 msgid "_Link"
-msgstr ""
+msgstr "_Enlace"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1984
-#| msgid "Add Rule"
+#: ../e-util/e-html-editor-actions.c:1985
 msgid "_Rule"
 msgstr "_Regla"
 
-#: ../e-util/e-html-editor-actions.c:1987
+#: ../e-util/e-html-editor-actions.c:1988
 #: ../e-util/e-html-editor-cell-dialog.c:658
-#| msgid "Table"
 msgid "_Table"
 msgstr "_Tabla"
 
 #: ../e-util/e-html-editor.c:669
-#| msgid "Paraguay"
 msgid "Paragraph Style"
 msgstr "Estilo de párrafo"
 
 #: ../e-util/e-html-editor.c:683
-#| msgid "Edit Reminder"
 msgid "Editing Mode"
 msgstr "Modo de edición"
 
 #: ../e-util/e-html-editor.c:695
-#| msgid "Unset Color"
 msgid "Font Color"
 msgstr "Color de la tipografía"
 
 #: ../e-util/e-html-editor.c:713
-#| msgid "Folder Size"
 msgid "Font Size"
 msgstr "Tamaño de la tipografía"
 
@@ -12616,12 +12501,11 @@ msgstr "Col_umna"
 
 #: ../e-util/e-html-editor-cell-dialog.c:681
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr ""
+msgstr "<b>Alineación y comportamiento</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:694
 #: ../e-util/e-html-editor-hrule-dialog.c:384
 #: ../e-util/e-html-editor-table-dialog.c:819
-#| msgid "Left:"
 msgid "Left"
 msgstr "Izquierda"
 
@@ -12629,70 +12513,60 @@ msgstr "Izquierda"
 #: ../e-util/e-html-editor-hrule-dialog.c:386
 #: ../e-util/e-html-editor-table-dialog.c:820
 msgid "Center"
-msgstr ""
+msgstr "Centrado"
 
 #: ../e-util/e-html-editor-cell-dialog.c:696
 #: ../e-util/e-html-editor-hrule-dialog.c:388
 #: ../e-util/e-html-editor-table-dialog.c:821
-#| msgid "Right:"
 msgid "Right"
 msgstr "Derecha"
 
 #: ../e-util/e-html-editor-cell-dialog.c:704
-#| msgid "Horizontal Position"
 msgid "_Horizontal:"
 msgstr "_Horizontal:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:712
 #: ../e-util/e-html-editor-image-dialog.c:581
-#| msgid "_Top"
 msgid "Top"
 msgstr "Arriba"
 
 #: ../e-util/e-html-editor-cell-dialog.c:713
 #: ../e-util/e-html-editor-image-dialog.c:582
-#| msgid "_Middle:"
 msgid "Middle"
 msgstr "Medio"
 
 #: ../e-util/e-html-editor-cell-dialog.c:714
 #: ../e-util/e-html-editor-image-dialog.c:583
-#| msgid "_Bottom"
 msgid "Bottom"
 msgstr "Abajo"
 
 #: ../e-util/e-html-editor-cell-dialog.c:722
-#| msgid "_Vertical View"
 msgid "_Vertical:"
 msgstr "_Vertical:"
 
 #. Wrap Text
 #: ../e-util/e-html-editor-cell-dialog.c:728
-#| msgid "Plain Text"
 msgid "_Wrap Text"
 msgstr "_Ajustar texto"
 
 #. Header Style
 #: ../e-util/e-html-editor-cell-dialog.c:736
-#, fuzzy
 #| msgid "Header Value"
 msgid "_Header Style"
-msgstr "Valor de la cabecera"
+msgstr "_Estilo de la cabecera"
 
 #: ../e-util/e-html-editor-cell-dialog.c:750
 #: ../e-util/e-html-editor-image-dialog.c:521
 #: ../e-util/e-html-editor-table-dialog.c:731
-#, fuzzy
 #| msgid "<b>Notes</b>"
 msgid "<b>Layout</b>"
-msgstr "<b>Notas</b>"
+msgstr "<b>Distribución</b>"
 
 #. Width
 #: ../e-util/e-html-editor-cell-dialog.c:761
-#, fuzzy
 #| msgid "Width"
 msgid "_Width"
-msgstr "Anchura"
+msgstr "A_nchura"
 
 #: ../e-util/e-html-editor-cell-dialog.c:800
 msgid "Row S_pan:"
@@ -12704,18 +12578,15 @@ msgstr ""
 
 #: ../e-util/e-html-editor-cell-dialog.c:821
 #: ../e-util/e-html-editor-table-dialog.c:835
-#| msgid "<b>Tracking Options</b>"
 msgid "<b>Background</b>"
 msgstr "<b>Fondo</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:834
 #: ../e-util/e-html-editor-table-dialog.c:848
-#| msgid "Event Transparency"
 msgid "Transparent"
 msgstr "Transparente"
 
 #: ../e-util/e-html-editor-cell-dialog.c:842
-#| msgid "Color:"
 msgid "C_olor:"
 msgstr "C_olor:"
 
@@ -12730,24 +12601,20 @@ msgstr "Elija una imagen"
 #: ../e-util/e-html-editor-cell-dialog.c:855
 #: ../e-util/e-html-editor-image-dialog.c:489
 #: ../e-util/e-html-editor-table-dialog.c:869
-#| msgid "Image"
 msgid "Images"
 msgstr "Imágenes"
 
 #: ../e-util/e-html-editor-cell-dialog.c:868
-#| msgid "Image"
 msgid "_Image:"
 msgstr "_Imagen:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:875
 #: ../e-util/e-html-editor-page-dialog.c:516
 #: ../e-util/e-html-editor-table-dialog.c:889
-#| msgid "_No image"
 msgid "_Remove image"
 msgstr "_Quitar imagen"
 
 #: ../e-util/e-html-editor-cell-dialog.c:895
-#| msgid "_Properties"
 msgid "Cell Properties"
 msgstr "Propiedades de la celda"
 
@@ -12755,16 +12622,14 @@ msgstr "Propiedades de la celda"
 #: ../e-util/e-html-editor-replace-dialog.c:90
 #: ../e-util/e-html-editor-replace-dialog.c:108
 msgid "No match found"
-msgstr ""
+msgstr "No se encontró ninguna coincidencia"
 
 #: ../e-util/e-html-editor-find-dialog.c:160
 #: ../e-util/e-html-editor-replace-dialog.c:229
-#| msgid "Search _base:"
 msgid "Search _backwards"
 msgstr "Buscar hacia _atrás"
 
 #: ../e-util/e-html-editor-find-dialog.c:167
-#| msgid "Case _sensitive"
 msgid "Case _Sensitive"
 msgstr "_Distinguir entre mayúsculas y minúsculas"
 
@@ -12776,12 +12641,10 @@ msgstr "_Buscar"
 
 # En conflicto con _Buscar del menu principal
 #: ../e-util/e-html-editor-find-dialog.c:213
-#| msgid "_Find"
 msgid "Find"
 msgstr "Buscar"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:319
-#| msgid "<b>Server</b>"
 msgid "<b>Size</b>"
 msgstr "<b>Tamaño</b>"
 
@@ -12789,62 +12652,54 @@ msgstr "<b>Tamaño</b>"
 #: ../e-util/e-html-editor-hrule-dialog.c:339
 #: ../e-util/e-html-editor-image-dialog.c:539
 #: ../e-util/e-html-editor-table-dialog.c:742
-#| msgid "Width:"
 msgid "_Width:"
 msgstr "A_nchura:"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:364
-#| msgid "Size:"
 msgid "_Size:"
 msgstr "T_amaño:"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:371
-#| msgid "<b>Notes</b>"
 msgid "<b>Style</b>"
 msgstr "<b>Estilo</b>"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:396
 #: ../e-util/e-html-editor-table-dialog.c:828
-#| msgid "A_lignment"
 msgid "_Alignment:"
 msgstr "_Alineación:"
 
 #. Shaded
 #: ../e-util/e-html-editor-hrule-dialog.c:402
 msgid "S_haded"
-msgstr ""
+msgstr "So_mbreado"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:419
-#, fuzzy
 #| msgid "Folder Properties"
 msgid "Rule properties"
-msgstr "Propiedades de la carpeta"
+msgstr "Propiedades de la regla"
 
 #: ../e-util/e-html-editor-image-dialog.c:471
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
 #: ../e-util/e-html-editor-table-dialog.c:685
-#| msgid "<b>Server</b>"
 msgid "<b>General</b>"
 msgstr "<b>General</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:500
-#, fuzzy
 #| msgid "Source"
 msgid "_Source:"
-msgstr "Fuente"
+msgstr "_Fuente:"
 
 #: ../e-util/e-html-editor-image-dialog.c:563
-#| msgid "Height:"
 msgid "_Height:"
 msgstr "Al_tura:"
 
 #: ../e-util/e-html-editor-image-dialog.c:604
 msgid "_X-Padding:"
-msgstr ""
+msgstr "Relleno-_X:"
 
 #: ../e-util/e-html-editor-image-dialog.c:620
 msgid "_Y-Padding:"
-msgstr ""
+msgstr "Relleno-_Y:"
 
 #: ../e-util/e-html-editor-image-dialog.c:636
 #: ../e-util/e-html-editor-table-dialog.c:809
@@ -12868,17 +12723,14 @@ msgid "_Test URL..."
 msgstr "_Probar URL…"
 
 #: ../e-util/e-html-editor-image-dialog.c:686
-#| msgid "Category Properties"
 msgid "Image Properties"
 msgstr "Propiedades de la imagen"
 
 #: ../e-util/e-html-editor-link-dialog.c:363
-#| msgid "_Remove"
 msgid "_Remove Link"
 msgstr "_Quitar enlace"
 
 #: ../e-util/e-html-editor-link-dialog.c:388
-#| msgid "Font Properties"
 msgid "Link Properties"
 msgstr "Propiedades del enlace"
 
@@ -12908,17 +12760,14 @@ msgid "Draft"
 msgstr "Borrador"
 
 #: ../e-util/e-html-editor-page-dialog.c:132
-#| msgid "Paper"
 msgid "Graph Paper"
 msgstr "Papel de gráficos"
 
 #: ../e-util/e-html-editor-page-dialog.c:415
-#| msgid "<b>Work</b>"
 msgid "<b>Colors</b>"
 msgstr "<b>Colores</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:434
-#| msgid "Text"
 msgid "_Text:"
 msgstr "_Texto:"
 
@@ -12927,22 +12776,18 @@ msgid "_Link:"
 msgstr "_Enlace:"
 
 #: ../e-util/e-html-editor-page-dialog.c:464
-#| msgid "Set as _Background"
 msgid "_Background:"
 msgstr "_Fondo:"
 
 #: ../e-util/e-html-editor-page-dialog.c:472
-#| msgid "<b>Account Name</b>"
 msgid "<b>Background Image</b>"
 msgstr "<b>Imagen de fondo</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:494
-#| msgid "Template:"
 msgid "_Template:"
 msgstr "Plan_tilla:"
 
 #: ../e-util/e-html-editor-page-dialog.c:502
-#| msgid "Select a file"
 msgid "Selection a file"
 msgstr "Elija un archivo"
 
@@ -12953,22 +12798,18 @@ msgid "_Custom:"
 msgstr "_Personalizado"
 
 #: ../e-util/e-html-editor-page-dialog.c:536
-#| msgid "_Properties"
 msgid "Page Properties"
 msgstr "Propiedades de la página"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:83
-#| msgid "Style name:"
 msgid "_Style:"
 msgstr "E_stilo:"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:90
-#| msgid "<b>Alarm</b>"
 msgid "<b>Alignment</b>"
 msgstr "<b>Alineación</b>"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:155
-#| msgid "Category Properties"
 msgid "Paragraph Properties"
 msgstr "Propiedades del párrafo"
 
@@ -12979,17 +12820,14 @@ msgid "%d occurences replaced"
 msgstr "repeticiones"
 
 #: ../e-util/e-html-editor-replace-dialog.c:209
-#| msgid "_Replace"
 msgid "R_eplace:"
 msgstr "_Reemplazar:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:221
-#| msgid "O_pen With"
 msgid "_With:"
 msgstr "_Con:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:233
-#| msgid "Case _sensitive"
 msgid "_Case sensitive"
 msgstr "_Distinguir mayúsculas y minúsculas"
 
@@ -13009,30 +12847,26 @@ msgid "_Replace"
 msgstr "_Reemplazar"
 
 #: ../e-util/e-html-editor-replace-dialog.c:263
-#| msgid "Reply to _All"
 msgid "Replace _All"
 msgstr "Reemplazar _todo"
 
 #. Replace
 #: ../e-util/e-html-editor-replace-dialog.c:283
 #: ../e-util/e-html-editor-spell-check-dialog.c:536
-#| msgid "_Replace"
 msgid "Replace"
 msgstr "Reemplazar"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:87
 #, c-format
 msgid "<b>Suggestions for '%s'</b>"
-msgstr ""
+msgstr "<b>Sugerencias para «%s»</b>"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:501
-#| msgid "<b>Options</b>"
 msgid "<b>Suggestions</b>"
 msgstr "<b>Sugerencias</b>"
 
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:545
-#| msgid "_Replace"
 msgid "Replace All"
 msgstr "Reemplazar todo"
 
@@ -13049,18 +12883,15 @@ msgstr "Omitir"
 
 #. Back
 #: ../e-util/e-html-editor-spell-check-dialog.c:572
-#| msgid "Go Back"
 msgid "Back"
 msgstr "Atrás"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:581
-#| msgid "<b>Options</b>"
 msgid "<b>Dictionary</b>"
 msgstr "<b>Diccionario</b>"
 
 #. Add Word button
 #: ../e-util/e-html-editor-spell-check-dialog.c:601
-#| msgid "Add Folder"
 msgid "Add word"
 msgstr "Añadir palabra"
 
@@ -13074,17 +12905,14 @@ msgid "_Rows:"
 msgstr "_Filas:"
 
 #: ../e-util/e-html-editor-table-dialog.c:724
-#| msgid "_Table column:"
 msgid "C_olumns:"
 msgstr "C_olumnas:"
 
 #: ../e-util/e-html-editor-table-dialog.c:775
-#| msgid "Spacing"
 msgid "_Spacing:"
 msgstr "E_spaciado:"
 
 #: ../e-util/e-html-editor-table-dialog.c:792
-#| msgid "Loading"
 msgid "_Padding:"
 msgstr "_Relleno:"
 
@@ -13098,7 +12926,6 @@ msgid "Image:"
 msgstr "Imagen:"
 
 #: ../e-util/e-html-editor-table-dialog.c:909
-#| msgid "Calendar Properties"
 msgid "Table Properties"
 msgstr "Propiedades de la tabla"
 
@@ -13107,17 +12934,14 @@ msgid "Si_ze:"
 msgstr "_Tamaño:"
 
 #: ../e-util/e-html-editor-text-dialog.c:296
-#| msgid "Font Properties"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
 #: ../e-util/e-html-editor-view.c:3114
-#| msgid "Calendar Properties"
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
 #: ../e-util/e-html-editor-view.c:3115
-#| msgid "Whether to emit a beep."
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
@@ -13270,15 +13094,15 @@ msgstr "Nombre de la _firma"
 msgid "Unnamed"
 msgstr "Sin nombre"
 
-#: ../e-util/e-mail-signature-manager.c:336
+#: ../e-util/e-mail-signature-manager.c:337
 msgid "Add _Script"
 msgstr "Añadir _script"
 
-#: ../e-util/e-mail-signature-manager.c:425
+#: ../e-util/e-mail-signature-manager.c:426
 msgid "Add Signature Script"
 msgstr "Añadir un script de firma"
 
-#: ../e-util/e-mail-signature-manager.c:496
+#: ../e-util/e-mail-signature-manager.c:497
 msgid "Edit Signature Script"
 msgstr "Editar script de firma"
 
@@ -14187,20 +14011,20 @@ msgstr "Pulse aquí para abrir el URL"
 msgid "Enter a URL here"
 msgstr "Introduzca un URL aquí"
 
-#: ../e-util/evolution-source-viewer.c:636
+#: ../e-util/evolution-source-viewer.c:637
 msgid "Evolution Source Viewer"
 msgstr "Visor de fuentes de Evolution"
 
 #. Translators: The name that is displayed in the user interface
-#: ../e-util/evolution-source-viewer.c:666
+#: ../e-util/evolution-source-viewer.c:667
 msgid "Display Name"
 msgstr "Mostrar nombre"
 
-#: ../e-util/evolution-source-viewer.c:675
+#: ../e-util/evolution-source-viewer.c:676
 msgid "Flags"
 msgstr "Opciones"
 
-#: ../e-util/evolution-source-viewer.c:727
+#: ../e-util/evolution-source-viewer.c:728
 #: ../mail/e-mail-config-identity-page.c:676
 msgid "Identity"
 msgstr "Identidad"
@@ -15364,27 +15188,27 @@ msgstr "Software de filtrado de SPAM:"
 msgid "_Label name:"
 msgstr "_Nombre de la etiqueta:"
 
-#: ../mail/e-mail-label-list-store.c:56
+#: ../mail/e-mail-label-list-store.c:57
 msgid "I_mportant"
 msgstr "_Importante"
 
 #. red
-#: ../mail/e-mail-label-list-store.c:57
+#: ../mail/e-mail-label-list-store.c:58
 msgid "_Work"
 msgstr "_Trabajo"
 
 #. orange
-#: ../mail/e-mail-label-list-store.c:58
+#: ../mail/e-mail-label-list-store.c:59
 msgid "_Personal"
 msgstr "_Privado"
 
 #. green
-#: ../mail/e-mail-label-list-store.c:59
+#: ../mail/e-mail-label-list-store.c:60
 msgid "_To Do"
 msgstr "Ta_reas pendientes"
 
 #. blue
-#: ../mail/e-mail-label-list-store.c:60
+#: ../mail/e-mail-label-list-store.c:61
 msgid "_Later"
 msgstr "_Más tarde"
 
@@ -15648,10 +15472,9 @@ msgid "Mark new mails in a sub-thread as read automatically"
 msgstr ""
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2525
-#, fuzzy
 #| msgid "Next _Thread"
 msgid "_Ignore Thread"
-msgstr "_Conversación siguiente"
+msgstr "_Ignorar conversación"
 
 #: ../mail/e-mail-reader.c:2152
 msgid "Mark new mails in this thread as read automatically"
@@ -16227,10 +16050,9 @@ msgid "<click here to select a folder>"
 msgstr "<pulse aquí para seleccionar una carpeta>"
 
 #: ../mail/em-folder-selector.c:398
-#, fuzzy
 #| msgid "Create a new mail folder"
 msgid "Create a new folder"
-msgstr "Crea una carpeta de correo nueva"
+msgstr "Crea una carpeta nueva"
 
 #: ../mail/em-folder-tree.c:682
 msgid "Folder names cannot contain '/'"
@@ -19258,18 +19080,15 @@ msgid "I_mport"
 msgstr "I_mportar"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:337
-#| msgid "Importing data."
 msgid "Importing an event"
 msgstr "Importando un evento"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:341
-#, fuzzy
 #| msgid "Importing mailbox"
 msgid "Importing a memo"
-msgstr "Importando buzón de correo"
+msgstr "Importando una nota"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:345
-#| msgid "Importing data."
 msgid "Importing a task"
 msgstr "Importando una tarea"
 
@@ -19278,10 +19097,9 @@ msgid "Select a Calendar"
 msgstr "Seleccionar un calendario"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
-#, fuzzy
 #| msgid "D_elete Memo List"
 msgid "Select a Memo List"
-msgstr "Eli_minar la lista de notas"
+msgstr "Seleccionar una lista de notas"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
@@ -19292,16 +19110,14 @@ msgid "I_mport to Calendar"
 msgstr "I_mportar al calendario"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:431
-#, fuzzy
 #| msgid "I_mport to Tasks"
 msgid "I_mport to Memo List"
-msgstr "I_mportar a las tareas"
+msgstr "I_mportar a la lista de notas"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:438
-#, fuzzy
 #| msgid "I_mport to Tasks"
 msgid "I_mport to Task List"
-msgstr "I_mportar a las tareas"
+msgstr "I_mportar a la lista de tareas"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:186
 #: ../modules/calendar/e-cal-shell-view-actions.c:162
@@ -19319,40 +19135,40 @@ msgid "New Task List"
 msgstr "Lista de tareas nueva"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:540
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying an event into the calendar %s"
 msgid "Copying an event into the calendar '%s'"
-msgstr "Copiando un evento al calendario %s"
+msgstr "Copiando un evento al calendario «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:541
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving an event into the calendar %s"
 msgid "Moving an event into the calendar '%s'"
-msgstr "Moviendo un evento al calendario %s"
+msgstr "Moviendo un evento al calendario «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:546
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying a memo into the memo list '{0}'"
 msgid "Copying a memo into the memo list '%s'"
-msgstr "Copiando una nota a la lista de notas «{0}»"
+msgstr "Copiando una nota a la lista de notas «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:547
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving a memo into the memo list '{0}'"
 msgid "Moving a memo into the memo list '%s'"
-msgstr "Moviendo una nota a la lista de notas «{0}»"
+msgstr "Moviendo una nota a la lista de notas «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:552
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying a task into the task list '{0}'"
 msgid "Copying a task into the task list '%s'"
-msgstr "Copiando una tarea a la lista de tareas «{0}»"
+msgstr "Copiando una tarea a la lista de tareas «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:553
-#, fuzzy, c-format
+#, c-format
 #| msgid "Moving a task into the task list '{0}'"
 msgid "Moving a task into the task list '%s'"
-msgstr "Moviendo una tarea a la lista de tareas «{0}»"
+msgstr "Moviendo una tarea a la lista de tareas «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:650
 msgid "Calendar Selector"
@@ -19492,7 +19308,6 @@ msgid "Day _ends:"
 msgstr "La jornada _acaba a las:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
-#| msgid "Send Options"
 msgid "View Options"
 msgstr "Ver opciones"
 
@@ -19665,10 +19480,9 @@ msgid "Purge events older than"
 msgstr "Purgar acontecimientos anteriores a"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:895
-#, fuzzy
 #| msgid "Make this Occurrence _Movable"
 msgid "Making an occurrence movable"
-msgstr "Hacer esta repetición _movible"
+msgstr "Haciendo una ocurrencia movible"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -21665,17 +21479,14 @@ msgid "Recipient"
 msgstr "Destinatario"
 
 #: ../modules/mail/em-composer-prefs.c:1157
-#| msgid "_Save to Outbox"
 msgid "Keep in Outbox"
 msgstr "Guardar en la bandeja de salida"
 
 #: ../modules/mail/em-composer-prefs.c:1158
-#| msgid "Send private reply?"
 msgid "Send immediately"
 msgstr "Enviar inmediatamente"
 
 #: ../modules/mail/em-composer-prefs.c:1159
-#| msgid "15 minutes"
 msgid "Send after 5 minutes"
 msgstr "Enviar dentro de 5 minutos"
 
@@ -21688,17 +21499,14 @@ msgid "On exit, every time"
 msgstr "Al salir, cada vez"
 
 #: ../modules/mail/em-mailer-prefs.c:80
-#| msgid "On exit, once per day"
 msgid "Once per day"
 msgstr "Una vez al día"
 
 #: ../modules/mail/em-mailer-prefs.c:81
-#| msgid "On exit, once per week"
 msgid "Once per week"
 msgstr "Una vez a la semana"
 
 #: ../modules/mail/em-mailer-prefs.c:82
-#| msgid "On exit, once per month"
 msgid "Once per month"
 msgstr "Una vez al mees"
 
@@ -21825,22 +21633,22 @@ msgstr "Mostrar versión HTML"
 msgid "Display HTML version of multipart/alternative message"
 msgstr "Mostrar la versión HTML del mensaje multiparte/alternativo"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:77
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:78
 #: ../modules/prefer-plain/plugin/config-ui.c:43
 msgid "Show HTML if present"
 msgstr "Mostrar HTML si está presente"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:78
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:79
 #: ../modules/prefer-plain/plugin/config-ui.c:44
 msgid "Let Evolution choose the best part to show."
 msgstr "Permitir que Evolution elija la mejor parte para mostrar."
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:81
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:82
 #: ../modules/prefer-plain/plugin/config-ui.c:47
 msgid "Show plain text if present"
 msgstr "Mostrar texto plano si está presente"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:82
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:83
 #: ../modules/prefer-plain/plugin/config-ui.c:48
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
@@ -21849,12 +21657,12 @@ msgstr ""
 "Mostrar la parte en texto plano si está presente, de otra forma dejar que "
 "Evolution elija la mejor parte para mostrar."
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:86
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:87
 #: ../modules/prefer-plain/plugin/config-ui.c:52
 msgid "Only ever show plain text"
 msgstr "Sólo mostrar texto plano"
 
-#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:87
+#: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:88
 #: ../modules/prefer-plain/plugin/config-ui.c:53
 msgid ""
 "Always show plain text part and make attachments from other parts, if "
@@ -21968,11 +21776,11 @@ msgstr "Formatear como…"
 msgid "_Other languages"
 msgstr "_Otros lenguajes"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:437
 msgid "Text Highlight"
 msgstr "Resaltado del texto"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Syntax highlighting of mail parts"
 msgstr "Resaltado de sintaxis de las partes del correo"
 
@@ -23776,7 +23584,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
-msgstr ""
+msgstr "_Cerrar inmediatamente"
 
 #: ../shell/shell.error.xml.h:14
 #, fuzzy
@@ -23882,7 +23690,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:649
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-backup.p12"
 
 #: ../smime/gui/certificate-manager.c:663
 #: ../smime/gui/certificate-manager.c:952
@@ -23897,7 +23705,6 @@ msgstr "Certificado"
 
 #. filename selection
 #: ../smime/gui/certificate-manager.c:729
-#, fuzzy
 #| msgid "_Filename:"
 msgid "_File name:"
 msgstr "Nombre del _archivo:"
@@ -23911,7 +23718,7 @@ msgstr "Seleccionar una carpeta"
 
 #: ../smime/gui/certificate-manager.c:748
 msgid "_Include certificate chain in the backup"
-msgstr ""
+msgstr "_Incluir la cadena de certificados en la copia de respaldo"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:754
@@ -23929,7 +23736,7 @@ msgstr "_Contraseña:"
 
 #: ../smime/gui/certificate-manager.c:792
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Las contraseñas no coinciden"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:800
@@ -23941,10 +23748,9 @@ msgid ""
 msgstr ""
 
 #: ../smime/gui/certificate-manager.c:845
-#, fuzzy
 #| msgid "No email address provided"
 msgid "No file name provided"
-msgstr "No se ha proporcionado ninguna dirección de correo-e"
+msgstr "No se ha proporcionado ningún nombre de archivo"
 
 #: ../smime/gui/certificate-manager.c:849
 #, fuzzy
