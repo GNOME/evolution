@@ -2795,7 +2795,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 				week_view->before_click_dtstart,
 				week_view->before_click_dtend);
 		}
-		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), FALSE, FALSE, calendar_config_get_prefer_meeting ());
+		e_calendar_view_new_appointment_full (E_CALENDAR_VIEW (week_view), FALSE, calendar_config_get_prefer_meeting (), FALSE);
 		return TRUE;
 	}
 
