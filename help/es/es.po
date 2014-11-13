@@ -10,22 +10,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-28 05:31+0000\n"
-"PO-Revision-Date: 2014-02-28 16:40+0100\n"
+"POT-Creation-Date: 2014-11-13 09:50+0000\n"
+"PO-Revision-Date: 2014-11-13 13:30+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.5\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2014\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2014\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
 
@@ -84,13 +84,20 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:47
+#| msgid ""
+#| "Note that your <link xref=\"mail-spam\">spam filtering</link> settings "
+#| "are not included in the backup file, as these settings are not controlled "
+#| "by <app>Evolution</app> and as developers of spam filtering tools might "
+#| "change implementation details. If you use Bogofilter you will need to "
+#| "back up <file>~/.bogofilter/</file>. If you use SpamAssassin you will "
+#| "need to back up <file>~/.spamassassin/</file>."
 msgid ""
 "Note that your <link xref=\"mail-spam\">spam filtering</link> settings are "
 "not included in the backup file, as these settings are not controlled by "
 "<app>Evolution</app> and as developers of spam filtering tools might change "
-"implementation details. If you use Bogofilter you will need to back up "
-"<file>~/.bogofilter/</file>. If you use SpamAssassin you will need to back "
-"up <file>~/.spamassassin/</file>."
+"implementation details. If you use Bogofilter you will need to back up the "
+"hidden folder <file>~/.bogofilter/</file>. If you use SpamAssassin you will "
+"need to back up the hidden folder <file>~/.spamassassin/</file>."
 msgstr ""
 "Tenga en cuenta que su configuración de <link xref=\"mail-spam\">filtros de "
 "SPAM</link> no se incluyen en el archivo de respaldo, ya que estos ajustes "
@@ -277,8 +284,10 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
-msgid "Enter the address of the calendar in the <gui>URL</gui> field."
-msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
+#: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
+#: C/tasks-webdav.page:31
+msgid "Enter the address in the <gui>URL</gui> field."
+msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
@@ -1161,7 +1170,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:64
-#: C/calendar-usage-add-appointment.page:39
+#: C/calendar-usage-add-appointment.page:39 C/memos-usage-add-memo.page:47
 msgid "Enter a brief summary in the <gui>Summary</gui> field."
 msgstr "Escriba un breve resumen en el campo <gui>Resumen</gui>."
 
@@ -2013,8 +2022,9 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:55
-msgid "Define the login method and your user name."
-msgstr "Defina el método de registro y su nombre de usuario."
+#| msgid "Define the login method and your user name."
+msgid "Define the login method and your username."
+msgstr "Defina el método de inicio de sesión y su nombre de usuario."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:61
@@ -2255,12 +2265,15 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:50
+#| msgid ""
+#| "Go to <file>/home/username/.local/share/evolution/addressbook/system/"
+#| "addressbook.db</file> and click <gui style=\"button\">Open</gui>."
 msgid ""
-"Go to <file>/home/username/.local/share/evolution/addressbook/system/"
-"addressbook.db</file> and click <gui style=\"button\">Open</gui>."
+"Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+"file> and click <gui style=\"button\">Open</gui>."
 msgstr ""
-"Vaya a <code>/home/nombre_de_usuario/.local/share/evolution/addressbook/"
-"system/addressbook.db</code> y pulse <gui style=\"button\">Abrir</gui>."
+"Vaya a <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+"file> y pulse <gui style=\"button\">Abrir</gui>."
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:56
@@ -2710,61 +2723,6 @@ msgstr "Daniel Mustieles (2011-2013), Jorge González (2007-2011)"
 msgid "Authors of the previous version"
 msgstr "Autores de la versión anterior"
 
-#. (itstool) path: item/p
-#: C/credits.page:49
-msgid "Aaron Weber"
-msgstr "Aaron Weber"
-
-#. (itstool) path: item/p
-#: C/credits.page:52
-msgid "Akhil Laddha"
-msgstr "Akhil Laddha"
-
-#. (itstool) path: item/p
-#: C/credits.page:58
-msgid "Duncan Mak"
-msgstr "Duncan Mak"
-
-#. (itstool) path: item/p
-#: C/credits.page:61
-msgid "Ettore Perazzoli"
-msgstr "Ettore Perazzoli"
-
-#. (itstool) path: item/p
-#: C/credits.page:64
-msgid "Francisco Javier F. Serrador"
-msgstr "Francisco Javier F. Serrador"
-
-#. (itstool) path: item/p
-#: C/credits.page:67
-msgid "Jessica Prabhakar"
-msgstr "Jessica Prabhakar"
-
-#. (itstool) path: item/p
-#: C/credits.page:70
-msgid "Kevin Breit"
-msgstr "Kevin Breit"
-
-#. (itstool) path: item/p
-#: C/credits.page:73
-msgid "Mark Moulder"
-msgstr "Mark Moulder"
-
-#. (itstool) path: item/p
-#: C/credits.page:76
-msgid "Novell, Inc."
-msgstr "Novell, Inc."
-
-#. (itstool) path: item/p
-#: C/credits.page:79
-msgid "Radhika Nair"
-msgstr "Radhika Nair"
-
-#. (itstool) path: item/p
-#: C/credits.page:82
-msgid "Srinivasa Ragavan"
-msgstr "Srinivasa Ragavan"
-
 #. (itstool) path: section/title
 #: C/credits.page:89
 msgid "Contact information"
@@ -2777,18 +2735,23 @@ msgstr "Proyecto de Documentación GNOME:"
 
 #. (itstool) path: item/p
 #: C/credits.page:92
+#| msgid ""
+#| "<link href=\"http://live.gnome.org/DocumentationProject\">Website</link>"
 msgid ""
-"<link href=\"http://live.gnome.org/DocumentationProject\">Website</link>"
+"<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgstr ""
-"<link href=\"http://live.gnome.org/DocumentationProject\">Página web</link>"
+"<link href=\"https://wiki.gnome.org/DocumentationProject\">Página web</link>"
 
 #. (itstool) path: item/p
 #: C/credits.page:95
+#| msgid ""
+#| "<link href=\"http://mail.gnome.org/mailman/listinfo/gnome-doc-list"
+#| "\">Mailing list</link>"
 msgid ""
-"<link href=\"http://mail.gnome.org/mailman/listinfo/gnome-doc-list\">Mailing "
-"list</link>"
+"<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
+"\">Mailing list</link>"
 msgstr ""
-"<link href=\"http://mail.gnome.org/mailman/listinfo/gnome-doc-list\">Lista "
+"<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list\">Lista "
 "de correo</link>"
 
 #. (itstool) path: info/desc
@@ -3058,9 +3021,10 @@ msgid "Deleting emails or attachments permanently"
 msgstr "Eliminar permanentemente correos o adjuntos"
 
 #. (itstool) path: section/title
-#: C/deleting-emails.page:29
-msgid "Emails"
-msgstr "Correos-e"
+#: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
+#: C/intro-main-window.page:35
+msgid "Mail"
+msgstr "Correo"
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:30
@@ -3152,12 +3116,16 @@ msgstr ""
 #. (itstool) path: note/p
 #. (itstool) path: when/p
 #: C/exchange-connectors-overview.page:30 C/intro-first-run.page:108
+#| msgid ""
+#| "<link action=\"install:evolution-ews\" href=\"http://projects.gnome.org/"
+#| "evolution/download\" style=\"button\">Install evolution-ews</link>"
 msgid ""
-"<link action=\"install:evolution-ews\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Install evolution-ews</link>"
+"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
+"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
 msgstr ""
-"<link action=\"install:evolution-ews\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Instalar evolution-ews</link>"
+"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
+"Evolution#Get_the_Source_Code\" style=\"button\">Instalar evolution-ews</"
+"link>"
 
 #. (itstool) path: page/p
 #: C/exchange-connectors-overview.page:36
@@ -3178,12 +3146,17 @@ msgstr ""
 #. (itstool) path: note/p
 #. (itstool) path: when/p
 #: C/exchange-connectors-overview.page:41 C/intro-first-run.page:132
+#| msgid ""
+#| "<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
+#| "evolution/download\" style=\"button\">Install evolution-mapi</link>"
 msgid ""
-"<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Install evolution-mapi</link>"
+"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
+"Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
+"link>"
 msgstr ""
-"<link action=\"install:evolution-mapi\" href=\"http://projects.gnome.org/"
-"evolution/download\" style=\"button\">Instalar evolution-mapi</link>"
+"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
+"Evolution#Get_the_Source_Code\" style=\"button\">Instalar evolution-mapi</"
+"link>"
 
 #. (itstool) path: note/p
 #: C/exchange-connectors-overview.page:46
@@ -3203,14 +3176,18 @@ msgstr "Conexión a servidores Exchange"
 
 #. (itstool) path: page/p
 #: C/exchange-placeholder.page:22
+#| msgid ""
+#| "For topics not covered here please refer to the <link href=\"http://"
+#| "library.gnome.org/users/evolution/2.32/usage-exchange.html.en\">old "
+#| "Evolution manual</link>."
 msgid ""
-"For topics not covered here please refer to the <link href=\"http://library."
-"gnome.org/users/evolution/2.32/usage-exchange.html.en\">old Evolution "
-"manual</link>."
+"For topics not covered here please refer to the <link href=\"https://help."
+"gnome.org/users/evolution/2.32/usage-exchange.html\">old Evolution manual</"
+"link>."
 msgstr ""
-"Consulte el <link href=\"http://library.gnome.org/users/evolution/2.32/usage-"
-"exchange.html.en\">antiguo manual de Evolution</link> para temas que no "
-"estén cubiertos aquí."
+"Consulte el <link href=\"https://help.gnome.org/users/evolution/2.32/usage-"
+"exchange.html\">antiguo manual de Evolution</link> para temas que no estén "
+"cubiertos aquí."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-calendar.page:5
@@ -3236,16 +3213,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/exporting-data-calendar.page:23
+#| msgid ""
+#| "If you want to export only one appointment (or task or memo), either "
+#| "select the appointment and select <guiseq><gui>File</gui><gui>Save as "
+#| "iCalendar...</gui></guiseq>, or right-click on the appointment and click "
+#| "<gui>Save as iCalendar...</gui>."
 msgid ""
 "If you want to export only one appointment (or task or memo), either select "
-"the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar...</"
+"the appointment and select <guiseq><gui>File</gui><gui>Save as iCalendar…</"
 "gui></guiseq>, or right-click on the appointment and click <gui>Save as "
-"iCalendar...</gui>."
+"iCalendar…</gui>."
 msgstr ""
 "Si quiere exportar un sólo contacto (o una tarea o una nota) pulse "
-"<guiseq><gui>Archivo</gui><gui>Guardar como iCalendar...</gui></guiseq> o "
+"<guiseq><gui>Archivo</gui><gui>Guardar como iCalendar…</gui></guiseq> o "
 "pulse con el botón derecho del ratón sobre el contacto y pulse <gui>Guardar "
-"como iCalendar</gui>."
+"como iCalendar…</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-contacts.page:5
@@ -3298,17 +3280,22 @@ msgstr "Exportar datos de correos"
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:22
+#| msgid ""
+#| "To save an email to a file in <link href=\"https://en.wikipedia.org/wiki/"
+#| "Mbox\">mbox</link> format, select an email and click <guiseq><gui>File</"
+#| "gui><gui>Save as mbox...</gui></guiseq> or right-click on the message and "
+#| "click <gui>Save as mbox...</gui>."
 msgid ""
 "To save an email to a file in <link href=\"https://en.wikipedia.org/wiki/Mbox"
 "\">mbox</link> format, select an email and click <guiseq><gui>File</"
-"gui><gui>Save as mbox...</gui></guiseq> or right-click on the message and "
-"click <gui>Save as mbox...</gui>."
+"gui><gui>Save as mbox…</gui></guiseq> or right-click on the message and "
+"click <gui>Save as mbox…</gui>."
 msgstr ""
 "Para guardar un correo en un archivo en formato <link href=\"http://es."
 "wikipedia.org/wiki/Mbox\">mbox</link>, seleccione un correo y pulse "
-"<guiseq><gui>Archivo</gui><gui>Guardar como mbox...</gui></guiseq> o pulse "
-"con el botón derecho del ratón sobre el correo y pulse <gui>Guardar como "
-"mbox...</gui>."
+"<guiseq><gui>Archivo</gui><gui>Guardar como mbox…</gui></guiseq> o pulse con "
+"el botón derecho del ratón sobre el correo y pulse <gui>Guardar como mbox…</"
+"gui>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:24
@@ -3692,11 +3679,6 @@ msgstr "Formatos de archivo soportados"
 #: C/import-supported-file-formats.page:25
 msgid "Evolution can import the following types of files:"
 msgstr "Evolution puede importar los siguientes tipos de archivos:"
-
-#. (itstool) path: section/title
-#: C/import-supported-file-formats.page:28
-msgid "Mail"
-msgstr "Correo"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:30
@@ -4419,8 +4401,13 @@ msgstr "La ventana principal de <app>Evolution</app>"
 
 #. (itstool) path: page/p
 #: C/intro-main-window.page:32
+#| msgid ""
+#| "Evolution provides functionality for E-Mail, Calendar, Contacts, Tasks, "
+#| "and Memos. You can switch to another functionality by using the \"Switcher"
+#| "\" buttons in the lower left corner. Depending on the displayed "
+#| "functionality also the displayed elements in the window differ."
 msgid ""
-"Evolution provides functionality for E-Mail, Calendar, Contacts, Tasks, and "
+"Evolution provides functionality for Email, Calendar, Contacts, Tasks, and "
 "Memos. You can switch to another functionality by using the \"Switcher\" "
 "buttons in the lower left corner. Depending on the displayed functionality "
 "also the displayed elements in the window differ."
@@ -4429,11 +4416,6 @@ msgstr ""
 "Tareas y Notas. Puede cambiar a otra funcionalidad usando los botones del "
 "«Selector» en la esquina inferior izquierda. Dependiendo de la funcionalidad "
 "mostrada los elementos en la ventana pueden ser diferentes."
-
-#. (itstool) path: section/title
-#: C/intro-main-window.page:35
-msgid "E-Mail"
-msgstr "Correo-e"
 
 #. (itstool) path: media/p
 #: C/intro-main-window.page:38
@@ -4742,24 +4724,24 @@ msgid "How to set up a Gmail POP Account."
 msgstr "Cómo configurar una cuenta POP de GMail."
 
 #. (itstool) path: page/title
-#: C/mail-access-gmail-pop-account.page:24
+#: C/mail-access-gmail-pop-account.page:28
 msgid "Access a Gmail POP Account via Evolution"
 msgstr "Acceder a una cuenta POP de GMail a través de Evolution"
 
 #. (itstool) path: page/p
-#: C/mail-access-gmail-pop-account.page:26
+#: C/mail-access-gmail-pop-account.page:30
 msgid "Follow these steps to set up your Gmail POP Account in Evolution:"
 msgstr ""
 "Siga estos pasos para configurar su cuenta de correo POP de Gmail en "
 "Evolution:"
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:29
+#: C/mail-access-gmail-pop-account.page:33
 msgid "Log in to your Gmail account."
 msgstr "Inicie sesión en su cuenta de GMail."
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:30
+#: C/mail-access-gmail-pop-account.page:34
 msgid ""
 "Go to <guiseq><gui>Settings</gui><gui>Forwarding and POP/IMAP</gui></"
 "guiseq>. Refer to the POP Download section."
@@ -4768,7 +4750,7 @@ msgstr ""
 "guiseq>. Consulte la sección Descarga de correo POP."
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:31
+#: C/mail-access-gmail-pop-account.page:35
 msgid ""
 "Enable the POP download feature by ticking the radio button that corresponds "
 "to either of these options:"
@@ -4777,34 +4759,39 @@ msgstr ""
 "botones de radio que corresponde con una de estas opciones:"
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:33
+#: C/mail-access-gmail-pop-account.page:37
 msgid "Enable POP for all mail (even mail that's already been downloaded)"
 msgstr ""
 "Habilitar POP para todos los mensajes (incluso si ya se han descargado)"
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:34
+#: C/mail-access-gmail-pop-account.page:38
 msgid "Enable POP for mail that arrives from now on"
 msgstr "Habilitar POP para los mensajes que se reciban a partir de ahora"
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:37
+#: C/mail-access-gmail-pop-account.page:41
 msgid "Specify the other required settings for this Gmail feature."
 msgstr ""
 "Especifique los otros ajustes requeridos por esta característica de GMail."
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:38
+#: C/mail-access-gmail-pop-account.page:42
+#| msgid ""
+#| "To know the Gmail Account settings, click on <guiseq><gui>Configuration "
+#| "instructions</gui><gui>Other</gui><gui>Standard Instructions</gui></"
+#| "guiseq>."
 msgid ""
-"To know the Gmail Account settings, click on <guiseq><gui>Configuration "
-"instructions</gui><gui>Other</gui><gui>Standard Instructions</gui></guiseq>."
+"To know the Gmail Account settings, click on <gui>Configuration "
+"instructions</gui>. Choose <gui>I want to enable POP</gui> and select "
+"<gui>Other</gui> from the list of clients."
 msgstr ""
 "Para saber la configuración de la cuenta de Gmail pulse en "
-"<guiseq><gui>Instrucciones de configuración</gui><gui>Otras</"
-"gui><gui>Instrucciones estándar</gui></guiseq>."
+"<gui>Instrucciones de configuración</gui>. Elija <gui>Quiero activar POP</"
+"gui> y seleccione <gui>Otros</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:39
+#: C/mail-access-gmail-pop-account.page:43
 msgid ""
 "On your Evolution client, go to <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui></guiseq>. Click <gui style=\"button\">Add</gui>."
@@ -4814,9 +4801,12 @@ msgstr ""
 "style=\"button\">Añadir</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-access-gmail-pop-account.page:40
+#: C/mail-access-gmail-pop-account.page:44
+#| msgid ""
+#| "Provide the required information. For the account settings, refer to Step "
+#| "5"
 msgid ""
-"Provide the required information. For the account settings, refer to Step 5"
+"Provide the required information. For the account settings, refer to Step 5."
 msgstr ""
 "Proporcione la información requerida. Para la configuración de la cuenta, "
 "vaya al paso 5."
@@ -5515,12 +5505,16 @@ msgstr "Para adjuntar un archivo a su correo en el editor:"
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:30
+#| msgid ""
+#| "Click <gui>Add Attachment...</gui>, or click <guiseq><gui>Insert</"
+#| "gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</"
+#| "key><key>M</key></keyseq>."
 msgid ""
-"Click <gui>Add Attachment...</gui>, or click <guiseq><gui>Insert</"
+"Click <gui>Add Attachment…</gui>, or click <guiseq><gui>Insert</"
 "gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>M</"
 "key></keyseq>."
 msgstr ""
-"Pulse <gui>Añadir adjunto...</gui>, <guiseq><gui>Insertar</gui><gui>Adjunto</"
+"Pulse <gui>Añadir adjunto…</gui>, <guiseq><gui>Insertar</gui><gui>Adjunto</"
 "gui></guiseq> o pulse <keyseq><key>Ctrl</key><key>M</key></keyseq>."
 
 #. (itstool) path: item/p
@@ -5761,11 +5755,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:38
+#| msgid ""
+#| "Click <guiseq><gui>Edit</gui><gui>Show Deleted Messages</gui></guiseq> to "
+#| "make sure all messages are visible."
 msgid ""
-"Click <guiseq><gui>Edit</gui><gui>Show Deleted Messages</gui></guiseq> to "
+"Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
 "make sure all messages are visible."
 msgstr ""
-"Pulse <guiseq><gui>Editar</gui><gui>Mostrar mensajes eliminados</gui></"
+"Pulse en <guiseq><gui>Ver</gui><gui>Mostrar mensajes eliminados</gui></"
 "guiseq> para asegurarse de que se muestran todos los mensajes."
 
 #. (itstool) path: item/p
@@ -5792,14 +5789,18 @@ msgstr "Cambiar la lista de columnas del correo"
 
 #. (itstool) path: page/p
 #: C/mail-change-columns-in-message-list.page:22
+#| msgid ""
+#| "If you want to change the columns in the mail message list, right-click "
+#| "on the column headers and choose either <gui>Add a Column...</gui> or "
+#| "<gui>Remove This Column</gui>."
 msgid ""
 "If you want to change the columns in the mail message list, right-click on "
-"the column headers and choose either <gui>Add a Column...</gui> or "
-"<gui>Remove This Column</gui>."
+"the column headers and choose either <gui>Add a Column…</gui> or <gui>Remove "
+"This Column</gui>."
 msgstr ""
 "Si quiere cambiar las columnas de la lista de mensajes, pulse con el botón "
 "derecho del ratón en las cabeceras de las columnas y elija <gui>Añadir una "
-"columna...</gui> o <gui>Quitar esta columna</gui>."
+"columna…</gui> o <gui>Quitar esta columna</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:23
@@ -6181,12 +6182,16 @@ msgstr "Reenviar un mensaje con sus adjuntos"
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward-as-attachment.page:23
+#| msgid ""
+#| "Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and "
+#| "choose <gui>Attachment</gui>, so the forwarded email and also its "
+#| "attachments get attached to the email you want to send."
 msgid ""
-"Click <guiseq><gui>Message</gui><gui>Forward as...</gui></guiseq> and choose "
+"Click <guiseq><gui>Message</gui><gui>Forward as…</gui></guiseq> and choose "
 "<gui>Attachment</gui>, so the forwarded email and also its attachments get "
 "attached to the email you want to send."
 msgstr ""
-"Pulse <guiseq><gui>Mensaje</gui><gui>Reenviar como...</gui></guiseq> y elija "
+"Pulse <guiseq><gui>Mensaje</gui><gui>Reenviar como…</gui></guiseq> y elija "
 "<gui>Adjunto</gui> para que el correo reenviado y sus adjuntos se adjunten "
 "al correo que quiere enviar."
 
@@ -6222,11 +6227,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-image.page:25
+#| msgid ""
+#| "Click <guiseq><gui>Insert</gui><gui>Image...</gui></guiseq> in the "
+#| "menubar."
 msgid ""
-"Click <guiseq><gui>Insert</gui><gui>Image...</gui></guiseq> in the menubar."
+"Click <guiseq><gui>Insert</gui><gui>Image…</gui></guiseq> in the menubar."
 msgstr ""
-"Pulse <guiseq><gui>Insertar</gui><gui>Imagen...</gui></guiseq> en la barra "
-"de menú."
+"Pulse <guiseq><gui>Insertar</gui><gui>Imagen…</gui></guiseq> en la barra de "
+"menú."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-image.page:26
@@ -6271,19 +6279,18 @@ msgstr "Seleccione el texto en el que quiere poner en el enlace."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:27
+#| msgid ""
+#| "Either click <guiseq><gui>Insert</gui><gui>Link...</gui></guiseq> in the "
+#| "menubar, or right-click on the selected text and click <gui>Insert Link</"
+#| "gui>."
 msgid ""
-"Either click <guiseq><gui>Insert</gui><gui>Link...</gui></guiseq> in the "
+"Either click <guiseq><gui>Insert</gui><gui>Link…</gui></guiseq> in the "
 "menubar, or right-click on the selected text and click <gui>Insert Link</"
 "gui>."
 msgstr ""
-"Pulse <guiseq><gui>Insertar</gui><gui>Enlace...</gui></guiseq> en la barra "
-"de menú o pulse con el botón derecho del ratón sobre el texto seleccionado y "
+"Pulse <guiseq><gui>Insertar</gui><gui>Enlace…</gui></guiseq> en la barra de "
+"menú o pulse con el botón derecho del ratón sobre el texto seleccionado y "
 "pulse <gui>Insertar enlace</gui>."
-
-#. (itstool) path: item/p
-#: C/mail-composer-html-link.page:28
-msgid "Enter the address in the <gui>URL</gui> field."
-msgstr "Escriba la dirección en el campo <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:29 C/mail-composer-html-rule.page:28
@@ -6399,10 +6406,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:25
+#| msgid ""
+#| "Click <guiseq><gui>Insert</gui><gui>Rule...</gui></guiseq> in the menubar."
 msgid ""
-"Click <guiseq><gui>Insert</gui><gui>Rule...</gui></guiseq> in the menubar."
+"Click <guiseq><gui>Insert</gui><gui>Rule…</gui></guiseq> in the menubar."
 msgstr ""
-"Pulse <guiseq><gui>Insertar</gui><gui>Regla...</gui></guiseq> en la barra de "
+"Pulse <guiseq><gui>Insertar</gui><gui>Regla…</gui></guiseq> en la barra de "
 "menú."
 
 #. (itstool) path: item/p
@@ -6435,10 +6444,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-table.page:25
+#| msgid ""
+#| "Click <guiseq><gui>Insert</gui><gui>Table...</gui></guiseq> in the "
+#| "menubar."
 msgid ""
-"Click <guiseq><gui>Insert</gui><gui>Table...</gui></guiseq> in the menubar."
+"Click <guiseq><gui>Insert</gui><gui>Table…</gui></guiseq> in the menubar."
 msgstr ""
-"Pulse <guiseq><gui>Insertar</gui><gui>Tabla...</gui></guiseq> en la barra de "
+"Pulse <guiseq><gui>Insertar</gui><gui>Tabla…</gui></guiseq> en la barra de "
 "menú."
 
 #. (itstool) path: item/p
@@ -7844,14 +7856,18 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
+#| msgid ""
+#| "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
+#| "gui> or <gui>Cc:</gui> line, or click the ellipsis (...) at the end of "
+#| "the five displayed addresses."
 msgid ""
 "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
-"gui> or <gui>Cc:</gui> line, or click the ellipsis (...) at the end of the "
+"gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
 "five displayed addresses."
 msgstr ""
 "Para ver todos los destinatarios pulse el icono <_:media-1/> junto a las "
-"líneas <gui>Para:</gui> o <gui>CC:</gui> o pulse la elipsis (...) al final "
-"de las cinco direcciones de correo mostradas."
+"líneas <gui>Para:</gui> o <gui>CC:</gui> o pulse la elipsis (…) al final de "
+"las cinco direcciones de correo mostradas."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
@@ -7968,12 +7984,15 @@ msgstr "Guardar imágenes"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:50
+#| msgid ""
+#| "To save an image that is embedded in an HTML email, right-click on the "
+#| "image and click <gui>Save Image...</gui>."
 msgid ""
 "To save an image that is embedded in an HTML email, right-click on the image "
-"and click <gui>Save Image...</gui>."
+"and click <gui>Save Image…</gui>."
 msgstr ""
 "Para guardar una imagen empotrada en un correo HTML, pulse con el botón "
-"derecho del ratón sobre la imagen y seleccione <gui>Guardar imagen...</gui>."
+"derecho del ratón sobre la imagen y seleccione <gui>Guardar imagen…</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-message.page:5
@@ -8150,19 +8169,24 @@ msgstr "Crear una clave GPG"
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-create-key.page:25
+#| msgid ""
+#| "These steps are very technical. For average users we recommend using the "
+#| "<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
+#| "seahorse/stable/index\"><app>Seahorse</app> application</link> for "
+#| "managing GPG/OpenPGP keys."
 msgid ""
 "These steps are very technical. For average users we recommend using the "
-"<link xref=\"help:seahorse/index\" href=\"https://help.gnome.org/users/"
-"seahorse/stable/index\"><app>Seahorse</app> application</link> for managing "
-"GPG/OpenPGP keys."
+"<link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/pgp-create\"><app>Seahorse</app> application</link> for "
+"creating GPG/OpenPGP keys."
 msgstr ""
 "Estos pasos son muy técnicos. Se recomienda, para el usuario medio de hoy en "
-"día, usar la aplicación <link xref=\"help:seahorse/index\" href=\"https://"
-"help.gnome.org/users/seahorse/stable/index\">aplicación <app>Seahorse</app> "
-"</link> para gestionar claves GPG/OpenPGP."
+"día, usar la aplicación <link xref=\"help:seahorse/pgp-create\" href="
+"\"https://help.gnome.org/users/seahorse/stable/pgp-create\"><app>Seahorse</"
+"app></link> para gestionar claves GPG/OpenPGP."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:28
+#: C/mail-encryption-gpg-create-key.page:29
 msgid ""
 "Before you can get or send GPG encrypted mail, you need to generate your "
 "public and private keys with GPG."
@@ -8171,59 +8195,59 @@ msgstr ""
 "claves pública y privada con GPG."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:30
+#: C/mail-encryption-gpg-create-key.page:31
 msgid ""
 "Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>."
 msgstr "Abra la <app>Terminal</app> e introduzca <cmd>gpg --gen-key</cmd>."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:31
+#: C/mail-encryption-gpg-create-key.page:32
 msgid "Select an algorithm, then press Enter."
 msgstr "Seleccione un algoritmo, después pulse Intro."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:32
+#: C/mail-encryption-gpg-create-key.page:33
 msgid "Select a key length, then press Enter."
 msgstr "Seleccione una longitud de clave, después pulse Intro."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:33
+#: C/mail-encryption-gpg-create-key.page:34
 msgid "Enter how long your key should be valid for."
 msgstr "Introduzca el tiempo para la cual su clave deberá ser válida."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:34
+#: C/mail-encryption-gpg-create-key.page:35
 msgid "Type your real name, then press Enter."
 msgstr "Escriba su nombre real, después pulse Intro."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:35
+#: C/mail-encryption-gpg-create-key.page:36
 msgid "Type your email address, then press Enter."
 msgstr "Escriba su dirección de correo-e, después pulse Intro."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:36
+#: C/mail-encryption-gpg-create-key.page:37
 msgid "(Optional) Type a comment, then press Enter."
 msgstr "(Opcional) Escriba un comentario, después pulse Intro."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:37
+#: C/mail-encryption-gpg-create-key.page:38
 msgid "Review your selected user ID. If it is correct, press O."
 msgstr ""
 "Compruebe el ID de usuario que ha seleccionado. Si es correcto pulse O."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:38
+#: C/mail-encryption-gpg-create-key.page:39
 msgid "Type a passphrase, then press Enter."
 msgstr "Escriba una frase de paso, después pulse Intro."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:39
+#: C/mail-encryption-gpg-create-key.page:40
 msgid "Move your mouse randomly to generate the keys."
 msgstr "Mueva su ratón aleatoriamente para generar las claves."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:42
+#: C/mail-encryption-gpg-create-key.page:43
 msgid ""
 "After the keys are generated, you can view your key information by entering "
 "<cmd>gpg --list-keys</cmd>. You should see something similar to this: "
@@ -8238,7 +8262,7 @@ msgstr ""
 "1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:43
+#: C/mail-encryption-gpg-create-key.page:44
 msgid ""
 "GPG creates one list, or keyring, for your public keys and one for your "
 "private keys. All the public keys you know are stored in the file <file>~/."
@@ -8251,12 +8275,12 @@ msgstr ""
 "darle a alguien su clave, envíele éste archivo."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:44
+#: C/mail-encryption-gpg-create-key.page:45
 msgid "If you want, you can upload your keys to a key server:"
 msgstr "Si quiere puede subir sus claves a un servidor de claves:"
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:46
+#: C/mail-encryption-gpg-create-key.page:47
 msgid ""
 "Check your public key ID with <code>gpg --list-keys</code>. It is the string "
 "after <code>1024D</code> on the line beginning with <code>pub</code>. In the "
@@ -8267,7 +8291,7 @@ msgstr ""
 "empieza con <code>pub</code>. En este ejemplo es <code>32j38dk2</code>."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:47
+#: C/mail-encryption-gpg-create-key.page:48
 msgid ""
 "Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</"
 "cmd>. Substitute your key ID for <code>32j38dk2</code>. You need your "
@@ -8278,7 +8302,7 @@ msgstr ""
 "code>. Necesitará su contraseña para poder hacerlo."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:50
+#: C/mail-encryption-gpg-create-key.page:51
 msgid ""
 "Key servers store your public keys for you so that your friends can decrypt "
 "your messages. If you choose not to use a key server, you can manually send "
@@ -8294,7 +8318,7 @@ msgstr ""
 "central cuando ellos quieran."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:51
+#: C/mail-encryption-gpg-create-key.page:52
 msgid ""
 "If you don't have a key to unlock or encrypt a message, you can set your "
 "encryption tool to look it up automatically. If it cannot find the key, an "
@@ -9055,7 +9079,7 @@ msgid "Close Evolution."
 msgstr "Cerrar Evolution."
 
 #. (itstool) path: item/p
-#: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:25
+#: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
 #: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:39
 msgid "Open the <app>Terminal</app> application."
 msgstr "Abra la aplicación <app>Terminal</app>."
@@ -9113,7 +9137,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. (itstool) path: page/p
 #. (itstool) path: note/p
-#: C/mail-filters-not-working.page:55 C/mail-localized-re-subjects.page:28
+#: C/mail-filters-not-working.page:55 C/mail-localized-re-subjects.page:27
 #: C/mail-save-as-pdf.page:30
 msgid "You can also use the <app>dconf-editor</app> application to do this."
 msgstr ""
@@ -9478,18 +9502,24 @@ msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #. (itstool) path: item/p
 #: C/mail-follow-up-flag.page:29
-msgid "Click <gui>Mark for Follow Up...</gui>."
-msgstr "Pulse <gui>Marca para seguimiento...</gui>."
+#| msgid "Click <gui>Mark for Follow Up...</gui>."
+msgid "Click <gui>Mark for Follow Up…</gui>."
+msgstr "Pulse <gui>Marca para seguimiento…</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:31
+#| msgid ""
+#| "You can also do this by selecting the message(s) and clicking "
+#| "<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up...</gui></"
+#| "guiseq> or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</"
+#| "key></keyseq>."
 msgid ""
 "You can also do this by selecting the message(s) and clicking "
-"<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up...</gui></guiseq> "
+"<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up…</gui></guiseq> "
 "or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 msgstr ""
 "También puede hacerlo seleccionando el o los mensajes y pulsando "
-"<guiseq><gui>Mensaje</gui><gui>Marcar como</gui><gui>Seguimiento...</gui></"
+"<guiseq><gui>Mensaje</gui><gui>Marcar como</gui><gui>Seguimiento…</gui></"
 "guiseq> o pulsando <keyseq><key>Mayús</key><key>Ctrl</key><key>G</key></"
 "keyseq>."
 
@@ -9733,12 +9763,12 @@ msgstr ""
 "Evite las líneas de asunto largas debido a los prefijos «Re:» traducidos."
 
 #. (itstool) path: page/title
-#: C/mail-localized-re-subjects.page:20
+#: C/mail-localized-re-subjects.page:19
 msgid "Handling localized \"Re:\" in subjects"
 msgstr "Manejar el «Re:» traducido en los asuntos"
 
 #. (itstool) path: page/p
-#: C/mail-localized-re-subjects.page:22
+#: C/mail-localized-re-subjects.page:21
 msgid ""
 "Traditionally a \"Re:\" prefix is added to a subject line when replying to "
 "an email. Some email applications use localized terms for this (like \"SV:\" "
@@ -9752,15 +9782,19 @@ msgstr ""
 "medida que avanza la conversación."
 
 #. (itstool) path: item/p
-#: C/mail-localized-re-subjects.page:26
+#: C/mail-localized-re-subjects.page:25
+#| msgid ""
+#| "Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-"
+#| "localized-re 'AW:,SV:'</cmd> (in case that you want \"AW:\" and \"SV:\" "
+#| "to be recognized)."
 msgid ""
-"Run the command <cmd>gsettings set org.gnome.evolution.mail.composer-"
-"localized-re 'AW:,SV:'</cmd> (in case that you want \"AW:\" and \"SV:\" to "
-"be recognized)."
+"Run the command <cmd>gsettings set org.gnome.evolution.mail composer-"
+"localized-re 'AW,SV'</cmd> (in case that you want \"AW:\" and \"SV:\" to be "
+"recognized)."
 msgstr ""
-"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail.composer-"
-"localized-re 'AW:,SV:'</cmd> (en el caso de que quiera que se reconozcan "
-"«AW:» y «SV:»)"
+"Ejecute el comando <cmd>gsettings set org.gnome.evolution.mail composer-"
+"localized-re 'AW,SV'</cmd> (en el caso de que quiera que se reconozcan «AW:» "
+"y «SV:»)"
 
 #. (itstool) path: info/desc
 #: C/mail-moving-emails.page:5
@@ -9908,15 +9942,11 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-reading-keyboard-shortcuts.page:32
-#| msgid "Marking a Message As Not Junk Mail"
 msgid "Marking a message as read or unread"
 msgstr "Marcar un mensaje como leído o no leído"
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:33
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid ""
 "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
 "key><key>K</key></keyseq>."
@@ -9926,9 +9956,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-reading-keyboard-shortcuts.page:34
-#| msgid ""
-#| "Select a message and press <keyseq><key>Shift</key><key>Ctrl</key><key>V</"
-#| "key></keyseq>."
 msgid ""
 "To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
 "key><key>Shift</key><key>K</key></keyseq>."
@@ -10289,13 +10316,17 @@ msgstr ""
 #: C/mail-receiving-options-pop.page:50
 #: C/mail-receiving-options-unix-mbox-spool-file.page:39
 #: C/mail-receiving-options-usenet-news.page:46
+#| msgid ""
+#| "If you want Evolution to check automatically for new messages, click the "
+#| "<gui>Check for new messages every ... minutes</gui> option and select the "
+#| "frequency in minutes."
 msgid ""
 "If you want Evolution to check automatically for new messages, click the "
-"<gui>Check for new messages every ... minutes</gui> option and select the "
+"<gui>Check for new messages every … minutes</gui> option and select the "
 "frequency in minutes."
 msgstr ""
 "Si quiere que Evolution compruebe automáticamente si hay correo nuevo, "
-"seleccione la opción <gui>Comprobar si hay mensajes nuevos cada ... minutos</"
+"seleccione la opción <gui>Comprobar si hay mensajes nuevos cada … minutos</"
 "gui> y seleccione la frecuencia en minutos."
 
 #. (itstool) path: item/p
@@ -10473,7 +10504,6 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-receiving-options-maildir-format-directories.page:28
 #: C/mail-receiving-options-mh-format-directories.page:28
-#: C/mail-receiving-options-unix-mbox-spool-directory.page:28
 msgid ""
 "Choose the directory by clicking on the button next to <gui>Path</gui> in "
 "the <gui>Configuration</gui> section. Some default folders are available in "
@@ -10571,6 +10601,24 @@ msgid "Receiving options for standard Unix mbox spool directory accounts."
 msgstr ""
 "Opciones de recepción para las cuentas de carpetas spool mbox estándar de "
 "Unix."
+
+#. (itstool) path: item/p
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:28
+#| msgid ""
+#| "Choose the directory by clicking on the button next to <gui>Path</gui> in "
+#| "the <gui>Configuration</gui> section. Some default folders are available "
+#| "in the list. If the directory is not among those folders, choose the last "
+#| "option <gui>Other...</gui>. This will open a directory chooser window."
+msgid ""
+"Choose the directory by clicking on the button next to <gui>Path</gui> in "
+"the <gui>Configuration</gui> section. Some default folders are available in "
+"the list. If the directory is not among those folders, choose the last "
+"option <gui>Other…</gui>. This will open a directory chooser window."
+msgstr ""
+"Elija la carpeta pulsando el botón junto a <gui>Ruta</gui> en la sección "
+"<gui>Configuración</gui>. Existen algunas carpetas predeterminadas en la "
+"lista. Si el directorio no está entre esas carpetas, elija la última opción "
+"<gui>Otras…</gui>. Esto abrirá una ventana de selección de carpeta."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-unix-mbox-spool-file.page:5
@@ -10735,18 +10783,24 @@ msgstr "Crear una carpeta de búsqueda"
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:26
+#| msgid ""
+#| "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
+#| "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
+#| "criterion the search folder will be based on, or if you have run a "
+#| "search, click <guiseq><gui>Search</gui><gui>Create Search Folder From "
+#| "Search...</gui></guiseq>."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
 "criterion the search folder will be based on, or if you have run a search, "
-"click <guiseq><gui>Search</gui><gui>Create Search Folder From Search...</"
-"gui></guiseq>."
+"click <guiseq><gui>Search</gui><gui>Create Search Folder From Search…</gui></"
+"guiseq>."
 msgstr ""
 "Pulse <guiseq><gui>Editar</gui><gui>Carpetas de búsqueda</gui></guiseq> o "
 "pulse <guiseq><gui>Mensaje</gui><gui>Crear regla</gui></guiseq> y seleccione "
 "el criterio en el que se basará la carpeta de búsqueda o si ha ejecutado una "
 "búsqueda, pulse <guiseq><gui>Buscar</gui><gui>Crear una carpeta de búsqueda "
-"desde la búsqueda...</gui></guiseq>."
+"desde la búsqueda…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:29
@@ -11044,12 +11098,15 @@ msgstr "Buscar en un único mensaje"
 
 #. (itstool) path: section/p
 #: C/mail-searching.page:32
+#| msgid ""
+#| "To find text in the displayed message, select <guiseq><gui>Edit</"
+#| "gui><gui>Find in Message...</gui></guiseq> from the main menu."
 msgid ""
 "To find text in the displayed message, select <guiseq><gui>Edit</"
-"gui><gui>Find in Message...</gui></guiseq> from the main menu."
+"gui><gui>Find in Message…</gui></guiseq> from the main menu."
 msgstr ""
 "Para buscar texto en el mensaje mostrado, seleccione <guiseq><gui>Editar</"
-"gui><gui>Buscar en el mensaje...</gui></guiseq> en el menú principal."
+"gui><gui>Buscar en el mensaje…</gui></guiseq> en el menú principal."
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:36
@@ -11128,17 +11185,24 @@ msgstr "Comprobar automáticamente si hay correo nuevo"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-automatically.page:21
+#| msgid ""
+#| "If you want Evolution to check automatically for new messages, enable the "
+#| "option <gui>Check for new messages every ... minutes</gui> in the "
+#| "<gui>Receiving Options</gui> page of the mail account settings "
+#| "(accessible via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
+#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving Options</"
+#| "gui></guiseq>) and select the frequency in minutes."
 msgid ""
 "If you want Evolution to check automatically for new messages, enable the "
-"option <gui>Check for new messages every ... minutes</gui> in the "
+"option <gui>Check for new messages every … minutes</gui> in the "
 "<gui>Receiving Options</gui> page of the mail account settings (accessible "
 "via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui><gui style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>) "
 "and select the frequency in minutes."
 msgstr ""
 "Si quiere que Evolution compruebe automáticamente si hay correos nuevos "
-"active la opción <gui>Comprobar si hay mensajes nuevos cada ... minutos</"
-"gui> en la página <gui>Opciones de recepción</gui> de la configuración de la "
+"active la opción <gui>Comprobar si hay mensajes nuevos cada … minutos</gui> "
+"en la página <gui>Opciones de recepción</gui> de la configuración de la "
 "cuenta (accesible a través de <guiseq><gui>Editar</gui><gui>Preferencias</"
 "gui><gui>Cuentas de correo</gui><gui style=\"button\">Editar</"
 "gui><gui>Opciones de recepción</gui></guiseq>) y seleccione la frecuencia en "
@@ -11285,13 +11349,23 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-several-pop-accounts.page:25
+#| msgid ""
+#| "You can either use IMAP instead of POP, or move incoming emails into "
+#| "different folders by <link xref=\"mail-folders\">creating folders</link> "
+#| "and <link xref=\"mail-filters\">creating filters</link>: Create a new "
+#| "folder and create two subfolders (for incoming and for sent mail of that "
+#| "account). Now set up an incoming filter via <guiseq><gui>Edit</"
+#| "gui><gui>Message Filters...</gui><gui style=\"button\">Add</gui></guiseq> "
+#| "to move incoming mail to the incoming folder by filtering on the "
+#| "recipient's address and set up an outgoing filter to move outgoing mail "
+#| "to the sent folder by filtering on the sender's address."
 msgid ""
 "You can either use IMAP instead of POP, or move incoming emails into "
 "different folders by <link xref=\"mail-folders\">creating folders</link> and "
 "<link xref=\"mail-filters\">creating filters</link>: Create a new folder and "
 "create two subfolders (for incoming and for sent mail of that account). Now "
-"set up an incoming filter via <guiseq><gui>Edit</gui><gui>Message Filters..."
-"</gui><gui style=\"button\">Add</gui></guiseq> to move incoming mail to the "
+"set up an incoming filter via <guiseq><gui>Edit</gui><gui>Message Filters…</"
+"gui><gui style=\"button\">Add</gui></guiseq> to move incoming mail to the "
 "incoming folder by filtering on the recipient's address and set up an "
 "outgoing filter to move outgoing mail to the sent folder by filtering on the "
 "sender's address."
@@ -11301,7 +11375,7 @@ msgstr ""
 "<link xref=\"mail-filters\">creando filtros</link>: cree una carpeta nueva y "
 "cree dos subcarpetas (para correo entrante y para correo enviado para esa "
 "cuenta). Ahora configure un filtro de correo de entrada en "
-"<guiseq><gui>Editar</gui><gui>Filtros de correos...</gui><gui style=\"button"
+"<guiseq><gui>Editar</gui><gui>Filtros de correos…</gui><gui style=\"button"
 "\">Añadir</gui></guiseq> para mover el correo entrante a la carpeta de "
 "correo entrante filtrando la dirección de correo del destinatario y "
 "configure un filtro de salida para mover el correo saliente a la carpeta de "
@@ -11725,13 +11799,18 @@ msgstr "Herramientas"
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:40
+#| msgid ""
+#| "<app>Evolution</app> lets you check for unwanted junk or spam emails by "
+#| "using the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use "
+#| "these tools, you need to make sure that they are installed via the "
+#| "software management tool of your distribution."
 msgid ""
-"<app>Evolution</app> lets you check for unwanted junk or spam emails by "
-"using the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use "
-"these tools, you need to make sure that they are installed via the software "
+"<app>Evolution</app> lets you check for unwanted junk or spam email by using "
+"the <app>Bogofilter</app> or <app>SpamAssassin</app> tools. To use these "
+"tools, you need to make sure that they are installed via the software "
 "management tool of your distribution."
 msgstr ""
-"<app>Evolution</app> le permite comprobar si hay mensajes spam usando las "
+"<app>Evolution</app> le permite comprobar si hay mensajes de spam usando las "
 "herramientas <app>Bogofilter</app> o <app>SpamAssassin</app>. Para usar "
 "estas herramientas debe asegurarse de que están instaladas a través de la "
 "herramienta de gestión de software de su distribución."
@@ -11801,9 +11880,15 @@ msgstr "Opciones de correo spam"
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:62
+#| msgid ""
+#| "The junk mail options discussed in this page refer only to POP and Local "
+#| "Delivery accounts. For handling junk mails on IMAP accounts, see the "
+#| "Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
+#| "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</"
+#| "gui><gui>Receiving Options</gui></guiseq>."
 msgid ""
 "The junk mail options discussed in this page refer only to POP and Local "
-"Delivery accounts. For handling junk mails on IMAP accounts, see the "
+"Delivery accounts. For handling junk mail on IMAP accounts, see the "
 "Evolution settings under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Receiving "
 "Options</gui></guiseq>."
@@ -12050,7 +12135,8 @@ msgstr "Las palabras se ajustan en correos salientes a 72 caracteres."
 
 #. (itstool) path: page/title
 #: C/mail-word-wrap.page:20
-msgid "Words are wrapped in outgoing mails at 72 characters"
+#| msgid "Words are wrapped in outgoing mails at 72 characters"
+msgid "Words are wrapped in outgoing mail at 72 characters"
 msgstr "Las palabras se ajustan en correos salientes a 72 caracteres"
 
 #. (itstool) path: page/p
@@ -12212,12 +12298,15 @@ msgstr "Buscar una única nota"
 
 #. (itstool) path: section/p
 #: C/memos-searching.page:32
+#| msgid ""
+#| "To find text in the displayed memo, select <guiseq><gui>Edit</"
+#| "gui><gui>Find in Memo...</gui></guiseq> from the main menu."
 msgid ""
 "To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
-"in Memo...</gui></guiseq> from the main menu."
+"in Memo…</gui></guiseq> from the main menu."
 msgstr ""
 "Para buscar texto en la nota mostrada, seleccione <guiseq><gui>Editar</"
-"gui><gui>Buscar en la nota...</gui></guiseq> en el menú principal."
+"gui><gui>Buscar en la nota…</gui></guiseq> en el menú principal."
 
 #. (itstool) path: section/title
 #: C/memos-searching.page:36
@@ -12321,21 +12410,27 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:44
+#| msgid ""
+#| "Select the Organizer's account name from the drop-down list given next to "
+#| "the Organizer field."
 msgid ""
 "Select the Organizer's account name from the drop-down list given next to "
-"the Organizer field."
+"the <gui>Organizer</gui> field."
 msgstr ""
 "Seleccione el nombre de la cuenta del Organizador de la lista desplegable "
-"proporcionada junto al campo Organizador."
+"proporcionada junto al campo <gui>Organizador</gui>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:45
+#| msgid ""
+#| "In the To field, type a username, then press Enter. Repeat this for "
+#| "additional users."
 msgid ""
-"In the To field, type a username, then press Enter. Repeat this for "
-"additional users."
+"In the <gui>To</gui> field, type a username, then press <key>Enter</key>. "
+"Repeat this for additional users."
 msgstr ""
-"En el campo Para escriba un nombre de usuario, después pulse Intro. Repita "
-"la operación para añadir usuarios adicionales."
+"En el campo <gui>Para</gui> escriba un nombre de usuario, después pulse "
+"<key>Intro</key>. Repita la operación para añadir usuarios adicionales."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:46
@@ -12347,18 +12442,16 @@ msgstr ""
 "la entrada."
 
 #. (itstool) path: item/p
-#: C/memos-usage-add-memo.page:47
-msgid "Enter a brief summary in the Summary field."
-msgstr "Escriba un breve resumen para la tarea en el campo Resumen."
-
-#. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:48
+#| msgid ""
+#| "In the Start Date field, type the date this shared memo should appear in "
+#| "the recipients' calendars."
 msgid ""
-"In the Start Date field, type the date this shared memo should appear in the "
-"recipients' calendars."
+"In the <gui>Start Date</gui> field, type the date this shared memo should "
+"appear in the recipients' calendars."
 msgstr ""
-"En el campo Fecha de inicio escriba la fecha en la que esta nota compartida "
-"debería aparecer en los calendarios de los destinatarios."
+"En el campo <gui>Fecha de inicio</gui> escriba la fecha en la que esta nota "
+"compartida debería aparecer en los calendarios de los destinatarios."
 
 #. (itstool) path: info/desc
 #: C/memos-usage-delete-memo.page:5
@@ -12636,18 +12729,25 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
+#| msgid ""
+#| "Also note that GNOME distributions sometimes introduce their own changes "
+#| "in Evolution that are not included in GNOME Evolution. This is hard to "
+#| "recognize for users but if you are aware of it please file a bug report "
+#| "in <link href=\"https://live.gnome.org/Bugsquad/TriageGuide/"
+#| "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
+#| "distribution</link> instead."
 msgid ""
 "Also note that GNOME distributions sometimes introduce their own changes in "
 "Evolution that are not included in GNOME Evolution. This is hard to "
 "recognize for users but if you are aware of it please file a bug report in "
-"<link href=\"https://live.gnome.org/Bugsquad/TriageGuide/"
+"<link href=\"https://wiki.gnome.org/Bugsquad/TriageGuide/"
 "NonGnome#Bug_trackers_for_distributions\">the bug tracker of your GNOME "
 "distribution</link> instead."
 msgstr ""
 "Tenga en cuenta que algunas distribuciones con GNOME incluyen a veces sus "
 "propios cambios en Evolution, cambios que no están incluidos en GNOME "
 "Evolution. Esto es difícil de reconocer por parte de los usuarios, pero si "
-"está seguro, envíe un informe de error al <link href=\"https://live.gnome."
+"está seguro, envíe un informe de error al <link href=\"https://wiki.gnome."
 "org/Bugsquad/TriageGuide/NonGnome#Bug_trackers_for_distributions\">gestor de "
 "errores su distribución con GNOME</link> en su lugar."
 
@@ -12688,17 +12788,17 @@ msgstr ""
 "móviles."
 
 #. (itstool) path: page/title
-#: C/sync-with-other-devices.page:23
+#: C/sync-with-other-devices.page:20
 msgid "Synchronize <app>Evolution</app> with other devices"
 msgstr "Sincronizar <app>Evolution</app> con otros dispositivos"
 
 #. (itstool) path: page/p
-#: C/sync-with-other-devices.page:25
+#: C/sync-with-other-devices.page:22
 msgid "There are currently no \"recommended instructions\" for users."
 msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #. (itstool) path: page/p
-#: C/sync-with-other-devices.page:27
+#: C/sync-with-other-devices.page:24
 msgid ""
 "Many distributions provide the application <app><link href=\"http://"
 "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
@@ -12711,7 +12811,7 @@ msgstr ""
 "\">SyncML</link>."
 
 #. (itstool) path: page/p
-#: C/sync-with-other-devices.page:29
+#: C/sync-with-other-devices.page:26
 msgid ""
 "In general it is recommended to use applications and devices that both "
 "support the <link href=\"https://en.wikipedia.org/wiki/ActiveSync"
@@ -12726,7 +12826,7 @@ msgstr ""
 "de software colaborativo</link> en la Wikipedia."
 
 #. (itstool) path: page/p
-#: C/sync-with-other-devices.page:31
+#: C/sync-with-other-devices.page:28
 msgid ""
 "If you can provide good practices or more information on this topic feel "
 "free to file a bug report in <link href=\"https://bugzilla.gnome.org/"
@@ -12737,185 +12837,6 @@ msgstr ""
 "tema, rellene un informe de error en <link href=\"https://bugzilla.gnome.org/"
 "enter_bug.cgi?product=evolution&amp;component=User%20Documentation\">el "
 "sistema de seguimiento de errores de GNOME</link>."
-
-#. (itstool) path: section/title
-#: C/sync-with-other-devices.page:34
-msgid "Palm"
-msgstr "Palm"
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:35
-msgid ""
-"To synchronize with a Palm OS device like the PalmPilot(TM) and the "
-"Handspring Visor several steps are needed: First, you need to enable "
-"synchronization. Second, your computer needs to recognize and access your "
-"handheld. Third, you should decide what sort of synchronization behavior you "
-"want."
-msgstr ""
-"Se necesitan varios pasos para sincronizar con un dispositivo Palm OS como "
-"la PalmPilot(TM) y el Handspring Visor: primero, debe activar la "
-"sincronización. Segundo, su equipo debe reconocer y acceder a su dispositivo "
-"portátil. Tercero, debe decidir que tipo de sincronización quiere."
-
-#. (itstool) path: section/title
-#: C/sync-with-other-devices.page:37
-msgid "Enabling Synchronization"
-msgstr "Activar la sincronización"
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:38
-msgid ""
-"If you have not used a handheld device with your computer before, you need "
-"to configure it via <guiseq><gui>Edit</gui><gui>GNOME Pilot "
-"Synchronization...</gui></guiseq>. Make sure that you have read and write "
-"permissions on the device, which is normally in <file>/dev/pilot</file>. If "
-"that does not work, check in <file>/dev/ttyS0</file> if you have a serial "
-"connection, or in <file>/dev/ttyUSB1</file> for a USB connection. You can do "
-"this by becoming root user and adding your username to the group that owns "
-"this device node. For a USB device on sync, two device nodes are created, "
-"<file>ttyUSB0</file> and <file>ttyUSB1</file>. The second node is the one to "
-"be used in configuring the device."
-msgstr ""
-"Si nunca antes usó un dispositivo de mano en su equipo debe configurarlo a "
-"través de <guiseq><gui>Editar</gui><gui>Sincronización de GNOME Pilot...</"
-"gui></guiseq>. Deberá asegurarse de que dispone de permisos de lectura y "
-"escritura sobre el dispositivo, habitualmente en <file>/dev/pilot</file>. Si "
-"esto no funciona, compruebe <file>/dev/ttyS0</file> si tiene una conexión "
-"serie o <file>/dev/ttyUSB1</file> en el caso de una conexión USB. Para ello, "
-"inicie una sesión root y añada su nombre de usuario al grupo que es "
-"propietario de este nodo de dispositivo. Para un dispositivo USB se crean "
-"dos nodos de dispositivo, <file>ttyUSB0</file> y <file>ttyUSB1</file>. El "
-"segundo nodo es el que se debe usar al configurar el dispositivo."
-
-#. (itstool) path: section/title
-#: C/sync-with-other-devices.page:41
-msgid "Selecting Conduits"
-msgstr "Seleccionar un conducto"
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:42
-msgid ""
-"After your computer and your Palm OS device are communicating, select the "
-"conduits you want under the <gui>Pilot Conduits</gui> section. You can use "
-"conduits to synchronize data with several applications; the Evolution "
-"conduits are labeled <gui>EAddress</gui> for the contacts in your address "
-"book; <gui>ECalendar</gui> for your calendar; and <gui>ETodo</gui> for your "
-"task list."
-msgstr ""
-"Una vez que su equipo y el dispositivo Palm OS son capaces de comunicarse "
-"con fluidez, seleccione los <gui>Conductos de Pilot</gui> que quiera. Puede "
-"usar los conductos para sincronizar datos de numerosas aplicaciones; los "
-"conductos de Evolution llevan la etiqueta <gui>EAddress</gui> para los "
-"contactos de la libreta de direcciones, <gui>ECalendar</gui>, para el "
-"calendario y <gui>ETodo</gui> para la lista de tareas."
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:43
-msgid ""
-"Click <gui>Enable</gui>, then click <gui>Settings</gui> to change what the "
-"conduit does when activated. Your options can vary depending on the conduit, "
-"but typically they are as follows:"
-msgstr ""
-"Pulse <gui>Activar</gui>, después pulse <gui>Configuración</gui> para "
-"cambiar el conducto una vez activado. Las opciones pueden variar en función "
-"del conducto, pero habitualmente son las siguientes:"
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:45
-msgid "<gui>Disabled</gui>: Do nothing."
-msgstr "<gui>Desactivado</gui>: no hacer nada."
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:46
-msgid ""
-"<gui>Synchronize</gui>: Copy new data from the computer to the handheld, and "
-"from the handheld to the computer. Remove items that were on both systems "
-"but have been deleted on one."
-msgstr ""
-"<gui>Sincronizar</gui>: copia los datos nuevos del equipo y del dispositivo "
-"de mano en las dos direcciones. Quita los elementos que se encontraban en "
-"los dos sistemas, pero que se eliminaron en uno de ellos."
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:47
-msgid ""
-"<gui>Copy From Pilot</gui>: If there is any new data on the handheld device, "
-"copy it to the computer."
-msgstr ""
-"<gui>Copiar desde Pilot</gui>: si el dispositivo de mano contiene datos "
-"nuevos, los copia al equipo."
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:48
-msgid ""
-"<gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld."
-msgstr ""
-"<gui>Copiar hacia Pilot:</gui> copia los datos nuevos del equipo hacia el "
-"dispositivo de mano."
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:50
-msgid ""
-"Select the behavior you want for each conduit you choose to use. If you're "
-"not sure, use <gui>Synchronize</gui>."
-msgstr ""
-"Seleccione el comportamiento que quiera para cada conducto elegido. Si no "
-"está seguro, use <gui>Sincronizar</gui>."
-
-#. (itstool) path: section/title
-#: C/sync-with-other-devices.page:54
-msgid "Synchronizing Information"
-msgstr "Sincronizar la información"
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:55
-msgid ""
-"Use the following procedure to synchronize the data on your Palm OS device "
-"with the data you store in Evolution."
-msgstr ""
-"Use el siguiente procedimiento para sincronizar los datos en su dispositivo "
-"Palm Os con sus datos almacenados en Evolution."
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:57
-msgid ""
-"If you want to back up your information before synchronizing, make a copy of "
-"the <file>.local/share/evolution</file> directory inside your home directory."
-msgstr ""
-"Si quiere realizar una copia de seguridad de su información antes de "
-"sincronizar, haga una copia de la carpeta <file>.local/share/evolution</"
-"file> dentro de su carpeta personal."
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:58
-msgid ""
-"Put your handheld device in its cradle and press the <gui style=\"button"
-"\">HotSync</gui> button."
-msgstr ""
-"Coloque su dispositivo de mano en su base y pulse el botón <gui style="
-"\"button\">HotSync</gui>."
-
-#. (itstool) path: item/p
-#: C/sync-with-other-devices.page:59
-msgid ""
-"If you use Palm OS version 4.0 and have password protection turned on for "
-"your handheld device, you might encounter trouble synchronizing. If this "
-"happens, try turning off password protection on your handheld, synchronize "
-"it with your desktop computer, and then re-enable password protection on "
-"your handheld."
-msgstr ""
-"Si usa un dispositivo de mano Palm OS v. 4.0 y activó la protección por "
-"contraseña, es posible que se produzcan problemas durante la sincronización. "
-"En este caso, intente desactivar la protección por contraseña de su "
-"dispositivo de mano, realice la sincronización con su equipo de sobremesa y "
-"vuelva a activar la protección con contraseña de su dispositivo."
-
-#. (itstool) path: section/p
-#: C/sync-with-other-devices.page:61
-msgid "Now your Palm OS device will synchronize data with Evolution."
-msgstr ""
-"Ahora se podrán sincronizar los datos de su dispositivo Palm OS con "
-"Evolution."
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
@@ -12951,11 +12872,6 @@ msgstr ""
 msgid "Choose if you want to be able to view the content also while offline."
 msgstr ""
 "Elija si quiere poder ver el contenido incluso cuando está desconectado."
-
-#. (itstool) path: item/p
-#: C/tasks-caldav.page:29 C/tasks-webdav.page:31
-msgid "Enter the address of the list in the <gui>URL</gui> field."
-msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
 
 #. (itstool) path: page/p
 #: C/tasks-caldav.page:35 C/tasks-local.page:31
@@ -13065,12 +12981,15 @@ msgstr "Buscar una única tarea"
 
 #. (itstool) path: section/p
 #: C/tasks-searching.page:32
+#| msgid ""
+#| "To find text in the displayed task, select <guiseq><gui>Edit</"
+#| "gui><gui>Find in Task...</gui></guiseq> from the main menu."
 msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
-"in Task...</gui></guiseq> from the main menu."
+"in Task…</gui></guiseq> from the main menu."
 msgstr ""
 "Para buscar texto en la tarea mostrada, seleccione <guiseq><gui>Editar</"
-"gui><gui>Buscar en la tarea...</gui></guiseq> en el menú principal."
+"gui><gui>Buscar en la tarea…</gui></guiseq> en el menú principal."
 
 #. (itstool) path: section/title
 #: C/tasks-searching.page:36
@@ -13359,11 +13278,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/using-categories.page:37 C/using-categories.page:49
+#| msgid ""
+#| "Click <gui style=\"button\">Categories...</gui>. (If this button is not "
+#| "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
 msgid ""
-"Click <gui style=\"button\">Categories...</gui>. (If this button is not "
+"Click <gui style=\"button\">Categories…</gui>. (If this button is not "
 "available, select <guiseq><gui>View</gui><gui>Categories</gui></guiseq>.)"
 msgstr ""
-"Pulse <gui style=\"button\">Categorías...</gui>. (Si este botón no está "
+"Pulse <gui style=\"button\">Categorías…</gui>. (Si este botón no está "
 "disponible, seleccione <guiseq><gui>Ver</gui><gui>Categorías</gui></guiseq>.)"
 
 #. (itstool) path: item/p
@@ -13939,6 +13861,202 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
+
+#~ msgid "Enter the address of the calendar in the <gui>URL</gui> field."
+#~ msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
+
+#~ msgid "Aaron Weber"
+#~ msgstr "Aaron Weber"
+
+#~ msgid "Akhil Laddha"
+#~ msgstr "Akhil Laddha"
+
+#~ msgid "Duncan Mak"
+#~ msgstr "Duncan Mak"
+
+#~ msgid "Ettore Perazzoli"
+#~ msgstr "Ettore Perazzoli"
+
+#~ msgid "Francisco Javier F. Serrador"
+#~ msgstr "Francisco Javier F. Serrador"
+
+#~ msgid "Jessica Prabhakar"
+#~ msgstr "Jessica Prabhakar"
+
+#~ msgid "Kevin Breit"
+#~ msgstr "Kevin Breit"
+
+#~ msgid "Mark Moulder"
+#~ msgstr "Mark Moulder"
+
+#~ msgid "Novell, Inc."
+#~ msgstr "Novell, Inc."
+
+#~ msgid "Radhika Nair"
+#~ msgstr "Radhika Nair"
+
+#~ msgid "Srinivasa Ragavan"
+#~ msgstr "Srinivasa Ragavan"
+
+#~ msgid "Emails"
+#~ msgstr "Correos-e"
+
+#~ msgid "E-Mail"
+#~ msgstr "Correo-e"
+
+#~ msgid "Enter a brief summary in the Summary field."
+#~ msgstr "Escriba un breve resumen para la tarea en el campo Resumen."
+
+#~ msgid "Palm"
+#~ msgstr "Palm"
+
+#~ msgid ""
+#~ "To synchronize with a Palm OS device like the PalmPilot(TM) and the "
+#~ "Handspring Visor several steps are needed: First, you need to enable "
+#~ "synchronization. Second, your computer needs to recognize and access your "
+#~ "handheld. Third, you should decide what sort of synchronization behavior "
+#~ "you want."
+#~ msgstr ""
+#~ "Se necesitan varios pasos para sincronizar con un dispositivo Palm OS "
+#~ "como la PalmPilot(TM) y el Handspring Visor: primero, debe activar la "
+#~ "sincronización. Segundo, su equipo debe reconocer y acceder a su "
+#~ "dispositivo portátil. Tercero, debe decidir que tipo de sincronización "
+#~ "quiere."
+
+#~ msgid "Enabling Synchronization"
+#~ msgstr "Activar la sincronización"
+
+#~ msgid ""
+#~ "If you have not used a handheld device with your computer before, you "
+#~ "need to configure it via <guiseq><gui>Edit</gui><gui>GNOME Pilot "
+#~ "Synchronization...</gui></guiseq>. Make sure that you have read and write "
+#~ "permissions on the device, which is normally in <file>/dev/pilot</file>. "
+#~ "If that does not work, check in <file>/dev/ttyS0</file> if you have a "
+#~ "serial connection, or in <file>/dev/ttyUSB1</file> for a USB connection. "
+#~ "You can do this by becoming root user and adding your username to the "
+#~ "group that owns this device node. For a USB device on sync, two device "
+#~ "nodes are created, <file>ttyUSB0</file> and <file>ttyUSB1</file>. The "
+#~ "second node is the one to be used in configuring the device."
+#~ msgstr ""
+#~ "Si nunca antes usó un dispositivo de mano en su equipo debe configurarlo "
+#~ "a través de <guiseq><gui>Editar</gui><gui>Sincronización de GNOME Pilot..."
+#~ "</gui></guiseq>. Deberá asegurarse de que dispone de permisos de lectura "
+#~ "y escritura sobre el dispositivo, habitualmente en <file>/dev/pilot</"
+#~ "file>. Si esto no funciona, compruebe <file>/dev/ttyS0</file> si tiene "
+#~ "una conexión serie o <file>/dev/ttyUSB1</file> en el caso de una conexión "
+#~ "USB. Para ello, inicie una sesión root y añada su nombre de usuario al "
+#~ "grupo que es propietario de este nodo de dispositivo. Para un dispositivo "
+#~ "USB se crean dos nodos de dispositivo, <file>ttyUSB0</file> y "
+#~ "<file>ttyUSB1</file>. El segundo nodo es el que se debe usar al "
+#~ "configurar el dispositivo."
+
+#~ msgid "Selecting Conduits"
+#~ msgstr "Seleccionar un conducto"
+
+#~ msgid ""
+#~ "After your computer and your Palm OS device are communicating, select the "
+#~ "conduits you want under the <gui>Pilot Conduits</gui> section. You can "
+#~ "use conduits to synchronize data with several applications; the Evolution "
+#~ "conduits are labeled <gui>EAddress</gui> for the contacts in your address "
+#~ "book; <gui>ECalendar</gui> for your calendar; and <gui>ETodo</gui> for "
+#~ "your task list."
+#~ msgstr ""
+#~ "Una vez que su equipo y el dispositivo Palm OS son capaces de comunicarse "
+#~ "con fluidez, seleccione los <gui>Conductos de Pilot</gui> que quiera. "
+#~ "Puede usar los conductos para sincronizar datos de numerosas "
+#~ "aplicaciones; los conductos de Evolution llevan la etiqueta "
+#~ "<gui>EAddress</gui> para los contactos de la libreta de direcciones, "
+#~ "<gui>ECalendar</gui>, para el calendario y <gui>ETodo</gui> para la lista "
+#~ "de tareas."
+
+#~ msgid ""
+#~ "Click <gui>Enable</gui>, then click <gui>Settings</gui> to change what "
+#~ "the conduit does when activated. Your options can vary depending on the "
+#~ "conduit, but typically they are as follows:"
+#~ msgstr ""
+#~ "Pulse <gui>Activar</gui>, después pulse <gui>Configuración</gui> para "
+#~ "cambiar el conducto una vez activado. Las opciones pueden variar en "
+#~ "función del conducto, pero habitualmente son las siguientes:"
+
+#~ msgid "<gui>Disabled</gui>: Do nothing."
+#~ msgstr "<gui>Desactivado</gui>: no hacer nada."
+
+#~ msgid ""
+#~ "<gui>Synchronize</gui>: Copy new data from the computer to the handheld, "
+#~ "and from the handheld to the computer. Remove items that were on both "
+#~ "systems but have been deleted on one."
+#~ msgstr ""
+#~ "<gui>Sincronizar</gui>: copia los datos nuevos del equipo y del "
+#~ "dispositivo de mano en las dos direcciones. Quita los elementos que se "
+#~ "encontraban en los dos sistemas, pero que se eliminaron en uno de ellos."
+
+#~ msgid ""
+#~ "<gui>Copy From Pilot</gui>: If there is any new data on the handheld "
+#~ "device, copy it to the computer."
+#~ msgstr ""
+#~ "<gui>Copiar desde Pilot</gui>: si el dispositivo de mano contiene datos "
+#~ "nuevos, los copia al equipo."
+
+#~ msgid ""
+#~ "<gui>Copy To Pilot</gui>: Copy new data from the computer to the handheld."
+#~ msgstr ""
+#~ "<gui>Copiar hacia Pilot:</gui> copia los datos nuevos del equipo hacia el "
+#~ "dispositivo de mano."
+
+#~ msgid ""
+#~ "Select the behavior you want for each conduit you choose to use. If "
+#~ "you're not sure, use <gui>Synchronize</gui>."
+#~ msgstr ""
+#~ "Seleccione el comportamiento que quiera para cada conducto elegido. Si no "
+#~ "está seguro, use <gui>Sincronizar</gui>."
+
+#~ msgid "Synchronizing Information"
+#~ msgstr "Sincronizar la información"
+
+#~ msgid ""
+#~ "Use the following procedure to synchronize the data on your Palm OS "
+#~ "device with the data you store in Evolution."
+#~ msgstr ""
+#~ "Use el siguiente procedimiento para sincronizar los datos en su "
+#~ "dispositivo Palm Os con sus datos almacenados en Evolution."
+
+#~ msgid ""
+#~ "If you want to back up your information before synchronizing, make a copy "
+#~ "of the <file>.local/share/evolution</file> directory inside your home "
+#~ "directory."
+#~ msgstr ""
+#~ "Si quiere realizar una copia de seguridad de su información antes de "
+#~ "sincronizar, haga una copia de la carpeta <file>.local/share/evolution</"
+#~ "file> dentro de su carpeta personal."
+
+#~ msgid ""
+#~ "Put your handheld device in its cradle and press the <gui style=\"button"
+#~ "\">HotSync</gui> button."
+#~ msgstr ""
+#~ "Coloque su dispositivo de mano en su base y pulse el botón <gui style="
+#~ "\"button\">HotSync</gui>."
+
+#~ msgid ""
+#~ "If you use Palm OS version 4.0 and have password protection turned on for "
+#~ "your handheld device, you might encounter trouble synchronizing. If this "
+#~ "happens, try turning off password protection on your handheld, "
+#~ "synchronize it with your desktop computer, and then re-enable password "
+#~ "protection on your handheld."
+#~ msgstr ""
+#~ "Si usa un dispositivo de mano Palm OS v. 4.0 y activó la protección por "
+#~ "contraseña, es posible que se produzcan problemas durante la "
+#~ "sincronización. En este caso, intente desactivar la protección por "
+#~ "contraseña de su dispositivo de mano, realice la sincronización con su "
+#~ "equipo de sobremesa y vuelva a activar la protección con contraseña de su "
+#~ "dispositivo."
+
+#~ msgid "Now your Palm OS device will synchronize data with Evolution."
+#~ msgstr ""
+#~ "Ahora se podrán sincronizar los datos de su dispositivo Palm OS con "
+#~ "Evolution."
+
+#~ msgid "Enter the address of the list in the <gui>URL</gui> field."
+#~ msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"
