@@ -232,7 +232,9 @@ cal_shell_backend_use_system_timezone_changed_cb (GSettings *settings,
 	if ((value ? 1 : 0) != old_value) {
 		old_value = value ? 1 : 0;
 
-		g_signal_emit_by_name (settings, "changed::timezone", timezone);
+		/* GSettings Bindings rely on quarks */
+		g_signal_emit_by_name (settings, "changed::timezone",
+			g_quark_to_string (g_quark_from_string ("timezone")));
 	}
 }
 
