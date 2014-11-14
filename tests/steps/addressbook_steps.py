@@ -314,9 +314,6 @@ def emails_are_set_to(context, section):
     assert actual == expected, "Incorrect %s value:\nexpected:%s\n but was:%s" % (
         row['Field'], expected, actual)
 
-    # Collapse the section after check
-    collapse_button.click()
-
 
 @step(u'Tick "Wants to receive HTML mail" checkbox')
 def tick_checkbox(context):
