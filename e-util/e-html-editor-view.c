@@ -49,6 +49,13 @@
 
 #define URL_PATTERN_SPACE URL_PATTERN "\\s"
 
+/* http://www.w3.org/TR/html5/forms.html#valid-e-mail-address */
+#define E_MAIL_PATTERN \
+	"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}"\
+	"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+
+#define E_MAIL_PATTERN_SPACE E_MAIL_PATTERN "\\s"
+
 #define QUOTE_SYMBOL ">"
 
 /* Keep synchronized with the same value in EHTMLEditorSelection */
@@ -560,6 +567,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	WebKitDOMNode *node;
 	gboolean include_space = FALSE;
 	gboolean return_pressed = FALSE;
+	gboolean is_email_address = FALSE;
 
 	if (event != NULL) {
 		return_pressed = is_return_key (event);
@@ -587,7 +595,11 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	if (!node_text || !(*node_text) || !g_utf8_validate (node_text, -1, NULL))
 		return;
 
-	regex = g_regex_new (include_space ? URL_PATTERN_SPACE : URL_PATTERN, 0, 0, NULL);
+	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
+		is_email_address = TRUE;
+		regex = g_regex_new (include_space ? E_MAIL_PATTERN_SPACE : E_MAIL_PATTERN, 0, 0, NULL);
+	} else
+		regex = g_regex_new (include_space ? URL_PATTERN_SPACE : URL_PATTERN, 0, 0, NULL);
 
 	if (!regex) {
 		g_free (node_text);
@@ -634,8 +646,12 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 		url_text = webkit_dom_text_get_whole_text (
 			WEBKIT_DOM_TEXT (url_text_node_clone));
 
-		final_url = g_strconcat (
-			g_str_has_prefix (url_text, "www") ? "http://" : "", url_text, NULL);
+		if (g_str_has_prefix (url_text, "www."))
+			final_url = g_strconcat ("http://" , url_text, NULL);
+		else if (is_email_address)
+			final_url = g_strconcat ("mailto:" , url_text, NULL);
+		else
+			final_url = g_strdup (url_text);
 
 		/* Create and prepare new anchor element */
 		anchor = webkit_dom_document_create_element (document, "A", NULL);
