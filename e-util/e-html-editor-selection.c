@@ -1500,17 +1500,29 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 const gchar *
 e_html_editor_selection_get_background_color (EHTMLEditorSelection *selection)
 {
+	EHTMLEditorView *view;
 	WebKitDOMNode *ancestor;
 	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	if (!e_html_editor_view_get_html_mode (view)) {
+		g_object_unref (view);
+		return "#ffffff";
+	}
+
+	g_object_unref (view);
+
 	range = html_editor_selection_get_current_range (selection);
 
 	ancestor = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (ancestor));
+	g_free (selection->priv->background_color);
 	selection->priv->background_color =
 		webkit_dom_css_style_declaration_get_property_value (
 			css, "background-color");
@@ -2491,8 +2503,21 @@ void
 e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
                                         GdkRGBA *rgba)
 {
+	EHTMLEditorView *view;
 	gchar *color;
+
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	if (!e_html_editor_view_get_html_mode (view)) {
+		g_object_unref (view);
+		*rgba = black;
+		return;
+	}
+
+	g_object_unref (view);
 
 	if (e_html_editor_selection_is_collapsed (selection)) {
 		color = g_strdup (selection->priv->font_color);
