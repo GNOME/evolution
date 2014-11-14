@@ -233,8 +233,8 @@ def get_combobox_textbox_object(contact_editor, section, scroll_to_bottom=True):
         'Phones': 'Telephone',
         'Emails': 'Email'}
     section = section_names[section.capitalize()]
-    lbl = contact_editor.child(roleName='label', name=section)
-    panel = lbl.findAncestor(GenericPredicate(roleName='panel'))
+    lbl = contact_editor.child(roleName='toggle button', name=section)
+    panel = lbl.findAncestor(GenericPredicate(roleName='filler'))
     textboxes = panel.findChildren(GenericPredicate(roleName='text'))
 
     # Scroll to the bottom of the page if needed
