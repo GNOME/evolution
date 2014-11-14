@@ -2537,6 +2537,7 @@ e_html_editor_selection_set_font_color (EHTMLEditorSelection *selection,
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR;
 	color = g_strdup_printf ("#%06x", rgba_value);
+	g_free (selection->priv->font_color);
 	selection->priv->font_color = g_strdup (color);
 	e_html_editor_view_exec_command (view, command, color);
 	g_free (color);
