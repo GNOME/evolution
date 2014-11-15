@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-09-14 15:02+0000\n"
+"POT-Creation-Date: 2014-11-07 11:47+0000\n"
 "PO-Revision-Date: 2014-09-14 19:24+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -493,7 +493,7 @@ msgstr "_Osoite:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
-#: ../addressbook/gui/widgets/e-contact-map.c:371
+#: ../addressbook/gui/widgets/e-contact-map.c:369
 #: ../addressbook/gui/widgets/eab-contact-display.c:356
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:80
 msgid "Home"
@@ -501,7 +501,7 @@ msgstr "Koti"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:48
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:191
-#: ../addressbook/gui/widgets/e-contact-map.c:384
+#: ../addressbook/gui/widgets/e-contact-map.c:382
 #: ../addressbook/gui/widgets/eab-contact-display.c:353
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:79
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:674
@@ -513,7 +513,7 @@ msgstr "Työ"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:81
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:367
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:727
-#: ../calendar/gui/e-cal-model.c:3951
+#: ../calendar/gui/e-cal-model.c:3941
 msgid "Other"
 msgstr "Muut"
 
@@ -530,7 +530,7 @@ msgstr "Muistilaput"
 #: ../calendar/gui/dialogs/comp-editor.c:1336 ../e-util/e-send-options.ui.h:41
 #: ../e-util/e-preferences-window.c:379
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../shell/e-shell-window-actions.c:1086
+#: ../shell/e-shell-window-actions.c:1085
 msgid "_Help"
 msgstr "O_hje"
 
@@ -578,7 +578,7 @@ msgstr "O_hje"
 #: ../plugins/face/face.c:291 ../plugins/mail-to-task/mail-to-task.c:593
 #: ../plugins/publish-calendar/publish-calendar.c:806
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
-#: ../plugins/save-calendar/save-calendar.c:189 ../shell/e-shell-content.c:659
+#: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:70
 #: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:623
 #: ../smime/gui/e-cert-selector.c:232 ../smime/gui/smime-ui.ui.h:23
@@ -991,7 +991,6 @@ msgid "Conflicting Contact:"
 msgstr "Ristiriitainen yhteystieto:"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:735
-#| msgid "Contact: "
 msgid "Old Contact:"
 msgstr "Vanha yhteystieto:"
 
@@ -1094,8 +1093,8 @@ msgstr "Haluatko varmasti poistaa tämän yhteystiedon (%s)?"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1593
 #: ../modules/calendar/e-memo-shell-view-actions.c:692
 #: ../modules/calendar/e-task-shell-view-actions.c:844
-#: ../modules/mail/e-mail-shell-view-actions.c:1561
-#: ../shell/e-shell-window-actions.c:944 ../smime/gui/smime-ui.ui.h:10
+#: ../modules/mail/e-mail-shell-view-actions.c:1564
+#: ../shell/e-shell-window-actions.c:943 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
 msgstr "_Poista"
 
@@ -1308,7 +1307,7 @@ msgstr "L_oitonna"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../shell/e-shell-window-actions.c:1021
+#: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
 msgstr "_Etsi"
 
@@ -1798,7 +1797,7 @@ msgstr "_Torku"
 #: ../plugins/email-custom-header/email-custom-header.c:843
 #: ../plugins/mail-to-task/mail-to-task.c:594
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
-#: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1072
+#: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1071
 #: ../smime/gui/smime-ui.ui.h:13
 msgid "_Edit"
 msgstr "_Muokkaa"
@@ -1812,8 +1811,8 @@ msgid "_Dismiss"
 msgstr "_Hylkää"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../calendar/alarm-notify/alarm-queue.c:1835
-#: ../calendar/alarm-notify/alarm-queue.c:1845
+#: ../calendar/alarm-notify/alarm-queue.c:1854
+#: ../calendar/alarm-notify/alarm-queue.c:1864
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../modules/itip-formatter/itip-view.c:1503
 #: ../modules/itip-formatter/itip-view.c:1614
@@ -1853,49 +1852,49 @@ msgstr "tuntia"
 msgid "minutes"
 msgstr "minuutti"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1678
-#: ../calendar/alarm-notify/alarm-queue.c:1815
+#: ../calendar/alarm-notify/alarm-queue.c:1697
+#: ../calendar/alarm-notify/alarm-queue.c:1834
 msgid "No summary available."
 msgstr "Ei yhteenvetoa saatavilla."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1687
-#: ../calendar/alarm-notify/alarm-queue.c:1689
+#: ../calendar/alarm-notify/alarm-queue.c:1706
+#: ../calendar/alarm-notify/alarm-queue.c:1708
 msgid "No description available."
 msgstr "Ei kuvausta saatavilla."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1697
+#: ../calendar/alarm-notify/alarm-queue.c:1716
 msgid "No location information available."
 msgstr "Ei sijaintitietoja saatavilla."
 
-#: ../calendar/alarm-notify/alarm-queue.c:1702
-#: ../calendar/alarm-notify/alarm-queue.c:1806
-#: ../calendar/alarm-notify/alarm-queue.c:2147
+#: ../calendar/alarm-notify/alarm-queue.c:1721
+#: ../calendar/alarm-notify/alarm-queue.c:1825
+#: ../calendar/alarm-notify/alarm-queue.c:2166
 msgid "Evolution Reminders"
 msgstr "Evolution-muistuttajat"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1746
+#: ../calendar/alarm-notify/alarm-queue.c:1765
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
 msgstr[0] "Sinulla on %d muistutus"
 msgstr[1] "Sinulla on %d muistutusta"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1965
+#: ../calendar/alarm-notify/alarm-queue.c:1984
 msgid "Warning"
 msgstr "Varoitus"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1966 ../mail/mail-dialogs.ui.h:21
+#: ../calendar/alarm-notify/alarm-queue.c:1985 ../mail/mail-dialogs.ui.h:21
 #: ../mail/mail.error.xml.h:139
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
 msgid "_No"
 msgstr "_Ei"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1967 ../mail/mail.error.xml.h:138
+#: ../calendar/alarm-notify/alarm-queue.c:1986 ../mail/mail.error.xml.h:138
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
 msgid "_Yes"
 msgstr "_Kyllä"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1971
+#: ../calendar/alarm-notify/alarm-queue.c:1990
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -1912,7 +1911,7 @@ msgstr ""
 "\n"
 "Haluatko varmasti suorittaa tämän ohjelman?"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1986
+#: ../calendar/alarm-notify/alarm-queue.c:2005
 msgid "Do not ask me about this program again."
 msgstr "Älä kysy tästä ohjelmasta enää uudestaan."
 
@@ -2784,7 +2783,7 @@ msgstr "Synkronointi palvelimen kanssa ei onnistu"
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:126
 #: ../mail/em-folder-properties.c:418 ../mail/em-subscription-editor.c:1714
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
-#: ../shell/e-shell-window-actions.c:343 ../shell/e-shell-window-actions.c:909
+#: ../shell/e-shell-window-actions.c:342 ../shell/e-shell-window-actions.c:908
 #: ../smime/gui/certificate-manager.c:1182
 msgid "_Close"
 msgstr "_Sulje"
@@ -2797,7 +2796,7 @@ msgstr "Sulje nykyinen ikkuna"
 #: ../calendar/gui/dialogs/comp-editor.c:1229 ../e-util/e-focus-tracker.c:730
 #: ../e-util/e-text.c:2089 ../e-util/e-web-view-gtkhtml.c:452
 #: ../e-util/e-web-view.c:342 ../mail/e-mail-browser.c:133
-#: ../shell/e-shell-window-actions.c:930
+#: ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
 msgstr "_Kopioi"
 
@@ -2805,27 +2804,27 @@ msgstr "_Kopioi"
 #: ../e-util/e-focus-tracker.c:230 ../e-util/e-focus-tracker.c:731
 #: ../e-util/e-web-view-gtkhtml.c:454 ../e-util/e-web-view-gtkhtml.c:1295
 #: ../e-util/e-web-view.c:344 ../e-util/e-web-view.c:1318
-#: ../mail/e-mail-browser.c:135 ../shell/e-shell-window-actions.c:932
+#: ../mail/e-mail-browser.c:135 ../shell/e-shell-window-actions.c:931
 msgid "Copy the selection"
 msgstr "Kopioi valinta"
 
 #. cut menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1236 ../e-util/e-focus-tracker.c:725
 #: ../e-util/e-text.c:2075 ../mail/e-mail-browser.c:140
-#: ../shell/e-shell-window-actions.c:937
+#: ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "_Leikkaa"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1238 ../e-util/e-focus-tracker.c:167
 #: ../e-util/e-focus-tracker.c:223 ../e-util/e-focus-tracker.c:726
 #: ../e-util/e-web-view-gtkhtml.c:1289 ../e-util/e-web-view.c:1312
-#: ../mail/e-mail-browser.c:142 ../shell/e-shell-window-actions.c:939
+#: ../mail/e-mail-browser.c:142 ../shell/e-shell-window-actions.c:938
 msgid "Cut the selection"
 msgstr "Leikkaa valinta"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1245 ../e-util/e-focus-tracker.c:188
 #: ../e-util/e-focus-tracker.c:244 ../e-util/e-focus-tracker.c:741
-#: ../shell/e-shell-window-actions.c:946
+#: ../shell/e-shell-window-actions.c:945
 msgid "Delete the selection"
 msgstr "Poista valinta"
 
@@ -2836,14 +2835,14 @@ msgstr "Näytä ohje"
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1257 ../e-util/e-focus-tracker.c:735
 #: ../e-util/e-text.c:2101 ../mail/e-mail-browser.c:147
-#: ../shell/e-shell-window-actions.c:965
+#: ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "_Liitä"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1259 ../e-util/e-focus-tracker.c:181
 #: ../e-util/e-focus-tracker.c:237 ../e-util/e-focus-tracker.c:736
 #: ../e-util/e-web-view-gtkhtml.c:1301 ../e-util/e-web-view.c:1324
-#: ../mail/e-mail-browser.c:149 ../shell/e-shell-window-actions.c:967
+#: ../mail/e-mail-browser.c:149 ../shell/e-shell-window-actions.c:966
 msgid "Paste the clipboard"
 msgstr "Liitä leikepöytä"
 
@@ -2877,13 +2876,13 @@ msgstr "Tallenna nykyiset muutokset ja sulje muokkain"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1292 ../e-util/e-focus-tracker.c:745
 #: ../e-util/e-web-view-gtkhtml.c:462 ../e-util/e-web-view.c:352
-#: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:1042
+#: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Valitse _kaikki"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1294 ../e-util/e-focus-tracker.c:195
 #: ../e-util/e-focus-tracker.c:251 ../e-util/e-focus-tracker.c:746
-#: ../mail/e-mail-browser.c:156 ../shell/e-shell-window-actions.c:1044
+#: ../mail/e-mail-browser.c:156 ../shell/e-shell-window-actions.c:1043
 msgid "Select all text"
 msgstr "Valitse kaikki teksti"
 
@@ -2893,7 +2892,7 @@ msgstr "Lu_okittelu"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1329
 #: ../e-util/e-mail-signature-editor.c:321 ../mail/e-mail-browser.c:163
-#: ../shell/e-shell-window-actions.c:1079
+#: ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Tiedosto"
 
@@ -2907,7 +2906,7 @@ msgid "_Options"
 msgstr "_Asetukset"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1357 ../mail/e-mail-browser.c:177
-#: ../shell/e-shell-window-actions.c:1121 ../smime/gui/smime-ui.ui.h:5
+#: ../shell/e-shell-window-actions.c:1120 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Näytä"
 
@@ -3167,7 +3166,7 @@ msgstr "_Vapaa/Varattu"
 msgid "Query free / busy information for the attendees"
 msgstr "Kysy vapaa/varattu-tietoja osanottajilta"
 
-#: ../calendar/gui/dialogs/event-editor.c:306 ../calendar/gui/print.c:3499
+#: ../calendar/gui/dialogs/event-editor.c:306 ../calendar/gui/print.c:3503
 msgid "Appointment"
 msgstr "Tapaaminen"
 
@@ -3408,7 +3407,7 @@ msgstr "Valitse päivämäärä"
 msgid "Select _Today"
 msgstr "Valitse _tämä päivä"
 
-#: ../calendar/gui/dialogs/memo-editor.c:105 ../calendar/gui/print.c:3503
+#: ../calendar/gui/dialogs/memo-editor.c:105 ../calendar/gui/print.c:3507
 msgid "Memo"
 msgstr "Muistilappu"
 
@@ -3737,7 +3736,7 @@ msgstr "Muistuta uusia osallistuja _vain"
 msgid "_Send Options"
 msgstr "_Lähetysasetukset"
 
-#: ../calendar/gui/dialogs/task-editor.c:148 ../calendar/gui/print.c:3501
+#: ../calendar/gui/dialogs/task-editor.c:148 ../calendar/gui/print.c:3505
 #: ../e-util/e-send-options.c:553
 msgid "Task"
 msgstr "Tehtävä"
@@ -3784,16 +3783,16 @@ msgstr "Valmistumispäivä on väärin"
 #: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../calendar/gui/e-cal-component-preview.c:336
 #: ../calendar/gui/e-task-table.c:582 ../calendar/gui/tasktypes.xml.h:19
-#: ../e-util/e-send-options.ui.h:2 ../mail/message-list.c:309
+#: ../e-util/e-send-options.ui.h:2 ../mail/message-list.c:313
 msgid "High"
 msgstr "Korkea"
 
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:338
-#: ../calendar/gui/e-cal-model.c:1659 ../calendar/gui/e-task-table.c:583
+#: ../calendar/gui/e-cal-model.c:1649 ../calendar/gui/e-task-table.c:583
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
-#: ../mail/message-list.c:308
+#: ../mail/message-list.c:312
 msgid "Normal"
 msgstr "Tavallinen"
 
@@ -3801,7 +3800,7 @@ msgstr "Tavallinen"
 #: ../calendar/gui/dialogs/task-page.ui.h:12
 #: ../calendar/gui/e-cal-component-preview.c:340
 #: ../calendar/gui/e-task-table.c:584 ../calendar/gui/tasktypes.xml.h:21
-#: ../e-util/e-send-options.ui.h:4 ../mail/message-list.c:307
+#: ../e-util/e-send-options.ui.h:4 ../mail/message-list.c:311
 msgid "Low"
 msgstr "Matala"
 
@@ -3818,7 +3817,7 @@ msgstr "Määrittämätön"
 #: ../calendar/gui/e-cal-model-tasks.c:310
 #: ../calendar/gui/e-cal-model-tasks.c:552 ../calendar/gui/e-task-table.c:218
 #: ../calendar/gui/e-task-table.c:233 ../calendar/gui/e-task-table.c:665
-#: ../calendar/gui/print.c:3585 ../calendar/gui/tasktypes.xml.h:11
+#: ../calendar/gui/print.c:3590 ../calendar/gui/tasktypes.xml.h:11
 msgid "Not Started"
 msgstr "Ei aloitettu"
 
@@ -3829,7 +3828,7 @@ msgstr "Ei aloitettu"
 #: ../calendar/gui/e-cal-model-tasks.c:554
 #: ../calendar/gui/e-cal-model-tasks.c:635 ../calendar/gui/e-task-table.c:220
 #: ../calendar/gui/e-task-table.c:235 ../calendar/gui/e-task-table.c:666
-#: ../calendar/gui/print.c:3588
+#: ../calendar/gui/print.c:3593
 msgid "In Progress"
 msgstr "Työn alla"
 
@@ -3840,7 +3839,7 @@ msgstr "Työn alla"
 #: ../calendar/gui/e-cal-model-tasks.c:556
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
 #: ../calendar/gui/e-task-table.c:222 ../calendar/gui/e-task-table.c:237
-#: ../calendar/gui/e-task-table.c:667 ../calendar/gui/print.c:3591
+#: ../calendar/gui/e-task-table.c:667 ../calendar/gui/print.c:3596
 #: ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
@@ -3852,7 +3851,7 @@ msgstr "Valmis"
 #: ../calendar/gui/e-cal-model-tasks.c:316
 #: ../calendar/gui/e-cal-model-tasks.c:558 ../calendar/gui/e-task-table.c:224
 #: ../calendar/gui/e-task-table.c:239 ../calendar/gui/e-task-table.c:668
-#: ../calendar/gui/print.c:3594 ../mail/mail-send-recv.c:853
+#: ../calendar/gui/print.c:3599 ../mail/mail-send-recv.c:853
 msgid "Canceled"
 msgstr "Peruutettu"
 
@@ -3908,32 +3907,32 @@ msgstr "Siirry tähän päivään"
 msgid "Go to Date"
 msgstr "Siirry päivään"
 
-#: ../calendar/gui/ea-cal-view-event.c:297
+#: ../calendar/gui/ea-cal-view-event.c:234
 msgid "It has reminders."
 msgstr "Sisältää muistutuksia."
 
-#: ../calendar/gui/ea-cal-view-event.c:300
+#: ../calendar/gui/ea-cal-view-event.c:237
 msgid "It has recurrences."
 msgstr "Sisältää toistuvuuksia."
 
-#: ../calendar/gui/ea-cal-view-event.c:303
+#: ../calendar/gui/ea-cal-view-event.c:240
 msgid "It is a meeting."
 msgstr "Sisältää kokouksen."
 
-#: ../calendar/gui/ea-cal-view-event.c:310
+#: ../calendar/gui/ea-cal-view-event.c:247
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Kalenteritapahtuma, yhteenveto aiheesta: %s."
 
-#: ../calendar/gui/ea-cal-view-event.c:313
+#: ../calendar/gui/ea-cal-view-event.c:250
 msgid "Calendar Event: It has no summary."
 msgstr "Kalenteritapahtuma, ei yhteenvetoa."
 
-#: ../calendar/gui/ea-cal-view-event.c:336
+#: ../calendar/gui/ea-cal-view-event.c:273
 msgid "calendar view event"
 msgstr "kalenterinäkymän tapahtuma"
 
-#: ../calendar/gui/ea-cal-view-event.c:568
+#: ../calendar/gui/ea-cal-view-event.c:505
 msgid "Grab Focus"
 msgstr "Ota kohdistin"
 
@@ -4170,14 +4169,12 @@ msgstr "WWW-sivu:"
 #: ../calendar/gui/e-calendar-selector.c:355
 #: ../modules/calendar/e-cal-shell-view-private.c:1096
 #, c-format
-#| msgid "Copying an event into the calendar '{0}'"
 msgid "Copying an event into the calendar %s"
 msgstr "Kopioidaan tapahtumaa kalenteriin %s"
 
 #: ../calendar/gui/e-calendar-selector.c:356
 #: ../modules/calendar/e-cal-shell-view-private.c:1095
 #, c-format
-#| msgid "Moving an event into the calendar '{0}'"
 msgid "Moving an event into the calendar %s"
 msgstr "Siirretään tapahtumaa kalenteriin %s"
 
@@ -4224,7 +4221,7 @@ msgstr "Prioriteetti"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:4005
+#: ../calendar/gui/e-cal-model.c:3995
 #: ../calendar/gui/e-meeting-list-view.c:695
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/em-filter-i18n.h:49
@@ -4291,7 +4288,7 @@ msgstr "Järjestäjä: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2132
-#: ../calendar/gui/e-meeting-time-sel.c:2663 ../calendar/gui/print.c:3539
+#: ../calendar/gui/e-meeting-time-sel.c:2663 ../calendar/gui/print.c:3544
 #, c-format
 msgid "Location: %s"
 msgstr "Sijainti: %s"
@@ -4322,56 +4319,56 @@ msgstr "Päättymispäivä"
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: ../calendar/gui/e-cal-model.c:1661
+#: ../calendar/gui/e-cal-model.c:1651
 msgid "Recurring"
 msgstr "Toistuva"
 
-#: ../calendar/gui/e-cal-model.c:1663
+#: ../calendar/gui/e-cal-model.c:1653
 msgid "Assigned"
 msgstr "Annettu tehtäväksi"
 
-#: ../calendar/gui/e-cal-model.c:1665 ../calendar/gui/e-cal-model-tasks.c:1163
+#: ../calendar/gui/e-cal-model.c:1655 ../calendar/gui/e-cal-model-tasks.c:1157
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:1023
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ../calendar/gui/e-cal-model.c:1665 ../calendar/gui/e-cal-model-tasks.c:1163
+#: ../calendar/gui/e-cal-model.c:1655 ../calendar/gui/e-cal-model-tasks.c:1157
 #: ../calendar/gui/e-meeting-list-view.c:209
 #: ../calendar/gui/e-meeting-store.c:188
 msgid "No"
 msgstr "Ei"
 
-#: ../calendar/gui/e-cal-model.c:3946
+#: ../calendar/gui/e-cal-model.c:3936
 #: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6085
 msgid "Accepted"
 msgstr "Hyväksytty"
 
-#: ../calendar/gui/e-cal-model.c:3947
+#: ../calendar/gui/e-cal-model.c:3937
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:6091
 msgid "Declined"
 msgstr "Hylätty"
 
-#: ../calendar/gui/e-cal-model.c:3948
+#: ../calendar/gui/e-cal-model.c:3938
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:529
 msgid "Tentative"
 msgstr "Alustava"
 
-#: ../calendar/gui/e-cal-model.c:3949
+#: ../calendar/gui/e-cal-model.c:3939
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:6094
 msgid "Delegated"
 msgstr "Valtuutettu"
 
-#: ../calendar/gui/e-cal-model.c:3950
+#: ../calendar/gui/e-cal-model.c:3940
 msgid "Needs action"
 msgstr "Vaatii toimenpiteitä"
 
@@ -4402,16 +4399,16 @@ msgid "None"
 msgstr "Ei mitään"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:160
+#: ../calendar/gui/e-cell-date-edit-text.c:165
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H.%M.%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:163
+#: ../calendar/gui/e-cell-date-edit-text.c:168
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %d/%m/%Y %I.%M.%S %p"
 
-#: ../calendar/gui/e-cell-date-edit-text.c:171
+#: ../calendar/gui/e-cell-date-edit-text.c:176
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -4423,14 +4420,14 @@ msgstr ""
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:1992 ../calendar/gui/e-week-view.c:1591
 #: ../calendar/gui/print.c:1076 ../calendar/gui/print.c:1095
-#: ../calendar/gui/print.c:2636 ../calendar/gui/print.c:2656
+#: ../calendar/gui/print.c:2638 ../calendar/gui/print.c:2658
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1995 ../calendar/gui/e-week-view.c:1594
 #: ../calendar/gui/print.c:1081 ../calendar/gui/print.c:1097
-#: ../calendar/gui/print.c:2641 ../calendar/gui/print.c:2658
+#: ../calendar/gui/print.c:2643 ../calendar/gui/print.c:2660
 msgid "pm"
 msgstr "pm"
 
@@ -4441,7 +4438,7 @@ msgstr "pm"
 #. * order but don't change the specifiers or add
 #. * anything.
 #: ../calendar/gui/e-day-view.c:2795 ../calendar/gui/e-day-view-top-item.c:850
-#: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2092
+#: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2094
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -4649,7 +4646,7 @@ msgstr ""
 "Yhteenveto: %s\n"
 "Sijainti: %s"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2661 ../calendar/gui/print.c:3528
+#: ../calendar/gui/e-meeting-time-sel.c:2661 ../calendar/gui/print.c:3533
 #, c-format
 msgid "Summary: %s"
 msgstr "Yhteenveto: %s"
@@ -4734,7 +4731,7 @@ msgstr "Lisää muistilappu tästä"
 msgid "%d%%"
 msgstr "%d %%"
 
-#: ../calendar/gui/e-task-table.c:730 ../calendar/gui/print.c:2417
+#: ../calendar/gui/e-task-table.c:730 ../calendar/gui/print.c:2419
 #: ../calendar/importers/icalendar-importer.c:78
 #: ../calendar/importers/icalendar-importer.c:1072
 #: ../modules/calendar/e-calendar-preferences.ui.h:61
@@ -4773,7 +4770,7 @@ msgstr "Valitse aikavyöhyke"
 #. strftime format %d = day of month, %B = full
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:224 ../calendar/gui/print.c:2071
+#: ../calendar/gui/e-week-view-main-item.c:224 ../calendar/gui/print.c:2073
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -5068,66 +5065,66 @@ msgstr "Su"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:3322
+#: ../calendar/gui/print.c:3326
 msgid " to "
 msgstr " - "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:3332
+#: ../calendar/gui/print.c:3336
 msgid " (Completed "
 msgstr " (Valmis "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:3338
+#: ../calendar/gui/print.c:3342
 msgid "Completed "
 msgstr "Valmis "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:3348
+#: ../calendar/gui/print.c:3352
 msgid " (Due "
 msgstr " (erääntyy "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:3355
+#: ../calendar/gui/print.c:3359
 msgid "Due "
 msgstr "Erääntyy "
 
-#: ../calendar/gui/print.c:3558
+#: ../calendar/gui/print.c:3563
 msgid "Attendees: "
 msgstr "Osanottajat: "
 
-#: ../calendar/gui/print.c:3602
+#: ../calendar/gui/print.c:3607
 #, c-format
 msgid "Status: %s"
 msgstr "Tila: %s"
 
-#: ../calendar/gui/print.c:3618
+#: ../calendar/gui/print.c:3623
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioriteetti: %s"
 
-#: ../calendar/gui/print.c:3636
+#: ../calendar/gui/print.c:3641
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Valmis (%%): %i"
 
-#: ../calendar/gui/print.c:3650
+#: ../calendar/gui/print.c:3655
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:3664
+#: ../calendar/gui/print.c:3669
 #, c-format
 msgid "Categories: %s"
 msgstr "Ryhmät: %s"
 
-#: ../calendar/gui/print.c:3675
+#: ../calendar/gui/print.c:3680
 msgid "Contacts: "
 msgstr "Yhteystiedot: "
 
@@ -6890,11 +6887,11 @@ msgstr "Uusi _viesti"
 msgid "Open New Message window"
 msgstr "Avaa uuden viestin luonti-ikkuna"
 
-#: ../composer/e-composer-actions.c:289 ../shell/e-shell-window-actions.c:979
+#: ../composer/e-composer-actions.c:289 ../shell/e-shell-window-actions.c:978
 msgid "_Preferences"
 msgstr "_Asetukset"
 
-#: ../composer/e-composer-actions.c:291 ../shell/e-shell-window-actions.c:981
+#: ../composer/e-composer-actions.c:291 ../shell/e-shell-window-actions.c:980
 msgid "Configure Evolution"
 msgstr "Evolutionin asetukset"
 
@@ -7096,12 +7093,12 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Uusi viesti"
 
-#: ../composer/e-msg-composer.c:4284
+#: ../composer/e-msg-composer.c:4287
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "(Muokkain sisältää viestin rungon joka ei ole tekstiä ja jota ei voi muokata)"
 
-#: ../composer/e-msg-composer.c:4984
+#: ../composer/e-msg-composer.c:4987
 msgid "Untitled Message"
 msgstr "Nimeämätön viesti"
 
@@ -7272,33 +7269,13 @@ msgstr "Evolutionin hälytysilmoitukset"
 msgid "Calendar event notifications"
 msgstr "Kalenteritapahtumien ilmoitukset"
 
-#: ../data/evolution.appdata.xml.in.h:1
-msgid ""
-"Evolution is a personal information management application that provides "
-"integrated mail, calendaring and address book functionality."
-msgstr ""
-"Evolution on henkilökohtaisen tiedon hallintasovellus, joka tarjoaa "
-"sähköpostin, kalenterin ja osoitekirjan."
-
-#: ../data/evolution.appdata.xml.in.h:2
-msgid ""
-"Evolution supports a wide range of industry standard data formats and "
-"network protocols for information exchange, with an emphasis on standards "
-"compliance and security. Evolution can also integrate smoothly with "
-"Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) extension."
-msgstr ""
-"Evolution tukee lukuisia standardeja tiedostomuotoja ja verkkoprotokollia "
-"tiedonvaihtoa varten, painoarvoa on asetettu erityisesti standardien "
-"noudattamiseen ja tietoturvaan. Evolution voi myös integroitua Microsoft "
-"Exchange -palvelimeen Exchange Web Services (EWS) -laajennuksen avulla."
-
 #: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1032
 #: ../modules/mailto-handler/evolution-mailto-handler.c:210
 #: ../shell/e-shell-window-private.c:242
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:82
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:81
 msgid "Groupware Suite"
 msgstr "Ryhmätyöohjelmisto"
 
@@ -10337,8 +10314,8 @@ msgstr "_Nimi:"
 msgid "_Replace existing view"
 msgstr "_Korvaa olemassaoleva näkymä"
 
-#: ../e-util/e-activity-proxy.c:313
-#: ../modules/mail/e-mail-shell-view-actions.c:1724
+#: ../e-util/e-activity-proxy.c:352
+#: ../modules/mail/e-mail-shell-view-actions.c:1727
 msgid "Cancel"
 msgstr "Peru"
 
@@ -10465,9 +10442,9 @@ msgid "Sa_ve As"
 msgstr "_Tallenna nimellä"
 
 #: ../e-util/e-attachment-view.c:400
-#: ../plugins/save-calendar/save-calendar.c:349
-#: ../plugins/save-calendar/save-calendar.c:380
-#: ../plugins/save-calendar/save-calendar.c:411
+#: ../plugins/save-calendar/save-calendar.c:346
+#: ../plugins/save-calendar/save-calendar.c:377
+#: ../plugins/save-calendar/save-calendar.c:408
 msgid "Save _As"
 msgstr "Tallenna _nimellä"
 
@@ -10480,8 +10457,8 @@ msgstr "_Lisää liite..."
 #: ../modules/calendar/e-cal-shell-view-actions.c:1399
 #: ../modules/calendar/e-memo-shell-view-actions.c:628
 #: ../modules/calendar/e-task-shell-view-actions.c:752
-#: ../modules/mail/e-mail-shell-view-actions.c:1526
-#: ../modules/mail/e-mail-shell-view-actions.c:1596
+#: ../modules/mail/e-mail-shell-view-actions.c:1529
+#: ../modules/mail/e-mail-shell-view-actions.c:1599
 msgid "_Properties"
 msgstr "_Ominaisuudet"
 
@@ -10664,7 +10641,7 @@ msgstr "_Käytettävissä olevat luokat:"
 
 #: ../e-util/e-categories-editor.c:274 ../mail/em-folder-selector.c:272
 #: ../plugins/mail-to-task/mail-to-task.c:595
-#: ../shell/e-shell-window-actions.c:1100
+#: ../shell/e-shell-window-actions.c:1099
 msgid "_New"
 msgstr "_Uusi"
 
@@ -10735,7 +10712,7 @@ msgstr "OK"
 msgid "The time must be in the format: %s"
 msgstr "Ajan tulee olla muodossa: %s"
 
-#: ../e-util/e-cell-date.c:52 ../mail/message-list.c:1877
+#: ../e-util/e-cell-date.c:52 ../mail/message-list.c:1887
 msgid "?"
 msgstr "?"
 
@@ -11125,7 +11102,7 @@ msgstr "Etsi kohdat, jotka vastaavat seuraavia ehtoja"
 #. protocol:
 #. name:
 #: ../e-util/e-filter-rule.c:846 ../e-util/e-mail-identity-combo-box.c:472
-#: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:549
+#: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:560
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:616
@@ -11385,25 +11362,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Valitse yhteystiedot osoitekirjasta"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../e-util/e-name-selector-entry.c:3037
+#: ../e-util/e-name-selector-entry.c:3121
 #, fuzzy, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Laajenna kaikki"
 
 #. Copy Contact Item
-#: ../e-util/e-name-selector-entry.c:3053
+#: ../e-util/e-name-selector-entry.c:3137
 #, c-format
 msgid "Cop_y %s"
 msgstr "_Kopioi %s"
 
 #. Cut Contact Item
-#: ../e-util/e-name-selector-entry.c:3064
+#: ../e-util/e-name-selector-entry.c:3148
 #, c-format
 msgid "C_ut %s"
 msgstr "_Leikkaa %s"
 
 #. Edit Contact item
-#: ../e-util/e-name-selector-entry.c:3082
+#: ../e-util/e-name-selector-entry.c:3166
 #, c-format
 msgid "_Edit %s"
 msgstr "_Muokkaa %s"
@@ -11466,68 +11443,65 @@ msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "Tulostusjärjestelmä ei kertonut tarkempia tietoja virheestä."
 
-#: ../e-util/e-proxy-editor.c:314
-#| msgid "Method:"
+#: ../e-util/e-proxy-editor.c:325
 msgid "_Method:"
 msgstr "_Menetelmä:"
 
-#: ../e-util/e-proxy-editor.c:336
+#: ../e-util/e-proxy-editor.c:347
 msgid "Defer to Desktop Settings"
 msgstr "Käytä työpöydän asetuksia"
 
-#: ../e-util/e-proxy-editor.c:340
+#: ../e-util/e-proxy-editor.c:351
 msgid "_Open Desktop Settings"
 msgstr "_Avaa työpöydän asetukset"
 
-#: ../e-util/e-proxy-editor.c:366
-#| msgid "January"
+#: ../e-util/e-proxy-editor.c:377
 msgid "Manual"
 msgstr "Manuaalisesti"
 
-#: ../e-util/e-proxy-editor.c:385
+#: ../e-util/e-proxy-editor.c:396
 msgid "_HTTP Proxy:"
 msgstr "_HTTP-välityspalvelin:"
 
-#: ../e-util/e-proxy-editor.c:416
+#: ../e-util/e-proxy-editor.c:427
 msgid "H_TTPS Proxy:"
 msgstr "H_TTPS-välityspalvelin:"
 
-#: ../e-util/e-proxy-editor.c:447
+#: ../e-util/e-proxy-editor.c:458
 msgid "_Socks Proxy:"
 msgstr "So_cks-välityspalvelin:"
 
-#: ../e-util/e-proxy-editor.c:478
+#: ../e-util/e-proxy-editor.c:489
 #, fuzzy
 #| msgid "Ignore"
 msgid "_Ignore Hosts:"
 msgstr "Älä välitä"
 
-#: ../e-util/e-proxy-editor.c:504
-#| msgid "Automatic Contacts"
+#: ../e-util/e-proxy-editor.c:515
 msgid "Automatic"
 msgstr "Automaattinen"
 
-#: ../e-util/e-proxy-editor.c:523
+#: ../e-util/e-proxy-editor.c:534
 msgid "Configuration _URL:"
 msgstr "_Määritysosoite:"
 
-#: ../e-util/e-proxy-editor.c:552
+#: ../e-util/e-proxy-editor.c:563
 msgid "Use a direct connection, no proxying required."
 msgstr "Käytä suoraa yhteyttä, välityspalvelinta ei tarvita."
 
-#: ../e-util/e-proxy-preferences.c:177
+#: ../e-util/e-proxy-preferences.c:213
 msgid "Switch to Basic Proxy Preferences"
 msgstr ""
 
-#: ../e-util/e-proxy-preferences.c:179
+#: ../e-util/e-proxy-preferences.c:215
 msgid "Switch to Advanced Proxy Preferences"
 msgstr ""
 
-#: ../e-util/e-proxy-preferences.c:462
+#: ../e-util/e-proxy-preferences.c:526
 msgid "Apply custom proxy settings to these accounts:"
 msgstr ""
 
-#: ../e-util/e-proxy-preferences.c:497
+#: ../e-util/e-proxy-preferences.c:561
 msgid ""
 "<b>Advanced Proxy Preferences</b> lets you define alternate network proxies "
 "and apply them to specific accounts"
@@ -12128,7 +12102,6 @@ msgid "Please choose another name."
 msgstr "Valitse toinen nimi."
 
 #: ../e-util/filter.error.xml.h:12
-#| msgid "Missing date."
 msgid "Missing condition."
 msgstr "Ehto puuttuu."
 
@@ -12215,6 +12188,26 @@ msgstr "Allekirjoitusta ei voi ladata."
 #: ../e-util/widgets.error.xml.h:9
 msgid "Could not save signature."
 msgstr "Allekirjoitusta ei voi tallentaa."
+
+#: ../evolution.appdata.xml.in.h:1
+msgid ""
+"Evolution is a personal information management application that provides "
+"integrated mail, calendaring and address book functionality."
+msgstr ""
+"Evolution on henkilökohtaisen tiedon hallintasovellus, joka tarjoaa "
+"sähköpostin, kalenterin ja osoitekirjan."
+
+#: ../evolution.appdata.xml.in.h:2
+msgid ""
+"Evolution supports a wide range of industry standard data formats and "
+"network protocols for information exchange, with an emphasis on standards "
+"compliance and security. Evolution can also integrate smoothly with "
+"Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) extension."
+msgstr ""
+"Evolution tukee lukuisia standardeja tiedostomuotoja ja verkkoprotokollia "
+"tiedonvaihtoa varten, painoarvoa on asetettu erityisesti standardien "
+"noudattamiseen ja tietoturvaan. Evolution voi myös integroitua Microsoft "
+"Exchange -palvelimeen Exchange Web Services (EWS) -laajennuksen avulla."
 
 #: ../libemail-engine/camel-sasl-xoauth2.c:26
 msgid "OAuth2"
@@ -12563,11 +12556,11 @@ msgstr "Tilin nimi"
 msgid "Default"
 msgstr "Oletukset"
 
-#: ../mail/e-mail-autoconfig.c:611
+#: ../mail/e-mail-autoconfig.c:619
 msgid "No email address provided"
 msgstr "Sähköpostiosoitetta ei annettu."
 
-#: ../mail/e-mail-autoconfig.c:620
+#: ../mail/e-mail-autoconfig.c:628
 msgid "Missing domain in email address"
 msgstr "Verkkonimi puuttuu sähköpostiosoitteesta"
 
@@ -12575,8 +12568,8 @@ msgstr "Verkkonimi puuttuu sähköpostiosoitteesta"
 msgid "Unknown background operation"
 msgstr "Tuntematon taustatoiminto"
 
-#: ../mail/e-mail-browser.c:128 ../shell/e-shell-window-actions.c:904
-#: ../shell/e-shell-window-actions.c:911 ../shell/e-shell-window-actions.c:918
+#: ../mail/e-mail-browser.c:128 ../shell/e-shell-window-actions.c:903
+#: ../shell/e-shell-window-actions.c:910 ../shell/e-shell-window-actions.c:917
 msgid "Close this window"
 msgstr "Sulje tämä ikkuna"
 
@@ -12599,7 +12592,6 @@ msgid "Evolution Account Assistant"
 msgstr "Evolutionin sähköpostitilien apulainen"
 
 #: ../mail/e-mail-config-assistant.c:935
-#| msgid "_Restore Defaults"
 msgid "_Revise Details"
 msgstr "_Tarkista tiedot"
 
@@ -12852,7 +12844,7 @@ msgstr "Valitse"
 
 #: ../mail/e-mail-config-security-page.c:452
 #: ../mail/e-mail-config-security-page.c:558 ../mail/mail-dialogs.ui.h:5
-#: ../shell/e-shell-window-actions.c:1007
+#: ../shell/e-shell-window-actions.c:1006
 msgid "_Clear"
 msgstr "_Tyhjennä"
 
@@ -13021,7 +13013,7 @@ msgid "_Later"
 msgstr "_Myöhemmin"
 
 #: ../mail/e-mail-label-manager.c:171
-#: ../modules/mail/e-mail-shell-view-actions.c:1028
+#: ../modules/mail/e-mail-shell-view-actions.c:1031
 msgid "Add Label"
 msgstr "Lisää merkintä"
 
@@ -13741,15 +13733,15 @@ msgstr "------- Välitetty viesti ---------"
 msgid "-----Original Message-----"
 msgstr "-----Alkuperäinen viesti-----"
 
-#: ../mail/em-composer-utils.c:2623
+#: ../mail/em-composer-utils.c:2629
 msgid "an unknown sender"
 msgstr "Tuntematon lähettäjä"
 
-#: ../mail/em-composer-utils.c:3048
+#: ../mail/em-composer-utils.c:3054
 msgid "Posting destination"
 msgstr "Postituksen kohde"
 
-#: ../mail/em-composer-utils.c:3049
+#: ../mail/em-composer-utils.c:3055
 msgid "Choose folders to post the message to."
 msgstr "Valitse kansio johon viesti postitetaan:"
 
@@ -14092,12 +14084,12 @@ msgstr "Siirretään kansiota %s"
 msgid "Copying folder %s"
 msgstr "Kopioidaan kansiota %s"
 
-#: ../mail/em-folder-tree.c:2226 ../mail/message-list.c:2309
+#: ../mail/em-folder-tree.c:2226 ../mail/message-list.c:2319
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Siirretään viestejä kansioon %s"
 
-#: ../mail/em-folder-tree.c:2230 ../mail/message-list.c:2311
+#: ../mail/em-folder-tree.c:2230 ../mail/message-list.c:2321
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopioidaan viestejä kansioon %s"
@@ -14145,7 +14137,7 @@ msgid "Subscribe To _All"
 msgstr "Tilaa kaikk_i"
 
 #: ../mail/em-subscription-editor.c:969 ../mail/em-subscription-editor.c:1867
-#: ../modules/mail/e-mail-shell-view-actions.c:1631
+#: ../modules/mail/e-mail-shell-view-actions.c:1634
 msgid "_Unsubscribe"
 msgstr "_Peru tilaus"
 
@@ -14183,7 +14175,7 @@ msgid "Su_bscribe"
 msgstr "Tila_a"
 
 #: ../mail/em-subscription-editor.c:1866
-#: ../modules/mail/e-mail-shell-view-actions.c:1633
+#: ../modules/mail/e-mail-shell-view-actions.c:1636
 msgid "Unsubscribe from the selected folder"
 msgstr "Peru tämän kansion tilaus"
 
@@ -14208,8 +14200,8 @@ msgid "Refresh the folder list"
 msgstr "Päivitä kansioluettelo"
 
 #: ../mail/em-subscription-editor.c:1929
-#: ../modules/mail/e-mail-shell-view-actions.c:1533
-#: ../modules/mail/e-mail-shell-view-actions.c:1603
+#: ../modules/mail/e-mail-shell-view-actions.c:1536
+#: ../modules/mail/e-mail-shell-view-actions.c:1606
 msgid "_Refresh"
 msgstr "_Päivitä"
 
@@ -14643,7 +14635,6 @@ msgid "_Folder override has precedence over Recipient override"
 msgstr ""
 
 #: ../mail/mail-config.ui.h:65
-#| msgid "Source Account"
 msgid "Send Account"
 msgstr "Lähetystili"
 
@@ -15104,7 +15095,7 @@ msgstr ""
 "Haluatko varmasti poistaa kaikki poistetut viestit kaikista kansioista?"
 
 #: ../mail/mail.error.xml.h:39
-#: ../modules/mail/e-mail-shell-view-actions.c:1519
+#: ../modules/mail/e-mail-shell-view-actions.c:1522
 msgid "_Empty Trash"
 msgstr "_Tyhjennä roskakori"
 
@@ -15708,87 +15699,87 @@ msgstr "Muokkaa hakunäkymää"
 msgid "New Search Folder"
 msgstr "Uusi hakunäkymä"
 
-#: ../mail/message-list.c:287
+#: ../mail/message-list.c:291
 msgid "Unseen"
 msgstr "Nähty"
 
-#: ../mail/message-list.c:288
+#: ../mail/message-list.c:292
 msgid "Seen"
 msgstr "Näkemättä"
 
-#: ../mail/message-list.c:289
+#: ../mail/message-list.c:293
 msgid "Answered"
 msgstr "Vastattu"
 
-#: ../mail/message-list.c:290
+#: ../mail/message-list.c:294
 msgid "Forwarded"
 msgstr "Välitetty"
 
-#: ../mail/message-list.c:291
+#: ../mail/message-list.c:295
 msgid "Multiple Unseen Messages"
 msgstr "Useita lukemattomia viestejä"
 
-#: ../mail/message-list.c:292
+#: ../mail/message-list.c:296
 msgid "Multiple Messages"
 msgstr "Useita viestejä"
 
-#: ../mail/message-list.c:305
+#: ../mail/message-list.c:309
 msgid "Lowest"
 msgstr "Matalin"
 
-#: ../mail/message-list.c:306
+#: ../mail/message-list.c:310
 msgid "Lower"
 msgstr "Matalampi"
 
-#: ../mail/message-list.c:310
+#: ../mail/message-list.c:314
 msgid "Higher"
 msgstr "Korkeampi"
 
-#: ../mail/message-list.c:311
+#: ../mail/message-list.c:315
 msgid "Highest"
 msgstr "Korkein"
 
-#: ../mail/message-list.c:455 ../mail/message-list.c:5798
+#: ../mail/message-list.c:459 ../mail/message-list.c:5815
 msgid "Generating message list"
 msgstr "Luodaan viestiluetteloa"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../mail/message-list.c:1885 ../modules/itip-formatter/itip-view.c:237
+#: ../mail/message-list.c:1895 ../modules/itip-formatter/itip-view.c:237
 msgid "Today %l:%M %p"
 msgstr "Tänään %l.%M %p"
 
-#: ../mail/message-list.c:1894
+#: ../mail/message-list.c:1904
 msgid "Yesterday %l:%M %p"
 msgstr "Eilen %l.%M %p"
 
-#: ../mail/message-list.c:1906
+#: ../mail/message-list.c:1916
 msgid "%a %l:%M %p"
 msgstr "%a %l.%M %p"
 
-#: ../mail/message-list.c:1914
+#: ../mail/message-list.c:1924
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l.%M %p"
 
-#: ../mail/message-list.c:1916
+#: ../mail/message-list.c:1926
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../mail/message-list.c:2796
+#: ../mail/message-list.c:2809
 msgid "Select all visible messages"
 msgstr "Valitse kaikki näkyvät viestit"
 
-#: ../mail/message-list.c:3440 ../mail/message-list.etspec.h:17
+#: ../mail/message-list.c:3457 ../mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Viestit"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4747
+#: ../mail/message-list.c:4764
 #, fuzzy
 msgid "Follow-up"
 msgstr "Lähetä edelleen"
 
-#: ../mail/message-list.c:5735
+#: ../mail/message-list.c:5752
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -15796,7 +15787,7 @@ msgid ""
 "by changing the query above."
 msgstr ""
 
-#: ../mail/message-list.c:5743
+#: ../mail/message-list.c:5760
 msgid "There are no messages in this folder."
 msgstr "Tässä kansiossa ei ole viestejä."
 
@@ -15835,27 +15826,27 @@ msgid "Subject or Addresses contains"
 msgstr "Aihe tai lähettäjät sisältävät"
 
 #: ../mail/searchtypes.xml.h:2
-#: ../modules/mail/e-mail-shell-view-actions.c:2002
+#: ../modules/mail/e-mail-shell-view-actions.c:2005
 msgid "Recipients contain"
 msgstr "Vastaanottajat sisältää"
 
 #: ../mail/searchtypes.xml.h:3
-#: ../modules/mail/e-mail-shell-view-actions.c:1995
+#: ../modules/mail/e-mail-shell-view-actions.c:1998
 msgid "Message contains"
 msgstr "Viesti sisältää"
 
 #: ../mail/searchtypes.xml.h:4
-#: ../modules/mail/e-mail-shell-view-actions.c:2016
+#: ../modules/mail/e-mail-shell-view-actions.c:2019
 msgid "Subject contains"
 msgstr "Otsikko sisältää"
 
 #: ../mail/searchtypes.xml.h:5
-#: ../modules/mail/e-mail-shell-view-actions.c:2009
+#: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "Sender contains"
 msgstr "Lähettäjä sisältää"
 
 #: ../mail/searchtypes.xml.h:6
-#: ../modules/mail/e-mail-shell-view-actions.c:1988
+#: ../modules/mail/e-mail-shell-view-actions.c:1991
 msgid "Body contains"
 msgstr "Runko sisältää"
 
@@ -16010,7 +16001,7 @@ msgstr "Näytä kartta, jossa on kaikki yhteystiedot valitusta osoitekirjasta"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1420
 #: ../modules/calendar/e-memo-shell-view-actions.c:642
 #: ../modules/calendar/e-task-shell-view-actions.c:766
-#: ../modules/mail/e-mail-shell-view-actions.c:1610
+#: ../modules/mail/e-mail-shell-view-actions.c:1613
 msgid "_Rename..."
 msgstr "_Nimeä uudestaan..."
 
@@ -16091,7 +16082,7 @@ msgstr "T_oiminnot"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1013
 #: ../modules/calendar/e-memo-shell-view-actions.c:679
 #: ../modules/calendar/e-task-shell-view-actions.c:831
-#: ../modules/mail/e-mail-shell-view-actions.c:1775
+#: ../modules/mail/e-mail-shell-view-actions.c:1778
 msgid "_Preview"
 msgstr "_Esikatselu"
 
@@ -16119,7 +16110,7 @@ msgstr "Näytä yhteystiedon esikatseluruutu"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1095
 #: ../modules/calendar/e-memo-shell-view-actions.c:749
 #: ../modules/calendar/e-task-shell-view-actions.c:913
-#: ../modules/mail/e-mail-shell-view-actions.c:1905
+#: ../modules/mail/e-mail-shell-view-actions.c:1908
 msgid "_Classic View"
 msgstr "_Perinteinen näkymä"
 
@@ -16130,7 +16121,7 @@ msgstr "Näytä yhteystiedon esikatselu yhteystietoluettelon alla"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1102
 #: ../modules/calendar/e-memo-shell-view-actions.c:756
 #: ../modules/calendar/e-task-shell-view-actions.c:920
-#: ../modules/mail/e-mail-shell-view-actions.c:1912
+#: ../modules/mail/e-mail-shell-view-actions.c:1915
 msgid "_Vertical View"
 msgstr "_Pystysuuntainen näkymä"
 
@@ -16149,7 +16140,7 @@ msgstr "Täsmäämättömät"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1763
 #: ../modules/calendar/e-memo-shell-view-actions.c:783
 #: ../modules/calendar/e-task-shell-view-actions.c:982
-#: ../modules/mail/e-mail-shell-view-actions.c:1981
+#: ../modules/mail/e-mail-shell-view-actions.c:1984
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Oma haku"
@@ -16441,8 +16432,13 @@ msgid "Convert message text to _Unicode"
 msgstr "Muunna viestin teksti _Unicode-muotoon"
 
 #: ../modules/bogofilter/evolution-bogofilter.c:473
+#: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:1
 msgid "Bogofilter"
 msgstr "Bogofilter"
+
+#: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:2
+msgid "Junk filter using Bogofilter"
+msgstr ""
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:441
 msgid "Standard LDAP Port"
@@ -16607,7 +16603,6 @@ msgid "HTTP Error: %s"
 msgstr "HTTP-virhe: %s"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:469
-#| msgid "Could not parse PGP message: "
 msgid "Could not parse response"
 msgstr "Vastauksen tulkitseminen ei onnistunut"
 
@@ -18726,311 +18721,311 @@ msgctxt "label"
 msgid "None"
 msgstr "Ei mitään"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:670
+#: ../modules/mail/e-mail-shell-view-actions.c:673
 msgid "Marking messages as read..."
 msgstr "Merkitään viestejä luetuiksi..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1512
+#: ../modules/mail/e-mail-shell-view-actions.c:1515
 msgid "_Disable Account"
 msgstr "_Poista tili käytöstä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1514
+#: ../modules/mail/e-mail-shell-view-actions.c:1517
 msgid "Disable this account"
 msgstr "Poista tämä tili käytöstä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1521
+#: ../modules/mail/e-mail-shell-view-actions.c:1524
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Poista kaikki pyyhityt viesti pysyvästi kaikista kansioista"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1528
+#: ../modules/mail/e-mail-shell-view-actions.c:1531
 msgid "Edit properties of this account"
 msgstr "Muokkaa tilin ominaisuuksia"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1535
+#: ../modules/mail/e-mail-shell-view-actions.c:1538
 msgid "Refresh list of folders of this account"
 msgstr "Päivitä tämän tilin kansioiden luettelo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1540
+#: ../modules/mail/e-mail-shell-view-actions.c:1543
 msgid "_Download Messages for Offline Usage"
 msgstr "_Nouda viestit yhteydettömään käyttöön"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1542
+#: ../modules/mail/e-mail-shell-view-actions.c:1545
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "Lataa yhteydettömään käyttöön merkittyjen tilien ja kansioiden viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1547
+#: ../modules/mail/e-mail-shell-view-actions.c:1550
 msgid "Fl_ush Outbox"
 msgstr "T_yhjennä lähtevien kansio"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1554
+#: ../modules/mail/e-mail-shell-view-actions.c:1557
 msgid "_Copy Folder To..."
 msgstr "_Kopioi kansio..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1556
+#: ../modules/mail/e-mail-shell-view-actions.c:1559
 msgid "Copy the selected folder into another folder"
 msgstr "Kopioi valittu kansio toiseen kansioon"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1563
+#: ../modules/mail/e-mail-shell-view-actions.c:1566
 msgid "Permanently remove this folder"
 msgstr "Poista tämä kansio pysyvästi"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1568
+#: ../modules/mail/e-mail-shell-view-actions.c:1571
 msgid "E_xpunge"
 msgstr "_Poista poistetut"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1570
+#: ../modules/mail/e-mail-shell-view-actions.c:1573
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Poista pysyvästi kaikki poistetut viestit tästä kansiosta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1575
-#: ../modules/mail/e-mail-shell-view-actions.c:1675
+#: ../modules/mail/e-mail-shell-view-actions.c:1578
+#: ../modules/mail/e-mail-shell-view-actions.c:1678
 msgid "Mar_k All Messages as Read"
 msgstr "Mer_kitse kaikki viestit luetuiksi"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1577
-#: ../modules/mail/e-mail-shell-view-actions.c:1677
+#: ../modules/mail/e-mail-shell-view-actions.c:1580
+#: ../modules/mail/e-mail-shell-view-actions.c:1680
 msgid "Mark all messages in the folder as read"
 msgstr "Merkitse kaikki kansion viestit luetuksi"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1582
+#: ../modules/mail/e-mail-shell-view-actions.c:1585
 msgid "_Move Folder To..."
 msgstr "_Siirrä kansio..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1584
+#: ../modules/mail/e-mail-shell-view-actions.c:1587
 msgid "Move the selected folder into another folder"
 msgstr "Siirrä valittu kansio toiseen kansioon"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1589
+#: ../modules/mail/e-mail-shell-view-actions.c:1592
 msgid "_New..."
 msgstr "_Uusi..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1591
+#: ../modules/mail/e-mail-shell-view-actions.c:1594
 msgid "Create a new folder for storing mail"
 msgstr "Luo uusi kansio viestien tallentamiseen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1598
+#: ../modules/mail/e-mail-shell-view-actions.c:1601
 msgid "Change the properties of this folder"
 msgstr "Vaihda tämän kansion ominaisuuksia"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1605
+#: ../modules/mail/e-mail-shell-view-actions.c:1608
 msgid "Refresh the folder"
 msgstr "Virkistä kansio"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1612
+#: ../modules/mail/e-mail-shell-view-actions.c:1615
 msgid "Change the name of this folder"
 msgstr "Muuta tämän kansion nimeä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1617
+#: ../modules/mail/e-mail-shell-view-actions.c:1620
 msgid "Select Message _Thread"
 msgstr "Valitse viesti_säie"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1619
+#: ../modules/mail/e-mail-shell-view-actions.c:1622
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 "Valitse kaikki viestit, jotka ovat samassa säikeessä kuin nyt valittu viesti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1624
+#: ../modules/mail/e-mail-shell-view-actions.c:1627
 msgid "Select Message S_ubthread"
 msgstr "Valitse viesti_säie"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1626
+#: ../modules/mail/e-mail-shell-view-actions.c:1629
 msgid "Select all replies to the currently selected message"
 msgstr "Valitse kaikki vastaukset nyt valittuun viestiin"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1638
+#: ../modules/mail/e-mail-shell-view-actions.c:1641
 msgid "Empty _Trash"
 msgstr "_Tyhjennä roskakori"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1640
+#: ../modules/mail/e-mail-shell-view-actions.c:1643
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Poista pysyvästi kaikki poistetut viestit kaikilta tileiltä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1645
+#: ../modules/mail/e-mail-shell-view-actions.c:1648
 msgid "_New Label"
 msgstr "_uusi merkintä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1654
+#: ../modules/mail/e-mail-shell-view-actions.c:1657
 msgid "N_one"
 msgstr "Ei _mitään"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1668
+#: ../modules/mail/e-mail-shell-view-actions.c:1671
 msgid "_Manage Subscriptions"
 msgstr "_Hallitse tilauksia"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1670
-#: ../modules/mail/e-mail-shell-view-actions.c:1754
+#: ../modules/mail/e-mail-shell-view-actions.c:1673
+#: ../modules/mail/e-mail-shell-view-actions.c:1757
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Tilaa tai peru kansioiden tilauksia muilta palvelimilta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1682
-#: ../modules/mail/e-mail-shell-view-actions.c:1703
+#: ../modules/mail/e-mail-shell-view-actions.c:1685
+#: ../modules/mail/e-mail-shell-view-actions.c:1706
 msgid "Send / _Receive"
 msgstr "Lähetä ja _vastaanota"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1684
+#: ../modules/mail/e-mail-shell-view-actions.c:1687
 msgid "Send queued items and retrieve new items"
 msgstr "Lähetä jonossa olevat viestit ja nouda uudet viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1689
+#: ../modules/mail/e-mail-shell-view-actions.c:1692
 msgid "R_eceive All"
 msgstr "_Vastaanota kaikki"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1691
+#: ../modules/mail/e-mail-shell-view-actions.c:1694
 msgid "Receive new items from all accounts"
 msgstr "Vastaanota kohteita kaikilta tileiltä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1696
+#: ../modules/mail/e-mail-shell-view-actions.c:1699
 msgid "_Send All"
 msgstr "_Lähetä kaikki"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1698
+#: ../modules/mail/e-mail-shell-view-actions.c:1701
 #, fuzzy
 msgid "Send queued items in all accounts"
 msgstr "Lähetä jonossa olevat viestit ja nouda uudet viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1726
+#: ../modules/mail/e-mail-shell-view-actions.c:1729
 msgid "Cancel the current mail operation"
 msgstr "Peru nykyinen postioperaatio"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1731
+#: ../modules/mail/e-mail-shell-view-actions.c:1734
 msgid "Collapse All _Threads"
 msgstr "Sulje kaikki _säikeet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1733
+#: ../modules/mail/e-mail-shell-view-actions.c:1736
 msgid "Collapse all message threads"
 msgstr "Sulje kaikki viestisäikeet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1738
+#: ../modules/mail/e-mail-shell-view-actions.c:1741
 msgid "E_xpand All Threads"
 msgstr "_Laajenna kaikki säikeet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1740
+#: ../modules/mail/e-mail-shell-view-actions.c:1743
 msgid "Expand all message threads"
 msgstr "Laajenna kaikki viestisäikeet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1745
+#: ../modules/mail/e-mail-shell-view-actions.c:1748
 msgid "_Message Filters"
 msgstr "Viesti_suodattimet"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1747
+#: ../modules/mail/e-mail-shell-view-actions.c:1750
 msgid "Create or edit rules for filtering new mail"
 msgstr "Luo tai muokkaa sääntöjä uuden sähköpostin suodatukseen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1752
+#: ../modules/mail/e-mail-shell-view-actions.c:1755
 msgid "_Subscriptions..."
 msgstr "_Tilaukset..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1761
+#: ../modules/mail/e-mail-shell-view-actions.c:1764
 msgid "F_older"
 msgstr "_Kansio"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1768
+#: ../modules/mail/e-mail-shell-view-actions.c:1771
 msgid "_Label"
 msgstr "_Merkintä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1785
+#: ../modules/mail/e-mail-shell-view-actions.c:1788
 msgid "C_reate Search Folder From Search..."
 msgstr "Luo _hakunäkymä haun perusteella..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1792
+#: ../modules/mail/e-mail-shell-view-actions.c:1795
 msgid "Search F_olders"
 msgstr "Etsi _kansioita"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1794
+#: ../modules/mail/e-mail-shell-view-actions.c:1797
 msgid "Create or edit search folder definitions"
 msgstr "Luo tai muokkaa hakunäkymien määrittelyjä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1833
+#: ../modules/mail/e-mail-shell-view-actions.c:1836
 msgid "_New Folder..."
 msgstr "_Uusi kansio..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1861
+#: ../modules/mail/e-mail-shell-view-actions.c:1864
 msgid "Show Message _Preview"
 msgstr "Näytä viestin _esikatselu"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1863
+#: ../modules/mail/e-mail-shell-view-actions.c:1866
 msgid "Show message preview pane"
 msgstr "Näytä viestin esikatseluikkuna"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1869
+#: ../modules/mail/e-mail-shell-view-actions.c:1872
 msgid "Show _Deleted Messages"
 msgstr "Näytä _poistetut viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1871
+#: ../modules/mail/e-mail-shell-view-actions.c:1874
 msgid "Show deleted messages with a line through them"
 msgstr "Näytä poistetut viestit yliviivattuna"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1877
+#: ../modules/mail/e-mail-shell-view-actions.c:1880
 msgid "_Group By Threads"
 msgstr "Ryhmittele _säikeittäin"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1879
+#: ../modules/mail/e-mail-shell-view-actions.c:1882
 msgid "Threaded message list"
 msgstr "Säikeistetty viestiluettelo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1885
+#: ../modules/mail/e-mail-shell-view-actions.c:1888
 msgid "_Unmatched Folder Enabled"
 msgstr ""
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1887
+#: ../modules/mail/e-mail-shell-view-actions.c:1890
 #, fuzzy
 #| msgid "Toggles whether the Role field is displayed"
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Määrittää näytetäänkö roolikenttä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1907
+#: ../modules/mail/e-mail-shell-view-actions.c:1910
 msgid "Show message preview below the message list"
 msgstr "Näytä viestin esikatselu viestiluettelon alla"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1914
+#: ../modules/mail/e-mail-shell-view-actions.c:1917
 msgid "Show message preview alongside the message list"
 msgstr "Näytä viestin esikatselu viestiluettelon vieressä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1922
+#: ../modules/mail/e-mail-shell-view-actions.c:1925
 msgid "All Messages"
 msgstr "Kaikki viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1929
+#: ../modules/mail/e-mail-shell-view-actions.c:1932
 msgid "Important Messages"
 msgstr "Tärkeät viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1936
+#: ../modules/mail/e-mail-shell-view-actions.c:1939
 msgid "Last 5 Days' Messages"
 msgstr "Viimeisten viiden päivän viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1943
+#: ../modules/mail/e-mail-shell-view-actions.c:1946
 msgid "Messages Not Junk"
 msgstr "Viestit, jotka eivät ole roskapostia"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1950
+#: ../modules/mail/e-mail-shell-view-actions.c:1953
 msgid "Messages with Attachments"
 msgstr "Viestit, joissa on liitteitä"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1957
+#: ../modules/mail/e-mail-shell-view-actions.c:1960
 msgid "No Label"
 msgstr "Ei merkintää"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1964
+#: ../modules/mail/e-mail-shell-view-actions.c:1967
 msgid "Read Messages"
 msgstr "Luetut viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1971
+#: ../modules/mail/e-mail-shell-view-actions.c:1974
 msgid "Unread Messages"
 msgstr "Lukemattomat viestit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2023
+#: ../modules/mail/e-mail-shell-view-actions.c:2026
 msgid "Subject or Addresses contain"
 msgstr "Aihe tai osoitteet sisältävät"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2033
+#: ../modules/mail/e-mail-shell-view-actions.c:2036
 msgid "All Accounts"
 msgstr "Kaikki tilit"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2040
+#: ../modules/mail/e-mail-shell-view-actions.c:2043
 msgid "Current Account"
 msgstr "Valittu tili"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2047
+#: ../modules/mail/e-mail-shell-view-actions.c:2050
 msgid "Current Folder"
 msgstr "Valittu kansio"
 
@@ -19361,8 +19356,13 @@ msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Tämä tekee Spamassassinista luotettavamman, mutta hitaamman"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:558
+#: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:1
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
+
+#: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
+msgid "Junk filter using SpamAssassin"
+msgstr ""
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -20632,27 +20632,27 @@ msgstr "%FT%T"
 msgid "RDF (.rdf)"
 msgstr "RDF-tiedostot (.rdf)"
 
-#: ../plugins/save-calendar/save-calendar.c:120
+#: ../plugins/save-calendar/save-calendar.c:119
 msgid "_Format:"
 msgstr "_Muoto:"
 
-#: ../plugins/save-calendar/save-calendar.c:186
+#: ../plugins/save-calendar/save-calendar.c:184
 msgid "Select destination file"
 msgstr "Valitse kohdetiedosto"
 
-#: ../plugins/save-calendar/save-calendar.c:190
+#: ../plugins/save-calendar/save-calendar.c:188
 msgid "_Save As"
 msgstr "_Tallenna nimellä"
 
-#: ../plugins/save-calendar/save-calendar.c:347
+#: ../plugins/save-calendar/save-calendar.c:344
 msgid "Save the selected calendar to disk"
 msgstr "Tallenna valittu kalenteri levylle"
 
-#: ../plugins/save-calendar/save-calendar.c:378
+#: ../plugins/save-calendar/save-calendar.c:375
 msgid "Save the selected memo list to disk"
 msgstr "Tallenna valittu muistilappu levylle"
 
-#: ../plugins/save-calendar/save-calendar.c:409
+#: ../plugins/save-calendar/save-calendar.c:406
 msgid "Save the selected task list to disk"
 msgstr "Tallenna valittu tehtävälista levylle"
 
@@ -20675,19 +20675,19 @@ msgstr "Tallenna _pohjana"
 msgid "Save as Template"
 msgstr "Tallenna pohjana"
 
-#: ../shell/e-shell.c:302
+#: ../shell/e-shell.c:319
 msgid "Preparing to go offline..."
 msgstr "Valmistellaan verkotonta tilaa..."
 
-#: ../shell/e-shell.c:355
+#: ../shell/e-shell.c:372
 msgid "Preparing to go online..."
 msgstr "Valmistellaan verkkoyhteydellistä tilaa..."
 
-#: ../shell/e-shell.c:436
+#: ../shell/e-shell.c:453
 msgid "Preparing to quit"
 msgstr "Valmistellaan sulkemista"
 
-#: ../shell/e-shell.c:442
+#: ../shell/e-shell.c:459
 msgid "Preparing to quit..."
 msgstr "Valmistellaan sulkemista..."
 
@@ -20734,7 +20734,7 @@ msgstr "Tallennetaan käyttöliittymän tilaa"
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:73
+#: ../shell/e-shell-window-actions.c:72
 msgid "translator-credits"
 msgstr ""
 "Jiri Grönroos, 2012-2014\n"
@@ -20744,7 +20744,7 @@ msgstr ""
 "Jarkko Ranta, 2000-2001\n"
 "Ville-Pekka Vainio, 2010\n"
 "\n"
-"http://gnome.fi/\n"
+"https://l10n.gnome.org/teams/fi/\n"
 "\n"
 "Launchpad Contributions:\n"
 "  Antti Kajander https://launchpad.net/~antti-kajander\n"
@@ -20762,274 +20762,274 @@ msgstr ""
 "  Timo Jyrinki https://launchpad.net/~timo-jyrinki\n"
 "  papukaija https://launchpad.net/~papukaija"
 
-#: ../shell/e-shell-window-actions.c:84
+#: ../shell/e-shell-window-actions.c:83
 msgid "Evolution Website"
 msgstr "Evolutionin www-sivut"
 
-#: ../shell/e-shell-window-actions.c:340
+#: ../shell/e-shell-window-actions.c:339
 msgid "Categories Editor"
 msgstr "Luokkamuokkain"
 
-#: ../shell/e-shell-window-actions.c:716
+#: ../shell/e-shell-window-actions.c:715
 msgid "Bug Buddy is not installed."
 msgstr "Bug buddya ei ole asennettu."
 
-#: ../shell/e-shell-window-actions.c:717
+#: ../shell/e-shell-window-actions.c:716
 msgid "Bug Buddy could not be run."
 msgstr "Bug buddya ei voitu suorittaa."
 
-#: ../shell/e-shell-window-actions.c:895
+#: ../shell/e-shell-window-actions.c:894
 msgid "_About"
 msgstr "_Tietoja"
 
-#: ../shell/e-shell-window-actions.c:897
+#: ../shell/e-shell-window-actions.c:896
 msgid "Show information about Evolution"
 msgstr "Näytä tietoja Evolutionista"
 
-#: ../shell/e-shell-window-actions.c:902 ../shell/e-shell-window-actions.c:916
+#: ../shell/e-shell-window-actions.c:901 ../shell/e-shell-window-actions.c:915
 msgid "_Close Window"
 msgstr "_Sulje ikkuna"
 
-#: ../shell/e-shell-window-actions.c:923
+#: ../shell/e-shell-window-actions.c:922
 msgid "_Contents"
 msgstr "_Sisältö"
 
-#: ../shell/e-shell-window-actions.c:925
+#: ../shell/e-shell-window-actions.c:924
 msgid "Open the Evolution User Guide"
 msgstr "Avaa Evolutionin käyttäjäopas"
 
-#: ../shell/e-shell-window-actions.c:951
+#: ../shell/e-shell-window-actions.c:950
 msgid "I_mport..."
 msgstr "_Tuo..."
 
-#: ../shell/e-shell-window-actions.c:953
+#: ../shell/e-shell-window-actions.c:952
 msgid "Import data from other programs"
 msgstr "Tuo tietoja muista ohjelmista"
 
-#: ../shell/e-shell-window-actions.c:958
+#: ../shell/e-shell-window-actions.c:957
 msgid "New _Window"
 msgstr "Uusi _Ikkuna"
 
-#: ../shell/e-shell-window-actions.c:960
+#: ../shell/e-shell-window-actions.c:959
 msgid "Create a new window displaying this view"
 msgstr "Luo uusi ikkuna tälle näkymälle"
 
-#: ../shell/e-shell-window-actions.c:972
+#: ../shell/e-shell-window-actions.c:971
 msgid "Available Cate_gories"
 msgstr "Käytettävissä olevat _luokat"
 
-#: ../shell/e-shell-window-actions.c:974
+#: ../shell/e-shell-window-actions.c:973
 msgid "Manage available categories"
 msgstr "Hallitse käytettävissä olevia luokkia"
 
-#: ../shell/e-shell-window-actions.c:986
+#: ../shell/e-shell-window-actions.c:985
 msgid "_Quick Reference"
 msgstr "_Pikaopas"
 
-#: ../shell/e-shell-window-actions.c:988
+#: ../shell/e-shell-window-actions.c:987
 msgid "Show Evolution's shortcut keys"
 msgstr "Näytä Evolutionin pikanäppäimet"
 
-#: ../shell/e-shell-window-actions.c:993
+#: ../shell/e-shell-window-actions.c:992
 msgid "_Quit"
 msgstr "_Lopeta"
 
-#: ../shell/e-shell-window-actions.c:995
+#: ../shell/e-shell-window-actions.c:994
 msgid "Exit the program"
 msgstr "Poistu ohjelmasta"
 
-#: ../shell/e-shell-window-actions.c:1000
+#: ../shell/e-shell-window-actions.c:999
 msgid "_Advanced Search..."
 msgstr "_Oma haku..."
 
-#: ../shell/e-shell-window-actions.c:1002
+#: ../shell/e-shell-window-actions.c:1001
 msgid "Construct a more advanced search"
 msgstr "Luo monimutkaisempi haku"
 
-#: ../shell/e-shell-window-actions.c:1009
+#: ../shell/e-shell-window-actions.c:1008
 msgid "Clear the current search parameters"
 msgstr "Tyhjennä nykyiset hakuehdot"
 
-#: ../shell/e-shell-window-actions.c:1014
+#: ../shell/e-shell-window-actions.c:1013
 msgid "_Edit Saved Searches..."
 msgstr "_Muokkaa tallennettuja hakuja..."
 
-#: ../shell/e-shell-window-actions.c:1016
+#: ../shell/e-shell-window-actions.c:1015
 msgid "Manage your saved searches"
 msgstr "Hallitse tallennettuja hakuja"
 
-#: ../shell/e-shell-window-actions.c:1023
+#: ../shell/e-shell-window-actions.c:1022
 msgid "Click here to change the search type"
 msgstr "Muuta hakutyyppiä napsauttamalla tästä"
 
-#: ../shell/e-shell-window-actions.c:1028
+#: ../shell/e-shell-window-actions.c:1027
 msgid "_Find Now"
 msgstr "_Etsi nyt"
 
-#: ../shell/e-shell-window-actions.c:1030
+#: ../shell/e-shell-window-actions.c:1029
 msgid "Execute the current search parameters"
 msgstr "Suorita tämänhetkiset hakuehdot"
 
-#: ../shell/e-shell-window-actions.c:1035
+#: ../shell/e-shell-window-actions.c:1034
 msgid "_Save Search..."
 msgstr "_Tallenna haku..."
 
-#: ../shell/e-shell-window-actions.c:1037
+#: ../shell/e-shell-window-actions.c:1036
 msgid "Save the current search parameters"
 msgstr "Tallenna tämänhetkiset hakuehdot"
 
-#: ../shell/e-shell-window-actions.c:1049
+#: ../shell/e-shell-window-actions.c:1048
 msgid "Submit _Bug Report..."
 msgstr "Lähetä _vikailmoitus..."
 
-#: ../shell/e-shell-window-actions.c:1051
+#: ../shell/e-shell-window-actions.c:1050
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Lähetä vikailmoitus käyttäen Bug Buddyä"
 
-#: ../shell/e-shell-window-actions.c:1056
+#: ../shell/e-shell-window-actions.c:1055
 msgid "_Work Offline"
 msgstr "_Katkaise verkkoyhteydet"
 
-#: ../shell/e-shell-window-actions.c:1058
+#: ../shell/e-shell-window-actions.c:1057
 msgid "Put Evolution into offline mode"
 msgstr "Katkaise verkkoyhteydet"
 
-#: ../shell/e-shell-window-actions.c:1063
+#: ../shell/e-shell-window-actions.c:1062
 msgid "_Work Online"
 msgstr "A_vaa verkkoyhteydet"
 
-#: ../shell/e-shell-window-actions.c:1065
+#: ../shell/e-shell-window-actions.c:1064
 msgid "Put Evolution into online mode"
 msgstr "Avaa verkkoyhteydet"
 
-#: ../shell/e-shell-window-actions.c:1093
+#: ../shell/e-shell-window-actions.c:1092
 msgid "Lay_out"
 msgstr "_Asettelu"
 
-#: ../shell/e-shell-window-actions.c:1107
+#: ../shell/e-shell-window-actions.c:1106
 msgid "_Search"
 msgstr "Et_si"
 
-#: ../shell/e-shell-window-actions.c:1114
+#: ../shell/e-shell-window-actions.c:1113
 msgid "_Switcher Appearance"
 msgstr "Valit_simen tyyli"
 
-#: ../shell/e-shell-window-actions.c:1128
+#: ../shell/e-shell-window-actions.c:1127
 msgid "_Window"
 msgstr "_Ikkuna"
 
-#: ../shell/e-shell-window-actions.c:1157
+#: ../shell/e-shell-window-actions.c:1156
 msgid "Show Side _Bar"
 msgstr "Näytä sivu_palkki"
 
-#: ../shell/e-shell-window-actions.c:1159
+#: ../shell/e-shell-window-actions.c:1158
 msgid "Show the side bar"
 msgstr "Näytä sivupalkki"
 
-#: ../shell/e-shell-window-actions.c:1165
+#: ../shell/e-shell-window-actions.c:1164
 msgid "Show _Buttons"
 msgstr "Näytä _painikkeet"
 
-#: ../shell/e-shell-window-actions.c:1167
+#: ../shell/e-shell-window-actions.c:1166
 msgid "Show the switcher buttons"
 msgstr "Näytä vaihtimen painikkeet"
 
-#: ../shell/e-shell-window-actions.c:1173
+#: ../shell/e-shell-window-actions.c:1172
 msgid "Show _Status Bar"
 msgstr "Näytä _tilarivi"
 
-#: ../shell/e-shell-window-actions.c:1175
+#: ../shell/e-shell-window-actions.c:1174
 msgid "Show the status bar"
 msgstr "Näytä tilarivi"
 
-#: ../shell/e-shell-window-actions.c:1181
+#: ../shell/e-shell-window-actions.c:1180
 msgid "Show _Tool Bar"
 msgstr "Näytä työ_kalupalkki"
 
-#: ../shell/e-shell-window-actions.c:1183
+#: ../shell/e-shell-window-actions.c:1182
 msgid "Show the tool bar"
 msgstr "Näytä työkalurivi"
 
-#: ../shell/e-shell-window-actions.c:1205
+#: ../shell/e-shell-window-actions.c:1204
 msgid "_Icons Only"
 msgstr "Vain _kuvakkeet"
 
-#: ../shell/e-shell-window-actions.c:1207
+#: ../shell/e-shell-window-actions.c:1206
 msgid "Display window buttons with icons only"
 msgstr "Näytä ikkunan napit ainoastaan kuvakkeina"
 
-#: ../shell/e-shell-window-actions.c:1212
+#: ../shell/e-shell-window-actions.c:1211
 msgid "_Text Only"
 msgstr "Vain _teksti"
 
-#: ../shell/e-shell-window-actions.c:1214
+#: ../shell/e-shell-window-actions.c:1213
 msgid "Display window buttons with text only"
 msgstr "Näytä ikkunan napit ainoastaan tekstinä"
 
-#: ../shell/e-shell-window-actions.c:1219
+#: ../shell/e-shell-window-actions.c:1218
 msgid "Icons _and Text"
 msgstr "Kuvakkeet _ja teksti"
 
-#: ../shell/e-shell-window-actions.c:1221
+#: ../shell/e-shell-window-actions.c:1220
 msgid "Display window buttons with icons and text"
 msgstr "Näytä ikkunan napit kuvakkeina ja tekstinä"
 
-#: ../shell/e-shell-window-actions.c:1226
+#: ../shell/e-shell-window-actions.c:1225
 msgid "Tool_bar Style"
 msgstr "_Työkalupalkin tyyli"
 
-#: ../shell/e-shell-window-actions.c:1228
+#: ../shell/e-shell-window-actions.c:1227
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Näytä ikkunan napit työpöydän työkalupalkin asetuksen mukaisesti"
 
-#: ../shell/e-shell-window-actions.c:1236
+#: ../shell/e-shell-window-actions.c:1235
 msgid "Delete Current View"
 msgstr "Poista nykyinen näkymä"
 
-#: ../shell/e-shell-window-actions.c:1243
+#: ../shell/e-shell-window-actions.c:1242
 msgid "Save Custom View..."
 msgstr "Tallenna oma näkymä..."
 
-#: ../shell/e-shell-window-actions.c:1245
+#: ../shell/e-shell-window-actions.c:1244
 msgid "Save current custom view"
 msgstr "Tallenna nykyinen muokattu näkymä"
 
-#: ../shell/e-shell-window-actions.c:1252
+#: ../shell/e-shell-window-actions.c:1251
 msgid "C_urrent View"
 msgstr "N_ykyinen näkymä"
 
-#: ../shell/e-shell-window-actions.c:1262
+#: ../shell/e-shell-window-actions.c:1261
 msgid "Custom View"
 msgstr "Oma näkymä"
 
-#: ../shell/e-shell-window-actions.c:1264
+#: ../shell/e-shell-window-actions.c:1263
 msgid "Current view is a customized view"
 msgstr "Nykyinen näkymä tai muokattu näkymä"
 
-#: ../shell/e-shell-window-actions.c:1272
+#: ../shell/e-shell-window-actions.c:1271
 msgid "Page Set_up..."
 msgstr "_Sivun asetukset..."
 
-#: ../shell/e-shell-window-actions.c:1274
+#: ../shell/e-shell-window-actions.c:1273
 msgid "Change the page settings for your current printer"
 msgstr "Muuta nykyisen tulostimen sivuasetuksia"
 
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1634
 #, c-format
 msgid "Switch to %s"
 msgstr "Avaa %s"
 
-#: ../shell/e-shell-window-actions.c:1758
+#: ../shell/e-shell-window-actions.c:1757
 #, c-format
 msgid "Select view: %s"
 msgstr "Valitse näkymä: %s"
 
-#: ../shell/e-shell-window-actions.c:1775
+#: ../shell/e-shell-window-actions.c:1774
 #, c-format
 msgid "Delete view: %s"
 msgstr "Poista näkymä: %s"
 
-#: ../shell/e-shell-window-actions.c:1869
+#: ../shell/e-shell-window-actions.c:1868
 msgid "Execute these search parameters"
 msgstr "Suorita nämä hakuehdot"
 
