@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-13 19:44+0100\n"
-"PO-Revision-Date: 2014-11-13 20:25+0100\n"
+"POT-Creation-Date: 2014-11-16 12:32+0100\n"
+"PO-Revision-Date: 2014-11-16 14:48+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -7664,7 +7664,9 @@ msgstr "Er du sikker på at du vil sende meldingen?"
 msgid ""
 "A keyboard accelerator to send the message had been pressed. Either cancel "
 "message send, if it was done by an accident, or send the message."
-msgstr "En tastatursnarvei for å sende meldingen ble aktivert. Avbryt sendingen hvis det var et uhell, eller send meldingen."
+msgstr ""
+"En tastatursnarvei for å sende meldingen ble aktivert. Avbryt sendingen hvis "
+"det var et uhell, eller send meldingen."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -7803,54 +7805,44 @@ msgid "true"
 msgstr "true"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:22
-#, fuzzy
 msgid "Whether to show phone numbers in the editor"
-msgstr "Om felt for tidssone skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt telefonnummer skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:23
-#, fuzzy
 msgid "Whether to show SIP addresses in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt SIP-adresser skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:24
-#, fuzzy
 msgid "Whether to show IM addresses in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt lynmeldingsadresser skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:25
-#, fuzzy
 msgid "Whether to show mailing Home addresses in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt postadresse hjemme skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:26
-#, fuzzy
 msgid "Whether to show mailing addresses Work in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt postadresse på jobb skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:27
-#, fuzzy
 msgid "Whether to show mailing addresses Other in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt andre postadresser skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:28
-#, fuzzy
 msgid "Whether to show Web Addresses in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt nettadresser skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:29
-#, fuzzy
 msgid "Whether to show job information in the editor"
-msgstr "Om felt for tidssone skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt jobbinformasjon skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:30
-#, fuzzy
 msgid "Whether to show Miscellaneous information in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt forskjellig informasjon skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:31
-#, fuzzy
 msgid "Whether to show notes in the editor"
-msgstr "Om kategorifeltet skal vises i redigering av hendelse/møte"
+msgstr "Hvorvidt notater skal vises ved redigering"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -9207,11 +9199,10 @@ msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
-#, fuzzy
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
-msgstr "Stopp og spør når en en e-post uten emne skal bli sendt."
+msgstr "Spør bruker når en en e-post blir sendt med tastatursnarvei."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Prompt on empty subject"
@@ -11569,38 +11560,33 @@ msgid "Text file"
 msgstr "Tekstfil"
 
 #: ../e-util/e-html-editor-actions.c:961
-#, fuzzy
 msgid "Copy selected text to the clipboard"
-msgstr "Kopier valgte hendelser til utklippstavlen"
+msgstr "Kopier valgt tekst til utklippstavlen"
 
 #: ../e-util/e-html-editor-actions.c:968
-#, fuzzy
 msgid "Cut selected text to the clipboard"
-msgstr "Klipp ut valgte hendelser til utklippstavlen"
+msgstr "Klipp ut valgt tekst til utklippstavlen"
 
 #. Widgets are treating Ctrl + v shortcut themselves
 #: ../e-util/e-html-editor-actions.c:975
-#, fuzzy
 msgid "Paste text from the clipboard"
-msgstr "Lim inn hendelser fra utklippstavlen"
+msgstr "Lim inn tekst fra utklippstavlen"
 
 #: ../e-util/e-html-editor-actions.c:982
 msgid "Redo the last undone action"
-msgstr ""
+msgstr "Gjenopprett siste angrede handling"
 
 #: ../e-util/e-html-editor-actions.c:996
-#, fuzzy
 msgid "Undo the last action"
-msgstr "Kopier utvalget"
+msgstr "Angre siste handling"
 
 #: ../e-util/e-html-editor-actions.c:1017
 msgid "For_mat"
 msgstr "For_mat"
 
 #: ../e-util/e-html-editor-actions.c:1024
-#, fuzzy
 msgid "_Paragraph Style"
-msgstr "S_til for verktøylinje"
+msgstr "Stil for a_vsnitt"
 
 #: ../e-util/e-html-editor-actions.c:1038
 #: ../e-util/e-html-editor-image-dialog.c:591
@@ -11613,23 +11599,23 @@ msgstr "Aktive _språk"
 
 #: ../e-util/e-html-editor-actions.c:1062
 msgid "_Increase Indent"
-msgstr ""
+msgstr "_Øk innrykk"
 
 #: ../e-util/e-html-editor-actions.c:1064
 msgid "Increase Indent"
-msgstr ""
+msgstr "Øk innrykk"
 
 #: ../e-util/e-html-editor-actions.c:1069
 msgid "_HTML File..."
-msgstr ""
+msgstr "_HTML-fil …"
 
 #: ../e-util/e-html-editor-actions.c:1076
 msgid "Te_xt File..."
-msgstr ""
+msgstr "Te_kstfil …"
 
 #: ../e-util/e-html-editor-actions.c:1083
 msgid "Paste _Quotation"
-msgstr ""
+msgstr "Lim inn _sitat"
 
 #: ../e-util/e-html-editor-actions.c:1090
 msgid "_Find..."
@@ -11641,70 +11627,65 @@ msgstr "Søk etter tekst"
 
 #: ../e-util/e-html-editor-actions.c:1097
 msgid "Find A_gain"
-msgstr ""
+msgstr "Finn i_gjen"
 
 #: ../e-util/e-html-editor-actions.c:1104
 msgid "Re_place..."
 msgstr "E_rstatt …"
 
 #: ../e-util/e-html-editor-actions.c:1106
-#, fuzzy
 msgid "Search for and replace text"
-msgstr "Søk etter tekst i innholdet av vist kontakt"
+msgstr "Søk etter og erstatt tekst"
 
 #: ../e-util/e-html-editor-actions.c:1111
-#, fuzzy
 msgid "Check _Spelling..."
-msgstr "Avbryter …"
+msgstr "Sjekk _staving …"
 
 #: ../e-util/e-html-editor-actions.c:1118
 msgid "_Decrease Indent"
-msgstr ""
+msgstr "_Mindre innrykk"
 
 #: ../e-util/e-html-editor-actions.c:1120
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Mindre innrykk"
 
 #: ../e-util/e-html-editor-actions.c:1125
 msgid "_Wrap Lines"
-msgstr ""
+msgstr "_Bryt linjer"
 
 #: ../e-util/e-html-editor-actions.c:1132
 msgid "Open Inspector"
-msgstr ""
+msgstr "Åpne inspektør"
 
 #. Center
 #: ../e-util/e-html-editor-actions.c:1142
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
-msgstr ""
+msgstr "_Sentrer"
 
 #: ../e-util/e-html-editor-actions.c:1144
-#, fuzzy
 msgid "Center Alignment"
-msgstr "_Justering"
+msgstr "Sentrert"
 
 #. Left
 #: ../e-util/e-html-editor-actions.c:1149
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
-msgstr ""
+msgstr "_Venstre"
 
 #: ../e-util/e-html-editor-actions.c:1151
-#, fuzzy
 msgid "Left Alignment"
-msgstr "_Justering"
+msgstr "Venstrejustert"
 
 #. Right
 #: ../e-util/e-html-editor-actions.c:1156
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
-msgstr ""
+msgstr "Høy_re"
 
 #: ../e-util/e-html-editor-actions.c:1158
-#, fuzzy
 msgid "Right Alignment"
-msgstr "_Justering"
+msgstr "Høyrejustert"
 
 #: ../e-util/e-html-editor-actions.c:1166
 #: ../modules/text-highlight/languages.c:72
@@ -11713,17 +11694,15 @@ msgstr "_HTML"
 
 #: ../e-util/e-html-editor-actions.c:1168
 msgid "HTML editing mode"
-msgstr ""
+msgstr "HTML-redigering"
 
 #: ../e-util/e-html-editor-actions.c:1173
-#, fuzzy
 msgid "Plain _Text"
-msgstr "Ren tekst"
+msgstr "Vanlig _tekst"
 
 #: ../e-util/e-html-editor-actions.c:1175
-#, fuzzy
 msgid "Plain text editing mode"
-msgstr "Tekstmodus"
+msgstr "Tekstredigering"
 
 #: ../e-util/e-html-editor-actions.c:1183
 msgid "_Normal"
@@ -11763,24 +11742,23 @@ msgstr "A_dresse"
 
 #: ../e-util/e-html-editor-actions.c:1246
 msgid "_Blockquote"
-msgstr ""
+msgstr "_Blokksitat"
 
 #: ../e-util/e-html-editor-actions.c:1253
-#, fuzzy
 msgid "_Bulleted List"
-msgstr "Sl_ett notatliste"
+msgstr "_Kulepunktliste"
 
 #: ../e-util/e-html-editor-actions.c:1260
 msgid "_Roman Numeral List"
-msgstr ""
+msgstr "Liste med _romerske tall"
 
 #: ../e-util/e-html-editor-actions.c:1267
 msgid "Numbered _List"
-msgstr ""
+msgstr "Nummerert _liste"
 
 #: ../e-util/e-html-editor-actions.c:1274
 msgid "_Alphabetical List"
-msgstr ""
+msgstr "_Alfabetisk liste"
 
 #: ../e-util/e-html-editor-actions.c:1290
 #: ../e-util/e-html-editor-actions.c:1327
@@ -11826,25 +11804,24 @@ msgstr "Si_de …"
 
 #: ../e-util/e-html-editor-actions.c:1365
 msgid "Font _Size"
-msgstr ""
+msgstr "Skrift_størrelse"
 
 #: ../e-util/e-html-editor-actions.c:1372
-#, fuzzy
 msgid "_Font Style"
-msgstr "_Videresendingsstil:"
+msgstr "Skri_ftstil"
 
 #: ../e-util/e-html-editor-actions.c:1379
 msgid "Paste As _Text"
-msgstr ""
+msgstr "Lim inn som _tekst"
 
 #: ../e-util/e-html-editor-actions.c:1390
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
-msgstr ""
+msgstr "_Fet"
 
 #: ../e-util/e-html-editor-actions.c:1392
 msgid "Bold"
-msgstr ""
+msgstr "Fet"
 
 #: ../e-util/e-html-editor-actions.c:1398
 #: ../e-util/e-html-editor-text-dialog.c:225
@@ -11913,9 +11890,8 @@ msgid "+4"
 msgstr "+4"
 
 #: ../e-util/e-html-editor-actions.c:1501
-#, fuzzy
 msgid "Cell Contents"
-msgstr "_Innhold"
+msgstr "Celleinnhold"
 
 #: ../e-util/e-html-editor-actions.c:1508
 msgid "Column"
@@ -12006,18 +11982,16 @@ msgid "Remove Link"
 msgstr "Fjern lenke"
 
 #: ../e-util/e-html-editor-actions.c:1688
-#, fuzzy
 msgid "Add Word to Dictionary"
-msgstr "Legg til «%s» i ordbok"
+msgstr "Legg til ord i ordbok"
 
 #: ../e-util/e-html-editor-actions.c:1695
-#, fuzzy
 msgid "Ignore Misspelled Word"
-msgstr "_Farge for feilstavede ord:"
+msgstr "Overse feilstavet ord"
 
 #: ../e-util/e-html-editor-actions.c:1702
 msgid "Add Word To"
-msgstr ""
+msgstr "Legg til ord i"
 
 #: ../e-util/e-html-editor-actions.c:1711
 msgid "More Suggestions"
@@ -12027,18 +12001,17 @@ msgstr "Flere forslag"
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
 #: ../e-util/e-html-editor-actions.c:1819
-#, c-format, fuzzy
+#, c-format
 msgid "%s Dictionary"
-msgstr "Legg til «%s» i ordbok"
+msgstr "%s ordbok"
 
 #: ../e-util/e-html-editor-actions.c:1906
 msgid "_Emoticon"
-msgstr ""
+msgstr "_Emotikon"
 
 #: ../e-util/e-html-editor-actions.c:1907
-#, fuzzy
 msgid "Insert Emoticon"
-msgstr "Start Evolution på nytt"
+msgstr "Sett inn emotikon"
 
 #: ../e-util/e-html-editor-actions.c:1975
 msgid "Re_place"
@@ -12064,12 +12037,11 @@ msgstr "_Tabell"
 
 #: ../e-util/e-html-editor.c:669
 msgid "Paragraph Style"
-msgstr ""
+msgstr "Avsnittstil"
 
 #: ../e-util/e-html-editor.c:683
-#, fuzzy
 msgid "Editing Mode"
-msgstr "Rediger påminnelse"
+msgstr "Redigeringsmodus"
 
 #: ../e-util/e-html-editor.c:695
 msgid "Font Color"
@@ -12081,45 +12053,45 @@ msgstr "Skriftstørrelse"
 
 #: ../e-util/e-html-editor-cell-dialog.c:618
 msgid "<b>Scope</b>"
-msgstr ""
+msgstr "<b>Omfang</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:632
 msgid "C_ell"
-msgstr ""
+msgstr "C_elle"
 
 #: ../e-util/e-html-editor-cell-dialog.c:645
 msgid "_Row"
-msgstr ""
+msgstr "_Rad"
 
 #: ../e-util/e-html-editor-cell-dialog.c:671
 msgid "Col_umn"
-msgstr ""
+msgstr "Kol_onne"
 
 #: ../e-util/e-html-editor-cell-dialog.c:681
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr ""
+msgstr "<b>Justering &amp; oppførsel</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:694
 #: ../e-util/e-html-editor-hrule-dialog.c:384
 #: ../e-util/e-html-editor-table-dialog.c:819
 msgid "Left"
-msgstr ""
+msgstr "Venstre"
 
 #: ../e-util/e-html-editor-cell-dialog.c:695
 #: ../e-util/e-html-editor-hrule-dialog.c:386
 #: ../e-util/e-html-editor-table-dialog.c:820
 msgid "Center"
-msgstr ""
+msgstr "Senter"
 
 #: ../e-util/e-html-editor-cell-dialog.c:696
 #: ../e-util/e-html-editor-hrule-dialog.c:388
 #: ../e-util/e-html-editor-table-dialog.c:821
 msgid "Right"
-msgstr ""
+msgstr "Høyre"
 
 #: ../e-util/e-html-editor-cell-dialog.c:704
 msgid "_Horizontal:"
-msgstr ""
+msgstr "_Horisontal:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:712
 #: ../e-util/e-html-editor-image-dialog.c:581
@@ -12147,20 +12119,19 @@ msgstr "_Bryt tekst"
 
 #. Header Style
 #: ../e-util/e-html-editor-cell-dialog.c:736
-#, fuzzy
 msgid "_Header Style"
-msgstr "Verdi for meldingshode"
+msgstr "Stil _for topptekst"
 
 #: ../e-util/e-html-editor-cell-dialog.c:750
 #: ../e-util/e-html-editor-image-dialog.c:521
 #: ../e-util/e-html-editor-table-dialog.c:731
 msgid "<b>Layout</b>"
-msgstr ""
+msgstr "<b>Utforming</b>"
 
 #. Width
 #: ../e-util/e-html-editor-cell-dialog.c:761
 msgid "_Width"
-msgstr ""
+msgstr "_Bredde"
 
 #: ../e-util/e-html-editor-cell-dialog.c:800
 msgid "Row S_pan:"
@@ -12173,12 +12144,12 @@ msgstr ""
 #: ../e-util/e-html-editor-cell-dialog.c:821
 #: ../e-util/e-html-editor-table-dialog.c:835
 msgid "<b>Background</b>"
-msgstr ""
+msgstr "<b>Bakgrunn</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:834
 #: ../e-util/e-html-editor-table-dialog.c:848
 msgid "Transparent"
-msgstr ""
+msgstr "Gjennomsiktig"
 
 #: ../e-util/e-html-editor-cell-dialog.c:842
 msgid "C_olor:"
@@ -12214,22 +12185,20 @@ msgstr "Egenskaper for celle"
 #: ../e-util/e-html-editor-replace-dialog.c:90
 #: ../e-util/e-html-editor-replace-dialog.c:108
 msgid "No match found"
-msgstr ""
+msgstr "Ingen treff funnet"
 
 #: ../e-util/e-html-editor-find-dialog.c:160
 #: ../e-util/e-html-editor-replace-dialog.c:229
-#, fuzzy
 msgid "Search _backwards"
-msgstr "Søke_mapper"
+msgstr "Søk _bakover"
 
 #: ../e-util/e-html-editor-find-dialog.c:167
 msgid "Case _Sensitive"
 msgstr ""
 
 #: ../e-util/e-html-editor-find-dialog.c:174
-#, fuzzy
 msgid "_Wrap Search"
-msgstr "_Søk"
+msgstr "_Søk på nytt når slutten er nådd"
 
 #: ../e-util/e-html-editor-find-dialog.c:213
 msgid "Find"
@@ -12237,14 +12206,14 @@ msgstr "Finn"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:319
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Størrelse</b>"
 
 #. Width
 #: ../e-util/e-html-editor-hrule-dialog.c:339
 #: ../e-util/e-html-editor-image-dialog.c:539
 #: ../e-util/e-html-editor-table-dialog.c:742
 msgid "_Width:"
-msgstr ""
+msgstr "_Bredde:"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:364
 msgid "_Size:"
@@ -12252,7 +12221,7 @@ msgstr "_Størrelse:"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:371
 msgid "<b>Style</b>"
-msgstr ""
+msgstr "<b>Stil</b>"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:396
 #: ../e-util/e-html-editor-table-dialog.c:828
@@ -12262,7 +12231,7 @@ msgstr "_Justering:"
 #. Shaded
 #: ../e-util/e-html-editor-hrule-dialog.c:402
 msgid "S_haded"
-msgstr ""
+msgstr "S_kyggelagt"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:419
 msgid "Rule properties"
@@ -12280,24 +12249,24 @@ msgstr "_Kilde:"
 
 #: ../e-util/e-html-editor-image-dialog.c:563
 msgid "_Height:"
-msgstr ""
+msgstr "_Høyde:"
 
 #: ../e-util/e-html-editor-image-dialog.c:604
 msgid "_X-Padding:"
-msgstr ""
+msgstr "_Horisontalt fyll:"
 
 #: ../e-util/e-html-editor-image-dialog.c:620
 msgid "_Y-Padding:"
-msgstr ""
+msgstr "_Vertikalt fyll:"
 
 #: ../e-util/e-html-editor-image-dialog.c:636
 #: ../e-util/e-html-editor-table-dialog.c:809
 msgid "_Border:"
-msgstr ""
+msgstr "_Kant:"
 
 #: ../e-util/e-html-editor-image-dialog.c:646
 msgid "<b>Link</b>"
-msgstr ""
+msgstr "<b>Lenke</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:664
 #: ../e-util/e-html-editor-link-dialog.c:334
@@ -12307,7 +12276,7 @@ msgstr "_URL:"
 #: ../e-util/e-html-editor-image-dialog.c:669
 #: ../e-util/e-html-editor-link-dialog.c:339
 msgid "_Test URL..."
-msgstr ""
+msgstr "_Test URL …"
 
 #: ../e-util/e-html-editor-image-dialog.c:686
 msgid "Image Properties"
@@ -12318,21 +12287,20 @@ msgid "_Remove Link"
 msgstr "Fje_rn lenke"
 
 #: ../e-util/e-html-editor-link-dialog.c:388
-#, fuzzy
 msgid "Link Properties"
-msgstr "Egenska_per …"
+msgstr "Egenskaper for lenke"
 
 #: ../e-util/e-html-editor-page-dialog.c:69
 msgid "Perforated Paper"
-msgstr ""
+msgstr "Perforert papir"
 
 #: ../e-util/e-html-editor-page-dialog.c:78
 msgid "Blue Ink"
-msgstr ""
+msgstr "Blått blekk"
 
 #: ../e-util/e-html-editor-page-dialog.c:87
 msgid "Paper"
-msgstr ""
+msgstr "Papir"
 
 #: ../e-util/e-html-editor-page-dialog.c:96
 msgid "Ribbon"
@@ -12340,7 +12308,7 @@ msgstr ""
 
 #: ../e-util/e-html-editor-page-dialog.c:105
 msgid "Midnight"
-msgstr ""
+msgstr "Midnatt"
 
 #: ../e-util/e-html-editor-page-dialog.c:123 ../mail/filtertypes.xml.in.h:35
 #: ../mail/searchtypes.xml.in.h:38 ../mail/vfoldertypes.xml.in.h:38
@@ -12353,7 +12321,7 @@ msgstr ""
 
 #: ../e-util/e-html-editor-page-dialog.c:415
 msgid "<b>Colors</b>"
-msgstr ""
+msgstr "<b>Farger</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:434
 msgid "_Text:"
@@ -12369,7 +12337,7 @@ msgstr "_Bakgrunn:"
 
 #: ../e-util/e-html-editor-page-dialog.c:472
 msgid "<b>Background Image</b>"
-msgstr ""
+msgstr "<b>Bakgrunnsbilde</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:494
 msgid "_Template:"
@@ -12384,37 +12352,33 @@ msgid "_Custom:"
 msgstr "E_gendefinert:"
 
 #: ../e-util/e-html-editor-page-dialog.c:536
-#, fuzzy
 msgid "Page Properties"
-msgstr "Egenska_per …"
+msgstr "Egenskaper for papir"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:83
 msgid "_Style:"
 msgstr "_Stil:"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:90
-#, fuzzy
 msgid "<b>Alignment</b>"
-msgstr "_Justering"
+msgstr "<b>Justering</b>"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:155
-#, fuzzy
 msgid "Paragraph Properties"
-msgstr "Egenskaper for kategori"
+msgstr "Egenskaper for avsnitt"
 
 #: ../e-util/e-html-editor-replace-dialog.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "%d occurences replaced"
-msgstr "gjentakelser"
+msgstr "%d oppføringer erstattet"
 
 #: ../e-util/e-html-editor-replace-dialog.c:209
-#, fuzzy
 msgid "R_eplace:"
-msgstr "E_rstatt"
+msgstr "_Erstatt:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:221
 msgid "_With:"
-msgstr ""
+msgstr "_Bredde:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:233
 msgid "_Case sensitive"
@@ -12427,7 +12391,7 @@ msgstr "_Søk"
 
 #: ../e-util/e-html-editor-replace-dialog.c:247
 msgid "_Skip"
-msgstr ""
+msgstr "_Hopp over"
 
 #: ../e-util/e-html-editor-replace-dialog.c:255
 #: ../e-util/e-system.error.xml.h:3
@@ -12435,9 +12399,8 @@ msgid "_Replace"
 msgstr "E_rstatt"
 
 #: ../e-util/e-html-editor-replace-dialog.c:263
-#, fuzzy
 msgid "Replace _All"
-msgstr "Svar til _alle"
+msgstr "Erstatt _alle"
 
 #. Replace
 #: ../e-util/e-html-editor-replace-dialog.c:283
@@ -12448,11 +12411,11 @@ msgstr "Erstatt"
 #: ../e-util/e-html-editor-spell-check-dialog.c:87
 #, c-format
 msgid "<b>Suggestions for '%s'</b>"
-msgstr ""
+msgstr "<b>Forslag for «%s»</b>"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:501
 msgid "<b>Suggestions</b>"
-msgstr ""
+msgstr "<b>Forslag</b>"
 
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:545
@@ -12468,7 +12431,7 @@ msgstr "Ignorer"
 #. Skip
 #: ../e-util/e-html-editor-spell-check-dialog.c:563
 msgid "Skip"
-msgstr ""
+msgstr "Hopp over"
 
 #. Back
 #: ../e-util/e-html-editor-spell-check-dialog.c:572
@@ -12477,7 +12440,7 @@ msgstr "Tilbake"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:581
 msgid "<b>Dictionary</b>"
-msgstr ""
+msgstr "<b>Ordbok</b>"
 
 #. Add Word button
 #: ../e-util/e-html-editor-spell-check-dialog.c:601
@@ -12499,7 +12462,7 @@ msgstr "K_olonner:"
 
 #: ../e-util/e-html-editor-table-dialog.c:775
 msgid "_Spacing:"
-msgstr ""
+msgstr "_Mellomrom:"
 
 #: ../e-util/e-html-editor-table-dialog.c:792
 msgid "_Padding:"
@@ -12515,44 +12478,39 @@ msgid "Image:"
 msgstr "Bilde:"
 
 #: ../e-util/e-html-editor-table-dialog.c:909
-#, fuzzy
 msgid "Table Properties"
-msgstr "Kalenderegenskaper"
+msgstr "Egenskaper for tabell"
 
 #: ../e-util/e-html-editor-text-dialog.c:281
 msgid "Si_ze:"
-msgstr ""
+msgstr "St_ørrelse:"
 
 #: ../e-util/e-html-editor-text-dialog.c:296
-#, fuzzy
 msgid "Text Properties"
-msgstr "Egenska_per …"
+msgstr "Egenskaper for tekst"
 
-#: ../e-util/e-html-editor-view.c:3114
-#, fuzzy
+#: ../e-util/e-html-editor-view.c:3130
 msgid "Changed property"
-msgstr "Kalenderegenskaper"
+msgstr "Endret egenskap"
 
-#: ../e-util/e-html-editor-view.c:3115
+#: ../e-util/e-html-editor-view.c:3131
 #, fuzzy
 msgid "Whether editor changed"
 msgstr "Hvorvidt pip skal brukes."
 
-#: ../e-util/e-html-editor-view.c:6739
+#: ../e-util/e-html-editor-view.c:6755
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
 msgstr ""
 
-#: ../e-util/e-html-editor-view.c:6743
-#, fuzzy
+#: ../e-util/e-html-editor-view.c:6759
 msgid "_Don't lose formatting"
-msgstr "Adresseformattering"
+msgstr "_Ta vare på formatering"
 
-#: ../e-util/e-html-editor-view.c:6744
-#, fuzzy
+#: ../e-util/e-html-editor-view.c:6760
 msgid "_Lose formatting"
-msgstr "Adresseformattering"
+msgstr "_Ikke ta vare på formatering"
 
 #: ../e-util/e-import-assistant.c:256
 msgid ""
@@ -13651,14 +13609,13 @@ msgid "Click to hide/unhide addresses"
 msgstr "Klikk for å skjule/vise adresser"
 
 #: ../e-util/e-web-view.c:1014
-#, fuzzy, c-format
+#, c-format
 msgid "Go to the section %s of the message"
-msgstr "Skriv inn mottakerene for meldingen"
+msgstr "Gå til %s-del av meldingen"
 
 #: ../e-util/e-web-view.c:1016
-#, fuzzy
 msgid "Go to the beginning of the message"
-msgstr "Skriv inn mottakerene for meldingen"
+msgstr "Gå til begynnelsen av meldingen"
 
 #: ../e-util/e-web-view.c:1020
 #, c-format
@@ -14059,9 +14016,9 @@ msgstr "Tjeneste for transport av e-post er ikke tilgjengelig"
 
 #: ../libemail-engine/e-mail-session-utils.c:626
 #: ../libemail-engine/mail-ops.c:699
-#, fuzzy, c-format
+#, c-format
 msgid "Posting message to '%s'"
-msgstr "Flytter meldinger til «%s»"
+msgstr "Poster melding til «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:663
 #: ../libemail-engine/mail-ops.c:735
@@ -14072,9 +14029,9 @@ msgstr "Feil under påføring av utgående filtre: %s"
 #: ../libemail-engine/e-mail-session-utils.c:693
 #: ../libemail-engine/e-mail-session-utils.c:728
 #: ../libemail-engine/mail-ops.c:759 ../libemail-engine/mail-ops.c:794
-#, fuzzy, c-format
+#, c-format
 msgid "Storing sent message to '%s'"
-msgstr "Flytter meldinger til «%s»"
+msgstr "Lagrer sendt melding til «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:717
 #: ../libemail-engine/mail-ops.c:783
@@ -14198,9 +14155,9 @@ msgid "Emptying trash in '%s'"
 msgstr "Tømmer søppel i «%s»"
 
 #: ../libemail-engine/mail-ops.c:1557
-#, fuzzy, c-format
+#, c-format
 msgid "Processing folder changes in '%s'"
-msgstr "Lagrer mappe «%s»"
+msgstr "Prosesserer endringer i mappe «%s»"
 
 #: ../libemail-engine/mail-tools.c:70
 #, c-format
@@ -14376,9 +14333,8 @@ msgstr "Arki_vmappe:"
 
 #: ../mail/e-mail-config-defaults-page.c:638
 #: ../modules/mail/em-mailer-prefs.c:1079
-#, fuzzy
 msgid "Choose a folder to archive messages to."
-msgstr "Velg mapper meldingen skal postes til."
+msgstr "Velg en mappe å arkivere meldinger til."
 
 #: ../mail/e-mail-config-defaults-page.c:652
 msgid "_Restore Defaults"
@@ -14871,12 +14827,11 @@ msgstr "Legg til avsender i adressebok"
 
 #: ../mail/e-mail-reader.c:2003
 msgid "_Archive..."
-msgstr ""
+msgstr "_Arkiv …"
 
 #: ../mail/e-mail-reader.c:2005
-#, fuzzy
 msgid "Move selected messages to the Archive folder for the account"
-msgstr "Flytt valgte meldinger til en annen mappe"
+msgstr "Flytt valgte meldinger til arkivmappen for kontoen"
 
 #: ../mail/e-mail-reader.c:2010
 msgid "Check for _Junk"
@@ -15027,9 +14982,8 @@ msgid "Mark new mails in a sub-thread as read automatically"
 msgstr ""
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2525
-#, fuzzy
 msgid "_Ignore Thread"
-msgstr "Neste _tråd"
+msgstr "Overse _tråd"
 
 #: ../mail/e-mail-reader.c:2152
 msgid "Mark new mails in this thread as read automatically"
@@ -15455,9 +15409,8 @@ msgid "Unknown error"
 msgstr "Ukjent feil"
 
 #: ../mail/e-mail-reader-utils.c:1033
-#, fuzzy
 msgid "Marking thread to be ignored"
-msgstr "Forhåndsvis data som skal importeres"
+msgstr "Merker tråd som ignorert"
 
 #: ../mail/e-mail-reader-utils.c:1037
 msgid "Unmarking thread from being ignored"
@@ -16261,13 +16214,12 @@ msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "Bruk samme koding for filnavn som _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:12
-#, fuzzy
 msgid "Send messages through Outbo_x folder"
-msgstr "Lagrer melding til Utboks."
+msgstr "Send meldinger via Utbo_ks-mappen"
 
 #: ../mail/mail-config.ui.h:13
 msgid "Number of characters for word w_rapping:"
-msgstr ""
+msgstr "Antall tegn før linjen b_rytes:"
 
 #: ../mail/mail-config.ui.h:14
 msgid "Ch_aracter encoding:"
@@ -16620,9 +16572,8 @@ msgid "_Delete junk messages"
 msgstr "_Slett uønskede meldinger"
 
 #: ../mail/mail-config.ui.h:116
-#, fuzzy
 msgid "Just Test Options"
-msgstr "Alternativer for sending"
+msgstr "Alternativer for test"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -17404,9 +17355,8 @@ msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "Mappe «{0}» inneholder ingen duplikatmeldinger."
 
 #: ../mail/mail.error.xml.h:155
-#, fuzzy
 msgid "Failed to connect account &quot;{0}&quot;."
-msgstr "Klarte ikke å koble fra konto &quot;{0}&quot;."
+msgstr "Klarte ikke å koble til konto &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:156
 msgid "Failed to disconnect account &quot;{0}&quot;."
@@ -17542,17 +17492,17 @@ msgstr "Ser etter nye meldinger på «%s»"
 #: ../mail/mail-send-recv.c:1421
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
-msgstr ""
+msgstr "Sletter søppel og tømmer papirkurv ved «%s»"
 
 #: ../mail/mail-send-recv.c:1423
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting junk at '%s'"
-msgstr "Kobler til «%s» på nytt"
+msgstr "Sletter søppelpost ved «%s»"
 
 #: ../mail/mail-send-recv.c:1425
-#, fuzzy, c-format
+#, c-format
 msgid "Expunging trash at '%s'"
-msgstr "Tømmer søppel i «%s»"
+msgstr "Tømmer søppelpost i «%s»"
 
 #: ../mail/mail-vfolder-ui.c:66
 msgid "Search Folders"
@@ -18587,28 +18537,24 @@ msgid "I_mport"
 msgstr "I_mporter"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:337
-#, fuzzy
 msgid "Importing an event"
-msgstr "Importerer data fra Pine"
+msgstr "Importerer en hendelse"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:341
-#, fuzzy
 msgid "Importing a memo"
-msgstr "Importerer postboks"
+msgstr "Importerer et notat"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:345
-#, fuzzy
 msgid "Importing a task"
-msgstr "Importerer data fra Elm"
+msgstr "Importerer en oppgave"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:403
 msgid "Select a Calendar"
 msgstr "Velg en kalender"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
-#, fuzzy
 msgid "Select a Memo List"
-msgstr "Sl_ett notatliste"
+msgstr "Velg en notatliste"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
@@ -18619,14 +18565,12 @@ msgid "I_mport to Calendar"
 msgstr "I_mporter til kalenderen"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:431
-#, fuzzy
 msgid "I_mport to Memo List"
-msgstr "I_mporter til oppgaver"
+msgstr "I_mporter til notatliste"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:438
-#, fuzzy
 msgid "I_mport to Task List"
-msgstr "I_mporter til oppgaver"
+msgstr "I_mporter til oppgaveliste"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:186
 #: ../modules/calendar/e-cal-shell-view-actions.c:162
@@ -18644,9 +18588,9 @@ msgid "New Task List"
 msgstr "Ny oppgaveliste"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "Copying an event into the calendar '%s'"
-msgstr "Kopierer en hendelse inn i kalender %s"
+msgstr "Kopierer en hendelse inn i kalender «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:541
 #, fuzzy, c-format
@@ -23150,7 +23094,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:649
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-sikkerhetskopi.p12"
 
 #: ../smime/gui/certificate-manager.c:663
 #: ../smime/gui/certificate-manager.c:952
@@ -23158,9 +23102,8 @@ msgid "All files"
 msgstr "Alle filer"
 
 #: ../smime/gui/certificate-manager.c:715
-#, fuzzy
 msgid "Backup Certificate"
-msgstr "Sertifikat"
+msgstr "Sikkerhetskopi av sertifikat"
 
 #. filename selection
 #: ../smime/gui/certificate-manager.c:729
@@ -23174,7 +23117,7 @@ msgstr "Velg en fil …"
 
 #: ../smime/gui/certificate-manager.c:748
 msgid "_Include certificate chain in the backup"
-msgstr ""
+msgstr "_Inkluder sertifikatkjeden i sikkerhetskopien"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:754
@@ -23201,7 +23144,8 @@ msgid ""
 "Please record it in a safe location."
 msgstr ""
 "Viktig:\n"
-"Hvis du glemmer passordet for sikkerhetskopien av sertifikatet vil du ikke kunne gjenopprette denne sikkerhetskopien senere.\n"
+"Hvis du glemmer passordet for sikkerhetskopien av sertifikatet vil du ikke "
+"kunne gjenopprette denne sikkerhetskopien senere.\n"
 "Vennligst lagre det på en trygg plass."
 
 #: ../smime/gui/certificate-manager.c:845
