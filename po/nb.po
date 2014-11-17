@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-16 12:32+0100\n"
-"PO-Revision-Date: 2014-11-16 14:48+0100\n"
+"POT-Creation-Date: 2014-11-17 07:49+0100\n"
+"PO-Revision-Date: 2014-11-17 07:58+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -10578,7 +10578,7 @@ msgstr "Le_gg ved"
 
 #: ../e-util/e-attachment-store.c:533
 msgid "Archive selected directories using this format:"
-msgstr ""
+msgstr "Arkiver valgte kataloger med dette formatet:"
 
 #: ../e-util/e-attachment-store.c:626
 msgid "Save Attachment"
@@ -10979,7 +10979,7 @@ msgstr "mørk grønn"
 
 #: ../e-util/e-color-combo.c:94
 msgid "dull blue"
-msgstr ""
+msgstr "uskarp blå"
 
 #: ../e-util/e-color-combo.c:95
 msgid "blue"
@@ -10987,7 +10987,7 @@ msgstr "blå"
 
 #: ../e-util/e-color-combo.c:96
 msgid "dull purple"
-msgstr ""
+msgstr "uskarp lilla"
 
 #: ../e-util/e-color-combo.c:97
 msgid "dark grey"
@@ -11007,11 +11007,11 @@ msgstr "lime"
 
 #: ../e-util/e-color-combo.c:102
 msgid "dull green"
-msgstr ""
+msgstr "uskarp grønn"
 
 #: ../e-util/e-color-combo.c:103
 msgid "dull blue #2"
-msgstr ""
+msgstr "uskarp blå #2"
 
 #: ../e-util/e-color-combo.c:104
 msgid "sky blue #2"
@@ -11223,7 +11223,7 @@ msgstr "Format:"
 #. Translators: :-)
 #: ../e-util/e-emoticon-chooser.c:39
 msgid "_Smile"
-msgstr ""
+msgstr "_Smil"
 
 #. Translators: :-(
 #: ../e-util/e-emoticon-chooser.c:41
@@ -11734,7 +11734,7 @@ msgstr "Topptekst _6"
 
 #: ../e-util/e-html-editor-actions.c:1232
 msgid "_Preformatted"
-msgstr ""
+msgstr "_Forhåndsformatert"
 
 #: ../e-util/e-html-editor-actions.c:1239
 msgid "A_ddress"
@@ -12194,7 +12194,7 @@ msgstr "Søk _bakover"
 
 #: ../e-util/e-html-editor-find-dialog.c:167
 msgid "Case _Sensitive"
-msgstr ""
+msgstr "Skill mellom små/store bokstaver"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
 msgid "_Wrap Search"
@@ -12304,7 +12304,7 @@ msgstr "Papir"
 
 #: ../e-util/e-html-editor-page-dialog.c:96
 msgid "Ribbon"
-msgstr ""
+msgstr "Bånd"
 
 #: ../e-util/e-html-editor-page-dialog.c:105
 msgid "Midnight"
@@ -12317,7 +12317,7 @@ msgstr "Skisse"
 
 #: ../e-util/e-html-editor-page-dialog.c:132
 msgid "Graph Paper"
-msgstr ""
+msgstr "Millimeterpapir"
 
 #: ../e-util/e-html-editor-page-dialog.c:415
 msgid "<b>Colors</b>"
@@ -12382,12 +12382,11 @@ msgstr "_Bredde:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:233
 msgid "_Case sensitive"
-msgstr ""
+msgstr "S_kill mellom små/store bokstaver"
 
 #: ../e-util/e-html-editor-replace-dialog.c:237
-#, fuzzy
 msgid "Wra_p search"
-msgstr "_Søk"
+msgstr "_Søk på nytt når slutten nås"
 
 #: ../e-util/e-html-editor-replace-dialog.c:247
 msgid "_Skip"
@@ -12494,15 +12493,14 @@ msgid "Changed property"
 msgstr "Endret egenskap"
 
 #: ../e-util/e-html-editor-view.c:3131
-#, fuzzy
 msgid "Whether editor changed"
-msgstr "Hvorvidt pip skal brukes."
+msgstr "Hvorvidt redigering ble endret"
 
 #: ../e-util/e-html-editor-view.c:6755
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
-msgstr ""
+msgstr "Hvis du slår av HTML-modus vil teksten miste all formatering. Vil du fortsette?"
 
 #: ../e-util/e-html-editor-view.c:6759
 msgid "_Don't lose formatting"
@@ -14975,7 +14973,7 @@ msgstr "Tvungen lasting av bilder i HTML e-post"
 
 #: ../mail/e-mail-reader.c:2143 ../mail/e-mail-reader.c:2521
 msgid "_Ignore Sub-Thread"
-msgstr ""
+msgstr "_Ignorer undertråd"
 
 #: ../mail/e-mail-reader.c:2145
 msgid "Mark new mails in a sub-thread as read automatically"
@@ -16352,9 +16350,8 @@ msgstr "Sender en melding med mottakere oppgitt uten e-postadresser"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:51
-#, fuzzy
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
-msgstr "Ved sending av en melding med tomt _emnefelt"
+msgstr "Sender en melding med _tastatursnarvei (Ctrl+linjeskift)"
 
 #: ../mail/mail-config.ui.h:52
 msgid "Confirmations"
@@ -16494,15 +16491,15 @@ msgstr "_Bekreft ved tømming av en mappe"
 
 #: ../mail/mail-config.ui.h:95
 msgid "Archive Mail"
-msgstr ""
+msgstr "Arkiver e-post"
 
 #: ../mail/mail-config.ui.h:96
 msgid "On This Computer A_rchive folder:"
-msgstr ""
+msgstr "A_rkivmappe på denne datamaskinen:"
 
 #: ../mail/mail-config.ui.h:97
 msgid "Archive folder to use for On This Computer messages"
-msgstr ""
+msgstr "Arkivmappe som skal brukes for meldinger på denne datamaskinen"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:99
@@ -16547,7 +16544,7 @@ msgstr "Vi_s bilde av avsender i forhåndsvisning av meldingen"
 
 #: ../mail/mail-config.ui.h:109
 msgid "Search gra_vatar.com for the photograph of sender"
-msgstr ""
+msgstr "Søk på gra_vatar.com for bilde av avsender"
 
 #: ../mail/mail-config.ui.h:110
 msgid "Displayed Message Headers"
@@ -17376,7 +17373,7 @@ msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
 msgid "Message is not available in offline."
-msgstr ""
+msgstr "Meldingen er ikke tilgjengelig frakoblet."
 
 #: ../mail/mail.error.xml.h:161
 msgid ""
@@ -17448,9 +17445,8 @@ msgid "Message from &quot;{0}&quot; account:"
 msgstr "Melding fra konto &quot;{0}&quot;:"
 
 #: ../mail/mail.error.xml.h:177
-#, fuzzy
 msgid "Failed to mark thread to be ignored in folder '{0}'"
-msgstr "Klarte ikke å flytte en avtale inn i kalender «{0}»"
+msgstr "Klarte ikke å merke tråd som ignorert i mappe «{0}»"
 
 #: ../mail/mail.error.xml.h:178
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
@@ -18255,9 +18251,8 @@ msgid "Bogofilter"
 msgstr "Bogofilter"
 
 #: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:2
-#, fuzzy
 msgid "Junk filter using Bogofilter"
-msgstr "Programvare for filtrering av uønsket e-post:"
+msgstr "Søppelfilter bruker Bogofilter"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:441
 msgid "Standard LDAP Port"
@@ -18593,29 +18588,29 @@ msgid "Copying an event into the calendar '%s'"
 msgstr "Kopierer en hendelse inn i kalender «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:541
-#, fuzzy, c-format
+#, c-format
 msgid "Moving an event into the calendar '%s'"
-msgstr "Flytter en hendelse inn i kalender %s"
+msgstr "Flytter en hendelse inn i kalender «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:546
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a memo into the memo list '%s'"
-msgstr "Kopierer et notat inn i notatliste «{0}»"
+msgstr "Kopierer et notat inn i notatliste «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a memo into the memo list '%s'"
-msgstr "Flytter et notat inn i notatliste «{0}»"
+msgstr "Flytter et notat inn i notatliste «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:552
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a task into the task list '%s'"
-msgstr "Kopierer en oppgave inn i oppgaveliste «{0}»"
+msgstr "Kopierer en oppgave inn i oppgaveliste «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:553
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a task into the task list '%s'"
-msgstr "Flytter en oppgave inn i oppgaveliste «{0}»"
+msgstr "Flytter en oppgave inn i oppgaveliste «%s»"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:650
 msgid "Calendar Selector"
@@ -21161,9 +21156,8 @@ msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
-#, fuzzy
 msgid "Junk filter using SpamAssassin"
-msgstr "Programvare for filtrering av uønsket e-post:"
+msgstr "Søppelfilter bruker SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -22976,9 +22970,8 @@ msgstr ""
 "prøve å oppgradere til Evolution 2 for så å oppgradere til Evolution 3."
 
 #: ../shell/shell.error.xml.h:11
-#, fuzzy
 msgid "Close Evolution with pending background operations?"
-msgstr "Ukjent bakgrunnsoperasjon"
+msgstr "Vil du lukke Evolution med utestående bakgrunnsoperasjoner?"
 
 #: ../shell/shell.error.xml.h:12
 msgid ""
@@ -22989,12 +22982,11 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
-msgstr ""
+msgstr "_Lukk nå"
 
 #: ../shell/shell.error.xml.h:14
-#, fuzzy
 msgid "Keep _Waiting"
-msgstr "Venter …"
+msgstr "Fortsett å _vente"
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -23084,7 +23076,7 @@ msgstr "E-post_adresse"
 
 #: ../smime/gui/certificate-manager.c:637
 msgid "Select a file to backup your key and certificate..."
-msgstr ""
+msgstr "Velg en fil for sikkerhetskopiering av nøkkel og sertifikat …"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
