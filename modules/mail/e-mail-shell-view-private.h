@@ -137,6 +137,8 @@ struct _EMailShellViewPrivate {
 
 	GtkToolItem *send_receive_tool_item;
 	GtkToolItem *send_receive_tool_separator;
+
+	gboolean vfolder_allow_expunge;
 };
 
 void		e_mail_shell_view_private_init
