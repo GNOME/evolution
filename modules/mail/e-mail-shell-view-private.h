@@ -140,6 +140,8 @@ struct _EMailShellViewPrivate {
 
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
+
+	gboolean vfolder_allow_expunge;
 };
 
 void		e_mail_shell_view_private_init

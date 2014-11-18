@@ -623,6 +623,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	GtkTreeSelection *selection;
 	GtkUIManager *ui_manager;
 	GtkWidget *message_list;
+	GSettings *settings;
 	EMailLabelListStore *label_store;
 	EMailBackend *backend;
 	EMailSession *session;
@@ -791,6 +792,13 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_view, "group-by-threads",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_settings_bind (
+		settings, "vfolder-allow-expunge",
+		mail_shell_view, "vfolder-allow-expunge",
+		G_SETTINGS_BIND_GET);
+	g_clear_object (&settings);
 
 	/* Populate built-in rules for search entry popup menu.
 	 * Keep the assertions, please.  If the conditions aren't
