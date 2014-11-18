@@ -133,35 +133,21 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
  *****************************************************************************/
 
 static void
-html_editor_call_simple_proxy_function (EHTMLEditor *editor,
+html_editor_call_simple_extension_function (EHTMLEditor *editor,
                                         const gchar *function)
 {
 	EHTMLEditorView *view;
-	GDBusProxy *web_extension;
 
 	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
 
-	g_dbus_proxy_call (
-		web_extension,
-		function,
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	e_html_editor_view_call_simple_extension_function (view, function);
 }
 
 static void
 action_context_delete_cell_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogDeleteCell");
 }
 
@@ -169,7 +155,7 @@ static void
 action_context_delete_column_cb (GtkAction *action,
                                  EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogDeleteColumn");
 }
 
@@ -177,7 +163,7 @@ static void
 action_context_delete_row_cb (GtkAction *action,
                               EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogDeleteRow");
 }
 
@@ -185,7 +171,7 @@ static void
 action_context_delete_table_cb (GtkAction *action,
                                 EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogDeleteTable");
 }
 
@@ -193,7 +179,7 @@ static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogInsertColumnAfter");
 }
 
@@ -201,7 +187,7 @@ static void
 action_context_insert_column_before_cb (GtkAction *action,
                                         EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogInsertColumnBefore");
 }
 
@@ -209,7 +195,7 @@ static void
 action_context_insert_row_above_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogInsertRowAbove");
 }
 
@@ -217,7 +203,7 @@ static void
 action_context_insert_row_below_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorDialogInsertRowBelow");
 }
 
@@ -225,7 +211,7 @@ static void
 action_context_remove_link_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
-	html_editor_call_simple_proxy_function (
+	html_editor_call_simple_extension_function (
 		editor, "EHTMLEditorSelectionDOMUnlink");
 }
 
@@ -767,7 +753,7 @@ action_unindent_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		html_editor_call_simple_proxy_function (
+		html_editor_call_simple_extension_function (
 			editor, "EHTMLEditorSelectionDOMUnindent");
 }
 
@@ -778,7 +764,7 @@ action_wrap_lines_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		html_editor_call_simple_proxy_function (
+		html_editor_call_simple_extension_function (
 			editor, "EHTMLEditorSelectionDOMWrapLines");
 }
 

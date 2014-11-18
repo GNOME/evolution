@@ -141,7 +141,7 @@ get_image_loading_policy (void)
 	GSettings *settings;
 	EMailImageLoadingPolicy image_policy;
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	image_policy = g_settings_get_enum (settings, "image-loading-policy");
 	g_object_unref (settings);
 

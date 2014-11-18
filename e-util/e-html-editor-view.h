@@ -81,6 +81,9 @@ EHTMLEditorView *
 GDBusProxy *
 		e_html_editor_view_get_web_extension_proxy
 						(EHTMLEditorView *view);
+void		e_html_editor_view_call_simple_extension_function
+						(EHTMLEditorView *view,
+						 const gchar *extension_function);
 GVariant *	e_html_editor_view_get_element_attribute
 						(EHTMLEditorView *view,
 						 const gchar *selector,
@@ -182,8 +185,6 @@ void		e_html_editor_view_add_inline_image_from_mime_part
 GList *		e_html_editor_view_get_parts_for_inline_images
 						(EHTMLEditorView *view,
 						 const gchar *uid_domain);
-void		remove_image_attributes_from_element
-						(WebKitDOMElement *element);
 gboolean	e_html_editor_view_is_message_from_draft
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_is_message_from_draft

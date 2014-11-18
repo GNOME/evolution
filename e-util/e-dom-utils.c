@@ -126,6 +126,27 @@ e_dom_utils_get_document_content_html (WebKitDOMDocument *document)
 	return webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (element));
 }
 
+static gboolean
+element_is_in_pre_tag (WebKitDOMNode *node)
+{
+	WebKitDOMElement *element;
+
+	if (!node)
+		return FALSE;
+
+	while (element = webkit_dom_node_get_parent_element (node), element) {
+		node = WEBKIT_DOM_NODE (element);
+
+		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (element)) {
+			return TRUE;
+		} else if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
+			break;
+		}
+	}
+
+	return FALSE;
+}
+
 static gchar *
 get_frame_selection_html (WebKitDOMElement *iframe)
 {
@@ -150,6 +171,9 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 		if (range != NULL) {
+			gchar *inner_html;
+			WebKitDOMNode *node;
+
 			fragment = webkit_dom_range_clone_contents (
 				range, NULL);
 
@@ -159,8 +183,17 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 				WEBKIT_DOM_NODE (element),
 				WEBKIT_DOM_NODE (fragment), NULL);
 
-			return webkit_dom_html_element_get_inner_html (
+			inner_html = webkit_dom_html_element_get_inner_html (
 				WEBKIT_DOM_HTML_ELEMENT (element));
+
+			node = webkit_dom_range_get_start_container (range, NULL);
+			if (element_is_in_pre_tag (node)) {
+				gchar *tmp = inner_html;
+				inner_html = g_strconcat ("<pre>", tmp, "</pre>", NULL);
+				g_free (tmp);
+			}
+
+			return inner_html;
 		}
 	}
 
@@ -183,6 +216,7 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 	}
 
 	g_object_unref (frames);
+
 	return NULL;
 }
 
@@ -211,6 +245,7 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 			return text;
 	}
 
+	g_object_unref (frames);
 	return NULL;
 }
 
@@ -1296,8 +1331,8 @@ e_dom_utils_module_vcard_inline_set_iframe_src (WebKitDOMDocument *document,
  * then the @node is returned.
  */
 WebKitDOMElement *
-e_html_editor_dom_node_find_parent_element (WebKitDOMNode *node,
-                                            const gchar *tagname)
+dom_node_find_parent_element (WebKitDOMNode *node,
+                              const gchar *tagname)
 {
 	gint taglen = strlen (tagname);
 
@@ -1338,8 +1373,8 @@ e_html_editor_dom_node_find_parent_element (WebKitDOMNode *node,
  * then the @node is returned.
  */
 WebKitDOMElement *
-e_html_editor_dom_node_find_child_element (WebKitDOMNode *node,
-                                           const gchar *tagname)
+dom_node_find_child_element (WebKitDOMNode *node,
+                             const gchar *tagname)
 {
 	WebKitDOMNode *start_node = node;
 	gint taglen = strlen (tagname);

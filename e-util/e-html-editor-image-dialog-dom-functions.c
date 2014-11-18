@@ -33,8 +33,7 @@ e_html_editor_image_dialog_set_element_url (WebKitDOMDocument *document,
 	WebKitDOMElement *image, *link;
 
 	image = get_current_image_element (document);
-	link = e_html_editor_dom_node_find_parent_element (
-		WEBKIT_DOM_NODE (image), "A");
+	link = dom_node_find_parent_element (WEBKIT_DOM_NODE (image), "A");
 
 	if (link) {
 		if (!url || !*url) {
@@ -83,8 +82,7 @@ e_html_editor_image_dialog_get_element_url (WebKitDOMDocument *document)
 	WebKitDOMElement *image, *link;
 
 	image = get_current_image_element (document);
-	link = e_html_editor_dom_node_find_parent_element (
-		WEBKIT_DOM_NODE (image), "A");
+	link = dom_node_find_parent_element (WEBKIT_DOM_NODE (image), "A");
 
 	value = webkit_dom_html_anchor_element_get_href (
 		WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link));

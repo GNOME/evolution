@@ -31,9 +31,9 @@
  * Returns: @TRUE when the command was succesfully executed, @FALSE otherwise.
  */
 gboolean
-e_html_editor_view_dom_exec_command (WebKitDOMDocument *document,
-                                     EHTMLEditorViewCommand command,
-                                     const gchar *value)
+dom_exec_command (WebKitDOMDocument *document,
+                  EHTMLEditorViewCommand command,
+                  const gchar *value)
 {
 	const gchar *cmd_str = 0;
 	gboolean has_value;

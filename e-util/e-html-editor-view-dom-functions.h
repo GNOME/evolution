@@ -25,8 +25,7 @@
 
 G_BEGIN_DECLS
 
-gboolean	e_html_editor_view_dom_exec_command
-						(WebKitDOMDocument *document,
+gboolean	dom_exec_command		(WebKitDOMDocument *document,
 						 EHTMLEditorViewCommand command,
 						 const gchar *value);
 

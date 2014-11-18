@@ -788,45 +788,13 @@ initialize_web_view_colors (EMailDisplay *display)
 }
 
 static void
-setup_image_click_event_listeners_on_document (WebKitDOMDocument *document,
-                                                WebKitWebView *web_view)
-{
-	gint length, ii = 0;
-	WebKitDOMElement *button;
-	WebKitDOMNodeList *list;
-
-	/* Install event listeners on document */
-	button = webkit_dom_document_get_element_by_id (
-		document, "__evo-collapse-headers-img");
-	if (button != NULL)
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (button), "click",
-			G_CALLBACK (toggle_headers_visibility),
-			FALSE, web_view);
-
-	list = webkit_dom_document_query_selector_all (document, "*[id^=__evo-moreaddr-]", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-
-	for (ii = 0; ii < length; ii++) {
-		button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, ii));
-
-		webkit_dom_event_target_add_event_listener (
-			WEBKIT_DOM_EVENT_TARGET (button), "click",
-			G_CALLBACK (toggle_address_visibility), FALSE,
-			NULL);
-	}
-	g_object_unref (list);
-}
-
-static void
 headers_collapsed_signal_cb (GDBusConnection *connection,
-                          const gchar *sender_name,
-                          const gchar *object_path,
-                          const gchar *interface_name,
-                          const gchar *signal_name,
-                          GVariant *parameters,
-                          EMailDisplay *display)
+                             const gchar *sender_name,
+                             const gchar *object_path,
+                             const gchar *interface_name,
+                             const gchar *signal_name,
+                             GVariant *parameters,
+                             EMailDisplay *display)
 {
 	gboolean expanded;
 
@@ -1164,7 +1132,7 @@ static void
 mail_display_web_view_initialize (WebKitWebView *web_view)
 {
 	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
-	GSettings *settings;
+	GSettings *settings = NULL, *font_settings;
 	GSettingsSchema *settings_schema;
 	WebKitSettings *webkit_settings;
 	PangoFontDescription *ms = NULL, *vw = NULL;
@@ -1175,7 +1143,7 @@ mail_display_web_view_initialize (WebKitWebView *web_view)
 		"enable-frame-flattening", TRUE,
 		NULL);
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	mail_display_get_font_settings (settings, &ms, &vw);
 
 	/* Optional schema */
@@ -1183,17 +1151,19 @@ mail_display_web_view_initialize (WebKitWebView *web_view)
 		g_settings_schema_source_get_default (), id, FALSE);
 
 	if (settings_schema)
-		settings = g_settings_new (id);
-	else
-		settings = NULL;
+		settings = e_util_ref_settings (id);
+
+	font_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 
 	e_web_view_update_fonts_settings (
-		g_settings_new ("org.gnome.desktop.interface"),
-		settings,
-		ms, vw, GTK_WIDGET (web_view));
+		font_settings, settings, ms, vw, GTK_WIDGET (web_view));
 
 	pango_font_description_free (ms);
 	pango_font_description_free (vw);
+
+	g_object_unref (font_settings);
+	if (settings)
+		g_object_unref (settings);
 }
 
 static void
@@ -1764,7 +1734,7 @@ web_view_process_http_uri_scheme_request (GTask *task,
 		goto cleanup;
 	}
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	image_policy = g_settings_get_enum (settings, "image-loading-policy");
 	g_object_unref (settings);
 

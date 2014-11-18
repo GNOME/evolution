@@ -47,8 +47,8 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_html_editor_dom_node_find_parent_element (
-			webkit_dom_range_get_start_container (range, NULL), "A");
+	link = dom_node_find_parent_element (
+		webkit_dom_range_get_start_container (range, NULL), "A");
 	if (!link) {
 		if ((webkit_dom_range_get_start_container (range, NULL) !=
 			webkit_dom_range_get_end_container (range, NULL)) ||
@@ -57,8 +57,7 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 
 			WebKitDOMDocumentFragment *fragment;
 			fragment = webkit_dom_range_extract_contents (range, NULL);
-			link = e_html_editor_dom_node_find_child_element (
-				WEBKIT_DOM_NODE (fragment), "A");
+			link = dom_node_find_child_element (WEBKIT_DOM_NODE (fragment), "A");
 			webkit_dom_range_insert_node (
 				range, WEBKIT_DOM_NODE (fragment), NULL);
 
@@ -89,12 +88,12 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 		/* Check whether a text is selected or not */
 		text = webkit_dom_range_get_text (range);
 		if (text && *text) {
-			e_html_editor_selection_dom_create_link (document, url);
+			dom_create_link (document, url);
 		} else {
 			gchar *html = g_strdup_printf (
 				"<a href=\"%s\">%s</a>", url, inner_text);
 
-			e_html_editor_view_dom_exec_command (
+			dom_exec_command (
 				document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html);
 			g_free (html);
 
@@ -124,7 +123,7 @@ e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	link = e_html_editor_dom_node_find_parent_element (
+	link = dom_node_find_parent_element (
 		webkit_dom_range_get_start_container (range, NULL), "A");
 	if (!link) {
 		if ((webkit_dom_range_get_start_container (range, NULL) !=
@@ -134,8 +133,7 @@ e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 
 			WebKitDOMDocumentFragment *fragment;
 			fragment = webkit_dom_range_clone_contents (range, NULL);
-			link = e_html_editor_dom_node_find_child_element (
-					WEBKIT_DOM_NODE (fragment), "A");
+			link = dom_node_find_child_element (WEBKIT_DOM_NODE (fragment), "A");
 		} else {
 			/* get element that was clicked on */
 			/* FIXME WK2

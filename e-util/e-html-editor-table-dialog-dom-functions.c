@@ -202,7 +202,7 @@ e_html_editor_table_dialog_show (WebKitDOMDocument *document)
 		WebKitDOMRange *range;
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		table = e_html_editor_dom_node_find_parent_element (
+		table = dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
 
 		if (table) {

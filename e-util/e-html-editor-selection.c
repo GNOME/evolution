@@ -37,13 +37,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_SELECTION, EHTMLEditorSelectionPrivate))
 
-#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
-#define UNICODE_NBSP "\xc2\xa0"
-
-#define SPACES_PER_INDENTATION 4
-#define SPACES_PER_LIST_LEVEL 8
-#define MINIMAL_PARAGRAPH_WIDTH 5
-
 /**
  * EHTMLEditorSelection
  *
@@ -67,7 +60,7 @@ struct _EHTMLEditorSelectionPrivate {
 
 	gchar *background_color;
 	gchar *font_color;
-	gchar *font_family;
+	gchar *font_name;
 
 	gulong selection_offset;
 
@@ -104,132 +97,6 @@ G_DEFINE_TYPE (
 	e_html_editor_selection,
 	G_TYPE_OBJECT
 );
-
-static WebKitDOMRange *
-html_editor_selection_get_current_range (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorView *view;
-	WebKitWebView *web_view;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range = NULL;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, NULL);
-
-	web_view = WEBKIT_WEB_VIEW (view);
-
-	document = webkit_web_view_get_dom_document (web_view);
-	window = webkit_dom_document_get_default_view (document);
-	if (!window)
-		goto exit;
-
-	dom_selection = webkit_dom_dom_window_get_selection (window);
-	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
-		goto exit;
-
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
-		goto exit;
-
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-
- exit:
-	g_object_unref (view);
-
-	return range;
-}
-
-static gboolean
-get_has_style (EHTMLEditorSelection *selection,
-               const gchar *style_tag)
-{
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-	gboolean result;
-	gint tag_len;
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	node = webkit_dom_range_get_start_container (range, NULL);
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	tag_len = strlen (style_tag);
-	result = FALSE;
-	while (!result && element) {
-		gchar *element_tag;
-		gboolean accept_citation = FALSE;
-
-		element_tag = webkit_dom_element_get_tag_name (element);
-
-		if (g_ascii_strncasecmp (style_tag, "citation", 8) == 0) {
-			accept_citation = TRUE;
-			result = ((strlen (element_tag) == 10 /* strlen ("blockquote") */) &&
-				(g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0));
-			if (element_has_class (element, "-x-evo-indented"))
-				result = FALSE;
-		} else {
-			result = ((tag_len == strlen (element_tag)) &&
-				(g_ascii_strncasecmp (element_tag, style_tag, tag_len) == 0));
-		}
-
-		/* Special case: <blockquote type=cite> marks quotation, while
-		 * just <blockquote> is used for indentation. If the <blockquote>
-		 * has type=cite, then ignore it unless style_tag is "citation" */
-		if (result && g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0) {
-			if (webkit_dom_element_has_attribute (element, "type")) {
-				gchar *type;
-				type = webkit_dom_element_get_attribute (element, "type");
-				if (!accept_citation && (g_ascii_strncasecmp (type, "cite", 4) == 0)) {
-					result = FALSE;
-				}
-				g_free (type);
-			} else {
-				if (accept_citation)
-					result = FALSE;
-			}
-		}
-
-		g_free (element_tag);
-
-		if (result)
-			break;
-
-		element = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (element));
-	}
-
-	return result;
-}
-
-static gchar *
-get_font_property (EHTMLEditorSelection *selection,
-                   const gchar *font_property)
-{
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	gchar *value;
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return NULL;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	element = e_html_editor_dom_node_find_parent_element (node, "FONT");
-	if (!element)
-		return NULL;
-
-	g_object_get (G_OBJECT (element), font_property, &value, NULL);
-
-	return value;
-}
 
 static void
 html_editor_selection_selection_changed_cb (WebKitWebView *webview,
@@ -548,7 +415,7 @@ html_editor_selection_finalize (GObject *object)
 	g_free (selection->priv->text);
 	g_free (selection->priv->background_color);
 	g_free (selection->priv->font_color);
-	g_free (selection->priv->font_family);
+	g_free (selection->priv->font_name);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_html_editor_selection_parent_class)->finalize (object);
@@ -887,42 +754,38 @@ e_html_editor_selection_ref_html_editor_view (EHTMLEditorSelection *selection)
 gboolean
 e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 {
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
+	EHTMLEditorView *view;
+	gboolean ret_val = FALSE;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), ret_val);
 
-	range = html_editor_selection_get_current_range (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, ret_val);
 
-	node = webkit_dom_range_get_start_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node))
-		return TRUE;
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
 
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node))
-		return TRUE;
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMSelectionHasText",
+		g_variant_new (
+			"(t)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	node = WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL));
-	while (node) {
-		if (WEBKIT_DOM_IS_TEXT (node))
-			return TRUE;
-
-		if (webkit_dom_node_has_child_nodes (node)) {
-			node = webkit_dom_node_get_first_child (node);
-		} else if (webkit_dom_node_get_next_sibling (node)) {
-			node = webkit_dom_node_get_next_sibling (node);
-		} else {
-			node = webkit_dom_node_get_parent_node (node);
-			if (node) {
-				node = webkit_dom_node_get_next_sibling (node);
-			}
-		}
+	if (result) {
+		g_variant_get (result, "(b)", &ret_val);
+		g_variant_unref (result);
 	}
+ out:
+	g_object_unref (view);
 
-	if (node)
-		g_object_unref (node);
-
-	return FALSE;
+	return ret_val;
 }
 
 /**
@@ -937,17 +800,38 @@ e_html_editor_selection_has_text (EHTMLEditorSelection *selection)
 gchar *
 e_html_editor_selection_get_caret_word (EHTMLEditorSelection *selection)
 {
-	WebKitDOMRange *range;
+	EHTMLEditorView *view;
+	gchar *ret_val = NULL;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), ret_val);
 
-	range = html_editor_selection_get_current_range (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, ret_val);
 
-	/* Don't operate on the visible selection */
-	range = webkit_dom_range_clone_range (range, NULL);
-	webkit_dom_range_expand (range, "word", NULL);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
 
-	return webkit_dom_range_to_string (range, NULL);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMGetCaretWord",
+		g_variant_new (
+			"(t)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
+	if (result) {
+		g_variant_get (result, "(s)", &ret_val);
+		g_variant_unref (result);
+	}
+ out:
+	g_object_unref (view);
+
+	return ret_val;
 }
 
 /**
@@ -962,11 +846,7 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
                                             const gchar *replacement)
 {
 	EHTMLEditorView *view;
-	WebKitWebView *web_view;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
+	GDBusProxy *web_extension;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (replacement != NULL);
@@ -974,19 +854,367 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	web_view = WEBKIT_WEB_VIEW (view);
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
 
-	range = html_editor_selection_get_current_range (selection);
-	document = webkit_web_view_get_dom_document (web_view);
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMReplaceCaretWord",
+		g_variant_new ("(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			replacement),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
-	webkit_dom_range_expand (range, "word", NULL);
-	webkit_dom_dom_selection_add_range (dom_selection, range);
-
-	e_html_editor_selection_insert_html (selection, replacement);
-
+ out:
 	g_object_unref (view);
+}
+
+/**
+ * e_html_editor_selection_replace:
+ * @selection: an #EHTMLEditorSelection
+ * @replacement: a string to replace current selection with
+ *
+ * Replaces currently selected text with @replacement.
+ */
+void
+e_html_editor_selection_replace (EHTMLEditorSelection *selection,
+                                 const gchar *replacement)
+{
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMSelectionReplace",
+		g_variant_new ("(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			replacement),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+ out:
+	g_object_unref (view);
+}
+
+static const gchar *
+html_editor_selection_get_format_string (EHTMLEditorSelection *selection,
+                                         const gchar *format_name)
+{
+	EHTMLEditorView *view;
+	const gchar *ret_val = NULL;
+	GDBusProxy *web_extension;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+/* FIXME WK2 get cached property format_name from extension */
+ out:
+	g_object_unref (view);
+
+	return ret_val;
+}
+
+static void
+html_editor_selection_set_format_string (EHTMLEditorSelection *selection,
+                                         const gchar *format_name,
+                                         const gchar *format_dom_function,
+                                         const gchar *format_value,
+                                         gchar **format_value_priv)
+{
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	g_dbus_proxy_call (
+		web_extension,
+		format_dom_function,
+		g_variant_new ("(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			format_value),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	if (format_value_priv) {
+		g_free (&format_value_priv);
+		*format_value_priv = g_strdup (format_value);
+	}
+
+	g_object_notify (G_OBJECT (selection), format_name);
+ out:
+	g_object_unref (view);
+}
+
+static gboolean
+html_editor_selection_get_format_boolean (EHTMLEditorSelection *selection,
+                                          const gchar *format_name)
+{
+	EHTMLEditorView *view;
+	gboolean ret_val = FALSE;
+	GDBusProxy *web_extension;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+/* FIXME WK2 get cached property format_name from extension */
+ out:
+	g_object_unref (view);
+
+	return ret_val;
+}
+
+static void
+html_editor_selection_set_format_boolean (EHTMLEditorSelection *selection,
+                                          const gchar *format_name,
+                                          const gchar *format_dom_function,
+                                          gboolean format_value,
+                                          gboolean *format_value_priv)
+{
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+
+	if (format_value_priv && *format_value_priv == format_value)
+		return;
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	g_dbus_proxy_call (
+		web_extension,
+		format_dom_function,
+		g_variant_new (
+			"(tb)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			format_value),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	if (format_value_priv)
+		*format_value_priv = format_value;
+	g_object_notify (G_OBJECT (selection), format_name);
+
+ out:
+	g_object_unref (view);
+}
+
+static guint
+html_editor_selection_get_format_uint (EHTMLEditorSelection *selection,
+                                       const gchar *format_name)
+{
+	EHTMLEditorView *view;
+	guint ret_val = 0;
+	GDBusProxy *web_extension;
+
+	if (!E_IS_HTML_EDITOR_SELECTION (selection))
+		goto return_default;
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	if (!view)
+		goto return_default;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+/* FIXME WK2 get cached property format_name from extension */
+ out:
+	g_object_unref (view);
+
+	return ret_val;
+
+ return_default:
+	if (g_strcmp0 (format_name, "font-size") == 0)
+		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	else if (g_strcmp0 (format_name, "alignment") == 0)
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	else
+		return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
+}
+
+static void
+html_editor_selection_set_format_uint (EHTMLEditorSelection *selection,
+                                       const gchar *format_name,
+                                       const gchar *format_dom_function,
+                                       guint format_value,
+                                       guint *format_value_priv)
+{
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+
+	if (format_value_priv && *format_value_priv == format_value)
+		return;
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
+
+	g_dbus_proxy_call (
+		web_extension,
+		format_dom_function,
+		g_variant_new (
+			"(tb)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			format_value),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
+	if (format_value_priv)
+		*format_value_priv = format_value;
+	g_object_notify (G_OBJECT (selection), format_name);
+
+ out:
+	g_object_unref (view);
+}
+
+/**
+ * e_html_editor_selection_get_alignment:
+ * @selection: #an EHTMLEditorSelection
+ *
+ * Returns alignment of current paragraph
+ *
+ * Returns: #EHTMLEditorSelectionAlignment
+ */
+EHTMLEditorSelectionAlignment
+e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
+{
+	g_return_val_if_fail (
+		E_IS_HTML_EDITOR_SELECTION (selection),
+		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT);
+
+	return html_editor_selection_get_format_uint (selection, "alignment");
+}
+
+/**
+ * e_html_editor_selection_set_alignment:
+ * @selection: an #EHTMLEditorSelection
+ * @alignment: an #EHTMLEditorSelectionAlignment value to apply
+ *
+ * Sets alignment of current paragraph to give @alignment.
+ */
+void
+e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
+                                       EHTMLEditorSelectionAlignment alignment)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	html_editor_selection_set_format_uint (
+		selection, "alignment", "DOMSelectionSetAlignment", alignment, NULL);
+
+}
+
+/**
+ * e_html_editor_selection_get_block_format:
+ * @selection: an #EHTMLEditorSelection
+ *
+ * Returns block format of current paragraph.
+ *
+ * Returns: #EHTMLEditorSelectionBlockFormat
+ */
+EHTMLEditorSelectionBlockFormat
+e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
+{
+	g_return_val_if_fail (
+		E_IS_HTML_EDITOR_SELECTION (selection),
+		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
+
+	return html_editor_selection_get_format_uint (selection, "block-format");
+}
+
+/**
+ * e_html_editor_selection_set_block_format:
+ * @selection: an #EHTMLEditorSelection
+ * @format: an #EHTMLEditorSelectionBlockFormat value
+ *
+ * Changes block format of current paragraph to @format.
+ */
+void
+e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
+                                          EHTMLEditorSelectionBlockFormat format)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	html_editor_selection_set_format_uint (
+		selection, "block-format", "DOMSelectionSetBlockFormat", format, NULL);
+
+	/* H1 - H6 have bold font by default */
+	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
+	    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
+		selection->priv->is_bold = TRUE;
+
+	/* When changing the format we need to re-set the alignment */
+	e_html_editor_selection_set_alignment (selection, selection->priv->alignment);
 }
 
 /**
@@ -1001,358 +1229,9 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 const gchar *
 e_html_editor_selection_get_string (EHTMLEditorSelection *selection)
 {
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return NULL;
-
-	g_free (selection->priv->text);
-	selection->priv->text = webkit_dom_range_get_text (range);
-
-	return selection->priv->text;
-}
-
-/**
- * e_html_editor_selection_replace:
- * @selection: an #EHTMLEditorSelection
- * @new_string: a string to replace current selection with
- *
- * Replaces currently selected text with @new_string.
- */
-void
-e_html_editor_selection_replace (EHTMLEditorSelection *selection,
-                                 const gchar *new_string)
-{
-	EHTMLEditorView *view;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	e_html_editor_view_exec_command (
-		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, new_string);
-
-	g_object_unref (view);
-}
-
-/**
- * e_html_editor_selection_get_list_alignment_from_node:
- * @node: #an WebKitDOMNode
- *
- * Returns alignment of given list.
- *
- * Returns: #EHTMLEditorSelectionAlignment
- */
-static EHTMLEditorSelectionAlignment
-e_html_editor_selection_get_list_alignment_from_node (WebKitDOMNode *node)
-{
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-left"))
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-center"))
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-right"))
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
-
-	return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-}
-
-/**
- * e_html_editor_selection_get_alignment:
- * @selection: #an EHTMLEditorSelection
- *
- * Returns alignment of current paragraph
- *
- * Returns: #EHTMLEditorSelectionAlignment
- */
-EHTMLEditorSelectionAlignment
-e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorSelectionAlignment alignment;
-	EHTMLEditorView *view;
-	gchar *value;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMElement *element;
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-
-	g_return_val_if_fail (
-		E_IS_HTML_EDITOR_SELECTION (selection),
-		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-	window = webkit_dom_document_get_default_view (document);
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-
-	node = webkit_dom_range_get_start_container (range, NULL);
-	if (!node)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
-
-	if (!value || !*value ||
-	    (g_ascii_strncasecmp (value, "left", 4) == 0)) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-	} else if (g_ascii_strncasecmp (value, "center", 6) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
-	} else if (g_ascii_strncasecmp (value, "right", 5) == 0) {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
-	} else {
-		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-	}
-
-	g_free (value);
-
-	return alignment;
-}
-
-static WebKitDOMNode *
-get_list_item_node_from_child (WebKitDOMNode *child)
-{
-	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (child);
-
-	while (parent && !WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent))
-		parent = webkit_dom_node_get_parent_node (parent);
-
-	return parent;
-}
-
-static WebKitDOMNode *
-get_list_node_from_child (WebKitDOMNode *child)
-{
-	WebKitDOMNode *parent = get_list_item_node_from_child (child);
-
-	return webkit_dom_node_get_parent_node (parent);
-}
-
-static void
-format_change_list_from_list (EHTMLEditorSelection *selection,
-                              WebKitDOMDocument *document,
-                              EHTMLEditorSelectionBlockFormat to,
-                              gboolean html_mode)
-{
-	gboolean after_selection_end = FALSE;
-	WebKitDOMElement *selection_start_marker, *selection_end_marker, *new_list;
-	WebKitDOMNode *source_list, *source_list_clone, *current_list, *item;
-
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	if (!selection_start_marker || !selection_end_marker)
-		return;
-
-	new_list = create_list_element (selection, document, to, 0, html_mode);
-
-	/* Copy elements from previous block to list */
-	item = get_list_item_node_from_child (
-		WEBKIT_DOM_NODE (selection_start_marker));
-	source_list = webkit_dom_node_get_parent_node (item);
-	current_list = source_list;
-	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
-
-	if (element_has_class (WEBKIT_DOM_ELEMENT (source_list), "-x-evo-indented"))
-		element_add_class (WEBKIT_DOM_ELEMENT (new_list), "-x-evo-indented");
-
-	while (item) {
-		WebKitDOMNode *next_item = webkit_dom_node_get_next_sibling (item);
-
-		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
-			webkit_dom_node_append_child (
-				after_selection_end ?
-					source_list_clone : WEBKIT_DOM_NODE (new_list),
-				WEBKIT_DOM_NODE (item),
-				NULL);
-		}
-
-		if (webkit_dom_node_contains (item, WEBKIT_DOM_NODE (selection_end_marker))) {
-			g_object_unref (source_list_clone);
-			source_list_clone = webkit_dom_node_clone_node (current_list, FALSE);
-			after_selection_end = TRUE;
-		}
-
-		if (!next_item) {
-			if (after_selection_end)
-				break;
-			current_list = webkit_dom_node_get_next_sibling (current_list);
-			next_item = webkit_dom_node_get_first_child (current_list);
-		}
-		item = next_item;
-	}
-
-	if (webkit_dom_node_has_child_nodes (source_list_clone))
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (source_list),
-			WEBKIT_DOM_NODE (source_list_clone),
-			webkit_dom_node_get_next_sibling (source_list), NULL);
-	if (webkit_dom_node_has_child_nodes (WEBKIT_DOM_NODE (new_list)))
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (source_list),
-			WEBKIT_DOM_NODE (new_list),
-			webkit_dom_node_get_next_sibling (source_list), NULL);
-	if (!webkit_dom_node_has_child_nodes (source_list))
-		remove_node (source_list);
-}
-
-static void
-set_block_alignment (WebKitDOMElement *element,
-                     const gchar *class)
-{
-	WebKitDOMElement *parent;
-
-	element_remove_class (element, "-x-evo-align-center");
-	element_remove_class (element, "-x-evo-align-right");
-	element_add_class (element, class);
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
-	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		element_remove_class (parent, "-x-evo-align-center");
-		element_remove_class (parent, "-x-evo-align-right");
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
-}
-
-/**
- * e_html_editor_selection_set_alignment:
- * @selection: an #EHTMLEditorSelection
- * @alignment: an #EHTMLEditorSelectionAlignment value to apply
- *
- * Sets alignment of current paragraph to give @alignment.
- */
-void
-e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
-                                       EHTMLEditorSelectionAlignment alignment)
-{
-	EHTMLEditorView *view;
-	gboolean after_selection_end = FALSE;
-	const gchar *class = "", *list_class = "";
-	WebKitDOMDocument *document;
-	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *block;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	if (e_html_editor_selection_get_alignment (selection) == alignment)
-		return;
-
-	switch (alignment) {
-		case E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER:
-			class = "-x-evo-align-center";
-			list_class = "-x-evo-list-item-align-center";
-			break;
-
-		case E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT:
-			break;
-
-		case E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT:
-			class = "-x-evo-align-right";
-			list_class = "-x-evo-list-item-align-right";
-			break;
-	}
-
-	selection->priv->alignment = alignment;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-	e_html_editor_selection_save (selection);
-
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	if (!selection_start_marker) {
-		g_object_unref (view);
-		return;
-	}
-
-	block = get_parent_block_node_from_child (
-		WEBKIT_DOM_NODE (selection_start_marker));
-
-	while (block && !after_selection_end) {
-		WebKitDOMNode *next_block;
-
-		next_block = webkit_dom_node_get_next_sibling (block);
-
-		after_selection_end = webkit_dom_node_contains (
-			block, WEBKIT_DOM_NODE (selection_end_marker));
-
-		if (node_is_list (block)) {
-			WebKitDOMNode *item = webkit_dom_node_get_first_child (block);
-
-			while (item && WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
-				element_remove_class (
-					WEBKIT_DOM_ELEMENT (item),
-					"-x-evo-list-item-align-center");
-				element_remove_class (
-					WEBKIT_DOM_ELEMENT (item),
-					"-x-evo-list-item-align-right");
-
-				element_add_class (WEBKIT_DOM_ELEMENT (item), list_class);
-				after_selection_end = webkit_dom_node_contains (
-					item, WEBKIT_DOM_NODE (selection_end_marker));
-				if (after_selection_end)
-					break;
-				item = webkit_dom_node_get_next_sibling (item);
-			}
-		} else {
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-indented")) {
-				gint ii, length;
-				WebKitDOMNodeList *list;
-
-				list = webkit_dom_element_query_selector_all (
-					WEBKIT_DOM_ELEMENT (block),
-					".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
-					NULL);
-				length = webkit_dom_node_list_get_length (list);
-
-				for (ii = 0; ii < length; ii++) {
-					WebKitDOMNode *item = webkit_dom_node_list_item (list, ii);
-
-					set_block_alignment (WEBKIT_DOM_ELEMENT (item), class);
-
-					after_selection_end = webkit_dom_node_contains (
-						item, WEBKIT_DOM_NODE (selection_end_marker));
-					if (after_selection_end)
-						break;
-				}
-
-				g_object_unref (list);
-			} else {
-				set_block_alignment (WEBKIT_DOM_ELEMENT (block), class);
-			}
-		}
-
-		block = next_block;
-	}
-
-	e_html_editor_selection_restore (selection);
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "alignment");
+	return html_editor_selection_get_format_string (selection, "text");
 }
 
 /**
@@ -1367,20 +1246,22 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 const gchar *
 e_html_editor_selection_get_background_color (EHTMLEditorSelection *selection)
 {
-	WebKitDOMNode *ancestor;
-	WebKitDOMRange *range;
-	WebKitDOMCSSStyleDeclaration *css;
+	EHTMLEditorView *view;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	range = html_editor_selection_get_current_range (selection);
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, NULL);
 
-	ancestor = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (!e_html_editor_view_get_html_mode (view)) {
+		g_object_unref (view);
+		return "#ffffff";
+	}
+	g_object_unref (view);
 
-	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (ancestor));
-	selection->priv->background_color =
-		webkit_dom_css_style_declaration_get_property_value (
-			css, "background-color");
+	g_free (selection->priv->background_color);
+	selection->priv->background_color = g_strdup (
+		(html_editor_selection_get_format_string (selection, "font-family"));
 
 	return selection->priv->background_color;
 }
@@ -1397,883 +1278,15 @@ void
 e_html_editor_selection_set_background_color (EHTMLEditorSelection *selection,
                                               const gchar *color)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (color != NULL && *color != '\0');
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_BACKGROUND_COLOR;
-	e_html_editor_view_exec_command (view, command, color);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "background-color");
-}
-
-static WebKitDOMNode *
-get_block_node (WebKitDOMRange *range)
-{
-	WebKitDOMNode *node;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	node = get_parent_block_node_from_child (node);
-
-	return node;
-}
-
-/**
- * e_html_editor_selection_get_block_format:
- * @selection: an #EHTMLEditorSelection
- *
- * Returns block format of current paragraph.
- *
- * Returns: #EHTMLEditorSelectionBlockFormat
- */
-EHTMLEditorSelectionBlockFormat
-e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
-{
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-	WebKitDOMElement *element;
-	EHTMLEditorSelectionBlockFormat result;
-
-	g_return_val_if_fail (
-		E_IS_HTML_EDITOR_SELECTION (selection),
-		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-
-	node = webkit_dom_range_get_start_container (range, NULL);
-
-	if (e_html_editor_dom_node_find_parent_element (node, "UL")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
-	} else if ((element = e_html_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
-		result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (element));
-	} else if (e_html_editor_dom_node_find_parent_element (node, "PRE")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "ADDRESS")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "H1")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "H2")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "H3")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "H4")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "H5")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5;
-	} else if (e_html_editor_dom_node_find_parent_element (node, "H6")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6;
-	} else if ((element = e_html_editor_dom_node_find_parent_element (node, "BLOCKQUOTE")) != NULL) {
-		if (element_has_class (element, "-x-evo-indented"))
-			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-		else {
-			WebKitDOMNode *block = get_block_node (range);
-
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph"))
-				result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-			else {
-				/* Paragraphs inside quote */
-				if ((element = e_html_editor_dom_node_find_parent_element (node, "DIV")) != NULL)
-					if (element_has_class (element, "-x-evo-paragraph"))
-						result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-					else
-						result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
-				else
-					result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE;
-			}
-		}
-	} else if (e_html_editor_dom_node_find_parent_element (node, "P")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-	} else {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
-	}
-
-	return result;
-}
-
-static void
-remove_wrapping_from_element (WebKitDOMElement *element)
-{
-	WebKitDOMNodeList *list;
-	gint ii, length;
-
-	list = webkit_dom_element_query_selector_all (
-		element, "br.-x-evo-wrap-br", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
-
-	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
-
-	g_object_unref (list);
-}
-
-static void
-remove_quoting_from_element (WebKitDOMElement *element)
-{
-	gint ii, length;
-	WebKitDOMNodeList *list;
-
-	list = webkit_dom_element_query_selector_all (
-		element, "span.-x-evo-quoted", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
-	g_object_unref (list);
-
-	list = webkit_dom_element_query_selector_all (
-		element, "span.-x-evo-temp-text-wrapper", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
-
-		while (webkit_dom_node_get_first_child (node))
-			webkit_dom_node_insert_before (
-				parent,
-				webkit_dom_node_get_first_child (node),
-				node,
-				NULL);
-
-		remove_node (node);
-	}
-	g_object_unref (list);
-
-	list = webkit_dom_element_query_selector_all (
-		element, "br.-x-evo-temp-br", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
-	g_object_unref (list);
-
-	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
-}
-
-static gboolean
-is_citation_node (WebKitDOMNode *node)
-{
-	char *value;
-
-	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
-		return FALSE;
-
-	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
-
-	/* citation == <blockquote type='cite'> */
-	if (g_strcmp0 (value, "cite") == 0) {
-		g_free (value);
-		return TRUE;
-	} else {
-		g_free (value);
-		return FALSE;
-	}
-}
-
-static gboolean
-process_block_to_block (EHTMLEditorSelection *selection,
-                        EHTMLEditorView *view,
-			WebKitDOMDocument *document,
-                        EHTMLEditorSelectionBlockFormat format,
-			const gchar *value,
-                        WebKitDOMNode *block,
-                        WebKitDOMNode *end_block,
-                        gboolean html_mode)
-{
-	gboolean after_selection_end = FALSE;
-	WebKitDOMNode *next_block;
-
-	while (!after_selection_end && block) {
-		gboolean quoted = FALSE;
-		gboolean empty = FALSE;
-		gchar *content;
-		WebKitDOMNode *child;
-		WebKitDOMElement *element;
-
-		if (is_citation_node (block)) {
-			gboolean finished;
-
-			next_block = webkit_dom_node_get_next_sibling (block);
-			finished = process_block_to_block (
-				selection,
-				view,
-				document,
-				format,
-				value,
-				webkit_dom_node_get_first_child (block),
-				end_block,
-				html_mode);
-
-			if (finished)
-				return TRUE;
-
-			block = next_block;
-
-			continue;
-		}
-
-		if (webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
-			quoted = TRUE;
-			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
-		}
-
-		if (!html_mode)
-			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
-
-		after_selection_end = webkit_dom_node_is_same_node (block, end_block);
-
-		next_block = webkit_dom_node_get_next_sibling (block);
-
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-			element = e_html_editor_selection_get_paragraph_element (
-				selection, document, -1, 0);
-		else
-			element = webkit_dom_document_create_element (
-				document, value, NULL);
-
-		content = webkit_dom_node_get_text_content (block);
-
-		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
-		g_free (content);
-
-		while ((child = webkit_dom_node_get_first_child (block))) {
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
-				empty = FALSE;
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element), child, NULL);
-		}
-
-		if (empty) {
-			WebKitDOMElement *br;
-
-			br = webkit_dom_document_create_element (
-				document, "BR", NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (br), NULL);
-		}
-
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (block),
-			WEBKIT_DOM_NODE (element),
-			block,
-			NULL);
-
-		remove_node (block);
-
-		if (!next_block && !after_selection_end) {
-			gint citation_level;
-
-			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
-
-			if (citation_level > 0) {
-				next_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-				next_block = webkit_dom_node_get_next_sibling (next_block);
-			}
-		}
-
-		block = next_block;
-
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH && !html_mode) {
-			gint citation_level, quote;
-
-			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
-			quote = citation_level ? citation_level * 2 : 0;
-
-			if (citation_level > 0)
-				element = e_html_editor_selection_wrap_paragraph_length (
-					selection, element, selection->priv->word_wrap_length - quote);
-		}
-
-		if (quoted)
-			e_html_editor_view_quote_plain_text_element (view, element);
-	}
-
-	return after_selection_end;
-}
-
-static WebKitDOMElement *
-create_selection_marker (WebKitDOMDocument *document,
-                         gboolean start)
-{
-	WebKitDOMElement *element;
-
-	element = webkit_dom_document_create_element (
-		document, "SPAN", NULL);
-	webkit_dom_element_set_id (
-		element,
-		start ? "-x-evo-selection-start-marker" :
-			"-x-evo-selection-end-marker");
-
-	return element;
-}
-
-static void
-add_selection_markers_into_element_start (WebKitDOMDocument *document,
-                                          WebKitDOMElement *element,
-                                          WebKitDOMElement **selection_start_marker,
-                                          WebKitDOMElement **selection_end_marker)
-{
-	WebKitDOMElement *marker;
-
-	marker = create_selection_marker (document, FALSE);
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (marker),
-		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+	html_editor_selection_set_format_string (
+		selection,
+		"background-color",
+		"DOMSelectionSetBackgroundColor",
+		color,
 		NULL);
-	if (selection_end_marker)
-		*selection_end_marker = marker;
-
-	marker = create_selection_marker (document, TRUE);
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (marker),
-		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
-		NULL);
-	if (selection_start_marker)
-		*selection_start_marker = marker;
-}
-
-static void
-format_change_block_to_block (EHTMLEditorSelection *selection,
-                              EHTMLEditorSelectionBlockFormat format,
-                              EHTMLEditorView *view,
-                              const gchar *value,
-                              WebKitDOMDocument *document)
-{
-	gboolean html_mode;
-	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *block, *end_block;
-
-	e_html_editor_selection_save (selection);
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	/* If the selection was not saved, move it into the first child of body */
-	if (!selection_start_marker || !selection_end_marker) {
-		WebKitDOMHTMLElement *body;
-		WebKitDOMNode *child;
-
-		body = webkit_dom_document_get_body (document);
-		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-		add_selection_markers_into_element_start (
-			document,
-			WEBKIT_DOM_ELEMENT (child),
-			&selection_start_marker,
-			&selection_end_marker);
-	}
-
-	block = get_parent_block_node_from_child (
-		WEBKIT_DOM_NODE (selection_start_marker));
-
-	end_block = get_parent_block_node_from_child (
-		WEBKIT_DOM_NODE (selection_end_marker));
-
-	html_mode = e_html_editor_view_get_html_mode (view);
-
-	/* Process all blocks that are in the selection one by one */
-	process_block_to_block (
-		selection, view, document, format, value, block, end_block, html_mode);
-
-	e_html_editor_selection_restore (selection);
-}
-
-static void
-format_change_block_to_list (EHTMLEditorSelection *selection,
-                             EHTMLEditorSelectionBlockFormat format,
-                             EHTMLEditorView *view,
-                             WebKitDOMDocument *document)
-{
-	gboolean after_selection_end = FALSE, in_quote = FALSE;
-	gboolean html_mode = e_html_editor_view_get_html_mode (view);
-	WebKitDOMElement *selection_start_marker, *selection_end_marker, *item, *list;
-	WebKitDOMNode *block, *next_block;
-
-	e_html_editor_selection_save (selection);
-
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	/* If the selection was not saved, move it into the first child of body */
-	if (!selection_start_marker || !selection_end_marker) {
-		WebKitDOMHTMLElement *body;
-		WebKitDOMNode *child;
-
-		body = webkit_dom_document_get_body (document);
-		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-		add_selection_markers_into_element_start (
-			document,
-			WEBKIT_DOM_ELEMENT (child),
-			&selection_start_marker,
-			&selection_end_marker);
-	}
-
-	block = get_parent_block_node_from_child (
-		WEBKIT_DOM_NODE (selection_start_marker));
-
-	list = create_list_element (selection, document, format, 0, html_mode);
-
-	if (webkit_dom_element_query_selector (
-		WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
-		WebKitDOMElement *element;
-
-		in_quote = TRUE;
-
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (block),
-			e_html_editor_selection_get_caret_position_node (document),
-			block,
-			NULL);
-
-		e_html_editor_selection_restore_caret_position (selection);
-
-		e_html_editor_view_exec_command (
-			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
-
-		element = webkit_dom_document_query_selector (
-			document, "body>br", NULL);
-
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			WEBKIT_DOM_NODE (list),
-			WEBKIT_DOM_NODE (element),
-			NULL);
-
-		block = get_parent_block_node_from_child (
-			WEBKIT_DOM_NODE (selection_start_marker));
-	} else
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (block),
-			WEBKIT_DOM_NODE (list),
-			block,
-			NULL);
-
-	/* Process all blocks that are in the selection one by one */
-	while (block && !after_selection_end) {
-		gboolean empty = FALSE;
-		gchar *content;
-		WebKitDOMNode *child, *parent;
-
-		after_selection_end = webkit_dom_node_contains (
-			block, WEBKIT_DOM_NODE (selection_end_marker));
-
-		next_block = webkit_dom_node_get_next_sibling (
-			WEBKIT_DOM_NODE (block));
-
-		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
-		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
-
-		item = webkit_dom_document_create_element (document, "LI", NULL);
-		content = webkit_dom_node_get_text_content (block);
-
-		empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
-		g_free (content);
-
-		while ((child = webkit_dom_node_get_first_child (block))) {
-			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
-				empty = FALSE;
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (item), child, NULL);
-		}
-
-		/* We have to use again the hidden space to move caret into newly inserted list */
-		if (empty) {
-			WebKitDOMElement *br;
-
-			br = webkit_dom_document_create_element (
-				document, "BR", NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (item), WEBKIT_DOM_NODE (br), NULL);
-		}
-
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (list), WEBKIT_DOM_NODE (item), NULL);
-
-		parent = webkit_dom_node_get_parent_node (block);
-		remove_node (block);
-
-		if (in_quote) {
-			/* Remove all parents if previously removed node was the
-			 * only one with text content */
-			content = webkit_dom_node_get_text_content (parent);
-			while (parent && content && !*content) {
-				WebKitDOMNode *tmp = webkit_dom_node_get_parent_node (parent);
-
-				remove_node (parent);
-				parent = tmp;
-
-				g_free (content);
-				content = webkit_dom_node_get_text_content (parent);
-			}
-			g_free (content);
-		}
-
-		block = next_block;
-	}
-
-	merge_lists_if_possible (WEBKIT_DOM_NODE (list));
-
-	e_html_editor_selection_restore (selection);
-}
-
-static void
-format_change_list_to_list (EHTMLEditorSelection *selection,
-                            EHTMLEditorSelectionBlockFormat format,
-                            WebKitDOMDocument *document,
-                            gboolean html_mode)
-{
-	EHTMLEditorSelectionBlockFormat prev = 0, next = 0;
-	gboolean done = FALSE, indented = FALSE;
-	gboolean selection_starts_in_first_child, selection_ends_in_last_child;
-	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *prev_list, *current_list, *next_list;
-
-	e_html_editor_selection_save (selection);
-
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	current_list = get_list_node_from_child (
-		WEBKIT_DOM_NODE (selection_start_marker));
-
-	prev_list = get_list_node_from_child (
-		WEBKIT_DOM_NODE (selection_start_marker));
-
-	next_list = get_list_node_from_child (
-		WEBKIT_DOM_NODE (selection_end_marker));
-
-	selection_starts_in_first_child =
-		webkit_dom_node_contains (
-			webkit_dom_node_get_first_child (current_list),
-			WEBKIT_DOM_NODE (selection_start_marker));
-
-	selection_ends_in_last_child =
-		webkit_dom_node_contains (
-			webkit_dom_node_get_last_child (current_list),
-			WEBKIT_DOM_NODE (selection_end_marker));
-
-	indented = element_has_class (WEBKIT_DOM_ELEMENT (current_list), "-x-evo-indented");
-
-	if (!prev_list || !next_list || indented) {
-		format_change_list_from_list (selection, document, format, html_mode);
-		goto out;
-	}
-
-	if (webkit_dom_node_is_same_node (prev_list, next_list)) {
-		prev_list = webkit_dom_node_get_previous_sibling (
-			webkit_dom_node_get_parent_node (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (selection_start_marker))));
-		next_list = webkit_dom_node_get_next_sibling (
-			webkit_dom_node_get_parent_node (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (selection_end_marker))));
-		if (!prev_list || !next_list) {
-			format_change_list_from_list (selection, document, format, html_mode);
-			goto out;
-		}
-	}
-
-	prev = e_html_editor_selection_get_list_format_from_node (prev_list);
-	next = e_html_editor_selection_get_list_format_from_node (next_list);
-
-	if (format == prev && format != -1 && prev != -1) {
-		if (selection_starts_in_first_child && selection_ends_in_last_child) {
-			done = TRUE;
-			merge_list_into_list (current_list, prev_list, FALSE);
-		}
-	}
-
-	if (format == next && format != -1 && next != -1) {
-		if (selection_starts_in_first_child && selection_ends_in_last_child) {
-			done = TRUE;
-			merge_list_into_list (next_list, prev_list, FALSE);
-		}
-	}
-
-	if (done)
-		goto out;
-
-	format_change_list_from_list (selection, document, format, html_mode);
-out:
-	e_html_editor_selection_restore (selection);
-}
-
-static void
-format_change_list_to_block (EHTMLEditorSelection *selection,
-                             EHTMLEditorSelectionBlockFormat format,
-                             const gchar *value,
-                             WebKitDOMDocument *document)
-{
-	gboolean after_end = FALSE;
-	WebKitDOMElement *selection_start, *element, *selection_end;
-	WebKitDOMNode *source_list, *next_item, *item, *source_list_clone;
-
-	e_html_editor_selection_save (selection);
-
-	selection_start = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	item = get_list_item_node_from_child (
-		WEBKIT_DOM_NODE (selection_start));
-	source_list = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (item));
-	source_list_clone = webkit_dom_node_clone_node (source_list, FALSE);
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (source_list),
-		WEBKIT_DOM_NODE (source_list_clone),
-		webkit_dom_node_get_next_sibling (source_list),
-		NULL);
-
-	next_item = item;
-
-	/* Process all nodes that are in selection one by one */
-	while (next_item) {
-		WebKitDOMNode *tmp;
-
-		tmp = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (next_item));
-
-		if (!after_end) {
-			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
-				element = e_html_editor_selection_get_paragraph_element (
-					selection, document, -1, 0);
-			else
-				element = webkit_dom_document_create_element (
-					document, value, NULL);
-
-			after_end = webkit_dom_node_contains (next_item, WEBKIT_DOM_NODE (selection_end));
-
-			while (webkit_dom_node_get_first_child (next_item)) {
-				WebKitDOMNode *node = webkit_dom_node_get_first_child (next_item);
-
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (element), node, NULL);
-			}
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (source_list),
-				WEBKIT_DOM_NODE (element),
-				source_list_clone,
-				NULL);
-
-			remove_node (next_item);
-
-			next_item = tmp;
-		} else {
-			webkit_dom_node_append_child (
-				source_list_clone, next_item, NULL);
-
-			next_item = tmp;
-		}
-	}
-
-	remove_node_if_empty (source_list_clone);
-	remove_node_if_empty (source_list);
-
-	e_html_editor_selection_restore (selection);
-}
-
-/**
- * e_html_editor_selection_set_block_format:
- * @selection: an #EHTMLEditorSelection
- * @format: an #EHTMLEditorSelectionBlockFormat value
- *
- * Changes block format of current paragraph to @format.
- */
-void
-e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
-                                          EHTMLEditorSelectionBlockFormat format)
-{
-	EHTMLEditorView *view;
-	EHTMLEditorSelectionBlockFormat current_format;
-	const gchar *value;
-	gboolean from_list = FALSE, to_list = FALSE, html_mode;
-	WebKitDOMDocument *document;
-	WebKitDOMRange *range;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	current_format = e_html_editor_selection_get_block_format (selection);
-	if (current_format == format) {
-		return;
-	}
-
-	switch (format) {
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE:
-			value = "BLOCKQUOTE";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1:
-			value = "H1";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H2:
-			value = "H2";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H3:
-			value = "H3";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H4:
-			value = "H4";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H5:
-			value = "H5";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6:
-			value = "H6";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH:
-			value = "P";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE:
-			value = "PRE";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ADDRESS:
-			value = "ADDRESS";
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST:
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA:
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN:
-			to_list = TRUE;
-			value = NULL;
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST:
-			to_list = TRUE;
-			value = NULL;
-			break;
-		case E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_NONE:
-		default:
-			value = NULL;
-			break;
-	}
-
-	/* H1 - H6 have bold font by default */
-	if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
-	    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
-		selection->priv->is_bold = TRUE;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	html_mode = e_html_editor_view_get_html_mode (view);
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-	from_list =
-		current_format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range) {
-		g_object_unref (view);
-		return;
-	}
-
-	if (from_list && to_list)
-		format_change_list_to_list (selection, format, document, html_mode);
-
-	if (!from_list && !to_list)
-		format_change_block_to_block (selection, format, view, value, document);
-
-	if (from_list && !to_list)
-		format_change_list_to_block (selection, format, value, document);
-
-	if (!from_list && to_list)
-		format_change_block_to_list (selection, format, view, document);
-
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
-
-	g_object_unref (view);
-
-	/* When changing the format we need to re-set the alignment */
-	e_html_editor_selection_set_alignment (selection, selection->priv->alignment);
-
-	e_html_editor_view_set_changed (view, TRUE);
-
-	g_object_notify (G_OBJECT (selection), "block-format");
-}
-
-/**
- * e_html_editor_selection_get_font_color:
- * @selection: an #EHTMLEditorSelection
- * @rgba: a #GdkRGBA object to be set to current font color
- *
- * Sets @rgba to contain color of current text selection or letter at current
- * cursor position.
- */
-void
-e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
-                                        GdkRGBA *rgba)
-{
-	gchar *color;
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	if (e_html_editor_selection_is_collapsed (selection)) {
-		color = g_strdup (selection->priv->font_color);
-	} else {
-		color = get_font_property (selection, "color");
-		if (!color) {
-			*rgba = black;
-			return;
-		}
-	}
-
-	gdk_rgba_parse (rgba, color);
-	g_free (color);
-}
-
-/**
- * e_html_editor_selection_set_font_color:
- * @selection: an #EHTMLEditorSelection
- * @rgba: a #GdkRGBA
- *
- * Sets font color of current selection or letter at current cursor position to
- * color defined in @rgba.
- */
-void
-e_html_editor_selection_set_font_color (EHTMLEditorSelection *selection,
-                                        const GdkRGBA *rgba)
-{
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-	guint32 rgba_value;
-	gchar *color;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	if (!rgba)
-		rgba = &black;
-
-	rgba_value = e_rgba_to_value ((GdkRGBA *) rgba);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR;
-	color = g_strdup_printf ("#%06x", rgba_value);
-	selection->priv->font_color = g_strdup (color);
-	e_html_editor_view_exec_command (view, command, color);
-	g_free (color);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "font-color");
 }
 
 /**
@@ -2288,21 +1301,13 @@ e_html_editor_selection_set_font_color (EHTMLEditorSelection *selection,
 const gchar *
 e_html_editor_selection_get_font_name (EHTMLEditorSelection *selection)
 {
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-	WebKitDOMCSSStyleDeclaration *css;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
 
-	range = html_editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_free (selection->priv->font_name);
+	selection->priv->font_name = g_strdup (
+		html_editor_selection_get_format_string (selection, "font-family")_;
 
-	g_free (selection->priv->font_family);
-	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
-	selection->priv->font_family =
-		webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
-
-	return selection->priv->font_family;
+	return selection->priv->font_name;
 }
 
 /**
@@ -2317,20 +1322,79 @@ void
 e_html_editor_selection_set_font_name (EHTMLEditorSelection *selection,
                                        const gchar *font_name)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
+	html_editor_selection_set_format_string (
+		selection, "font-name", "DOMSelectionSetFontName", font_name, NULL);
+}
 
-	command = E_HTML_EDITOR_VIEW_COMMAND_FONT_NAME;
-	e_html_editor_view_exec_command (view, command, font_name);
+/**
+ * e_html_editor_selection_get_font_color:
+ * @selection: an #EHTMLEditorSelection
+ * @rgba: a #GdkRGBA object to be set to current font color
+ *
+ * Sets @rgba to contain color of current text selection or letter at current
+ * cursor position.
+ */
+void
+e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
+                                        GdkRGBA *rgba)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	g_object_unref (view);
+/* FIXME WK2
+	gchar *color;
 
-	g_object_notify (G_OBJECT (selection), "font-name");
+	if (!html_mode) {
+		*rgba = black;
+		return;
+	}
+
+	if (e_html_editor_selection_is_collapsed (selection)) {
+		color = g_strdup (selection->priv->font_color);
+	} else {
+		color = get_font_property (selection, "color");
+		if (!color) {
+			*rgba = black;
+			return;
+		}
+	}
+
+	gdk_rgba_parse (rgba, color);
+	g_free (color);
+*/
+	*rgba = black;
+}
+
+/**
+ * e_html_editor_selection_set_font_color:
+ * @selection: an #EHTMLEditorSelection
+ * @rgba: a #GdkRGBA
+ *
+ * Sets font color of current selection or letter at current cursor position to
+ * color defined in @rgba.
+ */
+void
+e_html_editor_selection_set_font_color (EHTMLEditorSelection *selection,
+                                        const GdkRGBA *rgba)
+{
+	guint32 rgba_value;
+	gchar *color;
+
+	if (!rgba)
+		rgba = &black;
+
+	rgba_value = e_rgba_to_value ((GdkRGBA *) rgba);
+	color = g_strdup_printf ("#%06x", rgba_value);
+
+	html_editor_selection_set_format_string (
+		selection,
+		"font-color",
+		"DOMSelectionSetFontColor",
+		color,
+		&selection->priv->font_color);
+
+	g_free (color);
 }
 
 /**
@@ -2339,27 +1403,14 @@ e_html_editor_selection_set_font_name (EHTMLEditorSelection *selection,
  *
  * Returns point size of current selection or of letter at current cursor position.
  */
- guint
+guint
 e_html_editor_selection_get_font_size (EHTMLEditorSelection *selection)
 {
-	gchar *size;
-	guint size_int;
-
 	g_return_val_if_fail (
 		E_IS_HTML_EDITOR_SELECTION (selection),
 		E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
-	size = get_font_property (selection, "size");
-	if (!size)
-		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-
-	size_int = atoi (size);
-	g_free (size);
-
-	if (size_int == 0)
-		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-
-	return size_int;
+	return html_editor_selection_get_format_uint (selection, "font-size");
 }
 
 /**
@@ -2374,24 +1425,14 @@ void
 e_html_editor_selection_set_font_size (EHTMLEditorSelection *selection,
                                        guint font_size)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-	gchar *size_str;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	selection->priv->font_size = font_size;
-	command = E_HTML_EDITOR_VIEW_COMMAND_FONT_SIZE;
-	size_str = g_strdup_printf ("%d", font_size);
-	e_html_editor_view_exec_command (view, command, size_str);
-	g_free (size_str);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "font-size");
+	html_editor_selection_set_format_uint (
+		selection,
+		"font-size",
+		"DOMSelectionSetFontSize",
+		font_size,
+		&selection->priv->font_size);
 }
 
 /**
@@ -2405,40 +1446,37 @@ e_html_editor_selection_set_font_size (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
+	EHTMLEditorView *view;
+	gboolean ret_val = FALSE;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_val_if_fail (view != NULL, FALSE);
 
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
 
-	if (WEBKIT_DOM_IS_TEXT (node))
-		return get_has_style (selection, "citation");
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMSelectionIsCitation",
+		g_variant_new (
+			"(t)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	/* If we are changing the format of block we have to re-set bold property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return FALSE;
+	if (result) {
+		g_variant_get (result, "(b)", &ret_val);
+		g_variant_unref (result);
 	}
-	g_free (text_content);
+ out:
+	g_object_unref (view);
 
-	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
-
-	/* citation == <blockquote type='cite'> */
-	if (g_strstr_len (value, -1, "cite"))
-		ret_val = TRUE;
-	else
-		ret_val = get_has_style (selection, "citation");
-
-	g_free (value);
 	return ret_val;
 }
 
@@ -2455,109 +1493,25 @@ e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 gboolean
 e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 {
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	if (e_html_editor_selection_is_collapsed (selection)) {
-		element = get_element_for_inspection (range);
-		return element_has_class (element, "-x-evo-indented");
-	} else {
-		/* If there is a selection search in it and don't look just in
-		 * the end container */
-		WebKitDOMDocumentFragment *fragment;
-
-		fragment = webkit_dom_range_clone_contents (range, NULL);
-
-		if (fragment) {
-			gboolean ret_val = TRUE;
-
-			element = webkit_dom_document_fragment_query_selector (
-				fragment, ".-x-evo-indented", NULL);
-
-			if (!element) {
-				element = get_element_for_inspection (range);
-				ret_val = element_has_class (element, "-x-evo-indented");
-			}
-
-			g_object_unref (fragment);
-			return ret_val;
-		}
-	}
-
-	return FALSE;
+	return html_editor_selection_get_format_boolean (selection, "indented");
 }
 
 /**
  * e_html_editor_selection_is_bold:
  * @selection: an #EHTMLEditorSelection
  *
- * Returns whether current selection or letter at current cursor position
- * is bold.
+ * Returns whether current selection or letter at current cursor position is bold.
  *
  * Returns @TRUE when selection is bold, @FALSE otherwise.
  */
 gboolean
 e_html_editor_selection_is_bold (EHTMLEditorSelection *selection)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	EHTMLEditorView *view;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-	window = webkit_dom_document_get_default_view (document);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set bold property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return selection->priv->is_bold;
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "font-weight");
-
-	if (g_strstr_len (value, -1, "normal"))
-		ret_val = FALSE;
-	else
-		ret_val = TRUE;
-
-	g_free (value);
-	return ret_val;
+	return html_editor_selection_get_format_boolean (selection, "bold");
 }
 
 /**
@@ -2572,25 +1526,14 @@ void
 e_html_editor_selection_set_bold (EHTMLEditorSelection *selection,
                                   gboolean bold)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_bold (selection) == bold)
-		return;
-
-	selection->priv->is_bold = bold;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_BOLD;
-	e_html_editor_view_exec_command (view, command, NULL);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "bold");
+	html_editor_selection_set_format_boolean (
+		selection,
+		"bold",
+		"DOMSelectionSetBold",
+		bold,
+		&selection->priv->is_bold);
 }
 
 /**
@@ -2605,59 +1548,9 @@ e_html_editor_selection_set_bold (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_italic (EHTMLEditorSelection *selection)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	EHTMLEditorView *view;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-	window = webkit_dom_document_get_default_view (document);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set italic property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return selection->priv->is_italic;
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "font-style");
-
-	if (g_strstr_len (value, -1, "italic"))
-		ret_val = TRUE;
-	else
-		ret_val = FALSE;
-
-	g_free (value);
-	return ret_val;
+	return html_editor_selection_get_format_boolean (selection, "italic");
 }
 
 /**
@@ -2672,47 +1565,14 @@ void
 e_html_editor_selection_set_italic (EHTMLEditorSelection *selection,
                                     gboolean italic)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_italic (selection) == italic)
-		return;
-
-	selection->priv->is_italic = italic;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_ITALIC;
-	e_html_editor_view_exec_command (view, command, NULL);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "italic");
-}
-
-static gboolean
-is_monospaced_element (WebKitDOMElement *element)
-{
-	gchar *value;
-	gboolean ret_val = FALSE;
-
-	if (!element)
-		return FALSE;
-
-	if (!WEBKIT_DOM_IS_HTML_FONT_ELEMENT (element))
-		return FALSE;
-
-	value = webkit_dom_element_get_attribute (element, "face");
-
-	if (g_strcmp0 (value, "monospace") == 0)
-		ret_val = TRUE;
-
-	g_free (value);
-
-	return ret_val;
+	html_editor_selection_set_format_boolean (
+		selection,
+		"italic",
+		"DOMSelectionSetItalic",
+		italic,
+		&selection->priv->is_italic);
 }
 
 /**
@@ -2727,59 +1587,9 @@ is_monospaced_element (WebKitDOMElement *element)
 gboolean
 e_html_editor_selection_is_monospaced (EHTMLEditorSelection *selection)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	EHTMLEditorView *view;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-	window = webkit_dom_document_get_default_view (document);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set italic property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return selection->priv->is_monospaced;
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "font-family");
-
-	if (g_strstr_len (value, -1, "monospace"))
-		ret_val = TRUE;
-	else
-		ret_val = FALSE;
-
-	g_free (value);
-	return ret_val;
+	return html_editor_selection_get_format_boolean (selection, "monospaced");
 }
 
 /**
@@ -2792,238 +1602,16 @@ e_html_editor_selection_is_monospaced (EHTMLEditorSelection *selection)
  */
 void
 e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
-                                        gboolean monospaced)
+                                           gboolean monospaced)
 {
-	EHTMLEditorView *view;
-	WebKitWebView *web_view;
-	WebKitDOMDocument *document;
-	WebKitDOMRange *range;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_monospaced (selection) == monospaced)
-		return;
-
-	selection->priv->is_monospaced = monospaced;
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	web_view = WEBKIT_WEB_VIEW (view);
-
-	document = webkit_web_view_get_dom_document (web_view);
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-
-	if (monospaced) {
-		gchar *font_size_str;
-		guint font_size;
-		WebKitDOMElement *monospace;
-
-		monospace = webkit_dom_document_create_element (
-			document, "font", NULL);
-		webkit_dom_element_set_attribute (
-			monospace, "face", "monospace", NULL);
-
-		font_size = selection->priv->font_size;
-		if (font_size == 0)
-			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-		font_size_str = g_strdup_printf ("%d", font_size);
-		webkit_dom_element_set_attribute (
-			monospace, "size", font_size_str, NULL);
-		g_free (font_size_str);
-
-		if (!e_html_editor_selection_is_collapsed (selection)) {
-			gchar *html, *outer_html;
-			WebKitDOMNode *range_clone;
-
-			range_clone = WEBKIT_DOM_NODE (
-				webkit_dom_range_clone_contents (range, NULL));
-
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (monospace), range_clone, NULL);
-
-			outer_html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (monospace));
-
-			html = g_strconcat (
-				/* Mark selection for restoration */
-				"<span id=\"-x-evo-selection-start-marker\"></span>",
-				outer_html,
-				"<span id=\"-x-evo-selection-end-marker\"></span>",
-				NULL),
-
-			e_html_editor_selection_insert_html (selection, html);
-
-			e_html_editor_selection_restore (selection);
-
-			g_free (html);
-			g_free (outer_html);
-		} else {
-			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (monospace),
-				UNICODE_ZERO_WIDTH_SPACE,
-				NULL);
-			webkit_dom_range_insert_node (
-				range, WEBKIT_DOM_NODE (monospace), NULL);
-
-			e_html_editor_selection_move_caret_into_element (
-				document, monospace);
-		}
-	} else {
-		gboolean is_bold, is_italic, is_underline, is_strikethrough;
-		guint font_size;
-		WebKitDOMElement *tt_element;
-		WebKitDOMNode *node;
-
-		node = webkit_dom_range_get_end_container (range, NULL);
-		if (WEBKIT_DOM_IS_ELEMENT (node) &&
-		    is_monospaced_element (WEBKIT_DOM_ELEMENT (node))) {
-			tt_element = WEBKIT_DOM_ELEMENT (node);
-		} else {
-			tt_element = e_html_editor_dom_node_find_parent_element (node, "FONT");
-
-			if (!is_monospaced_element (tt_element)) {
-				g_object_unref (view);
-				return;
-			}
-		}
-
-		/* Save current formatting */
-		is_bold = selection->priv->is_bold;
-		is_italic = selection->priv->is_italic;
-		is_underline = selection->priv->is_underline;
-		is_strikethrough = selection->priv->is_strikethrough;
-		font_size = selection->priv->font_size;
-		if (font_size == 0)
-			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-
-		if (!e_html_editor_selection_is_collapsed (selection)) {
-			gchar *html, *outer_html, *inner_html, *beginning, *end;
-			gchar *start_position, *end_position, *font_size_str;
-			WebKitDOMElement *wrapper;
-
-			wrapper = webkit_dom_document_create_element (
-				document, "SPAN", NULL);
-			webkit_dom_element_set_id (wrapper, "-x-evo-remove-tt");
-			webkit_dom_range_surround_contents (
-				range, WEBKIT_DOM_NODE (wrapper), NULL);
-
-			html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element));
-
-			start_position = g_strstr_len (
-				html, -1, "<span id=\"-x-evo-remove-tt\"");
-			end_position = g_strstr_len (start_position, -1, "</span>");
-
-			beginning = g_utf8_substring (
-				html, 0, g_utf8_pointer_to_offset (html, start_position));
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (wrapper));
-			end = g_utf8_substring (
-				html,
-				g_utf8_pointer_to_offset (html, end_position) + 7,
-				g_utf8_strlen (html, -1)),
-
-			font_size_str = g_strdup_printf ("%d", font_size);
-
-			outer_html =
-				g_strconcat (
-					/* Beginning */
-					beginning,
-					/* End the previous FONT tag */
-					"</font>",
-					/* Mark selection for restoration */
-					"<span id=\"-x-evo-selection-start-marker\"></span>",
-					/* Inside will be the same */
-					inner_html,
-					"<span id=\"-x-evo-selection-end-marker\"></span>",
-					/* Start the new FONT element */
-					"<font face=\"monospace\" size=\"",
-					font_size_str,
-					"\">",
-					/* End - we have to start after </span> */
-					end,
-					NULL),
-
-			g_free (font_size_str);
-
-			webkit_dom_html_element_set_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				outer_html,
-				NULL);
-
-			e_html_editor_selection_restore (selection);
-
-			g_free (html);
-			g_free (outer_html);
-			g_free (inner_html);
-			g_free (beginning);
-			g_free (end);
-		} else {
-			WebKitDOMRange *new_range;
-			gchar *outer_html;
-			gchar *tmp;
-
-			webkit_dom_element_set_id (tt_element, "ev-tt");
-
-		        outer_html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element));
-			tmp = g_strconcat (outer_html, UNICODE_ZERO_WIDTH_SPACE, NULL);
-			webkit_dom_html_element_set_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				tmp, NULL);
-
-			/* We need to get that element again */
-			tt_element = webkit_dom_document_get_element_by_id (
-				document, "ev-tt");
-			webkit_dom_element_remove_attribute (
-				WEBKIT_DOM_ELEMENT (tt_element), "id");
-
-			new_range = webkit_dom_document_create_range (document);
-			webkit_dom_range_set_start_after (
-				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
-			webkit_dom_range_set_end_after (
-				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
-
-			webkit_dom_dom_selection_remove_all_ranges (
-				window_selection);
-			webkit_dom_dom_selection_add_range (
-				window_selection, new_range);
-
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "right", "character");
-
-			g_free (outer_html);
-			g_free (tmp);
-
-			e_html_editor_view_force_spell_check_for_current_paragraph (
-				view);
-		}
-
-		/* Re-set formatting */
-		if (is_bold)
-			e_html_editor_selection_set_bold (selection, TRUE);
-		if (is_italic)
-			e_html_editor_selection_set_italic (selection, TRUE);
-		if (is_underline)
-			e_html_editor_selection_set_underline (selection, TRUE);
-		if (is_strikethrough)
-			e_html_editor_selection_set_strikethrough (selection, TRUE);
-
-		e_html_editor_selection_set_font_size (selection, font_size);
-	}
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "monospaced");
+	html_editor_selection_set_format_boolean (
+		selection,
+		"monospaced",
+		"DOMSelectionSetMonospaced",
+		monospaced,
+		&selection->priv->is_monospaced);
 }
 
 /**
@@ -3038,59 +1626,9 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_strikethrough (EHTMLEditorSelection *selection)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	EHTMLEditorView *view;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-	window = webkit_dom_document_get_default_view (document);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set strikethrough property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return selection->priv->is_strikethrough;
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
-
-	if (g_strstr_len (value, -1, "line-through"))
-		ret_val = TRUE;
-	else
-		ret_val = get_has_style (selection, "strike");
-
-	g_free (value);
-	return ret_val;
+	return html_editor_selection_get_format_boolean (selection, "strikethrough");
 }
 
 /**
@@ -3105,25 +1643,14 @@ void
 e_html_editor_selection_set_strikethrough (EHTMLEditorSelection *selection,
                                            gboolean strikethrough)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_strikethrough (selection) == strikethrough)
-		return;
-
-	selection->priv->is_strikethrough = strikethrough;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH;
-	e_html_editor_view_exec_command (view, command, NULL);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "strikethrough");
+	html_editor_selection_set_format_boolean (
+		selection,
+		"strikethrough",
+		"DOMSelectionSetStrikethrough",
+		strikethrough,
+		&selection->priv->is_strikethrough);
 }
 
 /**
@@ -3138,40 +1665,9 @@ e_html_editor_selection_set_strikethrough (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_subscript (EHTMLEditorSelection *selection)
 {
-	EHTMLEditorView *view;
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	g_object_unref (view);
-
-	range = html_editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-
-	while (node) {
-		gchar *tag_name;
-
-		tag_name = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
-
-		if (g_ascii_strncasecmp (tag_name, "sub", 3) == 0) {
-			g_free (tag_name);
-			break;
-		}
-
-		g_free (tag_name);
-		node = webkit_dom_node_get_parent_node (node);
-	}
-
-	return (node != NULL);
+	return html_editor_selection_get_format_boolean (selection, "subscript");
 }
 
 /**
@@ -3186,23 +1682,10 @@ void
 e_html_editor_selection_set_subscript (EHTMLEditorSelection *selection,
                                        gboolean subscript)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_subscript (selection) == subscript)
-		return;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_SUBSCRIPT;
-	e_html_editor_view_exec_command (view, command, NULL);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "subscript");
+	html_editor_selection_set_format_boolean (
+		selection, "subscript", "DOMSelectionSetSubscript", subscript, NULL);
 }
 
 /**
@@ -3217,40 +1700,9 @@ e_html_editor_selection_set_subscript (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_superscript (EHTMLEditorSelection *selection)
 {
-	EHTMLEditorView *view;
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	g_object_unref (view);
-
-	range = html_editor_selection_get_current_range (selection);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-
-	while (node) {
-		gchar *tag_name;
-
-		tag_name = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
-
-		if (g_ascii_strncasecmp (tag_name, "sup", 3) == 0) {
-			g_free (tag_name);
-			break;
-		}
-
-		g_free (tag_name);
-		node = webkit_dom_node_get_parent_node (node);
-	}
-
-	return (node != NULL);
+	return html_editor_selection_get_format_boolean (selection, "superscript");
 }
 
 /**
@@ -3265,23 +1717,10 @@ void
 e_html_editor_selection_set_superscript (EHTMLEditorSelection *selection,
                                          gboolean superscript)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_superscript (selection) == superscript)
-		return;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_SUPERSCRIPT;
-	e_html_editor_view_exec_command (view, command, NULL);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "superscript");
+	html_editor_selection_set_format_boolean (
+		selection, "superscript", "DOMSSelectionetSuperscript", superscript, NULL);
 }
 
 /**
@@ -3296,92 +1735,23 @@ e_html_editor_selection_set_superscript (EHTMLEditorSelection *selection,
 gboolean
 e_html_editor_selection_is_underline (EHTMLEditorSelection *selection)
 {
-	gboolean ret_val;
-	gchar *value, *text_content;
-	EHTMLEditorView *view;
-	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMNode *node;
-	WebKitDOMElement *element;
-	WebKitDOMRange *range;
-
 	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), FALSE);
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, FALSE);
-
-	if (!e_html_editor_view_get_html_mode (view)) {
-		g_object_unref (view);
-		return FALSE;
-	}
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-	window = webkit_dom_document_get_default_view (document);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return FALSE;
-
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	/* If we are changing the format of block we have to re-set underline property,
-	 * otherwise it will be turned off because of no text in composer */
-	text_content = webkit_dom_node_get_text_content (node);
-	if (g_strcmp0 (text_content, "") == 0) {
-		g_free (text_content);
-		return selection->priv->is_underline;
-	}
-	g_free (text_content);
-
-	if (WEBKIT_DOM_IS_ELEMENT (node))
-		element = WEBKIT_DOM_ELEMENT (node);
-	else
-		element = webkit_dom_node_get_parent_element (node);
-
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
-	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
-
-	if (g_strstr_len (value, -1, "underline"))
-		ret_val = TRUE;
-	else
-		ret_val = get_has_style (selection, "u");
-
-	g_free (value);
-	return ret_val;
+	return html_editor_selection_get_format_boolean (selection, "underline");
 }
 
-/**
- * e_html_editor_selection_set_underline:
- * @selection: an #EHTMLEditorSelection
- * @underline: @TRUE to enable underline, @FALSE to disable
- *
- * Toggles underline formatting of current selection or letter at current
- * cursor position, depending on whether @underline is @TRUE or @FALSE.
- */
 void
 e_html_editor_selection_set_underline (EHTMLEditorSelection *selection,
                                        gboolean underline)
 {
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	if (e_html_editor_selection_is_underline (selection) == underline)
-		return;
-
-	selection->priv->is_underline = underline;
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE;
-	e_html_editor_view_exec_command (view, command, NULL);
-
-	g_object_unref (view);
-
-	g_object_notify (G_OBJECT (selection), "underline");
+	html_editor_selection_set_format_boolean (
+		selection,
+		"underline",
+		"DOMSelectionSetUnderline",
+		underline,
+		&selection->priv->is_underline);
 }
 
 /**
@@ -3405,58 +1775,6 @@ e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	e_html_editor_view_convert_and_insert_plain_text (view, plain_text);
-
-	g_object_unref (view);
-}
-
-/**
- * e_html_editor_selection_insert_html:
- * @selection: an #EHTMLEditorSelection
- * @html_text: an HTML code to insert
- *
- * Insert @html_text into document at current cursor position. When a text range
- * is selected, it will be replaced by @html_text.
- */
-void
-e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
-                                     const gchar *html_text)
-{
-	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-	g_return_if_fail (html_text != NULL);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
-	if (e_html_editor_view_get_html_mode (view)) {
-		e_html_editor_view_exec_command (view, command, html_text);
-		e_html_editor_view_check_magic_links (view, FALSE);
-		e_html_editor_view_force_spell_check (view);
-
-		e_html_editor_selection_scroll_to_caret (selection);
-	} else
-		e_html_editor_view_convert_and_insert_html_to_plain_text (
-			view, html_text);
-
-	g_object_unref (view);
-}
-
-void
-e_html_editor_selection_insert_as_text (EHTMLEditorSelection *selection,
-                                        const gchar *html_text)
-{
-	EHTMLEditorView *view;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-	g_return_if_fail (html_text != NULL);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	e_html_editor_view_convert_and_insert_html_to_plain_text (view, html_text);
 
 	g_object_unref (view);
 }
@@ -3761,7 +2079,7 @@ image_load_query_info_cb (GFile *file,
 
 static void
 image_load_and_insert_async (EHTMLEditorSelection *selection,
-                             WebKitDOMElement *element,
+                             const gchar *selector,
                              const gchar *uri)
 {
 	LoadContext *load_context;
@@ -3774,7 +2092,8 @@ image_load_and_insert_async (EHTMLEditorSelection *selection,
 
 	load_context = image_load_context_new (selection);
 	load_context->file = file;
-	load_context->element = element;
+	if (selector && *selector)
+		load_context->selector = g_strdup (selector);
 
 	g_file_query_info_async (
 		file, "standard::*",
@@ -3795,10 +2114,15 @@ void
 e_html_editor_selection_insert_image (EHTMLEditorSelection *selection,
                                       const gchar *image_uri)
 {
+	EHTMLEditorView *view;
+
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (image_uri != NULL);
 
-	if (is_in_html_mode (selection)) {
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	if (e_html_editor_view_get_html_mode (view)) {
 		if (strstr (image_uri, ";base64,")) {
 			if (g_str_has_prefix (image_uri, "data:"))
 				insert_base64_image (selection, image_uri, "", "");
@@ -3818,6 +2142,8 @@ e_html_editor_selection_insert_image (EHTMLEditorSelection *selection,
 		} else
 			image_load_and_insert_async (selection, NULL, image_uri);
 	}
+
+	g_object_unref (view);
 }
 
 /**
@@ -3832,7 +2158,7 @@ e_html_editor_selection_insert_image (EHTMLEditorSelection *selection,
  */
 void
 e_html_editor_selection_replace_image_src (EHTMLEditorSelection *selection,
-                                           const gchar *selector
+                                           const gchar *selector,
                                            const gchar *image_uri)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
@@ -3862,303 +2188,38 @@ e_html_editor_selection_replace_image_src (EHTMLEditorSelection *selection,
 }
 
 static void
-e_html_editor_selection_move_caret_into_element (WebKitDOMDocument *document,
-                                                 WebKitDOMElement *element)
-{
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
-	WebKitDOMRange *new_range;
-
-	if (!element)
-		return;
-
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-	new_range = webkit_dom_document_create_range (document);
-
-	webkit_dom_range_select_node_contents (
-			new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, FALSE, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (window_selection);
-	webkit_dom_dom_selection_add_range (window_selection, new_range);
-}
-
-/**
- * e_html_editor_selection_clear_caret_position_marker:
- * @selection: an #EHTMLEditorSelection
- *
- * Removes previously set caret position marker from composer.
- */
-static void
-e_html_editor_selection_clear_caret_position_marker (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
-
-	if (element)
-		remove_node (WEBKIT_DOM_NODE (element));
-
-	g_object_unref (view);
-}
-
-static WebKitDOMNode *
-e_html_editor_selection_get_caret_position_node (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *element;
-
-	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_id (element, "-x-evo-caret-position");
-	webkit_dom_element_set_attribute (
-		element, "style", "color: red", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
-
-	return WEBKIT_DOM_NODE (element);
-}
-
-/**
- * e_html_editor_selection_save_caret_position:
- * @selection: an #EHTMLEditorSelection
- *
- * Saves current caret position in composer.
- *
- * Returns: #WebKitDOMElement that was created on caret position
- */
-WebKitDOMElement *
-e_html_editor_selection_save_caret_position (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMNode *split_node;
-	WebKitDOMNode *start_offset_node;
-	WebKitDOMNode *caret_node;
-	WebKitDOMRange *range;
-	gulong start_offset;
-
-	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), NULL);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_val_if_fail (view != NULL, NULL);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-
-	e_html_editor_selection_clear_caret_position_marker (selection);
-
-	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return NULL;
-
-	start_offset = webkit_dom_range_get_start_offset (range, NULL);
-	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
-
-	caret_node = e_html_editor_selection_get_caret_position_node (document);
-
-	if (WEBKIT_DOM_IS_TEXT (start_offset_node) && start_offset != 0) {
-		WebKitDOMText *split_text;
-
-		split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (start_offset_node),
-				start_offset, NULL);
-		split_node = WEBKIT_DOM_NODE (split_text);
-	} else {
-		split_node = start_offset_node;
-	}
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (start_offset_node),
-		caret_node,
-		split_node,
-		NULL);
-
-	return WEBKIT_DOM_ELEMENT (caret_node);
-}
-
-static void
-fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selection,
-                                           WebKitDOMNode *prev_sibling,
-                                           WebKitDOMNode *next_sibling)
-{
-	WebKitDOMNode *tmp_node;
-
-	if (!element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper"))
-		return;
-
-	webkit_dom_dom_selection_modify (
-		window_selection, "move", "forward", "character");
-	tmp_node = webkit_dom_node_get_next_sibling (
-		webkit_dom_node_get_first_child (prev_sibling));
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (prev_sibling),
-		tmp_node,
-		next_sibling,
-		NULL);
-
-	tmp_node = webkit_dom_node_get_first_child (prev_sibling);
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (prev_sibling),
-		tmp_node,
-		webkit_dom_node_get_previous_sibling (next_sibling),
-		NULL);
-
-	remove_node (prev_sibling);
-
-	webkit_dom_dom_selection_modify (
-		window_selection, "move", "backward", "character");
-}
-
-/**
- * e_html_editor_selection_restore_caret_position:
- * @selection: an #EHTMLEditorSelection
- *
- * Restores previously saved caret position in composer.
- */
-void
-e_html_editor_selection_restore_caret_position (EHTMLEditorSelection *selection)
-{
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
-	gboolean fix_after_quoting;
-	gboolean swap_direction = FALSE;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
-
-	e_html_editor_selection_block_selection_changed (selection);
-
-	element = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-caret-position");
-	fix_after_quoting = element_has_class (element, "-x-evo-caret-quoting");
-
-	if (element) {
-		WebKitDOMDOMWindow *window;
-		WebKitDOMNode *parent_node;
-		WebKitDOMDOMSelection *window_selection;
-		WebKitDOMNode *prev_sibling;
-		WebKitDOMNode *next_sibling;
-
-		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element)))
-			swap_direction = TRUE;
-
-		window = webkit_dom_document_get_default_view (document);
-		window_selection = webkit_dom_dom_window_get_selection (window);
-		parent_node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-		/* If parent is BODY element, we try to restore the position on the 
-		 * element that is next to us */
-		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
-			/* Look if we have DIV on right */
-			next_sibling = webkit_dom_node_get_next_sibling (
-				WEBKIT_DOM_NODE (element));
-			if (!WEBKIT_DOM_IS_ELEMENT (next_sibling)) {
-				e_html_editor_selection_clear_caret_position_marker (selection);
-				e_html_editor_selection_unblock_selection_changed (selection);
-				return;
-			}
-
-			if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-paragraph")) {
-				remove_node (WEBKIT_DOM_NODE (element));
-
-				e_html_editor_selection_move_caret_into_element (
-					document, WEBKIT_DOM_ELEMENT (next_sibling));
-
-				goto out;
-			}
-		}
-
-		e_html_editor_selection_move_caret_into_element (document, element);
-
-		if (fix_after_quoting) {
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (element));
-			next_sibling = webkit_dom_node_get_next_sibling (
-				WEBKIT_DOM_NODE (element));
-			if (!next_sibling)
-				fix_after_quoting = FALSE;
-		}
-
-		remove_node (WEBKIT_DOM_NODE (element));
-
-		if (fix_after_quoting)
-			fix_quoting_nodes_after_caret_restoration (
-				window_selection, prev_sibling, next_sibling);
- out:
-		/* FIXME If caret position is restored and afterwards the
-		 * position is saved it is not on the place where it supposed
-		 * to be (it is in the beginning of parent's element. It can
-		 * be avoided by moving with the caret. */
-		if (swap_direction) {
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "forward", "character");
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "backward", "character");
-		} else {
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "backward", "character");
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "forward", "character");
-		}
-	}
-
-	e_html_editor_selection_unblock_selection_changed (selection);
-}
-
-
-static void
 html_editor_selection_modify (EHTMLEditorSelection *selection,
                               const gchar *alter,
                               gboolean forward,
                               EHTMLEditorSelectionGranularity granularity)
 {
 	EHTMLEditorView *view;
-	WebKitWebView *web_view;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	const gchar *granularity_str;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+	GDBusProxy *web_extension;
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	web_view = WEBKIT_WEB_VIEW (view);
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		goto out;
 
-	document = webkit_web_view_get_dom_document (web_view);
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMSelectionModify",
+		g_variant_new (
+			"(tsbi)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			alter,
+			forward,
+			granularity),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
-	switch (granularity) {
-		case E_HTML_EDITOR_SELECTION_GRANULARITY_CHARACTER:
-			granularity_str = "character";
-			break;
-		case E_HTML_EDITOR_SELECTION_GRANULARITY_WORD:
-			granularity_str = "word";
-			break;
-	}
-
-	webkit_dom_dom_selection_modify (
-		dom_selection, alter,
-		forward ? "forward" : "backward",
-		granularity_str);
-
+ out:
 	g_object_unref (view);
 }
 

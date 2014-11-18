@@ -41,7 +41,7 @@ e_html_editor_hrule_dialog_find_hrule (WebKitDOMDocument *document)
 	if (!rule) {
 		WebKitDOMElement *caret, *parent, *element;
 
-		caret = e_html_editor_selection_dom_save_caret_position (document);
+		caret = dom_save_caret_position (document);
 		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 		element = caret;
 
@@ -60,7 +60,7 @@ e_html_editor_hrule_dialog_find_hrule (WebKitDOMDocument *document)
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 			NULL);
 
-		e_html_editor_selection_dom_clear_caret_position_marker (document);
+		dom_clear_caret_position_marker (document);
 
 		found = FALSE;
 	}

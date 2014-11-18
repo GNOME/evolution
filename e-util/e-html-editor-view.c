@@ -2086,7 +2086,7 @@ clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
 
 	selection = e_html_editor_view_get_selection (view);
 
-	e_html_editor_selection_insert_as_text (selection, text);
+	html_editor_view_insert_converted_html_into_selection (view, TRUE, html);
 }
 
 static void
@@ -3078,6 +3078,29 @@ e_html_editor_view_get_web_extension_proxy (EHTMLEditorView *view)
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
 
 	return view->priv->web_extension;
+}
+
+void
+e_html_editor_view_call_simple_extension_function (EHTMLEditorView *view,
+                                                   const gchar *function)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (function && *function);
+
+	if (!view->priv->web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		view->priv->web_extension,
+		function,
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 GVariant *
@@ -6345,6 +6368,15 @@ remove_wrapping_from_view (EHTMLEditorView *view)
 		remove_node (webkit_dom_node_list_item (list, ii));
 
 	g_object_unref (list);
+}
+
+static void
+remove_image_attributes_from_element (WebKitDOMElement *element)
+{
+	webkit_dom_element_remove_attribute (element, "background");
+	webkit_dom_element_remove_attribute (element, "data-uri");
+	webkit_dom_element_remove_attribute (element, "data-inline");
+	webkit_dom_element_remove_attribute (element, "data-name");
 }
 
 static void

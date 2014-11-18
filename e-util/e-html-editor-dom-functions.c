@@ -46,11 +46,11 @@ get_e_html_editor_flags_for_element_on_coordinates (WebKitDOMDocument *document,
 		flags |= E_HTML_EDITOR_NODE_IS_HR;
 
 	if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (element) ||
-	    (e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "A") != NULL))
+	    (dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "A") != NULL))
 		flags |= E_HTML_EDITOR_NODE_IS_ANCHOR;
 
 	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (element) ||
-	    (e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "IMG") != NULL)) {
+	    (dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "IMG") != NULL)) {
 
 		flags |= E_HTML_EDITOR_NODE_IS_IMAGE;
 
@@ -58,8 +58,8 @@ get_e_html_editor_flags_for_element_on_coordinates (WebKitDOMDocument *document,
 	}
 
 	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element) ||
-	    (e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TD") != NULL) ||
-	    (e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TH") != NULL)) {
+	    (dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TD") != NULL) ||
+	    (dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TH") != NULL)) {
 
 		flags |= E_HTML_EDITOR_NODE_IS_TABLE_CELL;
 
@@ -68,7 +68,7 @@ get_e_html_editor_flags_for_element_on_coordinates (WebKitDOMDocument *document,
 
 	if (flags && E_HTML_EDITOR_NODE_IS_TABLE_CELL &&
 	    (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (element) ||
-	    (e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TABLE") != NULL));
+	    (dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TABLE") != NULL));
 
 		flags |= E_HTML_EDITOR_NODE_IS_TABLE;
 	}

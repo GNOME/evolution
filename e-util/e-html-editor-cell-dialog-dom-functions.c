@@ -100,8 +100,7 @@ html_editor_cell_dialog_set_attribute (WebKitDOMDocument *document,
 
 		index = webkit_dom_html_table_cell_element_get_cell_index (
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell));
-		table = e_html_editor_dom_node_find_parent_element (
-				WEBKIT_DOM_NODE (cell), "TABLE");
+		table = dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
 		if (!table) {
 			return;
 		}
@@ -129,8 +128,7 @@ html_editor_cell_dialog_set_attribute (WebKitDOMDocument *document,
 	} else if (scope == SCOPE_ROW) {
 		WebKitDOMElement *row;
 
-		row = e_html_editor_dom_node_find_parent_element (
-				WEBKIT_DOM_NODE (cell), "TR");
+		row = dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
 		if (!row) {
 			return;
 		}
@@ -142,8 +140,7 @@ html_editor_cell_dialog_set_attribute (WebKitDOMDocument *document,
 		WebKitDOMElement *table;
 		WebKitDOMHTMLCollection *rows;
 
-		table = e_html_editor_dom_node_find_parent_element (
-				WEBKIT_DOM_NODE (cell), "TABLE");
+		table = dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
 		if (!table) {
 			return;
 		}
@@ -229,11 +226,9 @@ e_html_editor_cell_dialog_mark_current_cell_element (WebKitDOMDocument *document
 
 	element = webkit_dom_document_get_element_by_id (document, id);
 
-	parent = e_html_editor_dom_node_find_parent_element (
-		WEBKIT_DOM_NODE (element), "TD");
+	parent = dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TD");
 	if (!parent)
-		parent = e_html_editor_dom_node_find_parent_element (
-			WEBKIT_DOM_NODE (element), "TH");
+		parent = dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "TH");
 
 	element = webkit_dom_document_get_element_by_id (document, "-x-evo-current-cell");
 	if (element)

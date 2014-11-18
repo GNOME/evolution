@@ -944,7 +944,7 @@ static void
 web_view_initialize (WebKitWebView *web_view)
 {
 	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
-	GSettings *settings;
+	GSettings *settings = NULL, *font_settings;
 	GSettingsSchema *settings_schema;
 
 	/* Optional schema */
@@ -952,14 +952,15 @@ web_view_initialize (WebKitWebView *web_view)
 		g_settings_schema_source_get_default (), id, FALSE);
 
 	if (settings_schema)
-		settings = g_settings_new (id);
-	else
-		settings = NULL;
+		settings = e_util_ref_settings (id);
 
+	font_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	e_web_view_update_fonts_settings (
-		g_settings_new ("org.gnome.desktop.interface"),
-		settings,
-		NULL, NULL, GTK_WIDGET (web_view));
+		font_settings, settings, NULL, NULL, GTK_WIDGET (web_view));
+
+	g_object_unref (font_settings);
+	if (settings)
+		g_object_unref (settings);
 }
 
 
@@ -2986,27 +2987,6 @@ e_web_view_update_actions (EWebView *web_view)
 	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0);
 }
 
-static gboolean
-element_is_in_pre_tag (WebKitDOMNode *node)
-{
-	WebKitDOMElement *element;
-
-	if (!node)
-		return FALSE;
-
-	while (element = webkit_dom_node_get_parent_element (node), element) {
-		node = WEBKIT_DOM_NODE (element);
-
-		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (element)) {
-			return TRUE;
-		} else if (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-			break;
-		}
-	}
-
-	return FALSE;
-}
-
 static void
 get_selection_content_html_cb (GDBusProxy *web_extension,
                                GAsyncResult *result,
@@ -3099,104 +3079,6 @@ e_web_view_get_selection_content_html_sync (EWebView *web_view,
 			return html_content;
 		}
  	}
-
-	return NULL;
-}
-
-static gchar *
-web_view_get_frame_selection_html (WebKitDOMElement *iframe)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
-
-	document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
-		WebKitDOMRange *range;
-		WebKitDOMElement *element;
-		WebKitDOMDocumentFragment *fragment;
-
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-		if (range != NULL) {
-			gchar *inner_html;
-			WebKitDOMNode *node;
-
-			fragment = webkit_dom_range_clone_contents (
-				range, NULL);
-
-			element = webkit_dom_document_create_element (
-				document, "DIV", NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (element),
-				WEBKIT_DOM_NODE (fragment), NULL);
-
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element));
-			node = webkit_dom_range_get_start_container (range, NULL);
-			if (element_is_in_pre_tag (node)) {
-				gchar *tmp = inner_html;
-				inner_html = g_strconcat ("<pre>", tmp, "</pre>", NULL);
-				g_free (tmp);
-			}
-
-			return inner_html;
-		}
-	}
-
-	frames = webkit_dom_document_get_elements_by_tag_name (
-		document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
-		gchar *text;
-
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = web_view_get_frame_selection_html (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL)
-			return text;
-	}
-	g_object_unref (frames);
-
-	return NULL;
-}
-
-gchar *
-e_web_view_get_selection_html (EWebView *web_view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *frames;
-	gulong ii, length;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	if (!webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view)))
-		return NULL;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (web_view));
-	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
-	length = webkit_dom_node_list_get_length (frames);
-
-	for (ii = 0; ii < length; ii++) {
-		gchar *text;
-		WebKitDOMNode *node;
-
-		node = webkit_dom_node_list_item (frames, ii);
-
-		text = web_view_get_frame_selection_html (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL)
-			return text;
-	}
-	g_object_unref (frames);
 
 	return NULL;
 }
