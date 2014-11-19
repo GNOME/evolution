@@ -45,29 +45,6 @@ static const gchar *parser_mime_types[] = {
 };
 
 static gboolean
-part_is_empty (CamelMimePart *part)
-{
-	CamelDataWrapper *dw;
-	GByteArray *ba;
-	guint i;
-
-	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
-	ba = camel_data_wrapper_get_byte_array (dw);
-
-	if (!ba)
-		return TRUE;
-
-	for (i = 0; i < ba->len; i++) {
-
-		/* Checks for \n, \t, \f, \r, \v and space */
-		if (!isspace (ba->data[i]))
-			return FALSE;
-	}
-
-	return TRUE;
-}
-
-static gboolean
 process_part (EMailParser *parser,
               GString *part_id,
               gint part_number,
@@ -79,9 +56,6 @@ process_part (EMailParser *parser,
 	CamelContentType *type;
 	EMailPart *mail_part;
 	gint s_len = part_id->len;
-
-	if (part_is_empty (part))
-		return TRUE;
 
 	type = camel_mime_part_get_content_type (part);
 	if (!camel_content_type_is (type, "text", "*")) {
