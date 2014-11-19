@@ -878,7 +878,8 @@ e_mail_session_send_to (EMailSession *session,
 		NULL, CAMEL_MIME_PART (message)->headers);
 	((CamelMessageInfoBase *) info)->size =
 		get_message_size (message, cancellable);
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN |
+		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
 	/* expand, or remove empty, group addresses */
 	em_utils_expand_groups (CAMEL_INTERNET_ADDRESS (recipients));
