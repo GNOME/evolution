@@ -823,8 +823,8 @@ composer_save_to_drafts_append_mail (AsyncContext *async_context,
 
 	info = camel_message_info_new (NULL);
 
-	camel_message_info_set_flags (
-		info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN |
+		(camel_mime_message_has_attachment (async_context->message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
 	camel_medium_remove_header (
 		CAMEL_MEDIUM (async_context->message),
