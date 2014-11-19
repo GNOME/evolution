@@ -69,12 +69,13 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		EMailPart *mail_part;
 		CamelMimePart *subpart;
 		CamelContentType *ct;
+		gboolean handled;
 
 		subpart = camel_multipart_get_part (mp, i);
 
 		g_string_append_printf (part_id, ".mixed.%d", i);
 
-		e_mail_parser_parse_part (
+		handled = e_mail_parser_parse_part (
 			parser, subpart, part_id, cancellable, &work_queue);
 
 		mail_part = g_queue_peek_head (&work_queue);
@@ -95,7 +96,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 				parser, subpart, part_id, &work_queue);
 
 		/* Force messages to be expandable */
-		} else if (mail_part == NULL ||
+		} else if ((mail_part == NULL && !handled) ||
 		    (camel_content_type_is (ct, "message", "*") &&
 		     mail_part != NULL &&
 		     !e_mail_part_get_is_attachment (mail_part))) {
