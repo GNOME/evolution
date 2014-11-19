@@ -71,7 +71,7 @@ G_DEFINE_DYNAMIC_TYPE (
 
 static const gchar *parser_mime_types[] = {
 	"application/vnd.ms-tnef",
-	"application/ms-tnefl",
+	"application/ms-tnef",
 	NULL
 };
 
