@@ -3914,6 +3914,7 @@ create_anchor_for_link (const GMatchInfo *info,
 
 	address_surrounded =
 		strstr (match, "@") &&
+		!strstr (match, "://") &&
 		g_str_has_prefix (match, "&lt;") &&
 		g_str_has_suffix (match, "&gt;");
 
@@ -3927,7 +3928,7 @@ create_anchor_for_link (const GMatchInfo *info,
 		g_string_append (res, "&lt;");
 
 	g_string_append (res, "<a href=\"");
-	if (strstr (match, "@")) {
+	if (strstr (match, "@") && !strstr (match, "://")) {
 		g_string_append (res, "mailto:");
 		g_string_append (res, match + offset);
 		if (address_surrounded)
@@ -4121,7 +4122,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	gboolean citation_was_first_element = FALSE;
 	const gchar *prev_br, *next_br;
 	gchar *inner_html;
-	GRegex *regex_nbsp = NULL, *regex_links = NULL;
+	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	GString *start, *end;
 	WebKitDOMElement *paragraph = NULL;
 
@@ -4136,7 +4137,6 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	/* Replace single spaces on the beginning of line, 2+ spaces and
 	 * tabulators with non breaking spaces */
 	regex_nbsp = g_regex_new ("^\\s{1}|\\s{2,}|\x9", 0, 0, NULL);
-	regex_links = g_regex_new (URL_PATTERN, 0, 0, NULL);
 
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
@@ -4207,8 +4207,17 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			g_free (truncated);
 
 			if (surround_links_with_anchor (rest_to_insert)) {
+				gboolean is_email_address =
+					strstr (rest_to_insert, "@") &&
+					!strstr (rest_to_insert, "://");
+
+				if (is_email_address && !regex_email)
+					regex_email = g_regex_new (E_MAIL_PATTERN, 0, 0, NULL);
+				if (!is_email_address && !regex_link)
+					regex_link = g_regex_new (URL_PATTERN, 0, 0, NULL);
+
 				truncated = g_regex_replace_eval (
-					regex_links,
+					is_email_address ? regex_email : regex_link,
 					rest_to_insert,
 					-1,
 					0,
@@ -4349,8 +4358,17 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 		g_free (truncated);
 
 		if (surround_links_with_anchor (rest_to_insert)) {
+			gboolean is_email_address =
+				strstr (rest_to_insert, "@") &&
+				!strstr (rest_to_insert, "://");
+
+			if (is_email_address && !regex_email)
+				regex_email = g_regex_new (E_MAIL_PATTERN, 0, 0, NULL);
+			if (!is_email_address && !regex_link)
+				regex_link = g_regex_new (URL_PATTERN, 0, 0, NULL);
+
 			truncated = g_regex_replace_eval (
-				regex_links,
+				is_email_address ? regex_email : regex_link,
 				rest_to_insert,
 				-1,
 				0,
@@ -4384,8 +4402,11 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), end->str, NULL);
 
+	if (regex_email)
+		g_regex_unref (regex_email);
+	if (regex_link)
+		g_regex_unref (regex_link);
 	g_regex_unref (regex_nbsp);
-	g_regex_unref (regex_links);
 	g_free (inner_html);
 	g_string_free (start, TRUE);
 	g_string_free (end, TRUE);
