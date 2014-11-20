@@ -97,10 +97,10 @@ struct _EHTMLEditorViewPrivate {
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
 	gboolean remove_initial_input_line;
+	gboolean return_key_pressed;
+	gboolean space_key_pressed;
 
 	GHashTable *old_settings;
-
-	GdkEventKey *key_event;
 
 	GQueue *post_reload_operations;
 };
@@ -1112,8 +1112,7 @@ is_return_key (GdkEventKey *event)
 static void
 html_editor_view_check_magic_links (EHTMLEditorView *view,
                                     WebKitDOMRange *range,
-                                    gboolean include_space_by_user,
-                                    GdkEventKey *event)
+                                    gboolean include_space_by_user)
 {
 	gchar *node_text;
 	gchar **urls;
@@ -1122,19 +1121,16 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	gint start_pos_url, end_pos_url;
 	WebKitDOMNode *node;
 	gboolean include_space = FALSE;
-	gboolean return_pressed = FALSE;
 	gboolean is_email_address = FALSE;
 
-	if (event != NULL) {
-		return_pressed = is_return_key (event);
-		include_space = (event->keyval == GDK_KEY_space);
-	} else {
-		include_space = include_space_by_user;
-	}
+	if (include_space_by_user == TRUE)
+		include_space = TRUE;
+	else
+		include_space = view->priv->space_key_pressed;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
 
-	if (return_pressed)
+	if (view->priv->return_key_pressed)
 		node = webkit_dom_node_get_previous_sibling (node);
 
 	if (!node)
@@ -1176,7 +1172,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-		if (!return_pressed)
+		if (!view->priv->return_key_pressed)
 			e_html_editor_selection_save_caret_position (
 				e_html_editor_view_get_selection (view));
 
@@ -1228,7 +1224,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			WEBKIT_DOM_NODE (url_text_node),
 			NULL);
 
-		if (!return_pressed)
+		if (!view->priv->return_key_pressed)
 			e_html_editor_selection_restore_caret_position (
 				e_html_editor_view_get_selection (view));
 
@@ -1807,12 +1803,28 @@ surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
 }
 
 static void
+body_keypress_event_cb (WebKitDOMElement *element,
+                        WebKitDOMUIEvent *event,
+                        EHTMLEditorView *view)
+{
+	glong key_code;
+
+	view->priv->return_key_pressed = FALSE;
+	view->priv->space_key_pressed = FALSE;
+
+	key_code = webkit_dom_ui_event_get_key_code (event);
+	if (key_code == 13)
+		view->priv->return_key_pressed = TRUE;
+	else if (key_code == 32)
+		view->priv->space_key_pressed = TRUE;
+}
+
+static void
 body_input_event_cb (WebKitDOMElement *element,
                      WebKitDOMEvent *event,
                      EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
-	GdkEventKey *key_event;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range = html_editor_view_get_dom_range (view);
 	WebKitDOMDocument *document;
@@ -1821,16 +1833,12 @@ body_input_event_cb (WebKitDOMElement *element,
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	e_html_editor_view_set_changed (view, TRUE);
-	key_event = view->priv->key_event;
-
-	if (!key_event)
-		return;
 
 	if (view->priv->magic_smileys && view->priv->html_mode)
 		html_editor_view_check_magic_smileys (view, range);
 
-	if (is_return_key (key_event) || (key_event->keyval == GDK_KEY_space)) {
-		html_editor_view_check_magic_links (view, range, FALSE, key_event);
+	if (view->priv->return_key_pressed || view->priv->space_key_pressed) {
+		html_editor_view_check_magic_links (view, range, FALSE);
 		mark_node_as_paragraph_after_ending_list (selection, document);
 		if (view->priv->html_mode)
 			fix_paragraph_structure_after_pressing_enter_after_smiley (
@@ -1857,7 +1865,7 @@ body_input_event_cb (WebKitDOMElement *element,
 				prev_sibling = webkit_dom_node_get_previous_sibling (node);
 
 				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
-					html_editor_view_check_magic_links (view, range, FALSE, key_event);
+					html_editor_view_check_magic_links (view, range, FALSE);
 			}
 			g_free (text);
 		}
@@ -2660,8 +2668,6 @@ html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
-
-	view->priv->key_event = event;
 
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
@@ -4696,6 +4702,13 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"input",
 		G_CALLBACK (body_input_event_cb),
+		FALSE,
+		view);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"keypress",
+		G_CALLBACK (body_keypress_event_cb),
 		FALSE,
 		view);
 
@@ -7181,6 +7194,8 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->is_message_from_edit_as_new = FALSE;
 	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
+	view->priv->return_key_pressed = FALSE;
+	view->priv->space_key_pressed = FALSE;
 
 	g_object_set (
 		G_OBJECT (settings),
@@ -8045,7 +8060,7 @@ e_html_editor_view_check_magic_links (EHTMLEditorView *view,
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
 	range = html_editor_view_get_dom_range (view);
-	html_editor_view_check_magic_links (view, range, include_space, NULL);
+	html_editor_view_check_magic_links (view, range, include_space);
 }
 
 static CamelMimePart *
