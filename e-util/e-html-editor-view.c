@@ -759,9 +759,10 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 		paragraph = e_html_editor_selection_get_paragraph_element (
 			selection, document, -1, 0);
 
-		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (paragraph),
-			UNICODE_ZERO_WIDTH_SPACE,
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (paragraph),
+			WEBKIT_DOM_NODE (
+				webkit_dom_document_create_element (document, "BR", NULL)),
 			NULL);
 
 		/* Insert the selection markers to right place */
