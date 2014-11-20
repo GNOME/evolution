@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include <addressbook/gui/widgets/eab-config.h>
+#include <addressbook/util/eab-book-util.h>
 #include <mail/em-event.h>
 #include <composer/e-msg-composer.h>
 
@@ -224,8 +225,8 @@ handle_destination (EDestination *destination)
 			handle_destination (E_DESTINATION (link->data));
 
 	} else {
-		const gchar *name;
-		const gchar *email;
+		gchar *tname = NULL, *temail = NULL;
+		const gchar *textrep;
 		EContact *contact;
 
 		contact = e_destination_get_contact (destination);
@@ -234,11 +235,21 @@ handle_destination (EDestination *destination)
 		if (contact != NULL)
 			return;
 
-		name = e_destination_get_name (destination);
-		email = e_destination_get_email (destination);
+		textrep = e_destination_get_textrep (destination, TRUE);
+		if (eab_parse_qp_email (textrep, &tname, &temail)) {
+			if (tname != NULL || temail != NULL)
+				todo_queue_process (tname, temail);
+			g_free (tname);
+			g_free (temail);
+		} else {
+			const gchar *cname, *cemail;
 
-		if (name != NULL || email != NULL)
-			todo_queue_process (name, email);
+			cname = e_destination_get_name (destination);
+			cemail = e_destination_get_email (destination);
+
+			if (cname != NULL || cemail != NULL)
+				todo_queue_process (cname, cemail);
+		}
 	}
 }
 
