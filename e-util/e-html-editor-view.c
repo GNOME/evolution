@@ -4018,12 +4018,16 @@ static WebKitDOMElement *
 create_and_append_new_paragraph (EHTMLEditorSelection *selection,
                                  WebKitDOMDocument *document,
                                  WebKitDOMElement *parent,
+                                 WebKitDOMNode *block,
                                  const gchar *content)
 {
 	WebKitDOMElement *paragraph;
 
-	paragraph = e_html_editor_selection_get_paragraph_element (
-		selection, document, -1, 0);
+	if (!block || WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block))
+		paragraph = e_html_editor_selection_get_paragraph_element (
+			selection, document, -1, 0);
+	else
+		paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (block, FALSE));
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (paragraph),
@@ -4108,6 +4112,7 @@ static void
 parse_html_into_paragraphs (EHTMLEditorView *view,
                             WebKitDOMDocument *document,
                             WebKitDOMElement *blockquote,
+                            WebKitDOMNode *block,
                             const gchar *html)
 {
 	EHTMLEditorSelection *selection;
@@ -4218,14 +4223,18 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 			if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0) {
 				paragraph = create_and_append_new_paragraph (
-					selection, document, blockquote, "<br>");
+					selection, document, blockquote, block, "<br>");
 			} else if (prevent_block) {
 				gchar *html;
 				gchar *new_content;
 
-				if (!paragraph)
-					paragraph = e_html_editor_selection_get_paragraph_element (
-						selection, document, -1, 0);
+				if (!paragraph) {
+					if (!block || WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block))
+						paragraph = e_html_editor_selection_get_paragraph_element (
+							selection, document, -1, 0);
+					else
+						paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (block, FALSE));
+				}
 
 				html = webkit_dom_html_element_get_inner_html (
 					WEBKIT_DOM_HTML_ELEMENT (paragraph));
@@ -4245,7 +4254,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				g_free (new_content);
 			} else
 				paragraph = create_and_append_new_paragraph (
-					selection, document, blockquote, rest_to_insert);
+					selection, document, blockquote, block, rest_to_insert);
 
 			if (rest_to_insert && *rest_to_insert && prevent_block && paragraph) {
 				glong length = 0;
@@ -4274,7 +4283,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					append_new_paragraph (blockquote, &paragraph);
 
 				paragraph = create_and_append_new_paragraph (
-					selection, document, blockquote, "<br>");
+					selection, document, blockquote, block, "<br>");
 
 				citation_was_first_element = FALSE;
 			} else if (first_element && !citation_was_first_element) {
@@ -4282,6 +4291,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					selection,
 					document,
 					blockquote,
+					block,
 					"<br class=\"-x-evo-first-br\">");
 			}
 		}
@@ -4355,10 +4365,10 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 		if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0)
 			create_and_append_new_paragraph (
-				selection, document, blockquote, "<br>");
+				selection, document, blockquote, block, "<br>");
 		else
 			create_and_append_new_paragraph (
-				selection, document, blockquote, rest_to_insert);
+				selection, document, blockquote, block, rest_to_insert);
 
 		g_free (rest_to_insert);
 	}
@@ -4697,7 +4707,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		empty = FALSE;
 
 	if (!empty)
-		parse_html_into_paragraphs (view, document, content_wrapper, inner_html);
+		parse_html_into_paragraphs (view, document, content_wrapper, NULL, inner_html);
 
 	if (!cite_body) {
 		if (!empty) {
@@ -4799,13 +4809,21 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	gchar *inner_html;
 	gint citation_level;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
 	WebKitDOMNode *node;
-	WebKitDOMRange *range;
+	WebKitDOMNode *current_block;
 
 	remove_input_event_listener_from_body (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	e_html_editor_selection_save (selection);
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+	current_block = get_parent_block_node_from_child (
+		WEBKIT_DOM_NODE (selection_start_marker));
 
 	element = webkit_dom_document_create_element (document, "div", NULL);
 	if (is_html) {
@@ -4825,29 +4843,20 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
-	parse_html_into_paragraphs (view, document, element, inner_html);
+	parse_html_into_paragraphs (view, document, element, current_block, inner_html);
 
 	g_free (inner_html);
 
 	has_selection = !e_html_editor_selection_is_collapsed (selection);
 
-	range = html_editor_view_get_dom_range (view);
-	node = webkit_dom_range_get_end_container (range, NULL);
-	citation_level = get_citation_level (node, FALSE);
+	citation_level = get_citation_level (WEBKIT_DOM_NODE (selection_end_marker), FALSE);
 	/* Pasting into the citation */
 	if (citation_level > 0) {
 		gint length;
 		gint word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
-		WebKitDOMElement *selection_start_marker, *selection_end_marker;
 		WebKitDOMElement *br;
 		WebKitDOMNode *first_paragraph, *last_paragraph;
 		WebKitDOMNode *child, *parent;
-
-		e_html_editor_selection_save (selection);
-		selection_start_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
-		selection_end_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-end-marker");
 
 		first_paragraph = webkit_dom_node_get_first_child (
 			WEBKIT_DOM_NODE (element));
@@ -4994,8 +5003,12 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 				view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
 		e_html_editor_selection_restore_caret_position (selection);
+		g_object_unref (element);
 		goto out;
 	}
+
+	remove_node (WEBKIT_DOM_NODE (selection_start_marker));
+	remove_node (WEBKIT_DOM_NODE (selection_end_marker));
 
 	inner_html = webkit_dom_html_element_get_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (element));
@@ -5003,6 +5016,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
 	g_free (inner_html);
 
+	g_object_unref (element);
 	e_html_editor_selection_save (selection);
 
 	element = webkit_dom_document_query_selector (
@@ -5026,7 +5040,6 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	if (element) {
 		WebKitDOMNode *parent;
 		WebKitDOMNode *child;
-		WebKitDOMElement *selection_marker;
 
 		parent = webkit_dom_node_get_parent_node (
 			WEBKIT_DOM_NODE (element));
@@ -5043,14 +5056,14 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			}
 		}
 
-		selection_marker = webkit_dom_document_get_element_by_id (
+		selection_end_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 
 		if (has_selection) {
 			/* Everything after the selection end marker have to be in separate
 			 * paragraph */
 			child = webkit_dom_node_get_next_sibling (
-				WEBKIT_DOM_NODE (selection_marker));
+				WEBKIT_DOM_NODE (selection_end_marker));
 			/* Move the elements that are in the same paragraph as the selection end
 			 * on the end of pasted text, but avoid BR on the end of paragraph */
 			while (child) {
@@ -5066,11 +5079,11 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (
 					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (selection_marker))),
+						WEBKIT_DOM_NODE (selection_end_marker))),
 				parent,
 				webkit_dom_node_get_next_sibling (
 					webkit_dom_node_get_parent_node (
-						WEBKIT_DOM_NODE (selection_marker))),
+						WEBKIT_DOM_NODE (selection_end_marker))),
 				NULL);
 			node = parent;
 		} else {
@@ -5083,15 +5096,15 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			/* Restore caret on the end of pasted text */
 			webkit_dom_node_insert_before (
 				node,
-				WEBKIT_DOM_NODE (selection_marker),
+				WEBKIT_DOM_NODE (selection_end_marker),
 				webkit_dom_node_get_first_child (node),
 				NULL);
 
-			selection_marker = webkit_dom_document_get_element_by_id (
+			selection_start_marker = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
 			webkit_dom_node_insert_before (
 				node,
-				WEBKIT_DOM_NODE (selection_marker),
+				WEBKIT_DOM_NODE (selection_start_marker),
 				webkit_dom_node_get_first_child (node),
 				NULL);
 		}
@@ -5105,8 +5118,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		/* When pasting the content that was copied from the composer, WebKit
 		 * restores the selection wrongly, thus is saved wrongly and we have
 		 * to fix it */
-		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMNode *paragraph, *parent;
+		WebKitDOMNode *paragraph, *parent, *clone1, *clone2;
 
 		selection_start_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
@@ -5116,9 +5128,16 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		paragraph = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 		parent = webkit_dom_node_get_parent_node (paragraph);
-		if (element_has_class (WEBKIT_DOM_ELEMENT (paragraph), "-x-evo-paragraph") &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph"))
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (parent), "id");
+
+		/* Check if WebKit created wrong structure */
+		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (paragraph), FALSE);
+		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
+		if (webkit_dom_node_is_equal_node (clone1, clone2))
 			fix_structure_after_pasting_multiline_content (paragraph);
+
+		g_object_unref (clone1);
+		g_object_unref (clone2);
 
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (
@@ -6582,6 +6601,7 @@ convert_element_from_html_to_plain_text (EHTMLEditorView *view,
 	parse_html_into_paragraphs (
 		view, document,
 		main_blockquote ? blockquote : WEBKIT_DOM_ELEMENT (element),
+		NULL,
 		inner_html);
 
 	if (main_blockquote) {
