@@ -61,6 +61,8 @@ struct _ESpellCheckerClass {
 };
 
 GType		e_spell_checker_get_type	(void) G_GNUC_CONST;
+void		e_spell_checker_free_global_memory
+						(void);
 ESpellChecker *	e_spell_checker_new		(void);
 GList *		e_spell_checker_list_available_dicts
 						(ESpellChecker *checker);
