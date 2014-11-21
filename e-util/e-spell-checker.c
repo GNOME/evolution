@@ -36,15 +36,8 @@
 #define MAX_SUGGESTIONS 10
 
 struct _ESpellCheckerPrivate {
-	EnchantBroker *broker;
 	GHashTable *active_dictionaries;
 	GHashTable *dictionaries_cache;
-	gboolean dictionaries_loaded;
-
-	/* We retain ownership of the EnchantDict's since they
-	 * have to be freed through enchant_broker_free_dict()
-	 * and we also own the EnchantBroker. */
-	GHashTable *enchant_dicts;
 };
 
 enum {
@@ -74,6 +67,14 @@ G_DEFINE_TYPE_EXTENDED (
  * provider for dictionaries. It also implements #WebKitSpellCheckerInterface,
  * so it can be set as a default spell-checker to WebKit editors
  */
+
+
+/* We retain ownership of the EnchantDict's since they
+ * have to be freed through enchant_broker_free_dict()
+ * and we also own the EnchantBroker. */
+static GHashTable *global_enchant_dicts;
+static EnchantBroker *global_broker;
+G_LOCK_DEFINE_STATIC (global_memory);
 
 static gboolean
 spell_checker_enchant_dicts_foreach_cb (gpointer key,
@@ -358,15 +359,6 @@ spell_checker_finalize (GObject *object)
 
 	priv = E_SPELL_CHECKER_GET_PRIVATE (object);
 
-	/* Freeing EnchantDicts requires help from EnchantBroker. */
-	g_hash_table_foreach_remove (
-		priv->enchant_dicts,
-		spell_checker_enchant_dicts_foreach_cb,
-		priv->broker);
-	g_hash_table_destroy (priv->enchant_dicts);
-
-	enchant_broker_free (priv->broker);
-
 	g_hash_table_destroy (priv->active_dictionaries);
 	g_hash_table_destroy (priv->dictionaries_cache);
 
@@ -425,7 +417,6 @@ e_spell_checker_init (ESpellChecker *checker)
 {
 	GHashTable *active_dictionaries;
 	GHashTable *dictionaries_cache;
-	GHashTable *enchant_dicts;
 
 	active_dictionaries = g_hash_table_new_full (
 		(GHashFunc) e_spell_dictionary_hash,
@@ -439,18 +430,10 @@ e_spell_checker_init (ESpellChecker *checker)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) g_object_unref);
 
-	enchant_dicts = g_hash_table_new_full (
-		(GHashFunc) g_str_hash,
-		(GEqualFunc) g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) NULL);
-
 	checker->priv = E_SPELL_CHECKER_GET_PRIVATE (checker);
 
-	checker->priv->broker = enchant_broker_init ();
 	checker->priv->active_dictionaries = active_dictionaries;
 	checker->priv->dictionaries_cache = dictionaries_cache;
-	checker->priv->enchant_dicts = enchant_dicts;
 }
 
 /**
@@ -473,12 +456,26 @@ list_enchant_dicts (const gchar * const lang_tag,
                     const gchar * const provider_file,
                     gpointer user_data)
 {
-	ESpellChecker *checker = user_data;
+	EnchantBroker *broker = user_data;
 	EnchantDict *enchant_dict;
 
-	enchant_dict = enchant_broker_request_dict (
-		checker->priv->broker, lang_tag);
+	enchant_dict = enchant_broker_request_dict (broker, lang_tag);
 	if (enchant_dict != NULL) {
+		g_hash_table_insert (
+			global_enchant_dicts,
+			g_strdup (lang_tag), enchant_dict);
+	}
+}
+
+static void
+copy_enchant_dicts (gpointer pcode,
+		    gpointer pdict,
+		    gpointer user_data)
+{
+	EnchantDict *enchant_dict = pdict;
+	ESpellChecker *checker = user_data;
+
+	if (enchant_dict) {
 		ESpellDictionary *dictionary;
 		const gchar *code;
 
@@ -491,11 +488,57 @@ list_enchant_dicts (const gchar * const lang_tag,
 		g_hash_table_insert (
 			checker->priv->dictionaries_cache,
 			(gpointer) code, dictionary);
-
-		g_hash_table_insert (
-			checker->priv->enchant_dicts,
-			g_strdup (code), enchant_dict);
 	}
+}
+
+static void
+e_spell_checker_init_global_memory (void)
+{
+	G_LOCK (global_memory);
+
+	if (!global_broker) {
+		global_broker = enchant_broker_init ();
+		global_enchant_dicts = g_hash_table_new_full (
+			(GHashFunc) g_str_hash,
+			(GEqualFunc) g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
+
+		enchant_broker_list_dicts (
+			global_broker,
+			list_enchant_dicts, global_broker);
+	}
+
+	G_UNLOCK (global_memory);
+}
+
+/**
+ * e_spell_checker_free_global_memory:
+ *
+ * Frees global memory used by the ESpellChecker. This should be called at
+ * the end of main(), to avoid memory leaks.
+ *
+ * Since: 3.14
+ **/
+void
+e_spell_checker_free_global_memory (void)
+{
+	G_LOCK (global_memory);
+
+	if (global_enchant_dicts) {
+		/* Freeing EnchantDicts requires help from EnchantBroker. */
+		g_hash_table_foreach_remove (
+			global_enchant_dicts,
+			spell_checker_enchant_dicts_foreach_cb,
+			global_broker);
+		g_hash_table_destroy (global_enchant_dicts);
+		global_enchant_dicts = NULL;
+
+		enchant_broker_free (global_broker);
+		global_broker = NULL;
+	}
+
+	G_UNLOCK (global_memory);
 }
 
 /**
@@ -516,11 +559,9 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 
-	if (!checker->priv->dictionaries_loaded) {
-		enchant_broker_list_dicts (
-			checker->priv->broker,
-			list_enchant_dicts, checker);
-		checker->priv->dictionaries_loaded = TRUE;
+	if (g_hash_table_size (checker->priv->dictionaries_cache) == 0) {
+		e_spell_checker_init_global_memory ();
+		g_hash_table_foreach (global_enchant_dicts, copy_enchant_dicts, checker);
 	}
 
 	list = g_hash_table_get_values (checker->priv->dictionaries_cache);
@@ -584,8 +625,9 @@ e_spell_checker_get_enchant_dict (ESpellChecker *checker,
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 	g_return_val_if_fail (language_code != NULL, NULL);
 
-	return g_hash_table_lookup (
-		checker->priv->enchant_dicts, language_code);
+	e_spell_checker_init_global_memory ();
+
+	return g_hash_table_lookup (global_enchant_dicts, language_code);
 }
 
 gboolean
