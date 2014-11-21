@@ -245,7 +245,9 @@ eab_get_phone_type_index (EVCardAttribute *attr)
 
 	for (i = 0; i < G_N_ELEMENTS (eab_phone_types); i++) {
 		if (e_vcard_attribute_has_type (attr, eab_phone_types[i].type_1) &&
-		    (eab_phone_types[i].type_2 == NULL || e_vcard_attribute_has_type (attr, eab_phone_types[i].type_2)))
+		    (eab_phone_types[i].type_2 == NULL || e_vcard_attribute_has_type (attr, eab_phone_types[i].type_2) ||
+		    (g_ascii_strcasecmp (eab_phone_types[i].type_2, "VOICE") == 0 &&
+		     g_list_length (e_vcard_attribute_get_param (attr, EVC_TYPE)) == 1)))
 			return i;
 	}
 
