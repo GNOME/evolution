@@ -2340,6 +2340,13 @@ html_editor_view_finalize (GObject *object)
 		priv->old_settings = NULL;
 	}
 
+	if (priv->post_reload_operations) {
+		g_warn_if_fail (g_queue_is_empty (priv->post_reload_operations));
+
+		g_queue_free (priv->post_reload_operations);
+		priv->post_reload_operations = NULL;
+	}
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->finalize (object);
 }
@@ -7918,6 +7925,9 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 			stylesheet,
 			"  color: %s !important; \n",
 			citation_color);
+
+	g_free (citation_color);
+	citation_color = NULL;
 
 	g_string_append (stylesheet, "}\n");
 
