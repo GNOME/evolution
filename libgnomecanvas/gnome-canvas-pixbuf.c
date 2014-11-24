@@ -272,6 +272,9 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item,
 
 	gnome_canvas_item_i2c_matrix (item, &matrix);
 
+	matrix.x0 -= x;
+	matrix.y0 -= y;
+
 	cairo_save (cr);
 	cairo_transform (cr, &matrix);
 
