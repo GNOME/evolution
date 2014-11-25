@@ -3,13 +3,13 @@
 # Kjartan Maraas <kmaraas@gnome.org>, 1998-2014.
 # Terance Edward Sola <terance@lyse.net>, 2005.
 # Torstein Adolf Winterseth <kvikende@fsfe.org>, 2010.
-#: ../shell/main.c:501
+#: ../shell/main.c:503
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-17 07:49+0100\n"
-"PO-Revision-Date: 2014-11-17 07:58+0100\n"
+"POT-Creation-Date: 2014-11-25 23:50+0100\n"
+"PO-Revision-Date: 2014-11-25 23:54+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -440,7 +440,7 @@ msgstr "Bryllupsdag"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:874
-#: ../calendar/gui/e-calendar-view.c:1989 ../shell/main.c:125
+#: ../calendar/gui/e-calendar-view.c:1989 ../shell/main.c:127
 msgid "Birthday"
 msgstr "Fødselsdag"
 
@@ -745,7 +745,7 @@ msgstr "Ugyldig kontakt."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
-#: ../shell/main.c:166 ../smime/gui/e-cert-selector.c:238
+#: ../shell/main.c:168 ../smime/gui/e-cert-selector.c:238
 #: ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_OK"
@@ -1870,7 +1870,7 @@ msgstr "IM"
 #. * if a phone number type is not one of the predefined types,
 #. * this generic label is used instead of one of the predefined labels.
 #.
-#: ../addressbook/util/eab-book-util.c:269
+#: ../addressbook/util/eab-book-util.c:271
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
@@ -9592,62 +9592,74 @@ msgstr ""
 "posttjener. Intervallet må være minst 30 sekunder."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+msgid "Allow expunge in virtual folders"
+msgstr "Tillat tømming av virtuelle mapper"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+msgid ""
+"Enables Expunge in virtual folders, which means that the Folder->Expunge "
+"will be callable in virtual folders, while the expunge itself will be done "
+"in all folders for all deleted messages within the virtual folder, not only "
+"for deleted messages belonging to the virtual folder."
+msgstr ""
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "An Archive folder for On This Computer folders."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "(Deprecated) Default forward style"
 msgstr "Forvalgt videresendingsstil (utgått)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "(Deprecated) Default reply style"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Utfaset) Liste over tillpassede topptekster og om de er slått på."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "Last bilder for HTML-meldinger over HTTP (utgått)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -9933,7 +9945,7 @@ msgstr "Forhåndsvalgt mappe for filvelger"
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr "Startmappe for GtkFileChooser dialoger."
 
-#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:306
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:7 ../shell/main.c:308
 msgid "Start in offline mode"
 msgstr "Start i frakoblet modus"
 
@@ -10611,9 +10623,9 @@ msgid "Sa_ve As"
 msgstr "L_agre som"
 
 #: ../e-util/e-attachment-view.c:400
-#: ../plugins/save-calendar/save-calendar.c:346
-#: ../plugins/save-calendar/save-calendar.c:377
-#: ../plugins/save-calendar/save-calendar.c:408
+#: ../plugins/save-calendar/save-calendar.c:349
+#: ../plugins/save-calendar/save-calendar.c:380
+#: ../plugins/save-calendar/save-calendar.c:411
 msgid "Save _As"
 msgstr "L_agre som"
 
@@ -11253,7 +11265,7 @@ msgstr "_Vanlig"
 #. Translators: :-!
 #: ../e-util/e-emoticon-chooser.c:51
 msgid "Smi_rk"
-msgstr ""
+msgstr "Gli_s"
 
 #. Translators: :"-)
 #: ../e-util/e-emoticon-chooser.c:53
@@ -12135,11 +12147,11 @@ msgstr "_Bredde"
 
 #: ../e-util/e-html-editor-cell-dialog.c:800
 msgid "Row S_pan:"
-msgstr ""
+msgstr "Rad_lengde:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:814
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "Kolon_nelengde:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:821
 #: ../e-util/e-html-editor-table-dialog.c:835
@@ -12488,25 +12500,27 @@ msgstr "St_ørrelse:"
 msgid "Text Properties"
 msgstr "Egenskaper for tekst"
 
-#: ../e-util/e-html-editor-view.c:3130
+#: ../e-util/e-html-editor-view.c:3144
 msgid "Changed property"
 msgstr "Endret egenskap"
 
-#: ../e-util/e-html-editor-view.c:3131
+#: ../e-util/e-html-editor-view.c:3145
 msgid "Whether editor changed"
 msgstr "Hvorvidt redigering ble endret"
 
-#: ../e-util/e-html-editor-view.c:6755
+#: ../e-util/e-html-editor-view.c:6864
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
-msgstr "Hvis du slår av HTML-modus vil teksten miste all formatering. Vil du fortsette?"
+msgstr ""
+"Hvis du slår av HTML-modus vil teksten miste all formatering. Vil du "
+"fortsette?"
 
-#: ../e-util/e-html-editor-view.c:6759
+#: ../e-util/e-html-editor-view.c:6868
 msgid "_Don't lose formatting"
 msgstr "_Ta vare på formatering"
 
-#: ../e-util/e-html-editor-view.c:6760
+#: ../e-util/e-html-editor-view.c:6869
 msgid "_Lose formatting"
 msgstr "_Ikke ta vare på formatering"
 
@@ -12980,7 +12994,7 @@ msgstr "Nådde toppen av siden og fortsatte fra bunnen"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:327
 #: ../mail/importers/pine-importer.c:420
-#: ../modules/mail/e-mail-shell-view.c:1097
+#: ../modules/mail/e-mail-shell-view.c:1161
 msgid "Mail"
 msgstr "E-post"
 
@@ -13949,32 +13963,32 @@ msgstr "Ugyldig URI for mappe «%s»"
 
 #: ../libemail-engine/e-mail-session.c:121 ../mail/em-folder-properties.c:410
 #: ../mail/em-folder-tree-model.c:1174
-#: ../modules/mail/e-mail-shell-view-private.c:1066
-#: ../modules/mail/e-mail-shell-view-private.c:1077
+#: ../modules/mail/e-mail-shell-view-private.c:1074
+#: ../modules/mail/e-mail-shell-view-private.c:1085
 msgid "Inbox"
 msgstr "Innboks"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:122 ../mail/em-folder-tree-model.c:1167
-#: ../modules/mail/e-mail-shell-view-private.c:1064
+#: ../modules/mail/e-mail-shell-view-private.c:1072
 msgid "Drafts"
 msgstr "Skisser"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:123 ../mail/em-folder-tree-model.c:1178
-#: ../modules/mail/e-mail-shell-view-private.c:1068
+#: ../modules/mail/e-mail-shell-view-private.c:1076
 msgid "Outbox"
 msgstr "Utboks"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-tree-model.c:1182
-#: ../modules/mail/e-mail-shell-view-private.c:1070
+#: ../modules/mail/e-mail-shell-view-private.c:1078
 msgid "Sent"
 msgstr "Sendt"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-tree-model.c:1170
-#: ../modules/mail/e-mail-shell-view-private.c:1072
+#: ../modules/mail/e-mail-shell-view-private.c:1080
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1130 ../plugins/templates/templates.c:1432
 #: ../plugins/templates/templates.c:1442
@@ -14013,26 +14027,26 @@ msgid "No mail transport service available"
 msgstr "Tjeneste for transport av e-post er ikke tilgjengelig"
 
 #: ../libemail-engine/e-mail-session-utils.c:626
-#: ../libemail-engine/mail-ops.c:699
+#: ../libemail-engine/mail-ops.c:717
 #, c-format
 msgid "Posting message to '%s'"
 msgstr "Poster melding til «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:663
-#: ../libemail-engine/mail-ops.c:735
+#: ../libemail-engine/mail-ops.c:753
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Feil under påføring av utgående filtre: %s"
 
 #: ../libemail-engine/e-mail-session-utils.c:693
 #: ../libemail-engine/e-mail-session-utils.c:728
-#: ../libemail-engine/mail-ops.c:759 ../libemail-engine/mail-ops.c:794
+#: ../libemail-engine/mail-ops.c:777 ../libemail-engine/mail-ops.c:812
 #, c-format
 msgid "Storing sent message to '%s'"
 msgstr "Lagrer sendt melding til «%s»"
 
 #: ../libemail-engine/e-mail-session-utils.c:717
-#: ../libemail-engine/mail-ops.c:783
+#: ../libemail-engine/mail-ops.c:801
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -14042,13 +14056,13 @@ msgstr ""
 "Legger til i lokal «Sendt»-mappe i stedet."
 
 #: ../libemail-engine/e-mail-session-utils.c:747
-#: ../libemail-engine/mail-ops.c:811
+#: ../libemail-engine/mail-ops.c:829
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Kunne ikke legge til i lokal Sendt-mappe: %s"
 
-#: ../libemail-engine/e-mail-session-utils.c:948
-#: ../libemail-engine/mail-ops.c:956 ../libemail-engine/mail-ops.c:1058
+#: ../libemail-engine/e-mail-session-utils.c:949
+#: ../libemail-engine/mail-ops.c:974 ../libemail-engine/mail-ops.c:1076
 msgid "Sending message"
 msgstr "Sender melding"
 
@@ -14089,7 +14103,7 @@ msgstr ""
 msgid "Fetching mail from '%s'"
 msgstr "Henter e-post fra «%s»"
 
-#: ../libemail-engine/mail-ops.c:729
+#: ../libemail-engine/mail-ops.c:747
 #, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
@@ -14102,57 +14116,57 @@ msgstr ""
 "i «Rediger->Meldingsfiltre».\n"
 "Opprinnelig feil var: %s"
 
-#: ../libemail-engine/mail-ops.c:967
+#: ../libemail-engine/mail-ops.c:985
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Sender melding %d av %d"
 
-#: ../libemail-engine/mail-ops.c:1019
+#: ../libemail-engine/mail-ops.c:1037
 #, c-format
 msgid "Failed to send a message"
 msgid_plural "Failed to send %d of %d messages"
 msgstr[0] "Klarte ikke å sende en melding"
 msgstr[1] "Klarte ikke å sende %d av %d meldinger"
 
-#: ../libemail-engine/mail-ops.c:1025
+#: ../libemail-engine/mail-ops.c:1043
 msgid "Canceled."
 msgstr "Avbrutt."
 
-#: ../libemail-engine/mail-ops.c:1027
+#: ../libemail-engine/mail-ops.c:1045
 msgid "Complete."
 msgstr "Fullført."
 
-#: ../libemail-engine/mail-ops.c:1141
+#: ../libemail-engine/mail-ops.c:1159
 #, c-format
 msgid "Moving messages to '%s'"
 msgstr "Flytter meldinger til «%s»"
 
-#: ../libemail-engine/mail-ops.c:1142
+#: ../libemail-engine/mail-ops.c:1160
 #, c-format
 msgid "Copying messages to '%s'"
 msgstr "Kopierer meldinger til «%s»"
 
-#: ../libemail-engine/mail-ops.c:1261
+#: ../libemail-engine/mail-ops.c:1279
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Lagrer mappe «%s»"
 
-#: ../libemail-engine/mail-ops.c:1389
+#: ../libemail-engine/mail-ops.c:1407
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Tømmer og lagrer konto «%s»"
 
-#: ../libemail-engine/mail-ops.c:1390
+#: ../libemail-engine/mail-ops.c:1408
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Lagrer konto «%s»"
 
-#: ../libemail-engine/mail-ops.c:1465
+#: ../libemail-engine/mail-ops.c:1483
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Tømmer søppel i «%s»"
 
-#: ../libemail-engine/mail-ops.c:1557
+#: ../libemail-engine/mail-ops.c:1575
 #, c-format
 msgid "Processing folder changes in '%s'"
 msgstr "Prosesserer endringer i mappe «%s»"
@@ -14977,7 +14991,7 @@ msgstr "_Ignorer undertråd"
 
 #: ../mail/e-mail-reader.c:2145
 msgid "Mark new mails in a sub-thread as read automatically"
-msgstr ""
+msgstr "Merk nye meldinger i en undertråd som lest automatisk"
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2525
 msgid "_Ignore Thread"
@@ -14985,7 +14999,7 @@ msgstr "Overse _tråd"
 
 #: ../mail/e-mail-reader.c:2152
 msgid "Mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "Merk nye meldinger i denne tråden som lest automatisk"
 
 #: ../mail/e-mail-reader.c:2157
 msgid "_Important"
@@ -15021,19 +15035,19 @@ msgstr "Merk valgte meldinger som lest"
 
 #: ../mail/e-mail-reader.c:2185 ../mail/e-mail-reader.c:2545
 msgid "Do not _Ignore Sub-Thread"
-msgstr ""
+msgstr "Ikke _ignorer undertråd"
 
 #: ../mail/e-mail-reader.c:2187
 msgid "Do not mark new mails in a sub-thread as read automatically"
-msgstr ""
+msgstr "Ikke merk nye meldinger i en undertråd som lest automatisk"
 
 #: ../mail/e-mail-reader.c:2192 ../mail/e-mail-reader.c:2549
 msgid "Do not _Ignore Thread"
-msgstr ""
+msgstr "_Ikke ignorter tråd"
 
 #: ../mail/e-mail-reader.c:2194
 msgid "Do not mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "Ikke merk nye meldinger i denne tråden som lest automatisk"
 
 #: ../mail/e-mail-reader.c:2199
 msgid "Uni_mportant"
@@ -15412,15 +15426,15 @@ msgstr "Merker tråd som ignorert"
 
 #: ../mail/e-mail-reader-utils.c:1037
 msgid "Unmarking thread from being ignored"
-msgstr ""
+msgstr "Fjerner merking av tråd som ignorert"
 
 #: ../mail/e-mail-reader-utils.c:1041
 msgid "Marking sub-thread to be ignored"
-msgstr ""
+msgstr "Merker undertråd som ignorert"
 
 #: ../mail/e-mail-reader-utils.c:1045
 msgid "Unmarking sub-thread from being ignored"
-msgstr ""
+msgstr "Fjerner merking av undertråd som ignorert"
 
 #: ../mail/e-mail-reader-utils.c:1269
 msgid "Printing"
@@ -18329,7 +18343,7 @@ msgid "Using LDAP"
 msgstr "Bruker LDAP"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:716
-#: ../modules/mail/e-mail-shell-view.c:115
+#: ../modules/mail/e-mail-shell-view.c:120
 msgid "Searching"
 msgstr "Søker"
 
@@ -20817,77 +20831,77 @@ msgstr "Denne kontoen"
 msgid "Current Folder"
 msgstr "Denne mappen"
 
-#: ../modules/mail/e-mail-shell-view.c:636
+#: ../modules/mail/e-mail-shell-view.c:698
 msgid "All Account Search"
 msgstr "Søk i alle konti"
 
-#: ../modules/mail/e-mail-shell-view.c:744
+#: ../modules/mail/e-mail-shell-view.c:806
 msgid "Account Search"
 msgstr "Søk i konto"
 
-#: ../modules/mail/e-mail-shell-view-private.c:978
+#: ../modules/mail/e-mail-shell-view-private.c:986
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d valgt, "
 msgstr[1] "%d valgt, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:987
-#: ../modules/mail/e-mail-shell-view-private.c:1004
+#: ../modules/mail/e-mail-shell-view-private.c:995
+#: ../modules/mail/e-mail-shell-view-private.c:1012
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d slettet"
 msgstr[1] "%d slettet"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1013
-#: ../modules/mail/e-mail-shell-view-private.c:1019
+#: ../modules/mail/e-mail-shell-view-private.c:1021
+#: ../modules/mail/e-mail-shell-view-private.c:1027
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d uønsket e-post"
 msgstr[1] "%d uønsket e-poster"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1026
+#: ../modules/mail/e-mail-shell-view-private.c:1034
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d skisse"
 msgstr[1] "%d skisser"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1032
+#: ../modules/mail/e-mail-shell-view-private.c:1040
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d usendt"
 msgstr[1] "%d usendte"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1038
+#: ../modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d sendt"
 msgstr[1] "%d sendt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1050
+#: ../modules/mail/e-mail-shell-view-private.c:1058
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d ulest, "
 msgstr[1] "%d uleste, "
 
-#: ../modules/mail/e-mail-shell-view-private.c:1053
+#: ../modules/mail/e-mail-shell-view-private.c:1061
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d totalt"
 msgstr[1] "%d totalt"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1074
+#: ../modules/mail/e-mail-shell-view-private.c:1082
 msgid "Trash"
 msgstr "Papirkurv"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1561
+#: ../modules/mail/e-mail-shell-view-private.c:1569
 msgid "Send / Receive"
 msgstr "Send / motta"
 
@@ -21493,35 +21507,35 @@ msgstr "Påminnelse om vedlegg"
 msgid "Reminds you when you forgot to add an attachment to a mail message."
 msgstr "Viser påminnelse hvis du glemmer å legge ved et vedlegg i en melding."
 
-#: ../plugins/bbdb/bbdb.c:699 ../plugins/bbdb/bbdb.c:810
+#: ../plugins/bbdb/bbdb.c:710 ../plugins/bbdb/bbdb.c:821
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "Automatiske kontakter"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:714
+#: ../plugins/bbdb/bbdb.c:725
 msgid "Create _address book entries when sending mails"
 msgstr "Opprett oppføringer i adresseboken _automatisk når du sender e-post"
 
-#: ../plugins/bbdb/bbdb.c:724
+#: ../plugins/bbdb/bbdb.c:735
 msgid "Select Address book for Automatic Contacts"
 msgstr "Velg adressebok for automatiske kontakter"
 
-#: ../plugins/bbdb/bbdb.c:744
+#: ../plugins/bbdb/bbdb.c:755
 msgid "Instant Messaging Contacts"
 msgstr "Kontakter for lynmeldinger"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:759
+#: ../plugins/bbdb/bbdb.c:770
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr "_Synkroniser kontaktinformasjon og bilder fra vennelisten i Pidgin"
 
-#: ../plugins/bbdb/bbdb.c:769
+#: ../plugins/bbdb/bbdb.c:780
 msgid "Select Address book for Pidgin buddy list"
 msgstr "Velg adressebok for venneliste fra Pidgin"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:785
+#: ../plugins/bbdb/bbdb.c:796
 msgid "Synchronize with _buddy list now"
 msgstr "Synkroniser med _vennelisten nå"
 
@@ -22053,12 +22067,12 @@ msgstr "Ugyldig objekt returnert fra en tjener"
 msgid "An error occurred during processing: %s"
 msgstr "En feil oppsto under prosessering: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:852
+#: ../plugins/mail-to-task/mail-to-task.c:854
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kan ikke åpne kalender. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:856
+#: ../plugins/mail-to-task/mail-to-task.c:858
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -22066,7 +22080,7 @@ msgstr ""
 "Valgt kalender er skrivebeskyttet og hendelser kan ikke opprettes der. Velg "
 "en annen kalender."
 
-#: ../plugins/mail-to-task/mail-to-task.c:859
+#: ../plugins/mail-to-task/mail-to-task.c:861
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -22074,7 +22088,7 @@ msgstr ""
 "Valgt oppgaveliste er skrivebeskyttet og oppgaver kan ikke opprettes der. "
 "Velg en annen oppgaveliste."
 
-#: ../plugins/mail-to-task/mail-to-task.c:862
+#: ../plugins/mail-to-task/mail-to-task.c:864
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -22082,35 +22096,35 @@ msgstr ""
 "Valgt notantliste er skrivebeskyttet og notater kan ikke opprettes der. Velg "
 "en annen notatliste."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1261
+#: ../plugins/mail-to-task/mail-to-task.c:1266
 msgid "Create an _Appointment"
 msgstr "Lag en _avtale"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1263
+#: ../plugins/mail-to-task/mail-to-task.c:1268
 msgid "Create a new event from the selected message"
 msgstr " Lag en ny hendelse fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1268
+#: ../plugins/mail-to-task/mail-to-task.c:1273
 msgid "Create a Mem_o"
 msgstr "Lag et n_otat"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1270
+#: ../plugins/mail-to-task/mail-to-task.c:1275
 msgid "Create a new memo from the selected message"
 msgstr "Lag et nytt notat fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1275
+#: ../plugins/mail-to-task/mail-to-task.c:1280
 msgid "Create a _Task"
 msgstr "Lag en o_ppgave"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1277
+#: ../plugins/mail-to-task/mail-to-task.c:1282
 msgid "Create a new task from the selected message"
 msgstr "Lag en ny oppgave fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1285
+#: ../plugins/mail-to-task/mail-to-task.c:1290
 msgid "Create a _Meeting"
 msgstr "Lag et _møte"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1287
+#: ../plugins/mail-to-task/mail-to-task.c:1292
 msgid "Create a new meeting from the selected message"
 msgstr "Lag et nytt møte fra den valgte meldingen"
 
@@ -22302,8 +22316,8 @@ msgstr "Hu_sk passord"
 msgid "Publishing Location"
 msgstr "Plassering for publisering"
 
-#: ../plugins/publish-calendar/publish-format-fb.c:99
-#: ../plugins/publish-calendar/publish-format-ical.c:102
+#: ../plugins/publish-calendar/publish-format-fb.c:101
+#: ../plugins/publish-calendar/publish-format-ical.c:104
 #, c-format
 msgid "Invalid source UID '%s'"
 msgstr "Ugyldig kildeadresse «%s»"
@@ -22432,15 +22446,15 @@ msgstr "Velg målfil"
 msgid "_Save As"
 msgstr "Lagre _som"
 
-#: ../plugins/save-calendar/save-calendar.c:344
+#: ../plugins/save-calendar/save-calendar.c:347
 msgid "Save the selected calendar to disk"
 msgstr "Lagre valgt kalender til disk"
 
-#: ../plugins/save-calendar/save-calendar.c:375
+#: ../plugins/save-calendar/save-calendar.c:378
 msgid "Save the selected memo list to disk"
 msgstr "Lagre valgt notatliste til disk"
 
-#: ../plugins/save-calendar/save-calendar.c:406
+#: ../plugins/save-calendar/save-calendar.c:409
 msgid "Save the selected task list to disk"
 msgstr "Lagre valgt oppgaveliste til disk"
 
@@ -22812,7 +22826,7 @@ msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:181
+#: ../shell/main.c:183
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -22847,7 +22861,7 @@ msgstr ""
 "Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
 "spenning på at du tilbyr din hjelp!\n"
 
-#: ../shell/main.c:205
+#: ../shell/main.c:207
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -22855,13 +22869,13 @@ msgstr ""
 "Takk\n"
 "Evolution utviklerene\n"
 
-#: ../shell/main.c:211
+#: ../shell/main.c:213
 msgid "Do not tell me again"
 msgstr "Ikke gi beskjed igjen"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../shell/main.c:300
+#: ../shell/main.c:302
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -22869,39 +22883,39 @@ msgstr ""
 "Start Evolution med oppgitt komponent. Tilgjengelige valg er «mail», "
 "«calendar», «contacts», «tasks» og «memos»"
 
-#: ../shell/main.c:304
+#: ../shell/main.c:306
 msgid "Apply the given geometry to the main window"
 msgstr "Bruk oppgitt geometri på hovedvinduet"
 
-#: ../shell/main.c:308
+#: ../shell/main.c:310
 msgid "Start in online mode"
 msgstr "Start i tilkoblet modus"
 
-#: ../shell/main.c:310
+#: ../shell/main.c:312
 msgid "Ignore network availability"
 msgstr "Ignorer nettverkstilgjengelighet"
 
-#: ../shell/main.c:313
+#: ../shell/main.c:315
 msgid "Forcibly shut down Evolution"
 msgstr "Tvungen nedstenging av Evolution"
 
-#: ../shell/main.c:316
+#: ../shell/main.c:318
 msgid "Disable loading of any plugins."
 msgstr "Slå av lasting av tillegg."
 
-#: ../shell/main.c:318
+#: ../shell/main.c:320
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Deaktiver forhåndsvisningsområdet for e-post, kontakter og oppgaver."
 
-#: ../shell/main.c:322
+#: ../shell/main.c:324
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importer URIer eller filnavn gitt som argumenter."
 
-#: ../shell/main.c:324
+#: ../shell/main.c:326
 msgid "Request a running Evolution process to quit"
 msgstr "Be en kjørende Evolution-prosess om å stenge ned"
 
-#: ../shell/main.c:401
+#: ../shell/main.c:403
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -22910,11 +22924,11 @@ msgstr ""
 "Kan ikke starte Evolution. En annen instans kjører sannsynligvis og svarer "
 "ikke. Systemfeil: %s"
 
-#: ../shell/main.c:452 ../shell/main.c:457
+#: ../shell/main.c:454 ../shell/main.c:459
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution personlig informasjonshåndterer og e-postklient"
 
-#: ../shell/main.c:515
+#: ../shell/main.c:517
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -22923,7 +22937,7 @@ msgstr ""
 "%s: --online og --offline kan ikke brukes samtidig.\n"
 "  Bruk «%s --help» for mer informasjon.\n"
 
-#: ../shell/main.c:521
+#: ../shell/main.c:523
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
