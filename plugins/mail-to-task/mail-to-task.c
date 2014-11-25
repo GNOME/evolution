@@ -824,7 +824,9 @@ do_manage_comp_idle (struct _manage_comp *mc)
 }
 
 typedef struct {
+	EClientCache *client_cache;
 	ESource *source;
+	const gchar *extension_name;
 	ECalClientSourceType source_type;
 	CamelFolder *folder;
 	GPtrArray *uids;
@@ -840,8 +842,8 @@ do_mail_to_event (AsyncData *data)
 	GPtrArray *uids = data->uids;
 	GError *error = NULL;
 
-	client = e_cal_client_connect_sync (
-		data->source, data->source_type, NULL, &error);
+	client = e_client_cache_get_client_sync (data->client_cache,
+		data->source, data->extension_name, NULL, &error);
 
 	/* Sanity check. */
 	g_return_val_if_fail (
@@ -1036,6 +1038,7 @@ do_mail_to_event (AsyncData *data)
 	g_ptr_array_unref (uids);
 	g_object_unref (folder);
 
+	g_object_unref (data->client_cache);
 	g_object_unref (data->source);
 	g_free (data);
 	data = NULL;
@@ -1193,7 +1196,9 @@ mail_to_event (ECalClientSourceType source_type,
 
 		/* Fill the elements in AsynData */
 		data = g_new0 (AsyncData, 1);
+		data->client_cache = g_object_ref (e_shell_get_client_cache (shell));
 		data->source = g_object_ref (source);
+		data->extension_name = extension_name;
 		data->source_type = source_type;
 		data->folder = e_mail_reader_ref_folder (reader);
 		data->uids = g_ptr_array_ref (uids);
