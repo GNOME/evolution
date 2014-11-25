@@ -173,7 +173,7 @@ add_string_to_rdf (xmlNodePtr node,
 static void
 do_save_calendar_rdf (FormatHandler *handler,
                       ESourceSelector *selector,
-                      ECalClientSourceType type,
+		      EClientCache *client_cache,
                       gchar *dest_uri)
 {
 
@@ -198,8 +198,8 @@ do_save_calendar_rdf (FormatHandler *handler,
 
 	/* open source client */
 	primary_source = e_source_selector_ref_primary_selection (selector);
-	source_client = e_cal_client_connect_sync (
-		primary_source, type, NULL, &error);
+	source_client = e_client_cache_get_client_sync (client_cache,
+		primary_source, e_source_selector_get_extension_name (selector), NULL, &error);
 	g_object_unref (primary_source);
 
 	/* Sanity check. */

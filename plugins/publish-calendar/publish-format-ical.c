@@ -91,9 +91,11 @@ write_calendar (const gchar *uid,
 	source = e_source_registry_ref_source (registry, uid);
 
 	if (source != NULL) {
-		client = e_cal_client_connect_sync (
-			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
-			NULL, error);
+		EClientCache *client_cache;
+
+		client_cache = e_shell_get_client_cache (shell);
+		client = e_client_cache_get_client_sync (client_cache, source, E_SOURCE_EXTENSION_CALENDAR, NULL, error);
+
 		g_object_unref (source);
 	} else {
 		g_set_error (

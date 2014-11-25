@@ -110,7 +110,7 @@ format_handlers_foreach_free (gpointer data)
 
 static void
 ask_destination_and_save (ESourceSelector *selector,
-                          ECalClientSourceType type)
+			  EClientCache *client_cache)
 {
 	FormatHandler *handler = NULL;
 
@@ -219,7 +219,7 @@ ask_destination_and_save (ESourceSelector *selector,
 				dest_uri = temp;
 			}
 
-			handler->save (handler, selector, type, dest_uri);
+			handler->save (handler, selector, client_cache, dest_uri);
 		} else {
 			g_warn_if_reached ();
 		}
@@ -291,17 +291,20 @@ open_for_writing (GtkWindow *parent,
 }
 
 static void
-save_general (EShellView *shell_view,
-              ECalClientSourceType type)
+save_general (EShellView *shell_view)
 {
 	EShellSidebar *shell_sidebar;
+	EShellBackend *shell_backend;
+	EShell *shell;
 	ESourceSelector *selector = NULL;
 
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
 	g_object_get (shell_sidebar, "selector", &selector, NULL);
 	g_return_if_fail (selector != NULL);
 
-	ask_destination_and_save (selector, type);
+	ask_destination_and_save (selector, e_shell_get_client_cache (shell));
 
 	g_object_unref (selector);
 }
@@ -310,21 +313,21 @@ static void
 action_calendar_save_as_cb (GtkAction *action,
                             EShellView *shell_view)
 {
-	save_general (shell_view, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
+	save_general (shell_view);
 }
 
 static void
 action_memo_list_save_as_cb (GtkAction *action,
                              EShellView *shell_view)
 {
-	save_general (shell_view, E_CAL_CLIENT_SOURCE_TYPE_MEMOS);
+	save_general (shell_view);
 }
 
 static void
 action_task_list_save_as_cb (GtkAction *action,
                              EShellView *shell_view)
 {
-	save_general (shell_view, E_CAL_CLIENT_SOURCE_TYPE_TASKS);
+	save_general (shell_view);
 }
 
 gboolean
