@@ -37,7 +37,7 @@ struct _FormatHandler
 
 	void	(*save)		(FormatHandler *handler,
 				 ESourceSelector *selector,
-				 ECalClientSourceType type,
+				 EClientCache *client_cache,
 				 gchar *dest_uri);
 };
 
