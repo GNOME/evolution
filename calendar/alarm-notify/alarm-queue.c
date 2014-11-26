@@ -342,7 +342,8 @@ alarm_queue_discard_alarm_cb (GObject *source,
 
 	g_return_if_fail (client != NULL);
 
-	if (!e_cal_client_discard_alarm_finish (client, result, &error))
+	if (!e_cal_client_discard_alarm_finish (client, result, &error) &&
+	    !g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED))
 		g_warning ("Failed to discard alarm at '%s': %s",
 			e_source_get_display_name (e_client_get_source (E_CLIENT (client))),
 			error ? error->message : "Unknown error");
@@ -375,8 +376,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa,
 
 	cqa->queued_alarms = g_slist_delete_link (cqa->queued_alarms, l);
 
-	if (remove_alarm) {
-		GError *error = NULL;
+	if (remove_alarm && !e_client_is_readonly (E_CLIENT (cqa->parent_client->cal_client))) {
 		ECalComponentId *id;
 
 		id = e_cal_component_get_id (cqa->alarms->comp);
@@ -387,16 +387,6 @@ remove_queued_alarm (CompQueuedAlarms *cqa,
 				id->rid, qa->instance->auid, NULL,
 				alarm_queue_discard_alarm_cb, NULL);
 			cqa->expecting_update = FALSE;
-
-			if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_NOT_SUPPORTED)) {
-				g_error_free (error);
-
-			} else if (error != NULL) {
-				g_warning (
-					"%s: Failed to discard alarm: %s",
-					G_STRFUNC, error->message);
-				g_error_free (error);
-			}
 
 			e_cal_component_free_id (id);
 		}
