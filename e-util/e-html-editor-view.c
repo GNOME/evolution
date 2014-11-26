@@ -4199,7 +4199,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			g_strchomp (truncated);
 			empty = !*truncated && strlen (rest) > 0;
 
-			if (strchr (" +-@*=", *rest))
+			if (strchr (" +-@*=\t", *rest))
 				prevent_block = FALSE;
 
 			rest_to_insert = g_regex_replace_eval (
