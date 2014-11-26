@@ -3078,6 +3078,7 @@ handle_multipart (EMsgComposer *composer,
 			editor = e_msg_composer_get_editor (composer);
 			is_message_from_draft = e_html_editor_view_is_message_from_draft (
 				e_html_editor_get_view (editor));
+			is_html = camel_content_type_is (content_type, "text", "html");
 
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
