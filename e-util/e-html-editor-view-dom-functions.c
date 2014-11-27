@@ -3283,6 +3283,51 @@ quote_plain_text_elements_after_wrapping_in_document (WebKitDOMDocument *documen
 }
 
 static void
+clear_attributes (WebKitDOMDocument *document)
+{
+	gint length, ii;
+	WebKitDOMNamedNodeMap *attributes;
+	WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
+	WebKitDOMHTMLHeadElement *head = webkit_dom_document_get_head (document);
+	WebKitDOMElement *document_element =
+		webkit_dom_document_get_document_element (document);
+
+	/* Remove all attributes from HTML element */
+	attributes = webkit_dom_element_get_attributes (document_element);
+	length = webkit_dom_named_node_map_get_length (attributes);
+	for (ii = length - 1; ii >= 0; ii--) {
+		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+
+		webkit_dom_element_remove_attribute_node (
+			document_element, WEBKIT_DOM_ATTR (node), NULL);
+	}
+	g_object_unref (attributes);
+
+	/* Remove everything from HEAD element */
+	while (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)))
+		remove_node (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)));
+
+	/* Remove non Evolution attributes from BODY element */
+	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
+	length = webkit_dom_named_node_map_get_length (attributes);
+	for (ii = length - 1; ii >= 0; ii--) {
+		gchar *name;
+		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
+
+		name = webkit_dom_node_get_local_name (node);
+
+		if (!g_str_has_prefix (name, "data-"))
+			webkit_dom_element_remove_attribute_node (
+				WEBKIT_DOM_ELEMENT (body),
+				WEBKIT_DOM_ATTR (node),
+				NULL);
+
+		g_free (name);
+	}
+	g_object_unref (attributes);
+}
+
+static void
 html_editor_convert_view_content (EHTMLEditorWebExtension *extension,
                                   WebKitDOMDocument *document,
                                   const gchar *preferred_text)
@@ -3509,6 +3554,8 @@ html_editor_convert_view_content (EHTMLEditorWebExtension *extension,
 
 		quote_plain_text_elements_after_wrapping_in_document (document);
 	}
+
+	clear_attributes (document);
 
 	dom_selection_restore (selection);
 	dom_force_spell_check (document);
@@ -4955,54 +5002,6 @@ process_content_for_html (WebKitDOMDocument *document)
 	g_object_unref (document_clone);
 
 	return html_content;
-}
-
-static void
-clear_attributes (WebKitDOMDocument *document)
-{
-	gint length, ii;
-	WebKitDOMNamedNodeMap *attributes;
-	WebKitDOMHTMLElement *body = webkit_dom_document_get_body (document);
-	WebKitDOMHTMLHeadElement *head = webkit_dom_document_get_head (document);
-	WebKitDOMElement *document_element =
-		webkit_dom_document_get_document_element (document);
-
-	/* Remove all attributes from HTML element */
-	attributes = webkit_dom_element_get_attributes (document_element);
-	length = webkit_dom_named_node_map_get_length (attributes);
-	for (ii = length - 1; ii >= 0; ii--) {
-		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
-
-		webkit_dom_element_remove_attribute_node (
-			document_element, WEBKIT_DOM_ATTR (node), NULL);
-	}
-	g_object_unref (attributes);
-
-	/* Remove everything from HEAD element */
-	while (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)))
-		remove_node (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)));
-
-	/* Remove non Evolution attributes from BODY element */
-	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
-	length = webkit_dom_named_node_map_get_length (attributes);
-	for (ii = length - 1; ii >= 0; ii--) {
-		gchar *name;
-		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
-
-		name = webkit_dom_node_get_local_name (node);
-
-		if (!g_str_has_prefix (name, "data-") ||
-		    g_str_has_prefix (name, "data-inline") ||
-		    g_str_has_prefix (name, "data-name")) {
-			webkit_dom_element_remove_attribute_node (
-				WEBKIT_DOM_ELEMENT (body),
-				WEBKIT_DOM_ATTR (node),
-				NULL);
-		}
-
-		g_free (name);
-	}
-	g_object_unref (attributes);
 }
 
 void
