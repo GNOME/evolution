@@ -121,4 +121,18 @@ gboolean	e_html_editor_web_extension_is_message_from_edit_as_new
 gboolean	e_html_editor_web_extension_get_remove_initial_input_line
 						(EHTMLEditorWebExtension *extension);
 
+gboolean	e_html_editor_web_extension_get_return_key_pressed
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_return_key_pressed
+						(EHTMLEditorWebExtension *extension,
+						 gboolean value);
+
+gboolean	e_html_editor_web_extension_get_space_key_pressed
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_space_key_pressed
+						(EHTMLEditorWebExtension *extension,
+						 gboolean value);
+
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

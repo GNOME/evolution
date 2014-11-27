@@ -1171,6 +1171,22 @@ surround_text_with_paragraph_if_needed (WebKitDOMDocument *document,
 
 	return FALSE;
 }
+ static void
+body_keypress_event_cb (WebKitDOMElement *element,
+                        WebKitDOMUIEvent *event,
+                        EHTMLEditorWebExtension *extension)
+{
+	glong key_code;
+
+	e_html_editor_web_extension_set_return_key_pressed (extension, FALSE);
+	e_html_editor_web_extension_set_space_key_pressed (extension, FALSE);
+
+	key_code = webkit_dom_ui_event_get_key_code (event);
+	if (key_code == 13)
+		e_html_editor_web_extension_set_return_key_pressed (extension, TRUE);
+	else if (key_code == 32)
+		e_html_editor_web_extension_set_space_key_pressed (extension, TRUE);
+}
 
 static void
 body_input_event_cb (WebKitDOMElement *element,
@@ -1191,8 +1207,9 @@ body_input_event_cb (WebKitDOMElement *element,
 	if (extension->priv->magic_smileys && html_mode)
 		html_editor_view_check_magic_smileys (view, range);
 
-	if (is_return_key (key_event) || (key_event->keyval == GDK_KEY_space)) {
-		html_editor_view_check_magic_links (view, range, FALSE, key_event);
+	if (e_html_editor_web_extension_get_return_key_pressed (extension) ||
+	    e_html_editor_web_extension_get_space_key_pressed (extension)) {
+		html_editor_view_check_magic_links (view, range, FALSE);
 		mark_node_as_paragraph_after_ending_list (document);
 		if (html_mode)
 			fix_paragraph_structure_after_pressing_enter_after_smiley (document);
@@ -1218,7 +1235,7 @@ body_input_event_cb (WebKitDOMElement *element,
 				prev_sibling = webkit_dom_node_get_previous_sibling (node);
 
 				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
-					html_editor_view_check_magic_links (view, range, FALSE, key_event);
+					html_editor_view_check_magic_links (view, range, FALSE);
 			}
 			g_free (text);
 		}
@@ -3503,6 +3520,14 @@ html_editor_convert_view_content (EHTMLEditorWebExtension *extension,
 		G_CALLBACK (body_input_event_cb),
 		FALSE,
 		document);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"keypress",
+		G_CALLBACK (body_keypress_event_cb),
+		FALSE,
+		extension);
+
 
 	g_free (inner_html);
 }

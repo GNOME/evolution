@@ -70,6 +70,8 @@ struct _EWebExtensionPrivate {
 	gboolean magic_links;
 	gboolean magic_smileys;
 	gboolean html_mode;
+	gboolean return_key_pressed;
+	gboolean space_key_pressed;
 	gint word_wrap_length;
 };
 
@@ -1492,6 +1494,8 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->magic_links = FALSE;
 	extension->priv->magic_smileys = FALSE;
 	extension->priv->html_mode = FALSE;
+	extension->priv->return_key_pressed = FALSE;
+	extension->priv->space_key_pressed = FALSE;
 	extension->priv->word_wrap_length = 71;
 }
 
@@ -1790,5 +1794,31 @@ gboolean
 e_html_editor_web_extension_get_remove_initial_input_line (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->remove_initial_input_line;
+}
+
+gboolean
+e_html_editor_web_extension_get_return_key_pressed (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->return_key_pressed;
+}
+
+void
+e_html_editor_web_extension_set_return_key_pressed (EHTMLEditorWebExtension *extension,
+                                                    gboolean value)
+{
+	extension->priv->return_key_pressed = value;
+}
+
+gboolean
+e_html_editor_web_extension_get_space_key_pressed (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->space_key_pressed;
+}
+
+void
+e_html_editor_web_extension_set_space_key_pressed (EHTMLEditorWebExtension *extension,
+                                                   gboolean value)
+{
+	extension->priv->space_key_pressed = value;
 }
 

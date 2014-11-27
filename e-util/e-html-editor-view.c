@@ -106,8 +106,6 @@ struct _EHTMLEditorViewPrivate {
 
 	GHashTable *old_settings;
 
-	GdkEventKey *key_event;
-
 	GQueue *post_reload_operations;
 };
 
@@ -556,8 +554,7 @@ is_return_key (GdkEventKey *event)
 static void
 html_editor_view_check_magic_links (EHTMLEditorView *view,
                                     WebKitDOMRange *range,
-                                    gboolean include_space_by_user,
-                                    GdkEventKey *event)
+                                    gboolean include_space_by_user)
 {
 	gchar *node_text;
 	gchar **urls;
@@ -566,19 +563,16 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	gint start_pos_url, end_pos_url;
 	WebKitDOMNode *node;
 	gboolean include_space = FALSE;
-	gboolean return_pressed = FALSE;
 	gboolean is_email_address = FALSE;
 
-	if (event != NULL) {
-		return_pressed = is_return_key (event);
-		include_space = (event->keyval == GDK_KEY_space);
-	} else {
-		include_space = include_space_by_user;
-	}
+	if (include_space_by_user == TRUE)
+		include_space = TRUE;
+	else
+		include_space = view->priv->space_key_pressed;
 
 	node = webkit_dom_range_get_end_container (range, NULL);
 
-	if (return_pressed)
+	if (view->priv->return_key_pressed)
 		node = webkit_dom_node_get_previous_sibling (node);
 
 	if (!node)
@@ -620,7 +614,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-		if (!return_pressed)
+		if (!view->priv->return_key_pressed)
 			e_html_editor_selection_save_caret_position (
 				e_html_editor_view_get_selection (view));
 
@@ -672,7 +666,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			WEBKIT_DOM_NODE (url_text_node),
 			NULL);
 
-		if (!return_pressed)
+		if (!view->priv->return_key_pressed)
 			e_html_editor_selection_restore_caret_position (
 				e_html_editor_view_get_selection (view));
 
@@ -1508,8 +1502,6 @@ html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
-
-	view->priv->key_event = event;
 
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
@@ -3558,7 +3550,7 @@ e_html_editor_view_check_magic_links (EHTMLEditorView *view,
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
 	range = dom_get_range (view);
-	html_editor_view_check_magic_links (view, range, include_space, NULL);
+	html_editor_view_check_magic_links (view, range, include_space);
 }
 
 static CamelMimePart *
