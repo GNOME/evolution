@@ -3224,9 +3224,9 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), end->str, NULL);
 
-	if (regex_email)
+	if (regex_email != NULL)
 		g_regex_unref (regex_email);
-	if (regex_link)
+	if (regex_link != NULL)
 		g_regex_unref (regex_link);
 	g_regex_unref (regex_nbsp);
 	g_free (inner_html);
