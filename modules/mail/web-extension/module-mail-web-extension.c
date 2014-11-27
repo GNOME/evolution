@@ -81,9 +81,7 @@ handle_method_call (GDBusConnection *connection,
 		element_name = e_dom_utils_get_active_element_name (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new ("(s)", element_name));
-
-		g_free (element_name);
+			invocation, g_variant_new_take_string (element_name));
 	}
 }
 

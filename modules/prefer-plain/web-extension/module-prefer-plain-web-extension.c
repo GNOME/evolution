@@ -116,9 +116,7 @@ handle_method_call (GDBusConnection *connection,
 			document_uri = g_strdup ("");
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new ("(s)", document_uri));
-
-		g_free (document_uri);
+			invocation, g_variant_new_take_string (document_uri));
 	}
 }
 

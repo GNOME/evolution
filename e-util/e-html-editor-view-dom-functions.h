@@ -21,6 +21,8 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "web-extensions/e-html-editor-web-extension.h"
+
 #include "e-util-enums.h"
 
 G_BEGIN_DECLS
@@ -29,6 +31,20 @@ gboolean	dom_exec_command		(WebKitDOMDocument *document,
 						 EHTMLEditorViewCommand command,
 						 const gchar *value);
 
+void		dom_force_spell_check_for_current_paragraph
+						(WebKitDOMDocument *document);
+
+void		dom_force_spell_check		(WebKitDOMDocument *document);
+
+void		dom_convert_and_insert_html_into_selection
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *html,
+						 gboolean is_html);
+
+WebKitDOMElement *
+		dom_quote_plain_text_element	(WebKitDOMDocument *document,
+						 WebKitDOMElement *element);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_DOM_FUNCTIONS_H */

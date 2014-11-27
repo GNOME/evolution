@@ -1,5 +1,5 @@
 /*
- * evolution-web-extension.h
+ * e-html-editor-web-extension-names.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,11 +16,11 @@
  *
  */
 
-#ifndef EVOLUTION_WEB_EXTENSION_H
-#define EVOLUTION_WEB_EXTENSION_H
+#ifndef E_HTML_EDITOR_WEB_EXTENSION_NAMES_H
+#define E_HTML_EDITOR_WEB_EXTENSION_NAMES_H
 
-#define EVOLUTION_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension"
-#define EVOLUTION_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension"
-#define EVOLUTION_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension"
+#define E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.EHTMLEditor.WebExtension"
+#define E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/EHTMLEditor/WebExtension"
+#define E_HTML_EDITOR_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.EHTMLEditor.WebExtension"
 
-#endif /* EVOLUTION_WEB_EXTENSION_H */
+#endif /* E_HTML_EDITOR_WEB_EXTENSION_NAMES_H */

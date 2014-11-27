@@ -23,7 +23,7 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 
-#include "../web-extensions/evolution-web-extension.h"
+#include "../web-extensions/e-web-extension.h"
 
 #include "e-misc-utils.h"
 
@@ -626,8 +626,8 @@ toggle_address_visibility (WebKitDOMElement *button,
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,
-		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
-		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
 		"HeadersCollapsed",
 		g_variant_new ("(b)", expanded),
 		&error);
@@ -1190,8 +1190,8 @@ display_mode_toggle_button_cb (WebKitDOMElement *button,
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,
-		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
-		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
 		"VCardInlineDisplayModeToggled",
 		g_variant_new ("(s)", element_id),
 		&error);
@@ -1218,8 +1218,8 @@ save_vcard_button_cb (WebKitDOMElement *button,
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,
-		EVOLUTION_WEB_EXTENSION_OBJECT_PATH,
-		EVOLUTION_WEB_EXTENSION_INTERFACE,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
 		"VCardInlineSaveButtonPressed",
 		g_variant_new ("(s)", button_value),
 		&error);

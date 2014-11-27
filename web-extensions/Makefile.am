@@ -1,8 +1,9 @@
 webextensions_LTLIBRARIES = libevolutionwebextension.la
 
 libevolutionwebextension_la_SOURCES =			\
-	evolution-web-extension.c			\
-	evolution-web-extension.h
+	e-web-extension.c				\
+	e-web-extension.h				\
+	e-web-extension-main.c
 
 libevolutionwebextension_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\

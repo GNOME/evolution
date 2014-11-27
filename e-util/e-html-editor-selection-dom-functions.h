@@ -21,6 +21,8 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "web-extensions/e-html-editor-web-extension.h"
+
 #include "e-util-enums.h"
 
 G_BEGIN_DECLS
@@ -31,8 +33,7 @@ void		dom_replace_base64_image_src	(WebKitDOMDocument *document,
 						 const gchar *filename,
 						 const gchar *uri);
 
-void		dom_clear_caret_position_marker
-						(WebKitDOMDocument *document);
+void		dom_clear_caret_position_marker (WebKitDOMDocument *document);
 
 WebKitDOMNode *
 		dom_create_caret_position_node	(WebKitDOMDocument *document);
@@ -40,7 +41,8 @@ WebKitDOMNode *
 WebKitDOMRange *
 		dom_get_current_range		(WebKitDOMDocument *document);
 */
-gchar *		dom_selection_get_string	(WebKitDOMDocument *document);
+gchar *		dom_selection_get_string	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 WebKitDOMElement *
 		dom_save_caret_position		(WebKitDOMDocument *document);
@@ -59,83 +61,111 @@ void		dom_selection_save		(WebKitDOMDocument *document);
 
 void		dom_selection_restore		(WebKitDOMDocument *document);
 
-gboolean	dom_selection_is_underline	(WebKitDOMDocument *document);
+gboolean	dom_selection_is_underline	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_underline	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean underline);
 
-gboolean	dom_selection_is_subscript	(WebKitDOMDocument *document);
+gboolean	dom_selection_is_subscript	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_subscript	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean subscript);
 
-gboolean	dom_selection_is_superscript	(WebKitDOMDocument *document);
+gboolean	dom_selection_is_superscript	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_superscript	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean superscript);
 
-gboolean	dom_selection_is_strikethrough	(WebKitDOMDocument *document);
+gboolean	dom_selection_is_strikethrough	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_strikethrough	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean strikethrough);
 
-gboolean	dom_selection_is_monospaced	(WebKitDOMDocument *document);
+gboolean	dom_selection_is_monospaced	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_monospaced	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean monospaced);
 
-gboolean	dom_selection_is_bold		(WebKitDOMDocument *document);
+gboolean	dom_selection_is_bold		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_bold		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean bold);
 
-gboolean	dom_selection_is_italic		(WebKitDOMDocument *document);
+gboolean	dom_selection_is_italic		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_italic	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 gboolean italic);
 
 gboolean	dom_selection_is_indented	(WebKitDOMDocument *document);
 
 gboolean	dom_selection_is_citation	(WebKitDOMDocument *document);
 
-guint		dom_selection_get_font_size	(WebKitDOMDocument *document);
+guint		dom_selection_get_font_size	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_font_size	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 guint font_size);
 
-gchar *		dom_selection_get_font_name	(WebKitDOMDocument *document);
+gchar *		dom_selection_get_font_name	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_font_name	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *font_size);
 
-gchar *		dom_selection_get_font_color	(WebKitDOMDocument *document);
+gchar *		dom_selection_get_font_color	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_font_color	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *font_color);
 
 gchar *		dom_selection_get_background_color
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_background_color
 						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *font_color);
 
 EHTMLEditorSelectionBlockFormat
-		dom_selection_get_block_format	(WebKitDOMDocument *document);
+		dom_selection_get_block_format	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_block_format	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 EHTMLEditorSelectionBlockFormat format);
 
 EHTMLEditorSelectionAlignment
-		dom_selection_get_alignment	(WebKitDOMDocument *document);
+		dom_selection_get_alignment	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		dom_selection_set_alignment	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 EHTMLEditorSelectionAlignment alignment);
 
-void		dom_selection_replace		(WebKitDOMDocument *document,
+void		dom_selection_replace		(EHTMLEditorWebExtension *extension,
+						 WebKitDOMDocument *document,
 						 const gchar *replacement);
 
-void		dom_replace_caret_word		(WebKitDOMDocument *document,
+void		dom_replace_caret_word		(EHTMLEditorWebExtension *extension,
+						 WebKitDOMDocument *document,
 						 const gchar *replacement);
 
 gchar *		dom_get_caret_word		(WebKitDOMDocument *document);

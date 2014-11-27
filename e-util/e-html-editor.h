@@ -64,7 +64,7 @@ struct _EHTMLEditorClass {
 	GtkGridClass parent_class;
 
 	void		(*update_actions)	(EHTMLEditor *editor,
-						 GdkEventButton *event);
+						 guint flags);
 	void		(*spell_languages_changed)
 						(EHTMLEditor *editor);
 };

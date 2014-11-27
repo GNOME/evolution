@@ -2,7 +2,8 @@ webextensions_LTLIBRARIES = libehtmleditorwebextension.la
 
 libevolutionwebextension_la_SOURCES =			\
 	e-html-editor-web-extension.c			\
-	e-html-editor-web-extension.h
+	e-html-editor-web-extension.h			\
+	e-html-editor-web-extension-main.c
 
 libevolutionwebextension_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)					\

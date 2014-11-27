@@ -718,14 +718,6 @@ e_html_editor_selection_init (EHTMLEditorSelection *selection)
 	g_object_unref (g_settings);
 }
 
-gint
-e_html_editor_selection_get_word_wrap_length (EHTMLEditorSelection *selection)
-{
-	g_return_val_if_fail (E_IS_HTML_EDITOR_SELECTION (selection), 72);
-
-	return selection->priv->word_wrap_length;
-}
-
 /**
  * e_html_editor_selection_ref_html_editor_view:
  * @selection: an #EHTMLEditorSelection
@@ -854,7 +846,6 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	e_html_editor_view_set_changed (view, TRUE);
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
 	if (!web_extension)
 		goto out;
@@ -894,7 +885,6 @@ e_html_editor_selection_replace (EHTMLEditorSelection *selection,
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	e_html_editor_view_set_changed (view, TRUE);
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
 	if (!web_extension)
 		goto out;
@@ -1261,7 +1251,7 @@ e_html_editor_selection_get_background_color (EHTMLEditorSelection *selection)
 
 	g_free (selection->priv->background_color);
 	selection->priv->background_color = g_strdup (
-		(html_editor_selection_get_format_string (selection, "font-family"));
+		html_editor_selection_get_format_string (selection, "font-family"));
 
 	return selection->priv->background_color;
 }
@@ -1305,7 +1295,7 @@ e_html_editor_selection_get_font_name (EHTMLEditorSelection *selection)
 
 	g_free (selection->priv->font_name);
 	selection->priv->font_name = g_strdup (
-		html_editor_selection_get_format_string (selection, "font-family")_;
+		html_editor_selection_get_format_string (selection, "font-family"));
 
 	return selection->priv->font_name;
 }

@@ -307,7 +307,6 @@ static void
 html_editor_update_actions (EHTMLEditor *editor,
                             guint flags)
 {
-	WebKitWebView *web_view;
 	WebKitSpellChecker *checker;
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
@@ -326,7 +325,6 @@ html_editor_update_actions (EHTMLEditor *editor,
 	view = e_html_editor_get_view (editor);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
-	web_view = WEBKIT_WEB_VIEW (view);
 	manager = e_html_editor_get_ui_manager (editor);
 
 	visible = (flags & E_HTML_EDITOR_NODE_IS_IMAGE);
@@ -440,7 +438,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 {
 	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
-	WebKitWebSettings *settings;
+	WebKitSettings *settings;
 	gchar *comma_separated;
 	gchar **languages;
 
@@ -496,11 +494,15 @@ html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
 	if (event)
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,
-			GTK_WIDGET (webkit_web_view), ((GdkEventButton*) event)->button, event->time);
+			GTK_WIDGET (webkit_web_view),
+			((GdkEventButton*) event)->button,
+			((GdkEventButton*) event)->time);
 	else
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL,
-			GTK_WIDGET (webkit_web_view), 0, gtk_get_current_event_time ());
+			GTK_WIDGET (webkit_web_view),
+			0,
+			gtk_get_current_event_time ());
 
 	return TRUE;
 }
