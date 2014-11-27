@@ -81,7 +81,7 @@ month_view_cursor_key_down (EWeekView *week_view)
 		if (e_calendar_view_get_selected_time_range (
 			E_CALENDAR_VIEW (week_view), &current, NULL)) {
 
-			current = time_add_week (current, -1);
+			current = time_add_week (current, 1);
 			e_week_view_scroll_a_step (
 				week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
 			e_week_view_set_selected_time_range_visible (
