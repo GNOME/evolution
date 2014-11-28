@@ -363,7 +363,8 @@ mail_printer_new_web_view (const gchar *charset,
 		G_OBJECT (web_settings),
 		"enable-frame-flattening", FALSE, NULL);
 
-	e_mail_display_set_force_load_images (E_MAIL_DISPLAY (web_view), TRUE);
+	/* Do not load remote images, print what user sees in the preview panel */
+	e_mail_display_set_force_load_images (E_MAIL_DISPLAY (web_view), FALSE);
 
 	formatter = e_mail_display_get_formatter (E_MAIL_DISPLAY (web_view));
 	if (charset != NULL && *charset != '\0')
