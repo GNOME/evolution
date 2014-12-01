@@ -200,7 +200,7 @@
       <_description>Programs that are allowed to be run by reminders</_description>
     </key>
     <key name="notify-with-tray" type="b">
-      <default>false</default>
+      <default>true</default>
       <_summary>Show display reminders in notification tray</_summary>
       <_description>Whether or not to use the notification tray for display reminders</_description>
     </key>
