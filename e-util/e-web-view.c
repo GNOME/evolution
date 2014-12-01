@@ -2470,7 +2470,7 @@ e_web_view_zoom_out (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.1999)
+	if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.7999)
 		webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (web_view));
 }
 
