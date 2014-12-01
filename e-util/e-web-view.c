@@ -2868,7 +2868,7 @@ e_web_view_zoom_out (EWebView *web_view)
 	zoom_level = webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view));
 	/* zoom-step in WK1 was 0.1 */
 	zoom_level -= 0.1;
-	if (zoom_level > 0.1999)
+	if (zoom_level > 0.7999)
 		webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (web_view), zoom_level);
 }
 
