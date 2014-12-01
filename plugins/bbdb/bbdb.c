@@ -354,8 +354,8 @@ bbdb_do_it (EBookClient *client,
 				NULL, &error);
 
 		if (error != NULL) {
-			g_warning ("bbdb: Failed to get addressbook client : %s\n", error->message);
-			g_error_free (error);
+			g_warning ("bbdb: Failed to get addressbook client: %s\n", error->message);
+			g_clear_error (&error);
 			aux_addressbooks = aux_addressbooks->next;
 			continue;
 		}
