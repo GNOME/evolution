@@ -304,6 +304,7 @@ bbdb_do_it (EBookClient *client,
 	GError *error = NULL;
 	EShell *shell;
 	ESourceRegistry *registry;
+	ESource *dest_source;
 	EClientCache *client_cache;
 	GList *addressbooks;
 	GList *aux_addressbooks;
@@ -330,34 +331,47 @@ bbdb_do_it (EBookClient *client,
 	registry = e_shell_get_registry (shell);
 	client_cache = e_shell_get_client_cache (shell);
 	addressbooks = e_source_registry_list_enabled (registry, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+	dest_source = e_client_get_source (E_CLIENT (client));
+
+	/* Test the destination client first */
+	if (g_list_find (addressbooks, dest_source)) {
+		addressbooks = g_list_remove (addressbooks, dest_source);
+		g_object_unref (dest_source);
+	}
+
+	addressbooks = g_list_prepend (addressbooks, g_object_ref (dest_source));
 
 	aux_addressbooks = addressbooks;
 	while (aux_addressbooks != NULL) {
 
-		/* Check only addressbooks with autocompletion enabled */
-		has_autocomplete = e_source_has_extension (aux_addressbooks->data, E_SOURCE_EXTENSION_AUTOCOMPLETE);
-		if (!has_autocomplete) {
-			aux_addressbooks = aux_addressbooks->next;
-			continue;
-		}
+		if (g_strcmp0 (e_source_get_uid (dest_source), e_source_get_uid (aux_addressbooks->data)) == 0) {
+			client_addressbook = g_object_ref (client);
+		} else {
+			/* Check only addressbooks with autocompletion enabled */
+			has_autocomplete = e_source_has_extension (aux_addressbooks->data, E_SOURCE_EXTENSION_AUTOCOMPLETE);
+			if (!has_autocomplete) {
+				aux_addressbooks = aux_addressbooks->next;
+				continue;
+			}
 
-		autocomplete_extension = e_source_get_extension (aux_addressbooks->data, E_SOURCE_EXTENSION_AUTOCOMPLETE);
-		on_autocomplete = e_source_autocomplete_get_include_me (autocomplete_extension);
-		if (!on_autocomplete) {
-			aux_addressbooks = aux_addressbooks->next;
-			continue;
-		}
+			autocomplete_extension = e_source_get_extension (aux_addressbooks->data, E_SOURCE_EXTENSION_AUTOCOMPLETE);
+			on_autocomplete = e_source_autocomplete_get_include_me (autocomplete_extension);
+			if (!on_autocomplete) {
+				aux_addressbooks = aux_addressbooks->next;
+				continue;
+			}
 
-		client_addressbook = (EBookClient *) e_client_cache_get_client_sync (
-				client_cache, (ESource *) aux_addressbooks->data,
-				E_SOURCE_EXTENSION_ADDRESS_BOOK,
-				NULL, &error);
+			client_addressbook = (EBookClient *) e_client_cache_get_client_sync (
+					client_cache, (ESource *) aux_addressbooks->data,
+					E_SOURCE_EXTENSION_ADDRESS_BOOK,
+					NULL, &error);
 
-		if (error != NULL) {
-			g_warning ("bbdb: Failed to get addressbook client: %s\n", error->message);
-			g_clear_error (&error);
-			aux_addressbooks = aux_addressbooks->next;
-			continue;
+			if (error != NULL) {
+				g_warning ("bbdb: Failed to get addressbook client: %s\n", error->message);
+				g_clear_error (&error);
+				aux_addressbooks = aux_addressbooks->next;
+				continue;
+			}
 		}
 
 		/* If any contacts exists with this email address, don't do anything */
