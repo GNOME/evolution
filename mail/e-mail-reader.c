@@ -318,8 +318,8 @@ action_mail_check_for_junk_cb (GtkAction *action,
 }
 
 static void
-action_mail_copy_cb (GtkAction *action,
-                     EMailReader *reader)
+mail_reader_copy_or_move_selected_messages (EMailReader *reader,
+					    gboolean is_move)
 {
 	CamelFolder *folder;
 	EMailBackend *backend;
@@ -343,11 +343,11 @@ action_mail_copy_cb (GtkAction *action,
 
 	dialog = em_folder_selector_new (window, model);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Copy to Folder"));
+	gtk_window_set_title (GTK_WINDOW (dialog), is_move ? _("Move to Folder") : _("Copy to Folder"));
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
-	em_folder_selector_set_default_button_label (selector, _("C_opy"));
+	em_folder_selector_set_default_button_label (selector, is_move ? _("_Move") : _("C_opy"));
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 
@@ -356,10 +356,25 @@ action_mail_copy_cb (GtkAction *action,
 		EMFT_EXCLUDE_NOSELECT |
 		EMFT_EXCLUDE_VIRTUAL |
 		EMFT_EXCLUDE_VTRASH);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
 
-	if (default_xfer_messages_uri != NULL)
+	if (default_xfer_messages_uri != NULL) {
 		em_folder_tree_set_selected (
 			folder_tree, default_xfer_messages_uri, FALSE);
+	} else {
+		CamelFolder *folder = e_mail_reader_ref_folder (reader);
+
+		if (folder) {
+			gchar *uri = e_mail_folder_uri_from_folder (folder);
+
+			if (uri) {
+				em_folder_tree_set_selected (folder_tree, uri, FALSE);
+				g_free (uri);
+			}
+
+			g_object_unref (folder);
+		}
+	}
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
@@ -372,13 +387,20 @@ action_mail_copy_cb (GtkAction *action,
 	if (uri != NULL)
 		mail_transfer_messages (
 			session, folder, uids,
-			FALSE, uri, 0, NULL, NULL);
+			is_move, uri, 0, NULL, NULL);
 
 exit:
 	gtk_widget_destroy (dialog);
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
+}
+
+static void
+action_mail_copy_cb (GtkAction *action,
+                     EMailReader *reader)
+{
+	mail_reader_copy_or_move_selected_messages (reader, FALSE);
 }
 
 static void
@@ -953,64 +975,7 @@ static void
 action_mail_move_cb (GtkAction *action,
                      EMailReader *reader)
 {
-	CamelFolder *folder;
-	EMailBackend *backend;
-	EMailSession *session;
-	EMFolderSelector *selector;
-	EMFolderTree *folder_tree;
-	EMFolderTreeModel *model;
-	GtkWidget *dialog;
-	GtkWindow *window;
-	GPtrArray *uids;
-	const gchar *uri;
-
-	backend = e_mail_reader_get_backend (reader);
-	session = e_mail_backend_get_session (backend);
-
-	folder = e_mail_reader_ref_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
-	window = e_mail_reader_get_window (reader);
-
-	model = em_folder_tree_model_get_default ();
-
-	dialog = em_folder_selector_new (window, model);
-
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Move to Folder"));
-
-	selector = EM_FOLDER_SELECTOR (dialog);
-	em_folder_selector_set_can_create (selector, TRUE);
-	em_folder_selector_set_default_button_label (selector, _("_Move"));
-
-	folder_tree = em_folder_selector_get_folder_tree (selector);
-
-	em_folder_tree_set_excluded (
-		folder_tree,
-		EMFT_EXCLUDE_NOSELECT |
-		EMFT_EXCLUDE_VIRTUAL |
-		EMFT_EXCLUDE_VTRASH);
-
-	if (default_xfer_messages_uri != NULL)
-		em_folder_tree_set_selected (
-			folder_tree, default_xfer_messages_uri, FALSE);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
-		goto exit;
-
-	uri = em_folder_selector_get_selected_uri (selector);
-
-	g_free (default_xfer_messages_uri);
-	default_xfer_messages_uri = g_strdup (uri);
-
-	if (uri != NULL)
-		mail_transfer_messages (
-			session, folder, uids,
-			TRUE, uri, 0, NULL, NULL);
-
-exit:
-	gtk_widget_destroy (dialog);
-
-	g_clear_object (&folder);
-	g_ptr_array_unref (uids);
+	mail_reader_copy_or_move_selected_messages (reader, TRUE);
 }
 
 static void
