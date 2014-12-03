@@ -35,6 +35,8 @@ struct _EMailConfigIdentityPagePrivate {
 	gboolean show_email_address;
 	gboolean show_instructions;
 	gboolean show_signatures;
+	gboolean show_autodiscover_check;
+	GtkWidget *autodiscover_check; /* not referenced */
 };
 
 enum {
@@ -44,7 +46,8 @@ enum {
 	PROP_SHOW_ACCOUNT_INFO,
 	PROP_SHOW_EMAIL_ADDRESS,
 	PROP_SHOW_INSTRUCTIONS,
-	PROP_SHOW_SIGNATURES
+	PROP_SHOW_SIGNATURES,
+	PROP_SHOW_AUTODISCOVER_CHECK
 };
 
 /* Forward Declarations */
@@ -148,6 +151,12 @@ mail_config_identity_page_set_property (GObject *object,
 				E_MAIL_CONFIG_IDENTITY_PAGE (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_SHOW_AUTODISCOVER_CHECK:
+			e_mail_config_identity_page_set_show_autodiscover_check (
+				E_MAIL_CONFIG_IDENTITY_PAGE (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -199,6 +208,13 @@ mail_config_identity_page_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_config_identity_page_get_show_signatures (
+				E_MAIL_CONFIG_IDENTITY_PAGE (object)));
+			return;
+
+		case PROP_SHOW_AUTODISCOVER_CHECK:
+			g_value_set_boolean (
+				value,
+				e_mail_config_identity_page_get_show_autodiscover_check (
 				E_MAIL_CONFIG_IDENTITY_PAGE (object)));
 			return;
 	}
@@ -257,6 +273,8 @@ mail_config_identity_page_constructed (GObject *object)
 		GTK_ORIENTABLE (page), GTK_ORIENTATION_VERTICAL);
 
 	gtk_box_set_spacing (GTK_BOX (page), 12);
+	gtk_widget_set_valign (GTK_WIDGET (page), GTK_ALIGN_FILL);
+	gtk_widget_set_vexpand (GTK_WIDGET (page), TRUE);
 
 	/* This keeps all mnemonic labels the same width. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
@@ -534,6 +552,22 @@ mail_config_identity_page_constructed (GObject *object)
 	g_object_unref (size_group);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
+
+	widget = gtk_check_button_new_with_mnemonic (_("Try _setup account automatically, based on Email Address"));
+	g_object_set (G_OBJECT (widget),
+		"valign", GTK_ALIGN_END,
+		"vexpand", TRUE,
+		"active", TRUE,
+		NULL);
+
+	g_object_bind_property (
+		page, "show-autodiscover-check",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	page->priv->autodiscover_check = widget;
+
+	gtk_container_add (GTK_CONTAINER (page), widget);
 }
 
 static gboolean
@@ -665,6 +699,18 @@ e_mail_config_identity_page_class_init (EMailConfigIdentityPageClass *class)
 			"Show Signatures",
 			"Show mail signature options",
 			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_AUTODISCOVER_CHECK,
+		g_param_spec_boolean (
+			"show-autodiscover-check",
+			"Show Autodiscover Check",
+			"Show check button to allow autodiscover based on Email Address",
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -802,3 +848,32 @@ e_mail_config_identity_page_set_show_signatures (EMailConfigIdentityPage *page,
 	g_object_notify (G_OBJECT (page), "show-signatures");
 }
 
+void
+e_mail_config_identity_page_set_show_autodiscover_check (EMailConfigIdentityPage *page,
+							 gboolean show_autodiscover)
+{
+	g_return_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page));
+
+	if ((page->priv->show_autodiscover_check ? 1 : 0) == (show_autodiscover ? 1 : 0))
+		return;
+
+	page->priv->show_autodiscover_check = show_autodiscover;
+
+	g_object_notify (G_OBJECT (page), "show-autodiscover-check");
+}
+
+gboolean
+e_mail_config_identity_page_get_show_autodiscover_check (EMailConfigIdentityPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+
+	return page->priv->show_autodiscover_check;
+}
+
+GtkWidget *
+e_mail_config_identity_page_get_autodiscover_check (EMailConfigIdentityPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_IDENTITY_PAGE (page), NULL);
+
+	return page->priv->autodiscover_check;
+}
