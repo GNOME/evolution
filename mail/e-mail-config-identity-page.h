@@ -89,6 +89,13 @@ gboolean	e_mail_config_identity_page_get_show_signatures
 void		e_mail_config_identity_page_set_show_signatures
 						(EMailConfigIdentityPage *page,
 						 gboolean show_signatures);
+void		e_mail_config_identity_page_set_show_autodiscover_check
+						(EMailConfigIdentityPage *page,
+						 gboolean show_autodiscover);
+gboolean	e_mail_config_identity_page_get_show_autodiscover_check
+						(EMailConfigIdentityPage *page);
+GtkWidget *	e_mail_config_identity_page_get_autodiscover_check
+						(EMailConfigIdentityPage *page);
 
 G_END_DECLS
 
