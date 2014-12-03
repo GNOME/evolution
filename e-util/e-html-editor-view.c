@@ -8177,6 +8177,7 @@ e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
 
 	cid = camel_header_msgid_generate (uid_domain);
 	camel_mime_part_set_content_id (part, cid);
+	g_free (cid);
 	name = webkit_dom_element_get_attribute (element, "data-name");
 	camel_mime_part_set_filename (part, name);
 	g_free (name);
