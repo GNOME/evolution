@@ -986,7 +986,9 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 	webkit_dom_range_expand (range, "word", NULL);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 
-	e_html_editor_selection_insert_html (selection, replacement);
+	e_html_editor_view_exec_command (
+		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, replacement);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 }
