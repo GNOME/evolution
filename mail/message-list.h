@@ -144,7 +144,8 @@ typedef enum {
 	MESSAGE_LIST_SELECT_NEXT = 0,
 	MESSAGE_LIST_SELECT_PREVIOUS = 1,
 	MESSAGE_LIST_SELECT_DIRECTION = 1, /* direction mask */
-	MESSAGE_LIST_SELECT_WRAP = 1<<1 /* option bit */
+	MESSAGE_LIST_SELECT_WRAP = 1 << 1, /* option bit */
+	MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED = 1 << 2 /* whether to search collapsed nodes as well */
 } MessageListSelectDirection;
 
 GType		message_list_get_type		(void);

@@ -1342,14 +1342,16 @@ action_mail_smart_backward_cb (GtkAction *action,
 
 		if (message_list_select (
 		    MESSAGE_LIST (message_list),
-		    MESSAGE_LIST_SELECT_PREVIOUS,
+		    MESSAGE_LIST_SELECT_PREVIOUS |
+		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 
 		if (message_list_select (
 		    MESSAGE_LIST (message_list),
 		    MESSAGE_LIST_SELECT_PREVIOUS |
-		    MESSAGE_LIST_SELECT_WRAP,
+		    MESSAGE_LIST_SELECT_WRAP |
+		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 
@@ -1427,14 +1429,16 @@ action_mail_smart_forward_cb (GtkAction *action,
 
 		if (message_list_select (
 		    MESSAGE_LIST (message_list),
-		    MESSAGE_LIST_SELECT_NEXT,
+		    MESSAGE_LIST_SELECT_NEXT |
+		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 
 		if (message_list_select (
 		    MESSAGE_LIST (message_list),
 		    MESSAGE_LIST_SELECT_NEXT |
-		    MESSAGE_LIST_SELECT_WRAP,
+		    MESSAGE_LIST_SELECT_WRAP |
+		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 

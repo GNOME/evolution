@@ -822,11 +822,110 @@ clear_selection (MessageList *message_list,
 }
 
 static GNode *
+ml_get_next_node (GNode *node,
+		  GNode *subroot)
+{
+	GNode *next;
+
+	if (!node)
+		return NULL;
+
+	next = g_node_first_child (node);
+
+	if (!next && node != subroot) {
+		next = g_node_next_sibling (node);
+	}
+
+	if (!next && node != subroot) {
+		next = node->parent;
+		while (next) {
+			GNode *sibl = g_node_next_sibling (next);
+
+			if (next == subroot)
+				return NULL;
+
+			if (sibl) {
+				next = sibl;
+				break;
+			} else {
+				next = next->parent;
+			}
+		}
+	}
+
+	return next;
+}
+
+static GNode *
+ml_get_prev_node (GNode *node,
+		  GNode *subroot)
+{
+	GNode *prev;
+
+	if (!node)
+		return NULL;
+
+	if (node == subroot)
+		prev = NULL;
+	else
+		prev = g_node_prev_sibling (node);
+
+	if (!prev) {
+		prev = node->parent;
+
+		if (prev == subroot)
+			return NULL;
+
+		if (prev)
+			return prev;
+	}
+
+	if (prev) {
+		GNode *child = g_node_last_child (prev);
+		while (child) {
+			prev = child;
+			child = g_node_last_child (child);
+		}
+	}
+
+	return prev;
+}
+
+static GNode *
+ml_get_last_tree_node (GNode *node,
+		       GNode *subroot)
+{
+	GNode *child;
+
+	if (!node)
+		return NULL;
+
+	while (node->parent && node->parent != subroot)
+		node = node->parent;
+
+	if (node == subroot)
+		child = node;
+	else
+		child = g_node_last_sibling (node);
+
+	if (!child)
+		child = node;
+
+	while (child = g_node_last_child (child), child) {
+		node = child;
+	}
+
+	return node;
+}
+
+static GNode *
 ml_search_forward (MessageList *message_list,
                    gint start,
                    gint end,
                    guint32 flags,
-                   guint32 mask)
+                   guint32 mask,
+		   gboolean include_collapsed,
+		   gboolean skip_first)
 {
 	GNode *node;
 	gint row;
@@ -837,10 +936,22 @@ ml_search_forward (MessageList *message_list,
 
 	for (row = start; row <= end; row++) {
 		node = e_tree_table_adapter_node_at_row (etta, row);
-		if (node != NULL
+		if (node != NULL && !skip_first
 		    && (info = get_message_info (message_list, node))
 		    && (camel_message_info_flags (info) & mask) == flags)
 			return node;
+
+		skip_first = FALSE;
+
+		if (node && include_collapsed && !e_tree_table_adapter_node_is_expanded (etta, node) && g_node_first_child (node)) {
+			GNode *subnode = node;
+
+			while (subnode = ml_get_next_node (subnode, node), subnode && subnode != node) {
+				if ((info = get_message_info (message_list, subnode)) &&
+				    (camel_message_info_flags (info) & mask) == flags)
+					return subnode;
+			}
+		}
 	}
 
 	return NULL;
@@ -851,7 +962,9 @@ ml_search_backward (MessageList *message_list,
                     gint start,
                     gint end,
                     guint32 flags,
-                    guint32 mask)
+                    guint32 mask,
+		    gboolean include_collapsed,
+		    gboolean skip_first)
 {
 	GNode *node;
 	gint row;
@@ -862,10 +975,37 @@ ml_search_backward (MessageList *message_list,
 
 	for (row = start; row >= end; row--) {
 		node = e_tree_table_adapter_node_at_row (etta, row);
-		if (node != NULL
+		if (node != NULL && !skip_first
 		    && (info = get_message_info (message_list, node))
-		    && (camel_message_info_flags (info) & mask) == flags)
+		    && (camel_message_info_flags (info) & mask) == flags) {
+			if (include_collapsed && !e_tree_table_adapter_node_is_expanded (etta, node) && g_node_first_child (node)) {
+				GNode *subnode = ml_get_last_tree_node (g_node_first_child (node), node);
+
+				while (subnode && subnode != node) {
+					if ((info = get_message_info (message_list, subnode)) &&
+					    (camel_message_info_flags (info) & mask) == flags)
+						return subnode;
+
+					subnode = ml_get_prev_node (subnode, node);
+				}
+			}
+
 			return node;
+		}
+
+		if (node && include_collapsed && !skip_first && !e_tree_table_adapter_node_is_expanded (etta, node) && g_node_first_child (node)) {
+			GNode *subnode = ml_get_last_tree_node (g_node_first_child (node), node);
+
+			while (subnode && subnode != node) {
+				if ((info = get_message_info (message_list, subnode)) &&
+				    (camel_message_info_flags (info) & mask) == flags)
+					return subnode;
+
+				subnode = ml_get_prev_node (subnode, node);
+			}
+		}
+
+		skip_first = FALSE;
 	}
 
 	return NULL;
@@ -878,6 +1018,7 @@ ml_search_path (MessageList *message_list,
                 guint32 mask)
 {
 	ETreeTableAdapter *adapter;
+	gboolean include_collapsed;
 	GNode *node;
 	gint row_count;
 	gint row;
@@ -898,20 +1039,22 @@ ml_search_path (MessageList *message_list,
 	if (row == -1)
 		return NULL;
 
+	include_collapsed = (direction & MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED) != 0;
+
 	if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
 		node = ml_search_forward (
-			message_list, row + 1, row_count - 1, flags, mask);
+			message_list, row, row_count - 1, flags, mask, include_collapsed, TRUE);
 	else
 		node = ml_search_backward (
-			message_list, row - 1, 0, flags, mask);
+			message_list, row, 0, flags, mask, include_collapsed, TRUE);
 
 	if (node == NULL && (direction & MESSAGE_LIST_SELECT_WRAP)) {
 		if ((direction & MESSAGE_LIST_SELECT_DIRECTION) == MESSAGE_LIST_SELECT_NEXT)
 			node = ml_search_forward (
-				message_list, 0, row, flags, mask);
+				message_list, 0, row, flags, mask, include_collapsed, FALSE);
 		else
 			node = ml_search_backward (
-				message_list, row_count - 1, row, flags, mask);
+				message_list, row_count - 1, row, flags, mask, include_collapsed, FALSE);
 	}
 
 	return node;
