@@ -4537,7 +4537,7 @@ clear_attributes (WebKitDOMDocument *document)
 
 		name = webkit_dom_node_get_local_name (node);
 
-		if (g_str_has_prefix (name, "data-"))
+		if (!g_str_has_prefix (name, "data-") && (g_strcmp0 (name, "spellcheck") != 0))
 			webkit_dom_element_remove_attribute_node (
 				WEBKIT_DOM_ELEMENT (body),
 				WEBKIT_DOM_ATTR (node),
