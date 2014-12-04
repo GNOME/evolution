@@ -4549,6 +4549,32 @@ clear_attributes (WebKitDOMDocument *document)
 }
 
 static void
+register_html_events_handlers (EHTMLEditorView *view,
+                               WebKitDOMHTMLElement *body)
+{
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"keydown",
+		G_CALLBACK (body_keydown_event_cb),
+		FALSE,
+		view);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"keypress",
+		G_CALLBACK (body_keypress_event_cb),
+		FALSE,
+		view);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"keyup",
+		G_CALLBACK (body_keyup_event_cb),
+		FALSE,
+		view);
+}
+
+static void
 html_editor_convert_view_content (EHTMLEditorView *view,
                                   const gchar *preferred_text)
 {
@@ -4799,26 +4825,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		FALSE,
 		view);
 
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (body),
-		"keydown",
-		G_CALLBACK (body_keydown_event_cb),
-		FALSE,
-		view);
-
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (body),
-		"keypress",
-		G_CALLBACK (body_keypress_event_cb),
-		FALSE,
-		view);
-
-	webkit_dom_event_target_add_event_listener (
-		WEBKIT_DOM_EVENT_TARGET (body),
-		"keyup",
-		G_CALLBACK (body_keyup_event_cb),
-		FALSE,
-		view);
+	register_html_events_handlers (view, body);
 
 	g_free (inner_html);
 }
@@ -7012,6 +7019,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 
 	/* Register on input event that is called when the content (body) is modified */
 	register_input_event_listener_on_body (view);
+	register_html_events_handlers (view, body);
 
 	if (view->priv->html_mode)
 		change_cid_images_src_to_base64 (view);
