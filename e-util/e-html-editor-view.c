@@ -59,6 +59,12 @@
 #define SPACES_PER_LIST_LEVEL 8
 #define TAB_LENGTH 8
 
+#define HTML_KEY_CODE_BACKSPACE 8
+#define HTML_KEY_CODE_RETURN 13
+#define HTML_KEY_CODE_CONTROL 17
+#define HTML_KEY_CODE_SPACE 32
+#define HTML_KEY_CODE_DELETE 46
+
 /**
  * EHTMLEditorView:
  *
@@ -1803,6 +1809,18 @@ surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
 }
 
 static void
+body_keydown_event_cb (WebKitDOMElement *element,
+                       WebKitDOMUIEvent *event,
+                       EHTMLEditorView *view)
+{
+	glong key_code;
+
+	key_code = webkit_dom_ui_event_get_key_code (event);
+	if (key_code == HTML_KEY_CODE_CONTROL)
+		html_editor_view_set_links_active (view, TRUE);
+}
+
+static void
 body_keypress_event_cb (WebKitDOMElement *element,
                         WebKitDOMUIEvent *event,
                         EHTMLEditorView *view)
@@ -1813,9 +1831,9 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	view->priv->space_key_pressed = FALSE;
 
 	key_code = webkit_dom_ui_event_get_key_code (event);
-	if (key_code == 13)
+	if (key_code == HTML_KEY_CODE_RETURN)
 		view->priv->return_key_pressed = TRUE;
-	else if (key_code == 32)
+	else if (key_code == HTML_KEY_CODE_SPACE)
 		view->priv->space_key_pressed = TRUE;
 }
 
@@ -2108,13 +2126,13 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		return;
 
 	key_code = webkit_dom_ui_event_get_key_code (event);
-	if (key_code == 8 || key_code == 46) {/* BackSpace or Delete */
+	if (key_code == HTML_KEY_CODE_BACKSPACE || key_code == HTML_KEY_CODE_DELETE) {
 		/* This will fix the structure after the situations where some text
 		 * inside the quoted content is selected and afterwards deleted with
 		 * BackSpace or Delete. */
 		gint level;
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMElement *element;
+		WebKitDOMElement *br_element;
 		WebKitDOMDocument *document;
 		WebKitDOMNode *node, *parent;
 
@@ -2163,9 +2181,9 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				goto restore;
 		}
 
-		element = webkit_dom_element_query_selector (
+		br_element = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (node), "span.-x-evo-quote-character > br", NULL);
-		if (element) {
+		if (br_element) {
 			WebKitDOMNode *tmp;
 
 			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
@@ -2178,7 +2196,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				 */
 				/* <span class="-x-evo-quote-character"> */
 				node = webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (element));
+					WEBKIT_DOM_NODE (br_element));
 				/* <span class="-x-evo-quoted"> */
 				node = webkit_dom_node_get_parent_node (node);
 				/* right block */
@@ -2199,13 +2217,12 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				NULL);
 
 			webkit_dom_node_append_child (
-				node, WEBKIT_DOM_NODE (element), NULL);
+				node, WEBKIT_DOM_NODE (br_element), NULL);
 			remove_node (parent);
 		}
  restore:
 		e_html_editor_selection_restore (selection);
-	}
-	else if (key_code == 17) /* Control */
+	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		html_editor_view_set_links_active (view, FALSE);
 }
 
@@ -2805,12 +2822,6 @@ html_editor_view_key_press_event (GtkWidget *widget,
 	if (event->keyval == GDK_KEY_Tab)
 		return e_html_editor_view_exec_command (
 			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
-
-	if ((event->keyval == GDK_KEY_Control_L) ||
-	    (event->keyval == GDK_KEY_Control_R)) {
-
-		html_editor_view_set_links_active (view, TRUE);
-	}
 
 	if (is_return_key (event)) {
 		EHTMLEditorSelection *selection;
@@ -4785,6 +4796,13 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"input",
 		G_CALLBACK (body_input_event_cb),
+		FALSE,
+		view);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (body),
+		"keydown",
+		G_CALLBACK (body_keydown_event_cb),
 		FALSE,
 		view);
 
