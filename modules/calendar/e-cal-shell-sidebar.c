@@ -22,13 +22,14 @@
 #include <config.h>
 #endif
 
-#include "e-cal-shell-sidebar.h"
-
 #include <string.h>
 #include <glib/gi18n.h>
 
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/misc.h"
+
+#include "e-cal-shell-content.h"
+#include "e-cal-shell-sidebar.h"
 
 #define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -870,8 +871,29 @@ e_cal_shell_sidebar_remove_source (ECalShellSidebar *cal_shell_sidebar,
 
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
-	client = e_client_selector_ref_cached_client (
-		E_CLIENT_SELECTOR (selector), source);
+	client = e_client_selector_ref_cached_client (E_CLIENT_SELECTOR (selector), source);
+	if (!client) {
+		EShellView *shell_view;
+		EShellContent *shell_content;
+		ECalModel *model;
+		GList *clients, *link;
+
+		shell_view = e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (cal_shell_sidebar));
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		model = e_cal_shell_content_get_model (E_CAL_SHELL_CONTENT (shell_content));
+
+		clients = e_cal_model_list_clients (model);
+		for (link = clients; link; link = g_list_next (link)) {
+			EClient *adept = link->data;
+
+			if (adept && g_strcmp0 (e_source_get_uid (source), e_source_get_uid (e_client_get_source (adept))) == 0) {
+				client = g_object_ref (adept);
+				break;
+			}
+		}
+
+		g_list_free_full (clients, g_object_unref);
+	}
 
 	if (client != NULL) {
 		cal_shell_sidebar_emit_client_removed (
