@@ -22,7 +22,7 @@
 #include "e-dom-utils.h"
 
 guint
-get_e_html_editor_flags_for_element_on_coordinates (WebKitDOMDocument *document,
+e_html_editor_get_flags_for_element_on_coordinates (WebKitDOMDocument *document,
                                                     gint32 x,
                                                     gint32 y)
 {

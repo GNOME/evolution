@@ -1,5 +1,5 @@
 /*
- * e-html-editor-actions-dom-functions.h
+ * e-html-editor-cell-dialog-dom-functions.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H
-#define E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H
+#ifndef E_HTML_EDITOR_CELL_DIALOG_DOM_FUNCTIONS_H
+#define E_HTML_EDITOR_CELL_DIALOG_DOM_FUNCTIONS_H
 
 #include <webkitdom/webkitdom.h>
 
@@ -69,4 +69,4 @@ void		e_html_editor_cell_dialog_set_element_bg_color
 
 G_END_DECLS
 
-#endif /* E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H */
+#endif /* E_HTML_EDITOR_CELL_DIALOG_DOM_FUNCTIONS_H */

@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include "e-web-extension.h"
+#include "e-web-extension-names.h"
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
@@ -462,9 +463,9 @@ e_web_extension_dispose (GObject *object)
 }
 
 static void
-e_web_extension_class_init (EWebExtensionClass *klass)
+e_web_extension_class_init (EWebExtensionClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = e_web_extension_dispose;
 

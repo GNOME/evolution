@@ -108,7 +108,7 @@ action_context_spell_suggest_cb (GtkAction *action,
 
 	e_html_editor_selection_replace_caret_word (selection, word);
 }
-
+#if 0 /* FIXME WK2 */
 static void
 html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 {
@@ -128,7 +128,8 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
-	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
+
+	checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());*/
 
 	word = e_html_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
@@ -206,7 +207,7 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	g_free (word);
 	g_strfreev (suggestions);
 }
-
+#endif
 /* Helper for html_editor_update_actions() */
 static void
 html_editor_spell_checkers_foreach (EHTMLEditor *editor,
@@ -215,7 +216,7 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 	ESpellChecker *spell_checker;
-	ESpellDictionary *dictionary;
+	ESpellDictionary *dictionary = NULL;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	GList *list, *link;
@@ -231,13 +232,14 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	word = e_html_editor_selection_get_caret_word (selection);
 	if (word == NULL || *word == '\0')
 		return;
-
+/* FIXME WK2
 	dictionary = e_spell_checker_ref_dictionary (
-		spell_checker, language_code);
+		spell_checker, language_code);*/
 	if (dictionary != NULL) {
+		/* FIXME WK2
 		list = e_spell_dictionary_get_suggestions (
 			dictionary, word, -1);
-		g_object_unref (dictionary);
+		g_object_unref (dictionary);*/
 	} else {
 		list = NULL;
 	}
@@ -307,7 +309,7 @@ static void
 html_editor_update_actions (EHTMLEditor *editor,
                             guint flags)
 {
-	WebKitSpellChecker *checker;
+//	WebKitSpellChecker *checker;
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
 	EHTMLEditorSelection *selection;
@@ -316,7 +318,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GList *list;
-	gchar **languages;
+	gchar **languages = NULL;
 	guint ii, n_languages;
 	gboolean visible;
 	guint merge_id;
@@ -388,6 +390,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 		list = g_list_delete_link (list, list);
 	}
 
+#if 0 /* FIXME WK2 */
 	languages = e_spell_checker_list_active_languages (
 		spell_checker, &n_languages);
 
@@ -429,10 +432,10 @@ html_editor_update_actions (EHTMLEditor *editor,
 	/* Add actions and context menu content for active languages. */
 	for (ii = 0; ii < n_languages; ii++)
 		html_editor_spell_checkers_foreach (editor, languages[ii]);
-
+#endif
 	g_strfreev (languages);
 }
-
+#if 0 /* FIXME WK2 */
 static void
 html_editor_spell_languages_changed (EHTMLEditor *editor)
 {
@@ -470,7 +473,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 
 	g_free (comma_separated);
 }
-
+#endif
 static gboolean
 html_editor_context_menu_cb (WebKitWebView *webkit_web_view,
                              WebKitContextMenu *context_menu,
@@ -804,7 +807,8 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 	widget_class->parent_set = html_editor_parent_changed;
 
 	class->update_actions = html_editor_update_actions;
-	class->spell_languages_changed = html_editor_spell_languages_changed;
+/* FIXME WK2
+	class->spell_languages_changed = html_editor_spell_languages_changed; */
 
 	g_object_class_install_property (
 		object_class,

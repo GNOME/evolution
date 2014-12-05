@@ -1,5 +1,7 @@
 NULL =
 
+webextensions_LTLIBRARIES = libehtmleditorwebextension.la
+
 privsolib_LTLIBRARIES = libevolution-util.la
 
 evolution_util_includedir = $(privincludedir)/e-util
@@ -61,7 +63,6 @@ noinst_PROGRAMS = \
 	test-category-completion \
 	test-contact-store \
 	test-dateedit \
-	test-html-editor \
 	test-mail-signatures \
 	test-name-selector \
 	test-preferences-window \
@@ -200,22 +201,16 @@ evolution_util_include_HEADERS =  \
 	e-filter-rule.h \
 	e-focus-tracker.h \
 	e-html-editor-actions.h \
-	e-html-editor-actions-dom-functions.h \
 	e-html-editor-cell-dialog.h \
-	e-html-editor-cell-dialog-dom-functions.h \
 	e-html-editor-dialog.h \
 	e-html-editor-find-dialog.h \
 	e-html-editor-hrule-dialog.h \
-	e-html-editor-hrule-dialog-dom-functions.h \
 	e-html-editor-image-dialog.h \
-	e-html-editor-image-dialog-dom-functions.h \
 	e-html-editor-link-dialog.h \
-	e-html-editor-link-dialog-dom-functions.h \
 	e-html-editor-page-dialog.h \
 	e-html-editor-paragraph-dialog.h \
 	e-html-editor-replace-dialog.h \
 	e-html-editor-selection.h \
-	e-html-editor-selection-dom-functions.h \
 	e-html-editor-spell-check-dialog.h \
 	e-html-editor-table-dialog.h \
 	e-html-editor-text-dialog.h \
@@ -287,9 +282,6 @@ evolution_util_include_HEADERS =  \
 	e-source-selector-dialog.h \
 	e-source-selector.h \
 	e-source-util.h \
-	e-spell-checker.h \
-	e-spell-dictionary.h \
-	e-spell-entry.h \
 	e-spell-text-view.h \
 	e-spinner.h \
 	e-stock-request.h \
@@ -478,23 +470,17 @@ libevolution_util_la_SOURCES = \
 	e-filter-rule.c \
 	e-focus-tracker.c \
 	e-html-editor-actions.c \
-	e-html-editor-actions-dom-functions.c \
 	e-html-editor-cell-dialog.c \
-	e-html-editor-cell-dialog-dom-functions.c \
 	e-html-editor-dialog.c \
 	e-html-editor-find-dialog.c \
 	e-html-editor-hrule-dialog.c \
-	e-html-editor-hrule-dialog-dom-functions.c \
 	e-html-editor-image-dialog.c \
-	e-html-editor-image-dialog-dom-functions.c \
 	e-html-editor-link-dialog.c \
-	e-html-editor-link-dialog-dom-functions.c \
 	e-html-editor-page-dialog.c \
 	e-html-editor-paragraph-dialog.c \
 	e-html-editor-private.h \
 	e-html-editor-replace-dialog.c \
 	e-html-editor-selection.c \
-	e-html-editor-selection-dom-functions.c \
 	e-html-editor-spell-check-dialog.c \
 	e-html-editor-table-dialog.c \
 	e-html-editor-text-dialog.c \
@@ -566,9 +552,6 @@ libevolution_util_la_SOURCES = \
 	e-source-selector-dialog.c \
 	e-source-selector.c \
 	e-source-util.c \
-	e-spell-checker.c \
-	e-spell-dictionary.c \
-	e-spell-entry.c \
 	e-spell-text-view.c \
 	e-spinner.c \
 	e-stock-request.c \
@@ -697,9 +680,9 @@ test_dateedit_CPPFLAGS = $(TEST_CPPFLAGS)
 test_dateedit_SOURCES = test-dateedit.c
 test_dateedit_LDADD = $(TEST_LDADD)
 
-test_html_editor_CPPFLAGS = $(TEST_CPPFLAGS)
-test_html_editor_SOURCES = test-html-editor.c
-test_html_editor_LDADD = $(TEST_LDADD)
+#test_html_editor_CPPFLAGS = $(TEST_CPPFLAGS)
+#test_html_editor_SOURCES = test-html-editor.c
+#test_html_editor_LDADD = $(TEST_LDADD)
 
 test_mail_signatures_CPPFLAGS = $(TEST_CPPFLAGS)
 test_mail_signatures_SOURCES = test-mail-signatures.c
@@ -733,6 +716,40 @@ test_tree_view_frame_CPPFLAGS = $(TEST_CPPFLAGS)
 test_tree_view_frame_SOURCES = test-tree-view-frame.c
 test_tree_view_frame_LDADD = $(TEST_LDADD)
 
+libehtmleditorwebextension_la_SOURCES =			\
+	e-html-editor-actions-dom-functions.h \
+	e-html-editor-cell-dialog-dom-functions.h \
+	e-html-editor-hrule-dialog-dom-functions.h \
+	e-html-editor-image-dialog-dom-functions.h \
+	e-html-editor-link-dialog-dom-functions.h \
+	e-html-editor-selection-dom-functions.h \
+	e-html-editor-spell-check-dialog-dom-functions.h \
+	e-html-editor-view-dom-functions.h \
+	e-html-editor-actions-dom-functions.c \
+	e-html-editor-cell-dialog-dom-functions.c \
+	e-html-editor-hrule-dialog-dom-functions.c \
+	e-html-editor-image-dialog-dom-functions.c \
+	e-html-editor-link-dialog-dom-functions.c \
+	e-html-editor-selection-dom-functions.c \
+	e-html-editor-spell-check-dialog-dom-functions.c \
+	e-html-editor-table-dialog-dom-functions.h \
+	e-html-editor-table-dialog-dom-functions.c \
+	e-html-editor-view-dom-functions.c \
+	e-html-editor-web-extension.c			\
+	e-html-editor-web-extension.h			\
+	e-html-editor-web-extension-names.h		\
+	e-html-editor-web-extension-main.c
+
+libehtmleditorwebextension_la_CPPFLAGS =		\
+	$(libevolution_util_la_CPPFLAGS) 		\
+	$(WEB_EXTENSIONS_CFLAGS)
+
+libehtmleditorwebextension_la_LIBADD =			\
+	libevolution-util.la \
+	$(WEB_EXTENSIONS_LIBS)
+
+libehtmleditorwebextension_la_LDFLAGS =			\
+	-module -avoid-version -no-undefined
 EXTRA_DIST = \
 	e-system.error.xml \
 	filter.error.xml \

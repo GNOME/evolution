@@ -48,8 +48,6 @@ struct _EHTMLEditorSpellCheckDialogPrivate {
 	GtkWidget *suggestion_label;
 	GtkWidget *tree_view;
 
-	WebKitDOMDOMSelection *selection;
-
 	gchar *word;
 	ESpellDictionary *current_dict;
 };
@@ -74,7 +72,7 @@ html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
 	GtkTreeView *tree_view;
 	GtkListStore *store;
 	gchar *markup;
-	GList *list, *link;
+	GList *list = NULL, *link;
 
 	if (word == NULL)
 		return;
@@ -92,9 +90,9 @@ html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
 	tree_view = GTK_TREE_VIEW (dialog->priv->tree_view);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (tree_view));
 	gtk_list_store_clear (store);
-
+/* FIXME WK2
 	list = e_spell_dictionary_get_suggestions (
-		dialog->priv->current_dict, word, -1);
+		dialog->priv->current_dict, word, -1);*/
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		GtkTreeIter iter;
@@ -117,192 +115,59 @@ html_editor_spell_check_dialog_set_word (EHTMLEditorSpellCheckDialog *dialog,
 }
 
 static gboolean
-select_next_word (EHTMLEditorSpellCheckDialog *dialog)
+move_to_another_word (EHTMLEditorSpellCheckDialog *dialog,
+                      const gchar *dom_function)
 {
-	WebKitDOMNode *anchor, *focus;
-	gulong anchor_offset, focus_offset;
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
-	anchor = webkit_dom_dom_selection_get_anchor_node (dialog->priv->selection);
-	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dialog->priv->selection);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return FALSE;
 
-	focus = webkit_dom_dom_selection_get_focus_node (dialog->priv->selection);
-	focus_offset = webkit_dom_dom_selection_get_focus_offset (dialog->priv->selection);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		dom_function,
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			dialog->priv->word),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	/* Jump _behind_ next word */
-	webkit_dom_dom_selection_modify (
-		dialog->priv->selection, "move", "forward", "word");
-	/* Jump before the word */
-	webkit_dom_dom_selection_modify (
-		dialog->priv->selection, "move", "backward", "word");
-	/* Select it */
-	webkit_dom_dom_selection_modify (
-		dialog->priv->selection, "extend", "forward", "word");
+	if (result) {
+		const gchar *next_word;
+		gsize length;
 
-	/* If the selection didn't change, then we have most probably
-	 * reached the end of document - return FALSE */
-	return !((anchor == webkit_dom_dom_selection_get_anchor_node (
-				dialog->priv->selection)) &&
-		 (anchor_offset == webkit_dom_dom_selection_get_anchor_offset (
-				dialog->priv->selection)) &&
-		 (focus == webkit_dom_dom_selection_get_focus_node (
-				dialog->priv->selection)) &&
-		 (focus_offset == webkit_dom_dom_selection_get_focus_offset (
-				dialog->priv->selection)));
+		next_word = g_variant_get_string (result, &length);
+		if (length > 0)
+			html_editor_spell_check_dialog_set_word (dialog, next_word);
+		g_variant_unref (result);
+		if (length > 0)
+			return TRUE;
+	}
+
+	/* Close the dialog */
+	gtk_widget_hide (GTK_WIDGET (dialog));
+	return FALSE;
 }
 
 static gboolean
 html_editor_spell_check_dialog_next (EHTMLEditorSpellCheckDialog *dialog)
 {
-	WebKitDOMNode *start = NULL, *end = NULL;
-	gulong start_offset, end_offset;
-
-	if (dialog->priv->word == NULL) {
-		webkit_dom_dom_selection_modify (
-			dialog->priv->selection, "move", "left", "documentboundary");
-	} else {
-		/* Remember last selected word */
-		start = webkit_dom_dom_selection_get_anchor_node (
-			dialog->priv->selection);
-		end = webkit_dom_dom_selection_get_focus_node (
-			dialog->priv->selection);
-		start_offset = webkit_dom_dom_selection_get_anchor_offset (
-			dialog->priv->selection);
-		end_offset = webkit_dom_dom_selection_get_focus_offset (
-			dialog->priv->selection);
-	}
-
-	while (select_next_word (dialog)) {
-		WebKitDOMRange *range;
-		WebKitSpellChecker *checker;
-		gint loc, len;
-		gchar *word;
-
-		range = webkit_dom_dom_selection_get_range_at (
-			dialog->priv->selection, 0, NULL);
-		word = webkit_dom_range_get_text (range);
-
-		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-		webkit_spell_checker_check_spelling_of_string (
-			checker, word, &loc, &len);
-
-		/* Found misspelled word! */
-		if (loc != -1) {
-			html_editor_spell_check_dialog_set_word (dialog, word);
-			g_free (word);
-			return TRUE;
-		}
-
-		g_free (word);
-	}
-
-	/* Restore the selection to contain the last misspelled word. This is
-	 * reached only when we reach the end of the document */
-	if (start && end) {
-		webkit_dom_dom_selection_set_base_and_extent (
-			dialog->priv->selection, start, start_offset,
-			end, end_offset, NULL);
-	}
-
-	/* Close the dialog */
-	gtk_widget_hide (GTK_WIDGET (dialog));
-	return FALSE;
-}
-
-static gboolean
-select_previous_word (EHTMLEditorSpellCheckDialog *dialog)
-{
-	WebKitDOMNode *old_anchor_node;
-	WebKitDOMNode *new_anchor_node;
-	gulong old_anchor_offset;
-	gulong new_anchor_offset;
-
-	old_anchor_node = webkit_dom_dom_selection_get_anchor_node (
-		dialog->priv->selection);
-	old_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (
-		dialog->priv->selection);
-
-	/* Jump on the beginning of current word */
-	webkit_dom_dom_selection_modify (
-		dialog->priv->selection, "move", "backward", "word");
-	/* Jump before previous word */
-	webkit_dom_dom_selection_modify (
-		dialog->priv->selection, "move", "backward", "word");
-	/* Select it */
-	webkit_dom_dom_selection_modify (
-		dialog->priv->selection, "extend", "forward", "word");
-
-	/* If the selection start didn't change, then we have most probably
-	 * reached the beginnig of document. Return FALSE */
-
-	new_anchor_node = webkit_dom_dom_selection_get_anchor_node (
-		dialog->priv->selection);
-	new_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (
-		dialog->priv->selection);
-
-	return (new_anchor_node != old_anchor_node) ||
-		(new_anchor_offset != old_anchor_offset);
+	return move_to_another_word (dialog, "EHTMLEditorSpellCheckDialogNext");
 }
 
 static gboolean
 html_editor_spell_check_dialog_prev (EHTMLEditorSpellCheckDialog *dialog)
 {
-	WebKitDOMNode *start = NULL, *end = NULL;
-	gulong start_offset, end_offset;
-
-	if (dialog->priv->word == NULL) {
-		webkit_dom_dom_selection_modify (
-			dialog->priv->selection,
-			"move", "right", "documentboundary");
-		webkit_dom_dom_selection_modify (
-			dialog->priv->selection,
-			"extend", "backward", "word");
-	} else {
-		/* Remember last selected word */
-		start = webkit_dom_dom_selection_get_anchor_node (
-			dialog->priv->selection);
-		end = webkit_dom_dom_selection_get_focus_node (
-			dialog->priv->selection);
-		start_offset = webkit_dom_dom_selection_get_anchor_offset (
-			dialog->priv->selection);
-		end_offset = webkit_dom_dom_selection_get_focus_offset (
-			dialog->priv->selection);
-	}
-
-	while (select_previous_word (dialog)) {
-		WebKitDOMRange *range;
-		WebKitSpellChecker *checker;
-		gint loc, len;
-		gchar *word;
-
-		range = webkit_dom_dom_selection_get_range_at (
-			dialog->priv->selection, 0, NULL);
-		word = webkit_dom_range_get_text (range);
-
-		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
-		webkit_spell_checker_check_spelling_of_string (
-			checker, word, &loc, &len);
-
-		/* Found misspelled word! */
-		if (loc != -1) {
-			html_editor_spell_check_dialog_set_word (dialog, word);
-			g_free (word);
-			return TRUE;
-		}
-
-		g_free (word);
-	}
-
-	/* Restore the selection to contain the last misspelled word. This is
-	 * reached only when we reach the beginning of the document */
-	if (start && end) {
-		webkit_dom_dom_selection_set_base_and_extent (
-			dialog->priv->selection, start, start_offset,
-			end, end_offset, NULL);
-	}
-
-	/* Close the dialog */
-	gtk_widget_hide (GTK_WIDGET (dialog));
-	return FALSE;
+	return move_to_another_word (dialog, "EHTMLEditorSpellCheckDialogPrev");
 }
 
 static void
@@ -310,7 +175,6 @@ html_editor_spell_check_dialog_replace (EHTMLEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -318,15 +182,13 @@ html_editor_spell_check_dialog_replace (EHTMLEditorSpellCheckDialog *dialog)
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (dialog->priv->tree_view));
 	gtk_tree_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
-	e_html_editor_selection_insert_html (
-		editor_selection, replacement);
+	e_html_editor_view_insert_html (view, replacement);
 
 	g_free (replacement);
 	html_editor_spell_check_dialog_next (dialog);
@@ -337,7 +199,6 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
@@ -345,7 +206,6 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (dialog->priv->tree_view));
@@ -355,14 +215,14 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 	/* Repeatedly search for 'word', then replace selection by
 	 * 'replacement'. Repeat until there's at least one occurence of
 	 * 'word' in the document */
+#if 0 /* FIXME WK2 */
 	while (webkit_web_view_search_text (
 			WEBKIT_WEB_VIEW (view), dialog->priv->word,
 			FALSE, TRUE, TRUE)) {
 
-		e_html_editor_selection_insert_html (
-			editor_selection, replacement);
+		e_html_editor_view_insert_html (view, replacement);
 	}
-
+#endif
 	g_free (replacement);
 	html_editor_spell_check_dialog_next (dialog);
 }
@@ -372,10 +232,10 @@ html_editor_spell_check_dialog_ignore (EHTMLEditorSpellCheckDialog *dialog)
 {
 	if (dialog->priv->word == NULL)
 		return;
-
+/* FIXME WK2
 	e_spell_dictionary_ignore_word (
 		dialog->priv->current_dict, dialog->priv->word, -1);
-
+*/
 	html_editor_spell_check_dialog_next (dialog);
 }
 
@@ -384,9 +244,9 @@ html_editor_spell_check_dialog_learn (EHTMLEditorSpellCheckDialog *dialog)
 {
 	if (dialog->priv->word == NULL)
 		return;
-
+/* FIXME WK2
 	e_spell_dictionary_learn_word (
-		dialog->priv->current_dict, dialog->priv->word, -1);
+		dialog->priv->current_dict, dialog->priv->word, -1); */
 
 	html_editor_spell_check_dialog_next (dialog);
 }
@@ -415,23 +275,12 @@ html_editor_spell_check_dialog_set_dictionary (EHTMLEditorSpellCheckDialog *dial
 static void
 html_editor_spell_check_dialog_show (GtkWidget *widget)
 {
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 	EHTMLEditorSpellCheckDialog *dialog;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
 
 	dialog = E_HTML_EDITOR_SPELL_CHECK_DIALOG (widget);
 
 	g_free (dialog->priv->word);
 	dialog->priv->word = NULL;
-
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dialog->priv->selection = webkit_dom_dom_window_get_selection (window);
 
 	/* Select the first word or quit */
 	if (html_editor_spell_check_dialog_next (dialog)) {
@@ -626,9 +475,9 @@ e_html_editor_spell_check_dialog_update_dictionaries (EHTMLEditorSpellCheckDialo
 	EHTMLEditorView *view;
 	ESpellChecker *spell_checker;
 	GtkComboBox *combo_box;
-	GtkListStore *store;
+	GtkListStore *store = NULL;
 	GQueue queue = G_QUEUE_INIT;
-	gchar **languages;
+	gchar **languages = NULL;
 	guint n_languages = 0;
 	guint ii;
 
@@ -637,7 +486,7 @@ e_html_editor_spell_check_dialog_update_dictionaries (EHTMLEditorSpellCheckDialo
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
-
+/* FIXME WK2
 	languages = e_spell_checker_list_active_languages (
 		spell_checker, &n_languages);
 	for (ii = 0; ii < n_languages; ii++) {
@@ -653,20 +502,22 @@ e_html_editor_spell_check_dialog_update_dictionaries (EHTMLEditorSpellCheckDialo
 				G_STRFUNC, languages[ii]);
 	}
 	g_strfreev (languages);
-
+*/
 	/* Populate a list store for the combo box. */
+#if 0 /* FIXME WK2 */
 	store = gtk_list_store_new (
 		NUM_COLUMNS,
 		G_TYPE_STRING,			/* COLUMN_NAME */
 		E_TYPE_SPELL_DICTIONARY);	/* COLUMN_DICTIONARY */
-
+#endif
 	while (!g_queue_is_empty (&queue)) {
 		ESpellDictionary *dictionary;
 		GtkTreeIter iter;
-		const gchar *name;
+		const gchar *name = NULL;
 
 		dictionary = g_queue_pop_head (&queue);
-		name = e_spell_dictionary_get_name (dictionary);
+		/* FIXME WK2
+		name = e_spell_dictionary_get_name (dictionary);*/
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (

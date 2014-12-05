@@ -135,4 +135,31 @@ void		e_html_editor_web_extension_set_space_key_pressed
 						(EHTMLEditorWebExtension *extension,
 						 gboolean value);
 
+gboolean	e_html_editor_web_extension_get_magic_smileys_enabled
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_inline_spelling
+						(EHTMLEditorWebExtension *extension,
+                                                 gboolean value);
+
+gboolean	e_html_editor_web_extension_get_inline_spelling_enabled
+						(EHTMLEditorWebExtension *extension);
+
+gboolean	e_html_editor_web_extension_get_body_input_event_removed
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_body_input_event_removed
+						(EHTMLEditorWebExtension *extension,
+						 gboolean value);
+
+gboolean	e_html_editor_web_extension_get_convert_in_situ
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_convert_in_situ
+						(EHTMLEditorWebExtension *extension,
+						 gboolean value);
+
+GHashTable *	e_html_editor_web_extension_get_inline_images
+						(EHTMLEditorWebExtension *extension);
+
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

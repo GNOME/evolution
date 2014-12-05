@@ -285,6 +285,8 @@ void		e_signal_disconnect_notify_handler
 GSettings *	e_util_ref_settings		(const gchar *schema_id);
 void		e_util_cleanup_settings		(void);
 
+guint		e_util_normalize_font_size	(GtkWidget *widget,
+						 gdouble font_size);
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

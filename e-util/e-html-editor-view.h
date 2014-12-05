@@ -140,6 +140,10 @@ void		e_html_editor_view_convert_and_insert_plain_text
 void		e_html_editor_view_convert_and_insert_html_to_plain_text
 						(EHTMLEditorView *view,
 						 const gchar *html);
+void		e_html_editor_view_insert_text (EHTMLEditorView *view,
+						const gchar *text);
+void		e_html_editor_view_insert_html (EHTMLEditorView *view,
+						const gchar *html_text);
 void		e_html_editor_view_set_text_html
 						(EHTMLEditorView *view,
 						 const gchar *text);
@@ -158,11 +162,11 @@ void		e_html_editor_view_update_fonts	(EHTMLEditorView *view);
 WebKitDOMElement *
 		e_html_editor_view_get_element_under_mouse_click
 						(EHTMLEditorView *view);
-*/
+
 void		e_html_editor_view_check_magic_links
 						(EHTMLEditorView *view,
 						 gboolean while_typing);
-/*
+
 WebKitDOMElement *
 		e_html_editor_view_quote_plain_text_element
 						(EHTMLEditorView *view,

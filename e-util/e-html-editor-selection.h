@@ -167,12 +167,6 @@ const gchar *	e_html_editor_selection_get_string
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_replace	(EHTMLEditorSelection *selection,
 						 const gchar *new_string);
-void		e_html_editor_selection_insert_text
-						(EHTMLEditorSelection *selection,
-						 const gchar *plain_text);
-void		e_html_editor_selection_insert_html
-						(EHTMLEditorSelection *selection,
-						 const gchar *html_text);
 void		e_html_editor_selection_insert_as_text
 						(EHTMLEditorSelection *selection,
 						 const gchar *html_text);
@@ -183,62 +177,6 @@ void		e_html_editor_selection_replace_image_src
 void		e_html_editor_selection_insert_image
 						(EHTMLEditorSelection *selection,
 						 const gchar *image_uri);
-/*
-void		e_html_editor_selection_move_caret_into_element
-						(WebKitDOMDocument *document,
-						 WebKitDOMElement *element);
-void 		e_html_editor_selection_clear_caret_position_marker
-						(EHTMLEditorSelection *selection);
-WebKitDOMNode *
-		e_html_editor_selection_get_caret_position_node
-						(WebKitDOMDocument *document);
-WebKitDOMElement *
-		e_html_editor_selection_save_caret_position
-						(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_restore_caret_position
-						(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_set_indented_style
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMElement *element,
-						 gint width);
-WebKitDOMElement *
-		e_html_editor_selection_get_indented_element
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMDocument *document,
-						 gint width);
-void		e_html_editor_selection_set_paragraph_style
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMElement *element,
-						 gint width,
-						 gint offset,
-						 const gchar *style_to_add);
-WebKitDOMElement *
-		e_html_editor_selection_get_paragraph_element
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMDocument *document,
-						 gint width,
-						 gint offset);
-WebKitDOMElement *
-		e_html_editor_selection_put_node_into_paragraph
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMDocument *document,
-						 WebKitDOMNode *node,
-						 WebKitDOMNode *caret_position);
-void		e_html_editor_selection_wrap_lines
-						(EHTMLEditorSelection *selection);
-WebKitDOMElement *
-		e_html_editor_selection_wrap_paragraph_length
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMElement *paragraph,
-						 gint length);
-void		e_html_editor_selection_wrap_paragraphs_in_document
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMDocument *document);
-WebKitDOMElement *
-		e_html_editor_selection_wrap_paragraph
-						(EHTMLEditorSelection *selection,
-						 WebKitDOMElement *paragraph);
-*/
 void		e_html_editor_selection_save	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_restore	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_move	(EHTMLEditorSelection *selection,
@@ -249,16 +187,6 @@ void		e_html_editor_selection_extend	(EHTMLEditorSelection *selection,
 						 EHTMLEditorSelectionGranularity granularity);
 void		e_html_editor_selection_scroll_to_caret
 						(EHTMLEditorSelection *selection);
-/*
-EHTMLEditorSelectionBlockFormat
-		e_html_editor_selection_get_list_format_from_node
-						(WebKitDOMNode *node);
-EHTMLEditorSelectionAlignment
-		e_html_editor_selection_get_list_alignment_from_node
-						(WebKitDOMNode *node);
-void		remove_wrapping_from_element	(WebKitDOMElement *element);
-void		remove_quoting_from_element	(WebKitDOMElement *element);
-*/
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_H */

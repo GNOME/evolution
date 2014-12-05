@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include "e-web-extension.h"
+#include "e-web-extension-names.h"
 
 static void
 bus_acquired_cb (GDBusConnection *connection,

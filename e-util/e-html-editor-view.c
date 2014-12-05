@@ -27,7 +27,7 @@
 #include "e-emoticon-chooser.h"
 #include "e-misc-utils.h"
 
-#include "web-extensions/e-html-editor-web-extension-names.h"
+#include "e-html-editor-web-extension-names.h"
 
 #include <e-util/e-util.h>
 #include <e-util/e-marshal.h>
@@ -37,30 +37,6 @@
 #define E_HTML_EDITOR_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewPrivate))
-
-#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
-#define UNICODE_NBSP "\xc2\xa0"
-
-#define URL_PATTERN \
-	"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?" \
-	"[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)" \
-	"[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-]*)?\\?" \
-	"?(?:[\\-\\+=&;%@\\.\\w]*)#?(?:[\\.\\!\\/\\\\w]*))?)"
-
-#define URL_PATTERN_SPACE URL_PATTERN "\\s"
-
-/* http://www.w3.org/TR/html5/forms.html#valid-e-mail-address */
-#define E_MAIL_PATTERN \
-	"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}"\
-	"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
-
-#define E_MAIL_PATTERN_SPACE E_MAIL_PATTERN "\\s"
-
-#define QUOTE_SYMBOL ">"
-
-/* Keep synchronized with the same value in EHTMLEditorSelection */
-#define SPACES_PER_LIST_LEVEL 8
-#define TAB_LENGTH 8
 
 /**
  * EHTMLEditorView:
@@ -85,10 +61,6 @@ struct _EHTMLEditorViewPrivate {
 	gint html_mode		: 1;
 
 	EHTMLEditorSelection *selection;
-
-	WebKitDOMElement *element_under_mouse;
-
-	GHashTable *inline_images;
 
 	GSettings *mail_settings;
 	GSettings *font_settings;
@@ -149,9 +121,9 @@ G_DEFINE_TYPE_WITH_CODE (
 
 static void
 html_editor_view_queue_post_reload_operation (EHTMLEditorView *view,
-                                            PostReloadOperationFunc func,
-                                            gpointer data,
-                                            GDestroyNotify data_free_func)
+                                              PostReloadOperationFunc func,
+                                              gpointer data,
+                                              GDestroyNotify data_free_func)
 {
 	PostReloadOperation *op;
 
@@ -340,798 +312,6 @@ html_editor_view_selection_changed_cb (EHTMLEditorView *view)
 		view);
 }
 
-static gboolean
-html_editor_view_should_show_delete_interface_for_element (EHTMLEditorView *view,
-                                                           WebKitDOMHTMLElement *element)
-{
-	return FALSE;
-}
-
-void
-e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *view)
-{
-/* FIXME WK2
-	if (!view->priv->inline_spelling)
-		return;
-*/
-	/* Block callbacks of selection-changed signal as we don't want to
-	 * recount all the block format things in EHTMLEditorSelection and here as well
-	 * when we are moving with caret */
-/* FIXME WK2
-	g_signal_handlers_block_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_block_selection_changed (selection);
-*/
-
-	/* Unblock the callbacks */
-/* FIXME WK2
-	g_signal_handlers_unblock_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_unblock_selection_changed (selection);
-*/
-}
-
-static void
-refresh_spell_check (EHTMLEditorView *view,
-                     gboolean enable_spell_check)
-{
-	/* Block callbacks of selection-changed signal as we don't want to
-	 * recount all the block format things in EHTMLEditorSelection and here as well
-	 * when we are moving with caret */
-/* FIXME WK2
-	g_signal_handlers_block_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_block_selection_changed (selection);
-*/
-	/* Unblock the callbacks */
-/*
-	g_signal_handlers_unblock_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_unblock_selection_changed (selection);
-*/
-}
-
-void
-e_html_editor_view_turn_spell_check_off (EHTMLEditorView *view)
-{
-	refresh_spell_check (view, FALSE);
-}
-
-void
-e_html_editor_view_force_spell_check (EHTMLEditorView *view)
-{
-	if (view->priv->inline_spelling)
-		refresh_spell_check (view, TRUE);
-}
-
-static void
-set_base64_to_element_attribute (EHTMLEditorView *view,
-                                 WebKitDOMElement *element,
-                                 const gchar *attribute)
-{
-	gchar *attribute_value;
-	const gchar *base64_src;
-
-	attribute_value = webkit_dom_element_get_attribute (element, attribute);
-
-	if ((base64_src = g_hash_table_lookup (view->priv->inline_images, attribute_value)) != NULL) {
-		const gchar *base64_data = strstr (base64_src, ";") + 1;
-		gchar *name;
-		glong name_length;
-
-		name_length =
-			g_utf8_strlen (base64_src, -1) -
-			g_utf8_strlen (base64_data, -1) - 1;
-		name = g_strndup (base64_src, name_length);
-
-		webkit_dom_element_set_attribute (element, "data-inline", "", NULL);
-		webkit_dom_element_set_attribute (element, "data-name", name, NULL);
-		webkit_dom_element_set_attribute (element, attribute, base64_data, NULL);
-
-		g_free (name);
-	}
-}
-
-static void
-change_cid_images_src_to_base64 (EHTMLEditorView *view)
-{
-	gint ii, length;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *document_element;
-	WebKitDOMNamedNodeMap *attributes;
-	WebKitDOMNodeList *list;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	document_element = webkit_dom_document_get_document_element (document);
-
-	list = webkit_dom_document_query_selector_all (document, "img[src^=\"cid:\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-
-		set_base64_to_element_attribute (view, WEBKIT_DOM_ELEMENT (node), "src");
-	}
-	g_object_unref (list);
-
-	/* Namespaces */
-	attributes = webkit_dom_element_get_attributes (document_element);
-	length = webkit_dom_named_node_map_get_length (attributes);
-	for (ii = 0; ii < length; ii++) {
-		gchar *name;
-		WebKitDOMNode *node = webkit_dom_named_node_map_item (attributes, ii);
-
-		name = webkit_dom_node_get_local_name (node);
-
-		if (g_str_has_prefix (name, "xmlns:")) {
-			const gchar *ns = name + 6;
-			gchar *attribute_ns = g_strconcat (ns, ":src", NULL);
-			gchar *selector = g_strconcat ("img[", ns, "\\:src^=\"cid:\"]", NULL);
-			gint ns_length, jj;
-
-			list = webkit_dom_document_query_selector_all (
-				document, selector, NULL);
-			ns_length = webkit_dom_node_list_get_length (list);
-			for (jj = 0; jj < ns_length; jj++) {
-				WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
-
-				set_base64_to_element_attribute (
-					view, WEBKIT_DOM_ELEMENT (node), attribute_ns);
-			}
-
-			g_object_unref (list);
-			g_free (attribute_ns);
-			g_free (selector);
-		}
-		g_free (name);
-	}
-	g_object_unref (attributes);
-
-	list = webkit_dom_document_query_selector_all (
-		document, "[background^=\"cid:\"]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-
-		set_base64_to_element_attribute (
-			view, WEBKIT_DOM_ELEMENT (node), "background");
-	}
-	g_object_unref (list);
-	g_hash_table_remove_all (view->priv->inline_images);
-}
-
-/* Based on original use_pictograms() from GtkHTML */
-static const gchar *emoticons_chars =
-	/*  0 */ "DO)(|/PQ*!"
-	/* 10 */ "S\0:-\0:\0:-\0"
-	/* 20 */ ":\0:;=-\"\0:;"
-	/* 30 */ "B\"|\0:-'\0:X"
-	/* 40 */ "\0:\0:-\0:\0:-"
-	/* 50 */ "\0:\0:-\0:\0:-"
-	/* 60 */ "\0:\0:\0:-\0:\0"
-	/* 70 */ ":-\0:\0:-\0:\0";
-static gint emoticons_states[] = {
-	/*  0 */  12,  17,  22,  34,  43,  48,  53,  58,  65,  70,
-	/* 10 */  75,   0, -15,  15,   0, -15,   0, -17,  20,   0,
-	/* 20 */ -17,   0, -14, -20, -14,  28,  63,   0, -14, -20,
-	/* 30 */  -3,  63, -18,   0, -12,  38,  41,   0, -12,  -2,
-	/* 40 */   0,  -4,   0, -10,  46,   0, -10,   0, -19,  51,
-	/* 50 */   0, -19,   0, -11,  56,   0, -11,   0, -13,  61,
-	/* 60 */   0, -13,   0,  -6,   0,  68,  -7,   0,  -7,   0,
-	/* 70 */ -16,  73,   0, -16,   0, -21,  78,   0, -21,   0 };
-static const gchar *emoticons_icon_names[] = {
-	"face-angel",
-	"face-angry",
-	"face-cool",
-	"face-crying",
-	"face-devilish",
-	"face-embarrassed",
-	"face-kiss",
-	"face-laugh",		/* not used */
-	"face-monkey",		/* not used */
-	"face-plain",
-	"face-raspberry",
-	"face-sad",
-	"face-sick",
-	"face-smile",
-	"face-smile-big",
-	"face-smirk",
-	"face-surprise",
-	"face-tired",
-	"face-uncertain",
-	"face-wink",
-	"face-worried"
-};
-
-static gboolean
-is_return_key (GdkEventKey *event)
-{
-	return (
-	    (event->keyval == GDK_KEY_Return) ||
-	    (event->keyval == GDK_KEY_Linefeed) ||
-	    (event->keyval == GDK_KEY_KP_Enter));
-}
-
-static void
-html_editor_view_check_magic_links (EHTMLEditorView *view,
-                                    WebKitDOMRange *range,
-                                    gboolean include_space_by_user)
-{
-	gchar *node_text;
-	gchar **urls;
-	GRegex *regex = NULL;
-	GMatchInfo *match_info;
-	gint start_pos_url, end_pos_url;
-	WebKitDOMNode *node;
-	gboolean include_space = FALSE;
-	gboolean is_email_address = FALSE;
-
-	if (include_space_by_user == TRUE)
-		include_space = TRUE;
-	else
-		include_space = view->priv->space_key_pressed;
-
-	node = webkit_dom_range_get_end_container (range, NULL);
-
-	if (view->priv->return_key_pressed)
-		node = webkit_dom_node_get_previous_sibling (node);
-
-	if (!node)
-		return;
-
-	if (!WEBKIT_DOM_IS_TEXT (node)) {
-		if (webkit_dom_node_has_child_nodes (node))
-			node = webkit_dom_node_get_first_child (node);
-		if (!WEBKIT_DOM_IS_TEXT (node))
-			return;
-	}
-
-	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (!node_text || !(*node_text) || !g_utf8_validate (node_text, -1, NULL))
-		return;
-
-	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
-		is_email_address = TRUE;
-		regex = g_regex_new (include_space ? E_MAIL_PATTERN_SPACE : E_MAIL_PATTERN, 0, 0, NULL);
-	} else
-		regex = g_regex_new (include_space ? URL_PATTERN_SPACE : URL_PATTERN, 0, 0, NULL);
-
-	if (!regex) {
-		g_free (node_text);
-		return;
-	}
-
-	g_regex_match_all (regex, node_text, G_REGEX_MATCH_NOTEMPTY, &match_info);
-	urls = g_match_info_fetch_all (match_info);
-
-	if (urls) {
-		gchar *final_url, *url_end_raw;
-		glong url_start, url_end, url_length;
-		WebKitDOMDocument *document;
-		WebKitDOMNode *url_text_node_clone;
-		WebKitDOMText *url_text_node;
-		WebKitDOMElement *anchor;
-		const gchar* url_text;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		if (!view->priv->return_key_pressed)
-			e_html_editor_selection_save_caret_position (
-				e_html_editor_view_get_selection (view));
-
-		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
-
-		/* Get start and end position of url in node's text because positions
-		 * that we get from g_match_info_fetch_pos are not UTF-8 aware */
-		url_end_raw = g_strndup(node_text, end_pos_url);
-		url_end = g_utf8_strlen (url_end_raw, -1);
-
-		url_length = g_utf8_strlen (urls[0], -1);
-		url_start = url_end - url_length;
-
-		webkit_dom_text_split_text (
-			WEBKIT_DOM_TEXT (node),
-			include_space ? url_end - 1 : url_end,
-			NULL);
-
-		url_text_node = webkit_dom_text_split_text (
-			WEBKIT_DOM_TEXT (node), url_start, NULL);
-		url_text_node_clone = webkit_dom_node_clone_node (
-			WEBKIT_DOM_NODE (url_text_node), TRUE);
-		url_text = webkit_dom_text_get_whole_text (
-			WEBKIT_DOM_TEXT (url_text_node_clone));
-
-		if (g_str_has_prefix (url_text, "www."))
-			final_url = g_strconcat ("http://" , url_text, NULL);
-		else if (is_email_address)
-			final_url = g_strconcat ("mailto:" , url_text, NULL);
-		else
-			final_url = g_strdup (url_text);
-
-		/* Create and prepare new anchor element */
-		anchor = webkit_dom_document_create_element (document, "A", NULL);
-
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (anchor),
-			url_text,
-			NULL);
-
-		webkit_dom_html_anchor_element_set_href (
-			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (anchor),
-			final_url);
-
-		/* Insert new anchor element into document */
-		webkit_dom_node_replace_child (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (anchor),
-			WEBKIT_DOM_NODE (url_text_node),
-			NULL);
-
-		if (!view->priv->return_key_pressed)
-			e_html_editor_selection_restore_caret_position (
-				e_html_editor_view_get_selection (view));
-
-		g_free (url_end_raw);
-		g_free (final_url);
-	} else {
-		WebKitDOMElement *parent;
-		WebKitDOMNode *prev_sibling;
-		gchar *href, *text, *url;
-		gint diff;
-		const char* text_to_append;
-		gboolean appending_to_link = FALSE;
-
-		parent = webkit_dom_node_get_parent_element (node);
-		prev_sibling = webkit_dom_node_get_previous_sibling (node);
-
-		/* If previous sibling is ANCHOR and actual text node is not beginning with
-		 * space => we're appending to link */
-		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling)) {
-			text_to_append = webkit_dom_node_get_text_content (node);
-			if (g_strcmp0 (text_to_append, "") != 0 &&
-				!g_unichar_isspace (g_utf8_get_char (text_to_append))) {
-
-				appending_to_link = TRUE;
-				parent = WEBKIT_DOM_ELEMENT (prev_sibling);
-			}
-		}
-
-		/* If parent is ANCHOR => we're editing the link */
-		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) && !appending_to_link) {
-			g_match_info_free (match_info);
-			g_regex_unref (regex);
-			g_free (node_text);
-			return;
-		}
-
-		/* edit only if href and description are the same */
-		href = webkit_dom_html_anchor_element_get_href (
-			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent));
-
-		if (appending_to_link) {
-			gchar *inner_text;
-
-			inner_text =
-				webkit_dom_html_element_get_inner_text (
-					WEBKIT_DOM_HTML_ELEMENT (parent)),
-
-			text = g_strconcat (inner_text, text_to_append, NULL);
-			g_free (inner_text);
-		} else
-			text = webkit_dom_html_element_get_inner_text (
-					WEBKIT_DOM_HTML_ELEMENT (parent));
-
-		if (strstr (href, "://") && !strstr (text, "://")) {
-			url = strstr (href, "://") + 3;
-			diff = strlen (text) - strlen (url);
-
-			if (text [strlen (text) - 1] != '/')
-				diff++;
-
-			if ((g_strcmp0 (url, text) != 0 && ABS (diff) == 1) || appending_to_link) {
-				gchar *inner_html, *protocol, *new_href;
-
-				protocol = g_strndup (href, strstr (href, "://") - href + 3);
-				inner_html = webkit_dom_html_element_get_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (parent));
-				new_href = g_strconcat (
-					protocol, inner_html, appending_to_link ? text_to_append : "", NULL);
-
-				webkit_dom_html_anchor_element_set_href (
-					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
-					new_href);
-
-				if (appending_to_link) {
-					gchar *tmp;
-
-					tmp = g_strconcat (inner_html, text_to_append, NULL);
-					webkit_dom_html_element_set_inner_html (
-						WEBKIT_DOM_HTML_ELEMENT (parent),
-						tmp,
-						NULL);
-
-					remove_node (node);
-
-					g_free (tmp);
-				}
-
-				g_free (new_href);
-				g_free (protocol);
-				g_free (inner_html);
-			}
-		} else {
-			diff = strlen (text) - strlen (href);
-			if (text [strlen (text) - 1] != '/')
-				diff++;
-
-			if ((g_strcmp0 (href, text) != 0 && ABS (diff) == 1) || appending_to_link) {
-				gchar *inner_html;
-				gchar *new_href;
-
-				inner_html = webkit_dom_html_element_get_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (parent));
-				new_href = g_strconcat (
-						inner_html,
-						appending_to_link ? text_to_append : "",
-						NULL);
-
-				webkit_dom_html_anchor_element_set_href (
-					WEBKIT_DOM_HTML_ANCHOR_ELEMENT (parent),
-					new_href);
-
-				if (appending_to_link) {
-					gchar *tmp;
-
-					tmp = g_strconcat (inner_html, text_to_append, NULL);
-					webkit_dom_html_element_set_inner_html (
-						WEBKIT_DOM_HTML_ELEMENT (parent),
-						tmp,
-						NULL);
-
-					remove_node (node);
-
-					g_free (tmp);
-				}
-
-				g_free (new_href);
-				g_free (inner_html);
-			}
-
-		}
-		g_free (text);
-		g_free (href);
-	}
-
-	g_match_info_free (match_info);
-	g_regex_unref (regex);
-	g_free (node_text);
-}
-
-typedef struct _LoadContext LoadContext;
-
-struct _LoadContext {
-	EHTMLEditorView *view;
-	gchar *content_type;
-	gchar *name;
-	EEmoticon *emoticon;
-};
-
-static LoadContext *
-emoticon_load_context_new (EHTMLEditorView *view,
-                           EEmoticon *emoticon)
-{
-	LoadContext *load_context;
-
-	load_context = g_slice_new0 (LoadContext);
-	load_context->view = view;
-	load_context->emoticon = emoticon;
-
-	return load_context;
-}
-
-static void
-emoticon_load_context_free (LoadContext *load_context)
-{
-	g_free (load_context->content_type);
-	g_free (load_context->name);
-	g_slice_free (LoadContext, load_context);
-}
-
-static void
-emoticon_read_async_cb (GFile *file,
-                        GAsyncResult *result,
-                        LoadContext *load_context)
-{
-	EHTMLEditorView *view = load_context->view;
-	EEmoticon *emoticon = load_context->emoticon;
-	GError *error = NULL;
-	gboolean misplaced_selection = FALSE, empty = FALSE;
-	gchar *html, *node_text = NULL, *mime_type, *content;
-	gchar *base64_encoded, *output, *data;
-	const gchar *emoticon_start;
-	GFileInputStream *input_stream;
-	GOutputStream *output_stream;
-	gssize size;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *span, *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *node, *insert_before, *prev_sibling, *next_sibling;
-	WebKitDOMNode *selection_end_marker_parent;
-	WebKitDOMRange *range;
-
-	input_stream = g_file_read_finish (file, result, &error);
-	g_return_if_fail (!error && input_stream);
-
-	output_stream = g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
-
-	size = g_output_stream_splice (
-		output_stream, G_INPUT_STREAM (input_stream),
-		G_OUTPUT_STREAM_SPLICE_NONE, NULL, &error);
-
-	if (error || (size == -1))
-		goto out;
-
-	e_html_editor_selection_save (e_html_editor_view_get_selection (view));
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	selection_start_marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-start-marker");
-	selection_end_marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-end-marker");
-
-	/* If the selection was not saved, move it into the first child of body */
-	if (!selection_start_marker || !selection_end_marker) {
-		WebKitDOMHTMLElement *body;
-		WebKitDOMNode *child;
-
-		body = webkit_dom_document_get_body (document);
-		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-		add_selection_markers_into_element_start (
-			document,
-			WEBKIT_DOM_ELEMENT (child),
-			&selection_start_marker,
-			&selection_end_marker);
-	}
-
-	/* Sometimes selection end marker is in body. Move it into next sibling */
-	selection_end_marker_parent = get_parent_block_node_from_child (
-		WEBKIT_DOM_NODE (selection_end_marker));
-	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (selection_end_marker_parent)) {
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (
-				WEBKIT_DOM_NODE (selection_start_marker)),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			NULL);
-	}
-	selection_end_marker_parent = webkit_dom_node_get_parent_node (
-		WEBKIT_DOM_NODE (selection_end_marker));
-
-	/* Determine before what node we have to insert the smiley */
-	insert_before = WEBKIT_DOM_NODE (selection_start_marker);
-	prev_sibling = webkit_dom_node_get_previous_sibling (
-		WEBKIT_DOM_NODE (selection_start_marker));
-	if (prev_sibling) {
-		if (webkit_dom_node_is_same_node (
-			prev_sibling, WEBKIT_DOM_NODE (selection_end_marker))) {
-			insert_before = WEBKIT_DOM_NODE (selection_end_marker);
-		} else {
-			prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
-			if (prev_sibling &&
-			    webkit_dom_node_is_same_node (
-				prev_sibling, WEBKIT_DOM_NODE (selection_end_marker))) {
-				insert_before = WEBKIT_DOM_NODE (selection_end_marker);
-			}
-		}
-	} else
-		insert_before = WEBKIT_DOM_NODE (selection_start_marker);
-
-	/* Look if selection is misplaced - that means that the selection was
-	 * restored before the previously inserted smiley in situations when we
-	 * are writing more smileys in a row */
-	next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
-	if (next_sibling && WEBKIT_DOM_IS_ELEMENT (next_sibling))
-		if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-smiley-wrapper"))
-			misplaced_selection = TRUE;
-
-	mime_type = g_content_type_get_mime_type (load_context->content_type);
-	range = dom_get_range (view);
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node))
-		node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-
-	data = g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream));
-	base64_encoded = g_base64_encode ((const guchar *) data, size);
-	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
-
-	content = webkit_dom_node_get_text_content (selection_end_marker_parent);
-	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
-	g_free (content);
-
-	/* Insert span with image representation and another one with text
-	 * represetation and hide/show them dependant on active composer mode */
-	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-	html = g_strdup_printf (
-		"<span class=\"-x-evo-smiley-wrapper -x-evo-resizable-wrapper\">"
-		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
-		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"/>"
-		"<span class=\"-x-evo-smiley-text\" style=\"display: none;\">%s"
-		"</span></span>%s",
-		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
-		load_context->name, emoticon ? emoticon->text_face : "",
-		empty ? "&#8203;" : "");
-
-	span = webkit_dom_document_create_element (document, "SPAN", NULL);
-
-	if (misplaced_selection) {
-		/* Insert smiley and selection markers after it */
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (insert_before),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			webkit_dom_node_get_next_sibling (next_sibling),
-			NULL);
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (insert_before),
-			WEBKIT_DOM_NODE (selection_end_marker),
-			webkit_dom_node_get_next_sibling (next_sibling),
-			NULL);
-		span = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (insert_before),
-				WEBKIT_DOM_NODE (span),
-				webkit_dom_node_get_next_sibling (next_sibling),
-				NULL));
-	} else {
-		span = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (insert_before),
-				WEBKIT_DOM_NODE (span),
-				insert_before,
-				NULL));
-	}
-
-	webkit_dom_html_element_set_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (span), html, NULL);
-
-	if (node_text) {
-		emoticon_start = g_utf8_strrchr (
-			node_text, -1, g_utf8_get_char (emoticon->text_face));
-		if (emoticon_start) {
-			webkit_dom_character_data_delete_data (
-				WEBKIT_DOM_CHARACTER_DATA (node),
-				g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
-				strlen (emoticon->text_face),
-				NULL);
-		}
-	}
-
-	e_html_editor_selection_restore (
-		e_html_editor_view_get_selection (view));
-
-	e_html_editor_view_set_changed (view, TRUE);
-
-	g_free (html);
-	g_free (node_text);
-	g_free (base64_encoded);
-	g_free (output);
-	g_free (mime_type);
-	g_object_unref (output_stream);
- out:
-	emoticon_load_context_free (load_context);
-}
-
-static void
-emoticon_query_info_async_cb (GFile *file,
-                              GAsyncResult *result,
-                              LoadContext *load_context)
-{
-	GError *error = NULL;
-	GFileInfo *info;
-
-	info = g_file_query_info_finish (file, result, &error);
-	g_return_if_fail (!error && info);
-
-	load_context->content_type = g_strdup (g_file_info_get_content_type (info));
-	load_context->name = g_strdup (g_file_info_get_name (info));
-
-	g_file_read_async (
-		file, G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) emoticon_read_async_cb, load_context);
-
-	g_object_unref (info);
-}
-
-void
-e_html_editor_view_insert_smiley (EHTMLEditorView *view,
-                                  EEmoticon *emoticon)
-{
-	GFile *file;
-	gchar *filename_uri;
-	LoadContext *load_context;
-
-	filename_uri = e_emoticon_get_uri (emoticon);
-	g_return_if_fail (filename_uri != NULL);
-
-	load_context = emoticon_load_context_new (view, emoticon);
-
-	file = g_file_new_for_uri (filename_uri);
-	g_file_query_info_async (
-		file,  "standard::*", G_FILE_QUERY_INFO_NONE,
-		G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) emoticon_query_info_async_cb, load_context);
-
-	g_free (filename_uri);
-	g_object_unref (file);
-}
-
-static void
-html_editor_view_check_magic_smileys (EHTMLEditorView *view,
-                                      WebKitDOMRange *range)
-{
-	gint pos;
-	gint state;
-	gint relative;
-	gint start;
-	gchar *node_text;
-	gunichar uc;
-	WebKitDOMNode *node;
-
-	node = webkit_dom_range_get_end_container (range, NULL);
-	if (!WEBKIT_DOM_IS_TEXT (node))
-		return;
-
-	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (node_text == NULL)
-		return;
-
-	start = webkit_dom_range_get_end_offset (range, NULL) - 1;
-	pos = start;
-	state = 0;
-	while (pos >= 0) {
-		uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos));
-		relative = 0;
-		while (emoticons_chars[state + relative]) {
-			if (emoticons_chars[state + relative] == uc)
-				break;
-			relative++;
-		}
-		state = emoticons_states[state + relative];
-		/* 0 .. not found, -n .. found n-th */
-		if (state <= 0)
-			break;
-		pos--;
-	}
-
-	/* Special case needed to recognize angel and devilish. */
-	if (pos > 0 && state == -14) {
-		uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
-		if (uc == 'O') {
-			state = -1;
-			pos--;
-		} else if (uc == '>') {
-			state = -5;
-			pos--;
-		}
-	}
-
-	if (state < 0) {
-		const EEmoticon *emoticon;
-
-		if (pos > 0) {
-			uc = g_utf8_get_char (g_utf8_offset_to_pointer (node_text, pos - 1));
-			if (!g_unichar_isspace (uc)) {
-				g_free (node_text);
-				return;
-			}
-		}
-
-		emoticon = (e_emoticon_chooser_lookup_emoticon (
-			emoticons_icon_names[-state - 1]));
-		e_html_editor_view_insert_smiley (view, (EEmoticon *) emoticon);
-	}
-
-	g_free (node_text);
-}
-
 static void
 insert_and_convert_html_into_selection (EHTMLEditorView *view,
                                         const gchar *text,
@@ -1150,7 +330,7 @@ insert_and_convert_html_into_selection (EHTMLEditorView *view,
 
 	g_dbus_proxy_call (
 		web_extension,
-		"DOMInsertAndConvertHTMLIntoSelection",
+		"DOMConvertAndInsertHTMLIntoSelection",
 		g_variant_new (
 			"(tsb)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
@@ -1354,8 +534,6 @@ html_editor_view_dispose (GObject *object)
 	g_clear_object (&priv->selection);
 	g_clear_object (&priv->web_extension);
 
-	g_hash_table_remove_all (priv->inline_images);
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->dispose (object);
 }
@@ -1366,8 +544,6 @@ html_editor_view_finalize (GObject *object)
 	EHTMLEditorViewPrivate *priv;
 
 	priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (object);
-
-	g_hash_table_destroy (priv->inline_images);
 
 	if (priv->old_settings) {
 		g_hash_table_destroy (priv->old_settings);
@@ -1388,24 +564,29 @@ html_editor_view_finalize (GObject *object)
 static void
 html_editor_view_constructed (GObject *object)
 {
+	WebKitSettings *web_settings;
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->constructed (object);
-/* FIXME WK2
-	WebKitSettings *web_settings;
 
 	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
+
+	g_object_set (
+		G_OBJECT (web_settings),
+		"enable-scripts", FALSE,
+		"enable-plugins", FALSE,
+		NULL);
+/* FIXME WK2
 	g_object_set (
 		G_OBJECT (web_settings),
 		"enable-dom-paste", TRUE,
 		"enable-file-access-from-file-uris", TRUE,
 		"enable-spell-checking", TRUE,
-		NULL);
-*/
+		NULL);*/
 }
-
+/* FIXME WK2
 static void
 html_editor_view_save_element_under_mouse_click (GtkWidget *widget)
 {
@@ -1430,7 +611,7 @@ html_editor_view_save_element_under_mouse_click (GtkWidget *widget)
 	view = E_HTML_EDITOR_VIEW (widget);
 	view->priv->element_under_mouse = element;
 }
-
+*/
 static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
                                      GdkEventButton *event)
@@ -1442,7 +623,8 @@ html_editor_view_button_press_event (GtkWidget *widget,
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
-		html_editor_view_save_element_under_mouse_click (widget);
+/* FIXME WK2
+		html_editor_view_save_element_under_mouse_click (widget); */
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -1458,50 +640,26 @@ html_editor_view_button_press_event (GtkWidget *widget,
 		button_press_event (widget, event);
 }
 
-static gboolean
-html_editor_view_button_release_event (GtkWidget *widget,
-                                       GdkEventButton *event)
+static void
+editor_view_mouse_target_changed_cb (EHTMLEditorView *view,
+                                     WebKitHitTestResult *hit_test_result,
+                                     guint modifiers,
+                                     gpointer user_data)
 {
-	WebKitWebView *webview;
-	WebKitHitTestResult *hit_test;
-	WebKitHitTestResultContext context;
-	gchar *uri;
+	/* Ctrl + Left Click on link opens it. */
+	if (webkit_hit_test_result_context_is_link (hit_test_result) &&
+	    (modifiers & GDK_CONTROL_MASK)) {
+		GdkScreen *screen;
+		const gchar *uri;
+		GtkWidget *toplevel;
 
-	webview = WEBKIT_WEB_VIEW (widget);
-	hit_test = webkit_web_view_get_hit_test_result (webview, event);
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (view));
+		screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
 
-	g_object_get (
-		hit_test,
-		"context", &context,
-		"link-uri", &uri,
-		NULL);
+		uri = webkit_hit_test_result_get_link_uri (hit_test_result);
 
-	g_object_unref (hit_test);
-
-	/* Left click on a link */
-	if ((context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK) &&
-	    (event->button == 1)) {
-
-		/* Ctrl + Left Click on link opens it, otherwise ignore the
-		 * click completely */
-		if (event->state & GDK_CONTROL_MASK) {
-			GtkWidget *toplevel;
-			GdkScreen *screen;
-
-			toplevel = gtk_widget_get_toplevel (widget);
-			screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
-			gtk_show_uri (screen, uri, event->time, NULL);
-			g_free (uri);
-		}
-
-		return TRUE;
+		gtk_show_uri (screen, uri, GDK_CURRENT_TIME, NULL);
 	}
-
-	g_free (uri);
-
-	/* Chain up to parent's button_release_event() method. */
-	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
-		button_release_event (widget, event);
 }
 
 static gboolean
@@ -1509,11 +667,13 @@ html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
+	GDBusProxy *web_extension;
+	GVariant *result;
 
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
-
-		html_editor_view_save_element_under_mouse_click (widget);
+/* FIXME WK2
+		html_editor_view_save_element_under_mouse_click (widget); */
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -1521,214 +681,34 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		return event_handled;
 	}
 
-	if (event->keyval == GDK_KEY_Tab)
-		return e_html_editor_view_exec_command (
-			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (web_extension)
+		return FALSE;
 
-	if ((event->keyval == GDK_KEY_Control_L) ||
-	    (event->keyval == GDK_KEY_Control_R)) {
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMProcessOnKeyPress",
+		g_variant_new (
+			"(tu)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			event->keyval),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-		html_editor_view_set_links_active (view, TRUE);
-	}
+	if (result) {
+		gboolean ret_val = FALSE;
 
-	if (is_return_key (event)) {
-		EHTMLEditorSelection *selection;
-		EHTMLEditorSelectionBlockFormat format;
+		ret_val = g_variant_get_boolean (result);
+		g_variant_unref (result);
 
-		selection = e_html_editor_view_get_selection (view);
-		/* When user presses ENTER in a citation block, WebKit does
-		 * not break the citation automatically, so we need to use
-		 * the special command to do it. */
-		if (e_html_editor_selection_is_citation (selection)) {
-			remove_input_event_listener_from_body (view);
-			return (insert_new_line_into_citation (view, "")) ? TRUE : FALSE;
-		}
-
-		/* When the return is pressed in a H1-6 element, WebKit doesn't
-		 * continue with the same element, but creates normal paragraph,
-		 * so we have to unset the bold font. */
-		format = e_html_editor_selection_get_block_format (selection);
-		if (format >= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H1 &&
-		    format <= E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_H6)
-			e_html_editor_selection_set_bold (selection, FALSE);
-	}
-
-	if (event->keyval == GDK_KEY_BackSpace) {
-		EHTMLEditorSelection *selection;
-
-		selection = e_html_editor_view_get_selection (view);
-
-		/* BackSpace pressed in the beginning of quoted content changes
-		 * format to normal and inserts text into body */
-		if (e_html_editor_selection_is_collapsed (selection)) {
-			e_html_editor_selection_save (selection);
-			if (change_quoted_block_to_normal (view)) {
-				e_html_editor_selection_restore (selection);
-				e_html_editor_view_force_spell_check_for_current_paragraph (view);
-				return TRUE;
-			}
-			e_html_editor_selection_restore (selection);
-		} else
-			remove_input_event_listener_from_body (view);
-
-		/* BackSpace in indented block decrease indent level by one */
-		if (e_html_editor_selection_is_indented (selection)) {
-			WebKitDOMElement *caret;
-			WebKitDOMNode *prev_sibling;
-
-			caret = e_html_editor_selection_save_caret_position (selection);
-
-			/* Empty text node before caret */
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (caret));
-			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
-				gchar *content;
-
-				content = webkit_dom_node_get_text_content (prev_sibling);
-				if (g_strcmp0 (content, "") == 0)
-					prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
-				g_free (content);
-			}
-
-			if (!prev_sibling) {
-				e_html_editor_selection_clear_caret_position_marker (selection);
-				e_html_editor_selection_unindent (selection);
-				return TRUE;
-			} else
-				e_html_editor_selection_clear_caret_position_marker (selection);
-		}
-
-		if (prevent_from_deleting_last_element_in_body (view))
-			return TRUE;
+		if (ret_val)
+			return ret_val;
 	}
 
 	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
-		key_press_event (widget, event);
-}
-
-static gboolean
-html_editor_view_key_release_event (GtkWidget *widget,
-                                    GdkEventKey *event)
-{
-	EHTMLEditorView *view;
-	EHTMLEditorSelection *selection;
-
-	view = E_HTML_EDITOR_VIEW (widget);
-	register_input_event_listener_on_body (view);
-
-	selection = e_html_editor_view_get_selection (view);
-	if (!e_html_editor_selection_is_collapsed (selection))
-		goto out;
-
-	/* This will fix the structure after the situations where some text
-	 * inside the quoted content is selected and afterwards deleted with
-	 * BackSpace or Delete. */
-	if ((event->keyval == GDK_KEY_BackSpace) ||
-	    (event->keyval == GDK_KEY_Delete)) {
-		gint level;
-		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMElement *element;
-		WebKitDOMDocument *document;
-		WebKitDOMNode *node, *parent;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-
-		e_html_editor_selection_save (selection);
-		selection_start_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
-		selection_end_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-end-marker");
-
-		level = get_citation_level (
-			WEBKIT_DOM_NODE (selection_start_marker), FALSE);
-		if (level == 0)
-			goto restore;
-
-		node = webkit_dom_node_get_previous_sibling (
-			WEBKIT_DOM_NODE (selection_start_marker));
-
-		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
-			node = webkit_dom_node_get_previous_sibling (node);
-
-		if (node)
-			goto restore;
-
-		parent = get_parent_block_node_from_child (
-			WEBKIT_DOM_NODE (selection_start_marker));
-
-		node = webkit_dom_node_get_previous_sibling (parent);
-		if (!node) {
-			/* Situation where the start of the selection was in the
-			 * multiple quoted content and that start on the beginning
-			 * of the citation.
-			 *
-			 * >
-			 * >> |
-			 * >> xx|x
-			 * */
-			node = webkit_dom_node_get_parent_node (parent);
-			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
-				goto restore;
-			node = webkit_dom_node_get_previous_sibling (node);
-			if (!node)
-				goto restore;
-			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (webkit_dom_node_get_parent_node (node)))
-				goto restore;
-		}
-
-		element = webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (node), "span.-x-evo-quote-character > br", NULL);
-		if (element) {
-			WebKitDOMNode *tmp;
-
-			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
-				/* We have to select the right block when the selection
-				 * started on the end of the citation that is
-				 * inside another citation.
-				 *
-				 * >>|
-				 * > xx|x
-				 */
-				/* <span class="-x-evo-quote-character"> */
-				node = webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (element));
-				/* <span class="-x-evo-quoted"> */
-				node = webkit_dom_node_get_parent_node (node);
-				/* right block */
-				node = webkit_dom_node_get_parent_node (node);
-			}
-
-			webkit_dom_node_append_child (
-				node, WEBKIT_DOM_NODE (selection_start_marker), NULL);
-
-			while ((tmp = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker))))
-				webkit_dom_node_append_child (node, tmp, NULL);
-
-			webkit_dom_node_insert_before (
-				node,
-				WEBKIT_DOM_NODE (selection_end_marker),
-				webkit_dom_node_get_next_sibling (
-					WEBKIT_DOM_NODE (selection_start_marker)),
-				NULL);
-
-			webkit_dom_node_append_child (
-				node, WEBKIT_DOM_NODE (element), NULL);
-			remove_node (parent);
-		}
- restore:
-		e_html_editor_selection_restore (selection);
-	}
-
-	if ((event->keyval == GDK_KEY_Control_L) ||
-	    (event->keyval == GDK_KEY_Control_R)) {
-
-		html_editor_view_set_links_active (view, FALSE);
-	}
- out:
-	/* Chain up to parent's key_release_event() method. */
-	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
-		key_release_event (widget, event);
+	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->key_press_event (widget, event);
 }
 
 static void
@@ -1940,15 +920,15 @@ html_editor_view_constructor (GType type,
 	GParamSpec* param_spec;
 	GObjectConstructParam *param = NULL;
 
-	object_class = G_OBJECT_CLASS(g_type_class_ref(type));
-	g_return_val_if_fail(object_class != NULL, NULL);
+	object_class = G_OBJECT_CLASS (g_type_class_ref(type));
+	g_return_val_if_fail (object_class != NULL, NULL);
 
 	if (construct_properties && n_construct_properties != 0) {
 		param_spec = g_object_class_find_property(object_class, "settings");
-		if ((param = find_property(n_construct_properties, construct_properties, param_spec)))
+		if ((param = find_property (n_construct_properties, construct_properties, param_spec)))
 			g_value_take_object (param->value, e_web_view_get_default_webkit_settings ());
 		param_spec = g_object_class_find_property(object_class, "user-content-manager");
-		if ((param = find_property(n_construct_properties, construct_properties, param_spec)))
+		if ((param = find_property (n_construct_properties, construct_properties, param_spec)))
 			g_value_take_object (param->value, webkit_user_content_manager_new ());
 	}
 
@@ -1986,9 +966,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = html_editor_view_button_press_event;
-	widget_class->button_release_event = html_editor_view_button_release_event;
 	widget_class->key_press_event = html_editor_view_key_press_event;
-	widget_class->key_release_event = html_editor_view_key_release_event;
 
 	class->paste_clipboard_quoted = html_editor_view_paste_clipboard_quoted;
 
@@ -2163,7 +1141,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
-
+#if 0 /* FIXME WK2 */
 	/**
 	 * EHTMLEditorView:spell-checker:
 	 *
@@ -2179,7 +1157,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 			E_TYPE_SPELL_CHECKER,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
-
+#endif
 	/**
 	 * EHTMLEditorView:popup-event
 	 *
@@ -2371,9 +1349,6 @@ static void
 html_editor_view_load_changed (EHTMLEditorView *view,
                                WebKitLoadEvent load_event)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMHTMLElement *body;
-
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
@@ -2399,42 +1374,43 @@ html_editor_view_load_changed (EHTMLEditorView *view,
 
 	view->priv->reload_in_progress = FALSE;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+}
 
-	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
+static void
+set_cached_boolean_property (EHTMLEditorView *view,
+                             const gchar *property_name,
+                             gboolean value)
+{
+	GDBusProxy *web_extension;
 
-	if (view->priv->convert_in_situ) {
-		html_editor_convert_view_content (view, NULL);
-		view->priv->convert_in_situ = FALSE;
-
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
 		return;
-	}
 
-	put_body_in_citation (document);
-	move_elements_to_body (document);
-	repair_gmail_blockquotes (document);
+	g_dbus_proxy_set_cached_property (
+		web_extension, property_name, g_variant_new_boolean (value));
+}
 
-	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
-		/* Restore the selection how it was when the draft was saved */
-		e_html_editor_selection_move_caret_into_element (
-			document, WEBKIT_DOM_ELEMENT (body));
-		e_html_editor_selection_restore (
-			e_html_editor_view_get_selection (view));
-	}
+static gboolean
+get_cached_boolean_property (EHTMLEditorView *view,
+                             const gchar *property_name)
+{
+	gboolean value = FALSE;
+	GVariant *result;
+	GDBusProxy *web_extension;
 
-	/* Register on input event that is called when the content (body) is modified */
-	register_input_event_listener_on_body (view);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return FALSE;
 
-	if (view->priv->html_mode)
-		change_cid_images_src_to_base64 (view);
+	result = g_dbus_proxy_get_cached_property (web_extension, property_name);
+	if (!result)
+		return FALSE;
 
-	if (view->priv->inline_spelling)
-		e_html_editor_view_force_spell_check (view);
-	else
-		e_html_editor_view_turn_spell_check_off (view);
+	value = g_variant_get_boolean (result);
+	g_variant_unref (result);
+
+	return value;
 }
 
 /**
@@ -2451,33 +1427,31 @@ void
 e_html_editor_view_set_html_mode (EHTMLEditorView *view,
                                   gboolean html_mode)
 {
-	EHTMLEditorSelection *selection;
-	gboolean is_from_new_message, converted, edit_as_new, message, convert;
-	gboolean reply, hide;
-	WebKitDOMElement *blockquote;
-	WebKitDOMHTMLElement *body;
-	WebKitDOMDocument *document;
+	gboolean convert = FALSE;
+	GDBusProxy *web_extension;
+	GVariant *result;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
-	selection = e_html_editor_view_get_selection (view);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	body = webkit_dom_document_get_body (document);
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMCheckIfConversionNeeded",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	is_from_new_message = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-new-message");
-	converted = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-converted");
-	edit_as_new = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-edit-as-new");
-	message = webkit_dom_element_has_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message");
-
-	reply = !is_from_new_message && !edit_as_new && message;
-	hide = !reply && !converted;
-
-	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
+	if (result) {
+		convert = g_variant_get_boolean (result);
+		g_variant_unref (result);
+	}
 
 	/* If toggling from HTML to plain text mode, ask user first */
 	if (convert && view->priv->html_mode && !html_mode) {
@@ -2485,23 +1459,14 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 			return;
 
 		view->priv->html_mode = html_mode;
-
-		GDBusProxy *web_extension;
-
-		g_return_if_fail (view != NULL);
-
-		web_extension = e_html_editor_view_get_web_extension_proxy (view);
-		if (!web_extension)
-			return;
+		set_cached_boolean_property (view, "HTMLMode", html_mode);
 
 		g_dbus_proxy_call (
 			web_extension,
 			"ConvertWhenChangingComposerMode",
 			g_variant_new (
-				"(tsb)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-				text,
-				TRUE),
+				"(t)",
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
 			G_DBUS_CALL_FLAGS_NONE,
 			-1,
 			NULL,
@@ -2511,10 +1476,6 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		/* Update fonts - in plain text we only want monospace */
 		e_html_editor_view_update_fonts (view);
 
-		e_html_editor_view_force_spell_check (view);
-
-		e_html_editor_selection_scroll_to_caret (selection);
-
 		goto out;
 	}
 
@@ -2523,49 +1484,19 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 	view->priv->html_mode = html_mode;
 
+	g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMProcessContentAfterModeChange",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+
 	/* Update fonts - in plain text we only want monospace */
 	e_html_editor_view_update_fonts (view);
-
-	blockquote = webkit_dom_document_query_selector (
-		document, "blockquote[type|=cite]", NULL);
-
-	if (view->priv->html_mode) {
-		if (blockquote)
-			e_html_editor_view_dequote_plain_text (view);
-
-		toggle_paragraphs_style (view);
-		toggle_smileys (view);
-		remove_wrapping_from_document (view);
-	} else {
-		gchar *plain;
-
-		e_html_editor_selection_save (selection);
-
-		if (blockquote) {
-			wrap_paragraphs_in_quoted_content (selection, document);
-			quote_plain_text_elements_after_wrapping_in_document (
-				document);
-		}
-
-		toggle_paragraphs_style (view);
-		toggle_smileys (view);
-		remove_images (view);
-		remove_background_images_in_document (document);
-
-		plain = process_content_for_mode_change (view);
-
-		if (*plain) {
-			webkit_dom_html_element_set_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (
-					webkit_dom_document_get_document_element (document)),
-				plain,
-				NULL);
-			e_html_editor_selection_restore (selection);
-			e_html_editor_view_force_spell_check (view);
-		}
-
-		g_free (plain);
-	}
 
  out:
 	g_object_notify (G_OBJECT (view), "html-mode");
@@ -2577,26 +1508,22 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	WebKitSettings *settings;
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
-	ESpellChecker *checker;
+//	ESpellChecker *checker;
 	gchar **languages;
 	gchar *comma_separated;
 
 	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
-
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE);
+/* FIXME WK2
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE); */
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 
 	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 
 	/* Override the spell-checker, use our own */
+/* FIXME WK2
 	checker = e_spell_checker_new ();
 	webkit_set_text_checker (G_OBJECT (checker));
 	g_object_unref (checker);
-
-	/* Don't use CSS when possible to preserve compatibility with older
-	 * versions of Evolution or other MUAs */
-	e_html_editor_view_exec_command (
-		view, E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "false");
 
 	g_signal_connect (
 		view, "user-changed-contents",
@@ -2606,12 +1533,15 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		G_CALLBACK (html_editor_view_selection_changed_cb), NULL);
 	g_signal_connect (
 		view, "should-show-delete-interface-for-element",
-		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);
+		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);*/
 	g_signal_connect (
 		view, "load-changed",
 		G_CALLBACK (html_editor_view_load_changed), NULL);
+	g_signal_connect (
+		view, "mouse-target-changed",
+		G_CALLBACK (editor_view_mouse_target_changed_cb), NULL);
 
-	e_signal_connect (
+	g_signal_connect (
 		webkit_web_context_get_default (), "initialize-web-extensions",
 		G_CALLBACK (initialize_web_extensions_cb), NULL);
 
@@ -2646,14 +1576,10 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		view->priv->aliasing_settings = g_settings;
 	}
 
-	view->priv->inline_images = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_free);
-
 	e_html_editor_view_update_fonts (view);
 
 	/* Give spell check languages to WebKit */
+/* FIXME WK2
 	languages = e_spell_checker_list_active_languages (checker, NULL);
 	comma_separated = g_strjoinv (",", languages);
 	g_strfreev (languages);
@@ -2664,7 +1590,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		NULL);
 
 	g_free (comma_separated);
-
+*/
 	view->priv->body_input_event_removed = TRUE;
 	view->priv->is_message_from_draft = FALSE;
 	view->priv->is_message_from_selection = FALSE;
@@ -2672,18 +1598,9 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
 
-	g_object_set (
-		G_OBJECT (settings),
-		"enable-scripts", FALSE,
-		"enable-plugins", FALSE,
-		NULL);
-
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
 	webkit_web_view_load_html (WEBKIT_WEB_VIEW (view), "", "file://");
-
-	html_editor_view_set_links_active (view, FALSE);
-
 }
 
 /**
@@ -2722,11 +1639,12 @@ e_html_editor_view_set_inline_spelling (EHTMLEditorView *view,
 
 	view->priv->inline_spelling = inline_spelling;
 
+/* FIXME WK2
 	if (inline_spelling)
 		e_html_editor_view_force_spell_check (view);
 	else
 		e_html_editor_view_turn_spell_check_off (view);
-
+*/
 	g_object_notify (G_OBJECT (view), "inline-spelling");
 }
 
@@ -2818,7 +1736,9 @@ e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
 ESpellChecker *
 e_html_editor_view_get_spell_checker (EHTMLEditorView *view)
 {
-	return E_SPELL_CHECKER (webkit_get_text_checker ());
+/* FIXME WK2
+	return E_SPELL_CHECKER (webkit_get_text_checker ());*/
+	return NULL;
 }
 
 static gchar *
@@ -2919,6 +1839,54 @@ e_html_editor_view_convert_and_insert_html_to_plain_text (EHTMLEditorView *view,
 }
 
 /**
+ * e_html_editor_selection_insert_text:
+ * @selection: an #EHTMLEditorSelection
+ * @plain_text: text to insert
+ *
+ * Inserts @plain_text at current cursor position. When a text range is selected,
+ * it will be replaced by @plain_text.
+ */
+void
+e_html_editor_view_insert_text (EHTMLEditorView *view,
+                                const gchar *plain_text)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (plain_text != NULL);
+
+	e_html_editor_view_convert_and_insert_plain_text (view, plain_text);
+}
+
+void
+e_html_editor_view_insert_html (EHTMLEditorView *view,
+                                const gchar *html_text)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (html_text != NULL);
+
+	if (!html_text || !*html_text)
+		return;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMInsertHTML",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			html_text),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+/**
  * e_html_editor_view_set_text_html:
  * @view: an #EHTMLEditorView
  * @text: HTML code to load into the editor
@@ -2929,6 +1897,7 @@ void
 e_html_editor_view_set_text_html (EHTMLEditorView *view,
                                   const gchar *text)
 {
+#if 0 /* FIXME WK2 */
 	WebKitLoadStatus status;
 
 	/* It can happen that the view is not ready yet (it is in the middle of
@@ -2937,6 +1906,15 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 	 * the stuff in EMailSignatureEditor. */
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
 	if (status != WEBKIT_LOAD_FINISHED) {
+		html_editor_view_queue_post_reload_operation (
+			view,
+			(PostReloadOperationFunc) e_html_editor_view_set_text_html,
+			g_strdup (text),
+			g_free);
+		return;
+	}
+#endif
+	if (view->priv->reload_in_progress) {
 		html_editor_view_queue_post_reload_operation (
 			view,
 			(PostReloadOperationFunc) e_html_editor_view_set_text_html,
@@ -2985,6 +1963,8 @@ void
 e_html_editor_view_set_text_plain (EHTMLEditorView *view,
                                    const gchar *text)
 {
+	GDBusProxy *web_extension;
+#if 0 /* FIXME WK2 */
 	WebKitLoadStatus status;
 
 	/* It can happen that the view is not ready yet (it is in the middle of
@@ -3000,10 +1980,33 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
 			g_free);
 		return;
 	}
-
+#endif
+	if (view->priv->reload_in_progress) {
+		html_editor_view_queue_post_reload_operation (
+			view,
+			(PostReloadOperationFunc) e_html_editor_view_set_text_html,
+			g_strdup (text),
+			g_free);
+		return;
+	}
 	view->priv->reload_in_progress = TRUE;
 
-	html_editor_convert_view_content (view, text);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMConvertContent",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			text),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 /**
@@ -3137,13 +2140,15 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 	gboolean mark_citations, use_custom_font;
 	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
-	gchar *base64, *font, *aa = NULL, *citation_color;
+	gchar *font, *aa = NULL, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
 	GString *stylesheet;
 	GtkStyleContext *context;
 	PangoFontDescription *ms, *vw;
 	WebKitSettings *settings;
+	WebKitUserContentManager *manager;
+	WebKitUserStyleSheet *style_sheet;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
@@ -3504,70 +2509,43 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 	gdk_color_free (link);
 	gdk_color_free (visited);
 
-	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
-	g_string_free (stylesheet, TRUE);
-
-	stylesheet = g_string_new ("data:text/css;charset=utf-8;base64,");
-	g_string_append (stylesheet, base64);
-	g_free (base64);
-
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 	g_object_set (
 		G_OBJECT (settings),
-		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
-		"default-font-family", pango_font_description_get_family (vw),
-		"monospace-font-family", pango_font_description_get_family (ms),
-		"default-monospace-font-size", (pango_font_description_get_size (ms) / PANGO_SCALE),
-		"user-stylesheet-uri", stylesheet->str,
+		"default-font-size",
+		e_util_normalize_font_size (
+			GTK_WIDGET (view), pango_font_description_get_size (vw) / PANGO_SCALE),
+		"default-font-family",
+		pango_font_description_get_family (vw),
+		"monospace-font-family",
+		pango_font_description_get_family (ms),
+		"default-monospace-font-size",
+		e_util_normalize_font_size (
+			GTK_WIDGET (view), pango_font_description_get_size (ms) / PANGO_SCALE),
 		NULL);
 
-	g_string_free (stylesheet, TRUE);
+	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (view));
+	webkit_user_content_manager_remove_all_style_sheets (manager);
+
+	style_sheet = webkit_user_style_sheet_new (
+		stylesheet->str,
+		WEBKIT_USER_CONTENT_INJECT_ALL_FRAMES,
+		WEBKIT_USER_STYLE_LEVEL_USER,
+		NULL,
+		NULL);
+
+	webkit_user_content_manager_add_style_sheet (manager, style_sheet);
+
+	webkit_user_style_sheet_unref (style_sheet);
 
 	pango_font_description_free (ms);
 	pango_font_description_free (vw);
 }
 
-/**
- * e_html_editor_view_get_element_under_mouse_click:
- * @view: an #EHTMLEditorView
- *
- * Returns DOM element, that was clicked on.
- *
- * Returns: DOM element on that was clicked.
- */
-WebKitDOMElement *
-e_html_editor_view_get_element_under_mouse_click (EHTMLEditorView *view)
-{
-	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
-
-	return view->priv->element_under_mouse;
-}
-
-/**
- * e_html_editor_view_check_magic_links
- * @view: an #EHTMLEditorView
- * @include_space: If TRUE the pattern for link expects space on end
- *
- * Check if actual selection in given editor is link. If so, it is surrounded
- * with ANCHOR element.
- */
-void
-e_html_editor_view_check_magic_links (EHTMLEditorView *view,
-                                      gboolean include_space)
-{
-	WebKitDOMRange *range;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
-
-	range = dom_get_range (view);
-	html_editor_view_check_magic_links (view, range, include_space);
-}
-
 static CamelMimePart *
-e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
-                                                  WebKitDOMElement *element,
-                                                  const gchar *attribute,
-						  const gchar *uid_domain)
+create_part_for_inline_image_from_element_data (const gchar *element_src,
+                                                const gchar *name,
+                                                const gchar *id)
 {
 	CamelStream *stream;
 	CamelDataWrapper *wrapper;
@@ -3575,16 +2553,8 @@ e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
 	gsize decoded_size;
 	gssize size;
 	gchar *mime_type = NULL;
-	gchar *element_src, *cid, *name;
 	const gchar *base64_encoded_data;
 	guchar *base64_decoded_data;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
-		return NULL;
-	}
-
-	element_src = webkit_dom_element_get_attribute (
-		WEBKIT_DOM_ELEMENT (element), attribute);
 
 	base64_encoded_data = strstr (element_src, ";base64,");
 	if (!base64_encoded_data)
@@ -3617,15 +2587,11 @@ e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
 	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
 	g_object_unref (wrapper);
 
-	cid = camel_header_msgid_generate (uid_domain);
-	camel_mime_part_set_content_id (part, cid);
-	name = webkit_dom_element_get_attribute (element, "data-name");
+	camel_mime_part_set_content_id (part, id);
 	camel_mime_part_set_filename (part, name);
-	g_free (name);
 	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
 out:
 	g_free (mime_type);
-	g_free (element_src);
 	g_free (base64_decoded_data);
 
 	return part;
@@ -3633,83 +2599,44 @@ out:
 
 GList *
 e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
-						const gchar *uid_domain)
+                                                const gchar *uid_domain)
 {
-	GHashTable *added;
+	GDBusProxy *web_extension;
 	GList *parts = NULL;
-	gint length, ii;
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
+	GVariant *result;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW  (view));
-	list = webkit_dom_document_query_selector_all (document, "img[data-inline]", NULL);
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
 
-	length = webkit_dom_node_list_get_length (list);
-	if (length == 0)
-		return parts;
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return NULL;
 
-	added = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
-	for (ii = 0; ii < length; ii++) {
-		const gchar *id;
-		gchar *cid;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *src = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (node), "src");
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMGetInlineImagesData",
+		g_variant_new (
+			"(ts)",
+			uid_domain,
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-		if ((id = g_hash_table_lookup (added, src)) != NULL) {
-			cid = g_strdup_printf ("cid:%s", id);
-		} else {
+	if (result) {
+		const gchar *element_src, *name, *id;
+		GVariantIter *iter;
+
+		g_variant_get (result, "asss", &iter);
+		while (g_variant_iter_loop (iter, "&s&s&s", &element_src, &name, &id)) {
 			CamelMimePart *part;
 
-			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "src", uid_domain);
+			part = create_part_for_inline_image_from_element_data (
+				element_src, name, id);
 			parts = g_list_append (parts, part);
-
-			id = camel_mime_part_get_content_id (part);
-			cid = g_strdup_printf ("cid:%s", id);
-
-			g_hash_table_insert (added, src, (gpointer) id);
 		}
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
-		g_free (src);
-		g_free (cid);
+		g_variant_iter_free (iter);
 	}
-	g_object_unref (list);
-
-	list = webkit_dom_document_query_selector_all (
-		document, "[data-inline][background]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		CamelMimePart *part;
-		const gchar *id;
-		gchar *cid = NULL;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *src = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (node), "background");
-
-		if ((id = g_hash_table_lookup (added, src)) != NULL) {
-			cid = g_strdup_printf ("cid:%s", id);
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
-		} else {
-			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "background", uid_domain);
-			if (part) {
-				parts = g_list_append (parts, part);
-				id = camel_mime_part_get_content_id (part);
-				g_hash_table_insert (added, src, (gpointer) id);
-				cid = g_strdup_printf ("cid:%s", id);
-				webkit_dom_element_set_attribute (
-					WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
-			}
-		}
-		g_free (src);
-		g_free (cid);
-	}
-
-	g_object_unref (list);
-	g_hash_table_destroy (added);
 
 	return parts;
 }
@@ -3727,9 +2654,14 @@ e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
 {
 	CamelDataWrapper *dw;
 	CamelStream *stream;
+	GDBusProxy *web_extension;
 	GByteArray *byte_array;
 	gchar *src, *base64_encoded, *mime_type, *cid_src;
 	const gchar *cid, *name;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
 	stream = camel_stream_mem_new ();
 	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
@@ -3757,7 +2689,19 @@ e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
 	}
 	cid_src = g_strdup_printf ("cid:%s", cid);
 
-	g_hash_table_insert (view->priv->inline_images, cid_src, src);
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMAddNewInlineImageIntoList",
+		g_variant_new (
+			"(tss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			cid_src,
+			src),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 
 	g_free (base64_encoded);
 	g_free (mime_type);
@@ -3778,7 +2722,7 @@ e_html_editor_view_is_message_from_draft (EHTMLEditorView *view)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
 
-	return view->priv->is_message_from_draft;
+	return get_cached_boolean_property (view, "IsMessageFromDraft");
 }
 
 void
@@ -3795,7 +2739,7 @@ e_html_editor_view_is_message_from_edit_as_new (EHTMLEditorView *view)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
 
-	return view->priv->is_message_from_edit_as_new;
+	return get_cached_boolean_property (view, "IsMessageFromEditAsNew");
 }
 void
 e_html_editor_view_set_is_message_from_edit_as_new (EHTMLEditorView *view,

@@ -1,5 +1,5 @@
 /*
- * e-html-editor-cell-dialog-dom-functions.c
+ * e-html-editor-table-dialog-dom-functions.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,25 +16,26 @@
  *
  */
 
-#include "e-html-editor-cell-dialog-dom-functions.h"
+#include "e-html-editor-table-dialog-dom-functions.h"
 
 #include "e-dom-utils.h"
+#include "e-html-editor-selection-dom-functions.h"
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
-static WebKitDOMElement *
+static WebKitDOMHTMLTableElement *
 get_current_table_element (WebKitDOMDocument *document)
 {
-	return webkit_dom_document_get_element_by_id (document, "-x-evo-current-table");
+	return WEBKIT_DOM_HTML_TABLE_ELEMENT (webkit_dom_document_get_element_by_id (document, "-x-evo-current-table"));
 }
 
 void
 e_html_editor_table_dialog_set_row_count (WebKitDOMDocument *document,
                                           gulong expected_count)
 {
-	WebKitDOMElement *table_element;
+	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLCollection *rows;
 	gulong ii, current_count;
 
@@ -61,14 +62,14 @@ e_html_editor_table_dialog_set_row_count (WebKitDOMDocument *document,
 gulong
 e_html_editor_table_dialog_get_row_count (WebKitDOMDocument *document)
 {
-	WebKitDOMElement *table_element;
+	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLCollection *rows;
 
 	table_element = get_current_table_element (document);
 	if (!table_element)
 		return 0;
 
-	rows = webkit_dom_html_table_element_get_rows (able_element);
+	rows = webkit_dom_html_table_element_get_rows (table_element);
 
 	return webkit_dom_html_collection_get_length (rows);
 }
@@ -77,7 +78,7 @@ void
 e_html_editor_table_dialog_set_column_count (WebKitDOMDocument *document,
                                              gulong expected_columns)
 {
-	WebKitDOMElement *table_element;
+	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLCollection *rows;
 	gulong ii, row_count;
 
@@ -85,7 +86,7 @@ e_html_editor_table_dialog_set_column_count (WebKitDOMDocument *document,
 	if (!table_element)
 		return;
 
-	rows = webkit_dom_html_table_element_get_rows (dialog->priv->table_element);
+	rows = webkit_dom_html_table_element_get_rows (table_element);
 	row_count = webkit_dom_html_collection_get_length (rows);
 
 	for (ii = 0; ii < row_count; ii++) {
@@ -116,7 +117,7 @@ e_html_editor_table_dialog_set_column_count (WebKitDOMDocument *document,
 gulong
 e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 {
-	WebKitDOMElement *table_element;
+	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLCollection *rows, *columns;
 	WebKitDOMNode *row;
 
@@ -124,7 +125,7 @@ e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 	if (!table_element)
 		return 0;
 
-	rows = webkit_dom_html_table_element_get_rows (dialog->priv->table_element);
+	rows = webkit_dom_html_table_element_get_rows (table_element);
 	row = webkit_dom_html_collection_item (rows, 0);
 
 	columns = webkit_dom_html_table_row_element_get_cells (
@@ -133,7 +134,7 @@ e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 	return webkit_dom_html_collection_get_length (columns);
 }
 
-static
+static void
 create_table (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *table, *br, *caret, *parent, *element;
@@ -156,7 +157,7 @@ create_table (WebKitDOMDocument *document)
 
 	webkit_dom_element_set_id (table, "-x-evo-current-table");
 
-	caret = e_html_editor_selection_dom_save_caret_position (document);
+	caret = dom_save_caret_position (document);
 
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 	element = caret;
@@ -181,12 +182,10 @@ create_table (WebKitDOMDocument *document)
 		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 		NULL);
 
-	e_html_editor_selection_dom_clear_caret_position_marker (document);
+	dom_clear_caret_position_marker (document);
 
 	/* FIXME WK2
 	e_html_editor_view_set_changed (view, TRUE);*/
-
-	return table;
 }
 
 gboolean

@@ -1,5 +1,5 @@
 /*
- * e-html-editor-table-dialog-dom-functions.h
+ * e-html-editor-spell-check-dialog-dom-functions.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,29 +16,19 @@
  *
  */
 
-#ifndef E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H
-#define E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H
+#ifndef E_HTML_SPELL_CHECK_DIALOG_DOM_FUNCTIONS_H
+#define E_HTML_SPELL_CHECK_DIALOG_DOM_FUNCTIONS_H
 
 #include <webkitdom/webkitdom.h>
 
 G_BEGIN_DECLS
 
-void		e_html_editor_table_dialog_set_row_count
-						(WebKitDOMDocument *document,
-						 gulong expected_count);
+gchar * 	e_html_editor_spell_check_dialog_prev	(WebKitDOMDocument *document,
+							 const gchar *word);
 
-gulong		e_html_editor_table_dialog_get_row_count
-						(WebKitDOMDocument *document);
-
-void		e_html_editor_table_dialog_set_column_count
-						(WebKitDOMDocument *document,
-						 gulong expected_columns);
-
-gulong		e_html_editor_table_dialog_get_column_count
-						(WebKitDOMDocument *document);
-
-gboolean	e_html_editor_table_dialog_show (WebKitDOMDocument *document);
+gchar * 	e_html_editor_spell_check_dialog_next	(WebKitDOMDocument *document,
+							 const gchar *word);
 
 G_END_DECLS
 
-#endif /* E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H */
+#endif /* E_HTML_EDITOR_SPELL_CHECK_DIALOG_DOM_FUNCTIONS_H */

@@ -25,7 +25,7 @@
 
 #include "../web-extensions/e-web-extension.h"
 
-#include "e-misc-utils.h"
+#include <e-util/e-misc-utils.h>
 
 #include <config.h>
 

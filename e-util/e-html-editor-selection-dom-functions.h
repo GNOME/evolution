@@ -21,9 +21,34 @@
 
 #include <webkitdom/webkitdom.h>
 
-#include "web-extensions/e-html-editor-web-extension.h"
+#include "e-html-editor-web-extension.h"
 
 #include "e-util-enums.h"
+
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
+#define UNICODE_NBSP "\xc2\xa0"
+
+#define URL_PATTERN \
+	"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?" \
+	"[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)" \
+	"[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-]*)?\\?" \
+	"?(?:[\\-\\+=&;%@\\.\\w]*)#?(?:[\\.\\!\\/\\\\w]*))?)"
+
+#define URL_PATTERN_SPACE URL_PATTERN "\\s"
+
+/* http://www.w3.org/TR/html5/forms.html#valid-e-mail-address */
+#define E_MAIL_PATTERN \
+	"[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}"\
+	"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
+
+#define E_MAIL_PATTERN_SPACE E_MAIL_PATTERN "\\s"
+
+#define QUOTE_SYMBOL ">"
+
+#define SPACES_PER_INDENTATION 4
+#define SPACES_PER_LIST_LEVEL 8
+#define TAB_LENGTH 8
+#define MINIMAL_PARAGRAPH_WIDTH 5
 
 G_BEGIN_DECLS
 
@@ -37,19 +62,19 @@ void		dom_clear_caret_position_marker (WebKitDOMDocument *document);
 
 WebKitDOMNode *
 		dom_create_caret_position_node	(WebKitDOMDocument *document);
-/*
+
 WebKitDOMRange *
 		dom_get_current_range		(WebKitDOMDocument *document);
-*/
+
 gchar *		dom_selection_get_string	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
 WebKitDOMElement *
 		dom_save_caret_position		(WebKitDOMDocument *document);
-/*
+
 void		dom_move_caret_into_element	(WebKitDOMDocument *document,
 						 WebKitDOMElement *element);
-*/
+
 void		dom_restore_caret_position	(WebKitDOMDocument *document);
 
 void		dom_unlink			(WebKitDOMDocument *document);
@@ -57,9 +82,60 @@ void		dom_unlink			(WebKitDOMDocument *document);
 void		dom_create_link			(WebKitDOMDocument *document,
 						 const gchar *uri);
 
+EHTMLEditorSelectionBlockFormat
+		dom_get_list_format_from_node	(WebKitDOMNode *node);
+
+void		dom_selection_indent		(WebKitDOMDocument *document,
+						EHTMLEditorWebExtension *extension);
+
+void		dom_selection_unindent		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 void		dom_selection_save		(WebKitDOMDocument *document);
 
 void		dom_selection_restore		(WebKitDOMDocument *document);
+
+gboolean	dom_selection_is_collapsed	(WebKitDOMDocument *document);
+
+void		dom_scroll_to_caret		(WebKitDOMDocument *document);
+
+void		dom_remove_wrapping_from_element
+						(WebKitDOMElement *element);
+
+void		dom_remove_quoting_from_element	(WebKitDOMElement *element);
+
+void		dom_set_paragraph_style		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMElement *element,
+						 gint width,
+						 gint offset,
+						 const gchar *style_to_add);
+
+WebKitDOMElement *
+		dom_get_paragraph_element	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 gint width,
+						 gint offset);
+
+WebKitDOMElement *
+		dom_put_node_into_paragraph	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMNode *node,
+						 WebKitDOMNode *caret_position);
+
+WebKitDOMElement *
+		dom_wrap_paragraph_length	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMElement *paragraph,
+						 gint length);
+
+WebKitDOMElement *
+		dom_wrap_paragraph		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMElement *paragraph);
+
+void		dom_wrap_paragraphs_in_document	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 gboolean	dom_selection_is_underline	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
@@ -160,17 +236,21 @@ void		dom_selection_set_alignment	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 EHTMLEditorSelectionAlignment alignment);
 
-void		dom_selection_replace		(EHTMLEditorWebExtension *extension,
-						 WebKitDOMDocument *document,
+void		dom_selection_replace		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *replacement);
 
-void		dom_replace_caret_word		(EHTMLEditorWebExtension *extension,
-						 WebKitDOMDocument *document,
+void		dom_replace_caret_word		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *replacement);
 
 gchar *		dom_get_caret_word		(WebKitDOMDocument *document);
 
 gboolean	dom_selection_has_text		(WebKitDOMDocument *document);
+
+EHTMLEditorSelectionAlignment
+		dom_get_list_alignment_from_node
+						(WebKitDOMNode *node);
 
 G_END_DECLS
 

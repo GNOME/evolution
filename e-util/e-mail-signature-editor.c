@@ -172,22 +172,22 @@ mail_signature_editor_delete_event_cb (EMailSignatureEditor *editor,
 }
 
 static void
-action_close_cb (GtkAction *action,
-                 EMailSignatureEditor *window)
+can_undo_cb (WebKitWebView *webkit_web_view,
+             GAsyncResult *result,
+             EMailSignatureEditor *window)
 {
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
 	gboolean something_changed = FALSE;
 	const gchar *original_name;
 	const gchar *signature_name;
+	gboolean can_undo;
 
 	original_name = window->priv->original_name;
 	signature_name = gtk_entry_get_text (GTK_ENTRY (window->priv->entry));
 
-	editor = e_mail_signature_editor_get_editor (window);
-	view = e_html_editor_get_view (editor);
+	can_undo = webkit_web_view_can_execute_editing_command_finish (
+		webkit_web_view, result, NULL);
 
-	something_changed |= webkit_web_view_can_undo (WEBKIT_WEB_VIEW (view));
+	something_changed |= can_undo;
 	something_changed |= (strcmp (signature_name, original_name) != 0);
 
 	if (something_changed) {
@@ -198,6 +198,7 @@ action_close_cb (GtkAction *action,
 			"widgets:ask-signature-changed", NULL);
 		if (response == GTK_RESPONSE_YES) {
 			GtkActionGroup *action_group;
+			GtkAction *action;
 
 			action_group = window->priv->action_group;
 			action = gtk_action_group_get_action (
@@ -209,6 +210,25 @@ action_close_cb (GtkAction *action,
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (window));
+
+}
+
+static void
+action_close_cb (GtkAction *action,
+                 EMailSignatureEditor *window)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+
+	editor = e_mail_signature_editor_get_editor (window);
+	view = e_html_editor_get_view (editor);
+
+	webkit_web_view_can_execute_editing_command (
+		WEBKIT_WEB_VIEW (view),
+		WEBKIT_EDITING_COMMAND_UNDO,
+		NULL, /* cancellable */
+		(GAsyncReadyCallback) can_undo_cb,
+		window);
 }
 
 static void

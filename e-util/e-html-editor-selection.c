@@ -1488,6 +1488,34 @@ e_html_editor_selection_is_indented (EHTMLEditorSelection *selection)
 	return html_editor_selection_get_format_boolean (selection, "indented");
 }
 
+void
+e_html_editor_selection_indent (EHTMLEditorSelection *selection)
+{
+	EHTMLEditorView *view;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	e_html_editor_view_call_simple_extension_function (view, "DOMSelectionIndent");
+	g_object_unref (view);
+}
+
+void
+e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
+{
+	EHTMLEditorView *view;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	e_html_editor_view_call_simple_extension_function (view, "DOMSelectionUnindent");
+	g_object_unref (view);
+}
+
 /**
  * e_html_editor_selection_is_bold:
  * @selection: an #EHTMLEditorSelection
@@ -1742,31 +1770,6 @@ e_html_editor_selection_set_underline (EHTMLEditorSelection *selection,
 		"DOMSelectionSetUnderline",
 		underline,
 		&selection->priv->is_underline);
-}
-
-/**
- * e_html_editor_selection_insert_text:
- * @selection: an #EHTMLEditorSelection
- * @plain_text: text to insert
- *
- * Inserts @plain_text at current cursor position. When a text range is selected,
- * it will be replaced by @plain_text.
- */
-void
-e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
-                                     const gchar *plain_text)
-{
-	EHTMLEditorView *view;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
-	g_return_if_fail (plain_text != NULL);
-
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_return_if_fail (view != NULL);
-
-	e_html_editor_view_convert_and_insert_plain_text (view, plain_text);
-
-	g_object_unref (view);
 }
 
 /************************* image_load_and_insert_async() *************************/

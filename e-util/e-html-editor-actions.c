@@ -40,7 +40,6 @@ insert_html_file_ready_cb (GFile *file,
                            GAsyncResult *result,
                            EHTMLEditor *editor)
 {
-	EHTMLEditorSelection *selection;
 	gchar *contents = NULL;
 	gsize length;
 	GError *error = NULL;
@@ -64,9 +63,7 @@ insert_html_file_ready_cb (GFile *file,
 		return;
 	}
 
-	selection = e_html_editor_view_get_selection (
-		e_html_editor_get_view (editor));
-	e_html_editor_selection_insert_html (selection, contents);
+	e_html_editor_view_insert_html (e_html_editor_get_view (editor), contents);
 	g_free (contents);
 
 	g_object_unref (editor);
@@ -77,7 +74,6 @@ insert_text_file_ready_cb (GFile *file,
                            GAsyncResult *result,
                            EHTMLEditor *editor)
 {
-	EHTMLEditorSelection *selection;
 	gchar *contents;
 	gsize length;
 	GError *error = NULL;
@@ -101,9 +97,7 @@ insert_text_file_ready_cb (GFile *file,
 		return;
 	}
 
-	selection = e_html_editor_view_get_selection (
-		e_html_editor_get_view (editor));
-	e_html_editor_selection_insert_text (selection, contents);
+	e_html_editor_view_insert_text (e_html_editor_get_view (editor), contents);
 	g_free (contents);
 
 	g_object_unref (editor);
@@ -114,12 +108,12 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
 {
 	ESpellChecker *checker;
 	EHTMLEditorView *view;
-	guint count;
+	guint count = 0;
 
 	view = e_html_editor_get_view (editor);
 	checker = e_html_editor_view_get_spell_checker (view);
-
-	count = e_spell_checker_count_active_languages (checker);
+/* FIXME WK2
+	count = e_spell_checker_count_active_languages (checker);*/
 
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD), count == 1);
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
@@ -228,9 +222,10 @@ action_context_spell_add_cb (GtkAction *action,
 	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
 	word = e_html_editor_selection_get_caret_word (selection);
+	/* FIXME WK2
 	if (word && *word) {
 		e_spell_checker_learn_word (spell_checker, word);
-	}
+	} */
 }
 
 static void
@@ -246,9 +241,10 @@ action_context_spell_ignore_cb (GtkAction *action,
 	selection = e_html_editor_view_get_selection (editor->priv->html_editor_view);
 
 	word = e_html_editor_selection_get_caret_word (selection);
+	/* FIXME WK2
 	if (word && *word) {
 		e_spell_checker_ignore_word (spell_checker, word);
-	}
+	}*/
 }
 
 static void
@@ -295,7 +291,8 @@ action_insert_emoticon_cb (GtkAction *action,
 	g_return_if_fail (emoticon != NULL);
 
 	view = e_html_editor_get_view (editor);
-	e_html_editor_view_insert_smiley (view, emoticon);
+/* FIXME WK2
+	e_html_editor_view_insert_smiley (view, emoticon); */
 }
 
 static void
@@ -442,7 +439,8 @@ action_language_cb (GtkToggleAction *toggle_action,
 	language_code = gtk_action_get_name (GTK_ACTION (toggle_action));
 
 	active = gtk_toggle_action_get_active (toggle_action);
-	e_spell_checker_set_language_active (checker, language_code, active);
+	/* FIXME WK2
+	e_spell_checker_set_language_active (checker, language_code, active);*/
 
 	/* Update "Add Word To" context menu item visibility. */
 	action_name = g_strdup_printf ("context-spell-add-%s", language_code);
@@ -535,13 +533,10 @@ action_paste_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	/* If WebView doesn't have focus, focus it */
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
+	/* Only paste if WebView is focused. */
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
 		webkit_web_view_execute_editing_command (
 			WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_PASTE);
-
-		e_html_editor_view_force_spell_check (view);
-	}
 }
 
 static void
@@ -550,10 +545,8 @@ action_paste_as_text_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
 		e_html_editor_view_paste_as_text (view);
-		e_html_editor_view_force_spell_check (view);
-	}
 }
 
 static void
@@ -562,10 +555,8 @@ action_paste_quote_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
+	if (gtk_widget_has_focus (GTK_WIDGET (view)))
 		e_html_editor_view_paste_clipboard_quoted (view);
-		e_html_editor_view_force_spell_check (view);
-	}
 }
 
 static void
@@ -1552,11 +1543,12 @@ static GtkActionEntry spell_context_entries[] = {
 static void
 editor_actions_setup_languages_menu (EHTMLEditor *editor)
 {
+#if 0
 	ESpellChecker *checker;
 	EHTMLEditorView *view;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	GList *list, *link;
+	GList *list = NULL, *link;
 	guint merge_id;
 
 	manager = editor->priv->manager;
@@ -1570,7 +1562,7 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESpellDictionary *dictionary = link->data;
 		GtkToggleAction *action;
-		gboolean active;
+		gboolean active = FALSE;
 
 		action = gtk_toggle_action_new (
 			e_spell_dictionary_get_code (dictionary),
@@ -1602,15 +1594,17 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (list);
+#endif
 }
 
 static void
 editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 {
+#if 0
 	ESpellChecker *checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
-	GList *available_dicts, *iter;
+	GList *available_dicts = NULL, *iter;
 	guint merge_id;
 
 	manager = editor->priv->manager;
@@ -1679,6 +1673,7 @@ editor_actions_setup_spell_check_menu (EHTMLEditor *editor)
 	}
 
 	g_list_free (available_dicts);
+#endif
 }
 
 void

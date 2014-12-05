@@ -88,12 +88,11 @@ html_editor_link_dialog_remove_link (EHTMLEditorLinkDialog *dialog)
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EHTMLEditorSelection *selection;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	selection = e_html_editor_view_get_selection (view);
-	e_html_editor_selection_unlink (selection);
+	e_html_editor_view_call_simple_extension_function (
+		view, "EHTMLEditorSelectionDOMUnlink");
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
