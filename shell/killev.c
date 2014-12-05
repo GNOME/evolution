@@ -164,6 +164,14 @@ kill:
 #ifdef KILL_PROCESS_CMD
 	if (system (KILL_PROCESS_CMD " -QUIT evolution 2> /dev/null") == -1)
 		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_CMD);
+	if (system (KILL_PROCESS_CMD " -TERM evolution-alarm-notify 2> /dev/null") == -1)
+		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_CMD);
+	if (system (KILL_PROCESS_CMD " -QUIT evolution-source-registry 2> /dev/null") == -1)
+		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_CMD);
+	if (system (KILL_PROCESS_CMD " -QUIT evolution-addressbook-factory 2> /dev/null") == -1)
+		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_CMD);
+	if (system (KILL_PROCESS_CMD " -QUIT evolution-calendar-factory 2> /dev/null") == -1)
+		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_CMD);
 #else
 	g_printerr ("No \"kill\" command available.\n");
 #endif
