@@ -40,6 +40,18 @@
 
 #include "e-util/e-util-private.h"
 
+#ifdef G_OS_UNIX
+#include <glib-unix.h>
+
+static gboolean
+handle_term_signal (gpointer data)
+{
+	g_application_quit (data);
+
+	return FALSE;
+}
+#endif
+
 gint
 main (gint argc,
       gchar **argv)
@@ -79,6 +91,12 @@ main (gint argc,
 		g_object_unref (alarm_notify_service);
 		return 0;
 	}
+
+#ifdef G_OS_UNIX
+	g_unix_signal_add_full (
+		G_PRIORITY_DEFAULT, SIGTERM,
+		handle_term_signal, alarm_notify_service, NULL);
+#endif
 
 	exit_status = g_application_run (
 		G_APPLICATION (alarm_notify_service), argc, argv);

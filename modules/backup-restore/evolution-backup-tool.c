@@ -644,6 +644,9 @@ restore (const gchar *filename,
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
+	/* Make full-restart background processes after restore */
+	run_cmd (EVOLUTION " --force-shutdown");
+
 	txt = _("Reloading registry service");
 
 	/* wait few seconds, till changes settle */
