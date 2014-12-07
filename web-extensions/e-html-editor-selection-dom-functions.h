@@ -23,7 +23,7 @@
 
 #include "e-html-editor-web-extension.h"
 
-#include "e-util-enums.h"
+#include "e-dom-utils.h"
 
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define UNICODE_NBSP "\xc2\xa0"
@@ -251,6 +251,11 @@ gboolean	dom_selection_has_text		(WebKitDOMDocument *document);
 EHTMLEditorSelectionAlignment
 		dom_get_list_alignment_from_node
 						(WebKitDOMNode *node);
+
+WebKitDOMElement *
+		dom_prepare_paragraph		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 gboolean with_selection);
 
 G_END_DECLS
 

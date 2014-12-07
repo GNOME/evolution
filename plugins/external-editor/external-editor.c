@@ -158,8 +158,8 @@ enable_disable_composer (EMsgComposer *composer,
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
+/* FIXME WK2
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);*/
 
 	action = E_HTML_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -254,48 +254,34 @@ numlines (const gchar *text,
 	return lineno;
 }
 
-static gint
+static gint32
 get_caret_position (EHTMLEditorView *view)
 {
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMRange *range;
-	gint range_count;
-	WebKitDOMNodeList *nodes;
-	gulong ii, length;
+	GDBusProxy *web_extension;
+	gint position = 0;
+	GVariant *result;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
 		return 0;
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-	range_count = 0;
-	nodes = webkit_dom_node_get_child_nodes (
-		webkit_dom_node_get_parent_node (
-			webkit_dom_dom_selection_get_anchor_node (
-				selection)));
-	length = webkit_dom_node_list_get_length (nodes);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
+	result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMGetCaretPosition",
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-		node = webkit_dom_node_list_item (nodes, ii);
-		if (webkit_dom_node_is_same_node (
-			node, webkit_dom_dom_selection_get_anchor_node (selection))) {
-
-			break;
-		} else if (WEBKIT_DOM_IS_TEXT (node)) {
-			gchar *text = webkit_dom_node_get_text_content (node);
-			range_count += strlen (text);
-			g_free (text);
-		}
+	if (result) {
+		position = g_variant_get_int32 (result);
+		g_variant_unref (result);
 	}
 
-	g_object_unref (nodes);
-	return webkit_dom_range_get_start_offset (range, NULL) + range_count;
+	return position;
 }
 
 static gboolean external_editor_running = FALSE;

@@ -19,16 +19,17 @@
 #include "config.h"
 
 #include "e-web-extension.h"
+#include "e-dom-utils.h"
 #include "e-web-extension-names.h"
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-#include <libemail-engine/e-mail-enums.h>
-
 #include <string.h>
 
-#include <e-util/e-dom-utils.h>
+#include <e-util/e-util-enums.h>
+#include <e-util/e-misc-utils.h>
+
 #include <libedataserver/libedataserver.h>
 
 #define E_WEB_EXTENSION_GET_PRIVATE(obj) \
@@ -183,7 +184,7 @@ handle_method_call (GDBusConnection *connection,
 		html_content = e_dom_utils_get_document_content_html (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (html_content);
+			invocation, g_variant_new_take_string (html_content));
 	} else if (g_strcmp0 (method_name, "GetSelectionContentHTML") == 0) {
 		gchar *html_content;
 
@@ -196,8 +197,8 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		html_content = e_dom_utils_get_selection_content_html (document);
 
-		g_dbus_method_invocation_return_value (invocation,
-			invocation, g_variant_new_take_string (html_content);
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_take_string (html_content));
 	} else if (g_strcmp0 (method_name, "GetSelectionContentText") == 0) {
 		gchar *text_content;
 
@@ -210,8 +211,8 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		text_content = e_dom_utils_get_selection_content_html (document);
 
-		g_dbus_method_invocation_return_value (invocation,
-			invocation, g_variant_new_take_string (text_content);
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_take_string (text_content));
 	} else if (g_strcmp0 (method_name, "AddCSSRuleIntoStyleSheet") == 0) {
 		const gchar *style_sheet_id, *selector, *style;
 
@@ -517,11 +518,11 @@ image_exists_in_cache (const gchar *image_uri)
 	return exists;
 }
 
-static EMailImageLoadingPolicy
+static EImageLoadingPolicy
 get_image_loading_policy (void)
 {
 	GSettings *settings;
-	EMailImageLoadingPolicy image_policy;
+	EImageLoadingPolicy image_policy;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	image_policy = g_settings_get_enum (settings, "image-loading-policy");
@@ -540,7 +541,7 @@ redirect_http_uri (EWebExtension *extension,
 	SoupURI *soup_uri;
 	GHashTable *query;
 	gboolean image_exists;
-	EMailImageLoadingPolicy image_policy;
+	EImageLoadingPolicy image_policy;
 
 	uri = webkit_uri_request_get_uri (request);
 	page_uri = webkit_web_page_get_uri (web_page);
@@ -553,7 +554,7 @@ redirect_http_uri (EWebExtension *extension,
 	 * a native placeholder for it. */
 	image_policy = get_image_loading_policy ();
 	if (!image_exists && !extension->priv->force_image_load &&
-	    (image_policy == E_MAIL_IMAGE_LOADING_POLICY_NEVER)) {
+	    (image_policy == E_IMAGE_LOADING_POLICY_NEVER)) {
 		webkit_uri_request_set_uri (request, "about:blank");
 		return;
 	}
@@ -636,12 +637,12 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 {
 	g_signal_connect_object (
 		web_page, "send-request",
-		G_CALLBACK (web_page_send_request),
+		G_CALLBACK (web_page_send_request_cb),
 		extension, 0);
 
 	g_signal_connect_object (
 		web_page, "document-loaded",
-		G_CALLBACK (web_page_document_loaded),
+		G_CALLBACK (web_page_document_loaded_cb),
 		extension, 0);
 
 }

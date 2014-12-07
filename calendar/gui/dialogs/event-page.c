@@ -3614,7 +3614,8 @@ event_page_construct (EventPage *epage,
 	g_type_ensure (E_TYPE_CLIENT_COMBO_BOX);
 	g_type_ensure (E_TYPE_DATE_EDIT);
 	g_type_ensure (E_TYPE_TIMEZONE_ENTRY);
-	g_type_ensure (E_TYPE_SPELL_ENTRY);
+/* FIXME WK2
+	g_type_ensure (E_TYPE_SPELL_ENTRY);*/
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "event-page.ui");

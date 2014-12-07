@@ -22,9 +22,9 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit-web-extension.h>
 
-#include <e-util/e-dom-utils.h>
+#include <web-extensions/e-dom-utils.h>
 
-#include "../module-itip-formatter-dom-utils.h"
+#include "module-itip-formatter-dom-utils.h"
 
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;

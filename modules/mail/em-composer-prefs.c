@@ -140,11 +140,11 @@ spell_language_save (EMComposerPrefs *prefs)
 static void
 spell_setup (EMComposerPrefs *prefs)
 {
-	GList *list, *link;
+	GList *list = NULL, *link;
 	GtkListStore *store;
 
 	store = GTK_LIST_STORE (prefs->language_model);
-
+#if 0 /* FIXME WK2 */
 	list = e_spell_checker_list_available_dicts (prefs->spell_checker);
 
 	/* Populate the GtkListStore. */
@@ -168,7 +168,7 @@ spell_setup (EMComposerPrefs *prefs)
 			store, &tree_iter,
 			0, active, 1, name, 2, dictionary, -1);
 	}
-
+#endif
 	g_list_free (list);
 }
 
@@ -1047,8 +1047,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	prefs->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (prefs->builder, "mail-config.ui");
-
-	prefs->spell_checker = e_spell_checker_new ();
+/* FIXME WK2
+	prefs->spell_checker = e_spell_checker_new ();*/
+	prefs->spell_checker = NULL;
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
 	 * @Id: org.gnome.evolution.mail.composerPrefs

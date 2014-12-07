@@ -1890,7 +1890,6 @@ action_mail_zoom_in_cb (GtkAction *action,
                         EMailReader *reader)
 {
 	EMailDisplay *display;
-	gdouble zoom_level;
 
 	display = e_mail_reader_get_mail_display (reader);
 
@@ -1902,7 +1901,6 @@ action_mail_zoom_out_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMailDisplay *display;
-	gdouble zoom_level;
 
 	display = e_mail_reader_get_mail_display (reader);
 
@@ -2655,6 +2653,8 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 
 				if (need_input)
 					return FALSE;
+			}
+		}
 	}
 
 	if ((event->state & GDK_CONTROL_MASK) != 0)
@@ -2833,9 +2833,9 @@ schedule_timeout_mark_seen (EMailReader *reader)
 }
 
 static void
-mail_reader_load_status_changed_cb (EMailReader *reader,
-                                    WebKitLoadEvent event,
-                                    EMailDisplay *display)
+mail_reader_load_changed_cb (EMailReader *reader,
+                             WebKitLoadEvent event,
+                             EMailDisplay *display)
 {
 	EMailReaderPrivate *priv;
 
@@ -4235,7 +4235,7 @@ connect_signals:
 		display, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
-	e_signal_connect_swapped (
+	g_signal_connect_swapped (
 		display, "load-changed",
 		G_CALLBACK (mail_reader_load_changed_cb), reader);
 

@@ -27,7 +27,7 @@
 #include "e-emoticon-chooser.h"
 #include "e-misc-utils.h"
 
-#include "e-html-editor-web-extension-names.h"
+#include <web-extensions/e-html-editor-web-extension-names.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-marshal.h>
@@ -1346,8 +1346,8 @@ show_lose_formatting_dialog (EHTMLEditorView *view)
 }
 
 static void
-html_editor_view_load_changed (EHTMLEditorView *view,
-                               WebKitLoadEvent load_event)
+html_editor_view_load_changed_cb (EHTMLEditorView *view,
+                                  WebKitLoadEvent load_event)
 {
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
@@ -1536,7 +1536,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);*/
 	g_signal_connect (
 		view, "load-changed",
-		G_CALLBACK (html_editor_view_load_changed), NULL);
+		G_CALLBACK (html_editor_view_load_changed_cb), NULL);
 	g_signal_connect (
 		view, "mouse-target-changed",
 		G_CALLBACK (editor_view_mouse_target_changed_cb), NULL);
@@ -1601,6 +1601,18 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
 	webkit_web_view_load_html (WEBKIT_WEB_VIEW (view), "", "file://");
+}
+
+void
+e_html_editor_view_force_spell_check (EHTMLEditorView *view)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMForceSpellCheck");
+}
+
+void
+e_html_editor_view_turn_spell_check_off (EHTMLEditorView *view)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMTurnSpellCheckOff");
 }
 
 /**
@@ -2093,8 +2105,7 @@ e_html_editor_view_embed_styles (EHTMLEditorView *view)
 void
 e_html_editor_view_remove_embed_styles (EHTMLEditorView *view)
 {
-	e_html_editor_view_call_simple_extension_function (
-		view, "DOMRemoveEmbedStyleSheet");
+	e_html_editor_view_call_simple_extension_function (view, "DOMRemoveEmbedStyleSheet");
 }
 
 static const gchar *
@@ -2757,4 +2768,415 @@ e_html_editor_view_set_remove_initial_input_line (EHTMLEditorView *view,
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
 	view->priv->remove_initial_input_line = value;
+}
+
+void
+e_html_editor_view_scroll_to_caret (EHTMLEditorView *view)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMScrollToCaret");
+}
+
+/************************* image_load_and_insert_async() *************************/
+
+typedef struct _LoadContext LoadContext;
+
+struct _LoadContext {
+	EHTMLEditorView *view;
+	GInputStream *input_stream;
+	GOutputStream *output_stream;
+	GFile *file;
+	GFileInfo *file_info;
+	goffset total_num_bytes;
+	gssize bytes_read;
+	const gchar *content_type;
+	const gchar *filename;
+	const gchar *selector;
+	gchar buffer[4096];
+};
+
+/* Forward Declaration */
+static void
+image_load_stream_read_cb (GInputStream *input_stream,
+                           GAsyncResult *result,
+                           LoadContext *load_context);
+
+static LoadContext *
+image_load_context_new (EHTMLEditorView *view)
+{
+	LoadContext *load_context;
+
+	load_context = g_slice_new0 (LoadContext);
+	load_context->view = view;
+
+	return load_context;
+}
+
+static void
+image_load_context_free (LoadContext *load_context)
+{
+	if (load_context->input_stream != NULL)
+		g_object_unref (load_context->input_stream);
+
+	if (load_context->output_stream != NULL)
+		g_object_unref (load_context->output_stream);
+
+	if (load_context->file_info != NULL)
+		g_object_unref (load_context->file_info);
+
+	if (load_context->file != NULL)
+		g_object_unref (load_context->file);
+
+	g_slice_free (LoadContext, load_context);
+}
+
+static void
+replace_base64_image_src (EHTMLEditorView *view,
+                          const gchar *selector,
+                          const gchar *base64_content,
+                          const gchar *filename,
+                          const gchar *uri)
+{
+	GDBusProxy *web_extension;
+
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorSelectionReplaceBase64ImageSrc",
+		g_variant_new (
+			"(tssss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			selector,
+			base64_content,
+			filename,
+			uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
+insert_base64_image (EHTMLEditorView *view,
+                     const gchar *base64_content,
+                     const gchar *filename,
+                     const gchar *uri)
+{
+	GDBusProxy *web_extension;
+
+	e_html_editor_view_set_changed (view, TRUE);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorSelectionInsertBase64Image",
+		g_variant_new (
+			"(tssss)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			base64_content,
+			filename,
+			uri),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
+image_load_finish (LoadContext *load_context)
+{
+	EHTMLEditorView *view;
+	GMemoryOutputStream *output_stream;
+	const gchar *selector;
+	gchar *base64_encoded, *mime_type, *output, *uri;
+	gsize size;
+	gpointer data;
+
+	output_stream = G_MEMORY_OUTPUT_STREAM (load_context->output_stream);
+
+	view = load_context->view;
+
+	mime_type = g_content_type_get_mime_type (load_context->content_type);
+
+	data = g_memory_output_stream_get_data (output_stream);
+	size = g_memory_output_stream_get_data_size (output_stream);
+	uri = g_file_get_uri (load_context->file);
+
+	base64_encoded = g_base64_encode ((const guchar *) data, size);
+	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+	selector = load_context->selector;
+	if (selector && *selector)
+		replace_base64_image_src (
+			view, selector, output, load_context->filename, uri);
+	else
+		insert_base64_image (view, output, load_context->filename, uri);
+
+	g_free (base64_encoded);
+	g_free (output);
+	g_free (mime_type);
+	g_free (uri);
+
+	image_load_context_free (load_context);
+}
+
+static void
+image_load_write_cb (GOutputStream *output_stream,
+                     GAsyncResult *result,
+                     LoadContext *load_context)
+{
+	GInputStream *input_stream;
+	gssize bytes_written;
+	GError *error = NULL;
+
+	bytes_written = g_output_stream_write_finish (
+		output_stream, result, &error);
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	input_stream = load_context->input_stream;
+
+	if (bytes_written < load_context->bytes_read) {
+		g_memmove (
+			load_context->buffer,
+			load_context->buffer + bytes_written,
+			load_context->bytes_read - bytes_written);
+		load_context->bytes_read -= bytes_written;
+
+		g_output_stream_write_async (
+			output_stream,
+			load_context->buffer,
+			load_context->bytes_read,
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) image_load_write_cb,
+			load_context);
+	} else
+		g_input_stream_read_async (
+			input_stream,
+			load_context->buffer,
+			sizeof (load_context->buffer),
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) image_load_stream_read_cb,
+			load_context);
+}
+
+static void
+image_load_stream_read_cb (GInputStream *input_stream,
+                           GAsyncResult *result,
+                           LoadContext *load_context)
+{
+	GOutputStream *output_stream;
+	gssize bytes_read;
+	GError *error = NULL;
+
+	bytes_read = g_input_stream_read_finish (
+		input_stream, result, &error);
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	if (bytes_read == 0) {
+		image_load_finish (load_context);
+		return;
+	}
+
+	output_stream = load_context->output_stream;
+	load_context->bytes_read = bytes_read;
+
+	g_output_stream_write_async (
+		output_stream,
+		load_context->buffer,
+		load_context->bytes_read,
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) image_load_write_cb,
+		load_context);
+}
+
+static void
+image_load_file_read_cb (GFile *file,
+                         GAsyncResult *result,
+                         LoadContext *load_context)
+{
+	GFileInputStream *input_stream;
+	GOutputStream *output_stream;
+	GError *error = NULL;
+
+	/* Input stream might be NULL, so don't use cast macro. */
+	input_stream = g_file_read_finish (file, result, &error);
+	load_context->input_stream = (GInputStream *) input_stream;
+
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	/* Load the contents into a GMemoryOutputStream. */
+	output_stream = g_memory_output_stream_new (
+		NULL, 0, g_realloc, g_free);
+
+	load_context->output_stream = output_stream;
+
+	g_input_stream_read_async (
+		load_context->input_stream,
+		load_context->buffer,
+		sizeof (load_context->buffer),
+		G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) image_load_stream_read_cb,
+		load_context);
+}
+
+static void
+image_load_query_info_cb (GFile *file,
+                          GAsyncResult *result,
+                          LoadContext *load_context)
+{
+	GFileInfo *file_info;
+	GError *error = NULL;
+
+	file_info = g_file_query_info_finish (file, result, &error);
+	if (error) {
+		image_load_context_free (load_context);
+		return;
+	}
+
+	load_context->content_type = g_file_info_get_content_type (file_info);
+	load_context->total_num_bytes = g_file_info_get_size (file_info);
+	load_context->filename = g_file_info_get_name (file_info);
+
+	g_file_read_async (
+		file, G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback)
+		image_load_file_read_cb, load_context);
+}
+
+static void
+image_load_and_insert_async (EHTMLEditorView *view,
+                             const gchar *selector,
+                             const gchar *uri)
+{
+	LoadContext *load_context;
+	GFile *file;
+
+	g_return_if_fail (uri && *uri);
+
+	file = g_file_new_for_uri (uri);
+	g_return_if_fail (file != NULL);
+
+	load_context = image_load_context_new (view);
+	load_context->file = file;
+	if (selector && *selector)
+		load_context->selector = g_strdup (selector);
+
+	g_file_query_info_async (
+		file, "standard::*",
+		G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback)
+		image_load_query_info_cb, load_context);
+}
+
+/**
+ * e_html_editor_selection_insert_image:
+ * @selection: an #EHTMLEditorSelection
+ * @image_uri: an URI of the source image
+ *
+ * Inserts image at current cursor position using @image_uri as source. When a
+ * text range is selected, it will be replaced by the image.
+ */
+void
+e_html_editor_view_insert_image (EHTMLEditorView *view,
+                                 const gchar *image_uri)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (image_uri != NULL);
+
+	if (e_html_editor_view_get_html_mode (view)) {
+		if (strstr (image_uri, ";base64,")) {
+			if (g_str_has_prefix (image_uri, "data:"))
+				insert_base64_image (view, image_uri, "", "");
+			if (strstr (image_uri, ";data")) {
+				const gchar *base64_data = strstr (image_uri, ";") + 1;
+				gchar *filename;
+				glong filename_length;
+
+				filename_length =
+					g_utf8_strlen (image_uri, -1) -
+					g_utf8_strlen (base64_data, -1) - 1;
+				filename = g_strndup (image_uri, filename_length);
+
+				insert_base64_image (view, base64_data, filename, "");
+				g_free (filename);
+			}
+		} else
+			image_load_and_insert_async (view, NULL, image_uri);
+	}
+}
+
+/**
+ * e_html_editor_selection_replace_image_src:
+ * @selection: an #EHTMLEditorSelection
+ * @selector: CSS selector that describes the element that we want to change
+ * @image_uri: an URI of the source image
+ *
+ * If element described by given selector is image, we will replace the src
+ * attribute of it with base64 data from given @image_uri. Otherwise we will
+ * set the base64 data to the background attribute of given element.
+ */
+void
+e_html_editor_view_replace_image_src (EHTMLEditorView *view,
+                                      const gchar *selector,
+                                      const gchar *image_uri)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (image_uri != NULL);
+	g_return_if_fail (selector && *selector);
+
+	if (strstr (image_uri, ";base64,")) {
+		if (g_str_has_prefix (image_uri, "data:"))
+			replace_base64_image_src (
+				view, selector, image_uri, "", "");
+		if (strstr (image_uri, ";data")) {
+			const gchar *base64_data = strstr (image_uri, ";") + 1;
+			gchar *filename;
+			glong filename_length;
+
+			filename_length =
+				g_utf8_strlen (image_uri, -1) -
+				g_utf8_strlen (base64_data, -1) - 1;
+			filename = g_strndup (image_uri, filename_length);
+
+			replace_base64_image_src (
+				view, selector, base64_data, filename, "");
+			g_free (filename);
+		}
+	} else
+		image_load_and_insert_async (view, selector, image_uri);
+}
+
+void
+e_html_editor_view_check_magic_links (EHTMLEditorView *view)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMCheckMagicLinks");
+}
+
+void
+e_html_editor_view_restore_selection (EHTMLEditorView *view)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMRestoreSelection");
+}
+
+void
+e_html_editor_view_save_selection (EHTMLEditorView *view)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMSaveSelection");
 }

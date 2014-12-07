@@ -40,7 +40,7 @@
 #include "e-selectable.h"
 #include "e-stock-request.h"
 
-#include "../web-extensions/e-web-extension-names.h"
+#include <web-extensions/e-web-extension-names.h>
 
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -999,6 +999,9 @@ web_view_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	web_view_initialize (WEBKIT_WEB_VIEW (object));
+
+	web_view_set_find_controller (E_WEB_VIEW (object));
+
 }
 
 static gboolean
@@ -1678,6 +1681,7 @@ web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	EWebView *web_view;
 	GTask *task;
 
+	printf ("%s\n", __FUNCTION__);
 	web_view = E_WEB_VIEW (webkit_uri_scheme_request_get_web_view (request));
 
 	task = g_task_new (
@@ -1706,6 +1710,7 @@ web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	gsize buff_len = 0;
 	GError *local_error = NULL;
 
+	printf ("%s\n", __FUNCTION__);
 	uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
 
 	if (uri && uri->query)
@@ -2058,11 +2063,11 @@ e_web_view_init (EWebView *web_view)
 	g_signal_connect (
 		web_view, "load-changed",
 		G_CALLBACK (web_view_load_changed_cb), NULL);
-
+/* FIXME WK2
 	g_signal_connect (
 		web_view, "document-load-finished",
 		G_CALLBACK (style_updated_cb), NULL);
-
+*/
 	g_signal_connect (
 		web_view, "style-updated",
 		G_CALLBACK (style_updated_cb), NULL);
@@ -2070,8 +2075,6 @@ e_web_view_init (EWebView *web_view)
 	g_signal_connect (
 		web_view, "state-flags-changed",
 		G_CALLBACK (style_updated_cb), NULL);
-
-	web_view_set_find_controller (web_view);
 
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
@@ -2250,6 +2253,8 @@ e_web_view_load_string (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->load_string != NULL);
 
+	printf ("%s\n", __FUNCTION__);
+	printf ("%s\n", string);
 	class->load_string (web_view, string);
 }
 
@@ -2264,6 +2269,8 @@ e_web_view_load_uri (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->load_uri != NULL);
 
+	printf ("%s\n", __FUNCTION__);
+	printf ("%s\n", uri);
 	class->load_uri (web_view, uri);
 }
 
@@ -3257,8 +3264,9 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-plugins", FALSE,
 		"enable-smooth-scrolling", TRUE,
 		"media-playback-allows-inline", FALSE,
-		"respect-image-orientation", TRUE,
 		NULL);
+/* FIXME WK2
+	"respect-image-orientation", TRUE,*/
 }
 
 void

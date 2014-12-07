@@ -114,7 +114,7 @@ struct _ItipViewPrivate {
 
 	GDBusProxy *web_extension;
 	guint web_extension_watch_name_id;
-	guint web_extension_source_changed_signal_id;
+	guint web_extension_source_changed_cb_signal_id;
 	guint web_extension_button_clicked_signal_id;
 	guint web_extension_recur_toggled_signal_id;
 
@@ -935,7 +935,7 @@ recur_toggled_signal_cb (GDBusConnection *connection,
 }
 
 static void
-source_changed (ItipView *view)
+source_changed_cb (ItipView *view)
 {
 	ESource *source;
 
@@ -948,7 +948,7 @@ source_changed (ItipView *view)
 }
 
 static void
-source_changed_signal_cb (GDBusConnection *connection,
+source_changed_cb_signal_cb (GDBusConnection *connection,
                           const gchar *sender_name,
                           const gchar *object_path,
                           const gchar *interface_name,
@@ -959,7 +959,7 @@ source_changed_signal_cb (GDBusConnection *connection,
 	if (g_strcmp0 (signal_name, "SourceChanged") != 0)
 		return;
 
-	source_changed (view);
+	source_changed_cb (view);
 }
 
 static void
@@ -1092,6 +1092,7 @@ remove_info_item_row (ItipView *view,
 		-1,
 		NULL,
 		NULL,
+		NULL);
 
 	g_free (row_id);
 
@@ -1228,6 +1229,7 @@ itip_view_rebuild_source_list (ItipView *view)
 			-1,
 			NULL,
 			NULL,
+			NULL);
 
 		g_object_unref (parent);
 	}
@@ -1364,11 +1366,11 @@ itip_view_dispose (GObject *object)
 		priv->web_extension_recur_toggled_signal_id = 0;
 	}
 
-	if (priv->web_extension_source_changed_signal_id > 0) {
+	if (priv->web_extension_source_changed_cb_signal_id > 0) {
 		g_dbus_connection_signal_unsubscribe (
 			g_dbus_proxy_get_connection (priv->web_extension),
-			priv->web_extension_source_changed_signal_id);
-		priv->web_extension_source_changed_signal_id = 0;
+			priv->web_extension_source_changed_cb_signal_id);
+		priv->web_extension_source_changed_cb_signal_id = 0;
 	}
 
 	if (priv->web_extension_button_clicked_signal_id > 0) {
@@ -1777,7 +1779,7 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 		g_error_free (error);
  	}
 
-	view->priv->web_extension_source_changed_signal_id =
+	view->priv->web_extension_source_changed_cb_signal_id =
 		g_dbus_connection_signal_subscribe (
 			g_dbus_proxy_get_connection (view->priv->web_extension),
 			g_dbus_proxy_get_name (view->priv->web_extension),
@@ -1786,7 +1788,7 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
 			NULL,
 			G_DBUS_SIGNAL_FLAGS_NONE,
-			(GDBusSignalCallback) source_changed_signal_cb,
+			(GDBusSignalCallback) source_changed_cb_signal_cb,
 			view,
 			NULL);
 
@@ -1977,7 +1979,6 @@ void
 itip_view_set_item_type (ItipView *view,
                          ECalClientSourceType type)
 {
-	WebKitDOMElement *label;
 	const gchar *header;
 	gchar *access_key, *html_label;
 
@@ -2530,8 +2531,7 @@ itip_view_remove_lower_info_item (ItipView *view,
 			g_free (item->message);
 			g_free (item);
 
-			if (view->priv->dom_document)
-				remove_info_item_row (view, TABLE_LOWER_ITIP_INFO, id);
+			remove_info_item_row (view, TABLE_LOWER_ITIP_INFO, id);
 
 			return;
 		}
@@ -2551,8 +2551,7 @@ itip_view_clear_lower_info_items (ItipView *view)
 	for (l = priv->lower_info_items; l; l = l->next) {
 		ItipViewInfoItem *item = l->data;
 
-		if (view->priv->dom_document)
-			remove_info_item_row (view, TABLE_LOWER_ITIP_INFO, item->id);
+		remove_info_item_row (view, TABLE_LOWER_ITIP_INFO, item->id);
 
 		g_free (item->message);
 		g_free (item);
@@ -2582,7 +2581,7 @@ itip_view_set_source (ItipView *view,
 	 * so that it would make all the buttons sensitive */
 	selected_source = itip_view_ref_source (view);
 	if (source == selected_source) {
-		source_changed (view);
+		source_changed_cb (view);
 		return;
 	}
 
@@ -2614,7 +2613,7 @@ itip_view_set_source (ItipView *view,
 		NULL,
 		NULL);
 
-	source_changed (view);
+	source_changed_cb (view);
 }
 
 ESource *
@@ -2622,6 +2621,7 @@ itip_view_ref_source (ItipView *view)
 {
 	ESource *source;
 	gboolean disable = FALSE, enabled = FALSE;
+	GVariant *result;
 
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
@@ -2807,19 +2807,19 @@ itip_view_get_rsvp_comment (ItipView *view)
  		return NULL;
 
 	result = g_dbus_proxy_call_sync (
-			view->priv->web_extension,
-			"TextAreaGetValue",
-			g_variant_new (
-				"(s)", TEXTAREA_RSVP_COMMENT),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL);
+		view->priv->web_extension,
+		"TextAreaGetValue",
+		g_variant_new (
+			"(s)", TEXTAREA_RSVP_COMMENT),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
 	if (result) {
-		const gchar *value;
+		gchar *value;
 
-		g_variant_get (result, "(&s)", &value);
+		g_variant_get (result, "(s)", &value);
 		g_variant_unref (result);
 		return value;
  	}
@@ -4378,7 +4378,7 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
 		icalproperty *prop;
 		icalvalue *value;
 		const gchar *attendee;
-		const gchar *comment;
+		gchar *comment;
 		GSList *l, *list = NULL;
 		gboolean found;
 
@@ -4437,6 +4437,8 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
 			comments.next = NULL;
 
 			e_cal_component_set_comment_list (comp, &comments);
+
+			g_free (comment);
 		}
 
 		e_cal_component_rescan (comp);

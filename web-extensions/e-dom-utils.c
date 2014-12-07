@@ -23,8 +23,9 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 
-#include "../web-extensions/e-web-extension.h"
+#include "e-web-extension.h"
 
+#include <e-util/e-util-enums.h>
 #include <e-util/e-misc-utils.h>
 
 #include <config.h>

@@ -227,11 +227,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_paned = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
-
+/* FIXME WK2
 	g_object_bind_property (
 		view, "editable",
 		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE);*/
 
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_paned));
@@ -493,7 +493,6 @@ e_composer_paste_html (EMsgComposer *composer,
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
 	gchar *html;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
@@ -504,11 +503,10 @@ e_composer_paste_html (EMsgComposer *composer,
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
 	/* If Web View doesn't have focus, focus it */
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
 		gtk_widget_grab_focus (GTK_WIDGET (view));
-	e_html_editor_selection_insert_html (editor_selection, html);
+	e_html_editor_view_insert_html (view, html);
 
 	g_free (html);
 
@@ -520,9 +518,7 @@ e_composer_paste_image (EMsgComposer *composer,
                         GtkClipboard *clipboard)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorView *html_editor_view;
-	EAttachmentStore *store;
-	EAttachmentView *view;
+	EHTMLEditorView *view;
 	GdkPixbuf *pixbuf = NULL;
 	gchar *filename = NULL;
 	gchar *uri = NULL;
@@ -531,9 +527,6 @@ e_composer_paste_image (EMsgComposer *composer,
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (GTK_IS_CLIPBOARD (clipboard), FALSE);
-
-	view = e_msg_composer_get_attachment_view (composer);
-	store = e_attachment_view_get_store (view);
 
 	/* Extract the image data from the clipboard. */
 	pixbuf = gtk_clipboard_wait_for_image (clipboard);
@@ -562,15 +555,17 @@ e_composer_paste_image (EMsgComposer *composer,
 	/* In HTML mode, paste the image into the message body.
 	 * In text mode, add the image to the attachment store. */
 	editor = e_msg_composer_get_editor (composer);
-	html_editor_view = e_html_editor_get_view (editor);
-	if (e_html_editor_view_get_html_mode (html_editor_view)) {
-		EHTMLEditorSelection *selection;
-
-		selection = e_html_editor_view_get_selection (html_editor_view);
-		e_html_editor_selection_insert_image (selection, uri);
-		e_html_editor_selection_scroll_to_caret (selection);
+	view = e_html_editor_get_view (editor);
+	if (e_html_editor_view_get_html_mode (view)) {
+		e_html_editor_view_insert_image (view, uri);
+		e_html_editor_view_scroll_to_caret (view);
 	} else {
 		EAttachment *attachment;
+		EAttachmentStore *store;
+		EAttachmentView *attachment_view;
+
+		attachment_view = e_msg_composer_get_attachment_view (composer);
+		store = e_attachment_view_get_store (attachment_view);
 
 		attachment = e_attachment_new_for_uri (uri);
 		e_attachment_store_add_attachment (store, attachment);
@@ -601,7 +596,6 @@ e_composer_paste_text (EMsgComposer *composer,
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
 	gchar *text;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
@@ -612,12 +606,11 @@ e_composer_paste_text (EMsgComposer *composer,
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
 	/* If WebView doesn't have focus, focus it */
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
 		gtk_widget_grab_focus (GTK_WIDGET (view));
 
-	e_html_editor_selection_insert_text (editor_selection, text);
+	e_html_editor_view_insert_text (view, text);
 
 	g_free (text);
 
@@ -796,6 +789,7 @@ composer_size_allocate_cb (GtkWidget *widget,
 	GtkWidget *scrolled_window;
 	GtkAdjustment *adj;
 
+	/* FIXME WK2 this has to be arranged as in WK2 the webview is not in scrolled window */
 	scrolled_window = gtk_widget_get_parent (GTK_WIDGET (widget));
 	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window));
 
@@ -808,199 +802,6 @@ composer_size_allocate_cb (GtkWidget *widget,
 		g_signal_handlers_disconnect_by_func (
 			widget, G_CALLBACK (composer_size_allocate_cb), NULL);
 	}
-}
-
-static WebKitDOMElement *
-prepare_paragraph (EHTMLEditorSelection *selection,
-                   WebKitDOMDocument *document)
-{
-	WebKitDOMElement *br, *paragraph;
-
-	paragraph = e_html_editor_selection_get_paragraph_element (
-		selection, document, -1, 0);
-	br = webkit_dom_document_create_element (document, "BR", NULL);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (br), NULL);
-
-	return paragraph;
-}
-
-static void
-composer_move_caret (EMsgComposer *composer)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	EHTMLEditorSelection *editor_selection;
-	GSettings *settings;
-	gboolean start_bottom, top_signature;
-	gboolean is_message_from_draft;
-	gboolean is_message_from_edit_as_new;
-	gboolean has_paragraphs_in_body = TRUE;
-	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMElement *element, *signature;
-	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *list;
-	WebKitDOMRange *new_range;
-
-	/* When there is an option composer-reply-start-bottom set we have
-	 * to move the caret between reply and signature. */
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
-	g_object_unref (settings);
-
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
-	is_message_from_draft = e_html_editor_view_is_message_from_draft (view);
-	is_message_from_edit_as_new =
-		e_html_editor_view_is_message_from_edit_as_new (view);
-
-	top_signature =
-		use_top_signature (composer) &&
-		!is_message_from_edit_as_new &&
-		!composer->priv->is_from_new_message;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
-
-	body = webkit_dom_document_get_body (document);
-	webkit_dom_element_set_attribute (
-		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-	new_range = webkit_dom_document_create_range (document);
-
-	/* If editing message as new don't handle with caret */
-	if (is_message_from_edit_as_new || is_message_from_draft) {
-		if (is_message_from_edit_as_new)
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (body),
-				"data-edit-as-new",
-				"",
-				NULL);
-
-		if (e_html_editor_view_get_html_mode (view) &&
-		    is_message_from_edit_as_new) {
-
-			webkit_dom_range_select_node_contents (
-				new_range, WEBKIT_DOM_NODE (body), NULL);
-			webkit_dom_range_collapse (new_range, TRUE, NULL);
-
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, new_range);
-		} else
-			e_html_editor_selection_scroll_to_caret (editor_selection);
-
-		return;
-	}
-
-	e_html_editor_selection_block_selection_changed (editor_selection);
-
-	/* When the new message is written from the beginning - note it into body */
-	if (composer->priv->is_from_new_message)
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (body), "data-new-message", "", NULL);
-
-	list = webkit_dom_document_get_elements_by_class_name (document, "-x-evo-paragraph");
-	signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
-	/* Situation when wrapped paragraph is just in signature and not in message body */
-	if (webkit_dom_node_list_get_length (list) == 1)
-		if (signature && webkit_dom_element_query_selector (signature, ".-x-evo-paragraph", NULL))
-			has_paragraphs_in_body = FALSE;
-
-	/*
-	 *
-	 * Keeping Signatures in the beginning of composer
-	 * ------------------------------------------------
-	 *
-	 * Purists are gonna blast me for this.
-	 * But there are so many people (read Outlook users) who want this.
-	 * And Evo is an exchange-client, Outlook-replacement etc.
-	 * So Here it goes :(
-	 *
-	 * -- Sankar
-	 *
-	 */
-	if (signature && top_signature) {
-		element_add_class (signature, "-x-evo-top-signature");
-		element = prepare_paragraph (editor_selection, document);
-		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (element),
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature)),
-			NULL);
-	}
-
-	if (webkit_dom_node_list_get_length (list) == 0)
-		has_paragraphs_in_body = FALSE;
-
-	if (!has_paragraphs_in_body) {
-		element = prepare_paragraph (editor_selection, document);
-		if (top_signature) {
-			if (start_bottom) {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-					NULL);
-			}
-		} else {
-			if (start_bottom) {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					WEBKIT_DOM_NODE (signature),
-					NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-					NULL);
-			}
-		}
-	} else {
-		element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
-		if (!element && top_signature) {
-			element = prepare_paragraph (editor_selection, document);
-			if (start_bottom) {
-					webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					WEBKIT_DOM_NODE (signature),
-					NULL);
-			}
-		}
-	}
-
-	webkit_dom_range_select_node_contents (
-		new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, TRUE, NULL);
-
-	if (start_bottom)
-		g_signal_connect (
-			view, "size-allocate",
-			G_CALLBACK (composer_size_allocate_cb), NULL);
-
-	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-	webkit_dom_dom_selection_add_range (dom_selection, new_range);
-
-	g_object_unref (list);
-
-	e_html_editor_view_force_spell_check (view);
-
-	e_html_editor_selection_unblock_selection_changed (editor_selection);
 }
 
 static void
@@ -1017,12 +818,11 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	GError *error = NULL;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *signatures;
-	gulong list_length, ii;
 	GSettings *settings;
 	gboolean start_bottom;
 	gboolean is_message_from_edit_as_new;
+	GDBusProxy *web_extension;
+	GVariant *extension_result;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -1115,96 +915,57 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 insert:
 	/* Remove the old signature and insert the new one. */
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	extension_result = g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMRemoveSignatures",
+		g_variant_new (
+			"(tb)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			top_signature),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 
-	signatures = webkit_dom_document_get_elements_by_class_name (
-		document, "-x-evo-signature-wrapper");
-	list_length = webkit_dom_node_list_get_length (signatures);
-	for (ii = 0; ii < list_length; ii++) {
-		WebKitDOMNode *wrapper, *signature;
-		gchar *id;
+	if (is_message_from_edit_as_new && composer->priv->set_signature_from_message && result) {
+		const gchar *id;
+		gsize length = 0;
 
-		wrapper = webkit_dom_node_list_item (signatures, ii);
-		signature = webkit_dom_node_get_first_child (wrapper);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
-
-		/* When we are editing a message with signature we need to set active
-		 * signature id in signature combo box otherwise no signature will be
-		 * added but we have to do it just once when the composer opens */
-		if (is_message_from_edit_as_new && composer->priv->set_signature_from_message) {
-			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
-			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
-			g_free (name);
+		id = g_variant_get_string (extension_result, &length);
+		if (length > 0 && id && *id) {
+			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), id);
 			composer->priv->set_signature_from_message = FALSE;
 		}
-
-		if (id && (strlen (id) == 1) && (*id == '1')) {
-			/* If the top signature was set we have to remove the NL
-			 * that was inserted after it */
-			if (top_signature)
-				remove_node (webkit_dom_node_get_next_sibling (wrapper));
-			/* We have to remove the div containing the span with signature */
-			remove_node (wrapper);
-
-			g_free (id);
-			break;
-		}
-
-		g_free (id);
+		g_object_unref (extension_result);
 	}
-	g_object_unref (signatures);
 
-	if (html_buffer != NULL) {
-		if (*html_buffer->str) {
-			WebKitDOMElement *element;
-			WebKitDOMHTMLElement *body;
-
-			body = webkit_dom_document_get_body (document);
-			element = webkit_dom_document_create_element (document, "DIV", NULL);
-			webkit_dom_element_set_class_name (element, "-x-evo-signature-wrapper");
-
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
-
-			if (top_signature) {
-				WebKitDOMNode *child =
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-
-				if (start_bottom) {
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						child,
-						NULL);
-				} else {
-					WebKitDOMElement *input_start =
-						webkit_dom_document_get_element_by_id (
-							document, "-x-evo-input-start");
-					/* When we are using signature on top the caret
-					 * should be before the signature */
-					webkit_dom_node_insert_before (
-						WEBKIT_DOM_NODE (body),
-						WEBKIT_DOM_NODE (element),
-						input_start ?
-							webkit_dom_node_get_next_sibling (
-								WEBKIT_DOM_NODE (input_start)) :
-							child,
-						NULL);
-				}
-			} else {
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					NULL);
-			}
-		}
+	if (html_buffer && html_buffer->str && *html_buffer->str) {
+		g_dbus_proxy_call (
+			web_extension,
+			"DOMInsertSignature",
+			g_variant_new (
+				"(tsb)",
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+				html_buffer->str,
+				top_signature,
+				start_bottom),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 
 		g_string_free (html_buffer, TRUE);
 	}
 
-	composer_move_caret (composer);
-
+	if (start_bottom)
+		g_signal_connect (
+			view, "size-allocate",
+			G_CALLBACK (composer_size_allocate_cb), NULL);
 exit:
 	g_object_unref (composer);
 }
@@ -1234,7 +995,6 @@ e_composer_update_signature (EMsgComposer *composer)
 	EMailSignatureComboBox *combo_box;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	WebKitLoadStatus status;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 

@@ -1,5 +1,5 @@
 /*
- * e-html-editor-dom-functions.h
+ * e-msg-composer-dom-functions.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,18 +16,20 @@
  *
  */
 
-#ifndef E_HTML_EDITOR_DOM_FUNCTIONS_H
-#define E_HTML_EDITOR_DOM_FUNCTIONS_H
+#ifndef E_MSG_COMPOSER_DOM_FUNCTIONS_H
+#define E_MSG_COMPOSER_DOM_FUNCTIONS_H
 
 #include <webkitdom/webkitdom.h>
 
 G_BEGIN_DECLS
 
-guint		e_html_editor_get_flags_for_element_on_coordinates
-						(WebKitDOMDocument *document,
-						 gint32 x,
-						 gint32 y);
+gchar *		dom_get_active_signature_uid 	(WebKitDOMDocument *document);
+
+gchar *		dom_get_raw_body_content_without_signature
+						(WebKitDOMDocument *document);
+
+gchar *		dom_get_raw_body_content	(WebKitDOMDocument *document);
 
 G_END_DECLS
 
-#endif /* E_HTML_EDITOR__DOM_FUNCTIONS_H */
+#endif /* E_MSG_COMPOSER_DOM_FUNCTIONS_H */

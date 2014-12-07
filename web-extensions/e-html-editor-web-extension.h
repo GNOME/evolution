@@ -20,10 +20,10 @@
 #define E_HTML_EDITOR_WEB_EXTENSION_H
 
 #include "config.h"
-#include "e-util-enums.h"
 
 #include "e-html-editor-web-extension-names.h"
 
+#include <e-util/e-util-enums.h>
 #include <webkit2/webkit-web-extension.h>
 #include <glib-object.h>
 
@@ -160,6 +160,12 @@ void		e_html_editor_web_extension_set_convert_in_situ
 						 gboolean value);
 
 GHashTable *	e_html_editor_web_extension_get_inline_images
+						(EHTMLEditorWebExtension *extension);
+
+gboolean	e_html_editor_web_extension_is_message_from_draft
+						(EHTMLEditorWebExtension *extension);
+
+gboolean	e_html_editor_web_extension_is_from_new_message
 						(EHTMLEditorWebExtension *extension);
 
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

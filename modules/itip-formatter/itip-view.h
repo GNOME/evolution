@@ -218,7 +218,7 @@ void		itip_view_set_update		(ItipView *view,
 gboolean	itip_view_get_show_update_check (ItipView *view);
 void		itip_view_set_show_update_check (ItipView *view,
 						 gboolean show);
-const gchar *	itip_view_get_rsvp_comment	(ItipView *view);
+gchar *		itip_view_get_rsvp_comment	(ItipView *view);
 void		itip_view_set_rsvp_comment	(ItipView *view,
 						 const gchar *comment);
 gboolean	itip_view_get_buttons_sensitive	(ItipView *view);

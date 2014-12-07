@@ -274,7 +274,7 @@ search_bar_set_web_view (ESearchBar *search_bar,
 
 	search_bar->priv->find_controller = find_controller;
 
-	e_signal_connect_notify (
+	g_signal_connect (
 		web_view, "load-changed",
 		G_CALLBACK (web_view_load_changed_cb), search_bar);
 

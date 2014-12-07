@@ -170,13 +170,6 @@ void		e_html_editor_selection_replace	(EHTMLEditorSelection *selection,
 void		e_html_editor_selection_insert_as_text
 						(EHTMLEditorSelection *selection,
 						 const gchar *html_text);
-void		e_html_editor_selection_replace_image_src
-						(EHTMLEditorSelection *selection,
-						 const gchar *selector,
-						 const gchar *image_uri);
-void		e_html_editor_selection_insert_image
-						(EHTMLEditorSelection *selection,
-						 const gchar *image_uri);
 void		e_html_editor_selection_save	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_restore	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_move	(EHTMLEditorSelection *selection,

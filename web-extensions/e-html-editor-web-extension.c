@@ -28,7 +28,7 @@
 
 #include <camel/camel.h>
 
-#include "e-misc-utils.h"
+#include <e-util/e-misc-utils.h>
 
 #include "e-dom-utils.h"
 #include "e-html-editor-actions-dom-functions.h"
@@ -82,6 +82,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
 	gboolean is_message_from_draft;
+	gboolean is_from_new_message;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
 	gboolean remove_initial_input_line;
@@ -104,6 +105,7 @@ static const char introspection_xml[] =
 "    <property type='b' name='IsMessageFromEditAsNew' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromDraft' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromSelection' access='readwrite'/>"
+"    <property type='b' name='IsFromNewMessage' access='readwrite'/>"
 "    <property type='b' name='RemoveInitialInputLine' access='readwrite'/>"
 "<!-- ********************************************************* -->"
 "<!-- These properties show the actual state of EHTMLEditorView -->"
@@ -362,6 +364,21 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_id' direction='in'/>"
 "      <arg type='i' name='col_span' direction='out'/>"
+"    </method>"
+"<!-- ********************************************************* -->"
+"<!--     Functions that are used in EHTMLEditorView            -->"
+"<!-- ********************************************************* -->"
+"    <method name='DOMForceSpellCheck'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMTurnSpellCheckOff'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMCheckMagicLinks'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMScrollToCaret'>"
+"      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
 "  </interface>"
 "</node>";
@@ -1209,6 +1226,8 @@ handle_get_property (GDBusConnection *connection,
 		variant = g_variant_new_boolean (extension->priv->magic_links);
 	else if (g_strcmp0 (property_name, "HTMLMode") == 0)
 		variant = g_variant_new_boolean (extension->priv->html_mode);
+	else if (g_strcmp0 (property_name, "IsFromNewMessage") == 0)
+		variant = g_variant_new_boolean (extension->priv->is_from_new_message);
 	else if (g_strcmp0 (property_name, "IsMessageFromEditAsNew") == 0)
 		variant = g_variant_new_boolean (extension->priv->is_message_from_edit_as_new);
 	else if (g_strcmp0 (property_name, "IsMessageFromDraft") == 0)
@@ -1317,6 +1336,18 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"IsMessageFromSelection",
 			g_variant_new_boolean (extension->priv->is_message_from_selection));
+	} else if (g_strcmp0 (property_name, "IsFromNewMessage") == 0) {
+		gboolean value = g_variant_get_boolean (variant);
+
+		if (value == extension->priv->is_from_new_message)
+			goto exit;
+
+		extension->priv->is_from_new_message = value;
+
+		g_variant_builder_add (builder,
+			"{sv}",
+			"IsFromNewMessage",
+			g_variant_new_boolean (extension->priv->is_from_new_message));
 	} else if (g_strcmp0 (property_name, "IsMessageFromEditAsNew") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
@@ -1674,6 +1705,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->body_input_event_removed = FALSE;
 	extension->priv->is_message_from_draft = FALSE;
 	extension->priv->is_message_from_edit_as_new = FALSE;
+	extension->priv->is_from_new_message = FALSE;
 	extension->priv->is_message_from_selection = FALSE;
 	extension->priv->remove_initial_input_line = FALSE;
 
@@ -2080,5 +2112,17 @@ add_new_inline_image_into_list (EHTMLEditorWebExtension *extension,
                                 const gchar *src)
 {
 	g_hash_table_insert (extension->priv->inline_images, g_strdup(cid_src), g_strdup(src));
+}
+
+gboolean
+e_html_editor_web_extension_is_message_from_draft (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->is_message_from_draft;
+}
+
+gboolean
+e_html_editor_web_extension_is_from_new_message (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->is_from_new_message;
 }
 

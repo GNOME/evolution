@@ -97,7 +97,7 @@ web_inspector_constructed (GObject *object)
 
 	extension = E_WEB_INSPECTOR (object);
 	web_view = web_inspector_get_web_view (extension);
-+	settings = webkit_web_view_get_settings (web_view);
+	settings = webkit_web_view_get_settings (web_view);
 	webkit_settings_set_enable_developer_extras (settings, TRUE);
 
 	g_signal_connect (

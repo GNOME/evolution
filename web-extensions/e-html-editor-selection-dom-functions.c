@@ -18,7 +18,6 @@
 
 #include "e-html-editor-selection-dom-functions.h"
 
-#include "e-util-enums.h"
 #include "e-dom-utils.h"
 #include "e-html-editor-view-dom-functions.h"
 #include "e-html-editor-web-extension.h"
@@ -4816,5 +4815,26 @@ dom_get_list_alignment_from_node (WebKitDOMNode *node)
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
 
 	return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+}
+
+WebKitDOMElement *
+dom_prepare_paragraph (WebKitDOMDocument *document,
+                       EHTMLEditorWebExtension *extension,
+                       gboolean with_selection)
+{
+	WebKitDOMElement *element, *paragraph;
+
+	paragraph = dom_get_paragraph_element (document, extension, -1, 0);
+
+	if (with_selection)
+		add_selection_markers_into_element_start (
+			document, paragraph, NULL, NULL);
+
+	element = webkit_dom_document_create_element (document, "BR", NULL);
+
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (element), NULL);
+
+	return paragraph;
 }
 

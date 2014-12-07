@@ -69,9 +69,9 @@ SUBDIRS = 			\
 	mail			\
 	calendar		\
 	art			\
+	web-extensions		\
 	plugins			\
 	modules			\
-	web-extensions		\
 	$(MAINT_SUBDIR)		\
 	doc			\
 	ui			\

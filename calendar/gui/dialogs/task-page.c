@@ -2679,7 +2679,8 @@ task_page_construct (TaskPage *tpage,
 	g_type_ensure (E_TYPE_DATE_EDIT);
 	g_type_ensure (E_TYPE_TIMEZONE_ENTRY);
 	g_type_ensure (E_TYPE_SOURCE_COMBO_BOX);
-	g_type_ensure (E_TYPE_SPELL_ENTRY);
+/* FIXME WK2
+	g_type_ensure (E_TYPE_SPELL_ENTRY);*/
 	g_type_ensure (E_TYPE_URL_ENTRY);
 
 	priv->builder = gtk_builder_new ();

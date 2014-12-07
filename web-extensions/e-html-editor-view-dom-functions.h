@@ -23,7 +23,7 @@
 
 #include "e-html-editor-web-extension.h"
 
-#include "e-util-enums.h"
+#include <e-util/e-util-enums.h>
 
 G_BEGIN_DECLS
 
@@ -44,6 +44,10 @@ void		dom_embed_style_sheet		(WebKitDOMDocument *document,
 						 const gchar *style_sheet_content);
 
 void		dom_remove_embed_style_sheet	(WebKitDOMDocument *document);
+
+void		dom_check_magic_links		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 gboolean include_space_by_user);
 
 void		dom_convert_document		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
@@ -79,6 +83,8 @@ gboolean	dom_check_if_conversion_needed	(WebKitDOMDocument *document);
 void		dom_process_content_after_mode_change
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
+
+gint		dom_get_caret_position		(WebKitDOMDocument *document);
 
 G_END_DECLS
 

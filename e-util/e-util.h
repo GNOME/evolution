@@ -91,7 +91,6 @@
 #include <e-util/e-destination-store.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>
-#include <e-util/e-dom-utils.h>
 #include <e-util/e-emoticon-action.h>
 #include <e-util/e-emoticon-chooser-menu.h>
 #include <e-util/e-emoticon-chooser.h>

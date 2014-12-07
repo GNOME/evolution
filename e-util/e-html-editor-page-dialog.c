@@ -273,8 +273,7 @@ html_editor_page_dialog_set_background_image (EHTMLEditorPageDialog *dialog)
 		GTK_FILE_CHOOSER (dialog->priv->background_image_filechooser));
 
 	if (uri && *uri)
-		e_html_editor_selection_replace_image_src (
-			e_html_editor_view_get_selection (view), "body", uri);
+		e_html_editor_view_replace_image_src (view, "body", uri);
 	else
 		g_dbus_proxy_call (
 			web_extension,

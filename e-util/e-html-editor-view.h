@@ -108,6 +108,10 @@ gboolean	e_html_editor_view_get_html_mode
 void		e_html_editor_view_set_html_mode
 						(EHTMLEditorView *view,
 						 gboolean html_mode);
+void		e_html_editor_view_force_spell_check
+						(EHTMLEditorView *view);
+void		e_html_editor_view_turn_spell_check_off
+						(EHTMLEditorView *view);
 gboolean	e_html_editor_view_get_inline_spelling
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_inline_spelling
@@ -158,30 +162,7 @@ void		e_html_editor_view_embed_styles	(EHTMLEditorView *view);
 void		e_html_editor_view_remove_embed_styles
 						(EHTMLEditorView *view);
 void		e_html_editor_view_update_fonts	(EHTMLEditorView *view);
-/*
-WebKitDOMElement *
-		e_html_editor_view_get_element_under_mouse_click
-						(EHTMLEditorView *view);
-
-void		e_html_editor_view_check_magic_links
-						(EHTMLEditorView *view,
-						 gboolean while_typing);
-
-WebKitDOMElement *
-		e_html_editor_view_quote_plain_text_element
-						(EHTMLEditorView *view,
-                                                 WebKitDOMElement *element);
-WebKitDOMElement *
-		e_html_editor_view_quote_plain_text
-						(EHTMLEditorView *view);
-*/
 void		e_html_editor_view_dequote_plain_text
-						(EHTMLEditorView *view);
-void		e_html_editor_view_turn_spell_check_off
-						(EHTMLEditorView *view);
-void		e_html_editor_view_force_spell_check_for_current_paragraph
-						(EHTMLEditorView *view);
-void		e_html_editor_view_force_spell_check
 						(EHTMLEditorView *view);
 void		e_html_editor_view_add_inline_image_from_mime_part
 						(EHTMLEditorView *view,
@@ -205,6 +186,20 @@ void		e_html_editor_view_set_is_message_from_edit_as_new
 void		e_html_editor_view_set_remove_initial_input_line
 						(EHTMLEditorView *view,
 						 gboolean value);
+void		e_html_editor_view_scroll_to_caret
+						(EHTMLEditorView *view);
+void		e_html_editor_view_replace_image_src
+						(EHTMLEditorView *view,
+						 const gchar *selector,
+						 const gchar *image_uri);
+void		e_html_editor_view_insert_image (EHTMLEditorView *view,
+						 const gchar *image_uri);
+void		e_html_editor_view_check_magic_links
+						(EHTMLEditorView *view);
+void		e_html_editor_view_restore_selection
+						(EHTMLEditorView *view);
+void		e_html_editor_view_save_selection
+						(EHTMLEditorView *view);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

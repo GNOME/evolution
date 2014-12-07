@@ -340,14 +340,12 @@ action_insert_image_cb (GtkAction *action,
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		EHTMLEditorView *view;
-		EHTMLEditorSelection *selection;
 		gchar *uri;
 
 		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
 
 		view = e_html_editor_get_view (editor);
-		selection = e_html_editor_view_get_selection (view);
-		e_html_editor_selection_insert_image (selection, uri);
+		e_html_editor_view_insert_image (view, uri);
 
 		g_free (uri);
 	}

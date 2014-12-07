@@ -18,7 +18,7 @@
 
 #include "e-html-editor-link-dialog-dom-functions.h"
 
-#include "e-util-enums.h"
+#include <e-util/e-util-enums.h>
 
 #include "e-dom-utils.h"
 #include "e-html-editor-view-dom-functions.h"

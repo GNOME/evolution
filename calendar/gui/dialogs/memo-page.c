@@ -1240,7 +1240,8 @@ memo_page_construct (MemoPage *mpage)
 	 * GType before we load the GtkBuilder definition file. */
 	g_type_ensure (E_TYPE_CLIENT_COMBO_BOX);
 	g_type_ensure (E_TYPE_DATE_EDIT);
-	g_type_ensure (E_TYPE_SPELL_ENTRY);
+/* FIXME WK2
+	g_type_ensure (E_TYPE_SPELL_ENTRY);*/
 
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "memo-page.ui");

@@ -215,6 +215,16 @@ reformat_get_document_uri_cb (GDBusProxy *web_extension,
 		NULL);
 
 	g_free (uri);
+}
+
+static void
+reformat (GtkAction *old,
+          GtkAction *action,
+          gpointer user_data)
+{
+	EMailDisplayPopupTextHighlight *th_extension;
+
+	th_extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (user_data);
 
 	if (!th_extension->web_extension)
 		return;

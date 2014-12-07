@@ -60,19 +60,16 @@ static void
 html_editor_image_dialog_set_src (EHTMLEditorImageDialog *dialog)
 {
 	EHTMLEditor *editor;
-	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
 	gchar *uri;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
 
 	uri = gtk_file_chooser_get_uri (
 		GTK_FILE_CHOOSER (dialog->priv->file_chooser));
 
-	e_html_editor_selection_replace_image_src (
-		editor_selection, "img#-x-evo-current-img", uri);
+	e_html_editor_view_replace_image_src (view, "img#-x-evo-current-img", uri);
 
 	g_free (uri);
 }

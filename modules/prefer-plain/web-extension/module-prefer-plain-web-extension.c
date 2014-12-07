@@ -25,7 +25,7 @@
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
-#include <e-util/e-dom-utils.h>
+#include <web-extensions/e-dom-utils.h>
 
 /* FIXME Clean it */
 static GDBusConnection *dbus_connection;

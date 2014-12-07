@@ -536,10 +536,7 @@ html_editor_table_dialog_set_background_image (EHTMLEditorTableDialog *dialog)
 		GTK_FILE_CHOOSER (dialog->priv->background_image_button));
 
 	if (uri && *uri)
-		e_html_editor_selection_replace_image_src (
-			e_html_editor_view_get_selection (view),
-			"#-x-evo-current-table",
-			uri);
+		e_html_editor_view_replace_image_src (view, "#-x-evo-current-table", uri);
 	else
 		g_dbus_proxy_call (
 			web_extension,

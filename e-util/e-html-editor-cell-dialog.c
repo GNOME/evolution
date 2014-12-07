@@ -394,10 +394,7 @@ html_editor_cell_dialog_set_background_image (EHTMLEditorCellDialog *dialog)
 			NULL,
 			NULL);
 	else
-		e_html_editor_selection_replace_image_src (
-			e_html_editor_view_get_selection (view),
-			"#-x-evo-current-cell",
-			uri);
+		e_html_editor_view_replace_image_src (view, "#-x-evo-current-cell", uri);
 
 	gtk_widget_set_sensitive (dialog->priv->remove_image_button, uri && *uri);
 

@@ -13,6 +13,7 @@ libmodulemailwebextension_la_CPPFLAGS =			\
 
 libmodulemailwebextension_la_LIBADD =			\
 	$(top_builddir)/e-util/libevolution-util.la	\
+	$(top_builddir)/web-extensions/libedomutils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)			\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(WEB_EXTENSIONS_LIBS)
