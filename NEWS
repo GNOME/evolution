@@ -1,3 +1,33 @@
+Evolution 3.12.9 2014-12-08
+---------------------------
+
+Bug Fixes:
+	Bug 739708 - Spell checking shows words with umlauts as false positives (Milan Crha)
+	Bug 700778 - Correct TNEF mime type definition typo (David Girault)
+	Bug 736947 - Attachment icon not shown in Sent folder (Milan Crha)
+	Bug 736950 - Message with empty body and attachment shows body as attachment.dat (Milan Crha)
+	Bug 740197 - Month view doesn't always indicate excess appointments (Milan Crha)
+	Bug 740577 - Calendar Month view keyboard scroll down misplaced (Milan Crha)
+	Bug 734646 - Do not load remote images on a message print (Milan Crha)
+	Bug 740244 - Display reminders as notifications by default (Milan Crha)
+	Bug 734530 - Use-after-free in Automatic Contacts on error (Milan Crha)
+	Bug 524365 - Expand folder tree for message Move/Copy folder selector (Milan Crha)
+	Bug 706993 - Restart background processes after restore (Milan Crha)
+
+Miscellaneous:
+	Offer only enabled accounts as meeting organizers (Milan Crha)
+	Odd cross line when drawing an ECalendar with multiple columns (Milan Crha)
+	mail_regen_list: Fix a memory leak (Milan Crha)
+	Use EClientCache to open calendars in plugins (Milan Crha)
+	[Alarm-notify] Do not show "Not supported" error on an alarm dismiss (Milan Crha)
+	Automatic Contacts can duplicate recipients in the set book (Milan Crha)
+	EWebView - Increase minimum zoom level for zoom out (Milan Crha)
+	Calendar events/tasks/memos not removed from UI on the source removal (Milan Crha)
+
+Translations:
+	Lasse Liehu (fi)
+	Pedro Albuquerque (pt)
+
 Evolution 3.12.8 2014-11-10
 ---------------------------
 
