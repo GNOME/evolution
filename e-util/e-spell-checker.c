@@ -372,7 +372,7 @@ spell_checker_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_spell_checker_parent_class)->constructed (object);
 
-	e_extensible_load_extensions (E_EXTENSIBLE (object));
+	e_extensible_load_extension (E_EXTENSIBLE (object));
 }
 
 static void

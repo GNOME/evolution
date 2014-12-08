@@ -334,11 +334,11 @@ dom_restore_caret_position (WebKitDOMDocument *document)
 */
 }
 
-static void
+void
 dom_insert_base64_image (WebKitDOMDocument *document,
-                         const gchar *base64_content,
                          const gchar *filename,
-                         const gchar *uri)
+                         const gchar *uri,
+                         const gchar *base64_content)
 {
 	WebKitDOMElement *element, *caret_position, *resizable_wrapper;
 	WebKitDOMText *text;
@@ -2253,7 +2253,7 @@ wrap_lines (WebKitDOMDocument *document,
 		html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (element));
 
 		/* Overwrite the current selection be the processed content */
-		dom_insert_html (extension, document, html);
+		dom_insert_html (document, extension, html);
 
 		g_free (html);
 
@@ -3099,7 +3099,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 				"<span id=\"-x-evo-selection-end-marker\"></span>",
 				NULL),
 
-			dom_insert_html (extension, document, html);
+			dom_insert_html (document, extension, html);
 
 			dom_selection_restore (document);
 
@@ -4723,7 +4723,7 @@ dom_replace_caret_word (WebKitDOMDocument *document,
 	webkit_dom_range_expand (range, "word", NULL);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 
-	dom_insert_html (extension, document, replacement);
+	dom_insert_html (document, extension, replacement);
 }
 
 /**

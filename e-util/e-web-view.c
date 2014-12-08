@@ -1001,7 +1001,6 @@ web_view_constructed (GObject *object)
 	web_view_initialize (WEBKIT_WEB_VIEW (object));
 
 	web_view_set_find_controller (E_WEB_VIEW (object));
-
 }
 
 static gboolean
@@ -2253,8 +2252,6 @@ e_web_view_load_string (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->load_string != NULL);
 
-	printf ("%s\n", __FUNCTION__);
-	printf ("%s\n", string);
 	class->load_string (web_view, string);
 }
 
@@ -3265,8 +3262,6 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-smooth-scrolling", TRUE,
 		"media-playback-allows-inline", FALSE,
 		NULL);
-/* FIXME WK2
-	"respect-image-orientation", TRUE,*/
 }
 
 void

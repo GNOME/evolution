@@ -84,6 +84,9 @@ GDBusProxy *
 void		e_html_editor_view_call_simple_extension_function
 						(EHTMLEditorView *view,
 						 const gchar *extension_function);
+void		e_html_editor_view_call_simple_extension_function_sync
+						(EHTMLEditorView *view,
+						 const gchar *function);
 GVariant *	e_html_editor_view_get_element_attribute
 						(EHTMLEditorView *view,
 						 const gchar *selector,

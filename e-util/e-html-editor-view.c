@@ -586,32 +586,6 @@ html_editor_view_constructed (GObject *object)
 		"enable-spell-checking", TRUE,
 		NULL);*/
 }
-/* FIXME WK2
-static void
-html_editor_view_save_element_under_mouse_click (GtkWidget *widget)
-{
-	gint x, y;
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (widget));
-
-	device_manager = gdk_display_get_device_manager (
-		gtk_widget_get_display (GTK_WIDGET (widget)));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
-	gdk_window_get_device_position (
-		gtk_widget_get_window (GTK_WIDGET (widget)), pointer, &x, &y, NULL);
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	element = webkit_dom_document_element_from_point (document, x, y);
-
-	view = E_HTML_EDITOR_VIEW (widget);
-	view->priv->element_under_mouse = element;
-}
-*/
 static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
                                      GdkEventButton *event)
@@ -623,8 +597,6 @@ html_editor_view_button_press_event (GtkWidget *widget,
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
-/* FIXME WK2
-		html_editor_view_save_element_under_mouse_click (widget); */
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -672,8 +644,6 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
-/* FIXME WK2
-		html_editor_view_save_element_under_mouse_click (widget); */
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -802,6 +772,28 @@ e_html_editor_view_get_web_extension_proxy (EHTMLEditorView *view)
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
 
 	return view->priv->web_extension;
+}
+
+void
+e_html_editor_view_call_simple_extension_function_sync (EHTMLEditorView *view,
+                                                        const gchar *function)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (function && *function);
+
+	if (!view->priv->web_extension)
+		return;
+
+	g_dbus_proxy_call_sync (
+		view->priv->web_extension,
+		function,
+		g_variant_new (
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
 }
 
 void
@@ -1461,17 +1453,8 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		view->priv->html_mode = html_mode;
 		set_cached_boolean_property (view, "HTMLMode", html_mode);
 
-		g_dbus_proxy_call (
-			web_extension,
-			"ConvertWhenChangingComposerMode",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			NULL,
-			NULL);
+		e_html_editor_view_call_simple_extension_function (
+			view, "ConvertWhenChangingComposerMode");
 
 		/* Update fonts - in plain text we only want monospace */
 		e_html_editor_view_update_fonts (view);
@@ -1484,16 +1467,9 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 	view->priv->html_mode = html_mode;
 
-	g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMProcessContentAfterModeChange",
-		g_variant_new (
-			"(t)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+
+	e_html_editor_view_call_simple_extension_function_sync (
+		view, "DOMProcessContentAfterModeChange");
 
 	/* Update fonts - in plain text we only want monospace */
 	e_html_editor_view_update_fonts (view);
@@ -1802,7 +1778,7 @@ process_document (EHTMLEditorView *view,
 gchar *
 e_html_editor_view_get_text_html (EHTMLEditorView *view)
 {
-	return process_document (view, "ProcessDocumentForHTML");
+	return process_document (view, "DOMProcessContentForHTML");
 }
 
 /**
@@ -1817,7 +1793,7 @@ e_html_editor_view_get_text_html (EHTMLEditorView *view)
 gchar *
 e_html_editor_view_get_text_html_for_drafts (EHTMLEditorView *view)
 {
-	return process_document (view, "ProcessDocumentForDrafts");
+	return process_document (view, "DOMProcessContentForDraft");
 }
 
 /**
@@ -1833,7 +1809,7 @@ e_html_editor_view_get_text_html_for_drafts (EHTMLEditorView *view)
 gchar *
 e_html_editor_view_get_text_plain (EHTMLEditorView *view)
 {
-	return process_document (view, "ProcessDocumentForPlainText");
+	return process_document (view, "DOMProcessContentForPlainText");
 }
 
 void
@@ -2627,8 +2603,8 @@ e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
 		"DOMGetInlineImagesData",
 		g_variant_new (
 			"(ts)",
-			uid_domain,
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			uid_domain),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
@@ -2667,7 +2643,7 @@ e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
 	CamelStream *stream;
 	GDBusProxy *web_extension;
 	GByteArray *byte_array;
-	gchar *src, *base64_encoded, *mime_type, *cid_src;
+	gchar *src, *base64_encoded, *mime_type, *cid_uri;
 	const gchar *cid, *name;
 
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
@@ -2698,7 +2674,7 @@ e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
 		camel_mime_part_set_content_id (part, NULL);
 		cid = camel_mime_part_get_content_id (part);
 	}
-	cid_src = g_strdup_printf ("cid:%s", cid);
+	cid_uri = g_strdup_printf ("cid:%s", cid);
 
 	g_dbus_proxy_call (
 		web_extension,
@@ -2706,7 +2682,8 @@ e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
 		g_variant_new (
 			"(tss)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			cid_src,
+			name,
+			cid_uri,
 			src),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
@@ -2845,7 +2822,7 @@ replace_base64_image_src (EHTMLEditorView *view,
 
 	g_dbus_proxy_call (
 		web_extension,
-		"EHTMLEditorSelectionReplaceBase64ImageSrc",
+		"DOMReplaceBase64ImageSrc",
 		g_variant_new (
 			"(tssss)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),

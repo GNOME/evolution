@@ -42,6 +42,8 @@ struct _EWebExtensionPrivate {
 	GDBusConnection *dbus_connection;
 	guint registration_id;
 
+	gboolean initialized;
+
 	gboolean need_input;
 	gboolean force_image_load;
 };
@@ -478,6 +480,7 @@ e_web_extension_init (EWebExtension *extension)
 {
 	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_WEB_EXTENSION, EWebExtensionPrivate);
 
+	extension->priv->initialized = FALSE;
 	extension->priv->need_input = FALSE;
 	extension->priv->force_image_load = FALSE;
 }
@@ -652,6 +655,11 @@ e_web_extension_initialize (EWebExtension *extension,
                             WebKitWebExtension *wk_extension)
 {
 	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+
+	if (extension->priv->initialized)
+		return;
+
+	extension->priv->initialized = TRUE;
 
 	extension->priv->wk_extension = g_object_ref (wk_extension);
 

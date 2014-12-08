@@ -70,13 +70,17 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
                                       guint match_count,
                                       EHTMLEditorReplaceDialog *dialog)
 {
+	EHTMLEditorSelection *selection;
+
+	selection = e_html_editor_view_get_selection (
+		E_HTML_EDITOR_VIEW (webkit_find_controller_get_web_view (find_controller)));
+
 	gtk_widget_hide (dialog->priv->result_label);
 
 	if (!dialog->priv->skip) {
-		/* FIXME WK2
 		e_html_editor_selection_replace (
 			selection,
-			gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)));*/
+			gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry)));
 	}
 
 	dialog->priv->skip = FALSE;
@@ -201,6 +205,17 @@ html_editor_replace_dialog_show (GtkWidget *widget)
 }
 
 static void
+html_editor_replace_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditorReplaceDialog *dialog = E_HTML_EDITOR_REPLACE_DIALOG (widget);
+
+	webkit_find_controller_search_finish (dialog->priv->find_controller);
+
+	/* Chain up to parent implementation */
+	GTK_WIDGET_CLASS (e_html_editor_replace_dialog_parent_class)->hide (widget);
+}
+
+static void
 html_editor_replace_dialog_dispose (GObject *object)
 {
 	EHTMLEditorReplaceDialogPrivate *priv;
@@ -245,6 +260,7 @@ e_html_editor_replace_dialog_class_init (EHTMLEditorReplaceDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_replace_dialog_show;
+	widget_class->hide = html_editor_replace_dialog_hide;
 }
 
 static void
@@ -273,7 +289,7 @@ e_html_editor_replace_dialog_init (EHTMLEditorReplaceDialog *dialog)
 		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), dialog);
 
 	dialog->priv->counted_matches_handler_id = g_signal_connect (
-		find_controller, "failed-to-find-text",
+		find_controller, "counted-matches",
 		G_CALLBACK (webkit_find_controller_counted_matches_cb), dialog);
 
 	dialog->priv->find_controller = find_controller;

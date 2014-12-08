@@ -162,6 +162,11 @@ void		e_html_editor_web_extension_set_convert_in_situ
 GHashTable *	e_html_editor_web_extension_get_inline_images
 						(EHTMLEditorWebExtension *extension);
 
+void		e_html_editor_web_extension_add_new_inline_image_into_list
+						(EHTMLEditorWebExtension *extension,
+						 const gchar *cid_src,
+						 const gchar *src);
+
 gboolean	e_html_editor_web_extension_is_message_from_draft
 						(EHTMLEditorWebExtension *extension);
 

@@ -1986,8 +1986,8 @@ fix_structure_after_pasting_multiline_content (WebKitDOMNode *node)
 }
 
 void
-dom_quote_and_insert_text_into_selection (EHTMLEditorWebExtension *extension,
-                                          WebKitDOMDocument *document,
+dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
+                                          EHTMLEditorWebExtension *extension,
                                           const gchar *text)
 {
 	gchar *escaped_text;
@@ -2041,7 +2041,7 @@ dom_quote_and_insert_text_into_selection (EHTMLEditorWebExtension *extension,
 	g_free (escaped_text);
 }
 
-gboolean
+static gboolean
 dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
                                    EHTMLEditorWebExtension *extension)
 {
@@ -2784,7 +2784,7 @@ dom_quote_plain_text_element (WebKitDOMDocument *document,
  * As this function is cloning and replacing all citation blockquotes keep on
  * mind that any pointers to nodes inside these blockquotes will be invalidated.
  */
-WebKitDOMElement *
+static WebKitDOMElement *
 dom_quote_plain_text (WebKitDOMDocument *document)
 {
 	WebKitDOMHTMLElement *body;
@@ -2866,7 +2866,7 @@ dom_quote_plain_text (WebKitDOMDocument *document)
  * Editor have to be quoted with e_html_editor_view_quote_plain_text otherwise
  * it's not working.
  */
-void
+static void
 dom_dequote_plain_text (WebKitDOMDocument *document)
 {
 	WebKitDOMNodeList *paragraphs;
@@ -3549,7 +3549,7 @@ register_html_events_handlers (WebKitDOMHTMLElement *body,
 }
 
 void
-dom_convert_document (WebKitDOMDocument *document,
+dom_convert_content (WebKitDOMDocument *document,
                       EHTMLEditorWebExtension *extension,
                       const gchar *preferred_text)
 {
@@ -5265,8 +5265,8 @@ toggle_paragraphs_style (WebKitDOMDocument *document,
 		e_html_editor_web_extension_get_html_mode (extension));
 }
 
-static gchar *
-process_content_for_saving_as_draft (WebKitDOMDocument *document)
+gchar *
+dom_process_content_for_draft (WebKitDOMDocument *document)
 {
 	WebKitDOMHTMLElement *body;
 	WebKitDOMElement *document_element;
@@ -5427,9 +5427,9 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 		dom_selection_restore (document);
 }
 
-static gchar *
-process_content_for_plain_text (EHTMLEditorWebExtension *extension,
-                                WebKitDOMDocument *document)
+gchar *
+dom_process_content_for_plain_text (WebKitDOMDocument *document,
+                                    EHTMLEditorWebExtension *extension)
 {
 	gboolean wrap = FALSE, quote = FALSE, clean = FALSE;
 	gboolean converted, is_from_new_message;
@@ -5557,9 +5557,9 @@ process_content_for_plain_text (EHTMLEditorWebExtension *extension,
 	return g_string_free (plain_text, FALSE);
 }
 
-static gchar *
-process_content_for_html (WebKitDOMDocument *document,
-                          EHTMLEditorWebExtension *extension)
+gchar *
+dom_process_content_for_html (WebKitDOMDocument *document,
+                              EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMNode *body, *document_clone;
 	gchar *html_content;
@@ -5578,9 +5578,9 @@ process_content_for_html (WebKitDOMDocument *document,
 	return html_content;
 }
 
-static void
-convert_when_changing_composer_mode (WebKitDOMDocument *document,
-                                     EHTMLEditorWebExtension *extension)
+void
+dom_convert_when_changing_composer_mode (WebKitDOMDocument *document,
+                                         EHTMLEditorWebExtension *extension)
 {
 	gboolean quote = FALSE, wrap = FALSE;
 	WebKitDOMHTMLElement *body;
@@ -5753,7 +5753,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 
 	if (e_html_editor_web_extension_get_convert_in_situ (extension)) {
-		dom_convert_document (document, extension, NULL);
+		dom_convert_content (document, extension, NULL);
 		e_html_editor_web_extension_set_convert_in_situ (extension, FALSE);
 
 		return;
@@ -5785,9 +5785,9 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 }
 
 GVariant *
-dom_get_inline_images (WebKitDOMDocument *document,
-                       EHTMLEditorWebExtension *extension,
-                       const gchar *uid_domain)
+dom_get_inline_images_data (WebKitDOMDocument *document,
+                            EHTMLEditorWebExtension *extension,
+                            const gchar *uid_domain)
 {
 	GVariant *result;
 	GVariantBuilder *builder;
@@ -5885,8 +5885,8 @@ dom_get_inline_images (WebKitDOMDocument *document,
  * is selected, it will be replaced by @html_text.
  */
 void
-dom_insert_html (EHTMLEditorWebExtension *extension,
-                 WebKitDOMDocument *document,
+dom_insert_html (WebKitDOMDocument *document,
+                 EHTMLEditorWebExtension *extension,
                  const gchar *html_text)
 {
 	g_return_if_fail (html_text != NULL);

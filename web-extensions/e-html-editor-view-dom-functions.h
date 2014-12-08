@@ -45,11 +45,16 @@ void		dom_embed_style_sheet		(WebKitDOMDocument *document,
 
 void		dom_remove_embed_style_sheet	(WebKitDOMDocument *document);
 
+void		dom_quote_and_insert_text_into_selection
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *text);
+
 void		dom_check_magic_links		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 gboolean include_space_by_user);
 
-void		dom_convert_document		(WebKitDOMDocument *document,
+void		dom_convert_content		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 const gchar *preferred_text);
 
@@ -63,20 +68,33 @@ WebKitDOMElement *
 		dom_quote_plain_text_element	(WebKitDOMDocument *document,
 						 WebKitDOMElement *element);
 
+void		dom_convert_when_changing_composer_mode
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 void		dom_process_content_after_load	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
-GVariant *	dom_get_inline_images		(WebKitDOMDocument *document,
+GVariant *	dom_get_inline_images_data	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 const gchar *uid_domain);
 
-void		dom_insert_html			(EHTMLEditorWebExtension *extension,
-						 WebKitDOMDocument *document,
+void		dom_insert_html			(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *html_text);
 
 gboolean	dom_process_on_key_press	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 guint key_val);
+
+gchar *		dom_process_content_for_draft	(WebKitDOMDocument *document);
+
+gchar *		dom_process_content_for_plain_text
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
+gchar *		dom_process_content_for_html	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 gboolean	dom_check_if_conversion_needed	(WebKitDOMDocument *document);
 

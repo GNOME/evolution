@@ -30,6 +30,7 @@
 
 #include <e-util/e-misc-utils.h>
 
+#include "e-composer-private-dom-functions.h"
 #include "e-dom-utils.h"
 #include "e-html-editor-actions-dom-functions.h"
 #include "e-html-editor-cell-dialog-dom-functions.h"
@@ -41,6 +42,7 @@
 #include "e-html-editor-spell-check-dialog-dom-functions.h"
 #include "e-html-editor-table-dialog-dom-functions.h"
 #include "e-html-editor-view-dom-functions.h"
+#include "e-msg-composer-dom-functions.h"
 
 #define E_HTML_EDITOR_WEB_EXTENSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -379,6 +381,104 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMScrollToCaret'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMEmbedStyleSheet'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='style_sheet_content' direction='in'/>"
+"    </method>"
+"    <method name='DOMRemoveEmbedStyleSheet'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMSaveSelection'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMRestoreSelection'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMQuoteAndInsertTextIntoSelection'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='text' direction='in'/>"
+"    </method>"
+"    <method name='DOMConvertAndInsertHTMLIntoSelection'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='text' direction='in'/>"
+"      <arg type='b' name='is_html' direction='in'/>"
+"    </method>"
+"    <method name='DOMProcessOnKeyPress'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='key_val' direction='in'/>"
+"      <arg type='b' name='stop_handlers' direction='out'/>"
+"    </method>"
+"    <method name='DOMCheckIfConversionNeeded'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='conversion_needed' direction='out'/>"
+"    </method>"
+"    <method name='DOMConvertWhenChangingComposerMode'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMProcessContentAfterModeChange'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMProcessContentForHTML'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='content' direction='out'/>"
+"    </method>"
+"    <method name='DOMProcessContentForDraft'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='content' direction='out'/>"
+"    </method>"
+"    <method name='DOMProcessContentForPlainText'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='content' direction='out'/>"
+"    </method>"
+"    <method name='DOMInsertHTML'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='html' direction='in'/>"
+"    </method>"
+"    <method name='DOMConvertContent'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='preffered_text' direction='in'/>"
+"    </method>"
+"    <method name='DOMGetInlineImagesData'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='uid_domain' direction='in'/>"
+"      <arg type='a*' name='image_data' direction='out'/>"
+"    </method>"
+"    <method name='DOMAddNewInlineImageIntoList'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='filename' direction='in'/>"
+"      <arg type='s' name='cid_src' direction='in'/>"
+"      <arg type='s' name='src' direction='in'/>"
+"    </method>"
+"    <method name='DOMReplaceBase64ImageSrc'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='selector' direction='in'/>"
+"      <arg type='s' name='base64_content' direction='in'/>"
+"      <arg type='s' name='filename' direction='in'/>"
+"      <arg type='s' name='uri' direction='in'/>"
+"    </method>"
+"<!-- ********************************************************* -->"
+"<!--     Functions that are used in EHTMLEditorSelection       -->"
+"<!-- ********************************************************* -->"
+"    <method name='DOMSelectionIndent'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionUnindent'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"<!-- ********************************************************* -->"
+"<!--     Functions that are used in EComposerPrivate           -->"
+"<!-- ********************************************************* -->"
+"    <method name='DOMRemoveSignatures'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='top_signature' direction='in'/>"
+"      <arg type='s' name='active_signature' direction='out'/>"
+"    </method>"
+"    <method name='DOMInsertSignature'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='signature_html' direction='in'/>"
+"      <arg type='b' name='top_signature' direction='in'/>"
+"      <arg type='b' name='start_bottom' direction='in'/>"
 "    </method>"
 "  </interface>"
 "</node>";
@@ -1203,6 +1303,384 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new_int32 (value));
+	} else if (g_strcmp0 (method_name, "DOMSaveSelection") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_save (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMRestoreSelection") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_restore (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMTurnSpellCheckOff") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_turn_spell_check_off (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMQuoteAndInsertTextIntoSelection") == 0) {
+		const gchar *text;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &text);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_quote_and_insert_text_into_selection (document, extension, text);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMConvertAndInsertHTMLIntoSelection") == 0) {
+		gboolean is_html;
+		const gchar *text;
+
+		g_variant_get (parameters, "(t&sb)", &page_id, &text, &is_html);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_convert_and_insert_html_into_selection (document, extension, text, is_html);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMEmbedStyleSheet") == 0) {
+		const gchar *style_sheet_content;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &style_sheet_content);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_embed_style_sheet (document, style_sheet_content);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMRemoveEmbedStyleSheet") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_remove_embed_style_sheet (document);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMForceSpellCheck") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_force_spell_check (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMCheckMagicLinks") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_check_magic_links (document, extension, FALSE);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMProcessOnKeyPress") == 0) {
+		gboolean stop_handlers;
+		guint key_val;
+
+		g_variant_get (parameters, "(tu)", &page_id, &key_val);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		stop_handlers = dom_process_on_key_press (document, extension, key_val);
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_boolean (stop_handlers));
+	} else if (g_strcmp0 (method_name, "DOMCheckIfConversionNeeded") == 0) {
+		gboolean conversion_needed;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		conversion_needed = dom_check_if_conversion_needed (document);
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_boolean (conversion_needed));
+	} else if (g_strcmp0 (method_name, "DOMConvertWhenChangingComposerMode") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_convert_when_changing_composer_mode (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMProcessContentAfterModeChange") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_process_content_after_mode_change (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMProcessContentForDraft") == 0) {
+		gchar *value = NULL;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_process_content_for_draft (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMProcessContentForHTML") == 0) {
+		gchar *value = NULL;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_process_content_for_html (document, extension);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMProcessContentForPlainText") == 0) {
+		gchar *value = NULL;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_process_content_for_plain_text (document, extension);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMInsertHTML") == 0) {
+		const gchar *html;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &html);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_insert_html (document, extension, html);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMConvertContent") == 0) {
+		const gchar *preferred_text;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &preferred_text);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_convert_content (document, extension, preferred_text);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetInlineImagesData") == 0) {
+		const gchar *uid_domain;
+		GVariant *images_data;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &uid_domain);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		images_data = dom_get_inline_images_data (document, extension, uid_domain);
+		g_dbus_method_invocation_return_value (invocation, images_data);
+	} else if (g_strcmp0 (method_name, "DOMAddNewInlineImageIntoList") == 0) {
+		const gchar *cid_uri, *src, *filename;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &filename, &cid_uri, &src);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		e_html_editor_web_extension_add_new_inline_image_into_list (
+			extension, cid_uri, src);
+
+		dom_insert_base64_image (document, filename, cid_uri, src);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMReplaceBase64ImageSrc") == 0) {
+		const gchar *selector, *base64_content, *filename, *uri;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &selector, &base64_content, &filename, &uri);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_replace_base64_image_src (document, selector, base64_content, filename, uri);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionIndent") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_indent (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionUnindent") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_unindent (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMRemoveSignatures") == 0) {
+		gboolean top_signature;
+		gchar *active_signature;
+
+		g_variant_get (parameters, "(tb)", &page_id, &top_signature);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		active_signature = dom_remove_signatures (document, extension, top_signature);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			active_signature ? g_variant_new_take_string (active_signature) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMInsertSignature") == 0) {
+		gboolean top_signature, start_bottom;
+		const gchar *signature_html;
+
+		g_variant_get (
+			parameters, "(t&sbb)", &page_id, &signature_html, &top_signature, &start_bottom);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_insert_signature (document, extension, signature_html, top_signature, start_bottom);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetActiveSignatureUid") == 0) {
+		gchar *value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_get_active_signature_uid (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetRawBodyContentWithoutSignature") == 0) {
+		gchar *value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_get_raw_body_content_without_signature (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetRawBodyContent") == 0) {
+		gchar *value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_get_raw_body_content (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_take_string (value) : NULL);
 	}
 }
 
@@ -2106,10 +2584,10 @@ e_html_editor_web_extension_get_inline_images (EHTMLEditorWebExtension *extensio
 	return extension->priv->inline_images;
 }
 
-static void
-add_new_inline_image_into_list (EHTMLEditorWebExtension *extension,
-                                const gchar *cid_src,
-                                const gchar *src)
+void
+e_html_editor_web_extension_add_new_inline_image_into_list (EHTMLEditorWebExtension *extension,
+                                                            const gchar *cid_src,
+                                                            const gchar *src)
 {
 	g_hash_table_insert (extension->priv->inline_images, g_strdup(cid_src), g_strdup(src));
 }
