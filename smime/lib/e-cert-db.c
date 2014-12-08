@@ -453,6 +453,11 @@ pk11_password (PK11SlotInfo *slot,
 
 	gboolean rv = FALSE;
 
+	/* For tokens with CKF_PROTECTED_AUTHENTICATION_PATH we
+	 * need to return a non-empty but unused password */
+	if (PK11_ProtectedAuthenticationPath(slot))
+		return PORT_Strdup("");
+
 	g_signal_emit (
 		e_cert_db_peek (),
 		e_cert_db_signals[PK11_PASSWD], 0,
