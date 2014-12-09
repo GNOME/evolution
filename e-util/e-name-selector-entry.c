@@ -2101,6 +2101,40 @@ user_focus_out (ENameSelectorEntry *name_selector_entry,
 	return FALSE;
 }
 
+static gboolean
+user_key_press_event_cb (ENameSelectorEntry *name_selector_entry,
+			 GdkEventKey *event_key)
+{
+	gint end;
+
+	g_return_val_if_fail (E_IS_NAME_SELECTOR_ENTRY (name_selector_entry), FALSE);
+	g_return_val_if_fail (event_key != NULL, FALSE);
+
+	if ((event_key->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0 &&
+	    event_key->keyval == GDK_KEY_comma &&
+	    gtk_editable_get_selection_bounds (GTK_EDITABLE (name_selector_entry), NULL, &end)) {
+		entry_activate (name_selector_entry);
+
+		if (name_selector_entry->priv->type_ahead_complete_cb_id) {
+			g_source_remove (name_selector_entry->priv->type_ahead_complete_cb_id);
+			name_selector_entry->priv->type_ahead_complete_cb_id = 0;
+		}
+
+		if (name_selector_entry->priv->update_completions_cb_id) {
+			g_source_remove (name_selector_entry->priv->update_completions_cb_id);
+			name_selector_entry->priv->update_completions_cb_id = 0;
+		}
+
+		clear_completion_model (name_selector_entry);
+
+		sanitize_entry (name_selector_entry);
+
+		gtk_editable_select_region (GTK_EDITABLE (name_selector_entry), end, end);
+	}
+
+	return FALSE;
+}
+
 static void
 deep_free_list (GList *list)
 {
@@ -3359,6 +3393,9 @@ e_name_selector_entry_init (ENameSelectorEntry *name_selector_entry)
 	g_signal_connect_after (
 		name_selector_entry, "focus-in-event",
 		G_CALLBACK (user_focus_in), name_selector_entry);
+	g_signal_connect (
+		name_selector_entry, "key-press-event",
+		G_CALLBACK (user_key_press_event_cb), name_selector_entry);
 
 	/* Drawing */
 
