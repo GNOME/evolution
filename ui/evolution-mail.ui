@@ -148,6 +148,7 @@
     <menuitem action='mail-search-subject-contains'/>
     <menuitem action='mail-search-sender-contains'/>
     <menuitem action='mail-search-body-contains'/>
+    <menuitem action='mail-search-free-form-expr'/>
     <separator/>
     <menuitem action='search-advanced'/>
   </popup>

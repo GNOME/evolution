@@ -448,6 +448,8 @@ mail_shell_view_execute_search (EShellView *shell_view)
 			element = e_filter_part_find_element (part, "sender");
 		else if (strcmp (part->name, "to") == 0)
 			element = e_filter_part_find_element (part, "recipient");
+		else if (strcmp (part->name, "mail-free-form-exp") == 0)
+			element = e_filter_part_find_element (part, "ffe");
 
 		if (strcmp (part->name, "body") == 0) {
 			struct _camel_search_words *words;

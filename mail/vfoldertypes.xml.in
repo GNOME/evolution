@@ -652,6 +652,13 @@
    <input type="code" name="code"/>
  </part>
 
+ <part name="mail-free-form-exp">
+  <_title>Free Form Expression</_title>
+  <input type="string" name="ffe">
+    <code func="e_mail_free_form_exp_to_sexp"/>
+  </input>
+ </part>
+
  <part name="sent-date">
   <_title>Date sent</_title>
   <input type="optionlist" name="date-spec-type">

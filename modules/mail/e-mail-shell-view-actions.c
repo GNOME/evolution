@@ -2090,6 +2090,13 @@ static GtkRadioActionEntry mail_search_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  MAIL_SEARCH_BODY_CONTAINS },
 
+	{ "mail-search-free-form-expr",
+	  NULL,
+	  N_("Free form expression"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MAIL_SEARCH_FREE_FORM_EXPR },
+
 	{ "mail-search-message-contains",
 	  NULL,
 	  N_("Message contains"),
