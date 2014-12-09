@@ -1836,24 +1836,30 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	} else {
 		zone = NULL;
 	}
-	t_start = icaltime_as_timet_with_zone (*dtstart.value, zone);
-	t_end = icaltime_as_timet_with_zone (*dtend.value, zone);
 
-	tmp1 = get_label (dtstart.value, zone, default_zone);
-	tmp = calculate_time (t_start, t_end);
+	if (dtstart.value) {
+		t_start = icaltime_as_timet_with_zone (*dtstart.value, zone);
+		if (dtend.value)
+			t_end = icaltime_as_timet_with_zone (*dtend.value, zone);
+		else
+			t_end = t_start;
 
-	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
-	tmp2 = g_strdup_printf (_("Time: %s %s"), tmp1, tmp);
-	if (zone && !cal_comp_util_compare_event_timezones (newcomp, client, default_zone)) {
-		g_free (tmp);
-		g_free (tmp1);
+		tmp1 = get_label (dtstart.value, zone, default_zone);
+		tmp = calculate_time (t_start, t_end);
 
-		tmp1 = get_label (dtstart.value, zone, zone);
-		tmp = g_strconcat (tmp2, "\n\t[ ", tmp1, " ", icaltimezone_get_display_name (zone), " ]", NULL);
-	} else {
-		g_free (tmp);
-		tmp = tmp2;
-		tmp2 = NULL;
+		/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
+		tmp2 = g_strdup_printf (_("Time: %s %s"), tmp1, tmp);
+		if (zone && !cal_comp_util_compare_event_timezones (newcomp, client, default_zone)) {
+			g_free (tmp);
+			g_free (tmp1);
+
+			tmp1 = get_label (dtstart.value, zone, zone);
+			tmp = g_strconcat (tmp2, "\n\t[ ", tmp1, " ", icaltimezone_get_display_name (zone), " ]", NULL);
+		} else {
+			g_free (tmp);
+			tmp = tmp2;
+			tmp2 = NULL;
+		}
 	}
 
 	e_cal_component_free_datetime (&dtstart);
