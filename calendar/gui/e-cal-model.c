@@ -4281,6 +4281,10 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data,
 		}
 	}
 
+	/* Some events can have missing DTEND, then use the start_time for them */
+	if (icaltime_is_null_time (end_time))
+		end_time = start_time;
+
 	if (start_time.zone)
 		zone = start_time.zone;
 	else {
