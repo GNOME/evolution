@@ -61,6 +61,7 @@ struct _EFilterInput {
 	gchar *type;		/* name of type */
 	GList *values;		/* strings */
 	gboolean allow_empty;	/* whether can have empty value */
+	gchar *code_gen_func;   /* function name to build the 'code' */
 };
 
 struct _EFilterInputClass {

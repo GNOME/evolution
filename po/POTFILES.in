@@ -346,6 +346,7 @@ mail/e-mail-config-welcome-page.c
 mail/e-mail-config-window.c
 mail/e-mail-display.c
 mail/e-mail-folder-create-dialog.c
+mail/e-mail-free-form-exp.c
 mail/e-mail-junk-options.c
 mail/e-mail-label-dialog.c
 mail/e-mail-label-list-store.c

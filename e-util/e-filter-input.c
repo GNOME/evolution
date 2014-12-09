@@ -30,9 +30,11 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <gmodule.h>
 
 #include "e-alert.h"
 #include "e-filter-input.h"
+#include "e-filter-part.h"
 
 G_DEFINE_TYPE (
 	EFilterInput,
@@ -59,6 +61,7 @@ filter_input_finalize (GObject *object)
 	EFilterInput *input = E_FILTER_INPUT (object);
 
 	xmlFree (input->type);
+	g_free (input->code_gen_func);
 
 	g_list_foreach (input->values, (GFunc) g_free, NULL);
 	g_list_free (input->values);
@@ -164,6 +167,9 @@ filter_input_eq (EFilterElement *element_a,
 	if (link_a != NULL || link_b != NULL)
 		return FALSE;
 
+	if (g_strcmp0 (input_a->code_gen_func, input_b->code_gen_func) != 0)
+		return FALSE;
+
 	return input_a->allow_empty == input_b->allow_empty;
 }
 
@@ -172,7 +178,11 @@ filter_input_xml_create (EFilterElement *element,
                          xmlNodePtr node)
 {
 	EFilterInput *input = E_FILTER_INPUT (element);
+	xmlNodePtr n;
 	gchar *allow_empty;
+
+	g_free (input->code_gen_func);
+	input->code_gen_func = NULL;
 
 	/* Chain up to parent's method. */
 	E_FILTER_ELEMENT_CLASS (e_filter_input_parent_class)->xml_create (element, node);
@@ -181,13 +191,29 @@ filter_input_xml_create (EFilterElement *element,
 
 	input->allow_empty = !allow_empty || g_strcmp0 (allow_empty, "true") == 0;
 	xmlFree (allow_empty);
+
+	for (n = node->children; n; n = n->next) {
+		if (g_str_equal (n->name, "code")) {
+			xmlChar *func = xmlGetProp (n, (xmlChar *) "func");
+
+			if (func && *func) {
+				if (input->code_gen_func)
+					g_free (input->code_gen_func);
+				input->code_gen_func = g_strdup ((gchar *) func);
+			}
+
+			if (func)
+				xmlFree (func);
+			break;
+		}
+	}
 }
 
 static xmlNodePtr
 filter_input_xml_encode (EFilterElement *element)
 {
 	EFilterInput *input = E_FILTER_INPUT (element);
-	xmlNodePtr value;
+	xmlNodePtr value, cur;
 	GList *link;
 	const gchar *type;
 
@@ -200,7 +226,6 @@ filter_input_xml_encode (EFilterElement *element)
 
 	for (link = input->values; link != NULL; link = g_list_next (link)) {
 		xmlChar *str = link->data;
-		xmlNodePtr cur;
 
 		cur = xmlNewChild (value, NULL, (xmlChar *) type, NULL);
 
@@ -256,6 +281,34 @@ filter_input_xml_decode (EFilterElement *element,
 	return 0;
 }
 
+static EFilterElement *
+filter_input_clone (EFilterElement *element)
+{
+	EFilterInput *input = E_FILTER_INPUT (element);
+	EFilterInput *clone_input;
+	EFilterElement *clone;
+	GList *link;
+
+	/* Chain up to parent's clone() method. */
+	clone = E_FILTER_ELEMENT_CLASS (e_filter_input_parent_class)->clone (element);
+
+	clone_input = E_FILTER_INPUT (clone);
+
+	if (clone_input->type)
+		xmlFree (clone_input->type);
+	clone_input->type = input->type ? (gchar *) xmlStrdup ((const xmlChar *) input->type) : NULL;
+	clone_input->allow_empty = input->allow_empty;
+	clone_input->code_gen_func = g_strdup (input->code_gen_func);
+
+	for (link = input->values; link != NULL; link = g_list_next (link)) {
+		clone_input->values = g_list_prepend (clone_input->values, g_strdup (link->data));
+	}
+
+	clone_input->values = g_list_reverse (clone_input->values);
+
+	return clone;
+}
+
 static GtkWidget *
 filter_input_get_widget (EFilterElement *element)
 {
@@ -281,8 +334,36 @@ filter_input_format_sexp (EFilterElement *element,
 	EFilterInput *input = E_FILTER_INPUT (element);
 	GList *link;
 
+	if (input->code_gen_func)
+		return;
+
 	for (link = input->values; link != NULL; link = g_list_next (link))
 		camel_sexp_encode_string (out, link->data);
+}
+
+static void
+filter_input_build_code (EFilterElement *element,
+			 GString *out,
+			 EFilterPart *part)
+{
+	EFilterInput *input = E_FILTER_INPUT (element);
+	GModule *module;
+	void (*code_gen_func) (EFilterElement *element, GString *out, EFilterPart *part);
+
+	if (!input->code_gen_func)
+		return;
+
+	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
+
+	if (g_module_symbol (module, input->code_gen_func, (gpointer) &code_gen_func)) {
+		code_gen_func (E_FILTER_ELEMENT (input), out, part);
+	} else {
+		g_warning (
+			"input dynamic code function '%s' not found",
+			input->code_gen_func);
+	}
+
+	g_module_close (module);
 }
 
 static void
@@ -300,8 +381,10 @@ e_filter_input_class_init (EFilterInputClass *class)
 	filter_element_class->xml_create = filter_input_xml_create;
 	filter_element_class->xml_encode = filter_input_xml_encode;
 	filter_element_class->xml_decode = filter_input_xml_decode;
+	filter_element_class->clone = filter_input_clone;
 	filter_element_class->get_widget = filter_input_get_widget;
 	filter_element_class->format_sexp = filter_input_format_sexp;
+	filter_element_class->build_code = filter_input_build_code;
 }
 
 static void
@@ -309,6 +392,7 @@ e_filter_input_init (EFilterInput *input)
 {
 	input->values = g_list_prepend (NULL, g_strdup (""));
 	input->allow_empty = TRUE;
+	input->code_gen_func = NULL;
 }
 
 /**

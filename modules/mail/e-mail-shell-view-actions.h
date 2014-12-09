@@ -246,6 +246,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-message")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_BODY_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-body-contains")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FREE_FORM_EXPR(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-search-free-form-expr")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_MESSAGE_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-message-contains")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_RECIPIENTS_CONTAIN(window) \
