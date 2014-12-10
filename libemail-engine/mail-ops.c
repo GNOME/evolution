@@ -590,7 +590,6 @@ static void
 mail_send_message (struct _send_queue_msg *m,
                    CamelFolder *queue,
                    const gchar *uid,
-                   CamelTransport *transport,
                    CamelFilterDriver *driver,
                    GCancellable *cancellable,
                    GError **error)
@@ -622,16 +621,23 @@ mail_send_message (struct _send_queue_msg *m,
 	if (service != NULL)
 		provider = camel_service_get_provider (service);
 
-	err = g_string_new ("");
-	xev = mail_tool_remove_xevolution_headers (message);
-
 	if (CAMEL_IS_TRANSPORT (service)) {
 		const gchar *tuid;
 
 		/* Let the dialog know the right account it is using. */
-		tuid = camel_service_get_uid (CAMEL_SERVICE (transport));
+		tuid = camel_service_get_uid (service);
 		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, tuid);
 	}
+
+	if (service && !e_mail_session_mark_service_used_sync (m->session, service, cancellable)) {
+		g_warn_if_fail (g_cancellable_set_error_if_cancelled (cancellable, error));
+		g_clear_object (&service);
+		g_clear_object (&message);
+		return;
+	}
+
+	err = g_string_new ("");
+	xev = mail_tool_remove_xevolution_headers (message);
 
 	/* Check for email sending */
 	from = (CamelAddress *) camel_internet_address_new ();
@@ -889,6 +895,9 @@ exit:
 		}
 	}
 
+	if (service)
+		e_mail_session_unmark_service_used (m->session, service);
+
 	if (local_error != NULL)
 		g_propagate_error (error, local_error);
 
@@ -989,7 +998,7 @@ send_queue_exec (struct _send_queue_msg *m,
 			cancellable, (i + 1) * 100 / send_uids->len);
 
 		mail_send_message (
-			m, m->queue, send_uids->pdata[i], m->transport,
+			m, m->queue, send_uids->pdata[i],
 			m->driver, cancellable, &local_error);
 		if (local_error != NULL) {
 			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
