@@ -150,6 +150,13 @@ CamelFolder *	e_mail_session_uri_to_folder_finish
 EMVFolderContext *
 		e_mail_session_create_vfolder_context
 						(EMailSession *session);
+gboolean	e_mail_session_mark_service_used_sync
+						(EMailSession *session,
+						 CamelService *service,
+						 GCancellable *cancellable);
+void		e_mail_session_unmark_service_used
+						(EMailSession *session,
+						 CamelService *service);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source

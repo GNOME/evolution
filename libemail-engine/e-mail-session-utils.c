@@ -540,14 +540,20 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		return;
 	}
 
+	if (!e_mail_session_mark_service_used_sync (session, context->transport, cancellable)) {
+		g_warn_if_fail (g_cancellable_set_error_if_cancelled (cancellable, &error));
+		g_simple_async_result_take_error (simple, error);
+		return;
+	}
+
 	status = camel_service_get_connection_status (context->transport);
 	if (status != CAMEL_SERVICE_CONNECTED) {
 		did_connect = TRUE;
 
-		camel_service_connect_sync (
-			context->transport, cancellable, &error);
+		camel_service_connect_sync (context->transport, cancellable, &error);
 
 		if (error != NULL) {
+			e_mail_session_unmark_service_used (session, context->transport);
 			g_simple_async_result_take_error (simple, error);
 			return;
 		}
@@ -578,6 +584,8 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 				context->transport, TRUE, cancellable, &error);
 		}
 	}
+
+	e_mail_session_unmark_service_used (session, context->transport);
 
 	if (error != NULL) {
 		g_simple_async_result_take_error (simple, error);
