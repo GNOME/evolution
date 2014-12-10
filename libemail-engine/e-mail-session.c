@@ -92,6 +92,10 @@ struct _EMailSessionPrivate {
 	guint preparing_flush;
 	guint outbox_flush_id;
 	GMutex preparing_flush_lock;
+
+	GMutex used_services_lock;
+	GCond used_services_cond;
+	GHashTable *used_services;
 };
 
 struct _AsyncContext {
@@ -965,11 +969,14 @@ mail_session_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->auto_refresh_table);
 	g_hash_table_destroy (priv->junk_filters);
+	g_hash_table_destroy (priv->used_services);
 
 	g_ptr_array_free (priv->local_folders, TRUE);
 	g_ptr_array_free (priv->local_folder_uris, TRUE);
 
 	g_mutex_clear (&priv->preparing_flush_lock);
+	g_mutex_clear (&priv->used_services_lock);
+	g_cond_clear (&priv->used_services_cond);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -1808,6 +1815,10 @@ e_mail_session_init (EMailSession *session)
 		(GDestroyNotify) g_free);
 
 	g_mutex_init (&session->priv->preparing_flush_lock);
+	g_mutex_init (&session->priv->used_services_lock);
+	g_cond_init (&session->priv->used_services_cond);
+
+	session->priv->used_services = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 EMailSession *
@@ -2446,4 +2457,98 @@ e_mail_session_cancel_scheduled_outbox_flush (EMailSession *session)
 		session->priv->outbox_flush_id = 0;
 	}
 	g_mutex_unlock (&session->priv->preparing_flush_lock);
+}
+
+static void
+mail_session_wakeup_used_services_cond (GCancellable *cancenllable,
+					  EMailSession *session)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	/* Use broadcast here, because it's not known which operation had been
+	   cancelled, thus rather wake up all of them to retest. */
+	g_cond_broadcast (&session->priv->used_services_cond);
+}
+
+/**
+ * e_mail_session_mark_service_used_sync:
+ * @session: an #EMailSession
+ * @service: a #CamelService
+ * @cancellable: (allow none): a #GCancellable, or NULL
+ *
+ * Marks the @service as being used. If it is already in use, then waits
+ * for its release. The only reasons for a failure are either invalid
+ * parameters being passed in the function or the wait being cancelled.
+ * Use e_mail_session_unmark_service_used() to notice the @session that
+ * that the @service is no longer being used by the caller.
+ *
+ * Returns: Whether successfully waited for the @service.
+ *
+ * Since: 3.14
+ **/
+gboolean
+e_mail_session_mark_service_used_sync (EMailSession *session,
+				       CamelService *service,
+				       GCancellable *cancellable)
+{
+	gulong cancelled_id = 0;
+	gboolean message_pushed = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+
+	g_mutex_lock (&session->priv->used_services_lock);
+
+	if (cancellable)
+		cancelled_id = g_cancellable_connect (cancellable, G_CALLBACK (mail_session_wakeup_used_services_cond), session, NULL);
+
+	while (!g_cancellable_is_cancelled (cancellable) &&
+		g_hash_table_contains (session->priv->used_services, service)) {
+
+		if (!message_pushed) {
+			camel_operation_push_message (cancellable, _("Waiting for '%s'"), camel_service_get_display_name (service));
+			message_pushed = TRUE;
+		}
+
+		g_cond_wait (&session->priv->used_services_cond, &session->priv->used_services_lock);
+	}
+
+	if (message_pushed)
+		camel_operation_pop_message (cancellable);
+
+	if (cancelled_id)
+		g_cancellable_disconnect (cancellable, cancelled_id);
+
+	if (!g_cancellable_is_cancelled (cancellable))
+		g_hash_table_insert (session->priv->used_services, service, GINT_TO_POINTER (1));
+
+	g_mutex_unlock (&session->priv->used_services_lock);
+
+	return !g_cancellable_is_cancelled (cancellable);
+}
+
+/**
+ * e_mail_session_unmark_service_used:
+ * @session: an #EMailSession
+ * @service: a #CamelService
+ *
+ * Frees a "use lock" on the @service, thus it can be used by others. If anything
+ * is waiting for it in e_mail_session_mark_service_used_sync(), then it is woken up.
+ *
+ * Since: 3.14
+ **/
+void
+e_mail_session_unmark_service_used (EMailSession *session,
+				    CamelService *service)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	g_mutex_lock (&session->priv->used_services_lock);
+
+	if (g_hash_table_remove (session->priv->used_services, service)) {
+		g_cond_signal (&session->priv->used_services_cond);
+	}
+
+	g_mutex_unlock (&session->priv->used_services_lock);
 }

@@ -157,7 +157,13 @@ void		e_mail_session_schedule_outbox_flush
 						 gint delay_minutes);
 void		e_mail_session_cancel_scheduled_outbox_flush
 						(EMailSession *session);
-
+gboolean	e_mail_session_mark_service_used_sync
+						(EMailSession *session,
+						 CamelService *service,
+						 GCancellable *cancellable);
+void		e_mail_session_unmark_service_used
+						(EMailSession *session,
+						 CamelService *service);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source
