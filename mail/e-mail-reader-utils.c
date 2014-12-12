@@ -957,6 +957,7 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	EMailPrinter *printer;
 	EMailPartList *part_list;
 	AsyncContext *async_context;
+	GError *local_error = NULL;
 
 	reader = E_MAIL_READER (source_object);
 	async_context = (AsyncContext *) user_data;
@@ -964,7 +965,17 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	activity = async_context->activity;
 	cancellable = e_activity_get_cancellable (activity);
 
-	part_list = e_mail_reader_parse_message_finish (reader, result);
+	part_list = e_mail_reader_parse_message_finish (reader, result, &local_error);
+
+	if (local_error) {
+		g_warn_if_fail (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED));
+
+		e_activity_handle_cancellation (activity, local_error);
+		g_clear_error (&local_error);
+		async_context_free (async_context);
+
+		return;
+	}
 
 	printer = e_mail_printer_new (part_list);
 
@@ -1650,10 +1661,21 @@ mail_reader_reply_message_parsed (GObject *object,
 	EMsgComposer *composer;
 	CamelMimeMessage *message;
 	AsyncContext *async_context;
+	GError *local_error = NULL;
 
 	async_context = (AsyncContext *) user_data;
 
-	part_list = e_mail_reader_parse_message_finish (reader, result);
+	part_list = e_mail_reader_parse_message_finish (reader, result, &local_error);
+
+	if (local_error) {
+		g_warn_if_fail (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED));
+
+		g_clear_error (&local_error);
+		async_context_free (async_context);
+
+		return;
+	}
+
 	message = e_mail_part_list_get_message (part_list);
 
 	backend = e_mail_reader_get_backend (async_context->reader);
@@ -2351,6 +2373,7 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 	EMailPartList *part_list;
 	AsyncContext *async_context;
 	gchar *mail_uri;
+	GError *local_error = NULL;
 
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
@@ -2389,6 +2412,9 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 	g_free (mail_uri);
 
 	async_context->part_list = part_list;
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, &local_error))
+		g_simple_async_result_take_error (simple, local_error);
 }
 
 void
@@ -2438,7 +2464,8 @@ e_mail_reader_parse_message (EMailReader *reader,
 
 EMailPartList *
 e_mail_reader_parse_message_finish (EMailReader *reader,
-                                    GAsyncResult *result)
+                                    GAsyncResult *result,
+				    GError **error)
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
@@ -2449,6 +2476,10 @@ e_mail_reader_parse_message_finish (EMailReader *reader,
 		e_mail_reader_parse_message), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (async_context->part_list != NULL)
