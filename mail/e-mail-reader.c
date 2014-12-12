@@ -3277,11 +3277,19 @@ set_mail_display_part_list (GObject *object,
 	EMailPartList *part_list;
 	EMailReader *reader;
 	EMailDisplay *display;
+	GError *local_error = NULL;
 
 	reader = E_MAIL_READER (object);
 	display = e_mail_reader_get_mail_display (reader);
 
-	part_list = e_mail_reader_parse_message_finish (reader, result);
+	part_list = e_mail_reader_parse_message_finish (reader, result, &local_error);
+
+	if (local_error) {
+		g_warn_if_fail (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED));
+
+		g_clear_error (&local_error);
+		return;
+	}
 
 	e_mail_display_set_part_list (display, part_list);
 	e_mail_display_load (display, NULL);

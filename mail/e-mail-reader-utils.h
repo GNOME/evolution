@@ -101,7 +101,8 @@ void		e_mail_reader_parse_message	(EMailReader *reader,
 						 gpointer user_data);
 EMailPartList *	e_mail_reader_parse_message_finish
 						(EMailReader *reader,
-						 GAsyncResult *result);
+						 GAsyncResult *result,
+						 GError **error);
 
 G_END_DECLS
 
