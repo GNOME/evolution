@@ -5306,7 +5306,7 @@ msgstr "Zrušit"
 #: ../calendar/gui/itip-utils.c:1026
 msgctxt "Meeting"
 msgid "Refresh"
-msgstr "Obnovit"
+msgstr "Aktualizovat"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -13394,7 +13394,7 @@ msgstr "Jméno:"
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../e-util/e-source-config.c:1305
 msgid "Refresh every"
-msgstr "Obnovit každých"
+msgstr "Aktualizovat každých"
 
 #: ../e-util/e-source-config.c:1335 ../e-util/e-source-config.c:1405
 msgid "Use a secure connection"
@@ -15976,7 +15976,7 @@ msgstr "_Rozbalit vše"
 
 #: ../mail/em-subscription-editor.c:1928
 msgid "Refresh the folder list"
-msgstr "Obnovit seznam složek"
+msgstr "Aktualizovat seznam složek"
 
 #: ../mail/em-subscription-editor.c:1929
 #: ../modules/mail/e-mail-shell-view-actions.c:1629
@@ -17270,7 +17270,7 @@ msgstr "Selhalo vyčištění složky „{0}“."
 
 #: ../mail/mail.error.xml.h:62
 msgid "Failed to refresh folder &quot;{0}&quot;."
-msgstr "Selhalo obnovení složky „{0}“."
+msgstr "Selhala aktualizace složky „{0}“."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Cannot rename or move system folder \"{0}\"."
@@ -18116,11 +18116,11 @@ msgstr "Zobrazit vlastnosti vybraného adresáře"
 #: ../modules/calendar/e-memo-shell-view-actions.c:578
 #: ../modules/calendar/e-task-shell-view-actions.c:703
 msgid "Re_fresh"
-msgstr "_Obnovit"
+msgstr "_Aktualizovat"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1018
 msgid "Refresh the selected address book"
-msgstr "Obnovit vybraný adresář"
+msgstr "Aktualizovat vybraný adresář"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1023
 msgid "Address Book _Map"
@@ -18335,7 +18335,7 @@ msgid ""
 msgstr ""
 "Můžete obnovit Evolution ze soubory se zálohou.\n"
 "\n"
-"Toto obnoví veškerá vaše osobní data, nastavení, poštovní filtry atd."
+"Tímto se obnoví veškerá vaše osobní data, nastavení, poštovní filtry atd."
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:178
 msgid "_Restore from a backup file:"
@@ -18390,7 +18390,7 @@ msgstr "Zálohovat adresář Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:77
 msgid "Restore Evolution directory"
-msgstr "Obnovit adresář Evolution"
+msgstr "Obnovit složku Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:79
 msgid "Check Evolution Back up"
@@ -19306,7 +19306,7 @@ msgstr "Vyčistit staré události a schůzky"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1256
 msgid "Refresh the selected calendar"
-msgstr "Obnovit vybrané kalendáře"
+msgstr "Aktualizovat vybrané kalendáře"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1263
 msgid "Rename the selected calendar"
@@ -19717,7 +19717,7 @@ msgstr "_Nový seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:580
 msgid "Refresh the selected memo list"
-msgstr "Obnovit vybraný seznam poznámek"
+msgstr "Aktualizovat vybraný seznam poznámek"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:587
 msgid "Rename the selected memo list"
@@ -19848,7 +19848,7 @@ msgstr "_Nový seznam úkolů"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:705
 msgid "Refresh the selected task list"
-msgstr "Obnovit vybraný seznam úkolů"
+msgstr "Aktualizovat vybraný seznam úkolů"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:712
 msgid "Rename the selected task list"
@@ -20862,7 +20862,7 @@ msgstr "Upravit vlastnosti tohoto účtu"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1631
 msgid "Refresh list of folders of this account"
-msgstr "Obnovit seznam složek tohoto účtu"
+msgstr "Aktualizovat seznam složek tohoto účtu"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1636
 msgid "_Download Messages for Offline Usage"
@@ -20928,7 +20928,7 @@ msgstr "Změnit vlastnosti této složky"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1701
 msgid "Refresh the folder"
-msgstr "Obnovit složku"
+msgstr "Aktualizovat složku"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1708
 msgid "Change the name of this folder"
