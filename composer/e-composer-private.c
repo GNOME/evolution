@@ -818,6 +818,7 @@ prepare_paragraph (EHTMLEditorSelection *selection,
 
 	paragraph = e_html_editor_selection_get_paragraph_element (
 		selection, document, -1, 0);
+	webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 	br = webkit_dom_document_create_element (document, "BR", NULL);
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (paragraph), WEBKIT_DOM_NODE (br), NULL);
