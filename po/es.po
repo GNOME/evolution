@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-12-17 05:19+0000\n"
-"PO-Revision-Date: 2014-12-17 12:36+0100\n"
+"POT-Creation-Date: 2014-12-18 05:19+0000\n"
+"PO-Revision-Date: 2014-12-18 12:24+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -8911,6 +8911,8 @@ msgid ""
 "Always save messages to Outbox folder when sending, to let a user choose "
 "when the messages should be sent."
 msgstr ""
+"Guardar siempre los mensajes en la Bandeja de salida al enviarlos, para "
+"permitir al usuario elegir cuándo se deben enviar los mensajes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Put personalized signatures at the top of replies"
@@ -8983,6 +8985,8 @@ msgstr "Activar el modo de desarrollador"
 msgid ""
 "Enables some hidden actions and tools aimed for development and debugging."
 msgstr ""
+"Activa algunas acciones ocultas y herramientas pensadas para desarrollo y "
+"depuración."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Number of characters for wrapping"
@@ -8991,6 +8995,8 @@ msgstr "Número de caracteres al ajustar"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid "Will autowrap lines after given number of characters."
 msgstr ""
+"Las líneas se ajustarán automáticamente después del número de caracteres "
+"dados."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Save file format for drag-and-drop operation"
@@ -9129,7 +9135,7 @@ msgstr "Buscar en gravatar.com la foto del remitente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr ""
+msgstr "Permitir buscar en gravatar.com la foto del remitente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Mark as Seen after specified timeout"
@@ -9392,7 +9398,7 @@ msgstr "Estilo de respuesta predeterminado"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
-msgstr ""
+msgstr "Preguntar al enviar usando un acelerador del teclado (Ctrl+Intro)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
@@ -9835,20 +9841,24 @@ msgid ""
 "in all folders for all deleted messages within the virtual folder, not only "
 "for deleted messages belonging to the virtual folder."
 msgstr ""
+"Activa la purga de carpetas virtuales, lo que significa que Carpeta->Purgar "
+"estará disponible en carpetas virtuales, mientras que la purga como tal se "
+"hará en todas las carpetas para todos los mensajes eliminados en la carpeta "
+"virtual, no sólo para los mensajes eliminados que pertenezcan a la carpeta "
+"virtual."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
-#, fuzzy
 #| msgid "Whether to show local folders (On This Computer) in a folder tree."
 msgid "An Archive folder for On This Computer folders."
-msgstr ""
-"Indica si se deben mostrar las carpetas locales (En este equipo) en un árbol "
-"de carpetas."
+msgstr "Una carpeta de archivo para las carpetas de este equipo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
+"Una carpeta de archivo para usarla para mensajes/archivo... característica "
+"cuando está en una carpeta de este equipo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "(Deprecated) Default forward style"
@@ -12352,10 +12362,9 @@ msgid "Font Size"
 msgstr "Tamaño de la tipografía"
 
 #: ../e-util/e-html-editor-cell-dialog.c:618
-#, fuzzy
 #| msgid "<b>Home</b>"
 msgid "<b>Scope</b>"
-msgstr "<b>Domicilio</b>"
+msgstr "<b>Alcance</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:632
 msgid "C_ell"
@@ -12437,11 +12446,11 @@ msgstr "A_nchura"
 
 #: ../e-util/e-html-editor-cell-dialog.c:800
 msgid "Row S_pan:"
-msgstr ""
+msgstr "Tamaño de la _fila:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:814
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "Tamaño de la _columna:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:821
 #: ../e-util/e-html-editor-table-dialog.c:835
@@ -12499,10 +12508,9 @@ msgid "Case _Sensitive"
 msgstr "_Distinguir entre mayúsculas y minúsculas"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
-#, fuzzy
 #| msgid "_Search"
 msgid "_Wrap Search"
-msgstr "_Buscar"
+msgstr "_Ajustar búsqueda"
 
 # En conflicto con _Buscar del menu principal
 #: ../e-util/e-html-editor-find-dialog.c:213
@@ -12570,7 +12578,6 @@ msgid "_Border:"
 msgstr "_Borde:"
 
 #: ../e-util/e-html-editor-image-dialog.c:646
-#| msgid "<b>Work</b>"
 msgid "<b>Link</b>"
 msgstr "<b>Enlace</b>"
 
@@ -12691,10 +12698,9 @@ msgid "_Case sensitive"
 msgstr "_Distinguir mayúsculas y minúsculas"
 
 #: ../e-util/e-html-editor-replace-dialog.c:237
-#, fuzzy
 #| msgid "Always search"
 msgid "Wra_p search"
-msgstr "Buscar siempre"
+msgstr "Ajus_tar búsqueda"
 
 #: ../e-util/e-html-editor-replace-dialog.c:247
 msgid "_Skip"
@@ -14344,7 +14350,6 @@ msgstr ""
 
 #: ../libemail-engine/e-mail-session.c:2509
 #, c-format
-#| msgid "Storing folder '%s'"
 msgid "Waiting for '%s'"
 msgstr "Esperando a %s"
 
@@ -14787,6 +14792,8 @@ msgstr "Añadir firma _nueva…"
 #: ../mail/e-mail-config-identity-page.c:556
 msgid "Try _setup account automatically, based on Email Address"
 msgstr ""
+"Probar la _configuración de la cuenta automáticamente, basándose en la "
+"dirección de correo-e"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -14979,10 +14986,6 @@ msgid "Account Summary"
 msgstr "Resumen de la cuenta"
 
 #: ../mail/e-mail-config-welcome-page.c:156
-#| msgid ""
-#| "Welcome to the Evolution Mail Configuration Assistant.\n"
-#| "\n"
-#| "Click \"Continue\" to begin."
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -15044,44 +15047,36 @@ msgstr "_Nombre de la carpeta:"
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../mail/e-mail-free-form-exp.c:226
-#| msgid "Answered"
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Contestado"
 
 #: ../mail/e-mail-free-form-exp.c:227
-#| msgid "Deleted"
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Eliminado"
 
 #: ../mail/e-mail-free-form-exp.c:228
-#| msgid "Draft"
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Borrador"
 
 #: ../mail/e-mail-free-form-exp.c:229
-#| msgid "Flagged"
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Marcado"
 
 #: ../mail/e-mail-free-form-exp.c:230
-#| msgid "Seen"
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Visto"
 
 #: ../mail/e-mail-free-form-exp.c:231
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Adjunto"
 
 #: ../mail/e-mail-free-form-exp.c:479
-#| msgid "now"
 msgctxt "ffe"
 msgid "no"
 msgstr "no"
@@ -15379,6 +15374,8 @@ msgstr "_Ignorar sub-conversación"
 #: ../mail/e-mail-reader.c:2110
 msgid "Mark new mails in a sub-thread as read automatically"
 msgstr ""
+"Marcar los correos nuevos de esta sub-conversación como leídos "
+"automáticamente"
 
 #: ../mail/e-mail-reader.c:2115 ../mail/e-mail-reader.c:2490
 msgid "_Ignore Thread"
@@ -15387,6 +15384,7 @@ msgstr "_Ignorar conversación"
 #: ../mail/e-mail-reader.c:2117
 msgid "Mark new mails in this thread as read automatically"
 msgstr ""
+"Marcar los correos nuevos de esta conversación como leídos automáticamente"
 
 #: ../mail/e-mail-reader.c:2122
 msgid "_Important"
@@ -15427,6 +15425,8 @@ msgstr "No _ignorar la sub-conversación"
 #: ../mail/e-mail-reader.c:2152
 msgid "Do not mark new mails in a sub-thread as read automatically"
 msgstr ""
+"No marcar los correos nuevos de esta sub-conversación como leídos "
+"automáticamente"
 
 #: ../mail/e-mail-reader.c:2157 ../mail/e-mail-reader.c:2514
 msgid "Do not _Ignore Thread"
@@ -15435,6 +15435,7 @@ msgstr "No _ignorar la conversación"
 #: ../mail/e-mail-reader.c:2159
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr ""
+"No marcar los correos nuevos de esta conversación como leídos automáticamente"
 
 #: ../mail/e-mail-reader.c:2164
 msgid "Uni_mportant"
@@ -16253,10 +16254,9 @@ msgstr "Expresión"
 
 #: ../mail/filtertypes.xml.in.h:24 ../mail/searchtypes.xml.in.h:26
 #: ../mail/vfoldertypes.xml.in.h:26
-#, fuzzy
 #| msgid "Expression"
 msgid "Free Form Expression"
-msgstr "Expresión"
+msgstr "Expresión libre de forma"
 
 #: ../mail/filtertypes.xml.in.h:25 ../mail/searchtypes.xml.in.h:27
 #: ../mail/vfoldertypes.xml.in.h:27
@@ -16626,7 +16626,7 @@ msgstr "Enviar mensajes mediante la _Bandeja de salida."
 
 #: ../mail/mail-config.ui.h:13
 msgid "Number of characters for word w_rapping:"
-msgstr ""
+msgstr "Número de caracteres para ajusta_r las palabras:"
 
 #: ../mail/mail-config.ui.h:14
 msgid "Ch_aracter encoding:"
@@ -16911,14 +16911,13 @@ msgid "Archive Mail"
 msgstr "Archivar correo"
 
 #: ../mail/mail-config.ui.h:96
-#, fuzzy
 #| msgid "On This Computer"
 msgid "On This Computer A_rchive folder:"
-msgstr "En este equipo"
+msgstr "Carpeta de a_rchivo en este equipo:"
 
 #: ../mail/mail-config.ui.h:97
 msgid "Archive folder to use for On This Computer messages"
-msgstr ""
+msgstr "Carpeta de archivo que usar para mensajes en este equipo"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:99
@@ -16963,7 +16962,7 @@ msgstr "_Mostrar la foto del remitente en la vista previa del mensaje"
 
 #: ../mail/mail-config.ui.h:109
 msgid "Search gra_vatar.com for the photograph of sender"
-msgstr ""
+msgstr "Buscar en gra_vatar.com la foto del remitente"
 
 #: ../mail/mail-config.ui.h:110
 msgid "Displayed Message Headers"
@@ -16988,10 +16987,9 @@ msgid "_Delete junk messages"
 msgstr "_Eliminar los mensajes SPAM"
 
 #: ../mail/mail-config.ui.h:116
-#, fuzzy
 #| msgid "C_ustomize options"
 msgid "Just Test Options"
-msgstr "Opciones de personali_zación"
+msgstr "Sólo probar las opciones"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -17816,6 +17814,12 @@ msgid ""
 "folder is selected, to make sure that all the messages in the folder will be "
 "available in offline."
 msgstr ""
+"Esto puede ser porque el mensaje no se ha descargado todavía. La carpeta, o "
+"la cuenta, se pueden marcar para sincronizarse en modo desconectado. "
+"Entonces, cuando la cuenta vuelva a estar en línea, use Archivo->Descargar "
+"mensajes para usar en modo desconectado, cuando esta carpeta esté "
+"seleccionada, para asegurarse de que todos los mensajes de la carpeta "
+"estarán disponibles el modo desconectado."
 
 #: ../mail/mail.error.xml.h:162
 msgid "Failed to open folder."
@@ -17878,17 +17882,14 @@ msgid "Message from &quot;{0}&quot; account:"
 msgstr "Mensaje de la cuenta &quot;{0}&quot;:"
 
 #: ../mail/mail.error.xml.h:177
-#| msgid "Failed to create an event in a calendar '{0}'"
 msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgstr "Falló al marcar la conversación para ignorarla en la carpeta «{0}»"
 
 #: ../mail/mail.error.xml.h:178
-#| msgid "Failed to update an event in a calendar '{0}'"
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
 msgstr "Falló al desmarcar la conversación para ignorarla en la carpeta «{0}»"
 
 #: ../mail/mail.error.xml.h:179
-#| msgid "Failed to create an event in a calendar '{0}'"
 msgid "Failed to mark sub-thread to be ignored in folder '{0}'"
 msgstr "Falló al marcar la sub-conversación para ignorarla en la carpeta «{0}»"
 
@@ -18107,10 +18108,9 @@ msgstr "El cuerpo contiene"
 
 #: ../mail/searchtypes.xml.in.h:61
 #: ../modules/mail/e-mail-shell-view-actions.c:2095
-#, fuzzy
 #| msgid "Expression"
 msgid "Free form expression"
-msgstr "Expresión"
+msgstr "Expresión libre de forma"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:123
@@ -23472,6 +23472,9 @@ msgid ""
 "connectivity issues. Would you like to cancel all pending operations and "
 "close immediately, or keep waiting?"
 msgstr ""
+"Evolution está tardando mucho en cerrarse, probablemente debido a errores en "
+"la conectividad de la red. ¿Quiere cancelar todas las operaciones pendientes "
+"y cerrarlo inmediatamente o quiere seguir esperando?"
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
@@ -23611,6 +23614,9 @@ msgid ""
 "you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
+"La contraseña del respaldo del certificado que ha establecido protege el "
+"archivo de respaldo que va a crear.\n"
+"Debe establecer esta contraseña para poder realizar el respaldo."
 
 #: ../smime/gui/certificate-manager.c:786
 msgid "_Repeat Password:"
@@ -23628,6 +23634,10 @@ msgid ""
 "restore this backup later.\n"
 "Please record it in a safe location."
 msgstr ""
+"Importante:\n"
+"Si olvida la contraseña del respaldo del certificado, no podrá restaurar "
+"este respaldo posteriormente.\n"
+"Guárdela en una ubicación segura."
 
 #: ../smime/gui/certificate-manager.c:858
 msgid "No file name provided"
@@ -23651,13 +23661,11 @@ msgid "Ask when used"
 msgstr "Preguntarala usar"
 
 #: ../smime/gui/certificate-manager.c:1119
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nunca"
 
 #: ../smime/gui/certificate-manager.c:1121
-#| msgid "Margins"
 msgctxt "CamelTrust"
 msgid "Marginal"
 msgstr "Marginal"
@@ -23673,19 +23681,16 @@ msgid "Ultimate"
 msgstr "Absoluta"
 
 #: ../smime/gui/certificate-manager.c:1127
-#| msgid "Accept _Temporarily"
 msgctxt "CamelTrust"
 msgid "Temporary"
 msgstr "Temporal"
 
 #: ../smime/gui/certificate-manager.c:1333
-#| msgid "Certificate trust..."
 msgid "Change certificate trust"
 msgstr "Cambiar la confianza del certificado"
 
 #: ../smime/gui/certificate-manager.c:1345
 #, c-format
-#| msgid "Cannot get transport for account '%s'"
 msgid "Change trust for the host '%s':"
 msgstr "Cambiar la confianza del equipo «%s»:"
 
@@ -23700,19 +23705,16 @@ msgid "_Temporary (this session only)"
 msgstr "_Temporalmente (solo para esta sesión)"
 
 #: ../smime/gui/certificate-manager.c:1371
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "_Never"
 msgstr "_Nunca"
 
 #: ../smime/gui/certificate-manager.c:1372
-#| msgid "Margins"
 msgctxt "CamelTrust"
 msgid "_Marginal"
 msgstr "_Marginal"
 
 #: ../smime/gui/certificate-manager.c:1373
-#| msgid "_Full name"
 msgctxt "CamelTrust"
 msgid "_Fully"
 msgstr "_Completamente"
@@ -23723,9 +23725,6 @@ msgid "_Ultimate"
 msgstr "_Absoluta"
 
 #: ../smime/gui/certificate-manager.c:1378
-#| msgid ""
-#| "Before trusting this CA for any purpose, you should examine its "
-#| "certificate and its policy and procedures (if available)."
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -23734,18 +23733,15 @@ msgstr ""
 "directiva y procedimientos (si están disponibles)."
 
 #: ../smime/gui/certificate-manager.c:1393
-#| msgid "_View Certificate"
 msgid "_Display certificate"
 msgstr "_Mostrar certificado"
 
 #: ../smime/gui/certificate-manager.c:1598
-#| msgid "You have certificates on file that identify these people:"
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
 "Tiene certificados en archivos que identifican a estos servidores de correo:"
 
 #: ../smime/gui/certificate-manager.c:1629
-#| msgid "_List name:"
 msgid "Host name"
 msgstr "Nombre del equipo"
 
@@ -23754,7 +23750,6 @@ msgid "Issuer"
 msgstr "Emisor"
 
 #: ../smime/gui/certificate-manager.c:1632
-#| msgid "Fingerprints"
 msgid "Fingerprint"
 msgstr "Huella"
 
@@ -23763,7 +23758,6 @@ msgid "Trust"
 msgstr "Confiar"
 
 #: ../smime/gui/certificate-manager.c:1654
-#| msgid "_Edit CA Trust"
 msgid "_Edit Trust"
 msgstr "_Editar confianza"
 
