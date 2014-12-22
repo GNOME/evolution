@@ -1,3 +1,53 @@
+Evolution 3.13.9 2014-12-22
+---------------------------
+
+Bug Fixes:
+	Bug 740197 - Month view doesn't always indicate excess appointments (Milan Crha)
+	Bug 740755 - New-line lost on a text paste (Tomas Popela)
+	Bug 740577 - Calendar Month view keyboard scroll down misplaced (Milan Crha)
+	Bug 740743 - Update 'New email setup' welcome text (Shawn Dunn)
+	Bug 734646 - Do not load remote images on a message print (Milan Crha)
+	Bug 740244 - Display reminders as notifications by default (Milan Crha)
+	Bug 734530 - Use-after-free in Automatic Contacts on error (Milan Crha)
+	Bug 740993 - Reply to an empty message breaks quotation (Tomas Popela)
+	Bug 686620 - Add an option to skip New Account autodiscovery (Milan Crha)
+	Bug 524365 - Expand folder tree for message Move/Copy folder selector (Milan Crha)
+	Bug 741031 - Replacing misspelled word with keyboard doesn't replace the original word (Tomas Popela)
+	Bug 469141 - Traverse collapsed threads with Magic space bar (Milan Crha)
+	Bug 706993 - Restart background processes after restore (Milan Crha)
+	Bug 741059 - Prompts for login PIN with CKF_PROTECTED_AUTHENTICATION_PATH (David Woodhouse)
+	Bug 550796 - Implement free form filter expression (Milan Crha)
+	Bug 585265 - Comma press overwrites address completion (Milan Crha)
+	Bug 740297 - [SMTP] Crash when sending two messages at once (Milan Crha)
+	Bug 670114 - Provide list of Mail certificates in UI (Milan Crha)
+	Bug 724039 - Message preview shows a wrong message (Milan Crha)
+	Bug 740475 - Quoted reply editing issues (Tomas Popela)
+
+Miscellaneous:
+	Bump GLib requirement to 2.40 (Milan Crha)
+	Use EClientCache to open calendars in plugins (Milan Crha)
+	[Alarm-notify] Do not show "Not supported" error on an alarm dismiss (Milan Crha)
+	Automatic Contacts can duplicate recipients in the set book (Milan Crha)
+	EWebView - Increase minimum zoom level for zoom out (Milan Crha)
+	EHTMLEditorSelection - Correctly save selection next to images (Tomas Popela)
+	EHTMLEditorView - Don't leak generated cid when creating new parts for inline images (Tomas Popela)
+	EHTMLEditorView - Use HTML keyup event instead of GWidget's key-release-event signal (Tomas Popela)
+	EHTMLEditorView - Use the HTML keydown event for activating the links (Tomas Popela)
+	EHTMLEditorView - Register HTML input events handlers when BODY is replaced (Tomas Popela)
+	EHTMLEditorView - Remove the right attributes when cleaning the BODY element after conversion (Tomas Popela)
+	cal_comp_get_instance_times: Workaround issue with no DTEND set (Erick Pérez Castellanos)
+	e_calendar_view_get_tooltips: Do not crash when there's no DTEND set (Milan Crha)
+
+Translations:
+	Marek Černocký (cs)
+	Anders Jonsson (sv)
+	Kjartan Maraas (nb)
+	Daniel Mustieles (es)
+	Shankar Prasad (kn)
+	Shantha kumar (ta)
+	Christian Kirbach (de)
+	Balázs Úr (hu)
+
 Evolution 3.13.8 2014-11-24
 ---------------------------
 
