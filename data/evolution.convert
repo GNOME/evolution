@@ -157,7 +157,6 @@ magic-spacebar = /apps/evolution/mail/display/magic_spacebar
 mark-citations = /apps/evolution/mail/display/mark_citations
 mark-seen = /apps/evolution/mail/display/mark_seen
 mark-seen-timeout = /apps/evolution/mail/display/mark_seen_timeout
-mime-types = /apps/evolution/mail/display/mime_types
 monospace-font = /apps/evolution/mail/display/fonts/monospace
 paned-size = /apps/evolution/mail/display/paned_size
 prompt-check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
