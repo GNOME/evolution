@@ -1313,81 +1313,8 @@ day_view_constructed (GObject *object)
 }
 
 static void
-day_view_realize (GtkWidget *widget)
+day_view_update_style_settings (EDayView *day_view)
 {
-	EDayView *day_view;
-
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)(widget);
-
-	day_view = E_DAY_VIEW (widget);
-
-	/* Allocate the colors. */
-
-	e_day_view_set_colors (day_view);
-
-	/* Create the pixmaps. */
-	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
-	day_view->recurrence_icon = e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
-	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
-	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
-	day_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
-
-	/* Set the canvas item colors. */
-	gnome_canvas_item_set (
-		day_view->drag_long_event_rect_item,
-		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
-		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-		NULL);
-
-	gnome_canvas_item_set (
-		day_view->drag_rect_item,
-		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
-		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-		NULL);
-
-	gnome_canvas_item_set (
-		day_view->drag_bar_item,
-		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-		NULL);
-}
-
-static void
-day_view_unrealize (GtkWidget *widget)
-{
-	EDayView *day_view;
-
-	day_view = E_DAY_VIEW (widget);
-
-	g_object_unref (day_view->reminder_icon);
-	day_view->reminder_icon = NULL;
-	g_object_unref (day_view->recurrence_icon);
-	day_view->recurrence_icon = NULL;
-	g_object_unref (day_view->timezone_icon);
-	day_view->timezone_icon = NULL;
-	g_object_unref (day_view->meeting_icon);
-	day_view->meeting_icon = NULL;
-	g_object_unref (day_view->attach_icon);
-	day_view->attach_icon = NULL;
-
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
-}
-
-static void
-day_view_size_allocate (GtkWidget *widget,
-                        GtkAllocation *allocation)
-{
-	(*GTK_WIDGET_CLASS (e_day_view_parent_class)->size_allocate) (widget, allocation);
-
-	e_day_view_recalc_main_canvas_size (E_DAY_VIEW (widget));
-}
-
-static void
-day_view_style_updated (GtkWidget *widget)
-{
-	EDayView *day_view;
 	gint hour;
 	gint minute, max_minute_width, i;
 	gint month, day, width;
@@ -1405,10 +1332,8 @@ day_view_style_updated (GtkWidget *widget)
 	EDayViewEvent *event;
 	GdkColor color;
 
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_updated)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_updated) (widget);
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	day_view = E_DAY_VIEW (widget);
 	e_day_view_set_colors (day_view);
 
 	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++) {
@@ -1435,7 +1360,7 @@ day_view_style_updated (GtkWidget *widget)
 	}
 
 	/* Set up Pango prerequisites */
-	pango_context = gtk_widget_get_pango_context (widget);
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
 	font_desc = pango_context_get_font_description (pango_context);
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
@@ -1573,6 +1498,85 @@ day_view_style_updated (GtkWidget *widget)
 
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
+}
+
+static void
+day_view_realize (GtkWidget *widget)
+{
+	EDayView *day_view;
+
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)(widget);
+
+	day_view = E_DAY_VIEW (widget);
+
+	day_view_update_style_settings (day_view);
+
+	/* Create the pixmaps. */
+	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
+	day_view->recurrence_icon = e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
+	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
+	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
+	day_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
+
+	/* Set the canvas item colors. */
+	gnome_canvas_item_set (
+		day_view->drag_long_event_rect_item,
+		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
+		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+		NULL);
+
+	gnome_canvas_item_set (
+		day_view->drag_rect_item,
+		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND],
+		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+		NULL);
+
+	gnome_canvas_item_set (
+		day_view->drag_bar_item,
+		"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
+		"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
+		NULL);
+}
+
+static void
+day_view_unrealize (GtkWidget *widget)
+{
+	EDayView *day_view;
+
+	day_view = E_DAY_VIEW (widget);
+
+	g_object_unref (day_view->reminder_icon);
+	day_view->reminder_icon = NULL;
+	g_object_unref (day_view->recurrence_icon);
+	day_view->recurrence_icon = NULL;
+	g_object_unref (day_view->timezone_icon);
+	day_view->timezone_icon = NULL;
+	g_object_unref (day_view->meeting_icon);
+	day_view->meeting_icon = NULL;
+	g_object_unref (day_view->attach_icon);
+	day_view->attach_icon = NULL;
+
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
+}
+
+static void
+day_view_size_allocate (GtkWidget *widget,
+                        GtkAllocation *allocation)
+{
+	(*GTK_WIDGET_CLASS (e_day_view_parent_class)->size_allocate) (widget, allocation);
+
+	e_day_view_recalc_main_canvas_size (E_DAY_VIEW (widget));
+}
+
+static void
+day_view_style_updated (GtkWidget *widget)
+{
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_updated)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_updated) (widget);
+
+	day_view_update_style_settings (E_DAY_VIEW (widget));
 }
 
 static gboolean

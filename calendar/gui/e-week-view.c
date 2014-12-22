@@ -908,54 +908,6 @@ week_view_constructed (GObject *object)
 		G_CALLBACK (week_view_time_range_changed_cb), object);
 }
 
-static void
-week_view_realize (GtkWidget *widget)
-{
-	EWeekView *week_view;
-
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);
-
-	week_view = E_WEEK_VIEW (widget);
-
-	/* Allocate the colors. */
-	e_week_view_set_colors (week_view);
-
-	/* Create the pixmaps. */
-	week_view->reminder_icon =
-		e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
-	week_view->recurrence_icon =
-		e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
-	week_view->timezone_icon =
-		e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
-	week_view->attach_icon =
-		e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
-	week_view->meeting_icon =
-		e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
-}
-
-static void
-week_view_unrealize (GtkWidget *widget)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (widget);
-
-	g_object_unref (week_view->reminder_icon);
-	week_view->reminder_icon = NULL;
-	g_object_unref (week_view->recurrence_icon);
-	week_view->recurrence_icon = NULL;
-	g_object_unref (week_view->timezone_icon);
-	week_view->timezone_icon = NULL;
-	g_object_unref (week_view->attach_icon);
-	week_view->attach_icon = NULL;
-	g_object_unref (week_view->meeting_icon);
-	week_view->meeting_icon = NULL;
-
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);
-}
-
 static GdkColor
 e_week_view_get_text_color (EWeekView *week_view,
                             EWeekViewEvent *event)
@@ -991,9 +943,8 @@ e_week_view_get_text_color (EWeekView *week_view,
 }
 
 static void
-week_view_style_updated (GtkWidget *widget)
+week_view_update_style_settings (EWeekView *week_view)
 {
-	EWeekView *week_view;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
 	gint span_num;
@@ -1003,11 +954,6 @@ week_view_style_updated (GtkWidget *widget)
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	EWeekViewEventSpan *span;
-
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_updated)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_updated) (widget);
-
-	week_view = E_WEEK_VIEW (widget);
 
 	e_week_view_set_colors (week_view);
 	if (week_view->spans) {
@@ -1035,7 +981,7 @@ week_view_style_updated (GtkWidget *widget)
 	}
 
 	/* Set up Pango prerequisites */
-	pango_context = gtk_widget_get_pango_context (widget);
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
 	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_context));
 	font_metrics = pango_context_get_metrics (
 		pango_context, font_desc,
@@ -1118,6 +1064,62 @@ week_view_style_updated (GtkWidget *widget)
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
 	pango_font_description_free (font_desc);
+}
+
+static void
+week_view_realize (GtkWidget *widget)
+{
+	EWeekView *week_view;
+
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);
+
+	week_view = E_WEEK_VIEW (widget);
+
+	week_view_update_style_settings (week_view);
+
+	/* Create the pixmaps. */
+	week_view->reminder_icon =
+		e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
+	week_view->recurrence_icon =
+		e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
+	week_view->timezone_icon =
+		e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
+	week_view->attach_icon =
+		e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
+	week_view->meeting_icon =
+		e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
+}
+
+static void
+week_view_unrealize (GtkWidget *widget)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (widget);
+
+	g_object_unref (week_view->reminder_icon);
+	week_view->reminder_icon = NULL;
+	g_object_unref (week_view->recurrence_icon);
+	week_view->recurrence_icon = NULL;
+	g_object_unref (week_view->timezone_icon);
+	week_view->timezone_icon = NULL;
+	g_object_unref (week_view->attach_icon);
+	week_view->attach_icon = NULL;
+	g_object_unref (week_view->meeting_icon);
+	week_view->meeting_icon = NULL;
+
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);
+}
+
+static void
+week_view_style_updated (GtkWidget *widget)
+{
+	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_updated)
+		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_updated) (widget);
+
+	week_view_update_style_settings (E_WEEK_VIEW (widget));
 }
 
 static void
