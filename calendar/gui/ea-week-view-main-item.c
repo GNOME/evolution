@@ -453,7 +453,6 @@ ea_week_view_main_item_time_change_cb (EWeekView *week_view,
 			"active-descendant-changed",
 			item_cell);
 		g_signal_emit_by_name (data, "selection_changed");
-		atk_focus_tracker_notify (item_cell);
 		g_object_unref (item_cell);
 	}
 }
@@ -762,8 +761,9 @@ table_interface_get_column_extent_at (AtkTable *table,
 	child = atk_object_ref_accessible_child (
 		ATK_OBJECT (ea_main_item), index);
 	if (child)
-		atk_component_get_size (
-			ATK_COMPONENT (child), &width, &height);
+		atk_component_get_extents (
+			ATK_COMPONENT (child), NULL, NULL, &width, &height,
+			ATK_XY_SCREEN);
 
 	return width;
 }
@@ -783,8 +783,9 @@ table_interface_get_row_extent_at (AtkTable *table,
 	child = atk_object_ref_accessible_child (
 		ATK_OBJECT (ea_main_item), index);
 	if (child)
-		atk_component_get_size (
-			ATK_COMPONENT (child), &width, &height);
+		atk_component_get_extents (
+			ATK_COMPONENT (child), NULL, NULL, &width, &height,
+			ATK_XY_SCREEN);
 
 	return height;
 }

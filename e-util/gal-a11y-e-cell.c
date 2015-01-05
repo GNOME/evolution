@@ -184,9 +184,9 @@ gal_a11y_e_cell_get_extents (AtkComponent *component,
 			width, height);
 	}
 
-	atk_component_get_position (
+	atk_component_get_extents (
 		ATK_COMPONENT (a11y->parent),
-		x, y, coord_type);
+		x, y, NULL, NULL, coord_type);
 	if (x && *x != G_MININT)
 		*x += xval;
 	if (y && *y != G_MININT)

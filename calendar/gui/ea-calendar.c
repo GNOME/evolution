@@ -131,15 +131,12 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 
 		canvas_item = GNOME_CANVAS_ITEM (object);
 		if (event->type == GDK_FOCUS_CHANGE) {
-			if (event->focus_change.in) {
-				ea_event =
-					ea_calendar_helpers_get_accessible_for (canvas_item);
-				if (!ea_event)
-					/* not canvas item we want */
-					return TRUE;
-
-			}
-			atk_focus_tracker_notify (ea_event);
+			ea_event =
+				ea_calendar_helpers_get_accessible_for (canvas_item);
+			if (!ea_event)
+				/* not canvas item we want */
+				return TRUE;
+			atk_object_notify_state_change (ea_event, ATK_STATE_FOCUSED, event->focus_change.in);
 		}
 	}
 	else if (E_IS_DAY_VIEW (object)) {
@@ -153,17 +150,12 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 	}
 	else if (E_IS_DAY_VIEW_MAIN_ITEM (object)) {
 		if (event->type == GDK_FOCUS_CHANGE) {
-			if (event->focus_change.in) {
-				/* we should emit focus on main item */
-				ea_event = atk_gobject_accessible_for_object (object);
-			}
-			else
-				/* focus out */
-				ea_event = NULL;
+			/* we should emit focus on main item */
+			ea_event = atk_gobject_accessible_for_object (object);
 #ifdef ACC_DEBUG
 			printf ("EvoAcc: focus notify on day main item %p\n", (gpointer) object);
 #endif
-			atk_focus_tracker_notify (ea_event);
+			atk_object_notify_state_change (ea_event, ATK_STATE_FOCUSED, event->focus_change.in);
 		}
 	} else if (E_IS_WEEK_VIEW (object)) {
 		EWeekView *week_view = E_WEEK_VIEW (object);
@@ -176,14 +168,9 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 	}
 	else if (E_IS_WEEK_VIEW_MAIN_ITEM (object)) {
 		if (event->type == GDK_FOCUS_CHANGE) {
-			if (event->focus_change.in) {
-				/* we should emit focus on main item */
-				ea_event = atk_gobject_accessible_for_object (object);
-			}
-			else
-				/* focus out */
-				ea_event = NULL;
-			atk_focus_tracker_notify (ea_event);
+			/* we should emit focus on main item */
+			ea_event = atk_gobject_accessible_for_object (object);
+			atk_object_notify_state_change (ea_event, ATK_STATE_FOCUSED, event->focus_change.in);
 		}
 	}
 	return TRUE;
