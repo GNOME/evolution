@@ -302,6 +302,7 @@ e-util/filter.error.xml
 [type: gettext/glade]e-util/filter.ui
 e-util/gal-a11y-e-cell.c
 e-util/gal-a11y-e-cell-popup.c
+e-util/gal-a11y-e-cell-text.c
 e-util/gal-a11y-e-cell-toggle.c
 e-util/gal-a11y-e-cell-tree.c
 e-util/gal-a11y-e-table-click-to-add.c

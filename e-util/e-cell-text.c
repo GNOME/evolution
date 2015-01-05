@@ -47,6 +47,8 @@
 
 #include <libgnomecanvas/libgnomecanvas.h>
 
+#include "gal-a11y-e-cell-registry.h"
+#include "gal-a11y-e-cell-text.h"
 #include "e-canvas.h"
 #include "e-cell-text.h"
 #include "e-table-item.h"
@@ -1788,6 +1790,8 @@ e_cell_text_class_init (ECellTextClass *class)
 			use_ellipsis_default = FALSE;
 		}
 	}
+
+	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_TEXT, gal_a11y_e_cell_text_new);
 }
 
 /* IM Context Callbacks */

@@ -343,6 +343,7 @@ evolution_util_include_HEADERS =  \
 	ea-widgets.h \
 	gal-a11y-e-cell-popup.h \
 	gal-a11y-e-cell-registry.h \
+	gal-a11y-e-cell-text.h \
 	gal-a11y-e-cell-toggle.h \
 	gal-a11y-e-cell-tree.h \
 	gal-a11y-e-cell-vbox.h \
@@ -608,6 +609,7 @@ libevolution_util_la_SOURCES = \
 	ea-widgets.c \
 	gal-a11y-e-cell-popup.c \
 	gal-a11y-e-cell-registry.c \
+	gal-a11y-e-cell-text.c \
 	gal-a11y-e-cell-toggle.c \
 	gal-a11y-e-cell-tree.c \
 	gal-a11y-e-cell-vbox.c \
