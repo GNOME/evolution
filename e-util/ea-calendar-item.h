@@ -62,6 +62,11 @@ gboolean e_calendar_item_get_date_for_offset (ECalendarItem *calitem,
 					      gint day_offset,
 					      gint *year, gint *month,
 					      gint *day);
+gboolean e_calendar_item_get_date_for_cell (ECalendarItem *calitem,
+					      gint row,
+					      gint column,
+					      gint *year, gint *month,
+					      gint *day);
 gint e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
 						 gint year, gint month);
 

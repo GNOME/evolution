@@ -224,7 +224,7 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 
 	if (notify && cell)
-		atk_focus_tracker_notify (cell);
+		g_signal_emit_by_name (a11y, "active-descendant-changed", cell);
 }
 
 static void
@@ -337,10 +337,12 @@ eti_ref_accessible_at_point (AtkComponent *component,
 	if (!item)
 		return NULL;
 
-	atk_component_get_position (
+	atk_component_get_extents (
 		component,
 		&x_origin,
 		&y_origin,
+		NULL,
+		NULL,
 		coord_type);
 	x -= x_origin;
 	y -= y_origin;

@@ -316,7 +316,7 @@ etcta_selection_cursor_changed (ESelectionModel *esm,
 		cell_a11y = g_object_get_data (
 			G_OBJECT (row_a11y), "gail-focus-object");
 		if (cell_a11y) {
-			atk_focus_tracker_notify (cell_a11y);
+			atk_object_notify_state_change (cell_a11y, ATK_STATE_FOCUSED, TRUE);
 		}
 	}
 }

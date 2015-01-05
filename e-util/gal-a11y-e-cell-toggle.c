@@ -132,8 +132,6 @@ model_change_cb (ETableModel *etm,
 		value = GPOINTER_TO_INT (
 			e_table_model_value_at (cell->cell_view->e_table_model,
 						cell->model_col, cell->row));
-		/* Cheat gnopernicus, or it will ignore the state change signal  */
-		atk_focus_tracker_notify (ATK_OBJECT (cell));
 
 		if (value)
 			gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, TRUE);

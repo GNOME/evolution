@@ -232,20 +232,13 @@ ea_calendar_cell_get_name (AtkObject *accessible)
 		return NULL;
 
 	if (!accessible->name) {
-		AtkObject *atk_obj;
-		EaCalendarItem *ea_calitem;
 		ECalendarCell *cell;
-		gint day_index;
 		gint year, month, day;
 		gchar buffer[128];
 
 		cell = E_CALENDAR_CELL (g_obj);
-		atk_obj = ea_calendar_cell_get_parent (accessible);
-		ea_calitem = EA_CALENDAR_ITEM (atk_obj);
-		day_index = atk_table_get_index_at (
-			ATK_TABLE (ea_calitem),
-			cell->row, cell->column);
-		e_calendar_item_get_date_for_offset (cell->calitem, day_index,
+		e_calendar_item_get_date_for_cell (cell->calitem, cell->row,
+						     cell->column,
 						     &year, &month, &day);
 
 		g_snprintf (buffer, 128, "%d-%d-%d", year, month + 1, day);
@@ -335,7 +328,6 @@ component_interface_get_extents (AtkComponent *component,
 	ECalendarCell *cell;
 	ECalendarItem *calitem;
 	EaCalendarItem *ea_calitem;
-	gint day_index;
 	gint year, month, day;
 	gint canvas_x, canvas_y, canvas_width, canvas_height;
 
@@ -352,10 +344,7 @@ component_interface_get_extents (AtkComponent *component,
 	calitem = cell->calitem;
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
 	ea_calitem = EA_CALENDAR_ITEM (atk_obj);
-	day_index = atk_table_get_index_at (
-		ATK_TABLE (ea_calitem),
-		cell->row, cell->column);
-	e_calendar_item_get_date_for_offset (calitem, day_index,
+	e_calendar_item_get_date_for_cell (calitem, cell->row, cell->column,
 					     &year, &month, &day);
 
 	if (!e_calendar_item_get_day_extents (calitem,
