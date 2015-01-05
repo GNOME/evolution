@@ -981,7 +981,7 @@ msg_bogofilter="$enable_bogofilter"
 if test "x$enable_bogofilter" = "xyes"; then
 	AC_ARG_VAR([BOGOFILTER], [Bogofilter spam filtering program])
 	AC_PATH_PROG([BOGOFILTER], [bogofilter])
-	if test "x$BOGOFILTER" == "x"; then
+	if test "x$BOGOFILTER" = "x"; then
 		AC_MSG_ERROR([
 
 	Bogofilter spam filtering program not found.
@@ -1011,7 +1011,7 @@ msg_spamassassin="$enable_spamassassin"
 if test "x$enable_spamassassin" = "xyes"; then
 	AC_ARG_VAR([SPAMASSASSIN], [SpamAssassin spam filtering program])
 	AC_PATH_PROG([SPAMASSASSIN], [spamassassin])
-	if test "x$SPAMASSASSIN" == "x"; then
+	if test "x$SPAMASSASSIN" = "x"; then
 		AC_MSG_ERROR([
 
 	SpamAssassin spam filtering program not found.
@@ -1233,7 +1233,7 @@ msg_text_highlight="$enable_text_highlight"
 if test "x$enable_text_highlight" = "xyes"; then
 	AC_ARG_VAR([HIGHLIGHT], [Source code highlighting utility])
 	AC_PATH_PROG([HIGHLIGHT], [highlight])
-	if test "x$HIGHLIGHT" == "x"; then
+	if test "x$HIGHLIGHT" = "x"; then
 		AC_MSG_ERROR([
 
 	Highlight utility not found.
