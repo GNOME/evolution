@@ -543,7 +543,7 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 
 	/* Custom image */
 	widget = gtk_file_chooser_button_new (
-		_("Selection a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
+		_("Select a file"), GTK_FILE_CHOOSER_ACTION_OPEN);
 	g_signal_connect_swapped (
 		widget, "selection-changed",
 		G_CALLBACK (html_editor_page_dialog_set_background_image), dialog);

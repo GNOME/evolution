@@ -97,7 +97,7 @@
 
  <error id="prompt-accel-send" type="question" default="GTK_RESPONSE_YES">
   <_primary>Are you sure you want to send the message?</_primary>
-  <_secondary xml:space="preserve">A keyboard accelerator to send the message had been pressed. Either cancel message send, if it was done by an accident, or send the message.</_secondary>
+  <_secondary xml:space="preserve">A keyboard accelerator to send the message has been pressed. Either cancel sending the message, if it was done by an accident, or send the message.</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>

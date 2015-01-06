@@ -1038,11 +1038,11 @@ e_mail_reader_mark_selected_ignore_thread (EMailReader *reader,
 				alert_id = "mail:failed-mark-unignore-thread";
 				break;
 			case E_IGNORE_THREAD_SUBSET_SET:
-				description = _("Marking sub-thread to be ignored");
+				description = _("Marking subthread to be ignored");
 				alert_id = "mail:failed-mark-ignore-subthread";
 				break;
 			case E_IGNORE_THREAD_SUBSET_UNSET:
-				description = _("Unmarking sub-thread from being ignored");
+				description = _("Unmarking subthread from being ignored");
 				alert_id = "mail:failed-mark-unignore-subthread";
 				break;
 			}
