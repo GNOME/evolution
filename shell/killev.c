@@ -97,7 +97,7 @@ gint
 main (gint argc,
       gchar **argv)
 {
-	GFile *pid_file;
+	GFile *pid_file = NULL;
 	GFileMonitor *monitor;
 	const gchar *user_config_dir;
 	gchar *filename;
@@ -175,6 +175,8 @@ kill:
 #else
 	g_printerr ("No \"kill\" command available.\n");
 #endif
+
+	g_clear_object (&pid_file);
 
 	return retval;
 }

@@ -635,8 +635,13 @@ exit:
 	 * return NULL.  Use that to check for reference leaks. */
 	g_object_unref (shell);
 
-	if (e_shell_get_default () != NULL)
+	if (e_shell_get_default () != NULL) {
 		g_warning ("Shell not finalized on exit");
+
+		/* To not run in the safe mode the next start */
+		if (e_file_lock_get_pid () == getpid ())
+			e_file_lock_destroy ();
+	}
 
 	gtk_accel_map_save (e_get_accels_filename ());
 
