@@ -5818,7 +5818,9 @@ message_list_regen_done_cb (GObject *source_object,
 			saveuid = g_strdup (message_list->cursor_uid);
 		}
 
-		if (saveuid) {
+		if (message_list_selected_count (message_list) > 1) {
+			g_free (saveuid);
+		} else if (saveuid) {
 			GNode *node;
 
 			node = g_hash_table_lookup (
