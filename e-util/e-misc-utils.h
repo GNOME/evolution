@@ -185,6 +185,7 @@ GDateWeekday	e_weekday_from_tm_wday		(gint tm_wday);
 gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean	e_file_lock_exists		(void);
+GPid		e_file_lock_get_pid		(void);
 
 gchar *		e_util_guess_mime_type		(const gchar *filename,
                                                  gboolean localfile);

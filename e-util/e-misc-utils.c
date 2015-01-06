@@ -2169,6 +2169,31 @@ e_file_lock_exists (void)
 	return g_file_test (filename, G_FILE_TEST_EXISTS);
 }
 
+/* Returns a PID stored in the lock file; 0 if no such file exists. */
+GPid
+e_file_lock_get_pid (void)
+{
+	const gchar *filename = get_lock_filename ();
+	gchar *contents = NULL;
+	GPid pid = (GPid) 0;
+	gint64 n_int64;
+
+	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
+		return pid;
+	}
+
+	/* Try to extract an integer value from the string. */
+	n_int64 = g_ascii_strtoll (contents, NULL, 10);
+	if (n_int64 > 0 && n_int64 < G_MAXINT64) {
+		/* XXX Probably not portable. */
+		pid = (GPid) n_int64;
+	}
+
+	g_free (contents);
+
+	return pid;
+}
+
 /**
  * e_util_guess_mime_type:
  * @filename: a local file name, or URI
