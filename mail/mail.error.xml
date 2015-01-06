@@ -477,11 +477,11 @@ An mbox account will be created to preserve the old mbox folders. You can delete
   </error>
 
   <error id="no-retrieve-message-offline" type="warning">
-    <_primary>Message is not available in offline.</_primary>
+    <_primary>Message is not available in offline mode.</_primary>
     <_secondary>This can be due to the message not being downloaded yet. The folder, or the account, can be marked
 for offline synchronization. Then, once the account is online again, use File-&gt;Download
 Messages for Offline Usage, when this folder is selected, to make sure that all the messages
-in the folder will be available in offline.</_secondary>
+in the folder will be available in offline mode.</_secondary>
   </error>
 
   <error id="folder-open" type="error">
@@ -560,12 +560,12 @@ in the folder will be available in offline.</_secondary>
   </error>
 
   <error id="failed-mark-ignore-subthread" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Failed to mark sub-thread to be ignored in folder '{0}'</_primary>
+    <_primary>Failed to mark subthread to be ignored in folder '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-mark-unignore-subthread" type="error" default="GTK_RESPONSE_YES">
-    <_primary>Failed to unmark sub-thread from being ignored in folder '{0}'</_primary>
+    <_primary>Failed to unmark subthread from being ignored in folder '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 </error-list>

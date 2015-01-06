@@ -2105,9 +2105,9 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-mark-ignore-thread-sub",
 	  NULL,
-	  N_("_Ignore Sub-Thread"),
+	  N_("_Ignore Subthread"),
 	  NULL,
-	  N_("Mark new mails in a sub-thread as read automatically"),
+	  N_("Mark new mails in a subthread as read automatically"),
 	  G_CALLBACK (action_mail_mark_ignore_thread_sub_cb) },
 
 	{ "mail-mark-ignore-thread-whole",
@@ -2147,9 +2147,9 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-mark-unignore-thread-sub",
 	  NULL,
-	  N_("Do not _Ignore Sub-Thread"),
+	  N_("Do not _Ignore Subthread"),
 	  NULL,
-	  N_("Do not mark new mails in a sub-thread as read automatically"),
+	  N_("Do not mark new mails in a subthread as read automatically"),
 	  G_CALLBACK (action_mail_mark_unignore_thread_sub_cb) },
 
 	{ "mail-mark-unignore-thread-whole",
@@ -2483,7 +2483,7 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  "mail-forward" },
 
 	{ "mail-popup-mark-ignore-thread-sub",
-	  N_("_Ignore Sub-Thread"),
+	  N_("_Ignore Subthread"),
 	  "mail-mark-ignore-thread-sub" },
 
 	{ "mail-popup-mark-ignore-thread-whole",
@@ -2507,7 +2507,7 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  "mail-mark-read" },
 
 	{ "mail-popup-mark-unignore-thread-sub",
-	  N_("Do not _Ignore Sub-Thread"),
+	  N_("Do not _Ignore Subthread"),
 	  "mail-mark-unignore-thread-sub" },
 
 	{ "mail-popup-mark-unignore-thread-whole",
