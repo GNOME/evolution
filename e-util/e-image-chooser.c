@@ -265,9 +265,8 @@ image_chooser_file_loaded_cb (GFile *file,
 		goto exit;
 	}
 
-	set_image_from_data (chooser, contents, length);
-
-	g_free (contents);
+	if (!set_image_from_data (chooser, contents, length))
+		g_free (contents);
 
 exit:
 	g_object_unref (chooser);
