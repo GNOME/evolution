@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-12-30 16:44+0100\n"
-"PO-Revision-Date: 2014-12-30 16:55+0100\n"
+"POT-Creation-Date: 2015-01-08 15:14+0100\n"
+"PO-Revision-Date: 2015-01-08 15:15+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
@@ -7685,11 +7685,11 @@ msgstr "Ziur zaude mezua bidaltzea nahi duzula?"
 
 #: ../composer/mail-composer.error.xml.h:38
 msgid ""
-"A keyboard accelerator to send the message had been pressed. Either cancel "
-"message send, if it was done by an accident, or send the message."
+"A keyboard accelerator to send the message has been pressed. Either cancel "
+"sending the message, if it was done by an accident, or send the message."
 msgstr ""
-"Mezua bidaltzeko laster-tekla sakatu da. Bertan behera utzi mezua bidaltze "
-"(ustekabe bat izan bada) edo bidali mezua."
+"Mezua bidaltzeko laster-tekla sakatu da. Bertan behera utzi mezua bidaltzea "
+"(ustekabe bat izan bada), edo bidali mezua."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -12561,7 +12561,8 @@ msgid "_Template:"
 msgstr "_Txantiloia:"
 
 #: ../e-util/e-html-editor-page-dialog.c:502
-msgid "Selection a file"
+#: ../e-util/e-import-assistant.c:283
+msgid "Select a file"
 msgstr "Hautatu fitxategia"
 
 #: ../e-util/e-html-editor-page-dialog.c:509
@@ -12736,10 +12737,6 @@ msgid ""
 msgstr ""
 "Aukeratu Evolution-era inportatu nahi duzun fitxategia, eta hautatu "
 "fitxategiaren mota zerrendan."
-
-#: ../e-util/e-import-assistant.c:283
-msgid "Select a file"
-msgstr "Hautatu fitxategia"
 
 #: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
 msgid "File _type:"
@@ -12916,22 +12913,22 @@ msgstr "Ezin izan da esteka ireki."
 msgid "Could not display help for Evolution."
 msgstr "Ezin izan da Evolution-en laguntza bistaratu."
 
-#: ../e-util/e-misc-utils.c:2390
+#: ../e-util/e-misc-utils.c:2415
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "'%s' egutegia irekitzen"
 
-#: ../e-util/e-misc-utils.c:2393
+#: ../e-util/e-misc-utils.c:2418
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "'%s' zirkularrak irekitzen"
 
-#: ../e-util/e-misc-utils.c:2396
+#: ../e-util/e-misc-utils.c:2421
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "'%s' zereginak irekitzen"
 
-#: ../e-util/e-misc-utils.c:2399
+#: ../e-util/e-misc-utils.c:2424
 #, c-format
 msgid "Opening address book '%s'"
 msgstr "'%s' helbide-liburua irekitzen"
@@ -14021,8 +14018,13 @@ msgstr "Taulako gelaxka"
 msgid "popup a child"
 msgstr "ireki laster-leiho umea"
 
+#. Translators: description of an "edit" action
+#: ../e-util/gal-a11y-e-cell-text.c:617
+msgid "begin editing this cell"
+msgstr "hasi gelaxka hau editatzen"
+
 #. Translators: description of a "toggle" action
-#: ../e-util/gal-a11y-e-cell-toggle.c:179
+#: ../e-util/gal-a11y-e-cell-toggle.c:177
 msgid "toggle the cell"
 msgstr "txandakatu gelaxka"
 
@@ -15258,11 +15260,11 @@ msgid "Force images in HTML mail to be loaded"
 msgstr "Kargarazi HTML mezuetako irudiak"
 
 #: ../mail/e-mail-reader.c:2108 ../mail/e-mail-reader.c:2486
-msgid "_Ignore Sub-Thread"
+msgid "_Ignore Subthread"
 msgstr "_Ez ikusi egin azpi-hariari"
 
 #: ../mail/e-mail-reader.c:2110
-msgid "Mark new mails in a sub-thread as read automatically"
+msgid "Mark new mails in a subthread as read automatically"
 msgstr "Markatu azpi-hariko mezu berriak irakurrita gisa automatikoki"
 
 #: ../mail/e-mail-reader.c:2115 ../mail/e-mail-reader.c:2490
@@ -15306,12 +15308,12 @@ msgid "Mark the selected messages as having been read"
 msgstr "Markatu hautatutako mezuak irakurritako gisa"
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2510
-msgid "Do not _Ignore Sub-Thread"
-msgstr "_Kontutan hartu azpi-haria"
+msgid "Do not _Ignore Subthread"
+msgstr "Ez _baztertu azpi-haria"
 
 #: ../mail/e-mail-reader.c:2152
-msgid "Do not mark new mails in a sub-thread as read automatically"
-msgstr "Ez markatu azpi-hariko mezu berriak irakurrita gisa automatikoki"
+msgid "Do not mark new mails in a subthread as read automatically"
+msgstr "Ez markatu automatikoki azpi-hariko mezu berriak irakurrita gisa"
 
 #: ../mail/e-mail-reader.c:2157 ../mail/e-mail-reader.c:2514
 msgid "Do not _Ignore Thread"
@@ -15701,11 +15703,11 @@ msgid "Unmarking thread from being ignored"
 msgstr "Kendu hariaren 'ez ikusi egin' marka"
 
 #: ../mail/e-mail-reader-utils.c:1041
-msgid "Marking sub-thread to be ignored"
+msgid "Marking subthread to be ignored"
 msgstr "Markatu azpi-haria ez ikusi egiteko"
 
 #: ../mail/e-mail-reader-utils.c:1045
-msgid "Unmarking sub-thread from being ignored"
+msgid "Unmarking subthread from being ignored"
 msgstr "Kendu azpi-hariaren 'ez ikusi egin' marka"
 
 #: ../mail/e-mail-reader-utils.c:1280
@@ -17672,7 +17674,7 @@ msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-msgid "Message is not available in offline."
+msgid "Message is not available in offline mode."
 msgstr "Mezua ez dago erabilgarri lineaz kanpo."
 
 #: ../mail/mail.error.xml.h:161
@@ -17681,7 +17683,7 @@ msgid ""
 "account, can be marked for offline synchronization. Then, once the account "
 "is online again, use File-&gt;Download Messages for Offline Usage, when this "
 "folder is selected, to make sure that all the messages in the folder will be "
-"available in offline."
+"available in offline mode."
 msgstr ""
 "Mezua oraindik deskargatu gabe egoteagatik gerta daiteke. Karpeta, edo "
 "kontua, lineaz kanpo sinkronizatzeko marka daiteke. Ondoren, kontua berriro "
@@ -17758,11 +17760,11 @@ msgid "Failed to unmark thread from being ignored in folder '{0}'"
 msgstr "Huts egin du hariari  'ez ikusi egin' marka kentzean '{0}' karpetan"
 
 #: ../mail/mail.error.xml.h:179
-msgid "Failed to mark sub-thread to be ignored in folder '{0}'"
+msgid "Failed to mark subthread to be ignored in folder '{0}'"
 msgstr "Huts egin du azpi-haria ez ikusi egiteko markatzean '{0}' karpetan"
 
 #: ../mail/mail.error.xml.h:180
-msgid "Failed to unmark sub-thread from being ignored in folder '{0}'"
+msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
 "Huts egin du azpi-hariari  'ez ikusi egin' marka kentzean '{0}' karpetan"
 
@@ -17858,7 +17860,7 @@ msgstr "Handia"
 msgid "Highest"
 msgstr "Handiena"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5969
+#: ../mail/message-list.c:459 ../mail/message-list.c:5971
 msgid "Generating message list"
 msgstr "Mezuen zerrenda sortzen"
 
@@ -17897,7 +17899,7 @@ msgstr "Mezuak"
 msgid "Follow-up"
 msgstr "Jarraipena"
 
-#: ../mail/message-list.c:5906
+#: ../mail/message-list.c:5908
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -17909,7 +17911,7 @@ msgstr ""
 "dagoen goitibeherako zerrendan, edo bilaketa berri bat exekutatuz hura "
 "garbituz (Bilatu->Garbitu menua erabiliz) edo gaineko kontsulta aldatuz."
 
-#: ../mail/message-list.c:5914
+#: ../mail/message-list.c:5916
 msgid "There are no messages in this folder."
 msgstr "Ez dago mezurik karpeta honetan."
 
@@ -23856,6 +23858,9 @@ msgstr "E_pearekin"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Eg_oerarekin"
+
+#~ msgid "Selection a file"
+#~ msgstr "Hautatu fitxategia"
 
 #~ msgid "Web addresses"
 #~ msgstr "Web helbideak"
