@@ -10,7 +10,7 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015.
 #
 #: ../shell/main.c:503
 msgid ""
@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-12-18 05:19+0000\n"
-"PO-Revision-Date: 2014-12-18 12:24+0100\n"
+"POT-Creation-Date: 2015-01-08 05:17+0000\n"
+"PO-Revision-Date: 2015-01-08 18:18+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -4496,7 +4496,7 @@ msgstr "%e de %B de %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2233 ../calendar/gui/e-day-view.c:2939
+#: ../calendar/gui/e-calendar-view.c:2233 ../calendar/gui/e-day-view.c:2943
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -4512,7 +4512,7 @@ msgstr "%A, %e de %b de %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2259 ../calendar/gui/e-day-view.c:2923
+#: ../calendar/gui/e-calendar-view.c:2259 ../calendar/gui/e-day-view.c:2927
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -4831,14 +4831,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2057 ../calendar/gui/e-week-view.c:1690
+#: ../calendar/gui/e-day-view.c:2061 ../calendar/gui/e-week-view.c:1692
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2060 ../calendar/gui/e-week-view.c:1693
+#: ../calendar/gui/e-day-view.c:2064 ../calendar/gui/e-week-view.c:1695
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -4850,13 +4850,13 @@ msgstr "pm"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:2906 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:2910 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2089
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3570
+#: ../calendar/gui/e-day-view.c:3574
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -7699,9 +7699,13 @@ msgid "Are you sure you want to send the message?"
 msgstr "¿Está seguro de que quiere enviar el mensaje?"
 
 #: ../composer/mail-composer.error.xml.h:38
+#, fuzzy
+#| msgid ""
+#| "A keyboard accelerator to send the message had been pressed. Either "
+#| "cancel message send, if it was done by an accident, or send the message."
 msgid ""
-"A keyboard accelerator to send the message had been pressed. Either cancel "
-"message send, if it was done by an accident, or send the message."
+"A keyboard accelerator to send the message has been pressed. Either cancel "
+"sending the message, if it was done by an accident, or send the message."
 msgstr ""
 "Se ha pulsado un acelerador del teclado para enviar el mensaje. Puede "
 "cancelar el envío, si se pulsó por accidente, o enviar el mensaje."
@@ -9848,7 +9852,6 @@ msgstr ""
 "virtual."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
-#| msgid "Whether to show local folders (On This Computer) in a folder tree."
 msgid "An Archive folder for On This Computer folders."
 msgstr "Una carpeta de archivo para las carpetas de este equipo."
 
@@ -12362,7 +12365,6 @@ msgid "Font Size"
 msgstr "Tamaño de la tipografía"
 
 #: ../e-util/e-html-editor-cell-dialog.c:618
-#| msgid "<b>Home</b>"
 msgid "<b>Scope</b>"
 msgstr "<b>Alcance</b>"
 
@@ -12508,7 +12510,6 @@ msgid "Case _Sensitive"
 msgstr "_Distinguir entre mayúsculas y minúsculas"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
-#| msgid "_Search"
 msgid "_Wrap Search"
 msgstr "_Ajustar búsqueda"
 
@@ -12657,7 +12658,8 @@ msgid "_Template:"
 msgstr "Plan_tilla:"
 
 #: ../e-util/e-html-editor-page-dialog.c:502
-msgid "Selection a file"
+#: ../e-util/e-import-assistant.c:283
+msgid "Select a file"
 msgstr "Elija un archivo"
 
 #: ../e-util/e-html-editor-page-dialog.c:509
@@ -12698,7 +12700,6 @@ msgid "_Case sensitive"
 msgstr "_Distinguir mayúsculas y minúsculas"
 
 #: ../e-util/e-html-editor-replace-dialog.c:237
-#| msgid "Always search"
 msgid "Wra_p search"
 msgstr "Ajus_tar búsqueda"
 
@@ -12833,10 +12834,6 @@ msgid ""
 msgstr ""
 "Elija el archivo que quiere importar en Evolution y seleccione de la lista "
 "el tipo de archivo que es."
-
-#: ../e-util/e-import-assistant.c:283
-msgid "Select a file"
-msgstr "Elija un archivo"
 
 #: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
 msgid "File _type:"
@@ -13015,22 +13012,22 @@ msgstr "No se pudo abrir el enlace."
 msgid "Could not display help for Evolution."
 msgstr "No se pudo mostrar la ayuda de Evolution."
 
-#: ../e-util/e-misc-utils.c:2390
+#: ../e-util/e-misc-utils.c:2415
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Abriendo calendario «%s»"
 
-#: ../e-util/e-misc-utils.c:2393
+#: ../e-util/e-misc-utils.c:2418
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Abriendo lista de notas «%s»"
 
-#: ../e-util/e-misc-utils.c:2396
+#: ../e-util/e-misc-utils.c:2421
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Abriendo lista de tareas «%s»"
 
-#: ../e-util/e-misc-utils.c:2399
+#: ../e-util/e-misc-utils.c:2424
 #, c-format
 msgid "Opening address book '%s'"
 msgstr "Abriendo libreta de direcciones «%s»"
@@ -13531,7 +13528,7 @@ msgstr "Ya existe una archivo llamado «{0}». ¿Quiere reemplazarlo?"
 msgid ""
 "The file already exists in \"{0}\". Replacing it will overwrite its contents."
 msgstr ""
-"El archivo ya existe en «{0}». Si lo reemplaza sobreescribirá su contenido."
+"El archivo ya existe en «{0}». Si lo reemplaza sobrescribirá su contenido."
 
 #: ../e-util/e-system.error.xml.h:4
 msgid "Cannot save file \"{0}\"."
@@ -14126,8 +14123,13 @@ msgstr "Celda de la tabla"
 msgid "popup a child"
 msgstr "emerger un descendiente"
 
+#. Translators: description of an "edit" action
+#: ../e-util/gal-a11y-e-cell-text.c:617
+msgid "begin editing this cell"
+msgstr "empezar a editar esta celda"
+
 #. Translators: description of a "toggle" action
-#: ../e-util/gal-a11y-e-cell-toggle.c:179
+#: ../e-util/gal-a11y-e-cell-toggle.c:177
 msgid "toggle the cell"
 msgstr "cambiar la celda"
 
@@ -15368,11 +15370,15 @@ msgid "Force images in HTML mail to be loaded"
 msgstr "Fuerza la carga de imágenes en el correo HTML"
 
 #: ../mail/e-mail-reader.c:2108 ../mail/e-mail-reader.c:2486
-msgid "_Ignore Sub-Thread"
+#, fuzzy
+#| msgid "_Ignore Sub-Thread"
+msgid "_Ignore Subthread"
 msgstr "_Ignorar sub-conversación"
 
 #: ../mail/e-mail-reader.c:2110
-msgid "Mark new mails in a sub-thread as read automatically"
+#, fuzzy
+#| msgid "Mark new mails in a sub-thread as read automatically"
+msgid "Mark new mails in a subthread as read automatically"
 msgstr ""
 "Marcar los correos nuevos de esta sub-conversación como leídos "
 "automáticamente"
@@ -15419,11 +15425,15 @@ msgid "Mark the selected messages as having been read"
 msgstr "Marcar los mensajes seleccionados como leídos"
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2510
-msgid "Do not _Ignore Sub-Thread"
+#, fuzzy
+#| msgid "Do not _Ignore Sub-Thread"
+msgid "Do not _Ignore Subthread"
 msgstr "No _ignorar la sub-conversación"
 
 #: ../mail/e-mail-reader.c:2152
-msgid "Do not mark new mails in a sub-thread as read automatically"
+#, fuzzy
+#| msgid "Do not mark new mails in a sub-thread as read automatically"
+msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 "No marcar los correos nuevos de esta sub-conversación como leídos "
 "automáticamente"
@@ -15817,11 +15827,15 @@ msgid "Unmarking thread from being ignored"
 msgstr "Desmarcando conversación para ignorarla"
 
 #: ../mail/e-mail-reader-utils.c:1041
-msgid "Marking sub-thread to be ignored"
+#, fuzzy
+#| msgid "Marking sub-thread to be ignored"
+msgid "Marking subthread to be ignored"
 msgstr "Marcando sub-conversación para ignorarla"
 
 #: ../mail/e-mail-reader-utils.c:1045
-msgid "Unmarking sub-thread from being ignored"
+#, fuzzy
+#| msgid "Unmarking sub-thread from being ignored"
+msgid "Unmarking subthread from being ignored"
 msgstr "Desmarcando sub-conversación para ignorarla"
 
 #: ../mail/e-mail-reader-utils.c:1280
@@ -16254,7 +16268,6 @@ msgstr "Expresión"
 
 #: ../mail/filtertypes.xml.in.h:24 ../mail/searchtypes.xml.in.h:26
 #: ../mail/vfoldertypes.xml.in.h:26
-#| msgid "Expression"
 msgid "Free Form Expression"
 msgstr "Expresión libre de forma"
 
@@ -16911,7 +16924,6 @@ msgid "Archive Mail"
 msgstr "Archivar correo"
 
 #: ../mail/mail-config.ui.h:96
-#| msgid "On This Computer"
 msgid "On This Computer A_rchive folder:"
 msgstr "Carpeta de a_rchivo en este equipo:"
 
@@ -16987,7 +16999,6 @@ msgid "_Delete junk messages"
 msgstr "_Eliminar los mensajes SPAM"
 
 #: ../mail/mail-config.ui.h:116
-#| msgid "C_ustomize options"
 msgid "Just Test Options"
 msgstr "Sólo probar las opciones"
 
@@ -17361,7 +17372,7 @@ msgstr "No se puede crear la carpeta de guardado temporal."
 
 #: ../mail/mail.error.xml.h:55
 msgid "File exists but cannot overwrite it."
-msgstr "El archivo existe pero no se puede sobreescribir."
+msgstr "El archivo existe pero no se puede sobrescribir."
 
 #: ../mail/mail.error.xml.h:56
 msgid "File exists but is not a regular file."
@@ -17582,12 +17593,12 @@ msgid ""
 msgstr ""
 "Ya existe una carpeta no vacía en «{1}».\n"
 "\n"
-"Puede elegir ignorar esta carpeta, sobreescribirla o añadir su contenido, o "
+"Puede elegir ignorar esta carpeta, sobrescribirla o añadir su contenido, o "
 "salir."
 
 #: ../mail/mail.error.xml.h:110
 msgid "_Overwrite"
-msgstr "_Sobreescribir"
+msgstr "_Sobrescribir"
 
 #: ../mail/mail.error.xml.h:111
 msgid "_Append"
@@ -17803,16 +17814,25 @@ msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-msgid "Message is not available in offline."
+#, fuzzy
+#| msgid "Message is not available in offline."
+msgid "Message is not available in offline mode."
 msgstr "Mensaje no disponible en modo desconectado."
 
 #: ../mail/mail.error.xml.h:161
+#, fuzzy
+#| msgid ""
+#| "This can be due to the message not being downloaded yet. The folder, or "
+#| "the account, can be marked for offline synchronization. Then, once the "
+#| "account is online again, use File-&gt;Download Messages for Offline "
+#| "Usage, when this folder is selected, to make sure that all the messages "
+#| "in the folder will be available in offline."
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
 "is online again, use File-&gt;Download Messages for Offline Usage, when this "
 "folder is selected, to make sure that all the messages in the folder will be "
-"available in offline."
+"available in offline mode."
 msgstr ""
 "Esto puede ser porque el mensaje no se ha descargado todavía. La carpeta, o "
 "la cuenta, se pueden marcar para sincronizarse en modo desconectado. "
@@ -17890,11 +17910,15 @@ msgid "Failed to unmark thread from being ignored in folder '{0}'"
 msgstr "Falló al desmarcar la conversación para ignorarla en la carpeta «{0}»"
 
 #: ../mail/mail.error.xml.h:179
-msgid "Failed to mark sub-thread to be ignored in folder '{0}'"
+#, fuzzy
+#| msgid "Failed to mark sub-thread to be ignored in folder '{0}'"
+msgid "Failed to mark subthread to be ignored in folder '{0}'"
 msgstr "Falló al marcar la sub-conversación para ignorarla en la carpeta «{0}»"
 
 #: ../mail/mail.error.xml.h:180
-msgid "Failed to unmark sub-thread from being ignored in folder '{0}'"
+#, fuzzy
+#| msgid "Failed to unmark sub-thread from being ignored in folder '{0}'"
+msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
 "Falló al demarcar la sub-conversación para ignorarla en la carpeta «{0}»"
 
@@ -17990,7 +18014,7 @@ msgstr "Más alta"
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5969
+#: ../mail/message-list.c:459 ../mail/message-list.c:5971
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -18029,7 +18053,7 @@ msgstr "Mensajes"
 msgid "Follow-up"
 msgstr "Seguimiento"
 
-#: ../mail/message-list.c:5906
+#: ../mail/message-list.c:5908
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18041,7 +18065,7 @@ msgstr ""
 "desplegable o ejecutando una búsqueda nueva, limpiándola con Buscar->Limpiar "
 "o cambiando la consulta anterior."
 
-#: ../mail/message-list.c:5914
+#: ../mail/message-list.c:5916
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -18108,7 +18132,6 @@ msgstr "El cuerpo contiene"
 
 #: ../mail/searchtypes.xml.in.h:61
 #: ../modules/mail/e-mail-shell-view-actions.c:2095
-#| msgid "Expression"
 msgid "Free form expression"
 msgstr "Expresión libre de forma"
 
@@ -23089,7 +23112,7 @@ msgstr "Mostrar los atajos de teclas de Evolution"
 
 #: ../shell/e-shell-window-actions.c:992
 msgid "_Quit"
-msgstr "_Quitar"
+msgstr "_Salir"
 
 #: ../shell/e-shell-window-actions.c:994
 msgid "Exit the program"
@@ -24025,6 +24048,9 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgid "Selection a file"
+#~ msgstr "Elija un archivo"
 
 #~ msgid "Web addresses"
 #~ msgstr "Direcciones web"
@@ -27451,9 +27477,6 @@ msgstr "Con _estado"
 
 #~ msgid "Remove all duplicate messages"
 #~ msgstr "Quitar todos los correos duplicados"
-
-#~ msgid "begin editing this cell"
-#~ msgstr "empezar a editar esta celda"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
