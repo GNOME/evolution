@@ -2748,12 +2748,6 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 		remove_quoting_from_element (block);
 		remove_wrapping_from_element (block);
 
-		block = e_html_editor_selection_wrap_paragraph_length (
-			selection, block, length);
-		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-		quote_plain_text_element_after_wrapping (
-			document, block, citation_level - 1);
-
 		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (block));
 
 		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block))) {
@@ -2801,6 +2795,12 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 				clone,
 				NULL);
 		}
+
+		block = e_html_editor_selection_wrap_paragraph_length (
+			selection, block, length);
+		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+		quote_plain_text_element_after_wrapping (
+			document, block, citation_level - 1);
 	}
 
 	return success;
