@@ -386,6 +386,21 @@ create_selection_marker (WebKitDOMDocument *document,
 }
 
 static void
+remove_selection_markers (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *marker;
+
+	marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+	marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+}
+
+static void
 add_selection_markers_into_element_start (WebKitDOMDocument *document,
                                           WebKitDOMElement *element,
                                           WebKitDOMElement **selection_start_marker,
@@ -393,6 +408,7 @@ add_selection_markers_into_element_start (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *marker;
 
+	remove_selection_markers (document);
 	marker = create_selection_marker (document, FALSE);
 	webkit_dom_node_insert_before (
 		WEBKIT_DOM_NODE (element),
@@ -420,6 +436,7 @@ add_selection_markers_into_element_end (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *marker;
 
+	remove_selection_markers (document);
 	marker = create_selection_marker (document, TRUE);
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (marker), NULL);
