@@ -4663,6 +4663,8 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		document, ".-x-evo-signature-content_wrapper", NULL);
 	if (signature) {
 		if (top_signature) {
+			WebKitDOMElement *spacer;
+
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (wrapper),
 				WEBKIT_DOM_NODE (signature),
@@ -4672,10 +4674,11 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 						WEBKIT_DOM_NODE (paragraph)),
 				NULL);
 			/* Insert NL after the signature */
+			spacer = prepare_paragraph (selection, document, FALSE);
+			element_add_class (spacer, "-x-evo-top-signature-spacer");
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (wrapper),
-				WEBKIT_DOM_NODE (prepare_paragraph (
-					selection, document, FALSE)),
+				WEBKIT_DOM_NODE (spacer),
 				webkit_dom_node_get_next_sibling (
 					WEBKIT_DOM_NODE (signature)),
 				NULL);
@@ -4809,7 +4812,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		remove_node (WEBKIT_DOM_NODE (content_wrapper));
 	}
 
-	if (view->priv->is_message_from_edit_as_new || view->priv->remove_initial_input_line) {
+	if (view->priv->is_message_from_edit_as_new || view->priv->remove_initial_input_line || !start_bottom) {
 		WebKitDOMNode *child;
 
 		remove_node (WEBKIT_DOM_NODE (paragraph));

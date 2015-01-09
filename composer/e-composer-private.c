@@ -826,6 +826,19 @@ prepare_paragraph (EHTMLEditorSelection *selection,
 	return paragraph;
 }
 
+static WebKitDOMElement *
+prepare_top_signature_spacer (EHTMLEditorSelection *selection,
+                              WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+
+	element = prepare_paragraph (selection, document);
+	webkit_dom_element_remove_attribute (element, "id");
+	element_add_class (element, "-x-evo-top-signature-spacer");
+
+	return element;
+}
+
 static void
 composer_move_caret (EMsgComposer *composer)
 {
@@ -883,13 +896,8 @@ composer_move_caret (EMsgComposer *composer)
 
 		if (e_html_editor_view_get_html_mode (view) &&
 		    is_message_from_edit_as_new) {
-
-			webkit_dom_range_select_node_contents (
-				new_range, WEBKIT_DOM_NODE (body), NULL);
-			webkit_dom_range_collapse (new_range, TRUE, NULL);
-
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, new_range);
+			element = WEBKIT_DOM_ELEMENT (body);
+			goto move_caret;
 		} else
 			e_html_editor_selection_scroll_to_caret (editor_selection);
 
@@ -924,17 +932,34 @@ composer_move_caret (EMsgComposer *composer)
 	 *
 	 */
 	if (signature && top_signature) {
-		element_add_class (signature, "-x-evo-top-signature");
-		element = prepare_paragraph (editor_selection, document);
+		WebKitDOMElement *spacer;
+
+		spacer = prepare_top_signature_spacer (editor_selection, document);
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (element),
+			WEBKIT_DOM_NODE (spacer),
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature)),
 			NULL);
 	}
 
 	if (webkit_dom_node_list_get_length (list) == 0)
 		has_paragraphs_in_body = FALSE;
+
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
+	if (!signature) {
+		if (start_bottom) {
+			if (!element) {
+				element = prepare_paragraph (editor_selection, document);
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
+		} else
+			element = WEBKIT_DOM_ELEMENT (body);
+
+		goto move_caret;
+	}
 
 	if (!has_paragraphs_in_body) {
 		element = prepare_paragraph (editor_selection, document);
@@ -948,26 +973,18 @@ composer_move_caret (EMsgComposer *composer)
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+					WEBKIT_DOM_NODE (signature),
 					NULL);
 			}
 		} else {
-			if (start_bottom) {
+			if (start_bottom)
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),
 					WEBKIT_DOM_NODE (signature),
 					NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-					NULL);
-			}
 		}
 	} else {
-		element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 		if (!element && top_signature) {
 			element = prepare_paragraph (editor_selection, document);
 			if (start_bottom) {
@@ -982,22 +999,29 @@ composer_move_caret (EMsgComposer *composer)
 					WEBKIT_DOM_NODE (signature),
 					NULL);
 			}
+		} else if (element && top_signature && !start_bottom) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (element),
+				WEBKIT_DOM_NODE (signature),
+				NULL);
 		}
 	}
 
-	webkit_dom_range_select_node_contents (
-		new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, TRUE, NULL);
+	g_object_unref (list);
+ move_caret:
+	if (element) {
+		webkit_dom_range_select_node_contents (
+			new_range, WEBKIT_DOM_NODE (element), NULL);
+		webkit_dom_range_collapse (new_range, TRUE, NULL);
+		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+		webkit_dom_dom_selection_add_range (dom_selection, new_range);
+	}
 
 	if (start_bottom)
 		g_signal_connect (
 			view, "size-allocate",
 			G_CALLBACK (composer_size_allocate_cb), NULL);
-
-	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-	webkit_dom_dom_selection_add_range (dom_selection, new_range);
-
-	g_object_unref (list);
 
 	e_html_editor_view_force_spell_check (view);
 
@@ -1143,8 +1167,14 @@ insert:
 		if (id && (strlen (id) == 1) && (*id == '1')) {
 			/* If the top signature was set we have to remove the NL
 			 * that was inserted after it */
-			if (top_signature)
-				remove_node (webkit_dom_node_get_next_sibling (wrapper));
+			if (top_signature) {
+				WebKitDOMElement *spacer;
+
+				spacer = webkit_dom_document_query_selector (
+					document, ".-x-evo-top-signature-spacer", NULL);
+				if (spacer)
+					remove_node_if_empty (WEBKIT_DOM_NODE (spacer));
+			}
 			/* We have to remove the div containing the span with signature */
 			remove_node (wrapper);
 
@@ -1179,18 +1209,12 @@ insert:
 						child,
 						NULL);
 				} else {
-					WebKitDOMElement *input_start =
-						webkit_dom_document_get_element_by_id (
-							document, "-x-evo-input-start");
 					/* When we are using signature on top the caret
 					 * should be before the signature */
 					webkit_dom_node_insert_before (
 						WEBKIT_DOM_NODE (body),
 						WEBKIT_DOM_NODE (element),
-						input_start ?
-							webkit_dom_node_get_next_sibling (
-								WEBKIT_DOM_NODE (input_start)) :
-							child,
+						child,
 						NULL);
 				}
 			} else {
