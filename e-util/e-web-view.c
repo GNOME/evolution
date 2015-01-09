@@ -361,6 +361,7 @@ web_view_init_web_settings (WebKitWebView *web_view)
 
 	g_object_set (
 		G_OBJECT (web_settings),
+		"enable-dns-prefetching", FALSE,
 		"enable-frame-flattening", TRUE,
 		"enable-java-applet", FALSE,
 		"enable-html5-database", FALSE,
