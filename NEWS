@@ -1,3 +1,29 @@
+Evolution 3.12.10 2015-01-12
+----------------------------
+
+Bug Fixes:
+	Bug 741059 - Prompts for login PIN with CKF_PROTECTED_AUTHENTICATION_PATH (David Woodhouse)
+	Bug 740297 - [SMTP] Crash when sending two messages at once (Milan Crha)
+	Bug 724039 - Message preview shows a wrong message (Milan Crha)
+	Bug 740370 - Avoid Calendar view crash with certain themes (Milan Crha)
+	Bug 741034 - Use portable shell in configure.ac (Alexander Tsoy)
+	Bug 741858 - Wrong message shown after the first folder enter (Milan Crha)
+	Bug 735150 - Preserve multiselection on folder change in message list (Milan Crha)
+	Bug 742034 - Crash after dragging image URL to photo box in contact editor (Milan Crha)
+	Bug 741313 - Disable DNS prefetching for EWebView (Tomas Popela)
+
+Miscellaneous:
+	ECalModel: Workaround issue with no DTEND set (Erick Pérez Castellanos)
+	e_calendar_view_get_tooltips: Do not crash when there's no DTEND set (Milan Crha)
+	Remove obsolete 'mime-types' key from evolution.convert (Milan Crha)
+	Autostart evolution-alarm-notify in MATE as well (Joakim Tjernlund)
+
+Translations:
+	Sweta Kothari (gu)
+	Shankar Prasad (kn)
+	Matej Urbančič (sl)
+	Christian Kirbach (de)
+
 Evolution 3.12.9 2014-12-08
 ---------------------------
 
