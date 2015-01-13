@@ -6078,7 +6078,6 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 		node = webkit_dom_node_get_parent_node (
 			webkit_dom_node_get_parent_node (parent_node));
 
-		printf ("%s\n", webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (node)));
 		if ((next_sibling = in_empty_block_in_quoted_content (node))) {
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (next_sibling),
