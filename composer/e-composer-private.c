@@ -977,12 +977,11 @@ composer_move_caret (EMsgComposer *composer)
 					NULL);
 			}
 		} else {
-			if (start_bottom)
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					WEBKIT_DOM_NODE (signature),
-					NULL);
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (element),
+				WEBKIT_DOM_NODE (signature),
+				NULL);
 		}
 	} else {
 		if (!element && top_signature) {
