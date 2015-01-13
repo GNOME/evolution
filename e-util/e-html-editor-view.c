@@ -4108,7 +4108,8 @@ get_decoded_line_length (WebKitDOMDocument *document,
 
 static gboolean
 check_if_end_paragraph (const gchar *input,
-                        glong length)
+                        glong length,
+                        gboolean preserve_next_line)
 {
 	const gchar *next_space;
 
@@ -4129,6 +4130,11 @@ check_if_end_paragraph (const gchar *input,
 
 		if (length_next_word + length < 72)
 			return TRUE;
+	} else {
+		/* If the current text to insert doesn't contain space we
+		 * have to look on the previous line if we were preserving
+		 * the block or not */
+		return !preserve_next_line;
 	}
 
 	return FALSE;
@@ -4154,6 +4160,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	GString *start, *end;
 	WebKitDOMElement *paragraph = NULL;
+	gboolean preserve_next_line = TRUE;
 
 	selection = e_html_editor_view_get_selection (view);
 
@@ -4169,12 +4176,14 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
-		gboolean prevent_block = TRUE;
+		gboolean local_preserve_next_line = preserve_next_line;
+		gboolean preserve_block = TRUE;
 		const gchar *citation = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
 		gchar *to_insert = NULL;
 
 		ignore_next_br = FALSE;
+		preserve_next_line = TRUE;
 
 		to_insert = g_utf8_substring (
 			prev_br, 0, g_utf8_pointer_to_offset (prev_br, next_br));
@@ -4222,7 +4231,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			empty = !*truncated && strlen (rest) > 0;
 
 			if (strchr (" +-@*=\t", *rest))
-				prevent_block = FALSE;
+				preserve_block = FALSE;
 
 			rest_to_insert = g_regex_replace_eval (
 				regex_nbsp,
@@ -4262,7 +4271,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0) {
 				paragraph = create_and_append_new_paragraph (
 					selection, document, blockquote, block, "<br>");
-			} else if (prevent_block) {
+			} else if (preserve_block) {
 				gchar *html;
 				gchar *new_content;
 
@@ -4294,7 +4303,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				paragraph = create_and_append_new_paragraph (
 					selection, document, blockquote, block, rest_to_insert);
 
-			if (rest_to_insert && *rest_to_insert && prevent_block && paragraph) {
+			if (rest_to_insert && *rest_to_insert && preserve_block && paragraph) {
 				glong length = 0;
 
 				if (strstr (rest, "&"))
@@ -4305,11 +4314,15 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				/* End the block if there is line with less that 62 characters. */
 				/* The shorter line can also mean that there is a long word on next
 				 * line (and the line was wrapped). So look at it and decide what to do. */
-				if (length < 62 && check_if_end_paragraph (next_br, length))
+				if (length < 62 && check_if_end_paragraph (next_br, length, local_preserve_next_line)) {
 					append_new_paragraph (blockquote, &paragraph);
+					preserve_next_line = FALSE;
+				}
 
-				if (length > 72)
+				if (length > 72) {
 					append_new_paragraph (blockquote, &paragraph);
+					preserve_next_line = FALSE;
+				}
 			}
 
 			citation_was_first_element = FALSE;
