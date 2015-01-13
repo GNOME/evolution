@@ -896,6 +896,7 @@ composer_move_caret (EMsgComposer *composer)
 
 		if (is_message_from_edit_as_new) {
 			element = WEBKIT_DOM_ELEMENT (body);
+			e_html_editor_selection_block_selection_changed (editor_selection);
 			goto move_caret;
 		} else
 			e_html_editor_selection_scroll_to_caret (editor_selection);
