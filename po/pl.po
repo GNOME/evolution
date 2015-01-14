@@ -3115,7 +3115,7 @@ msgstr "_Powtarzanie"
 
 #: ../calendar/gui/dialogs/event-editor.c:227
 msgid "Make this a recurring event"
-msgstr "Oznacza jako wydarz4enie powtarzalne"
+msgstr "Oznacza jako wydarzenie powtarzalne"
 
 #: ../calendar/gui/dialogs/event-editor.c:232 ../e-util/e-send-options.ui.h:14
 msgid "Send Options"
