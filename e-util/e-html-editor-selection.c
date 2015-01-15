@@ -152,16 +152,16 @@ static void
 html_editor_selection_set_html_editor_view (EHTMLEditorSelection *selection,
                                             EHTMLEditorView *view)
 {
-	gulong handler_id;
+	gulong handler_id = 0;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
 	g_weak_ref_set (&selection->priv->html_editor_view, view);
-
+/* FIXME WK2
 	handler_id = g_signal_connect (
 		view, "selection-changed",
 		G_CALLBACK (html_editor_selection_selection_changed_cb),
-		selection);
+		selection);*/
 
 	selection->priv->selection_changed_handler_id = handler_id;
 }

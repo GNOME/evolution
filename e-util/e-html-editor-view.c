@@ -286,7 +286,8 @@ html_editor_view_selection_changed_cb (EHTMLEditorView *view)
 	 * the signal further to EHTMLEditorSelection and others and wait until
 	 * the load is finished. */
 	if (view->priv->reload_in_progress) {
-		g_signal_stop_emission_by_name (view, "selection-changed");
+		/* FIXME WK2
+		g_signal_stop_emission_by_name (view, "selection-changed"); */
 		return;
 	}
 
@@ -573,11 +574,8 @@ html_editor_view_constructed (GObject *object)
 
 	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
 
-	g_object_set (
-		G_OBJECT (web_settings),
-		"enable-scripts", FALSE,
-		"enable-plugins", FALSE,
-		NULL);
+	e_html_editor_view_update_fonts (E_HTML_EDITOR_VIEW (object));
+
 /* FIXME WK2
 	g_object_set (
 		G_OBJECT (web_settings),
@@ -585,6 +583,10 @@ html_editor_view_constructed (GObject *object)
 		"enable-file-access-from-file-uris", TRUE,
 		"enable-spell-checking", TRUE,
 		NULL);*/
+
+	/* Make WebKit think we are displaying a local file, so that it
+	 * does not block loading resources from file:// protocol */
+	webkit_web_view_load_html (WEBKIT_WEB_VIEW (object), "", "file://");
 }
 static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
@@ -1552,8 +1554,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		view->priv->aliasing_settings = g_settings;
 	}
 
-	e_html_editor_view_update_fonts (view);
-
 	/* Give spell check languages to WebKit */
 /* FIXME WK2
 	languages = e_spell_checker_list_active_languages (checker, NULL);
@@ -1573,10 +1573,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->is_message_from_edit_as_new = FALSE;
 	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
-
-	/* Make WebKit think we are displaying a local file, so that it
-	 * does not block loading resources from file:// protocol */
-	webkit_web_view_load_html (WEBKIT_WEB_VIEW (view), "", "file://");
 }
 
 void
