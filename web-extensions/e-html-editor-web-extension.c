@@ -216,6 +216,7 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='value' direction='in'/>"
 "      <arg type='u' name='scope' direction='in'/>"
+"    </method>"
 "    <method name='EHTMLEditorCellDialogSetElementColSpan'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='value' direction='in'/>"
