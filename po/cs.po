@@ -9129,14 +9129,14 @@ msgstr "Zobrazovat smazáné zprávy v seznamu zpráv (přeškrtnutě)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Enable Unmatched search folder"
-msgstr "Povolit složku hledání Nepřiřazené"
+msgstr "Povolit vyhledávací složku Nepřiřazené"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
 msgstr ""
-"Povolit složku hledání Nepřiřazené v rámci Složek hledání. Nedělá nic, pokud "
+"Povolit vyhledávací složku Nepřiřazené v rámci Vyhledávacích složek. Nedělá nic, pokud "
 "jsou Složky hledání zakázány."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
@@ -9284,7 +9284,7 @@ msgid ""
 msgstr ""
 "Říká, jak se mají účty řadit ve stromu složek v náhledu Pošta. Pokud je "
 "zapnuto, účty jsou řazeny abecedně s výjimkou složky V tomto počítači a "
-"složek hledání. Jinak jsou účty řazeny na základě pořadí daného uživatelem"
+"vyhledávacích složek. Jinak jsou účty řazeny na základě pořadí daného uživatelem"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Log filter actions"
@@ -9418,7 +9418,7 @@ msgstr "Vypíná nebo zapíná výzvu během označování více zpráv."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt when deleting messages in search folder"
-msgstr "Upozorňovat, když mažu zprávu ze složky hledání"
+msgstr "Upozorňovat, když mažu zprávu z vyhledávací složky"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
@@ -9426,9 +9426,9 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
-"Vypíná/zapíná opakované výzvy s varováním, že vymazání zpráv ze složky "
-"vyhledávání vymaže zprávu natrvalo, a ne že ji jen jednoduše odstraní z "
-"výsledků vyhledávání."
+"Vypíná/zapíná opakované výzvy s varováním, že vymazání zpráv z vyhledávací "
+"složky vymaže zprávu natrvalo, a ne že ji jen jednoduše odstraní z "
+"výsledků hledávání."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
@@ -14450,12 +14450,12 @@ msgstr "Přeposlaná zpráva"
 #: ../libemail-engine/mail-vfolder.c:151
 #, c-format
 msgid "Setting up Search Folder: %s"
-msgstr "Nastavování složky hledání: %s"
+msgstr "Nastavování vyhledávací složky: %s"
 
 #: ../libemail-engine/mail-vfolder.c:304
 #, c-format
 msgid "Updating Search Folders for '%s' - %s"
-msgstr "Aktualizují se složky hledání pro „%s“ - %s"
+msgstr "Aktualizují se vyhledávací složky pro „%s“ - %s"
 
 #. Translators: The first %s is name of the affected
 #. * search folder(s), the second %s is the URI of the
@@ -14473,14 +14473,14 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"Složka hledání „%s“ byla změněna, aby reflektovala smazanou složku\n"
+"Vyhledávací složka „%s“ byla změněna, aby reflektovala smazanou složku\n"
 "„%s“."
 msgstr[1] ""
-"Následující složky hledání\n"
+"Následující vyhledávací složky\n"
 "%s byly změněny, aby reflektovaly smazanou složku\n"
 "„%s“."
 msgstr[2] ""
-"Následující složky hledání\n"
+"Následující vyhledávací složky\n"
 "%s byly změněny, aby reflektovaly smazanou složku\n"
 "„%s“."
 
@@ -15564,35 +15564,35 @@ msgstr "Z_většit"
 
 #: ../mail/e-mail-reader.c:2463
 msgid "Create a Search Folder from Mailing _List..."
-msgstr "Vytvořit složku hledání pro poštovní _konferenci..."
+msgstr "Vytvořit vyhledávací složku pro poštovní _konferenci…"
 
 #: ../mail/e-mail-reader.c:2465
 msgid "Create a search folder for this mailing list"
-msgstr "Vytvořit složku hledání pro tuto poštovní konferenci"
+msgstr "Vytvořit vyhledávací složku pro tuto poštovní konferenci"
 
 #: ../mail/e-mail-reader.c:2470
 msgid "Create a Search Folder from Recipien_ts..."
-msgstr "Vytvořit složku hledání pro pří_jemce..."
+msgstr "Vytvořit vyhledávací složku pro pří_jemce…"
 
 #: ../mail/e-mail-reader.c:2472
 msgid "Create a search folder for these recipients"
-msgstr "Vytvořit složku hledání pro tyto příjemce"
+msgstr "Vytvořit vyhledávací složku pro tyto příjemce"
 
 #: ../mail/e-mail-reader.c:2477
 msgid "Create a Search Folder from Sen_der..."
-msgstr "Vytvořit složku hledání pro _odesílatele..."
+msgstr "Vytvořit vyhledávací složku pro _odesílatele…"
 
 #: ../mail/e-mail-reader.c:2479
 msgid "Create a search folder for this sender"
-msgstr "Vytvořit složku hledání pro tohoto odesílatele"
+msgstr "Vytvořit vyhledávací složku pro tohoto odesílatele"
 
 #: ../mail/e-mail-reader.c:2484
 msgid "Create a Search Folder from S_ubject..."
-msgstr "Vytvořit složku hledání pro pře_dmět..."
+msgstr "Vytvořit vyhledávací složku pro pře_dmět…"
 
 #: ../mail/e-mail-reader.c:2486
 msgid "Create a search folder for this subject"
-msgstr "Vytvořit složku hledání pro tento předmět"
+msgstr "Vytvořit vyhledávací složku pro tento předmět"
 
 #: ../mail/e-mail-reader.c:2513
 msgid "Mark for Follo_w Up..."
@@ -16022,7 +16022,7 @@ msgstr "Přidat složku"
 
 #: ../mail/em-vfolder-editor-rule.c:521
 msgid "Search Folder Sources"
-msgstr "Zdroje složek hledání"
+msgstr "Zdroje vyhledávacích složek"
 
 #: ../mail/em-vfolder-editor-rule.c:553
 msgid "Automatically update on any _source folder change"
@@ -17305,7 +17305,7 @@ msgid ""
 "Folder will delete the actual messages from the folder or folders in which "
 "they physically reside. Do you really want to delete these messages?"
 msgstr ""
-"Zprávy zobrazené ve složkách hledání nejsou kopiemi. Jejich smazáním ze "
+"Zprávy zobrazené ve vyhledávacích složkách nejsou kopiemi. Jejich smazáním ze "
 "složek hledání odstraníte skutečné zprávy ze složky či složek, v kterých "
 "jsou doopravdy uloženy. Chcete tyto zprávy opravdu smazat?"
 
@@ -17394,7 +17394,7 @@ msgstr "_Zakázat"
 
 #: ../mail/mail.error.xml.h:91
 msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
-msgstr "Nelze upravovat složku hledání „{0}“, protože neexistuje."
+msgstr "Nelze upravit vyhledávací složku „{0}“, protože neexistuje."
 
 #: ../mail/mail.error.xml.h:92
 msgid ""
@@ -17402,11 +17402,11 @@ msgid ""
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
 "Tato složka možná byla přidána implicitně,\n"
-"je-li to vyžadováno, přidejte ji explicitně v editoru složek hledání."
+"je-li to vyžadováno, přidejte ji explicitně v editoru vyhledávacích složek."
 
 #: ../mail/mail.error.xml.h:94
 msgid "Cannot add Search Folder \"{0}\"."
-msgstr "Nelze přidat složku hledání „{0}“."
+msgstr "Nelze přidat vyhledávací složku „{0}“."
 
 #: ../mail/mail.error.xml.h:95
 msgid "A folder named \"{0}\" already exists. Please use a different name."
@@ -17414,7 +17414,7 @@ msgstr "Složka nazvaná „{0}“ již existuje. Použijte prosím jiný název
 
 #: ../mail/mail.error.xml.h:96
 msgid "Search Folders automatically updated."
-msgstr "Složky hledání byly automaticky aktualizovány."
+msgstr "Vyhledávací složky byly automaticky aktualizovány."
 
 #: ../mail/mail.error.xml.h:97
 msgid "Mail filters automatically updated."
@@ -17430,7 +17430,7 @@ msgstr "Musíte uvést složku."
 
 #: ../mail/mail.error.xml.h:101
 msgid "You must name this Search Folder."
-msgstr "Musíte pojmenovat tuto složku hledání."
+msgstr "Musíte pojmenovat tuto vyhledávací složku."
 
 #: ../mail/mail.error.xml.h:102
 msgid "No folder selected."
@@ -17816,15 +17816,15 @@ msgstr "Vyprazdňuje se koš v „%s“"
 
 #: ../mail/mail-vfolder-ui.c:66
 msgid "Search Folders"
-msgstr "Složky hledání"
+msgstr "Vyhledávací složky"
 
 #: ../mail/mail-vfolder-ui.c:146
 msgid "Edit Search Folder"
-msgstr "Upravit složku hledání"
+msgstr "Upravit vyhledávací složku"
 
 #: ../mail/mail-vfolder-ui.c:267
 msgid "New Search Folder"
-msgstr "Nová složka hledání"
+msgstr "Nová vyhledávací složka"
 
 #: ../mail/message-list.c:291
 msgid "Unseen"
@@ -21040,15 +21040,15 @@ msgstr "Š_títek"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1881
 msgid "C_reate Search Folder From Search..."
-msgstr "Vytvořit složku „_Hledání“ z vyhledávání…"
+msgstr "Vytvořit vyhledávací složku z hledávání…"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1888
 msgid "Search F_olders"
-msgstr "Složky _hledání"
+msgstr "Vy_hledávací složky"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1890
 msgid "Create or edit search folder definitions"
-msgstr "Vytvořit nebo upravit definice složek hledání"
+msgstr "Vytvořit nebo upravit definice vyhledávací složky"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1929
 msgid "_New Folder..."
@@ -21084,7 +21084,7 @@ msgstr "S_ložka Nepřiřazené povolena"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1983
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr "Přepíná to, zda má složka hledání Nepřiřazené být povolena "
+msgstr "Přepíná to, zda má být povolena vyhledávací složka Nepřiřazené"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2003
 msgid "Show message preview below the message list"
