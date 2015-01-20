@@ -7417,7 +7417,7 @@ msgstr "Zobrazuje obrázky, které jste přetáhli do zprávy."
 
 #: ../composer/e-composer-actions.c:483
 msgid "_Prioritize Message"
-msgstr "_Důležitost zprávy"
+msgstr "_Důležitá zpráva"
 
 #: ../composer/e-composer-actions.c:485
 msgid "Set the message priority to high"
