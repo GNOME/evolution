@@ -21064,7 +21064,7 @@ msgstr "Zobrazovat panel s náhledem zprávy"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1965
 msgid "Show _Deleted Messages"
-msgstr "Zobrazit s_mazané zprávy"
+msgstr "Zobrazovat s_mazané zprávy"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1967
 msgid "Show deleted messages with a line through them"
