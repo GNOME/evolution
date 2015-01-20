@@ -19170,7 +19170,7 @@ msgstr "%u a %d budou nahrazeny uživatelem a doménou z e-mailové adresy."
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:78
 msgid "Publishing Information"
-msgstr "Informace o zveřejnění"
+msgstr "Zveřejněné informace"
 
 #: ../modules/calendar/e-cal-shell-backend.c:114
 msgctxt "New"
