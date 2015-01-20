@@ -1004,7 +1004,8 @@ composer_move_caret (EMsgComposer *composer)
 				WEBKIT_DOM_NODE (element),
 				WEBKIT_DOM_NODE (signature),
 				NULL);
-		}
+		} else
+			element = WEBKIT_DOM_ELEMENT (body);
 	}
 
 	g_object_unref (list);
