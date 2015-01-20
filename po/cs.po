@@ -7425,7 +7425,7 @@ msgstr "Nastavit vysokou prioritu zprávy"
 
 #: ../composer/e-composer-actions.c:491
 msgid "Re_quest Read Receipt"
-msgstr "Žáda_t o doručenku o čtení"
+msgstr "Žáda_t doručenku o přečtení"
 
 #: ../composer/e-composer-actions.c:493
 msgid "Get delivery notification when your message is read"
