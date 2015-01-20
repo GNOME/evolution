@@ -12457,13 +12457,11 @@ msgstr "Z_arovnání:"
 #. Shaded
 #: ../e-util/e-html-editor-hrule-dialog.c:402
 msgid "S_haded"
-msgstr ""
+msgstr "S_tínovaná"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:419
-#, fuzzy
-#| msgid "Folder Properties"
 msgid "Rule properties"
-msgstr "Vlastnosti složky"
+msgstr "Vlastnosti oddělovací čáry"
 
 #: ../e-util/e-html-editor-image-dialog.c:471
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
