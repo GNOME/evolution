@@ -465,7 +465,7 @@ msgstr "Různé"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:40
 msgid "Personal Information"
-msgstr "Osobní informace"
+msgstr "Osobní údaje"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:41
 msgid "_City:"
