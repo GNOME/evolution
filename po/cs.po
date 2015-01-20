@@ -23611,15 +23611,15 @@ msgstr "Důvěra certifikační autoritě"
 
 #: ../smime/gui/smime-ui.ui.h:18
 msgid "Trust this CA to identify _websites."
-msgstr "Důvěřovat této CA pro identifikaci _webových serverů."
+msgstr "Důvěřovat této CA ohledně identifikace _webových serverů."
 
 #: ../smime/gui/smime-ui.ui.h:19
 msgid "Trust this CA to identify _email users."
-msgstr "Důvěřovat této CA pro identifikaci uživatelů _e-mailu."
+msgstr "Důvěřovat této CA ohledně identifikace uživatelů _e-mailu."
 
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _software developers."
-msgstr "Důvěřovat této CA pro identifikaci vývojářů _software."
+msgstr "Důvěřovat této CA ohledně identifikace vývojářů _software."
 
 #: ../smime/gui/smime-ui.ui.h:21
 msgid ""
