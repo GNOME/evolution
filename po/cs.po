@@ -15193,7 +15193,7 @@ msgstr "Odstranit příznak K vyřízení z vybraných zpráv"
 
 #: ../mail/e-mail-reader.c:2080
 msgid "_Flag Completed"
-msgstr "Označit jako _dokončeno"
+msgstr "Označit jako _dokončené"
 
 #: ../mail/e-mail-reader.c:2082
 msgid "Set the follow-up flag to completed on the selected messages"
