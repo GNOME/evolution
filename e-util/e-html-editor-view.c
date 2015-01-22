@@ -2082,7 +2082,8 @@ body_input_event_cb (WebKitDOMElement *element,
 						NULL);
 
 				e_html_editor_selection_restore (selection);
-				e_html_editor_view_force_spell_check_for_current_paragraph (view);
+				e_html_editor_view_force_spell_check_for_current_paragraph  (view);
+
 				return;
 			}
 		}
