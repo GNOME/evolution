@@ -1,3 +1,39 @@
+Evolution 3.13.10 2015-01-26
+----------------------------
+
+Bug Fixes:
+	Bug 740370 - Avoid Calendar view crash with certain themes (Milan Crha)
+	Bug 741034 - Use portable shell in configure.ac (Alexander Tsoy)
+	Bug 741080 - Do not use deprecated atk functions (Mike Gorse)
+	Bug 741083 - Orca cannot read the message list (Mike Gorse)
+	Bug 741129 - Correct couple translatable strings (Bernd Homuth)
+	Bug 741858 - Wrong message shown after the first folder enter (Milan Crha)
+	Bug 735150 - Preserve multiselection on folder change in message list (Milan Crha)
+	Bug 742034 - Crash after dragging image URL to photo box in contact editor (Milan Crha)
+	Bug 741313 - Disable DNS prefetching for EWebView (Tomas Popela)
+	Bug 742613 - New line added at the top of all replies (Tomas Popela)
+	Bug 742955 - Missing text in a reply (Tomas Popela)
+
+Miscellaneous:
+	Remove obsolete 'mime-types' key from evolution.convert (Milan Crha)
+	Autostart evolution-alarm-notify in MATE as well (Joakim Tjernlund)
+	EHTMLEditorSelection - Remove debug output (Tomas Popela)
+	EHTMLEditorSelection - Avoid the possibility of having multiple selection markers (Tomas Popela)
+	EHTMLEditorView - Avoid crash when pressing the BackSpace in the beginning of quoted text (Tomas Popela)
+	EHTMLEditorView - Short lines are concatenated into one (Tomas Popela)
+	EHTMLEditorView - When deliting selected text the spell check it lost (Tomas Popela)
+
+Translations:
+	Inaki Larranaga Murgoitio (eu)
+	Daniel Mustieles (es)
+	Fran Dieguez (gl)
+	Gábor Kelemen (hu)
+	Michał Grzybowski (pl)
+	Dimitris Spingos (el)
+	Marek Černocký (cs)
+	Aurimas Černius (lt)
+	Christian Kirbach (de)
+
 Evolution 3.13.9 2014-12-22
 ---------------------------
 
