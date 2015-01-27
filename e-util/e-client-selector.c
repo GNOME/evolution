@@ -544,25 +544,27 @@ e_client_selector_get_client_sync (EClientSelector *selector,
                                    GCancellable *cancellable,
                                    GError **error)
 {
-	EAsyncClosure *closure;
-	GAsyncResult *result;
+	EClientCache *client_cache;
+	const gchar *extension_name;
 	EClient *client;
 
 	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (selector), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
-	closure = e_async_closure_new ();
+	if (call_allow_auth_prompt) {
+		if (!e_source_allow_auth_prompt_sync (source, cancellable, error))
+			return NULL;
+	}
 
-	e_client_selector_get_client (
-		selector, source, call_allow_auth_prompt, cancellable,
-		e_async_closure_callback, closure);
+	extension_name = e_source_selector_get_extension_name (E_SOURCE_SELECTOR (selector));
 
-	result = e_async_closure_wait (closure);
+	client_cache = e_client_selector_ref_client_cache (selector);
 
-	client = e_client_selector_get_client_finish (
-		selector, result, error);
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		extension_name, cancellable, error);
 
-	e_async_closure_free (closure);
+	g_object_unref (client_cache);
 
 	return client;
 }

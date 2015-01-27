@@ -1067,6 +1067,28 @@ e_client_cache_ref_registry (EClientCache *client_cache)
 	return g_object_ref (client_cache->priv->registry);
 }
 
+typedef struct _GetClientSyncData {
+	GMutex mutex;
+	EAsyncClosure *closure;
+} GetClientSyncData;
+
+static void
+client_cache_get_client_sync_cb (GObject *source_object,
+				 GAsyncResult *result,
+				 gpointer user_data)
+{
+	GetClientSyncData *data = user_data;
+
+	g_return_if_fail (E_IS_CLIENT_CACHE (source_object));
+	g_return_if_fail (data != NULL);
+
+	g_mutex_lock (&data->mutex);
+
+	e_async_closure_callback (source_object, result, data->closure);
+
+	g_mutex_unlock (&data->mutex);
+}
+
 /**
  * e_client_cache_get_client_sync:
  * @client_cache: an #EClientCache
@@ -1114,7 +1136,7 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
                                 GCancellable *cancellable,
                                 GError **error)
 {
-	EAsyncClosure *closure;
+	GetClientSyncData data;
 	GAsyncResult *result;
 	EClient *client;
 
@@ -1122,18 +1144,29 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 	g_return_val_if_fail (extension_name != NULL, NULL);
 
-	closure = e_async_closure_new ();
+	g_mutex_init (&data.mutex);
+	g_mutex_lock (&data.mutex);
 
 	e_client_cache_get_client (
 		client_cache, source, extension_name,cancellable,
-		e_async_closure_callback, closure);
+		client_cache_get_client_sync_cb, &data);
 
-	result = e_async_closure_wait (closure);
+	/* This is needed, because e_async_closure_new() pushes its own thread default main context,
+	   which was later taken into an EClient within e_client_cache_get_client(), but that's wrong,
+	   because that main context effectively dies at the end of this function. */
+	data.closure = e_async_closure_new ();
+
+	g_mutex_unlock (&data.mutex);
+
+	result = e_async_closure_wait (data.closure);
 
 	client = e_client_cache_get_client_finish (
 		client_cache, result, error);
 
-	e_async_closure_free (closure);
+	g_mutex_lock (&data.mutex);
+	e_async_closure_free (data.closure);
+	g_mutex_unlock (&data.mutex);
+	g_mutex_clear (&data.mutex);
 
 	return client;
 }
