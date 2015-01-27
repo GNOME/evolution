@@ -2277,6 +2277,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		}
  restore:
 		e_html_editor_selection_restore (selection);
+		e_html_editor_view_force_spell_check_for_current_paragraph (view);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		html_editor_view_set_links_active (view, FALSE);
 }
