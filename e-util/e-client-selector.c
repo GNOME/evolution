@@ -542,25 +542,22 @@ e_client_selector_get_client_sync (EClientSelector *selector,
                                    GCancellable *cancellable,
                                    GError **error)
 {
-	EAsyncClosure *closure;
-	GAsyncResult *result;
+	EClientCache *client_cache;
+	const gchar *extension_name;
 	EClient *client;
 
 	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (selector), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
-	closure = e_async_closure_new ();
+	extension_name = e_source_selector_get_extension_name (E_SOURCE_SELECTOR (selector));
 
-	e_client_selector_get_client (
-		selector, source, cancellable,
-		e_async_closure_callback, closure);
+	client_cache = e_client_selector_ref_client_cache (selector);
 
-	result = e_async_closure_wait (closure);
+	client = e_client_cache_get_client_sync (
+		client_cache, source,
+		extension_name, cancellable, error);
 
-	client = e_client_selector_get_client_finish (
-		selector, result, error);
-
-	e_async_closure_free (closure);
+	g_object_unref (client_cache);
 
 	return client;
 }
