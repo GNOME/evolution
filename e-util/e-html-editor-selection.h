@@ -185,7 +185,8 @@ void		e_html_editor_selection_insert_image
 						 const gchar *image_uri);
 void		e_html_editor_selection_move_caret_into_element
 						(WebKitDOMDocument *document,
-						 WebKitDOMElement *element);
+						 WebKitDOMElement *element,
+						 gboolean to_start);
 void 		e_html_editor_selection_clear_caret_position_marker
 						(EHTMLEditorSelection *selection);
 WebKitDOMNode *
