@@ -6084,8 +6084,15 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 				WEBKIT_DOM_NODE (marker),
 				next_sibling,
 				NULL);
-			return;
+		} else {
+			webkit_dom_node_insert_before (
+				node,
+				WEBKIT_DOM_NODE (marker),
+				webkit_dom_node_get_next_sibling (
+					webkit_dom_node_get_parent_node (parent_node)),
+				NULL);
 		}
+		return;
 	}
 
 	if (WEBKIT_DOM_IS_TEXT (container)) {
@@ -6138,8 +6145,14 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 	if (split_node) {
 		parent_node = webkit_dom_node_get_parent_node (split_node);
 
-		webkit_dom_node_insert_before (
-			parent_node, marker_node, split_node, NULL);
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
+			webkit_dom_node_append_child (
+				webkit_dom_node_get_previous_sibling (split_node),
+				marker_node,
+				NULL);
+		} else
+			webkit_dom_node_insert_before (
+				parent_node, marker_node, split_node, NULL);
 	} else
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (container), marker_node, NULL);
