@@ -2213,11 +2213,21 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (tmp_element), node, NULL);
 
-			level = get_citation_level (WEBKIT_DOM_NODE (tmp_element), FALSE);
+			if (element_has_class (tmp_element, "-x-evo-paragraph")) {
+				gint length, word_wrap_length;
+
+				level = get_citation_level (WEBKIT_DOM_NODE (tmp_element), FALSE);
+				word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
+				length =  word_wrap_length - 2 * (level - 1);
+				tmp_element = e_html_editor_selection_wrap_paragraph_length (
+					selection, tmp_element, length);
+				webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
+			}
 			quote_plain_text_element_after_wrapping (
 				document, tmp_element, level);
 			webkit_dom_element_remove_attribute (tmp_element, "id");
 			remove_node (parent);
+
 			goto restore;
 		}
 
@@ -2255,8 +2265,19 @@ body_keyup_event_cb (WebKitDOMElement *element,
 			tmp_element = webkit_dom_element_query_selector (
 				WEBKIT_DOM_ELEMENT (parent), "span.-x-evo-quoted", NULL);
 			if (!tmp_element) {
+
+				if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-paragraph")) {
+					gint length, word_wrap_length;
+
+					word_wrap_length =
+						e_html_editor_selection_get_word_wrap_length (selection);
+					length =  word_wrap_length - 2 * (level - 1);
+					tmp_element = e_html_editor_selection_wrap_paragraph_length (
+						selection, WEBKIT_DOM_ELEMENT (parent), length);
+					webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
+				}
 				quote_plain_text_element_after_wrapping (
-					document, WEBKIT_DOM_ELEMENT (parent), level);
+					document, tmp_element, level);
 				goto restore;
 			}
 		}
@@ -2961,7 +2982,6 @@ fix_structure_after_delete_before_quoted_content (EHTMLEditorView *view)
 	} else {
 		gint level_start, level_end;
 
-		printf ("%s\n", webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (webkit_dom_document_get_body (document))));
 		/* Delete was pressed in block without any content */
 		if (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)))
 			goto restore;
