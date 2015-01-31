@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2014-12-15 10:29+0000\n"
-"PO-Revision-Date: 2014-12-19 00:13+0100\n"
+"POT-Creation-Date: 2015-01-28 05:18+0000\n"
+"PO-Revision-Date: 2015-01-29 21:41+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <>\n"
 "Language: de\n"
@@ -196,7 +196,7 @@ msgstr "_Nicht speichern"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to save {0}."
-msgstr "{0} konnte nicht gespeichert werden."
+msgstr "{0} kann nicht gespeichert werden."
 
 #: ../addressbook/addressbook.error.xml.h:31
 msgid "Error saving {0} to {1}: {2}"
@@ -587,7 +587,7 @@ msgstr "Optionen"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3043
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3044
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -619,7 +619,7 @@ msgstr "A_bbrechen"
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:395
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3044
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3045
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
 #: ../smime/gui/certificate-manager.c:653
@@ -1018,7 +1018,7 @@ msgid "Send a mail message to this address"
 msgstr "Eine Nachricht an diese Adresse senden"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:290
-#: ../e-util/e-web-view.c:996
+#: ../e-util/e-web-view.c:997
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicken Sie hier, um eine E-Mail an %s zu verfassen"
@@ -3130,7 +3130,7 @@ msgstr "_Kopieren"
 #: ../calendar/gui/dialogs/comp-editor.c:1230 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:341
-#: ../e-util/e-web-view.c:1325 ../mail/e-mail-browser.c:135
+#: ../e-util/e-web-view.c:1326 ../mail/e-mail-browser.c:135
 #: ../shell/e-shell-window-actions.c:931
 msgid "Copy the selection"
 msgstr "Die Auswahl kopieren"
@@ -3144,7 +3144,7 @@ msgstr "_Ausschneiden"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1237 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
-#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1319
+#: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1320
 #: ../mail/e-mail-browser.c:142 ../shell/e-shell-window-actions.c:938
 msgid "Cut the selection"
 msgstr "Die Auswahl ausschneiden"
@@ -3168,7 +3168,7 @@ msgstr "_Einfügen"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1258 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
-#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1331
+#: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1332
 #: ../mail/e-mail-browser.c:149 ../shell/e-shell-window-actions.c:966
 msgid "Paste the clipboard"
 msgstr "Den Inhalt der Zwischenablage einfügen"
@@ -4563,7 +4563,7 @@ msgstr "%d. %B %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2233 ../calendar/gui/e-day-view.c:2939
+#: ../calendar/gui/e-calendar-view.c:2233 ../calendar/gui/e-day-view.c:2943
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -4579,7 +4579,7 @@ msgstr "%A, %d. %B %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2259 ../calendar/gui/e-day-view.c:2923
+#: ../calendar/gui/e-calendar-view.c:2259 ../calendar/gui/e-day-view.c:2927
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -4898,14 +4898,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2057 ../calendar/gui/e-week-view.c:1690
+#: ../calendar/gui/e-day-view.c:2061 ../calendar/gui/e-week-view.c:1692
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "AM"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2060 ../calendar/gui/e-week-view.c:1693
+#: ../calendar/gui/e-day-view.c:2064 ../calendar/gui/e-week-view.c:1695
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -4917,13 +4917,13 @@ msgstr "PM"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:2906 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:2910 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2089
 msgid "%A %d %B"
 msgstr "%A, %d. %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3570
+#: ../calendar/gui/e-day-view.c:3574
 #, c-format
 msgid "Week %d"
 msgstr "Woche %d"
@@ -7596,11 +7596,11 @@ msgstr ""
 "Ausgehende Nachricht konnte nicht verschlüsselt werden: Kein "
 "Verschlüsselungszertifikat für dieses Konto festgelegt"
 
-#: ../composer/e-msg-composer.c:1581 ../composer/e-msg-composer.c:2147
+#: ../composer/e-msg-composer.c:1582 ../composer/e-msg-composer.c:2148
 msgid "Compose Message"
 msgstr "Nachricht verfassen"
 
-#: ../composer/e-msg-composer.c:4390
+#: ../composer/e-msg-composer.c:4391
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Der Editor enthält einen nicht-Text-Nachrichtenrumpf, der nicht bearbeitet "
@@ -7789,12 +7789,16 @@ msgstr "Sind Sie sicher, dass Sie die Nachricht senden wollen?"
 
 # Wenn man ein Kürzel verwendet, will man doch eigentlcih nicht gefragt werden, ob man wirklich die Abkürzung nehmen will. So ein Blödsinn.
 #: ../composer/mail-composer.error.xml.h:38
+#| msgid ""
+#| "A keyboard accelerator to send the message had been pressed. Either "
+#| "cancel message send, if it was done by an accident, or send the message."
 msgid ""
-"A keyboard accelerator to send the message had been pressed. Either cancel "
-"message send, if it was done by an accident, or send the message."
+"A keyboard accelerator to send the message has been pressed. Either cancel "
+"sending the message, if it was done by an accident, or send the message."
 msgstr ""
 "Ein Tastenkürzel zum Versenden der Nachricht wurde gedrückt. Falls dies "
-"irrtümlich geschehen ist, brechen Sie ab, oder senden Sie die Nachricht."
+"irrtümlich geschehen ist, brechen Sie den Sendevorgang ab, ansonsten senden "
+"Sie die Nachricht."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -11322,7 +11326,7 @@ msgstr "Geben Sie den zu verwendenden Zeichensatz ein"
 msgid "Other..."
 msgstr "Weitere …"
 
-#: ../e-util/e-client-cache.c:1209
+#: ../e-util/e-client-cache.c:1242
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
 msgstr ""
@@ -12752,8 +12756,9 @@ msgid "_Template:"
 msgstr "_Vorlage:"
 
 #: ../e-util/e-html-editor-page-dialog.c:502
-msgid "Selection a file"
-msgstr "Eine Datei auswählen"
+#: ../e-util/e-import-assistant.c:283
+msgid "Select a file"
+msgstr "Eine Datei wählen"
 
 #: ../e-util/e-html-editor-page-dialog.c:509
 msgid "_Custom:"
@@ -12896,15 +12901,15 @@ msgstr "_Größe:"
 msgid "Text Properties"
 msgstr "Texteigenschaften"
 
-#: ../e-util/e-html-editor-view.c:3149
+#: ../e-util/e-html-editor-view.c:3201
 msgid "Changed property"
 msgstr "Geänderte Eigenschaft"
 
-#: ../e-util/e-html-editor-view.c:3150
+#: ../e-util/e-html-editor-view.c:3202
 msgid "Whether editor changed"
 msgstr "Ob eine Änderung des Editors vorliegt"
 
-#: ../e-util/e-html-editor-view.c:6898
+#: ../e-util/e-html-editor-view.c:6973
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12912,11 +12917,11 @@ msgstr ""
 "Durch Ausschalten des HTML-Modus verliert der Text sämtliche Formatierungen. "
 "Möchten Sie fortsetzen?"
 
-#: ../e-util/e-html-editor-view.c:6902
+#: ../e-util/e-html-editor-view.c:6977
 msgid "_Don't lose formatting"
 msgstr "Formatierung _nicht entfernen"
 
-#: ../e-util/e-html-editor-view.c:6903
+#: ../e-util/e-html-editor-view.c:6978
 msgid "_Lose formatting"
 msgstr "Formatierung _entfernen"
 
@@ -12927,10 +12932,6 @@ msgid ""
 msgstr ""
 "Wählen Sie die Datei, die Sie in Evolution importieren wollen und legen Sie "
 "den Dateitypenanhand der Auswahlliste fest."
-
-#: ../e-util/e-import-assistant.c:283
-msgid "Select a file"
-msgstr "Eine Datei wählen"
 
 #: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
 msgid "File _type:"
@@ -13110,22 +13111,22 @@ msgstr "Verknüpfung konnte nicht geöffnet werden."
 msgid "Could not display help for Evolution."
 msgstr "Hilfe für Evolution konnte nicht angezeigt werden."
 
-#: ../e-util/e-misc-utils.c:2390
+#: ../e-util/e-misc-utils.c:2415
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Kalender »%s« wird geöffnet"
 
-#: ../e-util/e-misc-utils.c:2393
+#: ../e-util/e-misc-utils.c:2418
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Notizliste »%s« wird geöffnet"
 
-#: ../e-util/e-misc-utils.c:2396
+#: ../e-util/e-misc-utils.c:2421
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Aufgabenliste »%s« wird geöffnet"
 
-#: ../e-util/e-misc-utils.c:2399
+#: ../e-util/e-misc-utils.c:2424
 #, c-format
 msgid "Opening address book '%s'"
 msgstr "Adressbuch »%s« wird geöffnet"
@@ -14020,42 +14021,42 @@ msgstr "Bild spe_ichern …"
 msgid "Save the image to a file"
 msgstr "Das Bild in einer Datei speichern"
 
-#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1337
+#: ../e-util/e-web-view.c:351 ../e-util/e-web-view.c:1338
 msgid "Select all text and images"
 msgstr "Den gesamten Text und Bilder in einer Nachricht markieren"
 
-#: ../e-util/e-web-view.c:1001
+#: ../e-util/e-web-view.c:1002
 #, c-format
 msgid "Click to call %s"
 msgstr "Klicken Sie hier, um %s anzurufen"
 
-#: ../e-util/e-web-view.c:1003
+#: ../e-util/e-web-view.c:1004
 msgid "Click to hide/unhide addresses"
 msgstr "Adressen anzeigen/verbergen"
 
-#: ../e-util/e-web-view.c:1014
+#: ../e-util/e-web-view.c:1015
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Zu Abschnitt »%s« in der Nachricht springen"
 
-#: ../e-util/e-web-view.c:1016
+#: ../e-util/e-web-view.c:1017
 msgid "Go to the beginning of the message"
 msgstr "Zum Anfang der aktuellen Zeile springen"
 
-#: ../e-util/e-web-view.c:1020
+#: ../e-util/e-web-view.c:1021
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicken Sie hier, um %s zu öffnen"
 
-#: ../e-util/e-web-view.c:2853
+#: ../e-util/e-web-view.c:2854
 msgid "Copying image to clipboard"
 msgstr "Das Bild wird in die Zwischenablage kopiert"
 
-#: ../e-util/e-web-view.c:3041
+#: ../e-util/e-web-view.c:3042
 msgid "Save Image"
 msgstr "Bild speichern"
 
-#: ../e-util/e-web-view.c:3077
+#: ../e-util/e-web-view.c:3078
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Bild wird als »%s« gespeichert"
@@ -14220,8 +14221,13 @@ msgstr "Zelle"
 msgid "popup a child"
 msgstr "Kind aufklappen"
 
+#. Translators: description of an "edit" action
+#: ../e-util/gal-a11y-e-cell-text.c:617
+msgid "begin editing this cell"
+msgstr "beginnen Sie die Bearbeitung dieser Zelle"
+
 #. Translators: description of a "toggle" action
-#: ../e-util/gal-a11y-e-cell-toggle.c:179
+#: ../e-util/gal-a11y-e-cell-toggle.c:177
 msgid "toggle the cell"
 msgstr "Zelle umschalten"
 
@@ -14445,7 +14451,6 @@ msgstr ""
 
 #: ../libemail-engine/e-mail-session.c:2509
 #, c-format
-#| msgid "Storing folder '%s'"
 msgid "Waiting for '%s'"
 msgstr "Warten auf »%s«"
 
@@ -15156,44 +15161,36 @@ msgstr "Ordner_name:"
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../mail/e-mail-free-form-exp.c:226
-#| msgid "Answered"
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Beantwortet"
 
 #: ../mail/e-mail-free-form-exp.c:227
-#| msgid "Deleted"
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Gelöscht"
 
 #: ../mail/e-mail-free-form-exp.c:228
-#| msgid "Draft"
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Entwurf"
 
 #: ../mail/e-mail-free-form-exp.c:229
-#| msgid "Flagged"
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Markiert"
 
 #: ../mail/e-mail-free-form-exp.c:230
-#| msgid "Seen"
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Gelesen"
 
 #: ../mail/e-mail-free-form-exp.c:231
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Anlage"
 
 #: ../mail/e-mail-free-form-exp.c:479
-#| msgid "now"
 msgctxt "ffe"
 msgid "no"
 msgstr "nein"
@@ -15486,13 +15483,14 @@ msgid "Force images in HTML mail to be loaded"
 msgstr "Laden von Bildern in HTML-E-Mails erzwingen"
 
 #: ../mail/e-mail-reader.c:2108 ../mail/e-mail-reader.c:2486
-msgid "_Ignore Sub-Thread"
+#| msgid "_Ignore Sub-Thread"
+msgid "_Ignore Subthread"
 msgstr "Unterkonversation _ignorieren"
 
 #: ../mail/e-mail-reader.c:2110
-msgid "Mark new mails in a sub-thread as read automatically"
-msgstr ""
-"Neue E-Mails in Unterkonversationen werden automatisch als gelesen markiert"
+#| msgid "Mark new mails in a sub-thread as read automatically"
+msgid "Mark new mails in a subthread as read automatically"
+msgstr "Neue E-Mails in Unterkonversationen automatisch als gelesen markieren"
 
 #: ../mail/e-mail-reader.c:2115 ../mail/e-mail-reader.c:2490
 msgid "_Ignore Thread"
@@ -15536,14 +15534,15 @@ msgid "Mark the selected messages as having been read"
 msgstr "Die gewählten Nachrichten als gelesen markieren"
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2510
-msgid "Do not _Ignore Sub-Thread"
+#| msgid "Do not _Ignore Sub-Thread"
+msgid "Do not _Ignore Subthread"
 msgstr "Unterkonversation nicht _ignorieren"
 
 #: ../mail/e-mail-reader.c:2152
-msgid "Do not mark new mails in a sub-thread as read automatically"
+#| msgid "Do not mark new mails in a sub-thread as read automatically"
+msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
-"Neue E-Mails in dieser Unterkonversation nicht automatisch als gelesen "
-"markieren"
+"Neue E-Mails in Unterkonversationen nicht automatisch als gelesen markieren"
 
 #: ../mail/e-mail-reader.c:2157 ../mail/e-mail-reader.c:2514
 msgid "Do not _Ignore Thread"
@@ -15936,11 +15935,13 @@ msgid "Unmarking thread from being ignored"
 msgstr "Markierung zum Ignorieren der Konversation entfernen"
 
 #: ../mail/e-mail-reader-utils.c:1041
-msgid "Marking sub-thread to be ignored"
-msgstr "Unterkonversation als ignoriert markieren"
+#| msgid "Marking sub-thread to be ignored"
+msgid "Marking subthread to be ignored"
+msgstr "Unterkonversation als »zu ignorieren« markieren"
 
 #: ../mail/e-mail-reader-utils.c:1045
-msgid "Unmarking sub-thread from being ignored"
+#| msgid "Unmarking sub-thread from being ignored"
+msgid "Unmarking subthread from being ignored"
 msgstr "Markierung zum Ignorieren der Unterkonversation entfernen"
 
 #: ../mail/e-mail-reader-utils.c:1280
@@ -17956,23 +17957,30 @@ msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-msgid "Message is not available in offline."
+#| msgid "Message is not available in offline."
+msgid "Message is not available in offline mode."
 msgstr "Nachricht ist nicht im Offline-Modus verfügbar."
 
 #: ../mail/mail.error.xml.h:161
+#| msgid ""
+#| "This can be due to the message not being downloaded yet. The folder, or "
+#| "the account, can be marked for offline synchronization. Then, once the "
+#| "account is online again, use File-&gt;Download Messages for Offline "
+#| "Usage, when this folder is selected, to make sure that all the messages "
+#| "in the folder will be available in offline."
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
 "is online again, use File-&gt;Download Messages for Offline Usage, when this "
 "folder is selected, to make sure that all the messages in the folder will be "
-"available in offline."
+"available in offline mode."
 msgstr ""
 "Möglicherweise ist die Nachricht noch nicht heruntergeladen worden. Der "
 "Ordner oder das Konto kann für die Offline-Synchronisation eingerichtet "
 "werden. Sobald das Konto wieder mit dem Internet verbunden ist, verwenden "
-"Sie Datei-&gt;Nachrichten für Offline-Benutzung herunterladen. Die "
-"Nachrichten in den ausgewählten Ordnern werden nun auch im Offline-Modus zur "
-"Verfügung gestellt."
+"Sie bei ausgewähltem Ordner Datei-&gt;Nachrichten für Offline-Benutzung "
+"herunterladen. So stellen Sie sicher, dass die Nachrichten nun auch im "
+"Offline-Modus zur Verfügung gestellt werden."
 
 #: ../mail/mail.error.xml.h:162
 msgid "Failed to open folder."
@@ -18047,13 +18055,15 @@ msgstr ""
 "ist fehlgeschlagen"
 
 #: ../mail/mail.error.xml.h:179
-msgid "Failed to mark sub-thread to be ignored in folder '{0}'"
+#| msgid "Failed to mark sub-thread to be ignored in folder '{0}'"
+msgid "Failed to mark subthread to be ignored in folder '{0}'"
 msgstr ""
-"Markieren zum Ignorieren der Unterkonversation im Ordner »{0}« ist "
+"Markieren der Unterkonversation als »zu ignorieren« im Ordner »{0}« ist "
 "fehlgeschlagen"
 
 #: ../mail/mail.error.xml.h:180
-msgid "Failed to unmark sub-thread from being ignored in folder '{0}'"
+#| msgid "Failed to unmark sub-thread from being ignored in folder '{0}'"
+msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
 "Entfernen der Markierung zum Ignorieren der Unterkonversation im Ordner "
 "»{0}« ist fehlgeschlagen"
@@ -18151,7 +18161,7 @@ msgstr "Höher"
 msgid "Highest"
 msgstr "Am höchsten"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5969
+#: ../mail/message-list.c:459 ../mail/message-list.c:5971
 msgid "Generating message list"
 msgstr "Nachrichtenliste wird erzeugt"
 
@@ -18190,7 +18200,7 @@ msgstr "Nachrichten"
 msgid "Follow-up"
 msgstr "Folgenachricht"
 
-#: ../mail/message-list.c:5906
+#: ../mail/message-list.c:5908
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18203,7 +18213,7 @@ msgstr ""
 "Löschen mit dem Menüeintrag Suche->Löschen oder durch Ändern der Anfrage "
 "oben."
 
-#: ../mail/message-list.c:5914
+#: ../mail/message-list.c:5916
 msgid "There are no messages in this folder."
 msgstr "Es existieren keine Nachrichten in diesem Ordner."
 
@@ -23857,12 +23867,12 @@ msgid "Failed to import certificate"
 msgstr "Zertifikat konnte nicht importiert werden"
 
 #: ../smime/gui/certificate-manager.c:1117
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "Ask when used"
-msgstr ""
+msgstr "Bei Verwendung nachfragen"
 
 #: ../smime/gui/certificate-manager.c:1119
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nie"
@@ -23888,20 +23898,19 @@ msgid "Temporary"
 msgstr "Vorübergehend"
 
 #: ../smime/gui/certificate-manager.c:1333
-#| msgid "Certificate Authority Trust"
 msgid "Change certificate trust"
 msgstr "Vertrauenswürdigkeit eines Zertifikats ändern"
 
 #: ../smime/gui/certificate-manager.c:1345
 #, c-format
-#| msgid "Copying memos to the memo list '%s'"
 msgid "Change trust for the host '%s':"
 msgstr "Vertrauenswürdigkeit für Rechner »%s« ändern:"
 
 #: ../smime/gui/certificate-manager.c:1369
+#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Ask when used"
-msgstr ""
+msgstr "Bei Verwendung _nachfragen"
 
 #: ../smime/gui/certificate-manager.c:1370
 msgctxt "CamelTrust"
@@ -23909,7 +23918,6 @@ msgid "_Temporary (this session only)"
 msgstr "_Vorübergehend (nur für diese Sitzung)"
 
 #: ../smime/gui/certificate-manager.c:1371
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "_Never"
 msgstr "_Nie"
@@ -23920,7 +23928,6 @@ msgid "_Marginal"
 msgstr "_Geringfügig"
 
 #: ../smime/gui/certificate-manager.c:1373
-#| msgid "_Full name"
 msgctxt "CamelTrust"
 msgid "_Fully"
 msgstr "_Vollkommen"
@@ -23932,9 +23939,6 @@ msgstr "_Uneingeschränkt"
 
 # CHECK
 #: ../smime/gui/certificate-manager.c:1378
-#| msgid ""
-#| "Before trusting this CA for any purpose, you should examine its "
-#| "certificate and its policy and procedures (if available)."
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -23943,27 +23947,22 @@ msgstr ""
 "Zertifikat und seine Verfahrensweisen genau kontrollieren (falls möglich)."
 
 #: ../smime/gui/certificate-manager.c:1393
-#| msgid "_View Certificate"
 msgid "_Display certificate"
 msgstr "_Zertifikat anzeigen"
 
 #: ../smime/gui/certificate-manager.c:1598
-#| msgid "You have certificates on file that identify these people:"
 msgid "You have certificates on file that identify these mail servers:"
 msgstr "Sie besitzen Zertifikate, die folgende E-Mail-Server identifizieren:"
 
 #: ../smime/gui/certificate-manager.c:1629
-#| msgid "_List name:"
 msgid "Host name"
 msgstr "Rechnername"
 
 #: ../smime/gui/certificate-manager.c:1631
-#| msgid "Issued"
 msgid "Issuer"
 msgstr "Aussteller"
 
 #: ../smime/gui/certificate-manager.c:1632
-#| msgid "Fingerprints"
 msgid "Fingerprint"
 msgstr "Fingerabdruck"
 
@@ -23972,7 +23971,6 @@ msgid "Trust"
 msgstr "Vertrauenswürdigkeit"
 
 #: ../smime/gui/certificate-manager.c:1654
-#| msgid "_Edit CA Trust"
 msgid "_Edit Trust"
 msgstr "Vertrauenswürdigkeit _bearbeiten"
 
@@ -24250,6 +24248,9 @@ msgstr "Mit _Fälligkeitsdatum"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Mit _Status"
+
+#~ msgid "Selection a file"
+#~ msgstr "Eine Datei auswählen"
 
 #~ msgid "Web addresses"
 #~ msgstr "Web-Adressen"
