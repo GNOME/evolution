@@ -636,7 +636,8 @@ exit:
 	g_object_unref (shell);
 
 	if (e_shell_get_default () != NULL) {
-		g_warning ("Shell not finalized on exit");
+		/* Mute the warning, due to https://bugzilla.gnome.org/show_bug.cgi?id=737949
+		g_warning ("Shell not finalized on exit"); */
 
 		/* To not run in the safe mode the next start */
 		if (e_file_lock_get_pid () == getpid ())
