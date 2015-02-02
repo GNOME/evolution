@@ -997,7 +997,7 @@ e_mail_formatter_format_as (EMailFormatter *formatter,
 
 	d (
 		printf ("(%d) Formatting for part %s of type %s (found %d formatters)\n",
-		_call_i, part->id, as_mime_type,
+		_call_i, e_mail_part_get_id (part), as_mime_type,
 		formatters ? g_queue_get_length (formatters) : 0));
 
 	if (formatters != NULL) {
