@@ -133,7 +133,7 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	 * after the message and cite it in EHTMLEditorView because of reasons
 	 * mentioned above */
 	if (qf->priv->flags & E_MAIL_FORMATTER_QUOTE_FLAG_CITE) {
-		string = "<span class=\"-x-evo-cite-body\"><span>";
+		string = "<span class=\"-x-evo-cite-body\"></span>";
 		g_output_stream_write_all (
 			stream, string, strlen (string), NULL, cancellable, NULL);
 	}
