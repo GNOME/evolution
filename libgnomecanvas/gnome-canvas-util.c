@@ -34,8 +34,8 @@
 #endif
 
 /* needed for M_PI_2 under 'gcc -ansi -predantic' on GNU/Linux */
-#ifndef _BSD_SOURCE
-#  define _BSD_SOURCE 1
+#ifndef _DEFAULT_SOURCE
+#  define _DEFAULT_SOURCE 1
 #endif
 #include <sys/types.h>
 
