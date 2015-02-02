@@ -8391,7 +8391,7 @@ e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
 	gchar *mime_type = NULL;
 	gchar *element_src, *cid, *name;
 	const gchar *base64_encoded_data;
-	guchar *base64_decoded_data;
+	guchar *base64_decoded_data = NULL;
 
 	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
 		return NULL;
