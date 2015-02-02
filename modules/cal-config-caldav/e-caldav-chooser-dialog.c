@@ -42,6 +42,10 @@ static void	caldav_chooser_dialog_populated_cb
 						(GObject *source_object,
 						 GAsyncResult *result,
 						 gpointer user_data);
+static void	caldav_chooser_dialog_credentials_prompt_cb
+						(GObject *source_object,
+						 GAsyncResult *result,
+						 gpointer user_data);
 
 G_DEFINE_DYNAMIC_TYPE (
 	ECaldavChooserDialog,
@@ -67,40 +71,124 @@ caldav_chooser_dialog_done (ECaldavChooserDialog *dialog,
 	}
 }
 
+/* It's a little weird to have the callback called on the #ESource,
+   but it's simpler than writing a proxy around the e-trust-prompt
+   async call, which would be unnecessary anyway. */
 static void
-caldav_chooser_dialog_authenticate_cb (GObject *source_object,
-                                       GAsyncResult *result,
-                                       gpointer user_data)
+caldav_chooser_dialog_trust_prompt_done_cb (GObject *source_object,
+					    GAsyncResult *result,
+					    gpointer user_data)
 {
-	ESourceRegistry *registry;
 	ECaldavChooserDialog *dialog;
 	ECaldavChooser *chooser;
+	ETrustPromptResponse response = E_TRUST_PROMPT_RESPONSE_UNKNOWN;
 	GError *error = NULL;
 
-	registry = E_SOURCE_REGISTRY (source_object);
-	dialog = E_CALDAV_CHOOSER_DIALOG (user_data);
+	g_return_if_fail (E_IS_SOURCE (source_object));
+	g_return_if_fail (E_IS_CALDAV_CHOOSER_DIALOG (user_data));
 
+	dialog = E_CALDAV_CHOOSER_DIALOG (user_data);
 	chooser = e_caldav_chooser_dialog_get_chooser (dialog);
 
-	e_source_registry_authenticate_finish (registry, result, &error);
-
-	/* Ignore cancellations, and leave the mouse cursor alone
-	 * since the GdkWindow may have already been destroyed. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		/* do nothing */
-
-	/* Successful authentication, so try populating again. */
-	} else if (error == NULL) {
+	if (!e_trust_prompt_run_for_source_finish (E_SOURCE (source_object), result, &response, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			/* close also the dialog */
+			gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		} else {
+			caldav_chooser_dialog_done (dialog, error);
+		}
+	} else if (response == E_TRUST_PROMPT_RESPONSE_ACCEPT ||
+		   response == E_TRUST_PROMPT_RESPONSE_ACCEPT_TEMPORARILY) {
 		e_caldav_chooser_populate (
 			chooser, dialog->priv->cancellable,
 			caldav_chooser_dialog_populated_cb,
 			g_object_ref (dialog));
-
-	/* Still not working?  Give up and display an error message. */
 	} else {
+		g_warn_if_fail (error == NULL);
+
+		error = e_caldav_chooser_new_ssl_trust_error (chooser);
+
 		caldav_chooser_dialog_done (dialog, error);
 	}
 
+	g_clear_error (&error);
+	g_object_unref (dialog);
+}
+
+static void
+caldav_chooser_dialog_authenticate_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	ECaldavChooserDialog *dialog = user_data;
+	ECaldavChooser *chooser;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CALDAV_CHOOSER (source_object));
+
+	chooser = E_CALDAV_CHOOSER (source_object);
+
+	if (!e_caldav_chooser_authenticate_finish (chooser, result, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			/* close also the dialog */
+			gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		} else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
+			e_caldav_chooser_run_credentials_prompt (
+				chooser,
+				caldav_chooser_dialog_credentials_prompt_cb,
+				g_object_ref (dialog));
+
+		} else if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED)) {
+			e_caldav_chooser_run_trust_prompt (chooser, GTK_WINDOW (dialog),
+				dialog->priv->cancellable,
+				caldav_chooser_dialog_trust_prompt_done_cb,
+				g_object_ref (dialog));
+
+		/* We were either successful or got an unexpected error. */
+		} else {
+			caldav_chooser_dialog_done (dialog, error);
+		}
+	} else {
+		g_warn_if_fail (error == NULL);
+
+		e_caldav_chooser_populate (
+			chooser, dialog->priv->cancellable,
+			caldav_chooser_dialog_populated_cb,
+			g_object_ref (dialog));
+	}
+
+	g_clear_error (&error);
+	g_object_unref (dialog);
+}
+
+static void
+caldav_chooser_dialog_credentials_prompt_cb (GObject *source_object,
+					     GAsyncResult *result,
+					     gpointer user_data)
+{
+	ECaldavChooser *chooser;
+	ECaldavChooserDialog *dialog = user_data;
+	ENamedParameters *credentials = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CREDENTIALS_PROMPTER (source_object));
+
+	chooser = e_caldav_chooser_dialog_get_chooser (dialog);
+	g_return_if_fail (chooser != NULL);
+
+	if (!e_caldav_chooser_run_credentials_prompt_finish (chooser, result, &credentials, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			/* close also the dialog */
+			gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		} else {
+			caldav_chooser_dialog_done (dialog, error);
+		}
+	} else {
+		e_caldav_chooser_authenticate (chooser, credentials, dialog->priv->cancellable,
+			caldav_chooser_dialog_authenticate_cb, g_object_ref (dialog));
+	}
+
+	e_named_parameters_free (credentials);
 	g_clear_error (&error);
 	g_object_unref (dialog);
 }
@@ -129,17 +217,15 @@ caldav_chooser_dialog_populated_cb (GObject *source_object,
 	 * round-trip to the server, but we don't want to risk prompting
 	 * for authentication unnecessarily. */
 	} else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
-		ESourceRegistry *registry;
-		ESource *source;
+		e_caldav_chooser_run_credentials_prompt (
+			chooser,
+			caldav_chooser_dialog_credentials_prompt_cb,
+			g_object_ref (dialog));
 
-		registry = e_caldav_chooser_get_registry (chooser);
-		source = e_caldav_chooser_get_source (chooser);
-
-		e_source_registry_authenticate (
-			registry, source,
-			E_SOURCE_AUTHENTICATOR (chooser),
+	} else if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED)) {
+		e_caldav_chooser_run_trust_prompt (chooser, GTK_WINDOW (dialog),
 			dialog->priv->cancellable,
-			caldav_chooser_dialog_authenticate_cb,
+			caldav_chooser_dialog_trust_prompt_done_cb,
 			g_object_ref (dialog));
 
 	/* We were either successful or got an unexpected error. */

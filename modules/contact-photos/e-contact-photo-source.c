@@ -326,7 +326,7 @@ contact_photo_source_get_photo (EPhotoSource *photo_source,
 		 * a main loop so signal emissions can work. */
 		e_client_cache_get_client (
 			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			cancellable,
 			contact_photo_source_get_client_cb,
 			g_object_ref (simple));

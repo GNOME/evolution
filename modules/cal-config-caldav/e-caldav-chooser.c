@@ -27,6 +27,7 @@
 #include <libxml/xpathInternals.h>
 
 #include <e-util/e-util.h>
+#include <libedataserverui/libedataserverui.h>
 
 #define E_CALDAV_CHOOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -46,11 +47,17 @@ typedef struct _Context Context;
 
 struct _ECaldavChooserPrivate {
 	ESourceRegistry *registry;
+	ECredentialsPrompter *prompter;
 	ESource *source;
 	ECalClientSourceType source_type;
 	SoupSession *session;
 	GList *user_address_set;
+	gchar *username;
 	gchar *password;
+	gchar *certificate_pem;
+	GTlsCertificateFlags certificate_errors;
+	gchar *error_text;
+	gboolean first_auth_request;
 };
 
 struct _Context {
@@ -94,8 +101,6 @@ enum {
 };
 
 /* Forward Declarations */
-static void	e_caldav_chooser_authenticator_init
-				(ESourceAuthenticatorInterface *iface);
 static void	caldav_chooser_get_collection_details
 				(SoupSession *session,
 				 SoupMessage *message,
@@ -103,14 +108,7 @@ static void	caldav_chooser_get_collection_details
 				 GSimpleAsyncResult *simple,
 				 Context *context);
 
-G_DEFINE_DYNAMIC_TYPE_EXTENDED (
-	ECaldavChooser,
-	e_caldav_chooser,
-	GTK_TYPE_TREE_VIEW,
-	0,
-	G_IMPLEMENT_INTERFACE_DYNAMIC (
-		E_TYPE_SOURCE_AUTHENTICATOR,
-		e_caldav_chooser_authenticator_init))
+G_DEFINE_DYNAMIC_TYPE (ECaldavChooser, e_caldav_chooser, GTK_TYPE_TREE_VIEW)
 
 static gconstpointer
 compat_libxml_output_buffer_get_content (xmlOutputBufferPtr buf,
@@ -316,30 +314,26 @@ caldav_chooser_authenticate_cb (SoupSession *session,
 {
 	ESource *source;
 	ESourceAuthentication *extension;
-	const gchar *extension_name;
-	const gchar *username;
-	const gchar *password;
 
 	source = e_caldav_chooser_get_source (chooser);
-	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
-	extension = e_source_get_extension (source, extension_name);
-
-	username = e_source_authentication_get_user (extension);
-	password = chooser->priv->password;
+	extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
 
 	/* If our password was rejected, let the operation fail. */
 	if (retrying)
 		return;
 
+	if (!chooser->priv->username)
+		chooser->priv->username = e_source_authentication_dup_user (extension);
+
 	/* If we don't have a username, let the operation fail. */
-	if (username == NULL || *username == '\0')
+	if (chooser->priv->username == NULL || *chooser->priv->username == '\0')
 		return;
 
 	/* If we don't have a password, let the operation fail. */
-	if (password == NULL || *password == '\0')
+	if (chooser->priv->password == NULL || *chooser->priv->password == '\0')
 		return;
 
-	soup_auth_authenticate (auth, username, password);
+	soup_auth_authenticate (auth, chooser->priv->username, chooser->priv->password);
 }
 
 static void
@@ -369,10 +363,14 @@ caldav_chooser_configure_session (ECaldavChooser *chooser,
 }
 
 static gboolean
-caldav_chooser_check_successful (SoupMessage *message,
+caldav_chooser_check_successful (ECaldavChooser *chooser,
+				 SoupMessage *message,
                                  GError **error)
 {
 	GIOErrorEnum error_code;
+	GTlsCertificate *certificate = NULL;
+
+	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), FALSE);
 
 	/* Loosely copied from the GVFS DAV backend. */
 
@@ -403,6 +401,26 @@ caldav_chooser_check_successful (SoupMessage *message,
 		case SOUP_STATUS_INSUFFICIENT_STORAGE:
 			error_code = G_IO_ERROR_NO_SPACE;
 			break;
+		case SOUP_STATUS_SSL_FAILED:
+			g_free (chooser->priv->certificate_pem);
+			chooser->priv->certificate_pem = NULL;
+
+			g_object_get (G_OBJECT (message),
+				"tls-certificate", &certificate,
+				"tls-errors", &chooser->priv->certificate_errors,
+				NULL);
+			if (certificate) {
+				g_object_get (certificate, "certificate-pem", &chooser->priv->certificate_pem, NULL);
+				g_object_unref (certificate);
+			}
+
+			g_free (chooser->priv->error_text);
+			chooser->priv->error_text = g_strdup (message->reason_phrase);
+
+			g_set_error (
+				error, SOUP_HTTP_ERROR, message->status_code,
+				_("HTTP Error: %s"), message->reason_phrase);
+			return FALSE;
 		default:
 			error_code = G_IO_ERROR_FAILED;
 			break;
@@ -416,14 +434,15 @@ caldav_chooser_check_successful (SoupMessage *message,
 }
 
 static xmlDocPtr
-caldav_chooser_parse_xml (SoupMessage *message,
+caldav_chooser_parse_xml (ECaldavChooser *chooser,
+			  SoupMessage *message,
                           const gchar *expected_name,
                           GError **error)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
 
-	if (!caldav_chooser_check_successful (message, error))
+	if (!caldav_chooser_check_successful (chooser, message, error))
 		return NULL;
 
 	doc = xmlReadMemory (
@@ -828,9 +847,14 @@ caldav_chooser_collection_details_cb (SoupSession *session,
 	xmlDocPtr doc;
 	xmlXPathContextPtr xp_ctx;
 	xmlXPathObjectPtr xp_obj;
+	GObject *chooser_obj;
 	GError *error = NULL;
 
-	doc = caldav_chooser_parse_xml (message, "multistatus", &error);
+	chooser_obj = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
+
+	doc = caldav_chooser_parse_xml (E_CALDAV_CHOOSER (chooser_obj), message, "multistatus", &error);
+
+	g_clear_object (&chooser_obj);
 
 	if (error != NULL) {
 		g_warn_if_fail (doc == NULL);
@@ -910,7 +934,7 @@ caldav_chooser_get_collection_details (SoupSession *session,
 		NS_ICAL,   XC ("calendar-color"),
 		NULL);
 
-	e_soup_ssl_trust_connect (message, context->source, context->registry, context->cancellable);
+	e_soup_ssl_trust_connect (message, context->source);
 
 	/* This takes ownership of the message. */
 	soup_session_queue_message (
@@ -931,11 +955,15 @@ caldav_chooser_calendar_home_set_cb (SoupSession *session,
 	xmlXPathContextPtr xp_ctx;
 	xmlXPathObjectPtr xp_obj;
 	gchar *calendar_home_set;
+	GObject *chooser_obj;
 	GError *error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
+	chooser_obj = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
 
-	doc = caldav_chooser_parse_xml (message, "multistatus", &error);
+	doc = caldav_chooser_parse_xml (E_CALDAV_CHOOSER (chooser_obj), message, "multistatus", &error);
+
+	g_clear_object (&chooser_obj);
 
 	/* If we were cancelled then we're in a GCancellable::cancelled
 	 * signal handler right now and GCancellable has its mutex locked,
@@ -1096,7 +1124,7 @@ retry_propfind:
 		NS_CALDAV, XC ("calendar-user-address-set"),
 		NULL);
 
-	e_soup_ssl_trust_connect (message, context->source, context->registry, context->cancellable);
+	e_soup_ssl_trust_connect (message, context->source);
 
 	/* This takes ownership of the message. */
 	soup_session_queue_message (
@@ -1200,20 +1228,10 @@ caldav_chooser_dispose (GObject *object)
 
 	priv = E_CALDAV_CHOOSER_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
-
-	if (priv->source != NULL) {
-		g_object_unref (priv->source);
-		priv->source = NULL;
-	}
-
-	if (priv->session != NULL) {
-		g_object_unref (priv->session);
-		priv->session = NULL;
-	}
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->prompter);
+	g_clear_object (&priv->source);
+	g_clear_object (&priv->session);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_caldav_chooser_parent_class)->dispose (object);
@@ -1230,7 +1248,10 @@ caldav_chooser_finalize (GObject *object)
 		priv->user_address_set,
 		(GDestroyNotify) g_free);
 
+	g_free (priv->username);
 	g_free (priv->password);
+	g_free (priv->certificate_pem);
+	g_free (priv->error_text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_caldav_chooser_parent_class)->finalize (object);
@@ -1253,6 +1274,9 @@ caldav_chooser_constructed (GObject *object)
 	session = soup_session_new ();
 	caldav_chooser_configure_session (chooser, session);
 	chooser->priv->session = session;
+
+	chooser->priv->prompter = e_credentials_prompter_new (chooser->priv->registry);
+	e_credentials_prompter_set_auto_prompt (chooser->priv->prompter, FALSE);
 
 	tree_view = GTK_TREE_VIEW (object);
 
@@ -1308,12 +1332,11 @@ caldav_chooser_try_password_cancelled_cb (GCancellable *cancellable,
 }
 
 static ESourceAuthenticationResult
-caldav_chooser_try_password_sync (ESourceAuthenticator *auth,
-                                  const GString *password,
+caldav_chooser_try_password_sync (ECaldavChooser *chooser,
+                                  const ENamedParameters *credentials,
                                   GCancellable *cancellable,
                                   GError **error)
 {
-	ECaldavChooser *chooser;
 	ESourceAuthenticationResult result;
 	SoupMessage *message;
 	SoupSession *session;
@@ -1324,21 +1347,34 @@ caldav_chooser_try_password_sync (ESourceAuthenticator *auth,
 	gulong cancel_id = 0;
 	GError *local_error = NULL;
 
-	chooser = E_CALDAV_CHOOSER (auth);
+	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), E_SOURCE_AUTHENTICATION_ERROR);
+	g_return_val_if_fail (credentials != NULL, E_SOURCE_AUTHENTICATION_ERROR);
+
+	source = e_caldav_chooser_get_source (chooser);
+	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
+	extension = e_source_get_extension (source, extension_name);
 
 	/* Cache the password for later use in our
 	 * SoupSession::authenticate signal handler. */
+	g_free (chooser->priv->username);
+	chooser->priv->username = g_strdup (e_named_parameters_get (credentials, E_SOURCE_CREDENTIAL_USERNAME));
+
 	g_free (chooser->priv->password);
-	chooser->priv->password = g_strdup (password->str);
+	chooser->priv->password = g_strdup (e_named_parameters_get (credentials, E_SOURCE_CREDENTIAL_PASSWORD));
+
+	if (e_named_parameters_get (credentials, E_SOURCE_CREDENTIAL_SSL_TRUST))
+		e_source_webdav_set_ssl_trust (extension, e_named_parameters_get (credentials, E_SOURCE_CREDENTIAL_SSL_TRUST));
+
+	g_free (chooser->priv->certificate_pem);
+	chooser->priv->certificate_pem = NULL;
+	chooser->priv->certificate_errors = 0;
+	g_free (chooser->priv->error_text);
+	chooser->priv->error_text = NULL;
 
 	/* Create our own SoupSession so we
 	 * can try the password synchronously. */
 	session = soup_session_new ();
 	caldav_chooser_configure_session (chooser, session);
-
-	source = e_caldav_chooser_get_source (chooser);
-	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
-	extension = e_source_get_extension (source, extension_name);
 
 	soup_uri = e_source_webdav_dup_soup_uri (extension);
 	g_return_val_if_fail (soup_uri != NULL, E_SOURCE_AUTHENTICATION_ERROR);
@@ -1357,19 +1393,22 @@ caldav_chooser_try_password_sync (ESourceAuthenticator *auth,
 			g_object_ref (session),
 			(GDestroyNotify) g_object_unref);
 
-	e_soup_ssl_trust_connect (message, source, chooser->priv->registry, cancellable);
+	e_soup_ssl_trust_connect (message, source);
 
 	soup_session_send_message (session, message);
 
 	if (cancel_id > 0)
 		g_cancellable_disconnect (cancellable, cancel_id);
 
-	if (caldav_chooser_check_successful (message, &local_error)) {
+	if (caldav_chooser_check_successful (chooser, message, &local_error)) {
 		result = E_SOURCE_AUTHENTICATION_ACCEPTED;
 
 	} else if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
 		result = E_SOURCE_AUTHENTICATION_REJECTED;
-		g_clear_error (&local_error);
+		/* Return also the error here. */
+
+	} else if (g_error_matches (local_error, SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED)) {
+		result = E_SOURCE_AUTHENTICATION_ERROR_SSL_FAILED;
 
 	} else {
 		result = E_SOURCE_AUTHENTICATION_ERROR;
@@ -1441,15 +1480,10 @@ e_caldav_chooser_class_finalize (ECaldavChooserClass *class)
 }
 
 static void
-e_caldav_chooser_authenticator_init (ESourceAuthenticatorInterface *iface)
-{
-	iface->try_password_sync = caldav_chooser_try_password_sync;
-}
-
-static void
 e_caldav_chooser_init (ECaldavChooser *chooser)
 {
 	chooser->priv = E_CALDAV_CHOOSER_GET_PRIVATE (chooser);
+	chooser->priv->first_auth_request = TRUE;
 }
 
 void
@@ -1471,7 +1505,8 @@ e_caldav_chooser_new (ESourceRegistry *registry,
 
 	return g_object_new (
 		E_TYPE_CALDAV_CHOOSER,
-		"registry", registry, "source", source,
+		"registry", registry,
+		"source", source,
 		"source-type", source_type, NULL);
 }
 
@@ -1481,6 +1516,14 @@ e_caldav_chooser_get_registry (ECaldavChooser *chooser)
 	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), NULL);
 
 	return chooser->priv->registry;
+}
+
+ECredentialsPrompter *
+e_caldav_chooser_get_prompter (ECaldavChooser *chooser)
+{
+	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), NULL);
+
+	return chooser->priv->prompter;
 }
 
 ESource *
@@ -1545,7 +1588,7 @@ e_caldav_chooser_populate (ECaldavChooser *chooser,
 		NS_WEBDAV, XC ("principal-URL"),
 		NULL);
 
-	e_soup_ssl_trust_connect (message, source, context->registry, context->cancellable);
+	e_soup_ssl_trust_connect (message, source);
 
 	/* This takes ownership of the message. */
 	soup_session_queue_message (
@@ -1675,3 +1718,131 @@ e_caldav_chooser_apply_selected (ECaldavChooser *chooser)
 	return TRUE;
 }
 
+void
+e_caldav_chooser_run_trust_prompt (ECaldavChooser *chooser,
+				   GtkWindow *parent,
+				   GCancellable *cancellable,
+				   GAsyncReadyCallback callback,
+				   gpointer user_data)
+{
+	g_return_if_fail (E_IS_CALDAV_CHOOSER (chooser));
+
+	e_trust_prompt_run_for_source (parent,
+		chooser->priv->source,
+		chooser->priv->certificate_pem,
+		chooser->priv->certificate_errors,
+		chooser->priv->error_text,
+		FALSE,
+		cancellable,
+		callback,
+		user_data);
+}
+
+/* Free returned pointer with g_error_free() or g_clear_error() */
+GError *
+e_caldav_chooser_new_ssl_trust_error (ECaldavChooser *chooser)
+{
+	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), NULL);
+	g_return_val_if_fail (chooser->priv->error_text != NULL, NULL);
+
+	return g_error_new_literal (SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED, chooser->priv->error_text);
+}
+
+/* The callback has an ECredentialsPrompter as the source_object. */
+void
+e_caldav_chooser_run_credentials_prompt (ECaldavChooser *chooser,
+					 GAsyncReadyCallback callback,
+					 gpointer user_data)
+{
+	g_return_if_fail (E_IS_CALDAV_CHOOSER (chooser));
+	g_return_if_fail (callback != NULL);
+
+	e_credentials_prompter_prompt (chooser->priv->prompter, chooser->priv->source, chooser->priv->error_text,
+		chooser->priv->first_auth_request ? E_CREDENTIALS_PROMPTER_PROMPT_FLAG_ALLOW_STORED_CREDENTIALS : 0,
+		callback, user_data);
+
+	chooser->priv->first_auth_request = FALSE;
+}
+
+gboolean
+e_caldav_chooser_run_credentials_prompt_finish (ECaldavChooser *chooser,
+						GAsyncResult *result,
+						ENamedParameters **out_credentials,
+						GError **error)
+{
+	ESource *source = NULL;
+
+	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (out_credentials != NULL, FALSE);
+
+	if (!e_credentials_prompter_prompt_finish (chooser->priv->prompter, result,
+		&source, out_credentials, error))
+		return FALSE;
+
+	g_return_val_if_fail (source == chooser->priv->source, FALSE);
+
+	return TRUE;
+}
+
+static void
+e_caldav_chooser_authenticate_thread (GTask *task,
+				      gpointer source_object,
+				      gpointer task_data,
+				      GCancellable *cancellable)
+{
+	ECaldavChooser *chooser = source_object;
+	const ENamedParameters *credentials = task_data;
+	gboolean success;
+	GError *local_error = NULL;
+
+	if (caldav_chooser_try_password_sync (chooser, credentials, cancellable, &local_error)
+	    != E_SOURCE_AUTHENTICATION_ACCEPTED && !local_error) {
+		local_error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Unknown error"));
+	}
+
+	if (local_error != NULL) {
+		g_task_return_error (task, local_error);
+	} else {
+		g_task_return_boolean (task, success);
+	}
+}
+
+void
+e_caldav_chooser_authenticate (ECaldavChooser *chooser,
+			       const ENamedParameters *credentials,
+			       GCancellable *cancellable,
+			       GAsyncReadyCallback callback,
+			       gpointer user_data)
+{
+	ENamedParameters *credentials_copy;
+	GTask *task;
+
+	g_return_if_fail (E_IS_CALDAV_CHOOSER (chooser));
+	g_return_if_fail (credentials != NULL);
+	g_return_if_fail (callback != NULL);
+
+	credentials_copy = e_named_parameters_new_clone (credentials);
+
+	task = g_task_new (chooser, cancellable, callback, user_data);
+	g_task_set_source_tag (task, e_caldav_chooser_authenticate);
+	g_task_set_task_data (task, credentials_copy, (GDestroyNotify) e_named_parameters_free);
+
+	g_task_run_in_thread (task, e_caldav_chooser_authenticate_thread);
+
+	g_object_unref (task);
+}
+
+gboolean
+e_caldav_chooser_authenticate_finish (ECaldavChooser *chooser,
+				      GAsyncResult *result,
+				      GError **error)
+{
+	g_return_val_if_fail (E_IS_CALDAV_CHOOSER (chooser), FALSE);
+	g_return_val_if_fail (g_task_is_valid (result, chooser), FALSE);
+
+	g_return_val_if_fail (
+		g_async_result_is_tagged (
+		result, e_caldav_chooser_authenticate), FALSE);
+
+	return g_task_propagate_boolean (G_TASK (result), error);
+}

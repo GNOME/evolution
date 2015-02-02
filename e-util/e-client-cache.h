@@ -76,9 +76,10 @@ struct _EClientCacheClass {
 						 GParamSpec *pspec);
 	void		(*client_created)	(EClientCache *client_cache,
 						 EClient *client);
-	/* Do not break ABI right now
 	void		(*client_connected)	(EClientCache *client_cache,
-						 EClient *client); */
+						 EClient *client);
+	void		(*allow_auth_prompt)	(EClientCache *client_cache,
+						 ESource *source);
 };
 
 GType		e_client_cache_get_type		(void) G_GNUC_CONST;
@@ -88,11 +89,13 @@ ESourceRegistry *
 EClient *	e_client_cache_get_client_sync	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name,
+						 guint32 wait_for_connected_seconds,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_client_cache_get_client	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name,
+						 guint32 wait_for_connected_seconds,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
@@ -107,6 +110,9 @@ EClient *	e_client_cache_ref_cached_client
 gboolean	e_client_cache_is_backend_dead	(EClientCache *client_cache,
 						 ESource *source,
 						 const gchar *extension_name);
+void		e_client_cache_emit_allow_auth_prompt
+						(EClientCache *client_cache,
+						 ESource *source);
 
 G_END_DECLS
 

@@ -199,7 +199,7 @@ e_name_selector_load_books (ENameSelector *name_selector)
 		 *       concurrent operations like this. */
 		e_client_cache_get_client (
 			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			name_selector->priv->cancellable,
 			name_selector_get_client_cb,
 			g_object_ref (name_selector));

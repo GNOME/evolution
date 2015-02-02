@@ -127,7 +127,7 @@ save_vcard_cb (WebKitDOMEventTarget *button,
 		(GCopyFunc) g_object_ref, NULL);
 
 	e_book_client_connect (
-		source, NULL, client_connect_cb, contact_list);
+		source, 30, NULL, client_connect_cb, contact_list);
 }
 
 static void

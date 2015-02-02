@@ -79,6 +79,13 @@ cal_config_caldav_context_free (Context *context)
 	g_slice_free (Context, context);
 }
 
+static GtkWindow *
+caldav_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
+				    GtkWindow *dialog)
+{
+	return dialog;
+}
+
 static void
 cal_config_caldav_run_dialog (GtkButton *button,
                               Context *context)
@@ -86,9 +93,11 @@ cal_config_caldav_run_dialog (GtkButton *button,
 	ESourceConfig *config;
 	ESourceRegistry *registry;
 	ECalClientSourceType source_type;
+	ECredentialsPrompter *prompter;
 	GtkWidget *dialog;
 	GtkWidget *widget;
 	gpointer parent;
+	gulong handler_id;
 
 	config = e_source_config_backend_get_config (context->backend);
 	registry = e_source_config_get_registry (config);
@@ -111,7 +120,14 @@ cal_config_caldav_run_dialog (GtkButton *button,
 			dialog, "icon-name",
 			G_BINDING_SYNC_CREATE);
 
+	prompter = e_caldav_chooser_get_prompter (E_CALDAV_CHOOSER (widget));
+
+	handler_id = g_signal_connect (prompter, "get-dialog-parent",
+		G_CALLBACK (caldav_config_get_dialog_parent_cb), dialog);
+
 	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	g_signal_handler_disconnect (prompter, handler_id);
 
 	gtk_widget_destroy (dialog);
 }

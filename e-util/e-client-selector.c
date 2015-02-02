@@ -516,6 +516,7 @@ e_client_selector_ref_client_cache (EClientSelector *selector)
  * @selector: an #ESourceSelector
  * @source: an #ESource
  * @call_allow_auth_prompt: whether call allow-auth-prompt on the source first
+ * @wait_for_connected_seconds: timeout, in seconds, to wait for the backend to be fully connected
  * @cancellable: optional #GCancellable object, or %NULL
  * @error: return location for a #GError, or %NULL
  *
@@ -531,6 +532,15 @@ e_client_selector_ref_client_cache (EClientSelector *selector)
  * "piggyback" on the in-progress request such that they will both succeed
  * or fail simultaneously.
  *
+ * The @wait_for_connected_seconds argument had been added since 3.14,
+ * to let the caller decide how long to wait for the backend to fully
+ * connect to its (possibly remote) data store. This is required due
+ * to a change in the authentication process, which is fully asynchronous
+ * and done on the client side, while not every client is supposed to
+ * response to authentication requests. In case the backend will not connect
+ * within the set interval, then it is opened in an offline mode. A special
+ * value -1 can be used to not wait for the connected state at all.
+ *
  * Unreference the returned #EClient with g_object_unref() when finished
  * with it.  If an error occurs, the function will set @error and return
  * %NULL.
@@ -541,6 +551,7 @@ EClient *
 e_client_selector_get_client_sync (EClientSelector *selector,
                                    ESource *source,
 				   gboolean call_allow_auth_prompt,
+				   guint32 wait_for_connected_seconds,
                                    GCancellable *cancellable,
                                    GError **error)
 {
@@ -551,18 +562,16 @@ e_client_selector_get_client_sync (EClientSelector *selector,
 	g_return_val_if_fail (E_IS_CLIENT_SELECTOR (selector), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
-	if (call_allow_auth_prompt) {
-		if (!e_source_allow_auth_prompt_sync (source, cancellable, error))
-			return NULL;
-	}
-
 	extension_name = e_source_selector_get_extension_name (E_SOURCE_SELECTOR (selector));
 
 	client_cache = e_client_selector_ref_client_cache (selector);
 
+	if (call_allow_auth_prompt)
+		e_client_cache_emit_allow_auth_prompt (client_cache, source);
+
 	client = e_client_cache_get_client_sync (
 		client_cache, source,
-		extension_name, cancellable, error);
+		extension_name, wait_for_connected_seconds, cancellable, error);
 
 	g_object_unref (client_cache);
 
@@ -604,63 +613,12 @@ client_selector_get_client_done_cb (GObject *source_object,
 	g_object_unref (simple);
 }
 
-typedef struct _AllowAuthPromptData
-{
-	EClientSelector *selector;
-	GSimpleAsyncResult *simple;
-	GCancellable *cancellable;
-} AllowAuthPromptData;
-
-static void
-client_selector_allow_auth_prompt_done_cb (GObject *source_object,
-					   GAsyncResult *result,
-					   gpointer user_data)
-{
-	AllowAuthPromptData *data;
-	ESource *source;
-	GError *local_error = NULL;
-
-	g_return_if_fail (E_IS_SOURCE (source_object));
-	g_return_if_fail (user_data != NULL);
-
-	data = user_data;
-	source = E_SOURCE (source_object);
-
-	e_source_allow_auth_prompt_finish (source, result, &local_error);
-
-	if (local_error) {
-		g_simple_async_result_take_error (data->simple, local_error);
-		g_simple_async_result_complete (data->simple);
-		local_error = NULL;
-	} else {
-		EClientCache *client_cache;
-		const gchar *extension_name;
-
-		extension_name = e_source_selector_get_extension_name (
-			E_SOURCE_SELECTOR (data->selector));
-
-		client_cache = e_client_selector_ref_client_cache (data->selector);
-
-		e_client_cache_get_client (
-			client_cache, source,
-			extension_name, data->cancellable,
-			client_selector_get_client_done_cb,
-			g_object_ref (data->simple));
-
-		g_object_unref (client_cache);
-	}
-
-	g_clear_object (&data->selector);
-	g_clear_object (&data->simple);
-	g_clear_object (&data->cancellable);
-	g_free (data);
-}
-
 /**
  * e_client_selector_get_client:
  * @selector: an #ESourceSelector
  * @source: an #ESource
  * @call_allow_auth_prompt: whether call allow-auth-prompt on the source first
+ * @wait_for_connected_seconds: timeout, in seconds, to wait for the backend to be fully connected
  * @cancellable: optional #GCancellable object, or %NULL
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
@@ -677,6 +635,15 @@ client_selector_allow_auth_prompt_done_cb (GObject *source_object,
  * "piggyback" on the in-progress request such that they will both succeed
  * or fail simultaneously.
  *
+ * The @wait_for_connected_seconds argument had been added since 3.14,
+ * to let the caller decide how long to wait for the backend to fully
+ * connect to its (possibly remote) data store. This is required due
+ * to a change in the authentication process, which is fully asynchronous
+ * and done on the client side, while not every client is supposed to
+ * response to authentication requests. In case the backend will not connect
+ * within the set interval, then it is opened in an offline mode. A special
+ * value -1 can be used to not wait for the connected state at all.
+ *
  * When the operation is finished, @callback will be called.  You can
  * then call e_client_selector_get_client_finish() to get the result of
  * the operation.
@@ -685,11 +652,14 @@ void
 e_client_selector_get_client (EClientSelector *selector,
                               ESource *source,
 			      gboolean call_allow_auth_prompt,
+			      guint32 wait_for_connected_seconds,
                               GCancellable *cancellable,
                               GAsyncReadyCallback callback,
                               gpointer user_data)
 {
 	GSimpleAsyncResult *simple;
+	EClientCache *client_cache;
+	const gchar *extension_name;
 
 	g_return_if_fail (E_IS_CLIENT_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -700,34 +670,21 @@ e_client_selector_get_client (EClientSelector *selector,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	if (call_allow_auth_prompt) {
-		AllowAuthPromptData *data;
+	extension_name = e_source_selector_get_extension_name (
+		E_SOURCE_SELECTOR (selector));
 
-		data = g_new0 (AllowAuthPromptData, 1);
-		data->selector = g_object_ref (selector);
-		data->simple = g_object_ref (simple);
-		data->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
+	client_cache = e_client_selector_ref_client_cache (selector);
 
-		e_source_allow_auth_prompt (source, cancellable,
-			client_selector_allow_auth_prompt_done_cb, data);
-	} else {
-		EClientCache *client_cache;
-		const gchar *extension_name;
+	if (call_allow_auth_prompt)
+		e_client_cache_emit_allow_auth_prompt (client_cache, source);
 
-		extension_name = e_source_selector_get_extension_name (
-			E_SOURCE_SELECTOR (selector));
+	e_client_cache_get_client (
+		client_cache, source,
+		extension_name, wait_for_connected_seconds, cancellable,
+		client_selector_get_client_done_cb,
+		g_object_ref (simple));
 
-		client_cache = e_client_selector_ref_client_cache (selector);
-
-		e_client_cache_get_client (
-			client_cache, source,
-			extension_name, cancellable,
-			client_selector_get_client_done_cb,
-			g_object_ref (simple));
-
-		g_object_unref (client_cache);
-	}
-
+	g_object_unref (client_cache);
 	g_object_unref (simple);
 }
 

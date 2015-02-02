@@ -2459,7 +2459,7 @@ setup_default_contact_store (ENameSelectorEntry *name_selector_entry)
 
 		e_client_cache_get_client (
 			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			cancellable,
 			name_selector_entry_get_client_cb,
 			g_object_ref (contact_store));

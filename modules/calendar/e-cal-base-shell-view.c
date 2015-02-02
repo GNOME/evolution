@@ -133,9 +133,9 @@ e_cal_base_shell_view_get_source_type (EShellView *shell_view)
 }
 
 static void
-cal_base_shell_view_allow_auth_prompt_and_refresh_done_cb (GObject *source_object,
-							   GAsyncResult *result,
-							   gpointer user_data)
+cal_base_shell_view_refresh_done_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
 {
 	EClient *client;
 	EActivity *activity;
@@ -152,7 +152,7 @@ cal_base_shell_view_allow_auth_prompt_and_refresh_done_cb (GObject *source_objec
 	alert_sink = e_activity_get_alert_sink (activity);
 	display_name = e_source_get_display_name (source);
 
-	e_util_allow_auth_prompt_and_refresh_client_finish (client, result, &local_error);
+	e_client_refresh_finish (client, result, &local_error);
 
 	if (e_activity_handle_cancellation (activity, local_error)) {
 		g_error_free (local_error);
@@ -191,6 +191,7 @@ e_cal_base_shell_view_allow_auth_prompt_and_refresh (EShellView *shell_view,
 {
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
+	EShell *shell;
 	EActivity *activity;
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
@@ -200,6 +201,7 @@ e_cal_base_shell_view_allow_auth_prompt_and_refresh (EShellView *shell_view,
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	alert_sink = E_ALERT_SINK (shell_content);
 	activity = e_activity_new ();
@@ -208,8 +210,10 @@ e_cal_base_shell_view_allow_auth_prompt_and_refresh (EShellView *shell_view,
 	e_activity_set_alert_sink (activity, alert_sink);
 	e_activity_set_cancellable (activity, cancellable);
 
-	e_util_allow_auth_prompt_and_refresh_client (client, cancellable,
-		cal_base_shell_view_allow_auth_prompt_and_refresh_done_cb, activity);
+	e_shell_allow_auth_prompt_for (shell, e_client_get_source (client));
+
+	e_client_refresh (client, cancellable,
+		cal_base_shell_view_refresh_done_cb, activity);
 
 	e_shell_backend_add_activity (shell_backend, activity);
 

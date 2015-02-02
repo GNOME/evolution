@@ -194,20 +194,6 @@ GSList *	e_util_get_category_filter_options
 						(void);
 GList *		e_util_dup_searchable_categories (void);
 
-gboolean	e_util_allow_auth_prompt_and_refresh_client_sync
-						(EClient *client,
-						 GCancellable *cancellable,
-						 GError **error);
-void		e_util_allow_auth_prompt_and_refresh_client
-						(EClient *client,
-						 GCancellable *cancellable,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
-gboolean	e_util_allow_auth_prompt_and_refresh_client_finish
-						(EClient *client,
-						 GAsyncResult *result,
-						 GError **error);
-
 gboolean	e_util_get_open_source_job_info	(const gchar *extension_name,
 						 const gchar *source_display_name,
 						 gchar **description,
@@ -224,6 +210,7 @@ EClient *	e_util_open_client_sync		(struct _EAlertSinkThreadJobData *job_data,
 						 struct _EClientCache *client_cache,
 						 const gchar *extension_name,
 						 ESource *source,
+						 guint32 wait_for_connected_seconds,
 						 GCancellable *cancellable,
 						 GError **error);
 

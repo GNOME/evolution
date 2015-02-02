@@ -590,7 +590,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 
 	e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 
-	client = e_client_cache_get_client_sync (client_cache, source, pcd->extension_name, cancellable, &local_error);
+	client = e_client_cache_get_client_sync (client_cache, source, pcd->extension_name, 30, cancellable, &local_error);
 	g_clear_object (&source);
 
 	if (!client) {
@@ -1209,7 +1209,7 @@ cal_ops_open_client_sync (EAlertSinkThreadJobData *job_data,
 			_("Source with UID '%s' not found"), client_uid);
 		e_alert_sink_thread_job_set_alert_arg_0 (job_data, client_uid);
 	} else {
-		client = e_client_cache_get_client_sync (client_cache, source, extension_name, cancellable, error);
+		client = e_client_cache_get_client_sync (client_cache, source, extension_name, 30, cancellable, error);
 		if (client)
 			cal_client = E_CAL_CLIENT (client);
 	}
@@ -1560,7 +1560,7 @@ cal_ops_new_component_editor_thread (EAlertSinkThreadJobData *job_data,
 
 		client_cache = e_shell_get_client_cache (ncd->shell);
 
-		client = e_client_cache_get_client_sync (client_cache, ncd->default_source, ncd->extension_name, cancellable, &local_error);
+		client = e_client_cache_get_client_sync (client_cache, ncd->default_source, ncd->extension_name, 30, cancellable, &local_error);
 		if (client)
 			ncd->client = E_CAL_CLIENT (client);
 	}
@@ -1930,7 +1930,7 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
 
 	client_cache = e_shell_get_client_cache (tcd->shell);
 
-	to_client = e_util_open_client_sync (job_data, client_cache, extension_name, tcd->destination, cancellable, error);
+	to_client = e_util_open_client_sync (job_data, client_cache, extension_name, tcd->destination, 30, cancellable, error);
 	if (!to_client)
 		goto out;
 
@@ -1948,7 +1948,7 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
 		ESource *source = key;
 		GSList *icalcomps = value;
 
-		from_client = e_util_open_client_sync (job_data, client_cache, extension_name, source, cancellable, error);
+		from_client = e_util_open_client_sync (job_data, client_cache, extension_name, source, 30, cancellable, error);
 		if (!from_client) {
 			success = FALSE;
 			goto out;

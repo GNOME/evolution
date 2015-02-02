@@ -51,7 +51,6 @@
 /* This too, though it's less of a hack. */
 #include "camel-sasl-xoauth2.h"
 
-#include "e-mail-authenticator.h"
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-utils.h"
@@ -135,6 +134,7 @@ enum {
 	REFRESH_SERVICE,
 	STORE_ADDED,
 	STORE_REMOVED,
+	ALLOW_AUTH_PROMPT,
 	LAST_SIGNAL
 };
 
@@ -1280,190 +1280,6 @@ mail_session_forget_password (CamelSession *session,
 	return TRUE;
 }
 
-static CamelCertTrust
-mail_session_trust_prompt (CamelSession *session,
-                           CamelService *service,
-                           GTlsCertificate *certificate,
-                           GTlsCertificateFlags errors)
-{
-	EUserPrompter *prompter;
-	ENamedParameters *parameters;
-	CamelSettings *settings;
-	CamelCertTrust response;
-	GByteArray *der = NULL;
-	gchar *base64;
-	gchar *errhex;
-	gchar *host;
-	gint button_index;
-
-	prompter = e_user_prompter_new ();
-	parameters = e_named_parameters_new ();
-
-	settings = camel_service_ref_settings (service);
-	g_return_val_if_fail (CAMEL_IS_NETWORK_SETTINGS (settings), 0);
-	host = camel_network_settings_dup_host (
-		CAMEL_NETWORK_SETTINGS (settings));
-	g_object_unref (settings);
-
-	/* XXX No accessor function for this property. */
-	g_object_get (certificate, "certificate", &der, NULL);
-	g_return_val_if_fail (der != NULL, 0);
-	base64 = g_base64_encode (der->data, der->len);
-	g_byte_array_unref (der);
-
-	errhex = g_strdup_printf ("%x", (gint) errors);
-
-	e_named_parameters_set (parameters, "host", host);
-	e_named_parameters_set (parameters, "certificate", base64);
-	e_named_parameters_set (parameters, "certificate-errors", errhex);
-
-	g_free (host);
-	g_free (base64);
-	g_free (errhex);
-
-	button_index = e_user_prompter_extension_prompt_sync (
-		prompter, "ETrustPrompt::trust-prompt",
-		parameters, NULL, NULL, NULL);
-
-	switch (button_index) {
-		case 0:
-			response = CAMEL_CERT_TRUST_NEVER;
-			break;
-		case 1:
-			response = CAMEL_CERT_TRUST_FULLY;
-			break;
-		case 2:
-			response = CAMEL_CERT_TRUST_TEMPORARY;
-			break;
-		default:
-			response = CAMEL_CERT_TRUST_UNKNOWN;
-			break;
-	}
-
-	e_named_parameters_free (parameters);
-	g_object_unref (prompter);
-
-	return response;
-}
-
-static gboolean
-mail_session_authenticate_sync (CamelSession *session,
-                                CamelService *service,
-                                const gchar *mechanism,
-                                GCancellable *cancellable,
-                                GError **error)
-{
-	ESource *source;
-	ESourceRegistry *registry;
-	ESourceAuthenticator *auth;
-	CamelServiceAuthType *authtype = NULL;
-	CamelAuthenticationResult result;
-	const gchar *uid;
-	gboolean authenticated;
-	gboolean try_empty_password = FALSE;
-	GError *local_error = NULL;
-
-	/* Do not chain up.  Camel's default method is only an example for
-	 * subclasses to follow.  Instead we mimic most of its logic here. */
-
-	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
-
-	/* Treat a mechanism name of "none" as NULL. */
-	if (g_strcmp0 (mechanism, "none") == 0)
-		mechanism = NULL;
-
-	/* APOP is one case where a non-SASL mechanism name is passed, so
-	 * don't bail if the CamelServiceAuthType struct comes back NULL. */
-	if (mechanism != NULL)
-		authtype = camel_sasl_authtype (mechanism);
-
-	/* If the SASL mechanism does not involve a user
-	 * password, then it gets one shot to authenticate. */
-	if (authtype != NULL && !authtype->need_password) {
-		result = camel_service_authenticate_sync (
-			service, mechanism, cancellable, error);
-		if (result == CAMEL_AUTHENTICATION_REJECTED)
-			g_set_error (
-				error, CAMEL_SERVICE_ERROR,
-				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
-				_("%s authentication failed"), mechanism);
-		return (result == CAMEL_AUTHENTICATION_ACCEPTED);
-	}
-
-	/* Some SASL mechanisms can attempt to authenticate without a
-	 * user password being provided (e.g. single-sign-on credentials),
-	 * but can fall back to a user password.  Handle that case next. */
-	if (mechanism != NULL) {
-		CamelProvider *provider;
-		CamelSasl *sasl;
-		const gchar *service_name;
-
-		provider = camel_service_get_provider (service);
-		service_name = provider->protocol;
-
-		/* XXX Would be nice if camel_sasl_try_empty_password_sync()
-		 *     returned the result in an "out" parameter so it's
-		 *     easier to distinguish errors from a "no" answer.
-		 * YYY There are precisely two states. Either we appear to
-		 *     have credentials (although we don't yet know if the
-		 *     server would *accept* them, of course). Or we don't
-		 *     have any credentials, and we can't even try. There
-		 *     is no middle ground.
-		 *     N.B. For 'have credentials', read 'the ntlm_auth
-		 *          helper exists and at first glance seems to
-		 *          be responding sanely'. */
-		sasl = camel_sasl_new (service_name, mechanism, service);
-		if (sasl != NULL) {
-			try_empty_password =
-				camel_sasl_try_empty_password_sync (
-				sasl, cancellable, &local_error);
-			g_object_unref (sasl);
-		}
-	}
-
-	/* Abort authentication if we got cancelled.
-	 * Otherwise clear any errors and press on. */
-	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		return FALSE;
-
-	g_clear_error (&local_error);
-
-	/* Find a matching ESource for this CamelService. */
-	uid = camel_service_get_uid (service);
-	source = e_source_registry_ref_source (registry, uid);
-
-	if (source == NULL) {
-		g_set_error (
-			error, CAMEL_SERVICE_ERROR,
-			CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
-			_("No data source found for UID '%s'"), uid);
-		return FALSE;
-	}
-
-	auth = e_mail_authenticator_new (service, mechanism);
-
-	result = CAMEL_AUTHENTICATION_REJECTED;
-
-	if (try_empty_password) {
-		result = camel_service_authenticate_sync (
-			service, mechanism, cancellable, error);
-	}
-
-	if (result == CAMEL_AUTHENTICATION_REJECTED) {
-		/* We need a password, preferrably one cached in
-		 * the keyring or else by interactive user prompt. */
-		authenticated = e_source_registry_authenticate_sync (
-			registry, source, auth, cancellable, error);
-	} else {
-		authenticated = (result == CAMEL_AUTHENTICATION_ACCEPTED);
-	}
-	g_object_unref (auth);
-
-	g_object_unref (source);
-
-	return authenticated;
-}
-
 static gboolean
 mail_session_forward_to_sync (CamelSession *session,
                               CamelFolder *folder,
@@ -1660,8 +1476,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->add_service = mail_session_add_service;
 	session_class->get_password = mail_session_get_password;
 	session_class->forget_password = mail_session_forget_password;
-	session_class->trust_prompt = mail_session_trust_prompt;
-	session_class->authenticate_sync = mail_session_authenticate_sync;
 	session_class->forward_to_sync = mail_session_forward_to_sync;
 
 	class->create_vfolder_context = mail_session_create_vfolder_context;
@@ -1776,6 +1590,26 @@ e_mail_session_class_init (EMailSessionClass *class)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		CAMEL_TYPE_STORE);
+
+	/**
+	 * EMailSession::store-removed
+	 * @session: the #EMailSession that emitted the signal
+	 * @source: an #ESource
+	 *
+	 * This signal is emitted with e_mail_session_emit_allow_auth_prompt() to let
+	 * any listeners know to enable credentials prompt for the given @source.
+	 *
+	 * Since: 3.14
+	 **/
+	signals[ALLOW_AUTH_PROMPT] = g_signal_new (
+		"allow-auth-prompt",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMailSessionClass, allow_auth_prompt),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SOURCE);
 
 	camel_null_store_register_provider ();
 
@@ -2551,4 +2385,24 @@ e_mail_session_unmark_service_used (EMailSession *session,
 	}
 
 	g_mutex_unlock (&session->priv->used_services_lock);
+}
+
+/**
+ * e_mail_session_emit_allow_auth_prompt:
+ * @session: an #EMailSession
+ * @source: an #ESource
+ *
+ * Emits 'allow-auth-prompt' on @session for @source. This lets
+ * any listeners know to enable credentials prompt for this @source.
+ *
+ * Since: 3.14
+ **/
+void
+e_mail_session_emit_allow_auth_prompt (EMailSession *session,
+				       ESource *source)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	g_signal_emit (session, signals[ALLOW_AUTH_PROMPT], 0, source);
 }

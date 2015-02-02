@@ -559,14 +559,8 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 		g_object_unref (session);
 
 		if (source) {
-			e_source_allow_auth_prompt_sync (source, cancellable, &error);
+			e_mail_session_emit_allow_auth_prompt (session, source);
 			g_object_unref (source);
-
-			if (error) {
-				g_simple_async_result_take_error (simple, error);
-				e_mail_session_unmark_service_used (session, context->transport);
-				return;
-			}
 		}
 
 		did_connect = TRUE;

@@ -156,54 +156,6 @@ account_refresh_folder_info_received_cb (GObject *source,
 	g_clear_object (&activity);
 }
 
-typedef struct _RefreshData
-{
-	EActivity *activity;
-	CamelStore *store;
-} RefreshData;
-
-static void
-account_refresh_allow_auth_prompt_done_cb (GObject *source_object,
-					   GAsyncResult *result,
-					   gpointer user_data)
-{
-	RefreshData *data = user_data;
-	EActivity *activity;
-	CamelStore *store;
-	GError *local_error = NULL;
-
-	g_return_if_fail (data != NULL);
-
-	activity = data->activity;
-	store = data->store;
-
-	g_free (data);
-
-	e_source_allow_auth_prompt_finish (E_SOURCE (source_object), result, &local_error);
-
-	if (e_activity_handle_cancellation (activity, local_error)) {
-		g_error_free (local_error);
-		g_clear_object (&activity);
-	} else {
-		GCancellable *cancellable;
-
-		if (local_error) {
-			g_debug ("%s: Failed with: %s", G_STRFUNC, local_error->message);
-			g_clear_error (&local_error);
-		}
-
-		cancellable = e_activity_get_cancellable (activity);
-
-		camel_store_get_folder_info (
-			store, NULL,
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE,
-			G_PRIORITY_DEFAULT, cancellable,
-			account_refresh_folder_info_received_cb, activity);
-	}
-
-	g_object_unref (store);
-}
-
 static void
 action_mail_account_refresh_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
@@ -218,7 +170,6 @@ action_mail_account_refresh_cb (GtkAction *action,
 	EShell *shell;
 	CamelStore *store;
 	GCancellable *cancellable;
-	RefreshData *data;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
@@ -231,18 +182,21 @@ action_mail_account_refresh_cb (GtkAction *action,
 	activity = e_mail_reader_new_activity (E_MAIL_READER (mail_view));
 	cancellable = e_activity_get_cancellable (activity);
 
-	data = g_new0 (RefreshData, 1);
-	data->activity = activity;
-	data->store = store;
-
 	shell = e_shell_backend_get_shell (e_shell_view_get_shell_backend (E_SHELL_VIEW (mail_shell_view)));
 	registry = e_shell_get_registry (shell);
 	source = e_source_registry_ref_source (registry, camel_service_get_uid (CAMEL_SERVICE (store)));
 	g_return_if_fail (source != NULL);
 
-	e_source_allow_auth_prompt (source, cancellable, account_refresh_allow_auth_prompt_done_cb, data);
+	e_shell_allow_auth_prompt_for (shell, source);
+
+	camel_store_get_folder_info (
+		store, NULL,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE,
+		G_PRIORITY_DEFAULT, cancellable,
+		account_refresh_folder_info_received_cb, activity);
 
 	g_clear_object (&source);
+	g_clear_object (&store);
 }
 
 static void

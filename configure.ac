@@ -303,6 +303,7 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libebook-1.2 >= eds_minimum_version
 	 libecal-1.2 >= eds_minimum_version
 	 libedataserver-1.2 >= eds_minimum_version
+	 libedataserverui-1.2 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
 AC_SUBST(EVOLUTION_DATA_SERVER_CFLAGS)
 AC_SUBST(EVOLUTION_DATA_SERVER_LIBS)
@@ -1127,9 +1128,8 @@ dnl CERT_UI Flags
 dnl ******************************
 dnl
 dnl Here we want the Mozilla flags to go *before* the other ones,
-dnl especially the mozilla-nss -I flags to go before the gnutls ones
-dnl (which are dragged in through libedataserverui), as both
-dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
+dnl especially the mozilla-nss -I flags to go before the gnutls ones,
+dnl as both gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
 CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS"

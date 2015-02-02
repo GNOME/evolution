@@ -324,7 +324,7 @@ e_cal_base_shell_sidebar_open_client_thread (EAlertSinkThreadJobData *job_data,
 
 	selector = E_CLIENT_SELECTOR (e_cal_base_shell_sidebar_get_selector (data->sidebar));
 	data->client = e_client_selector_get_client_sync (
-		selector, data->source, TRUE, cancellable, &local_error);
+		selector, data->source, TRUE, (guint32) -1, cancellable, &local_error);
 
 	e_util_propagate_open_source_job_error (job_data, data->extension_name, local_error, error);
 }
@@ -469,12 +469,12 @@ cal_base_shell_sidebar_transfer_thread (EAlertSinkThreadJobData *job_data,
 	g_return_if_fail (titd->icalcomp != NULL);
 
 	source_client = e_client_selector_get_client_sync (
-		titd->selector, titd->source, FALSE, cancellable, error);
+		titd->selector, titd->source, FALSE, 30, cancellable, error);
 	if (!source_client)
 		return;
 
 	destination_client = e_client_selector_get_client_sync (
-		titd->selector, titd->destination, FALSE, cancellable, error);
+		titd->selector, titd->destination, FALSE, 30, cancellable, error);
 	if (!destination_client) {
 		g_object_unref (source_client);
 		return;

@@ -312,9 +312,7 @@ alarm_notify_add_calendar (AlarmNotify *an,
 
 	debug (("Opening '%s' (%s)", e_source_get_display_name (source), e_source_get_uid (source)));
 
-	e_cal_client_connect (
-		source, source_type, NULL,
-		client_connect_cb, an);
+	e_cal_client_connect (source, source_type, 30, NULL, client_connect_cb, an);
 
 	g_mutex_unlock (&an->priv->mutex);
 }

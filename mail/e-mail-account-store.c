@@ -504,32 +504,17 @@ mail_account_store_constructed (GObject *object)
 }
 
 static void
-mail_account_store_allow_auth_prompt_done_cb (GObject *source_object,
-					      GAsyncResult *result,
-					      gpointer user_data)
-{
-	GError *local_error = NULL;
-
-	e_source_allow_auth_prompt_finish (E_SOURCE (source_object), result, &local_error);
-
-	if (local_error) {
-		g_debug ("%s: Failed with: %s", G_STRFUNC, local_error->message);
-		g_clear_error (&local_error);
-	}
-}
-
-static void
 call_allow_auth_prompt (ESource *source)
 {
+	EShell *shell;
+
 	if (!source)
 		return;
 
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	/* There is not much interest in the result, it just
-	   makes sure a password prompt will be shown the next
-	   time it is needed. */
-	e_source_allow_auth_prompt (source, NULL, mail_account_store_allow_auth_prompt_done_cb, NULL);
+	shell = e_shell_get_default ();
+	e_shell_allow_auth_prompt_for (shell, source);
 }
 
 static void

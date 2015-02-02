@@ -680,13 +680,8 @@ mail_send_message (struct _send_queue_msg *m,
 			g_object_unref (session);
 
 			if (source) {
-				gboolean success;
-
-				success = e_source_allow_auth_prompt_sync (source, cancellable, error);
+				e_mail_session_emit_allow_auth_prompt (m->session, source);
 				g_object_unref (source);
-
-				if (!success)
-					goto exit;
 			}
 
 			if (!camel_service_connect_sync (service, cancellable, error))

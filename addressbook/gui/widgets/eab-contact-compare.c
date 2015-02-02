@@ -831,7 +831,7 @@ eab_contact_locate_match_full (ESourceRegistry *registry,
 
 	source = e_source_registry_ref_default_address_book (registry);
 
-	e_book_client_connect (source, NULL, book_client_connect_cb, info);
+	e_book_client_connect (source, 30, NULL, book_client_connect_cb, info);
 
 	g_object_unref (source);
 }
