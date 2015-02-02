@@ -3515,7 +3515,7 @@ start_calendar_server (EMailPartItip *pitip,
 	client_cache = itip_view_get_client_cache (view);
 
 	e_client_cache_get_client (
-		client_cache, source, extension_name,
+		client_cache, source, extension_name, 30,
 		pitip->cancellable, func, data);
 }
 
@@ -3950,13 +3950,6 @@ find_cal_opened_cb (GObject *source_object,
 		return;
 	}
 
-	/* Do not process read-only calendars */
-	if (e_client_is_readonly (client)) {
-		g_object_unref (client);
-		decrease_find_data (fd);
-		return;
-	}
-
 	cal_client = E_CAL_CLIENT (client);
 
 	source = e_client_get_source (client);
@@ -3969,6 +3962,13 @@ find_cal_opened_cb (GObject *source_object,
 		search_for_conflicts =
 			(pitip->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) &&
 			e_source_conflict_search_get_include_me (extension);
+	}
+
+	/* Do not process read-only calendars */
+	if (e_client_is_readonly (E_CLIENT (cal_client))) {
+		g_object_unref (cal_client);
+		decrease_find_data (fd);
+		return;
 	}
 
  	/* Check for conflicts */
@@ -3991,6 +3991,7 @@ find_cal_opened_cb (GObject *source_object,
 	}
 
 	decrease_find_data (fd);
+	g_clear_object (&cal_client);
 }
 
 static void

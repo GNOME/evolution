@@ -363,7 +363,7 @@ bbdb_do_it (EBookClient *client,
 
 			client_addressbook = (EBookClient *) e_client_cache_get_client_sync (
 					client_cache, (ESource *) aux_addressbooks->data,
-					E_SOURCE_EXTENSION_ADDRESS_BOOK,
+					E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
 					NULL, &error);
 
 			if (error != NULL) {
@@ -505,7 +505,7 @@ bbdb_create_book_client (gint type,
 
 	client = e_client_cache_get_client_sync (
 		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
 		cancellable, error);
 
 	g_object_unref (source);

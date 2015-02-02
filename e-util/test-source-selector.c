@@ -137,10 +137,10 @@ open_selected_clicked_cb (GtkWidget *button,
 
 		if (source_type == E_CAL_CLIENT_SOURCE_TYPE_LAST)
 			client = e_book_client_connect_sync (
-				source, NULL, &local_error);
+				source, (guint32) -1, NULL, &local_error);
 		else
 			client = e_cal_client_connect_sync (
-				source, source_type, NULL, &local_error);
+				source, source_type, (guint32) -1, NULL, &local_error);
 
 		if (client != NULL) {
 			g_hash_table_insert (

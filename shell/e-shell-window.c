@@ -1659,7 +1659,7 @@ shell_window_connect_client_thread (EAlertSinkThreadJobData *job_data,
 	client_cache = e_shell_get_client_cache (shell);
 
 	cc_data->client = e_client_cache_get_client_sync (client_cache,
-		cc_data->source, cc_data->extension_name, cancellable, &local_error);
+		cc_data->source, cc_data->extension_name, 30, cancellable, &local_error);
 
 	e_util_propagate_open_source_job_error (job_data, cc_data->extension_name, local_error, error);
 }

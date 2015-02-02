@@ -931,6 +931,17 @@ mail_backend_job_finished_cb (CamelSession *session,
 }
 
 static void
+mail_backend_allow_auth_prompt_cb (EMailSession *session,
+				   ESource *source,
+				   EShell *shell)
+{
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	e_shell_allow_auth_prompt_for (shell, source);
+}
+
+static void
 mail_backend_get_property (GObject *object,
                            guint property_id,
                            GValue *value,
@@ -1156,6 +1167,10 @@ mail_backend_constructed (GObject *object)
 
 	registry = e_shell_get_registry (shell);
 	priv->session = e_mail_ui_session_new (registry);
+
+	g_signal_connect (
+		priv->session, "allow-auth-prompt",
+		G_CALLBACK (mail_backend_allow_auth_prompt_cb), shell);
 
 	g_signal_connect (
 		priv->session, "flush-outbox",

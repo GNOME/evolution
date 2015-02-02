@@ -82,6 +82,8 @@ struct _EMailSessionClass {
 						 CamelStore *store);
 	void		(*store_removed)	(EMailSession *session,
 						 CamelStore *store);
+	void		(*allow_auth_prompt)	(EMailSession *session,
+						 ESource *source);
 };
 
 GType		e_mail_session_get_type		(void);
@@ -164,6 +166,9 @@ gboolean	e_mail_session_mark_service_used_sync
 void		e_mail_session_unmark_service_used
 						(EMailSession *session,
 						 CamelService *service);
+void		e_mail_session_emit_allow_auth_prompt
+						(EMailSession *session,
+						 ESource *source);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source

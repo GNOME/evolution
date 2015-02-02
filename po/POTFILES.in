@@ -314,7 +314,6 @@ e-util/widgets.error.xml
 evolution.appdata.xml.in
 libemail-engine/camel-null-store.c
 libemail-engine/camel-sasl-xoauth2.c
-libemail-engine/e-mail-authenticator.c
 libemail-engine/e-mail-folder-utils.c
 libemail-engine/e-mail-session.c
 libemail-engine/e-mail-session-utils.c

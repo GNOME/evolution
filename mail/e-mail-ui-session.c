@@ -631,6 +631,262 @@ mail_ui_session_user_alert (CamelSession *session,
 	g_free (display_name);
 }
 
+static gpointer
+mail_ui_session_call_trust_prompt_in_main_thread_cb (const gchar *source_extension,
+						     const gchar *source_display_name,
+						     const gchar *host,
+						     const gchar *certificate_pem,
+						     gconstpointer pcertificate_errors)
+{
+	EShell *shell;
+	ETrustPromptResponse prompt_response;
+
+	shell = e_shell_get_default ();
+
+	prompt_response = e_trust_prompt_run_modal (gtk_application_get_active_window (GTK_APPLICATION (shell)),
+		source_extension, source_display_name, host, certificate_pem, GPOINTER_TO_UINT (pcertificate_errors), NULL);
+
+	return GINT_TO_POINTER (prompt_response);
+}
+
+static CamelCertTrust
+mail_ui_session_trust_prompt (CamelSession *session,
+			      CamelService *service,
+			      GTlsCertificate *certificate,
+			      GTlsCertificateFlags errors)
+{
+	CamelSettings *settings;
+	CamelCertTrust response;
+	gchar *host, *certificate_pem = NULL;
+	ETrustPromptResponse prompt_response;
+	const gchar *source_extension;
+
+	settings = camel_service_ref_settings (service);
+	g_return_val_if_fail (CAMEL_IS_NETWORK_SETTINGS (settings), 0);
+	host = camel_network_settings_dup_host (
+		CAMEL_NETWORK_SETTINGS (settings));
+	g_object_unref (settings);
+
+	/* XXX No accessor function for this property. */
+	g_object_get (certificate, "certificate-pem", &certificate_pem, NULL);
+	g_return_val_if_fail (certificate_pem != NULL, 0);
+
+	if (CAMEL_IS_TRANSPORT (service))
+		source_extension = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
+	else
+		source_extension = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+
+	prompt_response = GPOINTER_TO_INT (mail_call_main (MAIL_CALL_p_ppppp,
+                (MailMainFunc) mail_ui_session_call_trust_prompt_in_main_thread_cb,
+                source_extension, camel_service_get_display_name (service), host, certificate_pem, GUINT_TO_POINTER (errors)));
+
+	g_free (certificate_pem);
+	g_free (host);
+
+	switch (prompt_response) {
+		case E_TRUST_PROMPT_RESPONSE_REJECT:
+			response = CAMEL_CERT_TRUST_NEVER;
+			break;
+		case E_TRUST_PROMPT_RESPONSE_ACCEPT:
+			response = CAMEL_CERT_TRUST_FULLY;
+			break;
+		case E_TRUST_PROMPT_RESPONSE_ACCEPT_TEMPORARILY:
+			response = CAMEL_CERT_TRUST_TEMPORARY;
+			break;
+		default:
+			response = CAMEL_CERT_TRUST_UNKNOWN;
+			break;
+	}
+
+	return response;
+}
+
+typedef struct _TryCredentialsData {
+	CamelService *service;
+	const gchar *mechanism;
+} TryCredentialsData;
+
+static gboolean
+mail_ui_session_try_credentials_sync (ECredentialsPrompter *prompter,
+				      ESource *source,
+				      const ENamedParameters *credentials,
+				      gboolean *out_authenticated,
+				      gpointer user_data,
+				      GCancellable *cancellable,
+				      GError **error)
+{
+	TryCredentialsData *data = user_data;
+	gchar *credential_name = NULL;
+	CamelAuthenticationResult result;
+
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_val_if_fail (credentials != NULL, FALSE);
+	g_return_val_if_fail (out_authenticated != NULL, FALSE);
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (data->service), FALSE);
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION)) {
+		ESourceAuthentication *auth_extension;
+
+		auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+		credential_name = e_source_authentication_dup_credential_name (auth_extension);
+
+		if (!credential_name || !*credential_name) {
+			g_free (credential_name);
+			credential_name = NULL;
+		}
+	}
+
+	camel_service_set_password (data->service, e_named_parameters_get (credentials,
+		credential_name ? credential_name : E_SOURCE_CREDENTIAL_PASSWORD));
+
+	g_free (credential_name);
+
+	result = camel_service_authenticate_sync (data->service, data->mechanism, cancellable, error);
+
+	*out_authenticated = result == CAMEL_AUTHENTICATION_ACCEPTED;
+
+	if (*out_authenticated) {
+		ESourceCredentialsProvider *credentials_provider;
+		ESource *cred_source;
+
+		credentials_provider = e_credentials_prompter_get_provider (prompter);
+		cred_source = e_source_credentials_provider_ref_credentials_source (credentials_provider, source);
+
+		if (cred_source)
+			e_source_invoke_authenticate_sync (cred_source, credentials, cancellable, NULL);
+
+		g_clear_object (&cred_source);
+	}
+
+	return result == CAMEL_AUTHENTICATION_REJECTED;
+}
+
+static gboolean
+mail_ui_session_authenticate_sync (CamelSession *session,
+				   CamelService *service,
+				   const gchar *mechanism,
+				   GCancellable *cancellable,
+				   GError **error)
+{
+	ESource *source;
+	ESourceRegistry *registry;
+	CamelServiceAuthType *authtype = NULL;
+	CamelAuthenticationResult result;
+	const gchar *uid;
+	gboolean authenticated;
+	gboolean try_empty_password = FALSE;
+	GError *local_error = NULL;
+
+	/* Do not chain up.  Camel's default method is only an example for
+	 * subclasses to follow.  Instead we mimic most of its logic here. */
+
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+	/* Treat a mechanism name of "none" as NULL. */
+	if (g_strcmp0 (mechanism, "none") == 0)
+		mechanism = NULL;
+
+	/* APOP is one case where a non-SASL mechanism name is passed, so
+	 * don't bail if the CamelServiceAuthType struct comes back NULL. */
+	if (mechanism != NULL)
+		authtype = camel_sasl_authtype (mechanism);
+
+	/* If the SASL mechanism does not involve a user
+	 * password, then it gets one shot to authenticate. */
+	if (authtype != NULL && !authtype->need_password) {
+		result = camel_service_authenticate_sync (
+			service, mechanism, cancellable, error);
+		if (result == CAMEL_AUTHENTICATION_REJECTED)
+			g_set_error (
+				error, CAMEL_SERVICE_ERROR,
+				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+				_("%s authentication failed"), mechanism);
+		return (result == CAMEL_AUTHENTICATION_ACCEPTED);
+	}
+
+	/* Some SASL mechanisms can attempt to authenticate without a
+	 * user password being provided (e.g. single-sign-on credentials),
+	 * but can fall back to a user password.  Handle that case next. */
+	if (mechanism != NULL) {
+		CamelProvider *provider;
+		CamelSasl *sasl;
+		const gchar *service_name;
+
+		provider = camel_service_get_provider (service);
+		service_name = provider->protocol;
+
+		/* XXX Would be nice if camel_sasl_try_empty_password_sync()
+		 *     returned the result in an "out" parameter so it's
+		 *     easier to distinguish errors from a "no" answer.
+		 * YYY There are precisely two states. Either we appear to
+		 *     have credentials (although we don't yet know if the
+		 *     server would *accept* them, of course). Or we don't
+		 *     have any credentials, and we can't even try. There
+		 *     is no middle ground.
+		 *     N.B. For 'have credentials', read 'the ntlm_auth
+		 *          helper exists and at first glance seems to
+		 *          be responding sanely'. */
+		sasl = camel_sasl_new (service_name, mechanism, service);
+		if (sasl != NULL) {
+			try_empty_password =
+				camel_sasl_try_empty_password_sync (
+				sasl, cancellable, &local_error);
+			g_object_unref (sasl);
+		}
+	}
+
+	/* Abort authentication if we got cancelled.
+	 * Otherwise clear any errors and press on. */
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		return FALSE;
+
+	g_clear_error (&local_error);
+
+	/* Find a matching ESource for this CamelService. */
+	uid = camel_service_get_uid (service);
+	source = e_source_registry_ref_source (registry, uid);
+
+	if (source == NULL) {
+		g_set_error (
+			error, CAMEL_SERVICE_ERROR,
+			CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+			_("No data source found for UID '%s'"), uid);
+		return FALSE;
+	}
+
+	result = CAMEL_AUTHENTICATION_REJECTED;
+
+	if (try_empty_password) {
+		result = camel_service_authenticate_sync (
+			service, mechanism, cancellable, error);
+	}
+
+	if (result == CAMEL_AUTHENTICATION_REJECTED) {
+		/* We need a password, preferrably one cached in
+		 * the keyring or else by interactive user prompt. */
+		EShell *shell;
+		ECredentialsPrompter *credentials_prompter;
+		TryCredentialsData data;
+
+		shell = e_shell_get_default ();
+		credentials_prompter = e_shell_get_credentials_prompter (shell);
+
+		data.service = service;
+		data.mechanism = mechanism;
+
+		authenticated = e_credentials_prompter_loop_prompt_sync (credentials_prompter,
+			source, E_CREDENTIALS_PROMPTER_PROMPT_FLAG_ALLOW_SOURCE_SAVE,
+			mail_ui_session_try_credentials_sync, &data, cancellable, error);
+	} else {
+		authenticated = (result == CAMEL_AUTHENTICATION_ACCEPTED);
+	}
+
+	g_object_unref (source);
+
+	return authenticated;
+}
+
 extern gint camel_application_is_exiting;
 
 static void
@@ -671,6 +927,8 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
 	session_class->lookup_addressbook = mail_ui_session_lookup_addressbook;
 	session_class->user_alert = mail_ui_session_user_alert;
+	session_class->trust_prompt = mail_ui_session_trust_prompt;
+	session_class->authenticate_sync = mail_ui_session_authenticate_sync;
 
 	mail_session_class = E_MAIL_SESSION_CLASS (class);
 	mail_session_class->create_vfolder_context = mail_ui_session_create_vfolder_context;
@@ -942,7 +1200,7 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 
 		client = e_client_cache_get_client_sync (
 			client_cache, source,
-			E_SOURCE_EXTENSION_ADDRESS_BOOK,
+			E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 			cancellable, &local_error);
 
 		if (client == NULL) {

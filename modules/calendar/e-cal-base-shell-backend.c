@@ -365,7 +365,7 @@ cal_base_shell_backend_handle_uri_thread (EAlertSinkThreadJobData *job_data,
 
 		client_cache = e_shell_get_client_cache (shell);
 
-		client = e_client_cache_get_client_sync (client_cache, source, extension_name, cancellable, &local_error);
+		client = e_client_cache_get_client_sync (client_cache, source, extension_name, 30, cancellable, &local_error);
 		if (client) {
 			hud->cal_client = E_CAL_CLIENT (client);
 

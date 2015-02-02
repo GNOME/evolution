@@ -196,7 +196,7 @@ import_contacts (void)
 		ESource *source;
 
 		source = E_SOURCE (list->data);
-		client = e_book_client_connect_sync (source, NULL, &error);
+		client = e_book_client_connect_sync (source, 30, NULL, &error);
 	} else {
 		/* No address books exist. */
 		g_warning ("%s: No address books exist.", G_STRFUNC);

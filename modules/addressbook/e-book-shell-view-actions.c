@@ -200,31 +200,6 @@ action_address_book_properties_cb (GtkAction *action,
 }
 
 static void
-address_book_handle_refresh_done (ESource *source,
-				  EActivity *activity,
-				  const GError *error)
-{
-	EAlertSink *alert_sink;
-	const gchar *display_name;
-
-	alert_sink = e_activity_get_alert_sink (activity);
-	display_name = e_source_get_display_name (source);
-
-	if (e_activity_handle_cancellation (activity, error)) {
-		/* nothing to do */
-
-	} else if (error != NULL) {
-		e_alert_submit (
-			alert_sink,
-			"addressbook:refresh-error",
-			display_name, error->message, NULL);
-
-	} else {
-		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-	}
-}
-
-static void
 address_book_refresh_done_cb (GObject *source_object,
                               GAsyncResult *result,
                               gpointer user_data)
@@ -232,6 +207,8 @@ address_book_refresh_done_cb (GObject *source_object,
 	EClient *client;
 	ESource *source;
 	EActivity *activity;
+	EAlertSink *alert_sink;
+	const gchar *display_name;
 	GError *local_error = NULL;
 
 	g_return_if_fail (E_IS_CLIENT (source_object));
@@ -240,55 +217,25 @@ address_book_refresh_done_cb (GObject *source_object,
 	source = e_client_get_source (client);
 	activity = user_data;
 
-	e_util_allow_auth_prompt_and_refresh_client_finish (client, result, &local_error);
+	e_client_refresh_finish (client, result, &local_error);
 
-	address_book_handle_refresh_done (source, activity, local_error);
+	alert_sink = e_activity_get_alert_sink (activity);
+	display_name = e_source_get_display_name (source);
 
-	g_clear_object (&activity);
-	g_clear_error (&local_error);
-}
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		/* nothing to do */
 
-typedef struct _AllowAuthPromptData {
-	EActivity *activity;
-	ESourceSelector *selector;
-} AllowAuthPromptData;
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"addressbook:refresh-error",
+			display_name, local_error->message, NULL);
 
-static void
-address_book_allow_auth_prompt_done_cb (GObject *source_object,
-					GAsyncResult *result,
-					gpointer user_data)
-{
-	ESource *source;
-	ESourceSelector *selector;
-	EActivity *activity;
-	AllowAuthPromptData *data = user_data;
-	GError *local_error = NULL;
-
-	g_return_if_fail (E_IS_SOURCE (source_object));
-	g_return_if_fail (user_data != NULL);
-
-	source = E_SOURCE (source_object);
-	activity = data->activity;
-	selector = data->selector;
-
-	g_free (data);
-
-	e_source_allow_auth_prompt_finish (source, result, &local_error);
-
-	address_book_handle_refresh_done (source, activity, local_error);
-
-	if (!local_error) {
-		ESource *primary;
-
-		primary = e_source_selector_ref_primary_selection (selector);
-		if (primary == source)
-			e_source_selector_set_primary_selection (selector, source);
-
-		g_clear_object (&primary);
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
 
 	g_clear_object (&activity);
-	g_clear_object (&selector);
 	g_clear_error (&local_error);
 }
 
@@ -305,6 +252,7 @@ action_address_book_refresh_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellView *shell_view;
+	EShell *shell;
 	GCancellable *cancellable;
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
@@ -313,6 +261,7 @@ action_address_book_refresh_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	source = e_source_selector_ref_primary_selection (selector);
 
@@ -320,24 +269,15 @@ action_address_book_refresh_cb (GtkAction *action,
 		client = e_client_selector_ref_cached_client (
 			E_CLIENT_SELECTOR (selector), source);
 		if (!client) {
-			AllowAuthPromptData *data;
+			ESource *primary;
 
-			alert_sink = E_ALERT_SINK (shell_content);
-			activity = e_activity_new ();
-			cancellable = g_cancellable_new ();
+			e_shell_allow_auth_prompt_for (shell, source);
 
-			e_activity_set_alert_sink (activity, alert_sink);
-			e_activity_set_cancellable (activity, cancellable);
+			primary = e_source_selector_ref_primary_selection (selector);
+			if (primary == source)
+				e_source_selector_set_primary_selection (selector, source);
 
-			data = g_new0 (AllowAuthPromptData, 1);
-			data->activity = activity;
-			data->selector = g_object_ref (selector);
-
-			e_source_allow_auth_prompt (source, cancellable, address_book_allow_auth_prompt_done_cb, data);
-
-			e_shell_backend_add_activity (shell_backend, activity);
-
-			g_object_unref (cancellable);
+			g_clear_object (&primary);
 		}
 
 		g_object_unref (source);
@@ -355,7 +295,9 @@ action_address_book_refresh_cb (GtkAction *action,
 	e_activity_set_alert_sink (activity, alert_sink);
 	e_activity_set_cancellable (activity, cancellable);
 
-	e_util_allow_auth_prompt_and_refresh_client (client, cancellable, address_book_refresh_done_cb, activity);
+	e_shell_allow_auth_prompt_for (shell, source);
+
+	e_client_refresh (client, cancellable, address_book_refresh_done_cb, activity);
 
 	e_shell_backend_add_activity (shell_backend, activity);
 
@@ -418,7 +360,7 @@ map_window_show_contact_editor_cb (EContactMapWindow *window,
 	/* FIXME This blocks.  Needs to be asynchronous. */
 	client = e_client_cache_get_client_sync (
 		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 		NULL, &error);
 
 	g_object_unref (source);
@@ -485,7 +427,7 @@ action_address_book_map_cb (GtkAction *action,
 	/* FIXME This blocks.  Needs to be asynchronous. */
 	client = e_client_cache_get_client_sync (
 		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
 		NULL, &error);
 
 	g_object_unref (source);

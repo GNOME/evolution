@@ -35,4 +35,36 @@ If you choose to continue, you may not have access to some of your old data.
   <button _label="Keep _Waiting" response="GTK_RESPONSE_CANCEL"/>
  </error>
 
+ <error id="source-get-values-failed" type="warning">
+  <_primary>Failed to get values from '{0}'</_primary>
+  <secondary>{1}</secondary>
+ </error>
+
+ <error id="source-invoke-authenticate-failed" type="warning">
+  <_primary>Failed to invoke authenticate for '{0}'</_primary>
+  <secondary>{1}</secondary>
+ </error>
+
+ <error id="source-connection-error" type="error">
+  <_primary>Failed to connect to '{0}'</_primary>
+  <secondary>{1}</secondary>
+  <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="source-credentials-prompt-failed" type="warning">
+  <_primary>Failed to prompt for credentials for '{0}'</_primary>
+  <secondary>{1}</secondary>
+ </error>
+
+ <error id="source-trust-prompt-failed" type="warning">
+  <_primary>Failed to finish trust prompt for '{0}'</_primary>
+  <secondary>{1}</secondary>
+ </error>
+
+ <error id="source-connection-trust-error" type="error">
+  <_primary>SSL certificate for '{0}' is not trusted.</_primary>
+  <_secondary>Reason: {1}</_secondary>
+  <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
 </error-list>

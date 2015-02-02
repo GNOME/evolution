@@ -51,8 +51,10 @@
 struct _EShellPrivate {
 	GQueue alerts;
 	ESourceRegistry *registry;
+	ECredentialsPrompter *credentials_prompter;
 	EClientCache *client_cache;
 	GtkWidget *preferences_window;
+	GCancellable *cancellable;
 
 	/* Shell Backends */
 	GList *loaded_backends;              /* not referenced */
@@ -70,6 +72,9 @@ struct _EShellPrivate {
 	guint prepare_quit_timeout_id;
 
 	gulong backend_died_handler_id;
+	gulong allow_auth_prompt_handler_id;
+	gulong get_dialog_parent_handler_id;
+	gulong credentials_required_handler_id;
 
 	guint auto_reconnect : 1;
 	guint express_mode : 1;
@@ -90,7 +95,8 @@ enum {
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	PROP_CREDENTIALS_PROMPTER
 };
 
 enum {
@@ -598,6 +604,422 @@ shell_backend_died_cb (EClientCache *client_cache,
 }
 
 static void
+shell_allow_auth_prompt_cb (EClientCache *client_cache,
+			    ESource *source,
+			    EShell *shell)
+{
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	e_shell_allow_auth_prompt_for (shell, source);
+}
+
+static void
+shell_source_connection_status_notify_cb (ESource *source,
+					  GParamSpec *param,
+					  EAlert *alert)
+{
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	if (e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_DISCONNECTED ||
+	    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_CONNECTING ||
+	    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_CONNECTED)
+		e_alert_response (alert, GTK_RESPONSE_CLOSE);
+}
+
+static void
+shell_submit_source_connection_alert (EShell *shell,
+				      ESource *source,
+				      EAlert *alert)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	e_signal_connect_notify_object (source, "notify::connection-status",
+		G_CALLBACK (shell_source_connection_status_notify_cb), alert, 0);
+
+	e_shell_submit_alert (shell, alert);
+}
+
+static void
+shell_source_invoke_authenticate_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	ESource *source;
+	EShell *shell = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source_object));
+
+	source = E_SOURCE (source_object);
+
+	if (!e_source_invoke_authenticate_finish (source, result, &error)) {
+		/* Can be cancelled only if the shell is disposing/disposed */
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			EAlert *alert;
+
+			g_return_if_fail (E_IS_SHELL (shell));
+
+			alert = e_alert_new ("shell:source-invoke-authenticate-failed",
+				e_source_get_display_name (source),
+				error->message,
+				NULL);
+			e_shell_submit_alert (shell, alert);
+			g_object_unref (alert);
+		}
+
+		g_clear_error (&error);
+	}
+}
+
+#define SOURCE_ALERT_KEY_SOURCE			"source-alert-key-source"
+#define SOURCE_ALERT_KEY_CERTIFICATE_PEM	"source-alert-key-certificate-pem"
+#define SOURCE_ALERT_KEY_CERTIFICATE_ERRORS	"source-alert-key-certificate-errors"
+#define SOURCE_ALERT_KEY_ERROR_TEXT		"source-alert-key-error-text"
+
+static void
+shell_trust_prompt_done_cb (GObject *source_object,
+			    GAsyncResult *result,
+			    gpointer user_data)
+{
+	ESource *source;
+	EShell *shell = user_data;
+	ETrustPromptResponse response = E_TRUST_PROMPT_RESPONSE_UNKNOWN;
+	ENamedParameters *credentials;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source_object));
+
+	source = E_SOURCE (source_object);
+
+	if (!e_trust_prompt_run_for_source_finish (source, result, &response, &error)) {
+		/* Can be cancelled only if the shell is disposing/disposed */
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			EAlert *alert;
+
+			g_return_if_fail (E_IS_SHELL (shell));
+
+			alert = e_alert_new ("shell:source-trust-prompt-failed",
+				e_source_get_display_name (source),
+				error->message,
+				NULL);
+			e_shell_submit_alert (shell, alert);
+			g_object_unref (alert);
+		}
+
+		g_clear_error (&error);
+		return;
+	}
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (response == E_TRUST_PROMPT_RESPONSE_UNKNOWN) {
+		e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, TRUE);
+		return;
+	}
+
+	/* If a credentials prompt is required, then it'll be shown immediately. */
+	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, FALSE);
+
+	credentials = e_named_parameters_new ();
+
+	e_source_invoke_authenticate (source, credentials, shell->priv->cancellable,
+		shell_source_invoke_authenticate_cb, shell);
+
+	e_named_parameters_free (credentials);
+}
+
+static void
+shell_credentials_prompt_done_cb (GObject *source_object,
+				  GAsyncResult *result,
+				  gpointer user_data)
+{
+	EShell *shell = user_data;
+	ESource *source = NULL;
+	ENamedParameters *credentials = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (e_credentials_prompter_prompt_finish (E_CREDENTIALS_PROMPTER (source_object), result, &source, &credentials, &error)) {
+		e_source_invoke_authenticate (source, credentials, shell->priv->cancellable,
+			shell_source_invoke_authenticate_cb, shell);
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		EAlert *alert;
+
+		g_return_if_fail (E_IS_SHELL (shell));
+
+		alert = e_alert_new ("shell:source-credentials-prompt-failed",
+			e_source_get_display_name (source),
+			error->message,
+			NULL);
+		e_shell_submit_alert (shell, alert);
+		g_object_unref (alert);
+	}
+
+	e_named_parameters_free (credentials);
+	g_clear_object (&source);
+	g_clear_object (&shell);
+	g_clear_error (&error);
+}
+
+static void
+shell_connection_error_alert_response_cb (EAlert *alert,
+					  gint response_id,
+					  EShell *shell)
+{
+	ESource *source;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (response_id != GTK_RESPONSE_APPLY)
+		return;
+
+	source = g_object_get_data (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE);
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, FALSE);
+
+	e_credentials_prompter_prompt (shell->priv->credentials_prompter, source, NULL,
+		E_CREDENTIALS_PROMPTER_PROMPT_FLAG_ALLOW_STORED_CREDENTIALS,
+		shell_credentials_prompt_done_cb, g_object_ref (shell));
+}
+
+static void
+shell_connect_trust_error_alert_response_cb (EAlert *alert,
+					     gint response_id,
+					     EShell *shell)
+{
+	ESource *source;
+	const gchar *certificate_pem;
+	GTlsCertificateFlags certificate_errors;
+	const gchar *error_text;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (response_id != GTK_RESPONSE_APPLY)
+		return;
+
+	source = g_object_get_data (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE);
+	certificate_pem = g_object_get_data (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_PEM);
+	certificate_errors = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_ERRORS));
+	error_text = g_object_get_data (G_OBJECT (alert), SOURCE_ALERT_KEY_ERROR_TEXT);
+
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
+
+	e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
+		source, certificate_pem, certificate_errors, error_text, TRUE,
+		shell->priv->cancellable, shell_trust_prompt_done_cb, shell);
+}
+
+static void
+shell_process_credentials_required_errors (EShell *shell,
+					   ESource *source,
+					   ESourceCredentialsReason reason,
+					   const gchar *certificate_pem,
+					   GTlsCertificateFlags certificate_errors,
+					   const GError *op_error)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	/* Skip disabled sources */
+	if (!e_source_registry_check_enabled (shell->priv->registry, source))
+		return;
+
+	switch (reason) {
+	case E_SOURCE_CREDENTIALS_REASON_UNKNOWN:
+		/* This should not be here */
+		g_warn_if_reached ();
+		return;
+	case E_SOURCE_CREDENTIALS_REASON_REQUIRED:
+	case E_SOURCE_CREDENTIALS_REASON_REJECTED:
+		/* These are handled by the credentials prompter, if not disabled */
+		if (e_credentials_prompter_get_auto_prompt_disabled_for (shell->priv->credentials_prompter, source))
+			break;
+
+		return;
+	case E_SOURCE_CREDENTIALS_REASON_SSL_FAILED:
+	case E_SOURCE_CREDENTIALS_REASON_ERROR:
+		break;
+	}
+
+	if (reason == E_SOURCE_CREDENTIALS_REASON_ERROR) {
+		EAlert *alert;
+
+		alert = e_alert_new ("shell:source-connection-error",
+				e_source_get_display_name (source),
+				op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
+				NULL);
+
+		g_signal_connect (alert, "response", G_CALLBACK (shell_connection_error_alert_response_cb), shell);
+		g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
+
+		shell_submit_source_connection_alert (shell, source, alert);
+		g_object_unref (alert);
+	} else if (reason == E_SOURCE_CREDENTIALS_REASON_SSL_FAILED) {
+		g_return_if_fail (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION));
+
+		if (e_credentials_prompter_get_auto_prompt_disabled_for (shell->priv->credentials_prompter, source)) {
+			/* Only show an alert */
+			EAlert *alert;
+			gchar *cert_errors_str;
+
+			cert_errors_str = e_trust_prompt_describe_certificate_errors (certificate_errors);
+
+			alert = e_alert_new ("shell:source-connection-trust-error",
+					e_source_get_display_name (source),
+					(cert_errors_str && *cert_errors_str) ? cert_errors_str :
+					op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
+					NULL);
+
+			g_signal_connect (alert, "response", G_CALLBACK (shell_connect_trust_error_alert_response_cb), shell);
+
+			g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
+			g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
+			g_object_set_data (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_ERRORS, GUINT_TO_POINTER (certificate_errors));
+			g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_ERROR_TEXT, op_error ? g_strdup (op_error->message) : NULL, g_free);
+
+			shell_submit_source_connection_alert (shell, source, alert);
+
+			g_free (cert_errors_str);
+			g_object_unref (alert);
+		} else {
+			g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
+
+			e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
+				source, certificate_pem, certificate_errors, op_error ? op_error->message : NULL, TRUE,
+				shell->priv->cancellable, shell_trust_prompt_done_cb, shell);
+		}
+	} else if (reason == E_SOURCE_CREDENTIALS_REASON_REQUIRED ||
+		   reason == E_SOURCE_CREDENTIALS_REASON_REJECTED) {
+		EAlert *alert;
+
+		alert = e_alert_new ("shell:source-connection-error",
+				e_source_get_display_name (source),
+				op_error && *(op_error->message) ? op_error->message : _("Credentials are required to connect to the destination host."),
+				NULL);
+
+		g_signal_connect (alert, "response", G_CALLBACK (shell_connection_error_alert_response_cb), shell);
+		g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
+
+		shell_submit_source_connection_alert (shell, source, alert);
+		g_object_unref (alert);
+	} else {
+		g_warn_if_reached ();
+	}
+}
+
+static void
+shell_get_last_credentials_required_arguments_cb (GObject *source_object,
+						  GAsyncResult *result,
+						  gpointer user_data)
+{
+	EShell *shell = user_data;
+	ESource *source;
+	ESourceCredentialsReason reason = E_SOURCE_CREDENTIALS_REASON_UNKNOWN;
+	gchar *certificate_pem = NULL;
+	GTlsCertificateFlags certificate_errors = 0;
+	GError *op_error = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source_object));
+
+	source = E_SOURCE (source_object);
+
+	if (!e_source_get_last_credentials_required_arguments_finish (source, result, &reason,
+		&certificate_pem, &certificate_errors, &op_error, &error)) {
+		/* Can be cancelled only if the shell is disposing/disposed */
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			EAlert *alert;
+
+			g_return_if_fail (E_IS_SHELL (shell));
+
+			alert = e_alert_new ("shell:source-get-values-failed",
+				e_source_get_display_name (source),
+				error->message,
+				NULL);
+			e_shell_submit_alert (shell, alert);
+			g_object_unref (alert);
+		}
+
+		g_clear_error (&error);
+		return;
+	}
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (reason != E_SOURCE_CREDENTIALS_REASON_UNKNOWN)
+		shell_process_credentials_required_errors (shell, source, reason, certificate_pem, certificate_errors, op_error);
+
+	g_free (certificate_pem);
+	g_clear_error (&op_error);
+}
+
+static void
+shell_process_failed_authentications (EShell *shell)
+{
+	GList *sources, *link;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	sources = e_source_registry_list_enabled (shell->priv->registry, NULL);
+
+	for (link = sources; link; link = g_list_next (link)) {
+		ESource *source = link->data;
+
+		if (source && (
+		    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_DISCONNECTED ||
+		    e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_SSL_FAILED)) {
+			/* Only show alerts, do not open windows */
+			e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, TRUE);
+
+			e_source_get_last_credentials_required_arguments (source, shell->priv->cancellable,
+				shell_get_last_credentials_required_arguments_cb, shell);
+		}
+	}
+
+	g_list_free_full (sources, g_object_unref);
+}
+
+static void
+shell_credentials_required_cb (ESourceRegistry *registry,
+			       ESource *source,
+			       ESourceCredentialsReason reason,
+			       const gchar *certificate_pem,
+			       GTlsCertificateFlags certificate_errors,
+			       const GError *op_error,
+			       EShell *shell)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	shell_process_credentials_required_errors (shell, source, reason, certificate_pem, certificate_errors, op_error);
+}
+
+static GtkWindow *
+shell_get_dialog_parent_cb (ECredentialsPrompter *prompter,
+			    EShell *shell)
+{
+	GList *windows, *link;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+	for (link = windows; link; link = g_list_next (link)) {
+		GtkWindow *window = link->data;
+
+		if (E_IS_SHELL_WINDOW (window))
+			return window;
+	}
+
+	return NULL;
+}
+
+static void
 shell_sm_quit_cb (EShell *shell,
                   gpointer user_data)
 {
@@ -712,6 +1134,12 @@ shell_get_property (GObject *object,
 				value, e_shell_get_registry (
 				E_SHELL (object)));
 			return;
+
+		case PROP_CREDENTIALS_PROMPTER:
+			g_value_set_object (
+				value, e_shell_get_credentials_prompter (
+				E_SHELL (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -735,6 +1163,11 @@ shell_dispose (GObject *object)
 		priv->prepare_quit_timeout_id = 0;
 	}
 
+	if (priv->cancellable) {
+		g_cancellable_cancel (priv->cancellable);
+		g_clear_object (&priv->cancellable);
+	}
+
 	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			alert, shell_alert_response_cb, object);
@@ -754,7 +1187,29 @@ shell_dispose (GObject *object)
 		priv->backend_died_handler_id = 0;
 	}
 
+	if (priv->allow_auth_prompt_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->client_cache,
+			priv->allow_auth_prompt_handler_id);
+		priv->allow_auth_prompt_handler_id = 0;
+	}
+
+	if (priv->credentials_required_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->credentials_required_handler_id);
+		priv->credentials_required_handler_id = 0;
+	}
+
+	if (priv->get_dialog_parent_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->credentials_prompter,
+			priv->get_dialog_parent_handler_id);
+		priv->get_dialog_parent_handler_id = 0;
+	}
+
 	g_clear_object (&priv->registry);
+	g_clear_object (&priv->credentials_prompter);
 	g_clear_object (&priv->client_cache);
 	g_clear_object (&priv->preferences_window);
 
@@ -905,12 +1360,26 @@ shell_initable_init (GInitable *initable,
 		return FALSE;
 
 	shell->priv->registry = g_object_ref (registry);
+	shell->priv->credentials_prompter = e_credentials_prompter_new (registry);
 	shell->priv->client_cache = e_client_cache_new (registry);
+
+	shell->priv->credentials_required_handler_id = g_signal_connect (
+		shell->priv->registry, "credentials-required",
+		G_CALLBACK (shell_credentials_required_cb), shell);
+
+	shell->priv->get_dialog_parent_handler_id = g_signal_connect (
+		shell->priv->credentials_prompter, "get-dialog-parent",
+		G_CALLBACK (shell_get_dialog_parent_cb), shell);
 
 	handler_id = g_signal_connect (
 		shell->priv->client_cache, "backend-died",
 		G_CALLBACK (shell_backend_died_cb), shell);
 	shell->priv->backend_died_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		shell->priv->client_cache, "allow-auth-prompt",
+		G_CALLBACK (shell_allow_auth_prompt_cb), shell);
+	shell->priv->allow_auth_prompt_handler_id = handler_id;
 
 	/* Configure WebKit's default SoupSession. */
 
@@ -1066,6 +1535,24 @@ e_shell_class_init (EShellClass *class)
 			"Registry",
 			"Data source registry",
 			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EShell:credentials-prompter
+	 *
+	 * The #ECredentialsPrompter managing #ESource credential requests.
+	 *
+	 * Since: 3.14
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_CREDENTIALS_PROMPTER,
+		g_param_spec_object (
+			"credentials-prompter",
+			"Credentials Prompter",
+			"Credentials Prompter",
+			E_TYPE_CREDENTIALS_PROMPTER,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -1232,6 +1719,7 @@ e_shell_init (EShell *shell)
 
 	g_queue_init (&shell->priv->alerts);
 
+	shell->priv->cancellable = g_cancellable_new ();
 	shell->priv->preferences_window = e_preferences_window_new (shell);
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
@@ -1443,6 +1931,54 @@ e_shell_get_registry (EShell *shell)
 }
 
 /**
+ * e_shell_get_credentials_prompter:
+ * @shell: an #EShell
+ *
+ * Returns the shell's #ECredentialsPrompter which responds
+ * to #ESource instances credential requests.
+ *
+ * Returns: the #ECredentialsPrompter
+ *
+ * Since: 3.14
+ **/
+ECredentialsPrompter *
+e_shell_get_credentials_prompter (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->credentials_prompter;
+}
+
+/**
+ * e_shell_allow_auth_prompt_for:
+ * @shell: an #EShell
+ * @source: an #ESource
+ *
+ * Allows direct credentials prompt for @source. That means,
+ * when the @source will emit 'credentials-required' signal,
+ * then a user will be asked accordingly. When the auth prompt
+ * is disabled, aonly an #EAlert is shown.
+ *
+ * Since: 3.14
+ **/
+void
+e_shell_allow_auth_prompt_for (EShell *shell,
+			       ESource *source)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, FALSE);
+
+	if (e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_AWAITING_CREDENTIALS) {
+		e_credentials_prompter_process_source (shell->priv->credentials_prompter, source);
+	} else if (e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_SSL_FAILED) {
+		e_source_get_last_credentials_required_arguments (source, shell->priv->cancellable,
+			shell_get_last_credentials_required_arguments_cb, shell);
+	}
+}
+
+/**
  * e_shell_create_shell_window:
  * @shell: an #EShell
  * @view_name: name of the initial shell view, or %NULL
@@ -1498,6 +2034,14 @@ e_shell_create_shell_window (EShell *shell,
 	shell->priv->geometry = NULL;
 
 	gtk_widget_show (shell_window);
+
+	if (g_list_length (gtk_application_get_windows (GTK_APPLICATION (shell))) == 1) {
+		/* It's the first window, process outstanding credential requests now */
+		e_credentials_prompter_process_awaiting_credentials (shell->priv->credentials_prompter);
+
+		/* Also check alerts for failed authentications */
+		shell_process_failed_authentications (shell);
+	}
 
 	return shell_window;
 

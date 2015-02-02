@@ -190,7 +190,7 @@ quick_add_merge_contact (QuickAdd *qa)
 
 	e_client_cache_get_client (
 		qa->client_cache, qa->source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
 		qa->cancellable, merge_cb, qa);
 }
 
@@ -337,7 +337,7 @@ edit_contact (QuickAdd *qa)
 
 	e_client_cache_get_client (
 		qa->client_cache, qa->source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		E_SOURCE_EXTENSION_ADDRESS_BOOK, 30,
 		qa->cancellable, ce_have_book, qa);
 }
 

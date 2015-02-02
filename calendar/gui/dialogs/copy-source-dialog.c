@@ -111,14 +111,14 @@ copy_source_thread (EAlertSinkThreadJobData *job_data,
 	if (!csd)
 		goto out;
 
-	client = e_util_open_client_sync (job_data, e_cal_model_get_client_cache (csd->model), csd->extension_name, csd->from_source, cancellable, error);
+	client = e_util_open_client_sync (job_data, e_cal_model_get_client_cache (csd->model), csd->extension_name, csd->from_source, 30, cancellable, error);
 	if (client)
 		from_client = E_CAL_CLIENT (client);
 
 	if (!from_client)
 		goto out;
 
-	client = e_util_open_client_sync (job_data, e_cal_model_get_client_cache (csd->model), csd->extension_name, csd->to_source, cancellable, error);
+	client = e_util_open_client_sync (job_data, e_cal_model_get_client_cache (csd->model), csd->extension_name, csd->to_source, 30, cancellable, error);
 	if (client)
 		to_client = E_CAL_CLIENT (client);
 

@@ -95,6 +95,7 @@ enum {
 	CLIENT_CONNECTED,
 	CLIENT_CREATED,
 	CLIENT_NOTIFY,
+	ALLOW_AUTH_PROMPT,
 	LAST_SIGNAL
 };
 
@@ -656,21 +657,6 @@ client_cache_cal_connect_cb (GObject *source_object,
 }
 
 static void
-client_cache_source_allow_auth_prompt_done_cb (GObject *source_object,
-					       GAsyncResult *result,
-					       gpointer user_data)
-{
-	GError *local_error = NULL;
-
-	e_source_allow_auth_prompt_finish (E_SOURCE (source_object), result, &local_error);
-
-	if (local_error) {
-		g_debug ("%s: Failed with: %s", G_STRFUNC, local_error->message);
-		g_clear_error (&local_error);
-	}
-}
-
-static void
 client_cache_source_removed_cb (ESourceRegistry *registry,
                                 ESource *source,
                                 GWeakRef *weak_ref)
@@ -695,10 +681,7 @@ client_cache_source_disabled_cb (ESourceRegistry *registry,
 	client_cache = g_weak_ref_get (weak_ref);
 
 	if (client_cache != NULL) {
-		/* There is not much interest in the result, it just
-		   makes sure a password prompt will be shown the next
-		   time it is needed. */
-		e_source_allow_auth_prompt (source, NULL, client_cache_source_allow_auth_prompt_done_cb, NULL);
+		e_client_cache_emit_allow_auth_prompt (client_cache, source);
 
 		client_ht_remove (client_cache, source);
 		g_object_unref (client_cache);
@@ -924,7 +907,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 		"client-connected",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_FIRST,
-		0 /* G_STRUCT_OFFSET (EClientCacheClass, client_connected) */,
+		G_STRUCT_OFFSET (EClientCacheClass, client_connected),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 1,
 		E_TYPE_CLIENT);
@@ -980,6 +963,25 @@ e_client_cache_class_init (EClientCacheClass *class)
 		G_TYPE_NONE, 2,
 		E_TYPE_CLIENT,
 		G_TYPE_PARAM);
+
+	/**
+	 * EClientCache::allow-auth-prompt:
+	 * @client_cache: an #EClientCache, which sent the signal
+	 * @source: an #ESource
+	 *
+	 * This signal is emitted with e_client_cache_emit_allow_auth_prompt() to let
+	 * any listeners know to enable credentials prompt for the given @source.
+	 *
+	 * Since: 3.14
+	 **/
+	signals[ALLOW_AUTH_PROMPT] = g_signal_new (
+		"allow-auth-prompt",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EClientCacheClass, allow_auth_prompt),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1,
+		E_TYPE_SOURCE);
 }
 
 static void
@@ -1094,6 +1096,7 @@ client_cache_get_client_sync_cb (GObject *source_object,
  * @client_cache: an #EClientCache
  * @source: an #ESource
  * @extension_name: an extension name
+ * @wait_for_connected_seconds: timeout, in seconds, to wait for the backend to be fully connected
  * @cancellable: optional #GCancellable object, or %NULL
  * @error: return location for a #GError, or %NULL
  *
@@ -1118,6 +1121,15 @@ client_cache_get_client_sync_cb (GObject *source_object,
  * for this function to work.  All other @extension_name values will
  * result in an error.
  *
+ * The @wait_for_connected_seconds argument had been added since 3.14,
+ * to let the caller decide how long to wait for the backend to fully
+ * connect to its (possibly remote) data store. This is required due
+ * to a change in the authentication process, which is fully asynchronous
+ * and done on the client side, while not every client is supposed to
+ * response to authentication requests. In case the backend will not connect
+ * within the set interval, then it is opened in an offline mode. A special
+ * value -1 can be used to not wait for the connected state at all.
+ *
  * If a request for the same @source and @extension_name is already in
  * progress when this function is called, this request will "piggyback"
  * on the in-progress request such that they will both succeed or fail
@@ -1133,6 +1145,7 @@ EClient *
 e_client_cache_get_client_sync (EClientCache *client_cache,
                                 ESource *source,
                                 const gchar *extension_name,
+				guint32 wait_for_connected_seconds,
                                 GCancellable *cancellable,
                                 GError **error)
 {
@@ -1148,7 +1161,7 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
 	g_mutex_lock (&data.mutex);
 
 	e_client_cache_get_client (
-		client_cache, source, extension_name,cancellable,
+		client_cache, source, extension_name, wait_for_connected_seconds, cancellable,
 		client_cache_get_client_sync_cb, &data);
 
 	/* This is needed, because e_async_closure_new() pushes its own thread default main context,
@@ -1176,6 +1189,7 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
  * @client_cache: an #EClientCache
  * @source: an #ESource
  * @extension_name: an extension name
+ * @wait_for_connected_seconds: timeout, in seconds, to wait for the backend to be fully connected
  * @cancellable: optional #GCancellable object, or %NULL
  * @callback: a #GAsyncReadyCallback to call when the request is satisfied
  * @user_data: data to pass to the callback function
@@ -1201,6 +1215,15 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
  * for this function to work.  All other @extension_name values will
  * result in an error.
  *
+ * The @wait_for_connected_seconds argument had been added since 3.14,
+ * to let the caller decide how long to wait for the backend to fully
+ * connect to its (possibly remote) data store. This is required due
+ * to a change in the authentication process, which is fully asynchronous
+ * and done on the client side, while not every client is supposed to
+ * response to authentication requests. In case the backend will not connect
+ * within the set interval, then it is opened in an offline mode. A special
+ * value -1 can be used to not wait for the connected state at all.
+ *
  * If a request for the same @source and @extension_name is already in
  * progress when this function is called, this request will "piggyback"
  * on the in-progress request such that they will both succeed or fail
@@ -1214,6 +1237,7 @@ void
 e_client_cache_get_client (EClientCache *client_cache,
                            ESource *source,
                            const gchar *extension_name,
+			   guint32 wait_for_connected_seconds,
                            GCancellable *cancellable,
                            GAsyncReadyCallback callback,
                            gpointer user_data)
@@ -1276,7 +1300,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 
 	if (g_str_equal (extension_name, E_SOURCE_EXTENSION_ADDRESS_BOOK)) {
 		e_book_client_connect (
-			source, cancellable,
+			source, wait_for_connected_seconds, cancellable,
 			client_cache_book_connect_cb,
 			client_data_ref (client_data));
 		goto exit;
@@ -1284,7 +1308,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 
 	if (g_str_equal (extension_name, E_SOURCE_EXTENSION_CALENDAR)) {
 		e_cal_client_connect (
-			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS,
+			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, wait_for_connected_seconds,
 			cancellable, client_cache_cal_connect_cb,
 			client_data_ref (client_data));
 		goto exit;
@@ -1292,7 +1316,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 
 	if (g_str_equal (extension_name, E_SOURCE_EXTENSION_MEMO_LIST)) {
 		e_cal_client_connect (
-			source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS,
+			source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, wait_for_connected_seconds,
 			cancellable, client_cache_cal_connect_cb,
 			client_data_ref (client_data));
 		goto exit;
@@ -1300,7 +1324,7 @@ e_client_cache_get_client (EClientCache *client_cache,
 
 	if (g_str_equal (extension_name, E_SOURCE_EXTENSION_TASK_LIST)) {
 		e_cal_client_connect (
-			source, E_CAL_CLIENT_SOURCE_TYPE_TASKS,
+			source, E_CAL_CLIENT_SOURCE_TYPE_TASKS, wait_for_connected_seconds,
 			cancellable, client_cache_cal_connect_cb,
 			client_data_ref (client_data));
 		goto exit;
@@ -1429,3 +1453,22 @@ e_client_cache_is_backend_dead (EClientCache *client_cache,
 	return dead_backend;
 }
 
+/**
+ * e_client_cache_emit_allow_auth_prompt:
+ * @client_cache: an #EClientCache
+ * @source: an #ESource
+ *
+ * Emits 'allow-auth-prompt' on @client_cache for @source. This lets
+ * any listeners know to enable credentials prompt for this @source.
+ *
+ * Since: 3.14
+ **/
+void
+e_client_cache_emit_allow_auth_prompt (EClientCache *client_cache,
+				       ESource *source)
+{
+	g_return_if_fail (E_IS_CLIENT_CACHE (client_cache));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	g_signal_emit (client_cache, signals[ALLOW_AUTH_PROMPT], 0, source);
+}

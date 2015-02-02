@@ -843,7 +843,7 @@ do_mail_to_event (AsyncData *data)
 	GError *error = NULL;
 
 	client = e_client_cache_get_client_sync (data->client_cache,
-		data->source, data->extension_name, NULL, &error);
+		data->source, data->extension_name, 30, NULL, &error);
 
 	/* Sanity check. */
 	g_return_val_if_fail (

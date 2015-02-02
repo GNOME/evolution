@@ -63,7 +63,7 @@ action_list_folders_init (ActionContext *p_actctx)
 
 		source = E_SOURCE (iter->data);
 
-		client = e_book_client_connect_sync (source, NULL, &error);
+		client = e_book_client_connect_sync (source, 30, NULL, &error);
 
 		/* Sanity check. */
 		g_warn_if_fail (

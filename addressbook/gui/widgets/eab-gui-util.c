@@ -618,7 +618,7 @@ eab_transfer_contacts (ESourceRegistry *registry,
 	process->delete_from_source = delete_from_source;
 
 	e_book_client_connect (
-		destination, NULL, book_client_connect_cb, process);
+		destination, 30, NULL, book_client_connect_cb, process);
 }
 
 /*

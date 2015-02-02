@@ -853,7 +853,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 	client_cache = e_cal_model_get_client_cache (model);
 
-	e_client = e_client_cache_get_client_sync (client_cache, source, extension_name, cancellable, &local_error);
+	e_client = e_client_cache_get_client_sync (client_cache, source, extension_name, 30, cancellable, &local_error);
 	if (!e_client) {
 		e_util_propagate_open_source_job_error (job_data, extension_name, local_error, error);
 		goto out;

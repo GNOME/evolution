@@ -20,6 +20,7 @@
 
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
+#include <libedataserverui/libedataserverui.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CALDAV_CHOOSER \
@@ -62,6 +63,8 @@ GtkWidget *	e_caldav_chooser_new		(ESourceRegistry *registry,
 						 ECalClientSourceType source_type);
 ESourceRegistry *
 		e_caldav_chooser_get_registry	(ECaldavChooser *chooser);
+ECredentialsPrompter *
+		e_caldav_chooser_get_prompter	(ECaldavChooser *chooser);
 ESource *	e_caldav_chooser_get_source	(ECaldavChooser *chooser);
 ECalClientSourceType
 		e_caldav_chooser_get_source_type
@@ -75,5 +78,32 @@ gboolean	e_caldav_chooser_populate_finish
 						 GAsyncResult *result,
 						 GError **error);
 gboolean	e_caldav_chooser_apply_selected	(ECaldavChooser *chooser);
+
+void		e_caldav_chooser_run_trust_prompt
+						(ECaldavChooser *chooser,
+						 GtkWindow *parent,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+GError *	e_caldav_chooser_new_ssl_trust_error
+						(ECaldavChooser *chooser);
+void		e_caldav_chooser_run_credentials_prompt
+						(ECaldavChooser *chooser,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_caldav_chooser_run_credentials_prompt_finish
+						(ECaldavChooser *chooser,
+						 GAsyncResult *result,
+						 ENamedParameters **out_credentials,
+						 GError **error);
+void		e_caldav_chooser_authenticate	(ECaldavChooser *chooser,
+						 const ENamedParameters *credentials,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_caldav_chooser_authenticate_finish
+						(ECaldavChooser *chooser,
+						 GAsyncResult *result,
+						 GError **error);
 
 #endif /* E_CALDAV_CHOOSER_H */

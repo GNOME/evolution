@@ -1188,7 +1188,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 	e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 
 	client = e_client_cache_get_client_sync (client_cache, source,
-		cal_model_kind_to_extension_name (ccd->model), cancellable, &local_error);
+		cal_model_kind_to_extension_name (ccd->model), (guint32) -1, cancellable, &local_error);
 	g_clear_object (&source);
 
 	if (!client) {

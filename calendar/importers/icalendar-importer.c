@@ -463,7 +463,7 @@ ivcal_import (EImport *ei,
 
 	e_cal_client_connect (
 		g_datalist_get_data (&target->data, "primary-source"),
-		type, ici->cancellable, ivcal_connect_cb, ici);
+		type, 30, ici->cancellable, ivcal_connect_cb, ici);
 }
 
 static void
@@ -901,7 +901,7 @@ open_default_source (ICalIntelligentImporter *ici,
 	e_import_status (ici->ei, ici->target, _("Opening calendar"), 0);
 
 	e_cal_client_connect (
-		source, source_type, ici->cancellable,
+		source, source_type, 30, ici->cancellable,
 		default_client_connect_cb, odsd);
 
 	g_object_unref (source);

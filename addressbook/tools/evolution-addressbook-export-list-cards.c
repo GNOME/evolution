@@ -719,7 +719,7 @@ action_list_cards_init (ActionContext *p_actctx)
 	else
 		source = e_source_registry_ref_default_address_book (registry);
 
-	client = e_book_client_connect_sync (source, NULL, &error);
+	client = e_book_client_connect_sync (source, 30, NULL, &error);
 
 	g_object_unref (source);
 

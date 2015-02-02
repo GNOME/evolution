@@ -104,7 +104,7 @@ do_save_calendar_ical (FormatHandler *handler,
 	/* open source client */
 	primary_source = e_source_selector_ref_primary_selection (selector);
 	source_client = e_client_cache_get_client_sync (client_cache,
-		primary_source, e_source_selector_get_extension_name (selector), NULL, &error);
+		primary_source, e_source_selector_get_extension_name (selector), 30, NULL, &error);
 	g_object_unref (primary_source);
 
 	/* Sanity check. */
