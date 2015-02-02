@@ -2871,8 +2871,7 @@ composer_set_body (EMsgComposer *composer,
 		original = quoting_text (QUOTING_ORIGINAL);
 		text = em_utils_message_to_html (
 			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS,
-			parts_list, "<span id=\"-x-evolution-reply-citation\">",
-			"</span>", &validity_found);
+			parts_list, NULL, NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
 		g_free (original);
@@ -2885,8 +2884,7 @@ composer_set_body (EMsgComposer *composer,
 		credits = attribution_format (message);
 		text = em_utils_message_to_html (
 			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
-			parts_list, "<span id=\"-x-evolution-reply-citation\">",
-			"</span>", &validity_found);
+			parts_list, NULL, NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
