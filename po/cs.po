@@ -404,7 +404,7 @@ msgstr "_Povolání:"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 msgctxt "Job"
 msgid "_Title:"
-msgstr "_Titul:"
+msgstr "Pozi_ce:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:28
 msgid "_Company:"
@@ -428,7 +428,7 @@ msgstr "_Asistent:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 msgid "Job"
-msgstr "Úloha"
+msgstr "Zaměstnání"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "_Spouse:"
@@ -854,7 +854,7 @@ msgstr "_Příjmení:"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:19
 msgid "_Suffix:"
-msgstr "Přípo_na:"
+msgstr "_Doplněk:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:817
@@ -1088,7 +1088,7 @@ msgstr "Asistent"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:826
 msgid "Video Chat"
-msgstr "Video chat"
+msgstr "Videodiskuze"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:827
 #: ../e-util/e-send-options.c:546
@@ -12461,16 +12461,16 @@ msgstr "Výšk_a:"
 
 #: ../e-util/e-html-editor-image-dialog.c:604
 msgid "_X-Padding:"
-msgstr ""
+msgstr "Odsazení _X:"
 
 #: ../e-util/e-html-editor-image-dialog.c:620
 msgid "_Y-Padding:"
-msgstr ""
+msgstr "Odsazení _Y:"
 
 #: ../e-util/e-html-editor-image-dialog.c:636
 #: ../e-util/e-html-editor-table-dialog.c:809
 msgid "_Border:"
-msgstr ""
+msgstr "_Rámeček:"
 
 #: ../e-util/e-html-editor-image-dialog.c:646
 msgid "<b>Link</b>"
@@ -12484,23 +12484,19 @@ msgstr "Adresa _URL:"
 #: ../e-util/e-html-editor-image-dialog.c:669
 #: ../e-util/e-html-editor-link-dialog.c:339
 msgid "_Test URL..."
-msgstr ""
+msgstr "O_testovat URL…"
 
 #: ../e-util/e-html-editor-image-dialog.c:686
 msgid "Image Properties"
 msgstr "Vlastnosti obrázku"
 
 #: ../e-util/e-html-editor-link-dialog.c:363
-#, fuzzy
-#| msgid "_Remove"
 msgid "_Remove Link"
-msgstr "_Odstranit"
+msgstr "_Odstranit odkaz"
 
 #: ../e-util/e-html-editor-link-dialog.c:388
-#, fuzzy
-#| msgid "_Properties"
 msgid "Link Properties"
-msgstr "_Vlastnosti"
+msgstr "Vlastnosti odkazu"
 
 #: ../e-util/e-html-editor-page-dialog.c:69
 msgid "Perforated Paper"
@@ -12549,7 +12545,7 @@ msgstr "_Pozadí:"
 
 #: ../e-util/e-html-editor-page-dialog.c:472
 msgid "<b>Background Image</b>"
-msgstr ""
+msgstr "<b>Obrázek pozadí</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:494
 msgid "_Template:"
@@ -12729,6 +12725,7 @@ msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
 msgstr ""
+"Vypnutí režimu HTML způsobí ztrátu formátování textu. Chcete pokračovat?"
 
 #: ../e-util/e-html-editor-view.c:6942
 msgid "_Don't lose formatting"
@@ -13842,10 +13839,8 @@ msgid "Go to the section %s of the message"
 msgstr "Vyplnit příjemce zprávy"
 
 #: ../e-util/e-web-view.c:1017
-#, fuzzy
-#| msgid "Enter the recipients of the message"
 msgid "Go to the beginning of the message"
-msgstr "Vyplnit příjemce zprávy"
+msgstr "Přejít na začátek zprávy"
 
 #: ../e-util/e-web-view.c:1021
 #, c-format
@@ -14026,7 +14021,7 @@ msgstr "zobrazit kontextovou nabídku"
 #. Translators: description of an "edit" action
 #: ../e-util/gal-a11y-e-cell-text.c:617
 msgid "begin editing this cell"
-msgstr ""
+msgstr "začít upravovat tuto buňku"
 
 #. Translators: description of a "toggle" action
 #: ../e-util/gal-a11y-e-cell-toggle.c:177
@@ -14250,10 +14245,9 @@ msgstr ""
 "zrušeno."
 
 #: ../libemail-engine/e-mail-session.c:2509
-#, fuzzy, c-format
-#| msgid "Storing folder '%s'"
+#, c-format
 msgid "Waiting for '%s'"
-msgstr "Ukládání složky „%s“"
+msgstr "Čeká se na „%s“"
 
 #: ../libemail-engine/e-mail-session-utils.c:539
 msgid "No mail transport service available"
@@ -14275,10 +14269,9 @@ msgstr "Nelze použít odchozí filtry: %s"
 #: ../libemail-engine/e-mail-session-utils.c:702
 #: ../libemail-engine/e-mail-session-utils.c:737
 #: ../libemail-engine/mail-ops.c:783 ../libemail-engine/mail-ops.c:818
-#, fuzzy, c-format
-#| msgid "Moving messages to '%s'"
+#, c-format
 msgid "Storing sent message to '%s'"
-msgstr "Probíhá přesouvání zprávy do „%s“"
+msgstr "Ukládá se odeslaná zpráva do „%s“"
 
 #: ../libemail-engine/e-mail-session-utils.c:726
 #: ../libemail-engine/mail-ops.c:807
@@ -14403,10 +14396,9 @@ msgid "Emptying trash in '%s'"
 msgstr "Vyprazdňuje se koš v „%s“"
 
 #: ../libemail-engine/mail-ops.c:1584
-#, fuzzy, c-format
-#| msgid "Storing folder '%s'"
+#, c-format
 msgid "Processing folder changes in '%s'"
-msgstr "Ukládání složky „%s“"
+msgstr "Zpracovávají se změny složky v „%s“"
 
 #: ../libemail-engine/mail-tools.c:70
 #, c-format
@@ -14704,11 +14696,11 @@ msgstr "Přidat _nový podpis…"
 
 #: ../mail/e-mail-config-identity-page.c:556
 msgid "Try _setup account automatically, based on Email Address"
-msgstr ""
+msgstr "Zkusit nastavit účet automaticky podle e-mailové adresy"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
-msgstr "Vyhledávají se detaily účtu..."
+msgstr "Vyhledávají se přesné údaje účtu…"
 
 #: ../mail/e-mail-config-provider-page.c:484
 msgid "Checking for New Mail"
@@ -14729,11 +14721,10 @@ msgstr "Příjem pošty"
 #. Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
 #. The first '%s' is a key ID, the second '%s' is a display name of the key.
 #: ../mail/e-mail-config-security-page.c:251
-#, fuzzy, c-format
-#| msgid "Task - %s"
+#, c-format
 msgctxt "PGPKeyDescription"
 msgid "%s - %s"
-msgstr "Úkol - %s"
+msgstr "%s – %s"
 
 #: ../mail/e-mail-config-security-page.c:340
 #: ../mail/em-folder-properties.c:334 ../mail/mail-config.ui.h:28
