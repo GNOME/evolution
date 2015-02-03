@@ -7092,15 +7092,19 @@ static gchar *
 process_content_for_html (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMNode *body, *document_clone;
+	WebKitDOMNode *node, *document_clone;
 	gchar *html_content;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	document_clone = webkit_dom_node_clone_node (
 		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
-	body = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL));
+	if (node)
+		remove_node (node);
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "body", NULL));
-	process_elements (view, body, TRUE, FALSE, FALSE, NULL);
+	process_elements (view, node, TRUE, FALSE, FALSE, NULL);
 
 	html_content = webkit_dom_html_element_get_outer_html (
 		WEBKIT_DOM_HTML_ELEMENT (document_clone));
