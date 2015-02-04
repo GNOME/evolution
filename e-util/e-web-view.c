@@ -2688,6 +2688,7 @@ e_web_view_update_fonts (EWebView *web_view)
 		"  font-size: %dpt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
+		"  margin: 0px;\n"
 		"}",
 		pango_font_description_get_family (ms),
 		pango_font_description_get_size (ms) / PANGO_SCALE,
