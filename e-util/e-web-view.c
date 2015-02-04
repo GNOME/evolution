@@ -2578,6 +2578,7 @@ e_web_view_get_selection_html (EWebView *web_view)
 const gchar *
 e_web_view_get_citation_color_for_level (gint level)
 {
+	/* Block quote border colors are borrowed from Thunderbird. */
 	static const gchar *citation_color_levels[5] = {
 		"rgb(233,185,110)",	/* level 5 - Chocolate 1 */
 		"rgb(114,159,207)",	/* level 1 - Sky Blue 1 */
@@ -2737,7 +2738,6 @@ e_web_view_update_fonts (EWebView *web_view)
 		"  border-radius: 2px;\n"
 		"}\n");
 
-	/* Block quote border colors are borrowed from Thunderbird. */
 	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
