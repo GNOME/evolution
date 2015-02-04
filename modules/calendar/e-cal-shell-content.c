@@ -272,7 +272,8 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 static void
 cal_shell_content_clamp_for_whole_weeks (GDateWeekday week_start_day,
 					 GDate *sel_start,
-					 GDate *sel_end)
+					 GDate *sel_end,
+					 gboolean saturday_as_sunday)
 {
 	GDateWeekday wday;
 	guint32 julian_start, julian_end;
@@ -281,6 +282,11 @@ cal_shell_content_clamp_for_whole_weeks (GDateWeekday week_start_day,
 	g_return_if_fail (sel_end != NULL);
 
 	wday = g_date_get_weekday (sel_start);
+
+	/* This is because the month/week view doesn't split weekends */
+	if (saturday_as_sunday && wday == G_DATE_SATURDAY && week_start_day == G_DATE_SUNDAY)
+		wday = G_DATE_SUNDAY;
+
 	if (week_start_day > wday) {
 		g_date_subtract_days (sel_start, wday);
 		wday = g_date_get_weekday (sel_start);
@@ -398,7 +404,7 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			if (cur_start_wday < sel_start_wday)
 				g_date_subtract_days (&sel_start, sel_start_wday - cur_start_wday);
 			sel_end = sel_start;
-			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, TRUE);
 
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_WEEK, &sel_start, &sel_end, FALSE);
 		} else if (cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH ||
@@ -407,7 +413,7 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			g_date_set_day (&sel_start, 1);
 			sel_end = sel_start;
 			g_date_set_day (&sel_end, g_date_get_days_in_month (g_date_get_month (&sel_start), g_date_get_year (&sel_start)) - 1);
-			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH);
 
 			e_cal_shell_content_change_view (cal_shell_content, cal_shell_content->priv->current_view, &sel_start, &sel_end, FALSE);
 		} else {
@@ -442,11 +448,12 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 			g_date_set_day (&sel_start, 1);
 			sel_end = sel_start;
 			g_date_set_day (&sel_end, g_date_get_days_in_month (g_date_get_month (&sel_start), g_date_get_year (&sel_start)));
-			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end, FALSE);
 
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_LIST, &sel_start, &sel_end, FALSE);
 		} else {
-			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (calitem->week_start_day, &sel_start, &sel_end,
+				cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH || cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_WEEK);
 			e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_MONTH, &sel_start, &sel_end, FALSE);
 		}
 	}
@@ -549,7 +556,7 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 			sel_end = sel_start;
 			break;
 		case E_CAL_VIEW_KIND_WORKWEEK:
-			cal_shell_content_clamp_for_whole_weeks (week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (week_start_day, &sel_start, &sel_end, FALSE);
 			ii = 0;
 			while (g_date_get_weekday (&sel_start) != work_day_first && ii < 7) {
 				g_date_add_days (&sel_start, 1);
@@ -561,7 +568,7 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 			break;
 		case E_CAL_VIEW_KIND_WEEK:
 			sel_end = sel_start;
-			cal_shell_content_clamp_for_whole_weeks (week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (week_start_day, &sel_start, &sel_end, TRUE);
 			break;
 		case E_CAL_VIEW_KIND_MONTH:
 		case E_CAL_VIEW_KIND_LIST:
@@ -576,7 +583,7 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 			sel_end = sel_start;
 			g_date_add_months (&sel_end, 1);
 			g_date_subtract_days (&sel_end, 1);
-			cal_shell_content_clamp_for_whole_weeks (week_start_day, &sel_start, &sel_end);
+			cal_shell_content_clamp_for_whole_weeks (week_start_day, &sel_start, &sel_end, cal_shell_content->priv->current_view == E_CAL_VIEW_KIND_MONTH);
 			break;
 		default:
 			g_warn_if_reached ();
