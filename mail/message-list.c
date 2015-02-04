@@ -5668,6 +5668,14 @@ exit:
 	g_object_unref (folder);
 }
 
+static gboolean
+message_list_is_searching (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->search && *message_list->search;
+}
+
 static void
 message_list_regen_done_cb (GObject *source_object,
                             GAsyncResult *result,
@@ -5727,9 +5735,7 @@ message_list_regen_done_cb (GObject *source_object,
 	g_free (message_list->search);
 	message_list->search = g_strdup (regen_data->search);
 
-	searching =
-		(message_list->search != NULL) &&
-		(*message_list->search != '\0');
+	searching = message_list_is_searching (message_list);
 
 	if (regen_data->group_by_threads) {
 		ETableItem *table_item = e_tree_get_item (E_TREE (message_list));
@@ -5958,7 +5964,7 @@ message_list_regen_idle_cb (gpointer user_data)
 	regen_data->thread_subject =
 		message_list_get_thread_subject (message_list);
 
-	searching = (g_strcmp0 (message_list->search, " ") != 0);
+	searching = message_list_is_searching (message_list);
 
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
