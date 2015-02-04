@@ -7937,36 +7937,6 @@ e_html_editor_view_paste_clipboard_quoted (EHTMLEditorView *view)
 	class->paste_clipboard_quoted (view);
 }
 
-static const gchar *
-citation_color_level_1 (void)
-{
-	return "rgb(114,159,207)";  /* Sky Blue 1 */
-}
-
-static const gchar *
-citation_color_level_2 (void)
-{
-	return "rgb(173,127,168)";  /* Plum 1 */
-}
-
-static const gchar *
-citation_color_level_3 (void)
-{
-	return "rgb(138,226,52)";  /* Chameleon 1 */
-}
-
-static const gchar *
-citation_color_level_4 (void)
-{
-	return "rgb(252,175,62)";  /* Orange 1 */
-}
-
-static const gchar *
-citation_color_level_5 (void)
-{
-	return "rgb(233,185,110)";  /* Chocolate 1 */
-}
-
 /**
  * e_html_editor_view_update_fonts:
  * @view: an #EHTMLEditorView
@@ -8231,7 +8201,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
-		citation_color_level_1 ());
+		e_web_view_get_citation_color_for_level (1));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8240,7 +8210,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
-		citation_color_level_2 ());
+		e_web_view_get_citation_color_for_level (2));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8250,7 +8220,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
-		citation_color_level_3 ());
+		e_web_view_get_citation_color_for_level (3));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8261,7 +8231,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
-		citation_color_level_4 ());
+		e_web_view_get_citation_color_for_level (4));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8273,14 +8243,14 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  color: %s;\n"
 		"}\n",
-		citation_color_level_5 ());
+		e_web_view_get_citation_color_for_level (5));
 
 	g_string_append (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
-		"  padding: 0.4ex 1ex;\n"
-		"  margin: 1ex;\n"
+		"  padding: 0ch 1ch 0ch 1ch;\n"
+		"  margin: 0ch;\n"
 		"  border-width: 0px 2px 0px 2px;\n"
 		"  border-style: none solid none solid;\n"
 		"  border-radius: 2px;\n"
@@ -8294,7 +8264,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
-		citation_color_level_1 ());
+		e_web_view_get_citation_color_for_level (1));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8303,7 +8273,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
-		citation_color_level_2 ());
+		e_web_view_get_citation_color_for_level (2));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8313,7 +8283,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
-		citation_color_level_3 ());
+		e_web_view_get_citation_color_for_level (3));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8324,7 +8294,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
-		citation_color_level_4 ());
+		e_web_view_get_citation_color_for_level (4));
 
 	g_string_append_printf (
 		stylesheet,
@@ -8336,7 +8306,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
-		citation_color_level_5 ());
+		e_web_view_get_citation_color_for_level (5));
 
 	gdk_color_free (link);
 	gdk_color_free (visited);

@@ -2575,6 +2575,22 @@ e_web_view_get_selection_html (EWebView *web_view)
 	return NULL;
 }
 
+const gchar *
+e_web_view_get_citation_color_for_level (gint level)
+{
+	static const gchar *citation_color_levels[5] = {
+		"rgb(233,185,110)",	/* level 5 - Chocolate 1 */
+		"rgb(114,159,207)",	/* level 1 - Sky Blue 1 */
+		"rgb(173,127,168)",	/* level 2 - Plum 1 */
+		"rgb(138,226,52)",	/* level 3 - Chameleon 1 */
+		"rgb(252,175,62)",	/* level 4 - Orange 1 */
+	};
+
+	g_return_val_if_fail (level > 0, citation_color_levels[1]);
+
+	return citation_color_levels[level % 5];
+}
+
 void
 e_web_view_update_fonts (EWebView *web_view)
 {
@@ -2708,6 +2724,68 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	gdk_color_free (link);
 	gdk_color_free (visited);
+
+	g_string_append (
+		stylesheet,
+		"blockquote[type=cite] "
+		"{\n"
+		"  padding: 0ch 1ch 0ch 1ch;\n"
+		"  margin: 0ch;\n"
+		"  border-width: 0px 2px 0px 2px;\n"
+		"  border-style: none solid none solid;\n"
+		"  border-radius: 2px;\n"
+		"}\n");
+
+	/* Block quote border colors are borrowed from Thunderbird. */
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: %s;\n"
+		"}\n",
+		e_web_view_get_citation_color_for_level (1));
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: %s;\n"
+		"}\n",
+		e_web_view_get_citation_color_for_level (2));
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: %s;\n"
+		"}\n",
+		e_web_view_get_citation_color_for_level (3));
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: %s;\n"
+		"}\n",
+		e_web_view_get_citation_color_for_level (4));
+
+	g_string_append_printf (
+		stylesheet,
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"blockquote[type=cite] "
+		"{\n"
+		"  border-color: %s;\n"
+		"}\n",
+		e_web_view_get_citation_color_for_level (5));
 
 	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
 	g_string_free (stylesheet, TRUE);

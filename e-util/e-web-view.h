@@ -215,6 +215,8 @@ void		element_remove_class		(WebKitDOMElement *element,
 						 const gchar* class);
 void		remove_node			(WebKitDOMNode *node);
 void		remove_node_if_empty		(WebKitDOMNode *node);
+const gchar *	e_web_view_get_citation_color_for_level
+						(gint level);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */
