@@ -166,10 +166,14 @@ view_source_dialog (EHTMLEditor *editor,
 
 	if (plain_text) {
 		html = e_html_editor_view_get_text_plain (
-				e_html_editor_get_view (editor));
-	} else {
-		html = e_html_editor_view_get_text_html (
 			e_html_editor_get_view (editor));
+	} else {
+		GList *inline_images;
+
+		html = e_html_editor_view_get_text_html (
+			e_html_editor_get_view (editor), "test-domain", &inline_images);
+
+		g_list_free_full (inline_images, g_object_unref);
 	}
 
 	if (show_source || plain_text) {

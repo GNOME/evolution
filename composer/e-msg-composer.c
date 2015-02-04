@@ -1362,10 +1362,9 @@ composer_build_message (EMsgComposer *composer,
 
 		editor = e_msg_composer_get_editor (composer);
 		view = e_html_editor_get_view (editor);
-		inline_images = e_html_editor_view_get_parts_for_inline_images (view, from_domain);
 
 		data = g_byte_array_new ();
-		text = e_html_editor_view_get_text_html (view);
+		text = e_html_editor_view_get_text_html (view, from_domain, &inline_images);
 		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		pre_encode = text_requires_quoted_printable (text, length);

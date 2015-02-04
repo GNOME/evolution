@@ -1157,7 +1157,7 @@ e_html_editor_save (EHTMLEditor *editor,
 
 	if (as_html)
 		content = e_html_editor_view_get_text_html (
-			E_HTML_EDITOR_VIEW (editor));
+			E_HTML_EDITOR_VIEW (editor), NULL, NULL);
 	else
 		content = e_html_editor_view_get_text_plain (
 			E_HTML_EDITOR_VIEW (editor));

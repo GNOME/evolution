@@ -7752,6 +7752,271 @@ e_html_editor_view_get_spell_checker (EHTMLEditorView *view)
 	return E_SPELL_CHECKER (webkit_get_text_checker ());
 }
 
+static CamelMimePart *
+e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
+                                                  WebKitDOMElement *element,
+                                                  const gchar *attribute,
+						  const gchar *uid_domain)
+{
+	CamelStream *stream;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *part = NULL;
+	gsize decoded_size;
+	gssize size;
+	gchar *mime_type = NULL;
+	gchar *element_src, *cid, *name;
+	const gchar *base64_encoded_data;
+	guchar *base64_decoded_data = NULL;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
+		return NULL;
+	}
+
+	element_src = webkit_dom_element_get_attribute (
+		WEBKIT_DOM_ELEMENT (element), attribute);
+
+	base64_encoded_data = strstr (element_src, ";base64,");
+	if (!base64_encoded_data)
+		goto out;
+
+	mime_type = g_strndup (
+		element_src + 5,
+		base64_encoded_data - (strstr (element_src, "data:") + 5));
+
+	/* Move to actual data */
+	base64_encoded_data += 8;
+
+	base64_decoded_data = g_base64_decode (base64_encoded_data, &decoded_size);
+
+	stream = camel_stream_mem_new ();
+	size = camel_stream_write (
+		stream, (gchar *) base64_decoded_data, decoded_size, NULL, NULL);
+
+	if (size == -1)
+		goto out;
+
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream_sync (
+		wrapper, stream, NULL, NULL);
+	g_object_unref (stream);
+
+	camel_data_wrapper_set_mime_type (wrapper, mime_type);
+
+	part = camel_mime_part_new ();
+	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
+	g_object_unref (wrapper);
+
+	cid = camel_header_msgid_generate (uid_domain);
+	camel_mime_part_set_content_id (part, cid);
+	g_free (cid);
+	name = webkit_dom_element_get_attribute (element, "data-name");
+	camel_mime_part_set_filename (part, name);
+	g_free (name);
+	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
+out:
+	g_free (mime_type);
+	g_free (element_src);
+	g_free (base64_decoded_data);
+
+	return part;
+}
+
+static GList *
+html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
+                                              const gchar *uid_domain,
+                                              GHashTable **inline_images)
+{
+	GList *parts = NULL;
+	gint length, ii;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+	g_return_val_if_fail (inline_images != NULL, NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW  (view));
+	list = webkit_dom_document_query_selector_all (document, "img[data-inline]", NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+	if (length == 0)
+		goto background;
+
+	*inline_images = g_hash_table_new_full (
+		g_str_hash, g_str_equal, g_free, g_free);
+
+	for (ii = 0; ii < length; ii++) {
+		const gchar *id;
+		gchar *cid;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		gchar *src = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "src");
+
+		if ((id = g_hash_table_lookup (*inline_images, src)) != NULL) {
+			cid = g_strdup_printf ("cid:%s", id);
+			g_free (src);
+		} else {
+			CamelMimePart *part;
+
+			part = e_html_editor_view_add_inline_image_from_element (
+				view, WEBKIT_DOM_ELEMENT (node), "src", uid_domain);
+			parts = g_list_append (parts, part);
+
+			id = camel_mime_part_get_content_id (part);
+			cid = g_strdup_printf ("cid:%s", id);
+
+			g_hash_table_insert (*inline_images, src, g_strdup (id));
+		}
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
+		g_free (cid);
+	}
+	g_object_unref (list);
+
+ background:
+	list = webkit_dom_document_query_selector_all (
+		document, "[data-inline][background]", NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+	if (length == 0)
+		return parts;
+	if (!*inline_images)
+		*inline_images = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, g_free);
+
+	for (ii = 0; ii < length; ii++) {
+		CamelMimePart *part;
+		const gchar *id;
+		gchar *cid = NULL;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		gchar *src = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "background");
+
+		if ((id = g_hash_table_lookup (*inline_images, src)) != NULL) {
+			cid = g_strdup_printf ("cid:%s", id);
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
+			g_free (src);
+		} else {
+			part = e_html_editor_view_add_inline_image_from_element (
+				view, WEBKIT_DOM_ELEMENT (node), "background", uid_domain);
+			if (part) {
+				parts = g_list_append (parts, part);
+				id = camel_mime_part_get_content_id (part);
+				g_hash_table_insert (*inline_images, src, g_strdup (id));
+				cid = g_strdup_printf ("cid:%s", id);
+				webkit_dom_element_set_attribute (
+					WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
+			} else
+				g_free (src);
+		}
+		g_free (cid);
+	}
+
+	g_object_unref (list);
+
+	return parts;
+}
+
+/**
+ * e_html_editor_view_add_inline_image_from_mime_part:
+ * @composer: a composer object
+ * @part: a CamelMimePart containing image data
+ *
+ * This adds the mime part @part to @composer as an inline image.
+ **/
+void
+e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
+                                                    CamelMimePart *part)
+{
+	CamelDataWrapper *dw;
+	CamelStream *stream;
+	GByteArray *byte_array;
+	gchar *src, *base64_encoded, *mime_type, *cid_src;
+	const gchar *cid, *name;
+
+	stream = camel_stream_mem_new ();
+	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
+	g_return_if_fail (dw);
+
+	mime_type = camel_data_wrapper_get_mime_type (dw);
+	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
+	camel_stream_close (stream, NULL, NULL);
+
+	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
+
+	if (!byte_array->data)
+		return;
+
+	base64_encoded = g_base64_encode ((const guchar *) byte_array->data, byte_array->len);
+
+	name = camel_mime_part_get_filename (part);
+	/* Insert file name before new src */
+	src = g_strconcat (name, ";data:", mime_type, ";base64,", base64_encoded, NULL);
+
+	cid = camel_mime_part_get_content_id (part);
+	if (!cid) {
+		camel_mime_part_set_content_id (part, NULL);
+		cid = camel_mime_part_get_content_id (part);
+	}
+	cid_src = g_strdup_printf ("cid:%s", cid);
+
+	g_hash_table_insert (view->priv->inline_images, cid_src, src);
+
+	g_free (base64_encoded);
+	g_free (mime_type);
+	g_object_unref (stream);
+}
+
+static void
+restore_images (gchar *key,
+                gchar *value,
+                EHTMLEditorView *view)
+{
+	gchar *selector;
+	gint length, ii;
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW  (view));
+
+	selector = g_strconcat ("[data-inline][background=\"cid:", value, "\"]", NULL);
+	list = webkit_dom_document_query_selector_all (document, selector, NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (list, ii));
+
+		webkit_dom_element_set_attribute (element, "background", key, NULL);
+	}
+	g_free (selector);
+	g_object_unref (list);
+
+	selector = g_strconcat ("[data-inline][src=\"cid:", value, "\"]", NULL);
+	list = webkit_dom_document_query_selector_all (document, selector, NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (list, ii));
+
+		webkit_dom_element_set_attribute (element, "src", key, NULL);
+	}
+	g_free (selector);
+	g_object_unref (list);
+}
+
+static void
+html_editor_view_restore_images (EHTMLEditorView *view,
+                                 GHashTable **inline_images)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	g_hash_table_foreach (*inline_images, (GHFunc) restore_images, view);
+
+	/* Remove all hashed images as user can modify them. */
+	g_hash_table_remove_all (*inline_images);
+	g_hash_table_destroy (*inline_images);
+}
+
 /**
  * e_html_editor_view_get_text_html:
  * @view: an #EHTMLEditorView:
@@ -7762,9 +8027,25 @@ e_html_editor_view_get_spell_checker (EHTMLEditorView *view)
  * Returns: A newly allocated string
  */
 gchar *
-e_html_editor_view_get_text_html (EHTMLEditorView *view)
+e_html_editor_view_get_text_html (EHTMLEditorView *view,
+                                  const gchar *from_domain,
+                                  GList **inline_images)
 {
-	return process_content_for_html (view);
+	gchar *html = NULL;
+	GHashTable *inline_images_to_restore = NULL;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
+
+	if (inline_images && from_domain)
+		*inline_images = html_editor_view_get_parts_for_inline_images (
+			view, from_domain, &inline_images_to_restore);
+
+	html = process_content_for_html (view);
+
+	if (inline_images && from_domain && inline_images_to_restore)
+		html_editor_view_restore_images (view, &inline_images_to_restore);
+
+	return html;
 }
 
 /**
@@ -8368,208 +8649,6 @@ e_html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 	range = html_editor_view_get_dom_range (view);
 	html_editor_view_check_magic_links (view, range, include_space);
-}
-
-static CamelMimePart *
-e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
-                                                  WebKitDOMElement *element,
-                                                  const gchar *attribute,
-						  const gchar *uid_domain)
-{
-	CamelStream *stream;
-	CamelDataWrapper *wrapper;
-	CamelMimePart *part = NULL;
-	gsize decoded_size;
-	gssize size;
-	gchar *mime_type = NULL;
-	gchar *element_src, *cid, *name;
-	const gchar *base64_encoded_data;
-	guchar *base64_decoded_data = NULL;
-
-	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
-		return NULL;
-	}
-
-	element_src = webkit_dom_element_get_attribute (
-		WEBKIT_DOM_ELEMENT (element), attribute);
-
-	base64_encoded_data = strstr (element_src, ";base64,");
-	if (!base64_encoded_data)
-		goto out;
-
-	mime_type = g_strndup (
-		element_src + 5,
-		base64_encoded_data - (strstr (element_src, "data:") + 5));
-
-	/* Move to actual data */
-	base64_encoded_data += 8;
-
-	base64_decoded_data = g_base64_decode (base64_encoded_data, &decoded_size);
-
-	stream = camel_stream_mem_new ();
-	size = camel_stream_write (
-		stream, (gchar *) base64_decoded_data, decoded_size, NULL, NULL);
-
-	if (size == -1)
-		goto out;
-
-	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream_sync (
-		wrapper, stream, NULL, NULL);
-	g_object_unref (stream);
-
-	camel_data_wrapper_set_mime_type (wrapper, mime_type);
-
-	part = camel_mime_part_new ();
-	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
-	g_object_unref (wrapper);
-
-	cid = camel_header_msgid_generate (uid_domain);
-	camel_mime_part_set_content_id (part, cid);
-	g_free (cid);
-	name = webkit_dom_element_get_attribute (element, "data-name");
-	camel_mime_part_set_filename (part, name);
-	g_free (name);
-	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
-out:
-	g_free (mime_type);
-	g_free (element_src);
-	g_free (base64_decoded_data);
-
-	return part;
-}
-
-GList *
-e_html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
-						const gchar *uid_domain)
-{
-	GHashTable *added;
-	GList *parts = NULL;
-	gint length, ii;
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW  (view));
-	list = webkit_dom_document_query_selector_all (document, "img[data-inline]", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-	if (length == 0)
-		return parts;
-
-	added = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
-	for (ii = 0; ii < length; ii++) {
-		const gchar *id;
-		gchar *cid;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *src = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (node), "src");
-
-		if ((id = g_hash_table_lookup (added, src)) != NULL) {
-			cid = g_strdup_printf ("cid:%s", id);
-		} else {
-			CamelMimePart *part;
-
-			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "src", uid_domain);
-			parts = g_list_append (parts, part);
-
-			id = camel_mime_part_get_content_id (part);
-			cid = g_strdup_printf ("cid:%s", id);
-
-			g_hash_table_insert (added, src, (gpointer) id);
-		}
-		webkit_dom_element_set_attribute (
-			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
-		g_free (src);
-		g_free (cid);
-	}
-	g_object_unref (list);
-
-	list = webkit_dom_document_query_selector_all (
-		document, "[data-inline][background]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		CamelMimePart *part;
-		const gchar *id;
-		gchar *cid = NULL;
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		gchar *src = webkit_dom_element_get_attribute (
-			WEBKIT_DOM_ELEMENT (node), "background");
-
-		if ((id = g_hash_table_lookup (added, src)) != NULL) {
-			cid = g_strdup_printf ("cid:%s", id);
-			webkit_dom_element_set_attribute (
-				WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
-		} else {
-			part = e_html_editor_view_add_inline_image_from_element (
-				view, WEBKIT_DOM_ELEMENT (node), "background", uid_domain);
-			if (part) {
-				parts = g_list_append (parts, part);
-				id = camel_mime_part_get_content_id (part);
-				g_hash_table_insert (added, src, (gpointer) id);
-				cid = g_strdup_printf ("cid:%s", id);
-				webkit_dom_element_set_attribute (
-					WEBKIT_DOM_ELEMENT (node), "background", cid, NULL);
-			}
-		}
-		g_free (src);
-		g_free (cid);
-	}
-
-	g_object_unref (list);
-	g_hash_table_destroy (added);
-
-	return parts;
-}
-
-/**
- * e_html_editor_view_add_inline_image_from_mime_part:
- * @composer: a composer object
- * @part: a CamelMimePart containing image data
- *
- * This adds the mime part @part to @composer as an inline image.
- **/
-void
-e_html_editor_view_add_inline_image_from_mime_part (EHTMLEditorView *view,
-                                                    CamelMimePart *part)
-{
-	CamelDataWrapper *dw;
-	CamelStream *stream;
-	GByteArray *byte_array;
-	gchar *src, *base64_encoded, *mime_type, *cid_src;
-	const gchar *cid, *name;
-
-	stream = camel_stream_mem_new ();
-	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
-	g_return_if_fail (dw);
-
-	mime_type = camel_data_wrapper_get_mime_type (dw);
-	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
-	camel_stream_close (stream, NULL, NULL);
-
-	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
-
-	if (!byte_array->data)
-		return;
-
-	base64_encoded = g_base64_encode ((const guchar *) byte_array->data, byte_array->len);
-
-	name = camel_mime_part_get_filename (part);
-	/* Insert file name before new src */
-	src = g_strconcat (name, ";data:", mime_type, ";base64,", base64_encoded, NULL);
-
-	cid = camel_mime_part_get_content_id (part);
-	if (!cid) {
-		camel_mime_part_set_content_id (part, NULL);
-		cid = camel_mime_part_get_content_id (part);
-	}
-	cid_src = g_strdup_printf ("cid:%s", cid);
-
-	g_hash_table_insert (view->priv->inline_images, cid_src, src);
-
-	g_free (base64_encoded);
-	g_free (mime_type);
-	g_object_unref (stream);
 }
 
 void
