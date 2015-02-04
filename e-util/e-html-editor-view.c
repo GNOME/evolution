@@ -7334,6 +7334,19 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		e_html_editor_view_remove_embed_styles (view);
 	}
 
+	/* The composer body could be empty in some case (loading an empty string
+	 * or empty HTML. In that case create the initial paragraph. */
+	if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
+		EHTMLEditorSelection *selection;
+		WebKitDOMElement *paragraph;
+
+		selection = e_html_editor_view_get_selection (view);
+		paragraph = prepare_paragraph (selection, document, TRUE);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (paragraph), NULL);
+		e_html_editor_selection_restore (selection);
+	}
+
 	/* Register on input event that is called when the content (body) is modified */
 	register_input_event_listener_on_body (view);
 	register_html_events_handlers (view, body);
