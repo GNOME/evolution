@@ -2326,7 +2326,7 @@ msgid ""
 "this task."
 msgstr ""
 "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli tento úkol "
-"přijmout."
+"odsouhlasit."
 
 #: ../calendar/calendar.error.xml.h:45
 msgid "Download in progress. Do you want to save the task?"
@@ -4596,7 +4596,7 @@ msgstr "Ne"
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6076
 msgid "Accepted"
-msgstr "Akceptováno"
+msgstr "Odsouhlaseno"
 
 #: ../calendar/gui/e-cal-model.c:3030
 #: ../calendar/gui/e-meeting-list-view.c:221
@@ -5243,7 +5243,7 @@ msgstr "Informace o kalendáři"
 #: ../calendar/gui/itip-utils.c:978
 msgctxt "Meeting"
 msgid "Accepted"
-msgstr "Akceptováno"
+msgstr "Odsouhlaseno"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -5252,7 +5252,7 @@ msgstr "Akceptováno"
 #: ../calendar/gui/itip-utils.c:985
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
-msgstr "Předběžně akceptováno"
+msgstr "Předběžně odsouhlaseno"
 
 #. Translators: This is part of the subject
 #. * line of a meeting request or update email.
@@ -20450,7 +20450,7 @@ msgstr "Nelze odeslat položku do kalendáře „%s“. %s"
 #: ../modules/itip-formatter/itip-view.c:4674
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "Odesláno do kalendáře „%s“ jako přijaté"
+msgstr "Odesláno do kalendáře „%s“ jako odsouhlasené"
 
 #: ../modules/itip-formatter/itip-view.c:4679
 #, c-format
@@ -20589,7 +20589,7 @@ msgstr "Nic"
 
 #: ../modules/itip-formatter/itip-view.c:6079
 msgid "Tentatively Accepted"
-msgstr "Předběžně akceptováno"
+msgstr "Předběžně odsouhlaseno"
 
 #: ../modules/itip-formatter/itip-view.c:6239
 msgid "This meeting recurs"
