@@ -1736,7 +1736,7 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 
 	if (active) {
 		style = webkit_dom_document_get_element_by_id (
-				document, "--evolution-editor-style-a");
+				document, "-x-evo-style-a");
 		if (style)
 			remove_node (WEBKIT_DOM_NODE (style));
 	} else {
@@ -1744,7 +1744,7 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 		head = webkit_dom_document_get_head (document);
 
 		style = webkit_dom_document_create_element (document, "STYLE", NULL);
-		webkit_dom_element_set_id (style, "--evolution-editor-style-a");
+		webkit_dom_element_set_id (style, "-x-evo-style-a");
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (style), "a { cursor: text; }", NULL);
 
@@ -7102,6 +7102,11 @@ process_content_for_html (EHTMLEditorView *view)
 		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL));
+	if (node)
+		remove_node (node);
+	/* When the Ctrl + Enter is pressed for sending, the links are activated. */
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-style-a", NULL));
 	if (node)
 		remove_node (node);
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
