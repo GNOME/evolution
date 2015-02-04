@@ -687,7 +687,6 @@ shell_trust_prompt_done_cb (GObject *source_object,
 	ESource *source;
 	EShell *shell = user_data;
 	ETrustPromptResponse response = E_TRUST_PROMPT_RESPONSE_UNKNOWN;
-	ENamedParameters *credentials;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_SOURCE (source_object));
@@ -723,12 +722,9 @@ shell_trust_prompt_done_cb (GObject *source_object,
 	/* If a credentials prompt is required, then it'll be shown immediately. */
 	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, FALSE);
 
-	credentials = e_named_parameters_new ();
-
-	e_source_invoke_authenticate (source, credentials, shell->priv->cancellable,
+	/* NULL credentials to retry with those used the last time */
+	e_source_invoke_authenticate (source, NULL, shell->priv->cancellable,
 		shell_source_invoke_authenticate_cb, shell);
-
-	e_named_parameters_free (credentials);
 }
 
 static void
