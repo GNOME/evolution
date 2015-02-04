@@ -5388,6 +5388,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 
 				text_content = webkit_dom_node_get_text_content (node);
 				anchor_length = g_utf8_strlen (text_content, -1);
+				g_free (text_content);
 				if (len + anchor_length > word_wrap_length) {
 					if (webkit_dom_node_get_previous_sibling (node)) {
 						element = webkit_dom_document_create_element (
@@ -5403,15 +5404,39 @@ wrap_lines (EHTMLEditorSelection *selection,
 				} else
 					len += anchor_length;
 
-				g_free (text_content);
+				/* If the anchor doesn't fit on the line wrap after it */
+				if (anchor_length > word_wrap_length) {
+					element = webkit_dom_document_create_element (
+						document, "BR", NULL);
+					element_add_class (element, "-x-evo-wrap-br");
+					node = webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						webkit_dom_node_get_next_sibling (node),
+						NULL);
+					len = 0;
+				}
 				/* If there is space after the anchor don't try to
 				 * wrap before it */
 				node = webkit_dom_node_get_next_sibling (node);
 				if (WEBKIT_DOM_IS_TEXT (node)) {
 					text_content = webkit_dom_node_get_text_content (node);
-					if (g_strcmp0 (text_content, " ") == 0) {
-						node = webkit_dom_node_get_next_sibling (node);
-						len++;
+					if (g_str_has_prefix (text_content, " ")) {
+						if (g_strcmp0 (text_content, " ") == 0) {
+							node = webkit_dom_node_get_next_sibling (node);
+							len++;
+						} else {
+							WebKitDOMText *text_node;
+
+							text_node = webkit_dom_text_split_text (
+								WEBKIT_DOM_TEXT (node), 1, NULL);
+							webkit_dom_node_insert_before (
+								webkit_dom_node_get_parent_node (node),
+								node,
+								webkit_dom_node_get_previous_sibling (node),
+								NULL);
+							node = WEBKIT_DOM_NODE (text_node);
+						}
 					}
 					g_free (text_content);
 				}
