@@ -15893,32 +15893,32 @@ msgstr "Kopírovat složku do"
 
 #: ../mail/em-subscription-editor.c:855
 msgid "_Subscribe"
-msgstr "Při_hlásit se"
+msgstr "Ode_bírat"
 
 #: ../mail/em-subscription-editor.c:864
 msgid "Su_bscribe To Shown"
-msgstr "Přih_lásit se k zobrazeným"
+msgstr "Ode_bírat zobrazené"
 
 #: ../mail/em-subscription-editor.c:872
 msgid "Subscribe To _All"
-msgstr "Přihlásit se ke _všem"
+msgstr "Odebír_at všechny"
 
 #: ../mail/em-subscription-editor.c:969 ../mail/em-subscription-editor.c:1867
 #: ../modules/mail/e-mail-shell-view-actions.c:1685
 msgid "_Unsubscribe"
-msgstr "_Odhlásit se"
+msgstr "Zr_ušit odběr"
 
 #: ../mail/em-subscription-editor.c:978
 msgid "Unsu_bscribe From Hidden"
-msgstr "Odhlásit se ze _skrytých"
+msgstr "Zrušit od_běr skrytých"
 
 #: ../mail/em-subscription-editor.c:986
 msgid "Unsubscribe From _All"
-msgstr "Odhlásit se ze vš_ech"
+msgstr "Zrušit odběr vš_ech"
 
 #: ../mail/em-subscription-editor.c:1704
 msgid "Folder Subscriptions"
-msgstr "Přihlášené složky"
+msgstr "Odebírané složky"
 
 #: ../mail/em-subscription-editor.c:1743
 msgid "_Account:"
@@ -15943,7 +15943,7 @@ msgstr "Při_hlásit"
 #: ../mail/em-subscription-editor.c:1866
 #: ../modules/mail/e-mail-shell-view-actions.c:1687
 msgid "Unsubscribe from the selected folder"
-msgstr "Odhlásit se z vybrané složky"
+msgstr "Zrušit odběr vybrané složky"
 
 #: ../mail/em-subscription-editor.c:1906
 msgid "Collapse all folders"
@@ -15969,11 +15969,11 @@ msgstr "Aktualizovat seznam složek"
 #: ../modules/mail/e-mail-shell-view-actions.c:1587
 #: ../modules/mail/e-mail-shell-view-actions.c:1657
 msgid "_Refresh"
-msgstr "O_bnovit"
+msgstr "A_ktualizovat"
 
 #: ../mail/em-subscription-editor.c:1940
 msgid "Stop the current operation"
-msgstr "Zastavit aktuální operaci"
+msgstr "Zastavit současnou operaci"
 
 #: ../mail/em-subscription-editor.c:1941
 #: ../modules/addressbook/e-book-shell-view-actions.c:979
@@ -17665,7 +17665,7 @@ msgstr "Selhalo odpojení účtu „{0}“."
 
 #: ../mail/mail.error.xml.h:157
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
-msgstr "Selhalo odhlášení od složky „{0}“."
+msgstr "Selhalo zrušení odběru složky „{0}“."
 
 #: ../mail/mail.error.xml.h:158
 msgid "Unable to retrieve message."
@@ -20967,17 +20967,17 @@ msgstr "Žá_dný"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1722
 msgid "_Manage Subscriptions"
-msgstr "_Spravovat přihlášení"
+msgstr "_Spravovat odběry"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1724
 #: ../modules/mail/e-mail-shell-view-actions.c:1808
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Přihlásit nebo odhlásit složky na vzdálených serverech"
+msgstr "Odebírat nebo zrušit odběr složek na vzdálených serverech"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1736
 #: ../modules/mail/e-mail-shell-view-actions.c:1757
 msgid "Send / _Receive"
-msgstr "O_deslat / přijmout"
+msgstr "O_deslat/přijmout"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1738
 msgid "Send queued items and retrieve new items"
@@ -21029,7 +21029,7 @@ msgstr "Vytvořit nebo editovat pravidla pro filtrování nové pošty"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1806
 msgid "_Subscriptions..."
-msgstr "_Přihlášení…"
+msgstr "_Odběry…"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1815
 msgid "F_older"
