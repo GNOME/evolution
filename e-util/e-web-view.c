@@ -2728,7 +2728,7 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	g_string_append (
 		stylesheet,
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  padding: 0ch 1ch 0ch 1ch;\n"
 		"  margin: 0ch;\n"
@@ -2740,7 +2740,7 @@ e_web_view_update_fonts (EWebView *web_view)
 	/* Block quote border colors are borrowed from Thunderbird. */
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -2748,8 +2748,8 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -2757,9 +2757,9 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -2767,10 +2767,10 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
@@ -2778,11 +2778,11 @@ e_web_view_update_fonts (EWebView *web_view)
 
 	g_string_append_printf (
 		stylesheet,
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 		"{\n"
 		"  border-color: %s;\n"
 		"}\n",
