@@ -7215,6 +7215,62 @@ convert_when_changing_composer_mode (EHTMLEditorView *view)
 	e_html_editor_view_force_spell_check (view);
 }
 
+void
+e_html_editor_view_embed_styles (EHTMLEditorView *view)
+{
+	WebKitWebSettings *settings;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *sheet;
+	gchar *stylesheet_uri;
+	gchar *stylesheet_content;
+	const gchar *stylesheet;
+	gsize length;
+
+	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	g_object_get (
+		G_OBJECT (settings),
+		"user-stylesheet-uri", &stylesheet_uri,
+		NULL);
+
+	stylesheet = strstr (stylesheet_uri, ",");
+	stylesheet_content = (gchar *) g_base64_decode (stylesheet, &length);
+	g_free (stylesheet_uri);
+
+	if (length == 0) {
+		g_free (stylesheet_content);
+		return;
+	}
+
+	e_web_view_create_and_add_css_style_sheet (document, "-x-evo-composer-sheet");
+
+	sheet = webkit_dom_document_get_element_by_id (document, "-x-evo-composer-sheet");
+	webkit_dom_element_set_attribute (
+		sheet,
+		"type",
+		"text/css",
+		NULL);
+
+	webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (sheet), stylesheet_content, NULL);
+
+	g_free (stylesheet_content);
+}
+
+void
+e_html_editor_view_remove_embed_styles (EHTMLEditorView *view)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *sheet;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	sheet = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-composer-sheet");
+
+	if (sheet)
+		remove_node (WEBKIT_DOM_NODE (sheet));
+}
+
 static void
 html_editor_view_load_status_changed (EHTMLEditorView *view)
 {
@@ -7275,6 +7331,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 			document, WEBKIT_DOM_ELEMENT (body), FALSE);
 		e_html_editor_selection_restore (
 			e_html_editor_view_get_selection (view));
+		e_html_editor_view_remove_embed_styles (view);
 	}
 
 	/* Register on input event that is called when the content (body) is modified */
@@ -7878,61 +7935,6 @@ e_html_editor_view_paste_clipboard_quoted (EHTMLEditorView *view)
 	g_return_if_fail (class->paste_clipboard_quoted != NULL);
 
 	class->paste_clipboard_quoted (view);
-}
-
-void
-e_html_editor_view_embed_styles (EHTMLEditorView *view)
-{
-	WebKitWebSettings *settings;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *sheet;
-	gchar *stylesheet_uri;
-	gchar *stylesheet_content;
-	const gchar *stylesheet;
-	gsize length;
-
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-	g_object_get (
-		G_OBJECT (settings),
-		"user-stylesheet-uri", &stylesheet_uri,
-		NULL);
-
-	stylesheet = strstr (stylesheet_uri, ",");
-	stylesheet_content = (gchar *) g_base64_decode (stylesheet, &length);
-	g_free (stylesheet_uri);
-
-	if (length == 0) {
-		g_free (stylesheet_content);
-		return;
-	}
-
-	e_web_view_create_and_add_css_style_sheet (document, "-x-evo-composer-sheet");
-
-	sheet = webkit_dom_document_get_element_by_id (document, "-x-evo-composer-sheet");
-	webkit_dom_element_set_attribute (
-		sheet,
-		"type",
-		"text/css",
-		NULL);
-
-	webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (sheet), stylesheet_content, NULL);
-
-	g_free (stylesheet_content);
-}
-
-void
-e_html_editor_view_remove_embed_styles (EHTMLEditorView *view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *sheet;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	sheet = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-composer-sheet");
-
-	remove_node (WEBKIT_DOM_NODE (sheet));
 }
 
 static const gchar *
