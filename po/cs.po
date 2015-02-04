@@ -21223,7 +21223,7 @@ msgstr "Koš"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1569
 msgid "Send / Receive"
-msgstr "Odeslat / přijmout"
+msgstr "Odeslat/přijmout"
 
 #: ../modules/mail/em-composer-prefs.c:394
 msgid "Select Folder to Add"
