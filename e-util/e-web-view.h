@@ -246,6 +246,8 @@ void		e_web_view_add_css_rule_into_style_sheet
 						 const gchar *style_sheet_id,
 						 const gchar *selector,
 						 const gchar *style);
+const gchar *	e_web_view_get_citation_color_for_level
+						(gint level);
 G_END_DECLS
 
 #endif /* E_WEB_VIEW_H */
