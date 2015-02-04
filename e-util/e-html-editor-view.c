@@ -7311,16 +7311,19 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 
-	/* Make the quote marks non-selectable. */
-	disable_quote_marks_select (document);
-
 	if (view->priv->convert_in_situ) {
 		html_editor_convert_view_content (view, NULL);
+		/* Make the quote marks non-selectable. */
+		disable_quote_marks_select (document);
+		html_editor_view_set_links_active (view, FALSE);
 		view->priv->convert_in_situ = FALSE;
 
 		return;
 	}
 
+	/* Make the quote marks non-selectable. */
+	disable_quote_marks_select (document);
+	html_editor_view_set_links_active (view, FALSE);
 	put_body_in_citation (document);
 	move_elements_to_body (document);
 	repair_gmail_blockquotes (document);
@@ -7615,8 +7618,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	 * does not block loading resources from file:// protocol */
 	webkit_web_view_load_string (
 		WEBKIT_WEB_VIEW (view), "", "text/html", "UTF-8", "file://");
-
-	html_editor_view_set_links_active (view, FALSE);
 
 	if (emd_global_http_cache == NULL) {
 		user_cache_dir = e_get_user_cache_dir ();
