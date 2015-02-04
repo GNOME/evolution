@@ -1045,7 +1045,7 @@ composer_add_evolution_format_header (CamelMedium *medium,
 
 	string = g_string_sized_new (128);
 
-	if (flags & COMPOSER_FLAG_HTML_CONTENT)
+	if ((flags & COMPOSER_FLAG_HTML_CONTENT) || (flags & COMPOSER_FLAG_SAVE_DRAFT))
 		g_string_append (string, "text/html");
 	else
 		g_string_append (string, "text/plain");
