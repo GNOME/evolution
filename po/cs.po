@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-04 05:18+0000\n"
-"PO-Revision-Date: 2015-02-04 11:16+0100\n"
+"POT-Creation-Date: 2015-02-05 09:08+0000\n"
+"PO-Revision-Date: 2015-02-05 14:56+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -567,7 +567,7 @@ msgstr "Možnosti"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3044
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3123
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -599,7 +599,7 @@ msgstr "_Zrušit"
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:395
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3045
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3124
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
 #: ../smime/gui/certificate-manager.c:653
@@ -4776,10 +4776,9 @@ msgid "Purging tasks"
 msgstr "Pročišťují se úkoly"
 
 #: ../calendar/gui/e-cal-ops.c:1178
-#, fuzzy
 #| msgid "Hide completed tasks"
 msgid "Expunging completed tasks"
-msgstr "Skrýt dokončené úkoly"
+msgstr "Čistí se dokončené úkoly"
 
 #: ../calendar/gui/e-cal-ops.c:2034
 #, c-format
@@ -5109,7 +5108,7 @@ msgid "Language"
 msgstr "Jazyk"
 
 #: ../calendar/gui/e-memo-table.c:371
-#: ../modules/calendar/e-cal-shell-content.c:1573
+#: ../modules/calendar/e-cal-shell-content.c:1580
 #: ../modules/calendar/e-memo-shell-view-actions.c:180
 #: ../modules/calendar/e-memo-shell-view-actions.c:195
 #: ../modules/calendar/e-memo-shell-view.c:308
@@ -5168,7 +5167,7 @@ msgstr "%d %%"
 #: ../calendar/importers/icalendar-importer.c:78
 #: ../calendar/importers/icalendar-importer.c:1072
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
-#: ../modules/calendar/e-cal-shell-content.c:1531
+#: ../modules/calendar/e-cal-shell-content.c:1538
 #: ../modules/calendar/e-task-shell-view-actions.c:203
 #: ../modules/calendar/e-task-shell-view-actions.c:218
 #: ../modules/calendar/e-task-shell-view.c:466
@@ -7540,11 +7539,11 @@ msgstr ""
 "Nelze zašifrovat odchozí zprávu: Pro tento účet nebyl nastaven šifrovací "
 "certifikát"
 
-#: ../composer/e-msg-composer.c:1582 ../composer/e-msg-composer.c:2148
+#: ../composer/e-msg-composer.c:1581 ../composer/e-msg-composer.c:2147
 msgid "Compose Message"
 msgstr "Napsat zprávu"
 
-#: ../composer/e-msg-composer.c:4391
+#: ../composer/e-msg-composer.c:4390
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Editor zpráv obsahuje netextové tělo zprávy, které nelze upravovat."
 
@@ -7716,6 +7715,8 @@ msgid ""
 "A keyboard accelerator to send the message has been pressed. Either cancel "
 "sending the message, if it was done by an accident, or send the message."
 msgstr ""
+"Byla zmáčknuta klávesová zkratka pro odeslání zprávy. Buď odeslání zprávy "
+"zrušte, pokud se tak stalo omylem, nebo zprávu odešlete."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -9740,10 +9741,9 @@ msgstr ""
 "serverem. Interval musí být aspoň 30 sekund."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
-#, fuzzy
 #| msgid "Confirm _when expunging a folder"
 msgid "Allow expunge in virtual folders"
-msgstr "_Vyžadovat potvrzení před vyčištěním složky"
+msgstr "Povolit čištění ve virtuálních složkách"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid ""
@@ -9752,16 +9752,22 @@ msgid ""
 "in all folders for all deleted messages within the virtual folder, not only "
 "for deleted messages belonging to the virtual folder."
 msgstr ""
+"Povolí Vyčištění ve virtuálních složkách, což znamená, že Složka -> Vyčistit "
+"bude možné vyvolat ve virtuálních složkách, zatímco vlastní vyčištění "
+"proběhne ve všech složkách pro všechny smazané zprávy obsažené ve virtuální "
+"složce a ne jen pro zprávy náležející k virtuální složce."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "An Archive folder for On This Computer folders."
-msgstr ""
+msgstr "Archivační složka pro „V tomto počítači“."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
+"Archivační složka, která se má použít pro funkci Zprávy|Archivovat…, když je "
+"vybrána některé složka V tomto počítači."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "(Deprecated) Default forward style"
@@ -11809,7 +11815,7 @@ msgstr "Te_xtový soubor…"
 
 #: ../e-util/e-html-editor-actions.c:1083
 msgid "Paste _Quotation"
-msgstr ""
+msgstr "Vložit _citaci"
 
 #: ../e-util/e-html-editor-actions.c:1090
 msgid "_Find..."
@@ -12102,10 +12108,9 @@ msgstr "Tabulka"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
 #: ../e-util/e-html-editor-actions.c:1532
-#, fuzzy
 #| msgid "Table Cell"
 msgid "Table Delete"
-msgstr "Buňka tabulky"
+msgstr "Smazat v tabulce"
 
 #: ../e-util/e-html-editor-actions.c:1539 ../e-util/e-text.c:2127
 msgid "Input Methods"
@@ -12113,10 +12118,9 @@ msgstr "Vstupní metody"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
 #: ../e-util/e-html-editor-actions.c:1547
-#, fuzzy
 #| msgid "Table Cell"
 msgid "Table Insert"
-msgstr "Buňka tabulky"
+msgstr "Vložit do tabulky"
 
 #: ../e-util/e-html-editor-actions.c:1554
 msgid "Properties"
@@ -12176,10 +12180,9 @@ msgid "Text..."
 msgstr "Text…"
 
 #: ../e-util/e-html-editor-actions.c:1671
-#, fuzzy
 #| msgid "_Remove"
 msgid "Remove Link"
-msgstr "_Odstranit"
+msgstr "Odstranit odkaz"
 
 #: ../e-util/e-html-editor-actions.c:1688
 msgid "Add Word to Dictionary"
@@ -12326,7 +12329,7 @@ msgstr "Styl na_dpisu"
 #: ../e-util/e-html-editor-image-dialog.c:521
 #: ../e-util/e-html-editor-table-dialog.c:731
 msgid "<b>Layout</b>"
-msgstr ""
+msgstr "<b>Vzhled</b>"
 
 #. Width
 #: ../e-util/e-html-editor-cell-dialog.c:761
@@ -12335,11 +12338,11 @@ msgstr "Šíř_ka"
 
 #: ../e-util/e-html-editor-cell-dialog.c:800
 msgid "Row S_pan:"
-msgstr ""
+msgstr "Sloučit _přes řádky:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:814
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "S_loučit přes sloupce:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:821
 #: ../e-util/e-html-editor-table-dialog.c:835
@@ -12358,10 +12361,9 @@ msgstr "B_arva"
 #: ../e-util/e-html-editor-cell-dialog.c:850
 #: ../e-util/e-html-editor-image-dialog.c:483
 #: ../e-util/e-html-editor-table-dialog.c:864
-#, fuzzy
 #| msgid "Could not set as background"
 msgid "Choose Background Image"
-msgstr "Nelze nastavit jako pozadí"
+msgstr "Výběr obrázku pro pozadí"
 
 #: ../e-util/e-html-editor-cell-dialog.c:855
 #: ../e-util/e-html-editor-image-dialog.c:489
@@ -12399,10 +12401,9 @@ msgid "Case _Sensitive"
 msgstr "Rozlišovat veliko_st písmen"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
-#, fuzzy
 #| msgid "_Search"
 msgid "_Wrap Search"
-msgstr "_Hledat"
+msgstr "Přecházet přes okra_j"
 
 #: ../e-util/e-html-editor-find-dialog.c:213
 msgid "Find"
@@ -12500,7 +12501,7 @@ msgstr "Perforovaný papír"
 
 #: ../e-util/e-html-editor-page-dialog.c:78
 msgid "Blue Ink"
-msgstr ""
+msgstr "Modrotisk"
 
 #: ../e-util/e-html-editor-page-dialog.c:87
 msgid "Paper"
@@ -12508,11 +12509,11 @@ msgstr "Papír"
 
 #: ../e-util/e-html-editor-page-dialog.c:96
 msgid "Ribbon"
-msgstr ""
+msgstr "Stuhy"
 
 #: ../e-util/e-html-editor-page-dialog.c:105
 msgid "Midnight"
-msgstr ""
+msgstr "Půlnoční obloha"
 
 #: ../e-util/e-html-editor-page-dialog.c:123 ../mail/filtertypes.xml.in.h:36
 #: ../mail/searchtypes.xml.in.h:39 ../mail/vfoldertypes.xml.in.h:39
@@ -12521,7 +12522,7 @@ msgstr "Koncept"
 
 #: ../e-util/e-html-editor-page-dialog.c:132
 msgid "Graph Paper"
-msgstr ""
+msgstr "Čtverečkovaný papír"
 
 #: ../e-util/e-html-editor-page-dialog.c:415
 msgid "<b>Colors</b>"
@@ -12591,10 +12592,9 @@ msgid "_Case sensitive"
 msgstr "Rozlišovat _velikost písmen"
 
 #: ../e-util/e-html-editor-replace-dialog.c:237
-#, fuzzy
 #| msgid "_Search"
 msgid "Wra_p search"
-msgstr "_Hledat"
+msgstr "Přecházet přes okra_j"
 
 #: ../e-util/e-html-editor-replace-dialog.c:247
 msgid "_Skip"
@@ -12642,10 +12642,9 @@ msgstr "Přeskočit"
 
 #. Back
 #: ../e-util/e-html-editor-spell-check-dialog.c:572
-#, fuzzy
 #| msgid "Go Back"
 msgid "Back"
-msgstr "Jít zpět"
+msgstr "Předchozí"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:581
 msgid "<b>Dictionary</b>"
@@ -12698,26 +12697,26 @@ msgstr "Vel_ikost:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:3354
+#: ../e-util/e-html-editor-view.c:3356
 msgid "Changed property"
 msgstr "Změněna vlastnost"
 
-#: ../e-util/e-html-editor-view.c:3355
+#: ../e-util/e-html-editor-view.c:3357
 msgid "Whether editor changed"
 msgstr "Zda v editoru došlo ke změně"
 
-#: ../e-util/e-html-editor-view.c:7130
+#: ../e-util/e-html-editor-view.c:7151
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
 msgstr ""
 "Vypnutí režimu HTML způsobí ztrátu formátování textu. Chcete pokračovat?"
 
-#: ../e-util/e-html-editor-view.c:7134
+#: ../e-util/e-html-editor-view.c:7155
 msgid "_Don't lose formatting"
 msgstr "Zachovat _formátování"
 
-#: ../e-util/e-html-editor-view.c:7135
+#: ../e-util/e-html-editor-view.c:7156
 msgid "_Lose formatting"
 msgstr "Za_hodit formátování"
 
@@ -13816,10 +13815,10 @@ msgid "Click to hide/unhide addresses"
 msgstr "Skrýt/odkrýt adresy"
 
 #: ../e-util/e-web-view.c:1015
-#, fuzzy, c-format
+#, c-format
 #| msgid "Enter the recipients of the message"
 msgid "Go to the section %s of the message"
-msgstr "Vyplnit příjemce zprávy"
+msgstr "Přejít na oddíl %s zprávy"
 
 #: ../e-util/e-web-view.c:1017
 msgid "Go to the beginning of the message"
@@ -13830,15 +13829,15 @@ msgstr "Přejít na začátek zprávy"
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
 
-#: ../e-util/e-web-view.c:2854
+#: ../e-util/e-web-view.c:2933
 msgid "Copying image to clipboard"
 msgstr "Kopíruje se obrázku do schránky"
 
-#: ../e-util/e-web-view.c:3042
+#: ../e-util/e-web-view.c:3121
 msgid "Save Image"
 msgstr "Uložit obrázek"
 
-#: ../e-util/e-web-view.c:3078
+#: ../e-util/e-web-view.c:3157
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Ukládá se obrázku do „%s“"
@@ -15664,7 +15663,7 @@ msgstr "Příště již nevarovat"
 
 #: ../mail/e-mail-reader-utils.c:556
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1800
-#: ../plugins/face/face.c:170 ../shell/e-shell.c:856 ../shell/e-shell.c:877
+#: ../plugins/face/face.c:170 ../shell/e-shell.c:852 ../shell/e-shell.c:873
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Neznámá chyba"
@@ -16641,10 +16640,9 @@ msgstr ""
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:51
-#, fuzzy
 #| msgid "Sending a message with an _empty subject line"
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
-msgstr "Odesláním zprávy s _prázdným polem Předmět"
+msgstr "Odeslání zprávy pomocí _klávesové zkratky (Ctrl+Enter)"
 
 #: ../mail/mail-config.ui.h:52
 msgid "Confirmations"
@@ -16784,15 +16782,15 @@ msgstr "_Vyžadovat potvrzení před vyčištěním složky"
 
 #: ../mail/mail-config.ui.h:95
 msgid "Archive Mail"
-msgstr ""
+msgstr "Archivace pošty"
 
 #: ../mail/mail-config.ui.h:96
 msgid "On This Computer A_rchive folder:"
-msgstr ""
+msgstr "A_rchivační složka pro V tomto počítači:"
 
 #: ../mail/mail-config.ui.h:97
 msgid "Archive folder to use for On This Computer messages"
-msgstr ""
+msgstr "Archivační složka, která se má použít pro zprávy V tomto počítači"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:99
@@ -17687,6 +17685,11 @@ msgid ""
 "folder is selected, to make sure that all the messages in the folder will be "
 "available in offline mode."
 msgstr ""
+"To může být tím, že zpráva zatím ještě nebyla stažena. Složka nebo účet "
+"mohou být označeny pro synchronizaci pro režim odpojení. Potom, až bude účet "
+"opět on-line, vyberte tuto složku a použijte Soubor -> Stáhnou zprávy pro "
+"používání po odpojení, aby se zajistilo, že zprávy v této složce boudou k "
+"dispozici i při odpojení."
 
 #: ../mail/mail.error.xml.h:162
 msgid "Failed to open folder."
@@ -17793,7 +17796,7 @@ msgstr "Probíhá kontrola nové pošty „%s“"
 #: ../mail/mail-send-recv.c:1421
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
-msgstr ""
+msgstr "Mažou se nevyžádané zprávy a čistí se koš v „%s“"
 
 #: ../mail/mail-send-recv.c:1423
 #, c-format
@@ -17801,10 +17804,10 @@ msgid "Deleting junk at '%s'"
 msgstr "Maže se nevyžádaná v „%s“"
 
 #: ../mail/mail-send-recv.c:1425
-#, fuzzy, c-format
+#, c-format
 #| msgid "Emptying trash in '%s'"
 msgid "Expunging trash at '%s'"
-msgstr "Vyprazdňuje se koš v „%s“"
+msgstr "Čistí se koš v „%s“"
 
 #: ../mail/mail-vfolder-ui.c:66
 msgid "Search Folders"
@@ -17858,7 +17861,7 @@ msgstr "Vyšší"
 msgid "Highest"
 msgstr "Nejvyšší"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5971
+#: ../mail/message-list.c:459 ../mail/message-list.c:5977
 msgid "Generating message list"
 msgstr "Generuje se seznam zpráv"
 
@@ -17897,7 +17900,7 @@ msgstr "Zprávy"
 msgid "Follow-up"
 msgstr "K vyřízení"
 
-#: ../mail/message-list.c:5908
+#: ../mail/message-list.c:5914
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -17909,7 +17912,7 @@ msgstr ""
 "nového hledání vymazáním v nabídce Hledat->Vymazat nebo změněním dotazu "
 "nahoře."
 
-#: ../mail/message-list.c:5916
+#: ../mail/message-list.c:5922
 msgid "There are no messages in this folder."
 msgstr "V této složce nejsou žádné zprávy."
 
@@ -18863,17 +18866,16 @@ msgstr "Importuje se úkol"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:403
 msgid "Select a Calendar"
-msgstr "Vybrat kalendář"
+msgstr "Výběr kalendáře"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
-#, fuzzy
 #| msgid "D_elete Memo List"
 msgid "Select a Memo List"
-msgstr "O_dstranit seznam poznámek"
+msgstr "Výběr seznamu poznámek"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
-msgstr "Vyberte seznam úkolů"
+msgstr "Výběr seznamu úkolů"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:424
 msgid "I_mport to Calendar"
@@ -22820,9 +22822,9 @@ msgstr "Připravuje se k ukončení"
 msgid "Preparing to quit..."
 msgstr "Probíhá příprava k ukončení…"
 
-#: ../shell/e-shell.c:904
+#: ../shell/e-shell.c:900
 msgid "Credentials are required to connect to the destination host."
-msgstr ""
+msgstr "Pro připojení k cílovému hostiteli jsou požadována pověření."
 
 #: ../shell/e-shell-content.c:720 ../shell/e-shell-content.c:721
 msgid "Searches"
@@ -23329,16 +23331,18 @@ msgid ""
 "connectivity issues. Would you like to cancel all pending operations and "
 "close immediately, or keep waiting?"
 msgstr ""
+"Evolution se pokouší o ukončení již příliš dlouhou dobu, pravděpodobně kvůli "
+"problémům se síťovým připojením. Chcete zrušit všechny probíhající operace a "
+"skončit ihned, nebo chcete dále čekat?"
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
-msgstr ""
+msgstr "_Zavřít ihned"
 
 #: ../shell/shell.error.xml.h:14
-#, fuzzy
 #| msgid "Waiting..."
 msgid "Keep _Waiting"
-msgstr "Čeká se…"
+msgstr "_Dále čekat"
 
 #: ../shell/shell.error.xml.h:15
 msgid "Failed to get values from '{0}'"
@@ -23464,7 +23468,7 @@ msgstr "E-mailová adresa"
 
 #: ../smime/gui/certificate-manager.c:650
 msgid "Select a file to backup your key and certificate..."
-msgstr ""
+msgstr "Výběr souboru pro zálohu vašeho klíče a certifikátu…"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -23482,10 +23486,9 @@ msgid "All files"
 msgstr "Všechny soubory"
 
 #: ../smime/gui/certificate-manager.c:728
-#, fuzzy
 #| msgid "Certificate"
 msgid "Backup Certificate"
-msgstr "Certifikát"
+msgstr "Záloha certifikátu"
 
 #. filename selection
 #: ../smime/gui/certificate-manager.c:742
@@ -23508,6 +23511,9 @@ msgid ""
 "you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
+"Heslo k záloze certifikátu, které zde nastavíte, chrání záložní soubor, "
+"který se chystáte vytvořit.\n"
+"Aby bylo možné v zálohování pokračovat, musíte toto heslo nastavit."
 
 #: ../smime/gui/certificate-manager.c:786
 msgid "_Repeat Password:"
@@ -23525,6 +23531,10 @@ msgid ""
 "restore this backup later.\n"
 "Please record it in a safe location."
 msgstr ""
+"Důležité:\n"
+"Pokud zapomenete heslo k záloze svého certifikátu, nebudete jej moci později "
+"ze zálohy obnovit.\n"
+"Poznamenejte si jej na bezpečném místě."
 
 #: ../smime/gui/certificate-manager.c:858
 msgid "No file name provided"
@@ -23573,16 +23583,15 @@ msgid "Temporary"
 msgstr "Dočasně"
 
 #: ../smime/gui/certificate-manager.c:1333
-#, fuzzy
 #| msgid "Certificate Authority Trust"
 msgid "Change certificate trust"
-msgstr "Důvěra certifikační autoritě"
+msgstr "Změna důvěry v certifikát"
 
 #: ../smime/gui/certificate-manager.c:1345
-#, fuzzy, c-format
+#, c-format
 #| msgid "Copying memos to the memo list '%s'"
 msgid "Change trust for the host '%s':"
-msgstr "Kopírují se poznámky do seznamu poznámek „%s“"
+msgstr "Změnit důvěru pro hostitele „%s“:"
 
 #: ../smime/gui/certificate-manager.c:1369
 msgctxt "CamelTrust"
