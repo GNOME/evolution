@@ -22,7 +22,7 @@
 <p>If you want to change a task that already exists in your task lists,</p>
 
 <steps>
-<item><p>Double-click on the task that you want to edit in the list of tasks, or right-click on the task and click <key>Open Task</key>.</p></item>
+<item><p>Double-click on the task that you want to edit in the list of tasks, or right-click on the task and click <gui>Open Task</gui>.</p></item>
 <item><p>Edit the task information.</p></item>
 <item><p>Click the <gui style="button">Save</gui> button, or <guiseq><gui>File</gui><gui>Save</gui></guiseq>.</p></item>
 </steps>
