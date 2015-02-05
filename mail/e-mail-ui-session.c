@@ -1220,13 +1220,16 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 
 		success = e_book_client_get_contacts_uids_sync (
 			E_BOOK_CLIENT (client), book_query_string,
-			&uids, cancellable, error);
+			&uids, cancellable, &local_error);
 
 		g_object_unref (client);
 
 		if (!success) {
 			g_warn_if_fail (uids == NULL);
-			break;
+
+			/* ignore book-specific errors here and continue with the next */
+			g_clear_error (&local_error);
+			continue;
 		}
 
 		if (uids != NULL) {
