@@ -111,7 +111,10 @@ webkit_find_controller_counted_matches_cb (WebKitFindController *find_controller
 			selection, TRUE, E_HTML_EDITOR_SELECTION_GRANULARITY_WORD);*/
 	}
 
-	result = g_strdup_printf (_("%d occurences replaced"), match_count);
+	result = g_strdup_printf (ngettext("%d occurence replaced",
+					   "%d occurences replaced",
+					   match_count),
+				 match_count);
 	gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), result);
 	gtk_widget_show (dialog->priv->result_label);
 	g_free (result);
