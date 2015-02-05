@@ -145,7 +145,10 @@ html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 			selection, TRUE, E_HTML_EDITOR_SELECTION_GRANULARITY_WORD);
 	}
 
-	result = g_strdup_printf (_("%d occurences replaced"), i);
+	result = g_strdup_printf (ngettext("%d occurence replaced", 
+	                                   "%d occurences replaced", 
+	                                   i), 
+	                          i);
 	gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), result);
 	gtk_widget_show (dialog->priv->result_label);
 	g_free (result);
