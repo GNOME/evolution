@@ -2249,6 +2249,14 @@ message_list_create_extras (void)
 	return extras;
 }
 
+static gboolean
+message_list_is_searching (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->search && *message_list->search;
+}
+
 static void
 save_tree_state (MessageList *message_list,
                  CamelFolder *folder)
@@ -2259,7 +2267,7 @@ save_tree_state (MessageList *message_list,
 	if (folder == NULL)
 		return;
 
-	if (message_list->search != NULL && *message_list->search != '\0')
+	if (message_list_is_searching (message_list))
 		return;
 
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));
@@ -2286,8 +2294,7 @@ load_tree_state (MessageList *message_list,
 	if (expand_state != NULL) {
 		e_tree_table_adapter_load_expanded_state_xml (
 			adapter, expand_state);
-	} else if (!message_list->search || !*message_list->search) {
-		/* only when not searching */
+	} else {
 		gchar *filename;
 
 		filename = mail_config_folder_to_cachename (
@@ -5668,14 +5675,6 @@ exit:
 	g_object_unref (folder);
 }
 
-static gboolean
-message_list_is_searching (MessageList *message_list)
-{
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
-
-	return message_list->search && *message_list->search;
-}
-
 static void
 message_list_regen_done_cb (GObject *source_object,
                             GAsyncResult *result,
@@ -5687,7 +5686,7 @@ message_list_regen_done_cb (GObject *source_object,
 	EActivity *activity;
 	ETree *tree;
 	ETreeTableAdapter *adapter;
-	gboolean searching;
+	gboolean was_searching, is_searching;
 	gint row_count;
 	GError *local_error = NULL;
 
@@ -5732,10 +5731,12 @@ message_list_regen_done_cb (GObject *source_object,
 	g_signal_handlers_block_by_func (
 		adapter, ml_tree_sorting_changed, message_list);
 
+	was_searching = message_list_is_searching (message_list);
+
 	g_free (message_list->search);
 	message_list->search = g_strdup (regen_data->search);
 
-	searching = message_list_is_searching (message_list);
+	is_searching = message_list_is_searching (message_list);
 
 	if (regen_data->group_by_threads) {
 		ETableItem *table_item = e_tree_get_item (E_TREE (message_list));
@@ -5757,10 +5758,10 @@ message_list_regen_done_cb (GObject *source_object,
 			}
 		}
 
-		if (forcing_expand_state || searching) {
+		if (forcing_expand_state) {
 			gint state;
 
-			if (message_list->expand_all || searching)
+			if (message_list->expand_all)
 				state = 1;  /* force expand */
 			else
 				state = -1; /* force collapse */
@@ -5784,15 +5785,20 @@ message_list_regen_done_cb (GObject *source_object,
 		message_list_set_thread_tree (
 			message_list, regen_data->thread_tree);
 
-		if (forcing_expand_state || searching) {
-			if (message_list->priv->folder != NULL &&
-			    tree != NULL && !searching)
-				save_tree_state (
-					message_list,
-					regen_data->folder);
+		if (forcing_expand_state) {
+			if (message_list->priv->folder != NULL && tree != NULL)
+				save_tree_state (message_list, regen_data->folder);
+
 			/* Disable forced expand/collapse state. */
 			e_tree_table_adapter_force_expanded_state (adapter, 0);
+		} else if (was_searching && !is_searching) {
+			/* Load expand state from disk */
+			load_tree_state (
+				message_list,
+				regen_data->folder,
+				NULL);
 		} else {
+			/* Load expand state from the previous state or disk */
 			load_tree_state (
 				message_list,
 				regen_data->folder,
@@ -5993,6 +5999,9 @@ message_list_regen_idle_cb (gpointer user_data)
 				e_tree_table_adapter_save_expanded_state_xml (
 				adapter);
 		}
+	} else {
+		/* Remember the expand state and restore it after regen. */
+		regen_data->expand_state = e_tree_table_adapter_save_expanded_state_xml (adapter);
 	}
 
 	message_list->priv->regen_idle_id = 0;
