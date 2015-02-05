@@ -12392,7 +12392,7 @@ msgstr "Nebyla nalezena žádná shoda"
 #: ../e-util/e-html-editor-find-dialog.c:160
 #: ../e-util/e-html-editor-replace-dialog.c:229
 msgid "Search _backwards"
-msgstr "Hledat od _konce"
+msgstr "Hledat směrem _k začátku"
 
 #: ../e-util/e-html-editor-find-dialog.c:167
 msgid "Case _Sensitive"
