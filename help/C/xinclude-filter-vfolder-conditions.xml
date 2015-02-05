@@ -59,6 +59,6 @@
 <p>Filters based on the mailing list the message came from. This filter might miss messages from some list servers, because it checks for the X-BeenThere header, which is used to identify mailing lists or other redistributors of mail. Mail from list servers that do not set X-BeenThere properly are not be caught by these filters.</p></item>
 
 <item><p>Regex Match:</p>
-<p>(For programmers only) If you know your way around a <link href="https://en.wikipedia.org/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check the man page for the <cmd>grep</cmd> command.</p></item>
+<p>(For programmers only) If you know your way around a <link href="https://en.wikipedia.org/wiki/Regular_expression">regex</link>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all messages that declare a particular header twice. For information about how to use regular expressions, check <link href="man:grep">the man page for the <cmd>grep</cmd></link> command.</p></item>
 
 </info>
