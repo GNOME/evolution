@@ -17923,7 +17923,7 @@ msgstr "Přijato"
 
 #: ../mail/message-list.etspec.h:11
 msgid "Flag Status"
-msgstr "Stav příznaků"
+msgstr "Příznak Stav"
 
 #: ../mail/message-list.etspec.h:12
 msgid "Follow Up Flag"
