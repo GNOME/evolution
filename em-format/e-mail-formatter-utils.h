@@ -54,6 +54,13 @@ gchar *		e_mail_formatter_parse_html_mnemonics
 						(const gchar *label,
 						 gchar **out_access_key);
 
+void		e_mail_formatter_format_security_header
+						(EMailFormatter *formatter,
+						 EMailFormatterContext *context,
+						 GString *buffer,
+						 EMailPart *part,
+						 guint32 flags);
+
 G_END_DECLS
 
 #endif /* E_MAIL_FORMATTER_UTILS_H_ */

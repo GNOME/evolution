@@ -334,13 +334,14 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			"<iframe width=\"100%%\" height=\"10\" "
 			" frameborder=\"0\" src=\"%s\" "
 			" id=\"%s.iframe\" name=\"%s\" "
-			" class=\"-e-mail-formatter-frame-color\" "
-			" style=\"background-color: #ffffff; border: 1px solid;\">"
+			" class=\"-e-mail-formatter-frame-color %s\" "
+			" style=\"background-color: #ffffff; \">"
 			"</iframe>"
 			"</div>",
 			uri,
 			e_mail_part_get_id (part),
-			e_mail_part_get_id (part));
+			e_mail_part_get_id (part),
+			e_mail_part_get_frame_security_style (part));
 
 		g_output_stream_write_all (
 			stream, str, strlen (str),

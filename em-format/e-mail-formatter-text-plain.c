@@ -171,14 +171,14 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 			"<iframe width=\"100%%\" height=\"10\""
 			" id=\"%s.iframe\" name=\"%s\" "
 			" frameborder=\"0\" src=\"%s\" "
-			" class=\"-e-mail-formatter-frame-color"
-			" -e-web-view-text-color\" "
-			" style=\"border: 1px solid;\">"
+			" class=\"-e-mail-formatter-frame-color %s"
+			" -e-web-view-text-color\" >"
 			"</iframe>"
 			"</div>",
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
-			uri);
+			uri,
+			e_mail_part_get_frame_security_style (part));
 
 		g_output_stream_write_all (
 			stream, str, strlen (str),
