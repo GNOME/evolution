@@ -848,12 +848,6 @@ mail_backend_job_started_cb (CamelSession *session,
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (shell_backend);
 
-	/* Make sure this operation shows up in the user interface.
-	 * This message should get overridden, if not it's a bug in
-	 * whatever CamelService submitted this. */
-	camel_operation_push_message (
-		cancellable, _("Unknown background operation"));
-
 	activity = e_activity_new ();
 	e_activity_set_cancellable (activity, cancellable);
 	e_shell_backend_add_activity (shell_backend, activity);
@@ -875,9 +869,6 @@ mail_backend_job_finished_cb (CamelSession *session,
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (shell_backend);
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
-
-	/* Pop the generic "background operation" message. */
-	camel_operation_pop_message (cancellable);
 
 	activity = g_hash_table_lookup (priv->jobs, cancellable);
 	description = e_activity_get_text (activity);
