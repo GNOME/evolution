@@ -738,7 +738,7 @@ add_color_css_rule_for_web_view (EWebView *view,
 			"color: ", color_value, " !important;", NULL);
 	} else if (g_strstr_len (color_name, -1, "frame")) {
 		style = g_strconcat (
-			"border-color: ", color_value, " !important;", NULL);
+			"border-color: ", color_value, NULL);
 	} else {
 		style = g_strconcat (
 			"background-color: ", color_value, " !important;", NULL);
@@ -758,6 +758,8 @@ static void
 initialize_web_view_colors (EMailDisplay *display)
 {
 	EMailFormatter *formatter;
+	GtkTextDirection direction;
+	const gchar *style;
 	gint ii;
 
 	const gchar *color_names[] = {
@@ -785,6 +787,55 @@ initialize_web_view_colors (EMailDisplay *display)
 		gdk_rgba_free (color);
 		g_free (color_value);
 	}
+
+	e_web_view_add_css_rule_into_style_sheet (
+		E_WEB_VIEW (display),
+		"-e-mail-formatter-style-sheet",
+		".-e-mail-formatter-frame-security-none",
+		"border-width: 1px; border-style: solid");
+
+	/* the rgba values below were copied from e-formatter-secure-button */
+	direction = gtk_widget_get_default_direction ();
+
+	if (direction == GTK_TEXT_DIR_LTR)
+		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(53%, 73%, 53%, 1.0)";
+	else
+		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(53%, 73%, 53%, 1.0)";
+	e_web_view_add_css_rule_into_style_sheet (
+		E_WEB_VIEW (display),
+		"-e-mail-formatter-style-sheet",
+		".-e-mail-formatter-frame-security-good",
+		style);
+
+	if (direction == GTK_TEXT_DIR_LTR)
+		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(73%, 53%, 53%, 1.0)";
+	else
+		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(73%, 53%, 53%, 1.0)";
+	e_web_view_add_css_rule_into_style_sheet (
+		E_WEB_VIEW (display),
+		"-e-mail-formatter-style-sheet",
+		".-e-mail-formatter-frame-security-bad",
+		style);
+
+	if (direction == GTK_TEXT_DIR_LTR)
+		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
+	else
+		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
+	e_web_view_add_css_rule_into_style_sheet (
+		E_WEB_VIEW (display),
+		"-e-mail-formatter-style-sheet",
+		".-e-mail-formatter-frame-security-unknown",
+		style);
+
+	if (direction == GTK_TEXT_DIR_LTR)
+		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
+	else
+		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
+	e_web_view_add_css_rule_into_style_sheet (
+		E_WEB_VIEW (display),
+		"-e-mail-formatter-style-sheet",
+		".-e-mail-formatter-frame-security-need-key",
+		style);
 }
 
 static void

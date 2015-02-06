@@ -54,6 +54,42 @@ e_mail_part_is_secured (CamelMimePart *part)
 		camel_content_type_is (ct, "application", "pkcs7-mime"));
 }
 
+/*
+ * Returns: one of -e-mail-formatter-frame-security-* style classes
+ */
+const gchar *
+e_mail_part_get_frame_security_style (EMailPart *part)
+{
+	const gchar *frame_style = NULL;
+
+	g_return_val_if_fail (part != NULL, "-e-mail-formatter-frame-security-none");
+
+	if (e_mail_part_get_validity_flags (part) == E_MAIL_PART_VALIDITY_NONE) {
+		return "-e-mail-formatter-frame-security-none";
+	} else {
+		GList *head, *link;
+
+		head = g_queue_peek_head_link (&part->validities);
+
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPartValidityPair *pair = link->data;
+			if (pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_BAD) {
+				return "-e-mail-formatter-frame-security-bad";
+			} else if (pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN) {
+				frame_style = "-e-mail-formatter-frame-security-unknown";
+			} else if (frame_style == NULL &&
+				pair->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY) {
+				frame_style = "-e-mail-formatter-frame-security-need-key";
+			}
+		}
+	}
+
+	if (frame_style == NULL)
+		frame_style = "-e-mail-formatter-frame-security-good";
+
+	return frame_style;
+}
+
 /**
  * e_mail_part_snoop_type:
  * @part: a #CamelMimePart

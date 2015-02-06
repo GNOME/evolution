@@ -59,7 +59,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	GtkTreeModel *tree_model;
 	GtkTreeIter iter;
 	gboolean iter_valid;
-	GString *str, *tmp;
+	GString *str;
 	gchar *subject;
 	const gchar *buf;
 	gint attachments_count;
@@ -118,60 +118,14 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 
 	g_object_unref (tree_model);
 
+	e_mail_formatter_format_security_header (formatter, context, str, part, E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS);
+
 	/* Get prefix of this PURI */
 	part_id = e_mail_part_get_id (part);
 	part_id_prefix = g_strndup (part_id, g_strrstr (part_id, ".") - part_id);
 
-	/* Add encryption/signature header */
-	tmp = g_string_new ("");
-
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
-
 	head = g_queue_peek_head_link (&queue);
-
-	/* Find first secured part. */
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *mail_part = link->data;
-
-		if (!e_mail_part_has_validity (mail_part))
-			continue;
-
-		if (!e_mail_part_id_has_prefix (mail_part, part_id_prefix))
-			continue;
-
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SIGNED)) {
-			g_string_append (tmp, _("GPG signed"));
-		}
-
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
-			if (tmp->len > 0)
-				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("GPG encrpyted"));
-		}
-
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_SIGNED)) {
-			if (tmp->len > 0)
-				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("S/MIME signed"));
-		}
-
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
-			if (tmp->len > 0)
-				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("S/MIME encrpyted"));
-		}
-
-		break;
-	}
-
-	if (tmp->len > 0) {
-		e_mail_formatter_format_header (
-			formatter, str,
-			_("Security"), tmp->str,
-			E_MAIL_FORMATTER_HEADER_FLAG_BOLD |
-			E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS, "UTF-8");
-	}
-	g_string_free (tmp, TRUE);
 
 	/* Count attachments and display the number as a header */
 	attachments_count = 0;

@@ -406,13 +406,14 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"<div class=\"part-container-nostyle\" >"
 			"<iframe width=\"100%%\" height=\"10\""
 			" id=\"%s\" name=\"%s\" "
-			" class=\"-e-mail-formatter-frame-color -e-web-view-background-color\" "
+			" class=\"-e-mail-formatter-frame-color %s -e-web-view-background-color\" "
 			" frameborder=\"0\" src=\"%s\" "
-			" style=\"border: 1px solid;\">"
+			" >"
 			"</iframe>"
 			"</div>",
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
+			e_mail_part_get_frame_security_style (part),
 			uri);
 
 		g_output_stream_write_all (

@@ -25,6 +25,7 @@
 
 #include "e-mail-formatter-extension.h"
 #include "e-mail-inline-filter.h"
+#include "e-mail-part-utils.h"
 
 typedef EMailFormatterExtension EMailFormatterTextEnriched;
 typedef EMailFormatterExtensionClass EMailFormatterTextEnrichedClass;
@@ -54,6 +55,7 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 	CamelMimeFilter *filter;
 	const gchar *mime_type;
 	const gchar *string;
+	gchar *str;
 	guint32 filter_flags = 0;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -70,13 +72,15 @@ emfe_text_enriched_format (EMailFormatterExtension *extension,
 		G_FILTER_OUTPUT_STREAM (filtered_stream), FALSE);
 	g_object_unref (filter);
 
-	string =
-		"<div class=\"part-container -e-mail-formatter-frame-color "
+	str = g_strdup_printf (
+		"<div class=\"part-container -e-mail-formatter-frame-color %s"
 		"-e-web-view-background-color -e-web-view-text-color\">"
-		"<div class=\"part-container-inner-margin\">\n";
+		"<div class=\"part-container-inner-margin\">\n",
+		e_mail_part_get_frame_security_style (part));
 
 	g_output_stream_write_all (
-		stream, string, strlen (string), NULL, cancellable, NULL);
+		stream, str, strlen (str), NULL, cancellable, NULL);
+	g_free (str);
 
 	e_mail_formatter_format_text (
 		formatter, part, filtered_stream, cancellable);

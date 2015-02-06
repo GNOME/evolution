@@ -203,10 +203,11 @@ static void
 format_full_headers (EMailFormatter *formatter,
                      GString *buffer,
                      EMailPart *part,
-                     guint32 mode,
-                     guint32 flags,
+                     EMailFormatterContext *context,
                      GCancellable *cancellable)
 {
+	guint32 mode = context->mode;
+	guint32 flags = context->flags;
 	CamelMimePart *mime_part;
 	const gchar *charset;
 	CamelContentType *ct;
@@ -353,6 +354,7 @@ format_full_headers (EMailFormatter *formatter,
 				E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
 			header = header->next;
 		}
+		e_mail_formatter_format_security_header (formatter, context, buffer, part, E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS);
 	} else {
 		CamelMedium *medium;
 		gchar **default_headers;
@@ -427,6 +429,7 @@ format_full_headers (EMailFormatter *formatter,
 		}
 
 		g_strfreev (default_headers);
+		e_mail_formatter_format_security_header (formatter, context, buffer, part, 0);
 	}
 
 	g_string_append (buffer, "</table></td>");
@@ -548,9 +551,9 @@ emfe_headers_format (EMailFormatterExtension *extension,
 
 	format_full_headers (
 		formatter,
-		buffer, part,
-		context->mode,
-		context->flags,
+		buffer,
+		part,
+		context,
 		cancellable);
 
 	g_string_append (buffer, "</td>");

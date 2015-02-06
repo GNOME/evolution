@@ -19,10 +19,14 @@
 #define E_MAIL_PART_UTILS_H_
 
 #include <camel/camel.h>
+#include "e-mail-part.h"
 
 G_BEGIN_DECLS
 
 gboolean	e_mail_part_is_secured		(CamelMimePart *part);
+
+const gchar *	e_mail_part_get_frame_security_style
+						(EMailPart *part);
 
 const gchar *	e_mail_part_snoop_type		(CamelMimePart *part);
 
