@@ -44,9 +44,9 @@ settings_mail_session_name_to_junk_filter (GValue *value,
 	if (filter_name != NULL) {
 		EMailJunkFilter *junk_filter;
 
-		junk_filter = e_mail_session_get_junk_filter_by_name (
-			E_MAIL_SESSION (user_data), filter_name);
-		g_value_set_object (value, junk_filter);
+		junk_filter = e_mail_session_get_junk_filter_by_name (E_MAIL_SESSION (user_data), filter_name);
+		if (junk_filter && e_mail_junk_filter_available (E_MAIL_JUNK_FILTER (junk_filter)))
+			g_value_set_object (value, junk_filter);
 	}
 
 	/* XXX Always return success, even if we cannot find a matching

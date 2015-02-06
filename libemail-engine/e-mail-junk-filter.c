@@ -38,6 +38,19 @@ e_mail_junk_filter_init (EMailJunkFilter *junk_filter)
 {
 }
 
+gboolean
+e_mail_junk_filter_available (EMailJunkFilter *junk_filter)
+{
+	EMailJunkFilterClass *class;
+
+	g_return_val_if_fail (E_IS_MAIL_JUNK_FILTER (junk_filter), FALSE);
+
+	class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
+	g_return_val_if_fail (class->available != NULL, FALSE);
+
+	return class->available (junk_filter);
+}
+
 GtkWidget *
 e_mail_junk_filter_new_config_widget (EMailJunkFilter *junk_filter)
 {

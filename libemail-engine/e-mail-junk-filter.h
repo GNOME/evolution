@@ -61,10 +61,12 @@ struct _EMailJunkFilterClass {
 	const gchar *filter_name;
 	const gchar *display_name;
 
+	gboolean	(*available)		(EMailJunkFilter *junk_filter);
 	GtkWidget *	(*new_config_widget)	(EMailJunkFilter *junk_filter);
 };
 
 GType		e_mail_junk_filter_get_type	(void) G_GNUC_CONST;
+gboolean	e_mail_junk_filter_available	(EMailJunkFilter *junk_filter);
 GtkWidget *	e_mail_junk_filter_new_config_widget
 						(EMailJunkFilter *junk_filter);
 gint		e_mail_junk_filter_compare	(EMailJunkFilter *junk_filter_a,

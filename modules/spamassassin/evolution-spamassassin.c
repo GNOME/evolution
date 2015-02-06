@@ -44,6 +44,11 @@ struct _ESpamAssassin {
 	EMailJunkFilter parent;
 
 	gboolean local_only;
+	gchar *command;
+	gchar *learn_command;
+
+	gboolean version_set;
+	gint version;
 };
 
 struct _ESpamAssassinClass {
@@ -52,7 +57,9 @@ struct _ESpamAssassinClass {
 
 enum {
 	PROP_0,
-	PROP_LOCAL_ONLY
+	PROP_LOCAL_ONLY,
+	PROP_COMMAND,
+	PROP_LEARN_COMMAND
 };
 
 /* Module Entry Points */
@@ -70,6 +77,36 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		CAMEL_TYPE_JUNK_FILTER,
 		e_spam_assassin_interface_init))
+
+#ifndef SPAMASSASSIN_COMMAND
+#define SPAMASSASSIN_COMMAND "/usr/bin/spamassassin"
+#endif
+
+#ifndef SA_LEARN_COMMAND
+#define SA_LEARN_COMMAND "/usr/bin/sa-learn"
+#endif
+
+static const gchar *
+spam_assassin_get_command_path (ESpamAssassin *extension)
+{
+	g_return_val_if_fail (extension != NULL, NULL);
+
+	if (extension->command && *extension->command)
+		return extension->command;
+
+	return SPAMASSASSIN_COMMAND;
+}
+
+static const gchar *
+spam_assassin_get_learn_command_path (ESpamAssassin *extension)
+{
+	g_return_val_if_fail (extension != NULL, NULL);
+
+	if (extension->learn_command && *extension->learn_command)
+		return extension->learn_command;
+
+	return SA_LEARN_COMMAND;
+}
 
 #ifdef G_OS_UNIX
 static void
@@ -307,6 +344,44 @@ spam_assassin_set_local_only (ESpamAssassin *extension,
 	g_object_notify (G_OBJECT (extension), "local-only");
 }
 
+static const gchar *
+spam_assassin_get_command (ESpamAssassin *extension)
+{
+	return extension->command;
+}
+
+static void
+spam_assassin_set_command (ESpamAssassin *extension,
+			   const gchar *command)
+{
+	if (g_strcmp0 (extension->command, command) == 0)
+		return;
+
+	g_free (extension->command);
+	extension->command = g_strdup (command);
+
+	g_object_notify (G_OBJECT (extension), "command");
+}
+
+static const gchar *
+spam_assassin_get_learn_command (ESpamAssassin *extension)
+{
+	return extension->learn_command;
+}
+
+static void
+spam_assassin_set_learn_command (ESpamAssassin *extension,
+				 const gchar *learn_command)
+{
+	if (g_strcmp0 (extension->learn_command, learn_command) == 0)
+		return;
+
+	g_free (extension->learn_command);
+	extension->learn_command = g_strdup (learn_command);
+
+	g_object_notify (G_OBJECT (extension), "learn-command");
+}
+
 static void
 spam_assassin_set_property (GObject *object,
                             guint property_id,
@@ -318,6 +393,18 @@ spam_assassin_set_property (GObject *object,
 			spam_assassin_set_local_only (
 				E_SPAM_ASSASSIN (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_COMMAND:
+			spam_assassin_set_command (
+				E_SPAM_ASSASSIN (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_LEARN_COMMAND:
+			spam_assassin_set_learn_command (
+				E_SPAM_ASSASSIN (object),
+				g_value_get_string (value));
 			return;
 	}
 
@@ -336,9 +423,102 @@ spam_assassin_get_property (GObject *object,
 				value, spam_assassin_get_local_only (
 				E_SPAM_ASSASSIN (object)));
 			return;
+
+		case PROP_COMMAND:
+			g_value_set_string (
+				value, spam_assassin_get_command (
+				E_SPAM_ASSASSIN (object)));
+			return;
+
+		case PROP_LEARN_COMMAND:
+			g_value_set_string (
+				value, spam_assassin_get_learn_command (
+				E_SPAM_ASSASSIN (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+spam_assassin_finalize (GObject *object)
+{
+	ESpamAssassin *extension = E_SPAM_ASSASSIN (object);
+
+	g_free (extension->command);
+	extension->command = NULL;
+
+	g_free (extension->learn_command);
+	extension->learn_command = NULL;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_spam_assassin_parent_class)->finalize (object);
+}
+
+static gboolean
+spam_assassin_get_version (ESpamAssassin *extension,
+                           gint *spam_assassin_version,
+                           GCancellable *cancellable,
+                           GError **error)
+{
+	GByteArray *output_buffer;
+	gint exit_code;
+	guint ii;
+
+	const gchar *argv[] = {
+		spam_assassin_get_learn_command_path (extension),
+		"--version",
+		NULL
+	};
+
+	if (extension->version_set) {
+		if (spam_assassin_version != NULL)
+			*spam_assassin_version = extension->version;
+		return TRUE;
+	}
+
+	output_buffer = g_byte_array_new ();
+
+	exit_code = spam_assassin_command_full (
+		argv, NULL, NULL, output_buffer, TRUE, cancellable, error);
+
+	if (exit_code != 0) {
+		g_byte_array_free (output_buffer, TRUE);
+		return FALSE;
+	}
+
+	for (ii = 0; ii < output_buffer->len; ii++) {
+		if (g_ascii_isdigit (output_buffer->data[ii])) {
+			guint8 ch = output_buffer->data[ii];
+			extension->version = (ch - '0');
+			extension->version_set = TRUE;
+			break;
+		}
+	}
+
+	if (spam_assassin_version != NULL)
+		*spam_assassin_version = extension->version;
+
+	g_byte_array_free (output_buffer, TRUE);
+
+	return TRUE;
+}
+
+static gboolean
+spam_assassin_available (EMailJunkFilter *junk_filter)
+{
+	ESpamAssassin *extension = E_SPAM_ASSASSIN (junk_filter);
+	gboolean available;
+	GError *error = NULL;
+
+	available = spam_assassin_get_version (extension, NULL, NULL, &error);
+
+	if (error != NULL) {
+		g_debug ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	return available;
 }
 
 static GtkWidget *
@@ -408,7 +588,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	argv[ii++] = SPAMASSASSIN_COMMAND;
+	argv[ii++] = spam_assassin_get_command_path (extension);
 	argv[ii++] = "--exit-code";
 	if (extension->local_only)
 		argv[ii++] = "--local";
@@ -454,7 +634,7 @@ spam_assassin_learn_junk (CamelJunkFilter *junk_filter,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	argv[ii++] = SA_LEARN_COMMAND;
+	argv[ii++] = spam_assassin_get_learn_command_path (extension);
 	argv[ii++] = "--spam";
 	argv[ii++] = "--no-sync";
 	if (extension->local_only)
@@ -489,7 +669,7 @@ spam_assassin_learn_not_junk (CamelJunkFilter *junk_filter,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	argv[ii++] = SA_LEARN_COMMAND;
+	argv[ii++] = spam_assassin_get_learn_command_path (extension);
 	argv[ii++] = "--ham";
 	argv[ii++] = "--no-sync";
 	if (extension->local_only)
@@ -523,7 +703,7 @@ spam_assassin_synchronize (CamelJunkFilter *junk_filter,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	argv[ii++] = SA_LEARN_COMMAND;
+	argv[ii++] = spam_assassin_get_learn_command_path (extension);
 	argv[ii++] = "--sync";
 	if (extension->local_only)
 		argv[ii++] = "--local";
@@ -552,10 +732,12 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = spam_assassin_set_property;
 	object_class->get_property = spam_assassin_get_property;
+	object_class->finalize = spam_assassin_finalize;
 
 	junk_filter_class = E_MAIL_JUNK_FILTER_CLASS (class);
 	junk_filter_class->filter_name = "SpamAssassin";
 	junk_filter_class->display_name = _("SpamAssassin");
+	junk_filter_class->available = spam_assassin_available;
 	junk_filter_class->new_config_widget = spam_assassin_new_config_widget;
 
 	g_object_class_install_property (
@@ -566,6 +748,26 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 			"Local Only",
 			"Do not use tests requiring DNS lookups",
 			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COMMAND,
+		g_param_spec_string (
+			"command",
+			"Full Path Command",
+			"Full path command to use to run spamassassin",
+			"",
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_LEARN_COMMAND,
+		g_param_spec_string (
+			"learn-command",
+			"Full Path Command",
+			"Full path command to use to run sa-learn",
+			"",
 			G_PARAM_READWRITE));
 }
 
@@ -593,6 +795,14 @@ e_spam_assassin_init (ESpamAssassin *extension)
 	g_settings_bind (
 		settings, "local-only",
 		extension, "local-only",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "command",
+		G_OBJECT (extension), "command",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "learn-command",
+		G_OBJECT (extension), "learn-command",
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
