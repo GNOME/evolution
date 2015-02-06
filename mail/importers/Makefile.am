@@ -13,6 +13,9 @@ libevolution_mail_importers_la_CPPFLAGS = \
 	$(NULL)
 
 libevolution_mail_importers_la_SOURCES =	\
+	kmail-libs.c				\
+	kmail-libs.h				\
+	kmail-importer.c			\
 	mail-importer.c				\
 	mail-importer.h				\
 	elm-importer.c				\

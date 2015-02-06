@@ -38,6 +38,7 @@ void mbox_importer_set_preview_funcs (MboxImporterCreatePreviewFunc create_func,
 
 EImportImporter *elm_importer_peek (void);
 EImportImporter *pine_importer_peek (void);
+EImportImporter *kmail_importer_peek (void);
 
 /* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
 /* Evolution only cares about these headers I think */
@@ -53,6 +54,18 @@ gint		mail_importer_import_mbox	(EMailSession *session,
 						 void (*done)(gpointer data, GError **),
 						 gpointer data);
 void		mail_importer_import_mbox_sync	(EMailSession *session,
+						 const gchar *path,
+						 const gchar *folderuri,
+						 GCancellable *cancellable);
+
+gint		mail_importer_import_kmail      (EMailSession *session,
+						 const gchar *path,
+						 const gchar *folderuri,
+						 GCancellable *cancellable,
+						 void (*done)(gpointer data, GError **),
+						 gpointer data);
+
+void		mail_importer_import_kmail_sync (EMailSession *session,
 						 const gchar *path,
 						 const gchar *folderuri,
 						 GCancellable *cancellable);
