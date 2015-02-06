@@ -377,6 +377,8 @@ mail/em-vfolder-editor-rule.c
 mail/filtertypes.xml.in
 mail/importers/elm-importer.c
 mail/importers/evolution-mbox-importer.c
+mail/importers/kmail-importer.c
+mail/importers/kmail-libs.c
 mail/importers/mail-importer.c
 mail/importers/pine-importer.c
 mail/mail-autofilter.c
