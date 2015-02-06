@@ -553,7 +553,7 @@ mail_config_identity_page_constructed (GObject *object)
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));
 
-	widget = gtk_check_button_new_with_mnemonic (_("Try _setup account automatically, based on Email Address"));
+	widget = gtk_check_button_new_with_mnemonic (_("_Look up mail server details based on the entered e-mail address"));
 	g_object_set (G_OBJECT (widget),
 		"valign", GTK_ALIGN_END,
 		"vexpand", TRUE,
