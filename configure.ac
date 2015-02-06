@@ -1049,79 +1049,70 @@ fi
 dnl **********************************
 dnl Check for Bogofilter (spam filter)
 dnl **********************************
-AC_ARG_ENABLE([bogofilter],
-	[AS_HELP_STRING([--enable-bogofilter],
+AC_ARG_WITH([bogofilter],
+	[AS_HELP_STRING([--with-bogofilter=yes/no/COMMAND],
 	[enable spam filtering using Bogofilter (default=yes)])],
-	[enable_bogofilter=$enableval], [enable_bogofilter=yes])
+	[with_bogofilter=$withval], [with_bogofilter=yes])
+if test "x$with_bogofilter" != "xyes" -a "x$with_bogofilter" != "xno" ; then
+	BOGOFILTER=$with_bogofilter
+	with_bogofilter=yes
+fi
 AC_MSG_CHECKING([if Bogofilter support is enabled])
-AC_MSG_RESULT([$enable_bogofilter])
-msg_bogofilter="$enable_bogofilter"
-if test "x$enable_bogofilter" = "xyes"; then
+AC_MSG_RESULT([$with_bogofilter])
+msg_bogofilter="$with_bogofilter"
+if test "x$with_bogofilter" = "xyes"; then
 	AC_ARG_VAR([BOGOFILTER], [Bogofilter spam filtering program])
-	AC_PATH_PROG([BOGOFILTER], [bogofilter])
-	if test "x$BOGOFILTER" = "x"; then
-		AC_MSG_ERROR([
-
-	Bogofilter spam filtering program not found.
-
-	If you want to disable spam filtering using Bogofilter,
-	please append --disable-bogofilter to configure.
-
-	])
+	if test "x$BOGOFILTER" = "x" ; then
+		BOGOFILTER="/usr/bin/bogofilter"
 	fi
 	AC_DEFINE_UNQUOTED(
 		BOGOFILTER_COMMAND, "$BOGOFILTER",
 		[Bogofilter spam filtering program])
 	msg_bogofilter="$msg_bogofilter ($BOGOFILTER)"
 fi
-AM_CONDITIONAL([ENABLE_BOGOFILTER], [test "x$enable_bogofilter" = "xyes"])
+AM_CONDITIONAL([WITH_BOGOFILTER], [test "x$with_bogofilter" = "xyes"])
 
 dnl ************************************
 dnl Check for SpamAssassin (spam filter)
 dnl ************************************
-AC_ARG_ENABLE([spamassassin],
-	[AS_HELP_STRING([--enable-spamassassin],
+AC_ARG_WITH([spamassassin],
+	[AS_HELP_STRING([--with-spamassassin=yes/no/COMMAND],
 	[enable spam filtering using SpamAssassin (default=yes)])],
-	[enable_spamassassin=$enableval], [enable_spamassassin=yes])
+	[with_spamassassin=$withval], [with_spamassassin=yes])
+if test "x$with_spamassassin" != "xyes" -a "x$with_spamassassin" != "xno" ; then
+	SPAMASSASSIN=$with_spamassassin
+	with_spamassassin=yes
+fi
 AC_MSG_CHECKING([if SpamAssassin support is enabled])
-AC_MSG_RESULT([$enable_spamassassin])
-msg_spamassassin="$enable_spamassassin"
-if test "x$enable_spamassassin" = "xyes"; then
+AC_MSG_RESULT([$with_spamassassin])
+msg_spamassassin="$with_spamassassin"
+if test "x$with_spamassassin" = "xyes"; then
 	AC_ARG_VAR([SPAMASSASSIN], [SpamAssassin spam filtering program])
-	AC_PATH_PROG([SPAMASSASSIN], [spamassassin])
-	if test "x$SPAMASSASSIN" = "x"; then
-		AC_MSG_ERROR([
-
-	SpamAssassin spam filtering program not found.
-
-	If you want to disable spam filtering using SpamAssassin,
-	please append --disable-spamassassin to configure.
-
-	])
+	if test "x$SPAMASSASSIN" = "x" ; then
+		SPAMASSASSIN="/usr/bin/spamassassin"
 	fi
 	AC_DEFINE_UNQUOTED(
 		SPAMASSASSIN_COMMAND, "$SPAMASSASSIN",
 		[SpamAssassin spam filtering program])
 
+	AC_ARG_WITH([sa-learn],
+		AS_HELP_STRING([--with-sa-learn=COMMAND],
+		[Full path command where sa-learn is located; (default=/usr/bin/sa-learn)]),
+		[with_sa_learn="$withval"], [with_sa_learn=""])
+
 	AC_ARG_VAR([SA_LEARN], [SpamAssassin spam training program])
-	AC_PATH_PROG([SA_LEARN], [sa-learn])
-	if test "x$SA_LEARN" = "x"; then
-		AC_MSG_ERROR([
-
-	SpamAssassin training program (sa-learn) not found.
-
-	If you want to disable spam filtering using SpamAssassin,
-	please append --disable-spamassassin to configure.
-
-	])
+	if test "x$with_sa_learn" != "x" ; then
+		SA_LEARN="$with_sa_learn"
+	elif test "x$SA_LEARN" = "x" ; then
+		SA_LEARN="/usr/bin/sa-learn"
 	fi
 	AC_DEFINE_UNQUOTED(
 		SA_LEARN_COMMAND, "$SA_LEARN",
 		[SpamAssassin spam training program])
 
-	msg_spamassassin="$msg_spamassassin ($SPAMASSASSIN)"
+	msg_spamassassin="$msg_spamassassin ($SPAMASSASSIN $SA_LEARN)"
 fi
-AM_CONDITIONAL([ENABLE_SPAMASSASSIN], [test "x$enable_spamassassin" = "xyes"])
+AM_CONDITIONAL([WITH_SPAMASSASSIN], [test "x$with_spamassassin" = "xyes"])
 
 dnl ******************************
 dnl CERT_UI Flags

@@ -46,6 +46,7 @@ typedef struct _EBogofilterClass EBogofilterClass;
 struct _EBogofilter {
 	EMailJunkFilter parent;
 	gboolean convert_to_unicode;
+	gchar *command;
 };
 
 struct _EBogofilterClass {
@@ -54,7 +55,8 @@ struct _EBogofilterClass {
 
 enum {
 	PROP_0,
-	PROP_CONVERT_TO_UNICODE
+	PROP_CONVERT_TO_UNICODE,
+	PROP_COMMAND
 };
 
 /* Module Entry Points */
@@ -72,6 +74,21 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (
 	G_IMPLEMENT_INTERFACE_DYNAMIC (
 		CAMEL_TYPE_JUNK_FILTER,
 		e_bogofilter_interface_init))
+
+#ifndef BOGOFILTER_COMMAND
+#define BOGOFILTER_COMMAND "/usr/bin/bogofilter"
+#endif
+
+static const gchar *
+bogofilter_get_command_path (EBogofilter *extension)
+{
+	g_return_val_if_fail (extension != NULL, NULL);
+
+	if (extension->command && *extension->command)
+		return extension->command;
+
+	return BOGOFILTER_COMMAND;
+}
 
 #ifdef G_OS_UNIX
 static void
@@ -260,6 +277,25 @@ bogofilter_set_convert_to_unicode (EBogofilter *extension,
 	g_object_notify (G_OBJECT (extension), "convert-to-unicode");
 }
 
+static const gchar *
+bogofilter_get_command (EBogofilter *extension)
+{
+	return extension->command ? extension->command : "";
+}
+
+static void
+bogofilter_set_command (EBogofilter *extension,
+			const gchar *command)
+{
+	if (g_strcmp0 (extension->command, command) == 0)
+		return;
+
+	g_free (extension->command);
+	extension->command = g_strdup (command);
+
+	g_object_notify (G_OBJECT (extension), "command");
+}
+
 static void
 bogofilter_set_property (GObject *object,
                          guint property_id,
@@ -271,6 +307,12 @@ bogofilter_set_property (GObject *object,
 			bogofilter_set_convert_to_unicode (
 				E_BOGOFILTER (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_COMMAND:
+			bogofilter_set_command (
+				E_BOGOFILTER (object),
+				g_value_get_string (value));
 			return;
 	}
 
@@ -289,9 +331,33 @@ bogofilter_get_property (GObject *object,
 				value, bogofilter_get_convert_to_unicode (
 				E_BOGOFILTER (object)));
 			return;
+
+		case PROP_COMMAND:
+			g_value_set_string (
+				value, bogofilter_get_command (
+				E_BOGOFILTER (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+bogofilter_finalize (GObject *object)
+{
+	EBogofilter *extension = E_BOGOFILTER (object);
+
+	g_free (extension->command);
+	extension->command = NULL;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_bogofilter_parent_class)->finalize (object);
+}
+
+static gboolean
+bogofilter_available (EMailJunkFilter *junk_filter)
+{
+	return g_file_test (bogofilter_get_command_path (E_BOGOFILTER (junk_filter)), G_FILE_TEST_IS_EXECUTABLE);
 }
 
 static GtkWidget *
@@ -339,7 +405,7 @@ bogofilter_classify (CamelJunkFilter *junk_filter,
 	gint exit_code;
 
 	const gchar *argv[] = {
-		BOGOFILTER_COMMAND,
+		bogofilter_get_command_path (extension),
 		NULL,  /* leave room for unicode option */
 		NULL
 	};
@@ -398,7 +464,7 @@ bogofilter_learn_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 
 	const gchar *argv[] = {
-		BOGOFILTER_COMMAND,
+		bogofilter_get_command_path (extension),
 		"--register-spam",
 		NULL,  /* leave room for unicode option */
 		NULL
@@ -433,7 +499,7 @@ bogofilter_learn_not_junk (CamelJunkFilter *junk_filter,
 	gint exit_code;
 
 	const gchar *argv[] = {
-		BOGOFILTER_COMMAND,
+		bogofilter_get_command_path (extension),
 		"--register-ham",
 		NULL,  /* leave room for unicode option */
 		NULL
@@ -467,10 +533,12 @@ e_bogofilter_class_init (EBogofilterClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = bogofilter_set_property;
 	object_class->get_property = bogofilter_get_property;
+	object_class->finalize = bogofilter_finalize;
 
 	junk_filter_class = E_MAIL_JUNK_FILTER_CLASS (class);
 	junk_filter_class->filter_name = "Bogofilter";
 	junk_filter_class->display_name = _("Bogofilter");
+	junk_filter_class->available = bogofilter_available;
 	junk_filter_class->new_config_widget = bogofilter_new_config_widget;
 
 	g_object_class_install_property (
@@ -481,6 +549,16 @@ e_bogofilter_class_init (EBogofilterClass *class)
 			"Convert to Unicode",
 			"Convert message text to Unicode",
 			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COMMAND,
+		g_param_spec_string (
+			"command",
+			"Full Path Command",
+			"Full path command to use to run bogofilter",
+			"",
 			G_PARAM_READWRITE));
 }
 
@@ -506,6 +584,10 @@ e_bogofilter_init (EBogofilter *extension)
 	g_settings_bind (
 		settings, "utf8-for-spam-filter",
 		G_OBJECT (extension), "convert-to-unicode",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, "command",
+		G_OBJECT (extension), "command",
 		G_SETTINGS_BIND_DEFAULT);
 	g_object_unref (settings);
 }

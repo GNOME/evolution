@@ -5,5 +5,17 @@
       <_summary>Use only local spam tests.</_summary>
       <_description>Use only the local spam tests (no DNS).</_description>
     </key>
+
+    <key name="command" type="s">
+      <default>''</default>
+      <_summary>Full path command to run spamassassin</_summary>
+      <_description>Full path to a spamassassin command. If not set, then a compile-time path is used, usually /usr/bin/spamassassin. The command might not contain any other arguments.</_description>
+    </key>
+
+    <key name="learn-command" type="s">
+      <default>''</default>
+      <_summary>Full path command to run sa-learn</_summary>
+      <_description>Full path to a sa-learn command. If not set, then a compile-time path is used, usually /usr/bin/sa-learn. The command might not contain any other arguments.</_description>
+    </key>
   </schema>
 </schemalist>
