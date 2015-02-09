@@ -4527,19 +4527,23 @@ insert_base64_image (EHTMLEditorSelection *selection,
 {
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
-	WebKitDOMElement *element, *caret_position, *resizable_wrapper;
+	WebKitDOMElement *element, *selection_start_marker, *resizable_wrapper;
 	WebKitDOMText *text;
-
-	caret_position = e_html_editor_selection_save_caret_position (selection);
 
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	document = webkit_web_view_get_dom_document (
-		WEBKIT_WEB_VIEW (view));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	e_html_editor_view_set_changed (view, TRUE);
-	g_object_unref (view);
+
+	if (!e_html_editor_selection_is_collapsed (selection))
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+	e_html_editor_selection_save (selection);
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
 
 	resizable_wrapper =
 		webkit_dom_document_create_element (document, "span", NULL);
@@ -4564,9 +4568,9 @@ insert_base64_image (EHTMLEditorSelection *selection,
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (caret_position)),
+			WEBKIT_DOM_NODE (selection_start_marker)),
 		WEBKIT_DOM_NODE (resizable_wrapper),
-		WEBKIT_DOM_NODE (caret_position),
+		WEBKIT_DOM_NODE (selection_start_marker),
 		NULL);
 
 	/* We have to again use UNICODE_ZERO_WIDTH_SPACE character to restore
@@ -4576,12 +4580,15 @@ insert_base64_image (EHTMLEditorSelection *selection,
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (caret_position)),
+			WEBKIT_DOM_NODE (selection_start_marker)),
 		WEBKIT_DOM_NODE (text),
-		WEBKIT_DOM_NODE (caret_position),
+		WEBKIT_DOM_NODE (selection_start_marker),
 		NULL);
 
-	e_html_editor_selection_restore_caret_position (selection);
+	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check (view);
+	g_object_unref (view);
+
 }
 
 static void
