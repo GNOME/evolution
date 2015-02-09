@@ -320,11 +320,6 @@ static struct Language other_languages[] = {
 	  (const gchar *[]) { NULL }
 	},
 
-	{ "ps", N_("_PostScript"),
-	  (const gchar *[]) { (gchar[]) { "ps" } , NULL },
-	  (const gchar *[]) { (gchar[]) { "application/postscript" }, NULL }
-	},
-
 	{ "r", N_("_R"),
 	  (const gchar *[]) { (gchar[]) { "r" }, NULL },
 	  (const gchar *[]) { NULL }
