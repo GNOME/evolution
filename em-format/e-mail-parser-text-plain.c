@@ -56,10 +56,11 @@ process_part (EMailParser *parser,
 	CamelContentType *type;
 	EMailPart *mail_part;
 	gint s_len = part_id->len;
+	gboolean handled = TRUE;
 
 	type = camel_mime_part_get_content_type (part);
 	if (!camel_content_type_is (type, "text", "*")) {
-		e_mail_parser_parse_part (
+		handled = e_mail_parser_parse_part (
 			parser, CAMEL_MIME_PART (part), part_id,
 			cancellable, out_mail_parts);
 
@@ -88,14 +89,14 @@ process_part (EMailParser *parser,
 	} else {
 		g_string_append_printf (part_id, ".inline.%d", part_number);
 
-		e_mail_parser_parse_part (
+		handled = e_mail_parser_parse_part (
 			parser, CAMEL_MIME_PART (part), part_id,
 			cancellable, out_mail_parts);
 
 		g_string_truncate (part_id, s_len);
 	}
 
-	return TRUE;
+	return handled;
 }
 
 static gboolean
