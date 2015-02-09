@@ -292,13 +292,12 @@ encoder_output_cb (void *arg,
                    const char *buf,
                    unsigned long len)
 {
+	gsize n_bytes_written = 0;
 	GError *error = NULL;
 
-	g_output_stream_write (G_OUTPUT_STREAM (arg), buf, len, NULL, &error);
-
-	if (error != NULL) {
-		g_warning ("I/O error during certificate backup, error message: %s", error->message);
-		g_error_free (error);
+	if (!g_output_stream_write_all (G_OUTPUT_STREAM (arg), buf, len, &n_bytes_written, NULL, &error)) {
+		g_warning ("I/O error during certificate backup, error message: %s", error ? error->message : "Unknown error");
+		g_clear_error (&error);
 	}
 }
 
