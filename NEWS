@@ -1,3 +1,15 @@
+Evolution 3.12.11 2015-02-09
+----------------------------
+
+Bug Fixes:
+	Bug 743959 - Automatically collapsing threads after folder update (Milan Crha)
+
+Miscellaneous:
+	Avoid/workaround usage of an EAsyncClosure when opening an EClient (Milan Crha)
+
+Translations:
+	Michał Grzybowski (pl)
+
 Evolution 3.12.10 2015-01-12
 ----------------------------
 
