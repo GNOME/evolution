@@ -931,14 +931,14 @@ insert:
 		NULL,
 		NULL);
 
-	if (is_message_from_edit_as_new && composer->priv->set_signature_from_message && result) {
+	if (is_message_from_edit_as_new && composer->priv->set_signature_from_message && extension_result) {
 		const gchar *id;
 		gsize length = 0;
 
 		id = g_variant_get_string (extension_result, &length);
 		if (length > 0 && id && *id) {
-			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), id);
 			composer->priv->set_signature_from_message = FALSE;
+			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), id);
 		}
 		g_object_unref (extension_result);
 	}
@@ -967,6 +967,9 @@ insert:
 			view, "size-allocate",
 			G_CALLBACK (composer_size_allocate_cb), NULL);
 exit:
+	/* Make sure the flag will be unset and won't influence user's choice */
+	composer->priv->set_signature_from_message = FALSE;
+
 	g_object_unref (composer);
 }
 
