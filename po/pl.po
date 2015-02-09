@@ -11,16 +11,16 @@
 # Wadim Dziedzic <wdziedzic@aviary.pl>, 2007-2009.
 # Wojciech Kapusta <wkapusta@aviary.pl>, 2009.
 # Tomasz Dominikowski <dominikowski@gmail.com>, 2010.
-# Piotr Drąg <piotrdrag@gmail.com>, 2010-2014.
+# Piotr Drąg <piotrdrag@gmail.com>, 2010-2015.
 # Paweł Żołnowski <pawel@zolnowski.name>, 2014.
-# Aviary.pl <gnomepl@aviary.pl>, 2007-2014.
+# Aviary.pl <gnomepl@aviary.pl>, 2007-2015.
 #: ../shell/main.c:559
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-09 19:10+0200\n"
-"PO-Revision-Date: 2014-10-09 19:11+0200\n"
+"PO-Revision-Date: 2015-02-09 19:41+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -6707,159 +6707,159 @@ msgstr "Ocean Indyjski/Reunion"
 
 #: ../calendar/zones.h:367
 msgid "Pacific/Apia"
-msgstr "Pacyfik/Apia"
+msgstr "Ocean Spokojny/Apia"
 
 #: ../calendar/zones.h:368
 msgid "Pacific/Auckland"
-msgstr "Pacyfik/Auckland"
+msgstr "Ocean Spokojny/Auckland"
 
 #: ../calendar/zones.h:369
 msgid "Pacific/Chatham"
-msgstr "Pacyfik/Wyspy_Chatham"
+msgstr "Ocean Spokojny/Wyspy_Chatham"
 
 #: ../calendar/zones.h:370
 msgid "Pacific/Easter"
-msgstr "Pacyfik/Wyspa_Wielkanocna"
+msgstr "Ocean Spokojny/Wyspa_Wielkanocna"
 
 #: ../calendar/zones.h:371
 msgid "Pacific/Efate"
-msgstr "Pacyfik/Efate"
+msgstr "Ocean Spokojny/Efate"
 
 #: ../calendar/zones.h:372
 msgid "Pacific/Enderbury"
-msgstr "Pacyfik/Enderbury"
+msgstr "Ocean Spokojny/Enderbury"
 
 #: ../calendar/zones.h:373
 msgid "Pacific/Fakaofo"
-msgstr "Pacyfik/Fakaofo"
+msgstr "Ocean Spokojny/Fakaofo"
 
 #: ../calendar/zones.h:374
 msgid "Pacific/Fiji"
-msgstr "Pacyfik/Fidżi"
+msgstr "Ocean Spokojny/Fidżi"
 
 #: ../calendar/zones.h:375
 msgid "Pacific/Funafuti"
-msgstr "Pacyfik/Funafuti"
+msgstr "Ocean Spokojny/Funafuti"
 
 #: ../calendar/zones.h:376
 msgid "Pacific/Galapagos"
-msgstr "Pacyfik/Galapagos"
+msgstr "Ocean Spokojny/Galapagos"
 
 #: ../calendar/zones.h:377
 msgid "Pacific/Gambier"
-msgstr "Pacyfik/Wyspy_Gambiera"
+msgstr "Ocean Spokojny/Wyspy_Gambiera"
 
 #: ../calendar/zones.h:378
 msgid "Pacific/Guadalcanal"
-msgstr "Pacyfik/Guadalcanal"
+msgstr "Ocean Spokojny/Guadalcanal"
 
 #: ../calendar/zones.h:379
 msgid "Pacific/Guam"
-msgstr "Pacyfik/Guam"
+msgstr "Ocean Spokojny/Guam"
 
 #: ../calendar/zones.h:380
 msgid "Pacific/Honolulu"
-msgstr "Pacyfik/Honolulu"
+msgstr "Ocean Spokojny/Honolulu"
 
 #: ../calendar/zones.h:381
 msgid "Pacific/Johnston"
-msgstr "Pacyfik/Johnston"
+msgstr "Ocean Spokojny/Johnston"
 
 #: ../calendar/zones.h:382
 msgid "Pacific/Kiritimati"
-msgstr "Pacyfik/Kiritimati"
+msgstr "Ocean Spokojny/Kiritimati"
 
 #: ../calendar/zones.h:383
 msgid "Pacific/Kosrae"
-msgstr "Pacyfik/Kosrae"
+msgstr "Ocean Spokojny/Kosrae"
 
 #: ../calendar/zones.h:384
 msgid "Pacific/Kwajalein"
-msgstr "Pacyfik/Kwajalein"
+msgstr "Ocean Spokojny/Kwajalein"
 
 #: ../calendar/zones.h:385
 msgid "Pacific/Majuro"
-msgstr "Pacyfik/Majuro"
+msgstr "Ocean Spokojny/Majuro"
 
 #: ../calendar/zones.h:386
 msgid "Pacific/Marquesas"
-msgstr "Pacyfik/Markizy"
+msgstr "Ocean Spokojny/Markizy"
 
 #: ../calendar/zones.h:387
 msgid "Pacific/Midway"
-msgstr "Pacyfik/Midway"
+msgstr "Ocean Spokojny/Midway"
 
 #: ../calendar/zones.h:388
 msgid "Pacific/Nauru"
-msgstr "Pacyfik/Nauru"
+msgstr "Ocean Spokojny/Nauru"
 
 #: ../calendar/zones.h:389
 msgid "Pacific/Niue"
-msgstr "Pacyfik/Niue"
+msgstr "Ocean Spokojny/Niue"
 
 #: ../calendar/zones.h:390
 msgid "Pacific/Norfolk"
-msgstr "Pacyfik/Norfolk"
+msgstr "Ocean Spokojny/Norfolk"
 
 #: ../calendar/zones.h:391
 msgid "Pacific/Noumea"
-msgstr "Pacyfik/Numea"
+msgstr "Ocean Spokojny/Numea"
 
 #: ../calendar/zones.h:392
 msgid "Pacific/Pago_Pago"
-msgstr "Pacyfik/Pago_Pago"
+msgstr "Ocean Spokojny/Pago_Pago"
 
 #: ../calendar/zones.h:393
 msgid "Pacific/Palau"
-msgstr "Pacyfik/Palau"
+msgstr "Ocean Spokojny/Palau"
 
 #: ../calendar/zones.h:394
 msgid "Pacific/Pitcairn"
-msgstr "Pacyfik/Pitcairn"
+msgstr "Ocean Spokojny/Pitcairn"
 
 #: ../calendar/zones.h:395
 msgid "Pacific/Ponape"
-msgstr "Pacyfik/Pohnpei"
+msgstr "Ocean Spokojny/Pohnpei"
 
 #: ../calendar/zones.h:396
 msgid "Pacific/Port_Moresby"
-msgstr "Pacyfik/Port_Moresby"
+msgstr "Ocean Spokojny/Port_Moresby"
 
 #: ../calendar/zones.h:397
 msgid "Pacific/Rarotonga"
-msgstr "Pacyfik/Rarotonga"
+msgstr "Ocean Spokojny/Rarotonga"
 
 #: ../calendar/zones.h:398
 msgid "Pacific/Saipan"
-msgstr "Pacyfik/Saipan"
+msgstr "Ocean Spokojny/Saipan"
 
 #: ../calendar/zones.h:399
 msgid "Pacific/Tahiti"
-msgstr "Pacyfik/Tahiti"
+msgstr "Ocean Spokojny/Tahiti"
 
 #: ../calendar/zones.h:400
 msgid "Pacific/Tarawa"
-msgstr "Pacyfik/Tarawa"
+msgstr "Ocean Spokojny/Tarawa"
 
 #: ../calendar/zones.h:401
 msgid "Pacific/Tongatapu"
-msgstr "Pacyfik/Tongatapu"
+msgstr "Ocean Spokojny/Tongatapu"
 
 #: ../calendar/zones.h:402
 msgid "Pacific/Truk"
-msgstr "Pacyfik/Chuuk"
+msgstr "Ocean Spokojny/Chuuk"
 
 #: ../calendar/zones.h:403
 msgid "Pacific/Wake"
-msgstr "Pacyfik/Wake"
+msgstr "Ocean Spokojny/Wake"
 
 #: ../calendar/zones.h:404
 msgid "Pacific/Wallis"
-msgstr "Pacyfik/Wallis"
+msgstr "Ocean Spokojny/Wallis"
 
 #: ../calendar/zones.h:405
 msgid "Pacific/Yap"
-msgstr "Pacyfik/Yap"
+msgstr "Ocean Spokojny/Yap"
 
 #: ../composer/e-composer-actions.c:202
 msgid "Save as..."
@@ -20797,9 +20797,9 @@ msgstr ""
 "Wadim Dziedzic <wdziedzic@aviary.pl>, 2007-2009\n"
 "Wojciech Kapusta <wkapusta@aviary.pl>, 2009\n"
 "Tomasz Dominikowski <dominikowski@gmail.com>, 2010\n"
-"Piotr Drąg <piotrdrag@gmail.com>, 2010-2014\n"
+"Piotr Drąg <piotrdrag@gmail.com>, 2010-2015\n"
 "Paweł Żołnowski <pawel@zolnowski.name>, 2014\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2007-2014"
+"Aviary.pl <gnomepl@aviary.pl>, 2007-2015"
 
 #: ../shell/e-shell-window-actions.c:84
 msgid "Evolution Website"
