@@ -7345,6 +7345,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 
 		selection = e_html_editor_view_get_selection (view);
 		paragraph = prepare_paragraph (selection, document, TRUE);
+		webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (paragraph), NULL);
 		e_html_editor_selection_restore (selection);
