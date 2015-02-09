@@ -1163,10 +1163,13 @@ insert:
 		 * signature id in signature combo box otherwise no signature will be
 		 * added but we have to do it just once when the composer opens */
 		if (is_message_from_edit_as_new && composer->priv->set_signature_from_message) {
-			gchar *name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
+			gchar *name;
+
+			composer->priv->set_signature_from_message = FALSE;
+
+			name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
 			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
 			g_free (name);
-			composer->priv->set_signature_from_message = FALSE;
 		}
 
 		if (id && (strlen (id) == 1) && (*id == '1')) {
@@ -1236,6 +1239,9 @@ insert:
 	composer_move_caret (composer);
 
 exit:
+	/* Make sure the flag will be unset and won't influence user's choice */
+	composer->priv->set_signature_from_message = FALSE;
+
 	g_object_unref (composer);
 }
 

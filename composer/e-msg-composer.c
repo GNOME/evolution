@@ -45,6 +45,8 @@
 
 #include <shell/e-shell.h>
 
+#include <libemail-engine/libemail-engine.h>
+
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
@@ -3293,7 +3295,13 @@ e_msg_composer_new_with_message (EShell *shell,
 		identity_uid = (gchar *) camel_medium_get_header (
 			CAMEL_MEDIUM (message), "X-Evolution-Account");
 	}
-	if (identity_uid != NULL) {
+	if (!identity_uid) {
+		source = em_utils_guess_mail_identity_with_recipients (
+			e_shell_get_registry (shell), message, NULL, NULL);
+		if (source)
+			identity_uid = e_source_dup_uid (source);
+	}
+	if (identity_uid != NULL && !source) {
 		identity_uid = g_strstrip (g_strdup (identity_uid));
 		source = e_composer_header_table_ref_source (
 			table, identity_uid);
