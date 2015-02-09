@@ -1435,6 +1435,7 @@ emoticon_read_async_cb (GFile *file,
                         LoadContext *load_context)
 {
 	EHTMLEditorView *view = load_context->view;
+	EHTMLEditorSelection *selection;
 	EEmoticon *emoticon = load_context->emoticon;
 	GError *error = NULL;
 	gboolean misplaced_selection = FALSE, empty = FALSE;
@@ -1462,9 +1463,13 @@ emoticon_read_async_cb (GFile *file,
 	if (error || (size == -1))
 		goto out;
 
-	e_html_editor_selection_save (e_html_editor_view_get_selection (view));
+	selection = e_html_editor_view_get_selection (view);
+	if (!e_html_editor_selection_is_collapsed (selection))
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	e_html_editor_selection_save (selection);
 	selection_start_marker = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
 	selection_end_marker = webkit_dom_document_get_element_by_id (
@@ -1597,8 +1602,7 @@ emoticon_read_async_cb (GFile *file,
 		}
 	}
 
-	e_html_editor_selection_restore (
-		e_html_editor_view_get_selection (view));
+	e_html_editor_selection_restore (selection);
 
 	e_html_editor_view_set_changed (view, TRUE);
 
