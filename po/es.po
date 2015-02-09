@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-03 05:18+0000\n"
-"PO-Revision-Date: 2015-02-03 12:33+0100\n"
+"POT-Creation-Date: 2015-02-09 10:07+0000\n"
+"PO-Revision-Date: 2015-02-09 18:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -572,7 +572,7 @@ msgstr "Opciones"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3044
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3123
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -604,7 +604,7 @@ msgstr "_Cancelar"
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:395
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3045
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3124
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
 #: ../smime/gui/certificate-manager.c:653
@@ -2787,7 +2787,7 @@ msgstr "Categoría"
 
 #: ../calendar/gui/caltypes.xml.h:16 ../calendar/gui/memotypes.xml.h:14
 #: ../calendar/gui/tasktypes.xml.h:15 ../em-format/e-mail-formatter-print.c:53
-#: ../em-format/e-mail-formatter-print-headers.c:203
+#: ../em-format/e-mail-formatter-print-headers.c:157
 #: ../mail/filtertypes.xml.in.h:46 ../mail/searchtypes.xml.in.h:48
 #: ../mail/vfoldertypes.xml.in.h:49
 msgid "Attachments"
@@ -3652,8 +3652,8 @@ msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "La nota no se puede editar completamente porque no es el organizador"
 
 #: ../calendar/gui/dialogs/memo-page.c:1166
-#: ../em-format/e-mail-formatter-utils.c:201
-#: ../em-format/e-mail-formatter-utils.c:218
+#: ../em-format/e-mail-formatter-utils.c:202
+#: ../em-format/e-mail-formatter-utils.c:219
 #: ../em-format/e-mail-part-headers.c:48 ../mail/message-list.etspec.h:9
 #: ../mail/searchtypes.xml.in.h:11 ../mail/vfoldertypes.xml.in.h:11
 #: ../modules/mail/em-mailer-prefs.c:64
@@ -5091,7 +5091,7 @@ msgid "Language"
 msgstr "Idioma"
 
 #: ../calendar/gui/e-memo-table.c:371
-#: ../modules/calendar/e-cal-shell-content.c:1573
+#: ../modules/calendar/e-cal-shell-content.c:1580
 #: ../modules/calendar/e-memo-shell-view-actions.c:180
 #: ../modules/calendar/e-memo-shell-view-actions.c:195
 #: ../modules/calendar/e-memo-shell-view.c:308
@@ -5150,7 +5150,7 @@ msgstr "%d%%"
 #: ../calendar/importers/icalendar-importer.c:78
 #: ../calendar/importers/icalendar-importer.c:1072
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
-#: ../modules/calendar/e-cal-shell-content.c:1531
+#: ../modules/calendar/e-cal-shell-content.c:1538
 #: ../modules/calendar/e-task-shell-view-actions.c:203
 #: ../modules/calendar/e-task-shell-view-actions.c:218
 #: ../modules/calendar/e-task-shell-view.c:466
@@ -7524,11 +7524,11 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1582 ../composer/e-msg-composer.c:2148
+#: ../composer/e-msg-composer.c:1581 ../composer/e-msg-composer.c:2147
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4391
+#: ../composer/e-msg-composer.c:4390
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -7904,6 +7904,20 @@ msgid ""
 msgstr ""
 "Convertir el mensaje de texto a Unicode UTF-8 para unificar los tokens SPAM/"
 "correo normal provenientes de diferentes juegos de caracteres."
+
+#: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
+msgid "Full path command to run Bogofilter"
+msgstr "Ruta completa del comando para ejecutar Bogofilter"
+
+#: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
+msgid ""
+"Full path to a Bogofilter command. If not set, then a compile-time path is "
+"used, usually /usr/bin/bogofilter. The command might not contain any other "
+"arguments."
+msgstr ""
+"Ruta completa al comando «Bogofilter». Si no está establecida, se usará una "
+"ruta en tiempo de compilación, normalmente /usr/bin/bogofilter. El comando "
+"no debe contener otros argumentos."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
@@ -10326,6 +10340,34 @@ msgstr "Usar sólo comprobaciones de SPAM locales."
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Usa sólo comprobaciones de SPAM locales (sin DNS)."
 
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
+msgid "Full path command to run spamassassin"
+msgstr "Ruta completa del comando para ejecutar spamassassin"
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
+msgid ""
+"Full path to a spamassassin command. If not set, then a compile-time path is "
+"used, usually /usr/bin/spamassassin. The command might not contain any other "
+"arguments."
+msgstr ""
+"Ruta completa al comando «spamassassin». Si no está establecida, se usará "
+"una ruta en tiempo de compilación, normalmente /usr/bin/spamassassin. El "
+"comando no debe contener otros argumentos."
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
+msgid "Full path command to run sa-learn"
+msgstr "Ruta completa del comando para ejecutar sa-learn"
+
+#: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
+msgid ""
+"Full path to a sa-learn command. If not set, then a compile-time path is "
+"used, usually /usr/bin/sa-learn. The command might not contain any other "
+"arguments."
+msgstr ""
+"Ruta completa al comando «sa-learn». Si no está establecida, se usará una "
+"ruta en tiempo de compilación, normalmente /usr/bin/sa-learn. El comando no "
+"debe contener otros argumentos."
+
 #: ../em-format/e-mail-formatter-attachment.c:405
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
 #: ../e-util/e-attachment-paned.c:187 ../e-util/e-attachment-paned.c:192
@@ -10357,7 +10399,7 @@ msgstr "De"
 msgid "(no subject)"
 msgstr "(sin asunto)"
 
-#: ../em-format/e-mail-formatter-headers.c:328
+#: ../em-format/e-mail-formatter-headers.c:329
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "%s envió este mensaje en nombre de %s"
@@ -10392,29 +10434,6 @@ msgstr "Nombre"
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../em-format/e-mail-formatter-print-headers.c:143
-msgid "GPG signed"
-msgstr "Firmado con GPG"
-
-#: ../em-format/e-mail-formatter-print-headers.c:149
-msgid "GPG encrpyted"
-msgstr "Cifrado GPG"
-
-#: ../em-format/e-mail-formatter-print-headers.c:155
-msgid "S/MIME signed"
-msgstr "Cifrado S/MIME"
-
-#: ../em-format/e-mail-formatter-print-headers.c:161
-msgid "S/MIME encrpyted"
-msgstr "Cifrado con S/MIME"
-
-#: ../em-format/e-mail-formatter-print-headers.c:170
-#: ../mail/e-mail-config-security-page.c:736
-#: ../modules/mail-config/e-mail-config-remote-accounts.c:194
-#: ../modules/mail-config/e-mail-config-smtp-backend.c:144
-msgid "Security"
-msgstr "Seguridad"
-
 #: ../em-format/e-mail-formatter-quote-headers.c:174
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
@@ -10426,28 +10445,28 @@ msgstr "Asunto"
 
 #. pseudo-header
 #: ../em-format/e-mail-formatter-quote-headers.c:193
-#: ../em-format/e-mail-formatter-utils.c:342
+#: ../em-format/e-mail-formatter-utils.c:343
 #: ../modules/mail/em-mailer-prefs.c:1166
 msgid "Mailer"
 msgstr "Transporte"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:94
-#: ../em-format/e-mail-formatter-text-enriched.c:98
+#: ../em-format/e-mail-formatter-text-enriched.c:102
 msgid "Richtext"
 msgstr "Texto enriquecido"
 
 #: ../em-format/e-mail-formatter-quote-text-enriched.c:95
-#: ../em-format/e-mail-formatter-text-enriched.c:99
+#: ../em-format/e-mail-formatter-text-enriched.c:103
 msgid "Display part as enriched text"
 msgstr "Mostrar parte como texto enriquecido"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:95
-#: ../em-format/e-mail-formatter-text-html.c:359
+#: ../em-format/e-mail-formatter-text-html.c:360
 msgid "HTML"
 msgstr "HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-html.c:96
-#: ../em-format/e-mail-formatter-text-html.c:360
+#: ../em-format/e-mail-formatter-text-html.c:361
 msgid "Format part as HTML"
 msgstr "Formatear parte como HTML"
 
@@ -10591,17 +10610,40 @@ msgstr "Fuente"
 msgid "Display source of a MIME part"
 msgstr "Mostrar la fuente de una parte MIME"
 
-#: ../em-format/e-mail-formatter-utils.c:202
-#: ../em-format/e-mail-formatter-utils.c:219
+#: ../em-format/e-mail-formatter-utils.c:203
+#: ../em-format/e-mail-formatter-utils.c:220
 #: ../em-format/e-mail-part-headers.c:49 ../modules/mail/em-mailer-prefs.c:65
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/e-mail-formatter-utils.c:203
-#: ../em-format/e-mail-formatter-utils.c:220
+#: ../em-format/e-mail-formatter-utils.c:204
+#: ../em-format/e-mail-formatter-utils.c:221
 #: ../em-format/e-mail-part-headers.c:50 ../modules/mail/em-mailer-prefs.c:66
 msgid "Bcc"
 msgstr "Cco"
+
+#: ../em-format/e-mail-formatter-utils.c:564
+msgid "GPG signed"
+msgstr "Firmado con GPG"
+
+#: ../em-format/e-mail-formatter-utils.c:570
+msgid "GPG encrpyted"
+msgstr "Cifrado GPG"
+
+#: ../em-format/e-mail-formatter-utils.c:576
+msgid "S/MIME signed"
+msgstr "Cifrado S/MIME"
+
+#: ../em-format/e-mail-formatter-utils.c:582
+msgid "S/MIME encrpyted"
+msgstr "Cifrado con S/MIME"
+
+#: ../em-format/e-mail-formatter-utils.c:591
+#: ../mail/e-mail-config-security-page.c:736
+#: ../modules/mail-config/e-mail-config-remote-accounts.c:194
+#: ../modules/mail-config/e-mail-config-smtp-backend.c:144
+msgid "Security"
+msgstr "Seguridad"
 
 #: ../em-format/e-mail-parser-application-mbox.c:87
 #, c-format
@@ -10690,7 +10732,7 @@ msgstr "Grupos de noticias"
 msgid "Face"
 msgstr "Cara"
 
-#: ../em-format/e-mail-part-utils.c:508
+#: ../em-format/e-mail-part-utils.c:544
 #, c-format
 msgid "%s attachment"
 msgstr "%s adjunto"
@@ -12497,7 +12539,7 @@ msgid "No match found"
 msgstr "No se encontró ninguna coincidencia"
 
 #: ../e-util/e-html-editor-find-dialog.c:160
-#: ../e-util/e-html-editor-replace-dialog.c:229
+#: ../e-util/e-html-editor-replace-dialog.c:232
 msgid "Search _backwards"
 msgstr "Buscar hacia _atrás"
 
@@ -12680,40 +12722,43 @@ msgstr "Propiedades del párrafo"
 
 #: ../e-util/e-html-editor-replace-dialog.c:148
 #, c-format
-msgid "%d occurences replaced"
-msgstr "%d ocurrencias reemplazadas"
+#| msgid "%d occurences replaced"
+msgid "%d occurence replaced"
+msgid_plural "%d occurences replaced"
+msgstr[0] "%d ocurrencia reemplazada"
+msgstr[1] "%d ocurrencias reemplazadas"
 
-#: ../e-util/e-html-editor-replace-dialog.c:209
+#: ../e-util/e-html-editor-replace-dialog.c:212
 msgid "R_eplace:"
 msgstr "_Reemplazar:"
 
-#: ../e-util/e-html-editor-replace-dialog.c:221
+#: ../e-util/e-html-editor-replace-dialog.c:224
 msgid "_With:"
 msgstr "_Con:"
 
-#: ../e-util/e-html-editor-replace-dialog.c:233
+#: ../e-util/e-html-editor-replace-dialog.c:236
 msgid "_Case sensitive"
 msgstr "_Distinguir mayúsculas y minúsculas"
 
-#: ../e-util/e-html-editor-replace-dialog.c:237
+#: ../e-util/e-html-editor-replace-dialog.c:240
 msgid "Wra_p search"
 msgstr "Ajus_tar búsqueda"
 
-#: ../e-util/e-html-editor-replace-dialog.c:247
+#: ../e-util/e-html-editor-replace-dialog.c:250
 msgid "_Skip"
 msgstr "_Omitir"
 
-#: ../e-util/e-html-editor-replace-dialog.c:255
+#: ../e-util/e-html-editor-replace-dialog.c:258
 #: ../e-util/e-system.error.xml.h:3
 msgid "_Replace"
 msgstr "_Reemplazar"
 
-#: ../e-util/e-html-editor-replace-dialog.c:263
+#: ../e-util/e-html-editor-replace-dialog.c:266
 msgid "Replace _All"
 msgstr "Reemplazar _todo"
 
 #. Replace
-#: ../e-util/e-html-editor-replace-dialog.c:283
+#: ../e-util/e-html-editor-replace-dialog.c:286
 #: ../e-util/e-html-editor-spell-check-dialog.c:536
 msgid "Replace"
 msgstr "Reemplazar"
@@ -12799,15 +12844,15 @@ msgstr "_Tamaño:"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
-#: ../e-util/e-html-editor-view.c:3354
+#: ../e-util/e-html-editor-view.c:3360
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
-#: ../e-util/e-html-editor-view.c:3355
+#: ../e-util/e-html-editor-view.c:3361
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
-#: ../e-util/e-html-editor-view.c:7130
+#: ../e-util/e-html-editor-view.c:7155
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12815,11 +12860,11 @@ msgstr ""
 "Desactivar el modo HTML hará que el texto pierda todo su formato. ¿Quiere "
 "continuar?"
 
-#: ../e-util/e-html-editor-view.c:7134
+#: ../e-util/e-html-editor-view.c:7159
 msgid "_Don't lose formatting"
 msgstr "_No perder el formato"
 
-#: ../e-util/e-html-editor-view.c:7135
+#: ../e-util/e-html-editor-view.c:7160
 msgid "_Lose formatting"
 msgstr "_Perder el formato"
 
@@ -13298,6 +13343,7 @@ msgid "Reached top of page, continued from bottom"
 msgstr "Se llegó al principio de la página, continuando desde el final"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:327
+#: ../mail/importers/kmail-importer.c:253
 #: ../mail/importers/pine-importer.c:420
 #: ../modules/mail/e-mail-shell-view.c:1163
 #: ../smime/gui/certificate-manager.c:1669
@@ -13948,15 +13994,15 @@ msgstr "Ir al principio del mensaje"
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
 
-#: ../e-util/e-web-view.c:2854
+#: ../e-util/e-web-view.c:2933
 msgid "Copying image to clipboard"
 msgstr "Copiando imagen al portapapeles"
 
-#: ../e-util/e-web-view.c:3042
+#: ../e-util/e-web-view.c:3121
 msgid "Save Image"
 msgstr "Guardar imagen"
 
-#: ../e-util/e-web-view.c:3078
+#: ../e-util/e-web-view.c:3157
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Guardando imagen en «%s»"
@@ -14277,8 +14323,9 @@ msgstr[1] "Guardando %d mensajes"
 msgid "Invalid folder URI '%s'"
 msgstr "URI « %s» de la carpeta no válida"
 
+#. Some local folders
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-properties.c:410
-#: ../mail/em-folder-tree-model.c:1174
+#: ../mail/em-folder-tree-model.c:1174 ../mail/importers/kmail-libs.c:141
 #: ../modules/mail/e-mail-shell-view-private.c:1074
 #: ../modules/mail/e-mail-shell-view-private.c:1085
 msgid "Inbox"
@@ -14286,24 +14333,28 @@ msgstr "Bandeja de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-tree-model.c:1167
+#: ../mail/importers/kmail-libs.c:147
 #: ../modules/mail/e-mail-shell-view-private.c:1072
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-tree-model.c:1178
+#: ../mail/importers/kmail-libs.c:143
 #: ../modules/mail/e-mail-shell-view-private.c:1076
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1182
+#: ../mail/importers/kmail-libs.c:145
 #: ../modules/mail/e-mail-shell-view-private.c:1078
 msgid "Sent"
 msgstr "Correo enviado"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1170
+#: ../mail/importers/kmail-libs.c:149
 #: ../modules/mail/e-mail-shell-view-private.c:1080
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1130 ../plugins/templates/templates.c:1432
@@ -14331,7 +14382,7 @@ msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna identidad que usar, se canceló el reenvío del mensaje."
 
-#: ../libemail-engine/e-mail-session.c:2343
+#: ../libemail-engine/e-mail-session.c:2360
 #, c-format
 msgid "Waiting for '%s'"
 msgstr "Esperando a %s"
@@ -14576,10 +14627,6 @@ msgstr "No se ha proporcionado ninguna dirección de correo-e"
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
-#: ../mail/e-mail-backend.c:855
-msgid "Unknown background operation"
-msgstr "Operación en segundo plano desconocida"
-
 #: ../mail/e-mail-browser.c:128 ../shell/e-shell-window-actions.c:903
 #: ../shell/e-shell-window-actions.c:910 ../shell/e-shell-window-actions.c:917
 msgid "Close this window"
@@ -14773,10 +14820,10 @@ msgid "Add Ne_w Signature..."
 msgstr "Añadir firma _nueva…"
 
 #: ../mail/e-mail-config-identity-page.c:556
-msgid "Try _setup account automatically, based on Email Address"
+msgid "_Look up mail server details based on the entered e-mail address"
 msgstr ""
-"Probar la _configuración de la cuenta automáticamente, basándose en la "
-"dirección de correo-e"
+"_Buscar los detalles del servidor de correo basándose en la dirección de "
+"correo-e introducida."
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
@@ -15788,7 +15835,7 @@ msgstr "No advertirme de nuevo"
 
 #: ../mail/e-mail-reader-utils.c:556
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1800
-#: ../plugins/face/face.c:170 ../shell/e-shell.c:856 ../shell/e-shell.c:877
+#: ../plugins/face/face.c:170 ../shell/e-shell.c:852 ../shell/e-shell.c:873
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Error desconocido"
@@ -15979,12 +16026,12 @@ msgstr "Moviendo la carpeta %s"
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2226 ../mail/message-list.c:2470
+#: ../mail/em-folder-tree.c:2226 ../mail/message-list.c:2477
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:2230 ../mail/message-list.c:2472
+#: ../mail/em-folder-tree.c:2230 ../mail/message-list.c:2479
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
@@ -16464,17 +16511,20 @@ msgid "Import mail from Elm."
 msgstr "Importar correo de Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:134
+#: ../mail/importers/kmail-importer.c:210
 #: ../plugins/dbx-import/dbx-importer.c:246
 msgid "_Destination folder:"
 msgstr "Carpeta de _destino:"
 
 #: ../mail/importers/evolution-mbox-importer.c:140
+#: ../mail/importers/kmail-importer.c:216
 #: ../plugins/dbx-import/dbx-importer.c:252
 #: ../plugins/pst-import/pst-importer.c:541
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
 #: ../mail/importers/evolution-mbox-importer.c:141
+#: ../mail/importers/kmail-importer.c:217
 #: ../plugins/dbx-import/dbx-importer.c:253
 #: ../plugins/pst-import/pst-importer.c:542
 msgid "Select folder to import into"
@@ -16499,19 +16549,45 @@ msgstr "Buzón Berkeley (mbox)"
 msgid "Importer Berkeley Mailbox format folders"
 msgstr "Importador de carpetas en formato buzón de Berkeley"
 
-#: ../mail/importers/mail-importer.c:54
+#: ../mail/importers/kmail-importer.c:263
+#, c-format
+#| msgid "Address"
+msgid "%d Address"
+msgstr "%d Dirección"
+
+#: ../mail/importers/kmail-importer.c:354
+#| msgid "Evolution Elm importer"
+msgid "Evolution KMail importer"
+msgstr "Importador de KMail de Evolution"
+
+#: ../mail/importers/kmail-importer.c:355
+#| msgid "Import mail from Elm."
+msgid "Import mail and contact from KMail."
+msgstr "Importar correo de y contactos de KMail."
+
+#: ../mail/importers/kmail-libs.c:152
+#: ../modules/mail/e-mail-shell-view-private.c:1082
+msgid "Trash"
+msgstr "Papelera"
+
+#: ../mail/importers/mail-importer.c:55
 msgid "Importing mailbox"
 msgstr "Importando buzón de correo"
 
+#: ../mail/importers/mail-importer.c:61
+#| msgid "Import mail from Elm."
+msgid "Importing mail and contact from KMail"
+msgstr "Importando correo de y contactos de KMail"
+
 #. Destination folder, was set in our widget
-#: ../mail/importers/mail-importer.c:144
+#: ../mail/importers/mail-importer.c:151 ../mail/importers/mail-importer.c:276
 #: ../plugins/dbx-import/dbx-importer.c:609
 #: ../plugins/pst-import/pst-importer.c:760
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importando «%s»"
 
-#: ../mail/importers/mail-importer.c:309
+#: ../mail/importers/mail-importer.c:532
 #, c-format
 msgid "Scanning %s"
 msgstr "Analizando %s"
@@ -17982,7 +18058,7 @@ msgstr "Más alta"
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5971
+#: ../mail/message-list.c:459 ../mail/message-list.c:5983
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -18008,20 +18084,20 @@ msgstr "%e de %b %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%e de %b de %Y"
 
-#: ../mail/message-list.c:2960
+#: ../mail/message-list.c:2967
 msgid "Select all visible messages"
 msgstr "Selecciona todos los mensajes visibles"
 
-#: ../mail/message-list.c:3610 ../mail/message-list.etspec.h:17
+#: ../mail/message-list.c:3617 ../mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Mensajes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4918
+#: ../mail/message-list.c:4925
 msgid "Follow-up"
 msgstr "Seguimiento"
 
-#: ../mail/message-list.c:5908
+#: ../mail/message-list.c:5920
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18033,7 +18109,7 @@ msgstr ""
 "desplegable o ejecutando una búsqueda nueva, limpiándola con Buscar->Limpiar "
 "o cambiando la consulta anterior."
 
-#: ../mail/message-list.c:5916
+#: ../mail/message-list.c:5928
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -18667,28 +18743,28 @@ msgstr "Permisos insuficientes"
 msgid "The selected folder is not writable."
 msgstr "No se puede escribir en la carpeta seleccionada."
 
-#: ../modules/bogofilter/evolution-bogofilter.c:144
+#: ../modules/bogofilter/evolution-bogofilter.c:161
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
 msgstr "Falló al iniciar Bogofilter (%s): "
 
-#: ../modules/bogofilter/evolution-bogofilter.c:162
+#: ../modules/bogofilter/evolution-bogofilter.c:179
 msgid "Failed to stream mail message content to Bogofilter: "
 msgstr "Falló al enviar el flujo del contenido de los correos a Bogofilter: "
 
-#: ../modules/bogofilter/evolution-bogofilter.c:211
+#: ../modules/bogofilter/evolution-bogofilter.c:228
 msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr "Bogofilter se colgó o falló al procesar un mensaje de correo"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:307
+#: ../modules/bogofilter/evolution-bogofilter.c:373
 msgid "Bogofilter Options"
 msgstr "Opciones de Bogofilter"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:316
+#: ../modules/bogofilter/evolution-bogofilter.c:382
 msgid "Convert message text to _Unicode"
 msgstr "Convertir el texto del correo a _Unicode"
 
-#: ../modules/bogofilter/evolution-bogofilter.c:473
+#: ../modules/bogofilter/evolution-bogofilter.c:540
 #: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:1
 msgid "Bogofilter"
 msgstr "Bogofilter"
@@ -21345,10 +21421,6 @@ msgid_plural "%d total"
 msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1082
-msgid "Trash"
-msgstr "Papelera"
-
 #: ../modules/mail/e-mail-shell-view-private.c:1569
 msgid "Send / Receive"
 msgstr "Enviar / Recibir"
@@ -21579,41 +21651,41 @@ msgstr "Modo de texto sin formato"
 msgid "View mail messages as plain text, even if they contain HTML content."
 msgstr "Ver los mensajes de correo en texto plano, incluso si contienen HTML."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:150
+#: ../modules/spamassassin/evolution-spamassassin.c:187
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
 msgstr "Falló al iniciar SpamAssasin (%s): "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:173
+#: ../modules/spamassassin/evolution-spamassassin.c:210
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Falló al enviar el flujo del contenido de los correos a SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:192
+#: ../modules/spamassassin/evolution-spamassassin.c:229
 #, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
 msgstr "Falló al escribir «%s» a SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:220
+#: ../modules/spamassassin/evolution-spamassassin.c:257
 msgid "Failed to read output from SpamAssassin: "
 msgstr "Falló al leer la salida de SpamAssassin: "
 
-#: ../modules/spamassassin/evolution-spamassassin.c:275
+#: ../modules/spamassassin/evolution-spamassassin.c:312
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr "SpamAssassin se colgó o falló al procesar un mensaje de correo"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:355
+#: ../modules/spamassassin/evolution-spamassassin.c:535
 msgid "SpamAssassin Options"
 msgstr "Opciones de SpamAssasin"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:370
+#: ../modules/spamassassin/evolution-spamassassin.c:550
 msgid "I_nclude remote tests"
 msgstr "I_ncluir tests remotos"
 
-#: ../modules/spamassassin/evolution-spamassassin.c:384
+#: ../modules/spamassassin/evolution-spamassassin.c:564
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Esto hará que SpamAssasin sea más exacto, pero más lento."
 
-#: ../modules/spamassassin/evolution-spamassassin.c:558
+#: ../modules/spamassassin/evolution-spamassassin.c:739
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:1
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
@@ -21661,11 +21733,11 @@ msgstr "Formatear como…"
 msgid "_Other languages"
 msgstr "_Otros lenguajes"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:437
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
 msgid "Text Highlight"
 msgstr "Resaltado del texto"
 
-#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:438
+#: ../modules/text-highlight/e-mail-formatter-text-highlight.c:439
 msgid "Syntax highlighting of mail parts"
 msgstr "Resaltado de sintaxis de las partes del correo"
 
@@ -22956,7 +23028,7 @@ msgstr "Preparándose para salir"
 msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
-#: ../shell/e-shell.c:904
+#: ../shell/e-shell.c:900
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
@@ -23481,37 +23553,30 @@ msgid "Keep _Waiting"
 msgstr "Seguir _esperando"
 
 #: ../shell/shell.error.xml.h:15
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to get values from '{0}'"
 msgstr "Falló al obtener los valores desde «{0}»"
 
 #: ../shell/shell.error.xml.h:16
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Falló al invocar la autenticación para «{0}»"
 
 #: ../shell/shell.error.xml.h:17
-#| msgid "Failed to open memo list '{0}'"
 msgid "Failed to connect to '{0}'"
 msgstr "Falló al reconectar a «{0}»"
 
 #: ../shell/shell.error.xml.h:18
-#| msgid "_Recover"
 msgid "_Reconnect"
 msgstr "_Reconectar"
 
 #: ../shell/shell.error.xml.h:19
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to prompt for credentials for '{0}'"
 msgstr "Falló al solicitar las credenciales para «{0}»"
 
 #: ../shell/shell.error.xml.h:20
-#| msgid "Failed to refresh task list '{0}'"
 msgid "Failed to finish trust prompt for '{0}'"
 msgstr "Falló al terminar la solicitud de confianza para «{0}»"
 
 #: ../shell/shell.error.xml.h:21
-#| msgid "SSL certificate for '%s' is not trusted. Do you wish to accept it?"
 msgid "SSL certificate for '{0}' is not trusted."
 msgstr "El certificado SSL para «%s» no es de confianza."
 
@@ -24060,6 +24125,14 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgid "Unknown background operation"
+#~ msgstr "Operación en segundo plano desconocida"
+
+#~ msgid "Try _setup account automatically, based on Email Address"
+#~ msgstr ""
+#~ "Probar la _configuración de la cuenta automáticamente, basándose en la "
+#~ "dirección de correo-e"
 
 #~ msgid "Invalid authentication result code (%d)"
 #~ msgstr "Código de resultado de la autenticación no válido (%d)"
