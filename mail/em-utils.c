@@ -1202,6 +1202,7 @@ em_utils_message_to_html (CamelSession *session,
 	GtkWindow *window;
 	EMailPart *hidden_text_html_part = NULL;
 	EMailPartValidityFlags is_validity_found = 0;
+	gsize n_bytes_written = 0;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
 	gchar *data;
@@ -1286,7 +1287,7 @@ em_utils_message_to_html (CamelSession *session,
 		g_output_stream_write_all (
 			stream, append, strlen (append), NULL, NULL, NULL);
 
-	g_output_stream_write (stream, "", 1, NULL, NULL);
+	g_output_stream_write_all (stream, "", 1, &n_bytes_written, NULL, NULL);
 
 	g_output_stream_close (stream, NULL, NULL);
 

@@ -213,6 +213,7 @@ emcu_part_to_html (EMsgComposer *composer,
 	GString *part_id;
 	EShell *shell;
 	GtkWindow *window;
+	gsize n_bytes_written = 0;
 	GQueue queue = G_QUEUE_INIT;
 
 	shell = e_shell_get_default ();
@@ -259,7 +260,7 @@ emcu_part_to_html (EMsgComposer *composer,
 	g_object_unref (formatter);
 	g_object_unref (part_list);
 
-	g_output_stream_write (stream, "", 1, NULL, NULL);
+	g_output_stream_write_all (stream, "", 1, &n_bytes_written, NULL, NULL);
 
 	g_output_stream_close (stream, NULL, NULL);
 
