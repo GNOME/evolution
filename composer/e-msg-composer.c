@@ -1743,14 +1743,24 @@ msg_composer_drag_motion_cb (GtkWidget *widget,
                              guint time,
                              EMsgComposer *composer)
 {
-	EAttachmentView *view;
+	GtkWidget *source_widget;
+	EHTMLEditor *editor = e_msg_composer_get_editor (composer);
+	EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
 
-	view = e_msg_composer_get_attachment_view (composer);
+	source_widget = gtk_drag_get_source_widget (context);
+	/* When we are doind DnD just inside the web view, the DnD is supposed
+	 * to move things around. */
+	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
+		if ((gpointer) editor_view == (gpointer) source_widget) {
+			gdk_drag_status (context, GDK_ACTION_MOVE, time);
 
-	/* Stop the signal from propagating to GtkHtml. */
-	g_signal_stop_emission_by_name (widget, "drag-motion");
+			return FALSE;
+		}
+	}
 
-	return e_attachment_view_drag_motion (view, context, x, y, time);
+	gdk_drag_status (context, GDK_ACTION_COPY, time);
+
+	return FALSE;
 }
 
 static gchar *
@@ -1778,6 +1788,80 @@ next_uri (guchar **uri_list,
 	return (gchar *) uri;
 }
 
+static gboolean
+msg_composer_drag_drop_cb (GtkWidget *widget,
+                           GdkDragContext *context,
+                           gint x,
+                           gint y,
+                           guint time,
+                           EMsgComposer *composer)
+{
+	GdkAtom target;
+	GtkWidget *source_widget;
+
+	/* When we are doind DnD just inside the web view, the DnD is supposed
+	 * to move things around. */
+	source_widget = gtk_drag_get_source_widget (context);
+	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
+		EHTMLEditor *editor = e_msg_composer_get_editor (composer);
+		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
+
+		if ((gpointer) editor_view == (gpointer) source_widget)
+			return FALSE;
+	}
+
+	target = gtk_drag_dest_find_target (widget, context, NULL);
+	if (target == GDK_NONE)
+		gdk_drag_status (context, 0, time);
+	else {
+		gdk_drag_status (context, GDK_ACTION_COPY, time);
+		composer->priv->drop_occured = TRUE;
+		gtk_drag_get_data (widget, context, target, time);
+	}
+
+	return FALSE;
+}
+
+static void
+msg_composer_drag_data_received_after_cb (GtkWidget *widget,
+                                          GdkDragContext *context,
+                                          gint x,
+                                          gint y,
+                                          GtkSelectionData *selection,
+                                          guint info,
+                                          guint time,
+                                          EMsgComposer *composer)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	/* FIXME When the user drops something inside the view and it is
+	 * added as an EAttachment, WebKit still inserts the URI of the
+	 * resource into the view. Let's delete it as it is selected. */
+	if (composer->priv->remove_inserted_uri_on_drop)
+		webkit_dom_dom_selection_delete_from_document (dom_selection);
+	else {
+		/* When text is DnD'ed into the view, WebKit will select it. So let's
+		 * collapse it to its end to have the caret after the DnD'ed text. */
+		webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+	}
+
+	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+	e_html_editor_view_check_magic_links (view, FALSE);
+	/* Also force spell check on view. */
+	e_html_editor_view_force_spell_check (view);
+}
+
 static void
 msg_composer_drag_data_received_cb (GtkWidget *widget,
                                     GdkDragContext *context,
@@ -1788,44 +1872,60 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
                                     guint time,
                                     EMsgComposer *composer)
 {
-	GdkAtom atom;
-	gchar *name;
-	EAttachmentView *view;
 	EHTMLEditor *editor;
 	EHTMLEditorView *html_editor_view;
 	EHTMLEditorSelection *editor_selection;
+	gboolean html_mode;
+	GtkWidget *source_widget;
 
 	editor = e_msg_composer_get_editor (composer);
 	html_editor_view = e_html_editor_get_view (editor);
+	html_mode = e_html_editor_view_get_html_mode (html_editor_view);
 	editor_selection = e_html_editor_view_get_selection (html_editor_view);
 
-	atom = gtk_selection_data_get_target (selection);
-	name = gdk_atom_name (atom);
+	if (!composer->priv->drop_occured)
+		return;
 
-	if (g_strcmp0 (name, "UTF8_STRING") == 0 || g_strcmp0 (name, "text/html") == 0) {
-		gboolean is_text;
+	composer->priv->remove_inserted_uri_on_drop = FALSE;
+	composer->priv->drop_occured = FALSE;
+
+	/* When we are doind DnD just inside the web view, the DnD is supposed
+	 * to move things around. */
+	source_widget = gtk_drag_get_source_widget (context);
+	if (E_IS_HTML_EDITOR_VIEW (source_widget)) {
+		EHTMLEditor *editor = e_msg_composer_get_editor (composer);
+		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
+
+		if ((gpointer) editor_view == (gpointer) source_widget)
+			return;
+	}
+
+	/* Leave the text on WebKit to handle it. */
+	if (info == DND_TARGET_TYPE_UTF8_STRING ||
+	    info == DND_TARGET_TYPE_STRING ||
+	    info == DND_TARGET_TYPE_TEXT_PLAIN) {
+		gdk_drag_status (context, 0, time);
+		return;
+	}
+
+	if (info == DND_TARGET_TYPE_TEXT_HTML) {
 		const guchar *data;
 		gint length;
 		gint list_len, len;
 		gchar *text;
 
-		is_text = g_strcmp0 (name, "UTF8_STRING") == 0;
-
 		data = gtk_selection_data_get_data (selection);
 		length = gtk_selection_data_get_length (selection);
 
 		if (!data || length < 0) {
-			g_free (name);
+			gtk_drag_finish (context, FALSE, FALSE, time);
 			return;
 		}
 
 		list_len = length;
 		do {
 			text = next_uri ((guchar **) &data, &len, &list_len);
-			if (is_text)
-				e_html_editor_selection_insert_text (editor_selection, text);
-			else
-				e_html_editor_selection_insert_html (editor_selection, text);
+			e_html_editor_selection_insert_html (editor_selection, text);
 		} while (list_len);
 
 		e_html_editor_view_check_magic_links (html_editor_view, FALSE);
@@ -1833,66 +1933,66 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 
 		e_html_editor_selection_scroll_to_caret (editor_selection);
 
-		/* Stop the signal from propagating */
-		g_signal_stop_emission_by_name (widget, "drag-data-received");
-		g_free (name);
+		gtk_drag_finish (context, TRUE, FALSE, time);
 		return;
 	}
 
-	g_free (name);
-
 	/* HTML mode has a few special cases for drops... */
-	if (e_html_editor_view_get_html_mode (html_editor_view)) {
-		/* If we're receiving an image, we want the image to be
-		 * inserted in the message body.  Let GtkHtml handle it. */
-		/* FIXME WebKit - how to reproduce this?
-		if (gtk_selection_data_targets_include_image (selection, TRUE))
+	/* If we're receiving URIs and -all- the URIs point to
+	 * image files, we want the image(s) to be inserted in
+	 * the message body. */
+	if (html_mode && e_composer_selection_is_image_uris (composer, selection)) {
+		const guchar *data;
+		gint length;
+		gint list_len, len;
+		gchar *uri;
+
+		data = gtk_selection_data_get_data (selection);
+		length = gtk_selection_data_get_length (selection);
+
+		if (!data || length < 0) {
+			gtk_drag_finish (context, FALSE, FALSE, time);
 			return;
-		 */
-		/* If we're receiving URIs and -all- the URIs point to
-		 * image files, we want the image(s) to be inserted in
-		 * the message body. */
-		if (e_composer_selection_is_image_uris (composer, selection)) {
-			const guchar *data;
-			gint length;
-			gint list_len, len;
-			gchar *uri;
-
-			data = gtk_selection_data_get_data (selection);
-			length = gtk_selection_data_get_length (selection);
-
-			if (!data || length < 0)
-				return;
-
-			list_len = length;
-			do {
-				uri = next_uri ((guchar **) &data, &len, &list_len);
-				e_html_editor_selection_insert_image (editor_selection, uri);
-			} while (list_len);
 		}
 
-		if (e_composer_selection_is_base64_uris (composer, selection)) {
-			const guchar *data;
-			gint length;
-			gint list_len, len;
-			gchar *uri;
+		list_len = length;
+		do {
+			uri = next_uri ((guchar **) &data, &len, &list_len);
+			e_html_editor_selection_insert_image (editor_selection, uri);
+		} while (list_len);
 
-			data = gtk_selection_data_get_data (selection);
-			length = gtk_selection_data_get_length (selection);
+		gtk_drag_finish (context, TRUE, FALSE, time);
+	} else if (html_mode && e_composer_selection_is_base64_uris (composer, selection)) {
+		const guchar *data;
+		gint length;
+		gint list_len, len;
+		gchar *uri;
 
-			if (!data || length < 0)
-				return;
+		data = gtk_selection_data_get_data (selection);
+		length = gtk_selection_data_get_length (selection);
 
-			list_len = length;
-			do {
-				uri = next_uri ((guchar **) &data, &len, &list_len);
-
-				e_html_editor_selection_insert_image (editor_selection, uri);
-			} while (list_len);
+		if (!data || length < 0) {
+			gtk_drag_finish (context, FALSE, FALSE, time);
+			return;
 		}
+
+		list_len = length;
+		do {
+			uri = next_uri ((guchar **) &data, &len, &list_len);
+
+			e_html_editor_selection_insert_image (editor_selection, uri);
+		} while (list_len);
+
+		gtk_drag_finish (context, TRUE, FALSE, time);
 	} else {
-		view = e_msg_composer_get_attachment_view (composer);
+		EAttachmentView *view = e_msg_composer_get_attachment_view (composer);
 
+		/* FIXME When the user drops something inside the view and it is
+		 * added as an EAttachment, WebKit still inserts the URI of the
+		 * resource into the view. Now we are deleting it in
+		 * msg_composer_drag_data_received_after_cb, but there has to be
+		 * a way how to tell the WebKit to not process this drop. */
+		composer->priv->remove_inserted_uri_on_drop = TRUE;
 		/* Forward the data to the attachment view.  Note that calling
 		 * e_attachment_view_drag_data_received() will not work because
 		 * that function only handles the case where all the other drag
@@ -1901,8 +2001,6 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			E_ATTACHMENT_PANED (view),
 			context, x, y, selection, info, time);
 	}
-	/* Stop the signal from propagating */
-	g_signal_stop_emission_by_name (widget, "drag-data-received");
 }
 
 static void
@@ -2205,8 +2303,17 @@ msg_composer_constructed (GObject *object)
 		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
 	g_signal_connect (
+		html_editor_view, "drag-drop",
+		G_CALLBACK (msg_composer_drag_drop_cb), composer);
+
+	g_signal_connect (
 		html_editor_view, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
+
+	/* Used for fixing various stuff after WebKit processed the DnD data. */
+	g_signal_connect_after (
+		html_editor_view, "drag-data-received",
+		G_CALLBACK (msg_composer_drag_data_received_after_cb), composer);
 
 	g_signal_connect (
 		composer->priv->gallery_icon_view, "drag-data-get",
@@ -2256,11 +2363,11 @@ msg_composer_constructed (GObject *object)
 	/* Initialization may have tripped the "changed" state. */
 	e_html_editor_view_set_changed (html_editor_view, FALSE);
 
-	gtk_drag_dest_set (
-		GTK_WIDGET (html_editor_view),
-		GTK_DEST_DEFAULT_HIGHLIGHT | GTK_DEST_DEFAULT_DROP,
-		drag_dest_targets, G_N_ELEMENTS (drag_dest_targets),
-		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK);
+	gtk_target_list_add_table (
+		gtk_drag_dest_get_target_list (
+			GTK_WIDGET (html_editor_view)),
+		drag_dest_targets,
+		G_N_ELEMENTS (drag_dest_targets));
 
 	id = "org.gnome.evolution.composer";
 	e_plugin_ui_register_manager (ui_manager, id, composer);

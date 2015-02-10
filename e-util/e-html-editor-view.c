@@ -7500,6 +7500,50 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 }
 
 static void
+html_editor_view_drag_end_cb (EHTMLEditorView *view,
+                              GdkDragContext *context)
+{
+	gint ii, length;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+	WebKitDOMNodeList *list;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	/* When the image is DnD inside the view WebKit removes the wrapper that
+	 * is used for resizing the image, so we have to recreate it again. */
+	list = webkit_dom_document_query_selector_all (document, ":not(span) > img[data-inline]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		element = webkit_dom_document_create_element (document, "span", NULL);
+		webkit_dom_element_set_class_name (element, "-x-evo-resizable-wrapper");
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (element),
+			node,
+			NULL);
+
+		webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), node, NULL);
+	}
+
+	/* When the image is moved the new selection is created after after it, so
+	 * lets collapse the selection to have the caret right after the image. */
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+	if (length > 0)
+		webkit_dom_dom_selection_collapse_to_start (selection, NULL);
+	else
+		webkit_dom_dom_selection_collapse_to_end (selection, NULL);
+
+	e_html_editor_view_force_spell_check (view);
+}
+
+static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
 	WebKitWebSettings *settings;
@@ -7540,6 +7584,9 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	e_html_editor_view_exec_command (
 		view, E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "false");
 
+	g_signal_connect (
+		view, "drag-end",
+		G_CALLBACK (html_editor_view_drag_end_cb), NULL);
 	g_signal_connect (
 		view, "user-changed-contents",
 		G_CALLBACK (html_editor_view_user_changed_contents_cb), NULL);

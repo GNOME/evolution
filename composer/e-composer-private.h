@@ -100,6 +100,8 @@ struct _EMsgComposerPrivate {
 	 * This is used to restore the previous editable state. */
 	gboolean saved_editable;
 	gboolean set_signature_from_message;
+	gboolean drop_occured;
+	gboolean remove_inserted_uri_on_drop;
 
 	gint focused_entry_selection_start;
 	gint focused_entry_selection_end;
