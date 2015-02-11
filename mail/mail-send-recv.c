@@ -1230,6 +1230,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 	gint i;
 	gboolean success;
 	gboolean delete_junk = FALSE, expunge = FALSE;
+	GHashTable *known_errors;
 	GError *local_error = NULL;
 	gulong handler_id = 0;
 
@@ -1254,6 +1255,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 		goto exit;
 	}
 
+	known_errors = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
 	for (i = 0; i < m->folders->len; i++) {
 		folder = e_mail_session_uri_to_folder_sync (
 			E_MAIL_SESSION (m->info->session),
@@ -1263,7 +1266,13 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			camel_folder_refresh_info_sync (folder, cancellable, &local_error);
 
 		if (local_error != NULL) {
-			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			if (g_hash_table_contains (known_errors, local_error->message)) {
+				/* Received the same error message multiple times; there can be some
+				   connection issue probably, thus skip the rest folder updates for now */
+				g_clear_object (&folder);
+				g_clear_error (&local_error);
+				break;
+			} else if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 				CamelStore *store = m->store;
 				const gchar *full_name;
 
@@ -1276,6 +1285,9 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 				}
 
 				report_error_to_ui (CAMEL_SERVICE (store), full_name, local_error);
+
+				/* To not report one error for multiple folders multiple times */
+				g_hash_table_insert (known_errors, g_strdup (local_error->message), GINT_TO_POINTER (1));
 			}
 
 			g_clear_error (&local_error);
@@ -1294,6 +1306,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 	}
 
 	camel_operation_pop_message (m->info->cancellable);
+	g_hash_table_destroy (known_errors);
 
 exit:
 	if (handler_id > 0)
