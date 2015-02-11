@@ -1334,17 +1334,13 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 					new_href);
 
 				if (appending_to_link) {
-					gchar *tmp;
-
-					tmp = g_strconcat (inner_html, text_to_append, NULL);
-					webkit_dom_html_element_set_inner_html (
+					webkit_dom_html_element_insert_adjacent_html (
 						WEBKIT_DOM_HTML_ELEMENT (parent),
-						tmp,
+						"beforeend",
+						text_to_append,
 						NULL);
 
 					remove_node (node);
-
-					g_free (tmp);
 				}
 
 				g_free (new_href);
@@ -1372,17 +1368,13 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 					new_href);
 
 				if (appending_to_link) {
-					gchar *tmp;
-
-					tmp = g_strconcat (inner_html, text_to_append, NULL);
-					webkit_dom_html_element_set_inner_html (
+					webkit_dom_html_element_insert_adjacent_html (
 						WEBKIT_DOM_HTML_ELEMENT (parent),
-						tmp,
+						"beforeend",
+						text_to_append,
 						NULL);
 
 					remove_node (node);
-
-					g_free (tmp);
 				}
 
 				g_free (new_href);
