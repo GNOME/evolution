@@ -1640,6 +1640,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-folder-new",
 	  "folder-new",
+	  /* Translators: An action caption to create a new mail folder */
 	  N_("_New..."),
 	  NULL,
 	  N_("Create a new folder for storing mail"),

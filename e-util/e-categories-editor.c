@@ -271,15 +271,15 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_grid_attach (grid, hbuttonbox1, 0, 4, 1, 1);
 	gtk_box_set_spacing (GTK_BOX (hbuttonbox1), 6);
 
-	button_new = e_dialog_button_new_with_icon ("document-new", _("_New"));
+	button_new = e_dialog_button_new_with_icon ("document-new", C_("category", "_New"));
 	gtk_container_add (GTK_CONTAINER (hbuttonbox1), button_new);
 	gtk_widget_set_can_default (button_new, TRUE);
 
-	button_edit = gtk_button_new_with_mnemonic (_("_Edit"));
+	button_edit = gtk_button_new_with_mnemonic (C_("category", "_Edit"));
 	gtk_container_add (GTK_CONTAINER (hbuttonbox1), button_edit);
 	gtk_widget_set_can_default (button_edit, TRUE);
 
-	button_delete = e_dialog_button_new_with_icon ("edit-delete", _("_Delete"));
+	button_delete = e_dialog_button_new_with_icon ("edit-delete", C_("category", "_Delete"));
 	gtk_container_add (GTK_CONTAINER (hbuttonbox1), button_delete);
 	gtk_widget_set_can_default (button_delete, TRUE);
 

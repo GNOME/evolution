@@ -1096,6 +1096,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "new-menu",
 	  "document-new",
+	  /* Translators: This is a New menu item caption, under File->New */
 	  N_("_New"),
 	  NULL,
 	  NULL,

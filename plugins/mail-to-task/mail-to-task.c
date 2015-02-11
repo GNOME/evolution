@@ -590,9 +590,12 @@ do_ask (const gchar *text,
 	if (is_create_edit_add) {
 		gtk_dialog_add_buttons (
 			GTK_DIALOG (dialog),
-			_("_Cancel"), GTK_RESPONSE_CANCEL,
-			_("_Edit"), GTK_RESPONSE_YES,
-			_("_New"), GTK_RESPONSE_NO,
+			/* Translators: Dialog button to Cancel edit of an existing event/memo/task */
+			C_("mail-to-task", "_Cancel"), GTK_RESPONSE_CANCEL,
+			/* Translators: Dialog button to Edit an existing event/memo/task */
+			C_("mail-to-task", "_Edit"), GTK_RESPONSE_YES,
+			/* Translators: Dialog button to create a New event/memo/task */
+			C_("mail-to-task", "_New"), GTK_RESPONSE_NO,
 			NULL);
 	}
 

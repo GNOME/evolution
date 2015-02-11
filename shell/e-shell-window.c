@@ -500,7 +500,9 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, 0);
 	gtk_widget_show (GTK_WIDGET (item));
 
-	item = e_menu_tool_button_new (_("New"));
+	/* Translators: a 'New' toolbar button caption which is context sensitive and
+	   runs one of the actions under File->New menu */
+	item = e_menu_tool_button_new (C_("toolbar-button", "New"));
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (item), TRUE);
 	gtk_widget_add_accelerator (
 		GTK_WIDGET (item), "clicked",
