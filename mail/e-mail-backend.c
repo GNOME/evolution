@@ -65,9 +65,6 @@ enum {
 	PROP_SEND_ACCOUNT_OVERRIDE
 };
 
-/* FIXME Kill this thing.  It's a horrible hack. */
-extern gint camel_application_is_exiting;
-
 G_DEFINE_ABSTRACT_TYPE (
 	EMailBackend,
 	e_mail_backend,

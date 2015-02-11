@@ -887,8 +887,6 @@ mail_ui_session_authenticate_sync (CamelSession *session,
 	return authenticated;
 }
 
-extern gint camel_application_is_exiting;
-
 static void
 mail_ui_session_refresh_service (EMailSession *session,
                                  CamelService *service)
