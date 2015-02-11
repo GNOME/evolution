@@ -508,7 +508,7 @@ action_insert_image_cb (GtkAction *action,
 {
 	GtkWidget *dialog;
 
-	dialog = e_image_chooser_dialog_new (_("Insert Image"), NULL);
+	dialog = e_image_chooser_dialog_new (C_("dialog-title", "Insert Image"), NULL);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		EHTMLEditorView *view;
@@ -1289,6 +1289,7 @@ static GtkActionEntry html_entries[] = {
 	  "insert-image",
 	  N_("_Image..."),
 	  NULL,
+	  /* Translators: This is an action tooltip */
 	  N_("Insert Image"),
 	  G_CALLBACK (action_insert_image_cb) },
 
