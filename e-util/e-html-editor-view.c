@@ -4346,7 +4346,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	GString *start, *end;
 	WebKitDOMElement *paragraph = NULL;
-	gboolean preserve_next_line = TRUE;
+	gboolean preserve_next_line = FALSE;
 
 	selection = e_html_editor_view_get_selection (view);
 
