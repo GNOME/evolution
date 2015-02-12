@@ -146,6 +146,15 @@ shell_notify_online_cb (EShell *shell)
 	e_passwords_set_online (online);
 }
 
+static void
+shell_window_removed_cb (EShell *shell)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (!gtk_application_get_windows (GTK_APPLICATION (shell)))
+		e_shell_quit (shell, E_SHELL_QUIT_LAST_WINDOW);
+}
+
 static gboolean
 shell_window_delete_event_cb (GtkWindow *window,
                               GdkEvent *event,
@@ -1261,6 +1270,10 @@ shell_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_parent_class)->constructed (object);
+
+	g_signal_connect (
+		object, "window-removed",
+		G_CALLBACK (shell_window_removed_cb), NULL);
 }
 
 static void
@@ -2427,6 +2440,11 @@ e_shell_quit (EShell *shell,
 
 	if (g_application_get_is_remote (G_APPLICATION (shell)))
 		goto remote;
+
+	/* Last Window reason can be used multiple times;
+	   this is to not ask for a forced quit. */
+	if (reason == E_SHELL_QUIT_LAST_WINDOW && shell->priv->preparing_for_quit != NULL)
+		return TRUE;
 
 	if (!shell_request_quit (shell, reason))
 		return FALSE;
