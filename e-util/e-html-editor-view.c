@@ -2599,6 +2599,7 @@ html_editor_view_button_press_event (GtkWidget *widget,
 
 	if (event->button == 2) {
 		/* Middle click paste */
+		html_editor_view_move_selection_on_point (widget);
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
