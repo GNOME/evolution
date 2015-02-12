@@ -137,7 +137,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->busy = FALSE;
 	priv->saved_editable = FALSE;
 	priv->drop_occured = FALSE;
-	priv->remove_inserted_uri_on_drop = FALSE;
+	priv->dnd_is_uri = FALSE;
 
 	priv->focused_entry = NULL;
 
