@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-09 10:07+0000\n"
-"PO-Revision-Date: 2015-02-09 18:46+0100\n"
+"POT-Creation-Date: 2015-02-12 11:46+0000\n"
+"PO-Revision-Date: 2015-02-12 18:03+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -584,7 +584,7 @@ msgstr "Opciones"
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:187
 #: ../modules/calendar/e-cal-attachment-handler.c:285
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
-#: ../plugins/face/face.c:291 ../plugins/mail-to-task/mail-to-task.c:593
+#: ../plugins/face/face.c:291
 #: ../plugins/publish-calendar/publish-calendar.c:806
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
@@ -1406,8 +1406,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1331
-#: ../calendar/gui/dialogs/comp-editor.c:1242
-#: ../e-util/e-categories-editor.c:282 ../e-util/e-focus-tracker.c:785
+#: ../calendar/gui/dialogs/comp-editor.c:1242 ../e-util/e-focus-tracker.c:785
 #: ../e-util/evolution-source-viewer.c:805
 #: ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1067
@@ -1621,7 +1620,7 @@ msgstr "_Reducir"
 # En conflicto con _Buscar del menu principal
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:1972
+#: ../e-util/e-html-editor-actions.c:1973
 #: ../e-util/e-html-editor-find-dialog.c:195
 #: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
@@ -1948,13 +1947,12 @@ msgstr "_Posponer"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-categories-editor.c:278 ../e-util/e-html-editor-actions.c:1003
+#: ../e-util/e-html-editor-actions.c:1003
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:170
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:58
 #: ../plugins/attachment-reminder/attachment-reminder.c:562
 #: ../plugins/email-custom-header/email-custom-header.c:844
-#: ../plugins/mail-to-task/mail-to-task.c:594
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1071
 #: ../smime/gui/smime-ui.ui.h:13
@@ -2523,93 +2521,111 @@ msgstr "Falló al abrir la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-msgid "Failed to create an event in a calendar '{0}'"
+#| msgid "Failed to create an event in a calendar '{0}'"
+msgid "Failed to create an event in the calendar '{0}'"
 msgstr "Falló al crear un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:95
-msgid "Failed to create a memo in a memo list '{0}'"
+#| msgid "Failed to create a memo in a memo list '{0}'"
+msgid "Failed to create a memo in the memo list '{0}'"
 msgstr "Falló al crear una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:97
-msgid "Failed to create a task in a task list '{0}'"
+#| msgid "Failed to create a task in a task list '{0}'"
+msgid "Failed to create a task in the task list '{0}'"
 msgstr "Falló al crear una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-msgid "Failed to modify an event in a calendar '{0}'"
+#| msgid "Failed to modify an event in a calendar '{0}'"
+msgid "Failed to modify an event in the calendar '{0}'"
 msgstr "Falló al modificar un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:101
-msgid "Failed to modify a memo in a memo list '{0}'"
+#| msgid "Failed to modify a memo in a memo list '{0}'"
+msgid "Failed to modify a memo in the memo list '{0}'"
 msgstr "Falló al modificar una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:103
-msgid "Failed to modify a task in a task list '{0}'"
+#| msgid "Failed to modify a task in a task list '{0}'"
+msgid "Failed to modify a task in the task list '{0}'"
 msgstr "Falló al modificar una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-msgid "Failed to delete an event in a calendar '{0}'"
+#| msgid "Failed to delete an event in a calendar '{0}'"
+msgid "Failed to delete an event in the calendar '{0}'"
 msgstr "Falló al eliminar un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:107
-msgid "Failed to delete a memo in a memo list '{0}'"
+#| msgid "Failed to delete a memo in a memo list '{0}'"
+msgid "Failed to delete a memo in the memo list '{0}'"
 msgstr "Falló al eliminar una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:109
-msgid "Failed to delete a task in a task list '{0}'"
+#| msgid "Failed to delete a task in a task list '{0}'"
+msgid "Failed to delete a task in the task list '{0}'"
 msgstr "Falló al eliminar una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:111
-msgid "Failed to update an event in a calendar '{0}'"
+#| msgid "Failed to update an event in a calendar '{0}'"
+msgid "Failed to update an event in the calendar '{0}'"
 msgstr "Falló al actualizar un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:113
-msgid "Failed to update a memo in a memo list '{0}'"
+#| msgid "Failed to update a memo in a memo list '{0}'"
+msgid "Failed to update a memo in the memo list '{0}'"
 msgstr "Falló al actualizar una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
-msgid "Failed to update a task in a task list '{0}'"
+#| msgid "Failed to update a task in a task list '{0}'"
+msgid "Failed to update a task in the task list '{0}'"
 msgstr "Falló al actualizar una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
-msgid "Failed to send an event to a calendar '{0}'"
+#| msgid "Failed to send an event to a calendar '{0}'"
+msgid "Failed to send an event to the calendar '{0}'"
 msgstr "Falló al enviar un evento al calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:119
-msgid "Failed to send a memo to a memo list '{0}'"
+#| msgid "Failed to send a memo to a memo list '{0}'"
+msgid "Failed to send a memo to the memo list '{0}'"
 msgstr "Falló al enviar una nota a la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:121
-msgid "Failed to send a task to a task list '{0}'"
+#| msgid "Failed to send a task to a task list '{0}'"
+msgid "Failed to send a task to the task list '{0}'"
 msgstr "Falló al enviar una tarea a la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-msgid "Error creating view for a calendar '{0}'"
-msgstr "Error al crear la vista para un calendario «{0}»"
+#| msgid "Error creating view for a calendar '{0}'"
+msgid "Error creating view for the calendar '{0}'"
+msgstr "Error al crear la vista para el calendario «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-msgid "Error creating view for a task list '{0}'"
-msgstr "Error al crear la vista para una lista de tareas «{0}»"
+#| msgid "Error creating view for a task list '{0}'"
+msgid "Error creating view for the task list '{0}'"
+msgstr "Error al crear la vista para la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-msgid "Error creating view for a memo list '{0}'"
-msgstr "Error al crear la vista para una lista de notas «{0}»"
+#| msgid "Error creating view for a memo list '{0}'"
+msgid "Error creating view for the memo list '{0}'"
+msgstr "Error al crear la vista para la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:129
@@ -3187,7 +3203,7 @@ msgstr "_Opciones"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
 #: ../e-util/e-html-editor-actions.c:1052 ../mail/e-mail-browser.c:177
-#: ../shell/e-shell-window-actions.c:1120
+#: ../shell/e-shell-window-actions.c:1121
 #: ../smime/gui/certificate-manager.c:1649 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Ver"
@@ -7507,7 +7523,7 @@ msgstr "Pulse aquí para la libreta de direcciones"
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
-#: ../composer/e-msg-composer.c:858
+#: ../composer/e-msg-composer.c:861
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7515,7 +7531,7 @@ msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:867
+#: ../composer/e-msg-composer.c:870
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7524,11 +7540,11 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1581 ../composer/e-msg-composer.c:2147
+#: ../composer/e-msg-composer.c:1584 ../composer/e-msg-composer.c:2248
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4390
+#: ../composer/e-msg-composer.c:4506
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -10472,7 +10488,7 @@ msgstr "Formatear parte como HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:197
-#: ../e-util/e-html-editor-actions.c:1408
+#: ../e-util/e-html-editor-actions.c:1409
 msgid "Plain Text"
 msgstr "Texto plano"
 
@@ -10788,7 +10804,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completado)"
 
 #: ../e-util/e-activity-proxy.c:352
-#: ../modules/mail/e-mail-shell-view-actions.c:1778
+#: ../modules/mail/e-mail-shell-view-actions.c:1779
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -10970,7 +10986,7 @@ msgstr "_Añadir adjunto…"
 #: ../modules/calendar/e-memo-shell-view-actions.c:571
 #: ../modules/calendar/e-task-shell-view-actions.c:696
 #: ../modules/mail/e-mail-shell-view-actions.c:1580
-#: ../modules/mail/e-mail-shell-view-actions.c:1650
+#: ../modules/mail/e-mail-shell-view-actions.c:1651
 msgid "_Properties"
 msgstr "_Propiedades"
 
@@ -11098,10 +11114,22 @@ msgid "_Available Categories:"
 msgstr "Categorías _disponibles:"
 
 #: ../e-util/e-categories-editor.c:274
-#: ../plugins/mail-to-task/mail-to-task.c:595
-#: ../shell/e-shell-window-actions.c:1099
+#| msgid "_New"
+msgctxt "category"
 msgid "_New"
 msgstr "_Nuevo"
+
+#: ../e-util/e-categories-editor.c:278
+#| msgid "_Edit"
+msgctxt "category"
+msgid "_Edit"
+msgstr "_Editar"
+
+#: ../e-util/e-categories-editor.c:282
+#| msgid "_Delete"
+msgctxt "category"
+msgid "_Delete"
+msgstr "_Eliminar"
 
 #: ../e-util/e-categories-selector.c:322
 msgid "Icon"
@@ -11897,7 +11925,8 @@ msgid "HTML file"
 msgstr "Archivo HTML"
 
 #: ../e-util/e-html-editor-actions.c:511
-#: ../e-util/e-html-editor-actions.c:1292
+#| msgid "Insert Image"
+msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Insertar imagen"
 
@@ -12112,276 +12141,281 @@ msgid "_Alphabetical List"
 msgstr "Lista _alfabética"
 
 #: ../e-util/e-html-editor-actions.c:1290
-#: ../e-util/e-html-editor-actions.c:1327
+#: ../e-util/e-html-editor-actions.c:1328
 msgid "_Image..."
 msgstr "_Imagen…"
 
-#: ../e-util/e-html-editor-actions.c:1297
-#: ../e-util/e-html-editor-actions.c:1334
+#. Translators: This is an action tooltip
+#: ../e-util/e-html-editor-actions.c:1293
+msgid "Insert Image"
+msgstr "Insertar imagen"
+
+#: ../e-util/e-html-editor-actions.c:1298
+#: ../e-util/e-html-editor-actions.c:1335
 msgid "_Link..."
 msgstr "_Enlazar…"
 
-#: ../e-util/e-html-editor-actions.c:1299
+#: ../e-util/e-html-editor-actions.c:1300
 msgid "Insert Link"
 msgstr "Insertar enlace"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1305
-#: ../e-util/e-html-editor-actions.c:1349
+#: ../e-util/e-html-editor-actions.c:1306
+#: ../e-util/e-html-editor-actions.c:1350
 msgid "_Rule..."
 msgstr "_Regla…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1308
+#: ../e-util/e-html-editor-actions.c:1309
 msgid "Insert Rule"
 msgstr "Insertar regla"
 
-#: ../e-util/e-html-editor-actions.c:1313
-#: ../e-util/e-html-editor-actions.c:1356
+#: ../e-util/e-html-editor-actions.c:1314
+#: ../e-util/e-html-editor-actions.c:1357
 msgid "_Table..."
 msgstr "_Tabla…"
 
-#: ../e-util/e-html-editor-actions.c:1315
+#: ../e-util/e-html-editor-actions.c:1316
 msgid "Insert Table"
 msgstr "Insertar tabla"
 
-#: ../e-util/e-html-editor-actions.c:1320
+#: ../e-util/e-html-editor-actions.c:1321
 msgid "_Cell..."
 msgstr "_Celda…"
 
-#: ../e-util/e-html-editor-actions.c:1341
+#: ../e-util/e-html-editor-actions.c:1342
 msgid "Pa_ge..."
 msgstr "_Página…"
 
-#: ../e-util/e-html-editor-actions.c:1365
+#: ../e-util/e-html-editor-actions.c:1366
 msgid "Font _Size"
 msgstr "_Tamaño de la tipografía"
 
-#: ../e-util/e-html-editor-actions.c:1372
+#: ../e-util/e-html-editor-actions.c:1373
 msgid "_Font Style"
 msgstr "_Estilo de la tipografía"
 
-#: ../e-util/e-html-editor-actions.c:1379
+#: ../e-util/e-html-editor-actions.c:1380
 msgid "Paste As _Text"
 msgstr "Pegar como _texto"
 
-#: ../e-util/e-html-editor-actions.c:1390
+#: ../e-util/e-html-editor-actions.c:1391
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "_Negrita"
 
-#: ../e-util/e-html-editor-actions.c:1392
+#: ../e-util/e-html-editor-actions.c:1393
 msgid "Bold"
 msgstr "Negrita"
 
-#: ../e-util/e-html-editor-actions.c:1398
+#: ../e-util/e-html-editor-actions.c:1399
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "_Cursiva"
 
-#: ../e-util/e-html-editor-actions.c:1400
+#: ../e-util/e-html-editor-actions.c:1401
 msgid "Italic"
 msgstr "Cursiva"
 
-#: ../e-util/e-html-editor-actions.c:1406
+#: ../e-util/e-html-editor-actions.c:1407
 msgid "_Plain Text"
 msgstr "Texto _plano"
 
-#: ../e-util/e-html-editor-actions.c:1414
+#: ../e-util/e-html-editor-actions.c:1415
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "_Tachado"
 
-#: ../e-util/e-html-editor-actions.c:1416
+#: ../e-util/e-html-editor-actions.c:1417
 msgid "Strikethrough"
 msgstr "Tachado"
 
-#: ../e-util/e-html-editor-actions.c:1422
+#: ../e-util/e-html-editor-actions.c:1423
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "S_ubrayado"
 
-#: ../e-util/e-html-editor-actions.c:1424
+#: ../e-util/e-html-editor-actions.c:1425
 msgid "Underline"
 msgstr "Subrayado"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1434
+#: ../e-util/e-html-editor-actions.c:1435
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1442
+#: ../e-util/e-html-editor-actions.c:1443
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1450
+#: ../e-util/e-html-editor-actions.c:1451
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1458
+#: ../e-util/e-html-editor-actions.c:1459
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1466
+#: ../e-util/e-html-editor-actions.c:1467
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1474
+#: ../e-util/e-html-editor-actions.c:1475
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1482
+#: ../e-util/e-html-editor-actions.c:1483
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1501
+#: ../e-util/e-html-editor-actions.c:1502
 msgid "Cell Contents"
 msgstr "Contenido de la celda"
 
-#: ../e-util/e-html-editor-actions.c:1508
+#: ../e-util/e-html-editor-actions.c:1509
 msgid "Column"
 msgstr "Columna"
 
-#: ../e-util/e-html-editor-actions.c:1515
+#: ../e-util/e-html-editor-actions.c:1516
 msgid "Row"
 msgstr "Fila"
 
-#: ../e-util/e-html-editor-actions.c:1522
-#: ../e-util/e-html-editor-actions.c:1607
+#: ../e-util/e-html-editor-actions.c:1523
+#: ../e-util/e-html-editor-actions.c:1608
 msgid "Table"
 msgstr "Tabla"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1532
+#: ../e-util/e-html-editor-actions.c:1533
 msgid "Table Delete"
 msgstr "Eliminar tabla"
 
-#: ../e-util/e-html-editor-actions.c:1539 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1540 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1547
+#: ../e-util/e-html-editor-actions.c:1548
 msgid "Table Insert"
 msgstr "Insertar tabla"
 
-#: ../e-util/e-html-editor-actions.c:1554
+#: ../e-util/e-html-editor-actions.c:1555
 msgid "Properties"
 msgstr "Propiedades"
 
-#: ../e-util/e-html-editor-actions.c:1572
+#: ../e-util/e-html-editor-actions.c:1573
 msgid "Column After"
 msgstr "Columna posterior"
 
-#: ../e-util/e-html-editor-actions.c:1579
+#: ../e-util/e-html-editor-actions.c:1580
 msgid "Column Before"
 msgstr "Columna anterior"
 
-#: ../e-util/e-html-editor-actions.c:1586
+#: ../e-util/e-html-editor-actions.c:1587
 msgid "Insert _Link"
 msgstr "Inserta en_lace"
 
-#: ../e-util/e-html-editor-actions.c:1593
+#: ../e-util/e-html-editor-actions.c:1594
 msgid "Row Above"
 msgstr "Fila superior"
 
-#: ../e-util/e-html-editor-actions.c:1600
+#: ../e-util/e-html-editor-actions.c:1601
 msgid "Row Below"
 msgstr "Fila inferior"
 
-#: ../e-util/e-html-editor-actions.c:1614
+#: ../e-util/e-html-editor-actions.c:1615
 msgid "Cell..."
 msgstr "Celda…"
 
-#: ../e-util/e-html-editor-actions.c:1621
+#: ../e-util/e-html-editor-actions.c:1622
 msgid "Image..."
 msgstr "Imagen…"
 
-#: ../e-util/e-html-editor-actions.c:1628
+#: ../e-util/e-html-editor-actions.c:1629
 msgid "Link..."
 msgstr "Enlazar…"
 
-#: ../e-util/e-html-editor-actions.c:1635
+#: ../e-util/e-html-editor-actions.c:1636
 msgid "Page..."
 msgstr "Página…"
 
-#: ../e-util/e-html-editor-actions.c:1642
+#: ../e-util/e-html-editor-actions.c:1643
 msgid "Paragraph..."
 msgstr "Párrafo…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1650
+#: ../e-util/e-html-editor-actions.c:1651
 msgid "Rule..."
 msgstr "Regla…"
 
-#: ../e-util/e-html-editor-actions.c:1657
+#: ../e-util/e-html-editor-actions.c:1658
 msgid "Table..."
 msgstr "Tabla…"
 
-#: ../e-util/e-html-editor-actions.c:1664
+#: ../e-util/e-html-editor-actions.c:1665
 msgid "Text..."
 msgstr "Texto…"
 
-#: ../e-util/e-html-editor-actions.c:1671
+#: ../e-util/e-html-editor-actions.c:1672
 msgid "Remove Link"
 msgstr "Quitar enlace"
 
-#: ../e-util/e-html-editor-actions.c:1688
+#: ../e-util/e-html-editor-actions.c:1689
 msgid "Add Word to Dictionary"
 msgstr "Añadir palabra al diccionario"
 
-#: ../e-util/e-html-editor-actions.c:1695
+#: ../e-util/e-html-editor-actions.c:1696
 msgid "Ignore Misspelled Word"
 msgstr "Ignorar palabra mal escrita"
 
-#: ../e-util/e-html-editor-actions.c:1702
+#: ../e-util/e-html-editor-actions.c:1703
 msgid "Add Word To"
 msgstr "Añadir palabra a"
 
-#: ../e-util/e-html-editor-actions.c:1711
+#: ../e-util/e-html-editor-actions.c:1712
 msgid "More Suggestions"
 msgstr "Más sugerencias"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1819
+#: ../e-util/e-html-editor-actions.c:1820
 #, c-format
 msgid "%s Dictionary"
 msgstr "Diccionario %s"
 
-#: ../e-util/e-html-editor-actions.c:1906
+#: ../e-util/e-html-editor-actions.c:1907
 msgid "_Emoticon"
 msgstr "_Emoticono"
 
-#: ../e-util/e-html-editor-actions.c:1907
+#: ../e-util/e-html-editor-actions.c:1908
 msgid "Insert Emoticon"
 msgstr "Insertar un emoticono"
 
-#: ../e-util/e-html-editor-actions.c:1975
+#: ../e-util/e-html-editor-actions.c:1976
 msgid "Re_place"
 msgstr "_Reemplazar"
 
-#: ../e-util/e-html-editor-actions.c:1978
+#: ../e-util/e-html-editor-actions.c:1979
 msgid "_Image"
 msgstr "_Imagen"
 
-#: ../e-util/e-html-editor-actions.c:1981
+#: ../e-util/e-html-editor-actions.c:1982
 msgid "_Link"
 msgstr "_Enlace"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1985
+#: ../e-util/e-html-editor-actions.c:1986
 msgid "_Rule"
 msgstr "_Regla"
 
-#: ../e-util/e-html-editor-actions.c:1988
+#: ../e-util/e-html-editor-actions.c:1989
 #: ../e-util/e-html-editor-cell-dialog.c:658
 msgid "_Table"
 msgstr "_Tabla"
@@ -12722,7 +12756,6 @@ msgstr "Propiedades del párrafo"
 
 #: ../e-util/e-html-editor-replace-dialog.c:148
 #, c-format
-#| msgid "%d occurences replaced"
 msgid "%d occurence replaced"
 msgid_plural "%d occurences replaced"
 msgstr[0] "%d ocurrencia reemplazada"
@@ -12844,15 +12877,15 @@ msgstr "_Tamaño:"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
-#: ../e-util/e-html-editor-view.c:3360
+#: ../e-util/e-html-editor-view.c:3352
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
-#: ../e-util/e-html-editor-view.c:3361
+#: ../e-util/e-html-editor-view.c:3353
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
-#: ../e-util/e-html-editor-view.c:7155
+#: ../e-util/e-html-editor-view.c:7147
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12860,11 +12893,11 @@ msgstr ""
 "Desactivar el modo HTML hará que el texto pierda todo su formato. ¿Quiere "
 "continuar?"
 
-#: ../e-util/e-html-editor-view.c:7159
+#: ../e-util/e-html-editor-view.c:7151
 msgid "_Don't lose formatting"
 msgstr "_No perder el formato"
 
-#: ../e-util/e-html-editor-view.c:7160
+#: ../e-util/e-html-editor-view.c:7152
 msgid "_Lose formatting"
 msgstr "_Perder el formato"
 
@@ -16071,7 +16104,7 @@ msgid "Subscribe To _All"
 msgstr "S_uscribirse a todo"
 
 #: ../mail/em-subscription-editor.c:969 ../mail/em-subscription-editor.c:1867
-#: ../modules/mail/e-mail-shell-view-actions.c:1685
+#: ../modules/mail/e-mail-shell-view-actions.c:1686
 msgid "_Unsubscribe"
 msgstr "Des_uscribir"
 
@@ -16108,7 +16141,7 @@ msgid "Su_bscribe"
 msgstr "_Suscribirse"
 
 #: ../mail/em-subscription-editor.c:1866
-#: ../modules/mail/e-mail-shell-view-actions.c:1687
+#: ../modules/mail/e-mail-shell-view-actions.c:1688
 msgid "Unsubscribe from the selected folder"
 msgstr "Desuscribirse de la carpeta seleccionada"
 
@@ -16134,7 +16167,7 @@ msgstr "Actualizar la lista de carpetas"
 
 #: ../mail/em-subscription-editor.c:1929
 #: ../modules/mail/e-mail-shell-view-actions.c:1587
-#: ../modules/mail/e-mail-shell-view-actions.c:1657
+#: ../modules/mail/e-mail-shell-view-actions.c:1658
 msgid "_Refresh"
 msgstr "_Actualizar"
 
@@ -16551,17 +16584,14 @@ msgstr "Importador de carpetas en formato buzón de Berkeley"
 
 #: ../mail/importers/kmail-importer.c:263
 #, c-format
-#| msgid "Address"
 msgid "%d Address"
 msgstr "%d Dirección"
 
 #: ../mail/importers/kmail-importer.c:354
-#| msgid "Evolution Elm importer"
 msgid "Evolution KMail importer"
 msgstr "Importador de KMail de Evolution"
 
 #: ../mail/importers/kmail-importer.c:355
-#| msgid "Import mail from Elm."
 msgid "Import mail and contact from KMail."
 msgstr "Importar correo de y contactos de KMail."
 
@@ -16575,7 +16605,6 @@ msgid "Importing mailbox"
 msgstr "Importando buzón de correo"
 
 #: ../mail/importers/mail-importer.c:61
-#| msgid "Import mail from Elm."
 msgid "Importing mail and contact from KMail"
 msgstr "Importando correo de y contactos de KMail"
 
@@ -17978,7 +18007,7 @@ msgstr "Enviar y recibir correo"
 msgid "Cancel _All"
 msgstr "Cancelar _todo"
 
-#: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:1248
+#: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:1249
 msgid "Updating..."
 msgstr "Actualizando…"
 
@@ -17991,17 +18020,17 @@ msgstr "Esperando…"
 msgid "Checking for new mail at '%s'"
 msgstr "Comprobando correo nuevo en «%s»"
 
-#: ../mail/mail-send-recv.c:1421
+#: ../mail/mail-send-recv.c:1434
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
 msgstr "Eliminando el spam y purgando la papelera en «%s»"
 
-#: ../mail/mail-send-recv.c:1423
+#: ../mail/mail-send-recv.c:1436
 #, c-format
 msgid "Deleting junk at '%s'"
 msgstr "Eliminando spam en «%s»"
 
-#: ../mail/mail-send-recv.c:1425
+#: ../mail/mail-send-recv.c:1438
 #, c-format
 msgid "Expunging trash at '%s'"
 msgstr "Purgando papelera en «%s»"
@@ -18150,32 +18179,32 @@ msgid "Subject or Addresses contains"
 msgstr "El asunto o las direcciones contienen"
 
 #: ../mail/searchtypes.xml.in.h:56
-#: ../modules/mail/e-mail-shell-view-actions.c:2063
+#: ../modules/mail/e-mail-shell-view-actions.c:2064
 msgid "Recipients contain"
 msgstr "El destinatario contiene"
 
 #: ../mail/searchtypes.xml.in.h:57
-#: ../modules/mail/e-mail-shell-view-actions.c:2056
+#: ../modules/mail/e-mail-shell-view-actions.c:2057
 msgid "Message contains"
 msgstr "El mensaje contiene"
 
 #: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2077
+#: ../modules/mail/e-mail-shell-view-actions.c:2078
 msgid "Subject contains"
 msgstr "El asunto contiene"
 
 #: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2070
+#: ../modules/mail/e-mail-shell-view-actions.c:2071
 msgid "Sender contains"
 msgstr "El remitente contiene"
 
 #: ../mail/searchtypes.xml.in.h:60
-#: ../modules/mail/e-mail-shell-view-actions.c:2042
+#: ../modules/mail/e-mail-shell-view-actions.c:2043
 msgid "Body contains"
 msgstr "El cuerpo contiene"
 
 #: ../mail/searchtypes.xml.in.h:61
-#: ../modules/mail/e-mail-shell-view-actions.c:2049
+#: ../modules/mail/e-mail-shell-view-actions.c:2050
 msgid "Free form expression"
 msgstr "Expresión libre de forma"
 
@@ -18331,7 +18360,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-actions.c:1261
 #: ../modules/calendar/e-memo-shell-view-actions.c:585
 #: ../modules/calendar/e-task-shell-view-actions.c:710
-#: ../modules/mail/e-mail-shell-view-actions.c:1664
+#: ../modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Rename..."
 msgstr "_Renombrar…"
 
@@ -18412,7 +18441,7 @@ msgstr "A_cciones"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1058
 #: ../modules/calendar/e-memo-shell-view-actions.c:622
 #: ../modules/calendar/e-task-shell-view-actions.c:775
-#: ../modules/mail/e-mail-shell-view-actions.c:1829
+#: ../modules/mail/e-mail-shell-view-actions.c:1830
 msgid "_Preview"
 msgstr "Vista _previa"
 
@@ -18439,7 +18468,7 @@ msgstr "Mostrar mapas en la ventana de vista previa de contactos"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1140
 #: ../modules/calendar/e-memo-shell-view-actions.c:692
 #: ../modules/calendar/e-task-shell-view-actions.c:857
-#: ../modules/mail/e-mail-shell-view-actions.c:1959
+#: ../modules/mail/e-mail-shell-view-actions.c:1960
 msgid "_Classic View"
 msgstr "Vista _clásica"
 
@@ -18450,7 +18479,7 @@ msgstr "Mostrar la vista previa del contacto bajo la lista de mensajes"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1147
 #: ../modules/calendar/e-memo-shell-view-actions.c:699
 #: ../modules/calendar/e-task-shell-view-actions.c:864
-#: ../modules/mail/e-mail-shell-view-actions.c:1966
+#: ../modules/mail/e-mail-shell-view-actions.c:1967
 msgid "_Vertical View"
 msgstr "Vista _vertical"
 
@@ -18469,7 +18498,7 @@ msgstr "No coincidente"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1604
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
 #: ../modules/calendar/e-task-shell-view-actions.c:926
-#: ../modules/mail/e-mail-shell-view-actions.c:2035
+#: ../modules/mail/e-mail-shell-view-actions.c:2036
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
@@ -21105,12 +21134,12 @@ msgid "Permanently remove all deleted messages from this folder"
 msgstr "Elimina permanentemente todos los mensajes eliminados de esta carpeta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1629
-#: ../modules/mail/e-mail-shell-view-actions.c:1729
+#: ../modules/mail/e-mail-shell-view-actions.c:1730
 msgid "Mar_k All Messages as Read"
 msgstr "Marcar todos los mensajes como _leídos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1631
-#: ../modules/mail/e-mail-shell-view-actions.c:1731
+#: ../modules/mail/e-mail-shell-view-actions.c:1732
 msgid "Mark all messages in the folder as read"
 msgstr "Marcar todos los mensajes en la carpeta como leídos"
 
@@ -21122,236 +21151,237 @@ msgstr "_Mover carpeta a…"
 msgid "Move the selected folder into another folder"
 msgstr "Mueve la carpeta seleccionada a otra carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1643
+#. Translators: An action caption to create a new mail folder
+#: ../modules/mail/e-mail-shell-view-actions.c:1644
 msgid "_New..."
 msgstr "_Nueva…"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1645
+#: ../modules/mail/e-mail-shell-view-actions.c:1646
 msgid "Create a new folder for storing mail"
 msgstr "Crea una carpeta nueva para almacenar correo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1652
+#: ../modules/mail/e-mail-shell-view-actions.c:1653
 msgid "Change the properties of this folder"
 msgstr "Cambia las propiedades de esta carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1659
+#: ../modules/mail/e-mail-shell-view-actions.c:1660
 msgid "Refresh the folder"
 msgstr "Actualizar la carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1666
+#: ../modules/mail/e-mail-shell-view-actions.c:1667
 msgid "Change the name of this folder"
 msgstr "Cambia el nombre de esta carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1671
+#: ../modules/mail/e-mail-shell-view-actions.c:1672
 msgid "Select Message _Thread"
 msgstr "Seleccionar con_versación del mensaje"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1673
+#: ../modules/mail/e-mail-shell-view-actions.c:1674
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 "Selecciona todos los correos en la misma conversación que el correo "
 "seleccionado"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1678
+#: ../modules/mail/e-mail-shell-view-actions.c:1679
 msgid "Select Message S_ubthread"
 msgstr "Seleccionar s_ubconversación del mensaje"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1680
+#: ../modules/mail/e-mail-shell-view-actions.c:1681
 msgid "Select all replies to the currently selected message"
 msgstr "Seleccionar todas las respuestas al mensaje actualmente seleccionado"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1692
+#: ../modules/mail/e-mail-shell-view-actions.c:1693
 msgid "Empty _Trash"
 msgstr "_Vaciar papelera"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1694
+#: ../modules/mail/e-mail-shell-view-actions.c:1695
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr ""
 "Eliminar permanentemente todos los correos eliminados de todas las cuentas"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1699
+#: ../modules/mail/e-mail-shell-view-actions.c:1700
 msgid "_New Label"
 msgstr "Etiqueta n_ueva"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1708
+#: ../modules/mail/e-mail-shell-view-actions.c:1709
 msgid "N_one"
 msgstr "Ning_uno"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1722
+#: ../modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Manage Subscriptions"
 msgstr "Gestionar _suscripciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1724
-#: ../modules/mail/e-mail-shell-view-actions.c:1808
+#: ../modules/mail/e-mail-shell-view-actions.c:1725
+#: ../modules/mail/e-mail-shell-view-actions.c:1809
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Suscribirse o desuscribirse de carpetas alojadas en servidores remotos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1736
-#: ../modules/mail/e-mail-shell-view-actions.c:1757
+#: ../modules/mail/e-mail-shell-view-actions.c:1737
+#: ../modules/mail/e-mail-shell-view-actions.c:1758
 msgid "Send / _Receive"
 msgstr "Enviar / Reci_bir"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1738
+#: ../modules/mail/e-mail-shell-view-actions.c:1739
 msgid "Send queued items and retrieve new items"
 msgstr "Envía el correo en la cola y obtiene el nuevo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1743
+#: ../modules/mail/e-mail-shell-view-actions.c:1744
 msgid "R_eceive All"
 msgstr "R_ecibir todo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1745
+#: ../modules/mail/e-mail-shell-view-actions.c:1746
 msgid "Receive new items from all accounts"
 msgstr "Recibir correo nuevo para todas las cuentas"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1750
+#: ../modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Send All"
 msgstr "_Enviar todo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1752
+#: ../modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Send queued items in all accounts"
 msgstr "Enviar todos los elementos en la cola de todas las cuentas"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1780
+#: ../modules/mail/e-mail-shell-view-actions.c:1781
 msgid "Cancel the current mail operation"
 msgstr "Cancela la operación de correo actual"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1785
+#: ../modules/mail/e-mail-shell-view-actions.c:1786
 msgid "Collapse All _Threads"
 msgstr "_Contraer todas las conversaciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1787
+#: ../modules/mail/e-mail-shell-view-actions.c:1788
 msgid "Collapse all message threads"
 msgstr "Contrae todas las conversaciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1792
+#: ../modules/mail/e-mail-shell-view-actions.c:1793
 msgid "E_xpand All Threads"
 msgstr "E_xpandir todas las conversaciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1794
+#: ../modules/mail/e-mail-shell-view-actions.c:1795
 msgid "Expand all message threads"
 msgstr "Expandir todas las conversaciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1799
+#: ../modules/mail/e-mail-shell-view-actions.c:1800
 msgid "_Message Filters"
 msgstr "_Filtros de correos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1801
+#: ../modules/mail/e-mail-shell-view-actions.c:1802
 msgid "Create or edit rules for filtering new mail"
 msgstr "Crear o editar reglas para el filtrado de correos nuevos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1806
+#: ../modules/mail/e-mail-shell-view-actions.c:1807
 msgid "_Subscriptions..."
 msgstr "_Suscripciones…"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1815
+#: ../modules/mail/e-mail-shell-view-actions.c:1816
 msgid "F_older"
 msgstr "_Carpeta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1822
+#: ../modules/mail/e-mail-shell-view-actions.c:1823
 msgid "_Label"
 msgstr "Etiq_ueta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1839
+#: ../modules/mail/e-mail-shell-view-actions.c:1840
 msgid "C_reate Search Folder From Search..."
 msgstr "_Crear una carpeta de búsqueda desde la búsqueda…"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1846
+#: ../modules/mail/e-mail-shell-view-actions.c:1847
 msgid "Search F_olders"
 msgstr "Carpetas de búsque_da"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1848
+#: ../modules/mail/e-mail-shell-view-actions.c:1849
 msgid "Create or edit search folder definitions"
 msgstr "Crear o edita definiciones para carpetas de búsqueda"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1887
+#: ../modules/mail/e-mail-shell-view-actions.c:1888
 msgid "_New Folder..."
 msgstr "Carpeta _nueva…"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1915
+#: ../modules/mail/e-mail-shell-view-actions.c:1916
 msgid "Show Message _Preview"
 msgstr "Mostrar vista _previa del correo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1917
+#: ../modules/mail/e-mail-shell-view-actions.c:1918
 msgid "Show message preview pane"
 msgstr "Mostrar el correo en el panel de vista previa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1923
+#: ../modules/mail/e-mail-shell-view-actions.c:1924
 msgid "Show _Deleted Messages"
 msgstr "Mostrar los mensajes _eliminados"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1925
+#: ../modules/mail/e-mail-shell-view-actions.c:1926
 msgid "Show deleted messages with a line through them"
 msgstr "Mostrar los mensajes eliminados tachándolos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1931
+#: ../modules/mail/e-mail-shell-view-actions.c:1932
 msgid "_Group By Threads"
 msgstr "A_grupar por conversaciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1933
+#: ../modules/mail/e-mail-shell-view-actions.c:1934
 msgid "Threaded message list"
 msgstr "Lista de correos por conversaciones"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1939
+#: ../modules/mail/e-mail-shell-view-actions.c:1940
 msgid "_Unmatched Folder Enabled"
 msgstr "Carpeta no _coincidente activada"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1941
+#: ../modules/mail/e-mail-shell-view-actions.c:1942
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Conmutador que indica si la carpeta no coincidente está activada"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1961
+#: ../modules/mail/e-mail-shell-view-actions.c:1962
 msgid "Show message preview below the message list"
 msgstr "Mostrar la vista previa del correo bajo la lista de mensajes"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1968
+#: ../modules/mail/e-mail-shell-view-actions.c:1969
 msgid "Show message preview alongside the message list"
 msgstr "Mostrar la vista previa del correo junto a la lista de mensajes"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1976
+#: ../modules/mail/e-mail-shell-view-actions.c:1977
 msgid "All Messages"
 msgstr "Todos los correos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1983
+#: ../modules/mail/e-mail-shell-view-actions.c:1984
 msgid "Important Messages"
 msgstr "Mensajes importantes"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1990
+#: ../modules/mail/e-mail-shell-view-actions.c:1991
 msgid "Last 5 Days' Messages"
 msgstr "Mensajes de los últimos 5 días"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1997
+#: ../modules/mail/e-mail-shell-view-actions.c:1998
 msgid "Messages Not Junk"
 msgstr "Mensajes que no son SPAM"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2004
+#: ../modules/mail/e-mail-shell-view-actions.c:2005
 msgid "Messages with Attachments"
 msgstr "Mensajes con adjuntos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2011
+#: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "No Label"
 msgstr "Sin etiqueta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2018
+#: ../modules/mail/e-mail-shell-view-actions.c:2019
 msgid "Read Messages"
 msgstr "Mensajes leídos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2025
+#: ../modules/mail/e-mail-shell-view-actions.c:2026
 msgid "Unread Messages"
 msgstr "Mensajes no leídos"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2084
+#: ../modules/mail/e-mail-shell-view-actions.c:2085
 msgid "Subject or Addresses contain"
 msgstr "El asunto o las direcciones contienen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2094
+#: ../modules/mail/e-mail-shell-view-actions.c:2095
 msgid "All Accounts"
 msgstr "Todas las cuentas"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2101
+#: ../modules/mail/e-mail-shell-view-actions.c:2102
 msgid "Current Account"
 msgstr "Cuenta actual"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2108
+#: ../modules/mail/e-mail-shell-view-actions.c:2109
 msgid "Current Folder"
 msgstr "Carpeta actual"
 
@@ -21926,30 +21956,26 @@ msgid "_Prolog"
 msgstr "_Prolog"
 
 #: ../modules/text-highlight/languages.c:323
-msgid "_PostScript"
-msgstr "_PostScript"
-
-#: ../modules/text-highlight/languages.c:328
 msgid "_R"
 msgstr "_R"
 
-#: ../modules/text-highlight/languages.c:333
+#: ../modules/text-highlight/languages.c:328
 msgid "_RPM Spec"
 msgstr "_RPM Spec"
 
-#: ../modules/text-highlight/languages.c:338
+#: ../modules/text-highlight/languages.c:333
 msgid "_Scala"
 msgstr "_Scala"
 
-#: ../modules/text-highlight/languages.c:343
+#: ../modules/text-highlight/languages.c:338
 msgid "_Smalltalk"
 msgstr "_Smalltalk"
 
-#: ../modules/text-highlight/languages.c:349
+#: ../modules/text-highlight/languages.c:344
 msgid "_TCSH"
 msgstr "_TCSH"
 
-#: ../modules/text-highlight/languages.c:354
+#: ../modules/text-highlight/languages.c:349
 msgid "_VHDL"
 msgstr "_VHDL"
 
@@ -22510,7 +22536,28 @@ msgstr "Le notifica cuando llega un mensaje de correo nuevo."
 msgid "Created from a mail by %s"
 msgstr "Creado desde un correo de %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:613
+#. Translators: Dialog button to Cancel edit of an existing event/memo/task
+#: ../plugins/mail-to-task/mail-to-task.c:594
+#| msgid "_Cancel"
+msgctxt "mail-to-task"
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#. Translators: Dialog button to Edit an existing event/memo/task
+#: ../plugins/mail-to-task/mail-to-task.c:596
+#| msgid "_Edit"
+msgctxt "mail-to-task"
+msgid "_Edit"
+msgstr "_Editar"
+
+#. Translators: Dialog button to create a New event/memo/task
+#: ../plugins/mail-to-task/mail-to-task.c:598
+#| msgid "_New"
+msgctxt "mail-to-task"
+msgid "_New"
+msgstr "_Nuevo"
+
+#: ../plugins/mail-to-task/mail-to-task.c:616
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -22519,7 +22566,7 @@ msgstr ""
 "El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
 "editar el acontecimiento antiguo?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:616
+#: ../plugins/mail-to-task/mail-to-task.c:619
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -22528,7 +22575,7 @@ msgstr ""
 "La lista de tareas seleccionada ya contiene la tarea «%s». ¿Quiere editar la "
 "tarea antigua?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:619
+#: ../plugins/mail-to-task/mail-to-task.c:622
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -22537,7 +22584,7 @@ msgstr ""
 "La lista de notas seleccionada ya contiene la nota «%s». ¿Quiere editar la "
 "nota antigua?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:639
+#: ../plugins/mail-to-task/mail-to-task.c:642
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -22552,7 +22599,7 @@ msgstr[1] ""
 "Ha seleccionado %d correos para convertirlos en eventos. ¿Realmente quiere "
 "añadirlos todos?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:646
+#: ../plugins/mail-to-task/mail-to-task.c:649
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -22567,7 +22614,7 @@ msgstr[1] ""
 "Ha seleccionado %d correos para convertirlos en tareas. ¿Realmente quiere "
 "añadirlos todos?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:653
+#: ../plugins/mail-to-task/mail-to-task.c:656
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -22582,29 +22629,29 @@ msgstr[1] ""
 "Ha seleccionado %d correos para convertirlos en notas. ¿Realmente quiere "
 "añadirlos todos?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:674
+#: ../plugins/mail-to-task/mail-to-task.c:677
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "¿Quiere continuar convirtiendo los correos restantes?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:750
+#: ../plugins/mail-to-task/mail-to-task.c:753
 msgid "[No Summary]"
 msgstr "[Sin resumen]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:763
+#: ../plugins/mail-to-task/mail-to-task.c:766
 msgid "Invalid object returned from a server"
 msgstr "Un servidor devolvió un objeto no válido"
 
-#: ../plugins/mail-to-task/mail-to-task.c:818
+#: ../plugins/mail-to-task/mail-to-task.c:821
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Ocurrió un error al procesar: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:854
+#: ../plugins/mail-to-task/mail-to-task.c:857
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "No se puede abrir el calendario. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:858
+#: ../plugins/mail-to-task/mail-to-task.c:861
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -22612,7 +22659,7 @@ msgstr ""
 "El calendario seleccionado es de sólo lectura, por lo que no se puede crear "
 "un evento en él. Seleccione otro calendario."
 
-#: ../plugins/mail-to-task/mail-to-task.c:861
+#: ../plugins/mail-to-task/mail-to-task.c:864
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -22620,7 +22667,7 @@ msgstr ""
 "La tarea seleccionada es de sólo lectura, por lo que no se puede crear una "
 "tarea ahí. Seleccione otra tarea."
 
-#: ../plugins/mail-to-task/mail-to-task.c:864
+#: ../plugins/mail-to-task/mail-to-task.c:867
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -22628,35 +22675,35 @@ msgstr ""
 "La nota seleccionada es de sólo lectura, por lo que no se puede crear una "
 "nota ahí. Seleccione otra nota."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1266
+#: ../plugins/mail-to-task/mail-to-task.c:1269
 msgid "Create an _Appointment"
 msgstr "Crea una cit_a"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1268
+#: ../plugins/mail-to-task/mail-to-task.c:1271
 msgid "Create a new event from the selected message"
 msgstr "Crear un acontecimiento nuevo del mensaje seleccionado"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1273
+#: ../plugins/mail-to-task/mail-to-task.c:1276
 msgid "Create a Mem_o"
 msgstr "Crear una _nota"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1275
+#: ../plugins/mail-to-task/mail-to-task.c:1278
 msgid "Create a new memo from the selected message"
 msgstr "Crear una nota nueva del mensaje seleccionado"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1280
+#: ../plugins/mail-to-task/mail-to-task.c:1283
 msgid "Create a _Task"
 msgstr "Crear una _tarea"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1282
+#: ../plugins/mail-to-task/mail-to-task.c:1285
 msgid "Create a new task from the selected message"
 msgstr "Crear una tarea nueva del mensaje seleccionado"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1290
+#: ../plugins/mail-to-task/mail-to-task.c:1293
 msgid "Create a _Meeting"
 msgstr "Crear una _reunión"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1292
+#: ../plugins/mail-to-task/mail-to-task.c:1295
 msgid "Create a new meeting from the selected message"
 msgstr "Crear una reunión nueva del mensaje seleccionado"
 
@@ -23232,136 +23279,145 @@ msgstr "Poner Evolution en modo conectado"
 msgid "Lay_out"
 msgstr "_Distribución"
 
-#: ../shell/e-shell-window-actions.c:1106
+#. Translators: This is a New menu item caption, under File->New
+#: ../shell/e-shell-window-actions.c:1100
+msgid "_New"
+msgstr "_Nuevo"
+
+#: ../shell/e-shell-window-actions.c:1107
 msgid "_Search"
 msgstr "_Buscar"
 
-#: ../shell/e-shell-window-actions.c:1113
+#: ../shell/e-shell-window-actions.c:1114
 msgid "_Switcher Appearance"
 msgstr "Apariencia del _selector"
 
-#: ../shell/e-shell-window-actions.c:1127
+#: ../shell/e-shell-window-actions.c:1128
 msgid "_Window"
 msgstr "_Ventana"
 
-#: ../shell/e-shell-window-actions.c:1156
+#: ../shell/e-shell-window-actions.c:1157
 msgid "Show Side _Bar"
 msgstr "Mostrar barra _lateral"
 
-#: ../shell/e-shell-window-actions.c:1158
+#: ../shell/e-shell-window-actions.c:1159
 msgid "Show the side bar"
 msgstr "Mostrar la barra lateral"
 
-#: ../shell/e-shell-window-actions.c:1164
+#: ../shell/e-shell-window-actions.c:1165
 msgid "Show _Buttons"
 msgstr "Mostrar _botones"
 
-#: ../shell/e-shell-window-actions.c:1166
+#: ../shell/e-shell-window-actions.c:1167
 msgid "Show the switcher buttons"
 msgstr "Mostrar los botones del selector"
 
-#: ../shell/e-shell-window-actions.c:1172
+#: ../shell/e-shell-window-actions.c:1173
 msgid "Show _Status Bar"
 msgstr "Mostrar barra de _estado"
 
-#: ../shell/e-shell-window-actions.c:1174
+#: ../shell/e-shell-window-actions.c:1175
 msgid "Show the status bar"
 msgstr "Mostrar la barra de estado"
 
-#: ../shell/e-shell-window-actions.c:1180
+#: ../shell/e-shell-window-actions.c:1181
 msgid "Show _Tool Bar"
 msgstr "Mostrar barra de _herramientas"
 
-#: ../shell/e-shell-window-actions.c:1182
+#: ../shell/e-shell-window-actions.c:1183
 msgid "Show the tool bar"
 msgstr "Mostrar la barra de herramientas"
 
-#: ../shell/e-shell-window-actions.c:1204
+#: ../shell/e-shell-window-actions.c:1205
 msgid "_Icons Only"
 msgstr "Sólo _iconos"
 
-#: ../shell/e-shell-window-actions.c:1206
+#: ../shell/e-shell-window-actions.c:1207
 msgid "Display window buttons with icons only"
 msgstr "Mostrar los botones de la ventana sólo con iconos"
 
-#: ../shell/e-shell-window-actions.c:1211
+#: ../shell/e-shell-window-actions.c:1212
 msgid "_Text Only"
 msgstr "Sólo _texto"
 
-#: ../shell/e-shell-window-actions.c:1213
+#: ../shell/e-shell-window-actions.c:1214
 msgid "Display window buttons with text only"
 msgstr "Mostrar los botones de la ventana sólo con texto"
 
-#: ../shell/e-shell-window-actions.c:1218
+#: ../shell/e-shell-window-actions.c:1219
 msgid "Icons _and Text"
 msgstr "Iconos _y texto"
 
-#: ../shell/e-shell-window-actions.c:1220
+#: ../shell/e-shell-window-actions.c:1221
 msgid "Display window buttons with icons and text"
 msgstr "Mostrar los botones de la ventana con iconos y texto"
 
-#: ../shell/e-shell-window-actions.c:1225
+#: ../shell/e-shell-window-actions.c:1226
 msgid "Tool_bar Style"
 msgstr "Estilo de la _barra de herramientas"
 
-#: ../shell/e-shell-window-actions.c:1227
+#: ../shell/e-shell-window-actions.c:1228
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Mostrar los botones de la ventana usando la configuración de la barra de "
 "herramientas del escritorio"
 
-#: ../shell/e-shell-window-actions.c:1235
+#: ../shell/e-shell-window-actions.c:1236
 msgid "Delete Current View"
 msgstr "Eliminar la vista actual"
 
-#: ../shell/e-shell-window-actions.c:1242
+#: ../shell/e-shell-window-actions.c:1243
 msgid "Save Custom View..."
 msgstr "Guardar vista personalizada…"
 
-#: ../shell/e-shell-window-actions.c:1244
+#: ../shell/e-shell-window-actions.c:1245
 msgid "Save current custom view"
 msgstr "Guardar la vista actual personalizada"
 
-#: ../shell/e-shell-window-actions.c:1251
+#: ../shell/e-shell-window-actions.c:1252
 msgid "C_urrent View"
 msgstr "Vista act_ual"
 
-#: ../shell/e-shell-window-actions.c:1261
+#: ../shell/e-shell-window-actions.c:1262
 msgid "Custom View"
 msgstr "Vista personalizada"
 
-#: ../shell/e-shell-window-actions.c:1263
+#: ../shell/e-shell-window-actions.c:1264
 msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
-#: ../shell/e-shell-window-actions.c:1271
+#: ../shell/e-shell-window-actions.c:1272
 msgid "Page Set_up..."
 msgstr "Config_uración de página…"
 
-#: ../shell/e-shell-window-actions.c:1273
+#: ../shell/e-shell-window-actions.c:1274
 msgid "Change the page settings for your current printer"
 msgstr "Cambiar la configuración de página para la impresora actual"
 
-#: ../shell/e-shell-window-actions.c:1634
+#: ../shell/e-shell-window-actions.c:1635
 #, c-format
 msgid "Switch to %s"
 msgstr "Cambiar a %s"
 
-#: ../shell/e-shell-window-actions.c:1757
+#: ../shell/e-shell-window-actions.c:1758
 #, c-format
 msgid "Select view: %s"
 msgstr "Seleccionar vista: %s"
 
-#: ../shell/e-shell-window-actions.c:1774
+#: ../shell/e-shell-window-actions.c:1775
 #, c-format
 msgid "Delete view: %s"
 msgstr "Eliminar vista: %s"
 
-#: ../shell/e-shell-window-actions.c:1868
+#: ../shell/e-shell-window-actions.c:1869
 msgid "Execute these search parameters"
 msgstr "Ejecutar estos parámetros de búsqueda"
 
-#: ../shell/e-shell-window.c:503
+#. Translators: a 'New' toolbar button caption which is context sensitive and
+#. runs one of the actions under File->New menu
+#: ../shell/e-shell-window.c:505
+#| msgid "New"
+msgctxt "toolbar-button"
 msgid "New"
 msgstr "Nuevo"
 
@@ -24025,32 +24081,32 @@ msgstr "Contraseña del archivo PKCS12"
 msgid "Enter password for PKCS12 file:"
 msgstr "Introduzca la contraseña para el archivo PKCS12:"
 
-#: ../smime/lib/e-pkcs12.c:329
+#: ../smime/lib/e-pkcs12.c:328
 #, c-format
 msgid "Unable to create export context, err_code: %i"
 msgstr "No se puede crear el contexto de exportación, cod_err: %i"
 
-#: ../smime/lib/e-pkcs12.c:336
+#: ../smime/lib/e-pkcs12.c:335
 #, c-format
 msgid "Unable to setup password integrity, err_code: %i"
 msgstr "No se puede configurar la integridad de la contraseña; cod_err: %i"
 
-#: ../smime/lib/e-pkcs12.c:346
+#: ../smime/lib/e-pkcs12.c:345
 #, c-format
 msgid "Unable to create safe bag, err_code: %i"
 msgstr "No se puede crear la bolsa de seguridad, cod_err: %i"
 
-#: ../smime/lib/e-pkcs12.c:364
+#: ../smime/lib/e-pkcs12.c:363
 #, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
 msgstr "No se puede añadir la clave o el certificado al almacén, cod_err: %i"
 
-#: ../smime/lib/e-pkcs12.c:382
+#: ../smime/lib/e-pkcs12.c:381
 #, c-format
 msgid "Unable to write store to disk, err_code: %i"
 msgstr "No se puede guardar el almacén en el disco, cod_err: %i"
 
-#: ../smime/lib/e-pkcs12.c:409
+#: ../smime/lib/e-pkcs12.c:408
 msgid "Imported Certificate"
 msgstr "Certificado importado"
 
@@ -24125,6 +24181,9 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgid "_PostScript"
+#~ msgstr "_PostScript"
 
 #~ msgid "Unknown background operation"
 #~ msgstr "Operación en segundo plano desconocida"
