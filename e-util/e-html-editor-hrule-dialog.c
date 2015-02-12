@@ -218,6 +218,8 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
 	WebKitDOMElement *rule;
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
@@ -233,7 +235,15 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 		return;
 	}
 
-	rule = e_html_editor_view_get_element_under_mouse_click (view);
+	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (node && !WEBKIT_DOM_IS_HTMLHR_ELEMENT (node)) {
+		rule = e_html_editor_dom_node_find_parent_element (node, "A");
+		if (rule && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (rule))
+			rule = NULL;
+	} else
+		rule = WEBKIT_DOM_ELEMENT (node);
+
 	if (!rule) {
 		WebKitDOMElement *caret, *parent, *element;
 

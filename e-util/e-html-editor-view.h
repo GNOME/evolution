@@ -140,9 +140,6 @@ void		e_html_editor_view_embed_styles	(EHTMLEditorView *view);
 void		e_html_editor_view_remove_embed_styles
 						(EHTMLEditorView *view);
 void		e_html_editor_view_update_fonts	(EHTMLEditorView *view);
-WebKitDOMElement *
-		e_html_editor_view_get_element_under_mouse_click
-						(EHTMLEditorView *view);
 void		e_html_editor_view_check_magic_links
 						(EHTMLEditorView *view,
 						 gboolean while_typing);

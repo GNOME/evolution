@@ -89,8 +89,6 @@ struct _EHTMLEditorViewPrivate {
 
 	EHTMLEditorSelection *selection;
 
-	WebKitDOMElement *element_under_mouse;
-
 	GHashTable *inline_images;
 
 	GSettings *mail_settings;
@@ -2575,14 +2573,11 @@ html_editor_view_constructed (GObject *object)
 }
 
 static void
-html_editor_view_save_element_under_mouse_click (GtkWidget *widget)
+html_editor_view_move_selection_on_point (GtkWidget *widget)
 {
 	gint x, y;
 	GdkDeviceManager *device_manager;
 	GdkDevice *pointer;
-	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *element;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (widget));
 
@@ -2592,11 +2587,8 @@ html_editor_view_save_element_under_mouse_click (GtkWidget *widget)
 	gdk_window_get_device_position (
 		gtk_widget_get_window (GTK_WIDGET (widget)), pointer, &x, &y, NULL);
 
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (widget));
-	element = webkit_dom_document_element_from_point (document, x, y);
-
-	view = E_HTML_EDITOR_VIEW (widget);
-	view->priv->element_under_mouse = element;
+	e_html_editor_selection_set_on_point (
+		e_html_editor_view_get_selection (E_HTML_EDITOR_VIEW (widget)), x, y);
 }
 
 static gboolean
@@ -2610,7 +2602,7 @@ html_editor_view_button_press_event (GtkWidget *widget,
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
-		html_editor_view_save_element_under_mouse_click (widget);
+		html_editor_view_move_selection_on_point (widget);
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -3014,7 +3006,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
 
-		html_editor_view_save_element_under_mouse_click (widget);
+		html_editor_view_move_selection_on_point (widget);
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -8671,22 +8663,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	pango_font_description_free (ms);
 	pango_font_description_free (vw);
-}
-
-/**
- * e_html_editor_view_get_element_under_mouse_click:
- * @view: an #EHTMLEditorView
- *
- * Returns DOM element, that was clicked on.
- *
- * Returns: DOM element on that was clicked.
- */
-WebKitDOMElement *
-e_html_editor_view_get_element_under_mouse_click (EHTMLEditorView *view)
-{
-	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), NULL);
-
-	return view->priv->element_under_mouse;
 }
 
 /**

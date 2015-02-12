@@ -4288,7 +4288,7 @@ void
 e_html_editor_selection_unlink (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
-	EHTMLEditorViewCommand command;
+	gchar *text;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *dom_selection;
@@ -4301,6 +4301,7 @@ e_html_editor_selection_unlink (EHTMLEditorSelection *selection)
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	g_object_unref (view);
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 
@@ -4309,21 +4310,23 @@ e_html_editor_selection_unlink (EHTMLEditorSelection *selection)
 			webkit_dom_range_get_start_container (range, NULL), "A");
 
 	if (!link) {
-		gchar *text;
-		/* get element that was clicked on */
-		link = e_html_editor_view_get_element_under_mouse_click (view);
-		if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-			link = NULL;
+		WebKitDOMNode *node;
 
-		text = webkit_dom_html_element_get_inner_text (
-				WEBKIT_DOM_HTML_ELEMENT (link));
-		webkit_dom_html_element_set_outer_html (WEBKIT_DOM_HTML_ELEMENT (link), text, NULL);
-		g_free (text);
-	} else {
-		command = E_HTML_EDITOR_VIEW_COMMAND_UNLINK;
-		e_html_editor_view_exec_command (view, command, NULL);
+		/* get element that was clicked on */
+		node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+		if (node && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+			link = e_html_editor_dom_node_find_parent_element (node, "A");
+			if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+				return;
+		} else
+			link = WEBKIT_DOM_ELEMENT (node);
 	}
-	g_object_unref (view);
+
+	text = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (link));
+	webkit_dom_html_element_set_outer_html (
+		WEBKIT_DOM_HTML_ELEMENT (link), text, NULL);
+	g_free (text);
 }
 
 /**
@@ -6332,6 +6335,33 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 	webkit_dom_range_set_end_before (range, WEBKIT_DOM_NODE (marker), NULL);
 	remove_node (WEBKIT_DOM_NODE (marker));
 
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+}
+
+void
+e_html_editor_selection_set_on_point (EHTMLEditorSelection *selection,
+                                      guint x,
+                                      guint y)
+{
+	EHTMLEditorView *view;
+	WebKitDOMRange *range;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+	g_return_if_fail (view != NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	g_object_unref (view);
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	range = webkit_dom_document_caret_range_from_point (document, x, y);
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 }

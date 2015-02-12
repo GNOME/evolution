@@ -240,6 +240,10 @@ WebKitDOMElement *
 						 WebKitDOMElement *paragraph);
 void		e_html_editor_selection_save	(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_restore	(EHTMLEditorSelection *selection);
+void		e_html_editor_selection_set_on_point
+						(EHTMLEditorSelection *selection,
+						 guint x,
+						 guint y);
 void		e_html_editor_selection_move	(EHTMLEditorSelection *selection,
 						 gboolean forward,
 						 EHTMLEditorSelectionGranularity granularity);
