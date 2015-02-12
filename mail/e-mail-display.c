@@ -797,7 +797,7 @@ initialize_web_view_colors (EMailDisplay *display)
 	/* the rgba values below were copied from e-formatter-secure-button */
 	direction = gtk_widget_get_default_direction ();
 
-	if (direction == GTK_TEXT_DIR_LTR)
+	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(53%, 73%, 53%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(53%, 73%, 53%, 1.0)";
@@ -807,7 +807,7 @@ initialize_web_view_colors (EMailDisplay *display)
 		".-e-mail-formatter-frame-security-good",
 		style);
 
-	if (direction == GTK_TEXT_DIR_LTR)
+	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(73%, 53%, 53%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(73%, 53%, 53%, 1.0)";
@@ -817,7 +817,7 @@ initialize_web_view_colors (EMailDisplay *display)
 		".-e-mail-formatter-frame-security-bad",
 		style);
 
-	if (direction == GTK_TEXT_DIR_LTR)
+	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
@@ -827,7 +827,7 @@ initialize_web_view_colors (EMailDisplay *display)
 		".-e-mail-formatter-frame-security-unknown",
 		style);
 
-	if (direction == GTK_TEXT_DIR_LTR)
+	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
