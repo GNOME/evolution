@@ -305,109 +305,109 @@
 
   <error id="failed-create-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to create an event in a calendar '{0}'</_primary>
+    <_primary>Failed to create an event in the calendar '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to create a memo in a memo list '{0}'</_primary>
+    <_primary>Failed to create a memo in the memo list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to create a task in a task list '{0}'</_primary>
+    <_primary>Failed to create a task in the task list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-modify-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to modify an event in a calendar '{0}'</_primary>
+    <_primary>Failed to modify an event in the calendar '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-modify-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to modify a memo in a memo list '{0}'</_primary>
+    <_primary>Failed to modify a memo in the memo list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-modify-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to modify a task in a task list '{0}'</_primary>
+    <_primary>Failed to modify a task in the task list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-remove-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to delete an event in a calendar '{0}'</_primary>
+    <_primary>Failed to delete an event in the calendar '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-remove-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to delete a memo in a memo list '{0}'</_primary>
+    <_primary>Failed to delete a memo in the memo list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-remove-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to delete a task in a task list '{0}'</_primary>
+    <_primary>Failed to delete a task in the task list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-update-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to update an event in a calendar '{0}'</_primary>
+    <_primary>Failed to update an event in the calendar '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-update-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to update a memo in a memo list '{0}'</_primary>
+    <_primary>Failed to update a memo in the memo list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-update-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to update a task in a task list '{0}'</_primary>
+    <_primary>Failed to update a task in the task list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-send-event" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Failed to send an event to a calendar '{0}'</_primary>
+    <_primary>Failed to send an event to the calendar '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-send-memo" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Failed to send a memo to a memo list '{0}'</_primary>
+    <_primary>Failed to send a memo to the memo list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-send-task" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Failed to send a task to a task list '{0}'</_primary>
+    <_primary>Failed to send a task to the task list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-view-calendar" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
-    <_primary>Error creating view for a calendar '{0}'</_primary>
+    <_primary>Error creating view for the calendar '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-view-tasks" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the task list. -->
-    <_primary>Error creating view for a task list '{0}'</_primary>
+    <_primary>Error creating view for the task list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
   <error id="failed-create-view-memos" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the memo list. -->
-    <_primary>Error creating view for a memo list '{0}'</_primary>
+    <_primary>Error creating view for the memo list '{0}'</_primary>
     <secondary>{1}</secondary>
   </error>
 
