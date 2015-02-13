@@ -4,6 +4,8 @@ module_plugin_lib_la_CPPFLAGS = \
 	$(AM_CPPFLAGS)						\
 	-DG_LOG_DOMAIN=\"evolution-plugin-lib\"			\
 	-I$(top_srcdir)						\
+	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""		\
+	-DBUILDTIME_EVOLUTION_PLUGINDIR="\"$(plugindir)\""	\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"			\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
 	$(GNOME_PLATFORM_CFLAGS)				\
