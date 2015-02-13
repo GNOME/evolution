@@ -26,6 +26,7 @@
 
 #ifdef G_OS_WIN32
 #include <libedataserver/libedataserver.h> /* for e_util_replace_prefix() */
+#include "e-util/e-util-private.h"
 #endif
 
 #include <string.h>
@@ -153,8 +154,8 @@ plugin_lib_construct (EPlugin *plugin,
 	{
 		gchar *mapped_location =
 			e_util_replace_prefix (
-				EVOLUTION_PREFIX,
-				e_util_get_prefix (),
+				BUILDTIME_EVOLUTION_PLUGINDIR,
+				EVOLUTION_PLUGINDIR,
 				plugin_lib->location);
 		g_free (plugin_lib->location);
 		plugin_lib->location = mapped_location;
