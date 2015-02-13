@@ -1,6 +1,6 @@
-diff -upr gtk+-3.10.6/gdk/Makefile.in gtk+-3.10.6.new/gdk/Makefile.in
---- gtk+-3.10.6/gdk/Makefile.in	2013-12-05 04:09:38 +0000
-+++ gtk+-3.10.6.new/gdk/Makefile.in	2014-01-26 19:43:22 +0000
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gdk/Makefile.in gtk+-3.10.6/gdk/Makefile.in
+--- gtk+-3.10.6.old/gdk/Makefile.in	2014-09-30 17:02:46 +0000
++++ gtk+-3.10.6/gdk/Makefile.in	2014-09-30 17:00:04 +0000
 @@ -94,7 +94,7 @@ DIST_COMMON = $(top_srcdir)/Makefile.dec
  @USE_WIN32_FALSE@	$(am__append_1) $(am__append_3) \
  @USE_WIN32_FALSE@	$(am__append_5) $(am__append_7) \
@@ -50,9 +50,9 @@ diff -upr gtk+-3.10.6/gdk/Makefile.in gtk+-3.10.6.new/gdk/Makefile.in
  	rm -f $(DESTDIR)$(configexecincludedir)/gdkconfig.h
  
  # if srcdir!=builddir, clean out maintainer-clean files from builddir
-diff -upr gtk+-3.10.6/gtk/Makefile.in gtk+-3.10.6.new/gtk/Makefile.in
---- gtk+-3.10.6/gtk/Makefile.in	2013-12-05 04:09:40 +0000
-+++ gtk+-3.10.6.new/gtk/Makefile.in	2014-01-26 19:45:23 +0000
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/Makefile.in gtk+-3.10.6/gtk/Makefile.in
+--- gtk+-3.10.6.old/gtk/Makefile.in	2014-09-30 17:02:46 +0000
++++ gtk+-3.10.6/gtk/Makefile.in	2014-09-30 17:00:04 +0000
 @@ -111,7 +111,7 @@ DIST_COMMON = $(top_srcdir)/Makefile.dec
  @USE_QUARTZ_FALSE@@USE_WIN32_FALSE@@USE_X11_FALSE@am__append_13 = $(gtk_use_stub_c_sources)
  @USE_WIN32_TRUE@am__append_14 = -lole32 -lgdi32 -lcomdlg32 -lwinspool -lcomctl32
@@ -114,3 +114,39 @@ diff -upr gtk+-3.10.6/gtk/Makefile.in gtk+-3.10.6.new/gtk/Makefile.in
  	rm -f $(DESTDIR)$(datadir)/themes/Raleigh/gtk-3.0/gtk.css
  	rm -f $(DESTDIR)$(datadir)/themes/Default/gtk-3.0/gtk-keys.css
  	rm -f $(DESTDIR)$(datadir)/themes/Emacs/gtk-3.0/gtk-keys.css
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/deprecated/gtkaction.c gtk+-3.10.6/gtk/deprecated/gtkaction.c
+--- gtk+-3.10.6.old/gtk/deprecated/gtkaction.c	2014-09-30 17:02:13 +0000
++++ gtk+-3.10.6/gtk/deprecated/gtkaction.c	2014-09-30 17:05:22 +0000
+@@ -513,7 +513,7 @@ gtk_action_class_init (GtkActionClass *k
+                                    g_param_spec_boolean ("always-show-image",
+                                                          P_("Always show image"),
+                                                          P_("Whether the image will always be shown"),
+-                                                         FALSE,
++                                                         TRUE,
+                                                          GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+ 
+   /**
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/deprecated/gtkimagemenuitem.c gtk+-3.10.6/gtk/deprecated/gtkimagemenuitem.c
+--- gtk+-3.10.6.old/gtk/deprecated/gtkimagemenuitem.c	2014-09-30 17:02:13 +0000
++++ gtk+-3.10.6/gtk/deprecated/gtkimagemenuitem.c	2014-09-30 17:05:38 +0000
+@@ -204,7 +204,7 @@ gtk_image_menu_item_class_init (GtkImage
+                                    g_param_spec_boolean ("always-show-image",
+                                                          P_("Always show image"),
+                                                          P_("Whether the image will always be shown"),
+-                                                         FALSE,
++                                                         TRUE,
+                                                          GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_DEPRECATED));
+ 
+   /**
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/gtkbutton.c gtk+-3.10.6/gtk/gtkbutton.c
+--- gtk+-3.10.6.old/gtk/gtkbutton.c	2014-09-30 17:02:14 +0000
++++ gtk+-3.10.6/gtk/gtkbutton.c	2014-09-30 17:04:34 +0000
+@@ -377,7 +377,7 @@ gtk_button_class_init (GtkButtonClass *k
+                                    g_param_spec_boolean ("always-show-image",
+                                                          P_("Always show image"),
+                                                          P_("Whether the image will always be shown"),
+-                                                         FALSE,
++                                                         TRUE,
+                                                          GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+ 
+   g_object_class_override_property (gobject_class, PROP_ACTION_NAME, "action-name");
