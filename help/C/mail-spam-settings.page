@@ -9,7 +9,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.8.1" version="0.9" date="2013-06-22" status="final"/>
+    <revision pkgversion="3.12.9" version="0.10" date="2015-03-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -66,12 +66,10 @@
 <item><p>Select <gui>Mail Preferences</gui>.</p></item>
 <item><p>Click on the <gui>Junk</gui> tab. Here, you can specify the following:</p>
 <list>
-<item><p>Checking incoming mail for junk messages.</p></item>
+<item><p>Checking incoming messages for junk.</p></item>
 <item><p>Deleting junk messages upon exit, and how often junk messages are to be deleted.</p></item>
-<item><p>Checking custom headers for junk.</p></item>
+<item><p>Checking custom mail headers (added by your mail server) for junk.</p></item>
 <item><p>Marking messages as not junk if the sender is in the address book.</p></item>
-<item><p>The default junk filter.</p></item>
-<item><p>Bogofilter and SpamAssassin options.</p></item>
 </list>
 </item>
 </steps>
