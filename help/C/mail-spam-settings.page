@@ -9,7 +9,7 @@
     <link type="guide" xref="mail-spam" />
     <link type="seealso" xref="mail-spam-marking"/>
 
-    <revision pkgversion="3.12.9" version="0.10" date="2015-03-15" status="final"/>
+    <revision pkgversion="3.12.9" version="0.11" date="2015-03-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -68,8 +68,8 @@
 <list>
 <item><p>Checking incoming messages for junk.</p></item>
 <item><p>Deleting junk messages upon exit, and how often junk messages are to be deleted.</p></item>
-<item><p>Checking custom mail headers (added by your mail server) for junk.</p></item>
 <item><p>Marking messages as not junk if the sender is in the address book.</p></item>
+<item><p>Checking custom mail headers (added by your mail server) for junk.</p></item>
 </list>
 </item>
 </steps>
