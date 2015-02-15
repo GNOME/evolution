@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-receiving-options#local-account-server-types"/>
     <link type="guide" xref="mail-account-manage-maildir-format-directories#receiving-email"/>
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.12.9" version="0.3" date="2015-02-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -37,7 +37,7 @@
 
 <list>
 <item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p>
-<p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in INBOX</gui>.</p></item>
+<p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox</gui>.</p></item>
 </list>
 
 </section>
