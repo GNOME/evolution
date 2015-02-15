@@ -45,9 +45,7 @@
 <list>
 <item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
 <item><p>Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="http://tools.ietf.org/html/rfc5162">IMAP4 Extensions for Quick Mailbox Resynchronization</link>.</p></item>
-<item><p>Select if you want Evolution to use custom commands to connect to the IMAP server.</p></item>
 <item><p>Select if you want Evolution to show only <link xref="mail-imap-subscriptions">subscribed folders</link>.</p></item>
-<item><p>Select if you want Evolution to override server-supplied folder namespaces.</p></item>
 </list>
 
 </section>
