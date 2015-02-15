@@ -6,13 +6,10 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="3.11.92" version="0.4" date="2014-03-23" status="final"/>
+    <revision pkgversion="3.12.9" version="0.5" date="2015-02-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
-    </credit>
-    <credit type="author">
-      <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/encryption.html.en#encryption-keygen -->
     </credit>
     
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
@@ -22,33 +19,8 @@
 
   <title>Creating a GPG key</title>
 
-<note style="advanced"><p>These steps are very technical. For average users we recommend using the <link xref="help:seahorse/pgp-create"
-href="https://help.gnome.org/users/seahorse/stable/pgp-create"><app>Seahorse</app> application</link> for creating GPG/OpenPGP keys.</p></note>
-<!-- TODO:POST-3-12: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
+<!-- TODO:POST-3-13: Needs a complete rewrite now that https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
-<p>Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG.</p>
-<steps>
-<item><p>Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>.</p></item>
-<item><p>Select an algorithm, then press Enter.</p></item>
-<item><p>Select a key length, then press Enter.</p></item>
-<item><p>Enter how long your key should be valid for.</p></item>
-<item><p>Type your real name, then press Enter.</p></item>
-<item><p>Type your email address, then press Enter.</p></item>
-<item><p>(Optional) Type a comment, then press Enter.</p></item>
-<item><p>Review your selected user ID. If it is correct, press O.</p></item>
-<item><p>Type a passphrase, then press Enter.</p></item>
-<item><p>Move your mouse randomly to generate the keys.</p></item>
-</steps>
-
-<p>After the keys are generated, you can view your key information by entering <cmd>gpg --list-keys</cmd>. You should see something similar to this:  <code> /home/you/.gnupg/pubring.gpg ----------------------------  pub 1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt;  sub 1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code></p>
-<p>GPG creates one list, or keyring, for your public keys and one for your private keys. All the public keys you know are stored in the file <file>~/.gnupg/pubring.gpg</file>. If you want to give other people your key, send them that file.</p>
-<p>If you want, you can upload your keys to a key server:</p>
-<steps>
-<item><p>Check your public key ID with <code>gpg --list-keys</code>. It is the string after <code>1024D</code> on the line beginning with <code>pub</code>. In the example above, it is <code>32j38dk2</code>.</p></item>
-<item><p>Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd>. Substitute your key ID for <code>32j38dk2</code>. You need your password to do this.</p></item>
-</steps>
-
-<p>Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it is easier to publish a key once, and then let people download it from a central place when they want.</p>
-<p>If you don't have a key to unlock or encrypt a message, you can set your encryption tool to look it up automatically. If it cannot find the key, an error message appears.</p>
+<p>Before you can get or send GPG encrypted mail, you need to <link xref="help:seahorse/pgp-create" href="https://help.gnome.org/users/seahorse/stable/pgp-create">generate your public and private keys with GPG.</link> After doing so and <link xref="mail-encryption-gpg-set-up">setting up Evolution to use the key</link>, you need to <link xref="help:seahorse/pgp-publish" href="https://help.gnome.org/users/seahorse/stable/pgp-publish">share your public key with your friends to allow them decrypting the messages that you send them</link>.</p>
 
 </page>
