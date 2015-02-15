@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-receiving-options#corporate-server-types"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#receiving-email"/>
-    <revision pkgversion="3.1.91" version="0.2" date="2013-06-22" status="draft"/>
+    <revision pkgversion="3.12.9" version="0.3" date="2015-02-15" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -42,7 +42,7 @@
 <item><p>If you want Evolution to check automatically for new messages, click the <gui>Check for new messages every … minutes</gui> option and select the frequency in minutes.</p></item>
 <item><p>You can also define if Evolution checks for new messages in all folders.</p></item>
 <item><p>If you would like to have a copy of the address book on the server for offline access to it, enable <gui>Cache offline address book</gui> and click <gui style="button">Fetch list</gui>. Afterwards, select the address book from the available options.</p></item>
-<item><p>If you want <link xref="mail-filters">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox on this server</gui>.</p></item>
+<item><p>Select if you want <link xref="mail-filters">filters</link> to be automatically applied on mail that you receive, if <link xref="mail-spam-marking">spam</link> should be automatically filtered, and if <link xref="mail-working-offline">mail on the server should be synchronized with your local copy for offline access to it</link>.</p></item>
 </list>
 
 </section>
