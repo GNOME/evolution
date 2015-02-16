@@ -17,7 +17,6 @@
     <title>Classes</title>
     <xi:include href="xml/camel-null-store.xml"/>
     <xi:include href="xml/camel-sasl-xoauth2.xml"/>
-    <xi:include href="xml/e-mail-authenticator.xml"/>
     <xi:include href="xml/e-mail-junk-filter.xml"/>
     <xi:include href="xml/e-mail-session.xml"/>
     <xi:include href="xml/em-filter-folder-element.xml"/>
