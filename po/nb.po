@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-09 18:25+0100\n"
-"PO-Revision-Date: 2015-02-09 18:56+0100\n"
+"POT-Creation-Date: 2015-02-16 18:27+0100\n"
+"PO-Revision-Date: 2015-02-16 18:31+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -564,7 +564,7 @@ msgstr "Alternativer"
 #: ../modules/cal-config-google/e-google-chooser-dialog.c:187
 #: ../modules/calendar/e-cal-attachment-handler.c:285
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
-#: ../plugins/face/face.c:291 ../plugins/mail-to-task/mail-to-task.c:593
+#: ../plugins/face/face.c:291
 #: ../plugins/publish-calendar/publish-calendar.c:806
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
@@ -733,7 +733,7 @@ msgstr "Ugyldig kontakt."
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
-#: ../e-util/e-html-editor-link-dialog.c:370 ../e-util/e-passwords.c:471
+#: ../e-util/e-html-editor-link-dialog.c:381 ../e-util/e-passwords.c:471
 #: ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
 #: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
@@ -1381,8 +1381,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Er du sikker på at du vil slette denne kontakten (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1331
-#: ../calendar/gui/dialogs/comp-editor.c:1242
-#: ../e-util/e-categories-editor.c:282 ../e-util/e-focus-tracker.c:785
+#: ../calendar/gui/dialogs/comp-editor.c:1242 ../e-util/e-focus-tracker.c:785
 #: ../e-util/evolution-source-viewer.c:805
 #: ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1067
@@ -1595,7 +1594,7 @@ msgstr "Zoom _ut"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:1972
+#: ../e-util/e-html-editor-actions.c:1973
 #: ../e-util/e-html-editor-find-dialog.c:195
 #: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
@@ -1921,13 +1920,12 @@ msgstr "_Utsett"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-categories-editor.c:278 ../e-util/e-html-editor-actions.c:1003
+#: ../e-util/e-html-editor-actions.c:1003
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:170
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:58
 #: ../plugins/attachment-reminder/attachment-reminder.c:562
 #: ../plugins/email-custom-header/email-custom-header.c:844
-#: ../plugins/mail-to-task/mail-to-task.c:594
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1071
 #: ../smime/gui/smime-ui.ui.h:13
@@ -2490,93 +2488,93 @@ msgstr "Klarte ikke å åpne oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-msgid "Failed to create an event in a calendar '{0}'"
+msgid "Failed to create an event in the calendar '{0}'"
 msgstr "Klarte ikke å lage en hendelse i kalender «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:95
-msgid "Failed to create a memo in a memo list '{0}'"
-msgstr "Klarte ikke å lage et notat inn i en notatliste «{0}»"
+msgid "Failed to create a memo in the memo list '{0}'"
+msgstr "Klarte ikke å lage et notat inn i notatliste «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:97
-msgid "Failed to create a task in a task list '{0}'"
-msgstr "Klarte ikke å lage en oppgave i en oppgaveliste «{0}»"
+msgid "Failed to create a task in the task list '{0}'"
+msgstr "Klarte ikke å lage en oppgave i oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-msgid "Failed to modify an event in a calendar '{0}'"
-msgstr "Klarte ikke å endre en hendelse i en kalender «{0}»"
+msgid "Failed to modify an event in the calendar '{0}'"
+msgstr "Klarte ikke å endre en hendelse i kalender «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:101
-msgid "Failed to modify a memo in a memo list '{0}'"
-msgstr "Klarte ikke å endre et notat i en notatliste «{0}»"
+msgid "Failed to modify a memo in the memo list '{0}'"
+msgstr "Klarte ikke å endre et notat i notatliste «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:103
-msgid "Failed to modify a task in a task list '{0}'"
-msgstr "Klarte ikke å endre en oppgave i en oppgaveliste «{0}»"
+msgid "Failed to modify a task in the task list '{0}'"
+msgstr "Klarte ikke å endre en oppgave i oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-msgid "Failed to delete an event in a calendar '{0}'"
-msgstr "Klarte ikke å slette en avtale i en kalender «{0}»"
+msgid "Failed to delete an event in the calendar '{0}'"
+msgstr "Klarte ikke å slette en avtale i kalender «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:107
-msgid "Failed to delete a memo in a memo list '{0}'"
-msgstr "Klarte ikke å slette et notat i en notatliste «{0}»"
+msgid "Failed to delete a memo in the memo list '{0}'"
+msgstr "Klarte ikke å slette et notat i notatliste «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:109
-msgid "Failed to delete a task in a task list '{0}'"
-msgstr "Klarte ikke å slette en oppgave i en oppgaveliste «{0}»"
+msgid "Failed to delete a task in the task list '{0}'"
+msgstr "Klarte ikke å slette en oppgave i oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:111
-msgid "Failed to update an event in a calendar '{0}'"
-msgstr "Klarte ikke å oppdatere en hendelse i en kalender «{0}»"
+msgid "Failed to update an event in the calendar '{0}'"
+msgstr "Klarte ikke å oppdatere en hendelse i kalender «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:113
-msgid "Failed to update a memo in a memo list '{0}'"
-msgstr "Klarte ikke å oppdatere et notat i en notatliste «{0}»"
+msgid "Failed to update a memo in the memo list '{0}'"
+msgstr "Klarte ikke å oppdatere et notat i notatliste «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
-msgid "Failed to update a task in a task list '{0}'"
-msgstr "Klarte ikke å oppdatere en oppgave i en oppgaveliste «{0}»"
+msgid "Failed to update a task in the task list '{0}'"
+msgstr "Klarte ikke å oppdatere en oppgave i oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
-msgid "Failed to send an event to a calendar '{0}'"
-msgstr "Klarte ikke å sende en hendelse til en kalender «{0}»"
+msgid "Failed to send an event to the calendar '{0}'"
+msgstr "Klarte ikke å sende en hendelse til kalender «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:119
-msgid "Failed to send a memo to a memo list '{0}'"
-msgstr "Klarte ikke å sende et notat til en notatliste «{0}»"
+msgid "Failed to send a memo to the memo list '{0}'"
+msgstr "Klarte ikke å sende et notat til notatliste «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:121
-msgid "Failed to send a task to a task list '{0}'"
-msgstr "Klarte ikke å sende en oppgave til en oppgaveliste «{0}»"
+msgid "Failed to send a task to the task list '{0}'"
+msgstr "Klarte ikke å sende en oppgave til oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-msgid "Error creating view for a calendar '{0}'"
-msgstr "Feil ved oppretting av visning for en kalender «{0}»"
+msgid "Error creating view for the calendar '{0}'"
+msgstr "Feil ved oppretting av visning for kalender «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-msgid "Error creating view for a task list '{0}'"
-msgstr "Feil ved opretting av visning for en oppgaveliste «{0}»"
+msgid "Error creating view for the task list '{0}'"
+msgstr "Feil ved opretting av visning for oppgaveliste «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-msgid "Error creating view for a memo list '{0}'"
-msgstr "Feil ved oppretting av visning for en notatliste «{0}»"
+msgid "Error creating view for the memo list '{0}'"
+msgstr "Feil ved oppretting av visning for notatliste «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:129
@@ -3154,7 +3152,7 @@ msgstr "_Alternativer"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
 #: ../e-util/e-html-editor-actions.c:1052 ../mail/e-mail-browser.c:177
-#: ../shell/e-shell-window-actions.c:1120
+#: ../shell/e-shell-window-actions.c:1121
 #: ../smime/gui/certificate-manager.c:1649 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Vis"
@@ -3508,7 +3506,7 @@ msgstr "_Sted:"
 #: ../calendar/gui/dialogs/task-page.ui.h:29
 #: ../e-util/e-attachment-dialog.c:356
 #: ../e-util/e-html-editor-image-dialog.c:514
-#: ../e-util/e-html-editor-link-dialog.c:356
+#: ../e-util/e-html-editor-link-dialog.c:367
 msgid "_Description:"
 msgstr "_Beskrivelse:"
 
@@ -7471,7 +7469,7 @@ msgstr "Klikk her for å få opp adresseboken"
 msgid "Click here to select folders to post to"
 msgstr "Klikk her for å velge mapper å poste til"
 
-#: ../composer/e-msg-composer.c:861
+#: ../composer/e-msg-composer.c:863
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7479,7 +7477,7 @@ msgstr ""
 "Kan ikke signere utgående melding: Ingen sertifikat for signering satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:870
+#: ../composer/e-msg-composer.c:872
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7488,11 +7486,11 @@ msgstr ""
 "Kan ikke kryptere utgående melding: Sertifikat for kryptering ikke satt for "
 "denne kontoen"
 
-#: ../composer/e-msg-composer.c:1584 ../composer/e-msg-composer.c:2150
+#: ../composer/e-msg-composer.c:1586 ../composer/e-msg-composer.c:2272
 msgid "Compose Message"
 msgstr "Skriv melding"
 
-#: ../composer/e-msg-composer.c:4399
+#: ../composer/e-msg-composer.c:4530
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Redigering inneholder en meldingskropp som ikke er tekst, og som ikke kan "
@@ -7667,7 +7665,9 @@ msgstr "Er du sikker på at du vil sende meldingen?"
 msgid ""
 "A keyboard accelerator to send the message has been pressed. Either cancel "
 "sending the message, if it was done by an accident, or send the message."
-msgstr "En tastatursnarvei for å sende meldingen ble aktivert. Avbryt sendingen hvis det var et uhell, eller send meldingen."
+msgstr ""
+"En tastatursnarvei for å sende meldingen ble aktivert. Avbryt sendingen hvis "
+"det var et uhell, eller send meldingen."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -10177,7 +10177,7 @@ msgstr "Formater del som HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:197
-#: ../e-util/e-html-editor-actions.c:1408
+#: ../e-util/e-html-editor-actions.c:1409
 msgid "Plain Text"
 msgstr "Ren tekst"
 
@@ -10492,7 +10492,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% fullført)"
 
 #: ../e-util/e-activity-proxy.c:352
-#: ../modules/mail/e-mail-shell-view-actions.c:1778
+#: ../modules/mail/e-mail-shell-view-actions.c:1779
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -10674,7 +10674,7 @@ msgstr "Legg til ve_dlegg …"
 #: ../modules/calendar/e-memo-shell-view-actions.c:571
 #: ../modules/calendar/e-task-shell-view-actions.c:696
 #: ../modules/mail/e-mail-shell-view-actions.c:1580
-#: ../modules/mail/e-mail-shell-view-actions.c:1650
+#: ../modules/mail/e-mail-shell-view-actions.c:1651
 msgid "_Properties"
 msgstr "Egenska_per …"
 
@@ -10796,10 +10796,19 @@ msgid "_Available Categories:"
 msgstr "Tilgjengelige kate_gorier:"
 
 #: ../e-util/e-categories-editor.c:274
-#: ../plugins/mail-to-task/mail-to-task.c:595
-#: ../shell/e-shell-window-actions.c:1099
+msgctxt "category"
 msgid "_New"
 msgstr "_Ny"
+
+#: ../e-util/e-categories-editor.c:278
+msgctxt "category"
+msgid "_Edit"
+msgstr "R_ediger"
+
+#: ../e-util/e-categories-editor.c:282
+msgctxt "category"
+msgid "_Delete"
+msgstr "_Slett"
 
 #: ../e-util/e-categories-selector.c:322
 msgid "Icon"
@@ -11594,7 +11603,7 @@ msgid "HTML file"
 msgstr "HTML-fil"
 
 #: ../e-util/e-html-editor-actions.c:511
-#: ../e-util/e-html-editor-actions.c:1292
+msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Sett inn bilde"
 
@@ -11808,276 +11817,281 @@ msgid "_Alphabetical List"
 msgstr "_Alfabetisk liste"
 
 #: ../e-util/e-html-editor-actions.c:1290
-#: ../e-util/e-html-editor-actions.c:1327
+#: ../e-util/e-html-editor-actions.c:1328
 msgid "_Image..."
 msgstr "B_ilde …"
 
-#: ../e-util/e-html-editor-actions.c:1297
-#: ../e-util/e-html-editor-actions.c:1334
+#. Translators: This is an action tooltip
+#: ../e-util/e-html-editor-actions.c:1293
+msgid "Insert Image"
+msgstr "Sett inn bilde"
+
+#: ../e-util/e-html-editor-actions.c:1298
+#: ../e-util/e-html-editor-actions.c:1335
 msgid "_Link..."
 msgstr "_Lenke …"
 
-#: ../e-util/e-html-editor-actions.c:1299
+#: ../e-util/e-html-editor-actions.c:1300
 msgid "Insert Link"
 msgstr "Sett inn lenke"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1305
-#: ../e-util/e-html-editor-actions.c:1349
+#: ../e-util/e-html-editor-actions.c:1306
+#: ../e-util/e-html-editor-actions.c:1350
 msgid "_Rule..."
 msgstr "_Regel …"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1308
+#: ../e-util/e-html-editor-actions.c:1309
 msgid "Insert Rule"
 msgstr "Sett inn regel"
 
-#: ../e-util/e-html-editor-actions.c:1313
-#: ../e-util/e-html-editor-actions.c:1356
+#: ../e-util/e-html-editor-actions.c:1314
+#: ../e-util/e-html-editor-actions.c:1357
 msgid "_Table..."
 msgstr "_Tabell …"
 
-#: ../e-util/e-html-editor-actions.c:1315
+#: ../e-util/e-html-editor-actions.c:1316
 msgid "Insert Table"
 msgstr "Sett inn tabell"
 
-#: ../e-util/e-html-editor-actions.c:1320
+#: ../e-util/e-html-editor-actions.c:1321
 msgid "_Cell..."
 msgstr "_Celle …"
 
-#: ../e-util/e-html-editor-actions.c:1341
+#: ../e-util/e-html-editor-actions.c:1342
 msgid "Pa_ge..."
 msgstr "Si_de …"
 
-#: ../e-util/e-html-editor-actions.c:1365
+#: ../e-util/e-html-editor-actions.c:1366
 msgid "Font _Size"
 msgstr "Skrift_størrelse"
 
-#: ../e-util/e-html-editor-actions.c:1372
+#: ../e-util/e-html-editor-actions.c:1373
 msgid "_Font Style"
 msgstr "Skri_ftstil"
 
-#: ../e-util/e-html-editor-actions.c:1379
+#: ../e-util/e-html-editor-actions.c:1380
 msgid "Paste As _Text"
 msgstr "Lim inn som _tekst"
 
-#: ../e-util/e-html-editor-actions.c:1390
+#: ../e-util/e-html-editor-actions.c:1391
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "_Fet"
 
-#: ../e-util/e-html-editor-actions.c:1392
+#: ../e-util/e-html-editor-actions.c:1393
 msgid "Bold"
 msgstr "Fet"
 
-#: ../e-util/e-html-editor-actions.c:1398
+#: ../e-util/e-html-editor-actions.c:1399
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "_Kursiv"
 
-#: ../e-util/e-html-editor-actions.c:1400
+#: ../e-util/e-html-editor-actions.c:1401
 msgid "Italic"
 msgstr "Kursiv"
 
-#: ../e-util/e-html-editor-actions.c:1406
+#: ../e-util/e-html-editor-actions.c:1407
 msgid "_Plain Text"
 msgstr "_Vanlig tekst"
 
-#: ../e-util/e-html-editor-actions.c:1414
+#: ../e-util/e-html-editor-actions.c:1415
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "Gjennom_streket"
 
-#: ../e-util/e-html-editor-actions.c:1416
+#: ../e-util/e-html-editor-actions.c:1417
 msgid "Strikethrough"
 msgstr "Gjennomstrek"
 
-#: ../e-util/e-html-editor-actions.c:1422
+#: ../e-util/e-html-editor-actions.c:1423
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "_Understrek"
 
-#: ../e-util/e-html-editor-actions.c:1424
+#: ../e-util/e-html-editor-actions.c:1425
 msgid "Underline"
 msgstr "Understrek"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1434
+#: ../e-util/e-html-editor-actions.c:1435
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1442
+#: ../e-util/e-html-editor-actions.c:1443
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1450
+#: ../e-util/e-html-editor-actions.c:1451
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1458
+#: ../e-util/e-html-editor-actions.c:1459
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1466
+#: ../e-util/e-html-editor-actions.c:1467
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1474
+#: ../e-util/e-html-editor-actions.c:1475
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1482
+#: ../e-util/e-html-editor-actions.c:1483
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1501
+#: ../e-util/e-html-editor-actions.c:1502
 msgid "Cell Contents"
 msgstr "Celleinnhold"
 
-#: ../e-util/e-html-editor-actions.c:1508
+#: ../e-util/e-html-editor-actions.c:1509
 msgid "Column"
 msgstr "Kolonne"
 
-#: ../e-util/e-html-editor-actions.c:1515
+#: ../e-util/e-html-editor-actions.c:1516
 msgid "Row"
 msgstr "Rad"
 
-#: ../e-util/e-html-editor-actions.c:1522
-#: ../e-util/e-html-editor-actions.c:1607
+#: ../e-util/e-html-editor-actions.c:1523
+#: ../e-util/e-html-editor-actions.c:1608
 msgid "Table"
 msgstr "Tabell"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1532
+#: ../e-util/e-html-editor-actions.c:1533
 msgid "Table Delete"
 msgstr "Slett tabell"
 
-#: ../e-util/e-html-editor-actions.c:1539 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1540 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Inndatametoder"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1547
+#: ../e-util/e-html-editor-actions.c:1548
 msgid "Table Insert"
 msgstr "Sett inn tabell"
 
-#: ../e-util/e-html-editor-actions.c:1554
+#: ../e-util/e-html-editor-actions.c:1555
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: ../e-util/e-html-editor-actions.c:1572
+#: ../e-util/e-html-editor-actions.c:1573
 msgid "Column After"
 msgstr "Kolonne etter"
 
-#: ../e-util/e-html-editor-actions.c:1579
+#: ../e-util/e-html-editor-actions.c:1580
 msgid "Column Before"
 msgstr "Kolonne før"
 
-#: ../e-util/e-html-editor-actions.c:1586
+#: ../e-util/e-html-editor-actions.c:1587
 msgid "Insert _Link"
 msgstr "Sett inn _lenke"
 
-#: ../e-util/e-html-editor-actions.c:1593
+#: ../e-util/e-html-editor-actions.c:1594
 msgid "Row Above"
 msgstr "Rad over"
 
-#: ../e-util/e-html-editor-actions.c:1600
+#: ../e-util/e-html-editor-actions.c:1601
 msgid "Row Below"
 msgstr "Rad under"
 
-#: ../e-util/e-html-editor-actions.c:1614
+#: ../e-util/e-html-editor-actions.c:1615
 msgid "Cell..."
 msgstr "Celle …"
 
-#: ../e-util/e-html-editor-actions.c:1621
+#: ../e-util/e-html-editor-actions.c:1622
 msgid "Image..."
 msgstr "Bilde …"
 
-#: ../e-util/e-html-editor-actions.c:1628
+#: ../e-util/e-html-editor-actions.c:1629
 msgid "Link..."
 msgstr "Lenke …"
 
-#: ../e-util/e-html-editor-actions.c:1635
+#: ../e-util/e-html-editor-actions.c:1636
 msgid "Page..."
 msgstr "Side …"
 
-#: ../e-util/e-html-editor-actions.c:1642
+#: ../e-util/e-html-editor-actions.c:1643
 msgid "Paragraph..."
 msgstr "Avsnitt …"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1650
+#: ../e-util/e-html-editor-actions.c:1651
 msgid "Rule..."
 msgstr "Regel …"
 
-#: ../e-util/e-html-editor-actions.c:1657
+#: ../e-util/e-html-editor-actions.c:1658
 msgid "Table..."
 msgstr "Tabell …"
 
-#: ../e-util/e-html-editor-actions.c:1664
+#: ../e-util/e-html-editor-actions.c:1665
 msgid "Text..."
 msgstr "Tekst …"
 
-#: ../e-util/e-html-editor-actions.c:1671
+#: ../e-util/e-html-editor-actions.c:1672
 msgid "Remove Link"
 msgstr "Fjern lenke"
 
-#: ../e-util/e-html-editor-actions.c:1688
+#: ../e-util/e-html-editor-actions.c:1689
 msgid "Add Word to Dictionary"
 msgstr "Legg til ord i ordbok"
 
-#: ../e-util/e-html-editor-actions.c:1695
+#: ../e-util/e-html-editor-actions.c:1696
 msgid "Ignore Misspelled Word"
 msgstr "Overse feilstavet ord"
 
-#: ../e-util/e-html-editor-actions.c:1702
+#: ../e-util/e-html-editor-actions.c:1703
 msgid "Add Word To"
 msgstr "Legg til ord i"
 
-#: ../e-util/e-html-editor-actions.c:1711
+#: ../e-util/e-html-editor-actions.c:1712
 msgid "More Suggestions"
 msgstr "Flere forslag"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1819
+#: ../e-util/e-html-editor-actions.c:1820
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s ordbok"
 
-#: ../e-util/e-html-editor-actions.c:1906
+#: ../e-util/e-html-editor-actions.c:1907
 msgid "_Emoticon"
 msgstr "_Emotikon"
 
-#: ../e-util/e-html-editor-actions.c:1907
+#: ../e-util/e-html-editor-actions.c:1908
 msgid "Insert Emoticon"
 msgstr "Sett inn emotikon"
 
-#: ../e-util/e-html-editor-actions.c:1975
+#: ../e-util/e-html-editor-actions.c:1976
 msgid "Re_place"
 msgstr "E_rstatt"
 
-#: ../e-util/e-html-editor-actions.c:1978
+#: ../e-util/e-html-editor-actions.c:1979
 msgid "_Image"
 msgstr "B_ilde"
 
-#: ../e-util/e-html-editor-actions.c:1981
+#: ../e-util/e-html-editor-actions.c:1982
 msgid "_Link"
 msgstr "_Lenke"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1985
+#: ../e-util/e-html-editor-actions.c:1986
 msgid "_Rule"
 msgstr "_Regel"
 
-#: ../e-util/e-html-editor-actions.c:1988
+#: ../e-util/e-html-editor-actions.c:1989
 #: ../e-util/e-html-editor-cell-dialog.c:658
 msgid "_Table"
 msgstr "_Tabell"
@@ -12119,19 +12133,19 @@ msgid "<b>Alignment &amp; Behavior</b>"
 msgstr "<b>Justering &amp; oppførsel</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:694
-#: ../e-util/e-html-editor-hrule-dialog.c:384
+#: ../e-util/e-html-editor-hrule-dialog.c:394
 #: ../e-util/e-html-editor-table-dialog.c:819
 msgid "Left"
 msgstr "Venstre"
 
 #: ../e-util/e-html-editor-cell-dialog.c:695
-#: ../e-util/e-html-editor-hrule-dialog.c:386
+#: ../e-util/e-html-editor-hrule-dialog.c:396
 #: ../e-util/e-html-editor-table-dialog.c:820
 msgid "Center"
 msgstr "Senter"
 
 #: ../e-util/e-html-editor-cell-dialog.c:696
-#: ../e-util/e-html-editor-hrule-dialog.c:388
+#: ../e-util/e-html-editor-hrule-dialog.c:398
 #: ../e-util/e-html-editor-table-dialog.c:821
 msgid "Right"
 msgstr "Høyre"
@@ -12251,36 +12265,36 @@ msgstr "_Søk på nytt når slutten er nådd"
 msgid "Find"
 msgstr "Finn"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:319
+#: ../e-util/e-html-editor-hrule-dialog.c:329
 msgid "<b>Size</b>"
 msgstr "<b>Størrelse</b>"
 
 #. Width
-#: ../e-util/e-html-editor-hrule-dialog.c:339
+#: ../e-util/e-html-editor-hrule-dialog.c:349
 #: ../e-util/e-html-editor-image-dialog.c:539
 #: ../e-util/e-html-editor-table-dialog.c:742
 msgid "_Width:"
 msgstr "_Bredde:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:364
+#: ../e-util/e-html-editor-hrule-dialog.c:374
 msgid "_Size:"
 msgstr "_Størrelse:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:371
+#: ../e-util/e-html-editor-hrule-dialog.c:381
 msgid "<b>Style</b>"
 msgstr "<b>Stil</b>"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:396
+#: ../e-util/e-html-editor-hrule-dialog.c:406
 #: ../e-util/e-html-editor-table-dialog.c:828
 msgid "_Alignment:"
 msgstr "_Justering:"
 
 #. Shaded
-#: ../e-util/e-html-editor-hrule-dialog.c:402
+#: ../e-util/e-html-editor-hrule-dialog.c:412
 msgid "S_haded"
 msgstr "S_kyggelagt"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:419
+#: ../e-util/e-html-editor-hrule-dialog.c:429
 msgid "Rule properties"
 msgstr "Egenskaper for regel"
 
@@ -12316,12 +12330,12 @@ msgid "<b>Link</b>"
 msgstr "<b>Lenke</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:664
-#: ../e-util/e-html-editor-link-dialog.c:334
+#: ../e-util/e-html-editor-link-dialog.c:345
 msgid "_URL:"
 msgstr "_URL:"
 
 #: ../e-util/e-html-editor-image-dialog.c:669
-#: ../e-util/e-html-editor-link-dialog.c:339
+#: ../e-util/e-html-editor-link-dialog.c:350
 msgid "_Test URL..."
 msgstr "_Test URL …"
 
@@ -12329,11 +12343,11 @@ msgstr "_Test URL …"
 msgid "Image Properties"
 msgstr "Egenskaper for bilde"
 
-#: ../e-util/e-html-editor-link-dialog.c:363
+#: ../e-util/e-html-editor-link-dialog.c:374
 msgid "_Remove Link"
 msgstr "Fje_rn lenke"
 
-#: ../e-util/e-html-editor-link-dialog.c:388
+#: ../e-util/e-html-editor-link-dialog.c:399
 msgid "Link Properties"
 msgstr "Egenskaper for lenke"
 
@@ -12538,15 +12552,15 @@ msgstr "St_ørrelse:"
 msgid "Text Properties"
 msgstr "Egenskaper for tekst"
 
-#: ../e-util/e-html-editor-view.c:3360
+#: ../e-util/e-html-editor-view.c:3345
 msgid "Changed property"
 msgstr "Endret egenskap"
 
-#: ../e-util/e-html-editor-view.c:3361
+#: ../e-util/e-html-editor-view.c:3346
 msgid "Whether editor changed"
 msgstr "Hvorvidt redigering ble endret"
 
-#: ../e-util/e-html-editor-view.c:7155
+#: ../e-util/e-html-editor-view.c:7140
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12554,11 +12568,11 @@ msgstr ""
 "Hvis du slår av HTML-modus vil teksten miste all formatering. Vil du "
 "fortsette?"
 
-#: ../e-util/e-html-editor-view.c:7159
+#: ../e-util/e-html-editor-view.c:7144
 msgid "_Don't lose formatting"
 msgstr "_Ta vare på formatering"
 
-#: ../e-util/e-html-editor-view.c:7160
+#: ../e-util/e-html-editor-view.c:7145
 msgid "_Lose formatting"
 msgstr "_Ikke ta vare på formatering"
 
@@ -15495,7 +15509,7 @@ msgstr "Ikke varsle meg igjen"
 
 #: ../mail/e-mail-reader-utils.c:556
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1800
-#: ../plugins/face/face.c:170 ../shell/e-shell.c:852 ../shell/e-shell.c:873
+#: ../plugins/face/face.c:170 ../shell/e-shell.c:861 ../shell/e-shell.c:882
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Ukjent feil"
@@ -15731,7 +15745,7 @@ msgid "Subscribe To _All"
 msgstr "Abonner på _alle"
 
 #: ../mail/em-subscription-editor.c:969 ../mail/em-subscription-editor.c:1867
-#: ../modules/mail/e-mail-shell-view-actions.c:1685
+#: ../modules/mail/e-mail-shell-view-actions.c:1686
 msgid "_Unsubscribe"
 msgstr "_Fjern abonnement"
 
@@ -15768,7 +15782,7 @@ msgid "Su_bscribe"
 msgstr "A_bonner"
 
 #: ../mail/em-subscription-editor.c:1866
-#: ../modules/mail/e-mail-shell-view-actions.c:1687
+#: ../modules/mail/e-mail-shell-view-actions.c:1688
 msgid "Unsubscribe from the selected folder"
 msgstr "Fjern abonnement på valgt mappe"
 
@@ -15794,7 +15808,7 @@ msgstr "Oppdater mappelisten"
 
 #: ../mail/em-subscription-editor.c:1929
 #: ../modules/mail/e-mail-shell-view-actions.c:1587
-#: ../modules/mail/e-mail-shell-view-actions.c:1657
+#: ../modules/mail/e-mail-shell-view-actions.c:1658
 msgid "_Refresh"
 msgstr "Oppdate_r"
 
@@ -16703,8 +16717,8 @@ msgid "_Delete junk messages"
 msgstr "_Slett uønskede meldinger"
 
 #: ../mail/mail-config.ui.h:116
-msgid "Just Test Options"
-msgstr "Alternativer for test"
+msgid "Junk Test Options"
+msgstr "Alternativer for test av søppelpost"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -17510,13 +17524,14 @@ msgid "Message is not available in offline mode."
 msgstr "Meldingen er ikke tilgjengelig i frakoblet modus."
 
 #: ../mail/mail.error.xml.h:161
+#, fuzzy
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
 "is online again, use File-&gt;Download Messages for Offline Usage, when this "
 "folder is selected, to make sure that all the messages in the folder will be "
 "available in offline mode."
-msgstr ""
+msgstr "Dette kan være fordi meldingen ikke er lastet ned ennå. Mappen, eller kontoen kan være merket for frakoblet synkronisering."
 
 #: ../mail/mail.error.xml.h:162
 msgid "Failed to open folder."
@@ -17606,7 +17621,7 @@ msgstr "Send & motta e-post"
 msgid "Cancel _All"
 msgstr "Avbryt _alle"
 
-#: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:1248
+#: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:1249
 msgid "Updating..."
 msgstr "Oppdaterer …"
 
@@ -17619,17 +17634,17 @@ msgstr "Venter …"
 msgid "Checking for new mail at '%s'"
 msgstr "Ser etter nye meldinger på «%s»"
 
-#: ../mail/mail-send-recv.c:1421
+#: ../mail/mail-send-recv.c:1434
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
 msgstr "Sletter søppel og tømmer papirkurv ved «%s»"
 
-#: ../mail/mail-send-recv.c:1423
+#: ../mail/mail-send-recv.c:1436
 #, c-format
 msgid "Deleting junk at '%s'"
 msgstr "Sletter søppelpost ved «%s»"
 
-#: ../mail/mail-send-recv.c:1425
+#: ../mail/mail-send-recv.c:1438
 #, c-format
 msgid "Expunging trash at '%s'"
 msgstr "Tømmer søppelpost i «%s»"
@@ -17778,32 +17793,32 @@ msgid "Subject or Addresses contains"
 msgstr "Emne eller adresser inneholder"
 
 #: ../mail/searchtypes.xml.in.h:56
-#: ../modules/mail/e-mail-shell-view-actions.c:2063
+#: ../modules/mail/e-mail-shell-view-actions.c:2064
 msgid "Recipients contain"
 msgstr "Mottakere inneholder"
 
 #: ../mail/searchtypes.xml.in.h:57
-#: ../modules/mail/e-mail-shell-view-actions.c:2056
+#: ../modules/mail/e-mail-shell-view-actions.c:2057
 msgid "Message contains"
 msgstr "Melding inneholder"
 
 #: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2077
+#: ../modules/mail/e-mail-shell-view-actions.c:2078
 msgid "Subject contains"
 msgstr "Emne inneholder"
 
 #: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2070
+#: ../modules/mail/e-mail-shell-view-actions.c:2071
 msgid "Sender contains"
 msgstr "Avsender inneholder"
 
 #: ../mail/searchtypes.xml.in.h:60
-#: ../modules/mail/e-mail-shell-view-actions.c:2042
+#: ../modules/mail/e-mail-shell-view-actions.c:2043
 msgid "Body contains"
 msgstr "Kropp inneholder"
 
 #: ../mail/searchtypes.xml.in.h:61
-#: ../modules/mail/e-mail-shell-view-actions.c:2049
+#: ../modules/mail/e-mail-shell-view-actions.c:2050
 msgid "Free form expression"
 msgstr "Fritt uttrykk"
 
@@ -17957,7 +17972,7 @@ msgstr "Vis kart med alle kontakter fra valgt adressebok"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1261
 #: ../modules/calendar/e-memo-shell-view-actions.c:585
 #: ../modules/calendar/e-task-shell-view-actions.c:710
-#: ../modules/mail/e-mail-shell-view-actions.c:1664
+#: ../modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Rename..."
 msgstr "End_re navn …"
 
@@ -18038,7 +18053,7 @@ msgstr "H_andlinger"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1058
 #: ../modules/calendar/e-memo-shell-view-actions.c:622
 #: ../modules/calendar/e-task-shell-view-actions.c:775
-#: ../modules/mail/e-mail-shell-view-actions.c:1829
+#: ../modules/mail/e-mail-shell-view-actions.c:1830
 msgid "_Preview"
 msgstr "_Forhåndsvis"
 
@@ -18065,7 +18080,7 @@ msgstr "Vis kart i forhåndsvisning av kontakter"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1140
 #: ../modules/calendar/e-memo-shell-view-actions.c:692
 #: ../modules/calendar/e-task-shell-view-actions.c:857
-#: ../modules/mail/e-mail-shell-view-actions.c:1959
+#: ../modules/mail/e-mail-shell-view-actions.c:1960
 msgid "_Classic View"
 msgstr "_Klassisk visning"
 
@@ -18076,7 +18091,7 @@ msgstr "Vis forhåndsvisning av kontakt under kontaktlisten"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1147
 #: ../modules/calendar/e-memo-shell-view-actions.c:699
 #: ../modules/calendar/e-task-shell-view-actions.c:864
-#: ../modules/mail/e-mail-shell-view-actions.c:1966
+#: ../modules/mail/e-mail-shell-view-actions.c:1967
 msgid "_Vertical View"
 msgstr "_Vertikal visning"
 
@@ -18095,7 +18110,7 @@ msgstr "Ingen treff"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1604
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
 #: ../modules/calendar/e-task-shell-view-actions.c:926
-#: ../modules/mail/e-mail-shell-view-actions.c:2035
+#: ../modules/mail/e-mail-shell-view-actions.c:2036
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Avansert søk"
@@ -20711,12 +20726,12 @@ msgid "Permanently remove all deleted messages from this folder"
 msgstr "Fjern alle slettede meldinger fra denne mappen permanent"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1629
-#: ../modules/mail/e-mail-shell-view-actions.c:1729
+#: ../modules/mail/e-mail-shell-view-actions.c:1730
 msgid "Mar_k All Messages as Read"
 msgstr "Mer_k alle meldinger som lest"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1631
-#: ../modules/mail/e-mail-shell-view-actions.c:1731
+#: ../modules/mail/e-mail-shell-view-actions.c:1732
 msgid "Mark all messages in the folder as read"
 msgstr "Merk alle meldinger i en mappe som lest"
 
@@ -20728,233 +20743,234 @@ msgstr "Flytt _mappe til …"
 msgid "Move the selected folder into another folder"
 msgstr "Flytt valgt mappe til en annen mappe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1643
+#. Translators: An action caption to create a new mail folder
+#: ../modules/mail/e-mail-shell-view-actions.c:1644
 msgid "_New..."
 msgstr "_Ny …"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1645
+#: ../modules/mail/e-mail-shell-view-actions.c:1646
 msgid "Create a new folder for storing mail"
 msgstr "Lag en ny mappe for lagring av meldinger"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1652
+#: ../modules/mail/e-mail-shell-view-actions.c:1653
 msgid "Change the properties of this folder"
 msgstr "Endre egenskaper for denne mappen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1659
+#: ../modules/mail/e-mail-shell-view-actions.c:1660
 msgid "Refresh the folder"
 msgstr "Oppdater mappen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1666
+#: ../modules/mail/e-mail-shell-view-actions.c:1667
 msgid "Change the name of this folder"
 msgstr "Endre navn på denne mappen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1671
+#: ../modules/mail/e-mail-shell-view-actions.c:1672
 msgid "Select Message _Thread"
 msgstr "Velg meldings_tråd"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1673
+#: ../modules/mail/e-mail-shell-view-actions.c:1674
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Velg alle meldinger i samme tråd som den valgte meldingen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1678
+#: ../modules/mail/e-mail-shell-view-actions.c:1679
 msgid "Select Message S_ubthread"
 msgstr "Velg _undertråd for melding"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1680
+#: ../modules/mail/e-mail-shell-view-actions.c:1681
 msgid "Select all replies to the currently selected message"
 msgstr "Velg alle svar til den valgt melding"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1692
+#: ../modules/mail/e-mail-shell-view-actions.c:1693
 msgid "Empty _Trash"
 msgstr "Tøm _papirkurven"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1694
+#: ../modules/mail/e-mail-shell-view-actions.c:1695
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Fjern alle slettede meldinger fra alle kontoer permanent"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1699
+#: ../modules/mail/e-mail-shell-view-actions.c:1700
 msgid "_New Label"
 msgstr "_Ny etikett"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1708
+#: ../modules/mail/e-mail-shell-view-actions.c:1709
 msgid "N_one"
 msgstr "_Ingen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1722
+#: ../modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Manage Subscriptions"
 msgstr "_Håndter abonnement"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1724
-#: ../modules/mail/e-mail-shell-view-actions.c:1808
+#: ../modules/mail/e-mail-shell-view-actions.c:1725
+#: ../modules/mail/e-mail-shell-view-actions.c:1809
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Abonner eller fjern abonnement på mapper på eksterne tjenere"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1736
-#: ../modules/mail/e-mail-shell-view-actions.c:1757
+#: ../modules/mail/e-mail-shell-view-actions.c:1737
+#: ../modules/mail/e-mail-shell-view-actions.c:1758
 msgid "Send / _Receive"
 msgstr "Send / _motta"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1738
+#: ../modules/mail/e-mail-shell-view-actions.c:1739
 msgid "Send queued items and retrieve new items"
 msgstr "Send kølagte oppføringer og hent nye oppføringer"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1743
+#: ../modules/mail/e-mail-shell-view-actions.c:1744
 msgid "R_eceive All"
 msgstr "Motta all_e"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1745
+#: ../modules/mail/e-mail-shell-view-actions.c:1746
 msgid "Receive new items from all accounts"
 msgstr "Motta nye oppføringer fra alle kontoer"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1750
+#: ../modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Send All"
 msgstr "_Send alle"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1752
+#: ../modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Send queued items in all accounts"
 msgstr "Send kølagte oppføringer i alle kontoer"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1780
+#: ../modules/mail/e-mail-shell-view-actions.c:1781
 msgid "Cancel the current mail operation"
 msgstr "Avbryt aktiv e-postoperasjon"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1785
+#: ../modules/mail/e-mail-shell-view-actions.c:1786
 msgid "Collapse All _Threads"
 msgstr "Slå sammen alle _tråder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1787
+#: ../modules/mail/e-mail-shell-view-actions.c:1788
 msgid "Collapse all message threads"
 msgstr "Slå sammen alle meldingstråder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1792
+#: ../modules/mail/e-mail-shell-view-actions.c:1793
 msgid "E_xpand All Threads"
 msgstr "Ut_vid alle tråder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1794
+#: ../modules/mail/e-mail-shell-view-actions.c:1795
 msgid "Expand all message threads"
 msgstr "Utvid alle meldingstråder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1799
+#: ../modules/mail/e-mail-shell-view-actions.c:1800
 msgid "_Message Filters"
 msgstr "_Meldingsfiltre"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1801
+#: ../modules/mail/e-mail-shell-view-actions.c:1802
 msgid "Create or edit rules for filtering new mail"
 msgstr "Opprett eller rediger regler for filtrering av ny e-post"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1806
+#: ../modules/mail/e-mail-shell-view-actions.c:1807
 msgid "_Subscriptions..."
 msgstr "_Abonnement …"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1815
+#: ../modules/mail/e-mail-shell-view-actions.c:1816
 msgid "F_older"
 msgstr "M_appe"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1822
+#: ../modules/mail/e-mail-shell-view-actions.c:1823
 msgid "_Label"
 msgstr "_Etikett"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1839
+#: ../modules/mail/e-mail-shell-view-actions.c:1840
 msgid "C_reate Search Folder From Search..."
 msgstr "Opp_rett søkemappe fra søk …"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1846
+#: ../modules/mail/e-mail-shell-view-actions.c:1847
 msgid "Search F_olders"
 msgstr "Søk i _mapper"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1848
+#: ../modules/mail/e-mail-shell-view-actions.c:1849
 msgid "Create or edit search folder definitions"
 msgstr "Opprett eller rediger søkemappedefinisjoner"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1887
+#: ../modules/mail/e-mail-shell-view-actions.c:1888
 msgid "_New Folder..."
 msgstr "_Ny mappe …"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1915
+#: ../modules/mail/e-mail-shell-view-actions.c:1916
 msgid "Show Message _Preview"
 msgstr "Vis _forhåndsvisning av melding"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1917
+#: ../modules/mail/e-mail-shell-view-actions.c:1918
 msgid "Show message preview pane"
 msgstr "Vis område for forhåndsvisning av melding"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1923
+#: ../modules/mail/e-mail-shell-view-actions.c:1924
 msgid "Show _Deleted Messages"
 msgstr "Vis slette_de meldinger"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1925
+#: ../modules/mail/e-mail-shell-view-actions.c:1926
 msgid "Show deleted messages with a line through them"
 msgstr "Vis slettede meldinger som gjennomstreket i meldingslisten."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1931
+#: ../modules/mail/e-mail-shell-view-actions.c:1932
 msgid "_Group By Threads"
 msgstr "_Grupper etter tråder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1933
+#: ../modules/mail/e-mail-shell-view-actions.c:1934
 msgid "Threaded message list"
 msgstr "Meldingsliste med tråder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1939
+#: ../modules/mail/e-mail-shell-view-actions.c:1940
 msgid "_Unmatched Folder Enabled"
 msgstr "Mapper _uten treff er aktivert"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1941
+#: ../modules/mail/e-mail-shell-view-actions.c:1942
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Slår av/på søkemapper for oppføringer uten treff"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1961
+#: ../modules/mail/e-mail-shell-view-actions.c:1962
 msgid "Show message preview below the message list"
 msgstr "Vis meldingen under meldingslisten"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1968
+#: ../modules/mail/e-mail-shell-view-actions.c:1969
 msgid "Show message preview alongside the message list"
 msgstr "Vis meldingen ved siden av meldingslisten"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1976
+#: ../modules/mail/e-mail-shell-view-actions.c:1977
 msgid "All Messages"
 msgstr "Alle meldinger"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1983
+#: ../modules/mail/e-mail-shell-view-actions.c:1984
 msgid "Important Messages"
 msgstr "Viktige meldinger"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1990
+#: ../modules/mail/e-mail-shell-view-actions.c:1991
 msgid "Last 5 Days' Messages"
 msgstr "Meldinger fra de siste 5 dagene"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1997
+#: ../modules/mail/e-mail-shell-view-actions.c:1998
 msgid "Messages Not Junk"
 msgstr "Meldinger som ikke er uønsket e-post"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2004
+#: ../modules/mail/e-mail-shell-view-actions.c:2005
 msgid "Messages with Attachments"
 msgstr "Meldinger med vedlegg"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2011
+#: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "No Label"
 msgstr "Ingen etikett"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2018
+#: ../modules/mail/e-mail-shell-view-actions.c:2019
 msgid "Read Messages"
 msgstr "Leste meldinger"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2025
+#: ../modules/mail/e-mail-shell-view-actions.c:2026
 msgid "Unread Messages"
 msgstr "Uleste meldinger"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2084
+#: ../modules/mail/e-mail-shell-view-actions.c:2085
 msgid "Subject or Addresses contain"
 msgstr "Emne eller adresser inneholder"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2094
+#: ../modules/mail/e-mail-shell-view-actions.c:2095
 msgid "All Accounts"
 msgstr "Alle konti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2101
+#: ../modules/mail/e-mail-shell-view-actions.c:2102
 msgid "Current Account"
 msgstr "Denne kontoen"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2108
+#: ../modules/mail/e-mail-shell-view-actions.c:2109
 msgid "Current Folder"
 msgstr "Denne mappen"
 
@@ -22097,7 +22113,25 @@ msgstr "Varsler når nye meldinger ankommer."
 msgid "Created from a mail by %s"
 msgstr "Opprettet av en e-post fra %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:613
+#. Translators: Dialog button to Cancel edit of an existing event/memo/task
+#: ../plugins/mail-to-task/mail-to-task.c:594
+msgctxt "mail-to-task"
+msgid "_Cancel"
+msgstr "A_vbryt"
+
+#. Translators: Dialog button to Edit an existing event/memo/task
+#: ../plugins/mail-to-task/mail-to-task.c:596
+msgctxt "mail-to-task"
+msgid "_Edit"
+msgstr "R_ediger"
+
+#. Translators: Dialog button to create a New event/memo/task
+#: ../plugins/mail-to-task/mail-to-task.c:598
+msgctxt "mail-to-task"
+msgid "_New"
+msgstr "_Ny"
+
+#: ../plugins/mail-to-task/mail-to-task.c:616
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -22106,7 +22140,7 @@ msgstr ""
 "Valgt kalender inneholder hendelsen «%s» allerede. Vil du redigere den gamle "
 "hendelsen?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:616
+#: ../plugins/mail-to-task/mail-to-task.c:619
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -22115,7 +22149,7 @@ msgstr ""
 "Valgt oppgaveliste inneholder oppgave «%s» allerede. Vil du redigere den "
 "gamle oppgaven?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:619
+#: ../plugins/mail-to-task/mail-to-task.c:622
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -22124,7 +22158,7 @@ msgstr ""
 "Valgt notatliste inneholder notatet «%s» allerede. Vil du redigere det gamle "
 "notatet?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:639
+#: ../plugins/mail-to-task/mail-to-task.c:642
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -22139,7 +22173,7 @@ msgstr[1] ""
 "Du har valgt %d meldinger som skal konverteres til hendelser. Vil du "
 "virkelig legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:646
+#: ../plugins/mail-to-task/mail-to-task.c:649
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -22154,7 +22188,7 @@ msgstr[1] ""
 "Du har valgt %d meldinger som skal konverteres til oppgaver. Vil du virkelig "
 "legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:653
+#: ../plugins/mail-to-task/mail-to-task.c:656
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -22169,29 +22203,29 @@ msgstr[1] ""
 "Du har valgt %d meldinger som skal konverteres til notater. Vil du virkelig "
 "legge dem til?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:674
+#: ../plugins/mail-to-task/mail-to-task.c:677
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Vil du fortsette med konvertering av gjenstående meldinger?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:750
+#: ../plugins/mail-to-task/mail-to-task.c:753
 msgid "[No Summary]"
 msgstr "[Ingen sammendrag]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:763
+#: ../plugins/mail-to-task/mail-to-task.c:766
 msgid "Invalid object returned from a server"
 msgstr "Ugyldig objekt returnert fra en tjener"
 
-#: ../plugins/mail-to-task/mail-to-task.c:818
+#: ../plugins/mail-to-task/mail-to-task.c:821
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "En feil oppsto under prosessering: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:854
+#: ../plugins/mail-to-task/mail-to-task.c:857
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kan ikke åpne kalender. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:858
+#: ../plugins/mail-to-task/mail-to-task.c:861
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -22199,7 +22233,7 @@ msgstr ""
 "Valgt kalender er skrivebeskyttet og hendelser kan ikke opprettes der. Velg "
 "en annen kalender."
 
-#: ../plugins/mail-to-task/mail-to-task.c:861
+#: ../plugins/mail-to-task/mail-to-task.c:864
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -22207,7 +22241,7 @@ msgstr ""
 "Valgt oppgaveliste er skrivebeskyttet og oppgaver kan ikke opprettes der. "
 "Velg en annen oppgaveliste."
 
-#: ../plugins/mail-to-task/mail-to-task.c:864
+#: ../plugins/mail-to-task/mail-to-task.c:867
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -22215,35 +22249,35 @@ msgstr ""
 "Valgt notantliste er skrivebeskyttet og notater kan ikke opprettes der. Velg "
 "en annen notatliste."
 
-#: ../plugins/mail-to-task/mail-to-task.c:1266
+#: ../plugins/mail-to-task/mail-to-task.c:1269
 msgid "Create an _Appointment"
 msgstr "Lag en _avtale"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1268
+#: ../plugins/mail-to-task/mail-to-task.c:1271
 msgid "Create a new event from the selected message"
 msgstr " Lag en ny hendelse fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1273
+#: ../plugins/mail-to-task/mail-to-task.c:1276
 msgid "Create a Mem_o"
 msgstr "Lag et n_otat"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1275
+#: ../plugins/mail-to-task/mail-to-task.c:1278
 msgid "Create a new memo from the selected message"
 msgstr "Lag et nytt notat fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1280
+#: ../plugins/mail-to-task/mail-to-task.c:1283
 msgid "Create a _Task"
 msgstr "Lag en o_ppgave"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1282
+#: ../plugins/mail-to-task/mail-to-task.c:1285
 msgid "Create a new task from the selected message"
 msgstr "Lag en ny oppgave fra den valgte meldingen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1290
+#: ../plugins/mail-to-task/mail-to-task.c:1293
 msgid "Create a _Meeting"
 msgstr "Lag et _møte"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1292
+#: ../plugins/mail-to-task/mail-to-task.c:1295
 msgid "Create a new meeting from the selected message"
 msgstr "Lag et nytt møte fra den valgte meldingen"
 
@@ -22599,23 +22633,23 @@ msgstr "Lagre som _mal"
 msgid "Save as Template"
 msgstr "Lagre som mal"
 
-#: ../shell/e-shell.c:326
+#: ../shell/e-shell.c:335
 msgid "Preparing to go offline..."
 msgstr "Forbereder frakoblet bruk …"
 
-#: ../shell/e-shell.c:379
+#: ../shell/e-shell.c:388
 msgid "Preparing to go online..."
 msgstr "Forbereder tilkoblet bruk …"
 
-#: ../shell/e-shell.c:486
+#: ../shell/e-shell.c:495
 msgid "Preparing to quit"
 msgstr "Forbereder å avslutte"
 
-#: ../shell/e-shell.c:492
+#: ../shell/e-shell.c:501
 msgid "Preparing to quit..."
 msgstr "Forbereder å avslutte …"
 
-#: ../shell/e-shell.c:900
+#: ../shell/e-shell.c:909
 msgid "Credentials are required to connect to the destination host."
 msgstr "Påloggingsinformasjon kreves for å koble til målverten."
 
@@ -22810,135 +22844,143 @@ msgstr "Sett Evolution i tilkoblet modus"
 msgid "Lay_out"
 msgstr "Utf_orming"
 
-#: ../shell/e-shell-window-actions.c:1106
+#. Translators: This is a New menu item caption, under File->New
+#: ../shell/e-shell-window-actions.c:1100
+msgid "_New"
+msgstr "_Ny"
+
+#: ../shell/e-shell-window-actions.c:1107
 msgid "_Search"
 msgstr "_Søk"
 
-#: ../shell/e-shell-window-actions.c:1113
+#: ../shell/e-shell-window-actions.c:1114
 msgid "_Switcher Appearance"
 msgstr "Ut_seende for bytter"
 
-#: ../shell/e-shell-window-actions.c:1127
+#: ../shell/e-shell-window-actions.c:1128
 msgid "_Window"
 msgstr "_Vindu"
 
-#: ../shell/e-shell-window-actions.c:1156
+#: ../shell/e-shell-window-actions.c:1157
 msgid "Show Side _Bar"
 msgstr "Vis si_delinje"
 
-#: ../shell/e-shell-window-actions.c:1158
+#: ../shell/e-shell-window-actions.c:1159
 msgid "Show the side bar"
 msgstr "Vis sidelinjen"
 
-#: ../shell/e-shell-window-actions.c:1164
+#: ../shell/e-shell-window-actions.c:1165
 msgid "Show _Buttons"
 msgstr "Vis _knapper"
 
-#: ../shell/e-shell-window-actions.c:1166
+#: ../shell/e-shell-window-actions.c:1167
 msgid "Show the switcher buttons"
 msgstr "Vis knapper for bytter"
 
-#: ../shell/e-shell-window-actions.c:1172
+#: ../shell/e-shell-window-actions.c:1173
 msgid "Show _Status Bar"
 msgstr "Vis _statuslinje"
 
-#: ../shell/e-shell-window-actions.c:1174
+#: ../shell/e-shell-window-actions.c:1175
 msgid "Show the status bar"
 msgstr "Vis statuslinjen"
 
-#: ../shell/e-shell-window-actions.c:1180
+#: ../shell/e-shell-window-actions.c:1181
 msgid "Show _Tool Bar"
 msgstr "Vis verk_tøylinjen"
 
-#: ../shell/e-shell-window-actions.c:1182
+#: ../shell/e-shell-window-actions.c:1183
 msgid "Show the tool bar"
 msgstr "Vis verktøylinjen"
 
-#: ../shell/e-shell-window-actions.c:1204
+#: ../shell/e-shell-window-actions.c:1205
 msgid "_Icons Only"
 msgstr "Kun _ikoner"
 
-#: ../shell/e-shell-window-actions.c:1206
+#: ../shell/e-shell-window-actions.c:1207
 msgid "Display window buttons with icons only"
 msgstr "Vis bare ikoner på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1211
+#: ../shell/e-shell-window-actions.c:1212
 msgid "_Text Only"
 msgstr "Kun _tekst"
 
-#: ../shell/e-shell-window-actions.c:1213
+#: ../shell/e-shell-window-actions.c:1214
 msgid "Display window buttons with text only"
 msgstr "Vis bare tekst på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1218
+#: ../shell/e-shell-window-actions.c:1219
 msgid "Icons _and Text"
 msgstr "Ikoner _og tekst"
 
-#: ../shell/e-shell-window-actions.c:1220
+#: ../shell/e-shell-window-actions.c:1221
 msgid "Display window buttons with icons and text"
 msgstr "Vis tekst og ikoner på vinduknapper"
 
-#: ../shell/e-shell-window-actions.c:1225
+#: ../shell/e-shell-window-actions.c:1226
 msgid "Tool_bar Style"
 msgstr "S_til for verktøylinje"
 
-#: ../shell/e-shell-window-actions.c:1227
+#: ../shell/e-shell-window-actions.c:1228
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Vis vinduknapper ved å bruke instillinger for verktøylinjen på skrivebordet"
 
-#: ../shell/e-shell-window-actions.c:1235
+#: ../shell/e-shell-window-actions.c:1236
 msgid "Delete Current View"
 msgstr "Slett aktiv visning"
 
-#: ../shell/e-shell-window-actions.c:1242
+#: ../shell/e-shell-window-actions.c:1243
 msgid "Save Custom View..."
 msgstr "Lagre egendefinert visning …"
 
-#: ../shell/e-shell-window-actions.c:1244
+#: ../shell/e-shell-window-actions.c:1245
 msgid "Save current custom view"
 msgstr "Lagre aktiv egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1251
+#: ../shell/e-shell-window-actions.c:1252
 msgid "C_urrent View"
 msgstr "A_ktiv visning"
 
-#: ../shell/e-shell-window-actions.c:1261
+#: ../shell/e-shell-window-actions.c:1262
 msgid "Custom View"
 msgstr "Egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1263
+#: ../shell/e-shell-window-actions.c:1264
 msgid "Current view is a customized view"
 msgstr "Aktiv visning er en egendefinert visning"
 
-#: ../shell/e-shell-window-actions.c:1271
+#: ../shell/e-shell-window-actions.c:1272
 msgid "Page Set_up..."
 msgstr "Side_oppsett …"
 
-#: ../shell/e-shell-window-actions.c:1273
+#: ../shell/e-shell-window-actions.c:1274
 msgid "Change the page settings for your current printer"
 msgstr "Endre sideinnstillingene for din skriver"
 
-#: ../shell/e-shell-window-actions.c:1634
+#: ../shell/e-shell-window-actions.c:1635
 #, c-format
 msgid "Switch to %s"
 msgstr "Bytt til %s"
 
-#: ../shell/e-shell-window-actions.c:1757
+#: ../shell/e-shell-window-actions.c:1758
 #, c-format
 msgid "Select view: %s"
 msgstr "Velg visning: %s"
 
-#: ../shell/e-shell-window-actions.c:1774
+#: ../shell/e-shell-window-actions.c:1775
 #, c-format
 msgid "Delete view: %s"
 msgstr "Slett visning: %s"
 
-#: ../shell/e-shell-window-actions.c:1868
+#: ../shell/e-shell-window-actions.c:1869
 msgid "Execute these search parameters"
 msgstr "Kjør disse søkeparameterene"
 
-#: ../shell/e-shell-window.c:503
+#. Translators: a 'New' toolbar button caption which is context sensitive and
+#. runs one of the actions under File->New menu
+#: ../shell/e-shell-window.c:505
+msgctxt "toolbar-button"
 msgid "New"
 msgstr "Ny"
 
@@ -23115,7 +23157,10 @@ msgid ""
 "Evolution is taking a long time to shut down, possibly due to network "
 "connectivity issues. Would you like to cancel all pending operations and "
 "close immediately, or keep waiting?"
-msgstr "Evolution bruker lang tid på  å stenge ned - kanskje pga. nettverksproblemer. Vil du avbryte alle utestående operasjoner og lukke programmet med det samme eller fortsette å vente?"
+msgstr ""
+"Evolution bruker lang tid på  å stenge ned - kanskje pga. "
+"nettverksproblemer. Vil du avbryte alle utestående operasjoner og lukke "
+"programmet med det samme eller fortsette å vente?"
 
 #: ../shell/shell.error.xml.h:13
 msgid "_Close Immediately"
@@ -23287,7 +23332,8 @@ msgid ""
 "you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
-"Passordet du har satt for sikkerhetskopiering av sertifikat beskytter sikkerhetskopifilen du holder på å lage.\n"
+"Passordet du har satt for sikkerhetskopiering av sertifikat beskytter "
+"sikkerhetskopifilen du holder på å lage.\n"
 "Du må sette dette passordet for å fortsette med sikkerhetskopieringen."
 
 #: ../smime/gui/certificate-manager.c:786
@@ -23400,7 +23446,9 @@ msgstr "_Ultimat"
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
-msgstr "Før du stoler på dette nettstedet bør du undersøke sertifikatet og dets regelsett og prosedyrer (hvis tilgjengelig)."
+msgstr ""
+"Før du stoler på dette nettstedet bør du undersøke sertifikatet og dets "
+"regelsett og prosedyrer (hvis tilgjengelig)."
 
 #: ../smime/gui/certificate-manager.c:1393
 msgid "_Display certificate"
