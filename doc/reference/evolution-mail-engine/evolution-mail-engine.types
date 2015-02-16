@@ -2,7 +2,6 @@
 
 camel_null_store_get_type
 camel_sasl_xoauth2_get_type
-e_mail_authenticator_get_type
 e_mail_junk_filter_get_type
 e_mail_session_get_type
 em_filter_folder_element_get_type

@@ -32,26 +32,6 @@ CamelSaslXOAuth2Private
 </SECTION>
 
 <SECTION>
-<FILE>e-mail-authenticator</FILE>
-<TITLE>EMailAuthenticator</TITLE>
-EMailAuthenticator
-e_mail_authenticator_new
-e_mail_authenticator_get_service
-e_mail_authenticator_get_mechanism
-<SUBSECTION Standard>
-E_MAIL_AUTHENTICATOR
-E_IS_MAIL_AUTHENTICATOR
-E_TYPE_MAIL_AUTHENTICATOR
-E_MAIL_AUTHENTICATOR_CLASS
-E_IS_MAIL_AUTHENTICATOR_CLASS
-E_MAIL_AUTHENTICATOR_GET_CLASS
-EMailAuthenticatorClass
-e_mail_authenticator_get_type
-<SUBSECTION Private>
-EMailAuthenticatorPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-mail-junk-filter</FILE>
 <TITLE>EMailJunkFilter</TITLE>
 EMailJunkFilter
