@@ -9,7 +9,7 @@
     <key name="command" type="s">
       <default>''</default>
       <_summary>Full path command to run Bogofilter</_summary>
-      <_description>Full path to a Bogofilter command. If not set, then a compile-time path is used, usually /usr/bin/bogofilter. The command might not contain any other arguments.</_description>
+      <_description>Full path to a Bogofilter command. If not set, then a compile-time path is used, usually /usr/bin/bogofilter. The command should not contain any other arguments.</_description>
     </key>
   </schema>
 </schemalist>
