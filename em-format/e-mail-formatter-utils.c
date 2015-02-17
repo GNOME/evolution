@@ -567,7 +567,7 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
 			if (tmp->len > 0)
 				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("GPG encrpyted"));
+			g_string_append (tmp, _("GPG encrypted"));
 		}
 
 		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_SIGNED)) {
@@ -579,7 +579,7 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
 		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
 			if (tmp->len > 0)
 				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("S/MIME encrpyted"));
+			g_string_append (tmp, _("S/MIME encrypted"));
 		}
 
 		break;
