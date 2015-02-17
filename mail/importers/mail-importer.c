@@ -58,7 +58,7 @@ import_mbox_desc (struct _import_mbox_msg *m)
 static gchar *
 import_kmail_desc (struct _import_mbox_msg *m)
 {
-       return g_strdup (_("Importing mail and contact from KMail"));
+       return g_strdup (_("Importing mail and contacts from KMail"));
 }
 
 static struct {

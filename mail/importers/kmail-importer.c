@@ -260,7 +260,7 @@ kmail_getwidget (EImport *ei,
 
 	contact_list = kcontact_get_list ();
 	count = g_slist_length (contact_list);
-	contact_str = g_strdup_printf (_("%d Address"), count);
+	contact_str = g_strdup_printf (ngettext ("%d Address", "%d Addresses", count), count);
 	w = gtk_check_button_new_with_label (contact_str);
 	gtk_toggle_button_set_active ((GtkToggleButton *) w, TRUE);
 	g_signal_connect (
@@ -352,7 +352,7 @@ EImportImporter *
 kmail_importer_peek (void)
 {
 	kmail_importer.name = _("Evolution KMail importer");
-	kmail_importer.description = _("Import mail and contact from KMail.");
+	kmail_importer.description = _("Import mail and contacts from KMail.");
 
 	return &kmail_importer;
 }
