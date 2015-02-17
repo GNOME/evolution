@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-12 11:46+0000\n"
-"PO-Revision-Date: 2015-02-12 18:03+0100\n"
+"POT-Creation-Date: 2015-02-17 13:54+0000\n"
+"PO-Revision-Date: 2015-02-17 17:25+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -753,7 +753,7 @@ msgstr "Contacto no válido."
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
-#: ../e-util/e-html-editor-link-dialog.c:370 ../e-util/e-passwords.c:471
+#: ../e-util/e-html-editor-link-dialog.c:381 ../e-util/e-passwords.c:471
 #: ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
 #: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
@@ -2521,109 +2521,91 @@ msgstr "Falló al abrir la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-#| msgid "Failed to create an event in a calendar '{0}'"
 msgid "Failed to create an event in the calendar '{0}'"
 msgstr "Falló al crear un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:95
-#| msgid "Failed to create a memo in a memo list '{0}'"
 msgid "Failed to create a memo in the memo list '{0}'"
 msgstr "Falló al crear una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:97
-#| msgid "Failed to create a task in a task list '{0}'"
 msgid "Failed to create a task in the task list '{0}'"
 msgstr "Falló al crear una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-#| msgid "Failed to modify an event in a calendar '{0}'"
 msgid "Failed to modify an event in the calendar '{0}'"
 msgstr "Falló al modificar un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:101
-#| msgid "Failed to modify a memo in a memo list '{0}'"
 msgid "Failed to modify a memo in the memo list '{0}'"
 msgstr "Falló al modificar una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:103
-#| msgid "Failed to modify a task in a task list '{0}'"
 msgid "Failed to modify a task in the task list '{0}'"
 msgstr "Falló al modificar una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-#| msgid "Failed to delete an event in a calendar '{0}'"
 msgid "Failed to delete an event in the calendar '{0}'"
 msgstr "Falló al eliminar un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:107
-#| msgid "Failed to delete a memo in a memo list '{0}'"
 msgid "Failed to delete a memo in the memo list '{0}'"
 msgstr "Falló al eliminar una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:109
-#| msgid "Failed to delete a task in a task list '{0}'"
 msgid "Failed to delete a task in the task list '{0}'"
 msgstr "Falló al eliminar una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:111
-#| msgid "Failed to update an event in a calendar '{0}'"
 msgid "Failed to update an event in the calendar '{0}'"
 msgstr "Falló al actualizar un evento en el calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:113
-#| msgid "Failed to update a memo in a memo list '{0}'"
 msgid "Failed to update a memo in the memo list '{0}'"
 msgstr "Falló al actualizar una nota en la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
-#| msgid "Failed to update a task in a task list '{0}'"
 msgid "Failed to update a task in the task list '{0}'"
 msgstr "Falló al actualizar una tarea en la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
-#| msgid "Failed to send an event to a calendar '{0}'"
 msgid "Failed to send an event to the calendar '{0}'"
 msgstr "Falló al enviar un evento al calendario «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:119
-#| msgid "Failed to send a memo to a memo list '{0}'"
 msgid "Failed to send a memo to the memo list '{0}'"
 msgstr "Falló al enviar una nota a la lista de notas «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:121
-#| msgid "Failed to send a task to a task list '{0}'"
 msgid "Failed to send a task to the task list '{0}'"
 msgstr "Falló al enviar una tarea a la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-#| msgid "Error creating view for a calendar '{0}'"
 msgid "Error creating view for the calendar '{0}'"
 msgstr "Error al crear la vista para el calendario «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-#| msgid "Error creating view for a task list '{0}'"
 msgid "Error creating view for the task list '{0}'"
 msgstr "Error al crear la vista para la lista de tareas «{0}»"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-#| msgid "Error creating view for a memo list '{0}'"
 msgid "Error creating view for the memo list '{0}'"
 msgstr "Error al crear la vista para la lista de notas «{0}»"
 
@@ -3559,7 +3541,7 @@ msgstr "_Lugar:"
 #: ../calendar/gui/dialogs/task-page.ui.h:29
 #: ../e-util/e-attachment-dialog.c:356
 #: ../e-util/e-html-editor-image-dialog.c:514
-#: ../e-util/e-html-editor-link-dialog.c:356
+#: ../e-util/e-html-editor-link-dialog.c:367
 msgid "_Description:"
 msgstr "_Descripción:"
 
@@ -7523,7 +7505,7 @@ msgstr "Pulse aquí para la libreta de direcciones"
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
-#: ../composer/e-msg-composer.c:861
+#: ../composer/e-msg-composer.c:863
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7531,7 +7513,7 @@ msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:870
+#: ../composer/e-msg-composer.c:872
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7540,11 +7522,11 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1584 ../composer/e-msg-composer.c:2248
+#: ../composer/e-msg-composer.c:1586 ../composer/e-msg-composer.c:2272
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4506
+#: ../composer/e-msg-composer.c:4530
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
@@ -7926,9 +7908,13 @@ msgid "Full path command to run Bogofilter"
 msgstr "Ruta completa del comando para ejecutar Bogofilter"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
+#| msgid ""
+#| "Full path to a Bogofilter command. If not set, then a compile-time path "
+#| "is used, usually /usr/bin/bogofilter. The command might not contain any "
+#| "other arguments."
 msgid ""
 "Full path to a Bogofilter command. If not set, then a compile-time path is "
-"used, usually /usr/bin/bogofilter. The command might not contain any other "
+"used, usually /usr/bin/bogofilter. The command should not contain any other "
 "arguments."
 msgstr ""
 "Ruta completa al comando «Bogofilter». Si no está establecida, se usará una "
@@ -10361,10 +10347,14 @@ msgid "Full path command to run spamassassin"
 msgstr "Ruta completa del comando para ejecutar spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
+#| msgid ""
+#| "Full path to a spamassassin command. If not set, then a compile-time path "
+#| "is used, usually /usr/bin/spamassassin. The command might not contain any "
+#| "other arguments."
 msgid ""
 "Full path to a spamassassin command. If not set, then a compile-time path is "
-"used, usually /usr/bin/spamassassin. The command might not contain any other "
-"arguments."
+"used, usually /usr/bin/spamassassin. The command should not contain any "
+"other arguments."
 msgstr ""
 "Ruta completa al comando «spamassassin». Si no está establecida, se usará "
 "una ruta en tiempo de compilación, normalmente /usr/bin/spamassassin. El "
@@ -10375,9 +10365,13 @@ msgid "Full path command to run sa-learn"
 msgstr "Ruta completa del comando para ejecutar sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
+#| msgid ""
+#| "Full path to a sa-learn command. If not set, then a compile-time path is "
+#| "used, usually /usr/bin/sa-learn. The command might not contain any other "
+#| "arguments."
 msgid ""
 "Full path to a sa-learn command. If not set, then a compile-time path is "
-"used, usually /usr/bin/sa-learn. The command might not contain any other "
+"used, usually /usr/bin/sa-learn. The command should not contain any other "
 "arguments."
 msgstr ""
 "Ruta completa al comando «sa-learn». Si no está establecida, se usará una "
@@ -11114,19 +11108,16 @@ msgid "_Available Categories:"
 msgstr "Categorías _disponibles:"
 
 #: ../e-util/e-categories-editor.c:274
-#| msgid "_New"
 msgctxt "category"
 msgid "_New"
 msgstr "_Nuevo"
 
 #: ../e-util/e-categories-editor.c:278
-#| msgid "_Edit"
 msgctxt "category"
 msgid "_Edit"
 msgstr "_Editar"
 
 #: ../e-util/e-categories-editor.c:282
-#| msgid "_Delete"
 msgctxt "category"
 msgid "_Delete"
 msgstr "_Eliminar"
@@ -11925,7 +11916,6 @@ msgid "HTML file"
 msgstr "Archivo HTML"
 
 #: ../e-util/e-html-editor-actions.c:511
-#| msgid "Insert Image"
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Insertar imagen"
@@ -12457,19 +12447,19 @@ msgid "<b>Alignment &amp; Behavior</b>"
 msgstr "<b>Alineación y comportamiento</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:694
-#: ../e-util/e-html-editor-hrule-dialog.c:384
+#: ../e-util/e-html-editor-hrule-dialog.c:394
 #: ../e-util/e-html-editor-table-dialog.c:819
 msgid "Left"
 msgstr "Izquierda"
 
 #: ../e-util/e-html-editor-cell-dialog.c:695
-#: ../e-util/e-html-editor-hrule-dialog.c:386
+#: ../e-util/e-html-editor-hrule-dialog.c:396
 #: ../e-util/e-html-editor-table-dialog.c:820
 msgid "Center"
 msgstr "Centrado"
 
 #: ../e-util/e-html-editor-cell-dialog.c:696
-#: ../e-util/e-html-editor-hrule-dialog.c:388
+#: ../e-util/e-html-editor-hrule-dialog.c:398
 #: ../e-util/e-html-editor-table-dialog.c:821
 msgid "Right"
 msgstr "Derecha"
@@ -12590,36 +12580,36 @@ msgstr "_Ajustar búsqueda"
 msgid "Find"
 msgstr "Buscar"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:319
+#: ../e-util/e-html-editor-hrule-dialog.c:329
 msgid "<b>Size</b>"
 msgstr "<b>Tamaño</b>"
 
 #. Width
-#: ../e-util/e-html-editor-hrule-dialog.c:339
+#: ../e-util/e-html-editor-hrule-dialog.c:349
 #: ../e-util/e-html-editor-image-dialog.c:539
 #: ../e-util/e-html-editor-table-dialog.c:742
 msgid "_Width:"
 msgstr "A_nchura:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:364
+#: ../e-util/e-html-editor-hrule-dialog.c:374
 msgid "_Size:"
 msgstr "T_amaño:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:371
+#: ../e-util/e-html-editor-hrule-dialog.c:381
 msgid "<b>Style</b>"
 msgstr "<b>Estilo</b>"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:396
+#: ../e-util/e-html-editor-hrule-dialog.c:406
 #: ../e-util/e-html-editor-table-dialog.c:828
 msgid "_Alignment:"
 msgstr "_Alineación:"
 
 #. Shaded
-#: ../e-util/e-html-editor-hrule-dialog.c:402
+#: ../e-util/e-html-editor-hrule-dialog.c:412
 msgid "S_haded"
 msgstr "So_mbreado"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:419
+#: ../e-util/e-html-editor-hrule-dialog.c:429
 msgid "Rule properties"
 msgstr "Propiedades de la regla"
 
@@ -12655,12 +12645,12 @@ msgid "<b>Link</b>"
 msgstr "<b>Enlace</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:664
-#: ../e-util/e-html-editor-link-dialog.c:334
+#: ../e-util/e-html-editor-link-dialog.c:345
 msgid "_URL:"
 msgstr "_URL:"
 
 #: ../e-util/e-html-editor-image-dialog.c:669
-#: ../e-util/e-html-editor-link-dialog.c:339
+#: ../e-util/e-html-editor-link-dialog.c:350
 msgid "_Test URL..."
 msgstr "_Probar URL…"
 
@@ -12668,11 +12658,11 @@ msgstr "_Probar URL…"
 msgid "Image Properties"
 msgstr "Propiedades de la imagen"
 
-#: ../e-util/e-html-editor-link-dialog.c:363
+#: ../e-util/e-html-editor-link-dialog.c:374
 msgid "_Remove Link"
 msgstr "_Quitar enlace"
 
-#: ../e-util/e-html-editor-link-dialog.c:388
+#: ../e-util/e-html-editor-link-dialog.c:399
 msgid "Link Properties"
 msgstr "Propiedades del enlace"
 
@@ -12877,15 +12867,15 @@ msgstr "_Tamaño:"
 msgid "Text Properties"
 msgstr "Propiedades del texto"
 
-#: ../e-util/e-html-editor-view.c:3352
+#: ../e-util/e-html-editor-view.c:3345
 msgid "Changed property"
 msgstr "Propiedad cambiada"
 
-#: ../e-util/e-html-editor-view.c:3353
+#: ../e-util/e-html-editor-view.c:3346
 msgid "Whether editor changed"
 msgstr "Indica si cambió el editor"
 
-#: ../e-util/e-html-editor-view.c:7147
+#: ../e-util/e-html-editor-view.c:7140
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12893,11 +12883,11 @@ msgstr ""
 "Desactivar el modo HTML hará que el texto pierda todo su formato. ¿Quiere "
 "continuar?"
 
-#: ../e-util/e-html-editor-view.c:7151
+#: ../e-util/e-html-editor-view.c:7144
 msgid "_Don't lose formatting"
 msgstr "_No perder el formato"
 
-#: ../e-util/e-html-editor-view.c:7152
+#: ../e-util/e-html-editor-view.c:7145
 msgid "_Lose formatting"
 msgstr "_Perder el formato"
 
@@ -15868,7 +15858,7 @@ msgstr "No advertirme de nuevo"
 
 #: ../mail/e-mail-reader-utils.c:556
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:1800
-#: ../plugins/face/face.c:170 ../shell/e-shell.c:852 ../shell/e-shell.c:873
+#: ../plugins/face/face.c:170 ../shell/e-shell.c:861 ../shell/e-shell.c:882
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Error desconocido"
@@ -16584,16 +16574,20 @@ msgstr "Importador de carpetas en formato buzón de Berkeley"
 
 #: ../mail/importers/kmail-importer.c:263
 #, c-format
+#| msgid "%d Address"
 msgid "%d Address"
-msgstr "%d Dirección"
+msgid_plural "%d Addresses"
+msgstr[0] "%d dirección"
+msgstr[1] "%d direcciones"
 
 #: ../mail/importers/kmail-importer.c:354
 msgid "Evolution KMail importer"
 msgstr "Importador de KMail de Evolution"
 
 #: ../mail/importers/kmail-importer.c:355
-msgid "Import mail and contact from KMail."
-msgstr "Importar correo de y contactos de KMail."
+#| msgid "Import mail and contact from KMail."
+msgid "Import mail and contacts from KMail."
+msgstr "Importar correo y contactos de KMail."
 
 #: ../mail/importers/kmail-libs.c:152
 #: ../modules/mail/e-mail-shell-view-private.c:1082
@@ -16605,8 +16599,9 @@ msgid "Importing mailbox"
 msgstr "Importando buzón de correo"
 
 #: ../mail/importers/mail-importer.c:61
-msgid "Importing mail and contact from KMail"
-msgstr "Importando correo de y contactos de KMail"
+#| msgid "Importing mail and contact from KMail"
+msgid "Importing mail and contacts from KMail"
+msgstr "Importando correo y contactos de KMail"
 
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:151 ../mail/importers/mail-importer.c:276
@@ -17085,8 +17080,9 @@ msgid "_Delete junk messages"
 msgstr "_Eliminar los mensajes SPAM"
 
 #: ../mail/mail-config.ui.h:116
-msgid "Just Test Options"
-msgstr "Sólo probar las opciones"
+#| msgid "Just Test Options"
+msgid "Junk Test Options"
+msgstr "Opciones de prueba de spam"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -22538,21 +22534,18 @@ msgstr "Creado desde un correo de %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:594
-#| msgid "_Cancel"
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:596
-#| msgid "_Edit"
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Editar"
 
 #. Translators: Dialog button to create a New event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:598
-#| msgid "_New"
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Nuevo"
@@ -23059,23 +23052,23 @@ msgstr "Guardar como plan_tilla"
 msgid "Save as Template"
 msgstr "Guardar como plantilla"
 
-#: ../shell/e-shell.c:326
+#: ../shell/e-shell.c:335
 msgid "Preparing to go offline..."
 msgstr "Preparándose para desconectarse…"
 
-#: ../shell/e-shell.c:379
+#: ../shell/e-shell.c:388
 msgid "Preparing to go online..."
 msgstr "Preparándose para conectarse…"
 
-#: ../shell/e-shell.c:486
+#: ../shell/e-shell.c:495
 msgid "Preparing to quit"
 msgstr "Preparándose para salir"
 
-#: ../shell/e-shell.c:492
+#: ../shell/e-shell.c:501
 msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
-#: ../shell/e-shell.c:900
+#: ../shell/e-shell.c:909
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
@@ -23416,7 +23409,6 @@ msgstr "Ejecutar estos parámetros de búsqueda"
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
 #: ../shell/e-shell-window.c:505
-#| msgid "New"
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Nuevo"
