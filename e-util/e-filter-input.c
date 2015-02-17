@@ -79,7 +79,7 @@ filter_input_validate (EFilterElement *element,
 
 	g_warn_if_fail (alert == NULL || *alert == NULL);
 
-	if (input->values && !strcmp (input->type, "regex")) {
+	if (input->values && input->type && !strcmp (input->type, "regex")) {
 		const gchar *pattern;
 		regex_t regexpat;
 		gint regerr;
