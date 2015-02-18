@@ -116,6 +116,8 @@
     <separator/>
     <toolitem action='unindent'/>
     <toolitem action='indent'/>
+    <separator/>
+    <toolitem action='insert-emoticon'/>
   </toolbar>
   <toolbar name='html-toolbar'>
     <separator/>
@@ -129,7 +131,6 @@
     <toolitem action='insert-link'/>
     <toolitem action='insert-rule'/>
     <toolitem action='insert-table'/>
-    <toolitem action='insert-emoticon'/>
   </toolbar>
   <popup name='context-menu'>
     <placeholder name='context-spell-suggest'/>

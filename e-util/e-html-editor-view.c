@@ -1576,6 +1576,7 @@ emoticon_read_async_cb (GFile *file,
 	EHTMLEditorView *view = load_context->view;
 	EEmoticon *emoticon = load_context->emoticon;
 	GError *error = NULL;
+	gboolean html_mode;
 	gchar *html, *mime_type;
 	gchar *base64_encoded, *output, *data;
 	GFileInputStream *input_stream;
@@ -1600,16 +1601,20 @@ emoticon_read_async_cb (GFile *file,
 	base64_encoded = g_base64_encode ((const guchar *) data, size);
 	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
 
+	html_mode = e_html_editor_view_get_html_mode (view);
+
 	/* Insert span with image representation and another one with text
 	 * represetation and hide/show them dependant on active composer mode */
 	html = g_strdup_printf (
 		"<span class=\"-x-evo-smiley-wrapper -x-evo-resizable-wrapper\">"
 		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
-		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"/>"
-		"<span class=\"-x-evo-smiley-text\" style=\"display: none;\">%s"
-		"</span></span>",
-		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
-		load_context->name, emoticon ? emoticon->text_face : "");
+		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"%s/>"
+		"<span class=\"-x-evo-smiley-text\"%s>%s</span></span>",
+		output, emoticon ? emoticon->text_face : "",
+		emoticon->icon_name, load_context->name,
+		html_mode ? "" : " style=\"display: none;\"",
+		html_mode ? " style=\"display: none;\"" : "",
+		emoticon ? emoticon->text_face : "");
 
 	emoticon_insert_span (view, emoticon, html);
 
@@ -1900,7 +1905,7 @@ body_input_event_cb (WebKitDOMElement *element,
 
 	e_html_editor_view_set_changed (view, TRUE);
 
-	if (view->priv->magic_smileys && view->priv->html_mode)
+	if (view->priv->magic_smileys)
 		html_editor_view_check_magic_smileys (view, range);
 
 	if (view->priv->return_key_pressed || view->priv->space_key_pressed) {
