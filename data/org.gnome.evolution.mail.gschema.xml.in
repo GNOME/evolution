@@ -58,7 +58,12 @@
     <key name="composer-magic-smileys" type="b">
       <default>false</default>
       <_summary>Automatic emoticon recognition</_summary>
-      <_description>Recognize emoticons in text and replace them with images.</_description>
+      <_description>Recognize emoticons in text and replace them with images or Unicode characters.</_description>
+    </key>
+    <key name="composer-unicode-smileys" type="b">
+      <default>false</default>
+      <_summary>Unicode smileys</_summary>
+      <_description>Use Unicode characters for smileys.</_description>
     </key>
     <key name="composer-message-attribution" type="s">
       <default>''</default>

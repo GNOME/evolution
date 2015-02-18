@@ -79,6 +79,7 @@ struct _EHTMLEditorViewPrivate {
 	gint inline_spelling	: 1;
 	gint magic_links	: 1;
 	gint magic_smileys	: 1;
+	gint unicode_smileys	: 1;
 	gint can_copy		: 1;
 	gint can_cut		: 1;
 	gint can_paste		: 1;
@@ -121,6 +122,7 @@ enum {
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
+	PROP_UNICODE_SMILEYS,
 	PROP_SPELL_CHECKER
 };
 
@@ -1420,38 +1422,19 @@ emoticon_load_context_free (LoadContext *load_context)
 }
 
 static void
-emoticon_read_async_cb (GFile *file,
-                        GAsyncResult *result,
-                        LoadContext *load_context)
+emoticon_insert_span (EHTMLEditorView *view,
+                      EEmoticon *emoticon,
+                      const gchar *html)
 {
-	EHTMLEditorView *view = load_context->view;
 	EHTMLEditorSelection *selection;
-	EEmoticon *emoticon = load_context->emoticon;
-	GError *error = NULL;
 	gboolean misplaced_selection = FALSE, empty = FALSE;
-	gchar *html, *node_text = NULL, *mime_type, *content;
-	gchar *base64_encoded, *output, *data;
+	gchar *final_html, *node_text = NULL, *content;
 	const gchar *emoticon_start;
-	GFileInputStream *input_stream;
-	GOutputStream *output_stream;
-	gssize size;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *span, *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *node, *insert_before, *prev_sibling, *next_sibling;
 	WebKitDOMNode *selection_end_marker_parent;
 	WebKitDOMRange *range;
-
-	input_stream = g_file_read_finish (file, result, &error);
-	g_return_if_fail (!error && input_stream);
-
-	output_stream = g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
-
-	size = g_output_stream_splice (
-		output_stream, G_INPUT_STREAM (input_stream),
-		G_OUTPUT_STREAM_SPLICE_NONE, NULL, &error);
-
-	if (error || (size == -1))
-		goto out;
 
 	selection = e_html_editor_view_get_selection (view);
 	if (!e_html_editor_selection_is_collapsed (selection))
@@ -1521,32 +1504,17 @@ emoticon_read_async_cb (GFile *file,
 		if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-smiley-wrapper"))
 			misplaced_selection = TRUE;
 
-	mime_type = g_content_type_get_mime_type (load_context->content_type);
 	range = html_editor_view_get_dom_range (view);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (WEBKIT_DOM_IS_TEXT (node))
 		node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
 
-	data = g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream));
-	base64_encoded = g_base64_encode ((const guchar *) data, size);
-	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
-
 	content = webkit_dom_node_get_text_content (selection_end_marker_parent);
 	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
 	g_free (content);
 
-	/* Insert span with image representation and another one with text
-	 * represetation and hide/show them dependant on active composer mode */
 	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-	html = g_strdup_printf (
-		"<span class=\"-x-evo-smiley-wrapper -x-evo-resizable-wrapper\">"
-		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
-		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"/>"
-		"<span class=\"-x-evo-smiley-text\" style=\"display: none;\">%s"
-		"</span></span>%s",
-		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
-		load_context->name, emoticon ? emoticon->text_face : "",
-		empty ? "&#8203;" : "");
+	final_html = g_strdup_printf ("%s%s", html, empty ? "&#8203;" : "");
 
 	span = webkit_dom_document_create_element (document, "SPAN", NULL);
 
@@ -1578,7 +1546,7 @@ emoticon_read_async_cb (GFile *file,
 	}
 
 	webkit_dom_html_element_set_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (span), html, NULL);
+		WEBKIT_DOM_HTML_ELEMENT (span), final_html, NULL);
 
 	if (node_text) {
 		emoticon_start = g_utf8_strrchr (
@@ -1596,8 +1564,56 @@ emoticon_read_async_cb (GFile *file,
 
 	e_html_editor_view_set_changed (view, TRUE);
 
-	g_free (html);
+	g_free (final_html);
 	g_free (node_text);
+}
+
+static void
+emoticon_read_async_cb (GFile *file,
+                        GAsyncResult *result,
+                        LoadContext *load_context)
+{
+	EHTMLEditorView *view = load_context->view;
+	EEmoticon *emoticon = load_context->emoticon;
+	GError *error = NULL;
+	gchar *html, *mime_type;
+	gchar *base64_encoded, *output, *data;
+	GFileInputStream *input_stream;
+	GOutputStream *output_stream;
+	gssize size;
+
+	input_stream = g_file_read_finish (file, result, &error);
+	g_return_if_fail (!error && input_stream);
+
+	output_stream = g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
+
+	size = g_output_stream_splice (
+		output_stream, G_INPUT_STREAM (input_stream),
+		G_OUTPUT_STREAM_SPLICE_NONE, NULL, &error);
+
+	if (error || (size == -1))
+		goto out;
+
+	mime_type = g_content_type_get_mime_type (load_context->content_type);
+
+	data = g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (output_stream));
+	base64_encoded = g_base64_encode ((const guchar *) data, size);
+	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
+
+	/* Insert span with image representation and another one with text
+	 * represetation and hide/show them dependant on active composer mode */
+	html = g_strdup_printf (
+		"<span class=\"-x-evo-smiley-wrapper -x-evo-resizable-wrapper\">"
+		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
+		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"/>"
+		"<span class=\"-x-evo-smiley-text\" style=\"display: none;\">%s"
+		"</span></span>",
+		output, emoticon ? emoticon->text_face : "", emoticon->icon_name,
+		load_context->name, emoticon ? emoticon->text_face : "");
+
+	emoticon_insert_span (view, emoticon, html);
+
+	g_free (html);
 	g_free (base64_encoded);
 	g_free (output);
 	g_free (mime_type);
@@ -1632,22 +1648,31 @@ e_html_editor_view_insert_smiley (EHTMLEditorView *view,
                                   EEmoticon *emoticon)
 {
 	GFile *file;
-	gchar *filename_uri;
+	gchar *html, *filename_uri;
 	LoadContext *load_context;
 
-	filename_uri = e_emoticon_get_uri (emoticon);
-	g_return_if_fail (filename_uri != NULL);
+	if (e_html_editor_view_get_unicode_smileys (view)) {
+		html = g_strdup_printf ("<span>%s</span>",
+			emoticon->unicode_character);
 
-	load_context = emoticon_load_context_new (view, emoticon);
+		emoticon_insert_span (view, emoticon, html);
 
-	file = g_file_new_for_uri (filename_uri);
-	g_file_query_info_async (
-		file,  "standard::*", G_FILE_QUERY_INFO_NONE,
-		G_PRIORITY_DEFAULT, NULL,
-		(GAsyncReadyCallback) emoticon_query_info_async_cb, load_context);
+		g_free (html);
+	} else {
+		filename_uri = e_emoticon_get_uri (emoticon);
+		g_return_if_fail (filename_uri != NULL);
 
-	g_free (filename_uri);
-	g_object_unref (file);
+		load_context = emoticon_load_context_new (view, emoticon);
+
+		file = g_file_new_for_uri (filename_uri);
+		g_file_query_info_async (
+			file,  "standard::*", G_FILE_QUERY_INFO_NONE,
+			G_PRIORITY_DEFAULT, NULL,
+			(GAsyncReadyCallback) emoticon_query_info_async_cb, load_context);
+
+		g_free (filename_uri);
+		g_object_unref (file);
+	}
 }
 
 static void
@@ -2423,6 +2448,12 @@ html_editor_view_set_property (GObject *object,
 				E_HTML_EDITOR_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_UNICODE_SMILEYS:
+			e_html_editor_view_set_unicode_smileys (
+				E_HTML_EDITOR_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -2492,6 +2523,12 @@ html_editor_view_get_property (GObject *object,
 		case PROP_MAGIC_SMILEYS:
 			g_value_set_boolean (
 				value, e_html_editor_view_get_magic_smileys (
+				E_HTML_EDITOR_VIEW (object)));
+			return;
+
+		case PROP_UNICODE_SMILEYS:
+			g_value_set_boolean (
+				value, e_html_editor_view_get_unicode_smileys (
 				E_HTML_EDITOR_VIEW (object)));
 			return;
 
@@ -3404,7 +3441,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 	 * EHTMLEditorView:magic-smileys
 	 *
 	 * Determines whether automatic conversion of text smileys into
-	 * images is enabled.
+	 * images or Unicode characters is enabled.
 	 */
 	g_object_class_install_property (
 		object_class,
@@ -3412,7 +3449,24 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		g_param_spec_boolean (
 			"magic-smileys",
 			"Magic Smileys",
-			"Convert emoticons to images as you type",
+			"Convert emoticons to images or Unicode characters as you type",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EHTMLEditorView:unicode-smileys
+	 *
+	 * Determines whether Unicode characters should be used for smileys.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_UNICODE_SMILEYS,
+		g_param_spec_boolean (
+			"unicode-smileys",
+			"Unicode Smileys",
+			"Use Unicode characters for smileys",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
@@ -7756,7 +7810,7 @@ e_html_editor_view_set_magic_links (EHTMLEditorView *view,
  *
  * Returns whether automatic conversion of smileys is enabled or disabled. When
  * enabled, the editor will automatically convert text smileys ( :-), ;-),...)
- * into images.
+ * into images or Unicode characters.
  *
  * Returns: @TRUE when magic smileys are enabled, @FALSE otherwise.
  */
@@ -7787,6 +7841,47 @@ e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
 	view->priv->magic_smileys = magic_smileys;
 
 	g_object_notify (G_OBJECT (view), "magic-smileys");
+}
+
+/**
+ * e_html_editor_view_get_unicode_smileys:
+ * @view: an #EHTMLEditorView
+ *
+ * Returns whether to use Unicode characters for smileys.
+ *
+ * Returns: @TRUE when Unicode characters should be used, @FALSE otherwise.
+ *
+ * Since: 3.14
+ */
+gboolean
+e_html_editor_view_get_unicode_smileys (EHTMLEditorView *view)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
+
+	return view->priv->unicode_smileys;
+}
+
+/**
+ * e_html_editor_view_set_unicode_smileys:
+ * @view: an #EHTMLEditorView
+ * @unicode_smileys: @TRUE to use Unicode characters, @FALSE to use images
+ *
+ * Enables or disables the usage of Unicode characters for smileys.
+ *
+ * Since: 3.14
+ */
+void
+e_html_editor_view_set_unicode_smileys (EHTMLEditorView *view,
+                                        gboolean unicode_smileys)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	if (view->priv->unicode_smileys == unicode_smileys)
+		return;
+
+	view->priv->unicode_smileys = unicode_smileys;
+
+	g_object_notify (G_OBJECT (view), "unicode-smileys");
 }
 
 /**

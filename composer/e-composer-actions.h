@@ -68,6 +68,8 @@
 	E_COMPOSER_ACTION ((composer), "toolbar-smime-encrypt")
 #define E_COMPOSER_ACTION_TOOLBAR_SMIME_SIGN(composer) \
 	E_COMPOSER_ACTION ((composer), "toolbar-smime-sign")
+#define E_COMPOSER_ACTION_UNICODE_SMILEYS(composer) \
+	E_COMPOSER_ACTION ((composer), "unicode-smileys")
 #define E_COMPOSER_ACTION_VIEW_BCC(composer) \
 	E_COMPOSER_ACTION ((composer), "view-bcc")
 #define E_COMPOSER_ACTION_VIEW_CC(composer) \
