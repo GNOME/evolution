@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-17 13:54+0000\n"
-"PO-Revision-Date: 2015-02-17 17:25+0100\n"
+"POT-Creation-Date: 2015-02-18 05:19+0000\n"
+"PO-Revision-Date: 2015-02-18 10:23+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -7908,10 +7908,6 @@ msgid "Full path command to run Bogofilter"
 msgstr "Ruta completa del comando para ejecutar Bogofilter"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
-#| msgid ""
-#| "Full path to a Bogofilter command. If not set, then a compile-time path "
-#| "is used, usually /usr/bin/bogofilter. The command might not contain any "
-#| "other arguments."
 msgid ""
 "Full path to a Bogofilter command. If not set, then a compile-time path is "
 "used, usually /usr/bin/bogofilter. The command should not contain any other "
@@ -10347,10 +10343,6 @@ msgid "Full path command to run spamassassin"
 msgstr "Ruta completa del comando para ejecutar spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
-#| msgid ""
-#| "Full path to a spamassassin command. If not set, then a compile-time path "
-#| "is used, usually /usr/bin/spamassassin. The command might not contain any "
-#| "other arguments."
 msgid ""
 "Full path to a spamassassin command. If not set, then a compile-time path is "
 "used, usually /usr/bin/spamassassin. The command should not contain any "
@@ -10365,10 +10357,6 @@ msgid "Full path command to run sa-learn"
 msgstr "Ruta completa del comando para ejecutar sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#| msgid ""
-#| "Full path to a sa-learn command. If not set, then a compile-time path is "
-#| "used, usually /usr/bin/sa-learn. The command might not contain any other "
-#| "arguments."
 msgid ""
 "Full path to a sa-learn command. If not set, then a compile-time path is "
 "used, usually /usr/bin/sa-learn. The command should not contain any other "
@@ -10637,15 +10625,17 @@ msgid "GPG signed"
 msgstr "Firmado con GPG"
 
 #: ../em-format/e-mail-formatter-utils.c:570
-msgid "GPG encrpyted"
-msgstr "Cifrado GPG"
+#| msgid "GPG encrpyted"
+msgid "GPG encrypted"
+msgstr "Cifrado con GPG"
 
 #: ../em-format/e-mail-formatter-utils.c:576
 msgid "S/MIME signed"
 msgstr "Cifrado S/MIME"
 
 #: ../em-format/e-mail-formatter-utils.c:582
-msgid "S/MIME encrpyted"
+#| msgid "S/MIME encrpyted"
+msgid "S/MIME encrypted"
 msgstr "Cifrado con S/MIME"
 
 #: ../em-format/e-mail-formatter-utils.c:591
@@ -16574,7 +16564,6 @@ msgstr "Importador de carpetas en formato buzón de Berkeley"
 
 #: ../mail/importers/kmail-importer.c:263
 #, c-format
-#| msgid "%d Address"
 msgid "%d Address"
 msgid_plural "%d Addresses"
 msgstr[0] "%d dirección"
@@ -16585,7 +16574,6 @@ msgid "Evolution KMail importer"
 msgstr "Importador de KMail de Evolution"
 
 #: ../mail/importers/kmail-importer.c:355
-#| msgid "Import mail and contact from KMail."
 msgid "Import mail and contacts from KMail."
 msgstr "Importar correo y contactos de KMail."
 
@@ -16599,7 +16587,6 @@ msgid "Importing mailbox"
 msgstr "Importando buzón de correo"
 
 #: ../mail/importers/mail-importer.c:61
-#| msgid "Importing mail and contact from KMail"
 msgid "Importing mail and contacts from KMail"
 msgstr "Importando correo y contactos de KMail"
 
@@ -17080,7 +17067,6 @@ msgid "_Delete junk messages"
 msgstr "_Eliminar los mensajes SPAM"
 
 #: ../mail/mail-config.ui.h:116
-#| msgid "Just Test Options"
 msgid "Junk Test Options"
 msgstr "Opciones de prueba de spam"
 
