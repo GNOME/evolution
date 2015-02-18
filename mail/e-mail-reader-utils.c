@@ -763,6 +763,16 @@ e_mail_reader_mark_selected (EMailReader *reader,
 			camel_folder_set_message_flags (
 				folder, uids->pdata[ii], mask, set);
 
+		/* This function is called on user interaction, thus make sure the message list
+		   will scroll to the selected message, which can eventually change due to
+		   view filters on the folder. */
+		if (uids->len > 0) {
+			GtkWidget *message_list = e_mail_reader_get_message_list (reader);
+
+			if (message_list)
+				e_tree_show_cursor_after_reflow (E_TREE (message_list));
+		}
+
 		g_ptr_array_unref (uids);
 
 		camel_folder_thaw (folder);
