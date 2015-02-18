@@ -290,7 +290,6 @@ format_internal (const gchar *key,
 	struct tm today, value;
 	time_t ttoday;
 
-	tzset ();
 	if (!tm_value) {
 		localtime_r (&tvalue, &value);
 		tm_value = &value;

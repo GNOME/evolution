@@ -436,12 +436,15 @@ main (gint argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	/* do not require Gtk+ for --force-shutdown */
+	/* Do not require Gtk+ for --force-shutdown */
 	if (argc == 2 && argv[1] && g_str_equal (argv[1], "--force-shutdown")) {
 		shell_force_shutdown ();
 
 		return 0;
 	}
+
+	/* Initialize timezone specific global variables */
+	tzset ();
 
 	/* The contact maps feature uses clutter-gtk. */
 #ifdef WITH_CONTACT_MAPS
