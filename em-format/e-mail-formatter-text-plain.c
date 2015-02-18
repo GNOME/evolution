@@ -84,6 +84,7 @@ emfe_text_plain_format (EMailFormatterExtension *extension,
 		}
 
 		flags = e_mail_formatter_get_text_format_flags (formatter);
+		flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 
 		mime_part = e_mail_part_ref_mime_part (part);
 		dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
