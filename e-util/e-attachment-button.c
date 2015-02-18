@@ -229,11 +229,11 @@ attachment_button_update_pixbufs (EAttachmentButton *button)
 
 	pixbuf_expander_open = gtk_icon_theme_load_icon (
 		icon_theme, "go-down",
-		GTK_ICON_SIZE_BUTTON, 0, NULL);
+		GTK_ICON_SIZE_BUTTON, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
 
 	pixbuf_expander_closed = gtk_icon_theme_load_icon (
 		icon_theme, "go-next",
-		GTK_ICON_SIZE_BUTTON, 0, NULL);
+		GTK_ICON_SIZE_BUTTON, GTK_ICON_LOOKUP_FORCE_SIZE, NULL);
 
 	g_object_set (
 		renderer,

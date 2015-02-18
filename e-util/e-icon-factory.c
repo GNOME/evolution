@@ -106,7 +106,7 @@ e_icon_factory_get_icon (const gchar *icon_name,
 		width = height = 16;
 
 	pixbuf = gtk_icon_theme_load_icon (
-		icon_theme, icon_name, height, 0, &error);
+		icon_theme, icon_name, height, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
@@ -115,7 +115,7 @@ e_icon_factory_get_icon (const gchar *icon_name,
 		/* Fallback to missing image */
 		pixbuf = gtk_icon_theme_load_icon (
 			icon_theme, "image-missing",
-			height, 0, &error);
+			height, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 
 		if (error != NULL) {
 			g_error ("%s", error->message);
