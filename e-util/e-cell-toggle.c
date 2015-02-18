@@ -77,7 +77,7 @@ cell_toggle_load_icons (ECellToggle *cell_toggle)
 
 		if (icon_name != NULL)
 			pixbuf = gtk_icon_theme_load_icon (
-				icon_theme, icon_name, height, 0, &error);
+				icon_theme, icon_name, height, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 
 		if (error != NULL) {
 			g_warning ("%s", error->message);

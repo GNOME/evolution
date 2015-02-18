@@ -42,7 +42,7 @@ etc_load_icon (ETableCol *etc)
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, &height);
 
 	etc->pixbuf = gtk_icon_theme_load_icon (
-		icon_theme, etc->icon_name, height, 0, &error);
+		icon_theme, etc->icon_name, height, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);

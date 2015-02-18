@@ -966,7 +966,7 @@ web_view_create_plugin_widget (EWebView *web_view,
 			size = 32;  /* arbitrary default */
 
 		pixbuf = gtk_icon_theme_load_icon (
-			icon_theme, uri, size, 0, &error);
+			icon_theme, uri, size, GTK_ICON_LOOKUP_FORCE_SIZE, &error);
 		if (pixbuf != NULL) {
 			widget = gtk_image_new_from_pixbuf (pixbuf);
 			g_object_unref (pixbuf);
