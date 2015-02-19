@@ -28,13 +28,14 @@
 
 struct _EGoogleChooserButtonPrivate {
 	ESource *source;
+	ESourceConfig *config;
 	GtkWidget *label;
 };
 
 enum {
 	PROP_0,
-	PROP_DISPLAY_NAME,
-	PROP_SOURCE
+	PROP_SOURCE,
+	PROP_CONFIG
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -53,6 +54,16 @@ google_chooser_button_set_source (EGoogleChooserButton *button,
 }
 
 static void
+google_chooser_button_set_config (EGoogleChooserButton *button,
+                                  ESourceConfig *config)
+{
+	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
+	g_return_if_fail (button->priv->config == NULL);
+
+	button->priv->config = g_object_ref (config);
+}
+
+static void
 google_chooser_button_set_property (GObject *object,
                                     guint property_id,
                                     const GValue *value,
@@ -61,6 +72,12 @@ google_chooser_button_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_SOURCE:
 			google_chooser_button_set_source (
+				E_GOOGLE_CHOOSER_BUTTON (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_CONFIG:
+			google_chooser_button_set_config (
 				E_GOOGLE_CHOOSER_BUTTON (object),
 				g_value_get_object (value));
 			return;
@@ -82,6 +99,13 @@ google_chooser_button_get_property (GObject *object,
 				e_google_chooser_button_get_source (
 				E_GOOGLE_CHOOSER_BUTTON (object)));
 			return;
+
+		case PROP_CONFIG:
+			g_value_set_object (
+				value,
+				e_google_chooser_button_get_config (
+				E_GOOGLE_CHOOSER_BUTTON (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -94,15 +118,9 @@ google_chooser_button_dispose (GObject *object)
 
 	priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (object);
 
-	if (priv->source != NULL) {
-		g_object_unref (priv->source);
-		priv->source = NULL;
-	}
-
-	if (priv->label != NULL) {
-		g_object_unref (priv->label);
-		priv->label = NULL;
-	}
+	g_clear_object (&priv->source);
+	g_clear_object (&priv->config);
+	g_clear_object (&priv->label);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_google_chooser_button_parent_class)->dispose (object);
@@ -142,23 +160,55 @@ google_chooser_button_constructed (GObject *object)
 		binding_flags);
 }
 
+static GtkWindow *
+google_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
+				    GtkWindow *dialog)
+{
+	return dialog;
+}
+
 static void
 google_chooser_button_clicked (GtkButton *button)
 {
 	EGoogleChooserButtonPrivate *priv;
-	GtkWidget *chooser;
-	GtkWidget *dialog;
 	gpointer parent;
+	ESourceRegistry *registry;
+	ECalClientSourceType source_type;
+	ECredentialsPrompter *prompter;
+	ESourceWebdav *webdav_extension;
+	ESourceAuthentication *authentication_extension;
+	SoupURI *uri;
+	GtkWidget *dialog;
+	GtkWidget *widget;
+	gulong handler_id;
 
 	priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (button);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	chooser = e_google_chooser_new (priv->source);
+	registry = e_source_config_get_registry (priv->config);
 
-	dialog = e_google_chooser_dialog_new (
-		E_GOOGLE_CHOOSER (chooser), parent);
+	source_type = e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (priv->config));
+
+	authentication_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	webdav_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
+	uri = e_source_webdav_dup_soup_uri (webdav_extension);
+
+	e_google_chooser_construct_default_uri (uri, e_source_authentication_get_user (authentication_extension));
+
+	/* The host name is fixed, obviously. */
+	soup_uri_set_host (uri, "www.google.com");
+
+	/* Google's CalDAV interface requires a secure connection. */
+	soup_uri_set_scheme (uri, SOUP_URI_SCHEME_HTTPS);
+
+	e_source_webdav_set_soup_uri (webdav_extension, uri);
+
+	widget = e_google_chooser_new (registry, priv->source, source_type);
+
+	dialog = e_google_chooser_dialog_new (E_GOOGLE_CHOOSER (widget), parent);
 
 	if (parent != NULL)
 		g_object_bind_property (
@@ -166,9 +216,18 @@ google_chooser_button_clicked (GtkButton *button)
 			dialog, "icon-name",
 			G_BINDING_SYNC_CREATE);
 
+	prompter = e_google_chooser_get_prompter (E_GOOGLE_CHOOSER (widget));
+
+	handler_id = g_signal_connect (prompter, "get-dialog-parent",
+		G_CALLBACK (google_config_get_dialog_parent_cb), dialog);
+
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
+	g_signal_handler_disconnect (prompter, handler_id);
+
 	gtk_widget_destroy (dialog);
+
+	soup_uri_free (uri);
 }
 
 static void
@@ -198,6 +257,17 @@ e_google_chooser_button_class_init (EGoogleChooserButtonClass *class)
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CONFIG,
+		g_param_spec_object (
+			"config",
+			NULL,
+			NULL,
+			E_TYPE_SOURCE_CONFIG,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -221,13 +291,15 @@ e_google_chooser_button_type_register (GTypeModule *type_module)
 }
 
 GtkWidget *
-e_google_chooser_button_new (ESource *source)
+e_google_chooser_button_new (ESource *source,
+			     ESourceConfig *config)
 {
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
 	return g_object_new (
 		E_TYPE_GOOGLE_CHOOSER_BUTTON,
-		"source", source, NULL);
+		"source", source,
+		"config", config, NULL);
 }
 
 ESource *
@@ -238,3 +310,10 @@ e_google_chooser_button_get_source (EGoogleChooserButton *button)
 	return button->priv->source;
 }
 
+ESourceConfig *
+e_google_chooser_button_get_config (EGoogleChooserButton *button)
+{
+	g_return_val_if_fail (E_IS_GOOGLE_CHOOSER_BUTTON (button), NULL);
+
+	return button->priv->config;
+}

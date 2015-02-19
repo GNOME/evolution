@@ -792,9 +792,15 @@ caldav_chooser_process_response (SoupSession *session,
 		"/IC:calendar-color",
 		index);
 
-	if (color_spec != NULL)
+	if (color_spec != NULL) {
 		has_color = gdk_color_parse (color_spec, &color);
-	else
+		if (!has_color && strlen (color_spec) == 9) {
+			/* It can parse only #rrggbb, but servers like Google can return #rrggbbaa,
+			   thus strip the alpha channel and try again */
+			color_spec[7] = '\0';
+			has_color = gdk_color_parse (color_spec, &color);
+		}
+	} else
 		has_color = FALSE;
 
 	g_free (color_spec);
