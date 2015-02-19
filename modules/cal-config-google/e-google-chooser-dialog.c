@@ -37,25 +37,26 @@ enum {
 	PROP_CHOOSER
 };
 
+/* Forward Declarations */
+static void	google_chooser_dialog_populated_cb
+						(GObject *source_object,
+						 GAsyncResult *result,
+						 gpointer user_data);
+static void	google_chooser_dialog_credentials_prompt_cb
+						(GObject *source_object,
+						 GAsyncResult *result,
+						 gpointer user_data);
+
 G_DEFINE_DYNAMIC_TYPE (
 	EGoogleChooserDialog,
 	e_google_chooser_dialog,
 	GTK_TYPE_DIALOG)
 
 static void
-google_chooser_dialog_populated_cb (EGoogleChooser *chooser,
-                                    GAsyncResult *result,
-                                    EGoogleChooserDialog *dialog)
+google_chooser_dialog_done (EGoogleChooserDialog *dialog,
+                            const GError *error)
 {
 	GdkWindow *window;
-	GError *error = NULL;
-
-	e_google_chooser_populate_finish (chooser, result, &error);
-
-	/* Ignore cancellations, and leave the mouse cursor alone
-	 * since the GdkWindow may have already been destroyed. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		goto exit;
 
 	/* Reset the mouse cursor to normal. */
 	window = gtk_widget_get_window (GTK_WIDGET (dialog));
@@ -67,12 +68,172 @@ google_chooser_dialog_populated_cb (EGoogleChooser *chooser,
 		label = GTK_LABEL (dialog->priv->info_bar_label);
 		gtk_label_set_text (label, error->message);
 		gtk_widget_show (dialog->priv->info_bar);
+	}
+}
 
-		g_error_free (error);
-		goto exit;
+/* It's a little weird to have the callback called on the #ESource,
+   but it's simpler than writing a proxy around the e-trust-prompt
+   async call, which would be unnecessary anyway. */
+static void
+google_chooser_dialog_trust_prompt_done_cb (GObject *source_object,
+					    GAsyncResult *result,
+					    gpointer user_data)
+{
+	EGoogleChooserDialog *dialog;
+	EGoogleChooser *chooser;
+	ETrustPromptResponse response = E_TRUST_PROMPT_RESPONSE_UNKNOWN;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source_object));
+	g_return_if_fail (E_IS_GOOGLE_CHOOSER_DIALOG (user_data));
+
+	dialog = E_GOOGLE_CHOOSER_DIALOG (user_data);
+	chooser = e_google_chooser_dialog_get_chooser (dialog);
+
+	if (!e_trust_prompt_run_for_source_finish (E_SOURCE (source_object), result, &response, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			/* close also the dialog */
+			gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		} else {
+			google_chooser_dialog_done (dialog, error);
+		}
+	} else if (response == E_TRUST_PROMPT_RESPONSE_ACCEPT ||
+		   response == E_TRUST_PROMPT_RESPONSE_ACCEPT_TEMPORARILY) {
+		e_google_chooser_populate (
+			chooser, dialog->priv->cancellable,
+			google_chooser_dialog_populated_cb,
+			g_object_ref (dialog));
+	} else {
+		g_warn_if_fail (error == NULL);
+
+		error = e_google_chooser_new_ssl_trust_error (chooser);
+
+		google_chooser_dialog_done (dialog, error);
 	}
 
-exit:
+	g_clear_error (&error);
+	g_object_unref (dialog);
+}
+
+static void
+google_chooser_dialog_authenticate_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	EGoogleChooserDialog *dialog = user_data;
+	EGoogleChooser *chooser;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_GOOGLE_CHOOSER (source_object));
+
+	chooser = E_GOOGLE_CHOOSER (source_object);
+
+	if (!e_google_chooser_authenticate_finish (chooser, result, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			/* close also the dialog */
+			gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		} else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
+			e_google_chooser_run_credentials_prompt (
+				chooser,
+				google_chooser_dialog_credentials_prompt_cb,
+				g_object_ref (dialog));
+
+		} else if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED)) {
+			e_google_chooser_run_trust_prompt (chooser, GTK_WINDOW (dialog),
+				dialog->priv->cancellable,
+				google_chooser_dialog_trust_prompt_done_cb,
+				g_object_ref (dialog));
+
+		/* We were either successful or got an unexpected error. */
+		} else {
+			google_chooser_dialog_done (dialog, error);
+		}
+	} else {
+		g_warn_if_fail (error == NULL);
+
+		e_google_chooser_populate (
+			chooser, dialog->priv->cancellable,
+			google_chooser_dialog_populated_cb,
+			g_object_ref (dialog));
+	}
+
+	g_clear_error (&error);
+	g_object_unref (dialog);
+}
+
+static void
+google_chooser_dialog_credentials_prompt_cb (GObject *source_object,
+					     GAsyncResult *result,
+					     gpointer user_data)
+{
+	EGoogleChooser *chooser;
+	EGoogleChooserDialog *dialog = user_data;
+	ENamedParameters *credentials = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CREDENTIALS_PROMPTER (source_object));
+
+	chooser = e_google_chooser_dialog_get_chooser (dialog);
+	g_return_if_fail (chooser != NULL);
+
+	if (!e_google_chooser_run_credentials_prompt_finish (chooser, result, &credentials, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			/* close also the dialog */
+			gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
+		} else {
+			google_chooser_dialog_done (dialog, error);
+		}
+	} else {
+		e_google_chooser_authenticate (chooser, credentials, dialog->priv->cancellable,
+			google_chooser_dialog_authenticate_cb, g_object_ref (dialog));
+	}
+
+	e_named_parameters_free (credentials);
+	g_clear_error (&error);
+	g_object_unref (dialog);
+}
+
+static void
+google_chooser_dialog_populated_cb (GObject *source_object,
+                                    GAsyncResult *result,
+                                    gpointer user_data)
+{
+	EGoogleChooserDialog *dialog;
+	EGoogleChooser *chooser;
+	GError *error = NULL;
+
+	chooser = E_GOOGLE_CHOOSER (source_object);
+	dialog = E_GOOGLE_CHOOSER_DIALOG (user_data);
+
+	e_google_chooser_populate_finish (chooser, result, &error);
+
+	/* Ignore cancellations, and leave the mouse cursor alone
+	 * since the GdkWindow may have already been destroyed. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		/* do nothing */
+
+	/* We will likely get this error on the first try, since WebDAV
+	 * servers generally require authentication.  It means we waste a
+	 * round-trip to the server, but we don't want to risk prompting
+	 * for authentication unnecessarily. */
+	} else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
+		e_google_chooser_run_credentials_prompt (
+			chooser,
+			google_chooser_dialog_credentials_prompt_cb,
+			g_object_ref (dialog));
+
+	} else if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_SSL_FAILED)) {
+		e_google_chooser_run_trust_prompt (chooser, GTK_WINDOW (dialog),
+			dialog->priv->cancellable,
+			google_chooser_dialog_trust_prompt_done_cb,
+			g_object_ref (dialog));
+
+	/* We were either successful or got an unexpected error. */
+	} else {
+		google_chooser_dialog_done (dialog, error);
+	}
+
+	g_clear_error (&error);
 	g_object_unref (dialog);
 }
 
@@ -182,6 +343,21 @@ google_chooser_dialog_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_google_chooser_dialog_parent_class)->constructed (object);
 
+	switch (e_google_chooser_get_source_type (dialog->priv->chooser)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			title = _("Choose a Calendar");
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			title = _("Choose a Memo List");
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			title = _("Choose a Task List");
+			break;
+		default:
+			g_warn_if_reached ();
+			title = "";
+	}
+
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog),
 		_("_Cancel"), GTK_RESPONSE_CANCEL);
@@ -195,7 +371,6 @@ google_chooser_dialog_constructed (GObject *object)
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, FALSE);
 
-	title = _("Choose a Calendar");
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 400);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
@@ -293,8 +468,9 @@ google_chooser_dialog_realize (GtkWidget *widget)
 	g_object_unref (cursor);
 
 	e_google_chooser_populate (
-		priv->chooser, priv->cancellable, (GAsyncReadyCallback)
-		google_chooser_dialog_populated_cb, g_object_ref (widget));
+		priv->chooser, priv->cancellable,
+		google_chooser_dialog_populated_cb,
+		g_object_ref (widget));
 }
 
 static void

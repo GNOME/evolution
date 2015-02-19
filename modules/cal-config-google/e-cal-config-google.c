@@ -88,7 +88,7 @@ cal_config_google_insert_widgets (ESourceConfigBackend *backend,
 
 	e_source_config_add_user_entry (config, scratch_source);
 
-	widget = e_google_chooser_button_new (scratch_source);
+	widget = e_google_chooser_button_new (scratch_source, config);
 	e_source_config_insert_widget (
 		config, scratch_source, _("Calendar:"), widget);
 	context->google_button = g_object_ref (widget);
