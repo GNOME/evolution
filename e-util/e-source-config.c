@@ -481,6 +481,12 @@ source_config_init_for_editing_source (ESourceConfig *config)
 	backend_name = e_source_backend_get_backend_name (extension);
 	g_return_if_fail (backend_name != NULL);
 
+	/* Special-case Google calendars to use 'google' editor, instead
+	   of the 'caldav' editor, even they use 'caldav' calendar backend. */
+	if (g_ascii_strcasecmp (backend_name, "caldav") == 0 &&
+	    g_strcmp0 (e_source_get_parent (original_source), "google-stub") == 0)
+		backend_name = "google";
+
 	backend = g_hash_table_lookup (config->priv->backends, backend_name);
 	g_return_if_fail (backend != NULL);
 
