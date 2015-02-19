@@ -1116,18 +1116,43 @@ cal_shell_content_foreign_client_closed_cb (ECalBaseShellSidebar *cal_base_shell
 }
 
 static void
-cal_shell_content_setup_foreign_sources (EShellView *foreign_view,
+cal_shell_content_setup_foreign_sources (EShellWindow *shell_window,
+					 const gchar *view_name,
+					 const gchar *extension_name,
 					 ECalModel *model)
 {
 	EShellSidebar *foreign_sidebar;
 	EShellContent *foreign_content;
+	EShellView *foreign_view;
 	ECalModel *foreign_model;
+	gboolean is_new_view;
 
-	g_return_if_fail (E_IS_SHELL_VIEW (foreign_view));
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	is_new_view = e_shell_window_peek_shell_view (shell_window, view_name) == NULL;
+
+	foreign_view = e_shell_window_get_shell_view (shell_window, view_name);
+	g_return_if_fail (E_IS_SHELL_VIEW (foreign_view));
 
 	foreign_sidebar = e_shell_view_get_shell_sidebar (foreign_view);
 	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (foreign_sidebar));
+
+	if (is_new_view) {
+		/* Preselect default source, when the view was not created yet */
+		ESourceSelector *source_selector;
+		ESourceRegistry *registry;
+		ESource *source;
+
+		source_selector = e_cal_base_shell_sidebar_get_selector (E_CAL_BASE_SHELL_SIDEBAR (foreign_sidebar));
+		registry = e_source_selector_get_registry (source_selector);
+		source = e_source_registry_ref_default_for_extension_name (registry, extension_name);
+
+		if (source)
+			e_source_selector_set_primary_selection (source_selector, source);
+
+		g_clear_object (&source);
+	}
 
 	g_signal_connect_object (foreign_sidebar, "client-opened",
 		G_CALLBACK (cal_shell_content_foreign_client_opened_cb), model, 0);
@@ -1157,7 +1182,6 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 {
 	ECalShellContent *cal_shell_content;
 	EShellView *shell_view;
-	EShellView *foreign_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	GalViewInstance *view_instance;
@@ -1212,12 +1236,10 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 
 	/* List of selected Task/Memo sources is taken from respective views,
 	   which are loaded if necessary. */
-	foreign_view = e_shell_window_get_shell_view (shell_window, "memos");
-	cal_shell_content_setup_foreign_sources (foreign_view,
+	cal_shell_content_setup_foreign_sources (shell_window, "memos", E_SOURCE_EXTENSION_MEMO_LIST,
 		cal_shell_content->priv->memo_model);
 
-	foreign_view = e_shell_window_get_shell_view (shell_window, "tasks");
-	cal_shell_content_setup_foreign_sources (foreign_view,
+	cal_shell_content_setup_foreign_sources (shell_window, "tasks", E_SOURCE_EXTENSION_TASK_LIST,
 		cal_shell_content->priv->task_model);
 
 	/* Finally load the view instance */
