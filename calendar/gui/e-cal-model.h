@@ -175,7 +175,6 @@ ESourceRegistry *
 		e_cal_model_get_registry	(ECalModel *model);
 EShell *	e_cal_model_get_shell		(ECalModel *model);
 EClientCache *	e_cal_model_get_client_cache	(ECalModel *model);
-const gchar *	e_cal_model_get_extension_name	(ECalModel *model);
 icalcomponent_kind
 		e_cal_model_get_component_kind	(ECalModel *model);
 void		e_cal_model_set_component_kind	(ECalModel *model,
