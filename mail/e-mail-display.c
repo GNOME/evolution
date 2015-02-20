@@ -341,6 +341,7 @@ find_element_by_id (WebKitDOMDocument *document,
 
 		element = find_element_by_id (frame_doc, id);
 
+		g_object_unref (iframe);
 		if (element != NULL)
 			goto out;
 	}
@@ -976,6 +977,7 @@ setup_image_click_event_listeners_on_document (WebKitDOMDocument *document,
 			WEBKIT_DOM_EVENT_TARGET (button), "click",
 			G_CALLBACK (toggle_address_visibility), FALSE,
 			NULL);
+		g_object_unref (button);
 	}
 	g_object_unref (list);
 }
@@ -2164,6 +2166,7 @@ mail_display_get_frame_selection_text (WebKitDOMElement *iframe)
 		text = mail_display_get_frame_selection_text (
 			WEBKIT_DOM_ELEMENT (node));
 
+		g_object_unref (node);
 		if (text != NULL) {
 			g_object_unref (frames);
 			return text;
@@ -2200,6 +2203,7 @@ e_mail_display_get_selection_plain_text (EMailDisplay *display)
 		text = mail_display_get_frame_selection_text (
 			WEBKIT_DOM_ELEMENT (node));
 
+		g_object_unref (node);
 		if (text != NULL) {
 			g_object_unref (frames);
 			return text;

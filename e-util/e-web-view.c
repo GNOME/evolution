@@ -2534,8 +2534,11 @@ web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 		text = web_view_get_frame_selection_html (
 			WEBKIT_DOM_ELEMENT (node));
 
-		if (text != NULL)
+		g_object_unref (node);
+		if (text != NULL) {
+			g_object_unref (frames);
 			return text;
+		}
 	}
 	g_object_unref (frames);
 
@@ -2567,8 +2570,11 @@ e_web_view_get_selection_html (EWebView *web_view)
 		text = web_view_get_frame_selection_html (
 			WEBKIT_DOM_ELEMENT (node));
 
-		if (text != NULL)
+		g_object_unref (node);
+		if (text != NULL) {
+			g_object_unref (frames);
 			return text;
+		}
 	}
 	g_object_unref (frames);
 
@@ -3377,7 +3383,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 		rule = webkit_dom_css_rule_list_item (rules_list, ii);
 
 		if (!WEBKIT_DOM_IS_CSS_RULE (rule))
-			continue;
+			goto next;
 
 		rule_text = webkit_dom_css_rule_get_css_text (rule);
 
@@ -3385,7 +3391,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 		selector_end = g_strstr_len (rule_text, -1, " {");
 		if (!selector_end) {
 			g_free (rule_text);
-			continue;
+			goto next;
 		}
 
 		rule_selector =
@@ -3400,11 +3406,16 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 				WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
 				ii, NULL);
 			length--;
+			g_free (rule_selector);
+			g_free (rule_text);
+			g_object_unref (rule);
 			break;
 		}
 
 		g_free (rule_selector);
 		g_free (rule_text);
+ next:
+		g_object_unref (rule);
 	}
 
 	g_object_unref (rules_list);
@@ -3447,6 +3458,7 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 			style_sheet_id,
 			selector,
 			style);
+		g_object_unref (node);
 	}
 	g_object_unref (frames);
 }

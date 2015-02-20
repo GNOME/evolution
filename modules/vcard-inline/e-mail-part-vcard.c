@@ -262,31 +262,37 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
 	/* IFRAME */
 	list = webkit_dom_element_get_elements_by_tag_name (
 		element, "iframe");
-	if (webkit_dom_node_list_get_length (list) != 1)
+	if (webkit_dom_node_list_get_length (list) != 1) {
+		g_object_unref (list);
 		return;
+	}
 	iframe = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
 	g_clear_object (&vcard_part->iframe);
-	vcard_part->iframe = g_object_ref (iframe);
+	vcard_part->iframe = iframe;
 	g_object_unref (list);
 
 	/* TOGGLE DISPLAY MODE BUTTON */
 	list = webkit_dom_element_get_elements_by_class_name (
 		element, "org-gnome-vcard-display-mode-button");
-	if (webkit_dom_node_list_get_length (list) != 1)
+	if (webkit_dom_node_list_get_length (list) != 1) {
+		g_object_unref (list);
 		return;
+	}
 	toggle_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
 	g_clear_object (&vcard_part->toggle_button);
-	vcard_part->toggle_button = g_object_ref (toggle_button);
+	vcard_part->toggle_button = toggle_button;
 	g_object_unref (list);
 
 	/* SAVE TO ADDRESSBOOK BUTTON */
 	list = webkit_dom_element_get_elements_by_class_name (
 		element, "org-gnome-vcard-save-button");
-	if (webkit_dom_node_list_get_length (list) != 1)
+	if (webkit_dom_node_list_get_length (list) != 1) {
+		g_object_unref (list);
 		return;
+	}
 	save_button = WEBKIT_DOM_ELEMENT (webkit_dom_node_list_item (list, 0));
 	g_clear_object (&vcard_part->save_button);
-	vcard_part->save_button = g_object_ref (save_button);
+	vcard_part->save_button = save_button;
 	g_object_unref (list);
 
 	webkit_dom_event_target_add_event_listener (

@@ -3296,9 +3296,11 @@ set_signature_gui (EMsgComposer *composer)
 			uid = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "name");
 			g_free (id);
+			g_object_unref (node);
 			break;
 		}
 		g_free (id);
+		g_object_unref (node);
 	}
 
 	g_object_unref (nodes);
@@ -5100,6 +5102,7 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 			WEBKIT_DOM_HTML_ELEMENT (node));
 		g_byte_array_append (array, (guint8 *) text, strlen (text));
 		g_free (text);
+		g_object_unref (node);
 	}
 
 	g_object_unref (list);

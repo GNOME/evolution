@@ -1469,6 +1469,7 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 
 					after_selection_end = webkit_dom_node_contains (
 						item, WEBKIT_DOM_NODE (selection_end_marker));
+					g_object_unref (item);
 					if (after_selection_end)
 						break;
 				}
@@ -1775,8 +1776,11 @@ remove_wrapping_from_element (WebKitDOMElement *element)
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-wrap-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 
@@ -1792,8 +1796,11 @@ remove_quoting_from_element (WebKitDOMElement *element)
 	list = webkit_dom_element_query_selector_all (
 		element, "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 	g_object_unref (list);
 
 	list = webkit_dom_element_query_selector_all (
@@ -1811,14 +1818,18 @@ remove_quoting_from_element (WebKitDOMElement *element)
 				NULL);
 
 		remove_node (node);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-temp-br", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 	g_object_unref (list);
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
@@ -3073,8 +3084,10 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 				after_selection_start = webkit_dom_node_contains (
 					block_to_process,
 					WEBKIT_DOM_NODE (selection_start_marker));
-				if (!after_selection_start)
+				if (!after_selection_start) {
+					g_object_unref (block_to_process);
 					continue;
+				}
 			}
 
 			level = get_indentation_level (
@@ -3082,13 +3095,18 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 
 			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
 			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-			    !is_in_html_mode (selection))
+			    !is_in_html_mode (selection)) {
+				g_object_unref (block_to_process);
 				continue;
+			}
 
 			indent_block (selection, document, block_to_process, final_width);
 
-			if (after_selection_end)
+			if (after_selection_end) {
+				g_object_unref (block_to_process);
 				break;
+			}
+			g_object_unref (block_to_process);
 		}
 
  next:
@@ -3389,14 +3407,20 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 				after_selection_start = webkit_dom_node_contains (
 					block_to_process,
 					WEBKIT_DOM_NODE (selection_start_marker));
-				if (!after_selection_start)
+				if (!after_selection_start) {
+					g_object_unref (block_to_process);
 					continue;
+				}
 			}
 
 			unindent_block (selection, document, block_to_process);
 
-			if (after_selection_end)
+			if (after_selection_end) {
+				g_object_unref (block_to_process);
 				break;
+			}
+
+			g_object_unref (block_to_process);
 		}
  next:
 		g_object_unref (list);
@@ -5254,13 +5278,14 @@ wrap_lines (EHTMLEditorSelection *selection,
 	WebKitDOMNode *paragraph_clone;
 	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMElement *element;
-	WebKitDOMNodeList *wrap_br;
 	gint len, ii, br_count;
 	gulong length_left;
 	glong paragraph_char_count;
 	gchar *text_content;
 
 	if (selection) {
+		WebKitDOMNodeList *wrap_br;
+
 		paragraph_char_count = g_utf8_strlen (
 			e_html_editor_selection_get_string (selection), -1);
 
@@ -5276,8 +5301,11 @@ wrap_lines (EHTMLEditorSelection *selection,
 			NULL);
 		br_count = webkit_dom_node_list_get_length (wrap_br);
 		/* And remove them */
-		for (ii = 0; ii < br_count; ii++)
-			remove_node (webkit_dom_node_list_item (wrap_br, ii));
+		for (ii = 0; ii < br_count; ii++) {
+			WebKitDOMNode *node = webkit_dom_node_list_item (wrap_br, ii);
+			remove_node (node);
+			g_object_unref (node);
+		}
 		g_object_unref (wrap_br);
 	} else {
 		if (!webkit_dom_node_has_child_nodes (paragraph))
@@ -5900,6 +5928,7 @@ e_html_editor_selection_wrap_paragraphs_in_document (EHTMLEditorSelection *selec
 				WEBKIT_DOM_ELEMENT (node),
 				selection->priv->word_wrap_length - quote);
 		}
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 }

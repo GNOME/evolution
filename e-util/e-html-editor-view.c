@@ -633,6 +633,7 @@ quote_plain_text_element_after_wrapping (WebKitDOMDocument *document,
 			webkit_dom_node_clone_node (quoted_node, TRUE),
 			webkit_dom_node_get_next_sibling (br),
 			NULL);
+		g_object_unref (br);
 	}
 
 	g_object_unref (list);
@@ -943,6 +944,7 @@ change_cid_images_src_to_base64 (EHTMLEditorView *view)
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		set_base64_to_element_attribute (view, WEBKIT_DOM_ELEMENT (node), "src");
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
@@ -969,12 +971,14 @@ change_cid_images_src_to_base64 (EHTMLEditorView *view)
 
 				set_base64_to_element_attribute (
 					view, WEBKIT_DOM_ELEMENT (node), attribute_ns);
+				g_object_unref (node);
 			}
 
 			g_object_unref (list);
 			g_free (attribute_ns);
 			g_free (selector);
 		}
+		g_object_unref (node);
 		g_free (name);
 	}
 	g_object_unref (attributes);
@@ -987,6 +991,7 @@ change_cid_images_src_to_base64 (EHTMLEditorView *view)
 
 		set_base64_to_element_attribute (
 			view, WEBKIT_DOM_ELEMENT (node), "background");
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 	g_hash_table_remove_all (view->priv->inline_images);
@@ -1046,6 +1051,7 @@ move_elements_to_body (WebKitDOMDocument *document)
 		}
 
 		remove_node (node);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
@@ -1069,6 +1075,7 @@ move_elements_to_body (WebKitDOMDocument *document)
 			NULL);
 
 		remove_node (node);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 }
@@ -1088,6 +1095,7 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "class");
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "style");
 		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "type", "cite", NULL);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 }
@@ -1817,6 +1825,7 @@ mark_node_as_paragraph_after_ending_list (EHTMLEditorSelection *selection,
 
 		e_html_editor_selection_set_paragraph_style (
 			selection, WEBKIT_DOM_ELEMENT (node), -1, 0, "");
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 }
@@ -2176,8 +2185,11 @@ remove_empty_blocks (WebKitDOMDocument *document)
 		document, "blockquote[type=cite] > :empty", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	for  (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for  (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 
 	g_object_unref (list);
 }
@@ -4025,8 +4037,12 @@ e_html_editor_view_quote_plain_text_element (EHTMLEditorView *view,
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (element_clone), "span.-x-evo-quoted", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for  (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for  (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
+	g_object_unref (list);
 
 	webkit_dom_node_normalize (element_clone);
 	quote_plain_text_recursive (
@@ -4045,7 +4061,6 @@ e_html_editor_view_quote_plain_text_element (EHTMLEditorView *view,
 		WEBKIT_DOM_NODE (element),
 		NULL);
 
-	g_object_unref (list);
 	return WEBKIT_DOM_ELEMENT (element_clone);
 }
 
@@ -4101,6 +4116,7 @@ e_html_editor_view_quote_plain_text (EHTMLEditorView *view)
 			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (child))
 				remove_node (child);
 		}
+		g_object_unref (blockquote);
 	}
 	g_object_unref (list);
 
@@ -4120,6 +4136,7 @@ e_html_editor_view_quote_plain_text (EHTMLEditorView *view)
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body_clone), name, value, NULL);
 
+		g_object_unref (node);
 		g_free (name);
 		g_free (value);
 	}
@@ -4164,6 +4181,7 @@ e_html_editor_view_dequote_plain_text (EHTMLEditorView *view)
 			element_remove_class (element, "-x-evo-plaintext-quoted");
 			remove_quoting_from_element (element);
 		}
+		g_object_unref (element);
 	}
 	g_object_unref (paragraphs);
 }
@@ -4778,6 +4796,7 @@ quote_plain_text_elements_after_wrapping_in_document (WebKitDOMDocument *documen
 		citation_level = get_citation_level (child, TRUE);
 		quote_plain_text_element_after_wrapping (
 			document, WEBKIT_DOM_ELEMENT (child), citation_level);
+		g_object_unref (child);
 	}
 	g_object_unref (list);
 }
@@ -4800,6 +4819,7 @@ clear_attributes (WebKitDOMDocument *document)
 
 		webkit_dom_element_remove_attribute_node (
 			document_element, WEBKIT_DOM_ATTR (node), NULL);
+		g_object_unref (node);
 	}
 	g_object_unref (attributes);
 
@@ -4826,6 +4846,7 @@ clear_attributes (WebKitDOMDocument *document)
 				NULL);
 
 		g_free (name);
+		g_object_unref (node);
 	}
 	g_object_unref (attributes);
 }
@@ -4902,8 +4923,11 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 	list = webkit_dom_document_query_selector_all (
 		document, ".-x-evo-paragraph", NULL);
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 	g_object_unref (list);
 
 	/* Insert the paragraph where the caret will be. */
@@ -4974,6 +4998,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 			NULL);
 
 		remove_node (node);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
@@ -4994,6 +5019,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		}
 
 		remove_node (node);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
@@ -5741,6 +5767,7 @@ process_blockquote (WebKitDOMElement *blockquote)
 			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
 
 		g_free (text_content);
+		g_object_unref (quoted_node);
 	}
 	g_object_unref (list);
 
@@ -5758,6 +5785,7 @@ process_blockquote (WebKitDOMElement *blockquote)
 			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
 
 		g_free (text_content);
+		g_object_unref (quoted_node);
 	}
 	g_object_unref (list);
 
@@ -6196,6 +6224,7 @@ process_elements (EHTMLEditorView *view,
 
 				g_free (name);
 				g_free (value);
+				g_object_unref (node);
 			}
 			g_string_append (buffer, ">");
 			g_object_unref (attributes);
@@ -6602,6 +6631,7 @@ process_elements (EHTMLEditorView *view,
 		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
 			process_elements (
 				view, child, to_html, changing_mode, to_plain_text, buffer);
+		g_object_unref (child);
 	}
 
 	if (to_plain_text && (
@@ -6650,8 +6680,11 @@ remove_wrapping_from_view (EHTMLEditorView *view)
 	list = webkit_dom_document_query_selector_all (document, "br.-x-evo-wrap-br", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (list, ii));
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 
 	g_object_unref (list);
 }
@@ -6680,6 +6713,7 @@ remove_background_images_in_document (WebKitDOMDocument *document)
 			webkit_dom_node_list_item (elements, ii));
 
 		remove_image_attributes_from_element (element);
+		g_object_unref (element);
 	}
 
 	g_object_unref (elements);
@@ -6696,8 +6730,11 @@ remove_images_in_element (EHTMLEditorView *view,
 		element, "img:not(.-x-evo-smiley-img)", NULL);
 
 	length = webkit_dom_node_list_get_length (images);
-	for (ii = 0; ii < length; ii++)
-		remove_node (webkit_dom_node_list_item (images, ii));
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (images, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
 
 	g_object_unref (images);
 }
@@ -6747,6 +6784,7 @@ toggle_smileys (EHTMLEditorView *view)
 			element_add_class (parent, "-x-evo-resizable-wrapper");
 		else
 			element_remove_class (parent, "-x-evo-resizable-wrapper");
+		g_object_unref (img);
 	}
 
 	g_object_unref (smileys);
@@ -6817,6 +6855,7 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
 				g_free (style);
 			}
 		}
+		g_object_unref (node);
 	}
 	g_object_unref (paragraphs);
 }
@@ -7065,6 +7104,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 				webkit_dom_element_remove_attribute (
 					WEBKIT_DOM_ELEMENT (paragraph), "id");
+				g_object_unref (paragraph);
 			}
 			g_object_unref (paragraphs);
 
@@ -7106,6 +7146,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			e_html_editor_selection_wrap_paragraph (
 				selection, WEBKIT_DOM_ELEMENT (paragraph));
 		}
+		g_object_unref (paragraph);
 	}
 	g_object_unref (paragraphs);
 
@@ -7120,6 +7161,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 		WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
 		remove_node (node);
+		g_object_unref (node);
 		webkit_dom_node_normalize (parent);
 	}
 	g_object_unref (paragraphs);
@@ -7430,6 +7472,7 @@ wrap_paragraphs_in_quoted_content (EHTMLEditorSelection *selection,
 
 		e_html_editor_selection_wrap_paragraph (
 			selection, WEBKIT_DOM_ELEMENT (paragraph));
+		g_object_unref (paragraph);
 	}
 	g_object_unref (paragraphs);
 }
@@ -7573,7 +7616,9 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 			NULL);
 
 		webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), node, NULL);
+		g_object_unref (node);
 	}
+	g_object_unref (list);
 
 	/* When the image is moved the new selection is created after after it, so
 	 * lets collapse the selection to have the caret right after the image. */
@@ -8020,6 +8065,7 @@ html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (node), "src", cid, NULL);
 		g_free (cid);
+		g_object_unref (node);
 	}
 	g_object_unref (list);
 
@@ -8028,8 +8074,10 @@ html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
 		document, "[data-inline][background]", NULL);
 
 	length = webkit_dom_node_list_get_length (list);
-	if (length == 0)
+	if (length == 0) {
+		g_object_unref (list);
 		return parts;
+	}
 	if (!*inline_images)
 		*inline_images = g_hash_table_new_full (
 			g_str_hash, g_str_equal, g_free, g_free);
@@ -8060,6 +8108,7 @@ html_editor_view_get_parts_for_inline_images (EHTMLEditorView *view,
 			} else
 				g_free (src);
 		}
+		g_object_unref (node);
 		g_free (cid);
 	}
 
@@ -8138,6 +8187,7 @@ restore_images (gchar *key,
 			webkit_dom_node_list_item (list, ii));
 
 		webkit_dom_element_set_attribute (element, "background", key, NULL);
+		g_object_unref (element);
 	}
 	g_free (selector);
 	g_object_unref (list);
@@ -8150,6 +8200,7 @@ restore_images (gchar *key,
 			webkit_dom_node_list_item (list, ii));
 
 		webkit_dom_element_set_attribute (element, "src", key, NULL);
+		g_object_unref (element);
 	}
 	g_free (selector);
 	g_object_unref (list);

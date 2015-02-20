@@ -321,7 +321,9 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		node = webkit_dom_node_list_item (nodes, ii);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (new_cell), node, NULL);
+		g_object_unref (node);
 	}
+	g_object_unref (nodes);
 
 	/* Insert new_cell before cell and remove cell */
 	webkit_dom_node_insert_before (
@@ -335,8 +337,6 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 		WEBKIT_DOM_NODE (cell), NULL);
 
 	dialog->priv->cell = new_cell;
-
-	g_object_unref (nodes);
 
 	g_free (tagname);
 }

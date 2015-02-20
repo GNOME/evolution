@@ -79,6 +79,7 @@ replace_local_image_links (WebKitDOMDocument *document)
 		webkit_dom_html_image_element_set_src (img, new_src);
 		g_free (new_src);
 		g_free (src);
+		g_object_unref (img);
 	}
 	g_object_unref (list);
 
@@ -96,6 +97,7 @@ replace_local_image_links (WebKitDOMDocument *document)
 
 		if (content_document && WEBKIT_DOM_IS_DOCUMENT (content_document))
 			replace_local_image_links (content_document);
+		g_object_unref (iframe);
 	}
 	g_object_unref (list);
 }

@@ -286,12 +286,14 @@ get_caret_position (EHTMLEditorView *view)
 		if (webkit_dom_node_is_same_node (
 			node, webkit_dom_dom_selection_get_anchor_node (selection))) {
 
+			g_object_unref (node);
 			break;
 		} else if (WEBKIT_DOM_IS_TEXT (node)) {
 			gchar *text = webkit_dom_node_get_text_content (node);
 			range_count += strlen (text);
 			g_free (text);
 		}
+		g_object_unref (node);
 	}
 
 	g_object_unref (nodes);

@@ -1434,13 +1434,13 @@ eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
 
 	length = webkit_dom_node_list_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
-
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (nodes, ii);
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (node), "click",
 			G_CALLBACK (collapse_contacts_list), FALSE, document);
+		g_object_unref (node);
 	}
 
 	g_object_unref (nodes);
