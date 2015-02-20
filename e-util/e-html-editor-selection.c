@@ -3717,7 +3717,6 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
                                         gboolean monospaced)
 {
 	EHTMLEditorView *view;
-	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
 	WebKitDOMRange *range;
 	WebKitDOMDOMWindow *window;
@@ -3737,14 +3736,12 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	web_view = WEBKIT_WEB_VIEW (view);
 
-	document = webkit_web_view_get_dom_document (web_view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	window = webkit_dom_document_get_default_view (document);
 	window_selection = webkit_dom_dom_window_get_selection (window);
 
 	if (monospaced) {
-		gchar *font_size_str;
 		guint font_size;
 		WebKitDOMElement *monospace;
 
@@ -3754,39 +3751,31 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 			monospace, "face", "monospace", NULL);
 
 		font_size = selection->priv->font_size;
-		if (font_size == 0)
-			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
-		font_size_str = g_strdup_printf ("%d", font_size);
-		webkit_dom_element_set_attribute (
-			monospace, "size", font_size_str, NULL);
-		g_free (font_size_str);
+		if (font_size != 0) {
+			gchar *font_size_str;
+
+			font_size_str = g_strdup_printf ("%d", font_size);
+			webkit_dom_element_set_attribute (
+				monospace, "size", font_size_str, NULL);
+			g_free (font_size_str);
+		}
 
 		if (!e_html_editor_selection_is_collapsed (selection)) {
-			gchar *html, *outer_html;
-			WebKitDOMNode *range_clone;
+			webkit_dom_range_surround_contents (
+				range, WEBKIT_DOM_NODE (monospace), NULL);
 
-			range_clone = WEBKIT_DOM_NODE (
-				webkit_dom_range_clone_contents (range, NULL));
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (monospace),
+				WEBKIT_DOM_NODE (create_selection_marker (document, TRUE)),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (monospace)),
+				NULL);
 
 			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (monospace), range_clone, NULL);
-
-			outer_html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (monospace));
-
-			html = g_strconcat (
-				/* Mark selection for restoration */
-				"<span id=\"-x-evo-selection-start-marker\"></span>",
-				outer_html,
-				"<span id=\"-x-evo-selection-end-marker\"></span>",
-				NULL),
-
-			e_html_editor_selection_insert_html (selection, html);
+				WEBKIT_DOM_NODE (monospace),
+				WEBKIT_DOM_NODE (create_selection_marker (document, FALSE)),
+				NULL);
 
 			e_html_editor_selection_restore (selection);
-
-			g_free (html);
-			g_free (outer_html);
 		} else {
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
 			webkit_dom_html_element_set_inner_html (
@@ -3824,19 +3813,23 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 		is_underline = selection->priv->is_underline;
 		is_strikethrough = selection->priv->is_strikethrough;
 		font_size = selection->priv->font_size;
-		if (font_size == 0)
-			font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
 		if (!e_html_editor_selection_is_collapsed (selection)) {
 			gchar *html, *outer_html, *inner_html, *beginning, *end;
-			gchar *start_position, *end_position, *font_size_str;
+			gchar *start_position, *end_position, *font_size_str = NULL;
 			WebKitDOMElement *wrapper;
+			WebKitDOMNode *next_sibling;
+			WebKitDOMNode *prev_sibling;
 
 			wrapper = webkit_dom_document_create_element (
 				document, "SPAN", NULL);
 			webkit_dom_element_set_id (wrapper, "-x-evo-remove-tt");
 			webkit_dom_range_surround_contents (
 				range, WEBKIT_DOM_NODE (wrapper), NULL);
+
+			webkit_dom_node_normalize (webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (wrapper)));
+			prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (wrapper));
+			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (wrapper));
 
 			html = webkit_dom_html_element_get_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element));
@@ -3852,27 +3845,30 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 			end = g_utf8_substring (
 				html,
 				g_utf8_pointer_to_offset (html, end_position) + 7,
-				g_utf8_strlen (html, -1)),
+				g_utf8_strlen (html, -1));
 
-			font_size_str = g_strdup_printf ("%d", font_size);
+			if (font_size)
+				font_size_str = g_strdup_printf ("%d", font_size);
 
 			outer_html =
 				g_strconcat (
 					/* Beginning */
-					beginning,
+					prev_sibling ? beginning : "",
 					/* End the previous FONT tag */
-					"</font>",
+					prev_sibling ?  "</font>" : "",
 					/* Mark selection for restoration */
 					"<span id=\"-x-evo-selection-start-marker\"></span>",
 					/* Inside will be the same */
 					inner_html,
 					"<span id=\"-x-evo-selection-end-marker\"></span>",
 					/* Start the new FONT element */
-					"<font face=\"monospace\" size=\"",
-					font_size_str,
-					"\">",
+					next_sibling ? "<font face=\"monospace\" " : "",
+					next_sibling ? font_size ? "size=\"" : "" : "",
+					next_sibling ? font_size ? font_size_str : "" : "",
+					next_sibling ? font_size ? "\"" : "" : "",
+					next_sibling ? ">" : "",
 					/* End - we have to start after </span> */
-					end,
+					next_sibling ? end : "",
 					NULL),
 
 			g_free (font_size_str);
@@ -3934,7 +3930,8 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 		if (is_strikethrough)
 			e_html_editor_selection_set_strikethrough (selection, TRUE);
 
-		e_html_editor_selection_set_font_size (selection, font_size);
+		if (font_size)
+			e_html_editor_selection_set_font_size (selection, font_size);
 	}
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
@@ -4439,6 +4436,8 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
 	if (e_html_editor_view_get_html_mode (view)) {
 		e_html_editor_view_exec_command (view, command, html_text);
+		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
+			e_html_editor_selection_restore (selection);
 		e_html_editor_view_check_magic_links (view, FALSE);
 		e_html_editor_view_force_spell_check (view);
 
