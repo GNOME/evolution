@@ -5777,7 +5777,6 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 	g_return_if_fail (view != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	g_object_unref (view);
 
 	e_html_editor_selection_save (selection);
 	selection_start_marker = webkit_dom_document_query_selector (
@@ -5840,6 +5839,8 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 	e_html_editor_selection_restore (selection);
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
+	g_object_unref (view);
 }
 
 WebKitDOMElement *
