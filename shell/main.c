@@ -590,6 +590,12 @@ main (gint argc,
 		goto exit;
 	}
 
+	if (g_application_get_is_remote (G_APPLICATION (shell)) &&
+	    remaining_args && *remaining_args) {
+		e_shell_handle_uris (shell, (const gchar * const *) remaining_args, import_uris);
+		goto exit;
+	}
+
 	/* This routine converts the local mail store from mbox format to
 	 * Maildir format as needed.  The reason the code is here and not
 	 * in the mail module is because we inform the user at startup of
