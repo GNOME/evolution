@@ -2541,7 +2541,7 @@ e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
 		color = g_strdup (selection->priv->font_color);
 	} else {
 		color = get_font_property (selection, "color");
-		if (!color) {
+		if (!(color && *color)) {
 			*rgba = black;
 			return;
 		}
