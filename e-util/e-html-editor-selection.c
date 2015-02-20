@@ -3506,6 +3506,8 @@ e_html_editor_selection_set_bold (EHTMLEditorSelection *selection,
 	command = E_HTML_EDITOR_VIEW_COMMAND_BOLD;
 	e_html_editor_view_exec_command (view, command, NULL);
 
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
 	g_object_unref (view);
 
 	g_object_notify (G_OBJECT (selection), "bold");
@@ -3605,6 +3607,8 @@ e_html_editor_selection_set_italic (EHTMLEditorSelection *selection,
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_ITALIC;
 	e_html_editor_view_exec_command (view, command, NULL);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 
@@ -3933,6 +3937,8 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 		e_html_editor_selection_set_font_size (selection, font_size);
 	}
 
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
 	g_object_unref (view);
 
 	g_object_notify (G_OBJECT (selection), "monospaced");
@@ -4032,6 +4038,8 @@ e_html_editor_selection_set_strikethrough (EHTMLEditorSelection *selection,
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH;
 	e_html_editor_view_exec_command (view, command, NULL);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 
@@ -4293,6 +4301,8 @@ e_html_editor_selection_set_underline (EHTMLEditorSelection *selection,
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE;
 	e_html_editor_view_exec_command (view, command, NULL);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 
