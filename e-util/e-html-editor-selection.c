@@ -2499,12 +2499,12 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
-	g_object_unref (view);
-
 	/* When changing the format we need to re-set the alignment */
 	e_html_editor_selection_set_alignment (selection, selection->priv->alignment);
 
 	e_html_editor_view_set_changed (view, TRUE);
+
+	g_object_unref (view);
 
 	g_object_notify (G_OBJECT (selection), "block-format");
 }
