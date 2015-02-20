@@ -570,7 +570,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 	object_class->finalize = html_editor_selection_finalize;
 
 	/**
-	 * EHTMLEditorSelectionalignment
+	 * EHTMLEditorSelection:alignment
 	 *
 	 * Holds alignment of current paragraph.
 	 */
@@ -588,7 +588,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_READWRITE));
 
 	/**
-	 * EHTMLEditorSelectionbackground-color
+	 * EHTMLEditorSelection:background-color
 	 *
 	 * Holds background color of current selection or at current cursor
 	 * position.
@@ -604,7 +604,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_READWRITE));
 
 	/**
-	 * EHTMLEditorSelectionblock-format
+	 * EHTMLEditorSelection:block-format
 	 *
 	 * Holds block format of current paragraph. See
 	 * #EHTMLEditorSelectionBlockFormat for valid values.
@@ -625,7 +625,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionbold
+	 * EHTMLEditorSelection:bold
 	 *
 	 * Holds whether current selection or text at current cursor position
 	 * is bold.
@@ -654,7 +654,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionfont-color
+	 * EHTMLEditorSelection:font-color
 	 *
 	 * Holds font color of current selection or at current cursor position.
 	 */
@@ -670,7 +670,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionfont-name
+	 * EHTMLEditorSelection:font-name
 	 *
 	 * Holds name of font in current selection or at current cursor
 	 * position.
@@ -687,7 +687,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionfont-size
+	 * EHTMLEditorSelection:font-size
 	 *
 	 * Holds point size of current selection or at current cursor position.
 	 */
@@ -705,7 +705,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionindented
+	 * EHTMLEditorSelection:indented
 	 *
 	 * Holds whether current paragraph is indented. This does not include
 	 * citations.
@@ -722,7 +722,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionitalic
+	 * EHTMLEditorSelection:italic
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is italic.
@@ -739,7 +739,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionmonospaced
+	 * EHTMLEditorSelection:monospaced
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is monospaced.
@@ -756,7 +756,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionstrikethrough
+	 * EHTMLEditorSelection:strikethrough
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is strikethrough.
@@ -773,7 +773,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionsuperscript
+	 * EHTMLEditorSelection:superscript
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is in superscript.
@@ -790,7 +790,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionsubscript
+	 * EHTMLEditorSelection:subscript
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is in subscript.
@@ -807,7 +807,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectiontext
+	 * EHTMLEditorSelection:text
 	 *
 	 * Holds always up-to-date text of current selection.
 	 */
@@ -823,7 +823,7 @@ e_html_editor_selection_class_init (EHTMLEditorSelectionClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EHTMLEditorSelectionunderline
+	 * EHTMLEditorSelection:underline
 	 *
 	 * Holds whether current selection or letter at current cursor position
 	 * is underlined.
