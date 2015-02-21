@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-21 07:08+0000\n"
-"PO-Revision-Date: 2015-02-21 16:33+0100\n"
+"POT-Creation-Date: 2015-02-21 15:37+0000\n"
+"PO-Revision-Date: 2015-02-21 17:44+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -594,7 +594,6 @@ msgstr "Neplatný kontakt."
 #: ../mail/mail-dialogs.ui.h:26 ../mail/mail-vfolder-ui.c:149 ../mail/mail-vfolder-ui.c:271 ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422 ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767 ../shell/main.c:168 ../smime/gui/certificate-manager.c:1336
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
-#| msgid "OK"
 msgid "_OK"
 msgstr "_OK"
 
@@ -13484,11 +13483,11 @@ msgstr "Pridať no_vý podpis…"
 
 #: ../mail/e-mail-config-identity-page.c:556
 msgid "_Look up mail server details based on the entered e-mail address"
-msgstr ""
+msgstr "_Vyhľadať podrobnosti o poštovom serveri na základe zadanej emailovej adresy"
 
 #: ../mail/e-mail-config-lookup-page.c:70
 msgid "Looking up account details..."
-msgstr "Hľadajú sa podrobnosti účtu…"
+msgstr "Hľadajú sa podrobnosti o účte…"
 
 #: ../mail/e-mail-config-provider-page.c:484
 msgid "Checking for New Mail"
@@ -14308,7 +14307,7 @@ msgstr "Zobrazí zdrojový poštový formát v správe"
 
 #: ../mail/e-mail-reader.c:2339
 msgid "_Undelete Message"
-msgstr "Obnoviť vyma_zanú správu"
+msgstr "Obnoviť odstrán_enú správu"
 
 #: ../mail/e-mail-reader.c:2341
 msgid "Undelete the selected messages"
@@ -14464,11 +14463,11 @@ msgstr "Odpovie do poštovej konferencie alebo všetkým adresátom"
 
 #: ../mail/e-mail-reader.c:4114 ../mail/filtertypes.xml.in.h:65
 msgid "Delete"
-msgstr "Zmazať"
+msgstr "Odstrániť"
 
 #: ../mail/e-mail-reader.c:4126 ../modules/calendar/e-cal-shell-view-actions.c:1212
 msgid "Next"
-msgstr "Nasledujúca"
+msgstr "Ďalej"
 
 #: ../mail/e-mail-reader.c:4130 ../modules/calendar/e-cal-shell-view-actions.c:1205
 msgid "Previous"
@@ -14515,9 +14514,9 @@ msgstr "Tlačí sa"
 #, c-format
 msgid "Folder '%s' contains %u duplicate message. Are you sure you want to delete it?"
 msgid_plural "Folder '%s' contains %u duplicate messages. Are you sure you want to delete them?"
-msgstr[0] "Priečinok „%s“ obsahuje %u duplicitných správ. Ste si istý, že ich chcete vymazať?"
-msgstr[1] "Priečinok „%s“ obsahuje %u duplicitnú správu. Ste si istý, že ju chcete vymazať?"
-msgstr[2] "Priečinok „%s“ obsahuje %u duplicitné správy. Ste si istý, že ich chcete vymazať?"
+msgstr[0] "Priečinok „%s“ obsahuje %u duplicitných správ. Ste si istý, že ich chcete odstrániť?"
+msgstr[1] "Priečinok „%s“ obsahuje %u duplicitnú správu. Ste si istý, že ju chcete odstrániť?"
+msgstr[2] "Priečinok „%s“ obsahuje %u duplicitné správy. Ste si istý, že ich chcete odstrániť?"
 
 #: ../mail/e-mail-reader-utils.c:2355
 msgid "Save Message"
@@ -17411,7 +17410,6 @@ msgstr "Povoliť aktualizáciu súboru programu Evolution"
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:187
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
