@@ -3,6 +3,8 @@
 #
 # Görkem Çetin <gorkem@kde.org>, 2004.
 # Baris Cicek <baris@teamforce.name.tr>, 2004, 2005, 2006, 2008, 2009.
+# Necdet Yücel <necdetyucel@gmail.com>, 2015.
+# İşbaran Akçayır <isbaran@gmail.com>, 2015.
 # Muhammet Kara <muhammetk@gmail.com>, 2011, 2012, 2014, 2015.
 #
 msgid ""
@@ -11,7 +13,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-02-20 17:19+0000\n"
-"PO-Revision-Date: 2015-02-21 06:55+0200\n"
+"PO-Revision-Date: 2015-02-21 21:47+0200\n"
 "Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -611,22 +613,19 @@ msgid "Show SIP Address"
 msgstr "SIP Adresini Göster"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:58
-#, fuzzy
 #| msgid "Instant Messaging"
 msgid "Show Instant Messaging"
-msgstr "Anlık Mesajlaşma"
+msgstr "Anlık Mesajlaşmayı Göster"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
-#, fuzzy
 #| msgid "Web Addresses"
 msgid "Show Web Addresses"
-msgstr "Web Adresleri"
+msgstr "Web Adreslerini Göster"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:60
-#, fuzzy
 #| msgid "Show the second time zone"
 msgid "Show Job section"
-msgstr "İkinci zaman dilimini göster"
+msgstr "İş bölümünü göster"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:61
 #, fuzzy
@@ -653,10 +652,9 @@ msgid "Show Other Mailing Address"
 msgstr "E-posta Adresi"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:65
-#, fuzzy
 #| msgid "Sho_w: "
 msgid "Show Notes"
-msgstr "_Göster:"
+msgstr "Notları Göster"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
@@ -1018,10 +1016,9 @@ msgid "Open map"
 msgstr "Harita aç"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:437
-#, fuzzy
 #| msgid "VIP"
 msgid "SIP"
-msgstr "VIP"
+msgstr "SIP"
 
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:681
 msgid "List Members:"
@@ -1876,7 +1873,6 @@ msgid "Twitter"
 msgstr "Twitter"
 
 #: ../addressbook/util/eab-book-util.c:83
-#, fuzzy
 #| msgid "Google Talk"
 msgctxt "addressbook-label"
 msgid "Google Talk"
@@ -1897,11 +1893,10 @@ msgstr "E-posta"
 #. * SIP=Session Initiation Protocol, used for voice over IP
 #.
 #: ../addressbook/util/eab-book-util.c:173
-#, fuzzy
 #| msgid "VIP"
 msgctxt "addressbook-label"
 msgid "SIP"
-msgstr "VIP"
+msgstr "SIP"
 
 #. To Translators:
 #. * if an IM address type is not one of the predefined types,
@@ -1909,11 +1904,10 @@ msgstr "VIP"
 #. * IM=Instant Messaging
 #.
 #: ../addressbook/util/eab-book-util.c:216
-#, fuzzy
 #| msgid "AIM"
 msgctxt "addressbook-label"
 msgid "IM"
-msgstr "AIM"
+msgstr "IM"
 
 #. To Translators:
 #. * if a phone number type is not one of the predefined types,
@@ -23454,7 +23448,7 @@ msgstr "Kullanıcı arayüzü durumu kaydediliyor"
 msgid "translator-credits"
 msgstr ""
 "Barış Çiçek <baris@teamforce.name.tr> \n"
-"Muhammet Kara <muhammet.k@gmail.com>"
+"Muhammet Kara <muhammetk@gmail.com>"
 
 #: ../shell/e-shell-window-actions.c:83
 msgid "Evolution Website"
