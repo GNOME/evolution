@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-02-21 15:37+0000\n"
-"PO-Revision-Date: 2015-02-21 17:44+0100\n"
+"PO-Revision-Date: 2015-02-22 11:08+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -93,20 +93,16 @@ msgid "Category editor not available."
 msgstr "Editor kategórií nie je k dispozícii."
 
 #: ../addressbook/addressbook.error.xml.h:18
-#, fuzzy
-#| msgid "Unable to open address book"
 msgid "Unable to open address book '{0}'"
-msgstr "Nepodarilo sa otvoriť adresár kontaktov"
+msgstr "Nepodarilo sa otvoriť adresár kontaktov „{0}“"
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Unable to perform search."
 msgstr "Nepodarilo sa vykonať vyhľadanie."
 
 #: ../addressbook/addressbook.error.xml.h:20
-#, fuzzy
-#| msgid "Unable to open address book"
 msgid "Failed to refresh address book '{0}'"
-msgstr "Nepodarilo sa otvoriť adresár kontaktov"
+msgstr "Zlyhalo obnovenie adresára kontaktov „{0}“"
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "Would you like to save your changes?"
@@ -978,18 +974,14 @@ msgid "Duplicate Contact Detected"
 msgstr "Nájdený duplicitný kontakt"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:771
-#, fuzzy
-#| msgid "The name or email of this contact already exists in this folder. Would you like to save the changes anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
-msgstr "Meno alebo email tohto kontaktu už v tomto priečinku existuje. Chcete aj napriek tomu uložiť zmeny?"
+msgstr ""
+"Meno alebo email tohto kontaktu už v tomto priečinku\n"
+"existuje. Chcete aj napriek tomu uložiť zmeny?"
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:774
-#, fuzzy
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -2909,11 +2901,11 @@ msgstr "_Odvolať komentár"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:1
 msgid "Enter Delegate"
-msgstr "Zadajte na koho postúpiť"
+msgstr "Zadajte na koho zveriť"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:4
 msgid "Delegate To:"
-msgstr "Postúpiť na:"
+msgstr "Zveriť na:"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:5
 msgid "Contacts..."
@@ -3037,9 +3029,8 @@ msgid "At least one attendee is required."
 msgstr "Potrebný je aspoň jeden účastník."
 
 #: ../calendar/gui/dialogs/event-page.c:1938
-#, fuzzy
 msgid "_Delegatees"
-msgstr "_Poverenia"
+msgstr "_Delegáti"
 
 #: ../calendar/gui/dialogs/event-page.c:1940
 msgid "Atte_ndees"
@@ -3936,7 +3927,7 @@ msgstr "Odstráni vybrané udalosti"
 
 #: ../calendar/gui/e-calendar-view.c:810
 msgid "Pasted text doesn't contain valid iCalendar data"
-msgstr ""
+msgstr "Vložený text neobsahuje platné údaje kalendára iCalendar"
 
 #: ../calendar/gui/e-calendar-view.c:821 ../calendar/gui/e-cal-ops.c:1540
 msgid "Default calendar not found"
@@ -3955,10 +3946,8 @@ msgid "No suitable component found"
 msgstr "Nenašla sa vhodná súčasť"
 
 #: ../calendar/gui/e-calendar-view.c:988
-#, fuzzy
-#| msgid "Save as iCalendar"
 msgid "Pasting iCalendar data"
-msgstr "Uložiť ako iCalendar"
+msgstr "Vkladajú sa údaje kalendára iCalendar"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
@@ -4038,7 +4027,7 @@ msgstr "Neznámy"
 #: ../calendar/gui/e-cal-model.c:1183 ../calendar/gui/e-cal-ops.c:586 ../calendar/gui/e-cal-ops.c:1209 ../modules/calendar/e-cal-base-shell-backend.c:361
 #, c-format
 msgid "Source with UID '%s' not found"
-msgstr ""
+msgstr "Zdroj s UID „%s“ nebol nájdený"
 
 # tooltip
 #: ../calendar/gui/e-cal-model.c:1267 ../calendar/gui/e-cal-ops.c:184 ../calendar/gui/e-cal-ops.c:1325
@@ -4084,7 +4073,6 @@ msgid "Tentative"
 msgstr "Predbežný"
 
 #: ../calendar/gui/e-cal-model.c:3032 ../calendar/gui/e-meeting-list-view.c:223 ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225 ../modules/itip-formatter/itip-view.c:6085
-#, fuzzy
 msgid "Delegated"
 msgstr "Poverený"
 
@@ -4244,10 +4232,8 @@ msgstr "Čistia sa úlohy"
 
 # <long>Whether to hide completed tasks in the tasks view.</long>
 #: ../calendar/gui/e-cal-ops.c:1178
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Expunging completed tasks"
-msgstr "Skryť dokončené úlohy"
+msgstr "Čistia sa dokončené úlohy"
 
 #: ../calendar/gui/e-cal-ops.c:2034
 #, c-format
@@ -4529,12 +4515,10 @@ msgstr "Člen"
 
 # PK: inde postupit
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:7
-#, fuzzy
 msgid "Delegated To"
-msgstr "Zverené"
+msgstr "Zverené na"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
-#, fuzzy
 msgid "Delegated From"
 msgstr "Zverené od"
 
@@ -4698,7 +4682,6 @@ msgstr "Odmietnuté"
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
 #: ../calendar/gui/itip-utils.c:999
-#, fuzzy
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Zverené"
@@ -4750,10 +4733,8 @@ msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Nedá sa zarezervovať zdroj, nová udalosť koliduje s nejakou inou."
 
 #: ../calendar/gui/itip-utils.c:1153
-#, fuzzy
-#| msgid "Unable to book a resource, error: %s"
 msgid "Unable to book a resource, error: "
-msgstr "Nedá sa zarezervovať zdroj, chyba: %s"
+msgstr "Nedá sa zarezervovať zdroj, chyba: "
 
 #: ../calendar/gui/itip-utils.c:1324
 msgid "You must be an attendee of the event."
@@ -5082,10 +5063,9 @@ msgstr "má opakovania"
 
 # PK: kde to je? akym pripadom
 #: ../calendar/importers/icalendar-importer.c:1200
-#, fuzzy
 msgctxt "iCalImp"
 msgid "is an instance"
-msgstr "je prípadom"
+msgstr "je inštanciou"
 
 #: ../calendar/importers/icalendar-importer.c:1205
 msgctxt "iCalImp"
@@ -6866,10 +6846,8 @@ msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Podpíše túto správu podpisovým certifikátor S/MIME"
 
 #: ../composer/e-composer-actions.c:576
-#, fuzzy
-#| msgid "Unicode"
 msgid "Unicode smilyes"
-msgstr "Unicode"
+msgstr "Smejkovia v kódovaní Unicode"
 
 #: ../composer/e-composer-actions.c:578 ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid "Use Unicode characters for smileys."
@@ -7176,7 +7154,6 @@ msgstr "Určuje, či vnucovať zobrazovanie poštovej adresy ku menu dopĺňané
 
 # PK: bug? ten nazov by mal byt kratsi
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:7
-#, fuzzy
 msgid "URI for the folder last used in the select names dialog"
 msgstr "URI naposledy použitého priečinka v dialógovom okne vyberania mien"
 
@@ -7293,11 +7270,11 @@ msgstr "Skonvertuje text správ do kódovania Unicode UTF-8, pre zjednotenie tok
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
 msgid "Full path command to run Bogofilter"
-msgstr ""
+msgstr "Úplná cesta príkazu na spustenie programu Bogofilter"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
 msgid "Full path to a Bogofilter command. If not set, then a compile-time path is used, usually /usr/bin/bogofilter. The command should not contain any other arguments."
-msgstr ""
+msgstr "Úplná cesta k príkazu Bogofilter. Ak nie je nastavená, použije sa cesta z kompilácie, obvykle to býva /usr/bin/bogofilter. Príkaz by nemal obsahovať žiadne parametre."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
@@ -7556,7 +7533,6 @@ msgstr "Pozícia panelu náhľadu poznámky (vodorovná)"
 
 # MČ: treba nahlásiť, že tam majú asi chybu. Mal by to byť popis predchádzajúcej položky a teda by to malo byť o poznámke a nie úlohe.
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
-#, fuzzy
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Pozícia panelu náhľadu úlohy pri vodorovnej orientácii"
 
@@ -8104,14 +8080,12 @@ msgstr ""
 "používajú nevhodný štandard RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
-#, fuzzy
-#| msgid "Saving message to Outbox."
 msgid "Send messages through Outbox folder"
-msgstr "Ukladá sa správa do Pošty na odoslanie."
+msgstr "Odoslať správy cez priečinok „Pošta na odoslanie“"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid "Always save messages to Outbox folder when sending, to let a user choose when the messages should be sent."
-msgstr "Vždy uložiť správy do priečinka Pošta na odoslanie pri odosielaní, aby používateľ mohol určiť, kedy sa správy odošlú."
+msgstr "Vždy uložiť správy do priečinka „Pošta na odoslanie“ pri odosielaní, aby používateľ mohol určiť, kedy sa správy odošlú."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Put personalized signatures at the top of replies"
@@ -8153,10 +8127,8 @@ msgstr "Čiarkami oddelený zoznam lokalizovaných „Re“ skratiek, aby pri od
 # a ked tak, tak režim "express"
 # asi je to pomenované podľa Outlook Express...
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
-#, fuzzy
-#| msgid "Enable express mode"
 msgid "Enable developer mode"
-msgstr "Povoliť režim „express“"
+msgstr "Povoliť vývojársky režim"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid "Enables some hidden actions and tools aimed for development and debugging."
@@ -8500,13 +8472,11 @@ msgstr "Predvolený štýl odpovede"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
-msgstr ""
+msgstr "Pýtať sa pri odosielaní, keď sa použije klávesová skratka (Ctrl+Enter)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
-#, fuzzy
-#| msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgid "Prompt the user when he or she tries to send a message with a key accelerator."
-msgstr "Pýta sa používateľa keď sa bude pokúšať odoslať správu bez vyplneného Predmetu."
+msgstr "Pýta sa používateľa keď sa bude pokúšať odoslať správu klávesovou skratkou."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Prompt on empty subject"
@@ -8814,10 +8784,8 @@ msgid "Controls how frequently local changes are synchronized with the remote ma
 msgstr "Ovláda ako často miestne zmeny majú byť synchronizované so vzdialeným poštovým serverom. Interval musí byť minimálne 30 sekúnd."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
-#, fuzzy
-#| msgid "Confirm _when expunging a folder"
 msgid "Allow expunge in virtual folders"
-msgstr "_Potvrdenie pri čistení priečinka"
+msgstr "Povoliť čistenie vo virtuálnych priečinkoch"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
@@ -8827,7 +8795,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "An Archive folder for On This Computer folders."
-msgstr ""
+msgstr "Archivačný priečinok pre priečinky „Na tomto počítači“"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "An Archive folder to use for Messages|Archive... feature when in an On This Computer folder."
@@ -9208,19 +9176,19 @@ msgstr "Použiť len lokálne testy na nevyžiadanú poštu (bez DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
-msgstr ""
+msgstr "Úplná cesta príkazu na spustenie programu spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 msgid "Full path to a spamassassin command. If not set, then a compile-time path is used, usually /usr/bin/spamassassin. The command should not contain any other arguments."
-msgstr ""
+msgstr "Úplná cesta k príkazu spamassassin. Ak nie je nastavená, použije sa cesta z kompilácie, obvykle to býva /usr/bin/spamassassin. Príkaz by nemal obsahovať žiadne parametre."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
 msgid "Full path command to run sa-learn"
-msgstr ""
+msgstr "Úplná cesta príkazu na spustenie programu sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
 msgid "Full path to a sa-learn command. If not set, then a compile-time path is used, usually /usr/bin/sa-learn. The command should not contain any other arguments."
-msgstr ""
+msgstr "Úplná cesta k príkazu sa-learn. Ak nie je nastavená, použije sa cesta z kompilácie, obvykle to býva /usr/bin/sa-learn. Príkaz by nemal obsahovať žiadne parametre."
 
 #: ../em-format/e-mail-formatter-attachment.c:405 ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106 ../e-util/e-attachment-paned.c:187 ../e-util/e-attachment-paned.c:192
 #: ../mail/message-list.etspec.h:4
@@ -9702,7 +9670,7 @@ msgstr "P_riložiť"
 
 #: ../e-util/e-attachment-store.c:533
 msgid "Archive selected directories using this format:"
-msgstr ""
+msgstr "Archivovať vybrané adresáre použitím tohoto formátu:"
 
 #: ../e-util/e-attachment-store.c:626
 msgid "Save Attachment"
@@ -10759,7 +10727,7 @@ msgstr "Te_xtový súbor…"
 
 #: ../e-util/e-html-editor-actions.c:1083
 msgid "Paste _Quotation"
-msgstr ""
+msgstr "Vložiť _citáciu"
 
 #: ../e-util/e-html-editor-actions.c:1090
 msgid "_Find..."
@@ -10874,7 +10842,7 @@ msgstr "Hlavička _6"
 
 #: ../e-util/e-html-editor-actions.c:1232
 msgid "_Preformatted"
-msgstr ""
+msgstr "_Predformátované"
 
 #: ../e-util/e-html-editor-actions.c:1239
 msgid "A_ddress"
@@ -10882,7 +10850,7 @@ msgstr "A_dresa"
 
 #: ../e-util/e-html-editor-actions.c:1246
 msgid "_Blockquote"
-msgstr ""
+msgstr "_Citácia"
 
 #: ../e-util/e-html-editor-actions.c:1253
 msgid "_Bulleted List"
@@ -10890,7 +10858,7 @@ msgstr "Zoznam s _odrážkami"
 
 #: ../e-util/e-html-editor-actions.c:1260
 msgid "_Roman Numeral List"
-msgstr ""
+msgstr "Zoznam s _rímskymi číslicami"
 
 #: ../e-util/e-html-editor-actions.c:1267
 msgid "Numbered _List"
@@ -11241,10 +11209,8 @@ msgstr "_Zvislo:"
 
 #. Wrap Text
 #: ../e-util/e-html-editor-cell-dialog.c:728
-#, fuzzy
-#| msgid "Plain Text"
 msgid "_Wrap Text"
-msgstr "Obyčajný text"
+msgstr "_Zalamovať text"
 
 # title of column
 #. Header Style
@@ -11475,10 +11441,8 @@ msgid "<b>Alignment</b>"
 msgstr "<b>Zarovnanie</b>"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:155
-#, fuzzy
-#| msgid "Category Properties"
 msgid "Paragraph Properties"
-msgstr "Vlastnosti kategórie"
+msgstr "Vlastnosti odstavca"
 
 # * https://bugzilla.gnome.org/show_bug.cgi?id=641020
 #: ../e-util/e-html-editor-replace-dialog.c:148
@@ -11583,10 +11547,8 @@ msgid "_Spacing:"
 msgstr "_Rozstup:"
 
 #: ../e-util/e-html-editor-table-dialog.c:792
-#, fuzzy
-#| msgid "Loading"
 msgid "_Padding:"
-msgstr "Načítava sa"
+msgstr "O_dsadenie:"
 
 #: ../e-util/e-html-editor-table-dialog.c:856 ../e-util/e-html-editor-text-dialog.c:261
 msgid "_Color:"
@@ -11609,10 +11571,8 @@ msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
 #: ../e-util/e-html-editor-view.c:3418
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Changed property"
-msgstr "Vlastnosti kalendára"
+msgstr "Zmenená vlastnosť"
 
 #: ../e-util/e-html-editor-view.c:3419
 #, fuzzy
@@ -11625,16 +11585,12 @@ msgid "Turning HTML mode off will cause the text to lose all formatting. Do you 
 msgstr "Vypnutie režimu HTML spôsobí stratu všetkého formátovania textu. Chcete pokračovať?"
 
 #: ../e-util/e-html-editor-view.c:7264
-#, fuzzy
-#| msgid "Address formatting"
 msgid "_Don't lose formatting"
-msgstr "Formátovanie adresy"
+msgstr "_Nestratiť formátovanie"
 
 #: ../e-util/e-html-editor-view.c:7265
-#, fuzzy
-#| msgid "Address formatting"
 msgid "_Lose formatting"
-msgstr "Formátovanie adresy"
+msgstr "_Stratiť formátovanie"
 
 #: ../e-util/e-import-assistant.c:256
 msgid "Choose the file that you want to import into Evolution, and select what type of file it is from the list."
@@ -13252,7 +13208,7 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-msgstr[1] "Vyhľadávací priečinok %s "
+msgstr[1] ""
 msgstr[2] ""
 
 #: ../mail/e-mail-account-manager.c:117 ../mail/e-mail-account-manager.c:204
@@ -13318,10 +13274,8 @@ msgid "Evolution Account Assistant"
 msgstr "Asistent účtov Evolution"
 
 #: ../mail/e-mail-config-assistant.c:952
-#, fuzzy
-#| msgid "_Restore Defaults"
 msgid "_Revise Details"
-msgstr "_Obnoviť predvolené"
+msgstr "_Skontrolovať podrobnosti"
 
 # je to nazov tlacidla
 #: ../mail/e-mail-config-auth-check.c:349
@@ -13371,10 +13325,8 @@ msgid "S_ave replies in the folder of the message being replied to"
 msgstr "_Uchovávať odpovede v priečinku kde je správa, na ktorú sa odpovedalo"
 
 #: ../mail/e-mail-config-defaults-page.c:628
-#, fuzzy
-#| msgid "Search Folders"
 msgid "Archi_ve Folder:"
-msgstr "Vyhľadávacie priečinky"
+msgstr "Archi_vačný priečinok:"
 
 # label
 #: ../mail/e-mail-config-defaults-page.c:638 ../modules/mail/em-mailer-prefs.c:1079
@@ -13661,11 +13613,6 @@ msgid "Account Summary"
 msgstr "Súhrn o účte"
 
 #: ../mail/e-mail-config-welcome-page.c:156
-#, fuzzy
-#| msgid ""
-#| "Welcome to the Evolution Mail Configuration Assistant.\n"
-#| "\n"
-#| "Click \"Continue\" to begin."
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -13673,7 +13620,7 @@ msgid ""
 msgstr ""
 "Víta vás asistent nastavením pošty Evolution.\n"
 "\n"
-"Začnite kliknutím na „Pokračovať“."
+"Začnite kliknutím na „Ďalej“."
 
 #: ../mail/e-mail-config-welcome-page.c:166 ../modules/startup-wizard/e-startup-assistant.c:151
 msgid "Welcome"
@@ -13906,13 +13853,11 @@ msgstr "Pridá odosielateľa do adresára kontaktov"
 
 #: ../mail/e-mail-reader.c:1968
 msgid "_Archive..."
-msgstr "_Archív…"
+msgstr "_Archivovať…"
 
 #: ../mail/e-mail-reader.c:1970
-#, fuzzy
-#| msgid "Move selected messages to another folder"
 msgid "Move selected messages to the Archive folder for the account"
-msgstr "Presunie vybrané správy do iného priečinka"
+msgstr "Presunie vybrané správy do archivačného priečinku na účte"
 
 #: ../mail/e-mail-reader.c:1975
 msgid "Check for _Junk"
@@ -14057,11 +14002,11 @@ msgstr "Vždy načíta obrázky v pošte HTML"
 
 #: ../mail/e-mail-reader.c:2108 ../mail/e-mail-reader.c:2486
 msgid "_Ignore Subthread"
-msgstr ""
+msgstr "_Ignorovať podvlákno"
 
 #: ../mail/e-mail-reader.c:2110
 msgid "Mark new mails in a subthread as read automatically"
-msgstr ""
+msgstr "Označiť novú poštu v podvlákne ako automaticky prečítanú"
 
 #: ../mail/e-mail-reader.c:2115 ../mail/e-mail-reader.c:2490
 msgid "_Ignore Thread"
@@ -14069,7 +14014,7 @@ msgstr "_Ignorovať vlákno"
 
 #: ../mail/e-mail-reader.c:2117
 msgid "Mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "Označiť novú poštu v tomto vlákne ako automaticky prečítanú"
 
 #: ../mail/e-mail-reader.c:2122
 msgid "_Important"
@@ -14104,22 +14049,20 @@ msgid "Mark the selected messages as having been read"
 msgstr "Označí vybrané správy ako už prečítané"
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2510
-#, fuzzy
-#| msgid "Could not create publish thread."
 msgid "Do not _Ignore Subthread"
-msgstr "Nepodarilo sa vytvoriť vlákno na zverejnenie."
+msgstr "Ne_ignorovať podvlákno"
 
 #: ../mail/e-mail-reader.c:2152
 msgid "Do not mark new mails in a subthread as read automatically"
-msgstr ""
+msgstr "Neoznačovať novú poštu v podvlákne ako automaticky prečítanú"
 
 #: ../mail/e-mail-reader.c:2157 ../mail/e-mail-reader.c:2514
 msgid "Do not _Ignore Thread"
-msgstr ""
+msgstr "Ne_ignorovať vlákno"
 
 #: ../mail/e-mail-reader.c:2159
 msgid "Do not mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "Neoznačovať novú poštu v tomto vlákne ako automaticky prečítanú"
 
 #: ../mail/e-mail-reader.c:2164
 msgid "Uni_mportant"
@@ -14487,10 +14430,8 @@ msgid "Unknown error"
 msgstr "Neznáma chyba"
 
 #: ../mail/e-mail-reader-utils.c:1043
-#, fuzzy
-#| msgid "Preview data to be imported"
 msgid "Marking thread to be ignored"
-msgstr "Náhľad správy, ktorú importovať"
+msgstr "Označuje sa vlákno ako ignorované"
 
 #: ../mail/e-mail-reader-utils.c:1047
 msgid "Unmarking thread from being ignored"
@@ -15221,7 +15162,7 @@ msgstr "Pridať pravidlo filtra"
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
 #: ../mail/mail-autofilter.c:505
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The filter rule \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
@@ -15229,7 +15170,7 @@ msgid_plural ""
 "The following filter rules\n"
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
-msgstr[0] "a"
+msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
@@ -15274,10 +15215,8 @@ msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "Kódovať názvy súborov v štýle _Outlook/GMail"
 
 #: ../mail/mail-config.ui.h:13
-#, fuzzy
-#| msgid "Saving message to Outbox."
 msgid "Send messages through Outbo_x folder"
-msgstr "Ukladá sa správa do Pošty na odoslanie."
+msgstr "Odoslať správy cez priečinok „Pošta na odoslanie“"
 
 #: ../mail/mail-config.ui.h:14
 msgid "Number of characters for word w_rapping:"
@@ -15409,10 +15348,8 @@ msgstr "Posielanie správy s adresátmi bez emailových _adries"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:52
-#, fuzzy
-#| msgid "Sending a message with an _empty subject line"
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
-msgstr "Posielanie správy bez pr_edmetu"
+msgstr "Odoslanie správy pomocou _klávesovej skratky (Ctrl+Enter)"
 
 #: ../mail/mail-config.ui.h:53
 msgid "Confirmations"
@@ -15553,11 +15490,11 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:97
 msgid "On This Computer A_rchive folder:"
-msgstr ""
+msgstr "Archivačný priečinok priečinka „Na tomto počítači“:"
 
 #: ../mail/mail-config.ui.h:98
 msgid "Archive folder to use for On This Computer messages"
-msgstr ""
+msgstr "Archivačný priečinok, ktorý sa má použiť pre správy priečinku „Na tomto počítači“"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:100
@@ -15625,10 +15562,8 @@ msgid "_Delete junk messages"
 msgstr "_Odstrániť nevyžiadanú poštu"
 
 #: ../mail/mail-config.ui.h:117
-#, fuzzy
-#| msgid "Send Options"
 msgid "Junk Test Options"
-msgstr "Voľby posielania"
+msgstr "Voľby preverenia nevyžiadanej pošty"
 
 #: ../mail/mail-config.ui.h:118
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -16044,7 +15979,7 @@ msgstr "Ste si istý, že chcete odstrániť tento účet?"
 
 #: ../mail/mail.error.xml.h:83
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Ak budete pokračovat, informácie o účte budú úplne zrušené."
+msgstr "Ak budete pokračovať, informácie o účte budú natrvalo odstránené."
 
 #: ../mail/mail.error.xml.h:84
 msgid "Are you sure you want to delete this account and all its proxies?"
@@ -16263,9 +16198,8 @@ msgstr "Ni_kdy"
 #  PK: je to titulok? ak ano, prejdi vsetky vyskyty z tohto suboru
 #  * https://git.gnome.org/browse/evolution/tree/mail/mail.error.xml
 #: ../mail/mail.error.xml.h:142
-#, fuzzy
 msgid "Move folder in folder tree."
-msgstr "Presúvať priečinok v strome priečinkov."
+msgstr "Presunúť priečinok v strome priečinkov."
 
 #: ../mail/mail.error.xml.h:143
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
@@ -16333,10 +16267,8 @@ msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-#, fuzzy
-#| msgid "Send mail also when in offline _mode"
 msgid "Message is not available in offline mode."
-msgstr "Poslať email aj v odpojenom _režime"
+msgstr "Správa nie je dostupná v odpojenom režime."
 
 #: ../mail/mail.error.xml.h:161
 msgid ""
@@ -16398,25 +16330,23 @@ msgstr "Na dokončenie tejto operácie musíte pracovať v pripojenom režime."
 
 #: ../mail/mail.error.xml.h:176
 msgid "Message from &quot;{0}&quot; account:"
-msgstr ""
+msgstr "Správa z účtu „{0}“:"
 
 #: ../mail/mail.error.xml.h:177
-#, fuzzy
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to mark thread to be ignored in folder '{0}'"
-msgstr "Zlyhalo presunutie udalosti do kalendára „{0}“"
+msgstr "Zlyhalo označenie vlákna ako ignorované v priečinku „{0}“"
 
 #: ../mail/mail.error.xml.h:178
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
-msgstr ""
+msgstr "Zlyhalo odznačenie vlákna v priečinku „{0}“ ako ignorované"
 
 #: ../mail/mail.error.xml.h:179
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
-msgstr ""
+msgstr "Zlyhalo označenie podvlákna v priečinku „{0}“ ako ignorované"
 
 #: ../mail/mail.error.xml.h:180
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
-msgstr ""
+msgstr "Zlyhalo odznačenie podvlákna v priečinku „{0}“ ako ignorované"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -16446,19 +16376,17 @@ msgstr "Kontroluje sa nová pošta na „%s“"
 #: ../mail/mail-send-recv.c:1434
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
-msgstr ""
+msgstr "Odstraňuje sa nevyžiadaná pošta a čistí sa kôš v „%s“"
 
 #: ../mail/mail-send-recv.c:1436
-#, fuzzy, c-format
-#| msgid "Reconnecting to '%s'"
+#, c-format
 msgid "Deleting junk at '%s'"
-msgstr "Znovu sa pripojája k „%s“"
+msgstr "Odstraňuje sa nevyžiadaná pošta v „%s“"
 
 #: ../mail/mail-send-recv.c:1438
-#, fuzzy, c-format
-#| msgid "Emptying trash in '%s'"
+#, c-format
 msgid "Expunging trash at '%s'"
-msgstr "Vyprázdňuje sa kôš v „%s“"
+msgstr "Čistí sa kôš v „%s“"
 
 #: ../mail/mail-vfolder-ui.c:66
 msgid "Search Folders"
@@ -17149,14 +17077,13 @@ msgstr "Vybraný priečinok nie je zapisovateľný."
 # PK: nahlas bug, medzera na konci
 # PK: programu bogofilter?
 #: ../modules/bogofilter/evolution-bogofilter.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "Zlyhalo spustenie Bogofilter (%s): "
+msgstr "Zlyhalo spustenie programu Bogofilter (%s): "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:179
-#, fuzzy
 msgid "Failed to stream mail message content to Bogofilter: "
-msgstr "Zlyhal tok obsahu poštovej správy do Bogofiltra: "
+msgstr "Zlyhal tok obsahu poštovej správy do programu Bogofilter: "
 
 #: ../modules/bogofilter/evolution-bogofilter.c:228
 msgid "Bogofilter either crashed or failed to process a mail message"
@@ -17175,10 +17102,8 @@ msgid "Bogofilter"
 msgstr "Bogofilter"
 
 #: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:2
-#, fuzzy
-#| msgid "Junk filtering software:"
 msgid "Junk filter using Bogofilter"
-msgstr "Program na filtrovanie nevyžiadanej pošty:"
+msgstr "Filtrovanie nevyžiadanej pošty pomocou programu Bogofilter"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:441
 msgid "Standard LDAP Port"
@@ -18660,7 +18585,7 @@ msgstr "%s zverejnil(a) nasledujúce informácie o stretnutí:"
 #: ../modules/itip-formatter/itip-view.c:415
 #, c-format
 msgid "%s has delegated the following meeting to you:"
-msgstr "%s postúpil(a) nasledujúce stretnutie na vás:"
+msgstr "%s zveril(a) nasledujúce stretnutie na vás:"
 
 #: ../modules/itip-formatter/itip-view.c:418
 #, c-format
@@ -19026,17 +18951,17 @@ msgstr "Nepodarilo sa analyzovať položku"
 
 # PK: preco je medzera na konci? nahlas bug
 #: ../modules/itip-formatter/itip-view.c:4946
-#, fuzzy, c-format
+#, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr "Organizátor odstránil postúpenie %s "
+msgstr "Organizátor odstránil delegáta %s "
 
 #: ../modules/itip-formatter/itip-view.c:4963
 msgid "Sent a cancelation notice to the delegate"
-msgstr "Poslané oznámenie o zrušení postúpenia"
+msgstr "Poslané oznámenie o zrušení delegátovi"
 
 #: ../modules/itip-formatter/itip-view.c:4967
 msgid "Could not send the cancelation notice to the delegate"
-msgstr "Nepodarilo sa poslať oznámenie o zrušení postúpenia"
+msgstr "Nepodarilo sa poslať oznámenie o zrušení delegátovi"
 
 #: ../modules/itip-formatter/itip-view.c:5015
 #, c-format
@@ -19138,14 +19063,12 @@ msgid "This response is not from a current attendee. Add the sender as an attend
 msgstr "Táto odpoveď nie je od aktuálneho účastníka. Chcete ho ako účastníka pridať?"
 
 #: ../modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "Toto stretnutie už bolo zverené"
+msgstr "Toto stretnutie bolo zverené"
 
 #: ../modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
-msgstr "„{0} má zverené stretnutie. Chcete pridať zverenie „{1}“?"
+msgstr "„{0}“ má zverené stretnutie. Chcete pridať delegáta „{1}“?"
 
 #: ../modules/itip-formatter/plugin/config-ui.c:81
 msgid "Meeting Invitations"
@@ -19973,24 +19896,22 @@ msgstr "Zobrazí poštové správy ako obyčajný text, dokonca aj keď obsahuj�
 
 # PK: preco medzera na konci? nahlas bug
 #: ../modules/spamassassin/evolution-spamassassin.c:187
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
-msgstr "Zlyhalo vytvorenie procesu programu SpamAssassin (%s): "
+msgstr "Zlyhalo spustenie programu SpamAssassin (%s): "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:210
-#, fuzzy
 msgid "Failed to stream mail message content to SpamAssassin: "
-msgstr "Zlyhalo zasielanie obsahu poštovej správy do programu SpamAssassin: "
+msgstr "Zlyhal tok obsahu poštovej správy do programu SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to write '%s' to SpamAssassin: "
-msgstr "Zlyhalo zapísanie „%s“ do SpamAssassin: "
+msgstr "Zlyhalo zapísanie „%s“ do programu SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:257
-#, fuzzy
 msgid "Failed to read output from SpamAssassin: "
-msgstr "Zlyhalo prečítanie výstupu z SpamAssassin: "
+msgstr "Zlyhalo čítanie výstupu z programu SpamAssassin: "
 
 #: ../modules/spamassassin/evolution-spamassassin.c:312
 msgid "SpamAssassin either crashed or failed to process a mail message"
@@ -20013,10 +19934,8 @@ msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
-#, fuzzy
-#| msgid "Junk filtering software:"
 msgid "Junk filter using SpamAssassin"
-msgstr "Program na filtrovanie nevyžiadanej pošty:"
+msgstr "Filtrovanie nevyžiadanej pošty pomocou programu SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -21288,7 +21207,7 @@ msgstr "Pripravuje sa na ukončenie…"
 
 #: ../shell/e-shell.c:909
 msgid "Credentials are required to connect to the destination host."
-msgstr ""
+msgstr "Na pripojenie k cieľovému hostiteľovi sú potrebné poverenia."
 
 #: ../shell/e-shell-content.c:720 ../shell/e-shell-content.c:721
 msgid "Searches"
@@ -21934,7 +21853,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:662
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-záloha.p12"
 
 #: ../smime/gui/certificate-manager.c:676 ../smime/gui/certificate-manager.c:965
 msgid "All files"
@@ -21956,7 +21875,7 @@ msgstr "Prosím, vyberte súbor…"
 
 #: ../smime/gui/certificate-manager.c:761
 msgid "_Include certificate chain in the backup"
-msgstr ""
+msgstr "_Zahrnúť zväzok certifikátov do zálohy"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:767
@@ -21964,6 +21883,8 @@ msgid ""
 "The certificate backup password you set here protects the backup file that you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
+"Tu nastavené heslo k zálohe certifikátov bude chrániť súbor so zálohou, ktorú sa chystáte vytvoriť.\n"
+"Aby ste mohli pokračovať v zálohe, musíte toto heslo nastaviť."
 
 #: ../smime/gui/certificate-manager.c:786
 msgid "_Repeat Password:"
@@ -21980,6 +21901,9 @@ msgid ""
 "If you forget your certificate backup password, you will not be able to restore this backup later.\n"
 "Please record it in a safe location."
 msgstr ""
+"Dôležité:\n"
+"Ak zabudnete heslo k zálohe certifikátov, nebudete môcť obnoviť túto zálohu neskôr.\n"
+"Prosím, zaznačte si ho na bezpečnom mieste."
 
 #: ../smime/gui/certificate-manager.c:858
 msgid "No file name provided"
@@ -22000,7 +21924,7 @@ msgstr "Zlyhal import certifikátu"
 #: ../smime/gui/certificate-manager.c:1117
 msgctxt "CamelTrust"
 msgid "Ask when used"
-msgstr ""
+msgstr "Spýtať sa pri použití"
 
 #: ../smime/gui/certificate-manager.c:1119
 msgctxt "CamelTrust"
@@ -22010,22 +21934,22 @@ msgstr "Nikdy"
 #: ../smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Marginal"
-msgstr ""
+msgstr "Okrajovo"
 
 #: ../smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
 msgid "Fully"
-msgstr ""
+msgstr "Plná"
 
 #: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
 msgid "Ultimate"
-msgstr ""
+msgstr "Neobmedzene"
 
 #: ../smime/gui/certificate-manager.c:1127
 msgctxt "CamelTrust"
 msgid "Temporary"
-msgstr ""
+msgstr "Dočasne"
 
 # dialog title
 #: ../smime/gui/certificate-manager.c:1333
@@ -22040,12 +21964,12 @@ msgstr "Zmena dôveryhodnosti hostiteľa „%s“:"
 #: ../smime/gui/certificate-manager.c:1369
 msgctxt "CamelTrust"
 msgid "_Ask when used"
-msgstr ""
+msgstr "_Spýtať sa pri použití"
 
 #: ../smime/gui/certificate-manager.c:1370
 msgctxt "CamelTrust"
 msgid "_Temporary (this session only)"
-msgstr ""
+msgstr "_Dočasne (iba táto relácia)"
 
 #: ../smime/gui/certificate-manager.c:1371
 msgctxt "CamelTrust"
@@ -22055,19 +21979,17 @@ msgstr "_Nikdy"
 #: ../smime/gui/certificate-manager.c:1372
 msgctxt "CamelTrust"
 msgid "_Marginal"
-msgstr ""
+msgstr "_Okrajovo"
 
 #: ../smime/gui/certificate-manager.c:1373
-#, fuzzy
-#| msgid "_Full name"
 msgctxt "CamelTrust"
 msgid "_Fully"
-msgstr "_Celé meno"
+msgstr "_Plná"
 
 #: ../smime/gui/certificate-manager.c:1374
 msgctxt "CamelTrust"
 msgid "_Ultimate"
-msgstr ""
+msgstr "_Neobmedzene"
 
 #: ../smime/gui/certificate-manager.c:1378
 msgid "Before trusting this site, you should examine its certificate and its policy and procedures (if available)."
@@ -22096,7 +22018,7 @@ msgstr "Odtlačok"
 
 #: ../smime/gui/certificate-manager.c:1633
 msgid "Trust"
-msgstr ""
+msgstr "Dôveryhodnosť"
 
 #: ../smime/gui/certificate-manager.c:1654
 msgid "_Edit Trust"
