@@ -4,7 +4,7 @@
 # meeting - találkozó
 # appointment- értekezlet
 #
-#: ../shell/main.c:503
+#: ../shell/main.c:506
 # Szabolcs Ban <shooby at gnome dot hu>, 2000.
 # Andras Timar <timar at gnome dot hu>, 2001, 2002, 2003, 2004.
 # Zsiraf <zsiraf at mylinux dot hu>, 2003.
@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-15 05:19+0000\n"
-"PO-Revision-Date: 2015-02-15 15:47+0100\n"
+"POT-Creation-Date: 2015-02-22 17:18+0000\n"
+"PO-Revision-Date: 2015-02-22 22:38+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -208,7 +208,7 @@ msgstr ""
 #: ../e-util/e-name-selector-dialog.c:995 ../e-util/filter.ui.h:16
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
-#: ../mail/mail-config.ui.h:53 ../modules/mail/em-composer-prefs.c:397
+#: ../mail/mail-config.ui.h:54 ../modules/mail/em-composer-prefs.c:397
 #: ../plugins/attachment-reminder/attachment-reminder.c:557
 #: ../plugins/email-custom-header/email-custom-header.c:839
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -528,7 +528,7 @@ msgid "_Help"
 msgstr "_Súgó"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../calendar/gui/dialogs/alarm-dialog.ui.h:15 ../mail/mail-config.ui.h:34
+#: ../calendar/gui/dialogs/alarm-dialog.ui.h:15 ../mail/mail-config.ui.h:35
 msgid "Options"
 msgstr "Beállítások"
 
@@ -563,7 +563,7 @@ msgstr "Beállítások"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3123
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3129
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -572,7 +572,7 @@ msgstr "Beállítások"
 #: ../mail/mail-vfolder-ui.c:270
 #: ../modules/backup-restore/evolution-backup-tool.c:886
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:363
-#: ../modules/cal-config-google/e-google-chooser-dialog.c:187
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:363
 #: ../modules/calendar/e-cal-attachment-handler.c:285
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../plugins/face/face.c:291
@@ -593,9 +593,9 @@ msgstr "Mé_gse"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../calendar/calendar.error.xml.h:47
 #: ../calendar/gui/dialogs/comp-editor.c:1277
-#: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:395
+#: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:408
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3124
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3130
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
 #: ../smime/gui/certificate-manager.c:653
@@ -890,7 +890,7 @@ msgstr "Az e-mail cím eltávolítása a listáról"
 #: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:367
 #: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
 #: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
-#: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:54
+#: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:55
 #: ../plugins/attachment-reminder/attachment-reminder.c:567
 #: ../plugins/email-custom-header/email-custom-header.c:849
 #: ../plugins/publish-calendar/publish-calendar.c:807
@@ -1938,7 +1938,7 @@ msgstr "_Szundi"
 #: ../e-util/e-html-editor-actions.c:1003
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:170
-#: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:58
+#: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:59
 #: ../plugins/attachment-reminder/attachment-reminder.c:562
 #: ../plugins/email-custom-header/email-custom-header.c:844
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
@@ -2506,109 +2506,91 @@ msgstr "Nem sikerült a(z) „{0}” feladatlista megnyitása"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-#| msgid "Failed to create an event in a calendar '{0}'"
 msgid "Failed to create an event in the calendar '{0}'"
 msgstr "Nem sikerült egy esemény létrehozása a(z) „{0}” naptárba"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:95
-#| msgid "Failed to create a memo in a memo list '{0}'"
 msgid "Failed to create a memo in the memo list '{0}'"
 msgstr "Nem sikerült egy feljegyzés létrehozása a(z) „{0}” feljegyzéslistába"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:97
-#| msgid "Failed to create a task in a task list '{0}'"
 msgid "Failed to create a task in the task list '{0}'"
 msgstr "Nem sikerült egy feladat létrehozása a(z) „{0}” feladatlistába"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-#| msgid "Failed to modify an event in a calendar '{0}'"
 msgid "Failed to modify an event in the calendar '{0}'"
 msgstr "Nem sikerült egy esemény módosítása a(z) „{0}” naptárban"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:101
-#| msgid "Failed to modify a memo in a memo list '{0}'"
 msgid "Failed to modify a memo in the memo list '{0}'"
 msgstr "Nem sikerült egy feljegyzés módosítása a(z) „{0}” feljegyzéslistában"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:103
-#| msgid "Failed to modify a task in a task list '{0}'"
 msgid "Failed to modify a task in the task list '{0}'"
 msgstr "Nem sikerült egy feladat módosítása a(z) „{0}” feladatlistában"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-#| msgid "Failed to delete an event in a calendar '{0}'"
 msgid "Failed to delete an event in the calendar '{0}'"
 msgstr "Nem sikerült egy esemény törlése a(z) „{0}” naptárból"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:107
-#| msgid "Failed to delete a memo in a memo list '{0}'"
 msgid "Failed to delete a memo in the memo list '{0}'"
 msgstr "Nem sikerült egy feljegyzés törlése a(z) „{0}” feljegyzéslistából"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:109
-#| msgid "Failed to delete a task in a task list '{0}'"
 msgid "Failed to delete a task in the task list '{0}'"
 msgstr "Nem sikerült egy feladat törlése a(z) „{0}” feladatlistából"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:111
-#| msgid "Failed to update an event in a calendar '{0}'"
 msgid "Failed to update an event in the calendar '{0}'"
 msgstr "Nem sikerült egy esemény frissítése a(z) „{0}” naptárban"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:113
-#| msgid "Failed to update a memo in a memo list '{0}'"
 msgid "Failed to update a memo in the memo list '{0}'"
 msgstr "Nem sikerült egy feljegyzés frissítése a(z) „{0}” feljegyzéslistában"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
-#| msgid "Failed to update a task in a task list '{0}'"
 msgid "Failed to update a task in the task list '{0}'"
 msgstr "Nem sikerült egy feladat frissítése a(z) „{0}” feladatlistában"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
-#| msgid "Failed to send an event to a calendar '{0}'"
 msgid "Failed to send an event to the calendar '{0}'"
 msgstr "Nem sikerült egy esemény küldése a(z) „{0}” naptárba"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:119
-#| msgid "Failed to send a memo to a memo list '{0}'"
 msgid "Failed to send a memo to the memo list '{0}'"
 msgstr "Nem sikerült egy feljegyzés küldése a(z) „{0}” feljegyzéslistába"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:121
-#| msgid "Failed to send a task to a task list '{0}'"
 msgid "Failed to send a task to the task list '{0}'"
 msgstr "Nem sikerült egy feladat küldése a(z) „{0}” feladatlistába"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-#| msgid "Error creating view for a calendar '{0}'"
 msgid "Error creating view for the calendar '{0}'"
 msgstr "Hiba a(z) „{0}” naptár nézetének létrehozásakor"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-#| msgid "Error creating view for a task list '{0}'"
 msgid "Error creating view for the task list '{0}'"
 msgstr "Hiba a(z) „{0}” feladatlista nézetének létrehozásakor"
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-#| msgid "Error creating view for a memo list '{0}'"
 msgid "Error creating view for the memo list '{0}'"
 msgstr "Hiba a(z) „{0}” feljegyzéslista nézetének létrehozásakor"
 
@@ -3058,7 +3040,7 @@ msgstr "Nem sikerült a szinkronizálás a kiszolgálóval"
 #: ../calendar/gui/dialogs/event-editor.c:116
 #: ../calendar/gui/dialogs/event-editor.c:310
 #: ../calendar/gui/dialogs/event-page.ui.h:29
-#: ../composer/e-composer-actions.c:374 ../e-util/e-html-editor-dialog.c:196
+#: ../composer/e-composer-actions.c:387 ../e-util/e-html-editor-dialog.c:196
 #: ../e-util/e-mail-signature-editor.c:295
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:388
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:126
@@ -3128,7 +3110,7 @@ msgid "Paste the clipboard"
 msgstr "A vágólap tartalmának beillesztése"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1263
-#: ../composer/e-composer-actions.c:428 ../mail/e-mail-reader.c:2262
+#: ../composer/e-composer-actions.c:441 ../mail/e-mail-reader.c:2262
 #: ../modules/addressbook/e-book-shell-view-actions.c:1205
 #: ../modules/addressbook/e-book-shell-view-actions.c:1219
 msgid "_Print..."
@@ -3184,7 +3166,7 @@ msgid "_Insert"
 msgstr "_Beszúrás"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1349
-#: ../composer/e-composer-actions.c:418
+#: ../composer/e-composer-actions.c:431
 msgid "_Options"
 msgstr "_Beállítások"
 
@@ -3196,12 +3178,12 @@ msgid "_View"
 msgstr "_Nézet"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1366
-#: ../composer/e-composer-actions.c:367
+#: ../composer/e-composer-actions.c:380
 msgid "_Attachment..."
 msgstr "_Melléklet…"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1368
-#: ../composer/e-composer-actions.c:369 ../e-util/e-attachment-view.c:412
+#: ../composer/e-composer-actions.c:382 ../e-util/e-attachment-view.c:412
 msgid "Attach a file"
 msgstr "Fájl csatolása"
 
@@ -3278,7 +3260,7 @@ msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Átváltja a Résztvevő típusának megjelenítését"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2232
-#: ../composer/e-composer-actions.c:636
+#: ../composer/e-composer-actions.c:657
 msgid "Attach"
 msgstr "Csatolás"
 
@@ -5094,7 +5076,7 @@ msgid "Language"
 msgstr "Nyelv"
 
 #: ../calendar/gui/e-memo-table.c:371
-#: ../modules/calendar/e-cal-shell-content.c:1580
+#: ../modules/calendar/e-cal-shell-content.c:1602
 #: ../modules/calendar/e-memo-shell-view-actions.c:180
 #: ../modules/calendar/e-memo-shell-view-actions.c:195
 #: ../modules/calendar/e-memo-shell-view.c:308
@@ -5153,7 +5135,7 @@ msgstr "%d%%"
 #: ../calendar/importers/icalendar-importer.c:78
 #: ../calendar/importers/icalendar-importer.c:1072
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
-#: ../modules/calendar/e-cal-shell-content.c:1538
+#: ../modules/calendar/e-cal-shell-content.c:1560
 #: ../modules/calendar/e-task-shell-view-actions.c:203
 #: ../modules/calendar/e-task-shell-view-actions.c:218
 #: ../modules/calendar/e-task-shell-view.c:466
@@ -7311,143 +7293,153 @@ msgstr "_Ne mutassa ezt többé"
 msgid "Save as..."
 msgstr "Mentés másként…"
 
-#: ../composer/e-composer-actions.c:376
+#: ../composer/e-composer-actions.c:389
 msgid "Close the current file"
 msgstr "A jelenlegi fájl bezárása"
 
-#: ../composer/e-composer-actions.c:381
+#: ../composer/e-composer-actions.c:394
 msgid "New _Message"
 msgstr "Új üz_enet"
 
-#: ../composer/e-composer-actions.c:383
+#: ../composer/e-composer-actions.c:396
 msgid "Open New Message window"
 msgstr "Az Új üzenet ablak megnyitása"
 
-#: ../composer/e-composer-actions.c:388 ../shell/e-shell-window-actions.c:978
+#: ../composer/e-composer-actions.c:401 ../shell/e-shell-window-actions.c:978
 msgid "_Preferences"
 msgstr "B_eállítások"
 
-#: ../composer/e-composer-actions.c:390 ../shell/e-shell-window-actions.c:980
+#: ../composer/e-composer-actions.c:403 ../shell/e-shell-window-actions.c:980
 msgid "Configure Evolution"
 msgstr "Az Evolution beállítása"
 
-#: ../composer/e-composer-actions.c:397
+#: ../composer/e-composer-actions.c:410
 msgid "Save the current file"
 msgstr "A jelenlegi fájl mentése"
 
-#: ../composer/e-composer-actions.c:402
+#: ../composer/e-composer-actions.c:415
 msgid "Save _As..."
 msgstr "Men_tés másként…"
 
-#: ../composer/e-composer-actions.c:404
+#: ../composer/e-composer-actions.c:417
 msgid "Save the current file with a different name"
 msgstr "A jelenlegi fájl mentése más néven"
 
-#: ../composer/e-composer-actions.c:411
+#: ../composer/e-composer-actions.c:424
 msgid "Character _Encoding"
 msgstr "_Karakterkódolás"
 
-#: ../composer/e-composer-actions.c:435
+#: ../composer/e-composer-actions.c:448
 msgid "Print Pre_view"
 msgstr "Nyom_tatási kép"
 
-#: ../composer/e-composer-actions.c:442
+#: ../composer/e-composer-actions.c:455
 msgid "Save as _Draft"
 msgstr "Mentés _piszkozatként"
 
-#: ../composer/e-composer-actions.c:444
+#: ../composer/e-composer-actions.c:457
 msgid "Save as draft"
 msgstr "Mentés piszkozatként"
 
-#: ../composer/e-composer-actions.c:449
+#: ../composer/e-composer-actions.c:462
 msgid "S_end"
 msgstr "_Küldés"
 
-#: ../composer/e-composer-actions.c:451
+#: ../composer/e-composer-actions.c:464
 msgid "Send this message"
 msgstr "Az üzenet elküldése"
 
-#: ../composer/e-composer-actions.c:459
+#: ../composer/e-composer-actions.c:472
 msgid "PGP _Encrypt"
 msgstr "_PGP titkosítás"
 
-#: ../composer/e-composer-actions.c:461
+#: ../composer/e-composer-actions.c:474
 msgid "Encrypt this message with PGP"
 msgstr "Üzenet titkosítása PGP-vel"
 
-#: ../composer/e-composer-actions.c:467
+#: ../composer/e-composer-actions.c:480
 msgid "PGP _Sign"
 msgstr "P_GP-aláírás"
 
-#: ../composer/e-composer-actions.c:469
+#: ../composer/e-composer-actions.c:482
 msgid "Sign this message with your PGP key"
 msgstr "Az üzenet aláírása az Ön PGP-kulcsával"
 
-#: ../composer/e-composer-actions.c:475
+#: ../composer/e-composer-actions.c:488
 msgid "_Picture Gallery"
 msgstr "Képg_aléria"
 
-#: ../composer/e-composer-actions.c:477
+#: ../composer/e-composer-actions.c:490
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr "Az üzenetébe húzható képek gyűjteményének megjelenítése"
 
-#: ../composer/e-composer-actions.c:483
+#: ../composer/e-composer-actions.c:496
 msgid "_Prioritize Message"
 msgstr "Az ü_zenet fontos"
 
-#: ../composer/e-composer-actions.c:485
+#: ../composer/e-composer-actions.c:498
 msgid "Set the message priority to high"
 msgstr "Üzenet fontosságának beállítása magasra"
 
-#: ../composer/e-composer-actions.c:491
+#: ../composer/e-composer-actions.c:504
 msgid "Re_quest Read Receipt"
 msgstr "_Tértivevény kérése"
 
-#: ../composer/e-composer-actions.c:493
+#: ../composer/e-composer-actions.c:506
 msgid "Get delivery notification when your message is read"
 msgstr "Tértivevény kérése az üzenet elolvasásakor"
 
-#: ../composer/e-composer-actions.c:499
+#: ../composer/e-composer-actions.c:512
 msgid "S/MIME En_crypt"
 msgstr "_S/MIME-titkosítás"
 
-#: ../composer/e-composer-actions.c:501
+#: ../composer/e-composer-actions.c:514
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Ezen üzenet titkosítása az Ön S/MIME titkosítási tanúsítványával"
 
-#: ../composer/e-composer-actions.c:507
+#: ../composer/e-composer-actions.c:520
 msgid "S/MIME Sig_n"
 msgstr "S/_MIME-aláírás"
 
-#: ../composer/e-composer-actions.c:509
+#: ../composer/e-composer-actions.c:522
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Az üzenet aláírása az Ön S/MIME-aláírástanúsítványával"
 
-#: ../composer/e-composer-actions.c:563
+#: ../composer/e-composer-actions.c:576
+#| msgid "Unicode"
+msgid "Unicode smilyes"
+msgstr "Unicode hangulatjelek"
+
+#: ../composer/e-composer-actions.c:578
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
+msgid "Use Unicode characters for smileys."
+msgstr "Unicode karakterek használata a hangulatjelekhez."
+
+#: ../composer/e-composer-actions.c:584
 msgid "_Bcc Field"
 msgstr "_Rejtett másolat mező"
 
-#: ../composer/e-composer-actions.c:565
+#: ../composer/e-composer-actions.c:586
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Megjelenjen-e a Rejtett másolat mező"
 
-#: ../composer/e-composer-actions.c:571
+#: ../composer/e-composer-actions.c:592
 msgid "_Cc Field"
 msgstr "Má_solat mező"
 
-#: ../composer/e-composer-actions.c:573
+#: ../composer/e-composer-actions.c:594
 msgid "Toggles whether the CC field is displayed"
 msgstr "Megjelenjen-e a Másolat mező"
 
-#: ../composer/e-composer-actions.c:579
+#: ../composer/e-composer-actions.c:600
 msgid "_Reply-To Field"
 msgstr "_Válaszcím mező"
 
-#: ../composer/e-composer-actions.c:581
+#: ../composer/e-composer-actions.c:602
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Megjelenjen-e a Válaszcím mező"
 
-#: ../composer/e-composer-actions.c:642
+#: ../composer/e-composer-actions.c:663
 msgid "Save Draft"
 msgstr "Piszkozat mentése"
 
@@ -7529,7 +7521,7 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Üzenet írása"
 
-#: ../composer/e-msg-composer.c:4530
+#: ../composer/e-msg-composer.c:4536
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "A szerkesztő nem szöveg jellegű, nem szerkeszthető üzenettörzset tartalmaz."
@@ -7901,9 +7893,13 @@ msgid "Full path command to run Bogofilter"
 msgstr "Teljes elérési utas parancs a Bogofilter futtatásához"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
+#| msgid ""
+#| "Full path to a Bogofilter command. If not set, then a compile-time path "
+#| "is used, usually /usr/bin/bogofilter. The command might not contain any "
+#| "other arguments."
 msgid ""
 "Full path to a Bogofilter command. If not set, then a compile-time path is "
-"used, usually /usr/bin/bogofilter. The command might not contain any other "
+"used, usually /usr/bin/bogofilter. The command should not contain any other "
 "arguments."
 msgstr ""
 "Teljes elérési út a Bogofilter parancshoz. Ha nincs beállítva, akkor a "
@@ -8681,14 +8677,24 @@ msgid "Automatic emoticon recognition"
 msgstr "Automatikus hangulatjel-felismerés"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:12
-msgid "Recognize emoticons in text and replace them with images."
-msgstr "Hangulatjelek felismerése a szövegben és helyettesítésük képekkel."
+#| msgid "Recognize emoticons in text and replace them with images."
+msgid ""
+"Recognize emoticons in text and replace them with images or Unicode "
+"characters."
+msgstr ""
+"Hangulatjelek felismerése a szövegben és helyettesítésük képekkel vagy "
+"Unicode karakterekkel."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
+#| msgid "Unicode"
+msgid "Unicode smileys"
+msgstr "Unicode hangulatjelek"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Attribute message"
 msgstr "Üzenet feladójának jelzése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author"
@@ -8696,11 +8702,11 @@ msgstr ""
 "Üzenetre válaszoláskor az üzenet fölé beszúrandó szöveg, amely az eredeti "
 "üzenet feladóját jelzi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Forward message"
 msgstr "Üzenet továbbítása"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
 msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows"
@@ -8708,11 +8714,11 @@ msgstr ""
 "Üzenet továbbításakor beszúrandó szöveg, amely közli, hogy a továbbított "
 "üzenet következik"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
 msgid "Original message"
 msgstr "Eredeti üzenet"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:18
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows"
@@ -8720,11 +8726,11 @@ msgstr ""
 "Üzenetre válaszoláskor az üzenet fölé beszúrandó szöveg, amely közli, hogy "
 "az eredeti üzenet következik"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:19
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
 msgid "Group Reply replies to list"
 msgstr "A Csoportos válasz a listának válaszol"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:20
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:22
 msgid ""
 "Instead of the normal \"Reply to All\" behaviour, this option will make the "
 "'Group Reply' toolbar button try to reply only to the mailing list through "
@@ -8736,47 +8742,47 @@ msgstr ""
 "levelezőlistának, amelyen keresztül megkapta azon üzenet másolatát, amelyre "
 "válaszol."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
 msgid "Put the cursor at the bottom of replies"
 msgstr "A kurzor válaszok alá vitele"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:22
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
 msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr "A kurzor az üzenet aljára vagy tetejére kerüljön?"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:23
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
 msgid "Always request read receipt"
 msgstr "Mindig kérjen tértivevényt"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:26
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
 "Alapértelmezetten minden üzenethez hozzáadásra kerül-e tértivevény-kérés."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:27
 msgid "Send HTML mail by default"
 msgstr "HTML levél küldése alapértelmezettként"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:26
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:28
 msgid "Send HTML mail by default."
 msgstr "HTML levél küldése alapértelmezettként."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:27
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
 msgid "Spell checking languages"
 msgstr "Helyesírás-ellenőrző nyelvei"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:28
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
 msgid "List of dictionary language codes used for spell checking."
 msgstr "A helyesírás-ellenőrzéshez használt szótári nyelvi kódok listája."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:29
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "Show \"Bcc\" field when sending a mail message"
 msgstr "A „Rejtett másolat” mező megjelenítése levél küldésekor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:30
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
 msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
@@ -8784,11 +8790,11 @@ msgstr ""
 "A „Rejtett másolat” mező megjelenítése levél küldésekor. Ez a Nézet menüből "
 "vezérelhető levélfiók kiválasztásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
 msgid "Show \"Cc\" field when sending a mail message"
 msgstr "A „Másolat” mező megjelenítése levél küldésekor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
 msgid ""
 "Show the \"Cc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
@@ -8796,11 +8802,11 @@ msgstr ""
 "A „Másolat” mező megjelenítése levél küldésekor. Ez a Nézet menüből "
 "vezérelhető levélfiók kiválasztásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Show \"Reply To\" field when sending a mail message"
 msgstr "A „Válaszcím” mező megjelenítése levél küldésekor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
@@ -8808,11 +8814,11 @@ msgstr ""
 "A „Válaszcím” mező megjelenítése levél küldésekor. Ez a Nézet menüből "
 "vezérelhető levélfiók kiválasztásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
 msgid "Show \"From\" field when posting to a newsgroup"
 msgstr "A „Feladó” mező megjelenítése üzenet küldésekor hírcsoportba"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
@@ -8820,11 +8826,11 @@ msgstr ""
 "A „Feladó” mező megjelenítése üzenet küldésekor hírcsoportba. Ez a Nézet "
 "menüből vezérelhető levélfiók kiválasztásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
 msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr "A „Válaszcím” mező megjelenítése üzenet küldésekor hírcsoportba"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
@@ -8832,11 +8838,11 @@ msgstr ""
 "A „Válaszcím” mező megjelenítése üzenet küldésekor hírcsoportba. Ez a Nézet "
 "menüből vezérelhető levélfiók kiválasztásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
 msgid "Digitally sign replies when the original message is signed"
 msgstr "Válaszok digitális aláírása, ha az eredeti üzenet is alá van írva"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
@@ -8844,11 +8850,11 @@ msgstr ""
 "PGP vagy S/MIME aláírások automatikus bekapcsolása szintén PGP vagy S/MIME "
 "aláírású üzenetre válaszoláskor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Encode filenames in an Outlook/GMail way"
 msgstr "Fájlnevek kódolása Outlook/GMail-szerűen"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 msgid ""
 "Encode filenames in the mail headers same as Outlook or GMail do, to let "
 "them display correctly filenames with UTF-8 letters sent by Evolution, "
@@ -8860,11 +8866,11 @@ msgstr ""
 "jelenítsék meg, mivel az RFC 2231 helyett a helytelen RFC 2047 szabványt "
 "követik."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Send messages through Outbox folder"
 msgstr "Üzenetek küldése az Elküldött mappán át"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
 "Always save messages to Outbox folder when sending, to let a user choose "
 "when the messages should be sent."
@@ -8872,22 +8878,22 @@ msgstr ""
 "Küldéskor mindig mentse az üzeneteket az Elküldött mappába, így a "
 "felhasználó kiválaszthatja, hogy mikor kerüljenek az üzenetek elküldésre."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Put personalized signatures at the top of replies"
 msgstr "Személyre szabott aláírások elhelyezése a válaszok tetejére"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr "Az aláírás az üzenet aljára vagy tetejére kerüljön?"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Do not add signature delimiter"
 msgstr "Nem vehető fel az aláírás-elválasztó"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
@@ -8895,11 +8901,11 @@ msgstr ""
 "Állítsa igazra, ha levél írásakor nem kíván aláírás-elválasztót tenni az "
 "aláírása elé."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Ignore list Reply-To:"
 msgstr "A lista válaszcímének mellőzése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -8917,11 +8923,11 @@ msgstr ""
 "listának” műveletet választja, akkor a listának fog válaszolni. Ez a Reply-"
 "To: fejléc és a List-Post: fejléc összehasonlításával működik, ha van ilyen."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "List of localized 'Re'"
 msgstr "Lokalizált „Re” lista"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard \"Re\" "
@@ -8931,38 +8937,38 @@ msgstr ""
 "válaszoláskor kihagyandók a tárgy szövegéből a szabványos „Re” előtagon "
 "kívül."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "Enable developer mode"
 msgstr "Fejlesztői mód engedélyezése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Enables some hidden actions and tools aimed for development and debugging."
 msgstr ""
 "Néhány fejlesztési és hibakeresési célra szánt művelet és eszköz "
 "engedélyezése."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Number of characters for wrapping"
 msgstr "Karakterek száma sortöréshez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid "Will autowrap lines after given number of characters."
 msgstr "A sorok ennyi karakter után automatikusan törésre kerülnek."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Save file format for drag-and-drop operation"
 msgstr "Mentési formátum fogd és vidd műveletekhez"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Can be either 'mbox' or 'pdf'."
 msgstr "Az „mbox” vagy „pdf” egyike  lehet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "Show image animations"
 msgstr "Képanimációk megjelenítése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -8970,11 +8976,11 @@ msgstr ""
 "Animált képek engedélyezése HTML levelekben. Sokan zavarónak találják az "
 "animált képeket és inkább a statikus képet választják."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Enable or disable type ahead search feature"
 msgstr "Gépelés közbeni keresés engedélyezése vagy tiltása"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
@@ -8982,11 +8988,11 @@ msgstr ""
 "Az oldalsáv keresőszolgáltatásának engedélyezése a mappanevek interaktív "
 "kereséséhez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Enable or disable magic space bar"
 msgstr "Bűvös szóköz engedélyezése vagy tiltása"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -8994,71 +9000,71 @@ msgstr ""
 "A szóköz billentyű használatának engedélyezése az üzenetek görgetéséhez az "
 "előnézetben, az üzenetlistában és a mappákban."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr "Hasonló üzenetlista-nézet beállítások használata az összes mappához"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr "Hasonló üzenetlista-nézet beállítások használata az összes mappához."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Mark citations in the message \"Preview\""
 msgstr "Idézetek jelölése az üzenet előnézetében"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Idézetek jelölése az üzenet előnézetében."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Citation highlight color"
 msgstr "Idézet kiemelési színe"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid "Citation highlight color."
 msgstr "Idézet kiemelésének színe."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Enable/disable caret mode"
 msgstr "Kurzor mód ki- vagy bekapcsolása"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Kurzor bekapcsolása, levélolvasáskor egy kurzor jelenik meg."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Default charset in which to display messages"
 msgstr "Az üzenetmegjelenítés alapértelmezett karakterkészlete"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid "Default charset in which to display messages."
 msgstr "Az üzenetmegjelenítés alapértelmezett karakterkészlete."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Képek automatikus betöltése HTML üzenetekhez HTTP-n keresztül"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Show Animations"
 msgstr "Animációk megjelenítése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show animated images as animations."
 msgstr "Animált képek megjelenítése animációként."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Show all message headers"
 msgstr "Az összes üzenetfejléc megjelenítése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Show all the headers when viewing a messages."
 msgstr "Az összes üzenetfejléc megjelenítése levelek olvasásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "List of headers to show when viewing a message."
 msgstr "Levelek olvasásakor megjelenítendő üzenetfejlécek listája."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -9069,43 +9075,43 @@ msgstr ""
 "jelennek meg üzenet megjelenítésekor, de a Beállítások közt fel lesznek "
 "sorolva."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Show photo of the sender"
 msgstr "A feladó fényképének keresése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Feladó fényképének megjelenítése az üzenetolvasó ablaktáblán."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Search gravatar.com for photo of the sender"
 msgstr "A feladó fényképének keresése a gravatar.com-on"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr "A feladó fényképe kereshető a gravatar.com-on is."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Mark as Seen after specified timeout"
 msgstr "Adott idő letelte után olvasottnak jelölés"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Mark as Seen after specified timeout."
 msgstr "Adott idő letelte után olvasottnak jelölés."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Timeout for marking messages as seen"
 msgstr "Üzenet olvasottnak jelölése ennyi idő után"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Üzenet olvasottnak jelölése ennyi ezredmásodperc után."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Sender email-address column in the message list"
 msgstr "Feladó e-mail címe oszlop az üzenetlistában"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
@@ -9113,7 +9119,7 @@ msgstr ""
 "Feladó e-mail címének megjelenítése az üzenetlista egy külön összegzés "
 "oszlopában."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
@@ -9121,7 +9127,7 @@ msgstr ""
 "Meghatározza, hogy a függőleges nézet „Üzenetek” oszlopában ugyanazok a "
 "betűkészletek használandók-e a „Feladó” és „Tárgy” sorokban"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
@@ -9129,19 +9135,19 @@ msgstr ""
 "Meghatározza, hogy a függőleges nézet „Üzenetek” oszlopában ugyanazok a "
 "betűkészletek használandók-e a „Feladó” és „Tárgy” sorokban."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show deleted messages in the message-list"
 msgstr "Törölt üzenetek megjelenítése az üzenetlistában"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Törölt üzenetek megjelenítése (áthúzva) az üzenetlistában."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Enable Unmatched search folder"
 msgstr "A „Ki nem válogatott” keresőmappa engedélyezése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -9149,11 +9155,11 @@ msgstr ""
 "A „Ki nem válogatott” keresőmappa engedélyezése a keresőmappákon belül. Ha a "
 "keresőmappák le vannak tiltva, nem csinál semmit."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Elrejti a mappánkénti előnézetet és eltávolítja a kijelölést"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -9162,31 +9168,31 @@ msgstr ""
 "megszünteti a levél kiválasztását a listában és eltávolítja a mappa "
 "előnézetét."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Height of the message-list pane"
 msgstr "Az üzenetlista ablaktábla magassága"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Height of the message-list pane."
 msgstr "Az üzenetlista ablaktábla magassága."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "Az üzenetfejlécek össze vannak-e csukva a felhasználói felületen"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Width of the message-list pane"
 msgstr "Az üzenetlista ablaktábla szélessége"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Width of the message-list pane."
 msgstr "Az üzenetlista ablaktábla szélessége."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Layout style"
 msgstr "Elrendezés stílusa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. \"0\" (Classic View) places the preview pane below the "
@@ -9198,36 +9204,36 @@ msgstr ""
 "üzenetlista alá, az „1” (függőleges nézet) pedig az üzenetlista mellé "
 "helyezi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Variable width font"
 msgstr "Változó szélességű betűkészlet"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "The variable width font for mail display."
 msgstr "A levelek megjelenítéséhez használt változó szélességű betűkészlet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Terminal font"
 msgstr "Terminál betűkészlete"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "The terminal font for mail display."
 msgstr "A levelek megjelenítéséhez használt terminál-betűkészlet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Use custom fonts"
 msgstr "Egyéni betűkészlet használata"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Use custom fonts for displaying mail."
 msgstr "Egyéni betűkészlet használata levelek megjelenítéséhez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr ""
 "Címek megjelenítésének tömörítése a címzett/másolat/rejtett másolat mezőkben"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -9235,12 +9241,12 @@ msgstr ""
 "Címek megjelenítésének tömörítése a címzett/másolat/rejtett másolat "
 "mezőkben, az address_count kulcsban megadott mértékig."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Megjelenítendő címek száma a címzett/másolat/rejtett másolat mezőkben"
 
 # fixme: "...azóta várom, hogy bevigyenek a minisztériumba. Hát ilyent én is tudok!" - Hofi
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -9248,11 +9254,11 @@ msgstr ""
 "Beállítja az alapértelmezett üzenetlista nézetben megjelenítendő címek "
 "számát, melyeket „…” követ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Thread the message-list based on Subject"
 msgstr "Üzenetlista szálakra bontása Tárgy szerint"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -9260,11 +9266,11 @@ msgstr ""
 "Tárgy szerinti szálakra bontás ki/be, ha az üzenet nem tartalmaz In-Reply-To "
 "vagy References fejléceket."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Default value for thread expand state"
 msgstr "A szál kibontott állapotának alapértelmezett értéke"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9272,11 +9278,11 @@ msgstr ""
 "Meghatározza, hogy a szálak alapértelmezésben kibontott vagy összecsukott "
 "állapotban legyenek-e. Az Evolutiont újra kell indítani."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Szálak sorba rendezése a szálban lévő legutóbbi üzenet alapján"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
@@ -9286,11 +9292,11 @@ msgstr ""
 "alapján legyenek-e sorba rendezve az üzenetek dátuma helyett. Az Evolutiont "
 "újra kell indítani."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Fiókok ábécérendbe rendezése a mappafában"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -9302,27 +9308,27 @@ msgstr ""
 "keresőmappák kivételével, ellenkező esetben a fiókok a felhasználó által "
 "megadott sorrendben jelennek meg."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Log filter actions"
 msgstr "Szűrő műveletek naplózása "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Log filter actions to the specified log file."
 msgstr "Szűrő műveletek naplózása a megadott naplófájlba."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Logfile to log filter actions"
 msgstr "A szűrő műveletek naplózásához használt fájl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Logfile to log filter actions."
 msgstr "A szűrő műveletek naplózásához használt fájl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Flush Outbox after filtering"
 msgstr "Az Elküldött mappa kiürítése a szűrés után"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
@@ -9332,55 +9338,55 @@ msgstr ""
 "ürítése csak akkor történik meg, ha legalább egy „Továbbítás” szűrőművelet "
 "használva volt, valamint az utolsó művelethívás után körülbelül egy perccel."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Default forward style"
 msgstr "Alapértelmezett továbbítási stílus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "Default reply style"
 msgstr "Alapértelmezett válasz stílusa"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Kérdés küldés előtt a gyorsbillentyű (Ctrl+Enter) használatakor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
 "Kérdés, ha a felhasználó gyorsbillentyű lenyomásával próbál üzenetet küldeni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Prompt on empty subject"
 msgstr "Kérdés, ha üres a tárgy"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Kérdés, ha tárgy nélküli üzenetet próbál küldeni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Prompt when emptying the trash"
 msgstr "Kérdés a Kuka ürítésekor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "A felhasználó megkérdezése a Kuka kiürítésekor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Prompt when user expunges"
 msgstr "Kérdés törléskor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Kérdés mappatörléskor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "Kérdés a nem levélcímként megadott címzetteknek küldés előtt"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -9388,32 +9394,32 @@ msgstr ""
 "Engedélyezi/tiltja az ismétlődő kérdéseket, amelyek arra figyelmeztetnek, "
 "hogy nem levélcímként megadott címzetteknek próbál üzenetet küldeni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Prompt when user only fills Bcc"
 msgstr "Kérdés, ha csak a Bcc van kitöltve"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Kérdés, ha Címzett vagy Másolat címzett nélküli üzenetet próbál küldeni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Kérdés, ha kéretlenül próbál HTML levelet küldeni"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
 "Kérdés, ha HTML levelet próbál küldeni olyan címre, aki nem akar ilyet kapni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 "Kérdés, ha a felhasználó 10 vagy több üzenetet próbál egyszerre megnyitni"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -9421,19 +9427,19 @@ msgstr ""
 "Megerősítés kérése, ha a felhasználó 10 vagy több üzenetet próbál egyszerre "
 "megnyitni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt while marking multiple messages"
 msgstr "Kérdés több üzenet kijelölésekor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Kérdés letiltása/engedélyezése több üzenet kijelölésekor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Prompt when deleting messages in search folder"
 msgstr "Kérdés keresőmappában lévő üzenetek törlésekor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -9443,11 +9449,11 @@ msgstr ""
 "hogy az üzenetek törlése a keresőmappából véglegesen törli az üzeneteket, "
 "nem egyszerűen csak a keresőmappából távolítja el."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "Kérdezzen rá a mappák másolására fogd és vidd műveletnél a mappafában"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
@@ -9459,12 +9465,12 @@ msgstr ""
 "és vidd műveleteknél; vagy „ask” (vagy bármely más érték) - kérdezze meg a "
 "felhasználót."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Kérdezzen rá a mappák áthelyezésére fogd és vidd műveletnél a mappafában"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -9476,11 +9482,11 @@ msgstr ""
 "áthelyezést fogd és vidd műveleteknél; vagy „ask” (vagy bármely más érték) - "
 "kérdezze meg a felhasználót."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt when replying privately to list messages"
 msgstr "Kérdés, ha listára küldött üzenetekre privát üzenetben válaszol"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -9489,11 +9495,11 @@ msgstr ""
 "hogy levelezőlistán keresztül érkezett üzenetre magánlevélben próbál "
 "válaszolni."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Kérdés, ha a levelezőlista eltéríti a privát válaszokat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -9504,11 +9510,11 @@ msgstr ""
 "válaszolni, de a lista által beállított válaszcím a válaszát visszairányítja "
 "a listára."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when replying to many recipients"
 msgstr "Kérdés, ha sok címzettnek válaszol"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -9516,7 +9522,7 @@ msgstr ""
 "Engedélyezi/tiltja az ismétlődő kérdéseket, amelyek arra figyelmeztetnek, "
 "hogy sok embernek küld választ."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -9524,40 +9530,40 @@ msgstr ""
 "Irányelv az üzenetböngésző automatikus bezárásához a megjelenített üzenet "
 "továbbításakor vagy megválaszolásakor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Empty Trash folders on exit"
 msgstr "Kuka mappák ürítése kilépéskor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Minden Kuka mappa ürítése az Evolutionből történő kilépéskor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Minimum days between emptying the trash on exit"
 msgstr "A Kuka két kilépéskori ürítése közötti napok minimális száma"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "A kuka két kilépéskori ürítése közti idő napokban."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Last time Empty Trash was run"
 msgstr "Utolsó kukaürítés ideje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr "A kukaürítés utolsó időpontja napokban, 1970. január 1. óta."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Hiba megjelenítési ideje az állapotsoron ennyi másodpercig."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Level beyond which the message should be logged."
 msgstr "Az a szint, amely felett az üzeneteket naplózni kell."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
@@ -9565,11 +9571,11 @@ msgstr ""
 "Három lehetséges értéke van: „0” (hiba), „1” (figyelmeztetés), "
 "„2” (hibakeresési üzenetek)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Show original \"Date\" header value."
 msgstr "Az eredeti „Dátum” fejléc értékének megjelenítése."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
 "differs). Otherwise always show \"Date\" header value in a user preferred "
@@ -9580,11 +9586,11 @@ msgstr ""
 "felhasználó által előnyben részesített formátumban és helyi időzónában "
 "jelenik meg."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "List of Labels and their associated colors"
 msgstr "Címkék és a hozzájuk rendelt színek listája"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -9592,45 +9598,45 @@ msgstr ""
 "Az Evolution levelezője által ismert címkék listája. A lista név:szín alakú "
 "párokat tartalmaz, ahol a szín a HTML hexa kódolást használva van felírva."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Check incoming mail being junk"
 msgstr "Érkező levél ellenőrzése, hogy szemét-e"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Run junk test on incoming mail."
 msgstr "Levélszemét keresése a bejövő levelek között."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Empty Junk folders on exit"
 msgstr "Levélszemétmappák ürítése kilépéskor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Minden levélszemétmappa ürítése az Evolutionből történő kilépéskor."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Minimum days between emptying the junk on exit"
 msgstr "A levélszemét két kilépéskori törlése közötti napok minimális száma"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "A szemét két kilépéskori törlése közti minimális idő napokban."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Last time Empty Junk was run"
 msgstr "A levélszemét törlésének utolsó időpontja"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "A levélszemét ürítésének utolsó időpontja napokban, 1970. január 1. óta."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "The default plugin for Junk hook"
 msgstr "Az alapértelmezett levélszemét-bővítmény"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
@@ -9640,11 +9646,11 @@ msgstr ""
 "engedélyezve van. Ha az alapértelmezettként jelölt bővítmény le van tiltva, "
 "akkor nem áll vissza a többi elérhető bővítményre."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Meghatározza, hogy a címjegyzékben megkeresendő-e a feladó e-mail címe"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -9656,7 +9662,7 @@ msgstr ""
 "megjelölt címjegyzékekben keres. Ez lassú lehet, ha távoli címjegyzékek "
 "(például LDAP) is ki vannak jelölve az automatikus kiegészítéshez."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -9664,7 +9670,7 @@ msgstr ""
 "Meghatározza, hogy a levélszemét szűrésekor csak a helyi címjegyzékben "
 "keresendők-e a címek"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -9674,12 +9680,12 @@ msgstr ""
 "helyi címjegyzékből levélszemét keresésekor a címek kikeresendők-e, az "
 "ismert partnerek által küldött levelek kihagyásához."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 "Meghatározza, hogy egyéni fejlécek használandók-e a szemét vizsgálatához"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -9689,11 +9695,11 @@ msgstr ""
 "engedélyezett és a fejlécek is meg lettek adva, akkor ez javítani fogja a "
 "szemétkeresés sebességét."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Custom headers to use while checking for junk."
 msgstr "A szemét keresésekor használandó egyéni fejlécek."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
@@ -9701,32 +9707,32 @@ msgstr ""
 "A szemét kereséséhez használandó egyéni fejlécek. A listaelemek formátuma: "
 "„fejlécnév=érték”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "UID string of the default account."
 msgstr "UID karakterlánc az alapértelmezett postafiókhoz."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Save directory"
 msgstr "Mentési könyvtár"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Directory for saving mail component files."
 msgstr "Levélösszetevő fájlok mentési könyvtára."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Composer load/attach directory"
 msgstr "A szerkesztő betöltési-/mellékletkönyvtára"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Directory for loading/attaching files to composer."
 msgstr ""
 "A szerkesztőben mellékletek betöltéséhez/csatolásához használandó könyvtár."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Check for new messages on start"
 msgstr "Új levelek keresése indításkor"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -9734,11 +9740,11 @@ msgstr ""
 "Keresendők-e új üzenetek az Evolution indításakor. Ez tartalmazza az "
 "üzenetek elküldését az Elküldött mappából."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Check for new messages in all active accounts"
 msgstr "Új levelek keresése minden aktív postafiókban"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -9749,11 +9755,11 @@ msgstr ""
 "Evolution indításakor. Ez a beállítás csak a „send_recv_on_start” "
 "beállítással együtt kerül felhasználásra."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Server synchronization interval"
 msgstr "Kiszolgáló-szinkronizáció időköze"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -9762,11 +9768,11 @@ msgstr ""
 "szinkronizálásra a távoli levélkiszolgálóval. Az időköznek legalább 30 "
 "másodpercnek kell lennie."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Allow expunge in virtual folders"
 msgstr "Virtuális mappák tisztításának engedélyezése"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder->Expunge "
 "will be callable in virtual folders, while the expunge itself will be done "
@@ -9778,11 +9784,11 @@ msgstr ""
 "virtuális mappán belüli összes mappa törölt üzeneteire lesz alkalmazva, nem "
 "csak a virtuális mappához tartozó törölt üzenetekre."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "An Archive folder for On This Computer folders."
 msgstr "Archívum mappa az Ezen a számítógépen mappákhoz."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -9790,11 +9796,11 @@ msgstr ""
 "Archívum mappa az Üzenetek -> Archiválás funkció használatához az Ezen a "
 "számítógépen mappában állva."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "(Deprecated) Default forward style"
 msgstr "(elavult) Alapértelmezett továbbítási stílus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
@@ -9802,11 +9808,11 @@ msgstr ""
 "Ez a kulcs elavult a 3.10-ben és nem szabad használni. Helyette használja a "
 "„forward-style-name” kulcsot."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "(Deprecated) Default reply style"
 msgstr "(elavult) Alapértelmezett válaszstílus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
@@ -9814,12 +9820,12 @@ msgstr ""
 "Ez a kulcs elavult a 3.10-ben és nem szabad használni. Helyette használja a "
 "„reply-style-name” kulcsot."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(elavult) Az egyéni fejlécek listája, és hogy ezek be vannak-e kapcsolva."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
@@ -9827,11 +9833,11 @@ msgstr ""
 "Ez a kulcs elavult a 3.10-ben és nem szabad használni. Helyette használja a "
 "„show-headers” kulcsot."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(elavult) Képek betöltése HTML üzenetekhez HTTP-n keresztül"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
@@ -9839,7 +9845,7 @@ msgstr ""
 "Ez a kulcs elavult a 3.10-ben és nem szabad használni. Helyette használja a "
 "„image-loading-policy” kulcsot."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -9847,7 +9853,7 @@ msgstr ""
 "(elavult) Kérdezzen rá az üzenetablak bezárására, ha a felhasználó az "
 "ablakban látható üzenetet továbbítja vagy arra válaszol."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -10255,10 +10261,14 @@ msgid "Full path command to run spamassassin"
 msgstr "Teljes elérési utas parancs a spamassassin futtatásához"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
+#| msgid ""
+#| "Full path to a spamassassin command. If not set, then a compile-time path "
+#| "is used, usually /usr/bin/spamassassin. The command might not contain any "
+#| "other arguments."
 msgid ""
 "Full path to a spamassassin command. If not set, then a compile-time path is "
-"used, usually /usr/bin/spamassassin. The command might not contain any other "
-"arguments."
+"used, usually /usr/bin/spamassassin. The command should not contain any "
+"other arguments."
 msgstr ""
 "Teljes elérési út a spamassassin parancshoz. Ha nincs beállítva, akkor a "
 "fordítási idejű útvonal lesz használva, általában a /usr/bin/spamassassin. A "
@@ -10269,9 +10279,13 @@ msgid "Full path command to run sa-learn"
 msgstr "Teljes elérési utas parancs a sa-learn futtatásához"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
+#| msgid ""
+#| "Full path to a sa-learn command. If not set, then a compile-time path is "
+#| "used, usually /usr/bin/sa-learn. The command might not contain any other "
+#| "arguments."
 msgid ""
 "Full path to a sa-learn command. If not set, then a compile-time path is "
-"used, usually /usr/bin/sa-learn. The command might not contain any other "
+"used, usually /usr/bin/sa-learn. The command should not contain any other "
 "arguments."
 msgstr ""
 "Teljes elérési út a sa-learn parancshoz. Ha nincs beállítva, akkor a "
@@ -10334,8 +10348,8 @@ msgstr "Rész formázása RFC822 üzenetként"
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../e-util/gal-view-instance-save-as-dialog.c:94
 #: ../mail/e-mail-label-tree-view.c:98
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1295
-#: ../modules/cal-config-google/e-google-chooser.c:236
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1301
+#: ../modules/cal-config-google/e-google-chooser.c:1303
 #: ../modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Name"
 msgstr "Név"
@@ -10382,13 +10396,13 @@ msgid "Format part as HTML"
 msgstr "Rész formázása HTML üzenetként"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
-#: ../em-format/e-mail-formatter-text-plain.c:197
+#: ../em-format/e-mail-formatter-text-plain.c:198
 #: ../e-util/e-html-editor-actions.c:1409
 msgid "Plain Text"
 msgstr "Egyszerű szöveg"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:124
-#: ../em-format/e-mail-formatter-text-plain.c:198
+#: ../em-format/e-mail-formatter-text-plain.c:199
 msgid "Format part as plain text"
 msgstr "Rész formázása egyszerű szövegként"
 
@@ -10530,19 +10544,21 @@ msgstr "Rejtett másolat"
 
 #: ../em-format/e-mail-formatter-utils.c:564
 msgid "GPG signed"
-msgstr "GPG aláírás"
+msgstr "GPG aláírt"
 
 #: ../em-format/e-mail-formatter-utils.c:570
-msgid "GPG encrpyted"
-msgstr "GPG titkosítás"
+#| msgid "GPG encrpyted"
+msgid "GPG encrypted"
+msgstr "GPG titkosított"
 
 #: ../em-format/e-mail-formatter-utils.c:576
 msgid "S/MIME signed"
-msgstr "S/MIME aláírás"
+msgstr "S/MIME aláírt"
 
 #: ../em-format/e-mail-formatter-utils.c:582
-msgid "S/MIME encrpyted"
-msgstr "S/MIME titkosítás"
+#| msgid "S/MIME encrpyted"
+msgid "S/MIME encrypted"
+msgstr "S/MIME titkosított"
 
 #: ../em-format/e-mail-formatter-utils.c:591
 #: ../mail/e-mail-config-security-page.c:736
@@ -11003,19 +11019,16 @@ msgid "_Available Categories:"
 msgstr "_Rendelkezésre álló kategóriák:"
 
 #: ../e-util/e-categories-editor.c:274
-#| msgid "_New"
 msgctxt "category"
 msgid "_New"
 msgstr "Ú_j"
 
 #: ../e-util/e-categories-editor.c:278
-#| msgid "_Edit"
 msgctxt "category"
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
 #: ../e-util/e-categories-editor.c:282
-#| msgid "_Delete"
 msgctxt "category"
 msgid "_Delete"
 msgstr "_Törlés"
@@ -11356,7 +11369,7 @@ msgstr "fehér"
 #: ../e-util/e-color-combo.c:639 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
 #: ../mail/e-mail-config-security-page.c:566 ../mail/e-mail-reader.c:3857
-#: ../mail/mail-config.ui.h:68
+#: ../mail/mail-config.ui.h:69
 msgid "Default"
 msgstr "Alapértelmezett"
 
@@ -11475,117 +11488,117 @@ msgctxt "DateFmt"
 msgid "Next Sun"
 msgstr "Jövő v"
 
-#: ../e-util/e-datetime-format.c:352 ../e-util/e-datetime-format.c:362
-#: ../e-util/e-datetime-format.c:371
+#: ../e-util/e-datetime-format.c:351 ../e-util/e-datetime-format.c:361
+#: ../e-util/e-datetime-format.c:370
 msgid "Use locale default"
 msgstr "Területi beállítás alapértelmezésének használata"
 
-#: ../e-util/e-datetime-format.c:576
+#: ../e-util/e-datetime-format.c:575
 msgid "Format:"
 msgstr "Formátum:"
 
 #. Translators: :-)
-#: ../e-util/e-emoticon-chooser.c:39
+#: ../e-util/e-emoticon-chooser.c:40
 msgid "_Smile"
 msgstr "_Hangulatjel"
 
 #. Translators: :-(
-#: ../e-util/e-emoticon-chooser.c:41
+#: ../e-util/e-emoticon-chooser.c:42
 msgid "S_ad"
 msgstr "S_zomorú"
 
 #. Translators: ;-)
-#: ../e-util/e-emoticon-chooser.c:43
+#: ../e-util/e-emoticon-chooser.c:44
 msgid "_Wink"
 msgstr "_Kacsintás"
 
 #. Translators: :-P
-#: ../e-util/e-emoticon-chooser.c:45
+#: ../e-util/e-emoticon-chooser.c:46
 msgid "Ton_gue"
 msgstr "_Nyelvöltés"
 
 #. Translators: :-))
-#: ../e-util/e-emoticon-chooser.c:47
+#: ../e-util/e-emoticon-chooser.c:48
 msgid "Laug_h"
 msgstr "Ne_vető"
 
 #. Translators: :-|
-#: ../e-util/e-emoticon-chooser.c:49
+#: ../e-util/e-emoticon-chooser.c:50
 msgid "_Plain"
 msgstr "_Egyszerű"
 
 #. Translators: :-!
-#: ../e-util/e-emoticon-chooser.c:51
+#: ../e-util/e-emoticon-chooser.c:52
 msgid "Smi_rk"
 msgstr "Ön_elégült vigyor"
 
 #. Translators: :"-)
-#: ../e-util/e-emoticon-chooser.c:53
+#: ../e-util/e-emoticon-chooser.c:54
 msgid "_Embarrassed"
 msgstr "_Zavart"
 
 #. Translators: :-D
-#: ../e-util/e-emoticon-chooser.c:55
+#: ../e-util/e-emoticon-chooser.c:56
 msgid "_Big Smile"
 msgstr "_Nagy mosoly"
 
 #. Translators: :-/
-#: ../e-util/e-emoticon-chooser.c:57
+#: ../e-util/e-emoticon-chooser.c:58
 msgid "Uncer_tain"
 msgstr "Biz_onytalan"
 
 #. Translators: :-O
-#: ../e-util/e-emoticon-chooser.c:59
+#: ../e-util/e-emoticon-chooser.c:60
 msgid "S_urprise"
 msgstr "Me_glepett"
 
 #. Translators: :-S
-#: ../e-util/e-emoticon-chooser.c:61
+#: ../e-util/e-emoticon-chooser.c:62
 msgid "W_orried"
 msgstr "Aggó_dó"
 
 #. Translators: :-*
-#: ../e-util/e-emoticon-chooser.c:63
+#: ../e-util/e-emoticon-chooser.c:64
 msgid "_Kiss"
 msgstr "_Csók"
 
 #. Translators: X-(
-#: ../e-util/e-emoticon-chooser.c:65
+#: ../e-util/e-emoticon-chooser.c:66
 msgid "A_ngry"
 msgstr "Dü_hös"
 
 #. Translators: B-)
-#: ../e-util/e-emoticon-chooser.c:67
+#: ../e-util/e-emoticon-chooser.c:68
 msgid "_Cool"
 msgstr "_Hűvös"
 
 #. Translators: O:-)
-#: ../e-util/e-emoticon-chooser.c:69
+#: ../e-util/e-emoticon-chooser.c:70
 msgid "Ange_l"
 msgstr "_Angyal"
 
 #. Translators: :'(
-#: ../e-util/e-emoticon-chooser.c:71
+#: ../e-util/e-emoticon-chooser.c:72
 msgid "Cr_ying"
 msgstr "_Sírás"
 
 #. Translators: :-Q
-#: ../e-util/e-emoticon-chooser.c:73
+#: ../e-util/e-emoticon-chooser.c:74
 msgid "S_ick"
 msgstr "_Beteg"
 
 #. Translators: |-)
-#: ../e-util/e-emoticon-chooser.c:75
+#: ../e-util/e-emoticon-chooser.c:76
 msgid "Tire_d"
 msgstr "_Fáradt"
 
 #. Translators: >:-)
-#: ../e-util/e-emoticon-chooser.c:77
+#: ../e-util/e-emoticon-chooser.c:78
 msgid "De_vilish"
 msgstr "Ör_dögi"
 
 #. Translators: :-(|)
-#: ../e-util/e-emoticon-chooser.c:79
+#: ../e-util/e-emoticon-chooser.c:80
 msgid "_Monkey"
 msgstr "Maj_om"
 
@@ -11811,7 +11824,6 @@ msgid "HTML file"
 msgstr "HTML fájl"
 
 #: ../e-util/e-html-editor-actions.c:511
-#| msgid "Insert Image"
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Kép beszúrása"
@@ -12640,7 +12652,6 @@ msgstr "Bekezdéstulajdonságok"
 
 #: ../e-util/e-html-editor-replace-dialog.c:148
 #, c-format
-#| msgid "%d occurences replaced"
 msgid "%d occurence replaced"
 msgid_plural "%d occurences replaced"
 msgstr[0] "%d előfordulás cserélve"
@@ -12721,7 +12732,7 @@ msgid "Add word"
 msgstr "Szó hozzáadása"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:618
-#: ../mail/mail-config.ui.h:36
+#: ../mail/mail-config.ui.h:37
 msgid "Spell Checking"
 msgstr "Helyesírás-ellenőrzés"
 
@@ -12762,15 +12773,15 @@ msgstr "_Méret:"
 msgid "Text Properties"
 msgstr "Szövegtulajdonságok"
 
-#: ../e-util/e-html-editor-view.c:3345
+#: ../e-util/e-html-editor-view.c:3418
 msgid "Changed property"
 msgstr "Módosított tulajdonság"
 
-#: ../e-util/e-html-editor-view.c:3346
+#: ../e-util/e-html-editor-view.c:3419
 msgid "Whether editor changed"
 msgstr "A szerkesztő megváltozott-e"
 
-#: ../e-util/e-html-editor-view.c:7140
+#: ../e-util/e-html-editor-view.c:7260
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12778,11 +12789,11 @@ msgstr ""
 "A HTML mód kikapcsolása hatására a szöveg minden formázást elveszít. "
 "Folytatja?"
 
-#: ../e-util/e-html-editor-view.c:7144
+#: ../e-util/e-html-editor-view.c:7264
 msgid "_Don't lose formatting"
 msgstr "_Maradjon meg a formázás"
 
-#: ../e-util/e-html-editor-view.c:7145
+#: ../e-util/e-html-editor-view.c:7265
 msgid "_Lose formatting"
 msgstr "_Tűnjön el a formázás"
 
@@ -13405,29 +13416,29 @@ msgstr "Tértivevény"
 msgid "Sta_tus Tracking"
 msgstr "Álla_potkövetés"
 
-#: ../e-util/e-source-config.c:684 ../e-util/e-source-config.c:688
+#: ../e-util/e-source-config.c:690 ../e-util/e-source-config.c:694
 msgid "Type:"
 msgstr "Típus:"
 
-#: ../e-util/e-source-config.c:696 ../e-util/e-source-config.c:700
+#: ../e-util/e-source-config.c:702 ../e-util/e-source-config.c:706
 msgid "Name:"
 msgstr "Név:"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../e-util/e-source-config.c:1305
+#: ../e-util/e-source-config.c:1311
 msgid "Refresh every"
 msgstr "Frissítés minden"
 
-#: ../e-util/e-source-config.c:1335 ../e-util/e-source-config.c:1405
+#: ../e-util/e-source-config.c:1341 ../e-util/e-source-config.c:1411
 msgid "Use a secure connection"
 msgstr "Biztonságos kapcsolat használata"
 
-#: ../e-util/e-source-config.c:1431
+#: ../e-util/e-source-config.c:1437
 msgid "Unset _trust for SSL certificate"
 msgstr "Bizalom _megvonása az SSL tanúsítványtól"
 
-#: ../e-util/e-source-config.c:1467
+#: ../e-util/e-source-config.c:1473
 msgid "User"
 msgstr "Felhasználó"
 
@@ -13646,7 +13657,7 @@ msgstr ""
 
 #: ../e-util/e-table-config.ui.h:2
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:367
-#: ../modules/cal-config-google/e-google-chooser-dialog.c:191
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:367
 msgid "_Apply"
 msgstr "_Alkalmaz"
 
@@ -13919,15 +13930,15 @@ msgstr "Ugrás az üzenet kezdetéhez"
 msgid "Click to open %s"
 msgstr "Kattintson a(z) %s megnyitásához"
 
-#: ../e-util/e-web-view.c:2933
+#: ../e-util/e-web-view.c:2939
 msgid "Copying image to clipboard"
 msgstr "Kép másolása a vágólapra"
 
-#: ../e-util/e-web-view.c:3121
+#: ../e-util/e-web-view.c:3127
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../e-util/e-web-view.c:3157
+#: ../e-util/e-web-view.c:3163
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Kép mentése ide: „%s”"
@@ -14020,7 +14031,7 @@ msgstr "megadott idő"
 msgid "a time relative to the current time"
 msgstr "az idő mostantól számítva"
 
-#: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:85
+#: ../e-util/filter.ui.h:5 ../mail/mail-config.ui.h:86
 msgid "seconds"
 msgstr "másodperc"
 
@@ -14533,7 +14544,7 @@ msgid "De_fault"
 msgstr "Ala_pértelmezett"
 
 #: ../mail/e-mail-account-tree-view.c:83
-#: ../modules/mail/em-composer-prefs.c:1228
+#: ../modules/mail/em-composer-prefs.c:1234
 #: ../modules/plugin-manager/evolution-plugin-manager.c:358
 #: ../plugins/publish-calendar/publish-calendar.c:896
 msgid "Enabled"
@@ -14777,7 +14788,7 @@ msgid "%s - %s"
 msgstr "%s - %s"
 
 #: ../mail/e-mail-config-security-page.c:340
-#: ../mail/em-folder-properties.c:334 ../mail/mail-config.ui.h:28
+#: ../mail/em-folder-properties.c:334 ../mail/mail-config.ui.h:29
 #: ../modules/addressbook/autocompletion-config.c:114
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
 #: ../modules/itip-formatter/plugin/config-ui.c:90
@@ -14804,22 +14815,22 @@ msgid "Si_gning algorithm:"
 msgstr "_Aláírási algoritmus:"
 
 #: ../mail/e-mail-config-security-page.c:429
-#: ../mail/e-mail-config-security-page.c:569 ../mail/mail-config.ui.h:69
+#: ../mail/e-mail-config-security-page.c:569 ../mail/mail-config.ui.h:70
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../mail/e-mail-config-security-page.c:432
-#: ../mail/e-mail-config-security-page.c:572 ../mail/mail-config.ui.h:70
+#: ../mail/e-mail-config-security-page.c:572 ../mail/mail-config.ui.h:71
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../mail/e-mail-config-security-page.c:435
-#: ../mail/e-mail-config-security-page.c:575 ../mail/mail-config.ui.h:71
+#: ../mail/e-mail-config-security-page.c:575 ../mail/mail-config.ui.h:72
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../mail/e-mail-config-security-page.c:438
-#: ../mail/e-mail-config-security-page.c:578 ../mail/mail-config.ui.h:72
+#: ../mail/e-mail-config-security-page.c:578 ../mail/mail-config.ui.h:73
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -15120,7 +15131,7 @@ msgstr "Fejléc neve"
 msgid "Header Value"
 msgstr "Fejléc értéke"
 
-#: ../mail/e-mail-printer.c:124 ../mail/mail-config.ui.h:113
+#: ../mail/e-mail-printer.c:124 ../mail/mail-config.ui.h:114
 msgid "Headers"
 msgstr "Fejlécek"
 
@@ -15752,35 +15763,36 @@ msgid "Do not warn me again"
 msgstr "Ne figyelmeztessen többé"
 
 #: ../mail/e-mail-reader-utils.c:556
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1800
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1806
+#: ../modules/cal-config-google/e-google-chooser.c:1843
 #: ../plugins/face/face.c:170 ../shell/e-shell.c:861 ../shell/e-shell.c:882
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: ../mail/e-mail-reader-utils.c:1033
+#: ../mail/e-mail-reader-utils.c:1043
 msgid "Marking thread to be ignored"
 msgstr "A szál megjelölése mellőzendőként"
 
-#: ../mail/e-mail-reader-utils.c:1037
+#: ../mail/e-mail-reader-utils.c:1047
 msgid "Unmarking thread from being ignored"
 msgstr "A szál megjelölése nem mellőzendőként"
 
-#: ../mail/e-mail-reader-utils.c:1041
+#: ../mail/e-mail-reader-utils.c:1051
 msgid "Marking subthread to be ignored"
 msgstr "Az alszál megjelölése mellőzendőként"
 
-#: ../mail/e-mail-reader-utils.c:1045
+#: ../mail/e-mail-reader-utils.c:1055
 msgid "Unmarking subthread from being ignored"
 msgstr "Az alszál megjelölése nem mellőzendőként"
 
-#: ../mail/e-mail-reader-utils.c:1280
+#: ../mail/e-mail-reader-utils.c:1290
 msgid "Printing"
 msgstr "Nyomtatás"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
-#: ../mail/e-mail-reader-utils.c:1515
+#: ../mail/e-mail-reader-utils.c:1525
 #, c-format
 msgid ""
 "Folder '%s' contains %u duplicate message. Are you sure you want to delete "
@@ -15795,7 +15807,7 @@ msgstr[1] ""
 "A mappa („%s”) %u többszörös üzenetet tartalmaz. Biztos, hogy törölni "
 "szeretné ezeket?"
 
-#: ../mail/e-mail-reader-utils.c:2345
+#: ../mail/e-mail-reader-utils.c:2355
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Üzenet mentése"
@@ -15806,13 +15818,13 @@ msgstr[1] "Üzenetek mentése"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../mail/e-mail-reader-utils.c:2366
+#: ../mail/e-mail-reader-utils.c:2376
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Üzenet"
 msgstr[1] "Üzenetek"
 
-#: ../mail/e-mail-reader-utils.c:2739
+#: ../mail/e-mail-reader-utils.c:2749
 msgid "Parsing message"
 msgstr "Üzenet feldolgozása"
 
@@ -16267,7 +16279,7 @@ msgstr "Fontos"
 msgid "Read"
 msgstr "Olvasott"
 
-#: ../mail/filtertypes.xml.in.h:39 ../mail/mail-config.ui.h:120
+#: ../mail/filtertypes.xml.in.h:39 ../mail/mail-config.ui.h:121
 #: ../mail/vfoldertypes.xml.in.h:42
 msgid "Junk"
 msgstr "Levélszemét"
@@ -16468,18 +16480,19 @@ msgstr "Berkeley Mailbox formátumú mappák importálója"
 
 #: ../mail/importers/kmail-importer.c:263
 #, c-format
-#| msgid "Address"
+#| msgid "%d Address"
 msgid "%d Address"
-msgstr "%d cím"
+msgid_plural "%d Addresses"
+msgstr[0] "%d cím"
+msgstr[1] "%d cím"
 
 #: ../mail/importers/kmail-importer.c:354
-#| msgid "Evolution Elm importer"
 msgid "Evolution KMail importer"
 msgstr "Evolution KMail importáló"
 
 #: ../mail/importers/kmail-importer.c:355
-#| msgid "Import mail from Elm."
-msgid "Import mail and contact from KMail."
+#| msgid "Import mail and contact from KMail."
+msgid "Import mail and contacts from KMail."
 msgstr "Levelek és névjegyek importálása az KMailből."
 
 #: ../mail/importers/kmail-libs.c:152
@@ -16492,8 +16505,8 @@ msgid "Importing mailbox"
 msgstr "Postaláda importálása"
 
 #: ../mail/importers/mail-importer.c:61
-#| msgid "Import mail from Elm."
-msgid "Importing mail and contact from KMail"
+#| msgid "Importing mail and contact from KMail"
+msgid "Importing mail and contacts from KMail"
 msgstr "Levelek és névjegyek importálása az KMailből"
 
 #. Destination folder, was set in our widget
@@ -16597,106 +16610,111 @@ msgid "For_mat messages in HTML"
 msgstr "Üzenetek _HTML formázása"
 
 #: ../mail/mail-config.ui.h:9
-msgid "Automatically insert _emoticon images"
-msgstr "Han_gulatjelek képeinek automatikus beillesztése"
+#| msgid "Automatically insert _emoticon images"
+msgid "Automatically insert _emoticons"
+msgstr "Han_gulatjelek automatikus beillesztése"
 
 #: ../mail/mail-config.ui.h:10
+msgid "Use Unicode characters for smile_ys"
+msgstr "Unicode karakterek használata a _hangulatjelekhez"
+
+#: ../mail/mail-config.ui.h:11
 msgid "Always request rea_d receipt"
 msgstr "Tértivevény kérése min_dig"
 
-#: ../mail/mail-config.ui.h:11
+#: ../mail/mail-config.ui.h:12
 msgid "Encode filenames in an _Outlook/GMail way"
 msgstr "Fájlnevek kódolása _Outlook/GMail-szerűen"
 
-#: ../mail/mail-config.ui.h:12
+#: ../mail/mail-config.ui.h:13
 msgid "Send messages through Outbo_x folder"
 msgstr "Üzenetek küldése az _Elküldött mappán át"
 
-#: ../mail/mail-config.ui.h:13
+#: ../mail/mail-config.ui.h:14
 msgid "Number of characters for word w_rapping:"
 msgstr "_Karakterek száma sortöréshez:"
 
-#: ../mail/mail-config.ui.h:14
+#: ../mail/mail-config.ui.h:15
 msgid "Ch_aracter encoding:"
 msgstr "Karakterkó_dolás:"
 
-#: ../mail/mail-config.ui.h:15
+#: ../mail/mail-config.ui.h:16
 msgid "Replies and Forwards"
 msgstr "Válaszok és továbbítások"
 
-#: ../mail/mail-config.ui.h:16
+#: ../mail/mail-config.ui.h:17
 msgid "_Reply style:"
 msgstr "_Válasz stílusa:"
 
-#: ../mail/mail-config.ui.h:17
+#: ../mail/mail-config.ui.h:18
 msgid "_Forward style:"
 msgstr "_Továbbítás stílusa:"
 
-#: ../mail/mail-config.ui.h:18
+#: ../mail/mail-config.ui.h:19
 msgid "Start _typing at the bottom on replying"
 msgstr "_Válaszoláskor a gépelés megkezdése alul"
 
-#: ../mail/mail-config.ui.h:19
+#: ../mail/mail-config.ui.h:20
 msgid "_Keep signature above the original message on replying"
 msgstr "_Válaszoláskor az aláírás elhelyezése az eredeti üzenet felett"
 
-#: ../mail/mail-config.ui.h:20
+#: ../mail/mail-config.ui.h:21
 msgid "Ig_nore Reply-To: for mailing lists"
 msgstr "_Válaszcím mellőzése levelezőlistákhoz"
 
-#: ../mail/mail-config.ui.h:21
+#: ../mail/mail-config.ui.h:22
 msgid "Gro_up Reply goes only to mailing list, if possible"
 msgstr "A _Csoportos válasz küldése csak a levelezőlistára, ha lehetséges"
 
-#: ../mail/mail-config.ui.h:22
+#: ../mail/mail-config.ui.h:23
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
 msgstr ""
 "Üzenetek _digitális aláírása, ha az eredeti üzenet is alá van írva (PGP vagy "
 "S/MIME)"
 
 # #: ../composer/e-msg-composer.c:1500 ../mail/em-format-html-display.c:1913
-#: ../mail/mail-config.ui.h:23
+#: ../mail/mail-config.ui.h:24
 msgctxt "ReplyForward"
 msgid "Attachment"
 msgstr "Melléklet"
 
-#: ../mail/mail-config.ui.h:24
+#: ../mail/mail-config.ui.h:25
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
 msgstr "Beágyazott (Outlook stílus)"
 
-#: ../mail/mail-config.ui.h:25
+#: ../mail/mail-config.ui.h:26
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Idézett"
 
-#: ../mail/mail-config.ui.h:26
+#: ../mail/mail-config.ui.h:27
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Ne idézze"
 
-#: ../mail/mail-config.ui.h:27
+#: ../mail/mail-config.ui.h:28
 msgctxt "ReplyForward"
 msgid "Inline"
 msgstr "Beágyazott"
 
-#: ../mail/mail-config.ui.h:29
+#: ../mail/mail-config.ui.h:30
 msgid "Sig_natures"
 msgstr "_Aláírások"
 
-#: ../mail/mail-config.ui.h:30
+#: ../mail/mail-config.ui.h:31
 msgid "Signatures"
 msgstr "Aláírások"
 
-#: ../mail/mail-config.ui.h:31
+#: ../mail/mail-config.ui.h:32
 msgid "_Languages"
 msgstr "Nye_lvek"
 
-#: ../mail/mail-config.ui.h:32
+#: ../mail/mail-config.ui.h:33
 msgid "Languages Table"
 msgstr "Nyelvek táblázata"
 
-#: ../mail/mail-config.ui.h:33
+#: ../mail/mail-config.ui.h:34
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -16704,11 +16722,11 @@ msgstr ""
 "Ezen az oldalon csak azok a nyelvek vannak felsorolva, amelyekhez van "
 "telepítve helyesírás-ellenőrző szótár."
 
-#: ../mail/mail-config.ui.h:35
+#: ../mail/mail-config.ui.h:36
 msgid "Check spelling while I _type"
 msgstr "Helyesírás-ellenőrzés beírás _közben"
 
-#: ../mail/mail-config.ui.h:37
+#: ../mail/mail-config.ui.h:38
 msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
@@ -16717,73 +16735,73 @@ msgstr ""
 "megerősítést az alább kijelölt műveletek végrehajtása előtt:"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:39
+#: ../mail/mail-config.ui.h:40
 msgid "Sending a message with an _empty subject line"
 msgstr "Ü_res tárgysorú üzenet küldése"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:41
+#: ../mail/mail-config.ui.h:42
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "Csak rejtett _másolatot kapó címzettekkel rendelkező üzenet küldése"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:43
+#: ../mail/mail-config.ui.h:44
 msgid "Sending a _private reply to a mailing list message"
 msgstr "_Privát válasz küldése levelezőlista-üzenetre"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:45
+#: ../mail/mail-config.ui.h:46
 msgid "Sending a reply to a large _number of recipients"
 msgstr "Válasz _küldése sok címzettnek"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:47
+#: ../mail/mail-config.ui.h:48
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr ""
 "Pri_vát válasz listára való átirányításának engedélyezése levelezőlistának"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:49
+#: ../mail/mail-config.ui.h:50
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr "Nem levélcímként megadott _címzetteknek való üzenetküldés"
 
 #. This is in the context of: Ask for confirmation before...
-#: ../mail/mail-config.ui.h:51
+#: ../mail/mail-config.ui.h:52
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "Üzenet _küldése gyorsbillentyűvel (Ctrl+Enter)"
 
-#: ../mail/mail-config.ui.h:52
+#: ../mail/mail-config.ui.h:53
 msgid "Confirmations"
 msgstr "Megerősítések"
 
 #. Translators: Label of a frame with a list of folders for which to use selected account in Send account overrides
-#: ../mail/mail-config.ui.h:56
+#: ../mail/mail-config.ui.h:57
 msgid "Use for Folders"
 msgstr "Használat ezen mappákhoz"
 
-#: ../mail/mail-config.ui.h:57
+#: ../mail/mail-config.ui.h:58
 msgid "A_dd"
 msgstr "Hozzá_adás"
 
-#: ../mail/mail-config.ui.h:59
+#: ../mail/mail-config.ui.h:60
 msgid "Re_move"
 msgstr "_Eltávolítás"
 
 #. Translators: Label of a frame with a list of recipients for whom to use selected account in Send account overrides
-#: ../mail/mail-config.ui.h:61
+#: ../mail/mail-config.ui.h:62
 msgid "Use for Recipients"
 msgstr "Használat ezen címzettekhez"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../mail/mail-config.ui.h:63 ../modules/mail/em-composer-prefs.c:836
+#: ../mail/mail-config.ui.h:64 ../modules/mail/em-composer-prefs.c:836
 msgid "Account"
 msgstr "Postafiók"
 
-#: ../mail/mail-config.ui.h:64
+#: ../mail/mail-config.ui.h:65
 msgid "Send account overrides"
 msgstr "Küldési postafiók felülbírálásai"
 
-#: ../mail/mail-config.ui.h:65
+#: ../mail/mail-config.ui.h:66
 msgid ""
 "Assign which account should be used as a send account for respective folders "
 "or recipients, an override for usual send account detection. List of "
@@ -16795,209 +16813,210 @@ msgstr ""
 "felülbírálásával. A címzettek listája tartalmazhat részleges címeket vagy "
 "neveket is. A név és cím részek külön-külön kerülnek összehasonlításra."
 
-#: ../mail/mail-config.ui.h:66
+#: ../mail/mail-config.ui.h:67
 msgid "_Folder override has precedence over Recipient override"
 msgstr "A _mappa-felülbírálás előnyben van a címzett-felülbírálással szemben"
 
-#: ../mail/mail-config.ui.h:67
+#: ../mail/mail-config.ui.h:68
 msgid "Send Account"
 msgstr "Küldési postafiók"
 
-#: ../mail/mail-config.ui.h:73 ../smime/gui/smime-ui.ui.h:1
+#: ../mail/mail-config.ui.h:74 ../smime/gui/smime-ui.ui.h:1
 msgid "a"
 msgstr "a"
 
-#: ../mail/mail-config.ui.h:74 ../smime/gui/smime-ui.ui.h:2
+#: ../mail/mail-config.ui.h:75 ../smime/gui/smime-ui.ui.h:2
 msgid "b"
 msgstr "b"
 
-#: ../mail/mail-config.ui.h:75
+#: ../mail/mail-config.ui.h:76
 msgid "Start up"
 msgstr "Indítás"
 
-#: ../mail/mail-config.ui.h:76
+#: ../mail/mail-config.ui.h:77
 msgid "Check for new _messages on start"
 msgstr "Új _levelek keresése indításkor"
 
-#: ../mail/mail-config.ui.h:77
+#: ../mail/mail-config.ui.h:78
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Új levelek keresése minden aktív p_ostafiókból"
 
-#: ../mail/mail-config.ui.h:78
+#: ../mail/mail-config.ui.h:79
 msgid "Message Display"
 msgstr "Üzenetmegjelenítés"
 
-#: ../mail/mail-config.ui.h:79
+#: ../mail/mail-config.ui.h:80
 msgid "_Use the same fonts as other applications"
 msgstr "Más _alkalmazások által használt betűkészlet használata"
 
-#: ../mail/mail-config.ui.h:80
+#: ../mail/mail-config.ui.h:81
 msgid "S_tandard Font:"
 msgstr "_Szabványos betűkészlet:"
 
-#: ../mail/mail-config.ui.h:81
+#: ../mail/mail-config.ui.h:82
 msgid "Select HTML fixed width font"
 msgstr "Válasszon rögzített szélességű betűkészletet a HTML-hez"
 
-#: ../mail/mail-config.ui.h:82
+#: ../mail/mail-config.ui.h:83
 msgid "Select HTML variable width font"
 msgstr "Válasszon változó szélességű betűkészletet a HTML-hez"
 
-#: ../mail/mail-config.ui.h:83
+#: ../mail/mail-config.ui.h:84
 msgid "Fix_ed Width Font:"
 msgstr "_Rögzített szélességű betűkészlet:"
 
-#: ../mail/mail-config.ui.h:84
+#: ../mail/mail-config.ui.h:85
 msgid "_Mark messages as read after"
 msgstr "_Várakozás az üzenet olvasottként megjelölése előtt"
 
-#: ../mail/mail-config.ui.h:86
+#: ../mail/mail-config.ui.h:87
 msgid "Highlight _quotations with"
 msgstr "_Idézetek kiemelése"
 
-#: ../mail/mail-config.ui.h:87
+#: ../mail/mail-config.ui.h:88
 #: ../modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Pick a color"
 msgstr "Válasszon színt"
 
 # Fixme: ez a "Highlight _quotations with" <színgomb> után van, ugyanebből a fájlból!
 # Újabb  előfordulás ctx-t fog igényelni!
-#: ../mail/mail-config.ui.h:88
+#: ../mail/mail-config.ui.h:89
 msgid "color"
 msgstr "színnel"
 
-#: ../mail/mail-config.ui.h:89
+#: ../mail/mail-config.ui.h:90
 msgid "Default character e_ncoding:"
 msgstr "Ala_pértelmezett karakterkódolás:"
 
-#: ../mail/mail-config.ui.h:90
+#: ../mail/mail-config.ui.h:91
 msgid "Apply the same _view settings to all folders"
 msgstr "_Ugyanazon nézetbeállítások használata minden mappára"
 
-#: ../mail/mail-config.ui.h:91
+#: ../mail/mail-config.ui.h:92
 msgid "F_all back to threading messages by subject"
 msgstr "Üzenetek szálakra bontása _tárgy szerint"
 
-#: ../mail/mail-config.ui.h:92
+#: ../mail/mail-config.ui.h:93
 msgid "Delete Mail"
 msgstr "Levél törlése"
 
-#: ../mail/mail-config.ui.h:93
+#: ../mail/mail-config.ui.h:94
 msgid "Empty _trash folders"
 msgstr "_Kuka mappák ürítése"
 
-#: ../mail/mail-config.ui.h:94
+#: ../mail/mail-config.ui.h:95
 msgid "Confirm _when expunging a folder"
 msgstr "_Megerősítés mappa tisztításakor"
 
-#: ../mail/mail-config.ui.h:95
+#: ../mail/mail-config.ui.h:96
 msgid "Archive Mail"
 msgstr "Levél archiválása"
 
-#: ../mail/mail-config.ui.h:96
+#: ../mail/mail-config.ui.h:97
 msgid "On This Computer A_rchive folder:"
 msgstr "_Archívum mappa ezen a számítógépen:"
 
-#: ../mail/mail-config.ui.h:97
+#: ../mail/mail-config.ui.h:98
 msgid "Archive folder to use for On This Computer messages"
 msgstr "Az Ezen a számítógépen üzenetekhez használandó archívum mappa"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:99
+#: ../mail/mail-config.ui.h:100
 msgid "_Show animated images"
 msgstr "_Animált képek megjelenítése"
 
-#: ../mail/mail-config.ui.h:100
+#: ../mail/mail-config.ui.h:101
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "_Kérdés HTML üzenet olyan címzetteknek küldésekor, akik nem kérnek ilyet"
 
-#: ../mail/mail-config.ui.h:101
+#: ../mail/mail-config.ui.h:102
 msgid "Loading Images"
 msgstr "Képek betöltése"
 
-#: ../mail/mail-config.ui.h:102
+#: ../mail/mail-config.ui.h:103
 msgid "_Never load images from the Internet"
 msgstr "_Soha ne töltse le a képeket a hálózatról"
 
-#: ../mail/mail-config.ui.h:103
+#: ../mail/mail-config.ui.h:104
 msgid "_Load images only in messages from contacts"
 msgstr "Képek betöltése csak _ha a feladó szerepel a címjegyzékben"
 
-#: ../mail/mail-config.ui.h:104
+#: ../mail/mail-config.ui.h:105
 msgid "_Always load images from the Internet"
 msgstr "_Mindig töltse le a képeket a hálózatról"
 
-#: ../mail/mail-config.ui.h:105
+#: ../mail/mail-config.ui.h:106
 msgid "HTML Messages"
 msgstr "HTML üzenetek"
 
-#: ../mail/mail-config.ui.h:106 ../mail/message-list.etspec.h:19
+#: ../mail/mail-config.ui.h:107 ../mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Címkék"
 
-#: ../mail/mail-config.ui.h:107
+#: ../mail/mail-config.ui.h:108
 msgid "Sender Photograph"
 msgstr "Feladó fényképe"
 
-#: ../mail/mail-config.ui.h:108
+#: ../mail/mail-config.ui.h:109
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Feladó fé_nyképének megjelenítése az e-mail előnézetben"
 
-#: ../mail/mail-config.ui.h:109
+#: ../mail/mail-config.ui.h:110
 msgid "Search gra_vatar.com for the photograph of sender"
 msgstr "A feladó fényképének keresése a gra_vatar.com-on"
 
-#: ../mail/mail-config.ui.h:110
+#: ../mail/mail-config.ui.h:111
 msgid "Displayed Message Headers"
 msgstr "Megjelenített üzenetfejlécek"
 
-#: ../mail/mail-config.ui.h:111
+#: ../mail/mail-config.ui.h:112
 msgid "Mail Headers Table"
 msgstr "Levélfejlécek táblázata"
 
-#: ../mail/mail-config.ui.h:112
+#: ../mail/mail-config.ui.h:113
 #: ../modules/addressbook/autocompletion-config.c:117
 #: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr "Dátum/időformátum"
 
-#: ../mail/mail-config.ui.h:114
+#: ../mail/mail-config.ui.h:115
 msgid "Check incoming _messages for junk"
 msgstr "Levélszemét keresése b_eérkezett levelekben"
 
-#: ../mail/mail-config.ui.h:115
+#: ../mail/mail-config.ui.h:116
 msgid "_Delete junk messages"
 msgstr "_Levélszemét törlése"
 
-#: ../mail/mail-config.ui.h:116
-msgid "Just Test Options"
-msgstr "Csak teszt beállítások"
-
 #: ../mail/mail-config.ui.h:117
+#| msgid "Just Test Options"
+msgid "Junk Test Options"
+msgstr "Levélszemét teszt beállítások"
+
+#: ../mail/mail-config.ui.h:118
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "Ne jelölje meg az üzeneteket s_zemétként, ha a feladó a címjegyzékemben van"
 
-#: ../mail/mail-config.ui.h:118
+#: ../mail/mail-config.ui.h:119
 msgid "_Lookup in local address book only"
 msgstr "Keresés csak a _helyi címjegyzékekben"
 
-#: ../mail/mail-config.ui.h:119
+#: ../mail/mail-config.ui.h:120
 msgid "Check cu_stom headers for junk"
 msgstr "Levél_szemét keresése egyéni fejlécekben"
 
-#: ../mail/mail-config.ui.h:121
+#: ../mail/mail-config.ui.h:122
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:224
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:174
 msgid "No encryption"
 msgstr "Nincs titkosítás"
 
-#: ../mail/mail-config.ui.h:122
+#: ../mail/mail-config.ui.h:123
 msgid "TLS encryption"
 msgstr "TLS titkosítás"
 
-#: ../mail/mail-config.ui.h:123
+#: ../mail/mail-config.ui.h:124
 msgid "SSL encryption"
 msgstr "SSL titkosítás"
 
@@ -18826,40 +18845,48 @@ msgstr "Az IfMatch elkerülése (az Apache < 2.2.8 esetén szükséges)"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:422
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:431
+#: ../modules/cal-config-google/e-google-chooser.c:424
+#: ../modules/cal-config-google/e-google-chooser.c:433
 #, c-format
 msgid "HTTP Error: %s"
 msgstr "HTTP hiba: %s"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:460
+#: ../modules/cal-config-google/e-google-chooser.c:462
 msgid "Could not parse response"
 msgstr "A válasz nem elemezhető"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:469
+#: ../modules/cal-config-google/e-google-chooser.c:471
 msgid "Empty response"
 msgstr "Üres válasz"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser.c:477
+#: ../modules/cal-config-google/e-google-chooser.c:479
 msgid "Unexpected reply from server"
 msgstr "Váratlan válasz a kiszolgálótól"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1093
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1099
+#: ../modules/cal-config-google/e-google-chooser.c:1101
 msgid "Could not locate user's calendars"
 msgstr "Nem találhatók felhasználói naptárak"
 
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1315
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1321
 msgid "Path"
 msgstr "Útvonal"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:348
-#: ../modules/cal-config-google/e-google-chooser-dialog.c:198
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:348
 msgid "Choose a Calendar"
 msgstr "Válasszon naptárat"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:351
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:351
 msgid "Choose a Memo List"
 msgstr "Válasszon feljegyzéslistát"
 
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:354
+#: ../modules/cal-config-google/e-google-chooser-dialog.c:354
 msgid "Choose a Task List"
 msgstr "Válasszon feladatlistát"
 
@@ -18891,18 +18918,9 @@ msgstr "Válassza ki a használandó címjegyzékeket."
 msgid "Use in Birthdays & Anniversaries calendar"
 msgstr "Használat a Születésnapok és évfordulók naptárban"
 
-#: ../modules/cal-config-google/e-google-chooser-button.c:125
+#: ../modules/cal-config-google/e-google-chooser-button.c:143
 msgid "Default User Calendar"
 msgstr "Alapértelmezett felhasználói naptár"
-
-#: ../modules/cal-config-google/e-google-chooser.c:514
-#, c-format
-msgid "Enter Google password for user '%s'."
-msgstr "Adja meg „%s” felhasználó Google jelszavát."
-
-#: ../modules/cal-config-google/e-google-chooser.c:531
-msgid "User declined to provide a password"
-msgstr "A felhasználó nem adott meg jelszót"
 
 #: ../modules/cal-config-local/evolution-cal-config-local.c:159
 msgid "Use an existing iCalendar (ics) file"
@@ -21348,19 +21366,19 @@ msgstr "Mappa"
 msgid "Recipient"
 msgstr "Címzett"
 
-#: ../modules/mail/em-composer-prefs.c:1157
+#: ../modules/mail/em-composer-prefs.c:1163
 msgid "Keep in Outbox"
 msgstr "Megtartás az Elküldött mappában"
 
-#: ../modules/mail/em-composer-prefs.c:1158
+#: ../modules/mail/em-composer-prefs.c:1164
 msgid "Send immediately"
 msgstr "Küldés azonnal"
 
-#: ../modules/mail/em-composer-prefs.c:1159
+#: ../modules/mail/em-composer-prefs.c:1165
 msgid "Send after 5 minutes"
 msgstr "Küldés 5 perc múlva"
 
-#: ../modules/mail/em-composer-prefs.c:1232
+#: ../modules/mail/em-composer-prefs.c:1238
 msgid "Language(s)"
 msgstr "Nyelvek"
 
@@ -22095,8 +22113,8 @@ msgstr ""
 msgid "_Automatically launch when a new mail is edited"
 msgstr "_Automatikus indítás új levél szerkesztésekor"
 
-#: ../plugins/external-editor/external-editor.c:467
 #: ../plugins/external-editor/external-editor.c:469
+#: ../plugins/external-editor/external-editor.c:471
 msgid "Compose in External Editor"
 msgstr "Szerkesztés külső szerkesztővel"
 
@@ -22413,21 +22431,18 @@ msgstr "%s leveléből létrehozva"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:594
-#| msgid "_Cancel"
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Mégse"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:596
-#| msgid "_Edit"
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "S_zerkesztés"
 
 #. Translators: Dialog button to create a New event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:598
-#| msgid "_New"
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "Ú_j"
@@ -23286,7 +23301,6 @@ msgstr "Ezen keresési paraméterek végrehajtása"
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
 #: ../shell/e-shell-window.c:505
-#| msgid "New"
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Új"
@@ -23398,11 +23412,11 @@ msgstr ""
 "Az Evolution nem indítható el. Lehet, hogy egy másik Evolution példány nem "
 "válaszol. A rendszer hibaüzenet: %s"
 
-#: ../shell/main.c:454 ../shell/main.c:459
+#: ../shell/main.c:457 ../shell/main.c:462
 msgid "- The Evolution PIM and Email Client"
 msgstr "– Az Evolution PIM- és levelezőkliens"
 
-#: ../shell/main.c:517
+#: ../shell/main.c:520
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -23411,7 +23425,7 @@ msgstr ""
 "%s: az --online és az --offline kapcsoló nem használható egyszerre.\n"
 "  Adja ki az „%s --help” parancsot további információk megtekintéséhez.\n"
 
-#: ../shell/main.c:523
+#: ../shell/main.c:526
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -23481,32 +23495,26 @@ msgid "Keep _Waiting"
 msgstr "_Várakozás"
 
 #: ../shell/shell.error.xml.h:15
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to get values from '{0}'"
 msgstr "Nem sikerült az értékek lekérése a következőről: „{0}”"
 
 #: ../shell/shell.error.xml.h:16
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Nem sikerült a hitelesítés meghívása a következőnél: „{0}”"
 
 #: ../shell/shell.error.xml.h:17
-#| msgid "Failed to open memo list '{0}'"
 msgid "Failed to connect to '{0}'"
 msgstr "Nem sikerült kapcsolódni a következőhöz: „{0}”"
 
 #: ../shell/shell.error.xml.h:18
-#| msgid "_Recover"
 msgid "_Reconnect"
 msgstr "Ú_jrakapcsolódás"
 
 #: ../shell/shell.error.xml.h:19
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to prompt for credentials for '{0}'"
 msgstr "Nem sikerült a hitelesítési adatok bekérése a következőnél: „{0}”"
 
 #: ../shell/shell.error.xml.h:20
-#| msgid "Failed to refresh task list '{0}'"
 msgid "Failed to finish trust prompt for '{0}'"
 msgstr ""
 "Nem sikerült a megbízhatóság bekérésének befejezése a következőnél: „{0}”"
@@ -24066,6 +24074,12 @@ msgstr "Lejárat _dátumával"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Á_llapottal"
+
+#~ msgid "Enter Google password for user '%s'."
+#~ msgstr "Adja meg „%s” felhasználó Google jelszavát."
+
+#~ msgid "User declined to provide a password"
+#~ msgstr "A felhasználó nem adott meg jelszót"
 
 #~ msgid "Invalid authentication result code (%d)"
 #~ msgstr "Érvénytelen hitelesítési eredménykód (%d)"
