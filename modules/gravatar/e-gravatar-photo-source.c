@@ -24,7 +24,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_GRAVATAR_PHOTO_SOURCE, EGravatarPhotoSourcePrivate))
 
-#define AVATAR_BASE_URI "http://www.gravatar.com/avatar/"
+#define AVATAR_BASE_URI "https://secure.gravatar.com/avatar/"
 
 struct _EGravatarPhotoSourcePrivate
 {
