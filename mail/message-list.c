@@ -3318,13 +3318,13 @@ message_list_value_to_string (ETreeModel *tree_model,
 			ii = GPOINTER_TO_UINT (value);
 			if (ii > 5)
 				return g_strdup ("");
-			return g_strdup (_(status_map[ii]));
+			return g_strdup (status_map[ii]);
 
 		case COL_SCORE:
 			ii = GPOINTER_TO_UINT (value) + 3;
 			if (ii > 6)
 				ii = 3;
-			return g_strdup (_(score_map[ii]));
+			return g_strdup (score_map[ii]);
 
 		case COL_ATTACHMENT:
 		case COL_FLAGGED:
@@ -3364,10 +3364,22 @@ static void
 message_list_class_init (MessageListClass *class)
 {
 	GObjectClass *object_class;
-	gint i;
 
-	for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
-		ml_drag_info[i].atom = gdk_atom_intern (ml_drag_info[i].target, FALSE);
+	if (!ml_drag_info[0].atom) {
+		gint ii;
+
+		for (ii = 0; ii < G_N_ELEMENTS (ml_drag_info); ii++) {
+			ml_drag_info[ii].atom = gdk_atom_intern (ml_drag_info[ii].target, FALSE);
+		}
+
+		for (ii = 0; ii < G_N_ELEMENTS (status_map); ii++) {
+			status_map[ii] = _(status_map[ii]);
+		}
+
+		for (ii = 0; ii < G_N_ELEMENTS (score_map); ii++) {
+			score_map[ii] = _(score_map[ii]);
+		}
+	}
 
 	g_type_class_add_private (class, sizeof (MessageListPrivate));
 
