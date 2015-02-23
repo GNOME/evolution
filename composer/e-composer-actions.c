@@ -573,7 +573,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 
 	{ "unicode-smileys",
 	  NULL,
-	  N_("Unicode smilyes"),
+	  N_("Unicode smileys"),
 	  NULL,
 	  N_("Use Unicode characters for smileys."),
 	  G_CALLBACK (action_unicode_smileys_cb),
