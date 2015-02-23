@@ -3329,6 +3329,11 @@ e_web_view_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
 
 	if (!style_element) {
+		WebKitDOMText *dom_text;
+		WebKitDOMHTMLHeadElement *head;
+
+		dom_text = webkit_dom_document_create_text_node (document, "");
+
 		/* Create new <style> element */
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
 		webkit_dom_element_set_id (
@@ -3340,13 +3345,19 @@ e_web_view_create_and_add_css_style_sheet (WebKitDOMDocument *document,
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (style_element),
 			/* WebKit hack - we have to insert empty TextNode into style element */
-			WEBKIT_DOM_NODE (webkit_dom_document_create_text_node (document, "")),
+			WEBKIT_DOM_NODE (dom_text),
 			NULL);
 
+		head = webkit_dom_document_get_head (document);
+
 		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (webkit_dom_document_get_head (document)),
+			WEBKIT_DOM_NODE (head),
 			WEBKIT_DOM_NODE (style_element),
 			NULL);
+
+		g_object_unref (head);
+		g_object_unref (dom_text);
+		g_object_unref (style_element);
 	}
 }
 
@@ -3409,6 +3420,9 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	/* Insert the rule at the end, so it will override previously inserted */
 	webkit_dom_css_style_sheet_add_rule (
 		WEBKIT_DOM_CSS_STYLE_SHEET (sheet), selector, style, length, NULL);
+
+	g_object_unref (sheet);
+	g_object_unref (style_element);
 }
 
 static void
