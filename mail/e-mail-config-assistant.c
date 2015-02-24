@@ -733,7 +733,7 @@ mail_config_assistant_constructed (GObject *object)
 	e_mail_config_assistant_add_page (assistant, page);
 	assistant->priv->lookup_page = g_object_ref (page);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		autodiscover_check, "active",
 		page, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -782,7 +782,7 @@ mail_config_assistant_constructed (GObject *object)
 			backend_extension, backend_name);
 
 		/* Keep display names synchronized. */
-		g_object_bind_property (
+		e_binding_bind_property (
 			identity_source, "display-name",
 			scratch_source, "display-name",
 			G_BINDING_BIDIRECTIONAL |
@@ -810,7 +810,7 @@ mail_config_assistant_constructed (GObject *object)
 
 		/* Each Receiving Options page is only visible when its
 		 * service backend is active on the Receiving Email page. */
-		g_object_bind_property_full (
+		e_binding_bind_property_full (
 			assistant->priv->receiving_page, "active-backend",
 			page, "visible",
 			G_BINDING_SYNC_CREATE,
@@ -859,7 +859,7 @@ mail_config_assistant_constructed (GObject *object)
 			backend_extension, backend_name);
 
 		/* Keep display names synchronized. */
-		g_object_bind_property (
+		e_binding_bind_property (
 			identity_source, "display-name",
 			scratch_source, "display-name",
 			G_BINDING_BIDIRECTIONAL |
@@ -882,17 +882,17 @@ mail_config_assistant_constructed (GObject *object)
 	e_mail_config_assistant_add_page (assistant, page);
 	assistant->priv->summary_page = g_object_ref (page);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		assistant, "account-backend",
 		page, "account-backend",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		assistant, "identity-source",
 		page, "identity-source",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		assistant, "transport-backend",
 		page, "transport-backend",
 		G_BINDING_SYNC_CREATE);

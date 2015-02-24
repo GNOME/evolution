@@ -367,55 +367,55 @@ attachment_paned_constructed (GObject *object)
 
 	/* Set up property-to-property bindings. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "active-view",
 		priv->combo_box, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "active-view",
 		priv->notebook, "page",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "dragging",
 		priv->icon_view, "dragging",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "dragging",
 		priv->tree_view, "dragging",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "editable",
 		priv->icon_view, "editable",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "editable",
 		priv->tree_view, "editable",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "expanded",
 		priv->expander, "expanded",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "expanded",
 		priv->combo_box, "sensitive",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "expanded",
 		priv->notebook, "visible",
 		G_BINDING_BIDIRECTIONAL |

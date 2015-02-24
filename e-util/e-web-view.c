@@ -372,7 +372,7 @@ web_view_init_web_settings (WebKitWebView *web_view)
 		"respect-image-orientation", TRUE,
 		NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		web_settings, "enable-caret-browsing",
 		web_view, "caret-mode",
 		G_BINDING_BIDIRECTIONAL |
@@ -1761,7 +1761,7 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
 	g_object_unref (popup_action);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		web_view, "open-proxy",
 		popup_action, "related-action",
 		G_BINDING_BIDIRECTIONAL |
@@ -1778,7 +1778,7 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
 	g_object_unref (popup_action);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		web_view, "print-proxy",
 		popup_action, "related-action",
 		G_BINDING_BIDIRECTIONAL |
@@ -1793,7 +1793,7 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
 	g_object_unref (popup_action);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		web_view, "save-as-proxy",
 		popup_action, "related-action",
 		G_BINDING_BIDIRECTIONAL |

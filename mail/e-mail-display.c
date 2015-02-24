@@ -418,7 +418,7 @@ plugin_widget_set_parent_element (GtkWidget *widget,
 	g_object_set_data (G_OBJECT (widget), "parent_element", element);
 	g_object_set_data (G_OBJECT (element), "widget", widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		element, "hidden",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE |

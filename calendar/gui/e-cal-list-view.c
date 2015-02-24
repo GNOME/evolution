@@ -196,13 +196,13 @@ setup_e_table (ECalListView *cal_list_view)
 		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		model, "timezone",
 		cell, "timezone",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		model, "use-24-hour-format",
 		cell, "use-24-hour-format",
 		G_BINDING_BIDIRECTIONAL |
@@ -212,7 +212,7 @@ setup_e_table (ECalListView *cal_list_view)
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		model, "use-24-hour-format",
 		popup_cell, "use-24-hour-format",
 		G_BINDING_BIDIRECTIONAL |

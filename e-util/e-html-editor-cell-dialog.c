@@ -769,7 +769,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "value-changed",
 		G_CALLBACK (html_editor_cell_dialog_set_width), dialog);
-	g_object_bind_property (
+	e_binding_bind_property (
 		dialog->priv->width_check, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -783,7 +783,7 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 	g_signal_connect_swapped (
 		widget, "changed",
 		G_CALLBACK (html_editor_cell_dialog_set_width), dialog);
-	g_object_bind_property (
+	e_binding_bind_property (
 		dialog->priv->width_check, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);

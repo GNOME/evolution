@@ -453,7 +453,7 @@ mail_ui_session_constructed (GObject *object)
 	shell = e_shell_get_default ();
 
 	/* synchronize online state first, before any CamelService is created */
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "online",
 		session, "online",
 		G_BINDING_SYNC_CREATE);

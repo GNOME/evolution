@@ -552,7 +552,7 @@ spam_assassin_new_config_widget (EMailJunkFilter *junk_filter)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		junk_filter, "local-only",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |

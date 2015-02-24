@@ -352,7 +352,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		composition_ext, "sign-imip",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -441,7 +441,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		openpgp_ext, "signing-algorithm",
 		widget, "active-id",
 		G_BINDING_SYNC_CREATE |
@@ -457,7 +457,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		openpgp_ext, "sign-by-default",
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
@@ -469,7 +469,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		openpgp_ext, "encrypt-to-self",
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
@@ -481,7 +481,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		openpgp_ext, "always-trust",
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
@@ -581,7 +581,7 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		smime_ext, "signing-algorithm",
 		widget, "active-id",
 		G_BINDING_SYNC_CREATE |
@@ -597,13 +597,13 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 4, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		smime_ext, "sign-by-default",
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		smime_ext, "signing-certificate",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE,
@@ -662,13 +662,13 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 4, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		smime_ext, "encrypt-by-default",
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		smime_ext, "encryption-certificate",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE,
@@ -682,13 +682,13 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 4, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		smime_ext, "encrypt-to-self",
 		widget, "active",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		smime_ext, "encryption-certificate",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE,

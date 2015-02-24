@@ -351,18 +351,18 @@ mail_config_notebook_constructed (GObject *object)
 	 * be authoritative since technically that's the one
 	 * shown on the Identity page. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		notebook->priv->identity_source, "display-name",
 		notebook->priv->account_source, "display-name",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		notebook->priv->identity_source, "display-name",
 		notebook->priv->transport_source, "display-name",
 		G_BINDING_SYNC_CREATE);
 
 	if (notebook->priv->collection_source != NULL)
-		g_object_bind_property (
+		e_binding_bind_property (
 			notebook->priv->identity_source, "display-name",
 			notebook->priv->collection_source, "display-name",
 			G_BINDING_SYNC_CREATE);
@@ -391,7 +391,7 @@ mail_config_notebook_constructed (GObject *object)
 	if (add_receiving_page) {
 		e_mail_config_notebook_add_page (notebook, page);
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			mail_identity_extension, "address",
 			page, "email-address",
 			G_BINDING_SYNC_CREATE);
@@ -427,7 +427,7 @@ mail_config_notebook_constructed (GObject *object)
 		if (add_sending_page) {
 			e_mail_config_notebook_add_page (notebook, page);
 
-			g_object_bind_property (
+			e_binding_bind_property (
 				mail_identity_extension, "address",
 				page, "email-address",
 				G_BINDING_SYNC_CREATE);

@@ -481,7 +481,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_sidebar, "icon-name",
 		widget, "icon-name",
 		G_BINDING_SYNC_CREATE);
@@ -498,7 +498,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_label_set_attributes (GTK_LABEL (widget), attribute_list);
 	pango_attr_list_unref (attribute_list);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_sidebar, "primary-text",
 		widget, "label",
 		G_BINDING_SYNC_CREATE);
@@ -514,7 +514,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_label_set_attributes (GTK_LABEL (widget), attribute_list);
 	pango_attr_list_unref (attribute_list);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_sidebar, "secondary-text",
 		widget, "label",
 		G_BINDING_SYNC_CREATE);

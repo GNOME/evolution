@@ -407,7 +407,7 @@ mail_signature_script_dialog_constructed (GObject *object)
 	dialog->priv->entry = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "text",
 		source, "display-name",
 		G_BINDING_DEFAULT);

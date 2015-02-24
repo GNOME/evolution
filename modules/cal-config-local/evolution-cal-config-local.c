@@ -174,7 +174,7 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		context->custom_file_checkbox, "active",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -205,7 +205,7 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 		G_CALLBACK (cal_config_local_file_set_cb),
 		context->custom_file_checkbox);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		context->custom_file_checkbox, "active",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -217,7 +217,7 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 	context->writable_checkbox = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		context->custom_file_checkbox, "active",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -225,7 +225,7 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_LOCAL_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "custom-file",
 		context->custom_file_checkbox, "active",
 		G_BINDING_BIDIRECTIONAL |

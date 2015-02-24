@@ -883,12 +883,12 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 
 	/* Fine tuning. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MEMO_PREVIEW), "active",
 		ACTION (MEMO_VIEW_CLASSIC), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MEMO_PREVIEW), "active",
 		ACTION (MEMO_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);

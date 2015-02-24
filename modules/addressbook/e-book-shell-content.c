@@ -266,7 +266,7 @@ book_shell_content_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "orientation",
 		widget, "orientation",
 		G_BINDING_SYNC_CREATE);
@@ -289,7 +289,7 @@ book_shell_content_constructed (GObject *object)
 		EAB_CONTACT_DISPLAY (widget),
 		priv->preview_show_maps);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "preview-show-maps",
 		widget, "show-maps",
 		G_BINDING_SYNC_CREATE);
@@ -310,7 +310,7 @@ book_shell_content_constructed (GObject *object)
 	priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

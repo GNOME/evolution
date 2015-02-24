@@ -202,7 +202,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		priv->auth_required_toggle, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -214,7 +214,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_box_pack_start (GTK_BOX (parent), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		priv->auth_required_toggle, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -262,7 +262,7 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		settings, "security-method",
 		priv->security_combo_box, "active-id",
 		G_BINDING_BIDIRECTIONAL |
@@ -271,13 +271,13 @@ mail_config_smtp_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		e_binding_transform_enum_nick_to_value,
 		NULL, (GDestroyNotify) NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "port",
 		priv->port_entry, "port",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "security-method",
 		priv->port_entry, "security-method",
 		G_BINDING_SYNC_CREATE);

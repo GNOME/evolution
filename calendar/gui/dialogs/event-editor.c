@@ -342,7 +342,7 @@ event_editor_constructor (GType type,
 		comp_editor_append_page (editor, page, _("Free/Busy"), TRUE);
 		schedule_page_update_free_busy (priv->sched_page);
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			action_group, "visible",
 			comp_editor_page_get_widget (page), "visible",
 			G_BINDING_SYNC_CREATE);
@@ -421,7 +421,7 @@ event_editor_constructed (GObject *object)
 
 	priv = EVENT_EDITOR_GET_PRIVATE (object);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "client",
 		priv->model, "client",
 		G_BINDING_SYNC_CREATE);

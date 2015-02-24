@@ -382,7 +382,7 @@ evolution_backup_restore_assistant_constructed (GObject *object)
 		ready_page = e_mail_config_restore_ready_page_new ();
 		e_mail_config_assistant_add_page (assistant, ready_page);
 
-		g_object_bind_property_full (
+		e_binding_bind_property_full (
 			restore_page, "filename",
 			ready_page, "visible",
 			G_BINDING_SYNC_CREATE,

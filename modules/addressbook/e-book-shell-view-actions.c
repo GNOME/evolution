@@ -1349,17 +1349,17 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	/* Fine tuning. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (CONTACT_PREVIEW), "active",
 		ACTION (CONTACT_VIEW_CLASSIC), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (CONTACT_PREVIEW), "active",
 		ACTION (CONTACT_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (CONTACT_PREVIEW), "active",
 		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "sensitive",
 		G_BINDING_SYNC_CREATE);

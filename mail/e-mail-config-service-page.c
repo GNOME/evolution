@@ -151,7 +151,7 @@ mail_config_service_page_new_candidate (EMailConfigServicePage *page,
 
 	/* Keep display names synchronized. */
 	if (opt_collection != NULL)
-		g_object_bind_property (
+		e_binding_bind_property (
 			scratch_source, "display-name",
 			opt_collection, "display-name",
 			G_BINDING_BIDIRECTIONAL |
@@ -696,7 +696,7 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 	/* Keep the notebook's active page number synchronized with our
 	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
 	 * since we haven't added any notebook pages. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "active-backend",
 		page->priv->notebook, "active-backend",
 		G_BINDING_BIDIRECTIONAL);
@@ -704,7 +704,7 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 	/* Keep the combo box's active row number synchronized with our
 	 * own "active-backend" property.  Avoid G_BINDING_SYNC_CREATE
 	 * since we haven't added any combo box rows. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		page, "active-backend",
 		page->priv->type_combo, "active-id",
 		G_BINDING_BIDIRECTIONAL,
@@ -713,7 +713,7 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 		NULL, (GDestroyNotify) NULL);
 
 	/* This keeps the description field up-to-date. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		page->priv->type_combo, "active-id",
 		page->priv->desc_label, "label",
 		G_BINDING_DEFAULT,
@@ -723,7 +723,7 @@ e_mail_config_service_page_init (EMailConfigServicePage *page)
 
 	/* For the "Server Type", either the combo
 	 * box or the label is visible, never both. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		page->priv->type_combo, "visible",
 		page->priv->type_label, "visible",
 		G_BINDING_SYNC_CREATE |

@@ -718,7 +718,7 @@ create_children (EDateEdit *dedit)
 	g_signal_connect (
 		priv->none_button, "clicked",
 		G_CALLBACK (on_date_popup_none_button_clicked), dedit);
-	g_object_bind_property (
+	e_binding_bind_property (
 		dedit, "allow-no-date-set",
 		priv->none_button, "visible",
 		G_BINDING_SYNC_CREATE);

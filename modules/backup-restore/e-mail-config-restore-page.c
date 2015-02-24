@@ -209,12 +209,12 @@ mail_config_restore_page_constructed (GObject *object)
 	page->priv->alert_bar = widget;  /* not referenced */
 	/* EActivityBar controls its own visibility. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "visible",
 		container, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page->priv->toggle_button, "active",
 		page->priv->file_chooser, "sensitive",
 		G_BINDING_SYNC_CREATE);

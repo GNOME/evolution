@@ -1894,7 +1894,7 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	action = gtk_action_group_get_action (action_group, "mode-html");
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "html-mode",
 		action, "current-value",
 		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
@@ -1991,80 +1991,80 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "can-redo",
 		ACTION (REDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "can-undo",
 		ACTION (UNDO), "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "can-copy",
 		ACTION (COPY), "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "can-cut",
 		ACTION (CUT), "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "can-paste",
 		ACTION (PASTE), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	/* This is connected to JUSTIFY_LEFT action only, but
 	 * it automatically applies on all actions in the group. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "alignment",
 		ACTION (JUSTIFY_LEFT), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "bold",
 		ACTION (BOLD), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "font-size",
 		ACTION (FONT_SIZE_GROUP), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "block-format",
 		ACTION (STYLE_NORMAL), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "indented",
 		ACTION (UNINDENT), "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "italic",
 		ACTION (ITALIC), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "monospaced",
 		ACTION (MONOSPACED), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "strikethrough",
 		ACTION (STRIKETHROUGH), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->selection, "underline",
 		ACTION (UNDERLINE), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 
 	/* Disable all actions and toolbars when editor is not editable */
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		editor->priv->core_editor_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		editor->priv->html_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		editor->priv->spell_check_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);

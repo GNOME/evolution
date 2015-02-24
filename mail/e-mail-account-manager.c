@@ -603,7 +603,7 @@ mail_account_manager_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_account_manager_parent_class)->constructed (object);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		store, "busy",
 		manager, "sensitive",
 		G_BINDING_SYNC_CREATE |

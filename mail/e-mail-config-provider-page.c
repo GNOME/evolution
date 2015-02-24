@@ -76,7 +76,7 @@ mail_config_provider_page_handle_dependency (EMailConfigProviderPage *page,
 	backend = e_mail_config_provider_page_get_backend (page);
 	settings = e_mail_config_service_backend_get_settings (backend);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, depname,
 		widget, "sensitive",
 		binding_flags);
@@ -133,7 +133,7 @@ mail_config_provider_page_add_checkbox (EMailConfigProviderPage *page,
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, entry->name,
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -275,7 +275,7 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 	if (use_pspec != NULL) {
 		prefix = gtk_check_button_new_with_mnemonic (pre);
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			settings, use_pspec->name,
 			prefix, "active",
 			G_BINDING_BIDIRECTIONAL |
@@ -290,14 +290,14 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
 	gtk_widget_show (spin);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, entry->name,
 		spin, "value",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
 	if (use_pspec != NULL)
-		g_object_bind_property (
+		e_binding_bind_property (
 			prefix, "active",
 			spin, "sensitive",
 			G_BINDING_SYNC_CREATE);
@@ -349,7 +349,7 @@ mail_config_provider_page_add_entry (EMailConfigProviderPage *page,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		input, "sensitive",
 		label, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -427,7 +427,7 @@ mail_config_provider_page_add_options (EMailConfigProviderPage *page,
 	gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
 	gtk_widget_show (combo);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		settings, entry->name,
 		combo, "active-id",
 		G_BINDING_BIDIRECTIONAL |
@@ -502,7 +502,7 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "enabled",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -512,12 +512,12 @@ mail_config_provider_page_add_widgets (EMailConfigProviderPage *page)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "enabled",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "interval-minutes",
 		widget, "value",
 		G_BINDING_BIDIRECTIONAL |

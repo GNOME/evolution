@@ -23,6 +23,7 @@
 
 #include <camel/camel.h>
 #include <enchant/enchant.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-html-editor.h"
 
@@ -696,11 +697,11 @@ html_editor_constructed (GObject *object)
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->color_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
-	g_object_bind_property (
+	e_binding_bind_property (
 		priv->color_combo_box, "current-color",
 		priv->selection, "font-color",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	g_object_bind_property (
+	e_binding_bind_property (
 		priv->html_editor_view, "editable",
 		priv->color_combo_box, "sensitive",
 		G_BINDING_SYNC_CREATE);

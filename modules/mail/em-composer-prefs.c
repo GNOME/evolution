@@ -1172,7 +1172,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		em_composer_prefs_outbox_delay_id_to_setting,
 		NULL, NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		e_builder_get_widget (prefs->builder, "chkUseOutbox"), "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -1294,7 +1294,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	send_account_override_setup (prefs->builder, mail_backend, registry);
 
 	widget = e_builder_get_widget (prefs->builder, "sao-prefer-folder-check");
-	g_object_bind_property (
+	e_binding_bind_property (
 		send_override, "prefer-folder",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);

@@ -4007,7 +4007,7 @@ e_mail_reader_init (EMailReader *reader,
 		g_slice_new0 (EMailReaderPrivate),
 		(GDestroyNotify) mail_reader_private_free);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		reader, "group-by-threads",
 		message_list, "group-by-threads",
 		G_BINDING_SYNC_CREATE);
@@ -4202,7 +4202,7 @@ e_mail_reader_init (EMailReader *reader,
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "active",
 		display, "caret-mode",
 		G_BINDING_BIDIRECTIONAL |

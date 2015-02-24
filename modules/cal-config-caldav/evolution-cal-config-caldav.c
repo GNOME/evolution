@@ -115,7 +115,7 @@ cal_config_caldav_run_dialog (GtkButton *button,
 		E_CALDAV_CHOOSER (widget), parent);
 
 	if (parent != NULL)
-		g_object_bind_property (
+		e_binding_bind_property (
 			parent, "icon-name",
 			dialog, "icon-name",
 			G_BINDING_SYNC_CREATE);
@@ -271,7 +271,7 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "calendar-auto-schedule",
 		context->auto_schedule_toggle, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -283,7 +283,7 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "soup-uri",
 		context->url_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

@@ -260,7 +260,7 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 6);
 
 	widget = e_builder_get_widget (builder, "pixmap");
-	g_object_bind_property (
+	e_binding_bind_property (
 		window, "icon-name",
 		widget, "icon-name",
 		G_BINDING_SYNC_CREATE);
@@ -290,7 +290,7 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 	editor->priv->target_date = E_DATE_EDIT (widget);
 
 	widget = e_builder_get_widget (builder, "completed");
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor, "completed",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |

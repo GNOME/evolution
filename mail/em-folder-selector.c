@@ -326,7 +326,7 @@ folder_selector_constructed (GObject *object)
 		GTK_DIALOG (selector), GTK_RESPONSE_OK);
 
 	/* No need to synchronize properties. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		selector, "default-button-label",
 		widget, "label",
 		G_BINDING_DEFAULT);
@@ -354,7 +354,7 @@ folder_selector_constructed (GObject *object)
 		G_CALLBACK (folder_selector_action_add_cb),
 		selector);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		selector, "can-create",
 		widget, "toolbar-visible",
 		G_BINDING_SYNC_CREATE);
@@ -387,7 +387,7 @@ folder_selector_constructed (GObject *object)
 	selector->priv->caption_label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		selector, "caption",
 		widget, "label",
 		G_BINDING_DEFAULT);

@@ -63,7 +63,7 @@ on_idle_create_widget (ESourceRegistry *registry)
 	button = gtk_toggle_button_new_with_label ("Show Colors");
 	gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		combo_box, "show-colors",
 		button, "active",
 		G_BINDING_SYNC_CREATE |

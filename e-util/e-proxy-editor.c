@@ -357,7 +357,7 @@ proxy_editor_constructed (GObject *object)
 			G_CALLBACK (proxy_editor_open_desktop_settings_cb),
 			editor);
 
-		g_object_bind_property_full (
+		e_binding_bind_property_full (
 			editor->priv->method_combo_box, "active-id",
 			widget, "visible",
 			G_BINDING_DEFAULT,
@@ -382,7 +382,7 @@ proxy_editor_constructed (GObject *object)
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, ++row, 2, 1);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		editor->priv->method_combo_box, "active-id",
 		widget, "visible",
 		G_BINDING_DEFAULT,
@@ -520,7 +520,7 @@ proxy_editor_constructed (GObject *object)
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_grid_attach (GTK_GRID (editor), widget, 0, ++row, 2, 1);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		editor->priv->method_combo_box, "active-id",
 		widget, "visible",
 		G_BINDING_DEFAULT,
@@ -566,7 +566,7 @@ proxy_editor_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (editor), widget, 1, ++row, 2, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		editor->priv->method_combo_box, "active-id",
 		widget, "visible",
 		G_BINDING_DEFAULT,

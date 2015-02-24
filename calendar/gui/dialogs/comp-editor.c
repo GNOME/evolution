@@ -2161,7 +2161,7 @@ comp_editor_init (CompEditor *editor)
 		g_object_unref (emblemed_icon);
 
 		save_action = gtk_action_group_get_action (action_group, "save");
-		g_object_bind_property (
+		e_binding_bind_property (
 			save_action, "sensitive",
 			action, "sensitive",
 			G_BINDING_SYNC_CREATE);
@@ -2307,7 +2307,7 @@ comp_editor_init (CompEditor *editor)
 	action_group = comp_editor_get_action_group (editor, "individual");
 	action_group_2 = e_attachment_view_get_action_group (view, "editable");
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action_group, "sensitive",
 		action_group_2, "sensitive",
 		G_BINDING_SYNC_CREATE);

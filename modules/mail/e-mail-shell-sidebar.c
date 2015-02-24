@@ -167,7 +167,7 @@ mail_shell_sidebar_constructed (GObject *object)
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_view, "state-key-file",
 		widget, "key-file",
 		G_BINDING_SYNC_CREATE);

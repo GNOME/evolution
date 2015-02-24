@@ -242,12 +242,12 @@ composer_header_constructed (GObject *object)
 
 	header->title_widget = g_object_ref_sink (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		header, "visible",
 		header->title_widget, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		header, "visible",
 		header->input_widget, "visible",
 		G_BINDING_SYNC_CREATE);

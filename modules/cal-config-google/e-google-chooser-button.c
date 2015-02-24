@@ -154,7 +154,7 @@ google_chooser_button_constructed (GObject *object)
 	if (display_name != NULL && *display_name != '\0')
 		binding_flags |= G_BINDING_SYNC_CREATE;
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		webdav_extension, "display-name",
 		button->priv->label, "label",
 		binding_flags);
@@ -211,7 +211,7 @@ google_chooser_button_clicked (GtkButton *button)
 	dialog = e_google_chooser_dialog_new (E_GOOGLE_CHOOSER (widget), parent);
 
 	if (parent != NULL)
-		g_object_bind_property (
+		e_binding_bind_property (
 			parent, "icon-name",
 			dialog, "icon-name",
 			G_BINDING_SYNC_CREATE);

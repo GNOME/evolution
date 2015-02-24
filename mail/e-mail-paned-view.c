@@ -673,7 +673,7 @@ mail_paned_view_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "orientation",
 		widget, "orientation",
 		G_BINDING_SYNC_CREATE);
@@ -705,7 +705,7 @@ mail_paned_view_constructed (GObject *object)
 	gtk_widget_show (GTK_WIDGET (priv->display));
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

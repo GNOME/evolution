@@ -122,7 +122,7 @@ mail_config_confirm_page_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "text",
 		widget, "label",
 		G_BINDING_BIDIRECTIONAL |

@@ -347,7 +347,7 @@ source_combo_box_constructed (GObject *object)
 		"sensitive", COLUMN_SENSITIVE,
 		NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		combo_box, "show-colors",
 		renderer, "visible",
 		G_BINDING_SYNC_CREATE);

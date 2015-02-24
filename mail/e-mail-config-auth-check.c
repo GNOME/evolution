@@ -340,7 +340,7 @@ mail_config_auth_check_constructed (GObject *object)
 	auth_check->priv->combo_box = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "active-id",
 		auth_check, "active-mechanism",
 		G_BINDING_BIDIRECTIONAL |

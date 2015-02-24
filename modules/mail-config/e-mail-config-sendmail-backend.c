@@ -83,7 +83,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	custom_binary_entry = widget;
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		use_custom_binary_check, "active",
 		label, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -104,7 +104,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 3, 1, 1);
 	custom_args_entry = widget;
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		use_custom_args_check, "active",
 		label, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -129,12 +129,12 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
 	send_in_offline = widget;
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		use_custom_binary_check, "active",
 		custom_binary_entry, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "use-custom-binary",
 		use_custom_binary_check, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -146,12 +146,12 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		use_custom_args_check, "active",
 		custom_args_entry, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "use-custom-args",
 		use_custom_args_check, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -163,7 +163,7 @@ mail_config_sendmail_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "send-in-offline",
 		send_in_offline, "active",
 		G_BINDING_BIDIRECTIONAL |

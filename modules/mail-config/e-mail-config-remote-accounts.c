@@ -264,7 +264,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		settings, "security-method",
 		remote_backend->security_combo_box, "active-id",
 		G_BINDING_BIDIRECTIONAL |
@@ -273,13 +273,13 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		e_binding_transform_enum_nick_to_value,
 		NULL, (GDestroyNotify) NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "port",
 		remote_backend->port_entry, "port",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "security-method",
 		remote_backend->port_entry, "security-method",
 		G_BINDING_SYNC_CREATE);
@@ -293,7 +293,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	/* Don't use G_BINDING_SYNC_CREATE here since the widget
 	 * chooses its initial mechanism more intelligently than
 	 * a simple property binding would. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, "auth-mechanism",
 		remote_backend->auth_check, "active-mechanism",
 		G_BINDING_BIDIRECTIONAL);

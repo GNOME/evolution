@@ -162,7 +162,7 @@ task_editor_constructed (GObject *object)
 		comp_editor_set_group_item (editor, TRUE);
 	}
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "client",
 		priv->model, "client",
 		G_BINDING_SYNC_CREATE);

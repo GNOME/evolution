@@ -716,30 +716,30 @@ shell_searchbar_constructed (GObject *object)
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "sensitive",
 		widget, "secondary-icon-sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "icon-name",
 		widget, "secondary-icon-name",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "tooltip",
 		widget, "secondary-icon-tooltip-text",
 		G_BINDING_SYNC_CREATE);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "sensitive",
 		widget, "primary-icon-sensitive",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "icon-name",
 		widget, "primary-icon-name",
 		G_BINDING_SYNC_CREATE);
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "tooltip",
 		widget, "primary-icon-tooltip-text",
 		G_BINDING_SYNC_CREATE);
@@ -916,7 +916,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		searchbar, "filter-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -1011,7 +1011,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		searchbar, "scope-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

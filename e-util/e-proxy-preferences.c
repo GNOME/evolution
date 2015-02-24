@@ -458,7 +458,7 @@ proxy_preferences_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 3);
 	preferences->priv->proxy_selector = widget;  /* do not reference */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		preferences, "show-advanced",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -475,7 +475,7 @@ proxy_preferences_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 0, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		preferences->priv->proxy_selector, "selected",
 		widget, "label",
 		G_BINDING_SYNC_CREATE,
@@ -491,7 +491,7 @@ proxy_preferences_constructed (GObject *object)
 	preferences->priv->proxy_editor = widget;  /* do not reference */
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		preferences->priv->proxy_selector, "selected",
 		widget, "source",
 		G_BINDING_SYNC_CREATE);
@@ -510,7 +510,7 @@ proxy_preferences_constructed (GObject *object)
 	gtk_widget_set_vexpand (widget, TRUE);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		preferences, "show-advanced",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -543,13 +543,13 @@ proxy_preferences_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container2), widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		preferences->priv->proxy_selector, "selected",
 		widget, "target-source",
 		G_BINDING_SYNC_CREATE);
 
 	/* This is bound to the GtkBox created above. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "show-toggles",
 		container, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -564,14 +564,14 @@ proxy_preferences_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (preferences), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		preferences, "show-advanced",
 		widget, "label",
 		G_BINDING_SYNC_CREATE,
 		proxy_preferences_switch_to_label,
 		NULL, NULL, NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		preferences, "show-advanced",
 		widget, "has-tooltip",
 		G_BINDING_SYNC_CREATE |

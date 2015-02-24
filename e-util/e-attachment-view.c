@@ -901,7 +901,7 @@ e_attachment_view_init (EAttachmentView *view)
 
 	action_group = e_attachment_view_add_action_group (view, "editable");
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		action_group, "visible",
 		G_BINDING_BIDIRECTIONAL |

@@ -22,6 +22,8 @@
 #include <config.h>
 #endif
 
+#include <libedataserver/libedataserver.h>
+
 #include "e-mail-label-action.h"
 
 #define E_MAIL_LABEL_ACTION_GET_PRIVATE(obj) \
@@ -73,7 +75,7 @@ mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "label",
 		widget, "label",
 		G_BINDING_BIDIRECTIONAL |
