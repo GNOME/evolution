@@ -198,7 +198,7 @@ e_alert_sink_thread_job (gpointer user_data)
  *
  * Note: This function should be called only from the main thread.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 EActivity *
 e_alert_sink_submit_thread_job (EAlertSink *alert_sink,
@@ -263,7 +263,7 @@ e_alert_sink_submit_thread_job (EAlertSink *alert_sink,
  *
  * See: e_alert_sink_thread_job_set_alert_arg_0
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_alert_sink_thread_job_set_alert_ident (EAlertSinkThreadJobData *job_data,
@@ -290,7 +290,7 @@ e_alert_sink_thread_job_set_alert_ident (EAlertSinkThreadJobData *job_data,
  * to overwrite the default argument 0 of the erorr message. It might be
  * usually used with combination of e_alert_sink_thread_job_set_alert_ident().
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_alert_sink_thread_job_set_alert_arg_0 (EAlertSinkThreadJobData *job_data,

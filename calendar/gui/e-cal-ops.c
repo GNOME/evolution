@@ -158,7 +158,7 @@ cal_ops_create_component_thread (EAlertSinkThreadJobData *job_data,
  * is called with a new uid of the @icalcomp on sucessful component save.
  * The @callback is called in the main thread.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_create_component (ECalModel *model,
@@ -258,7 +258,7 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
  * #E_CAL_OPS_SEND_FLAG_ASK, #E_CAL_OPS_SEND_FLAG_SEND, #E_CAL_OPS_SEND_FLAG_DONT_SEND
  * can be used, while the ASK flag is the default.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_modify_component (ECalModel *model,
@@ -361,7 +361,7 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
  * the master objects is removed. If the @check_detached_instance is set to #FALSE, then
  * the removal is done exactly with the given values.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_remove_component (ECalModel *model,
@@ -457,7 +457,7 @@ cal_ops_delete_components_thread (EAlertSinkThreadJobData *job_data,
  * Deletes all components from their sources. The @objects should
  * be part of @model.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_delete_ecalmodel_components (ECalModel *model,
@@ -647,7 +647,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
  *
  * Pastes components into the default source of the @model.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_paste_components (ECalModel *model,
@@ -797,7 +797,7 @@ cal_ops_send_component_thread (EAlertSinkThreadJobData *job_data,
  * Sends (calls e_cal_client_send_objects_sync()) on the given @client
  * with the given @icalcomp in a dedicated thread.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_send_component (ECalModel *model,
@@ -1049,7 +1049,7 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
  * Purges (removed) all components older than @older_than from all
  * currently active clients in @model.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_purge_components (ECalModel *model,
@@ -1152,7 +1152,7 @@ cal_ops_delete_completed_thread (EAlertSinkThreadJobData *job_data,
  * Deletes all completed tasks from all currently opened
  * clients in @model.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_delete_completed_tasks (ECalModel *model)
@@ -1300,7 +1300,7 @@ cal_ops_get_default_component_thread (EAlertSinkThreadJobData *job_data,
  * or by the @model, if @client is #NULL. The @callback is called on success.
  * The @callback is called in the main thread.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_get_default_component (ECalModel *model,
@@ -1710,7 +1710,7 @@ e_cal_ops_new_component_ex (EShellWindow *shell_window,
  * by the #ECalClient. Use e_cal_ops_new_event_editor() for events with
  * predefined alarms.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_new_component_editor (EShellWindow *shell_window,
@@ -1737,7 +1737,7 @@ e_cal_ops_new_component_editor (EShellWindow *shell_window,
  * for events with predefined alarms. The e_cal_ops_new_component_editor()
  * accepts events as well.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_new_event_editor (EShellWindow *shell_window,
@@ -1766,7 +1766,7 @@ e_cal_ops_new_event_editor (EShellWindow *shell_window,
  * values as provided by the #ECalClient. The @all_day is used only for events
  * source type.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_new_component_editor_from_model (ECalModel *model,
@@ -1816,7 +1816,7 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
  * Opens a component @icalcomp, which belongs to a @client, in
  * a component editor. This is done synchronously.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_open_component_in_editor_sync (ECalModel *model,
@@ -1995,7 +1995,7 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
  * Transfers (copies or moves, as set by @is_move) all @icalcomps from the @source
  * to the @destination of type @source type (calendar/memo list/task list).
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_ops_transfer_components (EShellView *shell_view,

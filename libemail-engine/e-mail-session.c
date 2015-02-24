@@ -1599,7 +1599,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	 * This signal is emitted with e_mail_session_emit_allow_auth_prompt() to let
 	 * any listeners know to enable credentials prompt for the given @source.
 	 *
-	 * Since: 3.14
+	 * Since: 3.16
 	 **/
 	signals[ALLOW_AUTH_PROMPT] = g_signal_new (
 		"allow-auth-prompt",
@@ -2335,7 +2335,7 @@ mail_session_wakeup_used_services_cond (GCancellable *cancenllable,
  *
  * Returns: Whether successfully waited for the @service.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_mail_session_mark_service_used_sync (EMailSession *session,
@@ -2386,7 +2386,7 @@ e_mail_session_mark_service_used_sync (EMailSession *session,
  * Frees a "use lock" on the @service, thus it can be used by others. If anything
  * is waiting for it in e_mail_session_mark_service_used_sync(), then it is woken up.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_mail_session_unmark_service_used (EMailSession *session,
@@ -2412,7 +2412,7 @@ e_mail_session_unmark_service_used (EMailSession *session,
  * Emits 'allow-auth-prompt' on @session for @source. This lets
  * any listeners know to enable credentials prompt for this @source.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_mail_session_emit_allow_auth_prompt (EMailSession *session,

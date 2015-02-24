@@ -1679,7 +1679,7 @@ shell_window_connect_client_thread (EAlertSinkThreadJobData *job_data,
  * the operation doesn't block UI. The @connected_cb is called in the main thread,
  * but only when the operation succeeded. Any failure is propageted to UI.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_shell_window_connect_client (EShellWindow *shell_window,

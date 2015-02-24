@@ -1804,7 +1804,7 @@ e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
  *
  * Returns: @TRUE when Unicode characters should be used, @FALSE otherwise.
  *
- * Since: 3.14
+ * Since: 3.16
  */
 gboolean
 e_html_editor_view_get_unicode_smileys (EHTMLEditorView *view)
@@ -1821,7 +1821,7 @@ e_html_editor_view_get_unicode_smileys (EHTMLEditorView *view)
  *
  * Enables or disables the usage of Unicode characters for smileys.
  *
- * Since: 3.14
+ * Since: 3.16
  */
 void
 e_html_editor_view_set_unicode_smileys (EHTMLEditorView *view,

@@ -532,7 +532,7 @@ e_client_selector_ref_client_cache (EClientSelector *selector)
  * "piggyback" on the in-progress request such that they will both succeed
  * or fail simultaneously.
  *
- * The @wait_for_connected_seconds argument had been added since 3.14,
+ * The @wait_for_connected_seconds argument had been added since 3.16,
  * to let the caller decide how long to wait for the backend to fully
  * connect to its (possibly remote) data store. This is required due
  * to a change in the authentication process, which is fully asynchronous
@@ -635,7 +635,7 @@ client_selector_get_client_done_cb (GObject *source_object,
  * "piggyback" on the in-progress request such that they will both succeed
  * or fail simultaneously.
  *
- * The @wait_for_connected_seconds argument had been added since 3.14,
+ * The @wait_for_connected_seconds argument had been added since 3.16,
  * to let the caller decide how long to wait for the backend to fully
  * connect to its (possibly remote) data store. This is required due
  * to a change in the authentication process, which is fully asynchronous
