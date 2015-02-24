@@ -1552,7 +1552,7 @@ e_shell_class_init (EShellClass *class)
 	 *
 	 * The #ECredentialsPrompter managing #ESource credential requests.
 	 *
-	 * Since: 3.14
+	 * Since: 3.16
 	 **/
 	g_object_class_install_property (
 		object_class,
@@ -1948,7 +1948,7 @@ e_shell_get_registry (EShell *shell)
  *
  * Returns: the #ECredentialsPrompter
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 ECredentialsPrompter *
 e_shell_get_credentials_prompter (EShell *shell)
@@ -1968,7 +1968,7 @@ e_shell_get_credentials_prompter (EShell *shell)
  * then a user will be asked accordingly. When the auth prompt
  * is disabled, aonly an #EAlert is shown.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_shell_allow_auth_prompt_for (EShell *shell,

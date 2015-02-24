@@ -518,7 +518,7 @@ e_spell_checker_init_global_memory (void)
  * Frees global memory used by the ESpellChecker. This should be called at
  * the end of main(), to avoid memory leaks.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_spell_checker_free_global_memory (void)

@@ -972,7 +972,7 @@ e_client_cache_class_init (EClientCacheClass *class)
 	 * This signal is emitted with e_client_cache_emit_allow_auth_prompt() to let
 	 * any listeners know to enable credentials prompt for the given @source.
 	 *
-	 * Since: 3.14
+	 * Since: 3.16
 	 **/
 	signals[ALLOW_AUTH_PROMPT] = g_signal_new (
 		"allow-auth-prompt",
@@ -1121,7 +1121,7 @@ client_cache_get_client_sync_cb (GObject *source_object,
  * for this function to work.  All other @extension_name values will
  * result in an error.
  *
- * The @wait_for_connected_seconds argument had been added since 3.14,
+ * The @wait_for_connected_seconds argument had been added since 3.16,
  * to let the caller decide how long to wait for the backend to fully
  * connect to its (possibly remote) data store. This is required due
  * to a change in the authentication process, which is fully asynchronous
@@ -1215,7 +1215,7 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
  * for this function to work.  All other @extension_name values will
  * result in an error.
  *
- * The @wait_for_connected_seconds argument had been added since 3.14,
+ * The @wait_for_connected_seconds argument had been added since 3.16,
  * to let the caller decide how long to wait for the backend to fully
  * connect to its (possibly remote) data store. This is required due
  * to a change in the authentication process, which is fully asynchronous
@@ -1461,7 +1461,7 @@ e_client_cache_is_backend_dead (EClientCache *client_cache,
  * Emits 'allow-auth-prompt' on @client_cache for @source. This lets
  * any listeners know to enable credentials prompt for this @source.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_client_cache_emit_allow_auth_prompt (EClientCache *client_cache,

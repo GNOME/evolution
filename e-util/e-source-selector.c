@@ -2660,7 +2660,7 @@ e_source_selector_update_all_rows (ESourceSelector *selector)
  *
  * Updates tooltip for the given @source.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_source_selector_set_source_tooltip (ESourceSelector *selector,
@@ -2703,7 +2703,7 @@ e_source_selector_set_source_tooltip (ESourceSelector *selector,
  * Returns: Current tooltip for the given @source. Free the returned
  *    string with g_free() when done with it.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gchar *
 e_source_selector_dup_source_tooltip (ESourceSelector *selector,
@@ -2747,7 +2747,7 @@ e_source_selector_dup_source_tooltip (ESourceSelector *selector,
  *
  * Updates the is-busy flag status for the given @source.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_source_selector_set_source_is_busy (ESourceSelector *selector,
@@ -2803,7 +2803,7 @@ e_source_selector_set_source_is_busy (ESourceSelector *selector,
  *
  * Returns: Current is-busy flag status for the given @source.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_source_selector_get_source_is_busy (ESourceSelector *selector,

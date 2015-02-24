@@ -477,7 +477,7 @@ cal_data_model_call_submit_thread_job (gpointer user_data)
  *
  * Note: This is a blocking call, it waits until the thread job is submitted.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 GCancellable *
 e_cal_data_model_submit_thread_job (ECalDataModel *data_model,
@@ -1973,7 +1973,7 @@ e_cal_data_model_init (ECalDataModel *data_model)
  *
  * Returns: (transfer full): A new #ECalDataModel instance
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 ECalDataModel *
 e_cal_data_model_new (ECalDataModelSubmitThreadJobFunc func,
@@ -1999,7 +1999,7 @@ e_cal_data_model_new (ECalDataModelSubmitThreadJobFunc func,
  *
  * Returns: (transfer full): A new #ECalDataModel instance deriving settings from @src_data_model
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 ECalDataModel *
 e_cal_data_model_new_clone (ECalDataModel *src_data_model)
@@ -2041,7 +2041,7 @@ e_cal_data_model_new_clone (ECalDataModel *src_data_model)
  *
  * Returns: Whether the @data_model is disposing.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_cal_data_model_get_disposing (ECalDataModel *data_model)
@@ -2068,7 +2068,7 @@ e_cal_data_model_get_disposing (ECalDataModel *data_model)
  * If set to %TRUE, then no updates are done on changes
  * which would otherwise trigger view and subscriber updates.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_set_disposing (ECalDataModel *data_model,
@@ -2099,7 +2099,7 @@ e_cal_data_model_set_disposing (ECalDataModel *data_model,
  * Returns: Whether the @data_model expands recurrences of recurring
  *    components.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_cal_data_model_get_expand_recurrences (ECalDataModel *data_model)
@@ -2125,7 +2125,7 @@ e_cal_data_model_get_expand_recurrences (ECalDataModel *data_model)
  * Sets whether the @data_model should expand recurrences of recurring
  * components by default.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_set_expand_recurrences (ECalDataModel *data_model,
@@ -2156,7 +2156,7 @@ e_cal_data_model_set_expand_recurrences (ECalDataModel *data_model,
  *
  * Returns: (transfer none): An #icaltimezone being used for calendar views.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 icaltimezone *
 e_cal_data_model_get_timezone (ECalDataModel *data_model)
@@ -2181,7 +2181,7 @@ e_cal_data_model_get_timezone (ECalDataModel *data_model)
  * Sets a trimezone to be used for calendar views. This change
  * regenerates all views.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_set_timezone (ECalDataModel *data_model,
@@ -2213,7 +2213,7 @@ e_cal_data_model_set_timezone (ECalDataModel *data_model,
  * contain time constraints, these are meant to be defined by
  * subscribers.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_set_filter (ECalDataModel *data_model,
@@ -2248,7 +2248,7 @@ e_cal_data_model_set_filter (ECalDataModel *data_model,
  *   filter for views. Free it with g_free() when done with it.
  *   Returns #NULL when there is no extra filter set.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gchar *
 e_cal_data_model_dup_filter (ECalDataModel *data_model)
@@ -2275,7 +2275,7 @@ e_cal_data_model_dup_filter (ECalDataModel *data_model)
  * to populate data for subscribers. Adding the same client multiple
  * times does nothing.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_add_client (ECalDataModel *data_model,
@@ -2314,7 +2314,7 @@ e_cal_data_model_add_client (ECalDataModel *data_model,
  * which populate the data for subscribers. Removing the client
  * which is not used in the @data_model does nothing.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_remove_client (ECalDataModel *data_model,
@@ -2353,7 +2353,7 @@ e_cal_data_model_remove_client (ECalDataModel *data_model,
  *    the @data_model. Unref returned (non-NULL) client with
  *    g_object_unref() when done with it.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 ECalClient *
 e_cal_data_model_ref_client (ECalDataModel *data_model,
@@ -2385,7 +2385,7 @@ e_cal_data_model_ref_client (ECalDataModel *data_model,
  *
  * Returns: (transfer full): A list of currently used #ECalClient-s.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 GList *
 e_cal_data_model_get_clients (ECalDataModel *data_model)
@@ -2442,7 +2442,7 @@ cal_data_model_prepend_component (ECalDataModel *data_model,
  * Note: A special case when both @in_range_start and @in_range_end are zero
  *    is treated as a request for all known components.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 GSList *
 e_cal_data_model_get_components (ECalDataModel *data_model,
@@ -2560,7 +2560,7 @@ cal_data_model_foreach_component (ECalDataModel *data_model,
  * Note: A special case when both @in_range_start and @in_range_end are zero
  *    is treated as a request for all known components.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_cal_data_model_foreach_component (ECalDataModel *data_model,
@@ -2594,7 +2594,7 @@ e_cal_data_model_foreach_component (ECalDataModel *data_model,
  *    is treated as a request with no time constraint. This limits
  *    the result only to those components which satisfy given filter.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_subscribe (ECalDataModel *data_model,
@@ -2742,7 +2742,7 @@ e_cal_data_model_subscribe (ECalDataModel *data_model,
  *   which could be added previously, while it was subscribed for the change
  *   notifications.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_unsubscribe (ECalDataModel *data_model,
@@ -2787,7 +2787,7 @@ e_cal_data_model_unsubscribe (ECalDataModel *data_model,
  * Returns: Whether the @subscriber was found and the @range_start with
  *    the @range_end were set to its current time range it uses.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_cal_data_model_get_subscriber_range (ECalDataModel *data_model,
@@ -2830,7 +2830,7 @@ e_cal_data_model_get_subscriber_range (ECalDataModel *data_model,
  * called. This can be called nested, then the same count of the calls of
  * e_cal_data_model_thaw_views_update() is expected to unlock the views update.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_freeze_views_update (ECalDataModel *data_model)
@@ -2851,7 +2851,7 @@ e_cal_data_model_freeze_views_update (ECalDataModel *data_model)
  * A pair function for e_cal_data_model_freeze_views_update(), to unlock
  * views update.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_cal_data_model_thaw_views_update (ECalDataModel *data_model)
@@ -2883,7 +2883,7 @@ e_cal_data_model_thaw_views_update (ECalDataModel *data_model)
  *
  * Returns: Whether any views updates are currently frozen.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_cal_data_model_is_views_update_frozen (ECalDataModel *data_model)

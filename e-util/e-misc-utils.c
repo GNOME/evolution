@@ -2328,7 +2328,7 @@ e_util_dup_searchable_categories (void)
  *     were set for the given @extension_name; when #FALSE is returned, then
  *     none of these out variables are changed.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 gboolean
 e_util_get_open_source_job_info (const gchar *extension_name,
@@ -2375,7 +2375,7 @@ e_util_get_open_source_job_info (const gchar *extension_name,
  * changes alert_ident for the @job_data for well-known error codes,
  * where is available better error description.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_util_propagate_open_source_job_error (EAlertSinkThreadJobData *job_data,
@@ -2991,7 +2991,7 @@ static GHashTable *settings_hash = NULL;
  * Returns: A #GSettings for the given @schema_id. The returned #GSettings object
  *   is referenced, thus free it with g_object_unref() when done with it.
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 GSettings *
 e_util_ref_settings (const gchar *schema_id)
@@ -3026,7 +3026,7 @@ e_util_ref_settings (const gchar *schema_id)
  *
  * Frees all the memory taken by e_util_ref_settings().
  *
- * Since: 3.14
+ * Since: 3.16
  **/
 void
 e_util_cleanup_settings (void)
