@@ -485,7 +485,7 @@ mail_account_store_constructed (GObject *object)
 
 	/* Bind the default mail account ESource to our default
 	 * CamelService, with help from some transform functions. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		registry, "default-mail-account",
 		store, "default-service",
 		G_BINDING_BIDIRECTIONAL |

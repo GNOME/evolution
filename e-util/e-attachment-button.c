@@ -575,7 +575,7 @@ e_attachment_button_init (EAttachmentButton *button)
 	button->priv->expand_button = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		button, "expandable",
 		widget, "sensitive",
 		G_BINDING_BIDIRECTIONAL |
@@ -607,7 +607,7 @@ e_attachment_button_init (EAttachmentButton *button)
 	g_object_set (renderer, "is-expander", TRUE, NULL);
 	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		button, "expanded",
 		renderer, "is-expanded",
 		G_BINDING_BIDIRECTIONAL |
@@ -761,14 +761,14 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 		GBinding *binding;
 		gulong handler_id;
 
-		binding = g_object_bind_property (
+		binding = e_binding_bind_property (
 			attachment, "can-show",
 			button, "expandable",
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 		button->priv->can_show_binding = binding;
 
-		binding = g_object_bind_property (
+		binding = e_binding_bind_property (
 			attachment, "shown",
 			button, "expanded",
 			G_BINDING_BIDIRECTIONAL |

@@ -183,7 +183,7 @@ main (gint argc,
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		identity_combo, "active-id",
 		signature_combo, "identity-uid",
 		G_BINDING_SYNC_CREATE);

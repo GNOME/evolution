@@ -226,7 +226,7 @@ build_test_window (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		tree_view_frame, "toolbar-visible",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -237,7 +237,7 @@ build_test_window (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		tree_view, "reorderable",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -276,7 +276,7 @@ build_test_window (void)
 	gtk_grid_attach (GTK_GRID (grid), widget, 1, 0, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		selection, "mode",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |
@@ -304,7 +304,7 @@ build_test_window (void)
 	gtk_grid_attach (GTK_GRID (grid), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		tree_view_frame, "hscrollbar-policy",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |
@@ -332,7 +332,7 @@ build_test_window (void)
 	gtk_grid_attach (GTK_GRID (grid), widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		tree_view_frame, "vscrollbar-policy",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |

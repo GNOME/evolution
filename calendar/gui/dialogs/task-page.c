@@ -2594,7 +2594,7 @@ init_widgets (TaskPage *tpage)
 
 	/* Classification */
 	action = comp_editor_get_action (editor, "classify-public");
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		action, "current-value",
 		priv->classification_combo, "active",
 		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE,

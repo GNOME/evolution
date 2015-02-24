@@ -677,7 +677,7 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		master, "active",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);

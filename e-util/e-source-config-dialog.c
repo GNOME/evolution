@@ -269,7 +269,7 @@ source_config_dialog_constructed (GObject *object)
 
 	/* Don't use G_BINDING_SYNC_CREATE here.  The ESourceConfig widget
 	 * is not ready to run check_complete() until after it's realized. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		config, "complete",
 		widget, "sensitive",
 		G_BINDING_DEFAULT);

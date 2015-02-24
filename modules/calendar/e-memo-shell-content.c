@@ -473,7 +473,7 @@ memo_shell_content_constructed (GObject *object)
 	memo_shell_content->priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "orientation",
 		widget, "orientation",
 		G_BINDING_SYNC_CREATE);
@@ -511,7 +511,7 @@ memo_shell_content_constructed (GObject *object)
 	memo_shell_content->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "preview-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

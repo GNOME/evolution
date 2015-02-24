@@ -1399,56 +1399,56 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 
 	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "sidebar-visible",
 		ACTION (SHOW_SIDEBAR), "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "switcher-visible",
 		ACTION (SHOW_SWITCHER), "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "taskbar-visible",
 		ACTION (SHOW_TASKBAR), "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "toolbar-visible",
 		ACTION (SHOW_TOOLBAR), "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SHOW_SWITCHER), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_STYLE_BOTH), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_STYLE_ICONS), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_STYLE_TEXT), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_STYLE_USER), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
 		ACTION (SWITCHER_MENU), "sensitive",
 		G_BINDING_SYNC_CREATE);

@@ -181,7 +181,7 @@ mail_junk_options_rebuild (EMailJunkOptions *options)
 	if (session != NULL) {
 		GBinding *binding;
 
-		binding = g_object_bind_property_full (
+		binding = e_binding_bind_property_full (
 			session, "junk-filter",
 			combo_box, "active-id",
 			G_BINDING_BIDIRECTIONAL |

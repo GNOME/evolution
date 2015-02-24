@@ -1079,7 +1079,7 @@ e_source_config_insert_widget (ESourceConfig *config,
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "visible",
 		hbox, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -1316,7 +1316,7 @@ e_source_config_add_refresh_interval (ESourceConfig *config,
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "interval-minutes",
 		widget, "interval-minutes",
 		G_BINDING_BIDIRECTIONAL |
@@ -1343,7 +1343,7 @@ e_source_config_add_secure_connection (ESourceConfig *config,
 	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "secure",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -1413,7 +1413,7 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "secure",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -1423,7 +1423,7 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	authentication_extension =
 		e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "secure",
 		authentication_extension, "port",
 		G_BINDING_DEFAULT,
@@ -1439,7 +1439,7 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "ssl-trust",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE,

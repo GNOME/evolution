@@ -1174,7 +1174,7 @@ mail_session_add_service (CamelSession *session,
 		/* Track the proxy resolver for this service. */
 		mail_session_configure_proxy_resolver (registry, service);
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			source, "display-name",
 			service, "display-name",
 			G_BINDING_SYNC_CREATE);

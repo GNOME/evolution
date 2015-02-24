@@ -474,7 +474,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_widget_show (box);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "toolbar-visible",
 		box, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -522,7 +522,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	 *     It's a bit of a Rube Goldberg machine and should be
 	 *     reworked, but it's just serving one (now documented)
 	 *     corner case and works for now. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		shell_window, "active-view",
 		item, "prefer-item",
 		G_BINDING_SYNC_CREATE,
@@ -557,12 +557,12 @@ shell_window_construct_sidebar (EShellWindow *shell_window)
 	switcher = e_shell_switcher_new ();
 	shell_window->priv->switcher = g_object_ref_sink (switcher);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "sidebar-visible",
 		switcher, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "switcher-visible",
 		switcher, "toolbar-visible",
 		G_BINDING_SYNC_CREATE);
@@ -624,7 +624,7 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 	status_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (status_area), 3);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_window, "taskbar-visible",
 		status_area, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -638,12 +638,12 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 		GTK_BOX (status_area), online_button, FALSE, TRUE, 0);
 	gtk_widget_show (online_button);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "online",
 		online_button, "online",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "network-available",
 		online_button, "sensitive",
 		G_BINDING_SYNC_CREATE);

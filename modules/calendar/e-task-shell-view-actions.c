@@ -1083,12 +1083,12 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 
 	/* Fine tuning. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (TASK_PREVIEW), "active",
 		ACTION (TASK_VIEW_CLASSIC), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (TASK_PREVIEW), "active",
 		ACTION (TASK_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);

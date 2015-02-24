@@ -280,7 +280,7 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 			E_SOURCE_WEATHER (extension),
 			cal_config_weather_get_units_from_locale ());
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "location",
 		context->location_entry, "location",
 		G_BINDING_BIDIRECTIONAL |
@@ -290,7 +290,7 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		gweather_location_ref (world),
 		(GDestroyNotify) gweather_location_unref);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "units",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |

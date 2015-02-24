@@ -211,7 +211,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	header = e_composer_header_table_get_header (
 		E_COMPOSER_HEADER_TABLE (widget),
 		E_COMPOSER_HEADER_SUBJECT);
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "spell-checker",
 		header->input_widget, "spell-checker",
 		G_BINDING_SYNC_CREATE);
@@ -229,8 +229,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_paned = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
+
 /* FIXME WK2
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		widget, "sensitive",
 		G_BINDING_SYNC_CREATE);*/
@@ -321,13 +322,13 @@ e_composer_private_constructed (EMsgComposer *composer)
 				continue;
 		}
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			header, "sensitive",
 			action, "sensitive",
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE);
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			header, "visible",
 			action, "active",
 			G_BINDING_BIDIRECTIONAL |
@@ -338,13 +339,13 @@ e_composer_private_constructed (EMsgComposer *composer)
 	 * asynchronous activity is in progress. We enforce this with
 	 * a simple inverted binding to EMsgComposer's "busy" property. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		composer, "busy",
 		priv->async_actions, "sensitive",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		composer, "busy",
 		priv->header_table, "sensitive",
 		G_BINDING_SYNC_CREATE |

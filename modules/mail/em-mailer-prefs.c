@@ -1051,7 +1051,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		session, "label-store",
 		widget, "list-store",
 		G_BINDING_SYNC_CREATE);

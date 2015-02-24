@@ -28,6 +28,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <libedataserver/libedataserver.h>
 
 #include "e-config.h"
 
@@ -1148,7 +1149,7 @@ config_hook_section_factory (EConfig *config,
 	/* This is why we have a custom factory for sections.
 	 * When the plugin is disabled the frame is invisible. */
 	plugin = group->hook->hook.plugin;
-	g_object_bind_property (
+	e_binding_bind_property (
 		plugin, "enabled",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

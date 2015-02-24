@@ -326,7 +326,7 @@ create_page (ESourceRegistry *registry,
 		NULL);
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		selector, "show-colors",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -342,7 +342,7 @@ create_page (ESourceRegistry *registry,
 		NULL);
 	gtk_grid_attach (grid, widget, 1, 3, 1, 1);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		selector, "show-icons",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -358,7 +358,7 @@ create_page (ESourceRegistry *registry,
 		NULL);
 	gtk_grid_attach (grid, widget, 1, 4, 1, 1);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		selector, "show-toggles",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |

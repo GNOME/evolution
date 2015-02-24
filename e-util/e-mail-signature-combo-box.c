@@ -259,7 +259,7 @@ mail_signature_combo_box_constructed (GObject *object)
 	gtk_cell_layout_add_attribute (
 		cell_layout, cell_renderer, "text", COLUMN_DISPLAY_NAME);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		combo_box, "identity-uid",
 		combo_box, "active-id",
 		G_BINDING_DEFAULT,

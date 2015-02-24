@@ -379,25 +379,25 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	action = ACTION (WORK_OFFLINE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "online",
 		action, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "network-available",
 		action, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	action = ACTION (WORK_ONLINE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "online",
 		action, "visible",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "network-available",
 		action, "sensitive",
 		G_BINDING_SYNC_CREATE);

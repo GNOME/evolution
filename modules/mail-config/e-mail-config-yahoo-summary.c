@@ -235,7 +235,7 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "applicable",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -267,7 +267,7 @@ mail_config_yahoo_summary_constructed (GObject *object)
 	 * the Summary Page has no sources yet.  Set the display
 	 * name while committing instead. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension->priv->calendar_toggle, "active",
 		collection_extension, "calendar-enabled",
 		G_BINDING_SYNC_CREATE);

@@ -361,13 +361,19 @@ handle_http_request (GSimpleAsyncResult *res,
 		GError *error;
 		GMainContext *context;
 
+		message = soup_message_new (SOUP_METHOD_GET, uri);
+		if (!message) {
+			g_debug ("%s: Skipping invalid URI '%s'", G_STRFUNC, uri);
+			goto cleanup;
+		}
+
 		context = g_main_context_new ();
 		g_main_context_push_thread_default (context);
 
 		temp_session = soup_session_new_with_options (
 			SOUP_SESSION_TIMEOUT, 90, NULL);
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			soup_session, "proxy-resolver",
 			temp_session, "proxy-resolver",
 			G_BINDING_SYNC_CREATE);

@@ -1162,7 +1162,7 @@ cal_shell_content_setup_foreign_sources (EShellWindow *shell_window,
 	foreign_content = e_shell_view_get_shell_content (foreign_view);
 	foreign_model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (foreign_content));
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		foreign_model, "default-source-uid",
 		model, "default-source-uid",
 		G_BINDING_SYNC_CREATE);
@@ -1247,7 +1247,7 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 	gal_view_instance_load (view_instance);
 
 	/* Keep the toolbar view buttons in sync with the calendar. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		cal_shell_content, "current-view-id",
 		ACTION (CALENDAR_VIEW_DAY), "current-value",
 		G_BINDING_BIDIRECTIONAL |
@@ -1501,12 +1501,12 @@ cal_shell_content_constructed (GObject *object)
 	cal_shell_content->priv->task_model =
 		e_cal_model_tasks_new (cal_shell_content->priv->task_data_model, e_shell_get_registry (shell), shell);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		cal_shell_content->priv->memo_model, "timezone",
 		cal_shell_content->priv->memo_data_model, "timezone",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		cal_shell_content->priv->task_model, "timezone",
 		cal_shell_content->priv->task_data_model, "timezone",
 		G_BINDING_SYNC_CREATE);
@@ -1539,7 +1539,7 @@ cal_shell_content_constructed (GObject *object)
 
 	e_cal_shell_content_create_calendar_views (cal_shell_content);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		cal_shell_content, "current-view-id",
 		cal_shell_content->priv->calendar_notebook, "page",
 		G_BINDING_SYNC_CREATE);

@@ -1792,7 +1792,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	editor->priv->notebook = widget;
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor->priv->combo_box, "active",
 		editor->priv->notebook, "page",
 		G_BINDING_BIDIRECTIONAL |

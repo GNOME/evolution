@@ -250,7 +250,7 @@ source_ldap_constructed (GObject *object)
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	other_extension = e_source_get_extension (source, extension_name);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		other_extension, "method",
 		this_extension, "authentication",
 		G_BINDING_BIDIRECTIONAL |
@@ -262,7 +262,7 @@ source_ldap_constructed (GObject *object)
 	extension_name = E_SOURCE_EXTENSION_SECURITY;
 	other_extension = e_source_get_extension (source, extension_name);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		other_extension, "method",
 		this_extension, "security",
 		G_BINDING_BIDIRECTIONAL |

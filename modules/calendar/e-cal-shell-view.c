@@ -46,17 +46,17 @@ cal_shell_view_add_action_button (GtkBox *box,
 	gtk_box_pack_start (box, button, FALSE, FALSE, 0);
 	gtk_widget_show (button);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "visible",
 		button, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "sensitive",
 		button, "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		action, "tooltip",
 		button, "tooltip-text",
 		G_BINDING_SYNC_CREATE);

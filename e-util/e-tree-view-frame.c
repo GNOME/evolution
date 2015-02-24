@@ -573,12 +573,12 @@ tree_view_frame_constructed (GObject *object)
 	tree_view_frame->priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		tree_view_frame, "hscrollbar-policy",
 		widget, "hscrollbar-policy",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		tree_view_frame, "vscrollbar-policy",
 		widget, "vscrollbar-policy",
 		G_BINDING_SYNC_CREATE);
@@ -597,7 +597,7 @@ tree_view_frame_constructed (GObject *object)
 	gtk_style_context_set_junction_sides (
 		style_context, GTK_JUNCTION_TOP);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		tree_view_frame, "toolbar-visible",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

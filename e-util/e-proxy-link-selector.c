@@ -139,7 +139,7 @@ proxy_link_selector_constructed (GObject *object)
 	/* Hide toggle buttons when the target source is the same as
 	 * the fallback source since toggling the buttons would have
 	 * no effect in that particular case. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		selector, "target-source",
 		selector, "show-toggles",
 		G_BINDING_SYNC_CREATE,

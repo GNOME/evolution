@@ -680,7 +680,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	/* The folder tree and scope combo box are both insensitive
 	 * when searching beyond the currently selected folder. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		folder_tree, "sensitive",
 		combo_box, "sensitive",
 		G_BINDING_BIDIRECTIONAL |
@@ -787,7 +787,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 
 	/* This binding must come after e_mail_reader_init(). */
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_content, "group-by-threads",
 		mail_view, "group-by-threads",
 		G_BINDING_BIDIRECTIONAL |
@@ -1292,7 +1292,7 @@ send_receive_add_to_menu (SendReceiveData *data,
 	menu_item = gtk_menu_item_new ();
 	gtk_widget_show (menu_item);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		service, "display-name",
 		menu_item, "label",
 		G_BINDING_SYNC_CREATE);
@@ -1609,7 +1609,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 		gtk_widget_show (GTK_WIDGET (tool_item));
 		priv->send_receive_tool_item = tool_item;
 
-		g_object_bind_property (
+		e_binding_bind_property (
 			ACTION (MAIL_SEND_RECEIVE), "sensitive",
 			tool_item, "sensitive",
 			G_BINDING_SYNC_CREATE);

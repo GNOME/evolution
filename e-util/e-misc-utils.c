@@ -2634,14 +2634,14 @@ e_binding_transform_text_non_null (GBinding *binding,
  * @source_property: the text property on the source to bind
  * @target: the target #GObject
  * @target_property: the text property on the target to bind
- * @flags: flags to pass to g_object_bind_property_full()
+ * @flags: flags to pass to e_binding_bind_property_full()
  *
- * Installs a new text property object binding, using g_object_bind_property_full(),
+ * Installs a new text property object binding, using e_binding_bind_property_full(),
  * with transform functions to make sure that a NULL pointer is not
  * passed in either way. Instead of NULL an empty string is used.
  *
  * Returns: the #GBinding instance representing the binding between the two #GObject instances;
- *    there applies the same rules to it as for the result of g_object_bind_property_full().
+ *    there applies the same rules to it as for the result of e_binding_bind_property_full().
  **/
 GBinding *
 e_binding_bind_object_text_property (gpointer source,
@@ -2668,12 +2668,12 @@ e_binding_bind_object_text_property (gpointer source,
 	g_return_val_if_fail (property != NULL, NULL);
 	g_return_val_if_fail (property->value_type == G_TYPE_STRING, NULL);
 
-	return g_object_bind_property_full (source, source_property,
-					    target, target_property,
-					    flags,
-					    e_binding_transform_text_non_null,
-					    e_binding_transform_text_non_null,
-					    NULL, NULL);
+	return e_binding_bind_property_full (source, source_property,
+					     target, target_property,
+					     flags,
+					     e_binding_transform_text_non_null,
+					     e_binding_transform_text_non_null,
+					     NULL, NULL);
 }
 
 typedef struct _EConnectNotifyData {

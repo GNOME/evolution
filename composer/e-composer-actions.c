@@ -664,19 +664,19 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	#define init_toolbar_option(x, always_visible)	\
 		gtk_action_set_visible (ACTION (TOOLBAR_ ## x), always_visible); \
-		g_object_bind_property ( \
+		e_binding_bind_property ( \
 			ACTION (x), "active", \
 			ACTION (TOOLBAR_ ## x), "active", \
 			G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL); \
-		g_object_bind_property ( \
+		e_binding_bind_property ( \
 			ACTION (x), "label", \
 			ACTION (TOOLBAR_ ## x), "label", \
 			G_BINDING_SYNC_CREATE); \
-		g_object_bind_property ( \
+		e_binding_bind_property ( \
 			ACTION (x), "tooltip", \
 			ACTION (TOOLBAR_ ## x), "tooltip", \
 			G_BINDING_SYNC_CREATE); \
-		g_object_bind_property ( \
+		e_binding_bind_property ( \
 			ACTION (x), "sensitive", \
 			ACTION (TOOLBAR_ ## x), "sensitive", \
 			G_BINDING_SYNC_CREATE); \
@@ -722,32 +722,32 @@ e_composer_actions_init (EMsgComposer *composer)
 		g_object_unref (gcr_gnupg_icon);
 	}
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "html-mode",
 		ACTION (PICTURE_GALLERY), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		e_html_editor_get_action (editor, "edit-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		e_html_editor_get_action (editor, "format-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		e_html_editor_get_action (editor, "insert-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		e_html_editor_get_action (editor, "options-menu"), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		view, "editable",
 		e_html_editor_get_action (editor, "picture-gallery"), "sensitive",
 		G_BINDING_SYNC_CREATE);

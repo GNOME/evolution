@@ -422,7 +422,7 @@ search_bar_constructed (GObject *object)
 
 	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		object, "case-sensitive",
 		priv->case_sensitive_button, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -630,7 +630,7 @@ e_search_bar_init (ESearchBar *search_bar)
 	search_bar->priv->entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		search_bar, "active-search",
 		widget, "secondary-icon-sensitive",
 		G_BINDING_SYNC_CREATE);

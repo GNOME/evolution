@@ -625,7 +625,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	context->security_combo = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		context->port_combo, "active",
 		context->security_combo, "active",
 		G_BINDING_DEFAULT,
@@ -747,7 +747,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	/* Only sensitive when we have complete
 	 * server and authentication details. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		config, "complete",
 		context->search_base_button, "sensitive",
 		G_BINDING_DEFAULT);
@@ -850,7 +850,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "port",
 		context->port_combo, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -874,19 +874,19 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_LDAP_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "authentication",
 		context->auth_combo, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "can-browse",
 		context->can_browse_toggle, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "limit",
 		context->limit_spinbutton, "value",
 		G_BINDING_BIDIRECTIONAL |
@@ -900,7 +900,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "scope",
 		context->search_scope_combo, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -912,7 +912,7 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "security",
 		context->security_combo, "active",
 		G_BINDING_BIDIRECTIONAL |

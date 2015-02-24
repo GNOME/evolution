@@ -68,7 +68,7 @@ mail_config_activity_page_constructed (GObject *object)
 	page->priv->activity_bar = widget;  /* do not reference */
 	/* EActivityBar controls its own visibility. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "visible",
 		frame, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -83,7 +83,7 @@ mail_config_activity_page_constructed (GObject *object)
 	page->priv->alert_bar = widget;  /* do not reference */
 	/* EAlertBar controls its own visibility. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		widget, "visible",
 		frame, "visible",
 		G_BINDING_SYNC_CREATE);

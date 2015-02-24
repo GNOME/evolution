@@ -203,7 +203,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 		widget, "text",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		activity, "percent",
 		widget, "fraction",
 		G_BINDING_SYNC_CREATE,
@@ -222,7 +222,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	page->priv->cancelled_msg = widget;  /* not referenced */
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		activity, "state",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE,
@@ -235,7 +235,7 @@ mail_config_import_progress_page_constructed (GObject *object)
 	page->priv->completed_msg = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		activity, "state",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE,

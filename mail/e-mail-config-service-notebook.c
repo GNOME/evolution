@@ -208,7 +208,7 @@ mail_config_service_notebook_constructed (GObject *object)
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (object), FALSE);
 
 	/* Current page is still -1 so skip G_BINDING_SYNC_CREATE. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		object, "page",
 		object, "active-backend",
 		G_BINDING_BIDIRECTIONAL,

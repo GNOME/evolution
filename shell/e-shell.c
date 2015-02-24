@@ -1263,7 +1263,7 @@ shell_constructed (GObject *object)
 
 	monitor = g_network_monitor_get_default ();
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		monitor, "network-available",
 		object, "network-available",
 		G_BINDING_SYNC_CREATE);

@@ -331,7 +331,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	proxy->priv->spinner = widget;
 
 	/* The spinner is only visible when the image is not. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		proxy->priv->image, "visible",
 		proxy->priv->spinner, "visible",
 		G_BINDING_BIDIRECTIONAL |

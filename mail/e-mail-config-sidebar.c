@@ -275,7 +275,7 @@ mail_config_sidebar_constructed (GObject *object)
 			notebook, page, (guint) ii, sidebar);
 	}
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		sidebar, "active",
 		notebook, "page",
 		G_BINDING_BIDIRECTIONAL |

@@ -115,7 +115,7 @@ e_url_entry_init (EUrlEntry *url_entry)
 		url_entry, "icon-release",
 		G_CALLBACK (url_entry_icon_release_cb), NULL);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		url_entry, "text",
 		url_entry, "secondary-icon-sensitive",
 		G_BINDING_SYNC_CREATE,

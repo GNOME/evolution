@@ -72,7 +72,7 @@ settings_mail_reader_idle_cb (EExtension *extension)
 
 	source = e_source_registry_ref_source (registry, "vfolder");
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		source, "enabled",
 		action_group, "visible",
 		G_BINDING_SYNC_CREATE);

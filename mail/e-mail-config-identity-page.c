@@ -288,7 +288,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-instructions",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -300,7 +300,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_set_column_spacing (GTK_GRID (widget), 6);
 	gtk_box_pack_start (GTK_BOX (page), widget, FALSE, FALSE, 0);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-account-info",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -405,7 +405,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-email-address",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -424,7 +424,7 @@ mail_config_identity_page_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-email-address",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -510,7 +510,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-signatures",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -524,13 +524,13 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 3, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "signature-uid",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-signatures",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -540,7 +540,7 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 3, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-signatures",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
@@ -560,7 +560,7 @@ mail_config_identity_page_constructed (GObject *object)
 		"active", TRUE,
 		NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		page, "show-autodiscover-check",
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);

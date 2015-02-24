@@ -837,12 +837,12 @@ composer_header_table_constructed (GObject *object)
 		table->priv->headers[ii]->input_widget,
 		"right-attach", 2, NULL);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		table->priv->headers[ii]->input_widget, "visible",
 		table->priv->signature_label, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		table->priv->headers[ii]->input_widget, "visible",
 		table->priv->signature_combo_box, "visible",
 		G_BINDING_SYNC_CREATE);

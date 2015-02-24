@@ -322,7 +322,7 @@ e_activity_bar_init (EActivityBar *bar)
 	bar->priv->spinner = widget;
 
 	/* The spinner is only visible when the image is not. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		bar->priv->image, "visible",
 		bar->priv->spinner, "visible",
 		G_BINDING_BIDIRECTIONAL |

@@ -178,7 +178,7 @@ book_source_config_init_candidate (ESourceConfig *config,
 	extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "include-me",
 		priv->autocomplete_button, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -278,7 +278,7 @@ e_book_source_config_add_offline_toggle (EBookSourceConfig *config,
 		E_SOURCE_CONFIG (config), scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "stay-synchronized",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |

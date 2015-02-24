@@ -322,7 +322,7 @@ cal_base_shell_content_constructed (GObject *object)
 	cal_base_shell_content->priv->model = klass->new_cal_model (
 		cal_base_shell_content->priv->data_model, registry, shell);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		cal_base_shell_content->priv->model, "timezone",
 		cal_base_shell_content->priv->data_model, "timezone",
 		G_BINDING_SYNC_CREATE);

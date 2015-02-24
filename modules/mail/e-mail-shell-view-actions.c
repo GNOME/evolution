@@ -2204,55 +2204,55 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	/* Fine tuning. */
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		ACTION (MAIL_FOLDER_SELECT_THREAD), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		ACTION (MAIL_FOLDER_SELECT_SUBTHREAD), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		ACTION (MAIL_THREADS_COLLAPSE_ALL), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		ACTION (MAIL_THREADS_EXPAND_ALL), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_PREVIEW), "active",
 		mail_view, "preview-visible",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		mail_shell_content, "group-by-threads",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_PREVIEW), "active",
 		ACTION (MAIL_VIEW_CLASSIC), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_PREVIEW), "active",
 		ACTION (MAIL_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (MAIL_SHOW_DELETED), "active",
 		mail_view, "show-deleted",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell_backend, "busy",
 		ACTION (MAIL_STOP), "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -2260,12 +2260,12 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	/* Keep the sensitivity of "Create Search Folder from Search"
 	 * in sync with "Save Search" so that its only selectable when
 	 * showing search results. */
-	g_object_bind_property (
+	e_binding_bind_property (
 		ACTION (SEARCH_SAVE), "sensitive",
 		ACTION (MAIL_CREATE_SEARCH_FOLDER), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		shell, "online",
 		ACTION (MAIL_DOWNLOAD), "sensitive",
 		G_BINDING_SYNC_CREATE);

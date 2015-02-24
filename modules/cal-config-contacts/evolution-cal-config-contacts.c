@@ -179,7 +179,7 @@ book_config_birthdays_init_candidate (ESourceConfig *config,
 	extension_name = E_SOURCE_EXTENSION_CONTACTS_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "include-me",
 		birthdays->button, "active",
 		G_BINDING_BIDIRECTIONAL |

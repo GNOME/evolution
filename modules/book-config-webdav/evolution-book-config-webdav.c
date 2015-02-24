@@ -151,13 +151,13 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		extension, "avoid-ifmatch",
 		context->avoid_ifmatch, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		extension, "soup-uri",
 		context->url_entry, "text",
 		G_BINDING_BIDIRECTIONAL |

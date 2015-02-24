@@ -329,7 +329,7 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 	gtk_box_pack_start (GTK_BOX (box), check_button, FALSE, FALSE, 0);
 	gtk_widget_show (check_button);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		settings, use_property_name,
 		check_button, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -345,7 +345,7 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 	/* XXX CamelSettings only stores the folder's path name, but the
 	 *     EMFolderSelectionButton requires a full folder URI, so we
 	 *     have to do some fancy transforms for the binding to work. */
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		settings, property_name,
 		folder_button, "folder-uri",
 		G_BINDING_BIDIRECTIONAL |
@@ -355,7 +355,7 @@ mail_config_defaults_page_add_real_folder (EMailConfigDefaultsPage *page,
 		g_object_ref (page),
 		(GDestroyNotify) g_object_unref);
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		check_button, "active",
 		folder_button, "sensitive",
 		G_BINDING_SYNC_CREATE);
@@ -619,7 +619,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		gtk_widget_set_sensitive (widget, FALSE);
 	}
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		submission_ext, "replies-to-origin-folder",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
@@ -716,7 +716,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		composition_ext, "cc",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -741,7 +741,7 @@ mail_config_defaults_page_constructed (GObject *object)
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
 	gtk_widget_show (widget);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		composition_ext, "bcc",
 		widget, "text",
 		G_BINDING_BIDIRECTIONAL |
@@ -809,7 +809,7 @@ mail_config_defaults_page_constructed (GObject *object)
 		enum_value->value_nick, _("Ask for each message"));
 	g_type_class_unref (enum_class);
 
-	g_object_bind_property_full (
+	e_binding_bind_property_full (
 		mdn_ext, "response-policy",
 		widget, "active-id",
 		G_BINDING_BIDIRECTIONAL |

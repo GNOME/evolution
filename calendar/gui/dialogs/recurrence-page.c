@@ -2567,7 +2567,7 @@ init_widgets (RecurrencePage *rpage)
 		GTK_TREE_VIEW (priv->exception_list),
 		GTK_TREE_MODEL (priv->exception_list_store));
 
-	g_object_bind_property (
+	e_binding_bind_property (
 		editor, "use-24-hour-format",
 		priv->exception_list_store, "use-24-hour-format",
 		G_BINDING_SYNC_CREATE);
