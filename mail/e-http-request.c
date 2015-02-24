@@ -360,6 +360,7 @@ handle_http_request (GSimpleAsyncResult *res,
 		GIOStream *cache_stream;
 		GError *error;
 		GMainContext *context;
+		GProxyResolver *proxy_resolver = NULL;
 
 		message = soup_message_new (SOUP_METHOD_GET, uri);
 		if (!message) {
@@ -373,10 +374,11 @@ handle_http_request (GSimpleAsyncResult *res,
 		temp_session = soup_session_new_with_options (
 			SOUP_SESSION_TIMEOUT, 90, NULL);
 
-		g_object_bind_property (
-			soup_session, "proxy-resolver",
-			temp_session, "proxy-resolver",
-			G_BINDING_SYNC_CREATE);
+		/* Do not use g_object_bind_property() here, because it's not thread safe and
+		   this one-time setting may be sufficient too. */
+		g_object_get (soup_session, "proxy-resolver", &proxy_resolver, NULL);
+		g_object_set (temp_session, "proxy-resolver", proxy_resolver, NULL);
+		g_clear_object (&proxy_resolver);
 
 		soup_message_headers_append (
 			message->request_headers,
