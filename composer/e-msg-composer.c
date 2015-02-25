@@ -37,6 +37,7 @@
 #include <fcntl.h>
 #include <enchant/enchant.h>
 
+#include "e-composer-from-header.h"
 #include "e-composer-private.h"
 
 #include <em-format/e-mail-part.h>
@@ -546,19 +547,26 @@ build_message_headers (EMsgComposer *composer,
 	if (source != NULL) {
 		CamelMedium *medium;
 		CamelInternetAddress *addr;
-		ESourceMailIdentity *mi;
 		ESourceMailSubmission *ms;
+		EComposerHeader *composer_header;
 		const gchar *extension_name;
 		const gchar *header_name;
 		const gchar *name, *address;
 		const gchar *transport_uid;
 		const gchar *sent_folder;
 
-		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
-		mi = e_source_get_extension (source, extension_name);
+		composer_header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
+		if (e_composer_from_header_get_override_visible (E_COMPOSER_FROM_HEADER (composer_header))) {
+			name = e_composer_header_table_get_from_name (table);
+			address = e_composer_header_table_get_from_address (table);
+		} else {
+			ESourceMailIdentity *mail_identity;
 
-		name = e_source_mail_identity_get_name (mi);
-		address = e_source_mail_identity_get_address (mi);
+			mail_identity = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+
+			name = e_source_mail_identity_get_name (mail_identity);
+			address = e_source_mail_identity_get_address (mail_identity);
+		}
 
 		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
 		ms = e_source_get_extension (source, extension_name);
@@ -3377,7 +3385,7 @@ e_msg_composer_new_with_message (EShell *shell,
                                  gboolean keep_signature,
                                  GCancellable *cancellable)
 {
-	CamelInternetAddress *to, *cc, *bcc;
+	CamelInternetAddress *from, *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL, *postto = NULL;
 	const gchar *format, *subject, *composer_mode;
 	EDestination **Tov, **Ccv, **Bccv;
@@ -3536,6 +3544,35 @@ e_msg_composer_new_with_message (EShell *shell,
 	e_destination_freev (Tov);
 	e_destination_freev (Ccv);
 	e_destination_freev (Bccv);
+
+	from = camel_mime_message_get_from (message);
+	if (from) {
+		const gchar *name = NULL, *address = NULL;
+
+		if (camel_address_length (CAMEL_ADDRESS (from)) == 1 &&
+		    camel_internet_address_get (from, 0, &name, &address)) {
+			EComposerFromHeader *header_from;
+			const gchar *filled_name, *filled_address;
+
+			header_from = E_COMPOSER_FROM_HEADER (e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM));
+
+			filled_name = e_composer_from_header_get_name (header_from);
+			filled_address = e_composer_from_header_get_address (header_from);
+
+			if (name && !*name)
+				name = NULL;
+
+			if (address && !*address)
+				address = NULL;
+
+			if (g_strcmp0 (filled_name, name) != 0 ||
+			    g_strcmp0 (filled_address, address) != 0) {
+				e_composer_from_header_set_name (header_from, name);
+				e_composer_from_header_set_address (header_from, address);
+				e_composer_from_header_set_override_visible (header_from, TRUE);
+			}
+		}
+	}
 
 	/* Restore the format editing preference */
 	format = camel_medium_get_header (

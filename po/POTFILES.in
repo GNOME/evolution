@@ -114,6 +114,7 @@ calendar/gui/tasktypes.xml
 calendar/importers/icalendar-importer.c
 calendar/zones.h
 composer/e-composer-actions.c
+composer/e-composer-from-header.c
 composer/e-composer-header.c
 composer/e-composer-header-table.c
 composer/e-composer-name-header.c

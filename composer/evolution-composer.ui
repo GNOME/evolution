@@ -26,6 +26,7 @@
     </menu>
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
+        <menuitem action='view-from-override'/>
         <menuitem action='view-reply-to'/>
         <menuitem action='view-cc'/>
         <menuitem action='view-bcc'/>

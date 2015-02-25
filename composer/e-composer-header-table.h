@@ -109,6 +109,10 @@ const gchar *	e_composer_header_table_get_identity_uid
 void		e_composer_header_table_set_identity_uid
 						(EComposerHeaderTable *table,
 						 const gchar *identity_uid);
+const gchar *	e_composer_header_table_get_from_name
+						(EComposerHeaderTable *table);
+const gchar *	e_composer_header_table_get_from_address
+						(EComposerHeaderTable *table);
 GList *		e_composer_header_table_get_post_to
 						(EComposerHeaderTable *table);
 void		e_composer_header_table_set_post_to_base

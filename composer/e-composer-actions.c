@@ -595,6 +595,14 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
+	{ "view-from-override",
+	  NULL,
+	  N_("_From Override Field"),
+	  NULL,
+	  N_("Toggles whether the From override field to change name or email address is displayed"),
+	  NULL,  /* Handled by property bindings */
+	  FALSE },
+
 	{ "view-reply-to",
 	  NULL,
 	  N_("_Reply-To Field"),
