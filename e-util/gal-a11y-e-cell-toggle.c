@@ -33,8 +33,6 @@
 #define PARENT_TYPE  (gal_a11y_e_cell_get_type ())
 static GObjectClass *parent_class;
 
-static void gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *class);
-
 static void
 gal_a11y_e_cell_toggle_dispose (GObject *object)
 {
@@ -51,34 +49,31 @@ gal_a11y_e_cell_toggle_dispose (GObject *object)
 		parent_class->dispose (object);
 }
 
-GType
-gal_a11y_e_cell_toggle_get_type (void)
+static void
+ect_get_current_value (AtkValue *obj,
+		       GValue *value)
 {
-  static GType type = 0;
+	gint val;
+	GalA11yECell *cell = GAL_A11Y_E_CELL (obj);
 
-  if (!type)
-    {
-      static const GTypeInfo tinfo =
-      {
-	sizeof (GalA11yECellToggleClass),
-	(GBaseInitFunc) NULL, /* base init */
-	(GBaseFinalizeFunc) NULL, /* base finalize */
-	(GClassInitFunc) gal_a11y_e_cell_toggle_class_init, /* class init */
-	(GClassFinalizeFunc) NULL, /* class finalize */
-	NULL, /* class data */
-	sizeof (GalA11yECellToggle), /* instance size */
-	0, /* nb preallocs */
-	NULL, /* instance init */
-	NULL /* value table */
-      };
+	val = GPOINTER_TO_INT (e_table_model_value_at (cell->cell_view->e_table_model, cell->model_col, cell->row));
 
-      type = g_type_register_static (GAL_A11Y_TYPE_E_CELL,
-				     "GalA11yECellToggle", &tinfo, 0);
-      gal_a11y_e_cell_type_add_action_interface (type);
-
-    }
-  return type;
+	memset (value, 0, sizeof (GValue));
+	g_value_init (value, G_TYPE_DOUBLE);
+	g_value_set_double (value, val);
 }
+
+static void
+ect_value_iface_init (AtkValueIface *iface)
+{
+	iface->get_current_value = ect_get_current_value;
+}
+
+G_DEFINE_TYPE_WITH_CODE (GalA11yECellToggle,
+	gal_a11y_e_cell_toggle,
+	GAL_A11Y_TYPE_E_CELL,
+	gal_a11y_e_cell_type_add_action_interface (g_define_type_id);
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_VALUE, ect_value_iface_init))
 
 static void
 gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *class)
@@ -87,6 +82,11 @@ gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *class)
 
 	object_class->dispose = gal_a11y_e_cell_toggle_dispose;
 	parent_class = g_type_class_ref (PARENT_TYPE);
+}
+
+static void
+gal_a11y_e_cell_toggle_init (GalA11yECellToggle *toggle)
+{
 }
 
 static void
@@ -120,24 +120,33 @@ toggle_cell_action (GalA11yECell *cell)
 }
 
 static void
+update_cell (GalA11yECell *cell,
+	     gboolean notify)
+{
+	gint value;
+	const gchar *name;
+
+	value = GPOINTER_TO_INT (e_table_model_value_at (cell->cell_view->e_table_model, cell->model_col, cell->row));
+	name = e_cell_toggle_get_icon_description (E_CELL_TOGGLE (cell->cell_view->ecell), value);
+
+	if (name)
+		atk_object_set_name (ATK_OBJECT (cell), name);
+
+	if (value && !name)
+		gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, notify);
+	else
+		gal_a11y_e_cell_remove_state (cell, ATK_STATE_CHECKED, notify);
+}
+
+static void
 model_change_cb (ETableModel *etm,
                  gint col,
                  gint row,
                  GalA11yECell *cell)
 {
-	gint value;
 
-	if (col == cell->model_col && row == cell->row) {
-
-		value = GPOINTER_TO_INT (
-			e_table_model_value_at (cell->cell_view->e_table_model,
-						cell->model_col, cell->row));
-
-		if (value)
-			gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, TRUE);
-		else
-			gal_a11y_e_cell_remove_state (cell, ATK_STATE_CHECKED, TRUE);
-	}
+	if (col == cell->model_col && row == cell->row)
+		update_cell (cell, TRUE);
 }
 
 AtkObject *
@@ -151,7 +160,6 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 	AtkObject *a11y;
 	GalA11yECell *cell;
 	GalA11yECellToggle *toggle_cell;
-	gint value;
 
 	a11y = ATK_OBJECT (g_object_new (GAL_A11Y_TYPE_E_CELL_TOGGLE, NULL));
 
@@ -182,14 +190,7 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 		item->table_model, "model_cell_changed",
 		(GCallback) model_change_cb, a11y);
 
-	value = GPOINTER_TO_INT (
-			e_table_model_value_at (
-				cell->cell_view->e_table_model,
-				cell->model_col, cell->row));
-	if (value)
-		gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, FALSE);
-	else
-		gal_a11y_e_cell_remove_state (cell, ATK_STATE_CHECKED, FALSE);
+	update_cell (cell, FALSE);
 
 	return a11y;
 }
