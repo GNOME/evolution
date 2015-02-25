@@ -309,11 +309,9 @@ ivcal_getwidget (EImport *ei,
 	/* Type of icalendar items */
 	for (i = 0; import_type_map[i] != -1; i++) {
 		GtkWidget *selector, *rb;
-		ESource *source = NULL;
 		GtkWidget *scrolled;
 		struct _selector_data *sd;
 		const gchar *extension_name;
-		GList *list;
 
 		switch (import_type_map[i]) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -335,15 +333,6 @@ ivcal_getwidget (EImport *ei,
 		gtk_container_add ((GtkContainer *) scrolled, selector);
 		gtk_notebook_append_page (GTK_NOTEBOOK (nb), scrolled, NULL);
 
-		list = e_source_registry_list_sources (registry, extension_name);
-		if (list != NULL) {
-			source = E_SOURCE (list->data);
-			e_source_selector_set_primary_selection (
-				E_SOURCE_SELECTOR (selector), source);
-		}
-
-		g_list_free_full (list, (GDestroyNotify) g_object_unref);
-
 		g_signal_connect (
 			selector, "primary_selection_changed",
 			G_CALLBACK (primary_selection_changed_cb), target);
@@ -363,8 +352,9 @@ ivcal_getwidget (EImport *ei,
 
 		if (!group)
 			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
-		if (first == NULL && source != NULL) {
-			g_datalist_set_data_full (&target->data, "primary-source", g_object_ref (source), g_object_unref);
+		if (first == NULL) {
+			/* Set primary-source */
+			primary_selection_changed_cb (E_SOURCE_SELECTOR (selector), target);
 			g_datalist_set_data (&target->data, "primary-type", GINT_TO_POINTER (import_type_map[i]));
 			first = rb;
 		}
