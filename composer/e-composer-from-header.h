@@ -48,6 +48,9 @@ typedef struct _EComposerFromHeaderClass EComposerFromHeaderClass;
 
 struct _EComposerFromHeader {
 	EComposerHeader parent;
+
+	GtkWidget *override_widget;
+	gboolean override_visible;
 };
 
 struct _EComposerFromHeaderClass {
@@ -63,6 +66,23 @@ const gchar *	e_composer_from_header_get_active_id
 void		e_composer_from_header_set_active_id
 						(EComposerFromHeader *header,
 						 const gchar *active_id);
+GtkEntry *	e_composer_from_header_get_name_entry
+						(EComposerFromHeader *header);
+const gchar *	e_composer_from_header_get_name (EComposerFromHeader *header);
+void		e_composer_from_header_set_name (EComposerFromHeader *header,
+						 const gchar *name);
+GtkEntry *	e_composer_from_header_get_address_entry
+						(EComposerFromHeader *header);
+const gchar *	e_composer_from_header_get_address
+						(EComposerFromHeader *header);
+void		e_composer_from_header_set_address
+						(EComposerFromHeader *header,
+						 const gchar *address);
+gboolean	e_composer_from_header_get_override_visible
+						(EComposerFromHeader *header);
+void		e_composer_from_header_set_override_visible
+						(EComposerFromHeader *header,
+						 gboolean visible);
 
 G_END_DECLS
 

@@ -47,6 +47,8 @@ struct _EMailIdentityComboBoxPrivate {
 	gboolean allow_none;
 
 	guint refresh_idle_id;
+
+	gint refreshing;
 };
 
 enum {
@@ -365,6 +367,8 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 
 	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box));
 
+	g_atomic_int_inc (&combo_box->priv->refreshing);
+
 	if (combo_box->priv->refresh_idle_id > 0) {
 		g_source_remove (combo_box->priv->refresh_idle_id);
 		combo_box->priv->refresh_idle_id = 0;
@@ -486,6 +490,11 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 
 	if (gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
 		gtk_combo_box_set_active (gtk_combo_box, 0);
+
+	if (g_atomic_int_dec_and_test (&combo_box->priv->refreshing)) {
+		if (g_strcmp0 (gtk_combo_box_get_active_id (gtk_combo_box), saved_uid) != 0)
+			g_signal_emit_by_name (gtk_combo_box, "changed");
+	}
 }
 
 /**
@@ -547,3 +556,18 @@ e_mail_identity_combo_box_set_allow_none (EMailIdentityComboBox *combo_box,
 	e_mail_identity_combo_box_refresh (combo_box);
 }
 
+/**
+ * e_mail_identity_combo_box_get_refreshing:
+ * @combo_box: an #EMailIdentityComboBox
+ *
+ * Returns: Whether the combo box content is currently refreshing.
+ *
+ * Since: 3.16
+ **/
+gboolean
+e_mail_identity_combo_box_get_refreshing (EMailIdentityComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), FALSE);
+
+	return combo_box->priv->refreshing != 0;
+}

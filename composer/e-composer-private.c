@@ -21,6 +21,7 @@
 #endif
 
 #include "e-composer-private.h"
+#include "e-composer-from-header.h"
 #include "e-composer-spell-header.h"
 #include "e-util/e-util-private.h"
 
@@ -297,6 +298,22 @@ e_composer_private_constructed (EMsgComposer *composer)
 		header = e_composer_header_table_get_header (table, ii);
 
 		switch (ii) {
+			case E_COMPOSER_HEADER_FROM:
+				e_widget_undo_attach (
+					GTK_WIDGET (e_composer_from_header_get_name_entry (E_COMPOSER_FROM_HEADER (header))),
+					focus_tracker);
+				e_widget_undo_attach (
+					GTK_WIDGET (e_composer_from_header_get_address_entry (E_COMPOSER_FROM_HEADER (header))),
+					focus_tracker);
+
+				action = ACTION (VIEW_FROM_OVERRIDE);
+				e_binding_bind_property (
+					header, "override-visible",
+					action, "active",
+					G_BINDING_BIDIRECTIONAL |
+					G_BINDING_SYNC_CREATE);
+				continue;
+
 			case E_COMPOSER_HEADER_BCC:
 				action = ACTION (VIEW_BCC);
 				break;

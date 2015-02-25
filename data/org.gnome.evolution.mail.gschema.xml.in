@@ -115,6 +115,11 @@
       <_summary>Show "Cc" field when sending a mail message</_summary>
       <_description>Show the "Cc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
+    <key name="composer-show-from-override" type="b">
+      <default>false</default>
+      <_summary>Show "From" override field when sending a mail message</_summary>
+      <_description>Show the "From" override field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
+    </key>
     <key name="composer-show-reply-to" type="b">
       <default>false</default>
       <_summary>Show "Reply To" field when sending a mail message</_summary>
