@@ -286,7 +286,7 @@ action_settings_restore_cb (GtkAction *action,
 
 		mask = dialog_prompt_user (
 			GTK_WINDOW (shell_window),
-			_("_Restart Evolution after restore"),
+			_("Re_start Evolution after restore"),
 			"org.gnome.backup-restore:restore-confirm", NULL);
 		if (mask & BR_OK)
 			restore (path, mask & BR_START);
