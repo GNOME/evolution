@@ -76,6 +76,12 @@ void		e_cell_toggle_construct		(ECellToggle *cell_toggle,
 						 guint n_icon_names);
 GPtrArray *	e_cell_toggle_get_pixbufs	(ECellToggle *cell_toggle);
 
+void		e_cell_toggle_set_icon_descriptions	(ECellToggle *cell_toggle,
+							 const gchar **descriptions,
+							 gint n_descriptions);
+
+const gchar *	e_cell_toggle_get_icon_description	(ECellToggle *cell_toggle,
+							 gint n);
 G_END_DECLS
 
 #endif /* E_CELL_TOGGLE_H */

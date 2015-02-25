@@ -2170,8 +2170,8 @@ message_list_create_extras (void)
 
 	e_table_extras_add_compare (extras, "address_compare", address_compare);
 
-	cell = e_cell_toggle_new (
-		status_icons, G_N_ELEMENTS (status_icons));
+	cell = e_cell_toggle_new (status_icons, G_N_ELEMENTS (status_icons));
+	e_cell_toggle_set_icon_descriptions (E_CELL_TOGGLE (cell), status_map, G_N_ELEMENTS (status_map));
 	e_table_extras_add_cell (extras, "render_message_status", cell);
 	g_object_unref (cell);
 
