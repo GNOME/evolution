@@ -4427,7 +4427,7 @@ handle_mailto (EMsgComposer *composer,
 				camel_url_decode (content);
 				if (file_is_blacklisted (content))
 					e_alert_submit (
-						E_ALERT_SINK (composer),
+						E_ALERT_SINK (e_msg_composer_get_editor (composer)),
 						"mail:blacklisted-file",
 						content, NULL);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
