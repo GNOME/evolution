@@ -1982,6 +1982,8 @@ itip_send_comp_sync (ESourceRegistry *registry,
 {
 	ItipSendComponentData isc;
 
+	memset (&isc, 0, sizeof (ItipSendComponentData));
+
 	isc.registry = registry;
 	isc.method = method;
 	isc.send_comp = send_comp;
