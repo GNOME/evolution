@@ -531,18 +531,6 @@ mail_ui_session_remove_service (CamelSession *session,
 	e_mail_account_store_remove_service (store, NULL, service);
 }
 
-CamelCertTrust
-e_mail_ui_session_trust_prompt (CamelSession *session,
-                                CamelService *service,
-                                GTlsCertificate *certificate,
-                                GTlsCertificateFlags errors)
-{
-	g_type_ensure (E_TYPE_MAIL_UI_SESSION);
-
-	return CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->
-		trust_prompt (session, service, certificate, errors);
-}
-
 static CamelFilterDriver *
 mail_ui_session_get_filter_driver (CamelSession *session,
                                    const gchar *type,
@@ -699,6 +687,15 @@ mail_ui_session_trust_prompt (CamelSession *session,
 	}
 
 	return response;
+}
+
+CamelCertTrust
+e_mail_ui_session_trust_prompt (CamelSession *session,
+                                CamelService *service,
+                                GTlsCertificate *certificate,
+                                GTlsCertificateFlags errors)
+{
+	return mail_ui_session_trust_prompt (session, service, certificate, errors);
 }
 
 typedef struct _TryCredentialsData {
