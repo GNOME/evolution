@@ -261,8 +261,10 @@ static void hover_off (ETree *tree);
 static void hover_on (ETree *tree, gint x, gint y);
 static void context_destroyed (gpointer data, GObject *ctx);
 
+static void e_tree_scrollable_init (GtkScrollableInterface *iface);
+
 G_DEFINE_TYPE_WITH_CODE (ETree, e_tree, GTK_TYPE_TABLE,
-			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_tree_scrollable_init))
 
 static void
 tree_item_is_editing_changed_cb (ETableItem *item,
@@ -3200,6 +3202,39 @@ e_tree_class_init (ETreeClass *class)
 
 	gtk_widget_class_set_accessible_type (widget_class,
 		GAL_A11Y_TYPE_E_TREE);
+}
+
+#if GTK_CHECK_VERSION (3, 15, 9)
+static gboolean
+e_tree_scrollable_get_border (GtkScrollable *scrollable,
+			      GtkBorder *border)
+{
+	ETree *tree;
+	ETableHeaderItem *header_item;
+
+	g_return_val_if_fail (E_IS_TREE (scrollable), FALSE);
+	g_return_val_if_fail (border != NULL, FALSE);
+
+	tree = E_TREE (scrollable);
+	if (!tree->priv->header_item)
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_TABLE_HEADER_ITEM (tree->priv->header_item), FALSE);
+
+	header_item = E_TABLE_HEADER_ITEM (tree->priv->header_item);
+
+	border->top = header_item->height;
+
+	return TRUE;
+}
+#endif
+
+static void
+e_tree_scrollable_init (GtkScrollableInterface *iface)
+{
+#if GTK_CHECK_VERSION (3, 15, 9)
+	iface->get_border = e_tree_scrollable_get_border;
+#endif
 }
 
 static void

@@ -169,8 +169,10 @@ static gint et_focus (GtkWidget *container, GtkDirectionType direction);
 static void scroll_off (ETable *et);
 static void scroll_on (ETable *et, guint scroll_direction);
 
+static void e_table_scrollable_init (GtkScrollableInterface *iface);
+
 G_DEFINE_TYPE_WITH_CODE (ETable, e_table, GTK_TYPE_TABLE,
-			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, e_table_scrollable_init))
 
 static void
 et_disconnect_model (ETable *et)
@@ -3509,6 +3511,39 @@ e_table_class_init (ETableClass *class)
 
 	gtk_widget_class_set_accessible_type (widget_class,
 		GAL_A11Y_TYPE_E_TABLE);
+}
+
+#if GTK_CHECK_VERSION (3, 15, 9)
+static gboolean
+e_table_scrollable_get_border (GtkScrollable *scrollable,
+			       GtkBorder *border)
+{
+	ETable *table;
+	ETableHeaderItem *header_item;
+
+	g_return_val_if_fail (E_IS_TABLE (scrollable), FALSE);
+	g_return_val_if_fail (border != NULL, FALSE);
+
+	table = E_TABLE (scrollable);
+	if (!table->header_item)
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_TABLE_HEADER_ITEM (table->header_item), FALSE);
+
+	header_item = E_TABLE_HEADER_ITEM (table->header_item);
+
+	border->top = header_item->height;
+
+	return TRUE;
+}
+#endif
+
+static void
+e_table_scrollable_init (GtkScrollableInterface *iface)
+{
+#if GTK_CHECK_VERSION (3, 15, 9)
+	iface->get_border = e_table_scrollable_get_border;
+#endif
 }
 
 void
