@@ -80,24 +80,15 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 {
 	GString *buffer;
 	WebKitDOMDocument *document;
+	WebKitDOMElement *bind_element, *document_element;
 	ItipView *view;
 	EMailPartItip *pitip;
 
 	pitip = E_MAIL_PART_ITIP (part);
 
-	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
-		WebKitDOMNodeList *nodes;
-		guint length;
-
-		nodes = webkit_dom_element_get_elements_by_tag_name (
-			element, "iframe");
-		length = webkit_dom_node_list_get_length (nodes);
-		if (length > 0)
-			element = WEBKIT_DOM_ELEMENT (
-				webkit_dom_node_list_item (nodes, 0));
-
-		g_object_unref (nodes);
-	}
+	bind_element = element;
+	if (!WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (bind_element))
+		element = webkit_dom_element_query_selector (element, "iframe", NULL);
 
 	g_return_if_fail (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element));
 
@@ -110,8 +101,9 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 		G_OBJECT (element), "view", view,
 		(GDestroyNotify) g_object_unref);
 
-	itip_view_create_dom_bindings (
-		view, webkit_dom_document_get_document_element (document));
+	document_element = webkit_dom_document_get_document_element (document);
+	itip_view_create_dom_bindings (view, document_element);
+	g_object_unref (document_element);
 
 	itip_view_init_view (view);
 	g_string_free (buffer, TRUE);
