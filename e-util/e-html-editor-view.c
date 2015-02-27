@@ -2768,14 +2768,15 @@ prevent_from_deleting_last_element_in_body (EHTMLEditorView *view)
 	gboolean ret_val = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
-	WebKitDOMNodeList *list;
+	WebKitDOMNode *node;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
-	list = webkit_dom_node_get_child_nodes (WEBKIT_DOM_NODE (body));
-
-	if (webkit_dom_node_list_get_length (list) <= 1) {
+	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
+	if (!node || (
+	    webkit_dom_node_get_next_sibling (node) &&
+	    !webkit_dom_node_get_next_sibling (webkit_dom_node_get_next_sibling (node)))) {
 		gchar *content;
 
 		content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (body));
@@ -2788,7 +2789,6 @@ prevent_from_deleting_last_element_in_body (EHTMLEditorView *view)
 		if (webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (body), "img", NULL))
 			ret_val = FALSE;
 	}
-	g_object_unref (list);
 
 	return ret_val;
 }
