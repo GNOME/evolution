@@ -163,7 +163,7 @@ mbox_supported (EImport *ei,
                 EImportTarget *target,
                 EImportImporter *im)
 {
-	gchar signature[6];
+	gchar signature[1024];
 	gboolean ret = FALSE;
 	gint fd, n;
 	EImportTargetURI *s;
@@ -181,12 +181,56 @@ mbox_supported (EImport *ei,
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	fd = g_open (filename, O_RDONLY, 0);
-	g_free (filename);
 	if (fd != -1) {
-		n = read (fd, signature, 5);
-		ret = n == 5 && memcmp (signature, "From ", 5) == 0;
+		n = read (fd, signature, 1024);
+		ret = n >= 5 && memcmp (signature, "From ", 5) == 0;
 		close (fd);
+
+		/* An artificial number, at least 256 bytes message
+		   to be able to try to import it as an MBOX */
+		if (!ret && n >= 256) {
+			gint ii;
+
+			ret = (signature[0] >= 'a' && signature[0] <= 'z') ||
+			      (signature[0] >= 'A' && signature[0] <= 'Z');
+
+			for (ii = 0; ii < n && ret; ii++) {
+				ret = signature[ii] == '-' ||
+				      signature[ii] == ' ' ||
+				      signature[ii] == '\t' ||
+				     (signature[ii] >= 'a' && signature[ii] <= 'z') ||
+				     (signature[ii] >= 'A' && signature[ii] <= 'Z') ||
+				     (signature[ii] >= '0' && signature[ii] <= '9');
+			}
+
+			/* It's probably a header name which starts with ASCII letter and
+			   contains only [a..z][A..Z][\t, ,-] and the read stopped on ':'. */
+			if (ii > 0 && ii < n && !ret && signature[ii - 1] == ':') {
+				CamelStream *stream;
+
+				stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0, NULL);
+				if (stream) {
+					CamelMimeMessage *msg;
+
+					msg = camel_mime_message_new ();
+
+					/* Check whether the message can be parsed and whether
+					   it contains any mandatory fields. */
+					ret = camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *) msg, stream, NULL, NULL) &&
+					      camel_mime_message_get_message_id (msg) &&
+					      camel_mime_message_get_subject (msg) &&
+					      camel_mime_message_get_from (msg) &&
+					      (camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO) ||
+					       camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_RESENT_TO));
+
+					g_object_unref (msg);
+					g_object_unref (stream);
+				}
+			}
+		}
 	}
+
+	g_free (filename);
 
 	return ret;
 }
@@ -336,6 +380,36 @@ preview_selection_changed_cb (GtkTreeSelection *selection,
 	}
 }
 
+static void
+mbox_preview_add_message (CamelMimeMessage *msg,
+			  GtkListStore **pstore)
+{
+	GtkTreeIter iter;
+	gchar *from;
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+	g_return_if_fail (pstore != NULL);
+
+	if (!*pstore)
+		*pstore = gtk_list_store_new (
+			3, G_TYPE_STRING, G_TYPE_STRING,
+			CAMEL_TYPE_MIME_MESSAGE);
+
+	from = NULL;
+
+	if (camel_mime_message_get_from (msg))
+		from = camel_address_encode (CAMEL_ADDRESS (camel_mime_message_get_from (msg)));
+
+	gtk_list_store_append (*pstore, &iter);
+	gtk_list_store_set (
+		*pstore, &iter,
+		0, camel_mime_message_get_subject (msg) ?
+		camel_mime_message_get_subject (msg) : "",
+		1, from ? from : "", 2, msg, -1);
+
+	g_free (from);
+}
+
 static GtkWidget *
 mbox_get_preview (EImport *ei,
                   EImportTarget *target,
@@ -349,6 +423,7 @@ mbox_get_preview (EImport *ei,
 	GtkListStore *store = NULL;
 	GtkTreeIter iter;
 	GtkWidget *preview_widget = NULL;
+	gboolean any_read = FALSE;
 
 	if (!create_preview_func || !fill_preview_func)
 		return NULL;
@@ -368,8 +443,6 @@ mbox_get_preview (EImport *ei,
 		return NULL;
 	}
 
-	g_free (filename);
-
 	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
 	if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
@@ -378,7 +451,8 @@ mbox_get_preview (EImport *ei,
 
 	while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
-		gchar *from;
+
+		any_read = TRUE;
 
 		msg = camel_mime_message_new ();
 		if (!camel_mime_part_construct_from_parser_sync (
@@ -387,28 +461,28 @@ mbox_get_preview (EImport *ei,
 			break;
 		}
 
-		if (!store)
-			store = gtk_list_store_new (
-				3, G_TYPE_STRING, G_TYPE_STRING,
-				CAMEL_TYPE_MIME_MESSAGE);
-
-		from = NULL;
-		if (camel_mime_message_get_from (msg))
-			from = camel_address_encode (
-				CAMEL_ADDRESS (
-				camel_mime_message_get_from (msg)));
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter,
-			0, camel_mime_message_get_subject (msg) ?
-			camel_mime_message_get_subject (msg) : "",
-			1, from ? from : "", 2, msg, -1);
+		mbox_preview_add_message (msg, &store);
 
 		g_object_unref (msg);
-		g_free (from);
 
 		camel_mime_parser_step (mp, NULL, NULL);
+	}
+
+	if (!any_read) {
+		CamelStream *stream;
+
+		stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0, NULL);
+		if (stream) {
+			CamelMimeMessage *msg;
+
+			msg = camel_mime_message_new ();
+
+			if (camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *) msg, stream, NULL, NULL))
+				mbox_preview_add_message (msg, &store);
+
+			g_object_unref (msg);
+			g_object_unref (stream);
+		}
 	}
 
 	if (store) {
@@ -471,6 +545,7 @@ mbox_get_preview (EImport *ei,
 
  cleanup:
 	g_object_unref (mp);
+	g_free (filename);
 
 	/* 'fd' is freed together with 'mp' */
 	/* coverity[leaked_handle] */

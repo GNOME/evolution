@@ -125,9 +125,11 @@ message_parsed_cb (GObject *source_object,
 
 	folder = e_mail_part_list_get_folder (parts_list);
 	message_uid = e_mail_part_list_get_message_uid (parts_list);
-	mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
+	if (message_uid) {
+		mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
 
-	g_hash_table_insert (mails, mail_uri, parts_list);
+		g_hash_table_insert (mails, mail_uri, parts_list);
+	}
 
 	e_mail_display_set_part_list (display, parts_list);
 	e_mail_display_load (display, NULL);
