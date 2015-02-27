@@ -718,10 +718,11 @@ action_paste_as_text_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
-		e_html_editor_view_paste_as_text (view);
-		e_html_editor_view_force_spell_check (view);
-	}
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	e_html_editor_view_paste_as_text (view);
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
@@ -730,10 +731,11 @@ action_paste_quote_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
-		e_html_editor_view_paste_clipboard_quoted (view);
-		e_html_editor_view_force_spell_check (view);
-	}
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	e_html_editor_view_paste_clipboard_quoted (view);
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
