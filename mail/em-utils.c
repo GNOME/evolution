@@ -582,12 +582,15 @@ em_utils_read_messages_from_stream (CamelFolder *folder,
 {
 	CamelMimeParser *mp = camel_mime_parser_new ();
 	gboolean success = TRUE;
+	gboolean any_read = FALSE;
 
 	camel_mime_parser_scan_from (mp, TRUE);
 	camel_mime_parser_init_with_stream (mp, stream, NULL);
 
 	while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 		CamelMimeMessage *msg;
+
+		any_read = TRUE;
 
 		/* NB: de-from filter, once written */
 		msg = camel_mime_message_new ();
@@ -609,6 +612,22 @@ em_utils_read_messages_from_stream (CamelFolder *folder,
 	}
 
 	g_object_unref (mp);
+
+	/* No message had bean read, maybe it's not MBOX, but a plain message */
+	if (!any_read) {
+		CamelMimeMessage *msg;
+
+		if (G_IS_SEEKABLE (stream))
+			g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, NULL, NULL);
+
+		msg = camel_mime_message_new ();
+		if (camel_data_wrapper_construct_from_stream_sync (
+			(CamelDataWrapper *) msg, stream, NULL, NULL))
+			/* FIXME camel_folder_append_message_sync() may block. */
+			camel_folder_append_message_sync (
+				folder, msg, NULL, NULL, NULL, NULL);
+		g_object_unref (msg);
+	}
 
 	return success ? 0 : -1;
 }
@@ -689,7 +708,6 @@ em_utils_selection_get_message (GtkSelectionData *selection_data,
                                 CamelFolder *folder)
 {
 	CamelStream *stream;
-	CamelMimeMessage *msg;
 	const guchar *data;
 	gint length;
 
@@ -699,15 +717,10 @@ em_utils_selection_get_message (GtkSelectionData *selection_data,
 	if (data == NULL || length == -1)
 		return;
 
-	stream = (CamelStream *)
-		camel_stream_mem_new_with_buffer ((gchar *) data, length);
-	msg = camel_mime_message_new ();
-	if (camel_data_wrapper_construct_from_stream_sync (
-		(CamelDataWrapper *) msg, stream, NULL, NULL))
-		/* FIXME camel_folder_append_message_sync() may block. */
-		camel_folder_append_message_sync (
-			folder, msg, NULL, NULL, NULL, NULL);
-	g_object_unref (msg);
+	stream = camel_stream_mem_new_with_buffer ((const gchar *) data, length);
+
+	em_utils_read_messages_from_stream (folder, stream);
+
 	g_object_unref (stream);
 }
 
