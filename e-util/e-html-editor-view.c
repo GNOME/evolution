@@ -2394,11 +2394,8 @@ clipboard_text_received (GtkClipboard *clipboard,
 	EHTMLEditorSelection *selection;
 	gchar *escaped_text;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMElement *blockquote, *element;
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
+	WebKitDOMElement *blockquote, *element, *selection_start;
+	WebKitDOMNode *sibling;
 
 	if (!text || !*text)
 		return;
@@ -2406,8 +2403,6 @@ clipboard_text_received (GtkClipboard *clipboard,
 	selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	/* This is a trick to escape any HTML characters (like <, > or &).
 	 * <textarea> automatically replaces all these unsafe characters
@@ -2437,13 +2432,38 @@ clipboard_text_received (GtkClipboard *clipboard,
 	if (!e_html_editor_view_get_html_mode (view))
 		e_html_editor_view_quote_plain_text_element (view, element);
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	node = webkit_dom_range_get_end_container (range, NULL);
-
+	element = webkit_dom_document_create_element (document, "pre", NULL);
 	webkit_dom_node_append_child (
-		webkit_dom_node_get_parent_node (node),
-		WEBKIT_DOM_NODE (blockquote),
-		NULL);
+		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (blockquote), NULL);
+
+	e_html_editor_selection_save (selection);
+
+	selection_start = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
+	/* Check if block is empty. If so, replace it otherwise insert the quoted
+	 * content after current block. */
+	if (!sibling || WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling)) {
+		sibling = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (selection_start));
+		sibling = webkit_dom_node_get_next_sibling (sibling);
+		if (!sibling || WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling)) {
+			webkit_dom_node_replace_child (
+				webkit_dom_node_get_parent_node (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (selection_start))),
+				WEBKIT_DOM_NODE (element),
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start)),
+				NULL);
+	} else
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
+			WEBKIT_DOM_NODE (element),
+			webkit_dom_node_get_next_sibling (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (selection_start))),
+			NULL);
+	}
 
 	e_html_editor_selection_restore_caret_position (selection);
 
