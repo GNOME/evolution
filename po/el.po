@@ -41,22 +41,21 @@
 # Simos Xenitellis <simos.lists@googlemail.com>, 2010.
 # Michael Kotsarinis <mk73628@gmail.com>, 2011.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013, 2014, 2015.
-#: ../shell/main.c:506
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-21 19:45+0000\n"
-"PO-Revision-Date: 2015-02-20 22:04+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"POT-Creation-Date: 2015-02-26 05:20+0000\n"
+"PO-Revision-Date: 2015-02-26 14:21+0200\n"
+"Last-Translator: Maria Mavridou <mavridou@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Project-Style: gnome\n"
 
@@ -527,6 +526,7 @@ msgid "_PO Box:"
 msgstr "_Ταχυδρομική θυρίδα:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:46
+#: ../composer/e-composer-from-header.c:123
 msgid "_Address:"
 msgstr "_Διεύθυνση:"
 
@@ -1722,9 +1722,9 @@ msgstr ""
 #: ../addressbook/importers/evolution-csv-importer.c:746
 #: ../addressbook/importers/evolution-ldif-importer.c:548
 #: ../addressbook/importers/evolution-vcard-importer.c:249
-#: ../calendar/importers/icalendar-importer.c:440
-#: ../calendar/importers/icalendar-importer.c:935
-#: ../calendar/importers/icalendar-importer.c:974 ../shell/shell.error.xml.h:1
+#: ../calendar/importers/icalendar-importer.c:430
+#: ../calendar/importers/icalendar-importer.c:925
+#: ../calendar/importers/icalendar-importer.c:964 ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Γίνεται εισαγωγή..."
 
@@ -3330,7 +3330,7 @@ msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου τύπου παρευρισκομένου"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2232
-#: ../composer/e-composer-actions.c:657
+#: ../composer/e-composer-actions.c:665
 msgid "Attach"
 msgstr "Επισύναψη"
 
@@ -5219,7 +5219,7 @@ msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:672 ../calendar/gui/print.c:2404
 #: ../calendar/importers/icalendar-importer.c:78
-#: ../calendar/importers/icalendar-importer.c:1072
+#: ../calendar/importers/icalendar-importer.c:1062
 #: ../modules/calendar/e-calendar-preferences.ui.h:62
 #: ../modules/calendar/e-cal-shell-content.c:1560
 #: ../modules/calendar/e-task-shell-view-actions.c:203
@@ -5645,181 +5645,181 @@ msgstr "είναι μικρότερο από"
 msgid "Appointments and Meetings"
 msgstr "Συναντήσεις και συγκεντρώσεις"
 
-#: ../calendar/importers/icalendar-importer.c:462
-#: ../calendar/importers/icalendar-importer.c:901
+#: ../calendar/importers/icalendar-importer.c:452
+#: ../calendar/importers/icalendar-importer.c:891
 msgid "Opening calendar"
 msgstr "Άνοιγμα ημερολογίου"
 
-#: ../calendar/importers/icalendar-importer.c:610
+#: ../calendar/importers/icalendar-importer.c:600
 msgid "iCalendar files (.ics)"
 msgstr "Αρχεία iCalendar (.ics)"
 
-#: ../calendar/importers/icalendar-importer.c:611
+#: ../calendar/importers/icalendar-importer.c:601
 msgid "Evolution iCalendar importer"
 msgstr "Εισαγωγέας iCalendar Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:703
+#: ../calendar/importers/icalendar-importer.c:693
 msgid "Reminder!"
 msgstr "Υπόμνηση!"
 
-#: ../calendar/importers/icalendar-importer.c:787
+#: ../calendar/importers/icalendar-importer.c:777
 msgid "vCalendar files (.vcs)"
 msgstr "Αρχεία vCalendar (.vcs)"
 
-#: ../calendar/importers/icalendar-importer.c:788
+#: ../calendar/importers/icalendar-importer.c:778
 msgid "Evolution vCalendar importer"
 msgstr "Εισαγωγέας vCalendar Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1065
+#: ../calendar/importers/icalendar-importer.c:1055
 msgid "Calendar Events"
 msgstr "Συμβάντα Ημερολογίου"
 
-#: ../calendar/importers/icalendar-importer.c:1108
+#: ../calendar/importers/icalendar-importer.c:1098
 msgid "Gnome Calendar"
 msgstr "Ημερολόγιο του Gnome"
 
-#: ../calendar/importers/icalendar-importer.c:1109
+#: ../calendar/importers/icalendar-importer.c:1099
 msgid "Evolution Calendar intelligent importer"
 msgstr "Έξυπνος εισαγωγέας Ημερολογίου Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:1180
-#: ../calendar/importers/icalendar-importer.c:1494
+#: ../calendar/importers/icalendar-importer.c:1170
+#: ../calendar/importers/icalendar-importer.c:1484
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Συνάντηση"
 
-#: ../calendar/importers/icalendar-importer.c:1180
-#: ../calendar/importers/icalendar-importer.c:1494
+#: ../calendar/importers/icalendar-importer.c:1170
+#: ../calendar/importers/icalendar-importer.c:1484
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Συμβάν"
 
-#: ../calendar/importers/icalendar-importer.c:1183
-#: ../calendar/importers/icalendar-importer.c:1495
+#: ../calendar/importers/icalendar-importer.c:1173
+#: ../calendar/importers/icalendar-importer.c:1485
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Εργασία"
 
-#: ../calendar/importers/icalendar-importer.c:1186
-#: ../calendar/importers/icalendar-importer.c:1496
+#: ../calendar/importers/icalendar-importer.c:1176
+#: ../calendar/importers/icalendar-importer.c:1486
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Υπενθύμιση"
 
-#: ../calendar/importers/icalendar-importer.c:1195
+#: ../calendar/importers/icalendar-importer.c:1185
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "έχει επανεμφανίσεις"
 
-#: ../calendar/importers/icalendar-importer.c:1200
+#: ../calendar/importers/icalendar-importer.c:1190
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "είναι μία υπόδειξη"
 
-#: ../calendar/importers/icalendar-importer.c:1205
+#: ../calendar/importers/icalendar-importer.c:1195
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "έχει υπομνήσεις"
 
-#: ../calendar/importers/icalendar-importer.c:1210
+#: ../calendar/importers/icalendar-importer.c:1200
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "έχει επισυνάψεις"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1223
+#: ../calendar/importers/icalendar-importer.c:1213
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Δημόσιο"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1226
+#: ../calendar/importers/icalendar-importer.c:1216
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Ιδιωτικό"
 
 #. Translators: Appointment's classification
-#: ../calendar/importers/icalendar-importer.c:1229
+#: ../calendar/importers/icalendar-importer.c:1219
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Εμπιστευτικό"
 
 #. Translators: Appointment's classification section name
-#: ../calendar/importers/icalendar-importer.c:1233
+#: ../calendar/importers/icalendar-importer.c:1223
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Ταξινόμηση"
 
 #. Translators: Appointment's summary
-#: ../calendar/importers/icalendar-importer.c:1238
-#: ../calendar/importers/icalendar-importer.c:1538
+#: ../calendar/importers/icalendar-importer.c:1228
+#: ../calendar/importers/icalendar-importer.c:1528
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Περίληψη"
 
 #. Translators: Appointment's location
-#: ../calendar/importers/icalendar-importer.c:1244
+#: ../calendar/importers/icalendar-importer.c:1234
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Τοποθεσία"
 
 #. Translators: Appointment's start time
-#: ../calendar/importers/icalendar-importer.c:1252
-#: ../calendar/importers/icalendar-importer.c:1533
+#: ../calendar/importers/icalendar-importer.c:1242
+#: ../calendar/importers/icalendar-importer.c:1523
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Έναρξη"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../calendar/importers/icalendar-importer.c:1263
+#: ../calendar/importers/icalendar-importer.c:1253
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Λήξη"
 
 #. Translators: Appointment's end time
-#: ../calendar/importers/icalendar-importer.c:1275
+#: ../calendar/importers/icalendar-importer.c:1265
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Τέλος"
 
 #. Translators: Appointment's categories
-#: ../calendar/importers/icalendar-importer.c:1285
+#: ../calendar/importers/icalendar-importer.c:1275
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Κατηγορίες"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../calendar/importers/icalendar-importer.c:1309
+#: ../calendar/importers/icalendar-importer.c:1299
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Ολοκληρώθηκε"
 
 #. Translators: Appointment's URL
-#: ../calendar/importers/icalendar-importer.c:1317
+#: ../calendar/importers/icalendar-importer.c:1307
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../calendar/importers/icalendar-importer.c:1328
-#: ../calendar/importers/icalendar-importer.c:1331
+#: ../calendar/importers/icalendar-importer.c:1318
+#: ../calendar/importers/icalendar-importer.c:1321
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Διοργανωτής"
 
 #. Translators: Appointment's attendees
-#: ../calendar/importers/icalendar-importer.c:1351
-#: ../calendar/importers/icalendar-importer.c:1354
+#: ../calendar/importers/icalendar-importer.c:1341
+#: ../calendar/importers/icalendar-importer.c:1344
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Παρευρισκόμενοι"
 
-#: ../calendar/importers/icalendar-importer.c:1368
+#: ../calendar/importers/icalendar-importer.c:1358
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: ../calendar/importers/icalendar-importer.c:1528
+#: ../calendar/importers/icalendar-importer.c:1518
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Τύπος"
@@ -7494,7 +7494,8 @@ msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Υπογράψτε αυτό το μήνυμα με την πιστοποιημένη υπογραφή S/MIME"
 
 #: ../composer/e-composer-actions.c:576
-msgid "Unicode smilyes"
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
+msgid "Unicode smileys"
 msgstr "Μειδιάματα Unicode"
 
 #: ../composer/e-composer-actions.c:578
@@ -7519,16 +7520,38 @@ msgid "Toggles whether the CC field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου κοινοποίησης"
 
 #: ../composer/e-composer-actions.c:600
+#| msgid "_From Field"
+msgid "_From Override Field"
+msgstr "Πεδίο αντικατάστασης _Από"
+
+#: ../composer/e-composer-actions.c:602
+#| msgid "Toggles whether the Role field is displayed"
+msgid ""
+"Toggles whether the From override field to change name or email address is "
+"displayed"
+msgstr ""
+"Εναλλαγή της εμφάνισης του πεδίου αντικατάστασης Από σε αλλαγή ονόματος ή "
+"διεύθυνσης ηλεκτρονικής αλληλογγραφίας"
+
+#: ../composer/e-composer-actions.c:608
 msgid "_Reply-To Field"
 msgstr "_Πεδίο Απάντησης"
 
-#: ../composer/e-composer-actions.c:602
+#: ../composer/e-composer-actions.c:610
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου Απάντησης"
 
-#: ../composer/e-composer-actions.c:663
+#: ../composer/e-composer-actions.c:671
 msgid "Save Draft"
 msgstr "Αποθήκευση προχείρου"
+
+#: ../composer/e-composer-from-header.c:109
+#: ../e-util/e-mail-signature-script-dialog.c:415
+#: ../e-util/gal-view-instance-save-as-dialog.ui.h:2
+#: ../mail/e-mail-config-identity-page.c:327
+#: ../mail/e-mail-config-summary-page.c:339
+msgid "_Name:"
+msgstr "Ό_νομα:"
 
 #: ../composer/e-composer-header-table.c:38
 msgid "Enter the recipients of the message"
@@ -7546,35 +7569,35 @@ msgstr ""
 "Εισάγετε τις διευθύνσεις όπου θα σταλεί αντίγραφο του μηνύματος χωρίς αυτές "
 "να εμφανιστούν στον κατάλογο παραληπτών του μηνύματος"
 
-#: ../composer/e-composer-header-table.c:770
+#: ../composer/e-composer-header-table.c:793
 msgid "Fr_om:"
 msgstr "Α_πό:"
 
-#: ../composer/e-composer-header-table.c:777
+#: ../composer/e-composer-header-table.c:800
 msgid "_Reply-To:"
 msgstr "_Απάντηση σε:"
 
-#: ../composer/e-composer-header-table.c:782
+#: ../composer/e-composer-header-table.c:805
 msgid "_To:"
 msgstr "Πρ_ος:"
 
-#: ../composer/e-composer-header-table.c:788
+#: ../composer/e-composer-header-table.c:811
 msgid "_Cc:"
 msgstr "_Κοινοποίηση:"
 
-#: ../composer/e-composer-header-table.c:794
+#: ../composer/e-composer-header-table.c:817
 msgid "_Bcc:"
 msgstr "Κρ_υφή κοινοποίηση:"
 
-#: ../composer/e-composer-header-table.c:799
+#: ../composer/e-composer-header-table.c:822
 msgid "_Post To:"
 msgstr "Απο_στολή Σε:"
 
-#: ../composer/e-composer-header-table.c:803
+#: ../composer/e-composer-header-table.c:826
 msgid "S_ubject:"
 msgstr "_Θέμα:"
 
-#: ../composer/e-composer-header-table.c:811
+#: ../composer/e-composer-header-table.c:834
 #: ../mail/e-mail-config-identity-page.c:505
 msgid "Si_gnature:"
 msgstr "_Υπογραφή:"
@@ -7588,7 +7611,7 @@ msgid "Click here to select folders to post to"
 msgstr ""
 "Κάντε κλικ εδώ για να επιλέξετε τους φάκελους στους οποίους θα στείλετε"
 
-#: ../composer/e-msg-composer.c:863
+#: ../composer/e-msg-composer.c:871
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7596,7 +7619,7 @@ msgstr ""
 "Αδυναμία υπογραφής εξερχόμενου μηνύματος: Δεν έχει ορισθεί πιστοποιητικό "
 "υπογραφής από το λογαριασμό"
 
-#: ../composer/e-msg-composer.c:872
+#: ../composer/e-msg-composer.c:880
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7605,11 +7628,11 @@ msgstr ""
 "Αδυναμία κρυπτογράφησης εξερχόμενου μηνύματος: Δεν έχει ορισθεί "
 "πιστοποιητικό κρυπτογράφησης από το λογαριασμό"
 
-#: ../composer/e-msg-composer.c:1586 ../composer/e-msg-composer.c:2272
+#: ../composer/e-msg-composer.c:1594 ../composer/e-msg-composer.c:2280
 msgid "Compose Message"
 msgstr "Συγγραφή νέου μηνύματος"
 
-#: ../composer/e-msg-composer.c:4536
+#: ../composer/e-msg-composer.c:4573
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Ο επεξεργαστής περιέχει ένα σώμα μηνύματος που δεν είναι κείμενο, στο οποίο "
@@ -8809,10 +8832,6 @@ msgstr ""
 "Αναγνώριση εικονιδίων διάθεσης στο κείμενο και αντικατάσταση τους με εικόνες "
 "ή χαρακτήρες Unicode."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-msgid "Unicode smileys"
-msgstr "Μειδιάματα Unicode"
-
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Attribute message"
 msgstr "Μήνυμα γνωρίσματος"
@@ -8932,11 +8951,30 @@ msgstr ""
 "αλληλογραφίας."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
+#| msgid "Show \"From\" field when sending a mail message"
+msgid "Show \"From\" override field when sending a mail message"
+msgstr ""
+"Προβολή του πεδίου αντικατάστασης \"Από\" κατά την αποστολή μηνύματος "
+"αλληλογραφίας"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
+#| msgid ""
+#| "Show the \"From\" field when sending a mail message. This is controlled "
+#| "from the View menu when a mail account is chosen."
+msgid ""
+"Show the \"From\" override field when sending a mail message. This is "
+"controlled from the View menu when a mail account is chosen."
+msgstr ""
+"Εμφάνιση του πεδίου αντικατάστασης \"Από\" κατά την αποστολή μηνύματος "
+"αλληλογραφίας. Αυτό ελέγχεται από το μενού Προβολή όταν έχει επιλεγεί ένας "
+"λογαριασμός αλληλογραφίας."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
 msgid "Show \"Reply To\" field when sending a mail message"
 msgstr ""
 "Προβολή του πεδίου \"Απάντηση σε\" κατά την αποστολή μηνυμάτων αλληλογραφίας"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
 msgid ""
 "Show the \"Reply To\" field when sending a mail message. This is controlled "
 "from the View menu when a mail account is chosen."
@@ -8945,11 +8983,11 @@ msgstr ""
 "αλληλογραφίας. Αυτό ελέγχετε από το μενού Προβολή όταν έχει επιλεγεί ένας "
 "λογαριασμός αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
 msgid "Show \"From\" field when posting to a newsgroup"
 msgstr "Προβολή του πεδίου \"Από\" κατά την δημοσίευση σε ομάδα συζήτησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
 msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
@@ -8958,12 +8996,12 @@ msgstr ""
 "ελέγχετε από το μενού Προβολή όταν έχει επιλεγεί ένας λογαριασμός ομάδας "
 "συζητήσεων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
 msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr ""
 "Προβολή του πεδίου \"Απάντηση σε\" κατά την δημοσίευση σε ομάδα συζήτησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
@@ -8972,11 +9010,11 @@ msgstr ""
 "Αυτό ελέγχετε από το μενού Προβολή όταν έχει επιλεγεί ένας λογαριασμός "
 "ομάδας συζητήσεων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Digitally sign replies when the original message is signed"
 msgstr "Απαντήσεις ψηφιακής υπογραφής όταν το αρχικό μήνυμα υπογράφεται"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
 msgid ""
 "Automatically enable PGP or S/MIME signatures when replying to a message "
 "which is also PGP or S/MIME signed."
@@ -8984,11 +9022,11 @@ msgstr ""
 "Αυτόματη ενεργοποίηση υπογραφών PGP ή S/MIME όταν απαντάτε σε μήνυμα που "
 "επίσης υπογράφεται με PGP ή S/MIME."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Encode filenames in an Outlook/GMail way"
 msgstr "Κωδικοποίηση των ονομάτων αρχείων όπως στα Outlook/GMail"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
 "Encode filenames in the mail headers same as Outlook or GMail do, to let "
 "them display correctly filenames with UTF-8 letters sent by Evolution, "
@@ -9000,11 +9038,11 @@ msgstr ""
 "ονόματα αρχείων με γράμματα UTF-8 που στέλνει το Evolution, επειδή δεν "
 "ακολουθούν το RFC 2231, αλλά χρησιμοποιούν το λαθεμένο πρότυπο RFC 2047."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
 msgid "Send messages through Outbox folder"
 msgstr "Αποστολή μηνυμάτων μέσα από τον φάκελο εξερχομένων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid ""
 "Always save messages to Outbox folder when sending, to let a user choose "
 "when the messages should be sent."
@@ -9013,11 +9051,11 @@ msgstr ""
 "αποστολή, για να επιτρέπεται στον χρήστη να επιλέξει πότε πρέπει να σταλούν "
 "τα μηνύματα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Put personalized signatures at the top of replies"
 msgstr "Προσθήκη εξατομικευμένων υπογραφών στην αρχή των απαντήσεων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
@@ -9027,11 +9065,11 @@ msgstr ""
 "σε μήνυμα. Καθορίζει αν θα τοποθετείται η υπογραφή στην κορυφή ή στο τέλος "
 "του μηνύματος."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Do not add signature delimiter"
 msgstr "Να μην γίνεται προσθήκη διαχωριστικού υπογραφής"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
@@ -9039,11 +9077,11 @@ msgstr ""
 "Ορίστε το σε ΑΛΗΘΕΣ στην περίπτωση που θέλετε να προσθέτεται ο διαχωριστής "
 "υπογραφής πριν την υπογραφή σας, όταν κάνετε συγγραφή ενός μηνύματος."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Ignore list Reply-To:"
 msgstr "Παράβλεψη λίστας Απάντησης:"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -9063,11 +9101,11 @@ msgstr ""
 "παραπάνω. Αυτό θα δουλέψει συγκρίνοντας την Απάντηση: επικεφαλίδα με την "
 "Απάντηση στη λίστα: επικεφαλίδα, αν υπάρχει κάποιο."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
 msgid "List of localized 'Re'"
 msgstr "Λίστα των τοπικών 'σχετικά με'"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
 msgid ""
 "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard \"Re\" "
@@ -9077,40 +9115,40 @@ msgstr ""
 "παράλειψη σε κείμενο θέματος όταν απαντάτε σε μήνυμα, ως προσθήκη στο τυπικό "
 "πρόθεμα \"σχετικά με\". Ένα παράδειγμα είναι 'SV,AV'."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "Enable developer mode"
 msgstr "Ενεργοποίηση κατάστασης ανάπτυξης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid ""
 "Enables some hidden actions and tools aimed for development and debugging."
 msgstr ""
 "Ενεργοποιεί κάποιες κρυφές ενέργειες και εργαλεία με σκοπό την ανάπτυξη και "
 "αποσφαλμάτωση."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Number of characters for wrapping"
 msgstr "Αριθμός χαρακτήρων για αναδίπλωση"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Will autowrap lines after given number of characters."
 msgstr ""
 "Αν θα υπάρχει αυτόματη αναδίπλωση γραμμών μετά από έναν δοσμένο αριθμό "
 "χαρακτήρων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "Save file format for drag-and-drop operation"
 msgstr "Αποθήκευση μορφής αρχείου για λειτουργία συρσίματος και απόθεσης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid "Can be either 'mbox' or 'pdf'."
 msgstr "Μπορεί να είναι είτε 'mbox' ή 'pdf'."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Show image animations"
 msgstr "Εμφάνιση κινούμενων εικόνων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -9119,12 +9157,12 @@ msgstr ""
 "χρήστες βρίσκουν τις κινούμενες εικόνες εκνευριστικές και προτιμούν να "
 "βλέπουν στατικές εικόνες στην θέση τους."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Enable or disable type ahead search feature"
 msgstr ""
 "Ενεργοποίηση ή απενεργοποίηση τύπου μπροστά από τη λειτουργία αναζήτησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
@@ -9132,11 +9170,11 @@ msgstr ""
 "Ενεργοποίηση της λειτουργίας αναζήτησης από την πλευρική μπάρα για να "
 "επιτρέπεται η διαδραστική αναζήτηση στα ονόματα των φακέλων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Enable or disable magic space bar"
 msgstr "Ενεργοποίηση ή απενεργοποποίηση του μαγικού πλήκτρου διαστήματος"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -9144,77 +9182,77 @@ msgstr ""
 "Ενεργοποιήστε αυτή την επιλογή για να χρησιμοποιείται το πλήκτρο για κύλιση, "
 "στην προβολή μηνυμάτων, λίστα μηνυμάτων και φακέλων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "Ενεργοποίηση για τη χρήση ρυθμίσεων προβολής λίστας παρόμοιων μηνυμάτων για "
 "όλους τους φακέλους"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "Ενεργοποιήστε αυτή την επιλογή για να χρησιμοποιείται παρόμοιες ρυθμίσεις "
 "προβολή από λίστες μηνυμάτων για όλους τους φακέλους."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Mark citations in the message \"Preview\""
 msgstr "Σημείωση παραθέσεων στην \"Προεπισκόπηση\" μηνύματος"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Σημείωση παραθέσεων στην \"Προεπισκόπηση\" μηνύματος."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Citation highlight color"
 msgstr "Χρώμα επισήμανσης παραθέσεων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "Citation highlight color."
 msgstr "Χρώμα επισήμανσης παραθέσεων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Enable/disable caret mode"
 msgstr "Ενεργοποίηση/απενεργοποίηση λειτουργίας caret"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Ενεργοποίηση λειτουργίας caret, έτσι ώστε να βλέπετε ένα δρομέα κατά την "
 "ανάγνωση της αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Default charset in which to display messages"
 msgstr "Προεπιλεγμένη κωδικοποίηση χαρακτήρων στην εμφάνιση μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Default charset in which to display messages."
 msgstr "Προεπιλεγμένη κωδικοποίηση χαρακτήρων στην εμφάνιση μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Αυτόματη φόρτωση εικόνων για μηνύματα HTML μέσω HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid "Show Animations"
 msgstr "Εμφάνιση κινούμενων εικόνων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Show animated images as animations."
 msgstr "Εμφάνιση κινούμενων εικόνων ως κινούμενα σχέδια."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Show all message headers"
 msgstr "Προβολή όλων των κεφαλίδων μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Show all the headers when viewing a messages."
 msgstr "Προβολή όλων των κεφαλίδων κατά την ανάγνωση μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "List of headers to show when viewing a message."
 msgstr "Λίστα κεφαλίδων για προβολή κατά την ανάγνωση μηνύματος."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -9225,49 +9263,49 @@ msgstr ""
 "εμφανίζονται κατά την προβολή μηνύματος, αλλά είναι ακόμα στις λίστες των "
 "προτιμήσεων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Show photo of the sender"
 msgstr "Προβολή φωτογραφίας του αποστολέα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Show the photo of the sender in the message reading pane."
 msgstr ""
 "Εμφάνιση της φωτογραφίας του αποστολέα στο πλαίσιο ανάγνωσης μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Αναζήτηση στο gravatar.com για φωτογραφία του αποστολέα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr ""
 "Να επιτρέπεται επίσης η αναζήτηση στο gravatar.com για φωτογραφία του "
 "αποστολέα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Mark as Seen after specified timeout"
 msgstr "Σημείωση ως ανοιγμένα μετά από καθορισμένο χρόνο"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Mark as Seen after specified timeout."
 msgstr "Σημείωση ως ανοιγμένα μετά από καθορισμένο χρόνο."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Timeout for marking messages as seen"
 msgstr "Περίοδος χρόνου για τη σημείωση μηνυμάτων ως αναγνωσμένα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr ""
 "Περίοδος χρόνου σε χιλιοστά του δευτ. για τη σημείωση μηνυμάτων ως "
 "αναγνωσμένα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Sender email-address column in the message list"
 msgstr ""
 "Εμφάνιση του email του αποστολέα στη στήλη μηνύματος της λίστας μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
@@ -9275,7 +9313,7 @@ msgstr ""
 "Εμφάνιση του email του αποστολέα στη στήλη σύνταξης μηνύματος της λίστας "
 "μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view"
@@ -9283,7 +9321,7 @@ msgstr ""
 "Καθορίζει το αν θα χρησιμοποιούνται οι ίδιες γραμματοσειρές στις γραμμές "
 "πεδίων \"Από\" και \"Θέμα\" στη στήλη \"Μηνύματα\" στην κάθετη προβολή"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
@@ -9291,20 +9329,20 @@ msgstr ""
 "Καθορίζει το αν θα χρησιμοποιούνται οι ίδιες γραμματοσειρές στις γραμμές "
 "πεδίων \"Από\" και \"Θέμα\" στη στήλη \"Μηνύματα\" στην κάθετη προβολή."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Show deleted messages in the message-list"
 msgstr "Εμφάνιση διαγραμμένων μηνυμάτων στη λίστα μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr ""
 "Εμφάνιση διαγραμμένων μηνυμάτων (με strike-through) στη λίστα μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Enable Unmatched search folder"
 msgstr "Ενεργοποίηση ασύμφωνου φακέλου αναζήτησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -9312,12 +9350,12 @@ msgstr ""
 "Ενεργοποίηση ασύμφωνου φακέλου αναζήτησης μέσα στους φακέλους αναζήτησης. "
 "Δεν κάνει τίποτα εάν οι φάκελοι αναζήτησης είναι ανενεργοί."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Hides the per-folder preview and removes the selection"
 msgstr ""
 "Κάνει απόκρυψη της προεπισκόπησης ανά φάκελο και απομακρύνει την επιλογή"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -9326,31 +9364,31 @@ msgstr ""
 "\"ψευδές\". Αυτό αποεπιλέγει το μήνυμα από την λίστα και απομακρύνει την "
 "προεπισκόπηση του στον φάκελο."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Height of the message-list pane"
 msgstr "Ύψος του πλαισίου της λίστας μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Height of the message-list pane."
 msgstr "Ύψος του πλαισίου της λίστας μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "Αν οι κεφαλίδες μηνύματος είναι συμπτυγμένες στη διεπαφή χρήστη"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Width of the message-list pane"
 msgstr "Πλάτος του πλαισίου της λίστας μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Width of the message-list pane."
 msgstr "Πλάτος του πλαισίου της λίστας μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Layout style"
 msgstr "Τεχνοτροπία διάταξης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. \"0\" (Classic View) places the preview pane below the "
@@ -9363,35 +9401,35 @@ msgstr ""
 "\"1\" (κάθετη προβολή) βάζει το πλαίσιο προεπισκόπησης δίπλα στη λίστα "
 "μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid "Variable width font"
 msgstr "Γραμματοσειρά μεταβλητού πλάτους"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "The variable width font for mail display."
 msgstr "Η γραμματοσειρά μεταβλητού πλάτους για εμφάνιση αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Terminal font"
 msgstr "Γραμματοσειρά τερματικού"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "The terminal font for mail display."
 msgstr "Η γραμματοσειρά τερματικού για εμφάνιση αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Use custom fonts"
 msgstr "Χρήση προσαρμοσμένης γραμματοσειράς"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Use custom fonts for displaying mail."
 msgstr "Χρήση προσαρμοσμένης γραμματοσειράς για την εμφάνιση αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Σύμπτυξη της προβολής των διευθύνσεων στο Προς/Κοιν/Κρυφ.Κοιν"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -9399,12 +9437,12 @@ msgstr ""
 "Σύμπτυξη της προβολής των διευθύνσεων στο Προς/Κοιν/Κρυφ.Κοιν. στον αριθμό "
 "που καθορίζεται στο address_count."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr ""
 "Αριθμός διευθύνσεων που θα εμφανίζεται στα πεδία Προς/ Κοιν/ Κρυφ.Κοιν."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -9412,11 +9450,11 @@ msgstr ""
 "Αυτό ορίζει τον αριθμό των διευθύνσεων που θα εμφανίζονται στη προεπιλεγμένη "
 "προβολή λίστας μηνυμάτων, πέρα από την οποία εμφανίζεται ένα '...'."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Thread the message-list based on Subject"
 msgstr "Αλληλουχία λίστας μηνυμάτων κατά Θέμα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -9424,11 +9462,11 @@ msgstr ""
 "Αν θα γίνεται επαναφορά ή όχι σε αλληλουχία θεμάτων όταν τα μηνύματα δεν "
 "περιέχουν κεφαλίδες Σε απάντηση ή Αναφορές."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Default value for thread expand state"
 msgstr "Προεπιλεγμένη τιμή για την κατάσταση ανάπτυξης αλληλουχιών"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9436,13 +9474,13 @@ msgstr ""
 "Αυτή η ρύθμιση καθορίζει αν θα γίνεται εξ ορισμού σύμπτυξη ή ανάπτυξη "
 "συζήτησης. Απαιτείται επανεκκίνηση του Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 "Αν θα γίνεται ταξινόμηση αλληλουχιών με βάση το τελευταίο μήνυμα της "
 "αλληλουχίας"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
@@ -9452,11 +9490,11 @@ msgstr ""
 "το τελευταίο μήνυμα σε κάθε αλληλουχία, αντί της ταξινόμησης κατά "
 "ημερομηνία. Απαιτείται επανεκκίνηση του Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Ταξινόμηση λογαριασμών αλφαβητικά σε ένα δένδρο φακέλου"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -9469,27 +9507,27 @@ msgstr ""
 "υπολογιστή και στους φακέλους αναζήτησης, αλλιώς οι λογαριασμοί "
 "ταξινομούνται με βάση τη δοσμένη σειρά από τον χρήστη"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Log filter actions"
 msgstr "Καταγραφή ενεργειών φίλτρων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Log filter actions to the specified log file."
 msgstr "Καταγραφή ενεργειών φίλτρων στο καθορισμένο αρχείο καταγραφής."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Logfile to log filter actions"
 msgstr "Αρχείο καταγραφής για τις ενέργειες φίλτρων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid "Logfile to log filter actions."
 msgstr "Αρχείο καταγραφής για τις ενέργειες φίλτρων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Flush Outbox after filtering"
 msgstr "Συμπλήρωση των εξερχομένων ύστερα από το φιλτράρισμα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
@@ -9500,19 +9538,19 @@ msgstr ""
 "φιλτραρίσματος 'Προώθηση σε' και περίπου ένα λεπτό ύστερα από την παράκληση "
 "της τελευταίας ενέργειας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Default forward style"
 msgstr "Προεπιλεγμένη τεχνοτροπία προώθησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid "Default reply style"
 msgstr "Προεπιλεγμένο στυλ απάντησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Ειδοποίηση για αποστολή κατά τη χρήση του επιταχυντή (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
@@ -9520,38 +9558,38 @@ msgstr ""
 "Ειδοποίηση όταν ο χρήστης προσπαθεί να στείλει ένα μήνυμα με πλήκτρο "
 "επιταχυντή."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Prompt on empty subject"
 msgstr "Ειδοποίηση σε κενό θέμα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Ειδοποίηση όταν ο χρήστης προσπαθεί να στείλει ένα μήνυμα χωρίς θέμα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Prompt when emptying the trash"
 msgstr "Ειδοποίηση όταν αδειάζετε τα απορρίμματα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Ειδοποίηση στον χρήστη όταν προσπαθεί να αδειάσει τα απορρίμματα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Prompt when user expunges"
 msgstr "Ειδοποίηση όταν ο χρήστης κάνει εκκαθάριση"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Ειδοποίηση όταν ο χρήστης προσπαθεί να κάνει εκκαθάριση ενός φακέλου."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Ειδοποίηση πριν την αποστολή σε παραλήπτες δεν έχουν εισαχθεί ως διευθύνσεις "
 "αλληλογραφίας"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -9559,21 +9597,21 @@ msgstr ""
 "Ενεργοποιεί/απενεργοποιεί τις επαναλαμβανόμενες ειδοποιήσεις όταν στέλνετε "
 "ένα μήνυμα σε αποδέκτες που δεν έχουν εισαχθεί ως διευθύνσεις"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Prompt when user only fills Bcc"
 msgstr "Ειδοποίηση όταν ο χρήστης συμπληρώνει μόνο το πεδίο Κρυφ.Κοιν"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Ειδοποίηση όταν ο χρήστης προσπαθεί να στείλει ένα μήνυμα χωρίς παραλήπτες "
 "στο Προς ή στο Κοινοποίηση."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Ειδοποίηση όταν ο χρήστης προσπαθεί να στείλει ανεπιθύμητο HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -9581,13 +9619,13 @@ msgstr ""
 "Ειδοποίηση όταν ο χρήστης προσπαθεί να στείλει HTML σε επαφές που δεν "
 "επιθυμούν αλληλογραφία σε HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 "Ειδοποίηση όταν ο χρήστης προσπαθεί να ανοίξει 10 ή περισσότερα μηνύματα "
 "ταυτόχρονα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -9595,21 +9633,21 @@ msgstr ""
 "Αν ένας χρήστης προσπαθεί να ανοίξει 10 ή περισσότερα μηνύματα μαζί, να "
 "γίνεται ερώτηση αν στα αλήθεια το θέλει."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Prompt while marking multiple messages"
 msgstr "Ειδοποίηση όταν ο χρήστης σημειώνει πολλαπλά μηνύματα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr ""
 "Ενεργοποιεί/απενεργοποιεί την ειδοποίηση που εμφανίζεται στη σημείωση "
 "πολλαπλών μηνυμάτων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Prompt when deleting messages in search folder"
 msgstr "Ερώτηση στην διαγραφή μηνυμάτων από φάκελο αναζήτησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -9618,13 +9656,13 @@ msgstr ""
 "Ενεργοποιεί/απενεργοποιεί τις επαναλαμβανόμενες ερωτήσεις για την μόνιμη "
 "διαγραφή μηνυμάτων από τους φακέλους αναζήτησης."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Ζητά εάν θα αντιγραφεί ένας φάκελος με σύρσιμο &amp; απόθεση στο δένδρο "
 "φακέλου"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
@@ -9636,13 +9674,13 @@ msgstr ""
 "σύρσιμο &amp; απόθεση των φακέλων σε δένδρο φακέλου χωρίς ερώτηση, ή "
 "'ερώτηση' - (ή οποιαδήποτε άλλη τιμή) θα ερωτηθεί ο χρήστης."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Ζητά εάν θα μετακινηθεί ένας φάκελος με σύρσιμο &amp; απόθεση στο δένδρο "
 "φακέλου"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -9654,13 +9692,13 @@ msgstr ""
 "με σύρσιμο &amp; απόθεση των φακέλων στο δένδρο φακέλου χωρίς ερώτηση - ή "
 "'ερώτηση' (ή οποιαδήποτε άλλη τιμή) να ερωτάται ο χρήστης."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when replying privately to list messages"
 msgstr ""
 "Ειδοποίηση όταν γίνεται ιδιωτική απάντηση σε μηνύματα της λίστας "
 "αλληλογραφίας"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -9669,12 +9707,12 @@ msgstr ""
 "ειδοποιείστε όταν στέλνετε μία ιδιωτική απάντηση σε ένα μήνυμα που λήφθηκε "
 "μέσω μίας λίστας αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when mailing list hijacks private replies"
 msgstr ""
 "Ειδοποίηση όταν ο η λίστα αλληλογραφίας υποκλέπτει ιδιωτικές απαντήσεις"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -9685,11 +9723,11 @@ msgstr ""
 "που λήφθηκε μέσω μίας λίστας αλληλογραφίας, αλλά η λίστα θέτει μία Απάντηση: "
 "επικεφαλίδα που ανακατευθύνει την απάντησή σας πίσω στη λίστα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when replying to many recipients"
 msgstr "Ειδοποίηση όταν γίνεται απάντηση σε πολλούς παραλήπτες"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -9697,7 +9735,7 @@ msgstr ""
 "Ενεργοποιεί/απενεργοποιεί τις επαναλαμβανόμενες ερωτήσεις για να "
 "ειδοποιείστε όταν στέλνετε μία απάντηση σε πολλά άτομα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -9705,44 +9743,44 @@ msgstr ""
 "Πολιτική για αυτόματο κλείσιμο του παραθύρου περιηγητή μηνύματος κατά την "
 "προώθηση ή απάντηση σε εμφανιζόμενο μήνυμα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Empty Trash folders on exit"
 msgstr "Άδειασμα Φακέλων Απορριμμάτων στην έξοδο"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr ""
 "Άδειασμα όλων των φακέλων Απορριμμάτων κατά την έξοδο από το Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Ελάχιστο όριο ημερών μεταξύ το άδειασμα του κάδου κατά την έξοδο"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Ελάχιστο όριο μεταξύ το άδειασμα του κάδου κατά την έξοδο, σε ημέρες."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid "Last time Empty Trash was run"
 msgstr "Η τελευταία φορά που έγινε άδειασμα απορριμμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Η τελευταία φορά που έγινε άδειασμα απορριμάτων, σε ημέρες από την (εποχή "
 "της) 1η Ιανουαρίου του 1970."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 "Ο χρόνος σε δευτερόλεπτα που θα εμφανίζεται το σφάλμα στη γραμμή κατάστασης."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Level beyond which the message should be logged."
 msgstr "Επίπεδο μετά το οποίο θα γίνεται καταγραφή του μηνύματος."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
@@ -9750,11 +9788,11 @@ msgstr ""
 "Αυτό μπορεί να έχει τρεις πιθανές τιμές. \"0\" για σφάλματα. \"1\" για "
 "προειδοποιήσεις. \"2\" για μηνύματα αποσφαλμάτωσης."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Show original \"Date\" header value."
 msgstr "Εμφάνιση αρχικής τιμής \"Ημερομηνία\" της κεφαλίδας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
 "differs). Otherwise always show \"Date\" header value in a user preferred "
@@ -9764,11 +9802,11 @@ msgstr ""
 "ώρας διαφέρει). Διαφορετικά να προβάλλεται η τιμή καφαλίδας \"Ημερομηνία\" "
 "στην μορφή που προτιμά ο χρήστης και στην τοπική ζώνη ώρας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "List of Labels and their associated colors"
 msgstr "Λίστα από Ετικέτες και από τα συσχετιζόμενα χρώματα τους"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -9777,50 +9815,50 @@ msgstr ""
 "αλφαριθμητικά που περιέχουν name:color όπου το χρώμα χρησιμοποιεί το HTML "
 "hex encoding."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Check incoming mail being junk"
 msgstr "Έλεγχος εισερχόμενης αλληλογραφίας για ανεπιθύμητα μηνύματα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid "Run junk test on incoming mail."
 msgstr ""
 "Εκτέλεση δοκιμής ανεπιθύμητης αλληλογραφίας στην εισερχόμενη αλληλογραφία."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Empty Junk folders on exit"
 msgstr "Άδειασμα φακέλων ανεπιθύμητων στην έξοδο"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 "Άδειασμα όλων των φακέλων Ανεπιθύμητων κατά την έξοδο από το Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Minimum days between emptying the junk on exit"
 msgstr ""
 "Ελάχιστο όριο ημερών μεταξύ το άδειασμα των ανεπιθύμητων κατά την έξοδο"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Ελάχιστο όριο μεταξύ το άδειασμα των ανεπιθύμητων κατά την έξοδο, σε ημέρες."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Last time Empty Junk was run"
 msgstr "Η τελευταία φορά που έγινε άδειασμα ανεπιθύμητων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Η τελευταία φορά που έγινε άδειασμα ανεπιθύμητων, σε ημέρες από την (εποχή "
 "της) 1η Ιανουαρίου του 1970."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "The default plugin for Junk hook"
 msgstr "Η προεπιλεγμένη πρόσθετη λειτουργία ανεπιθύμητης αλληλογραφίας"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
@@ -9830,13 +9868,13 @@ msgstr ""
 "αν και υπάρχουν ενεργές και άλλες. Αν η προεπιλεγμένη πρόσθετη λειτουργία "
 "είναι απενεργοποιημένη, τότε δεν θα χρησιμοποιηθούν και οι άλλες."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Determines whether to lookup in address book for sender email"
 msgstr ""
 "Καθορίζει το αν θα γίνεται αναζήτηση στο βιβλίο διευθύνσεων για την "
 "διεύθυνση του αποστολέα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -9849,7 +9887,7 @@ msgstr ""
 "Αν έχουν σημειωθεί απομακρυσμένα ευρετήρια διευθύνσεων (π.χ LDAP) αυτή η "
 "λειτουργία θα έχει καθυστέρηση."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -9857,7 +9895,7 @@ msgstr ""
 "Καθορίζει το αν θα γίνεται αναζήτηση στο βιβλίο διευθύνσεων για φιλτράρισμα "
 "ανεπιθύμητων μηνυμάτων"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -9868,13 +9906,13 @@ msgstr ""
 "τοπικό βιβλίο διευθύνσεων μόνο για να μη υποστούν έλεγχο ανεπιθύμητων τα "
 "μηνύματα από γνωστές επαφές."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 "Καθορίζει αν θα χρησιμοποιούνται προσαρμοσμένες κεφαλίδες στον έλεγχο για "
 "ανεπιθύμητα μηνύματα"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -9884,11 +9922,11 @@ msgstr ""
 "ανεπιθύμητα μηνύματα. Αν αυτή η επιλογή είναι ενεργή και οι κεφαλίδες "
 "αναφέρονται, θα βελτιωθεί η ταχύτητα ελέγχου ανεπιθυμητων."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Custom headers to use while checking for junk."
 msgstr "Καθορίζει την κεφαλίδα για τον έλεγχο για ανεπιθύμητα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
@@ -9896,31 +9934,31 @@ msgstr ""
 "Προσαρμοσμένες κεφαλίδες για χρήση στον έλεγχο για ανεπιθύμητα. Η λίστα "
 "στοιχείων είναι συμβολοσειρά στη μορφή \"headername=value\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "UID string of the default account."
 msgstr "Αλφαριθμητικό UID του προεπιλεγμένου λογαριασμού."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Save directory"
 msgstr "Αποθήκευση καταλόγου"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Directory for saving mail component files."
 msgstr "Κατάλογος για αποθήκευση στοιχείων αλληλογραφίας."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Composer load/attach directory"
 msgstr "Κατάλογος φόρτωσης/επισύναψης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Directory for loading/attaching files to composer."
 msgstr "Κατάλογος για φόρτωση/αποθήκευση αρχείων στη σύνταξη μηνύματος."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Check for new messages on start"
 msgstr "Έλεγχος για νέα μηνύματα κατά την εκκίνηση"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -9928,11 +9966,11 @@ msgstr ""
 "Αν θα γίνεται έλεγχος για νέα μηνύματα όταν εκκινεί το Evolution. Αυτό "
 "περιλαμβάνει επίσης την αποστολή των μηνυμάτων από τα εξερχόμενα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "Check for new messages in all active accounts"
 msgstr "Έλεγχος για νέα μηνύματα σε όλους τους ενεργούς λογαριασμούς"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -9943,11 +9981,11 @@ msgstr ""
 "λεπτά\" όταν εκκινεί το Evolution. Αυτή η επιλογή χρησιμοποιείται μόνο μαζί "
 "με την επιλογή 'send_recv_on_start'."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "Server synchronization interval"
 msgstr "Χρονικό διάστημα μεταξύ συγχρονισμών με εξυπηρετητή"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -9955,11 +9993,11 @@ msgstr ""
 "Ελέγχει πόσο συχνά οι τοπικές αλλαγές συγχρονίζονται με τον εξυπηρετητή "
 "μηνυμάτων. Το χρονικό διάστημα πρέπει να είναι τουλάχιστον 30 δευτερόλεπτα."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Allow expunge in virtual folders"
 msgstr "Να επιτρέπεται η εκκαθάριση σε εικονικούς φακέλους"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder->Expunge "
 "will be callable in virtual folders, while the expunge itself will be done "
@@ -9972,11 +10010,11 @@ msgstr ""
 "μέσα στον εικονικό φάκελο, όχι μόνο για τα διαγραμμένα μηνύματα που ανήκουν "
 "στον εικονικό φάκελο."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "An Archive folder for On This Computer folders."
 msgstr "Ένας φάκελος αρχειοθέτησης για τους φακέλους αυτού του υπολογιστή."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -9984,11 +10022,11 @@ msgstr ""
 "Ένας φάκελος αρχειοθέτησης προς χρήση για μηνύματα|αρχειοθήκες... όταν είναι "
 "σε έναν φάκελο αυτού του υπολογιστή."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "(Deprecated) Default forward style"
 msgstr "(Παρωχημένο) Προεπιλεγμένη τεχνοτροπία προώθησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
@@ -9997,11 +10035,11 @@ msgstr ""
 "χρησιμοποιείται πια. Χρησιμοποιήστε στη θέση του το \"όνομα τεχνοτροπίας "
 "προώθησης (forward-style-name)\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "(Deprecated) Default reply style"
 msgstr "(Παρωχημένο) Προεπιλεγμένη τεχνοτροπία απάντησης"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
@@ -10010,12 +10048,12 @@ msgstr ""
 "χρησιμοποιείται πια. Χρησιμοποιήστε στη θέση του το \"όνομα τεχνοτροπίας "
 "απάντησης (reply-style-name)\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Παρωχημένο) Λίστα προσαρμοσμένων κεφαλίδων και αν θα είναι ενεργοποιημένες."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
@@ -10024,11 +10062,11 @@ msgstr ""
 "χρησιμοποιείται πια. Χρησιμοποιήστε στη θέση του το \"εμφάνιση κεφαλίδων "
 "(show-headers)\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Παρωχημένο) Φόρτωση εικόνων για μηνύματα HTML μέσω HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
@@ -10037,7 +10075,7 @@ msgstr ""
 "χρησιμοποιείται πια. Χρησιμοποιήστε στη θέση του το \"πολιτική φόρτωσης "
 "εικόνας (image-loading-policy)\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -10045,7 +10083,7 @@ msgstr ""
 "(Παρωχημένο) Ερωτά αν θα κλείσει το παράθυρο μηνύματος όταν ο χρήστης "
 "προωθεί ή απαντά στο μήνυμα που εμφανίζεται στο παράθυρο"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -11957,7 +11995,7 @@ msgstr "Βρείτε αντικείμενα που πληρούν τα παρα�
 #. protocol:
 #. name:
 #: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:60
-#: ../e-util/e-mail-identity-combo-box.c:472
+#: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:560
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
@@ -12508,19 +12546,19 @@ msgstr "_Κανόνας"
 msgid "_Table"
 msgstr "_Πίνακας"
 
-#: ../e-util/e-html-editor.c:669
+#: ../e-util/e-html-editor.c:670
 msgid "Paragraph Style"
 msgstr "Τεχνοτροπία παραγράφου"
 
-#: ../e-util/e-html-editor.c:683
+#: ../e-util/e-html-editor.c:684
 msgid "Editing Mode"
 msgstr "Κατάσταση επεξεργασίας"
 
-#: ../e-util/e-html-editor.c:695
+#: ../e-util/e-html-editor.c:696
 msgid "Font Color"
 msgstr "Χρώμα γραμματοσειράς"
 
-#: ../e-util/e-html-editor.c:713
+#: ../e-util/e-html-editor.c:714
 msgid "Font Size"
 msgstr "Μέγεθος γραμματοσειράς"
 
@@ -13137,13 +13175,6 @@ msgstr ""
 "Το αποτέλεσμα θα χρησιμοποιηθεί ως η υπογραφή σας.\n"
 "Το όνομα που θα καθορίσετε θα χρησιμοποιηθεί μόνο\n"
 "για την εμφάνιση."
-
-#: ../e-util/e-mail-signature-script-dialog.c:415
-#: ../e-util/gal-view-instance-save-as-dialog.ui.h:2
-#: ../mail/e-mail-config-identity-page.c:327
-#: ../mail/e-mail-config-summary-page.c:339
-msgid "_Name:"
-msgstr "Ό_νομα:"
 
 #: ../e-util/e-mail-signature-script-dialog.c:444
 msgid "S_cript:"
@@ -14302,7 +14333,7 @@ msgid "begin editing this cell"
 msgstr "ξεκίνημα επεξεργασίας αυτού του κελιού"
 
 #. Translators: description of a "toggle" action
-#: ../e-util/gal-a11y-e-cell-toggle.c:177
+#: ../e-util/gal-a11y-e-cell-toggle.c:185
 msgid "toggle the cell"
 msgstr "εναλλαγή του κελιού"
 
@@ -18236,7 +18267,7 @@ msgstr "Υψηλά"
 msgid "Highest"
 msgstr "Υψηλότερα"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5983
+#: ../mail/message-list.c:459 ../mail/message-list.c:5995
 msgid "Generating message list"
 msgstr "Δημιουργία λίστας μηνυμάτων"
 
@@ -18266,16 +18297,16 @@ msgstr "%d %b %Y"
 msgid "Select all visible messages"
 msgstr "Επιλογή όλων των μηνυμάτων που εμφανίζονται"
 
-#: ../mail/message-list.c:3617 ../mail/message-list.etspec.h:17
+#: ../mail/message-list.c:3629 ../mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Μηνύματα"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4925
+#: ../mail/message-list.c:4937
 msgid "Follow-up"
 msgstr "Παρακολούθηση"
 
-#: ../mail/message-list.c:5920
+#: ../mail/message-list.c:5932
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18287,7 +18318,7 @@ msgstr ""
 "πτυσσόμενη λίστα ή εκτελέστε μια νέα αναζήτηση είτε καθαρίζοντας την με "
 "αναζήτηση->καθαρισμός στοιχείου μενού ή αλλάζοντας το παραπάνω ερώτημα."
 
-#: ../mail/message-list.c:5928
+#: ../mail/message-list.c:5940
 msgid "There are no messages in this folder."
 msgstr "Δεν υπάρχουν στοιχεία προς εμφάνιση σε αυτό τον φάκελο."
 
@@ -18740,12 +18771,13 @@ msgid "Select name of the Evolution backup file to restore"
 msgstr "Επιλέξτε το όνομα αρχείου backup Evolution για επαναφορά"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:289
-msgid "_Restart Evolution after restore"
-msgstr "Επανε_κκίνηση Evolution μετά από επαναφορά"
+#| msgid "_Restart Evolution after restore"
+msgid "Re_start Evolution after restore"
+msgstr "Επανε_κκίνηση του Evolution μετά από επαναφορά"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:307
 msgid "_Back up Evolution Data..."
-msgstr "_Δημιουργία αντίγραφου ασφαλείας δεδομένων του Evolution..."
+msgstr "_Δημιουργία αντιγράφου ασφαλείας δεδομένων του Evolution..."
 
 #: ../modules/backup-restore/evolution-backup-restore.c:309
 msgid "Back up Evolution data and settings to an archive file"
@@ -18892,8 +18924,9 @@ msgstr ""
 "αποθηκεύσει όλα τα δεδομένα πριν προχωρήσετε."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
-msgid "Close and Back up Evolution"
-msgstr "Κλείσιμο και αντίγραφο ασφαλείας του Evolution"
+#| msgid "Close and Back up Evolution"
+msgid "Close and _Back up Evolution"
+msgstr "Κλείσιμο και δημιουργία _αντιγράφου ασφαλείας του Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
@@ -18915,8 +18948,9 @@ msgstr ""
 "ρυθμίσεις του Evolution και θα τα επαναφέρει από το αντίγραφο ασφαλείας."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
-msgid "Close and Restore Evolution"
-msgstr "Κλείσιμο και επανεκκίνηση Evolution"
+#| msgid "Close and Restore Evolution"
+msgid "Close and _Restore Evolution"
+msgstr "Κλείσιμο και _επαναφορά του Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "Insufficient Permissions"
@@ -24365,6 +24399,9 @@ msgstr "Με ημερο_μηνία λήξης"
 msgid "With _Status"
 msgstr "Με κα_τάσταση"
 
+#~ msgid "Unicode smilyes"
+#~ msgstr "Μειδιάματα Unicode"
+
 #~ msgid "Invalid authentication result code (%d)"
 #~ msgstr "Άκυρος κώδικας αποτελέσματος πιστοποίησης (%d)"
 
@@ -28419,9 +28456,6 @@ msgstr "Με κα_τάσταση"
 #~ msgid "_Select Today"
 #~ msgstr "_Επιλογή σημερινής μέρας"
 
-#~ msgid "_From Field"
-#~ msgstr "Πεδίο _Από"
-
 #~ msgid "Hide"
 #~ msgstr "Απόκρυψη"
 
@@ -28508,18 +28542,6 @@ msgstr "Με κα_τάσταση"
 #~ msgstr ""
 #~ "Ενεργοποίηση για εμφάνιση τμήματος κειμένου μηνύματος περιορισμένου "
 #~ "μεγέθους."
-
-#~ msgid "Show \"From\" field when sending a mail message"
-#~ msgstr ""
-#~ "Προβολή του πεδίου \"Από\" κατά την αποστολή μηνυμάτων αλληλογραφίας"
-
-#~ msgid ""
-#~ "Show the \"From\" field when sending a mail message. This is controlled "
-#~ "from the View menu when a mail account is chosen."
-#~ msgstr ""
-#~ "Προβολή του πεδίου \"Από\" κατά την αποστολή μηνύματος αλληλογραφίας. "
-#~ "Αυτό ελέγχετε από το μενού Προβολή όταν έχει επιλεγεί ένας λογαριασμός "
-#~ "αλληλογραφίας."
 
 #~ msgid "<b>Top Posting Option</b> (Not Recommended)"
 #~ msgstr "<b>Επιλογή Top Posting </b> (Δεν συστήνεται)"
