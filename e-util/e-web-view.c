@@ -3539,7 +3539,7 @@ element_has_tag (WebKitDOMElement *element,
 
 gboolean
 element_has_class (WebKitDOMElement *element,
-                const gchar* class)
+                   const gchar* class)
 {
 	gchar *element_class;
 
