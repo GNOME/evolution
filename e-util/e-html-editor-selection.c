@@ -4644,7 +4644,7 @@ insert_base64_image (EHTMLEditorSelection *selection,
 		NULL);
 
 	e_html_editor_selection_restore (selection);
-	e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 	g_object_unref (view);
 
 }
