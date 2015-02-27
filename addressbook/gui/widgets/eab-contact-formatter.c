@@ -1440,7 +1440,6 @@ eab_contact_formatter_bind_dom (WebKitDOMDocument *document)
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (node), "click",
 			G_CALLBACK (collapse_contacts_list), FALSE, document);
-		g_object_unref (node);
 	}
 
 	g_object_unref (nodes);

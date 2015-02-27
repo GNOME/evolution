@@ -977,7 +977,6 @@ setup_image_click_event_listeners_on_document (WebKitDOMDocument *document,
 			WEBKIT_DOM_EVENT_TARGET (button), "click",
 			G_CALLBACK (toggle_address_visibility), FALSE,
 			NULL);
-		g_object_unref (button);
 	}
 	g_object_unref (list);
 }
