@@ -103,6 +103,41 @@ decode_mozilla_status (const gchar *tmp)
 }
 
 static void
+import_mbox_add_message (CamelFolder *folder,
+			 CamelMimeMessage *msg,
+			 GCancellable *cancellable,
+			 GError **error)
+{
+	CamelMessageInfo *info;
+	CamelMedium *medium;
+	guint32 flags = 0;
+	const gchar *tmp;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+
+	medium = CAMEL_MEDIUM (msg);
+
+	tmp = camel_medium_get_header (medium, "X-Mozilla-Status");
+	if (tmp)
+		flags |= decode_mozilla_status (tmp);
+	tmp = camel_medium_get_header (medium, "Status");
+	if (tmp)
+		flags |= decode_status (tmp);
+	tmp = camel_medium_get_header (medium, "X-Status");
+	if (tmp)
+		flags |= decode_status (tmp);
+
+	info = camel_message_info_new (NULL);
+
+	camel_message_info_set_flags (info, flags, ~0);
+	camel_folder_append_message_sync (
+		folder, msg, info, NULL,
+		cancellable, error);
+	camel_message_info_unref (info);
+}
+
+static void
 import_mbox_exec (struct _import_mbox_msg *m,
                   GCancellable *cancellable,
                   GError **error)
@@ -111,7 +146,6 @@ import_mbox_exec (struct _import_mbox_msg *m,
 	CamelMimeParser *mp = NULL;
 	struct stat st;
 	gint fd;
-	CamelMessageInfo *info;
 
 	if (g_stat (m->path, &st) == -1) {
 		g_warning (
@@ -132,6 +166,8 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		return;
 
 	if (S_ISREG (st.st_mode)) {
+		gboolean any_read = FALSE;
+
 		fd = g_open (m->path, O_RDONLY | O_BINARY, 0);
 		if (fd == -1) {
 			g_warning (
@@ -155,9 +191,9 @@ import_mbox_exec (struct _import_mbox_msg *m,
 				CAMEL_MIME_PARSER_STATE_FROM) {
 
 			CamelMimeMessage *msg;
-			const gchar *tmp;
 			gint pc = 0;
-			guint32 flags = 0;
+
+			any_read = TRUE;
 
 			if (st.st_size > 0)
 				pc = (gint) (100.0 * ((gdouble)
@@ -173,29 +209,31 @@ import_mbox_exec (struct _import_mbox_msg *m,
 				break;
 			}
 
-			info = camel_message_info_new (NULL);
+			import_mbox_add_message (folder, msg, cancellable, error);
 
-			tmp = camel_medium_get_header ((CamelMedium *) msg, "X-Mozilla-Status");
-			if (tmp)
-				flags |= decode_mozilla_status (tmp);
-			tmp = camel_medium_get_header ((CamelMedium *) msg, "Status");
-			if (tmp)
-				flags |= decode_status (tmp);
-			tmp = camel_medium_get_header ((CamelMedium *) msg, "X-Status");
-			if (tmp)
-				flags |= decode_status (tmp);
-
-			camel_message_info_set_flags (info, flags, ~0);
-			camel_folder_append_message_sync (
-				folder, msg, info, NULL,
-				cancellable, error);
-			camel_message_info_unref (info);
 			g_object_unref (msg);
 
 			if (error && *error != NULL)
 				break;
 
 			camel_mime_parser_step (mp, NULL, NULL);
+		}
+
+		if (!any_read) {
+			CamelStream *stream;
+
+			stream = camel_stream_fs_new_with_name (m->path, O_RDONLY, 0, NULL);
+			if (stream) {
+				CamelMimeMessage *msg;
+
+				msg = camel_mime_message_new ();
+
+				if (camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *) msg, stream, NULL, NULL))
+					import_mbox_add_message (folder, msg, cancellable, error);
+
+				g_object_unref (msg);
+				g_object_unref (stream);
+			}
 		}
 		/* Not passing a GCancellable or GError here. */
 		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
