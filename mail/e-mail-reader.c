@@ -2614,11 +2614,12 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 
 		if (frame != NULL) {
 			dom = webkit_web_frame_get_dom_document (frame);
-			/* intentionally used "static_cast" */
 			element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
 
-			if (element != NULL)
+			if (element != NULL) {
 				name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
+				g_object_unref (element);
+			}
 
 			/* If INPUT or TEXTAREA has focus,
 			 * then any key press should go there. */
