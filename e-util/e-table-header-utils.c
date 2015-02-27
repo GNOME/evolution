@@ -150,6 +150,10 @@ e_table_header_draw_button (cairo_t *cr,
 	gtk_style_context_save (context);
 	gtk_style_context_set_state (context, state_flags);
 	gtk_style_context_add_class (context, GTK_STYLE_CLASS_BUTTON);
+	if ((ecol->text && *ecol->text) || !ecol->icon_name)
+		gtk_style_context_add_class (context, "text-button");
+	else
+		gtk_style_context_add_class (context, "image-button");
 
 	gtk_style_context_get_padding (context, state_flags, &padding);
 
