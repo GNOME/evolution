@@ -1618,8 +1618,12 @@ emoticon_read_async_cb (GFile *file,
 	/* Insert span with image representation and another one with text
 	 * represetation and hide/show them dependant on active composer mode */
 	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_attribute (
-		wrapper, "class", "-x-evo-smiley-wrapper -x-evo-resizable-wrapper", NULL);
+	if (html_mode)
+		webkit_dom_element_set_attribute (
+			wrapper, "class", "-x-evo-smiley-wrapper -x-evo-resizable-wrapper", NULL);
+	else
+		webkit_dom_element_set_attribute (
+			wrapper, "class", "-x-evo-smiley-wrapper", NULL);
 
 	image = webkit_dom_document_create_element (document, "IMG", NULL);
 	webkit_dom_element_set_attribute (image, "src", output, NULL);
