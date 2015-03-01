@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-02-28 05:18+0000\n"
-"PO-Revision-Date: 2015-02-28 17:27+0100\n"
+"POT-Creation-Date: 2015-03-01 17:20+0000\n"
+"PO-Revision-Date: 2015-03-01 20:39+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -7112,7 +7112,7 @@ msgstr "Ste si istý, že chcete odoslať správu?"
 
 #: ../composer/mail-composer.error.xml.h:38
 msgid "A keyboard accelerator to send the message has been pressed. Either cancel sending the message, if it was done by an accident, or send the message."
-msgstr ""
+msgstr "Bola stlačená klávesová skratka na odoslanie správy. V prípade omylu môžete odosielanie správy zrušiť, alebo pokračovať v odosielaní."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -8155,15 +8155,15 @@ msgstr "Povoliť vývojársky režim"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid "Enables some hidden actions and tools aimed for development and debugging."
-msgstr ""
+msgstr "Povolí niektoré skryté akcie a nástroje pre vývojárov a ladenie."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Number of characters for wrapping"
-msgstr ""
+msgstr "Počet znakov pre zalamovanie"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Will autowrap lines after given number of characters."
-msgstr ""
+msgstr "Automaticky zalomí riadky po zadanom počte znakov."
 
 # PK: pretiahni a pust asi, necham na peta
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
@@ -8287,7 +8287,7 @@ msgstr "Zobraziť fotografiu odosielateľa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr ""
+msgstr "Umožní hľadať fotografiu odosielateľa tiež v službe gravatar.com."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Mark as Seen after specified timeout"
@@ -10334,7 +10334,7 @@ msgstr "Formát:"
 #. Translators: :-)
 #: ../e-util/e-emoticon-chooser.c:40
 msgid "_Smile"
-msgstr "_Usmievavý"
+msgstr "_Usmiaty"
 
 #. Translators: :-(
 #: ../e-util/e-emoticon-chooser.c:42
@@ -10344,7 +10344,7 @@ msgstr "_Smutný"
 #. Translators: ;-)
 #: ../e-util/e-emoticon-chooser.c:44
 msgid "_Wink"
-msgstr "_Žmurkajúci"
+msgstr "Ž_murkajúci"
 
 #. Translators: :-P
 #: ../e-util/e-emoticon-chooser.c:46
@@ -10374,17 +10374,17 @@ msgstr "V _rozpakoch"
 #. Translators: :-D
 #: ../e-util/e-emoticon-chooser.c:56
 msgid "_Big Smile"
-msgstr "_Veľký úsmev"
+msgstr "_Veľmi usmiaty"
 
 #. Translators: :-/
 #: ../e-util/e-emoticon-chooser.c:58
 msgid "Uncer_tain"
-msgstr ""
+msgstr "Neis_tý"
 
 #. Translators: :-O
 #: ../e-util/e-emoticon-chooser.c:60
 msgid "S_urprise"
-msgstr "P_rekvapený"
+msgstr "Pr_ekvapený"
 
 #. Translators: :-S
 #: ../e-util/e-emoticon-chooser.c:62
@@ -10404,7 +10404,7 @@ msgstr "_Nahnevaný"
 #. Translators: B-)
 #: ../e-util/e-emoticon-chooser.c:68
 msgid "_Cool"
-msgstr ""
+msgstr "_Frajer"
 
 #. Translators: O:-)
 #: ../e-util/e-emoticon-chooser.c:70
@@ -10429,7 +10429,7 @@ msgstr "_Unavený"
 #. Translators: >:-)
 #: ../e-util/e-emoticon-chooser.c:78
 msgid "De_vilish"
-msgstr "_Diaboľský"
+msgstr "Čer_t"
 
 #. Translators: :-(|)
 #: ../e-util/e-emoticon-chooser.c:80
@@ -10782,7 +10782,7 @@ msgstr "Zmenší odsadenie"
 
 #: ../e-util/e-html-editor-actions.c:1127
 msgid "_Wrap Lines"
-msgstr ""
+msgstr "Zalamovať _riadky"
 
 #: ../e-util/e-html-editor-actions.c:1134
 msgid "Open Inspector"
@@ -14448,15 +14448,15 @@ msgstr "Označuje sa vlákno ako ignorované"
 
 #: ../mail/e-mail-reader-utils.c:1047
 msgid "Unmarking thread from being ignored"
-msgstr ""
+msgstr "Ruší sa označenie vlákna ako ignorované"
 
 #: ../mail/e-mail-reader-utils.c:1051
 msgid "Marking subthread to be ignored"
-msgstr ""
+msgstr "Označuje sa podvlákno ako ignorované"
 
 #: ../mail/e-mail-reader-utils.c:1055
 msgid "Unmarking subthread from being ignored"
-msgstr ""
+msgstr "Ruší sa označenie podvlákna ako ignorované"
 
 #: ../mail/e-mail-reader-utils.c:1290
 msgid "Printing"
@@ -15233,7 +15233,7 @@ msgstr "Odoslať správy cez priečinok „Pošta na odoslanie“"
 
 #: ../mail/mail-config.ui.h:14
 msgid "Number of characters for word w_rapping:"
-msgstr ""
+msgstr "Počet znakov pre zalamovanie _slov:"
 
 #: ../mail/mail-config.ui.h:15
 msgid "Ch_aracter encoding:"
@@ -15552,7 +15552,7 @@ msgstr "_Zobraziť fotografiu odosielateľa v náhľade správy"
 
 #: ../mail/mail-config.ui.h:110
 msgid "Search gra_vatar.com for the photograph of sender"
-msgstr ""
+msgstr "Vyhľadať fotografiu odosielateľa v službe gra_vatar.com"
 
 #: ../mail/mail-config.ui.h:111
 msgid "Displayed Message Headers"
@@ -16351,7 +16351,7 @@ msgstr "Zlyhalo označenie vlákna ako ignorované v priečinku „{0}“"
 
 #: ../mail/mail.error.xml.h:178
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
-msgstr "Zlyhalo odznačenie vlákna v priečinku „{0}“ ako ignorované"
+msgstr "Zlyhalo rušenie označenia vlákna v priečinku „{0}“ ako ignorované"
 
 #: ../mail/mail.error.xml.h:179
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
@@ -16359,7 +16359,7 @@ msgstr "Zlyhalo označenie podvlákna v priečinku „{0}“ ako ignorované"
 
 #: ../mail/mail.error.xml.h:180
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
-msgstr "Zlyhalo odznačenie podvlákna v priečinku „{0}“ ako ignorované"
+msgstr "Zlyhalo rušenie označenia podvlákna v priečinku „{0}“ ako ignorované"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -16922,8 +16922,6 @@ msgid "Select name of the Evolution backup file to restore"
 msgstr "Výber názvu pre záložný súbor programu Evolution na obnovenie"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:289
-#, fuzzy
-#| msgid "_Restart Evolution after restore"
 msgid "Re_start Evolution after restore"
 msgstr "_Reštartovať Evolution po obnovení"
 
@@ -17062,10 +17060,8 @@ msgid "To back up your data and settings, you must first close Evolution. Please
 msgstr "Aby ste zálohovali vaše údaje a nastavenia, musíte najprv zavrieť Evolution. Prosím, ešte predtým si uložte všetky rozpracované údaje."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#, fuzzy
-#| msgid "Close and Back up Evolution"
 msgid "Close and _Back up Evolution"
-msgstr "Zavrieť a zálohovať Evolution"
+msgstr "Zavrieť a zálohovať _Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid "Are you sure you want to restore Evolution from the selected backup file?"
@@ -17080,10 +17076,8 @@ msgstr ""
 "vašej zálohy."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
-#, fuzzy
-#| msgid "Close and Restore Evolution"
 msgid "Close and _Restore Evolution"
-msgstr "Zavrieť a obnoviť Evolution"
+msgstr "Zavrieť a _obnoviť Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "Insufficient Permissions"
@@ -21763,10 +21757,8 @@ msgid "Failed to get values from '{0}'"
 msgstr "Zlyhalo získanie hodnôt z „{0}“"
 
 #: ../shell/shell.error.xml.h:16
-#, fuzzy
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to invoke authenticate for '{0}'"
-msgstr "Zlyhalo presunutie udalosti do kalendára „{0}“"
+msgstr "Zlyhalo vyvolanie autorizácie pre „{0}“"
 
 #: ../shell/shell.error.xml.h:17
 msgid "Failed to connect to '{0}'"
@@ -21777,10 +21769,8 @@ msgid "_Reconnect"
 msgstr "Znovu _pripojiť"
 
 #: ../shell/shell.error.xml.h:19
-#, fuzzy
-#| msgid "Failed to copy an event into the calendar '{0}'"
 msgid "Failed to prompt for credentials for '{0}'"
-msgstr "Zlyhalo kopírovanie udalosti do kalendára „{0}“"
+msgstr "Zlyhalo pýtanie poverení pre „{0}“"
 
 #: ../shell/shell.error.xml.h:20
 msgid "Failed to finish trust prompt for '{0}'"
@@ -21788,7 +21778,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:21
 msgid "SSL certificate for '{0}' is not trusted."
-msgstr ""
+msgstr "SSL certifikát pre „{0}“ nie je dôveryhodný."
 
 #: ../shell/shell.error.xml.h:22
 msgid "Reason: {1}"
@@ -21860,9 +21850,10 @@ msgstr "Odtlačok MD5"
 msgid "Email Address"
 msgstr "Emailová adresa"
 
+# gtk dialog title
 #: ../smime/gui/certificate-manager.c:650
 msgid "Select a file to backup your key and certificate..."
-msgstr ""
+msgstr "Výber súboru pre zálohu vášho kľúča a certifikátu…"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
