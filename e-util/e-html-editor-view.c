@@ -2692,15 +2692,21 @@ static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
                                      GdkEventButton *event)
 {
-	gboolean event_handled;
+	gboolean event_handled, collapsed;
+	EHTMLEditorSelection *selection;
+
+	selection = e_html_editor_view_get_selection (E_HTML_EDITOR_VIEW (widget));
+	collapsed = e_html_editor_selection_is_collapsed (selection);
 
 	if (event->button == 2) {
 		/* Middle click paste */
-		html_editor_view_move_selection_on_point (widget);
+		if (collapsed)
+			html_editor_view_move_selection_on_point (widget);
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
-		html_editor_view_move_selection_on_point (widget);
+		if (collapsed)
+			html_editor_view_move_selection_on_point (widget);
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -3102,9 +3108,15 @@ html_editor_view_key_press_event (GtkWidget *widget,
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
 
 	if (event->keyval == GDK_KEY_Menu) {
-		gboolean event_handled;
+		gboolean event_handled, collapsed;
+		EHTMLEditorSelection *selection;
 
-		html_editor_view_move_selection_on_point (widget);
+		selection = e_html_editor_view_get_selection (E_HTML_EDITOR_VIEW (widget));
+		collapsed = e_html_editor_selection_is_collapsed (selection);
+
+		if (collapsed)
+			html_editor_view_move_selection_on_point (widget);
+
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
