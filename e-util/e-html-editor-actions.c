@@ -253,9 +253,8 @@ action_copy_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_COPY);
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_COPY);
 }
 
 static void
@@ -264,9 +263,11 @@ action_cut_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_CUT);
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_CUT);
 }
 
 static void
@@ -531,10 +532,9 @@ action_paste_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	/* Only paste if WebView is focused. */
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_PASTE);
+	webkit_web_view_execute_editing_command (
+		WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_PASTE);
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
