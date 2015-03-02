@@ -428,8 +428,7 @@ action_copy_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (view));
+	webkit_web_view_copy_clipboard (WEBKIT_WEB_VIEW (view));
 }
 
 static void
@@ -438,8 +437,10 @@ action_cut_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
+	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
+		gtk_widget_grab_focus (GTK_WIDGET (view));
+
+	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
 }
 
 static void
@@ -704,12 +705,8 @@ action_paste_cb (GtkAction *action,
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
-	/* If WebView doesn't have focus, focus it */
-	if (gtk_widget_has_focus (GTK_WIDGET (view))) {
-		webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (view));
-
-		e_html_editor_view_force_spell_check (view);
-	}
+	webkit_web_view_paste_clipboard (WEBKIT_WEB_VIEW (view));
+	e_html_editor_view_force_spell_check (view);
 }
 
 static void
