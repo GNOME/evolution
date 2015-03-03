@@ -396,6 +396,6 @@ e_html_editor_link_dialog_new (EHTMLEditor *editor)
 			E_TYPE_HTML_EDITOR_LINK_DIALOG,
 			"editor", editor,
 			"icon-name", "insert-link",
-			"title", N_("Link Properties"),
+			"title", _("Link Properties"),
 			NULL));
 }

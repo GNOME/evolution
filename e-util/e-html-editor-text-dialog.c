@@ -293,6 +293,6 @@ e_html_editor_text_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_TEXT_DIALOG,
 			"editor", editor,
-			"title", N_("Text Properties"),
+			"title", _("Text Properties"),
 			NULL));
 }

@@ -152,6 +152,6 @@ e_html_editor_paragraph_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_PARAGRAPH_DIALOG,
 			"editor", editor,
-			"title", N_("Paragraph Properties"),
+			"title", _("Paragraph Properties"),
 			NULL));
 }

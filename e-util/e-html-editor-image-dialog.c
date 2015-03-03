@@ -683,7 +683,7 @@ e_html_editor_image_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_IMAGE_DIALOG,
 			"editor", editor,
-			"title", N_("Image Properties"),
+			"title", _("Image Properties"),
 			NULL));
 }
 
