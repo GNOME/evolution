@@ -17,9 +17,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 23:47+0100\n"
-"PO-Revision-Date: 2015-03-03 00:03+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evoluti"
+"on&keywords=I18N+L10N&component=Miscellaneous\n"
+"POT-Creation-Date: 2015-03-03 18:08+0000\n"
+"PO-Revision-Date: 2015-03-03 23:57+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -2587,7 +2588,8 @@ msgstr ""
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
 msgid "Failed to update a task in the task list '{0}'"
-msgstr "Produciuse un fallo ao actualizar unha tarefa na lista de tarefas «{0}»"
+msgstr ""
+"Produciuse un fallo ao actualizar unha tarefa na lista de tarefas «{0}»"
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
@@ -4810,28 +4812,36 @@ msgstr[1] "Copiando %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:2041
 #, c-format
-msgid "Moving an memo"
+#| msgid "Moving an memo"
+#| msgid_plural "Moving %d memos"
+msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "Movendo un recordatorio"
 msgstr[1] "Movendo %d recordatorios"
 
 #: ../calendar/gui/e-cal-ops.c:2042
 #, c-format
-msgid "Copying an memo"
+#| msgid "Copying an memo"
+#| msgid_plural "Copying %d memos"
+msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "Copiando un recordatorio"
 msgstr[1] "Copiando %d recordatorios"
 
 #: ../calendar/gui/e-cal-ops.c:2048
 #, c-format
-msgid "Moving an task"
+#| msgid "Moving an task"
+#| msgid_plural "Moving %d tasks"
+msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "Movendo unha tarefa"
 msgstr[1] "Movendo %d tarefas"
 
 #: ../calendar/gui/e-cal-ops.c:2049
 #, c-format
-msgid "Copying an task"
+#| msgid "Copying an task"
+#| msgid_plural "Copying %d tasks"
+msgid "Copying a task"
 msgid_plural "Copying %d tasks"
 msgstr[0] "Copiando unha tarefa"
 msgstr[1] "Copiando %d tarefas"
@@ -12824,9 +12834,9 @@ msgstr "Subs_tituír"
 msgid "Replace _All"
 msgstr "Substituír _todos"
 
-#. Replace
 #: ../e-util/e-html-editor-replace-dialog.c:286
-#: ../e-util/e-html-editor-spell-check-dialog.c:536
+#| msgid "Replace"
+msgctxt "dialog-title"
 msgid "Replace"
 msgstr "Substituír"
 
@@ -12838,6 +12848,11 @@ msgstr "<b>Suxestións para '%s'</b>"
 #: ../e-util/e-html-editor-spell-check-dialog.c:501
 msgid "<b>Suggestions</b>"
 msgstr "<b>Suxestións</b>"
+
+#. Replace
+#: ../e-util/e-html-editor-spell-check-dialog.c:536
+msgid "Replace"
+msgstr "Substituír"
 
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:545
@@ -18124,7 +18139,7 @@ msgstr "Superior"
 msgid "Highest"
 msgstr "A máis alta"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5995
+#: ../mail/message-list.c:459 ../mail/message-list.c:6043
 msgid "Generating message list"
 msgstr "Xerando a lista de mensaxes"
 
@@ -18162,11 +18177,11 @@ msgid "Messages"
 msgstr "Mensaxes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4937
+#: ../mail/message-list.c:4985
 msgid "Follow-up"
 msgstr "Seguimento"
 
-#: ../mail/message-list.c:5932
+#: ../mail/message-list.c:5980
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18178,7 +18193,7 @@ msgstr ""
 "despregábel de enriba ou executando unha nova busca limpándoa no elemento de "
 "menú Buscar->Limpar ou cambiando a consulta enriba."
 
-#: ../mail/message-list.c:5940
+#: ../mail/message-list.c:5988
 msgid "There are no messages in this folder."
 msgstr "Non hai mensaxes neste cartafol."
 
@@ -19098,14 +19113,16 @@ msgstr "default:mm"
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:259
-msgid "Fahrenheit (ےF)"
-msgstr "Fahrenheit (ےF)"
+#| msgid "Fahrenheit (ےF)"
+msgid "Fahrenheit (°F)"
+msgstr "Fahrenheit (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:264
-msgid "Centigrade (ےC)"
-msgstr "Centigrade (ےC)"
+#| msgid "Centigrade (ےC)"
+msgid "Centigrade (°C)"
+msgstr "Centigrade (°C)"
 
 #. Translators: This is the temperature in kelvin.
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:268
