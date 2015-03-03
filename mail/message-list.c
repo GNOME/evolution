@@ -3768,6 +3768,42 @@ clear_tree (MessageList *message_list,
 }
 
 static gboolean
+message_list_folder_filters_system_flag (const gchar *expr,
+					 const gchar *flag)
+{
+	const gchar *pos;
+
+	if (!expr || !*expr)
+		return FALSE;
+
+	g_return_val_if_fail (flag && *flag, FALSE);
+
+	while (pos = strstr (expr, flag), pos) {
+		/* This is searching for something like 'system-flag "' + flag + '"'
+		   in the expression, without fully parsing it. */
+		if (pos > expr && pos[-1] == '\"' && pos[strlen(flag)] == '\"') {
+			const gchar *system_flag = "system-flag";
+			gint ii = 2, jj = strlen (system_flag) - 1;
+
+			while (pos - ii >= expr && g_ascii_isspace (pos[-ii]))
+				ii++;
+
+			while (pos - ii >= expr && jj >= 0 && system_flag[jj] == pos[-ii]) {
+				ii++;
+				jj--;
+			}
+
+			if (jj == -1)
+				return TRUE;
+		}
+
+		expr = pos + 1;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 folder_store_supports_vjunk_folder (CamelFolder *folder)
 {
 	CamelStore *store;
@@ -3806,6 +3842,12 @@ message_list_get_hide_junk (MessageList *message_list,
 	if (folder->folder_flags & CAMEL_FOLDER_IS_TRASH)
 		return FALSE;
 
+	if (CAMEL_IS_VEE_FOLDER (folder)) {
+		const gchar *expr = camel_vee_folder_get_expression (CAMEL_VEE_FOLDER (folder));
+		if (message_list_folder_filters_system_flag (expr, "Junk"))
+			return FALSE;
+	}
+
 	return TRUE;
 }
 
@@ -3828,6 +3870,12 @@ message_list_get_hide_deleted (MessageList *message_list,
 	non_trash_folder =
 		((store->flags & CAMEL_STORE_VTRASH) == 0) ||
 		((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
+
+	if (non_trash_folder && CAMEL_IS_VEE_FOLDER (folder)) {
+		const gchar *expr = camel_vee_folder_get_expression (CAMEL_VEE_FOLDER (folder));
+		if (message_list_folder_filters_system_flag (expr, "Deleted"))
+			return FALSE;
+	}
 
 	return non_trash_folder;
 }
