@@ -268,7 +268,7 @@ e_html_editor_find_dialog_new (EHTMLEditor *editor)
 			E_TYPE_HTML_EDITOR_FIND_DIALOG,
 			"editor", editor,
 			"icon-name", "edit-find",
-			"title", N_("Find"),
+			"title", _("Find"),
 			NULL));
 }
 

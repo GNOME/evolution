@@ -577,6 +577,6 @@ e_html_editor_page_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_PAGE_DIALOG,
 			"editor", editor,
-			"title", N_("Page Properties"),
+			"title", _("Page Properties"),
 			NULL));
 }

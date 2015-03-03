@@ -528,7 +528,7 @@ e_html_editor_spell_check_dialog_new (EHTMLEditor *editor)
 	return g_object_new (
 		E_TYPE_HTML_EDITOR_SPELL_CHECK_DIALOG,
 		"editor", editor,
-		"title", N_("Spell Checking"),
+		"title", _("Spell Checking"),
 		NULL);
 }
 

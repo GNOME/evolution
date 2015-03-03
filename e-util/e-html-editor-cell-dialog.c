@@ -979,7 +979,7 @@ e_html_editor_cell_dialog_new (EHTMLEditor *editor)
 		g_object_new (
 			E_TYPE_HTML_EDITOR_CELL_DIALOG,
 			"editor", editor,
-			"title", N_("Cell Properties"),
+			"title", _("Cell Properties"),
 			NULL));
 }
 
