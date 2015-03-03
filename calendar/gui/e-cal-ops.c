@@ -2038,15 +2038,15 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			description = g_strdup_printf (is_move ?
-				ngettext ("Moving an memo", "Moving %d memos", nobjects) :
-				ngettext ("Copying an memo", "Copying %d memos", nobjects),
+				ngettext ("Moving a memo", "Moving %d memos", nobjects) :
+				ngettext ("Copying a memo", "Copying %d memos", nobjects),
 				nobjects);
 			alert_ident = is_move ? "calendar:failed-move-memo" : "calendar:failed-copy-memo";
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			description = g_strdup_printf (is_move ?
-				ngettext ("Moving an task", "Moving %d tasks", nobjects) :
-				ngettext ("Copying an task", "Copying %d tasks", nobjects),
+				ngettext ("Moving a task", "Moving %d tasks", nobjects) :
+				ngettext ("Copying a task", "Copying %d tasks", nobjects),
 				nobjects);
 			alert_ident = is_move ? "calendar:failed-move-task" : "calendar:failed-copy-task";
 			break;
