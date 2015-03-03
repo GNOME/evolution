@@ -283,7 +283,7 @@ e_html_editor_replace_dialog_new (EHTMLEditor *editor)
 			"editor", editor,
 			"icon-name", "edit-find-replace",
 			"resizable", FALSE,
-			"title", N_("Replace"),
+			"title", C_("dialog-title", "Replace"),
 			"transient-for", gtk_widget_get_toplevel (GTK_WIDGET (editor)),
 			"type", GTK_WINDOW_TOPLEVEL,
 			"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
