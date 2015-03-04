@@ -364,13 +364,16 @@ shell_taskbar_size_allocate (GtkWidget *widget,
                              GtkAllocation *allocation)
 {
 	EShellTaskbar *shell_taskbar;
-	gint fixed_height;
+	gint fixed_height, minimum_height = 0, natural_height = 0;
+
+	if (GTK_WIDGET_CLASS (e_shell_taskbar_parent_class)->get_preferred_height)
+		GTK_WIDGET_CLASS (e_shell_taskbar_parent_class)->get_preferred_height (widget, &minimum_height, &natural_height);
 
 	shell_taskbar = E_SHELL_TASKBAR (widget);
 
 	/* Maximum height allocation sticks. */
 	fixed_height = shell_taskbar->priv->fixed_height;
-	fixed_height = MAX (fixed_height, allocation->height);
+	fixed_height = MAX (fixed_height, MAX (allocation->height, minimum_height));
 	shell_taskbar->priv->fixed_height = fixed_height;
 
 	/* Chain up to parent's size_allocate() method. */
