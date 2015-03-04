@@ -269,9 +269,8 @@ color_combo_window_button_press_event_cb (EColorCombo *combo,
 	if (combo->priv->popup_shown == TRUE)
 		return FALSE;
 
-	color_combo_popup (combo);
-
 	combo->priv->popup_in_progress = TRUE;
+	color_combo_popup (combo);
 
 	return TRUE;
 }
@@ -364,6 +363,7 @@ color_combo_button_press_event_cb (GtkWidget *widget,
 	if (combo->priv->popup_shown) {
 		color_combo_popdown (combo);
 	} else {
+		combo->priv->popup_in_progress = TRUE;
 		color_combo_popup (combo);
 	}
 
