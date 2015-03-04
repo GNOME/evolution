@@ -1090,11 +1090,11 @@ e_attachment_init (EAttachment *attachment)
 		attachment, "notify::encrypted",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	e_signal_connect_notify (
+	g_signal_connect (
 		attachment, "notify::file-info",
 		G_CALLBACK (attachment_update_file_info_columns), NULL);
 
-	e_signal_connect_notify (
+	g_signal_connect (
 		attachment, "notify::file-info",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
