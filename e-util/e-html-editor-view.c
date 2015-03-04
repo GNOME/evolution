@@ -4300,37 +4300,39 @@ replace_to_nbsp (const GMatchInfo *info,
                  gboolean use_nbsp)
 {
 	gchar *match;
-	const gchar *string, *previous_tab;
-	gint ii, length = 0, start = 0;
+	const gchar *string;
+	gint ii = 0, jj = 0, length = 0, start = 0;
 
 	match = g_match_info_fetch (info, 0);
 	g_match_info_fetch_pos (info, 0, &start, NULL);
 	string = g_match_info_get_string (info);
 
-	if (start > 0) {
-		previous_tab = g_strrstr_len (string, start, "\x9");
-		if (previous_tab && *previous_tab) {
-			const char *act_tab = NULL;
-			act_tab = strstr (previous_tab + 1, "\x9");
+	while (match[ii] != '\0') {
+		/* Spaces before or after tabulator */
+		if (match[ii] == ' ') {
+			g_string_append (res, UNICODE_NBSP);
+			ii++;
+		}
 
-			if (act_tab && *act_tab) {
+		if (match[ii] == '\t') {
+			const gchar *previous_tab;
+
+			previous_tab = g_strrstr_len (string, start + ii, "\x9");
+			if (previous_tab && *previous_tab) {
+				const char *act_tab = NULL;
+				act_tab = strstr (previous_tab + 1, "\x9");
+
 				length = act_tab - previous_tab - 1;
-				length = TAB_LENGTH - length;
+				length = TAB_LENGTH - length % TAB_LENGTH;
+			} else {
+				length = TAB_LENGTH - (start + ii) % TAB_LENGTH;
 			}
+			for (jj = 0; jj < length; jj++)
+				g_string_append (res, UNICODE_NBSP);
+
+			ii++;
 		}
 	}
-
-	if (length == 0) {
-		if (strstr (match, "\x9")) {
-			gint tab_count = strlen (match);
-			length = TAB_LENGTH - (start %  TAB_LENGTH);
-			length += (tab_count - 1) * TAB_LENGTH;
-		} else
-			length = strlen (match);
-	}
-
-	for (ii = 0; ii < length; ii++)
-		g_string_append (res, "&nbsp;");
 
 	g_free (match);
 
@@ -4627,9 +4629,9 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				glong length = 0;
 
 				if (strstr (rest, "&"))
-					length = get_decoded_line_length (document, rest);
+					length = get_decoded_line_length (document, rest_to_insert);
 				else
-					length = g_utf8_strlen (rest, -1);
+					length = g_utf8_strlen (rest_to_insert, -1);
 
 				/* End the block if there is line with less that 62 characters. */
 				/* The shorter line can also mean that there is a long word on next
