@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-03-01 17:20+0000\n"
-"PO-Revision-Date: 2015-03-01 20:39+0100\n"
+"POT-Creation-Date: 2015-03-04 05:19+0000\n"
+"PO-Revision-Date: 2015-03-04 12:34+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -443,7 +443,7 @@ msgstr "Voľby"
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8 ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2 ../calendar/gui/dialogs/e-delegate-dialog.ui.h:2 ../calendar/gui/dialogs/goto-dialog.ui.h:15
 #: ../calendar/gui/dialogs/recurrence-page.c:2322 ../composer/e-composer-actions.c:267 ../e-util/e-activity-bar.c:340 ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:491
 #: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:370 ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138 ../e-util/e-category-editor.c:208
-#: ../e-util/e-charset-combo-box.c:101 ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291 ../e-util/e-html-editor-actions.c:480 ../e-util/e-html-editor-actions.c:573
+#: ../e-util/e-charset-combo-box.c:101 ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291 ../e-util/e-html-editor-actions.c:481 ../e-util/e-html-editor-actions.c:574
 #: ../e-util/e-image-chooser-dialog.c:171 ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470 ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180 ../e-util/e-rule-editor.c:282
 #: ../e-util/e-rule-editor.c:776 ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379 ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548 ../e-util/e-table-config.ui.h:1
 #: ../e-util/e-timezone-dialog.ui.h:2 ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3129 ../e-util/gal-view-instance-save-as-dialog.c:269 ../mail/e-mail-config-window.c:330
@@ -503,7 +503,7 @@ msgstr "Zobraziť ostatné poštové adresy"
 msgid "Show Notes"
 msgstr "Zobraziť poznámky"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:257 ../calendar/gui/dialogs/comp-editor.c:1298 ../e-util/e-html-editor-actions.c:996
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:257 ../calendar/gui/dialogs/comp-editor.c:1298 ../e-util/e-html-editor-actions.c:993
 msgid "_Undo"
 msgstr "Vrátiť _späť"
 
@@ -511,7 +511,7 @@ msgstr "Vrátiť _späť"
 msgid "Undo"
 msgstr "Vráti späť"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:264 ../calendar/gui/dialogs/comp-editor.c:1305 ../e-util/e-html-editor-actions.c:982
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:264 ../calendar/gui/dialogs/comp-editor.c:1305 ../e-util/e-html-editor-actions.c:979
 msgid "_Redo"
 msgstr "_Znovu vykonať"
 
@@ -540,7 +540,7 @@ msgstr "Editor kontaktov - %s"
 msgid "Please select an image for this contact"
 msgstr "Prosím, vyberte si obrázok pre tento kontakt"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3684 ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146 ../e-util/e-html-editor-actions.c:481 ../e-util/e-html-editor-actions.c:574
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3684 ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146 ../e-util/e-html-editor-actions.c:482 ../e-util/e-html-editor-actions.c:575
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:292 ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:954
 msgid "_Open"
 msgstr "_Otvoriť"
@@ -731,17 +731,15 @@ msgstr "_Vybrať…"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13 ../e-util/filter.ui.h:19
 msgid "_Top"
-msgstr ""
+msgstr "_Hore"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14 ../e-util/filter.ui.h:20
-#, fuzzy
-#| msgid "_Update"
 msgid "_Up"
-msgstr "Ak_tualizovať"
+msgstr "_Vyššie"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15 ../e-util/filter.ui.h:21
 msgid "_Down"
-msgstr ""
+msgstr "_Nižšie"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16 ../e-util/filter.ui.h:22
 msgid "_Bottom"
@@ -1379,7 +1377,7 @@ msgid "Zoom _Out"
 msgstr "Zme_nšiť"
 
 #. Search button
-#: ../addressbook/gui/widgets/e-contact-map-window.c:450 ../e-util/e-html-editor-actions.c:1975 ../e-util/e-html-editor-find-dialog.c:195 ../shell/e-shell-window-actions.c:1020
+#: ../addressbook/gui/widgets/e-contact-map-window.c:450 ../e-util/e-html-editor-actions.c:1972 ../e-util/e-html-editor-find-dialog.c:195 ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
 msgstr "_Nájsť"
 
@@ -1697,7 +1695,7 @@ msgid "_Snooze"
 msgstr "_Odložiť"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4 ../calendar/gui/dialogs/alarm-list-dialog.ui.h:6 ../calendar/gui/dialogs/comp-editor.c:1321 ../calendar/gui/dialogs/event-page.ui.h:24
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:20 ../calendar/gui/dialogs/task-page.ui.h:32 ../e-util/e-html-editor-actions.c:1005 ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:20 ../calendar/gui/dialogs/task-page.ui.h:32 ../e-util/e-html-editor-actions.c:1002 ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:170 ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:59 ../plugins/attachment-reminder/attachment-reminder.c:562
 #: ../plugins/email-custom-header/email-custom-header.c:844 ../plugins/publish-calendar/publish-calendar.ui.h:33 ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1071
 #: ../smime/gui/smime-ui.ui.h:13
@@ -2665,7 +2663,7 @@ msgid "Close the current window"
 msgstr "Zavrie aktuálne okno"
 
 #. copy menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775 ../e-util/e-html-editor-actions.c:961 ../e-util/e-text.c:2089 ../e-util/e-web-view.c:339 ../mail/e-mail-browser.c:133
+#: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775 ../e-util/e-html-editor-actions.c:958 ../e-util/e-text.c:2089 ../e-util/e-web-view.c:339 ../mail/e-mail-browser.c:133
 #: ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
 msgstr "_Kopírovať"
@@ -2677,7 +2675,7 @@ msgid "Copy the selection"
 msgstr "Skopíruje výber"
 
 #. cut menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770 ../e-util/e-html-editor-actions.c:968 ../e-util/e-text.c:2075 ../mail/e-mail-browser.c:140 ../shell/e-shell-window-actions.c:936
+#: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770 ../e-util/e-html-editor-actions.c:965 ../e-util/e-text.c:2075 ../mail/e-mail-browser.c:140 ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "Vys_trihnúť"
 
@@ -2698,7 +2696,7 @@ msgid "View help"
 msgstr "Zobrazí pomocníka"
 
 #. paste menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780 ../e-util/e-html-editor-actions.c:975 ../e-util/e-text.c:2101 ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:964
+#: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780 ../e-util/e-html-editor-actions.c:972 ../e-util/e-text.c:2101 ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "_Vložiť"
 
@@ -2733,7 +2731,7 @@ msgstr "Uložiť a zavrieť"
 msgid "Save current changes and close editor"
 msgstr "Uloží aktuálne zmeny a zavrie editor"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790 ../e-util/e-html-editor-actions.c:989 ../e-util/e-web-view.c:349 ../mail/e-mail-browser.c:154
+#: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790 ../e-util/e-html-editor-actions.c:986 ../e-util/e-web-view.c:349 ../mail/e-mail-browser.c:154
 #: ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Vybr_ať všetko"
@@ -2748,11 +2746,11 @@ msgstr "Vyberie celý text"
 msgid "_Classification"
 msgstr "_Klasifikácia"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1328 ../e-util/e-html-editor-actions.c:1012 ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:163 ../shell/e-shell-window-actions.c:1078
+#: ../calendar/gui/dialogs/comp-editor.c:1328 ../e-util/e-html-editor-actions.c:1009 ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:163 ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Súbor"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1342 ../e-util/e-html-editor-actions.c:1033
+#: ../calendar/gui/dialogs/comp-editor.c:1342 ../e-util/e-html-editor-actions.c:1030
 msgid "_Insert"
 msgstr "_Vložiť"
 
@@ -2760,7 +2758,7 @@ msgstr "_Vložiť"
 msgid "_Options"
 msgstr "_Voľby"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1356 ../e-util/e-html-editor-actions.c:1054 ../mail/e-mail-browser.c:177 ../shell/e-shell-window-actions.c:1121 ../smime/gui/certificate-manager.c:1649
+#: ../calendar/gui/dialogs/comp-editor.c:1356 ../e-util/e-html-editor-actions.c:1051 ../mail/e-mail-browser.c:177 ../shell/e-shell-window-actions.c:1121 ../smime/gui/certificate-manager.c:1649
 #: ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Zobraziť"
@@ -4253,7 +4251,7 @@ msgstr[2] "Kopírujú sa %d položky"
 
 #: ../calendar/gui/e-cal-ops.c:2041
 #, c-format
-msgid "Moving an memo"
+msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "Presúva sa %d poznámok"
 msgstr[1] "Presúva sa poznámka"
@@ -4261,7 +4259,7 @@ msgstr[2] "Presúvajú sa %d poznámky"
 
 #: ../calendar/gui/e-cal-ops.c:2042
 #, c-format
-msgid "Copying an memo"
+msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "Kopíruje sa %d poznámok"
 msgstr[1] "Kopíruje sa poznámka"
@@ -4269,7 +4267,7 @@ msgstr[2] "Kopírujú sa %d poznámky"
 
 #: ../calendar/gui/e-cal-ops.c:2048
 #, c-format
-msgid "Moving an task"
+msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "Presúva sa %d úloh"
 msgstr[1] "Presúva sa úloha"
@@ -4277,7 +4275,7 @@ msgstr[2] "Presúvajú sa %d úlohy"
 
 #: ../calendar/gui/e-cal-ops.c:2049
 #, c-format
-msgid "Copying an task"
+msgid "Copying a task"
 msgid_plural "Copying %d tasks"
 msgstr[0] "Kopíruje sa %d úloh"
 msgstr[1] "Kopíruje sa úloha"
@@ -7957,10 +7955,8 @@ msgid "Automatic emoticon recognition"
 msgstr "Automatické rozpoznávania smejkov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:12
-#, fuzzy
-#| msgid "Recognize emoticons in text and replace them with images."
 msgid "Recognize emoticons in text and replace them with images or Unicode characters."
-msgstr "Rozpoznať smejkov v texte a nahradiť ich obrázkami."
+msgstr "Rozpoznať smejkov v texte a nahradiť ich obrázkami alebo znakmi v kódovaní Unicode."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Attribute message"
@@ -8048,9 +8044,8 @@ msgstr "Zobrazí pole „Kópia“ pri posielaní poštovej správy. Toto je ovl
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 #, fuzzy
-#| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show \"From\" override field when sending a mail message"
-msgstr "Zobraziť pole „Kópia“ pri posielaní poštovej správy"
+msgstr "Zobraziť nahradzovacie pole „Od“ pri posielaní poštovej správy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 #, fuzzy
@@ -9296,7 +9291,7 @@ msgstr "HTML"
 msgid "Format part as HTML"
 msgstr "Formátovať časť ako HTML"
 
-#: ../em-format/e-mail-formatter-quote-text-plain.c:123 ../em-format/e-mail-formatter-text-plain.c:198 ../e-util/e-html-editor-actions.c:1411
+#: ../em-format/e-mail-formatter-quote-text-plain.c:123 ../em-format/e-mail-formatter-text-plain.c:198 ../e-util/e-html-editor-actions.c:1408
 msgid "Plain Text"
 msgstr "Obyčajný text"
 
@@ -10664,497 +10659,497 @@ msgstr "Zlyhalo vloženie HTML súboru."
 msgid "Failed to insert text file."
 msgstr "Zlyhalo vloženie textového súboru."
 
-#: ../e-util/e-html-editor-actions.c:478
+#: ../e-util/e-html-editor-actions.c:479
 msgid "Insert HTML File"
 msgstr "Vloženie HTML súboru"
 
-#: ../e-util/e-html-editor-actions.c:484
+#: ../e-util/e-html-editor-actions.c:485
 msgid "HTML file"
 msgstr "HTML súbor"
 
 # DK: https://bugzilla.gnome.org/show_bug.cgi?id=743942
 # DK: tooltip a dialog title
-#: ../e-util/e-html-editor-actions.c:511
+#: ../e-util/e-html-editor-actions.c:512
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Vloženie obrázka"
 
-#: ../e-util/e-html-editor-actions.c:571
+#: ../e-util/e-html-editor-actions.c:572
 msgid "Insert text file"
 msgstr "Vložiť textový súbor"
 
-#: ../e-util/e-html-editor-actions.c:577
+#: ../e-util/e-html-editor-actions.c:578
 msgid "Text file"
 msgstr "Textový súbor"
 
 # tooltip
-#: ../e-util/e-html-editor-actions.c:963
+#: ../e-util/e-html-editor-actions.c:960
 msgid "Copy selected text to the clipboard"
 msgstr "Skopíruje vybraný text do schránky"
 
 # tooltip
-#: ../e-util/e-html-editor-actions.c:970
+#: ../e-util/e-html-editor-actions.c:967
 msgid "Cut selected text to the clipboard"
 msgstr "Vystrihne vybraný text do schránky"
 
 # tooltip
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../e-util/e-html-editor-actions.c:977
+#: ../e-util/e-html-editor-actions.c:974
 msgid "Paste text from the clipboard"
 msgstr "Vloží text zo schránky"
 
-#: ../e-util/e-html-editor-actions.c:984
+#: ../e-util/e-html-editor-actions.c:981
 msgid "Redo the last undone action"
 msgstr "Zopakovať naposledy vrátenú akciu"
 
 # tooltip
-#: ../e-util/e-html-editor-actions.c:998
+#: ../e-util/e-html-editor-actions.c:995
 msgid "Undo the last action"
 msgstr "Vráti späť poslednú akciu"
 
-#: ../e-util/e-html-editor-actions.c:1019
+#: ../e-util/e-html-editor-actions.c:1016
 msgid "For_mat"
 msgstr "For_mát"
 
-#: ../e-util/e-html-editor-actions.c:1026
+#: ../e-util/e-html-editor-actions.c:1023
 msgid "_Paragraph Style"
 msgstr "Štýl _odstavca"
 
-#: ../e-util/e-html-editor-actions.c:1040 ../e-util/e-html-editor-image-dialog.c:591
+#: ../e-util/e-html-editor-actions.c:1037 ../e-util/e-html-editor-image-dialog.c:591
 msgid "_Alignment"
 msgstr "Za_rovnanie"
 
-#: ../e-util/e-html-editor-actions.c:1047
+#: ../e-util/e-html-editor-actions.c:1044
 msgid "Current _Languages"
 msgstr "Aktuálne _jazyky"
 
-#: ../e-util/e-html-editor-actions.c:1064
+#: ../e-util/e-html-editor-actions.c:1061
 msgid "_Increase Indent"
 msgstr "Zväčšiť o_dsadenie"
 
-#: ../e-util/e-html-editor-actions.c:1066
+#: ../e-util/e-html-editor-actions.c:1063
 msgid "Increase Indent"
 msgstr "Zväčší odsadenie"
 
-#: ../e-util/e-html-editor-actions.c:1071
+#: ../e-util/e-html-editor-actions.c:1068
 msgid "_HTML File..."
 msgstr "_HTML súbor…"
 
-#: ../e-util/e-html-editor-actions.c:1078
+#: ../e-util/e-html-editor-actions.c:1075
 msgid "Te_xt File..."
 msgstr "Te_xtový súbor…"
 
-#: ../e-util/e-html-editor-actions.c:1085
+#: ../e-util/e-html-editor-actions.c:1082
 msgid "Paste _Quotation"
 msgstr "Vložiť _citáciu"
 
-#: ../e-util/e-html-editor-actions.c:1092
+#: ../e-util/e-html-editor-actions.c:1089
 msgid "_Find..."
 msgstr "_Nájsť…"
 
-#: ../e-util/e-html-editor-actions.c:1094
+#: ../e-util/e-html-editor-actions.c:1091
 msgid "Search for text"
 msgstr "Vyhľadá text"
 
-#: ../e-util/e-html-editor-actions.c:1099
+#: ../e-util/e-html-editor-actions.c:1096
 msgid "Find A_gain"
 msgstr "Nájsť znov_u"
 
-#: ../e-util/e-html-editor-actions.c:1106
+#: ../e-util/e-html-editor-actions.c:1103
 msgid "Re_place..."
 msgstr "_Nahradiť…"
 
-#: ../e-util/e-html-editor-actions.c:1108
+#: ../e-util/e-html-editor-actions.c:1105
 msgid "Search for and replace text"
 msgstr "Vyhľadá a nahradí text"
 
-#: ../e-util/e-html-editor-actions.c:1113
+#: ../e-util/e-html-editor-actions.c:1110
 msgid "Check _Spelling..."
 msgstr "Skontrolovať _pravopis…"
 
-#: ../e-util/e-html-editor-actions.c:1120
+#: ../e-util/e-html-editor-actions.c:1117
 msgid "_Decrease Indent"
 msgstr "Zmenšiť od_sadenie"
 
-#: ../e-util/e-html-editor-actions.c:1122
+#: ../e-util/e-html-editor-actions.c:1119
 msgid "Decrease Indent"
 msgstr "Zmenší odsadenie"
 
-#: ../e-util/e-html-editor-actions.c:1127
+#: ../e-util/e-html-editor-actions.c:1124
 msgid "_Wrap Lines"
 msgstr "Zalamovať _riadky"
 
-#: ../e-util/e-html-editor-actions.c:1134
+#: ../e-util/e-html-editor-actions.c:1131
 msgid "Open Inspector"
 msgstr "Otvoriť dozorcu"
 
 #. Center
-#: ../e-util/e-html-editor-actions.c:1144 ../e-util/e-html-editor-paragraph-dialog.c:110
+#: ../e-util/e-html-editor-actions.c:1141 ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
 msgstr "Na _stred"
 
-#: ../e-util/e-html-editor-actions.c:1146
+#: ../e-util/e-html-editor-actions.c:1143
 msgid "Center Alignment"
 msgstr "Zarovnanie na stred"
 
 #. Left
-#: ../e-util/e-html-editor-actions.c:1151 ../e-util/e-html-editor-paragraph-dialog.c:101
+#: ../e-util/e-html-editor-actions.c:1148 ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
 msgstr "Vľav_o"
 
-#: ../e-util/e-html-editor-actions.c:1153
+#: ../e-util/e-html-editor-actions.c:1150
 msgid "Left Alignment"
 msgstr "Zarovnanie vľavo"
 
 #. Right
-#: ../e-util/e-html-editor-actions.c:1158 ../e-util/e-html-editor-paragraph-dialog.c:119
+#: ../e-util/e-html-editor-actions.c:1155 ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
 msgstr "Vp_ravo"
 
-#: ../e-util/e-html-editor-actions.c:1160
+#: ../e-util/e-html-editor-actions.c:1157
 msgid "Right Alignment"
 msgstr "Zarovnanie vpravo"
 
-#: ../e-util/e-html-editor-actions.c:1168 ../modules/text-highlight/languages.c:72
+#: ../e-util/e-html-editor-actions.c:1165 ../modules/text-highlight/languages.c:72
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../e-util/e-html-editor-actions.c:1170
+#: ../e-util/e-html-editor-actions.c:1167
 msgid "HTML editing mode"
 msgstr "Režim úprav HTML"
 
-#: ../e-util/e-html-editor-actions.c:1175
+#: ../e-util/e-html-editor-actions.c:1172
 msgid "Plain _Text"
 msgstr "Skontrolovať _pravopis"
 
-#: ../e-util/e-html-editor-actions.c:1177
+#: ../e-util/e-html-editor-actions.c:1174
 msgid "Plain text editing mode"
 msgstr "Režim úprav v obyčajnom texte"
 
-#: ../e-util/e-html-editor-actions.c:1185
+#: ../e-util/e-html-editor-actions.c:1182
 msgid "_Normal"
 msgstr "Normálny"
 
-#: ../e-util/e-html-editor-actions.c:1192
+#: ../e-util/e-html-editor-actions.c:1189
 msgid "Header _1"
 msgstr "Hlavička _1"
 
-#: ../e-util/e-html-editor-actions.c:1199
+#: ../e-util/e-html-editor-actions.c:1196
 msgid "Header _2"
 msgstr "Hlavička _2"
 
-#: ../e-util/e-html-editor-actions.c:1206
+#: ../e-util/e-html-editor-actions.c:1203
 msgid "Header _3"
 msgstr "Hlavička _3"
 
-#: ../e-util/e-html-editor-actions.c:1213
+#: ../e-util/e-html-editor-actions.c:1210
 msgid "Header _4"
 msgstr "Hlavička _4"
 
-#: ../e-util/e-html-editor-actions.c:1220
+#: ../e-util/e-html-editor-actions.c:1217
 msgid "Header _5"
 msgstr "Hlavička _5"
 
-#: ../e-util/e-html-editor-actions.c:1227
+#: ../e-util/e-html-editor-actions.c:1224
 msgid "Header _6"
 msgstr "Hlavička _6"
 
-#: ../e-util/e-html-editor-actions.c:1234
+#: ../e-util/e-html-editor-actions.c:1231
 msgid "_Preformatted"
 msgstr "_Predformátované"
 
-#: ../e-util/e-html-editor-actions.c:1241
+#: ../e-util/e-html-editor-actions.c:1238
 msgid "A_ddress"
 msgstr "A_dresa"
 
-#: ../e-util/e-html-editor-actions.c:1248
+#: ../e-util/e-html-editor-actions.c:1245
 msgid "_Blockquote"
 msgstr "_Citácia"
 
-#: ../e-util/e-html-editor-actions.c:1255
+#: ../e-util/e-html-editor-actions.c:1252
 msgid "_Bulleted List"
 msgstr "Zoznam s _odrážkami"
 
-#: ../e-util/e-html-editor-actions.c:1262
+#: ../e-util/e-html-editor-actions.c:1259
 msgid "_Roman Numeral List"
 msgstr "Zoznam s _rímskymi číslicami"
 
-#: ../e-util/e-html-editor-actions.c:1269
+#: ../e-util/e-html-editor-actions.c:1266
 msgid "Numbered _List"
 msgstr "Očíslovaný _zoznam"
 
-#: ../e-util/e-html-editor-actions.c:1276
+#: ../e-util/e-html-editor-actions.c:1273
 msgid "_Alphabetical List"
 msgstr "_Abecedný zoznam"
 
-#: ../e-util/e-html-editor-actions.c:1292 ../e-util/e-html-editor-actions.c:1330
+#: ../e-util/e-html-editor-actions.c:1289 ../e-util/e-html-editor-actions.c:1327
 msgid "_Image..."
 msgstr "O_brázok…"
 
 # tooltip
 #. Translators: This is an action tooltip
-#: ../e-util/e-html-editor-actions.c:1295
+#: ../e-util/e-html-editor-actions.c:1292
 msgid "Insert Image"
 msgstr "Vloží obrázok"
 
-#: ../e-util/e-html-editor-actions.c:1300 ../e-util/e-html-editor-actions.c:1337
+#: ../e-util/e-html-editor-actions.c:1297 ../e-util/e-html-editor-actions.c:1334
 msgid "_Link..."
 msgstr "O_dkaz…"
 
-#: ../e-util/e-html-editor-actions.c:1302
+#: ../e-util/e-html-editor-actions.c:1299
 msgid "Insert Link"
 msgstr "Vloží odkaz"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1308 ../e-util/e-html-editor-actions.c:1352
+#: ../e-util/e-html-editor-actions.c:1305 ../e-util/e-html-editor-actions.c:1349
 msgid "_Rule..."
 msgstr "Č_iara…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1311
+#: ../e-util/e-html-editor-actions.c:1308
 msgid "Insert Rule"
 msgstr "Vloží čiaru"
 
-#: ../e-util/e-html-editor-actions.c:1316 ../e-util/e-html-editor-actions.c:1359
+#: ../e-util/e-html-editor-actions.c:1313 ../e-util/e-html-editor-actions.c:1356
 msgid "_Table..."
 msgstr "_Tabuľka…"
 
-#: ../e-util/e-html-editor-actions.c:1318
+#: ../e-util/e-html-editor-actions.c:1315
 msgid "Insert Table"
 msgstr "Vloží tabuľku"
 
-#: ../e-util/e-html-editor-actions.c:1323
+#: ../e-util/e-html-editor-actions.c:1320
 msgid "_Cell..."
 msgstr "_Bunka…"
 
-#: ../e-util/e-html-editor-actions.c:1344
+#: ../e-util/e-html-editor-actions.c:1341
 msgid "Pa_ge..."
 msgstr "_Strana…"
 
-#: ../e-util/e-html-editor-actions.c:1368
+#: ../e-util/e-html-editor-actions.c:1365
 msgid "Font _Size"
 msgstr "Veľkosť _písma"
 
-#: ../e-util/e-html-editor-actions.c:1375
+#: ../e-util/e-html-editor-actions.c:1372
 msgid "_Font Style"
 msgstr "Štýl _písma"
 
-#: ../e-util/e-html-editor-actions.c:1382
+#: ../e-util/e-html-editor-actions.c:1379
 msgid "Paste As _Text"
 msgstr "Vložiť ako _text"
 
-#: ../e-util/e-html-editor-actions.c:1393 ../e-util/e-html-editor-text-dialog.c:214
+#: ../e-util/e-html-editor-actions.c:1390 ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "_Tučné"
 
-#: ../e-util/e-html-editor-actions.c:1395
+#: ../e-util/e-html-editor-actions.c:1392
 msgid "Bold"
 msgstr "Tučné"
 
-#: ../e-util/e-html-editor-actions.c:1401 ../e-util/e-html-editor-text-dialog.c:225
+#: ../e-util/e-html-editor-actions.c:1398 ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "_Kurzíva"
 
-#: ../e-util/e-html-editor-actions.c:1403
+#: ../e-util/e-html-editor-actions.c:1400
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: ../e-util/e-html-editor-actions.c:1409
+#: ../e-util/e-html-editor-actions.c:1406
 msgid "_Plain Text"
 msgstr "O_byčajný text"
 
-#: ../e-util/e-html-editor-actions.c:1417 ../e-util/e-html-editor-text-dialog.c:246
+#: ../e-util/e-html-editor-actions.c:1414 ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "_Preškrtnuté"
 
-#: ../e-util/e-html-editor-actions.c:1419
+#: ../e-util/e-html-editor-actions.c:1416
 msgid "Strikethrough"
 msgstr "Preškrtnuté"
 
-#: ../e-util/e-html-editor-actions.c:1425 ../e-util/e-html-editor-text-dialog.c:236
+#: ../e-util/e-html-editor-actions.c:1422 ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "Podčiarkn_uté"
 
-#: ../e-util/e-html-editor-actions.c:1427
+#: ../e-util/e-html-editor-actions.c:1424
 msgid "Underline"
 msgstr "Podčiarknuté"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1437
+#: ../e-util/e-html-editor-actions.c:1434
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1445
+#: ../e-util/e-html-editor-actions.c:1442
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1453
+#: ../e-util/e-html-editor-actions.c:1450
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1461
+#: ../e-util/e-html-editor-actions.c:1458
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1469
+#: ../e-util/e-html-editor-actions.c:1466
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1477
+#: ../e-util/e-html-editor-actions.c:1474
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1485
+#: ../e-util/e-html-editor-actions.c:1482
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1504
+#: ../e-util/e-html-editor-actions.c:1501
 msgid "Cell Contents"
 msgstr "Obsah bunky"
 
-#: ../e-util/e-html-editor-actions.c:1511
+#: ../e-util/e-html-editor-actions.c:1508
 msgid "Column"
 msgstr "Stĺpec"
 
-#: ../e-util/e-html-editor-actions.c:1518
+#: ../e-util/e-html-editor-actions.c:1515
 msgid "Row"
 msgstr "Riadok"
 
-#: ../e-util/e-html-editor-actions.c:1525 ../e-util/e-html-editor-actions.c:1610
+#: ../e-util/e-html-editor-actions.c:1522 ../e-util/e-html-editor-actions.c:1607
 msgid "Table"
 msgstr "Tabuľka"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1535
+#: ../e-util/e-html-editor-actions.c:1532
 msgid "Table Delete"
 msgstr "Odstrániť z tabuľky"
 
-#: ../e-util/e-html-editor-actions.c:1542 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1539 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Metódy vstupu"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1550
+#: ../e-util/e-html-editor-actions.c:1547
 msgid "Table Insert"
 msgstr "Vložiť do tabuľky"
 
-#: ../e-util/e-html-editor-actions.c:1557
+#: ../e-util/e-html-editor-actions.c:1554
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: ../e-util/e-html-editor-actions.c:1575
+#: ../e-util/e-html-editor-actions.c:1572
 msgid "Column After"
 msgstr "Stĺpec za"
 
-#: ../e-util/e-html-editor-actions.c:1582
+#: ../e-util/e-html-editor-actions.c:1579
 msgid "Column Before"
 msgstr "Stĺpec pred"
 
-#: ../e-util/e-html-editor-actions.c:1589
+#: ../e-util/e-html-editor-actions.c:1586
 msgid "Insert _Link"
 msgstr "V_ložiť odkaz"
 
-#: ../e-util/e-html-editor-actions.c:1596
+#: ../e-util/e-html-editor-actions.c:1593
 msgid "Row Above"
 msgstr "Riadok nad"
 
-#: ../e-util/e-html-editor-actions.c:1603
+#: ../e-util/e-html-editor-actions.c:1600
 msgid "Row Below"
 msgstr "Riadok pod"
 
-#: ../e-util/e-html-editor-actions.c:1617
+#: ../e-util/e-html-editor-actions.c:1614
 msgid "Cell..."
 msgstr "Bunka…"
 
-#: ../e-util/e-html-editor-actions.c:1624
+#: ../e-util/e-html-editor-actions.c:1621
 msgid "Image..."
 msgstr "Obrázok…"
 
-#: ../e-util/e-html-editor-actions.c:1631
+#: ../e-util/e-html-editor-actions.c:1628
 msgid "Link..."
 msgstr "Odkaz…"
 
-#: ../e-util/e-html-editor-actions.c:1638
+#: ../e-util/e-html-editor-actions.c:1635
 msgid "Page..."
 msgstr "Strana…"
 
-#: ../e-util/e-html-editor-actions.c:1645
+#: ../e-util/e-html-editor-actions.c:1642
 msgid "Paragraph..."
 msgstr "Odstavec…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1653
+#: ../e-util/e-html-editor-actions.c:1650
 msgid "Rule..."
 msgstr "Čiara…"
 
-#: ../e-util/e-html-editor-actions.c:1660
+#: ../e-util/e-html-editor-actions.c:1657
 msgid "Table..."
 msgstr "Tabuľka…"
 
-#: ../e-util/e-html-editor-actions.c:1667
+#: ../e-util/e-html-editor-actions.c:1664
 msgid "Text..."
 msgstr "Text…"
 
-#: ../e-util/e-html-editor-actions.c:1674
+#: ../e-util/e-html-editor-actions.c:1671
 msgid "Remove Link"
 msgstr "Odstráni odkaz"
 
-#: ../e-util/e-html-editor-actions.c:1691
+#: ../e-util/e-html-editor-actions.c:1688
 msgid "Add Word to Dictionary"
 msgstr "Pridať slovo do slovníka"
 
-#: ../e-util/e-html-editor-actions.c:1698
+#: ../e-util/e-html-editor-actions.c:1695
 msgid "Ignore Misspelled Word"
 msgstr "IgnorovaťF nesprávne slová"
 
-#: ../e-util/e-html-editor-actions.c:1705
+#: ../e-util/e-html-editor-actions.c:1702
 msgid "Add Word To"
 msgstr "Pridať slovo do"
 
-#: ../e-util/e-html-editor-actions.c:1714
+#: ../e-util/e-html-editor-actions.c:1711
 msgid "More Suggestions"
 msgstr "Viac návrhov"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1822
+#: ../e-util/e-html-editor-actions.c:1819
 #, c-format
 msgid "%s Dictionary"
 msgstr "Slovník %s"
 
-#: ../e-util/e-html-editor-actions.c:1909
+#: ../e-util/e-html-editor-actions.c:1906
 msgid "_Emoticon"
 msgstr "_Smejko"
 
-#: ../e-util/e-html-editor-actions.c:1910
+#: ../e-util/e-html-editor-actions.c:1907
 msgid "Insert Emoticon"
 msgstr "Vloží smejka"
 
-#: ../e-util/e-html-editor-actions.c:1978
+#: ../e-util/e-html-editor-actions.c:1975
 msgid "Re_place"
 msgstr "_Nahradiť"
 
-#: ../e-util/e-html-editor-actions.c:1981
+#: ../e-util/e-html-editor-actions.c:1978
 msgid "_Image"
 msgstr "O_brázok"
 
-#: ../e-util/e-html-editor-actions.c:1984
+#: ../e-util/e-html-editor-actions.c:1981
 msgid "_Link"
 msgstr "_Odkaz"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1988
+#: ../e-util/e-html-editor-actions.c:1985
 msgid "_Rule"
 msgstr "Č_iara"
 
-#: ../e-util/e-html-editor-actions.c:1991 ../e-util/e-html-editor-cell-dialog.c:658
+#: ../e-util/e-html-editor-actions.c:1988 ../e-util/e-html-editor-cell-dialog.c:658
 msgid "_Table"
 msgstr "_Tabuľka"
 
@@ -11299,10 +11294,8 @@ msgid "Case _Sensitive"
 msgstr "Rozlišovať veľkosť pí_smen"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
-#, fuzzy
-#| msgid "_Search"
 msgid "_Wrap Search"
-msgstr "_Nájsť"
+msgstr "_Hľadať dookola"
 
 #: ../e-util/e-html-editor-find-dialog.c:213
 msgid "Find"
@@ -11485,10 +11478,8 @@ msgid "_Case sensitive"
 msgstr "_Rozlišovať veľkosť písmen"
 
 #: ../e-util/e-html-editor-replace-dialog.c:240
-#, fuzzy
-#| msgid "_Search"
 msgid "Wra_p search"
-msgstr "_Nájsť"
+msgstr "Hľadať _dookola"
 
 #: ../e-util/e-html-editor-replace-dialog.c:250
 msgid "_Skip"
@@ -11503,12 +11494,10 @@ msgid "Replace _All"
 msgstr "Nahradiť _všetko"
 
 # DK: https://bugzilla.gnome.org/show_bug.cgi?id=745338
-#. Replace
-#: ../e-util/e-html-editor-replace-dialog.c:286 ../e-util/e-html-editor-spell-check-dialog.c:536
-#, fuzzy
-#| msgid "_Replace"
+#: ../e-util/e-html-editor-replace-dialog.c:286
+msgctxt "dialog-title"
 msgid "Replace"
-msgstr "_Nahradiť"
+msgstr "Nahradenie"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:87
 #, c-format
@@ -11518,6 +11507,12 @@ msgstr "<b>Návrhy pre „%s“</b>"
 #: ../e-util/e-html-editor-spell-check-dialog.c:501
 msgid "<b>Suggestions</b>"
 msgstr "<b>Návrhy</b>"
+
+# DK: https://bugzilla.gnome.org/show_bug.cgi?id=745338
+#. Replace
+#: ../e-util/e-html-editor-spell-check-dialog.c:536
+msgid "Replace"
+msgstr "Nahradiť"
 
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:545
@@ -11589,23 +11584,23 @@ msgstr "Veľ_kosť:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:3442
+#: ../e-util/e-html-editor-view.c:3455
 msgid "Changed property"
 msgstr "Zmenená vlastnosť"
 
-#: ../e-util/e-html-editor-view.c:3443
+#: ../e-util/e-html-editor-view.c:3456
 msgid "Whether editor changed"
 msgstr "Určuje, či sa editor zmenil"
 
-#: ../e-util/e-html-editor-view.c:7304
+#: ../e-util/e-html-editor-view.c:7317
 msgid "Turning HTML mode off will cause the text to lose all formatting. Do you want to continue?"
 msgstr "Vypnutie režimu HTML spôsobí stratu všetkého formátovania textu. Chcete pokračovať?"
 
-#: ../e-util/e-html-editor-view.c:7308
+#: ../e-util/e-html-editor-view.c:7321
 msgid "_Don't lose formatting"
 msgstr "_Nestratiť formátovanie"
 
-#: ../e-util/e-html-editor-view.c:7309
+#: ../e-util/e-html-editor-view.c:7322
 msgid "_Lose formatting"
 msgstr "_Stratiť formátovanie"
 
@@ -11989,7 +11984,7 @@ msgstr "Odstráni vybraný profil sprostredkovateľa proxy"
 
 #: ../e-util/e-rule-editor.c:184
 msgid "Add Rule"
-msgstr "Pridať pravidlo"
+msgstr "Pridanie pravidla"
 
 #: ../e-util/e-rule-editor.c:286
 msgid "Edit Rule"
@@ -14546,7 +14541,7 @@ msgstr "Zvoľte priečinky kam poslať správu."
 
 #: ../mail/em-filter-editor-folder-element.c:153
 msgid "Select Folder"
-msgstr "Vybrať priečinok"
+msgstr "Výber priečinka"
 
 #. and now for the action area
 #: ../mail/em-filter-rule.c:587
@@ -16453,7 +16448,7 @@ msgstr "Vyššia"
 msgid "Highest"
 msgstr "Najvyššia"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:5995
+#: ../mail/message-list.c:459 ../mail/message-list.c:6043
 msgid "Generating message list"
 msgstr "Generuje sa zoznam správ"
 
@@ -16488,18 +16483,19 @@ msgid "Messages"
 msgstr "Správy"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:4937
+#: ../mail/message-list.c:4985
 msgid "Follow-up"
 msgstr "Vybaviť"
 
-#: ../mail/message-list.c:5932
-#, fuzzy
+#: ../mail/message-list.c:5980
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show message filter from the drop down list above or by running a new search either by clearing it with Search->Clear "
 "menu item or by changing the query above."
-msgstr "Žiadne správy nevyhovujú vyhľadávacím pomienkam. Zmeňte vyhľadávacie podmienky vybratím "
+msgstr ""
+"Žiadne správy nevyhovujú vyhľadávacím podmienkam. Zmeňte vyhľadávacie podmienky vybratím nového filtra v rozbaľovacej ponuke zobrazenia správ vyššie, alebo spustením nového hľadania cez ponuku Nájsť-"
+">Vymazať alebo zmenou požiadavky vyššie."
 
-#: ../mail/message-list.c:5940
+#: ../mail/message-list.c:5988
 msgid "There are no messages in this folder."
 msgstr "V tomto priečinku nie sú žiadne správy."
 
@@ -22189,7 +22185,7 @@ msgstr "Nepodarilo sa vytvoriť kontext exportu, kód chyby: %i"
 #: ../smime/lib/e-pkcs12.c:335
 #, c-format
 msgid "Unable to setup password integrity, err_code: %i"
-msgstr ""
+msgstr "Nepodarilo sa nastaviť integritu hesla, kód chyby: %i"
 
 #: ../smime/lib/e-pkcs12.c:345
 #, fuzzy, c-format
@@ -22205,7 +22201,7 @@ msgstr "Nepodarilo sa pridať kľúč/certifikát do úložiska, kód chyby: %i"
 #: ../smime/lib/e-pkcs12.c:381
 #, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr ""
+msgstr "Nepodarilo sa zapísať úložisko na disk, kód chyby: %i"
 
 #: ../smime/lib/e-pkcs12.c:408
 msgid "Imported Certificate"
