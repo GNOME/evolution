@@ -1021,6 +1021,8 @@ web_view_scroll_event (GtkWidget *widget,
 			} else if (total_delta_y <= -1.0) {
 				total_delta_y = 0.0;
 				direction = GDK_SCROLL_UP;
+			} else if (event->delta_y >= 1e-9 || event->delta_y <= -1e-9) {
+				return TRUE;
 			} else {
 				return FALSE;
 			}
