@@ -452,6 +452,16 @@ get_source_manager_reload_command (void)
 }
 
 static void
+unset_eds_migrated_flag (void)
+{
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.evolution-data-server");
+	g_settings_set_boolean (settings, "migrated", FALSE);
+	g_object_unref (settings);
+}
+
+static void
 restore (const gchar *filename,
          GCancellable *cancellable)
 {
@@ -573,6 +583,8 @@ restore (const gchar *filename,
 		/* new format has it in DATADIR... */
 		GString *file = replace_variables (EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE, TRUE);
 		if (file && g_file_test (file->str, G_FILE_TEST_EXISTS)) {
+			unset_eds_migrated_flag ();
+
 			/* ancient backup */
 			replace_in_file (
 				EVOLUTION_DIR ANCIENT_GCONF_DUMP_FILE,
@@ -602,6 +614,8 @@ restore (const gchar *filename,
 		g_string_free (file, TRUE);
 	} else {
 		gchar *gconf_dump_file;
+
+		unset_eds_migrated_flag ();
 
 		/* ... old format in ~/.evolution */
 		gconf_dump_file = g_build_filename (
