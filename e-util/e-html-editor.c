@@ -331,8 +331,9 @@ html_editor_update_actions (EHTMLEditor *editor,
 	web_view = WEBKIT_WEB_VIEW (view);
 	manager = e_html_editor_get_ui_manager (editor);
 
-	editor->priv->image = NULL;
-	editor->priv->table_cell = NULL;
+	g_clear_object (&editor->priv->table_cell);
+	g_clear_object (&editor->priv->image);
+	g_clear_object (&editor->priv->current_node);
 
 	/* Update context menu item visibility. */
 	hit_test = webkit_web_view_get_hit_test_result (web_view, event);
@@ -342,10 +343,11 @@ html_editor_update_actions (EHTMLEditor *editor,
 		"inner-node", &node, NULL);
 	g_object_unref (hit_test);
 
+	editor->priv->current_node = g_object_ref (node);
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_IMAGE);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_IMAGE), visible);
 	if (visible)
-		editor->priv->image = node;
+		editor->priv->image = g_object_ref (node);
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
@@ -385,7 +387,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 	gtk_action_set_visible (ACTION (CONTEXT_INSERT_TABLE), visible);
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_CELL), visible);
 	if (visible)
-		editor->priv->table_cell = node;
+		editor->priv->table_cell = g_object_ref (node);
 
 	/* Note the |= (cursor must be in a table cell). */
 	visible |= (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
@@ -757,6 +759,10 @@ html_editor_dispose (GObject *object)
 	g_clear_object (&priv->size_combo_box);
 	g_clear_object (&priv->style_combo_box);
 	g_clear_object (&priv->scrolled_window);
+
+	g_clear_object (&priv->table_cell);
+	g_clear_object (&priv->current_node);
+	g_clear_object (&priv->image);
 
 	g_clear_object (&priv->html_editor_view);
 
@@ -1180,5 +1186,3 @@ e_html_editor_save (EHTMLEditor *editor,
 
 	return TRUE;
 }
-
-

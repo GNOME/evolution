@@ -550,7 +550,8 @@ action_insert_rule_cb (GtkAction *action,
 		editor->priv->hrule_dialog =
 			e_html_editor_hrule_dialog_new (editor);
 
-	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
+	e_html_editor_hrule_dialog_show (
+		E_HTML_EDITOR_HRULE_DIALOG (editor->priv->hrule_dialog), NULL);
 }
 
 static void
@@ -811,7 +812,9 @@ action_properties_rule_cb (GtkAction *action,
 			e_html_editor_hrule_dialog_new (editor);
 	}
 
-	gtk_window_present (GTK_WINDOW (editor->priv->hrule_dialog));
+	e_html_editor_hrule_dialog_show (
+		E_HTML_EDITOR_HRULE_DIALOG (editor->priv->hrule_dialog),
+		editor->priv->current_node);
 }
 
 static void

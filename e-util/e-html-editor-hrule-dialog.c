@@ -25,6 +25,7 @@
 #include "e-html-editor-hrule-dialog.h"
 #include "e-html-editor-utils.h"
 #include "e-html-editor-view.h"
+#include "e-web-view.h"
 
 #include <glib/gi18n-lib.h>
 #include <webkit/webkitdom.h>
@@ -206,68 +207,64 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }
 
+static WebKitDOMElement *
+get_parent_block_element (WebKitDOMNode *node)
+{
+	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
+		return WEBKIT_DOM_ELEMENT (node);
+
+	while (parent &&
+	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (parent) &&
+	       !element_has_tag (parent, "address")) {
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+
+	return parent;
+}
+
 static void
 html_editor_hrule_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
-	EHTMLEditorSelection *editor_selection;
+	EHTMLEditorSelection *selection;
 	EHTMLEditorView *view;
 
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMElement *rule;
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	editor_selection = e_html_editor_view_get_selection (view);
+	selection = e_html_editor_view_get_selection (view);
 
-	document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1) {
-		GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->show (widget);
-		return;
-	}
+	if (!dialog->priv->hr_element) {
+		WebKitDOMElement *selection_start, *parent, *rule;
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	if (node && !WEBKIT_DOM_IS_HTMLHR_ELEMENT (node)) {
-		rule = e_html_editor_dom_node_find_parent_element (node, "A");
-		if (rule && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (rule))
-			rule = NULL;
-	} else
-		rule = WEBKIT_DOM_ELEMENT (node);
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		e_html_editor_selection_save (selection);
 
-	if (!rule) {
-		WebKitDOMElement *caret, *parent, *element;
-
-		caret = e_html_editor_selection_save_caret_position (editor_selection);
-
-		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
-		element = caret;
-
-		while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-			element = parent;
-			parent = webkit_dom_node_get_parent_element (
-				WEBKIT_DOM_NODE (parent));
-		}
+		selection_start = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
 		rule = webkit_dom_document_create_element (document, "HR", NULL);
 
 		/* Insert horizontal rule into body below the caret */
 		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (parent),
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
 			WEBKIT_DOM_NODE (rule),
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
 			NULL);
 
-		e_html_editor_selection_clear_caret_position_marker (editor_selection);
+		e_html_editor_selection_restore (selection);
 
 		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
 
@@ -290,8 +287,6 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 
 		e_html_editor_view_set_changed (view, TRUE);
 	} else {
-		dialog->priv->hr_element = WEBKIT_DOM_HTMLHR_ELEMENT (rule);
-
 		html_editor_hrule_dialog_get_alignment (dialog);
 		html_editor_hrule_dialog_get_size (dialog);
 		html_editor_hrule_dialog_get_width (dialog);
@@ -428,4 +423,18 @@ e_html_editor_hrule_dialog_new (EHTMLEditor *editor)
 			"editor", editor,
 			"title", _("Rule properties"),
 			NULL));
+}
+
+void
+e_html_editor_hrule_dialog_show (EHTMLEditorHRuleDialog *dialog,
+                                 WebKitDOMNode *rule)
+{
+	EHTMLEditorHRuleDialogClass *class;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_HRULE_DIALOG (dialog));
+
+	dialog->priv->hr_element = rule ? WEBKIT_DOM_HTMLHR_ELEMENT (rule) : NULL;
+
+	class = E_HTML_EDITOR_HRULE_DIALOG_GET_CLASS (dialog);
+	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
 }

@@ -93,6 +93,7 @@ struct _EHTMLEditorPrivate {
 
 	WebKitDOMNode *image;
 	WebKitDOMNode *table_cell;
+	WebKitDOMNode *current_node;
 
 	gint editor_layout_row;
 };

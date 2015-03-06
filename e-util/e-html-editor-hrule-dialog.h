@@ -64,6 +64,8 @@ struct _EHTMLEditorHRuleDialogClass {
 GType		e_html_editor_hrule_dialog_get_type
 						(void) G_GNUC_CONST;
 GtkWidget *	e_html_editor_hrule_dialog_new	(EHTMLEditor *editor);
+void		e_html_editor_hrule_dialog_show (EHTMLEditorHRuleDialog *dialog,
+						 WebKitDOMNode *rule);
 
 G_END_DECLS
 
