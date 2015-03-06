@@ -3109,7 +3109,9 @@ fix_structure_after_delete_before_quoted_content (EHTMLEditorView *view)
 }
 
 static gboolean
-selection_is_in_table (WebKitDOMDocument *document)
+selection_is_in_table (WebKitDOMDocument *document,
+                       gboolean *first_cell,
+                       WebKitDOMNode **table_node)
 {
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -3119,6 +3121,12 @@ selection_is_in_table (WebKitDOMDocument *document)
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 
+	if (first_cell != NULL)
+		*first_cell = FALSE;
+
+	if (table_node != NULL)
+		*table_node = NULL;
+
 	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
 		return FALSE;
 
@@ -3127,16 +3135,34 @@ selection_is_in_table (WebKitDOMDocument *document)
 
 	parent = node;
 	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		if (WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (parent))
-			return TRUE;
-		if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent))
-			return TRUE;
-		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent))
-			return TRUE;
+		if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent)) {
+			if (first_cell != NULL) {
+				if (!webkit_dom_node_get_previous_sibling (parent)) {
+					gboolean on_start = TRUE;
+					WebKitDOMNode *tmp;
+
+					tmp = webkit_dom_node_get_previous_sibling (node);
+					if (!tmp && WEBKIT_DOM_IS_TEXT (node))
+						on_start = webkit_dom_range_get_start_offset (range, NULL) == 0;
+					else if (tmp)
+						on_start = FALSE;
+
+					if (on_start) {
+						node = webkit_dom_node_get_parent_node (parent);
+						if (node && WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (node))
+							if (!webkit_dom_node_get_previous_sibling (node))
+								*first_cell = TRUE;
+					}
+				}
+			}
+		}
+		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent)) {
+			*table_node = parent;
+		}
 		parent = webkit_dom_node_get_parent_node (parent);
 	}
 
-	return FALSE;
+	return *table_node != NULL;
 }
 
 static void
@@ -3241,7 +3267,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		WebKitDOMDocument *document;
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-		if (selection_is_in_table (document)) {
+		if (selection_is_in_table (document, NULL, NULL)) {
 			jump_to_next_table_cell (view, event->keyval == GDK_KEY_ISO_Left_Tab);
 			return TRUE;
 		} else if (event->keyval == GDK_KEY_Tab)
@@ -3254,8 +3280,40 @@ html_editor_view_key_press_event (GtkWidget *widget,
 	if (is_return_key (event)) {
 		EHTMLEditorSelection *selection;
 		EHTMLEditorSelectionBlockFormat format;
+		gboolean first_cell = FALSE;
+		WebKitDOMDocument *document;
+		WebKitDOMNode *table = NULL;
 
 		selection = e_html_editor_view_get_selection (view);
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		/* Return pressed in the the begining of the first cell will insert
+		 * new block before the table (and move the caret there) if none
+		 * is already there, otherwise it will act as normal return. */
+		if (selection_is_in_table (document, &first_cell, &table) && first_cell) {
+			WebKitDOMNode *node;
+
+			node = webkit_dom_node_get_previous_sibling (table);
+			if (!node) {
+				node = webkit_dom_node_get_next_sibling (table);
+				node = webkit_dom_node_clone_node (node, FALSE);
+				webkit_dom_node_append_child (
+					node,
+					WEBKIT_DOM_NODE (webkit_dom_document_create_element (
+						document, "br", NULL)),
+					NULL);
+				add_selection_markers_into_element_start (
+					document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (table),
+					node,
+					table,
+					NULL);
+				e_html_editor_selection_restore (selection);
+				return TRUE;
+			}
+		}
+
 		/* When user presses ENTER in a citation block, WebKit does
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
