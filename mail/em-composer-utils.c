@@ -2914,6 +2914,39 @@ em_utils_construct_composer_text (CamelSession *session,
 	return text;
 }
 
+static gboolean
+emcu_folder_is_inbox (CamelFolder *folder)
+{
+	CamelSession *session;
+	CamelStore *store;
+	gboolean is_inbox = FALSE;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+
+	store = camel_folder_get_parent_store (folder);
+	if (!store)
+		return FALSE;
+
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
+	if (!session)
+		return FALSE;
+
+	if (E_IS_MAIL_SESSION (session)) {
+		MailFolderCache *folder_cache;
+		CamelFolderInfoFlags flags = 0;
+
+		folder_cache = e_mail_session_get_folder_cache (E_MAIL_SESSION (session));
+		if (folder_cache && mail_folder_cache_get_folder_info_flags (
+			folder_cache, store, camel_folder_get_full_name (folder), &flags)) {
+			is_inbox = (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX;
+		}
+	}
+
+	g_object_unref (session);
+
+	return is_inbox;
+}
+
 /**
  * em_utils_reply_to_message:
  * @shell: an #EShell
@@ -2970,7 +3003,7 @@ em_utils_reply_to_message (EShell *shell,
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
 	if (!address && (type == E_MAIL_REPLY_TO_FROM || type == E_MAIL_REPLY_TO_SENDER) &&
-	    folder && em_utils_folder_is_sent (registry, folder))
+	    folder && !emcu_folder_is_inbox (folder) && em_utils_folder_is_sent (registry, folder))
 		type = E_MAIL_REPLY_TO_ALL;
 
 	switch (type) {
