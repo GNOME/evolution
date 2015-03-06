@@ -72,9 +72,12 @@ html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
 	EHTMLEditor *editor;
 	EHTMLEditorSelection *editor_selection;
 	EHTMLEditorView *view;
-	WebKitDOMDocument *document;
-	WebKitDOMElement *table, *br, *caret, *parent, *element;
 	gint i;
+	gchar *text_content;
+	gboolean empty = FALSE;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *table, *br, *caret, *element, *cell;
+	WebKitDOMNode *clone;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
@@ -101,42 +104,47 @@ html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
 	caret = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-end-marker");
 
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
-	element = caret;
+	element = get_parent_block_element (WEBKIT_DOM_NODE (caret));
+	text_content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (element));
+	empty = text_content && !*text_content;
+	g_free (text_content);
 
-	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-		element = parent;
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
-
+	clone = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), FALSE);
 	br = webkit_dom_document_create_element (document, "BR", NULL);
+	webkit_dom_node_append_child (clone, WEBKIT_DOM_NODE (br), NULL);
 	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (br),
-		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-		NULL);
-
-	/* Insert the table into body below the caret */
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (parent),
-		WEBKIT_DOM_NODE (table),
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+		clone,
 		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 		NULL);
 
 	/* Move caret to the first cell */
-	element = webkit_dom_element_query_selector (table, "td", NULL);
+	cell = webkit_dom_element_query_selector (table, "td", NULL);
 	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (caret),
-		NULL);
+		WEBKIT_DOM_NODE (cell), WEBKIT_DOM_NODE (caret), NULL);
 	caret = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
 	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (cell),
 		WEBKIT_DOM_NODE (caret),
-		webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (element)),
+		webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (cell)),
 		NULL);
+
+	/* Insert the table into body unred the current block (if current block is not empty)
+	 * otherwise replace the current block. */
+	if (empty) {
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			WEBKIT_DOM_NODE (table),
+			WEBKIT_DOM_NODE (element),
+			NULL);
+	} else {
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+			WEBKIT_DOM_NODE (table),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+			NULL);
+	}
 
 	e_html_editor_selection_restore (editor_selection);
 
