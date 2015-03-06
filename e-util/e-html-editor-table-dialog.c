@@ -154,6 +154,7 @@ html_editor_table_dialog_set_row_count (EHTMLEditorTableDialog *dialog)
 				dialog->priv->table_element, -1, NULL);
 		}
 	}
+	g_object_unref (rows);
 }
 
 static void
@@ -168,6 +169,7 @@ html_editor_table_dialog_get_row_count (EHTMLEditorTableDialog *dialog)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->rows_edit),
 		webkit_dom_html_collection_get_length (rows));
+	g_object_unref (rows);
 }
 
 static void
@@ -205,7 +207,10 @@ html_editor_table_dialog_set_column_count (EHTMLEditorTableDialog *dialog)
 					row, -1, NULL);
 			}
 		}
+		g_object_unref (row);
+		g_object_unref (cells);
 	}
+	g_object_unref (rows);
 }
 
 static void
@@ -225,6 +230,9 @@ html_editor_table_dialog_get_column_count (EHTMLEditorTableDialog *dialog)
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (dialog->priv->columns_edit),
 		webkit_dom_html_collection_get_length (columns));
+	g_object_unref (row);
+	g_object_unref (rows);
+	g_object_unref (columns);
 }
 
 static void

@@ -122,7 +122,9 @@ for_each_cell_do (WebKitDOMElement *row,
 
 		call_cell_dom_func (
 			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell), func, value, user_data);
+		g_object_unref (cell);
 	}
+	g_object_unref (cells);
 }
 
 static void
@@ -162,13 +164,19 @@ html_editor_cell_dialog_set_attribute (EHTMLEditorCellDialog *dialog,
 					WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 			cell = webkit_dom_html_collection_item (cells, index);
 			if (!cell) {
+				g_object_unref (row);
+				g_object_unref (cells);
 				continue;
 			}
 
 			call_cell_dom_func (
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (cell),
 				func, value, user_data);
+			g_object_unref (row);
+			g_object_unref (cells);
+			g_object_unref (cell);
 		}
+		g_object_unref (rows);
 
 	} else if (dialog->priv->scope == SCOPE_ROW) {
 		WebKitDOMElement *row;
@@ -205,7 +213,9 @@ html_editor_cell_dialog_set_attribute (EHTMLEditorCellDialog *dialog,
 
 			for_each_cell_do (
 				WEBKIT_DOM_ELEMENT (row), func, value, user_data);
+			g_object_unref (row);
 		}
+		g_object_unref (rows);
 	}
 }
 

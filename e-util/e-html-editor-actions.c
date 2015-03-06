@@ -201,7 +201,9 @@ action_context_delete_column_cb (GtkAction *action,
 
 		webkit_dom_html_table_row_element_delete_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
+		g_object_unref (row);
 	}
+	g_object_unref (rows);
 }
 
 static void
@@ -338,7 +340,7 @@ action_context_insert_row_above_cb (GtkAction *action,
 		webkit_dom_html_table_row_element_insert_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 	}
-
+	g_object_unref (cells);
 }
 
 static void
@@ -371,6 +373,7 @@ action_context_insert_row_below_cb (GtkAction *action,
 		webkit_dom_html_table_row_element_insert_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 	}
+	g_object_unref (cells);
 }
 
 static void
