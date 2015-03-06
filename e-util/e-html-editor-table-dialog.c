@@ -80,8 +80,7 @@ html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
 	view = e_html_editor_get_view (editor);
 	editor_selection = e_html_editor_view_get_selection (view);
 
-	document = webkit_web_view_get_dom_document (
-		WEBKIT_WEB_VIEW (view));
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	/* Default 3x3 table */
 	table = webkit_dom_document_create_element (document, "TABLE", NULL);
@@ -98,7 +97,9 @@ html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
 		}
 	}
 
-	caret = e_html_editor_selection_save_caret_position (editor_selection);
+	e_html_editor_selection_save (editor_selection);
+	caret = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
 
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 	element = caret;
@@ -123,7 +124,21 @@ html_editor_table_dialog_create_table (EHTMLEditorTableDialog *dialog)
 		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 		NULL);
 
-	e_html_editor_selection_clear_caret_position_marker (editor_selection);
+	/* Move caret to the first cell */
+	element = webkit_dom_element_query_selector (table, "td", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (caret),
+		NULL);
+	caret = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (caret),
+		webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (element)),
+		NULL);
+
+	e_html_editor_selection_restore (editor_selection);
 
 	e_html_editor_view_set_changed (view, TRUE);
 
