@@ -2546,16 +2546,25 @@ e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
 		return;
 	}
 
-	g_object_unref (view);
-
 	color = get_font_property (selection, "color");
 	if (!(color && *color)) {
-		*rgba = black;
-		return;
+		WebKitDOMDocument *document;
+		WebKitDOMHTMLElement *body;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		body = webkit_dom_document_get_body (document);
+
+		color = webkit_dom_html_body_element_get_text (WEBKIT_DOM_HTML_BODY_ELEMENT (body));
+		if (!(color && *color)) {
+			*rgba = black;
+			g_object_unref (view);
+			return;
+		}
 	}
 
 	gdk_rgba_parse (rgba, color);
 	g_free (color);
+	g_object_unref (view);
 }
 
 /**
