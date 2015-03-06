@@ -332,7 +332,6 @@ find_element_by_id (WebKitDOMDocument *document,
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMHTMLIFrameElement *iframe;
 		WebKitDOMDocument *frame_doc;
-		WebKitDOMElement *element;
 
 		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
 			webkit_dom_node_list_item (frames, ii));
@@ -343,9 +342,9 @@ find_element_by_id (WebKitDOMDocument *document,
 
 		g_object_unref (iframe);
 		if (element != NULL)
-			goto out;
+			break;
 	}
- out:
+
 	g_object_unref (frames);
 
 	return element;
@@ -530,7 +529,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 		/* This cannot be the last reference; thread-safety is assured,
 		   because this runs in the main thread only. */
 		g_object_unref (widget);
-		d (printf ("Handeled %s widget request from cache\n", part_id));
+		d (printf ("Handled %s widget request from cache\n", part_id));
 		return widget;
 	}
 
