@@ -22,5 +22,5 @@
 <p>You can add, edit and delete all your signatures under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer preferences</gui><gui>Signatures</gui></guiseq>.</p>
 <p>Assigning a default signature to an email account has to be done in the <link xref="mail-composer-mail-signatures-per-account">account settings</link>.</p>
 
-<note style="tip"><p>Per <link href="http://tools.ietf.org/html/rfc3676#section-4.3">long-standing convention</link>, signatures always start with two dashes and a space in a separate link. This allows many email clients to automatically strip signatures from quotes when replying.</p></note>
+<note style="tip"><p>Per <link href="http://tools.ietf.org/html/rfc3676#section-4.3">long-standing convention</link>, signatures always start with two dashes and a space in a separate line. This allows many email clients to automatically strip signatures from quotes when replying.</p></note>
 </page>
