@@ -2548,14 +2548,10 @@ e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
 
 	g_object_unref (view);
 
-	if (e_html_editor_selection_is_collapsed (selection)) {
-		color = g_strdup (selection->priv->font_color);
-	} else {
-		color = get_font_property (selection, "color");
-		if (!(color && *color)) {
-			*rgba = black;
-			return;
-		}
+	color = get_font_property (selection, "color");
+	if (!(color && *color)) {
+		*rgba = black;
+		return;
 	}
 
 	gdk_rgba_parse (rgba, color);
