@@ -25,7 +25,6 @@
 #include "e-html-editor-hrule-dialog.h"
 #include "e-html-editor-utils.h"
 #include "e-html-editor-view.h"
-#include "e-web-view.h"
 
 #include <glib/gi18n-lib.h>
 #include <webkit/webkitdom.h>
@@ -205,29 +204,6 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 	priv->hr_element = NULL;
 
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
-}
-
-static WebKitDOMElement *
-get_parent_block_element (WebKitDOMNode *node)
-{
-	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
-
-	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
-		return WEBKIT_DOM_ELEMENT (node);
-
-	while (parent &&
-	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (parent) &&
-	       !element_has_tag (parent, "address")) {
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
-
-	return parent;
 }
 
 static void

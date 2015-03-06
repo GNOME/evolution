@@ -184,6 +184,8 @@ void		e_html_editor_view_set_is_message_from_edit_as_new
 void		e_html_editor_view_set_remove_initial_input_line
 						(EHTMLEditorView *view,
 						 gboolean value);
+WebKitDOMElement *
+		get_parent_block_element	(WebKitDOMNode *node);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

@@ -261,7 +261,7 @@ html_editor_view_should_show_delete_interface_for_element (EHTMLEditorView *view
 	return FALSE;
 }
 
-static WebKitDOMElement *
+WebKitDOMElement *
 get_parent_block_element (WebKitDOMNode *node)
 {
 	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
