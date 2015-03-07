@@ -361,14 +361,24 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	tmp = webkit_dom_html_body_element_get_link (
 			WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 	if (!tmp || !*tmp) {
-		GdkColor color;
-		gtk_widget_style_get (
-			GTK_WIDGET (view), "link-color", &color, NULL);
+		GdkColor *color = NULL;
+		GtkStyleContext *context;
 
-		rgba.alpha = 1;
-		rgba.red = ((gdouble) color.red) / G_MAXUINT16;
-		rgba.green = ((gdouble) color.green) / G_MAXUINT16;
-		rgba.blue = ((gdouble) color.blue) / G_MAXUINT16;
+		context = gtk_widget_get_style_context (GTK_WIDGET (view));
+		gtk_style_context_get_style (
+			context, "link-color", &color, NULL);
+
+		if (color == NULL) {
+			rgba.alpha = 1;
+			rgba.red = 0;
+			rgba.green = 0;
+			rgba.blue = 1;
+		} else {
+			rgba.alpha = 1;
+			rgba.red = ((gdouble) color->red) / G_MAXUINT16;
+			rgba.green = ((gdouble) color->green) / G_MAXUINT16;
+			rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
+		}
 	} else {
 		gdk_rgba_parse (&rgba, tmp);
 	}
