@@ -189,6 +189,7 @@ html_editor_page_dialog_set_link_color (EHTMLEditorPageDialog *dialog)
 	color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
 	webkit_dom_html_body_element_set_link (
 		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color);
+	e_html_editor_view_set_link_color (view, &rgba);
 
 	g_free (color);
 }

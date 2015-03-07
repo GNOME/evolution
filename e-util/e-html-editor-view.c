@@ -7447,6 +7447,10 @@ process_content_for_html (EHTMLEditorView *view)
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL));
 	if (node)
 		remove_node (node);
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style", NULL));
+	if (node)
+		remove_node (node);
 	/* When the Ctrl + Enter is pressed for sending, the links are activated. */
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-style-a", NULL));
@@ -7613,6 +7617,64 @@ e_html_editor_view_remove_embed_styles (EHTMLEditorView *view)
 		remove_node (WEBKIT_DOM_NODE (sheet));
 }
 
+void
+e_html_editor_view_set_link_color (EHTMLEditorView *view,
+                                   GdkRGBA *color)
+{
+	gchar *color_str = NULL;
+	WebKitDOMHTMLHeadElement *head;
+	WebKitDOMElement *style_element;
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (color != NULL);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	head = webkit_dom_document_get_head (document);
+
+	style_element = webkit_dom_document_get_element_by_id (document, "-x-evo-a-color-style");
+	if (!style_element) {
+		style_element = webkit_dom_document_create_element (document, "style", NULL);
+		webkit_dom_element_set_id (style_element, "-x-evo-a-color-style");
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
+	}
+
+	color_str = g_strdup_printf ("a { color: #%06x; }", e_rgba_to_value (color));
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (style_element), color_str, NULL);
+
+	g_free (color_str);
+}
+
+static void
+set_link_color (EHTMLEditorView *view)
+{
+	GdkColor *color = NULL;
+	GdkRGBA rgba;
+	GtkStyleContext *context;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (view));
+	gtk_style_context_get_style (
+		context, "link-color", &color, NULL);
+
+	if (color == NULL) {
+		rgba.alpha = 1;
+		rgba.red = 0;
+		rgba.green = 0;
+		rgba.blue = 1;
+	} else {
+		rgba.alpha = 1;
+		rgba.red = ((gdouble) color->red) / G_MAXUINT16;
+		rgba.green = ((gdouble) color->green) / G_MAXUINT16;
+		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
+	}
+
+	e_html_editor_view_set_link_color (view, &rgba);
+
+	gdk_color_free (color);
+}
+
 static void
 html_editor_view_load_status_changed (EHTMLEditorView *view)
 {
@@ -7665,6 +7727,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 
 	/* Make the quote marks non-selectable. */
 	disable_quote_marks_select (document);
+	set_link_color (view);
 	html_editor_view_set_links_active (view, FALSE);
 	put_body_in_citation (document);
 	move_elements_to_body (document);
@@ -8686,7 +8749,6 @@ void
 e_html_editor_view_update_fonts (EHTMLEditorView *view)
 {
 	gboolean mark_citations, use_custom_font;
-	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
 	gchar *base64, *font, *aa = NULL, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
@@ -8780,15 +8842,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (view));
 	gtk_style_context_get_style (
-		context,
-		"link-color", &link,
-		"visited-link-color", &visited,
-		NULL);
-
-	if (link == NULL) {
-		link = g_slice_new0 (GdkColor);
-		link->blue = G_MAXINT16;
-	}
+		context, "visited-link-color", &visited, NULL);
 
 	if (visited == NULL) {
 		visited = g_slice_new0 (GdkColor);
@@ -8797,13 +8851,9 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		"a {\n"
-		"  color: #%06x;\n"
-		"}\n"
 		"a:visited {\n"
 		"  color: #%06x;\n"
 		"}\n",
-		e_color_to_value (link),
 		e_color_to_value (visited));
 
 	/* See bug #689777 for details */
@@ -9053,7 +9103,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"}\n",
 		e_web_view_get_citation_color_for_level (5));
 
-	gdk_color_free (link);
 	gdk_color_free (visited);
 
 	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);

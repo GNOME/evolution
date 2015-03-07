@@ -186,6 +186,9 @@ void		e_html_editor_view_set_remove_initial_input_line
 						 gboolean value);
 WebKitDOMElement *
 		get_parent_block_element	(WebKitDOMNode *node);
+void		e_html_editor_view_set_link_color
+						(EHTMLEditorView *view,
+						 GdkRGBA *color);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */
