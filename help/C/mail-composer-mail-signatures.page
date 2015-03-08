@@ -6,7 +6,7 @@
     
     <link type="guide" xref="index#mail-composing" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -24,3 +24,4 @@
 <note style="tip"><p>The term "signature" is also differently used in terms of <link xref="mail-encryption">encryption</link>.</p></note>
 </page>
 
+<!-- TODO: The two dashes and a space signature delimiter can be disabled via dconf in org.gnome.evolution.mail.composer-no-signature.delim but don't really want to advertise that -->
