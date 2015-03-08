@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="contacts-using-several-addressbooks"/>
 
-    <revision pkgversion="3.1.5" version="0.3" date="2011-07-28" status="final"/>
+    <revision pkgversion="3.1.5" version="0.4" date="2015-03-09" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -67,8 +67,8 @@
 	  correct settings.</p>
         </item>
         <item>
-	  <p>Search Scope: The search scope is the breadth of a given search.
-	  The following options are available:</p>
+	  <p>Search Scope: The search scope is the breadth of a given search.</p>
+	  <p>The following options are available:</p>
           <list>
             <item>
 	      <p>One: Searches the Search Base and one entry below it.</p>
