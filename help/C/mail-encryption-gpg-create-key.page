@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="3.12.9" version="0.5" date="2015-02-15" status="final"/>
+    <revision pkgversion="3.12.9" version="0.6" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -21,6 +21,6 @@
 
 <!-- TODO:POST-3-13: Needs a complete rewrite now that https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
-<p>Before you can get or send GPG encrypted mail, you need to <link xref="help:seahorse/pgp-create" href="https://help.gnome.org/users/seahorse/stable/pgp-create">generate your public and private keys with GPG.</link> After doing so and <link xref="mail-encryption-gpg-set-up">setting up Evolution to use the key</link>, you need to <link xref="help:seahorse/pgp-publish" href="https://help.gnome.org/users/seahorse/stable/pgp-publish">share your public key with your friends to allow them decrypting the messages that you send them</link>.</p>
+<p>Before you can get or send GPG encrypted mail, you need to <link xref="help:seahorse/pgp-create" href="https://help.gnome.org/users/seahorse/stable/pgp-create">generate your public and private keys with GPG</link>. After doing so and <link xref="mail-encryption-gpg-set-up">setting up Evolution to use the key</link>, you need to <link xref="help:seahorse/pgp-publish" href="https://help.gnome.org/users/seahorse/stable/pgp-publish">share your public key with your friends to allow them sending you encrypted messages</link>.</p>
 
 </page>
