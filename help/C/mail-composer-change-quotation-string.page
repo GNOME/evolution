@@ -10,7 +10,7 @@
     <link type="seealso" xref="mail-composer-reply" />
     <link type="seealso" xref="mail-composer-forward" />
 
-    <revision pkgversion="3.3.91" version="0.4" date="2012-03-07" status="draft"/>
+    <revision pkgversion="3.13.90" version="0.5" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -28,7 +28,36 @@
 <list>
 <item><p>Open the <app>dconf-editor</app> application.</p></item>
 <item><p>Navigate to <code>org.gnome.evolution.mail</code>.</p></item>
-<item><p>Enter the prefered quotation string as the value for the key <gui>composer-message-attribution</gui>.</p></item>
+<item><p>Enter the preferred quotation string as the value for the key <code>composer-message-attribution</code>.</p></item>
+</list>
+
+<!-- Translators: Do NOT translate the variable names inside the brackets! -->
+<p>The default string in English is:
+<code>"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"</code>
+</p>
+
+<p>The following placeholders are available:</p>
+<list>
+<item><p><code its:translate="no">{Sender}</code></p></item>
+<item><p><code its:translate="no">{SenderName}</code></p></item>
+<item><p><code its:translate="no">{SenderEMail}</code></p></item>
+<item><p><code its:translate="no">{AbbrevWeekdayName}</code></p></item>
+<item><p><code its:translate="no">{WeekdayName}</code></p></item>
+<item><p><code its:translate="no">{AbbrevMonthName}</code></p></item>
+<item><p><code its:translate="no">{MonthName}</code></p></item>
+<item><p><code its:translate="no">{Day}</code> (format: 01-31)</p></item>
+<item><p><code its:translate="no">{ Day}</code> (format: 1-31)</p></item>
+<item><p><code its:translate="no">{24Hour}</code></p></item>
+<item><p><code its:translate="no">{12Hour}</code></p></item>
+<item><p><code its:translate="no">{AmPmUpper}</code></p></item>
+<item><p><code its:translate="no">{AmPmLower}</code></p></item>
+<item><p><code its:translate="no">{DayOfYear}</code> (format: 1-366)</p></item>
+<item><p><code its:translate="no">{Month}</code> (format: 01-12)</p></item>
+<item><p><code its:translate="no">{Minute}</code></p></item>
+<item><p><code its:translate="no">{Seconds}</code></p></item>
+<item><p><code its:translate="no">{2DigitYear}</code> (e.g. 15 for the year 2015)</p></item>
+<item><p><code its:translate="no">{Year}</code></p></item>
+<item><p><code its:translate="no">{TimeZone}</code></p></item>
 </list>
 
 <note style="info package">
