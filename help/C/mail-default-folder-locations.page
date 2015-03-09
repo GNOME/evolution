@@ -15,7 +15,7 @@
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-mapi#defaults"/>
     <link type="guide" xref="mail-account-manage-microsoft-exchange-evo-ews#defaults"/>
 
-    <revision pkgversion="3.7.4" version="0.2" date="2013-01-23" status="draft"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -29,6 +29,7 @@
   <title>Mail folder locations</title>
 
 <p>You can set a different place where to store messages in your Draft folder and Sent folder in the <gui>Defaults</gui> section of the mail account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui><gui>Defaults</gui></guiseq>).</p>
+<p>You can define an <gui>Archive Folder</gui>, for example to move older messages there. Selecting "Message > Archive" in the main window moves the selected message to the specified folder.</p>
 <p>For remote account types (accounts such as IMAP) you can also use folders on the mail server for Junk and Trash by selecting the corresponding <gui>Use a Real Folder</gui> option. In this case, Evolution's local <link xref="mail-search-folders">virtual folders</link> will not be used.</p>
 
 </page>
