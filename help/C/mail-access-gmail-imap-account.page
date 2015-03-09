@@ -8,7 +8,7 @@
     <link type="guide" xref="google-services"/>
     <link type="seealso" xref="mail-account-manage-imap-plus"/>
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -25,6 +25,9 @@
 
 <p>Please refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>.</p>
 
+<p>For performance reasons it is recommended to <gui>Use a Real Folder for Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real Folder for Junk</gui> by setting it to <gui>[GMail]/Spam</gui> under the account's <link xref="mail-default-folder-locations"><gui>Defaults</gui></link>.</p>
+
 <note style="important"><p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p></note>
+
 </page>
 
