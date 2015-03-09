@@ -25,21 +25,22 @@
 # Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
+# Bernd Homuth <dev@hmt.im>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-31 05:20+0000\n"
-"PO-Revision-Date: 2015-01-31 23:14+0100\n"
-"Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
+"POT-Creation-Date: 2015-03-06 23:16+0000\n"
+"PO-Revision-Date: 2015-03-07 00:22+0100\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.1\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -48,7 +49,8 @@ msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009\n"
 "Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013\n"
 "Christian Kirbach <Christian.Kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013, 2015\n"
-"Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012."
+"Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012\n"
+"Bernd Homuth <dev@hmt.im>, 2015."
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -4705,6 +4707,13 @@ msgstr "Sie können Signaturen hinzufügen, bearbeiten und löschen unter <guise
 msgid "Assigning a default signature to an email account has to be done in the <link xref=\"mail-composer-mail-signatures-per-account\">account settings</link>."
 msgstr "Eine Vorgabe-Signatur wird einem E-Mail-Konto in den <link xref=\"mail-composer-mail-signatures-per-account\">Konto-Einstellungen</link> zugewiesen."
 
+#. (itstool) path: note/p
+#: C/mail-composer-mail-signatures-manage.page:25
+msgid "Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-standing convention</link>, signatures always start with two dashes and a space in a separate line. This allows many email clients to automatically strip signatures from quotes when replying."
+msgstr ""
+"Laut einer <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">lang bestehenden Vereinbarung</link> beginnen Signaturen immer mit zwei Spiegelstrichen und einem Leerzeichen in einer separaten Zeile. So können E-Mail-Programme beim Antworten automatisch Signaturen von Zitaten "
+"entfernen."
+
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures.page:5
 msgid "Using email signatures at the bottom of a message you send."
@@ -5701,114 +5710,19 @@ msgid "Signing or encrypting messages via GPG/OpenPGP that you send."
 msgstr "Zu versendende Nachrichten mit GPG/OpenPGP signieren oder verschlüsseln."
 
 #. (itstool) path: page/title
-#: C/mail-encryption-gpg-create-key.page:23
+#: C/mail-encryption-gpg-create-key.page:20
 msgid "Creating a GPG key"
 msgstr "Einen GPG-Schlüssel erstellen"
 
-#. (itstool) path: note/p
-#: C/mail-encryption-gpg-create-key.page:25
-msgid "These steps are very technical. For average users we recommend using the <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\"><app>Seahorse</app> application</link> for creating GPG/OpenPGP keys."
-msgstr "Diese Schritte sind sehr technisch. Für die meisten Anwender wird zur Erstellung der GPG/OpenPGP-Schlüssel die <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">Anwendung <app>Seahorse</app></link> empfohlen."
-
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:29
-msgid "Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG."
-msgstr "Vor dem Empfangen oder Verschicken von mit GPG verschlüsselten E-Mails müssen Sie Ihren öffentlichen und privaten Schlüssel mit GPG erstellen."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:31
-msgid "Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>."
-msgstr "Öffnen Sie ein <app>Terminal</app>fenster und geben Sie <cmd>gpg --gen-key</cmd> ein."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:32
-msgid "Select an algorithm, then press Enter."
-msgstr "Wählen Sie einen Algorithmus und drücken Sie die Eingabetaste."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:33
-msgid "Select a key length, then press Enter."
-msgstr "Wählen Sie eine Schlüssellänge und drücken Sie die <key>Eingabetaste</key>."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:34
-msgid "Enter how long your key should be valid for."
-msgstr "Geben Sie ein, wie lang Ihr Schlüssel gültig sein soll."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:35
-msgid "Type your real name, then press Enter."
-msgstr "Geben Sie Ihren vollen Namen ein und drücken Sie die Eingabetaste."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:36
-msgid "Type your email address, then press Enter."
-msgstr "Geben Sie Ihre E-Mail-Adresse ein und drücken Sie die Eingabetaste."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:37
-msgid "(Optional) Type a comment, then press Enter."
-msgstr "(Optional) Geben Sie einen Kommentar ein und drücken Sie die Eingabetaste."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:38
-msgid "Review your selected user ID. If it is correct, press O."
-msgstr "Prüfen Sie die ausgewählte Benutzerkennung. Falls diese korrekt ist, so drücken Sie O."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:39
-msgid "Type a passphrase, then press Enter."
-msgstr "Geben Sie eine Passphrase ein und drücken Sie die Eingabetaste."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:40
-msgid "Move your mouse randomly to generate the keys."
-msgstr "Bewegen Sie Ihre Maus zufällig, um die Schlüssel zu erstellen."
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:43
+#: C/mail-encryption-gpg-create-key.page:24
 msgid ""
-"After the keys are generated, you can view your key information by entering <cmd>gpg --list-keys</cmd>. You should see something similar to this: <code> /home/you/.gnupg/pubring.gpg ---------------------------- pub 1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt; sub 1024g/289sklj3 "
-"2011-06-20 [expires: 2012-11-14]</code>"
+"Before you can get or send GPG encrypted mail, you need to <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">generate your public and private keys with GPG.</link> After doing so and <link xref=\"mail-encryption-gpg-set-up\">setting "
+"up Evolution to use the key</link>, you need to <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">share your public key with your friends to allow them decrypting the messages that you send them</link>."
 msgstr ""
-"Nachdem Ihre Schlüssel erstellt wurden, können Sie Ihre Schlüsselinformationen einsehen, indem Sie <cmd>gpg --list-keys</cmd> eingeben. Sie sollten etwas ähnliches wie dieses erhalten: <code> /home/you/.gnupg/pubring.gpg ----------------------------  pub 1024D/32j38dk2 2001-06-20 you &lt;"
-"you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]  </code>"
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:44
-msgid "GPG creates one list, or keyring, for your public keys and one for your private keys. All the public keys you know are stored in the file <file>~/.gnupg/pubring.gpg</file>. If you want to give other people your key, send them that file."
-msgstr ""
-"GPG erstellt nun eine Liste, Schlüsselbund genannt, für Ihre öffentlichen Schlüssel und eine für Ihre geheimen Schlüssel. Alle Ihnen bekannten öffentlichen Schlüssel werden in der Datei <file>~/.gnupg/pubring.gpg</file> gespeichert. Wenn Sie anderen Ihren Schlüssel geben möchten, so "
-"senden Sie ihnen diese Datei."
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:45
-msgid "If you want, you can upload your keys to a key server:"
-msgstr "Falls Sie möchten, können Sie Ihre Schlüssel auf einen Schlüssel-Server hochladen:"
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:47
-msgid "Check your public key ID with <code>gpg --list-keys</code>. It is the string after <code>1024D</code> on the line beginning with <code>pub</code>. In the example above, it is <code>32j38dk2</code>."
-msgstr "Prüfen Sie die Kennung Ihres öffentlichen Schlüssels mit <code>gpg --list-keys</code>. Es handelt sich um den Text nach <code>1024D</code> in der Zeile, welche mit <code>pub</code> beginnt. Im obigen Beispiel lautet die Kennung Ihres öffentlichen Schlüssels <code>32j38dk2</code>."
-
-#. (itstool) path: item/p
-#: C/mail-encryption-gpg-create-key.page:48
-msgid "Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd>. Substitute your key ID for <code>32j38dk2</code>. You need your password to do this."
-msgstr "Geben Sie den Befehl <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd> ein. Sie benötigen Ihr Passwort, um diesen Befehl auszuführen."
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:51
-msgid ""
-"Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it is easier to publish a key once, and "
-"then let people download it from a central place when they want."
-msgstr ""
-"Schlüssel-Server speichern Ihre öffentlichen Schlüssel, so dass Ihre Freunde Ihre Nachrichten entschlüsseln können. Wenn Sie sich dazu entscheiden, keinen Schlüssel-Server zu benutzen, so können Sie Ihren öffentlichen Schlüssel per Hand verschicken, in Ihre Signatur einbauen, oder auf "
-"Ihrer Internetseite veröffentlichen. Es ist allerdings einfacher, einen Schlüssel einmal zu veröffentlichen, so dass Menschen ihn von einem zentralen Ort herunterladen können."
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-create-key.page:52
-msgid "If you don't have a key to unlock or encrypt a message, you can set your encryption tool to look it up automatically. If it cannot find the key, an error message appears."
-msgstr "Falls Sie keinen Schlüssel zum Verschlüsseln oder Entschlüsseln einer Nachricht besitzen, so können Sie Ihr Verschlüsselungsprogramm so einstellen, dass dieser Schlüssel automatisch gesucht wird. Falls kein Schlüssel gefunden werden kann, wird eine Fehlermeldung angezeigt."
+"Bevor Sie GPG-verschlüsselte E-Mails empfangen oder versenden können, müssen Sie <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">einen privaten und einen öffentlichen Schlüssel mit GPG erstellen</link>. Sobald die Schlüssel "
+"erstellt sind und <link xref=\"mail-encryption-gpg-set-up\">Evolution für die Verwendung der Schlüssel eingerichtet ist</link>, müssen Sie noch <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">ihren öffentlichen Schlüssel mit "
+"Ihren Freunden teilen, damit sie die von Ihnen verschickten sicheren E-Mails entschlüsseln können</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -7122,9 +7036,13 @@ msgid "If you would like to have a copy of the address book on the server for of
 msgstr "Wenn Sie eine Kopie des Adressbuchs des Servers für Offline-Zugriff haben möchten, so aktivieren Sie <gui>Offline-Adressbuch zwischenspeichern</gui> und klicken Sie auf <gui style=\"button\">Liste holen</gui>. Wählen Sie danach das Adressbuch aus."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-exchange-ews.page:45
-msgid "If you want <link xref=\"mail-filters\">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox on this server</gui>."
-msgstr "Wenn <link xref=\"mail-filters\">Filter</link> automatisch auf Nachrichten in Ihrem Posteingang angewendet werden sollen, so aktivieren Sie <gui>Filter auf neue Nachrichten im Eingang dieses Servers anwenden</gui>."
+#: C/mail-receiving-options-exchange-ews.page:45 C/mail-receiving-options-imap-plus.page:52
+msgid ""
+"Select if you want <link xref=\"mail-filters\">filters</link> to be automatically applied on mail that you receive, if <link xref=\"mail-spam-marking\">spam</link> should be automatically filtered, and if <link xref=\"mail-working-offline\">mail on the server should be synchronized with "
+"your local copy for offline access to it</link>."
+msgstr ""
+"Auswählen, wenn Sie <link xref=\"mail-filters\">Filter</link> automatisch auf alle eingehenden E-Mails anwenden wollen, wenn <link xref=\"mail-spam-marking\">Unerwünschtes</link> automatisch herausgefiltert werden soll und wenn <link xref=\"mail-working-offline\">E-Mail zwischen Server "
+"und lokaler Kopie synchronisiert werden soll, damit es auch ohne aktive Internetverbindung verfügbar ist.</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-mapi.page:5
@@ -7174,28 +7092,23 @@ msgstr "Wählen Sie, ob Evolution sich an Ihr Passwort erinnern soll."
 # Beide erscheinen nicht mehr in der aktuellen GUI
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
-msgid "Select \"Use Quick Resync\" if the IMAP server supports <link href=\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox Resynchronization</link>."
-msgstr "Wählen Sie »Schnelles Abgleichen«, wenn der IMAP-Server <link href=\"http://tools.ietf.org/html/rfc5162\">IMAP4-Erweiterungen für schnellen Abgleich</link> unterstützt."
+msgid "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href=\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox Resynchronization</link>."
+msgstr "Wählen Sie <gui>Schnelles Abgleichen</gui>, wenn der IMAP-Server <link href=\"http://tools.ietf.org/html/rfc5162\">IMAP4-Erweiterungen für schnellen Abgleich</link> unterstützt."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:48
+#: C/mail-receiving-options-imap-plus.page:49
+msgid "If the mail server does not allow multiple connections from Evolution to the server at the same time (for example when you have more than one account on that server), set <gui>Number of concurrent connections to use</gui> to 1."
+msgstr "Falls der Mail-Server nicht mehr als eine gleichzeitige Verbindung von Evolution zulässt (z.B. wenn mehr als ein Konto auf dem Server abgerufen werden soll), legen Sie die <gui>Anzahl der gleichzeitigen Verbindungen</gui> mit 1 fest."
+
+#. (itstool) path: item/p
+#: C/mail-receiving-options-imap-plus.page:50
 msgid "You can also define if Evolution checks for new messages in all folders, or only in subscribed folders."
 msgstr "Wählen Sie, ob Evolution nach neuen Nachrichten in allen Ordnern, oder in abonnierten Ordnern schauen soll."
 
 #. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:49
-msgid "Select if you want Evolution to use custom commands to connect to the IMAP server."
-msgstr "Wählen Sie, ob Evolution einen benutzerdefinierten Befehl zum Verbinden mit dem IMAP-Server verwenden soll."
-
-#. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:50
+#: C/mail-receiving-options-imap-plus.page:51
 msgid "Select if you want Evolution to show only <link xref=\"mail-imap-subscriptions\">subscribed folders</link>."
 msgstr "Wählen Sie, ob Evolution nur <link xref=\"mail-imap-subscriptions\">abonnierte Ordner</link> anzeigen soll."
-
-#. (itstool) path: item/p
-#: C/mail-receiving-options-imap-plus.page:51
-msgid "Select if you want Evolution to override server-supplied folder namespaces."
-msgstr "Wählen Sie, ob Evolution sich über den vom Server vorgegebenen Ordner-Namensraum (Namespace) hinwegsetzen soll."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-local-delivery.page:5
@@ -7223,8 +7136,8 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-maildir-format-directories.page:40 C/mail-receiving-options-unix-mbox-spool-directory.page:39 C/mail-receiving-options-unix-mbox-spool-file.page:40
-msgid "If you want <link xref=\"mail-filters\">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in INBOX</gui>."
-msgstr "Wenn <link xref=\"mail-filters\">Filter</link> automatisch auf Nachrichten in Ihrem Posteingang angewendet werden sollen, so aktivieren Sie <gui>Filter auf neue Nachrichten im Eingang dieses Servers anwenden</gui>."
+msgid "If you want <link xref=\"mail-filters\">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox</gui>."
+msgstr "Wenn <link xref=\"mail-filters\">Filter</link> automatisch auf neue Nachrichten in Ihrem Posteingang angewendet werden sollen, so aktivieren Sie <gui>Filter auf neue Nachrichten im Eingang anwenden</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-mh-format-directories.page:5
@@ -8166,8 +8079,8 @@ msgstr "Im Reiter <gui>Unerwünscht</gui> haben Sie die Wahl zwischen folgenden 
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:69
-msgid "Checking incoming mail for junk messages."
-msgstr "Eingehende E-Mail auf Unerwünschtheit prüfen."
+msgid "Checking incoming messages for junk."
+msgstr "Eingehende Nachrichten auf Unerwünschtheit prüfen."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:70
@@ -8176,26 +8089,16 @@ msgstr "Unerwünscht-Ordner beim Beenden leeren, und wie oft unerwünschte Nachr
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:71
-msgid "Checking custom headers for junk."
-msgstr "Benutzerdefinierte Kopfzeilen auf Unerwünschtheit prüfen."
-
-#. (itstool) path: item/p
-#: C/mail-spam-settings.page:72
 msgid "Marking messages as not junk if the sender is in the address book."
 msgstr "Nachrichten nicht als Unerwünscht markieren, wenn der Absender im Adressbuch ist."
 
 #. (itstool) path: item/p
-#: C/mail-spam-settings.page:73
-msgid "The default junk filter."
-msgstr "Der vorgegebene Unerwünscht-Filter."
-
-#. (itstool) path: item/p
-#: C/mail-spam-settings.page:74
-msgid "Bogofilter and SpamAssassin options."
-msgstr "Optionen für Bogofilter und SpamAssassin."
+#: C/mail-spam-settings.page:72
+msgid "Checking custom mail headers (added by your mail server) for junk."
+msgstr "Benutzerdefinierte (durch E-Mail-Server hinzugefügte) Kopfzeilen auf Unerwünschtheit prüfen."
 
 #. (itstool) path: note/p
-#: C/mail-spam-settings.page:79
+#: C/mail-spam-settings.page:77
 msgid ""
 "For more information and specific Bogofilter or SpamAssassin configuration questions it is recommended to check out the Frequently Asked Questions for <link href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> resp. <link href=\"http://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
@@ -8338,7 +8241,7 @@ msgstr ""
 "speichern können, so dass diese bei der nächsten Verbindung mit einem Netzwerk verschickt werden können."
 
 #. (itstool) path: note/p
-#: C/mail-working-offline.page:27 C/offline.page:30
+#: C/mail-working-offline.page:27 C/offline.page:40
 msgid "Evolution's forced offline mode only refers to mail and does not apply to contacts and calendars."
 msgstr "Der erzwungene Offline-Modus von Evolution bezieht sich nur auf E-Mails und betrifft nicht Kontakte und Kalender."
 
@@ -8603,17 +8506,17 @@ msgid "Make Evolution mail be online again."
 msgstr "So bringen Sie Evolution in den Online-Modus."
 
 #. (itstool) path: page/title
-#: C/offline.page:23
-msgid "Why is Evolution's mail offline when my net connection is working?"
-msgstr "Warum ist Evolution im Offline-Modus, wenn eine funktionierende Netzverbindung verfügbar ist?"
+#: C/offline.page:27
+msgid "Why is Evolution's mail component offline?"
+msgstr "Warum ist Evolution E-Mail im Offline-Modus?"
 
 #. (itstool) path: page/p
-#: C/offline.page:24
+#: C/offline.page:28
 msgid "You may have started Evolution with the <cmd>--offline</cmd> commandline option to enforce offline mode."
 msgstr "Sie könnten Evolution mit der Befehlszeilenoption <cmd>--offline</cmd> gestartet haben."
 
 #. (itstool) path: page/p
-#: C/offline.page:26
+#: C/offline.page:30
 msgid ""
 "If this is not the case and Evolution normally works but has suddenly stopped connecting to your mail accounts, you may have unintentionally clicked on the connection icon in the lower left corner. When connected, the icon resembles a pair of sockets joined together. If the sockets are "
 "open, there is no connection to your mail accounts (and the <gui style=\"button\">Send/Receive</gui> button is grayed out). Click on the icon to change its state."
@@ -8622,13 +8525,18 @@ msgstr ""
 "verbunden sind ist keine Verbindung hergestellt (und der Knopf <gui style=\"button\">Senden/Empfangen</gui> ist ausgegraut). Klicken Sie auf das Symbol, um den Status zu ändern."
 
 #. (itstool) path: page/p
-#: C/offline.page:28
+#: C/offline.page:32
 msgid ""
 "If the problem persists and you are sure you have not clicked the icon, but you can still reach the network from other apps on your system (browsers, FTP, SSH, ping etc.) it may be that your network connection is not properly configured. For more information please take a look at the "
 "<link xref=\"help:gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/stable/net-problem\">Desktop help</link> or seek help from your distribution support forums, mailing lists etc."
 msgstr ""
 "Falls das Problem weiter besteht und Sie sicher sind, nicht auf das Symbol geklickt zu haben, und andere Netzwerk/Internet-Anwendungen (wie Web-Browser, FTP, SSH usw.) funktionieren, so könnte es sein, dass Ihre Netzwerkverbindung nicht richtig eingestellt ist. Für weitere Informationen "
 "lesen Sie bitte in der <link xref=\"help:gnome-help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/stable/net-problem\">GNOME-Hilfe</link> und ersuchen Sie Hilfe aus Internet-Foren zu Ihrer Distribution, Mailing-Listen usw."
+
+#. (itstool) path: page/p
+#: C/offline.page:35
+msgid "If you want to force Evolution to be in online mode, make sure that Evolution is not running and open a <app>Terminal</app> window and type the following command:"
+msgstr "Wenn Sie Evolution in den Online-Modus zwingen wollen, so stellen Sie sicher, dass Evolution nicht läuft, öffnen Sie ein <app>Terminal</app>-Fenster und tippen Sie den folgenden Befehl ein:"
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
@@ -8993,8 +8901,8 @@ msgstr "Wenn Sie eine Aufgabe ändern möchten, die bereits in Ihren Aufgabenlis
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:25
-msgid "Double-click on the task that you want to edit in the list of tasks, or right-click on the task and click <key>Open Task</key>."
-msgstr "Klicken Sie in der Aufgabenliste doppelt auf die zu bearbeitende Aufgabe oder klicken Sie mit der rechten Maustaste auf die Aufgabe und wählen Sie <key>Aufgabe öffnen</key>."
+msgid "Double-click on the task that you want to edit in the list of tasks, or right-click on the task and click <gui>Open Task</gui>."
+msgstr "Klicken Sie in der Aufgabenliste zweimal auf die zu bearbeitende Aufgabe oder klicken Sie mit der rechten Maustaste auf die Aufgabe und wählen Sie <gui>Aufgabe öffnen</gui>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:26
@@ -9377,19 +9285,24 @@ msgstr "Regex-Treffer:"
 msgid "regex"
 msgstr "Regex"
 
-#. (itstool) path: p/cmd
+#. (itstool) path: link/cmd
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "grep"
 msgstr "grep"
+
+#. (itstool) path: p/link
+#: C/xinclude-filter-vfolder-conditions.xml:62
+msgid "the man page for the <_:cmd-1/>"
+msgstr "Die Man-Dokumentation für <_:cmd-1/>"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all "
-"messages that declare a particular header twice. For information about how to use regular expressions, check the man page for the <_:cmd-2/> command."
+"messages that declare a particular header twice. For information about how to use regular expressions, check <_:link-2/> command."
 msgstr ""
 "(Nur für Programmierer) Falls Sie sich mit <_:link-1/>, d.h. regulären Ausdrücken auskennen, ermöglicht Ihnen diese Option nach komplexen Mustern von Buchstaben zu suchen, so dass sie zum Beispiel alle Wörter finden können, die mit einem »a« beginnen und einem »m« enden, und zwischen "
-"sechs und fünfzehn Buchstaben lang sind, oder alle Nachrichten, in denen eine bestimmte Kopfzeile doppelt vorhanden ist. Für weitere Informationen darüber, wie reguläre Ausdrücke genutzt werden können, lesen Sie die Hilfeseite für den Befehl <_:cmd-2/>."
+"sechs und fünfzehn Buchstaben lang sind, oder alle Nachrichten, in denen eine bestimmte Kopfzeile doppelt vorhanden ist. Für weitere Informationen darüber, wie reguläre Ausdrücke genutzt werden können, lesen Sie bitte die Hilfeseite für den Befehl <_:cmd-2/>."
 
 #. (itstool) path: section/title
 #: C/xinclude-mail-account-identity.xml:4
@@ -9547,6 +9460,92 @@ msgstr "Ändern Sie den Titel oder die gewünschten Suchkriterien im Dialogfeld.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
+
+#~ msgid "These steps are very technical. For average users we recommend using the <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\"><app>Seahorse</app> application</link> for creating GPG/OpenPGP keys."
+#~ msgstr "Diese Schritte sind sehr technisch. Für die meisten Anwender wird zur Erstellung der GPG/OpenPGP-Schlüssel die <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">Anwendung <app>Seahorse</app></link> empfohlen."
+
+#~ msgid "Before you can get or send GPG encrypted mail, you need to generate your public and private keys with GPG."
+#~ msgstr "Vor dem Empfangen oder Verschicken von mit GPG verschlüsselten E-Mails müssen Sie Ihren öffentlichen und privaten Schlüssel mit GPG erstellen."
+
+#~ msgid "Open the <app>Terminal</app> application and enter <cmd>gpg --gen-key</cmd>."
+#~ msgstr "Öffnen Sie ein <app>Terminal</app>fenster und geben Sie <cmd>gpg --gen-key</cmd> ein."
+
+#~ msgid "Select an algorithm, then press Enter."
+#~ msgstr "Wählen Sie einen Algorithmus und drücken Sie die Eingabetaste."
+
+#~ msgid "Select a key length, then press Enter."
+#~ msgstr "Wählen Sie eine Schlüssellänge und drücken Sie die <key>Eingabetaste</key>."
+
+#~ msgid "Enter how long your key should be valid for."
+#~ msgstr "Geben Sie ein, wie lang Ihr Schlüssel gültig sein soll."
+
+#~ msgid "Type your real name, then press Enter."
+#~ msgstr "Geben Sie Ihren vollen Namen ein und drücken Sie die Eingabetaste."
+
+#~ msgid "Type your email address, then press Enter."
+#~ msgstr "Geben Sie Ihre E-Mail-Adresse ein und drücken Sie die Eingabetaste."
+
+#~ msgid "(Optional) Type a comment, then press Enter."
+#~ msgstr "(Optional) Geben Sie einen Kommentar ein und drücken Sie die Eingabetaste."
+
+#~ msgid "Review your selected user ID. If it is correct, press O."
+#~ msgstr "Prüfen Sie die ausgewählte Benutzerkennung. Falls diese korrekt ist, so drücken Sie O."
+
+#~ msgid "Type a passphrase, then press Enter."
+#~ msgstr "Geben Sie eine Passphrase ein und drücken Sie die Eingabetaste."
+
+#~ msgid "Move your mouse randomly to generate the keys."
+#~ msgstr "Bewegen Sie Ihre Maus zufällig, um die Schlüssel zu erstellen."
+
+#~ msgid ""
+#~ "After the keys are generated, you can view your key information by entering <cmd>gpg --list-keys</cmd>. You should see something similar to this: <code> /home/you/.gnupg/pubring.gpg ---------------------------- pub 1024D/32j38dk2 2001-06-20 you &lt;you@example.com&gt; sub "
+#~ "1024g/289sklj3 2011-06-20 [expires: 2012-11-14]</code>"
+#~ msgstr ""
+#~ "Nachdem Ihre Schlüssel erstellt wurden, können Sie Ihre Schlüsselinformationen einsehen, indem Sie <cmd>gpg --list-keys</cmd> eingeben. Sie sollten etwas ähnliches wie dieses erhalten: <code> /home/you/.gnupg/pubring.gpg ----------------------------  pub 1024D/32j38dk2 2001-06-20 you "
+#~ "&lt;you@example.com&gt;  sub 1024g/289sklj3 2001-06-20 [expires: 2002-11-14]  </code>"
+
+#~ msgid "GPG creates one list, or keyring, for your public keys and one for your private keys. All the public keys you know are stored in the file <file>~/.gnupg/pubring.gpg</file>. If you want to give other people your key, send them that file."
+#~ msgstr ""
+#~ "GPG erstellt nun eine Liste, Schlüsselbund genannt, für Ihre öffentlichen Schlüssel und eine für Ihre geheimen Schlüssel. Alle Ihnen bekannten öffentlichen Schlüssel werden in der Datei <file>~/.gnupg/pubring.gpg</file> gespeichert. Wenn Sie anderen Ihren Schlüssel geben möchten, so "
+#~ "senden Sie ihnen diese Datei."
+
+#~ msgid "If you want, you can upload your keys to a key server:"
+#~ msgstr "Falls Sie möchten, können Sie Ihre Schlüssel auf einen Schlüssel-Server hochladen:"
+
+#~ msgid "Check your public key ID with <code>gpg --list-keys</code>. It is the string after <code>1024D</code> on the line beginning with <code>pub</code>. In the example above, it is <code>32j38dk2</code>."
+#~ msgstr ""
+#~ "Prüfen Sie die Kennung Ihres öffentlichen Schlüssels mit <code>gpg --list-keys</code>. Es handelt sich um den Text nach <code>1024D</code> in der Zeile, welche mit <code>pub</code> beginnt. Im obigen Beispiel lautet die Kennung Ihres öffentlichen Schlüssels <code>32j38dk2</code>."
+
+#~ msgid "Enter the command <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd>. Substitute your key ID for <code>32j38dk2</code>. You need your password to do this."
+#~ msgstr "Geben Sie den Befehl <cmd>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</cmd> ein. Sie benötigen Ihr Passwort, um diesen Befehl auszuführen."
+
+#~ msgid ""
+#~ "Key servers store your public keys for you so that your friends can decrypt your messages. If you choose not to use a key server, you can manually send your public key, include it in your signature file, or put it on your own Web page. However, it is easier to publish a key once, and "
+#~ "then let people download it from a central place when they want."
+#~ msgstr ""
+#~ "Schlüssel-Server speichern Ihre öffentlichen Schlüssel, so dass Ihre Freunde Ihre Nachrichten entschlüsseln können. Wenn Sie sich dazu entscheiden, keinen Schlüssel-Server zu benutzen, so können Sie Ihren öffentlichen Schlüssel per Hand verschicken, in Ihre Signatur einbauen, oder auf "
+#~ "Ihrer Internetseite veröffentlichen. Es ist allerdings einfacher, einen Schlüssel einmal zu veröffentlichen, so dass Menschen ihn von einem zentralen Ort herunterladen können."
+
+#~ msgid "If you don't have a key to unlock or encrypt a message, you can set your encryption tool to look it up automatically. If it cannot find the key, an error message appears."
+#~ msgstr "Falls Sie keinen Schlüssel zum Verschlüsseln oder Entschlüsseln einer Nachricht besitzen, so können Sie Ihr Verschlüsselungsprogramm so einstellen, dass dieser Schlüssel automatisch gesucht wird. Falls kein Schlüssel gefunden werden kann, wird eine Fehlermeldung angezeigt."
+
+#~ msgid "If you want <link xref=\"mail-filters\">Filters</link> to be automatically used for new messages in your inbox, enable <gui>Apply filters to new messages in Inbox on this server</gui>."
+#~ msgstr "Wenn <link xref=\"mail-filters\">Filter</link> automatisch auf Nachrichten in Ihrem Posteingang angewendet werden sollen, so aktivieren Sie <gui>Filter auf neue Nachrichten im Eingang dieses Servers anwenden</gui>."
+
+#~ msgid "Select if you want Evolution to use custom commands to connect to the IMAP server."
+#~ msgstr "Wählen Sie, ob Evolution einen benutzerdefinierten Befehl zum Verbinden mit dem IMAP-Server verwenden soll."
+
+#~ msgid "Select if you want Evolution to override server-supplied folder namespaces."
+#~ msgstr "Wählen Sie, ob Evolution sich über den vom Server vorgegebenen Ordner-Namensraum (Namespace) hinwegsetzen soll."
+
+#~ msgid "Checking incoming mail for junk messages."
+#~ msgstr "Eingehende E-Mail auf Unerwünschtheit prüfen."
+
+#~ msgid "The default junk filter."
+#~ msgstr "Der vorgegebene Unerwünscht-Filter."
+
+#~ msgid "Bogofilter and SpamAssassin options."
+#~ msgstr "Optionen für Bogofilter und SpamAssassin."
 
 #~ msgid "Emails"
 #~ msgstr "E-Mails"
