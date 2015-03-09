@@ -2,7 +2,7 @@
       type="guide" id="mail-composer-custom-header-lines">
 
   <info>
-    <desc>Using custom fields in the header of composed messages</desc>
+    <desc>Using custom fields in the header of composed messages.</desc>
 
     <link type="guide" xref="index#mail-composing-advanced" />
 
