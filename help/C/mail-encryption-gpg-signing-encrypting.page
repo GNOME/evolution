@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="2.32.1" version="0.3" date="2011-08-24" status="final"/>
+    <revision pkgversion="3.13.90" version="0.4" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -27,7 +27,7 @@
      deleting this page-->
 
 
-<p>After you have <link xref="mail-encryption-gpg-set-up">set up your GPG key</link>, you can sign or encrypt a message by clicking <guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</gui> from the message composer menu.</p>
+<p>After you have <link xref="mail-encryption-gpg-set-up">set up your GPG key</link>, you can sign or encrypt a message by selecting <guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</gui> from the message composer menu or clicking the corresponding toolbar icon.</p>
 <note style="tip"><p>The Subject line of the message will not be encrypted and should not be used for sensitive information.</p></note>
 
 <p>To have every message signed or encrypted:</p>
