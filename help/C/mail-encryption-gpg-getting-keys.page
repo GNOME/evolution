@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="2.32.1" version="0.2" date="2011-07-27" status="final"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -21,11 +21,6 @@
   </info>
 
   <title>Getting and using GPG public keys</title>
-<!-- TODO:POST-3-8: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
-<p>To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to get the public key and add it to your keyring.</p>
-
-<p>To get public keys from a public key server, enter the command <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting <code>keyid</code> by your recipient's ID. You need to enter your password, and the ID is automatically added to your keyring.</p>
-
-<p>If someone sends you a public key directly, save it as a plain text file and enter the command <cmd>gpg --import</cmd> to add it to your keyring.</p>
+<p>To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to <link xref="help:seahorse/pgp-import" href="https://help.gnome.org/users/seahorse/stable/pgp-import">get the public key and add it to your keyring</link>.</p>
 </page>
