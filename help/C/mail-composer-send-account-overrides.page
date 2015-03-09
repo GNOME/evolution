@@ -1,0 +1,30 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-composer-send-account-overrides">
+
+  <info>
+   <desc>Assign your mail accounts to certain folders or recipients.</desc>
+   
+   <link type="guide" xref="index#mail-composing-advanced" />
+   <link type="seealso" xref="mail-folders" />
+
+ <revision pkgversion="3.13.90" version="0.1" date="2015-03-09" status="draft"/>
+ <credit type="author">
+   <name its:translate="no">Andre Klapper</name>
+   <email its:translate="no">ak-47@gmx.net</email>
+ </credit>
+ 
+ <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+     
+
+  </info>
+
+<title>Send Account Overrides</title>
+
+<p>If you use more than one email account, you can define which account should always be used as your sender address:</p>
+<list>
+<item><p>When replying to mail in specific <link xref="mail-folders">folders</link>.</p></item>
+<item><p>When replying to certain email addresses, names, or parts of email addresses or names.</p></item>
+</list>
+<p>These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>.</p>
+
+</page>
