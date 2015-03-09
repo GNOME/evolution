@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-03-08 20:25+0000\n"
-"PO-Revision-Date: 2015-03-08 21:49+0100\n"
+"PO-Revision-Date: 2015-03-09 20:52+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: Slovenian\n"
@@ -10639,7 +10639,6 @@ msgid "GPG signed"
 msgstr "Podpisano z GPG"
 
 #: ../em-format/e-mail-formatter-utils.c:570
-#, fuzzy
 msgid "GPG encrypted"
 msgstr "Šifrirano z GPG"
 
@@ -10648,7 +10647,6 @@ msgid "S/MIME signed"
 msgstr "Podpisano z S/MIME"
 
 #: ../em-format/e-mail-formatter-utils.c:582
-#, fuzzy
 msgid "S/MIME encrypted"
 msgstr "Šifrirano z S/MIME"
 
@@ -11997,9 +11995,8 @@ msgid "For_mat"
 msgstr ""
 
 #: ../e-util/e-html-editor-actions.c:1029
-#, fuzzy
 msgid "_Paragraph Style"
-msgstr "Slog orodne _vrstice"
+msgstr "Slog _odstavkov"
 
 #: ../e-util/e-html-editor-actions.c:1043
 #: ../e-util/e-html-editor-image-dialog.c:591
@@ -12056,9 +12053,8 @@ msgid "Search for and replace text"
 msgstr "Poišči besedilo v prikazanem stiku"
 
 #: ../e-util/e-html-editor-actions.c:1116
-#, fuzzy
 msgid "Check _Spelling..."
-msgstr "Prekinjanje ..."
+msgstr "Preveri _črkovanje ..."
 
 #: ../e-util/e-html-editor-actions.c:1123
 msgid "_Decrease Indent"
@@ -12083,9 +12079,8 @@ msgid "_Center"
 msgstr "Na _sredini"
 
 #: ../e-util/e-html-editor-actions.c:1149
-#, fuzzy
 msgid "Center Alignment"
-msgstr "_Poravnava"
+msgstr "Sredinska poravnava"
 
 #. Left
 #: ../e-util/e-html-editor-actions.c:1154
@@ -12094,9 +12089,8 @@ msgid "_Left"
 msgstr "_Levo"
 
 #: ../e-util/e-html-editor-actions.c:1156
-#, fuzzy
 msgid "Left Alignment"
-msgstr "_Poravnava"
+msgstr "Leva poravnava"
 
 #. Right
 #: ../e-util/e-html-editor-actions.c:1161
@@ -12105,9 +12099,8 @@ msgid "_Right"
 msgstr "_Desno"
 
 #: ../e-util/e-html-editor-actions.c:1163
-#, fuzzy
 msgid "Right Alignment"
-msgstr "_Poravnava"
+msgstr "Desna poravnava"
 
 #: ../e-util/e-html-editor-actions.c:1171
 #: ../modules/text-highlight/languages.c:72
@@ -12119,9 +12112,8 @@ msgid "HTML editing mode"
 msgstr ""
 
 #: ../e-util/e-html-editor-actions.c:1178
-#, fuzzy
 msgid "Plain _Text"
-msgstr "Običajno besedilo"
+msgstr "_Običajno besedilo"
 
 #: ../e-util/e-html-editor-actions.c:1180
 #, fuzzy
@@ -12129,9 +12121,8 @@ msgid "Plain text editing mode"
 msgstr "Način običajnega besedila"
 
 #: ../e-util/e-html-editor-actions.c:1188
-#, fuzzy
 msgid "_Normal"
-msgstr "Običajno"
+msgstr "_Običajno"
 
 #: ../e-util/e-html-editor-actions.c:1195
 msgid "Header _1"
@@ -12203,28 +12194,24 @@ msgid "_Link..."
 msgstr "_Povezava ..."
 
 #: ../e-util/e-html-editor-actions.c:1305
-#, fuzzy
 msgid "Insert Link"
-msgstr "_Vstavi"
+msgstr "Vstavi povezavo"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1311
 #: ../e-util/e-html-editor-actions.c:1355
-#, fuzzy
 msgid "_Rule..."
-msgstr "_Preimenuj ..."
+msgstr "_Pravilo ..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1314
-#, fuzzy
 msgid "Insert Rule"
-msgstr "_Vstavi"
+msgstr "Vstavi pravilo"
 
 #: ../e-util/e-html-editor-actions.c:1319
 #: ../e-util/e-html-editor-actions.c:1362
-#, fuzzy
 msgid "_Table..."
-msgstr "Razpredelnica"
+msgstr "_Razpredelnica ..."
 
 #: ../e-util/e-html-editor-actions.c:1321
 #, fuzzy
@@ -12236,9 +12223,8 @@ msgid "_Cell..."
 msgstr ""
 
 #: ../e-util/e-html-editor-actions.c:1347
-#, fuzzy
 msgid "Pa_ge..."
-msgstr "Shrani _sliko ..."
+msgstr "S_tran ..."
 
 #: ../e-util/e-html-editor-actions.c:1371
 msgid "Font _Size"
@@ -12287,14 +12273,12 @@ msgstr "Prečrtano"
 
 #: ../e-util/e-html-editor-actions.c:1428
 #: ../e-util/e-html-editor-text-dialog.c:236
-#, fuzzy
 msgid "_Underline"
-msgstr "Nedoločeno"
+msgstr "_Podpisano"
 
 #: ../e-util/e-html-editor-actions.c:1430
-#, fuzzy
 msgid "Underline"
-msgstr "Nedoločeno"
+msgstr "Podpisano"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../e-util/e-html-editor-actions.c:1440
@@ -12337,14 +12321,12 @@ msgid "Cell Contents"
 msgstr "_Vsebina"
 
 #: ../e-util/e-html-editor-actions.c:1514
-#, fuzzy
 msgid "Column"
-msgstr "Dodaj stolpec"
+msgstr "Stolpec"
 
 #: ../e-util/e-html-editor-actions.c:1521
-#, fuzzy
 msgid "Row"
-msgstr "nizka"
+msgstr "Vrstica"
 
 #: ../e-util/e-html-editor-actions.c:1528
 #: ../e-util/e-html-editor-actions.c:1613
@@ -12368,9 +12350,8 @@ msgid "Table Insert"
 msgstr "Celica razpredelnice"
 
 #: ../e-util/e-html-editor-actions.c:1560
-#, fuzzy
 msgid "Properties"
-msgstr "_Lastnosti"
+msgstr "_"
 
 #: ../e-util/e-html-editor-actions.c:1578
 msgid "Column After"
@@ -12398,18 +12379,16 @@ msgid "Cell..."
 msgstr ""
 
 #: ../e-util/e-html-editor-actions.c:1627
-#, fuzzy
 msgid "Image..."
-msgstr "Slika"
+msgstr "Slika ..."
 
 #: ../e-util/e-html-editor-actions.c:1634
 msgid "Link..."
 msgstr ""
 
 #: ../e-util/e-html-editor-actions.c:1641
-#, fuzzy
 msgid "Page..."
-msgstr "Pozivnik"
+msgstr "Stran ..."
 
 #: ../e-util/e-html-editor-actions.c:1648
 msgid "Paragraph..."
@@ -12417,24 +12396,20 @@ msgstr ""
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1656
-#, fuzzy
 msgid "Rule..."
-msgstr "_Polno ime ..."
+msgstr "Pravilo ..."
 
 #: ../e-util/e-html-editor-actions.c:1663
-#, fuzzy
 msgid "Table..."
-msgstr "Razpredelnica"
+msgstr "Razpredelnica ..."
 
 #: ../e-util/e-html-editor-actions.c:1670
-#, fuzzy
 msgid "Text..."
-msgstr "Izb_eri ..."
+msgstr "Besedilo ..."
 
 #: ../e-util/e-html-editor-actions.c:1677
-#, fuzzy
 msgid "Remove Link"
-msgstr "_Odstrani"
+msgstr "Odstrani povezavo"
 
 #: ../e-util/e-html-editor-actions.c:1694
 #, fuzzy
@@ -12473,14 +12448,12 @@ msgid "Insert Emoticon"
 msgstr "Znova zaženi Evolution"
 
 #: ../e-util/e-html-editor-actions.c:1981
-#, fuzzy
 msgid "Re_place"
 msgstr "_Zamenjaj"
 
 #: ../e-util/e-html-editor-actions.c:1984
-#, fuzzy
 msgid "_Image"
-msgstr "Slika"
+msgstr "_Slika"
 
 #: ../e-util/e-html-editor-actions.c:1987
 msgid "_Link"
@@ -12488,38 +12461,33 @@ msgstr "_Povezava"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1991
-#, fuzzy
 msgid "_Rule"
-msgstr "Dodaj pravilo"
+msgstr "_Pravilo"
 
 #: ../e-util/e-html-editor-actions.c:1994
 #: ../e-util/e-html-editor-cell-dialog.c:668
-#, fuzzy
 msgid "_Table"
-msgstr "Razpredelnica"
+msgstr "_Razpredelnica"
 
 #: ../e-util/e-html-editor.c:672
 msgid "Paragraph Style"
 msgstr ""
 
 #: ../e-util/e-html-editor.c:686
-#, fuzzy
 msgid "Editing Mode"
-msgstr "Uredi opomnik"
+msgstr "Način urejanja"
 
 #: ../e-util/e-html-editor.c:698
-#, fuzzy
 msgid "Font Color"
-msgstr "Odstrani barvo"
+msgstr "Barva pisava"
 
 #: ../e-util/e-html-editor.c:716
-#, fuzzy
 msgid "Font Size"
-msgstr "Velikost"
+msgstr "Velikost pisave"
 
 #: ../e-util/e-html-editor-cell-dialog.c:628
 msgid "<b>Scope</b>"
-msgstr ""
+msgstr "<b>Obseg</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:642
 msgid "C_ell"
@@ -12527,11 +12495,11 @@ msgstr ""
 
 #: ../e-util/e-html-editor-cell-dialog.c:655
 msgid "_Row"
-msgstr ""
+msgstr "_Vrstica"
 
 #: ../e-util/e-html-editor-cell-dialog.c:681
 msgid "Col_umn"
-msgstr ""
+msgstr "_Stolpec"
 
 #: ../e-util/e-html-editor-cell-dialog.c:691
 msgid "<b>Alignment &amp; Behavior</b>"
@@ -12598,12 +12566,12 @@ msgstr "Vrednost glave"
 #: ../e-util/e-html-editor-image-dialog.c:521
 #: ../e-util/e-html-editor-table-dialog.c:762
 msgid "<b>Layout</b>"
-msgstr ""
+msgstr "<b>Porazdelitev</b>"
 
 #. Width
 #: ../e-util/e-html-editor-cell-dialog.c:771
 msgid "_Width"
-msgstr ""
+msgstr "_Širina"
 
 #: ../e-util/e-html-editor-cell-dialog.c:810
 msgid "Row S_pan:"
@@ -12624,9 +12592,8 @@ msgid "Transparent"
 msgstr ""
 
 #: ../e-util/e-html-editor-cell-dialog.c:852
-#, fuzzy
 msgid "C_olor:"
-msgstr "Barva:"
+msgstr "_Barva:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:860
 #: ../e-util/e-html-editor-image-dialog.c:483
@@ -12638,21 +12605,18 @@ msgstr "Ni mogoče nastaviti kot ozadje"
 #: ../e-util/e-html-editor-cell-dialog.c:865
 #: ../e-util/e-html-editor-image-dialog.c:489
 #: ../e-util/e-html-editor-table-dialog.c:900
-#, fuzzy
 msgid "Images"
-msgstr "Slika"
+msgstr "Slike"
 
 #: ../e-util/e-html-editor-cell-dialog.c:878
-#, fuzzy
 msgid "_Image:"
-msgstr "Slika"
+msgstr "_Slika:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:885
 #: ../e-util/e-html-editor-page-dialog.c:516
 #: ../e-util/e-html-editor-table-dialog.c:920
-#, fuzzy
 msgid "_Remove image"
-msgstr "_Brez slike"
+msgstr "_Odstranu sliko"
 
 #: ../e-util/e-html-editor-cell-dialog.c:905
 #, fuzzy
@@ -12681,9 +12645,8 @@ msgid "_Wrap Search"
 msgstr "I_skanje"
 
 #: ../e-util/e-html-editor-find-dialog.c:213
-#, fuzzy
 msgid "Find"
-msgstr "_Najdi"
+msgstr "Najdi"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:300
 msgid "<b>Size</b>"
@@ -12697,9 +12660,8 @@ msgid "_Width:"
 msgstr ""
 
 #: ../e-util/e-html-editor-hrule-dialog.c:345
-#, fuzzy
 msgid "_Size:"
-msgstr "Velikost"
+msgstr "_Velikost:"
 
 #: ../e-util/e-html-editor-hrule-dialog.c:352
 msgid "<b>Style</b>"
@@ -12707,9 +12669,8 @@ msgstr ""
 
 #: ../e-util/e-html-editor-hrule-dialog.c:377
 #: ../e-util/e-html-editor-table-dialog.c:859
-#, fuzzy
 msgid "_Alignment:"
-msgstr "_Poravnava"
+msgstr "_Poravnava:"
 
 #. Shaded
 #: ../e-util/e-html-editor-hrule-dialog.c:383
@@ -12717,21 +12678,18 @@ msgid "S_haded"
 msgstr ""
 
 #: ../e-util/e-html-editor-hrule-dialog.c:400
-#, fuzzy
 msgid "Rule properties"
-msgstr "Lastnosti mape"
+msgstr "Lastnosti pravila"
 
 #: ../e-util/e-html-editor-image-dialog.c:471
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
 #: ../e-util/e-html-editor-table-dialog.c:716
-#, fuzzy
 msgid "<b>General</b>"
-msgstr "Splošno"
+msgstr "<b>Splošno</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:500
-#, fuzzy
 msgid "_Source:"
-msgstr "Izvorna koda"
+msgstr "_Vir:"
 
 #: ../e-util/e-html-editor-image-dialog.c:563
 msgid "_Height:"
@@ -12752,13 +12710,12 @@ msgstr ""
 
 #: ../e-util/e-html-editor-image-dialog.c:646
 msgid "<b>Link</b>"
-msgstr ""
+msgstr "<b>Povezava</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:664
 #: ../e-util/e-html-editor-link-dialog.c:345
-#, fuzzy
 msgid "_URL:"
-msgstr "Naslov URL:"
+msgstr "_Spletni naslov:"
 
 #: ../e-util/e-html-editor-image-dialog.c:669
 #: ../e-util/e-html-editor-link-dialog.c:350
@@ -12766,19 +12723,16 @@ msgid "_Test URL..."
 msgstr ""
 
 #: ../e-util/e-html-editor-image-dialog.c:686
-#, fuzzy
 msgid "Image Properties"
-msgstr "Lastnosti kategorije"
+msgstr "Lastnosti slike"
 
 #: ../e-util/e-html-editor-link-dialog.c:374
-#, fuzzy
 msgid "_Remove Link"
-msgstr "_Odstrani"
+msgstr "_Odstrani povezavo"
 
 #: ../e-util/e-html-editor-link-dialog.c:399
-#, fuzzy
 msgid "Link Properties"
-msgstr "_Lastnosti"
+msgstr "Lastnosti povezave"
 
 #: ../e-util/e-html-editor-page-dialog.c:69
 msgid "Perforated Paper"
@@ -12811,30 +12765,27 @@ msgstr ""
 
 #: ../e-util/e-html-editor-page-dialog.c:415
 msgid "<b>Colors</b>"
-msgstr ""
+msgstr "<b>Barve</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:434
-#, fuzzy
 msgid "_Text:"
-msgstr "_Le besedilo"
+msgstr "_Besedilo:"
 
 #: ../e-util/e-html-editor-page-dialog.c:449
 msgid "_Link:"
 msgstr ""
 
 #: ../e-util/e-html-editor-page-dialog.c:464
-#, fuzzy
 msgid "_Background:"
-msgstr "Nastavi kot _ozadje"
+msgstr "_Ozadje:"
 
 #: ../e-util/e-html-editor-page-dialog.c:472
 msgid "<b>Background Image</b>"
 msgstr ""
 
 #: ../e-util/e-html-editor-page-dialog.c:494
-#, fuzzy
 msgid "_Template:"
-msgstr "Predloga:"
+msgstr "_Predloga:"
 
 #: ../e-util/e-html-editor-page-dialog.c:502
 #: ../e-util/e-import-assistant.c:283
@@ -12842,14 +12793,12 @@ msgid "Select a file"
 msgstr "Izbor datoteke"
 
 #: ../e-util/e-html-editor-page-dialog.c:509
-#, fuzzy
 msgid "_Custom:"
-msgstr "_Po meri"
+msgstr "_Po meri:"
 
 #: ../e-util/e-html-editor-page-dialog.c:536
-#, fuzzy
 msgid "Page Properties"
-msgstr "_Lastnosti"
+msgstr "Lastnosti strani"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:83
 #, fuzzy
@@ -12857,9 +12806,8 @@ msgid "_Style:"
 msgstr "Slog odgovo_ra:"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:90
-#, fuzzy
 msgid "<b>Alignment</b>"
-msgstr "_Poravnava"
+msgstr "<b>Poravnava</b>"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:155
 #, fuzzy
@@ -12876,9 +12824,8 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: ../e-util/e-html-editor-replace-dialog.c:212
-#, fuzzy
 msgid "R_eplace:"
-msgstr "_Zamenjaj"
+msgstr "_Zamenjaj:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:224
 msgid "_With:"
@@ -12903,36 +12850,32 @@ msgid "_Replace"
 msgstr "_Zamenjaj"
 
 #: ../e-util/e-html-editor-replace-dialog.c:266
-#, fuzzy
 msgid "Replace _All"
-msgstr "Odgovori _vsem"
+msgstr "Zamenjaj _vse"
 
 #: ../e-util/e-html-editor-replace-dialog.c:286
-#, fuzzy
 msgctxt "dialog-title"
 msgid "Replace"
-msgstr "_Zamenjaj"
+msgstr "Zamenjaj"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:87
 #, c-format
 msgid "<b>Suggestions for '%s'</b>"
-msgstr ""
+msgstr "<b>Predlogi za '%s'</b>"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:501
 msgid "<b>Suggestions</b>"
-msgstr ""
+msgstr "<b>Predlogi</b>"
 
 #. Replace
 #: ../e-util/e-html-editor-spell-check-dialog.c:536
-#, fuzzy
 msgid "Replace"
-msgstr "_Zamenjaj"
+msgstr "Zamenjaj"
 
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:545
-#, fuzzy
 msgid "Replace All"
-msgstr "_Zamenjaj"
+msgstr "Zamenjaj vse"
 
 #. Ignore
 #: ../e-util/e-html-editor-spell-check-dialog.c:554
@@ -12953,7 +12896,7 @@ msgstr "Pojdi nazaj"
 
 #: ../e-util/e-html-editor-spell-check-dialog.c:581
 msgid "<b>Dictionary</b>"
-msgstr ""
+msgstr "<b>Slovar</b>"
 
 #. Add Word button
 #: ../e-util/e-html-editor-spell-check-dialog.c:601
@@ -12986,14 +12929,12 @@ msgstr "Nalaganje"
 
 #: ../e-util/e-html-editor-table-dialog.c:887
 #: ../e-util/e-html-editor-text-dialog.c:261
-#, fuzzy
 msgid "_Color:"
-msgstr "Barva:"
+msgstr "_Barva:"
 
 #: ../e-util/e-html-editor-table-dialog.c:913
-#, fuzzy
 msgid "Image:"
-msgstr "Slika"
+msgstr "Slika:"
 
 #: ../e-util/e-html-editor-table-dialog.c:940
 #, fuzzy
@@ -15009,10 +14950,10 @@ msgstr "Prejemanje elektronske pošte"
 #. Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
 #. The first '%s' is a key ID, the second '%s' is a display name of the key.
 #: ../mail/e-mail-config-security-page.c:251
-#, fuzzy, c-format
+#, c-format
 msgctxt "PGPKeyDescription"
 msgid "%s - %s"
-msgstr "Naloga - %s"
+msgstr "%s - %s"
 
 #: ../mail/e-mail-config-security-page.c:340
 #: ../mail/em-folder-properties.c:334 ../mail/mail-config.ui.h:29
@@ -15238,40 +15179,34 @@ msgstr "Ime _mape:"
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../mail/e-mail-free-form-exp.c:226
-#, fuzzy
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Odgovorjeno"
 
 #: ../mail/e-mail-free-form-exp.c:227
-#, fuzzy
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Izbrisano"
 
 #: ../mail/e-mail-free-form-exp.c:228
-#, fuzzy
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Osnutek"
 
 #: ../mail/e-mail-free-form-exp.c:229
-#, fuzzy
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Označeno z zastavico"
 
 #: ../mail/e-mail-free-form-exp.c:230
-#, fuzzy
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Videno"
 
 #: ../mail/e-mail-free-form-exp.c:231
-#, fuzzy
 msgctxt "ffe"
 msgid "Attachment"
-msgstr "Prilog"
+msgstr "Priloge"
 
 #: ../mail/e-mail-free-form-exp.c:479
 #, fuzzy
@@ -17250,9 +17185,8 @@ msgid "_Delete junk messages"
 msgstr "Izbriši _vsiljeno pošto"
 
 #: ../mail/mail-config.ui.h:117
-#, fuzzy
 msgid "Junk Test Options"
-msgstr "Preizkus vsiljene pošte"
+msgstr "Možnosti preizkusa vsiljene pošte"
 
 #: ../mail/mail-config.ui.h:118
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -19243,28 +19177,24 @@ msgid "I_mport"
 msgstr "_Uvozi"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:337
-#, fuzzy
 msgid "Importing an event"
-msgstr "Uvažanje podatkov Pine"
+msgstr "Uvažanje dogodka"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:341
-#, fuzzy
 msgid "Importing a memo"
-msgstr "Uvažanje poštnega predala"
+msgstr "Uvažanje opomnika"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:345
-#, fuzzy
 msgid "Importing a task"
-msgstr "Uvažanje podatkov Elm"
+msgstr "Uvažanje naloge"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:403
 msgid "Select a Calendar"
 msgstr "Izbor koledarja"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
-#, fuzzy
 msgid "Select a Memo List"
-msgstr "_Izbriši seznam opomnikov"
+msgstr "Izbor seznama opomnikov"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
@@ -19275,14 +19205,12 @@ msgid "I_mport to Calendar"
 msgstr "Uvoz_i v koledar"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:431
-#, fuzzy
 msgid "I_mport to Memo List"
-msgstr "Uvoz_i v naloge"
+msgstr "Uvoz_i v seznam opomnikov"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:438
-#, fuzzy
 msgid "I_mport to Task List"
-msgstr "Uvoz_i v naloge"
+msgstr "Uvoz_i v seznam nalog"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:186
 #: ../modules/calendar/e-cal-shell-view-actions.c:162
@@ -21666,19 +21594,16 @@ msgid "On exit, every time"
 msgstr "Ob izhodu, vedno"
 
 #: ../modules/mail/em-mailer-prefs.c:80
-#, fuzzy
 msgid "Once per day"
-msgstr "Ob izhodu, enkrat na dan"
+msgstr "Enkrat na dan"
 
 #: ../modules/mail/em-mailer-prefs.c:81
-#, fuzzy
 msgid "Once per week"
-msgstr "Ob izhodu, enkrat na teden"
+msgstr "Enkrat na teden"
 
 #: ../modules/mail/em-mailer-prefs.c:82
-#, fuzzy
 msgid "Once per month"
-msgstr "Ob izhodu, enkrat na mesec"
+msgstr "Enkrat na mesec"
 
 #: ../modules/mail/em-mailer-prefs.c:83
 msgid "Immediately, on folder leave"
@@ -22715,21 +22640,18 @@ msgstr "Ustvarjeno iz pošte z %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:594
-#, fuzzy
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Prekliči"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:596
-#, fuzzy
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Uredi"
 
 #. Translators: Dialog button to create a New event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:598
-#, fuzzy
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Nova"
@@ -23601,10 +23523,9 @@ msgstr "Izvedi te parametre iskanja"
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
 #: ../shell/e-shell-window.c:505
-#, fuzzy
 msgctxt "toolbar-button"
 msgid "New"
-msgstr "Nov"
+msgstr "Novo"
 
 #. Translators: This is used for the main window title.
 #: ../shell/e-shell-window-private.c:579
