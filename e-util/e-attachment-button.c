@@ -681,7 +681,7 @@ e_attachment_button_init (EAttachmentButton *button)
 }
 
 GtkWidget *
-e_attachment_button_new ()
+e_attachment_button_new (void)
 {
 	return g_object_new (
 		E_TYPE_ATTACHMENT_BUTTON, NULL);
