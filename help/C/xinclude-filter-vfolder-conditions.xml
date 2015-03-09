@@ -28,6 +28,9 @@
 <item><p>Expression:</p>
 <p>(For programmers only) Match a message according to an expression you write in the Scheme language used to define <link xref="mail-filters">filters</link> in Evolution.</p></item>
 
+<item><p>Free Form Expression:</p>
+<p>(For advanced users only) Combine numerous conditions by using a <link href="https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10">special syntax</link>.</p></item>
+
 <item><p>Date sent:</p>
 <p>Filters messages according to the date on which they were sent. First, choose the conditions you want a message to meet, such as before a given time or after a given time. Then choose the time. The filter compares the message's time stamp to the system clock when the filter is run, or to a specific time and date you choose from a calendar. You can also have it look for a message within a range of time relative to the filter, such as two to four days ago.</p></item>
 

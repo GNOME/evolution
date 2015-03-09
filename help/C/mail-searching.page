@@ -7,7 +7,7 @@
     <link type="guide" xref="searching-items" />
     <link type="guide" xref="mail-organizing" />
  
-    <revision pkgversion="3.3.91" version="0.5" date="2012-02-18" status="draft" />
+    <revision pkgversion="3.13.90" version="0.6" date="2015-03-09" status="draft" />
     <credit type="author">
       <name its:translate="no">Max Vorobuov</name>
       <email its:translate="no">vmax0770@gmail.com</email>
@@ -40,7 +40,9 @@
 <p>In the mail view, you can quickly search for messages by defining conditions.</p>
 <steps>
 <item><p>Click on the search icon <media type="image" mime="image/png" its:translate="no" src="figures/search-icon.png"/> to expand the drop-down list.</p></item>
-<item><p>Select the search condition from the list.</p></item>
+<item><p>Select the search condition from the list.</p>
+<note style="tip"><p>Advanced users can <link href="https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10">combine numerous conditions by using the <gui>Free form expression</gui> syntax</link>.</p></note>
+</item>
 <item><p>Select the scope from the drop-down list right to the text box.</p>
 <note style="tip"><p>For the <gui>Current Account</gui> scope, the term "account" refers to top-level nodes in the <link xref="intro-main-window#e-mail"> mail folder list</link>, like "On this computer" and remote mail accounts.</p></note>
 </item>
