@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-encryption#gpg"/>
 
-    <revision pkgversion="2.32.1" version="0.3" date="2012-02-18" status="final"/>
+    <revision pkgversion="3.13.90" version="0.4" date="2015-03-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -21,7 +21,7 @@
   </info>
 
   <title>Setting up GPG for your mail account</title>
-<!-- TODO:POST-3-8: Update and rewrite using Seahorse. Needs a complete rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
+<!-- TODO:POST-3-8: Update and rewrite using Seahorse. Needs a rewrite once https://bugzilla.gnome.org/show_bug.cgi?id=745872 and https://bugzilla.gnome.org/show_bug.cgi?id=508744 is fixed. -->
 
 <note style="tip"><p>You need a GPG key to do this. If you do not have one yet, please refer to <link xref="mail-encryption-gpg-create-key">Creating a GPG key</link>.</p></note>
 
@@ -29,12 +29,12 @@
 <item><p>Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>.</p></item>
 <item><p>Select the account you want to use securely, then click <gui style="button">Edit</gui>.</p></item>
 <item><p>Click the <gui>Security</gui> tab.</p></item>
-<item><p>Specify your key ID in the <gui>PGP/GPG Key ID</gui> field.</p>
+<item><p>Specify your key ID in the <gui>OpenPGP Key ID</gui> field.</p>
 <note style="tip"><p>Below the field you can choose whether to always sign outgoing messages when using this account, and other options.</p></note>
 </item>
 <item><p>Click <gui style="button">OK</gui>.</p></item>
 <item><p>Click <gui style="button">Close</gui>.</p></item>
 </steps>
-<p>Evolution requires that you know your key ID. If you do not remember it, you can find it by typing <cmd>gpg --list-keys</cmd> in the <app>Terminal</app> application. Your key ID is an eight-character string with random numbers and letters.</p>
+<p>Evolution requires that you know your key ID. If you do not remember it, start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the preferred GPG key, right-click on it, select <gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an eight-character string with random numbers and letters.</p>
 
 </page>
