@@ -6,7 +6,7 @@
 
     <link type="guide" xref="index#mail-composing-advanced" />
 
-    <revision pkgversion="3.3.91" version="0.2" date="2012-02-19" status="draft"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,8 +22,8 @@
 
 <title>Prioritizing outgoing messages</title>
 
-<p>You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, click <guiseq><gui>Options</gui><gui>Prioritize Message</gui></guiseq> in the composer window.</p>
+<p>You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, select <guiseq><gui>Options</gui><gui>Prioritize Message</gui></guiseq> in the menu of the composer window or click the corresponding toolbar icon.</p>
 
 <note style="tip"><p>Evolution will ignore the message priority of incoming messages because the recipient should decide whether the message is important or not. You can set the "Important" flag for any messages.</p></note>
-
+<!-- TODO: Nowhere is explained how to set the Important flag. -->
 </page>
