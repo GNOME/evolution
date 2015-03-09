@@ -251,7 +251,7 @@ static void
 sao_account_treeview_selection_changed_cb (GtkTreeSelection *selection,
                                            GtkBuilder *builder)
 {
-	GtkTreeModel *model = NULL;
+	GtkTreeModel *model;
 	GtkWidget *widget;
 	gboolean enable = FALSE;
 
@@ -304,6 +304,25 @@ sao_account_treeview_selection_changed_cb (GtkTreeSelection *selection,
 	widget = e_builder_get_widget (builder, "sao-recipients-frame");
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 	gtk_widget_set_sensitive (widget, enable);
+}
+
+static void
+sao_account_row_changed_cb (GtkTreeModel *model,
+			    GtkTreePath *path,
+			    GtkTreeIter *iter,
+			    GtkBuilder *builder)
+{
+	GtkTreeSelection *selection;
+	GtkWidget *widget;
+
+	if (gtk_tree_model_iter_n_children (model, NULL) != 1)
+		return;
+
+	widget = e_builder_get_widget (builder, "sao-account-treeview");
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+
+	if (!gtk_tree_selection_get_selected (selection, NULL, NULL))
+		gtk_tree_selection_select_iter (selection, iter);
 }
 
 static void
@@ -603,10 +622,18 @@ sao_recipient_edited_cb (GtkCellRendererText *renderer,
 			e_mail_send_account_override_set_for_recipient (account_override, text, account_uid);
 		} else {
 			GtkTreeSelection *selection;
+			GtkTreePath *path1, *path2;
 
 			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
 
-			gtk_list_store_remove (GTK_LIST_STORE (model), &new_iter);
+			path1 = gtk_tree_model_get_path (model, &iter);
+			path2 = gtk_tree_model_get_path (model, &new_iter);
+
+			if (!path1 || !path2 || gtk_tree_path_compare (path1, path2) != 0)
+				gtk_list_store_remove (GTK_LIST_STORE (model), &new_iter);
+
+			gtk_tree_path_free (path1);
+			gtk_tree_path_free (path2);
 
 			gtk_tree_selection_unselect_all (selection);
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -841,6 +868,8 @@ send_account_override_setup (GtkBuilder *builder,
 	g_signal_connect (
 		selection, "changed",
 		G_CALLBACK (sao_account_treeview_selection_changed_cb), builder);
+
+	g_signal_connect (model, "row-changed", G_CALLBACK (sao_account_row_changed_cb), builder);
 
 	widget = e_builder_get_widget (builder, "sao-folders-treeview");
 	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
