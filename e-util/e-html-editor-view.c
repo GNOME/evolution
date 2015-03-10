@@ -3249,6 +3249,62 @@ jump_to_next_table_cell (EHTMLEditorView *view,
 }
 
 static gboolean
+delete_character_from_quoted_line_start (EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMNode *node, *beginning;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	/* We have to be in quoted content. */
+	if (!e_html_editor_selection_is_citation (selection))
+		return FALSE;
+
+	/* Selection is just caret. */
+	if (!e_html_editor_selection_is_collapsed (selection))
+		return FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	e_html_editor_selection_save (selection);
+
+	element = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+
+	/* selection end marker */
+	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+
+	/* We have to be on the end of line. */
+	if (webkit_dom_node_get_next_sibling (node))
+		return FALSE;
+
+	/* Before the caret is just text. */
+	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+	if (!(node && WEBKIT_DOM_IS_TEXT (node)))
+		return FALSE;
+
+	/* There is just one character. */
+	if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)) != 1)
+		return FALSE;
+
+	beginning = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (node));
+	if (!(beginning && WEBKIT_DOM_IS_ELEMENT (beginning)))
+		return FALSE;
+
+	/* Before the text is the beginning of line. */
+	if (!(element_has_class (WEBKIT_DOM_ELEMENT (beginning), "-x-evo-quoted")))
+		return FALSE;
+
+	remove_node (beginning);
+	remove_node (node);
+
+	e_html_editor_selection_restore (selection);
+
+	return TRUE;
+}
+
+static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
@@ -3389,9 +3445,14 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			return TRUE;
 	}
 
-	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
+	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace) {
+		if (event->keyval == GDK_KEY_BackSpace && !view->priv->html_mode) {
+			if (delete_character_from_quoted_line_start (view))
+				return TRUE;
+		}
 		if (fix_structure_after_delete_before_quoted_content (view))
 			return TRUE;
+	}
 
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->
