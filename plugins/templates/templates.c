@@ -653,12 +653,9 @@ fill_template (CamelMimeMessage *message,
 	CamelMimePart *return_part;
 	CamelMimePart *message_part = NULL;
 	CamelDataWrapper *dw;
-
 	CamelInternetAddress *internet_address;
-
 	GString *template_body;
 	GByteArray *byte_array;
-
 	gint i;
 	gboolean message_html, template_html;
 
@@ -731,11 +728,33 @@ fill_template (CamelMimeMessage *message,
 	/* Now extract body of the original message and replace the $ORIG[body] modifier in template */
 	if (message_part && strstr_nocase (template_body->str, "$ORIG[body]")) {
 		GString *message_body;
+		CamelStream *mem_stream;
 
 		stream = camel_stream_mem_new ();
+		mem_stream = stream;
+
+		ct = camel_mime_part_get_content_type (message_part);
+		if (ct) {
+			const gchar *charset = camel_content_type_param (ct, "charset");
+			if (charset && *charset) {
+				CamelMimeFilter *filter = camel_mime_filter_charset_new (charset, "UTF-8");
+				if (filter) {
+					CamelStream *filtered = camel_stream_filter_new (stream);
+
+					if (filtered) {
+						camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered), filter);
+						g_object_unref (stream);
+						stream = filtered;
+					}
+
+					g_object_unref (filter);
+				}
+			}
+		}
+
 		camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (message_part)), stream, NULL, NULL);
 		camel_stream_flush (stream, NULL, NULL);
-		byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
+		byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem_stream));
 		message_body = g_string_new_len ((gchar *) byte_array->data, byte_array->len);
 		g_object_unref (stream);
 
@@ -782,7 +801,6 @@ create_new_message (CamelFolder *folder,
 	CamelMimeMessage *message;
 	CamelMimeMessage *template;
 	CamelMultipart *new_multipart;
-	CamelContentType *new_content_type = NULL;
 	CamelDataWrapper *dw;
 	struct _camel_header_raw *header;
 	EMailBackend *backend;
@@ -842,10 +860,8 @@ create_new_message (CamelFolder *folder,
 			CamelContentType *ct = camel_mime_part_get_content_type (part);
 
 			if (ct && camel_content_type_is (ct, "text", "html")) {
-				new_content_type = ct;
 				template_part = camel_multipart_get_part (CAMEL_MULTIPART (dw), i);
-			} else if (ct && camel_content_type_is (ct, "text", "plain") && new_content_type == NULL) {
-				new_content_type = ct;
+			} else if (ct && camel_content_type_is (ct, "text", "plain") && !template_part) {
 				template_part = camel_multipart_get_part (CAMEL_MULTIPART (dw), i);
 			} else {
 				/* Copy any other parts (attachments...) to the output message */
@@ -859,7 +875,6 @@ create_new_message (CamelFolder *folder,
 		if (ct && (camel_content_type_is (ct, "text", "html") ||
 		    camel_content_type_is (ct, "text", "plain"))) {
 			template_part = CAMEL_MIME_PART (template);
-			new_content_type = ct;
 		}
 	}
 
@@ -877,7 +892,8 @@ create_new_message (CamelFolder *folder,
 	 * 'content-*' headers */
 	header = CAMEL_MIME_PART (message)->headers;
 	while (header) {
-		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0) {
+		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0 &&
+		    g_ascii_strcasecmp (header->name, "from") != 0) {
 
 			/* Some special handling of the 'subject' header */
 			if (g_ascii_strncasecmp (header->name, "subject", 7) == 0) {
