@@ -632,7 +632,13 @@ mark_all_read_got_folder_info (GObject *source,
 		return;
 	}
 
-	g_return_if_fail (folder_info != NULL);
+	if (!folder_info) {
+		/* Otherwise the operation is stuck and the Evolution cannot be quit */
+		g_warn_if_fail (folder_info != NULL);
+		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+		async_context_free (context);
+		return;
+	}
 
 	response = mark_all_read_prompt_user (
 		context->mail_shell_view,
