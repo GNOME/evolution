@@ -118,8 +118,10 @@ HELP_FILES = \
 	mail-composer-change-quotation-string.page \
 	mail-composer-custom-header-lines.page \
 	mail-composer-enable-html-format.page \
+	mail-composer-external-editor.page \
 	mail-composer-forward.page \
 	mail-composer-forward-as-attachment.page \
+	mail-composer-from-field-override.page \
 	mail-composer-html-image.page \
 	mail-composer-html-link.page \
 	mail-composer-html.page \
