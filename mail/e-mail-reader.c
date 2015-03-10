@@ -3558,6 +3558,11 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	action_name = "mail-filter-rule-for-mailing-list";
+	sensitive = single_message_selected && selection_is_mailing_list;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
 	action_name = "mail-find";
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
