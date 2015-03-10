@@ -1,0 +1,35 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-composer-from-field-override">
+
+  <info>
+    <desc>Change the sender name and address on the fly by setting arbitrary values.</desc>
+    
+    <link type="guide" xref="index#mail-composing-advanced" />
+
+    <revision pkgversion="3.13.91" version="0.1" date="2015-03-10" status="draft"/>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Overriding the "From" field</title>
+
+<p>To set a custom email address and sender name on a message you intend to send, enable <guiseq><gui>View</gui><gui>From Override Field</gui></guiseq> and change the default sender name and email address in the corresponding fields.</p>
+
+<!-- Translators: If no Wikipedia article exists for your language and you
+leave the URL untranslated and pointing to the English Wikipedia, you might
+want to indicate in your translation text that the link is in English. -->
+<p>This functionality can be useful for <link href="https://en.wikipedia.org/wiki/Qmail#Innovations">wildcard mailboxes when using qmail</link> and <link href="https://en.wikipedia.org/wiki/Email_address#Address_tags">sub-addressing</link>.</p>
+
+<!-- Translators: If no Wikipedia article exists for your language and you
+leave the URL untranslated and pointing to the English Wikipedia, you might
+want to indicate in your translation text that the link is in English. -->
+<note style="important"><p>Setting an arbitrary address might collide with your email provider's <link href="https://en.wikipedia.org/wiki/Sender_Policy_Framework">Sender Policy Framework</link> and/or <link href="https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail">DomainKeys Identified Mail</link> restrictions.</p></note>
+
+</page>
+
