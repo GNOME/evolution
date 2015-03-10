@@ -4,7 +4,7 @@
   <info>
     <link type="guide" xref="calendar-layout" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.13.90" version="0.3" date="2015-03-10" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -73,11 +73,15 @@
 
 </section>
 
-<section id="alerts">
-  <title>Alerts</title>
+<section id="date-time">
+  <title>Date/Time Format</title>
 
-  <p>If you want to be warned before you delete any appointment, select this
-  option.</p>
+  <p>You can change the format of the <gui>Date</gui> column by setting your
+  preferred format.</p>
+
+  <p>The placeholders in the format expression are strftime formats. For a
+  complete list of available strftime formats, run <cmd>date --help</cmd> in
+  the <app>Terminal</app> application.</p>
 
 </section>
 
