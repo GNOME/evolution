@@ -1806,6 +1806,7 @@ html_editor_view_set_links_active (EHTMLEditorView *view,
 
 		style = webkit_dom_document_create_element (document, "STYLE", NULL);
 		webkit_dom_element_set_id (style, "-x-evo-style-a");
+		webkit_dom_element_set_attribute (style, "type", "text/css", NULL);
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (style), "a { cursor: text; }", NULL);
 
@@ -2240,6 +2241,7 @@ disable_quote_marks_select (WebKitDOMDocument *document)
 	if (!webkit_dom_document_get_element_by_id (document, "-x-evo-quote-style")) {
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
 		webkit_dom_element_set_id (style_element, "-x-evo-quote-style");
+		webkit_dom_element_set_attribute (style_element, "type", "text/css", NULL);
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (style_element),
 			".-x-evo-quoted { -webkit-user-select: none; }",
@@ -7640,6 +7642,7 @@ e_html_editor_view_set_link_color (EHTMLEditorView *view,
 	if (!style_element) {
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
 		webkit_dom_element_set_id (style_element, "-x-evo-a-color-style");
+		webkit_dom_element_set_attribute (style_element, "type", "text/css", NULL);
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
 	}
