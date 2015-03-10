@@ -6123,10 +6123,20 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 				NULL);
 			goto insert_end_marker;
 		} else if (!webkit_dom_node_get_next_sibling (container)) {
-			marker_node = webkit_dom_node_append_child (
-				container,
-				WEBKIT_DOM_NODE (start_marker),
-				NULL);
+			WebKitDOMNode *tmp;
+
+			tmp = webkit_dom_node_get_last_child (container);
+			if (tmp && WEBKIT_DOM_IS_HTMLBR_ELEMENT (tmp))
+				marker_node = webkit_dom_node_insert_before (
+					container,
+					WEBKIT_DOM_NODE (start_marker),
+					tmp,
+					NULL);
+			else
+				marker_node = webkit_dom_node_append_child (
+					container,
+					WEBKIT_DOM_NODE (start_marker),
+					NULL);
 			goto insert_end_marker;
 		} else {
 			if (webkit_dom_node_get_first_child (container)) {
