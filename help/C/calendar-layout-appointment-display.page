@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="calendar-layout" />
 
-    <revision pkgversion="3.0.2" version="0.4" date="2012-02-18" status="final"/>
+    <revision pkgversion="3.13.90" version="0.5" date="2015-03-10" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -29,9 +29,6 @@
        calendar-layout-general-formatting) here is very poor and not
        task-oriented, but that's it for the time being. Better ideas welcome.
        -->
-
-  <!-- TODO: Recheck once https://bugzilla.gnome.org/show_bug.cgi?id=657233 is
-       fixed, as the current UI is a huge mess. -->
 
   <p>The following calendar-related options are available under
   <guiseq><gui>Edit</gui><gui>Preferences</gui>
@@ -71,15 +68,11 @@
 
 </section>
 
-<section id="date-time">
-  <title>Date/Time Format</title>
+<section id="alerts">
+  <title>Alerts</title>
 
-  <p>You can change the format of the <gui>Date</gui> column by setting your
-  preferred format.</p>
-
-  <p>The placeholders in the format expression are strftime formats. For a
-  complete list of available strftime formats, run <cmd>date --help</cmd> in
-  the <app>Terminal</app> application.</p>
+  <p>If you want to be warned before you delete any appointment, select this
+  option.</p>
 
 </section>
 
