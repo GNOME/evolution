@@ -1,0 +1,26 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-composer-external-editor">
+
+  <info>
+    <desc>Using a text editor application instead of the default mail composer.</desc>
+    
+    <link type="guide" xref="index#mail-composing-advanced" />
+
+    <revision pkgversion="3.13.91" version="0.1" date="2015-03-10" status="draft"/>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+    
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    
+
+  </info>
+
+<title>Using an external editor</title>
+
+<p>You can compose the body of your message externally in your favorite text editor application so you can use its specific functionality. Enable <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> and set the corresponding <gui>Command</gui> to start the application under <gui>Configuration</gui>.</p>
+<p>If <gui>Automatically launch when a new mail is edited</gui> is not set, you need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></guiseq> in the mail composer.</p>
+
+</page>
+
