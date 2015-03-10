@@ -139,6 +139,7 @@ HELP_FILES = \
 	mail-composer-priority.page \
 	mail-composer-reply.page \
 	mail-composer-search.page \
+	mail-composer-send-account-overrides.page \
 	mail-composer-several-recipients.page \
 	mail-composer-spellcheck.page \
 	mail-composer-write-new-message.page \
