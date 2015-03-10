@@ -7791,6 +7791,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		/* Make the quote marks non-selectable. */
 		disable_quote_marks_select (document);
 		html_editor_view_set_links_active (view, FALSE);
+		set_link_color (view);
 		view->priv->convert_in_situ = FALSE;
 
 		return;
