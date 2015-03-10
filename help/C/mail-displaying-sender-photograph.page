@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-displaying-message#advanced" />
 
-    <revision pkgversion="3.9.1" version="0.4" date="2013-04-22" status="final"/>
+    <revision pkgversion="3.13.90" version="0.5" date="2015-03-10" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -32,8 +32,7 @@
 
 <p>If there are multiple matches for a contact, the first one is always used.</p>
 
-<!-- Note: <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq> 
-has no influence at all, so it is not mentioned here. 
-See https://bugzilla.gnome.org/show_bug.cgi?id=698435 -->
+<!-- From https://bugzilla.gnome.org/show_bug.cgi?id=698435 : -->
+<note style="tip"><p>You can also embed your own image in messages that you send under <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image has to have a size of 48 x 48 pixels and be in PNG file format.</p></note>
  
 </page>
