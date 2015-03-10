@@ -912,6 +912,7 @@ create_new_message (CamelFolder *folder,
 	/* Set the To: field to the same To: field of the message we are replying to. */
 	camel_mime_message_set_recipients (
 		new, CAMEL_RECIPIENT_TYPE_TO,
+		camel_mime_message_get_reply_to (message) ? camel_mime_message_get_reply_to (message) :
 		camel_mime_message_get_from (message));
 
 	/* Copy the CC and BCC from the template.*/
