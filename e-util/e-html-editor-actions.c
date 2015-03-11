@@ -135,7 +135,6 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
  *****************************************************************************/
 
 static void
-{
 action_context_delete_cell_contents_cb (GtkAction *action,
                                         EHTMLEditor *editor)
 {
@@ -1500,7 +1499,7 @@ static GtkActionEntry context_entries[] = {
 	  N_("Cell Contents"),
 	  NULL,
 	  NULL,
-	  G_CALLBACK (action_context_delete_cell_cb) },
+	  G_CALLBACK (action_context_delete_cell_contents_cb) },
 
 	{ "context-delete-column",
 	  NULL,
