@@ -3156,11 +3156,14 @@ selection_is_in_table (WebKitDOMDocument *document,
 								*first_cell = TRUE;
 					}
 				}
-			}
+			} else
+				return TRUE;
 		}
 		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent)) {
 			if (table_node != NULL)
 				*table_node = parent;
+			else
+				return TRUE;
 		}
 		parent = webkit_dom_node_get_parent_node (parent);
 	}
