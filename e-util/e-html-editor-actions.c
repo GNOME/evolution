@@ -35,6 +35,7 @@
 #include "e-image-chooser-dialog.h"
 #include "e-spell-checker.h"
 #include "e-misc-utils.h"
+#include "e-web-view.h"
 
 static void
 insert_html_file_ready_cb (GFile *file,
@@ -134,11 +135,12 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
  *****************************************************************************/
 
 static void
-action_context_delete_cell_cb (GtkAction *action,
-                               EHTMLEditor *editor)
 {
-	WebKitDOMNode *sibling;
-	WebKitDOMElement *cell;
+action_context_delete_cell_contents_cb (GtkAction *action,
+                                        EHTMLEditor *editor)
+{
+	WebKitDOMNode *node;
+	WebKitDOMElement *cell, *table;
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
@@ -149,21 +151,12 @@ action_context_delete_cell_cb (GtkAction *action,
 	}
 	g_return_if_fail (cell != NULL);
 
-	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (cell));
-	if (!sibling) {
-		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (cell));
-	}
+	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
+	g_return_if_fail (table != NULL);
 
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (cell)),
-		WEBKIT_DOM_NODE (cell), NULL);
 
-	if (sibling) {
-		webkit_dom_html_table_cell_element_set_col_span (
-			WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling),
-			webkit_dom_html_table_cell_element_get_col_span (
-				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (sibling)) + 1);
-	}
+	while ((node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (cell))))
+		remove_node (node);
 }
 
 static void
