@@ -56,6 +56,7 @@ libevolution_mail_composer_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_CO
 libevolution_mail_composer_la_LIBADD =			\
 	$(top_builddir)/e-util/libevolution-util.la	\
 	$(top_builddir)/shell/libevolution-shell.la	\
+	$(top_builddir)/libemail-engine/libemail-engine.la	\
 	$(top_builddir)/em-format/libevolution-mail-formatter.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
