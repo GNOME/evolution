@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-06 23:16+0000\n"
-"PO-Revision-Date: 2015-03-07 00:22+0100\n"
+"PO-Revision-Date: 2015-03-11 20:24+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -9302,7 +9302,7 @@ msgid ""
 "messages that declare a particular header twice. For information about how to use regular expressions, check <_:link-2/> command."
 msgstr ""
 "(Nur für Programmierer) Falls Sie sich mit <_:link-1/>, d.h. regulären Ausdrücken auskennen, ermöglicht Ihnen diese Option nach komplexen Mustern von Buchstaben zu suchen, so dass sie zum Beispiel alle Wörter finden können, die mit einem »a« beginnen und einem »m« enden, und zwischen "
-"sechs und fünfzehn Buchstaben lang sind, oder alle Nachrichten, in denen eine bestimmte Kopfzeile doppelt vorhanden ist. Für weitere Informationen darüber, wie reguläre Ausdrücke genutzt werden können, lesen Sie bitte die Hilfeseite für den Befehl <_:cmd-2/>."
+"sechs und fünfzehn Buchstaben lang sind, oder alle Nachrichten, in denen eine bestimmte Kopfzeile doppelt vorhanden ist. Für weitere Informationen darüber, wie reguläre Ausdrücke genutzt werden können, lesen Sie bitte die Hilfeseite für den Befehl <_:link-2/>."
 
 #. (itstool) path: section/title
 #: C/xinclude-mail-account-identity.xml:4
