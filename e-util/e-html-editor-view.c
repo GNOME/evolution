@@ -3185,12 +3185,11 @@ jump_to_next_table_cell (EHTMLEditorView *view,
 	WebKitDOMRange *range;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+	if (!selection_is_in_table (document, NULL, NULL))
 		return FALSE;
 
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
 	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 	node = webkit_dom_range_get_start_container (range, NULL);
 
@@ -3331,18 +3330,14 @@ html_editor_view_key_press_event (GtkWidget *widget,
 	}
 
 	if (event->keyval == GDK_KEY_Tab || event->keyval == GDK_KEY_ISO_Left_Tab) {
-		WebKitDOMDocument *document;
-
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-		if (selection_is_in_table (document, NULL, NULL))
-			if (jump_to_next_table_cell (view, event->keyval == GDK_KEY_ISO_Left_Tab))
-				return TRUE;
+		if (jump_to_next_table_cell (view, event->keyval == GDK_KEY_ISO_Left_Tab))
+			return TRUE;
 
 		if (event->keyval == GDK_KEY_Tab)
 			return e_html_editor_view_exec_command (
 				view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
 		else
-			return TRUE;
+			return FALSE;
 	}
 
 	if (is_return_key (event)) {
