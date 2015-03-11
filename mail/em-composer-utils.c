@@ -34,6 +34,7 @@
 #include <libemail-engine/libemail-engine.h>
 
 #include <em-format/e-mail-parser.h>
+#include <em-format/e-mail-part-utils.h>
 #include <em-format/e-mail-formatter-quote.h>
 
 #include <shell/e-shell.h>
@@ -1054,6 +1055,27 @@ em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
 	camel_message_info_unref (info);
 }
 
+typedef struct _PrintAsyncContext {
+	GMainLoop *main_loop;
+	GError *error;
+} PrintAsyncContext;
+
+static void
+em_composer_utils_print_done_cb (GObject *source_object,
+				 GAsyncResult *result,
+				 gpointer user_data)
+{
+	PrintAsyncContext *async_context = user_data;
+
+	g_return_if_fail (E_IS_MAIL_PRINTER (source_object));
+	g_return_if_fail (async_context != NULL);
+	g_return_if_fail (async_context->main_loop != NULL);
+
+	e_mail_printer_print_finish (E_MAIL_PRINTER (source_object), result, &(async_context->error));
+
+	g_main_loop_quit (async_context->main_loop);
+}
+
 static void
 em_utils_composer_print_cb (EMsgComposer *composer,
                             GtkPrintOperationAction action,
@@ -1061,53 +1083,58 @@ em_utils_composer_print_cb (EMsgComposer *composer,
                             EActivity *activity,
                             EMailSession *session)
 {
-	/* as long as EMsgComposer uses GtkHTML, use its routine for printing;
-	 * this conditional compile is here rather to not forget to fix this
-	 * once the WebKit-based composer will land */
-#if 0 /* defined(GTK_TYPE_HTML) */
-	EWebViewGtkHTML *gtkhtml_web_view;
-	GtkPrintOperation *operation;
-	GError *error = NULL;
-
-	gtkhtml_web_view = e_msg_composer_get_web_view (composer);
-	g_return_if_fail (E_IS_WEB_VIEW_GTKHTML (gtkhtml_web_view));
-
-	operation = gtk_print_operation_new ();
-
-	gtk_html_print_operation_run (
-		GTK_HTML (gtkhtml_web_view), operation, action,
-		GTK_WINDOW (composer), NULL, NULL, NULL, NULL, NULL, &error);
-
-	g_object_unref (operation);
-
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
-
-	} else if (error != NULL) {
-		g_warning (
-			"%s: Failed to run print operation: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-	}
-#else
 	EMailParser *parser;
-	EMailPartList *parts;
+	EMailPartList *parts, *reserved_parts;
 	EMailPrinter *printer;
 	const gchar *message_id;
+	GCancellable *cancellable;
+	CamelObjectBag *parts_registry;
+	gchar *mail_uri;
+	PrintAsyncContext async_context;
 
+	cancellable = e_activity_get_cancellable (activity);
 	parser = e_mail_parser_new (CAMEL_SESSION (session));
 
 	message_id = camel_mime_message_get_message_id (message);
-	parts = e_mail_parser_parse_sync (
-		parser, NULL, g_strdup (message_id), message, NULL);
+	parts = e_mail_parser_parse_sync (parser, NULL, message_id, message, cancellable);
+	if (!parts) {
+		g_clear_object (&parser);
+		return;
+	}
 
-	/* FIXME Show an alert on error. */
+	parts_registry = e_mail_part_list_get_registry ();
+
+	mail_uri = e_mail_part_build_uri (NULL, message_id, NULL, NULL);
+	reserved_parts = camel_object_bag_reserve (parts_registry, mail_uri);
+	g_clear_object (&reserved_parts);
+
+	camel_object_bag_add (parts_registry, mail_uri, parts);
+
 	printer = e_mail_printer_new (parts);
-	e_mail_printer_print (printer, action, NULL, NULL, NULL, NULL);
-	g_object_unref (printer);
 
+	async_context.error = NULL;
+	async_context.main_loop = g_main_loop_new (NULL, FALSE);
+
+	/* Cannot use EAsyncClosure here, it blocks the main context, which is not good here. */
+	e_mail_printer_print (printer, action, NULL, cancellable, em_composer_utils_print_done_cb, &async_context);
+
+	g_main_loop_run (async_context.main_loop);
+
+	camel_object_bag_remove (parts_registry, parts);
+	g_main_loop_unref (async_context.main_loop);
+	g_object_unref (printer);
 	g_object_unref (parts);
-#endif
+	g_free (mail_uri);
+
+	if (e_activity_handle_cancellation (activity, async_context.error)) {
+		g_error_free (async_context.error);
+	} else if (async_context.error != NULL) {
+		e_alert_submit (
+			e_activity_get_alert_sink (activity),
+			"mail-composer:no-build-message",
+			async_context.error->message, NULL);
+		g_error_free (async_context.error);
+	}
 }
 
 /* Composing messages... */
