@@ -84,6 +84,7 @@ struct _EShellPrivate {
 	guint network_available_locked : 1;
 	guint online : 1;
 	guint quit_cancelled : 1;
+	guint ready_to_quit : 1;
 	guint safe_mode : 1;
 };
 
@@ -151,7 +152,8 @@ shell_window_removed_cb (EShell *shell)
 {
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	if (!gtk_application_get_windows (GTK_APPLICATION (shell)))
+	if (!gtk_application_get_windows (GTK_APPLICATION (shell)) &&
+	    !shell->priv->ready_to_quit)
 		e_shell_quit (shell, E_SHELL_QUIT_LAST_WINDOW);
 }
 
@@ -410,8 +412,12 @@ shell_ready_for_quit (EShell *shell,
 	GtkApplication *application;
 	GList *list;
 
+	g_return_if_fail (E_IS_SHELL (shell));
+
 	if (!is_last_ref)
 		return;
+
+	shell->priv->ready_to_quit = TRUE;
 
 	application = GTK_APPLICATION (shell);
 
