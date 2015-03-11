@@ -103,32 +103,30 @@ message_parsed_cb (GObject *source_object,
 	GObject *preview = user_data;
 	EMailDisplay *display;
 	CamelFolder *folder;
-	SoupSession *soup_session;
-	GHashTable *mails;
 	const gchar *message_uid;
-	gchar *mail_uri;
 
 	display = g_object_get_data (preview, "mbox-imp-display");
 
 	parts_list = e_mail_parser_parse_finish (parser, res, NULL);
-
-//	soup_session = webkit_get_default_session ();
-	soup_session = NULL;
-	mails = g_object_get_data (G_OBJECT (soup_session), "mails");
-	if (!mails) {
-		mails = g_hash_table_new_full (
-			g_str_hash, g_str_equal,
-			(GDestroyNotify) g_free, NULL);
-		g_object_set_data (
-			G_OBJECT (soup_session), "mails", mails);
-	}
+	if (!parts_list)
+		return;
 
 	folder = e_mail_part_list_get_folder (parts_list);
 	message_uid = e_mail_part_list_get_message_uid (parts_list);
 	if (message_uid) {
-		mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
+		CamelObjectBag *parts_registry;
+		EMailPartList *reserved_parts_list;
+		gchar *mail_uri;
 
-		g_hash_table_insert (mails, mail_uri, parts_list);
+		mail_uri = e_mail_part_build_uri (folder, message_uid, NULL, NULL);
+		parts_registry = e_mail_part_list_get_registry ();
+
+		reserved_parts_list = camel_object_bag_reserve (parts_registry, mail_uri);
+		g_clear_object (&reserved_parts_list);
+
+		camel_object_bag_add (parts_registry, mail_uri, parts_list);
+
+		g_free (mail_uri);
 	}
 
 	e_mail_display_set_part_list (display, parts_list);
