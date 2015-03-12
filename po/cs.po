@@ -14671,7 +14671,7 @@ msgstr "Vždy posílat _slepou kopii (bcc) na:"
 
 #: ../mail/e-mail-config-defaults-page.c:763
 msgid "Message Receipts"
-msgstr "Příjemci zprávy"
+msgstr "Potvrzování zpráv"
 
 #: ../mail/e-mail-config-defaults-page.c:772
 msgid "S_end message receipts:"
