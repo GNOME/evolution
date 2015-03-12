@@ -1583,6 +1583,7 @@ em_utils_edit_message (EShell *shell,
 {
 	EMsgComposer *composer;
 	ESourceRegistry *registry;
+	gboolean folder_is_sent;
 	gboolean folder_is_drafts;
 	gboolean folder_is_outbox;
 	gboolean folder_is_templates;
@@ -1592,6 +1593,7 @@ em_utils_edit_message (EShell *shell,
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	registry = e_shell_get_registry (shell);
+	folder_is_sent = em_utils_folder_is_sent (registry, folder);
 	folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
 	folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
 	folder_is_templates = em_utils_folder_is_templates (registry, folder);
@@ -1624,7 +1626,8 @@ em_utils_edit_message (EShell *shell,
 
 	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
 
-	if (!folder_is_templates) {
+	/* Override PostTo header only if the folder is a regular folder */
+	if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
 		EComposerHeaderTable *table;
 		ESource *source;
 		CamelStore *store;
@@ -3313,7 +3316,7 @@ em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
 
 	message = em_utils_get_composer_recipients_as_message (composer);
 	source = em_utils_check_send_account_override (shell, message, folder);
-	g_object_unref (message);
+	g_clear_object (&message);
 
 	if (!source)
 		return;
