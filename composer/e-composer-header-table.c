@@ -50,6 +50,8 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
 	EClientCache *client_cache;
+
+	gchar *previous_from_uid;
 };
 
 enum {
@@ -512,7 +514,38 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		bcc = e_source_mail_composition_get_bcc (mc);
 		cc = e_source_mail_composition_get_cc (mc);
 
+		if (table->priv->previous_from_uid) {
+			ESource *previous_source;
+
+			previous_source = e_composer_header_table_ref_source (table, table->priv->previous_from_uid);
+			if (previous_source && e_source_has_extension (previous_source, E_SOURCE_EXTENSION_MAIL_IDENTITY)) {
+				const gchar *previous_reply_to;
+				const gchar *current_reply_to;
+				gboolean matches;
+
+				mi = e_source_get_extension (previous_source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+				previous_reply_to = e_source_mail_identity_get_reply_to (mi);
+
+				header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_REPLY_TO);
+				text_header = E_COMPOSER_TEXT_HEADER (header);
+				current_reply_to = e_composer_text_header_get_text (text_header);
+
+				matches = ((!current_reply_to || !*current_reply_to) && (!previous_reply_to || !*previous_reply_to)) ||
+					g_strcmp0 (current_reply_to, previous_reply_to) == 0;
+
+				/* Do not change Reply-To, if the user changed it. */
+				if (!matches)
+					reply_to = current_reply_to;
+			}
+		}
+
+		g_free (table->priv->previous_from_uid);
+		table->priv->previous_from_uid = g_strdup (e_source_get_uid (source));
+
 		g_object_unref (source);
+	} else {
+		g_free (table->priv->previous_from_uid);
+		table->priv->previous_from_uid = NULL;
 	}
 
 	type = E_COMPOSER_HEADER_FROM;
@@ -761,6 +794,9 @@ composer_header_table_dispose (GObject *object)
 		g_object_unref (priv->client_cache);
 		priv->client_cache = NULL;
 	}
+
+	g_free (priv->previous_from_uid);
+	priv->previous_from_uid = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_header_table_parent_class)->dispose (object);
