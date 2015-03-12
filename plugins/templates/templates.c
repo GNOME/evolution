@@ -791,6 +791,43 @@ fill_template (CamelMimeMessage *message,
 	return return_part;
 }
 
+static CamelMimePart *
+find_template_part_in_multipart (CamelMultipart *multipart,
+				 CamelMultipart *new_multipart)
+{
+	CamelMimePart *template_part = NULL;
+	gint ii;
+
+	for (ii = 0; ii < camel_multipart_get_number (multipart); ii++) {
+		CamelMimePart *part = camel_multipart_get_part (multipart, ii);
+		CamelContentType *ct = camel_mime_part_get_content_type (part);
+
+		if (!template_part && ct && camel_content_type_is (ct, "multipart", "*")) {
+			CamelDataWrapper *dw;
+
+			dw = camel_medium_get_content (CAMEL_MEDIUM (part));
+			template_part = (dw && CAMEL_IS_MULTIPART (dw)) ?
+				find_template_part_in_multipart (CAMEL_MULTIPART (dw), new_multipart) : NULL;
+
+			if (!template_part) {
+				/* Copy any other parts (attachments...) to the output message */
+				camel_mime_part_set_disposition (part, "attachment");
+				camel_multipart_add_part (new_multipart, part);
+			}
+		} else if (ct && camel_content_type_is (ct, "text", "html")) {
+			template_part = part;
+		} else if (ct && camel_content_type_is (ct, "text", "plain") && !template_part) {
+			template_part = part;
+		} else {
+			/* Copy any other parts (attachments...) to the output message */
+			camel_mime_part_set_disposition (part, "attachment");
+			camel_multipart_add_part (new_multipart, part);
+		}
+	}
+
+	return template_part;
+}
+
 static void
 create_new_message (CamelFolder *folder,
                     GAsyncResult *result,
@@ -807,12 +844,9 @@ create_new_message (CamelFolder *folder,
 	EMailSession *session;
 	EShell *shell;
 	const gchar *message_uid;
-	gint i;
 	EMsgComposer *composer;
 	GError *error = NULL;
-
 	CamelMimePart *template_part = NULL;
-	CamelMimePart *out_part = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
 
@@ -855,20 +889,7 @@ create_new_message (CamelFolder *folder,
 	/* If template is a multipart, then try to use HTML. When no HTML part is available, use plaintext. Every other
 	 * add as an attachment */
 	if (CAMEL_IS_MULTIPART (dw)) {
-		for (i = 0; i < camel_multipart_get_number (CAMEL_MULTIPART (dw)); i++) {
-			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (dw), i);
-			CamelContentType *ct = camel_mime_part_get_content_type (part);
-
-			if (ct && camel_content_type_is (ct, "text", "html")) {
-				template_part = camel_multipart_get_part (CAMEL_MULTIPART (dw), i);
-			} else if (ct && camel_content_type_is (ct, "text", "plain") && !template_part) {
-				template_part = camel_multipart_get_part (CAMEL_MULTIPART (dw), i);
-			} else {
-				/* Copy any other parts (attachments...) to the output message */
-				camel_mime_part_set_disposition (part, "attachment");
-				camel_multipart_add_part (new_multipart, part);
-			}
-		}
+		template_part = find_template_part_in_multipart (CAMEL_MULTIPART (dw), new_multipart);
 	} else {
 		CamelContentType *ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (template));
 
@@ -878,13 +899,21 @@ create_new_message (CamelFolder *folder,
 		}
 	}
 
-	/* Here replace all the modifiers in template body by values from message and return the newly created part */
-	out_part = fill_template (message, template_part);
+	g_warn_if_fail (template_part != NULL);
 
-	/* Assigning part directly to mime_message causes problem with "Content-type" header displaying
-	 * in the HTML message (camel parsing bug?) */
-	camel_multipart_add_part (new_multipart, out_part);
-	g_object_unref (out_part);
+	if (template_part) {
+		CamelMimePart *out_part = NULL;
+
+		/* Here replace all the modifiers in template body by values
+		   from message and return the newly created part */
+		out_part = fill_template (message, template_part);
+
+		/* Assigning part directly to mime_message causes problem with
+		   "Content-type" header displaying in the HTML message (camel parsing bug?) */
+		camel_multipart_add_part (new_multipart, out_part);
+		g_object_unref (out_part);
+	}
+
 	camel_medium_set_content (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (new_multipart));
 
 	/* Add the headers from the message we are replying to, so CC and that
