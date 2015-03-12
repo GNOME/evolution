@@ -22090,7 +22090,7 @@ msgstr "_Automaticky spustit, když je upravován nový e-mail"
 #: ../plugins/external-editor/external-editor.c:469
 #: ../plugins/external-editor/external-editor.c:471
 msgid "Compose in External Editor"
-msgstr "Tvořit zprávu v externím editoru"
+msgstr "Psát zprávu v externím editoru"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid "External Editor"
