@@ -1470,8 +1470,8 @@ emoticon_insert_span (EHTMLEditorView *view,
 {
 	EHTMLEditorSelection *selection;
 	EHTMLEditorViewHistoryEvent *ev = NULL;
-	gboolean misplaced_selection = FALSE, empty = FALSE;
-	gchar *node_text = NULL, *content;
+	gboolean misplaced_selection = FALSE;
+	gchar *node_text = NULL;
 	const gchar *emoticon_start;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
@@ -1602,10 +1602,6 @@ emoticon_insert_span (EHTMLEditorView *view,
 	if (WEBKIT_DOM_IS_TEXT (node))
 		node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
 
-	content = webkit_dom_node_get_text_content (selection_end_marker_parent);
-	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
-	g_free (content);
-
 	if (misplaced_selection) {
 		/* Insert smiley and selection markers after it */
 		webkit_dom_node_insert_before (
@@ -1633,10 +1629,8 @@ emoticon_insert_span (EHTMLEditorView *view,
 				NULL));
 	}
 
-	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-	if (empty || !view->priv->smiley_written)
-		webkit_dom_html_element_insert_adjacent_html (
-			WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
+	webkit_dom_html_element_insert_adjacent_html (
+		WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
 
 	if (ev) {
 		WebKitDOMDocumentFragment *fragment;
@@ -1658,12 +1652,40 @@ emoticon_insert_span (EHTMLEditorView *view,
 		emoticon_start = g_utf8_strrchr (
 			node_text, -1, g_utf8_get_char (emoticon->text_face));
 		/* Check if the written smiley is really the one that we inserted. */
-		if (emoticon_start && g_str_has_prefix (emoticon_start, emoticon->text_face)) {
-			webkit_dom_character_data_delete_data (
-				WEBKIT_DOM_CHARACTER_DATA (node),
-				g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
-				strlen (emoticon->text_face),
-				NULL);
+		if (emoticon_start) {
+			/* The written smiley is the same as text version. */
+			if (g_str_has_prefix (emoticon_start, emoticon->text_face)) {
+				webkit_dom_character_data_delete_data (
+					WEBKIT_DOM_CHARACTER_DATA (node),
+					g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
+					strlen (emoticon->text_face),
+					NULL);
+			} else {
+				gboolean same = TRUE;
+				gint ii = 0, jj = 0;
+
+				/* Try to recognize smileys without the dash e.g. :). */
+				while (emoticon_start[ii] && emoticon->text_face[jj]) {
+					if (emoticon_start[ii] == ':' && emoticon->text_face[jj] == ':') {
+						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-')
+							ii++;
+							jj+=2;
+							continue;
+					}
+					if (emoticon_start[ii] == emoticon->text_face[jj]) {
+						ii++;
+						jj++;
+					} else
+						same = FALSE;
+				}
+				if (same) {
+					webkit_dom_character_data_delete_data (
+						WEBKIT_DOM_CHARACTER_DATA (node),
+						g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
+						ii,
+						NULL);
+				}
+			}
 		}
 		view->priv->smiley_written = FALSE;
 	}
