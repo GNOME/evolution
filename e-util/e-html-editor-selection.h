@@ -260,6 +260,12 @@ EHTMLEditorSelectionAlignment
 						(WebKitDOMNode *node);
 void		remove_wrapping_from_element	(WebKitDOMElement *element);
 void		remove_quoting_from_element	(WebKitDOMElement *element);
+void		e_html_editor_selection_get_selection_coordinates
+						(EHTMLEditorSelection *selection,
+						 guint *start_x,
+						 guint *start_y,
+						 guint *end_x,
+						 guint *end_y);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_H */

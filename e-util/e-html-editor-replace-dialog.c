@@ -61,15 +61,15 @@ static gboolean
 jump (EHTMLEditorReplaceDialog *dialog)
 {
 	EHTMLEditor *editor;
-	WebKitWebView *webview;
+	WebKitWebView *web_view;
 	gboolean found;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	webview = WEBKIT_WEB_VIEW (
+	web_view = WEBKIT_WEB_VIEW (
 			e_html_editor_get_view (editor));
 
 	found = webkit_web_view_search_text (
-		webview,
+		web_view,
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->search_entry)),
 		gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->case_sensitive)),
@@ -128,13 +128,15 @@ html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 	gchar *result;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	EHTMLEditorSelection *selection;
-	const gchar *replacement;
+	const gchar *replacement, *search_text;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
 	replacement = gtk_entry_get_text (GTK_ENTRY (dialog->priv->replace_entry));
+	search_text = gtk_entry_get_text (GTK_ENTRY (dialog->priv->search_entry));
 
 	while (jump (dialog)) {
 		e_html_editor_selection_replace (selection, replacement);
@@ -145,9 +147,22 @@ html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 			selection, TRUE, E_HTML_EDITOR_SELECTION_GRANULARITY_WORD);
 	}
 
-	result = g_strdup_printf (ngettext("%d occurence replaced", 
-	                                   "%d occurences replaced", 
-	                                   i), 
+	if (i != 0) {
+		if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_REPLACE_ALL;
+
+			ev->data.string.from = g_strdup (search_text);
+			ev->data.string.to = g_strdup (replacement);
+
+			e_html_editor_view_insert_new_history_event (view, ev);
+		}
+		e_html_editor_view_force_spell_check (view);
+	}
+
+	result = g_strdup_printf (ngettext("%d occurence replaced",
+	                                   "%d occurences replaced",
+	                                   i),
 	                          i);
 	gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), result);
 	gtk_widget_show (dialog->priv->result_label);

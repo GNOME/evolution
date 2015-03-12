@@ -75,6 +75,76 @@ struct _EHTMLEditorViewClass {
 						(EHTMLEditorView *view);
 };
 
+enum EHTMLEditorViewHistoryEventType {
+	HISTORY_ALIGNMENT,
+	HISTORY_BLOCK_FORMAT,
+	HISTORY_BOLD,
+	HISTORY_CELL_DIALOG,
+	HISTORY_DELETE, /* BackSpace, Delete, with and without selection */
+	HISTORY_FONT_COLOR,
+	HISTORY_FONT_SIZE,
+	HISTORY_HRULE_DIALOG,
+	HISTORY_INDENT,
+	HISTORY_INPUT,
+	HISTORY_IMAGE,
+	HISTORY_IMAGE_DIALOG,
+	HISTORY_INSERT_HTML,
+	HISTORY_ITALIC,
+	HISTORY_MONOSPACE,
+	HISTORY_PAGE_DIALOG,
+	HISTORY_PASTE,
+	HISTORY_PASTE_AS_TEXT,
+	HISTORY_PASTE_QUOTED,
+	HISTORY_REMOVE_LINK,
+	HISTORY_REPLACE,
+	HISTORY_REPLACE_ALL,
+	HISTORY_CITATION_SPLIT,
+	HISTORY_SMILEY,
+	HISTORY_START, /* Start of history */
+	HISTORY_STRIKETHROUGH,
+	HISTORY_TABLE_DIALOG,
+	HISTORY_UNDERLINE,
+	HISTORY_WRAP
+};
+
+typedef struct {
+	gint from; /* From what format we are changing. */
+	gint to; /* To what format we are changing. */
+} EHTMLEditorViewStyleChange;
+
+/* This is used for e-html-editor-*-dialogs */
+typedef struct {
+	WebKitDOMNode *from; /* From what node we are changing. */
+	WebKitDOMNode *to; /* To what node we are changing. */
+} EHTMLEditorViewDOMChange;
+
+typedef struct {
+	gchar *from; /* From what format we are changing. */
+	gchar *to; /* To what format we are changing. */
+} EHTMLEditorViewStringChange;
+
+typedef struct {
+	guint x;
+	guint y;
+} EHTMLEditorViewSelectionPoint;
+
+typedef struct {
+	EHTMLEditorViewSelectionPoint start;
+	EHTMLEditorViewSelectionPoint end;
+} EHTMLEditorViewSelection;
+
+typedef struct {
+	enum EHTMLEditorViewHistoryEventType type;
+	EHTMLEditorViewSelection before;
+	EHTMLEditorViewSelection after;
+	union {
+		WebKitDOMDocumentFragment *fragment;
+		EHTMLEditorViewStyleChange style;
+		EHTMLEditorViewStringChange string;
+		EHTMLEditorViewDOMChange dom;
+	} data;
+} EHTMLEditorViewHistoryEvent;
+
 GType		e_html_editor_view_get_type	(void) G_GNUC_CONST;
 EHTMLEditorView *
 		e_html_editor_view_new		(void);
@@ -184,11 +254,26 @@ void		e_html_editor_view_set_is_message_from_edit_as_new
 void		e_html_editor_view_set_remove_initial_input_line
 						(EHTMLEditorView *view,
 						 gboolean value);
+void		e_html_editor_view_insert_quoted_text
+						(EHTMLEditorView *view,
+						 const gchar *text);
 WebKitDOMElement *
 		get_parent_block_element	(WebKitDOMNode *node);
 void		e_html_editor_view_set_link_color
 						(EHTMLEditorView *view,
 						 GdkRGBA *color);
+gboolean	e_html_editor_view_can_undo 	(EHTMLEditorView *view);
+void		e_html_editor_view_undo 	(EHTMLEditorView *view);
+gboolean	e_html_editor_view_can_redo 	(EHTMLEditorView *view);
+void		e_html_editor_view_redo 	(EHTMLEditorView *view);
+void		e_html_editor_view_insert_new_history_event
+						(EHTMLEditorView *view,
+						 EHTMLEditorViewHistoryEvent *event);
+gboolean	e_html_editor_view_is_undo_redo_in_progress
+						(EHTMLEditorView *view);
+void		e_html_editor_view_set_undo_redo_in_progress
+						(EHTMLEditorView *view,
+						 gboolean value);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

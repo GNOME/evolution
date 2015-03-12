@@ -43,6 +43,8 @@ struct _EHTMLEditorHRuleDialogPrivate {
 	GtkWidget *shaded_check;
 
 	WebKitDOMHTMLHRElement *hr_element;
+
+	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 G_DEFINE_TYPE (
@@ -198,8 +200,32 @@ static void
 html_editor_hrule_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditorHRuleDialogPrivate *priv;
+	EHTMLEditorViewHistoryEvent *ev;
 
 	priv = E_HTML_EDITOR_HRULE_DIALOG_GET_PRIVATE (widget);
+	ev = priv->history_event;
+
+	if (ev) {
+		EHTMLEditorHRuleDialog *dialog;
+		EHTMLEditor *editor;
+		EHTMLEditorSelection *selection;
+		EHTMLEditorView *view;
+
+		dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
+		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+		view = e_html_editor_get_view (editor);
+		selection = e_html_editor_view_get_selection (view);
+
+		ev->data.dom.to = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (priv->hr_element), FALSE);
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		e_html_editor_view_insert_new_history_event (view, ev);
+
+		if (!ev->data.dom.from)
+			g_object_unref (priv->hr_element);
+	}
 
 	priv->hr_element = NULL;
 
@@ -220,6 +246,22 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 	selection = e_html_editor_view_get_selection (view);
+
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		EHTMLEditorViewHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_HRULE_DIALOG;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		if (dialog->priv->hr_element)
+			ev->data.dom.from = webkit_dom_node_clone_node (
+				WEBKIT_DOM_NODE (dialog->priv->hr_element), FALSE);
+		else
+			ev->data.dom.from = NULL;
+		dialog->priv->history_event = ev;
+	}
 
 	if (!dialog->priv->hr_element) {
 		WebKitDOMElement *selection_start, *parent, *rule;

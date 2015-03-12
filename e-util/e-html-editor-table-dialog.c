@@ -57,6 +57,8 @@ struct _EHTMLEditorTableDialogPrivate {
 	GtkWidget *remove_image_button;
 
 	WebKitDOMHTMLTableElement *table_element;
+
+	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 static GdkRGBA transparent = { 0, 0, 0, 0 };
@@ -657,6 +659,22 @@ html_editor_table_dialog_show (GtkWidget *widget)
 				WEBKIT_DOM_HTML_TABLE_ELEMENT (table);
 			html_editor_table_dialog_get_values (dialog);
 		}
+
+		if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+			EHTMLEditorViewHistoryEvent *ev;
+
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_TABLE_DIALOG;
+
+			e_html_editor_selection_get_selection_coordinates (
+				e_html_editor_view_get_selection (view),
+				&ev->before.start.x, &ev->before.start.y,
+				&ev->before.end.x, &ev->before.end.y);
+			if (table)
+				ev->data.dom.from = webkit_dom_node_clone_node (
+					WEBKIT_DOM_NODE (table), TRUE);
+			dialog->priv->history_event = ev;
+		}
 	}
 
 	/* Chain up to parent implementation */
@@ -679,9 +697,31 @@ static void
 html_editor_table_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditorTableDialogPrivate *priv;
+	EHTMLEditorViewHistoryEvent *ev;
 
 	priv = E_HTML_EDITOR_TABLE_DIALOG_GET_PRIVATE (widget);
+	ev = priv->history_event;
 
+	if (ev) {
+		EHTMLEditorTableDialog *dialog;
+		EHTMLEditor *editor;
+		EHTMLEditorSelection *selection;
+		EHTMLEditorView *view;
+
+		dialog = E_HTML_EDITOR_TABLE_DIALOG (widget);
+		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+		view = e_html_editor_get_view (editor);
+		selection = e_html_editor_view_get_selection (view);
+
+		ev->data.dom.to = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (priv->table_element), TRUE);
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		e_html_editor_view_insert_new_history_event (view, ev);
+	}
+
+	g_object_unref (priv->table_element);
 	priv->table_element = NULL;
 
 	GTK_WIDGET_CLASS (e_html_editor_table_dialog_parent_class)->hide (widget);

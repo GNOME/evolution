@@ -135,9 +135,50 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
  *****************************************************************************/
 
 static void
+prepare_history_for_table (EHTMLEditor *editor,
+                           WebKitDOMElement *table,
+                           EHTMLEditorViewHistoryEvent *ev)
+{
+	EHTMLEditorSelection *selection;
+	EHTMLEditorView *view;
+
+	view = e_html_editor_get_view (editor);
+	selection = e_html_editor_view_get_selection (view);
+
+	ev->type = HISTORY_TABLE_DIALOG;
+
+	e_html_editor_selection_get_selection_coordinates (
+		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+	ev->data.dom.from = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (table), TRUE);
+}
+
+static void
+save_history_for_table (EHTMLEditor *editor,
+                        WebKitDOMElement *table,
+                        EHTMLEditorViewHistoryEvent *ev)
+{
+	EHTMLEditorSelection *selection;
+	EHTMLEditorView *view;
+
+	view = e_html_editor_get_view (editor);
+	selection = e_html_editor_view_get_selection (view);
+
+	if (table)
+		ev->data.dom.to = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (table), TRUE);
+	else
+		ev->data.dom.to = NULL;
+	e_html_editor_selection_get_selection_coordinates (
+		selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+	e_html_editor_view_insert_new_history_event (view, ev);
+}
+
+static void
 action_context_delete_cell_contents_cb (GtkAction *action,
                                         EHTMLEditor *editor)
 {
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	WebKitDOMNode *node;
 	WebKitDOMElement *cell, *table;
 
@@ -153,15 +194,20 @@ action_context_delete_cell_contents_cb (GtkAction *action,
 	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
 	g_return_if_fail (table != NULL);
 
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
 
 	while ((node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (cell))))
 		remove_node (node);
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
 action_context_delete_column_cb (GtkAction *action,
                                  EHTMLEditor *editor)
 {
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	WebKitDOMElement *cell, *table;
 	WebKitDOMHTMLCollection *rows;
 	gulong index, length, ii;
@@ -178,6 +224,9 @@ action_context_delete_column_cb (GtkAction *action,
 
 	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
 	g_return_if_fail (table != NULL);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
 
 	rows = webkit_dom_html_table_element_get_rows (
 			WEBKIT_DOM_HTML_TABLE_ELEMENT (table));
@@ -196,22 +245,31 @@ action_context_delete_column_cb (GtkAction *action,
 		g_object_unref (row);
 	}
 	g_object_unref (rows);
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
 action_context_delete_row_cb (GtkAction *action,
                               EHTMLEditor *editor)
 {
-	WebKitDOMElement *row;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
+	WebKitDOMElement *row, *table;
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
 	row = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TR");
 	g_return_if_fail (row != NULL);
 
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (row)),
-		WEBKIT_DOM_NODE (row), NULL);
+	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
+	g_return_if_fail (table != NULL);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
+
+	remove_node (WEBKIT_DOM_NODE (row));
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
@@ -219,22 +277,27 @@ action_context_delete_table_cb (GtkAction *action,
                                 EHTMLEditor *editor)
 {
 	WebKitDOMElement *table;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
 
 	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
 	g_return_if_fail (table != NULL);
 
-	webkit_dom_node_remove_child (
-		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-		WEBKIT_DOM_NODE (table), NULL);
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
+
+	remove_node (WEBKIT_DOM_NODE (table));
+
+	save_history_for_table (editor, NULL, ev);
 }
 
 static void
 action_context_insert_column_after_cb (GtkAction *action,
                                        EHTMLEditor *editor)
 {
-	WebKitDOMElement *cell, *row;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
+	WebKitDOMElement *cell, *row, *table;
 	gulong index;
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
@@ -248,6 +311,12 @@ action_context_insert_column_after_cb (GtkAction *action,
 
 	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
 	g_return_if_fail (row != NULL);
+
+	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
+	g_return_if_fail (table != NULL);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
 
 	/* Get the first row in the table */
 	row = WEBKIT_DOM_ELEMENT (
@@ -264,13 +333,16 @@ action_context_insert_column_after_cb (GtkAction *action,
 		row = WEBKIT_DOM_ELEMENT (
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
 	}
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
 action_context_insert_column_before_cb (GtkAction *action,
                                         EHTMLEditor *editor)
 {
-	WebKitDOMElement *cell, *row;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
+	WebKitDOMElement *cell, *row, *table;
 	gulong index;
 
 	g_return_if_fail (editor->priv->table_cell != NULL);
@@ -284,6 +356,12 @@ action_context_insert_column_before_cb (GtkAction *action,
 
 	row = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TR");
 	g_return_if_fail (row != NULL);
+
+	table = e_html_editor_dom_node_find_parent_element (editor->priv->table_cell, "TABLE");
+	g_return_if_fail (table != NULL);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
 
 	/* Get the first row in the table */
 	row = WEBKIT_DOM_ELEMENT (
@@ -300,12 +378,15 @@ action_context_insert_column_before_cb (GtkAction *action,
 		row = WEBKIT_DOM_ELEMENT (
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (row)));
 	}
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
 action_context_insert_row_above_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	WebKitDOMElement *row, *table;
 	WebKitDOMHTMLCollection *cells;
 	WebKitDOMHTMLElement *new_row;
@@ -318,6 +399,9 @@ action_context_insert_row_above_cb (GtkAction *action,
 
 	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
 	g_return_if_fail (table != NULL);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
@@ -333,12 +417,15 @@ action_context_insert_row_above_cb (GtkAction *action,
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 	}
 	g_object_unref (cells);
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
 action_context_insert_row_below_cb (GtkAction *action,
                                     EHTMLEditor *editor)
 {
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	WebKitDOMElement *row, *table;
 	WebKitDOMHTMLCollection *cells;
 	WebKitDOMHTMLElement *new_row;
@@ -351,6 +438,9 @@ action_context_insert_row_below_cb (GtkAction *action,
 
 	table = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (row), "TABLE");
 	g_return_if_fail (table != NULL);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	prepare_history_for_table (editor, table, ev);
 
 	index = webkit_dom_html_table_row_element_get_row_index (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
@@ -366,6 +456,8 @@ action_context_insert_row_below_cb (GtkAction *action,
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (new_row), -1, NULL);
 	}
 	g_object_unref (cells);
+
+	save_history_for_table (editor, table, ev);
 }
 
 static void
@@ -431,11 +523,51 @@ action_cut_cb (GtkAction *action,
                EHTMLEditor *editor)
 {
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
+	EHTMLEditorSelection *selection;
+	EHTMLEditorViewHistoryEvent *ev;
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range;
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
 		gtk_widget_grab_focus (GTK_WIDGET (view));
 
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	ev->type = HISTORY_DELETE;
+
+	printf ("HISTORY: CUT ; \n");
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	e_html_editor_selection_get_selection_coordinates (
+		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	if (webkit_dom_range_get_collapsed (range, NULL)) {
+		g_warning ("THIS SHOULD NOT HAPPEN!\n");
+	} else {
+		fragment = webkit_dom_range_clone_contents (range, NULL);
+	}
+	/* Save the fragment. */
+	ev->data.fragment = g_object_ref (fragment);
+
 	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
+
+	e_html_editor_selection_get_selection_coordinates (
+		selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+
+	e_html_editor_view_insert_new_history_event (view, ev);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 }
 
 static void
@@ -840,7 +972,7 @@ action_redo_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_redo (WEBKIT_WEB_VIEW (view));
+		e_html_editor_view_redo (view);
 }
 
 static void
@@ -907,7 +1039,7 @@ action_undo_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_undo (WEBKIT_WEB_VIEW (view));
+		e_html_editor_view_undo (view);
 }
 
 static void

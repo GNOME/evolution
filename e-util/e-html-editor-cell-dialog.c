@@ -64,6 +64,8 @@ struct _EHTMLEditorCellDialogPrivate {
 
 	WebKitDOMElement *cell;
 	guint scope;
+
+	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 enum {
@@ -501,11 +503,34 @@ html_editor_cell_dialog_remove_image (EHTMLEditorCellDialog *dialog)
 static void
 html_editor_cell_dialog_show (GtkWidget *widget)
 {
+	EHTMLEditor *editor;
 	EHTMLEditorCellDialog *dialog;
+	EHTMLEditorView *view;
 	gchar *tmp;
 	GdkRGBA color;
 
 	dialog = E_HTML_EDITOR_CELL_DIALOG (widget);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		EHTMLEditorViewHistoryEvent *ev;
+		WebKitDOMElement *table;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_TABLE_DIALOG;
+
+		e_html_editor_selection_get_selection_coordinates (
+			e_html_editor_view_get_selection (view),
+			&ev->before.start.x, &ev->before.start.y,
+			&ev->before.end.x, &ev->before.end.y);
+
+		table = e_html_editor_dom_node_find_parent_element (
+				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
+		ev->data.dom.from = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (table), TRUE);
+		dialog->priv->history_event = ev;
+	}
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
@@ -601,6 +626,44 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 }
 
 static void
+html_editor_cell_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditorCellDialogPrivate *priv;
+	EHTMLEditorViewHistoryEvent *ev;
+
+	priv = E_HTML_EDITOR_CELL_DIALOG_GET_PRIVATE (widget);
+	ev = priv->history_event;
+
+	if (ev) {
+		EHTMLEditorCellDialog *dialog;
+		EHTMLEditor *editor;
+		EHTMLEditorSelection *selection;
+		EHTMLEditorView *view;
+		WebKitDOMElement *table;
+
+		dialog = E_HTML_EDITOR_CELL_DIALOG (widget);
+		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+		view = e_html_editor_get_view (editor);
+		selection = e_html_editor_view_get_selection (view);
+
+		table = e_html_editor_dom_node_find_parent_element (
+				WEBKIT_DOM_NODE (dialog->priv->cell), "TABLE");
+
+		ev->data.dom.to = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (table), TRUE);
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		e_html_editor_view_insert_new_history_event (view, ev);
+	}
+
+	g_object_unref (priv->cell);
+	priv->cell = NULL;
+
+	GTK_WIDGET_CLASS (e_html_editor_cell_dialog_parent_class)->hide (widget);
+}
+
+static void
 e_html_editor_cell_dialog_class_init (EHTMLEditorCellDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
@@ -609,6 +672,7 @@ e_html_editor_cell_dialog_class_init (EHTMLEditorCellDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_cell_dialog_show;
+	widget_class->hide = html_editor_cell_dialog_hide;
 }
 
 static void

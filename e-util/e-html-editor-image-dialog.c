@@ -52,6 +52,8 @@ struct _EHTMLEditorImageDialogPrivate {
 	GtkWidget *test_url_button;
 
 	WebKitDOMHTMLImageElement *image;
+
+	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 G_DEFINE_TYPE (
@@ -363,6 +365,9 @@ static void
 html_editor_image_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorImageDialog *dialog;
+	EHTMLEditor *editor;
+	EHTMLEditorSelection *selection;
+	EHTMLEditorView *view;
 	WebKitDOMElement *link;
 	gchar *tmp;
 	glong val;
@@ -371,6 +376,23 @@ html_editor_image_dialog_show (GtkWidget *widget)
 
 	if (!dialog->priv->image) {
 		return;
+	}
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+	selection = e_html_editor_view_get_selection (view);
+
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		EHTMLEditorViewHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_IMAGE_DIALOG;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		ev->data.dom.from = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (dialog->priv->image), FALSE);
+		dialog->priv->history_event = ev;
 	}
 
 	tmp = webkit_dom_element_get_attribute (
@@ -435,9 +457,31 @@ static void
 html_editor_image_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditorImageDialogPrivate *priv;
+	EHTMLEditorViewHistoryEvent *ev;
 
 	priv = E_HTML_EDITOR_IMAGE_DIALOG_GET_PRIVATE (widget);
+	ev = priv->history_event;
 
+	if (ev) {
+		EHTMLEditorImageDialog *dialog;
+		EHTMLEditor *editor;
+		EHTMLEditorSelection *selection;
+		EHTMLEditorView *view;
+
+		dialog = E_HTML_EDITOR_IMAGE_DIALOG (widget);
+		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+		view = e_html_editor_get_view (editor);
+		selection = e_html_editor_view_get_selection (view);
+
+		ev->data.dom.to = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (priv->image), FALSE);
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		e_html_editor_view_insert_new_history_event (view, ev);
+	}
+
+	g_object_unref (priv->image);
 	priv->image = NULL;
 
 	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->hide (widget);

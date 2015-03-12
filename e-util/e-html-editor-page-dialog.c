@@ -43,6 +43,8 @@ struct _EHTMLEditorPageDialogPrivate {
 	GtkWidget *background_image_filechooser;
 
 	GtkWidget *remove_image_button;
+
+	EHTMLEditorViewHistoryEvent *history_event;
 };
 
 typedef struct _Template {
@@ -329,6 +331,20 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
 
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		EHTMLEditorSelection *selection;
+		EHTMLEditorViewHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_PAGE_DIALOG;
+
+		selection = e_html_editor_view_get_selection (view);
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
+		dialog->priv->history_event = ev;
+	}
+
 	tmp = webkit_dom_element_get_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-uri");
 	if (tmp && *tmp) {
@@ -399,6 +415,41 @@ html_editor_page_dialog_show (GtkWidget *widget)
 }
 
 static void
+html_editor_page_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditorPageDialogPrivate *priv;
+	EHTMLEditorViewHistoryEvent *ev;
+
+	priv = E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE (widget);
+	ev = priv->history_event;
+
+	if (ev) {
+		EHTMLEditorPageDialog *dialog;
+		EHTMLEditor *editor;
+		EHTMLEditorSelection *selection;
+		EHTMLEditorView *view;
+		WebKitDOMDocument *document;
+		WebKitDOMHTMLElement *body;
+
+		dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
+		editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+		view = e_html_editor_get_view (editor);
+		selection = e_html_editor_view_get_selection (view);
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		body = webkit_dom_document_get_body (document);
+
+		ev->data.dom.to = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+		e_html_editor_view_insert_new_history_event (view, ev);
+	}
+
+	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->hide (widget);
+}
+
+static void
 e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
@@ -407,6 +458,7 @@ e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_page_dialog_show;
+	widget_class->hide = html_editor_page_dialog_hide;
 }
 
 static void
