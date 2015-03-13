@@ -1200,6 +1200,9 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	gboolean include_space = FALSE;
 	gboolean is_email_address = FALSE;
 
+	if (!view->priv->magic_links)
+		return;
+
 	if (include_space_by_user == TRUE)
 		include_space = TRUE;
 	else
@@ -1852,6 +1855,9 @@ html_editor_view_check_magic_smileys (EHTMLEditorView *view,
 	gunichar uc;
 	WebKitDOMNode *node;
 
+	if (!view->priv->magic_smileys)
+		return;
+
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (!WEBKIT_DOM_IS_TEXT (node))
 		return;
@@ -2183,7 +2189,8 @@ body_input_event_cb (WebKitDOMElement *element,
 	else
 		e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
-	if (view->priv->magic_smileys && !view->priv->dont_save_history_in_body_input)
+	/* Don't try to look for smileys if we are deleting text. */
+	if (!view->priv->dont_save_history_in_body_input)
 		html_editor_view_check_magic_smileys (view, range);
 
 	view->priv->dont_save_history_in_body_input = FALSE;
@@ -10386,10 +10393,8 @@ undo_delete (EHTMLEditorView *view,
 			webkit_dom_dom_selection_add_range (dom_selection, range);
 		}
 
-		if (view->priv->magic_smileys)
-			html_editor_view_check_magic_smileys (view, range);
-		if (view->priv->magic_links)
-			html_editor_view_check_magic_links (view, range, FALSE);
+		html_editor_view_check_magic_smileys (view, range);
+		html_editor_view_check_magic_links (view, range, FALSE);
 		e_html_editor_view_force_spell_check_for_current_paragraph (view);
 	}
 }
