@@ -78,6 +78,7 @@ struct _EHTMLEditorViewClass {
 enum EHTMLEditorViewHistoryEventType {
 	HISTORY_ALIGNMENT,
 	HISTORY_BLOCK_FORMAT,
+	HISTORY_BLOCKQUOTE,
 	HISTORY_BOLD,
 	HISTORY_CELL_DIALOG,
 	HISTORY_DELETE, /* BackSpace, Delete, with and without selection */
@@ -233,6 +234,10 @@ void		e_html_editor_view_force_spell_check_for_current_paragraph
 						(EHTMLEditorView *view);
 void		e_html_editor_view_force_spell_check
 						(EHTMLEditorView *view);
+void		e_html_editor_view_quote_plain_text_element_after_wrapping
+						(WebKitDOMDocument *document,
+						 WebKitDOMElement *element,
+						 gint quote_level);
 void		e_html_editor_view_add_inline_image_from_mime_part
 						(EHTMLEditorView *view,
                                                  CamelMimePart *part);

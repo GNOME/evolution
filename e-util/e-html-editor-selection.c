@@ -2020,11 +2020,12 @@ is_citation_node (WebKitDOMNode *node)
 static gboolean
 process_block_to_block (EHTMLEditorSelection *selection,
                         EHTMLEditorView *view,
-			WebKitDOMDocument *document,
+                        WebKitDOMDocument *document,
                         EHTMLEditorSelectionBlockFormat format,
-			const gchar *value,
+                        const gchar *value,
                         WebKitDOMNode *block,
                         WebKitDOMNode *end_block,
+                        WebKitDOMNode *blockquote,
                         gboolean html_mode)
 {
 	gboolean after_selection_end = FALSE;
@@ -2049,6 +2050,7 @@ process_block_to_block (EHTMLEditorSelection *selection,
 				value,
 				webkit_dom_node_get_first_child (block),
 				end_block,
+				blockquote,
 				html_mode);
 
 			if (finished)
@@ -2072,7 +2074,8 @@ process_block_to_block (EHTMLEditorSelection *selection,
 
 		next_block = webkit_dom_node_get_next_sibling (block);
 
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
+		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH ||
+		    format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
 			element = e_html_editor_selection_get_paragraph_element (
 				selection, document, -1, 0);
 		else
@@ -2122,10 +2125,15 @@ process_block_to_block (EHTMLEditorSelection *selection,
 
 		block = next_block;
 
-		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH && !html_mode) {
+		if (!html_mode &&
+		    (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH ||
+		     format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)) {
 			gint citation_level, quote;
 
-			citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
+			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
+				citation_level = 1;
+			else
+				citation_level = get_citation_level (WEBKIT_DOM_NODE (element));
 			quote = citation_level ? citation_level * 2 : 0;
 
 			if (citation_level > 0)
@@ -2133,8 +2141,14 @@ process_block_to_block (EHTMLEditorSelection *selection,
 					selection, element, selection->priv->word_wrap_length - quote);
 		}
 
-		if (quoted)
-			e_html_editor_view_quote_plain_text_element (view, element);
+		if (blockquote && format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+			webkit_dom_node_append_child (
+				blockquote, WEBKIT_DOM_NODE (element), NULL);
+			if (!html_mode)
+				e_html_editor_view_quote_plain_text_element_after_wrapping (document, element, 1);
+		} else
+			if (!html_mode && quoted)
+				e_html_editor_view_quote_plain_text_element (view, element);
 	}
 
 	return after_selection_end;
@@ -2230,9 +2244,8 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 {
 	gboolean html_mode;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *block, *end_block;
+	WebKitDOMNode *block, *end_block, *blockquote = NULL;
 
-	e_html_editor_selection_save (selection);
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
 	selection_end_marker = webkit_dom_document_query_selector (
@@ -2256,16 +2269,29 @@ format_change_block_to_block (EHTMLEditorSelection *selection,
 	block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
 
+	html_mode = e_html_editor_view_get_html_mode (view);
+
+	if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+		blockquote = WEBKIT_DOM_NODE (
+			webkit_dom_document_create_element (document, "BLOCKQUOTE", NULL));
+
+		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (blockquote), "type", "cite", NULL);
+		if (!html_mode)
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (blockquote), "class", "-x-evo-plaintext-quoted", NULL);
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (block),
+			blockquote,
+			block,
+			NULL);
+	}
+
 	end_block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_end_marker));
 
-	html_mode = e_html_editor_view_get_html_mode (view);
-
 	/* Process all blocks that are in the selection one by one */
 	process_block_to_block (
-		selection, view, document, format, value, block, end_block, html_mode);
-
-	e_html_editor_selection_restore (selection);
+		selection, view, document, format, value, block, end_block, blockquote, html_mode);
 }
 
 static void
@@ -2278,8 +2304,6 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 	gboolean html_mode = e_html_editor_view_get_html_mode (view);
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *item, *list;
 	WebKitDOMNode *block, *next_block;
-
-	e_html_editor_selection_save (selection);
 
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
@@ -2410,8 +2434,6 @@ format_change_block_to_list (EHTMLEditorSelection *selection,
 	}
 
 	merge_lists_if_possible (WEBKIT_DOM_NODE (list));
-
-	e_html_editor_selection_restore (selection);
 }
 
 static void
@@ -2425,8 +2447,6 @@ format_change_list_to_list (EHTMLEditorSelection *selection,
 	gboolean selection_starts_in_first_child, selection_ends_in_last_child;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *prev_list, *current_list, *next_list;
-
-	e_html_editor_selection_save (selection);
 
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
@@ -2456,7 +2476,7 @@ format_change_list_to_list (EHTMLEditorSelection *selection,
 
 	if (!prev_list || !next_list || indented) {
 		format_change_list_from_list (selection, document, format, html_mode);
-		goto out;
+		return;
 	}
 
 	if (webkit_dom_node_is_same_node (prev_list, next_list)) {
@@ -2470,7 +2490,7 @@ format_change_list_to_list (EHTMLEditorSelection *selection,
 					WEBKIT_DOM_NODE (selection_end_marker))));
 		if (!prev_list || !next_list) {
 			format_change_list_from_list (selection, document, format, html_mode);
-			goto out;
+			return;
 		}
 	}
 
@@ -2492,11 +2512,9 @@ format_change_list_to_list (EHTMLEditorSelection *selection,
 	}
 
 	if (done)
-		goto out;
+		return;
 
 	format_change_list_from_list (selection, document, format, html_mode);
-out:
-	e_html_editor_selection_restore (selection);
 }
 
 static void
@@ -2508,8 +2526,6 @@ format_change_list_to_block (EHTMLEditorSelection *selection,
 	gboolean after_end = FALSE;
 	WebKitDOMElement *selection_start, *element, *selection_end;
 	WebKitDOMNode *source_list, *next_item, *item, *source_list_clone;
-
-	e_html_editor_selection_save (selection);
 
 	selection_start = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
@@ -2536,6 +2552,8 @@ format_change_list_to_block (EHTMLEditorSelection *selection,
 		tmp = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (next_item));
 
 		if (!after_end) {
+			WebKitDOMNode *node;
+
 			if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH)
 				element = e_html_editor_selection_get_paragraph_element (
 					selection, document, -1, 0);
@@ -2545,12 +2563,9 @@ format_change_list_to_block (EHTMLEditorSelection *selection,
 
 			after_end = webkit_dom_node_contains (next_item, WEBKIT_DOM_NODE (selection_end));
 
-			while (webkit_dom_node_get_first_child (next_item)) {
-				WebKitDOMNode *node = webkit_dom_node_get_first_child (next_item);
-
+			while ((node = webkit_dom_node_get_first_child (next_item)))
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (element), node, NULL);
-			}
 
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (source_list),
@@ -2571,8 +2586,6 @@ format_change_list_to_block (EHTMLEditorSelection *selection,
 
 	remove_node_if_empty (source_list_clone);
 	remove_node_if_empty (source_list);
-
-	e_html_editor_selection_restore (selection);
 }
 
 /**
@@ -2668,9 +2681,14 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 		return;
 	}
 
+	e_html_editor_selection_save (selection);
+
 	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_BLOCK_FORMAT;
+		if (format != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE)
+			ev->type = HISTORY_BLOCK_FORMAT;
+		else
+			ev->type = HISTORY_BLOCKQUOTE;
 
 		e_html_editor_selection_get_selection_coordinates (
 			selection,
@@ -2678,8 +2696,38 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 			&ev->before.start.y,
 			&ev->before.end.x,
 			&ev->before.end.y);
-		ev->data.style.from = current_format;
-		ev->data.style.to = format;
+
+		if (format != E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+			ev->data.style.from = current_format;
+			ev->data.style.to = format;
+		} else {
+			WebKitDOMDocumentFragment *fragment;
+			WebKitDOMElement *element;
+			WebKitDOMNode *block;
+
+			fragment = webkit_dom_range_clone_contents (range, NULL);
+
+			element = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+			block = get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
+			webkit_dom_node_replace_child (
+				WEBKIT_DOM_NODE (fragment),
+				webkit_dom_node_clone_node (block, TRUE),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+				NULL);
+
+			if (!webkit_dom_range_get_collapsed (range, NULL)) {
+				element = webkit_dom_document_get_element_by_id (
+					document, "-x-evo-selection-end-marker");
+				block = get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
+				webkit_dom_node_replace_child (
+					WEBKIT_DOM_NODE (fragment),
+					webkit_dom_node_clone_node (block, TRUE),
+					webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment)),
+					NULL);
+			}
+			ev->data.fragment = fragment;
+		}
 	}
 
 	if (from_list && to_list)
@@ -2688,11 +2736,18 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	if (!from_list && !to_list)
 		format_change_block_to_block (selection, format, view, value, document);
 
-	if (from_list && !to_list)
+	if (from_list && !to_list) {
 		format_change_list_to_block (selection, format, value, document);
+		if (format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_BLOCKQUOTE) {
+			e_html_editor_selection_restore (selection);
+			format_change_block_to_block (selection, format, view, value, document);
+		}
+	}
 
 	if (!from_list && to_list)
 		format_change_block_to_list (selection, format, view, document);
+
+	e_html_editor_selection_restore (selection);
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
