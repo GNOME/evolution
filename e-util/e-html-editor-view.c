@@ -2295,19 +2295,46 @@ body_input_event_cb (WebKitDOMElement *element,
 		 * smiley wrapper. If he will start to write there we have to move the written
 		 * text out of the wrapper and move caret to right place */
 		if (WEBKIT_DOM_IS_ELEMENT (parent) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-wrapper")) {
+		    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-text")) {
+			gchar *text;
+			WebKitDOMCharacterData *data;
+			WebKitDOMText *text_node;
+
+			/* Split out the newly written character to its own text node, */
+			data = WEBKIT_DOM_CHARACTER_DATA (node);
+			parent = webkit_dom_node_get_parent_node (parent);
+			text = webkit_dom_character_data_substring_data (
+				data,
+				webkit_dom_character_data_get_length (data) - 1,
+				1,
+				NULL);
+			webkit_dom_character_data_delete_data (
+				data,
+				webkit_dom_character_data_get_length (data) - 1,
+				1,
+				NULL);
+			text_node = webkit_dom_document_create_text_node (document, text);
+			g_free (text);
+
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (parent),
-				e_html_editor_selection_get_caret_position_node (
-					document),
+				WEBKIT_DOM_NODE (
+					create_selection_marker (document, FALSE)),
 				webkit_dom_node_get_next_sibling (parent),
 				NULL);
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (parent),
-				node,
+				WEBKIT_DOM_NODE (
+					create_selection_marker (document, TRUE)),
 				webkit_dom_node_get_next_sibling (parent),
 				NULL);
-			e_html_editor_selection_restore_caret_position (selection);
+			/* Move the text node outside of smiley. */
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (text_node),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+			e_html_editor_selection_restore (selection);
 		}
 	}
 
