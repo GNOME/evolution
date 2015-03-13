@@ -3510,7 +3510,6 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 	ev->type = HISTORY_DELETE;
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	e_html_editor_selection_get_selection_coordinates (
 		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
@@ -3581,8 +3580,8 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 	} else {
 		ev->after.start.x = ev->before.start.x;
 		ev->after.start.y = ev->before.start.y;
-		ev->after.end.x = ev->before.end.x;
-		ev->after.end.y = ev->before.end.y;
+		ev->after.end.x = ev->before.start.x;
+		ev->after.end.y = ev->before.start.y;
 		fragment = webkit_dom_range_clone_contents (range, NULL);
 	}
 
@@ -10344,7 +10343,7 @@ undo_delete (EHTMLEditorView *view,
 		e_html_editor_selection_restore (selection);
 		e_html_editor_view_force_spell_check (view);
 	} else {
-		WebKitDOMNode *inserted_node, *nd;
+		WebKitDOMNode *nd;
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
 
@@ -10373,7 +10372,7 @@ undo_delete (EHTMLEditorView *view,
 		}
 
 		/* Insert the deleted content back to the body. */
-		inserted_node = webkit_dom_node_insert_before (
+		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
 			fragment,
 			WEBKIT_DOM_NODE (element),
@@ -10384,14 +10383,10 @@ undo_delete (EHTMLEditorView *view,
 		/* If the selection markers are presented restore the selection,
 		 * otherwise the selection was not callapsed so select the deleted
 		 * content as it was before the delete occured. */
-		if (webkit_dom_document_fragment_query_selector (event->data.fragment, "span#-x-evo-selection-start-marker", NULL)) {
+		if (webkit_dom_document_fragment_query_selector (event->data.fragment, "span#-x-evo-selection-start-marker", NULL))
 			e_html_editor_selection_restore (e_html_editor_view_get_selection (view));
-			range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-		} else {
-			webkit_dom_range_select_node (range, WEBKIT_DOM_NODE (inserted_node), NULL);
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, range);
-		}
+		else
+			restore_selection_to_history_event_state (view, event->before);
 
 		html_editor_view_check_magic_smileys (view, range);
 		html_editor_view_check_magic_links (view, range, FALSE);
