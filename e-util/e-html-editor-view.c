@@ -1629,6 +1629,79 @@ emoticon_load_context_free (LoadContext *load_context)
 }
 
 static void
+insert_dash_history_event (EHTMLEditorView *view)
+{
+	EHTMLEditorViewHistoryEvent *event, *last;
+	GList *history;
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+
+	event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	event->type = HISTORY_INPUT;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	fragment = webkit_dom_document_create_document_fragment (document);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			webkit_dom_document_create_text_node (document, "-")),
+		NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			create_selection_marker (document, TRUE)),
+		NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			create_selection_marker (document, FALSE)),
+		NULL);
+	event->data.fragment = fragment;
+
+	last = view->priv->history->data;
+	/* The dash event needs to have the same coordinates as the character
+	 * that is right after it. */
+	event->after.start.x = last->after.start.x;
+	event->after.start.y = last->after.start.y;
+	event->after.end.x = last->after.end.x;
+	event->after.end.y = last->after.end.y;
+
+	history = view->priv->history->next;
+	while (history) {
+		EHTMLEditorViewHistoryEvent *item;
+		WebKitDOMNode *first_child;
+
+		item = history->data;
+
+		if (item->type != HISTORY_INPUT)
+			break;
+
+		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (item->data.fragment));
+		if (WEBKIT_DOM_IS_TEXT (first_child)) {
+			gchar *text;
+
+			text = webkit_dom_node_get_text_content (first_child);
+			if (text && *text == ':') {
+				guint diff;
+
+				diff = event->after.start.x - item->after.start.x;
+
+				/* We need to move the coordinater of the last
+				 * event by one character. */
+				last->after.start.x += diff;
+				last->after.end.x += diff;
+
+				view->priv->history = g_list_insert_before (
+					view->priv->history, history, event);
+			}
+			g_free (text);
+			break;
+		}
+		history = history->next;
+	}
+}
+
+static void
 emoticon_insert_span (EHTMLEditorView *view,
                       EEmoticon *emoticon,
                       WebKitDOMElement *span)
@@ -1825,8 +1898,8 @@ emoticon_insert_span (EHTMLEditorView *view,
 					g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
 					strlen (emoticon->text_face),
 					NULL);
-			} else {
-				gboolean same = TRUE;
+			} else if (strstr (emoticon->text_face, "-")) {
+				gboolean same = TRUE, compensate = FALSE;
 				gint ii = 0, jj = 0;
 
 				/* Try to recognize smileys without the dash e.g. :). */
@@ -1835,6 +1908,7 @@ emoticon_insert_span (EHTMLEditorView *view,
 						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-')
 							ii++;
 							jj+=2;
+							compensate = TRUE;
 							continue;
 					}
 					if (emoticon_start[ii] == emoticon->text_face[jj]) {
@@ -1850,6 +1924,11 @@ emoticon_insert_span (EHTMLEditorView *view,
 						ii,
 						NULL);
 				}
+				/* If we recognize smiley without dash, but we inserted
+				 * the text version with dash we need it insert new
+				 * history input event with that dash. */
+				if (compensate)
+					insert_dash_history_event (view);
 			}
 		}
 		view->priv->smiley_written = FALSE;
