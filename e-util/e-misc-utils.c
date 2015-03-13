@@ -256,6 +256,23 @@ e_show_uri (GtkWindow *parent,
 	g_error_free (error);
 }
 
+static gboolean
+e_misc_utils_is_help_package_installed (void)
+{
+	gboolean is_installed;
+	gchar *path;
+
+	/* Viewing user documentation requires the evolution help
+	 * files. Look for one of the files it installs. */
+	path = g_build_filename (EVOLUTION_DATADIR, "help", "C", PACKAGE, "index.page", NULL);
+
+	is_installed = g_file_test (path, G_FILE_TEST_IS_REGULAR);
+
+	g_free (path);
+
+	return is_installed;
+}
+
 /**
  * e_display_help:
  * @parent: a parent #GtkWindow or %NULL
@@ -276,14 +293,22 @@ e_display_help (GtkWindow *parent,
 	GError *error = NULL;
 	guint32 timestamp;
 
-	uri = g_string_new ("help:" PACKAGE);
+	if (e_misc_utils_is_help_package_installed ()) {
+		uri = g_string_new ("help:" PACKAGE);
+	} else {
+		uri = g_string_new ("https://help.gnome.org/users/" PACKAGE "/");
+		g_string_append_printf (uri, "%d.%d", EDS_MAJOR_VERSION, EDS_MINOR_VERSION);
+	}
+
 	timestamp = gtk_get_current_event_time ();
 
 	if (parent != NULL)
 		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 
+	g_string_append (uri, "/");
+
 	if (link_id != NULL)
-		g_string_append_printf (uri, "?%s", link_id);
+		g_string_append (uri, link_id);
 
 	if (gtk_show_uri (screen, uri->str, timestamp, &error))
 		goto exit;
