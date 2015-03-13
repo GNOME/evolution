@@ -3594,7 +3594,7 @@ e_msg_composer_new_with_message (EShell *shell,
 		flags = g_strsplit (format, ", ", 0);
 		for (i = 0; flags[i]; i++) {
 			if (g_ascii_strcasecmp (flags[i], "text/html") == 0) {
-				if (g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
+				if (composer_mode && g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
 					e_html_editor_view_set_html_mode (
 						view, TRUE);
 				} else {
@@ -3602,7 +3602,7 @@ e_msg_composer_new_with_message (EShell *shell,
 						view, FALSE);
 				}
 			} else if (g_ascii_strcasecmp (flags[i], "text/plain") == 0) {
-				if (g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
+				if (composer_mode && g_ascii_strcasecmp (composer_mode, "text/html") == 0) {
 					e_html_editor_view_set_html_mode (
 						view, TRUE);
 				} else {
