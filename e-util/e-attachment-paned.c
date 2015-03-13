@@ -791,6 +791,8 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 		G_CALLBACK (attachment_paned_update_status), paned);
 
 	g_object_unref (size_group);
+
+	attachment_paned_notify_cb (paned, NULL, GTK_EXPANDER (paned->priv->expander));
 }
 
 static void
