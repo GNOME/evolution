@@ -3996,30 +3996,29 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			remove_input_event_listener_from_body (view);
 
 		/* BackSpace in indented block decrease indent level by one */
-		if (e_html_editor_selection_is_indented (selection)) {
-			WebKitDOMElement *caret;
+		if (e_html_editor_selection_is_indented (selection) &&
+		    e_html_editor_selection_is_collapsed (selection)) {
+			WebKitDOMDocument *document;
+			WebKitDOMElement *selection_start;
 			WebKitDOMNode *prev_sibling;
 
-			caret = e_html_editor_selection_save_caret_position (selection);
+			e_html_editor_selection_save (selection);
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+			selection_start = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
 
 			/* Empty text node before caret */
 			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (caret));
-			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
-				gchar *content;
-
-				content = webkit_dom_node_get_text_content (prev_sibling);
-				if (g_strcmp0 (content, "") == 0)
+				WEBKIT_DOM_NODE (selection_start));
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling))
+				if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (prev_sibling)) == 0)
 					prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
-				g_free (content);
-			}
 
+			e_html_editor_selection_restore (selection);
 			if (!prev_sibling) {
-				e_html_editor_selection_clear_caret_position_marker (selection);
 				e_html_editor_selection_unindent (selection);
 				return TRUE;
-			} else
-				e_html_editor_selection_clear_caret_position_marker (selection);
+			}
 		}
 
 		if (prevent_from_deleting_last_element_in_body (view))
