@@ -187,16 +187,6 @@ void		e_html_editor_selection_move_caret_into_element
 						(WebKitDOMDocument *document,
 						 WebKitDOMElement *element,
 						 gboolean to_start);
-void 		e_html_editor_selection_clear_caret_position_marker
-						(EHTMLEditorSelection *selection);
-WebKitDOMNode *
-		e_html_editor_selection_get_caret_position_node
-						(WebKitDOMDocument *document);
-WebKitDOMElement *
-		e_html_editor_selection_save_caret_position
-						(EHTMLEditorSelection *selection);
-void		e_html_editor_selection_restore_caret_position
-						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_set_indented_style
 						(EHTMLEditorSelection *selection,
 						 WebKitDOMElement *element,
@@ -223,7 +213,7 @@ WebKitDOMElement *
 						(EHTMLEditorSelection *selection,
 						 WebKitDOMDocument *document,
 						 WebKitDOMNode *node,
-						 WebKitDOMNode *caret_position);
+						 gboolean with_input);
 void		e_html_editor_selection_wrap_lines
 						(EHTMLEditorSelection *selection);
 WebKitDOMElement *
