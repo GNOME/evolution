@@ -270,6 +270,16 @@ e_misc_utils_is_help_package_installed (void)
 
 	g_free (path);
 
+	if (is_installed) {
+		GAppInfo *help_handler;
+
+		help_handler = g_app_info_get_default_for_uri_scheme ("help");
+
+		is_installed = help_handler && g_app_info_get_commandline (help_handler);
+
+		g_clear_object (&help_handler);
+	}
+
 	return is_installed;
 }
 
