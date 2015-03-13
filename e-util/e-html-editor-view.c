@@ -10113,6 +10113,9 @@ e_html_editor_view_insert_new_history_event (EHTMLEditorView *view,
 	view->priv->history_size++;
 	view->priv->can_undo = TRUE;
 
+	d (print_undo_events (view));
+	d (print_redo_events (view));
+
 	g_object_notify (G_OBJECT (view), "can-undo");
 }
 
