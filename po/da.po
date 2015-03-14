@@ -69,8 +69,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 18:56+0100\n"
-"PO-Revision-Date: 2015-03-13 18:36+0100\n"
+"POT-Creation-Date: 2015-03-14 19:54+0100\n"
+"PO-Revision-Date: 2015-03-14 03:34+0100\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Dansk <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -4832,28 +4832,28 @@ msgstr[0] "Kopierer en begivenhed"
 msgstr[1] "Kopierer %d begivenheder"
 
 #: ../calendar/gui/e-cal-ops.c:2041
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "Flytter et memo"
 msgstr[1] "Flytter %d memoer"
 
 #: ../calendar/gui/e-cal-ops.c:2042
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "Kopierer et memo"
 msgstr[1] "Kopierer %d memoer"
 
 #: ../calendar/gui/e-cal-ops.c:2048
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "Flytter en opgave"
 msgstr[1] "Flytter %d opgaver"
 
 #: ../calendar/gui/e-cal-ops.c:2049
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
 msgstr[0] "Kopierer en opgave"
@@ -7544,35 +7544,35 @@ msgstr ""
 "Indtast adresserne som skal modtage en kopi af brevet, uden at blive vist i "
 "listen over modtagere"
 
-#: ../composer/e-composer-header-table.c:793
+#: ../composer/e-composer-header-table.c:829
 msgid "Fr_om:"
 msgstr "_Fra:"
 
-#: ../composer/e-composer-header-table.c:800
+#: ../composer/e-composer-header-table.c:836
 msgid "_Reply-To:"
 msgstr "_Svar-til:"
 
-#: ../composer/e-composer-header-table.c:805
+#: ../composer/e-composer-header-table.c:841
 msgid "_To:"
 msgstr "_Til:"
 
-#: ../composer/e-composer-header-table.c:811
+#: ../composer/e-composer-header-table.c:847
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: ../composer/e-composer-header-table.c:817
+#: ../composer/e-composer-header-table.c:853
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
-#: ../composer/e-composer-header-table.c:822
+#: ../composer/e-composer-header-table.c:858
 msgid "_Post To:"
 msgstr "_Post-til:"
 
-#: ../composer/e-composer-header-table.c:826
+#: ../composer/e-composer-header-table.c:862
 msgid "S_ubject:"
 msgstr "_Emne:"
 
-#: ../composer/e-composer-header-table.c:834
+#: ../composer/e-composer-header-table.c:870
 #: ../mail/e-mail-config-identity-page.c:505
 msgid "Si_gnature:"
 msgstr "Si_gnatur:"
@@ -12763,7 +12763,6 @@ msgid "Replace _All"
 msgstr "Erstat _alle"
 
 #: ../e-util/e-html-editor-replace-dialog.c:301
-#, fuzzy
 msgctxt "dialog-title"
 msgid "Replace"
 msgstr "Erstat"
@@ -12855,16 +12854,16 @@ msgid "Text Properties"
 msgstr "Tekstegenskaber"
 
 # ??
-#: ../e-util/e-html-editor-view.c:4281
+#: ../e-util/e-html-editor-view.c:4589
 msgid "Changed property"
 msgstr "Ændret egenskab"
 
 # ???? ???
-#: ../e-util/e-html-editor-view.c:4282
+#: ../e-util/e-html-editor-view.c:4590
 msgid "Whether editor changed"
 msgstr "Om ændret i redigering"
 
-#: ../e-util/e-html-editor-view.c:8145
+#: ../e-util/e-html-editor-view.c:8425
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12872,11 +12871,11 @@ msgstr ""
 "Hvis du slår HTML-tilstand fra, vil teksten miste al formatering. Vil du "
 "fortsætte?"
 
-#: ../e-util/e-html-editor-view.c:8149
+#: ../e-util/e-html-editor-view.c:8429
 msgid "_Don't lose formatting"
 msgstr "_Behold formatering"
 
-#: ../e-util/e-html-editor-view.c:8150
+#: ../e-util/e-html-editor-view.c:8430
 msgid "_Lose formatting"
 msgstr "_Fjern formatering"
 
@@ -13054,27 +13053,27 @@ msgstr ""
 msgid "Could not open the link."
 msgstr "Kunne ikke åbne link."
 
-#: ../e-util/e-misc-utils.c:295
+#: ../e-util/e-misc-utils.c:330
 msgid "Could not display help for Evolution."
 msgstr "Kunne ikke vise hjælp for Evolution."
 
 # Jeg har ingen ide om, hvorvidt "ved" er rigtigt. Jeg har fejlmeldt strengen
-#: ../e-util/e-misc-utils.c:2348
+#: ../e-util/e-misc-utils.c:2383
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Åbner kalenderen \"%s\""
 
-#: ../e-util/e-misc-utils.c:2351
+#: ../e-util/e-misc-utils.c:2386
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Åbner memoliste \"%s\""
 
-#: ../e-util/e-misc-utils.c:2354
+#: ../e-util/e-misc-utils.c:2389
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Åbner opgaveliste \"%s\""
 
-#: ../e-util/e-misc-utils.c:2357
+#: ../e-util/e-misc-utils.c:2392
 #, c-format
 msgid "Opening address book '%s'"
 msgstr "Åbner adressebogen \"%s\""
@@ -15920,16 +15919,16 @@ msgstr "-------- Videresendt brev --------"
 msgid "-----Original Message-----"
 msgstr "-----Oprindelige besked-----"
 
-#: ../mail/em-composer-utils.c:2695
+#: ../mail/em-composer-utils.c:2698
 msgid "an unknown sender"
 msgstr "en ukendt afsender"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../mail/em-composer-utils.c:3134
+#: ../mail/em-composer-utils.c:3137
 msgid "Posting destination"
 msgstr "Leveringssted for breve"
 
-#: ../mail/em-composer-utils.c:3139
+#: ../mail/em-composer-utils.c:3142
 msgid "Choose folders to post the message to."
 msgstr "Vælg mapperne som brevet skal sendes til."
 
