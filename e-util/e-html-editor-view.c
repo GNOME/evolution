@@ -291,6 +291,7 @@ print_history_event (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_IMAGE_DIALOG:
 		case HISTORY_CELL_DIALOG:
 		case HISTORY_TABLE_DIALOG:
+		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
 			print_node_inner_html (event->data.dom.from);
 			print_node_inner_html (event->data.dom.to);
@@ -2239,13 +2240,15 @@ surround_text_with_paragraph_if_needed (EHTMLEditorSelection *selection,
 {
 	WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
 	WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 	WebKitDOMElement *element;
 
 	/* All text in composer has to be written in div elements, so if
 	 * we are writing something straight to the body, surround it with
 	 * paragraph */
 	if (WEBKIT_DOM_IS_TEXT (node) &&
-	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
+	    (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) ||
+	     WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent))) {
 		element = e_html_editor_selection_put_node_into_paragraph (
 			selection, document, node, TRUE);
 
@@ -2284,6 +2287,47 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		view->priv->dont_save_history_in_body_input = TRUE;
 }
 
+static gboolean
+save_history_before_event_in_table (EHTMLEditorView *view,
+                                    WebKitDOMRange *range)
+{
+	WebKitDOMNode *node;
+	WebKitDOMElement *block;
+
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node))
+		block = WEBKIT_DOM_ELEMENT (node);
+	else
+		block = get_parent_block_element (node);
+
+	if (block && WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (block)) {
+		EHTMLEditorViewHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_TABLE_INPUT;
+
+		if (block) {
+			e_html_editor_selection_save (view->priv->selection);
+			ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+			e_html_editor_selection_restore (view->priv->selection);
+		} else
+			ev->data.dom.from = NULL;
+
+		e_html_editor_selection_get_selection_coordinates (
+			view->priv->selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		e_html_editor_view_insert_new_history_event (view, ev);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 body_keypress_event_cb (WebKitDOMElement *element,
                         WebKitDOMUIEvent *event,
@@ -2309,6 +2353,9 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
+	if (save_history_before_event_in_table (view, range))
+		return;
+
 	if (!webkit_dom_range_get_collapsed (range, NULL)) {
 		EHTMLEditorViewHistoryEvent *ev;
 		WebKitDOMDocumentFragment *fragment;
@@ -2328,6 +2375,56 @@ body_keypress_event_cb (WebKitDOMElement *element,
 
 		e_html_editor_view_insert_new_history_event (view, ev);
 	}
+}
+
+static gboolean
+save_history_after_event_in_table (EHTMLEditorView *view)
+{
+	EHTMLEditorViewHistoryEvent *ev;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *element;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return FALSE;
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	/* Find if writing into table. */
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = get_parent_block_element (node);
+
+	/* If writing to table we have to create different history event. */
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element)) {
+		ev = view->priv->history->data;
+		if (ev->type != HISTORY_TABLE_INPUT)
+			return FALSE;
+	} else
+		return FALSE;
+
+	e_html_editor_selection_save (view->priv->selection);
+
+	e_html_editor_selection_get_selection_coordinates (
+		view->priv->selection,
+		&ev->after.start.x,
+		&ev->after.start.y,
+		&ev->after.end.x,
+		&ev->after.end.y);
+
+	ev->data.dom.to = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
+
+	e_html_editor_selection_restore (view->priv->selection);
+
+	return TRUE;
 }
 
 static void
@@ -2423,10 +2520,12 @@ body_input_event_cb (WebKitDOMElement *element,
 		return;
 	}
 
-	if (!view->priv->dont_save_history_in_body_input)
-		save_history_for_input (view);
-	else
-		e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	if (!save_history_after_event_in_table (view)) {
+		if (!view->priv->dont_save_history_in_body_input)
+			save_history_for_input (view);
+		else
+			e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	}
 
 	/* Don't try to look for smileys if we are deleting text. */
 	if (!view->priv->dont_save_history_in_body_input)
@@ -2475,7 +2574,7 @@ body_input_event_cb (WebKitDOMElement *element,
 
 	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
 	 * to move caret into right space. When this callback is called it is not
-	 * necassary anymore so remove it */
+	 * necessary anymore so remove it */
 	if (view->priv->html_mode) {
 		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
 
@@ -3227,6 +3326,7 @@ free_history_event_content (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_IMAGE_DIALOG:
 		case HISTORY_CELL_DIALOG:
 		case HISTORY_TABLE_DIALOG:
+		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
 			if (event->data.dom.from != NULL)
 				g_object_unref (event->data.dom.from);
@@ -3770,6 +3870,11 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	if (save_history_before_event_in_table (view, range))
 		return;
 
 	selection = e_html_editor_view_get_selection (view);
@@ -9859,6 +9964,13 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append (
 		stylesheet,
+		"td > *"
+		"{\n"
+		"  display : inline-block;\n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
 		"ul,ol "
 		"{\n"
 		"  -webkit-padding-start: 7ch; \n"
@@ -10952,6 +11064,52 @@ undo_redo_table_dialog (EHTMLEditorView *view,
 }
 
 static void
+undo_redo_table_input (EHTMLEditorView *view,
+                       EHTMLEditorViewHistoryEvent *event,
+                       gboolean undo)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *element;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	if (undo)
+		restore_selection_to_history_event_state (view, event->after);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return;
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	/* Find if writing into table. */
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = get_parent_block_element (node);
+
+	/* If writing to table we have to create different history event. */
+	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element))
+		return;
+
+	webkit_dom_node_replace_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+		undo ? event->data.dom.from : event->data.dom.to,
+		WEBKIT_DOM_NODE (element),
+		NULL);
+
+	e_html_editor_selection_restore (selection);
+}
+
+static void
 undo_redo_paste (EHTMLEditorView *view,
                  EHTMLEditorViewHistoryEvent *event,
                  gboolean undo)
@@ -11483,6 +11641,9 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 		case HISTORY_TABLE_DIALOG:
 			undo_redo_table_dialog (view, event, FALSE);
 			break;
+		case HISTORY_TABLE_INPUT:
+			undo_redo_table_input (view, event, FALSE);
+			break;
 		case HISTORY_PAGE_DIALOG:
 			undo_redo_page_dialog (view, event, FALSE);
 			break;
@@ -11585,6 +11746,9 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 			break;
 		case HISTORY_TABLE_DIALOG:
 			undo_redo_table_dialog (view, event, TRUE);
+			break;
+		case HISTORY_TABLE_INPUT:
+			undo_redo_table_input (view, event, TRUE);
 			break;
 		case HISTORY_PAGE_DIALOG:
 			undo_redo_page_dialog (view, event, TRUE);

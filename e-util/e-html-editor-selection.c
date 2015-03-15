@@ -6504,6 +6504,13 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 			webkit_dom_node_get_first_child (container),
 			NULL);
 		goto insert_end_marker;
+	} else if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (container)) {
+		marker_node = webkit_dom_node_insert_before (
+			container,
+			WEBKIT_DOM_NODE (start_marker),
+			webkit_dom_node_get_first_child (container),
+			NULL);
+		goto insert_end_marker;
 	} else if (element_has_class (WEBKIT_DOM_ELEMENT (container), "-x-evo-resizable-wrapper")) {
 		marker_node = webkit_dom_node_insert_before (
 			parent_node,
