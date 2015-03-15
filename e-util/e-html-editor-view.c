@@ -201,45 +201,21 @@ html_editor_view_get_dom_range (EHTMLEditorView *view)
 
 #if d(1)+0
 static void
-print_fragment_inner_html (WebKitDOMDocumentFragment *fragment)
+print_node_inner_html (WebKitDOMNode *node)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *div;
 	gchar *inner_html;
 
-	if (!fragment) {
-		printf ("\tNone'\n");
-		return;
-	}
-	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (fragment));
-	div = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (div),
-		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (fragment), TRUE),
-		NULL);
-
-	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
-	printf ("\t'%s'\n", inner_html);
-	remove_node (WEBKIT_DOM_NODE (div));
-	g_free (inner_html);
-}
-
-static void
-print_node_inner_html (WebKitDOMNode *fragment)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *div;
-	gchar *inner_html;
-
-	if (!fragment) {
+	if (!node) {
 		printf ("\tnone\n");
 		return;
 	}
-	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (fragment));
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (node));
 	div = webkit_dom_document_create_element (document, "div", NULL);
 	webkit_dom_node_append_child (
 		WEBKIT_DOM_NODE (div),
-		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (fragment), TRUE),
+		webkit_dom_node_clone_node (WEBKIT_DOM_NODE (node), TRUE),
 		NULL);
 
 	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
