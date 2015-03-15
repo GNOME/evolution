@@ -8917,6 +8917,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 	hide = !reply && !converted;
 
 	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
+	convert = convert && !is_from_new_message;
 
 	/* If toggling from HTML to plain text mode, ask user first */
 	if (convert && view->priv->html_mode && !html_mode) {
