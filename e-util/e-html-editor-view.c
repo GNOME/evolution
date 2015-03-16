@@ -9050,6 +9050,17 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
 
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE);
+
+	/* Override the spell-checker, use our own */
+	checker = e_spell_checker_new ();
+	webkit_set_text_checker (G_OBJECT (checker));
+	g_object_unref (checker);
+
+	/* Give spell check languages to WebKit */
+	languages = e_spell_checker_list_active_languages (checker, NULL);
+	comma_separated = g_strjoinv (",", languages);
+	g_strfreev (languages);
+
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 
 	g_object_set (
@@ -9061,16 +9072,14 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		"enable-scripts", FALSE,
 		"enable-spell-checking", TRUE,
 		"respect-image-orientation", TRUE,
+		"spell-checking-languages", comma_separated,
 		NULL);
+
+	g_free (comma_separated);
 
 	webkit_web_view_set_settings (WEBKIT_WEB_VIEW (view), settings);
 
 	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
-
-	/* Override the spell-checker, use our own */
-	checker = e_spell_checker_new ();
-	webkit_set_text_checker (G_OBJECT (checker));
-	g_object_unref (checker);
 
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */
@@ -9135,18 +9144,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 
 	e_html_editor_view_update_fonts (view);
 
-	/* Give spell check languages to WebKit */
-	languages = e_spell_checker_list_active_languages (checker, NULL);
-	comma_separated = g_strjoinv (",", languages);
-	g_strfreev (languages);
-
-	g_object_set (
-		G_OBJECT (settings),
-		"spell-checking-languages", comma_separated,
-		NULL);
-
-	g_free (comma_separated);
-
 	view->priv->body_input_event_removed = TRUE;
 	view->priv->is_message_from_draft = FALSE;
 	view->priv->is_message_from_selection = FALSE;
@@ -9158,12 +9155,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->smiley_written = FALSE;
 	view->priv->undo_redo_in_progress = FALSE;
 	view->priv->dont_save_history_in_body_input = FALSE;
-
-	g_object_set (
-		G_OBJECT (settings),
-		"enable-scripts", FALSE,
-		"enable-plugins", FALSE,
-		NULL);
 
 	/* Make WebKit think we are displaying a local file, so that it
 	 * does not block loading resources from file:// protocol */
