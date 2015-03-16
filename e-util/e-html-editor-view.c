@@ -110,6 +110,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean smiley_written;
 	gboolean undo_redo_in_progress;
 	gboolean dont_save_history_in_body_input;
+	gboolean im_input_in_progress;
 
 	GHashTable *old_settings;
 
@@ -2872,7 +2873,9 @@ body_keyup_event_cb (WebKitDOMElement *element,
 	EHTMLEditorSelection *selection;
 	glong key_code;
 
-	register_input_event_listener_on_body (view);
+	if (!view->priv->im_input_in_progress)
+		register_input_event_listener_on_body (view);
+
 	selection = e_html_editor_view_get_selection (view);
 	if (!e_html_editor_selection_is_collapsed (selection))
 		return;
@@ -9037,11 +9040,28 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 }
 
 static void
+im_context_preedit_start_cb (GtkIMContext *context,
+                           EHTMLEditorView *view)
+{
+	view->priv->im_input_in_progress = TRUE;
+	remove_input_event_listener_from_body (view);
+}
+
+static void
+im_context_preedit_end_cb (GtkIMContext *context,
+                           EHTMLEditorView *view)
+{
+	view->priv->im_input_in_progress = FALSE;
+	register_input_event_listener_on_body (view);
+}
+
+static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
 	WebKitWebSettings *settings;
 	GSettings *g_settings;
 	GSettingsSchema *settings_schema;
+	GtkIMContext *im_context;
 	ESpellChecker *checker;
 	gchar **languages;
 	gchar *comma_separated;
@@ -9138,6 +9158,16 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
+
+	g_object_get (WEBKIT_WEB_VIEW (view), "im-context", &im_context, NULL);
+	g_signal_connect (
+		im_context, "preedit-start",
+		G_CALLBACK (im_context_preedit_start_cb), view);
+	g_signal_connect (
+		im_context, "preedit-end",
+		G_CALLBACK (im_context_preedit_end_cb), view);
+
+	view->priv->im_input_in_progress = FALSE;
 
 	view->priv->history = NULL;
 	remove_whole_event_history (view);
