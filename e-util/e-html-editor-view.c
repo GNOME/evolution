@@ -2423,7 +2423,6 @@ save_history_for_input (EHTMLEditorView *view)
 	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 	ev->type = HISTORY_INPUT;
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	e_html_editor_selection_get_selection_coordinates (
 		view->priv->selection,
 		&ev->after.start.x,
