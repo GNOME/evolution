@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-16 05:21+0000\n"
-"PO-Revision-Date: 2015-03-16 17:33+0100\n"
+"POT-Creation-Date: 2015-03-17 05:22+0000\n"
+"PO-Revision-Date: 2015-03-17 18:52+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -2036,23 +2036,18 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
-#, fuzzy
 #| msgid ""
 #| "Search Scope: The search scope is the breadth of a given search. The "
 #| "following options are available:"
 msgid "Search Scope: The search scope is the breadth of a given search."
-msgstr ""
-"Rango de búsqueda: es la extensión de una búsqueda dada. Están disponibles "
-"las siguientes:"
+msgstr "Objetivo de la búsqueda: es la amplitud de una búsqueda determinada."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:71
-#, fuzzy
 #| msgid ""
 #| "The following settings are available when editing an existing account:"
 msgid "The following options are available:"
-msgstr ""
-"La siguiente configuración está disponible al editar una cuenta existente:"
+msgstr "Están disponibles las siguientes opciones:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
@@ -4686,6 +4681,11 @@ msgid ""
 "account's <link xref=\"mail-default-folder-locations\"><gui>Defaults</gui></"
 "link>."
 msgstr ""
+"Por razones de rendimiento se recomienda <gui>Usar una carpeta real para la "
+"papelera</gui> configurándola como <gui>[GMail]/Papelera</gui> y <gui>Usar "
+"una carpeta real para el SPAM</gui> configurándola como <gui>[GMail]/Spam</"
+"gui> debajo de las <link xref=\"mail-default-folder-locations"
+"\"><gui>Predeterminadas</gui></link> de la cuenta."
 
 #. (itstool) path: note/p
 #: C/mail-access-gmail-imap-account.page:30
@@ -5851,7 +5851,6 @@ msgstr "Vaya a <code>org.gnome.evolution.mail</code>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:31
-#, fuzzy
 #| msgid ""
 #| "Enter the prefered quotation string as the value for the key "
 #| "<gui>composer-message-attribution</gui>."
@@ -5859,8 +5858,8 @@ msgid ""
 "Enter the preferred quotation string as the value for the key <code>composer-"
 "message-attribution</code>."
 msgstr ""
-"Introduzca la cadena preferida como el valor de la clave <gui>composer-"
-"message-attribution</gui>."
+"Introduzca la cadena de citado preferida como el valor de la clave "
+"<gui>composer-message-attribution</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:35
@@ -5868,11 +5867,14 @@ msgid ""
 "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
 msgstr ""
+"La cadena predeterminada en español es: <code>«El ${AbbrevWeekdayName}, "
+"${Day}/${Month}/${Year} a las ${24Hour}:${Minute} ${TimeZone}, ${Sender} "
+"escribió:»</code>"
 
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:39
 msgid "The following placeholders are available:"
-msgstr ""
+msgstr "Están disponibles los siguientes marcadores de posición:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:48
@@ -5919,10 +5921,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
-#, fuzzy
 #| msgid "Using custom fields in the header of composed messages"
 msgid "Using custom fields in the header of composed messages."
-msgstr "Usar campos personalizados en la cabecera de la edición de correos"
+msgstr "Usar campos personalizados en la cabecera de mensajes editados."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
@@ -6057,13 +6058,14 @@ msgstr ""
 #: C/mail-composer-external-editor.page:5
 msgid "Using a text editor application instead of the default mail composer."
 msgstr ""
+"Usar una aplicación de edición de texto en lugar del editor de mensajes "
+"predeterminado."
 
 #. (itstool) path: page/title
 #: C/mail-composer-external-editor.page:20
-#, fuzzy
 #| msgid "Using a weather calendar"
 msgid "Using an external editor"
-msgstr "Usar un calendario meteorológico"
+msgstr "Usar un editor externo"
 
 #. (itstool) path: page/p
 #: C/mail-composer-external-editor.page:22
@@ -6699,7 +6701,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-composer-mail-signatures-manage.page:25
-#, fuzzy
 #| msgid ""
 #| "Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-"
 #| "standing convention</link>, signatures always start with two dashes and a "
@@ -7203,7 +7204,6 @@ msgstr "Priorizar mensajes salientes"
 
 #. (itstool) path: page/p
 #: C/mail-composer-priority.page:25
-#, fuzzy
 #| msgid ""
 #| "You can prioritize a message to be sent, so that the recipient sees its "
 #| "relative importance. To prioritize a message, click <guiseq><gui>Options</"
@@ -7217,7 +7217,8 @@ msgstr ""
 "Puede priorizar un mensaje que enviar, para que el destinatario vea su "
 "importancia relativa. Para priorizar un mensaje, pulse "
 "<guiseq><gui>Opciones</gui><gui>Priorizar mensaje</gui></guiseq> en la "
-"ventana del editor."
+"ventana del editor o pulse el correspondiente icono en la barra de "
+"herramientas."
 
 #. (itstool) path: note/p
 #: C/mail-composer-priority.page:27
@@ -7484,7 +7485,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-send-account-overrides.page:28
-#, fuzzy
 #| msgid ""
 #| "The following options are available under <guiseq><gui>Edit</"
 #| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</"
@@ -7493,7 +7493,7 @@ msgid ""
 "These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
 msgstr ""
-"Las siguientes opciones están disponibles bajo <guiseq><gui>Editar</"
+"Estas opciones están disponibles bajo <guiseq><gui>Editar</"
 "gui><gui>Preferencias</gui><gui>Calendario y tareas</gui><gui>General</gui></"
 "guiseq>."
 
@@ -8460,11 +8460,10 @@ msgstr "Pulse en la pestaña <gui>Seguridad</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:32
-#, fuzzy
 #| msgid "Specify your key ID in the <gui>PGP/GPG Key ID</gui> field."
 msgid "Specify your key ID in the <gui>OpenPGP Key ID</gui> field."
 msgstr ""
-"Especifique el ID de su clave en el campo <gui>ID de la clave GPG/PGP</gui>."
+"Especifique el ID de su clave en el campo <gui>ID de la clave OpenPGP</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-set-up.page:33
@@ -10153,7 +10152,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:31
-#, fuzzy
 #| msgctxt "_"
 #| msgid ""
 #| "external ref='./figures/new-mail-notification.png' "
@@ -10164,7 +10162,7 @@ msgid ""
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 msgstr ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='979052fce0d164644cdeda1c20c06e28'"
+"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: info/desc
 #: C/mail-received-notification.page:5
