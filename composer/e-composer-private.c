@@ -1041,6 +1041,9 @@ composer_move_caret (EMsgComposer *composer)
 		webkit_dom_range_collapse (new_range, TRUE, NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, new_range);
+
+		if (start_bottom)
+			e_html_editor_selection_scroll_to_caret (editor_selection);
 	}
 
 	if (start_bottom)
