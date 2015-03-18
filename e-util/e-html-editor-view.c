@@ -1275,6 +1275,10 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "class");
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "style");
 		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "type", "cite", NULL);
+
+		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node)))
+			webkit_dom_node_append_child (
+				node, WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)), NULL);
 		g_object_unref (node);
 	}
 	g_object_unref (list);
