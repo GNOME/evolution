@@ -546,18 +546,16 @@ action_cut_cb (GtkAction *action,
 	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 	ev->type = HISTORY_DELETE;
 
-	printf ("HISTORY: CUT ; \n");
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	e_html_editor_selection_get_selection_coordinates (
 		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-	if (webkit_dom_range_get_collapsed (range, NULL)) {
-		g_warning ("THIS SHOULD NOT HAPPEN!\n");
-	} else {
-		fragment = webkit_dom_range_clone_contents (range, NULL);
-	}
+	if (webkit_dom_range_get_collapsed (range, NULL))
+		return;
+
 	/* Save the fragment. */
+	fragment = webkit_dom_range_clone_contents (range, NULL);
 	ev->data.fragment = g_object_ref (fragment);
 
 	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
