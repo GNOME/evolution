@@ -477,6 +477,9 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	if (!element)
 		return;
 
+	if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)))
+		return;
+
 	selection = e_html_editor_view_get_selection (view);
 	e_html_editor_selection_save (selection);
 
@@ -631,18 +634,21 @@ refresh_spell_check (EHTMLEditorView *view,
 	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMRange *end_range, *actual;
 	WebKitDOMText *text;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	body = webkit_dom_document_get_body (document);
+
+	if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)))
+		return;
 
 	/* Enable/Disable spellcheck in composer */
-	body = webkit_dom_document_get_body (document);
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body),
 		"spellcheck",
