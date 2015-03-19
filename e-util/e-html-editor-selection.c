@@ -99,27 +99,37 @@ G_DEFINE_TYPE (
 );
 
 static void
-html_editor_selection_selection_changed_cb (WebKitWebView *webview,
+html_editor_selection_selection_changed_cb (WebKitWebView *web_view,
                                             EHTMLEditorSelection *selection)
 {
+	EHTMLEditorView *view;
+
+	view = e_html_editor_selection_ref_html_editor_view (selection);
+
 	g_object_freeze_notify (G_OBJECT (selection));
 
 	g_object_notify (G_OBJECT (selection), "alignment");
+	g_object_notify (G_OBJECT (selection), "block-format");
+	g_object_notify (G_OBJECT (selection), "indented");
+	g_object_notify (G_OBJECT (selection), "text");
+
+	if (!e_html_editor_view_get_html_mode (view))
+		goto out;
+
 	g_object_notify (G_OBJECT (selection), "background-color");
 	g_object_notify (G_OBJECT (selection), "bold");
 	g_object_notify (G_OBJECT (selection), "font-name");
 	g_object_notify (G_OBJECT (selection), "font-size");
 	g_object_notify (G_OBJECT (selection), "font-color");
-	g_object_notify (G_OBJECT (selection), "block-format");
-	g_object_notify (G_OBJECT (selection), "indented");
 	g_object_notify (G_OBJECT (selection), "italic");
 	g_object_notify (G_OBJECT (selection), "monospaced");
 	g_object_notify (G_OBJECT (selection), "strikethrough");
 	g_object_notify (G_OBJECT (selection), "subscript");
 	g_object_notify (G_OBJECT (selection), "superscript");
-	g_object_notify (G_OBJECT (selection), "text");
 	g_object_notify (G_OBJECT (selection), "underline");
 
+ out:
+	g_object_unref (view);
 	g_object_thaw_notify (G_OBJECT (selection));
 }
 
