@@ -36,7 +36,6 @@ G_BEGIN_DECLS
 struct _EMailPartList;
 
 gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
-gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
 
 void		em_utils_edit_filters		(EMailSession *session,
 						 EAlertSink *alert_sink,

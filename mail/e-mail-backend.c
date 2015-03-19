@@ -211,8 +211,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			mail_backend_any_store_requires_downsync (account_store);
 
 		if (ask_to_synchronize) {
-			synchronize = em_utils_prompt_user (
-				window, NULL, "mail:ask-quick-offline", NULL);
+			synchronize = e_util_prompt_user (
+				window, "org.gnome.evolution.mail", NULL, "mail:ask-quick-offline", NULL);
 		}
 
 		if (!synchronize) {

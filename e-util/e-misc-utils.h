@@ -272,6 +272,11 @@ void		e_signal_disconnect_notify_handler
 
 GSettings *	e_util_ref_settings		(const gchar *schema_id);
 void		e_util_cleanup_settings		(void);
+gboolean	e_util_prompt_user		(GtkWindow *parent,
+						 const gchar *settings_schema,
+						 const gchar *promptkey,
+						 const gchar *tag,
+						 ...);
 
 G_END_DECLS
 

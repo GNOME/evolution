@@ -588,7 +588,8 @@ mark_all_read_prompt_user (EMailShellView *mail_shell_view,
 			default:
 				break;
 		}
-	} else if (em_utils_prompt_user (parent,
+	} else if (e_util_prompt_user (parent,
+			"org.gnome.evolution.mail",
 			"prompt-on-mark-all-read",
 			"mail:ask-mark-all-read", NULL))
 		return MARK_ALL_READ_CURRENT_ONLY;
