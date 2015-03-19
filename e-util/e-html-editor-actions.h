@@ -101,6 +101,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "justify-left")
 #define E_HTML_EDITOR_ACTION_JUSTIFY_RIGHT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "justify-right")
+#define E_HTML_EDITOR_ACTION_LANGUAGE_MENU(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "language-menu")
 #define E_HTML_EDITOR_ACTION_MODE_HTML(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "mode-html")
 #define E_HTML_EDITOR_ACTION_MODE_PLAIN(editor) \
