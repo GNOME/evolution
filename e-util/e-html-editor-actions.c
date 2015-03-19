@@ -127,7 +127,8 @@ editor_update_static_spell_actions (EHTMLEditor *editor)
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_ADD_MENU), count > 1);
 	gtk_action_set_visible (ACTION (CONTEXT_SPELL_IGNORE), count > 0);
 
-	gtk_action_set_sensitive (ACTION (SPELL_CHECK), count > 0);
+	gtk_action_set_visible (ACTION (SPELL_CHECK), count > 0);
+	gtk_action_set_visible (ACTION (LANGUAGE_MENU), count > 0);
 }
 
 /*****************************************************************************
