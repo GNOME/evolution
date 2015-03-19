@@ -129,9 +129,9 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
 	}
 
 	if (str->len)
-		res = em_utils_prompt_user (
+		res = e_util_prompt_user (
 			GTK_WINDOW (composer),
-			"prompt-on-unwanted-html",
+			"prompt-on-unwanted-html", "org.gnome.evolution.mail",
 			"mail:ask-send-html", str->str, NULL);
 	else
 		res = TRUE;
@@ -144,8 +144,9 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	return em_utils_prompt_user (
+	return e_util_prompt_user (
 		GTK_WINDOW (composer),
+		"org.gnome.evolution.mail",
 		"prompt-on-empty-subject",
 		"mail:ask-send-no-subject", NULL);
 }
@@ -160,8 +161,9 @@ ask_confirm_for_only_bcc (EMsgComposer *composer,
 	 * this dialog to provide slightly different text in that case, to
 	 * better explain what the hell is going on. */
 
-	return em_utils_prompt_user (
+	return e_util_prompt_user (
 		GTK_WINDOW (composer),
+		"org.gnome.evolution.mail",
 		"prompt-on-only-bcc",
 		hidden_list_case ?
 		"mail:ask-send-only-bcc-contact" :
@@ -306,8 +308,9 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	}
 
 	if (invalid_addrs) {
-		if (!em_utils_prompt_user (
+		if (!e_util_prompt_user (
 			GTK_WINDOW (composer),
+			"org.gnome.evolution.mail",
 			"prompt-on-invalid-recip",
 			strstr (invalid_addrs->str, ", ") ?
 				"mail:ask-send-invalid-recip-multi" :
@@ -381,7 +384,8 @@ composer_presend_check_downloads (EMsgComposer *composer,
 	store = e_attachment_view_get_store (view);
 
 	if (e_attachment_store_get_num_loading (store) > 0) {
-		if (!em_utils_prompt_user (GTK_WINDOW (composer), NULL,
+		if (!e_util_prompt_user (GTK_WINDOW (composer),
+		    "org.gnome.evolution.mail", NULL,
 		    "mail-composer:ask-send-message-pending-download", NULL))
 			check_passed = FALSE;
 	}

@@ -75,77 +75,12 @@ em_utils_ask_open_many (GtkWindow *parent,
 		"Are you sure you want to open %d message at once?",
 		"Are you sure you want to open %d messages at once?",
 		how_many), how_many);
-	proceed = em_utils_prompt_user (
-		parent, "prompt-on-open-many",
+	proceed = e_util_prompt_user (
+		parent, "org.gnome.evolution.mail", "prompt-on-open-many",
 		"mail:ask-open-many", string, NULL);
 	g_free (string);
 
 	return proceed;
-}
-
-/**
- * em_utils_prompt_user:
- * @parent: parent window
- * @promptkey: settings key to check if we should prompt the user or not.
- * @tag: e_alert tag.
- *
- * Convenience function to query the user with a Yes/No dialog and a
- * "Do not show this dialog again" checkbox. If the user checks that
- * checkbox, then @promptkey is set to %FALSE, otherwise it is set to
- * %TRUE.
- *
- * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
- **/
-gboolean
-em_utils_prompt_user (GtkWindow *parent,
-                      const gchar *promptkey,
-                      const gchar *tag,
-                      ...)
-{
-	GtkWidget *dialog;
-	GtkWidget *check = NULL;
-	GtkWidget *container;
-	va_list ap;
-	gint button;
-	GSettings *settings;
-	EAlert *alert = NULL;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
-	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
-		g_object_unref (settings);
-		return TRUE;
-	}
-
-	va_start (ap, tag);
-	alert = e_alert_new_valist (tag, ap);
-	va_end (ap);
-
-	dialog = e_alert_dialog_new (parent, alert);
-	g_object_unref (alert);
-
-	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
-
-	if (promptkey) {
-		check = gtk_check_button_new_with_mnemonic (
-			_("_Do not show this message again"));
-		gtk_box_pack_start (
-			GTK_BOX (container), check, FALSE, FALSE, 0);
-		gtk_widget_show (check);
-	}
-
-	button = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (promptkey)
-		g_settings_set_boolean (
-			settings, promptkey,
-			!gtk_toggle_button_get_active (
-				GTK_TOGGLE_BUTTON (check)));
-
-	gtk_widget_destroy (dialog);
-
-	g_object_unref (settings);
-
-	return button == GTK_RESPONSE_YES;
 }
 
 /* Editing Filters/Search Folders... */
@@ -1332,7 +1267,8 @@ em_utils_empty_trash (GtkWidget *parent,
 
 	registry = e_mail_session_get_registry (session);
 
-	if (!em_utils_prompt_user ((GtkWindow *) parent,
+	if (!e_util_prompt_user ((GtkWindow *) parent,
+		"org.gnome.evolution.mail",
 		"prompt-on-empty-trash",
 		"mail:ask-empty-trash", NULL))
 		return;

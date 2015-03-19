@@ -49,6 +49,7 @@
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
 
+#include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-client-cache.h"
 #include "e-filter-option.h"
@@ -3112,3 +3113,69 @@ e_util_normalize_font_size (GtkWidget *widget,
 	return font_size / 72.0 * dpi;
 }
 
+/**
+ * e_util_prompt_user:
+ * @parent: parent window
+ * @settings_schema: name of the settings schema where @promptkey belongs.
+ * @promptkey: settings key to check if we should prompt the user or not.
+ * @tag: e_alert tag.
+ *
+ * Convenience function to query the user with a Yes/No dialog and a
+ * "Do not show this dialog again" checkbox. If the user checks that
+ * checkbox, then @promptkey is set to %FALSE, otherwise it is set to
+ * %TRUE.
+ *
+ * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
+ **/
+gboolean
+e_util_prompt_user (GtkWindow *parent,
+                    const gchar *settings_schema,
+                    const gchar *promptkey,
+                    const gchar *tag,
+                    ...)
+{
+	GtkWidget *dialog;
+	GtkWidget *check = NULL;
+	GtkWidget *container;
+	va_list ap;
+	gint button;
+	GSettings *settings;
+	EAlert *alert = NULL;
+
+	settings = e_util_ref_settings (settings_schema);
+
+	if (promptkey && !g_settings_get_boolean (settings, promptkey)) {
+		g_object_unref (settings);
+		return TRUE;
+	}
+
+	va_start (ap, tag);
+	alert = e_alert_new_valist (tag, ap);
+	va_end (ap);
+
+	dialog = e_alert_dialog_new (parent, alert);
+	g_object_unref (alert);
+
+	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+
+	if (promptkey) {
+		check = gtk_check_button_new_with_mnemonic (
+			_("_Do not show this message again"));
+		gtk_box_pack_start (
+			GTK_BOX (container), check, FALSE, FALSE, 0);
+		gtk_widget_show (check);
+	}
+
+	button = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (promptkey)
+		g_settings_set_boolean (
+			settings, promptkey,
+			!gtk_toggle_button_get_active (
+				GTK_TOGGLE_BUTTON (check)));
+
+	gtk_widget_destroy (dialog);
+
+	g_object_unref (settings);
+
+	return button == GTK_RESPONSE_YES;
+}

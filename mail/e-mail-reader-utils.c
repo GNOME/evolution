@@ -443,8 +443,8 @@ e_mail_reader_expunge_folder (EMailReader *reader,
 	window = e_mail_reader_get_window (reader);
 	display_name = camel_folder_get_display_name (folder);
 
-	proceed = em_utils_prompt_user (
-		window, "prompt-on-expunge",
+	proceed = e_util_prompt_user (
+		window, "org.gnome.evolution.mail", "prompt-on-expunge",
 		"mail:ask-expunge", display_name, NULL);
 
 	if (proceed) {
@@ -1511,8 +1511,8 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 	n_duplicates = g_hash_table_size (duplicates);
 
 	if (n_duplicates == 0) {
-		em_utils_prompt_user (
-			parent_window, NULL,
+		e_util_prompt_user (
+			parent_window, "org.gnome.evolution.mail", NULL,
 			"mail:info-no-remove-duplicates",
 			camel_folder_get_display_name (folder), NULL);
 	} else {
@@ -1530,8 +1530,8 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 			camel_folder_get_display_name (folder),
 			n_duplicates);
 
-		proceed = em_utils_prompt_user (
-			parent_window, NULL,
+		proceed = e_util_prompt_user (
+			parent_window, "org.gnome.evolution.mail", NULL,
 			"mail:ask-remove-duplicates",
 			confirmation, NULL);
 
