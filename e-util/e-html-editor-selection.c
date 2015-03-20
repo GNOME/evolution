@@ -6430,13 +6430,15 @@ void
 e_html_editor_selection_save (EHTMLEditorSelection *selection)
 {
 	gboolean collapsed = FALSE;
-	glong offset;
+	glong offset, anchor_offset;
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMNode *container, *next_sibling, *marker_node;
-	WebKitDOMNode *split_node, *parent_node;
+	WebKitDOMNode *split_node, *parent_node, *anchor;
 	WebKitDOMElement *start_marker, *end_marker;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
@@ -6447,14 +6449,23 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 	web_view = WEBKIT_WEB_VIEW (view);
 
 	document = webkit_web_view_get_dom_document (web_view);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
 	g_object_unref (view);
 
 	/* First remove all markers (if present) */
 	remove_selection_markers (document);
 
-	range = html_editor_selection_get_current_range (selection);
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+		return;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	if (!range)
 		return;
+
+	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
 
 	collapsed = webkit_dom_range_get_collapsed (range, NULL);
 	start_marker = create_selection_marker (document, TRUE);
@@ -6462,6 +6473,9 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 	container = webkit_dom_range_get_start_container (range, NULL);
 	offset = webkit_dom_range_get_start_offset (range, NULL);
 	parent_node = webkit_dom_node_get_parent_node (container);
+
+	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
+		webkit_dom_element_set_attribute (start_marker, "data-anchor", "", NULL);
 
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
 		WebKitDOMNode *node;
@@ -6611,6 +6625,9 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 	offset = webkit_dom_range_get_end_offset (range, NULL);
 	parent_node = webkit_dom_node_get_parent_node (container);
 
+	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
+		webkit_dom_element_set_attribute (end_marker, "data-anchor", "", NULL);
+
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
 		WebKitDOMNode *node;
 
@@ -6755,11 +6772,13 @@ void
 e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
+	gboolean start_is_anchor = FALSE;
+	glong offset;
 	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *marker;
 	WebKitDOMNode *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *parent_start, *parent_end;
+	WebKitDOMNode *parent_start, *parent_end, *anchor;
 	WebKitDOMRange *range;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
@@ -6823,6 +6842,7 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 		return;
 	}
 
+	start_is_anchor = webkit_dom_element_has_attribute (marker, "data-anchor");
 	parent_start = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (marker));
 
 	webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (marker), NULL);
@@ -6849,7 +6869,20 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 		webkit_dom_node_normalize (parent_start);
 		webkit_dom_node_normalize (parent_end);
 	}
+
+	if (start_is_anchor) {
+		anchor = webkit_dom_range_get_end_container (range, NULL);
+		offset = webkit_dom_range_get_end_offset (range, NULL);
+
+		webkit_dom_range_collapse (range, TRUE, NULL);
+	} else {
+		anchor = webkit_dom_range_get_start_container (range, NULL);
+		offset = webkit_dom_range_get_start_offset (range, NULL);
+
+		webkit_dom_range_collapse (range, FALSE, NULL);
+	}
 	webkit_dom_dom_selection_add_range (dom_selection, range);
+	webkit_dom_dom_selection_extend (dom_selection, anchor, offset, NULL);
 }
 
 void
