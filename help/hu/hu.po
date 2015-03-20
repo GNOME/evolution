@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_help master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-12 05:22+0000\n"
-"PO-Revision-Date: 2015-03-20 00:38+0100\n"
+"POT-Creation-Date: 2015-03-20 05:21+0000\n"
+"PO-Revision-Date: 2015-03-20 17:27+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -2015,16 +2015,11 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
-#| msgid ""
-#| "Search Scope: The search scope is the breadth of a given search. The "
-#| "following options are available:"
 msgid "Search Scope: The search scope is the breadth of a given search."
 msgstr "Keresés hatóköre: a keresés hatóköre az adott keresés szélessége."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:71
-#| msgid ""
-#| "The following settings are available when editing an existing account:"
 msgid "The following options are available:"
 msgstr "A következő beállítások érhetők el:"
 
@@ -4649,11 +4644,11 @@ msgid ""
 "account's <link xref=\"mail-default-folder-locations\"><gui>Defaults</gui></"
 "link>."
 msgstr ""
-"A jó teljesítmény érdekében javasolt a <gui>Valódi mappa használata kukaként<"
-"/gui> beállítása <gui>[GMail]/Trash</gui> értékre, és a <gui>Valódi mappa "
-"használata a levélszeméthez</gui> beállítása <gui>[GMail]/Spam</gui> értékre "
-"a fiók <link xref=\"mail-default-folder-locations\"><gui>Alapbeállításai</gui>"
-"</link> között."
+"A jó teljesítmény érdekében javasolt a <gui>Valódi mappa használata "
+"kukaként</gui> beállítása <gui>[GMail]/Trash</gui> értékre, és a <gui>Valódi "
+"mappa használata a levélszeméthez</gui> beállítása <gui>[GMail]/Spam</gui> "
+"értékre a fiók <link xref=\"mail-default-folder-locations"
+"\"><gui>Alapbeállításai</gui></link> között."
 
 #. (itstool) path: note/p
 #: C/mail-access-gmail-imap-account.page:30
@@ -5801,15 +5796,12 @@ msgstr "Lépjen az <code>org.gnome.evolution.mail</code> útvonalra."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:31
-#| msgid ""
-#| "Enter the prefered quotation string as the value for the key "
-#| "<gui>composer-message-attribution</gui>."
 msgid ""
 "Enter the preferred quotation string as the value for the key <code>composer-"
 "message-attribution</code>."
 msgstr ""
-"Írja be a kívánt idézési karakterláncot a <code>composer-message-attribution<"
-"/code> kulcs értékeként."
+"Írja be a kívánt idézési karakterláncot a <code>composer-message-"
+"attribution</code> kulcs értékeként."
 
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:35
@@ -5818,8 +5810,7 @@ msgid ""
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
 msgstr ""
 "Az alapértelmezett szöveg magyarul: <code>${Year}. ${Month}. ${ Day}, "
-"${WeekdayName} keltezéssel ${24Hour}.${Minute}-"
-"kor ${Sender} ezt írta:</code>"
+"${WeekdayName} keltezéssel ${24Hour}.${Minute}-kor ${Sender} ezt írta:</code>"
 
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:39
@@ -5871,7 +5862,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
-#| msgid "Using custom fields in the header of composed messages"
 msgid "Using custom fields in the header of composed messages."
 msgstr "Egyéni mezők használata a szerkesztett üzenetek fejlécében."
 
@@ -6011,7 +6001,6 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/mail-composer-external-editor.page:20
-#| msgid "Using a weather calendar"
 msgid "Using an external editor"
 msgstr "Külső szerkesztő használata"
 
@@ -6025,10 +6014,10 @@ msgid ""
 "<gui>Configuration</gui>."
 msgstr ""
 "Levelei törzsét kedvenc külső szövegszerkesztőjében is megírhatja, ha annak "
-"bizonyos funkcióit szeretné használni. Engedélyezze a <guiseq><gui>"
-"Szerkesztés</gui><gui>Bővítmények</gui><gui>Külső szerkesztő</gui></guiseq> "
-"bővítményt, és állítsa be a megfelelő <gui>Parancsot</gui> az alkalmazás "
-"elindításához a <gui>Beállítások</gui> alatt."
+"bizonyos funkcióit szeretné használni. Engedélyezze a "
+"<guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui><gui>Külső szerkesztő</"
+"gui></guiseq> bővítményt, és állítsa be a megfelelő <gui>Parancsot</gui> az "
+"alkalmazás elindításához a <gui>Beállítások</gui> alatt."
 
 #. (itstool) path: page/p
 #: C/mail-composer-external-editor.page:23
@@ -6038,8 +6027,8 @@ msgid ""
 "guiseq> in the mail composer."
 msgstr ""
 "Ha az <gui>Automatikus indítás új levél szerkesztésekor</gui> nincs "
-"beállítva, akkor ki kell választania a levélszerkesztő <guiseq><gui>Fájl</gui>"
-"<gui>Szerkesztés külső szerkesztővel</gui></guiseq> menüpontját."
+"beállítva, akkor ki kell választania a levélszerkesztő <guiseq><gui>Fájl</"
+"gui><gui>Szerkesztés külső szerkesztővel</gui></guiseq> menüpontját."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-forward.page:5
@@ -6215,8 +6204,8 @@ msgid ""
 msgstr ""
 "Az elküldendő e-mailhez egyéni cím és feladónév beállításához engedélyezze a "
 "<guiseq><gui>Nézet</gui><gui>Feladó felülbíráló mező</gui></guiseq> "
-"menüpontot, és a megfelelő mezőkben módosítsa az alapértelmezett feladónév és "
-"e-mail cím mezőket."
+"menüpontot, és a megfelelő mezőkben módosítsa az alapértelmezett feladónév "
+"és e-mail cím mezőket."
 
 #. (itstool) path: page/p
 #: C/mail-composer-from-field-override.page:27
@@ -6226,10 +6215,9 @@ msgid ""
 "<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
 "addressing</link>."
 msgstr ""
-"Ez a funkció a <link href=\"https://en.wikipedia.org/wiki/Qmail#Innovations\">"
-"qmail gyűjtő postafiókjaihoz</link> és <link "
-"href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">részcímzés<"
-"/link> használatakor."
+"Ez a funkció a <link href=\"https://en.wikipedia.org/wiki/Qmail#Innovations"
+"\">qmail gyűjtő postafiókjaihoz</link> és <link href=\"https://en.wikipedia."
+"org/wiki/Email_address#Address_tags\">részcímzés</link> használatakor."
 
 #. (itstool) path: note/p
 #: C/mail-composer-from-field-override.page:32
@@ -6239,11 +6227,11 @@ msgid ""
 "Framework</link> and/or <link href=\"https://en.wikipedia.org/wiki/"
 "DomainKeys_Identified_Mail\">DomainKeys Identified Mail</link> restrictions."
 msgstr ""
-"Tetszőleges cím beállítása ütközhet az e-mail szolgáltatója <link "
-"href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">"
-"feladóirányelv-keretrendszerének</link> (SPF) és/vagy a <link "
-"href=\"https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail\">DomainKeys "
-"azonosítású levelezésének</link> korlátozásaival."
+"Tetszőleges cím beállítása ütközhet az e-mail szolgáltatója <link href="
+"\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">feladóirányelv-"
+"keretrendszerének</link> (SPF) és/vagy a <link href=\"https://en.wikipedia."
+"org/wiki/DomainKeys_Identified_Mail\">DomainKeys azonosítású levelezésének</"
+"link> korlátozásaival."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-image.page:5
@@ -7154,10 +7142,6 @@ msgstr "Kimenő üzenetek priorizálása"
 
 #. (itstool) path: page/p
 #: C/mail-composer-priority.page:25
-#| msgid ""
-#| "You can prioritize a message to be sent, so that the recipient sees its "
-#| "relative importance. To prioritize a message, click <guiseq><gui>Options</"
-#| "gui><gui>Prioritize Message</gui></guiseq> in the composer window."
 msgid ""
 "You can prioritize a message to be sent, so that the recipient sees its "
 "relative importance. To prioritize a message, select <guiseq><gui>Options</"
@@ -7416,8 +7400,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-send-account-overrides.page:25
-#| msgid ""
-#| "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgid ""
 "When replying to mail in specific <link xref=\"mail-folders\">folders</link>."
 msgstr ""
@@ -7435,17 +7417,12 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-send-account-overrides.page:28
-#| msgid ""
-#| "The following options are available under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</"
-#| "gui></guiseq>."
 msgid ""
 "These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
 msgstr ""
-"Ezek a beállítások a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</"
-"gui> <gui>Szerkesztő beállításai</gui><gui>Küldési fiók</gui></guiseq> "
-"menüpont "
+"Ezek a beállítások a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui> "
+"<gui>Szerkesztő beállításai</gui><gui>Küldési fiók</gui></guiseq> menüpont "
 "alatt találhatók."
 
 #. (itstool) path: info/desc
@@ -7758,9 +7735,9 @@ msgid ""
 "folder."
 msgstr ""
 "Megadhat egy <gui>Archívum mappát</gui>, például a régebbi üzenetek "
-"áthelyezéséhez. A főablakban az <guiseq><gui>Üzenet</gui><gui>Archiválás</gui>"
-"</guiseq> menüpont kiválasztásakor a kijelölt üzenet áthelyezésre kerül a "
-"megadott mappába."
+"áthelyezéséhez. A főablakban az <guiseq><gui>Üzenet</gui><gui>Archiválás</"
+"gui></guiseq> menüpont kiválasztásakor a kijelölt üzenet áthelyezésre kerül "
+"a megadott mappába."
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:33
@@ -8151,8 +8128,8 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image "
 "has to have a size of 48 x 48 pixels and be in PNG file format."
 msgstr ""
-"A <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui><gui>Arckép</gui><"
-"/guiseq> alatt kiválaszthat egy saját képét az elküldött üzenetekbe "
+"A <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui><gui>Arckép</gui></"
+"guiseq> alatt kiválaszthat egy saját képét az elküldött üzenetekbe "
 "beágyazáshoz. A képnek 48 x 48 képpont méretűnek és PNG formátumúnak kell "
 "lennie."
 
@@ -8273,14 +8250,14 @@ msgid ""
 "public key with your friends to allow them sending you encrypted messages</"
 "link>."
 msgstr ""
-"Mielőtt fogadhatna vagy küldhetne GPG-vel titkosított leveleket, <link "
-"xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse"
-"/stable/pgp-create\">létre kell hoznia nyilvános és személyes kulcsait "
-"GPG-vel</link>. Ezután <link xref=\"mail-encryption-gpg-set-up\">be kell "
-"állítania az Evolutiont a kulcs használatára</link>, és <link "
-"xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahors"
-"e/stable/pgp-publish\">meg kell osztania ismerőseivel a nyilvános kulcsát, "
-"hogy titkosított üzeneteket küldhessenek</link>."
+"Mielőtt fogadhatna vagy küldhetne GPG-vel titkosított leveleket, <link xref="
+"\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/"
+"stable/pgp-create\">létre kell hoznia nyilvános és személyes kulcsait GPG-"
+"vel</link>. Ezután <link xref=\"mail-encryption-gpg-set-up\">be kell "
+"állítania az Evolutiont a kulcs használatára</link>, és <link xref=\"help:"
+"seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/"
+"pgp-publish\">meg kell osztania ismerőseivel a nyilvános kulcsát, hogy "
+"titkosított üzeneteket küldhessenek</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -8350,10 +8327,6 @@ msgstr "Nyilvános GPG-kulcsok beszerzése és használata"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-getting-keys.page:25
-#| msgid ""
-#| "To send an encrypted message, you need to use the recipient's public key "
-#| "in combination with your private key. Evolution handles the encryption, "
-#| "but you need to get the public key and add it to your keyring."
 msgid ""
 "To send an encrypted message, you need to use the recipient's public key in "
 "combination with your private key. Evolution handles the encryption, but you "
@@ -8363,8 +8336,8 @@ msgid ""
 msgstr ""
 "Titkosított üzenet küldéséhez a címzett nyilvános kulcsát együtt kell a "
 "saját személyes kulcsával használnia. Az Evolution kezeli a titkosítást, de "
-"<link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome.org/users/se"
-"ahorse/stable/pgp-import\">a nyilvános kulcsot be kell szereznie, és hozzá "
+"<link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome.org/users/"
+"seahorse/stable/pgp-import\">a nyilvános kulcsot be kell szereznie, és hozzá "
 "kell adnia a kulcstartójához</link>."
 
 #. (itstool) path: info/desc
@@ -8420,7 +8393,6 @@ msgstr "Kattintson a <gui>Biztonság</gui> fülre."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:32
-#| msgid "Specify your key ID in the <gui>PGP/GPG Key ID</gui> field."
 msgid "Specify your key ID in the <gui>OpenPGP Key ID</gui> field."
 msgstr ""
 "Adja meg kulcsazonosítóját az <gui>OpenPGP kulcs azonosítója</gui> mezőben."
@@ -8442,11 +8414,6 @@ msgstr "Nyomja meg a <gui style=\"button\">Bezárás</gui> gombot."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-set-up.page:38
-#| msgid ""
-#| "Evolution requires that you know your key ID. If you do not remember it, "
-#| "you can find it by typing <cmd>gpg --list-keys</cmd> in the "
-#| "<app>Terminal</app> application. Your key ID is an eight-character string "
-#| "with random numbers and letters."
 msgid ""
 "Evolution requires that you know your key ID. If you do not remember it, "
 "start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the "
@@ -8455,11 +8422,12 @@ msgid ""
 "numbers and letters."
 msgstr ""
 "Az Evolution megköveteli, hogy ismerje kulcsazonosítóját. Ha nem emlékszik "
-"rá, akkor a <app>Jelszavak és kulcsok</app> alkalmazásban nyissa meg a <gui>"
-"GnuPG kulcsok</gui> szakaszt, jelölje ki a kívánt GPG kulcsot, kattintson rá "
-"a jobb egérgombbal, a helyi menüből válassza a <gui>Tulajdonságok</gui> "
-"pontot, majd másolja ki a <gui>Kulcsazonosítót</gui>. A kulcsazonosító egy "
-"nyolc véletlen számból és betűből álló karakterlánc."
+"rá, akkor a <app>Jelszavak és kulcsok</app> alkalmazásban nyissa meg a "
+"<gui>GnuPG kulcsok</gui> szakaszt, jelölje ki a kívánt GPG kulcsot, "
+"kattintson rá a jobb egérgombbal, a helyi menüből válassza a "
+"<gui>Tulajdonságok</gui> pontot, majd másolja ki a <gui>Kulcsazonosítót</"
+"gui>. A kulcsazonosító egy nyolc véletlen számból és betűből álló "
+"karakterlánc."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-signing-encrypting.page:5
@@ -8474,11 +8442,6 @@ msgstr "Üzenetek aláírása vagy titkosítása"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:30
-#| msgid ""
-#| "After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG "
-#| "key</link>, you can sign or encrypt a message by clicking "
-#| "<guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP "
-#| "Encrypt</gui> from the message composer menu."
 msgid ""
 "After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG "
 "key</link>, you can sign or encrypt a message by selecting "
@@ -8489,8 +8452,8 @@ msgstr ""
 "Miután <link xref=\"mail-encryption-gpg-set-up\">beállította GPG-kulcsát</"
 "link>, aláírhatja vagy titkosíthatja üzeneteit az üzenetszerkesztő "
 "<guiseq><gui>Beállítások</gui><gui>PGP aláírás</gui></guiseq> vagy <gui>PGP "
-"titkosítás</gui> menüpontjának kiválasztásával vagy a megfelelő eszköztárgomb "
-"megnyomásával."
+"titkosítás</gui> menüpontjának kiválasztásával vagy a megfelelő "
+"eszköztárgomb megnyomásával."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-signing-encrypting.page:31
@@ -8649,11 +8612,6 @@ msgstr "Elküldött üzenetek aláírása vagy titkosítása S/MIME használatá
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:25
-#| msgid ""
-#| "After you have <link xref=\"mail-encryption-s-mime-manage\">added your "
-#| "certificate</link>, you can sign or encrypt a message by clicking "
-#| "<guiseq><gui>Options</gui><gui>S/MIME Sign</gui></guiseq> or <gui>S/MIME "
-#| "Encrypt</gui> from the message composer menu."
 msgid ""
 "After you have <link xref=\"mail-encryption-s-mime-manage\">added your "
 "certificate</link>, you can sign or encrypt a message by selecting "
@@ -10050,36 +10008,25 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:36
-#| msgid ""
-#| "You can request read receipts by enabling this option in the email "
-#| "composer's menu. To do so, go to <guiseq><gui>Options</gui><gui>Request "
-#| "Read Receipt</gui></guiseq>."
 msgid ""
 "You can request read receipts by selecting <guiseq><gui>Options</"
 "gui><gui>Request Read Receipt</gui></guiseq> in the menu of the composer "
 "window or clicking the corresponding toolbar icon."
 msgstr ""
-"Tértivevényeket a levélszerkesztő ablak <guiseq><gui>Beállítások</gui><gui>"
-"Tértivevény "
-"kérése</gui></guiseq> menüpontjának kiválasztásával, vagy a megfelelő "
-"eszköztárgomb megnyomásával kérhet."
+"Tértivevényeket a levélszerkesztő ablak <guiseq><gui>Beállítások</"
+"gui><gui>Tértivevény kérése</gui></guiseq> menüpontjának kiválasztásával, "
+"vagy a megfelelő eszköztárgomb megnyomásával kérhet."
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:38
-#| msgid ""
-#| "For read receipts that you receive you can define Evolution's behavior by "
-#| "going to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-#| "gui><gui style=\"button\">Edit</gui><gui>Defaults</gui><gui>Message "
-#| "Receipts</gui></guiseq>."
 msgid ""
 "For read receipts that you receive you can define Evolution's behavior under "
 "<gui>Message Receipts</gui> under the account's <link xref=\"mail-default-"
 "folder-locations\"><gui>Defaults</gui></link>."
 msgstr ""
 "A kapott tértivevényekkel kapcsolatosan megadhatja az Evolution viselkedését "
-"a <gui>Tértivevények</gui> szakaszban a fiók <link "
-"xref=\"mail-default-folder-locations\"><gui>Alapértékek</gui></link> "
-"beállításai közt."
+"a <gui>Tértivevények</gui> szakaszban a fiók <link xref=\"mail-default-"
+"folder-locations\"><gui>Alapértékek</gui></link> beállításai közt."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -10101,10 +10048,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:31
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/new-mail-notification.png' "
-#| "md5='979052fce0d164644cdeda1c20c06e28'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10308,8 +10251,8 @@ msgid ""
 "\"mail-working-offline\">mail on the server should be synchronized with your "
 "local copy for offline access to it</link>."
 msgstr ""
-"Jelölje be, hogy szeretné-e, hogy a <link xref=\"mail-filters\">szűrők</link> "
-"automatikusan alkalmazásra kerüljenek az érkező levelekre, a <link "
+"Jelölje be, hogy szeretné-e, hogy a <link xref=\"mail-filters\">szűrők</"
+"link> automatikusan alkalmazásra kerüljenek az érkező levelekre, a <link "
 "xref=\"mail-spam-marking\">levélszemét</link> automatikusan szűrésre "
 "kerüljön, és hogy a <link xref=\"mail-working-offline\">kiszolgálón lévő "
 "levelek szinkronizálásra kerüljenek-e a helyi másolatokkal a kapcsolat "
@@ -10388,18 +10331,15 @@ msgstr "Döntse el, hogy az Evolution megjegyezze-e a jelszavát."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
-#| msgid ""
-#| "Select \"Use Quick Resync\" if the IMAP server supports <link href="
-#| "\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
-#| "Resynchronization</link>."
 msgid ""
 "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="
 "\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
 "Resynchronization</link>."
 msgstr ""
-"Válassza ki a <gui>Gyors újraszinkronizálás használata</gui> négyzetet, ha az "
-"IMAP kiszolgáló támogatja az <link href=\"http://tools.ietf.org/html/rfc5162\""
-">IMAP4 kiterjesztéseket a gyors postafiók-újraszinkronizáláshoz</link>."
+"Válassza ki a <gui>Gyors újraszinkronizálás használata</gui> négyzetet, ha "
+"az IMAP kiszolgáló támogatja az <link href=\"http://tools.ietf.org/html/"
+"rfc5162\">IMAP4 kiterjesztéseket a gyors postafiók-újraszinkronizáláshoz</"
+"link>."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:49
@@ -10408,9 +10348,9 @@ msgid ""
 "server at the same time (for example when you have more than one account on "
 "that server), set <gui>Number of concurrent connections to use</gui> to 1."
 msgstr ""
-"Ha a levélkiszolgáló nem engedélyez több egyidejű kapcsolatot az Evolutiontől "
-"(például ha több fiókja van azon a kiszolgálón), akkor állítsa a <gui>"
-"Használandó egyidejű kapcsolatok számát</gui> 1-re."
+"Ha a levélkiszolgáló nem engedélyez több egyidejű kapcsolatot az "
+"Evolutiontől (például ha több fiókja van azon a kiszolgálón), akkor állítsa "
+"a <gui>Használandó egyidejű kapcsolatok számát</gui> 1-re."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:50
@@ -10469,10 +10409,6 @@ msgstr ""
 #: C/mail-receiving-options-maildir-format-directories.page:40
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:39
 #: C/mail-receiving-options-unix-mbox-spool-file.page:40
-#| msgid ""
-#| "If you want <link xref=\"mail-filters\">Filters</link> to be "
-#| "automatically used for new messages in your inbox, enable <gui>Apply "
-#| "filters to new messages in INBOX</gui>."
 msgid ""
 "If you want <link xref=\"mail-filters\">Filters</link> to be automatically "
 "used for new messages in your inbox, enable <gui>Apply filters to new "
@@ -11066,8 +11002,8 @@ msgid ""
 "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
 "expression</gui> syntax</link>."
 msgstr ""
-"A tapasztalt felhasználók <link href=\"https://bugzilla.gnome.org/show_bug.cgi"
-"?id=550796#c10\">több feltételt is egyesíthetnek a <gui>Tetszőleges "
+"A tapasztalt felhasználók <link href=\"https://bugzilla.gnome.org/show_bug."
+"cgi?id=550796#c10\">több feltételt is egyesíthetnek a <gui>Tetszőleges "
 "kifejezés</gui> szintaxis használatával</link>."
 
 #. (itstool) path: item/p
@@ -11830,7 +11766,6 @@ msgstr "Lépjen a <gui>Levélszemét</gui> lapra. Itt megadhatja a következőke
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:69
-#| msgid "Checking custom headers for junk."
 msgid "Checking incoming messages for junk."
 msgstr "Levélszemét keresése beérkezett levelekben."
 
@@ -11850,7 +11785,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:72
-#| msgid "Checking custom headers for junk."
 msgid "Checking custom mail headers (added by your mail server) for junk."
 msgstr ""
 "Levélszemét keresése egyéni (a levélkiszolgáló által felvett) fejlécekben."
@@ -12415,7 +12349,6 @@ msgstr "Az Evolution levelező visszaállítása online módba."
 
 #. (itstool) path: page/title
 #: C/offline.page:27
-#| msgid "Why is Evolution's mail offline when my net connection is working?"
 msgid "Why is Evolution's mail component offline?"
 msgstr "Miért van az Evolution levelező kapcsolat nélküli módban?"
 
@@ -12987,9 +12920,6 @@ msgstr "Ha egy, a feladatlistában már szereplő feladatot szeretne módosítan
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:25
-#| msgid ""
-#| "Double-click on the task that you want to edit in the list of tasks, or "
-#| "right-click on the task and click <key>Open Task</key>."
 msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <gui>Open Task</gui>."
@@ -13327,7 +13257,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
-#| msgid "Expression:"
 msgid "Free Form Expression:"
 msgstr "Tetszőleges kifejezés:"
 
@@ -13514,18 +13443,10 @@ msgstr "grep"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:65
 msgid "the man page for the <_:cmd-1/>"
-msgstr "<_:cmd-2/> parancs kézikönyvoldalát"
+msgstr "<_:cmd-1/> parancs kézikönyvoldalát"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:65
-#| msgid ""
-#| "(For programmers only) If you know your way around a <_:link-1/>, or "
-#| "regular expression, this option allows you to search for complex patterns "
-#| "of letters, so that you can find, for example, all words that start with "
-#| "a and end with m, and are between six and fifteen letters long, or all "
-#| "messages that declare a particular header twice. For information about "
-#| "how to use regular expressions, check the man page for the <_:cmd-2/> "
-#| "command."
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
@@ -13539,8 +13460,8 @@ msgstr ""
 "keresését, így például megtalálhatja az összes „a” betűvel kezdődő és „m”-"
 "mel végződő, vagy hat és tizenöt karakter közti hosszúságú szót, vagy egy "
 "bizonyos fejlécet kétszer adnak meg. A reguláris kifejezések használatával "
-"kapcsolatban nézze meg a <_:link-2/>, vagy a fenti "
-"Wikipédia-oldal magyar változatát."
+"kapcsolatban nézze meg a <_:link-2/>, vagy a fenti Wikipédia-oldal magyar "
+"változatát."
 
 #. (itstool) path: section/title
 #: C/xinclude-mail-account-identity.xml:4
