@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"POT-Creation-Date: 2015-02-27 17:22+0000\n"
-"PO-Revision-Date: 2015-02-28 09:28+0300\n"
+"POT-Creation-Date: 2015-03-20 05:21+0000\n"
+"PO-Revision-Date: 2015-03-21 09:24+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: www.gnome.gr\n"
 "Language: el\n"
@@ -611,7 +611,7 @@ msgid "Appearance of Appointments"
 msgstr "Εμφάνιση των συναντήσεων"
 
 #. (itstool) path: page/p
-#: C/calendar-layout-appointment-display.page:36
+#: C/calendar-layout-appointment-display.page:33
 msgid ""
 "The following calendar-related options are available under "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
@@ -624,17 +624,17 @@ msgstr ""
 # #-#-#-#-#  ekiga.gnome-2-14.el.po (el)  #-#-#-#-#
 #
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:41
+#: C/calendar-layout-appointment-display.page:38
 msgid "General"
 msgstr "Γενικά"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:45
+#: C/calendar-layout-appointment-display.page:42
 msgid "Time Divisions:"
 msgstr "Διαιρέσεις ώρας:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:46
+#: C/calendar-layout-appointment-display.page:43
 msgid ""
 "Sets the time increments shown as fine lines on the daily view in the "
 "calendar."
@@ -643,12 +643,12 @@ msgstr ""
 "ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:50
+#: C/calendar-layout-appointment-display.page:47
 msgid "Show appointment end times in week and month views:"
 msgstr "Εμφάνιση χρόνων τέλους συνάντησης στις προβολές εβδομάδας και μήνα:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:51
+#: C/calendar-layout-appointment-display.page:48
 msgid ""
 "If there is space, <app>Evolution</app> shows the end times in the week and "
 "month views for each appointment."
@@ -657,12 +657,12 @@ msgstr ""
 "προβολές εβδομάδας και μήνα για κάθε συνάντηση."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:55
+#: C/calendar-layout-appointment-display.page:52
 msgid "Compress weekends in month view:"
 msgstr "Συμπίεση σαββατοκύριακων στη μηνιαία προβολή:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:56
+#: C/calendar-layout-appointment-display.page:53
 msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
@@ -671,54 +671,41 @@ msgstr ""
 "πλαίσιο αντί για δύο στην προβολή μήνα."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:60
+#: C/calendar-layout-appointment-display.page:57
 msgid "Show week numbers:"
 msgstr "Εμφάνιση αριθμών εβδομάδων:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:61
+#: C/calendar-layout-appointment-display.page:58
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr ""
 "Εμφανίζει τους αριθμούς των εβδομάδων δίπλα στις αντίστοιχες εβδομάδες στο "
 "ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:65
+#: C/calendar-layout-appointment-display.page:62
 msgid "Show recurring events in italic in bottom left calendar."
 msgstr ""
 "Εμφάνιση επαναλαμβανόμενων γεγονότων με πλάγια στο κάτω αριστερά ημερολόγιο."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:68
+#: C/calendar-layout-appointment-display.page:65
 msgid "Scroll Month View by a week"
 msgstr "Κύλιση της προβολής μήνα κατά μια εβδομάδα"
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:75
-msgid "Date/Time Format"
-msgstr "Μορφή ημερομηνίας/χρόνου"
+#: C/calendar-layout-appointment-display.page:72
+msgid "Alerts"
+msgstr "Ειδοποιήσεις"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-appointment-display.page:77
+#: C/calendar-layout-appointment-display.page:74
 msgid ""
-"You can change the format of the <gui>Date</gui> column by setting your "
-"preferred format."
+"If you want to be warned before you delete any appointment, select this "
+"option."
 msgstr ""
-"Μπορείτε να αλλάξετε τη μορφή της στήλης <gui>ημερομηνία</gui> ρυθμίζοντας "
-"την προτιμώμενη μορφή."
-
-#. (itstool) path: section/p
-#. (itstool) path: page/p
-#: C/calendar-layout-appointment-display.page:80
-#: C/mail-change-time-format.page:21
-msgid ""
-"The placeholders in the format expression are strftime formats. For a "
-"complete list of available strftime formats, run <cmd>date --help</cmd> in "
-"the <app>Terminal</app> application."
-msgstr ""
-"Τα δεσμευτικά θέσεων στην έκφραση μορφής είναι μορφές strftime. Για μια "
-"πλήρη λίστα των διαθέσιμων μορφών strftime, εκτελέστε <cmd>date --help</cmd> "
-"σε παράθυρο <app>τερματικού</app>."
+"Αν θέλετε να προειδοποιηθείτε πριν διαγράψετε ένα ραντεβού, σημειώστε αυτήν "
+"την επιλογή."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
@@ -814,17 +801,30 @@ msgstr "Ορίστε ποια ώρα τελειώνει η εργάσιμη ημ
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:77
-msgid "Alerts"
-msgstr "Ειδοποιήσεις"
+msgid "Date/Time Format"
+msgstr "Μορφή ημερομηνίας/χρόνου"
 
 #. (itstool) path: section/p
 #: C/calendar-layout-general-formatting.page:79
 msgid ""
-"If you want to be warned before you delete any appointment, select this "
-"option."
+"You can change the format of the <gui>Date</gui> column by setting your "
+"preferred format."
 msgstr ""
-"Αν θέλετε να προειδοποιηθείτε πριν διαγράψετε ένα ραντεβού, σημειώστε αυτήν "
-"την επιλογή."
+"Μπορείτε να αλλάξετε τη μορφή της στήλης <gui>ημερομηνία</gui> ρυθμίζοντας "
+"την προτιμώμενη μορφή."
+
+#. (itstool) path: section/p
+#. (itstool) path: page/p
+#: C/calendar-layout-general-formatting.page:82
+#: C/mail-change-time-format.page:21
+msgid ""
+"The placeholders in the format expression are strftime formats. For a "
+"complete list of available strftime formats, run <cmd>date --help</cmd> in "
+"the <app>Terminal</app> application."
+msgstr ""
+"Τα δεσμευτικά θέσεων στην έκφραση μορφής είναι μορφές strftime. Για μια "
+"πλήρη λίστα των διαθέσιμων μορφών strftime, εκτελέστε <cmd>date --help</cmd> "
+"σε παράθυρο <app>τερματικού</app>."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout.page:17
@@ -1022,7 +1022,7 @@ msgstr "Επιλέξτε τις επαφές στις οποίες θέλετε 
 #: C/mail-composer-custom-header-lines.page:45
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
-#: C/mail-encryption-s-mime-signing-encrypting.page:34 C/mail-filters.page:50
+#: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
 #: C/mail-filters.page:71 C/mail-search-folders-add.page:46
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
@@ -1440,7 +1440,7 @@ msgstr "Επιλέξτε τα κριτήρια αναζήτησης από τη 
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:47 C/memos-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45
 #: C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Εισάγετε το επιθυμητό κείμενο αναζήτησης και πιέστε <key>Enter</key>."
@@ -1484,7 +1484,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:52 C/memos-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54
 #: C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
@@ -2077,12 +2077,19 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
-msgid ""
-"Search Scope: The search scope is the breadth of a given search. The "
-"following options are available:"
+#| msgid ""
+#| "Search Scope: The search scope is the breadth of a given search. The "
+#| "following options are available:"
+msgid "Search Scope: The search scope is the breadth of a given search."
 msgstr ""
 "Εμβέλεια αναζήτησης: Η εμβέλεια αναζήτησης είναι το εύρος μιας δοσμένης "
-"αναζήτησης. Οι επόμενες επιλογές είναι διαθέσιμες:"
+"αναζήτησης."
+
+#. (itstool) path: item/p
+#: C/contacts-ldap.page:71
+#| msgid "The following server types are available:"
+msgid "The following options are available:"
+msgstr "Οι ακόλουθες επιλογές είναι διαθέσιμες:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
@@ -4750,8 +4757,23 @@ msgstr ""
 "Παρακαλώ δείτε το <link xref=\"mail-account-manage-imap-plus\">ρυθμίσεις "
 "λογαριασμού αλληλογραφίας IMAP+</link>."
 
-#. (itstool) path: note/p
+#. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:28
+msgid ""
+"For performance reasons it is recommended to <gui>Use a Real Folder for "
+"Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real "
+"Folder for Junk</gui> by setting it to <gui>[GMail]/Spam</gui> under the "
+"account's <link xref=\"mail-default-folder-locations\"><gui>Defaults</gui></"
+"link>."
+msgstr ""
+"Για λόγους απόδοσης συνιστάται η <gui>Χρήση ενός πραγματικού φακέλου για "
+"απορρίμματα</gui> ρυθμίζοντας το σε <gui>[GMail]/Απορρίμματα</gui> και η "
+"<gui>Χρήση ενός πραγματικού φακέλου για ανεπιθύμητα</gui> ρυθμίζοντάς το σε "
+"<gui>[GMail]/Ανεπιθύμητα</gui> στις <link xref=\"mail-default-folder-"
+"locations\"><gui>Προεπιλογές</gui></link> του λογαριασμού."
+
+#. (itstool) path: note/p
+#: C/mail-access-gmail-imap-account.page:30
 msgid ""
 "To access Gmail via IMAP you must turn on IMAP in your Google account. See "
 "the <link href=\"https://mail.google.com/support/bin/answer.py?"
@@ -5926,15 +5948,59 @@ msgstr "Περιήγηση στο <code>org.gnome.evolution.mail</code>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:31
+#| msgid ""
+#| "Enter the prefered quotation string as the value for the key "
+#| "<gui>composer-message-attribution</gui>."
 msgid ""
-"Enter the prefered quotation string as the value for the key <gui>composer-"
-"message-attribution</gui>."
+"Enter the preferred quotation string as the value for the key <code>composer-"
+"message-attribution</code>."
 msgstr ""
-"Εισάγετε την προτιμώμενη συμβολοσειρά εισαγωγικών ως τιμή για ρο κλειδί "
-"<gui>composer-message-attribution</gui>."
+"Εισάγετε την προτιμώμενη συμβολοσειρά εισαγωγικών ως τιμή για το κλειδί "
+"<code>composer-message-attribution</code>."
+
+#. (itstool) path: page/p
+#: C/mail-composer-change-quotation-string.page:35
+msgid ""
+"The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
+"${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
+msgstr ""
+"Η προεπιλεγμένη συμβολοσειρά στα αγγλικά είναι: <code>\"On "
+"${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} wrote:\"</code>"
+
+#. (itstool) path: page/p
+#: C/mail-composer-change-quotation-string.page:39
+#| msgid "The following server types are available:"
+msgid "The following placeholders are available:"
+msgstr "Τα ακόλουθα δεσμευτικά θέσεων είναι διαθέσιμα:"
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:48
+msgid "<_:code-1/> (format: 01-31)"
+msgstr "<_:code-1/> (μορφή: 01-31)"
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:49
+msgid "<_:code-1/> (format: 1-31)"
+msgstr "<_:code-1/> (μορφή: 1-31)"
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:54
+msgid "<_:code-1/> (format: 1-366)"
+msgstr "<_:code-1/> (μορφή: 1-366)"
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:55
+msgid "<_:code-1/> (format: 01-12)"
+msgstr "<_:code-1/> (μορφή: 01-12)"
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:58
+msgid "<_:code-1/> (e.g. 15 for the year 2015)"
+msgstr "<_:code-1/> (π.χ. 15 για το έτος 2015)"
 
 #. (itstool) path: note/p
-#: C/mail-composer-change-quotation-string.page:35
+#: C/mail-composer-change-quotation-string.page:64
 msgid ""
 "You might need to install the <sys>dconf-editor</sys> package to perform "
 "these steps."
@@ -5943,7 +6009,7 @@ msgstr ""
 "να κάνετε αυτά τα βήματα."
 
 #. (itstool) path: when/p
-#: C/mail-composer-change-quotation-string.page:38
+#: C/mail-composer-change-quotation-string.page:67
 msgid ""
 "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Install dconf-editor</link>"
@@ -5953,8 +6019,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
-msgid "Using custom fields in the header of composed messages"
-msgstr "Χρήση προσαρμοσμένων πεδίων στην κεφαλίδα της συντιθέμενων μηνυμάτων"
+#| msgid "Using custom fields in the header of composed messages"
+msgid "Using custom fields in the header of composed messages."
+msgstr "Χρήση προσαρμοσμένων πεδίων στην κεφαλίδα των συντασσόμενων μηνυμάτων."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
@@ -6086,6 +6153,46 @@ msgstr ""
 "<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>προτιμήσεις "
 "σύνταξης</gui><gui>προεπιλεγμένη συμπεριφορά</gui><gui>μορφοποίηση μηνυμάτων "
 "σε HTML</gui></guiseq>."
+
+#. (itstool) path: info/desc
+#: C/mail-composer-external-editor.page:5
+msgid "Using a text editor application instead of the default mail composer."
+msgstr ""
+"Χρήση μιας εφαρμογής επεξεργαστή κειμένου αντί για την προεπιλεγμένη σύνταξη "
+"μηνύματος."
+
+#. (itstool) path: page/title
+#: C/mail-composer-external-editor.page:20
+#| msgid "Using a weather calendar"
+msgid "Using an external editor"
+msgstr "Χρήση εξωτερικού επεξεργαστή"
+
+#. (itstool) path: page/p
+#: C/mail-composer-external-editor.page:22
+msgid ""
+"You can compose the body of your message externally in your favorite text "
+"editor application so you can use its specific functionality. Enable "
+"<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> "
+"and set the corresponding <gui>Command</gui> to start the application under "
+"<gui>Configuration</gui>."
+msgstr ""
+"Μπορείτε να συντάξετε το σώμα του μηνύματός σας εξωτερικά στην αγαπημένη σας "
+"εφαρμογή επεξεργασίας κειμένου, έτσι ώστε να μπορείτε να χρησιμοποιήσετε "
+"την ιδιαίτερη λειτουργικότητά του. Ενεργοποιήστε το "
+"<guiseq><gui>Επεξεργασία</gui><gui>Πρόσθετα</gui><gui>Εξωτερικός "
+"επεξεργαστής</gui></guiseq> και ορίστε την αντίστοιχη <gui>εντολή</gui> για "
+"να ξεκινήσετε την εφαρμογή με <gui>διαμόρφωση</gui>."
+
+#. (itstool) path: page/p
+#: C/mail-composer-external-editor.page:23
+msgid ""
+"If <gui>Automatically launch when a new mail is edited</gui> is not set, you "
+"need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
+"guiseq> in the mail composer."
+msgstr ""
+"Αν η <gui>Αυτόματη έναρξη όταν ένα νέο μήνυμα επεξεργάζεται</gui> δεν έχει "
+"οριστεί, χρειάζεται να επιλέξετε <guiseq><gui>Αρχείο</gui><gui>Σύνταξη στον "
+"εξωτερικό επεξεργαστή</gui></guiseq> στην σύνταξη μηνύματος."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-forward.page:5
@@ -6241,6 +6348,60 @@ msgstr ""
 "<guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</gui><gui>προτιμήσεις "
 "σύνταξης</gui><gui> τεχνοτροπία προώθησης</gui></guiseq> στο <gui>συνημμένο</"
 "gui>."
+
+#. (itstool) path: info/desc
+#: C/mail-composer-from-field-override.page:5
+msgid ""
+"Change the sender name and address on the fly by setting arbitrary values."
+msgstr ""
+"Αλλάξτε το όνομα αποστολέα και τη διεύθυνση απευθείας ορίζοντας ελεύθερες "
+"τιμές."
+
+#. (itstool) path: page/title
+#: C/mail-composer-from-field-override.page:20
+msgid "Overriding the \"From\" field"
+msgstr "Αντικατάσταση του πεδίου \"Από\""
+
+#. (itstool) path: page/p
+#: C/mail-composer-from-field-override.page:22
+msgid ""
+"To set a custom email address and sender name on a message you intend to "
+"send, enable <guiseq><gui>View</gui><gui>From Override Field</gui></guiseq> "
+"and change the default sender name and email address in the corresponding "
+"fields."
+msgstr ""
+"Για να ορίσετε μια προσαρμοσμένη διεύθυνση αλληλογραφίας και όνομα αποστολέα "
+"σε ένα μήνυμα που σκοπεύετε να στείλετε, ενεργοποιήστε "
+"<guiseq><gui>Προβολή</gui><gui>Από πεδίο αντικατάστασης</gui></guiseq> και "
+"αλλάξτε το προεπιλεγμένο όνομα αποστολέα και τη διεύθυνση αλληλογραφίας στα "
+"αντίστοιχα πεδία."
+
+#. (itstool) path: page/p
+#: C/mail-composer-from-field-override.page:27
+msgid ""
+"This functionality can be useful for <link href=\"https://en.wikipedia.org/"
+"wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
+"<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
+"addressing</link>."
+msgstr ""
+"Αυτή η λειτουργία μπορεί να είναι χρήσιμη για <link "
+"href=\"https://en.wikipedia.org/wiki/Qmail#Innovations\">σύμβολα υποκατάστασης "
+"γραμματοκιβωτίων όταν χρησιμοποιείτε qmail</link> και <link href=\"https://e"
+"n.wikipedia.org/wiki/Email_address#Address_tags\">υποδιευθύνσεις</link>."
+
+#. (itstool) path: note/p
+#: C/mail-composer-from-field-override.page:32
+msgid ""
+"Setting an arbitrary address might collide with your email provider's <link "
+"href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Sender Policy "
+"Framework</link> and/or <link href=\"https://en.wikipedia.org/wiki/"
+"DomainKeys_Identified_Mail\">DomainKeys Identified Mail</link> restrictions."
+msgstr ""
+"Η ρύθμιση ελεύθερης διεύθυνσης μπορεί να συγκρούεται με το <link "
+"href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">πλαίσιο "
+"πολιτικής αποστολέα</link> του παρόχου σας και/ή τους περιορισμούς <link "
+"href=\"https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail\">κλειδιών "
+"τομέα ταυτοποιημένης αλληλογραφίας</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-image.page:5
@@ -6678,10 +6839,15 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-composer-mail-signatures-manage.page:25
+#| msgid ""
+#| "Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-"
+#| "standing convention</link>, signatures always start with two dashes and a "
+#| "space in a separate link. This allows many email clients to automatically "
+#| "strip signatures from quotes when replying."
 msgid ""
 "Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-"
 "standing convention</link>, signatures always start with two dashes and a "
-"space in a separate link. This allows many email clients to automatically "
+"space in a separate line. This allows many email clients to automatically "
 "strip signatures from quotes when replying."
 msgstr ""
 "Για <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">μακροχρόνια "
@@ -7180,15 +7346,21 @@ msgstr "Προτεραιότητα εξερχόμενων μηνυμάτων"
 
 #. (itstool) path: page/p
 #: C/mail-composer-priority.page:25
+#| msgid ""
+#| "You can prioritize a message to be sent, so that the recipient sees its "
+#| "relative importance. To prioritize a message, click <guiseq><gui>Options</"
+#| "gui><gui>Prioritize Message</gui></guiseq> in the composer window."
 msgid ""
 "You can prioritize a message to be sent, so that the recipient sees its "
-"relative importance. To prioritize a message, click <guiseq><gui>Options</"
-"gui><gui>Prioritize Message</gui></guiseq> in the composer window."
+"relative importance. To prioritize a message, select <guiseq><gui>Options</"
+"gui><gui>Prioritize Message</gui></guiseq> in the menu of the composer "
+"window or click the corresponding toolbar icon."
 msgstr ""
 "Μπορείτε να ορίσετε προτεραιότητα σε αποστελλόμενο μήνυμα, ώστε ο αποδέκτης "
 "να δει τη σχετική του σημαντικότητα. Για να ορίσετε την προτεραιότητα ενός "
-"μηνύματος, επιλέξτε <guiseq><gui>επιλογές</gui><gui>μήνυμα προτεραιότητας</"
-"gui></guiseq> στο παράθυρο σύνταξης."
+"μηνύματος, επιλέξτε <guiseq><gui>Επιλογές</gui><gui>Μήνυμα "
+"προτεραιότητας</gui></guiseq> στο μενού του παραθύρου σύνταξης ή πατήστε στο "
+"αντίστοιχο εικονίδιο της εργαλειοθήκης."
 
 #. (itstool) path: note/p
 #: C/mail-composer-priority.page:27
@@ -7416,6 +7588,61 @@ msgstr ""
 "Εάν έχετε τεχνικό υπόβαθρο μπορείτε επίσης να επιλέξετε την επιλογή της "
 "χρήσης <link href=\"https://en.wikipedia.org/wiki/Regular_expression"
 "\">κανονικών εκφράσεων</link> για αναζήτηση."
+
+#. (itstool) path: info/desc
+#: C/mail-composer-send-account-overrides.page:5
+msgid "Assign your mail accounts to certain folders or recipients."
+msgstr ""
+"Εκχωρήστε τους λογαριασμούς αλληλογραφίας σε συγκεκριμένους φακέλους ή "
+"παραλήπτες."
+
+#. (itstool) path: page/title
+#: C/mail-composer-send-account-overrides.page:21
+msgid "Send Account Overrides"
+msgstr "Αποστολή αντικαταστάσεων λογαριασμών"
+
+#. (itstool) path: page/p
+#: C/mail-composer-send-account-overrides.page:23
+msgid ""
+"If you use more than one email account, you can define which account should "
+"always be used as your sender address:"
+msgstr ""
+"Αν χρησιμοποιείτε περισσότερους από έναν λογαριασμό αλληλογραφίας, μπορείτε "
+"να ορίσετε ποιος λογαριασμός πρέπει να χρησιμοποιείται πάντα ως διεύθυνση "
+"αποστολέα:"
+
+#. (itstool) path: item/p
+#: C/mail-composer-send-account-overrides.page:25
+#| msgid ""
+#| "For more information see <link xref=\"mail-folders\">Using Folders</link>."
+msgid ""
+"When replying to mail in specific <link xref=\"mail-folders\">folders</link>."
+msgstr ""
+"Κατά την απάντηση σε μήνυμα σε συγκεκριμένους <link xref=\"mail-"
+"folders\">φακέλους</link>."
+
+#. (itstool) path: item/p
+#: C/mail-composer-send-account-overrides.page:26
+msgid ""
+"When replying to certain email addresses, names, or parts of email addresses "
+"or names."
+msgstr ""
+"Κατά την απάντηση σε συγκεκριμένες διευθύνσεις αλληλογραφίας, ονόματα, ή "
+"τμήματα διευθύνσεων αλληλογραφίας ή ονομάτων."
+
+#. (itstool) path: page/p
+#: C/mail-composer-send-account-overrides.page:28
+#| msgid ""
+#| "The following options are available under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</"
+#| "gui></guiseq>."
+msgid ""
+"These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
+msgstr ""
+"Οι επόμενες ρυθμίσεις είναι διαθέσιμες στο "
+"<guiseq><gui>Επεξεργασία</gui><gui>Προτιμήσεις</gui><gui>Προτιμήσεις "
+"σύνταξης</gui><gui>Αποστολή λογαριασμού</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-several-recipients.page:5
@@ -7727,6 +7954,19 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
+msgid ""
+"You can define an <gui>Archive Folder</gui>, for example to move older "
+"messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></"
+"guiseq> in the main window moves the selected message to the specified "
+"folder."
+msgstr ""
+"Μπορείτε να ορίσετε έναν <gui>φάκελο αρχειοθήκης</gui>, παραδείγματος χάρη "
+"για να μετακινείτε τα παλιότερα μηνύματα εκεί. Επιλέγοντας "
+"<guiseq><gui>Μήνυμα</gui><gui>Αρχειοθήκη</gui></guiseq> στο κύριο παράθυρο "
+"μετακινεί το επιλεγμένο μήνυμα στον καθορισμένο φάκελο."
+
+#. (itstool) path: page/p
+#: C/mail-default-folder-locations.page:33
 msgid ""
 "For remote account types (accounts such as IMAP) you can also use folders on "
 "the mail server for Junk and Trash by selecting the corresponding <gui>Use a "
@@ -8112,6 +8352,18 @@ msgid ""
 msgstr ""
 "Εάν υπάρχουν πολλές συμφωνίες για μια επαφή, η πρώτη χρησιμοποιείται πάντα."
 
+#. (itstool) path: note/p
+#: C/mail-displaying-sender-photograph.page:36
+msgid ""
+"You can also embed your own image in messages that you send under "
+"<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Face</gui></guiseq>. The image "
+"has to have a size of 48 x 48 pixels and be in PNG file format."
+msgstr ""
+"Μπορείτε επίσης να ενσωματώσετε τη δικιά σας εικόνα σε μηνύματα που στέλνετε "
+"στο <guiseq><gui>Επεξεργασία</gui><gui>Πρόσθετα</gui><gui>Πρόσωπο</gui></gu"
+"iseq>. Η εικόνα πρέπει να έχει ένα μέγεθος 48 x 48 εικονοστοιχεία και να "
+"είναι σε μορφή αρχείου PNG."
+
 #. (itstool) path: info/desc
 #: C/mail-display-message-source.page:5
 msgid "Displaying the raw source of a message or all header lines."
@@ -8219,15 +8471,24 @@ msgstr "Δημιουργία κλειδιού GPG"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
+#| msgid ""
+#| "Before you can get or send GPG encrypted mail, you need to <link xref="
+#| "\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/"
+#| "stable/pgp-create\">generate your public and private keys with GPG.</"
+#| "link> After doing so and <link xref=\"mail-encryption-gpg-set-up"
+#| "\">setting up Evolution to use the key</link>, you need to <link xref="
+#| "\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/"
+#| "seahorse/stable/pgp-publish\">share your public key with your friends to "
+#| "allow them decrypting the messages that you send them</link>."
 msgid ""
 "Before you can get or send GPG encrypted mail, you need to <link xref=\"help:"
 "seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/"
-"pgp-create\">generate your public and private keys with GPG.</link> After "
+"pgp-create\">generate your public and private keys with GPG</link>. After "
 "doing so and <link xref=\"mail-encryption-gpg-set-up\">setting up Evolution "
 "to use the key</link>, you need to <link xref=\"help:seahorse/pgp-publish\" "
 "href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">share your "
-"public key with your friends to allow them decrypting the messages that you "
-"send them</link>."
+"public key with your friends to allow them sending you encrypted messages</"
+"link>."
 msgstr ""
 "Πριν να μπορέσετε να πάρετε ή να στείλετε κρυπτογραφημένη αλληλογραφία GPG, "
 "χρειάζεται να <link xref=\"help:seahorse/pgp-create\" "
@@ -8237,7 +8498,7 @@ msgstr ""
 "χρησιμοποιεί το κλειδί</link>, χρειάζεται να <link xref=\"help:seahorse/pgp-"
 "publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-"
 "publish\">μοιραστείτε το δημόσιο κλειδί με τους φίλους σας για να τους "
-"επιτρέψετε να αποκρυπτογραφήσουν τα μηνύματα που τους στείλατε</link>."
+"επιτρέψετε να σας στείλουν τα κρυπτογραφημένα μηνύματα</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -8308,40 +8569,24 @@ msgid "Getting and using GPG public keys"
 msgstr "Λήψη και χρήση δημόσιων κλειδιών GPG"
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-getting-keys.page:26
+#: C/mail-encryption-gpg-getting-keys.page:25
+#| msgid ""
+#| "To send an encrypted message, you need to use the recipient's public key "
+#| "in combination with your private key. Evolution handles the encryption, "
+#| "but you need to get the public key and add it to your keyring."
 msgid ""
 "To send an encrypted message, you need to use the recipient's public key in "
 "combination with your private key. Evolution handles the encryption, but you "
-"need to get the public key and add it to your keyring."
+"need to <link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome."
+"org/users/seahorse/stable/pgp-import\">get the public key and add it to your "
+"keyring</link>."
 msgstr ""
 "Για να στείλετε ένα κρυπτογραφημένο μήνυμα, θα πρέπει να χρησιμοποιήσετε το "
 "δημόσιο κλειδί του παραλήπτη σε συνδυασμό με το δικό σας ιδιωτικό κλειδί. Το "
-"Evolution χειρίζεται την κρυπτογράφηση, αλλά χρειάζεται να λάβετε το δημόσιο "
-"κλειδί και να το προσθέσετε στην κλειδοθήκη σας."
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-getting-keys.page:28
-msgid ""
-"To get public keys from a public key server, enter the command <cmd>gpg --"
-"recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting <code>keyid</"
-"code> by your recipient's ID. You need to enter your password, and the ID is "
-"automatically added to your keyring."
-msgstr ""
-"Για να πάρετε δημόσια κλειδιά από ένα εξυπηρετητή δημόσιων κλειδιών, "
-"πληκτρολογήστε την εντολή <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net "
-"keyid</cmd>, αντικαθιστώντας το <code>keyid</code> με το ID του παραλήπτη. "
-"Θα χρειαστεί να εισάγετε το συνθηματικό σας, και το ID προστίθεται αυτόματα "
-"στη κλειδοθήκη σας."
-
-#. (itstool) path: page/p
-#: C/mail-encryption-gpg-getting-keys.page:30
-msgid ""
-"If someone sends you a public key directly, save it as a plain text file and "
-"enter the command <cmd>gpg --import</cmd> to add it to your keyring."
-msgstr ""
-"Αν κάποιος σας στείλει ένα δημόσιο κλειδί απ' ευθείας, αποθηκεύστε το ως "
-"απλό αρχείο κειμένου και πληκτρολογήστε την εντολή <cmd>gpg --import</cmd> "
-"για να το προσθέσετε στην κλειδοθήκη σας."
+"Evolution διαχειρίζεται την κρυπτογράφηση, αλλά χρειάζεται να <link "
+"xref=\"help:seahorse/pgp-import\" "
+"href=\"https://help.gnome.org/users/seahorse/stable/pgp-import\">λάβετε το "
+"δημόσιο κλειδί και να το προσθέσετε στην κλειδοθήκη σας</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-set-up.page:5
@@ -8370,7 +8615,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:29
 #: C/mail-encryption-gpg-signing-encrypting.page:35
-#: C/mail-encryption-s-mime-signing-encrypting.page:28
+#: C/mail-encryption-s-mime-signing-encrypting.page:30
 msgid ""
 "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui></guiseq>."
@@ -8390,16 +8635,17 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:31
 #: C/mail-encryption-gpg-signing-encrypting.page:38
-#: C/mail-encryption-s-mime-signing-encrypting.page:31
+#: C/mail-encryption-s-mime-signing-encrypting.page:33
 msgid "Click the <gui>Security</gui> tab."
 msgstr "Επιλέξτε την καρτέλα <gui>ασφάλεια</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:32
-msgid "Specify your key ID in the <gui>PGP/GPG Key ID</gui> field."
+#| msgid "Specify your key ID in the <gui>PGP/GPG Key ID</gui> field."
+msgid "Specify your key ID in the <gui>OpenPGP Key ID</gui> field."
 msgstr ""
-"Καθορίστε την ταυτότητα του κλειδιού στο πεδίο <gui>ID κλειδιού PGP/GPG</"
-"gui>."
+"Καθορίστε την ταυτότητα του κλειδιού σας στο πεδίο <gui>Αναγνωριστικό "
+"κλειδιού OpenPGP</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-set-up.page:33
@@ -8419,16 +8665,24 @@ msgstr "Κλικ στο <gui style=\"button\">κλείσιμο</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-set-up.page:38
+#| msgid ""
+#| "Evolution requires that you know your key ID. If you do not remember it, "
+#| "you can find it by typing <cmd>gpg --list-keys</cmd> in the "
+#| "<app>Terminal</app> application. Your key ID is an eight-character string "
+#| "with random numbers and letters."
 msgid ""
-"Evolution requires that you know your key ID. If you do not remember it, you "
-"can find it by typing <cmd>gpg --list-keys</cmd> in the <app>Terminal</app> "
-"application. Your key ID is an eight-character string with random numbers "
-"and letters."
+"Evolution requires that you know your key ID. If you do not remember it, "
+"start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the "
+"preferred GPG key, right-click on it, select <gui>Properties</gui> and copy "
+"the <gui>Key ID</gui>. Your key ID is an eight-character string with random "
+"numbers and letters."
 msgstr ""
 "Το Evolution απαιτεί να γνωρίζετε το αναγνωριστικό του κλειδιού σας. Εάν δεν "
-"το θυμάστε, μπορείτε να το βρείτε πληκτρολογώντας <cmd>gpg --list-keys</cmd> "
-"στην εφαρμογή <app>Τερματικός</app>. Το αναγνωριστικό του κλειδιού σας είναι "
-"μια οκταψήφια συμβολοσειρά με τυχαίους αριθμούς και γράμματα."
+"το θυμάστε, ξεκινήστε το <app>Κωδικοί πρόσβασης και κλειδιά</app>, "
+"πηγαίνετε στο <gui>κλειδιά GnuPG</gui>, επιλέξτε το αγαπημένο κλειδί GPG, "
+"δεξιοπατήστε πάνω του, επιλέξτε <gui>Ιδιότητες</gui> και αντιγράψτε το "
+"<gui>Αναγνωριστικό κλειδιού</gui>. Το αναγνωριστικό του κλειδιού σας είναι "
+"μια συμβολοσειρά οκτώ χαρακτήρων με τυχαίους αριθμούς και γράμματα."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-signing-encrypting.page:5
@@ -8443,20 +8697,27 @@ msgstr "Υπογραφή ή κρυπτογράφηση μηνυμάτων"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:30
+#| msgid ""
+#| "After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG "
+#| "key</link>, you can sign or encrypt a message by clicking "
+#| "<guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP "
+#| "Encrypt</gui> from the message composer menu."
 msgid ""
 "After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG "
-"key</link>, you can sign or encrypt a message by clicking "
+"key</link>, you can sign or encrypt a message by selecting "
 "<guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</"
-"gui> from the message composer menu."
+"gui> from the message composer menu or clicking the corresponding toolbar "
+"icon."
 msgstr ""
 "Αφού <link xref=\"mail-encryption-gpg-set-up\">εγκαταστήσετε το κλειδί σας "
 "GPG</link>, μπορείτε να υπογράφετε ή να κρυπτογραφείτε ένα μήνυμα "
-"επιλέγοντας <guiseq><gui>επιλογές</gui><gui>υπογραφή</gui></guiseq> ή "
-"<gui>κρυπτογράφηση PGP</gui> από το μενού σύνταξης μηνυμάτων."
+"επιλέγοντας <guiseq><gui>Επιλογές</gui><gui>Υπογραφή</gui></guiseq> ή "
+"<gui>Κρυπτογράφηση PGP</gui> από το μενού σύνταξης μηνυμάτων ή πατώντας το "
+"αντίστοιχο εικονίδιο της εργαλειοθήκης."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-signing-encrypting.page:31
-#: C/mail-encryption-s-mime-signing-encrypting.page:36
+#: C/mail-encryption-s-mime-signing-encrypting.page:26
 msgid ""
 "The Subject line of the message will not be encrypted and should not be used "
 "for sensitive information."
@@ -8466,13 +8727,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:33
-#: C/mail-encryption-s-mime-signing-encrypting.page:26
+#: C/mail-encryption-s-mime-signing-encrypting.page:28
 msgid "To have every message signed or encrypted:"
 msgstr "Για υπογραφή ή κρυπτογράφηση όλων των μηνυμάτων:"
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:36
-#: C/mail-encryption-s-mime-signing-encrypting.page:29
+#: C/mail-encryption-s-mime-signing-encrypting.page:31
 msgid "Select the mail account to encrypt the messages in."
 msgstr ""
 "Επιλέξτε το λογαριασμό αλληλογραφίας στον οποίο θα κρυπτογραφείτε τα "
@@ -8480,7 +8741,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:37
-#: C/mail-encryption-s-mime-signing-encrypting.page:30 C/mail-filters.page:60
+#: C/mail-encryption-s-mime-signing-encrypting.page:32 C/mail-filters.page:60
 msgid "Click <gui style=\"button\">Edit</gui>."
 msgstr "Κλικ στο <gui style=\"button\">επεξεργασία</gui>."
 
@@ -8613,19 +8874,26 @@ msgstr "Υπογραφή ή κρυπτογράφηση μηνυμάτων μέσ
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:25
+#| msgid ""
+#| "After you have <link xref=\"mail-encryption-s-mime-manage\">added your "
+#| "certificate</link>, you can sign or encrypt a message by clicking "
+#| "<guiseq><gui>Options</gui><gui>S/MIME Sign</gui></guiseq> or <gui>S/MIME "
+#| "Encrypt</gui> from the message composer menu."
 msgid ""
 "After you have <link xref=\"mail-encryption-s-mime-manage\">added your "
-"certificate</link>, you can sign or encrypt a message by clicking "
+"certificate</link>, you can sign or encrypt a message by selecting "
 "<guiseq><gui>Options</gui><gui>S/MIME Sign</gui></guiseq> or <gui>S/MIME "
-"Encrypt</gui> from the message composer menu."
+"Encrypt</gui> from the message composer menu or clicking the corresponding "
+"toolbar icon."
 msgstr ""
-"Αφού <link xref=\"mail-encryption-s-mime-manage\">προσθέσετε το "
-"πιστοποιητικό σας</link>, μπορείτε να υπογράφετε ή να κρυπτογραφείτε ένα "
-"μήνυμα επιλέγοντας <guiseq><gui>επιλογές</gui><gui>υπογραφή S/MIME</gui></"
-"guiseq> ή <gui>κρυπτογράφηση S/MIME</gui> στο μενού σύνταξης μηνυμάτων."
+"Αφού <link xref=\"mail-encryption-s-mime-manage\">προσθέσετε το πιστοποιητικό "
+"σας</link>, μπορείτε να υπογράφετε ή να κρυπτογραφείτε ένα μήνυμα "
+"επιλέγοντας <guiseq><gui>Επιλογές</gui><gui>Υπογραφή S/MIME</gui></guiseq> ή "
+"<gui>Κρυπτογράφηση S/MIME</gui> από το μενού σύνταξης μηνυμάτων ή πατώντας "
+"το αντίστοιχο εικονίδιο στην εργαλειοθήκη."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-s-mime-signing-encrypting.page:32
+#: C/mail-encryption-s-mime-signing-encrypting.page:34
 msgid ""
 "In the <gui>Secure MIME (S/MIME)</gui> section, click <gui style=\"button"
 "\">Select</gui> next to <gui>Signing Certificate</gui> and specify the path "
@@ -8640,7 +8908,7 @@ msgstr ""
 "ορίστε τη διαδρομή στο πιστοποιητικό κρυπτογράφησης."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-s-mime-signing-encrypting.page:33
+#: C/mail-encryption-s-mime-signing-encrypting.page:35
 msgid "Select the appropriate options."
 msgstr "Διαλέξτε τις κατάλληλες επιλογές."
 
@@ -10031,27 +10299,35 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:36
+#| msgid ""
+#| "You can request read receipts by enabling this option in the email "
+#| "composer's menu. To do so, go to <guiseq><gui>Options</gui><gui>Request "
+#| "Read Receipt</gui></guiseq>."
 msgid ""
-"You can request read receipts by enabling this option in the email "
-"composer's menu. To do so, go to <guiseq><gui>Options</gui><gui>Request Read "
-"Receipt</gui></guiseq>."
+"You can request read receipts by selecting <guiseq><gui>Options</"
+"gui><gui>Request Read Receipt</gui></guiseq> in the menu of the composer "
+"window or clicking the corresponding toolbar icon."
 msgstr ""
-"Μπορείτε να ζητήσετε αποδείξεις ανάγνωσης ενεργοποιώντας αυτήν την επιλογή "
-"στο μενού σύνταξης μηνύματος. Για να το κάνετε, μετάβαση στο "
-"<guiseq><gui>επιλογές</gui><gui>αίτημα απόδειξης ανάγνωσης</gui></guiseq>."
+"Μπορείτε να ζητήσετε αποδείξεις ανάγνωσης διαλέγοντας "
+"<guiseq><gui>Επιλογές</gui><gui>Αίτηση απόδειξης ανάγνωσης</gui></guiseq> "
+"στο μενού του παραθύρου σύνταξης ή πατώντας το αντίστοιχο εικονίδιο στην "
+"εργαλειοθήκη."
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:38
+#| msgid ""
+#| "For read receipts that you receive you can define Evolution's behavior by "
+#| "going to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui><gui style=\"button\">Edit</gui><gui>Defaults</gui><gui>Message "
+#| "Receipts</gui></guiseq>."
 msgid ""
-"For read receipts that you receive you can define Evolution's behavior by "
-"going to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-"gui><gui style=\"button\">Edit</gui><gui>Defaults</gui><gui>Message "
-"Receipts</gui></guiseq>."
+"For read receipts that you receive you can define Evolution's behavior under "
+"<gui>Message Receipts</gui> under the account's <link xref=\"mail-default-"
+"folder-locations\"><gui>Defaults</gui></link>."
 msgstr ""
 "Για αποδείξεις ανάγνωσης που δέχεστε μπορείτε να ορίσετε τη συμπεριφορά του "
-"Evolution πηγαίνοντας στο <guiseq><gui>επεξεργασία</gui><gui>προτιμήσεις</"
-"gui><gui>λογαριασμοί αλληλογραφίας</gui><gui style=\"button\">επεξεργασία</"
-"gui><gui>προεπιλογές</gui><gui>αποδείξεις μηνύματος</gui></guiseq>."
+"Evolution στο <gui>Αποδείξεις μηνύματος</gui> στις <link xref=\"mail-default-"
+"folder-locations\"><gui>Προεπιλογές</gui></link> του λογαριασμού."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -10073,13 +10349,17 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:31
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/new-mail-notification.png' "
+#| "md5='979052fce0d164644cdeda1c20c06e28'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='979052fce0d164644cdeda1c20c06e28'"
+"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 msgstr ""
 "external ref='./figures/new-mail-notification.png' "
-"md5='979052fce0d164644cdeda1c20c06e28'"
+"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: info/desc
 #: C/mail-received-notification.page:5
@@ -10280,11 +10560,11 @@ msgid ""
 "\"mail-working-offline\">mail on the server should be synchronized with your "
 "local copy for offline access to it</link>."
 msgstr ""
-"Επιλέξτε αν Θέλετε <link xref=\"mail-filters\">φίλτρα</link> για να εφαρμοστεί "
-"αυτόματα στην αλληλογραφία που δέχεστε, αν είναι <link xref=\"mail-spam-"
-"marking\">όχληση</link> θα πρέπει να φιλτραριστεί αυτόματα και η <link xref"
-"=\"mail-working-offline\">αλληλογραφία στον διακομιστή θα πρέπει να "
-"συγχρονιστεί με το τοπικό σας αντίγραφο για πρόσβαση χωρίς σύνδεση σε "
+"Επιλέξτε αν Θέλετε <link xref=\"mail-filters\">φίλτρα</link> για να "
+"εφαρμοστεί αυτόματα στην αλληλογραφία που δέχεστε, αν είναι <link xref="
+"\"mail-spam-marking\">όχληση</link> θα πρέπει να φιλτραριστεί αυτόματα και η "
+"<link xref=\"mail-working-offline\">αλληλογραφία στον διακομιστή θα πρέπει "
+"να συγχρονιστεί με το τοπικό σας αντίγραφο για πρόσβαση χωρίς σύνδεση σε "
 "αυτήν</link>."
 
 #. (itstool) path: info/desc
@@ -10362,18 +10642,14 @@ msgstr "Επιλέξτε αν θέλετε το Evolution να θυμάται τ
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
-#| msgid ""
-#| "Select \"Use Quick Resync\" if the IMAP server supports <link href="
-#| "\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
-#| "Resynchronization</link>."
 msgid ""
 "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="
 "\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
 "Resynchronization</link>."
 msgstr ""
 "Επιλέξτε <gui>Χρήση γρήγορου επανασυγχρονισμού</gui> αν ο εξυπηρετητής IMAP "
-"υποστηρίζει <link href=\"http://tools.ietf.org/html/rfc5162\">Επεκτάσεις IMAP4 "
-"για γρήγορο επανασυγχρονισμό γραμματοκιβωτίου</link>."
+"υποστηρίζει <link href=\"http://tools.ietf.org/html/rfc5162\">Επεκτάσεις "
+"IMAP4 για γρήγορο επανασυγχρονισμό γραμματοκιβωτίου</link>."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:49
@@ -10444,18 +10720,14 @@ msgstr ""
 #: C/mail-receiving-options-maildir-format-directories.page:40
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:39
 #: C/mail-receiving-options-unix-mbox-spool-file.page:40
-#| msgid ""
-#| "If you want <link xref=\"mail-filters\">Filters</link> to be "
-#| "automatically used for new messages in your inbox, enable <gui>Apply "
-#| "filters to new messages in INBOX</gui>."
 msgid ""
 "If you want <link xref=\"mail-filters\">Filters</link> to be automatically "
 "used for new messages in your inbox, enable <gui>Apply filters to new "
 "messages in Inbox</gui>."
 msgstr ""
-"Αν θέλετε να χρησιμοποιούνται αυτόματα τα <link xref=\"mail-"
-"filters\">Φίλτρα</link> για νέα μηνύματα στα εισερχόμενά σας, ενεργοποιήστε "
-"το <gui>Εφαρμογή φίλτρων στα νέα μηνύματα στα εισερχόμενα</gui>."
+"Αν θέλετε να χρησιμοποιούνται αυτόματα τα <link xref=\"mail-filters"
+"\">Φίλτρα</link> για νέα μηνύματα στα εισερχόμενά σας, ενεργοποιήστε το "
+"<gui>Εφαρμογή φίλτρων στα νέα μηνύματα στα εισερχόμενα</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-mh-format-directories.page:5
@@ -11050,14 +11322,26 @@ msgstr ""
 "Πατήστε στο εικονίδιο αναζήτησης <_:media-1/> για να επεκτείνετε τον "
 "πτυσσόμενο κατάλογο."
 
-#. (itstool) path: item/p
+#. (itstool) path: note/p
 #: C/mail-searching.page:44
+msgid ""
+"Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550796#c10\">combine numerous conditions by using the <gui>Free form "
+"expression</gui> syntax</link>."
+msgstr ""
+"Οι προχωρημένοι χρήστες μπορούν να <link "
+"href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10\">συνδυάσουν "
+"πολυάριθμες συνθήκες χρησιμοποιώντας τη σύνταξη <gui>Ελεύθερη μορφή "
+"έκφρασης</gui></link>."
+
+#. (itstool) path: item/p
+#: C/mail-searching.page:46
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr ""
 "Επιλέξτε την εμβέλεια από τον πτυσσόμενο κατάλογο δεξιά στο πλαίσιο κειμένου."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:45
+#: C/mail-searching.page:47
 msgid ""
 "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-"
 "level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
@@ -11069,14 +11353,14 @@ msgstr ""
 "υπολογιστή\" και απομακρυσμένοι λογαριασμοί αλληλογραφίας."
 
 #. (itstool) path: item/p
-#: C/mail-searching.page:48 C/memos-searching.page:46
+#: C/mail-searching.page:50 C/memos-searching.page:46
 #: C/memos-searching.page:52 C/tasks-searching.page:46
 #: C/tasks-searching.page:52
 msgid "Evolution displays the search results."
 msgstr "Το Evolution εμφανίζει τα αποτελέσματα αναζήτησης."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:50
+#: C/mail-searching.page:52
 msgid ""
 "If you start directly from the fourth step, text will be searched in mail's "
 "subjects and addresses and scope will be \"Current folder\"."
@@ -11085,7 +11369,7 @@ msgstr ""
 "και διευθύνσεις και η εμβέλεια θα είναι ο \"τρέχον φάκελος\"."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:51
+#: C/mail-searching.page:53
 msgid ""
 "If you search for messages that are not in the same folder rather often you "
 "might want to create a search folder instead; see <link xref=\"mail-search-"
@@ -11875,7 +12159,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:69
-#| msgid "Checking custom headers for junk."
 msgid "Checking incoming messages for junk."
 msgstr "Ελέγχονται τα εισερχόμενα μηνύματα για ανεπιθύμητα."
 
@@ -11897,7 +12180,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:72
-#| msgid "Checking custom headers for junk."
 msgid "Checking custom mail headers (added by your mail server) for junk."
 msgstr ""
 "Ελέγχονται οι προσαρμοσμένες κεφαλίδες (που προστέθηκαν από τον διακομιστή "
@@ -12465,55 +12747,12 @@ msgstr ""
 "εφαρμογές <app>Tomboy</app> ή <app>Gnote</app>."
 
 #. (itstool) path: info/desc
-#: C/minimize-to-system-tray.page:5
-msgid "On minimizing Evolution to the notification area."
-msgstr "Ελαχιστοποιώντας το Evolution στην περιοχή ειδοποιήσεων."
-
-#. (itstool) path: page/title
-#: C/minimize-to-system-tray.page:25
-msgid "Minimizing Evolution to the system tray"
-msgstr "Ελαχιστοποίηση του Evolution στον δίσκο συστήματος"
-
-#. (itstool) path: page/p
-#: C/minimize-to-system-tray.page:27
-msgid ""
-"GNOME, by default, has a <link xref=\"mail-received-notification"
-"\">notification area</link> which includes an applet that informs users of "
-"any system updates, changes, or events. This includes the arrival of email "
-"messages on Evolution. You can refer to this built-in feature of GNOME for "
-"any email notifications."
-msgstr ""
-"Το GNOME, από προεπιλογή, έχει μια <link xref=\"mail-received-notification"
-"\">περιοχή ειδοποίησης</link> που περιλαμβάνει μια μικρή εφαρμογή που "
-"πληροφορεί τους χρήστες για ενημερώσεις του συστήματος, αλλαγές ή συμβάντα. "
-"Αυτό περιλαμβάνει την άφιξη μηνυμάτων στο Evolution. Μπορείτε να αναφερθείτε "
-"σε αυτό το ενσωματωμένο γνώρισμα του GNOME για όλες τις ειδοποιήσεις "
-"μηνυμάτων."
-
-#. (itstool) path: page/p
-#: C/minimize-to-system-tray.page:29
-msgid ""
-"In GNOME version 2 you may modify the notification area and set it up to "
-"become a system tray by using external applications which might be available "
-"for installation in the software management tool of your distribution. "
-"Available options are for example <link href=\"http://code.google.com/p/"
-"tint2/\">Tint2</link>. This is no longer possible in GNOME 3."
-msgstr ""
-"Στην έκδοση GNOME 2 μπορείτε να τροποποιήσετε την περιοχή ειδοποίησης και να "
-"την ρυθμίσετε σε δίσκο συστήματος χρησιμοποιώντας εξωτερικές εφαρμογές που "
-"μπορεί να είναι διαθέσιμες για εγκατάσταση στο εργαλείο διαχείρισης "
-"λογισμικού της διανομής σας. Διαθέσιμες επιλογές είναι για παράδειγμα <link "
-"href=\"http://code.google.com/p/tint2/\">Tint2</link>. Αυτό δεν είναι πια "
-"δυνατό στο GNOME 3."
-
-#. (itstool) path: info/desc
 #: C/offline.page:5
 msgid "Make Evolution mail be online again."
 msgstr "Για επανασύνδεση της αλληλογραφίας του Evolution."
 
 #. (itstool) path: page/title
 #: C/offline.page:27
-#| msgid "Why is Evolution's mail offline when my net connection is working?"
 msgid "Why is Evolution's mail component offline?"
 msgstr "Γιατί το συστατικό αλληλογραφίας του Evolution είναι εκτός σύνδεσης;"
 
@@ -13099,16 +13338,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:25
-#| msgid ""
-#| "Double-click on the task that you want to edit in the list of tasks, or "
-#| "right-click on the task and click <key>Open Task</key>."
 msgid ""
 "Double-click on the task that you want to edit in the list of tasks, or "
 "right-click on the task and click <gui>Open Task</gui>."
 msgstr ""
 "Διπλοπατήστε στην εργασία που θέλετε να επεξεργαστείτε στον κατάλογο "
-"εργασιών, ή δεξιοπατήστε στην εργασία και πατήστε <gui>Άνοιγμα "
-"εργασίας</gui>."
+"εργασιών, ή δεξιοπατήστε στην εργασία και πατήστε <gui>Άνοιγμα εργασίας</"
+"gui>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:26
@@ -13457,11 +13693,30 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
+#| msgid "Expression:"
+msgid "Free Form Expression:"
+msgstr "Ελεύθερη μορφή έκφρασης:"
+
+#. (itstool) path: p/link
+#: C/xinclude-filter-vfolder-conditions.xml:32
+msgid "special syntax"
+msgstr "ειδική σύνταξη"
+
+#. (itstool) path: item/p
+#: C/xinclude-filter-vfolder-conditions.xml:32
+msgid ""
+"(For advanced users only) Combine numerous conditions by using a <_:link-1/>."
+msgstr ""
+"(Μόνο για προχωρημένους χρήστες) Συνδυασμός πολλών συνθηκών χρησιμοποιώντας "
+"έναν <_:link-1/>."
+
+#. (itstool) path: item/p
+#: C/xinclude-filter-vfolder-conditions.xml:34
 msgid "Date sent:"
 msgstr "Ημερομηνία αποστολής:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:32
+#: C/xinclude-filter-vfolder-conditions.xml:35
 msgid ""
 "Filters messages according to the date on which they were sent. First, "
 "choose the conditions you want a message to meet, such as before a given "
@@ -13480,12 +13735,12 @@ msgstr ""
 "φάσμα σχετικό με το φίλτρο, όπως δύο ή τέσσερις μέρες πριν."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:34
+#: C/xinclude-filter-vfolder-conditions.xml:37
 msgid "Date received:"
 msgstr "Ημερομηνία παραλαβής:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:35
+#: C/xinclude-filter-vfolder-conditions.xml:38
 msgid ""
 "This works the same way as the Date Sent option, except that it compares the "
 "time you received the message with the dates you specify."
@@ -13494,17 +13749,17 @@ msgstr ""
 "ότι συγκρίνει την ώρα που λάβατε το μήνυμα με τις ημερομηνίες που ορίζετε."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:37
+#: C/xinclude-filter-vfolder-conditions.xml:40
 msgid "Label:"
 msgstr "Ετικέτα:"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:38
+#: C/xinclude-filter-vfolder-conditions.xml:41
 msgid "labels"
 msgstr "ετικέτες"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:38
+#: C/xinclude-filter-vfolder-conditions.xml:41
 msgid ""
 "Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. "
 "You can set labels with other filters or manually."
@@ -13514,12 +13769,12 @@ msgstr ""
 "χειροκίνητα."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:40
+#: C/xinclude-filter-vfolder-conditions.xml:43
 msgid "Score:"
 msgstr "Αποτέλεσμα:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:41
+#: C/xinclude-filter-vfolder-conditions.xml:44
 msgid ""
 "Sets the message score to any whole number greater than 0. You can have one "
 "filter set or change a message score, and then set up another filter to move "
@@ -13535,22 +13790,22 @@ msgstr ""
 "μηνύματα ώστε άλλα φίλτρα να τον επεξεργάζονται."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:43
+#: C/xinclude-filter-vfolder-conditions.xml:46
 msgid "Size (kB):"
 msgstr "Μέγεθος (kB):"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:44
+#: C/xinclude-filter-vfolder-conditions.xml:47
 msgid "Sorts based on the size of the message in kilobytes."
 msgstr "Ταξινομεί με βάση το μέγεθος του μηνύματος σε kilobytes."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:46
+#: C/xinclude-filter-vfolder-conditions.xml:49
 msgid "Status:"
 msgstr "Κατάσταση:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:47
+#: C/xinclude-filter-vfolder-conditions.xml:50
 msgid ""
 "Filters according to the status of a message. The status can be Replied To, "
 "Draft, Important, Read, or Junk."
@@ -13559,42 +13814,42 @@ msgstr ""
 "είναι απαντημένο, πρόχειρο, σημαντικό, διαβασμένο ή ανεπιθύμητο."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:49
+#: C/xinclude-filter-vfolder-conditions.xml:52
 msgid "Follow Up:"
 msgstr "Παρακολούθηση:"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:50
+#: C/xinclude-filter-vfolder-conditions.xml:53
 msgid "flagged for follow-up"
 msgstr "με σημαία για παρακολούθηση"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:50
+#: C/xinclude-filter-vfolder-conditions.xml:53
 msgid "Checks whether the message is <_:link-1/>."
 msgstr "Ελέγχει αν το μήνυμα είναι <_:link-1/>."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:52
+#: C/xinclude-filter-vfolder-conditions.xml:55
 msgid "Completed On:"
 msgstr "Ολοκληρωμένο την:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:55
+#: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Attachments:"
 msgstr "Συνημμένα:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:56
+#: C/xinclude-filter-vfolder-conditions.xml:59
 msgid "Checks whether there is an attachment for the email."
 msgstr "Ελέγχει εάν υπάρχει συνημμένο στο μήνυμα."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:58
+#: C/xinclude-filter-vfolder-conditions.xml:61
 msgid "Mailing List:"
 msgstr "Κατάλογος ταχυδρομείου:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:59
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
 "Filters based on the mailing list the message came from. This filter might "
 "miss messages from some list servers, because it checks for the X-BeenThere "
@@ -13611,35 +13866,27 @@ msgstr ""
 "φίλτρα."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:61
+#: C/xinclude-filter-vfolder-conditions.xml:64
 msgid "Regex Match:"
 msgstr "Ταίριασμα με Regex:"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
+#: C/xinclude-filter-vfolder-conditions.xml:65
 msgid "regex"
 msgstr "κανονική έκφραση"
 
 #. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:62
+#: C/xinclude-filter-vfolder-conditions.xml:65
 msgid "grep"
 msgstr "grep"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:62
+#: C/xinclude-filter-vfolder-conditions.xml:65
 msgid "the man page for the <_:cmd-1/>"
 msgstr "η σελίδα εγχειριδίου για το <_:cmd-1/>"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:62
-#| msgid ""
-#| "(For programmers only) If you know your way around a <_:link-1/>, or "
-#| "regular expression, this option allows you to search for complex patterns "
-#| "of letters, so that you can find, for example, all words that start with "
-#| "a and end with m, and are between six and fifteen letters long, or all "
-#| "messages that declare a particular header twice. For information about "
-#| "how to use regular expressions, check the man page for the <_:cmd-2/> "
-#| "command."
+#: C/xinclude-filter-vfolder-conditions.xml:65
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular "
 "expression, this option allows you to search for complex patterns of "
@@ -13846,6 +14093,60 @@ msgstr ""
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Πατήστε στο <_:gui-1/>."
+
+#~ msgid ""
+#~ "To get public keys from a public key server, enter the command <cmd>gpg --"
+#~ "recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting "
+#~ "<code>keyid</code> by your recipient's ID. You need to enter your "
+#~ "password, and the ID is automatically added to your keyring."
+#~ msgstr ""
+#~ "Για να πάρετε δημόσια κλειδιά από ένα εξυπηρετητή δημόσιων κλειδιών, "
+#~ "πληκτρολογήστε την εντολή <cmd>gpg --recv-keys --keyserver wwwkeys.pgp."
+#~ "net keyid</cmd>, αντικαθιστώντας το <code>keyid</code> με το ID του "
+#~ "παραλήπτη. Θα χρειαστεί να εισάγετε το συνθηματικό σας, και το ID "
+#~ "προστίθεται αυτόματα στη κλειδοθήκη σας."
+
+#~ msgid ""
+#~ "If someone sends you a public key directly, save it as a plain text file "
+#~ "and enter the command <cmd>gpg --import</cmd> to add it to your keyring."
+#~ msgstr ""
+#~ "Αν κάποιος σας στείλει ένα δημόσιο κλειδί απ' ευθείας, αποθηκεύστε το ως "
+#~ "απλό αρχείο κειμένου και πληκτρολογήστε την εντολή <cmd>gpg --import</"
+#~ "cmd> για να το προσθέσετε στην κλειδοθήκη σας."
+
+#~ msgid "On minimizing Evolution to the notification area."
+#~ msgstr "Ελαχιστοποιώντας το Evolution στην περιοχή ειδοποιήσεων."
+
+#~ msgid "Minimizing Evolution to the system tray"
+#~ msgstr "Ελαχιστοποίηση του Evolution στον δίσκο συστήματος"
+
+#~ msgid ""
+#~ "GNOME, by default, has a <link xref=\"mail-received-notification"
+#~ "\">notification area</link> which includes an applet that informs users "
+#~ "of any system updates, changes, or events. This includes the arrival of "
+#~ "email messages on Evolution. You can refer to this built-in feature of "
+#~ "GNOME for any email notifications."
+#~ msgstr ""
+#~ "Το GNOME, από προεπιλογή, έχει μια <link xref=\"mail-received-notification"
+#~ "\">περιοχή ειδοποίησης</link> που περιλαμβάνει μια μικρή εφαρμογή που "
+#~ "πληροφορεί τους χρήστες για ενημερώσεις του συστήματος, αλλαγές ή "
+#~ "συμβάντα. Αυτό περιλαμβάνει την άφιξη μηνυμάτων στο Evolution. Μπορείτε "
+#~ "να αναφερθείτε σε αυτό το ενσωματωμένο γνώρισμα του GNOME για όλες τις "
+#~ "ειδοποιήσεις μηνυμάτων."
+
+#~ msgid ""
+#~ "In GNOME version 2 you may modify the notification area and set it up to "
+#~ "become a system tray by using external applications which might be "
+#~ "available for installation in the software management tool of your "
+#~ "distribution. Available options are for example <link href=\"http://code."
+#~ "google.com/p/tint2/\">Tint2</link>. This is no longer possible in GNOME 3."
+#~ msgstr ""
+#~ "Στην έκδοση GNOME 2 μπορείτε να τροποποιήσετε την περιοχή ειδοποίησης και "
+#~ "να την ρυθμίσετε σε δίσκο συστήματος χρησιμοποιώντας εξωτερικές εφαρμογές "
+#~ "που μπορεί να είναι διαθέσιμες για εγκατάσταση στο εργαλείο διαχείρισης "
+#~ "λογισμικού της διανομής σας. Διαθέσιμες επιλογές είναι για παράδειγμα "
+#~ "<link href=\"http://code.google.com/p/tint2/\">Tint2</link>. Αυτό δεν "
+#~ "είναι πια δυνατό στο GNOME 3."
 
 #~| msgid ""
 #~| "These steps are very technical. For average users we recommend using the "
@@ -18040,9 +18341,6 @@ msgstr "Πατήστε στο <_:gui-1/>."
 
 #~ msgid "Select a server type from the Server Type list."
 #~ msgstr "Διαλέξτε έναν τύπο διακομιστή από τη λίστα Τύπος διακομιστή."
-
-#~ msgid "The following server types are available:"
-#~ msgstr "Οι ακόλουθοι τύποι διακομιστή είναι διαθέσιμοι:"
 
 #~ msgid "Sendmail:"
 #~ msgstr "Sendmail:"
