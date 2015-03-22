@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-10 05:22+0000\n"
-"PO-Revision-Date: 2015-03-12 17:53+0100\n"
+"POT-Creation-Date: 2015-03-06 23:16+0000\n"
+"PO-Revision-Date: 2015-03-11 20:24+0100\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.7.4\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -728,7 +728,7 @@ msgstr "Wählen Sie die Kontakte aus, an die die Besprechung delegiert werden so
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43 C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32 C/mail-composer-custom-header-lines.page:45 C/mail-encryption-gpg-set-up.page:35
-#: C/mail-encryption-gpg-signing-encrypting.page:40 C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50 C/mail-filters.page:71 C/mail-search-folders-add.page:46 C/using-categories.page:51 C/using-categories.page:53
+#: C/mail-encryption-gpg-signing-encrypting.page:40 C/mail-encryption-s-mime-signing-encrypting.page:34 C/mail-filters.page:50 C/mail-filters.page:71 C/mail-search-folders-add.page:46 C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Klicken Sie auf <gui style=\"button\">OK</gui>."
 
@@ -996,7 +996,7 @@ msgid "Select the search condition from the list."
 msgstr "Wählen Sie das Suchkriterium aus der Liste aus."
 
 #. (itstool) path: item/p
-#: C/calendar-searching.page:50 C/contacts-searching.page:58 C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
+#: C/calendar-searching.page:50 C/contacts-searching.page:58 C/mail-searching.page:47 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Geben Sie im Suchfeld den Begriff ein, nach dem Sie suchen möchten, und drücken Sie die <key>Eingabetaste</key>."
 
@@ -1026,7 +1026,7 @@ msgid "To go through the results you can use the two arrow buttons next to the s
 msgstr "Verwenden Sie die Pfeiltasten neben dem Suchfeld, um die Ergebnisse zu durchsuchen. Die Suche umfasst die derzeit aktiven Kalender. Die Suche beginnt am derzeit ausgewählten Tag in ausgewählter Suchrichtung und umfasst per Vorgabe zehn Jahre."
 
 #. (itstool) path: section/p
-#: C/calendar-searching.page:76 C/contacts-searching.page:80 C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
+#: C/calendar-searching.page:76 C/contacts-searching.page:80 C/mail-searching.page:52 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid "If you want to set several search conditions, you should use an Advanced search, which is described below."
 msgstr "Verwenden Sie die Erweiterte Suche, um mehrere Suchbedingungen festzulegen. Diese ist im Folgenden beschrieben."
 
@@ -1441,13 +1441,8 @@ msgstr "Suchbasis: Die Suchbasis ist der Punkt, an dem eine Ordnersuche beginnt.
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
-msgid "Search Scope: The search scope is the breadth of a given search."
-msgstr "Suchbereich: Der Suchbereich legt fest, wie tief bei der Suche in den Ordnerbaum abgestiegen werden soll."
-
-#. (itstool) path: item/p
-#: C/contacts-ldap.page:71
-msgid "The following options are available:"
-msgstr "Es gibt die folgenden Einstellmöglichkeiten stehen zur Verfügung:"
+msgid "Search Scope: The search scope is the breadth of a given search. The following options are available:"
+msgstr "Suchbereich: Der Suchbereich legt fest, wie tief bei der Suche in den Ordnerbaum abgestiegen werden soll. Es gibt folgende Möglichkeiten:"
 
 # kontrollieren
 #. (itstool) path: item/p
@@ -3352,18 +3347,8 @@ msgstr "Zugriff auf ein GMail-IMAP-Konto mit Evolution"
 msgid "Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ mail account settings</link>."
 msgstr "Informieren Sie sich bitte über <link xref=\"mail-account-manage-imap-plus\">E-Mail-Konteneinstellungen für IMAP+</link>."
 
-#. (itstool) path: page/p
-#: C/mail-access-gmail-imap-account.page:28
-#, fuzzy
-msgid ""
-"For performance reasons it is recommended to <gui>Use a Real Folder for Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real Folder for Junk</gui> by setting it to <gui>[GMail]/Spam</gui> under the account's <link xref=\"mail-default-folder-locations"
-"\"><gui>Defaults</gui></link>."
-msgstr ""
-"Aus Geschwindigkeitsgründen wird empfohlen, einen <gui>realen Ordner als Papierkorb</gui> zu verwenden, indem Sie es auf <gui>[GMail]/Papierkorb</gui> festlegen. Und einen <gui>realen Ordner für unerwünschte E-Mails</gui> zu verwenden, indem Sie es auf <gui>[GMail]/Unerwünscht</gui> "
-"unter <link xref=\"mail-default-folder-locations\"><gui>Vorgaben</gui></link> im Konteneditor festlegen."
-
 #. (itstool) path: note/p
-#: C/mail-access-gmail-imap-account.page:30
+#: C/mail-access-gmail-imap-account.page:28
 msgid "To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695\">Gmail Help</link> for more information."
 msgstr "Um auf Gmail via IMAP zuzugreifen, müssen Sie IMAP für Ihr Google-Konto einschalten. Lesen Sie die <link href=\"https://mail.google.com/support/bin/answer.py?answer=77695\">Gmail-Hilfe</link> für weitere Informationen."
 
@@ -4209,58 +4194,23 @@ msgstr "Gehen Sie zu <code>org.gnome.evolution.mail</code>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:31
-msgid "Enter the preferred quotation string as the value for the key <code>composer-message-attribution</code>."
-msgstr "Geben Sie die gewünschte Zitat-Meldung als Wert für den Schlüssel <code>composer-message-attribution</code> an."
-
-#. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:35
-msgid "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
-msgstr ""
-
-#. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:39
-msgid "The following placeholders are available:"
-msgstr "Die folgenden Platzhalter sind verfügbar:"
-
-#. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:48
-msgid "<_:code-1/> (format: 01-31)"
-msgstr "<_:code-1/> (Format: 01-31)"
-
-#. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:49
-msgid "<_:code-1/> (format: 1-31)"
-msgstr "<_:code-1/> (Format: 1-31)"
-
-#. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:54
-msgid "<_:code-1/> (format: 1-366)"
-msgstr "<_:code-1/> (Format: 1-366)"
-
-#. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:55
-msgid "<_:code-1/> (format: 01-12)"
-msgstr "<_:code-1/> (Format: 01-12)"
-
-#. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:58
-msgid "<_:code-1/> (e.g. 15 for the year 2015)"
-msgstr "<_:code-1/> (Z.B. 15 für das Jahr 2015)"
+msgid "Enter the prefered quotation string as the value for the key <gui>composer-message-attribution</gui>."
+msgstr "Geben Sie die gewünschte Zitat-Meldung als Wert für den Schlüssel <gui>composer-message-attribution</gui> an."
 
 #. (itstool) path: note/p
-#: C/mail-composer-change-quotation-string.page:64
+#: C/mail-composer-change-quotation-string.page:35
 msgid "You might need to install the <sys>dconf-editor</sys> package to perform these steps."
 msgstr "Gegebenenfalls müssen Sie das Paket <sys>dconf-editor</sys> installieren, um diese Schritte auszuführen."
 
 #. (itstool) path: when/p
-#: C/mail-composer-change-quotation-string.page:67
+#: C/mail-composer-change-quotation-string.page:38
 msgid "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/sources/dconf/\" style=\"button\">Install dconf-editor</link>"
 msgstr "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/sources/dconf/\" style=\"button\">dconf-editor installieren</link>"
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
-msgid "Using custom fields in the header of composed messages."
-msgstr "So verwenden Sie angepasste Felder Im Kopf von verfassten Nachrichten."
+msgid "Using custom fields in the header of composed messages"
+msgstr "Angepasste Felder Im Kopf von verfassten Nachrichten verwenden"
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
@@ -5090,10 +5040,8 @@ msgstr "Ausgehende Nachrichten priorisieren"
 
 #. (itstool) path: page/p
 #: C/mail-composer-priority.page:25
-msgid "You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, select <guiseq><gui>Options</gui><gui>Prioritize Message</gui></guiseq> in the menu of the composer window or click the corresponding toolbar icon."
-msgstr ""
-"Sie können eine zu sendende Nachricht priorisieren, so dass der Empfänger die relative Wichtigkeit der Nachricht erkennen kann. Um eine Nachricht zu priorisieren, klicken Sie auf <guiseq><gui>Optionen</gui><gui>Nachricht priorisieren</gui></guiseq> im Menü des E-Mail-Editors, oder "
-"klicken Sie auf den entsprechenden Knopf in der Werkzeugleiste."
+msgid "You can prioritize a message to be sent, so that the recipient sees its relative importance. To prioritize a message, click <guiseq><gui>Options</gui><gui>Prioritize Message</gui></guiseq> in the composer window."
+msgstr "Sie können eine zu sendende Nachricht priorisieren, so dass der Empfänger die relative Wichtigkeit der Nachricht erkennen kann. Um eine Nachricht zu priorisieren, klicken Sie auf <guiseq><gui>Optionen</gui><gui>Nachricht priorisieren</gui></guiseq> im E-Mail-Editor."
 
 #. (itstool) path: note/p
 #: C/mail-composer-priority.page:27
@@ -5452,11 +5400,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
-msgid "You can define an <gui>Archive Folder</gui>, for example to move older messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></guiseq> in the main window moves the selected message to the specified folder."
-msgstr "Legen Sie einen <gui>Archivordner</gui> fest, um zum Beispiel alte Nachrichten dorthin zu verschieben. Verschieben Sie die gewählten Nachrichten in den angegebenen Ordner, indem Sie im Hauptfenster <guiseq><gui>Nachricht</gui><gui>Archivieren</gui></guiseq> wählen."
-
-#. (itstool) path: page/p
-#: C/mail-default-folder-locations.page:33
 msgid ""
 "For remote account types (accounts such as IMAP) you can also use folders on the mail server for Junk and Trash by selecting the corresponding <gui>Use a Real Folder</gui> option. In this case, Evolution's local <link xref=\"mail-search-folders\">virtual folders</link> will not be used."
 msgstr ""
@@ -5774,12 +5717,12 @@ msgstr "Einen GPG-Schlüssel erstellen"
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-create-key.page:24
 msgid ""
-"Before you can get or send GPG encrypted mail, you need to <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">generate your public and private keys with GPG</link>. After doing so and <link xref=\"mail-encryption-gpg-set-up\">setting "
-"up Evolution to use the key</link>, you need to <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">share your public key with your friends to allow them sending you encrypted messages</link>."
+"Before you can get or send GPG encrypted mail, you need to <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">generate your public and private keys with GPG.</link> After doing so and <link xref=\"mail-encryption-gpg-set-up\">setting "
+"up Evolution to use the key</link>, you need to <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">share your public key with your friends to allow them decrypting the messages that you send them</link>."
 msgstr ""
 "Bevor Sie GPG-verschlüsselte E-Mails empfangen oder versenden können, müssen Sie <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">einen privaten und einen öffentlichen Schlüssel mit GPG erstellen</link>. Sobald die Schlüssel "
 "erstellt sind und <link xref=\"mail-encryption-gpg-set-up\">Evolution für die Verwendung der Schlüssel eingerichtet ist</link>, müssen Sie noch <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-publish\">ihren öffentlichen Schlüssel mit "
-"Ihren Freunden teilen, damit diese Ihnen verschlüsselte E-Mails senden können</link>."
+"Ihren Freunden teilen, damit sie die von Ihnen verschickten sicheren E-Mails entschlüsseln können</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-decrypting.page:5
@@ -5832,13 +5775,23 @@ msgid "Getting and using GPG public keys"
 msgstr "Erhalten und Nutzen öffentlicher GPG-Schlüssel."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-getting-keys.page:25
-msgid ""
-"To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to <link xref=\"help:seahorse/pgp-import\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-import\">get the public key and "
-"add it to your keyring</link>."
+#: C/mail-encryption-gpg-getting-keys.page:26
+msgid "To send an encrypted message, you need to use the recipient's public key in combination with your private key. Evolution handles the encryption, but you need to get the public key and add it to your keyring."
 msgstr ""
-"Um eine verschlüsselte Nachricht zu verschicken benötigen Sie den öffentlichen Schlüssel des Empfänger in Kombination mit Ihrem eigenen privaten Schlüssel. Evolution handhabt den Verschlüsselungsvorgang, aber Sie müssen selbst <link xref=\"help:seahorse/pgp-import\" href=\"https://help."
-"gnome.org/users/seahorse/stable/pgp-import\">den öffentlichen Schlüssel des Empfängers abrufen und diesen zu Ihrem Schlüsselbund hinzufügen</link>."
+"Um eine verschlüsselte Nachricht zu verschicken benötigen Sie den öffentlichen Schlüssel des Empfänger in Kombination mit Ihrem eigenen privaten Schlüssel. Evolution handhabt die Verschlüsselung, aber Sie müssen selbst den öffentlichen Schlüssel des Empfängers abrufen und diesen zu Ihrem "
+"Schlüsselring hinzufügen."
+
+#. (itstool) path: page/p
+#: C/mail-encryption-gpg-getting-keys.page:28
+msgid "To get public keys from a public key server, enter the command <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting <code>keyid</code> by your recipient's ID. You need to enter your password, and the ID is automatically added to your keyring."
+msgstr ""
+"Um öffentliche Schlüssel von einem öffentlichen Schlüssel-Server zu holen, geben Sie den Befehl <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd> ein und ersetzen Sie <cmd>keyid</cmd> durch die Schlüsselkennung (ID) des Empfängers. Geben Sie auf Nachfrage Ihr Passwort ein, und "
+"die Kennung wird automatisch zu Ihrem Schlüsselbund hinzugefügt."
+
+#. (itstool) path: page/p
+#: C/mail-encryption-gpg-getting-keys.page:30
+msgid "If someone sends you a public key directly, save it as a plain text file and enter the command <cmd>gpg --import</cmd> to add it to your keyring."
+msgstr "Falls Ihnen jemand einen öffentlichen Schlüssel direkt zuschickt, speichern Sie diesen als Textdatei und geben Sie den Befehl <cmd>gpg --import</cmd> ein, um den Schlüssel zu Ihrem Schlüsselbund hinzuzufügen."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-set-up.page:5
@@ -5856,7 +5809,7 @@ msgid "You need a GPG key to do this. If you do not have one yet, please refer t
 msgstr "Sie benötigen dazu einen GPG-Schlüssel. Wenn Sie noch keinen haben, so lesen Sie bitte <link xref=\"mail-encryption-gpg-create-key\">Einen GPG-Schlüssel erzeugen</link>."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-set-up.page:29 C/mail-encryption-gpg-signing-encrypting.page:35 C/mail-encryption-s-mime-signing-encrypting.page:30
+#: C/mail-encryption-gpg-set-up.page:29 C/mail-encryption-gpg-signing-encrypting.page:35 C/mail-encryption-s-mime-signing-encrypting.page:28
 msgid "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>."
 msgstr "Wählen Sie <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</gui></guiseq>."
 
@@ -5866,14 +5819,14 @@ msgid "Select the account you want to use securely, then click <gui style=\"butt
 msgstr "Wählen Sie das Konto aus, das Sie sicher verwenden wollen, und klicken Sie auf <gui style=\"button\">Bearbeiten</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-set-up.page:31 C/mail-encryption-gpg-signing-encrypting.page:38 C/mail-encryption-s-mime-signing-encrypting.page:33
+#: C/mail-encryption-gpg-set-up.page:31 C/mail-encryption-gpg-signing-encrypting.page:38 C/mail-encryption-s-mime-signing-encrypting.page:31
 msgid "Click the <gui>Security</gui> tab."
 msgstr "Klicken Sie auf den Reiter <gui>Sicherheit</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:32
-msgid "Specify your key ID in the <gui>OpenPGP Key ID</gui> field."
-msgstr "Geben Sie Ihre Schlüsselkennung im Feld <gui>OpenPGP-Schlüsselkennung</gui> ein."
+msgid "Specify your key ID in the <gui>PGP/GPG Key ID</gui> field."
+msgstr "Geben Sie Ihre Schlüsselkennung im Feld <gui>PGP/GPG-Schlüsselkennung</gui> ein."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-set-up.page:33
@@ -5887,12 +5840,10 @@ msgstr "Klicken Sie auf <gui style=\"button\">Schließen</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-set-up.page:38
-msgid ""
-"Evolution requires that you know your key ID. If you do not remember it, start <app>Passwords and Keys</app>, go to <gui>GnuPG Keys</gui>, select the preferred GPG key, right-click on it, select <gui>Properties</gui> and copy the <gui>Key ID</gui>. Your key ID is an eight-character "
-"string with random numbers and letters."
+msgid "Evolution requires that you know your key ID. If you do not remember it, you can find it by typing <cmd>gpg --list-keys</cmd> in the <app>Terminal</app> application. Your key ID is an eight-character string with random numbers and letters."
 msgstr ""
-"Evolution benötigt hier Ihre Schlüsselkennung. Falls Sie diese nicht auswendig kennen, dann starten Sie <app>Passwörter und Schlüssel</app>. Wählen Sie anschließend <gui>GnuPG-Schlüssel</gui> und dann Ihren gewünschten GPG-Schlüssel. Klicken Sie mit der rechten Maustaste auf den Eintrag, "
-"wählen Sie <gui>Eigenschaften</gui> und kopieren Sie die <gui>Schlüsselkennung</gui>. Ihre Schlüsselkennung besteht aus zufälligen Buchstaben und Zahlen mit insgesamt 8 Stellen."
+"Evolution benötigt hier Ihre Schlüsselkennung. Falls Sie diese nicht kennen, so können Sie diese herausfinden, indem Sie den Befehl <cmd>gpg --list-keys</cmd> in einem <app>Terminal</app>-Fenster eingeben. Ihre Schlüsselkennung besteht aus zufälligen Buchstaben und Zahlen mit insgesamt 8 "
+"Stellen."
 
 #. (itstool) path: info/desc
 #: C/mail-encryption-gpg-signing-encrypting.page:5
@@ -5906,29 +5857,28 @@ msgstr "Nachrichten signieren oder verschlüsseln"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-signing-encrypting.page:30
-msgid ""
-"After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG key</link>, you can sign or encrypt a message by selecting <guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</gui> from the message composer menu or clicking the corresponding toolbar icon."
+msgid "After you have <link xref=\"mail-encryption-gpg-set-up\">set up your GPG key</link>, you can sign or encrypt a message by clicking <guiseq><gui>Options</gui><gui>PGP Sign</gui></guiseq> or <gui>PGP Encrypt</gui> from the message composer menu."
 msgstr ""
-"Nachdem Sie <link xref=\"mail-encryption-gpg-set-up\">Ihren GPG-Schlüssel eingerichtet</link> haben, können Sie eine Nachricht signieren oder verschlüsseln, indem Sie in der Menüleiste des E-Mail-Editors <guiseq><gui>Optionen</gui><gui>Mit PGP signieren</gui></guiseq> oder <gui>Mit PGP "
-"verschlüsseln</gui> wählen oder auf den entsprechenden Knopf in der Werkzeugleiste klicken."
+"Nachdem Sie <link xref=\"mail-encryption-gpg-set-up\">Ihr Zertifikat hinzugefügt</link> haben, können Sie eine Nachricht signieren oder verschlüsseln, indem Sie in der Menüleiste des E-Mail-Editors auf <guiseq><gui>Optionen</gui><gui>Mit PGP signieren</gui></guiseq> oder auf <gui>mit PGP "
+"verschlüsseln</gui> klicken."
 
 #. (itstool) path: note/p
-#: C/mail-encryption-gpg-signing-encrypting.page:31 C/mail-encryption-s-mime-signing-encrypting.page:26
+#: C/mail-encryption-gpg-signing-encrypting.page:31 C/mail-encryption-s-mime-signing-encrypting.page:36
 msgid "The Subject line of the message will not be encrypted and should not be used for sensitive information."
 msgstr "Die Betreffzeile der Nachricht wird nicht verschlüsselt und sollte daher keine vertraulichen Informationen enthalten."
 
 #. (itstool) path: page/p
-#: C/mail-encryption-gpg-signing-encrypting.page:33 C/mail-encryption-s-mime-signing-encrypting.page:28
+#: C/mail-encryption-gpg-signing-encrypting.page:33 C/mail-encryption-s-mime-signing-encrypting.page:26
 msgid "To have every message signed or encrypted:"
 msgstr "So signieren oder verschlüsseln Sie jede Nachricht:"
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-signing-encrypting.page:36 C/mail-encryption-s-mime-signing-encrypting.page:31
+#: C/mail-encryption-gpg-signing-encrypting.page:36 C/mail-encryption-s-mime-signing-encrypting.page:29
 msgid "Select the mail account to encrypt the messages in."
 msgstr "Wählen Sie das E-Mail-Konto aus, für welches die Nachrichten verschlüsselt werden sollen."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-gpg-signing-encrypting.page:37 C/mail-encryption-s-mime-signing-encrypting.page:32 C/mail-filters.page:60
+#: C/mail-encryption-gpg-signing-encrypting.page:37 C/mail-encryption-s-mime-signing-encrypting.page:30 C/mail-filters.page:60
 msgid "Click <gui style=\"button\">Edit</gui>."
 msgstr "Klicken Sie auf <gui style=\"button\">Bearbeiten</gui>."
 
@@ -6014,15 +5964,13 @@ msgstr "Zu versendende Nachrichten mit S/MIME signieren oder verschlüsseln."
 
 #. (itstool) path: page/p
 #: C/mail-encryption-s-mime-signing-encrypting.page:25
-msgid ""
-"After you have <link xref=\"mail-encryption-s-mime-manage\">added your certificate</link>, you can sign or encrypt a message by selecting <guiseq><gui>Options</gui><gui>S/MIME Sign</gui></guiseq> or <gui>S/MIME Encrypt</gui> from the message composer menu or clicking the corresponding "
-"toolbar icon."
+msgid "After you have <link xref=\"mail-encryption-s-mime-manage\">added your certificate</link>, you can sign or encrypt a message by clicking <guiseq><gui>Options</gui><gui>S/MIME Sign</gui></guiseq> or <gui>S/MIME Encrypt</gui> from the message composer menu."
 msgstr ""
-"Nachdem Sie Ihr <link xref=\"mail-encryption-s-mime-manage\">Zertifikat hinzugefügt</link> haben, können Sie eine Nachricht signieren oder verschlüsseln, indem Sie in der Menüleiste des E-Mail-Editors <guiseq><gui>Optionen</gui><gui>Mit S/MIME signieren</gui></guiseq> oder <gui>Mit S/"
-"MIME verschlüsseln</gui> wählen oder auf den entsprechenden Knopf in der Werkzeugleiste klicken."
+"Nachdem Sie Ihr <link xref=\"mail-encryption-s-mime-manage\">Zertifikat hinzugefügt</link> haben, können Sie eine Nachricht signieren oder verschlüsseln, indem Sie in der Menüleiste des E-Mail-Editors auf <guiseq><gui>Optionen</gui><gui>Mit S/MIME signieren</gui></guiseq> oder auf "
+"<gui>Mit S/MIME verschlüsseln</gui> im Fenster zum Verfassen neuer E-Mails klicken."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-s-mime-signing-encrypting.page:34
+#: C/mail-encryption-s-mime-signing-encrypting.page:32
 msgid ""
 "In the <gui>Secure MIME (S/MIME)</gui> section, click <gui style=\"button\">Select</gui> next to <gui>Signing Certificate</gui> and specify the path to your signing certificate, or click <gui style=\"button\">Select</gui> next to <gui>Encryption Certificate</gui> and specify the path to "
 "your encryption certificate."
@@ -6031,7 +5979,7 @@ msgstr ""
 "<gui>Verschlüsselungszertifikat</gui> und geben Sie den Pfad zu Ihrem Verschlüsselungszertifikat an."
 
 #. (itstool) path: item/p
-#: C/mail-encryption-s-mime-signing-encrypting.page:35
+#: C/mail-encryption-s-mime-signing-encrypting.page:33
 msgid "Select the appropriate options."
 msgstr "Wählen Sie die gewünschten Optionen aus."
 
@@ -6967,13 +6915,13 @@ msgstr "Lesebestätigungen sind eine Möglichkeit, dass Empfänger den Erhalt Ih
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:36
-msgid "You can request read receipts by selecting <guiseq><gui>Options</gui><gui>Request Read Receipt</gui></guiseq> in the menu of the composer window or clicking the corresponding toolbar icon."
-msgstr "Fordern Sie Lesebestätigungen an, indem Sie im E-Mail-Editor <guiseq><gui>Optionen</gui><gui>Lesebestätigung anfordern</gui></guiseq> wählen."
+msgid "You can request read receipts by enabling this option in the email composer's menu. To do so, go to <guiseq><gui>Options</gui><gui>Request Read Receipt</gui></guiseq>."
+msgstr "Fordern Sie Lesebestätigungen an, indem Sie diese Option im E-Mail-Editor aktivieren. Wählen Sie dazu <guiseq><gui>Optionen</gui><gui>Lesebestätigung anfordern</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:38
-msgid "For read receipts that you receive you can define Evolution's behavior under <gui>Message Receipts</gui> under the account's <link xref=\"mail-default-folder-locations\"><gui>Defaults</gui></link>."
-msgstr "Legen Sie unter dem Punkt <link xref=\"mail-default-folder-locations\"><gui>Vorgaben</gui></link> im Konteneditor im Abschnitt <gui>Lesebestätigungen</gui> fest, wie Evolution mit Lesebestätigungsanforderungen umgehen soll, die Sie erhalten."
+msgid "For read receipts that you receive you can define Evolution's behavior by going to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui><gui>Message Receipts</gui></guiseq>."
+msgstr "Wie Evolution mit Lesebestätigungsanforderungen, die Sie erhalten, umgehen soll, legen Sie fest unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</gui><gui style=\"button\">Bearbeiten</gui><gui>Vorgaben</gui><gui>Lesebestätigungen</gui></guiseq>."
 
 #. (itstool) path: media
 #. This is a reference to an external file such as an image or video. When
@@ -7597,34 +7545,28 @@ msgstr "Durch das Definieren von Bedingungen können Sie in der Nachrichtenansic
 msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
 msgstr "Klicken Sie auf das Such-Symbol <_:media-1/>, um die Auswahlliste auszuklappen."
 
-#. (itstool) path: note/p
-#: C/mail-searching.page:44
-#, fuzzy
-msgid "Advanced users can <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10\">combine numerous conditions by using the <gui>Free form expression</gui> syntax</link>."
-msgstr "Fortgeschrittene Benutzer können <link href=\"https://bugzilla.gnome.org/show_bug.cgi?id=550796#c10\">zahlreiche Bedingungen mit der <gui>Freifeld-Ausdruck</gui>-Syntax kombinieren</link>."
-
 #. (itstool) path: item/p
-#: C/mail-searching.page:46
+#: C/mail-searching.page:44
 msgid "Select the scope from the drop-down list right to the text box."
 msgstr "Wählen Sie den Bereich aus der Auswahlliste rechts neben dem Textfeld aus."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:47
+#: C/mail-searching.page:45
 msgid "For the <gui>Current Account</gui> scope, the term \"account\" refers to top-level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder list</link>, like \"On this computer\" and remote mail accounts."
 msgstr "Für den Geltungsbereich <gui>Aktuelles Konto</gui> bezieht sich der Begriff »Konto« auf die obersten Knoten in der <link xref=\"intro-main-window#e-mail\">E-Mail-Ordnerliste</link>, wie z.B. »Auf diesem Rechner« und entfernten E-Mail-Konten."
 
 #. (itstool) path: item/p
-#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52 C/tasks-searching.page:46 C/tasks-searching.page:52
+#: C/mail-searching.page:48 C/memos-searching.page:46 C/memos-searching.page:52 C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "Evolution displays the search results."
 msgstr "Evolution zeigt die Suchergebnisse an."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:52
+#: C/mail-searching.page:50
 msgid "If you start directly from the fourth step, text will be searched in mail's subjects and addresses and scope will be \"Current folder\"."
 msgstr "Wenn Sie direkt mit Schritt vier beginnen, so wird im aktuellen Ordner nach dem Suchbegriff im Betreff und den E-Mail-Adressen aller Nachrichten gesucht."
 
 #. (itstool) path: note/p
-#: C/mail-searching.page:53
+#: C/mail-searching.page:51
 msgid "If you search for messages that are not in the same folder rather often you might want to create a search folder instead; see <link xref=\"mail-search-folders\">Using Search Folders</link> for more detail."
 msgstr "Wenn Sie häufig nach Nachrichten in einem anderen Ordner suchen, so empfiehlt es sich, dass Sie anstelle dessen einen Suchordner erstellen. Lesen Sie bitte <link xref=\"mail-search-folders\">Suchordner verwenden</link> für weitere Informationen."
 
@@ -9218,27 +9160,11 @@ msgstr "(Nur für Programmierer) Eine Nachricht mit einem in der Programmierspra
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
-#, fuzzy
-msgid "Free Form Expression:"
-msgstr "Freifeld-Ausdruck:"
-
-#. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:32
-msgid "special syntax"
-msgstr "Spezielle Syntax"
-
-#. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:32
-msgid "(For advanced users only) Combine numerous conditions by using a <_:link-1/>."
-msgstr "(Nur für fortgeschrittene Benutzer) Zahlreiche Bedingungen mit Hilfe eines <_:link-1/> kombinieren."
-
-#. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:34
 msgid "Date sent:"
 msgstr "Verschickt-Datum:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:35
+#: C/xinclude-filter-vfolder-conditions.xml:32
 msgid ""
 "Filters messages according to the date on which they were sent. First, choose the conditions you want a message to meet, such as before a given time or after a given time. Then choose the time. The filter compares the message's time stamp to the system clock when the filter is run, or to "
 "a specific time and date you choose from a calendar. You can also have it look for a message within a range of time relative to the filter, such as two to four days ago."
@@ -9247,37 +9173,37 @@ msgstr ""
 "den Zeitstempel der Nachricht mit der Systemzeit wenn der Filter angewendet wird, oder mit einem von Ihnen vorgegebenen Zeitpunkt. Es kann auch nach einem relativen Zeitpunkt gefiltert werden, also zum Beispiel zwei oder vier Tage zuvor."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:37
+#: C/xinclude-filter-vfolder-conditions.xml:34
 msgid "Date received:"
 msgstr "Empfangsdatum:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:38
+#: C/xinclude-filter-vfolder-conditions.xml:35
 msgid "This works the same way as the Date Sent option, except that it compares the time you received the message with the dates you specify."
 msgstr "Dies funktioniert genau so wie das Filtern gemäß dem Verschickt-Datum, nur dass hierbei der Zeitpunkt verglichen wird, an dem Sie die Nachricht erhalten haben."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:40
+#: C/xinclude-filter-vfolder-conditions.xml:37
 msgid "Label:"
 msgstr "Beschriftung:"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:41
+#: C/xinclude-filter-vfolder-conditions.xml:38
 msgid "labels"
 msgstr "Beschriftungen"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:41
+#: C/xinclude-filter-vfolder-conditions.xml:38
 msgid "Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. You can set labels with other filters or manually."
 msgstr "Nachrichten können <_:link-1/> wie Wichtig, Geschäftlich, Persönlich, Zu erledigen oder Später haben. Sie können Beschriftungen durch Filter oder per Hand anwenden."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:43
+#: C/xinclude-filter-vfolder-conditions.xml:40
 msgid "Score:"
 msgstr "Bewertung:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:44
+#: C/xinclude-filter-vfolder-conditions.xml:41
 msgid ""
 "Sets the message score to any whole number greater than 0. You can have one filter set or change a message score, and then set up another filter to move the messages you have scored. A message score is not based on anything in particular: it is simply a number you can assign to messages "
 "so other filters can process them."
@@ -9286,62 +9212,62 @@ msgstr ""
 "Eigenschaften, es handelt sich nur um eine Nummer, die Sie Nachrichten zuweisen können, damit andere Filter diese weiterverarbeiten können."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:46
+#: C/xinclude-filter-vfolder-conditions.xml:43
 msgid "Size (kB):"
 msgstr "Größe (kB):"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:47
+#: C/xinclude-filter-vfolder-conditions.xml:44
 msgid "Sorts based on the size of the message in kilobytes."
 msgstr "Sortiert gemäß der Größe der Nachricht in Kilobyte."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:49
+#: C/xinclude-filter-vfolder-conditions.xml:46
 msgid "Status:"
 msgstr "Status:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:50
+#: C/xinclude-filter-vfolder-conditions.xml:47
 msgid "Filters according to the status of a message. The status can be Replied To, Draft, Important, Read, or Junk."
 msgstr "Filtert gemäß dem Status einer Nachricht, der Beantwortet, Entwurf, Wichtig, Gelesen, oder Unerwünscht sein kann."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:52
+#: C/xinclude-filter-vfolder-conditions.xml:49
 msgid "Follow Up:"
 msgstr "Folgenachricht-Markierung"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:53
+#: C/xinclude-filter-vfolder-conditions.xml:50
 msgid "flagged for follow-up"
 msgstr "zur Nachverfolgung markiert"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:53
+#: C/xinclude-filter-vfolder-conditions.xml:50
 msgid "Checks whether the message is <_:link-1/>."
 msgstr "Prüft, ob die Nachricht <_:link-1/> ist."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:55
+#: C/xinclude-filter-vfolder-conditions.xml:52
 msgid "Completed On:"
 msgstr "Abgeschlossen am:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:58
+#: C/xinclude-filter-vfolder-conditions.xml:55
 msgid "Attachments:"
 msgstr "Anlagen:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:59
+#: C/xinclude-filter-vfolder-conditions.xml:56
 msgid "Checks whether there is an attachment for the email."
 msgstr "Filtert je nachdem, ob eine Nachricht einen Anhang besitzt."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:61
+#: C/xinclude-filter-vfolder-conditions.xml:58
 msgid "Mailing List:"
 msgstr "Mailingliste:"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:62
+#: C/xinclude-filter-vfolder-conditions.xml:59
 msgid ""
 "Filters based on the mailing list the message came from. This filter might miss messages from some list servers, because it checks for the X-BeenThere header, which is used to identify mailing lists or other redistributors of mail. Mail from list servers that do not set X-BeenThere "
 "properly are not be caught by these filters."
@@ -9350,33 +9276,33 @@ msgstr ""
 "diesem Filter nicht erkannt."
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:64
+#: C/xinclude-filter-vfolder-conditions.xml:61
 msgid "Regex Match:"
 msgstr "Regex-Treffer:"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "regex"
 msgstr "Regex"
 
 #. (itstool) path: link/cmd
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "grep"
 msgstr "grep"
 
 #. (itstool) path: p/link
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "the man page for the <_:cmd-1/>"
 msgstr "Die Man-Dokumentation für <_:cmd-1/>"
 
 #. (itstool) path: item/p
-#: C/xinclude-filter-vfolder-conditions.xml:65
+#: C/xinclude-filter-vfolder-conditions.xml:62
 msgid ""
 "(For programmers only) If you know your way around a <_:link-1/>, or regular expression, this option allows you to search for complex patterns of letters, so that you can find, for example, all words that start with a and end with m, and are between six and fifteen letters long, or all "
 "messages that declare a particular header twice. For information about how to use regular expressions, check <_:link-2/> command."
 msgstr ""
 "(Nur für Programmierer) Falls Sie sich mit <_:link-1/>, d.h. regulären Ausdrücken auskennen, ermöglicht Ihnen diese Option nach komplexen Mustern von Buchstaben zu suchen, so dass sie zum Beispiel alle Wörter finden können, die mit einem »a« beginnen und einem »m« enden, und zwischen "
-"sechs und fünfzehn Buchstaben lang sind, oder alle Nachrichten, in denen eine bestimmte Kopfzeile doppelt vorhanden ist. Für weitere Informationen darüber, wie reguläre Ausdrücke genutzt werden können, lesen Sie bitte die Hilfeseite für den Befehl <_:cmd-2/>."
+"sechs und fünfzehn Buchstaben lang sind, oder alle Nachrichten, in denen eine bestimmte Kopfzeile doppelt vorhanden ist. Für weitere Informationen darüber, wie reguläre Ausdrücke genutzt werden können, lesen Sie bitte die Hilfeseite für den Befehl <_:link-2/>."
 
 #. (itstool) path: section/title
 #: C/xinclude-mail-account-identity.xml:4
@@ -9534,14 +9460,6 @@ msgstr "Ändern Sie den Titel oder die gewünschten Suchkriterien im Dialogfeld.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
-
-#~ msgid "To get public keys from a public key server, enter the command <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd>, substituting <code>keyid</code> by your recipient's ID. You need to enter your password, and the ID is automatically added to your keyring."
-#~ msgstr ""
-#~ "Um öffentliche Schlüssel von einem öffentlichen Schlüssel-Server zu holen, geben Sie den Befehl <cmd>gpg --recv-keys --keyserver wwwkeys.pgp.net keyid</cmd> ein und ersetzen Sie <cmd>keyid</cmd> durch die Schlüsselkennung (ID) des Empfängers. Geben Sie auf Nachfrage Ihr Passwort ein, "
-#~ "und die Kennung wird automatisch zu Ihrem Schlüsselbund hinzugefügt."
-
-#~ msgid "If someone sends you a public key directly, save it as a plain text file and enter the command <cmd>gpg --import</cmd> to add it to your keyring."
-#~ msgstr "Falls Ihnen jemand einen öffentlichen Schlüssel direkt zuschickt, speichern Sie diesen als Textdatei und geben Sie den Befehl <cmd>gpg --import</cmd> ein, um den Schlüssel zu Ihrem Schlüsselbund hinzuzufügen."
 
 #~ msgid "These steps are very technical. For average users we recommend using the <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\"><app>Seahorse</app> application</link> for creating GPG/OpenPGP keys."
 #~ msgstr "Diese Schritte sind sehr technisch. Für die meisten Anwender wird zur Erstellung der GPG/OpenPGP-Schlüssel die <link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/seahorse/stable/pgp-create\">Anwendung <app>Seahorse</app></link> empfohlen."
