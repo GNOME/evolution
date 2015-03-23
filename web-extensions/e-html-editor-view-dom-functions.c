@@ -2170,10 +2170,6 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 		dom_remove_quoting_from_element (block);
 		dom_remove_wrapping_from_element (block);
 
-		block = dom_wrap_paragraph_length (document, extension, block, length);
-		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-		quote_plain_text_element_after_wrapping (document, block, citation_level - 1);
-
 		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (block));
 
 		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block))) {
@@ -2221,6 +2217,11 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 				clone,
 				NULL);
 		}
+
+		block = dom_wrap_paragraph_length (document, extension, block, length);
+		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+		quote_plain_text_element_after_wrapping (document, block, citation_level - 1);
+
 	}
 
 	return success;
