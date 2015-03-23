@@ -8686,8 +8686,8 @@ process_content_for_html (EHTMLEditorView *view)
 static gboolean
 show_lose_formatting_dialog (EHTMLEditorView *view)
 {
-	gint result;
-	GtkWidget *toplevel, *dialog;
+	gboolean lose;
+	GtkWidget *toplevel;
 	GtkWindow *parent = NULL;
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (view));
@@ -8695,29 +8695,15 @@ show_lose_formatting_dialog (EHTMLEditorView *view)
 	if (GTK_IS_WINDOW (toplevel))
 		parent = GTK_WINDOW (toplevel);
 
-	dialog = gtk_message_dialog_new (
-		parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING,
-		GTK_BUTTONS_NONE,
-		_("Turning HTML mode off will cause the text "
-		"to lose all formatting. Do you want to continue?"));
-	gtk_dialog_add_buttons (
-		GTK_DIALOG (dialog),
-		_("_Don't lose formatting"), GTK_RESPONSE_CANCEL,
-		_("_Lose formatting"), GTK_RESPONSE_OK,
-		NULL);
+	lose = e_util_prompt_user (
+		parent, "org.gnome.evolution.mail", "prompt-on-composer-mode-switch",
+		"mail-composer:prompt-composer-mode-switch", NULL);
 
-	result = gtk_dialog_run (GTK_DIALOG (dialog));
-
-	if (result != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (dialog);
+	if (!lose) {
 		/* Nothing has changed, but notify anyway */
 		g_object_notify (G_OBJECT (view), "html-mode");
 		return FALSE;
 	}
-
-	gtk_widget_destroy (dialog);
 
 	return TRUE;
 }
