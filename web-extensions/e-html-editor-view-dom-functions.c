@@ -783,17 +783,21 @@ move_elements_to_body (WebKitDOMDocument *document)
 	list = webkit_dom_document_query_selector_all (
 		document, "span.-x-evo-to-body[data-credits]", NULL);
 	for (ii = webkit_dom_node_list_get_length (list) - 1; ii >= 0; ii--) {
-		WebKitDOMNode *child;
+		char *credits;
+		WebKitDOMElement *pre_element;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		while ((child = webkit_dom_node_get_first_child (node))) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				child,
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (body)),
-				NULL);
-		}
+		pre_element = webkit_dom_document_create_element (document, "pre", NULL);
+		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
+		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre_element), credits, NULL);
+		g_free (credits);
+
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (body),
+			WEBKIT_DOM_NODE (pre_element),
+			webkit_dom_node_get_first_child (
+				WEBKIT_DOM_NODE (body)),
+			NULL);
 
 		remove_node (node);
 	}
@@ -3751,16 +3755,20 @@ dom_convert_content (WebKitDOMDocument *document,
 		document, "span.-x-evo-to-body[data-credits]", NULL);
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node, *child;
+		char *credits;
+		WebKitDOMElement *pre_element;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		node = webkit_dom_node_list_item (list, ii);
-		while ((child = webkit_dom_node_get_first_child (node))) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (wrapper),
-				child,
-				WEBKIT_DOM_NODE (content_wrapper),
-				NULL);
-		}
+		pre_element = webkit_dom_document_create_element (document, "pre", NULL);
+		credits = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "data-credits");
+		webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre_element), credits, NULL);
+		g_free (credits);
+
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (wrapper),
+			WEBKIT_DOM_NODE (pre_element),
+			WEBKIT_DOM_NODE (content_wrapper),
+			NULL);
 
 		remove_node (node);
 	}
