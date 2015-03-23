@@ -1406,9 +1406,6 @@ in_empty_block_in_quoted_content (WebKitDOMNode *element)
 {
 	WebKitDOMNode *first_child, *next_sibling;
 
-	if (!WEBKIT_DOM_IS_HTML_DIV_ELEMENT (element))
-		return NULL;
-
 	first_child = webkit_dom_node_get_first_child (element);
 	if (!WEBKIT_DOM_IS_ELEMENT (first_child))
 		return NULL;
@@ -1477,6 +1474,23 @@ dom_selection_save (WebKitDOMDocument *document)
 
 	container = webkit_dom_range_get_start_container (range, NULL);
 	offset = webkit_dom_range_get_start_offset (range, NULL);
+	parent_node = webkit_dom_node_get_parent_node (container);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_get_parent_node (
+		webkit_dom_node_get_parent_node (parent_node));
+
+		if ((next_sibling = in_empty_block_in_quoted_content (node))) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (next_sibling),
+				WEBKIT_DOM_NODE (marker),
+				next_sibling,
+				NULL);
+			goto end_marker;
+		}
+	}
 
 	if (WEBKIT_DOM_IS_TEXT (container)) {
 		if (offset != 0) {
@@ -1487,7 +1501,7 @@ dom_selection_save (WebKitDOMDocument *document)
 			split_node = WEBKIT_DOM_NODE (split_text);
 		} else {
 			marker_node = webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (container),
+				parent_node,
 				WEBKIT_DOM_NODE (marker),
 				container,
 				NULL);
@@ -1579,6 +1593,23 @@ dom_selection_save (WebKitDOMDocument *document)
 
 	container = webkit_dom_range_get_end_container (range, NULL);
 	offset = webkit_dom_range_get_end_offset (range, NULL);
+	parent_node = webkit_dom_node_get_parent_node (container);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_get_parent_node (
+		webkit_dom_node_get_parent_node (parent_node));
+
+		if ((next_sibling = in_empty_block_in_quoted_content (node))) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (next_sibling),
+				WEBKIT_DOM_NODE (marker),
+				next_sibling,
+				NULL);
+			return;
+		}
+	}
 
 	if (WEBKIT_DOM_IS_TEXT (container)) {
 		if (offset != 0) {
@@ -1589,10 +1620,7 @@ dom_selection_save (WebKitDOMDocument *document)
 			split_node = WEBKIT_DOM_NODE (split_text);
 		} else {
 			marker_node = webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (container),
-				WEBKIT_DOM_NODE (marker),
-				container,
-				NULL);
+				parent_node, WEBKIT_DOM_NODE (marker), container, NULL);
 			goto check;
 
 		}
@@ -1612,9 +1640,9 @@ dom_selection_save (WebKitDOMDocument *document)
 			return;
 		}
 		if (!webkit_dom_node_get_previous_sibling (container)) {
-			split_node = webkit_dom_node_get_parent_node (container);
+			split_node = parent_node;
 		} else if (!webkit_dom_node_get_next_sibling (container)) {
-			split_node = webkit_dom_node_get_parent_node (container);
+			split_node = parent_node;
 			split_node = webkit_dom_node_get_next_sibling (split_node);
 		} else
 			split_node = container;
