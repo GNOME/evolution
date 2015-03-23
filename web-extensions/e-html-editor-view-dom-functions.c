@@ -3718,6 +3718,9 @@ dom_convert_content (WebKitDOMDocument *document,
 	}
 	remove_node (WEBKIT_DOM_NODE (wrapper));
 
+	if (inner_html && !*inner_html)
+		empty = TRUE;
+
 	/* FIXME XXX */
 	length = webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (body));
 	if (length <= 1) {
@@ -3735,6 +3738,11 @@ dom_convert_content (WebKitDOMDocument *document,
 
 	if (!empty)
 		parse_html_into_paragraphs (document, extension, content_wrapper, NULL, inner_html);
+	else
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (content_wrapper),
+			WEBKIT_DOM_NODE (prepare_paragraph (selection, document, FALSE)),
+			NULL);
 
 	if (!cite_body) {
 		if (!empty) {
