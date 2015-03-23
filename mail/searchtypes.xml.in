@@ -842,25 +842,19 @@
      (match-all (= (user-tag "follow-up") ""))
     </code>
    </option>
-  </input>
- </part>
-
- <part name="completed-on">
-  <_title>Completed On</_title>
-  <input type="optionlist" name="date-spec-type">
-   <option value="is set">
-    <_title>is set</_title>
+   <option value="is completed">
+    <_title>is Completed</_title>
     <code>
        (match-all (not (= (user-tag "completed-on") "")))
     </code>
    </option>
-   <option value="is not set">
-    <_title>is not set</_title>
+   <option value="is not completed">
+    <_title>is not Completed</_title>
     <code>
        (match-all (= (user-tag "completed-on") ""))
     </code>
    </option>
-  </input>    
+  </input>
  </part>
 
  <part name="attachments">

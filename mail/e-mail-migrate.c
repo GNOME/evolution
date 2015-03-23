@@ -312,6 +312,133 @@ em_rename_folder_views (EShellBackend *shell_backend)
 	g_free (views_dir);
 }
 
+static gboolean
+em_maybe_update_filter_rule_part (xmlNodePtr part)
+{
+	xmlNodePtr values;
+	xmlChar *name, *value;
+
+	name = xmlGetProp (part, (xmlChar *) "name");
+	if (name) {
+		if (g_strcmp0 ((const gchar *) name, "completed-on") != 0) {
+			xmlFree (name);
+			return FALSE;
+		}
+
+		xmlFree (name);
+	} else {
+		return FALSE;
+	}
+
+	xmlSetProp (part, (xmlChar *) "name", (xmlChar *) "follow-up");
+
+	values = part->children;
+	while (values) {
+		if (g_strcmp0 ((const gchar *) values->name, "value") == 0) {
+			name = xmlGetProp (values, (xmlChar *) "name");
+			if (name) {
+				if (g_strcmp0 ((const gchar *) name, "date-spec-type") == 0) {
+					xmlSetProp (values, (xmlChar *) "name", (xmlChar *) "match-type");
+
+					value = xmlGetProp (values, (xmlChar *) "value");
+					if (value) {
+						if (g_strcmp0 ((const gchar *) value, "is set") == 0)
+							xmlSetProp (values, (xmlChar *) "value", (xmlChar *) "is completed");
+						else if (g_strcmp0 ((const gchar *) value, "is not set") == 0)
+							xmlSetProp (values, (xmlChar *) "value", (xmlChar *) "is not completed");
+
+						xmlFree (value);
+					}
+				}
+
+				xmlFree (name);
+			}
+		}
+
+		values = values->next;
+	}
+
+	return TRUE;
+}
+
+static void
+em_update_filter_rules_file (const gchar *filename)
+{
+	xmlNodePtr set, rule, root;
+	xmlDocPtr doc;
+	gboolean changed = FALSE;
+
+	if (!filename || !*filename || !g_file_test (filename, G_FILE_TEST_IS_REGULAR))
+		return;
+
+	doc = e_xml_parse_file (filename);
+	if (!doc)
+		return;
+
+	root = xmlDocGetRootElement (doc);
+	set = root && g_strcmp0 ((const gchar *) root->name, "filteroptions") == 0 ? root->children : NULL;
+	while (set) {
+		if (g_strcmp0 ((const gchar *) set->name, "ruleset") == 0) {
+			rule = set->children;
+			while (rule) {
+				if (g_strcmp0 ((const gchar *) rule->name, "rule") == 0) {
+					xmlNodePtr partset;
+
+					partset = rule->children;
+					while (partset) {
+						if (g_strcmp0 ((const gchar *) partset->name, "partset") == 0) {
+							xmlNodePtr part;
+
+							part = partset->children;
+							while (part) {
+								if (g_strcmp0 ((const gchar *) part->name, "part") == 0) {
+									changed = em_maybe_update_filter_rule_part (part) || changed;
+								}
+
+								part = part->next;
+							}
+						}
+
+						partset = partset->next;
+					}
+				}
+
+				rule = rule->next;
+			}
+		}
+
+		set = set->next;
+	}
+
+	if (changed)
+		e_xml_save_file (filename, doc);
+
+	xmlFreeDoc (doc);
+}
+
+static void
+em_update_filter_rules (EShellBackend *shell_backend)
+{
+	const gchar *config_dir;
+	gchar *filename;
+
+	g_return_if_fail (shell_backend != NULL);
+
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
+
+	filename = g_build_filename (config_dir, "filters.xml", NULL);
+	em_update_filter_rules_file (filename);
+	g_free (filename);
+
+	filename = g_build_filename (config_dir, "searches.xml", NULL);
+	em_update_filter_rules_file (filename);
+	g_free (filename);
+
+	filename = g_build_filename (config_dir, "vfolders.xml", NULL);
+	em_update_filter_rules_file (filename);
+	g_free (filename);
+}
+
 gboolean
 e_mail_migrate (EShellBackend *shell_backend,
                 gint major,
@@ -328,6 +455,9 @@ e_mail_migrate (EShellBackend *shell_backend,
 
 	if (major <= 2 || (major == 3 && minor < 4))
 		em_rename_folder_views (shell_backend);
+
+	if (major <= 2 || (major == 3 && minor < 17))
+		em_update_filter_rules (shell_backend);
 
 	return TRUE;
 }
