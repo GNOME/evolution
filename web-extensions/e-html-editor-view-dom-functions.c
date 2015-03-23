@@ -3636,6 +3636,8 @@ dom_convert_content (WebKitDOMDocument *document,
 		document, ".-x-evo-signature-content_wrapper", NULL);
 	if (signature) {
 		if (top_signature) {
+			WebKitDOMElement *spacer;
+
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (wrapper),
 				WEBKIT_DOM_NODE (signature),
@@ -3645,10 +3647,11 @@ dom_convert_content (WebKitDOMDocument *document,
 						WEBKIT_DOM_NODE (paragraph)),
 				NULL);
 			/* Insert NL after the signature */
+			spacer = dom_prepare_paragraph (document, extension, FALSE);
+			element_add_class (spacer, "-x-evo-top-signature-spacer");
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (wrapper),
-				WEBKIT_DOM_NODE (dom_prepare_paragraph (
-					document, extension, FALSE)),
+				WEBKIT_DOM_NODE (spacer),
 				webkit_dom_node_get_next_sibling (
 					WEBKIT_DOM_NODE (signature)),
 				NULL);
@@ -3783,7 +3786,8 @@ dom_convert_content (WebKitDOMDocument *document,
 	}
 
 	if (e_html_editor_web_extension_is_message_from_edit_as_new (extension) ||
-	    e_html_editor_web_extension_get_remove_initial_input_line (extension)) {
+	    e_html_editor_web_extension_get_remove_initial_input_line (extension) ||
+            start_bottom) {
 		WebKitDOMNode *child;
 
 		remove_node (WEBKIT_DOM_NODE (paragraph));

@@ -63,8 +63,14 @@ dom_remove_signatures (WebKitDOMDocument *document,
 		if (id && (strlen (id) == 1) && (*id == '1')) {
 			/* If the top signature was set we have to remove the NL
 			 * that was inserted after it */
-			if (top_signature)
-				remove_node (webkit_dom_node_get_next_sibling (wrapper));
+			if (top_signature) {
+				WebKitDOMElement *spacer;
+
+				spacer = webkit_dom_document_query_selector (
+				document, ".-x-evo-top-signature-spacer", NULL);
+				if (spacer)
+					remove_node_if_empty (WEBKIT_DOM_NODE (spacer));
+			}
 			/* We have to remove the div containing the span with signature */
 			remove_node (wrapper);
 
@@ -79,12 +85,26 @@ dom_remove_signatures (WebKitDOMDocument *document,
 	return ret_val;
 }
 
+static WebKitDOMElement *
+prepare_top_signature_spacer (WebKitDOMDocument *document,
+                              EHTMLEditorWebExtension *extension)
+{
+	WebKitDOMElement *element;
+
+	element = prepare_paragraph (document, extension, FALSE);
+	webkit_dom_element_remove_attribute (element, "id");
+	element_add_class (element, "-x-evo-top-signature-spacer");
+
+	return element;
+}
+
 static void
 composer_move_caret (WebKitDOMDocument *document,
                      EHTMLEditorWebExtension *extension,
                      gboolean top_signature,
 		     gboolean start_bottom)
 {
+	EHTMLEditorSelection *editor_selection;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_from_new_message;
@@ -120,13 +140,8 @@ composer_move_caret (WebKitDOMDocument *document,
 
 		if (e_html_editor_web_extension_get_html_mode (extension) &&
 		    is_message_from_edit_as_new) {
-
-			webkit_dom_range_select_node_contents (
-				new_range, WEBKIT_DOM_NODE (body), NULL);
-			webkit_dom_range_collapse (new_range, TRUE, NULL);
-
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, new_range);
+			element = WEBKIT_DOM_ELEMENT (body);
+			goto move_caret;
 		} else
 			dom_scroll_to_caret (document);
 
@@ -161,18 +176,35 @@ composer_move_caret (WebKitDOMDocument *document,
 	 *
 	 */
 	if (signature && top_signature) {
-		element_add_class (signature, "-x-evo-top-signature");
-		element = dom_prepare_paragraph (document, extension, FALSE);
+		WebKitDOMElement *spacer;
+
+		spacer = prepare_top_signature_spacer (editor_selection, document);
 		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
-			WEBKIT_DOM_NODE (element),
+			WEBKIT_DOM_NODE (spacer),
 			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (signature)),
 			NULL);
 	}
 
 	if (webkit_dom_node_list_get_length (list) == 0)
 		has_paragraphs_in_body = FALSE;
+
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
+	if (!signature) {
+		if (start_bottom) {
+			if (!element) {
+				element = prepare_paragraph (editor_selection, document);
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+			}
+		} else
+			element = WEBKIT_DOM_ELEMENT (body);
+
+		goto move_caret;
+	}
 
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
@@ -189,26 +221,18 @@ composer_move_caret (WebKitDOMDocument *document,
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
+					WEBKIT_DOM_NODE (signature),
 					NULL);
 			}
 		} else {
-			if (start_bottom) {
+			if (start_bottom)
 				webkit_dom_node_insert_before (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),
 					WEBKIT_DOM_NODE (signature),
 					NULL);
-			} else {
-				webkit_dom_node_insert_before (
-					WEBKIT_DOM_NODE (body),
-					WEBKIT_DOM_NODE (element),
-					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)),
-					NULL);
-			}
 		}
 	} else {
-		element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 		if (!element && top_signature) {
 			element = dom_prepare_paragraph (document, extension, FALSE);
 			webkit_dom_element_set_id (element, "-x-evo-input-start");
@@ -224,17 +248,24 @@ composer_move_caret (WebKitDOMDocument *document,
 					WEBKIT_DOM_NODE (signature),
 					NULL);
 			}
+		} else if (element && top_signature && !start_bottom) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (body),
+				WEBKIT_DOM_NODE (element),
+				WEBKIT_DOM_NODE (signature),
+				NULL);
 		}
 	}
 
-	webkit_dom_range_select_node_contents (
-		new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, TRUE, NULL);
-
-	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-	webkit_dom_dom_selection_add_range (dom_selection, new_range);
-
 	g_object_unref (list);
+ move_caret:
+	if (element) {
+		webkit_dom_range_select_node_contents (
+		new_range, WEBKIT_DOM_NODE (element), NULL);
+		webkit_dom_range_collapse (new_range, TRUE, NULL);
+		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+		webkit_dom_dom_selection_add_range (dom_selection, new_range);
+	}
 
 	dom_force_spell_check (document, extension);
 /* FIXME WK2
@@ -273,18 +304,12 @@ dom_insert_signature (WebKitDOMDocument *document,
 				child,
 				NULL);
 		} else {
-			WebKitDOMElement *input_start =
-				webkit_dom_document_get_element_by_id (
-					document, "-x-evo-input-start");
 			/* When we are using signature on top the caret
 			 * should be before the signature */
 			webkit_dom_node_insert_before (
 				WEBKIT_DOM_NODE (body),
 				WEBKIT_DOM_NODE (element),
-				input_start ?
-					webkit_dom_node_get_next_sibling (
-						WEBKIT_DOM_NODE (input_start)) :
-					child,
+				child,
 				NULL);
 		}
 	} else {
