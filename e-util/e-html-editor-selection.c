@@ -172,8 +172,7 @@ get_has_style (EHTMLEditorSelection *selection,
 
 		if (g_ascii_strncasecmp (style_tag, "citation", 8) == 0) {
 			accept_citation = TRUE;
-			result = ((strlen (element_tag) == 10 /* strlen ("blockquote") */) &&
-				(g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0));
+			result = WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element);
 			if (element_has_class (element, "-x-evo-indented"))
 				result = FALSE;
 		} else {
@@ -184,7 +183,7 @@ get_has_style (EHTMLEditorSelection *selection,
 		/* Special case: <blockquote type=cite> marks quotation, while
 		 * just <blockquote> is used for indentation. If the <blockquote>
 		 * has type=cite, then ignore it unless style_tag is "citation" */
-		if (result && g_ascii_strncasecmp (element_tag, "blockquote", 10) == 0) {
+		if (result && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (element)) {
 			if (webkit_dom_element_has_attribute (element, "type")) {
 				gchar *type;
 				type = webkit_dom_element_get_attribute (element, "type");
@@ -4618,16 +4617,8 @@ e_html_editor_selection_is_subscript (EHTMLEditorSelection *selection)
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	while (node) {
-		gchar *tag_name;
-
-		tag_name = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
-
-		if (g_ascii_strncasecmp (tag_name, "sub", 3) == 0) {
-			g_free (tag_name);
+		if (element_has_tag (WEBKIT_DOM_ELEMENT (node), "sub"))
 			break;
-		}
-
-		g_free (tag_name);
 		node = webkit_dom_node_get_parent_node (node);
 	}
 
@@ -4697,16 +4688,8 @@ e_html_editor_selection_is_superscript (EHTMLEditorSelection *selection)
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 
 	while (node) {
-		gchar *tag_name;
-
-		tag_name = webkit_dom_element_get_tag_name (WEBKIT_DOM_ELEMENT (node));
-
-		if (g_ascii_strncasecmp (tag_name, "sup", 3) == 0) {
-			g_free (tag_name);
+		if (element_has_tag (WEBKIT_DOM_ELEMENT (node), "sup"))
 			break;
-		}
-
-		g_free (tag_name);
 		node = webkit_dom_node_get_parent_node (node);
 	}
 
@@ -5265,7 +5248,6 @@ insert_base64_image (EHTMLEditorSelection *selection,
 	}
 
 	g_object_unref (view);
-
 }
 
 static void
