@@ -163,6 +163,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	if (signature && top_signature) {
 		element_add_class (signature, "-x-evo-top-signature");
 		element = dom_prepare_paragraph (document, extension, FALSE);
+		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
 			WEBKIT_DOM_NODE (element),
@@ -177,6 +178,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	 * to move the caret between reply and signature. */
 	if (!has_paragraphs_in_body) {
 		element = dom_prepare_paragraph (document, extension, FALSE);
+		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		if (top_signature) {
 			if (start_bottom) {
 				webkit_dom_node_append_child (
@@ -209,6 +211,7 @@ composer_move_caret (WebKitDOMDocument *document,
 		element = webkit_dom_document_get_element_by_id (document, "-x-evo-input-start");
 		if (!element && top_signature) {
 			element = dom_prepare_paragraph (document, extension, FALSE);
+			webkit_dom_element_set_id (element, "-x-evo-input-start");
 			if (start_bottom) {
 					webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (body),
