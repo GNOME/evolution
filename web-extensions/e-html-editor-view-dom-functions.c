@@ -2008,6 +2008,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		}
  restore:
 		dom_selection_restore (document);
+		dom_force_spell_check_for_current_paragraph (document, extension);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		dom_set_links_active (document, FALSE);
 }
