@@ -2370,13 +2370,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append (stylesheet, "}\n");
 
-	g_string_append (
-		stylesheet,
-		".-x-evo-quoted "
-		"{\n"
-		"  -webkit-user-select: none;\n"
-		"}\n");
-
 	g_string_append_printf (
 		stylesheet,
 		".-x-evo-quote-character "

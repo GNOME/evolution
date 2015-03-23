@@ -554,10 +554,16 @@ get_parent_block_node_from_child (WebKitDOMNode *node)
 	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-signature") ||
 	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
 	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted"))
 		parent = webkit_dom_node_get_parent_node (parent);
 
 	return parent;
@@ -1865,32 +1871,54 @@ register_input_event_listener_on_body (WebKitDOMDocument *document,
 }
 
 static void
-remove_last_empty_block_in_citation (WebKitDOMElement *selection_start_marker)
+remove_empty_blocks (WebKitDOMDocument *document)
 {
-	WebKitDOMNode *parent, *prev_sibling;
+	gint ii, length;
+	WebKitDOMNodeList *list;
 
-	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
-	prev_sibling = webkit_dom_node_get_previous_sibling (parent);
+	list = webkit_dom_document_query_selector_all (
+	document, "blockquote[type=cite] > :empty", NULL);
 
-	if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (prev_sibling)) {
-		gint length;
-		WebKitDOMNodeList *list;
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++)
+		remove_node (webkit_dom_node_list_item (list, ii));
 
-		/* Look for the last block that has only quote marks */
-		list = webkit_dom_element_query_selector_all (
-			WEBKIT_DOM_ELEMENT (prev_sibling),
-			".-x-evo-quoted:only-child",
+	g_object_unref (list);
+}
+
+/* Following two functions are used when deleting the selection inside
+ * the quoted content. The thing is that normally the quote marks are not
+ * selectable by user. But this caused a lof of problems for WebKit when removing
+ * the selection. This will avoid it as when the delete or backspace key is pressed
+ * we will make the quote marks user selectable so they will act as any other text.
+ * On HTML keyup event callback we will make them again non-selectable. */
+static void
+disable_quote_marks_select (WebKitDOMDocument *document)
+{
+	WebKitDOMHTMLHeadElement *head;
+	WebKitDOMElement *style_element;
+
+	head = webkit_dom_document_get_head (document);
+
+	if (!webkit_dom_document_get_element_by_id (document, "-x-evo-quote-style")) {
+		style_element = webkit_dom_document_create_element (document, "style", NULL);
+		webkit_dom_element_set_id (style_element, "-x-evo-quote-style");
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (style_element),
+			".-x-evo-quoted { -webkit-user-select: none; }",
 			NULL);
-		length = webkit_dom_node_list_get_length (list);
-		if (length > 0) {
-			WebKitDOMNode *first_child = webkit_dom_node_list_item (list, length - 1);
-
-			if (element_has_class (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-quoted") &&
-			    !webkit_dom_node_get_next_sibling (first_child))
-				remove_node (webkit_dom_node_get_parent_node (first_child));
-		}
-		g_object_unref (list);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
 	}
+}
+
+static void
+enable_quote_marks_select (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *style_element;
+
+	if ((style_element = webkit_dom_document_get_element_by_id (document, "-x-evo-quote-style")))
+		remove_node (WEBKIT_DOM_NODE (style_element));
 }
 
 static void
@@ -1914,10 +1942,14 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		gint level;
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
 		WebKitDOMElement *tmp_element;
-		WebKitDOMNode *node, *parent;
+		WebKitDOMNode *parent;
 
 		if (e_html_editor_web_extension_get_html_mode (extension))
 			return;
+
+		disable_quote_marks_select (document);
+		/* Remove empty blocks if presented. */
+		remove_empty_blocks (document);
 
 		dom_selection_save (document);
 		selection_start_marker = webkit_dom_document_get_element_by_id (
@@ -1925,159 +1957,82 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		selection_end_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 
-		/* Situation where the end of the selection was in the
-		 * middle of quoted content and the start in the beginning of
-		 * the non quoted content before the citation. WebKit took out
-		 * the block from citation and inserted the block before the citation.
-		 * We made a clone of the original block so we have to move the
-		 * content there and reinsert the quote marks.
-		 *
-		 * |xxx
-		 * > x|xx
-		 */
-		tmp_element = webkit_dom_document_get_element_by_id (document, "-x-evo-repair-block");
-		if (tmp_element) {
-			parent = get_parent_block_node_from_child (
-			WEBKIT_DOM_NODE (selection_start_marker));
-
-			while ((node = webkit_dom_node_get_first_child (parent)))
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (tmp_element), node, NULL);
-
-			if (element_has_class (tmp_element, "-x-evo-paragraph")) {
-				gint length, word_wrap_length;
-
-				level = get_citation_level (WEBKIT_DOM_NODE (tmp_element), FALSE);
-				word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
-				length = word_wrap_length - 2 * (level - 1);
-				tmp_element = dom_wrap_paragraph_length (
-					document, extension, block, length);
-				webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
-			}
-			quote_plain_text_element_after_wrapping (
-				document, tmp_element, level);
-			webkit_dom_element_remove_attribute (tmp_element, "id");
-			remove_node (parent);
-
-			goto restore;
-		}
-
-		level = get_citation_level (
-			WEBKIT_DOM_NODE (selection_start_marker), FALSE);
-
-		node = webkit_dom_node_get_previous_sibling (
-			WEBKIT_DOM_NODE (selection_start_marker));
-
-		if (level == 0) {
-			if (!node)
-				remove_last_empty_block_in_citation (selection_start_marker);
-			goto restore;
-		}
-
-		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node))
-			node = webkit_dom_node_get_previous_sibling (node);
-
-		if (node)
-			goto restore;
-
-		parent = get_parent_block_node_from_child (
-			WEBKIT_DOM_NODE (selection_start_marker));
-
-		if (!node) {
-			/* Situation where the end of the selection was in the
-			 * beginning of the block inside the quoted content and
-			 * the start in non quoted content before the citation.
-			 * In this situation WebKit will do the things right, but
-			 * it will remove the quote marks so we have to restore them.
-			 *
-			 * xx|x
-			 * > |xxx
-			 */
-			tmp_element = webkit_dom_element_query_selector (
-				WEBKIT_DOM_ELEMENT (parent), "span.-x-evo-quoted", NULL);
-			if (!tmp_element) {
-				if (element_has_class (tmp_element, "-x-evo-paragraph")) {
-					gint length, word_wrap_length;
-
-					word_wrap_length =
-						e_html_editor_web_extension_get_word_wrap_length (extension);
-					length = word_wrap_length - 2 * (level - 1);
-					tmp_element = dom_wrap_paragraph_length (
-						document, extension, block, length);
-					webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
-				}
-				quote_plain_text_element_after_wrapping (
-				document, tmp_element, level);
-				goto restore;
-			}
-		}
-
-		node = webkit_dom_node_get_previous_sibling (parent);
-		if (!node) {
-			/* Situation where the end of the selection was in the
-			 * multiple quoted content and the start on the beginning
-			 * of the citation.
-			 *
-			 * >
-			 * >> |
-			 * >> xx|x
-			 * */
-			node = webkit_dom_node_get_parent_node (parent);
-			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
-				goto restore;
-			node = webkit_dom_node_get_previous_sibling (node);
-			if (!node)
-				goto restore;
-			if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (webkit_dom_node_get_parent_node (node)))
-				goto restore;
-		}
-
-		tmp_element = webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (node), "span.-x-evo-quote-character > br", NULL);
-		if (tmp_element) {
-			WebKitDOMNode *tmp;
-
-			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node)) {
-				/* We have to select the right block when the selection
-				 * started on the end of the citation that is
-				 * inside another citation.
-				 *
-				 * >>|
-				 * > xx|x
-				 */
-				/* <span class="-x-evo-quote-character"> */
-				node = webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (tmp_element));
-				/* <span class="-x-evo-quoted"> */
-				node = webkit_dom_node_get_parent_node (node);
-				/* right block */
-				node = webkit_dom_node_get_parent_node (node);
-			}
-
-			webkit_dom_node_append_child (
-				node, WEBKIT_DOM_NODE (selection_start_marker), NULL);
-
-			while ((tmp = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker))))
-				webkit_dom_node_append_child (node, tmp, NULL);
-
+		/* If we deleted a selection the caret will be inside the quote marks, fix it. */
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+		if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character")) {
 			webkit_dom_node_insert_before (
-				node,
+				webkit_dom_node_get_parent_node (
+					webkit_dom_node_get_parent_node (parent)),
 				WEBKIT_DOM_NODE (selection_end_marker),
 				webkit_dom_node_get_next_sibling (
-					WEBKIT_DOM_NODE (selection_start_marker)),
+					webkit_dom_node_get_parent_node (parent)),
 				NULL);
-
-			if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node)))
-				webkit_dom_node_append_child (
-					node, WEBKIT_DOM_NODE (tmp_element), NULL);
-			else
-				remove_node (WEBKIT_DOM_NODE (tmp_element));
-
-			remove_node (parent);
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (
+					webkit_dom_node_get_parent_node (parent)),
+				WEBKIT_DOM_NODE (selection_start_marker),
+				webkit_dom_node_get_next_sibling (
+					webkit_dom_node_get_parent_node (parent)),
+				NULL);
 		}
- restore:
+
+		/* Under some circumstances we will end with block inside the citation
+		 * that has the quote marks removed and we have to reinsert them back. */
+		level = get_citation_level (WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+		if (level > 0) {
+			WebKitDOMNode *prev_sibling;
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (
+				WEBKIT_DOM_NODE (selection_start_marker));
+			if (!prev_sibling ||
+			    (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
+			    !webkit_dom_node_get_previous_sibling (prev_sibling))) {
+				WebKitDOMElement *block;
+
+				block = WEBKIT_DOM_ELEMENT (get_parent_block_node_from_child (
+					WEBKIT_DOM_NODE (selection_start_marker)));
+				if (element_has_class (block, "-x-evo-paragraph")) {
+					gint length, word_wrap_length;
+
+					word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
+					length = word_wrap_length - 2 * (level - 1);
+					block = e_html_editor_selection_wrap_paragraph_length (
+					selection, block, length);
+					webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+				}
+				quote_plain_text_element_after_wrapping (
+					document, block, level);
+			}
+		}
+
+		/* Situation where the start of the selection was in the beginning
+		 * of the block in quoted content and the end in the beginning of
+		 * content that is after the citation or the selection end was in
+		 * the end of the quoted content (showed by ^). The correct structure
+		 * in these cases is to have empty block after the citation.
+		 *
+		 * > |xxx
+		 * > xxx^
+		 * |xxx
+		 */
+		tmp_element = webkit_dom_document_get_element_by_id (document, "-x-evo-tmp-block");
+		if (tmp_element) {
+			remove_wrapping_from_element (tmp_element);
+			remove_quoting_from_element (tmp_element);
+			webkit_dom_element_remove_attribute (tmp_element, "id");
+
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (tmp_element));
+			while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (parent)))
+				parent = webkit_dom_node_get_parent_node (parent);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				WEBKIT_DOM_NODE (tmp_element),
+				webkit_dom_node_get_next_sibling (parent),
+				NULL);
+		}
+
 		dom_selection_restore (document);
-		dom_force_spell_check_for_current_paragraph (document, extension);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		dom_set_links_active (document, FALSE);
 }
@@ -3646,6 +3601,9 @@ clear_attributes (WebKitDOMDocument *document)
 	/* Remove everything from HEAD element */
 	while (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)))
 		remove_node (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (head)));
+
+	/* Make the quote marks non-selectable. */
+	disable_quote_marks_select (document);
 
 	/* Remove non Evolution attributes from BODY element */
 	attributes = webkit_dom_element_get_attributes (WEBKIT_DOM_ELEMENT (body));
@@ -5909,6 +5867,9 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 
+	/* Make the quote marks non-selectable. */
+	disable_quote_marks_select (document);
+
 	if (e_html_editor_web_extension_get_convert_in_situ (extension)) {
 		dom_convert_content (document, extension, NULL);
 		e_html_editor_web_extension_set_convert_in_situ (extension, FALSE);
@@ -6065,7 +6026,7 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 	gboolean collapsed = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *block, *next_sibling, *node;
+	WebKitDOMNode *block, *node;
 
 	collapsed = dom_selection_is_collapsed (document);
 
@@ -6080,6 +6041,8 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 		return FALSE;
 
 	if (collapsed) {
+		WebKitDOMNode *next_sibling;
+
 		block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
@@ -6107,38 +6070,61 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 			return TRUE;
 		}
 	} else {
-		gint level_start, level_end;
+		WebKitDOMNode *end_block;
 
-		/* Delete was pressed in block without any content */
-		if (webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)))
+		/* Let the quote marks be selectable to nearly correctly remove the
+		 * selection. Corrections after are done in body_keyup_event_cb. */
+		enable_quote_marks_select (document);
+
+		node = webkit_dom_node_get_previous_sibling (
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+		if (!node || !WEBKIT_DOM_IS_ELEMENT (node))
 			goto restore;
 
-		/* Situation where the end of the selection is in the
-		* middle of quoted content and the start in the beginning of
-		* the non quoted content before the citation. WebKit will take
-		* the block out from citation and insert the block before the citation.
-		* We have to make a clone of the block to restore it correctly later.
+		if (!element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-quoted"))
+			goto restore;
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (node)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			WEBKIT_DOM_NODE (node),
+			NULL);
+
+		block = get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		end_block = get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_end_marker));
+
+		/* Situation where the start of the selection is in the beginning
+		+ * of the block in quoted content and the end in the beginning of
+		+ * content that is after the citation or the selection end is in
+		+ * the end of the quoted content (showed by ^). We have to
+		+ * mark the start block to correctly restore the structure
+		+ * afterwards.
 		*
+		* > |xxx
+		* > xxx^
 		* |xxx
-		* > x|xx
-		* */
-		level_start = get_citation_level (WEBKIT_DOM_NODE (selection_start_marker), FALSE);
-		level_end = get_citation_level (WEBKIT_DOM_NODE (selection_end_marker), FALSE);
+		*/
+		if (get_citation_level (end_block, FALSE) > 0) {
+			WebKitDOMNode *parent;
 
-		if (level_start == 0 && level_end > 0) {
-			WebKitDOMNode *clone;
+			if (webkit_dom_node_get_next_sibling (end_block))
+				goto restore;
 
-			block = get_parent_block_node_from_child (
-				WEBKIT_DOM_NODE (selection_end_marker));
-
-			clone = webkit_dom_node_clone_node (block, FALSE);
-			webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (clone), "-x-evo-repair-block");
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (block),
-				clone,
-				webkit_dom_node_get_next_sibling (block),
-				NULL);
+			parent = webkit_dom_node_get_parent_node (end_block);
+			while (parent && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent)) {
+				parent = webkit_dom_node_get_parent_node (parent);
+				if (webkit_dom_node_get_next_sibling (parent))
+					goto restore;
+			}
+		}
+		node = webkit_dom_node_get_next_sibling (
+		WEBKIT_DOM_NODE (selection_end_marker));
+		if (!node || WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+			webkit_dom_element_set_id (
+				WEBKIT_DOM_ELEMENT (block), "-x-evo-tmp-block");
 		}
 	}
  restore:

@@ -663,22 +663,23 @@ create_list_element (WebKitDOMDocument *document,
 static WebKitDOMNode *
 get_parent_block_node_from_child (WebKitDOMNode *node)
 {
-	WebKitDOMElement *parent = WEBKIT_DOM_ELEMENT (
-		webkit_dom_node_get_parent_node (node));
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 
-	 if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
-	     element_has_tag (parent, "b") ||
-	     element_has_tag (parent, "i") ||
-	     element_has_tag (parent, "u"))
-		parent = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)));
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-signature") ||
+	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
+		parent = webkit_dom_node_get_parent_node (parent);
 
-	if (element_has_class (parent, "-x-evo-temp-text-wrapper") ||
-	    element_has_class (parent, "-x-evo-signature"))
-		parent = WEBKIT_DOM_ELEMENT (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)));
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted"))
+		parent = webkit_dom_node_get_parent_node (parent);
 
-	return WEBKIT_DOM_NODE (parent);
+	return parent;
+}
 }
 
 static void
@@ -1578,6 +1579,8 @@ dom_selection_save (WebKitDOMDocument *document)
 			parent_node, marker_node, split_node, NULL);
 	}
 
+	webkit_dom_node_normalize (parent_node);
+
  end_marker:
 	marker = webkit_dom_document_create_element (document, "SPAN", NULL);
 	webkit_dom_element_set_id (marker, "-x-evo-selection-end-marker");
@@ -1677,9 +1680,19 @@ dom_selection_save (WebKitDOMDocument *document)
 		} else
 			webkit_dom_node_insert_before (
 				parent_node, marker_node, split_node, NULL);
-	} else
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (container), marker_node, NULL);
+	} else {
+		 WebKitDOMNode *first_child;
+
+		first_child = webkit_dom_node_get_first_child (container);
+		if (offset == 0 && WEBKIT_DOM_IS_TEXT (first_child))
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (container), marker_node, webkit_dom_node_get_first_child (container), NULL);
+		else
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (container), marker_node, NULL);
+	}
+
+	 webkit_dom_node_normalize (parent_node);
 
  check:
 	if ((next_sibling = webkit_dom_node_get_next_sibling (marker_node))) {
