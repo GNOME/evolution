@@ -11,11 +11,7 @@ module_cal_config_caldav_la_CPPFLAGS = \
 	$(NULL)
 
 module_cal_config_caldav_la_SOURCES = \
-	evolution-cal-config-caldav.c				\
-	e-caldav-chooser.c					\
-	e-caldav-chooser.h					\
-	e-caldav-chooser-dialog.c				\
-	e-caldav-chooser-dialog.h
+	evolution-cal-config-caldav.c
 
 module_cal_config_caldav_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\

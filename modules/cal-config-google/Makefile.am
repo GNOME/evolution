@@ -15,10 +15,6 @@ module_cal_config_google_la_SOURCES = \
 	e-cal-config-gtasks.c					\
 	e-google-chooser-button.c				\
 	e-google-chooser-button.h				\
-	e-google-chooser-dialog.c				\
-	e-google-chooser-dialog.h				\
-	e-google-chooser.c					\
-	e-google-chooser.h					\
 	module-cal-config-google.c				\
 	module-cal-config-google.h
 

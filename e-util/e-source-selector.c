@@ -24,7 +24,8 @@
 
 #include <string.h>
 
-#include "e-cell-renderer-color.h"
+#include <libedataserverui/libedataserverui.h>
+
 #include "e-source-selector.h"
 
 #define E_SOURCE_SELECTOR_GET_PRIVATE(obj) \
@@ -1707,7 +1708,7 @@ e_source_selector_init (ESourceSelector *selector)
 	tree_store = gtk_tree_store_new (
 		NUM_COLUMNS,
 		G_TYPE_STRING,		/* COLUMN_NAME */
-		GDK_TYPE_COLOR,		/* COLUMN_COLOR */
+		GDK_TYPE_RGBA,		/* COLUMN_COLOR */
 		G_TYPE_BOOLEAN,		/* COLUMN_ACTIVE */
 		G_TYPE_STRING,		/* COLUMN_ICON_NAME */
 		G_TYPE_BOOLEAN,		/* COLUMN_SHOW_COLOR */
@@ -1730,7 +1731,7 @@ e_source_selector_init (ESourceSelector *selector)
 		GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute (
-		column, renderer, "color", COLUMN_COLOR);
+		column, renderer, "rgba", COLUMN_COLOR);
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "visible", COLUMN_SHOW_COLOR);
 
@@ -2571,7 +2572,7 @@ e_source_selector_update_row (ESourceSelector *selector,
 		extension = e_source_get_extension (source, extension_name);
 
 	if (extension != NULL) {
-		GdkColor color;
+		GdkRGBA rgba;
 		const gchar *color_spec = NULL;
 		const gchar *icon_name;
 		gboolean show_color;
@@ -2587,7 +2588,7 @@ e_source_selector_update_row (ESourceSelector *selector,
 				E_SOURCE_SELECTABLE (extension));
 
 		if (color_spec != NULL && *color_spec != '\0')
-			show_color = gdk_color_parse (color_spec, &color);
+			show_color = gdk_rgba_parse (&rgba, color_spec);
 
 		show_icons = e_source_selector_get_show_icons (selector);
 		icon_name = source_selector_get_icon_name (selector, source);
@@ -2597,7 +2598,7 @@ e_source_selector_update_row (ESourceSelector *selector,
 		gtk_tree_store_set (
 			GTK_TREE_STORE (model), &iter,
 			COLUMN_NAME, display_name,
-			COLUMN_COLOR, show_color ? &color : NULL,
+			COLUMN_COLOR, show_color ? &rgba : NULL,
 			COLUMN_ACTIVE, selected,
 			COLUMN_ICON_NAME, icon_name,
 			COLUMN_SHOW_COLOR, show_color,

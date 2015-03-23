@@ -69,7 +69,6 @@
 #include <e-util/e-cell-percent.h>
 #include <e-util/e-cell-pixbuf.h>
 #include <e-util/e-cell-popup.h>
-#include <e-util/e-cell-renderer-color.h>
 #include <e-util/e-cell-size.h>
 #include <e-util/e-cell-text.h>
 #include <e-util/e-cell-toggle.h>
