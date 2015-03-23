@@ -138,8 +138,7 @@ composer_move_caret (WebKitDOMDocument *document,
 				"",
 				NULL);
 
-		if (e_html_editor_web_extension_get_html_mode (extension) &&
-		    is_message_from_edit_as_new) {
+		if (is_message_from_edit_as_new) {
 			element = WEBKIT_DOM_ELEMENT (body);
 			goto move_caret;
 		} else
