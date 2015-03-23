@@ -2174,7 +2174,8 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  font-family: '%s';\n"
 		"  font-size: %dpt;\n"
 		"  font-weight: %d;\n"
-		"  font-style: %s;\n",
+		"  font-style: %s;\n"
+		" -webkit-line-break: after-white-space;\n",
 		pango_font_description_get_family (vw),
 		pango_font_description_get_size (vw) / PANGO_SCALE,
 		pango_font_description_get_weight (vw),
