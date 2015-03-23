@@ -20,8 +20,6 @@
 
 #include <e-util/e-util.h>
 
-#include "e-google-chooser.h"
-
 /* Standard GObject macros */
 #define E_TYPE_GOOGLE_CHOOSER_BUTTON \
 	(e_google_chooser_button_get_type ())
@@ -65,6 +63,9 @@ ESource *	e_google_chooser_button_get_source
 						(EGoogleChooserButton *button);
 ESourceConfig *	e_google_chooser_button_get_config
 						(EGoogleChooserButton *button);
+void		e_google_chooser_button_construct_default_uri
+						(SoupURI *soup_uri,
+						 const gchar *username);
 
 G_END_DECLS
 

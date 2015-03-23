@@ -20,7 +20,9 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#include "e-google-chooser-dialog.h"
+#include <libedataserverui/libedataserverui.h>
+
+#define CALDAV_EVENTS_PATH_FORMAT "/calendar/dav/%s/events"
 
 #define E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -173,14 +175,15 @@ google_chooser_button_clicked (GtkButton *button)
 	EGoogleChooserButtonPrivate *priv;
 	gpointer parent;
 	ESourceRegistry *registry;
-	ECalClientSourceType source_type;
 	ECredentialsPrompter *prompter;
 	ESourceWebdav *webdav_extension;
 	ESourceAuthentication *authentication_extension;
 	SoupURI *uri;
-	GtkWidget *dialog;
-	GtkWidget *widget;
+	gchar *base_url;
+	GtkDialog *dialog;
 	gulong handler_id;
+	guint supports_filter = 0;
+	const gchar *title = NULL;
 
 	priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (button);
 
@@ -189,14 +192,12 @@ google_chooser_button_clicked (GtkButton *button)
 
 	registry = e_source_config_get_registry (priv->config);
 
-	source_type = e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (priv->config));
-
 	authentication_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_AUTHENTICATION);
 	webdav_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
 	uri = e_source_webdav_dup_soup_uri (webdav_extension);
 
-	e_google_chooser_construct_default_uri (uri, e_source_authentication_get_user (authentication_extension));
+	e_google_chooser_button_construct_default_uri (uri, e_source_authentication_get_user (authentication_extension));
 
 	/* The host name is fixed, obviously. */
 	soup_uri_set_host (uri, "www.google.com");
@@ -206,9 +207,31 @@ google_chooser_button_clicked (GtkButton *button)
 
 	e_source_webdav_set_soup_uri (webdav_extension, uri);
 
-	widget = e_google_chooser_new (registry, priv->source, source_type);
+	switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (priv->config))) {
+	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_EVENTS;
+		title = _("Choose a Calendar");
+		break;
+	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_MEMOS;
+		title = _("Choose a Memo List");
+		break;
+	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_TASKS;
+		title = _("Choose a Task List");
+		break;
+	default:
+		g_return_if_reached ();
+	}
 
-	dialog = e_google_chooser_dialog_new (E_GOOGLE_CHOOSER (widget), parent);
+	prompter = e_credentials_prompter_new (registry);
+	e_credentials_prompter_set_auto_prompt (prompter, FALSE);
+
+	/* To find also calendar email, not only calendars */
+	soup_uri_set_path (uri, "/calendar/dav/");
+	base_url = soup_uri_to_string (uri, FALSE);
+
+	dialog = e_webdav_discover_dialog_new (parent, title, prompter, priv->source, base_url, supports_filter);
 
 	if (parent != NULL)
 		e_binding_bind_property (
@@ -216,18 +239,75 @@ google_chooser_button_clicked (GtkButton *button)
 			dialog, "icon-name",
 			G_BINDING_SYNC_CREATE);
 
-	prompter = e_google_chooser_get_prompter (E_GOOGLE_CHOOSER (widget));
-
 	handler_id = g_signal_connect (prompter, "get-dialog-parent",
 		G_CALLBACK (google_config_get_dialog_parent_cb), dialog);
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
+	e_webdav_discover_dialog_refresh (dialog);
+
+	if (gtk_dialog_run (dialog) == GTK_RESPONSE_ACCEPT) {
+		gchar *href = NULL, *display_name = NULL, *color = NULL, *email;
+		guint supports = 0;
+		GtkWidget *content;
+
+		content = e_webdav_discover_dialog_get_content (dialog);
+
+		if (e_webdav_discover_content_get_selected (content, 0, &href, &supports, &display_name, &color)) {
+			soup_uri_free (uri);
+			uri = soup_uri_new (href);
+
+			if (uri) {
+				e_source_set_display_name (priv->source, display_name);
+
+				e_source_webdav_set_display_name (webdav_extension, display_name);
+				e_source_webdav_set_soup_uri (webdav_extension, uri);
+
+				if (color && *color) {
+					ESourceSelectable *selectable_extension;
+					const gchar *extension_name;
+
+					switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (priv->config))) {
+						case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+							extension_name = E_SOURCE_EXTENSION_CALENDAR;
+							break;
+						case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+							extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+							break;
+						case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+							extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+							break;
+						default:
+							g_return_if_reached ();
+					}
+
+					selectable_extension = e_source_get_extension (priv->source, extension_name);
+
+					e_source_selectable_set_color (selectable_extension, color);
+				}
+			}
+
+			g_free (href);
+			g_free (display_name);
+			g_free (color);
+
+			href = NULL;
+			display_name = NULL;
+			color = NULL;
+		}
+
+		email = e_webdav_discover_content_get_user_address (content);
+		if (email && *email)
+			e_source_webdav_set_email_address (webdav_extension, email);
+		g_free (email);
+	}
 
 	g_signal_handler_disconnect (prompter, handler_id);
 
-	gtk_widget_destroy (dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	soup_uri_free (uri);
+	g_object_unref (prompter);
+	if (uri)
+		soup_uri_free (uri);
+	g_free (base_url);
 }
 
 static void
@@ -316,4 +396,51 @@ e_google_chooser_button_get_config (EGoogleChooserButton *button)
 	g_return_val_if_fail (E_IS_GOOGLE_CHOOSER_BUTTON (button), NULL);
 
 	return button->priv->config;
+}
+
+static gchar *
+google_chooser_decode_user (const gchar *user)
+{
+	gchar *decoded_user;
+
+	if (user == NULL || *user == '\0')
+		return NULL;
+
+	/* Decode any encoded 'at' symbols ('%40' -> '@'). */
+	if (strstr (user, "%40") != NULL) {
+		gchar **segments;
+
+		segments = g_strsplit (user, "%40", 0);
+		decoded_user = g_strjoinv ("@", segments);
+		g_strfreev (segments);
+
+	/* If no domain is given, append "@gmail.com". */
+	} else if (strstr (user, "@") == NULL) {
+		decoded_user = g_strconcat (user, "@gmail.com", NULL);
+
+	/* Otherwise the user name should be fine as is. */
+	} else {
+		decoded_user = g_strdup (user);
+	}
+
+	return decoded_user;
+}
+
+void
+e_google_chooser_button_construct_default_uri (SoupURI *soup_uri,
+					       const gchar *username)
+{
+	gchar *decoded_user, *path;
+
+	decoded_user = google_chooser_decode_user (username);
+	if (!decoded_user)
+		return;
+
+	path = g_strdup_printf (CALDAV_EVENTS_PATH_FORMAT, decoded_user);
+
+	soup_uri_set_user (soup_uri, decoded_user);
+	soup_uri_set_path (soup_uri, path);
+
+	g_free (decoded_user);
+	g_free (path);
 }

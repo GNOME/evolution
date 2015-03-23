@@ -20,8 +20,9 @@
 #include <config.h>
 #endif
 
+#include <libedataserverui/libedataserverui.h>
+
 #include "e-source-combo-box.h"
-#include "e-cell-renderer-color.h"
 
 #define E_SOURCE_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -47,7 +48,7 @@ enum {
 };
 
 enum {
-	COLUMN_COLOR,		/* GDK_TYPE_COLOR */
+	COLUMN_COLOR,		/* GDK_TYPE_RGBA */
 	COLUMN_NAME,		/* G_TYPE_STRING */
 	COLUMN_SENSITIVE,	/* G_TYPE_BOOLEAN */
 	COLUMN_UID,		/* G_TYPE_STRING */
@@ -65,7 +66,7 @@ source_combo_box_traverse (GNode *node,
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GString *indented;
-	GdkColor color;
+	GdkRGBA rgba;
 	const gchar *ext_name;
 	const gchar *display_name;
 	const gchar *uid;
@@ -104,12 +105,12 @@ source_combo_box_traverse (GNode *node,
 
 		color_spec = e_source_selectable_get_color (extension);
 		if (color_spec != NULL && *color_spec != '\0')
-			use_color = gdk_color_parse (color_spec, &color);
+			use_color = gdk_rgba_parse (&rgba, color_spec);
 	}
 
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
-		COLUMN_COLOR, use_color ? &color : NULL,
+		COLUMN_COLOR, use_color ? &rgba : NULL,
 		COLUMN_NAME, indented->str,
 		COLUMN_SENSITIVE, sensitive,
 		COLUMN_UID, uid,
@@ -326,7 +327,7 @@ source_combo_box_constructed (GObject *object)
 
 	store = gtk_list_store_new (
 		NUM_COLUMNS,
-		GDK_TYPE_COLOR,		/* COLUMN_COLOR */
+		GDK_TYPE_RGBA,		/* COLUMN_COLOR */
 		G_TYPE_STRING,		/* COLUMN_NAME */
 		G_TYPE_BOOLEAN,		/* COLUMN_SENSITIVE */
 		G_TYPE_STRING);		/* COLUMN_UID */
@@ -343,7 +344,7 @@ source_combo_box_constructed (GObject *object)
 	gtk_cell_layout_pack_start (layout, renderer, FALSE);
 	gtk_cell_layout_set_attributes (
 		layout, renderer,
-		"color", COLUMN_COLOR,
+		"rgba", COLUMN_COLOR,
 		"sensitive", COLUMN_SENSITIVE,
 		NULL);
 

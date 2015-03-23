@@ -410,14 +410,10 @@ modules/bogofilter/evolution-bogofilter.metainfo.xml.in
 modules/book-config-google/evolution-book-config-google.c
 modules/book-config-ldap/evolution-book-config-ldap.c
 modules/book-config-webdav/evolution-book-config-webdav.c
-modules/cal-config-caldav/e-caldav-chooser.c
-modules/cal-config-caldav/e-caldav-chooser-dialog.c
 modules/cal-config-caldav/evolution-cal-config-caldav.c
 modules/cal-config-contacts/evolution-cal-config-contacts.c
 modules/cal-config-google/e-cal-config-google.c
 modules/cal-config-google/e-google-chooser-button.c
-modules/cal-config-google/e-google-chooser.c
-modules/cal-config-google/e-google-chooser-dialog.c
 modules/cal-config-local/evolution-cal-config-local.c
 modules/cal-config-weather/evolution-cal-config-weather.c
 modules/cal-config-webcal/evolution-cal-config-webcal.c

@@ -156,7 +156,6 @@ evolution_util_include_HEADERS =  \
 	e-cell-percent.h \
 	e-cell-pixbuf.h \
 	e-cell-popup.h \
-	e-cell-renderer-color.h \
 	e-cell-size.h \
 	e-cell-text.h \
 	e-cell-toggle.h \
@@ -429,7 +428,6 @@ libevolution_util_la_SOURCES = \
 	e-cell-percent.c \
 	e-cell-pixbuf.c \
 	e-cell-popup.c \
-	e-cell-renderer-color.c \
 	e-cell-size.c \
 	e-cell-text.c \
 	e-cell-toggle.c \
