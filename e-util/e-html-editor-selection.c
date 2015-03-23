@@ -4449,9 +4449,6 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 
 			webkit_dom_dom_selection_modify (
 				window_selection, "move", "right", "character");
-
-			e_html_editor_view_force_spell_check_for_current_paragraph (
-				view);
 		}
 
 		/* Re-set formatting */
@@ -5028,7 +5025,7 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_html_editor_selection_restore (selection);
 		e_html_editor_view_check_magic_links (view, FALSE);
-		e_html_editor_view_force_spell_check (view);
+		e_html_editor_view_force_spell_check_in_viewport (view);
 
 		e_html_editor_selection_scroll_to_caret (selection);
 	} else

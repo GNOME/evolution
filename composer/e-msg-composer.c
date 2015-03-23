@@ -1258,7 +1258,7 @@ composer_build_message (EMsgComposer *composer,
 
 		e_html_editor_view_remove_embed_styles (view);
 		e_html_editor_selection_restore (selection);
-		e_html_editor_view_force_spell_check (view);
+		e_html_editor_view_force_spell_check_in_viewport (view);
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 
@@ -1847,7 +1847,7 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 
 	e_html_editor_view_check_magic_links (view, FALSE);
 	/* Also force spell check on view. */
-	e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check_in_viewport (view);
 }
 
 static gchar *
@@ -1963,7 +1963,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 		} while (list_len);
 
 		e_html_editor_view_check_magic_links (html_editor_view, FALSE);
-		e_html_editor_view_force_spell_check (html_editor_view);
+		e_html_editor_view_force_spell_check_in_viewport (html_editor_view);
 
 		e_html_editor_selection_scroll_to_caret (editor_selection);
 
@@ -5369,7 +5369,7 @@ e_msg_composer_restore_focus_on_composer (EMsgComposer *composer)
 	if (E_IS_HTML_EDITOR_VIEW (widget)) {
 		EHTMLEditorSelection *selection;
 
-		e_html_editor_view_force_spell_check (E_HTML_EDITOR_VIEW (widget));
+		e_html_editor_view_force_spell_check_in_viewport (E_HTML_EDITOR_VIEW (widget));
 
 		selection = e_html_editor_view_get_selection (
 			E_HTML_EDITOR_VIEW (widget));
