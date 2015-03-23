@@ -140,6 +140,8 @@ composer_move_caret (WebKitDOMDocument *document,
 
 		if (is_message_from_edit_as_new) {
 			element = WEBKIT_DOM_ELEMENT (body);
+/* FIXME WK2
+			e_html_editor_selection_block_selection_changed (editor_selection);*/
 			goto move_caret;
 		} else
 			dom_scroll_to_caret (document);
