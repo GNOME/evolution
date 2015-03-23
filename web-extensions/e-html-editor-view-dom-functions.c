@@ -1865,6 +1865,35 @@ register_input_event_listener_on_body (WebKitDOMDocument *document,
 }
 
 static void
+remove_last_empty_block_in_citation (WebKitDOMElement *selection_start_marker)
+{
+	WebKitDOMNode *parent, *prev_sibling;
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	prev_sibling = webkit_dom_node_get_previous_sibling (parent);
+
+	if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (prev_sibling)) {
+		gint length;
+		WebKitDOMNodeList *list;
+
+		/* Look for the last block that has only quote marks */
+		list = webkit_dom_element_query_selector_all (
+			WEBKIT_DOM_ELEMENT (prev_sibling),
+			".-x-evo-quoted:only-child",
+			NULL);
+		length = webkit_dom_node_list_get_length (list);
+		if (length > 0) {
+			WebKitDOMNode *first_child = webkit_dom_node_list_item (list, length - 1);
+
+			if (element_has_class (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-quoted") &&
+			    !webkit_dom_node_get_next_sibling (first_child))
+				remove_node (webkit_dom_node_get_parent_node (first_child));
+		}
+		g_object_unref (list);
+	}
+}
+
+static void
 body_keyup_event_cb (WebKitDOMElement *element,
                      WebKitDOMUIEvent *event,
                      EHTMLEditorWebExtension *extension)
@@ -1895,11 +1924,15 @@ body_keyup_event_cb (WebKitDOMElement *element,
 
 		level = get_citation_level (
 			WEBKIT_DOM_NODE (selection_start_marker), FALSE);
-		if (level == 0)
-			goto restore;
 
 		node = webkit_dom_node_get_previous_sibling (
 			WEBKIT_DOM_NODE (selection_start_marker));
+
+		if (level == 0) {
+			if (!node)
+				remove_last_empty_block_in_citation (selection_start_marker);
+			goto restore;
+		}
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node))
 			node = webkit_dom_node_get_previous_sibling (node);
