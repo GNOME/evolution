@@ -1944,11 +1944,21 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (tmp_element), node, NULL);
 
-			level = get_citation_level (WEBKIT_DOM_NODE (tmp_element), FALSE);
+			if (element_has_class (tmp_element, "-x-evo-paragraph")) {
+				gint length, word_wrap_length;
+
+				level = get_citation_level (WEBKIT_DOM_NODE (tmp_element), FALSE);
+				word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
+				length = word_wrap_length - 2 * (level - 1);
+				tmp_element = dom_wrap_paragraph_length (
+					document, extension, block, length);
+				webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
+			}
 			quote_plain_text_element_after_wrapping (
 				document, tmp_element, level);
 			webkit_dom_element_remove_attribute (tmp_element, "id");
 			remove_node (parent);
+
 			goto restore;
 		}
 
@@ -1984,10 +1994,20 @@ body_keyup_event_cb (WebKitDOMElement *element,
 			 * > |xxx
 			 */
 			tmp_element = webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (parent), "span.-x-evo-quoted", NULL);
+				WEBKIT_DOM_ELEMENT (parent), "span.-x-evo-quoted", NULL);
 			if (!tmp_element) {
+				if (element_has_class (tmp_element, "-x-evo-paragraph")) {
+					gint length, word_wrap_length;
+
+					word_wrap_length =
+						e_html_editor_web_extension_get_word_wrap_length (extension);
+					length = word_wrap_length - 2 * (level - 1);
+					tmp_element = dom_wrap_paragraph_length (
+						document, extension, block, length);
+					webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
+				}
 				quote_plain_text_element_after_wrapping (
-				document, WEBKIT_DOM_ELEMENT (parent), level);
+				document, tmp_element, level);
 				goto restore;
 			}
 		}
