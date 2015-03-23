@@ -334,6 +334,16 @@ mail_config_auth_check_constructed (GObject *object)
 	backend = e_mail_config_auth_check_get_backend (auth_check);
 	provider = e_mail_config_service_backend_get_provider (backend);
 
+	text = _("Check for Supported Types");
+	widget = gtk_button_new_with_label (text);
+	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (mail_config_auth_check_clicked_cb),
+		auth_check);
+
 	widget = e_auth_combo_box_new ();
 	e_auth_combo_box_set_provider (E_AUTH_COMBO_BOX (widget), provider);
 	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
@@ -345,16 +355,6 @@ mail_config_auth_check_constructed (GObject *object)
 		auth_check, "active-mechanism",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
-
-	text = _("Check for Supported Types");
-	widget = gtk_button_new_with_label (text);
-	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (mail_config_auth_check_clicked_cb),
-		auth_check);
 
 	mail_config_auth_check_init_mechanism (auth_check);
 }
