@@ -6115,9 +6115,13 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 
 			parent = webkit_dom_node_get_parent_node (end_block);
 			while (parent && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent)) {
-				parent = webkit_dom_node_get_parent_node (parent);
-				if (webkit_dom_node_get_next_sibling (parent))
+				WebKitDOMNode *next_parent = webkit_dom_node_get_parent_node (parent);
+
+				if (webkit_dom_node_get_next_sibling (parent) &&
+				    !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (next_parent))
 					goto restore;
+
+				parent = next_parent;
 			}
 		}
 		node = webkit_dom_node_get_next_sibling (
