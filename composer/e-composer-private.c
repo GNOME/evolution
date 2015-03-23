@@ -1051,7 +1051,7 @@ composer_move_caret (EMsgComposer *composer)
 			view, "size-allocate",
 			G_CALLBACK (composer_size_allocate_cb), NULL);
 
-	e_html_editor_view_force_spell_check (view);
+	e_html_editor_view_force_spell_check_in_viewport (view);
 
 	e_html_editor_selection_unblock_selection_changed (editor_selection);
 }

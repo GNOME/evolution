@@ -235,6 +235,8 @@ void		e_html_editor_view_force_spell_check_for_current_paragraph
 						(EHTMLEditorView *view);
 void		e_html_editor_view_force_spell_check
 						(EHTMLEditorView *view);
+void		e_html_editor_view_force_spell_check_in_viewport
+						(EHTMLEditorView *view);
 void		e_html_editor_view_quote_plain_text_element_after_wrapping
 						(WebKitDOMDocument *document,
 						 WebKitDOMElement *element,

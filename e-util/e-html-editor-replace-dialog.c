@@ -157,7 +157,7 @@ html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 
 			e_html_editor_view_insert_new_history_event (view, ev);
 		}
-		e_html_editor_view_force_spell_check (view);
+		e_html_editor_view_force_spell_check_in_viewport (view);
 	}
 
 	result = g_strdup_printf (ngettext("%d occurence replaced",
