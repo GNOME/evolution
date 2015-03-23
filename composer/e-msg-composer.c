@@ -1245,6 +1245,7 @@ composer_build_message (EMsgComposer *composer,
 
 		e_html_editor_view_remove_embed_styles (view);
 		e_html_editor_view_restore_selection (view);
+		e_html_editor_view_force_spell_check (view);
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 
