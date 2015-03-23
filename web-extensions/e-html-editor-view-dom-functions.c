@@ -3245,6 +3245,9 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			}
 
 			if (g_strcmp0 (rest_to_insert, UNICODE_ZERO_WIDTH_SPACE) == 0) {
+				if (paragraph)
+					append_new_paragraph (blockquote, &paragraph);
+
 				paragraph = create_and_append_new_paragraph (
 					document, extension, blockquote, block, "<br>");
 			} else if (preserve_block) {
@@ -3274,9 +3277,13 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 
 				g_free (html);
 				g_free (new_content);
-			} else
+			} else {
+				if (paragraph)
+					append_new_paragraph (blockquote, &paragraph);
+
 				paragraph = create_and_append_new_paragraph (
 					document, extension, blockquote, block, rest_to_insert);
+			}
 
 			if (rest_to_insert && *rest_to_insert && preserve_block && paragraph) {
 				glong length = 0;
