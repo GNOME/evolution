@@ -935,6 +935,21 @@ create_selection_marker (WebKitDOMDocument *document,
 }
 
 static void
+remove_selection_markers (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *marker;
+
+	marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+	marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+}
+
+static void
 add_selection_markers_into_element_start (WebKitDOMDocument *document,
                                           WebKitDOMElement *element,
                                           WebKitDOMElement **selection_start_marker,
@@ -942,6 +957,7 @@ add_selection_markers_into_element_start (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *marker;
 
+	remove_selection_markers (document);
 	marker = create_selection_marker (document, FALSE);
 	webkit_dom_node_insert_before (
 		WEBKIT_DOM_NODE (element),
@@ -1449,15 +1465,7 @@ dom_selection_save (WebKitDOMDocument *document)
 	WebKitDOMElement *marker;
 
 	/* First remove all markers (if present) */
-	marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-start-marker");
-	if (marker != NULL)
-		remove_node (WEBKIT_DOM_NODE (marker));
-
-	marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-end-marker");
-	if (marker != NULL)
-		remove_node (WEBKIT_DOM_NODE (marker));
+	remove_selection_markers (document);
 
 	range = dom_get_current_range (document);
 
@@ -1685,8 +1693,10 @@ dom_selection_restore (WebKitDOMDocument *document)
 	window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (window);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	if (!range)
+	if (!range) {
+		remove_selection_markers (document);
 		return;
+	}
 
 	selection_start_marker = webkit_dom_range_get_start_container (range, NULL);
 	if (selection_start_marker) {
