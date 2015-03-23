@@ -4730,7 +4730,8 @@ dom_replace_caret_word (WebKitDOMDocument *document,
 	webkit_dom_range_expand (range, "word", NULL);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 
-	dom_insert_html (document, extension, replacement);
+	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, replacement);
+	dom_force_spell_check_for_current_paragraph (document, extension);
 }
 
 /**
