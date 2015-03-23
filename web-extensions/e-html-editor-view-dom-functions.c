@@ -1948,8 +1948,12 @@ body_keyup_event_cb (WebKitDOMElement *element,
 					WEBKIT_DOM_NODE (selection_start_marker)),
 				NULL);
 
-			webkit_dom_node_append_child (
-				node, WEBKIT_DOM_NODE (br_element), NULL);
+			if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node)))
+				webkit_dom_node_append_child (
+					node, WEBKIT_DOM_NODE (br_element), NULL);
+			else
+				remove_node (WEBKIT_DOM_NODE (br_element));
+
 			remove_node (parent);
 		}
  restore:
