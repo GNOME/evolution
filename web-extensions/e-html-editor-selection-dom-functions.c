@@ -220,7 +220,8 @@ fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selecti
 
 void
 dom_move_caret_into_element (WebKitDOMDocument *document,
-                             WebKitDOMElement *element)
+                             WebKitDOMElement *element,
+                             gboolean to_start)
 {
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *window_selection;
@@ -235,7 +236,7 @@ dom_move_caret_into_element (WebKitDOMDocument *document,
 
 	webkit_dom_range_select_node_contents (
 		new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, FALSE, NULL);
+	webkit_dom_range_collapse (new_range, to_start, NULL);
 	webkit_dom_dom_selection_remove_all_ranges (window_selection);
 	webkit_dom_dom_selection_add_range (window_selection, new_range);
 }
@@ -290,13 +291,13 @@ dom_restore_caret_position (WebKitDOMDocument *document)
 				remove_node (WEBKIT_DOM_NODE (element));
 
 				dom_move_caret_into_element (
-					document, WEBKIT_DOM_ELEMENT (next_sibling));
+					document, WEBKIT_DOM_ELEMENT (next_sibling), FALSE);
 
 				goto out;
 			}
 		}
 
-		dom_move_caret_into_element (document, element);
+		dom_move_caret_into_element (document, element, FALSE);
 
 		if (fix_after_quoting) {
 			prev_sibling = webkit_dom_node_get_previous_sibling (
@@ -3172,7 +3173,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			webkit_dom_range_insert_node (
 				range, WEBKIT_DOM_NODE (monospace), NULL);
 
-			dom_move_caret_into_element (document, monospace);
+			dom_move_caret_into_element (document, monospace, FALSE);
 		}
 	} else {
 		gboolean is_bold = FALSE, is_italic = FALSE;

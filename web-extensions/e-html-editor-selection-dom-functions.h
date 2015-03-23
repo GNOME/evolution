@@ -73,7 +73,8 @@ WebKitDOMElement *
 		dom_save_caret_position		(WebKitDOMDocument *document);
 
 void		dom_move_caret_into_element	(WebKitDOMDocument *document,
-						 WebKitDOMElement *element);
+						 WebKitDOMElement *element,
+						 gboolean to_start);
 
 void		dom_restore_caret_position	(WebKitDOMDocument *document);
 
