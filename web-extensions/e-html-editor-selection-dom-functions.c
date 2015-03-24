@@ -3207,44 +3207,37 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	window_selection = webkit_dom_dom_window_get_selection (window);
 
 	if (monospaced) {
-		gchar *font_size_str;
 		WebKitDOMElement *monospace;
 
 		monospace = webkit_dom_document_create_element (
 			document, "font", NULL);
 		webkit_dom_element_set_attribute (
 			monospace, "face", "monospace", NULL);
-		font_size_str = g_strdup_printf ("%d", font_size);
-		webkit_dom_element_set_attribute (
-			monospace, "size", font_size_str, NULL);
-		g_free (font_size_str);
+		if (font_size != 0) {
+			gchar *font_size_str;
+
+			font_size_str = g_strdup_printf ("%d", font_size);
+			webkit_dom_element_set_attribute (
+				monospace, "size", font_size_str, NULL);
+			g_free (font_size_str);
+		}
 
 		if (!dom_selection_is_collapsed (document)) {
-			gchar *html, *outer_html;
-			WebKitDOMNode *range_clone;
+			webkit_dom_range_surround_contents (
+				range, WEBKIT_DOM_NODE (monospace), NULL);
 
-			range_clone = WEBKIT_DOM_NODE (
-				webkit_dom_range_clone_contents (range, NULL));
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (monospace),
+				WEBKIT_DOM_NODE (create_selection_marker (document, TRUE)),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (monospace)),
+				NULL);
 
 			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (monospace), range_clone, NULL);
-
-			outer_html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (monospace));
-
-			html = g_strconcat (
-				/* Mark selection for restoration */
-				"<span id=\"-x-evo-selection-start-marker\"></span>",
-				outer_html,
-				"<span id=\"-x-evo-selection-end-marker\"></span>",
-				NULL),
-
-			dom_insert_html (document, extension, html);
+				WEBKIT_DOM_NODE (monospace),
+				WEBKIT_DOM_NODE (create_selection_marker (document, FALSE)),
+				NULL);
 
 			dom_selection_restore (document);
-
-			g_free (html);
-			g_free (outer_html);
 		} else {
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
 			webkit_dom_html_element_set_inner_html (
@@ -3282,14 +3275,20 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 		if (!dom_selection_is_collapsed (document)) {
 			gchar *html, *outer_html, *inner_html, *beginning, *end;
-			gchar *start_position, *end_position, *font_size_str;
+			gchar *start_position, *end_position, *font_size_str = NULL;
 			WebKitDOMElement *wrapper;
+			WebKitDOMNode *next_sibling;
+			WebKitDOMNode *prev_sibling;
 
 			wrapper = webkit_dom_document_create_element (
 				document, "SPAN", NULL);
 			webkit_dom_element_set_id (wrapper, "-x-evo-remove-tt");
 			webkit_dom_range_surround_contents (
 				range, WEBKIT_DOM_NODE (wrapper), NULL);
+
+			webkit_dom_node_normalize (webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (wrapper)));
+			prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (wrapper));
+			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (wrapper));
 
 			html = webkit_dom_html_element_get_outer_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element));
@@ -3305,27 +3304,30 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			end = g_utf8_substring (
 				html,
 				g_utf8_pointer_to_offset (html, end_position) + 7,
-				g_utf8_strlen (html, -1)),
+				g_utf8_strlen (html, -1));
 
-			font_size_str = g_strdup_printf ("%d", font_size);
+			if (font_size)
+				font_size_str = g_strdup_printf ("%d", font_size);
 
 			outer_html =
 				g_strconcat (
 					/* Beginning */
-					beginning,
+					prev_sibling ? beginning : "",
 					/* End the previous FONT tag */
-					"</font>",
+					prev_sibling ? "</font>" : "",
 					/* Mark selection for restoration */
 					"<span id=\"-x-evo-selection-start-marker\"></span>",
 					/* Inside will be the same */
 					inner_html,
 					"<span id=\"-x-evo-selection-end-marker\"></span>",
 					/* Start the new FONT element */
-					"<font face=\"monospace\" size=\"",
-					font_size_str,
-					"\">",
+					next_sibling ? "<font face=\"monospace\" " : "",
+					next_sibling ? font_size ? "size=\"" : "" : "",
+					next_sibling ? font_size ? font_size_str : "" : "",
+					next_sibling ? font_size ? "\"" : "" : "",
+					next_sibling ? ">" : "",
 					/* End - we have to start after </span> */
-					end,
+					next_sibling ? end : "",
 					NULL),
 
 			g_free (font_size_str);
@@ -3386,7 +3388,8 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 		if (is_strikethrough)
 			dom_selection_set_strikethrough (document, extension, TRUE);
 
-		dom_selection_set_font_size (document, extension, font_size);
+		if (font_size)
+			dom_selection_set_font_size (document, extension, font_size);
 	}
 
 	dom_force_spell_check_for_current_paragraph (document, extension);

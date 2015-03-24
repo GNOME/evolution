@@ -6139,7 +6139,8 @@ dom_insert_html (WebKitDOMDocument *document,
 	if (e_html_editor_web_extension_get_html_mode (extension)) {
 		dom_exec_command (
 			document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html_text);
-
+		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
+			dom_selection_restore (document);
 		dom_check_magic_links (document, extension, FALSE);
 		dom_force_spell_check (document, extension);
 		dom_scroll_to_caret (document);
