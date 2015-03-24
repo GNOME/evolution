@@ -2844,6 +2844,9 @@ dom_selection_is_underline (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
+	if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (element))
+		return FALSE;
+
 	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
 
