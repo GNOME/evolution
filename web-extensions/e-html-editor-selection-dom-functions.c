@@ -341,10 +341,15 @@ dom_insert_base64_image (WebKitDOMDocument *document,
                          const gchar *uri,
                          const gchar *base64_content)
 {
-	WebKitDOMElement *element, *caret_position, *resizable_wrapper;
+	WebKitDOMElement *element, *selection_start_marker, *resizable_wrapper;
 	WebKitDOMText *text;
 
-	caret_position = dom_save_caret_position (document);
+	if (!dom_selection_is_collapsed (document))
+		dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
+	dom_selection_save (document);
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
 
 	resizable_wrapper =
 		webkit_dom_document_create_element (document, "span", NULL);
@@ -369,9 +374,9 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (caret_position)),
+			WEBKIT_DOM_NODE (selection_start_marker)),
 		WEBKIT_DOM_NODE (resizable_wrapper),
-		WEBKIT_DOM_NODE (caret_position),
+		WEBKIT_DOM_NODE (selection_start_marker),
 		NULL);
 
 	/* We have to again use UNICODE_ZERO_WIDTH_SPACE character to restore
@@ -381,12 +386,13 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 
 	webkit_dom_node_insert_before (
 		webkit_dom_node_get_parent_node (
-			WEBKIT_DOM_NODE (caret_position)),
+			WEBKIT_DOM_NODE (selection_start_marker)),
 		WEBKIT_DOM_NODE (text),
-		WEBKIT_DOM_NODE (caret_position),
+		WEBKIT_DOM_NODE (selection_start_marker),
 		NULL);
 
-	dom_restore_caret_position (document);
+	dom_selection_restore (document);
+	dom_force_spell_check (document, extension);
 }
 
 /**
