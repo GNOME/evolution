@@ -1225,11 +1225,9 @@ composer_build_message (EMsgComposer *composer,
 		gchar *text;
 		EHTMLEditor *editor;
 		EHTMLEditorView *view;
-		EHTMLEditorSelection *selection;
 
 		editor = e_msg_composer_get_editor (composer);
 		view = e_html_editor_get_view (editor);
-		selection = e_html_editor_view_get_selection (view);
 
 		/* X-Evolution-Format */
 		composer_add_evolution_format_header (

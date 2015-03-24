@@ -179,7 +179,6 @@ composer_move_caret (WebKitDOMDocument *document,
 		WebKitDOMElement *spacer;
 
 		spacer = prepare_top_signature_spacer (document, extension);
-		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
 			WEBKIT_DOM_NODE (spacer),
@@ -195,6 +194,7 @@ composer_move_caret (WebKitDOMDocument *document,
 		if (start_bottom) {
 			if (!element) {
 				element = dom_prepare_paragraph (document, extension, FALSE);
+				webkit_dom_element_set_id (element, "-x-evo-input-start");
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),

@@ -1545,7 +1545,7 @@ dom_selection_save (WebKitDOMDocument *document)
 		if (!webkit_dom_node_get_previous_sibling (container)) {
 			marker_node = webkit_dom_node_insert_before (
 				container,
-				WEBKIT_DOM_NODE (start+marker),
+				WEBKIT_DOM_NODE (start_marker),
 				webkit_dom_node_get_first_child (container),
 				NULL);
 			goto insert_end_marker;
@@ -1575,12 +1575,12 @@ dom_selection_save (WebKitDOMDocument *document)
 	if (!split_node) {
 		marker_node = webkit_dom_node_insert_before (
 			container,
-			WEBKIT_DOM_NODE (marker),
+			WEBKIT_DOM_NODE (start_marker),
 			webkit_dom_node_get_first_child (
 				WEBKIT_DOM_NODE (container)),
 			NULL);
 	} else {
-		marker_node = WEBKIT_DOM_NODE (marker);
+		marker_node = WEBKIT_DOM_NODE (start_marker);
 		parent_node = webkit_dom_node_get_parent_node (split_node);
 
 		webkit_dom_node_insert_before (
