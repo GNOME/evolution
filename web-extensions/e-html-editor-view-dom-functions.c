@@ -5979,6 +5979,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		WebKitDOMElement *paragraph;
 
 		paragraph = dom_prepare_paragraph (document, extension, TRUE);
+		webkit_dom_element_set_id (paragraph, "-x-evo-input-start");
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (paragraph), NULL);
 		dom_selection_restore (document);
