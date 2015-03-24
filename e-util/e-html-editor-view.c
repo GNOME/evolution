@@ -2050,8 +2050,9 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 	}
 
 	if (view->priv->is_message_from_selection && !view->priv->html_mode) {
+		if (text && *text)
+			view->priv->convert_in_situ = TRUE;
 		webkit_web_view_load_html (WEBKIT_WEB_VIEW (view), text, "file://");
-		view->priv->convert_in_situ = TRUE;
 		return;
 	}
 
@@ -2065,8 +2066,9 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 				return;
 			}
 		}
+		if (text && *text)
+			view->priv->convert_in_situ = TRUE;
 		webkit_web_view_load_html (WEBKIT_WEB_VIEW (view), text, "file://");
-		view->priv->convert_in_situ = TRUE;
 	} else
 		webkit_web_view_load_html (WEBKIT_WEB_VIEW (view), text, "file://");
 }
