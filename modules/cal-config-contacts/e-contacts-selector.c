@@ -15,9 +15,13 @@
  *
  */
 
-#include "e-contacts-selector.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-#include "e-source-contacts.h"
+#include <libedataserver/libedataserver.h>
+
+#include "e-contacts-selector.h"
 
 G_DEFINE_DYNAMIC_TYPE (
 	EContactsSelector,
