@@ -5972,6 +5972,17 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 
 	dom_set_links_active (document, FALSE);
 
+	/* The composer body could be empty in some case (loading an empty string
+	 * or empty HTML. In that case create the initial paragraph. */
+	if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body))) {
+		WebKitDOMElement *paragraph;
+
+		paragraph = dom_prepare_paragraph (document, extension, TRUE);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (paragraph), NULL);
+		dom_selection_restore (document);
+	}
+
 	/* Register on input event that is called when the content (body) is modified */
 	register_input_event_listener_on_body (document, extension);
 	register_html_events_handlers (body, extension);
