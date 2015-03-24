@@ -5692,6 +5692,11 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-quote-style", NULL));
 	if (node)
 		remove_node (node);
+	/* When the Ctrl + Enter is pressed for sending, the links are activated. */
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-style-a", NULL));
+	if (node)
+		remove_node (node);
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "body", NULL));
 	process_elements (extension, node, TRUE, FALSE, FALSE, NULL);
