@@ -2891,6 +2891,8 @@ dom_selection_set_underline (WebKitDOMDocument *document,
 
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE, NULL);
 
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
 	set_dbus_property_boolean (extension, "Underline", underline);
 }
 
@@ -3383,6 +3385,9 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 		dom_selection_set_font_size (document, extension, font_size);
 	}
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "monospaced");*/
 }
@@ -3460,6 +3465,8 @@ dom_selection_set_bold (WebKitDOMDocument *document,
 	selection->priv->is_bold = bold; */
 
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_BOLD, NULL);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "bold");*/
 }
@@ -3537,6 +3544,8 @@ dom_selection_set_italic (WebKitDOMDocument *document,
 	selection->priv->is_italic = italic;*/
 
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_ITALIC, NULL);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "italic");*/
 }
