@@ -30,6 +30,8 @@
 #include <webkitdom/WebKitDOMRangeUnstable.h>
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
+#include <webkitdom/WebKitDOMDocumentUnstable.h>
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
 

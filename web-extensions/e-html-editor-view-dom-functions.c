@@ -30,6 +30,7 @@
 #include <webkitdom/WebKitDOMRangeUnstable.h>
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+#include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 
 #define HTML_KEY_CODE_BACKSPACE 8
 #define HTML_KEY_CODE_RETURN 13
