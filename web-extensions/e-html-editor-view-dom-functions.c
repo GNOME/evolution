@@ -5911,6 +5911,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		/* Restore the selection how it was when the draft was saved */
 		dom_move_caret_into_element (document, WEBKIT_DOM_ELEMENT (body), FALSE);
 		dom_selection_restore (document);
+		dom_remove_embed_style_sheet (document);
 	}
 
 	dom_set_links_active (document, FALSE);
