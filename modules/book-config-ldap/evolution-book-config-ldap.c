@@ -20,10 +20,9 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
+#include <libedataserver/libedataserver.h>
 
 #include <e-util/e-util.h>
-
-#include "e-source-ldap.h"
 
 #include <ldap.h>
 #ifndef SUNLDAP
@@ -992,7 +991,6 @@ e_book_config_ldap_init (ESourceConfigBackend *backend)
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	e_source_ldap_type_register (type_module);
 	e_book_config_ldap_register_type (type_module);
 }
 

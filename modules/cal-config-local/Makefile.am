@@ -10,9 +10,7 @@ module_cal_config_local_la_CPPFLAGS = \
 	$(NULL)
 
 module_cal_config_local_la_SOURCES = \
-	evolution-cal-config-local.c				\
-	e-source-local.c					\
-	e-source-local.h
+	evolution-cal-config-local.c
 
 module_cal_config_local_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\

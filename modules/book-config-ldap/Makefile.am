@@ -11,9 +11,7 @@ module_book_config_ldap_la_CPPFLAGS = \
 	$(NULL)
 
 module_book_config_ldap_la_SOURCES = \
-	evolution-book-config-ldap.c				\
-	e-source-ldap.c						\
-	e-source-ldap.h
+	evolution-book-config-ldap.c
 
 module_book_config_ldap_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\

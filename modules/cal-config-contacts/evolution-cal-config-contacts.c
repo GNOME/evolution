@@ -19,11 +19,11 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
+#include <libedataserver/libedataserver.h>
 
 #include <e-util/e-util.h>
 
 #include "e-contacts-selector.h"
-#include "e-source-contacts.h"
 
 /* This file contains two extension classes: an ESourceConfigBackend
  * for "contacts" calendars and an EExtension for EBookSourceConfig. */
@@ -243,7 +243,6 @@ void e_module_unload (GTypeModule *type_module);
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	e_source_contacts_type_register (type_module);
 	e_contacts_selector_type_register (type_module);
 
 	e_cal_config_contacts_register_type (type_module);

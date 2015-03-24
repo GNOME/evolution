@@ -11,9 +11,7 @@ module_cal_config_weather_la_CPPFLAGS = \
 	$(NULL)
 
 module_cal_config_weather_la_SOURCES = \
-	evolution-cal-config-weather.c				\
-	e-source-weather.c					\
-	e-source-weather.h
+	evolution-cal-config-weather.c
 
 module_cal_config_weather_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\

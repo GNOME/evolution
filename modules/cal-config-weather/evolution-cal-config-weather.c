@@ -19,14 +19,13 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
+#include <libedataserver/libedataserver.h>
 
 #define GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 #include <libgweather/location-entry.h>
 #undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 
 #include <e-util/e-util.h>
-
-#include "e-source-weather.h"
 
 #if HAVE_NL_LANGINFO
 #include <langinfo.h>
@@ -345,7 +344,6 @@ e_cal_config_weather_init (ESourceConfigBackend *backend)
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	e_source_weather_type_register (type_module);
 	e_cal_config_weather_register_type (type_module);
 }
 

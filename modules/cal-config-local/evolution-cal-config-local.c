@@ -19,10 +19,9 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/libebackend.h>
+#include <libedataserver/libedataserver.h>
 
 #include <e-util/e-util.h>
-
-#include "e-source-local.h"
 
 typedef ESourceConfigBackend ECalConfigLocal;
 typedef ESourceConfigBackendClass ECalConfigLocalClass;
@@ -294,7 +293,6 @@ e_cal_config_local_init (ESourceConfigBackend *backend)
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	e_source_local_type_register (type_module);
 	e_cal_config_local_register_type (type_module);
 }
 

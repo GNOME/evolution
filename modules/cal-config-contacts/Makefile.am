@@ -12,9 +12,7 @@ module_cal_config_contacts_la_CPPFLAGS = \
 module_cal_config_contacts_la_SOURCES = \
 	evolution-cal-config-contacts.c				\
 	e-contacts-selector.c					\
-	e-contacts-selector.h					\
-	e-source-contacts.c					\
-	e-source-contacts.h
+	e-contacts-selector.h
 
 module_cal_config_contacts_la_LIBADD = \
 	$(top_builddir)/e-util/libevolution-util.la		\
