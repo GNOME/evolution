@@ -3797,7 +3797,7 @@ dom_selection_get_font_color (WebKitDOMDocument *document,
 		color = g_strdup (selection->priv->font_color);*/
 	} else {
 		color = get_font_property (document, "color");
-		if (!color)
+		if (!(color && *color))
 			color = g_strdup ("#000000");
 	}
 
