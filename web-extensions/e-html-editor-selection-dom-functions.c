@@ -3673,7 +3673,7 @@ dom_selection_get_font_size (WebKitDOMDocument *document,
 	guint size_int;
 
 	size = get_font_property (document, "size");
-	if (!size)
+	if (!(size && *size))
 		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
 	size_int = atoi (size);
@@ -3705,6 +3705,29 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 	size_str = g_strdup_printf ("%d", font_size);
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_FONT_SIZE, size_str);
 	g_free (size_str);
+
+	/* Text in <font size="3"></font> (size 3 is our default size) is a little
+	 * bit smaller than font outsize it. So move it outside of it. */
+	if (font_size == E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL) {
+		WebKitDOMDocument *document;
+		WebKitDOMElement *element;
+
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		element = webkit_dom_document_query_selector (document, "font[size=\"3\"]", NULL);
+		if (element) {
+			WebKitDOMNode *child;
+
+			while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))))
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+					child,
+					WEBKIT_DOM_NODE (element),
+					NULL);
+
+			remove_node (WEBKIT_DOM_NODE (element));
+		}
+	}
+
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "font-size"); */
 }
