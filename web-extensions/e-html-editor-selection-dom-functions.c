@@ -680,7 +680,6 @@ get_parent_block_node_from_child (WebKitDOMNode *node)
 
 	return parent;
 }
-}
 
 static void
 merge_list_into_list (WebKitDOMNode *from,

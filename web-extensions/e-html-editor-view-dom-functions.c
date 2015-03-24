@@ -1991,7 +1991,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 			prev_sibling = webkit_dom_node_get_previous_sibling (
 				WEBKIT_DOM_NODE (selection_start_marker));
 			if (!prev_sibling ||
-			    (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
+			    (WEBKIT_DOM_IS_HTML_BR_ELEMENT (prev_sibling) &&
 			    !webkit_dom_node_get_previous_sibling (prev_sibling))) {
 				WebKitDOMElement *block;
 
@@ -2002,8 +2002,8 @@ body_keyup_event_cb (WebKitDOMElement *element,
 
 					word_wrap_length = e_html_editor_web_extension_get_word_wrap_length (extension);
 					length = word_wrap_length - 2 * (level - 1);
-					block = e_html_editor_selection_wrap_paragraph_length (
-					selection, block, length);
+					block = dom_wrap_paragraph_length (
+						document, extension, block, length);
 					webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
 				}
 				quote_plain_text_element_after_wrapping (
@@ -2023,8 +2023,8 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		 */
 		tmp_element = webkit_dom_document_get_element_by_id (document, "-x-evo-tmp-block");
 		if (tmp_element) {
-			remove_wrapping_from_element (tmp_element);
-			remove_quoting_from_element (tmp_element);
+			dom_remove_wrapping_from_element (tmp_element);
+			dom_remove_quoting_from_element (tmp_element);
 			webkit_dom_element_remove_attribute (tmp_element, "id");
 
 			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (tmp_element));
@@ -3856,7 +3856,7 @@ dom_convert_content (WebKitDOMDocument *document,
 	else
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (content_wrapper),
-			WEBKIT_DOM_NODE (prepare_paragraph (selection, document, FALSE)),
+			WEBKIT_DOM_NODE (dom_prepare_paragraph (document, extension, FALSE)),
 			NULL);
 
 	if (!cite_body) {
@@ -6113,7 +6113,6 @@ static gboolean
 fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 {
 	gboolean collapsed = FALSE;
-	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *block, *node;
 
@@ -6147,7 +6146,7 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 
 		/* If there is just BR element go ahead */
 		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
-		if (node && !WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
+		if (node && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node))
 			goto restore;
 		else {
 			/* Remove the empty block and move caret into the beginning of the citation */
@@ -6215,7 +6214,7 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 		}
 		node = webkit_dom_node_get_next_sibling (
 		WEBKIT_DOM_NODE (selection_end_marker));
-		if (!node || WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+		if (!node || WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
 			webkit_dom_element_set_id (
 				WEBKIT_DOM_ELEMENT (block), "-x-evo-tmp-block");
 		}
@@ -6310,8 +6309,8 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			return TRUE;
 	}
 
-	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
-		if (fix_structure_after_delete_before_quoted_content (view))
+	if (key_val == GDK_KEY_Delete || key_val == GDK_KEY_BackSpace)
+		if (fix_structure_after_delete_before_quoted_content (document))
 			return TRUE;
 
 	return FALSE;

@@ -91,7 +91,7 @@ prepare_top_signature_spacer (WebKitDOMDocument *document,
 {
 	WebKitDOMElement *element;
 
-	element = prepare_paragraph (document, extension, FALSE);
+	element = dom_prepare_paragraph (document, extension, FALSE);
 	webkit_dom_element_remove_attribute (element, "id");
 	element_add_class (element, "-x-evo-top-signature-spacer");
 
@@ -104,7 +104,6 @@ composer_move_caret (WebKitDOMDocument *document,
                      gboolean top_signature,
 		     gboolean start_bottom)
 {
-	EHTMLEditorSelection *editor_selection;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_from_new_message;
@@ -179,7 +178,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	if (signature && top_signature) {
 		WebKitDOMElement *spacer;
 
-		spacer = prepare_top_signature_spacer (editor_selection, document);
+		spacer = prepare_top_signature_spacer (document, extension);
 		webkit_dom_element_set_id (element, "-x-evo-input-start");
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (body),
@@ -195,7 +194,7 @@ composer_move_caret (WebKitDOMDocument *document,
 	if (!signature) {
 		if (start_bottom) {
 			if (!element) {
-				element = prepare_paragraph (editor_selection, document);
+				element = dom_prepare_paragraph (document, extension, FALSE);
 				webkit_dom_node_append_child (
 					WEBKIT_DOM_NODE (body),
 					WEBKIT_DOM_NODE (element),
