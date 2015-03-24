@@ -1822,7 +1822,7 @@ find_where_to_break_line (WebKitDOMNode *node,
 	gint last_space = 0;
 	gint length;
 	gint ret_val = 0;
-	gchar* position;
+	gchar* position = NULL;
 
 	text_start =  webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
 	length = g_utf8_strlen (text_start, -1);
@@ -1874,9 +1874,10 @@ find_where_to_break_line (WebKitDOMNode *node,
 		str = g_utf8_next_char (str);
 	} while (*str);
 
-	position = g_utf8_offset_to_pointer (text_start, max_len);
+	if (max_len <= length)
+		position = g_utf8_offset_to_pointer (text_start, max_len);
 
-	if (g_unichar_isspace (g_utf8_get_char (position))) {
+	if (position && g_unichar_isspace (g_utf8_get_char (position))) {
 		ret_val = max_len + 1;
 	} else {
 		if (last_space == 0) {
