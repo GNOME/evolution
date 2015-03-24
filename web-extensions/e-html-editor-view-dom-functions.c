@@ -3311,7 +3311,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 					document, extension, blockquote, block, "<br>");
 			} else if (preserve_block) {
 				gchar *html;
-				gchar *new_content;
+				gchar *content_to_append;
 
                                if (!paragraph) {
                                       if (!block || WEBKIT_DOM_IS_HTML_DIV_ELEMENT (block))
@@ -3323,19 +3323,19 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 				html = webkit_dom_html_element_get_inner_html (
 					WEBKIT_DOM_HTML_ELEMENT (paragraph));
 
-				new_content = g_strconcat (
-					html && *html ? html : "",
+				content_to_append = g_strconcat (
 					html && *html ? " " : "",
 					rest_to_insert ? rest_to_insert : "<br>",
 					NULL),
 
-				webkit_dom_html_element_set_inner_html (
+				webkit_dom_html_element_insert_adjacent_html (
 					WEBKIT_DOM_HTML_ELEMENT (paragraph),
-					new_content,
+					"beforeend",
+					content_to_append,
 					NULL);
 
 				g_free (html);
-				g_free (new_content);
+				g_free (content_to_append);
 			} else {
 				if (paragraph)
 					append_new_paragraph (blockquote, &paragraph);
