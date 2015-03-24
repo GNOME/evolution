@@ -257,6 +257,8 @@ composer_move_caret (WebKitDOMDocument *document,
 				WEBKIT_DOM_NODE (element),
 				WEBKIT_DOM_NODE (signature),
 				NULL);
+		} else if (element && start_bottom) {
+			/* Leave it how it is */
 		} else
 			element = WEBKIT_DOM_ELEMENT (body);
 	}
