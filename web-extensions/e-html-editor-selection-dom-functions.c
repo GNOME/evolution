@@ -2894,7 +2894,7 @@ dom_selection_set_underline (WebKitDOMDocument *document,
 
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_UNDERLINE, NULL);
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	dom_force_spell_check_for_current_paragraph (document, extension);
 
 	set_dbus_property_boolean (extension, "Underline", underline);
 }
@@ -3389,7 +3389,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 		dom_selection_set_font_size (document, extension, font_size);
 	}
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	dom_force_spell_check_for_current_paragraph (document, extension);
 
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "monospaced");*/
@@ -3469,7 +3469,7 @@ dom_selection_set_bold (WebKitDOMDocument *document,
 
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_BOLD, NULL);
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	dom_force_spell_check_for_current_paragraph (document, extension);
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "bold");*/
 }
@@ -3548,7 +3548,7 @@ dom_selection_set_italic (WebKitDOMDocument *document,
 
 	dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_ITALIC, NULL);
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	dom_force_spell_check_for_current_paragraph (document, extension);
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "italic");*/
 }
@@ -3721,10 +3721,8 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 	/* Text in <font size="3"></font> (size 3 is our default size) is a little
 	 * bit smaller than font outsize it. So move it outside of it. */
 	if (font_size == E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL) {
-		WebKitDOMDocument *document;
 		WebKitDOMElement *element;
 
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 		element = webkit_dom_document_query_selector (document, "font[size=\"3\"]", NULL);
 		if (element) {
 			WebKitDOMNode *child;

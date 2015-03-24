@@ -1328,6 +1328,7 @@ emoticon_read_async_cb (GFile *file,
                         LoadContext *load_context)
 {
 	EEmoticon *emoticon = load_context->emoticon;
+	EHTMLEditorWebExtension *extension = load_context->extension;
 	GError *error = NULL;
 	gboolean html_mode;
 	gchar *html, *mime_type;
