@@ -5949,16 +5949,19 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
 
-	/* Make the quote marks non-selectable. */
-	disable_quote_marks_select (document);
-
 	if (e_html_editor_web_extension_get_convert_in_situ (extension)) {
 		dom_convert_content (document, extension, NULL);
+		/* Make the quote marks non-selectable. */
+		disable_quote_marks_select (document);
+		dom_set_links_active (document, FALSE);
 		e_html_editor_web_extension_set_convert_in_situ (extension, FALSE);
 
 		return;
 	}
 
+	/* Make the quote marks non-selectable. */
+	disable_quote_marks_select (document);
+	dom_set_links_active (document, FALSE);
 	put_body_in_citation (document);
 	move_elements_to_body (document);
 	repair_gmail_blockquotes (document);
@@ -5969,8 +5972,6 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		dom_selection_restore (document);
 		dom_remove_embed_style_sheet (document);
 	}
-
-	dom_set_links_active (document, FALSE);
 
 	/* The composer body could be empty in some case (loading an empty string
 	 * or empty HTML. In that case create the initial paragraph. */
