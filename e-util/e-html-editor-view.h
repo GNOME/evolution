@@ -133,6 +133,11 @@ gboolean	e_html_editor_view_get_magic_smileys
 void		e_html_editor_view_set_magic_smileys
 						(EHTMLEditorView *view,
 						 gboolean magic_smileys);
+gboolean	e_html_editor_view_get_unicode_smileys
+						(EHTMLEditorView *view);
+void		e_html_editor_view_set_unicode_smileys
+						(EHTMLEditorView *view,
+						 gboolean unicode_smileys);
 ESpellChecker *	e_html_editor_view_get_spell_checker
 						(EHTMLEditorView *view);
 gchar *		e_html_editor_view_get_text_html

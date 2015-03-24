@@ -1122,6 +1122,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkUnicodeSmileys");
+	g_settings_bind (
+		settings, "composer-unicode-smileys",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkRequestReceipt");
 	g_settings_bind (
 		settings, "composer-request-receipt",

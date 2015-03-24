@@ -76,6 +76,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean inline_spelling;
 	gboolean magic_links;
 	gboolean magic_smileys;
+	gboolean unicode_smileys;
 	gboolean html_mode;
 	gboolean return_key_pressed;
 	gboolean space_key_pressed;
@@ -2226,6 +2227,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->inline_spelling = FALSE;
 	extension->priv->magic_links = FALSE;
 	extension->priv->magic_smileys = FALSE;
+	extension->priv->unicode_smileys = FALSE;
 	extension->priv->html_mode = FALSE;
 	extension->priv->return_key_pressed = FALSE;
 	extension->priv->space_key_pressed = FALSE;
@@ -2580,6 +2582,12 @@ gboolean
 e_html_editor_web_extension_get_magic_smileys_enabled (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->magic_smileys;
+}
+
+gboolean
+e_html_editor_web_extension_get_unicode_smileys_enabled (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->unicode_smileys;
 }
 
 void

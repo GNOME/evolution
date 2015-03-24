@@ -96,6 +96,11 @@ settings_html_editor_view_realize (GtkWidget *widget,
 		widget, "magic-smileys",
 		G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+		settings, "composer-unicode-smileys",
+		widget, "unicode-smileys",
+		G_SETTINGS_BIND_GET);
+
 	settings_html_editor_view_load_style (extension);
 
 	/* Reload the web view when certain settings change. */

@@ -138,6 +138,9 @@ void		e_html_editor_web_extension_set_space_key_pressed
 gboolean	e_html_editor_web_extension_get_magic_smileys_enabled
 						(EHTMLEditorWebExtension *extension);
 
+gboolean	e_html_editor_web_extension_get_unicode_smileys_enabled
+						(EHTMLEditorWebExtension *extension);
+
 void		e_html_editor_web_extension_set_inline_spelling
 						(EHTMLEditorWebExtension *extension,
                                                  gboolean value);

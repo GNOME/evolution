@@ -52,6 +52,7 @@ struct _EHTMLEditorViewPrivate {
 	gint inline_spelling	: 1;
 	gint magic_links	: 1;
 	gint magic_smileys	: 1;
+	gint unicode_smileys	: 1;
 	gint can_copy		: 1;
 	gint can_cut		: 1;
 	gint can_paste		: 1;
@@ -93,6 +94,7 @@ enum {
 	PROP_INLINE_SPELLING,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
+	PROP_UNICODE_SMILEYS,
 	PROP_SPELL_CHECKER
 };
 
@@ -418,6 +420,12 @@ html_editor_view_set_property (GObject *object,
 				E_HTML_EDITOR_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_UNICODE_SMILEYS:
+			e_html_editor_view_set_unicode_smileys (
+				E_HTML_EDITOR_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -487,6 +495,12 @@ html_editor_view_get_property (GObject *object,
 		case PROP_MAGIC_SMILEYS:
 			g_value_set_boolean (
 				value, e_html_editor_view_get_magic_smileys (
+				E_HTML_EDITOR_VIEW (object)));
+			return;
+
+		case PROP_UNICODE_SMILEYS:
+			g_value_set_boolean (
+				value, e_html_editor_view_get_unicode_smileys (
 				E_HTML_EDITOR_VIEW (object)));
 			return;
 
@@ -1168,7 +1182,7 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 	 * EHTMLEditorView:magic-smileys
 	 *
 	 * Determines whether automatic conversion of text smileys into
-	 * images is enabled.
+	 * images or Unicode characters is enabled.
 	 */
 	g_object_class_install_property (
 		object_class,
@@ -1176,7 +1190,24 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 		g_param_spec_boolean (
 			"magic-smileys",
 			"Magic Smileys",
-			"Convert emoticons to images as you type",
+			"Convert emoticons to images or Unicode characters as you type",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EHTMLEditorView:unicode-smileys
+	 *
+	 * Determines whether Unicode characters should be used for smileys.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_UNICODE_SMILEYS,
+		g_param_spec_boolean (
+			"unicode-smileys",
+			"Unicode Smileys",
+			"Use Unicode characters for smileys",
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
@@ -1732,7 +1763,7 @@ e_html_editor_view_set_magic_links (EHTMLEditorView *view,
  *
  * Returns whether automatic conversion of smileys is enabled or disabled. When
  * enabled, the editor will automatically convert text smileys ( :-), ;-),...)
- * into images.
+ * into images or Unicode characters.
  *
  * Returns: @TRUE when magic smileys are enabled, @FALSE otherwise.
  */
@@ -1763,6 +1794,47 @@ e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
 	view->priv->magic_smileys = magic_smileys;
 
 	g_object_notify (G_OBJECT (view), "magic-smileys");
+}
+
+/**
+ * e_html_editor_view_get_unicode_smileys:
+ * @view: an #EHTMLEditorView
+ *
+ * Returns whether to use Unicode characters for smileys.
+ *
+ * Returns: @TRUE when Unicode characters should be used, @FALSE otherwise.
+ *
+ * Since: 3.14
+ */
+gboolean
+e_html_editor_view_get_unicode_smileys (EHTMLEditorView *view)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
+
+	return view->priv->unicode_smileys;
+}
+
+/**
+ * e_html_editor_view_set_unicode_smileys:
+ * @view: an #EHTMLEditorView
+ * @unicode_smileys: @TRUE to use Unicode characters, @FALSE to use images
+ *
+ * Enables or disables the usage of Unicode characters for smileys.
+ *
+ * Since: 3.14
+ */
+void
+e_html_editor_view_set_unicode_smileys (EHTMLEditorView *view,
+                                        gboolean unicode_smileys)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	if (view->priv->unicode_smileys == unicode_smileys)
+		return;
+
+	view->priv->unicode_smileys = unicode_smileys;
+
+	g_object_notify (G_OBJECT (view), "unicode-smileys");
 }
 
 /**

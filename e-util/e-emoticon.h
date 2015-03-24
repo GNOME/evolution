@@ -38,6 +38,7 @@ typedef struct _EEmoticon EEmoticon;
 struct _EEmoticon {
 	gchar *label;
 	gchar *icon_name;
+	gchar *unicode_character;
 	gchar *text_face;
 };
 

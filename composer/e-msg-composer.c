@@ -2306,6 +2306,10 @@ msg_composer_constructed (GObject *object)
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
 	active = g_settings_get_boolean (settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
+
+	action = GTK_TOGGLE_ACTION (ACTION (UNICODE_SMILEYS));
+	active = g_settings_get_boolean (settings, "composer-unicode-smileys");
+	gtk_toggle_action_set_active (action, active);
 	g_object_unref (settings);
 
 	/* Clipboard Support */

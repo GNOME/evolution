@@ -330,6 +330,19 @@ action_smime_sign_cb (GtkToggleAction *action,
 }
 
 static void
+action_unicode_smileys_cb (GtkToggleAction *action,
+                           EMsgComposer *composer)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+	e_html_editor_view_set_unicode_smileys (view,
+		gtk_toggle_action_get_active (action));
+}
+
+static void
 composer_actions_toolbar_option_toggled_cb (GtkToggleAction *toggle_action,
 					    EMsgComposer *composer)
 {
@@ -556,6 +569,14 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL,
+	  FALSE },
+
+	{ "unicode-smileys",
+	  NULL,
+	  N_("Unicode smilyes"),
+	  NULL,
+	  N_("Use Unicode characters for smileys."),
+	  G_CALLBACK (action_unicode_smileys_cb),
 	  FALSE },
 
 	{ "view-bcc",
