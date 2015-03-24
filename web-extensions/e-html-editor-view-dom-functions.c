@@ -3835,7 +3835,6 @@ dom_convert_content (WebKitDOMDocument *document,
 	if (inner_html && !*inner_html)
 		empty = TRUE;
 
-	/* FIXME XXX */
 	length = webkit_dom_element_get_child_element_count (WEBKIT_DOM_ELEMENT (body));
 	if (length <= 1) {
 		empty = TRUE;
