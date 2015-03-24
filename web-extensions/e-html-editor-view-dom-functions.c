@@ -1217,6 +1217,9 @@ emoticon_read_async_cb (GFile *file,
 	if (error || (size == -1))
 		goto out;
 
+	if (!dom_selection_is_collapsed (document))
+		dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
 	dom_selection_save (document);
 
 	selection_start_marker = webkit_dom_document_get_element_by_id (
