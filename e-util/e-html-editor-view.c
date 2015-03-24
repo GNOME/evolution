@@ -588,6 +588,39 @@ html_editor_view_constructed (GObject *object)
 	 * does not block loading resources from file:// protocol */
 	webkit_web_view_load_html (WEBKIT_WEB_VIEW (object), "", "file://");
 }
+
+static void
+html_editor_view_move_selection_on_point (EHTMLEditorView *view)
+{
+	gint x, y;
+	GdkDeviceManager *device_manager;
+	GdkDevice *pointer;
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	device_manager = gdk_display_get_device_manager (
+		gtk_widget_get_display (GTK_WIDGET (view)));
+	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	gdk_window_get_device_position (
+		gtk_widget_get_window (GTK_WIDGET (view)), pointer, &x, &y, NULL);
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (web_extension)
+		return;
+
+	g_dbus_proxy_call_sync (
+		web_extension,
+		"DOMMoveSelectionOnPoint",
+		g_variant_new (
+			"(tii)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)), x, y),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL);
+}
+
 static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
                                      GdkEventButton *event)
@@ -599,6 +632,7 @@ html_editor_view_button_press_event (GtkWidget *widget,
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
+		html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget));
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);
@@ -646,6 +680,8 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
+
+		html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget));
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
 			0, event, &event_handled);

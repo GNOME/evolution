@@ -69,11 +69,15 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 				webkit_dom_range_get_end_offset (range, NULL),
 				NULL);
 		} else {
+			WebKitDOMNode *node;
 			/* get element that was clicked on */
-			/* FIXME WK2
-			link = e_html_editor_view_get_element_under_mouse_click (view); */
-			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-				link = NULL;
+			node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+			if (node && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+				link = dom_node_find_parent_element (node, "A");
+				if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+					link = NULL;
+			} else
+				link = WEBKIT_DOM_ELEMENT (node);
 		}
 	}
 
@@ -136,10 +140,15 @@ e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 			link = dom_node_find_child_element (WEBKIT_DOM_NODE (fragment), "A");
 		} else {
 			/* get element that was clicked on */
-			/* FIXME WK2
-			link = e_html_editor_view_get_element_under_mouse_click (view); */
-			if (!WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
-				link = NULL;
+			WebKitDOMNode *node;
+
+			node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+			if (node && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+				link = dom_node_find_parent_element (node, "A");
+				if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+					link = NULL;
+			} else
+				link = WEBKIT_DOM_ELEMENT (node);
 		}
 	}
 

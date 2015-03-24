@@ -264,6 +264,10 @@ WebKitDOMElement *
 						 EHTMLEditorWebExtension *extension,
 						 gboolean with_selection);
 
+void		dom_selection_set_on_point	(WebKitDOMDocument *document,
+						 guint x,
+						 guint y);
+
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_DOM_FUNCTIONS_H */

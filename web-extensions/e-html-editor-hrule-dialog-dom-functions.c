@@ -31,13 +31,23 @@ e_html_editor_hrule_dialog_find_hrule (WebKitDOMDocument *document)
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
 	WebKitDOMElement *rule = NULL;
+	WebKitDOMRange *range;
+	WebKitDOMNode *node;
 
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
 		return FALSE;
-/* FIXME WK2
-	rule = e_html_editor_view_get_element_under_mouse_click (view); */
+
+	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	if (node && !WEBKIT_DOM_IS_HTML_HR_ELEMENT (node)) {
+		rule = dom_node_find_parent_element (node, "A");
+		if (rule && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (rule))
+			rule = NULL;
+	} else
+		rule = WEBKIT_DOM_ELEMENT (node);
+
 	if (!rule) {
 		WebKitDOMElement *caret, *parent, *element;
 
