@@ -1489,8 +1489,7 @@ dom_selection_save (WebKitDOMDocument *document)
 		return;
 
 	collapsed = webkit_dom_range_get_collapsed (range, NULL);
-	start_marker = webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_id (start_marker, "-x-evo-selection-start-marker");
+	start_marker = create_selection_marker (document, TRUE);
 
 	container = webkit_dom_range_get_start_container (range, NULL);
 	offset = webkit_dom_range_get_start_offset (range, NULL);
@@ -1600,8 +1599,7 @@ dom_selection_save (WebKitDOMDocument *document)
 	webkit_dom_node_normalize (parent_node);
 
  insert_end_marker:
-	end_marker = webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_id (end_marker, "-x-evo-selection-end-marker");
+	end_marker = create_selection_marker (document, FALSE);
 
 	if (webkit_dom_range_get_collapsed (range, NULL)) {
 		webkit_dom_node_insert_before (
