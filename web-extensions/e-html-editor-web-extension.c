@@ -459,6 +459,9 @@ static const char introspection_xml[] =
 "      <arg type='s' name='filename' direction='in'/>"
 "      <arg type='s' name='uri' direction='in'/>"
 "    </method>"
+"    <method name='DOMDragAndDropEnd'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorSelection       -->"
 "<!-- ********************************************************* -->"
@@ -481,6 +484,10 @@ static const char introspection_xml[] =
 "      <arg type='s' name='signature_html' direction='in'/>"
 "      <arg type='b' name='top_signature' direction='in'/>"
 "      <arg type='b' name='start_bottom' direction='in'/>"
+"    </method>"
+"    <method name='DOMCleanAfterDragAndDrop'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='remove_inserted_uri_on_drop' direction='in'/>"
 "    </method>"
 "  </interface>"
 "</node>";
@@ -1564,7 +1571,8 @@ handle_method_call (GDBusConnection *connection,
 		e_html_editor_web_extension_add_new_inline_image_into_list (
 			extension, cid_uri, src);
 
-		dom_insert_base64_image (document, filename, cid_uri, src);
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_insert_base64_image (document, extension, filename, cid_uri, src);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMReplaceBase64ImageSrc") == 0) {
@@ -1580,6 +1588,17 @@ handle_method_call (GDBusConnection *connection,
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_replace_base64_image_src (document, selector, base64_content, filename, uri);
 
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMDragAndDropEnd") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_drag_and_drop_end (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionIndent") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
@@ -1634,6 +1653,21 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_insert_signature (document, extension, signature_html, top_signature, start_bottom);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMCleanAfterDragAndDrop") == 0) {
+		gboolean remove_inserted_uri_on_drop;
+
+		g_variant_get (
+			parameters, "(tb)", &page_id, &remove_inserted_uri_on_drop);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_clean_after_drag_and_drop (document, extension, remove_inserted_uri_on_drop);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMGetActiveSignatureUid") == 0) {

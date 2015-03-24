@@ -79,6 +79,7 @@ void		dom_move_caret_into_element	(WebKitDOMDocument *document,
 void		dom_restore_caret_position	(WebKitDOMDocument *document);
 
 void		dom_insert_base64_image		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *filename,
 						 const gchar *uri,
 						 const gchar *base64_content);

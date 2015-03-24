@@ -6450,3 +6450,44 @@ dom_get_caret_position (WebKitDOMDocument *document)
 	g_object_unref (nodes);
 	return webkit_dom_range_get_start_offset (range, NULL) + range_count;
 }
+
+void
+dom_drag_and_drop_end (WebKitDOMDocument *document,
+                       EHTMLEditorWebExtension *extension)
+{
+	gint ii, length;
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+	WebKitDOMNodeList *list;
+
+	/* When the image is DnD inside the view WebKit removes the wrapper that
+	 * is used for resizing the image, so we have to recreate it again. */
+	list = webkit_dom_document_query_selector_all (document, ":not(span) > img[data-inline]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element;
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		element = webkit_dom_document_create_element (document, "span", NULL);
+		webkit_dom_element_set_class_name (element, "-x-evo-resizable-wrapper");
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (element),
+			node,
+			NULL);
+
+		webkit_dom_node_append_child (WEBKIT_DOM_NODE (element), node, NULL);
+	}
+
+	/* When the image is moved the new selection is created after after it, so
+	 * lets collapse the selection to have the caret right after the image. */
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+	if (length > 0)
+		webkit_dom_dom_selection_collapse_to_start (selection, NULL);
+	else
+		webkit_dom_dom_selection_collapse_to_end (selection, NULL);
+
+	dom_force_spell_check (document, extension);
+}

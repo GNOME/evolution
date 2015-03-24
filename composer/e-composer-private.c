@@ -135,7 +135,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->set_signature_from_message = FALSE;
 	priv->disable_signature = FALSE;
 	priv->busy = FALSE;
-	priv->saved_editable= FALSE;
+	priv->saved_editable = FALSE;
+	priv->drop_occured = FALSE;
+	priv->remove_inserted_uri_on_drop = FALSE;
 
 	priv->focused_entry = NULL;
 

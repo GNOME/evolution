@@ -34,6 +34,9 @@ void		dom_insert_signature		(WebKitDOMDocument *document,
 						 const gchar *signature_html,
 						 gboolean top_signature,
 						 gboolean start_bottom);
+void		dom_clean_after_drag_and_drop	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 gboolean remove_inserted_uri_on_drop);
 
 G_END_DECLS
 

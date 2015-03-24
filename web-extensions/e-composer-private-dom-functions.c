@@ -327,3 +327,30 @@ dom_insert_signature (WebKitDOMDocument *document,
 	composer_move_caret (document, extension, top_signature, start_bottom);
 }
 
+void
+dom_clean_after_drag_and_drop (WebKitDOMDocument *document,
+                               EHTMLEditorWebExtension *extension,
+                               gboolean remove_inserted_uri_on_drop)
+{
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	/* FIXME When the user drops something inside the view and it is
+	 * added as an EAttachment, WebKit still inserts the URI of the
+	 * resource into the view. Let's delete it as it is selected. */
+	if (remove_inserted_uri_on_drop)
+		webkit_dom_dom_selection_delete_from_document (dom_selection);
+	else {
+		/* When text is DnD'ed into the view, WebKit will select it. So let's
+		 * collapse it to its end to have the caret after the DnD'ed text. */
+		webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+	}
+
+	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+	dom_check_magic_links (document, extension, FALSE);
+	/* Also force spell check on view. */
+	dom_force_spell_check (document, extension);
+}

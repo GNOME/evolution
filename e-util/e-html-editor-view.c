@@ -1481,6 +1481,13 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 }
 
 static void
+html_editor_view_drag_end_cb (EHTMLEditorView *view,
+                              GdkDragContext *context)
+{
+	e_html_editor_view_call_simple_extension_function (view, "DOMDragAndDropEnd");
+}
+
+static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
 	WebKitSettings *settings;
@@ -1512,6 +1519,9 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_signal_connect (
 		view, "should-show-delete-interface-for-element",
 		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);*/
+	g_signal_connect (
+		view, "drag-end",
+		G_CALLBACK (html_editor_view_drag_end_cb), NULL);
 	g_signal_connect (
 		view, "load-changed",
 		G_CALLBACK (html_editor_view_load_changed_cb), NULL);
