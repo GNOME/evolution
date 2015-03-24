@@ -2536,8 +2536,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  border-radius: 2px;\n"
 		"}\n");
 
-	/* Block quote border colors are borrowed from Thunderbird. */
-
 	g_string_append_printf (
 		stylesheet,
 		"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
