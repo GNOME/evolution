@@ -5679,13 +5679,64 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 	return g_string_free (plain_text, FALSE);
 }
 
+static void
+restore_image (WebKitDOMDocument *document,
+               const gchar *id,
+               const gchar *element_src)
+{
+	gchar *selector;
+	gint length, ii;
+	WebKitDOMNodeList *list;
+
+	selector = g_strconcat ("[data-inline][background=\"cid:", id, "\"]", NULL);
+	list = webkit_dom_document_query_selector_all (document, selector, NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (list, ii));
+
+		webkit_dom_element_set_attribute (element, "background", element_src, NULL);
+	}
+	g_free (selector);
+	g_object_unref (list);
+
+	selector = g_strconcat ("[data-inline][src=\"cid:", id, "\"]", NULL);
+	list = webkit_dom_document_query_selector_all (document, selector, NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMElement *element = WEBKIT_DOM_ELEMENT (
+			webkit_dom_node_list_item (list, ii));
+
+		webkit_dom_element_set_attribute (element, "src", element_src, NULL);
+	}
+	g_free (selector);
+	g_object_unref (list);
+}
+
+static void
+dom_restore_images (WebKitDOMDocument *document,
+                    GVariant *inline_images_to_restore)
+{
+	const gchar *element_src, *name, *id;
+	GVariantIter *iter;
+
+	g_variant_get (inline_images_to_restore, "asss", &iter);
+	while (g_variant_iter_loop (iter, "&s&s&s", &element_src, &name, &id))
+		restore_image (document, id, element_src);
+}
+
 gchar *
 dom_process_content_for_html (WebKitDOMDocument *document,
-                              EHTMLEditorWebExtension *extension)
+                              EHTMLEditorWebExtension *extension,
+                              const gchar *from_domain)
 {
+	GVariant *inline_images_to_restore = NULL;
 	gchar *html_content;
 	WebKitDOMElement *marker;
 	WebKitDOMNode *node, *document_clone;
+
+	if (from_domain != NULL)
+		inline_images_to_restore = dom_get_inline_images_data (document, extension, from_domain);
 
 	document_clone = webkit_dom_node_clone_node (
 		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
@@ -5715,6 +5766,11 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 		WEBKIT_DOM_HTML_ELEMENT (document_clone));
 
 	g_object_unref (document_clone);
+
+	if (from_domain && inline_images_to_restore) {
+		dom_restore_images (document, inline_images_to_restore);
+		g_object_unref (inline_images_to_restore);
+	}
 
 	return html_content;
 }
@@ -5935,7 +5991,7 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
                             const gchar *uid_domain)
 {
 	GVariant *result;
-	GVariantBuilder *builder;
+	GVariantBuilder *builder = NULL;
 	GHashTable *added;
 	gint length, ii;
 	WebKitDOMNodeList *list;
@@ -5944,7 +6000,7 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 
 	length = webkit_dom_node_list_get_length (list);
 	if (length == 0)
-		return NULL;
+		goto background;
 
 	builder = g_variant_builder_new (G_VARIANT_TYPE ("asss"));
 
@@ -5978,9 +6034,15 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 	}
 	g_object_unref (list);
 
+ background:
 	list = webkit_dom_document_query_selector_all (
 		document, "[data-inline][background]", NULL);
 	length = webkit_dom_node_list_get_length (list);
+	if (length == 0)
+		goto out;
+	if (!builder)
+		builder = g_variant_builder_new (G_VARIANT_TYPE ("asss"));
+
 	for (ii = 0; ii < length; ii++) {
 		const gchar *id;
 		gchar *cid = NULL;
@@ -6011,7 +6073,7 @@ dom_get_inline_images_data (WebKitDOMDocument *document,
 		}
 		g_free (cid);
 	}
-
+ out:
 	g_object_unref (list);
 	g_hash_table_destroy (added);
 

@@ -94,7 +94,8 @@ gchar *		dom_process_content_for_plain_text
 						 EHTMLEditorWebExtension *extension);
 
 gchar *		dom_process_content_for_html	(WebKitDOMDocument *document,
-						 EHTMLEditorWebExtension *extension);
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *from_domain);
 
 gboolean	dom_check_if_conversion_needed	(WebKitDOMDocument *document);
 

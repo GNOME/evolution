@@ -136,7 +136,9 @@ void		e_html_editor_view_set_magic_smileys
 ESpellChecker *	e_html_editor_view_get_spell_checker
 						(EHTMLEditorView *view);
 gchar *		e_html_editor_view_get_text_html
-						(EHTMLEditorView *view);
+						(EHTMLEditorView *view,
+						 const gchar *from_domain,
+						 GList **inline_images);
 gchar *		e_html_editor_view_get_text_html_for_drafts
 						(EHTMLEditorView *view);
 gchar *		e_html_editor_view_get_text_plain
@@ -170,9 +172,6 @@ void		e_html_editor_view_dequote_plain_text
 void		e_html_editor_view_add_inline_image_from_mime_part
 						(EHTMLEditorView *view,
                                                  CamelMimePart *part);
-GList *		e_html_editor_view_get_parts_for_inline_images
-						(EHTMLEditorView *view,
-						 const gchar *uid_domain);
 gboolean	e_html_editor_view_is_message_from_draft
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_is_message_from_draft

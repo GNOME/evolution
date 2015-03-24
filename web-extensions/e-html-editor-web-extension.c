@@ -422,6 +422,7 @@ static const char introspection_xml[] =
 "    </method>"
 "    <method name='DOMProcessContentForHTML'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='from_domain' direction='in'/>"
 "      <arg type='s' name='content' direction='out'/>"
 "    </method>"
 "    <method name='DOMProcessContentForDraft'>"
@@ -1478,9 +1479,10 @@ handle_method_call (GDBusConnection *connection,
 			invocation,
 			value ? g_variant_new_take_string (value) : NULL);
 	} else if (g_strcmp0 (method_name, "DOMProcessContentForHTML") == 0) {
+		const gchar *from_domain;
 		gchar *value = NULL;
 
-		g_variant_get (parameters, "(t)", &page_id);
+		g_variant_get (parameters, "(t&s)", &page_id, &from_domain);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1488,7 +1490,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		value = dom_process_content_for_html (document, extension);
+		value = dom_process_content_for_html (document, extension, from_domain);
 
 		g_dbus_method_invocation_return_value (
 			invocation,

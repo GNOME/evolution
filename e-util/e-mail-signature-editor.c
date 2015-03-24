@@ -855,7 +855,7 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 
 	if (e_html_editor_view_get_html_mode (view)) {
 		mime_type = "text/html";
-		contents = e_html_editor_view_get_text_html (view);
+		contents = e_html_editor_view_get_text_html (view, NULL, NULL);
 	} else {
 		mime_type = "text/plain";
 		contents = e_html_editor_view_get_text_plain (view);
