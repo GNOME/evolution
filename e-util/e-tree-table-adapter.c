@@ -197,6 +197,8 @@ resort_node (ETreeTableAdapter *etta,
 	gint i, count;
 	gboolean sort_needed;
 
+	g_return_if_fail (node != NULL);
+
 	if (node->num_visible_children == 0)
 		return;
 
