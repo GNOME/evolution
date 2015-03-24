@@ -3938,6 +3938,8 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		document, "-x-evo-selection-end-marker");
 	current_block = get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker));
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (current_block))
+		current_block = NULL;
 
 	element = webkit_dom_document_create_element (document, "div", NULL);
 	if (is_html) {
