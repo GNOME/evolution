@@ -3197,7 +3197,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	GString *start, *end;
 	WebKitDOMElement *paragraph = NULL;
-	gboolean preserve_next_line = TRUE;
+	gboolean preserve_next_line = FALSE;
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), "", NULL);
