@@ -1678,10 +1678,17 @@ dom_selection_save (WebKitDOMDocument *document)
 		parent_node = webkit_dom_node_get_parent_node (split_node);
 
 		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
-			webkit_dom_node_append_child (
-				webkit_dom_node_get_previous_sibling (split_node),
-				marker_node,
-				NULL);
+			if (offset == 0)
+				webkit_dom_node_insert_before (
+					split_node,
+					marker_node,
+					webkit_dom_node_get_first_child (split_node),
+					NULL);
+			else
+				webkit_dom_node_append_child (
+					webkit_dom_node_get_previous_sibling (split_node),
+					marker_node,
+					NULL);
 		} else
 			webkit_dom_node_insert_before (
 				parent_node, marker_node, split_node, NULL);
