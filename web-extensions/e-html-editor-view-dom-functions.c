@@ -750,6 +750,8 @@ put_body_in_citation (WebKitDOMDocument *document)
 
 		while ((sibling = webkit_dom_node_get_next_sibling (citation)))
 			webkit_dom_node_append_child (citation, sibling, NULL);
+
+		remove_node (WEBKIT_DOM_NODE (cite_body));
 	}
 }
 
