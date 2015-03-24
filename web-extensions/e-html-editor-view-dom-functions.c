@@ -5683,8 +5683,9 @@ gchar *
 dom_process_content_for_html (WebKitDOMDocument *document,
                               EHTMLEditorWebExtension *extension)
 {
-	WebKitDOMNode *node, *document_clone;
 	gchar *html_content;
+	WebKitDOMElement *marker;
+	WebKitDOMNode *node, *document_clone;
 
 	document_clone = webkit_dom_node_clone_node (
 		WEBKIT_DOM_NODE (webkit_dom_document_get_document_element (document)), TRUE);
@@ -5699,6 +5700,15 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 		remove_node (node);
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "body", NULL));
+	marker = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (node), "#-x-evo-selection-start-marker", NULL);
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+	marker = webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (node), "#-x-evo-selection-end-marker", NULL);
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+
 	process_elements (extension, node, TRUE, FALSE, FALSE, NULL);
 
 	html_content = webkit_dom_html_element_get_outer_html (
