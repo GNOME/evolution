@@ -226,11 +226,14 @@ composer_move_caret (WebKitDOMDocument *document,
 					NULL);
 			}
 		} else {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (body),
-				WEBKIT_DOM_NODE (element),
-				WEBKIT_DOM_NODE (signature),
-				NULL);
+			if (start_bottom)
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (body),
+					WEBKIT_DOM_NODE (element),
+					WEBKIT_DOM_NODE (signature),
+					NULL);
+			else
+				element = WEBKIT_DOM_ELEMENT (body);
 		}
 	} else {
 		if (!element && top_signature) {
