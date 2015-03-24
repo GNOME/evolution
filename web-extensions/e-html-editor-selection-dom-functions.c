@@ -3322,17 +3322,14 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			g_free (end);
 		} else {
 			WebKitDOMRange *new_range;
-			gchar *outer_html;
-			gchar *tmp;
 
 			webkit_dom_element_set_id (tt_element, "ev-tt");
 
-		        outer_html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element));
-			tmp = g_strconcat (outer_html, UNICODE_ZERO_WIDTH_SPACE, NULL);
-			webkit_dom_html_element_set_outer_html (
+			webkit_dom_html_element_insert_adjacent_html (
 				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				tmp, NULL);
+				"beforeend",
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
 
 			/* We need to get that element again */
 			tt_element = webkit_dom_document_get_element_by_id (
@@ -3353,9 +3350,6 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 			webkit_dom_dom_selection_modify (
 				window_selection, "move", "right", "character");
-
-			g_free (outer_html);
-			g_free (tmp);
 
 			dom_force_spell_check_for_current_paragraph (document, extension);
 		}
