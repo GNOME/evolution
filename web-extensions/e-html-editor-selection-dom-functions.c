@@ -436,6 +436,9 @@ dom_unlink (WebKitDOMDocument *document)
 		dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_UNLINK, NULL);
 	}
 
+	if (!link)
+		return;
+
 	text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (link));
 	webkit_dom_html_element_set_outer_html (
