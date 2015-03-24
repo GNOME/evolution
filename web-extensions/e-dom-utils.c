@@ -410,21 +410,19 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 			webkit_dom_css_style_sheet_remove_rule (
 				WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
 				ii, NULL);
+			length--;
+			break;
 		}
 
 		g_free (rule_selector);
 		g_free (rule_text);
 	}
 
+	g_object_unref (rules_list);
+
 	/* Insert the rule at the end, so it will override previously inserted */
 	webkit_dom_css_style_sheet_add_rule (
-		WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
-		selector,
-		style,
-		webkit_dom_css_rule_list_get_length (
-			webkit_dom_css_style_sheet_get_css_rules (
-				WEBKIT_DOM_CSS_STYLE_SHEET (sheet))), /* Index */
-		NULL);
+		WEBKIT_DOM_CSS_STYLE_SHEET (sheet), selector, style, length, NULL);
 }
 
 static void
