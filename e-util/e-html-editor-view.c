@@ -2531,7 +2531,7 @@ create_part_for_inline_image_from_element_data (const gchar *element_src,
 	gssize size;
 	gchar *mime_type = NULL;
 	const gchar *base64_encoded_data;
-	guchar *base64_decoded_data;
+	guchar *base64_decoded_data = NULL;
 
 	base64_encoded_data = strstr (element_src, ";base64,");
 	if (!base64_encoded_data)
