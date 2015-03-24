@@ -202,6 +202,10 @@ void		e_html_editor_view_restore_selection
 						(EHTMLEditorView *view);
 void		e_html_editor_view_save_selection
 						(EHTMLEditorView *view);
+void		e_html_editor_view_move_selection_on_point
+						(EHTMLEditorView *view,
+						 gint x,
+						 gint y);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

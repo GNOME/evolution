@@ -110,7 +110,8 @@ enum DndTargetType {
 	DND_TARGET_TYPE_TEXT_HTML,
 	DND_TARGET_TYPE_UTF8_STRING,
 	DND_TARGET_TYPE_TEXT_PLAIN,
-	DND_TARGET_TYPE_STRING
+	DND_TARGET_TYPE_STRING,
+	DND_TARGET_TYPE_TEXT_PLAIN_UTF8
 };
 
 static GtkTargetEntry drag_dest_targets[] = {
@@ -120,6 +121,7 @@ static GtkTargetEntry drag_dest_targets[] = {
 	{ (gchar *) "UTF8_STRING", 0, DND_TARGET_TYPE_UTF8_STRING },
 	{ (gchar *) "text/plain", 0, DND_TARGET_TYPE_TEXT_PLAIN },
 	{ (gchar *) "STRING", 0, DND_TARGET_TYPE_STRING },
+	{ (gchar *) "text/plain;charset=utf-8", 0, DND_TARGET_TYPE_TEXT_PLAIN_UTF8 },
 };
 
 static guint signals[LAST_SIGNAL];
@@ -1761,31 +1763,6 @@ msg_composer_drag_motion_cb (GtkWidget *widget,
 	return FALSE;
 }
 
-static gchar *
-next_uri (guchar **uri_list,
-          gint *len,
-          gint *list_len)
-{
-	guchar *uri, *begin;
-
-	begin = *uri_list;
-	*len = 0;
-	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
-		(*uri_list) ++;
-		(*len) ++;
-		(*list_len) --;
-	}
-
-	uri = (guchar *) g_strndup ((gchar *) begin, *len);
-
-	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
-		(*uri_list) ++;
-		(*list_len) --;
-	}
-
-	return (gchar *) uri;
-}
-
 static gboolean
 msg_composer_drag_drop_cb (GtkWidget *widget,
                            GdkDragContext *context,
@@ -1812,6 +1789,12 @@ msg_composer_drag_drop_cb (GtkWidget *widget,
 	if (target == GDK_NONE)
 		gdk_drag_status (context, 0, time);
 	else {
+		/* Prevent WebKit from pasting the URI of file into the view. */
+		if (composer->priv->dnd_is_uri)
+			g_signal_stop_emission_by_name (widget, "drag-drop");
+
+		composer->priv->dnd_is_uri = FALSE;
+
 		gdk_drag_status (context, GDK_ACTION_COPY, time);
 		composer->priv->drop_occured = TRUE;
 		gtk_drag_get_data (widget, context, target, time);
@@ -1834,6 +1817,11 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 	EHTMLEditorView *view;
 	GDBusProxy *web_extension;
 
+	if (!composer->priv->drop_occured)
+		return;
+
+	composer->priv->drop_occured = FALSE;
+
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
@@ -1844,13 +1832,37 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 		web_extension,
 		"DOMCleanAfterDragAndDrop",
 		g_variant_new (
-			"(tb)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			composer->priv->remove_inserted_uri_on_drop),
+			"(t)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view))),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
 		NULL);
+}
+
+static gchar *
+next_uri (guchar **uri_list,
+          gint *len,
+          gint *list_len)
+{
+	guchar *uri, *begin;
+
+	begin = *uri_list;
+	*len = 0;
+	while (**uri_list && **uri_list != '\n' && **uri_list != '\r' && *list_len) {
+		(*uri_list) ++;
+		(*len) ++;
+		(*list_len) --;
+	}
+
+	uri = (guchar *) g_strndup ((gchar *) begin, *len);
+
+	while ((!**uri_list || **uri_list == '\n' || **uri_list == '\r') && *list_len) {
+		(*uri_list) ++;
+		(*list_len) --;
+	}
+
+	return (gchar *) uri;
 }
 
 static void
@@ -1865,18 +1877,12 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 {
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
-	gboolean html_mode;
+	gboolean html_mode, same_widget = FALSE;
 	GtkWidget *source_widget;
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
 	html_mode = e_html_editor_view_get_html_mode (view);
-
-	if (!composer->priv->drop_occured)
-		return;
-
-	composer->priv->remove_inserted_uri_on_drop = FALSE;
-	composer->priv->drop_occured = FALSE;
 
 	/* When we are doind DnD just inside the web view, the DnD is supposed
 	 * to move things around. */
@@ -1886,13 +1892,38 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 		EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
 
 		if ((gpointer) editor_view == (gpointer) source_widget)
-			return;
+			same_widget = TRUE;
 	}
+
+	/* Leave DnD inside the view on WebKit. */
+	if (composer->priv->drop_occured && same_widget) {
+		gdk_drag_status (context, 0, time);
+		return;
+	}
+
+	if (!composer->priv->drop_occured) {
+		if (!same_widget) {
+			/* Check if we are DnD'ing some URI, if so WebKit will
+			 * insert the URI into the view and we have to prevent it
+			 * from doing that. */
+			if (info == DND_TARGET_TYPE_TEXT_URI_LIST) {
+				gchar **uris;
+
+				uris = gtk_selection_data_get_uris (selection);
+				composer->priv->dnd_is_uri = uris != NULL;
+				g_strfreev (uris);
+			}
+		}
+		return;
+	}
+
+	composer->priv->dnd_is_uri = FALSE;
 
 	/* Leave the text on WebKit to handle it. */
 	if (info == DND_TARGET_TYPE_UTF8_STRING ||
 	    info == DND_TARGET_TYPE_STRING ||
-	    info == DND_TARGET_TYPE_TEXT_PLAIN) {
+	    info == DND_TARGET_TYPE_TEXT_PLAIN ||
+	    info == DND_TARGET_TYPE_TEXT_PLAIN_UTF8) {
 		gdk_drag_status (context, 0, time);
 		return;
 	}
@@ -1910,6 +1941,8 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			gtk_drag_finish (context, FALSE, FALSE, time);
 			return;
 		}
+
+		e_html_editor_view_move_selection_on_point (view, x, y);
 
 		list_len = length;
 		do {
@@ -1944,6 +1977,8 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
+		e_html_editor_view_move_selection_on_point (view, x, y);
+
 		list_len = length;
 		do {
 			uri = next_uri ((guchar **) &data, &len, &list_len);
@@ -1965,6 +2000,8 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
+		e_html_editor_view_move_selection_on_point (view, x, y);
+
 		list_len = length;
 		do {
 			uri = next_uri ((guchar **) &data, &len, &list_len);
@@ -1976,12 +2013,6 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 	} else {
 		EAttachmentView *attachment_view =
 			e_msg_composer_get_attachment_view (composer);
-		/* FIXME When the user drops something inside the view and it is
-		 * added as an EAttachment, WebKit still inserts the URI of the
-		 * resource into the view. Now we are deleting it in
-		 * msg_composer_drag_data_received_after_cb, but there has to be
-		 * a way how to tell the WebKit to not process this drop. */
-		composer->priv->remove_inserted_uri_on_drop = TRUE;
 		/* Forward the data to the attachment view.  Note that calling
 		 * e_attachment_view_drag_data_received() will not work because
 		 * that function only handles the case where all the other drag

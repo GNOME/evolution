@@ -1674,10 +1674,8 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMCleanAfterDragAndDrop") == 0) {
-		gboolean remove_inserted_uri_on_drop;
-
 		g_variant_get (
-			parameters, "(tb)", &page_id, &remove_inserted_uri_on_drop);
+			parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1685,7 +1683,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_clean_after_drag_and_drop (document, extension, remove_inserted_uri_on_drop);
+		dom_clean_after_drag_and_drop (document, extension);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMGetActiveSignatureUid") == 0) {
