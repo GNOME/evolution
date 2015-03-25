@@ -533,7 +533,7 @@ action_cut_cb (GtkAction *action,
 	WebKitDOMRange *range;
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+		return;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	dom_window = webkit_dom_document_get_default_view (document);
