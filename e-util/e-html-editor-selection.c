@@ -111,7 +111,6 @@ static WebKitDOMRange *
 html_editor_selection_get_current_range (EHTMLEditorSelection *selection)
 {
 	EHTMLEditorView *view;
-	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
@@ -120,26 +119,26 @@ html_editor_selection_get_current_range (EHTMLEditorSelection *selection)
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_val_if_fail (view != NULL, NULL);
 
-	web_view = WEBKIT_WEB_VIEW (view);
-
-	document = webkit_web_view_get_dom_document (web_view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	dom_window = webkit_dom_document_get_default_view (document);
 	if (!dom_window)
-		goto exit;
+		return NULL;
 
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
-		goto exit;
+	if (!dom_selection) {
+		g_object_unref (dom_window);
+		return NULL;
+	}
 
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
 		goto exit;
+	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
  exit:
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
-	g_object_unref (view);
 
 	return range;
 }

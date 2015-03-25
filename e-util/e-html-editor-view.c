@@ -489,7 +489,7 @@ perform_spell_check (WebKitDOMDOMSelection *dom_selection,
 		actual = webkit_dom_dom_selection_get_range_at (
 			dom_selection, 0, NULL);
 	}
-	g_object_unref (actual);
+	g_clear_object (&actual);
 }
 
 void
