@@ -73,11 +73,13 @@ dom_remove_signatures (WebKitDOMDocument *document,
 			}
 			/* We have to remove the div containing the span with signature */
 			remove_node (wrapper);
+			g_object_unref (wrapper);
 
 			g_free (id);
 			break;
 		}
 
+		g_object_unref (wrapper);
 		g_free (id);
 	}
 	g_object_unref (signatures);
@@ -203,6 +205,7 @@ composer_move_caret (WebKitDOMDocument *document,
 		} else
 			element = WEBKIT_DOM_ELEMENT (body);
 
+		g_object_unref (list);
 		goto move_caret;
 	}
 

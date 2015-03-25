@@ -40,9 +40,11 @@ dom_get_active_signature_uid (WebKitDOMDocument *document)
 			uid = webkit_dom_element_get_attribute (
 				WEBKIT_DOM_ELEMENT (node), "name");
 			g_free (id);
+			g_object_unref (node);
 			break;
 		}
 		g_free (id);
+		g_object_unref (node);
 	}
 
 	g_object_unref (nodes);

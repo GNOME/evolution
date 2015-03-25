@@ -210,6 +210,7 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 		text = get_frame_selection_html (
 			WEBKIT_DOM_ELEMENT (node));
 
+		g_object_unref (node);
 		if (text != NULL) {
 			g_object_unref (frames);
 			return text;
@@ -242,8 +243,11 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 		text = get_frame_selection_html (
 			WEBKIT_DOM_ELEMENT (node));
 
-		if (text != NULL)
+		g_object_unref (node);
+		if (text != NULL) {
+			g_object_unref (frames);
 			return text;
+		}
 	}
 
 	g_object_unref (frames);
@@ -287,6 +291,7 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 		text = get_frame_selection_content_text (
 			WEBKIT_DOM_ELEMENT (node));
 
+		g_object_unref (node);
 		if (text != NULL) {
 			g_object_unref (frames);
 			return text;
@@ -315,6 +320,7 @@ e_dom_utils_get_selection_content_text (WebKitDOMDocument *document)
 		text = get_frame_selection_content_text (
 			WEBKIT_DOM_ELEMENT (node));
 
+		g_object_unref (node);
 		if (text != NULL) {
 			g_object_unref (frames);
 			return text;
@@ -388,7 +394,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 		rule = webkit_dom_css_rule_list_item (rules_list, ii);
 
 		if (!WEBKIT_DOM_IS_CSS_RULE (rule))
-			continue;
+			goto next;
 
 		rule_text = webkit_dom_css_rule_get_css_text (rule);
 
@@ -396,7 +402,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 		selector_end = g_strstr_len (rule_text, -1, " {");
 		if (!selector_end) {
 			g_free (rule_text);
-			continue;
+			goto next;
 		}
 
 		rule_selector =
@@ -411,11 +417,16 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 				WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
 				ii, NULL);
 			length--;
+			g_free (rule_selector);
+			g_free (rule_text);
+			g_object_unref (rule);
 			break;
 		}
 
 		g_free (rule_selector);
+ next:
 		g_free (rule_text);
+		g_object_unref (rule);
 	}
 
 	g_object_unref (rules_list);
@@ -462,6 +473,7 @@ add_css_rule_into_style_sheet_recursive (WebKitDOMDocument *document,
 			style_sheet_id,
 			selector,
 			style);
+		g_object_unref (node);
 	}
 	g_object_unref (frames);
 }
@@ -658,6 +670,7 @@ e_dom_utils_bind_dom (WebKitDOMDocument *document,
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (node), event,
 			G_CALLBACK (callback), FALSE, user_data);
+		g_object_unref (node);
 	}
 	g_object_unref (nodes);
 }
@@ -844,6 +857,7 @@ e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
 
 		element = e_dom_utils_find_element_by_id (content_document, selector);
 
+		g_object_unref (iframe);
 		if (element != NULL) {
 			g_object_unref (frames);
 			return element;
@@ -886,6 +900,7 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 
 		element = e_dom_utils_find_element_by_id (content_document, id);
 
+		g_object_unref (iframe);
 		if (element != NULL) {
 			g_object_unref (frames);
 			return element;
