@@ -370,8 +370,12 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	WebKitDOMElement *style_element;
 	WebKitDOMStyleSheet *sheet;
 	WebKitDOMCSSRuleList *rules_list;
-	gint length, ii;
+	gint length, ii, selector_length;
+	gboolean removed = FALSE;
 
+	g_return_if_fail (selection != NULL);
+
+	selector_length = strlen (selector);
 	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
 
 	if (!style_element) {
@@ -386,45 +390,27 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	length = webkit_dom_css_rule_list_get_length (rules_list);
 
 	/* Check if rule exists */
-	for (ii = 0; ii < length; ii++) {
+	for (ii = 0; ii < length && !removed; ii++) {
 		WebKitDOMCSSRule *rule;
-		gchar *rule_text;
-		gchar *rule_selector, *selector_end;
+		gchar *rule_text = NULL;
 
 		rule = webkit_dom_css_rule_list_item (rules_list, ii);
 
-		if (!WEBKIT_DOM_IS_CSS_RULE (rule))
-			goto next;
+		g_return_if_fail (WEBKIT_DOM_IS_CSS_RULE (rule));
 
 		rule_text = webkit_dom_css_rule_get_css_text (rule);
 
 		/* Find the start of the style => end of the selector */
-		selector_end = g_strstr_len (rule_text, -1, " {");
-		if (!selector_end) {
-			g_free (rule_text);
-			goto next;
-		}
-
-		rule_selector =
-			g_utf8_substring (
-				rule_text,
-				0,
-				g_utf8_pointer_to_offset (rule_text, selector_end));
-
-		if (g_strcmp0 (rule_selector, selector) == 0) {
+		if (rule_text && selector && g_str_has_prefix (rule_text, selector) &&
+		    rule_text[selector_length] == ' ' && rule_text[selector_length + 1] == '{') {
 			/* If exists remove it */
 			webkit_dom_css_style_sheet_remove_rule (
 				WEBKIT_DOM_CSS_STYLE_SHEET (sheet),
 				ii, NULL);
 			length--;
-			g_free (rule_selector);
-			g_free (rule_text);
-			g_object_unref (rule);
-			break;
+			removed = TRUE;
 		}
 
-		g_free (rule_selector);
- next:
 		g_free (rule_text);
 		g_object_unref (rule);
 	}
