@@ -632,23 +632,25 @@ html_editor_table_dialog_show (GtkWidget *widget)
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 
 	dialog = E_HTML_EDITOR_TABLE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
 		WebKitDOMElement *table;
 		WebKitDOMRange *range;
 
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		table = e_html_editor_dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
+		g_object_unref (range);
 
 		if (!table) {
 			dialog->priv->table_element = WEBKIT_DOM_HTML_TABLE_ELEMENT (
@@ -676,6 +678,8 @@ html_editor_table_dialog_show (GtkWidget *widget)
 			dialog->priv->history_event = ev;
 		}
 	}
+
+	g_object_unref (dom_selection);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_table_dialog_parent_class)->show (widget);
