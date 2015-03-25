@@ -2483,21 +2483,22 @@ static gchar *
 web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMNodeList *frames;
 	gulong ii, length;
 
 	document = webkit_dom_html_iframe_element_get_content_document (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
 		WebKitDOMRange *range;
 		WebKitDOMElement *element;
 		WebKitDOMDocumentFragment *fragment;
 
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		if (range != NULL) {
 			gchar *inner_html;
 			WebKitDOMNode *node;
@@ -2520,9 +2521,13 @@ web_view_get_frame_selection_html (WebKitDOMElement *iframe)
 				g_free (tmp);
 			}
 
+			g_object_unref (range);
+			g_object_unref (dom_selection);
 			return inner_html;
 		}
 	}
+
+	g_object_unref (dom_selection);
 
 	frames = webkit_dom_document_get_elements_by_tag_name (
 		document, "IFRAME");

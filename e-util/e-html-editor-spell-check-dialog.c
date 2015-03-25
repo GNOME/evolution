@@ -180,6 +180,7 @@ html_editor_spell_check_dialog_next (EHTMLEditorSpellCheckDialog *dialog)
 		range = webkit_dom_dom_selection_get_range_at (
 			dialog->priv->selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
+		g_object_unref (range);
 
 		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 		webkit_spell_checker_check_spelling_of_string (
@@ -277,6 +278,7 @@ html_editor_spell_check_dialog_prev (EHTMLEditorSpellCheckDialog *dialog)
 		range = webkit_dom_dom_selection_get_range_at (
 			dialog->priv->selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
+		g_object_unref (range);
 
 		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 		webkit_spell_checker_check_spelling_of_string (
@@ -419,7 +421,7 @@ html_editor_spell_check_dialog_show (GtkWidget *widget)
 	EHTMLEditorView *view;
 	EHTMLEditorSpellCheckDialog *dialog;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 
 	dialog = E_HTML_EDITOR_SPELL_CHECK_DIALOG (widget);
 
@@ -430,8 +432,9 @@ html_editor_spell_check_dialog_show (GtkWidget *widget)
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dialog->priv->selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dialog->priv->selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	/* Select the first word or quit */
 	if (html_editor_spell_check_dialog_next (dialog)) {
@@ -447,6 +450,7 @@ html_editor_spell_check_dialog_finalize (GObject *object)
 
 	priv = E_HTML_EDITOR_SPELL_CHECK_DIALOG_GET_PRIVATE (object);
 
+	g_clear_object (&priv->selection);
 	g_free (priv->word);
 
 	/* Chain up to parent's finalize() method. */

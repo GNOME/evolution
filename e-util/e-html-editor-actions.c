@@ -538,25 +538,32 @@ action_cut_cb (GtkAction *action,
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
-	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
+		g_object_unref (dom_selection);
 		return;
+	}
 
 	selection = e_html_editor_view_get_selection (view);
 
 	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 	ev->type = HISTORY_DELETE;
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	e_html_editor_selection_get_selection_coordinates (
 		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-	if (webkit_dom_range_get_collapsed (range, NULL))
+	if (webkit_dom_range_get_collapsed (range, NULL)) {
+		g_object_unref (range);
+		g_object_unref (dom_selection);
 		return;
+	}
 
 	/* Save the fragment. */
 	fragment = webkit_dom_range_clone_contents (range, NULL);
+	g_object_unref (range);
+	g_object_unref (dom_selection);
 	ev->data.fragment = g_object_ref (fragment);
 
 	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));

@@ -106,7 +106,7 @@ html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
@@ -116,12 +116,14 @@ html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 	selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	if (!dom_selection ||
 	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
 		gtk_widget_hide (GTK_WIDGET (dialog));
+		g_object_unref (dom_selection);
 		return;
 	}
 
@@ -198,6 +200,8 @@ html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 		g_free (text);
 	}
 
+	g_object_unref (range);
+	g_object_unref (dom_selection);
 	gtk_widget_hide (GTK_WIDGET (dialog));
 }
 
@@ -222,7 +226,7 @@ html_editor_link_dialog_show (GtkWidget *widget)
 	EHTMLEditorView *view;
 	EHTMLEditorLinkDialog *dialog;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
@@ -232,8 +236,9 @@ html_editor_link_dialog_show (GtkWidget *widget)
 	view = e_html_editor_get_view (editor);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	/* Reset to default values */
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), "http://");
@@ -305,7 +310,9 @@ html_editor_link_dialog_show (GtkWidget *widget)
 		g_free (text);
 	}
 
+	g_object_unref (range);
  chainup:
+	g_object_unref (dom_selection);
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->show (widget);
 }
