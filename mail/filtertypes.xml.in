@@ -292,8 +292,7 @@
      <code>
 	(match-all (or (header-contains "From" ${recipient})
 	    	       (header-contains "To" ${recipient})
-	    	       (header-contains "Cc" ${recipient})
-	    	       (header-contains "Bcc" ${recipient})))
+	               (header-contains "Cc" ${recipient})))
      </code>
     </option>
     <option value="not contains">
@@ -302,8 +301,7 @@
 	(match-all (not (or
                (header-contains "From" ${recipient})
 	       (header-contains "To" ${recipient})
-	       (header-contains "Cc" ${recipient})
-	       (header-contains "Bcc" ${recipient}))))
+	       (header-contains "Cc" ${recipient}))))
      </code>
     </option>
     <option value="is">
@@ -311,8 +309,7 @@
      <code>
 	(match-all (or (header-matches "From" ${recipient})
 	    	       (header-matches "To" ${recipient})
-	    	       (header-matches "Cc" ${recipient})
-	    	       (header-matches "Bcc" ${recipient})))
+	               (header-matches "Cc" ${recipient})))
      </code>
     </option>
     <option value="is not">
@@ -321,8 +318,7 @@
 	(match-all (not (or
                (header-matches "From" ${recipient})
                (header-matches "To" ${recipient})
-	       (header-matches "Cc" ${recipient})
-	       (header-matches "Bcc" ${recipient}))))
+	       (header-matches "Cc" ${recipient}))))
      </code>
     </option>
     <option value="starts with">
@@ -330,8 +326,7 @@
      <code>
         (match-all (or (header-starts-with "From" ${recipient})
 	    	       (header-starts-with "To" ${recipient})
-	    	       (header-starts-with "Cc" ${recipient})
-	    	       (header-starts-with "Bcc" ${recipient})))
+	               (header-starts-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not starts with">
@@ -340,8 +335,7 @@
         (match-all (not (or
                (header-starts-with "From" ${recipient})
                (header-starts-with "To" ${recipient})
-	       (header-starts-with "Cc" ${recipient})
-	       (header-starts-with "Bcc" ${recipient}))))
+	       (header-starts-with "Cc" ${recipient}))))
      </code>
     </option>
     <option value="ends with">
@@ -349,8 +343,7 @@
      <code>
         (match-all (or (header-ends-with "From" ${recipient})
 	    	       (header-ends-with "To" ${recipient})
-	    	       (header-ends-with "Cc" ${recipient})
-	    	       (header-ends-with "Bcc" ${recipient})))
+	               (header-ends-with "Cc" ${recipient})))
      </code>
     </option>
     <option value="not ends with">
@@ -359,8 +352,7 @@
         (match-all (not (or
                (header-ends-with "From" ${recipient})
                (header-ends-with "To" ${recipient})
-	       (header-ends-with "Cc" ${recipient})
-	       (header-ends-with "Bcc" ${recipient}))))
+	       (header-ends-with "Cc" ${recipient}))))
      </code>
     </option>
     <option value="matches soundex">
@@ -368,8 +360,7 @@
      <code>
 	(match-all (or (header-soundex "From" ${recipient})
 	    	       (header-soundex "To" ${recipient})
-	    	       (header-soundex "Cc" ${recipient})
-	    	       (header-soundex "Bcc" ${recipient})))
+	               (header-soundex "Cc" ${recipient})))
      </code>
     </option>
     <option value="not match soundex">
@@ -378,8 +369,7 @@
 	(match-all (not (or
                (header-soundex "From" ${recipient})
                (header-soundex "To" ${recipient})
-	       (header-soundex "Cc" ${recipient})
-	       (header-soundex "Bcc" ${recipient}))))
+	       (header-soundex "Cc" ${recipient}))))
      </code>
     </option>
    </input>
