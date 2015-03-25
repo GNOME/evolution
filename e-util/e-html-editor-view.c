@@ -907,7 +907,7 @@ e_html_editor_view_quote_plain_text_element_after_wrapping (WebKitDOMDocument *d
 static gboolean
 is_citation_node (WebKitDOMNode *node)
 {
-	char *value;
+	gchar *value;
 
 	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
 		return FALSE;
@@ -1172,7 +1172,7 @@ set_base64_to_element_attribute (EHTMLEditorView *view,
 
 	attribute_value = webkit_dom_element_get_attribute (element, attribute);
 
-	if ((base64_src = g_hash_table_lookup (view->priv->inline_images, attribute_value)) != NULL) {
+	if (attribute_value && (base64_src = g_hash_table_lookup (view->priv->inline_images, attribute_value)) != NULL) {
 		const gchar *base64_data = strstr (base64_src, ";") + 1;
 		gchar *name;
 		glong name_length;
@@ -1188,6 +1188,8 @@ set_base64_to_element_attribute (EHTMLEditorView *view,
 
 		g_free (name);
 	}
+
+	g_free (attribute_value);
 }
 
 static void
@@ -8889,6 +8891,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMHTMLElement *body;
 	WebKitLoadStatus status;
+	gchar *data_evo_draft;
 
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
 	if (status != WEBKIT_LOAD_FINISHED)
@@ -8943,7 +8946,8 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	move_elements_to_body (document);
 	repair_gmail_blockquotes (document);
 
-	if (webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
+	data_evo_draft = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
+	if (data_evo_draft) {
 		/* Restore the selection how it was when the draft was saved */
 		e_html_editor_selection_move_caret_into_element (
 			document, WEBKIT_DOM_ELEMENT (body), FALSE);
@@ -8951,6 +8955,8 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 			e_html_editor_view_get_selection (view));
 		e_html_editor_view_remove_embed_styles (view);
 	}
+
+	g_free (data_evo_draft);
 
 	/* The composer body could be empty in some case (loading an empty string
 	 * or empty HTML. In that case create the initial paragraph. */
@@ -9045,6 +9051,7 @@ rename_attribute (WebKitDOMElement *element,
 	if (value)
 		webkit_dom_element_set_attribute (element, to, value, NULL);
 	webkit_dom_element_remove_attribute (element, from);
+	g_free (value);
 }
 
 static void

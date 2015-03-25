@@ -402,13 +402,13 @@ html_editor_image_dialog_show (GtkWidget *widget)
 			GTK_FILE_CHOOSER (dialog->priv->file_chooser), tmp);
 		gtk_widget_set_sensitive (
 			GTK_WIDGET (dialog->priv->file_chooser), TRUE);
-		g_free (tmp);
 	} else {
 		gtk_file_chooser_set_uri (
 			GTK_FILE_CHOOSER (dialog->priv->file_chooser), "");
 		gtk_widget_set_sensitive (
 			GTK_WIDGET (dialog->priv->file_chooser), FALSE);
 	}
+	g_free (tmp);
 
 	tmp = webkit_dom_html_image_element_get_alt (dialog->priv->image);
 	gtk_entry_set_text (GTK_ENTRY (dialog->priv->description_edit), tmp ? tmp : "");

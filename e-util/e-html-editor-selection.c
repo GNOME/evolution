@@ -2009,7 +2009,7 @@ get_citation_level (WebKitDOMNode *node)
 static gboolean
 is_citation_node (WebKitDOMNode *node)
 {
-	char *value;
+	gchar *value;
 
 	if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (node))
 		return FALSE;
