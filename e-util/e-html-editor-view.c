@@ -8976,7 +8976,6 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMHTMLElement *body;
 	WebKitLoadStatus status;
-	gchar *data_evo_draft;
 
 	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
 	if (status != WEBKIT_LOAD_FINISHED)
@@ -9030,8 +9029,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	move_elements_to_body (document);
 	repair_gmail_blockquotes (document);
 
-	data_evo_draft = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
-	if (data_evo_draft) {
+	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
 		/* Restore the selection how it was when the draft was saved */
 		e_html_editor_selection_move_caret_into_element (
 			document, WEBKIT_DOM_ELEMENT (body), FALSE);
@@ -9039,8 +9037,6 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 			e_html_editor_view_get_selection (view));
 		e_html_editor_view_remove_embed_styles (view);
 	}
-
-	g_free (data_evo_draft);
 
 	/* The composer body could be empty in some case (loading an empty string
 	 * or empty HTML. In that case create the initial paragraph. */
