@@ -4208,6 +4208,8 @@ add_recipients (GList *list,
 		}
 	}
 
+	g_object_unref (cia);
+
 	return list;
 }
 

@@ -90,6 +90,7 @@ free_undo_data (gpointer ptr)
 		for (ii = 0; ii < data->undo_len; ii++) {
 			free_undo_info (data->undo_stack[ii]);
 		}
+		g_free (data->undo_stack);
 		g_free (data);
 	}
 }
