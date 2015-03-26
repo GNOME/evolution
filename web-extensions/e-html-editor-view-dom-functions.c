@@ -1184,14 +1184,14 @@ emoticon_load_context_free (LoadContext *load_context)
 static void
 emoticon_insert_span (EEmoticon *emoticon,
                       LoadContext *load_context,
-                      const gchar *html)
+                      WebKitDOMElement *span)
 {
 	EHTMLEditorWebExtension *extension = load_context->extension;
 	gboolean misplaced_selection = FALSE, empty = FALSE;
-	gchar *final_html, *node_text = NULL, *content;
+	gchar *node_text = NULL, *content;
 	const gchar *emoticon_start;
 	WebKitDOMDocument *document = load_context->document;
-	WebKitDOMElement *span, *selection_start_marker, *selection_end_marker;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *node, *insert_before, *prev_sibling, *next_sibling;
 	WebKitDOMNode *selection_end_marker_parent;
 	WebKitDOMRange *range;
@@ -1271,11 +1271,6 @@ emoticon_insert_span (EEmoticon *emoticon,
 	empty = !*content || (g_strcmp0 (content, UNICODE_ZERO_WIDTH_SPACE) == 0);
 	g_free (content);
 
-	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-	final_html = g_strdup_printf ("%s%s", html, empty ? "&#8203;" : "");
-
-	span = webkit_dom_document_create_element (document, "SPAN", NULL);
-
 	if (misplaced_selection) {
 		/* Insert smiley and selection markers after it */
 		webkit_dom_node_insert_before (
@@ -1303,26 +1298,32 @@ emoticon_insert_span (EEmoticon *emoticon,
 				NULL));
 	}
 
-	webkit_dom_html_element_set_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (span), final_html, NULL);
+	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
+	if (empty)
+		webkit_dom_html_element_insert_adjacent_html (
+			WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
 
-	if (node_text) {
+	/* Remove the text that represents the text version of smiley that was
+	 * written into the composer. */
+	if (node_text && e_html_editor_web_extension_get_is_smiley_written (extension)) {
 		emoticon_start = g_utf8_strrchr (
 			node_text, -1, g_utf8_get_char (emoticon->text_face));
-		if (emoticon_start) {
+		/* Check if the written smiley is really the one that we inserted. */
+		if (emoticon_start && g_str_has_prefix (emoticon_start, emoticon->text_face)) {
 			webkit_dom_character_data_delete_data (
 				WEBKIT_DOM_CHARACTER_DATA (node),
 				g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
 				strlen (emoticon->text_face),
 				NULL);
 		}
+
+		e_html_editor_web_extension_set_is_smiley_written (extension, FALSE);
 	}
 
 	dom_selection_restore (document);
 
 	e_html_editor_web_extension_set_content_changed (extension);
 
-	g_free (final_html);
 	g_free (node_text);
 }
 
@@ -1335,11 +1336,13 @@ emoticon_read_async_cb (GFile *file,
 	EHTMLEditorWebExtension *extension = load_context->extension;
 	GError *error = NULL;
 	gboolean html_mode;
-	gchar *html, *mime_type;
+	gchar *mime_type;
 	gchar *base64_encoded, *output, *data;
 	GFileInputStream *input_stream;
 	GOutputStream *output_stream;
 	gssize size;
+	WebKitDOMElement *wrapper, *image, *smiley_text;
+	WebKitDOMDocument *document;
 
 	input_stream = g_file_read_finish (file, result, &error);
 	g_return_if_fail (!error && input_stream);
@@ -1360,23 +1363,35 @@ emoticon_read_async_cb (GFile *file,
 	output = g_strconcat ("data:", mime_type, ";base64,", base64_encoded, NULL);
 
 	html_mode = e_html_editor_web_extension_get_html_mode (extension);
+	document = load_context->document;
 
 	/* Insert span with image representation and another one with text
 	 * represetation and hide/show them dependant on active composer mode */
-	html = g_strdup_printf (
-		"<span class=\"-x-evo-smiley-wrapper -x-evo-resizable-wrapper\">"
-		"<img src=\"%s\" alt=\"%s\" x-evo-smiley=\"%s\" "
-		"class=\"-x-evo-smiley-img\" data-inline data-name=\"%s\"%s/>"
-		"<span class=\"-x-evo-smiley-text\"%s>%s</span></span>",
-		output, emoticon ? emoticon->text_face : "",
-		emoticon->icon_name, load_context->name,
-		html_mode ? "" : " style=\"display: none;\"",
-		html_mode ? " style=\"display: none;\"" : "",
-		emoticon ? emoticon->text_face : "");
+	wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_element_set_attribute (
+		wrapper, "class", "-x-evo-smiley-wrapper -x-evo-resizable-wrapper", NULL);
 
-	emoticon_insert_span (emoticon, load_context, html);
+	image = webkit_dom_document_create_element (document, "IMG", NULL);
+	webkit_dom_element_set_attribute (image, "src", output, NULL);
+	webkit_dom_element_set_attribute (image, "alt", emoticon->text_face, NULL);
+	webkit_dom_element_set_attribute (image, "-x-evo-smiley", emoticon->icon_name, NULL);
+	webkit_dom_element_set_attribute (image, "class", "-x-evo-smiley-img", NULL);
+	if (!html_mode)
+		webkit_dom_element_set_attribute (image, "style", "display: none;", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (wrapper), WEBKIT_DOM_NODE (image), NULL);
 
-	g_free (html);
+	smiley_text = webkit_dom_document_create_element (document, "SPAN", NULL);
+	webkit_dom_element_set_attribute (smiley_text, "class", "-x-evo-smiley-text", NULL);
+	if (html_mode)
+		webkit_dom_element_set_attribute (smiley_text, "style", "display: none;", NULL);
+	webkit_dom_html_element_set_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (smiley_text), emoticon->text_face, NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (wrapper), WEBKIT_DOM_NODE (smiley_text), NULL);
+
+	emoticon_insert_span (emoticon, load_context, wrapper);
+
 	g_free (base64_encoded);
 	g_free (output);
 	g_free (mime_type);
@@ -1412,16 +1427,17 @@ dom_insert_smiley (WebKitDOMDocument *document,
                    EEmoticon *emoticon)
 {
 	GFile *file;
-	gchar *html, *filename_uri;
+	gchar *filename_uri;
 	LoadContext *load_context;
 
 	if (e_html_editor_web_extension_get_unicode_smileys_enabled (extension)) {
-		html = g_strdup_printf ("<span>%s</span>",
-			emoticon->unicode_character);
+		WebKitDOMElement *wrapper;
 
-		emoticon_insert_span (emoticon, load_context ,html);
+		wrapper = webkit_dom_document_create_element (document, "SPAN", NULL);
+		webkit_dom_html_element_set_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (wrapper), emoticon->unicode_character, NULL);
 
-		g_free (html);
+		emoticon_insert_span (emoticon, load_context, wrapper);
 	} else {
 		filename_uri = e_emoticon_get_uri (emoticon);
 		g_return_if_fail (filename_uri != NULL);
@@ -1501,6 +1517,7 @@ dom_check_magic_smileys (WebKitDOMDocument *document,
 
 		emoticon = (e_emoticon_chooser_lookup_emoticon (
 			emoticons_icon_names[-state - 1]));
+		e_html_editor_web_extension_set_is_smiley_written (extension, TRUE);
 		dom_insert_smiley (document, extension, (EEmoticon *) emoticon);
 	}
 

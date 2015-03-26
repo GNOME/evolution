@@ -176,4 +176,11 @@ gboolean	e_html_editor_web_extension_is_message_from_draft
 gboolean	e_html_editor_web_extension_is_from_new_message
 						(EHTMLEditorWebExtension *extension);
 
+gboolean	e_html_editor_web_extension_get_is_smiley_written
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_is_smiley_written
+						(EHTMLEditorWebExtension *extension,
+                                                 gboolean value);
+
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

@@ -80,6 +80,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean html_mode;
 	gboolean return_key_pressed;
 	gboolean space_key_pressed;
+	gboolean smiley_written;
 	gint word_wrap_length;
 
 	gboolean convert_in_situ;
@@ -2231,6 +2232,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->html_mode = FALSE;
 	extension->priv->return_key_pressed = FALSE;
 	extension->priv->space_key_pressed = FALSE;
+	extension->priv->smiley_written = FALSE;
 	extension->priv->body_input_event_removed = FALSE;
 	extension->priv->word_wrap_length = 71;
 
@@ -2663,5 +2665,18 @@ gboolean
 e_html_editor_web_extension_is_from_new_message (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->is_from_new_message;
+}
+
+gboolean
+e_html_editor_web_extension_get_is_smiley_written (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->smiley_written;
+}
+
+void
+e_html_editor_web_extension_set_is_smiley_written (EHTMLEditorWebExtension *extension,
+                                                   gboolean value)
+{
+	extension->priv->smiley_written = value;
 }
 
