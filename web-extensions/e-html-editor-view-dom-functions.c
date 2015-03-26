@@ -2130,9 +2130,8 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
                                           const gchar *text)
 {
 	gchar *escaped_text;
-	WebKitDOMElement *blockquote, *element;
-	WebKitDOMNode *node;
-	WebKitDOMRange *range;
+	WebKitDOMElement *blockquote, *element, *selection_start;
+	WebKitDOMNode *sibling;
 
 	if (!text || !*text)
 		return;
@@ -2165,13 +2164,39 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 	if (!e_html_editor_web_extension_get_html_mode (extension))
 		dom_quote_plain_text_element (document, element);
 
-	range = dom_get_current_range (document);
-	node = webkit_dom_range_get_end_container (range, NULL);
 
+	element = webkit_dom_document_create_element (document, "pre", NULL);
 	webkit_dom_node_append_child (
-		webkit_dom_node_get_parent_node (node),
-		WEBKIT_DOM_NODE (blockquote),
-		NULL);
+		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (blockquote), NULL);
+
+	dom_selection_save (document);
+
+	selection_start = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
+	/* Check if block is empty. If so, replace it otherwise insert the quoted
+	 * content after current block. */
+	if (!sibling || WEBKIT_DOM_IS_HTML_BR_ELEMENT (sibling)) {
+		sibling = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (selection_start));
+		sibling = webkit_dom_node_get_next_sibling (sibling);
+		if (!sibling || WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling)) {
+			webkit_dom_node_replace_child (
+				webkit_dom_node_get_parent_node (
+					webkit_dom_node_get_parent_node (
+						WEBKIT_DOM_NODE (selection_start))),
+				WEBKIT_DOM_NODE (element),
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start)),
+				NULL);
+	} else
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
+			WEBKIT_DOM_NODE (element),
+			webkit_dom_node_get_next_sibling (
+				webkit_dom_node_get_parent_node (
+					WEBKIT_DOM_NODE (selection_start))),
+			NULL);
+	}
 
 	dom_restore_caret_position (document);
 
