@@ -3344,8 +3344,10 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			rest = with_br ?
 				to_insert + 4 + (with_br - to_insert) : to_insert;
 
-		if (!rest)
+		if (!rest) {
+			preserve_next_line = FALSE;
 			goto next;
+		}
 
 		if (*rest) {
 			gboolean empty = FALSE;
@@ -3355,7 +3357,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			g_strchomp (truncated);
 			empty = !*truncated && strlen (rest) > 0;
 
-			if (strchr (" +-@*=\t", *rest))
+			if (strchr (" +-@*=\t;#", *rest))
 				preserve_block = FALSE;
 
 			rest_to_insert = g_regex_replace_eval (
@@ -3475,8 +3477,10 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 					blockquote,
 					block,
 					"<br class=\"-x-evo-first-br\">");
-			}
-		}
+			} else
+				preserve_next_line = FALSE;
+		} else
+			preserve_next_line = FALSE;
  next:
 		first_element = FALSE;
 		prev_br = next_br;
