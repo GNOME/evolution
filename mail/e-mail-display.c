@@ -470,6 +470,64 @@ attachment_button_expanded (GObject *object,
 }
 
 static void
+attachment_button_zoom_to_window_cb (GObject *object,
+				     GParamSpec *pspec,
+				     gpointer user_data)
+{
+	EAttachmentButton *button = E_ATTACHMENT_BUTTON (object);
+	EMailDisplay *display = user_data;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element, *child;
+	WebKitDOMCSSStyleDeclaration *css;
+	const gchar *attachment_part_id;
+	gchar *element_id;
+	gboolean zoom_to_window;
+
+	d (
+		printf ("Attachment button %s has been set to %s!\n",
+		(gchar *) g_object_get_data (object, "uri"),
+		(e_attachment_botton_get_zoom_to_window (attachment) ? "zoom-to-window" : "zoom to 100%")));
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (button)))
+		return;
+
+	zoom_to_window = e_attachment_button_get_zoom_to_window (button);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (display));
+	attachment_part_id = g_object_get_data (object, "attachment_id");
+
+	element_id = g_strconcat (attachment_part_id, ".wrapper", NULL);
+	element = find_element_by_id (document, element_id);
+	g_free (element_id);
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element)) {
+		d (
+			printf ("%s: Content <div> of attachment %s does not exist!!\n",
+			G_STRFUNC, (gchar *) g_object_get_data (object, "uri")));
+		return;
+	}
+
+	child = webkit_dom_element_get_first_element_child (element);
+	if (!child || !WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (child)) {
+		d (
+			printf ("%s: Content <div> of attachment %s does not contain image, but %s\n",
+			G_STRFUNC, (gchar *) g_object_get_data (object, "uri"),
+			child ? G_OBJECT_TYPE_NAME (child) : "[null]"));
+		g_clear_object (&child);
+		return;
+	}
+
+	css = webkit_dom_element_get_style (child);
+	if (zoom_to_window) {
+		webkit_dom_css_style_declaration_set_property (css, "max-width", "100%", "", NULL);
+	} else {
+		g_free (webkit_dom_css_style_declaration_remove_property (css, "max-width", NULL));
+	}
+	g_object_unref (css);
+	g_clear_object (&child);
+}
+
+static void
 mail_display_attachment_count_changed (EAttachmentStore *store,
                                        GParamSpec *pspec,
                                        GtkWidget *box)
@@ -687,6 +745,10 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 			g_signal_connect (
 				widget, "notify::visible",
 				G_CALLBACK (attachment_button_expanded),
+				display);
+			g_signal_connect (
+				widget, "notify::zoom-to-window",
+				G_CALLBACK (attachment_button_zoom_to_window_cb),
 				display);
 
 			mime_part = e_mail_part_ref_mime_part (part);

@@ -84,6 +84,11 @@ gboolean	e_attachment_button_get_expanded
 void		e_attachment_button_set_expanded
 						(EAttachmentButton *button,
 						 gboolean expanded);
+gboolean	e_attachment_button_get_zoom_to_window
+						(EAttachmentButton *button);
+void		e_attachment_button_set_zoom_to_window
+						(EAttachmentButton *button,
+						 gboolean zoom_to_window);
 
 G_END_DECLS
 

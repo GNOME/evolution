@@ -39,6 +39,7 @@ struct _EAttachmentButtonPrivate {
 
 	GBinding *can_show_binding;
 	GBinding *shown_binding;
+	GBinding *zoom_to_window_binding;
 
 	GtkWidget *expand_button;
 	GtkWidget *toggle_button;
@@ -47,6 +48,7 @@ struct _EAttachmentButtonPrivate {
 
 	guint expandable : 1;
 	guint expanded : 1;
+	guint zoom_to_window : 1;
 };
 
 enum {
@@ -54,7 +56,8 @@ enum {
 	PROP_ATTACHMENT,
 	PROP_EXPANDABLE,
 	PROP_EXPANDED,
-	PROP_VIEW
+	PROP_VIEW,
+	PROP_ZOOM_TO_WINDOW
 };
 
 G_DEFINE_TYPE (
@@ -388,6 +391,12 @@ attachment_button_set_property (GObject *object,
 				E_ATTACHMENT_BUTTON (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_ZOOM_TO_WINDOW:
+			e_attachment_button_set_zoom_to_window (
+				E_ATTACHMENT_BUTTON (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -425,6 +434,13 @@ attachment_button_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_attachment_button_get_view (
+				E_ATTACHMENT_BUTTON (object)));
+			return;
+
+		case PROP_ZOOM_TO_WINDOW:
+			g_value_set_boolean (
+				value,
+				e_attachment_button_get_zoom_to_window (
 				E_ATTACHMENT_BUTTON (object)));
 			return;
 	}
@@ -548,6 +564,17 @@ e_attachment_button_class_init (EAttachmentButtonClass *class)
 			NULL,
 			E_TYPE_ATTACHMENT_VIEW,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ZOOM_TO_WINDOW,
+		g_param_spec_boolean (
+			"zoom-to-window",
+			"Zoom to window",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 }
 
 static void
@@ -745,10 +772,9 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	}
 
 	if (button->priv->attachment != NULL) {
-		g_object_unref (button->priv->can_show_binding);
-		button->priv->can_show_binding = NULL;
-		g_object_unref (button->priv->shown_binding);
-		button->priv->shown_binding = NULL;
+		g_clear_object (&button->priv->can_show_binding);
+		g_clear_object (&button->priv->shown_binding);
+		g_clear_object (&button->priv->zoom_to_window_binding);
 		g_signal_handler_disconnect (
 			button->priv->attachment,
 			button->priv->reference_handler_id);
@@ -780,6 +806,13 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 			G_CALLBACK (attachment_button_update_cell_view),
 			button);
 		button->priv->reference_handler_id = handler_id;
+
+		binding = e_binding_bind_property (
+			attachment, "zoom-to-window",
+			button, "zoom-to-window",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+		button->priv->zoom_to_window_binding = binding;
 
 		attachment_button_update_cell_view (button);
 		attachment_button_update_pixbufs (button);
@@ -867,4 +900,26 @@ e_attachment_button_set_expanded (EAttachmentButton *button,
 	button->priv->expanded = expanded;
 
 	g_object_notify (G_OBJECT (button), "expanded");
+}
+
+gboolean
+e_attachment_button_get_zoom_to_window (EAttachmentButton *button)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_BUTTON (button), FALSE);
+
+	return button->priv->zoom_to_window;
+}
+
+void
+e_attachment_button_set_zoom_to_window (EAttachmentButton *button,
+					gboolean zoom_to_window)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_BUTTON (button));
+
+	if ((button->priv->zoom_to_window ? 1 : 0) == (zoom_to_window ? 1 : 0))
+		return;
+
+	button->priv->zoom_to_window = zoom_to_window;
+
+	g_object_notify (G_OBJECT (button), "zoom-to-window");
 }
