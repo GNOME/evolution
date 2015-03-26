@@ -539,8 +539,8 @@ toggle_headers_visibility (WebKitDOMElement *button,
                            WebKitDOMEvent *event,
                            WebKitDOMDocument *document)
 {
-	WebKitDOMElement *short_headers, *full_headers;
-	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
+	WebKitDOMElement *short_headers = NULL, *full_headers = NULL;
+	WebKitDOMCSSStyleDeclaration *css_short = NULL, *css_full = NULL;
 	gboolean expanded;
 	const gchar *path;
 	gchar *css_value;
@@ -555,7 +555,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	full_headers = webkit_dom_document_get_element_by_id (
 		document, "__evo-full-headers");
 	if (full_headers == NULL)
-		return;
+		goto clean;
 
 	css_full = webkit_dom_element_get_style (full_headers);
 	css_value = webkit_dom_css_style_declaration_get_property_value (
@@ -577,6 +577,11 @@ toggle_headers_visibility (WebKitDOMElement *button,
 
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+ clean:
+	g_clear_object (&short_headers);
+	g_clear_object (&css_short);
+	g_clear_object (&full_headers);
+	g_clear_object (&css_full);
 }
 
 static void
@@ -584,35 +589,37 @@ toggle_address_visibility (WebKitDOMElement *button,
                            WebKitDOMEvent *event,
                            GDBusConnection *connection)
 {
-	WebKitDOMElement *full_addr, *ellipsis;
-	WebKitDOMElement *parent;
-	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
+	WebKitDOMElement *full_addr = NULL, *ellipsis = NULL;
+	WebKitDOMElement *parent = NULL, *bold = NULL;
+	WebKitDOMCSSStyleDeclaration *css_full = NULL, *css_ellipsis = NULL;
 	const gchar *path;
+	gchar *property_value;
 	gboolean expanded;
 	GError *error = NULL;
 
 	/* <b> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
+	bold = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
 	/* <td> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
+	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (bold));
+	g_object_unref (bold);
 
 	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
 
 	if (!full_addr)
-		return;
+		goto clean;
 
 	css_full = webkit_dom_element_get_style (full_addr);
 
 	ellipsis = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-ellipsis", NULL);
 
 	if (!ellipsis)
-		return;
+		goto clean;
 
 	css_ellipsis = webkit_dom_element_get_style (ellipsis);
 
-	expanded = (g_strcmp0 (
-		webkit_dom_css_style_declaration_get_property_value (
-		css_full, "display"), "inline") == 0);
+	property_value = webkit_dom_css_style_declaration_get_property_value (css_full, "display");
+	expanded = g_strcmp0 (property_value, "inline") == 0;
+	g_free (property_value);
 
 	webkit_dom_css_style_declaration_set_property (
 		css_full, "display", (expanded ? "none" : "inline"), "", NULL);
@@ -625,14 +632,17 @@ toggle_address_visibility (WebKitDOMElement *button,
 		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
 
 	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
-		button = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
+		WebKitDOMElement *element;
 
-		if (!button)
-			return;
-	}
+		element = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
+		if (!element)
+			goto clean;
 
-	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), path);
+
+		g_object_unref (element);
+	} else
+		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
 
 	g_dbus_connection_emit_signal (
 		connection,
@@ -647,6 +657,13 @@ toggle_address_visibility (WebKitDOMElement *button,
 		g_warning ("Error emitting signal HeadersCollapsed: %s\n", error->message);
 		g_error_free (error);
 	}
+
+ clean:
+	g_clear_object (&css_full);
+	g_clear_object (&css_ellipsis);
+	g_clear_object (&full_addr);
+	g_clear_object (&ellipsis);
+	g_clear_object (&parent);
 }
 
 static void
