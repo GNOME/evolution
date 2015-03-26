@@ -78,6 +78,7 @@ struct _EAttachmentPrivate {
 	guint loading : 1;
 	guint saving : 1;
 	guint shown : 1;
+	guint zoom_to_window : 1;
 
 	guint save_self      : 1;
 	guint save_extracted : 1;
@@ -115,7 +116,8 @@ enum {
 	PROP_SAVE_EXTRACTED,
 	PROP_SAVING,
 	PROP_SHOWN,
-	PROP_SIGNED
+	PROP_SIGNED,
+	PROP_ZOOM_TO_WINDOW
 };
 
 G_DEFINE_TYPE (
@@ -725,6 +727,12 @@ attachment_set_property (GObject *object,
 				E_ATTACHMENT (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_ZOOM_TO_WINDOW:
+			e_attachment_set_zoom_to_window (
+				E_ATTACHMENT (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -839,6 +847,13 @@ attachment_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				e_attachment_get_signed (
+				E_ATTACHMENT (object)));
+			return;
+
+		case PROP_ZOOM_TO_WINDOW:
+			g_value_set_boolean (
+				value,
+				e_attachment_get_zoom_to_window (
 				E_ATTACHMENT (object)));
 			return;
 	}
@@ -1071,6 +1086,17 @@ e_attachment_class_init (EAttachmentClass *class)
 			CAMEL_CIPHER_VALIDITY_SIGN_NONE,
 			CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY,
 			CAMEL_CIPHER_VALIDITY_SIGN_NONE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ZOOM_TO_WINDOW,
+		g_param_spec_boolean (
+			"zoom-to-window",
+			"Zoom to window",
+			NULL,
+			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 }
@@ -1617,6 +1643,28 @@ e_attachment_set_shown (EAttachment *attachment,
 	attachment->priv->shown = shown;
 
 	g_object_notify (G_OBJECT (attachment), "shown");
+}
+
+gboolean
+e_attachment_get_zoom_to_window (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	return attachment->priv->zoom_to_window;
+}
+
+void
+e_attachment_set_zoom_to_window (EAttachment *attachment,
+				 gboolean zoom_to_window)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	if ((attachment->priv->zoom_to_window ? 1 : 0) == (zoom_to_window ? 1 : 0))
+		return;
+
+	attachment->priv->zoom_to_window = zoom_to_window;
+
+	g_object_notify (G_OBJECT (attachment), "zoom-to-window");
 }
 
 gboolean

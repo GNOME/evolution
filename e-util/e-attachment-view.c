@@ -51,6 +51,8 @@ static const gchar *ui =
 "    <menuitem action='properties'/>"
 "    <separator/>"
 "    <placeholder name='inline-actions'>"
+"      <menuitem action='zoom-to-100'/>"
+"      <menuitem action='zoom-to-window'/>"
 "      <menuitem action='show'/>"
 "      <menuitem action='show-all'/>"
 "      <separator/>"
@@ -363,6 +365,40 @@ action_show_all_cb (GtkAction *action,
 	g_list_free (list);
 }
 
+static void
+action_zoom_to_100_cb (GtkAction *action,
+		       EAttachmentView *view)
+{
+	EAttachment *attachment;
+	GList *list;
+
+	list = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	attachment = list->data;
+
+	e_attachment_set_zoom_to_window (attachment, FALSE);
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+}
+
+static void
+action_zoom_to_window_cb (GtkAction *action,
+			  EAttachmentView *view)
+{
+	EAttachment *attachment;
+	GList *list;
+
+	list = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (list) == 1);
+	attachment = list->data;
+
+	e_attachment_set_zoom_to_window (attachment, TRUE);
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+}
+
 static GtkActionEntry standard_entries[] = {
 
 	{ "cancel",
@@ -455,7 +491,21 @@ static GtkActionEntry inline_entries[] = {
 	  N_("Vie_w All Inline"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_show_all_cb) }
+	  G_CALLBACK (action_show_all_cb) },
+
+	{ "zoom-to-100",
+	  NULL,
+	  N_("_Zoom to 100%"),
+	  NULL,
+	  N_("Zoom the image to its natural size"),
+	  G_CALLBACK (action_zoom_to_100_cb) },
+
+	{ "zoom-to-window",
+	  NULL,
+	  N_("_Zoom to window"),
+	  NULL,
+	  N_("Zoom large images to not be wider than the window width"),
+	  G_CALLBACK (action_zoom_to_window_cb) }
 };
 
 static void
@@ -675,6 +725,8 @@ attachment_view_update_actions (EAttachmentView *view)
 	gboolean busy = FALSE;
 	gboolean can_show = FALSE;
 	gboolean shown = FALSE;
+	gboolean is_image = FALSE;
+	gboolean zoom_to_window = FALSE;
 	gboolean visible;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
@@ -703,11 +755,18 @@ attachment_view_update_actions (EAttachmentView *view)
 	n_selected = g_list_length (list);
 
 	if (n_selected == 1) {
+		gchar *mime_type;
+
 		attachment = g_object_ref (list->data);
+		mime_type = e_attachment_dup_mime_type (attachment);
 		busy |= e_attachment_get_loading (attachment);
 		busy |= e_attachment_get_saving (attachment);
 		can_show = e_attachment_get_can_show (attachment);
 		shown = e_attachment_get_shown (attachment);
+		zoom_to_window = e_attachment_get_zoom_to_window (attachment);
+		is_image = can_show && mime_type && g_ascii_strncasecmp (mime_type, "image/", 6) == 0;
+
+		g_free (mime_type);
 	} else
 		attachment = NULL;
 
@@ -740,6 +799,12 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	action = e_attachment_view_get_action (view, "show");
 	gtk_action_set_visible (action, can_show && !shown);
+
+	action = e_attachment_view_get_action (view, "zoom-to-100");
+	gtk_action_set_visible (action, can_show && shown && is_image && zoom_to_window);
+
+	action = e_attachment_view_get_action (view, "zoom-to-window");
+	gtk_action_set_visible (action, can_show && shown && is_image && !zoom_to_window);
 
 	/* Show this action if there are multiple viewable
 	 * attachments, and at least one of them is hidden. */

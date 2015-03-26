@@ -99,6 +99,9 @@ gboolean	e_attachment_get_saving		(EAttachment *attachment);
 gboolean	e_attachment_get_shown		(EAttachment *attachment);
 void		e_attachment_set_shown		(EAttachment *attachment,
 						 gboolean shown);
+gboolean	e_attachment_get_zoom_to_window	(EAttachment *attachment);
+void		e_attachment_set_zoom_to_window	(EAttachment *attachment,
+						 gboolean zoom_to_window);
 gboolean	e_attachment_get_save_self	(EAttachment *attachment);
 void		e_attachment_set_save_self	(EAttachment *attachment,
 						 gboolean save_self);
