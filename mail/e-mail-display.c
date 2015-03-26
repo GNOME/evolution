@@ -1792,6 +1792,7 @@ web_view_process_http_uri_scheme_request (GTask *task,
 		GIOStream *cache_stream;
 		GError *error;
 		GMainContext *context;
+		GProxyResolver *proxy_resolver = NULL;
 
 		message = soup_message_new (SOUP_METHOD_GET, uri);
 		if (!message) {
@@ -1804,12 +1805,15 @@ web_view_process_http_uri_scheme_request (GTask *task,
 
 		temp_session = soup_session_new_with_options (
 			SOUP_SESSION_TIMEOUT, 90, NULL);
-/* FIXME WK2
-		g_object_bind_property (
-			soup_session, "proxy-resolver",
-			temp_session, "proxy-resolver",
-			G_BINDING_SYNC_CREATE);
-*/
+#if 0
+/* FIXME WK2 */
+		/* Do not use g_object_bind_property() here, because it's not thread safe and
+		 + this one-time setting may be sufficient too. */
+		g_object_get (soup_session, "proxy-resolver", &proxy_resolver, NULL);
+		g_object_set (temp_session, "proxy-resolver", proxy_resolver, NULL);
+		g_clear_object (&proxy_resolver);
+
+#endif
 		soup_message_headers_append (
 			message->request_headers, "User-Agent", "Evolution/" VERSION);
 /* FIXME WK2
