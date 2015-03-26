@@ -3116,43 +3116,23 @@ create_anchor_for_link (const GMatchInfo *info,
 
 static gboolean
 replace_to_nbsp (const GMatchInfo *info,
-                 GString *res,
-                 gboolean use_nbsp)
+                 GString *res)
 {
 	gchar *match;
-	const gchar *string;
-	gint ii = 0, jj = 0, length = 0, start = 0;
+	gint ii = 0;
 
 	match = g_match_info_fetch (info, 0);
-	g_match_info_fetch_pos (info, 0, &start, NULL);
-	string = g_match_info_get_string (info);
 
 	while (match[ii] != '\0') {
-		/* Spaces before or after tabulator */
 		if (match[ii] == ' ') {
-			g_string_append (res, UNICODE_NBSP);
-			ii++;
+			/* Alone spaces or spaces before/after tabulator. */
+			g_string_append (res, "&nbsp;");
+		} else if (match[ii] == '\t') {
+			/* Replace tabs with their WebKit HTML representation. */
+			g_string_append (res, "<span class=\"Apple-tab-span\" style=\"white-space:pre\">\t</span>");
 		}
 
-		if (match[ii] == '\t') {
-			const gchar *previous_tab;
-
-			previous_tab = g_strrstr_len (string, start + ii, "\x9");
-			if (previous_tab && *previous_tab) {
-				const char *act_tab = NULL;
-				act_tab = strstr (previous_tab + 1, "\x9");
-
-				length = act_tab - previous_tab - 1;
-				length = TAB_LENGTH - length % TAB_LENGTH;
-			} else {
-				length = TAB_LENGTH - (start + ii) % TAB_LENGTH;
-			}
-
-			for (jj = 0; jj < length; jj++)
-				g_string_append (res, UNICODE_NBSP);
-
-			ii++;
-		}
+		ii++;
 	}
 
 	g_free (match);
@@ -3222,22 +3202,34 @@ static glong
 get_decoded_line_length (WebKitDOMDocument *document,
                          const gchar *line_text)
 {
-	gchar *decoded_text;
-	glong length = 0;
+	glong total_length = 0, length = 0;
 	WebKitDOMElement *decode;
+	WebKitDOMNode *node;
 
 	decode = webkit_dom_document_create_element (document, "DIV", NULL);
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (decode), line_text, NULL);
 
-	decoded_text = webkit_dom_html_element_get_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (decode));
-	length = g_utf8_strlen (decoded_text, -1);
+	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (decode));
+	while (node) {
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			gulong text_length = 0;
 
-	g_free (decoded_text);
+			text_length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
+			total_length += text_length;
+			length += text_length;
+		} if (WEBKIT_DOM_IS_ELEMENT (node)) {
+			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span")) {
+				total_length += TAB_LENGTH - length % TAB_LENGTH;
+				length = 0;
+			}
+		}
+		node = webkit_dom_node_get_next_sibling (node);
+	}
+
 	g_object_unref (decode);
 
-	return length;
+	return total_length;
 }
 
 static gboolean
@@ -3289,11 +3281,10 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	gboolean first_element = TRUE;
 	gboolean citation_was_first_element = FALSE;
 	const gchar *prev_br, *next_br;
-	gchar *inner_html;
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
-	GString *start, *end;
 	WebKitDOMElement *paragraph = NULL;
 	gboolean preserve_next_line = FALSE;
+	gboolean has_citation = FALSE;
 
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), "", NULL);
@@ -3324,6 +3315,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 		if (citation) {
 			gchar *citation_mark;
 
+			has_citation = TRUE;
 			if (strstr (citation, "END##")) {
 				ignore_next_br = TRUE;
 				if (paragraph)
@@ -3444,7 +3436,9 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			if (rest_to_insert && *rest_to_insert && preserve_block && paragraph) {
 				glong length = 0;
 
-				if (strstr (rest, "&"))
+				/* If the line contains some encoded chracters (i.e. &gt;)
+				 * we can't use the strlen functions. */
+				if (strstr (rest_to_insert, "&"))
 					length = get_decoded_line_length (document, rest_to_insert);
 				else
 					length = g_utf8_strlen (rest_to_insert, -1);
@@ -3572,24 +3566,30 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	}
 
  end:
-	/* Replace text markers with actual HTML blockquotes */
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (blockquote));
-	start = e_str_replace_string (
-		inner_html, "##CITATION_START##","<blockquote type=\"cite\">");
-	end = e_str_replace_string (
-		start->str, "##CITATION_END##", "</blockquote>");
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (blockquote), end->str, NULL);
+	if (has_citation) {
+		gchar *inner_html;
+		GString *start, *end;
+
+		/* Replace text markers with actual HTML blockquotes */
+		inner_html = webkit_dom_html_element_get_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (blockquote));
+		start = e_str_replace_string (
+			inner_html, "##CITATION_START##","<blockquote type=\"cite\">");
+		end = e_str_replace_string (
+			start->str, "##CITATION_END##", "</blockquote>");
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (blockquote), end->str, NULL);
+
+		g_free (inner_html);
+		g_string_free (start, TRUE);
+		g_string_free (end, TRUE);
+	}
 
 	if (regex_email != NULL)
 		g_regex_unref (regex_email);
 	if (regex_link != NULL)
 		g_regex_unref (regex_link);
 	g_regex_unref (regex_nbsp);
-	g_free (inner_html);
-	g_string_free (start, TRUE);
-	g_string_free (end, TRUE);
 }
 
 static void
@@ -4231,26 +4231,18 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (selection_start_marker));
 	remove_node (WEBKIT_DOM_NODE (selection_end_marker));
 
-	if (!is_html && webkit_dom_element_get_child_element_count (element) == 1) {
-		inner_html = webkit_dom_html_element_get_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (element));
-		dom_exec_command (
-			document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, inner_html);
-		g_free (inner_html);
-	} else {
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element));
-		dom_exec_command (
-			document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
-		g_free (inner_html);
-		inner_html = webkit_dom_html_element_get_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (element));
-		if (g_str_has_suffix (inner_html, " ")) {
-			dom_exec_command (
-				document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, " ");
-		}
-		g_free (inner_html);
-	}
+	inner_html = webkit_dom_html_element_get_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+	dom_exec_command (
+		document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
+	g_free (inner_html);
+
+	inner_html = webkit_dom_html_element_get_inner_text (
+		WEBKIT_DOM_HTML_ELEMENT (element));
+	if (g_str_has_suffix (inner_html, " "))
+		dom_exec_command (document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, " ");
+
+	g_free (inner_html);
 
 	g_object_unref (element);
 	dom_selection_save (document);
