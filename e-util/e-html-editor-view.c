@@ -2743,6 +2743,8 @@ body_input_event_cb (WebKitDOMElement *element,
 		if (view->priv->html_mode)
 			fix_paragraph_structure_after_pressing_enter_after_smiley (
 				selection, document);
+		if (view->priv->return_key_pressed)
+			e_html_editor_view_force_spell_check_for_current_paragraph (view);
 	} else {
 		WebKitDOMNode *node;
 
