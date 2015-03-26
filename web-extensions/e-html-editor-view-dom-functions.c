@@ -2190,7 +2190,8 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 				WEBKIT_DOM_NODE (element),
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start)),
 				NULL);
-	} else
+		}
+	} else {
 		webkit_dom_node_insert_before (
 			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
 			WEBKIT_DOM_NODE (element),
