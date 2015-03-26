@@ -111,6 +111,8 @@ create_snapshot_file (EMsgComposer *composer,
 		SNAPSHOT_FILE_KEY, snapshot_file,
 		(GDestroyNotify) delete_snapshot_file);
 
+	g_free (path);
+
 	return snapshot_file;
 }
 
