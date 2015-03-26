@@ -395,7 +395,7 @@ dom_insert_base64_image (WebKitDOMDocument *document,
 		NULL);
 
 	dom_selection_restore (document);
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_for_current_paragraph (document, extension);
 }
 
 /**
