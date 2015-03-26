@@ -3354,7 +3354,6 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			gchar *truncated = g_strdup (rest);
 			gchar *rest_to_insert;
 
-			g_strchomp (truncated);
 			empty = !*truncated && strlen (rest) > 0;
 
 			if (strchr (" +-@*=\t;#", *rest))
@@ -3520,8 +3519,6 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 			g_free (truncated);
 			goto end;
 		}
-
-		g_strchomp (truncated);
 
 		rest_to_insert = g_regex_replace_eval (
 			regex_nbsp,
@@ -4129,7 +4126,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			remove_node (child);
 
 		parent = get_parent_block_node_from_child (
-			WEBKIT_DOM_NODE (selection_end_marker)),
+			WEBKIT_DOM_NODE (selection_end_marker));
 
 		child = webkit_dom_node_get_next_sibling (
 			WEBKIT_DOM_NODE (selection_end_marker));
@@ -4146,7 +4143,12 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		/* Caret will be restored on the end of pasted text */
 		webkit_dom_node_append_child (
 			last_paragraph,
-			dom_create_caret_position_node (document),
+			WEBKIT_DOM_NODE (create_selection_marker (document, TRUE)),
+			NULL);
+
+		webkit_dom_node_append_child (
+			last_paragraph,
+			WEBKIT_DOM_NODE (create_selection_marker (document, FALSE)),
 			NULL);
 
 		/* Insert the paragraph with the end of the pasted text after
@@ -4216,7 +4218,6 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			dom_exec_command (
 				document, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
-		dom_restore_caret_position (document);
 		g_object_unref (element);
 		goto out;
 	}
@@ -4224,11 +4225,26 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (selection_start_marker));
 	remove_node (WEBKIT_DOM_NODE (selection_end_marker));
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
-	dom_exec_command (
-		document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
-	g_free (inner_html);
+	if (!is_html && webkit_dom_element_get_child_element_count (element) == 1) {
+		inner_html = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, inner_html);
+		g_free (inner_html);
+	} else {
+		inner_html = webkit_dom_html_element_get_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
+		g_free (inner_html);
+		inner_html = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+		if (g_str_has_suffix (inner_html, " ")) {
+			e_html_editor_view_exec_command (
+				view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, " ");
+		}
+		g_free (inner_html);
+	}
 
 	g_object_unref (element);
 	dom_selection_save (document);
