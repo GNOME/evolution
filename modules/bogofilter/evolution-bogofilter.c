@@ -19,7 +19,6 @@
 #include <config.h>
 #endif
 
-#include <config.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <glib/gi18n-lib.h>
