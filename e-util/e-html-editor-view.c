@@ -2109,8 +2109,8 @@ emoticon_read_async_cb (GFile *file,
 	image = webkit_dom_document_create_element (document, "IMG", NULL);
 	webkit_dom_element_set_attribute (image, "src", output, NULL);
 	webkit_dom_element_set_attribute (image, "data-inline", "", NULL);
+	webkit_dom_element_set_attribute (image, "data-name", load_context->name, NULL);
 	webkit_dom_element_set_attribute (image, "alt", emoticon->text_face, NULL);
-	webkit_dom_element_set_attribute (image, "-x-evo-smiley", emoticon->icon_name, NULL);
 	webkit_dom_element_set_attribute (image, "class", "-x-evo-smiley-img", NULL);
 	if (!html_mode)
 		webkit_dom_element_set_attribute (image, "style", "display: none;", NULL);
@@ -7707,7 +7707,6 @@ remove_base_attributes (WebKitDOMElement *element)
 static void
 remove_evolution_attributes (WebKitDOMElement *element)
 {
-	webkit_dom_element_remove_attribute (element, "x-evo-smiley");
 	webkit_dom_element_remove_attribute (element, "data-converted");
 	webkit_dom_element_remove_attribute (element, "data-edit-as-new");
 	webkit_dom_element_remove_attribute (element, "data-evo-draft");
