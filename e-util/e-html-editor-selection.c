@@ -2858,10 +2858,12 @@ e_html_editor_selection_get_font_color (EHTMLEditorSelection *selection,
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 		body = webkit_dom_document_get_body (document);
 
+		g_free (color);
 		color = webkit_dom_html_body_element_get_text (WEBKIT_DOM_HTML_BODY_ELEMENT (body));
 		if (!(color && *color)) {
 			*rgba = black;
 			g_object_unref (view);
+			g_free (color);
 			return;
 		}
 	}
@@ -3013,8 +3015,10 @@ e_html_editor_selection_get_font_size (EHTMLEditorSelection *selection)
 		E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL);
 
 	size = get_font_property (selection, "size");
-	if (!(size && *size))
+	if (!(size && *size)) {
+		g_free (size);
 		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	}
 
 	size_int = atoi (size);
 	g_free (size);
@@ -4416,6 +4420,7 @@ e_html_editor_selection_set_monospaced (EHTMLEditorSelection *selection,
 				g_object_unref (range);
 				g_object_unref (dom_selection);
 				g_object_unref (dom_window);
+				g_free (ev);
 				return;
 			}
 		}

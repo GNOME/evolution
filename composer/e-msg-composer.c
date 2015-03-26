@@ -1371,7 +1371,7 @@ composer_build_message (EMsgComposer *composer,
 		gboolean pre_encode;
 		EHTMLEditor *editor;
 		EHTMLEditorView *view;
-		GList *inline_images;
+		GList *inline_images = NULL;
 
 		editor = e_msg_composer_get_editor (composer);
 		view = e_html_editor_get_view (editor);
@@ -1457,7 +1457,6 @@ composer_build_message (EMsgComposer *composer,
 				CamelMimePart *part = g_list_nth_data (inline_images, ii);
 				camel_multipart_add_part (
 					html_with_images, part);
-				g_object_unref (part);
 			}
 
 			context->top_level_part =
@@ -1466,6 +1465,7 @@ composer_build_message (EMsgComposer *composer,
 			context->top_level_part =
 				CAMEL_DATA_WRAPPER (body);
 		}
+		g_list_free_full (inline_images, g_object_unref);
 	}
 
 	/* If there are attachments, wrap what we've built so far
@@ -1960,6 +1960,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 		do {
 			text = next_uri ((guchar **) &data, &len, &list_len);
 			e_html_editor_selection_insert_html (editor_selection, text);
+			g_free (text);
 		} while (list_len);
 
 		e_html_editor_view_check_magic_links (html_editor_view, FALSE);
@@ -1995,6 +1996,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 		do {
 			uri = next_uri ((guchar **) &data, &len, &list_len);
 			e_html_editor_selection_insert_image (editor_selection, uri);
+			g_free (uri);
 		} while (list_len);
 
 		gtk_drag_finish (context, TRUE, FALSE, time);
@@ -2017,8 +2019,8 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 		list_len = length;
 		do {
 			uri = next_uri ((guchar **) &data, &len, &list_len);
-
 			e_html_editor_selection_insert_image (editor_selection, uri);
+			g_free (uri);
 		} while (list_len);
 
 		gtk_drag_finish (context, TRUE, FALSE, time);
