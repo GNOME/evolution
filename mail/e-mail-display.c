@@ -1793,6 +1793,12 @@ web_view_process_http_uri_scheme_request (GTask *task,
 		GError *error;
 		GMainContext *context;
 
+		message = soup_message_new (SOUP_METHOD_GET, uri);
+		if (!message) {
+			g_debug ("%s: Skipping invalid URI '%s'", G_STRFUNC, uri);
+			goto cleanup;
+		}
+
 		context = g_main_context_new ();
 		g_main_context_push_thread_default (context);
 
@@ -1804,7 +1810,6 @@ web_view_process_http_uri_scheme_request (GTask *task,
 			temp_session, "proxy-resolver",
 			G_BINDING_SYNC_CREATE);
 */
-		message = soup_message_new (SOUP_METHOD_GET, uri);
 		soup_message_headers_append (
 			message->request_headers, "User-Agent", "Evolution/" VERSION);
 /* FIXME WK2
