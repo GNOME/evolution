@@ -670,7 +670,6 @@ e_dom_utils_bind_dom (WebKitDOMDocument *document,
 		webkit_dom_event_target_add_event_listener (
 			WEBKIT_DOM_EVENT_TARGET (node), event,
 			G_CALLBACK (callback), FALSE, user_data);
-		g_object_unref (node);
 	}
 	g_object_unref (nodes);
 }
