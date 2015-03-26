@@ -468,6 +468,7 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='i' name='x' direction='in'/>"
 "      <arg type='i' name='y' direction='in'/>"
+"      <arg type='b' name='cancel_if_not_collapsed' direction='in'/>"
 "    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorSelection       -->"
@@ -1608,9 +1609,10 @@ handle_method_call (GDBusConnection *connection,
 		dom_drag_and_drop_end (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMMoveSelectionOnPoint") == 0) {
+		gboolean cancel_if_not_collapsed;
 		gint x, y;
 
-		g_variant_get (parameters, "(tii)", &page_id, &x, &y);
+		g_variant_get (parameters, "(tiib)", &page_id, &x, &y, &cancel_if_not_collapsed);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
@@ -1618,7 +1620,11 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_selection_set_on_point (document, x, y);
+		if (cancel_if_not_collapsed)
+			if (dom_selection_is_collapsed (document))
+				dom_selection_set_on_point (document, x, y);
+		else
+			dom_selection_set_on_point (document, x, y);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionIndent") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);

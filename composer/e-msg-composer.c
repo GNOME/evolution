@@ -1950,7 +1950,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
-		e_html_editor_view_move_selection_on_point (view, x, y);
+		e_html_editor_view_move_selection_on_point (view, x, y, FALSE);
 
 		list_len = length;
 		do {
@@ -1985,7 +1985,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
-		e_html_editor_view_move_selection_on_point (view, x, y);
+		e_html_editor_view_move_selection_on_point (view, x, y, FALSE);
 
 		list_len = length;
 		do {
@@ -2008,7 +2008,7 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 			return;
 		}
 
-		e_html_editor_view_move_selection_on_point (view, x, y);
+		e_html_editor_view_move_selection_on_point (view, x, y, FALSE);
 
 		list_len = length;
 		do {

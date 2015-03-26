@@ -606,7 +606,8 @@ html_editor_view_constructed (GObject *object)
 void
 e_html_editor_view_move_selection_on_point (EHTMLEditorView *view,
                                             gint x,
-                                            gint y)
+                                            gint y,
+                                            gboolean cancel_if_not_collapsed)
 {
 	GDBusProxy *web_extension;
 
@@ -622,8 +623,11 @@ e_html_editor_view_move_selection_on_point (EHTMLEditorView *view,
 		web_extension,
 		"DOMMoveSelectionOnPoint",
 		g_variant_new (
-			"(tii)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)), x, y),
+			"(tiib)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			x,
+			y,
+			cancel_if_not_collapsed),
 		G_DBUS_CALL_FLAGS_NONE,
 		-1,
 		NULL,
@@ -641,7 +645,7 @@ html_editor_view_move_selection_on_point (GtkWidget *widget)
 	pointer = gdk_device_manager_get_client_pointer (device_manager);
 	gdk_window_get_device_position (gtk_widget_get_window (widget), pointer, &x, &y, NULL);
 
-	e_html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget), x, y);
+	e_html_editor_view_move_selection_on_point (E_HTML_EDITOR_VIEW (widget), x, y, TRUE);
 }
 
 static gboolean

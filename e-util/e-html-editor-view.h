@@ -210,7 +210,8 @@ void		e_html_editor_view_save_selection
 void		e_html_editor_view_move_selection_on_point
 						(EHTMLEditorView *view,
 						 gint x,
-						 gint y);
+						 gint y,
+						 gboolean cancel_if_not_collapsed);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */
