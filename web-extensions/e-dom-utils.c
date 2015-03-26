@@ -373,7 +373,7 @@ add_css_rule_into_style_sheet (WebKitDOMDocument *document,
 	gint length, ii, selector_length;
 	gboolean removed = FALSE;
 
-	g_return_if_fail (selection != NULL);
+	g_return_if_fail (selector != NULL);
 
 	selector_length = strlen (selector);
 	style_element = webkit_dom_document_get_element_by_id (document, style_sheet_id);
