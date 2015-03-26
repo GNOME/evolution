@@ -1299,7 +1299,7 @@ emoticon_insert_span (EEmoticon *emoticon,
 	}
 
 	/* &#8203 == UNICODE_ZERO_WIDTH_SPACE */
-	if (empty)
+	if (empty || !e_html_editor_web_extension_get_is_smiley_written (extension))
 		webkit_dom_html_element_insert_adjacent_html (
 			WEBKIT_DOM_HTML_ELEMENT (span), "afterend", "&#8203;", NULL);
 
