@@ -90,6 +90,7 @@ e_html_editor_dialog_delete_column (WebKitDOMDocument *document)
 
 		webkit_dom_html_table_row_element_delete_cell (
 			WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), index, NULL);
+		g_object_unref (row);
 	}
 
 	g_object_unref (rows);

@@ -57,11 +57,13 @@ e_html_editor_table_dialog_set_row_count (WebKitDOMDocument *document,
 				table_element, -1, NULL);
 		}
 	}
+	g_object_unref (rows);
 }
 
 gulong
 e_html_editor_table_dialog_get_row_count (WebKitDOMDocument *document)
 {
+	glong count;
 	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLCollection *rows;
 
@@ -71,7 +73,10 @@ e_html_editor_table_dialog_get_row_count (WebKitDOMDocument *document)
 
 	rows = webkit_dom_html_table_element_get_rows (table_element);
 
-	return webkit_dom_html_collection_get_length (rows);
+	count = webkit_dom_html_collection_get_length (rows);
+	g_object_unref (rows);
+
+	return count;
 }
 
 void
@@ -111,12 +116,16 @@ e_html_editor_table_dialog_set_column_count (WebKitDOMDocument *document,
 					row, -1, NULL);
 			}
 		}
+		g_object_unref (row);
+		g_object_unref (cells);
 	}
+	g_object_unref (rows);
 }
 
 gulong
 e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 {
+	glong count;
 	WebKitDOMHTMLTableElement *table_element;
 	WebKitDOMHTMLCollection *rows, *columns;
 	WebKitDOMNode *row;
@@ -131,7 +140,13 @@ e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 	columns = webkit_dom_html_table_row_element_get_cells (
 		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row));
 
-	return webkit_dom_html_collection_get_length (columns);
+	count = webkit_dom_html_collection_get_length (columns);
+
+	g_object_unref (row);
+	g_object_unref (rows);
+	g_object_unref (columns);
+
+	return count;
 }
 
 static void
