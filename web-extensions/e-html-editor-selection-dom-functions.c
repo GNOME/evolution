@@ -1609,7 +1609,7 @@ dom_selection_save (WebKitDOMDocument *document)
  insert_end_marker:
 	end_marker = create_selection_marker (document, FALSE);
 
-	if (webkit_dom_range_get_collapsed (range, NULL)) {
+	if (collapsed) {
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (start_marker)),
 			WEBKIT_DOM_NODE (end_marker),
