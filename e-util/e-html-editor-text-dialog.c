@@ -177,7 +177,7 @@ html_editor_text_dialog_show (GtkWidget *widget)
 
 	gtk_combo_box_set_active (
 		GTK_COMBO_BOX (dialog->priv->size_check),
-		e_html_editor_selection_get_font_size (selection));
+		e_html_editor_selection_get_font_size (selection) - 1);
 
 	e_html_editor_selection_get_font_color (selection, &rgba);
 	e_color_combo_set_current_color (
