@@ -21,6 +21,8 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
 
 void		e_html_editor_table_dialog_set_row_count
@@ -37,8 +39,8 @@ void		e_html_editor_table_dialog_set_column_count
 gulong		e_html_editor_table_dialog_get_column_count
 						(WebKitDOMDocument *document);
 
-gboolean	e_html_editor_table_dialog_show (WebKitDOMDocument *document);
-
+gboolean	e_html_editor_table_dialog_show (WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H */

@@ -244,7 +244,7 @@ static const char introspection_xml[] =
 "<!-- ********************************************************* -->"
 "    <method name='EHTMLEditorHRuleDialogFindHRule'>"
 "      <arg type='t' name='page_id' direction='in'/>"
-"      <arg type='b' name='created' direction='out'/>"
+"      <arg type='b' name='created_new_hr' direction='out'/>"
 "    </method>"
 "    <method name='HRElementSetNoShade'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -1265,7 +1265,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		created_new_table = e_html_editor_table_dialog_show (document);
+		created_new_table = e_html_editor_table_dialog_show (document, extension);
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new_boolean (created_new_table));

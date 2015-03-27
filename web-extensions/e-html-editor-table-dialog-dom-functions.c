@@ -150,7 +150,8 @@ e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 }
 
 static void
-create_table (WebKitDOMDocument *document)
+create_table (WebKitDOMDocument *document,
+              EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMElement *table, *br, *caret, *parent, *element;
 	gint i;
@@ -172,7 +173,9 @@ create_table (WebKitDOMDocument *document)
 
 	webkit_dom_element_set_id (table, "-x-evo-current-table");
 
-	caret = dom_save_caret_position (document);
+	dom_selection_save (document);
+	caret = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
 
 	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
 	element = caret;
@@ -197,14 +200,28 @@ create_table (WebKitDOMDocument *document)
 		webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
 		NULL);
 
-	dom_clear_caret_position_marker (document);
+	/* Move caret to the first cell */
+	element = webkit_dom_element_query_selector (table, "td", NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (caret),
+		NULL);
+	caret = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (caret),
+		webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (element)),
+		NULL);
 
-	/* FIXME WK2
-	e_html_editor_view_set_changed (view, TRUE);*/
+	dom_selection_restore (document);
+
+	e_html_editor_web_extension_set_content_changed (extension);
 }
 
 gboolean
-e_html_editor_table_dialog_show (WebKitDOMDocument *document)
+e_html_editor_table_dialog_show (WebKitDOMDocument *document,
+                                 EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
@@ -223,7 +240,7 @@ e_html_editor_table_dialog_show (WebKitDOMDocument *document)
 			webkit_dom_element_set_id (table, "-x-evo-current-table");
 			return FALSE;
 		} else {
-			create_table (document);
+			create_table (document, extension);
 			return TRUE;
 		}
 	}
