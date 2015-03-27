@@ -38,6 +38,8 @@
 #define HTML_KEY_CODE_SPACE 32
 #define HTML_KEY_CODE_DELETE 46
 
+#define TRY_TO_PRESERVE_BLOCKS 0
+
 /**
  * e_html_editor_view_dom_exec_command:
  * @document: a #WebKitDOMDocument
@@ -3279,7 +3281,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	while (next_br) {
 		gboolean local_ignore_next_br = ignore_next_br;
 		gboolean local_preserve_next_line = preserve_next_line;
-		gboolean preserve_block = TRUE;
+		gboolean preserve_block = TRY_TO_PRESERVE_BLOCKS;
 		const gchar *citation = NULL, *citation_end = NULL;
 		const gchar *rest = NULL, *with_br = NULL;
 		gchar *to_insert = NULL;
