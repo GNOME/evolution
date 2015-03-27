@@ -3848,13 +3848,10 @@ dom_selection_get_font_color (WebKitDOMDocument *document,
 {
 	gchar *color;
 
-	if (dom_selection_is_collapsed (document)) {
-/* FIXME WK2
-		color = g_strdup (selection->priv->font_color);*/
-	} else {
-		color = get_font_property (document, "color");
-		if (!(color && *color))
-			color = g_strdup ("#000000");
+	color = get_font_property (selection, "color");
+	if (!(color && *color)) {
+		*rgba = black;
+		return;
 	}
 
 	return color;
