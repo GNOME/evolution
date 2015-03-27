@@ -30,11 +30,12 @@
 
 #include <e-util/e-misc-utils.h>
 
+#include <e-util/e-html-editor-defines.h>
+
 #include "e-composer-private-dom-functions.h"
 #include "e-dom-utils.h"
 #include "e-html-editor-actions-dom-functions.h"
 #include "e-html-editor-cell-dialog-dom-functions.h"
-#include "e-html-editor-dom-functions.h"
 #include "e-html-editor-hrule-dialog-dom-functions.h"
 #include "e-html-editor-image-dialog-dom-functions.h"
 #include "e-html-editor-link-dialog-dom-functions.h"
@@ -92,6 +93,9 @@ struct _EHTMLEditorWebExtensionPrivate {
 	gboolean remove_initial_input_line;
 
 	GHashTable *inline_images;
+
+	WebKitDOMNode *node_under_mouse_click;
+	guint node_under_mouse_click_flags;
 };
 
 static CamelDataCache *emd_global_http_cache = NULL;
@@ -111,6 +115,7 @@ static const char introspection_xml[] =
 "    <property type='b' name='IsMessageFromSelection' access='readwrite'/>"
 "    <property type='b' name='IsFromNewMessage' access='readwrite'/>"
 "    <property type='b' name='RemoveInitialInputLine' access='readwrite'/>"
+"    <property type='b' name='NodeUnderMouseClickFlags' access='read'/>"
 "<!-- ********************************************************* -->"
 "<!-- These properties show the actual state of EHTMLEditorView -->"
 "<!-- ********************************************************* -->"
@@ -239,6 +244,7 @@ static const char introspection_xml[] =
 "<!-- ********************************************************* -->"
 "    <method name='EHTMLEditorHRuleDialogFindHRule'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='created' direction='out'/>"
 "    </method>"
 "    <method name='HRElementSetNoShade'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -851,6 +857,7 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorHRuleDialogFindHRule") == 0) {
+		gboolean created = FALSE;
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
@@ -859,9 +866,11 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		e_html_editor_hrule_dialog_find_hrule (document);
+		created = e_html_editor_hrule_dialog_find_hrule (
+			document, extension, extension->priv->node_under_mouse_click);
 
-		g_dbus_method_invocation_return_value (invocation, NULL);
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new_boolean (created));
 	} else if (g_strcmp0 (method_name, "HRElementSetNoShade") == 0) {
 		gboolean value = FALSE;
 		const gchar *element_id;
@@ -1620,10 +1629,10 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		if (cancel_if_not_collapsed)
+		if (cancel_if_not_collapsed) {
 			if (dom_selection_is_collapsed (document))
 				dom_selection_set_on_point (document, x, y);
-		else
+		} else
 			dom_selection_set_on_point (document, x, y);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionIndent") == 0) {
@@ -1807,6 +1816,8 @@ handle_get_property (GDBusConnection *connection,
 		variant = g_variant_new_boolean (extension->priv->underline);
 	else if (g_strcmp0 (property_name, "Text") == 0)
 		variant = g_variant_new_string (extension->priv->text);
+	else if (g_strcmp0 (property_name, "NodeUnderMouseClickFlags") == 0)
+		variant = g_variant_new_uint32 (extension->priv->node_under_mouse_click_flags);
 
 	return variant;
 }
@@ -2250,6 +2261,8 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->is_message_from_selection = FALSE;
 	extension->priv->remove_initial_input_line = FALSE;
 
+	extension->priv->node_under_mouse_click = NULL;
+
 	extension->priv->inline_images = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
@@ -2382,6 +2395,58 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
 	dom_process_content_after_load (document, web_extension);
 }
 
+static gboolean
+web_page_context_menu_cb (WebKitWebPage *web_page,
+		          WebKitContextMenu *context_menu,
+			  WebKitWebHitTestResult *hit_test_result,
+                          EHTMLEditorWebExtension *web_extension)
+{
+	WebKitDOMNode *node;
+	guint flags = 0;
+
+	node = webkit_web_hit_test_result_get_node (hit_test_result);
+	web_extension->priv->node_under_mouse_click = node;
+
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		flags |= E_HTML_EDITOR_NODE_IS_TEXT;
+		return flags;
+	}
+
+	if (WEBKIT_DOM_IS_HTML_HR_ELEMENT (node))
+		flags |= E_HTML_EDITOR_NODE_IS_HR;
+
+	if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node) ||
+	    (dom_node_find_parent_element (node, "A") != NULL))
+		flags |= E_HTML_EDITOR_NODE_IS_ANCHOR;
+
+	if (WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node) ||
+	    (dom_node_find_parent_element (node, "IMG") != NULL)) {
+
+		flags |= E_HTML_EDITOR_NODE_IS_IMAGE;
+	}
+
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node) ||
+	    (dom_node_find_parent_element (node, "TD") != NULL) ||
+	    (dom_node_find_parent_element (node, "TH") != NULL)) {
+
+		flags |= E_HTML_EDITOR_NODE_IS_TABLE_CELL;
+	}
+
+	if (flags && E_HTML_EDITOR_NODE_IS_TABLE_CELL &&
+	    (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (node) ||
+	    dom_node_find_parent_element (node, "TABLE") != NULL)) {
+
+		flags |= E_HTML_EDITOR_NODE_IS_TABLE;
+	}
+
+	if (flags == 0)
+		flags |= E_HTML_EDITOR_NODE_IS_TEXT;
+
+	web_extension->priv->node_under_mouse_click_flags = flags;
+
+	return FALSE;
+}
+
 static void
 web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
@@ -2395,6 +2460,11 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 	g_signal_connect_object (
 		web_page, "document-loaded",
 		G_CALLBACK (web_page_document_loaded_cb),
+		extension, 0);
+
+	g_signal_connect_object (
+		web_page, "context-menu",
+		G_CALLBACK (web_page_context_menu_cb),
 		extension, 0);
 }
 

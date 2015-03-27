@@ -21,10 +21,14 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
 
 gboolean	e_html_editor_hrule_dialog_find_hrule
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMNode *node_under_mouse_click);
 
 G_END_DECLS
 

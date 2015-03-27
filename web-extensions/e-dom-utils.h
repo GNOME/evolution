@@ -120,6 +120,8 @@ void		element_remove_class		(WebKitDOMElement *element,
 						 const gchar* class);
 void		remove_node			(WebKitDOMNode *node);
 void		remove_node_if_empty		(WebKitDOMNode *node);
+WebKitDOMElement *
+		get_parent_block_element	(WebKitDOMNode *node);
 G_END_DECLS
 
 #endif /* E_DOM_UTILS_H */

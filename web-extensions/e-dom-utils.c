@@ -1595,3 +1595,23 @@ remove_node_if_empty (WebKitDOMNode *node)
 		g_free (text_content);
 	}
 }
+
+WebKitDOMElement *
+get_parent_block_element (WebKitDOMNode *node)
+{
+	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+	while (parent &&
+	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (parent) &&
+	       !element_has_tag (parent, "address")) {
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+
+	return parent;
+}

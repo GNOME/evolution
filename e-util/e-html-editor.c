@@ -307,14 +307,12 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 }
 
 static void
-html_editor_update_actions (EHTMLEditor *editor,
-                            guint flags)
+html_editor_update_actions (EHTMLEditor *editor)
 {
 //	WebKitSpellChecker *checker;
-	WebKitHitTestResult *hit_test;
-	WebKitHitTestResultContext context;
 	EHTMLEditorSelection *selection;
 	EHTMLEditorView *view;
+	GDBusProxy *web_extension;
 	ESpellChecker *spell_checker;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
@@ -324,8 +322,20 @@ html_editor_update_actions (EHTMLEditor *editor,
 	gboolean visible;
 	guint merge_id;
 	gint loc, len;
+	guint flags = 0;
 
 	view = e_html_editor_get_view (editor);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_get_cached_property (web_extension, "NodeUnderMouseClickFlags");
+		if (result) {
+			flags = g_variant_get_uint32 (result);
+			g_variant_unref (result);
+		}
+	}
+
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	manager = e_html_editor_get_ui_manager (editor);

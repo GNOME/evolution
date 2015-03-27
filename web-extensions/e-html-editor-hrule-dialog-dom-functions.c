@@ -18,6 +18,7 @@
 
 #include "e-html-editor-hrule-dialog-dom-functions.h"
 
+#include "e-dom-utils.h"
 #include "e-html-editor-selection-dom-functions.h"
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
@@ -25,57 +26,36 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
 gboolean
-e_html_editor_hrule_dialog_find_hrule (WebKitDOMDocument *document)
+e_html_editor_hrule_dialog_find_hrule (WebKitDOMDocument *document,
+                                       EHTMLEditorWebExtension *extension,
+                                       WebKitDOMNode *node_under_mouse_click)
 {
-	gboolean found = TRUE;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMElement *rule = NULL;
-	WebKitDOMRange *range;
-	WebKitDOMNode *node;
+	if (node_under_mouse_click && WEBKIT_DOM_IS_HTML_HR_ELEMENT (node_under_mouse_click)) {
+		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (node_under_mouse_click), "-x-evo-current-hr");
 
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
 		return FALSE;
+	} else {
+		WebKitDOMElement *selection_start, *parent, *rule;
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
-	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
-	if (node && !WEBKIT_DOM_IS_HTML_HR_ELEMENT (node)) {
-		rule = dom_node_find_parent_element (node, "A");
-		if (rule && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (rule))
-			rule = NULL;
-	} else
-		rule = WEBKIT_DOM_ELEMENT (node);
+		dom_selection_save (document);
 
-	if (!rule) {
-		WebKitDOMElement *caret, *parent, *element;
-
-		caret = dom_save_caret_position (document);
-		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (caret));
-		element = caret;
-
-		while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
-			element = parent;
-			parent = webkit_dom_node_get_parent_element (
-				WEBKIT_DOM_NODE (parent));
-		}
+		selection_start = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
 
 		rule = webkit_dom_document_create_element (document, "HR", NULL);
+		webkit_dom_element_set_id (rule, "-x-evo-current-hr");
 
 		/* Insert horizontal rule into body below the caret */
 		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (parent),
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
 			WEBKIT_DOM_NODE (rule),
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
+			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
 			NULL);
 
-		dom_clear_caret_position_marker (document);
+		dom_selection_restore (document);
 
-		found = FALSE;
+		e_html_editor_web_extension_set_content_changed (extension);
 	}
-
-	webkit_dom_element_set_id (rule, "-x-evo-current-hr");
-
-	return found;
+	return TRUE;
 }
