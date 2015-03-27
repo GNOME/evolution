@@ -1601,6 +1601,9 @@ get_parent_block_element (WebKitDOMNode *node)
 {
 	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
 
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
+		return WEBKIT_DOM_ELEMENT (node);
+
 	while (parent &&
 	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
 	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
@@ -1608,6 +1611,7 @@ get_parent_block_element (WebKitDOMNode *node)
 	       !WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (parent) &&
 	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) &&
 	       !WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent) &&
 	       !element_has_tag (parent, "address")) {
 		parent = webkit_dom_node_get_parent_element (
 			WEBKIT_DOM_NODE (parent));
