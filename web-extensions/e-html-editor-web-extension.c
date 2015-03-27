@@ -857,7 +857,7 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "EHTMLEditorHRuleDialogFindHRule") == 0) {
-		gboolean created = FALSE;
+		gboolean created_new_hr = FALSE;
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
@@ -866,11 +866,11 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		created = e_html_editor_hrule_dialog_find_hrule (
+		created_new_hr = e_html_editor_hrule_dialog_find_hrule (
 			document, extension, extension->priv->node_under_mouse_click);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (created));
+			invocation, g_variant_new_boolean (created_new_hr));
 	} else if (g_strcmp0 (method_name, "HRElementSetNoShade") == 0) {
 		gboolean value = FALSE;
 		const gchar *element_id;

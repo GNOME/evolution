@@ -3848,11 +3848,9 @@ dom_selection_get_font_color (WebKitDOMDocument *document,
 {
 	gchar *color;
 
-	color = get_font_property (selection, "color");
-	if (!(color && *color)) {
-		*rgba = black;
-		return;
-	}
+	color = get_font_property (document, "color");
+	if (!(color && *color))
+		return g_strdup ("#000000");
 
 	return color;
 }
