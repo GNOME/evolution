@@ -2538,6 +2538,17 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	if (gtk_widget_is_focus (GTK_WIDGET (view))) {
+		if (event->keyval == GDK_KEY_ISO_Left_Tab) {
+			gboolean view_processed = FALSE;
+
+			g_signal_emit_by_name (view, "key-press-event", event, &view_processed);
+
+			if (!view_processed)
+				gtk_widget_grab_focus (input_widget);
+
+			return TRUE;
+		}
+
 		if ((((event)->state & GDK_SHIFT_MASK) &&
 		    ((event)->keyval == GDK_KEY_Insert)) ||
 		    (((event)->state & GDK_CONTROL_MASK) &&

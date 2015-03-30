@@ -6437,12 +6437,11 @@ jump_to_next_table_cell (WebKitDOMDocument *document,
 	WebKitDOMNode *node, *cell;
 	WebKitDOMRange *range;
 
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+	if (!selection_is_in_table (document, NULL, NULL))
 		return FALSE;
 
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
 	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 	node = webkit_dom_range_get_start_container (range, NULL);
 
@@ -6569,15 +6568,14 @@ dom_process_on_key_press (WebKitDOMDocument *document,
                           guint key_val)
 {
 	if (key_val == GDK_KEY_Tab || key_val == GDK_KEY_ISO_Left_Tab) {
-		if (selection_is_in_table (document, NULL, NULL))
-			if (jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab))
-				return TRUE;
+		if (jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab))
+			return TRUE;
 
 		if (key_val == GDK_KEY_Tab)
 			return dom_exec_command (
 				document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
 		else
-			return TRUE;
+			return FALSE;
 	}
 
 	if (is_return_key (key_val)) {
