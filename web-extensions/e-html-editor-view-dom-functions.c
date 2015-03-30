@@ -6806,7 +6806,7 @@ dom_set_link_color (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
 	}
 
-	color_str = g_strdup_printf ("a { color: #%06x; }", color);
+	color_str = g_strconcat ("a { color: ", color, "; }", NULL);
 	webkit_dom_html_element_set_inner_html (
 		WEBKIT_DOM_HTML_ELEMENT (style_element), color_str, NULL);
 
