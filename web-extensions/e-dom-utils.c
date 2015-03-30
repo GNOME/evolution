@@ -862,7 +862,6 @@ e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMHTMLIFrameElement *iframe;
 		WebKitDOMDocument *content_document;
-		WebKitDOMElement *element;
 
 		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
 			webkit_dom_node_list_item (frames, ii));
@@ -874,14 +873,12 @@ e_dom_utils_find_element_by_selector (WebKitDOMDocument *document,
 		element = e_dom_utils_find_element_by_id (content_document, selector);
 
 		g_object_unref (iframe);
-		if (element != NULL) {
-			g_object_unref (frames);
-			return element;
-		}
+		if (element != NULL)
+			break;
 	}
 
 	g_object_unref (frames);
-	return NULL;
+	return element;
 }
 
 /* ! This function can be called only from WK2 web-extension ! */
@@ -905,7 +902,6 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMHTMLIFrameElement *iframe;
 		WebKitDOMDocument *content_document;
-		WebKitDOMElement *element;
 
 		iframe = WEBKIT_DOM_HTML_IFRAME_ELEMENT (
 			webkit_dom_node_list_item (frames, ii));
@@ -917,14 +913,12 @@ e_dom_utils_find_element_by_id (WebKitDOMDocument *document,
 		element = e_dom_utils_find_element_by_id (content_document, id);
 
 		g_object_unref (iframe);
-		if (element != NULL) {
-			g_object_unref (frames);
-			return element;
-		}
+		if (element != NULL)
+			break;
 	}
 
 	g_object_unref (frames);
-	return NULL;
+	return element;
 }
 
 gboolean
