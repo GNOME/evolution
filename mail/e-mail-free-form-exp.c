@@ -151,6 +151,16 @@ mail_ffe_subject (const gchar *word,
 }
 
 static gchar *
+mail_ffe_list (const gchar *word,
+	       const gchar *options,
+	       const gchar *hint)
+{
+	const gchar *header_names[] = { "x-camel-mlist", NULL };
+
+	return mail_ffe_build_header_sexp (word, options, header_names);
+}
+
+static gchar *
 mail_ffe_header (const gchar *word,
 		 const gchar *options,
 		 const gchar *hint)
@@ -492,6 +502,7 @@ static const EFreeFormExpSymbol mail_ffe_symbols[] = {
 	{ "cc:c:",	NULL,	mail_ffe_cc },
 	{ "recips:r",	NULL,	mail_ffe_recips },
 	{ "subject:s",	NULL,	mail_ffe_subject },
+	{ "list",	NULL,	mail_ffe_list },
 	{ "header:h",	NULL,	mail_ffe_header },
 	{ "exists:e",	NULL,	mail_ffe_exists },
 	{ "tag",	NULL,	mail_ffe_tag },
