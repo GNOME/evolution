@@ -2493,6 +2493,15 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  margin-bottom: 0.2em;\n"
 		"}\n");
 
+	/* When inserting a table into contenteditable element the width of the
+	 * cells is nearly zero and the td { min-height } doesn't work so put
+	 * unicode zero width space before each cell. */
+	g_string_append (
+		stylesheet,
+		"td::before {\n"
+		" content: \"\xe2\x80\x8b\";"
+		"}\n");
+
 	g_string_append (
 		stylesheet,
 		"img "
