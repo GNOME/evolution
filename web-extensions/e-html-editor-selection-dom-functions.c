@@ -3849,8 +3849,14 @@ dom_selection_get_font_color (WebKitDOMDocument *document,
 	gchar *color;
 
 	color = get_font_property (document, "color");
-	if (!(color && *color))
-		return g_strdup ("#000000");
+	if (!(color && *color)) {
+		WebKitDOMHTMLElement *body;
+
+		body = webkit_dom_document_get_body (document);
+		color = webkit_dom_html_body_element_get_text (WEBKIT_DOM_HTML_BODY_ELEMENT (body));
+		if (!(color && *color))
+			return g_strdup ("#000000");
+	}
 
 	return color;
 }
