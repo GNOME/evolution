@@ -2360,7 +2360,6 @@ void
 e_html_editor_view_update_fonts (EHTMLEditorView *view)
 {
 	gboolean mark_citations, use_custom_font;
-	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
 	gchar *font, *aa = NULL, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
@@ -2456,15 +2455,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (view));
 	gtk_style_context_get_style (
-		context,
-		"link-color", &link,
-		"visited-link-color", &visited,
-		NULL);
-
-	if (link == NULL) {
-		link = g_slice_new0 (GdkColor);
-		link->blue = G_MAXINT16;
-	}
+		context, "visited-link-color", &visited, NULL);
 
 	if (visited == NULL) {
 		visited = g_slice_new0 (GdkColor);
@@ -2473,13 +2464,9 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append_printf (
 		stylesheet,
-		"a {\n"
-		"  color: #%06x;\n"
-		"}\n"
 		"a:visited {\n"
 		"  color: #%06x;\n"
 		"}\n",
-		e_color_to_value (link),
 		e_color_to_value (visited));
 
 	/* See bug #689777 for details */
@@ -2729,7 +2716,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"}\n",
 		e_web_view_get_citation_color_for_level (5));
 
-	gdk_color_free (link);
 	gdk_color_free (visited);
 
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
@@ -3293,4 +3279,36 @@ void
 e_html_editor_view_save_selection (EHTMLEditorView *view)
 {
 	e_html_editor_view_call_simple_extension_function (view, "DOMSaveSelection");
+}
+
+static void
+set_link_color (EHTMLEditorView *view)
+{
+	GdkColor *color = NULL;
+	GdkRGBA rgba;
+	GtkStyleContext *context;
+
+	context = gtk_widget_get_style_context (GTK_WIDGET (view));
+	gtk_style_context_get_style (
+		context, "link-color", &color, NULL);
+
+	if (color == NULL) {
+		rgba.alpha = 1;
+		rgba.red = 0;
+		rgba.green = 0;
+		rgba.blue = 1;
+	} else {
+		rgba.alpha = 1;
+		rgba.red = ((gdouble) color->red) / G_MAXUINT16;
+		rgba.green = ((gdouble) color->green) / G_MAXUINT16;
+		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
+	}
+
+	/* FIXME WK2
+	 * This set_link_color needs to be called when the document is loaded
+	 * (so we will probably emit the signal from WebProcess to Evo when this
+	 * happens).
+	e_html_editor_view_set_link_color (view, &rgba); */
+
+	gdk_color_free (color);
 }

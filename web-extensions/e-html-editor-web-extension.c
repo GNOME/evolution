@@ -674,9 +674,14 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_query_selector (document, selector, NULL);
-		if (element)
-			webkit_dom_element_set_attribute (
-				element, attribute, value, NULL);
+		if (element) {
+			if (g_strcmp0 (selector, "body") == 0 &&
+			    g_strcmp0 (attribute, "link") == 0)
+				dom_set_link_color (document, value);
+			else
+				webkit_dom_element_set_attribute (
+					element, attribute, value, NULL);
+		}
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "ElementGetTagName") == 0) {
