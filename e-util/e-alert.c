@@ -100,6 +100,8 @@ struct _EAlertPrivate {
 	 * but we need to preserve the button order and GtkActionGroup
 	 * uses a hash table, which does not preserve order. */
 	GQueue actions;
+
+	GQueue widgets;
 };
 
 enum {
@@ -543,6 +545,13 @@ alert_dispose (GObject *object)
 		g_object_unref (action);
 	}
 
+	while (!g_queue_is_empty (&alert->priv->widgets)) {
+		GtkWidget *widget;
+
+		widget = g_queue_pop_head (&alert->priv->widgets);
+		g_object_unref (widget);
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_alert_parent_class)->dispose (object);
 }
@@ -701,6 +710,7 @@ e_alert_init (EAlert *alert)
 	alert->priv = E_ALERT_GET_PRIVATE (alert);
 
 	g_queue_init (&alert->priv->actions);
+	g_queue_init (&alert->priv->widgets);
 }
 
 /**
@@ -912,7 +922,7 @@ e_alert_add_action (EAlert *alert,
                     gint response_id)
 {
 	g_return_if_fail (E_IS_ALERT (alert));
-	g_return_if_fail (GTK_ACTION (action));
+	g_return_if_fail (GTK_IS_ACTION (action));
 
 	g_object_set_data (
 		G_OBJECT (action), "e-alert-response-id",
@@ -931,6 +941,25 @@ e_alert_peek_actions (EAlert *alert)
 	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
 
 	return g_queue_peek_head_link (&alert->priv->actions);
+}
+
+/* The widget is consumed by this function */
+void
+e_alert_add_widget (EAlert *alert,
+		    GtkWidget *widget)
+{
+	g_return_if_fail (E_IS_ALERT (alert));
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+
+	g_queue_push_tail (&alert->priv->widgets, g_object_ref_sink (widget));
+}
+
+GList *
+e_alert_peek_widgets (EAlert *alert)
+{
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	return g_queue_peek_head_link (&alert->priv->widgets);
 }
 
 GtkWidget *

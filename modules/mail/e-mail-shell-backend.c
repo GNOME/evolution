@@ -81,11 +81,15 @@ mbox_create_preview_cb (GObject *preview,
                         GtkWidget **preview_widget)
 {
 	EMailDisplay *display;
+	EMailBackend *mail_backend;
 
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (preview_widget != NULL);
 
-	display = g_object_new (E_TYPE_MAIL_DISPLAY, NULL);
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default (), BACKEND_NAME));
+	g_return_if_fail (mail_backend != NULL);
+
+	display = E_MAIL_DISPLAY (e_mail_display_new (e_mail_backend_get_remote_content (mail_backend)));
 	g_object_set_data_full (
 		preview, "mbox-imp-display",
 		g_object_ref (display), g_object_unref);

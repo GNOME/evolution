@@ -121,7 +121,7 @@ alert_dialog_constructed (GObject *object)
 	GtkWidget *widget;
 	PangoAttribute *attr;
 	PangoAttrList *list;
-	GList *actions;
+	GList *link;
 	const gchar *primary, *secondary;
 	gint default_response;
 
@@ -154,8 +154,8 @@ alert_dialog_constructed (GObject *object)
 		G_CALLBACK (gtk_dialog_response), dialog);
 
 	/* Add buttons from actions. */
-	actions = e_alert_peek_actions (alert);
-	if (!actions) {
+	link = e_alert_peek_actions (alert);
+	if (!link && !e_alert_peek_widgets (alert)) {
 		GtkAction *action;
 
 		/* Make sure there is at least one action,
@@ -165,11 +165,12 @@ alert_dialog_constructed (GObject *object)
 		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE);
 		g_object_unref (action);
 
-		actions = e_alert_peek_actions (alert);
+		link = e_alert_peek_actions (alert);
 	}
 
-	while (actions != NULL) {
+	while (link != NULL) {
 		GtkWidget *button;
+		GtkAction *action = GTK_ACTION (link->data);
 		gpointer data;
 
 		/* These actions are already wired to trigger an
@@ -182,18 +183,11 @@ alert_dialog_constructed (GObject *object)
 		button = gtk_button_new ();
 
 		gtk_widget_set_can_default (button, TRUE);
-
-		gtk_activatable_set_related_action (
-			GTK_ACTIVATABLE (button),
-			GTK_ACTION (actions->data));
-
-		gtk_box_pack_end (
-			GTK_BOX (action_area),
-			button, FALSE, FALSE, 0);
+		gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), action);
+		gtk_box_pack_end (GTK_BOX (action_area), button, FALSE, FALSE, 0);
 
 		/* This is set in e_alert_add_action(). */
-		data = g_object_get_data (
-			actions->data, "e-alert-response-id");
+		data = g_object_get_data (G_OBJECT (action), "e-alert-response-id");
 
 		/* Normally GtkDialog sets the initial focus widget to
 		 * the button corresponding to the default response, but
@@ -205,7 +199,15 @@ alert_dialog_constructed (GObject *object)
 			gtk_widget_grab_focus (button);
 		}
 
-		actions = g_list_next (actions);
+		link = g_list_next (link);
+	}
+
+	link = e_alert_peek_widgets (alert);
+	while (link != NULL) {
+		widget = link->data;
+
+		gtk_box_pack_end (GTK_BOX (action_area), widget, FALSE, FALSE, 0);
+		link = g_list_next (link);
 	}
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);

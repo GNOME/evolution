@@ -1090,11 +1090,15 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 	EMailParser *parser;
 	EMailPartList *parts, *reserved_parts;
 	EMailPrinter *printer;
+	EMailBackend *mail_backend;
 	const gchar *message_id;
 	GCancellable *cancellable;
 	CamelObjectBag *parts_registry;
 	gchar *mail_uri;
 	PrintAsyncContext async_context;
+
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (e_msg_composer_get_shell (composer), "mail"));
+	g_return_if_fail (mail_backend != NULL);
 
 	cancellable = e_activity_get_cancellable (activity);
 	parser = e_mail_parser_new (CAMEL_SESSION (session));
@@ -1114,7 +1118,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 
 	camel_object_bag_add (parts_registry, mail_uri, parts);
 
-	printer = e_mail_printer_new (parts);
+	printer = e_mail_printer_new (parts, e_mail_backend_get_remote_content (mail_backend));
 
 	async_context.error = NULL;
 	async_context.main_loop = g_main_loop_new (NULL, FALSE);

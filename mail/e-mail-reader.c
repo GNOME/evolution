@@ -94,6 +94,8 @@ struct _EMailReaderPrivate {
 	 * the message is loaded into the EMailDisplay */
 	gboolean schedule_mark_seen;
 	guint schedule_mark_seen_interval;
+
+	gpointer remote_content_alert; /* EAlert */
 };
 
 enum {
@@ -4911,3 +4913,422 @@ e_mail_reader_composer_created (EMailReader *reader,
 		reader, signals[COMPOSER_CREATED], 0, composer, message);
 }
 
+static void
+e_mail_reader_load_remote_content_clicked_cb (GtkButton *button,
+					      EMailReader *reader)
+{
+	EMailDisplay *mail_display;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+
+	/* This causes reload, thus also alert removal */
+	e_mail_display_load_images (mail_display);
+}
+
+static GList *
+e_mail_reader_get_from_mails (EMailDisplay *mail_display)
+{
+	EMailPartList *part_list;
+	CamelMimeMessage *message;
+	CamelInternetAddress *from;
+	GList *mails = NULL;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (mail_display), NULL);
+
+	part_list = e_mail_display_get_part_list (mail_display);
+	if (!part_list)
+		return NULL;
+
+	message = e_mail_part_list_get_message (part_list);
+	if (!message)
+		return NULL;
+
+	from = camel_mime_message_get_from (message);
+	if (from) {
+		GHashTable *domains;
+		GHashTableIter iter;
+		gpointer key, value;
+		gint ii, len;
+
+		domains = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+
+		len = camel_address_length (CAMEL_ADDRESS (from));
+		for (ii = 0; ii < len; ii++) {
+			const gchar *mail = NULL;
+
+			if (!camel_internet_address_get	(from, ii, NULL, &mail))
+				break;
+
+			if (mail && *mail) {
+				const gchar *at;
+
+				mails = g_list_prepend (mails, g_strdup (mail));
+
+				at = strchr (mail, '@');
+				if (at && at != mail && at[1])
+					g_hash_table_insert (domains, (gpointer) at, NULL);
+			}
+		}
+
+		g_hash_table_iter_init (&iter, domains);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			const gchar *domain = key;
+
+			mails = g_list_prepend (mails, g_strdup (domain));
+		}
+
+		g_hash_table_destroy (domains);
+	}
+
+	return g_list_reverse (mails);
+}
+
+static void
+e_mail_reader_remote_content_menu_position (GtkMenu *menu,
+					    gint *x,
+					    gint *y,
+					    gboolean *push_in,
+					    gpointer user_data)
+{
+	GtkRequisition menu_requisition;
+	GtkTextDirection direction;
+	GtkAllocation allocation;
+	GdkRectangle monitor;
+	GdkScreen *screen;
+	GdkWindow *window;
+	GtkWidget *widget = user_data;
+	gint monitor_num;
+
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
+
+	window = gtk_widget_get_parent_window (widget);
+	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
+	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
+	if (monitor_num < 0)
+		monitor_num = 0;
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	gtk_widget_get_allocation (widget, &allocation);
+
+	gdk_window_get_origin (window, x, y);
+	*x += allocation.x;
+	*y += allocation.y;
+
+	direction = gtk_widget_get_direction (widget);
+	if (direction == GTK_TEXT_DIR_LTR)
+		*x += MAX (allocation.width - menu_requisition.width, 0);
+	else if (menu_requisition.width > allocation.width)
+		*x -= menu_requisition.width - allocation.width;
+
+	gtk_widget_get_allocation (widget, &allocation);
+
+	if ((*y + allocation.height +
+		menu_requisition.height) <= monitor.y + monitor.height)
+		*y += allocation.height;
+	else if ((*y - menu_requisition.height) >= monitor.y)
+		*y -= menu_requisition.height;
+	else if (monitor.y + monitor.height -
+		(*y + allocation.height) > *y)
+		*y += allocation.height;
+	else
+		*y -= menu_requisition.height;
+
+	*push_in = FALSE;
+}
+
+static gboolean
+e_mail_reader_destroy_menu_idle_cb (gpointer user_data)
+{
+	gtk_widget_destroy (user_data);
+
+	return FALSE;
+}
+
+static void
+e_mail_reader_remote_content_menu_deactivate_cb (GtkMenuShell *popup_menu,
+						 GtkToggleButton *toggle_button)
+{
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (toggle_button));
+
+	gtk_toggle_button_set_active (toggle_button, FALSE);
+
+	g_idle_add (e_mail_reader_destroy_menu_idle_cb, popup_menu);
+}
+
+#define REMOTE_CONTENT_KEY_IS_MAIL	"remote-content-key-is-mail"
+#define REMOTE_CONTENT_KEY_VALUE	"remote-content-key-value"
+
+static void
+e_mail_reader_remote_content_menu_activate_cb (GObject *item,
+					       EMailReader *reader)
+{
+	EMailDisplay *mail_display;
+	EMailRemoteContent *remote_content;
+	gboolean is_mail;
+	const gchar *value;
+
+	g_return_if_fail (GTK_IS_MENU_ITEM (item));
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	is_mail = GPOINTER_TO_INT (g_object_get_data (item, REMOTE_CONTENT_KEY_IS_MAIL)) == 1;
+	value = g_object_get_data (item, REMOTE_CONTENT_KEY_VALUE);
+
+	g_return_if_fail (value && *value);
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	if (!mail_display)
+		return;
+
+	remote_content = e_mail_display_ref_remote_content (mail_display);
+	if (!remote_content)
+		return;
+
+	if (is_mail)
+		e_mail_remote_content_add_mail (remote_content, value);
+	else
+		e_mail_remote_content_add_site (remote_content, value);
+
+	g_clear_object (&remote_content);
+
+	e_mail_display_reload (mail_display);
+}
+
+static void
+e_mail_reader_add_remote_content_menu_item (EMailReader *reader,
+					    GtkWidget *popup_menu,
+					    const gchar *label,
+					    gboolean is_mail,
+					    const gchar *value)
+{
+	GtkWidget *item;
+	GObject *object;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (GTK_IS_MENU (popup_menu));
+	g_return_if_fail (label != NULL);
+	g_return_if_fail (value != NULL);
+
+	item = gtk_menu_item_new_with_label (label);
+	object = G_OBJECT (item);
+
+	g_object_set_data (object, REMOTE_CONTENT_KEY_IS_MAIL, is_mail ? GINT_TO_POINTER (1) : NULL);
+	g_object_set_data_full (object, REMOTE_CONTENT_KEY_VALUE, g_strdup (value), g_free);
+
+	g_signal_connect (item, "activate", G_CALLBACK (e_mail_reader_remote_content_menu_activate_cb), reader);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
+}
+
+static void
+e_mail_reader_show_remote_content_popup (EMailReader *reader,
+					 GdkEventButton *event,
+					 GtkToggleButton *toggle_button)
+{
+	EMailDisplay *mail_display;
+	GList *mails, *sites, *link;
+	GtkWidget *popup_menu = NULL;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	mails = e_mail_reader_get_from_mails (mail_display);
+	sites = e_mail_display_get_skipped_remote_content_sites (mail_display);
+
+	for (link = mails; link; link = g_list_next (link)) {
+		const gchar *mail = link->data;
+		gchar *label;
+
+		if (!mail || !*mail)
+			continue;
+
+		if (!popup_menu)
+			popup_menu = gtk_menu_new ();
+
+		if (*mail == '@')
+			label = g_strdup_printf (_("Allow remote content for anyone from %s"), mail);
+		else
+			label = g_strdup_printf (_("Allow remote content for %s"), mail);
+
+		e_mail_reader_add_remote_content_menu_item (reader, popup_menu, label, TRUE, mail);
+
+		g_free (label);
+	}
+
+	for (link = sites; link; link = g_list_next (link)) {
+		const gchar *site = link->data;
+		gchar *label;
+
+		if (!site || !*site)
+			continue;
+
+		if (!popup_menu)
+			popup_menu = gtk_menu_new ();
+
+		label = g_strdup_printf (_("Allow remote content from %s"), site);
+
+		e_mail_reader_add_remote_content_menu_item (reader, popup_menu, label, FALSE, site);
+
+		g_free (label);
+	}
+
+	g_list_free_full (mails, g_free);
+	g_list_free_full (sites, g_free);
+
+	if (popup_menu) {
+		GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (toggle_button));
+
+		gtk_toggle_button_set_active (toggle_button, TRUE);
+
+		g_signal_connect (
+			popup_menu, "deactivate",
+			G_CALLBACK (e_mail_reader_remote_content_menu_deactivate_cb), toggle_button);
+
+		gtk_widget_show_all (popup_menu);
+
+		if (event)
+			gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
+				e_mail_reader_remote_content_menu_position,
+				box, event->button, event->time);
+		else
+			gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
+				e_mail_reader_remote_content_menu_position,
+				box, 0, gtk_get_current_event_time ());
+	}
+}
+
+static gboolean
+e_mail_reader_options_remote_content_button_press_cb (GtkToggleButton *toggle_button,
+						      GdkEventButton *event,
+						      EMailReader *reader)
+{
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
+
+	if (event && event->button == 1) {
+		e_mail_reader_show_remote_content_popup (reader, event, toggle_button);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static GtkWidget *
+e_mail_reader_create_remote_content_alert_button (EMailReader *reader)
+{
+	GtkWidget *box, *button, *arrow;
+
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+
+	gtk_style_context_add_class (gtk_widget_get_style_context (box), "linked");
+
+	button = gtk_button_new_with_label (_("Load remote content"));
+	gtk_container_add (GTK_CONTAINER (box), button);
+
+	g_signal_connect (button, "clicked",
+		G_CALLBACK (e_mail_reader_load_remote_content_clicked_cb), reader);
+
+	button = gtk_toggle_button_new ();
+	gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+
+	g_signal_connect (button, "button-press-event",
+		G_CALLBACK (e_mail_reader_options_remote_content_button_press_cb), reader);
+
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	gtk_container_add (GTK_CONTAINER (button), arrow);
+
+	gtk_widget_show_all (box);
+
+	return box;
+}
+
+static void
+e_mail_reader_load_status_notify_cb (WebKitWebFrame *frame,
+				     GParamSpec *param,
+				     EMailReader *reader)
+{
+	WebKitLoadStatus load_status;
+	EMailDisplay *mail_display;
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (WEBKIT_IS_WEB_FRAME (frame));
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	g_return_if_fail (priv != NULL);
+
+	load_status = webkit_web_frame_get_load_status (frame);
+	if (load_status == WEBKIT_LOAD_PROVISIONAL) {
+		WebKitWebView *web_view;
+
+		web_view = webkit_web_frame_get_web_view (frame);
+
+		if (priv->remote_content_alert && webkit_web_view_get_main_frame (web_view) == frame)
+			e_alert_response (priv->remote_content_alert, GTK_RESPONSE_CLOSE);
+		return;
+	}
+
+	if (load_status != WEBKIT_LOAD_FINISHED)
+		return;
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
+
+	if (!e_mail_display_has_skipped_remote_content_sites (mail_display))
+		return;
+
+	if (!priv->remote_content_alert) {
+		EPreviewPane *preview_pane;
+		GtkWidget *button;
+		EAlert *alert;
+
+		alert = e_alert_new ("mail:remote-content-info", NULL);
+		button = e_mail_reader_create_remote_content_alert_button (reader);
+		e_alert_add_widget (alert, button); /* button is consumed by the alert */
+		preview_pane = e_mail_reader_get_preview_pane (reader);
+		e_alert_sink_submit_alert (E_ALERT_SINK (preview_pane), alert);
+		g_object_unref (alert);
+
+		priv->remote_content_alert = alert;
+		g_object_add_weak_pointer (G_OBJECT (priv->remote_content_alert), &priv->remote_content_alert);
+	}
+}
+
+static void
+mail_reader_display_frame_created_cb (WebKitWebView *web_view,
+				      WebKitWebFrame *frame,
+				      EMailReader *reader)
+{
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	e_signal_connect_notify (frame, "notify::load-status",
+		G_CALLBACK (e_mail_reader_load_status_notify_cb), reader);
+}
+
+/**
+ * e_mail_reader_connect_remote_content:
+ * @reader: an #EMailReader
+ *
+ * Connects signal handlers to manage remote content download around
+ * the internal #EMailDisplay.
+ **/
+void
+e_mail_reader_connect_remote_content (EMailReader *reader)
+{
+	EMailDisplay *mail_display;
+	WebKitWebFrame *frame;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
+
+	frame = webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display));
+
+	e_signal_connect_notify (frame, "notify::load-status",
+		G_CALLBACK (e_mail_reader_load_status_notify_cb), reader);
+
+	g_signal_connect (mail_display, "frame-created",
+		G_CALLBACK (mail_reader_display_frame_created_cb), reader);
+}
