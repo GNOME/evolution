@@ -6425,7 +6425,7 @@ selection_is_in_table (WebKitDOMDocument *document,
 	return *table_node != NULL;
 }
 
-static void
+static gboolean
 jump_to_next_table_cell (WebKitDOMDocument *document,
                          gboolean jump_back)
 {
@@ -6438,7 +6438,7 @@ jump_to_next_table_cell (WebKitDOMDocument *document,
 	selection = webkit_dom_dom_window_get_selection (window);
 
 	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
-		return;
+		return FALSE;
 
 	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
 	node = webkit_dom_range_get_start_container (range, NULL);
@@ -6449,7 +6449,7 @@ jump_to_next_table_cell (WebKitDOMDocument *document,
 	}
 
 	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell))
-		return;
+		return FALSE;
 
 	if (jump_back) {
 		/* Get previous cell */
@@ -6490,12 +6490,14 @@ jump_to_next_table_cell (WebKitDOMDocument *document,
 	}
 
 	if (!node)
-		return;
+		return FALSE;
 
 	webkit_dom_range_select_node_contents (range, node, NULL);
 	webkit_dom_range_collapse (range, TRUE, NULL);
 	webkit_dom_dom_selection_remove_all_ranges (selection);
 	webkit_dom_dom_selection_add_range (selection, range);
+
+	return TRUE;
 }
 
 static gboolean
@@ -6513,10 +6515,11 @@ dom_process_on_key_press (WebKitDOMDocument *document,
                           guint key_val)
 {
 	if (key_val == GDK_KEY_Tab || key_val == GDK_KEY_ISO_Left_Tab) {
-		if (selection_is_in_table (document, NULL, NULL)) {
-			jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab);
-			return TRUE;
-		} else if (key_val == GDK_KEY_Tab)
+		if (selection_is_in_table (document, NULL, NULL))
+			if (jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab))
+				return TRUE;
+
+		if (key_val == GDK_KEY_Tab)
 			return dom_exec_command (
 				document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
 		else
