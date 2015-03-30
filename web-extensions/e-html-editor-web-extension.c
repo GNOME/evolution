@@ -376,6 +376,33 @@ static const char introspection_xml[] =
 "      <arg type='s' name='element_id' direction='in'/>"
 "      <arg type='i' name='col_span' direction='out'/>"
 "    </method>"
+"    <method name='EHTMLEditorDialogDeleteCellContents'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogDeleteColumn'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogDeleteRow'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogDeleteTable'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogInsertColumnAfter'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogInsertColumnBefore'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogInsertRowAbove'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogInsertRowBelow'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='EHTMLEditorDialogDOMUnlink'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorView            -->"
 "<!-- ********************************************************* -->"
@@ -1274,6 +1301,126 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new_boolean (created_new_table));
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogDeleteCellContents") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_delete_cell_contents (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogDeleteColumn") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_delete_column (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogDeleteRow") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_delete_row (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogDeleteTable") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_delete_table (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogDeleteTable") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_delete_cell_contents (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogInsertColumnAfter") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_insert_column_after (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogInsertColumnBefore") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_insert_column_before (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogInsertRowAbove") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_insert_row_above (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogInsertRowBelow") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		e_html_editor_dialog_insert_row_below (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogDOMUnlink") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_unlink (document);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "TableCellElementGetNoWrap") == 0) {
 		const gchar *element_id;
 		gboolean value = FALSE;
