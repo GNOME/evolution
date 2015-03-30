@@ -23,7 +23,7 @@
 
 G_BEGIN_DECLS
 
-void		e_html_editor_dialog_delete_cell
+void		e_html_editor_dialog_delete_cell_contents
 						(WebKitDOMDocument *document);
 
 void		e_html_editor_dialog_delete_column

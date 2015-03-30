@@ -138,11 +138,11 @@ html_editor_call_simple_extension_function (EHTMLEditor *editor,
 }
 
 static void
-action_context_delete_cell_cb (GtkAction *action,
+action_context_delete_cell_contents_cb (GtkAction *action,
                                EHTMLEditor *editor)
 {
 	html_editor_call_simple_extension_function (
-		editor, "EHTMLEditorDialogDeleteCell");
+		editor, "EHTMLEditorDialogDeleteCellContents");
 }
 
 static void
@@ -1332,7 +1332,7 @@ static GtkActionEntry context_entries[] = {
 	  N_("Cell Contents"),
 	  NULL,
 	  NULL,
-	  G_CALLBACK (action_context_delete_cell_cb) },
+	  G_CALLBACK (action_context_delete_cell_contents_cb) },
 
 	{ "context-delete-column",
 	  NULL,
