@@ -6359,6 +6359,110 @@ fix_structure_after_delete_before_quoted_content (WebKitDOMDocument *document)
 }
 
 static gboolean
+selection_is_in_table (WebKitDOMDocument *document)
+{
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+	WebKitDOMNode *node, *parent;
+	WebKitDOMRange *range;
+
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+
+	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+		return FALSE;
+
+	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	node = webkit_dom_range_get_start_container (range, NULL);
+
+	parent = node;
+	while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		if (WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (parent))
+			return TRUE;
+		if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent))
+			return TRUE;
+		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent))
+			return TRUE;
+		parent = webkit_dom_node_get_parent_node (parent);
+	}
+
+	return FALSE;
+}
+
+static void
+jump_to_next_table_cell (WebKitDOMDocument *document,
+                         gboolean jump_back)
+{
+	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *selection;
+	WebKitDOMNode *node, *cell;
+	WebKitDOMRange *range;
+
+	window = webkit_dom_document_get_default_view (document);
+	selection = webkit_dom_dom_window_get_selection (window);
+
+	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+		return;
+
+	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	node = webkit_dom_range_get_start_container (range, NULL);
+
+	cell = node;
+	while (cell && !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell)) {
+		cell = webkit_dom_node_get_parent_node (cell);
+	}
+
+	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (cell))
+		return;
+
+	if (jump_back) {
+		/* Get previous cell */
+		node = webkit_dom_node_get_previous_sibling (cell);
+		if (!node || !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node)) {
+			/* No cell, go one row up. */
+			node = webkit_dom_node_get_parent_node (cell);
+			node = webkit_dom_node_get_previous_sibling (node);
+			if (node && WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (node)) {
+				node = webkit_dom_node_get_last_child (node);
+			} else {
+				/* No row above, move to the block before table. */
+				node = webkit_dom_node_get_parent_node (cell);
+				while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
+					node = webkit_dom_node_get_parent_node (node);
+
+				node = webkit_dom_node_get_previous_sibling (node);
+			}
+		}
+	} else {
+		/* Get next cell */
+		node = webkit_dom_node_get_next_sibling (cell);
+		if (!node || !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node)) {
+			/* No cell, go one row below. */
+			node = webkit_dom_node_get_parent_node (cell);
+			node = webkit_dom_node_get_next_sibling (node);
+			if (node && WEBKIT_DOM_IS_HTML_TABLE_ROW_ELEMENT (node)) {
+				node = webkit_dom_node_get_first_child (node);
+			} else {
+				/* No row below, move to the block after table. */
+				node = webkit_dom_node_get_parent_node (cell);
+				while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node)))
+					node = webkit_dom_node_get_parent_node (node);
+
+				node = webkit_dom_node_get_next_sibling (node);
+			}
+		}
+	}
+
+	if (!node)
+		return;
+
+	webkit_dom_range_select_node_contents (range, node, NULL);
+	webkit_dom_range_collapse (range, TRUE, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (selection);
+	webkit_dom_dom_selection_add_range (selection, range);
+}
+
+static gboolean
 is_return_key (guint key_val)
 {
 	return (
@@ -6372,10 +6476,16 @@ dom_process_on_key_press (WebKitDOMDocument *document,
                           EHTMLEditorWebExtension *extension,
                           guint key_val)
 {
-
-	if (key_val == GDK_KEY_Tab)
-		return dom_exec_command (
-			document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
+	if (key_val == GDK_KEY_Tab || key_val == GDK_KEY_ISO_Left_Tab) {
+		if (selection_is_in_table (document)) {
+			jump_to_next_table_cell (document, key_val == GDK_KEY_ISO_Left_Tab);
+			return TRUE;
+		} else if (key_val == GDK_KEY_Tab)
+			return dom_exec_command (
+				document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
+		else
+			return TRUE;
+	}
 
 	if (is_return_key (key_val)) {
 		EHTMLEditorSelectionBlockFormat format;
