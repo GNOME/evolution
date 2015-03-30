@@ -5266,10 +5266,11 @@ mail_reader_display_load_changed_cb (EMailDisplay *mail_display,
 		e_alert_add_widget (alert, button); /* button is consumed by the alert */
 		preview_pane = e_mail_reader_get_preview_pane (reader);
 		e_alert_sink_submit_alert (E_ALERT_SINK (preview_pane), alert);
-		g_object_unref (alert);
 
 		priv->remote_content_alert = alert;
 		g_object_add_weak_pointer (G_OBJECT (priv->remote_content_alert), &priv->remote_content_alert);
+
+		g_object_unref (alert);
 	}
 }
 
