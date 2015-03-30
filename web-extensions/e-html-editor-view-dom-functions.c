@@ -6411,10 +6411,14 @@ selection_is_in_table (WebKitDOMDocument *document,
 			}
 		}
 		if (WEBKIT_DOM_IS_HTML_TABLE_ELEMENT (parent)) {
-			*table_node = parent;
+			if (table_node != NULL)
+				*table_node = parent;
 		}
 		parent = webkit_dom_node_get_parent_node (parent);
 	}
+
+	if (table_node == NULL)
+		return FALSE;
 
 	return *table_node != NULL;
 }
