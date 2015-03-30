@@ -1730,7 +1730,7 @@ body_input_event_cb (WebKitDOMElement *element,
 	/* If text before caret includes UNICODE_ZERO_WIDTH_SPACE character, remove it */
 	if (WEBKIT_DOM_IS_TEXT (node)) {
 		gchar *text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
-		glong length = g_utf8_strlen (text, -1);
+		glong length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
 		WebKitDOMNode *parent;
 
 		/* We have to preserve empty paragraphs with just UNICODE_ZERO_WIDTH_SPACE
