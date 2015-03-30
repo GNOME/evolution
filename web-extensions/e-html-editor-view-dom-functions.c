@@ -6501,6 +6501,57 @@ jump_to_next_table_cell (WebKitDOMDocument *document,
 }
 
 static gboolean
+delete_character_from_quoted_line_start (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *element;
+	WebKitDOMNode *node, *beginning;
+
+	/* We have to be in quoted content. */
+	if (!dom_selection_is_citation (document))
+		return FALSE;
+
+	/* Selection is just caret. */
+	if (!dom_selection_is_collapsed (document))
+		return FALSE;
+
+	dom_selection_save (document);
+
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	/* selection end marker */
+	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+
+	/* We have to be on the end of line. */
+	if (webkit_dom_node_get_next_sibling (node))
+		return FALSE;
+
+	/* Before the caret is just text. */
+	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+	if (!(node && WEBKIT_DOM_IS_TEXT (node)))
+		return FALSE;
+
+	/* There is just one character. */
+	if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)) != 1)
+		return FALSE;
+
+	beginning = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (node));
+	if (!(beginning && WEBKIT_DOM_IS_ELEMENT (beginning)))
+		return FALSE;
+
+	/* Before the text is the beginning of line. */
+	if (!(element_has_class (WEBKIT_DOM_ELEMENT (beginning), "-x-evo-quoted")))
+		return FALSE;
+
+	remove_node (beginning);
+	remove_node (node);
+
+	dom_selection_restore (document);
+
+	return TRUE;
+}
+
+static gboolean
 is_return_key (guint key_val)
 {
 	return (
@@ -6620,9 +6671,17 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			return TRUE;
 	}
 
-	if (key_val == GDK_KEY_Delete || key_val == GDK_KEY_BackSpace)
+	if (key_val == GDK_KEY_Delete || key_val == GDK_KEY_BackSpace) {
+		gboolean html_mode;
+
+		html_mode = e_html_editor_web_extension_get_html_mode (extension);
+		if (key_val == GDK_KEY_BackSpace && !html_mode) {
+			if (delete_character_from_quoted_line_start (document))
+				return TRUE;
+		}
 		if (fix_structure_after_delete_before_quoted_content (document))
 			return TRUE;
+	}
 
 	return FALSE;
 }
