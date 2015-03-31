@@ -67,6 +67,8 @@ void		e_auth_combo_box_set_provider	(EAuthComboBox *combo_box,
 void		e_auth_combo_box_update_available
 						(EAuthComboBox *combo_box,
 						 GList *available_authtypes);
+void		e_auth_combo_box_pick_highest_available
+						(EAuthComboBox *combo_box);
 
 G_END_DECLS
 
