@@ -103,6 +103,8 @@ mail_config_auth_check_update_done_cb (GObject *source_object,
 		e_auth_combo_box_update_available (
 			E_AUTH_COMBO_BOX (auth_check->priv->combo_box),
 			available_authtypes);
+		e_auth_combo_box_pick_highest_available (E_AUTH_COMBO_BOX (auth_check->priv->combo_box));
+
 		g_list_free (available_authtypes);
 	}
 

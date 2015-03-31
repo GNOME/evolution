@@ -214,6 +214,29 @@ e_auth_combo_box_set_provider (EAuthComboBox *combo_box,
 	auth_combo_box_rebuild_model (combo_box);
 }
 
+static gint
+e_auth_combo_box_get_preference_level (const gchar *authproto)
+{
+	/* In order of preference, from the least to the best */
+	const gchar *protos[] = {
+		"CRAM-MD5",
+		"DIGEST-MD5",
+		"NTLM",
+		"GSSAPI"
+	};
+	gint ii;
+
+	if (!authproto)
+		return -1;
+
+	for (ii = 0; ii < G_N_ELEMENTS (protos); ii++) {
+		if (g_ascii_strcasecmp (protos[ii], authproto) == 0)
+			return ii;
+	}
+
+	return -1;
+}
+
 void
 e_auth_combo_box_update_available (EAuthComboBox *combo_box,
                                    GList *available_authtypes)
@@ -223,6 +246,7 @@ e_auth_combo_box_update_available (EAuthComboBox *combo_box,
 	GtkTreeIter iter;
 	gint active_index;
 	gint available_index = -1;
+	gint chosen_preference_level = -1;
 	gint index = 0;
 	gboolean iter_set;
 
@@ -237,6 +261,7 @@ e_auth_combo_box_update_available (EAuthComboBox *combo_box,
 	while (iter_set) {
 		CamelServiceAuthType *authtype;
 		gboolean available;
+		gint preference_level = -1;
 
 		gtk_tree_model_get (
 			model, &iter, COLUMN_AUTHTYPE, &authtype, -1);
@@ -248,11 +273,16 @@ e_auth_combo_box_update_available (EAuthComboBox *combo_box,
 			GTK_LIST_STORE (model), &iter,
 			COLUMN_STRIKETHROUGH, !available, -1);
 
+		if (authtype)
+			preference_level = e_auth_combo_box_get_preference_level (authtype->authproto);
+
 		if (index == active_index && !available)
 			active_index = -1;
 
-		if (available && available_index == -1)
+		if (available && (available_index == -1 || chosen_preference_level < preference_level)) {
 			available_index = index;
+			chosen_preference_level = preference_level;
+		}
 
 		iter_set = gtk_tree_model_iter_next (model, &iter);
 		index++;
@@ -262,4 +292,45 @@ e_auth_combo_box_update_available (EAuthComboBox *combo_box,
 	 * (or there was no active item), select the first available. */
 	if (active_index == -1 && available_index != -1)
 		gtk_combo_box_set_active (gtk_combo_box, available_index);
+}
+
+void
+e_auth_combo_box_pick_highest_available (EAuthComboBox *combo_box)
+{
+	GtkComboBox *gtk_combo_box;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint highest_available_index = -1, index = 0;
+	gint chosen_preference_level = -1;
+
+	g_return_if_fail (E_IS_AUTH_COMBO_BOX (combo_box));
+
+	gtk_combo_box = GTK_COMBO_BOX (combo_box);
+	model = gtk_combo_box_get_model (gtk_combo_box);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			CamelServiceAuthType *authtype = NULL;
+			gboolean unavailable = TRUE;
+			gint preference_level = -1;
+
+			gtk_tree_model_get (model, &iter,
+				COLUMN_STRIKETHROUGH, &unavailable,
+				COLUMN_AUTHTYPE, &authtype,
+				-1);
+
+			if (authtype)
+				preference_level = e_auth_combo_box_get_preference_level (authtype->authproto);
+
+			if (!unavailable && (highest_available_index == -1 || chosen_preference_level < preference_level)) {
+				highest_available_index = index;
+				chosen_preference_level = preference_level;
+			}
+
+			index++;
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	if (highest_available_index != -1)
+		gtk_combo_box_set_active (gtk_combo_box, highest_available_index);
 }
