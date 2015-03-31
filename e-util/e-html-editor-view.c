@@ -5872,7 +5872,7 @@ get_decoded_line_length (WebKitDOMDocument *document,
 			text_length = webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node));
 			total_length += text_length;
 			length += text_length;
-		} if (WEBKIT_DOM_IS_ELEMENT (node)) {
+		} else if (WEBKIT_DOM_IS_ELEMENT (node)) {
 			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span")) {
 				total_length += TAB_LENGTH - length % TAB_LENGTH;
 				length = 0;
