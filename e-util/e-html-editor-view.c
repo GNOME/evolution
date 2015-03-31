@@ -273,6 +273,7 @@ print_history_event (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_TABLE_DIALOG:
 		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
+		case HISTORY_UNQUOTE:
 			print_node_inner_html (event->data.dom.from);
 			print_node_inner_html (event->data.dom.to);
 			break;
@@ -3537,6 +3538,7 @@ free_history_event_content (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_TABLE_DIALOG:
 		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
+		case HISTORY_UNQUOTE:
 			if (event->data.dom.from != NULL)
 				g_object_unref (event->data.dom.from);
 			if (event->data.dom.to != NULL)
@@ -3763,9 +3765,13 @@ prevent_from_deleting_last_element_in_body (EHTMLEditorView *view)
 static gboolean
 change_quoted_block_to_normal (EHTMLEditorView *view)
 {
+	EHTMLEditorViewHistoryEvent *ev = NULL;
+	EHTMLEditorSelection *selection;
 	gint citation_level, success = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *block;
+
+	selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
@@ -3809,14 +3815,22 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 					WEBKIT_DOM_NODE (block)));
 	}
 
+	if (success) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_UNQUOTE;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+	}
+
 	if (success && citation_level == 1) {
 		gchar *inner_html;
 		WebKitDOMElement *paragraph;
 
 		inner_html = webkit_dom_html_element_get_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (block));
-		webkit_dom_element_set_id (
-			WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
+		webkit_dom_element_set_id (block, "-x-evo-to-remove");
 
 		paragraph = insert_new_line_into_citation (view, inner_html);
 		g_free (inner_html);
@@ -3857,10 +3871,8 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 
 	if (success && citation_level > 1) {
 		gint length, word_wrap_length;
-		EHTMLEditorSelection *selection;
 		WebKitDOMNode *parent;
 
-		selection = e_html_editor_view_get_selection (view);
 		word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
 		length =  word_wrap_length - 2 * (citation_level - 1);
 
@@ -3936,6 +3948,13 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
 		e_html_editor_view_quote_plain_text_element_after_wrapping (
 			document, block, citation_level - 1);
+	}
+
+	if (ev) {
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+
+		e_html_editor_view_insert_new_history_event (view, ev);
 	}
 
 	return success;
@@ -12006,6 +12025,70 @@ undo_redo_blockquote (EHTMLEditorView *view,
 		e_html_editor_selection_restore (selection);
 }
 
+static void
+undo_redo_unquote (EHTMLEditorView *view,
+                   EHTMLEditorViewHistoryEvent *event,
+                   gboolean undo)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+
+	selection = e_html_editor_view_get_selection (view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	if (undo)
+		restore_selection_to_history_event_state (view, event->after);
+
+	e_html_editor_selection_save (selection);
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	if (undo) {
+		WebKitDOMNode *next_sibling, *prev_sibling;
+		WebKitDOMElement *block;
+
+		block = get_parent_block_element (WEBKIT_DOM_NODE (element));
+
+		next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block));
+		prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block));
+
+		if (prev_sibling && is_citation_node (prev_sibling)) {
+			webkit_dom_node_append_child (
+				prev_sibling,
+				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				NULL);
+
+			if (next_sibling && is_citation_node (next_sibling)) {
+				WebKitDOMNode *child;
+
+				while  ((child = webkit_dom_node_get_first_child (next_sibling)))
+					webkit_dom_node_append_child (
+						prev_sibling, child, NULL);
+
+				remove_node (next_sibling);
+			}
+		} else if (next_sibling && is_citation_node (next_sibling)) {
+			webkit_dom_node_insert_before (
+				next_sibling,
+				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+				webkit_dom_node_get_first_child (next_sibling),
+				NULL);
+		}
+
+		remove_node (WEBKIT_DOM_NODE (block));
+	} else {
+		change_quoted_block_to_normal (view);
+	}
+
+	if (undo)
+		restore_selection_to_history_event_state (view, event->before);
+	else
+		e_html_editor_selection_restore (selection);
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+}
+
 void
 e_html_editor_view_redo (EHTMLEditorView *view)
 {
@@ -12084,6 +12167,9 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 			break;
 		case HISTORY_BLOCKQUOTE:
 			undo_redo_blockquote (view, event, FALSE);
+			break;
+		case HISTORY_UNQUOTE:
+			undo_redo_unquote (view, event, FALSE);
 			break;
 		default:
 			return;
@@ -12190,6 +12276,9 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 			break;
 		case HISTORY_BLOCKQUOTE:
 			undo_redo_blockquote (view, event, TRUE);
+			break;
+		case HISTORY_UNQUOTE:
+			undo_redo_unquote (view, event, TRUE);
 			break;
 		default:
 			return;
