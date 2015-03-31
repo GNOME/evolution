@@ -1178,8 +1178,10 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 			WEBKIT_DOM_HTML_ELEMENT (paragraph),
 			html_to_insert,
 			NULL);
-		add_selection_markers_into_element_end (
-			document, paragraph, NULL, NULL);
+
+		if (!webkit_dom_element_query_selector (paragraph, "#-x-evo-selection-start-marker", NULL))
+			add_selection_markers_into_element_end (
+				document, paragraph, NULL, NULL);
 	} else
 		paragraph = prepare_paragraph (selection, document, TRUE);
 
