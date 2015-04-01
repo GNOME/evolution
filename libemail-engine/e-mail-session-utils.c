@@ -521,6 +521,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	CamelServiceConnectionStatus status;
 	GString *error_messages;
 	gboolean copy_to_sent = TRUE;
+	gboolean sent_message_saved = FALSE;
 	gboolean did_connect = FALSE;
 	guint ii;
 	GError *error = NULL;
@@ -582,7 +583,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	camel_transport_send_to_sync (
 		CAMEL_TRANSPORT (context->transport),
 		context->message, context->from,
-		context->recipients, cancellable, &error);
+		context->recipients, &sent_message_saved, cancellable, &error);
 
 	if (did_connect) {
 		/* Disconnect regardless of error or cancellation,
@@ -674,7 +675,7 @@ skip_send:
 			copy_to_sent = FALSE;
 	}
 
-	if (!copy_to_sent)
+	if (!copy_to_sent || sent_message_saved)
 		goto cleanup;
 
 	/* Append the sent message to a Sent folder. */
