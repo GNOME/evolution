@@ -280,8 +280,9 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		E_CAL_SOURCE_CONFIG (config), scratch_source);
 
 	/* If this data source is a collection member,
-	 * just add a refresh interval and skip the rest. */
+	 * just add a subset and skip the rest. */
 	if (collection_source != NULL) {
+		e_source_config_add_secure_connection_for_webdav (config, scratch_source);
 		e_source_config_add_refresh_interval (config, scratch_source);
 		return;
 	}
