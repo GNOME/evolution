@@ -299,15 +299,27 @@ notify_default_action_cb (NotifyNotification *notification,
 	EMFolderTree *folder_tree;
 	GtkApplication *application;
 	GtkAction *action;
-	GList *list;
+	GList *list, *fallback = NULL;
 
 	shell = e_shell_get_default ();
 	application = GTK_APPLICATION (shell);
 	list = gtk_application_get_windows (application);
 
 	/* Find the first EShellWindow in the list. */
-	while (list != NULL && !E_IS_SHELL_WINDOW (list->data))
+	while (list != NULL) {
+		if (E_IS_SHELL_WINDOW (list->data)) {
+			if (!fallback)
+				fallback = list;
+
+			if (g_strcmp0 (e_shell_window_get_active_view (list->data), "mail") == 0)
+				break;
+		}
+
 		list = g_list_next (list);
+	}
+
+	if (!list)
+		list = fallback;
 
 	g_return_if_fail (list != NULL);
 
