@@ -607,6 +607,7 @@ mail_send_message (struct _send_queue_msg *m,
 	gint i;
 	GError *local_error = NULL;
 	gboolean did_connect = FALSE;
+	gboolean sent_message_saved = FALSE;
 
 	message = camel_folder_get_message_sync (
 		queue, uid, cancellable, error);
@@ -695,7 +696,7 @@ mail_send_message (struct _send_queue_msg *m,
 
 		if (!camel_transport_send_to_sync (
 			CAMEL_TRANSPORT (service), message,
-			from, recipients, cancellable, error))
+			from, recipients, &sent_message_saved, cancellable, error))
 			goto exit;
 	}
 
@@ -759,7 +760,7 @@ mail_send_message (struct _send_queue_msg *m,
 		}
 	}
 
-	if (local_error == NULL && (provider == NULL
+	if (local_error == NULL && !sent_message_saved && (provider == NULL
 	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER))) {
 		CamelFolder *local_sent_folder;
 
