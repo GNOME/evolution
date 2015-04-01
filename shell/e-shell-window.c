@@ -747,6 +747,11 @@ shell_window_create_shell_view (EShellWindow *shell_window,
 	widget = GTK_WIDGET (e_shell_view_get_shell_taskbar (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
+	e_binding_bind_property (
+		widget, "height-request",
+		shell_window->priv->tooltip_label, "height-request",
+		G_BINDING_SYNC_CREATE);
+
 	/* Listen for changes that affect the shell window. */
 
 	e_signal_connect_notify_swapped (
