@@ -260,6 +260,35 @@ entry_strsplit_utf8 (GtkEntry *entry,
 	g_free (log_attrs);
 }
 
+static gchar *
+spell_entry_get_chars_from_byte_pos (ESpellEntry *entry,
+				     gint byte_pos_start,
+				     gint byte_pos_end)
+{
+	const gchar *text;
+	gint len;
+
+	g_return_val_if_fail (E_IS_SPELL_ENTRY (entry), NULL);
+	g_return_val_if_fail (byte_pos_start <= byte_pos_end, NULL);
+
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (!text)
+		return NULL;
+
+	len = strlen (text);
+
+	if (byte_pos_start < 0)
+		byte_pos_start = 0;
+
+	if (byte_pos_end > len)
+		byte_pos_end = len;
+
+	if (byte_pos_end < 0)
+		byte_pos_end = 0;
+
+	return g_strndup (text + byte_pos_start, byte_pos_end - byte_pos_start);
+}
+
 static void
 add_to_dictionary (GtkWidget *menuitem,
                    ESpellEntry *entry)
@@ -270,7 +299,7 @@ add_to_dictionary (GtkWidget *menuitem,
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
-	word = gtk_editable_get_chars (GTK_EDITABLE (entry), start, end);
+	word = spell_entry_get_chars_from_byte_pos (entry, start, end);
 
 	dict = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
 	if (dict != NULL)
@@ -303,7 +332,7 @@ ignore_all (GtkWidget *menuitem,
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
-	word = gtk_editable_get_chars (GTK_EDITABLE (entry), start, end);
+	word = spell_entry_get_chars_from_byte_pos (entry, start, end);
 
 	spell_checker = e_spell_entry_get_spell_checker (entry);
 	e_spell_checker_ignore_word (spell_checker, word);
@@ -337,7 +366,7 @@ replace_word (GtkWidget *menuitem,
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
-	oldword = gtk_editable_get_chars (GTK_EDITABLE (entry), start, end);
+	oldword = spell_entry_get_chars_from_byte_pos (entry, start, end);
 	newword = gtk_label_get_text (
 		GTK_LABEL (gtk_bin_get_child (GTK_BIN (menuitem))));
 
@@ -607,7 +636,7 @@ spell_entry_populate_popup (ESpellEntry *entry,
 	if (!word_misspelled (entry, start, end))
 		return;
 
-	word = gtk_editable_get_chars (GTK_EDITABLE (entry), start, end);
+	word = spell_entry_get_chars_from_byte_pos (entry, start, end);
 	g_return_if_fail (word != NULL);
 
 	spell_entry_add_suggestions_menu (entry, menu, word);
