@@ -127,7 +127,7 @@ mail_signature_editor_loaded_cb (GObject *object,
 	} else if (error != NULL) {
 		g_warn_if_fail (contents == NULL);
 		e_alert_submit (
-			E_ALERT_SINK (window),
+			E_ALERT_SINK (e_mail_signature_editor_get_editor (window)),
 			"widgets:no-load-signature",
 			error->message, NULL);
 		g_object_unref (window);
@@ -230,7 +230,7 @@ action_save_and_close_cb (GtkAction *action,
 	/* Make sure the signature name is not blank. */
 	if (*display_name == '\0') {
 		e_alert_submit (
-			E_ALERT_SINK (editor),
+			E_ALERT_SINK (e_mail_signature_editor_get_editor (editor)),
 			"widgets:blank-signature", NULL);
 		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		g_free (display_name);
@@ -267,7 +267,7 @@ action_save_and_close_cb (GtkAction *action,
 
 	} else if (error != NULL) {
 		e_alert_submit (
-			E_ALERT_SINK (editor),
+			E_ALERT_SINK (e_mail_signature_editor_get_editor (editor)),
 			"widgets:no-save-signature",
 			error->message, NULL);
 		g_error_free (error);
