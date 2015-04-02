@@ -207,7 +207,7 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 
 	g_mutex_lock (&content->priv->recent_lock);
 
-	for (link = values; link; link = g_slist_next (link)) {
+	for (link = values; link && !found; link = g_slist_next (link)) {
 		const gchar *value = link->data;
 
 		for (ii = 0; ii < RECENT_CACHE_SIZE; ii++) {
