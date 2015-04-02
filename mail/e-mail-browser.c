@@ -73,6 +73,7 @@ enum {
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
 	PROP_REPLY_STYLE,
+	PROP_MARK_SEEN_ALWAYS,
 	PROP_SHOW_DELETED,
 	PROP_UI_MANAGER
 };
@@ -453,6 +454,12 @@ mail_browser_set_property (GObject *object,
 				E_MAIL_BROWSER (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_MARK_SEEN_ALWAYS:
+			e_mail_reader_set_mark_seen_always (
+				E_MAIL_READER (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -526,6 +533,13 @@ mail_browser_get_property (GObject *object,
 				value,
 				e_mail_browser_get_ui_manager (
 				E_MAIL_BROWSER (object)));
+			return;
+
+		case PROP_MARK_SEEN_ALWAYS:
+			g_value_set_boolean (
+				value,
+				e_mail_reader_get_mark_seen_always (
+				E_MAIL_READER (object)));
 			return;
 	}
 
@@ -987,6 +1001,12 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 		object_class,
 		PROP_REPLY_STYLE,
 		"reply-style");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_MARK_SEEN_ALWAYS,
+		"mark-seen-always");
 
 	g_object_class_install_property (
 		object_class,
