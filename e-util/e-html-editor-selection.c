@@ -5707,8 +5707,9 @@ find_where_to_break_line (WebKitDOMNode *node,
 		ret_val = max_len + 1;
 	} else {
 		if (last_space == 0) {
-			/* If word is longer than word_wrap_length, we cannot wrap it */
-			ret_val = length;
+			/* If word is longer than word_wrap_length, we have to
+			 * split at maximal given length. */
+			ret_val = max_len;
 		} else if (last_space < max_len) {
 			ret_val = last_space;
 		} else {
@@ -5943,6 +5944,37 @@ wrap_lines (EHTMLEditorSelection *selection,
 				text_content = webkit_dom_node_get_text_content (node);
 				anchor_length = g_utf8_strlen (text_content, -1);
 				g_free (text_content);
+
+				next_sibling = webkit_dom_node_get_next_sibling (node);
+				/* If the anchor doesn't fit on the line wrap after it */
+				if (anchor_length > word_wrap_length) {
+					WebKitDOMElement *removed_link;
+					WebKitDOMNode *inner_node;
+
+					while ((inner_node = webkit_dom_node_get_first_child (node))) {
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							inner_node,
+							next_sibling,
+							NULL);
+					}
+					next_sibling = webkit_dom_node_get_next_sibling (node);
+
+					removed_link =
+						webkit_dom_document_create_element (
+							document, "SPAN", NULL);
+					webkit_dom_element_set_attribute (
+						removed_link, "data-removed-link", "", NULL);
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (removed_link),
+						node,
+						NULL);
+					remove_node (node);
+					node = next_sibling;
+					continue;
+				}
+
 				if (len + anchor_length > word_wrap_length) {
 					if (webkit_dom_node_get_previous_sibling (node)) {
 						element = webkit_dom_document_create_element (
@@ -5958,19 +5990,6 @@ wrap_lines (EHTMLEditorSelection *selection,
 				} else
 					len += anchor_length;
 
-				next_sibling = webkit_dom_node_get_next_sibling (node);
-				/* If the anchor doesn't fit on the line wrap after it */
-				if (anchor_length > word_wrap_length && next_sibling) {
-					element = webkit_dom_document_create_element (
-						document, "BR", NULL);
-					element_add_class (element, "-x-evo-wrap-br");
-					node = webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (node),
-						WEBKIT_DOM_NODE (element),
-						next_sibling,
-						NULL);
-					len = 0;
-				}
 				/* If there is space after the anchor don't try to
 				 * wrap before it */
 				node = next_sibling;
@@ -6089,14 +6108,18 @@ wrap_lines (EHTMLEditorSelection *selection,
 						WEBKIT_DOM_NODE (element),
 						nd,
 						NULL);
+					len = 0;
+					break;
 				} else {
-					webkit_dom_node_append_child (
+					node = WEBKIT_DOM_NODE (webkit_dom_text_split_text (
+						WEBKIT_DOM_TEXT (node), word_wrap_length - len, NULL));
+
+					webkit_dom_node_insert_before (
 						webkit_dom_node_get_parent_node (node),
 						WEBKIT_DOM_NODE (element),
+						node,
 						NULL);
 				}
-				len = 0;
-				break;
 			} else {
 				webkit_dom_node_insert_before (
 					webkit_dom_node_get_parent_node (node),
