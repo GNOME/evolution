@@ -2966,7 +2966,6 @@ body_input_event_cb (WebKitDOMElement *element,
 				EHTMLEditorViewHistoryEvent *ev;
 
 				remove_quoting_from_element (block);
-				remove_wrapping_from_element (block);
 
 				block = e_html_editor_selection_wrap_paragraph_length (
 					selection, block, length);
