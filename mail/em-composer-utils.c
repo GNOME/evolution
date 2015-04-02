@@ -1591,10 +1591,12 @@ em_utils_edit_message (EShell *shell,
 {
 	EMsgComposer *composer;
 	ESourceRegistry *registry;
+	ESource *source;
 	gboolean folder_is_sent;
 	gboolean folder_is_drafts;
 	gboolean folder_is_outbox;
 	gboolean folder_is_templates;
+	gchar *override_identity_uid = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
@@ -1630,28 +1632,37 @@ em_utils_edit_message (EShell *shell,
 		g_slist_free (clue_list);
 	}
 
-	composer = e_msg_composer_new_with_message (shell, message, keep_signature, NULL);
-
-	em_utils_apply_send_account_override_to_composer (composer, shell, folder);
-
-	/* Override PostTo header only if the folder is a regular folder */
 	if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
-		EComposerHeaderTable *table;
-		ESource *source;
 		CamelStore *store;
-		gchar *folder_uri;
-		GList *list;
-
-		table = e_msg_composer_get_header_table (composer);
 
 		store = camel_folder_get_parent_store (folder);
 		source = em_utils_ref_mail_identity_for_store (registry, store);
 
-		if (source != NULL) {
-			const gchar *uid = e_source_get_uid (source);
-			e_composer_header_table_set_identity_uid (table, uid);
+		if (source) {
+			g_free (override_identity_uid);
+			override_identity_uid = e_source_dup_uid (source);
 			g_object_unref (source);
 		}
+	}
+
+	source = em_utils_check_send_account_override (shell, message, folder);
+	if (source) {
+		g_free (override_identity_uid);
+		override_identity_uid = e_source_dup_uid (source);
+		g_object_unref (source);
+	}
+
+	composer = e_msg_composer_new_with_message (shell, message, keep_signature, override_identity_uid, NULL);
+
+	g_free (override_identity_uid);
+
+	/* Override PostTo header only if the folder is a regular folder */
+	if (!folder_is_sent && !folder_is_drafts && !folder_is_outbox && !folder_is_templates) {
+		EComposerHeaderTable *table;
+		gchar *folder_uri;
+		GList *list;
+
+		table = e_msg_composer_get_header_table (composer);
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
 
@@ -1710,23 +1721,37 @@ emu_update_composers_security (EMsgComposer *composer,
 
 	/* Pre-set only for encrypted messages, not for signed */
 	if (sign_by_default) {
-		if (validity_found & E_MAIL_PART_VALIDITY_SMIME)
-			action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
-		else
-			action = E_COMPOSER_ACTION_PGP_SIGN (composer);
+		action = NULL;
 
-		gtk_toggle_action_set_active (
-			GTK_TOGGLE_ACTION (action), TRUE);
+		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
+		} else {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_PGP_SIGN (composer);
+		}
+
+		if (action)
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
 
 	if (validity_found & E_MAIL_PART_VALIDITY_ENCRYPTED) {
-		if (validity_found & E_MAIL_PART_VALIDITY_SMIME)
-			action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
-		else
-			action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
+		action = NULL;
 
-		gtk_toggle_action_set_active (
-			GTK_TOGGLE_ACTION (action), TRUE);
+		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
+		} else {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
+		}
+
+		if (action)
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
 }
 
