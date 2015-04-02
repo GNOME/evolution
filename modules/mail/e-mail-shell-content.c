@@ -50,7 +50,8 @@ enum {
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
 	PROP_MAIL_VIEW,
-	PROP_REPLY_STYLE
+	PROP_REPLY_STYLE,
+	PROP_MARK_SEEN_ALWAYS
 };
 
 /* Forward Declarations */
@@ -104,6 +105,12 @@ mail_shell_content_set_property (GObject *object,
 				E_MAIL_READER (object),
 				g_value_get_enum (value));
 			return;
+
+		case PROP_MARK_SEEN_ALWAYS:
+			e_mail_reader_set_mark_seen_always (
+				E_MAIL_READER (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -137,6 +144,12 @@ mail_shell_content_get_property (GObject *object,
 		case PROP_REPLY_STYLE:
 			g_value_set_enum (
 				value, e_mail_reader_get_reply_style (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_MARK_SEEN_ALWAYS:
+			g_value_set_boolean (
+				value, e_mail_reader_get_mark_seen_always (
 				E_MAIL_READER (object)));
 			return;
 	}
@@ -427,6 +440,12 @@ e_mail_shell_content_class_init (EMailShellContentClass *class)
 		object_class,
 		PROP_REPLY_STYLE,
 		"reply-style");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_MARK_SEEN_ALWAYS,
+		"mark-seen-always");
 }
 
 static void

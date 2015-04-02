@@ -264,6 +264,11 @@
       <_summary>Mark as Seen after specified timeout</_summary>
       <_description>Mark as Seen after specified timeout.</_description>
     </key>
+    <key name="mark-seen-always" type="b">
+      <default>false</default>
+      <_summary>Mark as Seen always after specified timeout</_summary>
+      <_description>If set to true, the selected message will be set as unread after the timeout also after the folder change.</_description>
+    </key>
     <key name="mark-seen-timeout" type="i">
       <default>1500</default>
       <_summary>Timeout for marking messages as seen</_summary>

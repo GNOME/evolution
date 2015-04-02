@@ -89,6 +89,7 @@ struct _EMailReaderPrivate {
 	guint did_try_to_open_message : 1;
 
 	guint group_by_threads : 1;
+	guint mark_seen_always : 1;
 
 	/* to be able to start the mark_seen timeout only after
 	 * the message is loaded into the EMailDisplay */
@@ -3239,7 +3240,7 @@ mail_reader_set_folder (EMailReader *reader,
 	if (folder != previous_folder) {
 		e_web_view_clear (E_WEB_VIEW (display));
 
-		priv->folder_was_just_selected = (folder != NULL);
+		priv->folder_was_just_selected = (folder != NULL) && !priv->mark_seen_always;
 		priv->did_try_to_open_message = FALSE;
 
 		/* This is to make sure any post-poned changes in Search
@@ -3920,6 +3921,15 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 			"How to reply to messages",
 			E_TYPE_MAIL_REPLY_STYLE,
 			E_MAIL_REPLY_STYLE_QUOTED,
+			G_PARAM_READWRITE));
+
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"mark-seen-always",
+			"Mark Seen Always",
+			"Whether to mark unread message seen even after folder change",
+			FALSE,
 			G_PARAM_READWRITE));
 
 	signals[CHANGED] = g_signal_new (
@@ -4820,6 +4830,36 @@ e_mail_reader_set_reply_style (EMailReader *reader,
 	priv->reply_style = style;
 
 	g_object_notify (G_OBJECT (reader), "reply-style");
+}
+
+gboolean
+e_mail_reader_get_mark_seen_always (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	return priv->mark_seen_always;
+}
+
+void
+e_mail_reader_set_mark_seen_always (EMailReader *reader,
+                                    gboolean mark_seen_always)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (priv->mark_seen_always == mark_seen_always)
+		return;
+
+	priv->mark_seen_always = mark_seen_always;
+
+	g_object_notify (G_OBJECT (reader), "mark-seen-always");
 }
 
 void

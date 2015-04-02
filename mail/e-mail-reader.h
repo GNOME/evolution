@@ -174,6 +174,11 @@ void		e_mail_reader_set_group_by_threads
 EMailReplyStyle	e_mail_reader_get_reply_style	(EMailReader *reader);
 void		e_mail_reader_set_reply_style	(EMailReader *reader,
 						 EMailReplyStyle style);
+gboolean	e_mail_reader_get_mark_seen_always
+						(EMailReader *reader);
+void		e_mail_reader_set_mark_seen_always
+						(EMailReader *reader,
+						 gboolean mark_seen_always);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,
