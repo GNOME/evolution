@@ -2926,12 +2926,17 @@ handle_multipart_signed (EMsgComposer *composer,
 	content_type = camel_data_wrapper_get_mime_type_field (content);
 	protocol = camel_content_type_param (content_type, "protocol");
 
-	if (protocol == NULL)
+	if (protocol == NULL) {
 		action = NULL;
-	else if (g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0)
-		action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	else if (g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0)
-		action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+	} else if (g_ascii_strcasecmp (protocol, "application/pgp-signature") == 0) {
+		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) &&
+		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT))))
+			action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
+	} else if (g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0) {
+		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN))) &&
+		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT))))
+			action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
+	}
 
 	if (action)
 		gtk_toggle_action_set_active (action, TRUE);
@@ -3010,12 +3015,17 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	content_type = camel_mime_part_get_content_type (multipart);
 	protocol = camel_content_type_param (content_type, "protocol");
 
-	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-encrypted") == 0)
-		action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	else if (content_type && (
+	if (protocol && g_ascii_strcasecmp (protocol, "application/pgp-encrypted") == 0) {
+		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) &&
+		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT))))
+			action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
+	} else if (content_type && (
 		    camel_content_type_is (content_type, "application", "x-pkcs7-mime")
-		 || camel_content_type_is (content_type, "application", "pkcs7-mime")))
-		action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
+		 || camel_content_type_is (content_type, "application", "pkcs7-mime"))) {
+		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN))) &&
+		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT))))
+			action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
+	}
 
 	if (action)
 		gtk_toggle_action_set_active (action, TRUE);

@@ -1702,23 +1702,37 @@ emu_update_composers_security (EMsgComposer *composer,
 
 	/* Pre-set only for encrypted messages, not for signed */
 	if (sign_by_default) {
-		if (validity_found & E_MAIL_PART_VALIDITY_SMIME)
-			action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
-		else
-			action = E_COMPOSER_ACTION_PGP_SIGN (composer);
+		action = NULL;
 
-		gtk_toggle_action_set_active (
-			GTK_TOGGLE_ACTION (action), TRUE);
+		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_SMIME_SIGN (composer);
+		} else {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_PGP_SIGN (composer);
+		}
+
+		if (action)
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
 
 	if (validity_found & E_MAIL_PART_VALIDITY_ENCRYPTED) {
-		if (validity_found & E_MAIL_PART_VALIDITY_SMIME)
-			action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
-		else
-			action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
+		action = NULL;
 
-		gtk_toggle_action_set_active (
-			GTK_TOGGLE_ACTION (action), TRUE);
+		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_SMIME_ENCRYPT (composer);
+		} else {
+			if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer))) &&
+			    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_ENCRYPT (composer))))
+				action = E_COMPOSER_ACTION_PGP_ENCRYPT (composer);
+		}
+
+		if (action)
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
 }
 
