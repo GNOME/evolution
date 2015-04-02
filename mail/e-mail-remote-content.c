@@ -197,7 +197,7 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 	gint ii;
 	gchar *tmp;
 	const GSList *link;
-	gboolean found = FALSE;
+	gboolean found = FALSE, recent_cache_found = FALSE;
 
 	g_return_val_if_fail (E_IS_MAIL_REMOTE_CONTENT (content), FALSE);
 	g_return_val_if_fail (table != NULL, FALSE);
@@ -214,15 +214,18 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 			gint index = (*recent_last + ii) % RECENT_CACHE_SIZE;
 
 			if (recent_cache[index].value && g_ascii_strcasecmp (recent_cache[index].value, value) == 0) {
+				recent_cache_found = TRUE;
 				found = recent_cache[index].result;
-				g_mutex_unlock (&content->priv->recent_lock);
-
-				return found;
+				if (found)
+					break;
 			}
 		}
 	}
 
 	g_mutex_unlock (&content->priv->recent_lock);
+
+	if (recent_cache_found)
+		return found;
 
 	if (!content->priv->db)
 		return FALSE;
@@ -255,11 +258,7 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 
 	g_string_free (stmt, TRUE);
 
-	for (link = values; link; link = g_slist_next (link)) {
-		const gchar *value = link->data;
-
-		e_mail_remote_content_add_to_recent_cache (content, value, found, recent_cache, recent_last);
-	}
+	e_mail_remote_content_add_to_recent_cache (content, values->data, found, recent_cache, recent_last);
 
 	return found;
 }
@@ -551,10 +550,10 @@ e_mail_remote_content_has_mail (EMailRemoteContent *content,
 	g_return_val_if_fail (E_IS_MAIL_REMOTE_CONTENT (content), FALSE);
 	g_return_val_if_fail (mail != NULL, FALSE);
 
-	values = g_slist_append (values, (gpointer) mail);
 	at = strchr (mail, '@');
 	if (at)
 		values = g_slist_prepend (values, (gpointer) at);
+	values = g_slist_prepend (values, (gpointer) mail);
 
 	result = e_mail_remote_content_has (content, "mails", values, content->priv->recent_mails, &content->priv->recent_last_mails);
 
