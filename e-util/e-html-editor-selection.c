@@ -5755,15 +5755,11 @@ wrap_lines (EHTMLEditorSelection *selection,
 	WebKitDOMElement *element;
 	gint len, ii, br_count;
 	gulong length_left;
-	glong paragraph_char_count;
 	gchar *text_content;
 
 	if (selection) {
 		WebKitDOMNodeList *wrap_br;
 		WebKitDOMRange *range;
-
-		paragraph_char_count = g_utf8_strlen (
-			e_html_editor_selection_get_string (selection), -1);
 
 		range = html_editor_selection_get_current_range (selection);
 		fragment = webkit_dom_range_clone_contents (range, NULL);
@@ -5793,11 +5789,6 @@ wrap_lines (EHTMLEditorSelection *selection,
 			WEBKIT_DOM_ELEMENT (paragraph_clone),
 			"span#-x-evo-caret-position",
 			NULL);
-		text_content = webkit_dom_node_get_text_content (paragraph_clone);
-		paragraph_char_count = g_utf8_strlen (text_content, -1);
-		if (element)
-			paragraph_char_count--;
-		g_free (text_content);
 
 		/* When we wrap, we are wrapping just the text after caret, text
 		 * before the caret is already wrapped, so unwrap the text after
