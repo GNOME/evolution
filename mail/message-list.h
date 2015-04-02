@@ -211,6 +211,8 @@ void		message_list_save_state		(MessageList *message_list);
 
 void		message_list_sort_uids		(MessageList *message_list,
 						 GPtrArray *uids);
+gboolean	message_list_contains_uid	(MessageList *message_list,
+						 const gchar *uid);
 
 G_END_DECLS
 
