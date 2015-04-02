@@ -85,6 +85,7 @@ EMsgComposer *	e_msg_composer_new		(EShell *shell);
 EMsgComposer *	e_msg_composer_new_with_message	(EShell *shell,
 						 CamelMimeMessage *message,
 						 gboolean keep_signature,
+						 const gchar *override_identity_uid,
 						 GCancellable *cancellable);
 EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
 						 const gchar *url);

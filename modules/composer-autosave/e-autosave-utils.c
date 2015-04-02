@@ -168,7 +168,7 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	 * the same file. */
 	shell = E_SHELL (object);
 	g_object_ref (snapshot_file);
-	composer = e_msg_composer_new_with_message (shell, message, TRUE, NULL);
+	composer = e_msg_composer_new_with_message (shell, message, TRUE, NULL, NULL);
 	g_object_set_data_full (
 		G_OBJECT (composer),
 		SNAPSHOT_FILE_KEY, snapshot_file,
