@@ -6932,9 +6932,14 @@ e_html_editor_selection_restore (EHTMLEditorSelection *selection)
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	g_object_unref (dom_window);
 	if (!range) {
-		g_object_unref (dom_selection);
-		remove_selection_markers (document);
-		return;
+		WebKitDOMHTMLElement *body;
+
+		range = webkit_dom_document_create_range (document);
+		body = webkit_dom_document_get_body (document);
+
+		webkit_dom_range_select_node_contents (range, WEBKIT_DOM_NODE (body), NULL);
+		webkit_dom_range_collapse (range, TRUE, NULL);
+		webkit_dom_dom_selection_add_range (dom_selection, range);
 	}
 
 	selection_start_marker = webkit_dom_range_get_start_container (range, NULL);
