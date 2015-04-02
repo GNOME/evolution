@@ -22,7 +22,7 @@ public_icons = \
 	hicolor_apps_48x48_evolution-memos.png \
 	hicolor_apps_48x48_evolution-tasks.png \
 	hicolor_apps_256x256_evolution.png \
-	hicolor_apps_scalable_evolution-symbolic.svg \
+	hicolor_apps_symbolic_evolution-symbolic.svg \
 	$(NULL)
 
 # hicolor_status_16x16_wrapped.png was copied from Firefox
