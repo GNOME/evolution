@@ -4886,6 +4886,19 @@ e_mail_reader_avoid_next_mark_as_seen (EMailReader *reader)
 	priv->avoid_next_mark_as_seen = TRUE;
 }
 
+void
+e_mail_reader_unset_folder_just_selected (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (reader != NULL);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	g_return_if_fail (priv != NULL);
+
+	priv->folder_was_just_selected = FALSE;
+}
+
 /**
  * e_mail_reader_composer_created:
  * @reader: an #EMailReader
