@@ -6186,7 +6186,9 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					element_add_class (
 						WEBKIT_DOM_ELEMENT (child),
 						"-x-evo-last-br");
-				}
+				} else
+					create_and_append_new_paragraph (
+						selection, document, blockquote, block, "<br>");
 			} else
 				create_and_append_new_paragraph (
 					selection, document, blockquote, block, "<br>");
