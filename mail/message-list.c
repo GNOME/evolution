@@ -6206,3 +6206,15 @@ exit:
 		regen_data_unref (old_regen_data);
 	}
 }
+
+gboolean
+message_list_contains_uid (MessageList *message_list,
+			   const gchar *uid)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	if (!uid || !*uid || !message_list->priv->folder)
+		return FALSE;
+
+	return g_hash_table_lookup (message_list->uid_nodemap, uid) != NULL;
+}

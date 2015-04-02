@@ -181,6 +181,8 @@ void		e_mail_reader_create_charset_menu
 void		e_mail_reader_show_search_bar	(EMailReader *reader);
 void		e_mail_reader_avoid_next_mark_as_seen
 						(EMailReader *reader);
+void		e_mail_reader_unset_folder_just_selected
+						(EMailReader *reader);
 void		e_mail_reader_composer_created	(EMailReader *reader,
 						 EMsgComposer *composer,
 						 CamelMimeMessage *message);
