@@ -277,6 +277,10 @@ gboolean	e_util_prompt_user		(GtkWindow *parent,
 						 const gchar *promptkey,
 						 const gchar *tag,
 						 ...);
+void		e_util_run_simple_async_result_in_thread
+						(GSimpleAsyncResult *simple,
+						 GSimpleAsyncThreadFunc func,
+						 GCancellable *cancellable);
 
 guint		e_util_normalize_font_size	(GtkWidget *widget,
 						 gdouble font_size);

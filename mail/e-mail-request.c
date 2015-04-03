@@ -362,9 +362,9 @@ mail_request_send_async (SoupRequest *request,
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
 	if (g_strcmp0 (uri->host, "contact-photo") == 0) {
-		g_simple_async_result_run_in_thread (
+		e_util_run_simple_async_result_in_thread (
 			simple, handle_contact_photo_request,
-			G_PRIORITY_DEFAULT, cancellable);
+			cancellable);
 	} else {
 		/* Process e-mail mail requests in this thread, which should be
 		 * the main/UI thread, because any EMailFormatter can create

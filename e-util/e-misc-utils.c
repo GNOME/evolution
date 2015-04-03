@@ -3179,3 +3179,77 @@ e_util_prompt_user (GtkWindow *parent,
 
 	return button == GTK_RESPONSE_YES;
 }
+
+typedef struct _EUtilSimpleAsyncResultThreadData {
+	GSimpleAsyncResult *simple;
+	GSimpleAsyncThreadFunc func;
+	GCancellable *cancellable;
+} EUtilSimpleAsyncResultThreadData;
+
+static void
+e_util_simple_async_result_thread (gpointer data,
+				   gpointer user_data)
+{
+	EUtilSimpleAsyncResultThreadData *thread_data = data;
+	GError *error = NULL;
+
+	g_return_if_fail (thread_data != NULL);
+	g_return_if_fail (G_IS_SIMPLE_ASYNC_RESULT (thread_data->simple));
+	g_return_if_fail (thread_data->func != NULL);
+
+	if (g_cancellable_set_error_if_cancelled (thread_data->cancellable, &error)) {
+		g_simple_async_result_take_error (thread_data->simple, error);
+	} else {
+		thread_data->func (thread_data->simple,
+			g_async_result_get_source_object (G_ASYNC_RESULT (thread_data->simple)),
+			thread_data->cancellable);
+	}
+
+	g_simple_async_result_complete_in_idle (thread_data->simple);
+
+	g_clear_object (&thread_data->simple);
+	g_clear_object (&thread_data->cancellable);
+	g_free (thread_data);
+}
+
+/**
+ * e_util_run_simple_async_result_in_thread:
+ * @simple: a #GSimpleAsyncResult
+ * @func: a #GSimpleAsyncThreadFunc to execute in the thread
+ * @cancellable: an optional #GCancellable, or %NULL
+ *
+ * Similar to g_simple_async_result_run_in_thread(), except
+ * it doesn't use GTask internally, thus doesn't block the GTask
+ * thread pool with possibly long job.
+ *
+ * It doesn't behave exactly the same as the g_simple_async_result_run_in_thread(),
+ * the @cancellable checking is not done before the finish.
+ *
+ * Since: 3.18
+ **/
+void
+e_util_run_simple_async_result_in_thread (GSimpleAsyncResult *simple,
+					  GSimpleAsyncThreadFunc func,
+					  GCancellable *cancellable)
+{
+	static GThreadPool *thread_pool = NULL;
+	static GMutex thread_pool_mutex;
+	EUtilSimpleAsyncResultThreadData *thread_data;
+
+	g_return_if_fail (G_IS_SIMPLE_ASYNC_RESULT (simple));
+	g_return_if_fail (func != NULL);
+
+	g_mutex_lock (&thread_pool_mutex);
+
+	if (!thread_pool)
+		thread_pool = g_thread_pool_new (e_util_simple_async_result_thread, NULL, 20, FALSE, NULL);
+
+	thread_data = g_new0 (EUtilSimpleAsyncResultThreadData, 1);
+	thread_data->simple = g_object_ref (simple);
+	thread_data->func = func;
+	thread_data->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
+
+	g_thread_pool_push (thread_pool, thread_data, NULL);
+
+	g_mutex_unlock (&thread_pool_mutex);
+}
