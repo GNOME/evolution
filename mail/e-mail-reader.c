@@ -1976,7 +1976,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-check-for-junk",
 	  "mail-mark-junk",
 	  N_("Check for _Junk"),
-	  NULL,
+	  "<Control><Alt>j",
 	  N_("Filter the selected messages for junk status"),
 	  G_CALLBACK (action_mail_check_for_junk_cb) },
 
