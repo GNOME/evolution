@@ -1432,7 +1432,9 @@
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Template:</property>
+                        <property name="label" translatable="yes">_Template:</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic-widget">template_url</property>
                       </object>
                       <packing>
                         <property name="position">0</property>
