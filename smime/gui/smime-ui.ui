@@ -623,7 +623,9 @@
         <child>
           <object class="GtkLabel" id="label67">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Certificate</property>
+            <property name="label" translatable="yes">C_ertificate:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic-widget">cert_combobox</property>
           </object>
           <packing>
             <property name="expand">False</property>
