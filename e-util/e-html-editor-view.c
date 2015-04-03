@@ -8239,27 +8239,6 @@ process_elements (EHTMLEditorView *view,
 	g_object_unref (nodes);
 }
 
-static void
-remove_wrapping_from_view (EHTMLEditorView *view)
-{
-	gint length;
-	gint ii;
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	list = webkit_dom_document_query_selector_all (document, "br.-x-evo-wrap-br", NULL);
-
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
-		g_object_unref (node);
-	}
-
-	g_object_unref (list);
-}
-
 void
 remove_image_attributes_from_element (WebKitDOMElement *element)
 {
@@ -9205,28 +9184,6 @@ toggle_tables (EHTMLEditorView *view)
 	g_object_unref (list);
 }
 
-static void
-replace_hidden_spaces (EHTMLEditorView *view)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMNodeList *list;
-	gint ii, length;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	list = webkit_dom_document_query_selector_all (
-		document, "span[data-hidden-space]", NULL);
-	length = webkit_dom_node_list_get_length (list);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *hidden_space_node;
-
-		hidden_space_node = webkit_dom_node_list_item (list, ii);
-		webkit_dom_html_element_set_outer_text (
-			WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
-		g_object_unref (hidden_space_node);
-	}
-	g_object_unref (list);
-}
-
 /**
  * e_html_editor_view_set_html_mode:
  * @view: an #EHTMLEditorView
@@ -9302,8 +9259,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
 		toggle_tables (view);
-		remove_wrapping_from_view (view);
-		replace_hidden_spaces (view);
+		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
 	} else {
 		gchar *plain;
 
