@@ -1012,6 +1012,64 @@ action_mail_global_expunge_cb (GtkAction *action,
 }
 
 static void
+action_mail_goto_folder_cb (GtkAction *action,
+			    EMailShellView *mail_shell_view)
+{
+	CamelFolder *folder;
+	EMailReader *reader;
+	EMailView *mail_view;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
+	EMFolderTreeModel *model;
+	GtkWidget *dialog;
+	GtkWindow *window;
+	const gchar *uri;
+
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content);
+	reader = E_MAIL_READER (mail_view);
+
+	folder = e_mail_reader_ref_folder (reader);
+	window = e_mail_reader_get_window (reader);
+
+	model = em_folder_tree_model_get_default ();
+
+	dialog = em_folder_selector_new (window, model);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Go to Folder"));
+
+	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_can_create (selector, FALSE);
+	em_folder_selector_set_default_button_label (selector, _("_Select"));
+
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
+
+	if (folder) {
+		gchar *uri = e_mail_folder_uri_from_folder (folder);
+
+		if (uri) {
+			em_folder_tree_set_selected (folder_tree, uri, FALSE);
+			g_free (uri);
+		}
+
+		g_object_unref (folder);
+	}
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		uri = em_folder_selector_get_selected_uri (selector);
+
+		if (uri != NULL) {
+			folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_view->priv->mail_shell_sidebar);
+			em_folder_tree_set_selected (folder_tree, uri, FALSE);
+		}
+	}
+
+	gtk_widget_destroy (dialog);
+
+	g_clear_object (&folder);
+}
+
+static void
 action_mail_label_cb (GtkToggleAction *action,
                       EMailShellView *mail_shell_view)
 {
@@ -1701,6 +1759,13 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Permanently remove all the deleted messages from all accounts"),
 	  G_CALLBACK (action_mail_global_expunge_cb) },
+
+	{ "mail-goto-folder",
+	  NULL,
+	  N_("Go to _Folder"),
+	  "<Control>g",
+	  N_("Opens a dialog to select a folder to go to"),
+	  G_CALLBACK (action_mail_goto_folder_cb) },
 
 	{ "mail-label-new",
 	  NULL,
