@@ -156,6 +156,13 @@ send_and_handle_redirection (SoupSession *session,
 }
 
 static void
+http_request_cancelled_cb (GCancellable *cancellable,
+			   SoupSession *session)
+{
+	soup_session_abort (session);
+}
+
+static void
 handle_http_request (GSimpleAsyncResult *res,
                      GObject *source_object,
                      GCancellable *cancellable)
@@ -360,6 +367,10 @@ handle_http_request (GSimpleAsyncResult *res,
 		GIOStream *cache_stream;
 		GError *error;
 		GMainContext *context;
+		gulong cancelled_id = 0;
+
+		if (g_cancellable_is_cancelled (cancellable))
+			goto cleanup;
 
 		message = soup_message_new (SOUP_METHOD_GET, uri);
 		if (!message) {
@@ -383,7 +394,13 @@ handle_http_request (GSimpleAsyncResult *res,
 			message->request_headers,
 			"User-Agent", "Evolution/" VERSION);
 
+		if (cancellable)
+			cancelled_id = g_cancellable_connect (cancellable, G_CALLBACK (http_request_cancelled_cb), temp_session, NULL);
+
 		send_and_handle_redirection (temp_session, message, NULL);
+
+		if (cancellable && cancelled_id)
+			g_cancellable_disconnect (cancellable, cancelled_id);
 
 		if (!SOUP_STATUS_IS_SUCCESSFUL (message->status_code)) {
 			g_debug ("Failed to request %s (code %d)", uri, message->status_code);
