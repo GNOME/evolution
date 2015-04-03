@@ -2758,27 +2758,36 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 			ev->data.style.to = format;
 		} else {
 			WebKitDOMDocumentFragment *fragment;
-			WebKitDOMElement *element;
-			WebKitDOMNode *block;
+			WebKitDOMElement *selection_start_marker, *selection_end_marker;
+			WebKitDOMNode *block, *end_block;
 
-			fragment = webkit_dom_range_clone_contents (range, NULL);
-
-			element = webkit_dom_document_get_element_by_id (
+			selection_start_marker = webkit_dom_document_get_element_by_id (
 				document, "-x-evo-selection-start-marker");
-			block = get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
-			webkit_dom_node_replace_child (
-				WEBKIT_DOM_NODE (fragment),
-				webkit_dom_node_clone_node (block, TRUE),
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
-				NULL);
+			selection_end_marker = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-end-marker");
+			block = get_parent_block_node_from_child (
+				WEBKIT_DOM_NODE (selection_start_marker));
+			end_block = get_parent_block_node_from_child (
+				WEBKIT_DOM_NODE (selection_end_marker));
+			if (webkit_dom_range_get_collapsed (range, NULL) ||
+			    webkit_dom_node_is_same_node (block, end_block)) {
+				fragment = webkit_dom_document_create_document_fragment (document);
 
-			if (!webkit_dom_range_get_collapsed (range, NULL)) {
-				element = webkit_dom_document_get_element_by_id (
-					document, "-x-evo-selection-end-marker");
-				block = get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (fragment),
+					webkit_dom_node_clone_node (block, TRUE),
+					NULL);
+			} else {
+				fragment = webkit_dom_range_clone_contents (range, NULL);
 				webkit_dom_node_replace_child (
 					WEBKIT_DOM_NODE (fragment),
 					webkit_dom_node_clone_node (block, TRUE),
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+					NULL);
+
+				webkit_dom_node_replace_child (
+					WEBKIT_DOM_NODE (fragment),
+					webkit_dom_node_clone_node (end_block, TRUE),
 					webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment)),
 					NULL);
 			}
