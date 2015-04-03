@@ -53,6 +53,14 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewClass))
 
+#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
+#define UNICODE_NBSP "\xc2\xa0"
+
+#define SPACES_PER_INDENTATION 4
+#define SPACES_PER_LIST_LEVEL 8
+#define MINIMAL_PARAGRAPH_WIDTH 5
+#define TAB_LENGTH 8
+
 G_BEGIN_DECLS
 
 typedef struct _EHTMLEditorView EHTMLEditorView;

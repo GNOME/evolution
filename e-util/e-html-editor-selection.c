@@ -39,13 +39,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_SELECTION, EHTMLEditorSelectionPrivate))
 
-#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
-#define UNICODE_NBSP "\xc2\xa0"
-
-#define SPACES_PER_INDENTATION 4
-#define SPACES_PER_LIST_LEVEL 8
-#define MINIMAL_PARAGRAPH_WIDTH 5
-
 /**
  * EHTMLEditorSelection
  *
@@ -6011,6 +6004,16 @@ wrap_lines (EHTMLEditorSelection *selection,
 				continue;
 			}
 
+			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span")) {
+				WebKitDOMNode *prev_sibling;
+
+				prev_sibling = webkit_dom_node_get_previous_sibling (node);
+				if (prev_sibling && WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+				    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Applet-tab-span"))
+					line_length += TAB_LENGTH;
+				else
+					line_length += TAB_LENGTH - line_length % TAB_LENGTH;
+			}
 			/* When we are not removing user-entered BR elements (lines wrapped by user),
 			 * we need to skip those elements */
 			if (!remove_all_br && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
