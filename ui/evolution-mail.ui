@@ -26,6 +26,8 @@
       </placeholder>
       <separator/>
       <placeholder name='mail-message-list-actions'>
+        <menuitem action='mail-goto-folder'/>
+        <separator/>
         <menuitem action='mail-threads-group-by'/>
         <menuitem action='mail-threads-expand-all'/>
         <menuitem action='mail-threads-collapse-all'/>
