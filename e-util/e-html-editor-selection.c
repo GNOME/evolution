@@ -1963,7 +1963,11 @@ remove_wrapping_from_element (WebKitDOMElement *element)
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
-		remove_node (node);
+		WebKitDOMNode *parent;
+
+		parent = get_parent_block_node_from_child (node);
+		if (!webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-user-wrapped"))
+			remove_node (node);
 		g_object_unref (node);
 	}
 	g_object_unref (list);
@@ -1973,10 +1977,14 @@ remove_wrapping_from_element (WebKitDOMElement *element)
 	length = webkit_dom_node_list_get_length (list);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *hidden_space_node;
+		WebKitDOMNode *parent;
 
 		hidden_space_node = webkit_dom_node_list_item (list, ii);
-		webkit_dom_html_element_set_outer_text (
-			WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
+		parent = get_parent_block_node_from_child (hidden_space_node);
+		if (!webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (parent), "data-user-wrapped")) {
+			webkit_dom_html_element_set_outer_text (
+				WEBKIT_DOM_HTML_ELEMENT (hidden_space_node), " ", NULL);
+		}
 		g_object_unref (hidden_space_node);
 	}
 	g_object_unref (list);
@@ -6386,6 +6394,9 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 
 		wrapped_paragraph = e_html_editor_selection_wrap_paragraph_length (
 			selection, WEBKIT_DOM_ELEMENT (block), selection->priv->word_wrap_length - quote);
+
+		webkit_dom_element_set_attribute (
+			wrapped_paragraph, "data-user-wrapped", "", NULL);
 
 		if (quoted && !html_mode)
 			e_html_editor_view_quote_plain_text_element (view, wrapped_paragraph);
