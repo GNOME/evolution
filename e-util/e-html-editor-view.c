@@ -7752,6 +7752,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-message");
 	webkit_dom_element_remove_attribute (element, "data-name");
 	webkit_dom_element_remove_attribute (element, "data-new-message");
+	webkit_dom_element_remove_attribute (element, "data-user-wrapped");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
 /*
