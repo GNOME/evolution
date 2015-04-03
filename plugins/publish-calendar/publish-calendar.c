@@ -646,16 +646,6 @@ url_list_changed (PublishUIData *ui)
 }
 
 static void
-update_url_enable_button (EPublishUri *url,
-                          GtkWidget *url_enable)
-{
-	g_return_if_fail (url_enable != NULL);
-	g_return_if_fail (GTK_IS_BUTTON (url_enable));
-
-	gtk_button_set_label (GTK_BUTTON (url_enable), url && url->enabled ? _("_Disable") : _("E_nable"));
-}
-
-static void
 url_list_enable_toggled (GtkCellRendererToggle *renderer,
                          const gchar *path_string,
                          PublishUIData *ui)
@@ -672,8 +662,6 @@ url_list_enable_toggled (GtkCellRendererToggle *renderer,
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 
 		url->enabled = !url->enabled;
-
-		update_url_enable_button (url, ui->url_enable);
 
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_ENABLED_COLUMN, url->enabled, -1);
 
@@ -695,14 +683,10 @@ selection_changed (GtkTreeSelection *selection,
 		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
 		gtk_widget_set_sensitive (ui->url_edit, TRUE);
 		gtk_widget_set_sensitive (ui->url_remove, TRUE);
-		gtk_widget_set_sensitive (ui->url_enable, TRUE);
 	} else {
 		gtk_widget_set_sensitive (ui->url_edit, FALSE);
 		gtk_widget_set_sensitive (ui->url_remove, FALSE);
-		gtk_widget_set_sensitive (ui->url_enable, FALSE);
 	}
-
-	update_url_enable_button (url, ui->url_enable);
 }
 
 static void
@@ -821,9 +805,6 @@ url_remove_clicked (GtkButton *button,
 		} else {
 			gtk_widget_set_sensitive (ui->url_edit, FALSE);
 			gtk_widget_set_sensitive (ui->url_remove, FALSE);
-			gtk_widget_set_sensitive (ui->url_enable, FALSE);
-
-			update_url_enable_button (NULL, ui->url_enable);
 		}
 
 		publish_uris = g_slist_remove (publish_uris, url);
@@ -832,28 +813,6 @@ url_remove_clicked (GtkButton *button,
 			g_source_remove (id);
 
 		g_free (url);
-		url_list_changed (ui);
-	}
-}
-
-static void
-url_enable_clicked (GtkButton *button,
-                    PublishUIData *ui)
-{
-	EPublishUri *url = NULL;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, URL_LIST_URL_COLUMN, &url, -1);
-		url->enabled = !url->enabled;
-
-		update_url_enable_button (url, ui->url_enable);
-
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, URL_LIST_ENABLED_COLUMN, url->enabled, -1);
-		gtk_tree_selection_select_iter (selection, &iter);
 		url_list_changed (ui);
 	}
 }
@@ -915,8 +874,6 @@ publish_calendar_locations (EPlugin *epl,
 	ui->url_add = e_builder_get_widget (builder, "url add");
 	ui->url_edit = e_builder_get_widget (builder, "url edit");
 	ui->url_remove = e_builder_get_widget (builder, "url remove");
-	ui->url_enable = e_builder_get_widget (builder, "url enable");
-	update_url_enable_button (NULL, ui->url_enable);
 	g_signal_connect (
 		ui->url_add, "clicked",
 		G_CALLBACK (url_add_clicked), ui);
@@ -926,13 +883,9 @@ publish_calendar_locations (EPlugin *epl,
 	g_signal_connect (
 		ui->url_remove, "clicked",
 		G_CALLBACK (url_remove_clicked), ui);
-	g_signal_connect (
-		ui->url_enable, "clicked",
-		G_CALLBACK (url_enable_clicked), ui);
+
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_remove), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (ui->url_enable), FALSE);
-	gtk_button_set_use_underline (GTK_BUTTON (ui->url_enable), TRUE);
 
 	l = publish_uris;
 	while (l) {
