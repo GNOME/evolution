@@ -172,16 +172,33 @@ e_mail_remote_content_remove (EMailRemoteContent *content,
 	}
 }
 
+typedef struct _CheckFoundData {
+	gboolean found;
+	gboolean added_generic;
+	gboolean check_for_generic;
+	EMailRemoteContent *content;
+	RecentData *recent_cache;
+	guint *recent_last;
+} CheckFoundData;
+
 static gint
 e_mail_remote_content_check_found_cb (gpointer data,
 				      gint ncol,
 				      gchar **colvalues,
 				      gchar **colnames)
 {
-	gboolean *pfound = data;
+	CheckFoundData *cfd = data;
 
-	if (pfound)
-		*pfound = TRUE;
+	if (cfd) {
+		cfd->found = TRUE;
+
+		if (colvalues && *colvalues && **colvalues) {
+			if (cfd->check_for_generic && *colvalues[0] == '@')
+				cfd->added_generic = TRUE;
+
+			e_mail_remote_content_add_to_recent_cache (cfd->content, colvalues[0], TRUE, cfd->recent_cache, cfd->recent_last);
+		}
+	}
 
 	return 0;
 }
@@ -197,7 +214,7 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 	gint ii;
 	gchar *tmp;
 	const GSList *link;
-	gboolean found = FALSE, recent_cache_found = FALSE;
+	gboolean found = FALSE, recent_cache_found = FALSE, added_generic = FALSE;
 
 	g_return_val_if_fail (E_IS_MAIL_REMOTE_CONTENT (content), FALSE);
 	g_return_val_if_fail (table != NULL, FALSE);
@@ -247,18 +264,29 @@ e_mail_remote_content_has (EMailRemoteContent *content,
 	}
 
 	if (stmt->len) {
+		CheckFoundData cfd;
+
+		cfd.found = FALSE;
+		cfd.added_generic = FALSE;
+		cfd.check_for_generic = g_strcmp0 (table, "mail");
+		cfd.content = content;
+		cfd.recent_cache = recent_cache;
+		cfd.recent_last = recent_last;
+
 		tmp = sqlite3_mprintf ("SELECT value FROM %Q WHERE ", table);
 		g_string_prepend (stmt, tmp);
 		sqlite3_free (tmp);
 
-		g_string_append (stmt, " LIMIT 1");
+		camel_db_select (content->priv->db, stmt->str, e_mail_remote_content_check_found_cb, &cfd, NULL);
 
-		camel_db_select (content->priv->db, stmt->str, e_mail_remote_content_check_found_cb, &found, NULL);
+		found = cfd.found;
+		added_generic = cfd.added_generic;
 	}
 
 	g_string_free (stmt, TRUE);
 
-	e_mail_remote_content_add_to_recent_cache (content, values->data, found, recent_cache, recent_last);
+	if (!added_generic)
+		e_mail_remote_content_add_to_recent_cache (content, values->data, found, recent_cache, recent_last);
 
 	return found;
 }
