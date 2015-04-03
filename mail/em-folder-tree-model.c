@@ -1480,7 +1480,7 @@ folder_tree_model_update_status_icon (StoreInfo *si)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	GIcon *icon = NULL;
-	const gchar *icon_name;
+	const gchar *icon_name = NULL;
 	gboolean was_connecting;
 	gboolean host_reachable;
 

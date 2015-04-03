@@ -1904,8 +1904,8 @@ itip_send_component (ECalModel *model,
 	ESourceRegistry *registry;
 	ECalDataModel *data_model;
 	ESource *source;
-	const gchar *alert_ident;
-	const gchar *description;
+	const gchar *alert_ident = NULL;
+	const gchar *description = NULL;
 	GCancellable *cancellable;
 	ItipSendComponentData *isc;
 

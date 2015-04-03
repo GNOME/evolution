@@ -1527,8 +1527,8 @@ cal_data_model_update_client_view (ECalDataModel *data_model,
 	ESource *source;
 	ViewData *view_data;
 	CreateViewData *cv_data;
-	const gchar *alert_ident;
-	gchar *description;
+	const gchar *alert_ident = NULL;
+	gchar *description = NULL;
 
 	LOCK_PROPS ();
 
