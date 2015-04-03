@@ -35,9 +35,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_HTML_EDITOR_VIEW, EHTMLEditorViewPrivate))
 
-#define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
-#define UNICODE_NBSP "\xc2\xa0"
-
 /* stephenhay from https://mathiasbynens.be/demo/url-regex */
 #define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp||webcal|localhost"
 #define URL_PATTERN "((((" URL_PROTOCOLS ")\\:\\/\\/)|(www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)"
@@ -51,10 +48,6 @@
 #define E_MAIL_PATTERN_SPACE E_MAIL_PATTERN "\\s"
 
 #define QUOTE_SYMBOL ">"
-
-/* Keep synchronized with the same value in EHTMLEditorSelection */
-#define SPACES_PER_LIST_LEVEL 8
-#define TAB_LENGTH 8
 
 #define HTML_KEY_CODE_BACKSPACE 8
 #define HTML_KEY_CODE_RETURN 13
