@@ -316,20 +316,12 @@ mail_config_identity_page_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	text = _("Type the name by which you would like to refer to "
-		 "this account.\nFor example, \"Work\" or \"Personal\".");
-	widget = gtk_label_new (text);
-	gtk_widget_set_margin_left (widget, 12);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 2, 1);
-	gtk_widget_show (widget);
-
 	text = _("_Name:");
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -337,7 +329,7 @@ mail_config_identity_page_constructed (GObject *object)
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
 	e_binding_bind_object_text_property (
@@ -350,6 +342,13 @@ mail_config_identity_page_constructed (GObject *object)
 	g_signal_connect_swapped (
 		widget, "changed",
 		G_CALLBACK (e_mail_config_page_changed), page);
+
+	text = _("The above name will be used to identify this account.\n"
+		 "Use for example, \"Work\" or \"Personal\".");
+	widget = gtk_label_new (text);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 2, 1, 1);
+	gtk_widget_show (widget);
 
 	/*** Required Information ***/
 
