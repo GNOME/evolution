@@ -7188,7 +7188,7 @@ e_html_editor_view_exec_command (EHTMLEditorView *view,
 {
 	WebKitDOMDocument *document;
 	const gchar *cmd_str = 0;
-	gboolean has_value;
+	gboolean has_value = FALSE;
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
 

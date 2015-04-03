@@ -792,7 +792,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	icaltimezone *default_zone;
 	ECalModel *model;
 	ESourceRegistry *registry;
-	ESource *source, *default_source;
+	ESource *source = NULL, *default_source = NULL;
 	EClientCache *client_cache;
 	EClient *e_client;
 	ECalClient *client = NULL;
@@ -1702,7 +1702,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 {
 	GtkWidget *label, *box, *hbox, *ebox, *frame;
 	const gchar *str;
-	gchar *tmp, *tmp1, *tmp2;
+	gchar *tmp, *tmp1 = NULL, *tmp2 = NULL;
 	ECalComponentOrganizer organiser;
 	ECalComponentDateTime dtstart, dtend;
 	icalcomponent *clone_comp;

@@ -302,7 +302,7 @@ cal_base_shell_content_constructed (GObject *object)
 	ECalBaseShellContentClass *klass;
 	ESourceRegistry *registry;
 	ESource *default_source = NULL;
-	const gchar *created_signal_name;
+	const gchar *created_signal_name = NULL;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_cal_base_shell_content_parent_class)->constructed (object);

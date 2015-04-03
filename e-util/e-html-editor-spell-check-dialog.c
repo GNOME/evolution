@@ -154,7 +154,7 @@ static gboolean
 html_editor_spell_check_dialog_next (EHTMLEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
-	gulong start_offset, end_offset;
+	gulong start_offset = 0, end_offset = 0;
 
 	if (dialog->priv->word == NULL) {
 		webkit_dom_dom_selection_modify (
@@ -248,7 +248,7 @@ static gboolean
 html_editor_spell_check_dialog_prev (EHTMLEditorSpellCheckDialog *dialog)
 {
 	WebKitDOMNode *start = NULL, *end = NULL;
-	gulong start_offset, end_offset;
+	gulong start_offset = 0, end_offset = 0;
 
 	if (dialog->priv->word == NULL) {
 		webkit_dom_dom_selection_modify (
