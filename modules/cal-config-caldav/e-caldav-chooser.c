@@ -1798,7 +1798,6 @@ e_caldav_chooser_authenticate_thread (GTask *task,
 {
 	ECaldavChooser *chooser = source_object;
 	const ENamedParameters *credentials = task_data;
-	gboolean success;
 	GError *local_error = NULL;
 
 	if (caldav_chooser_try_password_sync (chooser, credentials, cancellable, &local_error)
@@ -1809,7 +1808,7 @@ e_caldav_chooser_authenticate_thread (GTask *task,
 	if (local_error != NULL) {
 		g_task_return_error (task, local_error);
 	} else {
-		g_task_return_boolean (task, success);
+		g_task_return_boolean (task, TRUE);
 	}
 }
 
