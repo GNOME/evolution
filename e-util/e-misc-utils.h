@@ -273,6 +273,11 @@ void		e_signal_disconnect_notify_handler
 GSettings *	e_util_ref_settings		(const gchar *schema_id);
 void		e_util_cleanup_settings		(void);
 
+void		e_util_run_simple_async_result_in_thread
+						(GSimpleAsyncResult *simple,
+						 GSimpleAsyncThreadFunc func,
+						 GCancellable *cancellable);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

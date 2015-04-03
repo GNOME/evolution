@@ -521,9 +521,9 @@ http_request_send_async (SoupRequest *request,
 
 	g_simple_async_result_set_check_cancellable (simple, cancellable);
 
-	g_simple_async_result_run_in_thread (
+	e_util_run_simple_async_result_in_thread (
 		simple, handle_http_request,
-		G_PRIORITY_DEFAULT, cancellable);
+		cancellable);
 
 	g_object_unref (simple);
 }
