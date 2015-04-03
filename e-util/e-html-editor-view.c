@@ -6720,8 +6720,6 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		FALSE,
 		view);
 
-	g_object_unref (dom_window);
-
 	register_html_events_handlers (view, body);
 
 	g_free (inner_html);
@@ -9098,9 +9096,6 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		G_CALLBACK (body_scroll_event_cb),
 		FALSE,
 		view);
-
-	g_object_unref (dom_window);
-
 }
 
 static void
