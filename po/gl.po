@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-04-03 06:33+0000\n"
+"POT-Creation-Date: 2015-04-03 20:31+0000\n"
 "PO-Revision-Date: 2015-03-03 23:57+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
@@ -7588,7 +7588,7 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Escribir unha mensaxe"
 
-#: ../composer/e-msg-composer.c:4593
+#: ../composer/e-msg-composer.c:4595
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O editor contén un corpo de mensaxe sen texto, polo que non é posíbel editar."
@@ -7994,7 +7994,7 @@ msgstr "Valor de aviso de aniversarios"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
 msgstr ""
-"Número de unidades para determinar un recordatorio de cumpreanos ou "
+"Número de unidades para determinar un recordatorio de "
 "aniversario"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
@@ -12917,15 +12917,15 @@ msgstr "Ta_maño:"
 msgid "Text Properties"
 msgstr "Propiedades do texto"
 
-#: ../e-util/e-html-editor-view.c:4959
+#: ../e-util/e-html-editor-view.c:4952
 msgid "Changed property"
 msgstr "Propiedade cambiada"
 
-#: ../e-util/e-html-editor-view.c:4960
+#: ../e-util/e-html-editor-view.c:4953
 msgid "Whether editor changed"
 msgstr "Indica se o editor cambiou"
 
-#: ../e-util/e-html-editor-view.c:8836
+#: ../e-util/e-html-editor-view.c:8821
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
@@ -12933,11 +12933,11 @@ msgstr ""
 "Desactivar o modo HTML causará que o texto perda todo o formatado. Desexa "
 "continuar?"
 
-#: ../e-util/e-html-editor-view.c:8840
+#: ../e-util/e-html-editor-view.c:8825
 msgid "_Don't lose formatting"
 msgstr "_Non perder o formatado"
 
-#: ../e-util/e-html-editor-view.c:8841
+#: ../e-util/e-html-editor-view.c:8826
 msgid "_Lose formatting"
 msgstr "_Perder formatado"
 
@@ -15896,8 +15896,8 @@ msgid "Do not warn me again"
 msgstr "Non avisarme de novo."
 
 #: ../mail/e-mail-reader-utils.c:556
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1806
-#: ../modules/cal-config-google/e-google-chooser.c:1843
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1805
+#: ../modules/cal-config-google/e-google-chooser.c:1842
 #: ../plugins/face/face.c:170 ../shell/e-shell.c:867 ../shell/e-shell.c:888
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
@@ -19064,7 +19064,7 @@ msgstr "Seleccione a axenda de enderezos a usar."
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:203
 msgid "Use in Birthdays & Anniversaries calendar"
-msgstr "Usar no calendario Cumpreanos e aniversarios"
+msgstr "Usar no calendario Aniversarios"
 
 #: ../modules/cal-config-google/e-google-chooser-button.c:143
 msgid "Default User Calendar"
