@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-03-08 20:25+0000\n"
-"PO-Revision-Date: 2015-03-29 21:59+0100\n"
+"PO-Revision-Date: 2015-04-05 19:59+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -123,9 +123,8 @@ msgid "Unable to perform search."
 msgstr "Iskanja ni mogoče izvesti."
 
 #: ../addressbook/addressbook.error.xml.h:20
-#, fuzzy
 msgid "Failed to refresh address book '{0}'"
-msgstr "Overitev imenika ni bila uspešna."
+msgstr "Osveževanje imenika '{0}' je spodletelo."
 
 #: ../addressbook/addressbook.error.xml.h:21
 msgid "Would you like to save your changes?"
@@ -2517,111 +2516,93 @@ msgstr "Odpiranje seznama nalog '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-#, fuzzy
 msgid "Failed to create an event in the calendar '{0}'"
-msgstr "Ustvarjanje koledarja '%s' je spodletelo: %s"
+msgstr "Ustvarjanje dogodka v koledarju '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:95
-#, fuzzy
 msgid "Failed to create a memo in the memo list '{0}'"
-msgstr "Ustvarjanje seznama opomnikov '%s' je spodletelo: %s"
+msgstr "Ustvarjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:97
-#, fuzzy
 msgid "Failed to create a task in the task list '{0}'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo: %s"
+msgstr "Ustvarjanje naloge v seznamu nalog '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-#, fuzzy
 msgid "Failed to modify an event in the calendar '{0}'"
-msgstr "Premikanje dogodka v koledar '{0}' je spodletelo"
+msgstr "Spreminjanje dogodka v koledarju '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:101
-#, fuzzy
 msgid "Failed to modify a memo in the memo list '{0}'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Spreminjanje opomnika v seznamu opomnikov '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:103
-#, fuzzy
 msgid "Failed to modify a task in the task list '{0}'"
-msgstr "['priloga','prilaganje','priložena','zaprta']"
+msgstr "Spreminjanje naloge v seznamu nalog '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-#, fuzzy
 msgid "Failed to delete an event in the calendar '{0}'"
-msgstr "Ali želite izbrisati koledar '{0}'?"
+msgstr "Brisanje dogodka v koledarju '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:107
-#, fuzzy
 msgid "Failed to delete a memo in the memo list '{0}'"
-msgstr "Ali želite izbrisati seznam opomnikov '{0}'?"
+msgstr "Brisanje opomnika v seznamu opomnikov '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:109
-#, fuzzy
 msgid "Failed to delete a task in the task list '{0}'"
-msgstr "['priloga','prilaganje','priložena','zaprta']"
+msgstr "Brisanje naloge v seznamu nalog '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:111
-#, fuzzy
 msgid "Failed to update an event in the calendar '{0}'"
-msgstr "Precej dobra zasebnost (OpenPGP)"
+msgstr "Posodabljanje dogodka v koledarju '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:113
-#, fuzzy
 msgid "Failed to update a memo in the memo list '{0}'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Posodabljanje opomnika v seznamu opomnikov '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
-#, fuzzy
 msgid "Failed to update a task in the task list '{0}'"
-msgstr "['priloga','prilaganje','priložena','zaprta']"
+msgstr "Posodabljanje naloge v seznamu nalog '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
-#, fuzzy
 msgid "Failed to send an event to the calendar '{0}'"
-msgstr "Premikanje dogodka v koledar '{0}' je spodletelo"
+msgstr "Pošiljanje dogodka v koledar '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:119
-#, fuzzy
 msgid "Failed to send a memo to the memo list '{0}'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Pošiljanje opomnika v seznam opomnikov '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:121
-#, fuzzy
 msgid "Failed to send a task to the task list '{0}'"
-msgstr "['priloga','prilaganje','priložena','zaprta']"
+msgstr "Pošiljanje naloge v seznam nalog '{0}' je spodletelo."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-#, fuzzy
 msgid "Error creating view for the calendar '{0}'"
-msgstr "Prišlo je do napake med ustvarjanjem pogleda le za branje."
+msgstr "Napaka ustvarjanja pogleda v koledarju '{0}'."
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-#, fuzzy
 msgid "Error creating view for the task list '{0}'"
-msgstr "Napaka nalaganja seznama nalog '{0}'"
+msgstr "Napaka ustvarjanja pogleda v seznamu nalog '{0}'."
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-#, fuzzy
 msgid "Error creating view for the memo list '{0}'"
-msgstr "Napaka nalaganja seznama opomnikov '{0}'"
+msgstr "Napaka ustvarjanja pogleda v seznamu opomnikov '{0}'."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:129
@@ -2699,9 +2680,8 @@ msgid "Failed to refresh memo list '{0}'"
 msgstr "Osveževanje seznama opomnikov '{0}' je spodletelo."
 
 #: ../calendar/calendar.error.xml.h:158
-#, fuzzy
 msgid "Failed to make an occurrence movable"
-msgstr "Naredi to pojavitev _premakljivo"
+msgstr "Spreminjanje nastavitve za premikanje je spodletelo."
 
 #: ../calendar/gui/caltypes.xml.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:4
@@ -3320,19 +3300,19 @@ msgid "Destination is read only"
 msgstr "Cilj je mogoče le brati"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "Copying events to the calendar '%s'"
-msgstr "Dogodki koledarja"
+msgstr "Poteka kopiranje dogodkov v koledar '%s'"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Copying memos to the memo list '%s'"
-msgstr "Prikaži različico besedila večdelnega/nadomestnega sporočila"
+msgstr "Poteka kopiranje opomnikov v seznam opomnikov '%s'"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "Copying tasks to the task list '%s'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Poteka kopiranje nalog v seznam nalog '%s'"
 
 #: ../calendar/gui/dialogs/delete-comp.c:215
 msgid "_Delete this item from all other recipient's mailboxes?"
@@ -4361,19 +4341,19 @@ msgid "Web Page:"
 msgstr "Spletna stran:"
 
 #: ../calendar/gui/e-cal-data-model.c:1608
-#, fuzzy, c-format
+#, c-format
 msgid "Creating view for calendar '%s'"
-msgstr "Ustvarjanje \"%s\""
+msgstr "Ustvarjanje pogleda za koledar '%s'."
 
 #: ../calendar/gui/e-cal-data-model.c:1612
-#, fuzzy, c-format
+#, c-format
 msgid "Creating view for task list '%s'"
-msgstr "Prikaži različico HTML"
+msgstr "Ustvarjanje pogleda za seznam nalog '%s'."
 
 #: ../calendar/gui/e-cal-data-model.c:1616
-#, fuzzy, c-format
+#, c-format
 msgid "Creating view for memo list '%s'"
-msgstr "Prikaži različico besedila večdelnega/nadomestnega sporočila"
+msgstr "Ustvarjanje pogleda za seznam opomnikov '%s'."
 
 #: ../calendar/gui/e-calendar-table.etspec.h:1
 msgid "Click to add a task"
@@ -4461,29 +4441,24 @@ msgid "Pasted text doesn't contain valid iCalendar data"
 msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:821 ../calendar/gui/e-cal-ops.c:1540
-#, fuzzy
 msgid "Default calendar not found"
-msgstr "Koledarja \"%s\" ni mogoče najti na strežniku."
+msgstr "Privzetega koledarja ni mogoče najti."
 
 #: ../calendar/gui/e-calendar-view.c:826 ../calendar/gui/e-cal-ops.c:1543
-#, fuzzy
 msgid "Default memo list not found"
-msgstr "Označi kot privzeti seznam opomnikov"
+msgstr "Privzetega seznama opomnikov ni mogoče najti."
 
 #: ../calendar/gui/e-calendar-view.c:831 ../calendar/gui/e-cal-ops.c:1546
-#, fuzzy
 msgid "Default task list not found"
-msgstr "Označi kot privzeti seznam nalog"
+msgstr "Privzetega seznama nalog ni mogoče najti."
 
 #: ../calendar/gui/e-calendar-view.c:918
-#, fuzzy
 msgid "No suitable component found"
-msgstr "primernega video modula ni bilo mogoče najti"
+msgstr "Ni mogoče najti ustreznega seznama."
 
 #: ../calendar/gui/e-calendar-view.c:988
-#, fuzzy
 msgid "Pasting iCalendar data"
-msgstr "Posodobitve sistema ni mogoče dokončati."
+msgstr "Poteka dodajanje podatkov iCalendar"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
@@ -4579,9 +4554,9 @@ msgstr "Neznano"
 #: ../calendar/gui/e-cal-model.c:1183 ../calendar/gui/e-cal-ops.c:586
 #: ../calendar/gui/e-cal-ops.c:1209
 #: ../modules/calendar/e-cal-base-shell-backend.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "Source with UID '%s' not found"
-msgstr "Za UID '%s' ni mogoče najti podatkovnega vira"
+msgstr "Vira z UID '%s' ni mogoče najti."
 
 #: ../calendar/gui/e-cal-model.c:1267 ../calendar/gui/e-cal-ops.c:184
 #: ../calendar/gui/e-cal-ops.c:1325
@@ -4768,34 +4743,34 @@ msgid "Updating a task"
 msgstr "Posodabljanje naloge"
 
 #: ../calendar/gui/e-cal-ops.c:933
-#, fuzzy, c-format
+#, c-format
 msgid "Getting events to purge in the calendar '%s'"
-msgstr "Premikanje dogodka v koledar %s"
+msgstr "Pridobivanje dogodkov za izbris v koledarju '%s'."
 
 #: ../calendar/gui/e-cal-ops.c:937
-#, fuzzy, c-format
+#, c-format
 msgid "Getting memos to purge in the memo list '%s'"
-msgstr "Premikanje opomnika na seznam opomnikov '{0}'"
+msgstr "Pridobivanje opomnikov za izbris v koledarju '%s'."
 
 #: ../calendar/gui/e-cal-ops.c:941
-#, fuzzy, c-format
+#, c-format
 msgid "Getting tasks to purge in the task list '%s'"
-msgstr "Premikanje naloge na seznam nalog '{0}'"
+msgstr "Pridobivanje nalog za izbris v koledarju '%s'."
 
 #: ../calendar/gui/e-cal-ops.c:962
-#, fuzzy, c-format
+#, c-format
 msgid "Purging events in the calendar '%s'"
-msgstr "Dogodki koledarja"
+msgstr "Poteka čiščenje dogodkov v koledarju '%s'."
 
 #: ../calendar/gui/e-cal-ops.c:966
-#, fuzzy, c-format
+#, c-format
 msgid "Purging memos in the memo list '%s'"
-msgstr "Prikaži različico besedila večdelnega/nadomestnega sporočila"
+msgstr "Poteka čiščenje opomnikov v seznamu opomnikov '%s'."
 
 #: ../calendar/gui/e-cal-ops.c:970
-#, fuzzy, c-format
+#, c-format
 msgid "Purging tasks in the task list '%s'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Poteka čiščenje nalog v seznamu nalog '%s'."
 
 #: ../calendar/gui/e-cal-ops.c:1068
 msgid "Purging events"
@@ -7789,9 +7764,8 @@ msgstr ""
 "Prejmni v orodni vrstici programa."
 
 #: ../composer/mail-composer.error.xml.h:37
-#, fuzzy
 msgid "Are you sure you want to send the message?"
-msgstr "Ali ste prepričani, da želite sporočilo poslati v obliki HTML?"
+msgstr "Ali ste prepričani, da želite poslati sporočilo?"
 
 #: ../composer/mail-composer.error.xml.h:38
 msgid ""
@@ -7934,9 +7908,8 @@ msgid "Whether to show the preview pane."
 msgstr "Ali naj bo prikazan pladenj predogleda."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:21
-#, fuzzy
 msgid "true"
-msgstr "pravilno"
+msgstr "prav"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:22
 #, fuzzy
@@ -8760,11 +8733,12 @@ msgid "Automatic emoticon recognition"
 msgstr "Samodejno prepoznavanje izraznih ikon"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:12
-#, fuzzy
 msgid ""
 "Recognize emoticons in text and replace them with images or Unicode "
 "characters."
-msgstr "Prepoznaj izrazne ikone v besedilu in jih zamenjaj s slikami."
+msgstr ""
+"Prepoznaj izrazne ikone v besedilu in jih zamenjaj s slikami oziroma z znaki "
+"Unikod."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Attribute message"
@@ -10776,9 +10750,8 @@ msgid "Close this message (Escape)"
 msgstr "Zapri to sporočilo (ubežna tipka)"
 
 #: ../e-util/e-alert-sink.c:246
-#, fuzzy
 msgid "Failed to create a thread: "
-msgstr "Ni mogoče ustvariti niti: %s"
+msgstr "Ustvarjanje niti je spodletelo:"
 
 #: ../e-util/e-attachment-bar.c:660 ../e-util/e-attachment-paned.c:736
 msgid "Icon View"
@@ -10797,7 +10770,6 @@ msgid "Attached message"
 msgstr "Priloženo sporočilo"
 
 #: ../e-util/e-attachment.c:2104 ../e-util/e-attachment.c:3101
-#, fuzzy
 msgid "Operation was cancelled"
 msgstr "Opravilo je preklicano"
 
@@ -11261,9 +11233,8 @@ msgid "Cannot create a client object from extension name '%s'"
 msgstr "Iz imena pripone '%s' ni mogoče ustvariti predmeta odjemalca"
 
 #: ../e-util/e-color-chooser-widget.c:124
-#, fuzzy
 msgid "Choose custom color"
-msgstr "Kot barvo _po meri"
+msgstr "Izbor barve po meri"
 
 #: ../e-util/e-color-combo.c:81
 msgid "black"
@@ -11294,9 +11265,8 @@ msgid "purple #2"
 msgstr "vijolična 2"
 
 #: ../e-util/e-color-combo.c:88
-#, fuzzy
 msgid "very dark gray"
-msgstr "zelo temno siva"
+msgstr "zelo temna siva "
 
 #: ../e-util/e-color-combo.c:90
 msgid "dark red"
@@ -11315,7 +11285,6 @@ msgid "dark green"
 msgstr "temno zelena"
 
 #: ../e-util/e-color-combo.c:94
-#, fuzzy
 msgid "dull blue"
 msgstr "mračno modra"
 
@@ -11324,12 +11293,10 @@ msgid "blue"
 msgstr "modra"
 
 #: ../e-util/e-color-combo.c:96
-#, fuzzy
 msgid "dull purple"
-msgstr "mračno vijolična"
+msgstr "mračno škrlatna"
 
 #: ../e-util/e-color-combo.c:97
-#, fuzzy
 msgid "dark grey"
 msgstr "temno siva"
 
@@ -11347,12 +11314,10 @@ msgid "lime"
 msgstr "Lime Village"
 
 #: ../e-util/e-color-combo.c:102
-#, fuzzy
 msgid "dull green"
-msgstr "mračno modra"
+msgstr "mračno zelena"
 
 #: ../e-util/e-color-combo.c:103
-#, fuzzy
 msgid "dull blue #2"
 msgstr "mračno modra 2"
 
@@ -11374,9 +11339,8 @@ msgid "magenta"
 msgstr "škrlatna"
 
 #: ../e-util/e-color-combo.c:109
-#, fuzzy
 msgid "bright orange"
-msgstr "oranžna"
+msgstr "svetla oranžna"
 
 #: ../e-util/e-color-combo.c:110
 msgid "yellow"
@@ -11387,58 +11351,48 @@ msgid "green"
 msgstr "zelena"
 
 #: ../e-util/e-color-combo.c:112
-#, fuzzy
 msgid "cyan"
-msgstr "cijan"
+msgstr "sinja"
 
 #: ../e-util/e-color-combo.c:113
-#, fuzzy
 msgid "bright blue"
-msgstr "bistro modra"
+msgstr "svetlo modra"
 
 #: ../e-util/e-color-combo.c:114
-#, fuzzy
 msgid "red purple"
 msgstr "rdeče vijolična"
 
 #: ../e-util/e-color-combo.c:115
-#, fuzzy
 msgid "light grey"
-msgstr "Svetlo siva"
+msgstr "svetlo siva"
 
 #: ../e-util/e-color-combo.c:117
 msgid "pink"
 msgstr "roza"
 
 #: ../e-util/e-color-combo.c:118
-#, fuzzy
 msgid "light orange"
 msgstr "svetlo oranžna"
 
 #: ../e-util/e-color-combo.c:119
-#, fuzzy
 msgid "light yellow"
 msgstr "svetlo rumena"
 
 #: ../e-util/e-color-combo.c:120
-#, fuzzy
 msgid "light green"
 msgstr "Svetlo zelena"
 
 #: ../e-util/e-color-combo.c:121
-#, fuzzy
 msgid "light cyan"
 msgstr "svetlo sinja"
 
 #: ../e-util/e-color-combo.c:122
-#, fuzzy
 msgid "light blue"
 msgstr "svetlo modra"
 
 #: ../e-util/e-color-combo.c:123
-#, fuzzy
 msgid "light purple"
-msgstr "škrlatna"
+msgstr "svetla škrlatna"
 
 #: ../e-util/e-color-combo.c:124
 msgid "white"
@@ -11914,14 +11868,12 @@ msgid "Outgoing"
 msgstr "Odhodna"
 
 #: ../e-util/e-html-editor-actions.c:57
-#, fuzzy
 msgid "Failed to insert HTML file."
-msgstr "Napaka med vstavljanjem datoteke HTML"
+msgstr "Napaka med vstavljanjem datoteke HTML."
 
 #: ../e-util/e-html-editor-actions.c:94
-#, fuzzy
 msgid "Failed to insert text file."
-msgstr "Napaka med vstavljanjem datoteke z besedilom"
+msgstr "Napaka med vstavljanjem besedilne datoteke."
 
 #: ../e-util/e-html-editor-actions.c:482
 msgid "Insert HTML File"
@@ -11932,48 +11884,40 @@ msgid "HTML file"
 msgstr "Datoteka HTML"
 
 #: ../e-util/e-html-editor-actions.c:515
-#, fuzzy
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
 #: ../e-util/e-html-editor-actions.c:576
-#, fuzzy
 msgid "Insert text file"
-msgstr "Vstavi datoteko z besedilom"
+msgstr "Vstavi besedilno datoteko"
 
 #: ../e-util/e-html-editor-actions.c:582
 msgid "Text file"
 msgstr "Besedilna datoteka"
 
 #: ../e-util/e-html-editor-actions.c:966
-#, fuzzy
 msgid "Copy selected text to the clipboard"
 msgstr "Kopiraj izbrano besedilo na odložišče"
 
 #: ../e-util/e-html-editor-actions.c:973
-#, fuzzy
 msgid "Cut selected text to the clipboard"
 msgstr "Izreži izbrano besedilo v odložišče"
 
 #. Widgets are treating Ctrl + v shortcut themselves
 #: ../e-util/e-html-editor-actions.c:980
-#, fuzzy
 msgid "Paste text from the clipboard"
 msgstr "Prilepi besedilo iz odložišča"
 
 #: ../e-util/e-html-editor-actions.c:987
-#, fuzzy
 msgid "Redo the last undone action"
-msgstr "Uveljavi zadnje razveljavljeno dejanje"
+msgstr "Ponovno uveljavi zadnje razveljavljeno dejanje"
 
 #: ../e-util/e-html-editor-actions.c:1001
-#, fuzzy
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
 #: ../e-util/e-html-editor-actions.c:1022
-#, fuzzy
 msgid "For_mat"
 msgstr "_Oblikuj"
 
@@ -11991,12 +11935,10 @@ msgid "Current _Languages"
 msgstr "Trenutni _jeziki"
 
 #: ../e-util/e-html-editor-actions.c:1067
-#, fuzzy
 msgid "_Increase Indent"
 msgstr "_Povečaj zamik"
 
 #: ../e-util/e-html-editor-actions.c:1069
-#, fuzzy
 msgid "Increase Indent"
 msgstr "Povečaj zamik"
 
@@ -12009,7 +11951,6 @@ msgid "Te_xt File..."
 msgstr "_Besedilna datoteka ..."
 
 #: ../e-util/e-html-editor-actions.c:1088
-#, fuzzy
 msgid "Paste _Quotation"
 msgstr "Prilepi _navedek"
 
@@ -12018,7 +11959,6 @@ msgid "_Find..."
 msgstr "_Najdi ..."
 
 #: ../e-util/e-html-editor-actions.c:1097
-#, fuzzy
 msgid "Search for text"
 msgstr "Poišči besedilo"
 
@@ -12031,7 +11971,6 @@ msgid "Re_place..."
 msgstr "_Zamenjaj ..."
 
 #: ../e-util/e-html-editor-actions.c:1111
-#, fuzzy
 msgid "Search for and replace text"
 msgstr "Iskanje in zamenjava besedila"
 
@@ -12040,17 +11979,14 @@ msgid "Check _Spelling..."
 msgstr "Preveri _črkovanje ..."
 
 #: ../e-util/e-html-editor-actions.c:1123
-#, fuzzy
 msgid "_Decrease Indent"
 msgstr "_Zmanjšaj zamik"
 
 #: ../e-util/e-html-editor-actions.c:1125
-#, fuzzy
 msgid "Decrease Indent"
-msgstr "_Zmanjšaj zamik"
+msgstr "Zmanjšaj zamik"
 
 #: ../e-util/e-html-editor-actions.c:1130
-#, fuzzy
 msgid "_Wrap Lines"
 msgstr "_Prelomi vrstice"
 
@@ -12137,7 +12073,6 @@ msgid "Header _6"
 msgstr "Glava _6"
 
 #: ../e-util/e-html-editor-actions.c:1237
-#, fuzzy
 msgid "_Preformatted"
 msgstr "_Predoblikovano"
 
@@ -12146,7 +12081,6 @@ msgid "A_ddress"
 msgstr "_Naslov"
 
 #: ../e-util/e-html-editor-actions.c:1251
-#, fuzzy
 msgid "_Blockquote"
 msgstr "Oznaka bločnega navedka"
 
@@ -12177,7 +12111,6 @@ msgstr "_ Slika ..."
 
 #. Translators: This is an action tooltip
 #: ../e-util/e-html-editor-actions.c:1298
-#, fuzzy
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
@@ -12207,12 +12140,10 @@ msgid "_Table..."
 msgstr "_Razpredelnica ..."
 
 #: ../e-util/e-html-editor-actions.c:1321
-#, fuzzy
 msgid "Insert Table"
 msgstr "Vstavi razpredelnico"
 
 #: ../e-util/e-html-editor-actions.c:1326
-#, fuzzy
 msgid "_Cell..."
 msgstr "_Celica ..."
 
@@ -12221,19 +12152,16 @@ msgid "Pa_ge..."
 msgstr "S_tran ..."
 
 #: ../e-util/e-html-editor-actions.c:1371
-#, fuzzy
 msgid "Font _Size"
-msgstr "_Udar"
+msgstr "Velikost _pisave"
 
 #: ../e-util/e-html-editor-actions.c:1378
-#, fuzzy
 msgid "_Font Style"
 msgstr "_Slog pisave"
 
 #: ../e-util/e-html-editor-actions.c:1385
-#, fuzzy
 msgid "Paste As _Text"
-msgstr "Pošlji proti dnu"
+msgstr "Prilepi kot _besedilo"
 
 #: ../e-util/e-html-editor-actions.c:1396
 #: ../e-util/e-html-editor-text-dialog.c:214
@@ -12254,7 +12182,6 @@ msgid "Italic"
 msgstr "Ležeče"
 
 #: ../e-util/e-html-editor-actions.c:1412
-#, fuzzy
 msgid "_Plain Text"
 msgstr "_Običajno besedilo"
 
@@ -12312,7 +12239,6 @@ msgid "+4"
 msgstr "+4"
 
 #: ../e-util/e-html-editor-actions.c:1507
-#, fuzzy
 msgid "Cell Contents"
 msgstr "Vsebina celice"
 
@@ -12331,7 +12257,6 @@ msgstr "Razpredelnica"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
 #: ../e-util/e-html-editor-actions.c:1538
-#, fuzzy
 msgid "Table Delete"
 msgstr "Izbriši razpredelnico"
 
@@ -12341,7 +12266,6 @@ msgstr "Načini vnosa"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
 #: ../e-util/e-html-editor-actions.c:1553
-#, fuzzy
 msgid "Table Insert"
 msgstr "Vstavi razpredelnico"
 
@@ -12350,32 +12274,26 @@ msgid "Properties"
 msgstr "_"
 
 #: ../e-util/e-html-editor-actions.c:1578
-#, fuzzy
 msgid "Column After"
 msgstr "Stolpec po"
 
 #: ../e-util/e-html-editor-actions.c:1585
-#, fuzzy
 msgid "Column Before"
 msgstr "Stolpec pred"
 
 #: ../e-util/e-html-editor-actions.c:1592
-#, fuzzy
 msgid "Insert _Link"
 msgstr "Vstavi _povezavo"
 
 #: ../e-util/e-html-editor-actions.c:1599
-#, fuzzy
 msgid "Row Above"
 msgstr "Vrstica nad"
 
 #: ../e-util/e-html-editor-actions.c:1606
-#, fuzzy
 msgid "Row Below"
 msgstr "Vrstica pod"
 
 #: ../e-util/e-html-editor-actions.c:1620
-#, fuzzy
 msgid "Cell..."
 msgstr "Celica ..."
 
@@ -12384,16 +12302,14 @@ msgid "Image..."
 msgstr "Slika ..."
 
 #: ../e-util/e-html-editor-actions.c:1634
-#, fuzzy
 msgid "Link..."
-msgstr "<b>Cilj</b>"
+msgstr "Povezava ..."
 
 #: ../e-util/e-html-editor-actions.c:1641
 msgid "Page..."
 msgstr "Stran ..."
 
 #: ../e-util/e-html-editor-actions.c:1648
-#, fuzzy
 msgid "Paragraph..."
 msgstr "Odstavek ..."
 
@@ -12415,42 +12331,36 @@ msgid "Remove Link"
 msgstr "Odstrani povezavo"
 
 #: ../e-util/e-html-editor-actions.c:1694
-#, fuzzy
 msgid "Add Word to Dictionary"
 msgstr "Dodaj besedo v slovar"
 
 #: ../e-util/e-html-editor-actions.c:1701
-#, fuzzy
 msgid "Ignore Misspelled Word"
 msgstr "Prezri napačno črkovano besedo"
 
 #: ../e-util/e-html-editor-actions.c:1708
-#, fuzzy
 msgid "Add Word To"
 msgstr "Dodaj besedo v"
 
 #: ../e-util/e-html-editor-actions.c:1717
-#, fuzzy
 msgid "More Suggestions"
-msgstr "(Ni predlogov)"
+msgstr "Več predlogov"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
 #: ../e-util/e-html-editor-actions.c:1825
-#, fuzzy, c-format
+#, c-format
 msgid "%s Dictionary"
-msgstr "%s - Slovar"
+msgstr "Slovar %s"
 
 #: ../e-util/e-html-editor-actions.c:1912
-#, fuzzy
 msgid "_Emoticon"
-msgstr "Sm_eško"
+msgstr "_Izrazne ikone"
 
 #: ../e-util/e-html-editor-actions.c:1913
-#, fuzzy
 msgid "Insert Emoticon"
-msgstr "Vstavi _smeške"
+msgstr "Vstavi izrazne ikone"
 
 #: ../e-util/e-html-editor-actions.c:1981
 msgid "Re_place"
@@ -12475,9 +12385,8 @@ msgid "_Table"
 msgstr "_Razpredelnica"
 
 #: ../e-util/e-html-editor.c:672
-#, fuzzy
 msgid "Paragraph Style"
-msgstr "slog odstavka"
+msgstr "Slog odstavka"
 
 #: ../e-util/e-html-editor.c:686
 msgid "Editing Mode"
@@ -12496,9 +12405,8 @@ msgid "<b>Scope</b>"
 msgstr "<b>Obseg</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:642
-#, fuzzy
 msgid "C_ell"
-msgstr "Slika '%s' je v neznanem barvnem prostoru."
+msgstr "_Celica"
 
 #: ../e-util/e-html-editor-cell-dialog.c:655
 msgid "_Row"
@@ -12509,9 +12417,8 @@ msgid "Col_umn"
 msgstr "_Stolpec"
 
 #: ../e-util/e-html-editor-cell-dialog.c:691
-#, fuzzy
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr "<b>Obnašanje</b>"
+msgstr "<b>Poravnave in obnašanje</b>"
 
 #: ../e-util/e-html-editor-cell-dialog.c:704
 #: ../e-util/e-html-editor-hrule-dialog.c:365
@@ -12532,7 +12439,6 @@ msgid "Right"
 msgstr "Desna"
 
 #: ../e-util/e-html-editor-cell-dialog.c:714
-#, fuzzy
 msgid "_Horizontal:"
 msgstr "Vodoravno:"
 
@@ -12562,9 +12468,8 @@ msgstr "_Prelomi besedilo"
 
 #. Header Style
 #: ../e-util/e-html-editor-cell-dialog.c:746
-#, fuzzy
 msgid "_Header Style"
-msgstr "Slog glave seznamskega pogleda"
+msgstr "Slog _glave"
 
 #: ../e-util/e-html-editor-cell-dialog.c:760
 #: ../e-util/e-html-editor-image-dialog.c:521
@@ -12630,9 +12535,8 @@ msgstr "Lastnosti celic"
 #: ../e-util/e-html-editor-find-dialog.c:105
 #: ../e-util/e-html-editor-replace-dialog.c:90
 #: ../e-util/e-html-editor-replace-dialog.c:108
-#, fuzzy
 msgid "No match found"
-msgstr "Na vrstici je bilo najdeno ujemanje oklepaja: %d"
+msgstr "Ni najdenih zadetkov"
 
 #: ../e-util/e-html-editor-find-dialog.c:160
 #: ../e-util/e-html-editor-replace-dialog.c:232
@@ -12725,9 +12629,8 @@ msgstr "_Spletni naslov:"
 
 #: ../e-util/e-html-editor-image-dialog.c:669
 #: ../e-util/e-html-editor-link-dialog.c:350
-#, fuzzy
 msgid "_Test URL..."
-msgstr "Ni takega testa"
+msgstr "_Preizkusni naslov URL ..."
 
 #: ../e-util/e-html-editor-image-dialog.c:686
 msgid "Image Properties"
@@ -12791,9 +12694,8 @@ msgid "_Background:"
 msgstr "_Ozadje:"
 
 #: ../e-util/e-html-editor-page-dialog.c:472
-#, fuzzy
 msgid "<b>Background Image</b>"
-msgstr "<b>Interpolacija slike</b>"
+msgstr "<b>Slika ozadja</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:494
 msgid "_Template:"
@@ -12813,7 +12715,6 @@ msgid "Page Properties"
 msgstr "Lastnosti strani"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:83
-#, fuzzy
 msgid "_Style:"
 msgstr "_Slog:"
 
@@ -12822,9 +12723,8 @@ msgid "<b>Alignment</b>"
 msgstr "<b>Poravnava</b>"
 
 #: ../e-util/e-html-editor-paragraph-dialog.c:155
-#, fuzzy
 msgid "Paragraph Properties"
-msgstr "Odstavek ..."
+msgstr "Lastnosti odstavka"
 
 #: ../e-util/e-html-editor-replace-dialog.c:148
 #, c-format
@@ -12841,10 +12741,9 @@ msgstr "_Zamenjaj:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:224
 msgid "_With:"
-msgstr ""
+msgstr "_Z:"
 
 #: ../e-util/e-html-editor-replace-dialog.c:236
-#, fuzzy
 msgid "_Case sensitive"
 msgstr "_Razlikovanje velikosti črk"
 
@@ -12955,7 +12854,6 @@ msgid "Si_ze:"
 msgstr "_Velikost:"
 
 #: ../e-util/e-html-editor-text-dialog.c:296
-#, fuzzy
 msgid "Text Properties"
 msgstr "Lastnosti besedila"
 
@@ -15510,16 +15408,14 @@ msgid "Force images in HTML mail to be loaded"
 msgstr "Prisili, da bodo slike v pošti HTML naložene"
 
 #: ../mail/e-mail-reader.c:2108 ../mail/e-mail-reader.c:2486
-#, fuzzy
 msgid "_Ignore Subthread"
-msgstr "_Prezri"
+msgstr "_Prezri podrejeno nit"
 
 #: ../mail/e-mail-reader.c:2110
 msgid "Mark new mails in a subthread as read automatically"
 msgstr ""
 
 #: ../mail/e-mail-reader.c:2115 ../mail/e-mail-reader.c:2490
-#, fuzzy
 msgid "_Ignore Thread"
 msgstr "_Prezri nit"
 
@@ -15560,18 +15456,16 @@ msgid "Mark the selected messages as having been read"
 msgstr "Izbrana sporočila označi kot že prebrana"
 
 #: ../mail/e-mail-reader.c:2150 ../mail/e-mail-reader.c:2510
-#, fuzzy
 msgid "Do not _Ignore Subthread"
-msgstr "_Prezri"
+msgstr "_Ne prezri podrejene niti"
 
 #: ../mail/e-mail-reader.c:2152
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 
 #: ../mail/e-mail-reader.c:2157 ../mail/e-mail-reader.c:2514
-#, fuzzy
 msgid "Do not _Ignore Thread"
-msgstr "_Prezri nit"
+msgstr "_Ne prezri niti"
 
 #: ../mail/e-mail-reader.c:2159
 msgid "Do not mark new mails in this thread as read automatically"
@@ -16819,7 +16713,6 @@ msgid "For_mat messages in HTML"
 msgstr "Oblikuj sporočila v HTML"
 
 #: ../mail/mail-config.ui.h:9
-#, fuzzy
 msgid "Automatically insert _emoticons"
 msgstr "Samodejno vstavi slike _izraznih ikon"
 
@@ -19408,7 +19301,6 @@ msgid "Day _ends:"
 msgstr "Konec dn_eva:"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
-#, fuzzy
 msgid "View Options"
 msgstr "Možnosti pogleda"
 
@@ -23935,34 +23827,29 @@ msgid "Ask when used"
 msgstr "Vprašaj za potrditev ob brisanju predmetov"
 
 #: ../smime/gui/certificate-manager.c:1119
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nikoli"
 
 #: ../smime/gui/certificate-manager.c:1121
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Marginal"
 msgstr "Obrobno"
 
 #: ../smime/gui/certificate-manager.c:1123
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Polno"
 
 #: ../smime/gui/certificate-manager.c:1125
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Ultimate"
 msgstr "Popolno"
 
 #: ../smime/gui/certificate-manager.c:1127
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Temporary"
-msgstr "Napaka med ustvarjanjem trenutne datoteke."
+msgstr "Začasno"
 
 #: ../smime/gui/certificate-manager.c:1333
 #, fuzzy
