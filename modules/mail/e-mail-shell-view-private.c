@@ -956,7 +956,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	MailFolderCache *folder_cache;
 	MessageList *message_list;
 	guint selected_count;
-	GString *buffer;
+	GString *buffer, *title_short = NULL;
 	gboolean store_is_local, is_inbox;
 	const gchar *display_name;
 	const gchar *folder_name;
@@ -1090,10 +1090,17 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 				num_deleted - num_junked +
 				num_junked_not_deleted;
 
-		if (num_unread > 0 && selected_count <= 1)
+		if (num_unread > 0 && selected_count <= 1) {
 			g_string_append_printf (
 				buffer, ngettext ("%d unread, ",
 				"%d unread, ", num_unread), num_unread);
+
+			title_short = g_string_sized_new (64);
+			g_string_append_printf (
+				title_short, ngettext ("%d unread",
+				"%d unread", num_unread), num_unread);
+		}
+
 		g_string_append_printf (
 			buffer, ngettext ("%d total", "%d total",
 			num_visible), num_visible);
@@ -1121,12 +1128,17 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	if (strcmp (folder_name, "INBOX") == 0)
 		display_name = _("Inbox");
 
-	title = g_strdup_printf ("%s (%s)", display_name, buffer->str);
+	if (title_short && title_short->len > 0)
+		title = g_strdup_printf ("%s (%s)", display_name, title_short->str);
+	else
+		title = g_strdup (display_name);
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer->str);
 	e_shell_view_set_title (shell_view, title);
 	g_free (title);
 
 	g_string_free (buffer, TRUE);
+	if (title_short)
+		g_string_free (title_short, TRUE);
 
 	g_clear_object (&folder);
 }
