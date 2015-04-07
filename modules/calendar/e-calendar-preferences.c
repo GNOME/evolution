@@ -43,7 +43,7 @@ static const gint default_reminder_units_map[] = {
 G_DEFINE_DYNAMIC_TYPE (
 	ECalendarPreferences,
 	e_calendar_preferences,
-	GTK_TYPE_VBOX)
+	GTK_TYPE_BOX)
 
 static gboolean
 calendar_preferences_map_string_to_integer (GValue *value,
@@ -277,6 +277,7 @@ e_calendar_preferences_class_finalize (ECalendarPreferencesClass *class)
 static void
 e_calendar_preferences_init (ECalendarPreferences *preferences)
 {
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (preferences), GTK_ORIENTATION_VERTICAL);
 }
 
 static GtkWidget *

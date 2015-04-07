@@ -65,7 +65,7 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_TYPE (
 	EImageChooser,
 	e_image_chooser,
-	GTK_TYPE_VBOX)
+	GTK_TYPE_BOX)
 
 static gboolean
 set_image_from_data (EImageChooser *chooser,
@@ -445,6 +445,8 @@ e_image_chooser_init (EImageChooser *chooser)
 	GtkWidget *widget;
 
 	chooser->priv = E_IMAGE_CHOOSER_GET_PRIVATE (chooser);
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (chooser), GTK_ORIENTATION_VERTICAL);
 
 	container = GTK_WIDGET (chooser);
 

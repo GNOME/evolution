@@ -55,7 +55,7 @@ static void	e_preview_pane_alert_sink_init
 G_DEFINE_TYPE_WITH_CODE (
 	EPreviewPane,
 	e_preview_pane,
-	GTK_TYPE_VBOX,
+	GTK_TYPE_BOX,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ALERT_SINK,
 		e_preview_pane_alert_sink_init))
@@ -284,6 +284,7 @@ e_preview_pane_init (EPreviewPane *preview_pane)
 	preview_pane->priv = E_PREVIEW_PANE_GET_PRIVATE (preview_pane);
 
 	gtk_box_set_spacing (GTK_BOX (preview_pane), 1);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (preview_pane), GTK_ORIENTATION_VERTICAL);
 }
 
 GtkWidget *

@@ -46,7 +46,7 @@ enum {
 G_DEFINE_TYPE (
 	EWebViewPreview,
 	e_web_view_preview,
-	GTK_TYPE_VPANED);
+	GTK_TYPE_PANED);
 
 static void
 web_view_preview_set_property (GObject *object,
@@ -177,6 +177,8 @@ e_web_view_preview_init (EWebViewPreview *preview)
 
 	preview->priv = E_WEB_VIEW_PREVIEW_GET_PRIVATE (preview);
 	preview->priv->escape_values = TRUE;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (preview), GTK_ORIENTATION_VERTICAL);
 
 	tree_view_sw = in_scrolled_window (gtk_tree_view_new ());
 	web_view_sw = in_scrolled_window (e_web_view_new ());

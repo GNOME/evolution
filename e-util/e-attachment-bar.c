@@ -71,7 +71,7 @@ static void	e_attachment_bar_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EAttachmentBar,
 	e_attachment_bar,
-	GTK_TYPE_VBOX,
+	GTK_TYPE_BOX,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ATTACHMENT_VIEW,
 		e_attachment_bar_interface_init))
@@ -564,6 +564,7 @@ e_attachment_bar_init (EAttachmentBar *bar)
 	bar->priv = E_ATTACHMENT_BAR_GET_PRIVATE (bar);
 
 	gtk_box_set_spacing (GTK_BOX (bar), 6);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (bar), GTK_ORIENTATION_VERTICAL);
 
 	/* Keep the expander label and save button the same height. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);

@@ -58,7 +58,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (EMailView, e_mail_view, GTK_TYPE_VBOX)
+G_DEFINE_TYPE (EMailView, e_mail_view, GTK_TYPE_BOX)
 
 static void
 mail_view_set_shell_view (EMailView *view,
@@ -332,6 +332,7 @@ static void
 e_mail_view_init (EMailView *view)
 {
 	view->priv = E_MAIL_VIEW_GET_PRIVATE (view);
+	view->priv->orientation = GTK_ORIENTATION_VERTICAL;
 }
 
 EShellView *
