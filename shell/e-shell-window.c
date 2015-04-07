@@ -1107,6 +1107,23 @@ e_shell_window_get_shell (EShellWindow *shell_window)
 }
 
 /**
+ * e_shell_window_is_main_instance:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns, whether the @shell_window is the main instance, which is
+ * the window which was created as the first @shell_window.
+ *
+ * Returns: whether the @shell_window is the main instance
+ **/
+gboolean
+e_shell_window_is_main_instance (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	return shell_window->priv->is_main_instance;
+}
+
+/**
  * e_shell_window_get_shell_view:
  * @shell_window: an #EShellWindow
  * @view_name: name of a shell view

@@ -35,6 +35,11 @@
       <_summary>Window buttons are visible</_summary>
       <_description>Whether the window buttons should be visible.</_description>
     </key>
+    <key name="buttons-visible-sub" type="b">
+      <default>true</default>
+      <_summary>Window buttons are visible</_summary>
+      <_description>Whether the window buttons should be visible.</_description>
+    </key>
     <key name="buttons-style" type="s">
       <default>'toolbar'</default>
       <_summary>Window button style</_summary>
@@ -45,12 +50,27 @@
       <_summary>Toolbar is visible</_summary>
       <_description>Whether the toolbar should be visible.</_description>
     </key>
+    <key name="toolbar-visible-sub" type="b">
+      <default>true</default>
+      <_summary>Toolbar is visible</_summary>
+      <_description>Whether the toolbar should be visible.</_description>
+    </key>
     <key name="sidebar-visible" type="b">
       <default>true</default>
       <_summary>Sidebar is visible</_summary>
       <_description>Whether the sidebar should be visible.</_description>
     </key>
+    <key name="sidebar-visible-sub" type="b">
+      <default>true</default>
+      <_summary>Sidebar is visible</_summary>
+      <_description>Whether the sidebar should be visible.</_description>
+    </key>
     <key name="statusbar-visible" type="b">
+      <default>true</default>
+      <_summary>Statusbar is visible</_summary>
+      <_description>Whether the status bar should be visible.</_description>
+    </key>
+    <key name="statusbar-visible-sub" type="b">
       <default>true</default>
       <_summary>Statusbar is visible</_summary>
       <_description>Whether the status bar should be visible.</_description>
@@ -61,6 +81,11 @@
       <_description>ID or alias of the component to be shown by default at start-up.</_description>
     </key>
     <key name="folder-bar-width" type="i">
+      <default>200</default>
+      <_summary>Default sidebar width</_summary>
+      <_description>The default width for the sidebar, in pixels.</_description>
+    </key>
+    <key name="folder-bar-width-sub" type="i">
       <default>200</default>
       <_summary>Default sidebar width</_summary>
       <_description>The default width for the sidebar, in pixels.</_description>

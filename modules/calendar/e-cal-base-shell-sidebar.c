@@ -148,10 +148,18 @@ cal_base_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		(GDestroyNotify) g_object_unref);
 
 	if (priv->date_navigator) {
-		g_settings_bind (
-			settings, "date-navigator-pane-position",
-			priv->paned, "vposition",
-			G_SETTINGS_BIND_DEFAULT);
+		if (e_shell_window_is_main_instance (shell_window)) {
+			g_settings_bind (
+				settings, "date-navigator-pane-position",
+				priv->paned, "vposition",
+				G_SETTINGS_BIND_DEFAULT);
+		} else {
+			g_settings_bind (
+				settings, "date-navigator-pane-position-sub",
+				priv->paned, "vposition",
+				G_SETTINGS_BIND_DEFAULT |
+				G_SETTINGS_BIND_GET_NO_CHANGES);
+		}
 	}
 
 	g_object_unref (settings);
