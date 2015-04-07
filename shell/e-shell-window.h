@@ -86,6 +86,7 @@ GtkWidget *	e_shell_window_new		(EShell *shell,
 						 gboolean safe_mode,
 						 const gchar *geometry);
 EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
+gboolean	e_shell_window_is_main_instance	(EShellWindow *shell_window);
 struct _EShellView *
 		e_shell_window_get_shell_view	(EShellWindow *shell_window,
 						 const gchar *view_name);

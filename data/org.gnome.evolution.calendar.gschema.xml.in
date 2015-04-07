@@ -54,6 +54,11 @@
       <_summary>Month view vertical pane position</_summary>
       <_description>Position of the vertical pane, between the calendar lists and the date navigator calendar</_description>
     </key>
+    <key name="date-navigator-pane-position-sub" type="i">
+      <default>150</default>
+      <_summary>Month view vertical pane position</_summary>
+      <_description>Position of the vertical pane, between the calendar lists and the date navigator calendar</_description>
+    </key>
     <key name="day-end-hour" type="i">
       <default>17</default>
       <_summary>Workday end hour</_summary>

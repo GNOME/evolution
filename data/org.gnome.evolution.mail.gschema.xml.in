@@ -299,11 +299,21 @@
       <_summary>Height of the message-list pane</_summary>
       <_description>Height of the message-list pane.</_description>
     </key>
+    <key name="paned-size-sub" type="i">
+      <default>144</default>
+      <_summary>Height of the message-list pane</_summary>
+      <_description>Height of the message-list pane.</_description>
+    </key>
     <key name="headers-collapsed" type="b">
       <default>false</default>
       <_summary>Whether message headers are collapsed in the user interface</_summary>
     </key>
     <key name="hpaned-size" type="i">
+      <default>450</default>
+      <_summary>Width of the message-list pane</_summary>
+      <_description>Width of the message-list pane.</_description>
+    </key>
+    <key name="hpaned-size-sub" type="i">
       <default>450</default>
       <_summary>Width of the message-list pane</_summary>
       <_description>Width of the message-list pane.</_description>

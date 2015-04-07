@@ -246,6 +246,26 @@ e_shell_window_private_init (EShellWindow *shell_window)
 		G_CALLBACK (shell_window_connect_proxy_cb), shell_window);
 }
 
+static gboolean
+shell_window_check_is_main_instance (GtkApplication *application,
+				     GtkWindow *window)
+{
+	GList *windows, *link;
+
+	g_return_val_if_fail (GTK_IS_APPLICATION (application), FALSE);
+	g_return_val_if_fail (GTK_IS_WINDOW (window), FALSE);
+
+	windows = gtk_application_get_windows (application);
+	for (link = windows; link; link = g_list_next (link)) {
+		GtkWindow *wnd = link->data;
+
+		if (E_IS_SHELL_WINDOW (wnd) && wnd != window)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 void
 e_shell_window_private_constructed (EShellWindow *shell_window)
 {
@@ -269,6 +289,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	window = GTK_WINDOW (shell_window);
 
 	shell = e_shell_window_get_shell (shell_window);
+	shell_window->priv->is_main_instance = shell_window_check_is_main_instance (GTK_APPLICATION (shell), window);
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
@@ -416,30 +437,62 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		G_SETTINGS_BIND_DEFAULT |
 		G_SETTINGS_BIND_GET_NO_CHANGES);
 
-	g_settings_bind (
-		settings, "folder-bar-width",
-		priv->content_pane, "position",
-		G_SETTINGS_BIND_DEFAULT);
+	if (e_shell_window_is_main_instance (shell_window)) {
+		g_settings_bind (
+			settings, "folder-bar-width",
+			priv->content_pane, "position",
+			G_SETTINGS_BIND_DEFAULT);
 
-	g_settings_bind (
-		settings, "sidebar-visible",
-		shell_window, "sidebar-visible",
-		G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "sidebar-visible",
+			shell_window, "sidebar-visible",
+			G_SETTINGS_BIND_DEFAULT);
 
-	g_settings_bind (
-		settings, "statusbar-visible",
-		shell_window, "taskbar-visible",
-		G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "statusbar-visible",
+			shell_window, "taskbar-visible",
+			G_SETTINGS_BIND_DEFAULT);
 
-	g_settings_bind (
-		settings, "buttons-visible",
-		shell_window, "switcher-visible",
-		G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "buttons-visible",
+			shell_window, "switcher-visible",
+			G_SETTINGS_BIND_DEFAULT);
 
-	g_settings_bind (
-		settings, "toolbar-visible",
-		shell_window, "toolbar-visible",
-		G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "toolbar-visible",
+			shell_window, "toolbar-visible",
+			G_SETTINGS_BIND_DEFAULT);
+	} else {
+		g_settings_bind (
+			settings, "folder-bar-width-sub",
+			priv->content_pane, "position",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+
+		g_settings_bind (
+			settings, "sidebar-visible-sub",
+			shell_window, "sidebar-visible",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+
+		g_settings_bind (
+			settings, "statusbar-visible-sub",
+			shell_window, "taskbar-visible",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+
+		g_settings_bind (
+			settings, "buttons-visible-sub",
+			shell_window, "switcher-visible",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+
+		g_settings_bind (
+			settings, "toolbar-visible-sub",
+			shell_window, "toolbar-visible",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+	}
 
 	/* Configure the initial size and position of the window by way
 	 * of either a user-supplied geometry string or the last recorded
