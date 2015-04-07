@@ -213,7 +213,7 @@ static gint signals[LAST_SIGNAL];
 G_DEFINE_TYPE_WITH_CODE (
 	EDateEdit,
 	e_date_edit,
-	GTK_TYPE_HBOX,
+	GTK_TYPE_BOX,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
@@ -495,6 +495,8 @@ e_date_edit_init (EDateEdit *dedit)
 
 	dedit->priv->twodigit_year_can_future = TRUE;
 	dedit->priv->has_been_changed = FALSE;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (dedit), GTK_ORIENTATION_HORIZONTAL);
 
 	create_children (dedit);
 

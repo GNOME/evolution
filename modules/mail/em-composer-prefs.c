@@ -50,7 +50,7 @@
 G_DEFINE_TYPE (
 	EMComposerPrefs,
 	em_composer_prefs,
-	GTK_TYPE_VBOX)
+	GTK_TYPE_BOX)
 
 static void
 composer_prefs_dispose (GObject *object)
@@ -78,6 +78,7 @@ em_composer_prefs_class_init (EMComposerPrefsClass *class)
 static void
 em_composer_prefs_init (EMComposerPrefs *prefs)
 {
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (prefs), GTK_ORIENTATION_VERTICAL);
 }
 
 static void

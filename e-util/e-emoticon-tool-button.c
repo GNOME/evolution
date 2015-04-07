@@ -167,11 +167,11 @@ emoticon_tool_button_emoticon_release_event_cb (EEmoticonToolButton *button,
                                                 GdkEventButton *event,
                                                 GtkButton *emoticon_button)
 {
-	GtkStateType state;
+	GtkStateFlags state;
 
-	state = gtk_widget_get_state (GTK_WIDGET (button));
+	state = gtk_widget_get_state_flags (GTK_WIDGET (button));
 
-	if (state != GTK_STATE_NORMAL)
+	if (state != GTK_STATE_FLAG_NORMAL)
 		gtk_button_clicked (emoticon_button);
 
 	return FALSE;

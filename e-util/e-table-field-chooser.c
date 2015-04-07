@@ -47,7 +47,7 @@ enum {
 G_DEFINE_TYPE (
 	ETableFieldChooser,
 	e_table_field_chooser,
-	GTK_TYPE_VBOX)
+	GTK_TYPE_BOX)
 
 static void
 e_table_field_chooser_class_init (ETableFieldChooserClass *class)
@@ -189,6 +189,8 @@ static void
 e_table_field_chooser_init (ETableFieldChooser *etfc)
 {
 	GtkWidget *widget;
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (etfc), GTK_ORIENTATION_VERTICAL);
 
 	widget = create_content (&etfc->canvas);
 	if (!widget) {

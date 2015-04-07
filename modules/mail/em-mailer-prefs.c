@@ -145,7 +145,7 @@ struct _EMMailerPrefsPrivate {
 G_DEFINE_TYPE (
 	EMMailerPrefs,
 	em_mailer_prefs,
-	GTK_TYPE_VBOX)
+	GTK_TYPE_BOX)
 
 static void
 em_mailer_prefs_finalize (GObject *object)
@@ -175,6 +175,8 @@ em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
 	preferences->priv = G_TYPE_INSTANCE_GET_PRIVATE (preferences, EM_TYPE_MAILER_PREFS, EMMailerPrefsPrivate);
 	preferences->priv->settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (preferences), GTK_ORIENTATION_VERTICAL);
 }
 
 static gboolean

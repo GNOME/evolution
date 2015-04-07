@@ -69,7 +69,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_HBOX)
+G_DEFINE_TYPE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_BOX)
 
 static void
 timezone_entry_emit_changed (ETimezoneEntry *timezone_entry)
@@ -309,6 +309,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	timezone_entry->priv = E_TIMEZONE_ENTRY_GET_PRIVATE (timezone_entry);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (timezone_entry), GTK_ORIENTATION_HORIZONTAL);
 
 	widget = gtk_entry_new ();
 	gtk_editable_set_editable (GTK_EDITABLE (widget), FALSE);

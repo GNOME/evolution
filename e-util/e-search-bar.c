@@ -70,7 +70,7 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_TYPE (
 	ESearchBar,
 	e_search_bar,
-	GTK_TYPE_HBOX)
+	GTK_TYPE_BOX)
 
 static void
 search_bar_update_matches (ESearchBar *search_bar,
@@ -589,6 +589,7 @@ e_search_bar_init (ESearchBar *search_bar)
 	search_bar->priv = E_SEARCH_BAR_GET_PRIVATE (search_bar);
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 12);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (search_bar), GTK_ORIENTATION_HORIZONTAL);
 
 	container = GTK_WIDGET (search_bar);
 

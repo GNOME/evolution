@@ -63,7 +63,7 @@ enum {
 G_DEFINE_TYPE (
 	EAttachmentButton,
 	e_attachment_button,
-	GTK_TYPE_HBOX)
+	GTK_TYPE_BOX)
 
 static void
 attachment_button_menu_deactivate_cb (EAttachmentButton *button)
@@ -590,6 +590,8 @@ e_attachment_button_init (EAttachmentButton *button)
 	gint n_targets;
 
 	button->priv = E_ATTACHMENT_BUTTON_GET_PRIVATE (button);
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (button), GTK_ORIENTATION_HORIZONTAL);
 
 	/* Configure Widgets */
 

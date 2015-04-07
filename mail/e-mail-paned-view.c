@@ -699,7 +699,7 @@ mail_paned_view_constructed (GObject *object)
 	container = GTK_WIDGET (object);
 
 	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 

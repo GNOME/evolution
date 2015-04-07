@@ -76,7 +76,7 @@ static void	e_attachment_paned_interface_init
 G_DEFINE_TYPE_WITH_CODE (
 	EAttachmentPaned,
 	e_attachment_paned,
-	GTK_TYPE_VPANED,
+	GTK_TYPE_PANED,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ATTACHMENT_VIEW,
 		e_attachment_paned_interface_init))
@@ -630,6 +630,8 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 
 	paned->priv = E_ATTACHMENT_PANED_GET_PRIVATE (paned);
 	paned->priv->model = e_attachment_store_new ();
+
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (paned), GTK_ORIENTATION_VERTICAL);
 
 	/* Keep the expander label and combo box the same height. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);

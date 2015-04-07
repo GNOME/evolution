@@ -67,7 +67,7 @@ enum {
 G_DEFINE_TYPE_WITH_CODE (
 	EShellTaskbar,
 	e_shell_taskbar,
-	GTK_TYPE_HBOX,
+	GTK_TYPE_BOX,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
@@ -481,6 +481,7 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	shell_taskbar->priv->main_thread = g_thread_self ();
 
 	gtk_box_set_spacing (GTK_BOX (shell_taskbar), 12);
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (shell_taskbar), GTK_ORIENTATION_HORIZONTAL);
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
