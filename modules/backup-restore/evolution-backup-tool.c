@@ -780,10 +780,11 @@ finish_job (gpointer user_data)
 	return FALSE;
 }
 
-static gboolean
-start_job (GIOSchedulerJob *job,
-           GCancellable *cancellable,
-           gpointer user_data)
+static void
+start_job (GTask *task,
+	   gpointer source_object,
+	   gpointer task_data,
+	   GCancellable *cancellable)
 {
 	if (backup_op)
 		backup (bk_file, cancellable);
@@ -792,10 +793,7 @@ start_job (GIOSchedulerJob *job,
 	else if (check_op)
 		check (chk_file, NULL);  /* not cancellable */
 
-	g_io_scheduler_job_send_to_mainloop_async (
-		job, finish_job, NULL, (GDestroyNotify) NULL);
-
-	return FALSE;
+	g_main_context_invoke (NULL, finish_job, NULL);
 }
 
 static void
@@ -838,6 +836,7 @@ gint
 main (gint argc,
       gchar **argv)
 {
+	GTask *task;
 	GCancellable *cancellable;
 	gchar *file = NULL, *oper = NULL;
 	const gchar *title = NULL;
@@ -1029,10 +1028,9 @@ main (gint argc,
 			(GDestroyNotify) g_object_unref);
 	}
 
-	g_io_scheduler_push_job (
-		start_job, NULL,
-		(GDestroyNotify) NULL,
-		G_PRIORITY_DEFAULT, cancellable);
+	task = g_task_new (cancellable, cancellable, NULL, NULL);
+	g_task_run_in_thread (task, start_job);
+	g_object_unref (task);
 
 	gtk_main ();
 
