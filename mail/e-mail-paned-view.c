@@ -225,19 +225,31 @@ mail_paned_view_restore_state_cb (EShellWindow *shell_window,
 
 	priv = E_MAIL_PANED_VIEW (view)->priv;
 
-	/* Bind GObject properties to GSettings keys. */
-
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-	g_settings_bind (
-		settings, "hpaned-size",
-		priv->paned, "hposition",
-		G_SETTINGS_BIND_DEFAULT);
+	if (e_shell_window_is_main_instance (shell_window)) {
+		g_settings_bind (
+			settings, "hpaned-size",
+			priv->paned, "hposition",
+			G_SETTINGS_BIND_DEFAULT);
 
-	g_settings_bind (
-		settings, "paned-size",
-		priv->paned, "vposition",
-		G_SETTINGS_BIND_DEFAULT);
+		g_settings_bind (
+			settings, "paned-size",
+			priv->paned, "vposition",
+			G_SETTINGS_BIND_DEFAULT);
+	} else {
+		g_settings_bind (
+			settings, "hpaned-size-sub",
+			priv->paned, "hposition",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+
+		g_settings_bind (
+			settings, "paned-size-sub",
+			priv->paned, "vposition",
+			G_SETTINGS_BIND_DEFAULT |
+			G_SETTINGS_BIND_GET_NO_CHANGES);
+	}
 
 	g_object_unref (settings);
 }

@@ -30,7 +30,17 @@
       <_summary>Contact preview pane position (horizontal)</_summary>
       <_description>Position of the contact preview pane when oriented horizontally.</_description>
     </key>
+    <key name="hpane-position-sub" type="i">
+      <default>200</default>
+      <_summary>Contact preview pane position (horizontal)</_summary>
+      <_description>Position of the contact preview pane when oriented horizontally.</_description>
+    </key>
     <key name="vpane-position" type="i">
+      <default>400</default>
+      <_summary>Contact preview pane position (vertical)</_summary>
+      <_description>Position of the contact preview pane when oriented vertically.</_description>
+    </key>
+    <key name="vpane-position-sub" type="i">
       <default>400</default>
       <_summary>Contact preview pane position (vertical)</_summary>
       <_description>Position of the contact preview pane when oriented vertically.</_description>

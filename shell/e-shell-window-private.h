@@ -94,6 +94,7 @@ struct _EShellWindowPrivate {
 	guint switcher_visible : 1;
 	guint taskbar_visible : 1;
 	guint toolbar_visible : 1;
+	guint is_main_instance : 1;
 };
 
 void		e_shell_window_private_init	(EShellWindow *shell_window);
