@@ -238,7 +238,7 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		G_OBJECT (backend), uid, context,
 		(GDestroyNotify) cal_config_weather_context_free);
 
-	world = gweather_location_new_world (TRUE);
+	world = gweather_location_get_world ();
 
 	e_cal_source_config_add_offline_toggle (
 		E_CAL_SOURCE_CONFIG (config), scratch_source);
@@ -294,8 +294,6 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
-
-	gweather_location_unref (world);
 }
 
 static gboolean
