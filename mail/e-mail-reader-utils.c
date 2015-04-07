@@ -2204,7 +2204,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	camel_mime_part_set_content (
 		CAMEL_MIME_PART (new_message),
-		selection, length, "text/html");
+		selection, length, "text/html; charset=utf-8");
 
 	composer = em_utils_reply_to_message (
 		shell, new_message, folder, uid,
