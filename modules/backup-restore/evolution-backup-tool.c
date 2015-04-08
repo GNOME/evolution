@@ -538,14 +538,14 @@ restore (const gchar *filename,
 		g_mkdir_with_parents (e_get_user_config_dir (), 0700);
 
 		command = g_strdup_printf (
-			"cd $DATADIR && tar xzf %s %s --strip-components=%d",
-			quotedfname, data_dir, get_dir_level (data_dir));
+			"cd $DATADIR && tar --strip-components %d -xzf %s %s",
+			 get_dir_level (data_dir), quotedfname, data_dir);
 		run_cmd (command);
 		g_free (command);
 
 		command = g_strdup_printf (
-			"cd $CONFIGDIR && tar xzf %s %s --strip-components=%d",
-			quotedfname, config_dir, get_dir_level (config_dir));
+			"cd $CONFIGDIR && tar --strip-components %d -xzf %s %s",
+			get_dir_level (config_dir), quotedfname, config_dir);
 		run_cmd (command);
 		g_free (command);
 
