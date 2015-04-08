@@ -2945,14 +2945,13 @@ em_utils_construct_composer_text (CamelSession *session,
                                   EMailPartList *parts_list)
 {
 	gchar *text, *credits;
-	gboolean start_bottom = FALSE;
 
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	credits = attribution_format (message);
 	text = em_utils_message_to_html (
 		session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
-		parts_list, NULL, start_bottom ? "<BR>" : NULL, NULL);
+		parts_list, NULL, NULL, NULL);
 	g_free (credits);
 
 	return text;
