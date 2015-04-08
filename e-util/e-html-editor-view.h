@@ -257,6 +257,9 @@ void		remove_image_attributes_from_element
 						(WebKitDOMElement *element);
 gboolean	e_html_editor_view_is_message_from_draft
 						(EHTMLEditorView *view);
+void		e_html_editor_view_set_is_editting_message
+						(EHTMLEditorView *view,
+						 gboolean value);
 void		e_html_editor_view_set_is_message_from_draft
 						(EHTMLEditorView *view,
 						 gboolean value);
@@ -266,9 +269,6 @@ void		e_html_editor_view_set_is_message_from_selection
 gboolean	e_html_editor_view_is_message_from_edit_as_new
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_is_message_from_edit_as_new
-						(EHTMLEditorView *view,
-						 gboolean value);
-void		e_html_editor_view_set_remove_initial_input_line
 						(EHTMLEditorView *view,
 						 gboolean value);
 void		e_html_editor_view_insert_quoted_text

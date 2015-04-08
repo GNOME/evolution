@@ -94,10 +94,10 @@ struct _EHTMLEditorViewPrivate {
 
 	gboolean convert_in_situ;
 	gboolean body_input_event_removed;
+	gboolean is_editting_message;
 	gboolean is_message_from_draft;
 	gboolean is_message_from_edit_as_new;
 	gboolean is_message_from_selection;
-	gboolean remove_initial_input_line;
 	gboolean return_key_pressed;
 	gboolean space_key_pressed;
 	gboolean smiley_written;
@@ -6201,7 +6201,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					element_add_class (
 						WEBKIT_DOM_ELEMENT (child),
 						"-x-evo-last-br");
-				} else
+				} else if (!view->priv->is_editting_message)
 					create_and_append_new_paragraph (
 						selection, document, blockquote, block, "<br>");
 			} else
@@ -6676,7 +6676,10 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		remove_node (WEBKIT_DOM_NODE (content_wrapper));
 	}
 
-	if (view->priv->is_message_from_edit_as_new || view->priv->remove_initial_input_line || !start_bottom) {
+	/* If not editting a message, don't add any new block and just place
+	 * the carret in the beginning of content. We want to have the same
+	 * behaviour when editting message as new or we start replying on top. */
+	if (!view->priv->is_editting_message || view->priv->is_message_from_edit_as_new || !start_bottom) {
 		WebKitDOMNode *child;
 
 		remove_node (WEBKIT_DOM_NODE (paragraph));
@@ -9500,10 +9503,10 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	e_html_editor_view_update_fonts (view);
 
 	view->priv->body_input_event_removed = TRUE;
+	view->priv->is_editting_message = FALSE;
 	view->priv->is_message_from_draft = FALSE;
 	view->priv->is_message_from_selection = FALSE;
 	view->priv->is_message_from_edit_as_new = FALSE;
-	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
 	view->priv->return_key_pressed = FALSE;
 	view->priv->space_key_pressed = FALSE;
@@ -10664,12 +10667,12 @@ e_html_editor_view_set_is_message_from_edit_as_new (EHTMLEditorView *view,
 }
 
 void
-e_html_editor_view_set_remove_initial_input_line (EHTMLEditorView *view,
-                                                  gboolean value)
+e_html_editor_view_set_is_editting_message (EHTMLEditorView *view,
+                                            gboolean value)
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
-	view->priv->remove_initial_input_line = value;
+	view->priv->is_editting_message = value;
 }
 
 gboolean

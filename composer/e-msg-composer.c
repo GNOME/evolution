@@ -2732,9 +2732,13 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
+	EHTMLEditorView *view;
+
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
 	composer->priv->editor = g_object_ref_sink (e_html_editor_new ());
+	view = e_html_editor_get_view (composer->priv->editor);
+	e_html_editor_view_set_is_editting_message (view, TRUE);
 }
 
 /**
@@ -4596,7 +4600,6 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	set_editor_text (composer, content, TRUE, FALSE);
 
 	e_html_editor_view_set_html_mode (view, FALSE);
-	e_html_editor_view_set_remove_initial_input_line (view, TRUE);
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);
 
 	g_free (priv->mime_body);
