@@ -174,6 +174,7 @@ e_table_header_draw_button (cairo_t *cr,
 		(padding.top + padding.bottom + 2 * HEADER_PADDING);
 
 	if (inner_width < 1 || inner_height < 1) {
+		gtk_style_context_restore (context);
 		return; /* nothing fits */
 	}
 
@@ -195,8 +196,9 @@ e_table_header_draw_button (cairo_t *cr,
 			inner_width -= arrow_width + HEADER_PADDING;
 		break;
 	default:
-		cairo_restore (cr);
-		g_return_if_reached ();
+		gtk_style_context_restore (context);
+		g_warn_if_reached ();
+		return;
 	}
 
 	if (inner_width < 1) {
@@ -275,10 +277,9 @@ e_table_header_draw_button (cairo_t *cr,
 		break;
 	}
 
-	/* coverity[dead_error_begin] */
 	default:
-		cairo_restore (cr);
-		g_return_if_reached ();
+		g_warn_if_reached ();
+		break;
 	}
 
 	g_object_unref (layout);
