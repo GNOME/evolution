@@ -930,7 +930,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	target = e_cal_config_target_new_prefs (ec);
 	e_config_set_target ((EConfig *) ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *) ec);
-	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
+	gtk_box_pack_start (GTK_BOX (prefs), toplevel, TRUE, TRUE, 0);
 
 	show_config (prefs);
 	/* FIXME: weakref? */
