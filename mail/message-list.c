@@ -2721,7 +2721,7 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 		/* Invalidate the thread tree. */
 		message_list_set_thread_tree (message_list, NULL);
 
-		mail_regen_list (message_list, message_list->search, FALSE);
+		mail_regen_list (message_list, NULL, FALSE);
 
 		return TRUE;
 	}
@@ -4558,7 +4558,7 @@ message_list_folder_changed (CamelFolder *folder,
 	}
 
 	if (need_list_regen)
-		mail_regen_list (message_list, message_list->search, TRUE);
+		mail_regen_list (message_list, NULL, TRUE);
 
 	if (altered_changes != NULL)
 		camel_folder_change_info_free (altered_changes);
@@ -4700,7 +4700,7 @@ message_list_set_folder (MessageList *message_list,
 		message_list->priv->folder_changed_handler_id = handler_id;
 
 		if (message_list->frozen == 0)
-			mail_regen_list (message_list, message_list->search, FALSE);
+			mail_regen_list (message_list, NULL, FALSE);
 	}
 }
 
@@ -4753,7 +4753,7 @@ message_list_set_group_by_threads (MessageList *message_list,
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, message_list->search, FALSE);
+		mail_regen_list (message_list, NULL, FALSE);
 }
 
 gboolean
@@ -4782,7 +4782,7 @@ message_list_set_show_deleted (MessageList *message_list,
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, message_list->search, FALSE);
+		mail_regen_list (message_list, NULL, FALSE);
 }
 
 gboolean
@@ -5227,7 +5227,7 @@ message_list_thaw (MessageList *message_list)
 		if (message_list->frozen_search != NULL)
 			search = message_list->frozen_search;
 		else
-			search = message_list->search;
+			search = NULL;
 
 		mail_regen_list (message_list, search, FALSE);
 
@@ -5246,8 +5246,7 @@ message_list_set_threaded_expand_all (MessageList *message_list)
 		message_list->expand_all = 1;
 
 		if (message_list->frozen == 0)
-			mail_regen_list (
-				message_list, message_list->search, FALSE);
+			mail_regen_list (message_list, NULL, FALSE);
 	}
 }
 
@@ -5260,8 +5259,7 @@ message_list_set_threaded_collapse_all (MessageList *message_list)
 		message_list->collapse_all = 1;
 
 		if (message_list->frozen == 0)
-			mail_regen_list (
-				message_list, message_list->search, FALSE);
+			mail_regen_list (message_list, NULL, FALSE);
 	}
 }
 
@@ -5282,7 +5280,7 @@ message_list_set_search (MessageList *message_list,
 	message_list_set_thread_tree (message_list, NULL);
 
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, search, FALSE);
+		mail_regen_list (message_list, search ? search : "", FALSE);
 	else {
 		g_free (message_list->frozen_search);
 		message_list->frozen_search = g_strdup (search);
@@ -6114,7 +6112,22 @@ mail_regen_list (MessageList *message_list,
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
 	RegenData *old_regen_data;
-	gchar *prefixes;
+	gchar *prefixes, *tmp_search_copy = NULL;
+
+	if (!search) {
+		old_regen_data = message_list_ref_regen_data (message_list);
+
+		if (old_regen_data) {
+			tmp_search_copy = g_strdup (old_regen_data->search);
+			search = tmp_search_copy;
+
+			regen_data_unref (old_regen_data);
+		} else {
+			search = message_list->search;
+		}
+	} else if (search && !*search) {
+		search = NULL;
+	}
 
 	/* Report empty search as NULL, not as one/two-space string. */
 	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
@@ -6124,6 +6137,7 @@ mail_regen_list (MessageList *message_list,
 	if (message_list->priv->folder == NULL) {
 		g_free (message_list->search);
 		message_list->search = g_strdup (search);
+		g_free (tmp_search_copy);
 		return;
 	}
 
@@ -6205,6 +6219,8 @@ exit:
 		e_activity_cancel (old_regen_data->activity);
 		regen_data_unref (old_regen_data);
 	}
+
+	g_free (tmp_search_copy);
 }
 
 gboolean
