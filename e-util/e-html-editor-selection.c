@@ -1569,6 +1569,16 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 
 	e_html_editor_selection_save (selection);
 
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	if (!selection_start_marker) {
+		g_object_unref (view);
+		return;
+	}
+
 	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_ALIGNMENT;
@@ -1581,16 +1591,6 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 			&ev->before.end.y);
 		ev->data.style.from = current_alignment;
 		ev->data.style.to = alignment;
-	}
-
-	selection_start_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-start-marker", NULL);
-	selection_end_marker = webkit_dom_document_query_selector (
-		document, "span#-x-evo-selection-end-marker", NULL);
-
-	if (!selection_start_marker) {
-		g_object_unref (view);
-		return;
 	}
 
 	block = get_parent_block_node_from_child (
@@ -3512,20 +3512,6 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 
 	e_html_editor_selection_save (selection);
 
-	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
-		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_INDENT;
-
-		e_html_editor_selection_get_selection_coordinates (
-			selection,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
-		ev->data.style.from = 1;
-		ev->data.style.to = 1;
-	}
-
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
 
@@ -3545,6 +3531,20 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 			WEBKIT_DOM_ELEMENT (child),
 			&selection_start_marker,
 			&selection_end_marker);
+	}
+
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_INDENT;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+		ev->data.style.from = 1;
+		ev->data.style.to = 1;
 	}
 
 	block = get_parent_indented_block (
@@ -3868,18 +3868,6 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 	view = e_html_editor_selection_ref_html_editor_view (selection);
 	g_return_if_fail (view != NULL);
 
-	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
-		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_INDENT;
-
-		e_html_editor_selection_get_selection_coordinates (
-			selection,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
-	}
-
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 	e_html_editor_selection_save (selection);
@@ -3902,6 +3890,18 @@ e_html_editor_selection_unindent (EHTMLEditorSelection *selection)
 			WEBKIT_DOM_ELEMENT (child),
 			&selection_start_marker,
 			&selection_end_marker);
+	}
+
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_INDENT;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
 	}
 
 	block = get_parent_indented_block (
@@ -4140,6 +4140,7 @@ html_editor_selection_set_font_style (EHTMLEditorSelection *selection,
 
 	g_object_unref (view);
 }
+
 /**
  * e_html_editor_selection_set_bold:
  * @selection: an #EHTMLEditorSelection
@@ -5340,9 +5341,6 @@ insert_base64_image (EHTMLEditorSelection *selection,
 		WEBKIT_DOM_NODE (selection_start_marker),
 		NULL);
 
-	e_html_editor_selection_restore (selection);
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
-
 	if (ev) {
 		WebKitDOMDocumentFragment *fragment;
 		WebKitDOMNode *node;
@@ -5363,6 +5361,9 @@ insert_base64_image (EHTMLEditorSelection *selection,
 			&ev->after.end.y);
 		e_html_editor_view_insert_new_history_event (view, ev);
 	}
+
+	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
 }
@@ -6330,20 +6331,6 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 
 	e_html_editor_selection_save (selection);
 
-	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
-		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_WRAP;
-
-		e_html_editor_selection_get_selection_coordinates (
-			selection,
-			&ev->before.start.x,
-			&ev->before.start.y,
-			&ev->before.end.x,
-			&ev->before.end.y);
-		ev->data.style.from = 1;
-		ev->data.style.to = 1;
-	}
-
 	selection_start_marker = webkit_dom_document_query_selector (
 		document, "span#-x-evo-selection-start-marker", NULL);
 	selection_end_marker = webkit_dom_document_query_selector (
@@ -6362,6 +6349,20 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 			WEBKIT_DOM_ELEMENT (child),
 			&selection_start_marker,
 			&selection_end_marker);
+	}
+
+	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_WRAP;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+		ev->data.style.from = 1;
+		ev->data.style.to = 1;
 	}
 
 	block = get_parent_block_node_from_child (
