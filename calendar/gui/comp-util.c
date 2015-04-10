@@ -887,7 +887,7 @@ cal_comp_get_instance_times (ECalClient *client,
 				if (st_zone)
 					zone = st_zone;
 			}
-	       }
+		}
 	}
 
 	*instance_start = icaltime_as_timet_with_zone (start_time, zone);
@@ -914,8 +914,7 @@ cal_comp_get_instance_times (ECalClient *client,
 				if (end_zone)
 					zone = end_zone;
 			}
-	       }
-
+		}
 	}
 
 	*instance_end = icaltime_as_timet_with_zone (end_time, zone);
