@@ -1018,17 +1018,34 @@ cal_data_model_instance_generated (ECalComponent *comp,
 {
 	GenerateInstancesData *gid = data;
 	ComponentData *comp_data;
+	ECalComponent *comp_copy;
+	icaltimetype tt, tt2;
 
 	g_return_val_if_fail (gid != NULL, FALSE);
 
-	cal_comp_get_instance_times (gid->client, e_cal_component_get_icalcomponent (comp),
+	comp_copy = e_cal_component_clone (comp);
+	g_return_val_if_fail (comp_copy != NULL, FALSE);
+
+	tt = icalcomponent_get_dtstart (e_cal_component_get_icalcomponent (comp_copy));
+	tt2 = icaltime_from_timet_with_zone (instance_start, tt.is_date, gid->zone);
+	icalcomponent_set_dtstart (e_cal_component_get_icalcomponent (comp_copy), tt2);
+
+	tt = icalcomponent_get_dtend (e_cal_component_get_icalcomponent (comp_copy));
+	tt2 = icaltime_from_timet_with_zone (instance_end, tt.is_date, gid->zone);
+	icalcomponent_set_dtend (e_cal_component_get_icalcomponent (comp_copy), tt2);
+
+	e_cal_component_rescan (comp_copy);
+
+	cal_comp_get_instance_times (gid->client, e_cal_component_get_icalcomponent (comp_copy),
 		gid->zone, &instance_start, NULL, &instance_end, NULL, NULL);
 
 	if (instance_end > instance_start)
 		instance_end--;
 
-	comp_data = component_data_new (comp, instance_start, instance_end, FALSE);
+	comp_data = component_data_new (comp_copy, instance_start, instance_end, FALSE);
 	*gid->pexpanded_recurrences = g_slist_prepend (*gid->pexpanded_recurrences, comp_data);
+
+	g_object_unref (comp_copy);
 
 	return TRUE;
 }
