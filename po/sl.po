@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-03-08 20:25+0000\n"
-"PO-Revision-Date: 2015-04-05 19:59+0100\n"
+"POT-Creation-Date: 2015-04-12 16:06+0000\n"
+"PO-Revision-Date: 2015-04-12 20:56+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -200,7 +200,7 @@ msgstr ""
 #: ../e-util/e-name-selector-dialog.c:995 ../e-util/filter.ui.h:16
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
-#: ../mail/mail-config.ui.h:54 ../modules/mail/em-composer-prefs.c:397
+#: ../mail/mail-config.ui.h:54 ../modules/mail/em-composer-prefs.c:416
 #: ../plugins/attachment-reminder/attachment-reminder.c:557
 #: ../plugins/email-custom-header/email-custom-header.c:839
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
@@ -528,7 +528,7 @@ msgstr "Možnosti"
 #. no flags
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3683
-#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:222
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
 #: ../addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
@@ -547,7 +547,7 @@ msgstr "Možnosti"
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
-#: ../e-util/e-html-editor-actions.c:484 ../e-util/e-html-editor-actions.c:578
+#: ../e-util/e-html-editor-actions.c:614 ../e-util/e-html-editor-actions.c:708
 #: ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
@@ -555,7 +555,7 @@ msgstr "Možnosti"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3131
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3136
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -587,7 +587,7 @@ msgstr "_Prekliči"
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../composer/e-composer-actions.c:268 ../composer/e-composer-actions.c:408
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3132
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3137
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
 #: ../smime/gui/certificate-manager.c:653
@@ -637,7 +637,7 @@ msgstr "Pokaži sporočila"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
-#: ../e-util/e-html-editor-actions.c:999
+#: ../e-util/e-html-editor-actions.c:1129
 msgid "_Undo"
 msgstr "_Razveljavi"
 
@@ -648,7 +648,7 @@ msgstr "Razveljavi"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/dialogs/comp-editor.c:1305
-#: ../e-util/e-html-editor-actions.c:985
+#: ../e-util/e-html-editor-actions.c:1115
 msgid "_Redo"
 msgstr "_Ponovno uveljavi"
 
@@ -682,7 +682,7 @@ msgstr "Izberite sliko za ta stik"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3684
 #: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
-#: ../e-util/e-html-editor-actions.c:485 ../e-util/e-html-editor-actions.c:579
+#: ../e-util/e-html-editor-actions.c:615 ../e-util/e-html-editor-actions.c:709
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:954
 msgid "_Open"
@@ -725,7 +725,7 @@ msgstr "%s'%s' je prazen"
 msgid "Invalid contact."
 msgstr "Neveljaven stik."
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:224
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:223
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:456
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 #: ../addressbook/gui/widgets/eab-gui-util.c:319
@@ -736,7 +736,7 @@ msgstr "Neveljaven stik."
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
-#: ../e-util/e-html-editor-link-dialog.c:381 ../e-util/e-passwords.c:471
+#: ../e-util/e-html-editor-link-dialog.c:388 ../e-util/e-passwords.c:471
 #: ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
 #: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
@@ -1395,7 +1395,7 @@ msgstr "Ali ste prepričani, da želite izbrisati stik (%s)?"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1434
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
 #: ../modules/calendar/e-task-shell-view-actions.c:788
-#: ../modules/mail/e-mail-shell-view-actions.c:1615
+#: ../modules/mail/e-mail-shell-view-actions.c:1621
 #: ../shell/e-shell-window-actions.c:943
 #: ../smime/gui/certificate-manager.c:1659 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
@@ -1609,7 +1609,7 @@ msgstr "_Oddalji"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:1978
+#: ../e-util/e-html-editor-actions.c:2108
 #: ../e-util/e-html-editor-find-dialog.c:195
 #: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
@@ -1941,7 +1941,7 @@ msgstr "_Dremež"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-html-editor-actions.c:1008
+#: ../e-util/e-html-editor-actions.c:1138
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:170
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:59
@@ -2750,7 +2750,7 @@ msgstr "Zasebno"
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/dialogs/task-page.ui.h:6
 #: ../calendar/gui/e-cal-list-view.c:248 ../calendar/gui/e-cal-model.c:289
 #: ../calendar/gui/e-task-table.c:500 ../calendar/gui/memotypes.xml.h:12
-#: ../e-util/e-html-editor-page-dialog.c:114 ../e-util/e-send-options.ui.h:7
+#: ../e-util/e-html-editor-page-dialog.c:116 ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
 msgstr "Zaupno"
 
@@ -3067,7 +3067,7 @@ msgstr "Zapri trenutno okno"
 
 #. copy menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775
-#: ../e-util/e-html-editor-actions.c:964 ../e-util/e-text.c:2089
+#: ../e-util/e-html-editor-actions.c:1094 ../e-util/e-text.c:2089
 #: ../e-util/e-web-view.c:339 ../mail/e-mail-browser.c:133
 #: ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
@@ -3083,7 +3083,7 @@ msgstr "Kopiraj izbor"
 
 #. cut menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770
-#: ../e-util/e-html-editor-actions.c:971 ../e-util/e-text.c:2075
+#: ../e-util/e-html-editor-actions.c:1101 ../e-util/e-text.c:2075
 #: ../mail/e-mail-browser.c:140 ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "_Izreži"
@@ -3107,7 +3107,7 @@ msgstr "Poglejte pomoč"
 
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780
-#: ../e-util/e-html-editor-actions.c:978 ../e-util/e-text.c:2101
+#: ../e-util/e-html-editor-actions.c:1108 ../e-util/e-text.c:2101
 #: ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "_Prilepi"
@@ -3148,7 +3148,7 @@ msgid "Save current changes and close editor"
 msgstr "Shrani trenutne spremembe in zapri urejevalnik"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790
-#: ../e-util/e-html-editor-actions.c:992 ../e-util/e-web-view.c:349
+#: ../e-util/e-html-editor-actions.c:1122 ../e-util/e-web-view.c:349
 #: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Izberi _vse"
@@ -3164,14 +3164,14 @@ msgid "_Classification"
 msgstr "_Razvrstitev"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1328
-#: ../e-util/e-html-editor-actions.c:1015
+#: ../e-util/e-html-editor-actions.c:1145
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:163
 #: ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Datoteka"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1342
-#: ../e-util/e-html-editor-actions.c:1036
+#: ../e-util/e-html-editor-actions.c:1166
 msgid "_Insert"
 msgstr "_Vstavi"
 
@@ -3181,7 +3181,7 @@ msgid "_Options"
 msgstr "M_ožnosti"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
-#: ../e-util/e-html-editor-actions.c:1057 ../mail/e-mail-browser.c:177
+#: ../e-util/e-html-editor-actions.c:1187 ../mail/e-mail-browser.c:177
 #: ../shell/e-shell-window-actions.c:1121
 #: ../smime/gui/certificate-manager.c:1649 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
@@ -3541,8 +3541,8 @@ msgstr "_Mesto:"
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 #: ../calendar/gui/dialogs/task-page.ui.h:29
 #: ../e-util/e-attachment-dialog.c:356
-#: ../e-util/e-html-editor-image-dialog.c:514
-#: ../e-util/e-html-editor-link-dialog.c:367
+#: ../e-util/e-html-editor-image-dialog.c:558
+#: ../e-util/e-html-editor-link-dialog.c:374
 msgid "_Description:"
 msgstr "_Opis:"
 
@@ -4340,17 +4340,17 @@ msgstr "Opis:"
 msgid "Web Page:"
 msgstr "Spletna stran:"
 
-#: ../calendar/gui/e-cal-data-model.c:1608
+#: ../calendar/gui/e-cal-data-model.c:1625
 #, c-format
 msgid "Creating view for calendar '%s'"
 msgstr "Ustvarjanje pogleda za koledar '%s'."
 
-#: ../calendar/gui/e-cal-data-model.c:1612
+#: ../calendar/gui/e-cal-data-model.c:1629
 #, c-format
 msgid "Creating view for task list '%s'"
 msgstr "Ustvarjanje pogleda za seznam nalog '%s'."
 
-#: ../calendar/gui/e-cal-data-model.c:1616
+#: ../calendar/gui/e-cal-data-model.c:1633
 #, c-format
 msgid "Creating view for memo list '%s'"
 msgstr "Ustvarjanje pogleda za seznam opomnikov '%s'."
@@ -4439,6 +4439,7 @@ msgstr "Izbriši izbrane dogodke"
 #: ../calendar/gui/e-calendar-view.c:810
 msgid "Pasted text doesn't contain valid iCalendar data"
 msgstr ""
+"Prilepljeno besedilo ne vključuje veljavnih podatkov v zapisu iCalendar"
 
 #: ../calendar/gui/e-calendar-view.c:821 ../calendar/gui/e-cal-ops.c:1540
 msgid "Default calendar not found"
@@ -4793,10 +4794,10 @@ msgstr "Izbriši končane naloge"
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Premaknjenih bo %d dogodkov"
+msgstr[1] "Premaknjen bo %d dogodek"
+msgstr[2] "Premaknjena bosta %d dogodka"
+msgstr[3] "Premaknjeni bodo %d dogodki"
 
 #: ../calendar/gui/e-cal-ops.c:2035
 #, fuzzy, c-format
@@ -4808,13 +4809,13 @@ msgstr[2] "Kopiranje predmetov"
 msgstr[3] "Kopiranje predmetov"
 
 #: ../calendar/gui/e-cal-ops.c:2041
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "Premikanje predmetov"
-msgstr[1] "Premikanje predmetov"
-msgstr[2] "Premikanje predmetov"
-msgstr[3] "Premikanje predmetov"
+msgstr[0] "Premaknjenih bo %d opomnikov"
+msgstr[1] "Premaknjen bo %d opomnik"
+msgstr[2] "Premaknjena bosta %d opomnika"
+msgstr[3] "Premaknjeni bodo %d opomniki"
 
 #: ../calendar/gui/e-cal-ops.c:2042
 #, fuzzy, c-format
@@ -7458,14 +7459,13 @@ msgstr "Podpiši to sporočilo s svojim potrdilom podpisa S/MIME"
 
 #: ../composer/e-composer-actions.c:576
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#, fuzzy
 msgid "Unicode smileys"
-msgstr "Pokaži _smeške kot slike"
+msgstr "Izrazne ikone Unikod"
 
 #: ../composer/e-composer-actions.c:578
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
 msgid "Use Unicode characters for smileys."
-msgstr ""
+msgstr "Uporabi znake Unikod za izrazne ikone."
 
 #: ../composer/e-composer-actions.c:584
 msgid "_Bcc Field"
@@ -7531,35 +7531,35 @@ msgstr ""
 "Vnesite naslove, ki bodo prejeli kopijo sporočila, vendar se ne bodo "
 "pojavili na seznamu prejemnikov sporočila"
 
-#: ../composer/e-composer-header-table.c:793
+#: ../composer/e-composer-header-table.c:829
 msgid "Fr_om:"
 msgstr "_Od:"
 
-#: ../composer/e-composer-header-table.c:800
+#: ../composer/e-composer-header-table.c:836
 msgid "_Reply-To:"
 msgstr "Odgovori-_na:"
 
-#: ../composer/e-composer-header-table.c:805
+#: ../composer/e-composer-header-table.c:841
 msgid "_To:"
 msgstr "_Za:"
 
-#: ../composer/e-composer-header-table.c:811
+#: ../composer/e-composer-header-table.c:847
 msgid "_Cc:"
 msgstr "_Kp:"
 
-#: ../composer/e-composer-header-table.c:817
+#: ../composer/e-composer-header-table.c:853
 msgid "_Bcc:"
 msgstr "_Skp:"
 
-#: ../composer/e-composer-header-table.c:822
+#: ../composer/e-composer-header-table.c:858
 msgid "_Post To:"
 msgstr "_Objavi na:"
 
-#: ../composer/e-composer-header-table.c:826
+#: ../composer/e-composer-header-table.c:862
 msgid "S_ubject:"
 msgstr "Z_adeva:"
 
-#: ../composer/e-composer-header-table.c:834
+#: ../composer/e-composer-header-table.c:870
 #: ../mail/e-mail-config-identity-page.c:505
 msgid "Si_gnature:"
 msgstr "_Podpis:"
@@ -7589,11 +7589,11 @@ msgstr ""
 "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljeno nobeno "
 "potrdilo za šifriranje"
 
-#: ../composer/e-msg-composer.c:1594 ../composer/e-msg-composer.c:2280
+#: ../composer/e-msg-composer.c:1594 ../composer/e-msg-composer.c:2282
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../composer/e-msg-composer.c:4568
+#: ../composer/e-msg-composer.c:4599
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Sestavljalnik vsebuje nebesedilno telo sporočila, ki ga ni mogoče urejati."
@@ -7975,7 +7975,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
 msgid "Full path command to run Bogofilter"
-msgstr ""
+msgstr "Ukaz s polno potjo za zagon programa Bogofilter"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
 msgid ""
@@ -8933,9 +8933,8 @@ msgstr ""
 "uporabljata namesto RFC 2231 neveljaven standard RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
-#, fuzzy
 msgid "Send messages through Outbox folder"
-msgstr "Pošlje sporočila iz odhodnega predala"
+msgstr "Pošlji sporočilo preko odhodne mape"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid ""
@@ -9003,9 +9002,8 @@ msgstr ""
 "prevod običajne predpone  \"Re:\". Primer je 'Odg.: ali Odgovor:'."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
-#, fuzzy
 msgid "Enable developer mode"
-msgstr "_Razvijalski način"
+msgstr "Omogoči razvijalski način"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid ""
@@ -9013,9 +9011,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
-#, fuzzy
 msgid "Number of characters for wrapping"
-msgstr "Število znakov po '\\'"
+msgstr "Število znakov za prelom besedila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid "Will autowrap lines after given number of characters."
@@ -10430,7 +10427,7 @@ msgstr "Oblikuj del kot HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:198
-#: ../e-util/e-html-editor-actions.c:1414
+#: ../e-util/e-html-editor-actions.c:1544
 msgid "Plain Text"
 msgstr "Običajno besedilo"
 
@@ -10740,7 +10737,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% končano)"
 
 #: ../e-util/e-activity-proxy.c:352
-#: ../modules/mail/e-mail-shell-view-actions.c:1779
+#: ../modules/mail/e-mail-shell-view-actions.c:1785
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -10925,8 +10922,8 @@ msgstr "Dod_aj prilogo ..."
 #: ../modules/calendar/e-cal-shell-view-actions.c:1240
 #: ../modules/calendar/e-memo-shell-view-actions.c:571
 #: ../modules/calendar/e-task-shell-view-actions.c:696
-#: ../modules/mail/e-mail-shell-view-actions.c:1580
-#: ../modules/mail/e-mail-shell-view-actions.c:1651
+#: ../modules/mail/e-mail-shell-view-actions.c:1586
+#: ../modules/mail/e-mail-shell-view-actions.c:1657
 msgid "_Properties"
 msgstr "_Lastnosti"
 
@@ -11400,7 +11397,7 @@ msgstr "bela"
 
 #: ../e-util/e-color-combo.c:639 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
-#: ../mail/e-mail-config-security-page.c:566 ../mail/e-mail-reader.c:3858
+#: ../mail/e-mail-config-security-page.c:566 ../mail/e-mail-reader.c:3863
 #: ../mail/mail-config.ui.h:69
 msgid "Default"
 msgstr "Privzeto"
@@ -11825,7 +11822,7 @@ msgstr "Najdi predmete, ki ustrezajo naslednjim pogojem"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:60
+#: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:62
 #: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:560
 #: ../libemail-engine/camel-null-store.c:27
@@ -11867,520 +11864,517 @@ msgstr "Dohodna"
 msgid "Outgoing"
 msgstr "Odhodna"
 
-#: ../e-util/e-html-editor-actions.c:57
+#: ../e-util/e-html-editor-actions.c:58
 msgid "Failed to insert HTML file."
 msgstr "Napaka med vstavljanjem datoteke HTML."
 
-#: ../e-util/e-html-editor-actions.c:94
+#: ../e-util/e-html-editor-actions.c:95
 msgid "Failed to insert text file."
 msgstr "Napaka med vstavljanjem besedilne datoteke."
 
-#: ../e-util/e-html-editor-actions.c:482
+#: ../e-util/e-html-editor-actions.c:612
 msgid "Insert HTML File"
 msgstr "Vstavi datoteko HTML"
 
-#: ../e-util/e-html-editor-actions.c:488
+#: ../e-util/e-html-editor-actions.c:618
 msgid "HTML file"
 msgstr "Datoteka HTML"
 
-#: ../e-util/e-html-editor-actions.c:515
+#: ../e-util/e-html-editor-actions.c:645
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
-#: ../e-util/e-html-editor-actions.c:576
+#: ../e-util/e-html-editor-actions.c:706
 msgid "Insert text file"
 msgstr "Vstavi besedilno datoteko"
 
-#: ../e-util/e-html-editor-actions.c:582
+#: ../e-util/e-html-editor-actions.c:712
 msgid "Text file"
 msgstr "Besedilna datoteka"
 
-#: ../e-util/e-html-editor-actions.c:966
+#: ../e-util/e-html-editor-actions.c:1096
 msgid "Copy selected text to the clipboard"
 msgstr "Kopiraj izbrano besedilo na odložišče"
 
-#: ../e-util/e-html-editor-actions.c:973
+#: ../e-util/e-html-editor-actions.c:1103
 msgid "Cut selected text to the clipboard"
 msgstr "Izreži izbrano besedilo v odložišče"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../e-util/e-html-editor-actions.c:980
+#: ../e-util/e-html-editor-actions.c:1110
 msgid "Paste text from the clipboard"
 msgstr "Prilepi besedilo iz odložišča"
 
-#: ../e-util/e-html-editor-actions.c:987
+#: ../e-util/e-html-editor-actions.c:1117
 msgid "Redo the last undone action"
 msgstr "Ponovno uveljavi zadnje razveljavljeno dejanje"
 
-#: ../e-util/e-html-editor-actions.c:1001
+#: ../e-util/e-html-editor-actions.c:1131
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
-#: ../e-util/e-html-editor-actions.c:1022
+#: ../e-util/e-html-editor-actions.c:1152
 msgid "For_mat"
 msgstr "_Oblikuj"
 
-#: ../e-util/e-html-editor-actions.c:1029
+#: ../e-util/e-html-editor-actions.c:1159
 msgid "_Paragraph Style"
 msgstr "Slog _odstavkov"
 
-#: ../e-util/e-html-editor-actions.c:1043
-#: ../e-util/e-html-editor-image-dialog.c:591
+#: ../e-util/e-html-editor-actions.c:1173
+#: ../e-util/e-html-editor-image-dialog.c:635
 msgid "_Alignment"
 msgstr "_Poravnava"
 
-#: ../e-util/e-html-editor-actions.c:1050
+#: ../e-util/e-html-editor-actions.c:1180
 msgid "Current _Languages"
 msgstr "Trenutni _jeziki"
 
-#: ../e-util/e-html-editor-actions.c:1067
+#: ../e-util/e-html-editor-actions.c:1197
 msgid "_Increase Indent"
 msgstr "_Povečaj zamik"
 
-#: ../e-util/e-html-editor-actions.c:1069
+#: ../e-util/e-html-editor-actions.c:1199
 msgid "Increase Indent"
 msgstr "Povečaj zamik"
 
-#: ../e-util/e-html-editor-actions.c:1074
+#: ../e-util/e-html-editor-actions.c:1204
 msgid "_HTML File..."
 msgstr "Datoteka _HTML ..."
 
-#: ../e-util/e-html-editor-actions.c:1081
+#: ../e-util/e-html-editor-actions.c:1211
 msgid "Te_xt File..."
 msgstr "_Besedilna datoteka ..."
 
-#: ../e-util/e-html-editor-actions.c:1088
+#: ../e-util/e-html-editor-actions.c:1218
 msgid "Paste _Quotation"
 msgstr "Prilepi _navedek"
 
-#: ../e-util/e-html-editor-actions.c:1095
+#: ../e-util/e-html-editor-actions.c:1225
 msgid "_Find..."
 msgstr "_Najdi ..."
 
-#: ../e-util/e-html-editor-actions.c:1097
+#: ../e-util/e-html-editor-actions.c:1227
 msgid "Search for text"
 msgstr "Poišči besedilo"
 
-#: ../e-util/e-html-editor-actions.c:1102
+#: ../e-util/e-html-editor-actions.c:1232
 msgid "Find A_gain"
 msgstr "Poišči znov_a"
 
-#: ../e-util/e-html-editor-actions.c:1109
+#: ../e-util/e-html-editor-actions.c:1239
 msgid "Re_place..."
 msgstr "_Zamenjaj ..."
 
-#: ../e-util/e-html-editor-actions.c:1111
+#: ../e-util/e-html-editor-actions.c:1241
 msgid "Search for and replace text"
 msgstr "Iskanje in zamenjava besedila"
 
-#: ../e-util/e-html-editor-actions.c:1116
+#: ../e-util/e-html-editor-actions.c:1246
 msgid "Check _Spelling..."
 msgstr "Preveri _črkovanje ..."
 
-#: ../e-util/e-html-editor-actions.c:1123
+#: ../e-util/e-html-editor-actions.c:1253
 msgid "_Decrease Indent"
 msgstr "_Zmanjšaj zamik"
 
-#: ../e-util/e-html-editor-actions.c:1125
+#: ../e-util/e-html-editor-actions.c:1255
 msgid "Decrease Indent"
 msgstr "Zmanjšaj zamik"
 
-#: ../e-util/e-html-editor-actions.c:1130
+#: ../e-util/e-html-editor-actions.c:1260
 msgid "_Wrap Lines"
 msgstr "_Prelomi vrstice"
 
-#: ../e-util/e-html-editor-actions.c:1137
+#: ../e-util/e-html-editor-actions.c:1267
 #, fuzzy
 msgid "Open Inspector"
 msgstr "Nadzornik"
 
 #. Center
-#: ../e-util/e-html-editor-actions.c:1147
+#: ../e-util/e-html-editor-actions.c:1277
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
 msgstr "Na _sredini"
 
-#: ../e-util/e-html-editor-actions.c:1149
+#: ../e-util/e-html-editor-actions.c:1279
 msgid "Center Alignment"
 msgstr "Sredinska poravnava"
 
 #. Left
-#: ../e-util/e-html-editor-actions.c:1154
+#: ../e-util/e-html-editor-actions.c:1284
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
 msgstr "_Levo"
 
-#: ../e-util/e-html-editor-actions.c:1156
+#: ../e-util/e-html-editor-actions.c:1286
 msgid "Left Alignment"
 msgstr "Leva poravnava"
 
 #. Right
-#: ../e-util/e-html-editor-actions.c:1161
+#: ../e-util/e-html-editor-actions.c:1291
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
 msgstr "_Desno"
 
-#: ../e-util/e-html-editor-actions.c:1163
+#: ../e-util/e-html-editor-actions.c:1293
 msgid "Right Alignment"
 msgstr "Desna poravnava"
 
-#: ../e-util/e-html-editor-actions.c:1171
+#: ../e-util/e-html-editor-actions.c:1301
 #: ../modules/text-highlight/languages.c:72
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../e-util/e-html-editor-actions.c:1173
+#: ../e-util/e-html-editor-actions.c:1303
 #, fuzzy
 msgid "HTML editing mode"
 msgstr "Urejevalni način HTML kode"
 
-#: ../e-util/e-html-editor-actions.c:1178
+#: ../e-util/e-html-editor-actions.c:1308
 msgid "Plain _Text"
 msgstr "_Običajno besedilo"
 
-#: ../e-util/e-html-editor-actions.c:1180
+#: ../e-util/e-html-editor-actions.c:1310
 #, fuzzy
 msgid "Plain text editing mode"
 msgstr "Način običajnega besedila"
 
-#: ../e-util/e-html-editor-actions.c:1188
+#: ../e-util/e-html-editor-actions.c:1318
 msgid "_Normal"
 msgstr "_Običajno"
 
-#: ../e-util/e-html-editor-actions.c:1195
+#: ../e-util/e-html-editor-actions.c:1325
 msgid "Header _1"
 msgstr "Glava _1"
 
-#: ../e-util/e-html-editor-actions.c:1202
+#: ../e-util/e-html-editor-actions.c:1332
 msgid "Header _2"
 msgstr "Glava _2"
 
-#: ../e-util/e-html-editor-actions.c:1209
+#: ../e-util/e-html-editor-actions.c:1339
 msgid "Header _3"
 msgstr "Glava _3"
 
-#: ../e-util/e-html-editor-actions.c:1216
+#: ../e-util/e-html-editor-actions.c:1346
 msgid "Header _4"
 msgstr "Glava _4"
 
-#: ../e-util/e-html-editor-actions.c:1223
+#: ../e-util/e-html-editor-actions.c:1353
 msgid "Header _5"
 msgstr "Glava _5"
 
-#: ../e-util/e-html-editor-actions.c:1230
+#: ../e-util/e-html-editor-actions.c:1360
 msgid "Header _6"
 msgstr "Glava _6"
 
-#: ../e-util/e-html-editor-actions.c:1237
+#: ../e-util/e-html-editor-actions.c:1367
 msgid "_Preformatted"
 msgstr "_Predoblikovano"
 
-#: ../e-util/e-html-editor-actions.c:1244
+#: ../e-util/e-html-editor-actions.c:1374
 msgid "A_ddress"
 msgstr "_Naslov"
 
-#: ../e-util/e-html-editor-actions.c:1251
+#: ../e-util/e-html-editor-actions.c:1381
 msgid "_Blockquote"
 msgstr "Oznaka bločnega navedka"
 
-#: ../e-util/e-html-editor-actions.c:1258
+#: ../e-util/e-html-editor-actions.c:1388
 #, fuzzy
 msgid "_Bulleted List"
 msgstr "Označen seznam - \\begin{itemize}"
 
-#: ../e-util/e-html-editor-actions.c:1265
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1395
 msgid "_Roman Numeral List"
-msgstr "ROMAN:število @{n} zapisano kot rimska številka"
+msgstr "_Rimske oznake"
 
-#: ../e-util/e-html-editor-actions.c:1272
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1402
 msgid "Numbered _List"
-msgstr "številčne oznake besedila"
+msgstr "_Številčne oznake"
 
-#: ../e-util/e-html-editor-actions.c:1279
-#, fuzzy
+#: ../e-util/e-html-editor-actions.c:1409
 msgid "_Alphabetical List"
-msgstr "_Abecedno oštevilčen seznam"
+msgstr "_Abecedne oznake"
 
-#: ../e-util/e-html-editor-actions.c:1295
-#: ../e-util/e-html-editor-actions.c:1333
+#: ../e-util/e-html-editor-actions.c:1425
+#: ../e-util/e-html-editor-actions.c:1463
 msgid "_Image..."
 msgstr "_ Slika ..."
 
 #. Translators: This is an action tooltip
-#: ../e-util/e-html-editor-actions.c:1298
+#: ../e-util/e-html-editor-actions.c:1428
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
-#: ../e-util/e-html-editor-actions.c:1303
-#: ../e-util/e-html-editor-actions.c:1340
+#: ../e-util/e-html-editor-actions.c:1433
+#: ../e-util/e-html-editor-actions.c:1470
 msgid "_Link..."
 msgstr "_Povezava ..."
 
-#: ../e-util/e-html-editor-actions.c:1305
+#: ../e-util/e-html-editor-actions.c:1435
 msgid "Insert Link"
 msgstr "Vstavi povezavo"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1311
-#: ../e-util/e-html-editor-actions.c:1355
+#: ../e-util/e-html-editor-actions.c:1441
+#: ../e-util/e-html-editor-actions.c:1485
 msgid "_Rule..."
 msgstr "_Pravilo ..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1314
+#: ../e-util/e-html-editor-actions.c:1444
 msgid "Insert Rule"
 msgstr "Vstavi pravilo"
 
-#: ../e-util/e-html-editor-actions.c:1319
-#: ../e-util/e-html-editor-actions.c:1362
+#: ../e-util/e-html-editor-actions.c:1449
+#: ../e-util/e-html-editor-actions.c:1492
 msgid "_Table..."
 msgstr "_Razpredelnica ..."
 
-#: ../e-util/e-html-editor-actions.c:1321
+#: ../e-util/e-html-editor-actions.c:1451
 msgid "Insert Table"
 msgstr "Vstavi razpredelnico"
 
-#: ../e-util/e-html-editor-actions.c:1326
+#: ../e-util/e-html-editor-actions.c:1456
 msgid "_Cell..."
 msgstr "_Celica ..."
 
-#: ../e-util/e-html-editor-actions.c:1347
+#: ../e-util/e-html-editor-actions.c:1477
 msgid "Pa_ge..."
 msgstr "S_tran ..."
 
-#: ../e-util/e-html-editor-actions.c:1371
+#: ../e-util/e-html-editor-actions.c:1501
 msgid "Font _Size"
 msgstr "Velikost _pisave"
 
-#: ../e-util/e-html-editor-actions.c:1378
+#: ../e-util/e-html-editor-actions.c:1508
 msgid "_Font Style"
 msgstr "_Slog pisave"
 
-#: ../e-util/e-html-editor-actions.c:1385
+#: ../e-util/e-html-editor-actions.c:1515
 msgid "Paste As _Text"
 msgstr "Prilepi kot _besedilo"
 
-#: ../e-util/e-html-editor-actions.c:1396
+#: ../e-util/e-html-editor-actions.c:1526
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "_Krepko"
 
-#: ../e-util/e-html-editor-actions.c:1398
+#: ../e-util/e-html-editor-actions.c:1528
 msgid "Bold"
 msgstr "Krepko"
 
-#: ../e-util/e-html-editor-actions.c:1404
+#: ../e-util/e-html-editor-actions.c:1534
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "_Ležeče"
 
-#: ../e-util/e-html-editor-actions.c:1406
+#: ../e-util/e-html-editor-actions.c:1536
 msgid "Italic"
 msgstr "Ležeče"
 
-#: ../e-util/e-html-editor-actions.c:1412
+#: ../e-util/e-html-editor-actions.c:1542
 msgid "_Plain Text"
 msgstr "_Običajno besedilo"
 
-#: ../e-util/e-html-editor-actions.c:1420
+#: ../e-util/e-html-editor-actions.c:1550
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "_Prečrtano"
 
-#: ../e-util/e-html-editor-actions.c:1422
+#: ../e-util/e-html-editor-actions.c:1552
 msgid "Strikethrough"
 msgstr "Prečrtano"
 
-#: ../e-util/e-html-editor-actions.c:1428
+#: ../e-util/e-html-editor-actions.c:1558
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "_Podpisano"
 
-#: ../e-util/e-html-editor-actions.c:1430
+#: ../e-util/e-html-editor-actions.c:1560
 msgid "Underline"
 msgstr "Podpisano"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1440
+#: ../e-util/e-html-editor-actions.c:1570
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1448
+#: ../e-util/e-html-editor-actions.c:1578
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1456
+#: ../e-util/e-html-editor-actions.c:1586
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1464
+#: ../e-util/e-html-editor-actions.c:1594
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1472
+#: ../e-util/e-html-editor-actions.c:1602
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1480
+#: ../e-util/e-html-editor-actions.c:1610
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1488
+#: ../e-util/e-html-editor-actions.c:1618
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1507
+#: ../e-util/e-html-editor-actions.c:1637
 msgid "Cell Contents"
 msgstr "Vsebina celice"
 
-#: ../e-util/e-html-editor-actions.c:1514
+#: ../e-util/e-html-editor-actions.c:1644
 msgid "Column"
 msgstr "Stolpec"
 
-#: ../e-util/e-html-editor-actions.c:1521
+#: ../e-util/e-html-editor-actions.c:1651
 msgid "Row"
 msgstr "Vrstica"
 
-#: ../e-util/e-html-editor-actions.c:1528
-#: ../e-util/e-html-editor-actions.c:1613
+#: ../e-util/e-html-editor-actions.c:1658
+#: ../e-util/e-html-editor-actions.c:1743
 msgid "Table"
 msgstr "Razpredelnica"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1538
+#: ../e-util/e-html-editor-actions.c:1668
 msgid "Table Delete"
 msgstr "Izbriši razpredelnico"
 
-#: ../e-util/e-html-editor-actions.c:1545 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1675 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Načini vnosa"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1553
+#: ../e-util/e-html-editor-actions.c:1683
 msgid "Table Insert"
 msgstr "Vstavi razpredelnico"
 
-#: ../e-util/e-html-editor-actions.c:1560
+#: ../e-util/e-html-editor-actions.c:1690
 msgid "Properties"
 msgstr "_"
 
-#: ../e-util/e-html-editor-actions.c:1578
+#: ../e-util/e-html-editor-actions.c:1708
 msgid "Column After"
 msgstr "Stolpec po"
 
-#: ../e-util/e-html-editor-actions.c:1585
+#: ../e-util/e-html-editor-actions.c:1715
 msgid "Column Before"
 msgstr "Stolpec pred"
 
-#: ../e-util/e-html-editor-actions.c:1592
+#: ../e-util/e-html-editor-actions.c:1722
 msgid "Insert _Link"
 msgstr "Vstavi _povezavo"
 
-#: ../e-util/e-html-editor-actions.c:1599
+#: ../e-util/e-html-editor-actions.c:1729
 msgid "Row Above"
 msgstr "Vrstica nad"
 
-#: ../e-util/e-html-editor-actions.c:1606
+#: ../e-util/e-html-editor-actions.c:1736
 msgid "Row Below"
 msgstr "Vrstica pod"
 
-#: ../e-util/e-html-editor-actions.c:1620
+#: ../e-util/e-html-editor-actions.c:1750
 msgid "Cell..."
 msgstr "Celica ..."
 
-#: ../e-util/e-html-editor-actions.c:1627
+#: ../e-util/e-html-editor-actions.c:1757
 msgid "Image..."
 msgstr "Slika ..."
 
-#: ../e-util/e-html-editor-actions.c:1634
+#: ../e-util/e-html-editor-actions.c:1764
 msgid "Link..."
 msgstr "Povezava ..."
 
-#: ../e-util/e-html-editor-actions.c:1641
+#: ../e-util/e-html-editor-actions.c:1771
 msgid "Page..."
 msgstr "Stran ..."
 
-#: ../e-util/e-html-editor-actions.c:1648
+#: ../e-util/e-html-editor-actions.c:1778
 msgid "Paragraph..."
 msgstr "Odstavek ..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1656
+#: ../e-util/e-html-editor-actions.c:1786
 msgid "Rule..."
 msgstr "Pravilo ..."
 
-#: ../e-util/e-html-editor-actions.c:1663
+#: ../e-util/e-html-editor-actions.c:1793
 msgid "Table..."
 msgstr "Razpredelnica ..."
 
-#: ../e-util/e-html-editor-actions.c:1670
+#: ../e-util/e-html-editor-actions.c:1800
 msgid "Text..."
 msgstr "Besedilo ..."
 
-#: ../e-util/e-html-editor-actions.c:1677
+#: ../e-util/e-html-editor-actions.c:1807
 msgid "Remove Link"
 msgstr "Odstrani povezavo"
 
-#: ../e-util/e-html-editor-actions.c:1694
+#: ../e-util/e-html-editor-actions.c:1824
 msgid "Add Word to Dictionary"
 msgstr "Dodaj besedo v slovar"
 
-#: ../e-util/e-html-editor-actions.c:1701
+#: ../e-util/e-html-editor-actions.c:1831
 msgid "Ignore Misspelled Word"
 msgstr "Prezri napačno črkovano besedo"
 
-#: ../e-util/e-html-editor-actions.c:1708
+#: ../e-util/e-html-editor-actions.c:1838
 msgid "Add Word To"
 msgstr "Dodaj besedo v"
 
-#: ../e-util/e-html-editor-actions.c:1717
+#: ../e-util/e-html-editor-actions.c:1847
 msgid "More Suggestions"
 msgstr "Več predlogov"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1825
+#: ../e-util/e-html-editor-actions.c:1955
 #, c-format
 msgid "%s Dictionary"
 msgstr "Slovar %s"
 
-#: ../e-util/e-html-editor-actions.c:1912
+#: ../e-util/e-html-editor-actions.c:2042
 msgid "_Emoticon"
 msgstr "_Izrazne ikone"
 
-#: ../e-util/e-html-editor-actions.c:1913
+#: ../e-util/e-html-editor-actions.c:2043
 msgid "Insert Emoticon"
 msgstr "Vstavi izrazne ikone"
 
-#: ../e-util/e-html-editor-actions.c:1981
+#: ../e-util/e-html-editor-actions.c:2111
 msgid "Re_place"
 msgstr "_Zamenjaj"
 
-#: ../e-util/e-html-editor-actions.c:1984
+#: ../e-util/e-html-editor-actions.c:2114
 msgid "_Image"
 msgstr "_Slika"
 
-#: ../e-util/e-html-editor-actions.c:1987
+#: ../e-util/e-html-editor-actions.c:2117
 msgid "_Link"
 msgstr "_Povezava"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1991
+#: ../e-util/e-html-editor-actions.c:2121
 msgid "_Rule"
 msgstr "_Pravilo"
 
-#: ../e-util/e-html-editor-actions.c:1994
-#: ../e-util/e-html-editor-cell-dialog.c:668
+#: ../e-util/e-html-editor-actions.c:2124
+#: ../e-util/e-html-editor-cell-dialog.c:732
 msgid "_Table"
 msgstr "_Razpredelnica"
 
@@ -12400,135 +12394,135 @@ msgstr "Barva pisava"
 msgid "Font Size"
 msgstr "Velikost pisave"
 
-#: ../e-util/e-html-editor-cell-dialog.c:628
+#: ../e-util/e-html-editor-cell-dialog.c:692
 msgid "<b>Scope</b>"
 msgstr "<b>Obseg</b>"
 
-#: ../e-util/e-html-editor-cell-dialog.c:642
+#: ../e-util/e-html-editor-cell-dialog.c:706
 msgid "C_ell"
 msgstr "_Celica"
 
-#: ../e-util/e-html-editor-cell-dialog.c:655
+#: ../e-util/e-html-editor-cell-dialog.c:719
 msgid "_Row"
 msgstr "_Vrstica"
 
-#: ../e-util/e-html-editor-cell-dialog.c:681
+#: ../e-util/e-html-editor-cell-dialog.c:745
 msgid "Col_umn"
 msgstr "_Stolpec"
 
-#: ../e-util/e-html-editor-cell-dialog.c:691
+#: ../e-util/e-html-editor-cell-dialog.c:755
 msgid "<b>Alignment &amp; Behavior</b>"
 msgstr "<b>Poravnave in obnašanje</b>"
 
-#: ../e-util/e-html-editor-cell-dialog.c:704
-#: ../e-util/e-html-editor-hrule-dialog.c:365
-#: ../e-util/e-html-editor-table-dialog.c:850
+#: ../e-util/e-html-editor-cell-dialog.c:768
+#: ../e-util/e-html-editor-hrule-dialog.c:407
+#: ../e-util/e-html-editor-table-dialog.c:894
 msgid "Left"
 msgstr "Leva"
 
-#: ../e-util/e-html-editor-cell-dialog.c:705
-#: ../e-util/e-html-editor-hrule-dialog.c:367
-#: ../e-util/e-html-editor-table-dialog.c:851
+#: ../e-util/e-html-editor-cell-dialog.c:769
+#: ../e-util/e-html-editor-hrule-dialog.c:409
+#: ../e-util/e-html-editor-table-dialog.c:895
 msgid "Center"
 msgstr "Sredina"
 
-#: ../e-util/e-html-editor-cell-dialog.c:706
-#: ../e-util/e-html-editor-hrule-dialog.c:369
-#: ../e-util/e-html-editor-table-dialog.c:852
+#: ../e-util/e-html-editor-cell-dialog.c:770
+#: ../e-util/e-html-editor-hrule-dialog.c:411
+#: ../e-util/e-html-editor-table-dialog.c:896
 msgid "Right"
 msgstr "Desna"
 
-#: ../e-util/e-html-editor-cell-dialog.c:714
+#: ../e-util/e-html-editor-cell-dialog.c:778
 msgid "_Horizontal:"
 msgstr "Vodoravno:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:722
-#: ../e-util/e-html-editor-image-dialog.c:581
+#: ../e-util/e-html-editor-cell-dialog.c:786
+#: ../e-util/e-html-editor-image-dialog.c:625
 msgid "Top"
 msgstr "Vrhnji"
 
-#: ../e-util/e-html-editor-cell-dialog.c:723
-#: ../e-util/e-html-editor-image-dialog.c:582
+#: ../e-util/e-html-editor-cell-dialog.c:787
+#: ../e-util/e-html-editor-image-dialog.c:626
 msgid "Middle"
 msgstr "Srednji"
 
-#: ../e-util/e-html-editor-cell-dialog.c:724
-#: ../e-util/e-html-editor-image-dialog.c:583
+#: ../e-util/e-html-editor-cell-dialog.c:788
+#: ../e-util/e-html-editor-image-dialog.c:627
 msgid "Bottom"
 msgstr "Spodnji"
 
-#: ../e-util/e-html-editor-cell-dialog.c:732
+#: ../e-util/e-html-editor-cell-dialog.c:796
 msgid "_Vertical:"
 msgstr "_Navpično:"
 
 #. Wrap Text
-#: ../e-util/e-html-editor-cell-dialog.c:738
+#: ../e-util/e-html-editor-cell-dialog.c:802
 msgid "_Wrap Text"
 msgstr "_Prelomi besedilo"
 
 #. Header Style
-#: ../e-util/e-html-editor-cell-dialog.c:746
+#: ../e-util/e-html-editor-cell-dialog.c:810
 msgid "_Header Style"
 msgstr "Slog _glave"
 
-#: ../e-util/e-html-editor-cell-dialog.c:760
-#: ../e-util/e-html-editor-image-dialog.c:521
-#: ../e-util/e-html-editor-table-dialog.c:762
+#: ../e-util/e-html-editor-cell-dialog.c:824
+#: ../e-util/e-html-editor-image-dialog.c:565
+#: ../e-util/e-html-editor-table-dialog.c:806
 msgid "<b>Layout</b>"
 msgstr "<b>Porazdelitev</b>"
 
 #. Width
-#: ../e-util/e-html-editor-cell-dialog.c:771
+#: ../e-util/e-html-editor-cell-dialog.c:835
 msgid "_Width"
 msgstr "_Širina"
 
-#: ../e-util/e-html-editor-cell-dialog.c:810
+#: ../e-util/e-html-editor-cell-dialog.c:874
 #, fuzzy
 msgid "Row S_pan:"
 msgstr "Pan"
 
-#: ../e-util/e-html-editor-cell-dialog.c:824
+#: ../e-util/e-html-editor-cell-dialog.c:888
 #, fuzzy
 msgid "Co_lumn Span:"
 msgstr "Razmik"
 
-#: ../e-util/e-html-editor-cell-dialog.c:831
-#: ../e-util/e-html-editor-table-dialog.c:866
+#: ../e-util/e-html-editor-cell-dialog.c:895
+#: ../e-util/e-html-editor-table-dialog.c:910
 msgid "<b>Background</b>"
 msgstr "<b>Ozadje</b>"
 
-#: ../e-util/e-html-editor-cell-dialog.c:844
-#: ../e-util/e-html-editor-table-dialog.c:879
+#: ../e-util/e-html-editor-cell-dialog.c:908
+#: ../e-util/e-html-editor-table-dialog.c:923
 msgid "Transparent"
 msgstr "Prosojno"
 
-#: ../e-util/e-html-editor-cell-dialog.c:852
+#: ../e-util/e-html-editor-cell-dialog.c:916
 msgid "C_olor:"
 msgstr "_Barva:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:860
-#: ../e-util/e-html-editor-image-dialog.c:483
-#: ../e-util/e-html-editor-table-dialog.c:895
+#: ../e-util/e-html-editor-cell-dialog.c:924
+#: ../e-util/e-html-editor-image-dialog.c:527
+#: ../e-util/e-html-editor-table-dialog.c:939
 msgid "Choose Background Image"
 msgstr "Izbor slike ozadja"
 
-#: ../e-util/e-html-editor-cell-dialog.c:865
-#: ../e-util/e-html-editor-image-dialog.c:489
-#: ../e-util/e-html-editor-table-dialog.c:900
+#: ../e-util/e-html-editor-cell-dialog.c:929
+#: ../e-util/e-html-editor-image-dialog.c:533
+#: ../e-util/e-html-editor-table-dialog.c:944
 msgid "Images"
 msgstr "Slike"
 
-#: ../e-util/e-html-editor-cell-dialog.c:878
+#: ../e-util/e-html-editor-cell-dialog.c:942
 msgid "_Image:"
 msgstr "_Slika:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:885
-#: ../e-util/e-html-editor-page-dialog.c:516
-#: ../e-util/e-html-editor-table-dialog.c:920
+#: ../e-util/e-html-editor-cell-dialog.c:949
+#: ../e-util/e-html-editor-page-dialog.c:579
+#: ../e-util/e-html-editor-table-dialog.c:964
 msgid "_Remove image"
 msgstr "_Odstranu sliko"
 
-#: ../e-util/e-html-editor-cell-dialog.c:905
+#: ../e-util/e-html-editor-cell-dialog.c:969
 msgid "Cell Properties"
 msgstr "Lastnosti celic"
 
@@ -12539,7 +12533,7 @@ msgid "No match found"
 msgstr "Ni najdenih zadetkov"
 
 #: ../e-util/e-html-editor-find-dialog.c:160
-#: ../e-util/e-html-editor-replace-dialog.c:232
+#: ../e-util/e-html-editor-replace-dialog.c:247
 #, fuzzy
 msgid "Search _backwards"
 msgstr "Poišči _nazaj"
@@ -12558,159 +12552,158 @@ msgstr "Prelomi zadetke iskanja zaznamkov"
 msgid "Find"
 msgstr "Najdi"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:300
+#: ../e-util/e-html-editor-hrule-dialog.c:342
 msgid "<b>Size</b>"
 msgstr "<b>Velikost</b>"
 
 #. Width
-#: ../e-util/e-html-editor-hrule-dialog.c:320
-#: ../e-util/e-html-editor-image-dialog.c:539
-#: ../e-util/e-html-editor-table-dialog.c:773
+#: ../e-util/e-html-editor-hrule-dialog.c:362
+#: ../e-util/e-html-editor-image-dialog.c:583
+#: ../e-util/e-html-editor-table-dialog.c:817
 msgid "_Width:"
 msgstr "_Širina:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:345
+#: ../e-util/e-html-editor-hrule-dialog.c:387
 msgid "_Size:"
 msgstr "_Velikost:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:352
+#: ../e-util/e-html-editor-hrule-dialog.c:394
 msgid "<b>Style</b>"
 msgstr "<b>Slog</b>"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:377
-#: ../e-util/e-html-editor-table-dialog.c:859
+#: ../e-util/e-html-editor-hrule-dialog.c:419
+#: ../e-util/e-html-editor-table-dialog.c:903
 msgid "_Alignment:"
 msgstr "_Poravnava:"
 
 #. Shaded
-#: ../e-util/e-html-editor-hrule-dialog.c:383
+#: ../e-util/e-html-editor-hrule-dialog.c:425
 msgid "S_haded"
 msgstr "_Senčeno"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:400
+#: ../e-util/e-html-editor-hrule-dialog.c:442
 msgid "Rule properties"
 msgstr "Lastnosti pravila"
 
-#: ../e-util/e-html-editor-image-dialog.c:471
+#: ../e-util/e-html-editor-image-dialog.c:515
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
-#: ../e-util/e-html-editor-table-dialog.c:716
+#: ../e-util/e-html-editor-table-dialog.c:760
 msgid "<b>General</b>"
 msgstr "<b>Splošno</b>"
 
-#: ../e-util/e-html-editor-image-dialog.c:500
+#: ../e-util/e-html-editor-image-dialog.c:544
 msgid "_Source:"
 msgstr "_Vir:"
 
-#: ../e-util/e-html-editor-image-dialog.c:563
+#: ../e-util/e-html-editor-image-dialog.c:607
 msgid "_Height:"
 msgstr "_Višina:"
 
-#: ../e-util/e-html-editor-image-dialog.c:604
+#: ../e-util/e-html-editor-image-dialog.c:648
 msgid "_X-Padding:"
 msgstr "Polnjenje _X:"
 
-#: ../e-util/e-html-editor-image-dialog.c:620
+#: ../e-util/e-html-editor-image-dialog.c:664
 msgid "_Y-Padding:"
 msgstr "Polnjenje _Y:"
 
-#: ../e-util/e-html-editor-image-dialog.c:636
-#: ../e-util/e-html-editor-table-dialog.c:840
+#: ../e-util/e-html-editor-image-dialog.c:680
+#: ../e-util/e-html-editor-table-dialog.c:884
 msgid "_Border:"
 msgstr "Ro_b:"
 
-#: ../e-util/e-html-editor-image-dialog.c:646
+#: ../e-util/e-html-editor-image-dialog.c:690
 msgid "<b>Link</b>"
 msgstr "<b>Povezava</b>"
 
-#: ../e-util/e-html-editor-image-dialog.c:664
-#: ../e-util/e-html-editor-link-dialog.c:345
+#: ../e-util/e-html-editor-image-dialog.c:708
+#: ../e-util/e-html-editor-link-dialog.c:352
 msgid "_URL:"
 msgstr "_Spletni naslov:"
 
-#: ../e-util/e-html-editor-image-dialog.c:669
-#: ../e-util/e-html-editor-link-dialog.c:350
+#: ../e-util/e-html-editor-image-dialog.c:713
+#: ../e-util/e-html-editor-link-dialog.c:357
 msgid "_Test URL..."
 msgstr "_Preizkusni naslov URL ..."
 
-#: ../e-util/e-html-editor-image-dialog.c:686
+#: ../e-util/e-html-editor-image-dialog.c:730
 msgid "Image Properties"
 msgstr "Lastnosti slike"
 
-#: ../e-util/e-html-editor-link-dialog.c:374
+#: ../e-util/e-html-editor-link-dialog.c:381
 msgid "_Remove Link"
 msgstr "_Odstrani povezavo"
 
-#: ../e-util/e-html-editor-link-dialog.c:399
+#: ../e-util/e-html-editor-link-dialog.c:406
 msgid "Link Properties"
 msgstr "Lastnosti povezave"
 
-#: ../e-util/e-html-editor-page-dialog.c:69
-#, fuzzy
+#: ../e-util/e-html-editor-page-dialog.c:71
 msgid "Perforated Paper"
-msgstr "Papir"
+msgstr "Perforiran papir"
 
-#: ../e-util/e-html-editor-page-dialog.c:78
+#: ../e-util/e-html-editor-page-dialog.c:80
 #, fuzzy
 msgid "Blue Ink"
 msgstr "Modro črnilo"
 
-#: ../e-util/e-html-editor-page-dialog.c:87
+#: ../e-util/e-html-editor-page-dialog.c:89
 msgid "Paper"
 msgstr "Papir"
 
-#: ../e-util/e-html-editor-page-dialog.c:96
+#: ../e-util/e-html-editor-page-dialog.c:98
 msgid "Ribbon"
 msgstr "Trak"
 
-#: ../e-util/e-html-editor-page-dialog.c:105
+#: ../e-util/e-html-editor-page-dialog.c:107
 #, fuzzy
 msgid "Midnight"
 msgstr "V terminalu odpri program Midnight Commander"
 
-#: ../e-util/e-html-editor-page-dialog.c:123 ../mail/filtertypes.xml.in.h:36
+#: ../e-util/e-html-editor-page-dialog.c:125 ../mail/filtertypes.xml.in.h:36
 #: ../mail/searchtypes.xml.in.h:39 ../mail/vfoldertypes.xml.in.h:39
 msgid "Draft"
 msgstr "Osnutek"
 
-#: ../e-util/e-html-editor-page-dialog.c:132
+#: ../e-util/e-html-editor-page-dialog.c:134
 #, fuzzy
 msgid "Graph Paper"
 msgstr "Papir za grafe"
 
-#: ../e-util/e-html-editor-page-dialog.c:415
+#: ../e-util/e-html-editor-page-dialog.c:478
 msgid "<b>Colors</b>"
 msgstr "<b>Barve</b>"
 
-#: ../e-util/e-html-editor-page-dialog.c:434
+#: ../e-util/e-html-editor-page-dialog.c:497
 msgid "_Text:"
 msgstr "_Besedilo:"
 
-#: ../e-util/e-html-editor-page-dialog.c:449
+#: ../e-util/e-html-editor-page-dialog.c:512
 msgid "_Link:"
 msgstr "_Povezava:"
 
-#: ../e-util/e-html-editor-page-dialog.c:464
+#: ../e-util/e-html-editor-page-dialog.c:527
 msgid "_Background:"
 msgstr "_Ozadje:"
 
-#: ../e-util/e-html-editor-page-dialog.c:472
+#: ../e-util/e-html-editor-page-dialog.c:535
 msgid "<b>Background Image</b>"
 msgstr "<b>Slika ozadja</b>"
 
-#: ../e-util/e-html-editor-page-dialog.c:494
+#: ../e-util/e-html-editor-page-dialog.c:557
 msgid "_Template:"
 msgstr "_Predloga:"
 
-#: ../e-util/e-html-editor-page-dialog.c:502
+#: ../e-util/e-html-editor-page-dialog.c:565
 #: ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "Izbor datoteke"
 
-#: ../e-util/e-html-editor-page-dialog.c:509
+#: ../e-util/e-html-editor-page-dialog.c:572
 msgid "_Custom:"
 msgstr "_Po meri:"
 
-#: ../e-util/e-html-editor-page-dialog.c:536
+#: ../e-util/e-html-editor-page-dialog.c:599
 msgid "Page Properties"
 msgstr "Lastnosti strani"
 
@@ -12726,7 +12719,7 @@ msgstr "<b>Poravnava</b>"
 msgid "Paragraph Properties"
 msgstr "Lastnosti odstavka"
 
-#: ../e-util/e-html-editor-replace-dialog.c:148
+#: ../e-util/e-html-editor-replace-dialog.c:163
 #, c-format
 msgid "%d occurence replaced"
 msgid_plural "%d occurences replaced"
@@ -12735,37 +12728,37 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: ../e-util/e-html-editor-replace-dialog.c:212
+#: ../e-util/e-html-editor-replace-dialog.c:227
 msgid "R_eplace:"
 msgstr "_Zamenjaj:"
 
-#: ../e-util/e-html-editor-replace-dialog.c:224
+#: ../e-util/e-html-editor-replace-dialog.c:239
 msgid "_With:"
 msgstr "_Z:"
 
-#: ../e-util/e-html-editor-replace-dialog.c:236
+#: ../e-util/e-html-editor-replace-dialog.c:251
 msgid "_Case sensitive"
 msgstr "_Razlikovanje velikosti črk"
 
-#: ../e-util/e-html-editor-replace-dialog.c:240
+#: ../e-util/e-html-editor-replace-dialog.c:255
 #, fuzzy
 msgid "Wra_p search"
 msgstr "P' = P / A"
 
-#: ../e-util/e-html-editor-replace-dialog.c:250
+#: ../e-util/e-html-editor-replace-dialog.c:265
 msgid "_Skip"
 msgstr "Pre_skoči"
 
-#: ../e-util/e-html-editor-replace-dialog.c:258
+#: ../e-util/e-html-editor-replace-dialog.c:273
 #: ../e-util/e-system.error.xml.h:3
 msgid "_Replace"
 msgstr "_Zamenjaj"
 
-#: ../e-util/e-html-editor-replace-dialog.c:266
+#: ../e-util/e-html-editor-replace-dialog.c:281
 msgid "Replace _All"
 msgstr "Zamenjaj _vse"
 
-#: ../e-util/e-html-editor-replace-dialog.c:286
+#: ../e-util/e-html-editor-replace-dialog.c:301
 msgctxt "dialog-title"
 msgid "Replace"
 msgstr "Zamenjaj"
@@ -12775,77 +12768,76 @@ msgstr "Zamenjaj"
 msgid "<b>Suggestions for '%s'</b>"
 msgstr "<b>Predlogi za '%s'</b>"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:501
+#: ../e-util/e-html-editor-spell-check-dialog.c:505
 msgid "<b>Suggestions</b>"
 msgstr "<b>Predlogi</b>"
 
 #. Replace
-#: ../e-util/e-html-editor-spell-check-dialog.c:536
+#: ../e-util/e-html-editor-spell-check-dialog.c:540
 msgid "Replace"
 msgstr "Zamenjaj"
 
 #. Replace All
-#: ../e-util/e-html-editor-spell-check-dialog.c:545
+#: ../e-util/e-html-editor-spell-check-dialog.c:549
 msgid "Replace All"
 msgstr "Zamenjaj vse"
 
 #. Ignore
-#: ../e-util/e-html-editor-spell-check-dialog.c:554
+#: ../e-util/e-html-editor-spell-check-dialog.c:558
 #: ../mail/mail.error.xml.h:109
 msgid "Ignore"
 msgstr "Prezri"
 
 #. Skip
-#: ../e-util/e-html-editor-spell-check-dialog.c:563
+#: ../e-util/e-html-editor-spell-check-dialog.c:567
 msgid "Skip"
 msgstr "Preskoči"
 
 #. Back
-#: ../e-util/e-html-editor-spell-check-dialog.c:572
-#, fuzzy
+#: ../e-util/e-html-editor-spell-check-dialog.c:576
 msgid "Back"
-msgstr "nazaj"
+msgstr "Nazaj"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:581
+#: ../e-util/e-html-editor-spell-check-dialog.c:585
 msgid "<b>Dictionary</b>"
 msgstr "<b>Slovar</b>"
 
 #. Add Word button
-#: ../e-util/e-html-editor-spell-check-dialog.c:601
+#: ../e-util/e-html-editor-spell-check-dialog.c:605
 msgid "Add word"
 msgstr "_Dodaj besedo"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:618
+#: ../e-util/e-html-editor-spell-check-dialog.c:622
 #: ../mail/mail-config.ui.h:37
 msgid "Spell Checking"
 msgstr "Preverjanje črkovanja"
 
-#: ../e-util/e-html-editor-table-dialog.c:738
+#: ../e-util/e-html-editor-table-dialog.c:782
 msgid "_Rows:"
 msgstr "V_rstice:"
 
-#: ../e-util/e-html-editor-table-dialog.c:755
+#: ../e-util/e-html-editor-table-dialog.c:799
 msgid "C_olumns:"
 msgstr "Stolp_ci:"
 
-#: ../e-util/e-html-editor-table-dialog.c:806
+#: ../e-util/e-html-editor-table-dialog.c:850
 msgid "_Spacing:"
 msgstr "_Razmik:"
 
-#: ../e-util/e-html-editor-table-dialog.c:823
+#: ../e-util/e-html-editor-table-dialog.c:867
 msgid "_Padding:"
 msgstr "_Polnjenje:"
 
-#: ../e-util/e-html-editor-table-dialog.c:887
+#: ../e-util/e-html-editor-table-dialog.c:931
 #: ../e-util/e-html-editor-text-dialog.c:261
 msgid "_Color:"
 msgstr "_Barva:"
 
-#: ../e-util/e-html-editor-table-dialog.c:913
+#: ../e-util/e-html-editor-table-dialog.c:957
 msgid "Image:"
 msgstr "Slika:"
 
-#: ../e-util/e-html-editor-table-dialog.c:940
+#: ../e-util/e-html-editor-table-dialog.c:984
 msgid "Table Properties"
 msgstr "Lastnosti razpredelnice"
 
@@ -12857,27 +12849,25 @@ msgstr "_Velikost:"
 msgid "Text Properties"
 msgstr "Lastnosti besedila"
 
-#: ../e-util/e-html-editor-view.c:3635
-#, fuzzy
+#: ../e-util/e-html-editor-view.c:4952
 msgid "Changed property"
 msgstr "Spremenjena lastnost"
 
-#: ../e-util/e-html-editor-view.c:3636
-#, fuzzy
+#: ../e-util/e-html-editor-view.c:4953
 msgid "Whether editor changed"
-msgstr "Ali je dokument spremenjen."
+msgstr "Ali je dokument spremenjen"
 
-#: ../e-util/e-html-editor-view.c:7493
+#: ../e-util/e-html-editor-view.c:8824
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
 msgstr ""
 
-#: ../e-util/e-html-editor-view.c:7497
+#: ../e-util/e-html-editor-view.c:8828
 msgid "_Don't lose formatting"
 msgstr "_Ne izgubi oblikovanja"
 
-#: ../e-util/e-html-editor-view.c:7498
+#: ../e-util/e-html-editor-view.c:8829
 msgid "_Lose formatting"
 msgstr "_Izgubi oblikovanje"
 
@@ -12994,15 +12984,15 @@ msgstr "Zapri"
 msgid "_Save and Close"
 msgstr "_Shrani in zapri"
 
-#: ../e-util/e-mail-signature-editor.c:531
+#: ../e-util/e-mail-signature-editor.c:529
 msgid "Edit Signature"
 msgstr "Uredi podpis"
 
-#: ../e-util/e-mail-signature-editor.c:564
+#: ../e-util/e-mail-signature-editor.c:562
 msgid "_Signature Name:"
 msgstr "_Ime podpisa:"
 
-#: ../e-util/e-mail-signature-editor.c:600
+#: ../e-util/e-mail-signature-editor.c:598
 msgid "Unnamed"
 msgstr "Neimenovan"
 
@@ -13053,31 +13043,29 @@ msgstr ""
 msgid "Could not open the link."
 msgstr "Ni mogoče odpreti povezave."
 
-#: ../e-util/e-misc-utils.c:295
+#: ../e-util/e-misc-utils.c:330
 msgid "Could not display help for Evolution."
 msgstr "Ni mogoče prikazati pomoči za program Evolution."
 
-#: ../e-util/e-misc-utils.c:2348
+#: ../e-util/e-misc-utils.c:2383
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Odpiranje koledarja '%s'"
 
-#: ../e-util/e-misc-utils.c:2351
+#: ../e-util/e-misc-utils.c:2386
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Odpiranje seznama opomnikov '%s'"
 
-#: ../e-util/e-misc-utils.c:2354
+#: ../e-util/e-misc-utils.c:2389
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Odpiranje seznama opravil '%s'"
 
-#: ../e-util/e-misc-utils.c:2357
-#, fuzzy, c-format
+#: ../e-util/e-misc-utils.c:2392
+#, c-format
 msgid "Opening address book '%s'"
-msgstr ""
-"Napaka med odpiranjem imenika '%s':\n"
-"%s"
+msgstr "Poteka odpiranje imenika '%s'"
 
 #: ../e-util/e-name-selector-dialog.c:277
 msgid "Show Contacts"
@@ -13542,26 +13530,26 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #. no suggestions. Put something in the menu anyway...
-#: ../e-util/e-spell-entry.c:379
+#: ../e-util/e-spell-entry.c:408
 msgid "(no suggestions)"
 msgstr "(ni predlogov)"
 
-#: ../e-util/e-spell-entry.c:403
+#: ../e-util/e-spell-entry.c:432
 msgid "More..."
 msgstr "Dodatno ..."
 
 #. + Add to Dictionary
-#: ../e-util/e-spell-entry.c:488
+#: ../e-util/e-spell-entry.c:517
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "Dodaj \"%s\" v slovar"
 
 #. - Ignore All
-#: ../e-util/e-spell-entry.c:537
+#: ../e-util/e-spell-entry.c:566
 msgid "Ignore All"
 msgstr "Prezri vse"
 
-#: ../e-util/e-spell-entry.c:569
+#: ../e-util/e-spell-entry.c:598
 msgid "Spelling Suggestions"
 msgstr "Predlogi črkovanja"
 
@@ -13978,46 +13966,45 @@ msgid "Click to hide/unhide addresses"
 msgstr "Kliknite za skritje/prikaz naslovov"
 
 #: ../e-util/e-web-view.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "Go to the section %s of the message"
-msgstr "Skoči na predhodno neprevedeno sporočilo"
+msgstr "Skoči na %s del sporočila"
 
 #: ../e-util/e-web-view.c:1019
-#, fuzzy
 msgid "Go to the beginning of the message"
-msgstr "Pojdi na začetek časovnice"
+msgstr "Skoči na začetek del sporočila"
 
 #: ../e-util/e-web-view.c:1023
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknite za odpiranje %s"
 
-#: ../e-util/e-web-view.c:2941
+#: ../e-util/e-web-view.c:2946
 msgid "Copying image to clipboard"
 msgstr "Poteka kopiranje slike v odložišče"
 
-#: ../e-util/e-web-view.c:3129
+#: ../e-util/e-web-view.c:3134
 msgid "Save Image"
 msgstr "Shrani sliko"
 
-#: ../e-util/e-web-view.c:3165
+#: ../e-util/e-web-view.c:3170
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Poteka shranjevanje slike v '%s'"
 
-#: ../e-util/e-widget-undo.c:429
+#: ../e-util/e-widget-undo.c:430
 msgid "Undo 'Insert text'"
 msgstr "Razveljavi 'vstavljanje besedila'"
 
-#: ../e-util/e-widget-undo.c:431
+#: ../e-util/e-widget-undo.c:432
 msgid "Redo 'Insert text'"
 msgstr "Ponovno uveljavi 'vstavljanje besedila'"
 
-#: ../e-util/e-widget-undo.c:445
+#: ../e-util/e-widget-undo.c:446
 msgid "Undo 'Delete text'"
 msgstr "Razveljavi 'brisanje besedila'"
 
-#: ../e-util/e-widget-undo.c:447
+#: ../e-util/e-widget-undo.c:448
 msgid "Redo 'Delete text'"
 msgstr "Ponovno uveljavi 'brisanje besedila'"
 
@@ -14165,9 +14152,8 @@ msgstr "prikaže podrejen predmet v pojavnem oknu"
 
 #. Translators: description of an "edit" action
 #: ../e-util/gal-a11y-e-cell-text.c:617
-#, fuzzy
 msgid "begin editing this cell"
-msgstr "Gradnik, ki trenutno ureja urejano celico"
+msgstr "začni z urejanjem te celice"
 
 #. Translators: description of a "toggle" action
 #: ../e-util/gal-a11y-e-cell-toggle.c:185
@@ -14358,8 +14344,8 @@ msgstr "Poslano"
 #: ../mail/importers/kmail-libs.c:149
 #: ../modules/mail/e-mail-shell-view-private.c:1080
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
-#: ../plugins/templates/templates.c:1130 ../plugins/templates/templates.c:1432
-#: ../plugins/templates/templates.c:1442
+#: ../plugins/templates/templates.c:1176 ../plugins/templates/templates.c:1478
+#: ../plugins/templates/templates.c:1488
 msgid "Templates"
 msgstr "Predloge"
 
@@ -14393,9 +14379,9 @@ msgstr "Na voljo ni nobene storitve za dostop do pošte"
 
 #: ../libemail-engine/e-mail-session-utils.c:629
 #: ../libemail-engine/mail-ops.c:718
-#, fuzzy, c-format
+#, c-format
 msgid "Posting message to '%s'"
-msgstr "Napaka med objavljanjem na %s"
+msgstr "Poteka objavljanje na '%s'"
 
 #: ../libemail-engine/e-mail-session-utils.c:666
 #: ../libemail-engine/mail-ops.c:754
@@ -14406,9 +14392,9 @@ msgstr "Uveljavljanje izhodnih filtrov ni uspelo: %s"
 #: ../libemail-engine/e-mail-session-utils.c:696
 #: ../libemail-engine/e-mail-session-utils.c:731
 #: ../libemail-engine/mail-ops.c:778 ../libemail-engine/mail-ops.c:813
-#, fuzzy, c-format
+#, c-format
 msgid "Storing sent message to '%s'"
-msgstr "Sporočilo je bilo poslano"
+msgstr "Poteka shranjevanje sporočila v '%s'"
 
 #: ../libemail-engine/e-mail-session-utils.c:720
 #: ../libemail-engine/mail-ops.c:802
@@ -14620,7 +14606,7 @@ msgid "De_fault"
 msgstr "_Privzeto"
 
 #: ../mail/e-mail-account-tree-view.c:83
-#: ../modules/mail/em-composer-prefs.c:1234
+#: ../modules/mail/em-composer-prefs.c:1263
 #: ../modules/plugin-manager/evolution-plugin-manager.c:358
 #: ../plugins/publish-calendar/publish-calendar.c:896
 msgid "Enabled"
@@ -14665,7 +14651,7 @@ msgstr "Pomočnik za račune Evolutiona"
 msgid "_Revise Details"
 msgstr "_Preglej podrobnosti"
 
-#: ../mail/e-mail-config-auth-check.c:349
+#: ../mail/e-mail-config-auth-check.c:351
 msgid "Check for Supported Types"
 msgstr "Preveri za podprte vrste"
 
@@ -14712,9 +14698,8 @@ msgid "S_ave replies in the folder of the message being replied to"
 msgstr "S_hrani odgovore v mapo sporočila, na katerega se nanaša odgovor"
 
 #: ../mail/e-mail-config-defaults-page.c:628
-#, fuzzy
 msgid "Archi_ve Folder:"
-msgstr "_Odstrani priloge"
+msgstr "Mapa _arhiva:"
 
 #: ../mail/e-mail-config-defaults-page.c:638
 #: ../modules/mail/em-mailer-prefs.c:1079
@@ -15086,42 +15071,42 @@ msgstr "Ime _mape:"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
-#: ../mail/e-mail-free-form-exp.c:226
+#: ../mail/e-mail-free-form-exp.c:236
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Odgovorjeno"
 
-#: ../mail/e-mail-free-form-exp.c:227
+#: ../mail/e-mail-free-form-exp.c:237
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Izbrisano"
 
-#: ../mail/e-mail-free-form-exp.c:228
+#: ../mail/e-mail-free-form-exp.c:238
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Osnutek"
 
-#: ../mail/e-mail-free-form-exp.c:229
+#: ../mail/e-mail-free-form-exp.c:239
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Označeno z zastavico"
 
-#: ../mail/e-mail-free-form-exp.c:230
+#: ../mail/e-mail-free-form-exp.c:240
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Videno"
 
-#: ../mail/e-mail-free-form-exp.c:231
+#: ../mail/e-mail-free-form-exp.c:241
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Priloge"
 
-#: ../mail/e-mail-free-form-exp.c:479
+#: ../mail/e-mail-free-form-exp.c:489
 msgctxt "ffe"
 msgid "no"
 msgstr "ne"
 
-#: ../mail/e-mail-free-form-exp.c:480
+#: ../mail/e-mail-free-form-exp.c:490
 msgctxt "ffe"
 msgid "false"
 msgstr "napak"
@@ -15159,7 +15144,7 @@ msgid "_Later"
 msgstr "_Pozneje"
 
 #: ../mail/e-mail-label-manager.c:171
-#: ../modules/mail/e-mail-shell-view-actions.c:1078
+#: ../modules/mail/e-mail-shell-view-actions.c:1084
 msgid "Add Label"
 msgstr "Dodaj oznako"
 
@@ -15798,38 +15783,38 @@ msgstr "Pokaži sporočila z vsemi glavami elektronske pošte"
 msgid "Retrieving message"
 msgstr "Pridobivanje sporočila"
 
-#: ../mail/e-mail-reader.c:4028
+#: ../mail/e-mail-reader.c:4033
 #: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "_Posreduj naprej"
 
-#: ../mail/e-mail-reader.c:4029
+#: ../mail/e-mail-reader.c:4034
 msgid "Forward the selected message to someone"
 msgstr "Nekomu posreduje izbrano sporočilo"
 
-#: ../mail/e-mail-reader.c:4048
+#: ../mail/e-mail-reader.c:4053
 msgid "Group Reply"
 msgstr "Skupinski odgovor"
 
-#: ../mail/e-mail-reader.c:4049
+#: ../mail/e-mail-reader.c:4054
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ali je odgovor namenjen dopisnemu seznamu ali vsem prejemnikom"
 
-#: ../mail/e-mail-reader.c:4115 ../mail/filtertypes.xml.in.h:65
+#: ../mail/e-mail-reader.c:4120 ../mail/filtertypes.xml.in.h:65
 msgid "Delete"
 msgstr "Izbriši"
 
-#: ../mail/e-mail-reader.c:4127
+#: ../mail/e-mail-reader.c:4132
 #: ../modules/calendar/e-cal-shell-view-actions.c:1212
 msgid "Next"
 msgstr "Naslednji"
 
-#: ../mail/e-mail-reader.c:4131
+#: ../mail/e-mail-reader.c:4136
 #: ../modules/calendar/e-cal-shell-view-actions.c:1205
 msgid "Previous"
 msgstr "Predhodni"
 
-#: ../mail/e-mail-reader.c:4140 ../mail/mail-dialogs.ui.h:16
+#: ../mail/e-mail-reader.c:4145 ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "Odgovori"
 
@@ -15838,9 +15823,9 @@ msgid "Do not warn me again"
 msgstr "Ne opozori več"
 
 #: ../mail/e-mail-reader-utils.c:556
-#: ../modules/cal-config-caldav/e-caldav-chooser.c:1806
-#: ../modules/cal-config-google/e-google-chooser.c:1843
-#: ../plugins/face/face.c:170 ../shell/e-shell.c:861 ../shell/e-shell.c:882
+#: ../modules/cal-config-caldav/e-caldav-chooser.c:1805
+#: ../modules/cal-config-google/e-google-chooser.c:1842
+#: ../plugins/face/face.c:170 ../shell/e-shell.c:867 ../shell/e-shell.c:888
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Neznana napaka"
@@ -15937,7 +15922,7 @@ msgstr "Vira podatkov za UID '%s' ni bilo mogoče najti."
 #. * when quoting messages.  Each ${Variable} gets replaced
 #. * with a value.  To see a full list of available variables,
 #. * see mail/em-composer-utils.c:attribvars array.
-#: ../mail/em-composer-utils.c:1507
+#: ../mail/em-composer-utils.c:1534
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -15945,24 +15930,24 @@ msgstr ""
 "Dne ${Day}.${Month}.${Year} (${AbbrevWeekdayName}) ob ${24Hour}:${Minute} "
 "${TimeZone} je ${Sender} napisal(a):"
 
-#: ../mail/em-composer-utils.c:1513
+#: ../mail/em-composer-utils.c:1540
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Posredovano sporočilo --------"
 
-#: ../mail/em-composer-utils.c:1518
+#: ../mail/em-composer-utils.c:1545
 msgid "-----Original Message-----"
 msgstr "-------- Izvirno sporočilo --------"
 
-#: ../mail/em-composer-utils.c:2668
+#: ../mail/em-composer-utils.c:2712
 msgid "an unknown sender"
 msgstr "neznan pošiljatelj"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../mail/em-composer-utils.c:3107
+#: ../mail/em-composer-utils.c:3150
 msgid "Posting destination"
 msgstr "Cilj objave"
 
-#: ../mail/em-composer-utils.c:3112
+#: ../mail/em-composer-utils.c:3155
 msgid "Choose folders to post the message to."
 msgstr "Izberite mape, v katere želite objaviti sporočilo."
 
@@ -16092,7 +16077,7 @@ msgid "Subscribe To _All"
 msgstr "Naroči se na _vse"
 
 #: ../mail/em-subscription-editor.c:969 ../mail/em-subscription-editor.c:1867
-#: ../modules/mail/e-mail-shell-view-actions.c:1686
+#: ../modules/mail/e-mail-shell-view-actions.c:1692
 msgid "_Unsubscribe"
 msgstr "_Prekliči naročnino"
 
@@ -16129,7 +16114,7 @@ msgid "Su_bscribe"
 msgstr "_Naroči"
 
 #: ../mail/em-subscription-editor.c:1866
-#: ../modules/mail/e-mail-shell-view-actions.c:1688
+#: ../modules/mail/e-mail-shell-view-actions.c:1694
 msgid "Unsubscribe from the selected folder"
 msgstr "Prekliče naročnino na izbrano mapo"
 
@@ -16154,8 +16139,8 @@ msgid "Refresh the folder list"
 msgstr "Osveži seznam map"
 
 #: ../mail/em-subscription-editor.c:1929
-#: ../modules/mail/e-mail-shell-view-actions.c:1587
-#: ../modules/mail/e-mail-shell-view-actions.c:1658
+#: ../modules/mail/e-mail-shell-view-actions.c:1593
+#: ../modules/mail/e-mail-shell-view-actions.c:1664
 msgid "_Refresh"
 msgstr "_Osveži"
 
@@ -16587,9 +16572,8 @@ msgid "Evolution KMail importer"
 msgstr "Uvoznik vCard Evolution"
 
 #: ../mail/importers/kmail-importer.c:355
-#, fuzzy
 msgid "Import mail and contacts from KMail."
-msgstr "Uvozi pošto iz Elma."
+msgstr "Uvozi pošto in stike iz programa KMail."
 
 #: ../mail/importers/kmail-libs.c:152
 #: ../modules/mail/e-mail-shell-view-private.c:1082
@@ -16894,7 +16878,7 @@ msgid "Use for Recipients"
 msgstr "Uporabi za prejemnike"
 
 #. Translators: Label of a frame with a list of configured accounts in Send account overrides
-#: ../mail/mail-config.ui.h:64 ../modules/mail/em-composer-prefs.c:836
+#: ../mail/mail-config.ui.h:64 ../modules/mail/em-composer-prefs.c:863
 msgid "Account"
 msgstr "Račun"
 
@@ -17009,9 +16993,8 @@ msgid "Confirm _when expunging a folder"
 msgstr "Potrdi ob _uničevanju mape"
 
 #: ../mail/mail-config.ui.h:96
-#, fuzzy
 msgid "Archive Mail"
-msgstr "Arhiv:"
+msgstr "Arhiviraj pošto"
 
 #: ../mail/mail-config.ui.h:97
 #, fuzzy
@@ -17402,7 +17385,7 @@ msgstr ""
 "vseh mapah?"
 
 #: ../mail/mail.error.xml.h:39
-#: ../modules/mail/e-mail-shell-view-actions.c:1573
+#: ../modules/mail/e-mail-shell-view-actions.c:1579
 msgid "_Empty Trash"
 msgstr "Izprazni _smeti"
 
@@ -18025,9 +18008,9 @@ msgid "Deleting junk and expunging trash at '%s'"
 msgstr ""
 
 #: ../mail/mail-send-recv.c:1436
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting junk at '%s'"
-msgstr "Brisanje v \"%s\""
+msgstr "Brisanje neželene pošte v '%s'"
 
 #: ../mail/mail-send-recv.c:1438
 #, fuzzy, c-format
@@ -18086,7 +18069,7 @@ msgstr "visoka"
 msgid "Highest"
 msgstr "najvišja"
 
-#: ../mail/message-list.c:459 ../mail/message-list.c:6043
+#: ../mail/message-list.c:459 ../mail/message-list.c:6041
 msgid "Generating message list"
 msgstr "Ustvarjanje seznama sporočil"
 
@@ -18125,7 +18108,7 @@ msgstr "Sporočila"
 msgid "Follow-up"
 msgstr "Navezava"
 
-#: ../mail/message-list.c:5980
+#: ../mail/message-list.c:5978
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -18136,7 +18119,7 @@ msgstr ""
 "možnosti Pokaži filtre sporočil iz spustnega seznama ali pa z zagonom novega "
 "iskanja s počiščenjem ali pa s spreminjanjem zgornje poizvedbe."
 
-#: ../mail/message-list.c:5988
+#: ../mail/message-list.c:5986
 msgid "There are no messages in this folder."
 msgstr "V tej mapi ni sporočil."
 
@@ -18177,35 +18160,34 @@ msgid "Subject or Addresses contains"
 msgstr "Zadeva ali Nalovi vsebujejo"
 
 #: ../mail/searchtypes.xml.in.h:56
-#: ../modules/mail/e-mail-shell-view-actions.c:2064
+#: ../modules/mail/e-mail-shell-view-actions.c:2070
 msgid "Recipients contain"
 msgstr "Prejemniki vsebujejo"
 
 #: ../mail/searchtypes.xml.in.h:57
-#: ../modules/mail/e-mail-shell-view-actions.c:2057
+#: ../modules/mail/e-mail-shell-view-actions.c:2063
 msgid "Message contains"
 msgstr "Sporočilo vsebuje"
 
 #: ../mail/searchtypes.xml.in.h:58
-#: ../modules/mail/e-mail-shell-view-actions.c:2078
+#: ../modules/mail/e-mail-shell-view-actions.c:2084
 msgid "Subject contains"
 msgstr "Zadeva vsebuje"
 
 #: ../mail/searchtypes.xml.in.h:59
-#: ../modules/mail/e-mail-shell-view-actions.c:2071
+#: ../modules/mail/e-mail-shell-view-actions.c:2077
 msgid "Sender contains"
 msgstr "Pošiljatelj vsebuje"
 
 #: ../mail/searchtypes.xml.in.h:60
-#: ../modules/mail/e-mail-shell-view-actions.c:2043
+#: ../modules/mail/e-mail-shell-view-actions.c:2049
 msgid "Body contains"
 msgstr "Telo vsebuje"
 
 #: ../mail/searchtypes.xml.in.h:61
-#: ../modules/mail/e-mail-shell-view-actions.c:2050
-#, fuzzy
+#: ../modules/mail/e-mail-shell-view-actions.c:2056
 msgid "Free form expression"
-msgstr "Prosta oblika"
+msgstr "Prosta oblika izraza"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:123
@@ -18357,7 +18339,7 @@ msgstr "Pokaži zemljevid z vsemi stiki izbranega imenika"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1261
 #: ../modules/calendar/e-memo-shell-view-actions.c:585
 #: ../modules/calendar/e-task-shell-view-actions.c:710
-#: ../modules/mail/e-mail-shell-view-actions.c:1665
+#: ../modules/mail/e-mail-shell-view-actions.c:1671
 msgid "_Rename..."
 msgstr "_Preimenuj ..."
 
@@ -18438,7 +18420,7 @@ msgstr "_Dejanja"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1058
 #: ../modules/calendar/e-memo-shell-view-actions.c:622
 #: ../modules/calendar/e-task-shell-view-actions.c:775
-#: ../modules/mail/e-mail-shell-view-actions.c:1830
+#: ../modules/mail/e-mail-shell-view-actions.c:1836
 msgid "_Preview"
 msgstr "_Predogled"
 
@@ -18465,7 +18447,7 @@ msgstr "Pokaže zemljevid v oknu predogleda stika"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1140
 #: ../modules/calendar/e-memo-shell-view-actions.c:692
 #: ../modules/calendar/e-task-shell-view-actions.c:857
-#: ../modules/mail/e-mail-shell-view-actions.c:1960
+#: ../modules/mail/e-mail-shell-view-actions.c:1966
 msgid "_Classic View"
 msgstr "_Običajni pogled"
 
@@ -18476,7 +18458,7 @@ msgstr "Pokaži predogled stika pod seznamom stikov"
 #: ../modules/addressbook/e-book-shell-view-actions.c:1147
 #: ../modules/calendar/e-memo-shell-view-actions.c:699
 #: ../modules/calendar/e-task-shell-view-actions.c:864
-#: ../modules/mail/e-mail-shell-view-actions.c:1967
+#: ../modules/mail/e-mail-shell-view-actions.c:1973
 msgid "_Vertical View"
 msgstr "_Navpični pogled"
 
@@ -18495,7 +18477,7 @@ msgstr "Brez zadetka"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1604
 #: ../modules/calendar/e-memo-shell-view-actions.c:726
 #: ../modules/calendar/e-task-shell-view-actions.c:926
-#: ../modules/mail/e-mail-shell-view-actions.c:2036
+#: ../modules/mail/e-mail-shell-view-actions.c:2042
 #: ../shell/e-shell-content.c:657
 msgid "Advanced Search"
 msgstr "Napredno iskanje"
@@ -19133,45 +19115,45 @@ msgstr "Nov seznam opomnikov"
 msgid "New Task List"
 msgstr "Nov seznam nalog"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:540
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:548
 #, fuzzy, c-format
 msgid "Copying an event into the calendar '%s'"
 msgstr "Dogodek koledarja: povzetek je %s."
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:541
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:549
 #, fuzzy, c-format
 msgid "Moving an event into the calendar '%s'"
 msgstr "Dogodek koledarja: povzetek je %s."
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:546
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:554
 #, fuzzy, c-format
 msgid "Copying a memo into the memo list '%s'"
 msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:547
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:555
 #, fuzzy, c-format
 msgid "Moving a memo into the memo list '%s'"
 msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:552
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:560
 #, fuzzy, c-format
 msgid "Copying a task into the task list '%s'"
 msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:553
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:561
 #, fuzzy, c-format
 msgid "Moving a task into the task list '%s'"
 msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:650
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:658
 msgid "Calendar Selector"
 msgstr "Izbirnik koledarjev"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:656
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:664
 msgid "Memo List Selector"
 msgstr "Izbirnik seznama opomnikov"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:661
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:669
 msgid "Task List Selector"
 msgstr "Izbirnik seznama nalog"
 
@@ -21022,358 +21004,358 @@ msgstr[1] "%d priloženo sporočilo"
 msgstr[2] "%d priloženi sporočili"
 msgstr[3] "%d priložena sporočila"
 
-#: ../modules/mail/e-mail-shell-backend.c:350
+#: ../modules/mail/e-mail-shell-backend.c:349
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_Poštno sporočilo"
 
-#: ../modules/mail/e-mail-shell-backend.c:352
+#: ../modules/mail/e-mail-shell-backend.c:351
 msgid "Compose a new mail message"
 msgstr "Sestavi novo poštno sporočilo"
 
-#: ../modules/mail/e-mail-shell-backend.c:360
+#: ../modules/mail/e-mail-shell-backend.c:359
 msgctxt "New"
 msgid "Mail Acco_unt"
 msgstr "Poštni _račun"
 
-#: ../modules/mail/e-mail-shell-backend.c:362
+#: ../modules/mail/e-mail-shell-backend.c:361
 msgid "Create a new mail account"
 msgstr "Ustvari nov poštni račun"
 
-#: ../modules/mail/e-mail-shell-backend.c:367
+#: ../modules/mail/e-mail-shell-backend.c:366
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "Poštna _mapa"
 
-#: ../modules/mail/e-mail-shell-backend.c:369
+#: ../modules/mail/e-mail-shell-backend.c:368
 msgid "Create a new mail folder"
 msgstr "Ustvari novo poštno mapo"
 
-#: ../modules/mail/e-mail-shell-backend.c:684
+#: ../modules/mail/e-mail-shell-backend.c:683
 msgid "Mail Accounts"
 msgstr "Poštni računi"
 
-#: ../modules/mail/e-mail-shell-backend.c:693
+#: ../modules/mail/e-mail-shell-backend.c:692
 msgid "Mail Preferences"
 msgstr "Možnosti pošte"
 
-#: ../modules/mail/e-mail-shell-backend.c:702
+#: ../modules/mail/e-mail-shell-backend.c:701
 msgid "Composer Preferences"
 msgstr "Možnosti sestavljalnika"
 
-#: ../modules/mail/e-mail-shell-backend.c:712
+#: ../modules/mail/e-mail-shell-backend.c:711
 msgid "Network Preferences"
 msgstr "Možnosti omrežja"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../modules/mail/e-mail-shell-backend.c:1004
+#: ../modules/mail/e-mail-shell-backend.c:1003
 msgctxt "label"
 msgid "None"
 msgstr "Brez"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:706
+#: ../modules/mail/e-mail-shell-view-actions.c:712
 msgid "Marking messages as read..."
 msgstr "Poteka označevanje sporočil kot prebrana ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1566
+#: ../modules/mail/e-mail-shell-view-actions.c:1572
 msgid "_Disable Account"
 msgstr "_Onemogoči račun"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1568
+#: ../modules/mail/e-mail-shell-view-actions.c:1574
 msgid "Disable this account"
 msgstr "Onemogoči ta račun"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1575
+#: ../modules/mail/e-mail-shell-view-actions.c:1581
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Trajno odstrani vsa izbrisana sporočila iz vseh map"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1582
+#: ../modules/mail/e-mail-shell-view-actions.c:1588
 msgid "Edit properties of this account"
 msgstr "Uredi lastnosti računa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1589
+#: ../modules/mail/e-mail-shell-view-actions.c:1595
 msgid "Refresh list of folders of this account"
 msgstr "Osveži seznam map tega računa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1594
+#: ../modules/mail/e-mail-shell-view-actions.c:1600
 msgid "_Download Messages for Offline Usage"
 msgstr "_Prejmi sporočila za pregledovanje brez povezave"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1596
+#: ../modules/mail/e-mail-shell-view-actions.c:1602
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "Prejmi sporočila računov in map označenih za delo brez povezave"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1601
+#: ../modules/mail/e-mail-shell-view-actions.c:1607
 msgid "Fl_ush Outbox"
 msgstr "_Odplakni odhodna sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1608
+#: ../modules/mail/e-mail-shell-view-actions.c:1614
 msgid "_Copy Folder To..."
 msgstr "_Kopiraj mapo v ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1610
+#: ../modules/mail/e-mail-shell-view-actions.c:1616
 msgid "Copy the selected folder into another folder"
 msgstr "Kopira izbrano mapo v drugo mapo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1617
+#: ../modules/mail/e-mail-shell-view-actions.c:1623
 msgid "Permanently remove this folder"
 msgstr "Trajno odstrani to mapo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1622
+#: ../modules/mail/e-mail-shell-view-actions.c:1628
 msgid "E_xpunge"
 msgstr "_Uniči"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1624
+#: ../modules/mail/e-mail-shell-view-actions.c:1630
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Trajno odstrani vsa izbrisana sporočila iz te mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1629
-#: ../modules/mail/e-mail-shell-view-actions.c:1730
+#: ../modules/mail/e-mail-shell-view-actions.c:1635
+#: ../modules/mail/e-mail-shell-view-actions.c:1736
 msgid "Mar_k All Messages as Read"
 msgstr "Označi vsa sporočila _kot prebrana"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1631
-#: ../modules/mail/e-mail-shell-view-actions.c:1732
+#: ../modules/mail/e-mail-shell-view-actions.c:1637
+#: ../modules/mail/e-mail-shell-view-actions.c:1738
 msgid "Mark all messages in the folder as read"
 msgstr "Označi vsa sporočila v mapi kot prebrana"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1636
+#: ../modules/mail/e-mail-shell-view-actions.c:1642
 msgid "_Move Folder To..."
 msgstr "Premakni _mapo v ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1638
+#: ../modules/mail/e-mail-shell-view-actions.c:1644
 msgid "Move the selected folder into another folder"
 msgstr "Premakne izbrano mapo v drugo mapo"
 
 #. Translators: An action caption to create a new mail folder
-#: ../modules/mail/e-mail-shell-view-actions.c:1644
+#: ../modules/mail/e-mail-shell-view-actions.c:1650
 msgid "_New..."
 msgstr "_Nova ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1646
+#: ../modules/mail/e-mail-shell-view-actions.c:1652
 msgid "Create a new folder for storing mail"
 msgstr "Ustvari novo mapo za shranjevanje pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1653
+#: ../modules/mail/e-mail-shell-view-actions.c:1659
 msgid "Change the properties of this folder"
 msgstr "Spremeni lastnosti te mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1660
+#: ../modules/mail/e-mail-shell-view-actions.c:1666
 msgid "Refresh the folder"
 msgstr "Osveži mapo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1667
+#: ../modules/mail/e-mail-shell-view-actions.c:1673
 msgid "Change the name of this folder"
 msgstr "Spremeni ime te mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1672
+#: ../modules/mail/e-mail-shell-view-actions.c:1678
 msgid "Select Message _Thread"
 msgstr "Izberi _nit sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1674
+#: ../modules/mail/e-mail-shell-view-actions.c:1680
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Izberi vsa sporočila iz iste niti kot izbrano sporočilo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1679
+#: ../modules/mail/e-mail-shell-view-actions.c:1685
 msgid "Select Message S_ubthread"
 msgstr "Izberi pod_nit sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1681
+#: ../modules/mail/e-mail-shell-view-actions.c:1687
 msgid "Select all replies to the currently selected message"
 msgstr "Izbere vse odgovore na trenutno izbrano sporočilo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1693
+#: ../modules/mail/e-mail-shell-view-actions.c:1699
 msgid "Empty _Trash"
 msgstr "Izprazni _smeti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1695
+#: ../modules/mail/e-mail-shell-view-actions.c:1701
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Trajno odstrani vsa izbrisana sporočila iz vseh računov"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1700
+#: ../modules/mail/e-mail-shell-view-actions.c:1706
 msgid "_New Label"
 msgstr "_Nova oznaka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1709
+#: ../modules/mail/e-mail-shell-view-actions.c:1715
 msgid "N_one"
 msgstr "_Brez"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1723
+#: ../modules/mail/e-mail-shell-view-actions.c:1729
 msgid "_Manage Subscriptions"
 msgstr "Upravljanje _naročnin"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1725
-#: ../modules/mail/e-mail-shell-view-actions.c:1809
+#: ../modules/mail/e-mail-shell-view-actions.c:1731
+#: ../modules/mail/e-mail-shell-view-actions.c:1815
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Naroči se ali prekliče naročnino na mape z oddaljenih strežnikov"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1737
-#: ../modules/mail/e-mail-shell-view-actions.c:1758
+#: ../modules/mail/e-mail-shell-view-actions.c:1743
+#: ../modules/mail/e-mail-shell-view-actions.c:1764
 msgid "Send / _Receive"
 msgstr "Pošlji / p_rejmi"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1739
+#: ../modules/mail/e-mail-shell-view-actions.c:1745
 msgid "Send queued items and retrieve new items"
 msgstr "Pošlje čakajočo pošto in prejme novo"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1744
+#: ../modules/mail/e-mail-shell-view-actions.c:1750
 msgid "R_eceive All"
 msgstr "P_rejmi vse"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1746
+#: ../modules/mail/e-mail-shell-view-actions.c:1752
 msgid "Receive new items from all accounts"
 msgstr "Prejemi nove predmete za vse račune"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1751
+#: ../modules/mail/e-mail-shell-view-actions.c:1757
 msgid "_Send All"
 msgstr "_Pošlji vse"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1753
+#: ../modules/mail/e-mail-shell-view-actions.c:1759
 msgid "Send queued items in all accounts"
 msgstr "Pošlje čakajoče predmete v vseh računih"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1781
+#: ../modules/mail/e-mail-shell-view-actions.c:1787
 msgid "Cancel the current mail operation"
 msgstr "Prekliči trenutno opravilo pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1786
+#: ../modules/mail/e-mail-shell-view-actions.c:1792
 msgid "Collapse All _Threads"
 msgstr "Zloži vse ni_ti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1788
+#: ../modules/mail/e-mail-shell-view-actions.c:1794
 msgid "Collapse all message threads"
 msgstr "Zloži niti vseh sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1793
+#: ../modules/mail/e-mail-shell-view-actions.c:1799
 msgid "E_xpand All Threads"
 msgstr "_Razširi vse niti"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1795
+#: ../modules/mail/e-mail-shell-view-actions.c:1801
 msgid "Expand all message threads"
 msgstr "Razširi niti vseh sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1800
+#: ../modules/mail/e-mail-shell-view-actions.c:1806
 msgid "_Message Filters"
 msgstr "Filtri _sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1802
+#: ../modules/mail/e-mail-shell-view-actions.c:1808
 msgid "Create or edit rules for filtering new mail"
 msgstr "Ustvari ali uredi pravila za filtriranje nove pošte"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1807
+#: ../modules/mail/e-mail-shell-view-actions.c:1813
 msgid "_Subscriptions..."
 msgstr "_Naročnine ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1816
+#: ../modules/mail/e-mail-shell-view-actions.c:1822
 msgid "F_older"
 msgstr "_Mapa"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1823
+#: ../modules/mail/e-mail-shell-view-actions.c:1829
 msgid "_Label"
 msgstr "_Oznaka"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1840
+#: ../modules/mail/e-mail-shell-view-actions.c:1846
 msgid "C_reate Search Folder From Search..."
 msgstr "Ustva_ri iskalno mapo iz iskanja ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1847
+#: ../modules/mail/e-mail-shell-view-actions.c:1853
 msgid "Search F_olders"
 msgstr "Iskalne _mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1849
+#: ../modules/mail/e-mail-shell-view-actions.c:1855
 msgid "Create or edit search folder definitions"
 msgstr "Ustvari ali uredi določila iskalnih map"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1888
+#: ../modules/mail/e-mail-shell-view-actions.c:1894
 msgid "_New Folder..."
 msgstr "_Nova mapa ..."
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1916
+#: ../modules/mail/e-mail-shell-view-actions.c:1922
 msgid "Show Message _Preview"
 msgstr "Pokaži _predogled sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1918
+#: ../modules/mail/e-mail-shell-view-actions.c:1924
 msgid "Show message preview pane"
 msgstr "Pokaži pladenj predogleda sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1924
+#: ../modules/mail/e-mail-shell-view-actions.c:1930
 msgid "Show _Deleted Messages"
 msgstr "Pokaži _izbrisana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1926
+#: ../modules/mail/e-mail-shell-view-actions.c:1932
 msgid "Show deleted messages with a line through them"
 msgstr "Pokaži izbrisana sporočila (prečrtana) na seznamu sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1932
+#: ../modules/mail/e-mail-shell-view-actions.c:1938
 msgid "_Group By Threads"
 msgstr "_Združi po nitih"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1934
+#: ../modules/mail/e-mail-shell-view-actions.c:1940
 msgid "Threaded message list"
 msgstr "Niten seznam sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1940
+#: ../modules/mail/e-mail-shell-view-actions.c:1946
 msgid "_Unmatched Folder Enabled"
 msgstr "_Omogoči neujemajoče iskalne mape"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1942
+#: ../modules/mail/e-mail-shell-view-actions.c:1948
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Preklopi možnost omogočanja neujemajočih iskalnih map"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1962
+#: ../modules/mail/e-mail-shell-view-actions.c:1968
 msgid "Show message preview below the message list"
 msgstr "Pokaži predogled sporočil pod seznamom sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1969
+#: ../modules/mail/e-mail-shell-view-actions.c:1975
 msgid "Show message preview alongside the message list"
 msgstr "Pokaži predogled sporočil ob seznamu sporočil"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1977
+#: ../modules/mail/e-mail-shell-view-actions.c:1983
 msgid "All Messages"
 msgstr "Vsa sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1984
+#: ../modules/mail/e-mail-shell-view-actions.c:1990
 msgid "Important Messages"
 msgstr "Pomembna sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1991
+#: ../modules/mail/e-mail-shell-view-actions.c:1997
 msgid "Last 5 Days' Messages"
 msgstr "Sporočila zadnjih 5 dni"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:1998
+#: ../modules/mail/e-mail-shell-view-actions.c:2004
 msgid "Messages Not Junk"
 msgstr "Sporočila, ki niso vsiljena"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2005
+#: ../modules/mail/e-mail-shell-view-actions.c:2011
 msgid "Messages with Attachments"
 msgstr "Sporočila s prilogami"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2012
+#: ../modules/mail/e-mail-shell-view-actions.c:2018
 msgid "No Label"
 msgstr "Brez oznake"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2019
+#: ../modules/mail/e-mail-shell-view-actions.c:2025
 msgid "Read Messages"
 msgstr "Prebrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2026
+#: ../modules/mail/e-mail-shell-view-actions.c:2032
 msgid "Unread Messages"
 msgstr "Neprebrana sporočila"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2085
+#: ../modules/mail/e-mail-shell-view-actions.c:2091
 msgid "Subject or Addresses contain"
 msgstr "Zadeva ali pošiljatelj vsebuje"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2095
+#: ../modules/mail/e-mail-shell-view-actions.c:2101
 msgid "All Accounts"
 msgstr "Vsi računi"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2102
+#: ../modules/mail/e-mail-shell-view-actions.c:2108
 msgid "Current Account"
 msgstr "Trenutni račun"
 
-#: ../modules/mail/e-mail-shell-view-actions.c:2109
+#: ../modules/mail/e-mail-shell-view-actions.c:2115
 msgid "Current Folder"
 msgstr "Trenutna mapa"
 
@@ -21463,33 +21445,31 @@ msgstr[3] "skupaj: %d"
 msgid "Send / Receive"
 msgstr "Oddaja / sprejem"
 
-#: ../modules/mail/em-composer-prefs.c:394
+#: ../modules/mail/em-composer-prefs.c:413
 msgid "Select Folder to Add"
 msgstr "Izbor mape za dodajanje"
 
-#: ../modules/mail/em-composer-prefs.c:854
+#: ../modules/mail/em-composer-prefs.c:883
 msgid "Folder"
 msgstr "Mapa"
 
-#: ../modules/mail/em-composer-prefs.c:890
+#: ../modules/mail/em-composer-prefs.c:919
 msgid "Recipient"
 msgstr "Prejemnik"
 
-#: ../modules/mail/em-composer-prefs.c:1163
-#, fuzzy
+#: ../modules/mail/em-composer-prefs.c:1192
 msgid "Keep in Outbox"
-msgstr "_Odhodni predal:"
+msgstr "Ohrani v mapi odhodne pošte"
 
-#: ../modules/mail/em-composer-prefs.c:1164
+#: ../modules/mail/em-composer-prefs.c:1193
 msgid "Send immediately"
 msgstr "Pošlji takoj"
 
-#: ../modules/mail/em-composer-prefs.c:1165
-#, fuzzy
+#: ../modules/mail/em-composer-prefs.c:1194
 msgid "Send after 5 minutes"
-msgstr "Preostalo je še 5 minut"
+msgstr "Pošlji čez 5 minut"
 
-#: ../modules/mail/em-composer-prefs.c:1238
+#: ../modules/mail/em-composer-prefs.c:1267
 msgid "Language(s)"
 msgstr "Jezik(i)"
 
@@ -21733,9 +21713,8 @@ msgid "SpamAssassin"
 msgstr "SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
-#, fuzzy
 msgid "Junk filter using SpamAssassin"
-msgstr "Preveri, ali so izbrana sporočila neželena"
+msgstr "Filtriranje neželenih sporočil s SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -22465,8 +22444,8 @@ msgstr ""
 "\n"
 "Glava: {0}"
 
-#: ../plugins/mail-notification/mail-notification.c:382
-#: ../plugins/mail-notification/mail-notification.c:418
+#: ../plugins/mail-notification/mail-notification.c:394
+#: ../plugins/mail-notification/mail-notification.c:430
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -22477,54 +22456,54 @@ msgstr[3] "Prejeli ste %d nova sporočila."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../plugins/mail-notification/mail-notification.c:393
+#: ../plugins/mail-notification/mail-notification.c:405
 #, c-format
 msgid "From: %s"
 msgstr "Od: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:407
+#: ../plugins/mail-notification/mail-notification.c:419
 #, c-format
 msgid "Subject: %s"
 msgstr "Zadeva: %s"
 
-#: ../plugins/mail-notification/mail-notification.c:424
+#: ../plugins/mail-notification/mail-notification.c:436
 msgid "New email in Evolution"
 msgstr "Nova pošta v Evolutionu"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../plugins/mail-notification/mail-notification.c:459
+#: ../plugins/mail-notification/mail-notification.c:471
 #, c-format
 msgid "Show %s"
 msgstr "Pokaži %s"
 
-#: ../plugins/mail-notification/mail-notification.c:661
+#: ../plugins/mail-notification/mail-notification.c:673
 msgid "_Play sound when a new message arrives"
 msgstr "Ob prejemu novih sporočil _predvajaj zvok."
 
-#: ../plugins/mail-notification/mail-notification.c:693
+#: ../plugins/mail-notification/mail-notification.c:705
 msgid "_Beep"
 msgstr "_Pisk"
 
-#: ../plugins/mail-notification/mail-notification.c:706
+#: ../plugins/mail-notification/mail-notification.c:718
 msgid "Use sound _theme"
 msgstr "Uporabi _zvočno temo"
 
-#: ../plugins/mail-notification/mail-notification.c:725
+#: ../plugins/mail-notification/mail-notification.c:737
 msgid "Play _file:"
 msgstr "Predvajaj _datoteko:"
 
-#: ../plugins/mail-notification/mail-notification.c:734
+#: ../plugins/mail-notification/mail-notification.c:746
 msgid "Select sound file"
 msgstr "Izbor zvočne datoteke"
 
-#: ../plugins/mail-notification/mail-notification.c:790
+#: ../plugins/mail-notification/mail-notification.c:802
 msgid "Notify new messages for _Inbox only"
 msgstr "Pokaži obvestilo le za nova sporočila v mapi _prihajajočih sporočil"
 
-#: ../plugins/mail-notification/mail-notification.c:800
+#: ../plugins/mail-notification/mail-notification.c:812
 msgid "Show _notification when a new message arrives"
 msgstr "Ob prejemu novih sporočil pokaži obvestilo"
 
@@ -23066,35 +23045,35 @@ msgstr ""
 "$ORIG[zadeva], $ORIG[od], $ORIG[za] ali $ORIG[telo], ki bodo zamenjane z "
 "vrednostmi iz elektronskega sporočila, na katerega odgovarjate."
 
-#: ../plugins/templates/templates.c:1199
+#: ../plugins/templates/templates.c:1245
 msgid "No Title"
 msgstr "Brez naslova"
 
-#: ../plugins/templates/templates.c:1308
+#: ../plugins/templates/templates.c:1354
 msgid "Save as _Template"
 msgstr "Shrani kot _predlogo"
 
-#: ../plugins/templates/templates.c:1310
+#: ../plugins/templates/templates.c:1356
 msgid "Save as Template"
 msgstr "Shrani kot predlogo"
 
-#: ../shell/e-shell.c:335
+#: ../shell/e-shell.c:337
 msgid "Preparing to go offline..."
 msgstr "Priprava za delo brez povezave ..."
 
-#: ../shell/e-shell.c:388
+#: ../shell/e-shell.c:390
 msgid "Preparing to go online..."
 msgstr "Priprava za delo v povezavi ..."
 
-#: ../shell/e-shell.c:495
+#: ../shell/e-shell.c:501
 msgid "Preparing to quit"
 msgstr "Priprava na končanje"
 
-#: ../shell/e-shell.c:501
+#: ../shell/e-shell.c:507
 msgid "Preparing to quit..."
 msgstr "Priprava na končanje ..."
 
-#: ../shell/e-shell.c:909
+#: ../shell/e-shell.c:915
 msgid "Credentials are required to connect to the destination host."
 msgstr ""
 
@@ -23432,7 +23411,7 @@ msgid "New"
 msgstr "Novo"
 
 #. Translators: This is used for the main window title.
-#: ../shell/e-shell-window-private.c:579
+#: ../shell/e-shell-window-private.c:632
 #, c-format
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
@@ -23617,19 +23596,16 @@ msgid "Keep _Waiting"
 msgstr "Čakanje ..."
 
 #: ../shell/shell.error.xml.h:15
-#, fuzzy
 msgid "Failed to get values from '{0}'"
-msgstr "Pridobivanje novih skladb za {0} ni uspelo."
+msgstr "Pridobivanje vrednosti iz '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:16
-#, fuzzy
 msgid "Failed to invoke authenticate for '{0}'"
-msgstr "Overitev na strežniku LDAP ni uspela."
+msgstr "Overitev na strežniku za '{0}' je spodletela."
 
 #: ../shell/shell.error.xml.h:17
-#, fuzzy
 msgid "Failed to connect to '{0}'"
-msgstr "Povezovanje je spodletelo."
+msgstr "Povezovanje s '{0}' je spodletelo."
 
 #: ../shell/shell.error.xml.h:18
 msgid "_Reconnect"
@@ -23803,9 +23779,8 @@ msgid ""
 msgstr ""
 
 #: ../smime/gui/certificate-manager.c:858
-#, fuzzy
 msgid "No file name provided"
-msgstr "Ni dodeljene datoteke podatkovne zbirke"
+msgstr "Ni podanega imena datoteke"
 
 #: ../smime/gui/certificate-manager.c:862
 #, fuzzy
@@ -23868,10 +23843,9 @@ msgid "_Ask when used"
 msgstr "Vprašaj za potrditev ob brisanju predmetov"
 
 #: ../smime/gui/certificate-manager.c:1370
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Temporary (this session only)"
-msgstr "Spusti razpredelnico le, če je začasna"
+msgstr "_Začasno (le za to sejo)"
 
 #: ../smime/gui/certificate-manager.c:1371
 msgctxt "CamelTrust"
@@ -23903,9 +23877,8 @@ msgstr ""
 "in postopke (če so na voljo)."
 
 #: ../smime/gui/certificate-manager.c:1393
-#, fuzzy
 msgid "_Display certificate"
-msgstr "Potrdilo"
+msgstr "_Pokaži potrdilo"
 
 #: ../smime/gui/certificate-manager.c:1598
 #, fuzzy
