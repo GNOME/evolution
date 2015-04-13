@@ -113,6 +113,7 @@ html_editor_selection_get_current_range (EHTMLEditorSelection *selection)
 	g_return_val_if_fail (view != NULL, NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	g_object_unref (view);
 	dom_window = webkit_dom_document_get_default_view (document);
 	if (!dom_window)
 		return NULL;
@@ -123,12 +124,10 @@ html_editor_selection_get_current_range (EHTMLEditorSelection *selection)
 		return NULL;
 	}
 
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
 		goto exit;
-	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-
  exit:
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
@@ -3164,8 +3163,10 @@ e_html_editor_selection_set_font_size (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	current_font_size = e_html_editor_selection_get_font_size (selection);
-	if (current_font_size == font_size)
+	if (current_font_size == font_size) {
+		g_object_unref (view);
 		return;
+	}
 
 	e_html_editor_selection_save (selection);
 
