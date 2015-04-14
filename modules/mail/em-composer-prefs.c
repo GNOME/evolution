@@ -1103,6 +1103,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkInheritThemeColors");
+	g_settings_bind (
+		settings, "composer-inherit-theme-colors",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkPromptAccelSend");
 	g_settings_bind (
 		settings, "prompt-on-accel-send",
