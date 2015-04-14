@@ -51,6 +51,7 @@ struct _EHTMLEditorSelectionPrivate {
 
 	GWeakRef html_editor_view;
 	gulong selection_changed_handler_id;
+	gboolean selection_changed_callbacks_blocked;
 
 	gchar *text;
 
@@ -265,26 +266,35 @@ html_editor_selection_selection_changed_cb (WebKitWebView *web_view,
 void
 e_html_editor_selection_block_selection_changed (EHTMLEditorSelection *selection)
 {
-	EHTMLEditorView *view;
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_signal_handlers_block_by_func (
-		view, html_editor_selection_selection_changed_cb, selection);
-	g_object_unref (view);
+	if (!selection->priv->selection_changed_callbacks_blocked) {
+		EHTMLEditorView *view;
+
+		view = e_html_editor_selection_ref_html_editor_view (selection);
+		g_signal_handlers_block_by_func (
+			view, html_editor_selection_selection_changed_cb, selection);
+		g_object_unref (view);
+		selection->priv->selection_changed_callbacks_blocked = TRUE;
+	}
 }
 
 void
 e_html_editor_selection_unblock_selection_changed (EHTMLEditorSelection *selection)
 {
-	EHTMLEditorView *view;
+	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
-	g_signal_handlers_unblock_by_func (
-		view, html_editor_selection_selection_changed_cb, selection);
+	if (selection->priv->selection_changed_callbacks_blocked) {
+		EHTMLEditorView *view;
 
-	html_editor_selection_selection_changed_cb (WEBKIT_WEB_VIEW (view), selection);
+		view = e_html_editor_selection_ref_html_editor_view (selection);
+		g_signal_handlers_unblock_by_func (
+			view, html_editor_selection_selection_changed_cb, selection);
+		g_object_unref (view);
+		selection->priv->selection_changed_callbacks_blocked = FALSE;
 
-	g_object_unref (view);
+		html_editor_selection_selection_changed_cb (WEBKIT_WEB_VIEW (view), selection);
+	}
 }
 
 static void
@@ -855,6 +865,8 @@ e_html_editor_selection_init (EHTMLEditorSelection *selection)
 	selection->priv->word_wrap_length =
 		g_settings_get_int (g_settings, "composer-word-wrap-length");
 	g_object_unref (g_settings);
+
+	selection->priv->selection_changed_callbacks_blocked = FALSE;
 }
 
 gint
