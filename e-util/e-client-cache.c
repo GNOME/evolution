@@ -1091,6 +1091,18 @@ client_cache_get_client_sync_cb (GObject *source_object,
 	g_mutex_unlock (&data->mutex);
 }
 
+static gboolean
+client_cache_unlock_data_mutex_cb (gpointer user_data)
+{
+	GetClientSyncData *data = user_data;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	g_mutex_unlock (&data->mutex);
+
+	return FALSE;
+}
+
 /**
  * e_client_cache_get_client_sync:
  * @client_cache: an #EClientCache
@@ -1151,6 +1163,7 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
 {
 	GetClientSyncData data;
 	GAsyncResult *result;
+	GSource *idle_source;
 	EClient *client;
 
 	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
@@ -1169,7 +1182,13 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
 	   because that main context effectively dies at the end of this function. */
 	data.closure = e_async_closure_new ();
 
-	g_mutex_unlock (&data.mutex);
+	/* Unlock the closure->lock in the main loop, to ensure thread safety.
+	   It should be processed before anything else, otherwise deadlock happens. */
+	idle_source = g_idle_source_new ();
+	g_source_set_callback (idle_source, client_cache_unlock_data_mutex_cb, &data, NULL);
+	g_source_set_priority (idle_source, G_PRIORITY_HIGH * 2);
+	g_source_attach (idle_source, g_main_context_get_thread_default ());
+	g_source_unref (idle_source);
 
 	result = e_async_closure_wait (data.closure);
 
