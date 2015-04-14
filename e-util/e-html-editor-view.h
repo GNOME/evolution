@@ -279,6 +279,9 @@ WebKitDOMElement *
 void		e_html_editor_view_set_link_color
 						(EHTMLEditorView *view,
 						 GdkRGBA *color);
+void		e_html_editor_view_set_visited_link_color
+						(EHTMLEditorView *view,
+						 GdkRGBA *color);
 gboolean	e_html_editor_view_can_undo 	(EHTMLEditorView *view);
 void		e_html_editor_view_undo 	(EHTMLEditorView *view);
 gboolean	e_html_editor_view_can_redo 	(EHTMLEditorView *view);
@@ -291,6 +294,10 @@ gboolean	e_html_editor_view_is_undo_redo_in_progress
 void		e_html_editor_view_set_undo_redo_in_progress
 						(EHTMLEditorView *view,
 						 gboolean value);
+void		e_html_editor_view_block_style_updated_callbacks
+						(EHTMLEditorView *view);
+void		e_html_editor_view_unblock_style_updated_callbacks
+						(EHTMLEditorView *view);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_VIEW_H */

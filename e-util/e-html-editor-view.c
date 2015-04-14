@@ -104,6 +104,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean undo_redo_in_progress;
 	gboolean dont_save_history_in_body_input;
 	gboolean im_input_in_progress;
+	gboolean style_change_callbacks_blocked;
 
 	GHashTable *old_settings;
 
@@ -1621,6 +1622,8 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 		} else
 			text = webkit_dom_html_element_get_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (parent));
+
+		element_remove_class (parent, "-x-evo-visited-link");
 
 		if (strstr (href, "://") && !strstr (text, "://")) {
 			url = strstr (href, "://") + 3;
@@ -3684,6 +3687,7 @@ html_editor_view_button_release_event (GtkWidget *widget,
 	WebKitWebView *webview;
 	WebKitHitTestResult *hit_test;
 	WebKitHitTestResultContext context;
+	WebKitDOMNode *node;
 	gchar *uri;
 
 	webview = WEBKIT_WEB_VIEW (widget);
@@ -3693,6 +3697,7 @@ html_editor_view_button_release_event (GtkWidget *widget,
 		hit_test,
 		"context", &context,
 		"link-uri", &uri,
+		"inner-node", &node,
 		NULL);
 
 	g_object_unref (hit_test);
@@ -3706,11 +3711,16 @@ html_editor_view_button_release_event (GtkWidget *widget,
 		if (event->state & GDK_CONTROL_MASK) {
 			GtkWidget *toplevel;
 			GdkScreen *screen;
+			WebKitDOMElement *element;
 
 			toplevel = gtk_widget_get_toplevel (widget);
 			screen = gtk_window_get_screen (GTK_WINDOW (toplevel));
 			gtk_show_uri (screen, uri, event->time, NULL);
 			g_free (uri);
+
+			element = e_html_editor_dom_node_find_parent_element (node, "A");
+			if (element)
+				element_add_class (element, "-x-evo-visited-link");
 		}
 
 		return TRUE;
@@ -7778,7 +7788,6 @@ replace_to_whitespaces (const GMatchInfo *info,
 static void
 process_elements (EHTMLEditorView *view,
                   WebKitDOMNode *node,
-                  gboolean to_html,
                   gboolean changing_mode,
                   gboolean to_plain_text,
                   GString *buffer)
@@ -7804,27 +7813,34 @@ process_elements (EHTMLEditorView *view,
 				webkit_dom_named_node_map_get_length (attributes);
 
 			for (ii = 0; ii < attributes_length; ii++) {
-				gchar *name, *value;
+				gchar *name;
 				WebKitDOMNode *node =
 					webkit_dom_named_node_map_item (
 						attributes, ii);
 
 				name = webkit_dom_node_get_local_name (node);
-				value = webkit_dom_node_get_node_value (node);
+				if (g_strcmp0 (name, "bgcolor") != 0 &&
+				    g_strcmp0 (name, "text") != 0 &&
+				    g_strcmp0 (name, "vlink") != 0 &&
+				    g_strcmp0 (name, "link") != 0) {
+					gchar *value;
 
-				g_string_append (buffer, name);
-				g_string_append (buffer, "=\"");
-				g_string_append (buffer, value);
-				g_string_append (buffer, "\" ");
+					value = webkit_dom_node_get_node_value (node);
 
+					g_string_append (buffer, name);
+					g_string_append (buffer, "=\"");
+					g_string_append (buffer, value);
+					g_string_append (buffer, "\" ");
+
+					g_free (value);
+				}
 				g_free (name);
-				g_free (value);
 				g_object_unref (node);
 			}
 			g_string_append (buffer, ">");
 			g_object_unref (attributes);
 		}
-		if (to_html)
+		if (!to_plain_text)
 			remove_evolution_attributes (WEBKIT_DOM_ELEMENT (node));
 	}
 
@@ -7996,7 +8012,7 @@ process_elements (EHTMLEditorView *view,
 				}
 				g_free (content);
 			}
-			if (to_html) {
+			if (!to_plain_text) {
 				element_remove_class (
 					WEBKIT_DOM_ELEMENT (child),
 					"Applet-tab-span");
@@ -8027,7 +8043,7 @@ process_elements (EHTMLEditorView *view,
 					}
 				}
 				process_blockquote (WEBKIT_DOM_ELEMENT (child));
-				if (to_html)
+				if (!to_plain_text)
 					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
@@ -8058,7 +8074,7 @@ process_elements (EHTMLEditorView *view,
 			WebKitDOMNode *image =
 				webkit_dom_node_get_first_child (child);
 
-			if (to_html && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image)) {
+			if (!to_plain_text && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (image)) {
 				remove_evolution_attributes (
 					WEBKIT_DOM_ELEMENT (image));
 
@@ -8080,7 +8096,7 @@ process_elements (EHTMLEditorView *view,
 				skip_node = TRUE;
 				goto next;
 			}
-			if (to_html) {
+			if (!to_plain_text) {
 				remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
@@ -8093,7 +8109,7 @@ process_elements (EHTMLEditorView *view,
 
 			first_child = webkit_dom_node_get_first_child (child);
 
-			if (to_html) {
+			if (!to_plain_text) {
 				remove_base_attributes (
 					WEBKIT_DOM_ELEMENT (first_child));
 				remove_evolution_attributes (
@@ -8130,7 +8146,7 @@ process_elements (EHTMLEditorView *view,
 				skip_node = TRUE;
 				goto next;
 			}
-			if (to_html) {
+			if (!to_plain_text) {
 				WebKitDOMElement *img;
 
 				img = WEBKIT_DOM_ELEMENT (
@@ -8159,7 +8175,7 @@ process_elements (EHTMLEditorView *view,
 				g_free (content);
 				skip_node = TRUE;
 			}
-			if (to_html)
+			if (!to_plain_text)
 				remove_evolution_attributes (WEBKIT_DOM_ELEMENT (child));
 		}
 
@@ -8199,18 +8215,21 @@ process_elements (EHTMLEditorView *view,
 				g_free (content);
 				skip_node = TRUE;
 			}
-			if (!changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_inner_text (
-					WEBKIT_DOM_HTML_ELEMENT (child));
-				g_string_append (buffer, content);
-				g_free (content);
-				skip_node = TRUE;
+			if (!changing_mode) {
+			       if (to_plain_text) {
+					content = webkit_dom_html_element_get_inner_text (
+						WEBKIT_DOM_HTML_ELEMENT (child));
+					g_string_append (buffer, content);
+					g_free (content);
+					skip_node = TRUE;
+			       } else
+					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
  next:
 		if (webkit_dom_node_has_child_nodes (child) && !skip_node)
 			process_elements (
-				view, child, to_html, changing_mode, to_plain_text, buffer);
+				view, child, changing_mode, to_plain_text, buffer);
 		g_object_unref (child);
 	}
 
@@ -8435,10 +8454,13 @@ toggle_paragraphs_style (EHTMLEditorView *view)
 static gchar *
 process_content_for_saving_as_draft (EHTMLEditorView *view)
 {
+	gchar *content;
+	gint ii, length;
 	WebKitDOMDocument *document;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMElement *document_element;
-	gchar *content;
+	WebKitDOMNodeList *list;
+	WebKitDOMNode *document_element_clone;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	body = webkit_dom_document_get_body (document);
@@ -8447,8 +8469,24 @@ process_content_for_saving_as_draft (EHTMLEditorView *view)
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft", "", NULL);
 
 	document_element = webkit_dom_document_get_document_element (document);
+
+	document_element_clone = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (document_element), TRUE);
+
+	list = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (document_element_clone), "a.-x-evo-visited-link", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *anchor;
+
+		anchor = webkit_dom_node_list_item (list, ii);
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (anchor), "class");
+		g_object_unref (anchor);
+	}
+	g_object_unref (list);
+
 	content = webkit_dom_html_element_get_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (document_element));
+		WEBKIT_DOM_HTML_ELEMENT (document_element_clone));
 
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
@@ -8468,7 +8506,10 @@ process_content_for_mode_change (EHTMLEditorView *view)
 
 	plain_text = g_string_sized_new (1024);
 
-	process_elements (view, body, FALSE, TRUE, TRUE, plain_text);
+	webkit_dom_element_remove_attribute (
+		WEBKIT_DOM_ELEMENT (body), "data-user-colors");
+
+	process_elements (view, body, TRUE, TRUE, plain_text);
 
 	g_string_append (plain_text, "</body></html>");
 
@@ -8734,7 +8775,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 			quote_plain_text_recursive (document, source, source, 0);
 	}
 
-	process_elements (view, source, FALSE, FALSE, TRUE, plain_text);
+	process_elements (view, source, FALSE, TRUE, plain_text);
 
 	if (clean)
 		remove_node (source);
@@ -8754,6 +8795,7 @@ process_content_for_html (EHTMLEditorView *view)
 	WebKitDOMElement *marker;
 	WebKitDOMNode *node, *document_clone;
 	WebKitDOMNodeList *list;
+	gboolean send_editor_colors = FALSE;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	document_clone = webkit_dom_node_clone_node (
@@ -8764,6 +8806,10 @@ process_content_for_html (EHTMLEditorView *view)
 		remove_node (node);
 	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style", NULL));
+	if (node)
+		remove_node (node);
+	node = WEBKIT_DOM_NODE (webkit_dom_element_query_selector (
+		WEBKIT_DOM_ELEMENT (document_clone), "style#-x-evo-a-color-style-visited", NULL));
 	if (node)
 		remove_node (node);
 	/* When the Ctrl + Enter is pressed for sending, the links are activated. */
@@ -8782,6 +8828,15 @@ process_content_for_html (EHTMLEditorView *view)
 	if (marker)
 		remove_node (WEBKIT_DOM_NODE (marker));
 
+	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-user-colors")) {
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "data-user-colors");
+	} else if (!send_editor_colors) {
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "bgcolor");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "text");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "link");
+		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (node), "vlink");
+	}
+
 	list = webkit_dom_element_query_selector_all (
 		WEBKIT_DOM_ELEMENT (node), "span[data-hidden-space]", NULL);
 	length = webkit_dom_node_list_get_length (list);
@@ -8794,7 +8849,7 @@ process_content_for_html (EHTMLEditorView *view)
 	}
 	g_object_unref (list);
 
-	process_elements (view, node, TRUE, FALSE, FALSE, NULL);
+	process_elements (view, node, FALSE, FALSE, NULL);
 
 	html_content = webkit_dom_html_element_get_outer_html (
 		WEBKIT_DOM_HTML_ELEMENT (document_clone));
@@ -8944,63 +8999,164 @@ e_html_editor_view_remove_embed_styles (EHTMLEditorView *view)
 		remove_node (WEBKIT_DOM_NODE (sheet));
 }
 
+static void
+set_link_colors_in_document (WebKitDOMDocument *document,
+                             GdkRGBA *color,
+                             gboolean visited)
+{
+	gchar *color_str = NULL;
+	const gchar *style_id;
+	guint32 color_value;
+	WebKitDOMHTMLHeadElement *head;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMElement *style_element;
+
+	style_id = visited ? "-x-evo-a-color-style-visited" : "-x-evo-a-color-style";
+	head = webkit_dom_document_get_head (document);
+	body = webkit_dom_document_get_body (document);
+
+	style_element = webkit_dom_document_get_element_by_id (document, style_id);
+	if (!style_element) {
+		style_element = webkit_dom_document_create_element (document, "style", NULL);
+		webkit_dom_element_set_id (style_element, style_id);
+		webkit_dom_element_set_attribute (style_element, "type", "text/css", NULL);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
+	}
+
+	color_value = e_rgba_to_value (color);
+	color_str = g_strdup_printf (
+		visited ? "a.-x-evo-visited-link { color: #%06x; }" : "a { color: #%06x; }", color_value);
+	webkit_dom_html_element_set_inner_html (
+		WEBKIT_DOM_HTML_ELEMENT (style_element), color_str, NULL);
+	g_free (color_str);
+
+	color_str = g_strdup_printf ("#%06x", color_value);
+	if (visited)
+		webkit_dom_html_body_element_set_v_link (
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body), color_str);
+	else
+		webkit_dom_html_body_element_set_link (
+			WEBKIT_DOM_HTML_BODY_ELEMENT (body), color_str);
+	g_free (color_str);
+}
+
 void
 e_html_editor_view_set_link_color (EHTMLEditorView *view,
                                    GdkRGBA *color)
 {
-	gchar *color_str = NULL;
-	WebKitDOMHTMLHeadElement *head;
-	WebKitDOMElement *style_element;
 	WebKitDOMDocument *document;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 	g_return_if_fail (color != NULL);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	head = webkit_dom_document_get_head (document);
+	set_link_colors_in_document (document, color, FALSE);
+}
 
-	style_element = webkit_dom_document_get_element_by_id (document, "-x-evo-a-color-style");
-	if (!style_element) {
-		style_element = webkit_dom_document_create_element (document, "style", NULL);
-		webkit_dom_element_set_id (style_element, "-x-evo-a-color-style");
-		webkit_dom_element_set_attribute (style_element, "type", "text/css", NULL);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (head), WEBKIT_DOM_NODE (style_element), NULL);
-	}
+void
+e_html_editor_view_set_visited_link_color (EHTMLEditorView *view,
+                                           GdkRGBA *color)
+{
+	WebKitDOMDocument *document;
 
-	color_str = g_strdup_printf ("a { color: #%06x; }", e_rgba_to_value (color));
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (style_element), color_str, NULL);
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (color != NULL);
 
-	g_free (color_str);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	set_link_colors_in_document (document, color, TRUE);
 }
 
 static void
-set_link_color (EHTMLEditorView *view)
+get_color_from_context (GtkStyleContext *context,
+                        const gchar *name,
+                        GdkRGBA *out_color)
 {
 	GdkColor *color = NULL;
+
+	gtk_style_context_get_style (context, name, &color, NULL);
+
+	if (color == NULL) {
+		out_color->alpha = 1;
+		out_color->red = strstr (name, "visited") ? 1 : 0;
+		out_color->green = 0;
+		out_color->blue = strstr (name, "visited") ? 0 : 1;
+	} else {
+		out_color->alpha = 1;
+		out_color->red = ((gdouble) color->red) / G_MAXUINT16;
+		out_color->green = ((gdouble) color->green) / G_MAXUINT16;
+		out_color->blue = ((gdouble) color->blue) / G_MAXUINT16;
+	}
+
+	gdk_color_free (color);
+}
+
+static void
+set_link_colors (EHTMLEditorView *view)
+{
 	GdkRGBA rgba;
 	GtkStyleContext *context;
 
 	context = gtk_widget_get_style_context (GTK_WIDGET (view));
-	gtk_style_context_get_style (
-		context, "link-color", &color, NULL);
 
-	if (color == NULL) {
-		rgba.alpha = 1;
-		rgba.red = 0;
-		rgba.green = 0;
-		rgba.blue = 1;
-	} else {
-		rgba.alpha = 1;
-		rgba.red = ((gdouble) color->red) / G_MAXUINT16;
-		rgba.green = ((gdouble) color->green) / G_MAXUINT16;
-		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
-	}
-
+	get_color_from_context (context, "link-color", &rgba);
 	e_html_editor_view_set_link_color (view, &rgba);
 
-	gdk_color_free (color);
+	get_color_from_context (context, "visited-link-color", &rgba);
+	e_html_editor_view_set_visited_link_color (view, &rgba);
+}
+
+static void
+style_updated_cb (EHTMLEditorView *view)
+{
+	GdkRGBA color;
+	gchar *color_value;
+	GtkStateFlags state_flags;
+	GtkStyleContext *style_context;
+	gboolean backdrop;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMDocument *document;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	body = webkit_dom_document_get_body (document);
+
+	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-user-colors")) {
+		/* If the user set the colors in Page dialog, this callback is useless. */
+		return;
+	}
+
+	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (view));
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (view));
+	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
+
+	if (gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
+			&color))
+		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	else
+		color_value = g_strdup (E_UTILS_DEFAULT_THEME_BASE_COLOR);
+
+
+	webkit_dom_html_body_element_set_bg_color (
+		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color_value);
+
+	g_free (color_value);
+
+	if (gtk_style_context_lookup_color (
+			style_context,
+			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
+			&color))
+		color_value = g_strdup_printf ("#%06x", e_rgba_to_value (&color));
+	else
+		color_value = g_strdup (E_UTILS_DEFAULT_THEME_FG_COLOR);
+
+	webkit_dom_html_body_element_set_text (
+		WEBKIT_DOM_HTML_BODY_ELEMENT (body), color_value);
+
+	g_free (color_value);
+
+	set_link_colors (view);
 }
 
 static void
@@ -9049,7 +9205,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		/* Make the quote marks non-selectable. */
 		disable_quote_marks_select (document);
 		html_editor_view_set_links_active (view, FALSE);
-		set_link_color (view);
+		style_updated_cb (view);
 		view->priv->convert_in_situ = FALSE;
 
 		return;
@@ -9057,7 +9213,7 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 
 	/* Make the quote marks non-selectable. */
 	disable_quote_marks_select (document);
-	set_link_color (view);
+	style_updated_cb (view);
 	html_editor_view_set_links_active (view, FALSE);
 	put_body_in_citation (document);
 	move_elements_to_body (document);
@@ -9255,7 +9411,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		view->priv->html_mode = html_mode;
 
 		convert_when_changing_composer_mode (view);
-
+		style_updated_cb (view);
 		e_html_editor_selection_scroll_to_caret (selection);
 
 		goto out;
@@ -9273,6 +9429,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		document, "blockquote[type|=cite]", NULL);
 
 	if (view->priv->html_mode) {
+		style_updated_cb (view);
 		if (blockquote)
 			e_html_editor_view_dequote_plain_text (view);
 
@@ -9280,6 +9437,8 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_smileys (view);
 		toggle_tables (view);
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
+
+		g_object_notify (G_OBJECT (selection), "font-color");
 	} else {
 		gchar *plain;
 
@@ -9305,8 +9464,11 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 					webkit_dom_document_get_document_element (document)),
 				plain,
 				NULL);
+			style_updated_cb (view);
 			e_html_editor_selection_restore (selection);
 			e_html_editor_view_force_spell_check_in_viewport (view);
+		} else {
+			style_updated_cb (view);
 		}
 
 		g_free (plain);
@@ -9453,6 +9615,10 @@ e_html_editor_view_init (EHTMLEditorView *view)
 		view, "notify::load-status",
 		G_CALLBACK (html_editor_view_load_status_changed), NULL);
 
+	g_signal_connect (
+		view, "style-updated",
+		G_CALLBACK (style_updated_cb), NULL);
+
 	view->priv->selection = g_object_new (
 		E_TYPE_HTML_EDITOR_SELECTION,
 		"html-editor-view", view,
@@ -9501,6 +9667,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	remove_whole_event_history (view);
 
 	e_html_editor_view_update_fonts (view);
+	style_updated_cb (view);
 
 	view->priv->body_input_event_removed = TRUE;
 	view->priv->is_editting_message = FALSE;
@@ -9513,6 +9680,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->smiley_written = FALSE;
 	view->priv->undo_redo_in_progress = FALSE;
 	view->priv->dont_save_history_in_body_input = FALSE;
+	view->priv->style_change_callbacks_blocked = FALSE;
 
 	view->priv->spell_check_on_scroll_event_source_id = 0;
 
@@ -10194,12 +10362,10 @@ void
 e_html_editor_view_update_fonts (EHTMLEditorView *view)
 {
 	gboolean mark_citations, use_custom_font;
-	GdkColor *visited = NULL;
 	gchar *base64, *font, *aa = NULL, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
 	GString *stylesheet;
-	GtkStyleContext *context;
 	PangoFontDescription *ms, *vw;
 	WebKitWebSettings *settings;
 
@@ -10284,22 +10450,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		pango_font_description_get_size (ms) / PANGO_SCALE,
 		pango_font_description_get_weight (ms),
 		styles[pango_font_description_get_style (ms)]);
-
-	context = gtk_widget_get_style_context (GTK_WIDGET (view));
-	gtk_style_context_get_style (
-		context, "visited-link-color", &visited, NULL);
-
-	if (visited == NULL) {
-		visited = g_slice_new0 (GdkColor);
-		visited->red = G_MAXINT16;
-	}
-
-	g_string_append_printf (
-		stylesheet,
-		"a:visited {\n"
-		"  color: #%06x;\n"
-		"}\n",
-		e_color_to_value (visited));
 
 	/* See bug #689777 for details */
 	g_string_append (
@@ -10577,8 +10727,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  border-color: %s;\n"
 		"}\n",
 		e_web_view_get_citation_color_for_level (5));
-
-	gdk_color_free (visited);
 
 	base64 = g_base64_encode ((guchar *) stylesheet->str, stylesheet->len);
 	g_string_free (stylesheet, TRUE);
@@ -11264,6 +11412,15 @@ undo_redo_page_dialog (EHTMLEditorView *view,
 					value = webkit_dom_node_get_node_value (attr_clone);
 					if (gdk_rgba_parse (&rgba, value))
 						e_html_editor_view_set_link_color (view, &rgba);
+					g_free (value);
+				}
+				if (g_strcmp0 (name, "vlink") == 0) {
+					gchar *value;
+					GdkRGBA rgba;
+
+					value = webkit_dom_node_get_node_value (attr_clone);
+					if (gdk_rgba_parse (&rgba, value))
+						e_html_editor_view_set_visited_link_color (view, &rgba);
 					g_free (value);
 				}
 				replaced = TRUE;
@@ -12292,4 +12449,28 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 	html_editor_view_user_changed_contents_cb (view);
 
 	view->priv->undo_redo_in_progress = FALSE;
+}
+
+/* Following functions are used by EHTMLEditorPageDialog to get the right colors
+ * when view is not focused */
+void
+e_html_editor_view_block_style_updated_callbacks (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	if (!view->priv->style_change_callbacks_blocked) {
+		g_signal_handlers_block_by_func (view, style_updated_cb, NULL);
+		view->priv->style_change_callbacks_blocked = TRUE;
+	}
+}
+
+void
+e_html_editor_view_unblock_style_updated_callbacks (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	if (view->priv->style_change_callbacks_blocked) {
+		g_signal_handlers_unblock_by_func (view, style_updated_cb, NULL);
+		view->priv->style_change_callbacks_blocked = FALSE;
+	}
 }
