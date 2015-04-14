@@ -105,6 +105,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean dont_save_history_in_body_input;
 	gboolean im_input_in_progress;
 	gboolean style_change_callbacks_blocked;
+	gboolean selection_changed_callbacks_blocked;
 
 	GHashTable *old_settings;
 
@@ -426,14 +427,20 @@ static void
 block_selection_changed_callbacks (EHTMLEditorView *view)
 {
 	e_html_editor_selection_block_selection_changed (view->priv->selection);
-	g_signal_handlers_block_by_func (view, html_editor_view_selection_changed_cb, NULL);
+	if (!view->priv->selection_changed_callbacks_blocked) {
+		g_signal_handlers_block_by_func (view, html_editor_view_selection_changed_cb, NULL);
+		view->priv->selection_changed_callbacks_blocked = TRUE;
+	}
 }
 
 static void
 unblock_selection_changed_callbacks (EHTMLEditorView *view)
 {
 	e_html_editor_selection_unblock_selection_changed (view->priv->selection);
-	g_signal_handlers_unblock_by_func (view, html_editor_view_selection_changed_cb, NULL);
+	if (view->priv->selection_changed_callbacks_blocked) {
+		g_signal_handlers_unblock_by_func (view, html_editor_view_selection_changed_cb, NULL);
+		view->priv->selection_changed_callbacks_blocked = FALSE;
+	}
 }
 
 static gboolean
@@ -9681,6 +9688,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->undo_redo_in_progress = FALSE;
 	view->priv->dont_save_history_in_body_input = FALSE;
 	view->priv->style_change_callbacks_blocked = FALSE;
+	view->priv->selection_changed_callbacks_blocked = FALSE;
 
 	view->priv->spell_check_on_scroll_event_source_id = 0;
 
