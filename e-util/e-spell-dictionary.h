@@ -50,7 +50,9 @@ G_BEGIN_DECLS
 typedef struct _ESpellDictionary ESpellDictionary;
 typedef struct _ESpellDictionaryPrivate ESpellDictionaryPrivate;
 typedef struct _ESpellDictionaryClass ESpellDictionaryClass;
-typedef struct _ESpellChecker ESpellChecker;
+
+/* Forward declaration */
+struct _ESpellChecker;
 
 struct _ESpellDictionary {
 	GObject parent;
@@ -63,7 +65,7 @@ struct _ESpellDictionaryClass {
 
 GType		e_spell_dictionary_get_type	(void) G_GNUC_CONST;
 ESpellDictionary *
-		e_spell_dictionary_new		(ESpellChecker *spell_checker,
+		e_spell_dictionary_new		(struct _ESpellChecker *spell_checker,
 						 EnchantDict *enchant_dict);
 guint		e_spell_dictionary_hash		(ESpellDictionary *dictionary);
 gboolean	e_spell_dictionary_equal	(ESpellDictionary *dictionary1,
@@ -72,7 +74,8 @@ gint		e_spell_dictionary_compare	(ESpellDictionary *dictionary1,
 						 ESpellDictionary *dictionary2);
 const gchar *	e_spell_dictionary_get_name	(ESpellDictionary *dictionary);
 const gchar *	e_spell_dictionary_get_code	(ESpellDictionary *dictionary);
-ESpellChecker *	e_spell_dictionary_ref_spell_checker
+struct _ESpellChecker *
+		e_spell_dictionary_ref_spell_checker
 						(ESpellDictionary *dictionary);
 gboolean	e_spell_dictionary_check_word	(ESpellDictionary *dictionary,
 						 const gchar *word,
