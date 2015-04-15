@@ -22,7 +22,7 @@
 #include <libedataserver/libedataserver.h>
 
 #define GWEATHER_I_KNOW_THIS_IS_UNSTABLE
-#include <libgweather/location-entry.h>
+#include <libgweather/gweather.h>
 #undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 
 #include <e-util/e-util.h>
