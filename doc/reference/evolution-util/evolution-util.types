@@ -45,7 +45,6 @@ e_cell_number_get_type
 e_cell_percent_get_type
 e_cell_pixbuf_get_type
 e_cell_popup_get_type
-e_cell_renderer_color_get_type
 e_cell_size_get_type
 e_cell_text_get_type
 e_cell_toggle_get_type

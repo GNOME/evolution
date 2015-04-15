@@ -1114,24 +1114,6 @@ e_cell_popup_get_type
 </SECTION>
 
 <SECTION>
-<FILE>e-cell-renderer-color</FILE>
-<TITLE>ECellRendererColor</TITLE>
-ECellRendererColor
-e_cell_renderer_color_new
-<SUBSECTION Standard>
-E_CELL_RENDERER_COLOR
-E_IS_CELL_RENDERER_COLOR
-E_TYPE_CELL_RENDERER_COLOR
-E_CELL_RENDERER_COLOR_CLASS
-E_IS_CELL_RENDERER_COLOR_CLASS
-E_CELL_RENDERER_COLOR_GET_CLASS
-ECellRendererColorClass
-e_cell_renderer_color_get_type
-<SUBSECTION Private>
-ECellRendererColorPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-cell-size</FILE>
 <TITLE>ECellSize</TITLE>
 ECellSize
