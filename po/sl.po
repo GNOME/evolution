@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-04-12 16:06+0000\n"
-"PO-Revision-Date: 2015-04-12 20:56+0100\n"
+"POT-Creation-Date: 2015-04-15 17:02+0000\n"
+"PO-Revision-Date: 2015-04-15 21:43+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -4678,58 +4678,58 @@ msgid "Removing a task"
 msgstr "Odstranjevanje naloge"
 
 #: ../calendar/gui/e-cal-ops.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
-msgstr[0] "Podatki o srečanju so bili uspešno poslani"
-msgstr[1] "Podatki o srečanju so bili uspešno poslani"
-msgstr[2] "Podatki o srečanju so bili uspešno poslani"
-msgstr[3] "Podatki o srečanju so bili uspešno poslani"
+msgstr[0] "Poteka brisanje %d dogodkov"
+msgstr[1] "Poteka brisanje %d dogodka"
+msgstr[2] "Poteka brisanje %d dogodkov"
+msgstr[3] "Poteka brisanje %d dogodkov"
 
 #: ../calendar/gui/e-cal-ops.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "Izbriši opomnik"
-msgstr[1] "Izbriši opomnik"
-msgstr[2] "Izbriši opomnik"
-msgstr[3] "Izbriši opomnik"
+msgstr[0] "Poteka brisanje %d opomnikov"
+msgstr[1] "Poteka brisanje %d opomnika"
+msgstr[2] "Poteka brisanje %d opomnikov"
+msgstr[3] "Poteka brisanje %d opomnikov"
 
 #: ../calendar/gui/e-cal-ops.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "Izbriši nalogo"
-msgstr[1] "Izbriši nalogo"
-msgstr[2] "Izbriši nalogo"
-msgstr[3] "Izbriši nalogo"
+msgstr[0] "Poteka brisanje %d nalog"
+msgstr[1] "Poteka brisanje %d naloge"
+msgstr[2] "Poteka brisanje %d nalog"
+msgstr[3] "Poteka brisanje %d nalog"
 
 #: ../calendar/gui/e-cal-ops.c:692
-#, fuzzy, c-format
+#, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
-msgstr[0] "Natisni ta dogodek"
-msgstr[1] "Natisni ta dogodek"
-msgstr[2] "Natisni ta dogodek"
-msgstr[3] "Natisni ta dogodek"
+msgstr[0] "Poteka prilepljanje %d dogodkov"
+msgstr[1] "Poteka prilepljanje %d dogodka"
+msgstr[2] "Poteka prilepljanje %d dogodkov"
+msgstr[3] "Poteka prilepljanje %d dogodkov"
 
 #: ../calendar/gui/e-cal-ops.c:707
-#, fuzzy, c-format
+#, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
-msgstr[0] "Natisni ta opomnik"
-msgstr[1] "Natisni ta opomnik"
-msgstr[2] "Natisni ta opomnik"
-msgstr[3] "Natisni ta opomnik"
+msgstr[0] "Poteka prilepljanje %d opomnikov"
+msgstr[1] "Poteka prilepljanje %d opomnika"
+msgstr[2] "Poteka prilepljanje %d opomnikov"
+msgstr[3] "Poteka prilepljanje %d opomnikov"
 
 #: ../calendar/gui/e-cal-ops.c:722
-#, fuzzy, c-format
+#, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
-msgstr[0] "Natisni to nalogo"
-msgstr[1] "Natisni to nalogo"
-msgstr[2] "Natisni to nalogo"
-msgstr[3] "Natisni to nalogo"
+msgstr[0] "Poteka prilepljanje %d nalog"
+msgstr[1] "Poteka prilepljanje %d naloge"
+msgstr[2] "Poteka prilepljanje %d nalog"
+msgstr[3] "Poteka prilepljanje %d nalog"
 
 #: ../calendar/gui/e-cal-ops.c:820
 msgid "Updating an event"
@@ -4786,9 +4786,8 @@ msgid "Purging tasks"
 msgstr "Čiščenje nalog"
 
 #: ../calendar/gui/e-cal-ops.c:1178
-#, fuzzy
 msgid "Expunging completed tasks"
-msgstr "Izbriši končane naloge"
+msgstr "Poteka dokončno brisanje končanih nalog"
 
 #: ../calendar/gui/e-cal-ops.c:2034
 #, c-format
@@ -4800,13 +4799,13 @@ msgstr[2] "Premaknjena bosta %d dogodka"
 msgstr[3] "Premaknjeni bodo %d dogodki"
 
 #: ../calendar/gui/e-cal-ops.c:2035
-#, fuzzy, c-format
+#, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
-msgstr[0] "Kopiranje predmetov"
-msgstr[1] "Kopiranje predmetov"
-msgstr[2] "Kopiranje predmetov"
-msgstr[3] "Kopiranje predmetov"
+msgstr[0] "Poteka kopiranje %d dogodkov"
+msgstr[1] "Poteka kopiranje %d dogodka"
+msgstr[2] "Poteka kopiranje %d dogodkov"
+msgstr[3] "Poteka kopiranje %d dogodkov"
 
 #: ../calendar/gui/e-cal-ops.c:2041
 #, c-format
@@ -4818,31 +4817,31 @@ msgstr[2] "Premaknjena bosta %d opomnika"
 msgstr[3] "Premaknjeni bodo %d opomniki"
 
 #: ../calendar/gui/e-cal-ops.c:2042
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
-msgstr[0] "Kopiranje predmetov"
-msgstr[1] "Kopiranje predmetov"
-msgstr[2] "Kopiranje predmetov"
-msgstr[3] "Kopiranje predmetov"
+msgstr[0] "Poteka kopiranje %d opomnikov"
+msgstr[1] "Poteka kopiranje %d opomnika"
+msgstr[2] "Poteka kopiranje %d opomnikov"
+msgstr[3] "Poteka kopiranje %d opomnikov"
 
 #: ../calendar/gui/e-cal-ops.c:2048
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
-msgstr[0] "Premikanje predmetov"
-msgstr[1] "Premikanje predmetov"
-msgstr[2] "Premikanje predmetov"
-msgstr[3] "Premikanje predmetov"
+msgstr[0] "Poteka premikanje %d nalog"
+msgstr[1] "Poteka premikanje %d naloge"
+msgstr[2] "Poteka premikanje %d nalog"
+msgstr[3] "Poteka premikanje %d nalog"
 
 #: ../calendar/gui/e-cal-ops.c:2049
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
-msgstr[0] "Kopiranje predmetov"
-msgstr[1] "Kopiranje predmetov"
-msgstr[2] "Kopiranje predmetov"
-msgstr[3] "Kopiranje predmetov"
+msgstr[0] "Poteka kopiranje %d nalog"
+msgstr[1] "Poteka kopiranje %d naloge"
+msgstr[2] "Poteka kopiranje %d nalog"
+msgstr[3] "Poteka kopiranje %d nalog"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:165
@@ -5337,28 +5336,24 @@ msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Ni mogoče rezervirati vira. Nov dogodek je v sporu z drugimi dogodki."
 
 #: ../calendar/gui/itip-utils.c:1153
-#, fuzzy
 msgid "Unable to book a resource, error: "
-msgstr "Ni mogoče odpreti imenika"
+msgstr "Ni mogoče shraniti vira. Prišlo je do napake:"
 
 #: ../calendar/gui/itip-utils.c:1324
 msgid "You must be an attendee of the event."
 msgstr "Biti morate udeleženec dogodka."
 
 #: ../calendar/gui/itip-utils.c:1917
-#, fuzzy
 msgid "Sending an event"
-msgstr "dogodek"
+msgstr "Poteka pošiljanje dogodka"
 
 #: ../calendar/gui/itip-utils.c:1921
-#, fuzzy
 msgid "Sending a memo"
-msgstr "Pošiljanje"
+msgstr "Poteka pošiljanje opomnika"
 
 #: ../calendar/gui/itip-utils.c:1925
-#, fuzzy
 msgid "Sending a task"
-msgstr "Naloga:"
+msgstr "Poteka pošiljanje naloge"
 
 #: ../calendar/gui/print.c:664
 msgid "1st"
@@ -7912,34 +7907,28 @@ msgid "true"
 msgstr "prav"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:22
-#, fuzzy
 msgid "Whether to show phone numbers in the editor"
-msgstr "Ali naj bodo prikazane številke vrstic v besedilnem pogledu."
+msgstr "Ali naj bodo v urejevalniku prikazane telefonske številke"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:23
-#, fuzzy
 msgid "Whether to show SIP addresses in the editor"
-msgstr "Ali naj bo za prikaz izvorne kode uporabljen sistemski urejevalnik"
+msgstr "Ali naj bodo v urejevalniku prikazani naslovi SIP"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:24
-#, fuzzy
 msgid "Whether to show IM addresses in the editor"
-msgstr "Ali naj bo za prikaz izvorne kode uporabljen sistemski urejevalnik"
+msgstr "Ali naj bodo v urejevalniku prikazane naslovi hipnega sporočanja"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:25
-#, fuzzy
 msgid "Whether to show mailing Home addresses in the editor"
-msgstr "Ali naj se prikaže polje kategorij v urejevalniku dogodkov/srečanj"
+msgstr "Ali naj bo v urejevalniku prikazan domači naslov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:26
-#, fuzzy
 msgid "Whether to show mailing addresses Work in the editor"
-msgstr "Ali naj se prikaže polje kategorij v urejevalniku dogodkov/srečanj"
+msgstr "Ali naj bo v urejevalniku prikazan službeni naslov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:27
-#, fuzzy
 msgid "Whether to show mailing addresses Other in the editor"
-msgstr "Ali naj se prikaže polje kategorij v urejevalniku dogodkov/srečanj"
+msgstr "Ali naj bo v urejevalniku prikazan naslov za pošiljanje"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:28
 #, fuzzy
@@ -10301,7 +10290,7 @@ msgstr "Uporabi le krajevno preskušanje vsiljene pošte (brez DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
-msgstr ""
+msgstr "Polna pot za zagon programa spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 msgid ""
@@ -10309,10 +10298,12 @@ msgid ""
 "used, usually /usr/bin/spamassassin. The command should not contain any "
 "other arguments."
 msgstr ""
+"Polna pot do ukaza spamassassin. V kolikor ta ni nastavljen, je uporabljena "
+"pot /usr/bin/spamassassin. Ukaz ne sme vključevati drugih argumentov."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
 msgid "Full path command to run sa-learn"
-msgstr ""
+msgstr "Polna pot za zagon programa sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
 msgid ""
@@ -10320,6 +10311,8 @@ msgid ""
 "used, usually /usr/bin/sa-learn. The command should not contain any other "
 "arguments."
 msgstr ""
+"Polna pot do ukaza sa-learn. V kolikor ta ni nastavljen, je uporabljena pot /"
+"usr/bin/sa-learn. Ukaz ne sme vključevati drugih argumentov."
 
 #: ../em-format/e-mail-formatter-attachment.c:405
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
@@ -11224,7 +11217,7 @@ msgstr "Vnesite nabor znakov, ki naj se uporablja"
 msgid "Other..."
 msgstr "Drugo ..."
 
-#: ../e-util/e-client-cache.c:1266
+#: ../e-util/e-client-cache.c:1285
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
 msgstr "Iz imena pripone '%s' ni mogoče ustvariti predmeta odjemalca"
@@ -12028,18 +12021,16 @@ msgid "_HTML"
 msgstr "_HTML"
 
 #: ../e-util/e-html-editor-actions.c:1303
-#, fuzzy
 msgid "HTML editing mode"
-msgstr "Urejevalni način HTML kode"
+msgstr "Urejevalni način HTML"
 
 #: ../e-util/e-html-editor-actions.c:1308
 msgid "Plain _Text"
 msgstr "_Običajno besedilo"
 
 #: ../e-util/e-html-editor-actions.c:1310
-#, fuzzy
 msgid "Plain text editing mode"
-msgstr "Način običajnega besedila"
+msgstr "Besedilni urejevalni način"
 
 #: ../e-util/e-html-editor-actions.c:1318
 msgid "_Normal"
@@ -12517,7 +12508,7 @@ msgid "_Image:"
 msgstr "_Slika:"
 
 #: ../e-util/e-html-editor-cell-dialog.c:949
-#: ../e-util/e-html-editor-page-dialog.c:579
+#: ../e-util/e-html-editor-page-dialog.c:602
 #: ../e-util/e-html-editor-table-dialog.c:964
 msgid "_Remove image"
 msgstr "_Odstranu sliko"
@@ -12544,9 +12535,8 @@ msgid "Case _Sensitive"
 msgstr "_Razlikovanje velikosti črk"
 
 #: ../e-util/e-html-editor-find-dialog.c:174
-#, fuzzy
 msgid "_Wrap Search"
-msgstr "Prelomi zadetke iskanja zaznamkov"
+msgstr "_Krožno iskanje"
 
 #: ../e-util/e-html-editor-find-dialog.c:213
 msgid "Find"
@@ -12670,40 +12660,40 @@ msgstr "Osnutek"
 msgid "Graph Paper"
 msgstr "Papir za grafe"
 
-#: ../e-util/e-html-editor-page-dialog.c:478
+#: ../e-util/e-html-editor-page-dialog.c:501
 msgid "<b>Colors</b>"
 msgstr "<b>Barve</b>"
 
-#: ../e-util/e-html-editor-page-dialog.c:497
+#: ../e-util/e-html-editor-page-dialog.c:520
 msgid "_Text:"
 msgstr "_Besedilo:"
 
-#: ../e-util/e-html-editor-page-dialog.c:512
+#: ../e-util/e-html-editor-page-dialog.c:535
 msgid "_Link:"
 msgstr "_Povezava:"
 
-#: ../e-util/e-html-editor-page-dialog.c:527
+#: ../e-util/e-html-editor-page-dialog.c:550
 msgid "_Background:"
 msgstr "_Ozadje:"
 
-#: ../e-util/e-html-editor-page-dialog.c:535
+#: ../e-util/e-html-editor-page-dialog.c:558
 msgid "<b>Background Image</b>"
 msgstr "<b>Slika ozadja</b>"
 
-#: ../e-util/e-html-editor-page-dialog.c:557
+#: ../e-util/e-html-editor-page-dialog.c:580
 msgid "_Template:"
 msgstr "_Predloga:"
 
-#: ../e-util/e-html-editor-page-dialog.c:565
+#: ../e-util/e-html-editor-page-dialog.c:588
 #: ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "Izbor datoteke"
 
-#: ../e-util/e-html-editor-page-dialog.c:572
+#: ../e-util/e-html-editor-page-dialog.c:595
 msgid "_Custom:"
 msgstr "_Po meri:"
 
-#: ../e-util/e-html-editor-page-dialog.c:599
+#: ../e-util/e-html-editor-page-dialog.c:622
 msgid "Page Properties"
 msgstr "Lastnosti strani"
 
@@ -12741,9 +12731,8 @@ msgid "_Case sensitive"
 msgstr "_Razlikovanje velikosti črk"
 
 #: ../e-util/e-html-editor-replace-dialog.c:255
-#, fuzzy
 msgid "Wra_p search"
-msgstr "P' = P / A"
+msgstr "_Krožno iskanje"
 
 #: ../e-util/e-html-editor-replace-dialog.c:265
 msgid "_Skip"
@@ -12849,25 +12838,25 @@ msgstr "_Velikost:"
 msgid "Text Properties"
 msgstr "Lastnosti besedila"
 
-#: ../e-util/e-html-editor-view.c:4952
+#: ../e-util/e-html-editor-view.c:4969
 msgid "Changed property"
 msgstr "Spremenjena lastnost"
 
-#: ../e-util/e-html-editor-view.c:4953
+#: ../e-util/e-html-editor-view.c:4970
 msgid "Whether editor changed"
 msgstr "Ali je dokument spremenjen"
 
-#: ../e-util/e-html-editor-view.c:8824
+#: ../e-util/e-html-editor-view.c:8886
 msgid ""
 "Turning HTML mode off will cause the text to lose all formatting. Do you "
 "want to continue?"
 msgstr ""
 
-#: ../e-util/e-html-editor-view.c:8828
+#: ../e-util/e-html-editor-view.c:8890
 msgid "_Don't lose formatting"
 msgstr "_Ne izgubi oblikovanja"
 
-#: ../e-util/e-html-editor-view.c:8829
+#: ../e-util/e-html-editor-view.c:8891
 msgid "_Lose formatting"
 msgstr "_Izgubi oblikovanje"
 
@@ -14703,9 +14692,8 @@ msgstr "Mapa _arhiva:"
 
 #: ../mail/e-mail-config-defaults-page.c:638
 #: ../modules/mail/em-mailer-prefs.c:1079
-#, fuzzy
 msgid "Choose a folder to archive messages to."
-msgstr "Napaka med osveževanjem mape &quot;{0}&quot;."
+msgstr "Izbor mape za arhiviranje sporočil."
 
 #: ../mail/e-mail-config-defaults-page.c:652
 msgid "_Restore Defaults"
@@ -16303,9 +16291,8 @@ msgstr "Izraz"
 
 #: ../mail/filtertypes.xml.in.h:24 ../mail/searchtypes.xml.in.h:26
 #: ../mail/vfoldertypes.xml.in.h:26
-#, fuzzy
 msgid "Free Form Expression"
-msgstr "Prosta oblika"
+msgstr "Prosta oblika izraza"
 
 #: ../mail/filtertypes.xml.in.h:25 ../mail/searchtypes.xml.in.h:27
 #: ../mail/vfoldertypes.xml.in.h:27
@@ -16567,9 +16554,8 @@ msgstr[2] "%d naslova"
 msgstr[3] "%d naslovi"
 
 #: ../mail/importers/kmail-importer.c:354
-#, fuzzy
 msgid "Evolution KMail importer"
-msgstr "Uvoznik vCard Evolution"
+msgstr "Uvoznik KMail"
 
 #: ../mail/importers/kmail-importer.c:355
 msgid "Import mail and contacts from KMail."
@@ -16702,7 +16688,7 @@ msgstr "Samodejno vstavi slike _izraznih ikon"
 
 #: ../mail/mail-config.ui.h:10
 msgid "Use Unicode characters for smile_ys"
-msgstr ""
+msgstr "Uporabi znake Unikod za _izrazne ikone"
 
 #: ../mail/mail-config.ui.h:11
 msgid "Always request rea_d receipt"
@@ -17887,7 +17873,6 @@ msgid "{0}"
 msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:160
-#, fuzzy
 msgid "Message is not available in offline mode."
 msgstr "Sporočilo ni na voljo v načinu brez povezave."
 
@@ -19116,34 +19101,34 @@ msgid "New Task List"
 msgstr "Nov seznam nalog"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:548
-#, fuzzy, c-format
+#, c-format
 msgid "Copying an event into the calendar '%s'"
-msgstr "Dogodek koledarja: povzetek je %s."
+msgstr "Poteka kopiranje dogodka v koledar '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Moving an event into the calendar '%s'"
-msgstr "Dogodek koledarja: povzetek je %s."
+msgstr "Poteka premikanje dogodka v koledar '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a memo into the memo list '%s'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Poteka kopiranje opomnika v seznam opomnikov '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:555
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a memo into the memo list '%s'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Poteka premikanje opomnika v seznam opomnikov '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Copying a task into the task list '%s'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Poteka kopiranje naloge v seznam nalog '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "Moving a task into the task list '%s'"
-msgstr "Ustvarjanje seznama nalog '%s' je spodletelo."
+msgstr "Poteka premikanje naloge v seznam nalog '%s'"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:658
 msgid "Calendar Selector"
@@ -24074,9 +24059,9 @@ msgid "Enter password for PKCS12 file:"
 msgstr "Vnesite geslo za datoteko PKCS12:"
 
 #: ../smime/lib/e-pkcs12.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create export context, err_code: %i"
-msgstr "Ni mogoče rezervirati vira, napaka: %s"
+msgstr "Ni mogoče ustvariti vsebine izvoza. Koda napake je: %i"
 
 #: ../smime/lib/e-pkcs12.c:335
 #, c-format
@@ -24084,19 +24069,19 @@ msgid "Unable to setup password integrity, err_code: %i"
 msgstr ""
 
 #: ../smime/lib/e-pkcs12.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create safe bag, err_code: %i"
-msgstr "Ni mogoče rezervirati vira, napaka: %s"
+msgstr "Ni mogoče ustvariti varnega arhiva. Koda napake je: %i"
 
 #: ../smime/lib/e-pkcs12.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
-msgstr "Ni mogoče rezervirati vira, napaka: %s"
+msgstr "Ni mogoče dodati ključa ali potrdila v shrambo. Koda napake je: %i"
 
 #: ../smime/lib/e-pkcs12.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr "Ni mogoče rezervirati vira, napaka: %s"
+msgstr "Ni mogoče zapisati shrambe na disk. Koda napake je: %i"
 
 #: ../smime/lib/e-pkcs12.c:408
 msgid "Imported Certificate"
