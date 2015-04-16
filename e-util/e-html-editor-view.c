@@ -4530,7 +4530,8 @@ insert_tabulator (EHTMLEditorView *view)
 		ev->data.fragment = fragment;
 
 		e_html_editor_view_insert_new_history_event (view, ev);
-	}
+	} else
+		g_free (ev);
 
 	return success;
 }
