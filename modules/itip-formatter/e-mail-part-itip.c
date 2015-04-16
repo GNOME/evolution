@@ -92,6 +92,10 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 
 	g_return_if_fail (WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element));
 
+	/* A view is already assigned for this element. */
+	if (g_object_get_data (G_OBJECT (element), "view"))
+		return;
+
 	buffer = g_string_new ("");
 	document = webkit_dom_html_iframe_element_get_content_document (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
