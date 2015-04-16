@@ -1154,6 +1154,7 @@ mail_backend_constructed (GObject *object)
 	MailFolderCache *folder_cache;
 	ESourceRegistry *registry;
 	gchar *config_filename;
+	GList *providers;
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
@@ -1162,6 +1163,14 @@ mail_backend_constructed (GObject *object)
 
 	if (camel_init (e_get_user_data_dir (), TRUE) != 0)
 		exit (0);
+
+	providers = camel_provider_list (TRUE);
+	if (!providers) {
+		g_warning ("%s: No camel providers loaded, exiting...", G_STRFUNC);
+		exit (1);
+	}
+
+	g_list_free (providers);
 
 	registry = e_shell_get_registry (shell);
 	priv->session = e_mail_ui_session_new (registry);
