@@ -795,6 +795,8 @@ e_html_editor_view_force_spell_check_in_viewport (EHTMLEditorView *view)
 
 	/* We have to add 10 px offset as otherwise just the HTML element will be returned */
 	actual = webkit_dom_document_caret_range_from_point (document, 10, 10);
+	if (!actual)
+		return;
 
 	/* Append some text on the end of the body */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
