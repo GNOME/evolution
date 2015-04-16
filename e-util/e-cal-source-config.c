@@ -259,6 +259,25 @@ cal_source_config_list_eligible_collections (ESourceConfig *config)
 	return list;
 }
 
+static const gchar *
+choose_initial_color (void)
+{
+	static const gchar *colors[] = {
+		"#BECEDD", /* 190 206 221     Blue */
+		"#E2F0EF", /* 226 240 239     Light Blue */
+		"#C6E2B7", /* 198 226 183     Green */
+		"#E2F0D3", /* 226 240 211     Light Green */
+		"#E2D4B7", /* 226 212 183     Khaki */
+		"#EAEAC1", /* 234 234 193     Light Khaki */
+		"#F0B8B7", /* 240 184 183     Pink */
+		"#FED4D3", /* 254 212 211     Light Pink */
+		"#E2C6E1", /* 226 198 225     Purple */
+		"#F0E2EF"  /* 240 226 239     Light Purple */
+	};
+
+	return colors[g_random_int_range (0, G_N_ELEMENTS (colors))];
+}
+
 static void
 cal_source_config_init_candidate (ESourceConfig *config,
                                   ESource *scratch_source)
@@ -276,6 +295,10 @@ cal_source_config_init_candidate (ESourceConfig *config,
 
 	extension_name = e_source_config_get_backend_extension_name (config);
 	extension = e_source_get_extension (scratch_source, extension_name);
+
+	/* Preselect a random color on a new source */
+	if (!e_source_config_get_original_source (config))
+		e_source_selectable_set_color (E_SOURCE_SELECTABLE (extension), choose_initial_color ());
 
 	e_binding_bind_property_full (
 		extension, "color",
