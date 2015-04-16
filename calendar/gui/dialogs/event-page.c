@@ -3079,7 +3079,9 @@ combo_box_changed_cb (ESourceComboBox *combo_box,
 		return;
 
 	source = e_source_combo_box_ref_active (combo_box);
-	g_return_if_fail (source != NULL);
+	/* This is valid when the 'combo_box' is rebuilding its content. */
+	if (!source)
+		return;
 
 	if (priv->connect_cancellable != NULL) {
 		g_cancellable_cancel (priv->connect_cancellable);
