@@ -1772,7 +1772,6 @@ static void
 itip_view_init (ItipView *view)
 {
 	view->priv = ITIP_VIEW_GET_PRIVATE (view);
-
 }
 
 ItipView *
