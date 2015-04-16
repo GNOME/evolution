@@ -4545,14 +4545,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 	view->priv->dont_save_history_in_body_input = FALSE;
 
 	if (event->keyval == GDK_KEY_Menu) {
-		gboolean event_handled, collapsed;
-		EHTMLEditorSelection *selection;
-
-		selection = e_html_editor_view_get_selection (E_HTML_EDITOR_VIEW (widget));
-		collapsed = e_html_editor_selection_is_collapsed (selection);
-
-		if (collapsed)
-			html_editor_view_move_selection_on_point (widget);
+		gboolean event_handled;
 
 		g_signal_emit (
 			widget, signals[POPUP_EVENT],
