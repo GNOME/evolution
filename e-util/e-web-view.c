@@ -44,6 +44,12 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
 
+typedef enum {
+	E_WEB_VIEW_ZOOM_HACK_STATE_NONE,
+	E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN,
+	E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_OUT
+} EWebViewZoomHackState;
+
 typedef struct _AsyncContext AsyncContext;
 
 struct _EWebViewPrivate {
@@ -71,6 +77,10 @@ struct _EWebViewPrivate {
 	gulong antialiasing_changed_handler_id;
 
 	GHashTable *old_settings;
+
+	/* To workaround webkit bug:
+	 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
+	EWebViewZoomHackState zoom_hack_state;
 };
 
 struct _AsyncContext {
@@ -661,6 +671,25 @@ web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 
 	status = webkit_web_view_get_load_status (webkit_web_view);
 
+	if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_NONE &&
+	    status == WEBKIT_LOAD_COMMITTED) {
+		if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.9999) {
+			e_web_view_zoom_out (web_view);
+			web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_OUT;
+		} else {
+			e_web_view_zoom_in (web_view);
+			web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN;
+		}
+	} else if (web_view->priv->zoom_hack_state != E_WEB_VIEW_ZOOM_HACK_STATE_NONE &&
+		   status == WEBKIT_LOAD_FAILED) {
+		if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN)
+			e_web_view_zoom_out (web_view);
+		else
+			e_web_view_zoom_in (web_view);
+
+		web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_NONE;
+	}
+
 	if (status != WEBKIT_LOAD_FINISHED)
 		return;
 
@@ -668,14 +697,22 @@ web_view_load_status_changed_cb (WebKitWebView *webkit_web_view,
 
 	web_view_update_document_highlights (web_view);
 
-	/* Workaround webkit bug:
-	 * https://bugs.webkit.org/show_bug.cgi?id=89553 */
-	if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.9999) {
-		e_web_view_zoom_out (web_view);
-		e_web_view_zoom_in (web_view);
+	if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_NONE) {
+		/* This may not happen, but just in case keep it here. */
+		if (webkit_web_view_get_zoom_level (WEBKIT_WEB_VIEW (web_view)) > 0.9999) {
+			e_web_view_zoom_out (web_view);
+			e_web_view_zoom_in (web_view);
+		} else {
+			e_web_view_zoom_in (web_view);
+			e_web_view_zoom_out (web_view);
+		}
 	} else {
-		e_web_view_zoom_in (web_view);
-		e_web_view_zoom_out (web_view);
+		if (web_view->priv->zoom_hack_state == E_WEB_VIEW_ZOOM_HACK_STATE_ZOOMED_IN)
+			e_web_view_zoom_out (web_view);
+		else
+			e_web_view_zoom_in (web_view);
+
+		web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_NONE;
 	}
 }
 
@@ -1622,6 +1659,7 @@ e_web_view_init (EWebView *web_view)
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+	web_view->priv->zoom_hack_state = E_WEB_VIEW_ZOOM_HACK_STATE_NONE;
 
 	/* XXX No WebKitWebView class method pointers to
 	 *     override so we have to use signal handlers. */
