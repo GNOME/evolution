@@ -68,6 +68,25 @@ e_spinner_update_frame_cb (gpointer user_data)
 }
 
 static void
+e_spinner_disable_spin (ESpinner *spinner)
+{
+	if (spinner->priv->timeout_id) {
+		g_source_remove (spinner->priv->timeout_id);
+		spinner->priv->timeout_id = 0;
+	}
+}
+
+static void
+e_spinner_enable_spin (ESpinner *spinner)
+{
+	e_spinner_disable_spin (spinner);
+
+	if (spinner->priv->pixbufs)
+		spinner->priv->timeout_id = g_timeout_add_full (
+			G_PRIORITY_LOW, FRAME_TIMEOUT_MS, e_spinner_update_frame_cb, spinner, NULL);
+}
+
+static void
 e_spinner_set_property (GObject *object,
 			guint property_id,
 			const GValue *value,
@@ -177,9 +196,37 @@ e_spinner_finalize (GObject *object)
 }
 
 static void
+e_spinner_realize (GtkWidget *widget)
+{
+	ESpinner *spinner = E_SPINNER (widget);
+
+	/* Chain up to the parent class first, then enable the spinner
+	 * after the widget is realized
+	 */
+	GTK_WIDGET_CLASS (e_spinner_parent_class)->realize (widget);
+
+	if (spinner->priv->active)
+		e_spinner_enable_spin (spinner);
+}
+
+static void
+e_spinner_unrealize (GtkWidget *widget)
+{
+	ESpinner *spinner = E_SPINNER (widget);
+
+	/* Disable the spinner before chaining up to the parent class
+	 * to unrealize the widget
+	 */
+	e_spinner_disable_spin (spinner);
+
+	GTK_WIDGET_CLASS (e_spinner_parent_class)->unrealize (widget);
+}
+
+static void
 e_spinner_class_init (ESpinnerClass *klass)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (klass, sizeof (ESpinnerPrivate));
 
@@ -189,6 +236,10 @@ e_spinner_class_init (ESpinnerClass *klass)
 	object_class->dispose = e_spinner_dispose;
 	object_class->finalize = e_spinner_finalize;
 	object_class->constructed = e_spinner_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->realize = e_spinner_realize;
+	widget_class->unrealize = e_spinner_unrealize;
 
 	/**
 	 * ESpinner:active:
@@ -239,13 +290,12 @@ e_spinner_set_active (ESpinner *spinner,
 
 	spinner->priv->active = active;
 
-	if (spinner->priv->timeout_id) {
-		g_source_remove (spinner->priv->timeout_id);
-		spinner->priv->timeout_id = 0;
+	if (gtk_widget_get_realized (GTK_WIDGET (spinner))) {
+		if (active)
+			e_spinner_enable_spin (spinner);
+		else
+			e_spinner_disable_spin (spinner);
 	}
-
-	if (spinner->priv->active && spinner->priv->pixbufs)
-		spinner->priv->timeout_id = g_timeout_add_full (G_PRIORITY_LOW, FRAME_TIMEOUT_MS, e_spinner_update_frame_cb, spinner, NULL);
 
 	g_object_notify (G_OBJECT (spinner), "active");
 }
