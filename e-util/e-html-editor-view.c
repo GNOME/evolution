@@ -2734,8 +2734,7 @@ body_input_event_cb (WebKitDOMElement *element,
 		view->priv->undo_redo_in_progress = FALSE;
 		view->priv->dont_save_history_in_body_input = FALSE;
 		e_html_editor_view_force_spell_check_for_current_paragraph (view);
-		g_object_unref (range);
-		return;
+		goto out;
 	}
 
 	if (!save_history_after_event_in_table (view)) {
@@ -2918,12 +2917,12 @@ body_input_event_cb (WebKitDOMElement *element,
 
 		citation_level = get_citation_level (node, FALSE);
 		if (citation_level == 0)
-			return;
+			goto out;
 
 		selection_start_marker = webkit_dom_document_query_selector (
 			document, "span#-x-evo-selection-start-marker", NULL);
 		if (selection_start_marker)
-			return;
+			goto out;
 
 		e_html_editor_selection_save (selection);
 
@@ -2951,7 +2950,7 @@ body_input_event_cb (WebKitDOMElement *element,
 			WEBKIT_DOM_NODE (selection_start_marker)));
 		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent)) {
 			e_html_editor_selection_restore (selection);
-			return;
+			goto out;
 		}
 
 		if (selection_start_marker) {
@@ -3014,11 +3013,12 @@ body_input_event_cb (WebKitDOMElement *element,
 				e_html_editor_selection_restore (selection);
 				e_html_editor_view_force_spell_check_for_current_paragraph  (view);
 
-				return;
+				goto out;
 			}
 		}
 		e_html_editor_selection_restore (selection);
 	}
+ out:
 	g_object_unref (range);
 }
 
