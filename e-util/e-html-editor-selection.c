@@ -232,9 +232,12 @@ static void
 html_editor_selection_selection_changed_cb (WebKitWebView *web_view,
                                             EHTMLEditorSelection *selection)
 {
-	EHTMLEditorView *view;
+	WebKitDOMRange *range = NULL;
 
-	view = e_html_editor_selection_ref_html_editor_view (selection);
+	range = html_editor_selection_get_current_range (selection);
+	if (!range)
+		return;
+	g_object_unref (range);
 
 	g_object_freeze_notify (G_OBJECT (selection));
 
@@ -243,7 +246,7 @@ html_editor_selection_selection_changed_cb (WebKitWebView *web_view,
 	g_object_notify (G_OBJECT (selection), "indented");
 	g_object_notify (G_OBJECT (selection), "text");
 
-	if (!e_html_editor_view_get_html_mode (view))
+	if (!e_html_editor_view_get_html_mode (E_HTML_EDITOR_VIEW (web_view)))
 		goto out;
 
 	g_object_notify (G_OBJECT (selection), "background-color");
@@ -259,7 +262,6 @@ html_editor_selection_selection_changed_cb (WebKitWebView *web_view,
 	g_object_notify (G_OBJECT (selection), "underline");
 
  out:
-	g_object_unref (view);
 	g_object_thaw_notify (G_OBJECT (selection));
 }
 
