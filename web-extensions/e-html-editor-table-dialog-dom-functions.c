@@ -149,7 +149,7 @@ e_html_editor_table_dialog_get_column_count (WebKitDOMDocument *document)
 	return count;
 }
 
-static void
+static WebKitDOMElement *
 create_table (WebKitDOMDocument *document,
               EHTMLEditorWebExtension *extension)
 {
@@ -226,19 +226,23 @@ create_table (WebKitDOMDocument *document,
 	dom_selection_restore (document);
 
 	e_html_editor_web_extension_set_content_changed (extension);
+
+	return table;
 }
 
 gboolean
 e_html_editor_table_dialog_show (WebKitDOMDocument *document,
                                  EHTMLEditorWebExtension *extension)
 {
+	EHTMLEditorUndoRedoManager *manager;
+	gboolean created = FALSE;
 	WebKitDOMDOMWindow *window;
 	WebKitDOMDOMSelection *selection;
+	WebKitDOMElement *table = NULL;
 
 	window = webkit_dom_document_get_default_view (document);
 	selection = webkit_dom_dom_window_get_selection (window);
 	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
-		WebKitDOMElement *table;
 		WebKitDOMRange *range;
 
 		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
@@ -247,12 +251,51 @@ e_html_editor_table_dialog_show (WebKitDOMDocument *document,
 
 		if (table) {
 			webkit_dom_element_set_id (table, "-x-evo-current-table");
-			return FALSE;
 		} else {
-			create_table (document, extension);
-			return TRUE;
+			table = create_table (document, extension);
+			created = TRUE;
 		}
 	}
 
-	return FALSE;
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		EHTMLEditorHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_TABLE_DIALOG;
+
+		dom_selection_get_coordinates (
+			document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		if (!created)
+			ev->data.dom.from = webkit_dom_node_clone_node (
+				WEBKIT_DOM_NODE (table), TRUE);
+		else
+			ev->data.dom.from = NULL;
+
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+
+	return created;
+}
+
+void
+e_html_editor_table_dialog_save_history_on_exit (WebKitDOMDocument *document,
+                                                 EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorHistoryEvent *ev = NULL;
+	EHTMLEditorUndoRedoManager *manager;
+	WebKitDOMElement *element;
+
+	element = WEBKIT_DOM_ELEMENT (get_current_table_element (document));
+	g_return_if_fail (element != NULL);
+
+	webkit_dom_element_remove_attribute (element, "id");
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
+	ev->data.dom.to = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (element), TRUE);
+
+	dom_selection_get_coordinates (
+		document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 }

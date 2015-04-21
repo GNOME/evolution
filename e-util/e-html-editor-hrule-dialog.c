@@ -281,8 +281,8 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
-	e_html_editor_view_remove_element_attribute (
-		view, "#-x-evo-current-hr", "id");
+	e_html_editor_view_call_simple_extension_function (
+		view, "EHTMLEditorHRuleDialogSaveHistoryOnExit");
 
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }

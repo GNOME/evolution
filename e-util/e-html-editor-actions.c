@@ -572,8 +572,7 @@ action_properties_cell_cb (GtkAction *action,
 			e_html_editor_cell_dialog_new (editor);
 	}
 
-	e_html_editor_cell_dialog_show (
-		E_HTML_EDITOR_CELL_DIALOG (editor->priv->cell_dialog));
+	gtk_window_present (GTK_WINDOW (editor->priv->cell_dialog));
 }
 
 static void
@@ -668,8 +667,7 @@ action_redo_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_REDO);
+		e_html_editor_view_redo (view);
 }
 
 static void
@@ -737,8 +735,7 @@ action_undo_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
-		webkit_web_view_execute_editing_command (
-			WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_UNDO);
+		e_html_editor_view_undo (view);
 }
 
 static void
@@ -749,7 +746,7 @@ action_unindent_cb (GtkAction *action,
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
 		html_editor_call_simple_extension_function (
-			editor, "EHTMLEditorSelectionDOMUnindent");
+			editor, "DOMSelectionUnindent");
 }
 
 static void
@@ -760,7 +757,7 @@ action_wrap_lines_cb (GtkAction *action,
 
 	if (gtk_widget_has_focus (GTK_WIDGET (view)))
 		html_editor_call_simple_extension_function (
-			editor, "EHTMLEditorSelectionDOMWrapLines");
+			editor, "DOMSelectionWrap");
 }
 
 static void

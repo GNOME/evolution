@@ -149,6 +149,7 @@ html_editor_view_can_redo_cb (WebKitWebView *webkit_web_view,
 {
 	gboolean value;
 
+/* FIXME WK2 Connect to extension */
 	value = webkit_web_view_can_execute_editing_command_finish (
 		webkit_web_view, result, NULL);
 
@@ -171,6 +172,7 @@ html_editor_view_can_undo_cb (WebKitWebView *webkit_web_view,
 {
 	gboolean value;
 
+/* FIXME WK2 Connect to extension */
 	value = webkit_web_view_can_execute_editing_command_finish (
 		webkit_web_view, result, NULL);
 
@@ -186,6 +188,22 @@ html_editor_view_can_undo (EHTMLEditorView *view)
 	return view->priv->can_undo;
 }
 
+void
+e_html_editor_view_undo (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	e_html_editor_view_call_simple_extension_function (view, "DOMUndo");
+}
+
+void
+e_html_editor_view_redo (EHTMLEditorView *view)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+
+	e_html_editor_view_call_simple_extension_function (view, "DOMUndo");
+}
+
 static void
 html_editor_view_user_changed_contents_cb (EHTMLEditorView *view)
 {
@@ -194,20 +212,6 @@ html_editor_view_user_changed_contents_cb (EHTMLEditorView *view)
 	web_view = WEBKIT_WEB_VIEW (view);
 
 	e_html_editor_view_set_changed (view, TRUE);
-
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (web_view),
-		WEBKIT_EDITING_COMMAND_REDO,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) html_editor_view_can_redo_cb,
-		view);
-
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (web_view),
-		WEBKIT_EDITING_COMMAND_UNDO,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) html_editor_view_can_undo_cb,
-		view);
 }
 
 static void
@@ -520,8 +524,6 @@ html_editor_view_dispose (GObject *object)
 	EHTMLEditorViewPrivate *priv;
 
 	priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (object);
-
-	g_clear_object (&priv->selection);
 
 	if (priv->aliasing_settings != NULL) {
 		g_signal_handlers_disconnect_by_data (priv->aliasing_settings, object);
@@ -1549,7 +1551,6 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		return;
 
 	view->priv->html_mode = html_mode;
-
 
 	e_html_editor_view_call_simple_extension_function_sync (
 		view, "DOMProcessContentAfterModeChange");

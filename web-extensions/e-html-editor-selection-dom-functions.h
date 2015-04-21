@@ -84,9 +84,11 @@ void		dom_insert_base64_image		(WebKitDOMDocument *document,
 						 const gchar *uri,
 						 const gchar *base64_content);
 
-void		dom_unlink			(WebKitDOMDocument *document);
+void		dom_selection_unlink		(WebKitDOMDocument *document,
+                                                 EHTMLEditorWebExtension *extension);
 
 void		dom_create_link			(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *uri);
 
 EHTMLEditorSelectionBlockFormat
@@ -119,6 +121,22 @@ void		dom_set_paragraph_style		(WebKitDOMDocument *document,
 						 const gchar *style_to_add);
 
 WebKitDOMElement *
+		dom_create_selection_marker	(WebKitDOMDocument *document,
+						 gboolean selection_start_marker);
+
+void		dom_add_selection_markers_into_element_start
+						(WebKitDOMDocument *document,
+						 WebKitDOMElement *element,
+						 WebKitDOMElement **selection_start_marker,
+						 WebKitDOMElement **selection_end_marker);
+
+void		dom_add_selection_markers_into_element_end
+						(WebKitDOMDocument *document,
+						 WebKitDOMElement *element,
+						 WebKitDOMElement **selection_start_marker,
+						 WebKitDOMElement **selection_end_marker);
+
+WebKitDOMElement *
 		dom_get_paragraph_element	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 gint width,
@@ -129,6 +147,9 @@ WebKitDOMElement *
 						 EHTMLEditorWebExtension *extension,
 						 WebKitDOMNode *node,
 						 WebKitDOMNode *caret_position);
+
+void		dom_selection_wrap		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 WebKitDOMElement *
 		dom_wrap_paragraph_length	(WebKitDOMDocument *document,
@@ -268,6 +289,11 @@ void		dom_selection_set_on_point	(WebKitDOMDocument *document,
 						 guint x,
 						 guint y);
 
+void		dom_selection_get_coordinates	(WebKitDOMDocument *document,
+						 guint *start_x,
+						 guint *start_y,
+						 guint *end_x,
+						 guint *end_y);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_SELECTION_DOM_FUNCTIONS_H */

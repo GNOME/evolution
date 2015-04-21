@@ -19,6 +19,8 @@
 #include "e-html-editor-cell-dialog-dom-functions.h"
 
 #include "e-dom-utils.h"
+#include "e-html-editor-undo-redo-manager.h"
+#include "e-html-editor-selection-dom-functions.h"
 
 enum {
 	SCOPE_CELL,
@@ -231,8 +233,10 @@ cell_set_header_style (WebKitDOMHTMLTableCellElement *cell,
 
 void
 e_html_editor_cell_dialog_mark_current_cell_element (WebKitDOMDocument *document,
+                                                     EHTMLEditorWebExtension *extension,
                                                      const gchar *id)
 {
+	EHTMLEditorUndoRedoManager *manager;
 	WebKitDOMElement *element, *parent = NULL;
 
 	element = webkit_dom_document_get_element_by_id (document, id);
@@ -245,7 +249,55 @@ e_html_editor_cell_dialog_mark_current_cell_element (WebKitDOMDocument *document
 	if (element)
 		webkit_dom_element_remove_attribute (element, "id");
 
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		EHTMLEditorHistoryEvent *ev;
+		WebKitDOMElement *table;
+
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_TABLE_DIALOG;
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		table = dom_node_find_parent_element (
+			WEBKIT_DOM_NODE (parent), "TABLE");
+		ev->data.dom.from = webkit_dom_node_clone_node (
+			WEBKIT_DOM_NODE (table), TRUE);
+
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+
 	webkit_dom_element_set_id (parent, "-x-evo-current-cell");
+
+}
+
+void
+e_html_editor_cell_dialog_save_history_on_exit (WebKitDOMDocument *document,
+                                                EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorUndoRedoManager *manager;
+	EHTMLEditorHistoryEvent *ev = NULL;
+	WebKitDOMElement *cell, *table;
+
+	cell = get_current_cell_element (document);
+
+	table = dom_node_find_parent_element (WEBKIT_DOM_NODE (cell), "TABLE");
+	g_return_if_fail (table != NULL);
+
+	webkit_dom_element_remove_attribute (cell, "id");
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
+	ev->data.dom.to = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (table), TRUE);
+
+	dom_selection_get_coordinates (
+		document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 }
 
 void

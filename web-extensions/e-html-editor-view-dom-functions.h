@@ -24,10 +24,12 @@
 #include "e-html-editor-web-extension.h"
 
 #include <e-util/e-util-enums.h>
+#include <e-util/e-emoticon.h>
 
 G_BEGIN_DECLS
 
 gboolean	dom_exec_command		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 EHTMLEditorViewCommand command,
 						 const gchar *value);
 
@@ -54,6 +56,13 @@ void		dom_check_magic_links		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 gboolean include_space_by_user);
 
+void		dom_insert_smiley		(WebKitDOMDocument *document,
+                                                 EHTMLEditorWebExtension *extension,
+                                                 EEmoticon *emoticon);
+
+void		dom_check_magic_smileys		(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 void		dom_convert_content		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 const gchar *preferred_text);
@@ -63,6 +72,22 @@ void		dom_convert_and_insert_html_into_selection
 						 EHTMLEditorWebExtension *extension,
 						 const gchar *html,
 						 gboolean is_html);
+
+gboolean	dom_node_is_citation_node	(WebKitDOMNode *node);
+
+void		dom_quote_plain_text_element_after_wrapping
+						(WebKitDOMDocument *document,
+						 WebKitDOMElement *element,
+						 gint quote_level);
+
+WebKitDOMNode * get_parent_block_node_from_child
+						(WebKitDOMNode *node);
+
+WebKitDOMElement *
+		dom_insert_new_line_into_citation
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *html_to_insert);
 
 WebKitDOMElement *
 		dom_quote_plain_text_element	(WebKitDOMDocument *document,

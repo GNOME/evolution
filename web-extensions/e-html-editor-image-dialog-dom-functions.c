@@ -19,11 +19,62 @@
 #include "e-html-editor-image-dialog-dom-functions.h"
 
 #include "e-dom-utils.h"
+#include "e-html-editor-selection-dom-functions.h"
+#include "e-html-editor-web-extension.h"
+#include "e-html-editor-undo-redo-manager.h"
 
 static WebKitDOMElement *
 get_current_image_element (WebKitDOMDocument *document)
 {
 	return webkit_dom_document_get_element_by_id (document, "-x-evo-current-img");
+}
+
+void
+e_html_editor_image_dialog_mark_image (WebKitDOMDocument *document,
+                                       EHTMLEditorWebExtension *extension,
+                                       WebKitDOMNode *node_under_mouse_click)
+{
+	EHTMLEditorUndoRedoManager *manager;
+
+	g_return_if_fail (node_under_mouse_click && WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (node_under_mouse_click));
+
+	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (node_under_mouse_click), "-x-evo-current-img");
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
+		EHTMLEditorHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_IMAGE_DIALOG;
+
+		dom_selection_get_coordinates (
+			document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+		ev->data.dom.from = webkit_dom_node_clone_node (node_under_mouse_click, FALSE);
+
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+	}
+}
+
+void
+e_html_editor_image_dialog_save_history_on_exit (WebKitDOMDocument *document,
+                                                 EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorUndoRedoManager *manager;
+	EHTMLEditorHistoryEvent *ev = NULL;
+	WebKitDOMElement *element;
+
+	element = get_current_image_element (document);
+	g_return_if_fail (element != NULL);
+
+	webkit_dom_element_remove_attribute (element, "id");
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
+	ev->data.dom.to = webkit_dom_node_clone_node (
+		WEBKIT_DOM_NODE (element), TRUE);
+
+	dom_selection_get_coordinates (
+		document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 }
 
 void

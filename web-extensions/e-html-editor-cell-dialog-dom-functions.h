@@ -21,11 +21,18 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
 
 void		e_html_editor_cell_dialog_mark_current_cell_element
 						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *id);
+
+void		e_html_editor_cell_dialog_save_history_on_exit
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_cell_dialog_set_element_v_align
 						(WebKitDOMDocument *document,

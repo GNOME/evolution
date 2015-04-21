@@ -522,6 +522,9 @@ html_editor_image_dialog_show (GtkWidget *widget)
 	if (!web_extension)
 		return;
 
+	e_html_editor_view_call_simple_extension_function (
+		view, "EHTMLEditorImageDialogMarkImage");
+
 	result = e_html_editor_view_get_element_attribute (
 		view, "#-x-evo-current-img", "data-uri");
 
@@ -690,8 +693,9 @@ html_editor_image_dialog_hide (GtkWidget *widget)
 	dialog = E_HTML_EDITOR_IMAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
-	e_html_editor_view_remove_element_attribute (
-		view, "#-x-evo-current-img", "id");
+
+	e_html_editor_view_call_simple_extension_function (
+		view, "EHTMLEditorImageDialogSaveHistoryOnExit");
 
 	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->hide (widget);
 }

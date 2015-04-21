@@ -21,7 +21,18 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
+
+void		e_html_editor_image_dialog_mark_image
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 WebKitDOMNode *node_under_mouse_click);
+
+void		e_html_editor_image_dialog_save_history_on_exit
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_image_dialog_set_element_url
 						(WebKitDOMDocument *document,

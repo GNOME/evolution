@@ -21,9 +21,12 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
 
 void		e_html_editor_link_dialog_ok 	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
 						 const gchar *url,
 						 const gchar *inner_text);
 

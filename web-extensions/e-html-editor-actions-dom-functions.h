@@ -21,31 +21,41 @@
 
 #include <webkitdom/webkitdom.h>
 
+#include "e-html-editor-web-extension.h"
+
 G_BEGIN_DECLS
 
 void		e_html_editor_dialog_delete_cell_contents
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_delete_column
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_delete_row
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_delete_table
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_insert_column_after
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_insert_column_before
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_insert_row_above
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 void		e_html_editor_dialog_insert_row_below
-						(WebKitDOMDocument *document);
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 
 G_END_DECLS
 

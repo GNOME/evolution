@@ -342,6 +342,9 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	if (!web_extension)
 		return;
 
+	e_html_editor_view_call_simple_extension_function (
+		view, "EHTMLEditorPageDialogSaveHistory");
+
 	result = e_html_editor_view_get_element_attribute (
 		view, "body", "data-uri");
 
@@ -441,6 +444,23 @@ html_editor_page_dialog_show (GtkWidget *widget)
 }
 
 static void
+html_editor_page_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+	EHTMLEditorPageDialog *dialog;
+
+	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	view = e_html_editor_get_view (editor);
+
+	e_html_editor_view_call_simple_extension_function (
+		view, "EHTMLEditorPageDialogSaveHistoryOnExit");
+
+	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->hide (widget);
+}
+
+static void
 e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 {
 	GtkWidgetClass *widget_class;
@@ -449,6 +469,7 @@ e_html_editor_page_dialog_class_init (EHTMLEditorPageDialogClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_page_dialog_show;
+	widget_class->hide = html_editor_page_dialog_hide;
 }
 
 static void

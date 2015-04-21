@@ -23,6 +23,8 @@
 
 #include "e-html-editor-web-extension-names.h"
 
+#include "e-html-editor-undo-redo-manager.h"
+
 #include <e-util/e-util-enums.h>
 #include <webkit2/webkit-web-extension.h>
 #include <glib-object.h>
@@ -47,6 +49,8 @@
 	((obj), E_TYPE_HTML_EDITOR_WEB_EXTENSION, EHTMLEditorWebExtensionClass))
 
 G_BEGIN_DECLS
+
+struct _EHTMLEditorUndoRedoManager;
 
 typedef struct _EHTMLEditorWebExtension EHTMLEditorWebExtension;
 typedef struct _EHTMLEditorWebExtensionClass EHTMLEditorWebExtensionClass;
@@ -135,6 +139,9 @@ void		e_html_editor_web_extension_set_space_key_pressed
 						(EHTMLEditorWebExtension *extension,
 						 gboolean value);
 
+gboolean	e_html_editor_web_extension_get_magic_links_enabled
+						(EHTMLEditorWebExtension *extension);
+
 gboolean	e_html_editor_web_extension_get_magic_smileys_enabled
 						(EHTMLEditorWebExtension *extension);
 
@@ -181,6 +188,16 @@ gboolean	e_html_editor_web_extension_get_is_smiley_written
 
 void		e_html_editor_web_extension_set_is_smiley_written
 						(EHTMLEditorWebExtension *extension,
-                                                 gboolean value);
+						 gboolean value);
 
+gboolean	e_html_editor_web_extension_get_dont_save_history_in_body_input
+						(EHTMLEditorWebExtension *extension);
+
+void		e_html_editor_web_extension_set_dont_save_history_in_body_input
+						(EHTMLEditorWebExtension *extension,
+						 gboolean value);
+
+struct _EHTMLEditorUndoRedoManager *
+		e_html_editor_web_extension_get_undo_redo_manager
+						(EHTMLEditorWebExtension *extension);
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

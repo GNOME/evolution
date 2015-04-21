@@ -1,5 +1,5 @@
 /*
- * e-html-editor-table-dialog-dom-functions.h
+ * e-html-editor-page-dialog-dom-functions.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H
-#define E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H
+#ifndef E_HTML_EDITOR_PAGE_DIALOG_DOM_FUNCTIONS_H
+#define E_HTML_EDITOR_PAGE_DIALOG_DOM_FUNCTIONS_H
 
 #include <webkitdom/webkitdom.h>
 
@@ -25,27 +25,14 @@
 
 G_BEGIN_DECLS
 
-void		e_html_editor_table_dialog_set_row_count
+void		e_html_editor_page_dialog_save_history
 						(WebKitDOMDocument *document,
-						 gulong expected_count);
-
-gulong		e_html_editor_table_dialog_get_row_count
-						(WebKitDOMDocument *document);
-
-void		e_html_editor_table_dialog_set_column_count
-						(WebKitDOMDocument *document,
-						 gulong expected_columns);
-
-gulong		e_html_editor_table_dialog_get_column_count
-						(WebKitDOMDocument *document);
-
-gboolean	e_html_editor_table_dialog_show (WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
-void		e_html_editor_table_dialog_save_history_on_exit
+void		e_html_editor_page_dialog_save_history_on_exit
 						(WebKitDOMDocument *document,
-                                                 EHTMLEditorWebExtension *extension);
+						 EHTMLEditorWebExtension *extension);
 
 G_END_DECLS
 
-#endif /* E_HTML_EDITOR_TABLE_DIALOG_DOM_FUNCTIONS_H */
+#endif /* E_HTML_EDITOR_PAGE_DIALOG_DOM_FUNCTIONS_H */

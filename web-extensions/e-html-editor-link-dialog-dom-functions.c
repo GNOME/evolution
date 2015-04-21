@@ -30,6 +30,7 @@
 
 void
 e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
+                              EHTMLEditorWebExtension *extension,
                               const gchar *url,
                               const gchar *inner_text)
 {
@@ -92,13 +93,13 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 		/* Check whether a text is selected or not */
 		text = webkit_dom_range_get_text (range);
 		if (text && *text) {
-			dom_create_link (document, url);
+			dom_create_link (document, extension, url);
 		} else {
 			gchar *html = g_strdup_printf (
 				"<a href=\"%s\">%s</a>", url, inner_text);
 
 			dom_exec_command (
-				document, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html);
+				document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, html);
 			g_free (html);
 
 		}

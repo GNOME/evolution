@@ -30,6 +30,10 @@ gboolean	e_html_editor_hrule_dialog_find_hrule
 						 EHTMLEditorWebExtension *extension,
 						 WebKitDOMNode *node_under_mouse_click);
 
+void		e_html_editor_hrule_dialog_save_history_on_exit
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_HRULE_DIALOG_DOM_FUNCTIONS_H */

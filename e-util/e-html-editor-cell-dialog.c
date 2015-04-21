@@ -450,6 +450,19 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 	if (!web_extension)
 		return;
 
+	g_dbus_proxy_call (
+		web_extension,
+		"EHTMLEditorCellDialogMarkCurrentCellElement",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			"-x-evo-table-cell"),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
 
@@ -670,8 +683,8 @@ html_editor_cell_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	view = e_html_editor_get_view (editor);
 
-	e_html_editor_view_remove_element_attribute (
-		view, "#-x-evo-current-cell", "id");
+	e_html_editor_view_call_simple_extension_function_sync (
+		view, "EHTMLEditorCellDialogSaveHistoryOnExit");
 
 	GTK_WIDGET_CLASS (e_html_editor_cell_dialog_parent_class)->hide (widget);
 }
@@ -982,37 +995,3 @@ e_html_editor_cell_dialog_new (EHTMLEditor *editor)
 			"title", _("Cell Properties"),
 			NULL));
 }
-
-void
-e_html_editor_cell_dialog_show (EHTMLEditorCellDialog *dialog)
-{
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-	EHTMLEditorCellDialogClass *class;
-	GDBusProxy *web_extension;
-
-	g_return_if_fail (E_IS_HTML_EDITOR_CELL_DIALOG (dialog));
-
-	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
-	view = e_html_editor_get_view (editor);
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_proxy_call (
-		web_extension,
-		"EHTMLEditorCellDialogMarkCurrentCellElement",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			"-x-evo-table-cell"),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-
-	class = E_HTML_EDITOR_CELL_DIALOG_GET_CLASS (dialog);
-	GTK_WIDGET_CLASS (class)->show (GTK_WIDGET (dialog));
-}
-

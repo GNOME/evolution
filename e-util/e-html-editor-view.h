@@ -106,6 +106,8 @@ EHTMLEditorSelection *
 gboolean	e_html_editor_view_get_changed	(EHTMLEditorView *view);
 void		e_html_editor_view_set_changed	(EHTMLEditorView *view,
 						 gboolean changed);
+void		e_html_editor_view_undo		(EHTMLEditorView *view);
+void		e_html_editor_view_redo		(EHTMLEditorView *view);
 gboolean	e_html_editor_view_get_html_mode
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_html_mode
