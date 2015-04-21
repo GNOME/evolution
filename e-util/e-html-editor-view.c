@@ -2701,9 +2701,8 @@ body_scroll_event_cb (WebKitDOMElement *element,
 	if (!view->priv->inline_spelling)
 		return;
 
-	if (view->priv->spell_check_on_scroll_event_source_id > 0) {
+	if (view->priv->spell_check_on_scroll_event_source_id > 0)
 		g_source_remove (view->priv->spell_check_on_scroll_event_source_id);
-	}
 
 	view->priv->spell_check_on_scroll_event_source_id =
 		g_timeout_add (1000, (GSourceFunc)force_spell_check_on_timeout, view);
@@ -3572,6 +3571,11 @@ html_editor_view_dispose (GObject *object)
 	priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (object);
 
 	g_clear_object (&priv->selection);
+
+	if (priv->spell_check_on_scroll_event_source_id > 0) {
+		g_source_remove (priv->spell_check_on_scroll_event_source_id);
+		priv->spell_check_on_scroll_event_source_id = 0;
+	}
 
 	if (priv->aliasing_settings != NULL) {
 		g_signal_handlers_disconnect_by_data (priv->aliasing_settings, object);
