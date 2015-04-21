@@ -112,6 +112,10 @@ typedef struct {
 	/* original trigger of the instance from component */
 	time_t orig_trigger;
 
+	#ifdef HAVE_LIBNOTIFY
+	NotifyNotification *notify;
+	#endif
+
 	/* Whether this is a snoozed queued alarm or a normal one */
 	guint snooze : 1;
 } QueuedAlarm;
@@ -392,6 +396,12 @@ remove_queued_alarm (CompQueuedAlarms *cqa,
 		}
 	}
 
+	#ifdef HAVE_LIBNOTIFY
+	if (qa->notify) {
+		notify_notification_close (qa->notify, NULL);
+		g_clear_object (&qa->notify);
+	}
+	#endif
 	g_free (qa);
 
 	/* If this was the last queued alarm for this component, remove the
@@ -557,7 +567,7 @@ add_component_alarms (ClientAlarms *ca,
 		if (!alarm_id)
 			continue;
 
-		qa = g_new (QueuedAlarm, 1);
+		qa = g_new0 (QueuedAlarm, 1);
 		qa->alarm_id = alarm_id;
 		qa->instance = instance;
 		qa->orig_trigger = instance->trigger;
@@ -908,7 +918,7 @@ query_objects_changed_async (struct _query_msg *msg)
 			if (!alarm_id)
 				continue;
 
-			qa = g_new (QueuedAlarm, 1);
+			qa = g_new0 (QueuedAlarm, 1);
 			qa->alarm_id = alarm_id;
 			qa->instance = instance;
 			qa->snooze = FALSE;
@@ -1014,7 +1024,13 @@ create_snooze (CompQueuedAlarms *cqa,
 	orig_qa->instance->trigger = t;
 	orig_qa->alarm_id = new_id;
 	orig_qa->snooze = TRUE;
-	debug (("Adding a alarm at %s", e_ctime (&t)));
+	#ifdef HAVE_LIBNOTIFY
+	if (orig_qa->notify) {
+		notify_notification_close (orig_qa->notify, NULL);
+		g_clear_object (&orig_qa->notify);
+	}
+	#endif
+	debug (("Adding an alarm at %s", e_ctime (&t)));
 }
 
 /* Launches a component editor for a component */
@@ -1802,8 +1818,8 @@ popup_notification (time_t trigger,
 	gchar *str, *start_str, *end_str, *alarm_str, *time_str;
 	icaltimezone *current_zone;
 	ECalComponentOrganizer organiser;
-	NotifyNotification *notify;
 	gchar *body;
+	GError *error = NULL;
 
 	debug (("..."));
 
@@ -1858,18 +1874,24 @@ popup_notification (time_t trigger,
 				"%s %s", start_str, time_str);
 	}
 
-	notify = notify_notification_new (summary, body, "appointment-soon");
+	if (qa->notify) {
+		notify_notification_close (qa->notify, NULL);
+		g_clear_object (&qa->notify);
+	}
+
+	qa->notify = notify_notification_new (summary, body, "appointment-soon");
 
 	/* If the user wants Evolution notifications suppressed, honor
 	 * it even though evolution-alarm-notify is a separate process
 	 * with its own .desktop file. */
 	notify_notification_set_hint (
-		notify, "desktop-entry",
+		qa->notify, "desktop-entry",
 		g_variant_new_string (PACKAGE));
 
-	if (!notify_notification_show (notify, NULL))
-		g_warning ("Could not send notification to daemon\n");
+	if (!notify_notification_show (qa->notify, &error))
+		g_warning ("Could not send notification to daemon: %s\n", error ? error->message : "Unknown error");
 
+	g_clear_error (&error);
 	g_free (alarm_summary);
 	g_free (start_str);
 	g_free (end_str);
