@@ -550,7 +550,7 @@ e_spell_checker_free_global_memory (void)
  *
  * Returns: new copy of #GList of #ESpellDictionary. The dictionaries are
  * owned by the @checker and should not be free'd. The list should be freed
- * using g_list_free() when not neede anymore. [transfer-list]
+ * using g_list_free() when not needed anymore. [transfer-list]
  */
 GList *
 e_spell_checker_list_available_dicts (ESpellChecker *checker)
