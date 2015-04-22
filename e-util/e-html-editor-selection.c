@@ -5901,11 +5901,8 @@ find_where_to_break_line (WebKitDOMNode *node,
 	do {
 		uc = g_utf8_get_char (str);
 		if (!uc) {
-			g_free (text_start);
-			if (pos <= max_len)
-				return pos;
-			else
-				return last_space > 0 ? last_space - 1 : 0;
+			ret_val = pos <= max_len ? pos : last_space > 0 ? last_space - 1 : 0;
+			goto out;
 		}
 
 		/* If last_space is zero then the word is longer than
@@ -5913,16 +5910,15 @@ find_where_to_break_line (WebKitDOMNode *node,
 		 * a space */
 		if ((pos > max_len) && (last_space > 0)) {
 			if (last_space > word_wrap_length) {
-				g_free (text_start);
-				return last_space > 0 ? last_space - 1 : 0;
+				ret_val = last_space > 0 ? last_space - 1 : 0;
+				goto out;
 			}
 
 			if (last_space > max_len) {
 				if (g_unichar_isspace (g_utf8_get_char (text_start)))
 					ret_val = 1;
 
-				g_free (text_start);
-				return ret_val;
+				goto out;
 			}
 
 			if (last_space == max_len - 1) {
@@ -5931,8 +5927,8 @@ find_where_to_break_line (WebKitDOMNode *node,
 					last_space++;
 			}
 
-			g_free (text_start);
-			return last_space > 0 ? last_space - 1 : 0;
+			ret_val = last_space > 0 ? last_space - 1 : 0;
+			goto out;
 		}
 
 		if (g_unichar_isspace (uc) || str[0] == '-')
@@ -5962,7 +5958,12 @@ find_where_to_break_line (WebKitDOMNode *node,
 		}
 	}
 
+ out:
 	g_free (text_start);
+
+	/* No space found, split at max_len. */
+	if (ret_val == 0)
+		ret_val = max_len;
 
 	return ret_val;
 }
@@ -6311,6 +6312,9 @@ wrap_lines (EHTMLEditorSelection *selection,
 						WEBKIT_DOM_NODE (element),
 						nd,
 						NULL);
+
+					node = webkit_dom_node_get_next_sibling (
+						WEBKIT_DOM_NODE (element));
 				} else {
 					webkit_dom_node_append_child (
 						webkit_dom_node_get_parent_node (node),
@@ -6343,6 +6347,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 						WEBKIT_DOM_NODE (element),
 						nd,
 						NULL);
+
 					line_length = 0;
 					break;
 				} else {
