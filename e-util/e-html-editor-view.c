@@ -2510,6 +2510,13 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	g_string_append (
 		stylesheet,
+		"td > *"
+		"{\n"
+		"  display : inline-block;\n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
 		"ul,ol "
 		"{\n"
 		"  -webkit-padding-start: 7ch; \n"

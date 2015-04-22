@@ -1459,6 +1459,13 @@ dom_selection_save (WebKitDOMDocument *document)
 			webkit_dom_node_get_next_sibling (container),
 			NULL);
 		goto insert_end_marker;
+	} else if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (container)) {
+		marker_node = webkit_dom_node_insert_before (
+			container,
+			WEBKIT_DOM_NODE (start_marker),
+			webkit_dom_node_get_first_child (container),
+			NULL);
+		goto insert_end_marker;
 	} else {
 		/* Insert the selection marker on the right position in
 		 * an empty paragraph in the quoted content */

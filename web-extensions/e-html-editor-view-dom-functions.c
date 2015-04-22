@@ -1623,13 +1623,15 @@ surround_text_with_paragraph_if_needed (WebKitDOMDocument *document,
 {
 	WebKitDOMNode *next_sibling = webkit_dom_node_get_next_sibling (node);
 	WebKitDOMNode *prev_sibling = webkit_dom_node_get_previous_sibling (node);
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
 	WebKitDOMElement *element;
 
 	/* All text in composer has to be written in div elements, so if
 	 * we are writing something straight to the body, surround it with
 	 * paragraph */
 	if (WEBKIT_DOM_IS_TEXT (node) &&
-	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
+	    (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) ||
+	     WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent))) {
 		element = dom_put_node_into_paragraph (document, extension, node, TRUE);
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling))
@@ -1668,6 +1670,50 @@ body_keydown_event_cb (WebKitDOMElement *element,
 		e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, TRUE);
 }
 
+static gboolean
+save_history_before_event_in_table (WebKitDOMDocument *document,
+                                    EHTMLEditorWebExtension *extension,
+                                    WebKitDOMRange *range)
+{
+	WebKitDOMNode *node;
+	WebKitDOMElement *block;
+
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node))
+		block = WEBKIT_DOM_ELEMENT (node);
+	else
+		block = get_parent_block_element (node);
+
+	if (block && WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (block)) {
+		EHTMLEditorUndoRedoManager *manager;
+		EHTMLEditorHistoryEvent *ev;
+
+		ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+		ev->type = HISTORY_TABLE_INPUT;
+
+		if (block) {
+			dom_selection_save (document);
+			ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+			dom_selection_restore (document);
+		} else
+			ev->data.dom.from = NULL;
+
+		dom_selection_get_coordinates (
+			document,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 body_keypress_event_cb (WebKitDOMElement *element,
                         WebKitDOMUIEvent *event,
@@ -1693,6 +1739,9 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
+	if (save_history_before_event_in_table (document, extension, range))
+		return;
+
 	if (!webkit_dom_range_get_collapsed (range, NULL)) {
 		EHTMLEditorHistoryEvent *ev;
 		EHTMLEditorUndoRedoManager *manager;
@@ -1713,6 +1762,57 @@ body_keypress_event_cb (WebKitDOMElement *element,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
+}
+
+static gboolean
+save_history_after_event_in_table (WebKitDOMDocument *document,
+                                   EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorHistoryEvent *ev;
+	EHTMLEditorUndoRedoManager *manager;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *element;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return FALSE;
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	/* Find if writing into table. */
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = get_parent_block_element (node);
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	/* If writing to table we have to create different history event. */
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element)) {
+		ev = e_html_editor_undo_redo_manager_get_current_history_event (manager);
+		if (ev->type != HISTORY_TABLE_INPUT)
+			return FALSE;
+	} else
+		return FALSE;
+
+	dom_selection_save (document);
+
+	dom_selection_get_coordinates (
+		document,
+		&ev->after.start.x,
+		&ev->after.start.y,
+		&ev->after.end.x,
+		&ev->after.end.y);
+
+	ev->data.dom.to = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (element), TRUE);
+
+	dom_selection_restore (document);
+
+	return TRUE;
 }
 
 static void
@@ -1814,10 +1914,12 @@ body_input_event_cb (WebKitDOMElement *element,
 		return;
 	}
 
-	if (!e_html_editor_web_extension_get_dont_save_history_in_body_input (extension))
-		save_history_for_input (document, extension);
-	else
-		dom_force_spell_check_for_current_paragraph (document, extension);
+	if (!save_history_after_event_in_table (document, extension)) {
+		if (!e_html_editor_web_extension_get_dont_save_history_in_body_input (extension))
+			save_history_for_input (document, extension);
+		else
+			dom_force_spell_check_for_current_paragraph (document, extension);
+	}
 
 	/* Don't try to look for smileys if we are deleting text. */
 	if (!e_html_editor_web_extension_get_dont_save_history_in_body_input (extension))
@@ -1866,7 +1968,7 @@ body_input_event_cb (WebKitDOMElement *element,
 
 	/* After toggling monospaced format, we are using UNICODE_ZERO_WIDTH_SPACE
 	 * to move caret into right space. When this callback is called it is not
-	 * necassary anymore so remove it */
+	 * necessary anymore so remove it */
 	if (html_mode) {
 		WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
 
@@ -6651,6 +6753,11 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	if (save_history_before_event_in_table (document, extension, range))
 		return;
 
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);

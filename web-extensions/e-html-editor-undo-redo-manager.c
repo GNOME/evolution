@@ -257,6 +257,7 @@ print_history_event (EHTMLEditorHistoryEvent *event)
 		case HISTORY_IMAGE_DIALOG:
 		case HISTORY_CELL_DIALOG:
 		case HISTORY_TABLE_DIALOG:
+		case HISTORY_TABLE_DIALOG:
 		case HISTORY_PAGE_DIALOG:
 			print_node_inner_html (event->data.dom.from);
 			print_node_inner_html (event->data.dom.to);
@@ -930,6 +931,48 @@ undo_redo_table_dialog (WebKitDOMDocument *document,
 }
 
 static void
+undo_redo_table_input (WebKitDOMDocument *document,
+                       EHTMLEditorWebExtension *extension,
+                       EHTMLEditorHistoryEvent *event,
+                       gboolean undo)
+{
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMElement *element;
+	WebKitDOMNode *node;
+	WebKitDOMRange *range;
+
+	if (undo)
+		restore_selection_to_history_event_state (document, event->after);
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return;
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	/* Find if writing into table. */
+	node = webkit_dom_range_get_start_container (range, NULL);
+	if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (node))
+		element = WEBKIT_DOM_ELEMENT (node);
+	else
+		element = get_parent_block_element (node);
+
+	/* If writing to table we have to create different history event. */
+	if (!WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (element))
+		return;
+
+	webkit_dom_node_replace_child (
+		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+		undo ? event->data.dom.from : event->data.dom.to,
+		WEBKIT_DOM_NODE (element),
+		NULL);
+
+	dom_selection_restore (document);
+}
+
+static void
 undo_redo_paste (WebKitDOMDocument *document,
                  EHTMLEditorWebExtension *extension,
                  EHTMLEditorHistoryEvent *event,
@@ -1420,6 +1463,7 @@ free_history_event_content (EHTMLEditorHistoryEvent *event)
 		case HISTORY_IMAGE_DIALOG:
 		case HISTORY_CELL_DIALOG:
 		case HISTORY_TABLE_DIALOG:
+		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
 			if (event->data.dom.from != NULL)
 				g_object_unref (event->data.dom.from);
@@ -1684,6 +1728,9 @@ e_html_editor_undo_redo_manager_undo (EHTMLEditorUndoRedoManager *manager)
 		case HISTORY_TABLE_DIALOG:
 			undo_redo_table_dialog (document, extension, event, TRUE);
 			break;
+		case HISTORY_TABLE_INPUT:
+			undo_redo_table_input (document, extension, event, TRUE);
+			break;
 		case HISTORY_PAGE_DIALOG:
 			undo_redo_page_dialog (document, extension, event, TRUE);
 			break;
@@ -1794,6 +1841,9 @@ e_html_editor_undo_redo_manager_redo (EHTMLEditorUndoRedoManager *manager)
 			break;
 		case HISTORY_TABLE_DIALOG:
 			undo_redo_table_dialog (document, extension, event, FALSE);
+			break;
+		case HISTORY_TABLE_INPUT:
+			undo_redo_table_input (document, extension, event, FALSE);
 			break;
 		case HISTORY_PAGE_DIALOG:
 			undo_redo_page_dialog (document, extension, event, FALSE);
