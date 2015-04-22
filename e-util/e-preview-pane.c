@@ -162,8 +162,6 @@ preview_pane_constructed (GObject *object)
 	/* EAlertBar controls its own visibility. */
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (object), widget, TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (widget), priv->web_view);
 	gtk_widget_show (widget);
