@@ -295,21 +295,6 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 }
 
 static void
-shell_sidebar_style_updated (GtkWidget *widget)
-{
-	EShellSidebar *shell_sidebar;
-	GdkRGBA bg;
-
-	/* Chain up to parent's method. */
-	GTK_WIDGET_CLASS (e_shell_sidebar_parent_class)->style_updated (widget);
-
-	shell_sidebar = E_SHELL_SIDEBAR (widget);
-
-	e_utils_get_theme_color (shell_sidebar->priv->event_box, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
-	gtk_widget_override_background_color (shell_sidebar->priv->event_box, GTK_STATE_FLAG_NORMAL, &bg);
-}
-
-static void
 shell_sidebar_forall (GtkContainer *container,
                       gboolean include_internals,
                       GtkCallback callback,
@@ -366,7 +351,6 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	widget_class->get_preferred_width = shell_sidebar_get_preferred_width;
 	widget_class->get_preferred_height = shell_sidebar_get_preferred_height;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
-	widget_class->style_updated = shell_sidebar_style_updated;
 
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->forall = shell_sidebar_forall;
@@ -451,7 +435,6 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	GtkWidget *container;
 	PangoAttribute *attribute;
 	PangoAttrList *attribute_list;
-	GdkRGBA bg;
 	const gchar *icon_name;
 
 	shell_sidebar->priv = E_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
@@ -459,8 +442,6 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_widget_set_has_window (GTK_WIDGET (shell_sidebar), FALSE);
 
 	widget = gtk_event_box_new ();
-	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
-	gtk_widget_override_background_color (widget, GTK_STATE_FLAG_NORMAL, &bg);
 	gtk_widget_set_parent (widget, GTK_WIDGET (shell_sidebar));
 	shell_sidebar->priv->event_box = g_object_ref (widget);
 	gtk_widget_show (widget);

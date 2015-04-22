@@ -750,6 +750,7 @@ e_tree_setup_header (ETree *tree)
 	gchar *pointer;
 
 	widget = e_canvas_new ();
+	gtk_style_context_add_class (gtk_widget_get_style_context (widget), "linked");
 	gtk_widget_set_can_focus (widget, FALSE);
 	tree->priv->header_canvas = GNOME_CANVAS (widget);
 	gtk_widget_show (widget);

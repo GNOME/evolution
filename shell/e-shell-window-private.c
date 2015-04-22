@@ -322,9 +322,17 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	if (widget != NULL)
 		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
 	widget = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	priv->content_pane = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	widget = shell_window_construct_taskbar (shell_window);

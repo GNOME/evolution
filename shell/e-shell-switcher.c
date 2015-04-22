@@ -155,7 +155,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 
 		left_width = allocation.width - 1;
 		x = H_PADDING + allocation.x;
-		y -= max_height;
+		y -= max_height + V_PADDING;
 		len = g_list_length (rows[i]);
 		for (p = rows[i]; p != NULL; p = p->next, len--) {
 			GtkAllocation child_allocation;
@@ -178,15 +178,13 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 			x += child_allocation.width + H_PADDING;
 			left_width = left_width - child_allocation.width - H_PADDING;
 		}
-
-		y -= V_PADDING;
 	}
 
 	for (i = 0; i <= row_last; i++)
 		g_list_free (rows[i]);
 	g_free (rows);
 
-	return y - allocation.y;
+	return y - allocation.y - V_PADDING;
 }
 
 static void
