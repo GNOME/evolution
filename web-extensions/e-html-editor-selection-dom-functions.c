@@ -1912,6 +1912,7 @@ dom_selection_restore (WebKitDOMDocument *document)
 {
 	WebKitDOMElement *marker;
 	WebKitDOMNode *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *parent_start, *parent_end;
 	WebKitDOMRange *range;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
@@ -1940,9 +1941,12 @@ dom_selection_restore (WebKitDOMDocument *document)
 
 				ok = is_selection_position_node (selection_end_marker);
 				if (ok) {
+					parent_start = webkit_dom_node_get_parent_node (selection_end_marker);
+
 					remove_node (selection_start_marker);
 					remove_node (selection_end_marker);
 
+					webkit_dom_node_normalize (parent_start);
 					return;
 				}
 			}
@@ -1963,6 +1967,8 @@ dom_selection_restore (WebKitDOMDocument *document)
 		return;
 	}
 
+	parent_start = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (marker));
+
 	webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (marker), NULL);
 	remove_node (WEBKIT_DOM_NODE (marker));
 
@@ -1976,10 +1982,18 @@ dom_selection_restore (WebKitDOMDocument *document)
 		return;
 	}
 
+	parent_end = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (marker));
+
 	webkit_dom_range_set_end_before (range, WEBKIT_DOM_NODE (marker), NULL);
 	remove_node (WEBKIT_DOM_NODE (marker));
 
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	if (webkit_dom_node_is_same_node (parent_start, parent_end))
+		webkit_dom_node_normalize (parent_start);
+	else {
+		webkit_dom_node_normalize (parent_start);
+		webkit_dom_node_normalize (parent_end);
+	}
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 }
 
