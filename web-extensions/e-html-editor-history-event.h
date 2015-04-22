@@ -26,6 +26,7 @@ G_BEGIN_DECLS
 enum EHTMLEditorHistoryEventType {
 	HISTORY_ALIGNMENT,
 	HISTORY_BLOCK_FORMAT,
+	HISTORY_BLOCKQUOTE,
 	HISTORY_BOLD,
 	HISTORY_CELL_DIALOG,
 	HISTORY_DELETE, /* BackSpace, Delete, with and without selection */
