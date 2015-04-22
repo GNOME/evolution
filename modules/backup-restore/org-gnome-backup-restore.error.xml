@@ -3,7 +3,7 @@
 
  <error id="invalid-backup" type="warning">
   <_primary>Invalid Evolution backup file</_primary>
-  <_secondary>Please select a valid backup file to restore.</_secondary>
+  <_secondary>File '{0}' is not a valid Evolution backup file.</_secondary>
  </error>
    <error id="backup-confirm" type="warning" default="GTK_RESPONSE_CANCEL">
     <_primary>Are you sure you want to close Evolution?</_primary>
