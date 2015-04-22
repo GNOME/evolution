@@ -6651,7 +6651,6 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 	ev->type = HISTORY_DELETE;
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	dom_selection_get_coordinates (
 		document, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
@@ -6722,8 +6721,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	} else {
 		ev->after.start.x = ev->before.start.x;
 		ev->after.start.y = ev->before.start.y;
-		ev->after.end.x = ev->before.end.x;
-		ev->after.end.y = ev->before.end.y;
+		ev->after.end.x = ev->before.start.x;
+		ev->after.end.y = ev->before.start.y;
 		fragment = webkit_dom_range_clone_contents (range, NULL);
 	}
 

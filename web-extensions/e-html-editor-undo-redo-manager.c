@@ -302,7 +302,7 @@ undo_delete (WebKitDOMDocument *document,
 		dom_selection_restore (document);
 		dom_force_spell_check (document, extension);
 	} else {
-		WebKitDOMNode *inserted_node, *nd;
+		WebKitDOMNode *nd;
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
 
@@ -331,7 +331,7 @@ undo_delete (WebKitDOMDocument *document,
 		}
 
 		/* Insert the deleted content back to the body. */
-		inserted_node = webkit_dom_node_insert_before (
+		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
 			fragment,
 			WEBKIT_DOM_NODE (element),
@@ -342,13 +342,10 @@ undo_delete (WebKitDOMDocument *document,
 		/* If the selection markers are presented restore the selection,
 		 * otherwise the selection was not callapsed so select the deleted
 		 * content as it was before the delete occured. */
-		if (webkit_dom_document_fragment_query_selector (event->data.fragment, "span#-x-evo-selection-start-marker", NULL)) {
+		if (webkit_dom_document_fragment_query_selector (event->data.fragment, "span#-x-evo-selection-start-marker", NULL))
 			dom_selection_restore (document);
-		} else {
-			webkit_dom_range_select_node (range, WEBKIT_DOM_NODE (inserted_node), NULL);
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, range);
-		}
+		else
+			restore_selection_to_history_event_state (document, event->before);
 
 		if (e_html_editor_web_extension_get_magic_smileys_enabled (extension))
 			dom_check_magic_smileys (document, extension);
