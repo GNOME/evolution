@@ -1629,12 +1629,14 @@ dom_selection_save (WebKitDOMDocument *document)
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_get_parent_node (parent_node);
-		marker_node = webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (node),
-			WEBKIT_DOM_NODE (start_marker),
-			webkit_dom_node_get_next_sibling (node),
-			NULL);
-		goto insert_end_marker;
+		if (offset == 0) {
+			marker_node = webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (node),
+				WEBKIT_DOM_NODE (start_marker),
+				webkit_dom_node_get_next_sibling (node),
+				NULL);
+			goto insert_end_marker;
+		}
 	}
 
 	if (WEBKIT_DOM_IS_TEXT (container)) {
