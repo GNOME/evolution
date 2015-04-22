@@ -7113,26 +7113,23 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			remove_input_event_listener_from_body (document, extension);
 
 		/* BackSpace in indented block decrease indent level by one */
-		if (dom_selection_is_indented (document)) {
-			WebKitDOMElement *caret;
+		if (dom_selection_is_indented (document) &&
+		    dom_selection_is_collapsed (document)) {
+			WebKitDOMElement *selection_start;
 			WebKitDOMNode *prev_sibling;
 
-			caret = dom_save_caret_position (document);
+			dom_selection_save (document);
+			selection_start = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
 
 			/* Empty text node before caret */
 			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (caret));
-			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
-				gchar *content;
-
-				content = webkit_dom_node_get_text_content (prev_sibling);
-				if (g_strcmp0 (content, "") == 0)
+				WEBKIT_DOM_NODE (selection_start));
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling))
+				if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (prev_sibling)) == 0)
 					prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
-				g_free (content);
-			}
 
-			dom_clear_caret_position_marker (document);
-
+			dom_selection_restore (document);
 			if (!prev_sibling) {
 				dom_selection_unindent (document, extension);
 				return TRUE;
