@@ -744,6 +744,8 @@ edvti_second_zone_changed_cb (GSettings *settings,
 		day_view->time_canvas,
 		e_day_view_time_item_get_column_width (time_item), -1);
 	gtk_widget_queue_draw (day_view->time_canvas);
+
+	e_day_view_update_timezone_name_labels (day_view);
 }
 
 static void

@@ -564,6 +564,9 @@ void		e_day_view_ensure_rows_visible	(EDayView *day_view,
 
 gboolean	e_day_view_is_editing		(EDayView *day_view);
 
+void		e_day_view_update_timezone_name_labels
+						(EDayView *day_view);
+
 G_END_DECLS
 
 #endif /* E_DAY_VIEW_H */

@@ -158,6 +158,9 @@ struct _EDayViewPrivate {
 	gboolean marcus_bains_show_line;
 	gchar *marcus_bains_day_view_color;
 	gchar *marcus_bains_time_bar_color;
+
+	GtkWidget *timezone_name_1_label; /* not referenced */
+	GtkWidget *timezone_name_2_label; /* not referenced */
 };
 
 typedef struct {
@@ -1310,6 +1313,8 @@ day_view_constructed (GObject *object)
 		model, "notify::work-day-end-minute",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 	day_view->priv->notify_work_day_end_minute_handler_id = handler_id;
+
+	e_day_view_update_timezone_name_labels (day_view);
 }
 
 static void
@@ -2067,11 +2072,40 @@ e_day_view_init (EDayView *day_view)
 	day_view->before_click_dtstart = 0;
 	day_view->before_click_dtend = 0;
 
-	widget = gtk_label_new ("");
+	day_view->week_number_label = gtk_label_new ("");
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 1.0);
+	day_view->priv->timezone_name_1_label = widget;
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 1.0);
+	day_view->priv->timezone_name_2_label = widget;
+
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+
 	gtk_table_attach (
-		GTK_TABLE (day_view), widget,
-		0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-	day_view->week_number_label = widget;
+		GTK_TABLE (day_view), widget, 0, 1, 0, 1,
+		GTK_FILL, GTK_FILL, 0, 0);
+
+	container = widget;
+
+	gtk_box_pack_start (GTK_BOX (container), day_view->week_number_label, TRUE, TRUE, 2);
+
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 2);
+
+	gtk_widget_show_all (container);
+
+	container = widget;
+
+	gtk_box_set_homogeneous (GTK_BOX (container), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), day_view->priv->timezone_name_1_label, TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (container), day_view->priv->timezone_name_2_label, TRUE, TRUE, 2);
+
+	gtk_widget_show_all (container);
 
 	/*
 	 * Top Canvas
@@ -2696,6 +2730,7 @@ timezone_changed_cb (ECalModel *cal_model,
 
 	e_day_view_recalc_day_starts (day_view, lower);
 	e_day_view_update_query (day_view);
+	e_day_view_update_timezone_name_labels (day_view);
 }
 
 static void
@@ -9360,4 +9395,56 @@ e_day_view_is_editing (EDayView *day_view)
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
 
 	return day_view->editing_event_day != -1;
+}
+
+static void
+day_view_update_timezone_name_label (GtkWidget *label,
+				     icaltimezone *zone)
+{
+	const gchar *location, *dash;
+	gchar *markup;
+
+	g_return_if_fail (GTK_IS_LABEL (label));
+
+	if (!zone) {
+		location = NULL;
+	} else {
+		location = icaltimezone_get_location (zone);
+		if (location && *location)
+			location = _(location);
+		if (!location || !*location)
+			location = icaltimezone_get_tzid (zone);
+	}
+
+	if (!location)
+		location = "";
+
+	gtk_widget_set_tooltip_text (label, location);
+
+	dash = strchr (location, '/');
+	if (dash && *dash && dash[1])
+		location = dash + 1;
+
+	markup = g_markup_printf_escaped ("<small>%s</small>", location);
+	gtk_label_set_markup (GTK_LABEL (label), markup);
+	g_free (markup);
+}
+
+void
+e_day_view_update_timezone_name_labels (EDayView *day_view)
+{
+	icaltimezone *zone;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	zone = e_cal_model_get_timezone (day_view->priv->model);
+	day_view_update_timezone_name_label (day_view->priv->timezone_name_1_label, zone);
+
+	zone = e_day_view_time_item_get_second_zone (E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item));
+	if (!zone) {
+		gtk_widget_hide (day_view->priv->timezone_name_2_label);
+	} else {
+		day_view_update_timezone_name_label (day_view->priv->timezone_name_2_label, zone);
+		gtk_widget_show (day_view->priv->timezone_name_2_label);
+	}
 }
