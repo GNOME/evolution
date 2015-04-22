@@ -7328,6 +7328,7 @@ dom_check_if_conversion_needed (WebKitDOMDocument *document)
 	hide = !reply && !converted;
 
 	convert = message && ((!hide && reply && !converted) || (edit_as_new && !converted));
+	convert = convert && !is_from_new_message;
 
 	return convert;
 }
