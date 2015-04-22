@@ -727,6 +727,7 @@ e_table_setup_header (ETable *e_table)
 {
 	gchar *pointer;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
+	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (e_table->header_canvas)), "linked");
 
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
 

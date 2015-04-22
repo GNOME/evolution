@@ -693,8 +693,6 @@ cal_base_shell_sidebar_constructed (GObject *object)
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 
 	container = widget;
@@ -711,6 +709,9 @@ cal_base_shell_sidebar_constructed (GObject *object)
 		container = cal_base_shell_sidebar->priv->paned;
 
 		widget = e_calendar_new ();
+		gtk_widget_set_margin_top (widget, 6);
+		gtk_widget_set_margin_start (widget, 6);
+		gtk_widget_set_margin_end (widget, 6);
 		calitem = E_CALENDAR (widget)->calitem;
 		e_calendar_item_set_days_start_week_sel (calitem, 9);
 		e_calendar_item_set_max_days_sel (calitem, 42);
