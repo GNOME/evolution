@@ -82,7 +82,7 @@ mail_config_restore_page_update_filename (EMailConfigRestorePage *page)
 			e_alert_submit (
 				E_ALERT_SINK (page),
 				"org.gnome.backup-restore:invalid-backup",
-				NULL);
+				filename, NULL);
 			g_free (filename);
 			filename = NULL;
 		}

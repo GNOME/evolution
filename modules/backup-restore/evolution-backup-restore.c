@@ -32,6 +32,7 @@
 #include <e-util/e-util.h>
 
 #include <shell/e-shell-utils.h>
+#include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
 
 #include <mail/e-mail-config-assistant.h>
@@ -264,12 +265,62 @@ action_settings_backup_cb (GtkAction *action,
 	g_object_unref (file);
 }
 
+typedef struct _ValidateBackupFileData {
+	EShellWindow *shell_window;
+	gchar *path;
+	gboolean is_valid;
+} ValidateBackupFileData;
+
+static void
+validate_backup_file_data_free (gpointer ptr)
+{
+	ValidateBackupFileData *vbf = ptr;
+
+	if (vbf) {
+		if (vbf->is_valid) {
+			guint32 mask;
+
+			mask = dialog_prompt_user (
+				GTK_WINDOW (vbf->shell_window),
+				_("Re_start Evolution after restore"),
+				"org.gnome.backup-restore:restore-confirm", NULL);
+			if (mask & BR_OK)
+				restore (vbf->path, mask & BR_START);
+		}
+
+		g_clear_object (&vbf->shell_window);
+		g_free (vbf->path);
+		g_free (vbf);
+	}
+}
+
+static void
+validate_backup_file_thread (EAlertSinkThreadJobData *job_data,
+			     gpointer user_data,
+			     GCancellable *cancellable,
+			     GError **error)
+{
+	ValidateBackupFileData *vbf = user_data;
+
+	g_return_if_fail (vbf != NULL);
+	g_return_if_fail (vbf->path != NULL);
+
+	vbf->is_valid = evolution_backup_restore_validate_backup_file (vbf->path);
+
+	/* The error text doesn't matter here, it will not be shown to the user */
+	if (!vbf->is_valid)
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed");
+}
+
 static void
 action_settings_restore_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
+	EActivity *activity;
+	EShellView *shell_view;
 	GFile *file;
-	gchar *path;
+	gchar *path, *description;
+	ValidateBackupFileData *vbf;
 
 	file = e_shell_run_open_dialog (
 		e_shell_window_get_shell (shell_window),
@@ -281,22 +332,21 @@ action_settings_restore_cb (GtkAction *action,
 
 	path = g_file_get_path (file);
 
-	if (evolution_backup_restore_validate_backup_file (path)) {
-		guint32 mask;
+	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+	description = g_strdup_printf (_("Checking content of backup file '%s', please wait..."), path);
 
-		mask = dialog_prompt_user (
-			GTK_WINDOW (shell_window),
-			_("Re_start Evolution after restore"),
-			"org.gnome.backup-restore:restore-confirm", NULL);
-		if (mask & BR_OK)
-			restore (path, mask & BR_START);
-	} else {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (shell_window),
-			"org.gnome.backup-restore:invalid-backup", NULL);
-	}
+	vbf = g_new0 (ValidateBackupFileData, 1);
+	vbf->shell_window = g_object_ref (shell_window);
+	vbf->path = g_strdup (path);
 
+	activity = e_shell_view_submit_thread_job (shell_view, description, "org.gnome.backup-restore:invalid-backup", path,
+		validate_backup_file_thread, vbf, validate_backup_file_data_free);
+	if (activity)
+		e_activity_set_cancellable (activity, NULL);
+
+	g_clear_object (&activity);
 	g_object_unref (file);
+	g_free (description);
 	g_free (path);
 }
 
