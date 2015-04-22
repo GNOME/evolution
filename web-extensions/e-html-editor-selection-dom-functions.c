@@ -60,38 +60,6 @@ dom_replace_base64_image_src (WebKitDOMDocument *document,
 		element, "data-name", filename ? filename : "", NULL);
 }
 
-/**
- * e_html_editor_selection_clear_caret_position_marker:
- * @selection: an #EHTMLEditorSelection
- *
- * Removes previously set caret position marker from composer.
- */
-void
-dom_clear_caret_position_marker (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *element;
-
-	element = webkit_dom_document_get_element_by_id (document, "-x-evo-caret-position");
-
-	if (element)
-		remove_node (WEBKIT_DOM_NODE (element));
-}
-
-WebKitDOMNode *
-dom_create_caret_position_node (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *element;
-
-	element	= webkit_dom_document_create_element (document, "SPAN", NULL);
-	webkit_dom_element_set_id (element, "-x-evo-caret-position");
-	webkit_dom_element_set_attribute (
-		element, "style", "color: red", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), "*", NULL);
-
-	return WEBKIT_DOM_NODE (element);
-}
-
 WebKitDOMRange *
 dom_get_current_range (WebKitDOMDocument *document)
 {
@@ -137,89 +105,6 @@ dom_selection_get_string (WebKitDOMDocument *document,
 	return webkit_dom_range_get_text (range);
 }
 
-/**
- * e_html_editor_selection_save_caret_position:
- * @selection: an #EHTMLEditorSelection
- *
- * Saves current caret position in composer.
- *
- * Returns: #WebKitDOMElement that was created on caret position
- */
-WebKitDOMElement *
-dom_save_caret_position (WebKitDOMDocument *document)
-{
-	WebKitDOMNode *split_node;
-	WebKitDOMNode *start_offset_node;
-	WebKitDOMNode *caret_node;
-	WebKitDOMRange *range;
-	gulong start_offset;
-
-	dom_clear_caret_position_marker (document);
-
-	range = dom_get_current_range (document);
-	if (!range)
-		return NULL;
-
-	start_offset = webkit_dom_range_get_start_offset (range, NULL);
-	start_offset_node = webkit_dom_range_get_end_container (range, NULL);
-
-	caret_node = dom_create_caret_position_node (document);
-
-	if (WEBKIT_DOM_IS_TEXT (start_offset_node) && start_offset != 0) {
-		WebKitDOMText *split_text;
-
-		split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (start_offset_node),
-				start_offset, NULL);
-		split_node = WEBKIT_DOM_NODE (split_text);
-	} else {
-		split_node = start_offset_node;
-	}
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (start_offset_node),
-		caret_node,
-		split_node,
-		NULL);
-
-	return WEBKIT_DOM_ELEMENT (caret_node);
-}
-
-static void
-fix_quoting_nodes_after_caret_restoration (WebKitDOMDOMSelection *window_selection,
-                                           WebKitDOMNode *prev_sibling,
-                                           WebKitDOMNode *next_sibling)
-{
-	WebKitDOMNode *tmp_node;
-
-	if (!element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-temp-text-wrapper"))
-		return;
-
-	webkit_dom_dom_selection_modify (
-		window_selection, "move", "forward", "character");
-	tmp_node = webkit_dom_node_get_next_sibling (
-		webkit_dom_node_get_first_child (prev_sibling));
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (prev_sibling),
-		tmp_node,
-		next_sibling,
-		NULL);
-
-	tmp_node = webkit_dom_node_get_first_child (prev_sibling);
-
-	webkit_dom_node_insert_before (
-		webkit_dom_node_get_parent_node (prev_sibling),
-		tmp_node,
-		webkit_dom_node_get_previous_sibling (next_sibling),
-		NULL);
-
-	remove_node (prev_sibling);
-
-	webkit_dom_dom_selection_modify (
-		window_selection, "move", "backward", "character");
-}
-
 void
 dom_move_caret_into_element (WebKitDOMDocument *document,
                              WebKitDOMElement *element,
@@ -241,100 +126,6 @@ dom_move_caret_into_element (WebKitDOMDocument *document,
 	webkit_dom_range_collapse (new_range, to_start, NULL);
 	webkit_dom_dom_selection_remove_all_ranges (window_selection);
 	webkit_dom_dom_selection_add_range (window_selection, new_range);
-}
-
-/**
- * e_html_editor_selection_restore_caret_position:
- * @selection: an #EHTMLEditorSelection
- *
- * Restores previously saved caret position in composer.
- */
-void
-dom_restore_caret_position (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *element;
-	gboolean fix_after_quoting;
-	gboolean swap_direction = FALSE;
-/* FIXME WK2
-	e_html_editor_selection_block_selection_changed (selection);
-*/
-	element = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-caret-position");
-	fix_after_quoting = element_has_class (element, "-x-evo-caret-quoting");
-
-	if (element) {
-		WebKitDOMDOMWindow *window;
-		WebKitDOMNode *parent_node;
-		WebKitDOMDOMSelection *window_selection;
-		WebKitDOMNode *prev_sibling;
-		WebKitDOMNode *next_sibling;
-
-		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element)))
-			swap_direction = TRUE;
-
-		window = webkit_dom_document_get_default_view (document);
-		window_selection = webkit_dom_dom_window_get_selection (window);
-		parent_node = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-		/* If parent is BODY element, we try to restore the position on the
-		 * element that is next to us */
-		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_node)) {
-			/* Look if we have DIV on right */
-			next_sibling = webkit_dom_node_get_next_sibling (
-				WEBKIT_DOM_NODE (element));
-			if (!WEBKIT_DOM_IS_ELEMENT (next_sibling)) {
-				dom_clear_caret_position_marker (document);
-				/* FIXME WK2
-					e_html_editor_selection_unblock_selection_changed (selection);
-				*/
-				return;
-			}
-
-			if (element_has_class (WEBKIT_DOM_ELEMENT (next_sibling), "-x-evo-paragraph")) {
-				remove_node (WEBKIT_DOM_NODE (element));
-
-				dom_move_caret_into_element (
-					document, WEBKIT_DOM_ELEMENT (next_sibling), FALSE);
-
-				goto out;
-			}
-		}
-
-		dom_move_caret_into_element (document, element, FALSE);
-
-		if (fix_after_quoting) {
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (element));
-			next_sibling = webkit_dom_node_get_next_sibling (
-				WEBKIT_DOM_NODE (element));
-			if (!next_sibling)
-				fix_after_quoting = FALSE;
-		}
-
-		remove_node (WEBKIT_DOM_NODE (element));
-
-		if (fix_after_quoting)
-			fix_quoting_nodes_after_caret_restoration (
-				window_selection, prev_sibling, next_sibling);
- out:
-		/* FIXME If caret position is restored and afterwards the
-		 * position is saved it is not on the place where it supposed
-		 * to be (it is in the beginning of parent's element. It can
-		 * be avoided by moving with the caret. */
-		if (swap_direction) {
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "forward", "character");
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "backward", "character");
-		} else {
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "backward", "character");
-			webkit_dom_dom_selection_modify (
-				window_selection, "move", "forward", "character");
-		}
-	}
-/* FIXME WK2
-	e_html_editor_selection_unblock_selection_changed (selection);
-*/
 }
 
 void
@@ -1892,8 +1683,7 @@ is_selection_position_node (WebKitDOMNode *node)
 
 	element = WEBKIT_DOM_ELEMENT (node);
 
-	return element_has_id (element, "-x-evo-caret-position") ||
-	       element_has_id (element, "-x-evo-selection-start-marker") ||
+	return element_has_id (element, "-x-evo-selection-start-marker") ||
 	       element_has_id (element, "-x-evo-selection-end-marker");
 }
 
@@ -2646,7 +2436,7 @@ WebKitDOMElement *
 dom_put_node_into_paragraph (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension,
                              WebKitDOMNode *node,
-                             WebKitDOMNode *caret_position)
+			     gboolean with_input)
 {
 	WebKitDOMRange *range;
 	WebKitDOMElement *container;
@@ -2656,7 +2446,8 @@ dom_put_node_into_paragraph (WebKitDOMDocument *document,
 	webkit_dom_range_select_node (range, node, NULL);
 	webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (container), NULL);
 	/* We have to move caret position inside this container */
-	webkit_dom_node_append_child (WEBKIT_DOM_NODE (container), caret_position, NULL);
+	if (with_input)
+		dom_add_selection_markers_into_element_end (document, container, NULL, NULL);
 
 	return container;
 }
@@ -4524,16 +4315,20 @@ format_change_block_to_list (WebKitDOMDocument *document,
 	if (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
 		WebKitDOMElement *element;
+		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMRange *range;
 
 		in_quote = TRUE;
 
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (block),
-			dom_create_caret_position_node (document),
-			block,
-			NULL);
+		window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (window);
+		range = webkit_dom_document_create_range (document);
 
-		dom_restore_caret_position (document);
+		webkit_dom_range_select_node (range, block, NULL);
+		webkit_dom_range_collapse (range, TRUE, NULL);
+		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+		webkit_dom_dom_selection_add_range (dom_selection, range);
 
 		dom_exec_command (
 			document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);

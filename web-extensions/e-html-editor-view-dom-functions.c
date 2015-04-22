@@ -802,7 +802,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		const gchar* url_text;
 
 		if (!return_key_pressed)
-			dom_save_caret_position (document);
+			dom_selection_save (document);
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
@@ -853,7 +853,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 			NULL);
 
 		if (!return_key_pressed)
-			dom_restore_caret_position (document);
+			dom_selection_restore (document);
 
 		g_free (url_end_raw);
 		g_free (final_url);
@@ -1624,8 +1624,7 @@ surround_text_with_paragraph_if_needed (WebKitDOMDocument *document,
 	 * paragraph */
 	if (WEBKIT_DOM_IS_TEXT (node) &&
 	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-		element = dom_put_node_into_paragraph (
-			document, extension, node, dom_create_caret_position_node (document));
+		element = dom_put_node_into_paragraph (document, extension, node, TRUE);
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling))
 			remove_node (next_sibling);
@@ -1832,9 +1831,12 @@ body_input_event_cb (WebKitDOMElement *element,
 		node = webkit_dom_range_get_end_container (range, NULL);
 
 		if (surround_text_with_paragraph_if_needed (document, extension, node)) {
-			dom_restore_caret_position (document);
-			node = webkit_dom_range_get_end_container (range, NULL);
-			range = dom_get_current_range (document);
+			WebKitDOMElement *element;
+
+			element = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+			node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+			dom_selection_restore (document);
 		}
 
 		if (WEBKIT_DOM_IS_TEXT (node)) {
@@ -2332,10 +2334,7 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 	webkit_dom_html_element_set_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (element), escaped_text, NULL);
 
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element),
-		dom_create_caret_position_node (document),
-		NULL);
+	dom_add_selection_markers_into_element_end (document, element, NULL, NULL);
 
 	blockquote = webkit_dom_document_create_element (document, "blockquote", NULL);
 	webkit_dom_element_set_attribute (blockquote, "type", "cite", NULL);
@@ -2397,8 +2396,6 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 			NULL);
 	}
 
-	dom_restore_caret_position (document);
-
 	if (ev) {
 		dom_selection_get_coordinates (
 			document,
@@ -2408,6 +2405,8 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
+
+	dom_selection_restore (document);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
 
@@ -2902,17 +2901,6 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 
 		if (!(WEBKIT_DOM_IS_ELEMENT (node) || WEBKIT_DOM_IS_HTML_ELEMENT (node)))
 			goto next_node;
-
-		if (element_has_id (WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-position")) {
-			if (quote_level > 0)
-				element_add_class (
-					WEBKIT_DOM_ELEMENT (node), "-x-evo-caret-quoting");
-
-			move_next = TRUE;
-			suppress_next = TRUE;
-			next = FALSE;
-			goto next_node;
-		}
 
 		if (element_is_selection_marker (WEBKIT_DOM_ELEMENT (node))) {
 			/* If there is collapsed selection in the beginning of line
@@ -5259,21 +5247,6 @@ process_elements (EHTMLEditorWebExtension *extension,
 		if (WEBKIT_DOM_IS_COMMENT (child) || !WEBKIT_DOM_IS_ELEMENT (child))
 			goto next;
 
-		/* Leave caret position untouched */
-		if (element_has_id (WEBKIT_DOM_ELEMENT (child), "-x-evo-caret-position")) {
-			if (changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_outer_html (
-					WEBKIT_DOM_HTML_ELEMENT (child));
-				g_string_append (buffer, content);
-				g_free (content);
-			}
-			if (to_html)
-				remove_node (child);
-
-			skip_node = TRUE;
-			goto next;
-		}
-
 		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "Apple-tab-span")) {
 			if (!changing_mode && to_plain_text) {
 				gchar *content, *tmp;
@@ -6023,9 +5996,7 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 	g_object_unref (paragraphs);
 
 	paragraphs = webkit_dom_element_query_selector_all (
-		WEBKIT_DOM_ELEMENT (source),
-		"span[id^=\"-x-evo-selection-\"], span#-x-evo-caret-position",
-		NULL);
+		WEBKIT_DOM_ELEMENT (source), "span[id^=\"-x-evo-selection-\"]", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 	for (ii = 0; ii < length; ii++) {

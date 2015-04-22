@@ -58,19 +58,11 @@ void		dom_replace_base64_image_src	(WebKitDOMDocument *document,
 						 const gchar *filename,
 						 const gchar *uri);
 
-void		dom_clear_caret_position_marker (WebKitDOMDocument *document);
-
-WebKitDOMNode *
-		dom_create_caret_position_node	(WebKitDOMDocument *document);
-
 WebKitDOMRange *
 		dom_get_current_range		(WebKitDOMDocument *document);
 
 gchar *		dom_selection_get_string	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
-
-WebKitDOMElement *
-		dom_save_caret_position		(WebKitDOMDocument *document);
 
 void		dom_move_caret_into_element	(WebKitDOMDocument *document,
 						 WebKitDOMElement *element,
@@ -146,7 +138,7 @@ WebKitDOMElement *
 		dom_put_node_into_paragraph	(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
 						 WebKitDOMNode *node,
-						 WebKitDOMNode *caret_position);
+						 gboolean with_input);
 
 void		dom_selection_wrap		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
