@@ -207,10 +207,6 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 static void
 html_editor_view_user_changed_contents_cb (EHTMLEditorView *view)
 {
-	WebKitWebView *web_view;
-
-	web_view = WEBKIT_WEB_VIEW (view);
-
 	e_html_editor_view_set_changed (view, TRUE);
 }
 
@@ -2486,7 +2482,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 	 * unicode zero width space before each cell. */
 	g_string_append (
 		stylesheet,
-		"td::before {\n"
+		"td:before {\n"
 		" content: \"\xe2\x80\x8b\";"
 		"}\n");
 
@@ -2506,6 +2502,29 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  resize: both; \n"
 		"  overflow: hidden; \n"
 		"  display: inline-block; \n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"td:hover "
+		"{\n"
+		"  outline: 1px dotted red;\n"
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		".-x-evo-plaintext-table "
+		"{\n"
+		"  border-collapse: collapse;\n"
+		"  width: %dch;\n"
+		"}\n",
+		g_settings_get_int (view->priv->mail_settings, "composer-word-wrap-length"));
+
+	g_string_append (
+		stylesheet,
+		".-x-evo-plaintext-table td"
+		"{\n"
+		"  vertical-align: top;\n"
 		"}\n");
 
 	g_string_append (

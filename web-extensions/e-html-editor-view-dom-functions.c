@@ -1633,6 +1633,8 @@ surround_text_with_paragraph_if_needed (WebKitDOMDocument *document,
 	    (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) ||
 	     WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent))) {
 		element = dom_put_node_into_paragraph (document, extension, node, TRUE);
+		if (WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent))
+			webkit_dom_element_remove_attribute (element, "style");
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (next_sibling))
 			remove_node (next_sibling);
@@ -5771,7 +5773,7 @@ toggle_paragraphs_style_in_element (WebKitDOMDocument *document,
 	WebKitDOMNodeList *paragraphs;
 
 	paragraphs = webkit_dom_element_query_selector_all (
-		element, ".-x-evo-paragraph", NULL);
+		element, ":not(td) > .-x-evo-paragraph", NULL);
 
 	length = webkit_dom_node_list_get_length (paragraphs);
 
@@ -7330,6 +7332,53 @@ dom_check_if_conversion_needed (WebKitDOMDocument *document)
 	return convert;
 }
 
+static void
+rename_attribute (WebKitDOMElement *element,
+                  const gchar *from,
+                  const gchar *to)
+{
+	gchar *value;
+
+	value = webkit_dom_element_get_attribute (element, from);
+	if (value)
+		webkit_dom_element_set_attribute (element, to, value, NULL);
+	webkit_dom_element_remove_attribute (element, from);
+}
+
+static void
+toggle_tables (WebKitDOMDocument *document,
+               gboolean html_mode)
+{
+	WebKitDOMNodeList *list;
+	gint ii, length;
+
+	list = webkit_dom_document_query_selector_all (document, "table", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *table = webkit_dom_node_list_item (list, ii);
+
+		if (html_mode) {
+			element_remove_class (WEBKIT_DOM_ELEMENT (table), "-x-evo-plaintext-table");
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-width", "width");
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellspacing", "cellspacing");
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-cellpadding", "cellpadding");
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "data-border", "border");
+		} else {
+			element_add_class (WEBKIT_DOM_ELEMENT (table), "-x-evo-plaintext-table");
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "width", "data-width");
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "data-cellspacing");
+			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "cellspacing", "0", NULL);
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "data-cellpadding");
+			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "cellpadding", "0", NULL);
+			rename_attribute (WEBKIT_DOM_ELEMENT (table), "border", "data-border");
+			webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (table), "border", "0", NULL);
+		}
+		g_object_unref (table);
+	}
+	g_object_unref (list);
+}
+
 void
 dom_process_content_after_mode_change (WebKitDOMDocument *document,
                                        EHTMLEditorWebExtension *extension)
@@ -7349,6 +7398,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 
 		toggle_paragraphs_style (document, extension);
 		toggle_smileys (document, extension);
+		toggle_tables (document, html_mode);
 		remove_wrapping_from_document (document);
 	} else {
 		gchar *plain;
@@ -7363,6 +7413,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 
 		toggle_paragraphs_style (document, extension);
 		toggle_smileys (document, extension);
+		toggle_tables (document, html_mode);
 		remove_images (document);
 		remove_background_images_in_document (document);
 
