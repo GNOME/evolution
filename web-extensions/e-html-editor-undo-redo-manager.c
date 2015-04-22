@@ -1444,6 +1444,9 @@ e_html_editor_undo_redo_manager_insert_history_event (EHTMLEditorUndoRedoManager
 	manager->priv->history_size++;
 	manager->priv->can_undo = TRUE;
 
+	d (print_undo_events (manager));
+	d (print_redo_events (manager));
+
 	g_object_notify (G_OBJECT (manager), "can-undo");
 }
 
