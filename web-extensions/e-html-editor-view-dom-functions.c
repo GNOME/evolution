@@ -1287,8 +1287,8 @@ emoticon_insert_span (EEmoticon *emoticon,
 					g_utf8_strlen (node_text, -1) - strlen (emoticon_start),
 					strlen (emoticon->text_face),
 					NULL);
-			} else {
-				gboolean same = TRUE;
+			} else if (strstr (emoticon->text_face, "-")) {
+				gboolean same = TRUE, compensate = FALSE;
 				gint ii = 0, jj = 0;
 
 				/* Try to recognize smileys without the dash e.g. :). */
@@ -1297,6 +1297,7 @@ emoticon_insert_span (EEmoticon *emoticon,
 						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-')
 							ii++;
 							jj+=2;
+							compensate = TRUE;
 							continue;
 					}
 					if (emoticon_start[ii] == emoticon->text_face[jj]) {
@@ -1312,6 +1313,11 @@ emoticon_insert_span (EEmoticon *emoticon,
 						ii,
 						NULL);
 				}
+				/* If we recognize smiley without dash, but we inserted
+				 * the text version with dash we need it insert new
+				 * history input event with that dash. */
+				if (compensate)
+					e_html_editor_undo_redo_manager_insert_dash_history_event (manager);
 			}
 		}
 

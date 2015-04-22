@@ -1461,6 +1461,81 @@ e_html_editor_undo_redo_manager_get_current_history_event (EHTMLEditorUndoRedoMa
 	return NULL;
 }
 
+void
+e_html_editor_undo_redo_manager_insert_dash_history_event (EHTMLEditorUndoRedoManager *manager)
+{
+	EHTMLEditorHistoryEvent *event, *last;
+	GList *history;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDocument *document;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_UNDO_REDO_MANAGER (manager));
+
+	event = g_new0 (EHTMLEditorHistoryEvent, 1);
+	event->type = HISTORY_INPUT;
+
+	document = manager->priv->document;
+	fragment = webkit_dom_document_create_document_fragment (document);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			webkit_dom_document_create_text_node (document, "-")),
+		NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			dom_create_selection_marker (document, TRUE)),
+		NULL);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (fragment),
+		WEBKIT_DOM_NODE (
+			dom_create_selection_marker (document, FALSE)),
+		NULL);
+	event->data.fragment = fragment;
+
+	last = e_html_editor_undo_redo_manager_get_current_history_event (manager);
+	/* The dash event needs to have the same coordinates as the character
+	 * that is right after it. */
+	event->after.start.x = last->after.start.x;
+	event->after.start.y = last->after.start.y;
+	event->after.end.x = last->after.end.x;
+	event->after.end.y = last->after.end.y;
+
+	history = manager->priv->history;
+	while (history) {
+		EHTMLEditorHistoryEvent *item;
+		WebKitDOMNode *first_child;
+
+		item = history->data;
+
+		if (item->type != HISTORY_INPUT)
+			break;
+
+		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (item->data.fragment));
+		if (WEBKIT_DOM_IS_TEXT (first_child)) {
+			gchar *text;
+
+			text = webkit_dom_node_get_text_content (first_child);
+			if (text && *text == ':') {
+				guint diff;
+
+				diff = event->after.start.x - item->after.start.x;
+
+				/* We need to move the coordinater of the last
+				 * event by one character. */
+				last->after.start.x += diff;
+				last->after.end.x += diff;
+
+				manager->priv->history = g_list_insert_before (
+					manager->priv->history, history, event);
+			}
+			g_free (text);
+			break;
+		}
+		history = history->next;
+	}
+}
+
 gboolean
 e_html_editor_undo_redo_manager_can_undo (EHTMLEditorUndoRedoManager *manager)
 {

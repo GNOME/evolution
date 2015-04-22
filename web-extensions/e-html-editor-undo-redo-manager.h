@@ -82,6 +82,10 @@ EHTMLEditorHistoryEvent *
 		e_html_editor_undo_redo_manager_get_current_history_event
 						(EHTMLEditorUndoRedoManager *manager);
 
+void
+e_html_editor_undo_redo_manager_insert_dash_history_event
+						(EHTMLEditorUndoRedoManager *manager);
+
 gboolean	e_html_editor_undo_redo_manager_can_undo
 						(EHTMLEditorUndoRedoManager *manager);
 
