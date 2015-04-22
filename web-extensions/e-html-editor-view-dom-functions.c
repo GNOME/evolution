@@ -7142,8 +7142,44 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 	if (key_val == GDK_KEY_Delete || key_val == GDK_KEY_BackSpace) {
 		gboolean html_mode;
 
-		save_history_for_delete_or_backspace (document, extension, key_val == GDK_KEY_Delete);
 		html_mode = e_html_editor_web_extension_get_html_mode (extension);
+		if (!html_mode && e_html_editor_web_extension_get_magic_links_enabled (extension)) {
+			WebKitDOMElement *element, *parent;
+			gboolean in_smiley = FALSE;
+
+			dom_selection_save (document);
+			element = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-start-marker");
+
+			parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+			if (element_has_class (parent, "-x-evo-smiley-text"))
+				in_smiley = TRUE;
+			else {
+				if (!dom_selection_is_collapsed (document)) {
+					element = webkit_dom_document_get_element_by_id (
+						document, "-x-evo-selection-end-marker");
+
+					parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+					if (element_has_class (parent, "-x-evo-smiley-text"))
+						in_smiley = TRUE;
+				}
+			}
+
+			if (in_smiley) {
+				WebKitDOMNode *wrapper, *child;
+
+				wrapper = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent));
+				while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (parent))))
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (wrapper),
+						child,
+						wrapper,
+						NULL);
+				remove_node (wrapper);
+			}
+			dom_selection_restore (document);
+		}
+		save_history_for_delete_or_backspace (document, extension, key_val == GDK_KEY_Delete);
 		if (key_val == GDK_KEY_BackSpace && !html_mode) {
 			if (delete_character_from_quoted_line_start (document))
 				return TRUE;
