@@ -200,4 +200,7 @@ void		e_html_editor_web_extension_set_dont_save_history_in_body_input
 struct _EHTMLEditorUndoRedoManager *
 		e_html_editor_web_extension_get_undo_redo_manager
 						(EHTMLEditorWebExtension *extension);
+
+gboolean	e_html_editor_web_extension_is_im_input_in_progress
+						(EHTMLEditorWebExtension *extension);
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

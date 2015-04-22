@@ -2185,9 +2185,9 @@ body_input_event_cb (WebKitDOMElement *element,
 	}
 }
 
-static void
-remove_input_event_listener_from_body (WebKitDOMDocument *document,
-				       EHTMLEditorWebExtension *extension)
+void
+dom_remove_input_event_listener_from_body (WebKitDOMDocument *document,
+                                           EHTMLEditorWebExtension *extension)
 {
 	if (!e_html_editor_web_extension_get_body_input_event_removed (extension)) {
 		webkit_dom_event_target_remove_event_listener (
@@ -2201,9 +2201,9 @@ remove_input_event_listener_from_body (WebKitDOMDocument *document,
 	}
 }
 
-static void
-register_input_event_listener_on_body (WebKitDOMDocument *document,
-				       EHTMLEditorWebExtension *extension)
+void
+dom_register_input_event_listener_on_body (WebKitDOMDocument *document,
+                                           EHTMLEditorWebExtension *extension)
 {
 	if (e_html_editor_web_extension_get_body_input_event_removed (extension)) {
 		webkit_dom_event_target_add_event_listener (
@@ -2282,7 +2282,9 @@ body_keyup_event_cb (WebKitDOMElement *element,
 	WebKitDOMDocument *document;
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
-	register_input_event_listener_on_body (document, extension);
+	if (!e_html_editor_web_extension_is_im_input_in_progress (extension))
+		dom_register_input_event_listener_on_body (document, extension);
+
 	if (!dom_selection_is_collapsed (document))
 		return;
 
@@ -4337,7 +4339,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *element;
 	WebKitDOMNode *node, *current_block;
 
-	remove_input_event_listener_from_body (document, extension);
+	dom_remove_input_event_listener_from_body (document, extension);
 
 	dom_selection_save (document);
 	selection_start_marker = webkit_dom_document_get_element_by_id (
@@ -4724,7 +4726,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	dom_force_spell_check (document, extension);
 	dom_scroll_to_caret (document);
 
-	register_input_event_listener_on_body (document, extension);
+	dom_register_input_event_listener_on_body (document, extension);
 }
 
 static gint
@@ -6452,7 +6454,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	}
 
 	/* Register on input event that is called when the content (body) is modified */
-	register_input_event_listener_on_body (document, extension);
+	dom_register_input_event_listener_on_body (document, extension);
 	register_html_events_handlers (body, extension);
 
 	if (e_html_editor_web_extension_get_html_mode (extension))
@@ -7199,7 +7201,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 		 * not break the citation automatically, so we need to use
 		 * the special command to do it. */
 		if (dom_selection_is_citation (document)) {
-			remove_input_event_listener_from_body (document, extension);
+			dom_remove_input_event_listener_from_body (document, extension);
 			return split_citation (document, extension);
 		}
 
@@ -7224,7 +7226,7 @@ dom_process_on_key_press (WebKitDOMDocument *document,
 			}
 			dom_selection_restore (document);
 		} else
-			remove_input_event_listener_from_body (document, extension);
+			dom_remove_input_event_listener_from_body (document, extension);
 
 		/* BackSpace in indented block decrease indent level by one */
 		if (dom_selection_is_indented (document) &&

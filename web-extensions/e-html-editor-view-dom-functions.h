@@ -47,6 +47,14 @@ void		dom_embed_style_sheet		(WebKitDOMDocument *document,
 
 void		dom_remove_embed_style_sheet	(WebKitDOMDocument *document);
 
+void		dom_register_input_event_listener_on_body
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
+void		dom_remove_input_event_listener_from_body
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 void		dom_quote_and_insert_text_into_selection
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension,
