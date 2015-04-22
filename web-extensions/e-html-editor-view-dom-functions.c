@@ -751,6 +751,9 @@ dom_check_magic_links (WebKitDOMDocument *document,
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
+	if (!e_html_editor_web_extension_get_magic_links_enabled (extension))
+		return;
+
 	if (include_space_by_user == TRUE)
 		include_space = TRUE;
 	else
@@ -1476,6 +1479,9 @@ dom_check_magic_smileys (WebKitDOMDocument *document,
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
+	if (!e_html_editor_web_extension_get_magic_smileys_enabled (extension))
+		return;
+
 	range = dom_get_current_range (document);
 	node = webkit_dom_range_get_end_container (range, NULL);
 	if (!WEBKIT_DOM_IS_TEXT (node))
@@ -1808,8 +1814,8 @@ body_input_event_cb (WebKitDOMElement *element,
 	else
 		dom_force_spell_check_for_current_paragraph (document, extension);
 
-	if (e_html_editor_web_extension_get_magic_smileys_enabled (extension) &&
-	    !e_html_editor_web_extension_get_dont_save_history_in_body_input (extension))
+	/* Don't try to look for smileys if we are deleting text. */
+	if (!e_html_editor_web_extension_get_dont_save_history_in_body_input (extension))
 		dom_check_magic_smileys (document, extension);
 
 	e_html_editor_web_extension_set_dont_save_history_in_body_input (extension, FALSE);
