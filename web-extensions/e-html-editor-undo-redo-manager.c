@@ -168,6 +168,167 @@ restore_selection_to_history_event_state (WebKitDOMDocument *document,
 	dom_selection_restore (document);
 }
 
+#if d(1)+0
+static void
+print_fragment_inner_html (WebKitDOMDocumentFragment *fragment)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *div;
+	gchar *inner_html;
+
+	if (!fragment) {
+		printf ("\tNone'\n");
+		return;
+	}
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (fragment));
+	div = webkit_dom_document_create_element (document, "div", NULL);
+	webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (div),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (fragment), TRUE),
+			NULL);
+
+	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
+	printf ("\t'%s'\n", inner_html);
+	remove_node (WEBKIT_DOM_NODE (div));
+	g_free (inner_html);
+}
+
+static void
+print_node_inner_html (WebKitDOMNode *fragment)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *div;
+	gchar *inner_html;
+
+	if (!fragment) {
+		printf ("\tnone\n");
+		return;
+	}
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (fragment));
+	div = webkit_dom_document_create_element (document, "div", NULL);
+	webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (div),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (fragment), TRUE),
+			NULL);
+
+	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
+	remove_node (WEBKIT_DOM_NODE (div));
+
+	printf ("\t'%s'\n", inner_html);
+
+	g_free (inner_html);
+}
+
+static void
+print_history_event (EHTMLEditorHistoryEvent *event)
+{
+	printf ("HISTORY EVENT: %d ; \n", event->type);
+	printf ("\t before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
+	printf ("\t after: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
+	switch (event->type) {
+		case HISTORY_DELETE:
+		case HISTORY_INPUT:
+		case HISTORY_REMOVE_LINK:
+		case HISTORY_SMILEY:
+		case HISTORY_IMAGE:
+		case HISTORY_CITATION_SPLIT:
+			print_fragment_inner_html (event->data.fragment);
+			break;
+		case HISTORY_ALIGNMENT:
+		case HISTORY_BLOCK_FORMAT:
+		case HISTORY_BOLD:
+		case HISTORY_FONT_SIZE:
+		case HISTORY_INDENT:
+		case HISTORY_ITALIC:
+		case HISTORY_MONOSPACE:
+		case HISTORY_UNDERLINE:
+		case HISTORY_STRIKETHROUGH:
+		case HISTORY_WRAP:
+			printf (" from %d to %d ;\n", event->data.style.from, event->data.style.to);
+			break;
+		case HISTORY_PASTE:
+		case HISTORY_PASTE_AS_TEXT:
+		case HISTORY_PASTE_QUOTED:
+		case HISTORY_INSERT_HTML:
+			printf (" pasting: '%s' ; \n", event->data.string.to);
+			break;
+		case HISTORY_HRULE_DIALOG:
+		case HISTORY_IMAGE_DIALOG:
+		case HISTORY_CELL_DIALOG:
+		case HISTORY_TABLE_DIALOG:
+		case HISTORY_PAGE_DIALOG:
+			print_node_inner_html (event->data.dom.from);
+			print_node_inner_html (event->data.dom.to);
+			break;
+		case HISTORY_FONT_COLOR:
+		case HISTORY_REPLACE:
+		case HISTORY_REPLACE_ALL:
+			printf (" from '%s' to '%s';\n", event->data.string.from, event->data.string.to);
+			break;
+		case HISTORY_START:
+			printf ("HISTORY START\n");
+			break;
+		default:
+			printf ("Unknown history type\n");
+	}
+}
+
+static void
+print_history (EHTMLEditorUndoRedoManager *manager)
+{
+	if (manager->priv->history) {
+		printf ("\n");
+		g_list_foreach (
+			manager->priv->history, (GFunc) print_history_event, NULL);
+		printf ("\n");
+	} else {
+		printf ("History empty!\n");
+	}
+}
+
+static void
+print_undo_events (EHTMLEditorUndoRedoManager *manager)
+{
+	GList *item = manager->priv->history;
+
+	printf ("UNDO EVENTS:\n");
+	if (!item || !item->next) {
+		printf ("EMPTY\n");
+		return;
+	}
+
+	print_history_event (item->data);
+	item = item->next;
+	while (item) {
+		print_history_event (item->data);
+		item = item->next;
+	}
+
+	printf ("\n");
+
+}
+
+static void
+print_redo_events (EHTMLEditorUndoRedoManager *manager)
+{
+	GList *item = manager->priv->history;
+
+	printf ("REDO EVENTS:\n");
+	if (!item || !item->prev) {
+		printf ("EMPTY\n");
+		return;
+	}
+
+	item = item->prev;
+	while (item) {
+		print_history_event (item->data);
+		item = item->prev;
+	}
+
+	printf ("\n");
+}
+#endif
+
 static void
 undo_delete (WebKitDOMDocument *document,
              EHTMLEditorWebExtension *extension,
@@ -1183,167 +1344,6 @@ e_html_editor_undo_redo_manager_set_operation_in_progress (EHTMLEditorUndoRedoMa
 
 	manager->priv->operation_in_progress = value;
 }
-
-#if d(1)+0
-static void
-print_fragment_inner_html (WebKitDOMDocumentFragment *fragment)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *div;
-	gchar *inner_html;
-
-	if (!fragment) {
-		printf ("\tNone'\n");
-		return;
-	}
-	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (fragment));
-	div = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (div),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (fragment), TRUE),
-			NULL);
-
-	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
-	printf ("\t'%s'\n", inner_html);
-	remove_node (WEBKIT_DOM_NODE (div));
-	g_free (inner_html);
-}
-
-static void
-print_node_inner_html (WebKitDOMNode *fragment)
-{
-	WebKitDOMDocument *document;
-	WebKitDOMElement *div;
-	gchar *inner_html;
-
-	if (!fragment) {
-		printf ("\tnone\n");
-		return;
-	}
-	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (fragment));
-	div = webkit_dom_document_create_element (document, "div", NULL);
-	webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (div),
-			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (fragment), TRUE),
-			NULL);
-
-	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
-	remove_node (WEBKIT_DOM_NODE (div));
-
-	printf ("\t'%s'\n", inner_html);
-
-	g_free (inner_html);
-}
-
-static void
-print_history_event (EHTMLEditorHistoryEvent *event)
-{
-	printf ("HISTORY EVENT: %d ; \n", event->type);
-	printf ("\t before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
-	printf ("\t after: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
-	switch (event->type) {
-		case HISTORY_DELETE:
-		case HISTORY_INPUT:
-		case HISTORY_REMOVE_LINK:
-		case HISTORY_SMILEY:
-		case HISTORY_IMAGE:
-		case HISTORY_CITATION_SPLIT:
-			print_fragment_inner_html (event->data.fragment);
-			break;
-		case HISTORY_ALIGNMENT:
-		case HISTORY_BLOCK_FORMAT:
-		case HISTORY_BOLD:
-		case HISTORY_FONT_SIZE:
-		case HISTORY_INDENT:
-		case HISTORY_ITALIC:
-		case HISTORY_MONOSPACE:
-		case HISTORY_UNDERLINE:
-		case HISTORY_STRIKETHROUGH:
-		case HISTORY_WRAP:
-			printf (" from %d to %d ;\n", event->data.style.from, event->data.style.to);
-			break;
-		case HISTORY_PASTE:
-		case HISTORY_PASTE_AS_TEXT:
-		case HISTORY_PASTE_QUOTED:
-		case HISTORY_INSERT_HTML:
-			printf (" pasting: '%s' ; \n", event->data.string.to);
-			break;
-		case HISTORY_HRULE_DIALOG:
-		case HISTORY_IMAGE_DIALOG:
-		case HISTORY_CELL_DIALOG:
-		case HISTORY_TABLE_DIALOG:
-		case HISTORY_PAGE_DIALOG:
-			print_node_inner_html (event->data.dom.from);
-			print_node_inner_html (event->data.dom.to);
-			break;
-		case HISTORY_FONT_COLOR:
-		case HISTORY_REPLACE:
-		case HISTORY_REPLACE_ALL:
-			printf (" from '%s' to '%s';\n", event->data.string.from, event->data.string.to);
-			break;
-		case HISTORY_START:
-			printf ("HISTORY START\n");
-			break;
-		default:
-			printf ("Unknown history type\n");
-	}
-}
-
-static void
-print_history (EHTMLEditorUndoRedoManager *manager)
-{
-	if (manager->priv->history) {
-		printf ("\n");
-		g_list_foreach (
-			manager->priv->history, (GFunc) print_history_event, NULL);
-		printf ("\n");
-	} else {
-		printf ("History empty!\n");
-	}
-}
-
-static void
-print_undo_events (EHTMLEditorUndoRedoManager *manager)
-{
-	GList *item = manager->priv->history;
-
-	printf ("UNDO EVENTS:\n");
-	if (!item || !item->next) {
-		printf ("EMPTY\n");
-		return;
-	}
-
-	print_history_event (item->data);
-	item = item->next;
-	while (item) {
-		print_history_event (item->data);
-		item = item->next;
-	}
-
-	printf ("\n");
-
-}
-
-static void
-print_redo_events (EHTMLEditorUndoRedoManager *manager)
-{
-	GList *item = manager->priv->history;
-
-	printf ("REDO EVENTS:\n");
-	if (!item || !item->prev) {
-		printf ("EMPTY\n");
-		return;
-	}
-
-	item = item->prev;
-	while (item) {
-		print_history_event (item->data);
-		item = item->prev;
-	}
-
-	printf ("\n");
-}
-#endif
 
 static void
 free_history_event_content (EHTMLEditorHistoryEvent *event)
