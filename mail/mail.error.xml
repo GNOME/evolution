@@ -573,5 +573,23 @@ in the folder will be available in offline mode.</_secondary>
     <_primary>Remote content download had been blocked for this message.</_primary>
     <_secondary>You can download remote content manually, or set to remember to download remote content for this sender or used sites.</_secondary>
   </error>
-</error-list>
 
+  <error id="follow-up-flag-info" type="info">
+    <secondary>{0}</secondary>
+  </error>
+
+  <error id="follow-up-completed-info" type="info">
+    <!-- Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009" -->
+    <_secondary>{0}, Completed on {1}</_secondary>
+  </error>
+
+  <error id="follow-up-dueby-info" type="info">
+    <!-- Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009" -->
+    <_secondary>{0} by {1}</_secondary>
+  </error>
+
+  <error id="follow-up-overdue-error" type="error">
+    <!-- Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009" -->
+    <_primary>Overdue: {0} by {1}</_primary>
+  </error>
+</error-list>

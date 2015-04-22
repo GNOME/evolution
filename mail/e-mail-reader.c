@@ -97,6 +97,8 @@ struct _EMailReaderPrivate {
 	guint schedule_mark_seen_interval;
 
 	gpointer remote_content_alert; /* EAlert */
+
+	gpointer followup_alert; /* weak pointer to an EAlert */
 };
 
 enum {
@@ -2884,6 +2886,94 @@ discard_timeout_mark_seen_cb (EMailReader *reader)
 }
 
 static void
+mail_reader_remove_followup_alert (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	if (!priv)
+		return;
+
+	if (priv->followup_alert)
+		e_alert_response (priv->followup_alert, GTK_RESPONSE_OK);
+}
+
+static void
+mail_reader_manage_followup_flag (EMailReader *reader,
+				  CamelFolder *folder,
+				  const gchar *message_uid)
+{
+	EMailReaderPrivate *priv;
+	CamelMessageInfo *info;
+	const gchar *followup, *completed_on, *due_by;
+	time_t date;
+	gchar *date_str = NULL;
+	gboolean alert_added = FALSE;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message_uid != NULL);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+	if (!priv)
+		return;
+
+	info = camel_folder_get_message_info (folder, message_uid);
+	if (!info)
+		return;
+
+	followup = camel_message_info_user_tag (info, "follow-up");
+	if (followup && *followup) {
+		EPreviewPane *preview_pane;
+		const gchar *alert_tag;
+		EAlert *alert;
+
+		completed_on = camel_message_info_user_tag (info, "completed-on");
+		due_by = camel_message_info_user_tag (info, "due-by");
+
+		if (completed_on && *completed_on) {
+			alert_tag = "mail:follow-up-completed-info";
+			date = camel_header_decode_date (completed_on, NULL);
+			date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
+		} else if (due_by && *due_by) {
+			time_t now;
+
+			alert_tag = "mail:follow-up-dueby-info";
+			date = camel_header_decode_date (due_by, NULL);
+			date_str = e_datetime_format_format ("mail", "header", DTFormatKindDateTime, date);
+
+			now = time (NULL);
+			if (now > date)
+				alert_tag = "mail:follow-up-overdue-error";
+		} else {
+			alert_tag = "mail:follow-up-flag-info";
+		}
+
+		alert = e_alert_new (alert_tag, followup, date_str ? date_str : "???", NULL);
+
+		g_free (date_str);
+
+		preview_pane = e_mail_reader_get_preview_pane (reader);
+		e_alert_sink_submit_alert (E_ALERT_SINK (preview_pane), alert);
+
+		alert_added = TRUE;
+
+		mail_reader_remove_followup_alert (reader);
+		priv->followup_alert = alert;
+		g_object_add_weak_pointer (G_OBJECT (priv->followup_alert), &priv->followup_alert);
+
+		g_object_unref (alert);
+	}
+
+	camel_message_info_unref (info);
+
+	if (!alert_added)
+		mail_reader_remove_followup_alert (reader);
+}
+
+static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
                                GAsyncResult *result,
                                EMailReaderClosure *closure)
@@ -2926,10 +3016,13 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		goto exit;
 	}
 
-	if (message != NULL)
+	if (message != NULL) {
+		mail_reader_manage_followup_flag (reader, folder, message_uid);
+
 		g_signal_emit (
 			reader, signals[MESSAGE_LOADED], 0,
 			message_uid, message);
+	}
 
 exit:
 	if (error != NULL) {
@@ -4271,9 +4364,16 @@ connect_signals:
 void
 e_mail_reader_changed (EMailReader *reader)
 {
+	MessageList *message_list;
+
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	g_signal_emit (reader, signals[CHANGED], 0);
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+
+	if (!message_list || message_list_selected_count (message_list) != 1)
+		mail_reader_remove_followup_alert (reader);
 }
 
 guint32
