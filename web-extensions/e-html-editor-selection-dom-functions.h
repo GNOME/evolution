@@ -28,11 +28,9 @@
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define UNICODE_NBSP "\xc2\xa0"
 
-#define URL_PATTERN \
-	"((([A-Za-z]{3,9}:(?:\\/\\/)?)(?:[\\-;:&=\\+\\$,\\w]+@)?" \
-	"[A-Za-z0-9\\.\\-]+|(?:www\\.|[\\-;:&=\\+\\$,\\w]+@)" \
-	"[A-Za-z0-9\\.\\-]+)((?:\\/[\\+~%\\/\\.\\w\\-]*)?\\?" \
-	"?(?:[\\-\\+=&;%@\\.\\w]*)#?(?:[\\.\\!\\/\\\\w]*))?)"
+/* stephenhay from https://mathiasbynens.be/demo/url-regex */
+#define URL_PROTOCOLS "news|telnet|nntp|file|https?|s?ftp||webcal|localhost"
+#define URL_PATTERN "((((" URL_PROTOCOLS ")\\:\\/\\/)|(www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*)"
 
 #define URL_PATTERN_SPACE URL_PATTERN "\\s"
 
