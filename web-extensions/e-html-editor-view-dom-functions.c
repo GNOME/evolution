@@ -1837,7 +1837,6 @@ save_history_for_input (WebKitDOMDocument *document,
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 	ev->type = HISTORY_INPUT;
 
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	dom_selection_get_coordinates (
 		document,
 		&ev->after.start.x,
