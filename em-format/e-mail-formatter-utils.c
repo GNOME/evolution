@@ -431,7 +431,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		camel_header_newsgroups_free (ng);
 
 		txt = html->str;
-		g_string_free (html, FALSE);
+		value = g_string_free (html, FALSE);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;

@@ -874,6 +874,8 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 
 		mi = camel_folder_get_message_info (folder, uid);
 		if (!mi || !camel_message_info_message_id (mi)) {
+			if (mi)
+				camel_message_info_unref (mi);
 			camel_pstring_free (uid);
 			continue;
 		}
