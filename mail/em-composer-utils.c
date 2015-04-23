@@ -1755,16 +1755,18 @@ emu_update_composers_security (EMsgComposer *composer,
 	}
 }
 
-void
-em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
-                                              const gchar *uid,
-                                              gchar **folder_uri,
-                                              gchar **message_uid)
+static void
+em_utils_get_real_folder_and_message_uid (CamelFolder *folder,
+					  const gchar *uid,
+					  CamelFolder **out_real_folder,
+					  gchar **folder_uri,
+					  gchar **message_uid)
 {
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (uid != NULL);
-	g_return_if_fail (folder_uri != NULL);
-	g_return_if_fail (message_uid != NULL);
+
+	if (out_real_folder)
+		*out_real_folder = NULL;
 
 	if (CAMEL_IS_VEE_FOLDER (folder)) {
 		CamelMessageInfo *mi;
@@ -1780,10 +1782,17 @@ em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
 				&real_uid);
 
 			if (real_folder) {
-				*folder_uri = e_mail_folder_uri_from_folder (real_folder);
-				*message_uid = real_uid;
+				if (folder_uri)
+					*folder_uri = e_mail_folder_uri_from_folder (real_folder);
+				if (message_uid)
+					*message_uid = real_uid;
+				else
+					g_free (real_uid);
 
 				camel_message_info_unref (mi);
+
+				if (out_real_folder)
+					*out_real_folder = g_object_ref (real_folder);
 
 				return;
 			}
@@ -1792,8 +1801,24 @@ em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
 		}
 	}
 
-	*folder_uri = e_mail_folder_uri_from_folder (folder);
-	*message_uid = g_strdup (uid);
+	if (folder_uri)
+		*folder_uri = e_mail_folder_uri_from_folder (folder);
+	if (message_uid)
+		*message_uid = g_strdup (uid);
+}
+
+void
+em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
+                                              const gchar *uid,
+                                              gchar **folder_uri,
+                                              gchar **message_uid)
+{
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (uid != NULL);
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (message_uid != NULL);
+
+	em_utils_get_real_folder_and_message_uid (folder, uid, NULL, folder_uri, message_uid);
 }
 
 static void
@@ -2198,6 +2223,7 @@ reply_get_composer (EShell *shell,
                     CamelInternetAddress *to,
                     CamelInternetAddress *cc,
                     CamelFolder *folder,
+		    const gchar *message_uid,
                     CamelNNTPAddress *postto)
 {
 	const gchar *message_id, *references;
@@ -2249,15 +2275,23 @@ reply_get_composer (EShell *shell,
 
 	/* add post-to, if nessecary */
 	if (postto && camel_address_length ((CamelAddress *) postto)) {
+		CamelFolder *use_folder = folder, *temp_folder = NULL;
 		gchar *store_url = NULL;
 		gchar *post;
 
-		if (folder) {
+		if (use_folder && CAMEL_IS_VEE_FOLDER (use_folder) && message_uid) {
+			em_utils_get_real_folder_and_message_uid (use_folder, message_uid, &temp_folder, NULL, NULL);
+
+			if (temp_folder)
+				use_folder = temp_folder;
+		}
+
+		if (use_folder) {
 			CamelStore *parent_store;
 			CamelService *service;
 			CamelURL *url;
 
-			parent_store = camel_folder_get_parent_store (folder);
+			parent_store = camel_folder_get_parent_store (use_folder);
 
 			service = CAMEL_SERVICE (parent_store);
 			url = camel_service_new_camel_url (service);
@@ -2275,6 +2309,7 @@ reply_get_composer (EShell *shell,
 			table, store_url ? store_url : "", post);
 		g_free (post);
 		g_free (store_url);
+		g_clear_object (&temp_folder);
 	}
 
 	/* Add In-Reply-To and References. */
@@ -3102,7 +3137,7 @@ em_utils_reply_to_message (EShell *shell,
 	}
 
 	composer = reply_get_composer (
-		shell, message, identity_uid, to, cc, folder, postto);
+		shell, message, identity_uid, to, cc, folder, message_uid, postto);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	if (postto)
