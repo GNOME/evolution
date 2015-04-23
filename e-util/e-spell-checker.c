@@ -73,6 +73,7 @@ G_DEFINE_TYPE_EXTENDED (
  * have to be freed through enchant_broker_free_dict()
  * and we also own the EnchantBroker. */
 static GHashTable *global_enchant_dicts;
+static GHashTable *global_language_tags; /* gchar * ~> NULL */
 static EnchantBroker *global_broker;
 G_LOCK_DEFINE_STATIC (global_memory);
 
@@ -84,7 +85,8 @@ spell_checker_enchant_dicts_foreach_cb (gpointer key,
 	EnchantDict *enchant_dict = value;
 	EnchantBroker *enchant_broker = user_data;
 
-	enchant_broker_free_dict (enchant_broker, enchant_dict);
+	if (enchant_dict)
+		enchant_broker_free_dict (enchant_broker, enchant_dict);
 
 	return TRUE;
 }
@@ -450,39 +452,32 @@ e_spell_checker_new (void)
 }
 
 static void
-list_enchant_dicts (const gchar * const lang_tag,
+list_enchant_dicts (const gchar * const language_tag,
                     const gchar * const provider_name,
                     const gchar * const provider_desc,
                     const gchar * const provider_file,
                     gpointer user_data)
 {
-	EnchantBroker *broker = user_data;
-	EnchantDict *enchant_dict;
-
-	enchant_dict = enchant_broker_request_dict (broker, lang_tag);
-	if (enchant_dict != NULL) {
-		g_hash_table_insert (
-			global_enchant_dicts,
-			g_strdup (lang_tag), enchant_dict);
-	}
+	g_hash_table_insert (
+		global_language_tags,
+		g_strdup (language_tag), NULL);
 }
 
 static void
-copy_enchant_dicts (gpointer pcode,
-		    gpointer pdict,
+copy_enchant_dicts (gpointer planguage_tag,
+		    gpointer punused,
 		    gpointer user_data)
 {
-	EnchantDict *enchant_dict = pdict;
 	ESpellChecker *checker = user_data;
 
-	if (enchant_dict) {
+	if (planguage_tag) {
 		ESpellDictionary *dictionary;
 		const gchar *code;
 
 		/* Note that we retain ownership of the EnchantDict.
 		 * Since EnchantDict is not reference counted, we're
 		 * merely loaning the pointer to ESpellDictionary. */
-		dictionary = e_spell_dictionary_new (checker, enchant_dict);
+		dictionary = e_spell_dictionary_new_bare (checker, planguage_tag);
 		code = e_spell_dictionary_get_code (dictionary);
 
 		g_hash_table_insert (
@@ -503,6 +498,9 @@ e_spell_checker_init_global_memory (void)
 			(GEqualFunc) g_str_equal,
 			(GDestroyNotify) g_free,
 			(GDestroyNotify) NULL);
+		global_language_tags = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			g_free, NULL);
 
 		enchant_broker_list_dicts (
 			global_broker,
@@ -538,6 +536,11 @@ e_spell_checker_free_global_memory (void)
 		global_broker = NULL;
 	}
 
+	if (global_language_tags) {
+		g_hash_table_destroy (global_language_tags);
+		global_language_tags = NULL;
+	}
+
 	G_UNLOCK (global_memory);
 }
 
@@ -561,7 +564,7 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 
 	if (g_hash_table_size (checker->priv->dictionaries_cache) == 0) {
 		e_spell_checker_init_global_memory ();
-		g_hash_table_foreach (global_enchant_dicts, copy_enchant_dicts, checker);
+		g_hash_table_foreach (global_language_tags, copy_enchant_dicts, checker);
 	}
 
 	list = g_hash_table_get_values (checker->priv->dictionaries_cache);
@@ -622,12 +625,29 @@ EnchantDict *
 e_spell_checker_get_enchant_dict (ESpellChecker *checker,
                                   const gchar *language_code)
 {
+	EnchantDict *dict;
+
 	g_return_val_if_fail (E_IS_SPELL_CHECKER (checker), NULL);
 	g_return_val_if_fail (language_code != NULL, NULL);
 
 	e_spell_checker_init_global_memory ();
 
-	return g_hash_table_lookup (global_enchant_dicts, language_code);
+	G_LOCK (global_memory);
+
+	dict = g_hash_table_lookup (global_enchant_dicts, language_code);
+	if (((gpointer) dict) == GINT_TO_POINTER (1)) {
+		dict = NULL;
+	} else if (!dict) {
+		dict = enchant_broker_request_dict (global_broker, language_code);
+		if (dict)
+			g_hash_table_insert (global_enchant_dicts, g_strdup (language_code), dict);
+		else
+			g_hash_table_insert (global_enchant_dicts, g_strdup (language_code), GINT_TO_POINTER (1));
+	}
+
+	G_UNLOCK (global_memory);
+
+	return dict;
 }
 
 gboolean

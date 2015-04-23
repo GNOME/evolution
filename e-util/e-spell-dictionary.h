@@ -67,6 +67,9 @@ GType		e_spell_dictionary_get_type	(void) G_GNUC_CONST;
 ESpellDictionary *
 		e_spell_dictionary_new		(struct _ESpellChecker *spell_checker,
 						 EnchantDict *enchant_dict);
+ESpellDictionary *
+		e_spell_dictionary_new_bare	(struct _ESpellChecker *spell_checker,
+						 const gchar *language_tag);
 guint		e_spell_dictionary_hash		(ESpellDictionary *dictionary);
 gboolean	e_spell_dictionary_equal	(ESpellDictionary *dictionary1,
 						 ESpellDictionary *dictionary2);
