@@ -148,6 +148,13 @@ e_mail_formatter_quote_init (EMailFormatterQuote *formatter)
 static void
 e_mail_formatter_quote_finalize (GObject *object)
 {
+	EMailFormatterQuote *formatter;
+
+	formatter = E_MAIL_FORMATTER_QUOTE (object);
+
+	g_free (formatter->priv->credits);
+	formatter->priv->credits = NULL;
+
 	/* Chain up to parent's finalize() */
 	G_OBJECT_CLASS (e_mail_formatter_quote_parent_class)->finalize (object);
 }
