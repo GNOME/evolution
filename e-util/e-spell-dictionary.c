@@ -457,6 +457,32 @@ e_spell_dictionary_new (ESpellChecker *spell_checker,
 	return dictionary;
 }
 
+ESpellDictionary *
+e_spell_dictionary_new_bare (ESpellChecker *spell_checker,
+			     const gchar *language_tag)
+{
+	ESpellDictionary *dictionary;
+	struct _enchant_dict_description_data descr_data;
+
+	g_return_val_if_fail (E_IS_SPELL_CHECKER (spell_checker), NULL);
+	g_return_val_if_fail (language_tag != NULL, NULL);
+
+	dictionary = g_object_new (
+		E_TYPE_SPELL_DICTIONARY,
+		"spell-checker", spell_checker, NULL);
+
+	descr_data.language_tag = NULL;
+	descr_data.dict_name = NULL;
+
+	describe_dictionary (language_tag, NULL, NULL, NULL, &descr_data);
+
+	dictionary->priv->code = descr_data.language_tag;
+	dictionary->priv->name = descr_data.dict_name;
+	dictionary->priv->collate_key = g_utf8_collate_key (descr_data.dict_name, -1);
+
+	return dictionary;
+}
+
 /**
  * e_spell_dictionary_hash:
  * @dictionary: an #ESpellDictionary
