@@ -909,6 +909,7 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 					   the rest is just a guess. */
 					found_first_msgid = TRUE;
 					first_ignore_thread = camel_message_info_user_flag (refrinfo, "ignore-thread");
+					camel_message_info_unref (refrinfo);
 					break;
 				}
 
