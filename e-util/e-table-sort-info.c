@@ -565,9 +565,12 @@ e_table_sort_info_grouping_set_nth (ETableSortInfo *sort_info,
 	g_array_set_size (array, MAX (n + 1, array->len));
 	column_data = &g_array_index (array, ColumnData, n);
 
+	/* In case it's setting the same specification, to not free it */
+	g_object_ref (spec);
+
 	column_data_clear (column_data);
 
-	column_data->column_spec = g_object_ref (spec);
+	column_data->column_spec = spec;
 	column_data->sort_type = sort_type;
 
 	g_signal_emit (sort_info, signals[GROUP_INFO_CHANGED], 0);
@@ -684,9 +687,12 @@ e_table_sort_info_sorting_set_nth (ETableSortInfo *sort_info,
 	g_array_set_size (array, MAX (n + 1, array->len));
 	column_data = &g_array_index (array, ColumnData, n);
 
+	/* In case it's setting the same specification, to not free it */
+	g_object_ref (spec);
+
 	column_data_clear (column_data);
 
-	column_data->column_spec = g_object_ref (spec);
+	column_data->column_spec = spec;
 	column_data->sort_type = sort_type;
 
 	g_signal_emit (sort_info, signals[SORT_INFO_CHANGED], 0);
