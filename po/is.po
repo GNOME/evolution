@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-03-25 08:05+0000\n"
-"PO-Revision-Date: 2015-04-10 12:49+0000\n"
+"PO-Revision-Date: 2015-04-24 12:04+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -105,7 +105,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:17
 msgid "Category editor not available."
-msgstr "Flokka breytir ekki aðgengilegur."
+msgstr "Flokkaritill ekki tiltækur."
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "Unable to open address book '{0}'"
@@ -214,7 +214,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:37
 msgid "Skip duplicates"
-msgstr ""
+msgstr "Sleppa tvítekningum"
 
 #: ../addressbook/addressbook.error.xml.h:38
 msgid "Add with duplicates"
@@ -296,7 +296,7 @@ msgstr "_Flokkar..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:7
 msgid "Full _Name..."
-msgstr "Fullt _Nafn:"
+msgstr "Fullt _nafn:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:8
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:749
@@ -599,38 +599,35 @@ msgstr "Birta SIP vistfang"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:58
 msgid "Show Instant Messaging"
-msgstr ""
+msgstr "Birta upplýsingar um spjallforritaaðganga"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
 msgid "Show Web Addresses"
-msgstr ""
+msgstr "Birta vefföng"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:60
 msgid "Show Job section"
-msgstr ""
+msgstr "Birta vinnuupplýsingar"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:61
 msgid "Show Miscellaneous"
-msgstr ""
+msgstr "Birta hluta með ýmislegu"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:62
-#, fuzzy
 msgid "Show Home Mailing Address"
-msgstr "_Heimilisfang:"
+msgstr "Birta póstfang heimilis:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:63
-#, fuzzy
 msgid "Show Work Mailing Address"
-msgstr "_Heimilisfang:"
+msgstr "Birta póstfang vinnu:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:64
-#, fuzzy
 msgid "Show Other Mailing Address"
-msgstr "_Heimilisfang:"
+msgstr "Birta önnur póstföng:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:65
 msgid "Show Notes"
-msgstr "Sýna minnispunkta"
+msgstr "Birta minnispunkta"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
@@ -825,7 +822,6 @@ msgid "_First:"
 msgstr "_Fornafn"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:16
-#, fuzzy
 #| msgid "Job Title"
 msgctxt "FullName"
 msgid "_Title:"
@@ -866,11 +862,11 @@ msgstr "_Fela póstföng þegar sent er á listann"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
 msgid "Add an email to the List"
-msgstr ""
+msgstr "Bæta netfangi á listann"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Remove an email address from the List"
-msgstr ""
+msgstr "Fjarlægja netfang af listanum"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:5
@@ -886,9 +882,8 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-calendar.c:807
 #: ../plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../plugins/templates/templates.c:463
-#, fuzzy
 msgid "_Remove"
-msgstr "_Fjarlægja"
+msgstr "Fja_rlægja"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 msgid "Insert email addresses from Address Book"
@@ -1892,7 +1887,6 @@ msgstr[1] "klukkustundir"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:131
 #: ../calendar/gui/dialogs/recurrence-page.c:1249
-#, fuzzy
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dagur"
@@ -1900,7 +1894,7 @@ msgstr[1] "dagar"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:343
 msgid "Start time"
-msgstr "Byrjar"
+msgstr "Upphafstími"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:1
 msgid "Appointments"
@@ -2016,13 +2010,11 @@ msgstr "Aðvörun"
 #: ../calendar/alarm-notify/alarm-queue.c:1975 ../mail/mail-dialogs.ui.h:21
 #: ../mail/mail.error.xml.h:139
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
-#, fuzzy
 msgid "_No"
 msgstr "_Nei"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1976 ../mail/mail.error.xml.h:138
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
-#, fuzzy
 msgid "_Yes"
 msgstr "_Já"
 
@@ -2036,7 +2028,8 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"Evolution dagatals áminning er um það bil að byrja. Þessi áminning er stillt "
+"Evolution dagatalsáminning er um það bil að fara í gang. Þessi áminning er "
+"stillt "
 "til að keyra eftirfarandi forrit:\n"
 "\n"
 "        %s\n"
@@ -2800,20 +2793,17 @@ msgstr "Endurtekning"
 
 #: ../calendar/gui/caltypes.xml.h:20
 msgid "Occurs"
-msgstr ""
+msgstr "Gerist"
 
 #: ../calendar/gui/caltypes.xml.h:21
-#, fuzzy
 msgid "Less Than"
-msgstr "minna en 1"
+msgstr "minna en"
 
 #: ../calendar/gui/caltypes.xml.h:22
-#, fuzzy
 msgid "Exactly"
-msgstr "1 nákvæmlega"
+msgstr "nákvæmlega"
 
 #: ../calendar/gui/caltypes.xml.h:23
-#, fuzzy
 msgid "More Than"
 msgstr "meira en"
 
@@ -2829,7 +2819,7 @@ msgstr "Lýsing inniheldur"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:668
 msgid "Edit Reminder"
-msgstr ""
+msgstr "Breyta áminningu"
 
 #: ../calendar/gui/dialogs/alarm-dialog.c:896
 #: ../calendar/gui/e-alarm-list.c:424
@@ -2881,20 +2871,20 @@ msgstr "dag(ar)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
 msgid "Add Reminder"
-msgstr ""
+msgstr "Bæta við áminningu"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:10
 #: ../calendar/gui/dialogs/event-editor.c:352
 msgid "Reminder"
-msgstr ""
+msgstr "Áminning"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:11
 msgid "Repeat"
-msgstr "Endurtekning"
+msgstr "Endurtaka"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:12
 msgid "_Repeat the reminder"
-msgstr ""
+msgstr "Endu_rtaka áminninguna"
 
 #. This is part of the sentence: 'Repeat the reminder %d extra times every %d minutes'. Where %d are numbers.
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:14
@@ -2911,7 +2901,7 @@ msgstr "S_kilaboð"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:18
 msgid "Custom reminder sound"
-msgstr ""
+msgstr "Sérsniðið hljóð áminningar"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:19
 msgid "_Sound:"
@@ -2941,7 +2931,7 @@ msgstr "Aðgerð/byrjar"
 #: ../calendar/gui/dialogs/event-page.ui.h:28
 #: ../modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Reminders"
-msgstr ""
+msgstr "Áminningar"
 
 #: ../calendar/gui/dialogs/changed-comp.c:59
 msgid "This event has been deleted."
@@ -3057,7 +3047,6 @@ msgid "_Close"
 msgstr "_Loka"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1223
-#, fuzzy
 #| msgid "Close this window"
 msgid "Close the current window"
 msgstr "Loka núverandi glugga"
@@ -3101,13 +3090,12 @@ msgstr "Eyða vali"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1251
 msgid "View help"
-msgstr ""
+msgstr "Skoða hjálp"
 
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780
 #: ../e-util/e-html-editor-actions.c:1101 ../e-util/e-text.c:2101
 #: ../mail/e-mail-browser.c:147 ../shell/e-shell-window-actions.c:964
-#, fuzzy
 msgid "_Paste"
 msgstr "_Líma"
 
@@ -3130,31 +3118,28 @@ msgstr "_Prenta..."
 #: ../modules/calendar/e-cal-shell-view-actions.c:1642
 #: ../modules/calendar/e-memo-shell-view-actions.c:764
 #: ../modules/calendar/e-task-shell-view-actions.c:964
-#, fuzzy
 #| msgid "Preview:"
 msgid "Pre_view..."
-msgstr "Forsýn"
+msgstr "_Forskoðun..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:1279
 msgid "Save current changes"
-msgstr ""
+msgstr "Vista núverandi breytingar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1284
 #: ../e-util/e-mail-signature-editor.c:304
-#, fuzzy
 msgid "Save and Close"
-msgstr "Vista og loka..."
+msgstr "Vista og loka"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1286
 msgid "Save current changes and close editor"
-msgstr ""
+msgstr "Vista núverandi breytingar og loka glugga"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790
 #: ../e-util/e-html-editor-actions.c:1115 ../e-util/e-web-view.c:349
 #: ../mail/e-mail-browser.c:154 ../shell/e-shell-window-actions.c:1041
-#, fuzzy
 msgid "Select _All"
-msgstr "Velja _Allt"
+msgstr "Velja _allt"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1293 ../e-util/e-focus-tracker.c:196
 #: ../e-util/e-focus-tracker.c:252 ../e-util/e-focus-tracker.c:791
@@ -3493,13 +3478,11 @@ msgstr[0] "%d mínútu fyrir atburðinn"
 msgstr[1] "%d mínútur fyrir atburðinn"
 
 #: ../calendar/gui/dialogs/event-page.c:3491
-#, fuzzy
 msgid "Custom"
 msgstr "Sérsniðið"
 
 #. Translators: "None" for "No reminder set"
 #: ../calendar/gui/dialogs/event-page.c:3498
-#, fuzzy
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Ekkert"
@@ -3667,9 +3650,8 @@ msgstr "Til"
 #: ../calendar/gui/dialogs/memo-page.ui.h:3
 #: ../calendar/gui/dialogs/task-page.c:426
 #: ../calendar/gui/dialogs/task-page.ui.h:34
-#, fuzzy
 msgid "_List:"
-msgstr "listi"
+msgstr "_Listi:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
 #: ../calendar/gui/dialogs/task-page.c:434
@@ -3684,12 +3666,12 @@ msgstr "_Til:"
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:26
 msgid "Sta_rt date:"
-msgstr "_Byrjunar dags:"
+msgstr "_Upphafsdags:"
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
 #: ../calendar/gui/dialogs/task-page.ui.h:23
 msgid "Su_mmary:"
-msgstr "_Samantekt:"
+msgstr "Sa_mantekt:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 #, c-format
@@ -4089,7 +4071,6 @@ msgid "Time zone:"
 msgstr "Tímabelti:"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:35
-#, fuzzy
 msgid "_Status:"
 msgstr "_Staða:"
 
@@ -4102,14 +4083,12 @@ msgid "_Percent complete:"
 msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.ui.h:38
-#, fuzzy
 msgid "Priorit_y:"
 msgstr "F_organgur:"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:39
-#, fuzzy
 msgid "C_lassification:"
-msgstr "Flokkun"
+msgstr "_Flokkun:"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:40
 msgid "_Web Page:"
@@ -4312,9 +4291,8 @@ msgid "Start Date:"
 msgstr "Byrja dags:"
 
 #: ../calendar/gui/e-cal-component-preview.c:285
-#, fuzzy
 msgid "End Date:"
-msgstr "Loka dagur"
+msgstr "Lokadagur"
 
 #: ../calendar/gui/e-cal-component-preview.c:297
 msgid "Due Date:"
@@ -4697,11 +4675,11 @@ msgstr[0] "Eyða"
 msgstr[1] "Eyða"
 
 #: ../calendar/gui/e-cal-ops.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "Eyða"
-msgstr[1] "Eyða"
+msgstr[0] "Eyði verkefni"
+msgstr[1] "Eyði %d verkefnum"
 
 #: ../calendar/gui/e-cal-ops.c:692
 #, c-format
@@ -4918,7 +4896,7 @@ msgstr "Auka þáttakendur"
 
 #: ../calendar/gui/e-meeting-list-view.c:66
 msgid "Resources"
-msgstr "Auðlindir"
+msgstr "Tilföng"
 
 #: ../calendar/gui/e-meeting-list-view.c:180
 #: ../calendar/gui/e-meeting-store.c:109 ../calendar/gui/e-meeting-store.c:126
@@ -4936,7 +4914,7 @@ msgstr "Hópur"
 #: ../calendar/gui/e-meeting-store.c:113 ../calendar/gui/e-meeting-store.c:130
 #: ../calendar/gui/print.c:1248
 msgid "Resource"
-msgstr "Auðlind"
+msgstr "Tilfang"
 
 #: ../calendar/gui/e-meeting-list-view.c:183
 #: ../calendar/gui/e-meeting-store.c:115 ../calendar/gui/e-meeting-store.c:132
@@ -5043,11 +5021,11 @@ msgstr ">_>"
 
 #: ../calendar/gui/e-meeting-time-sel.c:694
 msgid "_All people and resources"
-msgstr "_Allir þáttakendur og auðlindir"
+msgstr "_Allir þáttakendur og tilföng"
 
 #: ../calendar/gui/e-meeting-time-sel.c:705
 msgid "All _people and one resource"
-msgstr "Allir _þáttakendur og ein auðlind"
+msgstr "Allir _þáttakendur og eitt tilfang"
 
 #: ../calendar/gui/e-meeting-time-sel.c:716
 msgid "_Required people"
@@ -5055,7 +5033,7 @@ msgstr "_Nauðsynlegt fólk"
 
 #: ../calendar/gui/e-meeting-time-sel.c:726
 msgid "Required people and _one resource"
-msgstr "Nauðsynlegt fólk og _ein auðlind"
+msgstr "Nauðsynlegt fólk og _eitt tilfang"
 
 #: ../calendar/gui/e-meeting-time-sel.c:765
 msgid "_Start time:"
@@ -5222,7 +5200,7 @@ msgstr "Verk upplýsingar"
 
 #: ../calendar/gui/itip-utils.c:935 ../calendar/gui/itip-utils.c:1096
 msgid "Memo information"
-msgstr "Minnismiða upplýsingar"
+msgstr "Minnismiðaupplýsingar"
 
 #: ../calendar/gui/itip-utils.c:938 ../calendar/gui/itip-utils.c:1114
 msgid "Free/Busy information"
@@ -5267,10 +5245,9 @@ msgstr "Hafnað"
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
 #: ../calendar/gui/itip-utils.c:999
-#, fuzzy
 msgctxt "Meeting"
 msgid "Delegated"
-msgstr "Fulltrúi"
+msgstr "Úthlutað"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -5307,7 +5284,7 @@ msgstr "Mótboð"
 #: ../calendar/gui/itip-utils.c:1111
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr ""
+msgstr "Laus/upptekinn upplýsingar (%s til %s)"
 
 #: ../calendar/gui/itip-utils.c:1119
 msgid "iCalendar information"
@@ -5316,25 +5293,24 @@ msgstr "Upplýsingar um iCalendar"
 #: ../calendar/gui/itip-utils.c:1148
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "Gat ekki bókað viðburð en það er árekstur við annan viðburð."
+msgstr "Gat ekki bókað tilfang, nýi viðburðurinn rekst á við einhvern annan."
 
 #: ../calendar/gui/itip-utils.c:1153
 msgid "Unable to book a resource, error: "
-msgstr ""
+msgstr "Gat ekki bókað tilfang, villa: "
 
 #: ../calendar/gui/itip-utils.c:1324
 msgid "You must be an attendee of the event."
 msgstr "Þú verður að vera þáttakandi í viðburðinum."
 
 #: ../calendar/gui/itip-utils.c:1917
-#, fuzzy
 #| msgid "Send / Receive"
 msgid "Sending an event"
-msgstr "Senda / Sækja"
+msgstr "Sendi atburð"
 
 #: ../calendar/gui/itip-utils.c:1921
 msgid "Sending a memo"
-msgstr ""
+msgstr "Sendi minnismiða"
 
 #: ../calendar/gui/itip-utils.c:1925
 msgid "Sending a task"
@@ -5648,18 +5624,16 @@ msgid "Event"
 msgstr "Viðburður"
 
 #: ../calendar/importers/icalendar-importer.c:1173
-#, fuzzy
 #: ../calendar/importers/icalendar-importer.c:1485
 msgctxt "iCalImp"
 msgid "Task"
-msgstr "Verk"
+msgstr "Verkefni"
 
 #: ../calendar/importers/icalendar-importer.c:1176
 #: ../calendar/importers/icalendar-importer.c:1486
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Memo"
-msgstr "Til minnis"
+msgstr "Minnismiði"
 
 #: ../calendar/importers/icalendar-importer.c:1185
 msgctxt "iCalImp"
@@ -7832,7 +7806,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
 msgid "Contact preview pane position (horizontal)"
-msgstr ""
+msgstr "Staðsetning forskoðunarglugga tengiliða (lárétt)"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:12
 msgid "Position of the contact preview pane when oriented horizontally."
@@ -7840,7 +7814,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:13
 msgid "Contact preview pane position (vertical)"
-msgstr ""
+msgstr "Staðsetning forskoðunarglugga tengiliða (lóðrétt)"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:14
 msgid "Position of the contact preview pane when oriented vertically."
@@ -7852,7 +7826,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
 msgid "Whether to show maps in preview pane"
-msgstr ""
+msgstr "Hvort eigi að birta landakort í forskoðunarglugga"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
@@ -7866,11 +7840,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
 msgid "Show preview pane"
-msgstr ""
+msgstr "Birta forskoðunarglugga"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:20
 msgid "Whether to show the preview pane."
-msgstr ""
+msgstr "Hvort eigi að birta forskoðunarglugga."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:21
 msgid "true"
@@ -8125,7 +8099,7 @@ msgstr "Hvort eigi að sýna gerða svæði í viðburða/verka/funda ritli"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid "Hide completed tasks"
-msgstr "Fela liðin verk"
+msgstr "Fela lokin verkefni"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Whether to hide completed tasks in the tasks view"
@@ -8133,7 +8107,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Hide task units"
-msgstr "Fela verk einingar"
+msgstr "Fela einingar verkefna"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid ""
@@ -8193,7 +8167,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Memo preview pane position (horizontal)"
-msgstr "Staðsetnging rúðu minnismiða forsýnar (lárétt)"
+msgstr "Staðsetning forskoðunarglugga minnismiða (lárétt)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Position of the task preview pane when oriented horizontally"
@@ -8201,7 +8175,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Memo layout style"
-msgstr "Minnismiða útlits stíll"
+msgstr "Framsetningarstíll minnismiða"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid ""
@@ -8212,7 +8186,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo preview pane position (vertical)"
-msgstr "Staðsetnging rúðu minnismiða forsýnar (lóðrétt)"
+msgstr "Staðsetning forskoðunarglugga minnismiða (lóðrétt)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Position of the memo preview pane when oriented vertically"
@@ -8272,7 +8246,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Primary memo list"
-msgstr "Aðal minnismiða listi"
+msgstr "Aðal minnismiðalisti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid ""
@@ -8282,7 +8256,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Primary task list"
-msgstr "Aðal verka listi"
+msgstr "Aðal-verkefnalisti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid ""
@@ -8330,7 +8304,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Show the memo preview pane"
-msgstr "Sýna forsýn minnismiða rúðu"
+msgstr "Birta forskoðunarglugga minnismiða"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "If \"true\", show the memo preview pane in the main window"
@@ -8338,7 +8312,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Show the task preview pane"
-msgstr "Sýna forsýn verk rúðu"
+msgstr "Birta forskoðunarglugga verkefna"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "If \"true\", show the task preview pane in the main window"
@@ -8358,7 +8332,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Highlight tasks due today"
-msgstr ""
+msgstr "Áherslulita verkefni sem á að ljúka í dag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid ""
@@ -8367,7 +8341,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Tasks due today color"
-msgstr "Litur verka á dagskrá í dag"
+msgstr "Litur verkefna sem ljúka á í dag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid ""
@@ -8377,7 +8351,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Task preview pane position (horizontal)"
-msgstr "Staðsetning rúðu verka forsýnar (lárétt)"
+msgstr "Staðsetning forskoðunarglugga verkefna (lárétt)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Task layout style"
@@ -8392,7 +8366,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Task preview pane position (vertical)"
-msgstr "Staðsetning rúðu forsýnar verka (lárétt)"
+msgstr "Staðsetning forskoðunarglugga verkefna (lóðrétt)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Position of the task preview pane when oriented vertically"
@@ -8400,7 +8374,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "Highlight overdue tasks"
-msgstr ""
+msgstr "Áherslulita verkefni sem á að vera búið að ljúka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid ""
@@ -8409,7 +8383,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Overdue tasks color"
-msgstr "Litur yfir liðin verk"
+msgstr "Litur verkefna sem á að vera búið að ljúka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid ""
@@ -11600,7 +11574,6 @@ msgid "Insert text file"
 msgstr ""
 
 #: ../e-util/e-html-editor-actions.c:705
-#, fuzzy
 #| msgid "Text"
 msgid "Text file"
 msgstr "Textaskrá"
@@ -11664,9 +11637,8 @@ msgid "_HTML File..."
 msgstr "Senda HTML Póst?"
 
 #: ../e-util/e-html-editor-actions.c:1204
-#, fuzzy
 msgid "Te_xt File..."
-msgstr "Textaskrá"
+msgstr "Te_xtaskrá..."
 
 #: ../e-util/e-html-editor-actions.c:1211
 msgid "Paste _Quotation"
@@ -13499,7 +13471,7 @@ msgstr ""
 
 #: ../e-util/e-system.error.xml.h:10
 msgid "Failed to delete resource &quot;{0}&quot;."
-msgstr ""
+msgstr "Gat ekki eytt tilfangi &quot;{0}&quot;."
 
 #: ../e-util/e-system.error.xml.h:11
 msgid ""
@@ -14792,7 +14764,7 @@ msgstr ""
 
 #: ../mail/e-mail-config-security-page.c:511
 msgid "Sig_ning certificate:"
-msgstr ""
+msgstr "U_ndirritunarskilríki:"
 
 #: ../mail/e-mail-config-security-page.c:535
 #: ../mail/e-mail-config-security-page.c:641
@@ -14817,7 +14789,7 @@ msgstr ""
 
 #: ../mail/e-mail-config-security-page.c:617
 msgid "Encryption certificate:"
-msgstr ""
+msgstr "Dulritunarskírteini:"
 
 #: ../mail/e-mail-config-security-page.c:659
 msgid "Always encrypt outgoing messages when using this account"
@@ -18111,7 +18083,7 @@ msgstr "Búa til nýja nafnaskrá"
 
 #: ../modules/addressbook/e-book-shell-backend.c:314
 msgid "Certificates"
-msgstr "Auðkenni"
+msgstr "Skilríki"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:197
 msgid "Address Book Properties"
@@ -18922,9 +18894,8 @@ msgid "Select a Calendar"
 msgstr "Veldu dagatal"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:410
-#, fuzzy
 msgid "Select a Memo List"
-msgstr "Valið:"
+msgstr "Veldu minnismiðalista"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:417
 msgid "Select a Task List"
@@ -18939,9 +18910,8 @@ msgid "I_mport to Memo List"
 msgstr ""
 
 #: ../modules/calendar/e-cal-attachment-handler.c:438
-#, fuzzy
 msgid "I_mport to Task List"
-msgstr "Forsýn:"
+msgstr "Flytja _inn í verkefnalista"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:186
 #: ../modules/calendar/e-cal-shell-view-actions.c:162
@@ -18951,12 +18921,12 @@ msgstr "Nýtt dagatal"
 #: ../modules/calendar/e-cal-base-shell-backend.c:190
 #: ../modules/calendar/e-memo-shell-view-actions.c:164
 msgid "New Memo List"
-msgstr "Nýr minnismiða listi"
+msgstr "Nýr minnismiðalisti"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:194
 #: ../modules/calendar/e-task-shell-view-actions.c:187
 msgid "New Task List"
-msgstr "Nýr verka listi"
+msgstr "Nýr verkefnalisti"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:540
 #, c-format
@@ -19168,7 +19138,7 @@ msgstr "Skjár"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:57
 msgid "Task List"
-msgstr "Verka listi"
+msgstr "Verkefnalisti"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Highlight t_asks due today"
@@ -19270,7 +19240,7 @@ msgstr ""
 
 #: ../modules/calendar/e-cal-shell-backend.c:257
 msgid "Calendar and Tasks"
-msgstr ""
+msgstr "Dagatal og verkefni"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:181
 msgid "Print"
@@ -19613,9 +19583,8 @@ msgstr "Fara í:"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-memopad.c:206
 #: ../modules/calendar/e-memo-shell-view-actions.c:467
-#, fuzzy
 msgid "memo"
-msgstr "Til minnis"
+msgstr "minnismiði"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:249
 #: ../modules/calendar/e-memo-shell-view-actions.c:599
@@ -19681,15 +19650,14 @@ msgstr ""
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:274
-#, fuzzy
 #: ../modules/calendar/e-task-shell-view-actions.c:585
 msgid "task"
-msgstr "Verk"
+msgstr "verkefni"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:309
 #: ../modules/calendar/e-task-shell-view-actions.c:647
 msgid "_Assign Task"
-msgstr ""
+msgstr "Úthlut_a verkefni"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:323
 #: ../modules/calendar/e-task-shell-view-actions.c:724
@@ -19713,7 +19681,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:337
 #: ../modules/calendar/e-task-shell-view-actions.c:738
 msgid "New _Task"
-msgstr ""
+msgstr "_Nýtt verkefni"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:339
 #: ../modules/calendar/e-task-shell-backend.c:64
@@ -19724,7 +19692,7 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:344
 #: ../modules/calendar/e-task-shell-view-actions.c:745
 msgid "_Open Task"
-msgstr ""
+msgstr "_Opna verkefni"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:346
 #: ../modules/calendar/e-task-shell-view-actions.c:747
@@ -19737,10 +19705,9 @@ msgid "Print the selected task"
 msgstr ""
 
 #: ../modules/calendar/e-memo-shell-backend.c:63
-#, fuzzy
 msgctxt "New"
 msgid "Mem_o"
-msgstr "Til minnis"
+msgstr "M_innismiði"
 
 #: ../modules/calendar/e-memo-shell-backend.c:70
 msgctxt "New"
@@ -19768,7 +19735,7 @@ msgstr ""
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:236
 msgid "Memo List Properties"
-msgstr "Minnismiða eiginleikar"
+msgstr "Eiginleikar minnismiða"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:529
 msgid "_Delete Memo"
@@ -19783,18 +19750,16 @@ msgid "Search for text in the displayed memo"
 msgstr ""
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:557
-#, fuzzy
 msgid "D_elete Memo List"
-msgstr "Eyða minnismiða lista '{0}'?"
+msgstr "_Eyða minnismiðalista"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:559
 msgid "Delete the selected memo list"
 msgstr ""
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:564
-#, fuzzy
 msgid "_New Memo List"
-msgstr "Nýr minnismiða listi"
+msgstr "_Nýr minnismiðalisti"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:580
 msgid "Refresh the selected memo list"
@@ -19810,7 +19775,7 @@ msgstr ""
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:671
 msgid "Memo _Preview"
-msgstr ""
+msgstr "_Forskoðun minnismiða"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:673
 msgid "Show memo preview pane"
@@ -19854,10 +19819,9 @@ msgid "%d selected"
 msgstr "%d valið"
 
 #: ../modules/calendar/e-task-shell-backend.c:62
-#, fuzzy
 msgctxt "New"
 msgid "_Task"
-msgstr "Verk"
+msgstr "Ver_kefni"
 
 #: ../modules/calendar/e-task-shell-backend.c:69
 msgctxt "New"
@@ -19869,10 +19833,9 @@ msgid "Create a new assigned task"
 msgstr ""
 
 #: ../modules/calendar/e-task-shell-backend.c:79
-#, fuzzy
 msgctxt "New"
 msgid "Tas_k List"
-msgstr "Verka listi"
+msgstr "Verke_fnalisti"
 
 #: ../modules/calendar/e-task-shell-backend.c:81
 #: ../modules/calendar/e-task-shell-view-actions.c:691
@@ -19886,7 +19849,7 @@ msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:259
 msgid "Task List Properties"
-msgstr "Verka lista eiginleikar"
+msgstr "Eiginleikar verkefnalista"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:529
 msgid ""
@@ -19902,7 +19865,7 @@ msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:654
 msgid "_Delete Task"
-msgstr ""
+msgstr "_Eyða verkefni"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:661
 msgid "_Find in Task..."
@@ -19913,18 +19876,16 @@ msgid "Search for text in the displayed task"
 msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:682
-#, fuzzy
 msgid "D_elete Task List"
-msgstr "Eyða verka lista '{0}'?"
+msgstr "_Eyða verkefnalista"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:684
 msgid "Delete the selected task list"
 msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:689
-#, fuzzy
 msgid "_New Task List"
-msgstr "Nýr verka listi"
+msgstr "_Nýr verkefnalisti"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:705
 msgid "Refresh the selected task list"
@@ -19947,10 +19908,9 @@ msgid "Delete completed tasks"
 msgstr ""
 
 #: ../modules/calendar/e-task-shell-view-actions.c:836
-#, fuzzy
 #| msgid "Preview:"
 msgid "Task _Preview"
-msgstr "_Forsýning verks"
+msgstr "_Forskoðun verkefnis"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:838
 msgid "Show task preview pane"
@@ -19994,18 +19954,18 @@ msgstr ""
 
 #: ../modules/calendar/e-task-shell-view.c:316
 msgid "Delete Tasks"
-msgstr ""
+msgstr "Eyða verkefnum"
 
 #: ../modules/calendar/e-task-shell-view.c:318
 msgid "Delete Task"
-msgstr ""
+msgstr "Eyða verkefni"
 
 #: ../modules/calendar/e-task-shell-view-private.c:535
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d verkefni"
+msgstr[1] "%d verkefni"
 
 #: ../modules/itip-formatter/e-mail-formatter-itip.c:149
 msgid "ITIP"
@@ -20485,14 +20445,12 @@ msgid "_Inherit reminder"
 msgstr ""
 
 #: ../modules/itip-formatter/itip-view.c:1911
-#, fuzzy
 msgid "_Tasks:"
-msgstr "Verkefni"
+msgstr "Ver_kefni:"
 
 #: ../modules/itip-formatter/itip-view.c:1914
-#, fuzzy
 msgid "_Memos:"
-msgstr "Minnismiðar"
+msgstr "_Minnismiðar:"
 
 #: ../modules/itip-formatter/itip-view.c:3220
 #, fuzzy
@@ -22514,7 +22472,7 @@ msgstr ""
 
 #: ../plugins/mail-to-task/mail-to-task.c:1283
 msgid "Create a _Task"
-msgstr ""
+msgstr "Búa til ver_kefni"
 
 #: ../plugins/mail-to-task/mail-to-task.c:1285
 msgid "Create a new task from the selected message"
@@ -22565,9 +22523,8 @@ msgid "A_ppointments"
 msgstr "Fundir"
 
 #: ../plugins/pst-import/pst-importer.c:575 ../views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "_Tasks"
-msgstr "_Verk"
+msgstr "_Verkefni"
 
 #: ../plugins/pst-import/pst-importer.c:580
 msgid "_Journal entries"
@@ -23404,7 +23361,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
-msgstr ""
+msgstr "Uppfærsla frá fyrri útgáfu mistókst:"
 
 #: ../shell/shell.error.xml.h:3
 msgid ""
@@ -23416,11 +23373,11 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:7
 msgid "Continue Anyway"
-msgstr ""
+msgstr "Halda samt áfram"
 
 #: ../shell/shell.error.xml.h:8
 msgid "Quit Now"
-msgstr ""
+msgstr "Hætta núna"
 
 #: ../shell/shell.error.xml.h:9
 msgid "Cannot upgrade directly from version {0}"
@@ -23450,7 +23407,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:14
 msgid "Keep _Waiting"
-msgstr ""
+msgstr "_Halda áfram að bíða"
 
 #: ../shell/shell.error.xml.h:15
 #, fuzzy
@@ -23469,7 +23426,7 @@ msgstr "Eyða"
 
 #: ../shell/shell.error.xml.h:18
 msgid "_Reconnect"
-msgstr ""
+msgstr "Endu_rtengja"
 
 #: ../shell/shell.error.xml.h:19
 #, fuzzy
@@ -23486,9 +23443,8 @@ msgid "SSL certificate for '{0}' is not trusted."
 msgstr ""
 
 #: ../shell/shell.error.xml.h:22
-#, fuzzy
 msgid "Reason: {1}"
-msgstr "Ástæða:"
+msgstr "Ástæða: {1}"
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -23502,7 +23458,7 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
-msgstr ""
+msgstr "Heiti skilríkis"
 
 #: ../smime/gui/certificate-manager.c:85
 #: ../smime/gui/certificate-manager.c:105
@@ -23518,19 +23474,19 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
-msgstr ""
+msgstr "Raðnúmer"
 
 #: ../smime/gui/certificate-manager.c:88
 #: ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
-msgstr ""
+msgstr "Tilgangur"
 
 #: ../smime/gui/certificate-manager.c:89
 #: ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
-msgstr ""
+msgstr "Gefið út af"
 
 #: ../smime/gui/certificate-manager.c:90
 #: ../smime/gui/certificate-manager.c:110
@@ -23548,28 +23504,27 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
-msgstr ""
+msgstr "Gefið út"
 
 #: ../smime/gui/certificate-manager.c:93
 #: ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
-msgstr ""
+msgstr "Rennur út"
 
 #: ../smime/gui/certificate-manager.c:94
 #: ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
-msgstr ""
+msgstr "SHA1 fingrafar"
 
 #: ../smime/gui/certificate-manager.c:95
 #: ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
-msgstr ""
+msgstr "MD5 fingrafar"
 
 #: ../smime/gui/certificate-manager.c:104
-#, fuzzy
 #: ../smime/gui/certificate-manager.c:124
 msgid "Email Address"
 msgstr "Tölvupóstfang"
@@ -23586,24 +23541,21 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:662
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-backup.p12"
 
 #: ../smime/gui/certificate-manager.c:676
 #: ../smime/gui/certificate-manager.c:965
-#, fuzzy
 msgid "All files"
 msgstr "Allar skrár"
 
 #: ../smime/gui/certificate-manager.c:728
-#, fuzzy
 msgid "Backup Certificate"
-msgstr "Valið:"
+msgstr "Taka öryggisafrit af skilríki"
 
 #. filename selection
 #: ../smime/gui/certificate-manager.c:742
-#, fuzzy
 msgid "_File name:"
-msgstr "Skráarheiti"
+msgstr "S_kráarheiti:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../smime/gui/certificate-manager.c:747
@@ -23613,7 +23565,7 @@ msgstr "Valið:"
 
 #: ../smime/gui/certificate-manager.c:761
 msgid "_Include certificate chain in the backup"
-msgstr ""
+msgstr "Hafa vottunarkeðju (certificate chain) með í öryggisafriti"
 
 #. To Translators: this text was copied from Firefox
 #: ../smime/gui/certificate-manager.c:767
@@ -23652,19 +23604,18 @@ msgstr ""
 
 #: ../smime/gui/certificate-manager.c:951
 msgid "Select a certificate to import..."
-msgstr ""
+msgstr "Veldu skilríki til að flytja inn..."
 
 #: ../smime/gui/certificate-manager.c:1001
 msgid "Failed to import certificate"
-msgstr ""
+msgstr "Mistókst að flytja inn skilríki"
 
 #: ../smime/gui/certificate-manager.c:1117
 msgctxt "CamelTrust"
 msgid "Ask when used"
-msgstr ""
+msgstr "Spyrja við notkun"
 
 #: ../smime/gui/certificate-manager.c:1119
-#, fuzzy
 #| msgid "Never"
 msgctxt "CamelTrust"
 msgid "Never"
@@ -23673,45 +23624,43 @@ msgstr "Aldrei"
 #: ../smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Marginal"
-msgstr ""
+msgstr "Á mörkunum"
 
 #: ../smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
 msgid "Fully"
-msgstr ""
+msgstr "Fullt"
 
 #: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
 msgid "Ultimate"
-msgstr ""
+msgstr "Hámarks"
 
 #: ../smime/gui/certificate-manager.c:1127
 msgctxt "CamelTrust"
 msgid "Temporary"
-msgstr ""
+msgstr "Tímabundið"
 
 #: ../smime/gui/certificate-manager.c:1333
-#, fuzzy
 msgid "Change certificate trust"
-msgstr "Valið:"
+msgstr "Breyta trausti skilríkis"
 
 #: ../smime/gui/certificate-manager.c:1345
 #, c-format
 msgid "Change trust for the host '%s':"
-msgstr ""
+msgstr "Breyta trausti hýsilvélar '%s':"
 
 #: ../smime/gui/certificate-manager.c:1369
 msgctxt "CamelTrust"
 msgid "_Ask when used"
-msgstr ""
+msgstr "Spyrja við _notkun"
 
 #: ../smime/gui/certificate-manager.c:1370
 msgctxt "CamelTrust"
 msgid "_Temporary (this session only)"
-msgstr ""
+msgstr "_Tímabundið (aðeins í þessari setu)"
 
 #: ../smime/gui/certificate-manager.c:1371
-#, fuzzy
 #| msgid "Never"
 msgctxt "CamelTrust"
 msgid "_Never"
@@ -23720,17 +23669,17 @@ msgstr "_Aldrei"
 #: ../smime/gui/certificate-manager.c:1372
 msgctxt "CamelTrust"
 msgid "_Marginal"
-msgstr ""
+msgstr "Á _mörkunum"
 
 #: ../smime/gui/certificate-manager.c:1373
 msgctxt "CamelTrust"
 msgid "_Fully"
-msgstr ""
+msgstr "_Fullt"
 
 #: ../smime/gui/certificate-manager.c:1374
 msgctxt "CamelTrust"
 msgid "_Ultimate"
-msgstr ""
+msgstr "_Hámarks"
 
 #: ../smime/gui/certificate-manager.c:1378
 msgid ""
@@ -23739,38 +23688,36 @@ msgid ""
 msgstr ""
 
 #: ../smime/gui/certificate-manager.c:1393
-#, fuzzy
 msgid "_Display certificate"
-msgstr "Valið:"
+msgstr "_Birta skilríki"
 
 #: ../smime/gui/certificate-manager.c:1598
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
 
 #: ../smime/gui/certificate-manager.c:1629
-#, fuzzy
 msgid "Host name"
-msgstr "Hýsilnafn:"
+msgstr "_Vélarheiti"
 
 #: ../smime/gui/certificate-manager.c:1631
 msgid "Issuer"
-msgstr ""
+msgstr "Útgefandi"
 
 #: ../smime/gui/certificate-manager.c:1632
 msgid "Fingerprint"
-msgstr ""
+msgstr "Fingrafar"
 
 #: ../smime/gui/certificate-manager.c:1633
 msgid "Trust"
-msgstr ""
+msgstr "Traust"
 
 #: ../smime/gui/certificate-manager.c:1654
 msgid "_Edit Trust"
-msgstr ""
+msgstr "Br_eyta trausti"
 
 #: ../smime/gui/certificate-manager.c:1973
 msgid "All PKCS12 files"
-msgstr ""
+msgstr "Allar PKCS12 skrár"
 
 #: ../smime/gui/certificate-manager.c:1990
 msgid "All email certificate files"
@@ -23797,12 +23744,12 @@ msgstr ""
 #: ../smime/gui/component.c:55
 #, c-format
 msgid "Enter the password for '%s', token '%s'"
-msgstr ""
+msgstr "Sláðu inn lykilorðið fyrir '%s', teikn '%s'"
 
 #: ../smime/gui/component.c:57
 #, c-format
 msgid "Enter the password for '%s'"
-msgstr ""
+msgstr "Sláðu inn lykilorðið fyrir '%s'"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:85
@@ -23811,11 +23758,11 @@ msgstr ""
 
 #: ../smime/gui/component.c:88
 msgid "Enter new password"
-msgstr ""
+msgstr "Sláðu inn nýtt lykilorð"
 
 #: ../smime/gui/e-cert-selector.c:180
 msgid "Select certificate"
-msgstr ""
+msgstr "Veldu skilríki"
 
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "You have certificates from these organizations that identify you:"
@@ -23823,20 +23770,20 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid "Certificates Table"
-msgstr ""
+msgstr "Tafla yfir skilríki"
 
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:7
 msgid "_Backup"
-msgstr ""
+msgstr "_Gera öryggisafrit"
 
 #: ../smime/gui/smime-ui.ui.h:8
 msgid "Backup _All"
-msgstr ""
+msgstr "Ger_a öryggisafrit af öllu"
 
 #: ../smime/gui/smime-ui.ui.h:11
 msgid "Your Certificates"
-msgstr ""
+msgstr "Skilríkin þín"
 
 #: ../smime/gui/smime-ui.ui.h:12
 msgid "You have certificates on file that identify these people:"
@@ -23853,23 +23800,23 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Authorities"
-msgstr ""
+msgstr "Vottunaraðilar"
 
 #: ../smime/gui/smime-ui.ui.h:17
 msgid "Certificate Authority Trust"
-msgstr ""
+msgstr "Traust vottunaraðila (CA)"
 
 #: ../smime/gui/smime-ui.ui.h:18
 msgid "Trust this CA to identify _websites."
-msgstr ""
+msgstr "Treysta þessum vottunaraðila til að auðkenna _vefsvæði."
 
 #: ../smime/gui/smime-ui.ui.h:19
 msgid "Trust this CA to identify _email users."
-msgstr ""
+msgstr "Treysta þessum vottunaraðila til að auðkenna _tölvupóstnotendur."
 
 #: ../smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _software developers."
-msgstr ""
+msgstr "Treysta þessum vottunaraðila til að auðkenna _hugbúnaðarframleiðendur."
 
 #: ../smime/gui/smime-ui.ui.h:21
 msgid ""
@@ -23879,7 +23826,7 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:25
 msgid "Certificate"
-msgstr ""
+msgstr "Skilríki"
 
 #: ../smime/gui/smime-ui.ui.h:26
 msgid "Email Certificate Trust Settings"
@@ -23895,24 +23842,24 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.ui.h:29
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "Br_eyta trausti vottunaraðila (CA)"
 
 #: ../smime/lib/e-cert.c:236 ../smime/lib/e-cert.c:248
 msgid "%d/%m/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:404
 msgid "Sign"
-msgstr ""
+msgstr "Undirrita"
 
 #: ../smime/lib/e-cert.c:405
 msgid "Encrypt"
-msgstr ""
+msgstr "Dulrita"
 
 #: ../smime/lib/e-cert-db.c:787
 msgid "Certificate already exists"
-msgstr ""
+msgstr "Skilríkið er þegar til"
 
 #: ../smime/lib/e-pkcs12.c:201
 msgid "PKCS12 File Password"
@@ -23949,16 +23896,15 @@ msgstr ""
 
 #: ../smime/lib/e-pkcs12.c:408
 msgid "Imported Certificate"
-msgstr ""
+msgstr "Innflutt skilríki"
 
 #: ../views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
 msgstr ""
 
 #: ../views/addressbook/galview.xml.h:2 ../views/calendar/galview.xml.h:5
-#, fuzzy
 msgid "_List View"
-msgstr "Listasýn"
+msgstr "_Listasýn"
 
 #: ../views/addressbook/galview.xml.h:3
 msgid "By _Company"
@@ -23981,9 +23927,8 @@ msgid "_Month View"
 msgstr ""
 
 #: ../views/mail/galview.xml.h:1
-#, fuzzy
 msgid "_Messages"
-msgstr "Skilaboð"
+msgstr "_Skilaboð"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -24014,9 +23959,8 @@ msgid "As Sent Folder for Wi_de View"
 msgstr ""
 
 #: ../views/memos/galview.xml.h:1
-#, fuzzy
 msgid "_Memos"
-msgstr "Minnismiðar"
+msgstr "_Minnismiðar"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Due Date"
