@@ -256,6 +256,11 @@ gboolean	e_tree_is_editing		(ETree *tree);
 gboolean	e_tree_get_grouped_view		(ETree *tree);
 void		e_tree_set_grouped_view		(ETree *tree,
 						 gboolean grouped_view);
+gboolean	e_tree_get_sort_children_ascending
+						(ETree *tree);
+void		e_tree_set_sort_children_ascending
+						(ETree *tree,
+						 gboolean sort_children_ascending);
 
 G_END_DECLS
 

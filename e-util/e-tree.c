@@ -103,7 +103,8 @@ enum {
 	PROP_HADJUSTMENT,
 	PROP_VADJUSTMENT,
 	PROP_HSCROLL_POLICY,
-	PROP_VSCROLL_POLICY
+	PROP_VSCROLL_POLICY,
+	PROP_SORT_CHILDREN_ASCENDING
 };
 
 enum {
@@ -208,6 +209,7 @@ struct _ETreePrivate {
 	gboolean is_dragging;
 
 	gboolean grouped_view;
+	gboolean sort_children_ascending;
 };
 
 static guint signals[LAST_SIGNAL];
@@ -1575,6 +1577,9 @@ et_connect_to_etta (ETree *tree)
 		tree->priv->etta, "model_rows_deleted",
 		G_CALLBACK (et_table_rows_deleted), tree);
 
+	g_object_bind_property (tree, "sort-children-ascending",
+		tree->priv->etta, "sort-children-ascending",
+		G_BINDING_DEFAULT);
 }
 
 static gboolean
@@ -1872,6 +1877,10 @@ et_get_property (GObject *object,
 			g_value_set_enum (value, 0);
 		break;
 
+	case PROP_SORT_CHILDREN_ASCENDING:
+		g_value_set_boolean (value, e_tree_get_sort_children_ascending (tree));
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -1980,6 +1989,10 @@ et_set_property (GObject *object,
 			g_object_set_property (
 				G_OBJECT (tree->priv->table_canvas),
 				"vscroll-policy", value);
+		break;
+
+	case PROP_SORT_CHILDREN_ASCENDING:
+		e_tree_set_sort_children_ascending (tree, g_value_get_boolean (value));
 		break;
 	}
 }
@@ -3162,6 +3175,16 @@ e_tree_class_init (ETreeClass *class)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SORT_CHILDREN_ASCENDING,
+		g_param_spec_boolean (
+			"sort-children-ascending",
+			"Sort Children Ascending",
+			"Always sort children tree nodes ascending",
+			FALSE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+
 	gtk_widget_class_install_style_property (
 		widget_class,
 		g_param_spec_int (
@@ -3364,4 +3387,26 @@ e_tree_get_grouped_view (ETree *tree)
 	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
 
 	return tree->priv->grouped_view;
+}
+
+gboolean
+e_tree_get_sort_children_ascending (ETree *tree)
+{
+	g_return_val_if_fail (E_IS_TREE (tree), FALSE);
+
+	return tree->priv->sort_children_ascending;
+}
+
+void
+e_tree_set_sort_children_ascending (ETree *tree,
+				    gboolean sort_children_ascending)
+{
+	g_return_if_fail (E_IS_TREE (tree));
+
+	if ((tree->priv->sort_children_ascending ? 1 : 0) == (sort_children_ascending ? 1 : 0))
+		return;
+
+	tree->priv->sort_children_ascending = sort_children_ascending;
+
+	g_object_notify (G_OBJECT (tree), "sort-children-ascending");
 }

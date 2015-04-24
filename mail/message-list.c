@@ -3099,6 +3099,7 @@ message_list_sort_value_at (ETreeModel *tree_model,
                             gint col)
 {
 	MessageList *message_list;
+	GNode *path_node;
 	struct LatestData ld;
 	gint64 *res;
 
@@ -3107,17 +3108,19 @@ message_list_sort_value_at (ETreeModel *tree_model,
 	if (!(col == COL_SENT || col == COL_RECEIVED))
 		return e_tree_model_value_at (tree_model, path, col);
 
-	if (G_NODE_IS_ROOT ((GNode *) path))
+	path_node = (GNode *) path;
+
+	if (G_NODE_IS_ROOT (path_node))
 		return NULL;
 
 	ld.sent = (col == COL_SENT);
 	ld.latest = 0;
 
 	latest_foreach (tree_model, path, &ld);
-	if (message_list->priv->thread_latest)
+	if (message_list->priv->thread_latest && (!e_tree_get_sort_children_ascending (E_TREE (message_list)) ||
+	    !path_node || !path_node->parent || !path_node->parent->parent))
 		e_tree_model_node_traverse (
 			tree_model, path, latest_foreach, &ld);
-
 
 	res = g_new0 (gint64, 1);
 	*res = (gint64) ld.latest;

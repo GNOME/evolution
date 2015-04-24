@@ -368,6 +368,11 @@
       <_summary>Whether sort threads based on latest message in that thread</_summary>
       <_description>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</_description>
     </key>
+    <key name="thread-children-ascending" type="b">
+      <default>true</default>
+      <_summary>Whether sort thread children always ascending</_summary>
+      <_description>This setting specifies whether the thread children should be sorted always ascending, rather than using the same sort order as in the thread root level.</_description>
+    </key>
     <key name="sort-accounts-alpha" type="b">
       <default>true</default>
       <_summary>Sort accounts alphabetically in a folder tree</_summary>
