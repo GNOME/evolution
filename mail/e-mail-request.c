@@ -156,6 +156,11 @@ handle_mail_request (GSimpleAsyncResult *simple,
 			dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 			g_return_if_fail (dw);
 
+			if (!mime_type) {
+				g_free (request->priv->mime_type);
+				request->priv->mime_type = camel_data_wrapper_get_mime_type (dw);
+			}
+
 			camel_data_wrapper_decode_to_output_stream_sync (
 				dw, output_stream, cancellable, NULL);
 
