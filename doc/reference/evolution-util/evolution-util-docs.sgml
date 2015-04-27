@@ -252,7 +252,6 @@
     <xi:include href="xml/e-buffer-tagger.xml"/>
     <xi:include href="xml/e-calendar-item.xml"/>
     <xi:include href="xml/e-calendar.xml"/>
-    <xi:include href="xml/e-cell-renderer-color.xml"/>
     <xi:include href="xml/e-charset-combo-box.xml"/>
     <xi:include href="xml/e-contact-store.xml"/>
     <xi:include href="xml/e-data-capture.xml"/>
