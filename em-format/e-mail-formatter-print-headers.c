@@ -107,7 +107,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 			e_mail_formatter_format_header (
 				formatter, str,
 				header_name, header_value,
-				E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS,
+				E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS | E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE,
 				"UTF-8");
 
 		g_free (header_name);
