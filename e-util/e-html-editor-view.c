@@ -1166,8 +1166,10 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 			if (node && WEBKIT_DOM_IS_ELEMENT (node)) {
 				remove_quoting_from_element (WEBKIT_DOM_ELEMENT (node));
 				remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (node));
-				node = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
-					selection, WEBKIT_DOM_ELEMENT (node), length));
+
+				if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph"))
+					node = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
+						selection, WEBKIT_DOM_ELEMENT (node), length));
 				e_html_editor_view_quote_plain_text_element_after_wrapping (
 					document, WEBKIT_DOM_ELEMENT (node), citation_level);
 			}
