@@ -32,8 +32,8 @@
 #include "e-mail-inline-filter.h"
 #include "e-mail-part-headers.h"
 
-#define HEADER_PREFIX "<span class=\"-x-evo-to-body\" data-headers><pre>"
-#define HEADER_SUFFIX "</pre></span>"
+#define HEADER_PREFIX "<div class=\"-x-evo-paragraph\" data-headers>"
+#define HEADER_SUFFIX "</div>"
 
 typedef EMailFormatterExtension EMailFormatterQuoteHeaders;
 typedef EMailFormatterExtensionClass EMailFormatterQuoteHeadersClass;
