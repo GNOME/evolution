@@ -1676,6 +1676,12 @@ cal_data_model_remove_client_view (ECalDataModel *data_model,
 			cal_data_model_notify_remove_components_cb, &nrc_data);
 		g_hash_table_remove_all (view_data->components);
 
+		if (view_data->lost_components) {
+			g_hash_table_foreach (view_data->lost_components,
+				cal_data_model_notify_remove_components_cb, &nrc_data);
+			g_hash_table_remove_all (view_data->lost_components);
+		}
+
 		cal_data_model_thaw_all_subscribers (data_model);
 
 		if (view_data->view)
