@@ -402,19 +402,19 @@ An mbox account will be created to preserve the old mbox folders. You can delete
   <error id="ask-folder-drop-copy" type="question" default="GTK_RESPONSE_YES">
     <_primary>Copy folder in folder tree.</_primary>
     <_secondary xml:space="preserve">Are you sure you want to copy folder '{0}' to folder '{1}'?</_secondary>
-    <button _label="_Yes" response="GTK_RESPONSE_YES"/>
-    <button _label="_No" response="GTK_RESPONSE_NO"/>
-    <button _label="_Always" response="GTK_RESPONSE_OK"/>
-    <button _label="N_ever" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Copy" response="GTK_RESPONSE_YES"/>
+    <button _label="Do _not copy" response="GTK_RESPONSE_NO"/>
+    <button _label="_Always copy" response="GTK_RESPONSE_OK"/>
+    <button _label="N_ever copy" response="GTK_RESPONSE_CANCEL"/>
   </error>
 
   <error id="ask-folder-drop-move" type="question" default="GTK_RESPONSE_YES">
     <_primary>Move folder in folder tree.</_primary>
     <_secondary xml:space="preserve">Are you sure you want to to move folder '{0}' to folder '{1}'?</_secondary>
-    <button _label="_Yes" response="GTK_RESPONSE_YES"/>
-    <button _label="_No" response="GTK_RESPONSE_NO"/>
-    <button _label="_Always" response="GTK_RESPONSE_OK"/>
-    <button _label="N_ever" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Move" response="GTK_RESPONSE_YES"/>
+    <button _label="Do _not move" response="GTK_RESPONSE_NO"/>
+    <button _label="_Always move" response="GTK_RESPONSE_OK"/>
+    <button _label="N_ever move" response="GTK_RESPONSE_CANCEL"/>
   </error>
 
   <error id="send-no-account-enabled" type="warning">
