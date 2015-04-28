@@ -974,10 +974,14 @@ fill_component (RecurrencePage *rpage,
 		e_cal_component_set_exrule_list (comp, NULL);
 		simple_recur_to_comp (rpage, comp);
 	} else {
+		gboolean had_recurrences = e_cal_component_has_recurrences (comp);
+
 		e_cal_component_set_rdate_list (comp, NULL);
 		e_cal_component_set_rrule_list (comp, NULL);
 		e_cal_component_set_exrule_list (comp, NULL);
-		e_cal_component_set_recurid (comp, NULL);
+
+		if (had_recurrences)
+			e_cal_component_set_recurid (comp, NULL);
 	}
 
 	/* Set exceptions */
