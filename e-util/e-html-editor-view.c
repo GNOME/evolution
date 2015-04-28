@@ -6129,6 +6129,13 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					"<br class=\"-x-evo-first-br\">");
 			} else
 				preserve_next_line = FALSE;
+		} else if (first_element) {
+			paragraph = create_and_append_new_paragraph (
+				selection,
+				document,
+				blockquote,
+				block,
+				"<br class=\"-x-evo-first-br\">");
 		} else
 			preserve_next_line = FALSE;
  next:
@@ -6156,9 +6163,12 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			if (child) {
 				child = webkit_dom_node_get_first_child (child);
 				if (child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (child)) {
-					element_add_class (
-						WEBKIT_DOM_ELEMENT (child),
-						"-x-evo-last-br");
+					/* If the processed HTML contained just
+					 * the BR don't overwrite its class. */
+					if (!element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-first-br"))
+						element_add_class (
+							WEBKIT_DOM_ELEMENT (child),
+							"-x-evo-last-br");
 				} else if (!view->priv->is_editting_message)
 					create_and_append_new_paragraph (
 						selection, document, blockquote, block, "<br>");
@@ -7072,14 +7082,14 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	element = webkit_dom_document_query_selector (
 		document, "* > br.-x-evo-first-br", NULL);
 	if (element) {
-		WebKitDOMNode *next_sibling;
+		WebKitDOMNode *sibling;
 		WebKitDOMNode *parent;
 
 		parent = webkit_dom_node_get_parent_node (
 			WEBKIT_DOM_NODE (element));
 
-		next_sibling = webkit_dom_node_get_next_sibling (parent);
-		if (next_sibling)
+		sibling = webkit_dom_node_get_previous_sibling (parent);
+		if (sibling)
 			remove_node (WEBKIT_DOM_NODE (parent));
 		else
 			webkit_dom_element_remove_attribute (element, "class");
@@ -7187,14 +7197,20 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
 		if (webkit_dom_node_is_equal_node (clone1, clone2)) {
 			fix_structure_after_pasting_multiline_content (paragraph);
-			if (*html != '\n')
-				remove_node (parent);
+			if (g_strcmp0 (html, "\n") == 0) {
+				WebKitDOMElement *br;
 
-			webkit_dom_node_insert_before (
-				parent,
-				WEBKIT_DOM_NODE (selection_start_marker),
-				webkit_dom_node_get_last_child (parent),
-				NULL);
+				br = webkit_dom_document_create_element (document, "br", NULL);
+				webkit_dom_node_append_child (
+					parent, WEBKIT_DOM_NODE (br), NULL);
+
+				webkit_dom_node_insert_before (
+					parent,
+					WEBKIT_DOM_NODE (selection_start_marker),
+					webkit_dom_node_get_last_child (parent),
+					NULL);
+			} else
+				remove_node (parent);
 		}
 
 		g_object_unref (clone1);
