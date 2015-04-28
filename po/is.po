@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-03-25 08:05+0000\n"
-"PO-Revision-Date: 2015-04-24 12:04+0000\n"
+"PO-Revision-Date: 2015-04-28 14:10+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -23576,12 +23576,10 @@ msgid ""
 msgstr ""
 
 #: ../smime/gui/certificate-manager.c:786
-#, fuzzy
 msgid "_Repeat Password:"
-msgstr "%sLykilorð fyrir %s (notandann %s)"
+msgstr "Endu_rtaka lykilorð"
 
 #: ../smime/gui/certificate-manager.c:805
-#, fuzzy
 msgid "Passwords do not match"
 msgstr "Lykilorðin stemma ekki"
 
