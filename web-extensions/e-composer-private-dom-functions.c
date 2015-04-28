@@ -273,6 +273,9 @@ composer_move_caret (WebKitDOMDocument *document,
 		webkit_dom_range_collapse (new_range, TRUE, NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, new_range);
+
+		if (start_bottom)
+			dom_scroll_to_caret (document);
 	}
 
 	dom_force_spell_check (document, extension);
