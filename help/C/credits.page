@@ -39,8 +39,8 @@ Phil Bull
 
 <section id="translators">
 <title>Translators of the <app>Evolution</app> User Documentation</title>
-<!-- TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Do NOT use "\n" for linebreaks or square brakets (<>) for potential email addresses here as this will not work. Thanks for all your hard work! andre -->
-<p its:locNote="TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Do NOT use '\n' for linebreaks or square brakets for potential email addresses here as this will not work. Thanks for all your hard work! andre">(Not applicable to the English version)</p>
+<!-- TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Do NOT use "\n" for linebreaks or square brackets (<>) for potential email addresses here as this will not work. Thanks for all your hard work! andre -->
+<p its:locNote="TO TRANSLATORS: This is shown in the 'Translators of the User Documentation' section. Please REPLACE this string by adding your own names here so you get some well-deserved fame on the interwebs! Do NOT use '\n' for linebreaks or square brackets for potential email addresses here as this will not work. Thanks for all your hard work! andre">(Not applicable to the English version)</p>
 </section>
 
 <section id="previous">

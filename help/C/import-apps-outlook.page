@@ -23,7 +23,7 @@
   <title>Outlook</title>
 <!-- "Import data and settings from older programs" cannot recognize Outlook, as there obviously is no default storage location for Outlook *under Linux* -->
 
-<p>These steps refer to locally stored data such as POP accounts. For remote data (like IMAP) this is not necessary, since the data is still on the server and does not need to be manually transfered. You can set up the corresponding account in Evolution and the data will be downloaded.</p>
+<p>These steps refer to locally stored data such as POP accounts. For remote data (like IMAP) this is not necessary, since the data is still on the server and does not need to be manually transferred. You can set up the corresponding account in Evolution and the data will be downloaded.</p>
 
 <section id="prerequisites">
 <title>Prerequisites under Windows</title>
