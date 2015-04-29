@@ -279,10 +279,12 @@ static gint
 mail_importer_elm_import (EImport *ei,
                           EImportTarget *target)
 {
+	GCancellable *cancellable;
 	struct _elm_import_msg *m;
 	gint id;
 
-	m = mail_msg_new (&elm_import_info);
+	cancellable = camel_operation_new ();
+	m = mail_msg_new_with_cancellable (&elm_import_info, cancellable);
 	g_datalist_set_data (&target->data, "elm-msg", m);
 	m->import = ei;
 	g_object_ref (m->import);
@@ -290,7 +292,7 @@ mail_importer_elm_import (EImport *ei,
 	m->status_timeout_id =
 		e_named_timeout_add (100, elm_status_timeout, m);
 	g_mutex_init (&m->status_lock);
-	m->status = camel_operation_new ();
+	m->status = cancellable;
 
 	g_signal_connect (
 		m->status, "status",

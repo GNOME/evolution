@@ -351,10 +351,12 @@ static gint
 mail_importer_pine_import (EImport *ei,
                            EImportTarget *target)
 {
+	GCancellable *cancellable;
 	struct _pine_import_msg *m;
 	gint id;
 
-	m = mail_msg_new (&pine_import_info);
+	cancellable = camel_operation_new ();
+	m = mail_msg_new_with_cancellable (&pine_import_info, cancellable);
 	g_datalist_set_data (&target->data, "pine-msg", m);
 	m->import = ei;
 	g_object_ref (m->import);
@@ -362,7 +364,7 @@ mail_importer_pine_import (EImport *ei,
 	m->status_timeout_id = e_named_timeout_add (
 		100, pine_status_timeout, m);
 	g_mutex_init (&m->status_lock);
-	m->cancellable = camel_operation_new ();
+	m->cancellable = cancellable;
 
 	g_signal_connect (
 		m->cancellable, "status",

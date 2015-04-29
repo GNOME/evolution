@@ -86,6 +86,8 @@ gboolean mail_in_main_thread (void);
 
 /* allocate a new message */
 gpointer mail_msg_new (MailMsgInfo *info);
+gpointer mail_msg_new_with_cancellable (MailMsgInfo *info,
+					GCancellable *cancellable);
 gpointer mail_msg_ref (gpointer msg);
 void mail_msg_unref (gpointer msg);
 void mail_msg_check_error (gpointer msg);
