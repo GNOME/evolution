@@ -2475,7 +2475,6 @@ fix_structure_after_pasting_multiline_content (WebKitDOMNode *node)
 				NULL);
 		first_child = next_child;
 	}
-	remove_node (parent);
 }
 
 void
@@ -3866,7 +3865,9 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 						WEBKIT_DOM_ELEMENT (child),
 						"-x-evo-last-br");
 				}
-			}
+			} else
+				create_and_append_new_paragraph (
+					document, extension, blockquote, block, "<br>");
 			g_free (truncated);
 			goto end;
 		}
@@ -4614,10 +4615,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	inner_html = webkit_dom_element_get_inner_html (element);
 	dom_exec_command (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
-	g_free (inner_html);
 
-	inner_html = webkit_dom_html_element_get_inner_text (
-		WEBKIT_DOM_HTML_ELEMENT (element));
 	if (g_str_has_suffix (inner_html, " "))
 		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, " ");
 
@@ -4695,8 +4693,10 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 			node = parent;
 		} else {
 			node = webkit_dom_node_get_next_sibling (parent);
-			if (!node)
+			if (!node) {
 				fix_structure_after_pasting_multiline_content (parent);
+				remove_node (parent);
+			}
 		}
 
 		if (node) {
@@ -4740,8 +4740,17 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		/* Check if WebKit created wrong structure */
 		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (paragraph), FALSE);
 		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
-		if (webkit_dom_node_is_equal_node (clone1, clone2))
+		if (webkit_dom_node_is_equal_node (clone1, clone2)) {
 			fix_structure_after_pasting_multiline_content (paragraph);
+			if (*html != '\n')
+				remove_node (parent);
+
+			webkit_dom_node_insert_before (
+				parent,
+				WEBKIT_DOM_NODE (selection_start_marker),
+				webkit_dom_node_get_last_child (parent),
+				NULL);
+		}
 
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (
