@@ -26,6 +26,7 @@
 
 #include "e-mail-inline-filter.h"
 #include "e-mail-parser-extension.h"
+#include "e-mail-part-attachment.h"
 #include "e-mail-part-utils.h"
 
 typedef EMailParserExtension EMailParserTextPlain;
@@ -160,13 +161,51 @@ empe_text_plain_parse (EMailParserExtension *extension,
 	g_object_unref (filtered_stream);
 
 	if (!e_mail_inline_filter_found_any (inline_filter)) {
+		gboolean handled = FALSE;
+
+		is_attachment = e_mail_part_is_attachment (part);
+
+		if (is_attachment && CAMEL_IS_MIME_MESSAGE (part) &&
+		    !(camel_content_type_is (dw->mime_type, "text", "*")
+		     && camel_mime_part_get_filename (part) == NULL)) {
+			EMailPartAttachment *empa;
+
+			/* The main message part has a Content-Disposition header */
+			is_attachment = FALSE;
+
+			e_mail_parser_wrap_as_attachment (parser, part, part_id, out_mail_parts);
+
+			/* attachments are added to the head */
+			empa = g_queue_peek_head (out_mail_parts);
+			g_warn_if_fail (E_IS_MAIL_PART_ATTACHMENT (empa));
+
+			if (E_IS_MAIL_PART_ATTACHMENT (empa)) {
+				EAttachment *attachment;
+				CamelMimePart *att_part;
+
+				empa->shown = FALSE;
+				attachment = e_mail_part_attachment_ref_attachment (empa);
+				e_attachment_set_shown (attachment, FALSE);
+				e_attachment_set_can_show (attachment, FALSE);
+
+				att_part = e_attachment_ref_mime_part (attachment);
+				if (att_part)
+					camel_mime_part_set_disposition (att_part, NULL);
+
+				g_clear_object (&att_part);
+				g_clear_object (&attachment);
+			}
+
+			handled = TRUE;
+		}
+
 		g_object_unref (inline_filter);
 		camel_content_type_unref (type);
 
 		return process_part (
 			parser, part_id, 0,
-			part, e_mail_part_is_attachment (part),
-			cancellable, out_mail_parts);
+			part, is_attachment,
+			cancellable, out_mail_parts) || handled;
 	}
 
 	mp = e_mail_inline_filter_get_multipart (inline_filter);
