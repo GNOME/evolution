@@ -22,6 +22,12 @@
 #include "e-html-editor-history-event.h"
 #include "e-html-editor-selection-dom-functions.h"
 
+#define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDocumentFragmentUnstable.h>
+#include <webkitdom/WebKitDOMRangeUnstable.h>
+#include <webkitdom/WebKitDOMDOMSelection.h>
+#include <webkitdom/WebKitDOMDOMWindowUnstable.h>
+
 static WebKitDOMElement *
 get_table_cell_element (WebKitDOMDocument *document)
 {
@@ -352,4 +358,50 @@ e_html_editor_dialog_insert_row_below (WebKitDOMDocument *document,
 	g_object_unref (cells);
 
 	save_history_for_table (document, extension, table, ev);
+}
+
+void
+dom_save_history_for_cut (WebKitDOMDocument *document,
+                          EHTMLEditorWebExtension *extension)
+{
+	EHTMLEditorHistoryEvent *ev;
+	EHTMLEditorUndoRedoManager *manager;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+		return;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	if (webkit_dom_range_get_collapsed (range, NULL))
+		return;
+
+	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
+	ev->type = HISTORY_DELETE;
+
+	dom_selection_get_coordinates (
+		document,
+		&ev->before.start.x,
+		&ev->before.start.y,
+		&ev->before.end.x,
+		&ev->before.end.y);
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+
+	ev->after.start.x = ev->before.start.x;
+	ev->after.start.y = ev->before.start.y;
+	ev->after.end.x = ev->before.start.x;
+	ev->after.end.y = ev->before.start.y;
+
+	/* Save the fragment. */
+	fragment = webkit_dom_range_clone_contents (range, NULL);
+	ev->data.fragment = g_object_ref (fragment);
+
+	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
+	e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 }

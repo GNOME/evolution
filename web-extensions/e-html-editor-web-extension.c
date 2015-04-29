@@ -435,6 +435,9 @@ static const char introspection_xml[] =
 "    <method name='EHTMLEditorDialogDOMUnlink'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
+"    <method name='EHTMLEditorDialogSaveHistoryForCut'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorView            -->"
 "<!-- ********************************************************* -->"
@@ -1542,6 +1545,30 @@ handle_method_call (GDBusConnection *connection,
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_unlink (document, extension);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogSaveHistoryForCut") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_unlink (document, extension);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "EHTMLEditorDialogSaveHistoryForCut") == 0) {
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_save_history_for_cut (document, extension);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "TableCellElementGetNoWrap") == 0) {

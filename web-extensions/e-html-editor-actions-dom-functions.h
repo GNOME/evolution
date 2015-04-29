@@ -57,6 +57,8 @@ void		e_html_editor_dialog_insert_row_below
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
+void		dom_save_history_for_cut	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_ACTIONS_DOM_FUNCTIONS_H */

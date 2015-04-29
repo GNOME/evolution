@@ -264,7 +264,10 @@ action_cut_cb (GtkAction *action,
 	EHTMLEditorView *view = e_html_editor_get_view (editor);
 
 	if (!gtk_widget_has_focus (GTK_WIDGET (view)))
-		gtk_widget_grab_focus (GTK_WIDGET (view));
+		return;
+
+	html_editor_call_simple_extension_function (
+		editor, "EHTMLEditorActionsSaveHistoryForCut");
 
 	webkit_web_view_execute_editing_command (
 		WEBKIT_WEB_VIEW (view), WEBKIT_EDITING_COMMAND_CUT);
