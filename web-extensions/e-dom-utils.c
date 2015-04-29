@@ -124,7 +124,7 @@ e_dom_utils_get_document_content_html (WebKitDOMDocument *document)
 
 	element = webkit_dom_document_get_document_element (document);
 
-	return webkit_dom_html_element_get_outer_html (WEBKIT_DOM_HTML_ELEMENT (element));
+	return webkit_dom_element_get_outer_html (element);
 }
 
 static gboolean
@@ -184,8 +184,7 @@ get_frame_selection_html (WebKitDOMElement *iframe)
 				WEBKIT_DOM_NODE (element),
 				WEBKIT_DOM_NODE (fragment), NULL);
 
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element));
+			inner_html = webkit_dom_element_get_inner_html (element);
 
 			node = webkit_dom_range_get_start_container (range, NULL);
 			if (element_is_in_pre_tag (node)) {
@@ -1030,8 +1029,7 @@ e_dom_utils_element_set_inner_html (WebKitDOMDocument *document,
 	if (!element)
 		return;
 
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), inner_html, NULL);
+	webkit_dom_element_set_inner_html (element, inner_html, NULL);
 }
 
 void
@@ -1309,8 +1307,7 @@ e_dom_utils_module_vcard_inline_update_button (WebKitDOMDocument *document,
 	if (!element)
 		return;
 
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), html_label, NULL);
+	webkit_dom_element_set_inner_html (element, html_label, NULL);
 
 	if (access_key) {
 		webkit_dom_html_element_set_access_key (

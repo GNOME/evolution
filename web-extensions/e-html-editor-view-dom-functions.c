@@ -405,8 +405,8 @@ dom_quote_plain_text_element_after_wrapping (WebKitDOMDocument *document,
 	webkit_dom_element_set_class_name (
 		WEBKIT_DOM_ELEMENT (quoted_node), "-x-evo-quoted");
 	quotation = get_quotation_for_level (quote_level);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (quoted_node), quotation, NULL);
+	webkit_dom_element_set_inner_html (
+		WEBKIT_DOM_ELEMENT (quoted_node), quotation, NULL);
 
 	list = webkit_dom_element_query_selector_all (
 		element, "br.-x-evo-wrap-br", NULL);
@@ -615,10 +615,8 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 
 	if (html_to_insert && *html_to_insert) {
 		paragraph = dom_prepare_paragraph (document, extension, FALSE);
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (paragraph),
-			html_to_insert,
-			NULL);
+		webkit_dom_element_set_inner_html (
+			paragraph, html_to_insert, NULL);
 		dom_add_selection_markers_into_element_end (
 			document, paragraph, NULL, NULL);
 	} else
@@ -846,10 +844,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 		/* Create and prepare new anchor element */
 		anchor = webkit_dom_document_create_element (document, "A", NULL);
 
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (anchor),
-			url_text,
-			NULL);
+		webkit_dom_element_set_inner_html (anchor, url_text, NULL);
 
 		webkit_dom_html_anchor_element_set_href (
 			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (anchor),
@@ -926,8 +921,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 				gchar *inner_html, *protocol, *new_href;
 
 				protocol = g_strndup (href, strstr (href, "://") - href + 3);
-				inner_html = webkit_dom_html_element_get_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (parent));
+				inner_html = webkit_dom_element_get_inner_html (parent);
 				new_href = g_strconcat (
 					protocol, inner_html, appending_to_link ? text_to_append : "", NULL);
 
@@ -958,8 +952,7 @@ dom_check_magic_links (WebKitDOMDocument *document,
 				gchar *inner_html;
 				gchar *new_href;
 
-				inner_html = webkit_dom_html_element_get_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (parent));
+				inner_html = webkit_dom_element_get_inner_html (parent);
 				new_href = g_strconcat (
 						inner_html,
 						appending_to_link ? text_to_append : "",
@@ -1008,7 +1001,7 @@ dom_embed_style_sheet (WebKitDOMDocument *document,
 		"text/css",
 		NULL);
 
-	webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (sheet), style_sheet_content, NULL);
+	webkit_dom_element_set_inner_html (sheet, style_sheet_content, NULL);
 }
 
 void
@@ -1595,9 +1588,8 @@ fix_paragraph_structure_after_pressing_enter_after_smiley (WebKitDOMDocument *do
 		WebKitDOMNode *parent;
 
 		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (
-				webkit_dom_node_get_parent_node (parent)),
+		webkit_dom_element_set_inner_html (
+			webkit_dom_node_get_parent_element (parent),
 			UNICODE_ZERO_WIDTH_SPACE,
 			NULL);
 	}
@@ -2264,8 +2256,8 @@ disable_quote_marks_select (WebKitDOMDocument *document)
 		style_element = webkit_dom_document_create_element (document, "style", NULL);
 		webkit_dom_element_set_id (style_element, "-x-evo-quote-style");
 		webkit_dom_element_set_attribute (style_element, "type", "text/css", NULL);
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (style_element),
+		webkit_dom_element_set_inner_html (
+			style_element,
 			".-x-evo-quoted { -webkit-user-select: none; }",
 			NULL);
 		webkit_dom_node_append_child (
@@ -2445,10 +2437,8 @@ dom_quote_and_insert_text_into_selection (WebKitDOMDocument *document,
 	 * <textarea> automatically replaces all these unsafe characters
 	 * by &lt;, &gt; etc. */
 	element = webkit_dom_document_create_element (document, "textarea", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), text, NULL);
-	escaped_text = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+	webkit_dom_element_set_inner_html (element, text, NULL);
+	escaped_text = webkit_dom_element_get_inner_html (element);
 
 	element = webkit_dom_document_create_element (document, "pre", NULL);
 
@@ -2593,8 +2583,7 @@ dom_change_quoted_block_to_normal (WebKitDOMDocument *document,
 		gchar *inner_html;
 		WebKitDOMElement *paragraph;
 
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (block));
+		inner_html = webkit_dom_element_get_inner_html (block);
 		webkit_dom_element_set_id (
 			WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
 
@@ -2748,7 +2737,7 @@ prevent_from_deleting_last_element_in_body (WebKitDOMDocument *document)
 }
 
 static void
-insert_quote_symbols (WebKitDOMHTMLElement *element,
+insert_quote_symbols (WebKitDOMElement *element,
                       gint quote_level,
                       gboolean skip_first,
                       gboolean insert_newline)
@@ -2758,10 +2747,10 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
 	GString *output;
 	gchar *quotation;
 
-	if (!WEBKIT_DOM_IS_HTML_ELEMENT (element))
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
 		return;
 
-	text = webkit_dom_html_element_get_inner_html (element);
+	text = webkit_dom_element_get_inner_html (element);
 	output = g_string_new ("");
 	quotation = get_quotation_for_level (quote_level);
 
@@ -2803,7 +2792,7 @@ insert_quote_symbols (WebKitDOMHTMLElement *element,
 		g_strfreev (lines);
 	}
 
-	webkit_dom_html_element_set_inner_html (element, output->str, NULL);
+	webkit_dom_element_set_inner_html (element, output->str, NULL);
  exit:
 	g_free (quotation);
 	g_free (text);
@@ -2828,9 +2817,8 @@ quote_node (WebKitDOMDocument *document,
 	if (WEBKIT_DOM_IS_COMMENT (node))
 		return;
 
-	if (WEBKIT_DOM_IS_HTML_ELEMENT (node)) {
-		insert_quote_symbols (
-			WEBKIT_DOM_HTML_ELEMENT (node), quote_level, FALSE, FALSE);
+	if (WEBKIT_DOM_IS_ELEMENT (node)) {
+		insert_quote_symbols (WEBKIT_DOM_ELEMENT (node), quote_level, FALSE, FALSE);
 		return;
 	}
 
@@ -2864,7 +2852,7 @@ quote_node (WebKitDOMDocument *document,
 		NULL);
 
 	insert_quote_symbols (
-		WEBKIT_DOM_HTML_ELEMENT (wrapper),
+		wrapper,
 		quote_level,
 		skip_first,
 		insert_newline);
@@ -2889,8 +2877,7 @@ insert_quote_symbols_before_node (WebKitDOMDocument *document,
 	quotation = get_quotation_for_level (quote_level);
 	element = webkit_dom_document_create_element (document, "SPAN", NULL);
 	element_add_class (element, "-x-evo-quoted");
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element), quotation, NULL);
+	webkit_dom_element_set_inner_html (element, quotation, NULL);
 
 	/* Don't insert temporary BR before BR that is used for wrapping */
 	skip = WEBKIT_DOM_IS_HTML_BR_ELEMENT (node);
@@ -2962,8 +2949,8 @@ quote_br_node (WebKitDOMNode *node,
 		"</span><br class=\"-x-evo-temp-br\">",
 		NULL);
 
-	webkit_dom_html_element_set_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (node),
+	webkit_dom_element_set_outer_html (
+		WEBKIT_DOM_ELEMENT (node),
 		content,
 		NULL);
 
@@ -3490,10 +3477,7 @@ create_and_append_new_paragraph (WebKitDOMDocument *document,
 	else
 		paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (block, FALSE));
 
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (paragraph),
-		content,
-		NULL);
+	webkit_dom_element_set_inner_html (paragraph, content, NULL);
 
 	append_new_paragraph (parent, &paragraph);
 
@@ -3524,8 +3508,7 @@ get_decoded_line_length (WebKitDOMDocument *document,
 	WebKitDOMNode *node;
 
 	decode = webkit_dom_document_create_element (document, "DIV", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (decode), line_text, NULL);
+	webkit_dom_element_set_inner_html (decode, line_text, NULL);
 
 	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (decode));
 	while (node) {
@@ -3603,8 +3586,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 	gboolean preserve_next_line = FALSE;
 	gboolean has_citation = FALSE;
 
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (blockquote), "", NULL);
+	webkit_dom_element_set_inner_html (blockquote, "", NULL);
 
 	prev_br = html;
 	next_br = strstr (prev_br, "<br>");
@@ -3726,8 +3708,7 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 					       paragraph = WEBKIT_DOM_ELEMENT (webkit_dom_node_clone_node (block, FALSE));
 			       }
 
-				html = webkit_dom_html_element_get_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (paragraph));
+				html = webkit_dom_element_get_inner_html (paragraph);
 
 				content_to_append = g_strconcat (
 					html && *html ? " " : "",
@@ -3888,14 +3869,12 @@ parse_html_into_paragraphs (WebKitDOMDocument *document,
 		GString *start, *end;
 
 		/* Replace text markers with actual HTML blockquotes */
-		inner_html = webkit_dom_html_element_get_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (blockquote));
+		inner_html = webkit_dom_element_get_inner_html (blockquote);
 		start = e_str_replace_string (
 			inner_html, "##CITATION_START##","<blockquote type=\"cite\">");
 		end = e_str_replace_string (
 			start->str, "##CITATION_END##", "</blockquote>");
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (blockquote), end->str, NULL);
+		webkit_dom_element_set_inner_html (blockquote, end->str, NULL);
 
 		g_free (inner_html);
 		g_string_free (start, TRUE);
@@ -3914,15 +3893,13 @@ mark_citation (WebKitDOMElement *citation)
 {
 	gchar *inner_html, *surrounded;
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (citation));
+	inner_html = webkit_dom_element_get_inner_html (citation);
 
 	surrounded = g_strconcat (
 		"<span>##CITATION_START##</span>", inner_html,
 		"<span>##CITATION_END##</span>", NULL);
 
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (citation), surrounded, NULL);
+	webkit_dom_element_set_inner_html (citation, surrounded, NULL);
 
 	element_add_class (citation, "marked");
 
@@ -4228,8 +4205,7 @@ dom_convert_content (WebKitDOMDocument *document,
 		g_free (inner_text);
 	}
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (content_wrapper));
+	inner_html = webkit_dom_element_get_inner_html (content_wrapper);
 
 	/* Replace the old body with the new one. */
 	node = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (body), FALSE);
@@ -4382,8 +4358,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	if (is_html) {
 		gchar *inner_text;
 
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
+		webkit_dom_element_set_inner_html (element, html, NULL);
 		inner_text = webkit_dom_html_element_get_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element));
 		webkit_dom_html_element_set_inner_text (
@@ -4394,8 +4369,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 		webkit_dom_html_element_set_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+	inner_html = webkit_dom_element_get_inner_html (element);
 	parse_html_into_paragraphs (document, extension, element, current_block, inner_html);
 
 	g_free (inner_html);
@@ -4578,8 +4552,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (selection_start_marker));
 	remove_node (WEBKIT_DOM_NODE (selection_end_marker));
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+	inner_html = webkit_dom_element_get_inner_html (element);
 	dom_exec_command (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
 	g_free (inner_html);
@@ -4772,8 +4745,8 @@ process_blockquote (WebKitDOMElement *blockquote)
 
 		quoted_node = webkit_dom_node_list_item (list, jj);
 		text_content = webkit_dom_node_get_text_content (quoted_node);
-		webkit_dom_html_element_set_outer_html (
-			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
+		webkit_dom_element_set_outer_html (
+			WEBKIT_DOM_ELEMENT (quoted_node), text_content, NULL);
 
 		g_free (text_content);
 		g_object_unref (quoted_node);
@@ -4790,8 +4763,8 @@ process_blockquote (WebKitDOMElement *blockquote)
 
 		quoted_node = webkit_dom_node_list_item (list, jj);
 		text_content = webkit_dom_node_get_text_content (quoted_node);
-		webkit_dom_html_element_set_outer_html (
-			WEBKIT_DOM_HTML_ELEMENT (quoted_node), text_content, NULL);
+		webkit_dom_element_set_outer_html (
+			WEBKIT_DOM_ELEMENT (quoted_node), text_content, NULL);
 
 		g_free (text_content);
 		g_object_unref (quoted_node);
@@ -5421,8 +5394,8 @@ process_elements (EHTMLEditorWebExtension *extension,
 		/* Leave blockquotes as they are */
 		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (child)) {
 			if (changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_outer_html (
-					WEBKIT_DOM_HTML_ELEMENT (child));
+				content = webkit_dom_element_get_outer_html (
+					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
@@ -5452,8 +5425,8 @@ process_elements (EHTMLEditorWebExtension *extension,
 		    WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (child)) {
 			if (to_plain_text) {
 				if (changing_mode) {
-					content = webkit_dom_html_element_get_outer_html (
-						WEBKIT_DOM_HTML_ELEMENT (child));
+					content = webkit_dom_element_get_outer_html (
+						WEBKIT_DOM_ELEMENT (child));
 					g_string_append (buffer, content);
 					g_free (content);
 				} else {
@@ -5485,8 +5458,8 @@ process_elements (EHTMLEditorWebExtension *extension,
 		/* Leave paragraphs as they are */
 		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-paragraph")) {
 			if (changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_outer_html (
-					WEBKIT_DOM_HTML_ELEMENT (child));
+				content = webkit_dom_element_get_outer_html (
+					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
@@ -5520,8 +5493,8 @@ process_elements (EHTMLEditorWebExtension *extension,
 				skip_nl = TRUE;
 			}
 			if (to_plain_text && changing_mode) {
-				content = webkit_dom_html_element_get_outer_html (
-					WEBKIT_DOM_HTML_ELEMENT (child));
+				content = webkit_dom_element_get_outer_html (
+					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
 			}
@@ -5565,8 +5538,8 @@ process_elements (EHTMLEditorWebExtension *extension,
 		/* Leave PRE elements untouched */
 		if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
 			if (changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_outer_html (
-					WEBKIT_DOM_HTML_ELEMENT (child));
+				content = webkit_dom_element_get_outer_html (
+					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
@@ -5605,8 +5578,8 @@ process_elements (EHTMLEditorWebExtension *extension,
 
 		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (child)) {
 			if (changing_mode && to_plain_text) {
-				content = webkit_dom_html_element_get_outer_html (
-					WEBKIT_DOM_HTML_ELEMENT (child));
+				content = webkit_dom_element_get_outer_html (
+					WEBKIT_DOM_ELEMENT (child));
 				g_string_append (buffer, content);
 				g_free (content);
 				skip_node = TRUE;
@@ -5865,8 +5838,7 @@ dom_process_content_for_draft (WebKitDOMDocument *document)
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft", "", NULL);
 
 	document_element = webkit_dom_document_get_document_element (document);
-	content = webkit_dom_html_element_get_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (document_element));
+	content = webkit_dom_element_get_outer_html (document_element);
 
 	webkit_dom_element_remove_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
@@ -5949,8 +5921,7 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 	webkit_dom_html_element_set_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (blockquote), inner_text, NULL);
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (blockquote));
+	inner_html = webkit_dom_element_get_inner_html (blockquote);
 
 	parse_html_into_paragraphs (
 		document,
@@ -5991,8 +5962,8 @@ convert_element_from_html_to_plain_text (WebKitDOMDocument *document,
 			WEBKIT_DOM_NODE (element));
 		if (first_child) {
 			if (!webkit_dom_node_has_child_nodes (first_child)) {
-				webkit_dom_html_element_set_inner_html (
-					WEBKIT_DOM_HTML_ELEMENT (first_child),
+				webkit_dom_element_set_inner_html (
+					WEBKIT_DOM_ELEMENT (first_child),
 					"<br>",
 					NULL);
 			}
@@ -6046,14 +6017,13 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 			gchar *inner_html;
 			WebKitDOMElement *div;
 
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (body));
+			inner_html = webkit_dom_element_get_inner_html (
+				WEBKIT_DOM_ELEMENT (body));
 
 			div = webkit_dom_document_create_element (
 				document, "div", NULL);
 
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (div), inner_html, NULL);
+			webkit_dom_element_set_inner_html (div, inner_html, NULL);
 
 			webkit_dom_node_append_child (
 				WEBKIT_DOM_NODE (body),
@@ -6233,8 +6203,8 @@ dom_process_content_for_html (WebKitDOMDocument *document,
 
 	process_elements (extension, node, TRUE, FALSE, FALSE, NULL);
 
-	html_content = webkit_dom_html_element_get_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (document_clone));
+	html_content = webkit_dom_element_get_outer_html (
+		WEBKIT_DOM_ELEMENT (document_clone));
 
 	g_object_unref (document_clone);
 
@@ -7432,8 +7402,8 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 		plain = process_content_for_mode_change (document, extension);
 
 		if (*plain) {
-			webkit_dom_html_element_set_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (
+			webkit_dom_element_set_outer_html (
+				WEBKIT_DOM_ELEMENT (
 					webkit_dom_document_get_document_element (document)),
 				plain,
 				NULL);
@@ -7557,8 +7527,7 @@ dom_set_link_color (WebKitDOMDocument *document,
 	}
 
 	color_str = g_strconcat ("a { color: ", color, "; }", NULL);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (style_element), color_str, NULL);
+	webkit_dom_element_set_inner_html (style_element, color_str, NULL);
 
 	g_free (color_str);
 }

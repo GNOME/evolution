@@ -85,8 +85,7 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 	if (link) {
 		webkit_dom_html_anchor_element_set_href (
 			WEBKIT_DOM_HTML_ANCHOR_ELEMENT (link), url);
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (link), inner_text, NULL);
+		webkit_dom_element_set_inner_html (link, inner_text, NULL);
 	} else {
 		gchar *text;
 

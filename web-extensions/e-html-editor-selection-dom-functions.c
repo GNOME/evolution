@@ -298,8 +298,7 @@ dom_selection_unlink (WebKitDOMDocument *document,
 
 	text = webkit_dom_html_element_get_inner_text (
 		WEBKIT_DOM_HTML_ELEMENT (link));
-	webkit_dom_html_element_set_outer_html (
-		WEBKIT_DOM_HTML_ELEMENT (link), text, NULL);
+	webkit_dom_element_set_outer_html (link, text, NULL);
 	g_free (text);
 }
 
@@ -2335,7 +2334,7 @@ wrap_lines (WebKitDOMDocument *document,
 
 		webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 		/* Get HTML code of the processed content */
-		html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (element));
+		html = webkit_dom_element_get_inner_html (element);
 
 		/* Overwrite the current selection by the processed content */
 		dom_insert_html (document, extension, html);
@@ -3335,8 +3334,8 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			dom_selection_restore (document);
 		} else {
 			/* https://bugs.webkit.org/show_bug.cgi?id=15256 */
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (monospace),
+			webkit_dom_element_set_inner_html (
+				monospace,
 				UNICODE_ZERO_WIDTH_SPACE,
 				NULL);
 			webkit_dom_range_insert_node (
@@ -3385,8 +3384,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (wrapper));
 			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (wrapper));
 
-			html = webkit_dom_html_element_get_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element));
+			html = webkit_dom_element_get_outer_html (tt_element);
 
 			start_position = g_strstr_len (
 				html, -1, "<span id=\"-x-evo-remove-tt\"");
@@ -3394,8 +3392,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 			beginning = g_utf8_substring (
 				html, 0, g_utf8_pointer_to_offset (html, start_position));
-			inner_html = webkit_dom_html_element_get_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (wrapper));
+			inner_html = webkit_dom_element_get_inner_html (wrapper);
 			end = g_utf8_substring (
 				html,
 				g_utf8_pointer_to_offset (html, end_position) + 7,
@@ -3427,10 +3424,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 			g_free (font_size_str);
 
-			webkit_dom_html_element_set_outer_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				outer_html,
-				NULL);
+			webkit_dom_element_set_outer_html (tt_element, outer_html, NULL);
 
 			dom_selection_restore (document);
 
