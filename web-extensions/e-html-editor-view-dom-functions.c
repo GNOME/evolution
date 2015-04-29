@@ -127,6 +127,23 @@ dom_exec_command (WebKitDOMDocument *document,
 		document, cmd_str, FALSE, has_value ? value : "" );
 }
 
+static void
+block_selection_changed_callbacks (EHTMLEditorWebExtension *extension)
+{
+	/* FIXME WK2
+	e_html_editor_selection_block_selection_changed (view->priv->selection);
+	g_signal_handlers_block_by_func (view, html_editor_view_selection_changed_cb, NULL);
+	*/
+}
+
+static void
+unblock_selection_changed_callbacks (EHTMLEditorWebExtension *extension)
+{
+	/* FIXME WK2
+	e_html_editor_selection_unblock_selection_changed (view->priv->selection);
+	g_signal_handlers_unblock_by_func (view, html_editor_view_selection_changed_cb, NULL);*/
+}
+
 void
 dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
                                              EHTMLEditorWebExtension *extension)
@@ -166,11 +183,8 @@ dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
-/* FIXME WK2
-	g_signal_handlers_block_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_block_selection_changed (selection);
-*/
+	block_selection_changed_callbacks (extension);
+
 	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_end_marker));
 
 	/* Append some text on the end of the element */
@@ -212,16 +226,14 @@ dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
-/* FIXME WK2
-	g_signal_handlers_unblock_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_unblock_selection_changed (selection);
-*/
+	unblock_selection_changed_callbacks (extension);
+
 	dom_selection_restore (document);
 }
 
 static void
 refresh_spell_check (WebKitDOMDocument *document,
+                     EHTMLEditorWebExtension *extension,
                      gboolean enable_spell_check)
 {
 	WebKitDOMDOMSelection *dom_selection;
@@ -271,11 +283,8 @@ refresh_spell_check (WebKitDOMDocument *document,
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
-/* FIXME WK2
-	g_signal_handlers_block_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_block_selection_changed (selection);
-*/
+	block_selection_changed_callbacks (extension);
+
 	/* Append some text on the end of the body */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
 	webkit_dom_node_append_child (
@@ -307,18 +316,16 @@ refresh_spell_check (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
-/* FIXME WK2
-	g_signal_handlers_unblock_by_func (
-		view, html_editor_view_selection_changed_cb, NULL);
-	e_html_editor_selection_unblock_selection_changed (selection);
-*/
+	unblock_selection_changed_callbacks (extension);
+
 	dom_selection_restore (document);
 }
 
 void
-dom_turn_spell_check_off (WebKitDOMDocument *document)
+dom_turn_spell_check_off (WebKitDOMDocument *document,
+                          EHTMLEditorWebExtension *extension)
 {
-	refresh_spell_check (document, FALSE);
+	refresh_spell_check (document, extension, FALSE);
 }
 
 void
@@ -326,7 +333,7 @@ dom_force_spell_check (WebKitDOMDocument *document,
                        EHTMLEditorWebExtension *extension)
 {
 	if (e_html_editor_web_extension_get_inline_spelling_enabled (extension))
-		refresh_spell_check (document, TRUE);
+		refresh_spell_check (document, extension, TRUE);
 }
 
 gboolean
@@ -1825,10 +1832,12 @@ save_history_for_input (WebKitDOMDocument *document,
 {
 	EHTMLEditorHistoryEvent *ev;
 	EHTMLEditorUndoRedoManager *manager;
+	glong offset;
 	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMRange *range;
+	WebKitDOMRange *range, *range_clone;
+	WebKitDOMNode *start_container;
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
@@ -1839,20 +1848,67 @@ save_history_for_input (WebKitDOMDocument *document,
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 	ev->type = HISTORY_INPUT;
 
+	block_selection_changed_callbacks (extension);
+
 	dom_selection_get_coordinates (
 		document,
 		&ev->after.start.x,
 		&ev->after.start.y,
 		&ev->after.end.x,
 		&ev->after.end.y);
-	webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
+
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	fragment = webkit_dom_range_clone_contents (range, NULL);
+	range_clone = webkit_dom_range_clone_range (range, NULL);
+	offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+	start_container = webkit_dom_range_get_start_container (range_clone, NULL);
+	if (offset > 0)
+		webkit_dom_range_set_start (
+			range_clone,
+			start_container,
+			offset - 1,
+			NULL);
+	fragment = webkit_dom_range_clone_contents (range_clone, NULL);
 	/* We have to specialy handle Return key press */
 	if (e_html_editor_web_extension_get_return_key_pressed (extension)) {
-		WebKitDOMNode *node;
+		WebKitDOMElement *element_start, *element_end;
+		WebKitDOMNode *parent_start, *parent_end, *node;
+
+		element_start = webkit_dom_document_create_element (document, "span", NULL);
+		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element_start), NULL);
+		webkit_dom_dom_selection_modify (dom_selection, "move", "left", "character");
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+		element_end = webkit_dom_document_create_element (document, "span", NULL);
+		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element_end), NULL);
+
+		parent_start = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element_start));
+		parent_end = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element_end));
+
+		while (parent_start && parent_end && !webkit_dom_node_is_same_node (parent_start, parent_end)) {
+			webkit_dom_node_insert_before (
+				WEBKIT_DOM_NODE (fragment),
+				webkit_dom_node_clone_node (parent_start, FALSE),
+				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+				NULL);
+			parent_start = webkit_dom_node_get_parent_node (parent_start);
+			parent_end = webkit_dom_node_get_parent_node (parent_end);
+		}
 
 		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+		while (webkit_dom_node_get_next_sibling (node)) {
+			WebKitDOMNode *last_child;
+
+			last_child = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment));
+			webkit_dom_node_append_child (
+				webkit_dom_node_get_previous_sibling (last_child),
+				last_child,
+				NULL);
+		}
+
+		node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment));
+		while (webkit_dom_node_get_last_child (node)) {
+			node = webkit_dom_node_get_last_child (node);
+		}
+
 		webkit_dom_node_append_child (
 			node,
 			WEBKIT_DOM_NODE (
@@ -1869,7 +1925,10 @@ save_history_for_input (WebKitDOMDocument *document,
 				dom_create_selection_marker (document, FALSE)),
 			NULL);
 
-		remove_node (webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment)));
+		remove_node (WEBKIT_DOM_NODE (element_start));
+		remove_node (WEBKIT_DOM_NODE (element_end));
+
+		webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
 	} else {
 		webkit_dom_node_append_child (
 			WEBKIT_DOM_NODE (fragment),
@@ -1883,7 +1942,7 @@ save_history_for_input (WebKitDOMDocument *document,
 			NULL);
 	}
 
-	webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
+	unblock_selection_changed_callbacks (extension);
 
 	ev->data.fragment = fragment;
 
@@ -6442,7 +6501,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	if (e_html_editor_web_extension_get_inline_spelling_enabled (extension))
 		dom_force_spell_check (document, extension);
 	else
-		dom_turn_spell_check_off (document);
+		dom_turn_spell_check_off (document, extension);
 }
 
 GVariant *
@@ -6751,36 +6810,42 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
 	if (webkit_dom_range_get_collapsed (range, NULL)) {
-		WebKitDOMNode *node = webkit_dom_range_get_end_container (range, NULL);
+		WebKitDOMRange *range_clone;
 
-		if (delete_key && !webkit_dom_node_get_next_sibling (node)) {
-			g_free (ev);
-			return;
+		block_selection_changed_callbacks (extension);
+
+		range_clone = webkit_dom_range_clone_range (range, NULL);
+		if (delete_key) {
+			glong offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+			webkit_dom_range_set_end (
+				range_clone,
+				webkit_dom_range_get_end_container (range_clone, NULL),
+				offset + 1,
+				NULL);
+		} else {
+			webkit_dom_range_set_start (
+				range_clone,
+				webkit_dom_range_get_start_container (range_clone, NULL),
+				webkit_dom_range_get_start_offset (range_clone, NULL) - 1,
+				NULL);
 		}
 
-		if (delete_key)
-			webkit_dom_dom_selection_modify (dom_selection, "extend", "right", "character");
-		else
-			webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "character");
-
-		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-		fragment = webkit_dom_range_clone_contents (range, NULL);
-
+		fragment = webkit_dom_range_clone_contents (range_clone, NULL);
 		if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) {
 			g_free (ev);
+			unblock_selection_changed_callbacks (extension);
 			return;
 		}
 
 		if (delete_key) {
-			webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
-
 			dom_selection_get_coordinates (
 				document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 		} else {
+			webkit_dom_dom_selection_modify (dom_selection, "move", "left", "character");
 			dom_selection_get_coordinates (
 				document, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 
-			webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+			webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
 		}
 
 		if (!delete_key) {
@@ -6813,6 +6878,8 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 					dom_create_selection_marker (document, FALSE)),
 				NULL);
 		}
+
+		unblock_selection_changed_callbacks (extension);
 	} else {
 		ev->after.start.x = ev->before.start.x;
 		ev->after.start.y = ev->before.start.y;

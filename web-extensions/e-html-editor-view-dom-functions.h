@@ -40,7 +40,8 @@ void		dom_force_spell_check_for_current_paragraph
 void		dom_force_spell_check		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
-void		dom_turn_spell_check_off	(WebKitDOMDocument *document);
+void		dom_turn_spell_check_off	(WebKitDOMDocument *document,
+                                                 EHTMLEditorWebExtension *extension);
 
 void		dom_embed_style_sheet		(WebKitDOMDocument *document,
 						 const gchar *style_sheet_content);

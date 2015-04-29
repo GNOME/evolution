@@ -1662,7 +1662,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		dom_turn_spell_check_off (document);
+		dom_turn_spell_check_off (document, extension);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMQuoteAndInsertTextIntoSelection") == 0) {
 		const gchar *text;
