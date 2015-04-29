@@ -93,7 +93,8 @@ mail_msg_submit (CamelOperation *cancellable)
 }
 
 gpointer
-mail_msg_new (MailMsgInfo *info)
+mail_msg_new_with_cancellable (MailMsgInfo *info,
+			       GCancellable *cancellable)
 {
 	MailMsg *msg;
 
@@ -104,7 +105,10 @@ mail_msg_new (MailMsgInfo *info)
 	msg->ref_count = 1;
 	msg->seq = mail_msg_seq++;
 
-	msg->cancellable = camel_operation_new ();
+	if (cancellable)
+		msg->cancellable = g_object_ref (cancellable);
+	else
+		msg->cancellable = camel_operation_new ();
 
 	if (create_activity)
 		create_activity (msg->cancellable);
@@ -122,6 +126,12 @@ mail_msg_new (MailMsgInfo *info)
 	g_mutex_unlock (&mail_msg_lock);
 
 	return msg;
+}
+
+gpointer
+mail_msg_new (MailMsgInfo *info)
+{
+	return mail_msg_new_with_cancellable (info, NULL);
 }
 
 #ifdef MALLOC_CHECK
