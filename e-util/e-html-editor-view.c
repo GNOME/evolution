@@ -701,7 +701,7 @@ refresh_spell_check (EHTMLEditorView *view,
 		WebKitDOMNode *child;
 
 		child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body));
-		if (!child || !WEBKIT_DOM_IS_HTML_ELEMENT (child))
+		if (!WEBKIT_DOM_IS_HTML_ELEMENT (child))
 			return;
 
 		add_selection_markers_into_element_start (
@@ -1411,7 +1411,11 @@ repair_gmail_blockquotes (WebKitDOMDocument *document)
 
 		if (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (node)))
 			webkit_dom_node_append_child (
-				node, WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)), NULL);
+				node,
+				WEBKIT_DOM_NODE (
+					webkit_dom_document_create_element (
+						document, "br", NULL)),
+				NULL);
 		g_object_unref (node);
 	}
 	g_object_unref (list);
