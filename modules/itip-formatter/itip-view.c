@@ -1088,6 +1088,9 @@ itip_view_rebuild_source_list (ItipView *view)
 	registry = view->priv->registry;
 	extension_name = itip_view_get_extension_name (view);
 
+	if (extension_name == NULL)
+		return;
+
 	select = webkit_dom_document_get_element_by_id (
 		view->priv->dom_document, SELECT_ESOURCE);
 
@@ -1100,9 +1103,6 @@ itip_view_rebuild_source_list (ItipView *view)
 		g_object_unref (last_child);
 		g_object_unref (removed_child);
 	}
-
-	if (extension_name == NULL)
-		return;
 
 	list = e_source_registry_list_enabled (registry, extension_name);
 	groups = g_hash_table_new_full (
