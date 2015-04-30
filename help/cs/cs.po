@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2015-03-10 22:27+0000\n"
-"PO-Revision-Date: 2015-03-12 11:27+0100\n"
+"POT-Creation-Date: 2015-04-30 04:32+0000\n"
+"PO-Revision-Date: 2015-04-30 12:19+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -2642,8 +2642,9 @@ msgstr "Překladatelé uživatelské dokumentace k aplikaci <app>Evolution</app>
 #. TO TRANSLATORS: This is shown in the 'Translators of the User
 #. Documentation' section. Please REPLACE this string by adding your own
 #. names here so you get some well-deserved fame on the interwebs! Do NOT
-#. use '\n' for linebreaks or square brakets for potential email addresses
-#. here as this will not work. Thanks for all your hard work! andre
+#. use '\n' for linebreaks or square brackets for potential email
+#. addresses here as this will not work. Thanks for all your hard work!
+#. andre
 #: C/credits.page:43
 msgid "(Not applicable to the English version)"
 msgstr "Jiří Eischmann a Marek Černocký"
@@ -3341,7 +3342,7 @@ msgstr "Outlook"
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
-"server and does not need to be manually transfered. You can set up the "
+"server and does not need to be manually transferred. You can set up the "
 "corresponding account in Evolution and the data will be downloaded."
 msgstr ""
 "Tyto kroky se týkají místně uložených dat, například u účtů POP. Pro "
@@ -4511,8 +4512,9 @@ msgstr "Seznam úkolů a seznam poznámek"
 #. (itstool) path: item/p
 #: C/intro-main-window.page:128
 msgid ""
-"Tasks and memos are just displayed for your convience and are not associated "
-"to any appointments. Use the <gui>switcher</gui> to go to their main windows."
+"Tasks and memos are just displayed for your convenience and are not "
+"associated to any appointments. Use the <gui>switcher</gui> to go to their "
+"main windows."
 msgstr ""
 "Úkoly a poznámky jsou zobrazeny jen pro vaše pohodlí a nejsou svázány s "
 "žádnou událostí. Použijte <gui>přepínač</gui> pro přepnutí do jejich "
