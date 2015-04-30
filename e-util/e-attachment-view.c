@@ -249,6 +249,21 @@ action_remove_cb (GtkAction *action,
 }
 
 static void
+call_attachment_save_handle_error (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	GtkWindow *window = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (source_object));
+	g_return_if_fail (!window || GTK_IS_WINDOW (window));
+
+	e_attachment_save_handle_error (E_ATTACHMENT (source_object), result, window);
+
+	g_clear_object (&window);
+}
+
+static void
 action_save_all_cb (GtkAction *action,
                     EAttachmentView *view)
 {
@@ -278,7 +293,7 @@ action_save_all_cb (GtkAction *action,
 
 		e_attachment_save_async (
 			attachment, destination, (GAsyncReadyCallback)
-			e_attachment_save_handle_error, parent);
+			call_attachment_save_handle_error, parent ? g_object_ref (parent) : NULL);
 	}
 
 	g_object_unref (destination);
@@ -315,7 +330,7 @@ action_save_as_cb (GtkAction *action,
 
 		e_attachment_save_async (
 			attachment, destination, (GAsyncReadyCallback)
-			e_attachment_save_handle_error, parent);
+			call_attachment_save_handle_error, parent ? g_object_ref (parent) : NULL);
 	}
 
 	g_object_unref (destination);
@@ -459,6 +474,21 @@ static GtkActionEntry inline_entries[] = {
 };
 
 static void
+call_attachment_load_handle_error (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	GtkWindow *window = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (source_object));
+	g_return_if_fail (!window || GTK_IS_WINDOW (window));
+
+	e_attachment_load_handle_error (E_ATTACHMENT (source_object), result, window);
+
+	g_clear_object (&window);
+}
+
+static void
 attachment_view_netscape_url (EAttachmentView *view,
                               GdkDragContext *drag_context,
                               gint x,
@@ -502,7 +532,7 @@ attachment_view_netscape_url (EAttachmentView *view,
 	e_attachment_store_add_attachment (store, attachment);
 	e_attachment_load_async (
 		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
+		call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 	g_object_unref (attachment);
 
 	g_strfreev (strv);
@@ -556,7 +586,7 @@ attachment_view_text_calendar (EAttachmentView *view,
 	e_attachment_store_add_attachment (store, attachment);
 	e_attachment_load_async (
 		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
+		call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 	g_object_unref (attachment);
 
 	g_object_unref (mime_part);
@@ -610,7 +640,7 @@ attachment_view_text_x_vcard (EAttachmentView *view,
 	e_attachment_store_add_attachment (store, attachment);
 	e_attachment_load_async (
 		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
+		call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 	g_object_unref (attachment);
 
 	g_object_unref (mime_part);
@@ -651,7 +681,7 @@ attachment_view_uris (EAttachmentView *view,
 		e_attachment_store_add_attachment (store, attachment);
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, parent);
+			call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 		g_object_unref (attachment);
 	}
 

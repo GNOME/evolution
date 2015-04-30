@@ -224,6 +224,21 @@ static GtkActionEntry standard_entries[] = {
 };
 
 static void
+call_attachment_load_handle_error (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	GtkWindow *window = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (source_object));
+	g_return_if_fail (!window || GTK_IS_WINDOW (window));
+
+	e_attachment_load_handle_error (E_ATTACHMENT (source_object), result, window);
+
+	g_clear_object (&window);
+}
+
+static void
 mail_attachment_handler_message_rfc822 (EAttachmentView *view,
                                         GdkDragContext *drag_context,
                                         gint x,
@@ -275,7 +290,7 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
 	e_attachment_store_add_attachment (store, attachment);
 	e_attachment_load_async (
 		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
+		call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 	g_object_unref (attachment);
 
 	success = TRUE;
@@ -380,7 +395,8 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		e_attachment_store_add_attachment (store, attachment);
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, parent);
+			call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+
 		g_object_unref (attachment);
 
 		g_object_unref (message);
@@ -433,7 +449,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	e_attachment_store_add_attachment (store, attachment);
 	e_attachment_load_async (
 		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
+		call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 	g_object_unref (attachment);
 
 	g_object_unref (mime_part);
