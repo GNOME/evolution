@@ -545,6 +545,13 @@ action_cut_cb (GtkAction *action,
 		return;
 	}
 
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	if (webkit_dom_range_get_collapsed (range, NULL)) {
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+		return;
+	}
+
 	selection = e_html_editor_view_get_selection (view);
 
 	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
@@ -552,13 +559,6 @@ action_cut_cb (GtkAction *action,
 
 	e_html_editor_selection_get_selection_coordinates (
 		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-
-	if (webkit_dom_range_get_collapsed (range, NULL)) {
-		g_object_unref (range);
-		g_object_unref (dom_selection);
-		return;
-	}
 
 	/* Save the fragment. */
 	fragment = webkit_dom_range_clone_contents (range, NULL);
@@ -568,8 +568,10 @@ action_cut_cb (GtkAction *action,
 
 	webkit_web_view_cut_clipboard (WEBKIT_WEB_VIEW (view));
 
-	e_html_editor_selection_get_selection_coordinates (
-		selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+	ev->after.start.x = ev->before.start.x;
+	ev->after.start.y = ev->before.start.y;
+	ev->after.end.x = ev->before.start.x;
+	ev->after.end.y = ev->before.start.y;
 
 	e_html_editor_view_insert_new_history_event (view, ev);
 
