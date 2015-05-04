@@ -9746,7 +9746,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	if (settings_schema != NULL) {
 		g_settings = e_util_ref_settings ("org.gnome.settings-daemon.plugins.xsettings");
 		g_signal_connect (
-			settings, "changed::antialiasing",
+			g_settings, "changed::antialiasing",
 			G_CALLBACK (e_html_editor_settings_changed_cb), view);
 		view->priv->aliasing_settings = g_settings;
 	}
