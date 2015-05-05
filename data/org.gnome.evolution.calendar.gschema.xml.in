@@ -104,6 +104,11 @@
       <_summary>Default reminder units</_summary>
       <_description>Units for a default reminder, "minutes", "hours" or "days"</_description>
     </key>
+    <key name="default-snooze-minutes" type="i">
+      <default>5</default>
+      <_summary>Default reminder snooze interval, in minutes</_summary>
+      <_description>Default reminder snooze interval, in minutes, to be filled in the reminder notification dialog</_description>
+    </key>
     <key name="editor-show-categories" type="b">
       <default>false</default>
       <_summary>Show categories field in the event/meeting/task editor</_summary>

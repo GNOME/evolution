@@ -209,8 +209,6 @@ print_pressed_cb (GtkButton *button,
 	(* funcinfo->func) (ALARM_NOTIFY_PRINT, -1, funcinfo->func_data);
 }
 
-#define DEFAULT_SNOOZE_MINS 5
-
 static void
 snooze_pressed_cb (GtkButton *button,
                    gpointer user_data)
@@ -236,7 +234,7 @@ snooze_pressed_cb (GtkButton *button,
 	snooze_timeout += 60 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_hrs)));
 	snooze_timeout += 60 * 24 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_days)));
 	if (!snooze_timeout)
-		snooze_timeout = DEFAULT_SNOOZE_MINS;
+		snooze_timeout = config_data_get_default_snooze_minutes ();
 	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
 }
 
@@ -288,6 +286,7 @@ notified_alarms_dialog_new (void)
 {
 	GtkWidget *container;
 	GtkWidget *image;
+	gint snooze_minutes;
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
 	AlarmNotificationsDialog *na = NULL;
 	AlarmNotify *an = g_new0 (AlarmNotify, 1);
@@ -331,6 +330,22 @@ notified_alarms_dialog_new (void)
 		g_object_unref (an->builder);
 		g_free (an);
 		return NULL;
+	}
+
+	snooze_minutes = config_data_get_default_snooze_minutes ();
+	if (snooze_minutes > 0) {
+		gint value;
+
+		value = snooze_minutes / (60 * 24);
+		snooze_minutes -= 60 * 24 * value;
+
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (an->snooze_time_days), value);
+
+		value = snooze_minutes / 60;
+		snooze_minutes -= 60 * value;
+
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (an->snooze_time_hrs), value);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (an->snooze_time_min), snooze_minutes);
 	}
 
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (an->description));

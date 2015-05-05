@@ -911,6 +911,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "default-snooze-minutes-spin");
+	g_settings_bind (
+		settings, "default-snooze-minutes",
+		widget, "value",
+		G_SETTINGS_BIND_DEFAULT);
+
 	prefs->scrolled_window = e_builder_get_widget (prefs->builder, "calendar-source-scrolled-window");
 
 	/* Free/Busy tab */
