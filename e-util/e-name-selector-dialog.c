@@ -1276,7 +1276,13 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 			"(or (beginswith \"file_as\" %s) "
 			"    (beginswith \"full_name\" %s) "
 			"    (beginswith \"email\" %s) "
-			"    (beginswith \"nickname\" %s)%s))",
+			"    (beginswith \"nickname\" %s)"
+			"    (contains \"file_as\" %s) "
+			"    (contains \"full_name\" %s) "
+			"    (contains \"email\" %s) "
+			"    (contains \"nickname\" %s)%s))",
+			text_escaped, text_escaped,
+			text_escaped, text_escaped,
 			text_escaped, text_escaped,
 			text_escaped, text_escaped,
 			user_fields_str ? user_fields_str : "");
@@ -1286,8 +1292,14 @@ search_changed (ENameSelectorDialog *name_selector_dialog)
 			"(or (beginswith \"file_as\" %s) "
 			"    (beginswith \"full_name\" %s) "
 			"    (beginswith \"email\" %s) "
-			"    (beginswith \"nickname\" %s)%s))",
+			"    (beginswith \"nickname\" %s)"
+			"    (contains \"file_as\" %s) "
+			"    (contains \"full_name\" %s) "
+			"    (contains \"email\" %s) "
+			"    (contains \"nickname\" %s)%s))",
 			category_escaped, text_escaped, text_escaped,
+			text_escaped, text_escaped,
+			text_escaped, text_escaped,
 			text_escaped, text_escaped,
 			user_fields_str ? user_fields_str : "");
 
