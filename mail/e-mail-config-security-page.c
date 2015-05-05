@@ -463,10 +463,22 @@ mail_config_security_page_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_BIDIRECTIONAL);
 
-	text = _("Always encrypt to _myself when sending encrypted messages");
+	text = _("Always enc_rypt outgoing messages when using this account");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		openpgp_ext, "encrypt-by-default",
+		widget, "active",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_BIDIRECTIONAL);
+
+	text = _("Always encrypt to _myself when sending encrypted messages");
+	widget = gtk_check_button_new_with_mnemonic (text);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -478,7 +490,7 @@ mail_config_security_page_constructed (GObject *object)
 	text = _("Always _trust keys in my keyring when encrypting");
 	widget = gtk_check_button_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 2, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 2, 1);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (

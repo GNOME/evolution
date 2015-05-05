@@ -1609,6 +1609,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	gboolean active;
 	gboolean can_sign;
 	gboolean pgp_sign;
+	gboolean pgp_encrypt;
 	gboolean smime_sign;
 	gboolean smime_encrypt;
 	gboolean is_message_from_edit_as_new;
@@ -1631,6 +1632,7 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	extension_name = E_SOURCE_EXTENSION_OPENPGP;
 	pgp = e_source_get_extension (source, extension_name);
 	pgp_sign = e_source_openpgp_get_sign_by_default (pgp);
+	pgp_encrypt = e_source_openpgp_get_encrypt_by_default (pgp);
 
 	extension_name = E_SOURCE_EXTENSION_SMIME;
 	smime = e_source_get_extension (source, extension_name);
@@ -1653,6 +1655,12 @@ msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 	active = gtk_toggle_action_get_active (action);
 	active &= is_message_from_edit_as_new;
 	active |= (can_sign && pgp_sign);
+	gtk_toggle_action_set_active (action, active);
+
+	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
+	active = gtk_toggle_action_get_active (action);
+	active &= is_message_from_edit_as_new;
+	active |= pgp_encrypt;
 	gtk_toggle_action_set_active (action, active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
