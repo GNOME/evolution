@@ -852,10 +852,13 @@ set_completion_query (ENameSelectorEntry *name_selector_entry,
 		"(or "
 		" (beginswith \"nickname\"  %s) "
 		" (beginswith \"email\"     %s) "
+		" (contains \"nickname\"  %s) "
+		" (contains \"email\"     %s) "
 		" %s "
 		" %s "
 		" %s "
 		")",
+		encoded_cue_str, encoded_cue_str,
 		encoded_cue_str, encoded_cue_str,
 		full_name_query_str, file_as_query_str,
 		user_fields_str ? user_fields_str : "");
