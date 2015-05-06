@@ -102,4 +102,11 @@
   <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
+  <error id="prompt-composer-mode-switch" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Are you sure you want to change the composer mode?</_primary>
+  <_secondary xml:space="preserve">Turning HTML mode off will cause the text to lose all formatting. Do you want to continue?</_secondary>
+  <button _label="_Don't lose formatting" response="GTK_RESPONSE_NO"/>
+  <button _label="Lose _formatting" response="GTK_RESPONSE_YES"/>
+ </error>
+
 </error-list>

@@ -456,6 +456,11 @@
       <_summary>Prompt when replying to many recipients</_summary>
       <_description>It disables/enables the repeated prompts to warn that you are sending a reply to many people.</_description>
     </key>
+    <key name="prompt-on-composer-mode-switch" type="b">
+      <default>true</default>
+      <_summary>Prompt when switching composer mode and the content needs to lose its formatting</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are switching composer mode and the content needs to lose its formatting.</_description>
+    </key>
     <key name="browser-close-on-reply-policy" enum="org.gnome.evolution.mail.AutomaticActionPolicy">
       <default>'ask'</default>
       <_summary>Policy for automatically closing the message browser window when forwarding or replying to the displayed message.</_summary>
