@@ -6597,6 +6597,16 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 		gint citation_level, quote;
 		WebKitDOMElement *wrapped_paragraph;
 
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		/* Don't try to wrap the 'Normal' blocks as they are already wrapped and*/
+		/* also skip blocks that we already wrapped with this function. */
+		if ((!html_mode && element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) ||
+		    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (block), "data-user-wrapped")) {
+			block = next_block;
+			continue;
+		}
+
 		if (webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
 			quoted = TRUE;
@@ -6608,8 +6618,6 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 
 		after_selection_end = webkit_dom_node_contains (
 			block, WEBKIT_DOM_NODE (selection_end_marker));
-
-		next_block = webkit_dom_node_get_next_sibling (block);
 
 		citation_level = get_citation_level (block);
 		quote = citation_level ? citation_level * 2 : 0;
@@ -6638,7 +6646,7 @@ e_html_editor_selection_wrap_lines (EHTMLEditorSelection *selection)
 
 	e_html_editor_selection_restore (selection);
 
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	e_html_editor_view_force_spell_check_in_viewport (view);
 
 	g_object_unref (view);
 }
