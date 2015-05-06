@@ -9685,7 +9685,7 @@ msgid ""
 "or replying to the displayed message."
 msgstr ""
 "Política de tancament automàticament de la finestra de navegació del "
-"missatge quan es reenvia o es respon el missatges visualitzat."
+"missatge quan es reenvia o es respon el missatge visualitzat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Empty Trash folders on exit"
@@ -13830,7 +13830,7 @@ msgstr "Mostra els camps"
 #: ../e-util/e-table-config.c:559
 msgid "Choose the order of information to appear in the message list."
 msgstr ""
-"Trieu l'ordre en que ha d'aparèixer la informació a la llista de missatges."
+"Trieu l'ordre en què ha d'aparèixer la informació a la llista de missatges."
 
 #: ../e-util/e-table-config.ui.h:2
 #: ../modules/cal-config-caldav/e-caldav-chooser-dialog.c:367
@@ -22839,7 +22839,7 @@ msgid ""
 "task list, please."
 msgstr ""
 "La llista de tasques seleccionada és de només lectura, de manera que no s'hi "
-"poden crear tasques. Seleccioneu-ne un altra."
+"poden crear tasques. Seleccioneu-ne una altra."
 
 #: ../plugins/mail-to-task/mail-to-task.c:867
 msgid ""
@@ -22847,7 +22847,7 @@ msgid ""
 "memo list, please."
 msgstr ""
 "La llista d'anotacions seleccionada és de només lectura, de manera que no "
-"s'hi poden crear anotacions. Seleccioneu-ne un altra."
+"s'hi poden crear anotacions. Seleccioneu-ne una altra."
 
 #: ../plugins/mail-to-task/mail-to-task.c:1269
 msgid "Create an _Appointment"
