@@ -278,16 +278,18 @@ handle_http_request (GSimpleAsyncResult *res,
 				file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
 				0, cancellable, NULL);
 
-			priv->content_type = g_strdup (
-				g_file_info_get_content_type (info));
+			if (info) {
+				priv->content_type = g_strdup (
+					g_file_info_get_content_type (info));
 
-			d (
-				printf ("'%s' found in cache (%d bytes, %s)\n",
-				uri, priv->content_length,
-				priv->content_type));
+				d (
+					printf ("'%s' found in cache (%d bytes, %s)\n",
+					uri, priv->content_length,
+					priv->content_type));
+			}
 
-			g_object_unref (info);
-			g_object_unref (file);
+			g_clear_object (&info);
+			g_clear_object (&file);
 			g_free (path);
 
 			/* Set result and quit the thread */
