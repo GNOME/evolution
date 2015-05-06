@@ -55,6 +55,7 @@ struct _EHTMLEditorWebExtensionPrivate {
 
 	GDBusConnection *dbus_connection;
 	guint registration_id;
+	guint spell_check_on_scroll_event_source_id;
 
 	/* These properties show the actual state of EHTMLEditorView */
 	EHTMLEditorSelectionAlignment alignment;
@@ -2608,6 +2609,8 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 
 	extension->priv->node_under_mouse_click = NULL;
 
+	extension->priv->spell_check_on_scroll_event_source_id = 0;
+
 	extension->priv->undo_redo_manager = g_object_new (
 		E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER,
 		"html-editor-web-extension", extension->priv->undo_redo_manager,
@@ -3140,4 +3143,17 @@ gboolean
 e_html_editor_web_extension_is_im_input_in_progress (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->im_input_in_progress;
+}
+
+guint
+e_html_editor_web_extension_get_spell_check_on_scroll_event_source_id (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->spell_check_on_scroll_event_source_id;
+}
+
+void
+e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id (EHTMLEditorWebExtension *extension,
+                                                                       guint value)
+{
+	extension->priv->spell_check_on_scroll_event_source_id = value;
 }

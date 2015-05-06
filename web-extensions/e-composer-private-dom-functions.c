@@ -278,7 +278,7 @@ composer_move_caret (WebKitDOMDocument *document,
 			dom_scroll_to_caret (document);
 	}
 
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_in_viewport (document, extension);
 /* FIXME WK2
 	e_html_editor_selection_unblock_selection_changed (editor_selection);*/
 }
@@ -348,5 +348,5 @@ dom_clean_after_drag_and_drop (WebKitDOMDocument *document,
 
 	dom_check_magic_links (document, extension, FALSE);
 	/* Also force spell check on view. */
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_in_viewport (document, extension);
 }

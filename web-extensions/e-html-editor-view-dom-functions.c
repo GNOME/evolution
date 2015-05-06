@@ -26,6 +26,7 @@
 #include <string.h>
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
+#include <webkitdom/WebKitDOMDocumentUnstable.h>
 #include <webkitdom/WebKitDOMDocumentFragmentUnstable.h>
 #include <webkitdom/WebKitDOMRangeUnstable.h>
 #include <webkitdom/WebKitDOMDOMSelection.h>
@@ -144,12 +145,30 @@ unblock_selection_changed_callbacks (EHTMLEditorWebExtension *extension)
 	g_signal_handlers_unblock_by_func (view, html_editor_view_selection_changed_cb, NULL);*/
 }
 
+static void
+perform_spell_check (WebKitDOMDOMSelection *dom_selection,
+                     WebKitDOMRange *start_range,
+                     WebKitDOMRange *end_range)
+{
+	WebKitDOMRange *actual = start_range;
+
+	/* Go through all words to spellcheck them. To avoid this we have to wait for
+	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
+	/* We are moving forward word by word until we hit the text on the end. */
+	while (actual && webkit_dom_range_compare_boundary_points (end_range, 2, actual, NULL) != 0) {
+		webkit_dom_dom_selection_modify (
+			dom_selection, "move", "forward", "word");
+		actual = webkit_dom_dom_selection_get_range_at (
+			dom_selection, 0, NULL);
+	}
+}
+
 void
 dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
                                              EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMElement *parent, *element;
 	WebKitDOMRange *end_range, *actual;
@@ -158,8 +177,8 @@ dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
 	if (!e_html_editor_web_extension_get_inline_spelling_enabled (extension))
 		return;
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	element = webkit_dom_document_query_selector (
 		document, "body[spellcheck=true]", NULL);
@@ -210,17 +229,8 @@ dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, actual);
 
-	/* Go through all words to spellcheck them. To avoid this we have to wait for
-	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
 	actual = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	/* We are moving forward word by word until we hit the text on the end of
-	 * the paragraph that we previously inserted there */
-	while (actual && webkit_dom_range_compare_boundary_points (end_range, 2, actual, NULL) != 0) {
-		webkit_dom_dom_selection_modify (
-			dom_selection, "move", "forward", "word");
-		actual = webkit_dom_dom_selection_get_range_at (
-			dom_selection, 0, NULL);
-	}
+	perform_spell_check (dom_selection, actual, end_range);
 
 	/* Remove the text that we inserted on the end of the paragraph */
 	remove_node (WEBKIT_DOM_NODE (text));
@@ -300,17 +310,8 @@ refresh_spell_check (WebKitDOMDocument *document,
 	webkit_dom_dom_selection_modify (
 		dom_selection, "move", "backward", "documentboundary");
 
-	/* Go through all words to spellcheck them. To avoid this we have to wait for
-	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
 	actual = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	/* We are moving forward word by word until we hit the text on the end of
-	 * the body that we previously inserted there */
-	while (actual && webkit_dom_range_compare_boundary_points (end_range, 2, actual, NULL) != 0) {
-		webkit_dom_dom_selection_modify (
-			dom_selection, "move", "forward", "word");
-		actual = webkit_dom_dom_selection_get_range_at (
-			dom_selection, 0, NULL);
-	}
+	perform_spell_check (dom_selection, actual, end_range);
 
 	/* Remove the text that we inserted on the end of the body */
 	remove_node (WEBKIT_DOM_NODE (text));
@@ -326,6 +327,80 @@ dom_turn_spell_check_off (WebKitDOMDocument *document,
                           EHTMLEditorWebExtension *extension)
 {
 	refresh_spell_check (document, extension, FALSE);
+}
+
+void
+dom_force_spell_check_in_viewport (WebKitDOMDocument *document,
+                                   EHTMLEditorWebExtension *extension)
+{
+	glong viewport_height;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMElement *last_element;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMRange *end_range, *actual;
+	WebKitDOMText *text;
+
+	if (!e_html_editor_web_extension_get_inline_spelling_enabled (extension))
+		return;
+
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	body = WEBKIT_DOM_HTML_ELEMENT (webkit_dom_document_query_selector (
+		document, "body[spellcheck=true]", NULL));
+
+	if (!body) {
+		body = webkit_dom_document_get_body (document);
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body), "spellcheck", "true", NULL);
+	}
+
+	if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)))
+		return;
+
+	dom_selection_save (document);
+
+	/* Block callbacks of selection-changed signal as we don't want to
+	 * recount all the block format things in EHTMLEditorSelection and here as well
+	 * when we are moving with caret */
+	block_selection_changed_callbacks (extension);
+
+	/* We have to add 10 px offset as otherwise just the HTML element will be returned */
+	actual = webkit_dom_document_caret_range_from_point (document, 10, 10);
+
+	/* Append some text on the end of the body */
+	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
+
+	/* We have to add 10 px offset as otherwise just the HTML element will be returned */
+	viewport_height = webkit_dom_dom_window_get_inner_height (dom_window);
+	last_element = webkit_dom_document_element_from_point (document, 10, viewport_height - 10);
+	if (last_element && !WEBKIT_DOM_IS_HTML_HTML_ELEMENT (last_element)) {
+		WebKitDOMElement *parent;
+
+		parent = get_parent_block_element (WEBKIT_DOM_NODE (last_element));
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (parent), WEBKIT_DOM_NODE (text), NULL);
+	} else
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (body), WEBKIT_DOM_NODE (text), NULL);
+
+	/* Create range that's pointing on the end of viewport */
+	end_range = webkit_dom_document_create_range (document);
+	webkit_dom_range_select_node_contents (
+		end_range, WEBKIT_DOM_NODE (text), NULL);
+	webkit_dom_range_collapse (end_range, FALSE, NULL);
+
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, actual);
+	perform_spell_check (dom_selection, actual, end_range);
+
+	/* Remove the text that we inserted on the end of the body */
+	remove_node (WEBKIT_DOM_NODE (text));
+
+	/* Unblock the callbacks */
+	unblock_selection_changed_callbacks (extension);
+
+	dom_selection_restore (document);
 }
 
 void
@@ -616,7 +691,7 @@ dom_insert_new_line_into_citation (WebKitDOMDocument *document,
 					document, WEBKIT_DOM_ELEMENT (node), citation_level);
 			}
 
-			dom_force_spell_check (document, extension);
+			dom_force_spell_check_in_viewport (document, extension);
 		}
 	}
 
@@ -1948,6 +2023,59 @@ save_history_for_input (WebKitDOMDocument *document,
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 	e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
+}
+
+typedef struct _TimeoutContext TimeoutContext;
+
+struct _TimeoutContext {
+	EHTMLEditorWebExtension *extension;
+	WebKitDOMDocument *document;
+};
+
+static void
+timeout_context_free (TimeoutContext *context)
+{
+	g_slice_free (TimeoutContext, context);
+}
+
+static gboolean
+force_spell_check_on_timeout (TimeoutContext *context)
+{
+	dom_force_spell_check_in_viewport (context->document, context->extension);
+	e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id (context->extension, 0);
+	return FALSE;
+}
+
+static void
+body_scroll_event_cb (WebKitDOMElement *element,
+                      WebKitDOMEvent *event,
+                      EHTMLEditorWebExtension *extension)
+{
+	TimeoutContext *context;
+	guint id;
+	WebKitDOMDocument *document;
+
+	if (!e_html_editor_web_extension_get_inline_spelling_enabled (extension))
+		return;
+
+	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+
+	context = g_slice_new0 (TimeoutContext);
+	context->extension = extension;
+	context->document = document;
+
+	id = e_html_editor_web_extension_get_spell_check_on_scroll_event_source_id (extension);
+	if (id > 0)
+		g_source_remove (id);
+
+	id = g_timeout_add_seconds_full (
+		1,
+		G_PRIORITY_DEFAULT,
+		(GSourceFunc)force_spell_check_on_timeout,
+		context,
+		(GDestroyNotify)timeout_context_free);
+
+	e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id (extension, id);
 }
 
 static void
@@ -4120,11 +4248,13 @@ dom_convert_content (WebKitDOMDocument *document,
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *list;
 	WebKitDOMNode *node;
+	WebKitDOMDOMWindow *dom_window;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 
+	dom_window = webkit_dom_document_get_default_view (document);
 	body = webkit_dom_document_get_body (document);
 	/* Wrapper that will represent the new body. */
 	wrapper = webkit_dom_document_create_element (document, "div", NULL);
@@ -4355,13 +4485,20 @@ dom_convert_content (WebKitDOMDocument *document,
 	clear_attributes (document);
 
 	dom_selection_restore (document);
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_in_viewport (document, extension);
 
 	/* Register on input event that is called when the content (body) is modified */
 	webkit_dom_event_target_add_event_listener (
 		WEBKIT_DOM_EVENT_TARGET (body),
 		"input",
 		G_CALLBACK (body_input_event_cb),
+		FALSE,
+		extension);
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (dom_window),
+		"scroll",
+		G_CALLBACK (body_scroll_event_cb),
 		FALSE,
 		extension);
 
@@ -4773,7 +4910,7 @@ dom_convert_and_insert_html_into_selection (WebKitDOMDocument *document,
 
 	dom_selection_restore (document);
  out:
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_in_viewport (document, extension);
 	dom_scroll_to_caret (document);
 
 	dom_register_input_event_listener_on_body (document, extension);
@@ -6319,7 +6456,7 @@ dom_convert_when_changing_composer_mode (WebKitDOMDocument *document,
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-converted", "", NULL);
 
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_in_viewport (document, extension);
 	dom_scroll_to_caret (document);
 }
 
@@ -6452,6 +6589,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
                                 EHTMLEditorWebExtension *extension)
 {
 	WebKitDOMHTMLElement *body;
+	WebKitDOMDOMWindow *dom_window;
 
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */
@@ -6459,6 +6597,7 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_STYLE_WITH_CSS, "false");
 
 	body = webkit_dom_document_get_body (document);
+	dom_window = webkit_dom_document_get_default_view (document);
 
 	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
 	webkit_dom_element_set_attribute (
@@ -6511,6 +6650,14 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 		dom_force_spell_check (document, extension);
 	else
 		dom_turn_spell_check_off (document, extension);
+
+
+	webkit_dom_event_target_add_event_listener (
+		WEBKIT_DOM_EVENT_TARGET (dom_window),
+		"scroll",
+		G_CALLBACK (body_scroll_event_cb),
+		FALSE,
+		extension);
 }
 
 GVariant *
@@ -7484,7 +7631,7 @@ dom_process_content_after_mode_change (WebKitDOMDocument *document,
 				plain,
 				NULL);
 			dom_selection_restore (document);
-			dom_force_spell_check (document, extension);
+			dom_force_spell_check_in_viewport (document, extension);
 		}
 
 		g_free (plain);
@@ -7578,7 +7725,7 @@ dom_drag_and_drop_end (WebKitDOMDocument *document,
 	else
 		webkit_dom_dom_selection_collapse_to_end (selection, NULL);
 
-	dom_force_spell_check (document, extension);
+	dom_force_spell_check_in_viewport (document, extension);
 }
 
 void

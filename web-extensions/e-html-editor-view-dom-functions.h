@@ -37,6 +37,10 @@ void		dom_force_spell_check_for_current_paragraph
 						(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 
+void		dom_force_spell_check_in_viewport
+						(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension);
+
 void		dom_force_spell_check		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 

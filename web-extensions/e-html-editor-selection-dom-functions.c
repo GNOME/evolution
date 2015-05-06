@@ -3463,8 +3463,6 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 			webkit_dom_dom_selection_modify (
 				window_selection, "move", "right", "character");
-
-			dom_force_spell_check_for_current_paragraph (document, extension);
 		}
 
 		/* Re-set formatting */

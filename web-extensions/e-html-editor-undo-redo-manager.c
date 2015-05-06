@@ -362,7 +362,7 @@ undo_delete (WebKitDOMDocument *document,
 			NULL);
 
 		dom_selection_restore (document);
-		dom_force_spell_check (document, extension);
+		dom_force_spell_check_in_viewport (document, extension);
 
 		return;
 	}
@@ -439,7 +439,7 @@ undo_delete (WebKitDOMDocument *document,
 		}
 
 		dom_selection_restore (document);
-		dom_force_spell_check (document, extension);
+		dom_force_spell_check_in_viewport (document, extension);
 	} else {
 		WebKitDOMNode *nd;
 
@@ -1348,7 +1348,7 @@ undo_redo_citation_split (WebKitDOMDocument *document,
 
 		restore_selection_to_history_event_state (document, event->before);
 
-		dom_force_spell_check (document, extension);
+		dom_force_spell_check_in_viewport (document, extension);
 	} else {
 		dom_insert_new_line_into_citation (document, extension, "");
 	}

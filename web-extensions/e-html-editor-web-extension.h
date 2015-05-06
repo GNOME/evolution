@@ -203,4 +203,14 @@ struct _EHTMLEditorUndoRedoManager *
 
 gboolean	e_html_editor_web_extension_is_im_input_in_progress
 						(EHTMLEditorWebExtension *extension);
+
+guint
+e_html_editor_web_extension_get_spell_check_on_scroll_event_source_id
+						(EHTMLEditorWebExtension *extension);
+
+void
+e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id
+						(EHTMLEditorWebExtension *extension,
+						 guint value);
+
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */
