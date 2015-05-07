@@ -86,16 +86,38 @@ free_columns (ETableCol **columns)
 }
 
 static void
+table_item_cell_gone_cb (gpointer user_data,
+			 GObject *gone_cell)
+{
+	GalA11yETableItem *a11y;
+	GObject *old_cell;
+
+	a11y = GAL_A11Y_E_TABLE_ITEM (user_data);
+
+	old_cell = g_object_get_data (G_OBJECT (a11y), "gail-focus-object");
+	if (old_cell == gone_cell)
+		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
+}
+
+static void
 item_finalized (gpointer user_data,
                 GObject *gone_item)
 {
 	GalA11yETableItem *a11y;
 	GalA11yETableItemPrivate *priv;
+	GObject *old_cell;
 
 	a11y = GAL_A11Y_E_TABLE_ITEM (user_data);
 	priv = GET_PRIVATE (a11y);
 
 	priv->item = NULL;
+
+	old_cell = g_object_get_data (G_OBJECT (a11y), "gail-focus-object");
+	if (old_cell) {
+		g_object_weak_unref (G_OBJECT (old_cell), table_item_cell_gone_cb, a11y);
+		g_object_unref (old_cell);
+	}
+	g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 
 	atk_state_set_add_state (priv->state_set, ATK_STATE_DEFUNCT);
 	atk_object_notify_state_change (ATK_OBJECT (a11y), ATK_STATE_DEFUNCT, TRUE);
@@ -211,8 +233,10 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 	if (old_cell && GAL_A11Y_IS_E_CELL (old_cell))
 		gal_a11y_e_cell_remove_state (
 			GAL_A11Y_E_CELL (old_cell), ATK_STATE_FOCUSED, FALSE);
-	if (old_cell)
+	if (old_cell) {
+		g_object_weak_unref (G_OBJECT (old_cell), table_item_cell_gone_cb, a11y);
 		g_object_unref (old_cell);
+	}
 
 	cell = eti_ref_at (ATK_TABLE (a11y), view_row, view_col);
 
@@ -220,6 +244,7 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", cell);
 		gal_a11y_e_cell_add_state (
 			GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
+		g_object_weak_ref (G_OBJECT (cell), table_item_cell_gone_cb, a11y);
 	} else
 		g_object_set_data (G_OBJECT (a11y), "gail-focus-object", NULL);
 
@@ -361,23 +386,6 @@ eti_ref_accessible_at_point (AtkComponent *component,
 	}
 }
 
-static void
-cell_destroyed (gpointer data)
-{
-	GalA11yECell * cell;
-
-	g_return_if_fail (GAL_A11Y_IS_E_CELL (data));
-	cell = GAL_A11Y_E_CELL (data);
-
-	g_return_if_fail (cell->item && G_IS_OBJECT (cell->item));
-
-	if (cell->item) {
-		g_object_unref (cell->item);
-		cell->item = NULL;
-	}
-
-}
-
 /* atk table */
 static AtkObject *
 eti_ref_at (AtkTable *table,
@@ -411,10 +419,6 @@ eti_ref_at (AtkTable *table,
 			column,
 			row);
 		if (ATK_IS_OBJECT (ret)) {
-			g_object_weak_ref (
-				G_OBJECT (ret),
-				(GWeakNotify) cell_destroyed,
-				ret);
 			/* if current cell is focused, add FOCUSED state */
 			if (e_selection_model_cursor_row (item->selection) ==
 				GAL_A11Y_E_CELL (ret)->row &&

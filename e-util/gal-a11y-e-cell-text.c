@@ -35,16 +35,26 @@
 static AtkObjectClass *parent_class;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
+#define GAL_A11Y_E_CELL_TEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), GAL_A11Y_TYPE_E_CELL_TEXT, GalA11yECellTextPrivate))
+
+struct _GalA11yECellTextPrivate {
+	ECell *cell;
+};
+
 /* Static functions */
 static void
 ect_dispose (GObject *object)
 {
 	GObjectClass *g_class;
-	GalA11yECell *gaec = GAL_A11Y_E_CELL (object);
 	GalA11yECellText *gaet = GAL_A11Y_E_CELL_TEXT (object);
+	GalA11yECellTextPrivate *priv;
 
-	if (gaet->inserted_id != 0) {
-		ECellText *ect = E_CELL_TEXT (gaec->cell_view->ecell);
+	priv = GAL_A11Y_E_CELL_TEXT_GET_PRIVATE (object);
+
+	if (gaet->inserted_id != 0 && priv->cell) {
+		ECellText *ect = E_CELL_TEXT (priv->cell);
 
 		if (ect) {
 			g_signal_handler_disconnect (ect, gaet->inserted_id);
@@ -54,6 +64,8 @@ ect_dispose (GObject *object)
 		gaet->inserted_id = 0;
 		gaet->deleted_id = 0;
 	}
+
+	g_clear_object (&priv->cell);
 
 	g_class = (GObjectClass *)parent_class;
 	if (g_class->dispose)
@@ -600,6 +612,8 @@ ect_class_init (GalA11yECellTextClass *klass)
 	AtkObjectClass *a11y      = ATK_OBJECT_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+	g_type_class_add_private (klass, sizeof (GalA11yECellTextPrivate));
+
 	parent_class              = g_type_class_ref (PARENT_TYPE);
 	a11y->get_name            = ect_get_name;
 	object_class->dispose     = ect_dispose;
@@ -668,14 +682,6 @@ gal_a11y_e_cell_text_get_type (void)
 	return type;
 }
 
-static void
-cell_text_destroyed (gpointer data)
-{
-	g_return_if_fail (GAL_A11Y_IS_E_CELL_TEXT (data));
-
-	g_object_unref (data);
-}
-
 AtkObject *
 gal_a11y_e_cell_text_new (ETableItem *item,
 			  ECellView  *cell_view,
@@ -687,6 +693,7 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 	AtkObject *a11y;
 	GalA11yECell *gaec;
 	GalA11yECellText *gaet;
+	GalA11yECellTextPrivate *priv;
 	ECellText *ect;
 
 	a11y = g_object_new (gal_a11y_e_cell_text_get_type (), NULL);
@@ -700,17 +707,13 @@ gal_a11y_e_cell_text_new (ETableItem *item,
 				   row);
 	gaet = GAL_A11Y_E_CELL_TEXT (a11y);
 
-	/* will be unrefed in cell_text_destroyed */
-	g_object_ref (a11y);
+	priv = GAL_A11Y_E_CELL_TEXT_GET_PRIVATE (a11y);
+	priv->cell = g_object_ref (((ECellView *) cell_view)->ecell);
 
-	gaet->inserted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell),
+	gaet->inserted_id = g_signal_connect (E_CELL_TEXT (priv->cell),
 						"text_inserted", G_CALLBACK (ect_text_inserted_cb), a11y);
-	gaet->deleted_id = g_signal_connect (E_CELL_TEXT (((ECellView *)cell_view)->ecell),
+	gaet->deleted_id = g_signal_connect (E_CELL_TEXT (priv->cell),
 					     "text_deleted", G_CALLBACK (ect_text_deleted_cb), a11y);
-
-	g_object_weak_ref (G_OBJECT (((ECellView *)cell_view)->ecell),
-			   (GWeakNotify) cell_text_destroyed,
-			   a11y);
 
 	ect_action_init (gaet);
 
