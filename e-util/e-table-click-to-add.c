@@ -397,6 +397,15 @@ finish_editing (ETableClickToAdd *etcta)
 		g_object_run_dispose (G_OBJECT (etcta->row));
 		etcta->row = NULL;
 
+		if (etcta->text) {
+			g_object_run_dispose (G_OBJECT (etcta->text));
+			etcta->text = NULL;
+		}
+		if (etcta->rect) {
+			g_object_run_dispose (G_OBJECT (etcta->rect));
+			etcta->rect = NULL;
+		}
+
 		one = e_table_one_new (etcta->model);
 		etcta_add_one (etcta, one);
 		g_object_unref (one);
