@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-04-28 04:29+0000\n"
-"PO-Revision-Date: 2015-04-28 08:49+0200\n"
+"POT-Creation-Date: 2015-05-07 04:30+0000\n"
+"PO-Revision-Date: 2015-05-07 12:35+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -553,14 +553,14 @@ msgstr "Možnosti"
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:2
 #: ../calendar/gui/dialogs/goto-dialog.ui.h:15
-#: ../calendar/gui/dialogs/recurrence-page.c:2322
+#: ../calendar/gui/dialogs/recurrence-page.c:2326
 #: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:340
 #: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:491
-#: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:406
+#: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:421
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
-#: ../e-util/e-html-editor-actions.c:614 ../e-util/e-html-editor-actions.c:708
+#: ../e-util/e-html-editor-actions.c:616 ../e-util/e-html-editor-actions.c:710
 #: ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
@@ -648,7 +648,7 @@ msgstr "Zobrazit poznámky"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
-#: ../e-util/e-html-editor-actions.c:1129
+#: ../e-util/e-html-editor-actions.c:1131
 msgid "_Undo"
 msgstr "_Zpět"
 
@@ -659,7 +659,7 @@ msgstr "Zpět"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/dialogs/comp-editor.c:1305
-#: ../e-util/e-html-editor-actions.c:1115
+#: ../e-util/e-html-editor-actions.c:1117
 msgid "_Redo"
 msgstr "Zn_ovu"
 
@@ -693,7 +693,7 @@ msgstr "Zvolte prosím obrázek pro tento kontakt"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3684
 #: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
-#: ../e-util/e-html-editor-actions.c:615 ../e-util/e-html-editor-actions.c:709
+#: ../e-util/e-html-editor-actions.c:617 ../e-util/e-html-editor-actions.c:711
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:292
 #: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:954
 msgid "_Open"
@@ -743,7 +743,7 @@ msgstr "Neplatný kontakt."
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:9
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:3
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:3
-#: ../calendar/gui/dialogs/recurrence-page.c:2323
+#: ../calendar/gui/dialogs/recurrence-page.c:2327
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
@@ -888,7 +888,7 @@ msgstr "Odstranit emailovou adresu ze seznamu"
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:5
 #: ../calendar/gui/dialogs/event-page.ui.h:23
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:21
-#: ../calendar/gui/dialogs/task-page.ui.h:31 ../e-util/e-attachment-view.c:460
+#: ../calendar/gui/dialogs/task-page.ui.h:31 ../e-util/e-attachment-view.c:475
 #: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:367
 #: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
 #: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
@@ -1616,7 +1616,7 @@ msgstr "Z_menšit"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:2108
+#: ../e-util/e-html-editor-actions.c:2110
 #: ../e-util/e-html-editor-find-dialog.c:195
 #: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
@@ -1917,14 +1917,14 @@ msgstr[2] "hodin"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:131
-#: ../calendar/gui/dialogs/recurrence-page.c:1249
+#: ../calendar/gui/dialogs/recurrence-page.c:1253
 msgid "day"
 msgid_plural "days"
 msgstr[0] "den"
 msgstr[1] "dny"
 msgstr[2] "dní"
 
-#: ../calendar/alarm-notify/alarm-notify-dialog.c:343
+#: ../calendar/alarm-notify/alarm-notify-dialog.c:358
 msgid "Start time"
 msgstr "Čas začátku"
 
@@ -1946,7 +1946,7 @@ msgstr "Od_ložit"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-html-editor-actions.c:1138
+#: ../e-util/e-html-editor-actions.c:1140
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:171
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:60
@@ -2041,12 +2041,11 @@ msgid "Warning"
 msgstr "Varování"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1997 ../mail/mail-dialogs.ui.h:21
-#: ../mail/mail.error.xml.h:139
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
 msgid "_No"
 msgstr "_Ne"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1998 ../mail/mail.error.xml.h:138
+#: ../calendar/alarm-notify/alarm-queue.c:1998
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
 msgid "_Yes"
 msgstr "_Ano"
@@ -3067,9 +3066,9 @@ msgstr "Zavřít aktuální okno"
 
 #. copy menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775
-#: ../e-util/e-html-editor-actions.c:1094 ../e-util/e-text.c:2089
+#: ../e-util/e-html-editor-actions.c:1096 ../e-util/e-text.c:2089
 #: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:134
-#: ../shell/e-shell-window-actions.c:929
+#: ../mail/mail.error.xml.h:138 ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
 msgstr "_Kopírovat"
 
@@ -3083,7 +3082,7 @@ msgstr "Kopírovat výběr"
 
 #. cut menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770
-#: ../e-util/e-html-editor-actions.c:1101 ../e-util/e-text.c:2075
+#: ../e-util/e-html-editor-actions.c:1103 ../e-util/e-text.c:2075
 #: ../mail/e-mail-browser.c:141 ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "_Vyjmout"
@@ -3107,7 +3106,7 @@ msgstr "Zobrazit nápovědu"
 
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780
-#: ../e-util/e-html-editor-actions.c:1108 ../e-util/e-text.c:2101
+#: ../e-util/e-html-editor-actions.c:1110 ../e-util/e-text.c:2101
 #: ../mail/e-mail-browser.c:148 ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "V_ložit"
@@ -3148,7 +3147,7 @@ msgid "Save current changes and close editor"
 msgstr "Uložit aktuální změny a zavřít"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790
-#: ../e-util/e-html-editor-actions.c:1122 ../e-util/e-web-view.c:387
+#: ../e-util/e-html-editor-actions.c:1124 ../e-util/e-web-view.c:387
 #: ../mail/e-mail-browser.c:155 ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Vybr_at vše"
@@ -3164,14 +3163,14 @@ msgid "_Classification"
 msgstr "Klasi_fikace"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1328
-#: ../e-util/e-html-editor-actions.c:1145
+#: ../e-util/e-html-editor-actions.c:1147
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:164
 #: ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Soubor"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1342
-#: ../e-util/e-html-editor-actions.c:1166
+#: ../e-util/e-html-editor-actions.c:1168
 msgid "_Insert"
 msgstr "_Vložit"
 
@@ -3181,7 +3180,7 @@ msgid "_Options"
 msgstr "V_olby"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
-#: ../e-util/e-html-editor-actions.c:1187 ../mail/e-mail-browser.c:178
+#: ../e-util/e-html-editor-actions.c:1189 ../mail/e-mail-browser.c:178
 #: ../shell/e-shell-window-actions.c:1121
 #: ../smime/gui/certificate-manager.c:1649 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
@@ -3193,7 +3192,7 @@ msgid "_Attachment..."
 msgstr "_Přílohu…"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1368
-#: ../composer/e-composer-actions.c:329 ../e-util/e-attachment-view.c:448
+#: ../composer/e-composer-actions.c:329 ../e-util/e-attachment-view.c:463
 msgid "Attach a file"
 msgstr "Připojit soubor"
 
@@ -3726,17 +3725,17 @@ msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Tato událost obsahuje taková opakování, která Evolution nemůže editovat."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1001
+#: ../calendar/gui/dialogs/recurrence-page.c:1005
 msgid "Recurrence date is invalid"
 msgstr "Datum opakování je neplatné"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1049
 msgid "End time of the recurrence was before event's start"
 msgstr "Konec opakování byl před tím, než událost nastala"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] week(s) on [Wednesday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
-#: ../calendar/gui/dialogs/recurrence-page.c:1074
+#: ../calendar/gui/dialogs/recurrence-page.c:1078
 msgid "on"
 msgstr "zapnuto"
 
@@ -3744,7 +3743,7 @@ msgstr "zapnuto"
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1155
+#: ../calendar/gui/dialogs/recurrence-page.c:1159
 msgid "first"
 msgstr "1."
 
@@ -3753,7 +3752,7 @@ msgstr "1."
 #. * (dropdown menu options are in [square brackets]). This means that after 'second', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1161
+#: ../calendar/gui/dialogs/recurrence-page.c:1165
 msgid "second"
 msgstr "2."
 
@@ -3761,7 +3760,7 @@ msgstr "2."
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1166
+#: ../calendar/gui/dialogs/recurrence-page.c:1170
 msgid "third"
 msgstr "3."
 
@@ -3769,7 +3768,7 @@ msgstr "3."
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1171
+#: ../calendar/gui/dialogs/recurrence-page.c:1175
 msgid "fourth"
 msgstr "4."
 
@@ -3777,7 +3776,7 @@ msgstr "4."
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1176
+#: ../calendar/gui/dialogs/recurrence-page.c:1180
 msgid "fifth"
 msgstr "páté"
 
@@ -3785,13 +3784,13 @@ msgstr "páté"
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1181
+#: ../calendar/gui/dialogs/recurrence-page.c:1185
 msgid "last"
 msgstr "poslední"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
-#: ../calendar/gui/dialogs/recurrence-page.c:1205
+#: ../calendar/gui/dialogs/recurrence-page.c:1209
 msgid "Other Date"
 msgstr "Další data"
 
@@ -3799,7 +3798,7 @@ msgstr "Další data"
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1211
+#: ../calendar/gui/dialogs/recurrence-page.c:1215
 msgid "1st to 10th"
 msgstr "1. až 10."
 
@@ -3807,7 +3806,7 @@ msgstr "1. až 10."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1217
+#: ../calendar/gui/dialogs/recurrence-page.c:1221
 msgid "11th to 20th"
 msgstr "11. až 20."
 
@@ -3815,41 +3814,41 @@ msgstr "11. až 20."
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1223
+#: ../calendar/gui/dialogs/recurrence-page.c:1227
 msgid "21st to 31st"
 msgstr "21. až 31."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1250
+#: ../calendar/gui/dialogs/recurrence-page.c:1254
 #: ../modules/calendar/e-calendar-preferences.ui.h:25
 msgid "Monday"
 msgstr "pondělí"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1251
+#: ../calendar/gui/dialogs/recurrence-page.c:1255
 #: ../modules/calendar/e-calendar-preferences.ui.h:28
 msgid "Tuesday"
 msgstr "úterý"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1252
+#: ../calendar/gui/dialogs/recurrence-page.c:1256
 #: ../modules/calendar/e-calendar-preferences.ui.h:31
 msgid "Wednesday"
 msgstr "středa"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1253
+#: ../calendar/gui/dialogs/recurrence-page.c:1257
 #: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Thursday"
 msgstr "čtvrtek"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1254
+#: ../calendar/gui/dialogs/recurrence-page.c:1258
 #: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "Friday"
 msgstr "pátek"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1255
+#: ../calendar/gui/dialogs/recurrence-page.c:1259
 #: ../modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Saturday"
 msgstr "sobota"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1256
+#: ../calendar/gui/dialogs/recurrence-page.c:1260
 #: ../modules/calendar/e-calendar-preferences.ui.h:43
 msgid "Sunday"
 msgstr "neděle"
@@ -3857,31 +3856,31 @@ msgstr "neděle"
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
 #.
-#: ../calendar/gui/dialogs/recurrence-page.c:1387
+#: ../calendar/gui/dialogs/recurrence-page.c:1391
 msgid "on the"
 msgstr " "
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1572
+#: ../calendar/gui/dialogs/recurrence-page.c:1576
 msgid "occurrences"
 msgstr "opakování"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2342
+#: ../calendar/gui/dialogs/recurrence-page.c:2346
 msgid "Add exception"
 msgstr "Přidat výjimku"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2384
+#: ../calendar/gui/dialogs/recurrence-page.c:2388
 msgid "Could not get a selection to modify."
 msgstr "Nelze získat výběr k modifikaci."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2390
+#: ../calendar/gui/dialogs/recurrence-page.c:2394
 msgid "Modify exception"
 msgstr "Změnit výjimku"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2436
+#: ../calendar/gui/dialogs/recurrence-page.c:2440
 msgid "Could not get a selection to delete."
 msgstr "Nelze získat výběr k vymazání."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2577
+#: ../calendar/gui/dialogs/recurrence-page.c:2581
 msgid "Date/Time"
 msgstr "Datum/čas"
 
@@ -7560,11 +7559,11 @@ msgstr ""
 "Nelze zašifrovat odchozí zprávu: Pro tento účet nebyl nastaven šifrovací "
 "certifikát"
 
-#: ../composer/e-msg-composer.c:1594 ../composer/e-msg-composer.c:2282
+#: ../composer/e-msg-composer.c:1594 ../composer/e-msg-composer.c:2290
 msgid "Compose Message"
 msgstr "Napsat zprávu"
 
-#: ../composer/e-msg-composer.c:4605
+#: ../composer/e-msg-composer.c:4613
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Editor zpráv obsahuje netextové tělo zprávy, které nelze upravovat."
 
@@ -7696,7 +7695,7 @@ msgstr ""
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "Během odesílání se vyskytla chyba. Jak chcete pokračovat?"
 
-#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:163
+#: ../composer/mail-composer.error.xml.h:31 ../mail/mail.error.xml.h:167
 msgid "The reported error was &quot;{0}&quot;."
 msgstr "Nahlášená chyba byla „{0}“."
 
@@ -8112,85 +8111,97 @@ msgstr ""
 "„days“ (dny)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
+msgid "Default reminder snooze interval, in minutes"
+msgstr "Výchozí déla přestávky do připomenutí, v minutách"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
+msgid ""
+"Default reminder snooze interval, in minutes, to be filled in the reminder "
+"notification dialog"
+msgstr ""
+"Výchozí délka přestávky do připomenutí, v minutách, která se vyplní do "
+"upozorňovacího dialogového okna s připomínkou."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Show categories field in the event/meeting/task editor"
 msgstr "Zobrazovat pole kategorií v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr "Jestli zobrazovat pole kategorie v editoru událost/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Show Role field in the event/task/meeting editor"
 msgstr "Zobrazovat pole Funkce v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole funkce v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "Zobrazovat pole RSVP v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole RSVP v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid "Show status field in the event/task/meeting editor"
 msgstr "Zobrazovat pole stavu v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole stav v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "Show timezone field in the event/meeting editor"
 msgstr "Zobrazovat pole časového pásma v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr "Jestli zobrazovat pole časové pásmo v editoru událost/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid "Show type field in the event/task/meeting editor"
 msgstr "Zobrazovat pole typu v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole typ v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Hide completed tasks"
 msgstr "Skrýt dokončené úkoly"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Whether to hide completed tasks in the tasks view"
 msgstr "Jestli skrývat dokončené úkoly v zobrazení úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Hide task units"
 msgstr "Skrýt jednotky úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr ""
 "Jednotky pro určení, kdy skrývat úkoly, „minutes“ (minuty), „hours“ (hodiny) "
 "nebo „days“ (dny)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Hide task value"
 msgstr "Skrýt hodnotu úkolu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Number of units for determining when to hide tasks"
 msgstr "Počet jednotek pro určení, kdy skrývat úkoly"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Horizontal pane position"
 msgstr "Umístění vodorovného panelu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
@@ -8198,53 +8209,53 @@ msgstr ""
 "Umístění vodorovného panelu mezi kalendářem navigátoru data a seznamem úkolů "
 "mimo zobrazení měsíce, v pixelech"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Last reminder time"
 msgstr "Poslední čas připomenutí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Time the last reminder ran, in time_t"
 msgstr "Čas, kdy běžela poslední připomínka, ve formátu time_t"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Marcus Bains Line Color - Day View"
 msgstr "Barva čáry Marca Bainse - zobrazení dne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Color to draw the Marcus Bains line in the Day View"
 msgstr "Barva, kterou kreslit čáru Marca Bainse v zobrazení dne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Marcus Bains Line Color - Time bar"
 msgstr "Barva čáry Marca Bainse - lišta času"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Barva, kterou kreslit čáru Marca Bainse v liště času (prázdné pro výchozí)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Marcus Bains Line"
 msgstr "Čára Marca Bainse"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr "Jestli v kalendáři kreslit čáru Marca Bainse (čáru aktuálního času)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Memo preview pane position (horizontal)"
 msgstr "Poloha panelu náhledu poznámek (vodorovná)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Poloha panelu náhledu úkolů, když je orientován vodorovně"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Memo layout style"
 msgstr "Styl rozložení poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
@@ -8255,19 +8266,19 @@ msgstr ""
 "poznámek. „1“ (svislé zobrazení) umísťuje panel náhledu vedle seznamu "
 "poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Memo preview pane position (vertical)"
 msgstr "Poloha panelu náhledu poznámek (svislá)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr "Poloha panelu náhledu poznámek, když je orientován svisle"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid "Month view horizontal pane position"
 msgstr "Umístění vodorovného panelu v zobrazení měsíce"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
@@ -8275,43 +8286,43 @@ msgstr ""
 "Umístění vodorovného panelu mezi kalendářem navigátoru data a seznamem úkolů "
 "v zobrazení měsíce, v pixelech"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Scroll Month View by a week, not by a month"
 msgstr "Posouvat zobrazení měsíce po týdnech místo po měsících."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Zda posouvat zobrazení měsíce po týdnech místo po měsících"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
 msgid "Reminder programs"
 msgstr "Programy připomenutí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Programs that are allowed to be run by reminders"
 msgstr "Programy, které mohou být spouštěny připomínkami"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Show display reminders in notification tray"
 msgstr "Zobrazovat připomenutí v oznamovací oblasti"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Jestli používat oznamovací oblast pro zobrazování připomínek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Preferred New button item"
 msgstr "Upřednostňovaná položka tlačítka Nový"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid "Name of the preferred New toolbar button item"
 msgstr "Název upřednostňované položky tlačítka Nový v liště nástrojů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Primary calendar"
 msgstr "Hlavní kalendář"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
@@ -8319,11 +8330,11 @@ msgstr ""
 "UID vybraného (nebo „hlavního“) kalendáře v postranním panelu zobrazení "
 "„Kalendář“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Primary memo list"
 msgstr "Hlavní seznam poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
@@ -8331,11 +8342,11 @@ msgstr ""
 "UID vybraného (nebo „hlavního“) seznamu poznámek v postranním panelu "
 "zobrazení „Poznámky“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid "Primary task list"
 msgstr "Hlavní seznam úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
@@ -8343,11 +8354,11 @@ msgstr ""
 "UID vybraného (nebo „hlavního“) seznamu úkolů v postranním panelu zobrazení "
 "„Úkoly“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 msgid "Free/busy template URL"
 msgstr "Adresa URL šablony s volnými/obsazenými termíny"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -8357,20 +8368,20 @@ msgstr ""
 "obsazenými termíny, %u je nahrazeno uživatelskou částí e-mailové adresy a %d "
 "je nahrazeno doménou"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Recurrent Events in Italic"
 msgstr "Opakující se události kurzívou"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Zobrazit dny s opakujícími se událostmi kurzívou v kalendáři vlevo dole"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Search range for time-based searching in years"
 msgstr "Rozsah pro časové hledání v rocích"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid ""
 "How many years can the time-based search go forward or backward from "
 "currently selected day when searching for another occurrence; default is ten "
@@ -8379,60 +8390,60 @@ msgstr ""
 "Kolik roků může jít časové vyhledávání dozadu nebo dopředu v čase z aktuálně "
 "vybraného dne, když se hledá další výskyt v kalendáři; výchozí je deset let."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Show appointment end times in week and month views"
 msgstr "Zobrazovat časy konců událostí v zobrazeních týdne a měsíce"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "Whether to display the end time of events in the week and month views"
 msgstr "Jestli zobrazovat časy konců událostí v zobrazeních týdne a měsíce"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Show the memo preview pane"
 msgstr "Zobrazovat panel náhledu poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr "Pokud je „true“, zobrazit panel náhledu poznámek v hlavním okně"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Show the task preview pane"
 msgstr "Zobrazovat panel náhledu úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr "Pokud je „true“, zobrazit panel náhledu úkolů v hlavním okně"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Zobrazovat čísla týdnů v Zobrazení dne, v Zobrazení pracovního týdne a "
 "navigátoru v datech"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Jestli zobrazovat čísla týdnů na různých místech v Kalendáři"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Vertical position for the tag pane"
 msgstr "Svislá poloha panelu se štítky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Highlight tasks due today"
 msgstr "Zvýrazňovat úkoly, které mají být splněny dnes"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Zda zvýrazňovat úkoly, které mají být dokončeny dnes, speciální barvou (task-"
 "due-today-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Tasks due today color"
 msgstr "Barva úkolů, které mají být splněny dnes"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8440,15 +8451,15 @@ msgstr ""
 "Barva pozadí úkolů, které mají být splněny dnes, ve formátu „#rrggbb“. "
 "Použité společně s task-due-today-highlight"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 msgid "Task preview pane position (horizontal)"
 msgstr "Poloha panelu náhledu úkolů (vodorovná)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Task layout style"
 msgstr "Styl rozložení úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8458,28 +8469,28 @@ msgstr ""
 "úkolů. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam úkolů. "
 "„1“ (svislé zobrazení) umísťuje panel náhledu vedle seznam úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "Task preview pane position (vertical)"
 msgstr "Poloha panelu náhledu úkolů (svislá)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Poloha panelu náhledu úkolů, když je orientován svisle"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Highlight overdue tasks"
 msgstr "Zvýrazňovat úkoly ve skluzu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr "Zda zvýrazňovat úkoly ve skluzu speciální barvou (task-overdue-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Overdue tasks color"
 msgstr "Barva úkolů, které již měly být splněny"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8487,19 +8498,19 @@ msgstr ""
 "Barva pozadí úkolů, které již měly být splněny, ve formátu „#rrggbb“. "
 "Použité společně s task-overdue-highlight."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Time divisions"
 msgstr "Časové úseky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Intervaly zobrazované v zobrazeních dne a pracovního týdne, v minutách"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "Timezone"
 msgstr "Časové pásmo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8508,78 +8519,78 @@ msgstr ""
 "nepřeložené umístění z Olsenovy databáze časových pásem, např. „America/New "
 "York“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "Twenty four hour time format"
 msgstr "Dvacetičtyřhodinový formát času"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
 "Jestli zobrazovat časy ve dvacetičtyřhodinovém formátu místo používání am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Birthday and anniversary reminder"
 msgstr "Připomínka narozenin a výročí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Jestli nastavovat připomínku narozenin a výročí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Default appointment reminder"
 msgstr "Výchozí připomínka události"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Whether to set a default reminder for appointments"
 msgstr "Jestli nastavovat výchozí připomínku událostí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Use system timezone"
 msgstr "Použít systémové časové pásmo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "Použít systémové časové pásmo místo časového pásma vybraného v aplikaci "
 "Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid "First day of the week"
 msgstr "První den týdne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Monday is a work day"
 msgstr "Pondělí je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Tuesday is a work day"
 msgstr "Úterý je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Wednesday is a work day"
 msgstr "Středa je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid "Thursday is a work day"
 msgstr "Čtvrtek je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Friday is a work day"
 msgstr "Pátek je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid "Saturday is a work day"
 msgstr "Sobota je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Sunday is a work day"
 msgstr "Neděle je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(zavržené) Den týdne, kdy týden začíná, od neděle (0) do soboty (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
@@ -8587,11 +8598,11 @@ msgstr ""
 "Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
 "něj použijte „week-start-day-name“."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "(Deprecated) Work days"
 msgstr "(zavržené) Pracovní dny"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
@@ -9348,10 +9359,6 @@ msgid "Whether sort thread children always ascending"
 msgstr "Zda potomky vlákna vždy řadit vzestupně"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
-#| msgid ""
-#| "This setting specifies whether the threads should be sorted based on "
-#| "latest message in each thread, rather than by message's date. Evolution "
-#| "requires a restart."
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -10472,7 +10479,7 @@ msgstr "Formátovat část jako HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:198
-#: ../e-util/e-html-editor-actions.c:1544
+#: ../e-util/e-html-editor-actions.c:1546
 msgid "Plain Text"
 msgstr "Prostý text"
 
@@ -10633,7 +10640,7 @@ msgid "S/MIME encrypted"
 msgstr "Šifrováno S/MIME"
 
 #: ../em-format/e-mail-formatter-utils.c:591
-#: ../mail/e-mail-config-security-page.c:736
+#: ../mail/e-mail-config-security-page.c:748
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:194
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:144
 msgid "Security"
@@ -10936,30 +10943,30 @@ msgstr "Uložit jen vybalené s_oubory"
 msgid "Save extracted files and the original _archive"
 msgstr "Uložit vybalené soubory a původní _archiv"
 
-#: ../e-util/e-attachment-view.c:413
+#: ../e-util/e-attachment-view.c:428
 msgid "Open With Other Application..."
 msgstr "Otevřít v jiné aplikaci…"
 
-#: ../e-util/e-attachment-view.c:420
+#: ../e-util/e-attachment-view.c:435
 msgid "S_ave All"
 msgstr "Uložit _vše"
 
-#: ../e-util/e-attachment-view.c:427
+#: ../e-util/e-attachment-view.c:442
 msgid "Sa_ve As"
 msgstr "_Uložit jako"
 
-#: ../e-util/e-attachment-view.c:436
+#: ../e-util/e-attachment-view.c:451
 #: ../plugins/save-calendar/save-calendar.c:349
 #: ../plugins/save-calendar/save-calendar.c:380
 #: ../plugins/save-calendar/save-calendar.c:411
 msgid "Save _As"
 msgstr "Uložit _jako"
 
-#: ../e-util/e-attachment-view.c:446
+#: ../e-util/e-attachment-view.c:461
 msgid "A_dd Attachment..."
 msgstr "_Přidat přílohu…"
 
-#: ../e-util/e-attachment-view.c:453
+#: ../e-util/e-attachment-view.c:468
 #: ../modules/addressbook/e-book-shell-view-actions.c:1071
 #: ../modules/calendar/e-cal-shell-view-actions.c:1240
 #: ../modules/calendar/e-memo-shell-view-actions.c:571
@@ -10969,44 +10976,44 @@ msgstr "_Přidat přílohu…"
 msgid "_Properties"
 msgstr "_Vlastnosti"
 
-#: ../e-util/e-attachment-view.c:470
+#: ../e-util/e-attachment-view.c:485
 msgid "_Hide"
 msgstr "_Skrýt"
 
-#: ../e-util/e-attachment-view.c:477
+#: ../e-util/e-attachment-view.c:492
 msgid "Hid_e All"
 msgstr "Skrýt vš_e"
 
-#: ../e-util/e-attachment-view.c:484
+#: ../e-util/e-attachment-view.c:499
 msgid "_View Inline"
 msgstr "_Zobrazit v textu"
 
-#: ../e-util/e-attachment-view.c:491
+#: ../e-util/e-attachment-view.c:506
 msgid "Vie_w All Inline"
 msgstr "_Zobrazit vše v textu"
 
-#: ../e-util/e-attachment-view.c:498
+#: ../e-util/e-attachment-view.c:513
 msgid "_Zoom to 100%"
 msgstr "_Přiblížit na 100%"
 
-#: ../e-util/e-attachment-view.c:500
+#: ../e-util/e-attachment-view.c:515
 msgid "Zoom the image to its natural size"
 msgstr "Přiblížit obrázek na jeho přirozenou velikost"
 
-#: ../e-util/e-attachment-view.c:505
+#: ../e-util/e-attachment-view.c:520
 msgid "_Zoom to window"
 msgstr "_Přiblížit podle okna"
 
-#: ../e-util/e-attachment-view.c:507
+#: ../e-util/e-attachment-view.c:522
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Přiblížit velké obrázky tak, aby nebyly širší, než je šířka okna"
 
-#: ../e-util/e-attachment-view.c:850
+#: ../e-util/e-attachment-view.c:880
 #, c-format
 msgid "Open With \"%s\""
 msgstr "Otevřít s „%s“"
 
-#: ../e-util/e-attachment-view.c:853
+#: ../e-util/e-attachment-view.c:883
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "Otevřít tuto přílohu v %s"
@@ -11452,7 +11459,7 @@ msgstr "bílá"
 
 #: ../e-util/e-color-combo.c:639 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
-#: ../mail/e-mail-config-security-page.c:566 ../mail/e-mail-reader.c:3959
+#: ../mail/e-mail-config-security-page.c:578 ../mail/e-mail-reader.c:3959
 #: ../mail/mail-config.ui.h:70
 msgid "Default"
 msgstr "Výchozí"
@@ -11913,504 +11920,504 @@ msgstr "Selhalo vložení souboru HTML."
 msgid "Failed to insert text file."
 msgstr "Selhalo vložení textového souboru."
 
-#: ../e-util/e-html-editor-actions.c:612
+#: ../e-util/e-html-editor-actions.c:614
 msgid "Insert HTML File"
 msgstr "Vložení souboru HTML"
 
-#: ../e-util/e-html-editor-actions.c:618
+#: ../e-util/e-html-editor-actions.c:620
 msgid "HTML file"
 msgstr "Soubor HTML"
 
-#: ../e-util/e-html-editor-actions.c:645
+#: ../e-util/e-html-editor-actions.c:647
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Vložení obrázku"
 
-#: ../e-util/e-html-editor-actions.c:706
+#: ../e-util/e-html-editor-actions.c:708
 msgid "Insert text file"
 msgstr "Vložení textového souboru"
 
-#: ../e-util/e-html-editor-actions.c:712
+#: ../e-util/e-html-editor-actions.c:714
 msgid "Text file"
 msgstr "Textový soubor"
 
-#: ../e-util/e-html-editor-actions.c:1096
+#: ../e-util/e-html-editor-actions.c:1098
 msgid "Copy selected text to the clipboard"
 msgstr "Zkopírovat vybraný text do schránky"
 
-#: ../e-util/e-html-editor-actions.c:1103
+#: ../e-util/e-html-editor-actions.c:1105
 msgid "Cut selected text to the clipboard"
 msgstr "Vyjmout vybraný text do schránky"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../e-util/e-html-editor-actions.c:1110
+#: ../e-util/e-html-editor-actions.c:1112
 msgid "Paste text from the clipboard"
 msgstr "Vložit text ze schránky"
 
-#: ../e-util/e-html-editor-actions.c:1117
+#: ../e-util/e-html-editor-actions.c:1119
 msgid "Redo the last undone action"
 msgstr "Znovu provést poslední vrácenou činnost"
 
-#: ../e-util/e-html-editor-actions.c:1131
+#: ../e-util/e-html-editor-actions.c:1133
 msgid "Undo the last action"
 msgstr "Vráti zpět poslední činnost"
 
-#: ../e-util/e-html-editor-actions.c:1152
+#: ../e-util/e-html-editor-actions.c:1154
 msgid "For_mat"
 msgstr "For_mát"
 
-#: ../e-util/e-html-editor-actions.c:1159
+#: ../e-util/e-html-editor-actions.c:1161
 msgid "_Paragraph Style"
 msgstr "Styl _odstavce"
 
-#: ../e-util/e-html-editor-actions.c:1173
+#: ../e-util/e-html-editor-actions.c:1175
 #: ../e-util/e-html-editor-image-dialog.c:635
 msgid "_Alignment"
 msgstr "Z_arovnání"
 
-#: ../e-util/e-html-editor-actions.c:1180
+#: ../e-util/e-html-editor-actions.c:1182
 msgid "Current _Languages"
 msgstr "Aktuální _jazyky"
 
-#: ../e-util/e-html-editor-actions.c:1197
+#: ../e-util/e-html-editor-actions.c:1199
 msgid "_Increase Indent"
 msgstr "Zvětš_it odsazení"
 
-#: ../e-util/e-html-editor-actions.c:1199
+#: ../e-util/e-html-editor-actions.c:1201
 msgid "Increase Indent"
 msgstr "Zvětšit odsazení"
 
-#: ../e-util/e-html-editor-actions.c:1204
+#: ../e-util/e-html-editor-actions.c:1206
 msgid "_HTML File..."
 msgstr "Soubor _HTML…"
 
-#: ../e-util/e-html-editor-actions.c:1211
+#: ../e-util/e-html-editor-actions.c:1213
 msgid "Te_xt File..."
 msgstr "Te_xtový soubor…"
 
-#: ../e-util/e-html-editor-actions.c:1218
+#: ../e-util/e-html-editor-actions.c:1220
 msgid "Paste _Quotation"
 msgstr "Vložit _citaci"
 
-#: ../e-util/e-html-editor-actions.c:1225
+#: ../e-util/e-html-editor-actions.c:1227
 msgid "_Find..."
 msgstr "_Hledat…"
 
-#: ../e-util/e-html-editor-actions.c:1227
+#: ../e-util/e-html-editor-actions.c:1229
 msgid "Search for text"
 msgstr "Hledat text"
 
-#: ../e-util/e-html-editor-actions.c:1232
+#: ../e-util/e-html-editor-actions.c:1234
 msgid "Find A_gain"
 msgstr "Hl_edat znovu"
 
-#: ../e-util/e-html-editor-actions.c:1239
+#: ../e-util/e-html-editor-actions.c:1241
 msgid "Re_place..."
 msgstr "_Nahradit…"
 
-#: ../e-util/e-html-editor-actions.c:1241
+#: ../e-util/e-html-editor-actions.c:1243
 msgid "Search for and replace text"
 msgstr "Hledat a nahradit text"
 
-#: ../e-util/e-html-editor-actions.c:1246
+#: ../e-util/e-html-editor-actions.c:1248
 msgid "Check _Spelling..."
 msgstr "Zkontrolovat pravopi_s…"
 
-#: ../e-util/e-html-editor-actions.c:1253
+#: ../e-util/e-html-editor-actions.c:1255
 msgid "_Decrease Indent"
 msgstr "Zmenšit o_dsazení"
 
-#: ../e-util/e-html-editor-actions.c:1255
+#: ../e-util/e-html-editor-actions.c:1257
 msgid "Decrease Indent"
 msgstr "Zmenšit odsazení"
 
-#: ../e-util/e-html-editor-actions.c:1260
+#: ../e-util/e-html-editor-actions.c:1262
 msgid "_Wrap Lines"
 msgstr "_Zalamovat řádky"
 
-#: ../e-util/e-html-editor-actions.c:1267
+#: ../e-util/e-html-editor-actions.c:1269
 msgid "Open Inspector"
 msgstr "Otevřít inspektora"
 
 #. Center
-#: ../e-util/e-html-editor-actions.c:1277
+#: ../e-util/e-html-editor-actions.c:1279
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
 msgstr "Na stře_d"
 
-#: ../e-util/e-html-editor-actions.c:1279
+#: ../e-util/e-html-editor-actions.c:1281
 msgid "Center Alignment"
 msgstr "Zarovnat na střed"
 
 #. Left
-#: ../e-util/e-html-editor-actions.c:1284
+#: ../e-util/e-html-editor-actions.c:1286
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
 msgstr "V_levo"
 
-#: ../e-util/e-html-editor-actions.c:1286
+#: ../e-util/e-html-editor-actions.c:1288
 msgid "Left Alignment"
 msgstr "Zarovnat vlevo"
 
 #. Right
-#: ../e-util/e-html-editor-actions.c:1291
+#: ../e-util/e-html-editor-actions.c:1293
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
 msgstr "Vp_ravo"
 
-#: ../e-util/e-html-editor-actions.c:1293
+#: ../e-util/e-html-editor-actions.c:1295
 msgid "Right Alignment"
 msgstr "Zarovnat vpravo"
 
-#: ../e-util/e-html-editor-actions.c:1301
+#: ../e-util/e-html-editor-actions.c:1303
 #: ../modules/text-highlight/languages.c:72
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../e-util/e-html-editor-actions.c:1303
+#: ../e-util/e-html-editor-actions.c:1305
 msgid "HTML editing mode"
 msgstr "Režim úprav v HTML"
 
-#: ../e-util/e-html-editor-actions.c:1308
+#: ../e-util/e-html-editor-actions.c:1310
 msgid "Plain _Text"
 msgstr "Prostý _text"
 
-#: ../e-util/e-html-editor-actions.c:1310
+#: ../e-util/e-html-editor-actions.c:1312
 msgid "Plain text editing mode"
 msgstr "Režim úprav v prostém textu"
 
-#: ../e-util/e-html-editor-actions.c:1318
+#: ../e-util/e-html-editor-actions.c:1320
 msgid "_Normal"
 msgstr "_Normální"
 
-#: ../e-util/e-html-editor-actions.c:1325
+#: ../e-util/e-html-editor-actions.c:1327
 msgid "Header _1"
 msgstr "Nadpis _1"
 
-#: ../e-util/e-html-editor-actions.c:1332
+#: ../e-util/e-html-editor-actions.c:1334
 msgid "Header _2"
 msgstr "Nadpis _2"
 
-#: ../e-util/e-html-editor-actions.c:1339
+#: ../e-util/e-html-editor-actions.c:1341
 msgid "Header _3"
 msgstr "Nadpis _3"
 
-#: ../e-util/e-html-editor-actions.c:1346
+#: ../e-util/e-html-editor-actions.c:1348
 msgid "Header _4"
 msgstr "Nadpis _4"
 
-#: ../e-util/e-html-editor-actions.c:1353
+#: ../e-util/e-html-editor-actions.c:1355
 msgid "Header _5"
 msgstr "Nadpis _5"
 
-#: ../e-util/e-html-editor-actions.c:1360
+#: ../e-util/e-html-editor-actions.c:1362
 msgid "Header _6"
 msgstr "Nadpis _6"
 
-#: ../e-util/e-html-editor-actions.c:1367
+#: ../e-util/e-html-editor-actions.c:1369
 msgid "_Preformatted"
 msgstr "_Předformátováno"
 
-#: ../e-util/e-html-editor-actions.c:1374
+#: ../e-util/e-html-editor-actions.c:1376
 msgid "A_ddress"
 msgstr "A_dresa"
 
-#: ../e-util/e-html-editor-actions.c:1381
+#: ../e-util/e-html-editor-actions.c:1383
 msgid "_Blockquote"
 msgstr "_Citace"
 
-#: ../e-util/e-html-editor-actions.c:1388
+#: ../e-util/e-html-editor-actions.c:1390
 msgid "_Bulleted List"
 msgstr "Seznam s o_drážkami"
 
-#: ../e-util/e-html-editor-actions.c:1395
+#: ../e-util/e-html-editor-actions.c:1397
 msgid "_Roman Numeral List"
 msgstr "Seznam s ří_mskými číslicemi"
 
-#: ../e-util/e-html-editor-actions.c:1402
+#: ../e-util/e-html-editor-actions.c:1404
 msgid "Numbered _List"
 msgstr "Seznam s čís_licemi"
 
-#: ../e-util/e-html-editor-actions.c:1409
+#: ../e-util/e-html-editor-actions.c:1411
 msgid "_Alphabetical List"
 msgstr "Sezn_am s písmeny"
 
-#: ../e-util/e-html-editor-actions.c:1425
-#: ../e-util/e-html-editor-actions.c:1463
+#: ../e-util/e-html-editor-actions.c:1427
+#: ../e-util/e-html-editor-actions.c:1465
 msgid "_Image..."
 msgstr "O_brázek…"
 
 #. Translators: This is an action tooltip
-#: ../e-util/e-html-editor-actions.c:1428
+#: ../e-util/e-html-editor-actions.c:1430
 msgid "Insert Image"
 msgstr "Vložení obrázku"
 
-#: ../e-util/e-html-editor-actions.c:1433
-#: ../e-util/e-html-editor-actions.c:1470
+#: ../e-util/e-html-editor-actions.c:1435
+#: ../e-util/e-html-editor-actions.c:1472
 msgid "_Link..."
 msgstr "Odk_az…"
 
-#: ../e-util/e-html-editor-actions.c:1435
+#: ../e-util/e-html-editor-actions.c:1437
 msgid "Insert Link"
 msgstr "Vložit odkaz"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1441
-#: ../e-util/e-html-editor-actions.c:1485
+#: ../e-util/e-html-editor-actions.c:1443
+#: ../e-util/e-html-editor-actions.c:1487
 msgid "_Rule..."
 msgstr "Oddělovací čá_ra…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1444
+#: ../e-util/e-html-editor-actions.c:1446
 msgid "Insert Rule"
 msgstr "Vložit oddělovací čáru"
 
-#: ../e-util/e-html-editor-actions.c:1449
-#: ../e-util/e-html-editor-actions.c:1492
+#: ../e-util/e-html-editor-actions.c:1451
+#: ../e-util/e-html-editor-actions.c:1494
 msgid "_Table..."
 msgstr "_Tabulka…"
 
-#: ../e-util/e-html-editor-actions.c:1451
+#: ../e-util/e-html-editor-actions.c:1453
 msgid "Insert Table"
 msgstr "Vložit tabulku"
 
-#: ../e-util/e-html-editor-actions.c:1456
+#: ../e-util/e-html-editor-actions.c:1458
 msgid "_Cell..."
 msgstr "B_uňka…"
 
-#: ../e-util/e-html-editor-actions.c:1477
+#: ../e-util/e-html-editor-actions.c:1479
 msgid "Pa_ge..."
 msgstr "Strán_ka…"
 
-#: ../e-util/e-html-editor-actions.c:1501
+#: ../e-util/e-html-editor-actions.c:1503
 msgid "Font _Size"
 msgstr "Velikost pí_sma"
 
-#: ../e-util/e-html-editor-actions.c:1508
+#: ../e-util/e-html-editor-actions.c:1510
 msgid "_Font Style"
 msgstr "Styl _písma"
 
-#: ../e-util/e-html-editor-actions.c:1515
+#: ../e-util/e-html-editor-actions.c:1517
 msgid "Paste As _Text"
 msgstr "Vložit jako _text"
 
-#: ../e-util/e-html-editor-actions.c:1526
+#: ../e-util/e-html-editor-actions.c:1528
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "_Tučné"
 
-#: ../e-util/e-html-editor-actions.c:1528
+#: ../e-util/e-html-editor-actions.c:1530
 msgid "Bold"
 msgstr "Tučné"
 
-#: ../e-util/e-html-editor-actions.c:1534
+#: ../e-util/e-html-editor-actions.c:1536
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "Ku_rzíva"
 
-#: ../e-util/e-html-editor-actions.c:1536
+#: ../e-util/e-html-editor-actions.c:1538
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: ../e-util/e-html-editor-actions.c:1542
+#: ../e-util/e-html-editor-actions.c:1544
 msgid "_Plain Text"
 msgstr "_Prostý text"
 
-#: ../e-util/e-html-editor-actions.c:1550
+#: ../e-util/e-html-editor-actions.c:1552
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "Př_eškrtnutí"
 
-#: ../e-util/e-html-editor-actions.c:1552
+#: ../e-util/e-html-editor-actions.c:1554
 msgid "Strikethrough"
 msgstr "Přeškrtnutí"
 
-#: ../e-util/e-html-editor-actions.c:1558
+#: ../e-util/e-html-editor-actions.c:1560
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "Po_dtržení"
 
-#: ../e-util/e-html-editor-actions.c:1560
+#: ../e-util/e-html-editor-actions.c:1562
 msgid "Underline"
 msgstr "Podtržení"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1570
+#: ../e-util/e-html-editor-actions.c:1572
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1578
+#: ../e-util/e-html-editor-actions.c:1580
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1586
+#: ../e-util/e-html-editor-actions.c:1588
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1594
+#: ../e-util/e-html-editor-actions.c:1596
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1602
+#: ../e-util/e-html-editor-actions.c:1604
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1610
+#: ../e-util/e-html-editor-actions.c:1612
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1618
+#: ../e-util/e-html-editor-actions.c:1620
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1637
+#: ../e-util/e-html-editor-actions.c:1639
 msgid "Cell Contents"
 msgstr "Obsah buňky"
 
-#: ../e-util/e-html-editor-actions.c:1644
+#: ../e-util/e-html-editor-actions.c:1646
 msgid "Column"
 msgstr "Sloupec"
 
-#: ../e-util/e-html-editor-actions.c:1651
+#: ../e-util/e-html-editor-actions.c:1653
 msgid "Row"
 msgstr "Řádek"
 
-#: ../e-util/e-html-editor-actions.c:1658
-#: ../e-util/e-html-editor-actions.c:1743
+#: ../e-util/e-html-editor-actions.c:1660
+#: ../e-util/e-html-editor-actions.c:1745
 msgid "Table"
 msgstr "Tabulka"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1668
+#: ../e-util/e-html-editor-actions.c:1670
 msgid "Table Delete"
 msgstr "Smazat v tabulce"
 
-#: ../e-util/e-html-editor-actions.c:1675 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1677 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Vstupní metody"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1683
+#: ../e-util/e-html-editor-actions.c:1685
 msgid "Table Insert"
 msgstr "Vložit do tabulky"
 
-#: ../e-util/e-html-editor-actions.c:1690
+#: ../e-util/e-html-editor-actions.c:1692
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: ../e-util/e-html-editor-actions.c:1708
+#: ../e-util/e-html-editor-actions.c:1710
 msgid "Column After"
 msgstr "Sloupec za"
 
-#: ../e-util/e-html-editor-actions.c:1715
+#: ../e-util/e-html-editor-actions.c:1717
 msgid "Column Before"
 msgstr "Sloupec před"
 
-#: ../e-util/e-html-editor-actions.c:1722
+#: ../e-util/e-html-editor-actions.c:1724
 msgid "Insert _Link"
 msgstr "V_ložit odkaz"
 
-#: ../e-util/e-html-editor-actions.c:1729
+#: ../e-util/e-html-editor-actions.c:1731
 msgid "Row Above"
 msgstr "Řádek nad"
 
-#: ../e-util/e-html-editor-actions.c:1736
+#: ../e-util/e-html-editor-actions.c:1738
 msgid "Row Below"
 msgstr "Řádek pod"
 
-#: ../e-util/e-html-editor-actions.c:1750
+#: ../e-util/e-html-editor-actions.c:1752
 msgid "Cell..."
 msgstr "Buňka…"
 
-#: ../e-util/e-html-editor-actions.c:1757
+#: ../e-util/e-html-editor-actions.c:1759
 msgid "Image..."
 msgstr "Obrázek…"
 
-#: ../e-util/e-html-editor-actions.c:1764
+#: ../e-util/e-html-editor-actions.c:1766
 msgid "Link..."
 msgstr "Odkaz…"
 
-#: ../e-util/e-html-editor-actions.c:1771
+#: ../e-util/e-html-editor-actions.c:1773
 msgid "Page..."
 msgstr "Stránka…"
 
-#: ../e-util/e-html-editor-actions.c:1778
+#: ../e-util/e-html-editor-actions.c:1780
 msgid "Paragraph..."
 msgstr "Odstavec…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1786
+#: ../e-util/e-html-editor-actions.c:1788
 msgid "Rule..."
 msgstr "Oddělovací čára…"
 
-#: ../e-util/e-html-editor-actions.c:1793
+#: ../e-util/e-html-editor-actions.c:1795
 msgid "Table..."
 msgstr "Tabulka…"
 
-#: ../e-util/e-html-editor-actions.c:1800
+#: ../e-util/e-html-editor-actions.c:1802
 msgid "Text..."
 msgstr "Text…"
 
-#: ../e-util/e-html-editor-actions.c:1807
+#: ../e-util/e-html-editor-actions.c:1809
 msgid "Remove Link"
 msgstr "Odstranit odkaz"
 
-#: ../e-util/e-html-editor-actions.c:1824
+#: ../e-util/e-html-editor-actions.c:1826
 msgid "Add Word to Dictionary"
 msgstr "Přidat slovo do slovníku"
 
-#: ../e-util/e-html-editor-actions.c:1831
+#: ../e-util/e-html-editor-actions.c:1833
 msgid "Ignore Misspelled Word"
 msgstr "Ignorovat pravopisně chybná slova"
 
-#: ../e-util/e-html-editor-actions.c:1838
+#: ../e-util/e-html-editor-actions.c:1840
 msgid "Add Word To"
 msgstr "Přidat slovo do"
 
-#: ../e-util/e-html-editor-actions.c:1847
+#: ../e-util/e-html-editor-actions.c:1849
 msgid "More Suggestions"
 msgstr "Další návrhy"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1955
+#: ../e-util/e-html-editor-actions.c:1957
 #, c-format
 msgid "%s Dictionary"
 msgstr "Slovník %s"
 
-#: ../e-util/e-html-editor-actions.c:2042
+#: ../e-util/e-html-editor-actions.c:2044
 msgid "_Emoticon"
 msgstr "_Emotikona"
 
-#: ../e-util/e-html-editor-actions.c:2043
+#: ../e-util/e-html-editor-actions.c:2045
 msgid "Insert Emoticon"
 msgstr "Vložit emotikonu"
 
-#: ../e-util/e-html-editor-actions.c:2111
+#: ../e-util/e-html-editor-actions.c:2113
 msgid "Re_place"
 msgstr "_Nahradit"
 
-#: ../e-util/e-html-editor-actions.c:2114
+#: ../e-util/e-html-editor-actions.c:2116
 msgid "_Image"
 msgstr "O_brázek"
 
-#: ../e-util/e-html-editor-actions.c:2117
+#: ../e-util/e-html-editor-actions.c:2119
 msgid "_Link"
 msgstr "O_dkaz"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:2121
+#: ../e-util/e-html-editor-actions.c:2123
 msgid "_Rule"
 msgstr "Oddělovací čá_ra"
 
-#: ../e-util/e-html-editor-actions.c:2124
+#: ../e-util/e-html-editor-actions.c:2126
 #: ../e-util/e-html-editor-cell-dialog.c:732
 msgid "_Table"
 msgstr "_Tabulka"
@@ -12724,7 +12731,7 @@ msgid "<b>Background Image</b>"
 msgstr "<b>Obrázek pozadí</b>"
 
 #: ../e-util/e-html-editor-page-dialog.c:632
-#: ../modules/calendar/e-calendar-preferences.ui.h:75
+#: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "_Template:"
 msgstr "Šabl_ona:"
 
@@ -12881,11 +12888,11 @@ msgstr "Vel_ikost:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:4920
+#: ../e-util/e-html-editor-view.c:4930
 msgid "Changed property"
 msgstr "Změněna vlastnost"
 
-#: ../e-util/e-html-editor-view.c:4921
+#: ../e-util/e-html-editor-view.c:4931
 msgid "Whether editor changed"
 msgstr "Zda v editoru došlo ke změně"
 
@@ -13123,7 +13130,7 @@ msgid "Search"
 msgstr "Hledat"
 
 #: ../e-util/e-name-selector-dialog.c:448
-#: ../mail/importers/pine-importer.c:427
+#: ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Adresář"
 
@@ -13138,25 +13145,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Vybrat kontakty z adresáře"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../e-util/e-name-selector-entry.c:3183
+#: ../e-util/e-name-selector-entry.c:3186
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Rozbalit %s jako vložené"
 
 #. Copy Contact Item
-#: ../e-util/e-name-selector-entry.c:3199
+#: ../e-util/e-name-selector-entry.c:3202
 #, c-format
 msgid "Cop_y %s"
 msgstr "Ko_pírovat %s"
 
 #. Cut Contact Item
-#: ../e-util/e-name-selector-entry.c:3210
+#: ../e-util/e-name-selector-entry.c:3213
 #, c-format
 msgid "C_ut %s"
 msgstr "_Vyjmout %s"
 
 #. Edit Contact item
-#: ../e-util/e-name-selector-entry.c:3228
+#: ../e-util/e-name-selector-entry.c:3231
 #, c-format
 msgid "_Edit %s"
 msgstr "_Upravit %s"
@@ -13352,9 +13359,9 @@ msgstr "Při dosažení konce stránky pokračovat svrchu"
 msgid "Reached top of page, continued from bottom"
 msgstr "Při dosažení horního konce stránky pokračovat zespodu"
 
-#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:327
+#: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
 #: ../mail/importers/kmail-importer.c:253
-#: ../mail/importers/pine-importer.c:420
+#: ../mail/importers/pine-importer.c:422
 #: ../modules/mail/e-mail-shell-view.c:1172
 #: ../smime/gui/certificate-manager.c:1669
 msgid "Mail"
@@ -13952,12 +13959,10 @@ msgid "_Copy Email Address"
 msgstr "Kopírovat _e-mailovou adresu"
 
 #: ../e-util/e-web-view.c:343
-#| msgid "Copy _Email Address"
 msgid "Copy _Raw Email Address"
 msgstr "Kopírovat holou e-mailovou ad_resu"
 
 #: ../e-util/e-web-view.c:345
-#| msgid "Copy the email address to the clipboard"
 msgid "Copy the raw email address to the clipboard"
 msgstr "Zkopírovat holou e-mailovou adresu do schránky"
 
@@ -14890,22 +14895,22 @@ msgid "Si_gning algorithm:"
 msgstr "_Podpisový algoritmus:"
 
 #: ../mail/e-mail-config-security-page.c:429
-#: ../mail/e-mail-config-security-page.c:569 ../mail/mail-config.ui.h:71
+#: ../mail/e-mail-config-security-page.c:581 ../mail/mail-config.ui.h:71
 msgid "SHA1"
 msgstr "SHA1"
 
 #: ../mail/e-mail-config-security-page.c:432
-#: ../mail/e-mail-config-security-page.c:572 ../mail/mail-config.ui.h:72
+#: ../mail/e-mail-config-security-page.c:584 ../mail/mail-config.ui.h:72
 msgid "SHA256"
 msgstr "SHA256"
 
 #: ../mail/e-mail-config-security-page.c:435
-#: ../mail/e-mail-config-security-page.c:575 ../mail/mail-config.ui.h:73
+#: ../mail/e-mail-config-security-page.c:587 ../mail/mail-config.ui.h:73
 msgid "SHA384"
 msgstr "SHA384"
 
 #: ../mail/e-mail-config-security-page.c:438
-#: ../mail/e-mail-config-security-page.c:578 ../mail/mail-config.ui.h:74
+#: ../mail/e-mail-config-security-page.c:590 ../mail/mail-config.ui.h:74
 msgid "SHA512"
 msgstr "SHA512"
 
@@ -14914,49 +14919,53 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "_Vždy podepisovat odchozí zprávy, když se používá tento účet"
 
 #: ../mail/e-mail-config-security-page.c:466
+msgid "Always enc_rypt outgoing messages when using this account"
+msgstr "Vždy šif_rovat odchozí zprávy, když se používá tento účet"
+
+#: ../mail/e-mail-config-security-page.c:478
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "Vždy ši_frovat sobě při odesílání šifrované zprávy"
 
-#: ../mail/e-mail-config-security-page.c:478
+#: ../mail/e-mail-config-security-page.c:490
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Při šifrování vždy _důvěřovat klíčům na mém svazku"
 
-#: ../mail/e-mail-config-security-page.c:502
+#: ../mail/e-mail-config-security-page.c:514
 msgid "Secure MIME (S/MIME)"
 msgstr "Zabezpečené MIME (S/MIME)"
 
-#: ../mail/e-mail-config-security-page.c:511
+#: ../mail/e-mail-config-security-page.c:523
 msgid "Sig_ning certificate:"
 msgstr "_Podpisový certifikát:"
 
-#: ../mail/e-mail-config-security-page.c:535
-#: ../mail/e-mail-config-security-page.c:641
+#: ../mail/e-mail-config-security-page.c:547
+#: ../mail/e-mail-config-security-page.c:653
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../mail/e-mail-config-security-page.c:544
-#: ../mail/e-mail-config-security-page.c:650 ../mail/mail-dialogs.ui.h:5
+#: ../mail/e-mail-config-security-page.c:556
+#: ../mail/e-mail-config-security-page.c:662 ../mail/mail-dialogs.ui.h:5
 #: ../shell/e-shell-window-actions.c:1006
 msgid "_Clear"
 msgstr "_Vymazat"
 
-#: ../mail/e-mail-config-security-page.c:553
+#: ../mail/e-mail-config-security-page.c:565
 msgid "Signing _algorithm:"
 msgstr "Podpisový _algoritmus:"
 
-#: ../mail/e-mail-config-security-page.c:594
+#: ../mail/e-mail-config-security-page.c:606
 msgid "Always sign outgoing messages when using this account"
 msgstr "Vždy podepisovat odchozí zprávy, když se používá tento účet"
 
-#: ../mail/e-mail-config-security-page.c:617
+#: ../mail/e-mail-config-security-page.c:629
 msgid "Encryption certificate:"
 msgstr "Šifrovací certifikát:"
 
-#: ../mail/e-mail-config-security-page.c:659
+#: ../mail/e-mail-config-security-page.c:671
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Vždy šifrovat odchozí zprávy, když se používá tento účet"
 
-#: ../mail/e-mail-config-security-page.c:679
+#: ../mail/e-mail-config-security-page.c:691
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Vždy šifrovat sobě při odesílání šifrované zprávy"
 
@@ -15223,6 +15232,7 @@ msgid "Copy to Folder"
 msgstr "Kopírovat do složky"
 
 #: ../mail/e-mail-reader.c:355 ../mail/em-folder-utils.c:487
+#: ../mail/mail.error.xml.h:144
 msgid "_Move"
 msgstr "_Přesunout"
 
@@ -16520,11 +16530,11 @@ msgstr "Přeposlat"
 msgid "Importing Elm data"
 msgstr "Probíhá import dat Elm"
 
-#: ../mail/importers/elm-importer.c:374
+#: ../mail/importers/elm-importer.c:376
 msgid "Evolution Elm importer"
 msgstr "Import Evolution z Elm"
 
-#: ../mail/importers/elm-importer.c:375
+#: ../mail/importers/elm-importer.c:377
 msgid "Import mail from Elm."
 msgstr "Importovat poštu z Elm."
 
@@ -16588,23 +16598,23 @@ msgstr "Import pošty a kontaktů z KMailu"
 msgid "Trash"
 msgstr "Koš"
 
-#: ../mail/importers/mail-importer.c:55
+#: ../mail/importers/mail-importer.c:54
 msgid "Importing mailbox"
 msgstr "Probíhá import mailbox"
 
-#: ../mail/importers/mail-importer.c:61
+#: ../mail/importers/mail-importer.c:60
 msgid "Importing mail and contacts from KMail"
 msgstr "Importuje se pošta a kontakty z KMailu"
 
 #. Destination folder, was set in our widget
-#: ../mail/importers/mail-importer.c:187 ../mail/importers/mail-importer.c:314
+#: ../mail/importers/mail-importer.c:186 ../mail/importers/mail-importer.c:311
 #: ../plugins/dbx-import/dbx-importer.c:609
 #: ../plugins/pst-import/pst-importer.c:760
 #, c-format
 msgid "Importing '%s'"
 msgstr "Importuje se „%s“"
 
-#: ../mail/importers/mail-importer.c:570
+#: ../mail/importers/mail-importer.c:555
 #, c-format
 msgid "Scanning %s"
 msgstr "Prohledávání %s"
@@ -16613,11 +16623,11 @@ msgstr "Prohledávání %s"
 msgid "Importing Pine data"
 msgstr "Probíhá import dat Pine"
 
-#: ../mail/importers/pine-importer.c:475
+#: ../mail/importers/pine-importer.c:477
 msgid "Evolution Pine importer"
 msgstr "Import Evolution z Pine"
 
-#: ../mail/importers/pine-importer.c:476
+#: ../mail/importers/pine-importer.c:478
 msgid "Import mail from Pine."
 msgstr "Importovat poštu z Pine."
 
@@ -17820,13 +17830,17 @@ msgstr "Kopírovat složku ve stromu složek."
 msgid "Are you sure you want to copy folder '{0}' to folder '{1}'?"
 msgstr "Opravdu chcete kopírovat složku „{0}“ do složky „{1}“?"
 
+#: ../mail/mail.error.xml.h:139
+msgid "Do _not copy"
+msgstr "_Nekopírovat"
+
 #: ../mail/mail.error.xml.h:140
-msgid "_Always"
-msgstr "_Vždy"
+msgid "_Always copy"
+msgstr "_Vždy kopírovat"
 
 #: ../mail/mail.error.xml.h:141
-msgid "N_ever"
-msgstr "N_ikdy"
+msgid "N_ever copy"
+msgstr "Nikdy n_ekopírovat"
 
 #: ../mail/mail.error.xml.h:142
 msgid "Move folder in folder tree."
@@ -17836,7 +17850,19 @@ msgstr "Přesunout složku ve stromu složek."
 msgid "Are you sure you want to to move folder '{0}' to folder '{1}'?"
 msgstr "Opravdu chcete přesunout složku „{0}“ do složky „{1}“?"
 
-#: ../mail/mail.error.xml.h:144
+#: ../mail/mail.error.xml.h:145
+msgid "Do _not move"
+msgstr "_Nepřesouvat"
+
+#: ../mail/mail.error.xml.h:146
+msgid "_Always move"
+msgstr "_Vždy přesunout"
+
+#: ../mail/mail.error.xml.h:147
+msgid "N_ever move"
+msgstr "Nikdy n_epřesouvat"
+
+#: ../mail/mail.error.xml.h:148
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
@@ -17844,68 +17870,68 @@ msgstr ""
 "Tato zpráva nemůže být odeslána, protože vybraný účet pro odeslání není "
 "povolen"
 
-#: ../mail/mail.error.xml.h:145
+#: ../mail/mail.error.xml.h:149
 msgid "Please enable the account or send using another account."
 msgstr "Povolte prosím účet nebo odešlete pomocí jiného účtu."
 
-#: ../mail/mail.error.xml.h:146
+#: ../mail/mail.error.xml.h:150
 msgid "Mail Deletion Failed"
 msgstr "Selhalo mazání pošty"
 
-#: ../mail/mail.error.xml.h:147
+#: ../mail/mail.error.xml.h:151
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Nemáte dostatečná oprávnění pro smazání této pošty."
 
-#: ../mail/mail.error.xml.h:148
+#: ../mail/mail.error.xml.h:152
 msgid "\"Check Junk\" Failed"
 msgstr "„Kontrola nevyžádaných zpráv“ selhala"
 
-#: ../mail/mail.error.xml.h:149
+#: ../mail/mail.error.xml.h:153
 msgid "\"Report Junk\" Failed"
 msgstr "„Nahlášení nevyžádaných zpráv“ selhalo"
 
-#: ../mail/mail.error.xml.h:150
+#: ../mail/mail.error.xml.h:154
 msgid "\"Report Not Junk\" Failed"
 msgstr "„Nahlášení korektních zpráv“ selhalo"
 
-#: ../mail/mail.error.xml.h:151
+#: ../mail/mail.error.xml.h:155
 msgid "Remove duplicate messages?"
 msgstr "Odstranit duplicitní zprávy?"
 
-#: ../mail/mail.error.xml.h:152
+#: ../mail/mail.error.xml.h:156
 msgid "No duplicate messages found."
 msgstr "Žádné duplicitní zprávy nenalezeny."
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:158
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "Složka '{0}' neobsahuje žádné duplicitní zprávy."
 
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:159
 msgid "Failed to connect account &quot;{0}&quot;."
 msgstr "Selhalo připojení účtu „{0}“."
 
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:160
 msgid "Failed to disconnect account &quot;{0}&quot;."
 msgstr "Selhalo odpojení účtu „{0}“."
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:161
 msgid "Failed to unsubscribe from folder &quot;{0}&quot;."
 msgstr "Selhalo zrušení odběru složky „{0}“."
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:162
 msgid "Unable to retrieve message."
 msgstr "Zprávu nelze získat."
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:163
 msgid "{0}"
 msgstr "{0}"
 
-#: ../mail/mail.error.xml.h:160
+#: ../mail/mail.error.xml.h:164
 msgid "Message is not available in offline mode."
 msgstr "Zpráva není v režimu odpojení dostupná."
 
-#: ../mail/mail.error.xml.h:161
+#: ../mail/mail.error.xml.h:165
 msgid ""
 "This can be due to the message not being downloaded yet. The folder, or the "
 "account, can be marked for offline synchronization. Then, once the account "
@@ -17919,39 +17945,39 @@ msgstr ""
 "používání po odpojení, aby se zajistilo, že zprávy v této složce boudou k "
 "dispozici i při odpojení."
 
-#: ../mail/mail.error.xml.h:162
+#: ../mail/mail.error.xml.h:166
 msgid "Failed to open folder."
 msgstr "Selhalo otevření složky."
 
-#: ../mail/mail.error.xml.h:164
+#: ../mail/mail.error.xml.h:168
 msgid "Failed to find duplicate messages."
 msgstr "Selhalo vyhledání duplicitních zpráv."
 
-#: ../mail/mail.error.xml.h:165
+#: ../mail/mail.error.xml.h:169
 msgid "Failed to retrieve messages."
 msgstr "Selhalo načtení zpráv."
 
-#: ../mail/mail.error.xml.h:166
+#: ../mail/mail.error.xml.h:170
 msgid "Failed to mark messages as read."
 msgstr "Selhalo označení zprávy jako přečtené."
 
-#: ../mail/mail.error.xml.h:167
+#: ../mail/mail.error.xml.h:171
 msgid "Failed to remove attachments from messages."
 msgstr "Selhalo odstranění příloh ze zpráv."
 
-#: ../mail/mail.error.xml.h:168
+#: ../mail/mail.error.xml.h:172
 msgid "Failed to download messages for offline viewing."
 msgstr "Selhalo stáhnutí zprávy pro zobrazení po odpojení."
 
-#: ../mail/mail.error.xml.h:169
+#: ../mail/mail.error.xml.h:173
 msgid "Failed to save messages to disk."
 msgstr "Selhalo uložení zpráv na disk."
 
-#: ../mail/mail.error.xml.h:170
+#: ../mail/mail.error.xml.h:174
 msgid "Hidden file is attached."
 msgstr "Jsou přiloženy skryté soubory."
 
-#: ../mail/mail.error.xml.h:171
+#: ../mail/mail.error.xml.h:175
 msgid ""
 "The attachment named {0} is a hidden file and may contain sensitive data. "
 "Please review it before sending."
@@ -17959,48 +17985,48 @@ msgstr ""
 "Příloha pojmenovaná {0} je skrytý soubor a obsahuje citlivá data. Zvažte to "
 "prosím, než ji odešlete."
 
-#: ../mail/mail.error.xml.h:172
+#: ../mail/mail.error.xml.h:176
 msgid "Printing failed."
 msgstr "Tisknutí selhalo."
 
-#: ../mail/mail.error.xml.h:173
+#: ../mail/mail.error.xml.h:177
 msgid "The printer replied &quot;{0}&quot;."
 msgstr "Tiskárna odpověděla „{0}“."
 
-#: ../mail/mail.error.xml.h:174
+#: ../mail/mail.error.xml.h:178
 msgid "Could not perform this operation on {0}."
 msgstr "Nelze provést tuto operaci na {0}."
 
-#: ../mail/mail.error.xml.h:175
+#: ../mail/mail.error.xml.h:179
 msgid "You must be working online to complete this operation."
 msgstr "Musíte být připojení, abyste dokončili tuto operaci."
 
-#: ../mail/mail.error.xml.h:176
+#: ../mail/mail.error.xml.h:180
 msgid "Message from &quot;{0}&quot; account:"
 msgstr "Zpráva z účtu „{0}“:"
 
-#: ../mail/mail.error.xml.h:177
+#: ../mail/mail.error.xml.h:181
 msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgstr "Nastavení vlákna ve složce „{0}“ jako ignorovaného selhalo."
 
-#: ../mail/mail.error.xml.h:178
+#: ../mail/mail.error.xml.h:182
 msgid "Failed to unmark thread from being ignored in folder '{0}'"
 msgstr "Zrušení nastavení vlákna ve složce „{0}“ jako ignorovaného selhalo."
 
-#: ../mail/mail.error.xml.h:179
+#: ../mail/mail.error.xml.h:183
 msgid "Failed to mark subthread to be ignored in folder '{0}'"
 msgstr "Nastavení vnořeného vlákna ve složce „{0}“ jako ignorovaného selhalo."
 
-#: ../mail/mail.error.xml.h:180
+#: ../mail/mail.error.xml.h:184
 msgid "Failed to unmark subthread from being ignored in folder '{0}'"
 msgstr ""
 "Zrušení nastavení vnořeného vlákna ve složce „{0}“ jako ignorovaného selhalo."
 
-#: ../mail/mail.error.xml.h:181
+#: ../mail/mail.error.xml.h:185
 msgid "Remote content download had been blocked for this message."
 msgstr "Stahování vzdáleného obsahu bylo pro tuto zprávu zablokováno."
 
-#: ../mail/mail.error.xml.h:182
+#: ../mail/mail.error.xml.h:186
 msgid ""
 "You can download remote content manually, or set to remember to download "
 "remote content for this sender or used sites."
@@ -18009,18 +18035,17 @@ msgstr ""
 "automaticky pro tohoto odesilatele nebo ze stejného serveru."
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:184
-#| msgid " (Completed "
+#: ../mail/mail.error.xml.h:188
 msgid "{0}, Completed on {1}"
 msgstr "{0}, dokončeno {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:186
+#: ../mail/mail.error.xml.h:190
 msgid "{0} by {1}"
 msgstr "{0} do {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
-#: ../mail/mail.error.xml.h:188
+#: ../mail/mail.error.xml.h:192
 msgid "Overdue: {0} by {1}"
 msgstr "Po termínu: {0} do {1}"
 
@@ -19174,11 +19199,11 @@ msgstr "Výběr seznamu úkolů"
 msgid "Selected Calendars for Alarms"
 msgstr "Vybrané kalendáře pro alarmy"
 
-#: ../modules/calendar/e-calendar-preferences.c:925
+#: ../modules/calendar/e-calendar-preferences.c:931
 msgid "Ti_me and date:"
 msgstr "Čas a datu_m:"
 
-#: ../modules/calendar/e-calendar-preferences.c:926
+#: ../modules/calendar/e-calendar-preferences.c:932
 msgid "_Date only:"
 msgstr "Pouze _datum:"
 
@@ -19376,19 +19401,23 @@ msgid "before every anniversary/birthday"
 msgstr "před každým výročím/narozeninami"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:73
+msgid "Default _snooze time (in minutes)"
+msgstr "Výchozí doba pře_stávky (v minutách)"
+
+#: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Select the calendars for reminder notification"
 msgstr "Zvolte kalendáře pro upozornění připomenutím"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:74
+#: ../modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Default Free/Busy Server"
 msgstr "Výchozí server volno/obsazeno"
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:77
+#: ../modules/calendar/e-calendar-preferences.ui.h:78
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u a %d budou nahrazeny uživatelem a doménou z e-mailové adresy."
 
-#: ../modules/calendar/e-calendar-preferences.ui.h:78
+#: ../modules/calendar/e-calendar-preferences.ui.h:79
 msgid "Publishing Information"
 msgstr "Zveřejněné informace"
 
@@ -21001,7 +21030,7 @@ msgstr "Funkce Yahoo!"
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "Přidat Ka_lendář a úkoly Yahoo! do tohoto účtu"
 
-#: ../modules/mail/e-mail-attachment-handler.c:424
+#: ../modules/mail/e-mail-attachment-handler.c:440
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
@@ -24168,33 +24197,3 @@ msgstr "S _termínem dokončení"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Se _stavem"
-
-#~ msgid "Loading Images"
-#~ msgstr "Probíhá nahrávání obrázků"
-
-#~ msgid "Please select a valid backup file to restore."
-#~ msgstr "Prosím vyberte platný záložní soubor pro obnovu."
-
-#~ msgid "HTTP Error: %s"
-#~ msgstr "Chyba HTTP: %s"
-
-#~ msgid "Could not parse response"
-#~ msgstr "Nelze zpracovat odpověď"
-
-#~ msgid "Empty response"
-#~ msgstr "Prázdná odpověď"
-
-#~ msgid "Unexpected reply from server"
-#~ msgstr "Neočekávaná odpověď ze serveru"
-
-#~ msgid "Could not locate user's calendars"
-#~ msgstr "Nelze najít žádné kalendáře uživatele"
-
-#~ msgid "Path"
-#~ msgstr "Cesta"
-
-#~ msgid "Template:"
-#~ msgstr "Šablona:"
-
-#~ msgid "E_nable"
-#~ msgstr "Po_volit"
