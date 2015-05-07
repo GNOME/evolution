@@ -2780,7 +2780,7 @@ body_scroll_event_cb (WebKitDOMElement *element,
 		g_source_remove (view->priv->spell_check_on_scroll_event_source_id);
 
 	view->priv->spell_check_on_scroll_event_source_id =
-		g_timeout_add (1000, (GSourceFunc)force_spell_check_on_timeout, view);
+		g_timeout_add_seconds (1, (GSourceFunc)force_spell_check_on_timeout, view);
 }
 
 static void
