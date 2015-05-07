@@ -12364,10 +12364,10 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 	EHTMLEditorViewHistoryEvent *event;
 	GList *history;
 
-	history = view->priv->history;
-	if (!history || !history->prev)
+	if (!e_html_editor_view_can_redo (view))
 		return;
 
+	history = view->priv->history;
 	event = history->prev->data;
 	d (print_history_event (event));
 
@@ -12459,10 +12459,10 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 	EHTMLEditorViewHistoryEvent *event;
 	GList *history;
 
-	history = view->priv->history;
-	if (!history)
+	if (!e_html_editor_view_can_undo (view))
 		return;
 
+	history = view->priv->history;
 	event = history->data;
 	d (print_history_event (event));
 
