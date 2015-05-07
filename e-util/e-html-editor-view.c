@@ -280,6 +280,9 @@ print_history_event (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_START:
 			printf ("HISTORY START\n");
 			break;
+		case HISTORY_AND:
+			printf ("HISTORY AND\n");
+			break;
 		default:
 			printf ("Unknown history type\n");
 	}
@@ -1811,7 +1814,7 @@ insert_dash_history_event (EHTMLEditorView *view)
 
 				diff = event->after.start.x - item->after.start.x;
 
-				/* We need to move the coordinater of the last
+				/* We need to move the coordinate of the last
 				 * event by one character. */
 				last->after.start.x += diff;
 				last->after.end.x += diff;
@@ -1824,6 +1827,42 @@ insert_dash_history_event (EHTMLEditorView *view)
 		}
 		history = history->next;
 	}
+}
+
+static void
+insert_delete_event (EHTMLEditorView *view,
+                     WebKitDOMRange *range)
+{
+	EHTMLEditorViewHistoryEvent *ev;
+	WebKitDOMDocumentFragment *fragment;
+
+	if (view->priv->undo_redo_in_progress)
+		return;
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	ev->type = HISTORY_DELETE;
+
+	fragment = webkit_dom_range_clone_contents (range, NULL);
+	ev->data.fragment = fragment;
+
+	e_html_editor_selection_get_selection_coordinates (
+		view->priv->selection,
+		&ev->before.start.x,
+		&ev->before.start.y,
+		&ev->before.end.x,
+		&ev->before.end.y);
+
+	ev->after.start.x = ev->before.start.x;
+	ev->after.start.y = ev->before.start.y;
+	ev->after.end.x = ev->before.start.x;
+	ev->after.end.y = ev->before.start.y;
+
+	e_html_editor_view_insert_new_history_event (view, ev);
+
+	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+	ev->type = HISTORY_AND;
+
+	e_html_editor_view_insert_new_history_event (view, ev);
 }
 
 static void
@@ -1866,6 +1905,15 @@ emoticon_insert_span (EHTMLEditorView *view,
 			}
 		}
 	} else {
+		WebKitDOMRange *tmp_range;
+
+		tmp_range = html_editor_view_get_dom_range (view);
+		insert_delete_event (view, tmp_range);
+		g_object_unref (tmp_range);
+
+		e_html_editor_view_exec_command (
+			view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+
 		if (!view->priv->smiley_written) {
 			if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
 				ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
@@ -1879,9 +1927,6 @@ emoticon_insert_span (EHTMLEditorView *view,
 					&ev->before.end.y);
 			}
 		}
-
-		e_html_editor_view_exec_command (
-			view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
 
 		e_html_editor_selection_save (selection);
 
@@ -2494,15 +2539,16 @@ body_keypress_event_cb (WebKitDOMElement *element,
 		return;
 	}
 
-	if (!webkit_dom_range_get_collapsed (range, NULL)) {
+	if (!webkit_dom_range_get_collapsed (range, NULL))
+		insert_delete_event (view, range);
+
+	if (view->priv->return_key_pressed) {
 		EHTMLEditorViewHistoryEvent *ev;
-		WebKitDOMDocumentFragment *fragment;
 
+		/* Insert new hiisvent for Return to have the right coordinates.
+		 * The fragment will be added later. */
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-		ev->type = HISTORY_DELETE;
-
-		fragment = webkit_dom_range_clone_contents (range, NULL);
-		ev->data.fragment = fragment;
+		ev->type = HISTORY_INPUT;
 
 		e_html_editor_selection_get_selection_coordinates (
 			view->priv->selection,
@@ -2595,8 +2641,16 @@ save_history_for_input (EHTMLEditorView *view)
 		return;
 	}
 
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	ev->type = HISTORY_INPUT;
+	if (view->priv->return_key_pressed) {
+		ev = view->priv->history->data;
+		if (ev->type != HISTORY_INPUT) {
+			g_object_unref (dom_selection);
+			return;
+		}
+	} else {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_INPUT;
+	}
 
 	block_selection_changed_callbacks (view);
 
@@ -2700,7 +2754,8 @@ save_history_for_input (EHTMLEditorView *view)
 	unblock_selection_changed_callbacks (view);
 
 	ev->data.fragment = fragment;
-	e_html_editor_view_insert_new_history_event (view, ev);
+	if (!view->priv->return_key_pressed)
+		e_html_editor_view_insert_new_history_event (view, ev);
 }
 
 static gboolean
@@ -3262,15 +3317,22 @@ clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
 	selection = e_html_editor_view_get_selection (view);
 
 	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		gboolean collapsed;
+
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_PASTE_AS_TEXT;
 
+		collapsed = e_html_editor_selection_is_collapsed (selection);
 		e_html_editor_selection_get_selection_coordinates (
 			selection,
 			&ev->before.start.x,
 			&ev->before.start.y,
 			&ev->before.end.x,
 			&ev->before.end.y);
+		if (!collapsed) {
+			ev->before.end.x = ev->before.start.x;
+			ev->before.end.y = ev->before.start.y;
+		}
 		ev->data.string.from = NULL;
 		ev->data.string.to = g_strdup (text);
 	}
@@ -6911,6 +6973,13 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	g_free (inner_html);
 
 	has_selection = !e_html_editor_selection_is_collapsed (selection);
+	if (has_selection) {
+		WebKitDOMRange *range;
+
+		range = html_editor_view_get_dom_range (view);
+		insert_delete_event (view, range);
+		g_object_unref (range);
+	}
 
 	citation_level = get_citation_level (WEBKIT_DOM_NODE (selection_end_marker), FALSE);
 	/* Pasting into the citation */
@@ -11092,6 +11161,12 @@ restore_selection_to_history_event_state (EHTMLEditorView *view,
 	g_object_unref (dom_selection);
 }
 
+static gboolean
+event_selection_was_collapsed (EHTMLEditorViewHistoryEvent *ev)
+{
+	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
+}
+
 static void
 undo_delete (EHTMLEditorView *view,
 	     EHTMLEditorViewHistoryEvent *event)
@@ -11285,12 +11360,6 @@ undo_delete (EHTMLEditorView *view,
 	}
 
 	g_object_unref (dom_selection);
-}
-
-static gboolean
-event_selection_was_collapsed (EHTMLEditorViewHistoryEvent *ev)
-{
-	return (ev->before.start.x == ev->before.end.x) && (ev->before.start.y == ev->before.end.y);
 }
 
 static void
@@ -12403,6 +12472,13 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 			break;
 		case HISTORY_INPUT:
 			undo_delete (view, event);
+			{
+				WebKitDOMRange *range;
+
+				range = html_editor_view_get_dom_range (view);
+				html_editor_view_check_magic_smileys (view, range);
+				g_object_unref (range);
+			}
 			break;
 		case HISTORY_REMOVE_LINK:
 			undo_redo_remove_link (view, event, FALSE);
@@ -12451,8 +12527,20 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 		case HISTORY_UNQUOTE:
 			undo_redo_unquote (view, event, FALSE);
 			break;
+		case HISTORY_AND:
+			g_warning ("Unhandled HISTORY_AND event!");
+			break;
 		default:
 			return;
+	}
+
+	if (history->prev->prev) {
+		event = history->prev->prev->data;
+		if (event->type == HISTORY_AND) {
+			view->priv->history = history->prev->prev;
+			e_html_editor_view_redo (view);
+			return;
+		}
 	}
 
 	view->priv->history = view->priv->history->prev;
@@ -12554,8 +12642,18 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 		case HISTORY_UNQUOTE:
 			undo_redo_unquote (view, event, TRUE);
 			break;
+		case HISTORY_AND:
+			g_warning ("Unhandled HISTORY_AND event!");
+			break;
 		default:
 			return;
+	}
+
+	event = history->next->data;
+	if (event->type == HISTORY_AND) {
+		view->priv->history = history->next->next;
+		e_html_editor_view_undo (view);
+		return;
 	}
 
 	if (history->next)

@@ -5282,15 +5282,23 @@ e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		gboolean collapsed;
+
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_PASTE;
 
+		collapsed = e_html_editor_selection_is_collapsed (selection);
 		e_html_editor_selection_get_selection_coordinates (
 			selection,
 			&ev->before.start.x,
 			&ev->before.start.y,
 			&ev->before.end.x,
 			&ev->before.end.y);
+
+		if (!collapsed) {
+			ev->before.end.x = ev->before.start.x;
+			ev->before.end.y = ev->before.start.y;
+		}
 		ev->data.string.from = NULL;
 		ev->data.string.to = g_strdup (plain_text);
 	}
@@ -5333,21 +5341,61 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	g_return_if_fail (view != NULL);
 
 	if (!e_html_editor_view_is_undo_redo_in_progress (view)) {
+		gboolean collapsed;
+
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_INSERT_HTML;
 
+		collapsed = e_html_editor_selection_is_collapsed (selection);
 		e_html_editor_selection_get_selection_coordinates (
 			selection,
 			&ev->before.start.x,
 			&ev->before.start.y,
 			&ev->before.end.x,
 			&ev->before.end.y);
+		if (!collapsed) {
+			ev->before.end.x = ev->before.start.x;
+			ev->before.end.y = ev->before.start.y;
+		}
 		ev->data.string.from = NULL;
 		ev->data.string.to = g_strdup (html_text);
 	}
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
 	if (e_html_editor_view_get_html_mode (view)) {
+		if (!e_html_editor_selection_is_collapsed (selection)) {
+			EHTMLEditorViewHistoryEvent *ev;
+			WebKitDOMDocumentFragment *fragment;
+			WebKitDOMRange *range;
+
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_DELETE;
+
+			range = html_editor_selection_get_current_range (selection);
+			fragment = webkit_dom_range_clone_contents (range, NULL);
+			g_object_unref (range);
+			ev->data.fragment = fragment;
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
+
+			ev->after.start.x = ev->before.start.x;
+			ev->after.start.y = ev->before.start.y;
+			ev->after.end.x = ev->before.start.x;
+			ev->after.end.y = ev->before.start.y;
+
+			e_html_editor_view_insert_new_history_event (view, ev);
+
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_AND;
+
+			e_html_editor_view_insert_new_history_event (view, ev);
+		}
+
 		e_html_editor_view_exec_command (view, command, html_text);
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_html_editor_selection_restore (selection);
@@ -5495,9 +5543,40 @@ insert_base64_image (EHTMLEditorSelection *selection,
 
 	e_html_editor_view_set_changed (view, TRUE);
 
-	if (!e_html_editor_selection_is_collapsed (selection))
+	if (!e_html_editor_selection_is_collapsed (selection)) {
+		EHTMLEditorViewHistoryEvent *ev;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMRange *range;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_DELETE;
+
+		range = html_editor_selection_get_current_range (selection);
+		fragment = webkit_dom_range_clone_contents (range, NULL);
+		g_object_unref (range);
+		ev->data.fragment = fragment;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		ev->after.start.x = ev->before.start.x;
+		ev->after.start.y = ev->before.start.y;
+		ev->after.end.x = ev->before.start.x;
+		ev->after.end.y = ev->before.start.y;
+
+		e_html_editor_view_insert_new_history_event (view, ev);
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_AND;
+
+		e_html_editor_view_insert_new_history_event (view, ev);
 		e_html_editor_view_exec_command (
 			view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+	}
 
 	e_html_editor_selection_save (selection);
 	selection_start_marker = webkit_dom_document_query_selector (
