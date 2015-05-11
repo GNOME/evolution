@@ -6878,6 +6878,13 @@ e_html_editor_selection_save (EHTMLEditorSelection *selection)
 				NULL);
 			goto insert_end_marker;
 		}
+	} else if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "Apple-tab-span") && offset == 1) {
+			marker_node = webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent_node),
+				WEBKIT_DOM_NODE (start_marker),
+				webkit_dom_node_get_next_sibling (parent_node),
+				NULL);
+			goto insert_end_marker;
 	}
 
 	if (WEBKIT_DOM_IS_TEXT (container)) {
