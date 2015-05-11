@@ -315,10 +315,11 @@ e_display_help (GtkWindow *parent,
 	if (parent != NULL)
 		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 
-	g_string_append (uri, "/");
 
-	if (link_id != NULL)
+	if (link_id != NULL) {
+		g_string_append (uri, "/");
 		g_string_append (uri, link_id);
+	}
 
 	if (gtk_show_uri (screen, uri->str, timestamp, &error))
 		goto exit;
