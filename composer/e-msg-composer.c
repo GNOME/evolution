@@ -2584,7 +2584,7 @@ msg_composer_key_press_event (GtkWidget *widget,
 			return TRUE;
 		}
 
-		if (((event)->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) &&
+		if (((event)->state & (GDK_CONTROL_MASK)) &&
 		    ((event)->keyval == GDK_KEY_Z)) {
 			e_html_editor_view_redo (view);
 			return TRUE;
