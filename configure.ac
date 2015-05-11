@@ -18,7 +18,7 @@ m4_define([base_version], [3.16])
 
 dnl Autoconf / Automake Initialization
 AC_PREREQ([2.64])
-AC_INIT([evolution],[evo_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution],[evolution],[http://wiki.gnome.org/Apps/Evolution/])
+AC_INIT([evolution],[evo_version].1,[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution],[evolution],[http://wiki.gnome.org/Apps/Evolution/])
 AM_INIT_AUTOMAKE([1.10 dist-xz no-dist-gzip subdir-objects -Wall -Wno-portability foreign tar-ustar])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS(config.h)

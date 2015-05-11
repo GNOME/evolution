@@ -1,3 +1,9 @@
+Evolution 3.16.2.1 2015-05-11
+-----------------------------
+
+Miscellaneous:
+	EMsgComposer - It is impossible to write 'Z' into composer (Tomas Popela)
+
 Evolution 3.16.2 2015-05-11
 ---------------------------
 
