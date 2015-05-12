@@ -6638,7 +6638,6 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 {
 	WebKitDOMHTMLElement *body;
 	WebKitDOMDOMWindow *dom_window;
-	gchar *data_evo_draft;
 
 	/* Don't use CSS when possible to preserve compatibility with older
 	 * versions of Evolution or other MUAs */
@@ -6668,15 +6667,12 @@ dom_process_content_after_load (WebKitDOMDocument *document,
 	move_elements_to_body (document);
 	repair_gmail_blockquotes (document);
 
-	data_evo_draft = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft");
-	if (data_evo_draft) {
+	if (webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
 		/* Restore the selection how it was when the draft was saved */
 		dom_move_caret_into_element (document, WEBKIT_DOM_ELEMENT (body), FALSE);
 		dom_selection_restore (document);
 		dom_remove_embed_style_sheet (document);
 	}
-
-	g_free (data_evo_draft);
 
 	/* The composer body could be empty in some case (loading an empty string
 	 * or empty HTML. In that case create the initial paragraph. */
