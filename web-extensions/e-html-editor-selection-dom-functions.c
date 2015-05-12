@@ -3677,26 +3677,28 @@ dom_selection_is_indented (WebKitDOMDocument *document)
 		element = get_element_for_inspection (range);
 		return element_has_class (element, "-x-evo-indented");
 	} else {
-		/* If there is a selection search in it and don't look just in
-		 * the end container */
-		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMNode *node;
+		gboolean ret_val;
 
-		fragment = webkit_dom_range_clone_contents (range, NULL);
+		node = webkit_dom_range_get_end_container (range, NULL);
+		/* No selection or whole body selected */
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node))
+			return FALSE;
 
-		if (fragment) {
-			gboolean ret_val = TRUE;
+		element = WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
+		ret_val = element_has_class (element, "-x-evo-indented");
+		if (!ret_val)
+			return FALSE;
 
-			element = webkit_dom_document_fragment_query_selector (
-				fragment, ".-x-evo-indented", NULL);
+		node = webkit_dom_range_get_start_container (range, NULL);
+		/* No selection or whole body selected */
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node))
+			return FALSE;
 
-			if (!element) {
-				element = get_element_for_inspection (range);
-				ret_val = element_has_class (element, "-x-evo-indented");
-			}
+		element = WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
+		ret_val = element_has_class (element, "-x-evo-indented");
 
-			g_object_unref (fragment);
-			return ret_val;
-		}
+		return ret_val;
 	}
 
 	return FALSE;
