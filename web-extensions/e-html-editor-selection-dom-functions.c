@@ -69,11 +69,13 @@ dom_get_current_range (WebKitDOMDocument *document)
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	if (!dom_window)
-		goto exit;
+		return NULL;
 
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
-		goto exit;
+	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection)) {
+		g_object_unref (dom_window);
+		return NULL;
+	}
 
 	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
 		goto exit;
