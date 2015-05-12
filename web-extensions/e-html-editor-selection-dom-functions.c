@@ -63,23 +63,26 @@ dom_replace_base64_image_src (WebKitDOMDocument *document,
 WebKitDOMRange *
 dom_get_current_range (WebKitDOMDocument *document)
 {
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection_dom;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range = NULL;
 
-	window = webkit_dom_document_get_default_view (document);
-	if (!window)
-		return NULL;
+	dom_window = webkit_dom_document_get_default_view (document);
+	if (!dom_window)
+		goto exit;
 
-	selection_dom = webkit_dom_dom_window_get_selection (window);
-	if (!WEBKIT_DOM_IS_DOM_SELECTION (selection_dom))
-		return NULL;
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
+		goto exit;
 
-	if (webkit_dom_dom_selection_get_range_count (selection_dom) < 1)
-		return NULL;
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+		goto exit;
 
-	range = webkit_dom_dom_selection_get_range_at (selection_dom, 0, NULL);
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
+ exit:
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 	return range;
 }
 
@@ -96,13 +99,17 @@ gchar *
 dom_selection_get_string (WebKitDOMDocument *document,
                           EHTMLEditorWebExtension *extension)
 {
+	gchar *text;
 	WebKitDOMRange *range;
 
 	range = dom_get_current_range (document);
 	if (!range)
 		return NULL;
 
-	return webkit_dom_range_get_text (range);
+	text = webkit_dom_range_get_text (range);
+	g_object_unref (range);
+
+	return text;
 }
 
 void
@@ -110,22 +117,26 @@ dom_move_caret_into_element (WebKitDOMDocument *document,
                              WebKitDOMElement *element,
                              gboolean to_start)
 {
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
-	WebKitDOMRange *new_range;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range;
 
 	if (!element)
 		return;
 
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
-	new_range = webkit_dom_document_create_range (document);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	range = webkit_dom_document_create_range (document);
 
 	webkit_dom_range_select_node_contents (
-		new_range, WEBKIT_DOM_NODE (element), NULL);
-	webkit_dom_range_collapse (new_range, to_start, NULL);
-	webkit_dom_dom_selection_remove_all_ranges (window_selection);
-	webkit_dom_dom_selection_add_range (window_selection, new_range);
+		range, WEBKIT_DOM_NODE (element), NULL);
+	webkit_dom_range_collapse (range, to_start, NULL);
+	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+	webkit_dom_dom_selection_add_range (dom_selection, range);
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 }
 
 void
@@ -241,17 +252,20 @@ dom_selection_unlink (WebKitDOMDocument *document,
 {
 	EHTMLEditorUndoRedoManager *manager;
 	gchar *text;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection_dom;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	window = webkit_dom_document_get_default_view (document);
-	selection_dom = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
-	range = webkit_dom_dom_selection_get_range_at (selection_dom, 0, NULL);
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	link = dom_node_find_parent_element (
 		webkit_dom_range_get_start_container (range, NULL), "A");
+
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 
 	if (!link) {
 		WebKitDOMNode *node;
@@ -260,13 +274,17 @@ dom_selection_unlink (WebKitDOMDocument *document,
 		node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 		if (node && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
 			link = dom_node_find_parent_element (node, "A");
-			if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link))
+			if (link && !WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (link)) {
+				g_object_unref (range);
 				return;
 			} else
 				link = WEBKIT_DOM_ELEMENT (node);
+		}
 	} else {
 		dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_UNLINK, NULL);
 	}
+
+	g_object_unref (range);
 
 	if (!link)
 		return;
@@ -432,17 +450,17 @@ dom_get_alignment (WebKitDOMDocument *document)
 	EHTMLEditorSelectionAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	window = webkit_dom_document_get_default_view (document);
 	range = dom_get_current_range (document);
 	if (!range)
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
+	g_object_unref (range);
 	if (!node)
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
@@ -451,7 +469,8 @@ dom_get_alignment (WebKitDOMDocument *document)
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
 
 	if (!value || !*value ||
@@ -465,6 +484,8 @@ dom_get_alignment (WebKitDOMDocument *document)
 		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 	}
 
+	g_object_unref (dom_window);
+	g_object_unref (style);
 	g_free (value);
 
 	return alignment;
@@ -747,13 +768,13 @@ dom_get_alignment_from_node (WebKitDOMNode *node)
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 
 	document = webkit_dom_node_get_owner_document (node);
-	window = webkit_dom_document_get_default_view (document);
+	dom_window = webkit_dom_document_get_default_view (document);
 
 	style = webkit_dom_dom_window_get_computed_style (
-		window, WEBKIT_DOM_ELEMENT (node), NULL);
+		dom_window, WEBKIT_DOM_ELEMENT (node), NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
 
 	if (!value || !*value ||
@@ -767,6 +788,8 @@ dom_get_alignment_from_node (WebKitDOMNode *node)
 		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 	}
 
+	g_object_unref (dom_window);
+	g_object_unref (style);
 	g_free (value);
 
 	return alignment;
@@ -1394,12 +1417,18 @@ dom_selection_save (WebKitDOMDocument *document)
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_object_unref (dom_selection);
+		g_object_unref (dom_window);
 		return;
+	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	if (!range)
+	if (!range) {
+		g_object_unref (dom_selection);
+		g_object_unref (dom_window);
 		return;
+	}
 
 	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
 	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
@@ -1526,8 +1555,12 @@ dom_selection_save (WebKitDOMDocument *document)
 	}
 
 	/* Don't save selection straight into body */
-	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (split_node))
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (split_node)) {
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+		g_object_unref (dom_window);
 		return;
+	}
 
 	if (!split_node) {
 		marker_node = webkit_dom_node_insert_before (
@@ -1681,18 +1714,16 @@ dom_selection_save (WebKitDOMDocument *document)
 	}
  out:
 	if (!collapsed) {
-		WebKitDOMDOMSelection *dom_selection;
-		WebKitDOMDOMWindow *window;
-
 		webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (start_marker), NULL);
 		webkit_dom_range_set_end_before (range, WEBKIT_DOM_NODE (end_marker), NULL);
-
-		window = webkit_dom_document_get_default_view (document);
-		dom_selection = webkit_dom_dom_window_get_selection (window);
 
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 	}
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 }
 
 static gboolean
@@ -1729,12 +1760,14 @@ dom_selection_restore (WebKitDOMDocument *document)
 	WebKitDOMNode *parent_start, *parent_end, *anchor;
 	WebKitDOMRange *range;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	g_object_unref (dom_window);
 	if (!range) {
+		g_object_unref (dom_selection);
 		remove_selection_markers (document);
 		return;
 	}
@@ -1761,15 +1794,20 @@ dom_selection_restore (WebKitDOMDocument *document)
 					remove_node (selection_end_marker);
 
 					webkit_dom_node_normalize (parent_start);
+					g_object_unref (range);
+					g_object_unref (dom_selection);
 					return;
 				}
 			}
 		}
 	}
 
+	g_object_unref (range);
 	range = webkit_dom_document_create_range (document);
-	if (!range)
+	if (!range) {
+		g_object_unref (dom_selection);
 		return;
+	}
 
 	marker = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
@@ -1778,6 +1816,8 @@ dom_selection_restore (WebKitDOMDocument *document)
 			document, "-x-evo-selection-end-marker");
 		if (marker)
 			remove_node (WEBKIT_DOM_NODE (marker));
+		g_object_unref (dom_selection);
+		g_object_unref (range);
 		return;
 	}
 
@@ -1794,6 +1834,8 @@ dom_selection_restore (WebKitDOMDocument *document)
 			document, "-x-evo-selection-start-marker");
 		if (marker)
 			remove_node (WEBKIT_DOM_NODE (marker));
+		g_object_unref (dom_selection);
+		g_object_unref (range);
 		return;
 	}
 
@@ -1823,6 +1865,9 @@ dom_selection_restore (WebKitDOMDocument *document)
 	}
 	webkit_dom_dom_selection_add_range (dom_selection, range);
 	webkit_dom_dom_selection_extend (dom_selection, anchor, offset, NULL);
+
+	g_object_unref (dom_selection);
+	g_object_unref (range);
 }
 
 static gint
@@ -1923,13 +1968,17 @@ find_where_to_break_line (WebKitDOMNode *node,
 gboolean
 dom_selection_is_collapsed (WebKitDOMDocument *document)
 {
+	gboolean collapsed;
 	WebKitDOMRange *range;
 
 	range = dom_get_current_range (document);
 	if (!range)
 		return TRUE;
 
-	return webkit_dom_range_get_collapsed (range, NULL);
+	collapsed = webkit_dom_range_get_collapsed (range, NULL);
+	g_object_unref (range);
+
+	return collapsed;
 }
 
 void
@@ -1937,7 +1986,7 @@ dom_scroll_to_caret (WebKitDOMDocument *document)
 {
 	glong element_top, element_left;
 	glong window_top, window_left, window_right, window_bottom;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMElement *selection_start_marker;
 
 	dom_selection_save (document);
@@ -1947,12 +1996,12 @@ dom_scroll_to_caret (WebKitDOMDocument *document)
 	if (!selection_start_marker)
 		return;
 
-	window = webkit_dom_document_get_default_view (document);
+	dom_window = webkit_dom_document_get_default_view (document);
 
-	window_top = webkit_dom_dom_window_get_scroll_y (window);
-	window_left = webkit_dom_dom_window_get_scroll_x (window);
-	window_bottom = window_top + webkit_dom_dom_window_get_inner_height (window);
-	window_right = window_left + webkit_dom_dom_window_get_inner_width (window);
+	window_top = webkit_dom_dom_window_get_scroll_y (dom_window);
+	window_left = webkit_dom_dom_window_get_scroll_x (dom_window);
+	window_bottom = window_top + webkit_dom_dom_window_get_inner_height (dom_window);
+	window_right = window_left + webkit_dom_dom_window_get_inner_width (dom_window);
 
 	element_left = webkit_dom_element_get_offset_left (selection_start_marker);
 	element_top = webkit_dom_element_get_offset_top (selection_start_marker);
@@ -1964,6 +2013,8 @@ dom_scroll_to_caret (WebKitDOMDocument *document)
 	}
 
 	dom_selection_restore (document);
+
+	g_object_unref (dom_window);
 }
 
 static WebKitDOMElement *
@@ -1988,12 +2039,14 @@ wrap_lines (WebKitDOMDocument *document,
 	if (has_selection) {
 		const gchar *selection_content;
 		WebKitDOMNodeList *wrap_br;
+		WebKitDOMRange *range;
 
 		selection_content = e_html_editor_web_extension_get_selection_text (extension);
 		paragraph_char_count = g_utf8_strlen (selection_content, -1);
 
-		fragment = webkit_dom_range_clone_contents (
-			dom_get_current_range (document), NULL);
+		range = dom_get_current_range (document);
+		fragment = webkit_dom_range_clone_contents (range, NULL);
+		g_object_unref (range);
 
 		/* Select all BR elements or just ours that are used for wrapping.
 		 * We are not removing user BR elements when this function is activated
@@ -2487,6 +2540,8 @@ dom_put_node_into_paragraph (WebKitDOMDocument *document,
 	if (with_input)
 		dom_add_selection_markers_into_element_end (document, container, NULL, NULL);
 
+	g_object_unref (range);
+
 	return container;
 }
 
@@ -2704,12 +2759,12 @@ html_editor_selection_modify (WebKitDOMDocument *document,
                               gboolean forward,
                               EHTMLEditorSelectionGranularity granularity)
 {
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	const gchar *granularity_str;
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	switch (granularity) {
 		case E_HTML_EDITOR_SELECTION_GRANULARITY_CHARACTER:
@@ -2724,6 +2779,9 @@ html_editor_selection_modify (WebKitDOMDocument *document,
 		dom_selection, alter,
 		forward ? "forward" : "backward",
 		granularity_str);
+
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 }
 
 static gboolean
@@ -2745,6 +2803,7 @@ get_has_style (WebKitDOMDocument *document,
 		element = WEBKIT_DOM_ELEMENT (node);
 	else
 		element = webkit_dom_node_get_parent_element (node);
+	g_object_unref (range);
 
 	tag_len = strlen (style_tag);
 	result = FALSE;
@@ -2809,18 +2868,17 @@ dom_selection_is_underline (WebKitDOMDocument *document,
 	gboolean ret_val;
 	gchar *value, *text_content;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
-
-	window = webkit_dom_document_get_default_view (document);
 
 	range = dom_get_current_range (document);
 	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 	/* If we are changing the format of block we have to re-set underline property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
@@ -2838,7 +2896,8 @@ dom_selection_is_underline (WebKitDOMDocument *document,
 	if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (element))
 		return FALSE;
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
 
 	if (g_strstr_len (value, -1, "underline"))
@@ -2846,7 +2905,10 @@ dom_selection_is_underline (WebKitDOMDocument *document,
 	else
 		ret_val = get_has_style (document, "u");
 
+	g_object_unref (style);
+	g_object_unref (dom_window);
 	g_free (value);
+
 	return ret_val;
 }
 
@@ -3024,6 +3086,7 @@ dom_selection_is_subscript (WebKitDOMDocument *document,
 
 	range = dom_get_current_range (document);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 
 	while (node) {
 		if (element_has_tag (WEBKIT_DOM_ELEMENT (node), "sub"))
@@ -3076,6 +3139,7 @@ dom_selection_is_superscript (WebKitDOMDocument *document,
 
 	range = dom_get_current_range (document);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 
 	while (node) {
 		if (element_has_tag (WEBKIT_DOM_ELEMENT (node), "sup"))
@@ -3126,17 +3190,17 @@ dom_selection_is_strikethrough (WebKitDOMDocument *document,
 	gboolean ret_val;
 	gchar *value, *text_content;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
 
-	window = webkit_dom_document_get_default_view (document);
 	range = dom_get_current_range (document);
 	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 	/* If we are changing the format of block we have to re-set strikethrough property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
@@ -3151,7 +3215,8 @@ dom_selection_is_strikethrough (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-decoration");
 
 	if (g_strstr_len (value, -1, "line-through"))
@@ -3159,7 +3224,10 @@ dom_selection_is_strikethrough (WebKitDOMDocument *document,
 	else
 		ret_val = get_has_style (document, "strike");
 
+	g_object_unref (style);
+	g_object_unref (dom_window);
 	g_free (value);
+
 	return ret_val;
 }
 
@@ -3226,18 +3294,17 @@ dom_selection_is_monospaced (WebKitDOMDocument *document,
 	gboolean ret_val;
 	gchar *value, *text_content;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
-
-	window = webkit_dom_document_get_default_view (document);
 
 	range = dom_get_current_range (document);
 	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 	/* If we are changing the format of block we have to re-set italic property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
@@ -3253,7 +3320,8 @@ dom_selection_is_monospaced (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "font-family");
 
 	if (g_strstr_len (value, -1, "monospace"))
@@ -3261,7 +3329,10 @@ dom_selection_is_monospaced (WebKitDOMDocument *document,
 	else
 		ret_val = FALSE;
 
+	g_object_unref (style);
+	g_object_unref (dom_window);
 	g_free (value);
+
 	return ret_val;
 }
 
@@ -3282,8 +3353,8 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	EHTMLEditorUndoRedoManager *manager;
 	guint font_size = 0;
 	WebKitDOMRange *range;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *window_selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 
 	if (dom_selection_is_monospaced (document, extension) == monospaced)
 		return;
@@ -3314,8 +3385,8 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	if (font_size == 0)
 		font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
-	window = webkit_dom_document_get_default_view (document);
-	window_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	if (monospaced) {
 		WebKitDOMElement *monospace;
@@ -3333,7 +3404,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			g_free (font_size_str);
 		}
 
-		if (!dom_selection_is_collapsed (document)) {
+		if (!webkit_dom_range_get_collapsed (range, NULL)) {
 			webkit_dom_range_surround_contents (
 				range, WEBKIT_DOM_NODE (monospace), NULL);
 
@@ -3374,8 +3445,12 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 		} else {
 			tt_element = dom_node_find_parent_element (node, "FONT");
 
-			if (!is_monospaced_element (tt_element))
+			if (!is_monospaced_element (tt_element)) {
+				g_object_unref (range);
+				g_object_unref (dom_selection);
+				g_object_unref (dom_window);
 				return;
+			}
 		}
 
 		/* Save current formatting */
@@ -3473,13 +3548,12 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			webkit_dom_range_set_end_after (
 				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
 
-			webkit_dom_dom_selection_remove_all_ranges (
-				window_selection);
-			webkit_dom_dom_selection_add_range (
-				window_selection, new_range);
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			webkit_dom_dom_selection_add_range (dom_selection, new_range);
 
 			webkit_dom_dom_selection_modify (
-				window_selection, "move", "right", "character");
+				dom_selection, "move", "right", "character");
+			g_object_unref (new_range);
 		}
 
 		/* Re-set formatting */
@@ -3508,6 +3582,9 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
 
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 /* FIXME WK2
 	g_object_notify (G_OBJECT (selection), "monospaced");*/
 }
@@ -3528,18 +3605,17 @@ dom_selection_is_bold (WebKitDOMDocument *document,
 	gboolean ret_val;
 	gchar *value, *text_content;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
-
-	window = webkit_dom_document_get_default_view (document);
 
 	range = dom_get_current_range (document);
 	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 	/* If we are changing the format of block we have to re-set bold property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
@@ -3554,13 +3630,17 @@ dom_selection_is_bold (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "font-weight");
 
 	if (g_strstr_len (value, -1, "normal"))
 		ret_val = FALSE;
 	else
 		ret_val = TRUE;
+
+	g_object_unref (style);
+	g_object_unref (dom_window);
 
 	g_free (value);
 	return ret_val;
@@ -3608,18 +3688,17 @@ dom_selection_is_italic (WebKitDOMDocument *document,
 	gboolean ret_val;
 	gchar *value, *text_content;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *node;
 	WebKitDOMElement *element;
 	WebKitDOMRange *range;
-
-	window = webkit_dom_document_get_default_view (document);
 
 	range = dom_get_current_range (document);
 	if (!range)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 	/* If we are changing the format of block we have to re-set italic property,
 	 * otherwise it will be turned off because of no text in composer */
 	text_content = webkit_dom_node_get_text_content (node);
@@ -3634,7 +3713,8 @@ dom_selection_is_italic (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "font-style");
 
 	if (g_strstr_len (value, -1, "italic"))
@@ -3642,7 +3722,10 @@ dom_selection_is_italic (WebKitDOMDocument *document,
 	else
 		ret_val = FALSE;
 
+	g_object_unref (style);
+	g_object_unref (dom_window);
 	g_free (value);
+
 	return ret_val;
 }
 
@@ -3690,8 +3773,9 @@ dom_selection_is_indented (WebKitDOMDocument *document)
 	if (!range)
 		return FALSE;
 
-	if (dom_selection_is_collapsed (document)) {
+	if (webkit_dom_range_get_collapsed (range, NULL)) {
 		element = get_element_for_inspection (range);
+		g_object_unref (range);
 		return element_has_class (element, "-x-evo-indented");
 	} else {
 		WebKitDOMNode *node;
@@ -3700,23 +3784,28 @@ dom_selection_is_indented (WebKitDOMDocument *document)
 		node = webkit_dom_range_get_end_container (range, NULL);
 		/* No selection or whole body selected */
 		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node))
-			return FALSE;
+			goto out;
 
 		element = WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
 		ret_val = element_has_class (element, "-x-evo-indented");
 		if (!ret_val)
-			return FALSE;
+			goto out;
 
 		node = webkit_dom_range_get_start_container (range, NULL);
 		/* No selection or whole body selected */
 		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node))
-			return FALSE;
+			goto out;
 
 		element = WEBKIT_DOM_ELEMENT (get_parent_indented_block (node));
 		ret_val = element_has_class (element, "-x-evo-indented");
 
+		g_object_unref (range);
+
 		return ret_val;
 	}
+
+ out:
+	g_object_unref (range);
 
 	return FALSE;
 }
@@ -3742,6 +3831,7 @@ dom_selection_is_citation (WebKitDOMDocument *document)
 		return FALSE;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 
 	if (WEBKIT_DOM_IS_TEXT (node))
 		return get_has_style (document, "citation");
@@ -3781,6 +3871,7 @@ get_font_property (WebKitDOMDocument *document,
 		return NULL;
 
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 	element = dom_node_find_parent_element (node, "FONT");
 	if (!element)
 		return NULL;
@@ -3942,12 +4033,14 @@ gchar *
 dom_selection_get_font_name (WebKitDOMDocument *document,
                              EHTMLEditorWebExtension *extension)
 {
+	gchar *value;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	range = dom_get_current_range (document);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
+	g_object_unref (range);
 /* FIXME WK2
 	g_free (selection->priv->font_family);
 */
@@ -3956,7 +4049,10 @@ dom_selection_get_font_name (WebKitDOMDocument *document,
 	selection->priv->font_family =
 		webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
 */
-	return webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
+	value = webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
+	g_object_unref (css);
+
+	return value;
 }
 
 /**
@@ -4114,6 +4210,8 @@ dom_selection_get_block_format (WebKitDOMDocument *document,
 	} else {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH;
 	}
+
+	g_object_unref (range);
 
 	return result;
 }
@@ -4322,9 +4420,7 @@ format_change_block_to_list (WebKitDOMDocument *document,
                              EHTMLEditorSelectionBlockFormat format)
 {
 	gboolean after_selection_end = FALSE, in_quote = FALSE;
-	/* FIXME WK2
-	gboolean html_mode = e_html_editor_view_get_html_mode (view);*/
-	gboolean html_mode = FALSE;
+	gboolean html_mode = e_html_editor_web_extension_get_html_mode (extension);
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *item, *list;
 	WebKitDOMNode *block, *next_block;
 
@@ -4356,20 +4452,24 @@ format_change_block_to_list (WebKitDOMDocument *document,
 	if (webkit_dom_element_query_selector (
 		WEBKIT_DOM_ELEMENT (block), "span.-x-evo-quoted", NULL)) {
 		WebKitDOMElement *element;
-		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMWindow *dom_window;
 		WebKitDOMDOMSelection *dom_selection;
 		WebKitDOMRange *range;
 
 		in_quote = TRUE;
 
-		window = webkit_dom_document_get_default_view (document);
-		dom_selection = webkit_dom_dom_window_get_selection (window);
+		dom_window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 		range = webkit_dom_document_create_range (document);
 
 		webkit_dom_range_select_node (range, block, NULL);
 		webkit_dom_range_collapse (range, TRUE, NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
+
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+		g_object_unref (dom_window);
 
 		dom_exec_command (
 			document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, NULL);
@@ -4834,6 +4934,8 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 		}
 	 }
 
+	g_object_unref (range);
+
 	if (from_list && to_list)
 		format_change_list_to_list (document, extension, format, html_mode);
 
@@ -4888,14 +4990,13 @@ gchar *
 dom_selection_get_background_color (WebKitDOMDocument *document,
                                     EHTMLEditorWebExtension *extension)
 {
+	gchar *value;
 	WebKitDOMNode *ancestor;
 	WebKitDOMRange *range;
 	WebKitDOMCSSStyleDeclaration *css;
 
 	range = dom_get_current_range (document);
-
 	ancestor = webkit_dom_range_get_common_ancestor_container (range, NULL);
-
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (ancestor));
 /* FIXME WK2
 	g_free (selection->priv->background_color);
@@ -4903,7 +5004,12 @@ dom_selection_get_background_color (WebKitDOMDocument *document,
 		webkit_dom_css_style_declaration_get_property_value (
 			css, "background-color");*/
 
-	return webkit_dom_css_style_declaration_get_property_value (css, "background-color");
+	value = webkit_dom_css_style_declaration_get_property_value (css, "background-color");
+
+	g_object_unref (css);
+	g_object_unref (range);
+
+	return value;
 }
 
 /**
@@ -4939,17 +5045,17 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 	EHTMLEditorSelectionAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	window = webkit_dom_document_get_default_view (document);
 	range = dom_get_current_range (document);
 	if (!range)
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
 	node = webkit_dom_range_get_start_container (range, NULL);
+	g_object_unref (range);
 	if (!node)
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 
@@ -4958,7 +5064,8 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	style = webkit_dom_dom_window_get_computed_style (window, element, NULL);
+	dom_window = webkit_dom_document_get_default_view (document);
+	style = webkit_dom_dom_window_get_computed_style (dom_window, element, NULL);
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
 
 	if (!value || !*value ||
@@ -4972,6 +5079,8 @@ dom_selection_get_alignment (WebKitDOMDocument *document,
 		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 	}
 
+	g_object_unref (style);
+	g_object_unref (dom_window);
 	g_free (value);
 
 	return alignment;
@@ -5159,7 +5268,7 @@ dom_selection_replace (WebKitDOMDocument *document,
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);
 
 	if (!e_html_editor_undo_redo_manager_is_operation_in_progress (manager)) {
-		WebKitDOMDOMWindow *window;
+		WebKitDOMDOMWindow *dom_window;
 		WebKitDOMDOMSelection *dom_selection;
 		WebKitDOMRange *range;
 
@@ -5173,12 +5282,16 @@ dom_selection_replace (WebKitDOMDocument *document,
 			&ev->before.end.x,
 			&ev->before.end.y);
 
-		window = webkit_dom_document_get_default_view (document);
-		dom_selection = webkit_dom_dom_window_get_selection (window);
+		dom_window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		ev->data.string.from = webkit_dom_range_get_text (range);
 		ev->data.string.to = g_strdup (replacement);
+
+		g_object_unref (range);
+		g_object_unref (dom_selection);
+		g_object_unref (dom_window);
 	}
 
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, replacement);
@@ -5211,17 +5324,20 @@ dom_replace_caret_word (WebKitDOMDocument *document,
                         EHTMLEditorWebExtension *extension,
                         const gchar *replacement)
 {
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
 	e_html_editor_web_extension_set_content_changed (extension);
 	range = dom_get_current_range (document);
 	webkit_dom_range_expand (range, "word", NULL);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, replacement);
 	dom_force_spell_check_for_current_paragraph (document, extension);
@@ -5239,6 +5355,7 @@ dom_replace_caret_word (WebKitDOMDocument *document,
 gchar *
 dom_get_caret_word (WebKitDOMDocument *document)
 {
+	gchar *word;
 	WebKitDOMRange *range;
 
 	range = dom_get_current_range (document);
@@ -5246,8 +5363,11 @@ dom_get_caret_word (WebKitDOMDocument *document)
 	/* Don't operate on the visible selection */
 	range = webkit_dom_range_clone_range (range, NULL);
 	webkit_dom_range_expand (range, "word", NULL);
+	word = webkit_dom_range_to_string (range, NULL);
 
-	return webkit_dom_range_to_string (range, NULL);
+	g_object_unref (range);
+
+	return word;
 }
 
 /**
@@ -5267,17 +5387,23 @@ dom_selection_has_text (WebKitDOMDocument *document)
 	range = dom_get_current_range (document);
 
 	node = webkit_dom_range_get_start_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node))
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		g_object_unref (range);
 		return TRUE;
+	}
 
 	node = webkit_dom_range_get_end_container (range, NULL);
-	if (WEBKIT_DOM_IS_TEXT (node))
+	if (WEBKIT_DOM_IS_TEXT (node)) {
+		g_object_unref (range);
 		return TRUE;
+	}
 
 	node = WEBKIT_DOM_NODE (webkit_dom_range_clone_contents (range, NULL));
 	while (node) {
-		if (WEBKIT_DOM_IS_TEXT (node))
+		if (WEBKIT_DOM_IS_TEXT (node)) {
+			g_object_unref (range);
 			return TRUE;
+		}
 
 		if (webkit_dom_node_has_child_nodes (node)) {
 			node = webkit_dom_node_get_first_child (node);
@@ -5293,6 +5419,8 @@ dom_selection_has_text (WebKitDOMDocument *document)
 
 	if (node)
 		g_object_unref (node);
+
+	g_object_unref (range);
 
 	return FALSE;
 }
@@ -5354,6 +5482,10 @@ dom_selection_set_on_point (WebKitDOMDocument *document,
 	range = webkit_dom_document_caret_range_from_point (document, x, y);
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+	g_object_unref (dom_window);
 }
 
 void

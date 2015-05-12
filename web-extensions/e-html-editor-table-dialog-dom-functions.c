@@ -236,18 +236,20 @@ e_html_editor_table_dialog_show (WebKitDOMDocument *document,
 {
 	EHTMLEditorUndoRedoManager *manager;
 	gboolean created = FALSE;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *table = NULL;
 
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
-	if (selection && (webkit_dom_dom_selection_get_range_count (selection) > 0)) {
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
 		WebKitDOMRange *range;
 
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		table = dom_node_find_parent_element (
 			webkit_dom_range_get_start_container (range, NULL), "TABLE");
+		g_object_unref (range);
 
 		if (table) {
 			webkit_dom_element_set_id (table, "-x-evo-current-table");
@@ -274,6 +276,8 @@ e_html_editor_table_dialog_show (WebKitDOMDocument *document,
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
+
+	g_object_unref (dom_selection);
 
 	return created;
 }

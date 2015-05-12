@@ -373,13 +373,19 @@ dom_save_history_for_cut (WebKitDOMDocument *document,
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
-	if (!webkit_dom_dom_selection_get_range_count (dom_selection))
+	if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
+		g_object_unref (dom_selection);
 		return;
+	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	if (webkit_dom_range_get_collapsed (range, NULL))
+	if (webkit_dom_range_get_collapsed (range, NULL)) {
+		g_object_unref (range);
+		g_object_unref (dom_selection);
 		return;
+	}
 
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 	ev->type = HISTORY_DELETE;
@@ -400,6 +406,8 @@ dom_save_history_for_cut (WebKitDOMDocument *document,
 
 	/* Save the fragment. */
 	fragment = webkit_dom_range_clone_contents (range, NULL);
+	g_object_unref (range);
+	g_object_unref (dom_selection);
 	ev->data.fragment = g_object_ref (fragment);
 
 	manager = e_html_editor_web_extension_get_undo_redo_manager (extension);

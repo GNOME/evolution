@@ -25,30 +25,30 @@
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
 static gboolean
-select_next_word (WebKitDOMDOMSelection *selection)
+select_next_word (WebKitDOMDOMSelection *dom_selection)
 {
 	gulong anchor_offset, focus_offset;
 	WebKitDOMNode *anchor, *focus;
 
-	anchor = webkit_dom_dom_selection_get_anchor_node (selection);
-	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (selection);
+	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
 
-	focus = webkit_dom_dom_selection_get_focus_node (selection);
-	focus_offset = webkit_dom_dom_selection_get_focus_offset (selection);
+	focus = webkit_dom_dom_selection_get_focus_node (dom_selection);
+	focus_offset = webkit_dom_dom_selection_get_focus_offset (dom_selection);
 
 	/* Jump _behind_ next word */
-	webkit_dom_dom_selection_modify (selection, "move", "forward", "word");
+	webkit_dom_dom_selection_modify (dom_selection, "move", "forward", "word");
 	/* Jump before the word */
-	webkit_dom_dom_selection_modify (selection, "move", "backward", "word");
+	webkit_dom_dom_selection_modify (dom_selection, "move", "backward", "word");
 	/* Select it */
-	webkit_dom_dom_selection_modify (selection, "extend", "forward", "word");
+	webkit_dom_dom_selection_modify (dom_selection, "extend", "forward", "word");
 
 	/* If the selection didn't change, then we have most probably
 	 * reached the end of document - return FALSE */
-	return !((anchor == webkit_dom_dom_selection_get_anchor_node (selection)) &&
-		 (anchor_offset == webkit_dom_dom_selection_get_anchor_offset (selection)) &&
-		 (focus == webkit_dom_dom_selection_get_focus_node (selection)) &&
-		 (focus_offset == webkit_dom_dom_selection_get_focus_offset (selection)));
+	return !((anchor == webkit_dom_dom_selection_get_anchor_node (dom_selection)) &&
+		 (anchor_offset == webkit_dom_dom_selection_get_anchor_offset (dom_selection)) &&
+		 (focus == webkit_dom_dom_selection_get_focus_node (dom_selection)) &&
+		 (focus_offset == webkit_dom_dom_selection_get_focus_offset (dom_selection)));
 }
 
 gchar *
@@ -56,33 +56,35 @@ e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
                                        const gchar *word)
 {
 	gulong start_offset, end_offset;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *start = NULL, *end = NULL;
 
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	if (!word) {
 		webkit_dom_dom_selection_modify (
-			selection, "move", "left", "documentboundary");
+			dom_selection, "move", "left", "documentboundary");
 	} else {
 		/* Remember last selected word */
-		start = webkit_dom_dom_selection_get_anchor_node (selection);
-		end = webkit_dom_dom_selection_get_focus_node (selection);
-		start_offset = webkit_dom_dom_selection_get_anchor_offset (selection);
-		end_offset = webkit_dom_dom_selection_get_focus_offset (selection);
+		start = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+		end = webkit_dom_dom_selection_get_focus_node (dom_selection);
+		start_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
+		end_offset = webkit_dom_dom_selection_get_focus_offset (dom_selection);
 	}
 
 #if 0 /* FIXME WK2 */
-	while (select_next_word (selection)) {
+	while (select_next_word (dom_selection)) {
 		WebKitDOMRange *range;
 		WebKitSpellChecker *checker;
 		gint loc, len;
 		gchar *word;
 
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
+		g_object_unref (range);
 
 		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 		webkit_spell_checker_check_spelling_of_string (
@@ -99,34 +101,36 @@ e_html_editor_spell_check_dialog_next (WebKitDOMDocument *document,
 	 * reached only when we reach the end of the document */
 	if (start && end)
 		webkit_dom_dom_selection_set_base_and_extent (
-			selection, start, start_offset, end, end_offset, NULL);
+			dom_selection, start, start_offset, end, end_offset, NULL);
+
+	g_object_unref (dom_selection);
 
 	return FALSE;
 }
 
 static gboolean
-select_previous_word (WebKitDOMDOMSelection *selection)
+select_previous_word (WebKitDOMDOMSelection *dom_selection)
 {
 	WebKitDOMNode *old_anchor_node;
 	WebKitDOMNode *new_anchor_node;
 	gulong old_anchor_offset;
 	gulong new_anchor_offset;
 
-	old_anchor_node = webkit_dom_dom_selection_get_anchor_node (selection);
-	old_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (selection);
+	old_anchor_node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	old_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
 
 	/* Jump on the beginning of current word */
-	webkit_dom_dom_selection_modify (selection, "move", "backward", "word");
+	webkit_dom_dom_selection_modify (dom_selection, "move", "backward", "word");
 	/* Jump before previous word */
-	webkit_dom_dom_selection_modify (selection, "move", "backward", "word");
+	webkit_dom_dom_selection_modify (dom_selection, "move", "backward", "word");
 	/* Select it */
-	webkit_dom_dom_selection_modify (selection, "extend", "forward", "word");
+	webkit_dom_dom_selection_modify (dom_selection, "extend", "forward", "word");
 
 	/* If the selection start didn't change, then we have most probably
 	 * reached the beginnig of document. Return FALSE */
 
-	new_anchor_node = webkit_dom_dom_selection_get_anchor_node (selection);
-	new_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (selection);
+	new_anchor_node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	new_anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
 
 	return (new_anchor_node != old_anchor_node) ||
 		(new_anchor_offset != old_anchor_offset);
@@ -137,34 +141,36 @@ e_html_editor_spell_check_dialog_prev (WebKitDOMDocument *document,
                                        const gchar *word)
 {
 	gulong start_offset, end_offset;
-	WebKitDOMDOMSelection *selection;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMNode *start = NULL, *end = NULL;
 
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	if (!word) {
 		webkit_dom_dom_selection_modify (
-			selection, "move", "right", "documentboundary");
+			dom_selection, "move", "right", "documentboundary");
 		webkit_dom_dom_selection_modify (
-			selection, "extend", "backward", "word");
+			dom_selection, "extend", "backward", "word");
 	} else {
 		/* Remember last selected word */
-		start = webkit_dom_dom_selection_get_anchor_node (selection);
-		end = webkit_dom_dom_selection_get_focus_node (selection);
-		start_offset = webkit_dom_dom_selection_get_anchor_offset (selection);
-		end_offset = webkit_dom_dom_selection_get_focus_offset (selection);
+		start = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+		end = webkit_dom_dom_selection_get_focus_node (dom_selection);
+		start_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
+		end_offset = webkit_dom_dom_selection_get_focus_offset (dom_selection);
 	}
 #if 0 /* FIXME WK2 */
-	while (select_previous_word (selection)) {
+	while (select_previous_word (dom_selection)) {
 		WebKitDOMRange *range;
 		WebKitSpellChecker *checker;
 		gint loc, len;
 		gchar *word;
 
-		range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 		word = webkit_dom_range_get_text (range);
+		g_object_unref (range);
 
 		checker = WEBKIT_SPELL_CHECKER (webkit_get_text_checker ());
 		webkit_spell_checker_check_spelling_of_string (
@@ -184,7 +190,7 @@ e_html_editor_spell_check_dialog_prev (WebKitDOMDocument *document,
 	 * reached only when we reach the beginning of the document */
 	if (start && end)
 		webkit_dom_dom_selection_set_base_and_extent (
-			selection, start, start_offset, end, end_offset, NULL);
+			dom_selection, start, start_offset, end, end_offset, NULL);
 
 	return FALSE;
 }

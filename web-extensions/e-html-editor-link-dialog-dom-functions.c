@@ -34,16 +34,18 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
                               const gchar *url,
                               const gchar *inner_text)
 {
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	if (!dom_selection ||
 	    (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)) {
+		g_object_unref (dom_selection);
 		return;
 	}
 
@@ -105,19 +107,23 @@ e_html_editor_link_dialog_ok (WebKitDOMDocument *document,
 
 		g_free (text);
 	}
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
 }
 
 GVariant *
 e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 {
 	GVariant *result = NULL;
-	WebKitDOMDOMWindow *window;
+	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMElement *link;
 
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
 	/* No selection at all */
 	if (!dom_selection ||
@@ -173,6 +179,9 @@ e_html_editor_link_dialog_show (WebKitDOMDocument *document)
 
 		g_free (text);
 	}
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
 
 	return result;
 }
