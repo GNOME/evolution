@@ -1501,6 +1501,7 @@ emoticon_read_async_cb (GFile *file,
 
 	image = webkit_dom_document_create_element (document, "IMG", NULL);
 	webkit_dom_element_set_attribute (image, "src", output, NULL);
+	webkit_dom_element_set_attribute (image, "data-inline", "", NULL);
 	webkit_dom_element_set_attribute (image, "alt", emoticon->text_face, NULL);
 	webkit_dom_element_set_attribute (image, "-x-evo-smiley", emoticon->icon_name, NULL);
 	webkit_dom_element_set_attribute (image, "class", "-x-evo-smiley-img", NULL);
