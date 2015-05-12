@@ -1380,19 +1380,29 @@ void
 dom_selection_save (WebKitDOMDocument *document)
 {
 	gboolean collapsed = FALSE;
-	glong offset;
+	glong offset, anchor_offset;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
 	WebKitDOMNode *container, *next_sibling, *marker_node;
-	WebKitDOMNode *split_node, *parent_node;
+	WebKitDOMNode *split_node, *parent_node, *anchor;
 	WebKitDOMElement *start_marker, *end_marker;
 
 	/* First remove all markers (if present) */
 	remove_selection_markers (document);
 
-	range = dom_get_current_range (document);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1)
+		return;
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	if (!range)
 		return;
+
+	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	anchor_offset = webkit_dom_dom_selection_get_anchor_offset (dom_selection);
 
 	collapsed = webkit_dom_range_get_collapsed (range, NULL);
 	start_marker = dom_create_selection_marker (document, TRUE);
@@ -1400,6 +1410,9 @@ dom_selection_save (WebKitDOMDocument *document)
 	container = webkit_dom_range_get_start_container (range, NULL);
 	offset = webkit_dom_range_get_start_offset (range, NULL);
 	parent_node = webkit_dom_node_get_parent_node (container);
+
+	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
+		webkit_dom_element_set_attribute (start_marker, "data-anchor", "", NULL);
 
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
 		WebKitDOMNode *node;
@@ -1548,6 +1561,9 @@ dom_selection_save (WebKitDOMDocument *document)
 	container = webkit_dom_range_get_end_container (range, NULL);
 	offset = webkit_dom_range_get_end_offset (range, NULL);
 	parent_node = webkit_dom_node_get_parent_node (container);
+
+	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
+		webkit_dom_element_set_attribute (end_marker, "data-anchor", "", NULL);
 
 	if (element_has_class (WEBKIT_DOM_ELEMENT (parent_node), "-x-evo-quote-character")) {
 		WebKitDOMNode *node;
@@ -1706,9 +1722,11 @@ is_selection_position_node (WebKitDOMNode *node)
 void
 dom_selection_restore (WebKitDOMDocument *document)
 {
+	gboolean start_is_anchor = FALSE;
+	glong offset;
 	WebKitDOMElement *marker;
 	WebKitDOMNode *selection_start_marker, *selection_end_marker;
-	WebKitDOMNode *parent_start, *parent_end;
+	WebKitDOMNode *parent_start, *parent_end, *anchor;
 	WebKitDOMRange *range;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMDOMWindow *window;
@@ -1763,6 +1781,7 @@ dom_selection_restore (WebKitDOMDocument *document)
 		return;
 	}
 
+	start_is_anchor = webkit_dom_element_has_attribute (marker, "data-anchor");
 	parent_start = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (marker));
 
 	webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (marker), NULL);
@@ -1790,7 +1809,20 @@ dom_selection_restore (WebKitDOMDocument *document)
 		webkit_dom_node_normalize (parent_start);
 		webkit_dom_node_normalize (parent_end);
 	}
+
+	if (start_is_anchor) {
+		anchor = webkit_dom_range_get_end_container (range, NULL);
+		offset = webkit_dom_range_get_end_offset (range, NULL);
+
+		webkit_dom_range_collapse (range, TRUE, NULL);
+	} else {
+		anchor = webkit_dom_range_get_start_container (range, NULL);
+		offset = webkit_dom_range_get_start_offset (range, NULL);
+
+		webkit_dom_range_collapse (range, FALSE, NULL);
+	}
 	webkit_dom_dom_selection_add_range (dom_selection, range);
+	webkit_dom_dom_selection_extend (dom_selection, anchor, offset, NULL);
 }
 
 static gint
