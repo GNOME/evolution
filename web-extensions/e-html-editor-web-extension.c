@@ -572,6 +572,13 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='b' name='remove_inserted_uri_on_drop' direction='in'/>"
 "    </method>"
+"<!-- ********************************************************* -->"
+"<!--     Functions that are used in External Editor plugin     -->"
+"<!-- ********************************************************* -->"
+"    <method name='DOMGetCaretPosition'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='i' name='position' direction='out'/>"
+"    </method>"
 "  </interface>"
 "</node>";
 
@@ -2089,6 +2096,22 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation,
 			value ? g_variant_new_take_string (value) : NULL);
+	} else if (g_strcmp0 (method_name, "DOMGetCaretPosition") == 0) {
+		gint32 value;
+
+		g_variant_get (parameters, "(t)", &page_id);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		value = dom_get_caret_position (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation,
+			value ? g_variant_new_int32 (value) : NULL);
 	}
 }
 
