@@ -5397,6 +5397,7 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 		}
 
 		e_html_editor_view_exec_command (view, command, html_text);
+		e_html_editor_view_fix_file_uri_images (view);
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_html_editor_selection_restore (selection);
 		e_html_editor_view_check_magic_links (view, FALSE);

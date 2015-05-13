@@ -283,6 +283,8 @@ void		e_html_editor_view_set_link_color
 void		e_html_editor_view_set_visited_link_color
 						(EHTMLEditorView *view,
 						 GdkRGBA *color);
+void		e_html_editor_view_fix_file_uri_images
+						(EHTMLEditorView *view);
 gboolean	e_html_editor_view_can_undo 	(EHTMLEditorView *view);
 void		e_html_editor_view_undo 	(EHTMLEditorView *view);
 gboolean	e_html_editor_view_can_redo 	(EHTMLEditorView *view);

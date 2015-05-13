@@ -1065,8 +1065,8 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	gchar *contents = NULL;
 	gsize length = 0;
 	const gchar *active_id;
-	gboolean top_signature;
-	gboolean is_html;
+	gboolean top_signature, is_html, html_mode;
+	gboolean start_bottom, is_message_from_edit_as_new;
 	GError *error = NULL;
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
@@ -1074,8 +1074,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	WebKitDOMNodeList *signatures;
 	gulong list_length, ii;
 	GSettings *settings;
-	gboolean start_bottom;
-	gboolean is_message_from_edit_as_new;
 
 	e_mail_signature_combo_box_load_selected_finish (
 		combo_box, result, &contents, &length, &is_html, &error);
@@ -1103,10 +1101,32 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	start_bottom = g_settings_get_boolean (settings, "composer-reply-start-bottom");
 	g_object_unref (settings);
 
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	html_mode = e_html_editor_view_get_html_mode (view);
+
 	if (contents == NULL)
 		goto insert;
 
-	if (!is_html) {
+	/* If inserting HTML signature in plain text composer we have to convert it. */
+	if (is_html && !html_mode) {
+		WebKitDOMElement *element;
+		gchar *inner_text;
+		gchar *html;
+
+		element = webkit_dom_document_create_element (document, "div", NULL);
+		webkit_dom_html_element_set_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element), contents, NULL);
+		inner_text = webkit_dom_html_element_get_inner_text (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+		html = camel_text_to_html (inner_text, 0, 0);
+		if (html) {
+			g_free (contents);
+
+			contents = html;
+			length = strlen (contents);
+		}
+		g_free (inner_text);
+	} else if (!is_html) {
 		gchar *html;
 
 		html = camel_text_to_html (contents, 0, 0);
@@ -1168,9 +1188,6 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 insert:
 	/* Remove the old signature and insert the new one. */
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
 	signatures = webkit_dom_document_get_elements_by_class_name (
 		document, "-x-evo-signature-wrapper");
 	list_length = webkit_dom_node_list_get_length (signatures);
@@ -1260,6 +1277,9 @@ insert:
 
 		g_string_free (html_buffer, TRUE);
 	}
+
+	if (is_html && html_mode)
+		e_html_editor_view_fix_file_uri_images (view);
 
 	composer_move_caret (composer);
 
