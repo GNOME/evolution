@@ -3377,7 +3377,7 @@ quote_plain_text_recursive (WebKitDOMDocument *document,
 		}
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) &&
-		    !next_sibling &&
+		    !next_sibling && WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
 		    element_is_selection_marker (WEBKIT_DOM_ELEMENT (prev_sibling))) {
 			insert_quote_symbols_before_node (
 				document, node, quote_level, FALSE);
@@ -6352,8 +6352,16 @@ dom_process_content_for_plain_text (WebKitDOMDocument *document,
 	}
 	g_object_unref (paragraphs);
 
-	if (e_html_editor_web_extension_get_html_mode (extension) || quote)
+	if (quote)
 		quote_plain_text_recursive (document, source, source, 0);
+	else if (e_html_editor_web_extension_get_html_mode (extension)) {
+		WebKitDOMElement *citation;
+
+		citation = webkit_dom_element_query_selector (
+			WEBKIT_DOM_ELEMENT (source), "blockquote[type=cite]", NULL);
+		if (citation)
+			quote_plain_text_recursive (document, source, source, 0);
+	}
 
 	process_elements (extension, source, FALSE, FALSE, TRUE, plain_text);
 
