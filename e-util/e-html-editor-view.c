@@ -10999,6 +10999,32 @@ e_html_editor_view_set_is_editting_message (EHTMLEditorView *view,
 	view->priv->is_editting_message = value;
 }
 
+void
+e_html_editor_view_fix_file_uri_images (EHTMLEditorView *view)
+{
+	gint ii, length;
+	WebKitDOMNodeList *list;
+	WebKitDOMDocument *document;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	list = webkit_dom_document_query_selector_all (
+		document, "img[src^=\"file://\"]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+		gchar *uri;
+
+		node = webkit_dom_node_list_item (list, ii);
+		uri = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "src");
+		e_html_editor_selection_replace_image_src (
+			view->priv->selection, WEBKIT_DOM_ELEMENT (node), uri);
+		g_free (uri);
+	}
+
+	g_object_unref (list);
+}
+
 gboolean
 e_html_editor_view_is_undo_redo_in_progress (EHTMLEditorView *view)
 {
