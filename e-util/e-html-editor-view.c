@@ -10101,6 +10101,7 @@ e_html_editor_view_add_inline_image_from_element (EHTMLEditorView *view,
 	camel_mime_part_set_content_id (part, cid);
 	g_free (cid);
 	name = webkit_dom_element_get_attribute (element, "data-name");
+	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_filename (part, name);
 	g_free (name);
 	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
