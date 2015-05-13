@@ -258,33 +258,36 @@ static gint
 get_caret_position (EHTMLEditorView *view)
 {
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *selection;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
-	gint range_count;
+	gint range_count, ret_val;
 	WebKitDOMNodeList *nodes;
 	gulong ii, length;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	selection = webkit_dom_dom_window_get_selection (window);
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
 
-	if (webkit_dom_dom_selection_get_range_count (selection) < 1)
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_object_unref (dom_selection);
 		return 0;
+	}
 
-	range = webkit_dom_dom_selection_get_range_at (selection, 0, NULL);
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 	range_count = 0;
 	nodes = webkit_dom_node_get_child_nodes (
 		webkit_dom_node_get_parent_node (
 			webkit_dom_dom_selection_get_anchor_node (
-				selection)));
+				dom_selection)));
 	length = webkit_dom_node_list_get_length (nodes);
 	for (ii = 0; ii < length; ii++) {
 		WebKitDOMNode *node;
 
 		node = webkit_dom_node_list_item (nodes, ii);
 		if (webkit_dom_node_is_same_node (
-			node, webkit_dom_dom_selection_get_anchor_node (selection))) {
+			node, webkit_dom_dom_selection_get_anchor_node (dom_selection))) {
 
 			g_object_unref (node);
 			break;
@@ -295,9 +298,14 @@ get_caret_position (EHTMLEditorView *view)
 		}
 		g_object_unref (node);
 	}
-
 	g_object_unref (nodes);
-	return webkit_dom_range_get_start_offset (range, NULL) + range_count;
+
+	ret_val = webkit_dom_range_get_start_offset (range, NULL) + range_count;
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+
+	return ret_val;
 }
 
 static gboolean external_editor_running = FALSE;
