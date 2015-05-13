@@ -282,7 +282,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	e_mail_formatter_canon_header_name (canon_name);
 
 	for (i = 0; addrspec_hdrs[i]; i++) {
-		if (g_str_equal (canon_name, addrspec_hdrs[i])) {
+		if (g_ascii_strcasecmp (canon_name, addrspec_hdrs[i]) == 0) {
 			addrspec = TRUE;
 			break;
 		}
