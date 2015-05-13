@@ -2708,7 +2708,7 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 		}
 	}
 
-	concat_unique_addrs (cc, to_addrs, rcpt_hash);
+	concat_unique_addrs (to, to_addrs, rcpt_hash);
 	concat_unique_addrs (cc, cc_addrs, rcpt_hash);
 
 	/* Promote the first Cc: address to To: if To: is empty. */
