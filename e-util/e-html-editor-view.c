@@ -1516,7 +1516,8 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	}
 
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (!node_text || !(*node_text) || !g_utf8_validate (node_text, -1, NULL))
+	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL))
+		g_free (node_text);
 		return;
 
 	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
@@ -2547,7 +2548,7 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	if (view->priv->return_key_pressed) {
 		EHTMLEditorViewHistoryEvent *ev;
 
-		/* Insert new hiisvent for Return to have the right coordinates.
+		/* Insert new history event for Return to have the right coordinates.
 		 * The fragment will be added later. */
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_INPUT;
