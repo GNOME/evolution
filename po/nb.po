@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-12 10:59+0200\n"
-"PO-Revision-Date: 2015-04-12 11:06+0200\n"
+"PO-Revision-Date: 2015-05-14 15:58+0200\n"
 "Last-Translator: Alexander Strand <godsetalex@gmail.com>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -8749,18 +8749,14 @@ msgstr ""
 "når en e-postkonto velges."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
-#, fuzzy
 msgid "Show \"From\" override field when sending a mail message"
-msgstr "Vis «Cc» feltet når meldinger sendes"
+msgstr "Vis overstyringsfelt for «Fra» når meldinger sendes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
-#, fuzzy
 msgid ""
 "Show the \"From\" override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
-msgstr ""
-"Vis «Cc»-feltet når en melding sendes. Dette kontrolleres fra «Vis»-menyen "
-"når en e-postkonto velges."
+msgstr "Vis overstyringsfelt for «Fra» når en melding sendes. Dette kontrolleres fra «Vis»-menyen når en e-postkonto velges."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
 msgid "Show \"Reply To\" field when sending a mail message"
@@ -9038,9 +9034,8 @@ msgid "Mark as Seen after specified timeout."
 msgstr "Merk som «sett» etter spesifisert tidsgrense."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
-#, fuzzy
 msgid "Mark as Seen always after specified timeout"
-msgstr "Merk som «lest» etter spesifisert tidsgrense"
+msgstr "Alltid merk som lest etter spesifisert tidsgrense"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid ""
@@ -9705,7 +9700,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "An Archive folder for On This Computer folders."
-msgstr ""
+msgstr "En arkivmappe for mapper under «På denne datamaskinen»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
