@@ -2079,6 +2079,82 @@ msg_composer_delete_event_cb (EMsgComposer *composer)
 }
 
 static void
+msg_composer_realize_cb (EMsgComposer *composer)
+{
+	GSettings *settings;
+	GtkAction *action;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	action = ACTION (TOOLBAR_PGP_SIGN);
+	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gtk_action_set_visible (action, FALSE);
+
+	action = ACTION (TOOLBAR_PGP_ENCRYPT);
+	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gtk_action_set_visible (action, FALSE);
+
+	action = ACTION (TOOLBAR_SMIME_SIGN);
+	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gtk_action_set_visible (action, FALSE);
+
+	action = ACTION (TOOLBAR_SMIME_ENCRYPT);
+	if (gtk_action_get_visible (action) && !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gtk_action_set_visible (action, FALSE);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "composer-toolbar-show-sign-encrypt")) {
+		EComposerHeaderTable *table;
+		ESource *source;
+		const gchar *identity_uid;
+
+		table = e_msg_composer_get_header_table (composer);
+		identity_uid = e_composer_header_table_get_identity_uid (table);
+		source = e_composer_header_table_ref_source (table, identity_uid);
+
+		if (source) {
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_OPENPGP)) {
+				gchar *key_id;
+
+				key_id = e_source_openpgp_dup_key_id (e_source_get_extension (source, E_SOURCE_EXTENSION_OPENPGP));
+
+				if (key_id && *key_id) {
+					action = ACTION (TOOLBAR_PGP_SIGN);
+					gtk_action_set_visible (action, TRUE);
+
+					action = ACTION (TOOLBAR_PGP_ENCRYPT);
+					gtk_action_set_visible (action, TRUE);
+				}
+
+				g_free (key_id);
+			}
+
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_SMIME)) {
+				ESourceSMIME *smime_extension;
+				gchar *certificate;
+
+				smime_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_SMIME);
+
+				certificate = e_source_smime_dup_signing_certificate (smime_extension);
+				if (certificate && *certificate)
+					gtk_action_set_visible (ACTION (TOOLBAR_SMIME_SIGN), TRUE);
+				g_free (certificate);
+
+				certificate = e_source_smime_dup_encryption_certificate (smime_extension);
+				if (certificate && *certificate)
+					gtk_action_set_visible (ACTION (TOOLBAR_SMIME_ENCRYPT), TRUE);
+				g_free (certificate);
+			}
+
+			g_clear_object (&source);
+		}
+	}
+
+	g_clear_object (&settings);
+}
+
+static void
 msg_composer_prepare_for_quit_cb (EShell *shell,
                                   EActivity *activity,
                                   EMsgComposer *composer)
@@ -2286,6 +2362,10 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect (
 		object, "delete-event",
 		G_CALLBACK (msg_composer_delete_event_cb), NULL);
+
+	g_signal_connect (
+		object, "realize",
+		G_CALLBACK (msg_composer_realize_cb), NULL);
 
 	gtk_application_add_window (
 		GTK_APPLICATION (shell), GTK_WINDOW (object));
