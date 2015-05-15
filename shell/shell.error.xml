@@ -46,7 +46,37 @@ If you choose to continue, you may not have access to some of your old data.
  </error>
 
  <error id="source-connection-error" type="error">
-  <_primary>Failed to connect to '{0}'</_primary>
+  <_primary>Failed to connect '{0}'</_primary>
+  <secondary>{1}</secondary>
+  <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="addressbook-connection-error" type="error">
+  <_primary>Failed to connect address book '{0}'</_primary>
+  <secondary>{1}</secondary>
+  <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="calendar-connection-error" type="error">
+  <_primary>Failed to connect calendar '{0}'</_primary>
+  <secondary>{1}</secondary>
+  <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="mail-connection-error" type="error">
+  <_primary>Failed to connect mail account '{0}'</_primary>
+  <secondary>{1}</secondary>
+  <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="memo-list-connection-error" type="error">
+  <_primary>Failed to connect memo list '{0}'</_primary>
+  <secondary>{1}</secondary>
+  <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="task-list-connection-error" type="error">
+  <_primary>Failed to connect task list '{0}'</_primary>
   <secondary>{1}</secondary>
   <button _label="_Reconnect" response="GTK_RESPONSE_APPLY"/>
  </error>
@@ -63,6 +93,36 @@ If you choose to continue, you may not have access to some of your old data.
 
  <error id="source-connection-trust-error" type="error">
   <_primary>SSL certificate for '{0}' is not trusted.</_primary>
+  <_secondary>Reason: {1}</_secondary>
+  <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="addressbook-connection-trust-error" type="error">
+  <_primary>SSL certificate for address book '{0}' is not trusted.</_primary>
+  <_secondary>Reason: {1}</_secondary>
+  <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="calendar-connection-trust-error" type="error">
+  <_primary>SSL certificate for calendar '{0}' is not trusted.</_primary>
+  <_secondary>Reason: {1}</_secondary>
+  <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="mail-connection-trust-error" type="error">
+  <_primary>SSL certificate for mail account '{0}' is not trusted.</_primary>
+  <_secondary>Reason: {1}</_secondary>
+  <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="memo-list-connection-trust-error" type="error">
+  <_primary>SSL certificate for memo list '{0}' is not trusted.</_primary>
+  <_secondary>Reason: {1}</_secondary>
+  <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
+ <error id="task-list-connection-trust-error" type="error">
+  <_primary>SSL certificate for task list '{0}' is not trusted.</_primary>
   <_secondary>Reason: {1}</_secondary>
   <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
  </error>
