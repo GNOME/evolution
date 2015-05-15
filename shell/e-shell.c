@@ -827,6 +827,100 @@ shell_connect_trust_error_alert_response_cb (EAlert *alert,
 		shell->priv->cancellable, shell_trust_prompt_done_cb, shell);
 }
 
+static const gchar *
+shell_get_connection_error_tag_for_source (ESource *source)
+{
+	const gchar *tag = "shell:source-connection-error";
+	const gchar *override_tag = NULL;
+
+	g_return_val_if_fail (E_IS_SOURCE (source), tag);
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_ADDRESS_BOOK)) {
+		override_tag = "shell:addressbook-connection-error";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR)) {
+		if (!override_tag)
+			override_tag = "shell:calendar-connection-error";
+		else
+			override_tag = "";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT) ||
+	    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_TRANSPORT)) {
+		if (!override_tag)
+			override_tag = "shell:mail-connection-error";
+		else
+			override_tag = "";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MEMO_LIST)) {
+		if (!override_tag)
+			override_tag = "shell:memo-list-connection-error";
+		else
+			override_tag = "";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST)) {
+		if (!override_tag)
+			override_tag = "shell:task-list-connection-error";
+		else
+			override_tag = "";
+	}
+
+	if (override_tag && *override_tag)
+		return override_tag;
+
+	return tag;
+}
+
+static const gchar *
+shell_get_connection_trust_error_tag_for_source (ESource *source)
+{
+	const gchar *tag = "shell:source-connection-trust-error";
+	const gchar *override_tag = NULL;
+
+	g_return_val_if_fail (E_IS_SOURCE (source), tag);
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_ADDRESS_BOOK)) {
+		override_tag = "shell:addressbook-connection-trust-error";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR)) {
+		if (!override_tag)
+			override_tag = "shell:calendar-connection-trust-error";
+		else
+			override_tag = "";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT) ||
+	    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_TRANSPORT)) {
+		if (!override_tag)
+			override_tag = "shell:mail-connection-trust-error";
+		else
+			override_tag = "";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MEMO_LIST)) {
+		if (!override_tag)
+			override_tag = "shell:memo-list-connection-trust-error";
+		else
+			override_tag = "";
+	}
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST)) {
+		if (!override_tag)
+			override_tag = "shell:task-list-connection-trust-error";
+		else
+			override_tag = "";
+	}
+
+	if (override_tag && *override_tag)
+		return override_tag;
+
+	return tag;
+}
+
 static void
 shell_process_credentials_required_errors (EShell *shell,
 					   ESource *source,
@@ -862,7 +956,7 @@ shell_process_credentials_required_errors (EShell *shell,
 	if (reason == E_SOURCE_CREDENTIALS_REASON_ERROR) {
 		EAlert *alert;
 
-		alert = e_alert_new ("shell:source-connection-error",
+		alert = e_alert_new (shell_get_connection_error_tag_for_source (source),
 				e_source_get_display_name (source),
 				op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
 				NULL);
@@ -882,7 +976,7 @@ shell_process_credentials_required_errors (EShell *shell,
 
 			cert_errors_str = e_trust_prompt_describe_certificate_errors (certificate_errors);
 
-			alert = e_alert_new ("shell:source-connection-trust-error",
+			alert = e_alert_new (shell_get_connection_trust_error_tag_for_source (source),
 					e_source_get_display_name (source),
 					(cert_errors_str && *cert_errors_str) ? cert_errors_str :
 					op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
@@ -910,7 +1004,7 @@ shell_process_credentials_required_errors (EShell *shell,
 		   reason == E_SOURCE_CREDENTIALS_REASON_REJECTED) {
 		EAlert *alert;
 
-		alert = e_alert_new ("shell:source-connection-error",
+		alert = e_alert_new (shell_get_connection_error_tag_for_source (source),
 				e_source_get_display_name (source),
 				op_error && *(op_error->message) ? op_error->message : _("Credentials are required to connect to the destination host."),
 				NULL);
