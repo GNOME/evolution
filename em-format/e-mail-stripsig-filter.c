@@ -47,10 +47,14 @@ strip_signature (CamelMimeFilter *filter,
 	const gchar *start = NULL;
 
 	if (stripsig->midline) {
-		while (inptr < inend && *inptr != '\n')
+		while (inptr < inend && *inptr != '\n' && (stripsig->text_plain_only ||
+		       inend - inptr < 4 || g_ascii_strncasecmp (inptr, "<BR>", 4) != 0))
 			inptr++;
 
-		if (inptr < inend) {
+		if (!stripsig->text_plain_only && inend - inptr >= 4 && g_ascii_strncasecmp (inptr, "<BR>", 4) == 0) {
+			stripsig->midline = FALSE;
+			inptr += 4;
+		} else if (inptr < inend) {
 			stripsig->midline = FALSE;
 			inptr++;
 		}
@@ -66,7 +70,8 @@ strip_signature (CamelMimeFilter *filter,
 			start = inptr;
 			inptr += 7;
 		} else {
-			while (inptr < inend && *inptr != '\n')
+			while (inptr < inend && *inptr != '\n' && (stripsig->text_plain_only ||
+			       inend - inptr < 4 || g_ascii_strncasecmp (inptr, "<BR>", 4) != 0))
 				inptr++;
 
 			if (inptr == inend) {
@@ -74,7 +79,10 @@ strip_signature (CamelMimeFilter *filter,
 				break;
 			}
 
-			inptr++;
+			if (!stripsig->text_plain_only && inend - inptr >= 4 && g_ascii_strncasecmp (inptr, "<BR>", 4) == 0)
+				inptr += 4;
+			else
+				inptr++;
 		}
 	}
 
