@@ -7945,22 +7945,6 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
 
-static gboolean
-replace_to_whitespaces (const GMatchInfo *info,
-                        GString *res,
-                        gpointer data)
-{
-	gint ii, length = 0;
-	gint chars_count = GPOINTER_TO_INT (data);
-
-	length = TAB_LENGTH - (chars_count %  TAB_LENGTH);
-
-	for (ii = 0; ii < length; ii++)
-		g_string_append (res, " ");
-
-	return FALSE;
-}
-
 static void
 process_elements (EHTMLEditorView *view,
                   WebKitDOMNode *node,
@@ -8032,41 +8016,8 @@ process_elements (EHTMLEditorView *view,
 		if (WEBKIT_DOM_IS_TEXT (child)) {
 			gchar *content, *tmp;
 			GRegex *regex;
-			gint char_count = 0;
 
 			content = webkit_dom_node_get_text_content (child);
-			if (!changing_mode && to_plain_text) {
-				/* Replace tabs with 8 whitespaces, otherwise they got
-				 * replaced by single whitespace */
-				if (strstr (content, "\x9")) {
-					if (buffer->str && *buffer->str) {
-						gchar *start_of_line = g_strrstr_len (
-							buffer->str, -1, "\n") + 1;
-
-						if (start_of_line && *start_of_line)
-								char_count = strlen (start_of_line);
-					} else
-						char_count = 0;
-
-					regex = g_regex_new ("\x9", 0, 0, NULL);
-					tmp = g_regex_replace_eval (
-						regex,
-						content,
-						-1,
-						0,
-						0,
-						(GRegexEvalCallback) replace_to_whitespaces,
-						GINT_TO_POINTER (char_count),
-						NULL);
-
-					g_string_append (buffer, tmp);
-					g_free (tmp);
-					g_free (content);
-					content = webkit_dom_node_get_text_content (child);
-					g_regex_unref (regex);
-				}
-			}
-
 			if (strstr (content, UNICODE_ZERO_WIDTH_SPACE)) {
 				regex = g_regex_new (UNICODE_ZERO_WIDTH_SPACE, 0, 0, NULL);
 				tmp = g_regex_replace (
@@ -8149,49 +8100,15 @@ process_elements (EHTMLEditorView *view,
 			goto next;
 
 		if (element_has_class (WEBKIT_DOM_ELEMENT (child), "Apple-tab-span")) {
-			if (!changing_mode && to_plain_text) {
-				gchar *content, *tmp;
-				GRegex *regex;
-				gint char_count = 0;
-
-				content = webkit_dom_node_get_text_content (child);
-				/* Replace tabs with 8 whitespaces, otherwise they got
-				 * replaced by single whitespace */
-				if (strstr (content, "\x9")) {
-					if (buffer->str && *buffer->str) {
-						const gchar *start_of_line = g_strrstr_len (
-							buffer->str, -1, "\n");
-
-						if (start_of_line && *start_of_line)
-							char_count = strlen (start_of_line + 1);
-					} else
-						char_count = 0;
-
-					regex = g_regex_new ("\x9", 0, 0, NULL);
-					tmp = g_regex_replace_eval (
-						regex,
-						content,
-						-1,
-						0,
-						0,
-						(GRegexEvalCallback) replace_to_whitespaces,
-						GINT_TO_POINTER (char_count),
-						NULL);
-
-					g_string_append (buffer, tmp);
-					g_free (tmp);
-					g_regex_unref (regex);
-				} else if (content && *content) {
-					/* Some it happens that some text is written inside
-					 * the tab span element, so save it. */
+			if (!changing_mode) {
+				if (to_plain_text) {
+					content = webkit_dom_node_get_text_content (child);
 					g_string_append (buffer, content);
-				}
-				g_free (content);
-			}
-			if (!to_plain_text) {
-				element_remove_class (
-					WEBKIT_DOM_ELEMENT (child),
-					"Applet-tab-span");
+					g_free (content);
+				} else
+					element_remove_class (
+						WEBKIT_DOM_ELEMENT (child),
+						"Applet-tab-span");
 			}
 
 			skip_node = TRUE;
