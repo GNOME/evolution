@@ -1798,37 +1798,29 @@ insert_dash_history_event (EHTMLEditorView *view)
 	event->after.end.y = last->after.end.y;
 
 	history = view->priv->history->next;
-	while (history) {
+	if (history) {
 		EHTMLEditorViewHistoryEvent *item;
 		WebKitDOMNode *first_child;
 
 		item = history->data;
 
 		if (item->type != HISTORY_INPUT)
-			break;
+			return;
 
 		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (item->data.fragment));
 		if (WEBKIT_DOM_IS_TEXT (first_child)) {
-			gchar *text;
+			guint diff;
 
-			text = webkit_dom_node_get_text_content (first_child);
-			if (text && *text == ':') {
-				guint diff;
+			diff = event->after.start.x - item->after.start.x;
 
-				diff = event->after.start.x - item->after.start.x;
+			/* We need to move the coordinate of the last
+			 * event by one character. */
+			last->after.start.x += diff;
+			last->after.end.x += diff;
 
-				/* We need to move the coordinate of the last
-				 * event by one character. */
-				last->after.start.x += diff;
-				last->after.end.x += diff;
-
-				view->priv->history = g_list_insert_before (
-					view->priv->history, history, event);
-			}
-			g_free (text);
-			break;
+			view->priv->history = g_list_insert_before (
+				view->priv->history, history, event);
 		}
-		history = history->next;
 	}
 }
 
@@ -2078,19 +2070,21 @@ emoticon_insert_span (EHTMLEditorView *view,
 
 				/* Try to recognize smileys without the dash e.g. :). */
 				while (emoticon_start[ii] && emoticon->text_face[jj]) {
-					if (emoticon_start[ii] == ':' && emoticon->text_face[jj] == ':') {
-						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-')
+					if (emoticon_start[ii] == emoticon->text_face[jj]) {
+						if (emoticon->text_face[jj+1] && emoticon->text_face[jj+1] == '-') {
 							ii++;
 							jj+=2;
 							compensate = TRUE;
-							continue;
-					}
-					if (emoticon_start[ii] == emoticon->text_face[jj]) {
-						ii++;
-						jj++;
-					} else
+						} else {
+							ii++;
+							jj++;
+						}
+					} else {
 						same = FALSE;
+						break;
+					}
 				}
+
 				if (same) {
 					webkit_dom_character_data_delete_data (
 						WEBKIT_DOM_CHARACTER_DATA (node),
