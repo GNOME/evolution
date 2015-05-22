@@ -860,7 +860,7 @@ e_table_sort_info_save_to_node (ETableSortInfo *sort_info,
 
 	for (ii = 0; ii < group_count; ii++) {
 		ETableColumnSpecification *column_spec;
-		GtkSortType sort_type;
+		GtkSortType sort_type = GTK_SORT_ASCENDING;
 		xmlNode *new_node;
 		gint index;
 
@@ -887,7 +887,7 @@ e_table_sort_info_save_to_node (ETableSortInfo *sort_info,
 
 	for (ii = 0; ii < sort_count; ii++) {
 		ETableColumnSpecification *column_spec;
-		GtkSortType sort_type;
+		GtkSortType sort_type = GTK_SORT_ASCENDING;
 		xmlNode *new_node;
 		gint index;
 

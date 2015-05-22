@@ -3188,7 +3188,7 @@ message_list_duplicate_value (ETreeModel *tree_model,
 
 				return res;
 			} else
-				return value;
+				return NULL;
 
 		default:
 			g_return_val_if_reached (NULL);

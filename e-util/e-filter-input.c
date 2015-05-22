@@ -110,7 +110,7 @@ filter_input_validate (EFilterElement *element,
 
 		regfree (&regexpat);
 	} else if (!input->allow_empty && (!input->values || !input->values->next)) {
-		const gchar *value = input->values->data;
+		const gchar *value = input->values ? input->values->data : NULL;
 		gboolean is_empty = value == NULL;
 
 		if (value) {
