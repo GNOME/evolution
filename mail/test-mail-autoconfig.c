@@ -39,6 +39,8 @@ main (gint argc,
 		autoconfig = e_mail_autoconfig_new_sync (
 			registry, argv[1], NULL, &error);
 		g_object_unref (registry);
+	} else {
+		autoconfig = NULL;
 	}
 
 	/* Sanity check. */

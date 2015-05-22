@@ -1860,6 +1860,8 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 			tmp = tmp2;
 			tmp2 = NULL;
 		}
+	} else {
+		tmp = NULL;
 	}
 
 	e_cal_component_free_datetime (&dtstart);

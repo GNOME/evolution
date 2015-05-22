@@ -960,8 +960,8 @@ e_cell_date_edit_update_cell (ECellDateEdit *ecde,
 			ecell_text, ecv->e_table_model,
 			ecol->spec->model_col, ecp->popup_row, text);
 		e_cell_leave_edit (
-			ecv, ecp->popup_view_col,
-			ecol->spec->model_col, ecp->popup_row, NULL);
+			ecv, ecol->spec->model_col,
+			ecp->popup_view_col, ecp->popup_row, NULL);
 	}
 
 	e_cell_text_free_text (ecell_text, ecv->e_table_model,

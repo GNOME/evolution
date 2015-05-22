@@ -1277,6 +1277,7 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	if (local_error) {
 		g_warn_if_fail (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED));
 
+		/* coverity[check_return] */
 		e_activity_handle_cancellation (activity, local_error);
 		g_clear_error (&local_error);
 		async_context_free (async_context);
