@@ -612,6 +612,8 @@ e_day_view_get_text_color (EDayView *day_view,
 		color.blue = 65535.0f;
 	}
 
+	color.pixel = 0;
+
 	return color;
 }
 

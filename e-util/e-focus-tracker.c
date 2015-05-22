@@ -1178,9 +1178,9 @@ e_focus_tracker_paste_clipboard (EFocusTracker *focus_tracker)
 
 	} else if (GTK_IS_TEXT_VIEW (focus)) {
 		GtkClipboard *clipboard;
-		GtkTextView *text_view = GTK_TEXT_VIEW (focus);
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (text_view);
-		gboolean is_editable = gtk_text_view_get_editable (text_view);
+		GtkTextView *text_view;
+		GtkTextBuffer *buffer;
+		gboolean is_editable;
 
 		clipboard = gtk_widget_get_clipboard (
 			focus, GDK_SELECTION_CLIPBOARD);

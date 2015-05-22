@@ -546,7 +546,7 @@ render_title_block (EABContactFormatter *formatter,
 		const gchar *uri = photo->data.uri;
 		/* WebKit 2.2.x doesn't re-escape URIs, thus do this for versions before and after this */
 		#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
-		gchar *unescaped = g_uri_unescape_string (photo->data.uri, NULL);
+		gchar *unescaped = g_uri_unescape_string (uri, NULL);
 		uri = unescaped;
 		#endif
 		g_string_append_printf (
@@ -1064,7 +1064,7 @@ render_compact (EABContactFormatter *formatter,
 			const gchar *uri = photo->data.uri;
 			/* WebKit 2.2.x doesn't re-escape URIs, thus do this for versions before and after this */
 			#if !(WEBKIT_MAJOR_VERSION == 2 && WEBKIT_MINOR_VERSION == 2)
-			gchar *unescaped = g_uri_unescape_string (photo->data.uri, NULL);
+			gchar *unescaped = g_uri_unescape_string (uri, NULL);
 			uri = unescaped;
 			#endif
 			g_string_append_printf (

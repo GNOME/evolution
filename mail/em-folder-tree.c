@@ -1950,7 +1950,7 @@ tree_drag_data_get (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreePath *src_path;
 	CamelFolder *folder;
-	CamelStore *store;
+	CamelStore *store = NULL;
 	GtkTreeIter iter;
 	gchar *folder_name = NULL;
 	gchar *folder_uri;
