@@ -936,8 +936,7 @@ eth_calc_widths (ETableHeader *eth)
 
 	widths = g_new (int, eth->col_count);
 
-	/* - 1 to account for the last pixel border. */
-	extra = eth->width - 1;
+	extra = eth->width;
 	expansion = 0;
 	for (i = 0; i < eth->col_count; i++) {
 		extra -= eth->columns[i]->min_width + eth->width_extras;

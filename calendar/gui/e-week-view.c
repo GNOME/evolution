@@ -1698,6 +1698,8 @@ e_week_view_init (EWeekView *week_view)
 	week_view->before_click_dtstart = 0;
 	week_view->before_click_dtend = 0;
 
+	gtk_widget_set_margin_top (GTK_WIDGET (week_view), 1);
+
 	/*
 	 * Titles Canvas. Note that we don't show it is only shown in the
 	 * Month view.

@@ -682,6 +682,7 @@
               <object class="GtkTable" id="datetime_format_table">
                 <property name="visible">True</property>
                 <property name="n_columns">3</property>
+                <property name="row_spacing">6</property>
                 <child>
                   <placeholder/>
                 </child>

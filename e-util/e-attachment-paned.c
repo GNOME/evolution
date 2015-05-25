@@ -643,7 +643,6 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	widget = gtk_notebook_new ();
 	gtk_widget_set_size_request (widget, -1, initial_height);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	paned->priv->notebook = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -654,8 +653,6 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
 	gtk_widget_show (widget);
 

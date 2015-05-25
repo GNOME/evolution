@@ -280,7 +280,6 @@ action_plugin_manager_cb (GtkAction *action,
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), TRUE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (notebook), TRUE);
 
 	switch_page_handler_id = g_signal_connect (

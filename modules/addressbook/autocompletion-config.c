@@ -77,7 +77,6 @@ get_main_notebook (EConfig *config,
 		return old;
 
 	notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_widget_show (notebook);
 
 	return notebook;

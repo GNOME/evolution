@@ -138,6 +138,7 @@
                 <property name="n_rows">10</property>
                 <property name="n_columns">4</property>
                 <property name="column_spacing">12</property>
+                <property name="row_spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="summary-label">
                     <property name="visible">True</property>
@@ -265,7 +266,6 @@
                     <property name="bottom_attach">4</property>
                     <property name="x_options">GTK_SHRINK | GTK_FILL</property>
                     <property name="y_options">GTK_SHRINK | GTK_FILL</property>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -284,7 +284,6 @@
                     <property name="bottom_attach">5</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_FILL</property>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -298,7 +297,6 @@
                     <property name="bottom_attach">8</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_FILL</property>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -322,7 +320,6 @@
                     <property name="right_attach">4</property>
                     <property name="top_attach">9</property>
                     <property name="bottom_attach">10</property>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -336,7 +333,6 @@
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
                     <property name="y_options"/>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -352,6 +348,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="layout_style">start</property>
+                        <property name="spacing">3</property>
                         <child>
                           <object class="GtkButton" id="add-attendee">
                             <property name="label" translatable="yes">_Add</property>
@@ -416,7 +413,6 @@
                     <property name="bottom_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_FILL</property>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -517,7 +513,6 @@
                     <property name="right_attach">4</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options">GTK_FILL</property>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>
@@ -531,7 +526,6 @@
                     <property name="top_attach">8</property>
                     <property name="bottom_attach">9</property>
                     <property name="y_options"/>
-                    <property name="y_padding">3</property>
                   </packing>
                 </child>
                 <child>

@@ -589,6 +589,7 @@ e_search_bar_init (ESearchBar *search_bar)
 	search_bar->priv = E_SEARCH_BAR_GET_PRIVATE (search_bar);
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (search_bar), 6);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (search_bar), GTK_ORIENTATION_HORIZONTAL);
 
 	container = GTK_WIDGET (search_bar);
