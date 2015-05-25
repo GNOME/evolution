@@ -570,6 +570,21 @@ attachment_button_expanded (GObject *object,
 		return;
 	}
 
+	if (WEBKIT_DOM_IS_HTML_ELEMENT (element) && expanded &&
+	    webkit_dom_element_get_child_element_count (element) == 0) {
+		gchar *inner_html_data;
+
+		inner_html_data = webkit_dom_element_get_attribute (element, "inner-html-data");
+		if (inner_html_data && *inner_html_data) {
+			WebKitDOMHTMLElement *html_element;
+
+			html_element = WEBKIT_DOM_HTML_ELEMENT (element);
+			webkit_dom_html_element_set_inner_html (html_element, inner_html_data, NULL);
+		}
+
+		g_free (inner_html_data);
+	}
+
 	/* Show or hide the DIV which contains
 	 * the attachment (iframe, image...). */
 	css = webkit_dom_element_get_style (element);
