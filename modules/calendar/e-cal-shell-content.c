@@ -1524,7 +1524,6 @@ cal_shell_content_constructed (GObject *object)
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
 	cal_shell_content->priv->calendar_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);

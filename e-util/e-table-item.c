@@ -1855,11 +1855,11 @@ eti_draw_grid_line (ETableItem *eti,
 {
 	cairo_save (cr);
 
-	cairo_set_line_width (cr, 1.0);
+	cairo_set_line_width (cr, 0.5);
 	gdk_cairo_set_source_rgba (cr, rgba);
 
-	cairo_move_to (cr, x1 + 0.5, y1 + 0.5);
-	cairo_line_to (cr, x2 + 0.5, y2 + 0.5);
+	cairo_move_to (cr, x1 - 0.5, y1 + 0.5);
+	cairo_line_to (cr, x2 - 0.5, y2 + 0.5);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -2059,22 +2059,22 @@ eti_draw (GnomeCanvasItem *item,
 			cairo_restore (cr);
 
 			cairo_save (cr);
-			cairo_set_line_width (cr, 1.0);
+			cairo_set_line_width (cr, 0.5);
 			cairo_set_source_rgba (
 				cr, background.red,
 				background.green,
 				background.blue, 1);
-			cairo_move_to (cr, x1, y1);
-			cairo_line_to (cr, x2, y1);
+			cairo_move_to (cr, x1, y1 + 0.5);
+			cairo_line_to (cr, x2, y1 + 0.5);
 			cairo_stroke (cr);
 
-			cairo_set_line_width (cr, 1.0);
+			cairo_set_line_width (cr, 0.5);
 			cairo_set_source_rgba (
 				cr, background.red,
 				background.green,
 				background.blue, 1);
-			cairo_move_to (cr, x1, y2);
-			cairo_line_to (cr, x2, y2);
+			cairo_move_to (cr, x1, y2 + 0.5);
+			cairo_line_to (cr, x2, y2 + 0.5);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 

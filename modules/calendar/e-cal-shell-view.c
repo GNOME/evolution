@@ -534,6 +534,8 @@ cal_shell_view_constructed (GObject *object)
 	container = e_shell_searchbar_get_search_box (searchbar);
 
 	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (widget), "linked");
 	cal_shell_view_add_action_button (
 		GTK_BOX (widget), ACTION (CALENDAR_SEARCH_PREV));
 	cal_shell_view_add_action_button (

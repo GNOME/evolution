@@ -66,6 +66,56 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
+static const char *css =
+".table-header > .button {\
+   border-radius: 0;\
+   border-width: 1px 1px 1px 0;\
+   border-color: @borders;\
+}\
+.toolbar {\
+   border-bottom: 1px solid alpha(black, 0.1);\
+}\
+.taskbar {\
+   border-width: 1px 0 0 0;\
+}\
+EMailBrowser EPreviewPane GtkScrolledWindow {\
+    border: none;\
+}\
+EPaned.horizontal EPreviewPane GtkScrolledWindow {\
+    border-width: 1px 0 0 0;\
+}\
+EPaned.vertical EPreviewPane GtkScrolledWindow {\
+    border: none;\
+}\
+EAddressbookView {\
+   border-width: 1px 0 0 0;\
+}\
+ECalShellContent GtkSeparator {\
+   color: @borders;\
+}\
+ECalShellContent GtkNotebook {\
+   border-width: 1px 0 0 0;\
+}\
+EShellSidebar GtkScrolledWindow {\
+   border-width: 1px 0 0 0;\
+}\
+.switcher-visible EShellSidebar GtkScrolledWindow {\
+   border-width: 1px 0;\
+}\
+.switcher-visible ECalBaseShellSidebar EPaned {\
+   -GtkPaned-handle-size: 0;\
+}\
+EMAccountPrefs GtkFrame {\
+   border: none;\
+}\
+EAttachmentPaned > GtkBox > GtkPaned > GtkScrolledWindow {\
+   border-width: 1px 0;\
+}\
+EHTMLEditor .toolbar {\
+   border-bottom: none;\
+   background: transparent;\
+}";
+
 static void
 shell_window_menubar_update_new_menu (EShellWindow *shell_window)
 {
@@ -613,16 +663,24 @@ static GtkWidget *
 shell_window_construct_taskbar (EShellWindow *shell_window)
 {
 	EShell *shell;
+	GtkWidget *box;
 	GtkWidget *notebook;
 	GtkWidget *status_area;
 	GtkWidget *online_button;
 	GtkWidget *tooltip_label;
+	GtkStyleContext *style_context;
 	gint height;
 
 	shell = e_shell_window_get_shell (shell_window);
 
-	status_area = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
-	gtk_container_set_border_width (GTK_CONTAINER (status_area), 3);
+	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 3);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 3);
+	gtk_widget_show (box);
+
+	status_area = gtk_frame_new (NULL);
+	style_context = gtk_widget_get_style_context (status_area);
+	gtk_style_context_add_class (style_context, "taskbar");
+	gtk_container_add (GTK_CONTAINER (status_area), box);
 
 	e_binding_bind_property (
 		shell_window, "taskbar-visible",
@@ -635,7 +693,7 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 
 	online_button = e_online_button_new ();
 	gtk_box_pack_start (
-		GTK_BOX (status_area), online_button, FALSE, TRUE, 0);
+		GTK_BOX (box), online_button, FALSE, TRUE, 0);
 	gtk_widget_show (online_button);
 
 	e_binding_bind_property (
@@ -656,14 +714,14 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 	tooltip_label = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (tooltip_label), 0.0, 0.5);
 	gtk_box_pack_start (
-		GTK_BOX (status_area), tooltip_label, TRUE, TRUE, 0);
+		GTK_BOX (box), tooltip_label, TRUE, TRUE, 0);
 	shell_window->priv->tooltip_label = g_object_ref (tooltip_label);
 	gtk_widget_hide (tooltip_label);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
-	gtk_box_pack_start (GTK_BOX (status_area), notebook, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (box), notebook, TRUE, TRUE, 0);
 	shell_window->priv->status_notebook = g_object_ref (notebook);
 	gtk_widget_show (notebook);
 
@@ -1054,9 +1112,17 @@ e_shell_window_alert_sink_init (EAlertSinkInterface *iface)
 static void
 e_shell_window_init (EShellWindow *shell_window)
 {
+	GtkCssProvider *css_provider;
+
 	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
 
 	e_shell_window_private_init (shell_window);
+
+	css_provider = gtk_css_provider_new ();
+	gtk_css_provider_load_from_data (css_provider, css, -1, NULL);
+	gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+		GTK_STYLE_PROVIDER (css_provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
 /**
@@ -1550,12 +1616,22 @@ void
 e_shell_window_set_switcher_visible (EShellWindow *shell_window,
                                      gboolean switcher_visible)
 {
+	GtkStyleContext *style_context;
+
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	if (shell_window->priv->switcher_visible == switcher_visible)
 		return;
 
 	shell_window->priv->switcher_visible = switcher_visible;
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (shell_window->priv->sidebar_notebook));
+
+	if (switcher_visible)
+		gtk_style_context_add_class (style_context, "switcher-visible");
+	else
+		gtk_style_context_remove_class (style_context, "switcher-visible");
+
 
 	g_object_notify (G_OBJECT (shell_window), "switcher-visible");
 }

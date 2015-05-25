@@ -2074,6 +2074,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->before_click_dtstart = 0;
 	day_view->before_click_dtend = 0;
 
+	gtk_widget_set_margin_top (GTK_WIDGET (day_view), 1);
+
 	day_view->week_number_label = gtk_label_new ("");
 
 	widget = gtk_label_new (NULL);

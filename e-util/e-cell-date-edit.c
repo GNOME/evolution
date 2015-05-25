@@ -228,7 +228,8 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_widget_show (frame);
 
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	gtk_widget_show (vbox);
 
@@ -244,7 +245,9 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_box_pack_start (GTK_BOX (hbox), ecde->calendar, TRUE, TRUE, 0);
 	gtk_widget_show (ecde->calendar);
 
-	vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
+	vbox2 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (vbox2), "linked");
 	gtk_box_pack_start (GTK_BOX (hbox), vbox2, TRUE, TRUE, 0);
 	gtk_widget_show (vbox2);
 
@@ -256,6 +259,9 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_widget_show (ecde->time_entry);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (scrolled_window),
+		GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (vbox2), scrolled_window, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolled_window),
@@ -290,7 +296,6 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 		G_CALLBACK (e_cell_date_edit_on_time_selected), ecde);
 
 	bbox = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
 	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
 	gtk_widget_show (bbox);

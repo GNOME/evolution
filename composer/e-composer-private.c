@@ -249,8 +249,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_widget_set_size_request (widget, -1, GALLERY_INITIAL_HEIGHT);
 	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
 	priv->gallery_scrolled_window = g_object_ref (widget);
