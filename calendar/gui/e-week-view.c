@@ -956,6 +956,8 @@ week_view_update_style_settings (EWeekView *week_view)
 	EWeekViewEventSpan *span;
 
 	e_week_view_set_colors (week_view);
+	e_week_view_check_layout (week_view);
+
 	if (week_view->spans) {
 		for (span_num = 0; span_num < week_view->spans->len; span_num++) {
 			span = &g_array_index (week_view->spans, EWeekViewEventSpan, span_num);
@@ -3374,9 +3376,13 @@ static void
 tooltip_destroy (EWeekView *week_view,
                  GnomeCanvasItem *item)
 {
-	gint event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
+	gint event_num;
 	EWeekViewEvent *pevent;
 	guint timeout;
+
+	e_week_view_check_layout (week_view);
+
+	event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 
 	timeout = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (week_view), "tooltip-timeout"));
 	if (timeout) {
@@ -3422,9 +3428,12 @@ tooltip_event_cb (GnomeCanvasItem *item,
                   GdkEvent *event,
                   EWeekView *view)
 {
-	gint event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
+	gint event_num;
 	EWeekViewEvent *pevent;
 
+	e_week_view_check_layout (view);
+
+	event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	pevent = tooltip_get_view_event (view, -1, event_num);
 
 	switch (event->type) {
@@ -3642,7 +3651,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
 			set_text_as_bold (event, span, registry);
 		}
-		g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));
 		g_signal_connect (
 			span->text_item, "event",
 			G_CALLBACK (e_week_view_on_text_item_event), week_view);
@@ -3651,6 +3659,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 			"event_added", event);
 
 	}
+
+	g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));
 
 	/* Calculate the position of the text item.
 	 * For events < 1 day it starts after the times & icons and ends at the
@@ -3951,13 +3961,16 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 {
 	EWeekViewEvent *event;
 	gint event_num, span_num;
-	gint nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
+	gint nevent;
 	EWeekViewEvent *pevent;
 	guint event_button = 0;
 	guint event_keyval = 0;
 	gdouble event_x_root = 0;
 	gdouble event_y_root = 0;
 
+	e_week_view_check_layout (week_view);
+
+	nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	pevent = tooltip_get_view_event (week_view, -1, nevent);
 
 	switch (gdk_event->type) {
