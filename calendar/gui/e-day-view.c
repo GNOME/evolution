@@ -161,6 +161,8 @@ struct _EDayViewPrivate {
 
 	GtkWidget *timezone_name_1_label; /* not referenced */
 	GtkWidget *timezone_name_2_label; /* not referenced */
+
+	GdkDragContext *drag_context;
 };
 
 typedef struct {
@@ -371,6 +373,7 @@ static void e_day_view_start_editing_event (EDayView *day_view,
 					    gint event_num,
 					    GdkEventKey *key_event);
 static void e_day_view_stop_editing_event (EDayView *day_view);
+static void cancel_editing (EDayView *day_view);
 static gboolean e_day_view_on_text_item_event (GnomeCanvasItem *item,
 					       GdkEvent *event,
 					       EDayView *day_view);
@@ -1216,6 +1219,7 @@ day_view_dispose (GObject *object)
 	g_clear_object (&day_view->main_canvas);
 	g_clear_object (&day_view->time_canvas);
 	g_clear_object (&day_view->priv->model);
+	g_clear_object (&day_view->priv->drag_context);
 
 	g_free (day_view->priv->marcus_bains_day_view_color);
 	day_view->priv->marcus_bains_day_view_color = NULL;
@@ -2050,14 +2054,13 @@ e_day_view_init (EDayView *day_view)
 	day_view->selection_is_being_dragged = FALSE;
 	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
 	day_view->selection_in_top_canvas = FALSE;
+	day_view->drag_last_day = -1;
 	day_view->drag_event_day = -1;
 	day_view->drag_event_num = -1;
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
+	day_view->priv->drag_context = NULL;
 
 	day_view->pressed_event_day = -1;
-
-	day_view->drag_event_day = -1;
-	day_view->drag_last_day = -1;
 
 	day_view->auto_scroll_timeout_id = 0;
 
@@ -3107,19 +3110,63 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	/* If we were editing this event, set editing_event_day to -1 so
 	 * on_editing_stopped doesn't try to update the event. */
 	if (day_view->editing_event_num == event_num && day_view->editing_event_day == day) {
+		cancel_editing (day_view);
 		day_view->editing_event_num = -1;
 		day_view->editing_event_day = -1;
 		g_object_notify (G_OBJECT (day_view), "is-editing");
+	} else if (day_view->editing_event_num > event_num && day_view->editing_event_day == day) {
+		day_view->editing_event_num--;
 	}
 
 	if (day_view->popup_event_num == event_num && day_view->popup_event_day == day) {
 		day_view->popup_event_num = -1;
 		day_view->popup_event_day = -1;
+	} else if (day_view->popup_event_num > event_num && day_view->popup_event_day == day) {
+		day_view->popup_event_num--;
 	}
 
 	if (event->timeout > 0) {
 		g_source_remove (event->timeout);
 		event->timeout = -1;
+	}
+
+	if (day_view->resize_bars_event_num >= event_num && day_view->resize_bars_event_day == day) {
+		if (day_view->resize_bars_event_num == event_num) {
+			day_view->resize_bars_event_num = -1;
+			day_view->resize_bars_event_day = -1;
+		} else {
+			day_view->resize_bars_event_num--;
+		}
+	}
+
+	if (day_view->resize_event_num >= event_num && day_view->resize_event_day == day) {
+		if (day_view->resize_event_num == event_num) {
+			e_day_view_abort_resize (day_view);
+			day_view->resize_event_num = -1;
+			day_view->resize_event_day = -1;
+		} else {
+			day_view->resize_event_num--;
+		}
+	}
+
+	if (day_view->pressed_event_num >= event_num && day_view->pressed_event_day == day) {
+		if (day_view->pressed_event_num == event_num) {
+			day_view->pressed_event_num = -1;
+			day_view->pressed_event_day = -1;
+		} else {
+			day_view->pressed_event_num--;
+		}
+	}
+
+	if (day_view->drag_event_num >= event_num && day_view->drag_event_day == day) {
+		if (day_view->drag_event_num == event_num) {
+			day_view->drag_event_num = -1;
+			day_view->drag_event_day = -1;
+			if (day_view->priv->drag_context)
+				gtk_drag_cancel (day_view->priv->drag_context);
+		} else {
+			day_view->drag_event_num--;
+		}
 	}
 
 	if (event->canvas_item)
@@ -3138,6 +3185,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		day_view->need_layout[day] = TRUE;
 		gtk_widget_grab_focus (GTK_WIDGET (day_view->main_canvas));
 	}
+
 	return TRUE;
 }
 
@@ -4857,11 +4905,15 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 			target_list = gtk_target_list_new (
 				target_table, G_N_ELEMENTS (target_table));
 			e_target_list_add_calendar_targets (target_list, 0);
-			gtk_drag_begin (
+			g_clear_object (&day_view->priv->drag_context);
+			day_view->priv->drag_context = gtk_drag_begin (
 				widget, target_list,
 				GDK_ACTION_COPY | GDK_ACTION_MOVE,
 				1, (GdkEvent *) mevent);
 			gtk_target_list_unref (target_list);
+
+			if (day_view->priv->drag_context)
+				g_object_ref (day_view->priv->drag_context);
 		}
 	} else {
 		cursor = day_view->normal_cursor;
@@ -4966,11 +5018,15 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			target_list = gtk_target_list_new (
 				target_table, G_N_ELEMENTS (target_table));
 			e_target_list_add_calendar_targets (target_list, 0);
-			gtk_drag_begin (
+			g_clear_object (&day_view->priv->drag_context);
+			day_view->priv->drag_context = gtk_drag_begin (
 				widget, target_list,
 				GDK_ACTION_COPY | GDK_ACTION_MOVE,
 				1, (GdkEvent *) mevent);
 			gtk_target_list_unref (target_list);
+
+			if (day_view->priv->drag_context)
+				g_object_ref (day_view->priv->drag_context);
 		}
 	} else {
 		cursor = day_view->normal_cursor;
@@ -5486,6 +5542,8 @@ e_day_view_free_events (EDayView *day_view)
 	day_view->editing_event_num = -1;
 	day_view->popup_event_num = -1;
 
+	g_clear_object (&day_view->priv->drag_context);
+
 	e_day_view_free_event_array (day_view, day_view->long_events);
 
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
@@ -5832,6 +5890,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		g_signal_emit_by_name (day_view, "event_added", event);
 
 		e_day_view_update_long_event_label (day_view, event_num);
+	} else if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->canvas_item), "event-num")) != event_num) {
+		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
 	}
 
 	/* Calculate its position. We first calculate the ideal position which
@@ -6016,6 +6076,8 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			g_signal_emit_by_name (day_view, "event_added", event);
 
 			e_day_view_update_event_label (day_view, day, event_num);
+		} else if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->canvas_item), "event-num")) != event_num) {
+			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
 		}
 
 		item_w = MAX (item_w, 0);
@@ -7119,9 +7181,12 @@ tooltip_destroy (EDayView *day_view,
 
 	if (item) {
 		EDayViewEvent *pevent;
-		gint event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
-		gint day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
+		gint event_num, day;
 
+		e_day_view_check_layout (day_view);
+
+		event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
+		day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
 		pevent = tooltip_get_view_event (day_view, day, event_num);
 		if (pevent) {
 			pevent->tooltip = NULL;
@@ -7291,8 +7356,12 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	case GDK_MOTION_NOTIFY:
 		{
 			EDayViewEvent *pevent;
-			gint event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
-			gint day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
+			gint event_num, day;
+
+			e_day_view_check_layout (day_view);
+
+			event_num = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-num"));
+			day = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "event-day"));
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
 			if (!pevent)
@@ -8769,6 +8838,7 @@ e_day_view_on_drag_end (GtkWidget *widget,
 
 	day_view->drag_event_day = -1;
 	day_view->drag_event_num = -1;
+	g_clear_object (&day_view->priv->drag_context);
 }
 
 static void
@@ -9012,6 +9082,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 			/* Reset this since it will be invalid. */
 			day_view->drag_event_day = -1;
+			g_clear_object (&day_view->priv->drag_context);
 
 			/* Show the text item again, just in case it hasn't
 			 * moved. If we don't do this it may not appear. */
@@ -9229,6 +9300,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			/* Reset this since it will be invalid. */
 			day_view->drag_event_day = -1;
+			g_clear_object (&day_view->priv->drag_context);
 
 			/* Show the text item again, just in case it hasn't
 			 * moved. If we don't do this it may not appear. */
