@@ -23,17 +23,36 @@
 
 struct _EMailPartAttachmentPrivate {
 	EAttachment *attachment;
+	gboolean expandable;
 };
 
 enum {
 	PROP_0,
-	PROP_ATTACHMENT
+	PROP_ATTACHMENT,
+	PROP_EXPANDABLE
 };
 
 G_DEFINE_TYPE (
 	EMailPartAttachment,
 	e_mail_part_attachment,
 	E_TYPE_MAIL_PART)
+
+static void
+mail_part_attachment_set_property (GObject *object,
+				   guint property_id,
+				   const GValue *value,
+				   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EXPANDABLE:
+			e_mail_part_attachment_set_expandable (
+				E_MAIL_PART_ATTACHMENT (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 mail_part_attachment_get_property (GObject *object,
@@ -46,6 +65,13 @@ mail_part_attachment_get_property (GObject *object,
 			g_value_take_object (
 				value,
 				e_mail_part_attachment_ref_attachment (
+				E_MAIL_PART_ATTACHMENT (object)));
+			return;
+
+		case PROP_EXPANDABLE:
+			g_value_set_boolean (
+				value,
+				e_mail_part_attachment_get_expandable (
 				E_MAIL_PART_ATTACHMENT (object)));
 			return;
 	}
@@ -125,6 +151,7 @@ e_mail_part_attachment_class_init (EMailPartAttachmentClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_part_attachment_get_property;
+	object_class->set_property = mail_part_attachment_set_property;
 	object_class->dispose = mail_part_attachment_dispose;
 	object_class->finalize = mail_part_attachment_finalize;
 	object_class->constructed = mail_part_attachment_constructed;
@@ -139,12 +166,24 @@ e_mail_part_attachment_class_init (EMailPartAttachmentClass *class)
 			E_TYPE_ATTACHMENT,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_EXPANDABLE,
+		g_param_spec_boolean (
+			"expandable",
+			"Expandable",
+			"Whether the attachment can be expanded",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_mail_part_attachment_init (EMailPartAttachment *part)
 {
 	part->priv = E_MAIL_PART_ATTACHMENT_GET_PRIVATE (part);
+	part->priv->expandable = FALSE;
 }
 
 EMailPartAttachment *
@@ -166,3 +205,24 @@ e_mail_part_attachment_ref_attachment (EMailPartAttachment *part)
 	return g_object_ref (part->priv->attachment);
 }
 
+void
+e_mail_part_attachment_set_expandable (EMailPartAttachment *part,
+				       gboolean expandable)
+{
+	g_return_if_fail (E_IS_MAIL_PART_ATTACHMENT (part));
+
+	if ((part->priv->expandable ? 1 : 0) == (expandable ? 1 : 0))
+		return;
+
+	part->priv->expandable = expandable;
+
+	g_object_notify (G_OBJECT (part), "expandable");
+}
+
+gboolean
+e_mail_part_attachment_get_expandable (EMailPartAttachment *part)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_ATTACHMENT (part), FALSE);
+
+	return part->priv->expandable;
+}
