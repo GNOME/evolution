@@ -68,6 +68,11 @@ EMailPartAttachment *
 						 const gchar *id);
 EAttachment *	e_mail_part_attachment_ref_attachment
 						(EMailPartAttachment *part);
+void		e_mail_part_attachment_set_expandable
+						(EMailPartAttachment *part,
+						 gboolean expandable);
+gboolean	e_mail_part_attachment_get_expandable
+						(EMailPartAttachment *part);
 
 G_END_DECLS
 

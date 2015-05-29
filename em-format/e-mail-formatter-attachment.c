@@ -342,6 +342,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 			g_string_append (buffer, "</div></td></tr>");
 
+			e_mail_part_attachment_set_expandable (E_MAIL_PART_ATTACHMENT (part), TRUE);
+
 			g_free (wrapper_element_id);
 			g_free (inner_html_data);
 		}

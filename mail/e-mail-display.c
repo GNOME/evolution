@@ -818,36 +818,14 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 		/* Bind visibility of DOM element containing related
 		 * attachment with 'expanded' property of this
 		 * attachment button. */
-		WebKitDOMElement *attachment;
-		WebKitDOMDocument *document;
 		EMailPartAttachment *empa = (EMailPartAttachment *) part;
-		gchar *attachment_part_id;
-		gchar *wrapper_element_id;
 
-		if (empa->attachment_view_part_id)
-			attachment_part_id = empa->attachment_view_part_id;
-		else
-			attachment_part_id = part_id;
+		e_attachment_button_set_expandable (E_ATTACHMENT_BUTTON (widget),
+			e_mail_part_attachment_get_expandable (empa));
 
-		/* Find attachment-wrapper div which contains
-		 * the content of the attachment (iframe). */
-		document = webkit_web_view_get_dom_document (
-			WEBKIT_WEB_VIEW (display));
-		wrapper_element_id = g_strconcat (
-			attachment_part_id, ".wrapper", NULL);
-		attachment = find_element_by_id (document, wrapper_element_id);
-		g_free (wrapper_element_id);
-
-		/* None found? Attachment cannot be expanded */
-		if (attachment == NULL) {
-			e_attachment_button_set_expandable (
-				E_ATTACHMENT_BUTTON (widget), FALSE);
-		} else {
+		if (e_mail_part_attachment_get_expandable (empa)) {
 			CamelMimePart *mime_part;
 			const CamelContentDisposition *disposition;
-
-			e_attachment_button_set_expandable (
-				E_ATTACHMENT_BUTTON (widget), TRUE);
 
 			/* Show/hide the attachment when the EAttachmentButton
 			 * is expanded/collapsed or shown/hidden. */
