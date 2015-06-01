@@ -97,6 +97,11 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 		if (g_ascii_strncasecmp (header->name, "Subject", 7) == 0)
 			continue;
 
+		/* Also skip the 'Face' header, which includes only
+		   base64 encoded data anyway. */
+		if (g_ascii_strcasecmp (header->name, "Face") == 0)
+			continue;
+
 		/* Arrange default headers first and select them to be
 		 * included in the final printout.  All other headers
 		 * are excluded by default in the final printout. */
