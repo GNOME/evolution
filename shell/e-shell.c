@@ -672,7 +672,7 @@ shell_source_invoke_authenticate_cb (GObject *source_object,
 
 	if (!e_source_invoke_authenticate_finish (source, result, &error)) {
 		/* Can be cancelled only if the shell is disposing/disposed */
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			EAlert *alert;
 
 			g_return_if_fail (E_IS_SHELL (shell));
@@ -710,7 +710,7 @@ shell_trust_prompt_done_cb (GObject *source_object,
 
 	if (!e_trust_prompt_run_for_source_finish (source, result, &response, &error)) {
 		/* Can be cancelled only if the shell is disposing/disposed */
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			EAlert *alert;
 
 			g_return_if_fail (E_IS_SHELL (shell));
@@ -757,7 +757,7 @@ shell_credentials_prompt_done_cb (GObject *source_object,
 	if (e_credentials_prompter_prompt_finish (E_CREDENTIALS_PROMPTER (source_object), result, &source, &credentials, &error)) {
 		e_source_invoke_authenticate (source, credentials, shell->priv->cancellable,
 			shell_source_invoke_authenticate_cb, shell);
-	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+	} else if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		EAlert *alert;
 
 		g_return_if_fail (E_IS_SHELL (shell));
@@ -945,7 +945,7 @@ shell_get_last_credentials_required_arguments_cb (GObject *source_object,
 	if (!e_source_get_last_credentials_required_arguments_finish (source, result, &reason,
 		&certificate_pem, &certificate_errors, &op_error, &error)) {
 		/* Can be cancelled only if the shell is disposing/disposed */
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			EAlert *alert;
 
 			g_return_if_fail (E_IS_SHELL (shell));
