@@ -10444,7 +10444,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
 	GString *stylesheet;
-	PangoFontDescription *ms, *vw;
+	PangoFontDescription *min_size, *ms, *vw;
 	WebKitWebSettings *settings;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
@@ -10813,13 +10813,19 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 	g_string_append (stylesheet, base64);
 	g_free (base64);
 
+	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw) || !view->priv->html_mode)
+		min_size = ms;
+	else
+		min_size = vw;
+
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 	g_object_set (
 		G_OBJECT (settings),
 		"default-font-size", pango_font_description_get_size (vw) / PANGO_SCALE,
 		"default-font-family", pango_font_description_get_family (vw),
 		"monospace-font-family", pango_font_description_get_family (ms),
-		"default-monospace-font-size", (pango_font_description_get_size (ms) / PANGO_SCALE),
+		"default-monospace-font-size", pango_font_description_get_size (ms) / PANGO_SCALE,
+		"minimum-font-size", pango_font_description_get_size (min_size) / PANGO_SCALE,
 		"user-stylesheet-uri", stylesheet->str,
 		NULL);
 
