@@ -10,18 +10,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evoluti"
-"on&keywords=I18N+L10N&component=Miscellaneous\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
+"ion&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-02-14 05:18+0000\n"
-"PO-Revision-Date: 2015-05-31 21:41+0200\n"
-"Last-Translator: Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>\n"
-"Language-Team: Tot en òc (totenoc.eu)\n"
+"PO-Revision-Date: 2015-06-01 14:06+0200\n"
+"Last-Translator: Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>\n"
+"Language-Team: www.totenoc.eu\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Virtaal 0.7.0\n"
 "X-DamnedLies-Scope: partial\n"
 "X-Project-Style: gnome\n"
 
@@ -1354,7 +1354,7 @@ msgstr "Copiar los contactes cap a"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:162
 msgid "No contacts"
-msgstr "Aucun contacte"
+msgstr "Pas cap de contacte"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:166
 #, c-format
@@ -1938,8 +1938,8 @@ msgstr[1] "oras"
 #: ../calendar/gui/dialogs/recurrence-page.c:1249
 msgid "day"
 msgid_plural "days"
-msgstr[0] "jour"
-msgstr[1] "jours"
+msgstr[0] "jorn"
+msgstr[1] "jorns"
 
 #: ../calendar/alarm-notify/alarm-notify-dialog.c:343
 msgid "Start time"
@@ -1951,7 +1951,7 @@ msgstr "Rendètz-vos"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:2
 msgid "Dismiss _All"
-msgstr "_Tot tampar"
+msgstr "_Tampar tot"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:3
 msgid "_Snooze"
@@ -2131,7 +2131,7 @@ msgid ""
 "the meeting is canceled."
 msgstr ""
 "Se mandatz pas un avís d'anullacion, los autres participants seràn pas "
-"necessàriament informés que la reünion es estada anullada."
+"necessàriament informats que la reünion es estada anullada."
 
 #: ../calendar/calendar.error.xml.h:3
 msgid "Do _not Send"
@@ -2160,7 +2160,7 @@ msgid ""
 "the task has been deleted."
 msgstr ""
 "Se mandatz pas un avís d'anullacion, los autres participants seràn pas "
-"necessàriament informés que lo prètzfach es estada suprimida."
+"necessàriament informats que lo prètzfach es estada suprimida."
 
 #: ../calendar/calendar.error.xml.h:9
 #: ../calendar/gui/dialogs/delete-comp.c:195
@@ -2184,7 +2184,7 @@ msgid ""
 "the memo has been deleted."
 msgstr ""
 "Se mandatz pas un avís d'anullacion, los autres participants seràn pas "
-"necessàriament informés que lo memò es estat suprimit."
+"necessàriament informats que lo memò es estat suprimit."
 
 #: ../calendar/calendar.error.xml.h:13
 #: ../calendar/gui/dialogs/delete-comp.c:198
@@ -2250,8 +2250,8 @@ msgstr "Sètz segur que volètz suprimir aquestes {0} prètzfaches ?"
 #: ../calendar/calendar.error.xml.h:25
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
-"Totas las informacions d'aquestes prètzfaches seràn suprimits e poiràn pas "
-"èsser restablits."
+"Totas las informacions d'aquestes prètzfaches seràn suprimidas e poiràn pas "
+"èsser restablidas."
 
 #: ../calendar/calendar.error.xml.h:26
 msgid "Are you sure you want to delete these {0} memos?"
@@ -2315,7 +2315,7 @@ msgstr "Volètz mandar de convits per la reünion als participants ?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
-"De convits vont èsser enviadas per corrièl a totes los participants, que los "
+"De convits van èsser mandats per corrièl a totes los participants, que los "
 "autorizan a respondre a aquela."
 
 #: ../calendar/calendar.error.xml.h:40
@@ -2346,7 +2346,7 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
-"De convits vont èsser enviadas per corrièl a totes los participants, que los "
+"De convits van èsser mandats per corrièl a totes los participants, que los "
 "autorizan a acceptar aqueste prètzfach."
 
 #: ../calendar/calendar.error.xml.h:45
@@ -2358,8 +2358,8 @@ msgid ""
 "Some attachments are being downloaded. Saving the task would result in the "
 "loss of these attachments."
 msgstr ""
-"De pèças juntas son estadas telecargadas mas l'enregistrament de lo "
-"prètzfach serà efectuat, sens las pèças juntas, a las qualas es associada."
+"De pèças juntas son estadas telecargadas mas l'enregistrament del prètzfach "
+"serà efectuat, sens las pèças juntas, a las qualas es associada."
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "Download in progress. Do you want to save the appointment?"
@@ -5181,7 +5181,7 @@ msgstr "Delegat per"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 msgid "Common Name"
-msgstr "Nom courant"
+msgstr "Nom corrent"
 
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Language"
@@ -7449,7 +7449,7 @@ msgstr "_Encodatge dels caractèrs"
 
 #: ../composer/e-composer-actions.c:435
 msgid "Print Pre_view"
-msgstr "_Apercebut abans impresilha"
+msgstr "_Apercebut abans impression"
 
 #: ../composer/e-composer-actions.c:442
 msgid "Save as _Draft"
@@ -7558,7 +7558,7 @@ msgstr "Picatz los destinataris del messatge"
 
 #: ../composer/e-composer-header-table.c:40
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "Picatz las adreças que recebràn una còpia carbone d'aqueste messatge"
+msgstr "Picatz las adreças que recebràn una còpia carbòni d'aqueste messatge"
 
 #: ../composer/e-composer-header-table.c:43
 msgid ""
@@ -7590,7 +7590,7 @@ msgstr "Cc_i :"
 
 #: ../composer/e-composer-header-table.c:799
 msgid "_Post To:"
-msgstr "_Poster a :"
+msgstr "_Postar a :"
 
 #: ../composer/e-composer-header-table.c:803
 msgid "S_ubject:"
@@ -7599,7 +7599,7 @@ msgstr "_Objècte :"
 #: ../composer/e-composer-header-table.c:811
 #: ../mail/e-mail-config-identity-page.c:505
 msgid "Si_gnature:"
-msgstr "Si_gnature :"
+msgstr "Si_gnatura :"
 
 #: ../composer/e-composer-name-header.c:233
 msgid "Click here for the address book"
@@ -7614,8 +7614,8 @@ msgstr "Clicatz aicí per seleccionar los dorsièrs de destinacion"
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
-"Impossible de signer lo messatge sortent : aucun certificat de signatura "
-"definit per aqueste compte"
+"Impossible de signar lo messatge sortent : cap de certificat de signatura "
+"pas definit per aqueste compte"
 
 #: ../composer/e-msg-composer.c:872
 #, c-format
@@ -7623,8 +7623,8 @@ msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"Impossible de chifrar lo messatge sortent : aucun certificat de chiframent "
-"definit per aqueste compte"
+"Impossible de chifrar lo messatge sortent : cap de certificat de chiframent "
+"pas definit per aqueste compte"
 
 #: ../composer/e-msg-composer.c:1586 ../composer/e-msg-composer.c:2272
 msgid "Compose Message"
@@ -7632,7 +7632,8 @@ msgstr "Redaccion d'un messatge"
 
 #: ../composer/e-msg-composer.c:4530
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr "L'editor conten un còs de messatge non textuel qui pòt pas èsser édité."
+msgstr ""
+"L'editor conten un còs de messatge non textuel qui pòt pas èsser editat."
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
@@ -7641,7 +7642,7 @@ msgstr "Podètz pas jónher lo fichièr « {0} » a aqueste messatge."
 #: ../composer/mail-composer.error.xml.h:2
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr ""
-"Lo fichièr « {0} » es pas un fichièr regular e pòt pas èsser enviat dins un "
+"Lo fichièr « {0} » es pas un fichièr regular e pòt pas èsser mandat dins un "
 "messatge."
 
 #: ../composer/mail-composer.error.xml.h:3
@@ -7806,8 +7807,8 @@ msgid ""
 "clicking the Send/Receive button in Evolution's toolbar."
 msgstr ""
 "Lo messatge serà enregistrat dins vòstra bóstia de mandadís locala, perque "
-"lo service destinatari es actualament indisponible. Podètz mandar lo "
-"messatge en cliquant sul boton Mandar/Recebre dins la barra d'aisinas "
+"lo servici destinatari es actualament indisponible. Podètz mandar lo "
+"messatge en clicant sul boton Mandar/Recebre dins la barra d'aisinas "
 "d'Evolution."
 
 #: ../composer/mail-composer.error.xml.h:37
@@ -7838,7 +7839,7 @@ msgstr "Evolution"
 
 #: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:81
 msgid "Groupware Suite"
-msgstr "Seguida de trabalh collaboratif"
+msgstr "Seguida de trabalh collaboratiu"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "Evolution Mail and Calendar"
@@ -7874,12 +7875,12 @@ msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
 msgstr ""
-"Lo nombre de caractèrs qui devon èsser saisis abans qu'Evolution essaye de "
-"compléter."
+"Lo nombre de caractèrs que devon èsser picats abans qu'Evolution ensage de "
+"completar."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:5
 msgid "Show autocompleted name with an address"
-msgstr "Afichar lo nom autocomplété amb una adreça"
+msgstr "Afichar lo nom autocompletat amb una adreça"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:6
 msgid ""
@@ -7887,7 +7888,7 @@ msgid ""
 "contact in the entry."
 msgstr ""
 "Indica se cal forcer l'afichatge de l'adreça electronica amb lo nom del "
-"contacte autocomplété dins la zòna de picada."
+"contacte autocompletat dins la zòna de picada."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -7935,11 +7936,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
 msgid "Show maps"
-msgstr "Afichar las cartas"
+msgstr "Afichar las mapas"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
 msgid "Whether to show maps in preview pane"
-msgstr "Indica se cal afichar las cartas dins lo panèl d'apercebut"
+msgstr "Indica se cal afichar las mapas dins lo panèl d'apercebut"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
@@ -8070,15 +8071,15 @@ msgstr "Unitats per un rapèl d'anniversari, « minutes », « hours » o « day
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
-msgstr "Compresser los week-ends dins la vista mesadièra"
+msgstr "Compressar los week-ends dins la vista mesadièra"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
-"Indica se los week-ends devon èsser compressés dins la vista mesadièra, aquò "
-"placera dissabte e dimenge dins l'espaci d'un seul jorn"
+"Indica se los week-ends devon èsser compressats dins la vista mesadièra, "
+"aquò placera dissabte e dimenge dins l'espaci d'un seul jorn"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
 msgid "Ask for confirmation when deleting items"
@@ -8092,7 +8093,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
-msgstr "Confirmer lo netejatge"
+msgstr "Confirmar lo netejatge"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
@@ -8284,7 +8285,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Hide task value"
-msgstr "Amagar la valor de lo prètzfach"
+msgstr "Amagar la valor del prètzfach"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Number of units for determining when to hide tasks"
@@ -8386,12 +8387,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid "Scroll Month View by a week, not by a month"
-msgstr "Far défiler la vista mesadièra d'una setmana e pas d'un mes"
+msgstr "Far desfilar la vista mesadièra d'una setmana e pas d'un mes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr ""
-"Indica se cal far défiler la vista mesadièra d'una setmana e pas d'un mes"
+"Indica se cal far desfilar la vista mesadièra d'una setmana e pas d'un mes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Reminder programs"
@@ -8464,7 +8465,7 @@ msgid ""
 "user part of the mail address and %d is replaced by the domain"
 msgstr ""
 "Modèl de l'URL a utilizar coma donada liure/ocupat per defaut, %u serà "
-"remplaçat pel nom d'utilizaire de l'adreça electronica tandis que %d serà "
+"remplaçat pel nom d'utilizaire de l'adreça electronica mentre que %d serà "
 "remplaçat pel nom de domeni"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
@@ -8668,7 +8669,8 @@ msgstr "Utilizar lo fus orari del sistèma"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
-"Utilizar lo fus orari del sistèma a la plaça de celui definit dins Evolution"
+"Utilizar lo fus orari del sistèma a la plaça de lo qu'es definit dins "
+"Evolution"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "First day of the week"
@@ -8704,7 +8706,7 @@ msgstr "Dimenge es un jorn obrant"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
-msgstr "(Obsolète) primièr jorn de la setmana, de dimenge (0) a dissabte (6)"
+msgstr "(Obsolèt) primièr jorn de la setmana, de dimenge (0) a dissabte (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid ""
@@ -8716,7 +8718,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "(Deprecated) Work days"
-msgstr "(Obsolète) jorns obrants"
+msgstr "(Obsolèt) jorns obrants"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid ""
@@ -8738,9 +8740,9 @@ msgid ""
 "\". This is used for data and settings migration from older to newer "
 "versions."
 msgstr ""
-"La version la plus recentament utilizada d'Evolution, exprimée jos la forme «"
-" major.minor.micro ». Aquò sert a transferir las donadas e los paramètres "
-"d'una version plus anciana cap a una mai recenta."
+"La version la mai recentament utilizada d'Evolution, exprimida jos la forma "
+"« major.minor.micro ». Aquò sert a transferir las donadas e los paramètres "
+"d'una version mai anciana cap a una mai recenta."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -8826,7 +8828,7 @@ msgstr "Correccion ortografica en linha"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
 msgid "Draw spelling error indicators on words as you type."
-msgstr "Afichar los indicadors de fautes d'ortografia al fial de la picada."
+msgstr "Afichar los indicadors de fautas d'ortografia al fial de la picada."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:9
 msgid "Automatic link recognition"
@@ -8917,7 +8919,7 @@ msgstr "Totjorn demandar un acusat de lectura"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr ""
-"Indica se una demanda d'acusat de lectura deu èsser ajoutée a cada messatge "
+"Indica se una demanda d'acusat de lectura deu èsser aponduda a cada messatge "
 "per defaut."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:25
@@ -9030,7 +9032,7 @@ msgid ""
 msgstr ""
 "Encodar los noms de fichièrs dins las entèstas de corrièr de manière "
 "identique a Outlook o GMail per lor permetre d'afichar corrèctament los noms "
-"de fichièrs que conten de caractèrs UTF-8 enviats per Evolution (perque "
+"de fichièrs que conten de caractèrs UTF-8 mandats per Evolution (perque "
 "seguisson pas l'estandard RFC 2231 mas utilizan lo RFC 2047 qu'es "
 "incorrècte)."
 
@@ -9045,7 +9047,7 @@ msgid ""
 msgstr ""
 "Totjorn enregistrar los messatges dins la bóstia de mandadís abans de "
 "mandar, per laisser l'utilizaire causir quand los messatges devon èsser "
-"enviats."
+"mandats."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Put personalized signatures at the top of replies"
@@ -9171,14 +9173,14 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
-"Activar aquò per défiler amb la barra Espaci dins l'apercebut dels "
+"Activar aquò per desfilar amb la barra Espaci dins l'apercebut dels "
 "messatges, las listas de messatges e los dorsièrs."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "Activar per utilizar de paramètres d'afichatge de las listas de messatges "
-"similaires per totes los dorsièrs"
+"similars per totes los dorsièrs"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid "Enable to use a similar message list view settings for all folders."
@@ -9393,7 +9395,7 @@ msgstr "Largor de poliças variable"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "The variable width font for mail display."
-msgstr "La poliça a largor variable per l'afichatge dels messatges."
+msgstr "La poliça de largor variabla per l'afichatge dels messatges."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Terminal font"
@@ -9413,14 +9415,14 @@ msgstr "Utilizar de poliças personalizadas per afichar lo corrièl."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr "Compresser l'afichatge de las adreças dins A/Cc/Cci"
+msgstr "Compressar l'afichatge de las adreças dins A/Cc/Cci"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
 msgstr ""
-"Compresser l'afichatge de las adreças dins A/Cc/Cci al nombre indicat dins "
+"Compressar l'afichatge de las adreças dins A/Cc/Cci al nombre indicat dins "
 "address_count."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
@@ -9534,7 +9536,7 @@ msgstr "Estil de responsa per defaut"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
-msgstr "Demandar pel mandadís amb combinason de touches (Ctrl + Entrada)"
+msgstr "Demandar pel mandadís amb combinason de tòcas (Ctrl + Entrada)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
@@ -9542,7 +9544,7 @@ msgid ""
 "accelerator."
 msgstr ""
 "Demandar confirmacion a l'utilizaire quand il o elle envoie un messatge amb "
-"una combinason de touches."
+"una combinason de tòcas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Prompt on empty subject"
@@ -9852,9 +9854,9 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
-"Aquò es lo empeuton de indesirable per defaut, bien que de nombreux "
-"empeutons soient activats. Se lo empeuton listé per defaut es désactivat, "
-"los autres empeutons disponibles ne prendront pas lo relais."
+"Aquò es l'empeuton de indesirable per defaut, bien que de nombreux empeutons "
+"soient activats. Se l'empeuton listat per defaut es désactivat, los autres "
+"empeutons disponibles ne prendront pas lo relais."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Determines whether to lookup in address book for sender email"
@@ -9870,7 +9872,7 @@ msgid ""
 msgstr ""
 "Indica se cal recercar l'expeditor del corrièl dins lo quasernet d'adreças. "
 "S'il es trobat, lo messatge n'est certanament pas un indesirable. Los "
-"quasernets utilizats per la complecion automatica seràn consultés, mas "
+"quasernets utilizats per la complecion automatica seràn consultats, mas "
 "l'operacion pòt èsser lenta se utilizatz de quasernets d'adreças distants "
 "(tal coma LDAP)."
 
@@ -9890,7 +9892,7 @@ msgid ""
 msgstr ""
 "Aquesta opcion es relativa a la clau « lookup_addressbook » e es utilizada "
 "per savoir se cal verificar las adreças solament dins lo quasernet d'adreças "
-"local per exclure del filtratge indesirable los corrièls enviats per de "
+"local per exclure del filtratge indesirable los corrièls mandats per de "
 "contactes connus."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
@@ -9981,14 +9983,14 @@ msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
-"Verifica a quelle frequéncia las modificacions localas son sincronizadas amb "
+"Verifica a quala frequéncia las modificacions localas son sincronizadas amb "
 "lo servidor de messatjariá distant. Lo relambi deu èsser d'au mens 30 "
 "segondas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 #| msgid "Confirm _when expunging a folder"
 msgid "Allow expunge in virtual folders"
-msgstr "Permetre lo netejatge dels dorsièrs virtuels"
+msgstr "Permetre lo netejatge dels dorsièrs virtuals"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid ""
@@ -9997,11 +9999,11 @@ msgid ""
 "in all folders for all deleted messages within the virtual folder, not only "
 "for deleted messages belonging to the virtual folder."
 msgstr ""
-"Activa lo Netejatge dels dorsièrs virtuels, aquò significa que Dorsièr->"
-"Netejar reste disponible dins los dorsièrs virtuels, tandis que lo netejatge "
-"lui-meteis s'effectue non solament dins los dorsièrs virtuels mas tanben "
-"dins totes los dorsièrs per totes los messatges suprimits dins lo dorsièr "
-"virtuel."
+"Activa lo Netejatge dels dorsièrs virtuals, aquò significa que "
+"Dorsièr->Netejar reste disponible dins los dorsièrs virtuals, mentre que lo "
+"netejatge lui-meteis s'effectue non solament dins los dorsièrs virtuals mas "
+"tanben dins totes los dorsièrs per totes los messatges suprimits dins lo "
+"dorsièr virtual."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid "An Archive folder for On This Computer folders."
@@ -10012,72 +10014,72 @@ msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
-"Un dorsièr d'archiu a utilizar amb la comanda Messatges/Archivar... quand on "
-"se trouve dins lo dorsièr « Sus aqueste ordenador »."
+"Un dorsièr d'archiu a utilizar amb la comanda Messatges/Archivar... quand "
+"nos trobam dins lo dorsièr « Sus aqueste ordenador »."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "(Deprecated) Default forward style"
-msgstr "(Obsolète) Estil de transferiment per defaut"
+msgstr "(Obsolèt) Estil de transferiment per defaut"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « forward-estil-name » a la plaça."
+"Aquesta clau es estada abandonada dins la version 3.10 e ne deu pas mai "
+"èsser utilizada. Utilizar « forward-estil-name » a la plaça."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "(Deprecated) Default reply style"
-msgstr "(Obsolète) Estil de responsa per defaut"
+msgstr "(Obsolèt) Estil de responsa per defaut"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
+"Aquesta clau es estada abandonada dins la version 3.10 e deu pas mai èsser "
 "utilizada. Utilizar « reply-estil-name » a la plaça."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "(Obsolète) Lista de las entèstas personals e de lor activacion."
+msgstr "(Obsolèt) Lista de las entèstas personals e de lor activacion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « show-headers » a la plaça."
+"Aquesta clau es estada abandonada dins la version 3.10 e ne deu pas mai "
+"èsser utilizada. Utilizar « show-headers » a la plaça."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "(Obsolète) Cargar los imatges pels messatges HTML en utilizant http"
+msgstr "(Obsolèt) Cargar los imatges pels messatges HTML en utilizant http"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « imatge-loading-policy » a la plaça."
+"Aquesta clau es estada abandonada dins la version 3.10 e ne deu pas mai "
+"èsser utilizada. Utilizar « imatge-loading-policy » a la plaça."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
-"(Obsolète) Demande se cal tampar la fenèstra del messatge quand l'utilizaire "
-"fait seguir o respond al messatge afichat dins la fenèstra"
+"(Obsolèt) Demanda se cal tampar la fenèstra del messatge quand l'utilizaire "
+"fa seguir o respond al messatge afichat dins la fenèstra"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
 msgstr ""
-"Aquesta clau es estada abandonada dins la version 3.10 e ne deu plus èsser "
-"utilizada. Utilizar « browser-close-on-reply-policy » a la plaça."
+"Aquesta clau es estada abandonada dins la version 3.10 e ne deu pas mai "
+"èsser utilizada. Utilizar « browser-close-on-reply-policy » a la plaça."
 
 #. Translators: This is the a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -10086,7 +10088,7 @@ msgstr ""
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
 "[« pèça junta », « pèça », « jónher », « junta », « junt », « çaijunt », « "
-"çaijunta », « inclure », « inclue », « inclus », « attaché »]"
+"çaijunta », « inclure », « inclusa », « inclús », « estacat »]"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -10116,7 +10118,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
 msgid "Auto sync Pidgin contacts"
-msgstr "Contactes Pidgin synchronisés automaticament"
+msgstr "Contactes Pidgin sincronizats automaticament"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether Pidgin contacts should be automatically synced."
@@ -10130,7 +10132,7 @@ msgstr "Activar los autocontactes"
 msgid ""
 "Whether contacts should be automatically added to the user's address book."
 msgstr ""
-"Indica se los contactes devon èsser automaticament ajoutés al quasernet "
+"Indica se los contactes devon èsser automaticament aponduts al quasernet "
 "d'adreças de l'utilizaire."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
@@ -10181,8 +10183,8 @@ msgid ""
 msgstr ""
 "Aquesta clau provesís la lista de las entèstas personalizadas que podètz "
 "apondre a un messatge sortent. Lo format per indicar un entèsta e sa valor "
-"es : nom de l'entèsta personalizat suivi de « = » puèi las valors, separadas "
-"per de « ; »"
+"es : nom de l'entèsta personalizat seguiment de « = » puèi las valors, "
+"separadas per de « ; »"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
 msgid "Default External Editor"
@@ -10194,12 +10196,12 @@ msgstr "La comanda a utilizar per defaut per aviar l'editor."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:3
 msgid "Automatically launch when a new mail is edited"
-msgstr "Aviar automaticament quand un novèl corrièl es édité"
+msgstr "Aviar automaticament quand un corrièl novèl es editat"
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:4
 msgid "Automatically launch editor when key is pressed in the mail composer."
 msgstr ""
-"Lance automaticament l'editor quand una touche es pressée dins l'editor de "
+"Avia automaticament l'editor quand una tòca es quichada dins l'editor de "
 "corrièl."
 
 #: ../data/org.gnome.evolution.plugin.face-picture.gschema.xml.in.h:1
@@ -10542,7 +10544,7 @@ msgstr "De"
 
 #: ../em-format/e-mail-formatter-headers.c:128
 msgid "(no subject)"
-msgstr "(aucun objècte)"
+msgstr "(pas cap d'objècte)"
 
 #: ../em-format/e-mail-formatter-headers.c:329
 #, c-format
@@ -10564,7 +10566,7 @@ msgstr "Messatge RFC822"
 
 #: ../em-format/e-mail-formatter-message-rfc822.c:255
 msgid "Format part as an RFC822 message"
-msgstr "Formate la partida coma un messatge RFC822"
+msgstr "Formata la partida coma un messatge RFC822"
 
 #: ../em-format/e-mail-formatter-print.c:53
 #: ../e-util/gal-view-instance-save-as-dialog.c:94
@@ -11068,7 +11070,7 @@ msgstr "_Jónher"
 
 #: ../e-util/e-attachment-store.c:533
 msgid "Archive selected directories using this format:"
-msgstr "Repertòris seleccionats d'archives utilizant aqueste format :"
+msgstr "Repertòris seleccionats d'archius qu'utilizan aqueste format :"
 
 #: ../e-util/e-attachment-store.c:626
 msgid "Save Attachment"
@@ -11238,11 +11240,11 @@ msgstr ""
 
 #: ../e-util/e-categories-editor.c:223
 msgid "Currently _used categories:"
-msgstr "Categorias act_uellement utilizadas :"
+msgstr "Categorias act_ualament utilizadas :"
 
 #: ../e-util/e-categories-editor.c:234
 msgid "_Available Categories:"
-msgstr "Caté_gories disponibles :"
+msgstr "Cate_gorias disponiblas :"
 
 #: ../e-util/e-categories-editor.c:274
 #| msgid "_New"
@@ -11254,7 +11256,7 @@ msgstr "_Novèl"
 #| msgid "_Edit"
 msgctxt "category"
 msgid "_Edit"
-msgstr "É_dition"
+msgstr "E_dicion"
 
 #: ../e-util/e-categories-editor.c:282
 #| msgid "_Delete"
@@ -11277,7 +11279,7 @@ msgstr "Icòna de categoria"
 
 #: ../e-util/e-category-editor.c:140
 msgid "_No Image"
-msgstr "_Aucune imatge"
+msgstr "_Pas cap d'imatge"
 
 #: ../e-util/e-category-editor.c:173
 msgid "Category _Name"
@@ -12105,7 +12107,7 @@ msgstr "Refaire la darrièra accion anullada"
 #: ../e-util/e-html-editor-actions.c:996
 #| msgid "Copy the selection"
 msgid "Undo the last action"
-msgstr "Annule la darrièra accion"
+msgstr "Anulla la darrièra accion"
 
 #: ../e-util/e-html-editor-actions.c:1017
 msgid "For_mat"
@@ -13198,9 +13200,9 @@ msgid ""
 "like to try again, please click the \"Back\" button."
 msgstr ""
 "Evolution a verificat los paramètres a importar dempuèi las aplicacions "
-"seguentas : Pine, Netscape, Elm, iCalendar. Aucun paramètre pouvant èsser "
-"importat n'a été trobat. Se volètz essayer de novèl, clicatz sul boton « "
-"Precedent »."
+"seguentas : Pine, Netscape, Elm, iCalendar. Cap de paramètre que pòsca èsser "
+"importat es pas estat trobat. Se volètz ensajar tornamai, clicatz sul boton "
+"« Precedent »."
 
 #: ../e-util/e-import-assistant.c:559
 #: ../modules/startup-wizard/e-mail-config-import-page.c:229
@@ -13490,19 +13492,19 @@ msgstr "Preferéncias d'Evolution"
 
 #: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
-msgstr "Error pendent l'impresilha"
+msgstr "Error pendent l'impression"
 
 #: ../e-util/e-print.c:167
 msgid "The printing system reported the following details about the error:"
 msgstr ""
-"Lo sistèma d'impresilha a raportat las informacions seguentas sus aquesta "
+"Lo sistèma d'impression a raportat las informacions seguentas sus aquesta "
 "error :"
 
 #: ../e-util/e-print.c:173
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr ""
-"Lo sistèma d'impresilha n'a pas raportat d'informacions supplémentaires sus "
+"Lo sistèma d'impression n'a pas raportat d'informacions supplémentaires sus "
 "aquesta error."
 
 #: ../e-util/e-proxy-editor.c:325
@@ -13519,7 +13521,7 @@ msgstr "_Dobrir los paramètres sistèma"
 
 #: ../e-util/e-proxy-editor.c:377
 msgid "Manual"
-msgstr "Manuellement"
+msgstr "Manualament"
 
 #: ../e-util/e-proxy-editor.c:396
 msgid "_HTTP Proxy:"
@@ -13543,7 +13545,7 @@ msgstr "Automaticament"
 
 #: ../e-util/e-proxy-editor.c:534
 msgid "Configuration _URL:"
-msgstr "_URL de configuration :"
+msgstr "_URL de configuracion :"
 
 #: ../e-util/e-proxy-editor.c:563
 msgid "Use a direct connection, no proxying required."
@@ -13742,7 +13744,7 @@ msgstr "Opcions gene_ralas"
 
 #: ../e-util/e-send-options.ui.h:29
 msgid "Creat_e a sent item to track information"
-msgstr "Cr_ear un element enviat per seguir l'informacion"
+msgstr "Cr_ear un element mandat per seguir l'informacion"
 
 #: ../e-util/e-send-options.ui.h:30
 msgid "_Delivered"
@@ -13758,7 +13760,7 @@ msgstr "_Totas las informacions"
 
 #: ../e-util/e-send-options.ui.h:33
 msgid "A_uto-delete sent item"
-msgstr "S_uprimir automaticament l'element enviat"
+msgstr "S_uprimir automaticament l'element mandat"
 
 #: ../e-util/e-send-options.ui.h:34
 msgid "Status Tracking"
@@ -13911,8 +13913,8 @@ msgstr "Lo motor « {0} » del quasernet d'adreças a quitat d'un biais imprevis
 msgid ""
 "Some of your contacts may not be available until Evolution is restarted."
 msgstr ""
-"Certains contactes ne seràn plus disponibles tant qu'Evolution serà pas "
-"estat reaviat."
+"Certans contactes seràn pas mai disponibles tant qu'Evolution serà pas estat "
+"reaviat."
 
 #: ../e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing &quot;{0}&quot; has quit unexpectedly."
@@ -13922,7 +13924,7 @@ msgstr "Lo motor « {0} » de l'agenda a quitat d'un biais imprevist."
 msgid ""
 "Some of your appointments may not be available until Evolution is restarted."
 msgstr ""
-"Certains rendètz-vos seràn pas disponibles tant qu'Evolution serà pas estat "
+"Certans rendètz-vos seràn pas disponibles tant qu'Evolution serà pas estat "
 "reaviat."
 
 #: ../e-util/e-system.error.xml.h:15
@@ -14708,7 +14710,7 @@ msgstr "L'aplicacion dels filtres de sortida a fracassat : %s"
 #, c-format
 #| msgid "Moving messages to '%s'"
 msgid "Storing sent message to '%s'"
-msgstr "Enregistrament dels messatges enviats dins « %s »"
+msgstr "Enregistrament dels messatges mandats dins « %s »"
 
 #: ../libemail-engine/e-mail-session-utils.c:720
 #: ../libemail-engine/mail-ops.c:802
@@ -14734,7 +14736,7 @@ msgstr "Mandadís del messatge"
 #: ../libemail-engine/e-mail-store-utils.c:189
 #, c-format
 msgid "Disconnecting from '%s'"
-msgstr "Déconnexion de « %s »"
+msgstr "Desconnexion de « %s »"
 
 #: ../libemail-engine/e-mail-store-utils.c:265
 #, c-format
@@ -14896,7 +14898,7 @@ msgstr "Dobrir los comptes _en linha"
 
 #: ../mail/e-mail-account-manager.c:143 ../mail/e-mail-account-manager.c:230
 msgid "This account was created through the Online Accounts service."
-msgstr "Aqueste compte es estat creat amb lo service de comptes en linha."
+msgstr "Aqueste compte es estat creat amb lo servici de comptes en linha."
 
 #: ../mail/e-mail-account-manager.c:689
 msgid "_Reset Order"
@@ -14923,7 +14925,7 @@ msgstr "Nom del compte"
 
 #: ../mail/e-mail-autoconfig.c:619
 msgid "No email address provided"
-msgstr "Aucune adreça electronica provesida"
+msgstr "Cap d'adreça electronica pas provesida"
 
 #: ../mail/e-mail-autoconfig.c:628
 msgid "Missing domain in email address"
@@ -14936,7 +14938,7 @@ msgstr "Tampa aquesta fenèstra"
 
 #: ../mail/e-mail-browser.c:285
 msgid "(No Subject)"
-msgstr "(Aucun objècte)"
+msgstr "(Pas cap d'objècte)"
 
 #. GtkAssistant's back button label.
 #: ../mail/e-mail-config-assistant.c:46
@@ -14968,7 +14970,7 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
-"Félicitacions, la configuration de vòstra messatjariá es acabada.\n"
+"Félicitacions, la configuracion de vòstra messatjariá es acabada.\n"
 "\n"
 "Podètz ara mandar e recebre de corrièls amb Evolution.\n"
 "\n"
@@ -14993,11 +14995,11 @@ msgstr ""
 
 #: ../mail/e-mail-config-defaults-page.c:582
 msgid "Sent _Messages Folder:"
-msgstr "Dorsièr dels _messatges enviats :"
+msgstr "Dorsièr dels _messatges mandats :"
 
 #: ../mail/e-mail-config-defaults-page.c:592
 msgid "Choose a folder for saving sent messages."
-msgstr "Causissètz un dorsièr per l'enregistrament dels messatges enviats."
+msgstr "Causissètz un dorsièr per l'enregistrament dels messatges mandats."
 
 #: ../mail/e-mail-config-defaults-page.c:611
 msgid "S_ave replies in the folder of the message being replied to"
@@ -15092,7 +15094,7 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example, \"Work\" or \"Personal\"."
 msgstr ""
-"Picatz lo nom per lequel volètz désigner aqueste compte.\n"
+"Picatz lo nom pel qual volètz designar aqueste compte.\n"
 "Per exemple, « Burèu » o « Personal »."
 
 #: ../mail/e-mail-config-identity-page.c:364
@@ -15207,7 +15209,7 @@ msgstr "SHA512"
 #: ../mail/e-mail-config-security-page.c:454
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr ""
-"_Totjorn signer los messatges sortents al moment de l'utilizacion d'aqueste "
+"_Totjorn signar los messatges sortents al moment de l'utilizacion d'aqueste "
 "compte"
 
 #: ../mail/e-mail-config-security-page.c:466
@@ -15217,8 +15219,7 @@ msgstr ""
 
 #: ../mail/e-mail-config-security-page.c:478
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
-"Totjorn far _confiance a las claus de mon trossèl al moment del chiframent"
+msgstr "Se _fisar de las claus de mon trossèl al moment del chiframent"
 
 #: ../mail/e-mail-config-security-page.c:502
 msgid "Secure MIME (S/MIME)"
@@ -15241,12 +15242,12 @@ msgstr "_Escafar"
 
 #: ../mail/e-mail-config-security-page.c:553
 msgid "Signing _algorithm:"
-msgstr "Algoritme de signat_ure :"
+msgstr "Algoritme de signat_ura :"
 
 #: ../mail/e-mail-config-security-page.c:594
 msgid "Always sign outgoing messages when using this account"
 msgstr ""
-"Totjorn signer los messatges sortents al moment de l'utilizacion d'aqueste "
+"Totjorn signar los messatges sortents al moment de l'utilizacion d'aqueste "
 "compte"
 
 #: ../mail/e-mail-config-security-page.c:617
@@ -15339,7 +15340,7 @@ msgid ""
 "\n"
 "Click \"Next\" to begin."
 msgstr ""
-"Benvenguda dins l'assistent de configuration de messatjariá d'Evolution.\n"
+"Benvenguda dins l'assistent de configuracion de messatjariá d'Evolution.\n"
 "\n"
 "Clicatz sus « Contunhar » per començar."
 
@@ -15382,7 +15383,7 @@ msgstr "Creacion d'un dorsièr"
 
 #: ../mail/e-mail-folder-create-dialog.c:331
 msgid "Specify where to create the folder:"
-msgstr "Précisez l'emplaçament de creacion del dorsièr :"
+msgstr "Precisatz l'emplaçament de creacion del dorsièr :"
 
 #: ../mail/e-mail-folder-create-dialog.c:334
 msgid "C_reate"
@@ -15576,7 +15577,7 @@ msgstr "Apond l'expeditor al quasernet d'adreças"
 
 #: ../mail/e-mail-reader.c:1968
 msgid "_Archive..."
-msgstr "_Archive..."
+msgstr "_Archiu..."
 
 #: ../mail/e-mail-reader.c:1970
 #| msgid "Move selected messages to another folder"
@@ -15914,7 +15915,7 @@ msgstr "Imprime aqueste messatge"
 
 #: ../mail/e-mail-reader.c:2271
 msgid "Preview the message to be printed"
-msgstr "Previsualiza lo messatge a imprimir"
+msgstr "Previsualiza lo messatge d'imprimir"
 
 #: ../mail/e-mail-reader.c:2276
 msgid "Re_direct"
@@ -16176,7 +16177,7 @@ msgstr "Marca lo fial de discussion per èsser ignorat"
 
 #: ../mail/e-mail-reader-utils.c:1037
 msgid "Unmarking thread from being ignored"
-msgstr "Enlève la marca del fial de discussion ignorat"
+msgstr "Lèva la marca del fial de discussion ignorat"
 
 #: ../mail/e-mail-reader-utils.c:1041
 msgid "Marking subthread to be ignored"
@@ -16184,11 +16185,11 @@ msgstr "Marca lo sosfial de discussion per èsser ignorat"
 
 #: ../mail/e-mail-reader-utils.c:1045
 msgid "Unmarking subthread from being ignored"
-msgstr "Enlève la marca del sosfial de discussion ignorat"
+msgstr "Lèva la marca del sosfial de discussion ignorat"
 
 #: ../mail/e-mail-reader-utils.c:1280
 msgid "Printing"
-msgstr "Impresilha"
+msgstr "Impression"
 
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
@@ -16244,7 +16245,7 @@ msgstr "Fracàs de l'autentificacion de %s"
 #: ../mail/e-mail-ui-session.c:854
 #, c-format
 msgid "No data source found for UID '%s'"
-msgstr "Aucune font de donadas trobada per l'UID « %s »"
+msgstr "Cap de font de donadas pas trobada per l'UID « %s »"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -16375,7 +16376,7 @@ msgstr ""
 #. UNMATCHED is always last.
 #: ../mail/em-folder-tree-model.c:430 ../mail/em-folder-tree-model.c:432
 msgid "UNMATCHED"
-msgstr "SANS_CORRESPONDANCE"
+msgstr "SENS_CORRESPONDÉNCIA"
 
 #: ../mail/em-folder-tree-model.c:1258 ../mail/em-folder-tree-model.c:1634
 msgid "Loading..."
@@ -16383,11 +16384,11 @@ msgstr "Cargament..."
 
 #: ../mail/em-folder-utils.c:488
 msgid "Move Folder To"
-msgstr "Desplaçar lo dorsièr vers"
+msgstr "Desplaçar lo dorsièr cap a"
 
 #: ../mail/em-folder-utils.c:488
 msgid "Copy Folder To"
-msgstr "Copiar lo dorsièr vers"
+msgstr "Copiar lo dorsièr cap a"
 
 #: ../mail/em-subscription-editor.c:855
 msgid "_Subscribe"
@@ -16528,7 +16529,7 @@ msgstr "Totes los dorsièrs locals e actius distants"
 
 #: ../mail/em-vfolder-editor-rule.c:568
 msgid "Specific folders"
-msgstr "Dorsièrs spécifiques"
+msgstr "Dorsièrs especifics"
 
 #: ../mail/em-vfolder-editor-rule.c:606
 msgid "include subfolders"
@@ -16602,7 +16603,7 @@ msgstr "conten pas los mots"
 #: ../mail/filtertypes.xml.in.h:19 ../mail/searchtypes.xml.in.h:20
 #: ../mail/vfoldertypes.xml.in.h:20
 msgid "Specific header"
-msgstr "Entèsta spécifique"
+msgstr "Entèsta especifica"
 
 #: ../mail/filtertypes.xml.in.h:20 ../mail/searchtypes.xml.in.h:21
 #: ../mail/vfoldertypes.xml.in.h:21
@@ -17090,7 +17091,7 @@ msgstr "Citat"
 #: ../mail/mail-config.ui.h:26
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
-msgstr "Citer pas"
+msgstr "Citar pas"
 
 #: ../mail/mail-config.ui.h:27
 msgctxt "ReplyForward"
@@ -17123,7 +17124,7 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:35
 msgid "Check spelling while I _type"
-msgstr "Verificar l'or_thographe pendent la frappe"
+msgstr "Verificar l'or_tografia pendent la picada"
 
 #: ../mail/mail-config.ui.h:37
 msgid ""
@@ -17171,7 +17172,7 @@ msgstr ""
 #: ../mail/mail-config.ui.h:51
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr ""
-"Mandadís d'un messatge en utilizant una combinason de _touches (Ctrl + "
+"Mandadís d'un messatge en utilizant una combinason de _tòcas (Ctrl + "
 "Entrada)"
 
 #: ../mail/mail-config.ui.h:52
@@ -17213,9 +17214,9 @@ msgid ""
 "parts are compared separately."
 msgstr ""
 "Definís quel compte deu èsser utilizat coma compte expeditor pels dorsièrs e "
-"destinataris respectifs, un cambiament per la deteccion habituelle del "
+"destinataris respectifs, un cambiament per la deteccion costumièra del "
 "compte expeditor. La lista dels destinataris pòt conténer de noms o "
-"d'adreças parcialas. Los noms e morceaux d'adreças son comparats séparément."
+"d'adreças parcialas. Los noms e tròces d'adreças son comparats separadament."
 
 #: ../mail/mail-config.ui.h:66
 msgid "_Folder override has precedence over Recipient override"
@@ -17263,7 +17264,7 @@ msgstr "Seleccion d'una poliça HTML a largor fixe"
 
 #: ../mail/mail-config.ui.h:82
 msgid "Select HTML variable width font"
-msgstr "Seleccion d'una poliça HTML a largor variable"
+msgstr "Seleccion d'una poliça HTML de largor variabla"
 
 #: ../mail/mail-config.ui.h:83
 msgid "Fix_ed Width Font:"
@@ -17292,7 +17293,7 @@ msgstr "_Encodatge dels caractèrs per defaut :"
 
 #: ../mail/mail-config.ui.h:90
 msgid "Apply the same _view settings to all folders"
-msgstr "Aplicar los meteiss _paramètres d'afichatge a totes los dorsièrs"
+msgstr "Aplicar los meteisses _paramètres d'afichatge a totes los dorsièrs"
 
 #: ../mail/mail-config.ui.h:91
 msgid "F_all back to threading messages by subject"
@@ -17304,11 +17305,11 @@ msgstr "Suprimir lo corrièl"
 
 #: ../mail/mail-config.ui.h:93
 msgid "Empty _trash folders"
-msgstr "Voidar los dorsièrs co_rbeille"
+msgstr "Voidar los dorsièrs es_cobilhièr"
 
 #: ../mail/mail-config.ui.h:94
 msgid "Confirm _when expunging a folder"
-msgstr "_Confirmer abans lo netejatge d'un dorsièr"
+msgstr "_Confirmar abans lo netejatge d'un dorsièr"
 
 #: ../mail/mail-config.ui.h:95
 msgid "Archive Mail"
@@ -17415,7 +17416,7 @@ msgstr ""
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:224
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:174
 msgid "No encryption"
-msgstr "Sans chiframent"
+msgstr "Sens chiframent"
 
 #: ../mail/mail-config.ui.h:122
 msgid "TLS encryption"
@@ -17430,8 +17431,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"Los messatges seleccionats per suivi son listés çaiaprèp.\n"
-"Seleccionatz una accion de suivi dins lo menú « Marcador »."
+"Los messatges seleccionats per seguiment son listats çaiaprèp.\n"
+"Seleccionatz una accion de seguiment dins lo menú « Marcador »."
 
 #: ../mail/mail-dialogs.ui.h:3
 msgid "_Flag:"
@@ -17448,7 +17449,7 @@ msgstr "_Acabada"
 
 #: ../mail/mail-dialogs.ui.h:8
 msgid "Call"
-msgstr "Appel"
+msgstr "Apèl"
 
 #: ../mail/mail-dialogs.ui.h:9
 msgid "Do Not Forward"
@@ -17468,7 +17469,7 @@ msgstr "Far seguir"
 
 #: ../mail/mail-dialogs.ui.h:13
 msgid "No Response Necessary"
-msgstr "Aucune responsa necessària"
+msgstr "Cap de responsa pas necessària"
 
 #: ../mail/mail-dialogs.ui.h:17
 msgid "Reply to All"
@@ -17496,7 +17497,7 @@ msgstr "Informacions de seguretat"
 
 #: ../mail/mail-dialogs.ui.h:24
 msgid "Digital Signature"
-msgstr "Signatura numérique"
+msgstr "Signatura numerica"
 
 #: ../mail/mail-dialogs.ui.h:25
 msgid "Encryption"
@@ -17511,8 +17512,8 @@ msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
 msgstr ""
-"Lo servidor pren pas en carga aqueste tipe d'autentificacion e il se pòt "
-"qu'il ne prenne en carga aucune identification del tout."
+"Lo servidor pren pas en carga aqueste tipe d'autentificacion e es possible "
+"que prenga pas ges en carga cap d'identificacion."
 
 #: ../mail/mail.error.xml.h:3
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
@@ -17573,7 +17574,7 @@ msgstr ""
 "\n"
 "Fòrça sistèmas de messatjariá electronica apondon un camp « Apparently-To » "
 "als messatges qu'an unicament de destinataris Cci. Aqueste camp, s'il es "
-"ajouté, listara totes los destinataris de vòstre messatge. Per éviter aquò, "
+"apondut, listara totes los destinataris de vòstre messatge. Per éviter aquò, "
 "vos caldriá apondre al mens un destinatari A : o Cc : "
 
 #: ../mail/mail.error.xml.h:15
@@ -17584,8 +17585,8 @@ msgid ""
 "recipient."
 msgstr ""
 "Fòrça sistèmas de messatjariá electronica apondon un camp « Apparently-To » "
-"als messatges qu'an unicament de destinataris Cci. Aqueste camp, s'il es "
-"ajouté, listarà totes los destinataris de vòstre messatge. Per evitar aquò, "
+"als messatges qu'an unicament de destinataris Cci. Aqueste camp, s'es "
+"apondut, listarà totes los destinataris de vòstre messatge. Per evitar aquò, "
 "vos caldriá apondre al mens un destinatari A : o Cc :."
 
 #: ../mail/mail.error.xml.h:16
@@ -17657,7 +17658,7 @@ msgstr ""
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
 msgstr ""
-"Aqueste messatge pòt pas èsser enviat perque avètz pas indicat cap de "
+"Aqueste messatge pòt pas èsser mandat perque avètz pas indicat cap de "
 "destinatari"
 
 #: ../mail/mail.error.xml.h:31
@@ -17726,7 +17727,7 @@ msgstr "_Dobrir los messatges"
 #: ../mail/mail.error.xml.h:42
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
-"Certans messatges son pas estats enviats. Sètz segur que volètz quitar lo "
+"Certans messatges son pas estats mandats. Sètz segur que volètz quitar lo "
 "programa ?"
 
 #: ../mail/mail.error.xml.h:43
@@ -17734,8 +17735,8 @@ msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
 msgstr ""
-"Se vous quittez, aquestes messatges seràn pas enviats abans qu'Evolution siá "
-"s'es aviat tornamai."
+"Se quitatz, aquestes messatges seràn pas mandats abans qu'Evolution siá s'es "
+"aviat tornamai."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
 #. It can be basically anything run asynchronously, like "Fetching Mail",
@@ -17806,7 +17807,7 @@ msgstr "Impossible d'actualizar lo dorsièr « {0} »."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "Impossible de renommer o desplaçar lo dorsièr sistèma « {0} »."
+msgstr "Impossible de renomenar o desplaçar lo dorsièr sistèma « {0} »."
 
 #: ../mail/mail.error.xml.h:64
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
@@ -17848,7 +17849,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:71
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Impossible de renommer « {0} » en « {1} »."
+msgstr "Impossible de renomenar « {0} » en « {1} »."
 
 #: ../mail/mail.error.xml.h:72
 msgid "A folder named \"{1}\" already exists. Please use a different name."
@@ -17888,7 +17889,7 @@ msgstr "Avètz pas saisi totas las informacions requesidas."
 
 #: ../mail/mail.error.xml.h:81
 msgid "You may not create two accounts with the same name."
-msgstr "Vos cal pas crear deux comptes amb lo meteis nom."
+msgstr "Vos cal pas crear dos comptes amb lo meteis nom."
 
 #: ../mail/mail.error.xml.h:82
 msgid "Are you sure you want to delete this account?"
@@ -17935,16 +17936,16 @@ msgstr "_Desactivar"
 #: ../mail/mail.error.xml.h:91
 msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgstr ""
-"Impossible de modificar lo dorsièr de recèrca « {0} » puisqu'il existís pas."
+"Impossible de modificar lo dorsièr de recèrca « {0} » perque existís pas."
 
 #: ../mail/mail.error.xml.h:92
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
-"Il se pòt qu'aqueste dorsièr ait été ajouté implicitement,\n"
-"se necessari, allez dins l'editor de dorsièrs de recèrca\n"
-"pour l'apondre explicitement."
+"Es possible qu'aqueste dorsièr siá estat apondut implicitament,\n"
+"se necessari, anatz dins l'editor de dorsièrs de recèrca\n"
+"per l'apondre explicitement."
 
 #: ../mail/mail.error.xml.h:94
 msgid "Cannot add Search Folder \"{0}\"."
@@ -17985,7 +17986,7 @@ msgid ""
 "folders, all remote folders, or both."
 msgstr ""
 "Vos cal indicar al mens un dorsièr coma font.\n"
-"Siá en seleccionant los dorsièrs individuellement, e/o en seleccionant totes "
+"Siá en seleccionant los dorsièrs individualament, e/o en seleccionant totes "
 "los dorsièrs locals, totes los dorsièrs distants, o los dos."
 
 #: ../mail/mail.error.xml.h:105
@@ -18027,14 +18028,14 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
-"Lo format del corrièl local d'Evolution es passé de mbox a Maildir. Vòstre "
-"corrièl local deu èsser migré cap al novèl format abans qu'Evolution o pòsca "
-"traiter. Volètz far la migracion ara ?\n"
+"Lo format del corrièl local d'Evolution es passat de mbox a Maildir. Vòstre "
+"corrièl local deu èsser migrat cap al novèl format abans qu'Evolution o "
+"pòsca tractar. Volètz far la migracion ara ?\n"
 "\n"
 "Un compte mbox va èsser créé per preservar los ancians dorsièrs mbox. Podètz "
 "suprimir lo compte aprèp avoir verificat que la migracion s'es plan "
-"debanada. Verificatz que l'espaci disque es suffisant se causissètz de "
-"migrer ara."
+"debanada. Verificatz que l'espaci de disc es sufisent se causissètz de "
+"migrar ara."
 
 #: ../mail/mail.error.xml.h:116
 msgid "_Exit Evolution"
@@ -18042,7 +18043,7 @@ msgstr "_Quitar Evolution"
 
 #: ../mail/mail.error.xml.h:117
 msgid "_Migrate Now"
-msgstr "_Migrer ara"
+msgstr "_Migrar ara"
 
 #: ../mail/mail.error.xml.h:118
 msgid "Unable to read license file."
@@ -18168,13 +18169,14 @@ msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"Aqueste messatge pòt pas èsser enviat perque lo compte qu'avètz causit pel "
+"Aqueste messatge pòt pas èsser mandat perque lo compte qu'avètz causit pel "
 "mandadís es pas actiu"
 
 #: ../mail/mail.error.xml.h:145
 msgid "Please enable the account or send using another account."
 msgstr ""
-"Activaz lo compte o alara effectuez lo mandadís en utilizant un autre compte."
+"Activaz lo compte o alara effectuez lo mandadís en utilizant un autre "
+"compte."
 
 #: ../mail/mail.error.xml.h:146
 msgid "Mail Deletion Failed"
@@ -18202,7 +18204,7 @@ msgstr "Suprimir los messatges en doble ?"
 
 #: ../mail/mail.error.xml.h:152
 msgid "No duplicate messages found."
-msgstr "Aucun messatge en doble trobat."
+msgstr "Cap de messatge en doble pas trobat."
 
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:154
@@ -18243,12 +18245,12 @@ msgid ""
 "folder is selected, to make sure that all the messages in the folder will be "
 "available in offline mode."
 msgstr ""
-"Aquò pòt èsser dû al fait que lo messatge n'a pas encara été chargé. Lo "
-"dorsièr, o lo compte, pòt èsser marcat per una sincronizacion hors-linha. "
-"Alors, un còp que lo compte es a novèl en linha, utilizatz Fichièr-&gt;"
-"Telecargar los messatges per una utilizacion en-linha, se aqueste dorsièr es "
-"seleccionat, per èsser certain que totes los messatges del dorsièr soient "
-"disponibles en mòde hors-linha."
+"Aquò pòt èsser degut al fach que lo messatge n'a pas encara été chargé. Lo "
+"dorsièr, o lo compte, pòt èsser marcat per una sincronizacion fòra linha. "
+"Alara, un còp que lo compte es a novèl en linha, utilizatz "
+"Fichièr-&gt;Telecargar los messatges per una utilizacion en-linha, se "
+"aqueste dorsièr es seleccionat, per èsser segur que totes los messatges del "
+"dorsièr sián disponibles en mòde fòra linha."
 
 #: ../mail/mail.error.xml.h:162
 msgid "Failed to open folder."
@@ -18293,7 +18295,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:172
 msgid "Printing failed."
-msgstr "Fracàs de l'impresilha."
+msgstr "Fracàs de l'impression."
 
 #: ../mail/mail.error.xml.h:173
 msgid "The printer replied &quot;{0}&quot;."
@@ -18305,7 +18307,7 @@ msgstr "Impossible de réaliser aquesta operacion sus {0}."
 
 #: ../mail/mail.error.xml.h:175
 msgid "You must be working online to complete this operation."
-msgstr "Vos cal trabalhar en-linha per achever aquesta operacion."
+msgstr "Vos cal trabalhar en-linha per acabar aquesta operacion."
 
 #: ../mail/mail.error.xml.h:176
 msgid "Message from &quot;{0}&quot; account:"
@@ -18353,7 +18355,7 @@ msgstr "Mesa a jorn..."
 
 #: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:817
 msgid "Waiting..."
-msgstr "Attente..."
+msgstr "Espèra..."
 
 #: ../mail/mail-send-recv.c:1220
 #, c-format
@@ -18406,7 +18408,7 @@ msgstr "Transferit"
 
 #: ../mail/message-list.c:295
 msgid "Multiple Unseen Messages"
-msgstr "Multiples messatges non vistes"
+msgstr "Messatges multiples pas vistes"
 
 #: ../mail/message-list.c:296
 msgid "Multiple Messages"
@@ -18510,11 +18512,11 @@ msgstr "Messatges a"
 
 #: ../mail/message-list.etspec.h:20
 msgid "Subject - Trimmed"
-msgstr "Objècte - Tronqué"
+msgstr "Objècte - Trocejat"
 
 #: ../mail/searchtypes.xml.in.h:23 ../mail/vfoldertypes.xml.in.h:23
 msgid "Any header"
-msgstr "N'importe quelle entèsta"
+msgstr "Quina entèsta que siá"
 
 #: ../mail/searchtypes.xml.in.h:55
 msgid "Subject or Addresses contains"
@@ -18571,11 +18573,11 @@ msgstr "Complecion automatica"
 
 #: ../modules/addressbook/autocompletion-config.c:140
 msgid "Always _show address of the autocompleted contact"
-msgstr "Totjorn _afichar l'adreça del contacte autocomplété"
+msgstr "Totjorn _afichar l'adreça del contacte autocompletat"
 
 #: ../modules/addressbook/eab-composer-util.c:147
 msgid "Multiple vCards"
-msgstr "vCards multiples"
+msgstr "vCards multiplas"
 
 #: ../modules/addressbook/eab-composer-util.c:155
 #, c-format
@@ -18644,7 +18646,7 @@ msgstr "Enregistrar coma vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:923
 msgid "Co_py All Contacts To..."
-msgstr "Co_pier totes los contactes vers..."
+msgstr "Co_pier totes los contactes cap a..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:925
 msgid "Copy the contacts of the selected address book to another"
@@ -18660,7 +18662,7 @@ msgstr "Suprimís lo quasernet d'adreças seleccionat"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:937
 msgid "Mo_ve All Contacts To..."
-msgstr "Dépla_cer totes los contactes vers..."
+msgstr "Des_plaçar totes los contactes cap a..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:939
 msgid "Move the contacts of the selected address book to another"
@@ -18684,7 +18686,7 @@ msgstr "Aficha las proprietats del quasernet d'adreças seleccionat"
 #: ../modules/calendar/e-memo-shell-view-actions.c:578
 #: ../modules/calendar/e-task-shell-view-actions.c:703
 msgid "Re_fresh"
-msgstr "Ac_tualiser"
+msgstr "Ac_tualizar"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:960
 msgid "Refresh the selected address book"
@@ -18692,7 +18694,7 @@ msgstr "Actualiza lo quasernet d'adreças seleccionat"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:965
 msgid "Address Book _Map"
-msgstr "_Carte del quasernet d'adreças"
+msgstr "_Mapa del quasernet d'adreças"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:967
 msgid "Show map with all contacts from selected address book"
@@ -18705,19 +18707,19 @@ msgstr ""
 #: ../modules/calendar/e-task-shell-view-actions.c:710
 #: ../modules/mail/e-mail-shell-view-actions.c:1665
 msgid "_Rename..."
-msgstr "_Renommer..."
+msgstr "_Renomenar..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:974
 msgid "Rename the selected address book"
-msgstr "Renomme lo quasernet d'adreças seleccionat"
+msgstr "Renomena lo quasernet d'adreças seleccionat"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:981
 msgid "Stop loading"
-msgstr "Arrête lo cargament"
+msgstr "Arrèsta lo cargament"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:986
 msgid "_Copy Contact To..."
-msgstr "_Copiar lo contacte vers..."
+msgstr "_Copiar lo contacte cap a..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:988
 msgid "Copy selected contacts to another address book"
@@ -18745,7 +18747,7 @@ msgstr "Manda los contactes seleccionats a una autra persona"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1014
 msgid "_Move Contact To..."
-msgstr "_Desplaçar lo contacte vers..."
+msgstr "_Desplaçar lo contacte cap a..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1016
 msgid "Move selected contacts to another address book"
@@ -18779,7 +18781,7 @@ msgstr "Manda un messatge als contactes seleccionats"
 #: ../modules/calendar/e-cal-shell-view-actions.c:1417
 #: ../modules/calendar/e-task-shell-view-actions.c:768
 msgid "_Actions"
-msgstr "A_ctions"
+msgstr "A_ccions"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1058
 #: ../modules/calendar/e-memo-shell-view-actions.c:622
@@ -18790,7 +18792,7 @@ msgstr "_Apercebut"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1079
 msgid "Address Book Map"
-msgstr "Carte del quasernet d'adreças"
+msgstr "Mapa del quasernet d'adreças"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1111
 msgid "Contact _Preview"
@@ -18806,14 +18808,14 @@ msgstr "Afichar las _Mapas"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1121
 msgid "Show maps in contact preview window"
-msgstr "Aficha las cartas dins la fenèstra d'apercebut dels contactes"
+msgstr "Aficha las mapas dins la fenèstra d'apercebut dels contactes"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1140
 #: ../modules/calendar/e-memo-shell-view-actions.c:692
 #: ../modules/calendar/e-task-shell-view-actions.c:857
 #: ../modules/mail/e-mail-shell-view-actions.c:1960
 msgid "_Classic View"
-msgstr "Afichatge _classique"
+msgstr "Afichatge _classic"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1142
 msgid "Show contact preview below the contact list"
@@ -18852,7 +18854,7 @@ msgstr "Imprime totes los contactes visibles"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1214
 msgid "Preview the contacts to be printed"
-msgstr "Previsualiza los contactes a imprimir"
+msgstr "Previsualiza los contactes d'imprimir"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1221
 msgid "Print selected contacts"
@@ -18902,7 +18904,7 @@ msgid ""
 "\n"
 "This will restore all your personal data, settings mail filters, etc."
 msgstr ""
-"Podètz restablir Evolution a partir d'un fichièr archive.\n"
+"Podètz restablir Evolution a partir d'un fichièr archiu.\n"
 "\n"
 "Aquò restablira totas vòstras donadas personalas, paramètres, filtres de "
 "corrièl, etc."
@@ -18928,7 +18930,7 @@ msgstr "Seleccionatz lo nom de l'archiu Evolution"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:249
 msgid "_Restart Evolution after backup"
-msgstr "_Reaviar Evolution aprèp l'archivage"
+msgstr "_Reaviar Evolution aprèp l'archivatge"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:276
 msgid "Select name of the Evolution backup file to restore"
@@ -18944,7 +18946,7 @@ msgstr "_Archivar las donadas d'Evolution..."
 
 #: ../modules/backup-restore/evolution-backup-restore.c:309
 msgid "Back up Evolution data and settings to an archive file"
-msgstr "Archiu las donadas e los paramètres d'Evolution dins un fichièr archive"
+msgstr "Archiu las donadas e los paramètres d'Evolution dins un fichièr archiu"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:314
 msgid "R_estore Evolution Data..."
@@ -18966,7 +18968,7 @@ msgstr "Restablís lo repertòri d'Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:79
 msgid "Check Evolution Back up"
-msgstr "Contrôle l'archiu Evolution"
+msgstr "Contraròtla l'archiu Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:81
 msgid "Restart Evolution"
@@ -18974,7 +18976,7 @@ msgstr "Reavia Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:83
 msgid "With Graphical User Interface"
-msgstr "Amb interfàcia graphique"
+msgstr "Amb interfàcia grafica"
 
 #. FIXME Will the versioned setting always work?
 #: ../modules/backup-restore/evolution-backup-tool.c:281
@@ -18994,12 +18996,12 @@ msgstr ""
 
 #: ../modules/backup-restore/evolution-backup-tool.c:323
 msgid "Back up complete"
-msgstr "Archivage acabat"
+msgstr "Archivatge acabat"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:330
 #: ../modules/backup-restore/evolution-backup-tool.c:665
 msgid "Restarting Evolution"
-msgstr "Redémarrage d'Evolution"
+msgstr "Reaviada d'Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:481
 msgid "Back up current Evolution data"
@@ -19019,17 +19021,17 @@ msgstr "Supression dels fichièrs d'archiu temporaris"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:650
 msgid "Reloading registry service"
-msgstr "Recargament del service de registre"
+msgstr "Recargament del servici de registre"
 
 # Titre
 #: ../modules/backup-restore/evolution-backup-tool.c:853
 msgid "Evolution Back Up"
-msgstr "Archivage d'Evolution"
+msgstr "Archivatge d'Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:854
 #, c-format
 msgid "Backing up to the folder %s"
-msgstr "Archivage cap al dorsièr %s"
+msgstr "Archivatge cap al dorsièr %s"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:858
 msgid "Evolution Restore"
@@ -19046,7 +19048,7 @@ msgstr "Archivatge de las donadas d'Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:929
 msgid "Please wait while Evolution is backing up your data."
-msgstr "Esperatz qu'Evolution finisse d'archivar vòstras donadas."
+msgstr "Esperatz qu'Evolution acabe d'archivar vòstras donadas."
 
 #: ../modules/backup-restore/evolution-backup-tool.c:931
 msgid "Restoring Evolution Data"
@@ -19054,7 +19056,7 @@ msgstr "Restabliment de las donadas d'Evolution"
 
 #: ../modules/backup-restore/evolution-backup-tool.c:932
 msgid "Please wait while Evolution is restoring your data."
-msgstr "Esperatz qu'Evolution finisse de restablir vòstras donadas."
+msgstr "Esperatz qu'Evolution acabe de restablir vòstras donadas."
 
 #: ../modules/backup-restore/evolution-backup-tool.c:954
 msgid "This may take a while depending on the amount of data in your account."
@@ -19159,7 +19161,7 @@ msgstr "Port LDAP standard"
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:447
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:619
 msgid "LDAP over SSL (deprecated)"
-msgstr "LDAP al dessus de SSL (desconselhat)"
+msgstr "LDAP al dessús de SSL (desconselhat)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:453
 msgid "Microsoft Global Catalog"
@@ -19167,7 +19169,7 @@ msgstr "Microsoft Global Catalog"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:459
 msgid "Microsoft Global Catalog over SSL"
-msgstr "Microsoft Global Catalog al dessus de SSL"
+msgstr "Microsoft Global Catalog al dessús de SSL"
 
 #. Page 1
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:564
@@ -19180,7 +19182,7 @@ msgstr "Informacions sul servidor"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:608
 msgid "Port:"
-msgstr "Port :"
+msgstr "Pòrt :"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:622
 msgid "StartTLS (recommended)"
@@ -19198,7 +19200,7 @@ msgstr "Autentificacion"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:671
 msgid "Anonymous"
-msgstr "Anonyme"
+msgstr "Anonim"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:674
 msgid "Using email address"
@@ -19206,7 +19208,7 @@ msgstr "En utilizant l'adreça electronica"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:677
 msgid "Using distinguished name (DN)"
-msgstr "En utilizant lo nom distinctif (DN)"
+msgstr "En utilizant lo nom distinctiu (DN)"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:679
 msgid "Method:"
@@ -19218,7 +19220,7 @@ msgid ""
 "setting this to \"Using email address\" requires anonymous access to your "
 "LDAP server."
 msgstr ""
-"Aquò es la metòde qui serà utilizada per Evolution per vos autentificar. "
+"Aquò es lo metòde que serà utilizat per Evolution per vos autentificar. "
 "Notatz qu'indicar « Utilizar l'adreça electronica » implica l'accès anonim a "
 "vòstre servidor LDAP."
 
@@ -19352,7 +19354,7 @@ msgstr "Adreça electronica :"
 
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:263
 msgid "Server handles meeting invitations"
-msgstr "Lo servidor gère los convits a las reünions"
+msgstr "Lo servidor gerís los convits a las reünions"
 
 #: ../modules/cal-config-contacts/evolution-cal-config-contacts.c:70
 msgid "Choose which address books to use."
@@ -20171,7 +20173,7 @@ msgstr "Imprimís lo memò seleccionat"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:810
 msgid "Searching next matching event"
-msgstr "Recèrca del prochain eveniment correspondent"
+msgstr "Recèrca de l'eveniment correspondent que ven"
 
 #: ../modules/calendar/e-cal-shell-view-private.c:811
 msgid "Searching previous matching event"
@@ -20349,7 +20351,7 @@ msgstr "Imprimís la lista dels memòs"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:766
 msgid "Preview the list of memos to be printed"
-msgstr "Previsualiza la lista dels memòs a imprimir"
+msgstr "Previsualiza la lista dels memòs d'imprimir"
 
 #: ../modules/calendar/e-memo-shell-view.c:212
 msgid "Delete Memos"
@@ -20745,12 +20747,12 @@ msgstr "%s desira recebre las darrièras informacions per la reünion seguenta :
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr ""
-"%s per l'intermediari de %s a enviat la responsa a una reünion seguenta :"
+"%s per l'intermediari de %s a mandat la responsa a una reünion seguenta :"
 
 #: ../modules/itip-formatter/itip-view.c:440
 #, c-format
 msgid "%s has sent back the following meeting response:"
-msgstr "%s a enviat la responsa a una reünion seguenta :"
+msgstr "%s a mandat la responsa a una reünion seguenta :"
 
 #: ../modules/itip-formatter/itip-view.c:444
 #, c-format
@@ -20798,7 +20800,7 @@ msgstr "%s a publicat lo prètzfach seguent :"
 #: ../modules/itip-formatter/itip-view.c:505
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
-msgstr "%s demanda l'atribucion a %s de lo prètzfach seguent :"
+msgstr "%s demanda l'atribucion a %s del prètzfach seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:508
 #, c-format
@@ -20843,22 +20845,22 @@ msgstr ""
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
 "%s per l'intermediari de %s a renviat una responsa al prètzfach atribuit "
-"seguenta :"
+"seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:530
 #, c-format
 msgid "%s has sent back the following assigned task response:"
-msgstr "%s a renviat una responsa al prètzfach atribuit seguenta :"
+msgstr "%s a renviat una responsa al prètzfach atribuit seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:534
 #, c-format
 msgid "%s through %s has canceled the following assigned task:"
-msgstr "%s per l'intermediari de %s a anullat lo prètzfach atribuit seguenta :"
+msgstr "%s per l'intermediari de %s a anullat lo prètzfach atribuit seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:536
 #, c-format
 msgid "%s has canceled the following assigned task:"
-msgstr "%s a anullat lo prètzfach atribuit seguenta :"
+msgstr "%s a anullat lo prètzfach atribuit seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:540
 #, c-format
@@ -20875,12 +20877,12 @@ msgstr "%s a prepausat los cambiaments seguents a l'atribucion de prètzfach :"
 #: ../modules/itip-formatter/itip-view.c:546
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
-msgstr "%s per l'intermediari de %s a refusat lo prètzfach atribuit seguenta :"
+msgstr "%s per l'intermediari de %s a refusat lo prètzfach atribuit seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:548
 #, c-format
 msgid "%s has declined the following assigned task:"
-msgstr "%s a refusat lo prètzfach atribuit seguenta :"
+msgstr "%s a refusat lo prètzfach atribuit seguent :"
 
 #: ../modules/itip-formatter/itip-view.c:587
 #, c-format
@@ -21101,7 +21103,7 @@ msgstr "L'organizaire a suprimit la delegacion %s "
 
 #: ../modules/itip-formatter/itip-view.c:4963
 msgid "Sent a cancelation notice to the delegate"
-msgstr "Avis d'anullacion enviat a la delegacion"
+msgstr "Avis d'anullacion mandat a la delegacion"
 
 #: ../modules/itip-formatter/itip-view.c:4967
 msgid "Could not send the cancelation notice to the delegate"
@@ -21135,7 +21137,7 @@ msgstr "Las informacions de la reünion son estadas mandadas"
 
 #: ../modules/itip-formatter/itip-view.c:5313
 msgid "Task information sent"
-msgstr "Las informacions de lo prètzfach son estadas mandadas"
+msgstr "Las informacions del prètzfach son estadas mandadas"
 
 #: ../modules/itip-formatter/itip-view.c:5318
 msgid "Memo information sent"
@@ -21147,8 +21149,7 @@ msgstr "Impossible de mandar las informacions de la reünion, aquela existís pa
 
 #: ../modules/itip-formatter/itip-view.c:5334
 msgid "Unable to send task information, the task does not exist"
-msgstr ""
-"Impossible de mandar las informacions de lo prètzfach, aquela existís pas"
+msgstr "Impossible de mandar las informacions del prètzfach, aquel existís pas"
 
 #: ../modules/itip-formatter/itip-view.c:5339
 msgid "Unable to send memo information, the memo does not exist"
@@ -21202,7 +21203,7 @@ msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
-"Per traiter totes aquestes elements, lo fichièr devra èsser enregistrat e "
+"Per tractar totes aquestes elements, lo fichièr deurà èsser enregistrat e "
 "l'agenda importat"
 
 #: ../modules/itip-formatter/itip-view.c:6063
@@ -21420,7 +21421,7 @@ msgstr "_Messatge"
 
 #: ../modules/mail/e-mail-shell-backend.c:350
 msgid "Compose a new mail message"
-msgstr "Redigir un novèl corrièl"
+msgstr "Redigir un corrièl novèl"
 
 #: ../modules/mail/e-mail-shell-backend.c:358
 msgctxt "New"
@@ -21499,7 +21500,7 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1601
 msgid "Fl_ush Outbox"
-msgstr "Vi_der la bóstia de mandadís"
+msgstr "Voi_dar la bóstia de mandadís"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1608
 msgid "_Copy Folder To..."
@@ -21533,7 +21534,7 @@ msgstr "Marca totes los messatges del dorsièr coma legits"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1636
 msgid "_Move Folder To..."
-msgstr "_Desplaçar lo dorsièr vers..."
+msgstr "_Desplaçar lo dorsièr cap a..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1638
 msgid "Move the selected folder into another folder"
@@ -21631,7 +21632,7 @@ msgstr "Manda los corrièls en espèra de totes los comptes"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1781
 msgid "Cancel the current mail operation"
-msgstr "Annule l'operacion de messatjariá en cors"
+msgstr "Anulla l'operacion de messatjariá en cors"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1786
 msgid "Collapse All _Threads"
@@ -21643,11 +21644,11 @@ msgstr "Groupe totes los fials de discussion"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1793
 msgid "E_xpand All Threads"
-msgstr "Dé_plier totes los fials de discussion"
+msgstr "Des_plegar totes los fials de discussion"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1795
 msgid "Expand all message threads"
-msgstr "Déplie totes los fials de discussion"
+msgstr "Desplega totes los fials de discussion"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1800
 msgid "_Message Filters"
@@ -21667,7 +21668,7 @@ msgstr "D_orsièr"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1823
 msgid "_Label"
-msgstr "É_tiquette"
+msgstr "E_tiqueta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1840
 msgid "C_reate Search Folder From Search..."
@@ -21747,7 +21748,7 @@ msgstr "Messatges amb una pèça junta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2012
 msgid "No Label"
-msgstr "Aucune etiqueta"
+msgstr "Pas cap d'etiqueta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2019
 msgid "Read Messages"
@@ -21815,15 +21816,15 @@ msgstr[1] "%d borrolhons"
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "%d non enviat"
-msgstr[1] "%d non enviats"
+msgstr[0] "%d non mandat"
+msgstr[1] "%d non mandats"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1046
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] "%d enviat"
-msgstr[1] "%d enviats"
+msgstr[0] "%d mandat"
+msgstr[1] "%d mandats"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1058
 #, c-format
@@ -21941,7 +21942,7 @@ msgstr "_Notifier l'expeditor"
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
-msgstr "L'expeditor veut èsser notifié quand lo messatge es estat legit."
+msgstr "L'expeditor veut èsser notificat quand lo messatge es estat legit."
 
 #: ../modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
@@ -21965,7 +21966,7 @@ msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
 msgstr ""
-"Evolution serà de novèl en linha tre qu'una connexion ret serà establida."
+"Evolution serà tornamai en linha tre qu'una connexion ret serà establida."
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Author(s)"
@@ -22106,7 +22107,7 @@ msgstr "I_nclure los tèsts distants"
 
 #: ../modules/spamassassin/evolution-spamassassin.c:564
 msgid "This will make SpamAssassin more reliable, but slower."
-msgstr "Aquò rendra SpamAssassin plus fiable, mas plus lent."
+msgstr "Aquò rendrà SpamAssassin mai fisable, mas mai lent."
 
 #: ../modules/spamassassin/evolution-spamassassin.c:739
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:1
@@ -22607,7 +22608,7 @@ msgstr ""
 
 #: ../plugins/external-editor/external-editor.c:124
 msgid "_Automatically launch when a new mail is edited"
-msgstr "Aviar automaticament quand un novèl corrièl es édité"
+msgstr "Aviar automaticament quand un corrièl novèl es editat"
 
 #: ../plugins/external-editor/external-editor.c:467
 #: ../plugins/external-editor/external-editor.c:469
@@ -22631,8 +22632,8 @@ msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
 msgstr ""
-"Impossible d'aviar l'editor extèrne paramétré dins vòstras preferéncias de "
-"empeutons. Ensajatz de causir un autre editor."
+"Impossible d'aviar l'editor extèrne parametratdins vòstras preferéncias "
+"d'empeutons. Ensajatz de causir un autre editor."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:3
 msgid "Cannot create Temporary File"
@@ -22655,7 +22656,7 @@ msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
-"L'editor extèrne es encara dobèrt. L'editor de corrièl pòt pas èsser fermé "
+"L'editor extèrne es encara dobèrt. L'editor de corrièl pòt pas èsser tampat "
 "tant que l'editor extèrne es actiu."
 
 #: ../plugins/face/face.c:288
@@ -22811,7 +22812,7 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Un messatge electronic serà enviat a l'url « {0} ». Podètz mandar lo "
+"Un messatge electronic serà mandat a l'url « {0} ». Podètz mandar lo "
 "messatge automaticament, o alara lo consultar e lo modificar.\n"
 "\n"
 "Recebretz rapidament una responsa de la lista de discussion aprèp lo "
@@ -22918,7 +22919,7 @@ msgstr "Afichar una _notificacion a la recepcion de messatges novèls"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
-msgstr "Notificacion de novèl corrièl"
+msgstr "Notificacion de corrièl novèl"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Notifies you when new mail messages arrive."
@@ -22987,10 +22988,10 @@ msgid_plural ""
 "You have selected %d mails to be converted to events. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Avètz seleccionat %d corrièls a convertir en eveniments. Sètz segur que los "
+"Avètz seleccionat %d corrièls de convertir en eveniments. Sètz segur que los "
 "volètz apondre totes ?"
 msgstr[1] ""
-"Avètz seleccionat %d corrièls a convertir en eveniments. Sètz segur que los "
+"Avètz seleccionat %d corrièls de convertir en eveniments. Sètz segur que los "
 "volètz apondre totes ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:649
@@ -23002,11 +23003,11 @@ msgid_plural ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
 "add them all?"
 msgstr[0] ""
-"Avètz seleccionat %d corrièls a convertir en prètzfaches. Sètz segur que los "
-"volètz apondre totes ?"
+"Avètz seleccionat %d corrièls de convertir en prètzfaches. Sètz segur que "
+"los volètz apondre totes ?"
 msgstr[1] ""
-"Avètz seleccionat %d corrièls a convertir en prètzfaches. Sètz segur que los "
-"volètz apondre totes ?"
+"Avètz seleccionat %d corrièls de convertir en prètzfaches. Sètz segur que "
+"los volètz apondre totes ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:656
 #, c-format
@@ -23025,11 +23026,11 @@ msgstr[1] ""
 
 #: ../plugins/mail-to-task/mail-to-task.c:677
 msgid "Do you wish to continue converting remaining mails?"
-msgstr "Volètz contunhar a convertir los corrièls restants ?"
+msgstr "Volètz contunhar de convertir los corrièls restants ?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:753
 msgid "[No Summary]"
-msgstr "[Aucun resumit]"
+msgstr "[Pas cap de resumit]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:766
 msgid "Invalid object returned from a server"
@@ -23340,7 +23341,7 @@ msgstr "Fin"
 
 #: ../plugins/save-calendar/csv-format.c:384
 msgid "Due"
-msgstr "Échéance"
+msgstr "Escasença"
 
 #: ../plugins/save-calendar/csv-format.c:385
 msgid "percent Done"
@@ -23392,7 +23393,7 @@ msgstr "Enregistrar la seleccion"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
 msgid "Save a calendar or task list to disk."
-msgstr "Enregistrar un agenda o una lista de prètzfaches sus disque."
+msgstr "Enregistrar un agenda o una lista de prètzfaches sus disc."
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -23974,8 +23975,8 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
-"Evolution pren pas mai en carga la mesa a jorn dirècta dempuèi la version {0}"
-". Pasmens, podètz ensajar de far d'en primièr una mesa a jorn cap a "
+"Evolution pren pas mai en carga la mesa a jorn dirècta dempuèi la version "
+"{0}. Pasmens, podètz ensajar de far d'en primièr una mesa a jorn cap a "
 "Evolution 2, puèi una mesa a jorn cap a Evolution 3."
 
 #: ../shell/shell.error.xml.h:11
