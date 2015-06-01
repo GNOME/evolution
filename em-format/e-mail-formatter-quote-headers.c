@@ -95,6 +95,7 @@ static const gchar *addrspec_hdrs[] = {
 
 static void
 emfqe_format_header (EMailFormatter *formatter,
+		     EMailFormatterContext *context,
                      GString *buffer,
                      EMailPart *part,
                      const gchar *header_name,
@@ -107,6 +108,11 @@ emfqe_format_header (EMailFormatter *formatter,
 	gboolean addrspec = FALSE;
 	gint is_html = FALSE;
 	gint i;
+
+	/* Skip Face header in prints, which includes also message forward */
+	if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING &&
+	    g_ascii_strcasecmp (header_name, "Face") == 0)
+		return;
 
 	flags = E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE;
 
@@ -255,7 +261,7 @@ emqfe_headers_format (EMailFormatterExtension *extension,
 
 	for (ii = 0; ii < length; ii++)
 		emfqe_format_header (
-			formatter, buffer, part,
+			formatter, context, buffer, part,
 			default_headers[ii], charset);
 
 	g_strfreev (default_headers);
