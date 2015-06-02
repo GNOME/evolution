@@ -297,6 +297,7 @@ setup_e_table (ECalListView *cal_list_view)
 	gtk_widget_show (widget);
 
 	g_object_unref (specification);
+	g_object_unref (extras);
 	g_free (etspecfile);
 
 	/* Connect signals */

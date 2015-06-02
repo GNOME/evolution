@@ -317,6 +317,7 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	gtk_container_add (GTK_CONTAINER (view), widget);
 
 	g_object_unref (specification);
+	g_object_unref (extras);
 	g_free (etspecfile);
 
 	view->priv->object = G_OBJECT (adapter);
