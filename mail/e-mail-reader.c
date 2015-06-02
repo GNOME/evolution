@@ -1725,6 +1725,7 @@ mail_source_retrieved (GObject *source_object,
 			closure->reader, display,
 			closure->message_uid, message,
 			CAMEL_FOLDER (source_object));
+		g_object_unref (message);
 	} else {
 		gchar *status;
 
