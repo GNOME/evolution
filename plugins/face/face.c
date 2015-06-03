@@ -33,6 +33,9 @@
 
 #define SETTINGS_KEY "insert-face-picture"
 
+/* see http://quimby.gnus.org/circus/face/ */
+#define MAX_PNG_DATA_LENGTH 723
+
 static gboolean
 get_include_face_by_default (void)
 {
@@ -106,7 +109,7 @@ set_face_raw (gchar *content,
 
 /* g_object_unref returned pointer when done with it */
 static GdkPixbuf *
-get_active_face (void)
+get_active_face (gsize *image_data_length)
 {
 	GdkPixbufLoader *loader;
 	GdkPixbuf *res = NULL;
@@ -135,8 +138,11 @@ get_active_face (void)
 	if (gdk_pixbuf_loader_write (loader, data, data_len, NULL)
 	    && gdk_pixbuf_loader_close (loader, NULL)) {
 		res = gdk_pixbuf_loader_get_pixbuf (loader);
-		if (res)
+		if (res) {
 			g_object_ref (res);
+			if (image_data_length)
+				*image_data_length = data_len;
+		}
 	}
 
 	g_object_unref (loader);
@@ -278,7 +284,7 @@ update_preview_cb (GtkFileChooser *file_chooser,
 }
 
 static GdkPixbuf *
-choose_new_face (void)
+choose_new_face (gsize *image_data_length)
 {
 	GdkPixbuf *res = NULL;
 	GtkWidget *filesel, *preview;
@@ -314,6 +320,8 @@ choose_new_face (void)
 
 		if (prepare_image (image_filename, &file_contents, &length, &res, TRUE)) {
 			set_face_raw (file_contents, length);
+			if (image_data_length)
+				*image_data_length = length;
 		}
 
 		g_free (file_contents);
@@ -332,25 +340,52 @@ toggled_check_include_by_default_cb (GtkWidget *widget,
 	set_include_face_by_default (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
 }
 
+static EAlert *
+face_create_byte_size_alert (gsize byte_size)
+{
+	EAlert *alert;
+	gchar *str;
+
+	str = g_strdup_printf ("%" G_GSIZE_FORMAT, byte_size);
+	alert = e_alert_new ("org.gnome.evolution.plugins.face:incorrect-image-byte-size", str, NULL);
+	g_free (str);
+
+	return alert;
+}
+
 static void
 click_load_face_cb (GtkButton *butt,
                     GtkImage *image)
 {
+	EAlertBar *alert_bar;
 	GdkPixbuf *face;
+	gsize image_data_length = 0;
 
-	face = choose_new_face ();
+	alert_bar = g_object_get_data (G_OBJECT (butt), "alert-bar");
+	e_alert_bar_clear (alert_bar);
+
+	face = choose_new_face (&image_data_length);
 
 	if (face) {
 		gtk_image_set_from_pixbuf (image, face);
 		g_object_unref (face);
+
+		if (image_data_length > MAX_PNG_DATA_LENGTH) {
+			EAlert *alert;
+
+			alert = face_create_byte_size_alert (image_data_length);
+			e_alert_bar_add_alert (alert_bar, alert);
+			g_clear_object (&alert);
+		}
 	}
 }
 
 static GtkWidget *
 get_cfg_widget (void)
 {
-	GtkWidget *vbox, *check, *img, *butt;
+	GtkWidget *vbox, *check, *img, *butt, *alert_bar;
 	GdkPixbuf *face;
+	gsize image_data_length = 0;
 
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 
@@ -362,7 +397,7 @@ get_cfg_widget (void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
 
-	face = get_active_face ();
+	face = get_active_face (&image_data_length);
 	img = gtk_image_new_from_pixbuf (face);
 	if (face)
 		g_object_unref (face);
@@ -372,13 +407,78 @@ get_cfg_widget (void)
 		butt, "clicked",
 		G_CALLBACK (click_load_face_cb), img);
 
-	gtk_box_pack_start (GTK_BOX (vbox), butt, FALSE, FALSE, 0);
+	alert_bar = e_alert_bar_new ();
+	g_object_set_data (G_OBJECT (butt), "alert-bar", alert_bar);
 
+	gtk_box_pack_start (GTK_BOX (vbox), butt, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), img, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (vbox), alert_bar, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (vbox);
+	gtk_widget_hide (alert_bar);
+
+	if (image_data_length > MAX_PNG_DATA_LENGTH) {
+		EAlert *alert;
+
+		alert = face_create_byte_size_alert (image_data_length);
+		e_alert_bar_add_alert (E_ALERT_BAR (alert_bar), alert);
+		g_clear_object (&alert);
+	}
 
 	return vbox;
+}
+
+static void
+face_change_image_in_composer_cb (GtkButton *button,
+				  EMsgComposer *composer);
+
+static void
+face_manage_composer_alert (EMsgComposer *composer,
+			    gsize image_data_length)
+{
+	EHTMLEditor *editor;
+	EAlert *alert;
+
+	editor = e_msg_composer_get_editor (composer);
+
+	if (image_data_length > MAX_PNG_DATA_LENGTH) {
+		GtkWidget *button;
+
+		alert = face_create_byte_size_alert (image_data_length);
+
+		button = gtk_button_new_with_label (_("Change Face Image"));
+		gtk_widget_show (button);
+		g_signal_connect (button, "clicked", G_CALLBACK (face_change_image_in_composer_cb), composer);
+		e_alert_add_widget (alert, button);
+
+		e_alert_sink_submit_alert (E_ALERT_SINK (editor), alert);
+		g_object_set_data_full (G_OBJECT (editor), "face-image-alert", alert, g_object_unref);
+	} else {
+		alert = g_object_get_data (G_OBJECT (editor), "face-image-alert");
+		if (alert) {
+			e_alert_response (alert, GTK_RESPONSE_CLOSE);
+			g_object_set_data (G_OBJECT (editor), "face-image-alert", NULL);
+		}
+	}
+}
+
+static void
+face_change_image_in_composer_cb (GtkButton *button,
+				  EMsgComposer *composer)
+{
+	GdkPixbuf *pixbuf;
+	gsize image_data_length = 0;
+
+	/* Hide any previous alerts first */
+	face_manage_composer_alert (composer, 0);
+
+	pixbuf = choose_new_face (&image_data_length);
+
+	if (pixbuf) {
+		g_object_unref (pixbuf);
+
+		face_manage_composer_alert (composer, image_data_length);
+	}
 }
 
 static void
@@ -386,10 +486,11 @@ action_toggle_face_cb (GtkToggleAction *action,
                        EMsgComposer *composer)
 {
 	if (gtk_toggle_action_get_active (action)) {
+		gsize image_data_length = 0;
 		gchar *face = get_face_base64 ();
 
 		if (!face) {
-			GdkPixbuf *pixbuf = choose_new_face ();
+			GdkPixbuf *pixbuf = choose_new_face (&image_data_length);
 
 			if (pixbuf) {
 				g_object_unref (pixbuf);
@@ -398,8 +499,13 @@ action_toggle_face_cb (GtkToggleAction *action,
 				gtk_toggle_action_set_active (action, FALSE);
 			}
 		} else {
+			g_free (g_base64_decode (face, &image_data_length));
 			g_free (face);
 		}
+
+		face_manage_composer_alert (composer, image_data_length);
+	} else {
+		face_manage_composer_alert (composer, 0);
 	}
 }
 
@@ -425,7 +531,7 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 {
 	EHTMLEditor *editor;
 
-	static GtkToggleActionEntry entries[] = {
+	GtkToggleActionEntry entries[] = {
 		{ "face-plugin",
 		NULL,
 		N_("Include _Face"),
@@ -450,6 +556,18 @@ e_plugin_ui_init (GtkUIManager *ui_manager,
 	gtk_action_group_add_toggle_actions (
 		e_html_editor_get_action_group (editor, "composer"),
 		entries, G_N_ELEMENTS (entries), composer);
+
+	if (entries[0].is_active) {
+		gsize image_data_length = 0;
+		gchar *face = get_face_base64 ();
+
+		if (face) {
+			g_free (g_base64_decode (face, &image_data_length));
+			g_free (face);
+		}
+
+		face_manage_composer_alert (composer, image_data_length);
+	}
 
 	return TRUE;
 }
