@@ -211,6 +211,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	gchar *text = NULL;
 	gint scroll_flag = 0;
 	gint row_y;
+	PangoLayout *layout;
 
 	day_view = e_day_view_main_item_get_day_view (main_item);
 
@@ -554,24 +555,29 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_new_path (cr);
 
 			if (e_cal_model_get_use_24_hour_format (model)) {
-				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 32, item_y + item_h - 8);
+				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 35, item_y + item_h - 8 - 14);
 				end_regsizeime = g_strdup_printf (
 					"%2i:%02i",
 					end_display_hour, end_minute);
 
 			} else {
-				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 48, item_y + item_h - 8);
+				cairo_translate (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH - 51, item_y + item_h - 8 - 14);
 				end_regsizeime = g_strdup_printf (
 					"%2i:%02i%s",
 					end_display_hour, end_minute,
 					end_resize_suffix);
 			}
-			cairo_set_font_size (cr, 14);
+
+			layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (main_item)->canvas), end_regsizeime);
+			cairo_set_font_size (cr, 13);
 			if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7))
 				cairo_set_source_rgb (cr, 0, 0, 0);
 			else
 				cairo_set_source_rgb (cr, 1, 1, 1);
-			cairo_show_text (cr, end_regsizeime);
+			pango_cairo_update_layout (cr, layout);
+			pango_cairo_show_layout (cr, layout);
+			g_object_unref (layout);
+
 			cairo_close_path (cr);
 			cairo_restore (cr);
 		}
@@ -801,16 +807,21 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		if (icon_x_inc == 0)
 			icon_x += 14;
 
-		if (resize_flag)
-			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 13);
-		else
-			cairo_move_to (cr, icon_x, item_y + 13);
 		if ((red / cc > 0.7) || (green / cc > 0.7) || (blue / cc > 0.7))
 			cairo_set_source_rgb (cr, 0, 0, 0);
 		else
 			cairo_set_source_rgb (cr, 1, 1, 1);
-		cairo_set_font_size (cr, 14.0);
-		cairo_show_text (cr, text);
+
+		layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (main_item)->canvas), text);
+		if (resize_flag)
+			cairo_translate (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 1);
+		else
+			cairo_translate (cr, icon_x, item_y + 1);
+		cairo_set_font_size (cr, 13.0);
+		pango_cairo_update_layout (cr, layout);
+		pango_cairo_show_layout (cr, layout);
+		g_object_unref (layout);
+
 		cairo_close_path (cr);
 		cairo_restore (cr);
 	}
