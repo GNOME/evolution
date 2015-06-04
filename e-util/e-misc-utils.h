@@ -281,6 +281,7 @@ void		e_util_run_simple_async_result_in_thread
 						(GSimpleAsyncResult *simple,
 						 GSimpleAsyncThreadFunc func,
 						 GCancellable *cancellable);
+gboolean	e_util_is_running_gnome		(void);
 
 G_END_DECLS
 

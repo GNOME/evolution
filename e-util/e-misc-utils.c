@@ -44,6 +44,8 @@
 
 #ifdef G_OS_WIN32
 #include <windows.h>
+#else
+#include <gio/gdesktopappinfo.h>
 #endif
 
 #include <camel/camel.h>
@@ -3217,4 +3219,37 @@ e_util_run_simple_async_result_in_thread (GSimpleAsyncResult *simple,
 	g_thread_pool_push (thread_pool, thread_data, NULL);
 
 	g_mutex_unlock (&thread_pool_mutex);
+}
+
+/**
+ * e_util_is_running_gnome:
+ *
+ * Returns: Whether the current running desktop environment is GNOME.
+ *
+ * Since: 3.18
+ **/
+gboolean
+e_util_is_running_gnome (void)
+{
+#ifdef G_OS_WIN32
+	return FALSE;
+#else
+	static gint runs_gnome = -1;
+
+	if (runs_gnome == -1) {
+		runs_gnome = g_strcmp0 (g_getenv ("XDG_CURRENT_DESKTOP"), "GNOME") == 0 ? 1 : 0;
+		if (runs_gnome) {
+			GDesktopAppInfo *app_info;
+
+			app_info = g_desktop_app_info_new ("gnome-notifications-panel.desktop");
+			if (!app_info) {
+				runs_gnome = 0;
+			}
+
+			g_clear_object (&app_info);
+		}
+	}
+
+	return runs_gnome != 0;
+#endif
 }
