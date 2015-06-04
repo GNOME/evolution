@@ -35,10 +35,6 @@ struct _EComposerAutosavePrivate {
 	GCancellable *cancellable;
 	guint timeout_id;
 
-	/* Composer contents have changed since
-	 * the last auto-save or explicit save. */
-	gboolean changed;
-
 	/* Prevent error dialogs from piling up. */
 	gboolean error_shown;
 };
@@ -103,25 +99,19 @@ composer_autosave_timeout_cb (gpointer user_data)
 	autosave = E_COMPOSER_AUTOSAVE (user_data);
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
-	/* User may have reverted or explicitly saved
-	 * the changes since the timeout was scheduled. */
-	if (autosave->priv->changed) {
+	/* Cancel the previous snapshot if it's still in
+	 * progress and start a new snapshot operation. */
+	g_cancellable_cancel (autosave->priv->cancellable);
+	g_object_unref (autosave->priv->cancellable);
+	autosave->priv->cancellable = g_cancellable_new ();
 
-		/* Cancel the previous snapshot if it's still in
-		 * progress and start a new snapshot operation. */
-		g_cancellable_cancel (autosave->priv->cancellable);
-		g_object_unref (autosave->priv->cancellable);
-		autosave->priv->cancellable = g_cancellable_new ();
-
-		e_composer_save_snapshot (
-			E_MSG_COMPOSER (extensible),
-			autosave->priv->cancellable,
-			composer_autosave_finished_cb,
-			g_object_ref (autosave));
-	}
+	e_composer_save_snapshot (
+		E_MSG_COMPOSER (extensible),
+		autosave->priv->cancellable,
+		composer_autosave_finished_cb,
+		g_object_ref (autosave));
 
 	autosave->priv->timeout_id = 0;
-	autosave->priv->changed = FALSE;
 
 	return FALSE;
 }
@@ -137,9 +127,8 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
 	view = e_html_editor_get_view (editor);
-	autosave->priv->changed = e_html_editor_view_get_changed (view);
 
-	if (autosave->priv->changed && autosave->priv->timeout_id == 0) {
+	if (autosave->priv->timeout_id == 0 && e_html_editor_view_get_changed (view)) {
 		autosave->priv->timeout_id = e_named_timeout_add_seconds (
 			AUTOSAVE_INTERVAL,
 			composer_autosave_timeout_cb, autosave);
