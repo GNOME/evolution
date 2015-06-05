@@ -27,6 +27,9 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+#include <camel/camel.h>
+#include <camel/camel-search-private.h>
+
 #include <e-util/e-util.h>
 
 #include <mail/em-config.h>
@@ -137,104 +140,6 @@ ask_for_missing_attachment (EPlugin *ep,
 	return response == GTK_RESPONSE_YES;
 }
 
-static gboolean
-get_next_word (GByteArray *msg_text,
-               guint *from,
-               const gchar **word,
-               guint *wlen)
-{
-	gboolean new_line;
-
-	g_return_val_if_fail (msg_text != NULL, FALSE);
-	g_return_val_if_fail (from != NULL, FALSE);
-	g_return_val_if_fail (word != NULL, FALSE);
-	g_return_val_if_fail (wlen != NULL, FALSE);
-
-	if (*from >= msg_text->len)
-		return FALSE;
-
-	new_line = TRUE;
-	while (new_line) {
-		new_line = FALSE;
-
-		while (*from < msg_text->len && g_ascii_isspace (msg_text->data[*from])) {
-			new_line = msg_text->data[*from] == '\n';
-			*from = (*from) + 1;
-		}
-
-		if (*from >= msg_text->len)
-			return FALSE;
-
-		if (new_line && msg_text->data[*from] == '>') {
-			/* skip quotation lines */
-			while (*from < msg_text->len && msg_text->data[*from] != '\n') {
-				*from = (*from) + 1;
-			}
-		} else if (new_line && *from + 3 < msg_text->len &&
-			   strncmp ((const gchar *) (msg_text->data + (*from)), "-- \n", 4) == 0) {
-			/* signature delimiter finishes message text */
-			*from = msg_text->len;
-			return FALSE;
-		} else {
-			new_line = FALSE;
-		}
-	}
-
-	if (*from >= msg_text->len)
-		return FALSE;
-
-	*word = (const gchar *) (msg_text->data + (*from));
-	*wlen = 0;
-
-	while (*from < msg_text->len && !g_ascii_isspace (msg_text->data[*from])) {
-		*from = (*from) + 1;
-		*wlen = (*wlen) + 1;
-	}
-
-	return TRUE;
-}
-
-/* 's1' has s1len bytes of text, while 's2' is NULL-terminated
- * and *s2len contains how many bytes were read */
-static gboolean
-utf8_casencmp (const gchar *s1,
-               guint s1len,
-               const gchar *s2,
-               guint *s2len)
-{
-	gunichar u1, u2;
-	guint u1len, u2len;
-
-	if (!s1 || !s2 || !s1len || !s2len)
-		return FALSE;
-
-	*s2len = 0;
-
-	while (s1len > 0 && *s1 && *s2) {
-		u1 = g_utf8_get_char_validated (s1, s1len);
-		u2 = g_utf8_get_char_validated (s2, -1);
-
-		if (u1 == -1 || u1 == -2 || u2 == -1 || u2 == -2)
-			break;
-
-		if (u1 != u2 && g_unichar_tolower (u1) != g_unichar_tolower (u2))
-			break;
-
-		u1len = g_unichar_to_utf8 (u1, NULL);
-		if (s1len < u1len)
-			break;
-
-		u2len = g_unichar_to_utf8 (u2, NULL);
-
-		s1len -= u1len;
-		s1 += u1len;
-		*s2len = (*s2len) + u2len;
-		s2 += u2len;
-	}
-
-	return s1len == 0;
-}
-
 /* check for the clues */
 static gboolean
 check_for_attachment_clues (GByteArray *msg_text)
@@ -251,56 +156,32 @@ check_for_attachment_clues (GByteArray *msg_text)
 	g_object_unref (settings);
 
 	if (clue_list && clue_list[0]) {
-		gint ii;
-		guint from = 0, wlen = 0, clen = 0;
-		const gchar *word = NULL;
+		gint ii, jj, to;
 
-		while (!found && get_next_word (msg_text, &from, &word, &wlen)) {
-			for (ii = 0; !found && clue_list[ii] != NULL; ii++) {
-				const gchar *clue = clue_list[ii];
+		g_byte_array_append (msg_text, (const guint8 *) "\0", 1);
 
-				if (utf8_casencmp (word, wlen, clue, &clen)) {
-					found = clue[clen] == 0;
+		for (ii = 0; clue_list[ii] && !found; ii++) {
+			GString *word;
+			const gchar *clue = clue_list[ii];
 
-					if (!found && g_ascii_isspace (clue[clen])) {
-						/* clue is a multi-word, then test more words */
-						guint bfrom = from, blen = 0;
-						const gchar *bword = NULL;
+			if (!*clue)
+				continue;
 
-						clue = clue + clen;
-						while (*clue && g_ascii_isspace (*clue))
-							clue++;
+			word = g_string_new ("\"");
 
-						found = !*clue;
-						if (!found) {
-							found = TRUE;
+			to = word->len;
+			g_string_append (word, clue);
 
-							while (found && get_next_word (msg_text, &bfrom, &bword, &blen)) {
-								found = FALSE;
-
-								if (utf8_casencmp (bword, blen, clue, &clen)) {
-									found = clue[clen] == 0;
-									if (found) {
-										clue = clue + clen;
-										break;
-									} else if (g_ascii_isspace (clue[clen])) {
-										/* another word in clue */
-										found = TRUE;
-
-										clue = clue + clen;
-										while (*clue && g_ascii_isspace (*clue))
-											clue++;
-									}
-								} else {
-									found = FALSE;
-								}
-							}
-
-							found = found && !*clue;
-						}
-					}
-				}
+			for (jj = word->len - 1; jj <= to; jj--) {
+				if (word->str[jj] == '\\' || word->str[jj] == '\"')
+					g_string_insert_c (word, jj, '\\');
 			}
+
+			g_string_append_c (word, '\"');
+
+			found = camel_search_header_match ((const gchar *) msg_text->data, word->str, CAMEL_SEARCH_MATCH_WORD, CAMEL_SEARCH_TYPE_ASIS, NULL);
+
+			g_string_free (word, TRUE);
 		}
 	}
 
