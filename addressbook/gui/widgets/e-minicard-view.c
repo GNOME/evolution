@@ -106,7 +106,7 @@ e_minicard_view_drag_data_get (GtkWidget *widget,
 		EBookClient *book_client = NULL;
 		gchar *value;
 
-		g_object_get (view->adapter, "book_client", &book_client, NULL);
+		g_object_get (view->adapter, "client", &book_client, NULL);
 		value = eab_book_and_contact_list_to_string (book_client, view->drag_list);
 
 		gtk_selection_data_set (
@@ -139,8 +139,6 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter,
 	clear_drag_data (view);
 
 	view->drag_list = e_minicard_view_get_card_list (view);
-
-	g_print ("dragging %d card(s)\n", g_slist_length (view->drag_list));
 
 	target_list = gtk_target_list_new (drag_types, G_N_ELEMENTS (drag_types));
 
