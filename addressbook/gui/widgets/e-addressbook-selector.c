@@ -57,7 +57,7 @@ enum {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ (gchar *) "text/x-source-vcard", 0, 0 }
+	{ (gchar *) "text/x-source-vcard", 0, 1 }
 };
 
 G_DEFINE_TYPE (
@@ -297,6 +297,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	MergeContext *merge_context;
 	EAddressbookModel *model;
 	EBookClient *source_client;
+	ESource *source_source = NULL;
 	ESourceRegistry *registry;
 	GSList *list;
 	const gchar *string;
@@ -310,15 +311,31 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 
 	registry = e_source_selector_get_registry (selector);
 
-	eab_source_and_contact_list_from_string (
-		registry, string, NULL, &list);
+	if (info == drag_types[0].info)
+		eab_source_and_contact_list_from_string (
+			registry, string, &source_source, &list);
+	else
+		list = eab_contact_list_from_string (string);
 
-	if (list == NULL)
+	if (list == NULL) {
+		g_clear_object (&source_source);
 		return FALSE;
+	}
 
 	model = e_addressbook_view_get_model (priv->current_view);
 	source_client = e_addressbook_model_get_client (model);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (source_client), FALSE);
+
+	if (remove_from_source && source_source &&
+	    !e_source_equal (source_source, e_client_get_source (E_CLIENT (source_client)))) {
+		g_warning ("%s: Source book '%s' doesn't match the view client '%s', skipping drop",
+			G_STRFUNC, e_source_get_uid (source_source),
+			e_source_get_uid (e_client_get_source (E_CLIENT (source_client))));
+		g_clear_object (&source_source);
+		return FALSE;
+	}
+
+	g_clear_object (&source_source);
 
 	merge_context = merge_context_new (
 		registry, g_object_ref (source_client), NULL, list);

@@ -807,7 +807,7 @@ e_drag_dest_add_calendar_targets (GtkWidget *widget)
 
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
-	target_list = gtk_drag_source_get_target_list (widget);
+	target_list = gtk_drag_dest_get_target_list (widget);
 	if (target_list != NULL)
 		gtk_target_list_ref (target_list);
 	else
@@ -824,7 +824,7 @@ e_drag_dest_add_directory_targets (GtkWidget *widget)
 
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
-	target_list = gtk_drag_source_get_target_list (widget);
+	target_list = gtk_drag_dest_get_target_list (widget);
 	if (target_list != NULL)
 		gtk_target_list_ref (target_list);
 	else
@@ -841,7 +841,7 @@ e_drag_dest_add_html_targets (GtkWidget *widget)
 
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 
-	target_list = gtk_drag_source_get_target_list (widget);
+	target_list = gtk_drag_dest_get_target_list (widget);
 	if (target_list != NULL)
 		gtk_target_list_ref (target_list);
 	else
