@@ -21,7 +21,7 @@
  */
 
 #ifndef _CERT_TRUST_DIALOG_H_
-#define _CERT_TRUST_DIALOG_H
+#define _CERT_TRUST_DIALOG_H_
 
 #include <gtk/gtk.h>
 
