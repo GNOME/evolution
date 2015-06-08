@@ -1,3 +1,47 @@
+Evolution 3.16.3 2015-06-08
+---------------------------
+
+Bug Fixes:
+	Bug 749217 - Backspace unindents multiple pasted paragraphs (Tomas Popela)
+	Bug 749060 - Help->Contents does not open in yelp (Milan Crha)
+	Bug 748574 - Upgrade to 3.16.1.1 from 3.12.11 has broken my email signature images (Tomas Popela)
+	Bug 749108 - Embedded inline images pretend message attachments (Milan Crha)
+	Bug 531054 - Reply to All changes To: and Cc: (Milan Crha)
+	Bug 593272 - Message preview shows Reply-to header as is (Milan Crha)
+	Bug 748981 - Option to always show sign/encrypt toolbar buttons in composer (Milan Crha)
+	Bug 749613 - Crash when trying to wrap non-existing node (Tomas Popela)
+	Bug 749579 - Whitespace corrupted in outbound email (Tomas Popela)
+	Bug 733877 - Parse attachments on demand, not on message open (Milan Crha)
+	Bug 675671 - Update event numbers after event deletion (Milan Crha)
+	Bug 733877 - Parse attachments on demand, not on message open ][ (Milan Crha)
+	Bug 684556 - Remove the Face header from the forwarded message body (Milan Crha)
+	Bug 750202 - Crash under shell_source_invoke_authenticate_cb() (Milan Crha)
+	Bug 749149 - Text in composer ignores desktop scaling factor (Tomas Popela)
+	Bug 575242 - New composer window not autosaved until modification (Milan Crha)
+	Bug 706557 - [attachment-reminder] A clue is missed when followed by a bracket (Milan Crha)
+	Bug 750414 - Fails to drag&drop contacts between address books (Milan Crha)
+
+Miscellaneous:
+	EHTMLEditorSelection - Clean the code used for wrapping (Tomas Popela)
+	EHTMLEditorSelection - Selection markers are saved on wrong position after Tabulator (Tomas Popela)
+	EHTMLEditorView - Fix possible leak (Tomas Popela)
+	ExternalEditor - Fix leaks of WebKit objects (Tomas Popela)
+	Correct signature stripping in HTML messages (Milan Crha)
+	EHTMLEditorView - Busy loop after writing ";)" into composer (Tomas Popela)
+	Fix a double-free on a picture gallery dispose (composer close) (Milan Crha)
+	Address some of the Coverity Scan issues (Milan Crha)
+	Fix few memory leaks (Milan Crha)
+	Avoid cairo_show_text(), use PangoLayout instead (Milan Crha)
+
+Translations:
+	Piotr Drąg (pl)
+	Marek Černocký (cs)
+	Martin Srebotnjak (sl)
+	Jordi Mas (ca)
+	Dušan Kazik (sk)
+	Benjamin Steinwender (de)
+	Cédric Valmary (oc)
+
 Evolution 3.16.2 2015-05-11
 ---------------------------
 
