@@ -20,7 +20,7 @@
  */
 
 #ifndef _CERTIFICATE_MANAGER_H_
-#define _CERTIFICATE_MANAGER_H
+#define _CERTIFICATE_MANAGER_H_
 
 #include <gtk/gtk.h>
 #include <shell/e-shell.h>

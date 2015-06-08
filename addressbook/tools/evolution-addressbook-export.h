@@ -21,7 +21,7 @@
  */
 
 #ifndef _EVOLUTION_ADDRESSBOOK_EXPORT_H_
-#define _EVOLUTION_ADDRESSBOOK_EXPORT_H__
+#define _EVOLUTION_ADDRESSBOOK_EXPORT_H_
 
 #include <libedataserver/libedataserver.h>
 
