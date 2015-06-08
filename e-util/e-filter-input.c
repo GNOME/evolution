@@ -300,6 +300,9 @@ filter_input_clone (EFilterElement *element)
 	clone_input->allow_empty = input->allow_empty;
 	clone_input->code_gen_func = g_strdup (input->code_gen_func);
 
+	g_list_free_full (clone_input->values, g_free);
+	clone_input->values = NULL;
+
 	for (link = input->values; link != NULL; link = g_list_next (link)) {
 		clone_input->values = g_list_prepend (clone_input->values, g_strdup (link->data));
 	}
