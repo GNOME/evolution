@@ -3162,8 +3162,13 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		if (day_view->drag_event_num == event_num) {
 			day_view->drag_event_num = -1;
 			day_view->drag_event_day = -1;
-			if (day_view->priv->drag_context)
+			if (day_view->priv->drag_context) {
+				#if GTK_CHECK_VERSION(3,16,0)
 				gtk_drag_cancel (day_view->priv->drag_context);
+				#else
+				gdk_drag_abort (day_view->priv->drag_context, gtk_get_current_event_time ());
+				#endif
+			}
 		} else {
 			day_view->drag_event_num--;
 		}
