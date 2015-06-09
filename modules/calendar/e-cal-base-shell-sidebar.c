@@ -732,8 +732,10 @@ cal_base_shell_sidebar_constructed (GObject *object)
 
 		widget = e_calendar_new ();
 		gtk_widget_set_margin_top (widget, 6);
+		#if GTK_CHECK_VERSION(3,12,0)
 		gtk_widget_set_margin_start (widget, 6);
 		gtk_widget_set_margin_end (widget, 6);
+		#endif
 		calitem = E_CALENDAR (widget)->calitem;
 		e_calendar_item_set_days_start_week_sel (calitem, 9);
 		e_calendar_item_set_max_days_sel (calitem, 42);
