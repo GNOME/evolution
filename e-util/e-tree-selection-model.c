@@ -820,6 +820,7 @@ e_tree_selection_model_change_cursor (ETreeSelectionModel *etsm,
 
 	E_SELECTION_MODEL (etsm)->old_selection = -1;
 
+	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
 	e_selection_model_cursor_changed (
 		E_SELECTION_MODEL (etsm), row, etsm->priv->cursor_col);
 	e_selection_model_cursor_activated (
