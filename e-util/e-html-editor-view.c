@@ -266,6 +266,7 @@ print_history_event (EHTMLEditorViewHistoryEvent *event)
 			break;
 		case HISTORY_HRULE_DIALOG:
 		case HISTORY_IMAGE_DIALOG:
+		case HISTORY_LINK_DIALOG:
 		case HISTORY_CELL_DIALOG:
 		case HISTORY_TABLE_DIALOG:
 		case HISTORY_TABLE_INPUT:
@@ -3531,6 +3532,7 @@ free_history_event_content (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_TABLE_INPUT:
 		case HISTORY_PAGE_DIALOG:
 		case HISTORY_UNQUOTE:
+		case HISTORY_LINK_DIALOG:
 			if (event->data.dom.from != NULL)
 				g_object_unref (event->data.dom.from);
 			if (event->data.dom.to != NULL)
@@ -11732,6 +11734,72 @@ undo_redo_image_dialog (EHTMLEditorView *view,
 }
 
 static void
+undo_redo_link_dialog (EHTMLEditorView *view,
+                       EHTMLEditorViewHistoryEvent *event,
+                       gboolean undo)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *anchor, *element;
+
+	selection = e_html_editor_view_get_selection (view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	if (undo)
+		restore_selection_to_history_event_state (view, event->after);
+	else
+		restore_selection_to_history_event_state (view, event->before);
+
+	e_html_editor_selection_save (selection);
+
+	element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
+	if (!element)
+		return;
+
+	anchor = e_html_editor_dom_node_find_parent_element (WEBKIT_DOM_NODE (element), "A");
+	if (undo) {
+		if (anchor) {
+			if (!event->data.dom.from)
+				remove_node (WEBKIT_DOM_NODE (anchor));
+			else
+				webkit_dom_node_replace_child (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (anchor)),
+					webkit_dom_node_clone_node (event->data.dom.from, TRUE),
+					WEBKIT_DOM_NODE (anchor),
+					NULL);
+		}
+	} else {
+		if (!event->data.dom.to) {
+			if (anchor)
+				remove_node (WEBKIT_DOM_NODE (anchor));
+		} else {
+			if (WEBKIT_DOM_IS_ELEMENT (event->data.dom.from) && anchor) {
+				webkit_dom_node_replace_child (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (anchor)),
+					webkit_dom_node_clone_node (event->data.dom.to, TRUE),
+					WEBKIT_DOM_NODE (anchor),
+					NULL);
+			} else {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+					webkit_dom_node_clone_node (event->data.dom.to, TRUE),
+					WEBKIT_DOM_NODE (element),
+					NULL);
+
+				if (event->data.dom.from)
+					e_html_editor_view_exec_command (
+						view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
+			}
+		}
+	}
+
+	if (undo)
+		restore_selection_to_history_event_state (view, event->before);
+	else
+		e_html_editor_selection_restore (selection);
+}
+
+static void
 undo_redo_table_dialog (EHTMLEditorView *view,
                         EHTMLEditorViewHistoryEvent *event,
                         gboolean undo)
@@ -12507,6 +12575,9 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 		case HISTORY_IMAGE_DIALOG:
 			undo_redo_image_dialog (view, event, FALSE);
 			break;
+		case HISTORY_LINK_DIALOG:
+			undo_redo_link_dialog (view, event, FALSE);
+			break;
 		case HISTORY_TABLE_DIALOG:
 			undo_redo_table_dialog (view, event, FALSE);
 			break;
@@ -12621,6 +12692,9 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 			break;
 		case HISTORY_IMAGE_DIALOG:
 			undo_redo_image_dialog (view, event, TRUE);
+			break;
+		case HISTORY_LINK_DIALOG:
+			undo_redo_link_dialog (view, event, TRUE);
 			break;
 		case HISTORY_TABLE_DIALOG:
 			undo_redo_table_dialog (view, event, TRUE);
