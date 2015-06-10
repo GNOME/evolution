@@ -11642,7 +11642,7 @@ undo_redo_hrule_dialog (EHTMLEditorView *view,
 			else
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (node),
-					event->data.dom.from,
+					webkit_dom_node_clone_node (event->data.dom.from, TRUE),
 					node,
 					NULL);
 		}
@@ -11658,13 +11658,13 @@ undo_redo_hrule_dialog (EHTMLEditorView *view,
 			if (node && WEBKIT_DOM_IS_HTMLHR_ELEMENT (node))
 				webkit_dom_node_replace_child (
 					webkit_dom_node_get_parent_node (node),
-					event->data.dom.to,
+					webkit_dom_node_clone_node (event->data.dom.to, TRUE),
 					node,
 					NULL);
 		} else {
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
-				event->data.dom.to,
+				webkit_dom_node_clone_node (event->data.dom.to, TRUE),
 				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
 				NULL);
 		}
@@ -11719,7 +11719,7 @@ undo_redo_image_dialog (EHTMLEditorView *view,
 
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (image),
-		undo ? event->data.dom.from : event->data.dom.to,
+		webkit_dom_node_clone_node (undo ? event->data.dom.from : event->data.dom.to, TRUE),
 		image,
 		NULL);
 
@@ -11759,7 +11759,7 @@ undo_redo_table_dialog (EHTMLEditorView *view,
 			parent = get_parent_block_element (WEBKIT_DOM_NODE (element));
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent)),
-				undo ? event->data.dom.from : event->data.dom.to,
+				webkit_dom_node_clone_node (undo ? event->data.dom.from : event->data.dom.to, TRUE),
 				WEBKIT_DOM_NODE (parent),
 				NULL);
 			restore_selection_to_history_event_state (view, event->before);
@@ -11774,7 +11774,7 @@ undo_redo_table_dialog (EHTMLEditorView *view,
 		else
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-				event->data.dom.from,
+				webkit_dom_node_clone_node (event->data.dom.from, TRUE),
 				WEBKIT_DOM_NODE (table),
 				NULL);
 	} else {
@@ -11783,7 +11783,7 @@ undo_redo_table_dialog (EHTMLEditorView *view,
 		else
 			webkit_dom_node_replace_child (
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (table)),
-				event->data.dom.to,
+				webkit_dom_node_clone_node (event->data.dom.to, TRUE),
 				WEBKIT_DOM_NODE (table),
 				NULL);
 	}
@@ -11839,7 +11839,7 @@ undo_redo_table_input (EHTMLEditorView *view,
 
 	webkit_dom_node_replace_child (
 		webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-		undo ? event->data.dom.from : event->data.dom.to,
+		webkit_dom_node_clone_node (undo ? event->data.dom.from : event->data.dom.to, TRUE),
 		WEBKIT_DOM_NODE (element),
 		NULL);
 
