@@ -1516,9 +1516,10 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	}
 
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
-	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL))
+	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL)) {
 		g_free (node_text);
 		return;
+	}
 
 	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
 		is_email_address = TRUE;
