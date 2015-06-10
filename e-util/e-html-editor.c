@@ -350,6 +350,11 @@ html_editor_update_actions (EHTMLEditor *editor,
 		editor->priv->image = g_object_ref (node);
 
 	visible = (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK);
+	if (visible) {
+		g_object_unref (editor->priv->current_node);
+		editor->priv->current_node = webkit_dom_node_get_parent_node (node);
+		gtk_action_set_visible (ACTION (CONTEXT_INSERT_LINK), FALSE);
+	}
 	gtk_action_set_visible (ACTION (CONTEXT_PROPERTIES_LINK), visible);
 
 	visible = (WEBKIT_DOM_IS_HTMLHR_ELEMENT (node));

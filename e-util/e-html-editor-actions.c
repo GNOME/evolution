@@ -671,7 +671,8 @@ action_insert_link_cb (GtkAction *action,
 		editor->priv->link_dialog =
 			e_html_editor_link_dialog_new (editor);
 
-	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
+	e_html_editor_link_dialog_show (
+		E_HTML_EDITOR_LINK_DIALOG (editor->priv->link_dialog), NULL);
 }
 
 static void
@@ -908,7 +909,9 @@ action_properties_link_cb (GtkAction *action,
 			e_html_editor_link_dialog_new (editor);
 	}
 
-	gtk_window_present (GTK_WINDOW (editor->priv->link_dialog));
+	e_html_editor_link_dialog_show (
+		E_HTML_EDITOR_LINK_DIALOG (editor->priv->link_dialog),
+		editor->priv->current_node);
 }
 
 static void
