@@ -1172,9 +1172,6 @@ e_html_editor_selection_get_alignment_from_node (WebKitDOMNode *node)
 	EHTMLEditorSelectionAlignment alignment;
 	gchar *value;
 	WebKitDOMCSSStyleDeclaration *style;
-	WebKitDOMDocument *document;
-
-	document = webkit_dom_node_get_owner_document (node);
 
 	style = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
 	value = webkit_dom_css_style_declaration_get_property_value (style, "text-align");
