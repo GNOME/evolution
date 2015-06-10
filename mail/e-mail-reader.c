@@ -3266,6 +3266,15 @@ mail_reader_get_alert_sink (EMailReader *reader)
 
 	preview_pane = e_mail_reader_get_preview_pane (reader);
 
+	if (!gtk_widget_is_visible (GTK_WIDGET (preview_pane))) {
+		GtkWindow *window;
+
+		window = e_mail_reader_get_window (reader);
+
+		if (E_IS_SHELL_WINDOW (window))
+			return E_ALERT_SINK (window);
+	}
+
 	return E_ALERT_SINK (preview_pane);
 }
 
