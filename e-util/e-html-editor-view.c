@@ -9520,7 +9520,6 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		document, "blockquote[type|=cite]", NULL);
 
 	if (view->priv->html_mode) {
-		style_updated_cb (view);
 		if (blockquote)
 			e_html_editor_view_dequote_plain_text (view);
 
@@ -9555,16 +9554,14 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 					webkit_dom_document_get_document_element (document)),
 				plain,
 				NULL);
-			style_updated_cb (view);
 			e_html_editor_selection_restore (selection);
 			e_html_editor_view_force_spell_check_in_viewport (view);
-		} else {
-			style_updated_cb (view);
 		}
 
 		g_free (plain);
 	}
 
+	style_updated_cb (view);
  out:
 	remove_whole_event_history (view);
 
@@ -9708,6 +9705,10 @@ e_html_editor_view_init (EHTMLEditorView *view)
 
 	g_signal_connect (
 		view, "style-updated",
+		G_CALLBACK (style_updated_cb), NULL);
+
+	g_signal_connect (
+		view, "state-flags-changed",
 		G_CALLBACK (style_updated_cb), NULL);
 
 	view->priv->selection = g_object_new (
