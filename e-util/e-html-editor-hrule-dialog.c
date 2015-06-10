@@ -219,12 +219,18 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 		ev->data.dom.to = webkit_dom_node_clone_node (
 			WEBKIT_DOM_NODE (priv->hr_element), FALSE);
 
-		e_html_editor_selection_get_selection_coordinates (
-			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
-		e_html_editor_view_insert_new_history_event (view, ev);
+		if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
+			e_html_editor_selection_get_selection_coordinates (
+				selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+			e_html_editor_view_insert_new_history_event (view, ev);
 
-		if (!ev->data.dom.from)
-			g_object_unref (priv->hr_element);
+			if (!ev->data.dom.from)
+				g_object_unref (priv->hr_element);
+		} else {
+			g_object_unref (ev->data.dom.from);
+			g_object_unref (ev->data.dom.to);
+			g_free (ev);
+		}
 	}
 
 	priv->hr_element = NULL;

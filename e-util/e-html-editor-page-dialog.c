@@ -462,9 +462,15 @@ html_editor_page_dialog_hide (GtkWidget *widget)
 			webkit_dom_element_set_attribute (
 				WEBKIT_DOM_ELEMENT (body), "data-user-colors", "", NULL);
 
-		e_html_editor_selection_get_selection_coordinates (
-			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
-		e_html_editor_view_insert_new_history_event (view, ev);
+		if (!webkit_dom_node_is_equal_node (ev->data.dom.from, ev->data.dom.to)) {
+			e_html_editor_selection_get_selection_coordinates (
+				selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+			e_html_editor_view_insert_new_history_event (view, ev);
+		} else {
+			g_object_unref (ev->data.dom.from);
+			g_object_unref (ev->data.dom.to);
+			g_free (ev);
+		}
 	}
 
 	e_html_editor_view_unblock_style_updated_callbacks (view);
