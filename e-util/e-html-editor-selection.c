@@ -6256,14 +6256,34 @@ wrap_lines (EHTMLEditorSelection *selection,
 			}
 
 			if (element_has_class (WEBKIT_DOM_ELEMENT (node), "Apple-tab-span")) {
-				WebKitDOMNode *prev_sibling;
+				WebKitDOMNode *sibling;
+				gint tab_length;
 
-				prev_sibling = webkit_dom_node_get_previous_sibling (node);
-				if (prev_sibling && WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
-				    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "Applet-tab-span"))
-					line_length += TAB_LENGTH;
+				sibling = webkit_dom_node_get_previous_sibling (node);
+				if (sibling && WEBKIT_DOM_IS_ELEMENT (sibling) &&
+				    element_has_class (WEBKIT_DOM_ELEMENT (sibling), "Apple-tab-span"))
+					tab_length = TAB_LENGTH;
 				else
-					line_length += TAB_LENGTH - line_length % TAB_LENGTH;
+					tab_length = TAB_LENGTH - line_length % TAB_LENGTH;
+
+				if (line_length + tab_length > word_wrap_length) {
+					if (webkit_dom_node_get_next_sibling (node)) {
+						element = webkit_dom_document_create_element (
+							document, "BR", NULL);
+						element_add_class (element, "-x-evo-wrap-br");
+						node = webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							webkit_dom_node_get_next_sibling (node),
+							NULL);
+					}
+					line_length = 0;
+				} else
+					line_length += tab_length;
+
+				sibling = webkit_dom_node_get_next_sibling (node);
+				node = sibling;
+				continue;
 			}
 			/* When we are not removing user-entered BR elements (lines wrapped by user),
 			 * we need to skip those elements */
