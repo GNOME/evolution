@@ -56,8 +56,9 @@ struct _GalA11yETableItemPrivate {
 	ETableItem *item;
 	gint cols;
 	gint rows;
-	gint selection_change_id;
-	gint cursor_change_id;
+	gulong selection_changed_id;
+	gulong selection_row_changed_id;
+	gulong cursor_changed_id;
 	ETableCol ** columns;
 	ESelectionModel *selection;
 	AtkStateSet *state_set;
@@ -1018,8 +1019,9 @@ eti_init (GalA11yETableItem *a11y)
 
 	priv = GET_PRIVATE (a11y);
 
-	priv->selection_change_id = 0;
-	priv->cursor_change_id = 0;
+	priv->selection_changed_id = 0;
+	priv->selection_row_changed_id = 0;
+	priv->cursor_changed_id = 0;
 	priv->selection = NULL;
 }
 
@@ -1044,6 +1046,9 @@ static void eti_a11y_selection_model_added_cb (ETableItem *eti,
 					       ESelectionModel *selection,
 					       gpointer data);
 static void eti_a11y_selection_changed_cb (ESelectionModel *selection,
+					   GalA11yETableItem *a11y);
+static void eti_a11y_selection_row_changed_cb (ESelectionModel *selection,
+					   gint row,
 					   GalA11yETableItem *a11y);
 static void eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 					gint row, gint col,
@@ -1196,11 +1201,14 @@ gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
 	g_return_val_if_fail (a11y && selection, FALSE);
 
 	priv = GET_PRIVATE (a11y);
-	priv->selection_change_id = g_signal_connect (
-		selection, "selection_changed",
+	priv->selection_changed_id = g_signal_connect (
+		selection, "selection-changed",
 		G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
-	priv->cursor_change_id = g_signal_connect (
-		selection, "cursor_changed",
+	priv->selection_row_changed_id = g_signal_connect (
+		selection, "selection-row-changed",
+		G_CALLBACK (eti_a11y_selection_row_changed_cb), a11y);
+	priv->cursor_changed_id = g_signal_connect (
+		selection, "cursor-changed",
 		G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
 
 	priv->selection = selection;
@@ -1218,17 +1226,22 @@ gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y)
 
 	priv = GET_PRIVATE (a11y);
 
-	g_return_val_if_fail (priv->selection_change_id != 0, FALSE);
-	g_return_val_if_fail (priv->cursor_change_id != 0, FALSE);
+	g_return_val_if_fail (priv->selection_changed_id != 0, FALSE);
+	g_return_val_if_fail (priv->selection_row_changed_id != 0, FALSE);
+	g_return_val_if_fail (priv->cursor_changed_id != 0, FALSE);
 
 	g_signal_handler_disconnect (
 		priv->selection,
-		priv->selection_change_id);
+		priv->selection_changed_id);
 	g_signal_handler_disconnect (
 		priv->selection,
-		priv->cursor_change_id);
-	priv->cursor_change_id = 0;
-	priv->selection_change_id = 0;
+		priv->selection_row_changed_id);
+	g_signal_handler_disconnect (
+		priv->selection,
+		priv->cursor_changed_id);
+	priv->cursor_changed_id = 0;
+	priv->selection_row_changed_id = 0;
+	priv->selection_changed_id = 0;
 
 	g_object_unref (priv->selection);
 	priv->selection = NULL;
@@ -1287,6 +1300,14 @@ eti_a11y_selection_changed_cb (ESelectionModel *selection,
 	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
 
 	g_signal_emit_by_name (a11y, "selection_changed");
+}
+
+static void
+eti_a11y_selection_row_changed_cb (ESelectionModel *selection,
+				   gint row,
+				   GalA11yETableItem *a11y)
+{
+	eti_a11y_selection_changed_cb (selection, a11y);
 }
 
 static void
