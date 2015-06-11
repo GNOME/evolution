@@ -470,18 +470,10 @@ e_cert_get_ca_cert (ECert *ecert)
 gboolean
 e_cert_mark_for_deletion (ECert *cert)
 {
-	/* nsNSSShutDownPreventionLock locker; */
-
-#if 0
-	/* make sure user is logged in to the token */
-	nsCOMPtr < nsIInterfaceRequestor> ctx = new PipUIContext ();
-#endif
-
 	if (PK11_NeedLogin (cert->priv->cert->slot)
 	    && !PK11_NeedUserInit (cert->priv->cert->slot)
 	    && !PK11_IsInternal (cert->priv->cert->slot)) {
-		if (PK11_Authenticate (
-			cert->priv->cert->slot, PR_TRUE, NULL) != SECSuccess) {
+		if (PK11_Authenticate (cert->priv->cert->slot, PR_TRUE, NULL) != SECSuccess) {
 			return FALSE;
 		}
 	}
