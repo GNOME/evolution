@@ -6213,7 +6213,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 					"<br class=\"-x-evo-first-br\">");
 			} else
 				preserve_next_line = FALSE;
-		} else if (first_element) {
+		} else if (first_element && !citation_was_first_element) {
 			paragraph = create_and_append_new_paragraph (
 				selection,
 				document,
