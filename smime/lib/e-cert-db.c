@@ -915,11 +915,17 @@ e_cert_db_delete_cert (ECertDB *certdb,
 
 	CERTCertificate *cert;
 
+	cert = e_cert_get_internal_cert (ecert);
+	if (!cert)
+		return FALSE;
+
+	if (cert->slot && !e_cert_db_login_to_slot (certdb, cert->slot))
+		return FALSE;
+
 	if (!e_cert_mark_for_deletion (ecert)) {
 		return FALSE;
 	}
 
-	cert = e_cert_get_internal_cert (ecert);
 	if (cert->slot && e_cert_get_cert_type (ecert) != E_CERT_USER) {
 		/* To delete a cert of a slot (builtin, most likely), mark it as
 		 * completely untrusted.  This way we keep a copy cached in the
