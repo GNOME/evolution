@@ -493,6 +493,7 @@ enl_tree_button_press_event (GtkWidget *widget,
 	menu = gtk_menu_new ();
 	g_signal_connect (menu, "deactivate", G_CALLBACK (menu_deactivate), list);
 	list->priv->menu = menu;
+	gtk_menu_attach_to_widget (GTK_MENU (menu), widget, NULL);
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, gtk_get_current_event_time ());
 
 	email_num = e_destination_get_email_num (destination);

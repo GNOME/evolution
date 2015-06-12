@@ -874,6 +874,7 @@ subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 			G_CALLBACK (subscription_editor_subscribe_all),
 			editor));
 
+	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
 	gtk_menu_popup (
 		GTK_MENU (menu), NULL, NULL,
 		position_below_widget_cb,
@@ -988,6 +989,7 @@ subscription_editor_unsubscribe_popup_cb (EMSubscriptionEditor *editor)
 			G_CALLBACK (subscription_editor_unsubscribe_all),
 			editor));
 
+	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
 	gtk_menu_popup (
 		GTK_MENU (menu), NULL, NULL,
 		position_below_widget_cb,
