@@ -3644,6 +3644,7 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
                                  gint month_offset)
 {
 	GtkWidget *menu, *submenu, *menuitem, *label;
+	GtkWidget *canvas_widget;
 	gint year, month;
 	const gchar *name;
 	gchar buffer[64];
@@ -3698,6 +3699,8 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 	gdk_event_get_button (button_event, &event_button);
 	event_time = gdk_event_get_time (button_event);
 
+	canvas_widget = GTK_WIDGET (calitem->canvas_item.canvas);
+	gtk_menu_attach_to_widget (GTK_MENU (menu), canvas_widget, NULL);
 	gtk_menu_popup (
 		GTK_MENU (menu), NULL, NULL,
 		e_calendar_item_position_menu, calitem,

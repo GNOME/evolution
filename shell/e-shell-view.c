@@ -1919,6 +1919,10 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 		event_time = gtk_get_current_event_time ();
 	}
 
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+		gtk_menu_attach_to_widget (GTK_MENU (menu),
+					   GTK_WIDGET (shell_window),
+					   NULL);
 	gtk_menu_popup (
 		GTK_MENU (menu),
 		NULL, NULL, NULL, NULL,
