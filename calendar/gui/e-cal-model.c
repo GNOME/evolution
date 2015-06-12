@@ -1167,6 +1167,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 	EClient *client;
 	ECalModelComponent *comp_data;
 	const gchar *source_uid;
+	gchar *display_name;
 	GError *local_error = NULL;
 
 	g_return_if_fail (ccd != NULL);
@@ -1185,7 +1186,9 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 		return;
 	}
 
-	e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
+	display_name = e_util_get_source_full_name (registry, source);
+	e_alert_sink_thread_job_set_alert_arg_0 (job_data, display_name);
+	g_free (display_name);
 
 	client = e_client_cache_get_client_sync (client_cache, source,
 		cal_model_kind_to_extension_name (ccd->model), (guint32) -1, cancellable, &local_error);

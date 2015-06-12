@@ -172,6 +172,7 @@ e_cal_ops_create_component (ECalModel *model,
 	ESource *source;
 	const gchar *description;
 	const gchar *alert_ident;
+	gchar *display_name;
 	BasicOperationData *bod;
 	GCancellable *cancellable;
 
@@ -208,11 +209,13 @@ e_cal_ops_create_component (ECalModel *model,
 	bod->user_data = user_data;
 	bod->user_data_free = user_data_free;
 
+	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
-		e_source_get_display_name (source), cal_ops_create_component_thread,
+		display_name, cal_ops_create_component_thread,
 		bod, basic_operation_data_free);
 
 	g_clear_object (&cancellable);
+	g_free (display_name);
 }
 
 static void
@@ -271,6 +274,7 @@ e_cal_ops_modify_component (ECalModel *model,
 	ESource *source;
 	const gchar *description;
 	const gchar *alert_ident;
+	gchar *display_name;
 	BasicOperationData *bod;
 	GCancellable *cancellable;
 
@@ -307,11 +311,13 @@ e_cal_ops_modify_component (ECalModel *model,
 	bod->send_flags = send_flags;
 	bod->is_modify = TRUE;
 
+	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
-		e_source_get_display_name (source), cal_ops_modify_component_thread,
+		display_name, cal_ops_modify_component_thread,
 		bod, basic_operation_data_free);
 
 	g_clear_object (&cancellable);
+	g_free (display_name);
 }
 
 static void
@@ -375,6 +381,7 @@ e_cal_ops_remove_component (ECalModel *model,
 	ESource *source;
 	const gchar *description;
 	const gchar *alert_ident;
+	gchar *display_name;
 	BasicOperationData *bod;
 	GCancellable *cancellable;
 
@@ -411,11 +418,13 @@ e_cal_ops_remove_component (ECalModel *model,
 	bod->mod = mod;
 	bod->check_detached_instance = check_detached_instance;
 
+	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
-		e_source_get_display_name (source), cal_ops_remove_component_thread,
+		display_name, cal_ops_remove_component_thread,
 		bod, basic_operation_data_free);
 
 	g_clear_object (&cancellable);
+	g_free (display_name);
 }
 
 static void
@@ -569,6 +578,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 	ESourceRegistry *registry;
 	ESource *source;
 	const gchar *uid;
+	gchar *display_name;
 	gboolean success = TRUE, any_copied = FALSE;
 	GError *local_error = NULL;
 
@@ -588,7 +598,9 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 		return;
 	}
 
-	e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
+	display_name = e_util_get_source_full_name (registry, source);
+	e_alert_sink_thread_job_set_alert_arg_0 (job_data, display_name);
+	g_free (display_name);
 
 	client = e_client_cache_get_client_sync (client_cache, source, pcd->extension_name, 30, cancellable, &local_error);
 	g_clear_object (&source);
@@ -809,6 +821,7 @@ e_cal_ops_send_component (ECalModel *model,
 	GCancellable *cancellable;
 	const gchar *alert_ident;
 	const gchar *description;
+	gchar *display_name;
 	SendComponentData *scd;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
@@ -839,12 +852,14 @@ e_cal_ops_send_component (ECalModel *model,
 
 	source = e_client_get_source (E_CLIENT (client));
 	data_model = e_cal_model_get_data_model (model);
+	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
-		e_source_get_display_name (source), cal_ops_send_component_thread,
+		display_name, cal_ops_send_component_thread,
 		scd, send_component_data_free);
 
 	g_clear_object (&cancellable);
+	g_free (display_name);
 }
 
 typedef struct {
@@ -896,7 +911,7 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 	GList *clink;
 	gchar *sexp, *start, *end;
 	gboolean pushed_message = FALSE;
-	const gchar *display_name, *tzloc = NULL;
+	const gchar *tzloc = NULL;
 	icaltimezone *zone;
 	icalcomponent_kind model_kind;
 
@@ -919,12 +934,13 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		ECalClient *client = clink->data;
 		GSList *objects, *olink;
 		gint nobjects, ii, last_percent = 0;
+		gchar *display_name;
 		gboolean success = TRUE;
 
 		if (!client || e_client_is_readonly (E_CLIENT (client)))
 			continue;
 
-		display_name = e_source_get_display_name (e_client_get_source (E_CLIENT (client)));
+		display_name = e_util_get_source_full_name (e_cal_model_get_registry (pcd->model), e_client_get_source (E_CLIENT (client)));
 		e_alert_sink_thread_job_set_alert_arg_0 (job_data, display_name);
 
 		switch (model_kind) {
@@ -942,19 +958,24 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 				break;
 			default:
 				g_warn_if_reached ();
+				g_free (display_name);
 				return;
 		}
 
 		pushed_message = TRUE;
 
-		if (!e_cal_client_get_object_list_sync (client, sexp, &objects, cancellable, error))
+		if (!e_cal_client_get_object_list_sync (client, sexp, &objects, cancellable, error)) {
+			g_free (display_name);
 			break;
+		}
 
 		camel_operation_pop_message (cancellable);
 		pushed_message = FALSE;
 
-		if (!objects)
+		if (!objects) {
+			g_free (display_name);
 			continue;
+		}
 
 		switch (model_kind) {
 			case ICAL_VEVENT_COMPONENT:
@@ -971,9 +992,11 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 				break;
 			default:
 				g_warn_if_reached ();
+				g_free (display_name);
 				return;
 		}
 
+		g_free (display_name);
 		pushed_message = TRUE;
 		nobjects = g_slist_length (objects);
 
@@ -1314,6 +1337,7 @@ e_cal_ops_get_default_component (ECalModel *model,
 	ESource *source = NULL;
 	const gchar *description;
 	const gchar *alert_ident;
+	gchar *display_name = NULL;
 	BasicOperationData *bod;
 	GCancellable *cancellable;
 
@@ -1344,6 +1368,8 @@ e_cal_ops_get_default_component (ECalModel *model,
 
 		registry = e_cal_model_get_registry (model);
 		source = e_source_registry_ref_source (registry, for_client_uid);
+		if (source)
+			display_name = e_util_get_source_full_name (registry, source);
 	}
 
 	bod = g_new0 (BasicOperationData, 1);
@@ -1357,11 +1383,12 @@ e_cal_ops_get_default_component (ECalModel *model,
 	bod->user_data_free = user_data_free;
 
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
-		source ? e_source_get_display_name (source) : "", cal_ops_get_default_component_thread,
+		display_name ? display_name : "", cal_ops_get_default_component_thread,
 		bod, basic_operation_data_free);
 
 	g_clear_object (&cancellable);
 	g_clear_object (&source);
+	g_free (display_name);
 }
 
 static void
@@ -1604,7 +1631,7 @@ e_cal_ops_new_component_ex (EShellWindow *shell_window,
 	ESource *default_source, *for_client_source = NULL;
 	EShell *shell;
 	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
-	const gchar *source_display_name = ""; /* not NULL intentionally */
+	gchar *source_display_name = NULL;
 	const gchar *extension_name;
 	NewComponentData *ncd;
 
@@ -1660,12 +1687,12 @@ e_cal_ops_new_component_ex (EShellWindow *shell_window,
 	ncd->default_reminder_units = default_reminder_units;
 
 	if (for_client_source)
-		source_display_name = e_source_get_display_name (for_client_source);
+		source_display_name = e_util_get_source_full_name (registry, for_client_source);
 	else if (default_source)
-		source_display_name = e_source_get_display_name (default_source);
+		source_display_name = e_util_get_source_full_name (registry, default_source);
 
 	g_warn_if_fail (e_util_get_open_source_job_info (extension_name,
-		source_display_name, &description, &alert_ident, &alert_arg_0));
+		source_display_name ? source_display_name : "", &description, &alert_ident, &alert_arg_0));
 
 	if (shell_window) {
 		EShellView *shell_view;
@@ -1693,6 +1720,7 @@ e_cal_ops_new_component_ex (EShellWindow *shell_window,
 
 	g_clear_object (&default_source);
 	g_clear_object (&for_client_source);
+	g_free (source_display_name);
 	g_free (description);
 	g_free (alert_ident);
 	g_free (alert_arg_0);
@@ -2006,7 +2034,7 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 			       gboolean is_move)
 {
 	gint nobjects;
-	gchar *description;
+	gchar *description, *display_name;
 	const gchar *alert_ident;
 	TransferComponentsData *tcd;
 	GHashTableIter iter;
@@ -2083,10 +2111,12 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 		}
 	}
 
+	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), destination);
 	activity = e_shell_view_submit_thread_job (shell_view, description, alert_ident,
-		e_source_get_display_name (destination), transfer_components_thread, tcd,
+		display_name, transfer_components_thread, tcd,
 		transfer_components_data_free);
 
 	g_clear_object (&activity);
+	g_free (display_name);
 	g_free (description);
 }

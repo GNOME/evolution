@@ -1906,6 +1906,7 @@ itip_send_component (ECalModel *model,
 	ESource *source;
 	const gchar *alert_ident = NULL;
 	const gchar *description = NULL;
+	gchar *display_name;
 	GCancellable *cancellable;
 	ItipSendComponentData *isc;
 
@@ -1960,11 +1961,13 @@ itip_send_component (ECalModel *model,
 	isc->success = FALSE;
 	isc->finished = FALSE;
 
+	display_name = e_util_get_source_full_name (registry, source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
-		e_source_get_display_name (source), itip_send_component_thread,
+		display_name, itip_send_component_thread,
 		isc, itip_send_component_finish_and_free);
 
 	g_clear_object (&cancellable);
+	g_free (display_name);
 }
 
 gboolean

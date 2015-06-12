@@ -2463,10 +2463,18 @@ e_util_open_client_sync (EAlertSinkThreadJobData *job_data,
 {
 	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
 	EClient *client = NULL;
+	ESourceRegistry *registry;
+	gchar *display_name;
 	GError *local_error = NULL;
 
+	registry = e_client_cache_ref_registry (client_cache);
+	display_name = e_util_get_source_full_name (registry, source);
+	g_clear_object (&registry);
+
 	g_warn_if_fail (e_util_get_open_source_job_info (extension_name,
-		e_source_get_display_name (source), &description, &alert_ident, &alert_arg_0));
+		display_name, &description, &alert_ident, &alert_arg_0));
+
+	g_free (display_name);
 
 	camel_operation_push_message (cancellable, "%s", description);
 

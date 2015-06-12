@@ -552,7 +552,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		EShellView *shell_view;
 		EActivity *activity;
 		gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
-		const gchar *source_display_name = ""; /* not NULL intentionally */
+		gchar *source_display_name = NULL;
 
 		hud = g_new0 (HandleUriData, 1);
 		hud->shell_backend = g_object_ref (shell_backend);
@@ -566,13 +566,13 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		registry = e_shell_get_registry (shell);
 		source = e_source_registry_ref_source (registry, source_uid);
 		if (source)
-			source_display_name = e_source_get_display_name (source);
+			source_display_name = e_util_get_source_full_name (registry, source);
 
 		shell_view = e_shell_window_get_shell_view (shell_window,
 			e_shell_window_get_active_view (shell_window));
 
 		g_warn_if_fail (e_util_get_open_source_job_info (extension_name,
-			source_display_name, &description, &alert_ident, &alert_arg_0));
+			source_display_name ? source_display_name : "", &description, &alert_ident, &alert_arg_0));
 
 		activity = e_shell_view_submit_thread_job (
 			shell_view, description, alert_ident, alert_arg_0,
@@ -580,6 +580,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 
 		g_clear_object (&activity);
 		g_clear_object (&source);
+		g_free (source_display_name);
 		g_free (description);
 		g_free (alert_ident);
 		g_free (alert_arg_0);
