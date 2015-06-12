@@ -674,15 +674,18 @@ shell_source_invoke_authenticate_cb (GObject *source_object,
 		/* Can be cancelled only if the shell is disposing/disposed */
 		if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			EAlert *alert;
+			gchar *display_name;
 
 			g_return_if_fail (E_IS_SHELL (shell));
 
+			display_name = e_util_get_source_full_name (shell->priv->registry, source);
 			alert = e_alert_new ("shell:source-invoke-authenticate-failed",
-				e_source_get_display_name (source),
+				display_name,
 				error->message,
 				NULL);
 			e_shell_submit_alert (shell, alert);
 			g_object_unref (alert);
+			g_free (display_name);
 		}
 
 		g_clear_error (&error);
@@ -712,15 +715,18 @@ shell_trust_prompt_done_cb (GObject *source_object,
 		/* Can be cancelled only if the shell is disposing/disposed */
 		if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			EAlert *alert;
+			gchar *display_name;
 
 			g_return_if_fail (E_IS_SHELL (shell));
 
+			display_name = e_util_get_source_full_name (shell->priv->registry, source);
 			alert = e_alert_new ("shell:source-trust-prompt-failed",
-				e_source_get_display_name (source),
+				display_name,
 				error->message,
 				NULL);
 			e_shell_submit_alert (shell, alert);
 			g_object_unref (alert);
+			g_free (display_name);
 		}
 
 		g_clear_error (&error);
@@ -759,15 +765,18 @@ shell_credentials_prompt_done_cb (GObject *source_object,
 			shell_source_invoke_authenticate_cb, shell);
 	} else if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		EAlert *alert;
+		gchar *display_name;
 
 		g_return_if_fail (E_IS_SHELL (shell));
 
+		display_name = e_util_get_source_full_name (shell->priv->registry, source);
 		alert = e_alert_new ("shell:source-credentials-prompt-failed",
-			e_source_get_display_name (source),
+			display_name,
 			error->message,
 			NULL);
 		e_shell_submit_alert (shell, alert);
 		g_object_unref (alert);
+		g_free (display_name);
 	}
 
 	e_named_parameters_free (credentials);
@@ -955,11 +964,14 @@ shell_process_credentials_required_errors (EShell *shell,
 
 	if (reason == E_SOURCE_CREDENTIALS_REASON_ERROR) {
 		EAlert *alert;
+		gchar *display_name;
 
+		display_name = e_util_get_source_full_name (shell->priv->registry, source);
 		alert = e_alert_new (shell_get_connection_error_tag_for_source (source),
-				e_source_get_display_name (source),
+				display_name,
 				op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
 				NULL);
+		g_free (display_name);
 
 		g_signal_connect (alert, "response", G_CALLBACK (shell_connection_error_alert_response_cb), shell);
 		g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
@@ -973,14 +985,17 @@ shell_process_credentials_required_errors (EShell *shell,
 			/* Only show an alert */
 			EAlert *alert;
 			gchar *cert_errors_str;
+			gchar *display_name;
 
 			cert_errors_str = e_trust_prompt_describe_certificate_errors (certificate_errors);
 
+			display_name = e_util_get_source_full_name (shell->priv->registry, source);
 			alert = e_alert_new (shell_get_connection_trust_error_tag_for_source (source),
-					e_source_get_display_name (source),
+					display_name,
 					(cert_errors_str && *cert_errors_str) ? cert_errors_str :
 					op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
 					NULL);
+			g_free (display_name);
 
 			g_signal_connect (alert, "response", G_CALLBACK (shell_connect_trust_error_alert_response_cb), shell);
 
@@ -1003,11 +1018,14 @@ shell_process_credentials_required_errors (EShell *shell,
 	} else if (reason == E_SOURCE_CREDENTIALS_REASON_REQUIRED ||
 		   reason == E_SOURCE_CREDENTIALS_REASON_REJECTED) {
 		EAlert *alert;
+		gchar *display_name;
 
+		display_name = e_util_get_source_full_name (shell->priv->registry, source);
 		alert = e_alert_new (shell_get_connection_error_tag_for_source (source),
-				e_source_get_display_name (source),
+				display_name,
 				op_error && *(op_error->message) ? op_error->message : _("Credentials are required to connect to the destination host."),
 				NULL);
+		g_free (display_name);
 
 		g_signal_connect (alert, "response", G_CALLBACK (shell_connection_error_alert_response_cb), shell);
 		g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
@@ -1041,15 +1059,18 @@ shell_get_last_credentials_required_arguments_cb (GObject *source_object,
 		/* Can be cancelled only if the shell is disposing/disposed */
 		if (error && !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			EAlert *alert;
+			gchar *display_name;
 
 			g_return_if_fail (E_IS_SHELL (shell));
 
+			display_name = e_util_get_source_full_name (shell->priv->registry, source);
 			alert = e_alert_new ("shell:source-get-values-failed",
-				e_source_get_display_name (source),
+				display_name,
 				error->message,
 				NULL);
 			e_shell_submit_alert (shell, alert);
 			g_object_unref (alert);
+			g_free (display_name);
 		}
 
 		g_clear_error (&error);

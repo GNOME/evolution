@@ -344,7 +344,7 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 	OpenClientData *data;
 	EShellView *shell_view;
 	EActivity *activity;
-	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
+	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL, *display_name;
 	const gchar *extension_name = NULL;
 
 	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
@@ -367,11 +367,16 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 			return;
 	}
 
-	if (!e_util_get_open_source_job_info (extension_name, e_source_get_display_name (source),
+	display_name = e_util_get_source_full_name (e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view))), source);
+
+	if (!e_util_get_open_source_job_info (extension_name, display_name,
 		&description, &alert_ident, &alert_arg_0)) {
+		g_free (display_name);
 		g_warn_if_reached ();
 		return;
 	}
+
+	g_free (display_name);
 
 	data = g_new0 (OpenClientData, 1);
 	data->extension_name = extension_name; /* no need to copy, it's a static string */
@@ -511,7 +516,8 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	gchar **segments;
 	gchar *source_uid = NULL;
 	gchar *message = NULL;
-	const gchar *display_name, *alert_ident = NULL;
+	gchar *display_name = NULL;
+	const gchar *alert_ident = NULL;
 	const guchar *data;
 	gboolean do_copy;
 	TransferItemToData *titd;
@@ -538,7 +544,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	if (!source)
 		goto exit;
 
-	display_name = e_source_get_display_name (destination);
+	display_name = e_util_get_source_full_name (registry, destination);
 	do_copy = action == GDK_ACTION_COPY ? TRUE : FALSE;
 	shell_view = e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (sidebar));
 
@@ -588,6 +594,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	g_clear_object (&source);
 	g_free (message);
 	g_free (source_uid);
+	g_free (display_name);
 	g_strfreev (segments);
 
 	return TRUE;

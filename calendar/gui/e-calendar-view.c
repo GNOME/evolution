@@ -798,6 +798,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 	ECalClient *client = NULL;
 	const gchar *message;
 	const gchar *extension_name;
+	gchar *display_name;
 	guint copied_components = 1;
 	gboolean all_day;
 	GError *local_error = NULL;
@@ -850,7 +851,9 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 		return;
 	}
 
-	e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
+	display_name = e_util_get_source_full_name (registry, source);
+	e_alert_sink_thread_job_set_alert_arg_0 (job_data, display_name);
+	g_free (display_name);
 	client_cache = e_cal_model_get_client_cache (model);
 
 	e_client = e_client_cache_get_client_sync (client_cache, source, extension_name, 30, cancellable, &local_error);

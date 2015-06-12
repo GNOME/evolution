@@ -1790,7 +1790,7 @@ e_shell_window_connect_client (EShellWindow *shell_window,
 	ConnectClientData *cc_data;
 	EShellView *shell_view;
 	EActivity *activity;
-	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
+	gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL, *display_name;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -1802,11 +1802,16 @@ e_shell_window_connect_client (EShellWindow *shell_window,
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	if (!e_util_get_open_source_job_info (extension_name, e_source_get_display_name (source),
+	display_name = e_util_get_source_full_name (e_shell_get_registry (e_shell_backend_get_shell (e_shell_view_get_shell_backend (shell_view))), source);
+
+	if (!e_util_get_open_source_job_info (extension_name, display_name,
 		&description, &alert_ident, &alert_arg_0)) {
+		g_free (display_name);
 		g_warn_if_reached ();
 		return;
 	}
+
+	g_free (display_name);
 
 	cc_data = g_new0 (ConnectClientData, 1);
 	cc_data->shell_window = g_object_ref (shell_window);

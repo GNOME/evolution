@@ -231,7 +231,7 @@ copy_source_dialog (GtkWindow *parent,
 		CopySourceData *csd;
 		GCancellable *cancellable;
 		ECalDataModel *data_model;
-		const gchar *alert_arg_0;
+		gchar *display_name;
 		gchar *description;
 
 		csd = g_new0 (CopySourceData, 1);
@@ -241,14 +241,15 @@ copy_source_dialog (GtkWindow *parent,
 		csd->to_client = NULL;
 		csd->extension_name = extension_name;
 
-		alert_arg_0 = e_source_get_display_name (to_source);
-		description = g_strdup_printf (format, alert_arg_0);
+		display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), to_source);
+		description = g_strdup_printf (format, display_name);
 		data_model = e_cal_model_get_data_model (model);
 
-		cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident, alert_arg_0,
+		cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident, display_name,
 			copy_source_thread, csd, copy_source_data_free);
 
 		g_clear_object (&cancellable);
+		g_free (display_name);
 		g_free (description);
 	}
 
