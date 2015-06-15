@@ -84,6 +84,34 @@ get_dtend (ECalModelCalendar *model,
 		if (!icaltime_is_valid_time (tt_end) || icaltime_is_null_time (tt_end))
 			return NULL;
 
+		if (tt_end.is_date && icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY)) {
+			struct icaltimetype tt_start;
+			icaltimezone *start_zone = NULL;
+			gboolean got_start_zone = FALSE;
+
+			tt_start = icalproperty_get_dtstart (prop);
+
+			if (icaltime_get_tzid (tt_start)
+			    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_start), &start_zone, NULL, NULL))
+				got_start_zone = TRUE;
+
+			if (got_start_zone) {
+				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, start_zone);
+				if (model_zone)
+					icaltimezone_convert_time (&tt_start, start_zone, model_zone);
+			} else {
+				tt_start = icaltime_from_timet_with_zone (
+					comp_data->instance_start,
+					tt_start.is_date, model_zone);
+			}
+
+			icaltime_adjust (&tt_start, 1, 0, 0, 0);
+
+			/* Decrease by a day only if the DTSTART will still be before, or the same as, DTEND */
+			if (icaltime_compare (tt_start, tt_end) <= 0)
+				icaltime_adjust (&tt_end, -1, 0, 0, 0);
+		}
+
 		comp_data->dtend = g_new0 (ECellDateEditValue, 1);
 		comp_data->dtend->tt = tt_end;
 
