@@ -3292,13 +3292,19 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (!editing_event) {
 		if (!short_event) {
-			const gchar *location;
+			const gchar *description, *location;
 			gint days_shown;
 
 			days_shown = e_day_view_get_days_shown (day_view);
+			description = icalcomponent_get_description (event->comp_data->icalcomp);
 			location = icalcomponent_get_location (event->comp_data->icalcomp);
 
-			if (location && *location)
+			if (description && *description) {
+				if (location && *location)
+					text = g_strdup_printf (" \n%s%c(%s)\n\n%s", text, days_shown == 1 ? ' ' : '\n', location, description);
+				else
+					text = g_strdup_printf (" \n%s\n\n%s", text, description);
+			} else if (location && *location)
 				text = g_strdup_printf (" \n%s%c(%s)", text, days_shown == 1 ? ' ' : '\n', location);
 			else
 				text = g_strdup_printf (" \n%s", text);
