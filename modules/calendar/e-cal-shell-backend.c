@@ -152,7 +152,7 @@ cal_shell_backend_handle_uri_start_end_dates (EShellBackend *shell_backend,
 	if (g_date_valid (end_date))
 		e_cal_shell_backend_open_date_range (E_CAL_SHELL_BACKEND (shell_backend), start_date, end_date);
 	else
-		e_cal_shell_backend_open_date_range (E_CAL_SHELL_BACKEND (shell_backend), start_date, NULL);
+		e_cal_shell_backend_open_date_range (E_CAL_SHELL_BACKEND (shell_backend), start_date, start_date);
 }
 
 static gboolean
