@@ -1627,7 +1627,7 @@ get_label (struct icaltimetype *tt,
 
 	tmp_tm = icaltimetype_to_tm_with_zone (tt, f_zone, t_zone);
 
-	return e_datetime_format_format_tm ("calendar", "table", DTFormatKindDateTime, &tmp_tm);
+	return e_datetime_format_format_tm ("calendar", "table", tt->is_date ? DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
 }
 
 void
