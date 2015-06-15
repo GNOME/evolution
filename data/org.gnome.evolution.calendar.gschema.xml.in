@@ -125,7 +125,7 @@
       <_description>Whether to show RSVP field in the event/task/meeting editor</_description>
     </key>
     <key name="editor-show-status" type="b">
-      <default>false</default>
+      <default>true</default>
       <_summary>Show status field in the event/task/meeting editor</_summary>
       <_description>Whether to show status field in the event/task/meeting editor</_description>
     </key>
