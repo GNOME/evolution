@@ -3582,6 +3582,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	    && week_view->editing_span_num == span_num) {
 		show_icons = FALSE;
 		use_max_width = TRUE;
+	} else if (e_week_view_get_multi_week_view (week_view)) {
+		show_icons = FALSE;
 	}
 
 	/* Calculate how many icons we need to show. */
