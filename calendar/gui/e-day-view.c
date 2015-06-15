@@ -3196,8 +3196,8 @@ e_day_view_remove_event_cb (EDayView *day_view,
 
 /* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
 static void
-set_text_as_bold (EDayViewEvent *event,
-                  ESourceRegistry *registry)
+set_style_from_attendee (EDayViewEvent *event,
+			 ESourceRegistry *registry)
 {
 	ECalComponent *comp;
 	GSList *attendees = NULL, *l;
@@ -3227,6 +3227,12 @@ set_text_as_bold (EDayViewEvent *event,
 	 * In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
+	else if (at && at->status == ICAL_PARTSTAT_DECLINED)
+		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
+	else if (at && at->status == ICAL_PARTSTAT_TENTATIVE)
+		gnome_canvas_item_set (event->canvas_item, "italic", TRUE, NULL);
+	else if (at && at->status == ICAL_PARTSTAT_DELEGATED)
+		gnome_canvas_item_set (event->canvas_item, "italic", TRUE, "strikeout", TRUE, NULL);
 
 	e_cal_component_free_attendee_list (attendees);
 	g_free (address);
@@ -3306,9 +3312,8 @@ e_day_view_update_event_label (EDayView *day_view,
 		"text", text,
 		NULL);
 
-	if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
-				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
-		set_text_as_bold (event, registry);
+	if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
+		set_style_from_attendee (event, registry);
 
 	if (free_text)
 		g_free (text);
@@ -3350,9 +3355,8 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	if (free_text)
 		g_free ((gchar *) summary);
 
-	if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
-				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
-		set_text_as_bold (event, registry);
+	if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
+		set_style_from_attendee (event, registry);
 }
 
 /* Finds the day and index of the event with the given canvas item.
