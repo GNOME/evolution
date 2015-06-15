@@ -47,8 +47,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
 "ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-05-29 04:30+0000\n"
-"PO-Revision-Date: 2015-05-30 17:12+0300\n"
+"POT-Creation-Date: 2015-06-12 13:05+0000\n"
+"PO-Revision-Date: 2015-06-13 11:08+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: www.gnome.gr\n"
 "Language: el\n"
@@ -246,7 +246,7 @@ msgstr ""
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
 #: ../mail/em-vfolder-editor-rule.c:396 ../mail/em-vfolder-editor-rule.c:625
 #: ../mail/mail-config.ui.h:55 ../modules/mail/em-composer-prefs.c:417
-#: ../plugins/attachment-reminder/attachment-reminder.c:557
+#: ../plugins/attachment-reminder/attachment-reminder.c:438
 #: ../plugins/email-custom-header/email-custom-header.c:839
 #: ../plugins/publish-calendar/publish-calendar.ui.h:32
 #: ../plugins/templates/templates.c:453
@@ -286,7 +286,7 @@ msgstr ""
 "οπωσδήποτε να προστεθεί;"
 
 #: ../addressbook/addressbook.error.xml.h:41
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1251
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1252
 msgid "Failed to delete contact"
 msgstr "Αποτυχία διαγραφής επαφής"
 
@@ -483,7 +483,7 @@ msgstr "Ε_πέτειος:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:875
-#: ../calendar/gui/e-calendar-view.c:1998
+#: ../calendar/gui/e-calendar-view.c:2001
 msgid "Anniversary"
 msgstr "Επέτειος"
 
@@ -494,7 +494,7 @@ msgstr "Επέτειος"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:874
-#: ../calendar/gui/e-calendar-view.c:1997 ../shell/main.c:127
+#: ../calendar/gui/e-calendar-view.c:2000 ../shell/main.c:127
 msgid "Birthday"
 msgstr "Γενέθλια"
 
@@ -550,7 +550,7 @@ msgstr "Εργασία"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:83
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:512
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:909
-#: ../calendar/gui/e-cal-model.c:3034
+#: ../calendar/gui/e-cal-model.c:3037
 msgid "Other"
 msgstr "Άλλο"
 
@@ -587,7 +587,7 @@ msgstr "Επιλογές"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:474
 #: ../addressbook/gui/widgets/eab-contact-merging.c:718
 #: ../addressbook/gui/widgets/eab-gui-util.c:318
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1331
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1332
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:2
@@ -599,7 +599,7 @@ msgstr "Επιλογές"
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
-#: ../e-util/e-html-editor-actions.c:616 ../e-util/e-html-editor-actions.c:710
+#: ../e-util/e-html-editor-actions.c:616 ../e-util/e-html-editor-actions.c:711
 #: ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
@@ -607,7 +607,7 @@ msgstr "Επιλογές"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3224
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3229
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -617,15 +617,15 @@ msgstr "Επιλογές"
 #: ../modules/backup-restore/evolution-backup-tool.c:899
 #: ../modules/calendar/e-cal-attachment-handler.c:285
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
-#: ../plugins/face/face.c:291
+#: ../plugins/face/face.c:297
 #: ../plugins/publish-calendar/publish-calendar.c:790
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
 #: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:70
-#: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:652
-#: ../smime/gui/certificate-manager.c:729
-#: ../smime/gui/certificate-manager.c:953
-#: ../smime/gui/certificate-manager.c:1335 ../smime/gui/e-cert-selector.c:237
+#: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:654
+#: ../smime/gui/certificate-manager.c:731
+#: ../smime/gui/certificate-manager.c:955
+#: ../smime/gui/certificate-manager.c:1337 ../smime/gui/e-cert-selector.c:237
 #: ../smime/gui/smime-ui.ui.h:23
 msgid "_Cancel"
 msgstr "Άκ_υρο"
@@ -637,11 +637,11 @@ msgstr "Άκ_υρο"
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3225
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3230
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
-#: ../smime/gui/certificate-manager.c:653
-#: ../smime/gui/certificate-manager.c:730
+#: ../smime/gui/certificate-manager.c:655
+#: ../smime/gui/certificate-manager.c:732
 msgid "_Save"
 msgstr "_Αποθήκευση"
 
@@ -687,7 +687,7 @@ msgstr "Εμφάνιση σημειώσεων"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
-#: ../e-util/e-html-editor-actions.c:1131
+#: ../e-util/e-html-editor-actions.c:1134
 msgid "_Undo"
 msgstr "Α_ναίρεση"
 
@@ -698,7 +698,7 @@ msgstr "Αναίρεση"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/dialogs/comp-editor.c:1305
-#: ../e-util/e-html-editor-actions.c:1117
+#: ../e-util/e-html-editor-actions.c:1120
 msgid "_Redo"
 msgstr "Ακύ_ρωση αναίρεσης"
 
@@ -732,9 +732,9 @@ msgstr "Παρακαλώ επιλέξτε μια εικόνα για αυτή τ
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3684
 #: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
-#: ../e-util/e-html-editor-actions.c:617 ../e-util/e-html-editor-actions.c:711
-#: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:292
-#: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:954
+#: ../e-util/e-html-editor-actions.c:617 ../e-util/e-html-editor-actions.c:712
+#: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
+#: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:956
 msgid "_Open"
 msgstr "Ά_νοιγμα"
 
@@ -786,7 +786,7 @@ msgstr "Μη έγκυρη επαφή."
 #: ../e-util/e-attachment-dialog.c:313 ../e-util/e-categories-dialog.c:83
 #: ../e-util/e-category-editor.c:209 ../e-util/e-charset-combo-box.c:102
 #: ../e-util/e-color-chooser-widget.c:128 ../e-util/e-filter-datespec.c:292
-#: ../e-util/e-html-editor-link-dialog.c:388 ../e-util/e-passwords.c:471
+#: ../e-util/e-html-editor-link-dialog.c:436 ../e-util/e-passwords.c:471
 #: ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
 #: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
@@ -799,7 +799,7 @@ msgstr "Μη έγκυρη επαφή."
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../plugins/publish-calendar/url-editor-dialog.c:422
 #: ../shell/e-shell-content.c:661 ../shell/e-shell-content.c:767
-#: ../shell/main.c:168 ../smime/gui/certificate-manager.c:1336
+#: ../shell/main.c:168 ../smime/gui/certificate-manager.c:1338
 #: ../smime/gui/e-cert-selector.c:238 ../smime/gui/smime-ui.ui.h:24
 msgid "_OK"
 msgstr "_Εντάξει"
@@ -933,7 +933,7 @@ msgstr "Αφαίρεση μιας διεύθυνσης αλληλογραφία�
 #: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
 #: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
 #: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:56
-#: ../plugins/attachment-reminder/attachment-reminder.c:567
+#: ../plugins/attachment-reminder/attachment-reminder.c:448
 #: ../plugins/email-custom-header/email-custom-header.c:849
 #: ../plugins/publish-calendar/publish-calendar.c:791
 #: ../plugins/publish-calendar/publish-calendar.ui.h:34
@@ -1393,54 +1393,54 @@ msgstr "Η αναζήτηση διακόπηκε"
 msgid "Error modifying card"
 msgstr "Σφάλμα τροποποίησης κάρτας"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:648
+#: ../addressbook/gui/widgets/e-addressbook-view.c:649
 msgid "Cut selected contacts to the clipboard"
 msgstr "Αποκοπή επιλεγμένου επαφών στο πρόχειρο"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:654
+#: ../addressbook/gui/widgets/e-addressbook-view.c:655
 msgid "Copy selected contacts to the clipboard"
 msgstr "Αντιγραφή επιλεγμένου επαφών στο πρόχειρο"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:660
+#: ../addressbook/gui/widgets/e-addressbook-view.c:661
 msgid "Paste contacts from the clipboard"
 msgstr "Επικόλληση επαφών από το πρόχειρο"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:666
+#: ../addressbook/gui/widgets/e-addressbook-view.c:667
 #: ../modules/addressbook/e-book-shell-view-actions.c:995
 msgid "Delete selected contacts"
 msgstr "Διαγραφή επιλεγμένων επαφών"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:672
+#: ../addressbook/gui/widgets/e-addressbook-view.c:673
 msgid "Select all visible contacts"
 msgstr "Επιλογή όλων των ορατών επαφών"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1299
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1300
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφούν αυτές οι λίστες επαφών;"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1303
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1304
 msgid "Are you sure you want to delete this contact list?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί αυτή η λίστα επαφών;"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1307
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1308
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί η λίστα επαφών (%s);"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1313
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1314
 msgid "Are you sure you want to delete these contacts?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφούν αυτές οι επαφές;"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1317
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1318
 msgid "Are you sure you want to delete this contact?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί αυτή η επαφή;"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1321
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1322
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί η επαφή (%s);"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1332
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1333
 #: ../calendar/gui/dialogs/comp-editor.c:1242 ../e-util/e-focus-tracker.c:785
 #: ../e-util/evolution-source-viewer.c:805
 #: ../mail/e-mail-account-manager.c:736
@@ -1450,12 +1450,12 @@ msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί η
 #: ../modules/calendar/e-task-shell-view-actions.c:788
 #: ../modules/mail/e-mail-shell-view-actions.c:1680
 #: ../shell/e-shell-window-actions.c:943
-#: ../smime/gui/certificate-manager.c:1659 ../smime/gui/smime-ui.ui.h:10
+#: ../smime/gui/certificate-manager.c:1661 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
 msgstr "_Διαγραφή"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1477
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1478
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -1470,11 +1470,11 @@ msgstr[1] ""
 "Ανοίγοντας %d επαφές θα γίνει άνοιγμα %d νέων παραθύρων.\n"
 "Θέλετε να εμφανίσετε όλες αυτές τις επαφές;"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1485
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1486
 msgid "_Don't Display"
 msgstr "Ό_χι εμφάνιση"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1486
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1487
 msgid "Display _All Contacts"
 msgstr "Εμφάνιση ό_λων των επαφών"
 
@@ -1648,19 +1648,19 @@ msgstr "Με_γέθυνση"
 
 #. Zoom-out button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:420
-#: ../mail/e-mail-reader.c:2365
+#: ../mail/e-mail-reader.c:2366
 msgid "Zoom _Out"
 msgstr "Σ_μίκρυνση"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:2110
+#: ../e-util/e-html-editor-actions.c:2113
 #: ../e-util/e-html-editor-find-dialog.c:195
 #: ../shell/e-shell-window-actions.c:1020
 msgid "_Find"
 msgstr "Ανεύ_ρεση"
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:190
+#: ../addressbook/gui/widgets/e-minicard-view.c:188
 msgid ""
 "\n"
 "\n"
@@ -1670,7 +1670,7 @@ msgstr ""
 "\n"
 "Αναζήτηση για τις Επαφές..."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:193
+#: ../addressbook/gui/widgets/e-minicard-view.c:191
 msgid ""
 "\n"
 "\n"
@@ -1684,7 +1684,7 @@ msgstr ""
 "\n"
 "ή διπλό κλικ εδώ για να δημιουργήσετε μια νέα επαφή."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:196
+#: ../addressbook/gui/widgets/e-minicard-view.c:194
 msgid ""
 "\n"
 "\n"
@@ -1698,7 +1698,7 @@ msgstr ""
 "\n"
 "Κάντε διπλό κλικ εδώ για να προσθέσετε μια νέα Επαφή."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:200
+#: ../addressbook/gui/widgets/e-minicard-view.c:198
 msgid ""
 "\n"
 "\n"
@@ -1708,7 +1708,7 @@ msgstr ""
 "\n"
 "Αναζήτηση για την Επαφή."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:202
+#: ../addressbook/gui/widgets/e-minicard-view.c:200
 msgid ""
 "\n"
 "\n"
@@ -1964,6 +1964,7 @@ msgid "Start time"
 msgstr "Χρόνος έναρξης"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:1
+#: ../calendar/alarm-notify/alarm-queue.c:1913
 msgid "Appointments"
 msgstr "Συναντήσεις"
 
@@ -1981,11 +1982,11 @@ msgstr "Χρονική _μετάθεση υπενθύμισης"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-html-editor-actions.c:1140
+#: ../e-util/e-html-editor-actions.c:1143
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:171
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:60
-#: ../plugins/attachment-reminder/attachment-reminder.c:562
+#: ../plugins/attachment-reminder/attachment-reminder.c:443
 #: ../plugins/email-custom-header/email-custom-header.c:844
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1071
@@ -2002,8 +2003,8 @@ msgid "_Dismiss"
 msgstr "_Ακύρωση"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../calendar/alarm-notify/alarm-queue.c:1860
-#: ../calendar/alarm-notify/alarm-queue.c:1870
+#: ../calendar/alarm-notify/alarm-queue.c:1877
+#: ../calendar/alarm-notify/alarm-queue.c:1887
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:248
 #: ../modules/itip-formatter/itip-view.c:1516
 #: ../modules/itip-formatter/itip-view.c:1627
@@ -2044,7 +2045,7 @@ msgid "minutes"
 msgstr "λεπτά"
 
 #: ../calendar/alarm-notify/alarm-queue.c:1703
-#: ../calendar/alarm-notify/alarm-queue.c:1840
+#: ../calendar/alarm-notify/alarm-queue.c:1857
 msgid "No summary available."
 msgstr "Δεν υπάρχει διαθέσιμη περίληψη."
 
@@ -2058,8 +2059,8 @@ msgid "No location information available."
 msgstr "Δεν υπάρχουν διαθέσιμες πληροφορίες τοποθεσίας."
 
 #: ../calendar/alarm-notify/alarm-queue.c:1727
-#: ../calendar/alarm-notify/alarm-queue.c:1831
-#: ../calendar/alarm-notify/alarm-queue.c:2178
+#: ../calendar/alarm-notify/alarm-queue.c:1848
+#: ../calendar/alarm-notify/alarm-queue.c:2203
 msgid "Evolution Reminders"
 msgstr "Υπενθυμίσεις Evolution"
 
@@ -2070,21 +2071,21 @@ msgid_plural "You have %d reminders"
 msgstr[0] "Έχετε %d υπόμνηση"
 msgstr[1] "Έχετε %d υπομνήσεις"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1996
+#: ../calendar/alarm-notify/alarm-queue.c:2021
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1997 ../mail/mail-dialogs.ui.h:21
+#: ../calendar/alarm-notify/alarm-queue.c:2022 ../mail/mail-dialogs.ui.h:21
 #: ../modules/mailto-handler/evolution-mailto-handler.c:114
 msgid "_No"
 msgstr "Ό_χι"
 
-#: ../calendar/alarm-notify/alarm-queue.c:1998
+#: ../calendar/alarm-notify/alarm-queue.c:2023
 #: ../modules/mailto-handler/evolution-mailto-handler.c:115
 msgid "_Yes"
 msgstr "_Ναι"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2002
+#: ../calendar/alarm-notify/alarm-queue.c:2027
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2101,7 +2102,7 @@ msgstr ""
 "\n"
 "Είστε βέβαιοι για την εκτέλεση του προγράμματος;"
 
-#: ../calendar/alarm-notify/alarm-queue.c:2017
+#: ../calendar/alarm-notify/alarm-queue.c:2042
 msgid "Do not ask me about this program again."
 msgstr "Να μην ξαναγίνει η ερώτηση για αυτό το πρόγραμμα."
 
@@ -3112,10 +3113,10 @@ msgstr "Αδύνατος ο συγχρονισμός με τον διακομι�
 #: ../e-util/e-mail-signature-editor.c:295
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:388
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:127
-#: ../mail/em-folder-properties.c:418 ../mail/em-subscription-editor.c:1714
+#: ../mail/em-folder-properties.c:418 ../mail/em-subscription-editor.c:1716
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:342 ../shell/e-shell-window-actions.c:908
-#: ../smime/gui/certificate-manager.c:2064
+#: ../smime/gui/certificate-manager.c:2066
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
@@ -3125,7 +3126,7 @@ msgstr "Κλείσιμο του τρέχοντος παραθύρου"
 
 #. copy menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775
-#: ../e-util/e-html-editor-actions.c:1096 ../e-util/e-text.c:2089
+#: ../e-util/e-html-editor-actions.c:1099 ../e-util/e-text.c:2089
 #: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:134
 #: ../mail/mail.error.xml.h:138 ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
@@ -3141,7 +3142,7 @@ msgstr "Αντιγραφή της επιλογής"
 
 #. cut menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770
-#: ../e-util/e-html-editor-actions.c:1103 ../e-util/e-text.c:2075
+#: ../e-util/e-html-editor-actions.c:1106 ../e-util/e-text.c:2075
 #: ../mail/e-mail-browser.c:141 ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "_Αποκοπή"
@@ -3165,7 +3166,7 @@ msgstr "Προβολή βοήθειας"
 
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780
-#: ../e-util/e-html-editor-actions.c:1110 ../e-util/e-text.c:2101
+#: ../e-util/e-html-editor-actions.c:1113 ../e-util/e-text.c:2101
 #: ../mail/e-mail-browser.c:148 ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "Επι_κόλληση"
@@ -3178,13 +3179,13 @@ msgid "Paste the clipboard"
 msgstr "Επικόλληση του προχείρου"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1263
-#: ../composer/e-composer-actions.c:388 ../mail/e-mail-reader.c:2267
+#: ../composer/e-composer-actions.c:388 ../mail/e-mail-reader.c:2268
 #: ../modules/addressbook/e-book-shell-view-actions.c:1205
 #: ../modules/addressbook/e-book-shell-view-actions.c:1219
 msgid "_Print..."
 msgstr "_Εκτύπωση..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1270 ../mail/e-mail-reader.c:2274
+#: ../calendar/gui/dialogs/comp-editor.c:1270 ../mail/e-mail-reader.c:2275
 #: ../modules/addressbook/e-book-shell-view-actions.c:1212
 #: ../modules/calendar/e-cal-shell-view-actions.c:1642
 #: ../modules/calendar/e-memo-shell-view-actions.c:764
@@ -3206,7 +3207,7 @@ msgid "Save current changes and close editor"
 msgstr "Αποθήκευση τρεχουσών αλλαγών και κλείσιμο επεξεργαστή"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790
-#: ../e-util/e-html-editor-actions.c:1124 ../e-util/e-web-view.c:387
+#: ../e-util/e-html-editor-actions.c:1127 ../e-util/e-web-view.c:387
 #: ../mail/e-mail-browser.c:155 ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Επιλογή ό_λων"
@@ -3222,14 +3223,14 @@ msgid "_Classification"
 msgstr "Δια_βάθμιση"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1328
-#: ../e-util/e-html-editor-actions.c:1147
+#: ../e-util/e-html-editor-actions.c:1150
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:164
 #: ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Αρχείο"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1342
-#: ../e-util/e-html-editor-actions.c:1168
+#: ../e-util/e-html-editor-actions.c:1171
 msgid "_Insert"
 msgstr "_Εισαγωγή"
 
@@ -3239,9 +3240,9 @@ msgid "_Options"
 msgstr "Επι_λογές"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
-#: ../e-util/e-html-editor-actions.c:1189 ../mail/e-mail-browser.c:178
+#: ../e-util/e-html-editor-actions.c:1192 ../mail/e-mail-browser.c:178
 #: ../shell/e-shell-window-actions.c:1121
-#: ../smime/gui/certificate-manager.c:1649 ../smime/gui/smime-ui.ui.h:5
+#: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Προβολή"
 
@@ -3355,7 +3356,7 @@ msgid "Validation error: %s"
 msgstr "Σφάλμα πιστοποίησης: %s"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:129
-#: ../calendar/gui/e-cal-ops.c:1940
+#: ../calendar/gui/e-cal-ops.c:1968
 msgid "Destination is read only"
 msgstr "Ο προορισμός είναι μόνο για ανάγνωση"
 
@@ -3600,7 +3601,7 @@ msgstr "_Τοποθεσία:"
 #: ../calendar/gui/dialogs/task-page.ui.h:29
 #: ../e-util/e-attachment-dialog.c:356
 #: ../e-util/e-html-editor-image-dialog.c:558
-#: ../e-util/e-html-editor-link-dialog.c:374
+#: ../e-util/e-html-editor-link-dialog.c:422
 msgid "_Description:"
 msgstr "_Περιγραφή:"
 
@@ -4081,7 +4082,7 @@ msgstr "Υψηλή"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:340
-#: ../calendar/gui/e-cal-model.c:1643 ../calendar/gui/e-task-table.c:525
+#: ../calendar/gui/e-cal-model.c:1646 ../calendar/gui/e-task-table.c:525
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
 #: ../mail/message-list.c:312
 msgid "Normal"
@@ -4459,7 +4460,7 @@ msgstr "Προτεραιότητα"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3088
+#: ../calendar/gui/e-cal-model.c:3091
 #: ../calendar/gui/e-meeting-list-view.c:695
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/filtertypes.xml.in.h:34
@@ -4497,34 +4498,34 @@ msgstr "Επικόλληση συμβάντων από το πρόχειρο"
 msgid "Delete selected events"
 msgstr "Διαγραφή επιλεγμένων συμβάντων"
 
-#: ../calendar/gui/e-calendar-view.c:810
+#: ../calendar/gui/e-calendar-view.c:811
 msgid "Pasted text doesn't contain valid iCalendar data"
 msgstr "Το επικολλημένο κείμενο δεν περιέχει έγκυρα δεδομένα iCalendar"
 
-#: ../calendar/gui/e-calendar-view.c:821 ../calendar/gui/e-cal-ops.c:1540
+#: ../calendar/gui/e-calendar-view.c:822 ../calendar/gui/e-cal-ops.c:1567
 msgid "Default calendar not found"
 msgstr "Δεν βρέθηκε το προεπιλεγμένο ημερολόγιο"
 
-#: ../calendar/gui/e-calendar-view.c:826 ../calendar/gui/e-cal-ops.c:1543
+#: ../calendar/gui/e-calendar-view.c:827 ../calendar/gui/e-cal-ops.c:1570
 msgid "Default memo list not found"
 msgstr "Δεν βρέθηκε ο προεπιλεγμένος κατάλογος υπενθυμίσεων"
 
-#: ../calendar/gui/e-calendar-view.c:831 ../calendar/gui/e-cal-ops.c:1546
+#: ../calendar/gui/e-calendar-view.c:832 ../calendar/gui/e-cal-ops.c:1573
 msgid "Default task list not found"
 msgstr "Δεν βρέθηκε ο προεπιλεγμένος κατάλογος εργασιών"
 
-#: ../calendar/gui/e-calendar-view.c:918
+#: ../calendar/gui/e-calendar-view.c:921
 msgid "No suitable component found"
 msgstr "Δεν βρέθηκε κατάλληλο στοιχείο"
 
-#: ../calendar/gui/e-calendar-view.c:988
+#: ../calendar/gui/e-calendar-view.c:991
 msgid "Pasting iCalendar data"
 msgstr "Επικολλούνται δεδομένα iCalendar"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1791 ../calendar/gui/e-memo-table.c:495
+#: ../calendar/gui/e-calendar-view.c:1794 ../calendar/gui/e-memo-table.c:495
 #: ../calendar/gui/e-task-table.c:796
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -4533,29 +4534,29 @@ msgstr "Διοργανωτής: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:1795 ../calendar/gui/e-memo-table.c:500
+#: ../calendar/gui/e-calendar-view.c:1798 ../calendar/gui/e-memo-table.c:500
 #: ../calendar/gui/e-task-table.c:800
 #, c-format
 msgid "Organizer: %s"
 msgstr "Διοργανωτής: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1811
+#: ../calendar/gui/e-calendar-view.c:1814
 #: ../calendar/gui/e-meeting-time-sel.c:2663 ../calendar/gui/print.c:3527
 #, c-format
 msgid "Location: %s"
 msgstr "Τοποθεσία: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1851
+#: ../calendar/gui/e-calendar-view.c:1854
 #, c-format
 msgid "Time: %s %s"
 msgstr "Ώρα: %s %s"
 
-#: ../calendar/gui/e-calendar-view.c:2230
-#: ../calendar/gui/e-calendar-view.c:2237
-#: ../calendar/gui/e-calendar-view.c:2244
+#: ../calendar/gui/e-calendar-view.c:2233
+#: ../calendar/gui/e-calendar-view.c:2240
 #: ../calendar/gui/e-calendar-view.c:2247
+#: ../calendar/gui/e-calendar-view.c:2250
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -4564,13 +4565,13 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2235 ../calendar/gui/e-day-view.c:2985
+#: ../calendar/gui/e-calendar-view.c:2238 ../calendar/gui/e-day-view.c:2985
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../calendar/gui/e-calendar-view.c:2257
+#: ../calendar/gui/e-calendar-view.c:2260
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -4580,15 +4581,15 @@ msgstr "%A %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2261 ../calendar/gui/e-day-view.c:2969
+#: ../calendar/gui/e-calendar-view.c:2264 ../calendar/gui/e-day-view.c:2969
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: ../calendar/gui/e-calendar-view.c:2264
-#: ../calendar/gui/e-calendar-view.c:2270
+#: ../calendar/gui/e-calendar-view.c:2267
 #: ../calendar/gui/e-calendar-view.c:2273
+#: ../calendar/gui/e-calendar-view.c:2276
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -4612,78 +4613,78 @@ msgstr "Ημερομηνία λήξης"
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: ../calendar/gui/e-cal-model.c:1183 ../calendar/gui/e-cal-ops.c:586
-#: ../calendar/gui/e-cal-ops.c:1209
+#: ../calendar/gui/e-cal-model.c:1184 ../calendar/gui/e-cal-ops.c:596
+#: ../calendar/gui/e-cal-ops.c:1232
 #: ../modules/calendar/e-cal-base-shell-backend.c:361
 #, c-format
 msgid "Source with UID '%s' not found"
 msgstr "Δεβ βρέθηκε πηγή με UID '%s'"
 
-#: ../calendar/gui/e-cal-model.c:1267 ../calendar/gui/e-cal-ops.c:184
-#: ../calendar/gui/e-cal-ops.c:1325
+#: ../calendar/gui/e-cal-model.c:1270 ../calendar/gui/e-cal-ops.c:185
+#: ../calendar/gui/e-cal-ops.c:1349
 msgid "Creating an event"
 msgstr "Δημιουργείται συμβάν"
 
-#: ../calendar/gui/e-cal-model.c:1271 ../calendar/gui/e-cal-ops.c:188
-#: ../calendar/gui/e-cal-ops.c:1329
+#: ../calendar/gui/e-cal-model.c:1274 ../calendar/gui/e-cal-ops.c:189
+#: ../calendar/gui/e-cal-ops.c:1353
 msgid "Creating a memo"
 msgstr "Δημιουργείται υπενθύμιση"
 
-#: ../calendar/gui/e-cal-model.c:1275 ../calendar/gui/e-cal-ops.c:192
-#: ../calendar/gui/e-cal-ops.c:1333
+#: ../calendar/gui/e-cal-model.c:1278 ../calendar/gui/e-cal-ops.c:193
+#: ../calendar/gui/e-cal-ops.c:1357
 msgid "Creating a task"
 msgstr "Δημιουργείται εργασία"
 
-#: ../calendar/gui/e-cal-model.c:1645
+#: ../calendar/gui/e-cal-model.c:1648
 msgid "Recurring"
 msgstr "Επανάληψη"
 
-#: ../calendar/gui/e-cal-model.c:1647
+#: ../calendar/gui/e-cal-model.c:1650
 msgid "Assigned"
 msgstr "Ανάθεση"
 
-#: ../calendar/gui/e-cal-model.c:1649 ../calendar/gui/e-cal-model-tasks.c:1139
+#: ../calendar/gui/e-cal-model.c:1652 ../calendar/gui/e-cal-model-tasks.c:1139
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:1023
 msgid "Yes"
 msgstr "Ναι"
 
-#: ../calendar/gui/e-cal-model.c:1649 ../calendar/gui/e-cal-model-tasks.c:1139
+#: ../calendar/gui/e-cal-model.c:1652 ../calendar/gui/e-cal-model-tasks.c:1139
 #: ../calendar/gui/e-meeting-list-view.c:209
 #: ../calendar/gui/e-meeting-store.c:188
 msgid "No"
 msgstr "Όχι"
 
-#: ../calendar/gui/e-cal-model.c:3029
+#: ../calendar/gui/e-cal-model.c:3032
 #: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6184
 msgid "Accepted"
 msgstr "Αποδοχή"
 
-#: ../calendar/gui/e-cal-model.c:3030
+#: ../calendar/gui/e-cal-model.c:3033
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:6190
 msgid "Declined"
 msgstr "Άρνηση πρόσβασης"
 
-#: ../calendar/gui/e-cal-model.c:3031
+#: ../calendar/gui/e-cal-model.c:3034
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:529
 msgid "Tentative"
 msgstr "Δοκιμαστικά"
 
-#: ../calendar/gui/e-cal-model.c:3032
+#: ../calendar/gui/e-cal-model.c:3035
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:6193
 msgid "Delegated"
 msgstr "Εξουσιοδοτήθηκε"
 
-#: ../calendar/gui/e-cal-model.c:3033
+#: ../calendar/gui/e-cal-model.c:3036
 msgid "Needs action"
 msgstr "Απαιτεί ενέργεια"
 
@@ -4713,167 +4714,167 @@ msgctxt "cal-task-status"
 msgid "None"
 msgstr "Κανένα"
 
-#: ../calendar/gui/e-cal-ops.c:283
+#: ../calendar/gui/e-cal-ops.c:287
 msgid "Modifying an event"
 msgstr "Τροποποιείται συμβάν"
 
-#: ../calendar/gui/e-cal-ops.c:287
+#: ../calendar/gui/e-cal-ops.c:291
 msgid "Modifying a memo"
 msgstr "Τροποποιείται υπενθύμιση"
 
-#: ../calendar/gui/e-cal-ops.c:291
+#: ../calendar/gui/e-cal-ops.c:295
 msgid "Modifying a task"
 msgstr "Τροποποιείται εργασία"
 
-#: ../calendar/gui/e-cal-ops.c:387
+#: ../calendar/gui/e-cal-ops.c:394
 msgid "Removing an event"
 msgstr "Αφαιρείται συμβάν"
 
-#: ../calendar/gui/e-cal-ops.c:391
+#: ../calendar/gui/e-cal-ops.c:398
 msgid "Removing a memo"
 msgstr "Αφαιρείται υπενθύμιση"
 
-#: ../calendar/gui/e-cal-ops.c:395
+#: ../calendar/gui/e-cal-ops.c:402
 msgid "Removing a task"
 msgstr "Αφαιρείται εργασία"
 
-#: ../calendar/gui/e-cal-ops.c:484
+#: ../calendar/gui/e-cal-ops.c:493
 #, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
 msgstr[0] "Διαγράφεται συμβάν"
 msgstr[1] "Διαγράφονται %d συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:488
+#: ../calendar/gui/e-cal-ops.c:497
 #, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
 msgstr[0] "Διαγράφεται υπενθύμιση"
 msgstr[1] "Διαγράφονται %d υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:492
+#: ../calendar/gui/e-cal-ops.c:501
 #, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
 msgstr[0] "Διαγράφεται εργασία"
 msgstr[1] "Διαγράφονται %d εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:692
+#: ../calendar/gui/e-cal-ops.c:704
 #, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
 msgstr[0] "Επικολλάται συμβάν"
 msgstr[1] "Επικολλώνται %d συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:707
+#: ../calendar/gui/e-cal-ops.c:719
 #, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
 msgstr[0] "Εκτυπώνεται υπενθύμιση"
 msgstr[1] "Εκτυπώνονται %d υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:722
+#: ../calendar/gui/e-cal-ops.c:734
 #, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
 msgstr[0] "Επικολλάται εργασία"
 msgstr[1] "Επικολλώνται %d εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:820
+#: ../calendar/gui/e-cal-ops.c:833
 msgid "Updating an event"
 msgstr "Ενημερώνεται συμβάν"
 
-#: ../calendar/gui/e-cal-ops.c:824
+#: ../calendar/gui/e-cal-ops.c:837
 msgid "Updating a memo"
 msgstr "Ενημερώνεται υπενθύμιση"
 
-#: ../calendar/gui/e-cal-ops.c:828
+#: ../calendar/gui/e-cal-ops.c:841
 msgid "Updating a task"
 msgstr "Ενημερώνεται εργασία"
 
-#: ../calendar/gui/e-cal-ops.c:933
+#: ../calendar/gui/e-cal-ops.c:949
 #, c-format
 msgid "Getting events to purge in the calendar '%s'"
 msgstr "Λαμβάνονται συμβάντα για εκκαθάριση στο ημερολόγιο '%s'"
 
-#: ../calendar/gui/e-cal-ops.c:937
+#: ../calendar/gui/e-cal-ops.c:953
 #, c-format
 msgid "Getting memos to purge in the memo list '%s'"
 msgstr ""
 "Λαμβάνονται υπενθυμίσεις για εκκαθάριση στον κατάλογο υπενθυμίσεων '%s'"
 
-#: ../calendar/gui/e-cal-ops.c:941
+#: ../calendar/gui/e-cal-ops.c:957
 #, c-format
 msgid "Getting tasks to purge in the task list '%s'"
 msgstr "Λαμβάνονται εργασίες για εκκαθάριση στον κατάλογο εργασιών '%s'"
 
-#: ../calendar/gui/e-cal-ops.c:962
+#: ../calendar/gui/e-cal-ops.c:983
 #, c-format
 msgid "Purging events in the calendar '%s'"
 msgstr "Εκκαθαρίζονται συμβάντα στο ημερολόγιο '%s'"
 
-#: ../calendar/gui/e-cal-ops.c:966
+#: ../calendar/gui/e-cal-ops.c:987
 #, c-format
 msgid "Purging memos in the memo list '%s'"
 msgstr "Εκκαθαρίζονται υπενθυμίσεις στον κατάλογο υπενθυμίσεων '%s'"
 
-#: ../calendar/gui/e-cal-ops.c:970
+#: ../calendar/gui/e-cal-ops.c:991
 #, c-format
 msgid "Purging tasks in the task list '%s'"
 msgstr "Εκκαθαρίζονται εργασίες από τον κατάλογο εργασιών '%s'"
 
-#: ../calendar/gui/e-cal-ops.c:1068
+#: ../calendar/gui/e-cal-ops.c:1091
 msgid "Purging events"
 msgstr "Εκκαθαρίζονται συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:1072
+#: ../calendar/gui/e-cal-ops.c:1095
 msgid "Purging memos"
 msgstr "Εκκαθαρίζονται υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:1076
+#: ../calendar/gui/e-cal-ops.c:1099
 msgid "Purging tasks"
 msgstr "Εκκαθαρίζονται εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:1178
+#: ../calendar/gui/e-cal-ops.c:1201
 msgid "Expunging completed tasks"
 msgstr "Εξαλείφονται οι ολοκληρωμένες εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:2034
+#: ../calendar/gui/e-cal-ops.c:2062
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
 msgstr[0] "Μετακινείται συμβάν"
 msgstr[1] "Μετακινούνται %d συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:2035
+#: ../calendar/gui/e-cal-ops.c:2063
 #, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
 msgstr[0] "Αντιγράφεται συμβάν"
 msgstr[1] "Αντιγράφονται %d συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:2041
+#: ../calendar/gui/e-cal-ops.c:2069
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "Μετακινείται υπενθύμιση"
 msgstr[1] "Μετακινούνται %d υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:2042
+#: ../calendar/gui/e-cal-ops.c:2070
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "Αντιγράφεται υπενθύμιση"
 msgstr[1] "Αντιγράφονται %d υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:2048
+#: ../calendar/gui/e-cal-ops.c:2076
 #, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "Μετακινείται εργασία"
 msgstr[1] "Μετακινούνται %d εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:2049
+#: ../calendar/gui/e-cal-ops.c:2077
 #, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
@@ -4925,7 +4926,7 @@ msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3661
+#: ../calendar/gui/e-day-view.c:3666
 #, c-format
 msgid "Week %d"
 msgstr "Εβδομάδα %d"
@@ -5381,15 +5382,15 @@ msgstr "Αδύνατη η κράτηση ενός πόρου, σφάλμα: "
 msgid "You must be an attendee of the event."
 msgstr "Πρέπει να είστε παρευρισκόμενος για αυτό το συμβάν."
 
-#: ../calendar/gui/itip-utils.c:1917
+#: ../calendar/gui/itip-utils.c:1918
 msgid "Sending an event"
 msgstr "Αποστολή συμβάντος"
 
-#: ../calendar/gui/itip-utils.c:1921
+#: ../calendar/gui/itip-utils.c:1922
 msgid "Sending a memo"
 msgstr "Αποστολή υπενθύμισης"
 
-#: ../calendar/gui/itip-utils.c:1925
+#: ../calendar/gui/itip-utils.c:1926
 msgid "Sending a task"
 msgstr "Αποστολή εργασίας"
 
@@ -8195,7 +8196,6 @@ msgstr ""
 "Μονάδες για μια προεπιλεγμένη υπενθύμιση, \"λεπτά\", \"ώρες\" ή \"ημέρες\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
-#| msgid "Default reminder value"
 msgid "Default reminder snooze interval, in minutes"
 msgstr "Προεπιλεγμένος χρόνος μετάθεσης ειδοποίησης, σε λεπτά"
 
@@ -9157,7 +9157,6 @@ msgstr ""
 "χαρακτήρων."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
-#| msgid "Whether to show SIP addresses in the editor"
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
 "Αν θα εμφανίζονται πάντα τα κουμπιά υπογραφής και κρυπτογράφησης στην "
@@ -9328,7 +9327,6 @@ msgid "Mark as Seen after specified timeout."
 msgstr "Σημείωση ως ανοιγμένο μετά από καθορισμένο χρόνο."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
-#| msgid "Mark as Seen after specified timeout"
 msgid "Mark as Seen always after specified timeout"
 msgstr "Σημείωση ως ανοιγμένο πάντα μετά από καθορισμένη χρόνο"
 
@@ -9545,17 +9543,13 @@ msgid "Whether sort thread children always ascending"
 msgstr "Αν η ταξινόμηση σειράς θυγατρικών μηνυμάτων θα είναι πάντα αύξουσα"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
-#| msgid ""
-#| "This setting specifies whether the threads should be sorted based on "
-#| "latest message in each thread, rather than by message's date. Evolution "
-#| "requires a restart."
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
 "Αυτή η ρύθμιση καθορίζει το εάν η σειρά θυγατρικών μηνυμάτων θα ταξινομείται "
-"πάντα ως αύξουσα, αντί για χρησιμοποιείται η ίδια σειρά ταξινόμησης όπως "
-"στο ριζικό επίπεδο της σειράς μηνυμάτων."
+"πάντα ως αύξουσα, αντί για χρησιμοποιείται η ίδια σειρά ταξινόμησης όπως στο "
+"ριζικό επίπεδο της σειράς μηνυμάτων."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Sort accounts alphabetically in a folder tree"
@@ -10617,7 +10611,7 @@ msgstr ""
 "χρησιμοποιείται η διαδρομή του χρόνου μεταγλώττισης, συνήθως /usr/bin/sa-"
 "learn. Η εντολή δεν πρέπει να περιέχει οποιοδήποτε άλλο όρισμα."
 
-#: ../em-format/e-mail-formatter-attachment.c:406
+#: ../em-format/e-mail-formatter-attachment.c:408
 #: ../e-util/e-attachment-bar.c:101 ../e-util/e-attachment-bar.c:106
 #: ../e-util/e-attachment-paned.c:187 ../e-util/e-attachment-paned.c:192
 #: ../mail/message-list.etspec.h:4
@@ -10626,7 +10620,7 @@ msgid_plural "Attachments"
 msgstr[0] "Συνημμένο"
 msgstr[1] "Συνημμένα"
 
-#: ../em-format/e-mail-formatter-attachment.c:407
+#: ../em-format/e-mail-formatter-attachment.c:409
 msgid "Display as attachment"
 msgstr "Προβολή ως συνημμένο"
 
@@ -10681,17 +10675,17 @@ msgstr "Όνομα"
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: ../em-format/e-mail-formatter-quote-headers.c:174
+#: ../em-format/e-mail-formatter-quote-headers.c:180
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
 #: ../modules/mail/em-mailer-prefs.c:67
-#: ../smime/gui/certificate-manager.c:1630
+#: ../smime/gui/certificate-manager.c:1632
 msgid "Subject"
 msgstr "Θέμα"
 
 #. pseudo-header
-#: ../em-format/e-mail-formatter-quote-headers.c:193
+#: ../em-format/e-mail-formatter-quote-headers.c:199
 #: ../em-format/e-mail-formatter-utils.c:343
 #: ../modules/mail/em-mailer-prefs.c:1484
 msgid "Mailer"
@@ -10719,7 +10713,7 @@ msgstr "Μορφοποίηση τμήματος ως HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:198
-#: ../e-util/e-html-editor-actions.c:1546
+#: ../e-util/e-html-editor-actions.c:1549
 msgid "Plain Text"
 msgstr "Απλό κειμένο"
 
@@ -11242,12 +11236,10 @@ msgid "_Zoom to 100%"
 msgstr "Ε_στίαση στο 100%"
 
 #: ../e-util/e-attachment-view.c:515
-#| msgid "Reset the text to its original size"
 msgid "Zoom the image to its natural size"
 msgstr "Εστίαση της εικόνας στο φυσικό της μέγεθος"
 
 #: ../e-util/e-attachment-view.c:520
-#| msgid "Close this window"
 msgid "_Zoom to window"
 msgstr "Ε_στίαση στο παράθυρο"
 
@@ -11712,7 +11704,7 @@ msgstr "λευκό"
 
 #: ../e-util/e-color-combo.c:639 ../mail/e-mail-account-tree-view.c:134
 #: ../mail/e-mail-config-security-page.c:426
-#: ../mail/e-mail-config-security-page.c:578 ../mail/e-mail-reader.c:3959
+#: ../mail/e-mail-config-security-page.c:578 ../mail/e-mail-reader.c:3969
 #: ../mail/mail-config.ui.h:70
 msgid "Default"
 msgstr "Προεπιλογή"
@@ -12172,638 +12164,638 @@ msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Εισαγωγή εικόνας"
 
-#: ../e-util/e-html-editor-actions.c:708
+#: ../e-util/e-html-editor-actions.c:709
 msgid "Insert text file"
 msgstr "Εισαγωγή αρχείου κειμένου"
 
-#: ../e-util/e-html-editor-actions.c:714
+#: ../e-util/e-html-editor-actions.c:715
 msgid "Text file"
 msgstr "Αρχείο κειμένου"
 
-#: ../e-util/e-html-editor-actions.c:1098
+#: ../e-util/e-html-editor-actions.c:1101
 msgid "Copy selected text to the clipboard"
 msgstr "Αντιγραφή επιλεγμένου κειμένου στο πρόχειρο"
 
-#: ../e-util/e-html-editor-actions.c:1105
+#: ../e-util/e-html-editor-actions.c:1108
 msgid "Cut selected text to the clipboard"
 msgstr "Αποκοπή επιλεγμένου κειμένου στο πρόχειρο"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../e-util/e-html-editor-actions.c:1112
+#: ../e-util/e-html-editor-actions.c:1115
 msgid "Paste text from the clipboard"
 msgstr "Επικόλληση κειμένου από το πρόχειρο"
 
-#: ../e-util/e-html-editor-actions.c:1119
+#: ../e-util/e-html-editor-actions.c:1122
 msgid "Redo the last undone action"
 msgstr "Ακύρωση της τελευταίας αναίρεσης"
 
-#: ../e-util/e-html-editor-actions.c:1133
+#: ../e-util/e-html-editor-actions.c:1136
 msgid "Undo the last action"
 msgstr "Αναίρεση της τελευταίας ενέργειας"
 
-#: ../e-util/e-html-editor-actions.c:1154
+#: ../e-util/e-html-editor-actions.c:1157
 msgid "For_mat"
 msgstr "Μορ_φή"
 
-#: ../e-util/e-html-editor-actions.c:1161
+#: ../e-util/e-html-editor-actions.c:1164
 msgid "_Paragraph Style"
 msgstr "Τεχνοτροπία παρα_γράφου"
 
-#: ../e-util/e-html-editor-actions.c:1175
+#: ../e-util/e-html-editor-actions.c:1178
 #: ../e-util/e-html-editor-image-dialog.c:635
 msgid "_Alignment"
 msgstr "Στοί_χιση"
 
-#: ../e-util/e-html-editor-actions.c:1182
+#: ../e-util/e-html-editor-actions.c:1185
 msgid "Current _Languages"
 msgstr "Τρέχουσες _γλώσσες"
 
-#: ../e-util/e-html-editor-actions.c:1199
+#: ../e-util/e-html-editor-actions.c:1202
 msgid "_Increase Indent"
 msgstr "_Αύξηση εσοχής"
 
-#: ../e-util/e-html-editor-actions.c:1201
+#: ../e-util/e-html-editor-actions.c:1204
 msgid "Increase Indent"
 msgstr "Αύξηση εσοχής"
 
-#: ../e-util/e-html-editor-actions.c:1206
+#: ../e-util/e-html-editor-actions.c:1209
 msgid "_HTML File..."
 msgstr "Αρχείο _HTML..."
 
-#: ../e-util/e-html-editor-actions.c:1213
+#: ../e-util/e-html-editor-actions.c:1216
 msgid "Te_xt File..."
 msgstr "Αρχείο _κειμένου..."
 
-#: ../e-util/e-html-editor-actions.c:1220
+#: ../e-util/e-html-editor-actions.c:1223
 msgid "Paste _Quotation"
 msgstr "Επικόλληση _παράθεσης"
 
-#: ../e-util/e-html-editor-actions.c:1227
+#: ../e-util/e-html-editor-actions.c:1230
 msgid "_Find..."
 msgstr "_Εύρεση..."
 
-#: ../e-util/e-html-editor-actions.c:1229
+#: ../e-util/e-html-editor-actions.c:1232
 msgid "Search for text"
 msgstr "Αναζήτηση κειμένου"
 
-#: ../e-util/e-html-editor-actions.c:1234
+#: ../e-util/e-html-editor-actions.c:1237
 msgid "Find A_gain"
 msgstr "Εύρεση πά_λι"
 
-#: ../e-util/e-html-editor-actions.c:1241
+#: ../e-util/e-html-editor-actions.c:1244
 msgid "Re_place..."
 msgstr "Α_ντικατάσταση..."
 
-#: ../e-util/e-html-editor-actions.c:1243
+#: ../e-util/e-html-editor-actions.c:1246
 msgid "Search for and replace text"
 msgstr "Αναζήτηση και αντικατάσταση κειμένου"
 
-#: ../e-util/e-html-editor-actions.c:1248
+#: ../e-util/e-html-editor-actions.c:1251
 msgid "Check _Spelling..."
 msgstr "Ορ_θογραφικός έλεγχος..."
 
-#: ../e-util/e-html-editor-actions.c:1255
+#: ../e-util/e-html-editor-actions.c:1258
 msgid "_Decrease Indent"
 msgstr "_Μείωση εσοχής"
 
-#: ../e-util/e-html-editor-actions.c:1257
+#: ../e-util/e-html-editor-actions.c:1260
 msgid "Decrease Indent"
 msgstr "Μείωση εσοχής"
 
-#: ../e-util/e-html-editor-actions.c:1262
+#: ../e-util/e-html-editor-actions.c:1265
 msgid "_Wrap Lines"
 msgstr "Ανα_δίπλωση γραμμών"
 
-#: ../e-util/e-html-editor-actions.c:1269
+#: ../e-util/e-html-editor-actions.c:1272
 msgid "Open Inspector"
 msgstr "Άνοιγμα επιθεωρητή"
 
 #. Center
-#: ../e-util/e-html-editor-actions.c:1279
+#: ../e-util/e-html-editor-actions.c:1282
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
 msgstr "_Κέντρο"
 
-#: ../e-util/e-html-editor-actions.c:1281
+#: ../e-util/e-html-editor-actions.c:1284
 msgid "Center Alignment"
 msgstr "Στοίχιση στο κέντρο"
 
 #. Left
-#: ../e-util/e-html-editor-actions.c:1286
+#: ../e-util/e-html-editor-actions.c:1289
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
 msgstr "Α_ριστερά"
 
-#: ../e-util/e-html-editor-actions.c:1288
+#: ../e-util/e-html-editor-actions.c:1291
 msgid "Left Alignment"
 msgstr "Στοίχιση αριστερά"
 
 #. Right
-#: ../e-util/e-html-editor-actions.c:1293
+#: ../e-util/e-html-editor-actions.c:1296
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
 msgstr "_Δεξιά"
 
-#: ../e-util/e-html-editor-actions.c:1295
+#: ../e-util/e-html-editor-actions.c:1298
 msgid "Right Alignment"
 msgstr "Στοίχιση δεξιά"
 
-#: ../e-util/e-html-editor-actions.c:1303
+#: ../e-util/e-html-editor-actions.c:1306
 #: ../modules/text-highlight/languages.c:72
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../e-util/e-html-editor-actions.c:1305
+#: ../e-util/e-html-editor-actions.c:1308
 msgid "HTML editing mode"
 msgstr "Κατάσταση επεξεργασίας HTML"
 
-#: ../e-util/e-html-editor-actions.c:1310
+#: ../e-util/e-html-editor-actions.c:1313
 msgid "Plain _Text"
 msgstr "Απλό _κειμένο"
 
-#: ../e-util/e-html-editor-actions.c:1312
+#: ../e-util/e-html-editor-actions.c:1315
 msgid "Plain text editing mode"
 msgstr "Λειτουργία επεξεργασίας απλού κειμένου"
 
-#: ../e-util/e-html-editor-actions.c:1320
+#: ../e-util/e-html-editor-actions.c:1323
 msgid "_Normal"
 msgstr "_Κανονική"
 
-#: ../e-util/e-html-editor-actions.c:1327
+#: ../e-util/e-html-editor-actions.c:1330
 msgid "Header _1"
 msgstr "Επικεφαλίδα _1"
 
-#: ../e-util/e-html-editor-actions.c:1334
+#: ../e-util/e-html-editor-actions.c:1337
 msgid "Header _2"
 msgstr "Επικεφαλίδα _2"
 
-#: ../e-util/e-html-editor-actions.c:1341
+#: ../e-util/e-html-editor-actions.c:1344
 msgid "Header _3"
 msgstr "Επικεφαλίδα _3"
 
-#: ../e-util/e-html-editor-actions.c:1348
+#: ../e-util/e-html-editor-actions.c:1351
 msgid "Header _4"
 msgstr "Επικεφαλίδα _4"
 
-#: ../e-util/e-html-editor-actions.c:1355
+#: ../e-util/e-html-editor-actions.c:1358
 msgid "Header _5"
 msgstr "Επικεφαλίδα _5"
 
-#: ../e-util/e-html-editor-actions.c:1362
+#: ../e-util/e-html-editor-actions.c:1365
 msgid "Header _6"
 msgstr "Επικεφαλίδα _6"
 
-#: ../e-util/e-html-editor-actions.c:1369
+#: ../e-util/e-html-editor-actions.c:1372
 msgid "_Preformatted"
 msgstr "_Προμορφοποιημένο"
 
-#: ../e-util/e-html-editor-actions.c:1376
+#: ../e-util/e-html-editor-actions.c:1379
 msgid "A_ddress"
 msgstr "Διεύ_θυνση"
 
-#: ../e-util/e-html-editor-actions.c:1383
+#: ../e-util/e-html-editor-actions.c:1386
 msgid "_Blockquote"
 msgstr "Με_γάλη παράθεση"
 
-#: ../e-util/e-html-editor-actions.c:1390
+#: ../e-util/e-html-editor-actions.c:1393
 msgid "_Bulleted List"
 msgstr "_Κατάλογος με κουκκίδες"
 
-#: ../e-util/e-html-editor-actions.c:1397
+#: ../e-util/e-html-editor-actions.c:1400
 msgid "_Roman Numeral List"
 msgstr "Αριθμημένος κατάλογος με _ρωμαικούς αριθμούς"
 
-#: ../e-util/e-html-editor-actions.c:1404
+#: ../e-util/e-html-editor-actions.c:1407
 msgid "Numbered _List"
 msgstr "Αρι_θμημένος κατάλογος"
 
-#: ../e-util/e-html-editor-actions.c:1411
+#: ../e-util/e-html-editor-actions.c:1414
 msgid "_Alphabetical List"
 msgstr "Αλ_φαβητικός κατάλογος"
 
-#: ../e-util/e-html-editor-actions.c:1427
-#: ../e-util/e-html-editor-actions.c:1465
+#: ../e-util/e-html-editor-actions.c:1430
+#: ../e-util/e-html-editor-actions.c:1468
 msgid "_Image..."
 msgstr "_Εικόνα..."
 
 #. Translators: This is an action tooltip
-#: ../e-util/e-html-editor-actions.c:1430
+#: ../e-util/e-html-editor-actions.c:1433
 msgid "Insert Image"
 msgstr "Εισαγωγή εικόνας"
 
-#: ../e-util/e-html-editor-actions.c:1435
-#: ../e-util/e-html-editor-actions.c:1472
+#: ../e-util/e-html-editor-actions.c:1438
+#: ../e-util/e-html-editor-actions.c:1475
 msgid "_Link..."
 msgstr "_Σύνδεσμος..."
 
-#: ../e-util/e-html-editor-actions.c:1437
+#: ../e-util/e-html-editor-actions.c:1440
 msgid "Insert Link"
 msgstr "Εισαγωγή συνδέσμου"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1443
-#: ../e-util/e-html-editor-actions.c:1487
+#: ../e-util/e-html-editor-actions.c:1446
+#: ../e-util/e-html-editor-actions.c:1490
 msgid "_Rule..."
 msgstr "_Κανόνας..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1446
+#: ../e-util/e-html-editor-actions.c:1449
 msgid "Insert Rule"
 msgstr "Εισαγωγή κανόνα"
 
-#: ../e-util/e-html-editor-actions.c:1451
-#: ../e-util/e-html-editor-actions.c:1494
+#: ../e-util/e-html-editor-actions.c:1454
+#: ../e-util/e-html-editor-actions.c:1497
 msgid "_Table..."
 msgstr "_Πίνακας..."
 
-#: ../e-util/e-html-editor-actions.c:1453
+#: ../e-util/e-html-editor-actions.c:1456
 msgid "Insert Table"
 msgstr "Εισαγωγή πίνακα"
 
-#: ../e-util/e-html-editor-actions.c:1458
+#: ../e-util/e-html-editor-actions.c:1461
 msgid "_Cell..."
 msgstr "Κε_λί..."
 
-#: ../e-util/e-html-editor-actions.c:1479
+#: ../e-util/e-html-editor-actions.c:1482
 msgid "Pa_ge..."
 msgstr "_Σελίδα..."
 
-#: ../e-util/e-html-editor-actions.c:1503
+#: ../e-util/e-html-editor-actions.c:1506
 msgid "Font _Size"
 msgstr "Μέγε_θος γραμματοσειράς"
 
-#: ../e-util/e-html-editor-actions.c:1510
+#: ../e-util/e-html-editor-actions.c:1513
 msgid "_Font Style"
 msgstr "Τε_χνοτροπία γραμματοσειράς"
 
-#: ../e-util/e-html-editor-actions.c:1517
+#: ../e-util/e-html-editor-actions.c:1520
 msgid "Paste As _Text"
 msgstr "Επικόλληση ως _κείμενο"
 
-#: ../e-util/e-html-editor-actions.c:1528
+#: ../e-util/e-html-editor-actions.c:1531
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "Έν_τονα"
 
-#: ../e-util/e-html-editor-actions.c:1530
+#: ../e-util/e-html-editor-actions.c:1533
 msgid "Bold"
 msgstr "Έντονα"
 
-#: ../e-util/e-html-editor-actions.c:1536
+#: ../e-util/e-html-editor-actions.c:1539
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "_Πλάγια"
 
-#: ../e-util/e-html-editor-actions.c:1538
+#: ../e-util/e-html-editor-actions.c:1541
 msgid "Italic"
 msgstr "Πλάγια"
 
-#: ../e-util/e-html-editor-actions.c:1544
+#: ../e-util/e-html-editor-actions.c:1547
 msgid "_Plain Text"
 msgstr "Απ_λό κείμενο"
 
-#: ../e-util/e-html-editor-actions.c:1552
+#: ../e-util/e-html-editor-actions.c:1555
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "Επιγρά_μμιση"
 
-#: ../e-util/e-html-editor-actions.c:1554
+#: ../e-util/e-html-editor-actions.c:1557
 msgid "Strikethrough"
 msgstr "Επιγράμμιση"
 
-#: ../e-util/e-html-editor-actions.c:1560
+#: ../e-util/e-html-editor-actions.c:1563
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "_Υπογράμμιση"
 
-#: ../e-util/e-html-editor-actions.c:1562
+#: ../e-util/e-html-editor-actions.c:1565
 msgid "Underline"
 msgstr "Υπογράμμιση"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1572
+#: ../e-util/e-html-editor-actions.c:1575
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1580
+#: ../e-util/e-html-editor-actions.c:1583
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1588
+#: ../e-util/e-html-editor-actions.c:1591
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1596
+#: ../e-util/e-html-editor-actions.c:1599
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1604
+#: ../e-util/e-html-editor-actions.c:1607
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1612
+#: ../e-util/e-html-editor-actions.c:1615
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1620
+#: ../e-util/e-html-editor-actions.c:1623
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1639
+#: ../e-util/e-html-editor-actions.c:1642
 msgid "Cell Contents"
 msgstr "Περιεχόμενα κελιού"
 
-#: ../e-util/e-html-editor-actions.c:1646
+#: ../e-util/e-html-editor-actions.c:1649
 msgid "Column"
 msgstr "Στήλη"
 
-#: ../e-util/e-html-editor-actions.c:1653
+#: ../e-util/e-html-editor-actions.c:1656
 msgid "Row"
 msgstr "Γραμμή"
 
-#: ../e-util/e-html-editor-actions.c:1660
-#: ../e-util/e-html-editor-actions.c:1745
+#: ../e-util/e-html-editor-actions.c:1663
+#: ../e-util/e-html-editor-actions.c:1748
 msgid "Table"
 msgstr "Πίνακας"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1670
+#: ../e-util/e-html-editor-actions.c:1673
 msgid "Table Delete"
 msgstr "Διαγραφή πίνακα"
 
-#: ../e-util/e-html-editor-actions.c:1677 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1680 ../e-util/e-text.c:2127
 msgid "Input Methods"
 msgstr "Μέθοδοι εισαγωγής"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1685
+#: ../e-util/e-html-editor-actions.c:1688
 msgid "Table Insert"
 msgstr "Εισαγωγή πίνακα"
 
-#: ../e-util/e-html-editor-actions.c:1692
+#: ../e-util/e-html-editor-actions.c:1695
 msgid "Properties"
 msgstr "Ιδιότητες"
 
-#: ../e-util/e-html-editor-actions.c:1710
+#: ../e-util/e-html-editor-actions.c:1713
 msgid "Column After"
 msgstr "Στήλη μετά"
 
-#: ../e-util/e-html-editor-actions.c:1717
+#: ../e-util/e-html-editor-actions.c:1720
 msgid "Column Before"
 msgstr "Στήλη πριν"
 
-#: ../e-util/e-html-editor-actions.c:1724
+#: ../e-util/e-html-editor-actions.c:1727
 msgid "Insert _Link"
 msgstr "Εισαγωγή _συνδέσμου"
 
-#: ../e-util/e-html-editor-actions.c:1731
+#: ../e-util/e-html-editor-actions.c:1734
 msgid "Row Above"
 msgstr "Γραμμή πάνω"
 
-#: ../e-util/e-html-editor-actions.c:1738
+#: ../e-util/e-html-editor-actions.c:1741
 msgid "Row Below"
 msgstr "Γραμμή κάτω"
 
-#: ../e-util/e-html-editor-actions.c:1752
+#: ../e-util/e-html-editor-actions.c:1755
 msgid "Cell..."
 msgstr "Κελί..."
 
-#: ../e-util/e-html-editor-actions.c:1759
+#: ../e-util/e-html-editor-actions.c:1762
 msgid "Image..."
 msgstr "Εικόνα..."
 
-#: ../e-util/e-html-editor-actions.c:1766
+#: ../e-util/e-html-editor-actions.c:1769
 msgid "Link..."
 msgstr "Σύνδεσμος..."
 
-#: ../e-util/e-html-editor-actions.c:1773
+#: ../e-util/e-html-editor-actions.c:1776
 msgid "Page..."
 msgstr "Σελίδα..."
 
-#: ../e-util/e-html-editor-actions.c:1780
+#: ../e-util/e-html-editor-actions.c:1783
 msgid "Paragraph..."
 msgstr "Παράγραφος..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1788
+#: ../e-util/e-html-editor-actions.c:1791
 msgid "Rule..."
 msgstr "Κανόνας..."
 
-#: ../e-util/e-html-editor-actions.c:1795
+#: ../e-util/e-html-editor-actions.c:1798
 msgid "Table..."
 msgstr "Πίνακας..."
 
-#: ../e-util/e-html-editor-actions.c:1802
+#: ../e-util/e-html-editor-actions.c:1805
 msgid "Text..."
 msgstr "Κείμενο..."
 
-#: ../e-util/e-html-editor-actions.c:1809
+#: ../e-util/e-html-editor-actions.c:1812
 msgid "Remove Link"
 msgstr "Διαγραφή συνδέσμου"
 
-#: ../e-util/e-html-editor-actions.c:1826
+#: ../e-util/e-html-editor-actions.c:1829
 msgid "Add Word to Dictionary"
 msgstr "Προσθήκη λέξης στο λεξικό"
 
-#: ../e-util/e-html-editor-actions.c:1833
+#: ../e-util/e-html-editor-actions.c:1836
 msgid "Ignore Misspelled Word"
 msgstr "Παράβλεψη λανθασμένης λέξης"
 
-#: ../e-util/e-html-editor-actions.c:1840
+#: ../e-util/e-html-editor-actions.c:1843
 msgid "Add Word To"
 msgstr "Προσθήκη λέξης σε"
 
-#: ../e-util/e-html-editor-actions.c:1849
+#: ../e-util/e-html-editor-actions.c:1852
 msgid "More Suggestions"
 msgstr "Περισσότερες προτάσεις"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1957
+#: ../e-util/e-html-editor-actions.c:1960
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s Λεξικό"
 
-#: ../e-util/e-html-editor-actions.c:2044
+#: ../e-util/e-html-editor-actions.c:2047
 msgid "_Emoticon"
 msgstr "Ε_ικονίδιο διάθεσης"
 
-#: ../e-util/e-html-editor-actions.c:2045
+#: ../e-util/e-html-editor-actions.c:2048
 msgid "Insert Emoticon"
 msgstr "Εισαγωγή εικονιδίου διάθεσης"
 
-#: ../e-util/e-html-editor-actions.c:2113
+#: ../e-util/e-html-editor-actions.c:2116
 msgid "Re_place"
 msgstr "Α_ντικατάσταση"
 
-#: ../e-util/e-html-editor-actions.c:2116
+#: ../e-util/e-html-editor-actions.c:2119
 msgid "_Image"
 msgstr "_Εικόνα"
 
-#: ../e-util/e-html-editor-actions.c:2119
+#: ../e-util/e-html-editor-actions.c:2122
 msgid "_Link"
 msgstr "_Σύνδεσμος"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:2123
+#: ../e-util/e-html-editor-actions.c:2126
 msgid "_Rule"
 msgstr "_Κανόνας"
 
-#: ../e-util/e-html-editor-actions.c:2126
-#: ../e-util/e-html-editor-cell-dialog.c:732
+#: ../e-util/e-html-editor-actions.c:2129
+#: ../e-util/e-html-editor-cell-dialog.c:738
 msgid "_Table"
 msgstr "_Πίνακας"
 
-#: ../e-util/e-html-editor.c:672
+#: ../e-util/e-html-editor.c:681
 msgid "Paragraph Style"
 msgstr "Τεχνοτροπία παραγράφου"
 
-#: ../e-util/e-html-editor.c:686
+#: ../e-util/e-html-editor.c:695
 msgid "Editing Mode"
 msgstr "Κατάσταση επεξεργασίας"
 
-#: ../e-util/e-html-editor.c:698
+#: ../e-util/e-html-editor.c:707
 msgid "Font Color"
 msgstr "Χρώμα γραμματοσειράς"
 
-#: ../e-util/e-html-editor.c:716
+#: ../e-util/e-html-editor.c:725
 msgid "Font Size"
 msgstr "Μέγεθος γραμματοσειράς"
 
-#: ../e-util/e-html-editor-cell-dialog.c:692
+#: ../e-util/e-html-editor-cell-dialog.c:698
 msgid "<b>Scope</b>"
 msgstr "<b>Εύρος</b>"
 
-#: ../e-util/e-html-editor-cell-dialog.c:706
+#: ../e-util/e-html-editor-cell-dialog.c:712
 msgid "C_ell"
 msgstr "Κ_ελί"
 
-#: ../e-util/e-html-editor-cell-dialog.c:719
+#: ../e-util/e-html-editor-cell-dialog.c:725
 msgid "_Row"
 msgstr "_Γραμμή"
 
-#: ../e-util/e-html-editor-cell-dialog.c:745
+#: ../e-util/e-html-editor-cell-dialog.c:751
 msgid "Col_umn"
 msgstr "Στή_λη"
 
-#: ../e-util/e-html-editor-cell-dialog.c:755
+#: ../e-util/e-html-editor-cell-dialog.c:761
 msgid "<b>Alignment &amp; Behavior</b>"
 msgstr "<b>Στοίχιση &amp; συμπεριφορά</b>"
 
-#: ../e-util/e-html-editor-cell-dialog.c:768
-#: ../e-util/e-html-editor-hrule-dialog.c:407
-#: ../e-util/e-html-editor-table-dialog.c:894
+#: ../e-util/e-html-editor-cell-dialog.c:774
+#: ../e-util/e-html-editor-hrule-dialog.c:413
+#: ../e-util/e-html-editor-table-dialog.c:900
 msgid "Left"
 msgstr "Αριστερά"
 
-#: ../e-util/e-html-editor-cell-dialog.c:769
-#: ../e-util/e-html-editor-hrule-dialog.c:409
-#: ../e-util/e-html-editor-table-dialog.c:895
+#: ../e-util/e-html-editor-cell-dialog.c:775
+#: ../e-util/e-html-editor-hrule-dialog.c:415
+#: ../e-util/e-html-editor-table-dialog.c:901
 msgid "Center"
 msgstr "Κέντρο"
 
-#: ../e-util/e-html-editor-cell-dialog.c:770
-#: ../e-util/e-html-editor-hrule-dialog.c:411
-#: ../e-util/e-html-editor-table-dialog.c:896
+#: ../e-util/e-html-editor-cell-dialog.c:776
+#: ../e-util/e-html-editor-hrule-dialog.c:417
+#: ../e-util/e-html-editor-table-dialog.c:902
 msgid "Right"
 msgstr "Δεξιά"
 
-#: ../e-util/e-html-editor-cell-dialog.c:778
+#: ../e-util/e-html-editor-cell-dialog.c:784
 msgid "_Horizontal:"
 msgstr "_Οριζόντια:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:786
+#: ../e-util/e-html-editor-cell-dialog.c:792
 #: ../e-util/e-html-editor-image-dialog.c:625
 msgid "Top"
 msgstr "Πάνω"
 
-#: ../e-util/e-html-editor-cell-dialog.c:787
+#: ../e-util/e-html-editor-cell-dialog.c:793
 #: ../e-util/e-html-editor-image-dialog.c:626
 msgid "Middle"
 msgstr "Μέση"
 
-#: ../e-util/e-html-editor-cell-dialog.c:788
+#: ../e-util/e-html-editor-cell-dialog.c:794
 #: ../e-util/e-html-editor-image-dialog.c:627
 msgid "Bottom"
 msgstr "Κάτω"
 
-#: ../e-util/e-html-editor-cell-dialog.c:796
+#: ../e-util/e-html-editor-cell-dialog.c:802
 msgid "_Vertical:"
 msgstr "_Κάθετα:"
 
 #. Wrap Text
-#: ../e-util/e-html-editor-cell-dialog.c:802
+#: ../e-util/e-html-editor-cell-dialog.c:808
 msgid "_Wrap Text"
 msgstr "Ανα_δίπλωση κειμένου"
 
 #. Header Style
-#: ../e-util/e-html-editor-cell-dialog.c:810
+#: ../e-util/e-html-editor-cell-dialog.c:816
 msgid "_Header Style"
 msgstr "Τεχνοτροπία ε_πικεφαλίδας"
 
-#: ../e-util/e-html-editor-cell-dialog.c:824
+#: ../e-util/e-html-editor-cell-dialog.c:830
 #: ../e-util/e-html-editor-image-dialog.c:565
-#: ../e-util/e-html-editor-table-dialog.c:806
+#: ../e-util/e-html-editor-table-dialog.c:812
 msgid "<b>Layout</b>"
 msgstr "<b>Διάταξη</b>"
 
 #. Width
-#: ../e-util/e-html-editor-cell-dialog.c:835
+#: ../e-util/e-html-editor-cell-dialog.c:841
 msgid "_Width"
 msgstr "_Πλάτος"
 
-#: ../e-util/e-html-editor-cell-dialog.c:874
+#: ../e-util/e-html-editor-cell-dialog.c:880
 msgid "Row S_pan:"
 msgstr "Κάλυ_ψη γραμμής:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:888
+#: ../e-util/e-html-editor-cell-dialog.c:894
 msgid "Co_lumn Span:"
 msgstr "Κά_λυψη στήλης:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:895
-#: ../e-util/e-html-editor-table-dialog.c:910
+#: ../e-util/e-html-editor-cell-dialog.c:901
+#: ../e-util/e-html-editor-table-dialog.c:916
 msgid "<b>Background</b>"
 msgstr "<b>Παρασκήνιο</b>"
 
-#: ../e-util/e-html-editor-cell-dialog.c:908
-#: ../e-util/e-html-editor-table-dialog.c:923
+#: ../e-util/e-html-editor-cell-dialog.c:914
+#: ../e-util/e-html-editor-table-dialog.c:929
 msgid "Transparent"
 msgstr "Διαφανές"
 
-#: ../e-util/e-html-editor-cell-dialog.c:916
+#: ../e-util/e-html-editor-cell-dialog.c:922
 msgid "C_olor:"
 msgstr "Χ_ρώμα:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:924
+#: ../e-util/e-html-editor-cell-dialog.c:930
 #: ../e-util/e-html-editor-image-dialog.c:527
-#: ../e-util/e-html-editor-table-dialog.c:939
+#: ../e-util/e-html-editor-table-dialog.c:945
 msgid "Choose Background Image"
 msgstr "Επιλογή εικόνας παρασκηνίου"
 
-#: ../e-util/e-html-editor-cell-dialog.c:929
+#: ../e-util/e-html-editor-cell-dialog.c:935
 #: ../e-util/e-html-editor-image-dialog.c:533
-#: ../e-util/e-html-editor-table-dialog.c:944
+#: ../e-util/e-html-editor-table-dialog.c:950
 msgid "Images"
 msgstr "Εικόνες"
 
-#: ../e-util/e-html-editor-cell-dialog.c:942
+#: ../e-util/e-html-editor-cell-dialog.c:948
 msgid "_Image:"
 msgstr "Ει_κόνα:"
 
-#: ../e-util/e-html-editor-cell-dialog.c:949
-#: ../e-util/e-html-editor-page-dialog.c:654
-#: ../e-util/e-html-editor-table-dialog.c:964
+#: ../e-util/e-html-editor-cell-dialog.c:955
+#: ../e-util/e-html-editor-page-dialog.c:660
+#: ../e-util/e-html-editor-table-dialog.c:970
 msgid "_Remove image"
 msgstr "Α_φαίρεση εικόνας"
 
-#: ../e-util/e-html-editor-cell-dialog.c:969
+#: ../e-util/e-html-editor-cell-dialog.c:975
 msgid "Cell Properties"
 msgstr "Ιδιότητες κελιού"
 
@@ -12830,42 +12822,42 @@ msgstr "Αναζήτηση ανα_δίπλωσης"
 msgid "Find"
 msgstr "Εύρεση"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:342
+#: ../e-util/e-html-editor-hrule-dialog.c:348
 msgid "<b>Size</b>"
 msgstr "<b>Μέγεθος</b>"
 
 #. Width
-#: ../e-util/e-html-editor-hrule-dialog.c:362
+#: ../e-util/e-html-editor-hrule-dialog.c:368
 #: ../e-util/e-html-editor-image-dialog.c:583
-#: ../e-util/e-html-editor-table-dialog.c:817
+#: ../e-util/e-html-editor-table-dialog.c:823
 msgid "_Width:"
 msgstr "_Πλάτος:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:387
+#: ../e-util/e-html-editor-hrule-dialog.c:393
 msgid "_Size:"
 msgstr "_Μέγεθος:"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:394
+#: ../e-util/e-html-editor-hrule-dialog.c:400
 msgid "<b>Style</b>"
 msgstr "<b>Τεχνοτροπία</b>"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:419
-#: ../e-util/e-html-editor-table-dialog.c:903
+#: ../e-util/e-html-editor-hrule-dialog.c:425
+#: ../e-util/e-html-editor-table-dialog.c:909
 msgid "_Alignment:"
 msgstr "Στοί_χιση:"
 
 #. Shaded
-#: ../e-util/e-html-editor-hrule-dialog.c:425
+#: ../e-util/e-html-editor-hrule-dialog.c:431
 msgid "S_haded"
 msgstr "Σκιασμέ_νο"
 
-#: ../e-util/e-html-editor-hrule-dialog.c:442
+#: ../e-util/e-html-editor-hrule-dialog.c:448
 msgid "Rule properties"
 msgstr "Ιδιότητες χάρακα"
 
 #: ../e-util/e-html-editor-image-dialog.c:515
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
-#: ../e-util/e-html-editor-table-dialog.c:760
+#: ../e-util/e-html-editor-table-dialog.c:766
 msgid "<b>General</b>"
 msgstr "<b>Γενικά</b>"
 
@@ -12886,7 +12878,7 @@ msgid "_Y-Padding:"
 msgstr "Γέμισμα _Y:"
 
 #: ../e-util/e-html-editor-image-dialog.c:680
-#: ../e-util/e-html-editor-table-dialog.c:884
+#: ../e-util/e-html-editor-table-dialog.c:890
 msgid "_Border:"
 msgstr "_Περίγραμμα:"
 
@@ -12895,12 +12887,12 @@ msgid "<b>Link</b>"
 msgstr "<b>Σύνδεσμος</b>"
 
 #: ../e-util/e-html-editor-image-dialog.c:708
-#: ../e-util/e-html-editor-link-dialog.c:352
+#: ../e-util/e-html-editor-link-dialog.c:400
 msgid "_URL:"
 msgstr "_URL:"
 
 #: ../e-util/e-html-editor-image-dialog.c:713
-#: ../e-util/e-html-editor-link-dialog.c:357
+#: ../e-util/e-html-editor-link-dialog.c:405
 msgid "_Test URL..."
 msgstr "_Δοκιμή URL..."
 
@@ -12908,11 +12900,11 @@ msgstr "_Δοκιμή URL..."
 msgid "Image Properties"
 msgstr "Ιδιότητες εικόνας"
 
-#: ../e-util/e-html-editor-link-dialog.c:381
+#: ../e-util/e-html-editor-link-dialog.c:429
 msgid "_Remove Link"
 msgstr "Διαγ_ραφή συνδέσμου"
 
-#: ../e-util/e-html-editor-link-dialog.c:406
+#: ../e-util/e-html-editor-link-dialog.c:454
 msgid "Link Properties"
 msgstr "Ιδιότητες συνδέσμου"
 
@@ -12945,46 +12937,45 @@ msgstr "Πρόχειρο"
 msgid "Graph Paper"
 msgstr "Χαρτί γραφημάτων"
 
-#: ../e-util/e-html-editor-page-dialog.c:538
+#: ../e-util/e-html-editor-page-dialog.c:544
 msgid "<b>Colors</b>"
 msgstr "<b>Χρώματα</b>"
 
-#: ../e-util/e-html-editor-page-dialog.c:557
+#: ../e-util/e-html-editor-page-dialog.c:563
 msgid "_Text:"
 msgstr "_Κείμενο:"
 
-#: ../e-util/e-html-editor-page-dialog.c:572
+#: ../e-util/e-html-editor-page-dialog.c:578
 msgid "_Link:"
 msgstr "Σύνδεσ_μος:"
 
-#: ../e-util/e-html-editor-page-dialog.c:587
-#| msgid "_Link:"
+#: ../e-util/e-html-editor-page-dialog.c:593
 msgid "_Visited Link:"
 msgstr "Α_ναγνωσμένος σύνδεσμος:"
 
-#: ../e-util/e-html-editor-page-dialog.c:602
+#: ../e-util/e-html-editor-page-dialog.c:608
 msgid "_Background:"
 msgstr "_Παρασκήνιο:"
 
-#: ../e-util/e-html-editor-page-dialog.c:610
+#: ../e-util/e-html-editor-page-dialog.c:616
 msgid "<b>Background Image</b>"
 msgstr "<b>Εικόνα παρασκηνίου</b>"
 
-#: ../e-util/e-html-editor-page-dialog.c:632
+#: ../e-util/e-html-editor-page-dialog.c:638
 #: ../modules/calendar/e-calendar-preferences.ui.h:76
 msgid "_Template:"
 msgstr "_Πρότυπο:"
 
-#: ../e-util/e-html-editor-page-dialog.c:640
+#: ../e-util/e-html-editor-page-dialog.c:646
 #: ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "Επιλογή ενός αρχείου"
 
-#: ../e-util/e-html-editor-page-dialog.c:647
+#: ../e-util/e-html-editor-page-dialog.c:653
 msgid "_Custom:"
 msgstr "_Προσαρμοσμένο:"
 
-#: ../e-util/e-html-editor-page-dialog.c:674
+#: ../e-util/e-html-editor-page-dialog.c:680
 msgid "Page Properties"
 msgstr "Ιδιότητες σελίδας"
 
@@ -13090,32 +13081,32 @@ msgstr "Προσθήκη λέξης"
 msgid "Spell Checking"
 msgstr "Έλεγχος ορθογραφίας"
 
-#: ../e-util/e-html-editor-table-dialog.c:782
+#: ../e-util/e-html-editor-table-dialog.c:788
 msgid "_Rows:"
 msgstr "Γ_ραμμές:"
 
-#: ../e-util/e-html-editor-table-dialog.c:799
+#: ../e-util/e-html-editor-table-dialog.c:805
 msgid "C_olumns:"
 msgstr "Σ_τήλες:"
 
-#: ../e-util/e-html-editor-table-dialog.c:850
+#: ../e-util/e-html-editor-table-dialog.c:856
 msgid "_Spacing:"
 msgstr "_Διάστιχο:"
 
-#: ../e-util/e-html-editor-table-dialog.c:867
+#: ../e-util/e-html-editor-table-dialog.c:873
 msgid "_Padding:"
 msgstr "Γέ_μισμα:"
 
-#: ../e-util/e-html-editor-table-dialog.c:931
+#: ../e-util/e-html-editor-table-dialog.c:937
 #: ../e-util/e-html-editor-text-dialog.c:261
 msgid "_Color:"
 msgstr "_Χρώμα:"
 
-#: ../e-util/e-html-editor-table-dialog.c:957
+#: ../e-util/e-html-editor-table-dialog.c:963
 msgid "Image:"
 msgstr "Εικόνα:"
 
-#: ../e-util/e-html-editor-table-dialog.c:984
+#: ../e-util/e-html-editor-table-dialog.c:990
 msgid "Table Properties"
 msgstr "Ιδιότητες πίνακα"
 
@@ -13127,11 +13118,11 @@ msgstr "Μέ_γεθος:"
 msgid "Text Properties"
 msgstr "Ιδιότητες κειμένου"
 
-#: ../e-util/e-html-editor-view.c:4989
+#: ../e-util/e-html-editor-view.c:5004
 msgid "Changed property"
 msgstr "Αλλαγμένη ιδιότητα"
 
-#: ../e-util/e-html-editor-view.c:4990
+#: ../e-util/e-html-editor-view.c:5005
 msgid "Whether editor changed"
 msgstr "Αν η επεξεργασία άλλαξε"
 
@@ -13306,35 +13297,35 @@ msgstr ""
 "πληκτρολογίου μπορούν να επιλέξουν τη ζώνη ώρας από το παρακάτω κουτί "
 "επιλογών."
 
-#: ../e-util/e-misc-utils.c:249
+#: ../e-util/e-misc-utils.c:251
 msgid "Could not open the link."
 msgstr "Δεν ήταν δυνατό το άνοιγμα του συνδέσμου."
 
-#: ../e-util/e-misc-utils.c:332
+#: ../e-util/e-misc-utils.c:334
 msgid "Could not display help for Evolution."
 msgstr "Δεν ήταν δυνατή η εμφάνιση βοήθειας για το Evolution."
 
-#: ../e-util/e-misc-utils.c:2385
+#: ../e-util/e-misc-utils.c:2387
 #, c-format
 msgid "Opening calendar '%s'"
 msgstr "Άνοιγμα ημερολογίου '%s'"
 
-#: ../e-util/e-misc-utils.c:2388
+#: ../e-util/e-misc-utils.c:2390
 #, c-format
 msgid "Opening memo list '%s'"
 msgstr "Άνοιγμα λίστας υπενθυμίσεων '%s'"
 
-#: ../e-util/e-misc-utils.c:2391
+#: ../e-util/e-misc-utils.c:2393
 #, c-format
 msgid "Opening task list '%s'"
 msgstr "Άνοιγμα της λίστας εργασιών '%s'"
 
-#: ../e-util/e-misc-utils.c:2394
+#: ../e-util/e-misc-utils.c:2396
 #, c-format
 msgid "Opening address book '%s'"
 msgstr "Άνοιγμα βιβλίου διευθύνσεων '%s'"
 
-#: ../e-util/e-misc-utils.c:3128
+#: ../e-util/e-misc-utils.c:3138
 #: ../modules/mailto-handler/evolution-mailto-handler.c:148
 msgid "_Do not show this message again"
 msgstr "Να μην εμφανιστεί _ξανά αυτό το μήνυμα"
@@ -13411,7 +13402,7 @@ msgstr "Απο_κοπή %s"
 msgid "_Edit %s"
 msgstr "_Επεξεργασία %s"
 
-#: ../e-util/e-name-selector-list.c:583
+#: ../e-util/e-name-selector-list.c:584
 #, c-format
 msgid "_Delete %s"
 msgstr "_Διαγραφή %s"
@@ -13614,7 +13605,7 @@ msgstr "Έφτασα την αρχή της σελίδας, συνεχίζω α�
 #: ../mail/importers/kmail-importer.c:253
 #: ../mail/importers/pine-importer.c:422
 #: ../modules/mail/e-mail-shell-view.c:1172
-#: ../smime/gui/certificate-manager.c:1669
+#: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
 msgstr "Μηνύματα"
 
@@ -14226,12 +14217,10 @@ msgid "_Copy Email Address"
 msgstr "Αντιγραφή διεύ_θυνσης Email"
 
 #: ../e-util/e-web-view.c:343
-#| msgid "Copy _Email Address"
 msgid "Copy _Raw Email Address"
 msgstr "Αντιγραφή ακατέργαστης διεύ_θυνσης αλληλογραφίας"
 
 #: ../e-util/e-web-view.c:345
-#| msgid "Copy the email address to the clipboard"
 msgid "Copy the raw email address to the clipboard"
 msgstr "Αντιγραφή των ακατέργαστων διευθύνσεων αλληλογραφίας στο πρόχειρο"
 
@@ -14278,15 +14267,15 @@ msgstr "Μετάβαση στην αρχή του μηνύματος"
 msgid "Click to open %s"
 msgstr "Κλικ για άνοιγμα %s"
 
-#: ../e-util/e-web-view.c:3034
+#: ../e-util/e-web-view.c:3039
 msgid "Copying image to clipboard"
 msgstr "Αντιγραφή εικόνας στο πρόχειρο"
 
-#: ../e-util/e-web-view.c:3222
+#: ../e-util/e-web-view.c:3227
 msgid "Save Image"
 msgstr "Αποθήκευση εικόνας"
 
-#: ../e-util/e-web-view.c:3258
+#: ../e-util/e-web-view.c:3263
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Αποθήκευση εικόνας στο '%s'"
@@ -14440,7 +14429,7 @@ msgstr ""
 "Η ημερομηνία του μηνύματος θα συγκριθεί με\n"
 "ώρα σχετική με αυτή όταν λειτουργεί το φίλτρο."
 
-#: ../e-util/gal-a11y-e-cell.c:122
+#: ../e-util/gal-a11y-e-cell.c:130
 msgid "Table Cell"
 msgstr "Κελί πίνακα"
 
@@ -15072,9 +15061,6 @@ msgstr "Πληροφορίες λογαριασμού"
 
 #: ../mail/e-mail-config-identity-page.c:346
 #: ../mail/e-mail-config-summary-page.c:352
-#| msgid ""
-#| "Type the name by which you would like to refer to this account.\n"
-#| "For example, \"Work\" or \"Personal\"."
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, \"Work\" or \"Personal\"."
@@ -15196,7 +15182,6 @@ msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Να _υπογράφονται πάντα τα μηνύματα στη χρήση αυτού του λογαριασμού"
 
 #: ../mail/e-mail-config-security-page.c:466
-#| msgid "Always encrypt outgoing messages when using this account"
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr ""
 "Να κρυπτογρα_φούνται πάντα τα εξερχόμενα μηνύματα όταν χρησιμοποιείται αυτός "
@@ -15541,625 +15526,624 @@ msgstr "Να _μην ξαναγίνει η ερώτηση."
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Πάντα να γίνεται παράβλεψη της Απάντησης: για λίστες αλληλογραφίας."
 
-#: ../mail/e-mail-reader.c:1733
+#: ../mail/e-mail-reader.c:1734
 msgid "Failed to retrieve message:"
 msgstr "Αποτυχία ανάκτησης μηνύματος:"
 
-#: ../mail/e-mail-reader.c:1778 ../mail/e-mail-reader.c:3110
+#: ../mail/e-mail-reader.c:1779 ../mail/e-mail-reader.c:3111
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Παραλαμβάνεται το μήνυμα '%s'"
 
-#: ../mail/e-mail-reader.c:1966
+#: ../mail/e-mail-reader.c:1967
 msgid "A_dd Sender to Address Book"
 msgstr "Προσ_θήκη αποστολέα στο βιβλίο διευθύνσεων"
 
-#: ../mail/e-mail-reader.c:1968
+#: ../mail/e-mail-reader.c:1969
 msgid "Add sender to address book"
 msgstr "Προσθήκη αποστολέα στο βιβλίο διευθύνσεων"
 
-#: ../mail/e-mail-reader.c:1973
+#: ../mail/e-mail-reader.c:1974
 msgid "_Archive..."
 msgstr "_Αρχειοθήκη..."
 
-#: ../mail/e-mail-reader.c:1975
+#: ../mail/e-mail-reader.c:1976
 msgid "Move selected messages to the Archive folder for the account"
 msgstr ""
 "Μετακίνηση επιλεγμένων μηνυμάτων στον φάκελο αρχειοθήκης του λογαριασμού"
 
-#: ../mail/e-mail-reader.c:1980
+#: ../mail/e-mail-reader.c:1981
 msgid "Check for _Junk"
 msgstr "Έλεγχος για ανεπι_θύμητη αλληλογραφία"
 
-#: ../mail/e-mail-reader.c:1982
+#: ../mail/e-mail-reader.c:1983
 msgid "Filter the selected messages for junk status"
 msgstr "Φιλτράρισμα των επιλεγμένων μηνυμάτων ως ανεπιθύμητη αλληλογραφία"
 
-#: ../mail/e-mail-reader.c:1987
+#: ../mail/e-mail-reader.c:1988
 msgid "_Copy to Folder..."
 msgstr "_Αντιγραφή σε φάκελο..."
 
-#: ../mail/e-mail-reader.c:1989
+#: ../mail/e-mail-reader.c:1990
 msgid "Copy selected messages to another folder"
 msgstr "Αντιγραφή επιλεγμένων μηνυμάτων σε άλλο φάκελο"
 
-#: ../mail/e-mail-reader.c:1994
+#: ../mail/e-mail-reader.c:1995
 msgid "_Delete Message"
 msgstr "_Διαγραφή μηνύματος"
 
-#: ../mail/e-mail-reader.c:1996
+#: ../mail/e-mail-reader.c:1997
 msgid "Mark the selected messages for deletion"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων για διαγραφή"
 
-#: ../mail/e-mail-reader.c:2001
+#: ../mail/e-mail-reader.c:2002
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "Δημιουργία κανόνα φιλτραρίσματος για τη _λίστα ταχυδρομείου..."
 
-#: ../mail/e-mail-reader.c:2003
+#: ../mail/e-mail-reader.c:2004
 msgid "Create a rule to filter messages to this mailing list"
 msgstr ""
 "Δημιουργία κανόνα για το φιλτράρισμα μηνυμάτων για αυτή τη λίστα ταχυδρομείου"
 
-#: ../mail/e-mail-reader.c:2008
+#: ../mail/e-mail-reader.c:2009
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "Δημιουργία κανόνα φιλτραρίσματος για τους πα_ραλήπτες..."
 
-#: ../mail/e-mail-reader.c:2010
+#: ../mail/e-mail-reader.c:2011
 msgid "Create a rule to filter messages to these recipients"
 msgstr ""
 "Δημιουργία κανόνα για το φιλτράρισμα μηνυμάτων με αυτούς του παραλήπτες"
 
-#: ../mail/e-mail-reader.c:2015
+#: ../mail/e-mail-reader.c:2016
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "Δημιουργία κανόνα φιλτραρίσματος για τον αποστο_λέα..."
 
-#: ../mail/e-mail-reader.c:2017
+#: ../mail/e-mail-reader.c:2018
 msgid "Create a rule to filter messages from this sender"
 msgstr "Δημιουργία κανόνα για το φιλτράρισμα μηνυμάτων από αυτόν τον αποστολέα"
 
-#: ../mail/e-mail-reader.c:2022
+#: ../mail/e-mail-reader.c:2023
 msgid "Create a Filter Rule for _Subject..."
 msgstr "Δημιουργία κανόνα φιλτραρίσματος για το θέμ_α..."
 
-#: ../mail/e-mail-reader.c:2024
+#: ../mail/e-mail-reader.c:2025
 msgid "Create a rule to filter messages with this subject"
 msgstr "Δημιουργία κανόνα για το φιλτράρισμα μηνυμάτων με αυτό το θέμα"
 
-#: ../mail/e-mail-reader.c:2029
+#: ../mail/e-mail-reader.c:2030
 msgid "A_pply Filters"
 msgstr "Ε_φαρμογή φίλτρων"
 
-#: ../mail/e-mail-reader.c:2031
+#: ../mail/e-mail-reader.c:2032
 msgid "Apply filter rules to the selected messages"
 msgstr "Εφαρμογή φίλτρου στα επιλεγμένα μηνύματα"
 
-#: ../mail/e-mail-reader.c:2036
+#: ../mail/e-mail-reader.c:2037
 msgid "_Find in Message..."
 msgstr "_Εύρεση μέσα στο μήνυμα..."
 
-#: ../mail/e-mail-reader.c:2038
+#: ../mail/e-mail-reader.c:2039
 msgid "Search for text in the body of the displayed message"
 msgstr "Εύρεση κειμένου στο σώμα του μηνύματος που φαίνεται"
 
-#: ../mail/e-mail-reader.c:2043
+#: ../mail/e-mail-reader.c:2044
 msgid "_Clear Flag"
 msgstr "Εκκα_θάριση Σημαίας"
 
-#: ../mail/e-mail-reader.c:2045
+#: ../mail/e-mail-reader.c:2046
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Αφαίρεση της σημαίας παρακολούθησης των επιλεγμένων μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2050
+#: ../mail/e-mail-reader.c:2051
 msgid "_Flag Completed"
 msgstr "Ση_μαία Ολοκληρώθηκε"
 
-#: ../mail/e-mail-reader.c:2052
+#: ../mail/e-mail-reader.c:2053
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Επιλογή όλων των μηνυμάτων στο ίδιο θέμα σαν το επιλεγμένο μήνυμα"
 
-#: ../mail/e-mail-reader.c:2057
+#: ../mail/e-mail-reader.c:2058
 msgid "Follow _Up..."
 msgstr "Παρακολού_θηση..."
 
-#: ../mail/e-mail-reader.c:2059
+#: ../mail/e-mail-reader.c:2060
 msgid "Flag the selected messages for follow-up"
 msgstr "Σημαία στα επιλεγμένα μηνύματα για παρακολούθηση"
 
-#: ../mail/e-mail-reader.c:2064
+#: ../mail/e-mail-reader.c:2065
 msgid "_Attached"
 msgstr "Επι_σύναψη"
 
-#: ../mail/e-mail-reader.c:2066 ../mail/e-mail-reader.c:2073
+#: ../mail/e-mail-reader.c:2067 ../mail/e-mail-reader.c:2074
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Προώθηση του επιλεγμένου μηνύματος σε κάποιον ως επισύναψη"
 
-#: ../mail/e-mail-reader.c:2071
+#: ../mail/e-mail-reader.c:2072
 msgid "Forward As _Attached"
 msgstr "Προώθηση ως _συνημμένο"
 
-#: ../mail/e-mail-reader.c:2078
+#: ../mail/e-mail-reader.c:2079
 msgid "_Inline"
 msgstr "_Ενσωματωμένο"
 
-#: ../mail/e-mail-reader.c:2080 ../mail/e-mail-reader.c:2087
+#: ../mail/e-mail-reader.c:2081 ../mail/e-mail-reader.c:2088
 msgid "Forward the selected message in the body of a new message"
 msgstr "Προώθηση του επιλεγμένου μηνύματος στο σώμα ενός νέου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2085
+#: ../mail/e-mail-reader.c:2086
 msgid "Forward As _Inline"
 msgstr "Προώθηση ως _ενσωματωμένο"
 
-#: ../mail/e-mail-reader.c:2092
+#: ../mail/e-mail-reader.c:2093
 msgid "_Quoted"
 msgstr "Σε _παράθεση"
 
-#: ../mail/e-mail-reader.c:2094 ../mail/e-mail-reader.c:2101
+#: ../mail/e-mail-reader.c:2095 ../mail/e-mail-reader.c:2102
 msgid "Forward the selected message quoted like a reply"
 msgstr "Προώθηση του επιλεγμένου μηνύματος με αναφορά σαν απάντηση"
 
-#: ../mail/e-mail-reader.c:2099
+#: ../mail/e-mail-reader.c:2100
 msgid "Forward As _Quoted"
 msgstr "Προώθηση σε παρά_θεση"
 
-#: ../mail/e-mail-reader.c:2106
+#: ../mail/e-mail-reader.c:2107
 msgid "_Load Images"
 msgstr "_Φόρτωση εικόνων"
 
-#: ../mail/e-mail-reader.c:2108
+#: ../mail/e-mail-reader.c:2109
 msgid "Force images in HTML mail to be loaded"
 msgstr "Υποχρεωτική φόρτωση των εικόνων στα μηνύματα HTML"
 
-#: ../mail/e-mail-reader.c:2113 ../mail/e-mail-reader.c:2491
+#: ../mail/e-mail-reader.c:2114 ../mail/e-mail-reader.c:2492
 msgid "_Ignore Subthread"
 msgstr "_Παράβλεψη δευτερευόντων μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2115
+#: ../mail/e-mail-reader.c:2116
 msgid "Mark new mails in a subthread as read automatically"
 msgstr ""
 "Σημείωση των νέων μηνυμάτων σε μια υποομάδα μηνυμάτων ως αυτόματα "
 "αναγνωσμένων"
 
-#: ../mail/e-mail-reader.c:2120 ../mail/e-mail-reader.c:2495
+#: ../mail/e-mail-reader.c:2121 ../mail/e-mail-reader.c:2496
 msgid "_Ignore Thread"
 msgstr "_Παράβλεψη σειράς μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2122
+#: ../mail/e-mail-reader.c:2123
 msgid "Mark new mails in this thread as read automatically"
 msgstr ""
 "Σημείωση των νέων μηνυμάτων σε αυτή τη σειρά μυνημάτων ως διαβασμένων "
 "αυτόματα"
 
-#: ../mail/e-mail-reader.c:2127
+#: ../mail/e-mail-reader.c:2128
 msgid "_Important"
 msgstr "_Σημαντικό"
 
-#: ../mail/e-mail-reader.c:2129
+#: ../mail/e-mail-reader.c:2130
 msgid "Mark the selected messages as important"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων ως σημαντικά"
 
-#: ../mail/e-mail-reader.c:2134
+#: ../mail/e-mail-reader.c:2135
 msgid "_Junk"
 msgstr "Ανεπι_θύμητα μηνύματα"
 
-#: ../mail/e-mail-reader.c:2136
+#: ../mail/e-mail-reader.c:2137
 msgid "Mark the selected messages as junk"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων ως ανεπιθύμητη αλληλογραφία"
 
-#: ../mail/e-mail-reader.c:2141
+#: ../mail/e-mail-reader.c:2142
 msgid "_Not Junk"
 msgstr "Ε_πιθυμητά Μηνύματα"
 
-#: ../mail/e-mail-reader.c:2143
+#: ../mail/e-mail-reader.c:2144
 msgid "Mark the selected messages as not being junk"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων ως επιθυμητή αλληλογραφία"
 
-#: ../mail/e-mail-reader.c:2148
+#: ../mail/e-mail-reader.c:2149
 msgid "_Read"
 msgstr "_Αναγνωσμένα"
 
-#: ../mail/e-mail-reader.c:2150
+#: ../mail/e-mail-reader.c:2151
 msgid "Mark the selected messages as having been read"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων ως αναγνωσμένα"
 
-#: ../mail/e-mail-reader.c:2155 ../mail/e-mail-reader.c:2515
+#: ../mail/e-mail-reader.c:2156 ../mail/e-mail-reader.c:2516
 msgid "Do not _Ignore Subthread"
 msgstr "Να μην πα_ραβλέπονται οι υποομάδες μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2157
+#: ../mail/e-mail-reader.c:2158
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 "Να μην σημειώνονται τα νέα μηνύματα σε μια υποομάδα μηνυμάτων ως αυτόματα "
 "διαβασμένα"
 
-#: ../mail/e-mail-reader.c:2162 ../mail/e-mail-reader.c:2519
+#: ../mail/e-mail-reader.c:2163 ../mail/e-mail-reader.c:2520
 msgid "Do not _Ignore Thread"
 msgstr "Να μην πα_ραβλέπονται οι σειρές μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2164
+#: ../mail/e-mail-reader.c:2165
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr ""
 "Να μην σημειώνονται τα νέα μηνύματα σε μια σειρά μηνυμάτων ως αυτόματα "
 "διαβασμένα"
 
-#: ../mail/e-mail-reader.c:2169
+#: ../mail/e-mail-reader.c:2170
 msgid "Uni_mportant"
 msgstr "_Μη σημαντικό"
 
-#: ../mail/e-mail-reader.c:2171
+#: ../mail/e-mail-reader.c:2172
 msgid "Mark the selected messages as unimportant"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων ως μη σημαντικά"
 
-#: ../mail/e-mail-reader.c:2176
+#: ../mail/e-mail-reader.c:2177
 msgid "_Unread"
 msgstr "_Μη αναγνωσμένα"
 
-#: ../mail/e-mail-reader.c:2178
+#: ../mail/e-mail-reader.c:2179
 msgid "Mark the selected messages as not having been read"
 msgstr "Σήμανση των επιλεγμένων μηνυμάτων ως μη αναγνωσμένα"
 
-#: ../mail/e-mail-reader.c:2183
+#: ../mail/e-mail-reader.c:2184
 msgid "_Edit as New Message..."
 msgstr "_Επεξεργασία ως νέο μήνυμα..."
 
-#: ../mail/e-mail-reader.c:2185
+#: ../mail/e-mail-reader.c:2186
 msgid "Open the selected messages in the composer for editing"
 msgstr "Άνοιγμα των επιλεγμένων μηνυμάτων στον επεξεργαστή για επεξεργασία"
 
-#: ../mail/e-mail-reader.c:2190
+#: ../mail/e-mail-reader.c:2191
 msgid "Compose _New Message"
 msgstr "Συγγραφή _νέου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2192
+#: ../mail/e-mail-reader.c:2193
 msgid "Open a window for composing a mail message"
 msgstr "Άνοιγμα παραθύρου για τη συγγραφή νέου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2197
+#: ../mail/e-mail-reader.c:2198
 msgid "_Open in New Window"
 msgstr "Ά_νοιγμα σε νέο παράθυρο"
 
-#: ../mail/e-mail-reader.c:2199
+#: ../mail/e-mail-reader.c:2200
 msgid "Open the selected messages in a new window"
 msgstr "Άνοιγμα επιλεγμένου μηνύματος σε νέο παράθυρο"
 
-#: ../mail/e-mail-reader.c:2204
+#: ../mail/e-mail-reader.c:2205
 msgid "_Move to Folder..."
 msgstr "_Μετακίνηση στο φάκελο..."
 
-#: ../mail/e-mail-reader.c:2206
+#: ../mail/e-mail-reader.c:2207
 msgid "Move selected messages to another folder"
 msgstr "Μετακίνηση επιλεγμένων μηνυμάτων σε άλλο φάκελο"
 
-#: ../mail/e-mail-reader.c:2211
+#: ../mail/e-mail-reader.c:2212
 msgid "_Next Message"
 msgstr "Επόμε_νο Μήνυμα"
 
-#: ../mail/e-mail-reader.c:2213
+#: ../mail/e-mail-reader.c:2214
 msgid "Display the next message"
 msgstr "Εμφάνιση επόμενου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2218
+#: ../mail/e-mail-reader.c:2219
 msgid "Next _Important Message"
 msgstr "Επόμενο σ_ημαντικό μήνυμα"
 
-#: ../mail/e-mail-reader.c:2220
+#: ../mail/e-mail-reader.c:2221
 msgid "Display the next important message"
 msgstr "Εμφάνιση επόμενου σημαντικού μηνύματος"
 
-#: ../mail/e-mail-reader.c:2225
+#: ../mail/e-mail-reader.c:2226
 msgid "Next _Thread"
 msgstr "Επόμενη α_λληλουχία"
 
-#: ../mail/e-mail-reader.c:2227
+#: ../mail/e-mail-reader.c:2228
 msgid "Display the next thread"
 msgstr "Εμφάνιση της επόμενης αλληλουχίας"
 
-#: ../mail/e-mail-reader.c:2232
+#: ../mail/e-mail-reader.c:2233
 msgid "Next _Unread Message"
 msgstr "Επόμενο _μη αναγνωσμένο μήνυμα"
 
-#: ../mail/e-mail-reader.c:2234
+#: ../mail/e-mail-reader.c:2235
 msgid "Display the next unread message"
 msgstr "Εμφάνιση επόμενου μη αναγνωσμένου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2239
+#: ../mail/e-mail-reader.c:2240
 msgid "_Previous Message"
 msgstr "_Προηγούμενο μήνυμα"
 
-#: ../mail/e-mail-reader.c:2241
+#: ../mail/e-mail-reader.c:2242
 msgid "Display the previous message"
 msgstr "Εμφάνιση προηγούμενου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2246
+#: ../mail/e-mail-reader.c:2247
 msgid "Pr_evious Important Message"
 msgstr "Πρ_οηγούμενο σημαντικό μήνυμα"
 
-#: ../mail/e-mail-reader.c:2248
+#: ../mail/e-mail-reader.c:2249
 msgid "Display the previous important message"
 msgstr "Εμφάνιση προηγούμενου σημαντικού μηνύματος"
 
-#: ../mail/e-mail-reader.c:2253
+#: ../mail/e-mail-reader.c:2254
 msgid "Previous T_hread"
 msgstr "Προη_γούμενη συζήτηση"
 
-#: ../mail/e-mail-reader.c:2255
+#: ../mail/e-mail-reader.c:2256
 msgid "Display the previous thread"
 msgstr "Εμφάνιση της προηγούμενης συζήτησης"
 
-#: ../mail/e-mail-reader.c:2260
+#: ../mail/e-mail-reader.c:2261
 msgid "P_revious Unread Message"
 msgstr "Π_ροηγούμενο μη αναγνωσμένο μήνυμα"
 
-#: ../mail/e-mail-reader.c:2262
+#: ../mail/e-mail-reader.c:2263
 msgid "Display the previous unread message"
 msgstr "Εμφάνιση προηγούμενου μη αναγνωσμένου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2269
+#: ../mail/e-mail-reader.c:2270
 msgid "Print this message"
 msgstr "Εκτύπωση μηνύματος"
 
-#: ../mail/e-mail-reader.c:2276
+#: ../mail/e-mail-reader.c:2277
 msgid "Preview the message to be printed"
 msgstr "Προεπισκόπηση του μηνύματος προς εκτύπωση"
 
-#: ../mail/e-mail-reader.c:2281
+#: ../mail/e-mail-reader.c:2282
 msgid "Re_direct"
 msgstr "Ανα_δρομολόγηση"
 
-#: ../mail/e-mail-reader.c:2283
+#: ../mail/e-mail-reader.c:2284
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Επαναδρομολόγηση (αναπήδηση) του επιλεγμένου μηνύματος σε κάποιον"
 
-#: ../mail/e-mail-reader.c:2288
+#: ../mail/e-mail-reader.c:2289
 msgid "Remo_ve Attachments"
 msgstr "Α_φαίρεση συνημμένων"
 
-#: ../mail/e-mail-reader.c:2290
+#: ../mail/e-mail-reader.c:2291
 msgid "Remove attachments"
 msgstr "Αφαίρεση συνημμένων"
 
-#: ../mail/e-mail-reader.c:2295
+#: ../mail/e-mail-reader.c:2296
 msgid "Remove Du_plicate Messages"
 msgstr "Αφαίρεση _διπλών μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2297
+#: ../mail/e-mail-reader.c:2298
 msgid "Checks selected messages for duplicates"
 msgstr "Έλεγχος των επιλεγμένων μηνυμάτων για διπλά"
 
-#: ../mail/e-mail-reader.c:2302 ../mail/mail.error.xml.h:27
+#: ../mail/e-mail-reader.c:2303 ../mail/mail.error.xml.h:27
 #: ../modules/calendar/e-cal-shell-view-actions.c:1387
 #: ../modules/mail/e-mail-attachment-handler.c:213
 msgid "Reply to _All"
 msgstr "Απάντηση σε ό_λους"
 
-#: ../mail/e-mail-reader.c:2304
+#: ../mail/e-mail-reader.c:2305
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Συγγραφή απάντησης σε όλους τους παραλήπτες από αυτό το μήνυμα"
 
-#: ../mail/e-mail-reader.c:2309 ../mail/mail.error.xml.h:25
+#: ../mail/e-mail-reader.c:2310 ../mail/mail.error.xml.h:25
 msgid "Reply to _List"
 msgstr "Απάντηση στη _Λίστα"
 
-#: ../mail/e-mail-reader.c:2311
+#: ../mail/e-mail-reader.c:2312
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Συγγραφή απάντησης στη λίστα ταχυδρομείου από αυτό το μήνυμα"
 
-#: ../mail/e-mail-reader.c:2316
+#: ../mail/e-mail-reader.c:2317
 #: ../modules/mail/e-mail-attachment-handler.c:220
 msgid "_Reply to Sender"
 msgstr "_Απάντηση στον αποστολέα"
 
-#: ../mail/e-mail-reader.c:2318
+#: ../mail/e-mail-reader.c:2319
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Συγγραφή απάντησης στον αποστολέα του επιλεγμένου μηνύματος"
 
-#: ../mail/e-mail-reader.c:2323
+#: ../mail/e-mail-reader.c:2324
 msgid "_Save as mbox..."
 msgstr "Αποθήκευ_ση ως mbox..."
 
-#: ../mail/e-mail-reader.c:2325
+#: ../mail/e-mail-reader.c:2326
 msgid "Save selected messages as an mbox file"
 msgstr "Αποθήκευση των επιλεγμένων μηνυμάτων ως αρχείο mbox"
 
-#: ../mail/e-mail-reader.c:2330
+#: ../mail/e-mail-reader.c:2331
 msgid "_Message Source"
 msgstr "Πηγαίος _κώδικας μηνύματος"
 
-#: ../mail/e-mail-reader.c:2332
+#: ../mail/e-mail-reader.c:2333
 msgid "Show the raw email source of the message"
 msgstr "Απλή εμφάνιση της πηγής του μηνύματος"
 
-#: ../mail/e-mail-reader.c:2344
+#: ../mail/e-mail-reader.c:2345
 msgid "_Undelete Message"
 msgstr "Α_κύρωση διαγραφής μηνύματος"
 
-#: ../mail/e-mail-reader.c:2346
+#: ../mail/e-mail-reader.c:2347
 msgid "Undelete the selected messages"
 msgstr "Αναίρεση διαγραφής των επιλεγμένων μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2351
+#: ../mail/e-mail-reader.c:2352
 msgid "_Normal Size"
 msgstr "_Κανονικό μέγεθος"
 
-#: ../mail/e-mail-reader.c:2353
+#: ../mail/e-mail-reader.c:2354
 msgid "Reset the text to its original size"
 msgstr "Επαναφορά του κειμένου στο κανονικό μέγεθος"
 
-#: ../mail/e-mail-reader.c:2358
+#: ../mail/e-mail-reader.c:2359
 msgid "_Zoom In"
 msgstr "Μεγέ_θυνση"
 
-#: ../mail/e-mail-reader.c:2360
+#: ../mail/e-mail-reader.c:2361
 msgid "Increase the text size"
 msgstr "Μεγέθυνση του κειμένου"
 
-#: ../mail/e-mail-reader.c:2367
+#: ../mail/e-mail-reader.c:2368
 msgid "Decrease the text size"
 msgstr "Σμίκρυνση του κειμένου"
 
-#: ../mail/e-mail-reader.c:2374
+#: ../mail/e-mail-reader.c:2375
 msgid "Cre_ate"
 msgstr "Δημιουργί_α"
 
-#: ../mail/e-mail-reader.c:2381
+#: ../mail/e-mail-reader.c:2382
 msgid "Ch_aracter Encoding"
 msgstr "Κω_δικοποίηση χαρακτήρων"
 
-#: ../mail/e-mail-reader.c:2388
+#: ../mail/e-mail-reader.c:2389
 msgid "F_orward As"
 msgstr "_Προώθηση ως"
 
-#: ../mail/e-mail-reader.c:2395
+#: ../mail/e-mail-reader.c:2396
 msgid "_Group Reply"
 msgstr "_Ομαδική απάντηση"
 
-#: ../mail/e-mail-reader.c:2402
+#: ../mail/e-mail-reader.c:2403
 msgid "_Go To"
 msgstr "_Μετάβαση σε"
 
-#: ../mail/e-mail-reader.c:2409
+#: ../mail/e-mail-reader.c:2410
 msgid "Mar_k As"
 msgstr "_Σήμανση ως"
 
-#: ../mail/e-mail-reader.c:2416
+#: ../mail/e-mail-reader.c:2417
 msgid "_Message"
 msgstr "_Μήνυμα"
 
-#: ../mail/e-mail-reader.c:2423
+#: ../mail/e-mail-reader.c:2424
 msgid "_Zoom"
 msgstr "Μεγέ_θυνση"
 
-#: ../mail/e-mail-reader.c:2433
+#: ../mail/e-mail-reader.c:2434
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "Δημιουργία φακέλου αναζήτησης από τη _λίστα ταχυδρομείου..."
 
-#: ../mail/e-mail-reader.c:2435
+#: ../mail/e-mail-reader.c:2436
 msgid "Create a search folder for this mailing list"
 msgstr "Δημιουργία φακέλου αναζήτησης για αυτή τη λίστα ταχυδρομείου"
 
-#: ../mail/e-mail-reader.c:2440
+#: ../mail/e-mail-reader.c:2441
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "Δημιουργία φακέλου αναζήτησης από τους παραλήπ_τες..."
 
-#: ../mail/e-mail-reader.c:2442
+#: ../mail/e-mail-reader.c:2443
 msgid "Create a search folder for these recipients"
 msgstr "Δημιουργία φακέλου αναζήτησης για αυτούς τους παραλήπτες"
 
-#: ../mail/e-mail-reader.c:2447
+#: ../mail/e-mail-reader.c:2448
 msgid "Create a Search Folder from Sen_der..."
 msgstr "Δημιουργία φακέλου αναζήτησης από τον απο_στολέα..."
 
-#: ../mail/e-mail-reader.c:2449
+#: ../mail/e-mail-reader.c:2450
 msgid "Create a search folder for this sender"
 msgstr "Δημιουργία φακέλου αναζήτησης για αυτόν τον αποστολέα"
 
-#: ../mail/e-mail-reader.c:2454
+#: ../mail/e-mail-reader.c:2455
 msgid "Create a Search Folder from S_ubject..."
 msgstr "Δημιουργία φακέλου αναζήτησης από το θέ_μα..."
 
-#: ../mail/e-mail-reader.c:2456
+#: ../mail/e-mail-reader.c:2457
 msgid "Create a search folder for this subject"
 msgstr "Δημιουργία φακέλου αναζήτησης για αυτό το θέμα"
 
-#: ../mail/e-mail-reader.c:2483
+#: ../mail/e-mail-reader.c:2484
 msgid "Mark for Follo_w Up..."
 msgstr "Σημείωση για παρα_κολούθηση..."
 
-#: ../mail/e-mail-reader.c:2499
+#: ../mail/e-mail-reader.c:2500
 msgid "Mark as _Important"
 msgstr "Σήμανση ως _σημαντικό"
 
-#: ../mail/e-mail-reader.c:2503
+#: ../mail/e-mail-reader.c:2504
 msgid "Mark as _Junk"
 msgstr "Σήμανση ως ανεπι_θύμητη αλληλογραφία"
 
-#: ../mail/e-mail-reader.c:2507
+#: ../mail/e-mail-reader.c:2508
 msgid "Mark as _Not Junk"
 msgstr "Σήμανση ως επιθ_υμητή αλληλογραφία"
 
-#: ../mail/e-mail-reader.c:2511
+#: ../mail/e-mail-reader.c:2512
 msgid "Mar_k as Read"
 msgstr "Σήμανση _ως αναγνωσμένο"
 
-#: ../mail/e-mail-reader.c:2523
+#: ../mail/e-mail-reader.c:2524
 msgid "Mark as Uni_mportant"
 msgstr "Σή_μανση ως μη σημαντικό"
 
-#: ../mail/e-mail-reader.c:2527
+#: ../mail/e-mail-reader.c:2528
 msgid "Mark as _Unread"
 msgstr "Σήμανση ως _μη αναγνωσμένο"
 
-#: ../mail/e-mail-reader.c:2571
+#: ../mail/e-mail-reader.c:2572
 msgid "_Caret Mode"
 msgstr "Λειτουργία _Caret"
 
-#: ../mail/e-mail-reader.c:2573
+#: ../mail/e-mail-reader.c:2574
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Εμφάνιση παλλόμενου κέρσορα στο σώμα των μηνυμάτων που εμφανίζονται"
 
-#: ../mail/e-mail-reader.c:2579
+#: ../mail/e-mail-reader.c:2580
 msgid "All Message _Headers"
 msgstr "Όλες οι κε_φαλίδες μηνυμάτων"
 
-#: ../mail/e-mail-reader.c:2581
+#: ../mail/e-mail-reader.c:2582
 msgid "Show messages with all email headers"
 msgstr "Εμφάνιση μηνυμάτων με όλες τις επικεφαλίδες ηλεκτρονικού ταχυδρομείου"
 
-#: ../mail/e-mail-reader.c:3116
+#: ../mail/e-mail-reader.c:3117
 msgid "Retrieving message"
 msgstr "Λήψη μηνύματος"
 
-#: ../mail/e-mail-reader.c:4138
+#: ../mail/e-mail-reader.c:4148
 #: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "_Προώθηση"
 
-#: ../mail/e-mail-reader.c:4139
+#: ../mail/e-mail-reader.c:4149
 msgid "Forward the selected message to someone"
 msgstr "Προώθηση του επιλεγμένου μηνύματος σε κάποιον"
 
-#: ../mail/e-mail-reader.c:4158
+#: ../mail/e-mail-reader.c:4168
 msgid "Group Reply"
 msgstr "Ομαδική απάντηση"
 
-#: ../mail/e-mail-reader.c:4159
+#: ../mail/e-mail-reader.c:4169
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Συγγραφή απάντησης στη λίστα αλληλογραφίας, ή σε όλους τους παραλήπτες"
 
-#: ../mail/e-mail-reader.c:4225 ../mail/filtertypes.xml.in.h:64
+#: ../mail/e-mail-reader.c:4235 ../mail/filtertypes.xml.in.h:64
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: ../mail/e-mail-reader.c:4237
+#: ../mail/e-mail-reader.c:4247
 #: ../modules/calendar/e-cal-shell-view-actions.c:1212
 msgid "Next"
 msgstr "Επόμενο"
 
-#: ../mail/e-mail-reader.c:4241
+#: ../mail/e-mail-reader.c:4251
 #: ../modules/calendar/e-cal-shell-view-actions.c:1205
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: ../mail/e-mail-reader.c:4250 ../mail/mail-dialogs.ui.h:16
+#: ../mail/e-mail-reader.c:4260 ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "Απάντηση"
 
-#: ../mail/e-mail-reader.c:5303
+#: ../mail/e-mail-reader.c:5319
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Να επιτρέπεται το απομακρυσμένο περιεχόμενο για οποιονδήποτε από το %s"
 
-#: ../mail/e-mail-reader.c:5305
+#: ../mail/e-mail-reader.c:5321
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Να επιτρέπεται απομακρυσμένο περιεχόμενο για το %s"
 
-#: ../mail/e-mail-reader.c:5322
+#: ../mail/e-mail-reader.c:5338
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Να επιτρέπεται απομακρυσμένο περιεχόμενο από το %s"
 
-#: ../mail/e-mail-reader.c:5378
-#| msgid "Header content"
+#: ../mail/e-mail-reader.c:5395
 msgid "Load remote content"
 msgstr "Φόρτωση απομακρυσμένου περιεχομένου"
 
@@ -16167,8 +16151,8 @@ msgstr "Φόρτωση απομακρυσμένου περιεχομένου"
 msgid "Do not warn me again"
 msgstr "Να μη ξαναγίνει η ερώτηση"
 
-#: ../mail/e-mail-reader-utils.c:556 ../plugins/face/face.c:170
-#: ../shell/e-shell.c:961 ../shell/e-shell.c:982
+#: ../mail/e-mail-reader-utils.c:556 ../plugins/face/face.c:176
+#: ../shell/e-shell.c:972 ../shell/e-shell.c:996
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Άγνωστο σφάλμα"
@@ -16403,79 +16387,79 @@ msgstr "Συν_δρομή στο εμφανιζόμενο"
 msgid "Subscribe To _All"
 msgstr "Εγγραφή σε ό_λους"
 
-#: ../mail/em-subscription-editor.c:969 ../mail/em-subscription-editor.c:1867
+#: ../mail/em-subscription-editor.c:970 ../mail/em-subscription-editor.c:1869
 #: ../modules/mail/e-mail-shell-view-actions.c:1751
 msgid "_Unsubscribe"
 msgstr "_Κατάργηση συνδρομής"
 
-#: ../mail/em-subscription-editor.c:978
+#: ../mail/em-subscription-editor.c:979
 msgid "Unsu_bscribe From Hidden"
 msgstr "Ά_ρση συνδρομής από το κρυφό"
 
-#: ../mail/em-subscription-editor.c:986
+#: ../mail/em-subscription-editor.c:987
 msgid "Unsubscribe From _All"
 msgstr "Διαγραφή από ό_λους"
 
-#: ../mail/em-subscription-editor.c:1704
+#: ../mail/em-subscription-editor.c:1706
 msgid "Folder Subscriptions"
 msgstr "Συνδρομές Φακέλων"
 
-#: ../mail/em-subscription-editor.c:1743
+#: ../mail/em-subscription-editor.c:1745
 msgid "_Account:"
 msgstr "_Λογαριασμός:"
 
-#: ../mail/em-subscription-editor.c:1756
+#: ../mail/em-subscription-editor.c:1758
 msgid "Clear Search"
 msgstr "Εκκαθάριση αναζήτησης"
 
-#: ../mail/em-subscription-editor.c:1773
+#: ../mail/em-subscription-editor.c:1775
 msgid "Sho_w items that contain:"
 msgstr "Εμ_φάνιση των αντικειμένων που περιέχουν:"
 
-#: ../mail/em-subscription-editor.c:1820
+#: ../mail/em-subscription-editor.c:1822
 msgid "Subscribe to the selected folder"
 msgstr "Συνδρομή στον επιλεγμένο φακέλο"
 
-#: ../mail/em-subscription-editor.c:1821
+#: ../mail/em-subscription-editor.c:1823
 msgid "Su_bscribe"
 msgstr "Συν_δρομή"
 
-#: ../mail/em-subscription-editor.c:1866
+#: ../mail/em-subscription-editor.c:1868
 #: ../modules/mail/e-mail-shell-view-actions.c:1753
 msgid "Unsubscribe from the selected folder"
 msgstr "Κατάργηση συνδρομής στον επιλεγμένο φακέλο"
 
-#: ../mail/em-subscription-editor.c:1906
+#: ../mail/em-subscription-editor.c:1908
 msgid "Collapse all folders"
 msgstr "Σύμπτυξη όλων των φακέλων"
 
-#: ../mail/em-subscription-editor.c:1907
+#: ../mail/em-subscription-editor.c:1909
 msgid "C_ollapse All"
 msgstr "_Σύμπτυξη όλων"
 
-#: ../mail/em-subscription-editor.c:1917
+#: ../mail/em-subscription-editor.c:1919
 msgid "Expand all folders"
 msgstr "Ανάπτυξη όλων των φακέλων"
 
-#: ../mail/em-subscription-editor.c:1918
+#: ../mail/em-subscription-editor.c:1920
 msgid "E_xpand All"
 msgstr "Α_νάπτυξη όλων"
 
-#: ../mail/em-subscription-editor.c:1928
+#: ../mail/em-subscription-editor.c:1930
 msgid "Refresh the folder list"
 msgstr "Ανανέωση της λίστας φακέλων"
 
-#: ../mail/em-subscription-editor.c:1929
+#: ../mail/em-subscription-editor.c:1931
 #: ../modules/mail/e-mail-shell-view-actions.c:1652
 #: ../modules/mail/e-mail-shell-view-actions.c:1723
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: ../mail/em-subscription-editor.c:1940
+#: ../mail/em-subscription-editor.c:1942
 msgid "Stop the current operation"
 msgstr "Ακύρωση της τρέχουσας λειτουργίας"
 
-#: ../mail/em-subscription-editor.c:1941
+#: ../mail/em-subscription-editor.c:1943
 #: ../modules/addressbook/e-book-shell-view-actions.c:979
 msgid "_Stop"
 msgstr "_Διακοπή"
@@ -16704,13 +16688,11 @@ msgstr "δεν έχει σημαία"
 
 #: ../mail/filtertypes.xml.in.h:43 ../mail/searchtypes.xml.in.h:45
 #: ../mail/vfoldertypes.xml.in.h:46
-#| msgid "% Completed"
 msgid "is Completed"
 msgstr "ολοκληρώθηκε"
 
 #: ../mail/filtertypes.xml.in.h:44 ../mail/searchtypes.xml.in.h:46
 #: ../mail/vfoldertypes.xml.in.h:47
-#| msgid "% Completed"
 msgid "is not Completed"
 msgstr "δεν ολοκληρώθηκε"
 
@@ -17326,22 +17308,18 @@ msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "Ερώ_τηση στην αποστολή μηνυμάτων HTML σε επαφές που δεν το θέλουν"
 
 #: ../mail/mail-config.ui.h:103
-#| msgid "Loading memo list"
 msgid "Loading Remote Content"
 msgstr "Φόρτωση απομακρυσμένου περιεχομένου"
 
 #: ../mail/mail-config.ui.h:104
-#| msgid "_Never load images from the Internet"
 msgid "_Never load remote content from the Internet"
 msgstr "Να μη φορτώνεται _ποτέ απομακρυσμένο περιεχόμενο από το διαδίκτυο"
 
 #: ../mail/mail-config.ui.h:105
-#| msgid "_Load images only in messages from contacts"
 msgid "_Load remote content only in messages from contacts"
 msgstr "_Φόρτωση απομακρυσμένου περιεχομένου μόνο σε μηνύματα από επαφές"
 
 #: ../mail/mail-config.ui.h:106
-#| msgid "_Always load images from the Internet"
 msgid "_Always load remote content from the Internet"
 msgstr "Να φορτώνεται πά_ντα απομακρυσμένο περιεχόμενο από το διαδίκτυο"
 
@@ -17350,17 +17328,14 @@ msgid "Add"
 msgstr "Προσθήκη"
 
 #: ../mail/mail-config.ui.h:108
-#| msgid "_Remove"
 msgid "Remove"
 msgstr "Αφαίρεση"
 
 #: ../mail/mail-config.ui.h:109
-#| msgid "Allow newlines"
 msgid "Allow for sites:"
 msgstr "Να επιτρέπεται για ιστότοπους:"
 
 #: ../mail/mail-config.ui.h:110
-#| msgid "All local folders"
 msgid "Allow for senders:"
 msgstr "Να επιτρέπεται για αποστολείς:"
 
@@ -18165,17 +18140,14 @@ msgstr ""
 "Είστε σίγουροι ότι θέλετε να αντιγράψετε τον φάκελο '{0}' στον φάκελο '{1}';"
 
 #: ../mail/mail.error.xml.h:139
-#| msgid "Do _not Send"
 msgid "Do _not copy"
 msgstr "Να _μην αντιγράφεται"
 
 #: ../mail/mail.error.xml.h:140
-#| msgid "_Always"
 msgid "_Always copy"
 msgstr "Να αντιγράφεται πάν_τα"
 
 #: ../mail/mail.error.xml.h:141
-#| msgid "N_ever"
 msgid "N_ever copy"
 msgstr "Να μην αντιγράφεται π_οτέ"
 
@@ -18189,17 +18161,14 @@ msgstr ""
 "Είστε σίγουροι ότι θέλετε να μετακινήσετε τον φάκελο '{0}' στον φάκελο '{1}';"
 
 #: ../mail/mail.error.xml.h:145
-#| msgid "Do _not Send"
 msgid "Do _not move"
 msgstr "Να μ_ην μετακινείται"
 
 #: ../mail/mail.error.xml.h:146
-#| msgid "_Always"
 msgid "_Always move"
 msgstr "Να μετακινείται _πάντα"
 
 #: ../mail/mail.error.xml.h:147
-#| msgid "N_ever"
 msgid "N_ever move"
 msgstr "Να μην μετακινείται πο_τέ"
 
@@ -18368,11 +18337,9 @@ msgstr ""
 "Αποτυχία αποεπιλογής υποομάδας μηνυμάτων από παράβλεψη στον φάκελο '{0}'"
 
 #: ../mail/mail.error.xml.h:185
-#| msgid "Request a _read receipt for this message"
 msgid "Remote content download had been blocked for this message."
 msgstr ""
-"Η μεταφόρτωση απομακρυσμένου περιεχομένου έχει εμποδιστεί για αυτό το "
-"μήνυμα."
+"Η μεταφόρτωση απομακρυσμένου περιεχομένου έχει εμποδιστεί για αυτό το μήνυμα."
 
 #: ../mail/mail.error.xml.h:186
 msgid ""
@@ -18385,7 +18352,6 @@ msgstr ""
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:188
-#| msgid "Completed on"
 msgid "{0}, Completed on {1}"
 msgstr "{0}, ολοκληρώθηκε στις {1}"
 
@@ -19137,7 +19103,6 @@ msgid "Invalid Evolution backup file"
 msgstr "Άκυρο εφεδρικό αρχείο του Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#| msgid "Invalid Evolution backup file"
 msgid "File '{0}' is not a valid Evolution backup file."
 msgstr "Το αρχείο '{0}' δεν είναι ένα έγκυρο εφεδρικό αρχείο του Evolution."
 
@@ -19519,57 +19484,57 @@ msgstr "Νέα Λίστα υπενθυμίσεων"
 msgid "New Task List"
 msgstr "Νέα λίστα εργασιών"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:548
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:554
 #, c-format
 msgid "Copying an event into the calendar '%s'"
 msgstr "Αντιγραφή συμβάντος στο ημερολόγιο '%s'"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:549
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:555
 #, c-format
 msgid "Moving an event into the calendar '%s'"
 msgstr "Μετακίνηση συμβάντος στο ημερολόγιο '%s'"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:554
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:560
 #, c-format
 msgid "Copying a memo into the memo list '%s'"
 msgstr "Αντιγραφή υπενθύμισης στον κατάλογο υπενθυμίσεων '%s'"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:555
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:561
 #, c-format
 msgid "Moving a memo into the memo list '%s'"
 msgstr "Μετακίνηση υπενθύμισης στον κατάλογο υπενθυμίσεων '%s'"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:560
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:566
 #, c-format
 msgid "Copying a task into the task list '%s'"
 msgstr "Αντιγραφή εργασίας στον κατάλογο εργασιών '%s'"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:561
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:567
 #, c-format
 msgid "Moving a task into the task list '%s'"
 msgstr "Μετακίνηση εργασίας στον κατάλογο εργασιών '%s'"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:677
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:684
 msgid "Calendar Selector"
 msgstr "Επιλογέας ημερολογίου"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:683
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:690
 msgid "Memo List Selector"
 msgstr "Επιλογέας λίστας υπενθυμίσεων"
 
-#: ../modules/calendar/e-cal-base-shell-sidebar.c:688
+#: ../modules/calendar/e-cal-base-shell-sidebar.c:695
 msgid "Task List Selector"
 msgstr "Επιλογέας λίστας εργασιών"
 
-#: ../modules/calendar/e-calendar-preferences.c:517
+#: ../modules/calendar/e-calendar-preferences.c:518
 msgid "Selected Calendars for Alarms"
 msgstr "Επιλεγμένα ημερολόγια ως ειδοποιήσεις"
 
-#: ../modules/calendar/e-calendar-preferences.c:931
+#: ../modules/calendar/e-calendar-preferences.c:932
 msgid "Ti_me and date:"
 msgstr "Ώ_ρα και ημερομηνία:"
 
-#: ../modules/calendar/e-calendar-preferences.c:932
+#: ../modules/calendar/e-calendar-preferences.c:933
 msgid "_Date only:"
 msgstr "Ημερο_μηνία μόνο:"
 
@@ -20978,7 +20943,7 @@ msgid "_Update Attendee Status"
 msgstr "Ανα_νέωση κατάστασης παρευρισκομένων"
 
 #: ../modules/itip-formatter/itip-view.c:1068
-#: ../smime/gui/certificate-manager.c:1664
+#: ../smime/gui/certificate-manager.c:1666
 msgid "_Update"
 msgstr "Ε_νημέρωση"
 
@@ -21476,12 +21441,10 @@ msgid "Marking messages as read..."
 msgstr "Σήμανση μηνυμάτων ως διαβασμένων..."
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1038
-#| msgid "Move to Folder"
 msgid "Go to Folder"
 msgstr "Μετάβαση στον φάκελο"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1042
-#| msgid "Select"
 msgid "_Select"
 msgstr "Επι_λογή"
 
@@ -21607,12 +21570,10 @@ msgstr ""
 "Οριστική απομάκρυνση όλων των διαγραμμένων μηνυμάτων από όλους τους φακέλους"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1765
-#| msgid "Move to Folder"
 msgid "Go to _Folder"
 msgstr "Μετακίνηση στον _φάκελο"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1767
-#| msgid "Click here to select folders to post to"
 msgid "Opens a dialog to select a folder to go to"
 msgstr "Ανοίγει έναν διάλογο για επιλογή του φακέλου μετάβασης"
 
@@ -21864,8 +21825,6 @@ msgstr[1] "%d μη αναγνωσμένα, "
 
 #: ../modules/mail/e-mail-shell-view-private.c:1063
 #, c-format
-#| msgid "%d unread, "
-#| msgid_plural "%d unread, "
 msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d μη αναγνωσμένο"
@@ -22450,11 +22409,11 @@ msgstr "Εμφάνιση τμήματος ως μια επαφή βιβλίου 
 msgid "Evolution Web Inspector"
 msgstr "Evolution Web Inspector"
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:123
+#: ../plugins/attachment-reminder/attachment-reminder.c:126
 msgid "_Do not show this message again."
 msgstr "Να μην εμφανιστεί _ξανά αυτό το μήνυμα."
 
-#: ../plugins/attachment-reminder/attachment-reminder.c:584
+#: ../plugins/attachment-reminder/attachment-reminder.c:465
 #: ../plugins/templates/templates.c:478
 msgid "Keywords"
 msgstr "Λέξεις κλειδιά"
@@ -22700,23 +22659,28 @@ msgstr ""
 "μηνύματος δεν μπορεί να κλείσει ενώ το πρόγραμμα επεξεργασίας είναι ακόμα "
 "ανοικτό."
 
-#: ../plugins/face/face.c:288
+#: ../plugins/face/face.c:294
 msgid "Select a Face Picture"
 msgstr "Επιλέξτε μια εικόνα προσώπου"
 
-#: ../plugins/face/face.c:298
+#: ../plugins/face/face.c:304
 msgid "Image files"
 msgstr "Αρχεία εικόνων"
 
-#: ../plugins/face/face.c:357
+#: ../plugins/face/face.c:392
 msgid "_Insert Face picture by default"
 msgstr "Να ε_ισάγεται πάντα η εικόνα προσώπου"
 
-#: ../plugins/face/face.c:370
+#: ../plugins/face/face.c:405
 msgid "Load new _Face picture"
 msgstr "Φόρτωση νέας εικόνας _προσώπου"
 
-#: ../plugins/face/face.c:431
+#: ../plugins/face/face.c:449
+#| msgid "Choose Background Image"
+msgid "Change Face Image"
+msgstr "Αλλαγή της εικόνας όψης"
+
+#: ../plugins/face/face.c:537
 msgid "Include _Face"
 msgstr "Να συμπεριλαμβάνεται ει_κόνα"
 
@@ -22738,16 +22702,38 @@ msgid "Invalid Image Size"
 msgstr "Μη έγκυρο μέγεθος εικόνας"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:4
-msgid "Please select an image of size 48 * 48"
-msgstr "Παρακαλώ επιλέξτε μια εικόνα μεγέθους 48 * 48"
+msgid ""
+"Please select a PNG image of size 48 * 48 pixels, whose file size doesn't "
+"exceed 723 bytes."
+msgstr ""
+"Παρακαλούμε επιλέξτε μια εικόνα PNG με μέγεθος 48 * 48 εικονοστοιχεία, της "
+"οποίας το μέγεθος του αρχείου δεν υπερβαίνει τις 723 ψηφιολέξεις."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
+msgid "Incorrect Face Image Byte Size"
+msgstr "Εσφαλμένο μέγεθος ψηφιολέξης εικόνας όψης"
+
+#: ../plugins/face/org-gnome-face.error.xml.h:6
+msgid ""
+"The Face image size is {0} bytes, while it should not be more than 723 "
+"bytes. Please select a PNG image of size 48 * 48 pixels, whose file size "
+"doesn't exceed 723 bytes."
+msgstr ""
+"Το μέγεθος της εικόνας όψης είναι {0} ψηφιολέξεις, ενώ δεν θα έπρεπε να "
+"είναι περισσότερο από 723 ψηφιολέξεις. Παρακαλούμε επιλέξτε μια εικόνα PNG "
+"μεγέθους 48 * 48 εικονοστοιχείων, της οποίας το μέγεθος του αρχείου δεν "
+"υπερβαίνει τις 723 ψηφιολέξεις."
+
+#: ../plugins/face/org-gnome-face.error.xml.h:7
 msgid "Not an image"
 msgstr "Δεν είναι εικόνα"
 
-#: ../plugins/face/org-gnome-face.error.xml.h:6
-msgid "The file you selected does not look like a valid .png image. Error: {0}"
-msgstr "Το αρχείο που επιλέξατε δεν είναι μια έγκυρη εικόνα .png. Σφάλμα: {0}"
+#: ../plugins/face/org-gnome-face.error.xml.h:8
+#| msgid ""
+#| "The file you selected does not look like a valid .png image. Error: {0}"
+msgid "The file you selected does not look like a valid PNG image. Error: {0}"
+msgstr ""
+"Το αρχείο που επιλέξατε δεν μοιάζει με μια έγκυρη εικόνα PNG. Σφάλμα: {0}"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:364
 msgid "Get List _Archive"
@@ -22894,8 +22880,8 @@ msgstr ""
 "\n"
 "Κεφαλίδα: {0}"
 
-#: ../plugins/mail-notification/mail-notification.c:394
-#: ../plugins/mail-notification/mail-notification.c:430
+#: ../plugins/mail-notification/mail-notification.c:400
+#: ../plugins/mail-notification/mail-notification.c:436
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -22904,54 +22890,54 @@ msgstr[1] "Έχετε %d νέα μηνύματα."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../plugins/mail-notification/mail-notification.c:405
+#: ../plugins/mail-notification/mail-notification.c:411
 #, c-format
 msgid "From: %s"
 msgstr "Από: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:419
+#: ../plugins/mail-notification/mail-notification.c:425
 #, c-format
 msgid "Subject: %s"
 msgstr "Θέμα: %s"
 
-#: ../plugins/mail-notification/mail-notification.c:436
+#: ../plugins/mail-notification/mail-notification.c:442
 msgid "New email in Evolution"
 msgstr "Νέα αλληλογραφία στο Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../plugins/mail-notification/mail-notification.c:471
+#: ../plugins/mail-notification/mail-notification.c:483
 #, c-format
 msgid "Show %s"
 msgstr "Εμφάνιση %s"
 
-#: ../plugins/mail-notification/mail-notification.c:673
+#: ../plugins/mail-notification/mail-notification.c:685
 msgid "_Play sound when a new message arrives"
 msgstr "Ανα_παραγωγή ήχου κατά την άφιξη νέου μηνύματος"
 
-#: ../plugins/mail-notification/mail-notification.c:705
+#: ../plugins/mail-notification/mail-notification.c:717
 msgid "_Beep"
 msgstr "Μ_πιπ"
 
-#: ../plugins/mail-notification/mail-notification.c:718
+#: ../plugins/mail-notification/mail-notification.c:730
 msgid "Use sound _theme"
 msgstr "Χρήση ή_χου συστήματος"
 
-#: ../plugins/mail-notification/mail-notification.c:737
+#: ../plugins/mail-notification/mail-notification.c:749
 msgid "Play _file:"
 msgstr "Αναπαραγωγή αρ_χείου:"
 
-#: ../plugins/mail-notification/mail-notification.c:746
+#: ../plugins/mail-notification/mail-notification.c:758
 msgid "Select sound file"
 msgstr "Επιλογή αρχείου ήχου"
 
-#: ../plugins/mail-notification/mail-notification.c:802
+#: ../plugins/mail-notification/mail-notification.c:835
 msgid "Notify new messages for _Inbox only"
 msgstr "_Ειδοποίηση μόνο για νέα μηνύματα που καταφθάνουν στα εισερχόμενα"
 
-#: ../plugins/mail-notification/mail-notification.c:812
+#: ../plugins/mail-notification/mail-notification.c:851
 msgid "Show _notification when a new message arrives"
 msgstr "Εμφάνιση ειδοποί_ησης κατά την άφιξη νέου μηνύματος"
 
@@ -23308,7 +23294,7 @@ msgid "_Username:"
 msgstr "Ό_νομα χρήστη:"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
-#: ../smime/gui/certificate-manager.c:772
+#: ../smime/gui/certificate-manager.c:774
 msgid "_Password:"
 msgstr "_Κωδικός:"
 
@@ -23500,7 +23486,7 @@ msgstr "Προετοιμασία για τερματισμό"
 msgid "Preparing to quit..."
 msgstr "Προετοιμασία για τερματισμό..."
 
-#: ../shell/e-shell.c:1009
+#: ../shell/e-shell.c:1026
 msgid "Credentials are required to connect to the destination host."
 msgstr ""
 "Απαιτούνται διαπιστευτήρια για τη σύνδεση με τον οικοδεσπότη προορισμού."
@@ -24047,7 +24033,6 @@ msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Αποτυχία κλήσης πιστοποίησης για το '{0}'"
 
 #: ../shell/shell.error.xml.h:17
-#| msgid "Failed to connect to '{0}'"
 msgid "Failed to connect '{0}'"
 msgstr "Αποτυχία σύνδεσης με το '{0}'"
 
@@ -24056,27 +24041,22 @@ msgid "_Reconnect"
 msgstr "Ε_πανασύνδεση"
 
 #: ../shell/shell.error.xml.h:19
-#| msgid "Failed to refresh address book '{0}'"
 msgid "Failed to connect address book '{0}'"
 msgstr "Αποτυχία σύνδεσης με το βιβλίο διευθύνσεων '{0}'"
 
 #: ../shell/shell.error.xml.h:20
-#| msgid "Failed to open calendar '{0}'"
 msgid "Failed to connect calendar '{0}'"
 msgstr "Αποτυχία σύνδεσης με το ημερολόγιο '{0}'"
 
 #: ../shell/shell.error.xml.h:21
-#| msgid "Failed to connect to '{0}'"
 msgid "Failed to connect mail account '{0}'"
 msgstr "Αποτυχία σύνδεσης με τον λογαριασμό αλληλογραφίας '{0}'"
 
 #: ../shell/shell.error.xml.h:22
-#| msgid "Failed to open memo list '{0}'"
 msgid "Failed to connect memo list '{0}'"
 msgstr "Αποτυχία σύνδεσης με τον κατάλογο υπενθυμίσεων '{0}'"
 
 #: ../shell/shell.error.xml.h:23
-#| msgid "Failed to open task list '{0}'"
 msgid "Failed to connect task list '{0}'"
 msgstr "Αποτυχία σύνδεσης με τον κατάλογο εργασιών '{0}'"
 
@@ -24097,32 +24077,26 @@ msgid "Reason: {1}"
 msgstr "Αιτία: {1}"
 
 #: ../shell/shell.error.xml.h:29
-#| msgid "SSL certificate for '{0}' is not trusted."
 msgid "SSL certificate for address book '{0}' is not trusted."
 msgstr ""
 "Το πιστοποιητικό SSL για το βιβλίο διευθύνσεων '{0}' δεν είναι αξιόπιστο."
 
 #: ../shell/shell.error.xml.h:30
-#| msgid "SSL certificate for '{0}' is not trusted."
 msgid "SSL certificate for calendar '{0}' is not trusted."
 msgstr "Το πιστοποιητικό SSL για το ημερολόγιο '{0}' δεν είναι αξιόπιστο."
 
 #: ../shell/shell.error.xml.h:31
-#| msgid "SSL certificate for '{0}' is not trusted."
 msgid "SSL certificate for mail account '{0}' is not trusted."
 msgstr ""
 "Το πιστοποιητικό SSL για τον λογαριασμό αλληλογραφίας '{0}' δεν είναι "
 "αξιόπιστο."
 
 #: ../shell/shell.error.xml.h:32
-#| msgid "SSL certificate for '{0}' is not trusted."
 msgid "SSL certificate for memo list '{0}' is not trusted."
 msgstr ""
-"Το πιστοποιητικό SSL για τον κατάλογο υπενθυμίσεων '{0}' δεν είναι "
-"αξιόπιστο."
+"Το πιστοποιητικό SSL για τον κατάλογο υπενθυμίσεων '{0}' δεν είναι αξιόπιστο."
 
 #: ../shell/shell.error.xml.h:33
-#| msgid "SSL certificate for '{0}' is not trusted."
 msgid "SSL certificate for task list '{0}' is not trusted."
 msgstr ""
 "Το πιστοποιητικό SSL για τον κατάλογο εργασιών '{0}' δεν είναι αξιόπιστο."
@@ -24213,7 +24187,7 @@ msgstr "Αποτύπωμα MD5"
 msgid "Email Address"
 msgstr "Διεύθυνση αλληλογραφίας"
 
-#: ../smime/gui/certificate-manager.c:650
+#: ../smime/gui/certificate-manager.c:652
 msgid "Select a file to backup your key and certificate..."
 msgstr ""
 "Επιλέξτε ένα αρχείο για αντίγραφο ασφαλείας του κλειδιού σας και του "
@@ -24224,36 +24198,36 @@ msgstr ""
 #. * when a user wants to backup one of her/his private keys/certificates.
 #. * For example: gnomedev-backup.p12
 #.
-#: ../smime/gui/certificate-manager.c:662
+#: ../smime/gui/certificate-manager.c:664
 #, c-format
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
-#: ../smime/gui/certificate-manager.c:676
-#: ../smime/gui/certificate-manager.c:965
+#: ../smime/gui/certificate-manager.c:678
+#: ../smime/gui/certificate-manager.c:967
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
-#: ../smime/gui/certificate-manager.c:728
+#: ../smime/gui/certificate-manager.c:730
 msgid "Backup Certificate"
 msgstr "Πιστοποιητικό αντιγράφου ασφαλείας"
 
 #. filename selection
-#: ../smime/gui/certificate-manager.c:742
+#: ../smime/gui/certificate-manager.c:744
 msgid "_File name:"
 msgstr "Όνομα _αρχείου:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
-#: ../smime/gui/certificate-manager.c:747
+#: ../smime/gui/certificate-manager.c:749
 msgid "Please select a file..."
 msgstr "Παρακαλώ επιλέξτε ένα αρχείο..."
 
-#: ../smime/gui/certificate-manager.c:761
+#: ../smime/gui/certificate-manager.c:763
 msgid "_Include certificate chain in the backup"
 msgstr "Να πε_ριλαμβάνεται η αλυσίδα πιστοποιητικού στο αντίγραφο ασφαλείας"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:767
+#: ../smime/gui/certificate-manager.c:769
 msgid ""
 "The certificate backup password you set here protects the backup file that "
 "you are about to create.\n"
@@ -24264,16 +24238,16 @@ msgstr ""
 "Πρέπει να ορίσετε αυτόν τον κωδικό πρόσβασης για να συνεχίσετε με το "
 "αντίγραφο ασφαλείας."
 
-#: ../smime/gui/certificate-manager.c:786
+#: ../smime/gui/certificate-manager.c:788
 msgid "_Repeat Password:"
 msgstr "Επανάλη_ψη κωδικού πρόσβασης:"
 
-#: ../smime/gui/certificate-manager.c:805
+#: ../smime/gui/certificate-manager.c:807
 msgid "Passwords do not match"
 msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν"
 
 #. To Translators: this text was copied from Firefox
-#: ../smime/gui/certificate-manager.c:813
+#: ../smime/gui/certificate-manager.c:815
 msgid ""
 "Important:\n"
 "If you forget your certificate backup password, you will not be able to "
@@ -24285,92 +24259,92 @@ msgstr ""
 "μπορείτε να επαναφέρετε αυτό το αντίγραφο αργότερα.\n"
 "Παρακαλούμε γράψτε τον σε μια ασφαλή θέση."
 
-#: ../smime/gui/certificate-manager.c:858
+#: ../smime/gui/certificate-manager.c:860
 msgid "No file name provided"
 msgstr "Δε δόθηκε όνομα αρχείου"
 
-#: ../smime/gui/certificate-manager.c:862
+#: ../smime/gui/certificate-manager.c:864
 msgid "Failed to backup key and certificate"
 msgstr "Αποτυχία αντιγραφής κλειδιού και πιστοποιητικού"
 
-#: ../smime/gui/certificate-manager.c:951
+#: ../smime/gui/certificate-manager.c:953
 msgid "Select a certificate to import..."
 msgstr "Επιλογή ενός πιστοποιητικού για εισαγωγή..."
 
-#: ../smime/gui/certificate-manager.c:1001
+#: ../smime/gui/certificate-manager.c:1003
 msgid "Failed to import certificate"
 msgstr "Αποτυχία εισαγωγής πιστοποιητικού"
 
-#: ../smime/gui/certificate-manager.c:1117
+#: ../smime/gui/certificate-manager.c:1119
 msgctxt "CamelTrust"
 msgid "Ask when used"
 msgstr "Συχνότητα χρήσης"
 
-#: ../smime/gui/certificate-manager.c:1119
+#: ../smime/gui/certificate-manager.c:1121
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Ποτέ"
 
-#: ../smime/gui/certificate-manager.c:1121
+#: ../smime/gui/certificate-manager.c:1123
 msgctxt "CamelTrust"
 msgid "Marginal"
 msgstr "Σπάνια"
 
-#: ../smime/gui/certificate-manager.c:1123
+#: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
 msgid "Fully"
 msgstr "Πλήρως"
 
-#: ../smime/gui/certificate-manager.c:1125
+#: ../smime/gui/certificate-manager.c:1127
 msgctxt "CamelTrust"
 msgid "Ultimate"
 msgstr "Απεριόριστα"
 
-#: ../smime/gui/certificate-manager.c:1127
+#: ../smime/gui/certificate-manager.c:1129
 msgctxt "CamelTrust"
 msgid "Temporary"
 msgstr "Προσωρινά"
 
-#: ../smime/gui/certificate-manager.c:1333
+#: ../smime/gui/certificate-manager.c:1335
 msgid "Change certificate trust"
 msgstr "Αλλαγή εμπιστοσύνης πιστοποιητικού"
 
-#: ../smime/gui/certificate-manager.c:1345
+#: ../smime/gui/certificate-manager.c:1347
 #, c-format
 msgid "Change trust for the host '%s':"
 msgstr "Αλλαγή εμπιστοσύνης για τον οικοδεσπότη '%s':"
 
-#: ../smime/gui/certificate-manager.c:1369
+#: ../smime/gui/certificate-manager.c:1371
 msgctxt "CamelTrust"
 msgid "_Ask when used"
 msgstr "_Συχνότητα χρήσης"
 
-#: ../smime/gui/certificate-manager.c:1370
+#: ../smime/gui/certificate-manager.c:1372
 msgctxt "CamelTrust"
 msgid "_Temporary (this session only)"
 msgstr "_Προσωρινά (μόνο για αυτή τη συνεδρία)"
 
-#: ../smime/gui/certificate-manager.c:1371
+#: ../smime/gui/certificate-manager.c:1373
 msgctxt "CamelTrust"
 msgid "_Never"
 msgstr "_Ποτέ"
 
-#: ../smime/gui/certificate-manager.c:1372
+#: ../smime/gui/certificate-manager.c:1374
 msgctxt "CamelTrust"
 msgid "_Marginal"
 msgstr "_Σπάνια"
 
-#: ../smime/gui/certificate-manager.c:1373
+#: ../smime/gui/certificate-manager.c:1375
 msgctxt "CamelTrust"
 msgid "_Fully"
 msgstr "Π_λήρως"
 
-#: ../smime/gui/certificate-manager.c:1374
+#: ../smime/gui/certificate-manager.c:1376
 msgctxt "CamelTrust"
 msgid "_Ultimate"
 msgstr "_Απεριόριστα"
 
-#: ../smime/gui/certificate-manager.c:1378
+#: ../smime/gui/certificate-manager.c:1380
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -24379,45 +24353,45 @@ msgstr ""
 "πιστοποιητικό του και την πολιτική του καθώς και τις διαδικασίες (αν είναι "
 "διαθέσιμα)."
 
-#: ../smime/gui/certificate-manager.c:1393
+#: ../smime/gui/certificate-manager.c:1395
 msgid "_Display certificate"
 msgstr "Εμ_φάνιση πιστοποιητικού"
 
-#: ../smime/gui/certificate-manager.c:1598
+#: ../smime/gui/certificate-manager.c:1600
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
 "Έχετε πιστοποιητικά στο αρχείο που ταυτοποιούν αυτούς τους διακομιστές "
 "αλληλογραφίας:"
 
-#: ../smime/gui/certificate-manager.c:1629
+#: ../smime/gui/certificate-manager.c:1631
 msgid "Host name"
 msgstr "Όνομα οικοδεσπότη"
 
-#: ../smime/gui/certificate-manager.c:1631
+#: ../smime/gui/certificate-manager.c:1633
 msgid "Issuer"
 msgstr "Εκδότης"
 
-#: ../smime/gui/certificate-manager.c:1632
+#: ../smime/gui/certificate-manager.c:1634
 msgid "Fingerprint"
 msgstr "Αποτύπωμα"
 
-#: ../smime/gui/certificate-manager.c:1633
+#: ../smime/gui/certificate-manager.c:1635
 msgid "Trust"
 msgstr "Εμπιστοσύνη"
 
-#: ../smime/gui/certificate-manager.c:1654
+#: ../smime/gui/certificate-manager.c:1656
 msgid "_Edit Trust"
 msgstr "Επε_ξεργασία εμπιστοσύνης"
 
-#: ../smime/gui/certificate-manager.c:1973
+#: ../smime/gui/certificate-manager.c:1975
 msgid "All PKCS12 files"
 msgstr "Όλα τα αρχεία PKCS12"
 
-#: ../smime/gui/certificate-manager.c:1990
+#: ../smime/gui/certificate-manager.c:1992
 msgid "All email certificate files"
 msgstr "Όλα τα αρχεία πιστοποιητικού email"
 
-#: ../smime/gui/certificate-manager.c:2007
+#: ../smime/gui/certificate-manager.c:2009
 msgid "All CA certificate files"
 msgstr "Όλα τα αρχεία πιστοποιητικού CA"
 
@@ -24531,7 +24505,6 @@ msgstr ""
 "εξετάσετε το πιστοποιητικό της και την πολιτική της (αν είναι διαθέσιμη)."
 
 #: ../smime/gui/smime-ui.ui.h:25
-#| msgid "Certificate"
 msgid "C_ertificate:"
 msgstr "_Πιστοποιητικό:"
 
@@ -24677,6 +24650,9 @@ msgstr "Με ημερο_μηνία λήξης"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Με κα_τάσταση"
+
+#~ msgid "Please select an image of size 48 * 48"
+#~ msgstr "Παρακαλώ επιλέξτε μια εικόνα μεγέθους 48 * 48"
 
 #~ msgid "Completed On"
 #~ msgstr "Ολοκληρωμένο την"
