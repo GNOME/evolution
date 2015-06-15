@@ -446,6 +446,9 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	parent = gtk_widget_get_parent (GTK_WIDGET (canvas));
 	week_view = E_WEEK_VIEW (parent);
 
+	if (e_week_view_get_multi_week_view (week_view))
+		return;
+
 	if (!is_array_index_in_bounds (week_view->events, event_item->priv->event_num))
 		return;
 
