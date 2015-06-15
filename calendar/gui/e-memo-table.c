@@ -401,9 +401,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	gchar *tmp;
 	const gchar *str;
 	GString *tmp2;
-	gchar buff[1001];
 	gboolean free_text = FALSE;
-	gboolean use_24_hour_format;
 	ECalComponent *new_comp;
 	ECalComponentOrganizer organizer;
 	ECalComponentDateTime dtstart, dtdue;
@@ -528,41 +526,42 @@ memo_table_query_tooltip (GtkWidget *widget,
 	}
 
 	tmp2 = g_string_new ("");
-	use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
 
 	if (dtstart.value) {
-		buff[0] = 0;
+		gchar *str;
 
-		tmp_tm = icaltimetype_to_tm_with_zone (
-			dtstart.value, zone, default_zone);
-		e_time_format_date_and_time (
-			&tmp_tm, use_24_hour_format,
-			FALSE, FALSE, buff, 1000);
+		tmp_tm = icaltimetype_to_tm_with_zone (dtstart.value, zone, default_zone);
+		str = e_datetime_format_format_tm ("calendar", "table",
+			dtstart.value->is_date ? DTFormatKindDate : DTFormatKindDateTime,
+			&tmp_tm);
 
-		if (buff[0]) {
+		if (str && *str) {
 			/* Translators: This is followed by an event's start date/time */
 			g_string_append (tmp2, _("Start: "));
-			g_string_append (tmp2, buff);
+			g_string_append (tmp2, str);
 		}
+
+		g_free (str);
 	}
 
 	if (dtdue.value) {
-		buff[0] = 0;
+		gchar *str;
 
-		tmp_tm = icaltimetype_to_tm_with_zone (
-			dtdue.value, zone, default_zone);
-		e_time_format_date_and_time (
-			&tmp_tm, use_24_hour_format,
-			FALSE, FALSE, buff, 1000);
+		tmp_tm = icaltimetype_to_tm_with_zone (dtdue.value, zone, default_zone);
+		str = e_datetime_format_format_tm ("calendar", "table",
+			dtdue.value->is_date ? DTFormatKindDate : DTFormatKindDateTime,
+			&tmp_tm);
 
-		if (buff[0]) {
+		if (str && *str) {
 			if (tmp2->len)
 				g_string_append (tmp2, "; ");
 
 			/* Translators: This is followed by an event's due date/time */
 			g_string_append (tmp2, _("Due: "));
-			g_string_append (tmp2, buff);
+			g_string_append (tmp2, str);
 		}
+
+		g_free (str);
 	}
 
 	if (tmp2->len) {
