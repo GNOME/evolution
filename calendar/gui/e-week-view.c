@@ -2492,9 +2492,9 @@ e_week_view_recalc_display_start_day (EWeekView *week_view)
 
 /* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
 static void
-set_text_as_bold (EWeekViewEvent *event,
-                  EWeekViewEventSpan *span,
-                  ESourceRegistry *registry)
+set_style_from_attendee (EWeekViewEvent *event,
+			 EWeekViewEventSpan *span,
+			 ESourceRegistry *registry)
 {
 	ECalComponent *comp;
 	GSList *attendees = NULL, *l;
@@ -2522,8 +2522,14 @@ set_text_as_bold (EWeekViewEvent *event,
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	 * If the attendee is not present, it might have come through a mailing list.
 	 * In that case, we never show the meeting as bold even if it is unaccepted. */
-	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
+	if (at && at->status == ICAL_PARTSTAT_NEEDSACTION)
 		gnome_canvas_item_set (span->text_item, "bold", TRUE, NULL);
+	else if (at && at->status == ICAL_PARTSTAT_DECLINED)
+		gnome_canvas_item_set (span->text_item, "strikeout", TRUE, NULL);
+	else if (at && at->status == ICAL_PARTSTAT_TENTATIVE)
+		gnome_canvas_item_set (span->text_item, "italic", TRUE, NULL);
+	else if (at && at->status == ICAL_PARTSTAT_DELEGATED)
+		gnome_canvas_item_set (span->text_item, "italic", TRUE, "strikeout", TRUE, NULL);
 
 	e_cal_component_free_attendee_list (attendees);
 	g_free (address);
@@ -3647,10 +3653,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		if (free_text)
 			g_free ((gchar *) summary);
 
-		if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
-				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
-			set_text_as_bold (event, span, registry);
-		}
+		if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
+			set_style_from_attendee (event, span, registry);
+
 		g_signal_connect (
 			span->text_item, "event",
 			G_CALLBACK (e_week_view_on_text_item_event), week_view);

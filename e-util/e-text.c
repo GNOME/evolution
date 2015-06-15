@@ -75,6 +75,7 @@ enum {
 	PROP_TEXT,
 	PROP_BOLD,
 	PROP_STRIKEOUT,
+	PROP_ITALIC,
 	PROP_ANCHOR,
 	PROP_JUSTIFICATION,
 	PROP_CLIP_WIDTH,
@@ -307,7 +308,7 @@ reset_layout_attrs (EText *text)
 
 	object_count = e_text_model_object_count (text->model);
 
-	if (text->bold || text->strikeout || object_count > 0) {
+	if (text->bold || text->strikeout || text->italic || object_count > 0) {
 		gint length = 0;
 		gint i;
 
@@ -330,7 +331,7 @@ reset_layout_attrs (EText *text)
 			pango_attr_list_insert (attrs, attr);
 		}
 
-		if (text->bold || text->strikeout)
+		if (text->bold || text->strikeout || text->italic)
 			length = strlen (text->text);
 
 		if (text->bold) {
@@ -340,8 +341,17 @@ reset_layout_attrs (EText *text)
 
 			pango_attr_list_insert_before (attrs, attr);
 		}
+
 		if (text->strikeout) {
 			PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
+			attr->start_index = 0;
+			attr->end_index = length;
+
+			pango_attr_list_insert_before (attrs, attr);
+		}
+
+		if (text->italic) {
+			PangoAttribute *attr = pango_attr_style_new (PANGO_STYLE_ITALIC);
 			attr->start_index = 0;
 			attr->end_index = length;
 
@@ -668,6 +678,12 @@ e_text_set_property (GObject *object,
 		needs_update = 1;
 		break;
 
+	case PROP_ITALIC:
+		text->italic = g_value_get_boolean (value);
+		text->needs_redraw = 1;
+		needs_update = 1;
+		break;
+
 	case PROP_JUSTIFICATION:
 		text->justification = g_value_get_enum (value);
 		text->needs_redraw = 1;
@@ -914,6 +930,10 @@ e_text_get_property (GObject *object,
 
 	case PROP_STRIKEOUT:
 		g_value_set_boolean (value, text->strikeout);
+		break;
+
+	case PROP_ITALIC:
+		g_value_set_boolean (value, text->italic);
 		break;
 
 	case PROP_JUSTIFICATION:
@@ -3036,6 +3056,16 @@ e_text_class_init (ETextClass *class)
 
 	g_object_class_install_property (
 		gobject_class,
+		PROP_ITALIC,
+		g_param_spec_boolean (
+			"italic",
+			"Italic",
+			"Italic",
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		gobject_class,
 		PROP_JUSTIFICATION,
 		g_param_spec_enum (
 			"justification",
@@ -3343,6 +3373,7 @@ e_text_init (EText *text)
 
 	text->bold = FALSE;
 	text->strikeout = FALSE;
+	text->italic = FALSE;
 
 	text->allow_newlines = TRUE;
 
