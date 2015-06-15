@@ -404,6 +404,27 @@ populate_g_date (GDate *date,
 	g_date_set_dmy (date, icaltm.day, icaltm.month, icaltm.year);
 }
 
+static time_t
+convert_time_from_isodate (const gchar *text,
+			   icaltimezone *use_date_zone)
+{
+	time_t res;
+
+	g_return_val_if_fail (text != NULL, (time_t) 0);
+
+	res = time_from_isodate (text);
+
+	/* Is it date only? Then use the date zone to match the right day */
+	if (use_date_zone && strlen (text) == 8) {
+		struct icaltimetype itt;
+
+		itt = icaltime_from_timet (res, TRUE);
+		res = icaltime_as_timet_with_zone (itt, use_date_zone);
+	}
+
+	return res;
+}
+
 gboolean
 e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 					  ECalClientSourceType source_type,
@@ -497,9 +518,9 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 
 		content = g_strndup (cp, content_len);
 		if (g_ascii_strcasecmp (header, "startdate") == 0)
-			populate_g_date (&start_date, time_from_isodate (content), zone);
+			populate_g_date (&start_date, convert_time_from_isodate (content, zone), zone);
 		else if (g_ascii_strcasecmp (header, "enddate") == 0)
-			populate_g_date (&end_date, time_from_isodate (content) - 1, zone);
+			populate_g_date (&end_date, convert_time_from_isodate (content, zone) - 1, zone);
 		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
 			source_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
