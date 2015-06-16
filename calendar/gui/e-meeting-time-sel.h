@@ -198,10 +198,10 @@ struct _EMeetingTimeSelector {
 	/* If this is TRUE we only show hours between day_start_hour and
 	 * day_end_hour, defaults to TRUE (9am-6pm). */
 	gboolean working_hours_only;
-	gint day_start_hour;
-	gint day_start_minute;
-	gint day_end_hour;
-	gint day_end_minute;
+	gint day_start_hour[G_DATE_SUNDAY + 1];
+	gint day_start_minute[G_DATE_SUNDAY + 1];
+	gint day_end_hour[G_DATE_SUNDAY + 1];
+	gint day_end_minute[G_DATE_SUNDAY + 1];
 
 	/* If TRUE, view is compressed, with one cell for every 3 hours rather
 	 * than every hour. Defaults to FALSE. */
@@ -327,6 +327,7 @@ void		e_meeting_time_selector_set_working_hours_only
 						 gboolean working_hours_only);
 void		e_meeting_time_selector_set_working_hours
 						(EMeetingTimeSelector *mts,
+						 GDateWeekday for_weekday,
 						 gint day_start_hour,
 						 gint day_start_minute,
 						 gint day_end_hour,

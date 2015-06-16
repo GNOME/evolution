@@ -79,6 +79,76 @@
       <_summary>Workday start minute</_summary>
       <_description>Minute the workday starts on, 0 to 59.</_description>
     </key>
+    <key name="day-start-mon" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Monday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-mon" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Monday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
+    <key name="day-start-tue" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Teusday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-tue" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Teusday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
+    <key name="day-start-wed" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Wednesday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-wed" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Wednesday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
+    <key name="day-start-thu" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Thursday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-thu" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Thursday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
+    <key name="day-start-fri" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Friday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-fri" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Friday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
+    <key name="day-start-sat" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Saturday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-sat" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Saturday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
+    <key name="day-start-sun" type="i">
+      <default>-1</default>
+      <_summary>Workday start time for Sunday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+    </key>
+    <key name="day-end-sun" type="i">
+      <default>-1</default>
+      <_summary>Workday end time for Sunday</_summary>
+      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
+    </key>
     <key name="day-second-zone" type="s">
       <default>''</default>
       <_summary>The second timezone for a Day View</_summary>

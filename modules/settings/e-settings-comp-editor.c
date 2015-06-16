@@ -115,6 +115,76 @@ settings_comp_editor_constructed (GObject *object)
 		extensible, "work-day-start-minute",
 		G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+		settings, "day-start-mon",
+		extensible, "work-day-start-mon",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-mon",
+		extensible, "work-day-end-mon",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-start-tue",
+		extensible, "work-day-start-tue",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-tue",
+		extensible, "work-day-end-tue",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-start-wed",
+		extensible, "work-day-start-wed",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-wed",
+		extensible, "work-day-end-wed",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-start-thu",
+		extensible, "work-day-start-thu",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-thu",
+		extensible, "work-day-end-thu",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-start-fri",
+		extensible, "work-day-start-fri",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-fri",
+		extensible, "work-day-end-fri",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-start-sat",
+		extensible, "work-day-start-sat",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-sat",
+		extensible, "work-day-end-sat",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-start-sun",
+		extensible, "work-day-start-sun",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "day-end-sun",
+		extensible, "work-day-end-sun",
+		G_SETTINGS_BIND_GET);
+
 	g_object_unref (settings);
 
 	/* Chain up to parent's constructed() method. */

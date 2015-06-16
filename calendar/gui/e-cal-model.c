@@ -98,6 +98,20 @@ struct _ECalModelPrivate {
 	gint work_day_start_minute;
 	gint work_day_end_hour;
 	gint work_day_end_minute;
+	gint work_day_start_mon;
+	gint work_day_end_mon;
+	gint work_day_start_tue;
+	gint work_day_end_tue;
+	gint work_day_start_wed;
+	gint work_day_end_wed;
+	gint work_day_start_thu;
+	gint work_day_end_thu;
+	gint work_day_start_fri;
+	gint work_day_end_fri;
+	gint work_day_start_sat;
+	gint work_day_end_sat;
+	gint work_day_start_sun;
+	gint work_day_end_sun;
 
 	/* callback, to retrieve start time for newly added rows by click-to-add */
 	ECalModelDefaultTimeFunc get_default_time;
@@ -144,7 +158,21 @@ enum {
 	PROP_WORK_DAY_END_HOUR,
 	PROP_WORK_DAY_END_MINUTE,
 	PROP_WORK_DAY_START_HOUR,
-	PROP_WORK_DAY_START_MINUTE
+	PROP_WORK_DAY_START_MINUTE,
+	PROP_WORK_DAY_START_MON,
+	PROP_WORK_DAY_END_MON,
+	PROP_WORK_DAY_START_TUE,
+	PROP_WORK_DAY_END_TUE,
+	PROP_WORK_DAY_START_WED,
+	PROP_WORK_DAY_END_WED,
+	PROP_WORK_DAY_START_THU,
+	PROP_WORK_DAY_END_THU,
+	PROP_WORK_DAY_START_FRI,
+	PROP_WORK_DAY_END_FRI,
+	PROP_WORK_DAY_START_SAT,
+	PROP_WORK_DAY_END_SAT,
+	PROP_WORK_DAY_START_SUN,
+	PROP_WORK_DAY_END_SUN
 };
 
 enum {
@@ -772,6 +800,90 @@ cal_model_set_property (GObject *object,
 				E_CAL_MODEL (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_WORK_DAY_START_MON:
+			e_cal_model_set_work_day_start_mon (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_MON:
+			e_cal_model_set_work_day_end_mon (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_TUE:
+			e_cal_model_set_work_day_start_tue (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_TUE:
+			e_cal_model_set_work_day_end_tue (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_WED:
+			e_cal_model_set_work_day_start_wed (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_WED:
+			e_cal_model_set_work_day_end_wed (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_THU:
+			e_cal_model_set_work_day_start_thu (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_THU:
+			e_cal_model_set_work_day_end_thu (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_FRI:
+			e_cal_model_set_work_day_start_fri (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_FRI:
+			e_cal_model_set_work_day_end_fri (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_SAT:
+			e_cal_model_set_work_day_start_sat (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_SAT:
+			e_cal_model_set_work_day_end_sat (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_SUN:
+			e_cal_model_set_work_day_start_sun (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_SUN:
+			e_cal_model_set_work_day_end_sun (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -949,6 +1061,104 @@ cal_model_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				e_cal_model_get_work_day_start_minute (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_MON:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_mon (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_MON:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_mon (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_TUE:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_tue (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_TUE:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_tue (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_WED:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_wed (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_WED:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_wed (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_THU:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_thu (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_THU:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_thu (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_FRI:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_fri (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_FRI:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_fri (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_SAT:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_sat (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_SAT:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_sat (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_SUN:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_sun (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_SUN:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_sun (
 				E_CAL_MODEL (object)));
 			return;
 	}
@@ -2134,6 +2344,174 @@ e_cal_model_class_init (ECalModelClass *class)
 			0,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_MON,
+		g_param_spec_int (
+			"work-day-start-mon",
+			"Work Day Start for Monday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_MON,
+		g_param_spec_int (
+			"work-day-end-mon",
+			"Work Day End for Monday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_TUE,
+		g_param_spec_int (
+			"work-day-start-tue",
+			"Work Day Start for Tuesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_TUE,
+		g_param_spec_int (
+			"work-day-end-tue",
+			"Work Day End for Tuesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_WED,
+		g_param_spec_int (
+			"work-day-start-wed",
+			"Work Day Start for Wednesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_WED,
+		g_param_spec_int (
+			"work-day-end-wed",
+			"Work Day End for Wednesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_THU,
+		g_param_spec_int (
+			"work-day-start-thu",
+			"Work Day Start for Thursday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_THU,
+		g_param_spec_int (
+			"work-day-end-thu",
+			"Work Day End for Thursday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_FRI,
+		g_param_spec_int (
+			"work-day-start-fri",
+			"Work Day Start for Friday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_FRI,
+		g_param_spec_int (
+			"work-day-end-fri",
+			"Work Day End for Friday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_SAT,
+		g_param_spec_int (
+			"work-day-start-sat",
+			"Work Day Start for Saturday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_SAT,
+		g_param_spec_int (
+			"work-day-end-sat",
+			"Work Day End for Saturday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_SUN,
+		g_param_spec_int (
+			"work-day-start-sun",
+			"Work Day Start for Sunday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_SUN,
+		g_param_spec_int (
+			"work-day-end-sun",
+			"Work Day End for Sunday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
 	signals[TIME_RANGE_CHANGED] = g_signal_new (
 		"time_range_changed",
 		G_TYPE_FROM_CLASS (class),
@@ -2804,6 +3182,382 @@ e_cal_model_set_work_day_start_minute (ECalModel *model,
 	model->priv->work_day_start_minute = work_day_start_minute;
 
 	g_object_notify (G_OBJECT (model), "work-day-start-minute");
+}
+
+gint
+e_cal_model_get_work_day_start_mon (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_mon;
+}
+
+void
+e_cal_model_set_work_day_start_mon (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_mon == work_day_start)
+		return;
+
+	model->priv->work_day_start_mon = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-mon");
+}
+
+gint
+e_cal_model_get_work_day_end_mon (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_mon;
+}
+
+void
+e_cal_model_set_work_day_end_mon (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_mon == work_day_end)
+		return;
+
+	model->priv->work_day_end_mon = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-mon");
+}
+
+gint
+e_cal_model_get_work_day_start_tue (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_tue;
+}
+
+void
+e_cal_model_set_work_day_start_tue (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_tue == work_day_start)
+		return;
+
+	model->priv->work_day_start_tue = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-tue");
+}
+
+gint
+e_cal_model_get_work_day_end_tue (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_tue;
+}
+
+void
+e_cal_model_set_work_day_end_tue (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_tue == work_day_end)
+		return;
+
+	model->priv->work_day_end_tue = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-tue");
+}
+
+gint
+e_cal_model_get_work_day_start_wed (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_wed;
+}
+
+void
+e_cal_model_set_work_day_start_wed (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_wed == work_day_start)
+		return;
+
+	model->priv->work_day_start_wed = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-wed");
+}
+
+gint
+e_cal_model_get_work_day_end_wed (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_wed;
+}
+
+void
+e_cal_model_set_work_day_end_wed (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_wed == work_day_end)
+		return;
+
+	model->priv->work_day_end_wed = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-wed");
+}
+
+gint
+e_cal_model_get_work_day_start_thu (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_thu;
+}
+
+void
+e_cal_model_set_work_day_start_thu (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_thu == work_day_start)
+		return;
+
+	model->priv->work_day_start_thu = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-thu");
+}
+
+gint
+e_cal_model_get_work_day_end_thu (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_thu;
+}
+
+void
+e_cal_model_set_work_day_end_thu (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_thu == work_day_end)
+		return;
+
+	model->priv->work_day_end_thu = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-thu");
+}
+
+gint
+e_cal_model_get_work_day_start_fri (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_fri;
+}
+
+void
+e_cal_model_set_work_day_start_fri (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_fri == work_day_start)
+		return;
+
+	model->priv->work_day_start_fri = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-fri");
+}
+
+gint
+e_cal_model_get_work_day_end_fri (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_fri;
+}
+
+void
+e_cal_model_set_work_day_end_fri (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_fri == work_day_end)
+		return;
+
+	model->priv->work_day_end_fri = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-fri");
+}
+
+gint
+e_cal_model_get_work_day_start_sat (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_sat;
+}
+
+void
+e_cal_model_set_work_day_start_sat (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_sat == work_day_start)
+		return;
+
+	model->priv->work_day_start_sat = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-sat");
+}
+
+gint
+e_cal_model_get_work_day_end_sat (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_sat;
+}
+
+void
+e_cal_model_set_work_day_end_sat (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_sat == work_day_end)
+		return;
+
+	model->priv->work_day_end_sat = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-sat");
+}
+
+gint
+e_cal_model_get_work_day_start_sun (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_start_sun;
+}
+
+void
+e_cal_model_set_work_day_start_sun (ECalModel *model,
+				    gint work_day_start)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_start_sun == work_day_start)
+		return;
+
+	model->priv->work_day_start_sun = work_day_start;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-sun");
+}
+
+gint
+e_cal_model_get_work_day_end_sun (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), -1);
+
+	return model->priv->work_day_end_sun;
+}
+
+void
+e_cal_model_set_work_day_end_sun (ECalModel *model,
+				  gint work_day_end)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->work_day_end_sun == work_day_end)
+		return;
+
+	model->priv->work_day_end_sun = work_day_end;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-sun");
+}
+
+void
+e_cal_model_get_work_day_range_for (ECalModel *model,
+				    GDateWeekday weekday,
+				    gint *start_hour,
+				    gint *start_minute,
+				    gint *end_hour,
+				    gint *end_minute)
+{
+	gint start_adept = -1, end_adept = -1;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (start_hour != NULL);
+	g_return_if_fail (start_minute != NULL);
+	g_return_if_fail (end_hour != NULL);
+	g_return_if_fail (end_minute != NULL);
+
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			start_adept = e_cal_model_get_work_day_start_mon (model);
+			end_adept = e_cal_model_get_work_day_end_mon (model);
+			break;
+		case G_DATE_TUESDAY:
+			start_adept = e_cal_model_get_work_day_start_tue (model);
+			end_adept = e_cal_model_get_work_day_end_tue (model);
+			break;
+		case G_DATE_WEDNESDAY:
+			start_adept = e_cal_model_get_work_day_start_wed (model);
+			end_adept = e_cal_model_get_work_day_end_wed (model);
+			break;
+		case G_DATE_THURSDAY:
+			start_adept = e_cal_model_get_work_day_start_thu (model);
+			end_adept = e_cal_model_get_work_day_end_thu (model);
+			break;
+		case G_DATE_FRIDAY:
+			start_adept = e_cal_model_get_work_day_start_fri (model);
+			end_adept = e_cal_model_get_work_day_end_fri (model);
+			break;
+		case G_DATE_SATURDAY:
+			start_adept = e_cal_model_get_work_day_start_sat (model);
+			end_adept = e_cal_model_get_work_day_end_sat (model);
+			break;
+		case G_DATE_SUNDAY:
+			start_adept = e_cal_model_get_work_day_start_sun (model);
+			end_adept = e_cal_model_get_work_day_end_sun (model);
+			break;
+		default:
+			break;
+	}
+
+	if (start_adept > 0 && (start_adept / 100) >= 0 && (start_adept / 100) <= 23 &&
+	    (start_adept % 100) >= 0 && (start_adept % 100) <= 59) {
+		*start_hour = start_adept / 100;
+		*start_minute = start_adept % 100;
+	} else {
+		*start_hour = e_cal_model_get_work_day_start_hour (model);
+		*start_minute = e_cal_model_get_work_day_start_minute (model);
+	}
+
+	if (end_adept > 0 && (end_adept / 100) >= 0 && (end_adept / 100) <= 23 &&
+	    (end_adept % 100) >= 0 && (end_adept % 100) <= 59) {
+		*end_hour = end_adept / 100;
+		*end_minute = end_adept % 100;
+	} else {
+		*end_hour = e_cal_model_get_work_day_end_hour (model);
+		*end_minute = e_cal_model_get_work_day_end_minute (model);
+	}
 }
 
 const gchar *

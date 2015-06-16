@@ -106,6 +106,20 @@ struct _EDayViewPrivate {
 	gulong notify_work_day_start_minute_handler_id;
 	gulong notify_work_day_end_hour_handler_id;
 	gulong notify_work_day_end_minute_handler_id;
+	gulong notify_work_day_start_mon_handler_id;
+	gulong notify_work_day_end_mon_handler_id;
+	gulong notify_work_day_start_tue_handler_id;
+	gulong notify_work_day_end_tue_handler_id;
+	gulong notify_work_day_start_wed_handler_id;
+	gulong notify_work_day_end_wed_handler_id;
+	gulong notify_work_day_start_thu_handler_id;
+	gulong notify_work_day_end_thu_handler_id;
+	gulong notify_work_day_start_fri_handler_id;
+	gulong notify_work_day_end_fri_handler_id;
+	gulong notify_work_day_start_sat_handler_id;
+	gulong notify_work_day_end_sat_handler_id;
+	gulong notify_work_day_start_sun_handler_id;
+	gulong notify_work_day_end_sun_handler_id;
 	gulong time_range_changed_handler_id;
 	gulong model_row_changed_handler_id;
 	gulong model_cell_changed_handler_id;
@@ -546,17 +560,73 @@ day_view_notify_work_day_cb (ECalModel *model,
 }
 
 static void
-e_day_view_recalc_main_canvas_size (EDayView *day_view)
+e_day_view_get_work_day_range_for_day (EDayView *day_view,
+				       gint day,
+				       gint *start_hour,
+				       gint *start_minute,
+				       gint *end_hour,
+				       gint *end_minute)
 {
 	ECalModel *model;
-	gint work_day_start_hour;
-	gint work_day_start_minute;
-	gint day, scroll_y;
-	gboolean need_reshape;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	g_return_if_fail (start_hour != NULL);
+	g_return_if_fail (start_minute != NULL);
+	g_return_if_fail (end_hour != NULL);
+	g_return_if_fail (end_minute != NULL);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
-	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
+
+	if (day >= 0 && day < e_day_view_get_days_shown (day_view)) {
+		GDateWeekday weekday;
+		struct icaltimetype tt;
+
+		tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
+			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+
+		switch (icaltime_day_of_week (tt)) {
+			case 1:
+				weekday = G_DATE_SUNDAY;
+				break;
+			case 2:
+				weekday = G_DATE_MONDAY;
+				break;
+			case 3:
+				weekday = G_DATE_TUESDAY;
+				break;
+			case 4:
+				weekday = G_DATE_WEDNESDAY;
+				break;
+			case 5:
+				weekday = G_DATE_THURSDAY;
+				break;
+			case 6:
+				weekday = G_DATE_FRIDAY;
+				break;
+			case 7:
+				weekday = G_DATE_SATURDAY;
+				break;
+			default:
+				weekday = G_DATE_BAD_WEEKDAY;
+				break;
+		}
+
+		e_cal_model_get_work_day_range_for (model, weekday,
+			start_hour, start_minute,
+			end_hour, end_minute);
+	} else {
+		*start_hour = e_cal_model_get_work_day_start_hour (model);
+		*start_minute = e_cal_model_get_work_day_start_minute (model);
+		*end_hour = e_cal_model_get_work_day_end_hour (model);
+		*end_minute = e_cal_model_get_work_day_end_minute (model);
+	}
+}
+
+static void
+e_day_view_recalc_main_canvas_size (EDayView *day_view)
+{
+	gint day, scroll_y;
+	gboolean need_reshape;
 
 	/* Set the scroll region of the top canvas */
 	e_day_view_update_top_scroll (day_view, TRUE);
@@ -568,6 +638,15 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 	/* Scroll to the start of the working day, if this is the initial
 	 * allocation. */
 	if (day_view->scroll_to_work_day) {
+		gint work_day_start_hour;
+		gint work_day_start_minute;
+		gint work_day_end_hour;
+		gint work_day_end_minute;
+
+		e_day_view_get_work_day_range_for_day (day_view, 0,
+			&work_day_start_hour, &work_day_start_minute,
+			&work_day_end_hour, &work_day_end_minute);
+
 		scroll_y = e_day_view_convert_time_to_position (
 			day_view, work_day_start_hour, work_day_start_minute);
 		gnome_canvas_scroll_to (
@@ -935,131 +1014,47 @@ day_view_dispose (GObject *object)
 		day_view->grabbed_pointer = NULL;
 	}
 
-	if (day_view->priv->notify_work_day_monday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_monday_handler_id);
-		day_view->priv->notify_work_day_monday_handler_id = 0;
-	}
+	#define disconnect_model_handler(x) G_STMT_START { \
+		if ((x) > 0) { \
+			g_signal_handler_disconnect (day_view->priv->model, (x)); \
+			(x) = 0; \
+		} \
+	} G_STMT_END
 
-	if (day_view->priv->notify_work_day_tuesday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_tuesday_handler_id);
-		day_view->priv->notify_work_day_tuesday_handler_id = 0;
-	}
+	disconnect_model_handler (day_view->priv->notify_work_day_monday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_tuesday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_wednesday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_thursday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_friday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_saturday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_sunday_handler_id);
+	disconnect_model_handler (day_view->priv->notify_week_start_day_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_hour_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_minute_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_hour_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_minute_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_mon_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_mon_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_tue_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_tue_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_wed_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_wed_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_thu_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_thu_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_fri_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_fri_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_sat_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_sat_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_start_sun_handler_id);
+	disconnect_model_handler (day_view->priv->notify_work_day_end_sun_handler_id);
+	disconnect_model_handler (day_view->priv->time_range_changed_handler_id);
+	disconnect_model_handler (day_view->priv->model_row_changed_handler_id);
+	disconnect_model_handler (day_view->priv->model_cell_changed_handler_id);
+	disconnect_model_handler (day_view->priv->model_rows_inserted_handler_id);
+	disconnect_model_handler (day_view->priv->comps_deleted_handler_id);
+	disconnect_model_handler (day_view->priv->timezone_changed_handler_id);
 
-	if (day_view->priv->notify_work_day_wednesday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_wednesday_handler_id);
-		day_view->priv->notify_work_day_wednesday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_thursday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_thursday_handler_id);
-		day_view->priv->notify_work_day_thursday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_friday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_friday_handler_id);
-		day_view->priv->notify_work_day_friday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_saturday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_saturday_handler_id);
-		day_view->priv->notify_work_day_saturday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_sunday_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_sunday_handler_id);
-		day_view->priv->notify_work_day_sunday_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_week_start_day_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_week_start_day_handler_id);
-		day_view->priv->notify_week_start_day_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_start_hour_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_start_hour_handler_id);
-		day_view->priv->notify_work_day_start_hour_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_start_minute_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_start_minute_handler_id);
-		day_view->priv->notify_work_day_start_minute_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_end_hour_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_end_hour_handler_id);
-		day_view->priv->notify_work_day_end_hour_handler_id = 0;
-	}
-
-	if (day_view->priv->notify_work_day_end_minute_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->notify_work_day_end_minute_handler_id);
-		day_view->priv->notify_work_day_end_minute_handler_id = 0;
-	}
-
-	if (day_view->priv->time_range_changed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->time_range_changed_handler_id);
-		day_view->priv->time_range_changed_handler_id = 0;
-	}
-
-	if (day_view->priv->model_row_changed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->model_row_changed_handler_id);
-		day_view->priv->model_row_changed_handler_id = 0;
-	}
-
-	if (day_view->priv->model_cell_changed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->model_cell_changed_handler_id);
-		day_view->priv->model_cell_changed_handler_id = 0;
-	}
-
-	if (day_view->priv->model_rows_inserted_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->model_rows_inserted_handler_id);
-		day_view->priv->model_rows_inserted_handler_id = 0;
-	}
-
-	if (day_view->priv->comps_deleted_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->comps_deleted_handler_id);
-		day_view->priv->comps_deleted_handler_id = 0;
-	}
-
-	if (day_view->priv->timezone_changed_handler_id > 0) {
-		g_signal_handler_disconnect (
-			day_view->priv->model,
-			day_view->priv->timezone_changed_handler_id);
-		day_view->priv->timezone_changed_handler_id = 0;
-	}
+	#undef disconnect_model_handler
 
 	if (day_view->priv->top_canvas_button_press_event_handler_id > 0) {
 		g_signal_handler_disconnect (
@@ -1319,6 +1314,76 @@ day_view_constructed (GObject *object)
 		model, "notify::work-day-end-minute",
 		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 	day_view->priv->notify_work_day_end_minute_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-mon",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_mon_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-mon",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_mon_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-tue",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_tue_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-tue",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_tue_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-wed",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_wed_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-wed",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_wed_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-thu",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_thu_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-thu",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_thu_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-fri",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_fri_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-fri",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_fri_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-sat",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_sat_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-sat",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_sat_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-start-sun",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_start_sun_handler_id = handler_id;
+
+	handler_id = e_signal_connect_notify_swapped (
+		model, "notify::work-day-end-sun",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+	day_view->priv->notify_work_day_end_sun_handler_id = handler_id;
 
 	e_day_view_update_timezone_name_labels (day_view);
 }
@@ -1777,17 +1842,15 @@ day_view_set_selected_time_range (ECalendarView *cal_view,
                                   time_t start_time,
                                   time_t end_time)
 {
-	ECalModel *model;
 	EDayView *day_view;
 	gint work_day_start_hour;
 	gint work_day_start_minute;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
 	gint start_row, start_col, end_row, end_col;
 	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
 
 	day_view = E_DAY_VIEW (cal_view);
-	model = e_calendar_view_get_model (cal_view);
-	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
-	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	if (start_time == end_time)
 		end_time += e_calendar_view_get_time_divisions (cal_view) * 60;
@@ -1803,6 +1866,10 @@ day_view_set_selected_time_range (ECalendarView *cal_view,
 		end_time - 60,
 		&end_col,
 		&end_row);
+
+	e_day_view_get_work_day_range_for_day (day_view, start_col,
+		&work_day_start_hour, &work_day_start_minute,
+		&work_day_end_hour, &work_day_end_minute);
 
 	/* If either of the times isn't in the grid, or the selection covers
 	 * an entire day, we set the selection to 1 row from the start of the
@@ -3542,17 +3609,14 @@ e_day_view_set_selected_time_range_visible (EDayView *day_view,
                                             time_t start_time,
                                             time_t end_time)
 {
-	ECalModel *model;
 	gint work_day_start_hour;
 	gint work_day_start_minute;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
 	gint start_row, start_col, end_row, end_col;
 	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
-	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	/* Set the selection. */
 	start_in_grid = e_day_view_convert_time_to_grid_position (
@@ -3562,9 +3626,13 @@ e_day_view_set_selected_time_range_visible (EDayView *day_view,
 		&start_row);
 	end_in_grid = e_day_view_convert_time_to_grid_position (
 		day_view,
-								end_time - 60,
-								&end_col,
-								&end_row);
+		end_time - 60,
+		&end_col,
+		&end_row);
+
+	e_day_view_get_work_day_range_for_day (day_view, start_col,
+		&work_day_start_hour, &work_day_start_minute,
+		&work_day_end_hour, &work_day_end_minute);
 
 	/* If either of the times isn't in the grid, or the selection covers
 	 * an entire day, we set the selection to 1 row from the start of the
@@ -6350,21 +6418,23 @@ e_day_view_do_key_press (GtkWidget *widget,
 static void
 e_day_view_goto_start_of_work_day (EDayView *day_view)
 {
-	ECalModel *model;
 	gint work_day_start_hour;
 	gint work_day_start_minute;
-
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
-	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
+	gint work_day_end_hour;
+	gint work_day_end_minute;
 
 	if (day_view->selection_in_top_canvas)
 		return;
-	else
-		day_view->selection_start_row =
-			e_day_view_convert_time_to_row (
-			day_view, work_day_start_hour, work_day_start_minute);
+
+	e_day_view_get_work_day_range_for_day (day_view, day_view->selection_start_day,
+		&work_day_start_hour, &work_day_start_minute,
+		&work_day_end_hour, &work_day_end_minute);
+
+	day_view->selection_start_row =
+		e_day_view_convert_time_to_row (
+		day_view, work_day_start_hour, work_day_start_minute);
 	day_view->selection_end_row = day_view->selection_start_row;
+	day_view->selection_end_day = day_view->selection_start_day;
 
 	e_day_view_ensure_rows_visible (
 		day_view,
@@ -6382,21 +6452,23 @@ e_day_view_goto_start_of_work_day (EDayView *day_view)
 static void
 e_day_view_goto_end_of_work_day (EDayView *day_view)
 {
-	ECalModel *model;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
 	gint work_day_end_hour;
 	gint work_day_end_minute;
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	work_day_end_hour = e_cal_model_get_work_day_end_hour (model);
-	work_day_end_minute = e_cal_model_get_work_day_end_minute (model);
-
 	if (day_view->selection_in_top_canvas)
 		return;
-	else
-		day_view->selection_start_row =
-			e_day_view_convert_time_to_row (
-			day_view, work_day_end_hour - 1, work_day_end_minute + 30);
+
+	e_day_view_get_work_day_range_for_day (day_view, day_view->selection_end_day,
+		&work_day_start_hour, &work_day_start_minute,
+		&work_day_end_hour, &work_day_end_minute);
+
+	day_view->selection_start_row =
+		e_day_view_convert_time_to_row (
+		day_view, work_day_end_hour - 1, work_day_end_minute + 30);
 	day_view->selection_end_row = day_view->selection_start_row;
+	day_view->selection_start_day = day_view->selection_end_day;
 
 	e_day_view_ensure_rows_visible (
 		day_view,
@@ -6414,29 +6486,27 @@ e_day_view_goto_end_of_work_day (EDayView *day_view)
 static void
 e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 {
-	ECalModel *model;
+	gint work_start_row;
 	gint work_day_start_hour;
 	gint work_day_start_minute;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
 
 	g_return_if_fail (day_view != NULL);
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
-	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
-
 	if (day_view->selection_in_top_canvas)
 		return;
-	else {
-		/* These are never used after being set? */
-		gint work_start_row,selection_start_row;
 
-		work_start_row = e_day_view_convert_time_to_row (
-			day_view, work_day_start_hour, work_day_start_minute);
-		selection_start_row = day_view->selection_start_row;
-		if (selection_start_row < work_start_row)
-			day_view->selection_end_row = work_start_row - 1;
-		else day_view->selection_start_row = work_start_row;
-	}
+	e_day_view_get_work_day_range_for_day (day_view, day_view->selection_start_day,
+		&work_day_start_hour, &work_day_start_minute,
+		&work_day_end_hour, &work_day_end_minute);
+
+	work_start_row = e_day_view_convert_time_to_row (day_view, work_day_start_hour, work_day_start_minute);
+
+	if (day_view->selection_start_row < work_start_row)
+		day_view->selection_end_row = work_start_row - 1;
+	else
+		day_view->selection_start_row = work_start_row;
 
 	e_day_view_ensure_rows_visible (
 		day_view,
@@ -6454,30 +6524,30 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 static void
 e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 {
-	ECalModel *model;
+	gint selection_start_row, work_end_row;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
 	gint work_day_end_hour;
 	gint work_day_end_minute;
 
 	g_return_if_fail (day_view != NULL);
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	work_day_end_hour = e_cal_model_get_work_day_end_hour (model);
-	work_day_end_minute = e_cal_model_get_work_day_end_minute (model);
-
 	if (day_view->selection_in_top_canvas)
 		return;
-	else {
-		gint work_end_row,selection_start_row;
 
-		work_end_row = e_day_view_convert_time_to_row (
-			day_view, work_day_end_hour - 1, work_day_end_minute + 30);
-		selection_start_row = day_view->selection_start_row;
-		if (selection_start_row <= work_end_row)
-			day_view->selection_end_row = work_end_row;
-		else {
-			day_view->selection_start_row = work_end_row + 1;
-			day_view->selection_end_row = selection_start_row;
-		}
+	e_day_view_get_work_day_range_for_day (day_view, day_view->selection_start_day,
+		&work_day_start_hour, &work_day_start_minute,
+		&work_day_end_hour, &work_day_end_minute);
+
+	work_end_row = e_day_view_convert_time_to_row (
+		day_view, work_day_end_hour - 1, work_day_end_minute + 30);
+	selection_start_row = day_view->selection_start_row;
+
+	if (selection_start_row <= work_end_row) {
+		day_view->selection_end_row = work_end_row;
+	} else {
+		day_view->selection_start_row = work_end_row + 1;
+		day_view->selection_end_row = selection_start_row;
 	}
 
 	e_day_view_ensure_rows_visible (

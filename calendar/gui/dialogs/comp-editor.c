@@ -113,6 +113,20 @@ struct _CompEditorPrivate {
 	gint work_day_end_minute;
 	gint work_day_start_hour;
 	gint work_day_start_minute;
+	gint work_day_start_mon;
+	gint work_day_end_mon;
+	gint work_day_start_tue;
+	gint work_day_end_tue;
+	gint work_day_start_wed;
+	gint work_day_end_wed;
+	gint work_day_start_thu;
+	gint work_day_end_thu;
+	gint work_day_start_fri;
+	gint work_day_end_fri;
+	gint work_day_start_sat;
+	gint work_day_end_sat;
+	gint work_day_start_sun;
+	gint work_day_end_sun;
 
 	gboolean changed;
 	gboolean needs_send;
@@ -142,7 +156,21 @@ enum {
 	PROP_WORK_DAY_END_HOUR,
 	PROP_WORK_DAY_END_MINUTE,
 	PROP_WORK_DAY_START_HOUR,
-	PROP_WORK_DAY_START_MINUTE
+	PROP_WORK_DAY_START_MINUTE,
+	PROP_WORK_DAY_START_MON,
+	PROP_WORK_DAY_END_MON,
+	PROP_WORK_DAY_START_TUE,
+	PROP_WORK_DAY_END_TUE,
+	PROP_WORK_DAY_START_WED,
+	PROP_WORK_DAY_END_WED,
+	PROP_WORK_DAY_START_THU,
+	PROP_WORK_DAY_END_THU,
+	PROP_WORK_DAY_START_FRI,
+	PROP_WORK_DAY_END_FRI,
+	PROP_WORK_DAY_START_SAT,
+	PROP_WORK_DAY_END_SAT,
+	PROP_WORK_DAY_START_SUN,
+	PROP_WORK_DAY_END_SUN
 };
 
 static const gchar *ui =
@@ -1537,6 +1565,90 @@ comp_editor_set_property (GObject *object,
 				COMP_EDITOR (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_WORK_DAY_START_MON:
+			comp_editor_set_work_day_start_mon (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_MON:
+			comp_editor_set_work_day_end_mon (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_TUE:
+			comp_editor_set_work_day_start_tue (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_TUE:
+			comp_editor_set_work_day_end_tue (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_WED:
+			comp_editor_set_work_day_start_wed (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_WED:
+			comp_editor_set_work_day_end_wed (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_THU:
+			comp_editor_set_work_day_start_thu (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_THU:
+			comp_editor_set_work_day_end_thu (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_FRI:
+			comp_editor_set_work_day_start_fri (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_FRI:
+			comp_editor_set_work_day_end_fri (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_SAT:
+			comp_editor_set_work_day_start_sat (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_SAT:
+			comp_editor_set_work_day_end_sat (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_SUN:
+			comp_editor_set_work_day_start_sun (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_SUN:
+			comp_editor_set_work_day_end_sun (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1624,6 +1736,90 @@ comp_editor_get_property (GObject *object,
 		case PROP_WORK_DAY_START_MINUTE:
 			g_value_set_int (
 				value, comp_editor_get_work_day_start_minute (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_MON:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_mon (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_MON:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_mon (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_TUE:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_tue (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_TUE:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_tue (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_WED:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_wed (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_WED:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_wed (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_THU:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_thu (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_THU:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_thu (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_FRI:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_fri (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_FRI:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_fri (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_SAT:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_sat (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_SAT:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_sat (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_SUN:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_sun (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_SUN:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_sun (
 				COMP_EDITOR (object)));
 			return;
 	}
@@ -2047,6 +2243,174 @@ comp_editor_class_init (CompEditorClass *class)
 			0,
 			59,
 			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_MON,
+		g_param_spec_int (
+			"work-day-start-mon",
+			"Work Day Start for Monday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_MON,
+		g_param_spec_int (
+			"work-day-end-mon",
+			"Work Day End for Monday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_TUE,
+		g_param_spec_int (
+			"work-day-start-tue",
+			"Work Day Start for Tuesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_TUE,
+		g_param_spec_int (
+			"work-day-end-tue",
+			"Work Day End for Tuesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_WED,
+		g_param_spec_int (
+			"work-day-start-wed",
+			"Work Day Start for Wednesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_WED,
+		g_param_spec_int (
+			"work-day-end-wed",
+			"Work Day End for Wednesday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_THU,
+		g_param_spec_int (
+			"work-day-start-thu",
+			"Work Day Start for Thursday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_THU,
+		g_param_spec_int (
+			"work-day-end-thu",
+			"Work Day End for Thursday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_FRI,
+		g_param_spec_int (
+			"work-day-start-fri",
+			"Work Day Start for Friday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_FRI,
+		g_param_spec_int (
+			"work-day-end-fri",
+			"Work Day End for Friday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_SAT,
+		g_param_spec_int (
+			"work-day-start-sat",
+			"Work Day Start for Saturday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_SAT,
+		g_param_spec_int (
+			"work-day-end-sat",
+			"Work Day End for Saturday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_SUN,
+		g_param_spec_int (
+			"work-day-start-sun",
+			"Work Day Start for Sunday",
+			NULL,
+			-1,
+			2359,
+			-1,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_SUN,
+		g_param_spec_int (
+			"work-day-end-sun",
+			"Work Day End for Sunday",
+			NULL,
+			-1,
+			2359,
+			-1,
 			G_PARAM_READWRITE));
 
 	signals[OBJECT_CREATED] = g_signal_new (
@@ -2730,6 +3094,382 @@ comp_editor_set_work_day_start_minute (CompEditor *editor,
 	editor->priv->work_day_start_minute = work_day_start_minute;
 
 	g_object_notify (G_OBJECT (editor), "work-day-start-minute");
+}
+
+gint
+comp_editor_get_work_day_start_mon (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_mon;
+}
+
+void
+comp_editor_set_work_day_start_mon (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_mon == work_day_start)
+		return;
+
+	editor->priv->work_day_start_mon = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-mon");
+}
+
+gint
+comp_editor_get_work_day_end_mon (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_mon;
+}
+
+void
+comp_editor_set_work_day_end_mon (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_mon == work_day_end)
+		return;
+
+	editor->priv->work_day_end_mon = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-mon");
+}
+
+gint
+comp_editor_get_work_day_start_tue (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_tue;
+}
+
+void
+comp_editor_set_work_day_start_tue (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_tue == work_day_start)
+		return;
+
+	editor->priv->work_day_start_tue = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-tue");
+}
+
+gint
+comp_editor_get_work_day_end_tue (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_tue;
+}
+
+void
+comp_editor_set_work_day_end_tue (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_tue == work_day_end)
+		return;
+
+	editor->priv->work_day_end_tue = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-tue");
+}
+
+gint
+comp_editor_get_work_day_start_wed (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_wed;
+}
+
+void
+comp_editor_set_work_day_start_wed (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_wed == work_day_start)
+		return;
+
+	editor->priv->work_day_start_wed = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-wed");
+}
+
+gint
+comp_editor_get_work_day_end_wed (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_wed;
+}
+
+void
+comp_editor_set_work_day_end_wed (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_wed == work_day_end)
+		return;
+
+	editor->priv->work_day_end_wed = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-wed");
+}
+
+gint
+comp_editor_get_work_day_start_thu (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_thu;
+}
+
+void
+comp_editor_set_work_day_start_thu (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_thu == work_day_start)
+		return;
+
+	editor->priv->work_day_start_thu = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-thu");
+}
+
+gint
+comp_editor_get_work_day_end_thu (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_thu;
+}
+
+void
+comp_editor_set_work_day_end_thu (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_thu == work_day_end)
+		return;
+
+	editor->priv->work_day_end_thu = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-thu");
+}
+
+gint
+comp_editor_get_work_day_start_fri (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_fri;
+}
+
+void
+comp_editor_set_work_day_start_fri (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_fri == work_day_start)
+		return;
+
+	editor->priv->work_day_start_fri = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-fri");
+}
+
+gint
+comp_editor_get_work_day_end_fri (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_fri;
+}
+
+void
+comp_editor_set_work_day_end_fri (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_fri == work_day_end)
+		return;
+
+	editor->priv->work_day_end_fri = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-fri");
+}
+
+gint
+comp_editor_get_work_day_start_sat (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_sat;
+}
+
+void
+comp_editor_set_work_day_start_sat (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_sat == work_day_start)
+		return;
+
+	editor->priv->work_day_start_sat = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-sat");
+}
+
+gint
+comp_editor_get_work_day_end_sat (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_sat;
+}
+
+void
+comp_editor_set_work_day_end_sat (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_sat == work_day_end)
+		return;
+
+	editor->priv->work_day_end_sat = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-sat");
+}
+
+gint
+comp_editor_get_work_day_start_sun (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_start_sun;
+}
+
+void
+comp_editor_set_work_day_start_sun (CompEditor *editor,
+				    gint work_day_start)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_start_sun == work_day_start)
+		return;
+
+	editor->priv->work_day_start_sun = work_day_start;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-sun");
+}
+
+gint
+comp_editor_get_work_day_end_sun (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), -1);
+
+	return editor->priv->work_day_end_sun;
+}
+
+void
+comp_editor_set_work_day_end_sun (CompEditor *editor,
+				  gint work_day_end)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	if (editor->priv->work_day_end_sun == work_day_end)
+		return;
+
+	editor->priv->work_day_end_sun = work_day_end;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-sun");
+}
+
+void
+comp_editor_get_work_day_range_for (CompEditor *editor,
+				    GDateWeekday weekday,
+				    gint *start_hour,
+				    gint *start_minute,
+				    gint *end_hour,
+				    gint *end_minute)
+{
+	gint start_adept = -1, end_adept = -1;
+
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+	g_return_if_fail (start_hour != NULL);
+	g_return_if_fail (start_minute != NULL);
+	g_return_if_fail (end_hour != NULL);
+	g_return_if_fail (end_minute != NULL);
+
+	switch (weekday) {
+		case G_DATE_MONDAY:
+			start_adept = comp_editor_get_work_day_start_mon (editor);
+			end_adept = comp_editor_get_work_day_end_mon (editor);
+			break;
+		case G_DATE_TUESDAY:
+			start_adept = comp_editor_get_work_day_start_tue (editor);
+			end_adept = comp_editor_get_work_day_end_tue (editor);
+			break;
+		case G_DATE_WEDNESDAY:
+			start_adept = comp_editor_get_work_day_start_wed (editor);
+			end_adept = comp_editor_get_work_day_end_wed (editor);
+			break;
+		case G_DATE_THURSDAY:
+			start_adept = comp_editor_get_work_day_start_thu (editor);
+			end_adept = comp_editor_get_work_day_end_thu (editor);
+			break;
+		case G_DATE_FRIDAY:
+			start_adept = comp_editor_get_work_day_start_fri (editor);
+			end_adept = comp_editor_get_work_day_end_fri (editor);
+			break;
+		case G_DATE_SATURDAY:
+			start_adept = comp_editor_get_work_day_start_sat (editor);
+			end_adept = comp_editor_get_work_day_end_sat (editor);
+			break;
+		case G_DATE_SUNDAY:
+			start_adept = comp_editor_get_work_day_start_sun (editor);
+			end_adept = comp_editor_get_work_day_end_sun (editor);
+			break;
+		default:
+			break;
+	}
+
+	if (start_adept > 0 && (start_adept / 100) >= 0 && (start_adept / 100) <= 23 &&
+	    (start_adept % 100) >= 0 && (start_adept % 100) <= 59) {
+		*start_hour = start_adept / 100;
+		*start_minute = start_adept % 100;
+	} else {
+		*start_hour = comp_editor_get_work_day_start_hour (editor);
+		*start_minute = comp_editor_get_work_day_start_minute (editor);
+	}
+
+	if (end_adept > 0 && (end_adept / 100) >= 0 && (end_adept / 100) <= 23 &&
+	    (end_adept % 100) >= 0 && (end_adept % 100) <= 59) {
+		*end_hour = end_adept / 100;
+		*end_minute = end_adept % 100;
+	} else {
+		*end_hour = comp_editor_get_work_day_end_hour (editor);
+		*end_minute = comp_editor_get_work_day_end_minute (editor);
+	}
 }
 
 /**

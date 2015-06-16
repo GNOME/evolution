@@ -156,6 +156,83 @@ gint		comp_editor_get_work_day_start_minute
 void		comp_editor_set_work_day_start_minute
 						(CompEditor *editor,
 						 gint work_day_start_minute);
+gint		comp_editor_get_work_day_start_mon
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_mon
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_mon
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_mon
+						(CompEditor *editor,
+						 gint work_day_end);
+gint		comp_editor_get_work_day_start_tue
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_tue
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_tue
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_tue
+						(CompEditor *editor,
+						 gint work_day_end);
+gint		comp_editor_get_work_day_start_wed
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_wed
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_wed
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_wed
+						(CompEditor *editor,
+						 gint work_day_end);
+gint		comp_editor_get_work_day_start_thu
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_thu
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_thu
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_thu
+						(CompEditor *editor,
+						 gint work_day_end);
+gint		comp_editor_get_work_day_start_fri
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_fri
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_fri
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_fri
+						(CompEditor *editor,
+						 gint work_day_end);
+gint		comp_editor_get_work_day_start_sat
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_sat
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_sat
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_sat
+						(CompEditor *editor,
+						 gint work_day_end);
+gint		comp_editor_get_work_day_start_sun
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_sun
+						(CompEditor *editor,
+						 gint work_day_start);
+gint		comp_editor_get_work_day_end_sun
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_sun
+						(CompEditor *editor,
+						 gint work_day_end);
+void		comp_editor_get_work_day_range_for
+						(CompEditor *editor,
+						 GDateWeekday weekday,
+						 gint *start_hour,
+						 gint *start_minute,
+						 gint *end_hour,
+						 gint *end_minute);
 void		comp_editor_append_page		(CompEditor *editor,
 						 CompEditorPage *page,
 						 const gchar *label,

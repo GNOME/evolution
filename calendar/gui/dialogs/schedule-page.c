@@ -393,6 +393,7 @@ schedule_page_construct (SchedulePage *spage,
 {
 	SchedulePagePrivate *priv = spage->priv;
 	CompEditor *editor;
+	gint weekday;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (spage));
 
@@ -413,12 +414,17 @@ schedule_page_construct (SchedulePage *spage,
 	/* Selector */
 	priv->sel = E_MEETING_TIME_SELECTOR (e_meeting_time_selector_new (ems));
 	gtk_widget_set_size_request ((GtkWidget *) priv->sel, -1, 400);
-	e_meeting_time_selector_set_working_hours (
-		priv->sel,
-		comp_editor_get_work_day_start_hour (editor),
-		comp_editor_get_work_day_start_minute (editor),
-		comp_editor_get_work_day_end_hour (editor),
-		comp_editor_get_work_day_end_minute (editor));
+
+	for (weekday = G_DATE_BAD_WEEKDAY; weekday <= G_DATE_SUNDAY; weekday++) {
+		gint start_hour, start_minute, end_hour, end_minute;
+
+		comp_editor_get_work_day_range_for (editor, weekday,
+			&start_hour, &start_minute, &end_hour, &end_minute);
+
+		e_meeting_time_selector_set_working_hours (priv->sel, weekday,
+			start_hour, start_minute, end_hour, end_minute);
+	}
+
 	gtk_widget_show (GTK_WIDGET (priv->sel));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 6);
 

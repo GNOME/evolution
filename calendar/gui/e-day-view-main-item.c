@@ -1002,13 +1002,8 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	ECalendarView *cal_view;
 	ECalModel *model;
 	gint time_divisions;
-	gint work_day_start_hour;
-	gint work_day_start_minute;
-	gint work_day_end_hour;
-	gint work_day_end_minute;
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
-	gint work_day_start_y, work_day_end_y;
 	gint day_x, day_w;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
 	gint days_shown;
@@ -1031,10 +1026,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	model = e_calendar_view_get_model (cal_view);
-	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
-	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
-	work_day_end_hour = e_cal_model_get_work_day_end_hour (model);
-	work_day_end_minute = e_cal_model_get_work_day_end_minute (model);
 
 	rect.x = 0;
 	rect.y = 0;
@@ -1046,10 +1037,6 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		draw_region = cairo_region_create ();
 
 	/* Paint the background colors. */
-	work_day_start_y = e_day_view_convert_time_to_position (
-		day_view, work_day_start_hour, work_day_start_minute) - y;
-	work_day_end_y = e_day_view_convert_time_to_position (
-		day_view, work_day_end_hour, work_day_end_minute) - y;
 
 	today_tt = icaltime_from_timet_with_zone (
 		time (NULL), FALSE,
@@ -1093,6 +1080,21 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		day_w = day_view->day_widths[day];
 
 		if (e_cal_model_get_work_day (model, weekday)) {
+			gint work_day_start_hour;
+			gint work_day_start_minute;
+			gint work_day_end_hour;
+			gint work_day_end_minute;
+			gint work_day_start_y, work_day_end_y;
+
+			e_cal_model_get_work_day_range_for (model, weekday,
+				&work_day_start_hour, &work_day_start_minute,
+				&work_day_end_hour, &work_day_end_minute);
+
+			work_day_start_y = e_day_view_convert_time_to_position (
+				day_view, work_day_start_hour, work_day_start_minute) - y;
+			work_day_end_y = e_day_view_convert_time_to_position (
+				day_view, work_day_end_hour, work_day_end_minute) - y;
+
 			if (can_draw_in_region (draw_region, day_x, 0 - y, day_w, work_day_start_y - (0 - y))) {
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
