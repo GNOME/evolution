@@ -70,6 +70,8 @@ GtkCellRenderer *
 		e_select_names_renderer_new	(EClientCache *client_cache);
 EClientCache *	e_select_names_renderer_ref_client_cache
 						(ESelectNamesRenderer *renderer);
+EDestination *	e_select_names_renderer_get_destination
+						(ESelectNamesRenderer *renderer);
 const gchar *	e_select_names_renderer_get_name
 						(ESelectNamesRenderer *renderer);
 void		e_select_names_renderer_set_name

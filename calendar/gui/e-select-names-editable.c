@@ -57,6 +57,29 @@ e_select_names_editable_new (EClientCache *client_cache)
 		"client-cache", client_cache, NULL);
 }
 
+EDestination *
+e_select_names_editable_get_destination (ESelectNamesEditable *esne)
+{
+	EDestinationStore *destination_store;
+	EDestination *destination = NULL;
+	GList *list;
+
+	g_return_val_if_fail (E_SELECT_NAMES_EDITABLE (esne), NULL);
+
+	destination_store = e_name_selector_entry_peek_destination_store (E_NAME_SELECTOR_ENTRY (esne));
+	list = e_destination_store_list_destinations (destination_store);
+	if (list == NULL)
+		return NULL;
+
+	if (list && !list->next) {
+		destination = E_DESTINATION (list->data);
+	}
+
+	g_list_free (list);
+
+	return destination;
+}
+
 gchar *
 e_select_names_editable_get_email (ESelectNamesEditable *esne)
 {
