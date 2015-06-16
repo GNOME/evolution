@@ -410,12 +410,12 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *) l->data));
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
-				/* FIXME Should we copy anything else? */
 				e_meeting_attendee_set_cutype (attendee, e_meeting_attendee_get_cutype (existing_attendee));
 				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
 				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
 				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
-				e_meeting_attendee_set_delfrom (attendee, (gchar *) e_meeting_attendee_get_delfrom (existing_attendee));
+				e_meeting_attendee_set_delfrom (attendee, g_strdup (e_meeting_attendee_get_delfrom (existing_attendee)));
+				e_meeting_attendee_set_fburi (attendee, g_strdup (e_meeting_attendee_get_fburi (existing_attendee)));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 			g_signal_emit_by_name (view, "attendee_added", (gpointer) attendee);
@@ -437,6 +437,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 		} else {
 			gboolean address_changed = FALSE;
 			EMeetingAttendee *attendee;
+			EDestination *destination;
 
 			if (existing_attendee) {
 				const gchar *addr = e_meeting_attendee_get_address (existing_attendee);
@@ -458,6 +459,23 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", email));
 			e_meeting_attendee_set_cn (attendee, g_strdup (name));
 			e_meeting_attendee_set_role (attendee, ICAL_ROLE_REQPARTICIPANT);
+
+			destination = e_select_names_renderer_get_destination (E_SELECT_NAMES_RENDERER (renderer));
+			if (destination) {
+				EContact *contact;
+
+				contact = e_destination_get_contact (destination);
+				if (contact) {
+					gchar *fburi;
+
+					fburi = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
+					if (fburi && *fburi)
+						e_meeting_attendee_set_fburi (attendee, fburi);
+					else
+						g_free (fburi);
+				}
+			}
+
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 
 			if (address_changed)
@@ -975,8 +993,10 @@ process_section (EMeetingListView *view,
 					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
 				e_meeting_attendee_set_cn (ia, g_strdup (name));
 
-				if (fburi)
+				if (fburi) {
 					e_meeting_attendee_set_fburi (ia, fburi);
+					fburi = NULL;
+				}
 			} else {
 				if (g_slist_length (*la) == 1) {
 					g_slist_free (*la);
@@ -984,6 +1004,8 @@ process_section (EMeetingListView *view,
 				} else
 					*la = g_slist_remove_link (*la, g_slist_find_custom (*la, attendee, (GCompareFunc)g_ascii_strcasecmp));
 			}
+
+			g_free (fburi);
 		}
 
 		if (des) {

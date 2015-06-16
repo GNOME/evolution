@@ -354,6 +354,17 @@ e_select_names_renderer_ref_client_cache (ESelectNamesRenderer *renderer)
 	return g_object_ref (renderer->priv->client_cache);
 }
 
+EDestination *
+e_select_names_renderer_get_destination (ESelectNamesRenderer *renderer)
+{
+	g_return_val_if_fail (E_IS_SELECT_NAMES_RENDERER (renderer), NULL);
+
+	if (!renderer->priv->editable)
+		return NULL;
+
+	return e_select_names_editable_get_destination (renderer->priv->editable);
+}
+
 const gchar *
 e_select_names_renderer_get_name (ESelectNamesRenderer *renderer)
 {
