@@ -316,6 +316,8 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 static void
 e_meeting_time_selector_init (EMeetingTimeSelector *mts)
 {
+	GDateWeekday weekday;
+
 	mts->priv = E_MEETING_TIME_SELECTOR_GET_PRIVATE (mts);
 
 	/* The shadow is drawn in the border so it must be >= 2 pixels. */
@@ -324,10 +326,14 @@ e_meeting_time_selector_init (EMeetingTimeSelector *mts)
 	mts->accel_group = gtk_accel_group_new ();
 
 	mts->working_hours_only = TRUE;
-	mts->day_start_hour = 9;
-	mts->day_start_minute = 0;
-	mts->day_end_hour = 18;
-	mts->day_end_minute = 0;
+
+	for (weekday = G_DATE_BAD_WEEKDAY; weekday <= G_DATE_SUNDAY; weekday++) {
+		mts->day_start_hour[weekday] = 9;
+		mts->day_start_minute[weekday] = 0;
+		mts->day_end_hour[weekday] = 18;
+		mts->day_end_minute[weekday] = 0;
+	}
+
 	mts->zoomed_out = FALSE;
 	mts->dragging_position = E_MEETING_TIME_SELECTOR_POS_NONE;
 
@@ -1344,6 +1350,7 @@ e_meeting_time_selector_set_working_hours_only (EMeetingTimeSelector *mts,
 
 void
 e_meeting_time_selector_set_working_hours (EMeetingTimeSelector *mts,
+					   GDateWeekday for_weekday,
                                            gint day_start_hour,
                                            gint day_start_minute,
                                            gint day_end_hour,
@@ -1352,23 +1359,31 @@ e_meeting_time_selector_set_working_hours (EMeetingTimeSelector *mts,
 	EMeetingTime saved_time;
 
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
+	g_return_if_fail (for_weekday == G_DATE_MONDAY ||
+			  for_weekday == G_DATE_TUESDAY ||
+			  for_weekday == G_DATE_WEDNESDAY ||
+			  for_weekday == G_DATE_THURSDAY ||
+			  for_weekday == G_DATE_FRIDAY ||
+			  for_weekday == G_DATE_SATURDAY ||
+			  for_weekday == G_DATE_SUNDAY ||
+			  for_weekday == G_DATE_BAD_WEEKDAY);
 
-	if (mts->day_start_hour == day_start_hour
-	    && mts->day_start_minute == day_start_minute
-	    && mts->day_end_hour == day_end_hour
-	    && mts->day_end_minute == day_end_minute)
+	if (mts->day_start_hour[for_weekday] == day_start_hour
+	    && mts->day_start_minute[for_weekday] == day_start_minute
+	    && mts->day_end_hour[for_weekday] == day_end_hour
+	    && mts->day_end_minute[for_weekday] == day_end_minute)
 		return;
 
-	mts->day_start_hour = day_start_hour;
-	mts->day_start_minute = day_start_minute;
+	mts->day_start_hour[for_weekday] = day_start_hour;
+	mts->day_start_minute[for_weekday] = day_start_minute;
 
 	/* Make sure we always show atleast an hour */
 	if (day_start_hour * 60 + day_start_minute + 60 < day_end_hour * 60 + day_end_minute) {
-		mts->day_end_hour = day_end_hour;
-		mts->day_end_minute = day_end_minute;
+		mts->day_end_hour[for_weekday] = day_end_hour;
+		mts->day_end_minute[for_weekday] = day_end_minute;
 	} else {
-		mts->day_end_hour = day_start_hour + 1;
-		mts->day_end_minute = day_start_minute;
+		mts->day_end_hour[for_weekday] = day_start_hour + 1;
+		mts->day_end_minute[for_weekday] = day_start_minute;
 	}
 
 	e_meeting_time_selector_save_position (mts, &saved_time);
@@ -1913,6 +1928,22 @@ e_meeting_time_selector_calculate_time_difference (EMeetingTime *start,
 	}
 }
 
+static GDateWeekday
+e_meeting_time_selector_get_time_weekday (const EMeetingTime *time)
+{
+	GDateWeekday weekday;
+
+	if (!time || !g_date_valid (&time->date))
+		return G_DATE_BAD_WEEKDAY;
+
+	weekday = g_date_get_weekday (&time->date);
+
+	if (weekday < G_DATE_BAD_WEEKDAY || weekday > G_DATE_SUNDAY)
+		weekday = G_DATE_BAD_WEEKDAY;
+
+	return weekday;
+}
+
 /* This moves the given time forward to the next suitable start of a meeting.
  * If zoomed_out is set, this means every hour. If not every half-hour. */
 static void
@@ -1923,6 +1954,7 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
                                                gint hours,
                                                gint mins)
 {
+	GDateWeekday start_weekday, end_weekday;
 	gint minutes_shown;
 	gboolean set_to_start_of_working_day = FALSE;
 
@@ -1948,31 +1980,35 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
 	 * If it isn't we don't worry about the working day. */
 	if (!mts->working_hours_only || days > 0)
 		return;
-	minutes_shown = (mts->day_end_hour - mts->day_start_hour) * 60;
-	minutes_shown += mts->day_end_minute - mts->day_start_minute;
+
+	start_weekday = e_meeting_time_selector_get_time_weekday (start_time);
+	end_weekday = e_meeting_time_selector_get_time_weekday (end_time);
+
+	minutes_shown = (mts->day_end_hour[end_weekday] - mts->day_start_hour[start_weekday]) * 60;
+	minutes_shown += mts->day_end_minute[end_weekday] - mts->day_start_minute[start_weekday];
 	if (hours * 60 + mins > minutes_shown)
 		return;
 
 	/* If the meeting time finishes past the end of the working day, move
 	 * onto the start of the next working day. If the meeting time starts
 	 * before the working day, move it on as well. */
-	if (start_time->hour > mts->day_end_hour
-	    || (start_time->hour == mts->day_end_hour
-		&& start_time->minute > mts->day_end_minute)
-	    || end_time->hour > mts->day_end_hour
-	    || (end_time->hour == mts->day_end_hour
-		&& end_time->minute > mts->day_end_minute)) {
+	if (start_time->hour > mts->day_end_hour[end_weekday]
+	    || (start_time->hour == mts->day_end_hour[end_weekday]
+		&& start_time->minute > mts->day_end_minute[end_weekday])
+	    || end_time->hour > mts->day_end_hour[end_weekday]
+	    || (end_time->hour == mts->day_end_hour[end_weekday]
+		&& end_time->minute > mts->day_end_minute[end_weekday])) {
 		g_date_add_days (&start_time->date, 1);
 		set_to_start_of_working_day = TRUE;
-	} else if (start_time->hour < mts->day_start_hour
-		   || (start_time->hour == mts->day_start_hour
-		       && start_time->minute < mts->day_start_minute)) {
+	} else if (start_time->hour < mts->day_start_hour[start_weekday]
+		   || (start_time->hour == mts->day_start_hour[start_weekday]
+		       && start_time->minute < mts->day_start_minute[start_weekday])) {
 		set_to_start_of_working_day = TRUE;
 	}
 
 	if (set_to_start_of_working_day) {
-		start_time->hour = mts->day_start_hour;
-		start_time->minute = mts->day_start_minute;
+		start_time->hour = mts->day_start_hour[start_weekday];
+		start_time->minute = mts->day_start_minute[start_weekday];
 
 		if (mts->zoomed_out) {
 			if (start_time->minute > 0) {
@@ -2001,6 +2037,7 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
                                                         gint hours,
                                                         gint mins)
 {
+	GDateWeekday start_weekday, end_weekday;
 	gint new_hour, minutes_shown;
 	gboolean set_to_end_of_working_day = FALSE;
 
@@ -2037,8 +2074,13 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 	 * If it isn't we don't worry about the working day. */
 	if (!mts->working_hours_only || days > 0)
 		return;
-	minutes_shown = (mts->day_end_hour - mts->day_start_hour) * 60;
-	minutes_shown += mts->day_end_minute - mts->day_start_minute;
+
+	start_weekday = e_meeting_time_selector_get_time_weekday (start_time);
+	end_weekday = e_meeting_time_selector_get_time_weekday (end_time);
+
+	minutes_shown = (mts->day_end_hour[end_weekday] - mts->day_start_hour[start_weekday]) * 60;
+	minutes_shown += mts->day_end_minute[end_weekday] - mts->day_start_minute[start_weekday];
+
 	if (hours * 60 + mins > minutes_shown)
 		return;
 
@@ -2046,23 +2088,23 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 	 * back to the end of the working day. If the meeting time starts
 	 * before the working day, move it back to the end of the previous
 	 * working day. */
-	if (start_time->hour > mts->day_end_hour
-	    || (start_time->hour == mts->day_end_hour
-		&& start_time->minute > mts->day_end_minute)
-	    || end_time->hour > mts->day_end_hour
-	    || (end_time->hour == mts->day_end_hour
-		&& end_time->minute > mts->day_end_minute)) {
+	if (start_time->hour > mts->day_end_hour[end_weekday]
+	    || (start_time->hour == mts->day_end_hour[end_weekday]
+		&& start_time->minute > mts->day_end_minute[end_weekday])
+	    || end_time->hour > mts->day_end_hour[end_weekday]
+	    || (end_time->hour == mts->day_end_hour[end_weekday]
+		&& end_time->minute > mts->day_end_minute[end_weekday])) {
 		set_to_end_of_working_day = TRUE;
-	} else if (start_time->hour < mts->day_start_hour
-		   || (start_time->hour == mts->day_start_hour
-		       && start_time->minute < mts->day_start_minute)) {
+	} else if (start_time->hour < mts->day_start_hour[start_weekday]
+		   || (start_time->hour == mts->day_start_hour[start_weekday]
+		       && start_time->minute < mts->day_start_minute[start_weekday])) {
 		g_date_subtract_days (&end_time->date, 1);
 		set_to_end_of_working_day = TRUE;
 	}
 
 	if (set_to_end_of_working_day) {
-		end_time->hour = mts->day_end_hour;
-		end_time->minute = mts->day_end_minute;
+		end_time->hour = mts->day_end_hour[end_weekday];
+		end_time->minute = mts->day_end_minute[end_weekday];
 		*start_time = *end_time;
 		e_meeting_time_selector_adjust_time (start_time, -days, -hours, -mins);
 
@@ -2188,10 +2230,20 @@ static void
 e_meeting_time_selector_recalc_grid (EMeetingTimeSelector *mts)
 {
 	if (mts->working_hours_only) {
-		mts->first_hour_shown = mts->day_start_hour;
-		mts->last_hour_shown = mts->day_end_hour;
-		if (mts->day_end_minute != 0)
-			mts->last_hour_shown += 1;
+		GDateWeekday weekday;
+
+		mts->first_hour_shown = mts->day_start_hour[G_DATE_BAD_WEEKDAY];
+		mts->last_hour_shown = mts->day_end_hour[G_DATE_BAD_WEEKDAY];
+
+		for (weekday = G_DATE_BAD_WEEKDAY; weekday <= G_DATE_SUNDAY; weekday++) {
+			if (mts->first_hour_shown > mts->day_start_hour[weekday])
+				mts->first_hour_shown = mts->day_start_hour[weekday];
+			if (mts->last_hour_shown <= mts->day_end_hour[weekday]) {
+				mts->last_hour_shown = mts->day_end_hour[weekday];
+				if (mts->day_end_minute[weekday] != 0)
+					mts->last_hour_shown += 1;
+			}
+		}
 	} else {
 		mts->first_hour_shown = 0;
 		mts->last_hour_shown = 24;
@@ -2509,8 +2561,18 @@ e_meeting_time_selector_update_date_popup_menus (EMeetingTimeSelector *mts)
 	end_edit = E_DATE_EDIT (mts->end_date_edit);
 
 	if (mts->working_hours_only) {
-		low_hour = mts->day_start_hour;
-		high_hour = mts->day_end_hour;
+		GDateWeekday weekday;
+
+		low_hour = mts->day_start_hour[G_DATE_MONDAY];
+		high_hour = mts->day_end_hour[G_DATE_MONDAY];
+
+		for (weekday = G_DATE_MONDAY; weekday <= G_DATE_SUNDAY; weekday++) {
+			if (low_hour > mts->day_start_hour[weekday])
+				low_hour = mts->day_start_hour[weekday];
+			if (high_hour <= mts->day_end_hour[weekday]) {
+				high_hour = mts->day_end_hour[weekday];
+			}
+		}
 	} else {
 		low_hour = 0;
 		high_hour = 23;

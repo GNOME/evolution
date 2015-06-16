@@ -243,6 +243,83 @@ gint		e_cal_model_get_work_day_start_minute
 void		e_cal_model_set_work_day_start_minute
 						(ECalModel *model,
 						 gint work_day_start_minute);
+gint		e_cal_model_get_work_day_start_mon
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_mon
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_mon
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_mon
+						(ECalModel *model,
+						 gint work_day_end);
+gint		e_cal_model_get_work_day_start_tue
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_tue
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_tue
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_tue
+						(ECalModel *model,
+						 gint work_day_end);
+gint		e_cal_model_get_work_day_start_wed
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_wed
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_wed
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_wed
+						(ECalModel *model,
+						 gint work_day_end);
+gint		e_cal_model_get_work_day_start_thu
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_thu
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_thu
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_thu
+						(ECalModel *model,
+						 gint work_day_end);
+gint		e_cal_model_get_work_day_start_fri
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_fri
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_fri
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_fri
+						(ECalModel *model,
+						 gint work_day_end);
+gint		e_cal_model_get_work_day_start_sat
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_sat
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_sat
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_sat
+						(ECalModel *model,
+						 gint work_day_end);
+gint		e_cal_model_get_work_day_start_sun
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_sun
+						(ECalModel *model,
+						 gint work_day_start);
+gint		e_cal_model_get_work_day_end_sun
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_sun
+						(ECalModel *model,
+						 gint work_day_end);
+void		e_cal_model_get_work_day_range_for
+						(ECalModel *model,
+						 GDateWeekday weekday,
+						 gint *start_hour,
+						 gint *start_minute,
+						 gint *end_hour,
+						 gint *end_minute);
 const gchar *	e_cal_model_get_default_source_uid
 						(ECalModel *model);
 void		e_cal_model_set_default_source_uid
