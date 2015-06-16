@@ -65,6 +65,7 @@ write_calendar (const gchar *uid,
 	icalcomponent *top_level;
 	gchar *email = NULL;
 	GSList *users = NULL;
+	gulong handler_id;
 	gboolean success = FALSE;
 
 	utc = icaltimezone_get_utc_timezone ();
@@ -111,12 +112,16 @@ write_calendar (const gchar *uid,
 
 	top_level = e_cal_util_new_top_level ();
 
-	g_signal_connect (
+	handler_id = g_signal_connect (
 		client, "free-busy-data",
 		G_CALLBACK (free_busy_data_cb), &objects);
 
 	success = e_cal_client_get_free_busy_sync (
 		E_CAL_CLIENT (client), start, end, users, NULL, error);
+
+	if (handler_id > 0)
+		g_signal_handler_disconnect (client, handler_id);
+
 	if (success) {
 		gchar *ical_string;
 		GSList *iter;
