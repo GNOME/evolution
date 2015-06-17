@@ -44,9 +44,9 @@ main (gint argc,
 	}
 
 	/* Sanity check. */
-	g_assert (
+	g_return_val_if_fail (
 		((autoconfig != NULL) && (error == NULL)) ||
-		((autoconfig == NULL) && (error != NULL)));
+		((autoconfig == NULL) && (error != NULL)), -1);
 
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);

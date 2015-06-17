@@ -1162,7 +1162,7 @@ e_composer_header_table_get_destinations (EComposerHeaderTable *table)
 		destinations[--total] = g_object_ref (to[--n_to]);
 
 	/* Counters should all be zero now. */
-	g_assert (total == 0 && n_to == 0 && n_cc == 0 && n_bcc == 0);
+	g_return_val_if_fail (total == 0 && n_to == 0 && n_cc == 0 && n_bcc == 0, destinations);
 
 	e_destination_freev (to);
 	e_destination_freev (cc);

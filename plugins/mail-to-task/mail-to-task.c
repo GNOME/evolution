@@ -622,7 +622,7 @@ get_question_edit_old (ECalClientSourceType source_type)
 		ask = _("Selected memo list contains memo '%s' already. Would you like to edit the old memo?");
 		break;
 	default:
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 		break;
 	}
 
@@ -658,7 +658,7 @@ get_question_add_all_mails (ECalClientSourceType source_type,
 			count);
 		break;
 	default:
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 		break;
 	}
 
@@ -867,7 +867,7 @@ do_mail_to_event (AsyncData *data)
 			report_error_idle (_("Selected memo list is read only, thus cannot create memo there. Select other memo list, please."), NULL);
 			break;
 		default:
-			g_assert_not_reached ();
+			g_warn_if_reached ();
 			break;
 		}
 	} else {
@@ -930,7 +930,7 @@ do_mail_to_event (AsyncData *data)
 				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_JOURNAL);
 				break;
 			default:
-				g_assert_not_reached ();
+				g_warn_if_reached ();
 				break;
 			}
 

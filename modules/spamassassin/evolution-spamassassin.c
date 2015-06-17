@@ -586,7 +586,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 	gint ii = 0;
 
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
-		return FALSE;
+		return CAMEL_JUNK_STATUS_ERROR;
 
 	argv[ii++] = spam_assassin_get_command_path (extension);
 	argv[ii++] = "--exit-code";
@@ -594,7 +594,7 @@ spam_assassin_classify (CamelJunkFilter *junk_filter,
 		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
-	g_assert (ii < G_N_ELEMENTS (argv));
+	g_return_val_if_fail (ii < G_N_ELEMENTS (argv), CAMEL_JUNK_STATUS_ERROR);
 
 	exit_code = spam_assassin_command (
 		argv, message, NULL, cancellable, error);
@@ -641,7 +641,7 @@ spam_assassin_learn_junk (CamelJunkFilter *junk_filter,
 		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
-	g_assert (ii < G_N_ELEMENTS (argv));
+	g_return_val_if_fail (ii < G_N_ELEMENTS (argv), FALSE);
 
 	exit_code = spam_assassin_command (
 		argv, message, NULL, cancellable, error);
@@ -676,7 +676,7 @@ spam_assassin_learn_not_junk (CamelJunkFilter *junk_filter,
 		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
-	g_assert (ii < G_N_ELEMENTS (argv));
+	g_return_val_if_fail (ii < G_N_ELEMENTS (argv), FALSE);
 
 	exit_code = spam_assassin_command (
 		argv, message, NULL, cancellable, error);
@@ -709,7 +709,7 @@ spam_assassin_synchronize (CamelJunkFilter *junk_filter,
 		argv[ii++] = "--local";
 	argv[ii] = NULL;
 
-	g_assert (ii < G_N_ELEMENTS (argv));
+	g_return_val_if_fail (ii < G_N_ELEMENTS (argv), FALSE);
 
 	exit_code = spam_assassin_command (
 		argv, NULL, NULL, cancellable, error);

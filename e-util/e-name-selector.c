@@ -437,7 +437,7 @@ add_section (ENameSelector *name_selector,
 	GArray *array;
 	Section section;
 
-	g_assert (name != NULL);
+	g_return_val_if_fail (name != NULL, -1);
 
 	memset (&section, 0, sizeof (Section));
 	section.name = g_strdup (name);
@@ -454,7 +454,7 @@ find_section_by_name (ENameSelector *name_selector,
 	GArray *array;
 	gint i;
 
-	g_assert (name != NULL);
+	g_return_val_if_fail (name != NULL, -1);
 
 	array = name_selector->priv->sections;
 

@@ -286,7 +286,7 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Failure here is fatal. */
 	if (local_error != NULL) {
 		g_error ("%s: %s", etspecfile, local_error->message);
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	widget = e_table_new (E_TABLE_MODEL (model), extras, specification);

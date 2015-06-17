@@ -4021,7 +4021,7 @@ decrease_find_data (FormatItipFindData *fd)
 					_("Unable to find this memo in any memo list"));
 				break;
 			default:
-				g_assert_not_reached ();
+				g_warn_if_reached ();
 				break;
 			}
 		}
@@ -4668,7 +4668,7 @@ finish_message_delete_with_rsvp (EMailPartItip *pitip,
 
 		if (pitip->to_address == NULL)
 			find_to_address (view, pitip, pitip->ical_comp, NULL);
-		g_assert (pitip->to_address != NULL);
+		g_return_if_fail (pitip->to_address != NULL);
 
 		ical_comp = e_cal_component_get_icalcomponent (comp);
 
@@ -4798,7 +4798,7 @@ receive_objects_ready_cb (GObject *ecalclient,
 			_("Sent to calendar '%s' as canceled"), e_source_get_display_name (source));
 		break;
 	default:
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 		break;
 	}
 
@@ -5426,7 +5426,7 @@ send_item (EMailPartItip *pitip,
 				_("Memo information sent"));
 			break;
 		default:
-			g_assert_not_reached ();
+			g_warn_if_reached ();
 			break;
 		}
 	} else {
@@ -5447,7 +5447,7 @@ send_item (EMailPartItip *pitip,
 				_("Unable to send memo information, the memo does not exist"));
 			break;
 		default:
-			g_assert_not_reached ();
+			g_warn_if_reached ();
 			break;
 		}
 	}
@@ -5795,7 +5795,8 @@ extract_itip_data (EMailPartItip *pitip,
 				trigger.u.rel_duration.days = interval;
 				break;
 			default:
-				g_assert_not_reached ();
+				g_warn_if_reached ();
+				break;
 		}
 
 		e_cal_component_alarm_set_trigger (acomp, trigger);
@@ -6162,7 +6163,7 @@ itip_view_init_view (ItipView *view)
 				}
 				break;
 			default:
-				g_assert_not_reached ();
+				g_warn_if_reached ();
 				break;
 		}
 	}
@@ -6353,7 +6354,7 @@ itip_view_init_view (ItipView *view)
 				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
 				break;
 			default:
-				g_assert_not_reached ();
+				g_warn_if_reached ();
 				break;
 		}
 	}

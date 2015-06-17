@@ -95,7 +95,7 @@ main (gint argc,
 		g_error (
 			"Failed to load ESource registry: %s",
 			error->message);
-		g_assert_not_reached ();
+		g_return_val_if_reached (-1);
 	}
 
 	client_cache = e_client_cache_new (registry);

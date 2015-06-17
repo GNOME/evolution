@@ -777,10 +777,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	while ((rule = e_rule_context_next_rule (context, rule, source))) {
 		if (!rule->system)
 			continue;
-		g_assert (ii < MAIL_NUM_SEARCH_RULES);
+		g_return_if_fail (ii < MAIL_NUM_SEARCH_RULES);
 		priv->search_rules[ii++] = g_object_ref (rule);
 	}
-	g_assert (ii == MAIL_NUM_SEARCH_RULES);
+	g_return_if_fail (ii == MAIL_NUM_SEARCH_RULES);
 
 	/* Now that we're all set up, simulate selecting a folder. */
 	g_signal_emit_by_name (selection, "changed");

@@ -622,7 +622,7 @@ e_emoticon_tool_button_init (EEmoticonToolButton *button)
 
 	chooser = E_EMOTICON_CHOOSER (button);
 	list = e_emoticon_chooser_get_items ();
-	g_assert (g_list_length (list) <= NUM_ROWS * NUM_COLS);
+	g_return_if_fail (g_list_length (list) <= NUM_ROWS * NUM_COLS);
 
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		EEmoticon *emoticon = iter->data;

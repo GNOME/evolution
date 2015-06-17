@@ -694,7 +694,7 @@ e_destination_store_get_value (GtkTreeModel *tree_model,
 		return;
 
 	destination = g_ptr_array_index (array, row);
-	g_assert (destination);
+	g_return_if_fail (destination);
 
 	switch (column) {
 		case E_DESTINATION_STORE_COLUMN_NAME:
@@ -730,7 +730,7 @@ e_destination_store_get_value (GtkTreeModel *tree_model,
 			break;
 
 		default:
-			g_assert_not_reached ();
+			g_warn_if_reached ();
 			break;
 	}
 }
