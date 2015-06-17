@@ -94,7 +94,7 @@ main (gint argc,
 		g_error (
 			"Failed to load ESource registry: %s",
 			error->message);
-		g_assert_not_reached ();
+		g_return_val_if_reached (-1);
 	}
 
 	g_idle_add ((GSourceFunc) on_idle_create_widget, registry);

@@ -507,7 +507,7 @@ get_utf8_string_context (const gchar *string,
 	gint   i;
 
 	/* n_unichars must be even */
-	g_assert (n_unichars % 2 == 0);
+	g_return_if_fail (n_unichars % 2 == 0);
 
 	len = g_utf8_strlen (string, -1);
 	gap = n_unichars / 2;
@@ -936,12 +936,12 @@ build_textrep_for_contact (EContact *contact,
 			break;
 
 		default:
-			g_assert_not_reached ();
+			g_return_val_if_reached (NULL);
 			break;
 	}
 
-	g_assert (email);
-	g_assert (strlen (email) > 0);
+	g_return_val_if_fail (email, NULL);
+	g_return_val_if_fail (strlen (email) > 0, NULL);
 
 	if (name)
 		textrep = g_strdup_printf ("%s <%s>", name, email);
@@ -968,8 +968,8 @@ contact_match_cue (ENameSelectorEntry *name_selector_entry,
 	gint           cue_len;
 	gint           i;
 
-	g_assert (contact);
-	g_assert (cue_str);
+	g_return_val_if_fail (contact, FALSE);
+	g_return_val_if_fail (cue_str, FALSE);
 
 	if (g_utf8_strlen (cue_str, -1) < name_selector_entry->priv->minimum_query_length)
 		return FALSE;
@@ -1046,7 +1046,7 @@ find_existing_completion (ENameSelectorEntry *name_selector_entry,
 	gint           best_email_num = -1;
 	EBookClient   *best_book_client = NULL;
 
-	g_assert (cue_str);
+	g_return_val_if_fail (cue_str, FALSE);
 
 	if (!name_selector_entry->priv->contact_store)
 		return FALSE;
@@ -1328,7 +1328,7 @@ insert_destination_at_position (ENameSelectorEntry *name_selector_entry,
 	index = get_index_at_position (text, pos);
 
 	destination = build_destination_at_position (text, pos);
-	g_assert (destination);
+	g_return_if_fail (destination);
 
 	g_signal_handlers_block_by_func (
 		name_selector_entry->priv->destination_store,
@@ -1357,7 +1357,7 @@ modify_destination_at_position (ENameSelectorEntry *name_selector_entry,
 
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	raw_address = get_address_at_position (text, pos);
-	g_assert (raw_address);
+	g_return_if_fail (raw_address);
 
 	if (e_destination_get_contact (destination))
 		rebuild_attributes = TRUE;
@@ -1542,7 +1542,7 @@ insert_unichar (ENameSelectorEntry *name_selector_entry,
 		gtk_editable_insert_text (GTK_EDITABLE (name_selector_entry), ", ", -1, pos);
 
 		/* Update model */
-		g_assert (*pos >= 2);
+		g_return_val_if_fail (*pos >= 2, 0);
 
 		/* If we inserted the comma at the end of, or in the middle of, an existing
 		 * address, add a new destination for what appears after comma. Else, we
@@ -2310,7 +2310,7 @@ generate_contact_rows (EContactStore *contact_store,
 	gint         n_rows;
 
 	contact = e_contact_store_get_contact (contact_store, iter);
-	g_assert (contact != NULL);
+	g_return_val_if_fail (contact != NULL, 0);
 
 	contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
 	if (!contact_uid)
@@ -2493,7 +2493,7 @@ destination_row_changed (ENameSelectorEntry *name_selector_entry,
 	if (!destination)
 		return;
 
-	g_assert (n >= 0);
+	g_return_if_fail (n >= 0);
 
 	entry_text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	if (!get_range_by_index (entry_text, n, &range_start, &range_end)) {
@@ -2534,8 +2534,8 @@ destination_row_inserted (ENameSelectorEntry *name_selector_entry,
 	n = gtk_tree_path_get_indices (path)[0];
 	destination = e_destination_store_get_destination (name_selector_entry->priv->destination_store, iter);
 
-	g_assert (n >= 0);
-	g_assert (destination != NULL);
+	g_return_if_fail (n >= 0);
+	g_return_if_fail (destination != NULL);
 
 	entry_text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 
@@ -2584,7 +2584,7 @@ destination_row_deleted (ENameSelectorEntry *name_selector_entry,
 	gint         n;
 
 	n = gtk_tree_path_get_indices (path)[0];
-	g_assert (n >= 0);
+	g_return_if_fail (n >= 0);
 
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 
@@ -2664,7 +2664,7 @@ setup_destination_store (ENameSelectorEntry *name_selector_entry)
 		GtkTreePath *path;
 
 		path = gtk_tree_model_get_path (GTK_TREE_MODEL (name_selector_entry->priv->destination_store), &iter);
-		g_assert (path);
+		g_return_if_fail (path);
 
 		destination_row_inserted (name_selector_entry, path, &iter);
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (name_selector_entry->priv->destination_store), &iter));

@@ -370,7 +370,7 @@ get_contact_source_offset (EContactStore *contact_store,
 
 	array = contact_store->priv->contact_sources;
 
-	g_assert (contact_source_index < array->len);
+	g_return_val_if_fail (contact_source_index < array->len, 0);
 
 	for (i = 0; i < contact_source_index; i++) {
 		ContactSource *source;
@@ -498,7 +498,7 @@ get_contact_at_row (EContactStore *contact_store,
 	offset = get_contact_source_offset (contact_store, source_index);
 	row -= offset;
 
-	g_assert (row < source->contacts->len);
+	g_return_val_if_fail (row < source->contacts->len, NULL);
 
 	return g_ptr_array_index (source->contacts, row);
 }
@@ -661,7 +661,7 @@ view_complete (EContactStore *contact_store,
 		return;
 	}
 
-	g_assert (client_view == source->client_view_pending);
+	g_return_if_fail (client_view == source->client_view_pending);
 
 	/* However, if it was a pending view, calculate and emit the differences between that
 	 * and the current view, and move the pending view up to current.
@@ -796,10 +796,10 @@ clear_contact_source (EContactStore *contact_store,
 	gint offset;
 
 	source_index = find_contact_source_by_pointer (contact_store, source);
-	g_assert (source_index >= 0);
+	g_return_if_fail (source_index >= 0);
 
 	offset = get_contact_source_offset (contact_store, source_index);
-	g_assert (offset >= 0);
+	g_return_if_fail (offset >= 0);
 
 	/* Inform listeners that contacts went away */
 
@@ -899,7 +899,7 @@ query_contact_source (EContactStore *contact_store,
 {
 	gchar *query_str;
 
-	g_assert (source->book_client != NULL);
+	g_return_if_fail (source->book_client != NULL);
 
 	if (!contact_store->priv->query) {
 		clear_contact_source (contact_store, source);

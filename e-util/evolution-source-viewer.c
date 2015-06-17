@@ -1165,7 +1165,7 @@ main (gint argc,
 	if (error != NULL) {
 		g_warn_if_fail (viewer == NULL);
 		g_error ("%s", error->message);
-		g_assert_not_reached ();
+		g_return_val_if_reached (-1);
 	}
 
 	g_signal_connect (
