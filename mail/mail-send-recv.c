@@ -482,7 +482,8 @@ report_error_to_ui_cb (gpointer user_data)
 		shell_content = e_shell_view_get_shell_content (shell_view);
 		alert_sink = E_ALERT_SINK (shell_content);
 
-		alert = e_alert_new (data->error_ident, data->display_name, data->error->message, NULL);
+		alert = e_alert_new (data->error_ident, data->display_name,
+			data->error->message ? data->error->message : _("Unknown error"), NULL);
 
 		e_alert_sink_submit_alert (alert_sink, alert);
 
@@ -1266,7 +1267,9 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			camel_folder_refresh_info_sync (folder, cancellable, &local_error);
 
 		if (local_error != NULL) {
-			if (g_hash_table_contains (known_errors, local_error->message)) {
+			const gchar *error_message = local_error->message ? local_error->message : _("Unknown error");
+
+			if (g_hash_table_contains (known_errors, error_message)) {
 				/* Received the same error message multiple times; there can be some
 				   connection issue probably, thus skip the rest folder updates for now */
 				g_clear_object (&folder);
@@ -1287,7 +1290,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 				report_error_to_ui (CAMEL_SERVICE (store), full_name, local_error);
 
 				/* To not report one error for multiple folders multiple times */
-				g_hash_table_insert (known_errors, g_strdup (local_error->message), GINT_TO_POINTER (1));
+				g_hash_table_insert (known_errors, g_strdup (error_message), GINT_TO_POINTER (1));
 			}
 
 			g_clear_error (&local_error);
