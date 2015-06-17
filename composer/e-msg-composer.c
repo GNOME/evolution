@@ -551,7 +551,7 @@ build_message_headers (EMsgComposer *composer,
 		EComposerHeader *composer_header;
 		const gchar *extension_name;
 		const gchar *header_name;
-		const gchar *name, *address;
+		const gchar *name, *address = NULL;
 		const gchar *transport_uid;
 		const gchar *sent_folder;
 
@@ -559,7 +559,12 @@ build_message_headers (EMsgComposer *composer,
 		if (e_composer_from_header_get_override_visible (E_COMPOSER_FROM_HEADER (composer_header))) {
 			name = e_composer_header_table_get_from_name (table);
 			address = e_composer_header_table_get_from_address (table);
-		} else {
+
+			if (address && !*address)
+				address = NULL;
+		}
+
+		if (!address) {
 			ESourceMailIdentity *mail_identity;
 
 			mail_identity = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
