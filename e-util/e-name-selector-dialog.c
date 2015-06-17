@@ -928,9 +928,9 @@ add_section (ENameSelectorDialog *name_selector_dialog,
 	gchar		  *text;
 	GtkWidget         *hgrid;
 
-	g_assert (name != NULL);
-	g_assert (pretty_name != NULL);
-	g_assert (E_IS_DESTINATION_STORE (destination_store));
+	g_return_val_if_fail (name != NULL, -1);
+	g_return_val_if_fail (pretty_name != NULL, -1);
+	g_return_val_if_fail (E_IS_DESTINATION_STORE (destination_store), -1);
 
 	priv = E_NAME_SELECTOR_DIALOG_GET_PRIVATE (name_selector_dialog);
 
@@ -1077,8 +1077,8 @@ free_section (ENameSelectorDialog *name_selector_dialog,
 {
 	Section *section;
 
-	g_assert (n >= 0);
-	g_assert (n < name_selector_dialog->priv->sections->len);
+	g_return_if_fail (n >= 0);
+	g_return_if_fail (n < name_selector_dialog->priv->sections->len);
 
 	section = &g_array_index (
 		name_selector_dialog->priv->sections, Section, n);
@@ -1108,7 +1108,7 @@ model_section_removed (ENameSelectorDialog *name_selector_dialog,
 	gint section_index;
 
 	section_index = find_section_by_name (name_selector_dialog, name);
-	g_assert (section_index >= 0);
+	g_return_if_fail (section_index >= 0);
 
 	free_section (name_selector_dialog, section_index);
 	g_array_remove_index (
@@ -1349,7 +1349,7 @@ contact_activated (ENameSelectorDialog *name_selector_dialog,
 	if (!gtk_tree_model_get_iter (
 		GTK_TREE_MODEL (name_selector_dialog->priv->contact_sort),
 		&iter, path))
-		g_assert_not_reached ();
+		g_return_if_reached ();
 
 	sort_iter_to_contact_store_iter (name_selector_dialog, &iter, &email_n);
 
@@ -1407,11 +1407,11 @@ destination_activated (ENameSelectorDialog *name_selector_dialog,
 
 	if (!gtk_tree_model_get_iter (
 		GTK_TREE_MODEL (destination_store), &iter, path))
-		g_assert_not_reached ();
+		g_return_if_reached ();
 
 	destination = e_destination_store_get_destination (
 		destination_store, &iter);
-	g_assert (destination);
+	g_return_if_fail (destination);
 
 	e_destination_store_remove_destination (
 		destination_store, destination);
@@ -1457,15 +1457,14 @@ remove_selection (ENameSelectorDialog *name_selector_dialog,
 		GtkTreeIter iter;
 		GtkTreePath *path = l->data;
 
-		if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (destination_store),
-					      &iter, path))
-			g_assert_not_reached ();
+		if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (destination_store), &iter, path))
+			g_return_val_if_reached (FALSE);
 
 		gtk_tree_path_free (path);
 
 		destination = e_destination_store_get_destination (
 			destination_store, &iter);
-		g_assert (destination);
+		g_return_val_if_fail (destination, FALSE);
 
 		e_destination_store_remove_destination (
 			destination_store, destination);
@@ -1746,7 +1745,7 @@ destination_column_formatter (GtkTreeViewColumn *column,
 	GString           *buffer;
 
 	destination = e_destination_store_get_destination (destination_store, iter);
-	g_assert (destination);
+	g_return_if_fail (destination);
 
 	buffer = g_string_new (e_destination_get_name (destination));
 

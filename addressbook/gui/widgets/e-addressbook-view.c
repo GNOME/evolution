@@ -307,7 +307,7 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	/* Failure here is fatal. */
 	if (local_error != NULL) {
 		g_error ("%s: %s", etspecfile, local_error->message);
-		g_assert_not_reached ();
+		g_return_if_reached ();
 	}
 
 	/* Here we create the table.  We give it the three pieces of

@@ -754,7 +754,7 @@ e_load_ui_builder_definition (GtkBuilder *builder,
 
 	if (error != NULL) {
 		g_error ("%s: %s", basename, error->message);
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 	}
 }
 
@@ -788,7 +788,7 @@ e_load_ui_manager_definition (GtkUIManager *ui_manager,
 
 	if (error != NULL) {
 		g_error ("%s: %s", basename, error->message);
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 	}
 
 	return merge_id;

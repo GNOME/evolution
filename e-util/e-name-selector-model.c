@@ -184,7 +184,7 @@ generate_contact_rows (EContactStore *contact_store,
 	gint         i;
 
 	contact = e_contact_store_get_contact (contact_store, iter);
-	g_assert (contact != NULL);
+	g_return_val_if_fail (contact != NULL, 0);
 
 	contact_uid = e_contact_get_const (contact, E_CONTACT_UID);
 	if (!contact_uid)
@@ -351,8 +351,8 @@ free_section (ENameSelectorModel *name_selector_model,
 {
 	Section *section;
 
-	g_assert (n >= 0);
-	g_assert (n < name_selector_model->priv->sections->len);
+	g_return_if_fail (n >= 0);
+	g_return_if_fail (n < name_selector_model->priv->sections->len);
 
 	section = &g_array_index (name_selector_model->priv->sections, Section, n);
 
@@ -371,7 +371,7 @@ find_section_by_name (ENameSelectorModel *name_selector_model,
 {
 	gint i;
 
-	g_assert (name != NULL);
+	g_return_val_if_fail (name != NULL, -1);
 
 	for (i = 0; i < name_selector_model->priv->sections->len; i++) {
 		Section *section = &g_array_index (name_selector_model->priv->sections, Section, i);

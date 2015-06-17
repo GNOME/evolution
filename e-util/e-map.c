@@ -145,7 +145,7 @@ e_map_is_tweening (EMap *map)
 static void
 e_map_stop_tweening (EMap *map)
 {
-	g_assert (map->priv->tweens == NULL);
+	g_return_if_fail (map->priv->tweens == NULL);
 
 	if (!e_map_is_tweening (map))
 		return;
@@ -566,7 +566,7 @@ e_map_finalize (GObject *object)
 	}
 
 	/* gone in unrealize */
-	g_assert (map->priv->map_render_surface == NULL);
+	g_warn_if_fail (map->priv->map_render_surface == NULL);
 
 	G_OBJECT_CLASS (e_map_parent_class)->finalize (object);
 }

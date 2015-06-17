@@ -257,7 +257,7 @@ static void
 row_deleted (ETreeModelGenerator *tree_model_generator,
              GtkTreePath *path)
 {
-	g_assert (path);
+	g_return_if_fail (path);
 
 	ETMG_DEBUG (g_print ("row_deleted emitting\n"));
 	gtk_tree_model_row_deleted (GTK_TREE_MODEL (tree_model_generator), path);
@@ -269,7 +269,7 @@ row_inserted (ETreeModelGenerator *tree_model_generator,
 {
 	GtkTreeIter iter;
 
-	g_assert (path);
+	g_return_if_fail (path);
 
 	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (tree_model_generator), &iter, path)) {
 		ETMG_DEBUG (g_print ("row_inserted emitting\n"));
@@ -285,7 +285,7 @@ row_changed (ETreeModelGenerator *tree_model_generator,
 {
 	GtkTreeIter iter;
 
-	g_assert (path);
+	g_return_if_fail (path);
 
 	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (tree_model_generator), &iter, path)) {
 		ETMG_DEBUG (g_print ("row_changed emitting\n"));

@@ -1018,7 +1018,7 @@ e_mail_account_store_init (EMailAccountStore *store)
 	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_ONLINE_ACCOUNT */
 	types[ii++] = G_TYPE_BOOLEAN;		/* COLUMN_ENABLED_VISIBLE */
 
-	g_assert (ii == E_MAIL_ACCOUNT_STORE_NUM_COLUMNS);
+	g_return_if_fail (ii == E_MAIL_ACCOUNT_STORE_NUM_COLUMNS);
 
 	gtk_list_store_set_column_types (
 		GTK_LIST_STORE (store),

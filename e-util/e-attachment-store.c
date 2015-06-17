@@ -186,7 +186,7 @@ e_attachment_store_init (EAttachmentStore *store)
 	types[column++] = G_TYPE_BOOLEAN;	/* COLUMN_SAVING */
 	types[column++] = G_TYPE_UINT64;	/* COLUMN_SIZE */
 
-	g_assert (column == E_ATTACHMENT_STORE_NUM_COLUMNS);
+	g_return_if_fail (column == E_ATTACHMENT_STORE_NUM_COLUMNS);
 
 	gtk_list_store_set_column_types (
 		GTK_LIST_STORE (store), G_N_ELEMENTS (types), types);

@@ -137,7 +137,7 @@ composer_name_header_set_property (GObject *object,
 
 	switch (property_id) {
 		case PROP_NAME_SELECTOR:	/* construct only */
-			g_assert (priv->name_selector == NULL);
+			g_return_if_fail (priv->name_selector == NULL);
 			priv->name_selector = g_value_dup_object (value);
 			return;
 	}
@@ -191,11 +191,11 @@ composer_name_header_constructed (GObject *object)
 	/* Input widget must be set before chaining up. */
 
 	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
-	g_assert (E_IS_NAME_SELECTOR (priv->name_selector));
+	g_return_if_fail (E_IS_NAME_SELECTOR (priv->name_selector));
 
 	model = e_name_selector_peek_model (priv->name_selector);
 	label = e_composer_header_get_label (E_COMPOSER_HEADER (object));
-	g_assert (label != NULL);
+	g_return_if_fail (label != NULL);
 
 	sections = e_name_selector_model_list_sections (model);
 	priv->destination_index = g_list_length (sections);
