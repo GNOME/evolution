@@ -606,7 +606,7 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 		if (uid != NULL)
 			identity = e_source_registry_ref_source (registry, uid);
 
-		if (identity != NULL && e_source_get_writable (identity)) {
+		if (identity != NULL && e_source_get_writable (identity) && !e_source_get_enabled (identity)) {
 			e_source_set_enabled (identity, TRUE);
 
 			store->priv->busy_count++;
@@ -636,7 +636,7 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 		}
 	}
 
-	if (source != NULL && e_source_get_writable (source)) {
+	if (source != NULL && e_source_get_writable (source) && !e_source_get_enabled (source)) {
 		e_source_set_enabled (source, TRUE);
 
 		store->priv->busy_count++;
@@ -691,7 +691,7 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 			call_allow_auth_prompt (identity);
 		}
 
-		if (identity != NULL && e_source_get_writable (identity)) {
+		if (identity != NULL && e_source_get_writable (identity) && e_source_get_enabled (identity)) {
 			e_source_set_enabled (identity, FALSE);
 
 			store->priv->busy_count++;
@@ -723,7 +723,7 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		}
 	}
 
-	if (source != NULL && e_source_get_writable (source)) {
+	if (source != NULL && e_source_get_writable (source) && e_source_get_enabled (source)) {
 		e_source_set_enabled (source, FALSE);
 
 		store->priv->busy_count++;
