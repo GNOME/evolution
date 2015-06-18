@@ -18069,7 +18069,7 @@ msgstr "Ruší se…"
 
 #: ../mail/mail-send-recv.c:631
 msgid "Send & Receive Mail"
-msgstr "Odeslat a přijmout poštu"
+msgstr "Odeslání a přijem pošty"
 
 #: ../mail/mail-send-recv.c:645
 msgid "Cancel _All"
