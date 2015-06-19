@@ -1111,22 +1111,19 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (is_html && !html_mode) {
 		WebKitDOMElement *element;
 		gchar *inner_text;
-		gchar *html;
 
 		element = webkit_dom_document_create_element (document, "div", NULL);
 		webkit_dom_html_element_set_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (element), contents, NULL);
 		inner_text = webkit_dom_html_element_get_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element));
-		html = camel_text_to_html (inner_text, 0, 0);
-		if (html) {
-			g_free (contents);
 
-			contents = html;
-			length = strlen (contents);
-		}
-		g_free (inner_text);
-	} else if (!is_html) {
+		g_free (contents);
+		contents = inner_text ? g_strstrip (inner_text) : g_strdup ("");
+		is_html = FALSE;
+	}
+
+	if (!is_html) {
 		gchar *html;
 
 		html = camel_text_to_html (contents, 0, 0);
