@@ -873,8 +873,6 @@ shell_process_credentials_required_errors (EShell *shell,
 		shell_submit_source_connection_alert (shell, source, alert);
 		g_object_unref (alert);
 	} else if (reason == E_SOURCE_CREDENTIALS_REASON_SSL_FAILED) {
-		g_return_if_fail (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION));
-
 		if (e_credentials_prompter_get_auto_prompt_disabled_for (shell->priv->credentials_prompter, source)) {
 			/* Only show an alert */
 			EAlert *alert;
