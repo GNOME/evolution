@@ -2580,12 +2580,12 @@ msgstr "Ha fallat l'actualització d'un esdeveniment al calendari «{0}»"
 #: ../calendar/calendar.error.xml.h:113
 msgid "Failed to update a memo in the memo list '{0}'"
 msgstr ""
-"Ha fallat l'actualització d'una anotació a la llitsa d'anotacions «{0}»"
+"Ha fallat l'actualització d'una anotació a la llista d'anotacions «{0}»"
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
 msgid "Failed to update a task in the task list '{0}'"
-msgstr "Ha fallat l'actualització d'una tasca a la llitsa de tasques «{0}»"
+msgstr "Ha fallat l'actualització d'una tasca a la llista de tasques «{0}»"
 
 # c-format
 #. Translators: {0} is the name of the calendar.
@@ -23955,7 +23955,7 @@ msgid ""
 msgstr ""
 "La contrasenya de la còpia de seguretat del certificat que establiu aquí "
 "protegeix el fitxer de còpia de seguretat que esteu a punt de crear.\n"
-"Heu d'establir aqeuesta contrasenya per continuar la còpia de seguretat."
+"Heu d'establir aquesta contrasenya per continuar la còpia de seguretat."
 
 #: ../smime/gui/certificate-manager.c:786
 msgid "_Repeat Password:"
