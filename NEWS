@@ -1,3 +1,67 @@
+Evolution 3.17.3 2015-06-22
+---------------------------
+
+Bug Fixes:
+	Bug 749158 - UI layout improvements (Trinh Anh Ngoc)
+	Bug 733877 - Parse attachments on demand, not on message open (Milan Crha)
+	Bug 675671 - Update event numbers after event deletion (Milan Crha)
+	Bug 733877 - Parse attachments on demand, not on message open ][ (Milan Crha)
+	Bug 684556 - Remove the Face header from the forwarded message body (Milan Crha)
+	Bug 750202 - Crash under shell_source_invoke_authenticate_cb() (Milan Crha)
+	Bug 749149 - Text in composer ignores desktop scaling factor (Tomas Popela)
+	Bug 750201 - Warn about too large Face image file size (Milan Crha)
+	Bug 735747 - Follow GNOME notification settings under gnome-shell (Milan Crha)
+	Bug 575242 - New composer window not autosaved until modification (Milan Crha)
+	Bug 706557 - [attachment-reminder] A clue is missed when followed by a bracket (Milan Crha)
+	Bug 750414 - Fails to drag&drop contacts between address books (Milan Crha)
+	Bug 750560 - EFilterInput is storing multiple values instead of one (Milan Crha)
+	Bug 750487 - Fix some wrong header guards found by clang (Ting-Wei Lan)
+	Bug 750299 - Hyperlinks create duplicate text, then deleting the duplicate makes the hyperlink blow up to the whole line (Tomas Popela)
+	Bug 750661 - Invalid cast from 'WebKitDOMHTMLElement' to 'WebKitDOMCharacterData' (Tomas Popela)
+	Bug 676974 - Use window's alert sink when preview panel is hidden (Milan Crha)
+	Bug 750710 - Text colour in composer is sometimes grey (Tomas Popela)
+	Bug 677495 - [a11y] Message list not emitting selection-changed signal (Milan Crha)
+	Bug 540157 - Deletes personal S/MIME certificates without proper password (Milan Crha)
+	Bug 750753 - Attach popup menus to their parent widgets (Jonas Ådahl)
+	Bug 341348 - Interpret date-only dates in calendar:// URL as in the local zone (Milan Crha)
+	Bug 683947 - Distinguish events visually based on their accept status (Milan Crha)
+	Bug 329869 - All-day event in list view ends on following day (Milan Crha)
+	Bug 390972 - Show the Status column of a meeting attendee by default (Milan Crha)
+	Bug 415261 - Show description for long Day View events (Milan Crha)
+	Bug 587476 - Hide appointment icons in the Month view (Milan Crha)
+	Bug 231967 - Use contact's FBURL to fetch Free/Busy information (Milan Crha)
+	Bug 231666 - Ability to set different work time for different days (Milan Crha)
+	Bug 471791 - Move away from g_asserts to g_ret* (Milan Crha)
+	Bug 747290 - Workaround crash under refresh_folders_exec(), g_str_hash() (Milan Crha)
+
+Miscellaneous:
+	Fix few memory leaks (Milan Crha)
+	Avoid cairo_show_text(), use PangoLayout instead (Milan Crha)
+	EHTMLEditorSelection - Get CSSStyleDeclaration from element instead of DOMWindow (Tomas Popela)
+	EHTMLEditorView - Don't try to unref non-existing DOMRange object (Tomas Popela)
+	Soft-depend on gtk+ 3.12 and 3.16 (Milan Crha)
+	EHTMLEditorView - Magic links are not working anymore (Tomas Popela)
+	EHTMLEditorView - Appending text to the link is broken (Tomas Popela)
+	Don't save the history for various HTML formatting dialogs if the formatting didn't changed (Tomas Popela)
+	EHTMLEditorView - Nodes from undo/redo history could be modified (Tomas Popela)
+	EHTMLEditorView - Undo/Redo around links is wrong (Tomas Popela)
+	EHTMLEditorSelection - Remove unused variable (Tomas Popela)
+	EHTMLEditorSelection - Text in quoted content is wrongly wrapped when contains tabulator (Tomas Popela)
+	EHTMLEditorView - Extra new line in the beginning of quoted content (Tomas Popela)
+	Use e_util_get_source_full_name() where appropriate (Milan Crha)
+	Use configured Date/Time format in Tasks/Memos tooltips (Milan Crha)
+	[Publish Calendar] Disconnect free-busy-data signal handler (Milan Crha)
+	[EMailAccountStore] Unnecessary ESource writes on start (Milan Crha)
+	EShell: Do not require Authentication extension for trust prompts (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Cédric Valmary (oc)
+	Dimitris Spingos (el)
+	Gianvito Cavasoli (it)
+	Marek Černocký (cs)
+	Muhammet Kara (tr)
+
 Evolution 3.17.2 2015-05-25
 ---------------------------
 
