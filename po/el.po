@@ -47,8 +47,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
 "ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-06-12 13:05+0000\n"
-"PO-Revision-Date: 2015-06-13 11:08+0300\n"
+"POT-Creation-Date: 2015-06-19 04:30+0000\n"
+"PO-Revision-Date: 2015-06-20 10:09+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: www.gnome.gr\n"
 "Language: el\n"
@@ -550,7 +550,7 @@ msgstr "Εργασία"
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:83
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:512
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:909
-#: ../calendar/gui/e-cal-model.c:3037
+#: ../calendar/gui/e-cal-model.c:3791
 msgid "Other"
 msgstr "Άλλο"
 
@@ -563,8 +563,8 @@ msgid "Notes"
 msgstr "Σημειώσεις"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../calendar/gui/dialogs/comp-editor.c:1249
-#: ../calendar/gui/dialogs/comp-editor.c:1335
+#: ../calendar/gui/dialogs/comp-editor.c:1277
+#: ../calendar/gui/dialogs/comp-editor.c:1363
 #: ../e-util/e-preferences-window.c:379 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../shell/e-shell-window-actions.c:1085
@@ -611,8 +611,8 @@ msgstr "Επιλογές"
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
-#: ../mail/mail-config.ui.h:2 ../mail/mail-send-recv.c:738
-#: ../mail/mail-send-recv.c:820 ../mail/mail-vfolder-ui.c:148
+#: ../mail/mail-config.ui.h:2 ../mail/mail-send-recv.c:739
+#: ../mail/mail-send-recv.c:821 ../mail/mail-vfolder-ui.c:148
 #: ../mail/mail-vfolder-ui.c:270
 #: ../modules/backup-restore/evolution-backup-tool.c:899
 #: ../modules/calendar/e-cal-attachment-handler.c:285
@@ -634,7 +634,7 @@ msgstr "Άκ_υρο"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../calendar/calendar.error.xml.h:47
-#: ../calendar/gui/dialogs/comp-editor.c:1277
+#: ../calendar/gui/dialogs/comp-editor.c:1305
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
 #: ../e-util/e-attachment-store.c:636
 #: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3230
@@ -686,24 +686,24 @@ msgid "Show Notes"
 msgstr "Εμφάνιση σημειώσεων"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
-#: ../calendar/gui/dialogs/comp-editor.c:1298
+#: ../calendar/gui/dialogs/comp-editor.c:1326
 #: ../e-util/e-html-editor-actions.c:1134
 msgid "_Undo"
 msgstr "Α_ναίρεση"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:259
-#: ../calendar/gui/dialogs/comp-editor.c:1300 ../e-util/e-focus-tracker.c:122
+#: ../calendar/gui/dialogs/comp-editor.c:1328 ../e-util/e-focus-tracker.c:122
 msgid "Undo"
 msgstr "Αναίρεση"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../calendar/gui/dialogs/comp-editor.c:1305
+#: ../calendar/gui/dialogs/comp-editor.c:1333
 #: ../e-util/e-html-editor-actions.c:1120
 msgid "_Redo"
 msgstr "Ακύ_ρωση αναίρεσης"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:266
-#: ../calendar/gui/dialogs/comp-editor.c:1307 ../e-util/e-focus-tracker.c:138
+#: ../calendar/gui/dialogs/comp-editor.c:1335 ../e-util/e-focus-tracker.c:138
 msgid "Redo"
 msgstr "Ακύρωση αναίρεσης"
 
@@ -1441,7 +1441,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί η επαφή (%s);"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1333
-#: ../calendar/gui/dialogs/comp-editor.c:1242 ../e-util/e-focus-tracker.c:785
+#: ../calendar/gui/dialogs/comp-editor.c:1270 ../e-util/e-focus-tracker.c:785
 #: ../e-util/evolution-source-viewer.c:805
 #: ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1067
@@ -1585,7 +1585,7 @@ msgid "Title"
 msgstr "Τίτλος"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#: ../calendar/gui/e-meeting-list-view.c:666
+#: ../calendar/gui/e-meeting-list-view.c:684
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Role"
 msgstr "Ρόλος"
@@ -1978,7 +1978,7 @@ msgstr "Χρονική _μετάθεση υπενθύμισης"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1321
+#: ../calendar/gui/dialogs/comp-editor.c:1349
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
@@ -2792,22 +2792,22 @@ msgstr "δεν είναι"
 
 #. To Translators: This is task classification
 #: ../calendar/gui/caltypes.xml.h:9 ../calendar/gui/dialogs/task-page.ui.h:2
-#: ../calendar/gui/e-cal-list-view.c:246 ../calendar/gui/e-cal-model.c:278
-#: ../calendar/gui/e-cal-model.c:285 ../calendar/gui/e-task-table.c:498
+#: ../calendar/gui/e-cal-list-view.c:246 ../calendar/gui/e-cal-model.c:306
+#: ../calendar/gui/e-cal-model.c:313 ../calendar/gui/e-task-table.c:498
 #: ../calendar/gui/memotypes.xml.h:10
 msgid "Public"
 msgstr "Δημόσιο"
 
 #. To Translators: This is task classification
 #: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/dialogs/task-page.ui.h:4
-#: ../calendar/gui/e-cal-list-view.c:247 ../calendar/gui/e-cal-model.c:287
+#: ../calendar/gui/e-cal-list-view.c:247 ../calendar/gui/e-cal-model.c:315
 #: ../calendar/gui/e-task-table.c:499 ../calendar/gui/memotypes.xml.h:11
 msgid "Private"
 msgstr "Ιδιωτικό"
 
 #. To Translators: This is task classification
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/dialogs/task-page.ui.h:6
-#: ../calendar/gui/e-cal-list-view.c:248 ../calendar/gui/e-cal-model.c:289
+#: ../calendar/gui/e-cal-list-view.c:248 ../calendar/gui/e-cal-model.c:317
 #: ../calendar/gui/e-task-table.c:500 ../calendar/gui/memotypes.xml.h:12
 #: ../e-util/e-html-editor-page-dialog.c:117 ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
@@ -3054,58 +3054,58 @@ msgstr ""
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  Δεν έχετε κάνει αλλαγές, να ανανεωθεί ο επεξεργαστής;"
 
-#: ../calendar/gui/dialogs/comp-editor.c:271
+#: ../calendar/gui/dialogs/comp-editor.c:299
 msgid "Could not save attachments"
 msgstr "Αδυναμία αποθήκευσης συνημμένων"
 
-#: ../calendar/gui/dialogs/comp-editor.c:625
+#: ../calendar/gui/dialogs/comp-editor.c:653
 msgid "Could not update object"
 msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:759
+#: ../calendar/gui/dialogs/comp-editor.c:787
 msgid "Edit Appointment"
 msgstr "Επεξεργασία συνάντησης"
 
-#: ../calendar/gui/dialogs/comp-editor.c:766
+#: ../calendar/gui/dialogs/comp-editor.c:794
 #, c-format
 msgid "Meeting - %s"
 msgstr "Συγκέντρωση - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:768
+#: ../calendar/gui/dialogs/comp-editor.c:796
 #, c-format
 msgid "Appointment - %s"
 msgstr "Συνάντηση - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:774
+#: ../calendar/gui/dialogs/comp-editor.c:802
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Ανατιθέμενη εργασία - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:776
+#: ../calendar/gui/dialogs/comp-editor.c:804
 #, c-format
 msgid "Task - %s"
 msgstr "Εργασία - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:781
+#: ../calendar/gui/dialogs/comp-editor.c:809
 #, c-format
 msgid "Memo - %s"
 msgstr "Υπενθύμιση - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:797
+#: ../calendar/gui/dialogs/comp-editor.c:825
 msgid "No Summary"
 msgstr "Χωρίς περίληψη"
 
-#: ../calendar/gui/dialogs/comp-editor.c:918
+#: ../calendar/gui/dialogs/comp-editor.c:946
 msgid "Keep original item?"
 msgstr "Διατήρηση αρχικού αντικειμένου;"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1081
 #: ../calendar/gui/dialogs/comp-editor.c:1109
+#: ../calendar/gui/dialogs/comp-editor.c:1137
 msgid "Unable to synchronize with the server"
 msgstr "Αδύνατος ο συγχρονισμός με τον διακομιστή"
 
 #. == Button box ==
-#: ../calendar/gui/dialogs/comp-editor.c:1221
+#: ../calendar/gui/dialogs/comp-editor.c:1249
 #: ../calendar/gui/dialogs/event-editor.c:116
 #: ../calendar/gui/dialogs/event-editor.c:310
 #: ../calendar/gui/dialogs/event-page.ui.h:29
@@ -3120,19 +3120,19 @@ msgstr "Αδύνατος ο συγχρονισμός με τον διακομι�
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1223
+#: ../calendar/gui/dialogs/comp-editor.c:1251
 msgid "Close the current window"
 msgstr "Κλείσιμο του τρέχοντος παραθύρου"
 
 #. copy menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1228 ../e-util/e-focus-tracker.c:775
-#: ../e-util/e-html-editor-actions.c:1099 ../e-util/e-text.c:2089
+#: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:775
+#: ../e-util/e-html-editor-actions.c:1099 ../e-util/e-text.c:2109
 #: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:134
 #: ../mail/mail.error.xml.h:138 ../shell/e-shell-window-actions.c:929
 msgid "_Copy"
 msgstr "Αντι_γραφή"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1230 ../e-util/e-focus-tracker.c:175
+#: ../calendar/gui/dialogs/comp-editor.c:1258 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:379
 #: ../e-util/e-web-view.c:1415 ../mail/e-mail-browser.c:136
@@ -3141,51 +3141,51 @@ msgid "Copy the selection"
 msgstr "Αντιγραφή της επιλογής"
 
 #. cut menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1235 ../e-util/e-focus-tracker.c:770
-#: ../e-util/e-html-editor-actions.c:1106 ../e-util/e-text.c:2075
+#: ../calendar/gui/dialogs/comp-editor.c:1263 ../e-util/e-focus-tracker.c:770
+#: ../e-util/e-html-editor-actions.c:1106 ../e-util/e-text.c:2095
 #: ../mail/e-mail-browser.c:141 ../shell/e-shell-window-actions.c:936
 msgid "Cu_t"
 msgstr "_Αποκοπή"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1237 ../e-util/e-focus-tracker.c:168
+#: ../calendar/gui/dialogs/comp-editor.c:1265 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
 #: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1409
 #: ../mail/e-mail-browser.c:143 ../shell/e-shell-window-actions.c:938
 msgid "Cut the selection"
 msgstr "Αποκοπή της επιλογής"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1244 ../e-util/e-focus-tracker.c:189
+#: ../calendar/gui/dialogs/comp-editor.c:1272 ../e-util/e-focus-tracker.c:189
 #: ../e-util/e-focus-tracker.c:245 ../e-util/e-focus-tracker.c:786
 #: ../shell/e-shell-window-actions.c:945
 msgid "Delete the selection"
 msgstr "Διαγραφή της επιλογής"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1251
+#: ../calendar/gui/dialogs/comp-editor.c:1279
 msgid "View help"
 msgstr "Προβολή βοήθειας"
 
 #. paste menu item
-#: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:780
-#: ../e-util/e-html-editor-actions.c:1113 ../e-util/e-text.c:2101
+#: ../calendar/gui/dialogs/comp-editor.c:1284 ../e-util/e-focus-tracker.c:780
+#: ../e-util/e-html-editor-actions.c:1113 ../e-util/e-text.c:2121
 #: ../mail/e-mail-browser.c:148 ../shell/e-shell-window-actions.c:964
 msgid "_Paste"
 msgstr "Επι_κόλληση"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1258 ../e-util/e-focus-tracker.c:182
+#: ../calendar/gui/dialogs/comp-editor.c:1286 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
 #: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1421
 #: ../mail/e-mail-browser.c:150 ../shell/e-shell-window-actions.c:966
 msgid "Paste the clipboard"
 msgstr "Επικόλληση του προχείρου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1263
+#: ../calendar/gui/dialogs/comp-editor.c:1291
 #: ../composer/e-composer-actions.c:388 ../mail/e-mail-reader.c:2268
 #: ../modules/addressbook/e-book-shell-view-actions.c:1205
 #: ../modules/addressbook/e-book-shell-view-actions.c:1219
 msgid "_Print..."
 msgstr "_Εκτύπωση..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1270 ../mail/e-mail-reader.c:2275
+#: ../calendar/gui/dialogs/comp-editor.c:1298 ../mail/e-mail-reader.c:2275
 #: ../modules/addressbook/e-book-shell-view-actions.c:1212
 #: ../modules/calendar/e-cal-shell-view-actions.c:1642
 #: ../modules/calendar/e-memo-shell-view-actions.c:764
@@ -3193,160 +3193,160 @@ msgstr "_Εκτύπωση..."
 msgid "Pre_view..."
 msgstr "Προ_επισκόπηση..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1279
+#: ../calendar/gui/dialogs/comp-editor.c:1307
 msgid "Save current changes"
 msgstr "Αποθήκευση τρεχουσών αλλαγών"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1284
+#: ../calendar/gui/dialogs/comp-editor.c:1312
 #: ../e-util/e-mail-signature-editor.c:304
 msgid "Save and Close"
 msgstr "Αποθήκευση και Κλείσιμο"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1286
+#: ../calendar/gui/dialogs/comp-editor.c:1314
 msgid "Save current changes and close editor"
 msgstr "Αποθήκευση τρεχουσών αλλαγών και κλείσιμο επεξεργαστή"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1291 ../e-util/e-focus-tracker.c:790
+#: ../calendar/gui/dialogs/comp-editor.c:1319 ../e-util/e-focus-tracker.c:790
 #: ../e-util/e-html-editor-actions.c:1127 ../e-util/e-web-view.c:387
 #: ../mail/e-mail-browser.c:155 ../shell/e-shell-window-actions.c:1041
 msgid "Select _All"
 msgstr "Επιλογή ό_λων"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1293 ../e-util/e-focus-tracker.c:196
+#: ../calendar/gui/dialogs/comp-editor.c:1321 ../e-util/e-focus-tracker.c:196
 #: ../e-util/e-focus-tracker.c:252 ../e-util/e-focus-tracker.c:791
 #: ../mail/e-mail-browser.c:157 ../shell/e-shell-window-actions.c:1043
 msgid "Select all text"
 msgstr "Επιλογή όλου του κειμένου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1314
+#: ../calendar/gui/dialogs/comp-editor.c:1342
 msgid "_Classification"
 msgstr "Δια_βάθμιση"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1328
+#: ../calendar/gui/dialogs/comp-editor.c:1356
 #: ../e-util/e-html-editor-actions.c:1150
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:164
 #: ../shell/e-shell-window-actions.c:1078
 msgid "_File"
 msgstr "_Αρχείο"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1342
+#: ../calendar/gui/dialogs/comp-editor.c:1370
 #: ../e-util/e-html-editor-actions.c:1171
 msgid "_Insert"
 msgstr "_Εισαγωγή"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1349
+#: ../calendar/gui/dialogs/comp-editor.c:1377
 #: ../composer/e-composer-actions.c:378
 msgid "_Options"
 msgstr "Επι_λογές"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1356
+#: ../calendar/gui/dialogs/comp-editor.c:1384
 #: ../e-util/e-html-editor-actions.c:1192 ../mail/e-mail-browser.c:178
 #: ../shell/e-shell-window-actions.c:1121
 #: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Προβολή"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1366
+#: ../calendar/gui/dialogs/comp-editor.c:1394
 #: ../composer/e-composer-actions.c:327
 msgid "_Attachment..."
 msgstr "_Συνημμένο..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1368
+#: ../calendar/gui/dialogs/comp-editor.c:1396
 #: ../composer/e-composer-actions.c:329 ../e-util/e-attachment-view.c:463
 msgid "Attach a file"
 msgstr "Επισύναψη αρχείου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1376
+#: ../calendar/gui/dialogs/comp-editor.c:1404
 msgid "_Categories"
 msgstr "_Κατηγορίες"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1378
+#: ../calendar/gui/dialogs/comp-editor.c:1406
 msgid "Toggles whether to display categories"
 msgstr "Εναλλαγή της προβολής των κατηγοριών"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1384
+#: ../calendar/gui/dialogs/comp-editor.c:1412
 msgid "Time _Zone"
 msgstr "_Ζώνη ώρας"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1386
+#: ../calendar/gui/dialogs/comp-editor.c:1414
 msgid "Toggles whether the time zone is displayed"
 msgstr "Εναλλαγή της εμφάνισης της ζώνης ώρας"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1395
+#: ../calendar/gui/dialogs/comp-editor.c:1423
 msgid "Pu_blic"
 msgstr "Δη_μόσιο"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1397
+#: ../calendar/gui/dialogs/comp-editor.c:1425
 msgid "Classify as public"
 msgstr "Διαβάθμιση ως δημόσιο"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1402
+#: ../calendar/gui/dialogs/comp-editor.c:1430
 msgid "_Private"
 msgstr "Ι_διωτικό"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1404
+#: ../calendar/gui/dialogs/comp-editor.c:1432
 msgid "Classify as private"
 msgstr "Διαβάθμιση ως ιδιωτικό"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1409
+#: ../calendar/gui/dialogs/comp-editor.c:1437
 msgid "_Confidential"
 msgstr "Ε_μπιστευτικό"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1411
+#: ../calendar/gui/dialogs/comp-editor.c:1439
 msgid "Classify as confidential"
 msgstr "Διαβάθμιση ως εμπιστευτικό"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1419
+#: ../calendar/gui/dialogs/comp-editor.c:1447
 msgid "R_ole Field"
 msgstr "Πεδίο _ρόλου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1421
+#: ../calendar/gui/dialogs/comp-editor.c:1449
 msgid "Toggles whether the Role field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου ρόλου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1427
+#: ../calendar/gui/dialogs/comp-editor.c:1455
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1429
+#: ../calendar/gui/dialogs/comp-editor.c:1457
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου RSVP"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1435
+#: ../calendar/gui/dialogs/comp-editor.c:1463
 msgid "_Status Field"
 msgstr "Πεδίο _κατάστασης"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1437
+#: ../calendar/gui/dialogs/comp-editor.c:1465
 msgid "Toggles whether the Status field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου κατάστασης"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1443
+#: ../calendar/gui/dialogs/comp-editor.c:1471
 msgid "_Type Field"
 msgstr "Πεδίο _τύπου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1445
+#: ../calendar/gui/dialogs/comp-editor.c:1473
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου τύπου παρευρισκομένου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2232
+#: ../calendar/gui/dialogs/comp-editor.c:2596
 #: ../composer/e-composer-actions.c:612
 msgid "Attach"
 msgstr "Επισύναψη"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2562
-#: ../calendar/gui/dialogs/comp-editor.c:2772
-#: ../calendar/gui/dialogs/comp-editor.c:3785
+#: ../calendar/gui/dialogs/comp-editor.c:2926
+#: ../calendar/gui/dialogs/comp-editor.c:3512
+#: ../calendar/gui/dialogs/comp-editor.c:4525
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Οι αλλαγές που έγιναν σε αυτό το αντικείμενο μπορεί να απορριφθούν αν "
 "καταφθάσει μια ενημέρωση"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3747
+#: ../calendar/gui/dialogs/comp-editor.c:4487
 #: ../modules/prefer-plain/e-mail-parser-prefer-plain.c:121
 msgid "attachment"
 msgstr "συνημμένο"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3817
+#: ../calendar/gui/dialogs/comp-editor.c:4557
 msgid "Unable to use current version!"
 msgstr "Δεν ήταν δυνατή η εκτέλεση της τρέχουσας έκδοσης!"
 
@@ -3624,7 +3624,7 @@ msgstr "Περιγραφή Συμβάντος"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:26
 #: ../calendar/gui/dialogs/task-page.ui.h:33
-#: ../calendar/gui/e-meeting-time-sel.c:549
+#: ../calendar/gui/e-meeting-time-sel.c:555
 msgid "Atte_ndees..."
 msgstr "Παρευ_ρισκόμενοι..."
 
@@ -4082,7 +4082,7 @@ msgstr "Υψηλή"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:340
-#: ../calendar/gui/e-cal-model.c:1646 ../calendar/gui/e-task-table.c:525
+#: ../calendar/gui/e-cal-model.c:1856 ../calendar/gui/e-task-table.c:525
 #: ../calendar/gui/tasktypes.xml.h:20 ../e-util/e-send-options.ui.h:5
 #: ../mail/message-list.c:312
 msgid "Normal"
@@ -4143,7 +4143,7 @@ msgstr "Ολοκληρώθηκε"
 #: ../calendar/gui/e-cal-model-tasks.c:316
 #: ../calendar/gui/e-cal-model-tasks.c:558 ../calendar/gui/e-task-table.c:213
 #: ../calendar/gui/e-task-table.c:228 ../calendar/gui/e-task-table.c:610
-#: ../calendar/gui/print.c:3582 ../mail/mail-send-recv.c:958
+#: ../calendar/gui/print.c:3582 ../mail/mail-send-recv.c:959
 msgid "Canceled"
 msgstr "Ακυρώθηκε"
 
@@ -4426,7 +4426,7 @@ msgid "Start date"
 msgstr "Ημερομηνία έναρξης"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:3
-#: ../calendar/gui/e-meeting-list-view.c:652
+#: ../calendar/gui/e-meeting-list-view.c:670
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../calendar/gui/e-memo-table.etspec.h:3
 #: ../e-util/e-attachment-tree-view.c:585
@@ -4438,7 +4438,7 @@ msgstr "Τύπος"
 msgid "Completion date"
 msgstr "Ημερομηνία ολοκλήρωσης"
 
-#: ../calendar/gui/e-calendar-table.etspec.h:6 ../mail/mail-send-recv.c:960
+#: ../calendar/gui/e-calendar-table.etspec.h:6 ../mail/mail-send-recv.c:961
 msgid "Complete"
 msgstr "Ολοκληρώθηκε"
 
@@ -4460,8 +4460,8 @@ msgstr "Προτεραιότητα"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3091
-#: ../calendar/gui/e-meeting-list-view.c:695
+#: ../calendar/gui/e-cal-model.c:3845
+#: ../calendar/gui/e-meeting-list-view.c:713
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/filtertypes.xml.in.h:34
 #: ../mail/message-list.etspec.h:1 ../mail/searchtypes.xml.in.h:36
@@ -4525,8 +4525,8 @@ msgstr "Επικολλούνται δεδομένα iCalendar"
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1794 ../calendar/gui/e-memo-table.c:495
-#: ../calendar/gui/e-task-table.c:796
+#: ../calendar/gui/e-calendar-view.c:1794 ../calendar/gui/e-memo-table.c:493
+#: ../calendar/gui/e-task-table.c:794
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Διοργανωτής: %s <%s>"
@@ -4534,15 +4534,15 @@ msgstr "Διοργανωτής: %s <%s>"
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
-#: ../calendar/gui/e-calendar-view.c:1798 ../calendar/gui/e-memo-table.c:500
-#: ../calendar/gui/e-task-table.c:800
+#: ../calendar/gui/e-calendar-view.c:1798 ../calendar/gui/e-memo-table.c:498
+#: ../calendar/gui/e-task-table.c:798
 #, c-format
 msgid "Organizer: %s"
 msgstr "Διοργανωτής: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1814
-#: ../calendar/gui/e-meeting-time-sel.c:2663 ../calendar/gui/print.c:3527
+#: ../calendar/gui/e-meeting-time-sel.c:2725 ../calendar/gui/print.c:3527
 #, c-format
 msgid "Location: %s"
 msgstr "Τοποθεσία: %s"
@@ -4565,7 +4565,7 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2238 ../calendar/gui/e-day-view.c:2985
+#: ../calendar/gui/e-calendar-view.c:2238 ../calendar/gui/e-day-view.c:3052
 #: ../calendar/gui/e-day-view-top-item.c:859
 #: ../calendar/gui/e-week-view-main-item.c:230
 msgid "%d %b"
@@ -4581,7 +4581,7 @@ msgstr "%A %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../calendar/gui/e-calendar-view.c:2264 ../calendar/gui/e-day-view.c:2969
+#: ../calendar/gui/e-calendar-view.c:2264 ../calendar/gui/e-day-view.c:3036
 #: ../calendar/gui/e-day-view-top-item.c:855
 #: ../calendar/gui/e-week-view-main-item.c:216
 msgid "%a %d %b"
@@ -4602,99 +4602,99 @@ msgstr "Ημερομηνία Έναρξης"
 msgid "End Date"
 msgstr "Ημερομηνία λήξης"
 
-#: ../calendar/gui/e-cal-model.c:291 ../calendar/gui/e-meeting-list-view.c:184
+#: ../calendar/gui/e-cal-model.c:319 ../calendar/gui/e-meeting-list-view.c:184
 #: ../calendar/gui/e-meeting-list-view.c:198
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:169
 #: ../calendar/gui/e-meeting-store.c:232 ../calendar/gui/print.c:1250
 #: ../calendar/gui/print.c:1267 ../e-util/e-charset.c:51
 #: ../modules/itip-formatter/itip-view.c:3606
-#: ../modules/itip-formatter/itip-view.c:6196
+#: ../modules/itip-formatter/itip-view.c:6197
 #: ../modules/plugin-manager/evolution-plugin-manager.c:99
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: ../calendar/gui/e-cal-model.c:1184 ../calendar/gui/e-cal-ops.c:596
+#: ../calendar/gui/e-cal-model.c:1394 ../calendar/gui/e-cal-ops.c:596
 #: ../calendar/gui/e-cal-ops.c:1232
 #: ../modules/calendar/e-cal-base-shell-backend.c:361
 #, c-format
 msgid "Source with UID '%s' not found"
 msgstr "Δεβ βρέθηκε πηγή με UID '%s'"
 
-#: ../calendar/gui/e-cal-model.c:1270 ../calendar/gui/e-cal-ops.c:185
+#: ../calendar/gui/e-cal-model.c:1480 ../calendar/gui/e-cal-ops.c:185
 #: ../calendar/gui/e-cal-ops.c:1349
 msgid "Creating an event"
 msgstr "Δημιουργείται συμβάν"
 
-#: ../calendar/gui/e-cal-model.c:1274 ../calendar/gui/e-cal-ops.c:189
+#: ../calendar/gui/e-cal-model.c:1484 ../calendar/gui/e-cal-ops.c:189
 #: ../calendar/gui/e-cal-ops.c:1353
 msgid "Creating a memo"
 msgstr "Δημιουργείται υπενθύμιση"
 
-#: ../calendar/gui/e-cal-model.c:1278 ../calendar/gui/e-cal-ops.c:193
+#: ../calendar/gui/e-cal-model.c:1488 ../calendar/gui/e-cal-ops.c:193
 #: ../calendar/gui/e-cal-ops.c:1357
 msgid "Creating a task"
 msgstr "Δημιουργείται εργασία"
 
-#: ../calendar/gui/e-cal-model.c:1648
+#: ../calendar/gui/e-cal-model.c:1858
 msgid "Recurring"
 msgstr "Επανάληψη"
 
-#: ../calendar/gui/e-cal-model.c:1650
+#: ../calendar/gui/e-cal-model.c:1860
 msgid "Assigned"
 msgstr "Ανάθεση"
 
-#: ../calendar/gui/e-cal-model.c:1652 ../calendar/gui/e-cal-model-tasks.c:1139
+#: ../calendar/gui/e-cal-model.c:1862 ../calendar/gui/e-cal-model-tasks.c:1139
 #: ../calendar/gui/e-meeting-list-view.c:208
 #: ../calendar/gui/e-meeting-store.c:176 ../calendar/gui/e-meeting-store.c:186
 #: ../calendar/gui/e-meeting-store.c:1023
 msgid "Yes"
 msgstr "Ναι"
 
-#: ../calendar/gui/e-cal-model.c:1652 ../calendar/gui/e-cal-model-tasks.c:1139
+#: ../calendar/gui/e-cal-model.c:1862 ../calendar/gui/e-cal-model-tasks.c:1139
 #: ../calendar/gui/e-meeting-list-view.c:209
 #: ../calendar/gui/e-meeting-store.c:188
 msgid "No"
 msgstr "Όχι"
 
-#: ../calendar/gui/e-cal-model.c:3032
+#: ../calendar/gui/e-cal-model.c:3786
 #: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../modules/itip-formatter/itip-view.c:6184
+#: ../modules/itip-formatter/itip-view.c:6185
 msgid "Accepted"
 msgstr "Αποδοχή"
 
-#: ../calendar/gui/e-cal-model.c:3033
+#: ../calendar/gui/e-cal-model.c:3787
 #: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
-#: ../modules/itip-formatter/itip-view.c:6190
+#: ../modules/itip-formatter/itip-view.c:6191
 msgid "Declined"
 msgstr "Άρνηση πρόσβασης"
 
-#: ../calendar/gui/e-cal-model.c:3034
+#: ../calendar/gui/e-cal-model.c:3788
 #: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
-#: ../calendar/gui/e-meeting-time-sel.c:529
+#: ../calendar/gui/e-meeting-time-sel.c:535
 msgid "Tentative"
 msgstr "Δοκιμαστικά"
 
-#: ../calendar/gui/e-cal-model.c:3035
+#: ../calendar/gui/e-cal-model.c:3789
 #: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
-#: ../modules/itip-formatter/itip-view.c:6193
+#: ../modules/itip-formatter/itip-view.c:6194
 msgid "Delegated"
 msgstr "Εξουσιοδοτήθηκε"
 
-#: ../calendar/gui/e-cal-model.c:3036
+#: ../calendar/gui/e-cal-model.c:3790
 msgid "Needs action"
 msgstr "Απαιτεί ενέργεια"
 
-#: ../calendar/gui/e-cal-model-calendar.c:123
+#: ../calendar/gui/e-cal-model-calendar.c:151
 #: ../calendar/gui/e-task-table.c:582
 msgid "Free"
 msgstr "Διαθέσιμη"
 
-#: ../calendar/gui/e-cal-model-calendar.c:126
-#: ../calendar/gui/e-meeting-time-sel.c:530 ../calendar/gui/e-task-table.c:583
+#: ../calendar/gui/e-cal-model-calendar.c:154
+#: ../calendar/gui/e-meeting-time-sel.c:536 ../calendar/gui/e-task-table.c:583
 msgid "Busy"
 msgstr "Απασχολημένη"
 
@@ -4901,14 +4901,14 @@ msgstr ""
 "%s"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:2071 ../calendar/gui/e-week-view.c:1694
+#: ../calendar/gui/e-day-view.c:2138 ../calendar/gui/e-week-view.c:1694
 #: ../calendar/gui/print.c:1073 ../calendar/gui/print.c:1092
 #: ../calendar/gui/print.c:2622 ../calendar/gui/print.c:2642
 msgid "am"
 msgstr "πμ"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:2074 ../calendar/gui/e-week-view.c:1697
+#: ../calendar/gui/e-day-view.c:2141 ../calendar/gui/e-week-view.c:1697
 #: ../calendar/gui/print.c:1078 ../calendar/gui/print.c:1094
 #: ../calendar/gui/print.c:2627 ../calendar/gui/print.c:2644
 msgid "pm"
@@ -4920,13 +4920,13 @@ msgstr "μμ"
 #. * month, %B = full month name. You can change the
 #. * order but don't change the specifiers or add
 #. * anything.
-#: ../calendar/gui/e-day-view.c:2952 ../calendar/gui/e-day-view-top-item.c:851
+#: ../calendar/gui/e-day-view.c:3019 ../calendar/gui/e-day-view-top-item.c:851
 #: ../calendar/gui/e-week-view-main-item.c:207 ../calendar/gui/print.c:2089
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:3666
+#: ../calendar/gui/e-day-view.c:3744
 #, c-format
 msgid "Week %d"
 msgstr "Εβδομάδα %d"
@@ -5031,11 +5031,11 @@ msgstr "Μη-Συμμετέχων"
 msgid "Needs Action"
 msgstr "Απαιτεί ενέργεια"
 
-#: ../calendar/gui/e-meeting-list-view.c:626
+#: ../calendar/gui/e-meeting-list-view.c:644
 msgid "Attendee                          "
 msgstr "Παρευρισκόμενος"
 
-#: ../calendar/gui/e-meeting-list-view.c:681
+#: ../calendar/gui/e-meeting-list-view.c:699
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
 msgstr "RSVP"
@@ -5062,67 +5062,67 @@ msgstr "Αιτία αποτυχίας: %s"
 msgid "Enter password"
 msgstr "Εισάγετε κωδικό"
 
-#: ../calendar/gui/e-meeting-time-sel.c:531
+#: ../calendar/gui/e-meeting-time-sel.c:537
 msgid "Out of Office"
 msgstr "Εκτός Γραφείου"
 
-#: ../calendar/gui/e-meeting-time-sel.c:533
+#: ../calendar/gui/e-meeting-time-sel.c:539
 msgid "No Information"
 msgstr "Χωρίς Πληροφορίες"
 
-#: ../calendar/gui/e-meeting-time-sel.c:568
+#: ../calendar/gui/e-meeting-time-sel.c:574
 msgid "O_ptions"
 msgstr "Επι_λογές"
 
-#: ../calendar/gui/e-meeting-time-sel.c:588
+#: ../calendar/gui/e-meeting-time-sel.c:594
 msgid "Show _only working hours"
 msgstr "Εμφάνιση _μόνο των ωρών Εργασίας"
 
-#: ../calendar/gui/e-meeting-time-sel.c:601
+#: ../calendar/gui/e-meeting-time-sel.c:607
 msgid "Show _zoomed out"
 msgstr "Εμφάνιση Σ_μίκρυνσης"
 
-#: ../calendar/gui/e-meeting-time-sel.c:619
+#: ../calendar/gui/e-meeting-time-sel.c:625
 msgid "_Update free/busy"
 msgstr "Ανα_νέωση Διαθεσιμότητας"
 
-#: ../calendar/gui/e-meeting-time-sel.c:636
+#: ../calendar/gui/e-meeting-time-sel.c:642
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:656
+#: ../calendar/gui/e-meeting-time-sel.c:662
 msgid "_Autopick"
 msgstr "_Αυτόματη επιλογή"
 
-#: ../calendar/gui/e-meeting-time-sel.c:673
+#: ../calendar/gui/e-meeting-time-sel.c:679
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:694
+#: ../calendar/gui/e-meeting-time-sel.c:700
 msgid "_All people and resources"
 msgstr "Όλα _τα Άτομα και οι Πόροι"
 
-#: ../calendar/gui/e-meeting-time-sel.c:705
+#: ../calendar/gui/e-meeting-time-sel.c:711
 msgid "All _people and one resource"
 msgstr "Όλα τα Άτομα και ένας _Πόρος"
 
-#: ../calendar/gui/e-meeting-time-sel.c:716
+#: ../calendar/gui/e-meeting-time-sel.c:722
 msgid "_Required people"
 msgstr "_Απαιτούμενα άτομα"
 
-#: ../calendar/gui/e-meeting-time-sel.c:726
+#: ../calendar/gui/e-meeting-time-sel.c:732
 msgid "Required people and _one resource"
 msgstr "Απαιτούμενα Άτομα και έ_νας Πόρος"
 
-#: ../calendar/gui/e-meeting-time-sel.c:765
+#: ../calendar/gui/e-meeting-time-sel.c:771
 msgid "_Start time:"
 msgstr "Χρόνος Έ_ναρξης:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:794
+#: ../calendar/gui/e-meeting-time-sel.c:800
 msgid "_End time:"
 msgstr "_Χρόνος Λήξης:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2659
+#: ../calendar/gui/e-meeting-time-sel.c:2721
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -5131,7 +5131,7 @@ msgstr ""
 "Περίληψη: %s\n"
 "Τοποθεσία: %s"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2661 ../calendar/gui/print.c:3516
+#: ../calendar/gui/e-meeting-time-sel.c:2723 ../calendar/gui/print.c:3516
 #, c-format
 msgid "Summary: %s"
 msgstr "Περίληψη: %s"
@@ -5168,38 +5168,38 @@ msgstr "Γλώσσα"
 msgid "Memos"
 msgstr "Υπενθυμίσεις"
 
-#: ../calendar/gui/e-memo-table.c:457 ../calendar/gui/e-task-table.c:759
+#: ../calendar/gui/e-memo-table.c:455 ../calendar/gui/e-task-table.c:757
 msgid "* No Summary *"
 msgstr "* Χωρίς περίληψη *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../calendar/gui/e-memo-table.c:544 ../calendar/gui/e-task-table.c:843
+#: ../calendar/gui/e-memo-table.c:540 ../calendar/gui/e-task-table.c:839
 msgid "Start: "
 msgstr "Εκκίνηση: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../calendar/gui/e-memo-table.c:563 ../calendar/gui/e-task-table.c:861
+#: ../calendar/gui/e-memo-table.c:560 ../calendar/gui/e-task-table.c:858
 msgid "Due: "
 msgstr "Λήξη: "
 
-#: ../calendar/gui/e-memo-table.c:684
+#: ../calendar/gui/e-memo-table.c:683
 msgid "Cut selected memos to the clipboard"
 msgstr "Αποκοπή επιλεγμένων υπενθυμίσεων στο πρόχειρο"
 
-#: ../calendar/gui/e-memo-table.c:690
+#: ../calendar/gui/e-memo-table.c:689
 msgid "Copy selected memos to the clipboard"
 msgstr "Αντιγραφή επιλεγμένων υπενθυμίσεων στο πρόχειρο"
 
-#: ../calendar/gui/e-memo-table.c:696
+#: ../calendar/gui/e-memo-table.c:695
 msgid "Paste memos from the clipboard"
 msgstr "Επικόλληση υπενθυμίσεων από το πρόχειρο"
 
-#: ../calendar/gui/e-memo-table.c:702
+#: ../calendar/gui/e-memo-table.c:701
 #: ../modules/calendar/e-memo-shell-view-actions.c:531
 msgid "Delete selected memos"
 msgstr "Διαγραφή επιλεγμένων υπενθυμίσεων"
 
-#: ../calendar/gui/e-memo-table.c:708
+#: ../calendar/gui/e-memo-table.c:707
 msgid "Select all visible memos"
 msgstr "Επιλογή όλων των ορατών υπενθυμίσεων"
 
@@ -5227,24 +5227,24 @@ msgstr "%d%%"
 msgid "Tasks"
 msgstr "Εργασίες"
 
-#: ../calendar/gui/e-task-table.c:999
+#: ../calendar/gui/e-task-table.c:998
 msgid "Cut selected tasks to the clipboard"
 msgstr "Αποκοπή επιλεγμένων εργασιών στο πρόχειρο"
 
-#: ../calendar/gui/e-task-table.c:1005
+#: ../calendar/gui/e-task-table.c:1004
 msgid "Copy selected tasks to the clipboard"
 msgstr "Αντιγραφή επιλεγμένων εργασιών στο πρόχειρο"
 
-#: ../calendar/gui/e-task-table.c:1011
+#: ../calendar/gui/e-task-table.c:1010
 msgid "Paste tasks from the clipboard"
 msgstr "Επικόλληση εργασιών από το πρόχειρο"
 
-#: ../calendar/gui/e-task-table.c:1017
+#: ../calendar/gui/e-task-table.c:1016
 #: ../modules/calendar/e-task-shell-view-actions.c:656
 msgid "Delete selected tasks"
 msgstr "Διαγραφή επιλεγμένων εργασιών"
 
-#: ../calendar/gui/e-task-table.c:1023
+#: ../calendar/gui/e-task-table.c:1022
 msgid "Select all visible tasks"
 msgstr "Επιλογή όλων των ορατών εργασιών"
 
@@ -7603,7 +7603,7 @@ msgid "Click here to select folders to post to"
 msgstr ""
 "Κάντε κλικ εδώ για να επιλέξετε τους φάκελους στους οποίους θα στείλετε"
 
-#: ../composer/e-msg-composer.c:871
+#: ../composer/e-msg-composer.c:876
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -7611,7 +7611,7 @@ msgstr ""
 "Αδυναμία υπογραφής εξερχόμενου μηνύματος: Δεν έχει ορισθεί πιστοποιητικό "
 "υπογραφής από το λογαριασμό"
 
-#: ../composer/e-msg-composer.c:880
+#: ../composer/e-msg-composer.c:885
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -7620,11 +7620,11 @@ msgstr ""
 "Αδυναμία κρυπτογράφησης εξερχόμενου μηνύματος: Δεν έχει ορισθεί "
 "πιστοποιητικό κρυπτογράφησης από το λογαριασμό"
 
-#: ../composer/e-msg-composer.c:1594 ../composer/e-msg-composer.c:2366
+#: ../composer/e-msg-composer.c:1599 ../composer/e-msg-composer.c:2371
 msgid "Compose Message"
 msgstr "Συγγραφή νέου μηνύματος"
 
-#: ../composer/e-msg-composer.c:4705
+#: ../composer/e-msg-composer.c:4710
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Ο επεξεργαστής περιέχει ένα σώμα μηνύματος που δεν είναι κείμενο, στο οποίο "
@@ -8145,10 +8145,98 @@ msgid "Minute the workday starts on, 0 to 59."
 msgstr "Λεπτό που ξεκινάει η εργάσιμη μέρα, από 0 ως 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
+#| msgid "Workday start hour"
+msgid "Workday start time for Monday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για τη Δευτέρα"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
+#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
+msgid ""
+"Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
+"-1 to use day-start-hour and day-start-minute"
+msgstr ""
+"Η ώρα που τελειώνει η εργάσιμη ημέρα, σε 24ωρη μορφή ΩΩΛΛ, 0000 έως 2359, ή "
+"-1 για να χρησιμοποιηθεί η ώρα έναρξης ημέρας και το λεπτό έναρξης ημέρας"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
+#| msgid "Workday end hour"
+msgid "Workday end time for Monday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για τη Δευτέρα"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
+#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
+msgid ""
+"Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
+"-1 to use day-end-hour and day-end-minute"
+msgstr ""
+"Η ώρα που τελειώνει η εργάσιμη ημέρα, σε 24ωρη μορφή ΩΩΛΛ, 0000 έως 2359, ή "
+"-1 για να χρησιμοποιηθεί η ώρα τέλους ημέρας και το λεπτό τέλους νμέρας"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
+#| msgid "Workday start hour"
+msgid "Workday start time for Teusday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για την Τρίτη"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
+#| msgid "Workday end hour"
+msgid "Workday end time for Teusday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για την Τρίτη"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
+#| msgid "Workday start minute"
+msgid "Workday start time for Wednesday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για την Τετάρτη"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
+#| msgid "Workday end minute"
+msgid "Workday end time for Wednesday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για την Τετάρτη"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
+#| msgid "Workday start hour"
+msgid "Workday start time for Thursday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για τη Πέμπτη"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
+#| msgid "Workday end hour"
+msgid "Workday end time for Thursday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για τη Πέμπτη"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
+#| msgid "Workday start hour"
+msgid "Workday start time for Friday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για την Παρασκευή"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
+#| msgid "Workday end hour"
+msgid "Workday end time for Friday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για την Παρασκευή"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
+#| msgid "Workday start hour"
+msgid "Workday start time for Saturday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για το Σάββατο"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
+#| msgid "Workday end hour"
+msgid "Workday end time for Saturday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για το Σάββατο"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
+#| msgid "Workday start hour"
+msgid "Workday start time for Sunday"
+msgstr "Ώρα έναρξης της εργάσιμης μέρας για την Κυριακή"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
+#| msgid "Workday end hour"
+msgid "Workday end time for Sunday"
+msgstr "Ώρα λήξης της εργάσιμης μέρας για την Κυριακή"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
 msgid "The second timezone for a Day View"
 msgstr "Η δεύτερη ζώνη ώρας της προβολής ημέρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key"
@@ -8156,21 +8244,21 @@ msgstr ""
 "Εμφάνιση της δεύτερης ζώνης ώρας στην προβολή ημέρας, αν έχει οριστεί. Η "
 "τιμή πρέπει να έχει την ίδια μορφή με την τιμή του κλειδιού 'timezone'"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid "Recently used second time zones in a Day View"
 msgstr "Δεύτερες ζώνες ώρας που χρησιμοποιήθηκαν πρόσφατα στην προβολή ημέρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "List of recently used second time zones in a Day View"
 msgstr ""
 "Κατάλογος των δεύτερων ζωνών ώρας που χρησιμοποιήθηκαν πρόσφατα στην προβολή "
 "ημέρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "Maximum number of recently used timezones to remember"
 msgstr "Μέγιστος αριθμός πρόσφατα χρησιμοποιημένων ζωνών ώρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid ""
 "Maximum number of recently used timezones to remember in a 'day-second-"
 "zones' list"
@@ -8178,28 +8266,28 @@ msgstr ""
 "Μέγιστος αριθμός πρόσφατα χρησιμοποιημένων ζωνών ώρας που θα διατηρούνται "
 "στη λίστα 'day-second-zones'"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid "Default reminder value"
 msgstr "Προεπιλεγμένης τιμή υπόμνησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Number of units for determining a default reminder"
 msgstr "Αριθμός μονάδων για το καθορισμό της προεπιλεγμένης υπόμνησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Default reminder units"
 msgstr "Προκαθορισμένες μονάδες υπενθύμισης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgstr ""
 "Μονάδες για μια προεπιλεγμένη υπενθύμιση, \"λεπτά\", \"ώρες\" ή \"ημέρες\""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Default reminder snooze interval, in minutes"
 msgstr "Προεπιλεγμένος χρόνος μετάθεσης ειδοποίησης, σε λεπτά"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid ""
 "Default reminder snooze interval, in minutes, to be filled in the reminder "
 "notification dialog"
@@ -8207,100 +8295,100 @@ msgstr ""
 "Προεπιλεγμένος χρόνος μετάθεσης ειδοποίησης, σε λεπτά, προς συμπλήρωση στον "
 "διάλογο ειδοποίησης υπενθύμισης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Show categories field in the event/meeting/task editor"
 msgstr ""
 "Εμφάνιση πεδίου κατηγοριών στον επεξεργαστή συμβάντος/συνάντησης/εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr ""
 "Αν θα εμφανίζεται το πεδίο κατηγοριών στον επεξεργαστή συμβάντος/συναντήσης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Show Role field in the event/task/meeting editor"
 msgstr "Εμφάνιση πεδίου ρόλου στον επεξεργαστή συμβάντος/εργασίας/συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr ""
 "Αν θα εμφανίζεται το πεδίο ρόλων στον επεξεργαστή συμβάντος/εργασίας/"
 "συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "Εμφάνιση πεδίου RSVP στον επεξεργαστή συμβάντος/εργασίας/συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr ""
 "Αν θα εμφανίζεται το πεδίο RSVP στον επεξεργαστή συμβάντος/εργασίας/"
 "συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Show status field in the event/task/meeting editor"
 msgstr ""
 "Εμφάνιση πεδίου κατάστασης στον επεξεργαστή συμβάντος/εργασίας/συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 "Αν θα εμφανίζεται το πεδίο κατάστασης στον επεξεργαστή συμβάντος/εργασίας/"
 "συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Show timezone field in the event/meeting editor"
 msgstr ""
 "Εμφάνιση πεδίου ζώνης ώρας στον επεξεργαστή συμβάντος/εργασίας/συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
 "Αν θα εμφανίζεται το πεδίο ζώνης ώρας στον επεξεργαστή συμβάντος/εργασίας/"
 "συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Show type field in the event/task/meeting editor"
 msgstr "Εμφάνιση πεδίου τύπου στον επεξεργαστή συμβάντος/εργασίας/συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
 "Αν θα εμφανίζεται το πεδίο τύπου στον επεξεργαστή συμβάντος/εργασίας/"
 "συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Hide completed tasks"
 msgstr "Απόκρυψη ολοκληρωμένων εργασιών"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Whether to hide completed tasks in the tasks view"
 msgstr "Αν θα γίνεται απόκρυψη ολοκληρωμένων εργασιών στην προβολή εργασιών"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Hide task units"
 msgstr "Απόκρυψη μονάδων εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr ""
 "Μονάδες για τον καθορισμό της απόκρυψης εργασιών, \"λεπτά\", \"ώρες\" ή "
 "\"ημέρες\""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Hide task value"
 msgstr "Απόκρυψη τιμής εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Number of units for determining when to hide tasks"
 msgstr "Αριθμός μονάδων για τον καθορισμό χρόνου απόκρυψης εργασιών"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid "Horizontal pane position"
 msgstr "Τοποθεσία οριζόντιου πλαισίου"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
@@ -8308,57 +8396,57 @@ msgstr ""
 "Τοποθεσία του οριζόντιου πλαισίου, ανάμεσα στον περιηγητή ώρας ημερολογίου "
 "και στη λίστα εργασιών όταν δεν υπάρχει μηνιαία προβολή, σε εικονοστοιχεία"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Last reminder time"
 msgstr "Ώρα τελευταίας υπενθύμισης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Time the last reminder ran, in time_t"
 msgstr "Ώρα τελευταίας εκτέλεσης υπενθύμισης, σε time_t"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
 msgid "Marcus Bains Line Color - Day View"
 msgstr "Χρώμα γραμμής Marcus Bains - Προβολή ημέρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Color to draw the Marcus Bains line in the Day View"
 msgstr "Χρώμα για το σχεδιασμό της γραμμής Marcus Bains στη προβολή ημέρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Marcus Bains Line Color - Time bar"
 msgstr "Χρώμα γραμμής Marcus Bains - Γραμμή ώρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Χρώμα για το σχεδιασμό της γραμμής Marcus Bains στη γραμμή χρόνου (κενό για "
 "προεπιλογή)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Marcus Bains Line"
 msgstr "Γραμμή Marcus Bains"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr ""
 "Αν θα σχεδιάζεται η γραμμή Marcus Bains (γραμμή στη τρέχουσα ώρα) στο "
 "ημερολόγιο"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Memo preview pane position (horizontal)"
 msgstr "Θέση του πλαισίου προεπισκόπησης υπενθύμισης (οριζόντια)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr ""
 "Θέση του πλαισίου προεπισκόπησης εργασιών όταν είναι προσανατολισμένο κάθετα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Memo layout style"
 msgstr "Τεχνοτροπία διάταξης υπενθύμισης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
@@ -8370,21 +8458,21 @@ msgstr ""
 "υπενθυμίσεων. Το \"1\" (κάθετη προβολή) τοποθετεί το πλαίσιο προεπισκόπησης "
 "δίπλα από την λίστα υπενθυμίσεων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid "Memo preview pane position (vertical)"
 msgstr "Θέση του πλαισίου προεπισκόπησης υπενθυμίσεων (κάθετη)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr ""
 "Θέση του πλαισίου προεπισκόπησης υπενθυμίσεων όταν είναι προσανατολισμένο "
 "οριζόντια"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 msgid "Month view horizontal pane position"
 msgstr "Οριζόντια τοποθεσία του πλαισίου μηνιαίας προβολής"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
@@ -8393,45 +8481,45 @@ msgstr ""
 "ώρας ημερολογίου και τη λίστα εργασιών κατά τη μηνιαία προβολή, σε "
 "εικονοστοιχεία"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Scroll Month View by a week, not by a month"
 msgstr "Αν θα κυλάει η προβολή μήνα κατά εβδομάδα, όχι κατά μήνα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Αν θα κυλάει η προβολή μήνα κατά εβδομάδα, όχι κατά μήνα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid "Reminder programs"
 msgstr "Προγράμματα υπενθυμίσεων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Programs that are allowed to be run by reminders"
 msgstr "Προγράμματα που μπορούν να εκτελούνται από τις υπενθυμίσεις"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "Show display reminders in notification tray"
 msgstr "Εμφάνιση υπενθυμίσεων στην περιοχή ειδοποίησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr ""
 "Αν θα γίνετε χρήση ή όχι της περιοχής ειδοποίησης για την εμφάνιση "
 "υπενθυμίσεων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "Preferred New button item"
 msgstr "Προτιμώμενο στοιχείο νέου κουμπιού"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Name of the preferred New toolbar button item"
 msgstr "Όνομα του προτιμώμενου νέου στοιχείου κουμπιού εργαλειοθήκης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "Primary calendar"
 msgstr "Κύριο ημερολόγιο"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
@@ -8439,11 +8527,11 @@ msgstr ""
 "Το UID του επιλεγμένου (ή \"πρωτεύοντος\") ημερολογίου στην πλευρική στήλη "
 "της προβολής \"Ημερολόγιο\""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid "Primary memo list"
 msgstr "Κύρια λίστα υπενθυμίσεων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
@@ -8451,11 +8539,11 @@ msgstr ""
 "Το UID του επιλεγμένου (ή \"πρωτεύοντος\") υπομνήματος στην πλευρική στήλη "
 "της προβολής \"Υπενθυμίσεις\""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Primary task list"
 msgstr "Κύρια λίστα εργασιών"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
@@ -8463,11 +8551,11 @@ msgstr ""
 "Το UID της επιλεγμένης (ή \"πρωτεύουσας\") εργασίας στην πλευρική στήλη της "
 "προβολής \"Εργασίες\""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Free/busy template URL"
 msgstr "URL προτύπου διαθεσιμότητας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -8477,21 +8565,21 @@ msgstr ""
 "αντικαθίσταται από το κομμάτι χρήστη της διεύθυνσης αλληλογραφίας και το %d "
 "αντικαθίσταται από το τομέα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Recurrent Events in Italic"
 msgstr "Επαναλαμβανόμενα γεγονότα σε Italic"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Εμφάνιση ημερών επαναλαμβανόμενων γεγονότων σε italic στο κάτω αριστερά "
 "ημερολόγιο"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Search range for time-based searching in years"
 msgstr "Εύρος αναζήτησης για αναζητήσεις με βάση έτη"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid ""
 "How many years can the time-based search go forward or backward from "
 "currently selected day when searching for another occurrence; default is ten "
@@ -8501,66 +8589,66 @@ msgstr ""
 "την τρέχουσα επιλεγμένη ημέρα όταν αναζητάτε μια άλλη εμφάνιση· προεπιλογή "
 "είναι δέκα έτη"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "Show appointment end times in week and month views"
 msgstr "Εμφάνιση χρόνων τέλους συνάντησης στις προβολές εβδομάδας και μήνα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Αν θα εμφανίζεται η ώρα τέλους των γεγονότων στις προβολές εβδομάδας και μήνα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Show the memo preview pane"
 msgstr "Προβολή του πλαισίου προεπισκόπησης υπενθυμίσεων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
 "Αν \"αληθές\", το πλαίσιο προεπισκόπησης υπενθυμίσεων θα εμφανίζεται στο "
 "κεντρικό παράθυρο"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Show the task preview pane"
 msgstr "Προβολή του πλαισίου προεπισκόπησης εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr ""
 "Αν \"αληθές\", το πλαίσιο προεπισκόπησης εργασιών θα εμφανίζεται στο "
 "κεντρικό παράθυρο"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Εμφάνιση αριθμών εβδομάδας στην προβολή ημέρας, εργάσιμης εβδομάδας και στην "
 "πλοήγηση ημέρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr ""
 "Αν θα εμφανίζονται οι αριθμοί εβδομάδων σε διάφορα μέρη μέσα στο ημερολόγιο"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "Vertical position for the tag pane"
 msgstr "Κάθετη θέση για το πλαίσιο ετικέτας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Highlight tasks due today"
 msgstr "Επισήμανση εργασιών που λήγουν σήμερα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Εάν θα τονίζονται οι εργασίες που λήγουν σήμερα με ειδικό χρώμα (χρώμα "
 "σημερινής ημερομηνίας λήξης)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Tasks due today color"
 msgstr "Χρώμα εργασιών που λήγουν σήμερα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8568,15 +8656,15 @@ msgstr ""
 "Χρώμα παρασκηνίου για τις εργασίες που λήγουν σήμερα, σε μορφή \"#rrggbb\". "
 "Χρησιμοποιείται μαζί με τον σημερινό τονισμό λήξης εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Task preview pane position (horizontal)"
 msgstr "Θέση του πλαισίου προεπισκόπησης εργασιών (οριζόντια)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Task layout style"
 msgstr "Τεχνοτροπία διάταξης εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8588,31 +8676,31 @@ msgstr ""
 "\"1\" (κάθετη προβολή) τοποθετεί το πλαίσιο προεπισκόπησης δίπλα από την "
 "λίστα εργασιών"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Task preview pane position (vertical)"
 msgstr "Τοποθεσία πλαίσιο προεπισκόπησης εργασιών (κάθετη)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Position of the task preview pane when oriented vertically"
 msgstr ""
 "Θέση του πλαισίου προεπισκόπησης επαφών όταν είναι προσανατολισμένο κάθετα"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid "Highlight overdue tasks"
 msgstr "Επισήμανση εργασιών που έχουν λήξει"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "Εάν θα τονίζονται οι εκπρόθεσμες εργασίες με ειδικό χρώμα (χρώμα εκπρόθεσμης "
 "εργασίας)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Overdue tasks color"
 msgstr "Εργασίες που έχουν λήξει"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8620,21 +8708,21 @@ msgstr ""
 "Χρώμα παρασκηνίου για τις εκπρόθεσμες εργασίες, σε μορφή \"#rrggbb\". "
 "Χρησιμοποιείται μαζί με τον τονισμό εκπρόθεσμης εργασίας."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid "Time divisions"
 msgstr "Διαιρέσεις ώρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr ""
 "Χρονικά διαστήματα που προβάλλονται στις προβολές Ημέρας και εργάσιμης "
 "εβδομάδας σε λεπτά"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid "Timezone"
 msgstr "Ζώνη ώρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8643,76 +8731,76 @@ msgstr ""
 "ημερολόγιο, όπως στην αμετάφραστη βάση δεδομένων olsen σαν \"America/New York"
 "\""
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "Twenty four hour time format"
 msgstr "24ωρη μορφή ώρας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Αν θα εμφανίζεται η ώρα σε 24ωρη μορφή αντί για μμ/πμ"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Birthday and anniversary reminder"
 msgstr "Υπενθύμιση γενεθλίων και επετείων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Εάν θα οριστεί υπενθύμιση για γενέθλια και επετείους"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Default appointment reminder"
 msgstr "Προεπιλεγμένη υπενθύμιση συνάντησης"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Whether to set a default reminder for appointments"
 msgstr "Εάν θα οριστεί προεπιλεγμένη υπενθύμιση συναντήσεων"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Use system timezone"
 msgstr "Χρήση ζώνης ώρας συστήματος"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "Χρήση της ζώνης ώρας του συστήματος αντί για την επιλεγμένη του Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "First day of the week"
 msgstr "Πρώτη ημέρα της εβδομάδας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Monday is a work day"
 msgstr "Η Δευτέρα είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Tuesday is a work day"
 msgstr "Η Τρίτη είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Wednesday is a work day"
 msgstr "Η Τετάρτη είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Thursday is a work day"
 msgstr "Η Πέμπτη είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "Friday is a work day"
 msgstr "Η Παρασκευή είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Saturday is a work day"
 msgstr "Το Σάββατο είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "Sunday is a work day"
 msgstr "Η Κυριακή είναι ημέρα εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Παρωχημένο) Πρώτη ημέρα της εβδομάδα, από Κυριακή (0) έως Σάββατο (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
@@ -8721,11 +8809,11 @@ msgstr ""
 "χρησιμοποιείται. Χρησιμοποιήστε στη θέση του το \"όνομα ημέρας αρχής "
 "εβδομάδας (week-start-day-name)\"."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "(Deprecated) Work days"
 msgstr "(Παρωχημένo) ημέρες εργασίας"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
@@ -12529,7 +12617,7 @@ msgstr "Πίνακας"
 msgid "Table Delete"
 msgstr "Διαγραφή πίνακα"
 
-#: ../e-util/e-html-editor-actions.c:1680 ../e-util/e-text.c:2127
+#: ../e-util/e-html-editor-actions.c:1680 ../e-util/e-text.c:2147
 msgid "Input Methods"
 msgstr "Μέθοδοι εισαγωγής"
 
@@ -14133,7 +14221,7 @@ msgstr "_Ταξινόμηση κατά"
 msgid "_Custom"
 msgstr "_Προσαρμοσμένο"
 
-#: ../e-util/e-text.c:2114
+#: ../e-util/e-text.c:2134
 msgid "Select All"
 msgstr "Επιλογή όλων"
 
@@ -16151,7 +16239,8 @@ msgstr "Φόρτωση απομακρυσμένου περιεχομένου"
 msgid "Do not warn me again"
 msgstr "Να μη ξαναγίνει η ερώτηση"
 
-#: ../mail/e-mail-reader-utils.c:556 ../plugins/face/face.c:176
+#: ../mail/e-mail-reader-utils.c:556 ../mail/mail-send-recv.c:486
+#: ../mail/mail-send-recv.c:1270 ../plugins/face/face.c:176
 #: ../shell/e-shell.c:972 ../shell/e-shell.c:996
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
@@ -18369,38 +18458,38 @@ msgstr "Εκπρόθεσμο: {0} στις {1}"
 msgid "Canceling..."
 msgstr "Γίνεται ακύρωση..."
 
-#: ../mail/mail-send-recv.c:631
+#: ../mail/mail-send-recv.c:632
 msgid "Send & Receive Mail"
 msgstr "Αποστολή & Λήψη Μηνυμάτων"
 
-#: ../mail/mail-send-recv.c:645
+#: ../mail/mail-send-recv.c:646
 msgid "Cancel _All"
 msgstr "Ακύρωση ό_λων"
 
-#: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:1249
+#: ../mail/mail-send-recv.c:736 ../mail/mail-send-recv.c:1250
 msgid "Updating..."
 msgstr "Ανανέωση..."
 
-#: ../mail/mail-send-recv.c:735 ../mail/mail-send-recv.c:817
+#: ../mail/mail-send-recv.c:736 ../mail/mail-send-recv.c:818
 msgid "Waiting..."
 msgstr "Αναμονή..."
 
-#: ../mail/mail-send-recv.c:1220
+#: ../mail/mail-send-recv.c:1221
 #, c-format
 msgid "Checking for new mail at '%s'"
 msgstr "Έλεγχος για νέα μηνύματα στο '%s'"
 
-#: ../mail/mail-send-recv.c:1434
+#: ../mail/mail-send-recv.c:1437
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
 msgstr "Διαγραφή ανεπιθύμητων και εκκαθάριση απορριμμάτων στο '%s'"
 
-#: ../mail/mail-send-recv.c:1436
+#: ../mail/mail-send-recv.c:1439
 #, c-format
 msgid "Deleting junk at '%s'"
 msgstr "Διαγραφή ανεπιθύμητων στο '%s'"
 
-#: ../mail/mail-send-recv.c:1438
+#: ../mail/mail-send-recv.c:1441
 #, c-format
 msgid "Expunging trash at '%s'"
 msgstr "Εκκαθάριση απορριμμάτων στο '%s'"
@@ -21178,24 +21267,24 @@ msgstr ""
 "Για να γίνει διεργασία όλων αυτών των αντικειμένων, το αρχείο θα πρέπει να "
 "αποθηκευτεί και να εισαχθεί το ημερολόγιο"
 
-#: ../modules/itip-formatter/itip-view.c:6171
+#: ../modules/itip-formatter/itip-view.c:6172
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Κανένα"
 
-#: ../modules/itip-formatter/itip-view.c:6187
+#: ../modules/itip-formatter/itip-view.c:6188
 msgid "Tentatively Accepted"
 msgstr "Δοκιμαστική Αποδοχή"
 
-#: ../modules/itip-formatter/itip-view.c:6347
+#: ../modules/itip-formatter/itip-view.c:6348
 msgid "This meeting recurs"
 msgstr "Αυτή η συγκέντρωση επαναλαμβάνεται"
 
-#: ../modules/itip-formatter/itip-view.c:6350
+#: ../modules/itip-formatter/itip-view.c:6351
 msgid "This task recurs"
 msgstr "Αυτό το ραντεβού επαναλαμβάνεται"
 
-#: ../modules/itip-formatter/itip-view.c:6353
+#: ../modules/itip-formatter/itip-view.c:6354
 msgid "This memo recurs"
 msgstr "Αυτό η υπενθύμιση επαναλαμβάνεται"
 
@@ -22676,7 +22765,6 @@ msgid "Load new _Face picture"
 msgstr "Φόρτωση νέας εικόνας _προσώπου"
 
 #: ../plugins/face/face.c:449
-#| msgid "Choose Background Image"
 msgid "Change Face Image"
 msgstr "Αλλαγή της εικόνας όψης"
 
@@ -22729,8 +22817,6 @@ msgid "Not an image"
 msgstr "Δεν είναι εικόνα"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:8
-#| msgid ""
-#| "The file you selected does not look like a valid .png image. Error: {0}"
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
 msgstr ""
 "Το αρχείο που επιλέξατε δεν μοιάζει με μια έγκυρη εικόνα PNG. Σφάλμα: {0}"
@@ -23306,7 +23392,7 @@ msgstr "Απο_μνημόνευση κωδικού"
 msgid "Publishing Location"
 msgstr "Τοποθεσία δημοσίευσης"
 
-#: ../plugins/publish-calendar/publish-format-fb.c:101
+#: ../plugins/publish-calendar/publish-format-fb.c:102
 #: ../plugins/publish-calendar/publish-format-ical.c:104
 #, c-format
 msgid "Invalid source UID '%s'"
