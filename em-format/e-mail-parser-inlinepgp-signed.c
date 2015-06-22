@@ -132,8 +132,8 @@ empe_inlinepgp_signed_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".inlinepgp_signed");
 
-	e_mail_parser_parse_part (
-		parser, opart, part_id, cancellable, &work_queue);
+	g_warn_if_fail (e_mail_parser_parse_part (
+		parser, opart, part_id, cancellable, &work_queue));
 
 	head = g_queue_peek_head_link (&work_queue);
 
