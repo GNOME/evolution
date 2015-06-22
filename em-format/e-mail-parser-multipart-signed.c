@@ -156,8 +156,8 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 		g_string_append_printf (part_id, ".signed.%d", i);
 
-		e_mail_parser_parse_part (
-			parser, subpart, part_id, cancellable, &work_queue);
+		g_warn_if_fail (e_mail_parser_parse_part (
+			parser, subpart, part_id, cancellable, &work_queue));
 
 		g_string_truncate (part_id, len);
 

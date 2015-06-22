@@ -497,7 +497,7 @@ e_mail_parser_parse_part (EMailParser *parser,
 {
 	CamelContentType *ct;
 	gchar *mime_type;
-	gint n_parts_queued = 0;
+	gint handled;
 
 	ct = camel_mime_part_get_content_type (part);
 	if (!ct) {
@@ -509,7 +509,7 @@ e_mail_parser_parse_part (EMailParser *parser,
 		g_free (tmp);
 	}
 
-	n_parts_queued = e_mail_parser_parse_part_as (
+	handled = e_mail_parser_parse_part_as (
 		parser, part, part_id, mime_type,
 		cancellable, out_mail_parts);
 
@@ -517,7 +517,7 @@ e_mail_parser_parse_part (EMailParser *parser,
 		g_free (mime_type);
 	}
 
-	return n_parts_queued;
+	return handled;
 }
 
 gboolean
