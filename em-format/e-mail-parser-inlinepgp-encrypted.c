@@ -118,10 +118,10 @@ empe_inlinepgp_encrypted_parse (EMailParserExtension *extension,
 	len = part_id->len;
 	g_string_append (part_id, ".inlinepgp_encrypted");
 
-	e_mail_parser_parse_part_as (
+	g_warn_if_fail (e_mail_parser_parse_part_as (
 		parser, opart, part_id,
 		camel_data_wrapper_get_mime_type (dw),
-		cancellable, &work_queue);
+		cancellable, &work_queue));
 
 	g_string_truncate (part_id, len);
 

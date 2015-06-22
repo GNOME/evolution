@@ -59,7 +59,7 @@ empe_text_highlight_parse (EMailParserExtension *extension,
 	gint len;
 
 	/* Prevent recursion */
-	if (strstr (part_id->str, ".text-highlight") != NULL)
+	if (g_str_has_suffix (part_id->str, ".text-highlight"))
 		return FALSE;
 
 	/* Don't parse text/html if it's not an attachment */
