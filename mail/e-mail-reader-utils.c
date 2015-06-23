@@ -539,6 +539,70 @@ e_mail_reader_expunge_folder_name (EMailReader *reader,
 	g_object_unref (activity);
 }
 
+struct _process_autoarchive_msg {
+	MailMsg base;
+
+	AsyncContext *async_context;
+};
+
+static gchar *
+process_autoarchive_desc (struct _process_autoarchive_msg *m)
+{
+	return g_strdup_printf (
+		_("Refreshing folder '%s'"),
+		camel_folder_get_display_name (m->async_context->folder));
+}
+
+static void
+process_autoarchive_exec (struct _process_autoarchive_msg *m,
+			  GCancellable *cancellable,
+			  GError **error)
+{
+	gchar *folder_uri;
+
+	folder_uri = e_mail_folder_uri_from_folder (m->async_context->folder);
+
+	em_utils_process_autoarchive_sync (
+		e_mail_reader_get_backend (m->async_context->reader),
+		m->async_context->folder, folder_uri, cancellable, error);
+
+	g_free (folder_uri);
+}
+
+static void
+process_autoarchive_done (struct _process_autoarchive_msg *m)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+
+	activity = m->async_context->activity;
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	if (e_activity_handle_cancellation (activity, m->base.error)) {
+	} else if (m->base.error != NULL) {
+		e_alert_submit (
+			alert_sink, "mail:no-refresh-folder",
+			camel_folder_get_display_name (m->async_context->folder),
+			m->base.error->message, NULL);
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+}
+
+static void
+process_autoarchive_free (struct _process_autoarchive_msg *m)
+{
+	async_context_free (m->async_context);
+}
+
+static MailMsgInfo process_autoarchive_info = {
+	sizeof (struct _process_autoarchive_msg),
+	(MailMsgDescFunc) process_autoarchive_desc,
+	(MailMsgExecFunc) process_autoarchive_exec,
+	(MailMsgDoneFunc) process_autoarchive_done,
+	(MailMsgFreeFunc) process_autoarchive_free
+};
+
 /* Helper for e_mail_reader_refresh_folder() */
 static void
 mail_reader_refresh_folder_cb (GObject *source_object,
@@ -571,10 +635,22 @@ mail_reader_refresh_folder_cb (GObject *source_object,
 		g_error_free (local_error);
 
 	} else {
-		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+		struct _process_autoarchive_msg *m;
+
+		g_warn_if_fail (async_context->folder == NULL);
+
+		async_context->folder = g_object_ref (folder);
+
+		m = mail_msg_new (&process_autoarchive_info);
+		m->async_context = async_context;
+
+		mail_msg_unordered_push (m);
+
+		async_context = NULL;
 	}
 
-	async_context_free (async_context);
+	if (async_context)
+		async_context_free (async_context);
 }
 
 void

@@ -50,6 +50,7 @@
 #include "e-mail-tag-editor.h"
 #include "em-composer-utils.h"
 #include "em-filter-editor.h"
+#include "em-folder-properties.h"
 
 /* How many is too many? */
 /* Used in em_util_ask_open_many() */
@@ -1458,4 +1459,243 @@ em_utils_is_re_in_subject (const gchar *subject,
 		g_strfreev (prefixes_strv);
 
 	return res;
+}
+
+gchar *
+em_utils_get_archive_folder_uri_from_folder (CamelFolder *folder,
+					     EMailBackend *mail_backend,
+					     GPtrArray *uids,
+					     gboolean deep_uids_check)
+{
+	CamelStore *store;
+	ESource *source = NULL;
+	gchar *archive_folder = NULL;
+	gchar *folder_uri;
+	gboolean aa_enabled;
+	EAutoArchiveConfig aa_config;
+	gint aa_n_units;
+	EAutoArchiveUnit aa_unit;
+	gchar *aa_custom_target_folder_uri;
+
+	if (!folder)
+		return NULL;
+
+	folder_uri = e_mail_folder_uri_build (
+		camel_folder_get_parent_store (folder),
+		camel_folder_get_full_name (folder));
+
+	if (em_folder_properties_autoarchive_get (mail_backend, folder_uri,
+		&aa_enabled, &aa_config, &aa_n_units, &aa_unit, &aa_custom_target_folder_uri)) {
+		if (aa_enabled && aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM &&
+		    aa_custom_target_folder_uri && *aa_custom_target_folder_uri) {
+			g_free (folder_uri);
+			return aa_custom_target_folder_uri;
+		}
+
+		g_free (aa_custom_target_folder_uri);
+	}
+	g_free (folder_uri);
+
+	store = camel_folder_get_parent_store (folder);
+	if (g_strcmp0 (E_MAIL_SESSION_LOCAL_UID, camel_service_get_uid (CAMEL_SERVICE (store))) == 0) {
+		return mail_config_dup_local_archive_folder ();
+	}
+
+	if (CAMEL_IS_VEE_FOLDER (folder) && uids && uids->len > 0) {
+		CamelVeeFolder *vee_folder = CAMEL_VEE_FOLDER (folder);
+		CamelFolder *orig_folder = NULL;
+
+		store = NULL;
+
+		if (deep_uids_check) {
+			gint ii;
+
+			for (ii = 0; ii < uids->len; ii++) {
+				orig_folder = camel_vee_folder_get_vee_uid_folder (vee_folder, uids->pdata[ii]);
+				if (orig_folder) {
+					if (store && camel_folder_get_parent_store (orig_folder) != store) {
+						/* Do not know which archive folder to use when there are
+						   selected messages from multiple accounts/stores. */
+						store = NULL;
+						break;
+					}
+
+					store = camel_folder_get_parent_store (orig_folder);
+				}
+			}
+		} else {
+			orig_folder = camel_vee_folder_get_vee_uid_folder (CAMEL_VEE_FOLDER (folder), uids->pdata[0]);
+			if (orig_folder)
+				store = camel_folder_get_parent_store (orig_folder);
+		}
+
+		if (store && orig_folder) {
+			folder_uri = e_mail_folder_uri_build (
+				camel_folder_get_parent_store (orig_folder),
+				camel_folder_get_full_name (orig_folder));
+
+			if (em_folder_properties_autoarchive_get (mail_backend, folder_uri,
+				&aa_enabled, &aa_config, &aa_n_units, &aa_unit, &aa_custom_target_folder_uri)) {
+				if (aa_enabled && aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM &&
+				    aa_custom_target_folder_uri && *aa_custom_target_folder_uri) {
+					g_free (folder_uri);
+					return aa_custom_target_folder_uri;
+				}
+
+				g_free (aa_custom_target_folder_uri);
+			}
+
+			g_free (folder_uri);
+		}
+	}
+
+	if (store) {
+		ESourceRegistry *registry;
+
+		registry = e_mail_session_get_registry (e_mail_backend_get_session (mail_backend));
+		source = e_source_registry_ref_source (registry, camel_service_get_uid (CAMEL_SERVICE (store)));
+	}
+
+	if (source) {
+		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+			ESourceMailAccount *account_ext;
+
+			account_ext = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+			archive_folder = e_source_mail_account_dup_archive_folder (account_ext);
+			if (!archive_folder || !*archive_folder) {
+				g_free (archive_folder);
+				archive_folder = NULL;
+			}
+		}
+
+		g_object_unref (source);
+	}
+
+	return archive_folder;
+}
+
+gboolean
+em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
+				   CamelFolder *folder,
+				   const gchar *folder_uri,
+				   GCancellable *cancellable,
+				   GError **error)
+{
+	gboolean aa_enabled;
+	EAutoArchiveConfig aa_config;
+	gint aa_n_units;
+	EAutoArchiveUnit aa_unit;
+	gchar *aa_custom_target_folder_uri = NULL;
+	GDateTime *now_time, *use_time;
+	gchar *search_sexp;
+	GPtrArray *uids;
+	gboolean success = TRUE;
+
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (mail_backend), FALSE);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+	g_return_val_if_fail (folder_uri != NULL, FALSE);
+
+	if (!em_folder_properties_autoarchive_get (mail_backend, folder_uri,
+		&aa_enabled, &aa_config, &aa_n_units, &aa_unit, &aa_custom_target_folder_uri))
+		return TRUE;
+
+	if (!aa_enabled) {
+		g_free (aa_custom_target_folder_uri);
+		return TRUE;
+	}
+
+	if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM && (!aa_custom_target_folder_uri || !*aa_custom_target_folder_uri)) {
+		g_free (aa_custom_target_folder_uri);
+		return TRUE;
+	}
+
+	now_time = g_date_time_new_now_utc ();
+	switch (aa_unit) {
+		case E_AUTO_ARCHIVE_UNIT_DAYS:
+			use_time = g_date_time_add_days (now_time, -aa_n_units);
+			break;
+		case E_AUTO_ARCHIVE_UNIT_WEEKS:
+			use_time = g_date_time_add_weeks (now_time, -aa_n_units);
+			break;
+		case E_AUTO_ARCHIVE_UNIT_MONTHS:
+			use_time = g_date_time_add_months (now_time, -aa_n_units);
+			break;
+		default:
+			g_date_time_unref (now_time);
+			g_free (aa_custom_target_folder_uri);
+			return TRUE;
+	}
+
+	g_date_time_unref (now_time);
+
+	search_sexp = g_strdup_printf ("(match-all (< (get-sent-date) %" G_GINT64_FORMAT "))", g_date_time_to_unix (use_time));
+	uids = camel_folder_search_by_expression (folder, search_sexp, cancellable, error);
+
+	if (!uids) {
+		success = FALSE;
+	} else {
+		gint ii;
+
+		if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE ||
+		    aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM) {
+			CamelFolder *dest;
+
+			if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE) {
+				g_free (aa_custom_target_folder_uri);
+				aa_custom_target_folder_uri = em_utils_get_archive_folder_uri_from_folder (folder, mail_backend, uids, TRUE);
+			}
+
+			dest = aa_custom_target_folder_uri ? e_mail_session_uri_to_folder_sync (
+				e_mail_backend_get_session (mail_backend), aa_custom_target_folder_uri, 0,
+				cancellable, error) : NULL;
+			if (dest != NULL && dest != folder) {
+				camel_folder_freeze (folder);
+				camel_folder_freeze (dest);
+
+				if (camel_folder_transfer_messages_to_sync (
+					folder, uids, dest, TRUE, NULL,
+					cancellable, error)) {
+					/* make sure all deleted messages are marked as seen */
+					for (ii = 0; ii < uids->len; ii++) {
+						camel_folder_set_message_flags (
+							folder, uids->pdata[ii],
+							CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+					}
+				} else {
+					success = FALSE;
+				}
+
+				camel_folder_thaw (folder);
+				camel_folder_thaw (dest);
+
+				if (success)
+					success = camel_folder_synchronize_sync (dest, FALSE, cancellable, error);
+			}
+
+			g_clear_object (&dest);
+		} else if (aa_config == E_AUTO_ARCHIVE_CONFIG_DELETE) {
+			camel_folder_freeze (folder);
+
+			camel_operation_push_message (cancellable, "%s", _("Deleting old messages"));
+
+			for (ii = 0; ii < uids->len; ii++) {
+				camel_folder_set_message_flags (
+					folder, uids->pdata[ii],
+					CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+			}
+
+			camel_operation_pop_message (cancellable);
+
+			camel_folder_thaw (folder);
+		}
+
+		camel_folder_search_free (folder, uids);
+	}
+
+	g_free (search_sexp);
+	g_free (aa_custom_target_folder_uri);
+	g_date_time_unref (use_time);
+
+	return success;
 }

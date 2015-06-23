@@ -79,6 +79,20 @@ gboolean	em_utils_is_re_in_subject	(const gchar *subject,
 						 gint *skip_len,
 						 const gchar * const *use_prefixes_strv);
 
+gchar *		em_utils_get_archive_folder_uri_from_folder
+						(CamelFolder *folder,
+						 EMailBackend *mail_backend,
+						 GPtrArray *uids,
+						 gboolean deep_uids_check);
+
+gboolean	em_utils_process_autoarchive_sync
+						(EMailBackend *mail_backend,
+						 CamelFolder *folder,
+						 const gchar *folder_uri,
+						 GCancellable *cancellable,
+						 GError **error);
+
+
 G_END_DECLS
 
 #endif /* __EM_UTILS_H__ */

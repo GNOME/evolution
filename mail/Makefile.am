@@ -98,6 +98,7 @@ mailinclude_HEADERS =					\
 	e-mail-paned-view.h				\
 	e-mail-print-config-headers.h			\
 	e-mail-printer.h				\
+	e-mail-properties.h				\
 	e-mail-reader-utils.h				\
 	e-mail-reader.h					\
 	e-mail-remote-content.h				\
@@ -177,6 +178,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-paned-view.c				\
 	e-mail-print-config-headers.c			\
 	e-mail-printer.c				\
+	e-mail-properties.c				\
 	e-mail-reader-utils.c				\
 	e-mail-reader.c					\
 	e-mail-remote-content.c				\

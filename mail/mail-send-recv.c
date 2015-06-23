@@ -1232,6 +1232,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 	gboolean success;
 	gboolean delete_junk = FALSE, expunge = FALSE;
 	GHashTable *known_errors;
+	EMailBackend *mail_backend;
 	GError *local_error = NULL;
 	gulong handler_id = 0;
 
@@ -1256,6 +1257,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 		goto exit;
 	}
 
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default (), "mail"));
+
 	known_errors = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	for (i = 0; i < m->folders->len; i++) {
@@ -1265,6 +1268,10 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			cancellable, &local_error);
 		if (folder && camel_folder_synchronize_sync (folder, expunge, cancellable, &local_error))
 			camel_folder_refresh_info_sync (folder, cancellable, &local_error);
+
+		if (folder && !local_error && mail_backend) {
+			em_utils_process_autoarchive_sync (mail_backend, folder, m->folders->pdata[i], cancellable, &local_error);
+		}
 
 		if (local_error != NULL) {
 			const gchar *error_message = local_error->message ? local_error->message : _("Unknown error");
