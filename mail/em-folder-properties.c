@@ -39,6 +39,7 @@
 #include "e-mail-backend.h"
 #include "e-mail-ui-session.h"
 #include "em-config.h"
+#include "em-folder-selection-button.h"
 #include "mail-vfolder-ui.h"
 
 typedef struct _AsyncContext AsyncContext;
@@ -326,16 +327,285 @@ emfp_get_folder_item (EConfig *ec,
 	return table;
 }
 
+static const gchar *
+emfp_autoarchive_config_to_string (EAutoArchiveConfig config)
+{
+	switch (config) {
+		case E_AUTO_ARCHIVE_CONFIG_UNKNOWN:
+			break;
+		case E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE:
+			return "move-to-archive";
+		case E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM:
+			return "move-to-custom";
+		case E_AUTO_ARCHIVE_CONFIG_DELETE:
+			return "delete";
+	}
+
+	return "unknown";
+}
+
+static EAutoArchiveConfig
+emfp_autoarchive_config_from_string (const gchar *str)
+{
+	if (!str)
+		return E_AUTO_ARCHIVE_CONFIG_UNKNOWN;
+	if (g_ascii_strcasecmp (str, "move-to-archive") == 0)
+		return E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE;
+	if (g_ascii_strcasecmp (str, "move-to-custom") == 0)
+		return E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM;
+	if (g_ascii_strcasecmp (str, "delete") == 0)
+		return E_AUTO_ARCHIVE_CONFIG_DELETE;
+
+	return E_AUTO_ARCHIVE_CONFIG_UNKNOWN;
+}
+
+static const gchar *
+emfp_autoarchive_unit_to_string (EAutoArchiveUnit unit)
+{
+	switch (unit) {
+		case E_AUTO_ARCHIVE_UNIT_UNKNOWN:
+			break;
+		case E_AUTO_ARCHIVE_UNIT_DAYS:
+			return "days";
+		case E_AUTO_ARCHIVE_UNIT_WEEKS:
+			return "weeks";
+		case E_AUTO_ARCHIVE_UNIT_MONTHS:
+			return "months";
+	}
+
+	return "unknown";
+}
+
+static EAutoArchiveUnit
+emfp_autoarchive_unit_from_string (const gchar *str)
+{
+	if (!str)
+		return E_AUTO_ARCHIVE_UNIT_UNKNOWN;
+	if (g_ascii_strcasecmp (str, "days") == 0)
+		return E_AUTO_ARCHIVE_UNIT_DAYS;
+	if (g_ascii_strcasecmp (str, "weeks") == 0)
+		return E_AUTO_ARCHIVE_UNIT_WEEKS;
+	if (g_ascii_strcasecmp (str, "months") == 0)
+		return E_AUTO_ARCHIVE_UNIT_MONTHS;
+
+	return E_AUTO_ARCHIVE_UNIT_UNKNOWN;
+}
+
+#define AUTO_ARCHIVE_KEY_DATA	"auto-archive-key-data"
+
+typedef struct _AutoArchiveData {
+	gchar *folder_uri;
+	GtkWidget *enabled_check;
+	GtkWidget *n_units_spin;
+	GtkWidget *unit_combo;
+	GtkWidget *move_to_default_radio;
+	GtkWidget *move_to_custom_radio;
+	GtkWidget *custom_folder_butt;
+	GtkWidget *delete_radio;
+} AutoArchiveData;
+
+static void
+auto_archive_data_free (gpointer ptr)
+{
+	AutoArchiveData *aad = ptr;
+
+	if (!aad)
+		return;
+
+	g_free (aad->folder_uri);
+	g_free (aad);
+}
+
+static void
+emfp_autoarchive_commit_cb (EConfig *ec,
+			    AutoArchiveData *aad)
+{
+	EShell *shell;
+	EMailBackend *mail_backend;
+	gboolean enabled;
+	EAutoArchiveConfig config = E_AUTO_ARCHIVE_CONFIG_UNKNOWN;
+	gint n_units;
+	EAutoArchiveUnit unit;
+	const gchar *custom_target_folder_uri;
+
+	g_return_if_fail (E_IS_CONFIG (ec));
+	g_return_if_fail (aad != NULL);
+	g_return_if_fail (aad->folder_uri != NULL);
+
+	shell = e_shell_get_default ();
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_if_fail (mail_backend != NULL);
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (aad->move_to_default_radio)))
+		config = E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (aad->move_to_custom_radio)))
+		config = E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (aad->delete_radio)))
+		config = E_AUTO_ARCHIVE_CONFIG_DELETE;
+	else
+		g_warn_if_reached ();
+
+	enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (aad->enabled_check));
+	n_units = gtk_spin_button_get_value (GTK_SPIN_BUTTON (aad->n_units_spin));
+	unit = emfp_autoarchive_unit_from_string (gtk_combo_box_get_active_id (GTK_COMBO_BOX (aad->unit_combo)));
+	custom_target_folder_uri = em_folder_selection_button_get_folder_uri (EM_FOLDER_SELECTION_BUTTON (aad->custom_folder_butt));
+	if (custom_target_folder_uri && !*custom_target_folder_uri)
+		custom_target_folder_uri = NULL;
+
+	em_folder_properties_autoarchive_set (mail_backend, aad->folder_uri, enabled, config, n_units, unit, custom_target_folder_uri);
+}
+
+static GtkWidget *
+emfp_get_autoarchive_item (EConfig *ec,
+			   EConfigItem *item,
+			   GtkWidget *parent,
+			   GtkWidget *old,
+			   gint position,
+			   gpointer data)
+{
+	EShell *shell;
+	EMailBackend *mail_backend;
+	GtkGrid *grid;
+	GtkWidget *widget, *label, *check, *radio, *hbox;
+	AutoArchiveData *aad;
+	AsyncContext *context = data;
+	gboolean enabled;
+	EAutoArchiveConfig config;
+	gint n_units;
+	EAutoArchiveUnit unit;
+	gchar *custom_target_folder_uri;
+
+	if (old)
+		return old;
+
+	shell = e_shell_get_default ();
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_val_if_fail (mail_backend != NULL, NULL);
+
+	aad = g_new0 (AutoArchiveData, 1);
+	g_object_set_data_full (G_OBJECT (ec), AUTO_ARCHIVE_KEY_DATA, aad, auto_archive_data_free);
+
+	grid = GTK_GRID (gtk_grid_new ());
+	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET (grid), TRUE, TRUE, 0);
+
+	check = gtk_check_button_new_with_mnemonic (_("_Archive this folder using these settings:"));
+	gtk_grid_attach (grid, check, 0, 0, 3, 1);
+	aad->enabled_check = check;
+
+	label = gtk_label_new ("");
+	g_object_set (G_OBJECT (label), "margin-left", 12, NULL);
+	gtk_grid_attach (grid, label, 0, 1, 1, 3);
+
+	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	label = gtk_label_new_with_mnemonic (C_("autoarchive", "_Cleanup messages older than"));
+	gtk_grid_attach (grid, label, 1, 1, 1, 1);
+
+	e_binding_bind_property (check, "active", label, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	widget = gtk_spin_button_new_with_range (1.0, 999.0, 1.0);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (widget), 0);
+	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
+	aad->n_units_spin = widget;
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+
+	e_binding_bind_property (check, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	widget = gtk_combo_box_text_new ();
+	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_DAYS), C_("autoarchive", "days"));
+	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_WEEKS), C_("autoarchive", "weeks"));
+	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_MONTHS), C_("autoarchive", "months"));
+	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
+	aad->unit_combo = widget;
+
+	e_binding_bind_property (check, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	radio = gtk_radio_button_new_with_mnemonic (NULL, _("Move old messages to the default archive _folder"));
+	gtk_grid_attach (grid, radio, 1, 2, 2, 1);
+	aad->move_to_default_radio = radio;
+
+	e_binding_bind_property (check, "active", radio, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_grid_attach (grid, hbox, 1, 3, 2, 1);
+
+	e_binding_bind_property (check, "active", hbox, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	widget = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (radio), _("_Move old messages to:"));
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+	aad->move_to_custom_radio = widget;
+
+	widget = em_folder_selection_button_new (e_mail_backend_get_session (mail_backend), _("AutoArchive folder"), _("Select folder to use for AutoArchive"));
+	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, FALSE, 0);
+	aad->custom_folder_butt = widget;
+
+	e_binding_bind_property (aad->move_to_custom_radio, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	widget = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (radio), _("_Delete old messages"));
+	gtk_grid_attach (grid, widget, 1, 4, 2, 1);
+	aad->delete_radio = widget;
+
+	e_binding_bind_property (check, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+	aad->folder_uri = e_mail_folder_uri_build (
+		camel_folder_get_parent_store (context->folder),
+		camel_folder_get_full_name (context->folder));
+
+	if (em_folder_properties_autoarchive_get (mail_backend, aad->folder_uri,
+		&enabled, &config, &n_units, &unit, &custom_target_folder_uri)) {
+		switch (config) {
+			case E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE:
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (aad->move_to_default_radio), TRUE);
+				break;
+			case E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM:
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (aad->move_to_custom_radio), TRUE);
+				break;
+			case E_AUTO_ARCHIVE_CONFIG_DELETE:
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (aad->delete_radio), TRUE);
+				break;
+			default:
+				g_warn_if_reached ();
+				break;
+		}
+
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (aad->enabled_check), enabled);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (aad->n_units_spin), n_units);
+		g_warn_if_fail (gtk_combo_box_set_active_id (GTK_COMBO_BOX (aad->unit_combo),
+			emfp_autoarchive_unit_to_string (unit)));
+
+		if (custom_target_folder_uri && *custom_target_folder_uri)
+			em_folder_selection_button_set_folder_uri (EM_FOLDER_SELECTION_BUTTON (aad->custom_folder_butt),
+				custom_target_folder_uri);
+
+		g_free (custom_target_folder_uri);
+	} else {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (aad->enabled_check), FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (aad->move_to_default_radio), TRUE);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (aad->n_units_spin), 12.0);
+		g_warn_if_fail (gtk_combo_box_set_active_id (GTK_COMBO_BOX (aad->unit_combo),
+			emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_MONTHS)));
+	}
+
+	gtk_widget_show_all (GTK_WIDGET (grid));
+
+	g_signal_connect (ec, "commit", G_CALLBACK (emfp_autoarchive_commit_cb), aad);
+
+	return GTK_WIDGET (grid);
+}
+
 #define EMFP_FOLDER_SECTION (2)
 
 static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", NULL },
-	{ E_CONFIG_PAGE, (gchar *) "00.general",
-	  (gchar *) N_("General") },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder",
-	  NULL /* set by code */ },
-	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info",
-	  NULL, emfp_get_folder_item },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder", NULL /* set by code */ },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
+	{ E_CONFIG_PAGE, (gchar *) "10.autoarchive", (gchar *) N_("AutoArchive") },
+	{ E_CONFIG_SECTION, (gchar *) "10.autoarchive/00.folder", NULL },
+	{ E_CONFIG_ITEM, (gchar *) "10.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item }
 };
 static gboolean emfp_items_translated = FALSE;
 
@@ -611,4 +881,124 @@ em_folder_properties_show (CamelStore *store,
 
 exit:
 	g_object_unref (session);
+}
+
+/*
+  out-parameters are valid only if TRUE is returned;
+  returned custom_target_folder_uri, if not NULL, should be freed with g_free()
+ */
+gboolean
+em_folder_properties_autoarchive_get (EMailBackend *mail_backend,
+				      const gchar *folder_uri,
+				      gboolean *enabled,
+				      EAutoArchiveConfig *config,
+				      gint *n_units,
+				      EAutoArchiveUnit *unit,
+				      gchar **custom_target_folder_uri)
+{
+	EMailProperties *properties;
+	ENamedParameters *parameters;
+	gchar *stored;
+	const gchar *value;
+	gboolean success;
+
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (mail_backend), FALSE);
+	g_return_val_if_fail (folder_uri != NULL, FALSE);
+	g_return_val_if_fail (enabled != NULL, FALSE);
+	g_return_val_if_fail (config != NULL, FALSE);
+	g_return_val_if_fail (n_units != NULL, FALSE);
+	g_return_val_if_fail (unit != NULL, FALSE);
+	g_return_val_if_fail (custom_target_folder_uri != NULL, FALSE);
+
+	properties = e_mail_backend_get_mail_properties (mail_backend);
+	g_return_val_if_fail (properties != NULL, FALSE);
+
+	stored = e_mail_properties_get_for_folder_uri (properties, folder_uri, "autoarchive");
+	if (!stored)
+		return FALSE;
+
+	parameters = e_named_parameters_new_string (stored);
+
+	g_free (stored);
+
+	if (!parameters)
+		return FALSE;
+
+	*enabled = g_strcmp0 (e_named_parameters_get (parameters, "enabled"), "1") == 0;
+	*config = emfp_autoarchive_config_from_string (e_named_parameters_get (parameters, "config"));
+	*unit = emfp_autoarchive_unit_from_string (e_named_parameters_get (parameters, "unit"));
+
+	value = e_named_parameters_get (parameters, "n-units");
+	if (value && *value)
+		*n_units = (gint) g_ascii_strtoll (value, NULL, 10);
+	else
+		*n_units = -1;
+
+	success = *config != E_AUTO_ARCHIVE_CONFIG_UNKNOWN &&
+		  *unit != E_AUTO_ARCHIVE_UNIT_UNKNOWN &&
+		  *n_units > 0;
+
+	if (success)
+		*custom_target_folder_uri = g_strdup (e_named_parameters_get (parameters, "custom-target"));
+
+	e_named_parameters_free (parameters);
+
+	return success;
+}
+
+void
+em_folder_properties_autoarchive_set (EMailBackend *mail_backend,
+				      const gchar *folder_uri,
+				      gboolean enabled,
+				      EAutoArchiveConfig config,
+				      gint n_units,
+				      EAutoArchiveUnit unit,
+				      const gchar *custom_target_folder_uri)
+{
+	EMailProperties *properties;
+	ENamedParameters *parameters;
+	gchar *value, *stored_value;
+
+	g_return_if_fail (E_IS_MAIL_BACKEND (mail_backend));
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (config != E_AUTO_ARCHIVE_CONFIG_UNKNOWN);
+	g_return_if_fail (n_units > 0);
+	g_return_if_fail (unit != E_AUTO_ARCHIVE_UNIT_UNKNOWN);
+
+	properties = e_mail_backend_get_mail_properties (mail_backend);
+	g_return_if_fail (properties != NULL);
+
+	parameters = e_named_parameters_new ();
+
+	e_named_parameters_set (parameters, "enabled", enabled ? "1" : "0");
+	e_named_parameters_set (parameters, "config", emfp_autoarchive_config_to_string (config));
+	e_named_parameters_set (parameters, "unit", emfp_autoarchive_unit_to_string (unit));
+
+	value = g_strdup_printf ("%d", n_units);
+	e_named_parameters_set (parameters, "n-units", value);
+	g_free (value);
+
+	if (custom_target_folder_uri && *custom_target_folder_uri)
+		e_named_parameters_set (parameters, "custom-target", custom_target_folder_uri);
+
+	value = e_named_parameters_to_string (parameters);
+	stored_value = e_mail_properties_get_for_folder_uri (properties, folder_uri, "autoarchive");
+	if (!stored_value) {
+		/* If nothing is stored, then use the defaults */
+		e_named_parameters_set (parameters, "enabled", "0");
+		e_named_parameters_set (parameters, "config", emfp_autoarchive_config_to_string (E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE));
+		e_named_parameters_set (parameters, "unit", emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_MONTHS));
+		e_named_parameters_set (parameters, "n-units", "12");
+		e_named_parameters_set (parameters, "custom-target", NULL);
+
+		stored_value = e_named_parameters_to_string (parameters);
+	}
+
+	/* To avoid overwriting unchanged values or adding default values. */
+	if (g_strcmp0 (stored_value, value) != 0)
+		e_mail_properties_set_for_folder_uri (properties, folder_uri, "autoarchive", value);
+
+	e_named_parameters_free (parameters);
+	g_free (stored_value);
+	g_free (value);
 }

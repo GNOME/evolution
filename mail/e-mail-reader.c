@@ -874,75 +874,6 @@ action_mail_message_open_cb (GtkAction *action,
 	e_mail_reader_open_selected_mail (reader);
 }
 
-static gchar *
-mail_reader_get_archive_folder_from_folder (CamelFolder *folder,
-					    ESourceRegistry *registry,
-					    GPtrArray *uids,
-					    gboolean deep_uids_check)
-{
-	CamelStore *store;
-	ESource *source = NULL;
-	gchar *archive_folder = NULL;
-
-	if (!folder)
-		return NULL;
-
-	store = camel_folder_get_parent_store (folder);
-	if (g_strcmp0 (E_MAIL_SESSION_LOCAL_UID, camel_service_get_uid (CAMEL_SERVICE (store))) == 0) {
-		return mail_config_dup_local_archive_folder ();
-	}
-
-	if (CAMEL_IS_VEE_FOLDER (folder) && uids && uids->len > 0) {
-		CamelVeeFolder *vee_folder = CAMEL_VEE_FOLDER (folder);
-		CamelFolder *orig_folder;
-
-		store = NULL;
-
-		if (deep_uids_check) {
-			gint ii;
-
-			for (ii = 0; ii < uids->len; ii++) {
-				orig_folder = camel_vee_folder_get_vee_uid_folder (vee_folder, uids->pdata[ii]);
-				if (orig_folder) {
-					if (store && camel_folder_get_parent_store (orig_folder) != store) {
-						/* Do not know which archive folder to use when there are
-						   selected messages from multiple accounts/stores. */
-						store = NULL;
-						break;
-					}
-
-					store = camel_folder_get_parent_store (orig_folder);
-				}
-			}
-		} else {
-			orig_folder = camel_vee_folder_get_vee_uid_folder (CAMEL_VEE_FOLDER (folder), uids->pdata[0]);
-			if (orig_folder)
-				store = camel_folder_get_parent_store (orig_folder);
-		}
-	}
-
-	if (store)
-		source = e_source_registry_ref_source (registry, camel_service_get_uid (CAMEL_SERVICE (store)));
-
-	if (source) {
-		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
-			ESourceMailAccount *account_ext;
-
-			account_ext = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
-
-			archive_folder = e_source_mail_account_dup_archive_folder (account_ext);
-			if (!archive_folder || !*archive_folder) {
-				g_free (archive_folder);
-				archive_folder = NULL;
-			}
-		}
-
-		g_object_unref (source);
-	}
-
-	return archive_folder;
-}
-
 static void
 action_mail_archive_cb (GtkAction *action,
 			EMailReader *reader)
@@ -950,21 +881,17 @@ action_mail_archive_cb (GtkAction *action,
 	CamelFolder *folder;
 	EMailBackend *backend;
 	EMailSession *session;
-	EShell *shell;
-	ESourceRegistry *registry;
 	GPtrArray *uids;
 	gchar *archive_folder;
 
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
-	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
-	registry = e_shell_get_registry (shell);
 
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
 	folder = e_mail_reader_ref_folder (reader);
-	archive_folder = mail_reader_get_archive_folder_from_folder (folder, registry, uids, TRUE);
+	archive_folder = em_utils_get_archive_folder_uri_from_folder (folder, backend, uids, TRUE);
 
 	if (archive_folder != NULL)
 		mail_transfer_messages (
@@ -4446,7 +4373,7 @@ e_mail_reader_check_state (EMailReader *reader)
 			em_utils_folder_is_drafts (registry, folder) ||
 			em_utils_folder_is_outbox (registry, folder);
 
-		archive_folder = mail_reader_get_archive_folder_from_folder (folder, registry, uids, TRUE);
+		archive_folder = em_utils_get_archive_folder_uri_from_folder (folder, backend, uids, TRUE);
 		if (archive_folder && *archive_folder)
 			archive_folder_set = TRUE;
 

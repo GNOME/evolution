@@ -442,7 +442,7 @@ mail_remote_content_finalize (GObject *object)
 		camel_db_maybe_run_maintenance (content->priv->db, &error);
 
 		if (error) {
-			g_warning ("%s: Failed to tun maintenance: %s", G_STRFUNC, error->message);
+			g_warning ("%s: Failed to run maintenance: %s", G_STRFUNC, error->message);
 			g_clear_error (&error);
 		}
 

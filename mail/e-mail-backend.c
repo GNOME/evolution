@@ -58,13 +58,15 @@ struct _EMailBackendPrivate {
 	GHashTable *jobs;
 	EMailSendAccountOverride *send_account_override;
 	EMailRemoteContent *remote_content;
+	EMailProperties *mail_properties;
 };
 
 enum {
 	PROP_0,
 	PROP_SESSION,
 	PROP_SEND_ACCOUNT_OVERRIDE,
-	PROP_REMOTE_CONTENT
+	PROP_REMOTE_CONTENT,
+	PROP_MAIL_PROPERTIES
 };
 
 G_DEFINE_ABSTRACT_TYPE (
@@ -958,6 +960,13 @@ mail_backend_get_property (GObject *object,
 				e_mail_backend_get_remote_content (
 				E_MAIL_BACKEND (object)));
 			return;
+
+		case PROP_MAIL_PROPERTIES:
+			g_value_set_object (
+				value,
+				e_mail_backend_get_mail_properties (
+				E_MAIL_BACKEND (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -999,6 +1008,7 @@ mail_backend_finalize (GObject *object)
 	g_hash_table_destroy (priv->jobs);
 	g_clear_object (&priv->send_account_override);
 	g_clear_object (&priv->remote_content);
+	g_clear_object (&priv->mail_properties);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
@@ -1267,6 +1277,10 @@ mail_backend_constructed (GObject *object)
 	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "remote-content.db", NULL);
 	priv->remote_content = e_mail_remote_content_new (config_filename);
 	g_free (config_filename);
+
+	config_filename = g_build_filename (e_shell_backend_get_config_dir (shell_backend), "properties.db", NULL);
+	priv->mail_properties = e_mail_properties_new (config_filename);
+	g_free (config_filename);
 }
 
 static void
@@ -1316,6 +1330,16 @@ e_mail_backend_class_init (EMailBackendClass *class)
 			NULL,
 			NULL,
 			E_TYPE_MAIL_REMOTE_CONTENT,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAIL_PROPERTIES,
+		g_param_spec_object (
+			"mail-properties",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_PROPERTIES,
 			G_PARAM_READABLE));
 }
 
@@ -1422,4 +1446,12 @@ e_mail_backend_get_remote_content (EMailBackend *backend)
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return backend->priv->remote_content;
+}
+
+EMailProperties *
+e_mail_backend_get_mail_properties (EMailBackend *backend)
+{
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
+
+	return backend->priv->mail_properties;
 }
