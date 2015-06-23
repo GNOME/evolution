@@ -212,7 +212,7 @@ print_node_inner_html (WebKitDOMNode *node)
 	gchar *inner_html;
 
 	if (!node) {
-		printf ("\tnone\n");
+		printf ("    none\n");
 		return;
 	}
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (node));
@@ -225,7 +225,7 @@ print_node_inner_html (WebKitDOMNode *node)
 	inner_html = webkit_dom_html_element_get_inner_html (WEBKIT_DOM_HTML_ELEMENT (div));
 	remove_node (WEBKIT_DOM_NODE (div));
 
-	printf ("\t'%s'\n", inner_html);
+	printf ("    '%s'\n", inner_html);
 
 	g_free (inner_html);
 }
@@ -234,9 +234,11 @@ static void
 print_history_event (EHTMLEditorViewHistoryEvent *event)
 {
 	if (event->type != HISTORY_START && event->type != HISTORY_AND) {
-		printf ("HISTORY EVENT: %d ; \n", event->type);
-		printf ("\t before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
-		printf ("\t after:  start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n", event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
+		printf ("  HISTORY EVENT: %d ; \n", event->type);
+		printf ("    before: start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n",
+			event->before.start.x, event->before.start.y, event->before.end.x, event->before.end.y);
+		printf ("    after:  start_x: %u ; start_y: %u ; end_x: %u ; end_y: %u ;\n",
+			event->after.start.x, event->after.start.y, event->after.end.x, event->after.end.y);
 	}
 	switch (event->type) {
 		case HISTORY_DELETE:
@@ -258,13 +260,13 @@ print_history_event (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_UNDERLINE:
 		case HISTORY_STRIKETHROUGH:
 		case HISTORY_WRAP:
-			printf (" from %d to %d ;\n", event->data.style.from, event->data.style.to);
+			printf ("    from %d to %d ;\n", event->data.style.from, event->data.style.to);
 			break;
 		case HISTORY_PASTE:
 		case HISTORY_PASTE_AS_TEXT:
 		case HISTORY_PASTE_QUOTED:
 		case HISTORY_INSERT_HTML:
-			printf (" pasting: '%s' ; \n", event->data.string.to);
+			printf ("    pasting: '%s' ; \n", event->data.string.to);
 			break;
 		case HISTORY_HRULE_DIALOG:
 		case HISTORY_IMAGE_DIALOG:
@@ -280,32 +282,31 @@ print_history_event (EHTMLEditorViewHistoryEvent *event)
 		case HISTORY_FONT_COLOR:
 		case HISTORY_REPLACE:
 		case HISTORY_REPLACE_ALL:
-			printf (" from '%s' to '%s';\n", event->data.string.from, event->data.string.to);
+			printf ("    from '%s' to '%s';\n", event->data.string.from, event->data.string.to);
 			break;
 		case HISTORY_START:
-			printf ("HISTORY START\n");
+			printf ("  HISTORY START\n");
 			break;
 		case HISTORY_AND:
-			printf ("HISTORY AND\n");
+			printf ("  HISTORY AND\n");
 			break;
 		default:
-			printf ("Unknown history type\n");
+			printf ("  UNKNOWN HISTORY TYPE\n");
 	}
 }
 
 static void
 print_history (EHTMLEditorView *view)
 {
+	printf ("-------------------\nWHOLE HISTORY STACK\n");
 	if (view->priv->history) {
-		printf ("\n");
 		g_list_foreach (
 			view->priv->history,
 			(GFunc) print_history_event,
 			NULL);
-		printf ("\n");
-	} else {
-		printf ("History empty!\n");
 	}
+
+	printf ("-------------------\n");
 }
 
 static void
@@ -313,9 +314,9 @@ print_undo_events (EHTMLEditorView *view)
 {
 	GList *item = view->priv->history;
 
-	printf ("UNDO EVENTS:\n");
+	printf ("------------------\nUNDO HISTORY STACK\n");
 	if (!item || !item->next) {
-		printf ("EMPTY\n");
+		printf ("------------------\n");
 		return;
 	}
 
@@ -326,7 +327,7 @@ print_undo_events (EHTMLEditorView *view)
 		item = item->next;
 	}
 
-	printf ("\n");
+	printf ("------------------\n");
 
 }
 
@@ -335,9 +336,9 @@ print_redo_events (EHTMLEditorView *view)
 {
 	GList *item = view->priv->history;
 
-	printf ("REDO EVENTS:\n");
+	printf ("------------------\nREDO HISTORY STACK\n");
 	if (!item || !item->prev) {
-		printf ("EMPTY\n");
+		printf ("------------------\n");
 		return;
 	}
 
@@ -347,8 +348,7 @@ print_redo_events (EHTMLEditorView *view)
 		item = item->prev;
 	}
 
-	printf ("\n");
-
+	printf ("------------------\n");
 }
 #endif
 
@@ -11036,8 +11036,7 @@ e_html_editor_view_insert_new_history_event (EHTMLEditorView *view,
 	view->priv->history_size++;
 	view->priv->can_undo = TRUE;
 
-	d (print_undo_events (view));
-	d (print_redo_events (view));
+	d (print_history (view));
 
 	g_object_notify (G_OBJECT (view), "can-undo");
 }
@@ -12523,6 +12522,7 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 
 	history = view->priv->history;
 	event = history->prev->data;
+	d (printf ("\nREDOING EVENT:\n"));
 	d (print_history_event (event));
 
 	view->priv->undo_redo_in_progress = TRUE;
@@ -12632,7 +12632,7 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 
 	view->priv->history = view->priv->history->prev;
 
-	d (print_history (view));
+	d (print_redo_events (view));
 
 	html_editor_view_user_changed_contents_cb (view);
 
@@ -12650,6 +12650,7 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 
 	history = view->priv->history;
 	event = history->data;
+	d (printf ("\nUNDOING EVENT:\n"));
 	d (print_history_event (event));
 
 	view->priv->undo_redo_in_progress = TRUE;
@@ -12749,7 +12750,7 @@ e_html_editor_view_undo (EHTMLEditorView *view)
 	if (history->next)
 		view->priv->history = view->priv->history->next;
 
-	d (print_history (view));
+	d (print_undo_events (view));
 
 	html_editor_view_user_changed_contents_cb (view);
 
