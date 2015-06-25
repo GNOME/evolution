@@ -3865,6 +3865,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
 	if (pitip->current_client && pitip->current_client == cal_client) {
+		const gchar *extension_name;
 		gboolean rsvp_enabled = FALSE;
 
 		itip_view_set_show_keep_alarm_check (view, fd->keep_alarm_check);
@@ -3908,6 +3909,28 @@ find_cal_update_ui (FormatItipFindData *fd,
 		set_buttons_sensitive (pitip, view);
 
 		g_cancellable_cancel (fd->cancellable);
+
+		switch (pitip->type) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+				extension_name = E_SOURCE_EXTENSION_CALENDAR;
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+				extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+				break;
+			default:
+				g_return_if_reached ();
+		}
+
+		itip_view_set_extension_name (view, extension_name);
+
+		g_signal_connect (
+			view, "source_selected",
+			G_CALLBACK (source_selected_cb), pitip);
+
+		itip_view_set_source (view, source);
 	} else if (!pitip->current_client)
 		itip_view_set_show_keep_alarm_check (view, FALSE);
 
