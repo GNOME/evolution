@@ -513,6 +513,10 @@ report_error_to_ui (CamelService *service,
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 	g_return_if_fail (error != NULL);
 
+	/* Ignore 'offline' errors */
+	if (g_error_matches (error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_UNAVAILABLE))
+		return;
+
 	if (folder_name) {
 		tmp = g_strdup_printf ("%s: %s",
 			camel_service_get_display_name (service),
@@ -1241,10 +1245,14 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 			m->info->cancellable, "cancelled",
 			G_CALLBACK (main_op_cancelled_cb), cancellable);
 
-	success = camel_service_connect_sync (
-		CAMEL_SERVICE (m->store), cancellable, error);
-	if (!success)
+	success = camel_service_connect_sync (CAMEL_SERVICE (m->store), cancellable, &local_error);
+	if (!success) {
+		if (g_error_matches (local_error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_UNAVAILABLE))
+			g_clear_error (&local_error);
+		else
+			g_propagate_error (error, local_error);
 		goto exit;
+	}
 
 	get_folders (m->store, m->folders, m->finfo);
 
