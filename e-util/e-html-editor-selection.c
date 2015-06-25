@@ -3417,7 +3417,7 @@ get_list_level (WebKitDOMNode *node)
 	return level;
 }
 
-static void
+static gboolean
 indent_list (EHTMLEditorSelection *selection,
              WebKitDOMDocument *document)
 {
@@ -3464,6 +3464,8 @@ indent_list (EHTMLEditorSelection *selection,
 
 		merge_lists_if_possible (WEBKIT_DOM_NODE (list));
 	}
+
+	return after_selection_end;
 }
 
 static void
@@ -3578,7 +3580,7 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 
 		length = webkit_dom_node_list_get_length (list);
 		if (length == 0 && node_is_list_or_item (block)) {
-			indent_list (selection, document);
+			after_selection_end = indent_list (selection, document);
 			goto next;
 		}
 
