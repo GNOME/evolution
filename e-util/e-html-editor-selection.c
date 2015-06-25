@@ -3590,12 +3590,14 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 					goto next;
 			}
 
-			level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+				level = get_indentation_level (WEBKIT_DOM_ELEMENT (block));
 
-			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-			    !is_in_html_mode (selection))
-				goto next;
+				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
+				if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
+				    !is_in_html_mode (selection))
+					goto next;
+			}
 
 			indent_block (selection, document, block, final_width);
 
@@ -3621,14 +3623,16 @@ e_html_editor_selection_indent (EHTMLEditorSelection *selection)
 				}
 			}
 
-			level = get_indentation_level (
-				WEBKIT_DOM_ELEMENT (block_to_process));
+			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-paragraph")) {
+				level = get_indentation_level (
+					WEBKIT_DOM_ELEMENT (block_to_process));
 
-			final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
-			if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
-			    !is_in_html_mode (selection)) {
-				g_object_unref (block_to_process);
-				continue;
+				final_width = word_wrap_length - SPACES_PER_INDENTATION * (level + 1);
+				if (final_width < MINIMAL_PARAGRAPH_WIDTH &&
+				    !is_in_html_mode (selection)) {
+					g_object_unref (block_to_process);
+					continue;
+				}
 			}
 
 			indent_block (selection, document, block_to_process, final_width);
@@ -6459,11 +6463,16 @@ e_html_editor_selection_set_indented_style (EHTMLEditorSelection *selection,
                                             gint width)
 {
 	gchar *style;
-	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
+	gint word_wrap_length;
+
+	/* width < 0, set block width to word_wrap_length
+	 * width ==  0, no width limit set,
+	 * width > 0, set width limit to given value */
+	word_wrap_length = (width < 0) ? selection->priv->word_wrap_length : width;
 
 	webkit_dom_element_set_class_name (element, "-x-evo-indented");
 
-	if (is_in_html_mode (selection))
+	if (is_in_html_mode (selection) || word_wrap_length == 0)
 		style = g_strdup_printf ("margin-left: %dch;", SPACES_PER_INDENTATION);
 	else
 		style = g_strdup_printf (
