@@ -24,55 +24,49 @@
 #error "Only <e-util/e-util.h> should be included directly."
 #endif
 
-#ifndef E_CELL_DATE_H
-#define E_CELL_DATE_H
+#ifndef E_CELL_DATE_INT_H
+#define E_CELL_DATE_INT_H
 
-#include <e-util/e-cell-text.h>
+#include <e-util/e-cell-date.h>
 
 /* Standard GObject macros */
-#define E_TYPE_CELL_DATE \
-	(e_cell_date_get_type ())
-#define E_CELL_DATE(obj) \
+#define E_TYPE_CELL_DATE_INT \
+	(e_cell_date_int_get_type ())
+#define E_CELL_DATE_INT(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_CELL_DATE, ECellDate))
-#define E_CELL_DATE_CLASS(cls) \
+	((obj), E_TYPE_CELL_DATE_INT, ECellDateInt))
+#define E_CELL_DATE_INT_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_CELL_DATE, ECellDateClass))
-#define E_IS_CELL_DATE(obj) \
+	((cls), E_TYPE_CELL_DATE_INT, ECellDateIntClass))
+#define E_IS_CELL_DATE_INT(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_CELL_DATE))
-#define E_IS_CELL_DATE_CLASS(cls) \
+	((obj), E_TYPE_CELL_DATE_INT))
+#define E_IS_CELL_DATE_INT_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_CELL_DATE))
-#define E_CELL_DATE_GET_CLASS(obj) \
+	((cls), E_TYPE_CELL_DATE_INT))
+#define E_CELL_DATE_INT_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_CELL_DATE, ECellDateClass))
+	((obj), E_TYPE_CELL_DATE_INT, ECellDateIntClass))
 
 G_BEGIN_DECLS
 
-typedef struct _ECellDate ECellDate;
-typedef struct _ECellDateClass ECellDateClass;
+typedef struct _ECellDateInt ECellDateInt;
+typedef struct _ECellDateIntClass ECellDateIntClass;
+typedef struct _ECellDateIntPrivate ECellDateIntPrivate;
 
-struct _ECellDate {
-	ECellText parent;
+struct _ECellDateInt {
+	ECellDate parent;
+
+	ECellDateIntPrivate *priv;
 };
 
-struct _ECellDateClass {
-	ECellTextClass parent_class;
+struct _ECellDateIntClass {
+	ECellDateClass parent_class;
 };
 
-GType		e_cell_date_get_type		(void) G_GNUC_CONST;
-ECell *		e_cell_date_new			(const gchar *fontname,
+GType		e_cell_date_int_get_type	(void) G_GNUC_CONST;
+ECell *		e_cell_date_int_new		(const gchar *fontname,
 						 GtkJustification justify);
-void		e_cell_date_set_format_component
-						(ECellDate *ecd,
-						 const gchar *fmt_component);
-gchar *		e_cell_date_value_to_text	(ECellDate *ecd,
-						 gint64 value,
-						 gboolean date_only);
-gchar *		e_cell_date_tm_to_text		(ECellDate *ecd,
-						 struct tm *tm_time,
-						 gboolean date_only);
 G_END_DECLS
 
-#endif /* E_CELL_DATE_H */
+#endif /* E_CELL_DATE_INT_H */

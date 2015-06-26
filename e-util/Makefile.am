@@ -150,6 +150,7 @@ evolution_util_include_HEADERS =  \
 	e-cell-checkbox.h \
 	e-cell-combo.h \
 	e-cell-date-edit.h \
+	e-cell-date-int.h \
 	e-cell-date.h \
 	e-cell-hbox.h \
 	e-cell-number.h \
@@ -422,6 +423,7 @@ libevolution_util_la_SOURCES = \
 	e-cell-checkbox.c \
 	e-cell-combo.c \
 	e-cell-date-edit.c \
+	e-cell-date-int.c \
 	e-cell-date.c \
 	e-cell-hbox.c \
 	e-cell-number.c \

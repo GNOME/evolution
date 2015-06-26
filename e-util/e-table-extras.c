@@ -32,6 +32,7 @@
 
 #include "e-cell-checkbox.h"
 #include "e-cell-date.h"
+#include "e-cell-date-int.h"
 #include "e-cell-number.h"
 #include "e-cell-pixbuf.h"
 #include "e-cell-size.h"
@@ -301,6 +302,10 @@ e_table_extras_init (ETableExtras *extras)
 
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	e_table_extras_add_cell (extras, "date", cell);
+	g_object_unref (cell);
+
+	cell = e_cell_date_int_new (NULL, GTK_JUSTIFY_LEFT);
+	e_table_extras_add_cell (extras, "date-int", cell);
 	g_object_unref (cell);
 
 	cell = e_cell_number_new (NULL, GTK_JUSTIFY_RIGHT);
