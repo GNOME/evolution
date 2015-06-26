@@ -4391,7 +4391,7 @@ static void
 e_week_view_on_editing_started (EWeekView *week_view,
                                 GnomeCanvasItem *item)
 {
-	gint event_num, span_num;
+	gint event_num = -1, span_num = -1;
 
 	if (!e_week_view_find_event_from_item (week_view, item,
 					       &event_num, &span_num))
@@ -4405,6 +4405,26 @@ e_week_view_on_editing_started (EWeekView *week_view,
 	if (!e_week_view_is_one_day_event (week_view, event_num)) {
 		e_week_view_reshape_event_span (
 			week_view, event_num, span_num);
+	}
+
+	if (event_num != -1) {
+		EWeekViewEvent *event;
+		EWeekViewEventSpan *span;
+
+		if (is_array_index_in_bounds (week_view->events, event_num)) {
+			event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
+
+			if (is_comp_data_valid (event) &&
+			    is_array_index_in_bounds (week_view->spans, event->spans_index + span_num)) {
+				span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+						       event->spans_index + span_num);
+
+				gnome_canvas_item_set (
+					span->text_item,
+					"text", icalcomponent_get_summary (event->comp_data->icalcomp),
+					NULL);
+			}
+		}
 	}
 
 	g_signal_emit_by_name (week_view, "selection_changed");
