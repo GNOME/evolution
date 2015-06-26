@@ -1217,28 +1217,29 @@ e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 		E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT);
 
 	range = html_editor_selection_get_current_range (selection);
-	if (!range)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	if (!range) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		goto out;
+	}
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 	g_object_unref (range);
-	if (!node)
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	if (!node) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+		goto out;
+	}
 
 	if (WEBKIT_DOM_IS_ELEMENT (node))
 		element = WEBKIT_DOM_ELEMENT (node);
 	else
 		element = webkit_dom_node_get_parent_element (node);
 
-	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (element)) {
-		if (element_has_class (element, "-x-evo-align-right"))
-			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
-		else if (element_has_class (element, "-x-evo-align-center"))
-			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
-		else
-			alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-
-		return alignment;
+	if (element_has_class (element, "-x-evo-align-right")) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
+		goto out;
+	} else if (element_has_class (element, "-x-evo-align-center")) {
+		alignment = E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
+		goto out;
 	}
 
 	style = webkit_dom_element_get_style (element);
@@ -1257,6 +1258,9 @@ e_html_editor_selection_get_alignment (EHTMLEditorSelection *selection)
 
 	g_object_unref (style);
 	g_free (value);
+
+ out:
+	selection->priv->alignment = alignment;
 
 	return alignment;
 }
@@ -2672,6 +2676,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 {
 	EHTMLEditorView *view;
 	EHTMLEditorSelectionBlockFormat current_format;
+	EHTMLEditorSelectionAlignment current_alignment;
 	EHTMLEditorViewHistoryEvent *ev = NULL;
 	const gchar *value;
 	gboolean from_list = FALSE, to_list = FALSE, html_mode;
@@ -2751,6 +2756,8 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 		g_object_unref (view);
 		return;
 	}
+
+	current_alignment = selection->priv->alignment;
 
 	e_html_editor_selection_save (selection);
 
@@ -2834,7 +2841,7 @@ e_html_editor_selection_set_block_format (EHTMLEditorSelection *selection,
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	/* When changing the format we need to re-set the alignment */
-	e_html_editor_selection_set_alignment (selection, selection->priv->alignment);
+	e_html_editor_selection_set_alignment (selection, current_alignment);
 
 	e_html_editor_view_set_changed (view, TRUE);
 
