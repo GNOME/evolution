@@ -229,35 +229,35 @@ html_editor_selection_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				e_html_editor_selection_get_alignment (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_BACKGROUND_COLOR:
 			g_value_set_string (
 				value,
 				e_html_editor_selection_get_background_color (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_BLOCK_FORMAT:
 			g_value_set_int (
 				value,
 				e_html_editor_selection_get_block_format (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_BOLD:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_bold (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_HTML_EDITOR_VIEW:
 			g_value_take_object (
 				value,
 				e_html_editor_selection_ref_html_editor_view (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_FONT_COLOR:
@@ -270,70 +270,70 @@ html_editor_selection_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				e_html_editor_selection_get_font_name (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_FONT_SIZE:
 			g_value_set_int (
 				value,
 				e_html_editor_selection_get_font_size (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_INDENTED:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_indented (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_ITALIC:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_italic (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_MONOSPACED:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_monospaced (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_STRIKETHROUGH:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_strikethrough (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_SUBSCRIPT:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_subscript (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_SUPERSCRIPT:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_superscript (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 
 		case PROP_TEXT:
 			g_value_set_string (
 				value,
 				e_html_editor_selection_get_string (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			break;
 
 		case PROP_UNDERLINE:
 			g_value_set_boolean (
 				value,
 				e_html_editor_selection_is_underline (
-				E_HTML_EDITOR_SELECTION (object)));
+					E_HTML_EDITOR_SELECTION (object)));
 			return;
 	}
 
