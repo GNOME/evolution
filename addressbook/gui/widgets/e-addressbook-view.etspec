@@ -51,6 +51,8 @@
 
   <ETableColumn model_col="49" _title="Spouse"            expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="collate"/>
   <ETableColumn model_col="50" _title="Note"              expansion="1.0" minimum_width="75" resizable="true" cell="string" compare="collate"/>
+  <ETableColumn model_col="107" _title="Birthday"         expansion="1.0" minimum_width="75" resizable="true" cell="date-int" compare="integer"/>
+  <ETableColumn model_col="108" _title="Anniversary"      expansion="1.0" minimum_width="75" resizable="true" cell="date-int" compare="integer"/>
 
   <ETableState>
     <column source="0"/>

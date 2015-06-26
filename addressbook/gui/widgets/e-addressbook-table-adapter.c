@@ -164,6 +164,24 @@ addressbook_value_at (ETableModel *etc,
 		return NULL;
 
 	contact = e_addressbook_model_contact_at (priv->model, row);
+	if (col == E_CONTACT_BIRTH_DATE ||
+	    col == E_CONTACT_ANNIVERSARY) {
+		EContactDate *date;
+
+		date = e_contact_get (contact, col);
+		if (date) {
+			gint int_dt;
+
+			int_dt = 10000 * date->year + 100 * date->month + date->day;
+
+			e_contact_date_free (date);
+
+			return GINT_TO_POINTER (int_dt);
+		} else {
+			return GINT_TO_POINTER (-1);
+		}
+	}
+
 	value = e_contact_get_const (contact, col);
 
 	if (value && *value && (col == E_CONTACT_EMAIL_1 ||
@@ -218,7 +236,9 @@ addressbook_set_value_at (ETableModel *etc,
 		EBookClient *book_client;
 		EContact *contact;
 
-		if (col >= E_CONTACT_FIELD_LAST)
+		if (col >= E_CONTACT_FIELD_LAST ||
+		    col == E_CONTACT_BIRTH_DATE ||
+		    col == E_CONTACT_ANNIVERSARY)
 			return;
 
 		if (row >= e_addressbook_model_contact_count (priv->model))
@@ -276,6 +296,10 @@ addressbook_duplicate_value (ETableModel *etc,
                              gint col,
                              gconstpointer value)
 {
+	if (col == E_CONTACT_BIRTH_DATE ||
+	    col == E_CONTACT_ANNIVERSARY)
+		return GINT_TO_POINTER (GPOINTER_TO_INT (value));
+
 	return g_strdup (value);
 }
 
@@ -285,13 +309,19 @@ addressbook_free_value (ETableModel *etc,
                         gint col,
                         gpointer value)
 {
-	g_free (value);
+	if (col != E_CONTACT_BIRTH_DATE &&
+	    col != E_CONTACT_ANNIVERSARY)
+		g_free (value);
 }
 
 static gpointer
 addressbook_initialize_value (ETableModel *etc,
                               gint col)
 {
+	if (col == E_CONTACT_BIRTH_DATE ||
+	    col == E_CONTACT_ANNIVERSARY)
+		return GINT_TO_POINTER (-1);
+
 	return g_strdup ("");
 }
 
@@ -300,6 +330,10 @@ addressbook_value_is_empty (ETableModel *etc,
                             gint col,
                             gconstpointer value)
 {
+	if (col == E_CONTACT_BIRTH_DATE ||
+	    col == E_CONTACT_ANNIVERSARY)
+		return GPOINTER_TO_INT (value) <= 0;
+
 	return !(value && *(gchar *) value);
 }
 
@@ -308,6 +342,16 @@ addressbook_value_to_string (ETableModel *etc,
                              gint col,
                              gconstpointer value)
 {
+	if (col == E_CONTACT_BIRTH_DATE ||
+	    col == E_CONTACT_ANNIVERSARY) {
+		gint int_dt = GPOINTER_TO_INT (value);
+
+		if (int_dt <= 0)
+			return g_strdup ("");
+
+		return g_strdup_printf ("%04d-%02d-%02d", int_dt / 10000, (int_dt / 100) % 100, int_dt % 100);
+	}
+
 	return g_strdup (value);
 }
 

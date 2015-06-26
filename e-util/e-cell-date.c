@@ -44,7 +44,6 @@ ecd_get_text (ECellText *cell,
               gint row)
 {
 	gint64 *pdate = e_table_model_value_at (model, col, row);
-	const gchar *fmt_component, *fmt_part = NULL;
 	gchar *res;
 
 	if (!pdate || *pdate == 0) {
@@ -52,13 +51,7 @@ ecd_get_text (ECellText *cell,
 		return g_strdup (_("?"));
 	}
 
-	fmt_component = g_object_get_data ((GObject *) cell, "fmt-component");
-	if (!fmt_component || !*fmt_component)
-		fmt_component = "Default";
-	else
-		fmt_part = "table";
-
-	res = e_datetime_format_format (fmt_component, fmt_part, DTFormatKindDateTime, (time_t) *pdate);
+	res = e_cell_date_value_to_text (E_CELL_DATE (cell), *pdate, FALSE);
 
 	e_table_model_free_value (model, col, pdate);
 
@@ -133,4 +126,44 @@ e_cell_date_set_format_component (ECellDate *ecd,
 	g_object_set_data_full (
 		G_OBJECT (ecd), "fmt-component",
 		g_strdup (fmt_component), g_free);
+}
+
+gchar *
+e_cell_date_value_to_text (ECellDate *ecd,
+			   gint64 value,
+			   gboolean date_only)
+{
+	const gchar *fmt_component, *fmt_part = NULL;
+
+	if (value == 0)
+		return g_strdup (_("?"));
+
+	fmt_component = g_object_get_data ((GObject *) ecd, "fmt-component");
+	if (!fmt_component || !*fmt_component)
+		fmt_component = "Default";
+	else
+		fmt_part = "table";
+
+	return e_datetime_format_format (fmt_component, fmt_part,
+		date_only ? DTFormatKindDate : DTFormatKindDateTime, (time_t) value);
+}
+
+gchar *
+e_cell_date_tm_to_text (ECellDate *ecd,
+			struct tm *tm_time,
+			gboolean date_only)
+{
+	const gchar *fmt_component, *fmt_part = NULL;
+
+	if (!tm_time)
+		return g_strdup (_("?"));
+
+	fmt_component = g_object_get_data ((GObject *) ecd, "fmt-component");
+	if (!fmt_component || !*fmt_component)
+		fmt_component = "Default";
+	else
+		fmt_part = "table";
+
+	return e_datetime_format_format_tm (fmt_component, fmt_part,
+		date_only ? DTFormatKindDate : DTFormatKindDateTime, tm_time);
 }

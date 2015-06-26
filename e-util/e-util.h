@@ -63,6 +63,7 @@
 #include <e-util/e-cell-checkbox.h>
 #include <e-util/e-cell-combo.h>
 #include <e-util/e-cell-date-edit.h>
+#include <e-util/e-cell-date-int.h>
 #include <e-util/e-cell-date.h>
 #include <e-util/e-cell-hbox.h>
 #include <e-util/e-cell-number.h>
