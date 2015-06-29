@@ -34,6 +34,7 @@ struct _ESourceSelectorDialogPrivate {
 	GtkWidget *selector;
 	ESourceRegistry *registry;
 	ESource *selected_source;
+	ESource *except_source;
 	gchar *extension_name;
 };
 
@@ -41,7 +42,8 @@ enum {
 	PROP_0,
 	PROP_EXTENSION_NAME,
 	PROP_REGISTRY,
-	PROP_SELECTOR
+	PROP_SELECTOR,
+	PROP_EXCEPT_SOURCE
 };
 
 G_DEFINE_TYPE (
@@ -69,13 +71,10 @@ primary_selection_changed_cb (ESourceSelector *selector,
 	priv->selected_source =
 		e_source_selector_ref_primary_selection (selector);
 
-	/* FIXME Add an API for "except-source" or to
-	 *       get the ESourceSelector from outside. */
 	if (priv->selected_source != NULL) {
 		ESource *except_source;
 
-		except_source = g_object_get_data (
-			G_OBJECT (dialog), "except-source");
+		except_source = e_source_selector_dialog_get_except_source (dialog);
 
 		if (except_source != NULL)
 			if (e_source_equal (except_source, priv->selected_source)) {
@@ -127,6 +126,12 @@ source_selector_dialog_set_property (GObject *object,
 				E_SOURCE_SELECTOR_DIALOG (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_EXCEPT_SOURCE:
+			e_source_selector_dialog_set_except_source (
+				E_SOURCE_SELECTOR_DIALOG (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -159,6 +164,13 @@ source_selector_dialog_get_property (GObject *object,
 				e_source_selector_dialog_get_selector (
 				E_SOURCE_SELECTOR_DIALOG (object)));
 			return;
+
+		case PROP_EXCEPT_SOURCE:
+			g_value_set_object (
+				value,
+				e_source_selector_dialog_get_except_source (
+				E_SOURCE_SELECTOR_DIALOG (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -171,15 +183,9 @@ source_selector_dialog_dispose (GObject *object)
 
 	priv = E_SOURCE_SELECTOR_DIALOG_GET_PRIVATE (object);
 
-	if (priv->registry != NULL) {
-		g_object_unref (priv->registry);
-		priv->registry = NULL;
-	}
-
-	if (priv->selected_source != NULL) {
-		g_object_unref (priv->selected_source);
-		priv->selected_source = NULL;
-	}
+	g_clear_object (&priv->registry);
+	g_clear_object (&priv->selected_source);
+	g_clear_object (&priv->except_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_source_selector_dialog_parent_class)->dispose (object);
@@ -202,6 +208,7 @@ static void
 source_selector_dialog_constructed (GObject *object)
 {
 	ESourceSelectorDialog *dialog;
+	ESource *primary_selection;
 	GtkWidget *label, *hgrid;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -279,6 +286,11 @@ source_selector_dialog_constructed (GObject *object)
 	g_signal_connect (
 		widget, "primary_selection_changed",
 		G_CALLBACK (primary_selection_changed_cb), dialog);
+
+	primary_selection = e_source_selector_ref_primary_selection (E_SOURCE_SELECTOR (widget));
+	if (primary_selection)
+		primary_selection_changed_cb (E_SOURCE_SELECTOR (widget), dialog);
+	g_clear_object (&primary_selection);
 }
 
 static void
@@ -326,6 +338,16 @@ e_source_selector_dialog_class_init (ESourceSelectorDialogClass *class)
 			NULL,
 			E_TYPE_SOURCE_SELECTOR,
 			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_EXCEPT_SOURCE,
+		g_param_spec_object (
+			"except-source",
+			NULL,
+			NULL,
+			E_TYPE_SOURCE,
+			G_PARAM_WRITABLE));
 }
 
 static void
@@ -451,4 +473,53 @@ e_source_selector_dialog_peek_primary_selection (ESourceSelectorDialog *dialog)
 	g_return_val_if_fail (E_IS_SOURCE_SELECTOR_DIALOG (dialog), NULL);
 
 	return dialog->priv->selected_source;
+}
+
+/**
+ * e_source_selector_dialog_get_except_source:
+ * @dialog: an #ESourceSelectorDialog
+ *
+ * Get the currently #ESource, which cannot be selected in the given @dialog.
+ * Use e_source_selector_dialog_set_except_source() to set such.
+ *
+ * Returns: the #ESource, which cannot be selected
+ *
+ * Since: 3.18
+ **/
+ESource *
+e_source_selector_dialog_get_except_source (ESourceSelectorDialog *dialog)
+{
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR_DIALOG (dialog), NULL);
+
+	return dialog->priv->except_source;
+}
+
+/**
+ * e_source_selector_dialog_set_except_source:
+ * @dialog: an #ESourceSelectorDialog
+ * @except_source: (allow-none): an #ESource, which cannot be selected, or %NULL
+ *
+ * Set the @except_source, the one which cannot be selected in the given @dialog.
+ * Use %NULL to allow to select all sources.
+ *
+ * Since: 3.18
+ **/
+void
+e_source_selector_dialog_set_except_source (ESourceSelectorDialog *dialog,
+					    ESource *except_source)
+{
+	g_return_if_fail (E_IS_SOURCE_SELECTOR_DIALOG (dialog));
+	if (except_source)
+		g_return_if_fail (E_IS_SOURCE (except_source));
+
+	if ((dialog->priv->except_source && except_source && e_source_equal (dialog->priv->except_source, except_source)) ||
+	    dialog->priv->except_source == except_source)
+		return;
+
+	g_clear_object (&dialog->priv->except_source);
+	dialog->priv->except_source = except_source ? g_object_ref (except_source) : NULL;
+
+	primary_selection_changed_cb (E_SOURCE_SELECTOR (dialog->priv->selector), dialog);
+
+	g_object_notify (G_OBJECT (dialog), "except-source");
 }

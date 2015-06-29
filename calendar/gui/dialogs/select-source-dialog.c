@@ -67,7 +67,7 @@ select_source_dialog (GtkWindow *parent,
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
 
 	if (except_source)
-		g_object_set_data (G_OBJECT (dialog), "except-source", except_source);
+		e_source_selector_dialog_set_except_source (E_SOURCE_SELECTOR_DIALOG (dialog), except_source);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
