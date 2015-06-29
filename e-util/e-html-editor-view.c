@@ -3331,7 +3331,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 						document, block, level);
 				}
 			}
-		} else if (node && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+		} else if (level > 0 && node && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
 			EHTMLEditorViewHistoryEvent *event;
 			WebKitDOMDocumentFragment *fragment;
 			WebKitDOMNode *block;
