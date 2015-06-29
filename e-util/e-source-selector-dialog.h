@@ -76,6 +76,11 @@ ESourceSelector *
 						(ESourceSelectorDialog *dialog);
 ESource *	e_source_selector_dialog_peek_primary_selection
 						(ESourceSelectorDialog *dialog);
+ESource *	e_source_selector_dialog_get_except_source
+						(ESourceSelectorDialog *dialog);
+void		e_source_selector_dialog_set_except_source
+						(ESourceSelectorDialog *dialog,
+						 ESource *except_source);
 
 G_END_DECLS
 
