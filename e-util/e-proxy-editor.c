@@ -557,7 +557,7 @@ proxy_editor_constructed (GObject *object)
 
 	gtk_combo_box_text_append (
 		GTK_COMBO_BOX_TEXT (editor->priv->method_combo_box),
-		enum_value->value_nick, _("None"));
+		enum_value->value_nick, _("No proxy"));
 
 	widget = gtk_label_new (
 		_("Use a direct connection, no proxying required."));
