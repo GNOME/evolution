@@ -17,16 +17,16 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-06-25 12:42+0000\n"
-"PO-Revision-Date: 2015-06-26 01:18+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"POT-Creation-Date: 2015-06-29 17:38+0000\n"
+"PO-Revision-Date: 2015-06-29 21:00+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -440,6 +440,7 @@ msgstr "É_vforduló:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:875
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../calendar/gui/e-calendar-view.c:2001
 msgid "Anniversary"
 msgstr "Évforduló"
@@ -451,6 +452,7 @@ msgstr "Évforduló"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:38
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:874
+#: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../calendar/gui/e-calendar-view.c:2000 ../shell/main.c:127
 msgid "Birthday"
 msgstr "Születésnap"
@@ -562,7 +564,7 @@ msgstr "Beállítások"
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
 #: ../e-util/e-rule-editor.c:282 ../e-util/e-rule-editor.c:776
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
-#: ../e-util/e-source-selector-dialog.c:350 ../e-util/e-table-config.c:548
+#: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
 #: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3229
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
@@ -747,7 +749,7 @@ msgstr "Érvénytelen névjegy."
 #: ../e-util/e-rule-context.c:816 ../e-util/e-rule-editor.c:181
 #: ../e-util/e-rule-editor.c:283 ../e-util/e-rule-editor.c:777
 #: ../e-util/e-send-options.ui.h:43 ../e-util/e-source-config-dialog.c:380
-#: ../e-util/e-source-selector-dialog.c:351 ../e-util/e-table-config.c:549
+#: ../e-util/e-source-selector-dialog.c:373 ../e-util/e-table-config.c:549
 #: ../e-util/e-table-config.ui.h:3 ../e-util/e-timezone-dialog.ui.h:3
 #: ../mail/e-mail-config-window.c:331 ../mail/e-mail-tag-editor.c:243
 #: ../mail/em-folder-selector.c:43 ../mail/mail-config.ui.h:3
@@ -1342,7 +1344,7 @@ msgstr "Hiba a címjegyzék nézetének megnyitásakor"
 msgid "Search Interrupted"
 msgstr "Keresés megszakítva"
 
-#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:203
+#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:221
 msgid "Error modifying card"
 msgstr "Hiba a kártya módosításakor"
 
@@ -8038,12 +8040,10 @@ msgid "Minute the workday starts on, 0 to 59."
 msgstr "A munkanap ebben a percben kezdődik, 0 és 59 között."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
-#| msgid "Workday start hour"
 msgid "Workday start time for Monday"
 msgstr "A munkanap kezdőideje hétfőn"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
-#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-start-hour and day-start-minute"
@@ -8052,12 +8052,10 @@ msgstr ""
 "vagy -1 a day-start-hour és day-start-minute használatához"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
-#| msgid "Workday end hour"
 msgid "Workday end time for Monday"
 msgstr "A munkanap befejeződési ideje hétfőn"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
-#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-end-hour and day-end-minute"
@@ -8066,62 +8064,50 @@ msgstr ""
 "vagy -1 a day-end-hour és day-end-minute használatához"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#| msgid "Workday start hour"
 msgid "Workday start time for Teusday"
 msgstr "A munkanap kezdőideje kedden"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#| msgid "Workday end hour"
 msgid "Workday end time for Teusday"
 msgstr "A munkanap befejeződési ideje kedden"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
-#| msgid "Workday start minute"
 msgid "Workday start time for Wednesday"
 msgstr "A munkanap kezdőideje szerdán"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
-#| msgid "Workday end minute"
 msgid "Workday end time for Wednesday"
 msgstr "A munkanap befejeződési ideje szerdán"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
-#| msgid "Workday start hour"
 msgid "Workday start time for Thursday"
 msgstr "A munkanap kezdőideje csütörtökön"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
-#| msgid "Workday end hour"
 msgid "Workday end time for Thursday"
 msgstr "A munkanap befejeződési ideje csütörtökön"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
-#| msgid "Workday start hour"
 msgid "Workday start time for Friday"
 msgstr "A munkanap kezdőideje pénteken"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
-#| msgid "Workday end hour"
 msgid "Workday end time for Friday"
 msgstr "A munkanap befejeződési ideje pénteken"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
-#| msgid "Workday start hour"
 msgid "Workday start time for Saturday"
 msgstr "A munkanap kezdőideje szombaton"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
-#| msgid "Workday end hour"
 msgid "Workday end time for Saturday"
 msgstr "A munkanap befejeződési ideje szombaton"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
-#| msgid "Workday start hour"
 msgid "Workday start time for Sunday"
 msgstr "A munkanap kezdőideje vasárnap"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
-#| msgid "Workday end hour"
 msgid "Workday end time for Sunday"
 msgstr "A munkanap befejeződési ideje vasárnap"
 
@@ -9463,8 +9449,7 @@ msgid ""
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
 "Meghatározza, hogy a szálak gyermekei mindig növekvő sorrendben jelenjenek "
-"meg, "
-"ahelyett hogy ugyanúgy legyenek rendezve, mint a gyökérelemek."
+"meg, ahelyett hogy ugyanúgy legyenek rendezve, mint a gyökérelemek."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Sort accounts alphabetically in a folder tree"
@@ -11280,7 +11265,8 @@ msgstr "Már létezik „%s” nevű kategória. Válasszon másik nevet."
 msgid "popup list"
 msgstr "felbukkanó lista"
 
-#: ../e-util/e-cell-date.c:52 ../mail/message-list.c:2033
+#: ../e-util/e-cell-date.c:51 ../e-util/e-cell-date.c:139
+#: ../e-util/e-cell-date.c:159 ../mail/message-list.c:2033
 msgid "?"
 msgstr "?"
 
@@ -11974,7 +11960,7 @@ msgstr "A következő feltételnek megfelelő elemek keresése"
 #. name:
 #: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:63
 #: ../e-util/e-mail-identity-combo-box.c:476
-#: ../e-util/e-mail-signature-combo-box.c:367 ../e-util/e-proxy-editor.c:560
+#: ../e-util/e-mail-signature-combo-box.c:367
 #: ../libemail-engine/camel-null-store.c:27
 #: ../mail/e-mail-config-summary-page.c:138
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:615
@@ -12989,11 +12975,11 @@ msgstr "_Méret:"
 msgid "Text Properties"
 msgstr "Szövegtulajdonságok"
 
-#: ../e-util/e-html-editor-view.c:5263
+#: ../e-util/e-html-editor-view.c:5258
 msgid "Changed property"
 msgstr "Módosított tulajdonság"
 
-#: ../e-util/e-html-editor-view.c:5264
+#: ../e-util/e-html-editor-view.c:5259
 msgid "Whether editor changed"
 msgstr "A szerkesztő megváltozott-e"
 
@@ -13378,6 +13364,11 @@ msgstr "Automatikus"
 msgid "Configuration _URL:"
 msgstr "Konfigurációs _URL:"
 
+#: ../e-util/e-proxy-editor.c:560
+#| msgid "No _Proxy for:"
+msgid "No proxy"
+msgstr "Nincs proxy"
+
 #: ../e-util/e-proxy-editor.c:563
 msgid "Use a direct connection, no proxying required."
 msgstr "Közvetlen kapcsolat használata, nem szükséges proxy."
@@ -13640,11 +13631,11 @@ msgstr "Bizalom _megvonása az SSL tanúsítványtól"
 msgid "User"
 msgstr "Felhasználó"
 
-#: ../e-util/e-source-selector-dialog.c:229
+#: ../e-util/e-source-selector-dialog.c:236
 msgid "_Destination"
 msgstr "_Cél"
 
-#: ../e-util/e-source-selector-dialog.c:342
+#: ../e-util/e-source-selector-dialog.c:364
 msgid "Select destination"
 msgstr "Válasszon célt"
 
@@ -15992,7 +15983,6 @@ msgstr "Ne figyelmeztessen többé"
 
 #: ../mail/e-mail-reader-utils.c:552
 #, c-format
-#| msgid "Removing folder '%s'"
 msgid "Refreshing folder '%s'"
 msgstr "„%s” mappa frissítése"
 
@@ -16159,59 +16149,49 @@ msgstr "Mappa _archiválása ezen beállításokkal:"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:500
-#| msgid "Sent _Messages Folder:"
 msgctxt "autoarchive"
 msgid "_Cleanup messages older than"
 msgstr "Ennél _régebbi üzenetek törlése:"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:516
-#| msgid "days"
 msgctxt "autoarchive"
 msgid "days"
 msgstr "nap"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:518
-#| msgid "weeks"
 msgctxt "autoarchive"
 msgid "weeks"
 msgstr "hét"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:520
-#| msgid "months"
 msgctxt "autoarchive"
 msgid "months"
 msgstr "hónap"
 
 #: ../mail/em-folder-properties.c:526
-#| msgid "Move selected messages to another folder"
 msgid "Move old messages to the default archive _folder"
 msgstr "A régi üzenetek át_helyezése az alapértelmezett archiválási mappába"
 
 #: ../mail/em-folder-properties.c:537
-#| msgid "Moving messages to '%s'"
 msgid "_Move old messages to:"
 msgstr "Régi üzenetek áthelyezése ide:"
 
 #: ../mail/em-folder-properties.c:541
-#| msgid "Archi_ve Folder:"
 msgid "AutoArchive folder"
 msgstr "_Automatikus archiválási mappa"
 
 #: ../mail/em-folder-properties.c:541
-#| msgid "Select folder to import into"
 msgid "Select folder to use for AutoArchive"
 msgstr "Válassza ki az automatikus archiváláshoz használandó mappát"
 
 #: ../mail/em-folder-properties.c:547
-#| msgid "_Delete junk messages"
 msgid "_Delete old messages"
 msgstr "Régi üzenetek _törlése"
 
 #: ../mail/em-folder-properties.c:606
-#| msgid "_Archive..."
 msgid "AutoArchive"
 msgstr "Automatikus archiválás"
 
@@ -16393,7 +16373,6 @@ msgid "Messages from %s"
 msgstr "A feladó %s"
 
 #: ../mail/em-utils.c:1680
-#| msgid "_Delete junk messages"
 msgid "Deleting old messages"
 msgstr "Régi üzenetek törlése"
 
@@ -22523,7 +22502,6 @@ msgid "Load new _Face picture"
 msgstr "Új ar_ckép betöltése"
 
 #: ../plugins/face/face.c:449
-#| msgid "Choose Background Image"
 msgid "Change Face Image"
 msgstr "Arckép módosítása"
 
@@ -22573,8 +22551,6 @@ msgid "Not an image"
 msgstr "Ez nem kép"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:8
-#| msgid ""
-#| "The file you selected does not look like a valid .png image. Error: {0}"
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
 msgstr "A kiválasztott fájl nem tűnik érvényes .PNG képnek. Hiba: {0}"
 
@@ -24667,9 +24643,6 @@ msgstr "Á_llapottal"
 
 #~ msgid "_Secure HTTP Proxy:"
 #~ msgstr "Bi_ztonságos HTTP-proxy:"
-
-#~ msgid "No _Proxy for:"
-#~ msgstr "Nincs _proxy:"
 
 #~ msgid "Use Authe_ntication"
 #~ msgstr "_Hitelesítés használata"
