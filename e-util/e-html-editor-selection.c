@@ -1856,10 +1856,28 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 
 	node = webkit_dom_range_get_start_container (range, NULL);
 
-	if (e_html_editor_dom_node_find_parent_element (node, "UL")) {
-		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+	if ((element = e_html_editor_dom_node_find_parent_element (node, "UL"))) {
+		WebKitDOMElement *tmp_element;
+
+		tmp_element = e_html_editor_dom_node_find_parent_element (node, "OL");
+		if (tmp_element) {
+			if (webkit_dom_node_contains (WEBKIT_DOM_NODE (tmp_element), WEBKIT_DOM_NODE (element))) 
+				result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (element));
+			else
+				result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
+		} else
+			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
 	} else if ((element = e_html_editor_dom_node_find_parent_element (node, "OL")) != NULL) {
-		result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (element));
+		WebKitDOMElement *tmp_element;
+
+		tmp_element = e_html_editor_dom_node_find_parent_element (node, "UL");
+		if (tmp_element) {
+			if (webkit_dom_node_contains (WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (tmp_element))) 
+				result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (element));
+			else
+				result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
+		} else
+			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
 	} else if (e_html_editor_dom_node_find_parent_element (node, "PRE")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
 	} else if (e_html_editor_dom_node_find_parent_element (node, "ADDRESS")) {
