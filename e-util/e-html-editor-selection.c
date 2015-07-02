@@ -6871,15 +6871,25 @@ e_html_editor_selection_set_paragraph_style (EHTMLEditorSelection *selection,
                                              gint offset,
                                              const gchar *style_to_add)
 {
-	EHTMLEditorSelectionAlignment alignment;
 	char *style = NULL;
 	gint word_wrap_length = (width == -1) ? selection->priv->word_wrap_length : width;
-
-	alignment = e_html_editor_selection_get_alignment (selection);
+	WebKitDOMNode *parent;
 
 	element_add_class (element, "-x-evo-paragraph");
-	element_add_class (element, get_css_alignment_value_class (alignment));
-	if (!is_in_html_mode (selection)) {
+
+	/* Don't set the alignment for nodes as they are handled separately. */
+	if (!node_is_list (WEBKIT_DOM_NODE (element))) {
+		EHTMLEditorSelectionAlignment alignment;
+
+		alignment = e_html_editor_selection_get_alignment (selection);
+		element_add_class (element, get_css_alignment_value_class (alignment));
+	}
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+	/* Don't set the width limit to sub-blocks as the width limit is inhered
+	 * from its parents. */
+	if (!is_in_html_mode (selection) &&
+	    (!parent || WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))) {
 		style = g_strdup_printf (
 			"width: %dch; word-wrap: normal; %s",
 			(word_wrap_length + offset), style_to_add);
