@@ -35,6 +35,10 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#define GCR_API_SUBJECT_TO_CHANGE
+#include <gcr/gcr.h>
+#undef GCR_API_SUBJECT_TO_CHANGE
+
 #include "shell/e-shell.h"
 #include "e-util/e-util.h"
 
@@ -72,6 +76,7 @@
 #define CHECK_JOB	8
 #define CHECK_MISC	9
 #define CHECK_NOTE	10
+#define CHECK_CERTS	11
 
 /* IM columns */
 enum {
@@ -1703,6 +1708,17 @@ check_notes_for_data (EContactEditor *editor)
 }
 
 static gboolean
+check_certs_for_data (EContactEditor *editor)
+{
+	GtkWidget *treeview = e_builder_get_widget (editor->priv->builder, "certs-treeview");
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+	return model && gtk_tree_model_get_iter_first (model, &iter);
+}
+
+static gboolean
 check_section_for_data (EContactEditor *editor,
                         gint check)
 {
@@ -1738,6 +1754,9 @@ check_section_for_data (EContactEditor *editor,
 		break;
 	case CHECK_NOTE:
 		has_data = check_notes_for_data (editor);
+		break;
+	case CHECK_CERTS:
+		has_data = check_certs_for_data (editor);
 		break;
 	default:
 		g_warning ("unknown data check requested");
@@ -1782,6 +1801,7 @@ config_sensitize_cb (GtkWidget *button,
 	config_sensitize_item (editor, "menuitem-config-other", CHECK_OTHER);
 
 	config_sensitize_item (editor, "menuitem-config-notes", CHECK_NOTE);
+	config_sensitize_item (editor, "menuitem-config-certs", CHECK_CERTS);
 }
 
 /*
@@ -1834,6 +1854,7 @@ configure_visibility (EContactEditor *editor)
 			show_tab);
 
 	configure_widget_visibility (editor, settings, "scrolledwindow-notes", "editor-show-notes", CHECK_NOTE);
+	configure_widget_visibility (editor, settings, "certs-grid", "editor-show-certs", CHECK_CERTS);
 
 	g_object_unref (settings);
 }
@@ -1876,6 +1897,7 @@ config_save_cb (GtkWidget *button,
 	config_menuitem_save (editor, settings, "menuitem-config-other", "editor-show-mailing-other");
 
 	config_menuitem_save (editor, settings, "menuitem-config-notes", "editor-show-notes");
+	config_menuitem_save (editor, settings, "menuitem-config-certs", "editor-show-certs");
 
 	g_object_unref (settings);
 
@@ -1932,6 +1954,7 @@ init_config (EContactEditor *editor)
 	init_config_menuitem (editor, settings, "menuitem-config-other", "editor-show-mailing-other");
 
 	init_config_menuitem (editor, settings, "menuitem-config-notes", "editor-show-notes");
+	init_config_menuitem (editor, settings, "menuitem-config-certs", "editor-show-certs");
 
 	g_object_unref (settings);
 }
@@ -3143,6 +3166,617 @@ sensitize_simple (EContactEditor *editor)
 	}
 }
 
+enum CertKind {
+	CERT_KIND_X509,
+	CERT_KIND_PGP
+};
+
+enum CertColumns {
+	CERT_COLUMN_SUBJECT_STRING,
+	CERT_COLUMN_KIND_STRING,
+	CERT_COLUMN_KIND_INT,
+	CERT_COLUMN_DATA_ECONTACTCERT,
+	CERT_COLUMN_CERT_GCRCERTIFICATE,
+	N_CERT_COLUMNS
+};
+
+static void
+cert_tab_selection_changed_cb (GtkTreeSelection *selection,
+			       EContactEditor *editor)
+{
+	GtkWidget *widget;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean has_selected;
+
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	has_selected = gtk_tree_selection_get_selected (selection, &model, &iter);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-remove-btn");
+	gtk_widget_set_sensitive (widget, has_selected);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-load-pgp-btn");
+	gtk_widget_set_sensitive (widget, has_selected && is_field_supported (editor, E_CONTACT_PGP_CERT));
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-load-x509-btn");
+	gtk_widget_set_sensitive (widget, has_selected && is_field_supported (editor, E_CONTACT_X509_CERT));
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-save-btn");
+	gtk_widget_set_sensitive (widget, has_selected);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-preview-scw");
+	widget = gtk_bin_get_child (GTK_BIN (widget));
+
+	if (GTK_IS_VIEWPORT (widget))
+		widget = gtk_bin_get_child (GTK_BIN (widget));
+
+	g_return_if_fail (GCR_IS_CERTIFICATE_WIDGET (widget));
+
+	if (has_selected) {
+		GcrCertificate *cert = NULL;
+
+		gtk_tree_model_get (model, &iter, CERT_COLUMN_CERT_GCRCERTIFICATE, &cert, -1);
+
+		gcr_certificate_widget_set_certificate (GCR_CERTIFICATE_WIDGET (widget), cert);
+
+		g_clear_object (&cert);
+	} else {
+		gcr_certificate_widget_set_certificate (GCR_CERTIFICATE_WIDGET (widget), NULL);
+	}
+}
+
+static void
+cert_add_filters_for_kind (GtkFileChooser *file_chooser,
+			   enum CertKind kind)
+{
+	GtkFileFilter *filter;
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+	g_return_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509);
+
+	if (kind == CERT_KIND_X509) {
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, _("X.509 certificates"));
+		gtk_file_filter_add_mime_type (filter, "application/x-x509-user-cert");
+		gtk_file_chooser_add_filter (file_chooser, filter);
+	} else {
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, _("PGP keys"));
+		gtk_file_filter_add_mime_type (filter, "application/pgp-keys");
+		gtk_file_chooser_add_filter (file_chooser, filter);
+	}
+
+	filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (filter, _("All files"));
+	gtk_file_filter_add_pattern (filter, "*");
+	gtk_file_chooser_add_filter (file_chooser, filter);
+}
+
+static EContactCert *
+cert_load_for_kind (EContactEditor *editor,
+		    enum CertKind kind)
+{
+	EContactCert *cert = NULL;
+	GtkWindow *parent;
+	GtkWidget *dialog;
+	GtkFileChooser *file_chooser;
+	GError *error = NULL;
+
+	g_return_val_if_fail (E_IS_CONTACT_EDITOR (editor), NULL);
+	g_return_val_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509, NULL);
+
+	parent = eab_editor_get_window (EAB_EDITOR (editor));
+	dialog = gtk_file_chooser_dialog_new (
+		kind == CERT_KIND_PGP ? _("Open PGP key") : _("Open X.509 certificate"), parent,
+		GTK_FILE_CHOOSER_ACTION_OPEN,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_OK,
+		NULL);
+
+	file_chooser = GTK_FILE_CHOOSER (dialog);
+	gtk_file_chooser_set_local_only (file_chooser, TRUE);
+	gtk_file_chooser_set_select_multiple (file_chooser, FALSE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	cert_add_filters_for_kind (file_chooser, kind);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		gchar *filename;
+		gchar *content = NULL;
+		gsize length = 0;
+
+		filename = gtk_file_chooser_get_filename (file_chooser);
+		if (!filename) {
+			g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("Chosen file is not a local file."));
+		} else if (g_file_get_contents (filename, &content, &length, &error) && length > 0) {
+			cert = e_contact_cert_new ();
+			cert->length = length;
+			cert->data = content;
+		}
+
+		g_free (filename);
+	}
+
+	gtk_widget_destroy (dialog);
+
+	if (error) {
+		e_notice (parent, GTK_MESSAGE_ERROR, _("Failed to load certificate: %s"), error->message);
+		g_clear_error (&error);
+	}
+
+	return cert;
+}
+
+static void
+cert_update_row_with_cert (GtkListStore *list_store,
+			   GtkTreeIter *iter,
+			   EContactCert *cert,
+			   enum CertKind kind)
+{
+	GcrCertificate *gcr_cert = NULL;
+	gchar *subject = NULL;
+
+	g_return_if_fail (GTK_IS_LIST_STORE (list_store));
+	g_return_if_fail (iter != NULL);
+	g_return_if_fail (cert != NULL);
+	g_return_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509);
+
+	if (kind == CERT_KIND_X509) {
+		gcr_cert = gcr_simple_certificate_new ((const guchar *) cert->data, cert->length);
+		if (gcr_cert)
+			subject = gcr_certificate_get_subject_name (gcr_cert);
+	}
+
+	gtk_list_store_set (list_store, iter,
+		CERT_COLUMN_SUBJECT_STRING, subject,
+		CERT_COLUMN_KIND_STRING, kind == CERT_KIND_X509 ? C_("cert-kind", "X.509") : C_("cert-kind", "PGP"),
+		CERT_COLUMN_KIND_INT, kind,
+		CERT_COLUMN_DATA_ECONTACTCERT, cert,
+		CERT_COLUMN_CERT_GCRCERTIFICATE, gcr_cert,
+		-1);
+
+	g_clear_object (&gcr_cert);
+	g_free (subject);
+}
+
+static void
+cert_add_kind (EContactEditor *editor,
+	       enum CertKind kind)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	EContactCert *cert;
+
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+	g_return_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509);
+
+	tree_view = GTK_TREE_VIEW (e_builder_get_widget (editor->priv->builder, "certs-treeview"));
+	g_return_if_fail (tree_view != NULL);
+
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	cert = cert_load_for_kind (editor, kind);
+	if (cert) {
+		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+		cert_update_row_with_cert (GTK_LIST_STORE (model), &iter, cert, kind);
+		e_contact_cert_free (cert);
+
+		gtk_tree_selection_select_iter (selection, &iter);
+
+		object_changed (G_OBJECT (tree_view), editor);
+	}
+}
+
+static void
+cert_add_pgp_btn_clicked_cb (GtkWidget *button,
+			     EContactEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	cert_add_kind (editor, CERT_KIND_PGP);
+}
+
+static void
+cert_add_x509_btn_clicked_cb (GtkWidget *button,
+			      EContactEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	cert_add_kind (editor, CERT_KIND_X509);
+}
+
+static void
+cert_remove_btn_clicked_cb (GtkWidget *button,
+			    EContactEditor *editor)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter, select;
+	gboolean have_select;
+
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	tree_view = GTK_TREE_VIEW (e_builder_get_widget (editor->priv->builder, "certs-treeview"));
+	g_return_if_fail (tree_view != NULL);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_return_if_fail (gtk_tree_selection_get_selected (selection, &model, &iter));
+
+	select = iter;
+	have_select = gtk_tree_model_iter_next (model, &select);
+	if (!have_select) {
+		select = iter;
+		have_select = gtk_tree_model_iter_previous (model, &select);
+	}
+
+	if (have_select)
+		gtk_tree_selection_select_iter (selection, &select);
+
+	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+
+	object_changed (G_OBJECT (tree_view), editor);
+}
+
+static void
+cert_load_kind (EContactEditor *editor,
+		enum CertKind kind)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	EContactCert *cert;
+
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+	g_return_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509);
+
+	tree_view = GTK_TREE_VIEW (e_builder_get_widget (editor->priv->builder, "certs-treeview"));
+	g_return_if_fail (tree_view != NULL);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_return_if_fail (gtk_tree_selection_get_selected (selection, &model, &iter));
+
+	cert = cert_load_for_kind (editor, kind);
+	if (cert) {
+		cert_update_row_with_cert (GTK_LIST_STORE (model), &iter, cert, kind);
+		e_contact_cert_free (cert);
+
+		object_changed (G_OBJECT (tree_view), editor);
+	}
+}
+
+static void
+cert_load_pgp_btn_clicked_cb (GtkWidget *button,
+			      EContactEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	cert_load_kind (editor, CERT_KIND_PGP);
+}
+
+static void
+cert_load_x509_btn_clicked_cb (GtkWidget *button,
+			       EContactEditor *editor)
+{
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	cert_load_kind (editor, CERT_KIND_X509);
+}
+
+static void
+cert_save_btn_clicked_cb (GtkWidget *button,
+			  EContactEditor *editor)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	EContactCert *cert = NULL;
+	gint kind = -1;
+	GtkWindow *parent;
+	GtkWidget *dialog;
+	GtkFileChooser *file_chooser;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTACT_EDITOR (editor));
+
+	tree_view = GTK_TREE_VIEW (e_builder_get_widget (editor->priv->builder, "certs-treeview"));
+	g_return_if_fail (tree_view != NULL);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_return_if_fail (gtk_tree_selection_get_selected (selection, &model, &iter));
+
+	gtk_tree_model_get (model, &iter,
+		CERT_COLUMN_KIND_INT, &kind,
+		CERT_COLUMN_DATA_ECONTACTCERT, &cert,
+		-1);
+
+	g_return_if_fail (kind == CERT_KIND_X509 || kind == CERT_KIND_PGP);
+	g_return_if_fail (cert != NULL);
+
+	parent = eab_editor_get_window (EAB_EDITOR (editor));
+	dialog = gtk_file_chooser_dialog_new (
+		kind == CERT_KIND_PGP ? _("Save PGP key") : _("Save X.509 certificate"), parent,
+		GTK_FILE_CHOOSER_ACTION_SAVE,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Save"), GTK_RESPONSE_OK,
+		NULL);
+
+	file_chooser = GTK_FILE_CHOOSER (dialog);
+	gtk_file_chooser_set_local_only (file_chooser, TRUE);
+	gtk_file_chooser_set_select_multiple (file_chooser, FALSE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	cert_add_filters_for_kind (file_chooser, kind);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		gchar *filename;
+
+		filename = gtk_file_chooser_get_filename (file_chooser);
+		if (!filename) {
+			g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("Chosen file is not a local file."));
+		} else {
+			g_file_set_contents (filename, cert->data, cert->length, &error);
+		}
+
+		g_free (filename);
+	}
+
+	gtk_widget_destroy (dialog);
+	e_contact_cert_free (cert);
+
+	if (error) {
+		e_notice (parent, GTK_MESSAGE_ERROR, _("Failed to save certificate: %s"), error->message);
+		g_clear_error (&error);
+	}
+}
+
+static void
+init_certs (EContactEditor *editor)
+{
+	GtkListStore *list_store;
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkCellRenderer *renderer;
+	GcrCertificateWidget *certificate_widget;
+	GtkWidget *widget;
+
+	tree_view = GTK_TREE_VIEW (e_builder_get_widget (editor->priv->builder, "certs-treeview"));
+	g_return_if_fail (tree_view != NULL);
+
+	gtk_tree_view_set_headers_visible (tree_view, FALSE);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column (tree_view, column);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute (column, renderer, "text", CERT_COLUMN_KIND_STRING);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_append_column (tree_view, column);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_add_attribute (column, renderer, "text", CERT_COLUMN_SUBJECT_STRING);
+
+	list_store = gtk_list_store_new (N_CERT_COLUMNS,
+		G_TYPE_STRING,		/* CERT_COLUMN_SUBJECT_STRING */
+		G_TYPE_STRING,		/* CERT_COLUMN_KIND_STRING */
+		G_TYPE_INT,		/* CERT_COLUMN_KIND_INT */
+		E_TYPE_CONTACT_CERT,	/* CERT_COLUMN_DATA_ECONTACTCERT */
+		GCR_TYPE_CERTIFICATE);	/* CERT_COLUMN_CERT_GCRCERTIFICATE */
+
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+
+	certificate_widget = gcr_certificate_widget_new (NULL);
+	gtk_widget_show (GTK_WIDGET (certificate_widget));
+	widget = e_builder_get_widget (editor->priv->builder, "cert-preview-scw");
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (certificate_widget));
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	g_signal_connect (selection, "changed", G_CALLBACK (cert_tab_selection_changed_cb), editor);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-add-pgp-btn");
+	g_signal_connect (widget, "clicked", G_CALLBACK (cert_add_pgp_btn_clicked_cb), editor);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-add-x509-btn");
+	g_signal_connect (widget, "clicked", G_CALLBACK (cert_add_x509_btn_clicked_cb), editor);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-remove-btn");
+	g_signal_connect (widget, "clicked", G_CALLBACK (cert_remove_btn_clicked_cb), editor);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-load-pgp-btn");
+	g_signal_connect (widget, "clicked", G_CALLBACK (cert_load_pgp_btn_clicked_cb), editor);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-load-x509-btn");
+	g_signal_connect (widget, "clicked", G_CALLBACK (cert_load_x509_btn_clicked_cb), editor);
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-save-btn");
+	g_signal_connect (widget, "clicked", G_CALLBACK (cert_save_btn_clicked_cb), editor);
+}
+
+static void
+fill_in_certs (EContactEditor *editor)
+{
+	GtkTreeModel *model;
+	GtkListStore *list_store;
+	GtkWidget *widget;
+	GList *attrs, *link;
+	GtkTreeIter iter;
+	enum CertKind kind;
+
+	widget = e_builder_get_widget (editor->priv->builder, "certs-treeview");
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	list_store = GTK_LIST_STORE (model);
+
+	/* Clear */
+
+	gtk_list_store_clear (list_store);
+
+	/* Fill in */
+
+	attrs = e_vcard_get_attributes (E_VCARD (editor->priv->contact));
+	for (link = attrs; link; link = g_list_next (link)) {
+		EVCardAttribute *attr = link->data;
+		EContactCert *cert;
+		GString *value;
+		GtkTreeIter iter;
+
+		if (e_vcard_attribute_has_type (attr, "X509"))
+			kind = CERT_KIND_X509;
+		else if (e_vcard_attribute_has_type (attr, "PGP"))
+			kind = CERT_KIND_PGP;
+		else
+			continue;
+
+		value = e_vcard_attribute_get_value_decoded (attr);
+		if (!value || !value->len) {
+			if (value)
+				g_string_free (value, TRUE);
+			continue;
+		}
+
+		cert = e_contact_cert_new ();
+		cert->length = value->len;
+		cert->data = g_malloc (cert->length);
+		memcpy (cert->data, value->str, cert->length);
+
+		gtk_list_store_append (list_store, &iter);
+
+		cert_update_row_with_cert (list_store, &iter, cert, kind);
+
+		e_contact_cert_free (cert);
+		g_string_free (value, TRUE);
+	}
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		GtkTreeSelection *selection;
+
+		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+		gtk_tree_selection_select_iter (selection, &iter);
+	}
+}
+
+static void
+extract_certs_for_kind (EContactEditor *editor,
+			enum CertKind kind,
+			EContactField field,
+			GtkTreeModel *model)
+{
+	GtkTreeIter iter;
+	gboolean valid;
+	EVCard *vcard;
+	GList *attrs = NULL, *link;
+
+	if (is_field_supported (editor, field)) {
+		valid = gtk_tree_model_get_iter_first (model, &iter);
+		while (valid) {
+			EContactCert *cert = NULL;
+			gint set_kind = -1;
+
+			gtk_tree_model_get (model, &iter,
+					    CERT_COLUMN_KIND_INT, &set_kind,
+					    CERT_COLUMN_DATA_ECONTACTCERT, &cert,
+					   -1);
+
+			if (cert && set_kind == kind) {
+				EVCardAttribute *attr;
+
+				attr = e_vcard_attribute_new ("", e_contact_vcard_attribute (field));
+				e_vcard_attribute_add_param_with_value (
+					attr, e_vcard_attribute_param_new (EVC_TYPE),
+					field == E_CONTACT_X509_CERT ? "X509" : "PGP");
+				e_vcard_attribute_add_param_with_value (
+					attr,
+					e_vcard_attribute_param_new (EVC_ENCODING),
+					"b");
+
+				e_vcard_attribute_add_value_decoded (attr, cert->data, cert->length);
+
+				attrs = g_list_prepend (attrs, attr);
+			}
+
+			e_contact_cert_free (cert);
+
+			valid = gtk_tree_model_iter_next (model, &iter);
+		}
+	}
+
+	attrs = g_list_reverse (attrs);
+
+	vcard = E_VCARD (editor->priv->contact);
+
+	for (link = attrs; link; link = g_list_next (link)) {
+		/* takes ownership of the attribute */
+		e_vcard_append_attribute (vcard, link->data);
+	}
+
+	g_list_free (attrs);
+}
+
+static void
+extract_certs (EContactEditor *editor)
+{
+	GtkWidget *widget;
+	GtkTreeModel *model;
+	GList *attrs, *link;
+	EVCard *vcard;
+
+	widget = e_builder_get_widget (editor->priv->builder, "certs-treeview");
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	vcard = E_VCARD (editor->priv->contact);
+	attrs = g_list_copy (e_vcard_get_attributes (vcard));
+
+	for (link = attrs; link; link = g_list_next (link)) {
+		EVCardAttribute *attr = link->data;
+
+		/* Remove only those types the editor can work with. */
+		if ((!e_vcard_attribute_get_name (attr) ||
+		     g_ascii_strcasecmp (EVC_KEY, e_vcard_attribute_get_name (attr)) == 0) &&
+		    (e_vcard_attribute_has_type (attr, "X509") ||
+		     e_vcard_attribute_has_type (attr, "PGP"))) {
+			e_vcard_remove_attribute (vcard, attr);
+		}
+	}
+
+	g_list_free (attrs);
+
+	/* The saved order will always be X.509 first, then PGP */
+	extract_certs_for_kind (editor, CERT_KIND_X509, E_CONTACT_X509_CERT, model);
+	extract_certs_for_kind (editor, CERT_KIND_PGP, E_CONTACT_PGP_CERT, model);
+}
+
+static void
+sensitize_certs (EContactEditor *editor)
+{
+	GtkWidget *widget;
+
+	widget = e_builder_get_widget (editor->priv->builder, "certs-grid");
+
+	gtk_widget_set_sensitive (widget, editor->priv->target_editable && (
+		is_field_supported (editor, E_CONTACT_X509_CERT) ||
+		is_field_supported (editor, E_CONTACT_PGP_CERT)));
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-add-pgp-btn");
+	gtk_widget_set_sensitive (widget, is_field_supported (editor, E_CONTACT_PGP_CERT));
+
+	widget = e_builder_get_widget (editor->priv->builder, "cert-add-x509-btn");
+	gtk_widget_set_sensitive (widget, is_field_supported (editor, E_CONTACT_X509_CERT));
+
+	widget = e_builder_get_widget (editor->priv->builder, "certs-treeview");
+	cert_tab_selection_changed_cb (gtk_tree_view_get_selection (GTK_TREE_VIEW (widget)), editor);
+}
+
 static void
 fill_in_all (EContactEditor *editor)
 {
@@ -3165,6 +3799,7 @@ fill_in_all (EContactEditor *editor)
 	fill_in_sip          (editor);
 	fill_in_im           (editor);
 	fill_in_address      (editor);
+	fill_in_certs        (editor);
 
 	/* Visibility of sections and status of menuitems in the config-menu depend on data
 	 * they have to be initialized here instead of init_all() and sensitize_all()
@@ -3187,6 +3822,7 @@ extract_all (EContactEditor *editor)
 	extract_sip     (editor);
 	extract_im      (editor);
 	extract_address (editor);
+	extract_certs   (editor);
 }
 
 static void
@@ -3211,6 +3847,7 @@ sensitize_all (EContactEditor *editor)
 	sensitize_sip     (editor);
 	sensitize_im      (editor);
 	sensitize_address (editor);
+	sensitize_certs   (editor);
 
 	if (weak_pointer) {
 		g_object_remove_weak_pointer (G_OBJECT (focused_widget), &weak_pointer);
@@ -3247,6 +3884,7 @@ init_all (EContactEditor *editor)
 	init_im       (editor);
 	init_personal (editor);
 	init_address  (editor);
+	init_certs    (editor);
 	init_config   (editor);
 
 	/* with so many scrolled windows, we need to
