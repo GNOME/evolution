@@ -3428,6 +3428,48 @@ body_keyup_event_cb (WebKitDOMElement *element,
 		e_html_editor_selection_restore (selection);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		html_editor_view_set_links_active (view, FALSE);
+	else if (key_code == HTML_KEY_CODE_RETURN) {
+		WebKitDOMDocument *document;
+		WebKitDOMElement *selection_start_marker, *selection_end_marker;
+		WebKitDOMNode *parent;
+
+		/* If the return is pressed in an unordered list in plain text mode
+		 * the caret is moved to the "*" character before the the newly inserted
+		 * item. It looks like it is not enough that the item has BR element
+		 * inside, but we have to again use the zero width space character
+		 * to fix the situation. */
+		if (e_html_editor_view_get_html_mode (view))
+			return;
+
+		e_html_editor_selection_save (selection);
+
+		document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
+
+		e_html_editor_selection_save (selection);
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		selection_end_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-end-marker");
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+		if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent) ||
+		    !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (webkit_dom_node_get_parent_node (parent))) {
+			e_html_editor_selection_restore (selection);
+			return;
+		}
+
+		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+		    (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) ||
+		     WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)))))
+			webkit_dom_html_element_insert_adjacent_text (
+				WEBKIT_DOM_HTML_ELEMENT (parent),
+				"afterbegin",
+				UNICODE_ZERO_WIDTH_SPACE,
+				NULL);
+
+		e_html_editor_selection_restore (selection);
+	}
 }
 
 static void
@@ -8012,6 +8054,8 @@ process_list_to_plain_text (EHTMLEditorView *view,
 						/* put spaces before line characters -> wordwraplength - indentation */
 						for (ii = 0; ii < level; ii++)
 							g_string_append (line, indent_per_level);
+						if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (element))
+							g_string_append (line, indent_per_level);
 						g_string_append (item_value, line->str);
 						g_string_erase (line, 0, -1);
 					}
@@ -8027,6 +8071,8 @@ process_list_to_plain_text (EHTMLEditorView *view,
 
 					fill_length = word_wrap_length - g_utf8_strlen (line->str, -1);
 				        fill_length -= ii * SPACES_PER_LIST_LEVEL;
+					if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (element))
+						fill_length += SPACES_PER_LIST_LEVEL;
 					fill_length /= 2;
 
 					if (fill_length < 0)
@@ -8080,7 +8126,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 				if (tmp == 1)
 					length++;
 
-				space = g_strnfill (SPACES_PER_LIST_LEVEL - 2 - length, ' ');
+				space = g_strnfill (SPACES_ORDERED_LIST_FIRST_LEVEL - 2 - length, ' ');
 				item_str = g_strdup_printf (
 					"%s%d. %s", space, counter, item_value->str);
 				g_free (space);
@@ -8094,8 +8140,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 				else
 					value = get_roman_value (counter, FALSE);
 
-				/* Value already containes dot and space */
-				space = g_strnfill (SPACES_PER_LIST_LEVEL - strlen (value), ' ');
+				space = g_strnfill (SPACES_ORDERED_LIST_FIRST_LEVEL - strlen (value), ' ');
 				item_str = g_strdup_printf (
 					"%s%s%s", space, value, item_value->str);
 				g_free (space);
@@ -8106,6 +8151,9 @@ process_list_to_plain_text (EHTMLEditorView *view,
 				for (ii = 0; ii < level - 1; ii++) {
 					g_string_append (output, indent_per_level);
 				}
+				if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (element))
+					if (e_html_editor_dom_node_find_parent_element (item, "OL"))
+						g_string_append (output, indent_per_level);
 				g_string_append (output, item_str);
 			}
 
@@ -8144,6 +8192,8 @@ process_list_to_plain_text (EHTMLEditorView *view,
 
 					fill_length = word_wrap_length - g_utf8_strlen (item_str, -1);
 				        fill_length -= ii * SPACES_PER_LIST_LEVEL;
+					if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (element))
+						fill_length += SPACES_PER_LIST_LEVEL;
 					fill_length /= 2;
 
 					if (fill_length < 0)
@@ -8206,6 +8256,7 @@ remove_evolution_attributes (WebKitDOMElement *element)
 	webkit_dom_element_remove_attribute (element, "data-name");
 	webkit_dom_element_remove_attribute (element, "data-new-message");
 	webkit_dom_element_remove_attribute (element, "data-user-wrapped");
+	webkit_dom_element_remove_attribute (element, "data-evo-plain-text");
 	webkit_dom_element_remove_attribute (element, "spellcheck");
 }
 
@@ -9706,6 +9757,32 @@ toggle_tables (EHTMLEditorView *view)
 	g_object_unref (list);
 }
 
+static void
+toggle_unordered_lists (EHTMLEditorView *view)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNodeList *list;
+	gint ii, length;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	list = webkit_dom_document_query_selector_all (document, "ul", NULL);
+	length = webkit_dom_node_list_get_length (list);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+
+		if (view->priv->html_mode) {
+			webkit_dom_element_remove_attribute (
+				WEBKIT_DOM_ELEMENT (node), "data-evo-plain-text");
+		} else {
+			webkit_dom_element_set_attribute (
+				WEBKIT_DOM_ELEMENT (node), "data-evo-plain-text", "", NULL);
+		}
+		g_object_unref (node);
+	}
+	g_object_unref (list);
+}
+
 /**
  * e_html_editor_view_set_html_mode:
  * @view: an #EHTMLEditorView
@@ -9781,6 +9858,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
 		toggle_tables (view);
+		toggle_unordered_lists (view);
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (body));
 
 		g_object_notify (G_OBJECT (selection), "font-color");
@@ -9798,6 +9876,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		toggle_paragraphs_style (view);
 		toggle_smileys (view);
 		toggle_tables (view);
+		toggle_unordered_lists (view);
 		remove_images (view);
 		remove_background_images_in_document (document);
 
@@ -10868,12 +10947,71 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  display : inline-block;\n"
 		"}\n");
 
+	g_string_append_printf (
+		stylesheet,
+		"ul[data-evo-plain-text]"
+		"{\n"
+		"  list-style: outside none;\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_PER_LIST_LEVEL);
+
+	g_string_append_printf (
+		stylesheet,
+		"ul[data-evo-plain-text] > li"
+		"{\n"
+		"  list-style-position: outside;\n"
+		"  text-indent: -%dch;\n"
+		"}\n", SPACES_PER_LIST_LEVEL - 1);
+
 	g_string_append (
 		stylesheet,
-		"ul,ol "
+		"ul[data-evo-plain-text] > li::before "
 		"{\n"
-		"  -webkit-padding-start: 7ch; \n"
+		"  content: \"*"UNICODE_NBSP"\";\n"
 		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"ul[data-evo-plain-text].-x-evo-indented "
+		"{\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_PER_LIST_LEVEL);
+
+	g_string_append (
+		stylesheet,
+		"ul:not([data-evo-plain-text]),ol > li.-x-evo-align-center"
+		"{\n"
+		"  list-style-position: inside;\n"
+		"}\n");
+
+	g_string_append (
+		stylesheet,
+		"ul:not([data-evo-plain-text]),ol > li.-x-evo-align-right"
+		"{\n"
+		"  list-style-position: inside;\n"
+		"}\n");
+
+	g_string_append_printf (
+		stylesheet,
+		"ul:not([data-evo-plain-text]),ol > li"
+		"{\n"
+		"  text-indent: -%dch;\n"
+		"  list-style-position: inside;\n"
+		"}\n", SPACES_PER_LIST_LEVEL);
+
+	g_string_append_printf (
+		stylesheet,
+		"ol"
+		"{\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_ORDERED_LIST_FIRST_LEVEL);
+
+	g_string_append_printf (
+		stylesheet,
+		"ol.-x-evo-indented"
+		"{\n"
+		"  -webkit-padding-start: %dch; \n"
+		"}\n", SPACES_PER_LIST_LEVEL);
 
 	g_string_append (
 		stylesheet,
@@ -10894,35 +11032,6 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		".-x-evo-align-right "
 		"{\n"
 		"  text-align: right; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-list-item-align-left "
-		"{\n"
-		"  text-align: left; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-list-item-align-center "
-		"{\n"
-		"  text-align: center; \n"
-		"  -webkit-padding-start: 0ch; \n"
-		"  margin-left: -3ch; \n"
-		"  margin-right: 1ch; \n"
-		"  list-style-position: inside; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-list-item-align-right "
-		"{\n"
-		"  text-align: right; \n"
-		"  -webkit-padding-start: 0ch; \n"
-		"  margin-left: -3ch; \n"
-		"  margin-right: 1ch; \n"
-		"  list-style-position: inside; \n"
 		"}\n");
 
 	g_string_append (

@@ -1156,14 +1156,12 @@ e_html_editor_selection_replace (EHTMLEditorSelection *selection,
 EHTMLEditorSelectionAlignment
 e_html_editor_selection_get_list_alignment_from_node (WebKitDOMNode *node)
 {
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-left"))
-		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-center"))
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-align-center"))
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER;
-	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-list-item-align-right"))
+	if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-align-right"))
 		return E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT;
-
-	return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
+	else
+		return E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT;
 }
 
 static EHTMLEditorSelectionAlignment
@@ -1284,22 +1282,31 @@ create_list_element (EHTMLEditorSelection *selection,
 		     gint level,
                      gboolean html_mode)
 {
+	gboolean inserting_unordered_list;
 	WebKitDOMElement *list;
-	gint offset = -SPACES_PER_LIST_LEVEL;
-	gboolean inserting_unordered_list =
-		format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+
+	inserting_unordered_list = format == E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
 
 	list = webkit_dom_document_create_element (
 		document, inserting_unordered_list  ? "UL" : "OL", NULL);
 
-	set_ordered_list_type_to_element (list, format);
+	if (!inserting_unordered_list)
+		set_ordered_list_type_to_element (list, format);
 
-	if (level >= 0)
-		offset = (level + 1) * -SPACES_PER_LIST_LEVEL;
+	if (level >= 0 && !html_mode) {
+		gint offset;
 
-	if (!html_mode)
+		offset = (level + 1) * SPACES_PER_LIST_LEVEL;
+
+		offset += !inserting_unordered_list ?
+			SPACES_ORDERED_LIST_FIRST_LEVEL - SPACES_PER_LIST_LEVEL: 0;
+
 		e_html_editor_selection_set_paragraph_style (
-			selection, list, -1, offset, "");
+			selection, list, -1, -offset, "");
+
+		if (inserting_unordered_list)
+			webkit_dom_element_set_attribute (list, "data-evo-plain-text", "", NULL);
+	}
 
 	return list;
 }
@@ -1544,7 +1551,7 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 	EHTMLEditorView *view;
 	EHTMLEditorViewHistoryEvent *ev = NULL;
 	gboolean after_selection_end = FALSE;
-	const gchar *class = "", *list_class = "";
+	const gchar *class = "";
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *block;
@@ -1562,7 +1569,6 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 	switch (alignment) {
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_CENTER:
 			class = "-x-evo-align-center";
-			list_class = "-x-evo-list-item-align-center";
 			break;
 
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_LEFT:
@@ -1570,7 +1576,6 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 
 		case E_HTML_EDITOR_SELECTION_ALIGNMENT_RIGHT:
 			class = "-x-evo-align-right";
-			list_class = "-x-evo-list-item-align-right";
 			break;
 	}
 
@@ -1615,51 +1620,31 @@ e_html_editor_selection_set_alignment (EHTMLEditorSelection *selection,
 		after_selection_end = webkit_dom_node_contains (
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
-		if (node_is_list (block)) {
-			WebKitDOMNode *item = webkit_dom_node_get_first_child (block);
+		if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-indented")) {
+			gint ii, length;
+			WebKitDOMNodeList *list;
 
-			while (item && WEBKIT_DOM_IS_HTMLLI_ELEMENT (item)) {
-				element_remove_class (
-					WEBKIT_DOM_ELEMENT (item),
-					"-x-evo-list-item-align-center");
-				element_remove_class (
-					WEBKIT_DOM_ELEMENT (item),
-					"-x-evo-list-item-align-right");
+			list = webkit_dom_element_query_selector_all (
+				WEBKIT_DOM_ELEMENT (block),
+				".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
+				NULL);
+			length = webkit_dom_node_list_get_length (list);
 
-				element_add_class (WEBKIT_DOM_ELEMENT (item), list_class);
+			for (ii = 0; ii < length; ii++) {
+				WebKitDOMNode *item = webkit_dom_node_list_item (list, ii);
+
+				set_block_alignment (WEBKIT_DOM_ELEMENT (item), class);
+
 				after_selection_end = webkit_dom_node_contains (
 					item, WEBKIT_DOM_NODE (selection_end_marker));
+				g_object_unref (item);
 				if (after_selection_end)
 					break;
-				item = webkit_dom_node_get_next_sibling (item);
 			}
+
+			g_object_unref (list);
 		} else {
-			if (element_has_class (WEBKIT_DOM_ELEMENT (block), "-x-evo-indented")) {
-				gint ii, length;
-				WebKitDOMNodeList *list;
-
-				list = webkit_dom_element_query_selector_all (
-					WEBKIT_DOM_ELEMENT (block),
-					".-x-evo-indented > *:not(.-x-evo-indented):not(li)",
-					NULL);
-				length = webkit_dom_node_list_get_length (list);
-
-				for (ii = 0; ii < length; ii++) {
-					WebKitDOMNode *item = webkit_dom_node_list_item (list, ii);
-
-					set_block_alignment (WEBKIT_DOM_ELEMENT (item), class);
-
-					after_selection_end = webkit_dom_node_contains (
-						item, WEBKIT_DOM_NODE (selection_end_marker));
-					g_object_unref (item);
-					if (after_selection_end)
-						break;
-				}
-
-				g_object_unref (list);
-			} else {
-				set_block_alignment (WEBKIT_DOM_ELEMENT (block), class);
-			}
+			set_block_alignment (WEBKIT_DOM_ELEMENT (block), class);
 		}
 
 		block = next_block;
