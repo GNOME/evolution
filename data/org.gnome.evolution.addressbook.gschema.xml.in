@@ -110,5 +110,10 @@
       <summary>Show notes-tab</summary>
       <_description>Whether to show notes in the editor</_description>
     </key>
+    <key type="b" name="editor-show-certs">
+      <_default>true</_default>
+      <summary>Show Certificates tab</summary>
+      <_description>Whether to show Certificates tab in the editor</_description>
+    </key>
   </schema>
 </schemalist>
