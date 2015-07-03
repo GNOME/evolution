@@ -4823,21 +4823,45 @@ delete_character_from_quoted_line_start (EHTMLEditorView *view,
 	return TRUE;
 }
 
+static void
+remove_history_event (EHTMLEditorView *view,
+		      GList *item)
+{
+	free_history_event_content (item->data);
+
+	view->priv->history = g_list_delete_link (view->priv->history, item);
+	view->priv->history_size--;
+}
+
 static gboolean
 insert_tabulator (EHTMLEditorView *view)
 {
-	gboolean success;
 	EHTMLEditorViewHistoryEvent *ev;
+	EHTMLEditorSelection *selection;
+	gboolean success;
 
 	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 	ev->type = HISTORY_INPUT;
 
+	selection = e_html_editor_view_get_selection (view);
+
+	if (!e_html_editor_selection_is_collapsed (selection)) {
+		WebKitDOMRange *tmp_range;
+
+		tmp_range = html_editor_view_get_dom_range (view);
+		insert_delete_event (view, tmp_range);
+		g_object_unref (tmp_range);
+	}
+
 	e_html_editor_selection_get_selection_coordinates (
-		view->priv->selection,
+		selection,
 		&ev->before.start.x,
 		&ev->before.start.y,
 		&ev->before.end.x,
 		&ev->before.end.y);
+
+	ev->before.end.x = ev->before.start.x;
+	ev->before.end.y = ev->before.start.y;
 
 	success = e_html_editor_view_exec_command (
 		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
@@ -4848,7 +4872,7 @@ insert_tabulator (EHTMLEditorView *view)
 		WebKitDOMDocumentFragment *fragment;
 
 		e_html_editor_selection_get_selection_coordinates (
-			view->priv->selection,
+			selection,
 			&ev->after.start.x,
 			&ev->after.start.y,
 			&ev->after.end.x,
@@ -4876,8 +4900,11 @@ insert_tabulator (EHTMLEditorView *view)
 		ev->data.fragment = fragment;
 
 		e_html_editor_view_insert_new_history_event (view, ev);
-	} else
+	} else {
+		remove_history_event (view, view->priv->history);
+		remove_history_event (view, view->priv->history);
 		g_free (ev);
+	}
 
 	return success;
 }
@@ -11339,16 +11366,6 @@ e_html_editor_view_set_undo_redo_in_progress (EHTMLEditorView *view,
 }
 
 static void
-remove_history_event (EHTMLEditorView *view,
-		      GList *item)
-{
-	free_history_event_content (item->data);
-
-	view->priv->history = g_list_delete_link (view->priv->history, item);
-	view->priv->history_size--;
-}
-
-static void
 remove_forward_redo_history_events_if_needed (EHTMLEditorView *view)
 {
 	GList *history = view->priv->history;
@@ -11755,8 +11772,12 @@ undo_delete (EHTMLEditorView *view,
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
 
-		range = get_range_for_point (document, event->after.start);
 		/* Create temporary node on the selection where the delete occured. */
+		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".Apple-tab-span", NULL))
+			range = get_range_for_point (document, event->before.start);
+		else
+			range = get_range_for_point (document, event->after.start);
+
 		webkit_dom_range_surround_contents (range, WEBKIT_DOM_NODE (element), NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
