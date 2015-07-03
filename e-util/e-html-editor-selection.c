@@ -1020,7 +1020,7 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 	g_object_unref (dom_window);
 
 	e_html_editor_view_exec_command (
-		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, replacement);
+		view, E_HTML_EDITOR_VIEW_COMMAND_PASTE_AND_MATCH_STYLE, replacement);
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
 
 	g_object_unref (view);
