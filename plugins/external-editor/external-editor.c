@@ -453,6 +453,9 @@ finished:
 
 static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
+	EHTMLEditor *editor;
+	EHTMLEditorView *view;
+
 	d (printf ("\n\nexternal_editor plugin is launched \n\n"));
 
 	if (editor_running ()) {
@@ -460,6 +463,10 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 		return;
 	}
 
+	editor = e_msg_composer_get_editor (composer);
+	view = e_html_editor_get_view (editor);
+
+	e_html_editor_view_clear_history (view);
 	disable_composer (composer);
 
 	g_mutex_lock (&external_editor_running_lock);

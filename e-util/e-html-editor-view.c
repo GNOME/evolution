@@ -9721,8 +9721,8 @@ wrap_paragraphs_in_quoted_content (EHTMLEditorSelection *selection,
 	g_object_unref (paragraphs);
 }
 
-static void
-remove_whole_event_history (EHTMLEditorView *view)
+void
+e_html_editor_view_clear_history (EHTMLEditorView *view)
 {
 	EHTMLEditorViewHistoryEvent *ev;
 
@@ -9934,7 +9934,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 	style_updated_cb (view);
  out:
-	remove_whole_event_history (view);
+	e_html_editor_view_clear_history (view);
 
 	g_object_notify (G_OBJECT (view), "html-mode");
 }
@@ -10127,7 +10127,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->im_input_in_progress = FALSE;
 
 	view->priv->history = NULL;
-	remove_whole_event_history (view);
+	e_html_editor_view_clear_history (view);
 
 	e_html_editor_view_update_fonts (view);
 	style_updated_cb (view);
