@@ -353,11 +353,14 @@ e_day_view_find_long_event_days (EDayViewEvent *event,
 			end_day = day;
 	}
 
+	if (event->start == event->end)
+		end_day = start_day;
+
 	/* Sanity check. */
 	if (start_day < 0 || start_day >= days_shown
 	    || end_day < 0 || end_day >= days_shown
 	    || end_day < start_day) {
-		g_warning ("Invalid date range for event");
+		g_warning ("Invalid date range for event, start/end days: %d / %d", start_day, end_day);
 		return FALSE;
 	}
 
