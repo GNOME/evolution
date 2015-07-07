@@ -91,12 +91,12 @@
     </key>
     <key name="day-start-tue" type="i">
       <default>-1</default>
-      <_summary>Workday start time for Teusday</_summary>
+      <_summary>Workday start time for Tuesday</_summary>
       <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
     </key>
     <key name="day-end-tue" type="i">
       <default>-1</default>
-      <_summary>Workday end time for Teusday</_summary>
+      <_summary>Workday end time for Tuesday</_summary>
       <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-end-hour and day-end-minute</_description>
     </key>
     <key name="day-start-wed" type="i">
