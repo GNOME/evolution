@@ -294,6 +294,8 @@ void		e_html_editor_view_redo 	(EHTMLEditorView *view);
 void		e_html_editor_view_insert_new_history_event
 						(EHTMLEditorView *view,
 						 EHTMLEditorViewHistoryEvent *event);
+void		e_html_editor_view_clear_history
+						(EHTMLEditorView *view);
 gboolean	e_html_editor_view_is_undo_redo_in_progress
 						(EHTMLEditorView *view);
 void		e_html_editor_view_set_undo_redo_in_progress
