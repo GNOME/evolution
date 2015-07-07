@@ -403,7 +403,7 @@ get_component_julian_range (ECalClient *client,
 		zone, &instance_start, &start_is_date, &instance_end, &end_is_date, NULL);
 
 	*start_julian = encode_timet_to_julian (instance_start, start_is_date, zone);
-	*end_julian = encode_timet_to_julian (instance_end - 1, end_is_date, zone);
+	*end_julian = encode_timet_to_julian (instance_end - (instance_end == instance_start ? 0 : - 1), end_is_date, zone);
 }
 
 static void

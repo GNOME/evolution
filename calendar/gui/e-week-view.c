@@ -3152,14 +3152,16 @@ e_week_view_add_event (ECalClient *client,
 
 	g_return_if_fail (start <= end);
 	g_return_if_fail (start < add_event_data->week_view->day_starts[num_days]);
-	g_return_if_fail (end > add_event_data->week_view->day_starts[0]);
+
+	if (end != start || end < add_event_data->week_view->day_starts[0])
+		g_return_if_fail (end > add_event_data->week_view->day_starts[0]);
 
 	start_tt = icaltime_from_timet_with_zone (
 		start, FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
 	end_tt = icaltime_from_timet_with_zone (
 		end, FALSE,
-						e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
+		e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
 
 	if (add_event_data->comp_data) {
 		event.comp_data = g_object_ref (add_event_data->comp_data);

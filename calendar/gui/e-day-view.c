@@ -5575,7 +5575,9 @@ e_day_view_add_event (ESourceRegistry *registry,
 	/* Check that the event times are valid. */
 	g_return_if_fail (start <= end);
 	g_return_if_fail (start < add_event_data->day_view->upper);
-	g_return_if_fail (end > add_event_data->day_view->lower);
+
+	if (end != start || end < add_event_data->day_view->lower)
+		g_return_if_fail (end > add_event_data->day_view->lower);
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view));
 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
@@ -5628,9 +5630,12 @@ e_day_view_add_event (ESourceRegistry *registry,
 		if (start >= add_event_data->day_view->day_starts[day]
 		    && end <= add_event_data->day_view->day_starts[day + 1]) {
 
+			if (start == end && start == add_event_data->day_view->day_starts[day + 1])
+				continue;
+
 			/* Special case for when the appointment ends at
 			 * midnight, i.e. the start of the next day. */
-			if (end == add_event_data->day_view->day_starts[day + 1]) {
+			if (end == add_event_data->day_view->day_starts[day + 1] && start != end) {
 
 				/* If the event last the entire day, then we
 				 * skip it here so it gets added to the top

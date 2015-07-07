@@ -2526,8 +2526,8 @@ cal_data_model_foreach_component (ECalDataModel *data_model,
 				continue;
 
 			if ((in_range_start == in_range_end && in_range_start == (time_t) 0) ||
-			    (comp_data->instance_start < in_range_end &&
-			     comp_data->instance_end > in_range_start)) {
+			    (comp_data->instance_start < in_range_end && comp_data->instance_end > in_range_start) ||
+			    (comp_data->instance_start == comp_data->instance_end && comp_data->instance_end == in_range_start)) {
 				if (!func (data_model, view_data->client, id, comp_data->component,
 					   comp_data->instance_start, comp_data->instance_end, user_data))
 					checked_all = FALSE;
@@ -2544,8 +2544,8 @@ cal_data_model_foreach_component (ECalDataModel *data_model,
 					continue;
 
 				if ((in_range_start == in_range_end && in_range_start == (time_t) 0) ||
-				    (comp_data->instance_start < in_range_end &&
-				     comp_data->instance_end > in_range_start)) {
+				    (comp_data->instance_start < in_range_end && comp_data->instance_end > in_range_start) ||
+				    (comp_data->instance_start == comp_data->instance_end && comp_data->instance_end == in_range_start)) {
 					if (!func (data_model, view_data->client, id, comp_data->component,
 						   comp_data->instance_start, comp_data->instance_end, user_data))
 						checked_all = FALSE;
