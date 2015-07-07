@@ -130,7 +130,7 @@ e_week_view_layout_event (EWeekViewEvent *event,
 		event->start, FALSE, days_shown,
 		day_starts);
 	end_day = e_week_view_find_day (
-		event->end, TRUE, days_shown,
+		event->end, event->start != event->end, days_shown,
 					day_starts);
 	start_day = CLAMP (start_day, 0, days_shown - 1);
 	end_day = CLAMP (end_day, 0, days_shown - 1);
