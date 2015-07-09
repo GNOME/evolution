@@ -1098,8 +1098,7 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
-	gtk_style_context_get_background_color (
-		style_context, GTK_STATE_NORMAL, &bg_color);
+	e_utils_get_theme_color (widget, "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_color);
 
 	gtk_style_context_get_border (
 		style_context, GTK_STATE_NORMAL, &border);
@@ -1113,20 +1112,6 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 		calitem->y2 - calitem->y1 + 1);
 	cairo_fill (cr);
 	cairo_restore (cr);
-
-	/* Draw the shadow around the entire item. */
-	gtk_style_context_save (style_context);
-	gtk_style_context_add_class (
-		style_context, GTK_STYLE_CLASS_ENTRY);
-	cairo_save (cr);
-	gtk_render_frame (
-		style_context, cr,
-		(gdouble) calitem->x1 - x,
-		(gdouble) calitem->y1 - y,
-		(gdouble) calitem->x2 - calitem->x1 + 1,
-		(gdouble) calitem->y2 - calitem->y1 + 1);
-	cairo_restore (cr);
-	gtk_style_context_restore (style_context);
 
 	row_y = canvas_item->y1 + border.top;
 	bar_height =
@@ -1171,6 +1156,20 @@ e_calendar_item_draw (GnomeCanvasItem *canvas_item,
 
 		row_y += calitem->month_height;
 	}
+
+	/* Draw the shadow around the entire item. */
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (
+		style_context, GTK_STYLE_CLASS_ENTRY);
+	cairo_save (cr);
+	gtk_render_frame (
+		style_context, cr,
+		(gdouble) calitem->x1 - x,
+		(gdouble) calitem->y1 - y,
+		(gdouble) calitem->x2 - calitem->x1 + 1,
+		(gdouble) calitem->y2 - calitem->y1 + 1);
+	cairo_restore (cr);
+	gtk_style_context_restore (style_context);
 
 	pango_font_metrics_unref (font_metrics);
 }

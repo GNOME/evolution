@@ -282,7 +282,6 @@ ecp_draw (ECellView *ecv,
 
 	if (show_popup_arrow) {
 		GtkStyleContext *style_context;
-		GdkRGBA color;
 		gint arrow_x;
 		gint arrow_y;
 		gint arrow_size;
@@ -306,11 +305,7 @@ ecp_draw (ECellView *ecv,
 		gtk_style_context_add_class (
 			style_context, GTK_STYLE_CLASS_CELL);
 
-		gtk_style_context_get_background_color (
-			style_context, GTK_STATE_FLAG_NORMAL, &color);
-
 		cairo_save (cr);
-		gdk_cairo_set_source_rgba (cr, &color);
 		gtk_render_background (
 			style_context, cr,
 			(gdouble) arrow_x,
