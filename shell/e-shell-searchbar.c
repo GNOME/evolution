@@ -237,15 +237,11 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 		(e_shell_view_get_search_rule (shell_view) != NULL);
 
 	if (sensitive) {
-		GtkStyleContext *style;
 		GdkRGBA bg, fg;
 		gchar *css;
 
-		style = gtk_widget_get_style_context (widget);
-		gtk_style_context_get_background_color (
-			style, GTK_STATE_FLAG_SELECTED, &bg);
-		gtk_style_context_get_color (
-			style, GTK_STATE_FLAG_SELECTED, &fg);
+		e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
+		e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
 
 		css = g_strdup_printf (
 			"GtkEntry#searchbar_searchentry_active { "
