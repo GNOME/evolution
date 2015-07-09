@@ -1272,10 +1272,6 @@ e_reflow_draw (GnomeCanvasItem *item,
 
 	cairo_save (cr);
 
-	gtk_style_context_get_background_color (
-		style_context, GTK_STATE_FLAG_ACTIVE, &color);
-	gdk_cairo_set_source_rgba (cr, &color);
-
 	for (; i < reflow->column_count; i++) {
 		if (running_width > x + width)
 			break;

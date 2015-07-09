@@ -83,8 +83,8 @@ etcta_style_updated (ETableClickToAdd *etcta)
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
 
-	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
-	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
+	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
+	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
 
 	if (etcta->rect)
 		gnome_canvas_item_set (
@@ -262,8 +262,8 @@ create_rect_and_text (ETableClickToAdd *etcta)
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etcta)->canvas);
 
-	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
-	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg);
+	e_utils_get_theme_color_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
+	e_utils_get_theme_color_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &bg);
 
 	if (!etcta->rect)
 		etcta->rect = gnome_canvas_item_new (
