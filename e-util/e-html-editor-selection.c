@@ -5728,38 +5728,39 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	}
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
-	if (e_html_editor_view_get_html_mode (view)) {
+	if (e_html_editor_view_get_html_mode (view) ||
+	    e_html_editor_view_is_pasting_content_from_itself (view)) {
 		if (!e_html_editor_selection_is_collapsed (selection)) {
-			EHTMLEditorViewHistoryEvent *ev;
+			EHTMLEditorViewHistoryEvent *event;
 			WebKitDOMDocumentFragment *fragment;
 			WebKitDOMRange *range;
 
-			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-			ev->type = HISTORY_DELETE;
+			event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			event->type = HISTORY_DELETE;
 
 			range = html_editor_selection_get_current_range (selection);
 			fragment = webkit_dom_range_clone_contents (range, NULL);
 			g_object_unref (range);
-			ev->data.fragment = fragment;
+			event->data.fragment = fragment;
 
 			e_html_editor_selection_get_selection_coordinates (
 				selection,
-				&ev->before.start.x,
-				&ev->before.start.y,
-				&ev->before.end.x,
-				&ev->before.end.y);
+				&event->before.start.x,
+				&event->before.start.y,
+				&event->before.end.x,
+				&event->before.end.y);
 
-			ev->after.start.x = ev->before.start.x;
-			ev->after.start.y = ev->before.start.y;
-			ev->after.end.x = ev->before.start.x;
-			ev->after.end.y = ev->before.start.y;
+			event->after.start.x = event->before.start.x;
+			event->after.start.y = event->before.start.y;
+			event->after.end.x = event->before.start.x;
+			event->after.end.y = event->before.start.y;
 
-			e_html_editor_view_insert_new_history_event (view, ev);
+			e_html_editor_view_insert_new_history_event (view, event);
 
-			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-			ev->type = HISTORY_AND;
+			event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			event->type = HISTORY_AND;
 
-			e_html_editor_view_insert_new_history_event (view, ev);
+			e_html_editor_view_insert_new_history_event (view, event);
 		}
 
 		e_html_editor_view_exec_command (view, command, html_text);
