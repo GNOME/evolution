@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-07-04 04:32+0000\n"
-"PO-Revision-Date: 2015-07-04 07:37+0100\n"
+"POT-Creation-Date: 2015-07-09 16:32+0000\n"
+"PO-Revision-Date: 2015-07-10 09:30+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
 "Language-Team: Português <palbuquerque73@openmailbox.com>\n"
 "Language: pt\n"
@@ -686,7 +686,6 @@ msgid "Show Notes"
 msgstr "Mostrar notas"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:72
-#| msgid "Certificates"
 msgid "Show Certificates"
 msgstr "Mostrar certificados"
 
@@ -732,7 +731,6 @@ msgid "Contact Editor - %s"
 msgstr "Editor de contactos - %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3240
-#| msgid "Certificates"
 msgid "X.509 certificates"
 msgstr "Certificados X.509"
 
@@ -747,12 +745,10 @@ msgid "All files"
 msgstr "Todos os ficheiros"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
-#| msgid "OpenPGP _Key ID:"
 msgid "Open PGP key"
 msgstr "Abrir chave PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
-#| msgid "Select certificate"
 msgid "Open X.509 certificate"
 msgstr "Abrir certificado X.509"
 
@@ -767,13 +763,11 @@ msgstr "_Abrir"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3291
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3522
-#| msgid "File is not a valid .desktop file"
 msgid "Chosen file is not a local file."
 msgstr "O ficheiro escolhido não é um ficheiro local"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3304
 #, c-format
-#| msgid "Failed to import certificate"
 msgid "Failed to load certificate: %s"
 msgstr "Falha ao carregar certificado: %s"
 
@@ -792,13 +786,11 @@ msgid "Save PGP key"
 msgstr "Gravar chave PGP"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3504
-#| msgid "Select certificate"
 msgid "Save X.509 certificate"
 msgstr "Gravar certificado X.509"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3534
 #, c-format
-#| msgid "Failed to import certificate"
 msgid "Failed to save certificate: %s"
 msgstr "Falha ao gravar certificado: %s"
 
@@ -820,7 +812,6 @@ msgstr ""
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4678
 #, c-format
-#| msgid "%s'%s' has an invalid format"
 msgid "'%s' has an invalid format"
 msgstr "\"%s\" tem um formato inválido"
 
@@ -5389,7 +5380,6 @@ msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Impossível reservar um recurso, o novo evento colide com outro."
 
 #: ../calendar/gui/itip-utils.c:1153
-#| msgid "Unable to book a resource, error: %s"
 msgid "Unable to book a resource, error: "
 msgstr "Impossível reservar um recurso, erro: "
 
@@ -8024,7 +8014,6 @@ msgid "Whether to show notes in the editor"
 msgstr "Se mostrar ou não notas no editor"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:32
-#| msgid "Whether to show notes in the editor"
 msgid "Whether to show Certificates tab in the editor"
 msgstr "Se mostrar ou não o separador Certificados no editor"
 
@@ -8161,12 +8150,10 @@ msgid "Minute the workday starts on, 0 to 59."
 msgstr "Minuto a que se inicia o expediente, de 0 a 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
-#| msgid "Workday start hour"
 msgid "Workday start time for Monday"
 msgstr "Hora de início à segunda"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
-#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-start-hour and day-start-minute"
@@ -8175,12 +8162,10 @@ msgstr ""
 "0000 a 2359 ou use -1 para hora-início-dia e minuto-início-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
-#| msgid "Workday end hour"
 msgid "Workday end time for Monday"
 msgstr "Hora de fim à segunda"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
-#| msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-end-hour and day-end-minute"
@@ -8189,62 +8174,52 @@ msgstr ""
 "0000 a 2359 ou use -1 para hora-fim-dia e minuto-fim-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#| msgid "Workday start hour"
-msgid "Workday start time for Teusday"
+#| msgid "Workday start time for Teusday"
+msgid "Workday start time for Tuesday"
 msgstr "Hora de início à terça"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#| msgid "Workday end hour"
-msgid "Workday end time for Teusday"
+#| msgid "Workday end time for Teusday"
+msgid "Workday end time for Tuesday"
 msgstr "Hora de fim à terça"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
-#| msgid "Workday start minute"
 msgid "Workday start time for Wednesday"
 msgstr "Hora de início à quarta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
-#| msgid "Workday end minute"
 msgid "Workday end time for Wednesday"
 msgstr "Hora de fim à quarta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
-#| msgid "Workday start hour"
 msgid "Workday start time for Thursday"
 msgstr "Hora de início à quinta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
-#| msgid "Workday end hour"
 msgid "Workday end time for Thursday"
 msgstr "Hora de fim à quinta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
-#| msgid "Workday start hour"
 msgid "Workday start time for Friday"
 msgstr "Hora de início à sexta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
-#| msgid "Workday end hour"
 msgid "Workday end time for Friday"
 msgstr "Hora de fim à sexta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
-#| msgid "Workday start hour"
 msgid "Workday start time for Saturday"
 msgstr "Hora de início ao sábado"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
-#| msgid "Workday end hour"
 msgid "Workday end time for Saturday"
 msgstr "Hora de fim ao sábado"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
-#| msgid "Workday start hour"
 msgid "Workday start time for Sunday"
 msgstr "Hora de início ao domingo"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
-#| msgid "Workday end hour"
 msgid "Workday end time for Sunday"
 msgstr "Hora de fim ao domingo"
 
@@ -9060,7 +9035,6 @@ msgstr ""
 "controlada pelo menu Ver quando é escolhida uma conta de email."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
-#| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show \"From\" override field when sending a mail message"
 msgstr "Mostrar o campo \"De\" ao enviar uma mensagem de email"
 
@@ -11268,7 +11242,6 @@ msgid "_Zoom to 100%"
 msgstr "Ampliar a 100%"
 
 #: ../e-util/e-attachment-view.c:515
-#| msgid "Reset the text to its original size"
 msgid "Zoom the image to its natural size"
 msgstr "Repor imagem no seu tamanho original"
 
@@ -11328,19 +11301,19 @@ msgid "Month Calendar"
 msgstr "Calendário do mês"
 
 #. This is a strftime() format. %B = Month name.
-#: ../e-util/e-calendar-item.c:1323 ../e-util/e-calendar-item.c:2201
+#: ../e-util/e-calendar-item.c:1322 ../e-util/e-calendar-item.c:2200
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
-#: ../e-util/e-calendar-item.c:1325
+#: ../e-util/e-calendar-item.c:1324
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../e-util/e-calendar-item.c:1362
+#: ../e-util/e-calendar-item.c:1361
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -12277,7 +12250,6 @@ msgid "Find A_gain"
 msgstr "Locali_Zar novamente"
 
 #: ../e-util/e-html-editor-actions.c:1244
-#| msgid "_Replace"
 msgid "Re_place..."
 msgstr "_Substituir..."
 
@@ -12667,7 +12639,6 @@ msgid "Insert Emoticon"
 msgstr "Inserir risonho"
 
 #: ../e-util/e-html-editor-actions.c:2116
-#| msgid "_Replace"
 msgid "Re_place"
 msgstr "_Substituir"
 
@@ -13541,7 +13512,6 @@ msgid "Configuration _URL:"
 msgstr "_URL de configuração:"
 
 #: ../e-util/e-proxy-editor.c:560
-#| msgid "No _Proxy for:"
 msgid "No proxy"
 msgstr "Sem proxy"
 
@@ -13826,8 +13796,6 @@ msgstr "Desconhecido (%s)"
 #. * second is the country name. Example: "French (France)"
 #: ../e-util/e-spell-dictionary.c:281 ../e-util/e-spell-dictionary.c:286
 #, c-format
-#| msgctxt "folder-display"
-#| msgid "%s (%u%s)"
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -15383,38 +15351,31 @@ msgstr "_Nome da pasta:"
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../mail/e-mail-free-form-exp.c:236
-#| msgid "Answered"
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Respondida"
 
 #: ../mail/e-mail-free-form-exp.c:237
-#| msgid "Deleted"
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Eliminada"
 
 #: ../mail/e-mail-free-form-exp.c:238
-#| msgid "Draft"
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Rascunho"
 
 #: ../mail/e-mail-free-form-exp.c:239
-#| msgid "Flagged"
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Marcada"
 
 #: ../mail/e-mail-free-form-exp.c:240
-#| msgid "Seen"
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Lida"
 
 #: ../mail/e-mail-free-form-exp.c:241
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Anexo"
@@ -16330,59 +16291,49 @@ msgstr "_Arquivar esta pasta usando estas definições:"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:500
-#| msgid "Sent _Messages Folder:"
 msgctxt "autoarchive"
 msgid "_Cleanup messages older than"
 msgstr "_Limpar mensagens com mais de"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:516
-#| msgid "days"
 msgctxt "autoarchive"
 msgid "days"
 msgstr "dias"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:518
-#| msgid "weeks"
 msgctxt "autoarchive"
 msgid "weeks"
 msgstr "semanas"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:520
-#| msgid "months"
 msgctxt "autoarchive"
 msgid "months"
 msgstr "meses"
 
 #: ../mail/em-folder-properties.c:526
-#| msgid "Move selected messages to another folder"
 msgid "Move old messages to the default archive _folder"
 msgstr "Mover as mensages _Antigas para a pasta de arquivo predefinida"
 
 #: ../mail/em-folder-properties.c:537
-#| msgid "Moving messages to '%s'"
 msgid "_Move old messages to:"
 msgstr "_Mover mensagens antigas para:"
 
 #: ../mail/em-folder-properties.c:541
-#| msgid "Archi_ve Folder:"
 msgid "AutoArchive folder"
 msgstr "Pasta de arquivo automático"
 
 #: ../mail/em-folder-properties.c:541
-#| msgid "Select folder to import into"
 msgid "Select folder to use for AutoArchive"
 msgstr "Selecionar a pasta para arquivo automático"
 
 #: ../mail/em-folder-properties.c:547
-#| msgid "_Delete junk messages"
 msgid "_Delete old messages"
 msgstr "_Eliminar mensagens antigas"
 
 #: ../mail/em-folder-properties.c:606
-#| msgid "_Archive..."
 msgid "AutoArchive"
 msgstr "Arquivo automático"
 
@@ -16565,7 +16516,6 @@ msgid "Messages from %s"
 msgstr "Mensagens de %s"
 
 #: ../mail/em-utils.c:1680
-#| msgid "_Delete junk messages"
 msgid "Deleting old messages"
 msgstr "A eliminar mensagens antigas"
 
@@ -19167,7 +19117,6 @@ msgstr ""
 "gravar antes de prosseguir."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#| msgid "Close and Back up Evolution"
 msgid "Close and _Back up Evolution"
 msgstr "Fechar e realizar cópia de segurança do Evolution"
 
@@ -22636,8 +22585,8 @@ msgstr ""
 msgid "_Automatically launch when a new mail is edited"
 msgstr "Iniciar _automaticamente ao editar uma nova mensagem"
 
-#: ../plugins/external-editor/external-editor.c:477
-#: ../plugins/external-editor/external-editor.c:479
+#: ../plugins/external-editor/external-editor.c:484
+#: ../plugins/external-editor/external-editor.c:486
 msgid "Compose in External Editor"
 msgstr "Compor num editor externo"
 
@@ -22977,21 +22926,18 @@ msgstr "Criado a partir de uma mensagem de %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:594
-#| msgid "_Cancel"
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:596
-#| msgid "_Edit"
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Editar"
 
 #. Translators: Dialog button to create a New event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:598
-#| msgid "_New"
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Novo"
@@ -23525,19 +23471,19 @@ msgstr "Gravar a procura"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:930
+#: ../shell/e-shell-searchbar.c:926
 msgid "Sho_w:"
 msgstr "_Mostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:955
+#: ../shell/e-shell-searchbar.c:951
 msgid "Sear_ch:"
 msgstr "Pro_Curar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1023
+#: ../shell/e-shell-searchbar.c:1019
 msgid "i_n"
 msgstr "_Em"
 
@@ -23843,7 +23789,6 @@ msgstr "Executar estes parâmetros de procura"
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
 #: ../shell/e-shell-window.c:555
-#| msgid "New"
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Novo"
@@ -24281,7 +24226,6 @@ msgid "Ask when used"
 msgstr "Perguntar quando usado"
 
 #: ../smime/gui/certificate-manager.c:1121
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nunca"
@@ -24354,7 +24298,6 @@ msgstr ""
 "procedimentos (se disponíveis)."
 
 #: ../smime/gui/certificate-manager.c:1395
-#| msgid "_View Certificate"
 msgid "_Display certificate"
 msgstr "_Mostrar certificado"
 
