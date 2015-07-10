@@ -2072,7 +2072,7 @@ e_html_editor_selection_get_block_format (EHTMLEditorSelection *selection)
 			else
 				result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (tmp_element));
 		} else
-			result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+			result = e_html_editor_selection_get_list_format_from_node (WEBKIT_DOM_NODE (element));
 	} else if (e_html_editor_dom_node_find_parent_element (node, "PRE")) {
 		result = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PRE;
 	} else if (e_html_editor_dom_node_find_parent_element (node, "ADDRESS")) {
