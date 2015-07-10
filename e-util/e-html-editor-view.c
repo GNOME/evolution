@@ -161,9 +161,9 @@ G_DEFINE_TYPE_WITH_CODE (
 
 static void
 html_editor_view_queue_post_reload_operation (EHTMLEditorView *view,
-                                            PostReloadOperationFunc func,
-                                            gpointer data,
-                                            GDestroyNotify data_free_func)
+                                              PostReloadOperationFunc func,
+                                              gpointer data,
+                                              GDestroyNotify data_free_func)
 {
 	PostReloadOperation *op;
 
