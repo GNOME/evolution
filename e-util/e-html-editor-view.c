@@ -7483,8 +7483,16 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	remove_node (WEBKIT_DOM_NODE (selection_start_marker));
 	remove_node (WEBKIT_DOM_NODE (selection_end_marker));
 
-	inner_html = webkit_dom_html_element_get_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (element));
+	/* If the text to insert was converted just to one block, pass just its
+	 * text to WebKit otherwise WebKit will insert unwanted block with
+	 * extra new line. */
+	if (!webkit_dom_node_get_next_sibling (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))))
+		inner_html = webkit_dom_html_element_get_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element))));
+	else
+		inner_html = webkit_dom_html_element_get_inner_html (
+			WEBKIT_DOM_HTML_ELEMENT (element));
+
 	e_html_editor_view_exec_command (
 		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML, inner_html);
 
