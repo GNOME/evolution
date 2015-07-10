@@ -1686,12 +1686,6 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                          gint n_targets,
                                          EMsgComposer *composer)
 {
-	EHTMLEditor *editor;
-	EHTMLEditorView *view;
-
-	editor = e_msg_composer_get_editor (composer);
-	view = e_html_editor_get_view (editor);
-
 	if (targets == NULL || n_targets < 0)
 		return;
 
@@ -1703,12 +1697,9 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	/* Only paste HTML content in HTML mode. */
-	if (e_html_editor_view_get_html_mode (view)) {
-		if (e_targets_include_html (targets, n_targets)) {
-			e_composer_paste_html (composer, clipboard);
-			return;
-		}
+	if (e_targets_include_html (targets, n_targets)) {
+		e_composer_paste_html (composer, clipboard);
+		return;
 	}
 
 	if (gtk_targets_include_text (targets, n_targets)) {
@@ -1733,6 +1724,8 @@ msg_composer_paste_primary_clipboard_cb (EHTMLEditorView *view,
 	gtk_clipboard_request_targets (
 		clipboard, (GtkClipboardTargetsReceivedFunc)
 		msg_composer_paste_clipboard_targets_cb, composer);
+
+	g_signal_stop_emission_by_name (view, "paste-primary-clipboard");
 }
 
 static void

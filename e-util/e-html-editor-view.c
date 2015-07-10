@@ -108,11 +108,18 @@ struct _EHTMLEditorViewPrivate {
 	gboolean im_input_in_progress;
 	gboolean style_change_callbacks_blocked;
 	gboolean selection_changed_callbacks_blocked;
+	gboolean copy_paste_clipboard_in_view;
+	gboolean copy_paste_primary_in_view;
+	gboolean copy_action_triggered;
+	gboolean pasting_primary_clipboard;
 
 	GHashTable *old_settings;
 
 	GQueue *post_reload_operations;
 	guint spell_check_on_scroll_event_source_id;
+
+	gulong owner_change_primary_cb_id;
+	gulong owner_change_clipboard_cb_id;
 
 	GList *history;
 	guint history_size;
@@ -415,6 +422,10 @@ html_editor_view_selection_changed_cb (EHTMLEditorView *view,
 	can_copy = webkit_web_view_can_copy_clipboard (web_view);
 	if (view->priv->can_copy != can_copy) {
 		view->priv->can_copy = can_copy;
+		/* This means that we have an active selection thus the primary
+		 * clipboard content is from composer. */
+		if (can_copy)
+			view->priv->copy_paste_primary_in_view = TRUE;
 		g_object_notify (G_OBJECT (view), "can-copy");
 	}
 
@@ -3750,6 +3761,20 @@ html_editor_view_dispose (GObject *object)
 		priv->history = NULL;
 	}
 
+	if (priv->owner_change_clipboard_cb_id > 0) {
+		g_signal_handler_disconnect (
+			gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
+			priv->owner_change_clipboard_cb_id);
+		priv->owner_change_clipboard_cb_id = 0;
+	}
+
+	if (priv->owner_change_primary_cb_id > 0) {
+		g_signal_handler_disconnect (
+			gtk_clipboard_get (GDK_SELECTION_PRIMARY),
+			priv->owner_change_primary_cb_id);
+		priv->owner_change_primary_cb_id = 0;
+	}
+
 	g_hash_table_remove_all (priv->inline_images);
 
 	/* Chain up to parent's dispose() method. */
@@ -3813,15 +3838,20 @@ static gboolean
 html_editor_view_button_press_event (GtkWidget *widget,
                                      GdkEventButton *event)
 {
-	gboolean event_handled, collapsed;
+	EHTMLEditorView *view;
 	EHTMLEditorSelection *selection;
+	gboolean event_handled, collapsed;
 
-	selection = e_html_editor_view_get_selection (E_HTML_EDITOR_VIEW (widget));
+	view = E_HTML_EDITOR_VIEW (widget);
+	selection = e_html_editor_view_get_selection (view);
 	collapsed = e_html_editor_selection_is_collapsed (selection);
 
 	if (event->button == 2) {
 		/* Middle click paste */
 		html_editor_view_move_selection_on_point (widget);
+		/* Remember, that we are pasting primary clipboard to return
+		 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
+		view->priv->pasting_primary_clipboard = TRUE;
 		g_signal_emit (widget, signals[PASTE_PRIMARY_CLIPBOARD], 0);
 		event_handled = TRUE;
 	} else if (event->button == 3) {
@@ -6955,6 +6985,47 @@ register_html_events_handlers (EHTMLEditorView *view,
 }
 
 static void
+rename_attribute (WebKitDOMElement *element,
+                  const gchar *from,
+                  const gchar *to)
+{
+	gchar *value;
+
+	value = webkit_dom_element_get_attribute (element, from);
+	if (value && *value)
+		webkit_dom_element_set_attribute (element, to, value, NULL);
+	webkit_dom_element_remove_attribute (element, from);
+	g_free (value);
+}
+
+static void
+set_monospace_font_family_on_body (WebKitDOMElement *body,
+                                   gboolean html_mode)
+{
+	/* If copying some content in view, WebKit adds various information about
+	 * the content's style (such as color, font size, ..) to the resulting HTML
+	 * to correctly apply the style when pasting the content later. The thing
+	 * is that in plain text mode the only font allowed is the monospaced one,
+	 * but we are forcing it through user style sheet in WebKitWebSettings and
+	 * sadly WebKit doesn't count with it, so when the content is pasted,
+	 * WebKit wraps it inside SPANs and sets the font-family style on them.
+	 * The problem is that when we switch to the HTML mode, the pasted content
+	 * will have the monospaced font set. To avoid it we need to set the
+	 * font-family style to the body, so WebKit will know about it and will
+	 * avoid the described behaviour. */
+	if (!html_mode) {
+		rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
+		webkit_dom_element_set_attribute (
+			WEBKIT_DOM_ELEMENT (body),
+			"style",
+			"font-family: Monospace;",
+			NULL);
+	} else {
+		rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
+	}
+}
+
+static void
 html_editor_convert_view_content (EHTMLEditorView *view,
                                   const gchar *preferred_text)
 {
@@ -7230,6 +7301,7 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 		view);
 
 	register_html_events_handlers (view, body);
+	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), view->priv->html_mode);
 
 	g_free (inner_html);
 }
@@ -7575,7 +7647,8 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 			node = webkit_dom_node_get_next_sibling (parent);
 			if (!node) {
 				fix_structure_after_pasting_multiline_content (parent);
-				remove_node (parent);
+				if (!webkit_dom_node_get_first_child (parent))
+					remove_node (parent);
 			}
 		}
 
@@ -7605,24 +7678,24 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 		/* When pasting the content that was copied from the composer, WebKit
 		 * restores the selection wrongly, thus is saved wrongly and we have
 		 * to fix it */
-		WebKitDOMNode *paragraph, *parent, *clone1, *clone2;
+		WebKitDOMNode *block, *parent, *clone1, *clone2;
 
 		selection_start_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
 		selection_end_marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
 
-		paragraph = get_parent_block_node_from_child (
+		block = get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
-		parent = webkit_dom_node_get_parent_node (paragraph);
+		parent = webkit_dom_node_get_parent_node (block);
 		webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (parent), "id");
 
 		/* Check if WebKit created wrong structure */
-		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (paragraph), FALSE);
+		clone1 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), FALSE);
 		clone2 = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (parent), FALSE);
 		if (webkit_dom_node_is_equal_node (clone1, clone2) ||
 		    (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone1) && WEBKIT_DOM_IS_HTML_DIV_ELEMENT (clone2))) {
-			fix_structure_after_pasting_multiline_content (paragraph);
+			fix_structure_after_pasting_multiline_content (block);
 			if (g_strcmp0 (html, "\n") == 0) {
 				WebKitDOMElement *br;
 
@@ -7635,7 +7708,7 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 					WEBKIT_DOM_NODE (selection_start_marker),
 					webkit_dom_node_get_last_child (parent),
 					NULL);
-			} else
+			} else if (!webkit_dom_node_get_first_child (parent))
 				remove_node (parent);
 		}
 
@@ -9714,6 +9787,8 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 	else
 		e_html_editor_view_turn_spell_check_off (view);
 
+	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), view->priv->html_mode);
+
 	dom_window = webkit_dom_document_get_default_view (document);
 
 	webkit_dom_event_target_add_event_listener (
@@ -9769,20 +9844,6 @@ e_html_editor_view_clear_history (EHTMLEditorView *view)
 	g_object_notify (G_OBJECT (view), "can-undo");
 	view->priv->can_redo = FALSE;
 	g_object_notify (G_OBJECT (view), "can-redo");
-}
-
-static void
-rename_attribute (WebKitDOMElement *element,
-                  const gchar *from,
-                  const gchar *to)
-{
-	gchar *value;
-
-	value = webkit_dom_element_get_attribute (element, from);
-	if (value)
-		webkit_dom_element_set_attribute (element, to, value, NULL);
-	webkit_dom_element_remove_attribute (element, from);
-	g_free (value);
 }
 
 static void
@@ -9960,6 +10021,8 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 
 	style_updated_cb (view);
  out:
+	set_monospace_font_family_on_body (WEBKIT_DOM_ELEMENT (body), view->priv->html_mode);
+
 	e_html_editor_view_clear_history (view);
 
 	g_object_notify (G_OBJECT (view), "html-mode");
@@ -10028,6 +10091,40 @@ im_context_preedit_end_cb (GtkIMContext *context,
 {
 	view->priv->im_input_in_progress = FALSE;
 	register_input_event_listener_on_body (view);
+}
+
+static void
+html_editor_view_owner_change_clipboard_cb (GtkClipboard *clipboard,
+                                            GdkEventOwnerChange *event,
+                                            EHTMLEditorView *view)
+{
+	if (!E_IS_HTML_EDITOR_VIEW (view))
+		return;
+
+	if (view->priv->copy_action_triggered && event->owner)
+		view->priv->copy_paste_clipboard_in_view = TRUE;
+	else
+		view->priv->copy_paste_clipboard_in_view = FALSE;
+
+	view->priv->copy_action_triggered = FALSE;
+}
+
+static void
+html_editor_view_owner_change_primary_cb (GtkClipboard *clipboard,
+                                          GdkEventOwnerChange *event,
+                                          EHTMLEditorView *view)
+{
+	if (!E_IS_HTML_EDITOR_VIEW (view))
+		return;
+
+	if (!event->owner)
+		view->priv->copy_paste_primary_in_view = FALSE;
+}
+
+static void
+html_editor_view_copy_cut_clipboard_cb (EHTMLEditorView *view)
+{
+	view->priv->copy_action_triggered = TRUE;
 }
 
 static void
@@ -10152,6 +10249,22 @@ e_html_editor_view_init (EHTMLEditorView *view)
 
 	view->priv->im_input_in_progress = FALSE;
 
+	g_signal_connect (
+		view, "copy-clipboard",
+		G_CALLBACK (html_editor_view_copy_cut_clipboard_cb), NULL);
+
+	g_signal_connect (
+		view, "cut-clipboard",
+		G_CALLBACK (html_editor_view_copy_cut_clipboard_cb), NULL);
+
+	view->priv->owner_change_primary_cb_id = g_signal_connect (
+		gtk_clipboard_get (GDK_SELECTION_PRIMARY), "owner-change",
+		G_CALLBACK (html_editor_view_owner_change_primary_cb), view);
+
+	view->priv->owner_change_clipboard_cb_id = g_signal_connect (
+		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), "owner-change",
+		G_CALLBACK (html_editor_view_owner_change_clipboard_cb), view);
+
 	view->priv->history = NULL;
 	e_html_editor_view_clear_history (view);
 
@@ -10171,6 +10284,10 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->dont_save_history_in_body_input = FALSE;
 	view->priv->style_change_callbacks_blocked = FALSE;
 	view->priv->selection_changed_callbacks_blocked = FALSE;
+	view->priv->copy_paste_clipboard_in_view = FALSE;
+	view->priv->copy_paste_primary_in_view = FALSE;
+	view->priv->copy_action_triggered = FALSE;
+	view->priv->pasting_primary_clipboard = FALSE;
 
 	view->priv->spell_check_on_scroll_event_source_id = 0;
 
@@ -13350,4 +13467,15 @@ e_html_editor_view_unblock_style_updated_callbacks (EHTMLEditorView *view)
 		g_signal_handlers_unblock_by_func (view, style_updated_cb, NULL);
 		view->priv->style_change_callbacks_blocked = FALSE;
 	}
+}
+
+gboolean
+e_html_editor_view_is_pasting_content_from_itself (EHTMLEditorView *view)
+{
+	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
+
+	if (view->priv->pasting_primary_clipboard)
+		return view->priv->copy_paste_primary_in_view;
+	else
+		return view->priv->copy_paste_clipboard_in_view;
 }
