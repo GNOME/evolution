@@ -1630,7 +1630,8 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			text_to_append = webkit_dom_node_get_text_content (node);
 			if (text_to_append && *text_to_append &&
 			    !strstr (text_to_append, " ") &&
-			    !strchr (URL_INVALID_TRAILING_CHARS, *text_to_append)) {
+			    !strchr (URL_INVALID_TRAILING_CHARS, *text_to_append) &&
+			    !g_str_has_prefix (text_to_append, UNICODE_NBSP)) {
 
 				appending_to_link = TRUE;
 				parent = WEBKIT_DOM_ELEMENT (prev_sibling);
