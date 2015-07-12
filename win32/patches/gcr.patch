@@ -1,7 +1,7 @@
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/configure.ac gcr-3.10.1/configure.ac
---- gcr-3.10.1.old/configure.ac	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/configure.ac	2014-06-20 21:46:28 +0000
-@@ -62,20 +62,44 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GET
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/configure.ac gcr-3.16.0/configure.ac
+--- gcr-3.16.0.old/configure.ac	2015-05-12 14:27:59 +0000
++++ gcr-3.16.0/configure.ac	2015-07-10 18:39:01 +0000
+@@ -79,15 +79,42 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GET
  AC_SUBST(GETTEXT_PACKAGE)
  AM_GLIB_GNU_GETTEXT
  
@@ -26,29 +26,44 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/configure.ac gcr-3.10.1/con
  # GLib and GTK+ stuff
  
 +GIO_PLAT=
++GTK_PLAT=
 +if test "$os_win32" = "yes" ; then
 +	GIO_PLAT=gio-windows-2.0
++	GTK_PLAT=gtk+-win32-3.0
 +else
 +	GIO_PLAT=gio-unix-2.0
++	GTK_PLAT=gtk+-x11-3.0
 +fi
 +
  PKG_CHECK_MODULES(GLIB,
- 	glib-2.0 >= 2.32.0
+ 	glib-2.0 >= $GLIB_REQ
  	gmodule-no-export-2.0
  	gthread-2.0
  	gobject-2.0
 -	gio-2.0 gio-unix-2.0)
 +	gio-2.0 $GIO_PLAT)
+ GLIB_CFLAGS="$GLIB_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=$GLIB_MIN"
+ GLIB_CFLAGS="$GLIB_CFLAGS -DGLIB_VERSION_MAX_ALLOWED=$GLIB_MAX"
  AC_SUBST(GLIB_CFLAGS)
- AC_SUBST(GLIB_LIBS)
+@@ -99,7 +126,7 @@ AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
  
- GLIB_GSETTINGS
+ GTK_DOC_CHECK(1.9)
+ 
 -GOBJECT_INTROSPECTION_CHECK([1.34])
 +dnl GOBJECT_INTROSPECTION_CHECK([1.34])
- AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
- AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
+ if test "$enable_introspection" = "yes"; then
+ 	AC_PATH_PROG(XSLTPROC, xsltproc,
+ 	             AC_MSG_ERROR([Need xsltproc in order to build with gobject introspection])
+@@ -116,7 +143,7 @@ AC_ARG_WITH(gtk, [
+ AM_CONDITIONAL(WITH_GTK, test "$with_gtk" != "no")
  
-@@ -107,7 +131,7 @@ fi
+ if test "x$with_gtk" != "xno"; then
+-	PKG_CHECK_MODULES(GTK, gtk+-3.0 >= $GTK_REQ gtk+-x11-3.0 >= $GTK_REQ)
++	PKG_CHECK_MODULES(GTK, gtk+-3.0 >= $GTK_REQ $GTK_PLAT >= $GTK_REQ)
+ 	AC_SUBST(GTK_CFLAGS)
+ 	AC_SUBST(GTK_LIBS)
+ fi
+@@ -132,7 +159,7 @@ fi
  
  VALA_REQUIRED=0.18.0.22
  
@@ -57,7 +72,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/configure.ac gcr-3.10.1/con
  
  if test "$enable_vala" != "no"; then
  	AC_PATH_PROG([VALAC], [valac], [])
-@@ -120,6 +144,8 @@ AM_CONDITIONAL(HAVE_VALAC, test "x$VALAC
+@@ -145,6 +172,8 @@ AM_CONDITIONAL(HAVE_VALAC, test "x$VALAC
  
  AC_CHECK_FUNCS(timegm, AC_DEFINE(HAVE_TIMEGM,1,[Have timegm]))
  AC_CHECK_FUNCS(mlock)
@@ -66,7 +81,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/configure.ac gcr-3.10.1/con
  
  # --------------------------------------------------------------------
  # p11-kit
-@@ -370,6 +396,9 @@ else
+@@ -383,6 +412,9 @@ else
  	valgrind_status="no"
  fi
  
@@ -76,10 +91,103 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/configure.ac gcr-3.10.1/con
  # ----------------------------------------------------------------------
  
  GCK_LT_RELEASE=$GCK_CURRENT:$GCK_REVISION:$GCK_AGE
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-armor.c gcr-3.10.1/egg/egg-armor.c
---- gcr-3.10.1.old/egg/egg-armor.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/egg/egg-armor.c	2014-06-20 21:46:28 +0000
-@@ -60,6 +60,29 @@ EGG_SECURE_DECLARE (armor);
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/egg/Makefile.am gcr-3.16.0/egg/Makefile.am
+--- gcr-3.16.0.old/egg/Makefile.am	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/egg/Makefile.am	2015-07-10 18:45:32 +0000
+@@ -4,8 +4,7 @@ noinst_LTLIBRARIES += \
+ 	libegg.la \
+ 	libegg-asn1x.la \
+ 	libegg-hex.la \
+-	libegg-secmem.la \
+-	libegg-test.la
++	libegg-secmem.la
+ 
+ libegg_la_CFLAGS = \
+ 	$(GLIB_CFLAGS) \
+@@ -58,15 +57,6 @@ libegg_hex_la_LIBADD = \
+ libegg_secmem_la_SOURCES = \
+ 	egg/egg-secure-memory.c egg/egg-secure-memory.h
+ 
+-libegg_test_la_SOURCES = \
+-	egg/egg-testing.c egg/egg-testing.h
+-
+-libegg_test_la_CFLAGS = \
+-	$(GLIB_CFLAGS)
+-
+-libegg_test_la_LIBADD = \
+-	$(GLIB_LIBS)
+-
+ # -------------------------------------------------------------------
+ 
+ egg_LDADD =  \
+@@ -74,63 +64,6 @@ egg_LDADD =  \
+ 	$(LIBGCRYPT_LIBS) \
+ 	$(GLIB_LIBS)
+ 
+-egg_TESTS = \
+-	test-asn1 \
+-	test-asn1x \
+-	test-dn \
+-	test-decimal \
+-	test-hex \
+-	test-hkdf \
+-	test-oid \
+-	test-secmem \
+-	test-padding \
+-	test-symkey \
+-	test-armor \
+-	test-openssl \
+-	test-dh
+-
+-test_armor_SOURCES = egg/test-armor.c
+-test_armor_LDADD = $(egg_LDADD)
+-
+-test_asn1_SOURCES = egg/test-asn1.c egg/test.asn.h
+-test_asn1_LDADD = $(egg_LDADD)
+-
+-test_asn1x_SOURCES = egg/test-asn1x.c
+-test_asn1x_LDADD = $(egg_LDADD)
+-
+-test_decimal_SOURCES = egg/test-decimal.c
+-test_decimal_LDADD = $(egg_LDADD)
+-
+-test_dh_SOURCES = egg/test-dh.c
+-test_dh_LDADD = $(egg_LDADD)
+-
+-test_dn_SOURCES = egg/test-dn.c
+-test_dn_LDADD = $(egg_LDADD)
+-
+-test_hex_SOURCES = egg/test-hex.c
+-test_hex_LDADD = $(egg_LDADD)
+-
+-test_hkdf_SOURCES = egg/test-hkdf.c
+-test_hkdf_LDADD = $(egg_LDADD)
+-
+-test_oid_SOURCES = egg/test-oid.c
+-test_oid_LDADD = $(egg_LDADD)
+-
+-test_openssl_SOURCES = egg/test-openssl.c
+-test_openssl_LDADD = $(egg_LDADD)
+-
+-test_padding_SOURCES = egg/test-padding.c
+-test_padding_LDADD = $(egg_LDADD)
+-
+-test_secmem_SOURCES = egg/test-secmem.c
+-test_secmem_LDADD = $(egg_LDADD)
+-
+-test_symkey_SOURCES = egg/test-symkey.c
+-test_symkey_LDADD = $(egg_LDADD)
+-
+-check_PROGRAMS += $(egg_TESTS)
+-TESTS += $(egg_TESTS)
+-
+ ASN_SRCS = \
+ 	egg/pk.asn \
+ 	egg/pkix.asn \
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/egg/egg-armor.c gcr-3.16.0/egg/egg-armor.c
+--- gcr-3.16.0.old/egg/egg-armor.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/egg/egg-armor.c	2015-07-10 18:39:01 +0000
+@@ -59,6 +59,29 @@ EGG_SECURE_DECLARE (armor);
  #define ARMOR_PREF_END      "-----END "
  #define ARMOR_PREF_END_L    9
  
@@ -109,10 +217,10 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-armor.c gcr-3.10.1/
  static void
  parse_header_lines (const gchar *hbeg,
                      const gchar *hend,
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-asn1x.c gcr-3.10.1/egg/egg-asn1x.c
---- gcr-3.10.1.old/egg/egg-asn1x.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/egg/egg-asn1x.c	2014-06-20 21:46:28 +0000
-@@ -1929,7 +1929,7 @@ static int
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/egg/egg-asn1x.c gcr-3.16.0/egg/egg-asn1x.c
+--- gcr-3.16.0.old/egg/egg-asn1x.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/egg/egg-asn1x.c	2015-07-10 18:39:01 +0000
+@@ -1928,7 +1928,7 @@ static int
  two_to_four_digit_year (int year)
  {
  	time_t now;
@@ -121,7 +229,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-asn1x.c gcr-3.10.1/
  	int century, current;
  
  	g_return_val_if_fail (year >= 0 && year <= 99, -1);
-@@ -1937,11 +1937,15 @@ two_to_four_digit_year (int year)
+@@ -1936,11 +1936,15 @@ two_to_four_digit_year (int year)
  	/* Get the current year */
  	now = time (NULL);
  	g_return_val_if_fail (now >= 0, -1);
@@ -140,10 +248,10 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-asn1x.c gcr-3.10.1/
  
  	/*
  	 * Check if it's within 40 years before the
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr-3.10.1/egg/egg-secure-memory.c
---- gcr-3.10.1.old/egg/egg-secure-memory.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/egg/egg-secure-memory.c	2014-06-20 21:46:28 +0000
-@@ -32,7 +32,9 @@
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/egg/egg-secure-memory.c gcr-3.16.0/egg/egg-secure-memory.c
+--- gcr-3.16.0.old/egg/egg-secure-memory.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/egg/egg-secure-memory.c	2015-07-10 18:39:01 +0000
+@@ -31,7 +31,9 @@
  #include "egg-secure-memory.h"
  
  #include <sys/types.h>
@@ -153,7 +261,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  #include <stddef.h>
  #include <string.h>
  #include <stdio.h>
-@@ -188,9 +190,11 @@ pool_alloc (void)
+@@ -187,9 +189,11 @@ pool_alloc (void)
  
  	/* Create a new pool */
  	if (pool == NULL) {
@@ -165,7 +273,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  			return NULL;
  
  		/* Fill in the block header, and inlude in block list */
-@@ -254,7 +258,9 @@ pool_free (void* item)
+@@ -253,7 +257,9 @@ pool_free (void* item)
  		VALGRIND_DESTROY_MEMPOOL (pool);
  #endif
  
@@ -175,7 +283,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  		return;
  	}
  
-@@ -860,11 +866,11 @@ sec_acquire_pages (size_t *sz,
+@@ -859,11 +865,11 @@ sec_acquire_pages (size_t *sz,
  	ASSERT (*sz);
  	ASSERT (during_tag);
  
@@ -188,7 +296,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  	pages = mmap (0, *sz, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANON, -1, 0);
  	if (pages == MAP_FAILED) {
  		if (show_warning && egg_secure_warnings)
-@@ -902,9 +908,9 @@ static void
+@@ -901,9 +907,9 @@ static void
  sec_release_pages (void *pages, size_t sz)
  {
  	ASSERT (pages);
@@ -199,7 +307,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  	if (munlock (pages, sz) < 0 && egg_secure_warnings)
  		fprintf (stderr, "couldn't unlock private memory: %s\n", strerror (errno));
  
-@@ -914,7 +920,7 @@ sec_release_pages (void *pages, size_t s
+@@ -913,7 +919,7 @@ sec_release_pages (void *pages, size_t s
  	DEBUG_ALLOC ("gkr-secure-memory: freed block ", sz);
  
  #else
@@ -208,7 +316,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  #endif
  }
  
-@@ -937,6 +943,11 @@ sec_block_create (size_t size,
+@@ -936,6 +942,11 @@ sec_block_create (size_t size,
  	if (getenv ("SECMEM_FORCE_FALLBACK"))
  		return NULL;
  
@@ -220,99 +328,116 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/egg-secure-memory.c gcr
  	block = pool_alloc ();
  	if (!block)
  		return NULL;
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/egg/tests/test-asn1x.c gcr-3.10.1/egg/tests/test-asn1x.c
---- gcr-3.10.1.old/egg/tests/test-asn1x.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/egg/tests/test-asn1x.c	2014-06-20 21:46:28 +0000
-@@ -27,7 +27,9 @@
- #include "egg/egg-asn1-defs.h"
- #include "egg/egg-testing.h"
- 
-+#ifdef HAVE_PWD_H
- #include <pwd.h>
-+#endif
- #include <stdlib.h>
- #include <unistd.h>
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/Makefile.am gcr-3.10.1/gck/Makefile.am
---- gcr-3.10.1.old/gck/Makefile.am	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/Makefile.am	2014-06-20 21:46:28 +0000
-@@ -1,6 +1,6 @@
- include $(top_srcdir)/Makefile.decl
- 
--SUBDIRS = . tests
-+SUBDIRS = .
- 
- incdir = $(includedir)/gck-@GCK_MAJOR@/gck
- 
-@@ -77,16 +77,6 @@ libgck_@GCK_MAJOR@_la_LIBADD = \
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/gck/Makefile.am gcr-3.16.0/gck/Makefile.am
+--- gcr-3.16.0.old/gck/Makefile.am	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/gck/Makefile.am	2015-07-10 18:40:23 +0000
+@@ -72,23 +72,6 @@ libgck_@GCK_MAJOR@_la_LIBADD = \
  	$(GIO_LIBS) \
  	$(GLIB_LIBS)
  
--noinst_LTLIBRARIES = libgck-testable.la
+-noinst_LTLIBRARIES += libgck-testable.la
 -libgck_testable_la_SOURCES = \
--	gck-mock.c \
--	gck-mock.h \
--	gck-test.c \
--	gck-test.h
--libgck_testable_la_LIBADD = $(libgck_@GCK_MAJOR@_la_OBJECTS) \
--	$(libgck_@GCK_MAJOR@_la_LIBADD)
--libgck_testable_la_DEPENDENCIES = $(libgck_@GCK_MAJOR@_la_OBJECTS)
+-	gck/gck-mock.c gck/gck-mock.h \
+-	gck/gck-test.c gck/gck-test.h
 -
- gck-marshal.h: gck-marshal.list $(GLIB_GENMARSHAL)
- 	$(GLIB_GENMARSHAL) $< --header --prefix=_gck_marshal > $@
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/gck-debug.c gcr-3.10.1/gck/gck-debug.c
---- gcr-3.10.1.old/gck/gck-debug.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/gck-debug.c	2014-06-20 21:46:28 +0000
-@@ -33,6 +33,11 @@
- 
- #include <unistd.h>
- 
-+#ifdef G_OS_WIN32
-+
-+#include <windows.h>
-+#endif
-+
- #ifdef WITH_DEBUG
- 
- static gsize initialized_flags = 0;
-@@ -69,21 +74,30 @@ on_gck_log_debug (const gchar *log_domai
- {
- 	GString *gstring;
- 	const gchar *progname;
-+#ifdef G_OS_WIN32
-+	DWORD pid = GetCurrentProcessId ();
-+#else
-+	pid_t pid = getpid ();
-+#endif
- 
- 	gstring = g_string_new (NULL);
- 
- 	progname = g_get_prgname ();
- 	g_string_append_printf (gstring, "(%s:%lu): %s-DEBUG: %s\n",
- 	                        progname ? progname : "process",
--	                        (gulong)getpid (), log_domain,
-+	                        (gulong) pid, log_domain,
- 	                        message ? message : "(NULL) message");
- 
-+
-+#ifdef G_OS_WIN32
-+	g_print ("%s", gstring->str);
-+#else
- 	/*
- 	 * Give up on debug messages if stdout got lost.
- 	 */
- 	if (write (1, gstring->str, gstring->len) != gstring->len)
- 		current_flags = 0;
+-libgck_testable_la_CFLAGS = \
+-	$(libgck_@GCK_MAJOR@_la_CFLAGS)
 -
-+#endif
- 	g_string_free (gstring, TRUE);
- }
+-libgck_testable_la_LIBADD = \
+-	$(libgck_@GCK_MAJOR@_la_OBJECTS) \
+-	libegg-hex.la \
+-	libegg-secmem.la \
+-	$(P11_KIT_LIBS) \
+-	$(GIO_LIBS) \
+-	$(GLIB_LIBS)
+-EXTRA_libgck_testable_la_DEPENDENCIES = $(libgck_@GCK_MAJOR@_la_OBJECTS)
+-
+ gck/gck-marshal.h: gck/gck-marshal.list $(GLIB_GENMARSHAL)
+ 	$(AM_V_GEN) $(GLIB_GENMARSHAL) $< --header --prefix=_gck_marshal > $@
  
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/gck-slot.c gcr-3.10.1/gck/gck-slot.c
---- gcr-3.10.1.old/gck/gck-slot.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/gck-slot.c	2014-06-20 21:46:28 +0000
-@@ -606,7 +606,7 @@ _gck_token_info_from_pkcs11 (CK_TOKEN_IN
+@@ -187,78 +170,8 @@ gck_CFLAGS = \
+ 	$(GLIB_CFLAGS)
+ 
+ gck_LIBS =  \
+-	libgck-testable.la \
+ 	libegg-test.la \
+ 	libegg-hex.la \
+ 	$(GLIB_LIBS) \
+ 	$(P11_KIT_LIBS) \
+ 	$(GIO_LIBS)
+-
+-gck_TESTS = \
+-	test-gck-attributes \
+-	test-gck-module \
+-	test-gck-slot \
+-	test-gck-session \
+-	test-gck-object \
+-	test-gck-crypto \
+-	test-gck-uri \
+-	test-gck-enumerator \
+-	test-gck-modules
+-
+-test_gck_attributes_SOURCES = gck/test-gck-attributes.c
+-test_gck_attributes_CFLAGS = $(gck_CFLAGS)
+-test_gck_attributes_LDADD = $(gck_LIBS)
+-
+-test_gck_crypto_SOURCES = gck/test-gck-crypto.c
+-test_gck_crypto_CFLAGS = $(gck_CFLAGS)
+-test_gck_crypto_LDADD = $(gck_LIBS)
+-
+-test_gck_enumerator_SOURCES = \
+-	gck/test-gck-enumerator.c \
+-	gck/mock-interaction.c gck/mock-interaction.h
+-test_gck_enumerator_CFLAGS = $(gck_CFLAGS)
+-test_gck_enumerator_LDADD = $(gck_LIBS)
+-
+-test_gck_object_SOURCES = gck/test-gck-object.c
+-test_gck_object_CFLAGS = $(gck_CFLAGS)
+-test_gck_object_LDADD = $(gck_LIBS)
+-
+-test_gck_module_SOURCES = gck/test-gck-module.c
+-test_gck_module_CFLAGS = $(gck_CFLAGS)
+-test_gck_module_LDADD = $(gck_LIBS)
+-
+-test_gck_modules_SOURCES = gck/test-gck-modules.c
+-test_gck_modules_CFLAGS = $(gck_CFLAGS)
+-test_gck_modules_LDADD = $(gck_LIBS)
+-
+-test_gck_session_SOURCES = \
+-	gck/test-gck-session.c \
+-	gck/mock-interaction.c gck/mock-interaction.h
+-test_gck_session_CFLAGS = $(gck_CFLAGS)
+-test_gck_session_LDADD = $(gck_LIBS)
+-
+-test_gck_slot_SOURCES = gck/test-gck-slot.c
+-test_gck_slot_CFLAGS = $(gck_CFLAGS)
+-test_gck_slot_LDADD = $(gck_LIBS)
+-
+-test_gck_uri_SOURCES = gck/test-gck-uri.c
+-test_gck_uri_CFLAGS = $(gck_CFLAGS)
+-test_gck_uri_LDADD = $(gck_LIBS)
+-
+-check_PROGRAMS += $(gck_TESTS)
+-TESTS += $(gck_TESTS)
+-
+-check_LTLIBRARIES += libmock-test-module.la
+-
+-libmock_test_module_la_LDFLAGS = \
+-	-module -avoid-version -shared -rpath $(abs_builddir)
+-
+-libmock_test_module_la_CFLAGS = \
+-	-DGCK_API_SUBJECT_TO_CHANGE \
+-	$(gck_CFLAGS)
+-
+-libmock_test_module_la_SOURCES = \
+-	gck/mock-test-module.c
+-
+-libmock_test_module_la_LIBADD = \
+-	libgck-testable.la
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/gck/gck-slot.c gcr-3.16.0/gck/gck-slot.c
+--- gcr-3.16.0.old/gck/gck-slot.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/gck/gck-slot.c	2015-07-10 18:39:01 +0000
+@@ -605,7 +605,7 @@ _gck_token_info_from_pkcs11 (CK_TOKEN_IN
  {
  	GckTokenInfo *token_info;
  	gchar *string;
@@ -321,7 +446,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/gck-slot.c gcr-3.10.1/g
  
  	token_info = g_new0 (GckTokenInfo, 1);
  	token_info->label = gck_string_from_chars (info->label, sizeof (info->label));
-@@ -634,10 +634,12 @@ _gck_token_info_from_pkcs11 (CK_TOKEN_IN
+@@ -633,10 +633,12 @@ _gck_token_info_from_pkcs11 (CK_TOKEN_IN
  	/* Parse the time into seconds since epoch */
  	if (info->flags & CKF_CLOCK_ON_TOKEN) {
  		string = g_strndup ((gchar*)info->utcTime, MIN (14, sizeof (info->utcTime)));
@@ -336,7 +461,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/gck-slot.c gcr-3.10.1/g
  		g_free (string);
  	} else {
  		token_info->utc_time = -1;
-@@ -649,8 +651,8 @@ _gck_token_info_from_pkcs11 (CK_TOKEN_IN
+@@ -648,8 +650,8 @@ _gck_token_info_from_pkcs11 (CK_TOKEN_IN
  void
  _gck_token_info_to_pkcs11 (GckTokenInfo *token_info, CK_TOKEN_INFO_PTR info)
  {
@@ -347,7 +472,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/gck-slot.c gcr-3.10.1/g
  	time_t tim;
  	gsize len;
  
-@@ -690,9 +692,12 @@ _gck_token_info_to_pkcs11 (GckTokenInfo
+@@ -689,9 +691,12 @@ _gck_token_info_to_pkcs11 (GckTokenInfo
  	/* Parse the time into seconds since epoch */
  	if (token_info->flags & CKF_CLOCK_ON_TOKEN) {
  		tim = token_info->utc_time;
@@ -362,162 +487,151 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/gck-slot.c gcr-3.10.1/g
  		g_return_if_fail (len == sizeof (info->utcTime));
  		memcpy (info->utcTime, buffer, sizeof (info->utcTime));
  	} else {
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-crypto.c gcr-3.10.1/gck/tests/test-gck-crypto.c
---- gcr-3.10.1.old/gck/tests/test-gck-crypto.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-crypto.c	2014-06-20 21:46:28 +0000
-@@ -57,7 +57,11 @@ setup (Test *test, gconstpointer unused)
- 	GckSlot *slot;
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/gcr/Makefile.am gcr-3.16.0/gcr/Makefile.am
+--- gcr-3.16.0.old/gcr/Makefile.am	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/gcr/Makefile.am	2015-07-10 18:39:01 +0000
+@@ -267,136 +267,11 @@ gcr_CFLAGS = \
+ gcr_LIBS = \
+ 	libgcr-base-@GCR_MAJOR@.la \
+ 	libegg.la \
+-	libgck-testable.la \
+ 	$(GLIB_LIBS) \
+ 	$(LIBGCRYPT_LIBS) \
+ 	$(P11_KIT_LIBS)
  
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (GCK_IS_MODULE (test->module));
- 	g_object_add_weak_pointer (G_OBJECT (test->module), (gpointer *)&test->module);
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-enumerator.c gcr-3.10.1/gck/tests/test-gck-enumerator.c
---- gcr-3.10.1.old/gck/tests/test-gck-enumerator.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-enumerator.c	2014-06-20 21:46:28 +0000
-@@ -50,7 +50,11 @@ setup (Test *test, gconstpointer unused)
- 	GError *err = NULL;
+-gcr_TESTS = \
+-	test-util \
+-	test-filter-collection \
+-	test-secret-exchange \
+-	test-simple-certificate \
+-	test-certificate \
+-	test-certificate-chain \
+-	test-subject-public-key \
+-	test-fingerprint \
+-	test-pkcs11-certificate \
+-	test-openpgp \
+-	test-openssh \
+-	test-secure-memory \
+-	test-trust \
+-	test-parser \
+-	test-record \
+-	test-memory-icon \
+-	test-gnupg-key \
+-	test-gnupg-collection \
+-	test-gnupg-process \
+-	test-system-prompt
+-
+-test_certificate_SOURCES = gcr/test-certificate.c
+-test_certificate_CFLAGS = $(gcr_CFLAGS)
+-test_certificate_LDADD = $(gcr_LIBS)
+-
+-test_certificate_chain_SOURCES = gcr/test-certificate-chain.c
+-test_certificate_chain_CFLAGS = $(gcr_CFLAGS)
+-test_certificate_chain_LDADD = $(gcr_LIBS)
+-
+-test_filter_collection_SOURCES = gcr/test-filter-collection.c
+-test_filter_collection_CFLAGS = $(gcr_CFLAGS)
+-test_filter_collection_LDADD = $(gcr_LIBS)
+-
+-test_fingerprint_SOURCES = gcr/test-fingerprint.c
+-test_fingerprint_CFLAGS = $(gcr_CFLAGS)
+-test_fingerprint_LDADD = $(gcr_LIBS)
+-
+-test_gnupg_collection_SOURCES = gcr/test-gnupg-collection.c
+-test_gnupg_collection_CFLAGS = $(gcr_CFLAGS)
+-test_gnupg_collection_LDADD = $(gcr_LIBS)
+-
+-test_gnupg_key_SOURCES = gcr/test-gnupg-key.c
+-test_gnupg_key_CFLAGS = $(gcr_CFLAGS)
+-test_gnupg_key_LDADD = $(gcr_LIBS)
+-
+-test_gnupg_process_SOURCES = gcr/test-gnupg-process.c
+-test_gnupg_process_CFLAGS = $(gcr_CFLAGS)
+-test_gnupg_process_LDADD = $(gcr_LIBS)
+-
+-test_memory_icon_SOURCES = gcr/test-memory-icon.c
+-test_memory_icon_CFLAGS = $(gcr_CFLAGS)
+-test_memory_icon_LDADD = $(gcr_LIBS)
+-
+-test_openpgp_SOURCES = gcr/test-openpgp.c
+-test_openpgp_CFLAGS = $(gcr_CFLAGS)
+-test_openpgp_LDADD = $(gcr_LIBS)
+-
+-test_openssh_SOURCES = gcr/test-openssh.c
+-test_openssh_CFLAGS = $(gcr_CFLAGS)
+-test_openssh_LDADD = $(gcr_LIBS)
+-
+-test_parser_SOURCES = gcr/test-parser.c
+-test_parser_CFLAGS = $(gcr_CFLAGS)
+-test_parser_LDADD = $(gcr_LIBS)
+-
+-test_pkcs11_certificate_SOURCES = gcr/test-pkcs11-certificate.c
+-test_pkcs11_certificate_CFLAGS = $(gcr_CFLAGS)
+-test_pkcs11_certificate_LDADD = $(gcr_LIBS)
+-
+-test_record_SOURCES = gcr/test-record.c
+-test_record_CFLAGS = $(gcr_CFLAGS)
+-test_record_LDADD = $(gcr_LIBS)
+-
+-test_secret_exchange_SOURCES = gcr/test-secret-exchange.c
+-test_secret_exchange_CFLAGS = $(gcr_CFLAGS)
+-test_secret_exchange_LDADD = $(gcr_LIBS)
+-
+-test_secure_memory_SOURCES = gcr/test-secure-memory.c
+-test_secure_memory_CFLAGS = $(gcr_CFLAGS)
+-test_secure_memory_LDADD = $(gcr_LIBS)
+-
+-test_simple_certificate_SOURCES = gcr/test-simple-certificate.c
+-test_simple_certificate_CFLAGS = $(gcr_CFLAGS)
+-test_simple_certificate_LDADD = $(gcr_LIBS)
+-
+-test_subject_public_key_SOURCES = gcr/test-subject-public-key.c
+-test_subject_public_key_CFLAGS = $(gcr_CFLAGS)
+-test_subject_public_key_LDADD = $(gcr_LIBS)
+-
+-test_system_prompt_SOURCES = gcr/test-system-prompt.c
+-test_system_prompt_CFLAGS = $(gcr_CFLAGS)
+-test_system_prompt_LDADD = $(gcr_LIBS)
+-
+-test_trust_SOURCES = gcr/test-trust.c
+-test_trust_CFLAGS = $(gcr_CFLAGS)
+-test_trust_LDADD = $(gcr_LIBS)
+-
+-test_util_SOURCES = gcr/test-util.c
+-test_util_CFLAGS = $(gcr_CFLAGS)
+-test_util_LDADD = $(gcr_LIBS)
+-
+-check_PROGRAMS += $(gcr_TESTS)
+-TESTS += $(gcr_TESTS)
++gcr_TESTS =
  
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (GCK_IS_MODULE (test->module));
- 	g_object_add_weak_pointer (G_OBJECT (test->module), (gpointer *)&test->module);
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-module.c gcr-3.10.1/gck/tests/test-gck-module.c
---- gcr-3.10.1.old/gck/tests/test-gck-module.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-module.c	2014-06-20 21:46:28 +0000
-@@ -42,7 +42,11 @@ setup (Test *test, gconstpointer unused)
- 	GError *err = NULL;
- 
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (test->module);
- 	g_object_add_weak_pointer (G_OBJECT (test->module), (gpointer *)&test->module);
-@@ -71,7 +75,11 @@ test_initialize_async (void)
- 	GError *error = NULL;
- 
- 	/* Shouldn't be able to load modules */
-+#ifdef G_OS_WIN32
-+	gck_module_initialize_async (BUILDDIR "/.libs/libmock-test-module.dll",
-+#else
- 	gck_module_initialize_async (BUILDDIR "/.libs/libmock-test-module.so",
-+#endif
- 	                             NULL, fetch_async_result, &result);
- 
- 	egg_test_wait_until (500);
-@@ -101,7 +109,11 @@ test_invalid_modules (Test *test, gconst
- 	g_clear_error (&error);
- 
- 	/* Shouldn't be able to load any file successfully */
-+#ifdef G_OS_WIN32
-+	invalid = gck_module_initialize ("c:\\windows\\system32\\shell32.dll", NULL, &error);
-+#else
- 	invalid = gck_module_initialize ("/usr/lib/libm.so", NULL, &error);
-+#endif
- 	g_assert_error (error, GCK_ERROR, (int)CKR_GCK_MODULE_PROBLEM);
- 	g_assert (invalid == NULL);
- 
-@@ -139,7 +151,11 @@ test_module_props (Test *test, gconstpoi
- 
- 	g_object_get (test->module, "path", &path, NULL);
- 	g_assert (path != NULL && "no module-path");
-+#ifdef G_OS_WIN32
-+	g_assert (strcmp (BUILDDIR "/.libs/libmock-test-module.dll", path) == 0 && "module path wrong");
-+#else
- 	g_assert (strcmp (BUILDDIR "/.libs/libmock-test-module.so", path) == 0 && "module path wrong");
-+#endif
- 	g_free (path);
- }
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-modules.c gcr-3.10.1/gck/tests/test-gck-modules.c
---- gcr-3.10.1.old/gck/tests/test-gck-modules.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-modules.c	2014-06-20 21:46:28 +0000
-@@ -48,7 +48,11 @@ setup (Test *test, gconstpointer unused)
- 	GError *err = NULL;
- 
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (GCK_IS_MODULE (module));
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-object.c gcr-3.10.1/gck/tests/test-gck-object.c
---- gcr-3.10.1.old/gck/tests/test-gck-object.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-object.c	2014-06-20 21:46:28 +0000
-@@ -50,7 +50,11 @@ setup (Test *test, gconstpointer unused)
- 	GList *slots;
- 
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (GCK_IS_MODULE (test->module));
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-session.c gcr-3.10.1/gck/tests/test-gck-session.c
---- gcr-3.10.1.old/gck/tests/test-gck-session.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-session.c	2014-06-20 21:46:28 +0000
-@@ -50,7 +50,11 @@ setup (Test *test, gconstpointer unused)
- 	GList *slots;
- 
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (GCK_IS_MODULE (test->module));
- 	g_object_add_weak_pointer (G_OBJECT (test->module), (gpointer *)&test->module);
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gck/tests/test-gck-slot.c gcr-3.10.1/gck/tests/test-gck-slot.c
---- gcr-3.10.1.old/gck/tests/test-gck-slot.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gck/tests/test-gck-slot.c	2014-06-20 21:46:28 +0000
-@@ -43,7 +43,11 @@ setup (Test *test, gconstpointer unused)
- 	GList *slots;
- 
- 	/* Successful load */
-+#ifdef G_OS_WIN32
-+	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.dll", NULL, &err);
-+#else
- 	test->module = gck_module_initialize (BUILDDIR "/.libs/libmock-test-module.so", NULL, &err);
-+#endif
- 	g_assert_no_error (err);
- 	g_assert (GCK_IS_MODULE (test->module));
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/Makefile.am gcr-3.10.1/gcr/Makefile.am
---- gcr-3.10.1.old/gcr/Makefile.am	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gcr/Makefile.am	2014-06-20 21:46:28 +0000
-@@ -1,6 +1,6 @@
- include $(top_srcdir)/Makefile.decl
- 
--SUBDIRS = . tests
-+SUBDIRS = .
- 
- incdir = $(includedir)/gcr-@GCR_MAJOR@/gcr
- 
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-collection.c gcr-3.10.1/gcr/gcr-gnupg-collection.c
---- gcr-3.10.1.old/gcr/gcr-gnupg-collection.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gcr/gcr-gnupg-collection.c	2014-06-20 21:46:28 +0000
-@@ -36,7 +36,9 @@
+ EXTRA_DIST += \
+ 	gcr/fixtures
+-
+-# ------------------------------------------------------------------
+-
+-noinst_PROGRAMS += \
+-	frob-openpgp \
+-	frob-certificate-request \
+-	frob-parser
+-
+-frob_certificate_request_SOURCES = \
+-	gcr/frob-certificate-request.c \
+-	gcr/console-interaction.c gcr/console-interaction.h
+-frob_certificate_request_CFLAGS = $(gcr_CFLAGS)
+-frob_certificate_request_LDADD = $(gcr_LIBS)
+-
+-frob_openpgp_SOURCES = gcr/frob-openpgp.c
+-frob_openpgp_CFLAGS = $(gcr_CFLAGS)
+-frob_openpgp_LDADD = $(gcr_LIBS)
+-
+-frob_parser_SOURCES = gcr/frob-parser.c
+-frob_parser_CFLAGS = $(gcr_CFLAGS)
+-frob_parser_LDADD = $(gcr_LIBS)
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/gcr/gcr-gnupg-collection.c gcr-3.16.0/gcr/gcr-gnupg-collection.c
+--- gcr-3.16.0.old/gcr/gcr-gnupg-collection.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/gcr/gcr-gnupg-collection.c	2015-07-10 18:39:01 +0000
+@@ -32,7 +32,9 @@
  #include "gcr-record.h"
  #include "gcr-util.h"
  
@@ -527,10 +641,10 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-collection.c 
  #include <string.h>
  
  enum {
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr-3.10.1/gcr/gcr-gnupg-process.c
---- gcr-3.10.1.old/gcr/gcr-gnupg-process.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gcr/gcr-gnupg-process.c	2014-06-20 21:46:28 +0000
-@@ -31,7 +31,12 @@
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/gcr/gcr-gnupg-process.c gcr-3.16.0/gcr/gcr-gnupg-process.c
+--- gcr-3.16.0.old/gcr/gcr-gnupg-process.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/gcr/gcr-gnupg-process.c	2015-07-10 18:39:01 +0000
+@@ -28,7 +28,12 @@
  
  #include <glib/gi18n-lib.h>
  
@@ -543,15 +657,15 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr
  #include <fcntl.h>
  #include <errno.h>
  #include <string.h>
-@@ -854,12 +859,18 @@ on_gnupg_process_child_exited (GPid pid,
+@@ -851,12 +856,18 @@ on_gnupg_process_child_exited (GPid pid,
  	gint code;
  	guint i;
  
 +#if defined (G_OS_UNIX)
- 	_gcr_debug ("process exited: %d", (int)pid);
+ 	g_debug ("process exited: %d", (int)pid);
 +#elif defined (G_OS_WIN32)
 +	DWORD real_pid = GetProcessId (pid);
-+	_gcr_debug ("process exited: %d", (int)real_pid);
++	g_debug ("process exited: %d", (int)real_pid);
 +#endif
  
  	g_spawn_close_pid (gnupg_source->child_pid);
@@ -562,7 +676,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr
  	if (WIFEXITED (status)) {
  		code = WEXITSTATUS (status);
  		if (code != 0) {
-@@ -873,6 +884,7 @@ on_gnupg_process_child_exited (GPid pid,
+@@ -870,6 +881,7 @@ on_gnupg_process_child_exited (GPid pid,
  			error = g_error_new (G_SPAWN_ERROR, G_SPAWN_ERROR_FAILED,
  			                     _("Gnupg process was terminated with signal: %d"), code);
  	}
@@ -570,7 +684,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr
  
  	/* Take this as the async result error */
  	if (error && !self->pv->error) {
-@@ -891,11 +903,16 @@ on_gnupg_process_child_exited (GPid pid,
+@@ -888,11 +900,16 @@ on_gnupg_process_child_exited (GPid pid,
  	}
  
  	complete_source_is_done (gnupg_source);
@@ -587,7 +701,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr
  	int *child_fds = user_data;
  	long val;
  	guint i;
-@@ -911,6 +928,7 @@ on_gnupg_process_child_setup (gpointer u
+@@ -908,6 +925,7 @@ on_gnupg_process_child_setup (gpointer u
  			fcntl (child_fds[i], F_SETFD, val & ~FD_CLOEXEC);
  		}
  	}
@@ -595,24 +709,24 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr
  }
  
  static void
-@@ -929,9 +947,16 @@ on_cancellable_cancelled (GCancellable *
+@@ -926,9 +944,16 @@ on_cancellable_cancelled (GCancellable *
  
  	/* Try and kill the child process */
  	if (gnupg_source->child_pid) {
 +#if defined(G_OS_UNIX)
- 		_gcr_debug ("sending term signal to process: %d",
- 		            (int)gnupg_source->child_pid);
+ 		g_debug ("sending term signal to process: %d",
+ 		         (int)gnupg_source->child_pid);
  		kill (gnupg_source->child_pid, SIGTERM);
 +#elif defined(G_OS_WIN32)
 +		DWORD real_pid = GetProcessId (gnupg_source->child_pid);
-+		_gcr_debug ("sending term signal to process: %d",
-+		            (int)real_pid);
-+		TerminateProcess (gnupg_source->child_pid, 0);
++		g_debug ("sending term signal to process: %d",
++		         (int)real_pid);
++		TerminateProcess (real_pid, 0);
 +#endif
  	}
  }
  
-@@ -1000,14 +1025,22 @@ _gcr_gnupg_process_run_async (GcrGnupgPr
+@@ -997,14 +1022,22 @@ _gcr_gnupg_process_run_async (GcrGnupgPr
  	child_fds[FD_ERROR] = 2;
  
  	if (flags & GCR_GNUPG_PROCESS_WITH_STATUS) {
@@ -635,38 +749,38 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-gnupg-process.c gcr
  			g_return_if_reached ();
  		child_fds[FD_ATTRIBUTE] = attribute_fds[1];
  		g_ptr_array_add (args, g_strdup ("--attribute-fd"));
-@@ -1036,11 +1069,11 @@ _gcr_gnupg_process_run_async (GcrGnupgPr
+@@ -1032,11 +1065,11 @@ _gcr_gnupg_process_run_async (GcrGnupgPr
+ 	g_ptr_array_add (envs, NULL);
  
- 	if (_gcr_debugging) {
- 		gchar *command = g_strjoinv (" ", (gchar**)args->pdata);
--		gchar *environ = g_strjoinv (", ", (gchar**)envs->pdata);
-+		gchar *environment = g_strjoinv (", ", (gchar**)envs->pdata);
- 		_gcr_debug ("running command: %s", command);
--		_gcr_debug ("process environment: %s", environ);
-+		_gcr_debug ("process environment: %s", environment);
- 		g_free (command);
--		g_free (environ);
-+		g_free (environment);
- 	}
+ 	gchar *command = g_strjoinv (" ", (gchar**)args->pdata);
+-	gchar *environ = g_strjoinv (", ", (gchar**)envs->pdata);
++	gchar *environment = g_strjoinv (", ", (gchar**)envs->pdata);
+ 	g_debug ("running command: %s", command);
+-	g_debug ("process environment: %s", environ);
++	g_debug ("process environment: %s", environment);
+ 	g_free (command);
+-	g_free (environ);
++	g_free (environment);
  
  	g_spawn_async_with_pipes (self->pv->directory, (gchar**)args->pdata,
-@@ -1068,7 +1101,12 @@ _gcr_gnupg_process_run_async (GcrGnupgPr
+ 	                          (gchar**)envs->pdata, G_SPAWN_DO_NOT_REAP_CHILD,
+@@ -1063,7 +1096,12 @@ _gcr_gnupg_process_run_async (GcrGnupgPr
  		return;
  	}
  
 +#if defined (G_OS_UNIX)
- 	_gcr_debug ("process started: %d", (int)pid);
+ 	g_debug ("process started: %d", (int)pid);
 +#elif defined (G_OS_WIN32)
 +	DWORD real_pid = GetProcessId (pid);
-+	_gcr_debug ("process started: %d", (int)real_pid);
++	g_debug ("process started: %d", (int)real_pid);
 +#endif
  
  	source = g_source_new (&gnupg_source_funcs, sizeof (GnupgSource));
  
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-record.c gcr-3.10.1/gcr/gcr-record.c
---- gcr-3.10.1.old/gcr/gcr-record.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/gcr/gcr-record.c	2014-06-20 21:46:28 +0000
-@@ -597,7 +597,9 @@ _gcr_record_get_date (GcrRecord *record,
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/gcr/gcr-record.c gcr-3.16.0/gcr/gcr-record.c
+--- gcr-3.16.0.old/gcr/gcr-record.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/gcr/gcr-record.c	2015-07-10 18:39:01 +0000
+@@ -593,7 +593,9 @@ _gcr_record_get_date (GcrRecord *record,
  	const gchar *raw;
  	gulong result;
  	gchar *end = NULL;
@@ -677,7 +791,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-record.c gcr-3.10.1
  
  	g_return_val_if_fail (record, NULL);
  
-@@ -615,14 +617,20 @@ _gcr_record_get_date (GcrRecord *record,
+@@ -611,14 +613,20 @@ _gcr_record_get_date (GcrRecord *record,
  	}
  
  	/* Try to parse as a date */
@@ -693,7 +807,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-record.c gcr-3.10.1
 +	}
 +	g_strfreev (string);
 +	if (dt == NULL) {
- 		_gcr_debug ("invalid date value: %s", raw);
+ 		g_debug ("invalid date value: %s", raw);
  		return NULL;
  	}
  
@@ -702,25 +816,17 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/gcr/gcr-record.c gcr-3.10.1
  }
  
  /**
-@@ -860,4 +868,4 @@ _gcr_records_parse_colons (gconstpointer
+@@ -856,4 +864,4 @@ _gcr_records_parse_colons (gconstpointer
  	g_free (lines);
  
  	return result;
 -}
 +}
 \ No newline at end of file
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/Makefile.am gcr-3.10.1/ui/Makefile.am
---- gcr-3.10.1.old/ui/Makefile.am	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/ui/Makefile.am	2014-06-20 21:46:28 +0000
-@@ -1,6 +1,6 @@
- include $(top_srcdir)/Makefile.decl
- 
--SUBDIRS = . icons tests
-+SUBDIRS = . icons
- 
- incdir = $(includedir)/gcr-@GCR_MAJOR@/ui
- 
-@@ -51,11 +51,13 @@ libgcr_ui_@GCR_MAJOR@_la_LIBADD = \
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/ui/Makefile.am gcr-3.16.0/ui/Makefile.am
+--- gcr-3.16.0.old/ui/Makefile.am	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/ui/Makefile.am	2015-07-10 18:39:01 +0000
+@@ -36,11 +36,13 @@ libgcr_ui_@GCR_MAJOR@_la_LIBADD = \
  	$(GTK_LIBS) \
  	$(NULL)
  
@@ -734,10 +840,72 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/Makefile.am gcr-3.10.1/u
  
  uidir = $(datadir)/gcr-@GCR_MAJOR@/ui/
  
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompt-dialog.c gcr-3.10.1/ui/gcr-prompt-dialog.c
---- gcr-3.10.1.old/ui/gcr-prompt-dialog.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/ui/gcr-prompt-dialog.c	2014-06-20 21:46:28 +0000
-@@ -31,7 +31,13 @@
+@@ -285,61 +287,3 @@ ui_LIBS = \
+ 	$(GTK_LIBS)
+ 
+ # ------------------------------------------------------------------
+-
+-noinst_PROGRAMS += \
+-	frob-certificate \
+-	frob-combo-selector \
+-	frob-gnupg-selector \
+-	frob-import-button \
+-	frob-key \
+-	frob-tree-selector \
+-	frob-prompt \
+-	frob-request \
+-	frob-system-prompt \
+-	frob-unlock \
+-	frob-unlock-options
+-
+-frob_certificate_SOURCES = ui/frob-certificate.c
+-frob_certificate_CFLAGS = $(ui_CFLAGS)
+-frob_certificate_LDADD = $(ui_LIBS)
+-
+-frob_combo_selector_SOURCES = ui/frob-combo-selector.c
+-frob_combo_selector_CFLAGS = $(ui_CFLAGS)
+-frob_combo_selector_LDADD = $(ui_LIBS)
+-
+-frob_gnupg_selector_SOURCES = ui/frob-gnupg-selector.c
+-frob_gnupg_selector_CFLAGS = $(ui_CFLAGS)
+-frob_gnupg_selector_LDADD = $(ui_LIBS)
+-
+-frob_import_button_SOURCES = ui/frob-import-button.c
+-frob_import_button_CFLAGS = $(ui_CFLAGS)
+-frob_import_button_LDADD = $(ui_LIBS)
+-
+-frob_key_SOURCES = ui/frob-key.c
+-frob_key_CFLAGS = $(ui_CFLAGS)
+-frob_key_LDADD = $(ui_LIBS)
+-
+-frob_prompt_SOURCES = ui/frob-prompt.c
+-frob_prompt_CFLAGS = $(ui_CFLAGS)
+-frob_prompt_LDADD = $(ui_LIBS)
+-
+-frob_request_SOURCES = ui/frob-request.c
+-frob_request_CFLAGS = $(ui_CFLAGS)
+-frob_request_LDADD = $(ui_LIBS)
+-
+-frob_system_prompt_SOURCES = ui/frob-system-prompt.c
+-frob_system_prompt_CFLAGS = $(ui_CFLAGS)
+-frob_system_prompt_LDADD = $(ui_LIBS)
+-
+-frob_tree_selector_SOURCES = ui/frob-tree-selector.c
+-frob_tree_selector_CFLAGS = $(ui_CFLAGS)
+-frob_tree_selector_LDADD = $(ui_LIBS)
+-
+-frob_unlock_SOURCES = \
+-	ui/frob-unlock.c ui/gcr-viewer-window.c
+-frob_unlock_CFLAGS = $(ui_CFLAGS)
+-frob_unlock_LDADD = $(ui_LIBS)
+-
+-frob_unlock_options_SOURCES = ui/frob-unlock-options.c
+-frob_unlock_options_CFLAGS = $(ui_CFLAGS)
+-frob_unlock_options_LDADD = $(ui_LIBS)
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/ui/gcr-prompt-dialog.c gcr-3.16.0/ui/gcr-prompt-dialog.c
+--- gcr-3.16.0.old/ui/gcr-prompt-dialog.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/ui/gcr-prompt-dialog.c	2015-07-10 18:39:01 +0000
+@@ -27,7 +27,13 @@
  #include "gcr-secure-entry-buffer.h"
  
  #include <gtk/gtk.h>
@@ -751,7 +919,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompt-dialog.c gcr-
  #include <glib/gi18n.h>
  
  /**
-@@ -152,12 +158,21 @@ update_transient_for (GcrPromptDialog *s
+@@ -148,12 +154,21 @@ update_transient_for (GcrPromptDialog *s
  	}
  
  	display = gtk_widget_get_display (GTK_WIDGET (self));
@@ -773,10 +941,10 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompt-dialog.c gcr-
  		g_object_unref (transient_for);
  	}
  
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompter-tool.c gcr-3.10.1/ui/gcr-prompter-tool.c
---- gcr-3.10.1.old/ui/gcr-prompter-tool.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/ui/gcr-prompter-tool.c	2014-06-20 21:46:28 +0000
-@@ -30,13 +30,17 @@
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gcr-3.16.0.old/ui/gcr-prompter-tool.c gcr-3.16.0/ui/gcr-prompter-tool.c
+--- gcr-3.16.0.old/ui/gcr-prompter-tool.c	2015-04-06 18:28:46 +0000
++++ gcr-3.16.0/ui/gcr-prompter-tool.c	2015-07-10 18:39:01 +0000
+@@ -27,13 +27,17 @@
  
  #include <glib/gi18n.h>
  #include <gtk/gtk.h>
@@ -794,7 +962,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompter-tool.c gcr-
  
  #define QUIT_TIMEOUT 10
  
-@@ -138,6 +142,7 @@ log_handler (const gchar *log_domain,
+@@ -135,6 +139,7 @@ log_handler (const gchar *log_domain,
               const gchar *message,
               gpointer user_data)
  {
@@ -802,7 +970,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompter-tool.c gcr-
  	int level;
  
  	/* Note that crit and err are the other way around in syslog */
-@@ -171,6 +176,7 @@ log_handler (const gchar *log_domain,
+@@ -168,6 +173,7 @@ log_handler (const gchar *log_domain,
  		syslog (level, "%s: %s", log_domain, message);
  	else
  		syslog (level, "%s", message);
@@ -810,7 +978,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompter-tool.c gcr-
  
  	/* And then to default handler for aborting and stuff like that */
  	g_log_default_handler (log_domain, log_level, message, user_data);
-@@ -179,9 +185,11 @@ log_handler (const gchar *log_domain,
+@@ -176,9 +182,11 @@ log_handler (const gchar *log_domain,
  static void
  printerr_handler (const gchar *string)
  {
@@ -822,7 +990,7 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompter-tool.c gcr-
  }
  
  static void
-@@ -191,7 +199,9 @@ prepare_logging ()
+@@ -188,7 +196,9 @@ prepare_logging ()
  	                       G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING |
  	                       G_LOG_LEVEL_MESSAGE | G_LOG_LEVEL_INFO;
  
@@ -832,102 +1000,3 @@ diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-prompter-tool.c gcr-
  
  	g_log_set_handler (NULL, flags, log_handler, NULL);
  	g_log_set_handler ("Glib", flags, log_handler, NULL);
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/gcr-ui.pc.in gcr-3.10.1/ui/gcr-ui.pc.in
---- gcr-3.10.1.old/ui/gcr-ui.pc.in	2013-04-21 12:31:47 +0000
-+++ gcr-3.10.1/ui/gcr-ui.pc.in	2014-06-20 22:22:58 +0000
-@@ -11,5 +11,5 @@ Description: GObject and GUI library for
- Version: @VERSION@
- Requires: glib-2.0 gobject-2.0 gio-2.0 gtk+-3.0 gcr-base-@GCR_MAJOR@ gck-@GCK_MAJOR@
- Requires.private: p11-kit-1
--Libs: -L${libdir} -lgcr-@GCR_MAJOR@
-+Libs: -L${libdir} -lgcr-ui-@GCR_MAJOR@
- Cflags: -I${includedir}/gcr-@GCR_MAJOR@
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/tests/frob-prompt.c gcr-3.10.1/ui/tests/frob-prompt.c
---- gcr-3.10.1.old/ui/tests/frob-prompt.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/ui/tests/frob-prompt.c	2014-06-20 21:46:28 +0000
-@@ -27,15 +27,45 @@
- #include "gcr/gcr-base.h"
- 
- #include <gtk/gtk.h>
-+#ifdef GDK_WINDOWING_X11
- #include <gdk/gdkx.h>
-+#endif
-+#ifdef GDK_WINDOWING_WIN32
-+#include <gdk/gdkwin32.h>
-+#endif
- 
-+#ifdef HAVE_ERR_H
- #include <err.h>
-+#else
-+#include <errno.h>
-+#endif
-+#include <stdlib.h>
- 
- static const gchar *file_name = NULL;
- static gchar *prompt_type = NULL;
- static gint prompt_delay = 0;
- static gboolean prompt_window = FALSE;
- 
-+#ifndef HAVE_ERR_H
-+extern void errx (int eval, char *format, ...);
-+
-+void errx (int eval, char *format, ...)
-+{
-+	gchar *err_s;
-+
-+	va_list ap;
-+	va_start (ap, format);
-+	vsprintf (err_s, format, ap);
-+	va_end (ap);
-+
-+	err_s = g_strconcat (g_get_prgname (), ": ", g_strdup (err_s), "\n", NULL);
-+	g_printerr (err_s);
-+	g_free (err_s);
-+
-+	exit (eval);
-+}
-+#endif
-+
- static gboolean
- on_delay_timeout (gpointer data)
- {
-@@ -80,7 +110,11 @@ prompt_perform (GtkWidget *parent)
- 		errx (1, "couldn't create prompt: %s", error->message);
- 
- 	if (parent) {
-+#if defined(GDK_WINDOWING_X11)
- 		caller_id = g_strdup_printf ("%lu", (gulong)GDK_WINDOW_XID (gtk_widget_get_window (parent)));
-+#elif defined(GDK_WINDOWING_WIN32)
-+		caller_id = g_strdup_printf ("%lu", (gulong)GDK_WINDOW_HWND (gtk_widget_get_window (parent)));
-+#endif
- 		gcr_prompt_set_caller_window (GCR_PROMPT (prompt), caller_id);
- 		g_free (caller_id);
- 	}
-diff -upr -x .deps -x .libs -x '*.la' gcr-3.10.1.old/ui/tests/frob-system-prompt.c gcr-3.10.1/ui/tests/frob-system-prompt.c
---- gcr-3.10.1.old/ui/tests/frob-system-prompt.c	2014-06-20 22:20:25 +0000
-+++ gcr-3.10.1/ui/tests/frob-system-prompt.c	2014-06-20 21:46:28 +0000
-@@ -28,7 +28,12 @@
- #include "egg/egg-testing.h"
- 
- #include <gtk/gtk.h>
-+#ifdef GDK_WINDOWING_X11
- #include <gdk/gdkx.h>
-+#endif
-+#ifdef GDK_WINDOWING_WIN32
-+#include <gdk/gdkwin32.h>
-+#endif
- 
- #include <unistd.h>
- #include <string.h>
-@@ -56,7 +61,11 @@ on_prompt_clicked (GtkToolButton *button
- 	gcr_prompt_set_message (GCR_PROMPT (prompt), "This is the message");
- 	gcr_prompt_set_description (GCR_PROMPT (prompt), "This is the description");
- 
-+#if defined(GDK_WINDOWING_X11)
- 	caller_id = g_strdup_printf ("%lu", (gulong)GDK_WINDOW_XID (gtk_widget_get_window (parent)));
-+#elif defined(GDK_WINDOWING_WIN32)
-+	caller_id = g_strdup_printf ("%lu", (gulong)GDK_WINDOW_HWND (gtk_widget_get_window (parent)));
-+#endif
- 	gcr_prompt_set_caller_window (GCR_PROMPT (prompt), caller_id);
- 	g_free (caller_id);
- 

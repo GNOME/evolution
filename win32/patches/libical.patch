@@ -1,16 +1,46 @@
-diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltime.c libical-1.0/src/libical/icaltime.c
---- libical-1.0.old/src/libical/icaltime.c	2013-04-14 17:24:42 +0000
-+++ libical-1.0/src/libical/icaltime.c	2014-08-03 13:58:29 +0000
-@@ -61,7 +61,7 @@
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' libical-1.0.1.old/src/libical/icaltime.c libical-1.0.1/src/libical/icaltime.c
+--- libical-1.0.1.old/src/libical/icaltime.c	2014-10-09 15:07:05 +0000
++++ libical-1.0.1/src/libical/icaltime.c	2015-07-10 18:02:31 +0000
+@@ -61,12 +61,7 @@
  #undef gmtime_r
  
  /* The gmtime() in Microsoft's C library is MT-safe */
 -#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
+-#endif
+-
+-#ifdef HAVE_PTHREAD
+- #include <pthread.h>    
+-    static pthread_mutex_t tzid_mutex = PTHREAD_MUTEX_INITIALIZER;
 +#define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):memset(tmp, 0, sizeof(*tmp)))
  #endif
  
- #ifdef HAVE_PTHREAD
-@@ -205,11 +205,7 @@ icaltime_from_timet_with_zone(const time
+ /*
+@@ -77,7 +72,7 @@
+  *  local daylight savings time applied to the result.
+  *  This function expects well-formed input.
+  */
+-static time_t make_time(struct tm *tm, int tzm)
++static time_t make_time(struct tm *tm, int tzm, int be_strict)
+ {
+   time_t tim;
+ 
+@@ -91,13 +86,13 @@ static time_t make_time(struct tm *tm, i
+ #if (SIZEOF_TIME_T == 4)
+   /* check that year specification within range */
+ 
+-  if (tm->tm_year < 70 || tm->tm_year > 138)
++  if (be_strict && (tm->tm_year < 70 || tm->tm_year > 138))
+     return((time_t) -1);
+ 
+   /* check for upper bound of Jan 17, 2038 (to avoid possibility of
+      32-bit arithmetic overflow) */
+   
+-  if (tm->tm_year == 138) {
++  if (be_strict && tm->tm_year == 138) {
+     if (tm->tm_mon > 0)
+       return((time_t) -1);
+     else if (tm->tm_mday > 17)
+@@ -207,11 +202,7 @@ icaltime_from_timet_with_zone(const time
  
      /* Convert the time_t to a struct tm in UTC time. We can trust gmtime
         for this. */
@@ -22,9 +52,146 @@ diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltime.c lib
       
      tt.year   = t.tm_year + 1900;
      tt.month  = t.tm_mon + 1;
-diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltimezone.c libical-1.0/src/libical/icaltimezone.c
---- libical-1.0.old/src/libical/icaltimezone.c	2013-04-14 17:24:42 +0000
-+++ libical-1.0/src/libical/icaltimezone.c	2014-08-03 13:59:38 +0000
+@@ -291,99 +282,12 @@ time_t icaltime_as_timet(const struct ic
+     stm.tm_year = tt.year-1900;
+     stm.tm_isdst = -1;
+ 
+-    t = make_time(&stm, 0);
++    t = make_time(&stm, 0, 1);
+ 
+     return t;
+ 
+ }
+ 
+-
+-/* Structure used by set_tz to hold an old value of TZ, and the new
+-   value, which is in memory we will have to free in unset_tz */
+-/* This will hold the last "TZ=XXX" string we used with putenv(). After we
+-   call putenv() again to set a new TZ string, we can free the previous one.
+-   As far as I know, no libc implementations actually free the memory used in
+-   the environment variables (how could they know if it is a static string or
+-   a malloc'ed string?), so we have to free it ourselves. */
+-static char* saved_tz = NULL;
+-
+-/* If you use set_tz(), you must call unset_tz() some time later to restore the
+-   original TZ. Pass unset_tz() the string that set_tz() returns. Call both the functions
+-   locking the tzid mutex as in icaltime_as_timet_with_zone */
+-char* set_tz(const char* tzid)
+-{
+-    char *old_tz, *old_tz_copy = NULL, *new_tz;
+-
+-    /* Get the old TZ setting and save a copy of it to return. */
+-    old_tz = getenv("TZ");
+-    if(old_tz){
+-	old_tz_copy = (char*)malloc(strlen (old_tz) + 4);
+-
+-	if(old_tz_copy == 0){
+-	    icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+-	    return 0;
+-	}
+-
+-	strcpy (old_tz_copy, "TZ=");
+-	strcpy (old_tz_copy + 3, old_tz);
+-    }
+-
+-    /* Create the new TZ string. */
+-    new_tz = (char*)malloc(strlen (tzid) + 4);
+-
+-    if(new_tz == 0){
+-	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+-	free(old_tz_copy);
+-	return 0;
+-    }
+-
+-    strcpy (new_tz, "TZ=");
+-    strcpy (new_tz + 3, tzid);
+-
+-    /* Add the new TZ to the environment. */
+-    putenv(new_tz); 
+-
+-    /* Free any previous TZ environment string we have used in a synchronized manner. */
+-
+-    free (saved_tz);
+-
+-    /* Save a pointer to the TZ string we just set, so we can free it later. */
+-    saved_tz = new_tz;
+-
+-    return old_tz_copy; /* This will be zero if the TZ env var was not set */
+-}
+-
+-void unset_tz(char *tzstr)
+-{
+-    /* restore the original environment */
+-
+-    if(tzstr!=0){
+-	putenv(tzstr);
+-    } else {
+-	/* Delete from environment.  We prefer unsetenv(3) over putenv(3)
+-	   because the former is POSIX and behaves consistently.  The later
+-	   does not unset the variable in some systems (like NetBSD), leaving
+-	   it with an empty value.  This causes problems later because further
+-	   calls to time related functions in libc will treat times in UTC. */
+-#ifdef HAVE_UNSETENV
+-	unsetenv("TZ");
+-#else
+-#ifdef _MSC_VER 
+-	putenv("TZ="); // The equals is required to remove with MS Visual C++
+-#else
+-	putenv("TZ");
+-#endif
+-#endif
+-    } 
+-
+-    /* Free any previous TZ environment string we have used in a synchronized manner */
+-    free (saved_tz);
+-
+-    /* Save a pointer to the TZ string we just set, so we can free it later.
+-       (This can possibly be NULL if there was no TZ to restore.) */
+-    saved_tz = tzstr;
+-}
+-
+ /**	Return the time as seconds past the UNIX epoch, using the
+  *	given timezone.
+  *
+@@ -397,8 +301,6 @@ time_t icaltime_as_timet_with_zone(const
+ {
+     icaltimezone *utc_zone;
+     struct tm stm;
+-    time_t t;
+-    char *old_tz;
+     struct icaltimetype local_tt;
+     
+     utc_zone = icaltimezone_get_utc_timezone ();
+@@ -426,25 +328,8 @@ time_t icaltime_as_timet_with_zone(const
+     stm.tm_mon = local_tt.month-1;
+     stm.tm_year = local_tt.year-1900;
+     stm.tm_isdst = -1;
+-/* The functions putenv and mktime are not thread safe, inserting a lock
+-to prevent any crashes */
+-
+-#ifdef HAVE_PTHREAD
+-    pthread_mutex_lock (&tzid_mutex);
+-#endif
+-    
+-    /* Set TZ to UTC and use mktime to convert to a time_t. */
+-    old_tz = set_tz ("UTC");
+-    tzset ();
+-
+-    t = mktime (&stm);
+-    unset_tz (old_tz);
+-    tzset ();
+ 
+-#ifdef HAVE_PTHREAD
+-    pthread_mutex_unlock (&tzid_mutex);
+-#endif
+-    return t;
++    return make_time (&stm, 0, 0);
+ }
+ 
+ const char* icaltime_as_ical_string(const struct icaltimetype tt)
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' libical-1.0.1.old/src/libical/icaltimezone.c libical-1.0.1/src/libical/icaltimezone.c
+--- libical-1.0.1.old/src/libical/icaltimezone.c	2014-10-09 15:07:05 +0000
++++ libical-1.0.1/src/libical/icaltimezone.c	2015-07-10 18:02:31 +0000
 @@ -61,12 +61,19 @@ static pthread_mutex_t builtin_mutex = P
  #undef gmtime_r
  
@@ -55,20 +222,20 @@ diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltimezone.c
  
  /** The prefix we use to uniquely identify TZIDs.
      It must begin and end with forward slashes.
-@@ -1702,10 +1709,10 @@ icaltimezone_parse_zone_tab		(void)
+@@ -1731,10 +1738,10 @@ icaltimezone_parse_zone_tab		(void)
  	return;
      }
- #ifndef USE_BUILTIN_TZDATA
+     if (!use_builtin_tzdata) {
 -    snprintf (filename, filename_len, "%s/%s", icaltzutil_get_zone_directory (),
 +    snprintf (filename, filename_len, "%s" DIR_SEPARATOR "%s", icaltzutil_get_zone_directory (),
  	      ZONES_TAB_SYSTEM_FILENAME);
- #else    
+     } else {
 -    snprintf (filename, filename_len, "%s/%s", get_zone_directory(),
 +    snprintf (filename, filename_len, "%s" DIR_SEPARATOR "%s", get_zone_directory(),
  	      ZONES_TAB_FILENAME);
- #endif    
+     }
  
-@@ -1823,7 +1830,7 @@ icaltimezone_load_builtin_timezone	(ical
+@@ -1856,7 +1863,7 @@ icaltimezone_load_builtin_timezone	(ical
  	goto out;
      }
  
@@ -77,10 +244,10 @@ diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltimezone.c
  	      zone->location);
  
      fp = fopen (filename, "r");
-diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltz-util.c libical-1.0/src/libical/icaltz-util.c
---- libical-1.0.old/src/libical/icaltz-util.c	2013-04-14 17:24:42 +0000
-+++ libical-1.0/src/libical/icaltz-util.c	2014-08-03 12:54:17 +0000
-@@ -50,7 +50,7 @@
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' libical-1.0.1.old/src/libical/icaltz-util.c libical-1.0.1/src/libical/icaltz-util.c
+--- libical-1.0.1.old/src/libical/icaltz-util.c	2014-10-09 15:07:05 +0000
++++ libical-1.0.1/src/libical/icaltz-util.c	2015-07-10 18:03:56 +0000
+@@ -51,7 +51,7 @@
  # endif
  #endif
  
@@ -89,27 +256,23 @@ diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltz-util.c 
  #if !defined(HAVE_BYTESWAP_H) && !defined(HAVE_SYS_ENDIAN_H) && !defined(HAVE_ENDIAN_H)
  #define bswap_16(x) (((x) << 8) & 0xff00) | (((x) >> 8 ) & 0xff)
  #define bswap_32(x) (((x) << 24) & 0xff000000)  \
-@@ -67,6 +67,11 @@
+@@ -68,6 +68,7 @@
                      | (((x) & 0x00000000000000ffull) << 56))
  #endif
  #include <io.h>
-+#include <sys/param.h> /* for BYTE_ORDER */
-+#endif
-+
-+#ifdef WIN32
 +#include <windows.h>
  #endif
  
- #if defined(__APPLE__)
-@@ -191,6 +196,7 @@ zname_from_stridx (char *str, long int i
+ #if defined(__APPLE__) || defined(__MINGW32__)
+@@ -190,6 +191,7 @@ zname_from_stridx (char *str, long int i
  static void
  set_zonedir (void)
  {
 +	#ifndef WIN32
  	char file_path[PATH_MAX];
  	const char *fname = ZONES_TAB_SYSTEM_FILENAME;
- 	int i;	
-@@ -202,6 +208,42 @@ set_zonedir (void)
+ 	unsigned int i;
+@@ -201,6 +203,42 @@ set_zonedir (void)
  			break;
  		}
  	}
@@ -151,19 +314,19 @@ diff -upr -x .deps -x .libs -x '*.la' libical-1.0.old/src/libical/icaltz-util.c 
 +	#endif
  }
  
- 
-@@ -256,6 +298,14 @@ icaltzutil_fetch_timezone (const char *l
+ const char *
+@@ -242,6 +280,14 @@ icaltzutil_fetch_timezone (const char *l
  
  	full_path = (char *) malloc (strlen (basedir) + strlen (location) + 2);
  	sprintf (full_path,"%s/%s",basedir, location);
 +	#ifdef WIN32
-+	pos = strlen(basedir);
-+	while(full_path[pos]) {
-+		if (full_path[pos] == '/')
-+			full_path[pos] = '\\';
-+		pos++;
++	i = strlen(basedir);
++	while(full_path[i]) {
++		if (full_path[i] == '/')
++			full_path[i] = '\\';
++		i++;
 +	}
 +	#endif
- 
  	if ((f = fopen (full_path, "rb")) == 0) {
  		icalerror_set_errno (ICAL_FILE_ERROR);
+ 		free (full_path);

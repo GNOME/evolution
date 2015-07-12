@@ -1,60 +1,11 @@
-diff -upr p11-kit-98292d6bbc.old/configure.ac p11-kit-98292d6bbc/configure.ac
---- p11-kit-98292d6bbc.old/configure.ac	2014-03-24 21:44:56 +0000
-+++ p11-kit-98292d6bbc/configure.ac	2014-03-24 20:45:41 +0000
-@@ -22,7 +22,7 @@ P11KIT_AGE=0
- AC_CONFIG_HEADERS([config.h])
- AC_CONFIG_MACRO_DIR([build/m4])
- AC_CONFIG_AUX_DIR([build/litter])
--AM_INIT_AUTOMAKE([1.10 foreign serial-tests])
-+AM_INIT_AUTOMAKE([1.10 foreign])
- AM_SANITY_CHECK
- AM_MAINTAINER_MODE([enable])
- m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])],)
-diff -upr p11-kit-98292d6bbc.old/common/compat.c p11-kit-98292d6bbc/common/compat.c
---- p11-kit-98292d6bbc.old/common/compat.c	2014-03-26 05:06:34 +0000
-+++ p11-kit-98292d6bbc/common/compat.c	2014-03-26 05:04:47 +0000
-@@ -840,7 +840,17 @@ strerror_r (int errnum,
-             size_t buflen)
- {
- #ifdef OS_WIN32
-+	#ifdef __MINGW32__
-+	char *str = strerror (errnum);
-+	if (!str) {
-+		*buf = 0;
-+		return EINVAL;
-+	}
-+	strncpy (buf, str, buflen);
-+	return 0;
-+	#else
- 	return strerror_s (buf, buflen, errnum);
-+	#endif
- #else
- 	#error no strerror_r implementation
- #endif
-diff -upr p11-kit-98292d6bbc.old/p11-kit/Makefile.am p11-kit-98292d6bbc/p11-kit/Makefile.am
---- p11-kit-98292d6bbc.old/p11-kit/Makefile.am	2014-03-26 05:06:05 +0000
-+++ p11-kit-98292d6bbc/p11-kit/Makefile.am	2014-03-24 23:17:41 +0000
-@@ -98,6 +98,11 @@ libp11_kit_testable_la_CFLAGS = \
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' p11-kit-ec9e2450ba/p11-kit/Makefile.am p11-kit-ec9e2450ba.new/p11-kit/Makefile.am
+--- p11-kit-ec9e2450ba/p11-kit/Makefile.am	2015-02-20 20:28:59 +0000
++++ p11-kit-ec9e2450ba.new/p11-kit/Makefile.am	2015-07-06 16:01:39 +0000
+@@ -73,6 +73,7 @@ libp11_kit_testable_la_CFLAGS = \
  	$(LIBFFI_CFLAGS) \
  	$(NULL)
  
-+# Proxy module is actually same as library, so install a link
-+install-exec-hook:
-+	$(LN_S) -f `readlink $(DESTDIR)$(libdir)/libp11-kit.so` $(DESTDIR)$(libdir)/p11-kit-proxy.so
-+	$(MKDIR_P) $(DESTDIR)$(p11_package_config_modules)
-+
- endif
++libp11_kit_la_LIBADD += -lws2_32
+ else
  
- pkgconfigdir = $(libdir)/pkgconfig
-@@ -112,11 +117,6 @@ EXTRA_DIST = \
- 	docs.h \
- 	$(NULL)
- 
--# Proxy module is actually same as library, so install a link
--install-exec-hook:
--	$(LN_S) -f `readlink $(DESTDIR)$(libdir)/libp11-kit.so` $(DESTDIR)$(libdir)/p11-kit-proxy.so
--	$(MKDIR_P) $(DESTDIR)$(p11_package_config_modules)
--
- bin_PROGRAMS = \
- 	p11-kit
- 
+ libp11_kit_testable_la_CFLAGS = \
