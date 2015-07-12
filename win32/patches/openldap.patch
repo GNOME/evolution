@@ -1,7 +1,7 @@
-diff -upr openldap-2.4.9.old/Makefile openldap-2.4.9/Makefile
---- openldap-2.4.9.old/Makefile	2014-03-26 05:17:05 +0000
-+++ openldap-2.4.9/Makefile	2014-03-26 21:20:23 +0000
-@@ -264,7 +264,7 @@ FORCE:
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/Makefile openldap-2.4.39/Makefile
+--- openldap-2.4.39.old/Makefile	2015-07-06 18:34:49 +0000
++++ openldap-2.4.39/Makefile	2015-07-06 17:28:46 +0000
+@@ -266,7 +266,7 @@ FORCE:
  ## top-level directory of the distribution or, alternatively, at
  ## <http://www.OpenLDAP.org/license.html>.
  
@@ -10,9 +10,9 @@ diff -upr openldap-2.4.9.old/Makefile openldap-2.4.9/Makefile
  CLEANDIRS=
  INSTALLDIRS= 
  
-diff -upr openldap-2.4.9.old/Makefile.in openldap-2.4.9/Makefile.in
---- openldap-2.4.9.old/Makefile.in	2014-03-26 05:17:05 +0000
-+++ openldap-2.4.9/Makefile.in	2014-03-26 21:20:00 +0000
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/Makefile.in openldap-2.4.39/Makefile.in
+--- openldap-2.4.39.old/Makefile.in	2015-07-06 18:34:49 +0000
++++ openldap-2.4.39/Makefile.in	2015-07-06 17:28:46 +0000
 @@ -13,7 +13,7 @@
  ## top-level directory of the distribution or, alternatively, at
  ## <http://www.OpenLDAP.org/license.html>.
@@ -22,22 +22,34 @@ diff -upr openldap-2.4.9.old/Makefile.in openldap-2.4.9/Makefile.in
  CLEANDIRS=
  INSTALLDIRS= 
  
-diff -upr openldap-2.4.9.old/include/ldap_pvt_thread.h openldap-2.4.9/include/ldap_pvt_thread.h
---- openldap-2.4.9.old/include/ldap_pvt_thread.h	2014-03-26 05:17:20 +0000
-+++ openldap-2.4.9/include/ldap_pvt_thread.h	2014-03-26 21:19:42 +0000
-@@ -61,7 +61,7 @@ ldap_pvt_thread_set_concurrency LDAP_P((
- #define	LDAP_PVT_THREAD_SET_STACK_SIZE
- #ifndef LDAP_PVT_THREAD_STACK_SIZE
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/include/ldap.h openldap-2.4.39/include/ldap.h
+--- openldap-2.4.39.old/include/ldap.h	2014-01-25 13:36:15 +0000
++++ openldap-2.4.39/include/ldap.h	2015-07-06 18:47:29 +0000
+@@ -2211,7 +2211,7 @@ ldap_parse_vlvresponse_control LDAP_P((
+ 	ber_int_t *target_posp,
+ 	ber_int_t *list_countp,
+ 	struct berval **contextp,
+-	int           *errcodep ));
++	ber_int_t     *errcodep ));
+ 
+ /*
+  * LDAP Who Am I?
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/include/ldap_pvt_thread.h openldap-2.4.39/include/ldap_pvt_thread.h
+--- openldap-2.4.39.old/include/ldap_pvt_thread.h	2015-07-06 18:34:49 +0000
++++ openldap-2.4.39/include/ldap_pvt_thread.h	2015-07-06 17:28:50 +0000
+@@ -68,7 +68,7 @@ ldap_pvt_thread_set_concurrency LDAP_P((
+ #	undef LDAP_PVT_THREAD_SET_STACK_SIZE
+ #elif !defined( LDAP_PVT_THREAD_STACK_SIZE )
  	/* LARGE stack. Will be twice as large on 64 bit machine. */
--#define LDAP_PVT_THREAD_STACK_SIZE	( 1 * 1024 * 1024 * sizeof(void *) )
-+#define LDAP_PVT_THREAD_STACK_SIZE	( 1 * 1024 * 1024 * 4 )
- /* May be explicitly defined to zero to disable it */
- #elif LDAP_PVT_THREAD_STACK_SIZE == 0
- #undef LDAP_PVT_THREAD_SET_STACK_SIZE
-diff -upr openldap-2.4.9.old/include/portable.h openldap-2.4.9/include/portable.h
---- openldap-2.4.9.old/include/portable.h	2014-03-26 05:17:20 +0000
-+++ openldap-2.4.9/include/portable.h	2014-03-26 21:19:42 +0000
-@@ -1086,7 +1086,7 @@
+-#	define LDAP_PVT_THREAD_STACK_SIZE ( 1 * 1024 * 1024 * sizeof(void *) )
++#	define LDAP_PVT_THREAD_STACK_SIZE ( 1 * 1024 * 1024 * 8 )
+ #endif
+ #endif /* !LDAP_PVT_THREAD_H_DONE */
+ 
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/include/portable.h openldap-2.4.39/include/portable.h
+--- openldap-2.4.39.old/include/portable.h	2015-07-06 18:38:19 +0000
++++ openldap-2.4.39/include/portable.h	2015-07-06 17:28:46 +0000
+@@ -1113,7 +1113,7 @@
  #define snprintf _snprintf
  
  /* Define like ber_socklen_t if <sys/socket.h> does not define. */
@@ -46,10 +58,66 @@ diff -upr openldap-2.4.9.old/include/portable.h openldap-2.4.9/include/portable.
  
  /* Define to `signed int' if <sys/types.h> does not define. */
  /* #undef ssize_t */
-diff -upr openldap-2.4.9.old/libraries/libldap_r/Makefile openldap-2.4.9/libraries/libldap_r/Makefile
---- openldap-2.4.9.old/libraries/libldap_r/Makefile	2014-03-26 05:17:20 +0000
-+++ openldap-2.4.9/libraries/libldap_r/Makefile	2014-03-26 21:19:42 +0000
-@@ -304,10 +304,10 @@ LIB_DEFS = -DLDAP_LIBRARY
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/libraries/libldap/tls_g.c openldap-2.4.39/libraries/libldap/tls_g.c
+--- openldap-2.4.39.old/libraries/libldap/tls_g.c	2014-01-25 13:36:15 +0000
++++ openldap-2.4.39/libraries/libldap/tls_g.c	2015-07-06 19:13:40 +0000
+@@ -158,7 +158,9 @@ static struct gcry_thread_cbs tlsg_threa
+ static void
+ tlsg_thr_init( void )
+ {
++	#if LIBGNUTLS_VERSION_NUMBER <= 0x020b00
+ 	gcry_control (GCRYCTL_SET_THREAD_CBS, &tlsg_thread_cbs);
++	#endif
+ }
+ #endif /* LDAP_R_COMPILE */
+ 
+@@ -168,7 +170,7 @@ tlsg_thr_init( void )
+ static int
+ tlsg_init( void )
+ {
+-#ifdef HAVE_GCRYPT_RAND
++#if defined(HAVE_GCRYPT_RAND) && LIBGNUTLS_VERSION_NUMBER <= 0x020b00
+ 	struct ldapoptions *lo = LDAP_INT_GLOBAL_OPT();
+ 	if ( lo->ldo_tls_randfile &&
+ 		gcry_control( GCRYCTL_SET_RNDEGD_SOCKET, lo->ldo_tls_randfile )) {
+@@ -368,23 +370,24 @@ tlsg_ctx_init( struct ldapoptions *lo, s
+ 		 * then we have to build the cert chain.
+ 		 */
+ 		if ( max == 1 && !gnutls_x509_crt_check_issuer( certs[0], certs[0] )) {
+-			gnutls_x509_crt_t *cas;
+-			unsigned int i, j, ncas;
++			unsigned int i;
+ 
+-			gnutls_certificate_get_x509_cas( ctx->cred, &cas, &ncas );
++			/*gnutls_certificate_get_x509_cas( ctx->cred, &cas, &ncas );*/
+ 			for ( i = 1; i<VERIFY_DEPTH; i++ ) {
+-				for ( j = 0; j<ncas; j++ ) {
+-					if ( gnutls_x509_crt_check_issuer( certs[i-1], cas[j] )) {
+-						certs[i] = cas[j];
++				int found = 0;
++				gnutls_x509_crt_t issuer;
++				if (gnutls_certificate_get_issuer(ctx->cred, certs[i-1], &issuer, GNUTLS_TL_GET_COPY) == GNUTLS_E_SUCCESS) {
++					if ( gnutls_x509_crt_check_issuer( certs[i-1], issuer )) {
++						certs[i] = issuer;
+ 						max++;
+ 						/* If this CA is self-signed, we're done */
+-						if ( gnutls_x509_crt_check_issuer( cas[j], cas[j] ))
+-							j = ncas;
++						if ( gnutls_x509_crt_check_issuer( issuer, issuer ))
++							found = 1;
+ 						break;
+ 					}
+ 				}
+ 				/* only continue if we found a CA and it was not self-signed */
+-				if ( j == ncas )
++				if ( found )
+ 					break;
+ 			}
+ 		}
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/libraries/libldap_r/Makefile openldap-2.4.39/libraries/libldap_r/Makefile
+--- openldap-2.4.39.old/libraries/libldap_r/Makefile	2015-07-06 18:34:49 +0000
++++ openldap-2.4.39/libraries/libldap_r/Makefile	2015-07-06 17:28:46 +0000
+@@ -310,10 +310,10 @@ LIB_DEFS = -DLDAP_LIBRARY
  
  XDEFS = -DLDAP_R_COMPILE -I$(XXDIR)
  XLIBS = $(LIBRARY) $(LDAP_LIBLBER_LA) $(LDAP_LIBLUTIL_A)
@@ -63,10 +131,10 @@ diff -upr openldap-2.4.9.old/libraries/libldap_r/Makefile openldap-2.4.9/librari
  
  .links : Makefile
  	@for i in $(XXSRCS); do \
-diff -upr openldap-2.4.9.old/libraries/libldap_r/Makefile.in openldap-2.4.9/libraries/libldap_r/Makefile.in
---- openldap-2.4.9.old/libraries/libldap_r/Makefile.in	2014-03-26 05:17:20 +0000
-+++ openldap-2.4.9/libraries/libldap_r/Makefile.in	2014-03-26 21:19:42 +0000
-@@ -53,10 +53,10 @@ LIB_DEFS = -DLDAP_LIBRARY
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' openldap-2.4.39.old/libraries/libldap_r/Makefile.in openldap-2.4.39/libraries/libldap_r/Makefile.in
+--- openldap-2.4.39.old/libraries/libldap_r/Makefile.in	2015-07-06 18:34:49 +0000
++++ openldap-2.4.39/libraries/libldap_r/Makefile.in	2015-07-06 17:28:46 +0000
+@@ -57,10 +57,10 @@ LIB_DEFS = -DLDAP_LIBRARY
  
  XDEFS = -DLDAP_R_COMPILE -I$(XXDIR)
  XLIBS = $(LIBRARY) $(LDAP_LIBLBER_LA) $(LDAP_LIBLUTIL_A)

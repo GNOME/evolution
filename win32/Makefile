@@ -30,7 +30,7 @@ evo: evolution
 ews: evolution-ews
 rss: evolution-rss
 
-dependencies: core-tools zlib fake-gtk-doc gnome-common dbus glib gtk librsvg2 icon-themes gsettings-desktop-schemas shared-mime-info libsoup nss liboauth libgdata libgweather openldap libical iso-codes enchant gtkspell gcr webkitgtk gtkhtml
+dependencies: core-tools zlib fake-gtk-doc gnome-common dbus glib gtk librsvg2 icon-themes gsettings-desktop-schemas shared-mime-info libsoup nss liboauth libgdata libgweather openldap libical iso-codes enchant gtkspell gcr webkitgtk
 addons: evolution-ews evolution-rss
 evolution-data-server: dependencies evolution-data-server$(EVO_BUILD_SUFFIX)
 evolution: evolution$(EVO_BUILD_SUFFIX)
@@ -67,7 +67,7 @@ $(BUILD_ROOT_EVO)/lib/pkgconfig/evolution-shell-3.0.pc:
 	@if test ! -f "../../evolution/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution/"; \
 	fi
-	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution "" "--enable-plugins=all --enable-weather --disable-canberra --disable-contact-maps --disable-goa --disable-libcryptui --disable-bogofilter --disable-spamassassin --disable-text-highlight --disable-pst-import --disable-gnome-desktop --disable-autoar --without-clutter --without-help $(DISABLE_GTK_DOC)" $(VERBOSE)
+	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution "" "--enable-plugins=all --enable-weather --disable-canberra --disable-contact-maps --disable-goa --disable-libcryptui --without-bogofilter --without-spamassassin --disable-text-highlight --disable-pst-import --disable-gnome-desktop --disable-autoar --without-clutter --without-help $(DISABLE_GTK_DOC)" $(VERBOSE)
 
 evolution-ews-master: env evolution-master $(BUILD_ROOT_EVO)/lib/evolution-data-server/libeews-1.2.dll.a
 
@@ -80,7 +80,6 @@ $(BUILD_ROOT_EVO)/lib/evolution-data-server/libeews-1.2.dll.a:
 		cp "patches/gtk-doc.make" "../../evolution-ews/"; \
 	fi
 	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution-ews "" "--with-internal-lzx" $(VERBOSE)
-	@mv $(BUILD_ROOT_EVO)/lib/bin/* $(BUILD_ROOT_EVO)/bin/
 
 evolution-rss-master: env evolution-master $(BUILD_ROOT_EVO)/share/glib-2.0/schemas/org.gnome.evolution.plugin.evolution-rss.gschema.xml
 
@@ -97,8 +96,8 @@ $(BUILD_ROOT_EVO)/share/glib-2.0/schemas/org.gnome.evolution.plugin.evolution-rs
 gcr: env gtk dbus $(BUILD_ROOT_DEPS)/lib/pkgconfig/gcr-3.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/gcr-3.pc:
-	@./get-src https://download.gnome.org/sources/gcr/3.10 gcr-3.10.1.tar.xz
-	@./build acmmi "$(BUILD_ROOT_DEPS)" gcr-3.10.1 "gcr.patch" "$(DISABLE_GTK_DOC)" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/gcr/3.16 gcr-3.16.0.tar.xz
+	@./build acmmi "$(BUILD_ROOT_DEPS)" gcr-3.16.0 "gcr.patch" "$(DISABLE_GTK_DOC)" $(VERBOSE)
 
 shared-mime-info: env $(BUILD_ROOT_DEPS)/share/pkgconfig/shared-mime-info.pc
 
@@ -109,14 +108,14 @@ $(BUILD_ROOT_DEPS)/share/pkgconfig/shared-mime-info.pc:
 glib: env zlib libxml2 libffi fake-gtk-doc $(BUILD_ROOT_DEPS)/lib/pkgconfig/glib-2.0.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/glib-2.0.pc:
-	@./get-src https://download.gnome.org/sources/glib/2.40 glib-2.40.0.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" glib-2.40.0 "" "--disable-static" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/glib/2.44 glib-2.44.1.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" glib-2.44.1 "" "--disable-static" $(VERBOSE)
 
 glib-networking: env glib gnutls $(BUILD_ROOT_DEPS)/lib/gio/modules/libgiognutls.la
 
 $(BUILD_ROOT_DEPS)/lib/gio/modules/libgiognutls.la:
-	@./get-src https://download.gnome.org/sources/glib-networking/2.40 glib-networking-2.40.1.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" glib-networking-2.40.1 "" "--without-ca-certificates" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/glib-networking/2.44 glib-networking-2.44.0.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" glib-networking-2.44.0 "" "--without-ca-certificates" $(VERBOSE)
 
 libmspack: env $(BUILD_ROOT_DEPS)/lib/pkgconfig/libmspack.pc
 
@@ -127,16 +126,16 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/libmspack.pc:
 libsoup: env glib-networking sqlite $(BUILD_ROOT_DEPS)/lib/pkgconfig/libsoup-2.4.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/libsoup-2.4.pc:
-	@./get-src https://download.gnome.org/sources/libsoup/2.44 libsoup-2.44.2.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" libsoup-2.44.2 "" "--disable-tls-check $(DISABLE_GTK_DOC)" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/libsoup/2.50 libsoup-2.50.0.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" libsoup-2.50.0 "" "--disable-tls-check $(DISABLE_GTK_DOC)" $(VERBOSE)
 
 libical: env tzdata cmake $(BUILD_ROOT_DEPS)/lib/pkgconfig/libical.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/libical.pc:
-	@./get-src "http://downloads.sourceforge.net/project/freeassociation/libical/libical-1.0/libical-1.0.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Ffreeassociation%2Ffiles%2Flibical%2Flibical-1.0%2F&ts=1395872482&use_mirror=cznic" "0" libical-1.0.tar.gz
-	@cd src/libical-1.0 && \
+	@./get-src "https://github.com/libical/libical/archive/v1.0.1/libical-1.0.1.tar.gz" "0" libical-1.0.1.tar.gz || (mv downloads/v1.0.1 downloads/libical-1.0.1.tar.gz && (tar -xf downloads/libical-1.0.1.tar.gz --directory=src/ || echo "Error ignored."))
+	@cd src/libical-1.0.1 && \
 	cmake -G "MSYS Makefiles" -DCMAKE_PREFIX_PATH=$(BUILD_ROOT_DEPS) -DCMAKE_INSTALL_PREFIX=$(BUILD_ROOT_DEPS) .
-	@./build mmi "$(BUILD_ROOT_DEPS)" libical-1.0 "libical.patch" "" $(VERBOSE)
+	@./build mmi "$(BUILD_ROOT_DEPS)" libical-1.0.1 "libical.patch" "" $(VERBOSE)
 
 libgweather: env libsoup tzdata $(BUILD_ROOT_DEPS)/lib/pkgconfig/gweather-3.0.pc
 
@@ -197,8 +196,8 @@ $(BUILD_ROOT_DEPS)/bin/nsinstall.exe:
 gnutls: env zlib gmp nettle p11-kit $(BUILD_ROOT_DEPS)/lib/pkgconfig/gnutls.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/gnutls.pc:
-	@./get-src ftp://ftp.gnutls.org/gcrypt/gnutls/v3.2 gnutls-3.2.12.1.tar.xz "" "" "gnutls-3.2.12"
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gnutls-3.2.12 "@gnutls.patch" "--disable-guile --disable-doc --disable-libdane --disable-crywrap" $(VERBOSE)
+	@./get-src ftp://ftp.gnutls.org/gcrypt/gnutls/v3.4 gnutls-3.4.2.tar.xz "" "" "gnutls-3.4.2"
+	@./build cmmi "$(BUILD_ROOT_DEPS)" gnutls-3.4.2 "@gnutls.patch" "--disable-guile --disable-doc --disable-libdane --disable-crywrap" $(VERBOSE)
 
 gnupg: env gnutls pth libassuan libksba $(BUILD_ROOT_DEPS)/bin/gpg2.exe
 
@@ -245,8 +244,8 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/sqlite3.pc:
 nettle: env $(BUILD_ROOT_DEPS)/lib/pkgconfig/nettle.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/nettle.pc:
-	@./get-src http://www.lysator.liu.se/~nisse/archive nettle-2.7.1.tar.gz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" nettle-2.7.1 "" "" $(VERBOSE)
+	@./get-src http://www.lysator.liu.se/~nisse/archive nettle-3.1.tar.gz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" nettle-3.1 "nettle.patch" "" $(VERBOSE)
 
 gmp: env $(BUILD_ROOT_DEPS)/lib/libgmp.la
 
@@ -257,8 +256,8 @@ $(BUILD_ROOT_DEPS)/lib/libgmp.la:
 p11-kit: env libtasn1 $(BUILD_ROOT_DEPS)/lib/pkgconfig/p11-kit-1.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/p11-kit-1.pc:
-	@./get-src http://cgit.freedesktop.org/p11-glue/p11-kit/snapshot p11-kit-98292d6bbc.tar.gz
-	@./build acmmi "$(BUILD_ROOT_DEPS)" p11-kit-98292d6bbc "p11-kit.patch" "--disable-rpath --disable-trust-module --without-trust-paths" $(VERBOSE)
+	@./get-src http://cgit.freedesktop.org/p11-glue/p11-kit/snapshot p11-kit-ec9e2450ba.tar.gz
+	@./build acmmi "$(BUILD_ROOT_DEPS)" p11-kit-ec9e2450ba "p11-kit.patch" "--disable-rpath --disable-trust-module --without-trust-paths" $(VERBOSE)
 
 trousers: env openssl $(BUILD_ROOT_DEPS)/lib/pkgconfig/trousers.pc
 
@@ -308,8 +307,8 @@ $(BUILD_ROOT_DEPS)/lib/libncurses.a:
 openldap: env regex gnutls libgpg-error libgcrypt $(BUILD_ROOT_DEPS)/lib/libldap.la
 
 $(BUILD_ROOT_DEPS)/lib/libldap.la:
-	@./get-src ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release openldap-2.4.9.tgz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" openldap-2.4.9 "@openldap.patch" "--disable-backends --disable-overlays --disable-slapd --disable-debug --enable-dynamic --without-threads --with-tls=gnutls" $(VERBOSE)
+	@./get-src ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release openldap-2.4.39.tgz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" openldap-2.4.39 "@openldap.patch" "--disable-backends --disable-overlays --disable-slapd --disable-debug --enable-dynamic --without-threads --with-tls=gnutls" $(VERBOSE)
 
 libgpg-error: env gnutls $(BUILD_ROOT_DEPS)/lib/libgpg-error.la
 
@@ -361,12 +360,6 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/gtkspell3-3.0.pc:
 	@./get-src "http://downloads.sourceforge.net/project/gtkspell/3.0.4/gtkspell3-3.0.4.tar.gz?r=http%3A%2F%2Fgtkspell.sourceforge.net%2F&ts=1395867752&use_mirror=skylink" "0" gtkspell3-3.0.4.tar.gz
 	@./build cmmi "$(BUILD_ROOT_DEPS)" gtkspell3-3.0.4 "" "$(DISABLE_GTK_DOC)" $(VERBOSE)
 
-gtkhtml: env $(BUILD_ROOT_DEPS)/lib/pkgconfig/libgtkhtml-4.0.pc
-
-$(BUILD_ROOT_DEPS)/lib/pkgconfig/libgtkhtml-4.0.pc:
-	@./get-src https://download.gnome.org/sources/gtkhtml/4.8 gtkhtml-4.8.0.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gtkhtml-4.8.0 "" "$(DISABLE_GTK_DOC)" $(VERBOSE)
-
 gnome-common: env $(BUILD_ROOT_DEPS)/share/aclocal/gnome-common.m4
 
 $(BUILD_ROOT_DEPS)/share/aclocal/gnome-common.m4:
@@ -376,8 +369,8 @@ $(BUILD_ROOT_DEPS)/share/aclocal/gnome-common.m4:
 webkitgtk: env gtk enchant libsoup ruby gperf libwebp icu libsecret libxslt $(BUILD_ROOT_DEPS)/lib/pkgconfig/webkitgtk-3.0.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/webkitgtk-3.0.pc:
-	@./get-src http://webkitgtk.org/releases webkitgtk-2.4.4.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" webkitgtk-2.4.4 "webkitgtk.patch" "--enable-win32-target --enable-spellcheck --enable-jit --disable-geolocation --disable-video --disable-web-audio --disable-webgl --disable-accelerated-compositing --disable-glx --disable-egl --disable-gles2 --disable-webkit2 $(DISABLE_GTK_DOC)" $(VERBOSE)
+	@./get-src http://webkitgtk.org/releases webkitgtk-2.4.9.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" webkitgtk-2.4.9 "" "--enable-win32-target --enable-spellcheck --enable-jit --disable-geolocation --disable-video --disable-web-audio --disable-webgl --disable-accelerated-compositing --disable-glx --disable-egl --disable-gles2 --disable-webkit2 $(DISABLE_GTK_DOC)" $(VERBOSE)
 
 ruby: env 7zip $(BUILD_ROOT_DEPS)/bin/ruby.exe
 
@@ -463,8 +456,8 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/libunistring.pc:
 libtasn1: env $(BUILD_ROOT_DEPS)/lib/pkgconfig/libtasn1.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/libtasn1.pc:
-	@./get-src http://ftp.gnu.org/gnu/libtasn1 libtasn1-3.4.tar.gz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" libtasn1-3.4 "@libtasn1.patch" "" $(VERBOSE)
+	@./get-src http://ftp.gnu.org/gnu/libtasn1 libtasn1-4.5.tar.gz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" libtasn1-4.5 "" "" $(VERBOSE)
 
 openssl: env $(BUILD_ROOT_DEPS)/lib/pkgconfig/openssl.pc
 
@@ -472,29 +465,35 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/openssl.pc:
 	@./get-src http://www.openssl.org/source openssl-1.0.1g.tar.gz
 	@./build cmmi "$(BUILD_ROOT_DEPS)" openssl-1.0.1g "" "mingw" $(VERBOSE)
 
-gtk: env glib intltool atk gdk-pixbuf cairo pango $(BUILD_ROOT_DEPS)/lib/pkgconfig/gtk+-3.0.pc
+gtk: env glib intltool atk gdk-pixbuf cairo pango libepoxy $(BUILD_ROOT_DEPS)/lib/pkgconfig/gtk+-3.0.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/gtk+-3.0.pc:
-	@./get-src https://download.gnome.org/sources/gtk+/3.10 gtk+-3.10.6.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gtk+-3.10.6 "gtk.patch" "--disable-static $(DISABLE_GTK_DOC) --disable-man" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/gtk+/3.16 gtk+-3.16.4.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" gtk+-3.16.4 "gtk.patch" "--disable-static $(DISABLE_GTK_DOC) --disable-man" $(VERBOSE)
+
+libepoxy: env glib intltool cairo pango $(BUILD_ROOT_DEPS)/lib/pkgconfig/epoxy.pc
+
+$(BUILD_ROOT_DEPS)/lib/pkgconfig/epoxy.pc:
+	@./get-src https://github.com/anholt/libepoxy/archive/v1.2.tar.gz "0" "libepoxy-1.2.tar.gz" || (mv downloads/v1.2 downloads/libepoxy-1.2.tar.gz && tar -xf downloads/libepoxy-1.2.tar.gz --directory=src/)
+	@./build acmmi "$(BUILD_ROOT_DEPS)" libepoxy-1.2 "libepoxy.patch" "" $(VERBOSE)
 
 atk: env glib $(BUILD_ROOT_DEPS)/lib/pkgconfig/atk.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/atk.pc:
-	@./get-src https://download.gnome.org/sources/atk/2.10 atk-2.10.0.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" atk-2.10.0 "atk.patch" "--disable-static" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/atk/2.16 atk-2.16.0.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" atk-2.16.0 "atk.patch" "--disable-static" $(VERBOSE)
 
 cairo: env glib pixman libpng freetype fontconfig $(BUILD_ROOT_DEPS)/lib/pkgconfig/cairo.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/cairo.pc:
-	@./get-src http://cairographics.org/releases cairo-1.12.16.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" cairo-1.12.16 "" "--disable-static $(DISABLE_GTK_DOC)" $(VERBOSE)
+	@./get-src http://cairographics.org/releases cairo-1.14.2.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" cairo-1.14.2 "" "--disable-static $(DISABLE_GTK_DOC)" $(VERBOSE)
 
 pixman: env $(BUILD_ROOT_DEPS)/lib/pkgconfig/pixman-1.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/pixman-1.pc:
-	@./get-src http://cairographics.org/releases pixman-0.32.4.tar.gz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" pixman-0.32.4 "" "--disable-static" $(VERBOSE)
+	@./get-src http://cairographics.org/releases pixman-0.32.6.tar.gz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" pixman-0.32.6 "" "--disable-static" $(VERBOSE)
 
 libpng: env zlib $(BUILD_ROOT_DEPS)/lib/pkgconfig/libpng.pc
 
@@ -531,10 +530,10 @@ $(BUILD_ROOT_DEPS)/lib/pkgconfig/librsvg-2.0.pc:
 pango: env glib cairo fontconfig freetype harfbuzz $(BUILD_ROOT_DEPS)/lib/pkgconfig/pango.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/pango.pc:
-	@./get-src http://ftp.gnome.org/pub/GNOME/sources/pango/1.36 pango-1.36.1.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" pango-1.36.1 "" "" $(VERBOSE)
+	@./get-src http://ftp.gnome.org/pub/GNOME/sources/pango/1.36 pango-1.36.8.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" pango-1.36.8 "" "" $(VERBOSE)
 
-icon-themes: hicolor-icon-theme icon-naming-utils gnome-icon-theme gnome-icon-theme-symbolic
+icon-themes: hicolor-icon-theme icon-naming-utils adwaita-icon-theme
 
 hicolor-icon-theme: env $(BUILD_ROOT_DEPS)/share/icons/hicolor/index.theme
 
@@ -554,23 +553,17 @@ $(BUILD_ROOT_DEPS)/share/pkgconfig/icon-naming-utils.pc:
 	@./get-src http://tango.freedesktop.org/releases icon-naming-utils-0.8.90.tar.gz
 	@./build cmmi "$(BUILD_ROOT_DEPS)" icon-naming-utils-0.8.90 "" "" $(VERBOSE)
 
-gnome-icon-theme: env icon-naming-utils gtk $(BUILD_ROOT_DEPS)/share/pkgconfig/gnome-icon-theme.pc
+adwaita-icon-theme: env icon-naming-utils gtk $(BUILD_ROOT_DEPS)/share/pkgconfig/adwaita-icon-theme.pc
 
-$(BUILD_ROOT_DEPS)/share/pkgconfig/gnome-icon-theme.pc:
-	@./get-src https://download.gnome.org/sources/gnome-icon-theme/3.10 gnome-icon-theme-3.10.0.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gnome-icon-theme-3.10.0 "" "" $(VERBOSE)
-
-gnome-icon-theme-symbolic: env gnome-icon-theme $(BUILD_ROOT_DEPS)/share/pkgconfig/gnome-icon-theme-symbolic.pc
-
-$(BUILD_ROOT_DEPS)/share/pkgconfig/gnome-icon-theme-symbolic.pc:
-	@./get-src https://download.gnome.org/sources/gnome-icon-theme-symbolic/3.10 gnome-icon-theme-symbolic-3.10.1.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gnome-icon-theme-symbolic-3.10.1 "" "" $(VERBOSE)
+$(BUILD_ROOT_DEPS)/share/pkgconfig/adwaita-icon-theme.pc:
+	@./get-src https://download.gnome.org/sources/adwaita-icon-theme/3.16 adwaita-icon-theme-3.16.2.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" adwaita-icon-theme-3.16.2 "" "" $(VERBOSE)
 
 gdk-pixbuf: env giflib libpng libjpeg libtiff jasper glib $(BUILD_ROOT_DEPS)/lib/pkgconfig/gdk-pixbuf-2.0.pc
 
 $(BUILD_ROOT_DEPS)/lib/pkgconfig/gdk-pixbuf-2.0.pc:
-	@./get-src https://download.gnome.org/sources/gdk-pixbuf/2.30 gdk-pixbuf-2.30.2.tar.xz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gdk-pixbuf-2.30.2 "" "--disable-static --with-libjasper" $(VERBOSE)
+	@./get-src https://download.gnome.org/sources/gdk-pixbuf/2.30 gdk-pixbuf-2.30.8.tar.xz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" gdk-pixbuf-2.30.8 "" "--disable-static --with-libjasper" $(VERBOSE)
 
 libcroco: env glib $(BUILD_ROOT_DEPS)/lib/pkgconfig/libcroco-0.6.pc
 
@@ -704,8 +697,8 @@ $(BUILD_ROOT_DEPS)/bin/iconv.exe:
 gettext: env $(BUILD_ROOT_DEPS)/bin/gettext.exe
 
 $(BUILD_ROOT_DEPS)/bin/gettext.exe:
-	@./get-src http://ftp.gnu.org/pub/gnu/gettext gettext-0.18.3.1.tar.gz
-	@./build cmmi "$(BUILD_ROOT_DEPS)" gettext-0.18.3.1 "@gettext.patch" "" $(VERBOSE)
+	@./get-src http://ftp.gnu.org/pub/gnu/gettext gettext-0.19.4.tar.gz
+	@./build cmmi "$(BUILD_ROOT_DEPS)" gettext-0.19.4 "@gettext.patch" "" $(VERBOSE)
 
 bison: env $(BUILD_ROOT_DEPS)/bin/bison.exe
 

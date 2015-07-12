@@ -1,44 +1,7 @@
-diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gdk/Makefile.in gtk+-3.10.6/gdk/Makefile.in
---- gtk+-3.10.6.old/gdk/Makefile.in	2014-09-30 17:02:46 +0000
-+++ gtk+-3.10.6/gdk/Makefile.in	2014-09-30 17:00:04 +0000
-@@ -94,7 +94,7 @@ DIST_COMMON = $(top_srcdir)/Makefile.dec
- @USE_WIN32_FALSE@	$(am__append_1) $(am__append_3) \
- @USE_WIN32_FALSE@	$(am__append_5) $(am__append_7) \
- @USE_WIN32_FALSE@	$(am__append_8)
--@USE_WIN32_TRUE@am__append_6 = -Wl,win32/rc/gdk-win32-res.o -export-symbols $(srcdir)/gdk.def
-+@USE_WIN32_TRUE@am__append_6 = -Wl,win32/rc/gdk-win32-res.o
- @USE_BROADWAY_TRUE@am__append_7 = broadway/libgdk-broadway.la
- @USE_WAYLAND_TRUE@am__append_8 = wayland/libgdk-wayland.la
- @HAVE_INTROSPECTION_TRUE@am__append_9 = Gdk-3.0.gir
-@@ -737,7 +737,7 @@ libgdk_3_la_CFLAGS = $(AM_CFLAGS) $(GDK_
- libgdk_3_la_LIBADD = $(GDK_DEP_LIBS) $(am__append_1) $(am__append_3) \
- 	$(am__append_5) $(am__append_7) $(am__append_8)
- libgdk_3_la_LDFLAGS = $(LDADD) $(am__append_6)
--@USE_WIN32_TRUE@libgdk_3_la_DEPENDENCIES = win32/libgdk-win32.la win32/rc/gdk-win32-res.o gdk.def
-+@USE_WIN32_TRUE@libgdk_3_la_DEPENDENCIES = win32/libgdk-win32.la win32/rc/gdk-win32-res.o
- @HAVE_INTROSPECTION_TRUE@introspection_files = \
- @HAVE_INTROSPECTION_TRUE@	$(filter-out gdkkeysyms-compat.h, $(gdk_public_h_sources))	\
- @HAVE_INTROSPECTION_TRUE@	$(gdk_c_sources)	\
-@@ -1625,16 +1625,8 @@ check-local: test-cwd
- 
- @HAVE_INTROSPECTION_TRUE@@USE_X11_TRUE@GdkX11-3.0.gir: libgdk-3.la Gdk-3.0.gir Makefile
- 
--@OS_WIN32_TRUE@install-def-file: gdk.def
--@OS_WIN32_TRUE@	mkdir -p $(DESTDIR)$(libdir)
--@OS_WIN32_TRUE@	$(INSTALL) $(srcdir)/gdk.def $(DESTDIR)$(libdir)/gdk-win32-3.0.def
--@OS_WIN32_TRUE@uninstall-def-file:
--@OS_WIN32_TRUE@	-rm $(DESTDIR)$(libdir)/gdk-win32-3.0.def
--@OS_WIN32_FALSE@install-def-file:
--@OS_WIN32_FALSE@uninstall-def-file:
--
--@MS_LIB_AVAILABLE_TRUE@gdk-win32-$(GTK_API_VERSION).lib: libgdk-win32-$(GTK_API_VERSION).la gdk.def
--@MS_LIB_AVAILABLE_TRUE@	lib -machine:@LIB_EXE_MACHINE_FLAG@ -name:libgdk-win32-$(GTK_API_VERSION)-@LT_CURRENT_MINUS_AGE@.dll -def:gdk.def -out:$@
-+@MS_LIB_AVAILABLE_TRUE@gdk-win32-$(GTK_API_VERSION).lib: libgdk-win32-$(GTK_API_VERSION).la
-+@MS_LIB_AVAILABLE_TRUE@	lib -machine:@LIB_EXE_MACHINE_FLAG@ -name:libgdk-win32-$(GTK_API_VERSION)-@LT_CURRENT_MINUS_AGE@.dll -out:$@
- 
- @MS_LIB_AVAILABLE_TRUE@install-ms-lib:
- @MS_LIB_AVAILABLE_TRUE@	mkdir -p $(DESTDIR)$(libdir)
-@@ -1714,9 +1706,9 @@ dist-hook: ../build/win32/vs9/gdk.vcproj
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.16.4.old/gdk/Makefile.in gtk+-3.16.4/gdk/Makefile.in
+--- gtk+-3.16.4.old/gdk/Makefile.in	2015-06-10 14:48:08 +0000
++++ gtk+-3.16.4/gdk/Makefile.in	2015-07-12 16:34:22 +0000
+@@ -1841,9 +1841,9 @@ dist-hook: ../build/win32/vs9/gdk.vcproj
  	$(CPP) -P - <$(top_srcdir)/build/win32/vs10/gdk.vcxproj.filtersin >$@
  	rm libgdk.vs10.sourcefiles.filters
  
@@ -50,74 +13,10 @@ diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gdk/Makefile.in 
  	rm -f $(DESTDIR)$(configexecincludedir)/gdkconfig.h
  
  # if srcdir!=builddir, clean out maintainer-clean files from builddir
-diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/Makefile.in gtk+-3.10.6/gtk/Makefile.in
---- gtk+-3.10.6.old/gtk/Makefile.in	2014-09-30 17:02:46 +0000
-+++ gtk+-3.10.6/gtk/Makefile.in	2014-09-30 17:00:04 +0000
-@@ -111,7 +111,7 @@ DIST_COMMON = $(top_srcdir)/Makefile.dec
- @USE_QUARTZ_FALSE@@USE_WIN32_FALSE@@USE_X11_FALSE@am__append_13 = $(gtk_use_stub_c_sources)
- @USE_WIN32_TRUE@am__append_14 = -lole32 -lgdi32 -lcomdlg32 -lwinspool -lcomctl32
- @USE_WIN32_TRUE@am__append_15 = -Wl,-luuid
--@USE_WIN32_TRUE@am__append_16 = $(gtk_def) $(gtk_win32_res) $(deps)
-+@USE_WIN32_TRUE@am__append_16 = $(gtk_win32_res) $(deps)
- 
- # And include the regular ones:
- @HAVE_INTROSPECTION_TRUE@@USE_QUARTZ_TRUE@am__append_17 = \
-@@ -1047,8 +1047,6 @@ AM_CPPFLAGS = \
- 	$(INCLUDED_IMMODULE_DEFINE)
- 
- @PLATFORM_WIN32_TRUE@no_undefined = -no-undefined
--@OS_WIN32_TRUE@gtk_def = gtk.def
--@OS_WIN32_TRUE@gtk_win32_symbols = -export-symbols $(srcdir)/gtk.def
- @OS_WIN32_TRUE@gtk_win32_res = gtk-win32-res.o
- @OS_WIN32_TRUE@gtk_win32_res_ldflag = -Wl,gtk-win32-res.o
- @MS_LIB_AVAILABLE_TRUE@noinst_DATA = gtk-win32-$(GTK_API_VERSION).lib
-@@ -1959,7 +1957,7 @@ libgtk_3_la_SOURCES = $(gtk_c_sources)
- libgtk_3_la_LDFLAGS = $(libtool_opts) $(am__append_15)
- libgtk_3_la_LIBADD = $(libadd) $(am__append_14)
- libgtk_3_la_DEPENDENCIES = $(deps) $(am__append_16)
--@USE_WIN32_TRUE@libgtk_target_ldflags = $(gtk_win32_res_ldflag) $(gtk_win32_symbols)
-+@USE_WIN32_TRUE@libgtk_target_ldflags = $(gtk_win32_res_ldflag)
- DEPS = libgtk-3.la $(top_builddir)/gdk/libgdk-3.la
- TEST_DEPS = $(DEPS) immodules.cache
- LDADDS = \
-@@ -5912,15 +5910,8 @@ check-local: test-cwd
- @OS_WIN32_TRUE@gtk-win32-res.o : gtk-win32.rc
- @OS_WIN32_TRUE@	$(WINDRES) gtk-win32.rc $@
- 
--@OS_WIN32_TRUE@install-def-file: gtk.def
--@OS_WIN32_TRUE@	$(INSTALL) $(srcdir)/gtk.def $(DESTDIR)$(libdir)/gtk-win32-3.0.def
--@OS_WIN32_TRUE@uninstall-def-file:
--@OS_WIN32_TRUE@	-rm $(DESTDIR)$(libdir)/gtk-win32-3.0.def
--@OS_WIN32_FALSE@install-def-file:
--@OS_WIN32_FALSE@uninstall-def-file:
--
--@MS_LIB_AVAILABLE_TRUE@gtk-win32-$(GTK_API_VERSION).lib: libgtk-win32-$(GTK_API_VERSION).la gtk.def
--@MS_LIB_AVAILABLE_TRUE@	lib -machine:@LIB_EXE_MACHINE_FLAG@ -name:libgtk-win32-$(GTK_API_VERSION)-@LT_CURRENT_MINUS_AGE@.dll -def:gtk.def -out:$@
-+@MS_LIB_AVAILABLE_TRUE@gtk-win32-$(GTK_API_VERSION).lib: libgtk-win32-$(GTK_API_VERSION).la
-+@MS_LIB_AVAILABLE_TRUE@	lib -machine:@LIB_EXE_MACHINE_FLAG@ -name:libgtk-win32-$(GTK_API_VERSION)-@LT_CURRENT_MINUS_AGE@.dll -out:$@
- 
- @MS_LIB_AVAILABLE_TRUE@install-ms-lib:
- @MS_LIB_AVAILABLE_TRUE@	$(INSTALL) gtk-win32-$(GTK_API_VERSION).lib $(DESTDIR)$(libdir)
-@@ -6055,13 +6046,13 @@ dist-hook: ../build/win32/vs9/gtk.vcproj
- 	rm libgtk.vs10.sourcefiles.filters
- 
- # Install a RC file for the default GTK+ theme, and key themes
--install-data-local: install-ms-lib install-def-file install-mac-key-theme
-+install-data-local: install-ms-lib install-mac-key-theme
- 	$(MKDIR_P) $(DESTDIR)$(datadir)/themes/Default/gtk-3.0
- 	$(INSTALL_DATA) $(srcdir)/gtk-keys.css.default $(DESTDIR)$(datadir)/themes/Default/gtk-3.0/gtk-keys.css
- 	$(MKDIR_P) $(DESTDIR)$(datadir)/themes/Emacs/gtk-3.0
- 	$(INSTALL_DATA) $(srcdir)/gtk-keys.css.emacs $(DESTDIR)$(datadir)/themes/Emacs/gtk-3.0/gtk-keys.css
- 
--uninstall-local: uninstall-ms-lib uninstall-def-file uninstall-mac-key-theme
-+uninstall-local: uninstall-ms-lib uninstall-mac-key-theme
- 	rm -f $(DESTDIR)$(datadir)/themes/Raleigh/gtk-3.0/gtk.css
- 	rm -f $(DESTDIR)$(datadir)/themes/Default/gtk-3.0/gtk-keys.css
- 	rm -f $(DESTDIR)$(datadir)/themes/Emacs/gtk-3.0/gtk-keys.css
-diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/deprecated/gtkaction.c gtk+-3.10.6/gtk/deprecated/gtkaction.c
---- gtk+-3.10.6.old/gtk/deprecated/gtkaction.c	2014-09-30 17:02:13 +0000
-+++ gtk+-3.10.6/gtk/deprecated/gtkaction.c	2014-09-30 17:05:22 +0000
-@@ -513,7 +513,7 @@ gtk_action_class_init (GtkActionClass *k
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.16.4.old/gtk/deprecated/gtkaction.c gtk+-3.16.4/gtk/deprecated/gtkaction.c
+--- gtk+-3.16.4.old/gtk/deprecated/gtkaction.c	2015-03-02 19:34:03 +0000
++++ gtk+-3.16.4/gtk/deprecated/gtkaction.c	2015-07-12 16:34:22 +0000
+@@ -518,7 +518,7 @@ gtk_action_class_init (GtkActionClass *k
                                     g_param_spec_boolean ("always-show-image",
                                                           P_("Always show image"),
                                                           P_("Whether the image will always be shown"),
@@ -126,10 +25,10 @@ diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/deprecated/g
                                                           GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT));
  
    /**
-diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/deprecated/gtkimagemenuitem.c gtk+-3.10.6/gtk/deprecated/gtkimagemenuitem.c
---- gtk+-3.10.6.old/gtk/deprecated/gtkimagemenuitem.c	2014-09-30 17:02:13 +0000
-+++ gtk+-3.10.6/gtk/deprecated/gtkimagemenuitem.c	2014-09-30 17:05:38 +0000
-@@ -204,7 +204,7 @@ gtk_image_menu_item_class_init (GtkImage
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.16.4.old/gtk/deprecated/gtkimagemenuitem.c gtk+-3.16.4/gtk/deprecated/gtkimagemenuitem.c
+--- gtk+-3.16.4.old/gtk/deprecated/gtkimagemenuitem.c	2015-05-16 00:48:48 +0000
++++ gtk+-3.16.4/gtk/deprecated/gtkimagemenuitem.c	2015-07-12 16:34:22 +0000
+@@ -232,7 +232,7 @@ gtk_image_menu_item_class_init (GtkImage
                                     g_param_spec_boolean ("always-show-image",
                                                           P_("Always show image"),
                                                           P_("Whether the image will always be shown"),
@@ -138,15 +37,38 @@ diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/deprecated/g
                                                           GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_DEPRECATED));
  
    /**
-diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.10.6.old/gtk/gtkbutton.c gtk+-3.10.6/gtk/gtkbutton.c
---- gtk+-3.10.6.old/gtk/gtkbutton.c	2014-09-30 17:02:14 +0000
-+++ gtk+-3.10.6/gtk/gtkbutton.c	2014-09-30 17:04:34 +0000
-@@ -377,7 +377,7 @@ gtk_button_class_init (GtkButtonClass *k
-                                    g_param_spec_boolean ("always-show-image",
-                                                          P_("Always show image"),
-                                                          P_("Whether the image will always be shown"),
--                                                         FALSE,
-+                                                         TRUE,
-                                                          GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.16.4.old/gtk/gtkbutton.c gtk+-3.16.4/gtk/gtkbutton.c
+--- gtk+-3.16.4.old/gtk/gtkbutton.c	2015-05-16 00:48:48 +0000
++++ gtk+-3.16.4/gtk/gtkbutton.c	2015-07-12 16:34:22 +0000
+@@ -365,7 +365,7 @@ gtk_button_class_init (GtkButtonClass *k
+      g_param_spec_boolean ("always-show-image",
+                            P_("Always show image"),
+                            P_("Whether the image will always be shown"),
+-                           FALSE,
++                           TRUE,
+                            GTK_PARAM_READWRITE|G_PARAM_CONSTRUCT|G_PARAM_EXPLICIT_NOTIFY);
  
-   g_object_class_override_property (gobject_class, PROP_ACTION_NAME, "action-name");
+   g_object_class_install_properties (gobject_class, LAST_PROP, props);
+diff -upr -x .deps -x .libs -x '*.la' -x '*.lo' gtk+-3.16.4.old/gtk/gtkscrolledwindow.c gtk+-3.16.4/gtk/gtkscrolledwindow.c
+--- gtk+-3.16.4.old/gtk/gtkscrolledwindow.c	2015-06-10 13:49:02 +0000
++++ gtk+-3.16.4/gtk/gtkscrolledwindow.c	2015-07-12 16:34:45 +0000
+@@ -596,7 +596,7 @@ gtk_scrolled_window_class_init (GtkScrol
+                                    g_param_spec_boolean ("overlay-scrolling",
+                                                          P_("Overlay Scrolling"),
+                                                          P_("Overlay scrolling mode"),
+-                                                         TRUE,
++                                                         FALSE,
+                                                          GTK_PARAM_READWRITE|G_PARAM_EXPLICIT_NOTIFY));
+ 
+   /**
+@@ -4052,8 +4052,8 @@ gtk_scrolled_window_update_use_indicator
+ 
+   use_indicators = priv->overlay_scrolling;
+ 
+-  if (g_strcmp0 (g_getenv ("GTK_OVERLAY_SCROLLING"), "0") == 0)
+-    use_indicators = FALSE;
++  if (g_strcmp0 (g_getenv ("GTK_OVERLAY_SCROLLING"), "1") == 0)
++    use_indicators = TRUE;
+ 
+   if (priv->use_indicators != use_indicators)
+     {
