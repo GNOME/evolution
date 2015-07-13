@@ -82,7 +82,7 @@
     <key name="day-start-mon" type="i">
       <default>-1</default>
       <_summary>Workday start time for Monday</_summary>
-      <_description>Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
+      <_description>Time the workday starts on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour and day-start-minute</_description>
     </key>
     <key name="day-end-mon" type="i">
       <default>-1</default>
