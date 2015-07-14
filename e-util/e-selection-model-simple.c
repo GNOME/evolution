@@ -66,16 +66,23 @@ void
 e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
                                         gint row_count)
 {
+	gboolean any_selected = FALSE;
+
 	if (esms->row_count != row_count) {
 		ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (esms);
-		if (esma->eba)
+		if (esma->eba) {
+			any_selected = e_bit_array_selected_count (esma->eba) > 0;
 			g_object_unref (esma->eba);
+		}
 		esma->eba = NULL;
 		esma->selected_row = -1;
 		esma->selected_range_end = -1;
 	}
 
 	esms->row_count = row_count;
+
+	if (any_selected)
+		e_selection_model_selection_changed (E_SELECTION_MODEL (esms));
 }
 
 static gint

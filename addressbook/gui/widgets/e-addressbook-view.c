@@ -1361,6 +1361,8 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 	gal_view = gal_view_instance_get_current_view (view_instance);
 
 	list = e_addressbook_view_get_selected (view);
+	g_return_if_fail (list != NULL);
+
 	contact = list->data;
 
 	if (g_slist_next (list))
