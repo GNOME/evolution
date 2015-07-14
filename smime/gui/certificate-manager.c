@@ -1120,13 +1120,13 @@ cm_get_camel_cert_trust_text (CamelCertTrust trust)
 		case CAMEL_CERT_TRUST_NEVER:
 			return C_("CamelTrust", "Never");
 		case CAMEL_CERT_TRUST_MARGINAL:
-			return C_("CamelTrust", "Marginal");
+			return C_("CamelTrust", "Marginally");
 		case CAMEL_CERT_TRUST_FULLY:
 			return C_("CamelTrust", "Fully");
 		case CAMEL_CERT_TRUST_ULTIMATE:
-			return C_("CamelTrust", "Ultimate");
+			return C_("CamelTrust", "Ultimately");
 		case CAMEL_CERT_TRUST_TEMPORARY:
-			return C_("CamelTrust", "Temporary");
+			return C_("CamelTrust", "Temporarily");
 	}
 
 	return "???";
@@ -1369,11 +1369,11 @@ mail_cert_edit_trust (GtkWidget *parent,
 	row = 1;
 
 	add_radio (runknown, C_("CamelTrust", "_Ask when used"), CAMEL_CERT_TRUST_UNKNOWN);
-	add_radio (rtemporary, C_("CamelTrust", "_Temporary (this session only)"), CAMEL_CERT_TRUST_TEMPORARY);
-	add_radio (rnever, C_("CamelTrust", "_Never"), CAMEL_CERT_TRUST_NEVER);
-	add_radio (rmarginal, C_("CamelTrust", "_Marginal"), CAMEL_CERT_TRUST_MARGINAL);
-	add_radio (rfully, C_("CamelTrust", "_Fully"), CAMEL_CERT_TRUST_FULLY);
-	add_radio (rultimate, C_("CamelTrust", "_Ultimate"), CAMEL_CERT_TRUST_ULTIMATE);
+	add_radio (rnever, C_("CamelTrust", "_Never trust this certificate"), CAMEL_CERT_TRUST_NEVER);
+	add_radio (rtemporary, C_("CamelTrust", "_Temporarily trusted (this session only)"), CAMEL_CERT_TRUST_TEMPORARY);
+	add_radio (rmarginal, C_("CamelTrust", "_Marginally trusted"), CAMEL_CERT_TRUST_MARGINAL);
+	add_radio (rfully, C_("CamelTrust", "_Fully trusted"), CAMEL_CERT_TRUST_FULLY);
+	add_radio (rultimate, C_("CamelTrust", "_Ultimately trusted"), CAMEL_CERT_TRUST_ULTIMATE);
 
 	#undef add_radio
 
