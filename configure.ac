@@ -51,7 +51,6 @@ m4_define([enchant_minimum_version], [1.1.7])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([webkitgtk_minimum_version], [2.2.0])
-m4_define([libgdata_minimum_version], [0.10])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.54])
@@ -1153,17 +1152,6 @@ dnl **************
 PKG_CHECK_MODULES([LIBSOUP], [libsoup-2.4 >= soup_minimum_version])
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
-
-PKG_CHECK_MODULES([GDATA], [libgdata >= libgdata_minimum_version])
-AC_SUBST(GDATA_CFLAGS)
-AC_SUBST(GDATA_LIBS)
-
-dnl ***********************************
-dnl GTasks require more latest libgdata
-dnl ***********************************
-if `$PKG_CONFIG --atleast-version=0.15.1 libgdata`; then
-	AC_DEFINE(HAVE_GDATA_0_15_1, 1, [Define to 1 if you have the libgdata package >= 0.15.1])
-fi
 
 dnl ****************************
 dnl Check for ical_set_unknown_token_handling_setting function

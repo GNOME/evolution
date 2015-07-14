@@ -31,9 +31,7 @@ e_module_load (GTypeModule *type_module)
 {
 	e_google_chooser_button_type_register (type_module);
 	e_cal_config_google_type_register (type_module);
-#ifdef HAVE_GDATA_0_15_1
 	e_cal_config_gtasks_type_register (type_module);
-#endif
 }
 
 G_MODULE_EXPORT void
