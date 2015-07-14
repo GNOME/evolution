@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-07-14 04:32+0000\n"
+"POT-Creation-Date: 2015-07-14 10:15+0000\n"
 "PO-Revision-Date: 2015-07-14 \n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish <gnome-es-list@gnome.org>\n"
@@ -8186,9 +8186,6 @@ msgid "Workday start time for Tuesday"
 msgstr "Hora de comienzo de la jornada laboral los martes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-#| msgid ""
-#| "Time the workday starts on, in twenty four hour format HHMM, 0000 to "
-#| "2359, or -1 to use day-start-hour and day-start-minute"
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -"
 "1 to use day-start-hour and day-start-minute"
@@ -24316,8 +24313,10 @@ msgid "Never"
 msgstr "Nunca"
 
 #: ../smime/gui/certificate-manager.c:1123
+#| msgctxt "CamelTrust"
+#| msgid "Marginal"
 msgctxt "CamelTrust"
-msgid "Marginal"
+msgid "Marginally"
 msgstr "Marginal"
 
 #: ../smime/gui/certificate-manager.c:1125
@@ -24326,13 +24325,17 @@ msgid "Fully"
 msgstr "Completamente"
 
 #: ../smime/gui/certificate-manager.c:1127
+#| msgctxt "CamelTrust"
+#| msgid "Ultimate"
 msgctxt "CamelTrust"
-msgid "Ultimate"
+msgid "Ultimately"
 msgstr "Absoluta"
 
 #: ../smime/gui/certificate-manager.c:1129
+#| msgctxt "CamelTrust"
+#| msgid "Temporary"
 msgctxt "CamelTrust"
-msgid "Temporary"
+msgid "Temporarily"
 msgstr "Temporal"
 
 #: ../smime/gui/certificate-manager.c:1335
@@ -24350,29 +24353,37 @@ msgid "_Ask when used"
 msgstr "_Preguntar al usar"
 
 #: ../smime/gui/certificate-manager.c:1372
+#| msgid "Unset _trust for SSL certificate"
 msgctxt "CamelTrust"
-msgid "_Temporary (this session only)"
-msgstr "_Temporalmente (solo para esta sesión)"
+msgid "_Never trust this certificate"
+msgstr "No confiar _nunca en este en el certificado"
 
 #: ../smime/gui/certificate-manager.c:1373
+#| msgctxt "CamelTrust"
+#| msgid "_Temporary (this session only)"
 msgctxt "CamelTrust"
-msgid "_Never"
-msgstr "_Nunca"
+msgid "_Temporarily trusted (this session only)"
+msgstr "Confiar _temporalmente (solo para esta sesión)"
 
 #: ../smime/gui/certificate-manager.c:1374
+#| msgctxt "CamelTrust"
+#| msgid "_Marginal"
 msgctxt "CamelTrust"
-msgid "_Marginal"
-msgstr "_Marginal"
+msgid "_Marginally trusted"
+msgstr "Confiar _marginalmente"
 
 #: ../smime/gui/certificate-manager.c:1375
+#| msgid "R_eply requested"
 msgctxt "CamelTrust"
-msgid "_Fully"
-msgstr "_Completamente"
+msgid "_Fully trusted"
+msgstr "Confiar _completamente"
 
 #: ../smime/gui/certificate-manager.c:1376
+#| msgctxt "CamelTrust"
+#| msgid "_Ultimate"
 msgctxt "CamelTrust"
-msgid "_Ultimate"
-msgstr "_Absoluta"
+msgid "_Ultimately trusted"
+msgstr "Confiar _absolutamente"
 
 #: ../smime/gui/certificate-manager.c:1380
 msgid ""
@@ -24675,6 +24686,14 @@ msgstr "Con fecha de _vencimiento"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Con _estado"
+
+#~ msgctxt "CamelTrust"
+#~ msgid "_Never"
+#~ msgstr "_Nunca"
+
+#~ msgctxt "CamelTrust"
+#~ msgid "_Fully"
+#~ msgstr "_Completamente"
 
 #~ msgid "Please select an image of size 48 * 48"
 #~ msgstr "Seleccione una imagen de tamaño 48 * 48"
