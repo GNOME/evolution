@@ -1525,24 +1525,6 @@ typedef struct {
 #define USER_SUB   "%u"
 #define DOMAIN_SUB "%d"
 
-static void
-client_free_busy_data_cb (ECalClient *client,
-                          const GSList *ecalcomps,
-                          FreeBusyAsyncData *fbd)
-{
-	const GSList *iter;
-
-	g_return_if_fail (fbd != NULL);
-
-	for (iter = ecalcomps; iter != NULL; iter = iter->next) {
-		ECalComponent *comp = iter->data;
-
-		if (comp != NULL)
-			fbd->fb_data = g_slist_prepend (
-				fbd->fb_data, g_object_ref (comp));
-	}
-}
-
 static gboolean
 freebusy_async (gpointer data)
 {
@@ -1554,24 +1536,14 @@ freebusy_async (gpointer data)
 	EMeetingStorePrivate *priv = fbd->store->priv;
 
 	if (fbd->client) {
-		guint sigid;
 		/* FIXME This a workaround for getting all the free busy
 		 *       information for the users.  We should be able to
 		 *       get free busy asynchronously. */
 		g_mutex_lock (&mutex);
 		priv->num_queries++;
-		sigid = g_signal_connect (
-			fbd->client, "free-busy-data",
-			G_CALLBACK (client_free_busy_data_cb), fbd);
 		e_cal_client_get_free_busy_sync (
 			fbd->client, fbd->startt,
-			fbd->endt, fbd->users, NULL, NULL);
-		/* This is to workaround broken dispatch of "free-busy-data" signal,
-		 * introduced in 3.8.0. This code can be removed once the below bug is
-		 * properly fixed: https://bugzilla.gnome.org/show_bug.cgi?id=692361
-		*/
-		g_usleep (G_USEC_PER_SEC / 10);
-		g_signal_handler_disconnect (fbd->client, sigid);
+			fbd->endt, fbd->users, &fbd->fb_data, NULL, NULL);
 		priv->num_queries--;
 		g_mutex_unlock (&mutex);
 
