@@ -532,8 +532,12 @@ client_cache_process_results (ClientData *client_data,
 	if (client != NULL) {
 		EClientCache *client_cache;
 
-		/* Make sure we're not leaking a reference. */
-		g_warn_if_fail (client_data->client == NULL);
+		/* Make sure we're not leaking a reference. This can happen when
+		   a synchronous and an asynchronous open are interleaving. The
+		   synchronous open bypasses pending openings, thus can eventually
+		   overwrite, or preset, the client.
+		*/
+		g_clear_object (&client_data->client);
 
 		client_data->client = g_object_ref (client);
 		client_data->dead_backend = FALSE;
@@ -1069,40 +1073,6 @@ e_client_cache_ref_registry (EClientCache *client_cache)
 	return g_object_ref (client_cache->priv->registry);
 }
 
-typedef struct _GetClientSyncData {
-	GMutex mutex;
-	EAsyncClosure *closure;
-} GetClientSyncData;
-
-static void
-client_cache_get_client_sync_cb (GObject *source_object,
-				 GAsyncResult *result,
-				 gpointer user_data)
-{
-	GetClientSyncData *data = user_data;
-
-	g_return_if_fail (E_IS_CLIENT_CACHE (source_object));
-	g_return_if_fail (data != NULL);
-
-	g_mutex_lock (&data->mutex);
-
-	e_async_closure_callback (source_object, result, data->closure);
-
-	g_mutex_unlock (&data->mutex);
-}
-
-static gboolean
-client_cache_unlock_data_mutex_cb (gpointer user_data)
-{
-	GetClientSyncData *data = user_data;
-
-	g_return_val_if_fail (data != NULL, FALSE);
-
-	g_mutex_unlock (&data->mutex);
-
-	return FALSE;
-}
-
 /**
  * e_client_cache_get_client_sync:
  * @client_cache: an #EClientCache
@@ -1161,44 +1131,68 @@ e_client_cache_get_client_sync (EClientCache *client_cache,
                                 GCancellable *cancellable,
                                 GError **error)
 {
-	GetClientSyncData data;
-	GAsyncResult *result;
-	GSource *idle_source;
-	EClient *client;
+	ClientData *client_data;
+	EClient *client = NULL;
+	GError *local_error = NULL;
 
 	g_return_val_if_fail (E_IS_CLIENT_CACHE (client_cache), NULL);
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 	g_return_val_if_fail (extension_name != NULL, NULL);
 
-	g_mutex_init (&data.mutex);
-	g_mutex_lock (&data.mutex);
+	client_data = client_ht_lookup (client_cache, source, extension_name);
 
-	e_client_cache_get_client (
-		client_cache, source, extension_name, wait_for_connected_seconds, cancellable,
-		client_cache_get_client_sync_cb, &data);
+	if (client_data == NULL) {
+		g_set_error (
+			error, G_IO_ERROR,
+			G_IO_ERROR_INVALID_ARGUMENT,
+			_("Cannot create a client object from "
+			"extension name '%s'"), extension_name);
+		return NULL;
+	}
 
-	/* This is needed, because e_async_closure_new() pushes its own thread default main context,
-	   which was later taken into an EClient within e_client_cache_get_client(), but that's wrong,
-	   because that main context effectively dies at the end of this function. */
-	data.closure = e_async_closure_new ();
+	g_mutex_lock (&client_data->lock);
 
-	/* Unlock the closure->lock in the main loop, to ensure thread safety.
-	   It should be processed before anything else, otherwise deadlock happens. */
-	idle_source = g_idle_source_new ();
-	g_source_set_callback (idle_source, client_cache_unlock_data_mutex_cb, &data, NULL);
-	g_source_set_priority (idle_source, G_PRIORITY_HIGH * 2);
-	g_source_attach (idle_source, g_main_context_get_thread_default ());
-	g_source_unref (idle_source);
+	if (client_data->client != NULL)
+		client = g_object_ref (client_data->client);
 
-	result = e_async_closure_wait (data.closure);
+	g_mutex_unlock (&client_data->lock);
 
-	client = e_client_cache_get_client_finish (
-		client_cache, result, error);
+	/* If a cached EClient already exists, we're done. */
+	if (client != NULL) {
+		client_data_unref (client_data);
+		return client;
+	}
 
-	g_mutex_lock (&data.mutex);
-	e_async_closure_free (data.closure);
-	g_mutex_unlock (&data.mutex);
-	g_mutex_clear (&data.mutex);
+	/* Create an appropriate EClient instance for the extension
+	 * name.  The client_ht_lookup() call above ensures us that
+	 * one of these options will match. */
+
+	if (g_str_equal (extension_name, E_SOURCE_EXTENSION_ADDRESS_BOOK)) {
+		client = e_book_client_connect_sync (source, wait_for_connected_seconds,
+			cancellable, &local_error);
+	} else if (g_str_equal (extension_name, E_SOURCE_EXTENSION_CALENDAR)) {
+		client = e_cal_client_connect_sync (
+			source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, wait_for_connected_seconds,
+			cancellable, &local_error);
+	} else if (g_str_equal (extension_name, E_SOURCE_EXTENSION_MEMO_LIST)) {
+		client = e_cal_client_connect_sync (
+			source, E_CAL_CLIENT_SOURCE_TYPE_MEMOS, wait_for_connected_seconds,
+			cancellable, &local_error);
+	} else if (g_str_equal (extension_name, E_SOURCE_EXTENSION_TASK_LIST)) {
+		client = e_cal_client_connect_sync (
+			source, E_CAL_CLIENT_SOURCE_TYPE_TASKS, wait_for_connected_seconds,
+			cancellable, &local_error);
+	} else {
+		g_warn_if_reached ();  /* Should never happen. */
+	}
+
+	if (client)
+		client_cache_process_results (client_data, client, local_error);
+
+	if (local_error)
+		g_propagate_error (error, local_error);
+
+	client_data_unref (client_data);
 
 	return client;
 }
