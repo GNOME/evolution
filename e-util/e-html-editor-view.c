@@ -10106,7 +10106,7 @@ html_editor_view_owner_change_primary_cb (GtkClipboard *clipboard,
 	if (!E_IS_HTML_EDITOR_VIEW (view))
 		return;
 
-	if (!event->owner)
+	if (!event->owner || !view->priv->can_copy)
 		view->priv->copy_paste_primary_in_view = FALSE;
 }
 
