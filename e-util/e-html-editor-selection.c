@@ -996,8 +996,10 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
 	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
@@ -1015,14 +1017,40 @@ e_html_editor_selection_replace_caret_word (EHTMLEditorSelection *selection,
 
 	webkit_dom_range_expand (range, "word", NULL);
 	webkit_dom_dom_selection_add_range (dom_selection, range);
+
+	fragment = webkit_dom_range_extract_contents (range, NULL);
+
+	/* Get the text node to replace and leave other formatting nodes
+	 * untouched (font color, boldness, ...). */
+	webkit_dom_node_normalize (WEBKIT_DOM_NODE (fragment));
+	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+	if (!WEBKIT_DOM_IS_TEXT (node)) {
+		while (node && WEBKIT_DOM_IS_ELEMENT (node))
+			node = webkit_dom_node_get_first_child (node);
+	}
+
+	if (node && WEBKIT_DOM_IS_TEXT (node)) {
+		WebKitDOMText *text;
+
+		/* Replace the word */
+		text = webkit_dom_document_create_text_node (document, replacement);
+		webkit_dom_node_replace_child (
+			webkit_dom_node_get_parent_node (node),
+			WEBKIT_DOM_NODE (text),
+			node,
+			NULL);
+
+		/* Insert the word on current location. */
+		webkit_dom_range_insert_node (range, WEBKIT_DOM_NODE (fragment), NULL);
+
+		webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+	}
+
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
-
-	e_html_editor_view_exec_command (
-		view, E_HTML_EDITOR_VIEW_COMMAND_PASTE_AND_MATCH_STYLE, replacement);
-	e_html_editor_view_force_spell_check_for_current_paragraph (view);
-
 	g_object_unref (view);
 }
 
