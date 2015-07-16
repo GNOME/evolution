@@ -5684,6 +5684,19 @@ e_html_editor_selection_insert_text (EHTMLEditorSelection *selection,
 	g_object_unref (view);
 }
 
+static gboolean
+pasting_quoted_content (const gchar *content)
+{
+	/* Check if the content we are pasting is a quoted content from composer.
+	 * If it is, we can't use WebKit to paste it as it would leave the formatting
+	 * on the content. */
+	return g_str_has_prefix (
+		content,
+		"<meta http-equiv=\"content-type\" content=\"text/html; "
+		"charset=utf-8\"><blockquote type=\"cite\"") &&
+		strstr (content, "\"-x-evo-");
+}
+
 /**
  * e_html_editor_selection_insert_html:
  * @selection: an #EHTMLEditorSelection
@@ -5729,7 +5742,8 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
 	if (e_html_editor_view_get_html_mode (view) ||
-	    e_html_editor_view_is_pasting_content_from_itself (view)) {
+	    (e_html_editor_view_is_pasting_content_from_itself (view) &&
+	     !pasting_quoted_content (html_text))) {
 		if (!e_html_editor_selection_is_collapsed (selection)) {
 			EHTMLEditorViewHistoryEvent *event;
 			WebKitDOMDocumentFragment *fragment;
