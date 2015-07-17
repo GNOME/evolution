@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-06-29 17:38+0000\n"
-"PO-Revision-Date: 2015-06-29 21:00+0200\n"
+"POT-Creation-Date: 2015-07-17 04:32+0000\n"
+"PO-Revision-Date: 2015-07-17 14:58+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -282,9 +282,9 @@ msgstr ""
 "folyamatban van. Várjon amíg megnyílik, vagy válasszon másik címjegyzéket."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:722
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:744
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3087
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:727
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:749
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3110
 msgid "Contact Editor"
 msgstr "Névjegyszerkesztő"
 
@@ -522,6 +522,61 @@ msgid "Notes"
 msgstr "Megjegyzések"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:52
+msgid "Add _PGP"
+msgstr "_PGP hozzáadása"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
+msgid "Add _X.509"
+msgstr "_X.509 hozzáadása"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
+#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:5
+#: ../calendar/gui/dialogs/event-page.ui.h:23
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:21
+#: ../calendar/gui/dialogs/task-page.ui.h:31 ../e-util/e-attachment-view.c:475
+#: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:367
+#: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
+#: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
+#: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:56
+#: ../plugins/attachment-reminder/attachment-reminder.c:448
+#: ../plugins/email-custom-header/email-custom-header.c:849
+#: ../plugins/publish-calendar/publish-calendar.c:791
+#: ../plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../plugins/templates/templates.c:463
+msgid "_Remove"
+msgstr "E_ltávolítás"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:55
+msgid "Load P_GP"
+msgstr "P_GP betöltése"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:56
+msgid "_Load X.509"
+msgstr "X.509 _betöltése"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:57
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3507
+#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
+#: ../addressbook/gui/widgets/eab-contact-merging.c:721
+#: ../calendar/calendar.error.xml.h:47
+#: ../calendar/gui/dialogs/comp-editor.c:1305
+#: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
+#: ../e-util/e-attachment-store.c:636
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3230
+#: ../e-util/gal-view-instance-save-as-dialog.c:270
+#: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
+#: ../smime/gui/certificate-manager.c:655
+#: ../smime/gui/certificate-manager.c:732
+msgid "_Save"
+msgstr "M_entés"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:58
+#: ../modules/addressbook/e-book-shell-backend.c:314
+msgid "Certificates"
+msgstr "Tanúsítványok"
+
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
 #: ../calendar/gui/dialogs/comp-editor.c:1277
 #: ../calendar/gui/dialogs/comp-editor.c:1363
 #: ../e-util/e-preferences-window.c:379 ../e-util/e-send-options.ui.h:41
@@ -530,15 +585,17 @@ msgstr "Megjegyzések"
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:60
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:15 ../mail/mail-config.ui.h:36
 msgid "Options"
 msgstr "Beállítások"
 
 #. This is only shown if the EActivity has a GCancellable.
 #. no flags
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3683
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3273
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3506
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4321
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:222
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:455
 #: ../addressbook/gui/contact-editor/fullname.ui.h:14
@@ -589,107 +646,119 @@ msgstr "Beállítások"
 msgid "_Cancel"
 msgstr "Mé_gse"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:55
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
-#: ../addressbook/gui/widgets/eab-contact-merging.c:721
-#: ../calendar/calendar.error.xml.h:47
-#: ../calendar/gui/dialogs/comp-editor.c:1305
-#: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
-#: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3230
-#: ../e-util/gal-view-instance-save-as-dialog.c:270
-#: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
-#: ../smime/gui/certificate-manager.c:655
-#: ../smime/gui/certificate-manager.c:732
-msgid "_Save"
-msgstr "M_entés"
-
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:56
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:62
 msgid "Show Telephone"
 msgstr "Telefon megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:57
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:63
 msgid "Show SIP Address"
 msgstr "SIP cím megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:58
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:64
 msgid "Show Instant Messaging"
 msgstr "Azonnali üzenetek megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:65
 msgid "Show Web Addresses"
 msgstr "Webcímek megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:60
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:66
 msgid "Show Job section"
 msgstr "Feladat szakasz megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:61
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:67
 msgid "Show Miscellaneous"
 msgstr "Egyebek megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:62
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:68
 msgid "Show Home Mailing Address"
 msgstr "Otthoni levelezőcím megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:63
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:69
 msgid "Show Work Mailing Address"
 msgstr "Munkahelyi levelezőcím megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:64
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:70
 msgid "Show Other Mailing Address"
 msgstr "Egyéb levelezőcím megjelenítése"
 
-#: ../addressbook/gui/contact-editor/contact-editor.ui.h:65
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:71
 msgid "Show Notes"
 msgstr "Megjegyzések megjelenítése"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:257
+#: ../addressbook/gui/contact-editor/contact-editor.ui.h:72
+#| msgid "Certificates"
+msgid "Show Certificates"
+msgstr "Tanúsítványok megjelenítése"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../calendar/gui/dialogs/comp-editor.c:1326
 #: ../e-util/e-html-editor-actions.c:1134
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:259
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/dialogs/comp-editor.c:1328 ../e-util/e-focus-tracker.c:122
 msgid "Undo"
 msgstr "Visszavonás"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:264
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:269
 #: ../calendar/gui/dialogs/comp-editor.c:1333
 #: ../e-util/e-html-editor-actions.c:1120
 msgid "_Redo"
 msgstr "Mé_gis"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:266
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:271
 #: ../calendar/gui/dialogs/comp-editor.c:1335 ../e-util/e-focus-tracker.c:138
 msgid "Redo"
 msgstr "Mégis"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:298
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:303
 #: ../addressbook/gui/widgets/eab-gui-util.c:503
 msgid "Error adding contact"
 msgstr "Hiba a névjegy hozzáadásakor"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:318
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:323
 msgid "Error modifying contact"
 msgstr "Hiba a névjegy módosításakor"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:338
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:343
 msgid "Error removing contact"
 msgstr "Hiba a névjegy törlésekor"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:738
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3081
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:743
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3104
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Névjegyszerkesztő – %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3680
-msgid "Please select an image for this contact"
-msgstr "Válasszon egy képet a névjegyhez"
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3240
+#| msgid "Certificates"
+msgid "X.509 certificates"
+msgstr "X.509 tanúsítványok"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3684
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3245
+msgid "PGP keys"
+msgstr "PGP-kulcsok"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3251
+#: ../smime/gui/certificate-manager.c:678
+#: ../smime/gui/certificate-manager.c:967
+msgid "All files"
+msgstr "Minden fájl"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
+#| msgid "OpenPGP _Key ID:"
+msgid "Open PGP key"
+msgstr "PGP-kulcs megnyitása"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3271
+#| msgid "Select certificate"
+msgid "Open X.509 certificate"
+msgstr "X.509 tanúsítvány megnyitása"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
 #: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
 #: ../e-util/e-html-editor-actions.c:617 ../e-util/e-html-editor-actions.c:712
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
@@ -697,11 +766,52 @@ msgstr "Válasszon egy képet a névjegyhez"
 msgid "_Open"
 msgstr "_Megnyitás"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3685
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3291
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3522
+#| msgid "File is not a valid .desktop file"
+msgid "Chosen file is not a local file."
+msgstr "A kiválasztott fájl nem helyi fájl."
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3304
+#, c-format
+#| msgid "Failed to import certificate"
+msgid "Failed to load certificate: %s"
+msgstr "A tanúsítvány betöltése meghiúsult: %s"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3333
+msgctxt "cert-kind"
+msgid "X.509"
+msgstr "X.509"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3333
+msgctxt "cert-kind"
+msgid "PGP"
+msgstr "PGP"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3504
+msgid "Save PGP key"
+msgstr "PGP-kulcs mentése"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3504
+#| msgid "Select certificate"
+msgid "Save X.509 certificate"
+msgstr "X.509 tanúsítvány mentése"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3534
+#, c-format
+#| msgid "Failed to import certificate"
+msgid "Failed to save certificate: %s"
+msgstr "A tanúsítvány mentése meghiúsult: %s"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4318
+msgid "Please select an image for this contact"
+msgstr "Válasszon egy képet a névjegyhez"
+
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4323
 msgid "_No image"
 msgstr "Nincs ké_p"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4034
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4672
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -709,28 +819,28 @@ msgstr ""
 "A névjegyadat érvénytelen:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4040
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4678
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "A(z) „%s” formátuma ismeretlen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4048
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4686
 #, c-format
 msgid "'%s' cannot be a future date"
 msgstr "„%s” nem lehet jövőbeli dátum"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4056
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4694
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s„%s” formátuma érvénytelen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4069
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4083
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4707
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4721
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s„%s” üres"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:4098
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:4736
 msgid "Invalid contact."
 msgstr "Érvénytelen névjegy."
 
@@ -882,23 +992,6 @@ msgstr "E-mail hozzáadása a listához"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 msgid "Remove an email address from the List"
 msgstr "Az e-mail cím eltávolítása a listáról"
-
-#: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
-#: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:5
-#: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:21
-#: ../calendar/gui/dialogs/task-page.ui.h:31 ../e-util/e-attachment-view.c:475
-#: ../e-util/e-filter-rule.c:225 ../e-util/e-mail-signature-manager.c:367
-#: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
-#: ../mail/e-mail-label-manager.c:391 ../mail/em-filter-rule.c:440
-#: ../mail/em-vfolder-editor-rule.c:630 ../mail/mail-config.ui.h:56
-#: ../plugins/attachment-reminder/attachment-reminder.c:448
-#: ../plugins/email-custom-header/email-custom-header.c:849
-#: ../plugins/publish-calendar/publish-calendar.c:791
-#: ../plugins/publish-calendar/publish-calendar.ui.h:34
-#: ../plugins/templates/templates.c:463
-msgid "_Remove"
-msgstr "E_ltávolítás"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 msgid "Insert email addresses from Address Book"
@@ -1410,7 +1503,7 @@ msgid "_Delete"
 msgstr "_Törlés"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1478
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1480
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -1425,11 +1518,11 @@ msgstr[1] ""
 "%d névjegy megnyitásával megnyitásra kerül %d új ablak is.\n"
 "Valóban meg szeretné jeleníteni a névjegyeket?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1486
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1488
 msgid "_Don't Display"
 msgstr "Ne _jelenjen meg"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1487
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1489
 msgid "Display _All Contacts"
 msgstr "Összes _névjegy megjelenítése"
 
@@ -4960,19 +5053,19 @@ msgstr "RSVP"
 msgid "In Process"
 msgstr "Folyamatban"
 
-#: ../calendar/gui/e-meeting-store.c:1909
+#: ../calendar/gui/e-meeting-store.c:1881
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "Adja meg a jelszavát az időbeosztás eléréséhez a(z) %s kiszolgálón %s "
 "felhasználóként."
 
-#: ../calendar/gui/e-meeting-store.c:1919
+#: ../calendar/gui/e-meeting-store.c:1891
 #, c-format
 msgid "Failure reason: %s"
 msgstr "A hiba oka: %s"
 
-#: ../calendar/gui/e-meeting-store.c:1924
+#: ../calendar/gui/e-meeting-store.c:1896
 #: ../plugins/publish-calendar/publish-calendar.c:351
 #: ../smime/gui/component.c:63
 msgid "Enter password"
@@ -7532,11 +7625,11 @@ msgstr ""
 "Nem titkosítható a kimenő üzenet: Nincs beállítva tanúsítvány a "
 "titkosításhoz ehhez a postafiókhoz"
 
-#: ../composer/e-msg-composer.c:1599 ../composer/e-msg-composer.c:2374
+#: ../composer/e-msg-composer.c:1599 ../composer/e-msg-composer.c:2367
 msgid "Compose Message"
 msgstr "Üzenet írása"
 
-#: ../composer/e-msg-composer.c:4717
+#: ../composer/e-msg-composer.c:4710
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "A szerkesztő nem szöveg jellegű, nem szerkeszthető üzenettörzset tartalmaz."
@@ -7911,6 +8004,11 @@ msgstr "Megjelenjenek-e az egyéb információk a szerkesztőben"
 msgid "Whether to show notes in the editor"
 msgstr "Megjelenjenek-e a megjegyzések a szerkesztőben"
 
+#: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:32
+#| msgid "Whether to show notes in the editor"
+msgid "Whether to show Certificates tab in the editor"
+msgstr "Megjelenjenek-e a tanúsítvány lapok a szerkesztőben"
+
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
 msgstr "Levélüzenetek Unicode-dá alakítása"
@@ -8044,12 +8142,15 @@ msgid "Workday start time for Monday"
 msgstr "A munkanap kezdőideje hétfőn"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
+#| msgid ""
+#| "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, "
+#| "or -1 to use day-start-hour and day-start-minute"
 msgid ""
-"Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
-"-1 to use day-start-hour and day-start-minute"
+"Time the workday starts on, in twenty four hour format HHMM, 0000 to 2359, "
+"or -1 to use day-start-hour and day-start-minute"
 msgstr ""
-"A munkanap befejeződésének ideje, 24 órás ÓÓPP formátumban, 0000-2359-ig, "
-"vagy -1 a day-start-hour és day-start-minute használatához"
+"A munkanap kezdetének ideje, 24 órás ÓÓPP formátumban, 0000-2359-ig, vagy -1 "
+"a day-start-hour és day-start-minute használatához"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Workday end time for Monday"
@@ -8064,58 +8165,68 @@ msgstr ""
 "vagy -1 a day-end-hour és day-end-minute használatához"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-msgid "Workday start time for Teusday"
+#| msgid "Workday start time for Teusday"
+msgid "Workday start time for Tuesday"
 msgstr "A munkanap kezdőideje kedden"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
-msgid "Workday end time for Teusday"
-msgstr "A munkanap befejeződési ideje kedden"
+msgid ""
+"Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
+"-1 to use day-start-hour and day-start-minute"
+msgstr ""
+"A munkanap befejeződésének ideje, 24 órás ÓÓPP formátumban, 0000-2359-ig, "
+"vagy -1 a day-start-hour és day-start-minute használatához"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
+#| msgid "Workday end time for Teusday"
+msgid "Workday end time for Tuesday"
+msgstr "A munkanap befejeződési ideje kedden"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
 msgid "Workday start time for Wednesday"
 msgstr "A munkanap kezdőideje szerdán"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
 msgid "Workday end time for Wednesday"
 msgstr "A munkanap befejeződési ideje szerdán"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
 msgid "Workday start time for Thursday"
 msgstr "A munkanap kezdőideje csütörtökön"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 msgid "Workday end time for Thursday"
 msgstr "A munkanap befejeződési ideje csütörtökön"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
 msgid "Workday start time for Friday"
 msgstr "A munkanap kezdőideje pénteken"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Workday end time for Friday"
 msgstr "A munkanap befejeződési ideje pénteken"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Workday start time for Saturday"
 msgstr "A munkanap kezdőideje szombaton"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Workday end time for Saturday"
 msgstr "A munkanap befejeződési ideje szombaton"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
 msgid "Workday start time for Sunday"
 msgstr "A munkanap kezdőideje vasárnap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
 msgid "Workday end time for Sunday"
 msgstr "A munkanap befejeződési ideje vasárnap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "The second timezone for a Day View"
 msgstr "A napnézet második időzónája"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key"
@@ -8123,21 +8234,21 @@ msgstr ""
 "Megjeleníti a másodlagos időzónát a napnézetben. Az érték hasonló a "
 "„timezone” kulcsban használthoz"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Recently used second time zones in a Day View"
 msgstr ""
 "A megjegyzendő, a napnézetben nemrég használt másodlagos időzónák maximális "
 "száma."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "List of recently used second time zones in a Day View"
 msgstr "A nap nézetben nemrég használt időzónák listája"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Maximum number of recently used timezones to remember"
 msgstr "A megjegyzendő nemrég használt időzónák maximális száma"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid ""
 "Maximum number of recently used timezones to remember in a 'day-second-"
 "zones' list"
@@ -8145,30 +8256,30 @@ msgstr ""
 "A megjegyzendő nemrég használt időzónák maximális száma a „day-second-zones” "
 "kulcsban lévő listában"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
 msgstr "Emlékeztető alapértelmezett értéke"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
 msgstr ""
 "Az alapértelmezett emlékeztető meghatározásához használt időegységek száma"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
 msgstr "Emlékeztető alapértelmezett egységei"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgstr ""
 "Az alapértelmezett emlékeztetőhöz használt időegység, lehetséges értékek: "
 "„minutes” (perc), „hours” (óra) vagy „days” (nap)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Default reminder snooze interval, in minutes"
 msgstr "Emlékeztető alapértelmezett szundi időtartama percekben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid ""
 "Default reminder snooze interval, in minutes, to be filled in the reminder "
 "notification dialog"
@@ -8176,92 +8287,92 @@ msgstr ""
 "Az emlékeztető alapértelmezett szundi időtartama percekben, amely az "
 "emlékeztető párbeszédablakban jelenik meg"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show categories field in the event/meeting/task editor"
 msgstr ""
 "A kategóriák mező megjelenítése az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr ""
 "Megjelenjen-e a kategóriák mező az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show Role field in the event/task/meeting editor"
 msgstr "A szerep mező megjelenítése az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr "Megjelenjen-e a szerep mező az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "Az RSVP mező megjelenítése az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "Megjelenjen-e az RSVP mező az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show status field in the event/task/meeting editor"
 msgstr ""
 "Az állapot mező megjelenítése az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 "Megjelenjen-e az állapot mező az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show timezone field in the event/meeting editor"
 msgstr ""
 "Az időzóna mező megjelenítése az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
 "Megjelenjen-e az időzóna mező az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Show type field in the event/task/meeting editor"
 msgstr "A típus mező megjelenítése az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Megjelenjen-e a típus mező az esemény/feladat/találkozó-szerkesztőben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
 msgstr "Befejezett feladatok elrejtése"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Whether to hide completed tasks in the tasks view"
 msgstr "Befejezett feladatok elrejtése a feladatnézetben ki/be"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Hide task units"
 msgstr "Feladat elrejtéséhez használt időegység"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\""
 msgstr ""
 "A feladatok elrejtésének meghatározásához használt időegység, lehetséges "
 "értékek: „minutes” (perc), „hours” (óra) vagy „days” (nap)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Hide task value"
 msgstr "Feladat elrejtéséhez használt érték"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid "Number of units for determining when to hide tasks"
 msgstr "A feladatok elrejtése ennyi időegység eltelte után"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Horizontal pane position"
 msgstr "Vízszintes ablaktábla pozíciója"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
@@ -8269,56 +8380,56 @@ msgstr ""
 "A függőleges panel pozíciója a dátumnavigátor naptár és a feladatlista "
 "között, képpontokban, valamely nem-hónap nézet esetén"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Last reminder time"
 msgstr "Utolsó emlékeztető időpontja"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
 msgid "Time the last reminder ran, in time_t"
 msgstr "Az utolsó emlékeztető futásának ideje, time_t struktúraként"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Marcus Bains Line Color - Day View"
 msgstr "A Marcus Bains vonal színe - Nap nézet"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Color to draw the Marcus Bains line in the Day View"
 msgstr "A Marcus Bains vonal megrajzolása ezzel a színnel a Nap nézetben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Marcus Bains Line Color - Time bar"
 msgstr "A Marcus Bains vonal színe - Idő sáv"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "A Marcus Bains vonal megrajzolása ezzel a színnel az Idő sávban (hagyja "
 "üresen az alapértelmezett színhez)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid "Marcus Bains Line"
 msgstr "Marcus Bains vonal"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr ""
 "Megrajzolja-e a Marcus Bains vonalat (a jelenlegi időnél meghúzott vonal) a "
 "naptárban"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Memo preview pane position (horizontal)"
 msgstr "Feljegyzés-előnézet ablaktábla pozíciója (vízszintesen)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Feladatelőnézet ablaktábla pozíciója vízszintes tájolás esetén"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid "Memo layout style"
 msgstr "Feljegyzés elrendezési stílusa"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
@@ -8329,19 +8440,19 @@ msgstr ""
 "a feljegyzéslista alá, az „1” (függőleges nézet) pedig a feljegyzéslista "
 "mellé helyezi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid "Memo preview pane position (vertical)"
 msgstr "Feljegyzés-előnézet ablaktábla pozíciója (függőlegesen)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr "Feljegyzés-előnézet ablaktábla pozíciója vízszintes tájolás esetén"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid "Month view horizontal pane position"
 msgstr "A hónapnézet vízszintes ablaktáblájának pozíciója"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
@@ -8349,54 +8460,54 @@ msgstr ""
 "A vízszintes panel pozíciója a dátumnavigátor naptár és a feladatlista "
 "között, képpontokban, hónapnézet esetén"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Scroll Month View by a week, not by a month"
 msgstr "A hónapnézet egy héttel gördüljön, ne egy hónappal"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "A hónapnézet egy héttel gördüljön-e egy hónap helyett"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Reminder programs"
 msgstr "Emlékeztető programok"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "Programs that are allowed to be run by reminders"
 msgstr "Programok, melyeket az emlékeztetők futtathatnak"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Show display reminders in notification tray"
 msgstr "Emlékeztetők megjelenítése az értesítési területen"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Az értesítési terület használata az emlékeztetők megjelenítésére"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Preferred New button item"
 msgstr "Az Új gomb előnyben részesített eleme"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "Name of the preferred New toolbar button item"
 msgstr "Az eszköztár Új gombjának előnyben részesített neve"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Primary calendar"
 msgstr "Elsődleges naptár"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view"
 msgstr ""
 "A kijelölt (vagy „elsődleges”) naptár UID-ja a „Naptár” nézet oldalsávjában"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Primary memo list"
 msgstr "Elsődleges feljegyzéslista"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view"
@@ -8404,11 +8515,11 @@ msgstr ""
 "A kijelölt (vagy „elsődleges”) feljegyzéslista UID-ja a „Feljegyzések” nézet "
 "oldalsávjában"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Primary task list"
 msgstr "Elsődleges feladatlista"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view"
@@ -8416,11 +8527,11 @@ msgstr ""
 "A kijelölt (vagy „elsődleges”) feladatlista UID-ja a „Feladatok” nézet "
 "oldalsávjában"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Free/busy template URL"
 msgstr "Időbeosztási sablon URL"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -8430,21 +8541,21 @@ msgstr ""
 "felhasználónév részével, a %d pedig annak tartomány részével lesz "
 "helyettesítve"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 msgid "Recurrent Events in Italic"
 msgstr "Ismétlődő események dőlttel"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Az ismétlődő eseményeket tartalmazó napok megjelenítése dőlttel a bal alsó "
 "naptárban"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Search range for time-based searching in years"
 msgstr "Keresési tartomány időalapú kereséshez években"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid ""
 "How many years can the time-based search go forward or backward from "
 "currently selected day when searching for another occurrence; default is ten "
@@ -8453,64 +8564,64 @@ msgstr ""
 "Hány évig mehet előre vagy hátra az időalapú keresés az éppen kiválasztott "
 "dátumtól másik előfordulás keresésekor, az alapértelmezett tíz év."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Show appointment end times in week and month views"
 msgstr "Értekezletek végpontjának megjelenítése a heti és a hónapnézetben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Whether to display the end time of events in the week and month views"
 msgstr "Események végének megjelenítése a heti és a hónapnézetekben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show the memo preview pane"
 msgstr "Feljegyzés-előnézet ablaktábla megjelenítése"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "If \"true\", show the memo preview pane in the main window"
 msgstr ""
 "Ha igazra van állítva, akkor megjelenik a feljegyzés-előnézet ablaktábla a "
 "főablakban"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the task preview pane"
 msgstr "Feladatelőnézet ablaktábla megjelenítése"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "If \"true\", show the task preview pane in the main window"
 msgstr ""
 "Ha igazra van állítva, akkor megjelenik a feladatelőnézet ablaktábla a "
 "főablakban"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Hetek számának megjelenítése a nap és munkahét nézetekben, illetve a "
 "dátumnavigátorban"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Hét számának megjelenítése a naptár különböző helyein"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Vertical position for the tag pane"
 msgstr "Címke ablaktábla pozíciója"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "Highlight tasks due today"
 msgstr "Mai határidejű feladatok kiemelése"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "A ma esedékes feladatok kiemelendők-e egy speciális színnel (task-due-today-"
 "color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Tasks due today color"
 msgstr "Mai határidejű feladatok színe"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid ""
 "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
 "together with task-due-today-highlight"
@@ -8518,15 +8629,15 @@ msgstr ""
 "A mai határidejű feladatok színe, „#rrggbb” formátumban. A task-due-today-"
 "highlight kulccsal együtt használatos."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Task preview pane position (horizontal)"
 msgstr "Feladatelőnézet ablaktábla pozíciója (vízszintesen)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Task layout style"
 msgstr "Feladat elrendezésének stílusa"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -8537,30 +8648,30 @@ msgstr ""
 "feladatlista alá, az „1” (függőleges nézet) pedig a feladatlista mellé "
 "helyezi"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Task preview pane position (vertical)"
 msgstr "Feladatelőnézet ablaktábla pozíciója (függőlegesen)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Feladatelőnézet ablaktábla pozíciója függőleges tájolás esetén"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Highlight overdue tasks"
 msgstr "Lejárt határidejű feladatok kiemelése"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "A lejárt határidejű feladatok kiemelendők-e egy speciális színnel (task-"
 "overdue-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Overdue tasks color"
 msgstr "Lejárt határidejű feladatok színe"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
 "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
 "together with task-overdue-highlight."
@@ -8568,19 +8679,19 @@ msgstr ""
 "A lejárt határidejű feladatok színe, „#rrggbb” formátumban. A task-overdue-"
 "highlight kulccsal együtt használatos."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Time divisions"
 msgstr "Időosztások"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "A Nap és Munkahét nézetben megjelenítendő időközök, percekben"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Timezone"
 msgstr "Időzóna"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like \"America/New York\""
@@ -8588,76 +8699,76 @@ msgstr ""
 "A naptárban dátum és idő megjelenítéséhez használt alapértelmezett időzóna, "
 "lefordítatlan Olson időzóna-adatbázis helyként, például: „Europe/Budapest”."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Twenty four hour time format"
 msgstr "Huszonnégy órás időformátum"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Időpontok megjelenítése 24 órás formátumban 12 órás helyett"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Birthday and anniversary reminder"
 msgstr "Születésnap- és évforduló-emlékeztető"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Emlékeztessen-e születésnapokra és évfordulókra"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Default appointment reminder"
 msgstr "Alapértelmezett emlékeztető értekezletekre"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Whether to set a default reminder for appointments"
 msgstr "Alapértelmezett emlékeztető beállítása az értekezletekhez ki/be"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Use system timezone"
 msgstr "Rendszer időzónájának használata"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "A rendszer időzónájának használata az Evolutionben kiválasztott helyett"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "First day of the week"
 msgstr "A hét első napja"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Monday is a work day"
 msgstr "Hétfő munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Tuesday is a work day"
 msgstr "Kedd munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Wednesday is a work day"
 msgstr "Szerda munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "Thursday is a work day"
 msgstr "Csütörtök munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Friday is a work day"
 msgstr "Péntek munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "Saturday is a work day"
 msgstr "Szombat munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "Sunday is a work day"
 msgstr "Vasárnap munkanap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(elavult) A hét kezdőnapja, Vasárnaptól (0) Szombatig (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"week-start-day-name\" instead."
@@ -8665,11 +8776,11 @@ msgstr ""
 "Ez a kulcs elavult a 3.10-ben és nem szabad használni. Helyette használja a "
 "„week-start-day-name” kulcsot."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "(Deprecated) Work days"
 msgstr "(elavult) Munkanapok"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the \"work-"
@@ -11154,19 +11265,19 @@ msgid "Month Calendar"
 msgstr "Hónap naptár"
 
 #. This is a strftime() format. %B = Month name.
-#: ../e-util/e-calendar-item.c:1323 ../e-util/e-calendar-item.c:2201
+#: ../e-util/e-calendar-item.c:1322 ../e-util/e-calendar-item.c:2200
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
-#: ../e-util/e-calendar-item.c:1325
+#: ../e-util/e-calendar-item.c:1324
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../e-util/e-calendar-item.c:1362
+#: ../e-util/e-calendar-item.c:1361
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%Y. %B"
@@ -11390,7 +11501,7 @@ msgstr "Adja meg a használandó karakterkészlet"
 msgid "Other..."
 msgstr "Egyéb…"
 
-#: ../e-util/e-client-cache.c:1285
+#: ../e-util/e-client-cache.c:1148 ../e-util/e-client-cache.c:1279
 #, c-format
 msgid "Cannot create a client object from extension name '%s'"
 msgstr "Nem hozható létre kliensobjektum a(z) „%s” kiterjesztésnévből"
@@ -12975,11 +13086,11 @@ msgstr "_Méret:"
 msgid "Text Properties"
 msgstr "Szövegtulajdonságok"
 
-#: ../e-util/e-html-editor-view.c:5258
+#: ../e-util/e-html-editor-view.c:5359
 msgid "Changed property"
 msgstr "Módosított tulajdonság"
 
-#: ../e-util/e-html-editor-view.c:5259
+#: ../e-util/e-html-editor-view.c:5360
 msgid "Whether editor changed"
 msgstr "A szerkesztő megváltozott-e"
 
@@ -13365,7 +13476,6 @@ msgid "Configuration _URL:"
 msgstr "Konfigurációs _URL:"
 
 #: ../e-util/e-proxy-editor.c:560
-#| msgid "No _Proxy for:"
 msgid "No proxy"
 msgstr "Nincs proxy"
 
@@ -18514,10 +18624,6 @@ msgstr "_Címjegyzék"
 msgid "Create a new address book"
 msgstr "Új címjegyzék létrehozása"
 
-#: ../modules/addressbook/e-book-shell-backend.c:314
-msgid "Certificates"
-msgstr "Tanúsítványok"
-
 #: ../modules/addressbook/e-book-shell-view-actions.c:197
 msgid "Address Book Properties"
 msgstr "Címjegyzék tulajdonságai"
@@ -21084,19 +21190,19 @@ msgstr "Itip formázó"
 msgid "Display \"text/calendar\" MIME parts in mail messages."
 msgstr "Megjeleníti az üzenetek „text/calendar” MIME-részeit."
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:250
+#: ../modules/mail-config/e-mail-config-google-summary.c:259
 msgid "Google Features"
 msgstr "Google szolgáltatások"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:259
+#: ../modules/mail-config/e-mail-config-google-summary.c:268
 msgid "Add Google Ca_lendar to this account"
 msgstr "Google n_aptár támogatás ehhez a fiókhoz"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:267
+#: ../modules/mail-config/e-mail-config-google-summary.c:277
 msgid "Add Google Con_tacts to this account"
 msgstr "Google né_vjegyek támogatás ehhez a fiókhoz"
 
-#: ../modules/mail-config/e-mail-config-google-summary.c:275
+#: ../modules/mail-config/e-mail-config-google-summary.c:286
 msgid "You may need to enable IMAP access"
 msgstr "Szükség lehet az IMAP hozzáférés engedélyezésére"
 
@@ -22436,8 +22542,8 @@ msgstr ""
 msgid "_Automatically launch when a new mail is edited"
 msgstr "_Automatikus indítás új levél szerkesztésekor"
 
-#: ../plugins/external-editor/external-editor.c:477
-#: ../plugins/external-editor/external-editor.c:479
+#: ../plugins/external-editor/external-editor.c:484
+#: ../plugins/external-editor/external-editor.c:486
 msgid "Compose in External Editor"
 msgstr "Szerkesztés külső szerkesztővel"
 
@@ -23124,7 +23230,7 @@ msgstr "Jelszó _megjegyzése"
 msgid "Publishing Location"
 msgstr "Közzététel helye"
 
-#: ../plugins/publish-calendar/publish-format-fb.c:102
+#: ../plugins/publish-calendar/publish-format-fb.c:84
 #: ../plugins/publish-calendar/publish-format-ical.c:104
 #, c-format
 msgid "Invalid source UID '%s'"
@@ -23320,19 +23426,19 @@ msgstr "Keresés mentése"
 #. * allows the user to filter the current view.  Examples of
 #. * items that appear in the combo box are "Unread Messages",
 #. * "Important Messages", or "Active Appointments".
-#: ../shell/e-shell-searchbar.c:930
+#: ../shell/e-shell-searchbar.c:926
 msgid "Sho_w:"
 msgstr "_Megjelenítés:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:955
+#: ../shell/e-shell-searchbar.c:951
 msgid "Sear_ch:"
 msgstr "_Keresés:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../shell/e-shell-searchbar.c:1023
+#: ../shell/e-shell-searchbar.c:1019
 msgid "i_n"
 msgstr "i_tt:"
 
@@ -24006,11 +24112,6 @@ msgstr "Válasszon egy fájlt a kulcs és tanúsítvány biztonsági mentéséhe
 msgid "%s-backup.p12"
 msgstr "%s-backup.p12"
 
-#: ../smime/gui/certificate-manager.c:678
-#: ../smime/gui/certificate-manager.c:967
-msgid "All files"
-msgstr "Minden fájl"
-
 #: ../smime/gui/certificate-manager.c:730
 msgid "Backup Certificate"
 msgstr "Tanúsítvány biztonsági mentése"
@@ -24088,8 +24189,10 @@ msgid "Never"
 msgstr "Soha"
 
 #: ../smime/gui/certificate-manager.c:1123
+#| msgctxt "CamelTrust"
+#| msgid "Marginal"
 msgctxt "CamelTrust"
-msgid "Marginal"
+msgid "Marginally"
 msgstr "Kismértékben"
 
 #: ../smime/gui/certificate-manager.c:1125
@@ -24098,13 +24201,17 @@ msgid "Fully"
 msgstr "Teljesen"
 
 #: ../smime/gui/certificate-manager.c:1127
+#| msgctxt "CamelTrust"
+#| msgid "Ultimate"
 msgctxt "CamelTrust"
-msgid "Ultimate"
+msgid "Ultimately"
 msgstr "Tökéletesen"
 
 #: ../smime/gui/certificate-manager.c:1129
+#| msgctxt "CamelTrust"
+#| msgid "Temporary"
 msgctxt "CamelTrust"
-msgid "Temporary"
+msgid "Temporarily"
 msgstr "Átmenetileg"
 
 #: ../smime/gui/certificate-manager.c:1335
@@ -24122,29 +24229,37 @@ msgid "_Ask when used"
 msgstr "Kérdezzen _használat előtt"
 
 #: ../smime/gui/certificate-manager.c:1372
+#| msgid "Unset _trust for SSL certificate"
 msgctxt "CamelTrust"
-msgid "_Temporary (this session only)"
-msgstr "Át_menetileg (csak erre a munkamenetre)"
+msgid "_Never trust this certificate"
+msgstr "_Sose bízzon meg ebben tanúsítványában"
 
 #: ../smime/gui/certificate-manager.c:1373
+#| msgctxt "CamelTrust"
+#| msgid "_Temporary (this session only)"
 msgctxt "CamelTrust"
-msgid "_Never"
-msgstr "_Soha"
+msgid "_Temporarily trusted (this session only)"
+msgstr "Át_menetileg megbízható (csak erre a munkamenetre)"
 
 #: ../smime/gui/certificate-manager.c:1374
+#| msgctxt "CamelTrust"
+#| msgid "_Marginal"
 msgctxt "CamelTrust"
-msgid "_Marginal"
-msgstr "_Kismértékben"
+msgid "_Marginally trusted"
+msgstr "_Kismértékben megbízható"
 
 #: ../smime/gui/certificate-manager.c:1375
+#| msgid "R_eply requested"
 msgctxt "CamelTrust"
-msgid "_Fully"
-msgstr "_Teljesen"
+msgid "_Fully trusted"
+msgstr "_Teljesen megbízható"
 
 #: ../smime/gui/certificate-manager.c:1376
+#| msgctxt "CamelTrust"
+#| msgid "_Ultimate"
 msgctxt "CamelTrust"
-msgid "_Ultimate"
-msgstr "Tökél_etesen"
+msgid "_Ultimately trusted"
+msgstr "Tökél_etesen megbízható"
 
 #: ../smime/gui/certificate-manager.c:1380
 msgid ""
@@ -24453,6 +24568,14 @@ msgstr "Lejárat _dátumával"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Á_llapottal"
+
+#~ msgctxt "CamelTrust"
+#~ msgid "_Never"
+#~ msgstr "_Soha"
+
+#~ msgctxt "CamelTrust"
+#~ msgid "_Fully"
+#~ msgstr "_Teljesen"
 
 #~ msgid "Please select an image of size 48 * 48"
 #~ msgstr "Válasszon egy 48*48 méretű képet"
@@ -25296,9 +25419,6 @@ msgstr "Á_llapottal"
 
 #~ msgid "Could not publish calendar: Calendar backend no longer exists"
 #~ msgstr "A naptár nem tehető közzé: A naptár-háttérprogram már nem létezik"
-
-#~ msgid "File is not a valid .desktop file"
-#~ msgstr "A fájl nem egy érvényes .desktop fájl"
 
 #~ msgid "Unrecognized desktop file Version '%s'"
 #~ msgstr "Ismeretlen .desktop fájl verzió: „%s”"
