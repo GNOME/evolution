@@ -9306,7 +9306,8 @@ process_content_for_plain_text (EHTMLEditorView *view)
 				}
 				item = next_item;
 			}
-		} else {
+		} else if (!webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (paragraph), ".-x-evo-wrap-br,.-x-evo-quoted", NULL)) {
+			/* Dont't try to wrap the already wrapped content. */
 			e_html_editor_selection_wrap_paragraph (
 				selection, WEBKIT_DOM_ELEMENT (paragraph));
 		}
