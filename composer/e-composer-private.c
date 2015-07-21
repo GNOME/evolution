@@ -139,6 +139,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->saved_editable = FALSE;
 	priv->drop_occured = FALSE;
 	priv->dnd_is_uri = FALSE;
+	priv->check_if_signature_is_changed = FALSE;
+	priv->ignore_next_signature_change = FALSE;
 
 	priv->focused_entry = NULL;
 
@@ -1071,6 +1073,7 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitDOMDocument *document;
+	WebKitDOMElement *element = NULL;
 	WebKitDOMNodeList *signatures;
 	gulong list_length, ii;
 	GSettings *settings;
@@ -1082,6 +1085,11 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
+		goto exit;
+	}
+
+	if (composer->priv->ignore_next_signature_change) {
+		composer->priv->ignore_next_signature_change = FALSE;
 		goto exit;
 	}
 
@@ -1109,14 +1117,14 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 
 	/* If inserting HTML signature in plain text composer we have to convert it. */
 	if (is_html && !html_mode) {
-		WebKitDOMElement *element;
+		WebKitDOMElement *tmp_element;
 		gchar *inner_text;
 
-		element = webkit_dom_document_create_element (document, "div", NULL);
+		tmp_element = webkit_dom_document_create_element (document, "div", NULL);
 		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element), contents, NULL);
+			WEBKIT_DOM_HTML_ELEMENT (tmp_element), contents, NULL);
 		inner_text = webkit_dom_html_element_get_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (element));
+			WEBKIT_DOM_HTML_ELEMENT (tmp_element));
 
 		g_free (contents);
 		contents = inner_text ? g_strstrip (inner_text) : g_strdup ("");
@@ -1194,21 +1202,63 @@ insert:
 
 		wrapper = webkit_dom_node_list_item (signatures, ii);
 		signature = webkit_dom_node_get_first_child (wrapper);
-		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
 
-		/* When we are editing a message with signature we need to set active
-		 * signature id in signature combo box otherwise no signature will be
-		 * added but we have to do it just once when the composer opens */
-		if (is_message_from_edit_as_new && composer->priv->set_signature_from_message) {
-			gchar *name;
+		/* When we are editing a message with signature, we need to unset the
+		 * active signature id as if the signature in the message was edited
+		 * by the user we would discard these changes. */
+		if (composer->priv->set_signature_from_message &&
+		    (is_message_from_edit_as_new || e_html_editor_view_is_message_from_draft (view))) {
+			if (composer->priv->check_if_signature_is_changed) {
+				if (html_buffer && *html_buffer->str) {
+					gchar *body_signature_text, *signature_text;
 
-			composer->priv->set_signature_from_message = FALSE;
+					element = webkit_dom_document_create_element (document, "div", NULL);
+					webkit_dom_html_element_set_inner_html (
+						WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
 
-			name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
-			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
-			g_free (name);
+					body_signature_text = webkit_dom_html_element_get_inner_text (
+						WEBKIT_DOM_HTML_ELEMENT (signature));
+					signature_text = webkit_dom_html_element_get_inner_text (
+						WEBKIT_DOM_HTML_ELEMENT (element));
+
+					/* Signature in the body is different than the one with the
+					 * same id, so set the active signature to None and leave
+					 * the signature that is in the body. */
+					if (g_strcmp0 (body_signature_text, signature_text) != 0) {
+						gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+						composer->priv->ignore_next_signature_change = TRUE;
+					}
+
+					g_free (body_signature_text);
+					g_free (signature_text);
+				} else {
+					gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+					composer->priv->ignore_next_signature_change = TRUE;
+				}
+
+				composer->priv->check_if_signature_is_changed = FALSE;
+				composer->priv->set_signature_from_message = FALSE;
+			} else {
+				gchar *name;
+
+				/* Load the signature and check if is it the same
+				 * as the signature in body or the user previously
+				 * changed it. */
+				name = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (signature), "name");
+				gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), name);
+				g_free (name);
+
+				composer->priv->check_if_signature_is_changed = TRUE;
+			}
+			g_object_unref (wrapper);
+			g_object_unref (signatures);
+
+			g_object_unref (composer);
+
+			return;
 		}
 
+		id = webkit_dom_element_get_id (WEBKIT_DOM_ELEMENT (signature));
 		if (id && (strlen (id) == 1) && (*id == '1')) {
 			/* If the top signature was set we have to remove the NL
 			 * that was inserted after it */
@@ -1235,15 +1285,17 @@ insert:
 
 	if (html_buffer != NULL) {
 		if (*html_buffer->str) {
-			WebKitDOMElement *element;
 			WebKitDOMHTMLElement *body;
 
 			body = webkit_dom_document_get_body (document);
-			element = webkit_dom_document_create_element (document, "DIV", NULL);
-			webkit_dom_element_set_class_name (element, "-x-evo-signature-wrapper");
+			if (!element) {
+				element = webkit_dom_document_create_element (document, "DIV", NULL);
 
-			webkit_dom_html_element_set_inner_html (
-				WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
+				webkit_dom_html_element_set_inner_html (
+					WEBKIT_DOM_HTML_ELEMENT (element), html_buffer->str, NULL);
+			}
+
+			webkit_dom_element_set_class_name (element, "-x-evo-signature-wrapper");
 
 			if (top_signature) {
 				WebKitDOMNode *child =
@@ -1280,7 +1332,7 @@ insert:
 
 	composer_move_caret (composer);
 
-exit:
+ exit:
 	/* Make sure the flag will be unset and won't influence user's choice */
 	composer->priv->set_signature_from_message = FALSE;
 
