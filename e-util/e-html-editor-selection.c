@@ -6835,12 +6835,34 @@ wrap_lines (EHTMLEditorSelection *selection,
 		} else if (webkit_dom_node_get_next_sibling (node)) {
 			node = webkit_dom_node_get_next_sibling (node);
 		} else {
+			WebKitDOMNode *tmp_parent;
+
 			if (webkit_dom_node_is_equal_node (node, start_node))
 				break;
 
-			node = webkit_dom_node_get_parent_node (node);
-			if (node)
-				node = webkit_dom_node_get_next_sibling (node);
+			/* Find a next node that we can process. */
+			tmp_parent = webkit_dom_node_get_parent_node (node);
+			if (tmp_parent && webkit_dom_node_get_next_sibling (tmp_parent))
+				node = webkit_dom_node_get_next_sibling (tmp_parent);
+			else {
+				WebKitDOMNode *tmp;
+
+				tmp = tmp_parent;
+				/* Find a node that is not a start node (that would mean
+				 * that we already processed the whole block) and it has
+				 * a sibling that we can process. */
+				while (tmp && !webkit_dom_node_is_equal_node (tmp, start_node) &&
+				       !webkit_dom_node_get_next_sibling (tmp)) {
+					tmp = webkit_dom_node_get_parent_node (tmp);
+				}
+
+				/* If we found a node to process, let's process its
+				 * sibling, otherwise give up. */
+				if (tmp)
+					node = webkit_dom_node_get_next_sibling (tmp);
+				else
+					break;
+			}
 		}
 	}
 
