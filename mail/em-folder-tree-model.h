@@ -146,6 +146,9 @@ void		em_folder_tree_model_user_marked_unread
 					(EMFolderTreeModel *model,
 					 CamelFolder *folder,
 					 guint n_marked);
+gboolean	em_folder_tree_model_has_unread_mismatch
+					(GtkTreeModel *model,
+					 GtkTreeIter *store_iter);
 
 G_END_DECLS
 

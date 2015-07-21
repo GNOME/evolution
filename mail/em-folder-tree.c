@@ -728,6 +728,32 @@ exit:
 	g_clear_object (&store);
 }
 
+static void
+folder_tree_render_store_icon (GtkTreeViewColumn *column,
+			       GtkCellRenderer *renderer,
+			       GtkTreeModel *model,
+			       GtkTreeIter *iter,
+			       gpointer text_renderer)
+{
+	GtkTreeIter parent;
+	gboolean expanded = TRUE, children_has_unread_mismatch = FALSE;
+
+	/* The first prerequisite: it's a root node and has children. */
+	if (gtk_tree_model_iter_parent (model, &parent, iter) ||
+	    !gtk_tree_model_iter_has_child (model, iter)) {
+		g_object_set (renderer, "visible", FALSE, NULL);
+		return;
+	}
+
+	g_object_get (text_renderer, "is-expanded", &expanded, NULL);
+
+	/* The second prerequisite: it's not expanded and children has unread mismatch. */
+	if (!expanded)
+		children_has_unread_mismatch = em_folder_tree_model_has_unread_mismatch (model, iter);
+
+	g_object_set (renderer, "visible", !expanded && children_has_unread_mismatch, NULL);
+}
+
 static gboolean
 subdirs_contain_unread (GtkTreeModel *model,
                         GtkTreeIter *root)
@@ -1272,13 +1298,22 @@ folder_tree_constructed (GObject *object)
 		column, renderer, (GtkTreeCellDataFunc)
 		folder_tree_render_icon, NULL, NULL);
 
-	renderer = gtk_cell_renderer_text_new ();
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (G_OBJECT (renderer), "icon-name", "mail-unread", NULL);
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+
+	priv->text_renderer = g_object_ref (gtk_cell_renderer_text_new ());
+
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, folder_tree_render_store_icon,
+		g_object_ref (priv->text_renderer), g_object_unref);
+
+	renderer = priv->text_renderer;
 	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (
 		column, renderer, (GtkTreeCellDataFunc)
 		folder_tree_render_display_name, NULL, NULL);
-	priv->text_renderer = g_object_ref (renderer);
 
 	g_signal_connect_swapped (
 		renderer, "edited",

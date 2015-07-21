@@ -65,6 +65,13 @@ struct _EMFolderTreeModelPrivate {
 	GMutex store_index_lock;
 };
 
+typedef struct _FolderUnreadInfo {
+	guint unread;
+	guint unread_last_sel;
+	gboolean is_drafts;
+	guint32 fi_flags;
+} FolderUnreadInfo;
+
 struct _StoreInfo {
 	volatile gint ref_count;
 
@@ -73,6 +80,10 @@ struct _StoreInfo {
 
 	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
 	GHashTable *full_hash;
+
+	/* CamelFolderInfo::full_name ~> FolderUnreadInfo * - last known unread count
+	   for folders which are not loaded in the tree yet */
+	GHashTable *full_hash_unread;
 
 	/* CamelStore signal handler IDs */
 	gulong folder_created_handler_id;
@@ -171,6 +182,7 @@ store_info_unref (StoreInfo *si)
 		g_object_unref (si->store);
 		gtk_tree_row_reference_free (si->row);
 		g_hash_table_destroy (si->full_hash);
+		g_hash_table_destroy (si->full_hash_unread);
 
 		g_slice_free (StoreInfo, si);
 	}
@@ -193,6 +205,8 @@ store_info_new (EMFolderTreeModel *model,
 		(GEqualFunc) g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
+
+	si->full_hash_unread = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	handler_id = g_signal_connect_data (
 		store, "folder-created",
@@ -490,8 +504,10 @@ folder_tree_model_remove_folders (EMFolderTreeModel *folder_tree_model,
 		COL_STRING_FULL_NAME, &full_name,
 		COL_BOOL_IS_STORE, &is_store, -1);
 
-	if (full_name != NULL)
+	if (full_name != NULL) {
 		g_hash_table_remove (si->full_hash, full_name);
+		g_hash_table_remove (si->full_hash_unread, full_name);
+	}
 
 	gtk_tree_store_remove (GTK_TREE_STORE (model), toplevel);
 
@@ -773,7 +789,8 @@ static void
 folder_tree_model_set_unread_count (EMFolderTreeModel *model,
                                     CamelStore *store,
                                     const gchar *full,
-                                    gint unread)
+                                    gint unread,
+				    MailFolderCache *folder_cache)
 {
 	GtkTreeRowReference *reference;
 	GtkTreeModel *tree_model;
@@ -794,11 +811,47 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 	if (si == NULL)
 		return;
 
-	reference = g_hash_table_lookup (si->full_hash, full);
-	if (!gtk_tree_row_reference_valid (reference))
-		goto exit;
-
 	tree_model = GTK_TREE_MODEL (model);
+
+	reference = g_hash_table_lookup (si->full_hash, full);
+	if (!gtk_tree_row_reference_valid (reference)) {
+		FolderUnreadInfo *fu_info;
+
+		fu_info = g_new0 (FolderUnreadInfo, 1);
+		fu_info->unread = unread;
+		fu_info->unread_last_sel = unread;
+		fu_info->is_drafts = FALSE;
+
+		if (g_hash_table_contains (si->full_hash_unread, full)) {
+			FolderUnreadInfo *saved_fu_info;
+
+			saved_fu_info = g_hash_table_lookup (si->full_hash_unread, full);
+
+			fu_info->unread_last_sel = MIN (saved_fu_info->unread_last_sel, unread);
+			fu_info->is_drafts = saved_fu_info->is_drafts;
+			fu_info->fi_flags = saved_fu_info->fi_flags;
+		} else {
+			CamelFolder *folder;
+			CamelFolderInfoFlags flags;
+
+			fu_info->unread_last_sel = unread;
+
+			folder = mail_folder_cache_ref_folder (folder_cache, store, full);
+			if (folder) {
+				fu_info->is_drafts = em_utils_folder_is_drafts (e_mail_session_get_registry (model->priv->session), folder);
+				g_object_unref (folder);
+			}
+
+			if (!mail_folder_cache_get_folder_info_flags (folder_cache, store, full, &flags))
+				flags = 0;
+
+			fu_info->fi_flags = flags;
+		}
+
+		g_hash_table_insert (si->full_hash_unread, g_strdup (full), fu_info);
+
+		goto exit;
+	}
 
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (tree_model, &iter, path);
@@ -1126,6 +1179,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	g_hash_table_insert (
 		si->full_hash, g_strdup (fi->full_name), path_row);
+
+	g_hash_table_remove (si->full_hash_unread, fi->full_name);
 
 	store_info_unref (si);
 	si = NULL;
@@ -1878,4 +1933,77 @@ em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
 		GTK_TREE_STORE (model), &iter,
 		COL_UINT_UNREAD_LAST_SEL, unread,
 		COL_UINT_UNREAD, unread, -1);
+}
+
+static gboolean
+folder_tree_model_eval_children_has_unread_mismatch (GtkTreeModel *model,
+						     GtkTreeIter *root)
+{
+	guint unread, unread_last_sel;
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_iter_children (model, &iter, root))
+		return FALSE;
+
+	do {
+		gtk_tree_model_get (model, &iter,
+			COL_UINT_UNREAD, &unread,
+			COL_UINT_UNREAD_LAST_SEL, &unread_last_sel,
+			-1);
+
+		if (unread != ~0 && unread > unread_last_sel)
+			return TRUE;
+
+		if (gtk_tree_model_iter_has_child (model, &iter))
+			if (folder_tree_model_eval_children_has_unread_mismatch (model, &iter))
+				return TRUE;
+	} while (gtk_tree_model_iter_next (model, &iter));
+
+	return FALSE;
+}
+
+gboolean
+em_folder_tree_model_has_unread_mismatch (GtkTreeModel *model,
+					  GtkTreeIter *store_iter)
+{
+	StoreInfo *si;
+	CamelStore *store = NULL;
+	gboolean is_store = FALSE;
+	gboolean has_unread_mismatch = FALSE;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), FALSE);
+	g_return_val_if_fail (store_iter != NULL, FALSE);
+
+	gtk_tree_model_get (model, store_iter,
+		COL_BOOL_IS_STORE, &is_store,
+		COL_OBJECT_CAMEL_STORE, &store,
+		-1);
+
+	if (is_store) {
+		si = folder_tree_model_store_index_lookup (EM_FOLDER_TREE_MODEL (model), store);
+		if (si) {
+			GHashTableIter hash_iter;
+			gpointer value;
+
+			g_hash_table_iter_init (&hash_iter, si->full_hash_unread);
+			while (g_hash_table_iter_next (&hash_iter, NULL, &value)) {
+				FolderUnreadInfo *fu_info = value;
+
+				if (fu_info && !fu_info->is_drafts && (fu_info->fi_flags & CAMEL_FOLDER_VIRTUAL) == 0 &&
+				    fu_info->unread > fu_info->unread_last_sel) {
+					has_unread_mismatch = TRUE;
+					break;
+				}
+			}
+
+			store_info_unref (si);
+		}
+
+		has_unread_mismatch = has_unread_mismatch ||
+			folder_tree_model_eval_children_has_unread_mismatch (model, store_iter);
+	}
+
+	g_clear_object (&store);
+
+	return has_unread_mismatch;
 }
