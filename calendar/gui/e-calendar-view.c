@@ -158,7 +158,8 @@ calendar_view_check_for_retract (ECalComponent *comp,
 
 static void
 calendar_view_delete_event (ECalendarView *cal_view,
-                            ECalendarViewEvent *event)
+                            ECalendarViewEvent *event,
+			    gboolean only_occurrence)
 {
 	ECalModel *model;
 	ECalComponent *comp;
@@ -177,7 +178,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	vtype = e_cal_component_get_vtype (comp);
 
 	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */
-	if (!e_cal_client_check_recurrences_no_master (event->comp_data->client))
+	if (!only_occurrence && !e_cal_client_check_recurrences_no_master (event->comp_data->client))
 		e_cal_component_set_recurid (comp, NULL);
 
 	/*FIXME Retract should be moved to Groupwise features plugin */
@@ -201,25 +202,72 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 	if (delete) {
 		const gchar *uid;
-		gchar *rid = NULL;
+		gchar *rid;
+
+		rid = e_cal_component_get_recurid_as_string (comp);
 
 		if ((itip_organizer_is_user (registry, comp, event->comp_data->client) ||
 		     itip_sentby_is_user (registry, comp, event->comp_data->client))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
-						comp, TRUE))
+						comp, TRUE)) {
+			if (only_occurrence && !e_cal_component_is_instance (comp)) {
+				ECalComponentRange range;
+
+				/* set the recurrence ID of the object we send */
+				range.type = E_CAL_COMPONENT_RANGE_SINGLE;
+				e_cal_component_get_dtstart (comp, &range.datetime);
+				range.datetime.value->is_date = 1;
+				e_cal_component_set_recurid (comp, &range);
+
+				e_cal_component_free_datetime (&range.datetime);
+			}
+
 			itip_send_component (model, E_CAL_COMPONENT_METHOD_CANCEL,
 				comp, event->comp_data->client, NULL, NULL,
 				NULL, TRUE, FALSE, FALSE);
+		}
 
 		e_cal_component_get_uid (comp, &uid);
 		if (!uid || !*uid) {
 			g_object_unref (comp);
+			g_free (rid);
 			return;
 		}
-		rid = e_cal_component_get_recurid_as_string (comp);
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
-		    e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+
+		if (only_occurrence) {
+			if (e_cal_component_is_instance (comp)) {
+				e_cal_ops_remove_component (model, event->comp_data->client, uid, rid, E_CAL_OBJ_MOD_THIS, FALSE);
+			} else {
+				struct icaltimetype instance_rid;
+				ECalComponentDateTime dt;
+				icaltimezone *zone = NULL;
+
+				e_cal_component_get_dtstart (comp, &dt);
+
+				if (dt.tzid) {
+					GError *local_error = NULL;
+
+					e_cal_client_get_timezone_sync (event->comp_data->client, dt.tzid, &zone, NULL, &local_error);
+					if (local_error != NULL) {
+						zone = e_calendar_view_get_timezone (cal_view);
+						g_clear_error (&local_error);
+					}
+				} else {
+					zone = e_calendar_view_get_timezone (cal_view);
+				}
+
+				e_cal_component_free_datetime (&dt);
+
+				instance_rid = icaltime_from_timet_with_zone (
+					event->comp_data->instance_start,
+					TRUE, zone ? zone : icaltimezone_get_utc_timezone ());
+				e_cal_util_remove_instances (event->comp_data->icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS);
+				e_cal_ops_modify_component (model, event->comp_data->client, event->comp_data->icalcomp,
+					E_CAL_OBJ_MOD_THIS, E_CAL_OPS_SEND_FLAG_DONT_SEND);
+			}
+		} else if (e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
+			   e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 			e_cal_ops_remove_component (model, event->comp_data->client, uid, rid, E_CAL_OBJ_MOD_ALL, FALSE);
 		else
 			e_cal_ops_remove_component (model, event->comp_data->client, uid, NULL, E_CAL_OBJ_MOD_THIS, FALSE);
@@ -1009,7 +1057,7 @@ calendar_view_delete_selection (ESelectable *selectable)
 		if (event == NULL)
 			continue;
 
-		calendar_view_delete_event (cal_view, event);
+		calendar_view_delete_event (cal_view, event, FALSE);
 	}
 
 	g_list_free (selected);
@@ -1392,7 +1440,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 	event = (ECalendarViewEvent *) selected->data;
 	if (is_comp_data_valid (event)) {
-		calendar_view_delete_event (cal_view, event);
+		calendar_view_delete_event (cal_view, event, TRUE);
 	}
 
 	g_list_free (selected);
