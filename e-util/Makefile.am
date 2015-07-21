@@ -171,6 +171,7 @@ evolution_util_include_HEADERS =  \
 	e-color-chooser-widget.h \
 	e-color-combo.h \
 	e-config.h \
+	e-conflict-search-selector.h \
 	e-contact-store.h \
 	e-data-capture.h \
 	e-dateedit.h \
@@ -277,6 +278,7 @@ evolution_util_include_HEADERS =  \
 	e-source-config-backend.h \
 	e-source-config-dialog.h \
 	e-source-config.h \
+	e-source-conflict-search.h \
 	e-source-selector-dialog.h \
 	e-source-selector.h \
 	e-source-util.h \
@@ -444,6 +446,7 @@ libevolution_util_la_SOURCES = \
 	e-color-chooser-widget.c \
 	e-color-combo.c \
 	e-config.c \
+	e-conflict-search-selector.c \
 	e-contact-store.c \
 	e-data-capture.c \
 	e-dateedit.c \
@@ -551,6 +554,7 @@ libevolution_util_la_SOURCES = \
 	e-source-config-backend.c \
 	e-source-config-dialog.c \
 	e-source-config.c \
+	e-source-conflict-search.c \
 	e-source-selector-dialog.c \
 	e-source-selector.c \
 	e-source-util.c \

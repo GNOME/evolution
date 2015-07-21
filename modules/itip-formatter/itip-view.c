@@ -37,8 +37,6 @@
 #include <mail/em-utils.h>
 #include <em-format/e-mail-formatter-utils.h>
 
-#include "e-conflict-search-selector.h"
-#include "e-source-conflict-search.h"
 #include "itip-view.h"
 #include "e-mail-part-itip.h"
 
