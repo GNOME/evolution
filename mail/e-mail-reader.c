@@ -2156,7 +2156,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_next_thread_cb) },
 
 	{ "mail-next-unread",
-	  NULL,
+	  "go-jump",
 	  N_("Next _Unread Message"),
 	  "<Control>bracketright",
 	  N_("Display the next unread message"),
@@ -2326,7 +2326,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  NULL },
 
 	{ "mail-goto-menu",
-	  "go-jump",
+	  NULL,
 	  N_("_Go To"),
 	  NULL,
 	  NULL,
