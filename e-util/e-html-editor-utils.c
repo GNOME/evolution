@@ -23,7 +23,7 @@
 #endif
 
 #include "e-html-editor-utils.h"
-#include "e-web-view.h"
+#include "e-misc-utils.h"
 #include <string.h>
 
 /**
@@ -153,4 +153,162 @@ e_html_editor_get_parent_block_node_from_child (WebKitDOMNode *node)
 		parent = webkit_dom_node_get_parent_node (parent);
 
 	return parent;
+}
+
+gboolean
+element_has_id (WebKitDOMElement *element,
+                const gchar* id)
+{
+	gchar *element_id;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_id = webkit_dom_element_get_id (element);
+
+	if (g_ascii_strcasecmp (element_id, id) != 0) {
+		g_free (element_id);
+		return FALSE;
+	}
+	g_free (element_id);
+
+	return TRUE;
+}
+
+gboolean
+element_has_tag (WebKitDOMElement *element,
+                 const gchar* tag)
+{
+	gchar *element_tag;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_tag = webkit_dom_node_get_local_name (WEBKIT_DOM_NODE (element));
+
+	if (g_ascii_strcasecmp (element_tag, tag) != 0) {
+		g_free (element_tag);
+		return FALSE;
+	}
+	g_free (element_tag);
+
+	return TRUE;
+}
+
+gboolean
+element_has_class (WebKitDOMElement *element,
+                   const gchar* class)
+{
+	gchar *element_class;
+
+	if (!element)
+		return FALSE;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return FALSE;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strstr_len (element_class, -1, class)) {
+		g_free (element_class);
+		return TRUE;
+	}
+	g_free (element_class);
+
+	return FALSE;
+}
+
+void
+element_add_class (WebKitDOMElement *element,
+                   const gchar* class)
+{
+	gchar *element_class;
+	gchar *new_class;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return;
+
+	if (element_has_class (element, class))
+		return;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strcmp0 (element_class, "") == 0)
+		new_class = g_strdup (class);
+	else
+		new_class = g_strconcat (element_class, " ", class, NULL);
+
+	webkit_dom_element_set_class_name (element, new_class);
+
+	g_free (element_class);
+	g_free (new_class);
+}
+
+void
+element_remove_class (WebKitDOMElement *element,
+                      const gchar* class)
+{
+	gchar *element_class;
+	GString *result;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (element))
+		return;
+
+	if (!element_has_class (element, class))
+		return;
+
+	element_class = webkit_dom_element_get_class_name (element);
+
+	if (g_strcmp0 (element_class, class) == 0) {
+		webkit_dom_element_remove_attribute (element, "class");
+		g_free (element_class);
+		return;
+	}
+
+	result = e_str_replace_string (element_class, class, "");
+	if (result) {
+		webkit_dom_element_set_class_name (element, result->str);
+		g_string_free (result, TRUE);
+	}
+
+	g_free (element_class);
+}
+
+void
+remove_node (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent = webkit_dom_node_get_parent_node (node);
+
+	/* Check if the parent exists, if so it means that the node is still
+	 * in the DOM or at least the parent is. If it doesn't exists it is not
+	 * in the DOM and we can free it. */
+	if (parent)
+		webkit_dom_node_remove_child (parent, node, NULL);
+	else
+		g_object_unref (node);
+}
+
+void
+remove_node_if_empty (WebKitDOMNode *node)
+{
+	if (!WEBKIT_DOM_IS_NODE (node))
+		return;
+
+	if (!webkit_dom_node_get_first_child (node)) {
+		remove_node (node);
+	} else {
+		gchar *text_content;
+
+		text_content = webkit_dom_node_get_text_content (node);
+		if (!text_content)
+			remove_node (node);
+
+		if (text_content && !*text_content)
+			remove_node (node);
+
+		g_free (text_content);
+	}
 }

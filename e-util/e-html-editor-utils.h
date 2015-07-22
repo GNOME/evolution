@@ -45,6 +45,25 @@ gboolean	e_html_editor_node_is_selection_position_node
 WebKitDOMNode *	e_html_editor_get_parent_block_node_from_child
 						(WebKitDOMNode *node);
 
+gboolean	element_has_id			(WebKitDOMElement *element,
+						 const gchar* id);
+
+gboolean	element_has_tag			(WebKitDOMElement *element,
+						 const gchar* tag);
+
+gboolean	element_has_class		(WebKitDOMElement *element,
+						 const gchar* class);
+
+void		element_add_class		(WebKitDOMElement *element,
+						 const gchar* class);
+
+void		element_remove_class		(WebKitDOMElement *element,
+						 const gchar* class);
+
+void		remove_node			(WebKitDOMNode *node);
+
+void		remove_node_if_empty		(WebKitDOMNode *node);
+
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_UTILS_H */
