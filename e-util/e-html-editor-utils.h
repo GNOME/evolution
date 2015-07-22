@@ -39,6 +39,12 @@ WebKitDOMElement *
 						(WebKitDOMNode *node,
 						 const gchar *tagname);
 
+gboolean	e_html_editor_node_is_selection_position_node
+						(WebKitDOMNode *node);
+
+WebKitDOMNode *	e_html_editor_get_parent_block_node_from_child
+						(WebKitDOMNode *node);
+
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_UTILS_H */
