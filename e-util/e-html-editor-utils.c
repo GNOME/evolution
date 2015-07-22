@@ -23,6 +23,7 @@
 #endif
 
 #include "e-html-editor-utils.h"
+#include "e-web-view.h"
 #include <string.h>
 
 /**
@@ -113,4 +114,43 @@ e_html_editor_dom_node_find_child_element (WebKitDOMNode *node,
 	} while (!webkit_dom_node_is_same_node (node, start_node));
 
 	return NULL;
+}
+
+gboolean
+e_html_editor_node_is_selection_position_node (WebKitDOMNode *node)
+{
+	WebKitDOMElement *element;
+
+	if (!node || !WEBKIT_DOM_IS_ELEMENT (node))
+		return FALSE;
+
+	element = WEBKIT_DOM_ELEMENT (node);
+
+	return element_has_id (element, "-x-evo-selection-start-marker") ||
+	       element_has_id (element, "-x-evo-selection-end-marker");
+}
+
+WebKitDOMNode *
+e_html_editor_get_parent_block_node_from_child (WebKitDOMNode *node)
+{
+	WebKitDOMNode *parent = node;
+
+	if (!WEBKIT_DOM_IS_ELEMENT (parent) ||
+	    e_html_editor_node_is_selection_position_node (parent))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-temp-text-wrapper") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character") ||
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-signature") ||
+	    WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent) ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "b") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "i") ||
+	    element_has_tag (WEBKIT_DOM_ELEMENT (parent), "u"))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quoted"))
+		parent = webkit_dom_node_get_parent_node (parent);
+
+	return parent;
 }
