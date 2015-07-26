@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: 3.12\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-07-15 04:32+0000\n"
-"PO-Revision-Date: 2015-07-26 20:45+0100\n"
+"POT-Creation-Date: 2015-07-26 19:51+0000\n"
+"PO-Revision-Date: 2015-07-26 21:40+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -123,7 +123,6 @@ msgid "Unable to perform search."
 msgstr "Impossível efetuar a procura."
 
 #: ../addressbook/addressbook.error.xml.h:20
-#| msgid "Unable to open address book '{0}'"
 msgid "Failed to refresh address book '{0}'"
 msgstr "Impossível abrir o livro de endereços \"{0}\""
 
@@ -332,7 +331,6 @@ msgid "Telephone"
 msgstr "Telefone"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
-#| msgid "Address"
 msgid "SIP Address"
 msgstr "Endereço SIP"
 
@@ -607,68 +605,57 @@ msgstr "_Gravar"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:56
-#| msgid "Telephone"
 msgid "Show Telephone"
 msgstr "Mostrar telefone"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:57
-#| msgid "_To This Address"
 msgid "Show SIP Address"
 msgstr "Mostrar endereço SIP"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:58
-#| msgid "Instant Messaging"
 msgid "Show Instant Messaging"
 msgstr "Mostrar mensagens instantâneas"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
-#| msgid "Web Addresses"
 msgid "Show Web Addresses"
 msgstr "Mostrar endereços web"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:60
-#| msgid "Show the second time zone"
 msgid "Show Job section"
 msgstr "Mostrar secção do emprego"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:61
-#| msgid "Miscellaneous"
 msgid "Show Miscellaneous"
 msgstr "Mostrar vários"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:62
-#| msgid "Mailing Address"
 msgid "Show Home Mailing Address"
 msgstr "Mostrar endereço pessoal"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:63
-#| msgid "Mailing Address"
 msgid "Show Work Mailing Address"
 msgstr "Mostrar endereço profissional"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:64
-#| msgid "Mailing Address"
 msgid "Show Other Mailing Address"
 msgstr "Mostrar outros endereços"
 
 #
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:65
-#| msgid "Show %s"
 msgid "Show Notes"
 msgstr "Mostrar notas"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:257
 #: ../calendar/gui/dialogs/comp-editor.c:1298
 #: ../e-util/e-html-editor-actions.c:1134
-#| msgid "Undo"
 msgid "_Undo"
 msgstr "_Desfazer"
 
@@ -680,7 +667,6 @@ msgstr "Desfazer"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
 #: ../calendar/gui/dialogs/comp-editor.c:1305
 #: ../e-util/e-html-editor-actions.c:1120
-#| msgid "Redo"
 msgid "_Redo"
 msgstr "_Refazer"
 
@@ -1798,97 +1784,81 @@ msgid "Failed to open client '%s': %s"
 msgstr "Falha ao abrir o cliente \"%s\": %s"
 
 #: ../addressbook/util/eab-book-util.c:36
-#| msgid "Work Email"
 msgctxt "addressbook-label"
 msgid "Work Email"
 msgstr "Email profissional"
 
 #: ../addressbook/util/eab-book-util.c:37
-#| msgid "Home Email"
 msgctxt "addressbook-label"
 msgid "Home Email"
 msgstr "Email pessoal"
 
 #: ../addressbook/util/eab-book-util.c:38
-#| msgid "Other Email"
 msgctxt "addressbook-label"
 msgid "Other Email"
 msgstr "Outro email"
 
 #: ../addressbook/util/eab-book-util.c:44
-#| msgid "Work"
 msgctxt "addressbook-label"
 msgid "Work SIP"
 msgstr "SIP do emprego"
 
 #: ../addressbook/util/eab-book-util.c:45
-#| msgid "Home Page"
 msgctxt "addressbook-label"
 msgid "Home SIP"
 msgstr "SIP de casa"
 
 #: ../addressbook/util/eab-book-util.c:46
-#| msgid "Other"
 msgctxt "addressbook-label"
 msgid "Other SIP"
 msgstr "Outro SIP"
 
 #: ../addressbook/util/eab-book-util.c:74
-#| msgid "AIM"
 msgctxt "addressbook-label"
 msgid "AIM"
 msgstr "AIM"
 
 #: ../addressbook/util/eab-book-util.c:75
-#| msgid "Jabber"
 msgctxt "addressbook-label"
 msgid "Jabber"
 msgstr "Jabber"
 
 #: ../addressbook/util/eab-book-util.c:76
-#| msgid "Yahoo"
 msgctxt "addressbook-label"
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: ../addressbook/util/eab-book-util.c:77
-#| msgid "Gadu-Gadu"
 msgctxt "addressbook-label"
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
 #: ../addressbook/util/eab-book-util.c:78
-#| msgid "MSN"
 msgctxt "addressbook-label"
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/util/eab-book-util.c:79
-#| msgid "ICQ"
 msgctxt "addressbook-label"
 msgid "ICQ"
 msgstr "ICQ"
 
 #: ../addressbook/util/eab-book-util.c:80
-#| msgid "GroupWise"
 msgctxt "addressbook-label"
 msgid "GroupWise"
 msgstr "GroupWise"
 
 #: ../addressbook/util/eab-book-util.c:81
-#| msgid "Skype"
 msgctxt "addressbook-label"
 msgid "Skype"
 msgstr "Skype"
 
 #: ../addressbook/util/eab-book-util.c:82
-#| msgid "Twitter"
 msgctxt "addressbook-label"
 msgid "Twitter"
 msgstr "Twitter"
 
 #: ../addressbook/util/eab-book-util.c:83
-#| msgid "Google"
 msgctxt "addressbook-label"
 msgid "Google Talk"
 msgstr "Google Talk"
@@ -1898,7 +1868,6 @@ msgstr "Google Talk"
 #. * this generic label is used instead of one of the predefined labels.
 #.
 #: ../addressbook/util/eab-book-util.c:126
-#| msgid "Email"
 msgctxt "addressbook-label"
 msgid "Email"
 msgstr "Email"
@@ -1919,7 +1888,6 @@ msgstr "SIP"
 #. * IM=Instant Messaging
 #.
 #: ../addressbook/util/eab-book-util.c:216
-#| msgid "AIM"
 msgctxt "addressbook-label"
 msgid "IM"
 msgstr "IM"
@@ -1929,7 +1897,6 @@ msgstr "IM"
 #. * this generic label is used instead of one of the predefined labels.
 #.
 #: ../addressbook/util/eab-book-util.c:271
-#| msgid "Phone"
 msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefone"
@@ -2541,127 +2508,106 @@ msgstr "A lista de memorandos não está marcada para utilização offline."
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:87
-#| msgid "Failed to copy an event into the calendar '{0}'"
 msgid "Failed to open calendar '{0}'"
 msgstr "Falha ao abrir o calendário \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:89
-#| msgid "Failed to copy a memo into the memo list '{0}'"
 msgid "Failed to open memo list '{0}'"
 msgstr "Falha ao abrir a lista de memorandos \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:91
-#| msgid "Failed to copy a task into the task list '{0}'"
 msgid "Failed to open task list '{0}'"
 msgstr "Falha ao abrir a lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:93
-#| msgid "Failed to copy an event into the calendar '{0}'"
 msgid "Failed to create an event in the calendar '{0}'"
 msgstr "Falha ao criar um evento no calendário \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:95
-#| msgid "Failed to copy a memo into the memo list '{0}'"
 msgid "Failed to create a memo in the memo list '{0}'"
 msgstr "Falha ao criar um memorando na lista de memorandos \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:97
-#| msgid "Failed to copy a task into the task list '{0}'"
 msgid "Failed to create a task in the task list '{0}'"
 msgstr "Falha ao criar uma tarefa na lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:99
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to modify an event in the calendar '{0}'"
 msgstr "Falha ao modificar um evento no calendário \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:101
-#| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to modify a memo in the memo list '{0}'"
 msgstr "Falha ao modificar um memorando na lista de memorandos \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:103
-#| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to modify a task in the task list '{0}'"
 msgstr "Falha ao modificar uma tarefa na lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:105
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to delete an event in the calendar '{0}'"
 msgstr "Falha ao eliminar um evento no calendário \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:107
-#| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to delete a memo in the memo list '{0}'"
 msgstr "Falha ao eliminar um memorando na lista de memorandos \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:109
-#| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to delete a task in the task list '{0}'"
 msgstr "Falha ao eliminar uma tarefa na lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:111
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to update an event in the calendar '{0}'"
 msgstr "Falha ao atualizar um evento no calendário \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:113
-#| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to update a memo in the memo list '{0}'"
 msgstr "Falha ao atualizar um memorando na lista de memorandoss \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:115
-#| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to update a task in the task list '{0}'"
 msgstr "Falha ao atualizar uma tarefa na lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:117
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to send an event to the calendar '{0}'"
 msgstr "Falha ao enviar um evento para o calendário \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:119
-#| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to send a memo to the memo list '{0}'"
 msgstr "Falha ao enviar um memorando para a lista de memorandos \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:121
-#| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to send a task to the task list '{0}'"
 msgstr "Falha ao enviar uma tarefa para a lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:123
-#| msgid "Error loading calendar '{0}'"
 msgid "Error creating view for the calendar '{0}'"
 msgstr "Erro ao criar vista para o calendário \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:125
-#| msgid "Error loading task list '{0}'"
 msgid "Error creating view for the task list '{0}'"
 msgstr "Erro ao criar vista para a lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:127
-#| msgid "Error loading memo list '{0}'"
 msgid "Error creating view for the memo list '{0}'"
 msgstr "Erro ao criar vista para a lista de memorandos \"{0}\""
 
@@ -2727,24 +2673,20 @@ msgstr "A mover um memorando para a lista de memorandos '\"0}\""
 
 #. Translators: {0} is the name of the calendar.
 #: ../calendar/calendar.error.xml.h:153
-#| msgid "Delete remote calendar '{0}'?"
 msgid "Failed to refresh calendar '{0}'"
 msgstr "Falha ao atualizar o calendário \"{0}\""
 
 #. Translators: {0} is the name of the task list.
 #: ../calendar/calendar.error.xml.h:155
-#| msgid "Failed to move a task into the task list '{0}'"
 msgid "Failed to refresh task list '{0}'"
 msgstr "Falha ao atualizar a lista de tarefas \"{0}\""
 
 #. Translators: {0} is the name of the memo list.
 #: ../calendar/calendar.error.xml.h:157
-#| msgid "Failed to move a memo into the memo list '{0}'"
 msgid "Failed to refresh memo list '{0}'"
 msgstr "Falha ao atualizar a lista de memos \"{0}\""
 
 #: ../calendar/calendar.error.xml.h:158
-#| msgid "Make this Occurrence _Movable"
 msgid "Failed to make an occurrence movable"
 msgstr "Falha ao tornar uma ocorrência móvel"
 
@@ -3365,19 +3307,16 @@ msgstr "O destino é só de leitura"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:209
 #, c-format
-#| msgid "Copying an event into the calendar %s"
 msgid "Copying events to the calendar '%s'"
 msgstr "A copiar eventos para o calendário \"%s\""
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:215
 #, c-format
-#| msgid "Copying a memo into the memo list '{0}'"
 msgid "Copying memos to the memo list '%s'"
 msgstr "A copiar memorandos para a lista de memorandos \"%s\""
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:221
 #, c-format
-#| msgid "Copying a task into the task list '{0}'"
 msgid "Copying tasks to the task list '%s'"
 msgstr "A copiar tarefas para a lista de tarefas \"%s\""
 
@@ -3556,7 +3495,6 @@ msgstr[1] "%d minutos antes do compromisso"
 
 #
 #: ../calendar/gui/dialogs/event-page.c:3491
-#| msgid "_Custom"
 msgid "Custom"
 msgstr "Personalizado"
 
@@ -4399,19 +4337,16 @@ msgstr "Página Web:"
 
 #: ../calendar/gui/e-cal-data-model.c:1625
 #, c-format
-#| msgid "Creating folder '%s'"
 msgid "Creating view for calendar '%s'"
 msgstr "A criar vista para o calendário \"%s\""
 
 #: ../calendar/gui/e-cal-data-model.c:1629
 #, c-format
-#| msgid "Opening task list '%s'"
 msgid "Creating view for task list '%s'"
 msgstr "A criar vista para a lista de tarefas \"%s\""
 
 #: ../calendar/gui/e-cal-data-model.c:1633
 #, c-format
-#| msgid "Opening memo list '%s'"
 msgid "Creating view for memo list '%s'"
 msgstr "A criar vista para a lista de memorandos \"%s\""
 
@@ -4502,19 +4437,16 @@ msgstr "O texto colado não contém dados iCalendar válidos"
 
 #
 #: ../calendar/gui/e-calendar-view.c:869 ../calendar/gui/e-cal-ops.c:1540
-#| msgid "Default User Calendar"
 msgid "Default calendar not found"
 msgstr "Calendário predefinido não encontrado"
 
 #
 #: ../calendar/gui/e-calendar-view.c:874 ../calendar/gui/e-cal-ops.c:1543
-#| msgid "Mark as default memo list"
 msgid "Default memo list not found"
 msgstr "Lista de memorandos predefinida não encontrada"
 
 #
 #: ../calendar/gui/e-calendar-view.c:879 ../calendar/gui/e-cal-ops.c:1546
-#| msgid "Mark as default task list"
 msgid "Default task list not found"
 msgstr "Lista de tarefas predefinida não encontrada"
 
@@ -4524,7 +4456,6 @@ msgstr "Não foi encontrado um componente adequado"
 
 #
 #: ../calendar/gui/e-calendar-view.c:1036
-#| msgid "Loading Calendar"
 msgid "Pasting iCalendar data"
 msgstr "A colar dados iCalendar"
 
@@ -4628,19 +4559,16 @@ msgstr "Fonte com a UID \"%s\" não encontrada"
 
 #: ../calendar/gui/e-cal-model.c:1267 ../calendar/gui/e-cal-ops.c:184
 #: ../calendar/gui/e-cal-ops.c:1325
-#| msgid "Create an _Event"
 msgid "Creating an event"
 msgstr "Criar um evento"
 
 #: ../calendar/gui/e-cal-model.c:1271 ../calendar/gui/e-cal-ops.c:188
 #: ../calendar/gui/e-cal-ops.c:1329
-#| msgid "Create a Mem_o"
 msgid "Creating a memo"
 msgstr "Criar um memorando"
 
 #: ../calendar/gui/e-cal-model.c:1275 ../calendar/gui/e-cal-ops.c:192
 #: ../calendar/gui/e-cal-ops.c:1333
-#| msgid "Create a _Task"
 msgid "Creating a task"
 msgstr "Criar uma tarefa"
 
@@ -4728,33 +4656,27 @@ msgid "Modifying an event"
 msgstr "Modificar um evento"
 
 #: ../calendar/gui/e-cal-ops.c:287
-#| msgid "Loading memos"
 msgid "Modifying a memo"
 msgstr "Modificar um memorando"
 
 #: ../calendar/gui/e-cal-ops.c:291
-#| msgid "Loading tasks"
 msgid "Modifying a task"
 msgstr "Modificar uma tarefa"
 
 #: ../calendar/gui/e-cal-ops.c:387
-#| msgid "Removing attachments"
 msgid "Removing an event"
 msgstr "Remover um evento"
 
 #: ../calendar/gui/e-cal-ops.c:391
-#| msgid "Removing attachments"
 msgid "Removing a memo"
 msgstr "Remover um memorando"
 
 #: ../calendar/gui/e-cal-ops.c:395
-#| msgid "Removing attachments"
 msgid "Removing a task"
 msgstr "Remover uma tarefa"
 
 #: ../calendar/gui/e-cal-ops.c:484
 #, c-format
-#| msgid "Meeting information sent"
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
 msgstr[0] "A apagar um evento"
@@ -4762,14 +4684,13 @@ msgstr[1] "A apagar %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:488
 #, c-format
-#| msgid "Delete Memo"
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
 msgstr[0] "A eliminar um memorando"
 msgstr[1] "A eliminar %d memorandos"
 
 #: ../calendar/gui/e-cal-ops.c:492
-#| msgid "Delete Task"
+#, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
 msgstr[0] "A eliminar uma tarefa"
@@ -4777,7 +4698,6 @@ msgstr[1] "A eliminar %d tarefas"
 
 #: ../calendar/gui/e-cal-ops.c:692
 #, c-format
-#| msgid "Print this event"
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
 msgstr[0] "A colar um evento"
@@ -4785,7 +4705,6 @@ msgstr[1] "A colar %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:707
 #, c-format
-#| msgid "Loading memos"
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
 msgstr[0] "A colar um memorando"
@@ -4793,84 +4712,70 @@ msgstr[1] "A colar %d memorandos"
 
 #: ../calendar/gui/e-cal-ops.c:722
 #, c-format
-#| msgid "Loading tasks"
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
 msgstr[0] "A colar uma tarefa"
 msgstr[1] "A colar %d tarefas"
 
 #: ../calendar/gui/e-cal-ops.c:820
-#| msgid "Updating objects"
 msgid "Updating an event"
 msgstr "A atualizar um evento"
 
 #: ../calendar/gui/e-cal-ops.c:824
-#| msgid "Updating objects"
 msgid "Updating a memo"
 msgstr "A atualizar um memorando"
 
 #: ../calendar/gui/e-cal-ops.c:828
-#| msgid "Updating objects"
 msgid "Updating a task"
 msgstr "A atualizar uma tarefa"
 
 #: ../calendar/gui/e-cal-ops.c:933
 #, c-format
-#| msgid "Moving an event into the calendar %s"
 msgid "Getting events to purge in the calendar '%s'"
 msgstr "A obter eventos para expurgar no calendário \"%s\""
 
 #: ../calendar/gui/e-cal-ops.c:937
 #, c-format
-#| msgid "Moving a memo into the memo list '{0}'"
 msgid "Getting memos to purge in the memo list '%s'"
 msgstr "A obter memorandos para expurgar na lista de memorandos \"%s\""
 
 #: ../calendar/gui/e-cal-ops.c:941
 #, c-format
-#| msgid "Moving a task into the task list '{0}'"
 msgid "Getting tasks to purge in the task list '%s'"
 msgstr "A obter tarefas para expurgar na lista de tarefas \"%s\""
 
 #: ../calendar/gui/e-cal-ops.c:962
 #, c-format
-#| msgid "Moving an event into the calendar %s"
 msgid "Purging events in the calendar '%s'"
 msgstr "A expurgar eventos no calendário \"%s\""
 
 #: ../calendar/gui/e-cal-ops.c:966
 #, c-format
-#| msgid "Moving a memo into the memo list '{0}'"
 msgid "Purging memos in the memo list '%s'"
 msgstr "A expurgar memorandos na lista de memorandos \"%s\""
 
 #: ../calendar/gui/e-cal-ops.c:970
 #, c-format
-#| msgid "Moving a task into the task list '{0}'"
 msgid "Purging tasks in the task list '%s'"
 msgstr "A expurgar tarefas na lista de tarefas \"%s\""
 
 #
 #: ../calendar/gui/e-cal-ops.c:1068
-#| msgid "Purging"
 msgid "Purging events"
 msgstr "A expurgar eventos"
 
 #
 #: ../calendar/gui/e-cal-ops.c:1072
-#| msgid "Print Memos"
 msgid "Purging memos"
 msgstr "A expurgar memorandos"
 
 #
 #: ../calendar/gui/e-cal-ops.c:1076
-#| msgid "Print Tasks"
 msgid "Purging tasks"
 msgstr "A expurgar tarefas"
 
 #
 #: ../calendar/gui/e-cal-ops.c:1178
-#| msgid "Hide completed tasks"
 msgid "Expunging completed tasks"
 msgstr "A expurgar as tarefas terminadas"
 
@@ -4883,7 +4788,6 @@ msgstr[1] "A mover %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:2035
 #, c-format
-#| msgid "Copying Items"
 msgid "Copying an event"
 msgid_plural "Copying %d events"
 msgstr[0] "A copiar um evento"
@@ -4891,7 +4795,6 @@ msgstr[1] "A copiar %d eventos"
 
 #: ../calendar/gui/e-cal-ops.c:2041
 #, c-format
-#| msgid "Moving Items"
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "A mover um memorando"
@@ -4899,7 +4802,6 @@ msgstr[1] "A mover %d memorandos"
 
 #: ../calendar/gui/e-cal-ops.c:2042
 #, c-format
-#| msgid "Copying Items"
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "A copiar um memorando"
@@ -4907,7 +4809,6 @@ msgstr[1] "A copiar %d memorandos"
 
 #: ../calendar/gui/e-cal-ops.c:2048
 #, c-format
-#| msgid "Moving Items"
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "A mover uma tarefa"
@@ -4915,7 +4816,6 @@ msgstr[1] "A mover %d tarefas"
 
 #: ../calendar/gui/e-cal-ops.c:2049
 #, c-format
-#| msgid "Copying Items"
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
 msgstr[0] "A copiar uma tarefa"
@@ -5415,7 +5315,6 @@ msgstr "Impossível reservar um recurso, o novo evento colide com outro."
 
 #
 #: ../calendar/gui/itip-utils.c:1153
-#| msgid "Unable to book a resource, error: %s"
 msgid "Unable to book a resource, error: "
 msgstr "Impossível reservar um recurso, erro: "
 
@@ -5425,19 +5324,16 @@ msgstr "Tem de ser um participante do evento."
 
 #
 #: ../calendar/gui/itip-utils.c:1917
-#| msgid "Sending message"
 msgid "Sending an event"
 msgstr "A enviar um evento"
 
 #
 #: ../calendar/gui/itip-utils.c:1921
-#| msgid "Sending mail"
 msgid "Sending a memo"
 msgstr "A enviar um memorando"
 
 #
 #: ../calendar/gui/itip-utils.c:1925
-#| msgid "Sending mail"
 msgid "Sending a task"
 msgstr "A enviar uma mensagem"
 
@@ -7419,7 +7315,6 @@ msgstr "Pacífico/Yap"
 
 #: ../composer/e-composer-actions.c:63 ../mail/em-utils.c:131
 #: ../modules/mailto-handler/evolution-mailto-handler.c:148
-#: ../e-util/e-misc-utils.c:3138
 msgid "_Do not show this message again"
 msgstr "_Não mostrar esta mensagem novamente"
 
@@ -7542,7 +7437,6 @@ msgstr "Assinar esta mensagem com o seu certificado de assinatura S/MIME"
 #
 #: ../composer/e-composer-actions.c:576
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:13
-#| msgid "Unicode"
 msgid "Unicode smileys"
 msgstr "Risonhos Unicode"
 
@@ -7573,7 +7467,6 @@ msgstr "Do _Campo sobrepor"
 
 #
 #: ../composer/e-composer-actions.c:602
-#| msgid "Toggles whether the Role field is displayed"
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
@@ -7772,9 +7665,6 @@ msgstr "_Gravar rascunho"
 
 #
 #: ../composer/mail-composer.error.xml.h:20
-#| msgid ""
-#| "Are you sure you want to discard the message, titled '{0}', you are "
-#| "composing?"
 msgid "Are you sure you want to discard the message you are composing?"
 msgstr "Tem a certeza que deseja descartar a mensagem que está a compor?"
 
@@ -7857,8 +7747,6 @@ msgstr ""
 
 #
 #: ../composer/mail-composer.error.xml.h:37
-#| msgid "Are you sure you want to open %d message at once?"
-#| msgid_plural "Are you sure you want to open %d messages at once?"
 msgid "Are you sure you want to send the message?"
 msgstr "Tem a certeza que deseja enviar a mensagem?"
 
@@ -8014,61 +7902,51 @@ msgstr "verdadeiro"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:22
-#| msgid "Whether to show timezone field in the event/meeting editor"
 msgid "Whether to show phone numbers in the editor"
 msgstr "Se mostrar ou não números de telefone no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:23
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show SIP addresses in the editor"
 msgstr "Se mostrar ou não endereços SIP no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:24
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show IM addresses in the editor"
 msgstr "Se mostrar ou não endereços IM no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:25
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show mailing Home addresses in the editor"
 msgstr "Se mostrar ou não moradas de casa no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:26
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show mailing addresses Work in the editor"
 msgstr "Se mostrar ou não moradas de trabalho no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:27
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show mailing addresses Other in the editor"
 msgstr "Se mostrar ou não outras moradas no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:28
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show Web Addresses in the editor"
 msgstr "Se mostrar ou não endereços Web no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:29
-#| msgid "Whether to show timezone field in the event/meeting editor"
 msgid "Whether to show job information in the editor"
 msgstr "Se mostrar ou não informação de emprego no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:30
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show Miscellaneous information in the editor"
 msgstr "Se mostrar ou não informação diversa no editor"
 
 #
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:31
-#| msgid "Whether to show categories field in the event/meeting editor"
 msgid "Whether to show notes in the editor"
 msgstr "Se mostrar ou não notas no editor"
 
@@ -8205,8 +8083,9 @@ msgid "Minute the workday starts on, 0 to 59."
 msgstr "Minuto a que se inicia o expediente, de 0 a 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
-msgid "Workday start time for Monday"
-msgstr "Hora de início à segunda"
+#| msgid "Recently used second time zones in a Day View"
+msgid "The second timezone for a Day View"
+msgstr "Segundo fuso horário para uma vista Dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
 msgid ""
@@ -8881,7 +8760,6 @@ msgstr "Reconhecimento automático de risonhos"
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:12
-#| msgid "Recognize emoticons in text and replace them with images."
 msgid ""
 "Recognize emoticons in text and replace them with images or Unicode "
 "characters."
@@ -9009,15 +8887,11 @@ msgstr ""
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
-#| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show \"From\" override field when sending a mail message"
 msgstr "Mostrar o campo \"De\" ao enviar uma mensagem de email"
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
-#| msgid ""
-#| "Show the \"Cc\" field when sending a mail message. This is controlled "
-#| "from the View menu when a mail account is chosen."
 msgid ""
 "Show the \"From\" override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
@@ -9092,7 +8966,6 @@ msgstr ""
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
-#| msgid "Saving message to Outbox."
 msgid "Send messages through Outbox folder"
 msgstr "Enviar mensagens através da pasta Saída"
 
@@ -9169,7 +9042,6 @@ msgstr ""
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
-#| msgid "Enable express mode"
 msgid "Enable developer mode"
 msgstr "Ativar o modo Programador"
 
@@ -9336,7 +9208,6 @@ msgstr "Mostrar a fotografia do remetente no painel de leitura da mensagem."
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
-#| msgid "Show photo of the sender"
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Procurar fotografia do remetente no gravatar.com"
 
@@ -9603,8 +9474,6 @@ msgstr "Perguntar ao enviar usando atalho de teclado (Ctrl+Enter)"
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
-#| msgid ""
-#| "Prompt the user when he or she tries to send a message without a Subject."
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
@@ -10039,7 +9908,6 @@ msgstr ""
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
-#| msgid "Confirm _when expunging a folder"
 msgid "Allow expunge in virtual folders"
 msgstr "Permitir expurgar em pastas virtuais"
 
@@ -10057,7 +9925,6 @@ msgstr ""
 
 #
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
-#| msgid "Whether to show local folders (On This Computer) in a folder tree."
 msgid "An Archive folder for On This Computer folders."
 msgstr ""
 "Quando as cores de fundo estão ativas, o texto e as ligações são enviados "
@@ -10818,7 +10685,6 @@ msgstr "Assinada com GPG"
 
 #
 #: ../em-format/e-mail-formatter-utils.c:570
-#| msgid "GPG encrpyted"
 msgid "GPG encrypted"
 msgstr "Encriptada com GPG"
 
@@ -10828,7 +10694,6 @@ msgstr "Assinada com S/MIME"
 
 #
 #: ../em-format/e-mail-formatter-utils.c:582
-#| msgid "S/MIME encrpyted"
 msgid "S/MIME encrypted"
 msgstr "Encriptada com S/MIME"
 
@@ -10993,7 +10858,6 @@ msgstr "Fechar esta mensagem (Esc)"
 
 #
 #: ../e-util/e-alert-sink.c:246
-#| msgid "Failed to create thread: %s"
 msgid "Failed to create a thread: "
 msgstr "Falha ao criar uma linha: "
 
@@ -11015,7 +10879,6 @@ msgstr "Mensagem anexa"
 
 #
 #: ../e-util/e-attachment.c:2104 ../e-util/e-attachment.c:3101
-#| msgid "Import cancelled."
 msgid "Operation was cancelled"
 msgstr "A operação foi cancelada"
 
@@ -11129,7 +10992,6 @@ msgstr[1] "Gravar anexos"
 
 #
 #: ../e-util/e-attachment-store.c:653
-#| msgid "Could not load the attachment"
 msgid "Do _not extract files from the attachment"
 msgstr "_Não extrair ficheiros do anexo"
 
@@ -11298,21 +11160,18 @@ msgstr "C_Ategorias disponíveis:"
 
 #
 #: ../e-util/e-categories-editor.c:274
-#| msgid "_New"
 msgctxt "category"
 msgid "_New"
 msgstr "_Novo"
 
 #
 #: ../e-util/e-categories-editor.c:278
-#| msgid "_Edit"
 msgctxt "category"
 msgid "_Edit"
 msgstr "_Editar"
 
 #
 #: ../e-util/e-categories-editor.c:282
-#| msgid "_Delete"
 msgctxt "category"
 msgid "_Delete"
 msgstr "_Eliminar"
@@ -11489,7 +11348,6 @@ msgstr "Impossível criar um objeto cliente a partir do nome de extensão \"%s\"
 
 #
 #: ../e-util/e-color-chooser-widget.c:124
-#| msgid "Use custom fonts"
 msgid "Choose custom color"
 msgstr "Escolha cor personalizada"
 
@@ -11522,13 +11380,10 @@ msgid "purple #2"
 msgstr "púrpura #2"
 
 #: ../e-util/e-color-combo.c:88
-#| msgid "Every day"
-#| msgid_plural "Every %d days"
 msgid "very dark gray"
 msgstr "cinzento muito escuro"
 
 #: ../e-util/e-color-combo.c:90
-#| msgid "Mark as _Unread"
 msgid "dark red"
 msgstr "vermelho escuro"
 
@@ -11561,7 +11416,6 @@ msgid "dark grey"
 msgstr "cinzento escuro"
 
 #: ../e-util/e-color-combo.c:99
-#| msgid "3rd"
 msgid "red"
 msgstr "vermelho"
 
@@ -11594,7 +11448,6 @@ msgid "gray"
 msgstr "cinzento"
 
 #: ../e-util/e-color-combo.c:108
-#| msgid "Image"
 msgid "magenta"
 msgstr "magenta"
 
@@ -11619,7 +11472,6 @@ msgid "bright blue"
 msgstr "azul vivo"
 
 #: ../e-util/e-color-combo.c:114
-#| msgid "_Required people"
 msgid "red purple"
 msgstr "vermelho púrpura"
 
@@ -11802,7 +11654,6 @@ msgstr "_Tristeza"
 
 #. Translators: ;-)
 #: ../e-util/e-emoticon-chooser.c:44
-#| msgid "_Window"
 msgid "_Wink"
 msgstr "_Piscadela"
 
@@ -11818,7 +11669,6 @@ msgstr "_Gargalhada"
 
 #. Translators: :-|
 #: ../e-util/e-emoticon-chooser.c:50
-#| msgid "_Plain text"
 msgid "_Plain"
 msgstr "S_Imples"
 
@@ -11894,7 +11744,6 @@ msgstr "_Diabólico"
 
 #. Translators: :-(|)
 #: ../e-util/e-emoticon-chooser.c:80
-#| msgid "_Mon"
 msgid "_Monkey"
 msgstr "_Macaco"
 
@@ -12104,12 +11953,10 @@ msgid "Outgoing"
 msgstr "Enviadas"
 
 #: ../e-util/e-html-editor-actions.c:58
-#| msgid "Failed to open folder."
 msgid "Failed to insert HTML file."
 msgstr "Falha ao inserir ficheiro HTML."
 
 #: ../e-util/e-html-editor-actions.c:95
-#| msgid "Failed to import certificate"
 msgid "Failed to insert text file."
 msgstr "Falha ao inserir ficheiro de texto."
 
@@ -12118,39 +11965,32 @@ msgid "Insert HTML File"
 msgstr "Inserir ficheiro HTML"
 
 #: ../e-util/e-html-editor-actions.c:620
-#| msgid "HTML _Mode"
 msgid "HTML file"
 msgstr "Ficheiro HTML"
 
 #: ../e-util/e-html-editor-actions.c:647
-#| msgid "Inline Image"
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
 #: ../e-util/e-html-editor-actions.c:709
-#| msgid "Increase the text size"
 msgid "Insert text file"
 msgstr "Inserir ficheiro de texto"
 
 #: ../e-util/e-html-editor-actions.c:715
-#| msgid "Select a file"
 msgid "Text file"
 msgstr "Ficheiro de texto"
 
 #: ../e-util/e-html-editor-actions.c:1101
-#| msgid "Copy selected events to the clipboard"
 msgid "Copy selected text to the clipboard"
 msgstr "Copiar texto selecionado para a área de transferência"
 
 #: ../e-util/e-html-editor-actions.c:1108
-#| msgid "Cut selected events to the clipboard"
 msgid "Cut selected text to the clipboard"
 msgstr "Cortar texto selecionado para a área de transferência"
 
 #. Widgets are treating Ctrl + v shortcut themselves
 #: ../e-util/e-html-editor-actions.c:1115
-#| msgid "Paste events from the clipboard"
 msgid "Paste text from the clipboard"
 msgstr "Colar texto da área de transferência"
 
@@ -12167,18 +12007,15 @@ msgid "For_mat"
 msgstr "For_Matar"
 
 #: ../e-util/e-html-editor-actions.c:1164
-#| msgid "Tool_bar Style"
 msgid "_Paragraph Style"
 msgstr "Estilo do _Parágrafo"
 
 #: ../e-util/e-html-editor-actions.c:1178
 #: ../e-util/e-html-editor-image-dialog.c:635
-#| msgid "A_lignment"
 msgid "_Alignment"
 msgstr "_Alinhamento"
 
 #: ../e-util/e-html-editor-actions.c:1185
-#| msgid "_Languages"
 msgid "Current _Languages"
 msgstr "_Idiomas atuais"
 
@@ -12203,7 +12040,6 @@ msgid "Paste _Quotation"
 msgstr "Colar _Citação"
 
 #: ../e-util/e-html-editor-actions.c:1230
-#| msgid "_Find"
 msgid "_Find..."
 msgstr "_Localizar..."
 
@@ -12216,7 +12052,6 @@ msgid "Find A_gain"
 msgstr "Locali_Zar novamente"
 
 #: ../e-util/e-html-editor-actions.c:1244
-#| msgid "_Replace"
 msgid "Re_place..."
 msgstr "_Substituir..."
 
@@ -12225,7 +12060,6 @@ msgid "Search for and replace text"
 msgstr "Procurar e substituir texto"
 
 #: ../e-util/e-html-editor-actions.c:1251
-#| msgid "Canceling..."
 msgid "Check _Spelling..."
 msgstr "Verificar _Ortogafia..."
 
@@ -12252,7 +12086,6 @@ msgid "_Center"
 msgstr "_Centrar"
 
 #: ../e-util/e-html-editor-actions.c:1284
-#| msgid "A_lignment"
 msgid "Center Alignment"
 msgstr "Alinhamento central"
 
@@ -12263,7 +12096,6 @@ msgid "_Left"
 msgstr "_Esquerdo"
 
 #: ../e-util/e-html-editor-actions.c:1291
-#| msgid "A_lignment"
 msgid "Left Alignment"
 msgstr "Alinhamento esquerdo"
 
@@ -12274,7 +12106,6 @@ msgid "_Right"
 msgstr "_Direita"
 
 #: ../e-util/e-html-editor-actions.c:1298
-#| msgid "A_lignment"
 msgid "Right Alignment"
 msgstr "Alinhamento direito"
 
@@ -12288,57 +12119,46 @@ msgid "HTML editing mode"
 msgstr "Modo de edição HTML"
 
 #: ../e-util/e-html-editor-actions.c:1313
-#| msgid "Plain Text"
 msgid "Plain _Text"
 msgstr "_Texto simples"
 
 #: ../e-util/e-html-editor-actions.c:1315
-#| msgid "Plain Text Mode"
 msgid "Plain text editing mode"
 msgstr "Modo de edição de texto simples"
 
 #: ../e-util/e-html-editor-actions.c:1323
-#| msgid "Normal"
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ../e-util/e-html-editor-actions.c:1330
-#| msgid "Header"
 msgid "Header _1"
 msgstr "Cabeçalho _1"
 
 #: ../e-util/e-html-editor-actions.c:1337
-#| msgid "Header"
 msgid "Header _2"
 msgstr "Cabeçalho _2"
 
 #: ../e-util/e-html-editor-actions.c:1344
-#| msgid "Header"
 msgid "Header _3"
 msgstr "Cabeçalho _3"
 
 #: ../e-util/e-html-editor-actions.c:1351
-#| msgid "Header"
 msgid "Header _4"
 msgstr "Cabeçalho _4"
 
 #: ../e-util/e-html-editor-actions.c:1358
-#| msgid "Header"
 msgid "Header _5"
 msgstr "Cabeçalho _5"
 
 #: ../e-util/e-html-editor-actions.c:1365
-#| msgid "Header"
 msgid "Header _6"
 msgstr "Cabeçalho _6"
 
 #: ../e-util/e-html-editor-actions.c:1372
-#| msgid "View _Unformatted"
 msgid "_Preformatted"
 msgstr "_Preformatado"
 
 #: ../e-util/e-html-editor-actions.c:1379
-#| msgid "Address"
 msgid "A_ddress"
 msgstr "En_Dereço"
 
@@ -12347,7 +12167,6 @@ msgid "_Blockquote"
 msgstr "_Bloco"
 
 #: ../e-util/e-html-editor-actions.c:1393
-#| msgid "D_elete Memo List"
 msgid "_Bulleted List"
 msgstr "Lista com _Marcas"
 
@@ -12356,7 +12175,6 @@ msgid "_Roman Numeral List"
 msgstr "Lista _Numerada em romanos"
 
 #: ../e-util/e-html-editor-actions.c:1407
-#| msgid "Retrieve _List"
 msgid "Numbered _List"
 msgstr "_Lista numerada"
 
@@ -12366,13 +12184,11 @@ msgstr "Lista _Alfabética"
 
 #: ../e-util/e-html-editor-actions.c:1430
 #: ../e-util/e-html-editor-actions.c:1468
-#| msgid "Save _Image..."
 msgid "_Image..."
 msgstr "_Imagem..."
 
 #. Translators: This is an action tooltip
 #: ../e-util/e-html-editor-actions.c:1433
-#| msgid "Inline Image"
 msgid "Insert Image"
 msgstr "Inserir imagem"
 
@@ -12382,31 +12198,26 @@ msgid "_Link..."
 msgstr "_Ligação..."
 
 #: ../e-util/e-html-editor-actions.c:1440
-#| msgid "_Insert"
 msgid "Insert Link"
 msgstr "Inserir ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1446
 #: ../e-util/e-html-editor-actions.c:1490
-#| msgid "_Rename..."
 msgid "_Rule..."
 msgstr "_Régua..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1449
-#| msgid "_Insert"
 msgid "Insert Rule"
 msgstr "Inserir régua"
 
 #: ../e-util/e-html-editor-actions.c:1454
 #: ../e-util/e-html-editor-actions.c:1497
-#| msgid "Table"
 msgid "_Table..."
 msgstr "_Tabela..."
 
 #: ../e-util/e-html-editor-actions.c:1456
-#| msgid "_Insert"
 msgid "Insert Table"
 msgstr "Inserir tabela"
 
@@ -12415,7 +12226,6 @@ msgid "_Cell..."
 msgstr "_Célula..."
 
 #: ../e-util/e-html-editor-actions.c:1482
-#| msgid "Save _Image..."
 msgid "Pa_ge..."
 msgstr "Pá_Gina..."
 
@@ -12424,7 +12234,6 @@ msgid "Font _Size"
 msgstr "Tamanho da _Letra"
 
 #: ../e-util/e-html-editor-actions.c:1513
-#| msgid "_Forward style:"
 msgid "_Font Style"
 msgstr "_Estilo da letra:"
 
@@ -12451,7 +12260,6 @@ msgid "Italic"
 msgstr "Itálico"
 
 #: ../e-util/e-html-editor-actions.c:1547
-#| msgid "Plain Text"
 msgid "_Plain Text"
 msgstr "Texto _Simples"
 
@@ -12466,12 +12274,10 @@ msgstr "Rasurado"
 
 #: ../e-util/e-html-editor-actions.c:1563
 #: ../e-util/e-html-editor-text-dialog.c:236
-#| msgid "Undefined"
 msgid "_Underline"
 msgstr "S_Ublinhado"
 
 #: ../e-util/e-html-editor-actions.c:1565
-#| msgid "Undefined"
 msgid "Underline"
 msgstr "Sublinhado"
 
@@ -12482,7 +12288,6 @@ msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../e-util/e-html-editor-actions.c:1583
-#| msgid "1"
 msgid "-1"
 msgstr "-1"
 
@@ -12493,7 +12298,6 @@ msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../e-util/e-html-editor-actions.c:1599
-#| msgid "1"
 msgid "+1"
 msgstr "+1"
 
@@ -12513,17 +12317,14 @@ msgid "+4"
 msgstr "+4"
 
 #: ../e-util/e-html-editor-actions.c:1642
-#| msgid "_Contents"
 msgid "Cell Contents"
 msgstr "Conteúdo da célula"
 
 #: ../e-util/e-html-editor-actions.c:1649
-#| msgid "Add a Column"
 msgid "Column"
 msgstr "Coluna"
 
 #: ../e-util/e-html-editor-actions.c:1656
-#| msgid "Low"
 msgid "Row"
 msgstr "Linha"
 
@@ -12534,7 +12335,6 @@ msgstr "Tabela"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
 #: ../e-util/e-html-editor-actions.c:1673
-#| msgid "Table Cell"
 msgid "Table Delete"
 msgstr "Eliminações da tabela"
 
@@ -12544,12 +12344,10 @@ msgstr "Métodos de introdução"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
 #: ../e-util/e-html-editor-actions.c:1688
-#| msgid "Table Cell"
 msgid "Table Insert"
 msgstr "Inserções da tabela"
 
 #: ../e-util/e-html-editor-actions.c:1695
-#| msgid "_Properties"
 msgid "Properties"
 msgstr "Propriedades"
 
@@ -12562,7 +12360,6 @@ msgid "Column Before"
 msgstr "Coluna antes"
 
 #: ../e-util/e-html-editor-actions.c:1727
-#| msgid "_Insert"
 msgid "Insert _Link"
 msgstr "Inserir _Ligação"
 
@@ -12579,7 +12376,6 @@ msgid "Cell..."
 msgstr "Célula..."
 
 #: ../e-util/e-html-editor-actions.c:1762
-#| msgid "Image"
 msgid "Image..."
 msgstr "Imagem..."
 
@@ -12588,7 +12384,6 @@ msgid "Link..."
 msgstr "Ligação..."
 
 #: ../e-util/e-html-editor-actions.c:1776
-#| msgid "Pager"
 msgid "Page..."
 msgstr "Página..."
 
@@ -12598,32 +12393,26 @@ msgstr "Parágrafo..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:1791
-#| msgid "Full _Name..."
 msgid "Rule..."
 msgstr "Régua..."
 
 #: ../e-util/e-html-editor-actions.c:1798
-#| msgid "Table"
 msgid "Table..."
 msgstr "Tabela..."
 
 #: ../e-util/e-html-editor-actions.c:1805
-#| msgid "Select..."
 msgid "Text..."
 msgstr "Texto..."
 
 #: ../e-util/e-html-editor-actions.c:1812
-#| msgid "_Remove"
 msgid "Remove Link"
 msgstr "Remover ligação"
 
 #: ../e-util/e-html-editor-actions.c:1829
-#| msgid "Add \"%s\" to Dictionary"
 msgid "Add Word to Dictionary"
 msgstr "Adicionar palavra ao dicionário"
 
 #: ../e-util/e-html-editor-actions.c:1836
-#| msgid "Color for _misspelled words:"
 msgid "Ignore Misspelled Word"
 msgstr "Ignorar palavra mal escrita"
 
@@ -12632,7 +12421,6 @@ msgid "Add Word To"
 msgstr "Adicionar palavra a"
 
 #: ../e-util/e-html-editor-actions.c:1852
-#| msgid "(no suggestions)"
 msgid "More Suggestions"
 msgstr "Mais sugestões"
 
@@ -12641,7 +12429,6 @@ msgstr "Mais sugestões"
 #. * "Add Word To" submenu.
 #: ../e-util/e-html-editor-actions.c:1960
 #, c-format
-#| msgid "Add \"%s\" to Dictionary"
 msgid "%s Dictionary"
 msgstr "Dicionário %s"
 
@@ -12650,17 +12437,14 @@ msgid "_Emoticon"
 msgstr "_Risonho"
 
 #: ../e-util/e-html-editor-actions.c:2048
-#| msgid "Insert Send options"
 msgid "Insert Emoticon"
 msgstr "Inserir risonho"
 
 #: ../e-util/e-html-editor-actions.c:2116
-#| msgid "_Replace"
 msgid "Re_place"
 msgstr "_Substituir"
 
 #: ../e-util/e-html-editor-actions.c:2119
-#| msgid "Image"
 msgid "_Image"
 msgstr "_Imagem"
 
@@ -12670,13 +12454,11 @@ msgstr "_Ligação"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../e-util/e-html-editor-actions.c:2126
-#| msgid "Add Rule"
 msgid "_Rule"
 msgstr "_Régua"
 
 #: ../e-util/e-html-editor-actions.c:2129
 #: ../e-util/e-html-editor-cell-dialog.c:738
-#| msgid "Table"
 msgid "_Table"
 msgstr "_Tabela"
 
@@ -12685,17 +12467,14 @@ msgid "Paragraph Style"
 msgstr "Estilo do parágrafo"
 
 #: ../e-util/e-html-editor.c:695
-#| msgid "Edit Reminder"
 msgid "Editing Mode"
 msgstr "Modo de edição"
 
 #: ../e-util/e-html-editor.c:707
-#| msgid "Unset Color"
 msgid "Font Color"
 msgstr "Cor da letra"
 
 #: ../e-util/e-html-editor.c:725
-#| msgid "Size"
 msgid "Font Size"
 msgstr "Tamanho da letra"
 
@@ -12744,41 +12523,35 @@ msgstr "_Horizontal:"
 #
 #: ../e-util/e-html-editor-cell-dialog.c:792
 #: ../e-util/e-html-editor-image-dialog.c:625
-#| msgid "_Top"
 msgid "Top"
 msgstr "Topo"
 
 #
 #: ../e-util/e-html-editor-cell-dialog.c:793
 #: ../e-util/e-html-editor-image-dialog.c:626
-#| msgid "_Middle:"
 msgid "Middle"
 msgstr "Meio:"
 
 #
 #: ../e-util/e-html-editor-cell-dialog.c:794
 #: ../e-util/e-html-editor-image-dialog.c:627
-#| msgid "_Bottom"
 msgid "Bottom"
 msgstr "Fundo"
 
 #
 #: ../e-util/e-html-editor-cell-dialog.c:802
-#| msgid "_Vertical View"
 msgid "_Vertical:"
 msgstr "_Vertical:"
 
 #
 #. Wrap Text
 #: ../e-util/e-html-editor-cell-dialog.c:808
-#| msgid "Plain Text"
 msgid "_Wrap Text"
 msgstr "A_Justar texto"
 
 #
 #. Header Style
 #: ../e-util/e-html-editor-cell-dialog.c:816
-#| msgid "Header Value"
 msgid "_Header Style"
 msgstr "Estilo do cabeçal_Ho"
 
@@ -12809,13 +12582,11 @@ msgstr "<b>Fundo</b>"
 #
 #: ../e-util/e-html-editor-cell-dialog.c:914
 #: ../e-util/e-html-editor-table-dialog.c:929
-#| msgid "Event Transparency"
 msgid "Transparent"
 msgstr "Transparência"
 
 #
 #: ../e-util/e-html-editor-cell-dialog.c:922
-#| msgid "Color:"
 msgid "C_olor:"
 msgstr "C_Or:"
 
@@ -12823,7 +12594,6 @@ msgstr "C_Or:"
 #: ../e-util/e-html-editor-cell-dialog.c:930
 #: ../e-util/e-html-editor-image-dialog.c:527
 #: ../e-util/e-html-editor-table-dialog.c:945
-#| msgid "Could not set as background"
 msgid "Choose Background Image"
 msgstr "Escolha a imagem de fundo"
 
@@ -12831,13 +12601,11 @@ msgstr "Escolha a imagem de fundo"
 #: ../e-util/e-html-editor-cell-dialog.c:935
 #: ../e-util/e-html-editor-image-dialog.c:533
 #: ../e-util/e-html-editor-table-dialog.c:950
-#| msgid "Image"
 msgid "Images"
 msgstr "Imagens"
 
 #
 #: ../e-util/e-html-editor-cell-dialog.c:948
-#| msgid "Image"
 msgid "_Image:"
 msgstr "_Imagem:"
 
@@ -12845,13 +12613,11 @@ msgstr "_Imagem:"
 #: ../e-util/e-html-editor-cell-dialog.c:955
 #: ../e-util/e-html-editor-page-dialog.c:608
 #: ../e-util/e-html-editor-table-dialog.c:970
-#| msgid "_No image"
 msgid "_Remove image"
 msgstr "_Remover imagem"
 
 #
 #: ../e-util/e-html-editor-cell-dialog.c:975
-#| msgid "_Properties"
 msgid "Cell Properties"
 msgstr "Propriedades da célula"
 
@@ -12864,7 +12630,6 @@ msgstr "Sem resultado"
 #
 #: ../e-util/e-html-editor-find-dialog.c:160
 #: ../e-util/e-html-editor-replace-dialog.c:247
-#| msgid "Search _base:"
 msgid "Search _backwards"
 msgstr "Procurar para _Trás"
 
@@ -12874,13 +12639,11 @@ msgstr "_Sensível a maiúsculas"
 
 #
 #: ../e-util/e-html-editor-find-dialog.c:174
-#| msgid "_Search"
 msgid "_Wrap Search"
 msgstr "_Dar a volta"
 
 #
 #: ../e-util/e-html-editor-find-dialog.c:213
-#| msgid "_Find"
 msgid "Find"
 msgstr "Localizar"
 
@@ -12897,7 +12660,6 @@ msgstr "_Largura:"
 
 #
 #: ../e-util/e-html-editor-hrule-dialog.c:393
-#| msgid "Size"
 msgid "_Size:"
 msgstr "_Tamanho:"
 
@@ -12908,7 +12670,6 @@ msgstr "<b>Estilo</b>"
 #
 #: ../e-util/e-html-editor-hrule-dialog.c:425
 #: ../e-util/e-html-editor-table-dialog.c:909
-#| msgid "A_lignment"
 msgid "_Alignment:"
 msgstr "_Alinhamento"
 
@@ -12919,7 +12680,6 @@ msgstr "Som_Breado"
 
 #
 #: ../e-util/e-html-editor-hrule-dialog.c:448
-#| msgid "Folder Properties"
 msgid "Rule properties"
 msgstr "Propriedades da régua"
 
@@ -12927,13 +12687,11 @@ msgstr "Propriedades da régua"
 #: ../e-util/e-html-editor-image-dialog.c:515
 #: ../e-util/e-html-editor-paragraph-dialog.c:66
 #: ../e-util/e-html-editor-table-dialog.c:766
-#| msgid "General"
 msgid "<b>General</b>"
 msgstr "<b>Geral</b>"
 
 #
 #: ../e-util/e-html-editor-image-dialog.c:544
-#| msgid "Source"
 msgid "_Source:"
 msgstr "_Origem:"
 
@@ -12970,19 +12728,16 @@ msgstr "_Testar URL..."
 
 #
 #: ../e-util/e-html-editor-image-dialog.c:730
-#| msgid "Category Properties"
 msgid "Image Properties"
 msgstr "Propriedades da imagem"
 
 #
 #: ../e-util/e-html-editor-link-dialog.c:429
-#| msgid "_Remove"
 msgid "_Remove Link"
 msgstr "_Remover ligação"
 
 #
 #: ../e-util/e-html-editor-link-dialog.c:454
-#| msgid "_Properties"
 msgid "Link Properties"
 msgstr "Propriedades da ligação"
 
@@ -13021,7 +12776,6 @@ msgstr "<b>Cores</b>"
 
 #
 #: ../e-util/e-html-editor-page-dialog.c:526
-#| msgid "_Text Only"
 msgid "_Text:"
 msgstr "_Texto:"
 
@@ -13031,7 +12785,6 @@ msgstr "_Ligação:"
 
 #
 #: ../e-util/e-html-editor-page-dialog.c:556
-#| msgid "Set as _Background"
 msgid "_Background:"
 msgstr "_Fundo:"
 
@@ -13041,7 +12794,6 @@ msgstr "<b>Imagem de fundo</b>"
 
 #
 #: ../e-util/e-html-editor-page-dialog.c:586
-#| msgid "Template:"
 msgid "_Template:"
 msgstr "_Modelo:"
 
@@ -13052,31 +12804,26 @@ msgstr "Selecione um ficheiro"
 
 #
 #: ../e-util/e-html-editor-page-dialog.c:601
-#| msgid "_Custom"
 msgid "_Custom:"
 msgstr "_Personalizado:"
 
 #
 #: ../e-util/e-html-editor-page-dialog.c:628
-#| msgid "_Properties"
 msgid "Page Properties"
 msgstr "Propriedades da página"
 
 #
 #: ../e-util/e-html-editor-paragraph-dialog.c:83
-#| msgid "_Reply style:"
 msgid "_Style:"
 msgstr "_Estilo:"
 
 #
 #: ../e-util/e-html-editor-paragraph-dialog.c:90
-#| msgid "A_lignment"
 msgid "<b>Alignment</b>"
 msgstr "<b>Alinhamento</b>"
 
 #
 #: ../e-util/e-html-editor-paragraph-dialog.c:155
-#| msgid "Category Properties"
 msgid "Paragraph Properties"
 msgstr "Propriedades do parágrafo"
 
@@ -13089,13 +12836,11 @@ msgstr[1] "%d ocorrências substituídas"
 
 #
 #: ../e-util/e-html-editor-replace-dialog.c:227
-#| msgid "_Replace"
 msgid "R_eplace:"
 msgstr "_Substituir:"
 
 #
 #: ../e-util/e-html-editor-replace-dialog.c:239
-#| msgid "O_pen With"
 msgid "_With:"
 msgstr "_Por:"
 
@@ -13105,7 +12850,6 @@ msgstr "Sensível a maiús_Culas"
 
 #
 #: ../e-util/e-html-editor-replace-dialog.c:255
-#| msgid "_Search"
 msgid "Wra_p search"
 msgstr "_Dar a volta"
 
@@ -13120,13 +12864,11 @@ msgstr "_Substituir"
 
 #
 #: ../e-util/e-html-editor-replace-dialog.c:281
-#| msgid "Reply to _All"
 msgid "Replace _All"
 msgstr "Substituir _Tudo"
 
 #
 #: ../e-util/e-html-editor-replace-dialog.c:301
-#| msgid "_Replace"
 msgctxt "dialog-title"
 msgid "Replace"
 msgstr "Substituir"
@@ -13143,14 +12885,12 @@ msgstr "<b>Sugestões</b>"
 #
 #. Replace
 #: ../e-util/e-html-editor-spell-check-dialog.c:540
-#| msgid "_Replace"
 msgid "Replace"
 msgstr "Substituir"
 
 #
 #. Replace All
 #: ../e-util/e-html-editor-spell-check-dialog.c:549
-#| msgid "_Replace"
 msgid "Replace All"
 msgstr "Substituir tudo"
 
@@ -13168,7 +12908,6 @@ msgstr "Saltar"
 #
 #. Back
 #: ../e-util/e-html-editor-spell-check-dialog.c:576
-#| msgid "Go Back"
 msgid "Back"
 msgstr "Recuar"
 
@@ -13179,7 +12918,6 @@ msgstr "<b>Dicionário</b>"
 #
 #. Add Word button
 #: ../e-util/e-html-editor-spell-check-dialog.c:605
-#| msgid "Add Folder"
 msgid "Add word"
 msgstr "Adicionar palavra"
 
@@ -13194,7 +12932,6 @@ msgstr "_Linhas:"
 
 #
 #: ../e-util/e-html-editor-table-dialog.c:805
-#| msgid "_Table column:"
 msgid "C_olumns:"
 msgstr "C_Olunas:"
 
@@ -13204,26 +12941,22 @@ msgstr "E_Spaçamento:"
 
 #
 #: ../e-util/e-html-editor-table-dialog.c:873
-#| msgid "Loading"
 msgid "_Padding:"
 msgstr "Es_Paço:"
 
 #
 #: ../e-util/e-html-editor-table-dialog.c:937
 #: ../e-util/e-html-editor-text-dialog.c:261
-#| msgid "Color:"
 msgid "_Color:"
 msgstr "_Cor:"
 
 #
 #: ../e-util/e-html-editor-table-dialog.c:963
-#| msgid "Image"
 msgid "Image:"
 msgstr "Imagem:"
 
 #
 #: ../e-util/e-html-editor-table-dialog.c:990
-#| msgid "Calendar Properties"
 msgid "Table Properties"
 msgstr "Propriedades da tabela"
 
@@ -13233,21 +12966,35 @@ msgstr "Ta_Manho:"
 
 #
 #: ../e-util/e-html-editor-text-dialog.c:296
-#| msgid "_Properties"
 msgid "Text Properties"
 msgstr "Propriedades do texto"
 
 #
 #: ../e-util/e-html-editor-view.c:5338
-#| msgid "Calendar Properties"
 msgid "Changed property"
 msgstr "Propriedade alterada"
 
 #
 #: ../e-util/e-html-editor-view.c:5339
-#| msgid "Whether to emit a beep."
 msgid "Whether editor changed"
 msgstr "Se o editor mudou"
+
+#: ../e-util/e-html-editor-view.c:9411
+msgid ""
+"Turning HTML mode off will cause the text to lose all formatting. Do you "
+"want to continue?"
+msgstr ""
+"Desligar o modo HTML fará com que o texto perca a formatação. Quer continuar?"
+
+#: ../e-util/e-html-editor-view.c:9415
+#| msgid "Address formatting"
+msgid "_Don't lose formatting"
+msgstr "_não perder a formatação"
+
+#: ../e-util/e-html-editor-view.c:9416
+#| msgid "Address formatting"
+msgid "_Lose formatting"
+msgstr "_Perder a formatação"
 
 #: ../e-util/e-import-assistant.c:256
 msgid ""
@@ -13444,7 +13191,6 @@ msgstr "A abrir a lista de tarefas \"%s\""
 
 #: ../e-util/e-misc-utils.c:2393
 #, c-format
-#| msgid "Opening store '%s'"
 msgid "Opening address book '%s'"
 msgstr "A abrir o livro de endereços \"%s\""
 
@@ -13896,7 +13642,6 @@ msgstr "Selecionar o destino"
 #. Translators: %s is the language ISO code.
 #: ../e-util/e-spell-dictionary.c:266
 #, c-format
-#| msgid "Unknown"
 msgctxt "language"
 msgid "Unknown (%s)"
 msgstr "Desconhecido (%s)"
@@ -13905,8 +13650,6 @@ msgstr "Desconhecido (%s)"
 #. * second is the country name. Example: "French (France)"
 #: ../e-util/e-spell-dictionary.c:281 ../e-util/e-spell-dictionary.c:286
 #, c-format
-#| msgctxt "folder-display"
-#| msgid "%s (%u%s)"
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -14357,13 +14100,11 @@ msgstr "Clicar para ocultar/mostrar os endereços"
 
 #: ../e-util/e-web-view.c:1054
 #, c-format
-#| msgid "Enter the recipients of the message"
 msgid "Go to the section %s of the message"
 msgstr "Ir para a secção %s da mensagem"
 
 #
 #: ../e-util/e-web-view.c:1056
-#| msgid "Enter the recipients of the message"
 msgid "Go to the beginning of the message"
 msgstr "Ir para o início da mensagem"
 
@@ -14763,7 +14504,6 @@ msgstr ""
 
 #: ../libemail-engine/e-mail-session.c:2360
 #, c-format
-#| msgid "Creating folder '%s'"
 msgid "Waiting for '%s'"
 msgstr "A esperar por \"%s\""
 
@@ -14774,7 +14514,6 @@ msgstr "Nenhum serviço de transporte de email disponível"
 #: ../libemail-engine/e-mail-session-utils.c:629
 #: ../libemail-engine/mail-ops.c:718
 #, c-format
-#| msgid "Moving messages to '%s'"
 msgid "Posting message to '%s'"
 msgstr "A publicar mensagem em \"%s\""
 
@@ -14788,7 +14527,6 @@ msgstr "Falha ao aplicar os filtros de envio: %s"
 #: ../libemail-engine/e-mail-session-utils.c:731
 #: ../libemail-engine/mail-ops.c:778 ../libemail-engine/mail-ops.c:813
 #, c-format
-#| msgid "Moving messages to '%s'"
 msgid "Storing sent message to '%s'"
 msgstr "A mover mensagem enviada para \"%s\""
 
@@ -14915,7 +14653,6 @@ msgstr "A esvaziar o lixo em \"%s\""
 
 #: ../libemail-engine/mail-ops.c:1579
 #, c-format
-#| msgid "Scanning folders in '%s'"
 msgid "Processing folder changes in '%s'"
 msgstr "A processar alterações de pastas em \"%s\""
 
@@ -15085,14 +14822,12 @@ msgstr "Gr_Avar as respostas na pasta da mensagem que está a ser respondida"
 
 #
 #: ../mail/e-mail-config-defaults-page.c:628
-#| msgid "_Trash Folder:"
 msgid "Archi_ve Folder:"
 msgstr "Pasta de arqui_Vo:"
 
 #
 #: ../mail/e-mail-config-defaults-page.c:638
 #: ../modules/mail/em-mailer-prefs.c:1079
-#| msgid "Choose folders to post the message to."
 msgid "Choose a folder to archive messages to."
 msgstr "Escolha uma pasta onde arquivar mensagens."
 
@@ -15169,11 +14904,14 @@ msgstr "Informação de conta"
 
 #: ../mail/e-mail-config-identity-page.c:319
 #: ../mail/e-mail-config-summary-page.c:331
+#| msgid ""
+#| "The above name will be used to identify this account.\n"
+#| "Use for example, \"Work\" or \"Personal\"."
 msgid ""
-"The above name will be used to identify this account.\n"
-"Use for example, \"Work\" or \"Personal\"."
+"Type the name by which you would like to refer to this account.\n"
+"For example, \"Work\" or \"Personal\"."
 msgstr ""
-"Indique o nome pelo qual deseja referir-se a esta conta.\n"
+"Indique o nome pelo qual se deseja referir a esta conta.\n"
 "Use, por exemplo, \"Trabalho\" ou \"Pessoal\"."
 
 #: ../mail/e-mail-config-identity-page.c:364
@@ -15235,7 +14973,6 @@ msgstr "A receber mensagens"
 #. The first '%s' is a key ID, the second '%s' is a display name of the key.
 #: ../mail/e-mail-config-security-page.c:251
 #, c-format
-#| msgid "Task - %s"
 msgctxt "PGPKeyDescription"
 msgid "%s - %s"
 msgstr "%s - %s"
@@ -15404,10 +15141,6 @@ msgstr "Resumo de conta"
 
 #
 #: ../mail/e-mail-config-welcome-page.c:156
-#| msgid ""
-#| "Welcome to the Evolution Mail Configuration Assistant.\n"
-#| "\n"
-#| "Click \"Continue\" to begin."
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -15470,50 +15203,42 @@ msgstr "_Nome da pasta:"
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../mail/e-mail-free-form-exp.c:236
-#| msgid "Answered"
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Respondida"
 
 #
 #: ../mail/e-mail-free-form-exp.c:237
-#| msgid "Deleted"
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Eliminada"
 
 #
 #: ../mail/e-mail-free-form-exp.c:238
-#| msgid "Draft"
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Rascunho"
 
 #
 #: ../mail/e-mail-free-form-exp.c:239
-#| msgid "Flagged"
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Marcada"
 
 #
 #: ../mail/e-mail-free-form-exp.c:240
-#| msgid "Seen"
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Lida"
 
 #
 #: ../mail/e-mail-free-form-exp.c:241
-#| msgid "Attachment"
-#| msgid_plural "Attachments"
 msgctxt "ffe"
 msgid "Attachment"
 msgstr "Anexo"
 
 #
 #: ../mail/e-mail-free-form-exp.c:489
-#| msgid "now"
 msgctxt "ffe"
 msgid "no"
 msgstr "não"
@@ -15661,7 +15386,6 @@ msgstr "_Arquivo..."
 
 #
 #: ../mail/e-mail-reader.c:1971
-#| msgid "Move selected messages to another folder"
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Mover as mensages selecionadas para a pasta de arquivo da conta"
 
@@ -15816,7 +15540,6 @@ msgstr "Marcar novas mensagens numa subárvore como automaticamente lidas"
 
 #
 #: ../mail/e-mail-reader.c:2116 ../mail/e-mail-reader.c:2491
-#| msgid "Next _Thread"
 msgid "_Ignore Thread"
 msgstr "_Ignorar árvore"
 
@@ -15858,7 +15581,6 @@ msgstr "Marcar as mensagens selecionadas como lidas"
 
 #
 #: ../mail/e-mail-reader.c:2151 ../mail/e-mail-reader.c:2511
-#| msgid "Could not create publish thread."
 msgid "Do not _Ignore Subthread"
 msgstr "Não _Ignorar subárvore"
 
@@ -16253,7 +15975,6 @@ msgstr "Erro desconhecido"
 
 #
 #: ../mail/e-mail-reader-utils.c:1045
-#| msgid "Preview data to be imported"
 msgid "Marking thread to be ignored"
 msgstr "Marcar árvore a ser ignorada"
 
@@ -16413,7 +16134,6 @@ msgstr "<clique aqui para selecionar uma pasta>"
 
 #
 #: ../mail/em-folder-selector.c:398
-#| msgid "Create a new mail folder"
 msgid "Create a new folder"
 msgstr "Criar uma nova pasta"
 
@@ -16712,7 +16432,6 @@ msgstr "Expressão"
 #
 #: ../mail/filtertypes.xml.in.h:24 ../mail/searchtypes.xml.in.h:26
 #: ../mail/vfoldertypes.xml.in.h:26
-#| msgid "Expression"
 msgid "Free Form Expression"
 msgstr "Expressão de forma livre"
 
@@ -16789,13 +16508,15 @@ msgstr "não está marcada"
 
 #: ../mail/filtertypes.xml.in.h:43 ../mail/searchtypes.xml.in.h:45
 #: ../mail/vfoldertypes.xml.in.h:46
-msgid "is Completed"
-msgstr "terminada"
+#| msgid "Completed on"
+msgid "Completed On"
+msgstr "Terminada a"
 
 #: ../mail/filtertypes.xml.in.h:44 ../mail/searchtypes.xml.in.h:46
 #: ../mail/vfoldertypes.xml.in.h:47
-msgid "is not Completed"
-msgstr "não está terminada"
+#| msgid "is not set"
+msgid "is set"
+msgstr "está definida"
 
 #: ../mail/filtertypes.xml.in.h:45 ../mail/searchtypes.xml.in.h:47
 #: ../mail/vfoldertypes.xml.in.h:48
@@ -16968,7 +16689,6 @@ msgstr "Pastas do importador do formato Caixa de correio Berkeley"
 
 #: ../mail/importers/kmail-importer.c:263
 #, c-format
-#| msgid "Address"
 msgid "%d Address"
 msgid_plural "%d Addresses"
 msgstr[0] "%d endereço"
@@ -16976,13 +16696,11 @@ msgstr[1] "%d endereços"
 
 #
 #: ../mail/importers/kmail-importer.c:354
-#| msgid "Evolution Elm importer"
 msgid "Evolution KMail importer"
 msgstr "Importador de KMail do Evolution"
 
 #
 #: ../mail/importers/kmail-importer.c:355
-#| msgid "Import mail from Elm."
 msgid "Import mail and contacts from KMail."
 msgstr "Importar correio e contactos do KMail."
 
@@ -16997,7 +16715,6 @@ msgstr "A importar caixa de correio"
 
 #
 #: ../mail/importers/mail-importer.c:61
-#| msgid "Import mail from Elm."
 msgid "Importing mail and contacts from KMail"
 msgstr "Importar correio e contactos do KMail."
 
@@ -17102,7 +16819,6 @@ msgstr "Formatar _Mensagens em HTML"
 
 #
 #: ../mail/mail-config.ui.h:9
-#| msgid "Automatically insert _emoticon images"
 msgid "Automatically insert _emoticons"
 msgstr "Inserir automaticamente imagens de ri_Sonhos"
 
@@ -17120,7 +16836,6 @@ msgstr "Codificar os nomes de ficheiros na forma _Outlook/GMail"
 
 #
 #: ../mail/mail-config.ui.h:13
-#| msgid "Saving message to Outbox."
 msgid "Send messages through Outbo_x folder"
 msgstr "Enviar mensagens através da pasta Saída"
 
@@ -17263,7 +16978,6 @@ msgstr "Enviar uma mensagem com _Destinatários que não são endereços de emai
 #
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:52
-#| msgid "Sending a message with an _empty subject line"
 msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgstr "Enviar uma mensagem usando teclas de atatlho (Ctrl+Enter)"
 
@@ -17410,7 +17124,6 @@ msgstr "Correio arquivado"
 
 #
 #: ../mail/mail-config.ui.h:97
-#| msgid "On This Computer"
 msgid "On This Computer A_rchive folder:"
 msgstr "Pasta de arquivo Neste Computador:"
 
@@ -17487,7 +17200,6 @@ msgstr "_Eliminar não solicitado"
 
 #
 #: ../mail/mail-config.ui.h:117
-#| msgid "Junk Test"
 msgid "Junk Test Options"
 msgstr "Opções de teste de não solicitado"
 
@@ -18286,7 +17998,6 @@ msgstr "A pasta \"{0}\" não contém quaisquer mensagens duplicadas."
 
 #
 #: ../mail/mail.error.xml.h:155
-#| msgid "Failed to disconnect account &quot;{0}&quot;."
 msgid "Failed to connect account &quot;{0}&quot;."
 msgstr "Falha ao ligar a conta &quot;{0}&quot;."
 
@@ -18308,7 +18019,6 @@ msgstr "{0}"
 
 #
 #: ../mail/mail.error.xml.h:160
-#| msgid "Send mail also when in offline _mode"
 msgid "Message is not available in offline mode."
 msgstr "Mensagem não disponível em modo offline."
 
@@ -18388,7 +18098,6 @@ msgstr "Mensagem da conta &quot;{0}&quot;:"
 
 #
 #: ../mail/mail.error.xml.h:177
-#| msgid "Failed to move an event into the calendar '{0}'"
 msgid "Failed to mark thread to be ignored in folder '{0}'"
 msgstr "Falha ao marcar árvore a ser ignorada na pasta \"{0}\""
 
@@ -18436,13 +18145,11 @@ msgstr "A eliminar não solicitado e expurgar lixo em \"%s\""
 
 #: ../mail/mail-send-recv.c:1447
 #, c-format
-#| msgid "Reconnecting to '%s'"
 msgid "Deleting junk at '%s'"
 msgstr "A eliminar não solicitado em \"%s\""
 
 #: ../mail/mail-send-recv.c:1449
 #, c-format
-#| msgid "Emptying trash in '%s'"
 msgid "Expunging trash at '%s'"
 msgstr "A expurgar o lixo em \"%s\""
 
@@ -18617,7 +18324,6 @@ msgstr "Corpo contém"
 #
 #: ../mail/searchtypes.xml.in.h:61
 #: ../modules/mail/e-mail-shell-view-actions.c:2056
-#| msgid "Expression"
 msgid "Free form expression"
 msgstr "Expressão de forma livre"
 
@@ -19006,7 +18712,6 @@ msgstr ""
 
 #
 #: ../modules/backup-restore/evolution-backup-restore.c:289
-#| msgid "_Restart Evolution after restore"
 msgid "Re_start Evolution after restore"
 msgstr "_Reiniciar o Evolution após o restauro"
 
@@ -19140,8 +18845,9 @@ msgid "Invalid Evolution backup file"
 msgstr "Ficheiro de cópia de segurança do Evolution inválido"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid "File '{0}' is not a valid Evolution backup file."
-msgstr "O ficheiro \"{0}\" não é uma cópia de segurança do Evolution válida"
+#| msgid "Please select an Evolution Archive to restore:"
+msgid "Please select a valid backup file to restore."
+msgstr "Por favor, selecione um ficheiro de segurança a restaurar:"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -19158,7 +18864,6 @@ msgstr ""
 
 #
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
-#| msgid "Close and Back up Evolution"
 msgid "Close and _Back up Evolution"
 msgstr "Fechar e realizar cópia de segurança do Evolution"
 
@@ -19183,7 +18888,6 @@ msgstr ""
 
 #
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
-#| msgid "Close and Restore Evolution"
 msgid "Close and _Restore Evolution"
 msgstr "Fechar e restaurar o Evolution"
 
@@ -19507,19 +19211,16 @@ msgstr "I_Mportar"
 
 #
 #: ../modules/calendar/e-cal-attachment-handler.c:337
-#| msgid "Importing Pine data"
 msgid "Importing an event"
 msgstr "Importar um evento"
 
 #
 #: ../modules/calendar/e-cal-attachment-handler.c:341
-#| msgid "Importing mailbox"
 msgid "Importing a memo"
 msgstr "Importar um memorando"
 
 #
 #: ../modules/calendar/e-cal-attachment-handler.c:345
-#| msgid "Importing Elm data"
 msgid "Importing a task"
 msgstr "Importar uma tarefa"
 
@@ -19529,7 +19230,6 @@ msgstr "Selecionar um calendário"
 
 #
 #: ../modules/calendar/e-cal-attachment-handler.c:410
-#| msgid "D_elete Memo List"
 msgid "Select a Memo List"
 msgstr "Selecionar uma lista de memorandos"
 
@@ -19543,13 +19243,11 @@ msgstr "I_Mportar para o calendário"
 
 #
 #: ../modules/calendar/e-cal-attachment-handler.c:431
-#| msgid "I_mport to Tasks"
 msgid "I_mport to Memo List"
 msgstr "I_Mportar para a lista de memorandos"
 
 #
 #: ../modules/calendar/e-cal-attachment-handler.c:438
-#| msgid "I_mport to Tasks"
 msgid "I_mport to Task List"
 msgstr "I_mportar para a lista de tarefas"
 
@@ -19570,37 +19268,31 @@ msgstr "Nova lista de tarefas"
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:548
 #, c-format
-#| msgid "Copying an event into the calendar %s"
 msgid "Copying an event into the calendar '%s'"
 msgstr "A copiar um evento para o calendário \"%s\""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:549
 #, c-format
-#| msgid "Moving an event into the calendar %s"
 msgid "Moving an event into the calendar '%s'"
 msgstr "A mover um evento para o calendário \"%s\""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:554
 #, c-format
-#| msgid "Copying a memo into the memo list '{0}'"
 msgid "Copying a memo into the memo list '%s'"
 msgstr "A copiar um memorando para a lista de memorandos \"%s\""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:555
 #, c-format
-#| msgid "Moving a memo into the memo list '{0}'"
 msgid "Moving a memo into the memo list '%s'"
 msgstr "A mover um memorando para a lista de memorandos \"%s\""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:560
 #, c-format
-#| msgid "Copying a task into the task list '{0}'"
 msgid "Copying a task into the task list '%s'"
 msgstr "A copiar uma tarefa para a lista de tarefas \"%s\""
 
 #: ../modules/calendar/e-cal-base-shell-sidebar.c:561
 #, c-format
-#| msgid "Moving a task into the task list '{0}'"
 msgid "Moving a task into the task list '%s'"
 msgstr "A mover uma tarefa para a lista de tarefas \"%s\""
 
@@ -19743,7 +19435,6 @@ msgstr "Dia t_Ermina:"
 
 #
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
-#| msgid "Send Options"
 msgid "View Options"
 msgstr "Opções de vista"
 
@@ -19915,7 +19606,6 @@ msgstr "Expurgar eventos com mais de"
 
 #
 #: ../modules/calendar/e-cal-shell-view-actions.c:895
-#| msgid "Make this Occurrence _Movable"
 msgid "Making an occurrence movable"
 msgstr "Tornar uma ocorrência móvel"
 
@@ -21911,19 +21601,16 @@ msgstr "Destinatário"
 
 #
 #: ../modules/mail/em-composer-prefs.c:1192
-#| msgid "_Save to Outbox"
 msgid "Keep in Outbox"
 msgstr "Manter na Saída"
 
 #
 #: ../modules/mail/em-composer-prefs.c:1193
-#| msgid "Send private reply?"
 msgid "Send immediately"
 msgstr "Enviar imediatamente"
 
 #
 #: ../modules/mail/em-composer-prefs.c:1194
-#| msgid "15 minutes"
 msgid "Send after 5 minutes"
 msgstr "Enviar após 15 minutos"
 
@@ -21937,19 +21624,16 @@ msgstr "Sempre, ao terminar"
 
 #
 #: ../modules/mail/em-mailer-prefs.c:80
-#| msgid "On exit, once per day"
 msgid "Once per day"
 msgstr "Uma vez por dia"
 
 #
 #: ../modules/mail/em-mailer-prefs.c:81
-#| msgid "On exit, once per week"
 msgid "Once per week"
 msgstr "Uma vez por semana"
 
 #
 #: ../modules/mail/em-mailer-prefs.c:82
-#| msgid "On exit, once per month"
 msgid "Once per month"
 msgstr "Uma vez por mês"
 
@@ -22992,7 +22676,6 @@ msgstr "Criado a partir de uma mensagem de %s"
 #
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:594
-#| msgid "_Cancel"
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Cancelar"
@@ -23000,7 +22683,6 @@ msgstr "_Cancelar"
 #
 #. Translators: Dialog button to Edit an existing event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:596
-#| msgid "_Edit"
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Editar"
@@ -23008,7 +22690,6 @@ msgstr "_Editar"
 #
 #. Translators: Dialog button to create a New event/memo/task
 #: ../plugins/mail-to-task/mail-to-task.c:598
-#| msgid "_New"
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Novo"
@@ -23866,7 +23547,6 @@ msgstr "Executar estes parâmetros de procura"
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
 #: ../shell/e-shell-window.c:505
-#| msgid "New"
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Novo"
@@ -24040,7 +23720,6 @@ msgstr ""
 
 #
 #: ../shell/shell.error.xml.h:11
-#| msgid "Unknown background operation"
 msgid "Close Evolution with pending background operations?"
 msgstr "Fechar o Evolution com operações em 2º plano pendentes?"
 
@@ -24060,37 +23739,31 @@ msgstr "Fe_Char imediatamente"
 
 #
 #: ../shell/shell.error.xml.h:14
-#| msgid "Waiting..."
 msgid "Keep _Waiting"
 msgstr "Continuar a aguardar"
 
 #
 #: ../shell/shell.error.xml.h:15
-#| msgid "Failed to get server URL."
 msgid "Failed to get values from '{0}'"
 msgstr "Falha ao obter valores de \"{0}\""
 
 #
 #: ../shell/shell.error.xml.h:16
-#| msgid "Failed to authenticate.\n"
 msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Falha ao invocar autenticação para \"{0}\""
 
 #
 #: ../shell/shell.error.xml.h:17
-#| msgid "Failed to copy an event into the calendar '{0}'"
 msgid "Failed to connect to '{0}'"
 msgstr "Falha ao ligar a \"{0}\""
 
 #
 #: ../shell/shell.error.xml.h:18
-#| msgid "_Recover"
 msgid "_Reconnect"
 msgstr "_Religar"
 
 #
 #: ../shell/shell.error.xml.h:19
-#| msgid "Failed to copy an event into the calendar '{0}'"
 msgid "Failed to prompt for credentials for '{0}'"
 msgstr "Falha ao pedir credenciais para \"{0}\""
 
@@ -24213,21 +23886,18 @@ msgstr "Todos os ficheiros"
 
 #
 #: ../smime/gui/certificate-manager.c:730
-#| msgid "Certificate"
 msgid "Backup Certificate"
 msgstr "Cópia de segurança do certificado"
 
 #
 #. filename selection
 #: ../smime/gui/certificate-manager.c:744
-#| msgid "_Filename:"
 msgid "_File name:"
 msgstr "_Ficheiro:"
 
 #
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../smime/gui/certificate-manager.c:749
-#| msgid "Please select a folder"
 msgid "Please select a file..."
 msgstr "Por favor, selecione um ficheiro..."
 
@@ -24248,7 +23918,6 @@ msgstr ""
 
 #
 #: ../smime/gui/certificate-manager.c:788
-#| msgid "_Password:"
 msgid "_Repeat Password:"
 msgstr "_Repetir senha:"
 
@@ -24271,13 +23940,11 @@ msgstr ""
 
 #
 #: ../smime/gui/certificate-manager.c:860
-#| msgid "No email address provided"
 msgid "No file name provided"
 msgstr "Nenhum ficheiro fornecido"
 
 #
 #: ../smime/gui/certificate-manager.c:864
-#| msgid "Failed to import certificate"
 msgid "Failed to backup key and certificate"
 msgstr "Falha na cópia de segurança da chave e certificado"
 
@@ -24296,7 +23963,6 @@ msgstr "Perguntar quando usado"
 
 #
 #: ../smime/gui/certificate-manager.c:1121
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Nunca"
@@ -24312,9 +23978,11 @@ msgid "Fully"
 msgstr "Total"
 
 #: ../smime/gui/certificate-manager.c:1127
+#| msgctxt "CamelTrust"
+#| msgid "Ultimately"
 msgctxt "CamelTrust"
-msgid "Ultimately"
-msgstr "Finalmente"
+msgid "Ultimate"
+msgstr "100%"
 
 #: ../smime/gui/certificate-manager.c:1129
 msgctxt "CamelTrust"
@@ -24323,13 +23991,11 @@ msgstr "Temporário"
 
 #
 #: ../smime/gui/certificate-manager.c:1335
-#| msgid "Certificate Authority Trust"
 msgid "Change certificate trust"
 msgstr "Alterar confiança do certificado"
 
 #: ../smime/gui/certificate-manager.c:1347
 #, c-format
-#| msgid "Cannot get transport for account '%s'"
 msgid "Change trust for the host '%s':"
 msgstr "Alterar confiança do anfitrião \"%s\":"
 
@@ -24345,7 +24011,6 @@ msgstr "Temporário (só nesta sessão)"
 
 #
 #: ../smime/gui/certificate-manager.c:1373
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "_Never"
 msgstr "_Nunca"
@@ -24357,17 +24022,19 @@ msgstr "_Marginal"
 
 #
 #: ../smime/gui/certificate-manager.c:1375
-#| msgid "_Full name"
 msgctxt "CamelTrust"
 msgid "_Fully"
 msgstr "_Totalmente"
 
-#
 #: ../smime/gui/certificate-manager.c:1376
+#| msgctxt "CamelTrust"
+#| msgid "Ultimately"
+msgctxt "CamelTrust"
+msgid "_Ultimate"
+msgstr "_!00%"
+
+#
 #: ../smime/gui/certificate-manager.c:1380
-#| msgid ""
-#| "Before trusting this CA for any purpose, you should examine its "
-#| "certificate and its policy and procedures (if available)."
 msgid ""
 "Before trusting this site, you should examine its certificate and its policy "
 "and procedures (if available)."
@@ -24377,20 +24044,17 @@ msgstr ""
 
 #
 #: ../smime/gui/certificate-manager.c:1395
-#| msgid "_View Certificate"
 msgid "_Display certificate"
 msgstr "_Mostrar certificado"
 
 #
 #: ../smime/gui/certificate-manager.c:1600
-#| msgid "You have certificates on file that identify these people:"
 msgid "You have certificates on file that identify these mail servers:"
 msgstr ""
 "Tem certificados em ficheiro que identificam estes servidores de correio:"
 
 #
 #: ../smime/gui/certificate-manager.c:1631
-#| msgid "_List name:"
 msgid "Host name"
 msgstr "Nome da máquina:"
 
@@ -24400,7 +24064,6 @@ msgstr "Emissor"
 
 #
 #: ../smime/gui/certificate-manager.c:1634
-#| msgid "Fingerprints"
 msgid "Fingerprint"
 msgstr "Impressão digital"
 
@@ -24410,7 +24073,6 @@ msgstr "Confiança"
 
 #
 #: ../smime/gui/certificate-manager.c:1656
-#| msgid "_Edit CA Trust"
 msgid "_Edit Trust"
 msgstr "_Editar conafiança"
 
@@ -24580,7 +24242,6 @@ msgstr "Introduza a senha para o ficheiro PKCS12:"
 
 #: ../smime/lib/e-pkcs12.c:328
 #, c-format
-#| msgid "Unable to book a resource, error: %s"
 msgid "Unable to create export context, err_code: %i"
 msgstr "Impossível criar contexto de exportação, erro: %i"
 
@@ -24591,19 +24252,16 @@ msgstr "Impossível definir integridade da senha, erro: %i"
 
 #: ../smime/lib/e-pkcs12.c:345
 #, c-format
-#| msgid "Unable to create local mail folders at '%s': %s"
 msgid "Unable to create safe bag, err_code: %i"
 msgstr "Impossível criar saco seguro, erro: %i"
 
 #: ../smime/lib/e-pkcs12.c:363
 #, c-format
-#| msgid "Unable to book a resource, error: %s"
 msgid "Unable to add key/cert to the store, err_code: %i"
 msgstr "Impossível adicionar chave/certificado à loja, erro: %i"
 
 #: ../smime/lib/e-pkcs12.c:381
 #, c-format
-#| msgid "Unable to book a resource, error: %s"
 msgid "Unable to write store to disk, err_code: %i"
 msgstr "Impossível escrever loja no disco, erro: %i"
 
@@ -24682,6 +24340,18 @@ msgstr "Com _Data limite"
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
 msgstr "Com _Estado"
+
+#~ msgid "Workday start time for Monday"
+#~ msgstr "Hora de início à segunda"
+
+#~ msgid "is Completed"
+#~ msgstr "terminada"
+
+#~ msgid "is not Completed"
+#~ msgstr "não está terminada"
+
+#~ msgid "File '{0}' is not a valid Evolution backup file."
+#~ msgstr "O ficheiro \"{0}\" não é uma cópia de segurança do Evolution válida"
 
 #~ msgid "Web addresses"
 #~ msgstr "Endereços web"
@@ -25951,9 +25621,6 @@ msgstr "Com _Estado"
 #~ "ser processado. Poderá vê-lo sem formatação ou através de um editor de "
 #~ "texto externo."
 
-#~ msgid "Completed on"
-#~ msgstr "Terminada a"
-
 #~ msgid "Overdue:"
 #~ msgstr "Atrasada:"
 
@@ -26775,10 +26442,6 @@ msgstr "Com _Estado"
 #~ msgid "_Restore Evolution from the backup file"
 #~ msgstr ""
 #~ "_Recuperar o Evolution a partir de um ficheiro de cópia de segurança"
-
-#~ msgid "Please select an Evolution Archive to restore:"
-#~ msgstr ""
-#~ "Selecione um ficheiro de Cópia de Segurança do Evolution a recuperar:"
 
 #~ msgid "Back up and Restore"
 #~ msgstr "Cópias de Segurança e Recuperação"
