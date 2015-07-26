@@ -3,7 +3,7 @@
 # Distributed under the same licence as the evolution package.
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
 # Tiago Antão <tiagoantao@bigfoot.com>, 2000.
-# Pedro Albuquerque <palbuquerque73o@gmail.com>, 2015.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 #
 #: ../shell/main.c:506
 msgid ""
@@ -12,9 +12,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-07-15 04:32+0000\n"
-"PO-Revision-Date: 2015-07-15 09:57+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73o@gmail.com>\n"
-"Language-Team: Português <palbuquerque73@openmailbox.com>\n"
+"PO-Revision-Date: 2015-07-26 20:56+0100\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9934,19 +9934,19 @@ msgstr "Executar teste de não solicitado sobre as mensagens recebidas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Empty Junk folders on exit"
-msgstr "Esvaziar as pastas de Não solicitado ao sair"
+msgstr "Esvaziar as pastas de não solicitado ao sair"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr "Esvaziar todas as pasta de Não solicitado ao sair do Evolution."
+msgstr "Esvaziar todas as pasta de não solicitado ao sair do Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Minimum days between emptying the junk on exit"
-msgstr "Número mínimo de dias antes de esvaziar o Não solicitado ao sair"
+msgstr "Número mínimo de dias antes de esvaziar o não solicitado ao sair"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "Tempo mínimo entre esvaziar o Não solicitado ao sair, em dias."
+msgstr "Tempo mínimo entre esvaziar o não solicitado ao sair, em dias."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Last time Empty Junk was run"
@@ -9961,7 +9961,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "The default plugin for Junk hook"
-msgstr "A extensão predefinida para a ligação ao Não solicitado"
+msgstr "A extensão predefinida para a ligação a Não solicitado"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid ""
@@ -9971,7 +9971,7 @@ msgid ""
 msgstr ""
 "Esta é a extensão predefinida de Não solicitado, apesar de estarem ativas "
 "várias extensões. Se a extensão predefinida listada estiver desativada, não "
-"irá recorrer às outras extensões disponíveis."
+"recorrerá às outras extensões disponíveis."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Determines whether to lookup in address book for sender email"
@@ -9987,7 +9987,7 @@ msgid ""
 msgstr ""
 "Determina se procurar ou não o endereço do remetente no livro de endereços. "
 "Se encontrado, não deverá ser correio não solicitado. Procura nos livros "
-"marcados para coonclusão automática. Poderá ser demorado, se estiverem "
+"marcados para conclusão automática. Poderá ser demorado, se estiverem "
 "marcados livros de endereços remotos (como LDAP) para conclusão automática."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
@@ -15304,7 +15304,7 @@ msgid ""
 "\n"
 "Click \"Next\" to begin."
 msgstr ""
-"Bem vindo ao Assistente de configuração de correio Evolution.\n"
+"Boas vindas ao Assistente de configuração de correio Evolution.\n"
 "\n"
 "Clique em \"Continuar\" para começar."
 
@@ -15401,7 +15401,7 @@ msgstr "falso"
 
 #: ../mail/e-mail-junk-options.c:295
 msgid "Junk filtering software:"
-msgstr "Aplicação de filtragem de sucata:"
+msgstr "Aplicação de filtragem de não solicitado:"
 
 #: ../mail/e-mail-label-dialog.c:224
 msgid "_Label name:"
@@ -15542,11 +15542,11 @@ msgstr "Mover as mensages selecionadas para a pasta de arquivo da conta"
 
 #: ../mail/e-mail-reader.c:1908
 msgid "Check for _Junk"
-msgstr "Procurar _sucata"
+msgstr "Procurar _Não solicitado"
 
 #: ../mail/e-mail-reader.c:1910
 msgid "Filter the selected messages for junk status"
-msgstr "Filtrar as mensagens selecionadas pelo estado de sucata"
+msgstr "Filtrar as mensagens selecionadas pelo estado de não solicitado"
 
 #: ../mail/e-mail-reader.c:1915
 msgid "_Copy to Folder..."
@@ -15707,19 +15707,19 @@ msgstr "Marcar as mensagens selecionadas como importantes"
 
 #: ../mail/e-mail-reader.c:2062
 msgid "_Junk"
-msgstr "_Sucata"
+msgstr "_Não solicitado"
 
 #: ../mail/e-mail-reader.c:2064
 msgid "Mark the selected messages as junk"
-msgstr "Marcar as mensagens selecionadas como sucata"
+msgstr "Marcar as mensagens selecionadas como não solicitado"
 
 #: ../mail/e-mail-reader.c:2069
 msgid "_Not Junk"
-msgstr "_Não é sucata"
+msgstr "_Não é não solicitado"
 
 #: ../mail/e-mail-reader.c:2071
 msgid "Mark the selected messages as not being junk"
-msgstr "Marcar as mensagens selecionadas como não sendo sucata"
+msgstr "Marcar as mensagens selecionadas como não sendo não solicitado"
 
 #: ../mail/e-mail-reader.c:2076
 msgid "_Read"
@@ -16036,7 +16036,7 @@ msgstr "Marcar como _Importante"
 
 #: ../mail/e-mail-reader.c:2431
 msgid "Mark as _Junk"
-msgstr "Marcar como _sucata"
+msgstr "Marcar como _Não solicitado"
 
 #: ../mail/e-mail-reader.c:2435
 msgid "Mark as _Not Junk"
@@ -16713,7 +16713,7 @@ msgstr "Lida"
 #: ../mail/filtertypes.xml.in.h:39 ../mail/mail-config.ui.h:126
 #: ../mail/vfoldertypes.xml.in.h:42
 msgid "Junk"
-msgstr "Sucata"
+msgstr "Não solicitado"
 
 #: ../mail/filtertypes.xml.in.h:40 ../mail/searchtypes.xml.in.h:42
 #: ../mail/vfoldertypes.xml.in.h:43
@@ -16781,15 +16781,15 @@ msgstr "devolve menor do que"
 
 #: ../mail/filtertypes.xml.in.h:57
 msgid "Junk Test"
-msgstr "Teste de Sucata"
+msgstr "Teste de não solicitado"
 
 #: ../mail/filtertypes.xml.in.h:58
 msgid "Message is Junk"
-msgstr "Mensagem é sucata"
+msgstr "Mensagem é não solicitado"
 
 #: ../mail/filtertypes.xml.in.h:59
 msgid "Message is not Junk"
-msgstr "Mensagem não é sucata"
+msgstr "Mensagem não é não solicitado"
 
 #: ../mail/filtertypes.xml.in.h:60 ../mail/vfoldertypes.xml.in.h:54
 msgid "Message Location"
@@ -17005,7 +17005,7 @@ msgstr[1] ""
 
 #: ../mail/mail-config.ui.h:1
 msgid "Set custom junk header"
-msgstr "Definir cabeçalho personalizado de sucata"
+msgstr "Definir cabeçalho personalizado de não solicitado"
 
 #: ../mail/mail-config.ui.h:4
 msgid ""
@@ -17013,7 +17013,7 @@ msgid ""
 "filtered as junk"
 msgstr ""
 "Todas as novas mensagens com cabeçalhos que coincidam com o conteúdo "
-"especificado serão automaticamente filtradas como sucata"
+"especificado serão automaticamente filtradas como não solicitado"
 
 #: ../mail/mail-config.ui.h:5
 msgid "Header name"
@@ -17418,21 +17418,21 @@ msgstr "Formato de data/hora"
 
 #: ../mail/mail-config.ui.h:120
 msgid "Check incoming _messages for junk"
-msgstr "Procurar nas _Mensagens recebidas por sucata"
+msgstr "Procurar nas _Mensagens recebidas por não solicitado"
 
 #: ../mail/mail-config.ui.h:121
 msgid "_Delete junk messages"
-msgstr "Eliminar a sucata"
+msgstr "Eliminar não solicitado"
 
 #: ../mail/mail-config.ui.h:122
 msgid "Junk Test Options"
-msgstr "Opções de teste de sucata"
+msgstr "Opções de teste de não solicitado"
 
 #: ../mail/mail-config.ui.h:123
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
-"Não _Marcar as mensagens como sucata se o remetente constar do meu livro de "
-"endereços"
+"Não _Marcar as mensagens como não solicitado se o remetente constar do meu "
+"livro de endereços"
 
 #: ../mail/mail-config.ui.h:124
 msgid "_Lookup in local address book only"
@@ -17440,7 +17440,7 @@ msgstr "_Procurar só no livro de endereços local"
 
 #: ../mail/mail-config.ui.h:125
 msgid "Check cu_stom headers for junk"
-msgstr "Verificar nos cabeçalhos personalizados _Se é sucata"
+msgstr "Verificar nos cabeçalhos personalizados _Se é não solicitado"
 
 #: ../mail/mail-config.ui.h:127
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:224
@@ -18213,11 +18213,11 @@ msgstr "Não possui permissões suficientes para eliminar este correio."
 
 #: ../mail/mail.error.xml.h:152
 msgid "\"Check Junk\" Failed"
-msgstr "Falha ao \"Procurar sucata\""
+msgstr "Falha ao \"Procurar não solicitado\""
 
 #: ../mail/mail.error.xml.h:153
 msgid "\"Report Junk\" Failed"
-msgstr "Falha ao \"Relatar como sucata\""
+msgstr "Falha ao \"Relatar como não solicitado\""
 
 #: ../mail/mail.error.xml.h:154
 msgid "\"Report Not Junk\" Failed"
@@ -18405,12 +18405,12 @@ msgstr "A procurar novas mensagens em \"%s\""
 #: ../mail/mail-send-recv.c:1452
 #, c-format
 msgid "Deleting junk and expunging trash at '%s'"
-msgstr "A eliminar sucata e expurgar lixo em \"%s\""
+msgstr "A eliminar não solicitado e expurgar lixo em \"%s\""
 
 #: ../mail/mail-send-recv.c:1454
 #, c-format
 msgid "Deleting junk at '%s'"
-msgstr "A eliminar sucata em \"%s\""
+msgstr "A eliminar não solicitado em \"%s\""
 
 #: ../mail/mail-send-recv.c:1456
 #, c-format
@@ -19190,7 +19190,7 @@ msgstr "Bogofilter"
 
 #: ../modules/bogofilter/evolution-bogofilter.metainfo.xml.in.h:2
 msgid "Junk filter using Bogofilter"
-msgstr "Filtrar sucata usando Bogofilter"
+msgstr "Filtrar não solicitado usando Bogofilter"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:440
 msgid "Standard LDAP Port"
@@ -21720,7 +21720,7 @@ msgstr "Mensagens dos  últimos 5 dias"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2070
 msgid "Messages Not Junk"
-msgstr "Mensagens que não são sucata"
+msgstr "Mensagens que não são não solicitado"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2077
 msgid "Messages with Attachments"
@@ -21782,8 +21782,8 @@ msgstr[1] "%d eliminadas"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d sucata"
-msgstr[1] "%d sucatas"
+msgstr[0] "%d não solicitada"
+msgstr[1] "%d não solicitadas"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1034
 #, c-format
@@ -22102,7 +22102,7 @@ msgstr "SpamAssassin"
 
 #: ../modules/spamassassin/evolution-spamassassin.metainfo.xml.in.h:2
 msgid "Junk filter using SpamAssassin"
-msgstr "Filtrar sucata usando SpamAssassin"
+msgstr "Filtrar não solicitado usando SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
