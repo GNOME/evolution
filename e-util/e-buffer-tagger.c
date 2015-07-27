@@ -109,13 +109,18 @@ markup_text (GtkTextBuffer *buffer)
 		any = FALSE;
 		for (i = 0; i < G_N_ELEMENTS (mim); i++) {
 			if (mim[i].preg && !regexec (mim[i].preg, str, 2, pmatch, 0)) {
-				gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + pmatch[0].rm_so);
-				gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + pmatch[0].rm_eo);
+				gint char_so, char_eo;
+
+				char_so = g_utf8_pointer_to_offset (str, str + pmatch[0].rm_so);
+				char_eo = g_utf8_pointer_to_offset (str, str + pmatch[0].rm_eo);
+
+				gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + char_so);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + char_eo);
 				gtk_text_buffer_apply_tag_by_name (buffer, E_BUFFER_TAGGER_LINK_TAG, &start, &end);
 
 				any = TRUE;
 				str += pmatch[0].rm_eo;
-				offset += pmatch[0].rm_eo;
+				offset += char_eo;
 				break;
 			}
 		}
