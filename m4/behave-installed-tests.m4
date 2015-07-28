@@ -90,14 +90,14 @@ endif
 installed-tests-exec-hook:
 	@$(MKDIR_P) $(EXEC_DIRECTORY);
 	@for feature in $(BEHAVE_FEATURES); do											\
-	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 $$feature $(EXEC_DIRECTORY);\
+	    $(LIBTOOL) --mode=install $(INSTALL) --mode=644 $$feature $(EXEC_DIRECTORY);\
 	done
 	@for common_file in $(BEHAVE_COMMON_FILES); do										\
-	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 $$common_file $(EXEC_DIRECTORY);\
+	    $(LIBTOOL) --mode=install $(INSTALL) --mode=644 $$common_file $(EXEC_DIRECTORY);\
 	done
 	@$(MKDIR_P) $(EXEC_DIRECTORY)/steps;
 	@for step_definition in $(BEHAVE_STEP_DEFINITION); do									\
-	    $(LIBTOOL) --mode=install $(INSTALL) --mode=777 $$step_definition $(EXEC_DIRECTORY)/steps;\
+	    $(LIBTOOL) --mode=install $(INSTALL) --mode=644 $$step_definition $(EXEC_DIRECTORY)/steps;\
 	done
 
 
