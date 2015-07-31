@@ -3426,6 +3426,7 @@ e_html_editor_selection_get_font_size (EHTMLEditorSelection *selection)
 {
 	gchar *size;
 	guint size_int;
+	gboolean increment;
 
 	g_return_val_if_fail (
 		E_IS_HTML_EDITOR_SELECTION (selection),
@@ -3437,10 +3438,15 @@ e_html_editor_selection_get_font_size (EHTMLEditorSelection *selection)
 		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 	}
 
+	/* We don't support increments, but when going through a content that
+	 * was not written in Evolution we can find it. In this case just report
+	 * the normal size. */
+	/* FIXME: go through all parent and get the right value. */
+	increment = size[0] == '+' || size[0] == '-';
 	size_int = atoi (size);
 	g_free (size);
 
-	if (size_int == 0)
+	if (increment || size_int == 0)
 		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 
 	return size_int;
