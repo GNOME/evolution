@@ -301,9 +301,9 @@ secure_button_clicked_cb (GtkWidget *widget,
 			"buffer", buffer,
 			"cursor_visible", FALSE,
 			"editable", FALSE,
-			"width_request", 500,
-			"height_request", 160,
 			NULL),
+			"width_request", 500,
+			"height_request", 80,
 			NULL);
 		g_object_unref (buffer);
 
@@ -338,9 +338,9 @@ secure_button_clicked_cb (GtkWidget *widget,
 			"buffer", buffer,
 			"cursor_visible", FALSE,
 			"editable", FALSE,
-			"width_request", 500,
-			"height_request", 160,
 			NULL),
+			"width_request", 500,
+			"height_request", 80,
 			NULL);
 		g_object_unref (buffer);
 
