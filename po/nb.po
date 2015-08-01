@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution 3.17.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-31 12:09+0200\n"
-"PO-Revision-Date: 2015-07-31 12:25+0200\n"
+"PO-Revision-Date: 2015-08-01 10:55+0200\n"
 "Last-Translator: Alexander Strand <godsetalex@gmail.com>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -513,11 +513,11 @@ msgstr "Notater"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:52
 msgid "Add _PGP"
-msgstr ""
+msgstr "Legg til _PGP"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:53
 msgid "Add _X.509"
-msgstr ""
+msgstr "Legg til _X.509"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
@@ -8116,9 +8116,8 @@ msgid ""
 msgstr "Klokkeslett arbeidsdagen starter i 24-timers format: TTMM, 0000 til 2359, eller -1 for å bruke day-start-hour og day-start-minute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
-#, fuzzy
 msgid "Workday end time for Monday"
-msgstr "Hvilken time arbeidsdagen slutter"
+msgstr "Tid for arbeidsdagens slutt på mandag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
 #, fuzzy
@@ -8128,9 +8127,8 @@ msgid ""
 msgstr "Klokkeslett arbeidsdagen slutter på i 24-timers format, 0 til 23"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
-#, fuzzy
 msgid "Workday start time for Tuesday"
-msgstr "Hvilket minutt arbeidsdagen starter"
+msgstr "Tid for arbeidsdagens start på tirsdag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
 #, fuzzy
@@ -8140,9 +8138,8 @@ msgid ""
 msgstr "Klokkeslett arbeidsdagen slutter på i 24-timers format, 0 til 23"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
-#, fuzzy
 msgid "Workday end time for Tuesday"
-msgstr "Hvilket minutt arbeidsdagen slutter"
+msgstr "Tid for arbeidsdagens slutt på tirsdag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
 #, fuzzy
@@ -16024,14 +16021,13 @@ msgstr "Overstyring av av_senderkonto:"
 
 #: ../mail/em-folder-properties.c:491
 msgid "_Archive this folder using these settings:"
-msgstr ""
+msgstr "_Arkiver denne mappen med disse innstillingene:"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:500
-#, fuzzy
 msgctxt "autoarchive"
 msgid "_Cleanup messages older than"
-msgstr "Mappe for sendte _meldinger:"
+msgstr "_Rydd opp meldinger som er eldre enn"
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:516
@@ -16052,34 +16048,28 @@ msgid "months"
 msgstr "måneder"
 
 #: ../mail/em-folder-properties.c:526
-#, fuzzy
 msgid "Move old messages to the default archive _folder"
-msgstr "Flytt valgte meldinger til en annen mappe"
+msgstr "Flytt gamle meldinger til forvalgt arkiv_mappe"
 
 #: ../mail/em-folder-properties.c:537
-#, fuzzy
 msgid "_Move old messages to:"
-msgstr "Flytter meldinger til «%s»"
+msgstr "Flytt gamle _meldinger til:"
 
 #: ../mail/em-folder-properties.c:541
-#, fuzzy
 msgid "AutoArchive folder"
-msgstr "Arki_vmappe:"
+msgstr "Mappe for automatisk arkivering"
 
 #: ../mail/em-folder-properties.c:541
-#, fuzzy
 msgid "Select folder to use for AutoArchive"
-msgstr "Velg mappe å importere til"
+msgstr "Velg mappe som skal brukes for automatisk arkivering"
 
 #: ../mail/em-folder-properties.c:547
-#, fuzzy
 msgid "_Delete old messages"
-msgstr "_Slett uønskede meldinger"
+msgstr "_Slett gamle meldinger"
 
 #: ../mail/em-folder-properties.c:606
-#, fuzzy
 msgid "AutoArchive"
-msgstr "_Arkiv …"
+msgstr "Automatisk arkivering"
 
 #: ../mail/em-folder-properties.c:685
 msgid "Folder Properties"
@@ -18079,19 +18069,18 @@ msgstr ""
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:188
-#, fuzzy
 msgid "{0}, Completed on {1}"
-msgstr " (Fullført "
+msgstr "{0}, fullført {1}"
 
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:190
 msgid "{0} by {1}"
-msgstr ""
+msgstr "{0} innen {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
 #: ../mail/mail.error.xml.h:192
 msgid "Overdue: {0} by {1}"
-msgstr ""
+msgstr "Utgått: {0} innen {1}"
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -18689,7 +18678,7 @@ msgstr "Velg navn på sikkerhetskopifil for Evolution som skal gjenopprettes"
 #: ../modules/backup-restore/evolution-backup-restore.c:336
 #, c-format
 msgid "Checking content of backup file '%s', please wait..."
-msgstr ""
+msgstr "Sjekker innholdet i sikkerhetskopifilen «%s», vennligst vent …"
 
 #: ../modules/backup-restore/evolution-backup-restore.c:357
 msgid "_Back up Evolution Data..."
@@ -18814,9 +18803,8 @@ msgid "Invalid Evolution backup file"
 msgstr "Ugyldig sikkerhetskopifil for Evolution"
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid "File '{0}' is not a valid Evolution backup file."
-msgstr "Ugyldig sikkerhetskopifil for Evolution"
+msgstr "Fil «{0}» er ikke en gyldig sikkerhetskopifil for Evolution."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -19457,7 +19445,7 @@ msgstr "før hvert jubileum/bursdag"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Default _snooze time (in minutes)"
-msgstr ""
+msgstr "Forvalgt _utsettelsestid (i minutter)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Select the calendars for reminder notification"
@@ -22335,9 +22323,8 @@ msgid "Load new _Face picture"
 msgstr "Last nytt ansikts_bilde"
 
 #: ../plugins/face/face.c:449
-#, fuzzy
 msgid "Change Face Image"
-msgstr "Velg bakgrunnsfarge"
+msgstr "Bytt ansiktsbilde"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
@@ -22381,9 +22368,8 @@ msgid "Not an image"
 msgstr "Ikke et bilde"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:8
-#, fuzzy
 msgid "The file you selected does not look like a valid PNG image. Error: {0}"
-msgstr "Filen du valgte ser ikke ut som et gyldig .png-bilde. Feil: {0}"
+msgstr "Filen du valgte ser ikke ut som et gyldig PNG-bilde. Feil: {0}"
 
 #: ../plugins/mailing-list-actions/mailing-list-actions.c:364
 msgid "Get List _Archive"
@@ -23661,7 +23647,6 @@ msgid "Failed to invoke authenticate for '{0}'"
 msgstr "Klarte ikke å kalle autentisering for «{0}»"
 
 #: ../shell/shell.error.xml.h:17
-#, fuzzy
 msgid "Failed to connect '{0}'"
 msgstr "Klarte ikke å koble til «{0}»"
 
@@ -23670,29 +23655,24 @@ msgid "_Reconnect"
 msgstr "Koble til på _nytt"
 
 #: ../shell/shell.error.xml.h:19
-#, fuzzy
 msgid "Failed to connect address book '{0}'"
-msgstr "Klarte ikke å oppdatere adressebok «{0}»"
+msgstr "Klarte ikke å koble til adressebok «{0}»"
 
 #: ../shell/shell.error.xml.h:20
-#, fuzzy
 msgid "Failed to connect calendar '{0}'"
-msgstr "Klarte ikke å åpne kalender «{0}»"
+msgstr "Klarte ikke å koble til kalender «{0}»"
 
 #: ../shell/shell.error.xml.h:21
-#, fuzzy
 msgid "Failed to connect mail account '{0}'"
-msgstr "Klarte ikke å koble til «{0}»"
+msgstr "Klarte ikke å koble til e-postkonto «{0}»"
 
 #: ../shell/shell.error.xml.h:22
-#, fuzzy
 msgid "Failed to connect memo list '{0}'"
-msgstr "Klarte ikke å åpne notatliste «{0}»"
+msgstr "Klarte ikke å koble til notatliste «{0}»"
 
 #: ../shell/shell.error.xml.h:23
-#, fuzzy
 msgid "Failed to connect task list '{0}'"
-msgstr "Klarte ikke å åpne oppgaveliste «{0}»"
+msgstr "Klarte ikke å koble til oppgaveliste «{0}»"
 
 #: ../shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for '{0}'"
@@ -23711,29 +23691,24 @@ msgid "Reason: {1}"
 msgstr "Årsak: {1}"
 
 #: ../shell/shell.error.xml.h:29
-#, fuzzy
 msgid "SSL certificate for address book '{0}' is not trusted."
-msgstr "Stoler ikke på SSL-sertifikat for «{0}»."
+msgstr "Stoler ikke på SSL-sertifikat for adressebok «{0}»."
 
 #: ../shell/shell.error.xml.h:30
-#, fuzzy
 msgid "SSL certificate for calendar '{0}' is not trusted."
-msgstr "Stoler ikke på SSL-sertifikat for «{0}»."
+msgstr "Stoler ikke på SSL-sertifikat for kalender «{0}»."
 
 #: ../shell/shell.error.xml.h:31
-#, fuzzy
 msgid "SSL certificate for mail account '{0}' is not trusted."
-msgstr "Stoler ikke på SSL-sertifikat for «{0}»."
+msgstr "Stoler ikke på SSL-sertifikat for e-postkonto «{0}»."
 
 #: ../shell/shell.error.xml.h:32
-#, fuzzy
 msgid "SSL certificate for memo list '{0}' is not trusted."
-msgstr "Stoler ikke på SSL-sertifikat for «{0}»."
+msgstr "Stoler ikke på SSL-sertifikat for notatliste «{0}»."
 
 #: ../shell/shell.error.xml.h:33
-#, fuzzy
 msgid "SSL certificate for task list '{0}' is not trusted."
-msgstr "Stoler ikke på SSL-sertifikat for «{0}»."
+msgstr "Stoler ikke på SSL-sertifikat for oppgaveliste «{0}»."
 
 #: ../smime/gui/ca-trust-dialog.c:106
 #, c-format
@@ -23912,10 +23887,9 @@ msgid "Never"
 msgstr "Aldri"
 
 #: ../smime/gui/certificate-manager.c:1123
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Marginally"
-msgstr "Marginal"
+msgstr "Marginalt"
 
 #: ../smime/gui/certificate-manager.c:1125
 msgctxt "CamelTrust"
@@ -23929,7 +23903,6 @@ msgid "Ultimately"
 msgstr "Ultimat"
 
 #: ../smime/gui/certificate-manager.c:1129
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "Temporarily"
 msgstr "Midlertidig"
@@ -23949,10 +23922,9 @@ msgid "_Ask when used"
 msgstr "Spør når det _blir brukt"
 
 #: ../smime/gui/certificate-manager.c:1372
-#, fuzzy
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
-msgstr "Fjern _tillit til SSL-sertifikat"
+msgstr "_Aldri stol på dette sertifikatet"
 
 #: ../smime/gui/certificate-manager.c:1373
 #, fuzzy
