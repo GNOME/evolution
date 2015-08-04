@@ -370,7 +370,7 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
 	/* Repeatedly search for 'word', then replace selection by
-	 * 'replacement'. Repeat until there's at least one occurence of
+	 * 'replacement'. Repeat until there's at least one occurrence of
 	 * 'word' in the document */
 	while (webkit_web_view_search_text (
 			WEBKIT_WEB_VIEW (view), dialog->priv->word,

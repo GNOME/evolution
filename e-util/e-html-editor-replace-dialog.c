@@ -160,8 +160,8 @@ html_editor_replace_dialog_replace_all_cb (EHTMLEditorReplaceDialog *dialog)
 		e_html_editor_view_force_spell_check_in_viewport (view);
 	}
 
-	result = g_strdup_printf (ngettext("%d occurence replaced",
-	                                   "%d occurences replaced",
+	result = g_strdup_printf (ngettext("%d occurrence replaced",
+	                                   "%d occurrences replaced",
 	                                   i),
 	                          i);
 	gtk_label_set_label (GTK_LABEL (dialog->priv->result_label), result);

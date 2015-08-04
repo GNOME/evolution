@@ -73,7 +73,7 @@ e_html_editor_dom_node_find_parent_element (WebKitDOMNode *node,
  * @node: Start node
  * @tagname: Tag name of element to search.
  *
- * Recursively searches for first occurence of element with given @tagname that
+ * Recursively searches for first occurrence of element with given @tagname that
  * is a child of @node.
  *
  * Returns: A #WebKitDOMElement with @tagname representing a child of @node or
