@@ -192,10 +192,12 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	EComposerHeader *post_to_header;
 	GString *invalid_addrs = NULL;
+	GSettings *settings;
 	gboolean check_passed = FALSE;
 	gint hidden = 0;
 	gint shown = 0;
 	gint num = 0;
+	gint num_to_cc = 0;
 	gint num_bcc = 0;
 	gint num_post = 0;
 	gint ii;
@@ -205,6 +207,37 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	 * when we get the message (e.g. passphrase to sign a message). */
 
 	table = e_msg_composer_get_header_table (composer);
+
+	recipients = e_composer_header_table_get_destinations_to (table);
+	if (recipients) {
+		for (ii = 0; recipients[ii] != NULL; ii++) {
+			const gchar *addr;
+
+			addr = e_destination_get_address (recipients[ii]);
+			if (addr == NULL || *addr == '\0')
+				continue;
+
+			num_to_cc++;
+		}
+
+		e_destination_freev (recipients);
+	}
+
+	recipients = e_composer_header_table_get_destinations_cc (table);
+	if (recipients) {
+		for (ii = 0; recipients[ii] != NULL; ii++) {
+			const gchar *addr;
+
+			addr = e_destination_get_address (recipients[ii]);
+			if (addr == NULL || *addr == '\0')
+				continue;
+
+			num_to_cc++;
+		}
+
+		e_destination_freev (recipients);
+	}
+
 	recipients = e_composer_header_table_get_destinations (table);
 
 	cia = camel_internet_address_new ();
@@ -322,6 +355,34 @@ composer_presend_check_recipients (EMsgComposer *composer,
 
 		g_string_free (invalid_addrs, TRUE);
 	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (num_to_cc >= g_settings_get_int (settings, "composer-many-to-cc-recips-num")) {
+		gchar *num_str;
+
+		g_clear_object (&settings);
+
+		num_str = g_strdup_printf ("%d", num_to_cc);
+
+		if (!e_util_prompt_user (
+			GTK_WINDOW (composer),
+			"org.gnome.evolution.mail",
+			"prompt-on-many-to-cc-recips",
+			"mail:ask-many-to-cc-recips",
+			num_str, NULL)) {
+			GtkAction *action;
+
+			g_free (num_str);
+
+			action = E_COMPOSER_ACTION_VIEW_BCC (composer);
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+
+			goto finished;
+		}
+
+		g_free (num_str);
+	}
+	g_clear_object (&settings);
 
 	if (num > 0 && (num == num_bcc || shown == 0)) {
 		/* this means that the only recipients are Bcc's */

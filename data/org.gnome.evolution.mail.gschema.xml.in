@@ -185,6 +185,11 @@
       <_summary>Number of characters for wrapping</_summary>
       <_description>Will autowrap lines after given number of characters.</_description>
     </key>
+    <key name="composer-many-to-cc-recips-num" type="i">
+      <default>10</default>
+      <_summary>Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from</_summary>
+      <_description>When to ask, when the number of To and CC recipients reaches this value.</_description>
+    </key>
     <key name="composer-toolbar-show-sign-encrypt" type="b">
       <default>false</default>
       <_summary>Whether to always show Sign and Encrypt buttons on the toolbar</_summary>
@@ -485,6 +490,11 @@
       <default>true</default>
       <_summary>Prompt when switching composer mode and the content needs to lose its formatting</_summary>
       <_description>It disables/enables the repeated prompts to warn that you are switching composer mode and the content needs to lose its formatting.</_description>
+    </key>
+    <key name="prompt-on-many-to-cc-recips" type="b">
+      <default>true</default>
+      <_summary>Prompt when sending to many To and CC recipients</_summary>
+      <_description>Enable or disable the prompt when sending to many To and CC recipients. The 'composer-many-to-cc-recips-num' defines the threshold.</_description>
     </key>
     <key name="browser-close-on-reply-policy" enum="org.gnome.evolution.mail.AutomaticActionPolicy">
       <default>'ask'</default>

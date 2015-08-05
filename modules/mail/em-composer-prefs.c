@@ -1145,6 +1145,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->builder, "chkPromptManyToCCRecips");
+	g_settings_bind (
+		settings, "prompt-on-many-to-cc-recips",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->builder, "chkPromptSendInvalidRecip");
 	g_settings_bind (
 		settings, "prompt-on-invalid-recip",
