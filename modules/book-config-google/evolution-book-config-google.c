@@ -89,15 +89,24 @@ static void
 book_config_google_commit_changes (ESourceConfigBackend *backend,
                                    ESource *scratch_source)
 {
+	ESource *collection_source;
+	ESourceConfig *config;
 	ESourceAuthentication *extension;
 	const gchar *extension_name;
 	const gchar *user;
 
+	config = e_source_config_backend_get_config (backend);
+	collection_source = e_source_config_get_collection_source (config);
+
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	e_source_authentication_set_host (extension, "www.google.com");
-	e_source_authentication_set_method (extension, "ClientLogin");
+	if (!collection_source || (
+	    !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_GOA) &&
+	    !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_UOA))) {
+		e_source_authentication_set_host (extension, "www.google.com");
+		e_source_authentication_set_method (extension, "ClientLogin");
+	}
 
 	user = e_source_authentication_get_user (extension);
 	g_return_if_fail (user != NULL);
