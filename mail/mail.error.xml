@@ -42,6 +42,13 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
   </error>
 
+  <error id="ask-many-to-cc-recips" type="warning" default="GTK_RESPONSE_YES">
+    <_primary>Are you sure you want to send a message with {0} To and CC recipients?</_primary>
+    <_secondary>You are trying to send a message to {0} recipients in To and CC fields. This would result in all recipients seeing the email addresses of each other. In some cases this behaviour is undesired, especially if they do not know each other or if privacy is a concern. Consider adding recipients to the BCC field instead.</_secondary>
+    <button response="GTK_RESPONSE_CANCEL" _label="_Cancel"/>
+    <button response="GTK_RESPONSE_YES" _label="_Send"></button>
+  </error>
+
   <error id="ask-send-invalid-recip-one" type="question" default="GTK_RESPONSE_YES">
     <_primary>Are you sure you want to send a message with invalid address?</_primary>
     <_secondary xml:space="preserve">The following recipient was not recognized as a valid mail address:
