@@ -108,6 +108,14 @@ config_data_get_notify_with_tray (void)
 	return g_settings_get_boolean (calendar_settings, "notify-with-tray");
 }
 
+gboolean
+config_data_get_task_reminder_for_completed (void)
+{
+	ensure_inited ();
+
+	return g_settings_get_boolean (calendar_settings, "task-reminder-for-completed");
+}
+
 gint
 config_data_get_default_snooze_minutes (void)
 {

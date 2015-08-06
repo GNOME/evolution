@@ -482,6 +482,17 @@ alarm_trigger_cb (gpointer alarm_id,
 		cqa->parent_client->cal_client, trigger);
 	debug (("Setting Last notification time to %s", e_ctime (&trigger)));
 
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
+		icalproperty_status status = ICAL_STATUS_NONE;
+
+		e_cal_component_get_status (comp, &status);
+
+		if (status == ICAL_STATUS_COMPLETED &&
+		    !config_data_get_task_reminder_for_completed ()) {
+			return;
+		}
+	}
+
 	qa = lookup_queued_alarm (cqa, alarm_id);
 	if (!qa)
 		return;

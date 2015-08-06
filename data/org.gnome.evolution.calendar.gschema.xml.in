@@ -369,6 +369,11 @@
       <_summary>Task preview pane position (vertical)</_summary>
       <_description>Position of the task preview pane when oriented vertically</_description>
     </key>
+    <key name="task-reminder-for-completed" type="b">
+      <default>false</default>
+      <_summary>Show reminders for completed tasks</_summary>
+      <_description>Whether to show reminders for completed tasks. When set to false, reminders for completed tasks are suppressed.</_description>
+    </key>
     <key name="task-overdue-highlight" type="b">
       <default>true</default>
       <_summary>Highlight overdue tasks</_summary>
