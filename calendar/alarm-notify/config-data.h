@@ -34,6 +34,8 @@ icaltimezone *	config_data_get_timezone	(void);
 gboolean	config_data_get_24_hour_format	(void);
 gboolean	config_data_get_notify_with_tray
 						(void);
+gboolean	config_data_get_task_reminder_for_completed
+						(void);
 gint		config_data_get_default_snooze_minutes
 						(void);
 void		config_data_set_last_notification_time
