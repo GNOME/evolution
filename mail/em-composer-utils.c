@@ -131,7 +131,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
 	if (str->len)
 		res = e_util_prompt_user (
 			GTK_WINDOW (composer),
-			"prompt-on-unwanted-html", "org.gnome.evolution.mail",
+			"org.gnome.evolution.mail", "prompt-on-unwanted-html",
 			"mail:ask-send-html", str->str, NULL);
 	else
 		res = TRUE;
