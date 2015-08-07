@@ -11239,6 +11239,7 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 		"  font-size: %dpt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
+		"  -webkit-nbsp-mode: space;"
 		"  -webkit-line-break: after-white-space;\n",
 		pango_font_description_get_family (vw),
 		pango_font_description_get_size (vw) / PANGO_SCALE,
