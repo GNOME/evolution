@@ -113,7 +113,9 @@ void e_migrate_base_dirs (EShell *shell);
 static void
 categories_icon_theme_hack (void)
 {
+	GList *categories, *link;
 	GtkIconTheme *icon_theme;
+	GHashTable *dirnames;
 	const gchar *category_name;
 	gchar *filename;
 	gchar *dirname;
@@ -121,24 +123,38 @@ categories_icon_theme_hack (void)
 	/* XXX Allow the category icons to be referenced as named
 	 *     icons, since GtkAction does not support GdkPixbufs. */
 
+	icon_theme = gtk_icon_theme_get_default ();
+	dirnames = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
 	/* Get the icon file for some default category.  Doesn't matter
 	 * which, so long as it has an icon.  We're just interested in
 	 * the directory components. */
-	category_name = _("Birthday");
-	filename = e_categories_dup_icon_file_for (category_name);
-	g_return_if_fail (filename != NULL && *filename != '\0');
+	categories = e_categories_dup_list ();
 
-	/* Extract the directory components. */
-	dirname = g_path_get_dirname (filename);
-	g_free (filename);
+	for (link = categories; link; link = g_list_next (link)) {
+		category_name = link->data;
 
-	/* Add it to the icon theme's search path.  This relies on
-	 * GtkIconTheme's legacy feature of using image files found
-	 * directly in the search path. */
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_append_search_path (icon_theme, dirname);
+		filename = e_categories_dup_icon_file_for (category_name);
+		if (filename && *filename) {
+			/* Extract the directory components. */
+			dirname = g_path_get_dirname (filename);
 
-	g_free (dirname);
+			if (dirname && !g_hash_table_contains (dirnames, dirname)) {
+				/* Add it to the icon theme's search path.  This relies on
+				 * GtkIconTheme's legacy feature of using image files found
+				 * directly in the search path. */
+				gtk_icon_theme_append_search_path (icon_theme, dirname);
+				g_hash_table_insert (dirnames, dirname, NULL);
+			} else {
+				g_free (dirname);
+			}
+		}
+
+		g_free (filename);
+	}
+
+	g_list_free_full (categories, g_free);
+	g_hash_table_destroy (dirnames);
 }
 
 #ifdef DEVELOPMENT
