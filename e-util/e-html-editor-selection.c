@@ -6627,7 +6627,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 				next_sibling = webkit_dom_node_get_next_sibling (node);
 				/* If the anchor doesn't fit on the line move the inner
 				 * nodes out of it and start to wrap them. */
-				if (anchor_length > length_to_wrap) {
+				if ((line_length + anchor_length) > length_to_wrap) {
 					WebKitDOMNode *inner_node;
 
 					while ((inner_node = webkit_dom_node_get_first_child (node))) {
@@ -6647,22 +6647,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 					continue;
 				}
 
-				if (line_length + anchor_length > length_to_wrap) {
-					if (webkit_dom_node_get_previous_sibling (node)) {
-						element = webkit_dom_document_create_element (
-							document, "BR", NULL);
-						element_add_class (element, "-x-evo-wrap-br");
-						webkit_dom_node_insert_before (
-							webkit_dom_node_get_parent_node (node),
-							WEBKIT_DOM_NODE (element),
-							node,
-							NULL);
-					}
-					line_length = anchor_length;
-					compensated = FALSE;
-				} else
-					line_length += anchor_length;
-
+				line_length += anchor_length;
 				node = next_sibling;
 				continue;
 			}
