@@ -6357,44 +6357,50 @@ e_html_editor_selection_move_caret_into_element (WebKitDOMDocument *document,
 }
 
 static gint
-find_where_to_break_line (WebKitDOMNode *node,
+find_where_to_break_line (WebKitDOMCharacterData *node,
                           gint max_length)
 {
+	gboolean last_break_position_is_dash = FALSE;
 	gchar *str, *text_start;
 	gunichar uc;
-	gint pos = 1;
-	gint last_space = 0;
-	gint ret_val = 0;
+	gint pos = 1, last_break_position = 0, ret_val = 0;
 
-	text_start =  webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (node));
+	text_start = webkit_dom_character_data_get_data (node);
 
 	str = text_start;
 	do {
 		uc = g_utf8_get_char (str);
 		if (!uc) {
-			ret_val = pos <= max_length ? pos : last_space > 0 ? last_space - 1 : 0;
+			ret_val = pos <= max_length ? pos : last_break_position > 0 ? last_break_position - 1 : 0;
 			goto out;
 		}
 
-		if (g_unichar_isspace (uc) || str[0] == '-')
-			last_space = pos;
+		if (g_unichar_isspace (uc) || *str == '-') {
+			if (*str == '-')
+				last_break_position_is_dash = TRUE;
+			else
+				last_break_position_is_dash = FALSE;
+			last_break_position = pos;
+		}
 
-		/* If last_space is zero then the word is longer than max_length
-		 * characters, so continue until we find a space */
-		if ((pos > max_length))
+		if ((pos == max_length))
 			break;
 
-		pos += 1;
+		pos++;
 		str = g_utf8_next_char (str);
 	} while (*str);
 
-	if (last_space != 0)
-		ret_val = last_space - 1;
+	if (last_break_position != 0)
+		ret_val = last_break_position - 1;
  out:
 	g_free (text_start);
 
-	/* No space found, split at max_length. */
-	if (ret_val == 0)
+	/* Always break after the dash character. */
+	if (last_break_position_is_dash)
+		ret_val++;
+
+	/* No character to break at is found, split at max_length. */
+	if (ret_val == 0 && last_break_position == 0)
 		ret_val = max_length;
 
 	return ret_val;
@@ -6748,7 +6754,8 @@ wrap_lines (EHTMLEditorSelection *selection,
 			else {
 				/* Find where we can line-break the node so that it
 				 * effectively fills the rest of current row. */
-				offset = find_where_to_break_line (node, max_length);
+				offset = find_where_to_break_line (
+					WEBKIT_DOM_CHARACTER_DATA (node), max_length);
 			}
 
 			element = webkit_dom_document_create_element (document, "BR", NULL);
