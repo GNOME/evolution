@@ -218,6 +218,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	gboolean store_is_local;
 	const gchar *display_name;
 	const gchar *full_name;
+	gchar *full_display_name;
 	CamelFolderInfoFlags flags = 0;
 	gboolean have_flags;
 
@@ -226,6 +227,7 @@ e_mail_reader_delete_folder (EMailReader *reader,
 
 	full_name = camel_folder_get_full_name (folder);
 	display_name = camel_folder_get_display_name (folder);
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 	parent_store = camel_folder_get_parent_store (folder);
 	provider = camel_service_get_provider (CAMEL_SERVICE (parent_store));
 
@@ -241,17 +243,18 @@ e_mail_reader_delete_folder (EMailReader *reader,
 		mail_reader_is_special_local_folder (full_name)) {
 		e_alert_submit (
 			alert_sink, "mail:no-delete-special-folder",
-			display_name, NULL);
+			full_display_name ? full_display_name : display_name, NULL);
+		g_free (full_display_name);
 		return;
 	}
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	if (!store_is_local && !e_shell_get_online (shell))
-	{
+	if (!store_is_local && !e_shell_get_online (shell)) {
 		e_alert_submit (
 			alert_sink, "mail:online-operation",
-			display_name, NULL);
+			full_display_name ? full_display_name : display_name, NULL);
+		g_free (full_display_name);
 		return;
 	}
 
@@ -261,7 +264,8 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	if (have_flags && (flags & CAMEL_FOLDER_SYSTEM)) {
 		e_alert_submit (
 			alert_sink, "mail:no-delete-special-folder",
-			display_name, NULL);
+			full_display_name ? full_display_name : display_name, NULL);
+		g_free (full_display_name);
 		return;
 	}
 
@@ -269,20 +273,20 @@ e_mail_reader_delete_folder (EMailReader *reader,
 		if (CAMEL_IS_VEE_STORE (parent_store))
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-vfolder",
-				display_name, NULL);
+				full_display_name ? full_display_name : display_name, NULL);
 		else
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-folder",
-				display_name, NULL);
+				full_display_name ? full_display_name : display_name, NULL);
 	} else {
 		if (CAMEL_IS_VEE_STORE (parent_store))
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-vfolder-nochild",
-				display_name, NULL);
+				full_display_name ? full_display_name : display_name, NULL);
 		else
 			dialog = e_alert_dialog_new_for_args (
 				parent, "mail:ask-delete-folder-nochild",
-				display_name, NULL);
+				full_display_name ? full_display_name : display_name, NULL);
 	}
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
@@ -316,6 +320,8 @@ e_mail_reader_delete_folder (EMailReader *reader,
 	} else {
 		gtk_widget_destroy (dialog);
 	}
+
+	g_free (full_display_name);
 }
 
 static void
@@ -416,10 +422,16 @@ mail_reader_expunge_folder_cb (GObject *source_object,
 		g_error_free (local_error);
 
 	} else if (local_error != NULL) {
+		gchar *full_display_name;
+
+		full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+
 		e_alert_submit (
 			alert_sink, "mail:no-expunge-folder",
-			camel_folder_get_display_name (folder),
+			full_display_name ? full_display_name : camel_folder_get_display_name (folder),
 			local_error->message, NULL);
+
+		g_free (full_display_name);
 		g_error_free (local_error);
 
 	} else {
@@ -435,6 +447,7 @@ e_mail_reader_expunge_folder (EMailReader *reader,
 {
 	GtkWindow *window;
 	const gchar *display_name;
+	gchar *full_display_name;
 	gboolean proceed;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -442,10 +455,13 @@ e_mail_reader_expunge_folder (EMailReader *reader,
 
 	window = e_mail_reader_get_window (reader);
 	display_name = camel_folder_get_display_name (folder);
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 
 	proceed = e_util_prompt_user (
 		window, "org.gnome.evolution.mail", "prompt-on-expunge",
-		"mail:ask-expunge", display_name, NULL);
+		"mail:ask-expunge", full_display_name ? full_display_name : display_name, NULL);
+
+	g_free (full_display_name);
 
 	if (proceed) {
 		EActivity *activity;
@@ -548,9 +564,17 @@ struct _process_autoarchive_msg {
 static gchar *
 process_autoarchive_desc (struct _process_autoarchive_msg *m)
 {
-	return g_strdup_printf (
+	gchar *desc, *full_display_name;
+
+	full_display_name = e_mail_folder_to_full_display_name (m->async_context->folder, NULL);
+
+	desc = g_strdup_printf (
 		_("Refreshing folder '%s'"),
-		camel_folder_get_display_name (m->async_context->folder));
+		full_display_name ? full_display_name : camel_folder_get_display_name (m->async_context->folder));
+
+	g_free (full_display_name);
+
+	return desc;
 }
 
 static void
@@ -580,10 +604,16 @@ process_autoarchive_done (struct _process_autoarchive_msg *m)
 
 	if (e_activity_handle_cancellation (activity, m->base.error)) {
 	} else if (m->base.error != NULL) {
+		gchar *full_display_name;
+
+		full_display_name = e_mail_folder_to_full_display_name (m->async_context->folder, NULL);
+
 		e_alert_submit (
 			alert_sink, "mail:no-refresh-folder",
-			camel_folder_get_display_name (m->async_context->folder),
+			full_display_name ? full_display_name : camel_folder_get_display_name (m->async_context->folder),
 			m->base.error->message, NULL);
+
+		g_free (full_display_name);
 	} else {
 		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 	}
@@ -628,10 +658,16 @@ mail_reader_refresh_folder_cb (GObject *source_object,
 		g_error_free (local_error);
 
 	} else if (local_error != NULL) {
+		gchar *full_display_name;
+
+		full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+
 		e_alert_submit (
 			alert_sink, "mail:no-refresh-folder",
-			camel_folder_get_display_name (folder),
+			full_display_name ? full_display_name : camel_folder_get_display_name (folder),
 			local_error->message, NULL);
+
+		g_free (full_display_name);
 		g_error_free (local_error);
 
 	} else {
@@ -705,10 +741,18 @@ mail_reader_refresh_folder_name_cb (GObject *source_object,
 		g_error_free (local_error);
 
 	} else if (local_error != NULL) {
+		gchar *full_display_name;
+
+		full_display_name = g_strdup_printf ("%s : %s",
+			camel_service_get_display_name (CAMEL_SERVICE (source_object)),
+			async_context->folder_name);
+
 		e_alert_submit (
 			alert_sink, "mail:no-refresh-folder",
-			async_context->folder_name,
+			full_display_name,
 			local_error->message, NULL);
+
+		g_free (full_display_name);
 		g_error_free (local_error);
 
 	} else {
@@ -1552,6 +1596,7 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 	GHashTable *duplicates;
 	GtkWindow *parent_window;
 	guint n_duplicates;
+	gchar *full_display_name;
 	AsyncContext *async_context;
 	GError *local_error = NULL;
 
@@ -1592,12 +1637,13 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 	g_clear_object (&async_context->activity);
 
 	n_duplicates = g_hash_table_size (duplicates);
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 
 	if (n_duplicates == 0) {
 		e_util_prompt_user (
 			parent_window, "org.gnome.evolution.mail", NULL,
 			"mail:info-no-remove-duplicates",
-			camel_folder_get_display_name (folder), NULL);
+			full_display_name ? full_display_name : camel_folder_get_display_name (folder), NULL);
 	} else {
 		gchar *confirmation;
 		gboolean proceed;
@@ -1610,7 +1656,7 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 			"Folder '%s' contains %u duplicate messages. "
 			"Are you sure you want to delete them?",
 			n_duplicates),
-			camel_folder_get_display_name (folder),
+			full_display_name ? full_display_name : camel_folder_get_display_name (folder),
 			n_duplicates);
 
 		proceed = e_util_prompt_user (
@@ -1637,6 +1683,7 @@ mail_reader_remove_duplicates_cb (GObject *source_object,
 	}
 
 	g_hash_table_destroy (duplicates);
+	g_free (full_display_name);
 
 	async_context_free (async_context);
 }

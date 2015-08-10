@@ -173,6 +173,9 @@ gchar *		e_mail_folder_uri_from_folder	(CamelFolder *folder);
 gchar *		e_mail_folder_uri_to_markup	(CamelSession *session,
 						 const gchar *folder_uri,
 						 GError **error);
+gchar *		e_mail_folder_to_full_display_name
+						(CamelFolder *folder,
+						 GError **error);
 
 G_END_DECLS
 
