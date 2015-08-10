@@ -101,6 +101,7 @@ e_mail_folder_append_message_sync (CamelFolder *folder,
                                    GError **error)
 {
 	CamelMedium *medium;
+	gchar *full_display_name;
 	gboolean success;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
@@ -108,10 +109,12 @@ e_mail_folder_append_message_sync (CamelFolder *folder,
 
 	medium = CAMEL_MEDIUM (message);
 
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 	camel_operation_push_message (
 		cancellable,
 		_("Saving message to folder '%s'"),
-		camel_folder_get_display_name (folder));
+		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
+	g_free (full_display_name);
 
 	if (camel_medium_get_header (medium, "X-Mailer") == NULL)
 		camel_medium_set_header (medium, "X-Mailer", X_MAILER);
@@ -1130,9 +1133,8 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	CamelFolderInfo *to_remove;
 	CamelFolderInfo *next = NULL;
 	CamelStore *parent_store;
-	const gchar *display_name;
 	const gchar *full_name;
-	const gchar *message;
+	gchar *full_display_name;
 	gboolean success = TRUE;
 	GCancellable *transparent_cancellable = NULL;
 	gulong cbid = 0;
@@ -1142,9 +1144,10 @@ e_mail_folder_remove_sync (CamelFolder *folder,
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
-	message = _("Removing folder '%s'");
-	display_name = camel_folder_get_display_name (folder);
-	camel_operation_push_message (cancellable, message, display_name);
+	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+	camel_operation_push_message (cancellable, _("Removing folder '%s'"),
+		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
+	g_free (full_display_name);
 
 	if (cancellable) {
 		transparent_cancellable = g_cancellable_new ();
@@ -2071,4 +2074,63 @@ e_mail_folder_uri_to_markup (CamelSession *session,
 	g_free (folder_name);
 
 	return markup;
+}
+
+/**
+ * e_mail_folder_to_full_display_name:
+ * @folder: a #CamelFolder
+ * @error: return location for a #GError, or %NULL
+ *
+ * Returns similar description as e_mail_folder_uri_to_markup(), only without markup
+ * and rather for a @folder, than for a folder URI. Returned pointer should be freed
+ * with g_free() when no longer needed.
+ *
+ * Returns: a newly-allocated string, or %NULL
+ *
+ * Since: 3.18
+ **/
+gchar *
+e_mail_folder_to_full_display_name (CamelFolder *folder,
+				    GError **error)
+{
+	CamelSession *session;
+	CamelStore *store;
+	gchar *folder_uri, *full_display_name = NULL, *folder_name = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+	if (!folder_uri)
+		return NULL;
+
+	store = camel_folder_get_parent_store (folder);
+	if (!store) {
+		g_warn_if_reached ();
+		g_free (folder_uri);
+
+		return NULL;
+	}
+
+	session = camel_service_ref_session (CAMEL_SERVICE (store));
+	if (!session) {
+		g_warn_if_reached ();
+		g_free (folder_uri);
+
+		return NULL;
+	}
+
+	if (e_mail_folder_uri_parse (session, folder_uri, NULL, &folder_name, error)) {
+		const gchar *service_display_name;
+
+		service_display_name = camel_service_get_display_name (CAMEL_SERVICE (store));
+
+		full_display_name = g_strdup_printf ("%s : %s", service_display_name, folder_name);
+
+		g_free (folder_name);
+	}
+
+	g_clear_object (&session);
+	g_free (folder_uri);
+
+	return full_display_name;
 }

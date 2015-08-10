@@ -518,7 +518,7 @@ report_error_to_ui (CamelService *service,
 		return;
 
 	if (folder_name) {
-		tmp = g_strdup_printf ("%s: %s",
+		tmp = g_strdup_printf ("%s : %s",
 			camel_service_get_display_name (service),
 			folder_name);
 		display_name = tmp;

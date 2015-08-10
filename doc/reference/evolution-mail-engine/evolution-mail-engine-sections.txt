@@ -226,6 +226,7 @@ e_mail_folder_uri_parse
 e_mail_folder_uri_equal
 e_mail_folder_uri_from_folder
 e_mail_folder_uri_to_markup
+e_mail_folder_to_full_display_name
 </SECTION>
 
 <SECTION>
