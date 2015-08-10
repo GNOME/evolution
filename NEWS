@@ -1,3 +1,32 @@
+Evolution 3.16.5 2015-08-10
+---------------------------
+
+Bug Fixes:
+	Bug 724017 - Crash in e_addressbook_view_delete_selection() (Milan Crha)
+	Bug 746276 - e_client_cache_get_client_sync() gets stuck (Milan Crha)
+	Bug 751225 - Spell check selection changes font settings to initial settings (Tomas Popela)
+	Bug 752637 - Delete single instance of recurring event deletes all instances (Milan Crha)
+	Bug 753029 - Correct "Security Information" dialog size requests (Milan Crha)
+	Bug 752997 - Crash when replying to the message (Tomas Popela)
+	Bug 753059 - Crash in spell check dialog when clicking replace buttons with no suggestion selected (Tomas Popela)
+	Bug 752994 - Google authentication method overwritten for GOA books (Milan Crha)
+	Bug 347846 - GalA11yETableColumnHeader: implement AtkComponent (Mike Gorse)
+
+Miscellaneous:
+	EHTMLEditorSelection - Copy&pasting quoted content in plain text composer preserves formatting (Tomas Popela)
+	EHTMLEditorSelection - Wrapping of a block can leave the block unwrapped (Tomas Popela)
+	EHTMLEditorSelection - Wrong block format detected in HTML mode (Tomas Popela)
+	EHTMLEditorSelection - Warning emitted when going through element with font size set in increment (Tomas Popela)
+	EHTMLEditorView - Pasting content from message source into plain text composer preserves formatting (Tomas Popela)
+	EHTMLEditorView - Undoing the 'Wrap Lines' action doesn't work (Tomas Popela)
+	EHTMLEditorView - Lines of text appended after the signature are sent on one line (Tomas Popela)
+	EHTMLEditorView - Don't try to wrap the already wrapped blocks (Tomas Popela)
+	Do not create Contacts source for GMail accounts (Milan Crha)
+	All-day event covers two days in the mini-calendar (Milan Crha)
+	EBufferTagger::markup_text: Use character offset when tagging links (Milan Crha)
+	Do not install tests as writable and executable for everyone (Milan Crha)
+	Correct categories_icon_theme_hack() function (Milan Crha)
+
 Evolution 3.16.4 2015-07-13
 ---------------------------
 
