@@ -178,6 +178,59 @@ atk_action_interface_init (AtkActionIface *iface)
 	iface->get_name = gal_a11y_e_table_column_header_action_get_name;
 }
 
+/* Component IFace */
+static void
+gal_a11y_e_table_column_header_get_extents (AtkComponent *component,
+                                            gint *x,
+                                            gint *y,
+                                            gint *width,
+                                            gint *height,
+                                            AtkCoordType coord_type)
+{
+	GalA11yETableColumnHeader *a11y = GAL_A11Y_E_TABLE_COLUMN_HEADER (component);
+	GtkWidget *table_or_tree;
+	gint row;
+	gint col;
+	gint xval;
+	ETableCol *ecol = E_TABLE_COL (etch_a11y_get_gobject (ATK_GOBJECT_ACCESSIBLE (a11y)));
+	gint yval;
+
+	g_return_if_fail (ecol != NULL);
+	g_return_if_fail (a11y != NULL);
+
+	row = 0;
+	col = ecol->spec->model_col;
+
+	table_or_tree = gtk_widget_get_parent (GTK_WIDGET (GET_PRIVATE (a11y)->item->parent.canvas));
+	if (E_IS_TREE (table_or_tree)) {
+		e_tree_get_cell_geometry (
+			E_TREE (table_or_tree),
+			row, col, &xval, &yval,
+			width, height);
+	} else {
+		e_table_get_cell_geometry (
+			E_TABLE (table_or_tree),
+			row, col, &xval, &yval,
+			width, height);
+	}
+
+	atk_component_get_position (
+		ATK_COMPONENT (atk_object_get_parent (ATK_OBJECT (a11y))),
+		x, y, coord_type);
+
+	if (x && *x != G_MININT)
+		*x += xval;
+	if (y && *y != G_MININT)
+		*y += yval;
+}
+static void
+atk_component_interface_init (AtkComponentIface *iface)
+{
+	g_return_if_fail (iface != NULL);
+
+	iface->get_extents = gal_a11y_e_table_column_header_get_extents;
+}
+
 GType
 gal_a11y_e_table_column_header_get_type (void)
 {
@@ -201,6 +254,11 @@ gal_a11y_e_table_column_header_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
+		static const GInterfaceInfo atk_component_info = {
+			(GInterfaceInitFunc) atk_component_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
 
 		type = gal_a11y_type_register_static_with_private (
 			PARENT_TYPE, "GalA11yETableColumnHeader", &info, 0,
@@ -208,6 +266,8 @@ gal_a11y_e_table_column_header_get_type (void)
 
 		g_type_add_interface_static (
 			type, ATK_TYPE_ACTION, &atk_action_info);
+		g_type_add_interface_static (
+			type, ATK_TYPE_COMPONENT, &atk_component_info);
 	}
 
 	return type;
