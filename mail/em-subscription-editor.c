@@ -1316,6 +1316,41 @@ subscription_editor_selection_changed_cb (GtkTreeSelection *selection,
 }
 
 static void
+em_subscription_editor_get_unread_total_text_cb (GtkTreeViewColumn *tree_column,
+						 GtkCellRenderer *cell,
+						 GtkTreeModel *tree_model,
+						 GtkTreeIter *iter,
+						 gpointer user_data)
+{
+	CamelFolderInfo *folder_info = NULL;
+	GString *text = NULL;
+
+	g_return_if_fail (GTK_IS_CELL_RENDERER_TEXT (cell));
+	g_return_if_fail (GTK_IS_TREE_MODEL (tree_model));
+	g_return_if_fail (iter != NULL);
+
+	gtk_tree_model_get (tree_model, iter, COL_FOLDER_INFO, &folder_info, -1);
+
+	if (folder_info && folder_info->total > 0 && folder_info->unread >= 0 && folder_info->unread <= folder_info->total) {
+		text = g_string_new ("");
+
+		if (folder_info->unread > 0)
+			g_string_append_printf (
+				text, ngettext ("%d unread, ",
+				"%d unread, ", folder_info->unread), folder_info->unread);
+
+		g_string_append_printf (
+			text, ngettext ("%d total", "%d total",
+			folder_info->total), folder_info->total);
+	}
+
+	g_object_set (G_OBJECT (cell), "text", text ? text->str : NULL, NULL);
+
+	if (text)
+		g_string_free (text, TRUE);
+}
+
+static void
 subscription_editor_add_store (EMSubscriptionEditor *editor,
                                CamelStore *store)
 {
@@ -1405,6 +1440,14 @@ subscription_editor_add_store (EMSubscriptionEditor *editor,
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "text", COL_FOLDER_NAME);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_append_column (GTK_TREE_VIEW (widget), column);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func (column, renderer,
+		em_subscription_editor_get_unread_total_text_cb, NULL, NULL);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
 
