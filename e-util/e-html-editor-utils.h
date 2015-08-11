@@ -25,6 +25,8 @@
 #ifndef E_HTML_EDITOR_UTILS_H
 #define E_HTML_EDITOR_UTILS_H
 
+#include <e-util/e-util-enums.h>
+
 #include <webkit/webkitdom.h>
 
 G_BEGIN_DECLS
@@ -64,6 +66,41 @@ void		remove_node			(WebKitDOMNode *node);
 
 void		remove_node_if_empty		(WebKitDOMNode *node);
 
+WebKitDOMNode *	split_list_into_two		(WebKitDOMNode *item);
+
+WebKitDOMElement *
+		create_selection_marker		(WebKitDOMDocument *document,
+						 gboolean start);
+
+void		add_selection_markers_into_element_start
+						(WebKitDOMDocument *document,
+						 WebKitDOMElement *element,
+						 WebKitDOMElement **selection_start_marker,
+						 WebKitDOMElement **selection_end_marker);
+
+void		add_selection_markers_into_element_end
+						(WebKitDOMDocument *document,
+						 WebKitDOMElement *element,
+						 WebKitDOMElement **selection_start_marker,
+						 WebKitDOMElement **selection_end_marker);
+
+void		remove_selection_markers	(WebKitDOMDocument *document);
+
+gboolean	node_is_list			(WebKitDOMNode *node);
+
+gboolean	node_is_list_or_item		(WebKitDOMNode *node);
+
+EHTMLEditorSelectionBlockFormat
+		get_list_format_from_node	(WebKitDOMNode *node);
+
+void		merge_list_into_list		(WebKitDOMNode *from,
+						 WebKitDOMNode *to,
+						 gboolean insert_before);
+
+void		merge_lists_if_possible		(WebKitDOMNode *list);
+
+WebKitDOMElement *
+		get_parent_block_element	(WebKitDOMNode *node);
 G_END_DECLS
 
 #endif /* E_HTML_EDITOR_UTILS_H */

@@ -242,9 +242,6 @@ void		e_html_editor_selection_extend	(EHTMLEditorSelection *selection,
 						 EHTMLEditorSelectionGranularity granularity);
 void		e_html_editor_selection_scroll_to_caret
 						(EHTMLEditorSelection *selection);
-EHTMLEditorSelectionBlockFormat
-		e_html_editor_selection_get_list_format_from_node
-						(WebKitDOMNode *node);
 EHTMLEditorSelectionAlignment
 		e_html_editor_selection_get_list_alignment_from_node
 						(WebKitDOMNode *node);

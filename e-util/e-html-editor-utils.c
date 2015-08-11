@@ -312,3 +312,272 @@ remove_node_if_empty (WebKitDOMNode *node)
 		g_free (text_content);
 	}
 }
+
+WebKitDOMNode *
+split_list_into_two (WebKitDOMNode *item)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMNode *parent, *prev_parent, *tmp;
+
+	document = webkit_dom_node_get_owner_document (item);
+	fragment = webkit_dom_document_create_document_fragment (document);
+
+	tmp = item;
+	parent = webkit_dom_node_get_parent_node (item);
+	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		WebKitDOMNode *clone, *first_child, *insert_before = NULL, *sibling;
+
+		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+		clone = webkit_dom_node_clone_node (parent, FALSE);
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (fragment), clone, first_child, NULL);
+
+		if (first_child)
+			insert_before = webkit_dom_node_get_first_child (first_child);
+
+		while (first_child && (sibling = webkit_dom_node_get_next_sibling (first_child)))
+			webkit_dom_node_insert_before (first_child, sibling, insert_before, NULL);
+
+		while ((sibling = webkit_dom_node_get_next_sibling (tmp)))
+			webkit_dom_node_append_child (clone, sibling, NULL);
+
+		webkit_dom_node_insert_before (
+			clone, tmp, webkit_dom_node_get_first_child (clone), NULL);
+
+		prev_parent = parent;
+		tmp = webkit_dom_node_get_next_sibling (parent);
+		parent = webkit_dom_node_get_parent_node (parent);
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+			first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+			insert_before = webkit_dom_node_get_first_child (first_child);
+			while (first_child && (sibling = webkit_dom_node_get_next_sibling (first_child))) {
+				webkit_dom_node_insert_before (
+					first_child, sibling, insert_before, NULL);
+			}
+		}
+	}
+
+	tmp = webkit_dom_node_insert_before (
+		parent,
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+		webkit_dom_node_get_next_sibling (prev_parent),
+		NULL);
+	remove_node_if_empty (prev_parent);
+
+	return tmp;
+}
+
+WebKitDOMElement *
+create_selection_marker (WebKitDOMDocument *document,
+                         gboolean start)
+{
+	WebKitDOMElement *element;
+
+	element = webkit_dom_document_create_element (
+		document, "SPAN", NULL);
+	webkit_dom_element_set_id (
+		element,
+		start ? "-x-evo-selection-start-marker" :
+			"-x-evo-selection-end-marker");
+
+	return element;
+}
+
+void
+remove_selection_markers (WebKitDOMDocument *document)
+{
+	WebKitDOMElement *marker;
+
+	marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+	marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
+}
+
+void
+add_selection_markers_into_element_start (WebKitDOMDocument *document,
+                                          WebKitDOMElement *element,
+                                          WebKitDOMElement **selection_start_marker,
+                                          WebKitDOMElement **selection_end_marker)
+{
+	WebKitDOMElement *marker;
+
+	remove_selection_markers (document);
+	marker = create_selection_marker (document, FALSE);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (marker),
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+		NULL);
+	if (selection_end_marker)
+		*selection_end_marker = marker;
+
+	marker = create_selection_marker (document, TRUE);
+	webkit_dom_node_insert_before (
+		WEBKIT_DOM_NODE (element),
+		WEBKIT_DOM_NODE (marker),
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
+		NULL);
+	if (selection_start_marker)
+		*selection_start_marker = marker;
+}
+
+void
+add_selection_markers_into_element_end (WebKitDOMDocument *document,
+                                        WebKitDOMElement *element,
+                                        WebKitDOMElement **selection_start_marker,
+                                        WebKitDOMElement **selection_end_marker)
+{
+	WebKitDOMElement *marker;
+
+	remove_selection_markers (document);
+	marker = create_selection_marker (document, TRUE);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (marker), NULL);
+	if (selection_start_marker)
+		*selection_start_marker = marker;
+
+	marker = create_selection_marker (document, FALSE);
+	webkit_dom_node_append_child (
+		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (marker), NULL);
+	if (selection_end_marker)
+		*selection_end_marker = marker;
+}
+
+gboolean
+node_is_list (WebKitDOMNode *node)
+{
+	return node && (
+		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node));
+}
+
+gboolean
+node_is_list_or_item (WebKitDOMNode *node)
+{
+	return node && (node_is_list (node) || WEBKIT_DOM_IS_HTMLLI_ELEMENT (node));
+}
+/**
+ * get_list_format_from_node:
+ * @node: an #WebKitDOMNode
+ *
+ * Returns block format of given list.
+ *
+ * Returns: #EHTMLEditorSelectionBlockFormat
+ */
+EHTMLEditorSelectionBlockFormat
+get_list_format_from_node (WebKitDOMNode *node)
+{
+	EHTMLEditorSelectionBlockFormat format =
+		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_UNORDERED_LIST;
+
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (node))
+		return -1;
+
+	if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node))
+		return format;
+
+	if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node)) {
+		gchar *type_value = webkit_dom_element_get_attribute (
+			WEBKIT_DOM_ELEMENT (node), "type");
+
+		if (!type_value)
+			return E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+
+		if (!*type_value)
+			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST;
+		else if (g_ascii_strcasecmp (type_value, "A") == 0)
+			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ALPHA;
+		else if (g_ascii_strcasecmp (type_value, "I") == 0)
+			format = E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_ORDERED_LIST_ROMAN;
+		g_free (type_value);
+
+		return format;
+	}
+
+	return -1;
+}
+
+void
+merge_list_into_list (WebKitDOMNode *from,
+                      WebKitDOMNode *to,
+                      gboolean insert_before)
+{
+	WebKitDOMNode *item, *insert_before_node;
+
+	if (!(to && from))
+		return;
+
+	insert_before_node = webkit_dom_node_get_first_child (to);
+	while ((item = webkit_dom_node_get_first_child (from)) != NULL) {
+		if (insert_before)
+			webkit_dom_node_insert_before (
+				to, item, insert_before_node, NULL);
+		else
+			webkit_dom_node_append_child (to, item, NULL);
+	}
+
+	if (!webkit_dom_node_get_first_child (from))
+		remove_node (from);
+}
+
+void
+merge_lists_if_possible (WebKitDOMNode *list)
+{
+	EHTMLEditorSelectionBlockFormat format, prev, next;
+	gint ii, length;
+	WebKitDOMNode *prev_sibling, *next_sibling;
+	WebKitDOMNodeList *lists;
+
+	prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (list));
+	next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (list));
+
+	format = get_list_format_from_node (list),
+	prev = get_list_format_from_node (prev_sibling);
+	next = get_list_format_from_node (next_sibling);
+
+	if (format == prev && format != -1 && prev != -1)
+		merge_list_into_list (prev_sibling, list, TRUE);
+
+	if (format == next && format != -1 && next != -1)
+		merge_list_into_list (next_sibling, list, FALSE);
+
+	lists = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (list), "ol + ol, ul + ul", NULL);
+	length = webkit_dom_node_list_get_length (lists);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (lists, ii);
+		merge_lists_if_possible (node);
+	}
+}
+
+WebKitDOMElement *
+get_parent_block_element (WebKitDOMNode *node)
+{
+	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
+
+	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
+		return WEBKIT_DOM_ELEMENT (node);
+
+	while (parent &&
+	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (parent) &&
+	       !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent) &&
+	       !element_has_tag (parent, "address")) {
+		parent = webkit_dom_node_get_parent_element (
+			WEBKIT_DOM_NODE (parent));
+	}
+
+	return parent;
+}

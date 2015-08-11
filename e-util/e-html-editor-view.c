@@ -469,30 +469,6 @@ html_editor_view_should_show_delete_interface_for_element (EHTMLEditorView *view
 	return FALSE;
 }
 
-WebKitDOMElement *
-get_parent_block_element (WebKitDOMNode *node)
-{
-	WebKitDOMElement *parent = webkit_dom_node_get_parent_element (node);
-
-	if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))
-		return WEBKIT_DOM_ELEMENT (node);
-
-	while (parent &&
-	       !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_PRE_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_HEADING_ELEMENT (parent) &&
-	       !WEBKIT_DOM_IS_HTML_TABLE_CELL_ELEMENT (parent) &&
-	       !element_has_tag (parent, "address")) {
-		parent = webkit_dom_node_get_parent_element (
-			WEBKIT_DOM_NODE (parent));
-	}
-
-	return parent;
-}
-
 static void
 perform_spell_check (WebKitDOMDOMSelection *dom_selection,
                      WebKitDOMRange *start_range,
@@ -597,87 +573,6 @@ e_html_editor_view_force_spell_check_for_current_paragraph (EHTMLEditorView *vie
 	unblock_selection_changed_callbacks (view);
 
 	e_html_editor_selection_restore (selection);
-}
-
-static WebKitDOMElement *
-create_selection_marker (WebKitDOMDocument *document,
-                         gboolean start)
-{
-	WebKitDOMElement *element;
-
-	element = webkit_dom_document_create_element (
-		document, "SPAN", NULL);
-	webkit_dom_element_set_id (
-		element,
-		start ? "-x-evo-selection-start-marker" :
-			"-x-evo-selection-end-marker");
-
-	return element;
-}
-
-static void
-remove_selection_markers (WebKitDOMDocument *document)
-{
-	WebKitDOMElement *marker;
-
-	marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-start-marker");
-	if (marker)
-		remove_node (WEBKIT_DOM_NODE (marker));
-	marker = webkit_dom_document_get_element_by_id (
-		document, "-x-evo-selection-end-marker");
-	if (marker)
-		remove_node (WEBKIT_DOM_NODE (marker));
-}
-
-static void
-add_selection_markers_into_element_start (WebKitDOMDocument *document,
-                                          WebKitDOMElement *element,
-                                          WebKitDOMElement **selection_start_marker,
-                                          WebKitDOMElement **selection_end_marker)
-{
-	WebKitDOMElement *marker;
-
-	remove_selection_markers (document);
-	marker = create_selection_marker (document, FALSE);
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (marker),
-		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
-		NULL);
-	if (selection_end_marker)
-		*selection_end_marker = marker;
-
-	marker = create_selection_marker (document, TRUE);
-	webkit_dom_node_insert_before (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (marker),
-		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element)),
-		NULL);
-	if (selection_start_marker)
-		*selection_start_marker = marker;
-}
-
-static void
-add_selection_markers_into_element_end (WebKitDOMDocument *document,
-                                        WebKitDOMElement *element,
-                                        WebKitDOMElement **selection_start_marker,
-                                        WebKitDOMElement **selection_end_marker)
-{
-	WebKitDOMElement *marker;
-
-	remove_selection_markers (document);
-	marker = create_selection_marker (document, TRUE);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (marker), NULL);
-	if (selection_start_marker)
-		*selection_start_marker = marker;
-
-	marker = create_selection_marker (document, FALSE);
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element), WEBKIT_DOM_NODE (marker), NULL);
-	if (selection_end_marker)
-		*selection_end_marker = marker;
 }
 
 static void
@@ -4920,6 +4815,102 @@ insert_tabulator (EHTMLEditorView *view)
 }
 
 static gboolean
+return_pressed_in_empty_list_item (EHTMLEditorView *view,
+                                   gboolean save_history)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *parent, *node;
+
+	selection = e_html_editor_view_get_selection (view);
+	if (!e_html_editor_selection_is_collapsed (selection))
+		return FALSE;
+
+	e_html_editor_selection_save (selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent)) {
+		e_html_editor_selection_restore (selection);
+		return FALSE;
+	}
+
+	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
+	/* Check if return was pressed inside an empty list item. */
+	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+	    (!node || (node && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node) && !webkit_dom_node_get_next_sibling (node)))) {
+		EHTMLEditorViewHistoryEvent *ev;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMElement *paragraph;
+		WebKitDOMNode *list;
+
+		if (save_history) {
+			/* Insert new history event for Return to have the right coordinates.
+			 * The fragment will be added later. */
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_INPUT;
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+		}
+
+		list = split_list_into_two (parent);
+
+		if (save_history) {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				parent,
+				NULL);
+		} else {
+			remove_node (parent);
+		}
+
+		paragraph = prepare_paragraph (selection, document, TRUE);
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (list),
+			WEBKIT_DOM_NODE (paragraph),
+			list,
+			NULL);
+
+		e_html_editor_selection_restore (selection);
+
+		if (save_history) {
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+
+			ev->data.fragment = fragment;
+
+			e_html_editor_view_insert_new_history_event (view, ev);
+		}
+
+		e_html_editor_view_set_changed (view, TRUE);
+
+		return TRUE;
+	}
+
+	e_html_editor_selection_restore (selection);
+
+	return FALSE;
+}
+
+static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
@@ -4990,6 +4981,11 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			remove_input_event_listener_from_body (view);
 			return split_citation (view);
 		}
+
+		/* If the ENTER key is pressed inside an empty list item then the list
+		 * is broken into two and empty paragraph is inserted between lists. */
+		if (return_pressed_in_empty_list_item (view, TRUE))
+			return TRUE;
 	}
 
 	if (event->keyval == GDK_KEY_BackSpace) {
@@ -8092,8 +8088,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 	gint word_wrap_length = e_html_editor_selection_get_word_wrap_length (
 		e_html_editor_view_get_selection (view));
 
-	format = e_html_editor_selection_get_list_format_from_node (
-		WEBKIT_DOM_NODE (element));
+	format = get_list_format_from_node (WEBKIT_DOM_NODE (element));
 
 	/* Process list items to plain text */
 	item = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
@@ -8296,8 +8291,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 
 			g_free (item_str);
 			g_string_free (item_value, TRUE);
-		} else if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (item) ||
-			   WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (item)) {
+		} else if (node_is_list (item)) {
 			process_list_to_plain_text (
 				view, WEBKIT_DOM_ELEMENT (item), level + 1, output);
 			item = webkit_dom_node_get_next_sibling (item);
@@ -8536,8 +8530,7 @@ process_elements (EHTMLEditorView *view,
 		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
 			process_blockquote (WEBKIT_DOM_ELEMENT (child));
 
-		if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (child) ||
-		    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (child)) {
+		if (node_is_list (child)) {
 			if (to_plain_text) {
 				if (changing_mode) {
 					content = webkit_dom_html_element_get_outer_html (
@@ -8934,9 +8927,7 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
 			parent = webkit_dom_node_get_parent_node (node);
 			/* If the paragraph is inside indented paragraph don't set
 			 * the style as it will be inherited */
-			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) &&
-			    (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
-			     WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node))) {
+			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) && node_is_list (node)) {
 				gint offset;
 
 				offset = WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node) ?
@@ -9259,8 +9250,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 		paragraph = webkit_dom_node_list_item (paragraphs, ii);
 
-		if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (paragraph) ||
-		    WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (paragraph)) {
+		if (node_is_list (paragraph)) {
 			WebKitDOMNode *item = webkit_dom_node_get_first_child (paragraph);
 
 			while (item) {
@@ -11792,7 +11782,7 @@ undo_delete (EHTMLEditorView *view,
 
 	/* Redoing Return key press */
 	if (empty) {
-		WebKitDOMNode *node;
+		WebKitDOMNode *node, *tmp_node;
 
 		range = get_range_for_point (document, event->before.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
@@ -11804,7 +11794,17 @@ undo_delete (EHTMLEditorView *view,
 		if (!node)
 			return;
 
-		element = get_parent_block_element (node);
+		tmp_node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment));
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (tmp_node) &&
+		    WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
+			if (return_pressed_in_empty_list_item (view, FALSE))
+				return;
+
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (webkit_dom_node_get_parent_node (node)))
+			element = webkit_dom_node_get_parent_element (node);
+		else
+			element = get_parent_block_element (node);
+
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
 			fragment,
@@ -12947,6 +12947,40 @@ undo_redo_remove_link (EHTMLEditorView *view,
 }
 
 static void
+undo_return_in_empty_list_item (EHTMLEditorView *view,
+                                EHTMLEditorViewHistoryEvent *event)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMNode *parent;
+
+	e_html_editor_selection_save (view->priv->selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent)) {
+		WebKitDOMNode *parent_list;
+
+		remove_selection_markers (document);
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (parent),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+			webkit_dom_node_get_next_sibling (parent),
+			NULL);
+
+		parent_list = parent;
+		while (node_is_list_or_item (webkit_dom_node_get_parent_node (parent_list)))
+			parent_list = webkit_dom_node_get_parent_node (parent_list);
+
+		merge_lists_if_possible (parent_list);
+	}
+
+	e_html_editor_selection_restore (view->priv->selection);
+}
+
+static void
 undo_input (EHTMLEditorView *view,
             EHTMLEditorViewHistoryEvent *event)
 {
@@ -12954,7 +12988,7 @@ undo_input (EHTMLEditorView *view,
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMNode *node;
+	WebKitDOMNode *node, *tmp_node;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	dom_window = webkit_dom_document_get_default_view (document);
@@ -12998,6 +13032,11 @@ undo_input (EHTMLEditorView *view,
 
 		remove_node (node);
 	}
+
+	tmp_node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment));
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (tmp_node) &&
+	    WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
+		undo_return_in_empty_list_item (view, event);
 
 	g_object_unref (dom_window);
 	g_object_unref (dom_selection);

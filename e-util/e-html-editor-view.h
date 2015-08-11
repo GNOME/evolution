@@ -277,8 +277,6 @@ void		e_html_editor_view_set_is_message_from_edit_as_new
 void		e_html_editor_view_insert_quoted_text
 						(EHTMLEditorView *view,
 						 const gchar *text);
-WebKitDOMElement *
-		get_parent_block_element	(WebKitDOMNode *node);
 void		e_html_editor_view_set_link_color
 						(EHTMLEditorView *view,
 						 GdkRGBA *color);
