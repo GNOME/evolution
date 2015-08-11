@@ -44,6 +44,8 @@ struct _ESpellEntryPrivate {
 
 	ESpellChecker *spell_checker;
 	guint active_languages_handler_id;
+
+	gboolean im_in_preedit;
 };
 
 enum {
@@ -711,6 +713,16 @@ spell_entry_active_languages_cb (ESpellChecker *spell_checker,
 }
 
 static void
+spell_entry_preedit_changed_cb (ESpellEntry *spell_entry,
+				const gchar *preedit_text,
+				gpointer user_data)
+{
+	g_return_if_fail (E_IS_SPELL_ENTRY (spell_entry));
+
+	spell_entry->priv->im_in_preedit = preedit_text && *preedit_text;
+}
+
+static void
 spell_entry_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -809,6 +821,8 @@ spell_entry_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_spell_entry_parent_class)->constructed (object);
 
+	g_signal_connect (spell_entry, "preedit-changed", G_CALLBACK (spell_entry_preedit_changed_cb), NULL);
+
 	/* Install a default spell checker if there is not one already. */
 	spell_checker = e_spell_entry_get_spell_checker (spell_entry);
 	if (spell_checker == NULL) {
@@ -825,11 +839,14 @@ spell_entry_draw (GtkWidget *widget,
                   cairo_t *cr)
 {
 	ESpellEntry *spell_entry = E_SPELL_ENTRY (widget);
-	GtkEntry *entry = GTK_ENTRY (widget);
-	PangoLayout *layout;
 
-	layout = gtk_entry_get_layout (entry);
-	pango_layout_set_attributes (layout, spell_entry->priv->attr_list);
+	if (!spell_entry->priv->im_in_preedit) {
+		GtkEntry *entry = GTK_ENTRY (widget);
+		PangoLayout *layout;
+
+		layout = gtk_entry_get_layout (entry);
+		pango_layout_set_attributes (layout, spell_entry->priv->attr_list);
+	}
 
 	/* Chain up to parent's draw() method. */
 	return GTK_WIDGET_CLASS (e_spell_entry_parent_class)->
@@ -898,6 +915,7 @@ e_spell_entry_init (ESpellEntry *spell_entry)
 	spell_entry->priv = E_SPELL_ENTRY_GET_PRIVATE (spell_entry);
 	spell_entry->priv->attr_list = pango_attr_list_new ();
 	spell_entry->priv->checking_enabled = TRUE;
+	spell_entry->priv->im_in_preedit = FALSE;
 
 	g_signal_connect (
 		spell_entry, "popup-menu",
