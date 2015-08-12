@@ -4919,6 +4919,157 @@ insert_tabulator (EHTMLEditorView *view)
 	return success;
 }
 
+static WebKitDOMNode *
+split_list_into_two (WebKitDOMNode *item)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMNode *parent, *prev_parent, *tmp;
+
+	document = webkit_dom_node_get_owner_document (item);
+	fragment = webkit_dom_document_create_document_fragment (document);
+
+	tmp = item;
+	parent = webkit_dom_node_get_parent_node (item);
+	while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+		WebKitDOMNode *clone, *first_child, *insert_before = NULL, *sibling;
+
+		first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+		clone = webkit_dom_node_clone_node (parent, FALSE);
+		webkit_dom_node_insert_before (
+			WEBKIT_DOM_NODE (fragment), clone, first_child, NULL);
+
+		if (first_child)
+			insert_before = webkit_dom_node_get_first_child (first_child);
+
+		while (first_child && (sibling = webkit_dom_node_get_next_sibling (first_child)))
+			webkit_dom_node_insert_before (first_child, sibling, insert_before, NULL);
+
+		while ((sibling = webkit_dom_node_get_next_sibling (tmp)))
+			webkit_dom_node_append_child (clone, sibling, NULL);
+
+		webkit_dom_node_insert_before (
+			clone, tmp, webkit_dom_node_get_first_child (clone), NULL);
+
+		prev_parent = parent;
+		tmp = webkit_dom_node_get_next_sibling (parent);
+		parent = webkit_dom_node_get_parent_node (parent);
+		if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+			first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+			insert_before = webkit_dom_node_get_first_child (first_child);
+			while (first_child && (sibling = webkit_dom_node_get_next_sibling (first_child))) {
+				webkit_dom_node_insert_before (
+					first_child, sibling, insert_before, NULL);
+			}
+		}
+	}
+
+	tmp = webkit_dom_node_insert_before (
+		parent,
+		webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+		webkit_dom_node_get_next_sibling (prev_parent),
+		NULL);
+	remove_node_if_empty (prev_parent);
+
+	return tmp;
+}
+
+static gboolean
+return_pressed_in_empty_list_item (EHTMLEditorView *view,
+                                   gboolean save_history)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *parent, *node;
+
+	selection = e_html_editor_view_get_selection (view);
+	if (!e_html_editor_selection_is_collapsed (selection))
+		return FALSE;
+
+	e_html_editor_selection_save (selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent)) {
+		e_html_editor_selection_restore (selection);
+		return FALSE;
+	}
+
+	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
+	/* Check if return was pressed inside an empty list item. */
+	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+	    (!node || (node && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node) && !webkit_dom_node_get_next_sibling (node)))) {
+		EHTMLEditorViewHistoryEvent *ev;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMElement *paragraph;
+		WebKitDOMNode *list;
+
+		if (save_history) {
+			/* Insert new history event for Return to have the right coordinates.
+			 * The fragment will be added later. */
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_INPUT;
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+		}
+
+		list = split_list_into_two (parent);
+
+		if (save_history) {
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				parent,
+				NULL);
+		} else {
+			remove_node (parent);
+		}
+
+		paragraph = prepare_paragraph (selection, document, TRUE);
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (list),
+			WEBKIT_DOM_NODE (paragraph),
+			list,
+			NULL);
+
+		e_html_editor_selection_restore (selection);
+
+		if (save_history) {
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+
+			ev->data.fragment = fragment;
+
+			e_html_editor_view_insert_new_history_event (view, ev);
+		}
+
+		e_html_editor_view_set_changed (view, TRUE);
+
+		return TRUE;
+	}
+
+	e_html_editor_selection_restore (selection);
+
+	return FALSE;
+}
+
 static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
@@ -4990,6 +5141,11 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			remove_input_event_listener_from_body (view);
 			return split_citation (view);
 		}
+
+		/* If the ENTER key is pressed inside an empty list item then the list
+		* is broken into two and empty paragraph is inserted between lists. */
+		if (return_pressed_in_empty_list_item (view, TRUE))
+			return TRUE;
 	}
 
 	if (event->keyval == GDK_KEY_BackSpace) {
@@ -8078,6 +8234,20 @@ get_roman_value (gint value,
 	return rv;
 }
 
+static gboolean
+node_is_list (WebKitDOMNode *node)
+{
+	return node && (
+		WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
+		WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node));
+}
+
+static gboolean
+node_is_list_or_item (WebKitDOMNode *node)
+{
+	return node && (node_is_list (node) || WEBKIT_DOM_IS_HTMLLI_ELEMENT (node));
+}
+
 static void
 process_list_to_plain_text (EHTMLEditorView *view,
                             WebKitDOMElement *element,
@@ -8296,8 +8466,7 @@ process_list_to_plain_text (EHTMLEditorView *view,
 
 			g_free (item_str);
 			g_string_free (item_value, TRUE);
-		} else if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (item) ||
-			   WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (item)) {
+		} else if (node_is_list (item)) {
 			process_list_to_plain_text (
 				view, WEBKIT_DOM_ELEMENT (item), level + 1, output);
 			item = webkit_dom_node_get_next_sibling (item);
@@ -8536,8 +8705,7 @@ process_elements (EHTMLEditorView *view,
 		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
 			process_blockquote (WEBKIT_DOM_ELEMENT (child));
 
-		if (WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (child) ||
-		    WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (child)) {
+		if (node_is_list (child)) {
 			if (to_plain_text) {
 				if (changing_mode) {
 					content = webkit_dom_html_element_get_outer_html (
@@ -8934,9 +9102,7 @@ toggle_paragraphs_style_in_element (EHTMLEditorView *view,
 			parent = webkit_dom_node_get_parent_node (node);
 			/* If the paragraph is inside indented paragraph don't set
 			 * the style as it will be inherited */
-			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) &&
-			    (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (node) ||
-			     WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node))) {
+			if (WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent) && node_is_list (node)) {
 				gint offset;
 
 				offset = WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (node) ?
@@ -9259,8 +9425,7 @@ process_content_for_plain_text (EHTMLEditorView *view)
 
 		paragraph = webkit_dom_node_list_item (paragraphs, ii);
 
-		if (WEBKIT_DOM_IS_HTMLO_LIST_ELEMENT (paragraph) ||
-		    WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (paragraph)) {
+		if (node_is_list (paragraph)) {
 			WebKitDOMNode *item = webkit_dom_node_get_first_child (paragraph);
 
 			while (item) {
@@ -11802,7 +11967,7 @@ undo_delete (EHTMLEditorView *view,
 
 	/* Redoing Return key press */
 	if (empty) {
-		WebKitDOMNode *node;
+		WebKitDOMNode *node, *tmp_node;
 
 		range = get_range_for_point (document, event->before.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
@@ -11814,7 +11979,17 @@ undo_delete (EHTMLEditorView *view,
 		if (!node)
 			return;
 
-		element = get_parent_block_element (node);
+		tmp_node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment));
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (tmp_node) &&
+		    WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
+			if (return_pressed_in_empty_list_item (view, FALSE))
+				return;
+
+		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (webkit_dom_node_get_parent_node (node)))
+			element = webkit_dom_node_get_parent_element (node);
+		else
+			element = get_parent_block_element (node);
+
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
 			fragment,
@@ -12957,6 +13132,97 @@ undo_redo_remove_link (EHTMLEditorView *view,
 }
 
 static void
+merge_list_into_list (WebKitDOMNode *from,
+                      WebKitDOMNode *to,
+                      gboolean insert_before)
+{
+	WebKitDOMNode *item, *insert_before_node;
+
+	if (!(to && from))
+		return;
+
+	insert_before_node = webkit_dom_node_get_first_child (to);
+	while ((item = webkit_dom_node_get_first_child (from)) != NULL) {
+		if (insert_before)
+			webkit_dom_node_insert_before (
+				to, item, insert_before_node, NULL);
+		else
+			webkit_dom_node_append_child (to, item, NULL);
+	}
+
+	if (!webkit_dom_node_get_first_child (from))
+		remove_node (from);
+}
+
+static void
+merge_lists_if_possible (WebKitDOMNode *list)
+{
+	EHTMLEditorSelectionBlockFormat format, prev, next;
+	gint ii, length;
+	WebKitDOMNode *prev_sibling, *next_sibling;
+	WebKitDOMNodeList *lists;
+
+	prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (list));
+	next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (list));
+
+	format = e_html_editor_selection_get_list_format_from_node (list);
+	prev = e_html_editor_selection_get_list_format_from_node (prev_sibling);
+	next = e_html_editor_selection_get_list_format_from_node (next_sibling);
+
+	if (format == prev && format != -1 && prev != -1)
+		merge_list_into_list (prev_sibling, list, TRUE);
+
+	if (format == next && format != -1 && next != -1)
+		merge_list_into_list (next_sibling, list, FALSE);
+
+	lists = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (list), "ol + ol, ul + ul", NULL);
+	length = webkit_dom_node_list_get_length (lists);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (lists, ii);
+		merge_lists_if_possible (node);
+		g_object_unref (node);
+	}
+	g_object_unref (lists);
+}
+
+static void
+undo_return_in_empty_list_item (EHTMLEditorView *view,
+                                EHTMLEditorViewHistoryEvent *event)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker;
+	WebKitDOMNode *parent;
+
+	e_html_editor_selection_save (view->priv->selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	selection_start_marker = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent)) {
+		WebKitDOMNode *parent_list;
+
+		remove_selection_markers (document);
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (parent),
+			webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE),
+			webkit_dom_node_get_next_sibling (parent),
+			NULL);
+
+		parent_list = parent;
+		while (node_is_list_or_item (webkit_dom_node_get_parent_node (parent_list)))
+			parent_list = webkit_dom_node_get_parent_node (parent_list);
+
+		merge_lists_if_possible (parent_list);
+	}
+
+	e_html_editor_selection_restore (view->priv->selection);
+}
+
+static void
 undo_input (EHTMLEditorView *view,
             EHTMLEditorViewHistoryEvent *event)
 {
@@ -12964,7 +13230,7 @@ undo_input (EHTMLEditorView *view,
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
-	WebKitDOMNode *node;
+	WebKitDOMNode *node, *tmp_node;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	dom_window = webkit_dom_document_get_default_view (document);
@@ -13008,6 +13274,11 @@ undo_input (EHTMLEditorView *view,
 
 		remove_node (node);
 	}
+
+	tmp_node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment));
+	if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (tmp_node) &&
+	    WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
+		undo_return_in_empty_list_item (view, event);
 
 	g_object_unref (dom_window);
 	g_object_unref (dom_selection);

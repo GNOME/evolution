@@ -1377,15 +1377,16 @@ merge_list_into_list (WebKitDOMNode *from,
                       WebKitDOMNode *to,
                       gboolean insert_before)
 {
-	WebKitDOMNode *item;
+	WebKitDOMNode *item, *insert_before_node;
 
 	if (!(to && from))
 		return;
 
+	insert_before_node = webkit_dom_node_get_first_child (to);
 	while ((item = webkit_dom_node_get_first_child (from)) != NULL) {
 		if (insert_before)
 			webkit_dom_node_insert_before (
-				to, item, webkit_dom_node_get_last_child (to), NULL);
+				to, item, insert_before_node, NULL);
 		else
 			webkit_dom_node_append_child (to, item, NULL);
 	}
@@ -1398,12 +1399,14 @@ static void
 merge_lists_if_possible (WebKitDOMNode *list)
 {
 	EHTMLEditorSelectionBlockFormat format, prev, next;
+	gint ii, length;
 	WebKitDOMNode *prev_sibling, *next_sibling;
+	WebKitDOMNodeList *lists;
 
 	prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (list));
 	next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (list));
 
-	format = e_html_editor_selection_get_list_format_from_node (list),
+	format = e_html_editor_selection_get_list_format_from_node (list);
 	prev = e_html_editor_selection_get_list_format_from_node (prev_sibling);
 	next = e_html_editor_selection_get_list_format_from_node (next_sibling);
 
@@ -1412,6 +1415,18 @@ merge_lists_if_possible (WebKitDOMNode *list)
 
 	if (format == next && format != -1 && next != -1)
 		merge_list_into_list (next_sibling, list, FALSE);
+
+	lists = webkit_dom_element_query_selector_all (
+		WEBKIT_DOM_ELEMENT (list), "ol + ol, ul + ul", NULL);
+	length = webkit_dom_node_list_get_length (lists);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (lists, ii);
+		merge_lists_if_possible (node);
+		g_object_unref (node);
+	}
+	g_object_unref (lists);
 }
 
 static WebKitDOMElement *
@@ -2309,12 +2324,13 @@ indent_block (EHTMLEditorSelection *selection,
 }
 
 static WebKitDOMNode *
-split_list_into_two (WebKitDOMDocument *document,
-                     WebKitDOMNode *item)
+split_list_into_two (WebKitDOMNode *item)
 {
+	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMNode *parent, *prev_parent, *tmp;
 
+	document = webkit_dom_node_get_owner_document (item);
 	fragment = webkit_dom_document_create_document_fragment (document);
 
 	tmp = item;
@@ -2423,7 +2439,7 @@ do_format_change_list_to_block (EHTMLEditorSelection *selection,
 	}
 
 	if (webkit_dom_node_contains (source_list, WEBKIT_DOM_NODE (selection_end)))
-		source_list = split_list_into_two (document, item);
+		source_list = split_list_into_two (item);
 	else {
 		source_list = webkit_dom_node_get_next_sibling (source_list);
 	}
