@@ -289,11 +289,6 @@
       <_summary>Sender email-address column in the message list</_summary>
       <_description>Show the email-address of the sender in a separate column in the message list.</_description>
     </key>
-    <key name="vertical-view-fonts" type="b">
-      <default>false</default>
-      <_summary>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view</_summary>
-      <_description>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</_description>
-    </key>
     <key name="show-deleted" type="b">
       <default>false</default>
       <_summary>Show deleted messages in the message-list</_summary>

@@ -195,7 +195,6 @@ trash-empty-on-exit = /apps/evolution/mail/trash/empty_on_exit
 trash-empty-on-exit-days = /apps/evolution/mail/trash/empty_on_exit_days
 use-custom-font = /apps/evolution/mail/display/fonts/use_custom
 variable-width-font = /apps/evolution/mail/display/fonts/variable
-vertical-view-fonts = /apps/evolution/mail/display/vertical_view_fonts
 
 [org.gnome.evolution.window:/org/gnome/evolution/mail/browser-window/]
 height = /apps/evolution/mail/mail_browser_height

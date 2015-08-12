@@ -2080,20 +2080,12 @@ static ECell * create_composite_cell (gint col)
 {
 	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *cell_tree, *cell_attach;
 	GSettings *settings;
-	gchar *fixed_name = NULL;
 	gboolean show_email;
 	gint alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
-	gboolean same_font = FALSE;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	show_email = g_settings_get_boolean (settings, "show-email");
-	same_font = g_settings_get_boolean (settings, "vertical-view-fonts");
 	g_object_unref (settings);
-	if (!same_font) {
-		settings = e_util_ref_settings ("org.gnome.desktop.interface");
-		fixed_name = g_settings_get_string (settings, "monospace-font-name");
-		g_object_unref (settings);
-	}
 
 	cell_vbox = e_cell_vbox_new ();
 
@@ -2126,7 +2118,7 @@ static ECell * create_composite_cell (gint col)
 	g_object_unref (cell_attach);
 	g_object_unref (cell_date);
 
-	cell_sub = e_cell_text_new (fixed_name? fixed_name : NULL, GTK_JUSTIFY_LEFT);
+	cell_sub = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell_sub,
 		"color_column", COL_COLOUR,
@@ -2141,8 +2133,6 @@ static ECell * create_composite_cell (gint col)
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_date", cell_date);
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_sub", cell_sub);
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_from", cell_from);
-
-	g_free (fixed_name);
 
 	return cell_vbox;
 }
