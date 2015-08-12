@@ -205,7 +205,10 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 				E_MAIL_PART_ATTACHMENT (part));
 
 			file_info = e_attachment_ref_file_info (attachment);
-			display_name = g_file_info_get_display_name (file_info);
+			if (file_info)
+				display_name = g_file_info_get_display_name (file_info);
+			else
+				display_name = "";
 
 			description = e_attachment_dup_description (attachment);
 			if (description != NULL && *description != '\0') {
@@ -225,8 +228,8 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			g_free (description);
 			g_free (name);
 
-			g_object_unref (attachment);
-			g_object_unref (file_info);
+			g_clear_object (&attachment);
+			g_clear_object (&file_info);
 		}
 
 		head = g_queue_peek_head_link (extensions);
