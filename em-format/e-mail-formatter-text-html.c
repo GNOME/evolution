@@ -144,7 +144,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 
 	} else if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
 		GOutputStream *decoded_stream;
-		GString *string;
+		GString *string = NULL;
 		gchar *pos;
 		GList *tags, *iter;
 		gboolean valid;
@@ -165,7 +165,32 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		length = g_memory_output_stream_get_data_size (
 			G_MEMORY_OUTPUT_STREAM (decoded_stream));
 
-		string = g_string_new_len ((gchar *) data, length);
+		if (length > 2 && data) {
+			gunichar2 *maybe_utf16 = data;
+
+			if (*maybe_utf16 == (gunichar2) 0xFFFE) {
+				gunichar2 *ptr;
+
+				for (ptr = maybe_utf16; i < length / 2; i++, ptr++) {
+					*ptr = GUINT16_SWAP_LE_BE (*ptr);
+				}
+			}
+
+			if (*maybe_utf16 == (gunichar2) 0xFEFF) {
+				gchar *utf8;
+
+				maybe_utf16++;
+				utf8 = g_utf16_to_utf8 (maybe_utf16, length / 2, NULL, NULL, NULL);
+
+				if (utf8 && *utf8)
+					string = g_string_new (utf8);
+
+				g_free (utf8);
+			}
+		}
+
+		if (!string)
+			string = g_string_new_len ((gchar *) data, length);
 
 		g_object_unref (decoded_stream);
 
