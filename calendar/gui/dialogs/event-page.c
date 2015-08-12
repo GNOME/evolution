@@ -1518,6 +1518,24 @@ event_page_fill_component (CompEditorPage *page,
 
 		/* We have to add 1 day to DTEND, as it is not inclusive. */
 		icaltime_adjust (&end_tt, 1, 0, 0, 0);
+
+		if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME)) {
+			icaltimezone *start_zone;
+
+			start_tt.is_date = FALSE;
+			start_tt.hour = 0;
+			start_tt.minute = 0;
+			start_tt.second = 0;
+
+			end_tt.is_date = FALSE;
+			end_tt.hour = 0;
+			end_tt.minute = 0;
+			end_tt.second = 0;
+
+			start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+			start_date.tzid = icaltimezone_get_tzid (start_zone);
+			end_date.tzid = icaltimezone_get_tzid (start_zone);
+		}
 	} else {
 		icaltimezone *start_zone;
 
