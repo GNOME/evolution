@@ -4910,6 +4910,7 @@ insert_tabulator (EHTMLEditorView *view)
 		ev->data.fragment = fragment;
 
 		e_html_editor_view_insert_new_history_event (view, ev);
+		e_html_editor_view_set_changed (view, TRUE);
 	} else {
 		remove_history_event (view, view->priv->history);
 		remove_history_event (view, view->priv->history);
@@ -5130,6 +5131,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 					table,
 					NULL);
 				e_html_editor_selection_restore (selection);
+				e_html_editor_view_set_changed (view, TRUE);
 				return TRUE;
 			}
 		}
@@ -5139,7 +5141,11 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		 * the special command to do it. */
 		if (e_html_editor_selection_is_citation (selection)) {
 			remove_input_event_listener_from_body (view);
-			return split_citation (view);
+			if (split_citation (view)) {
+				e_html_editor_view_set_changed (view, TRUE);
+				return TRUE;
+			}
+			return FALSE;
 		}
 
 		/* If the ENTER key is pressed inside an empty list item then the list
@@ -5160,6 +5166,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			if (change_quoted_block_to_normal (view)) {
 				e_html_editor_selection_restore (selection);
 				e_html_editor_view_force_spell_check_for_current_paragraph (view);
+				e_html_editor_view_set_changed (view, TRUE);
 				return TRUE;
 			}
 			e_html_editor_selection_restore (selection);
@@ -5188,6 +5195,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			e_html_editor_selection_restore (selection);
 			if (!prev_sibling) {
 				e_html_editor_selection_unindent (selection);
+				e_html_editor_view_set_changed (view, TRUE);
 				return TRUE;
 			}
 		}
@@ -5236,8 +5244,10 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			e_html_editor_selection_restore (view->priv->selection);
 		}
 		if (event->keyval == GDK_KEY_BackSpace && !view->priv->html_mode) {
-			if (delete_character_from_quoted_line_start (view, event))
+			if (delete_character_from_quoted_line_start (view, event)) {
+				e_html_editor_view_set_changed (view, TRUE);
 				return TRUE;
+			}
 		}
 		if (fix_structure_after_delete_before_quoted_content (view, event))
 			return TRUE;
