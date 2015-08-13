@@ -702,10 +702,6 @@ composer_add_quoted_printable_filter (CamelStream *stream)
 	filter = camel_mime_filter_basic_new (CAMEL_MIME_FILTER_BASIC_QP_ENC);
 	camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
 	g_object_unref (filter);
-
-	filter = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_FROM);
-	camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
-	g_object_unref (filter);
 }
 
 /* Helper for composer_build_message_thread() */
