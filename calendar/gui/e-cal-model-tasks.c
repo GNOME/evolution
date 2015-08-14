@@ -1002,15 +1002,14 @@ cal_model_tasks_duplicate_value (ETableModel *etm,
 		return table_model_parent_interface->duplicate_value (etm, col, value);
 
 	switch (col) {
-	case E_CAL_MODEL_TASKS_FIELD_GEO :
-	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
-	case E_CAL_MODEL_TASKS_FIELD_STATUS :
-	case E_CAL_MODEL_TASKS_FIELD_URL :
-		return g_strdup (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
 		return e_cal_model_copy_cell_date_value (value);
 
+	case E_CAL_MODEL_TASKS_FIELD_GEO :
+	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
+	case E_CAL_MODEL_TASKS_FIELD_STATUS :
+	case E_CAL_MODEL_TASKS_FIELD_URL :
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
