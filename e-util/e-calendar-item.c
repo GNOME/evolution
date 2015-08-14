@@ -3504,7 +3504,7 @@ e_calendar_item_set_selection (ECalendarItem *calitem,
 
 	if (e_calendar_item_get_selection (calitem, &current_start_date, &current_end_date)) {
 		/* No change, no need to recalculate anything */
-		if (g_date_valid (start_date) && g_date_valid (end_date) &&
+		if (start_date && end_date && g_date_valid (start_date) && g_date_valid (end_date) &&
 		    g_date_compare (start_date, &current_start_date) == 0 &&
 		    g_date_compare (end_date, &current_end_date) == 0)
 			return;
