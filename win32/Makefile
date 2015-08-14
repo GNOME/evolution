@@ -69,7 +69,7 @@ $(BUILD_ROOT_EVO)/lib/pkgconfig/evolution-shell-3.0.pc:
 	fi
 	@./build acmmi "$(BUILD_ROOT_EVO)" ../../../evolution "" "--enable-plugins=all --enable-weather --disable-canberra --disable-contact-maps --disable-goa --disable-libcryptui --without-bogofilter --without-spamassassin --disable-text-highlight --disable-pst-import --disable-gnome-desktop --disable-autoar --without-clutter --without-help $(DISABLE_GTK_DOC)" $(VERBOSE)
 
-evolution-ews-master: env evolution-master $(BUILD_ROOT_EVO)/lib/evolution-data-server/libeews-1.2.dll.a
+evolution-ews-master: env evolution-master $(BUILD_ROOT_EVO)/lib/libeews-1.2.dll.a
 
 $(BUILD_ROOT_EVO)/lib/evolution-data-server/libeews-1.2.dll.a:
 	@if test ! -d "../../evolution-ews" ; then \
@@ -694,7 +694,7 @@ $(BUILD_ROOT_DEPS)/bin/iconv.exe:
 	@./get-src http://ftp.gnu.org/gnu/libiconv libiconv-1.14.tar.gz
 	@./build cmmi "$(BUILD_ROOT_DEPS)" libiconv-1.14 "" "" $(VERBOSE)
 
-gettext: env $(BUILD_ROOT_DEPS)/bin/gettext.exe
+gettext: env expat $(BUILD_ROOT_DEPS)/bin/gettext.exe
 
 $(BUILD_ROOT_DEPS)/bin/gettext.exe:
 	@./get-src http://ftp.gnu.org/pub/gnu/gettext gettext-0.19.4.tar.gz
