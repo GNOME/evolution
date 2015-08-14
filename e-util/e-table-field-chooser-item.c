@@ -82,6 +82,9 @@ etfci_dispose (GObject *object)
 		pango_font_description_free (etfci->font_desc);
 	etfci->font_desc = NULL;
 
+	g_free (etfci->dnd_code);
+	etfci->dnd_code = NULL;
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_table_field_chooser_item_parent_class)->dispose (object);
 }
