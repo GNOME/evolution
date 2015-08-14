@@ -55,7 +55,7 @@ export GSETTINGS_SCHEMA_DIR=$BUILD_ROOT_EVO/share/glib-2.0/schemas
 if [ "$1" = "debug" -o "$2" = "debug" ] ; then
 	export CFLAGS="$CFLAGS -g -O0 -Wall -DMSVCRT_VERSION=710"
 else
-	export CFLAGS="$CFLAGS -DMSVCRT_VERSION=710"
+	export CFLAGS="$CFLAGS -g0 -O2 -DMSVCRT_VERSION=710"
 fi
 export CPPFLAGS="$CPPFLAGS -I$BUILD_ROOT_DEPS/include -I$BUILD_ROOT_EVO/include -I/include"
 export LDFLAGS="$LDFLAGS -L$BUILD_ROOT_DEPS/lib -L$BUILD_ROOT_EVO/lib -L/lib"
