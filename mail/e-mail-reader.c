@@ -2579,6 +2579,9 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 		case GDK_KEY_Return:
 		case GDK_KEY_KP_Enter:
 		case GDK_KEY_ISO_Enter:
+			if (E_IS_MAIL_BROWSER (reader))
+				return FALSE;
+
 			action_name = "mail-message-open";
 			break;
 
