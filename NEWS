@@ -1,3 +1,61 @@
+Evolution 3.17.90 2015-08-17
+----------------------------
+
+Bug Fixes:
+	Bug 752497 - [itip-formatter] Two libraries provide the same symbol (Milan Crha)
+	Bug 752522 - Add a stock icon to the mail-next-unread action (Yanko Kaneti)
+	Bug 752637 - Delete single instance of recurring event deletes all instances (Milan Crha)
+	Bug 752644 - Unread mail indicator next to collapsed account names (Milan Crha)
+	Bug 753029 - Correct "Security Information" dialog size requests (Milan Crha)
+	Bug 752997 - Crash when replying to the message (Tomas Popela)
+	Bug 753059 - Crash in spell check dialog when clicking replace buttons with no suggestion selected (Tomas Popela)
+	Bug 753244 - Typos in translatable strings (Milan Crha)
+	Bug 752425 - Prompt user when To/Cc field contains many recipients (Milan Crha)
+	Bug 752994 - Google authentication method overwritten for GOA books (Milan Crha)
+	Bug 752665 - Be able to suppress reminders for completed tasks (Milan Crha)
+	Bug 347846 - GalA11yETableColumnHeader: implement AtkComponent (Mike Gorse)
+	Bug 233140 - Show message counts in subscribe folders dialog (Milan Crha)
+	Bug 531109 - Show account name and full folder path in error messages (Milan Crha)
+	Bug 753474 - Pressing Enter (Return) twice in a bulleted list to exit the list creates a paragraph with negative margin (Tomas Popela)
+	Bug 683695 - Use the same font in the mail vertical view (Milan Crha)
+	Bug 753609 - Entered text reset on column leave in list view (Milan Crha)
+	Bug 358162 - Crash in gal_a11y_e_cell_popup_new() (Milan Crha)
+
+Miscellaneous:
+	EHTMLEditorDOMUtils - Don't leak a WebKitDOMNodeList object (Tomas Popela)
+	EHTMLEditorSelection - Wrapping of a block can leave the block unwrapped (Tomas Popela)
+	EHTMLEditorSelection - Wrong block format detected in HTML mode (Tomas Popela)
+	EHTMLEditorSelection - Warning emitted when going through element with font size set in increment (Tomas Popela)
+	EHTMLEditorSelection - Improve function that is used to find a position to split at during wrapping (Tomas Popela)
+	EHTMLEditorSelection - Anchors that don't fit inside a line are not correctly wrapped (Tomas Popela)
+	EHTMLEditorView - Undoing the 'Wrap Lines' action doesn't work (Tomas Popela)
+	EHTMLEditorView - Lines of text appended after the signature are sent on one line (Tomas Popela)
+	EHTMLEditorView - Don't try to wrap the already wrapped blocks (Tomas Popela)
+	EHTMLEditorView - Add ssh to known protocols (Tomas Popela)
+	EHTMLEditorView - Treat non-breaking space as a regular space (Tomas Popela)
+	EHTMLEditorView - Editor is not marked as changed on some operations (Tomas Popela)
+	Move generic DOM functions from EWebView to EHTMLEditorUtils (Tomas Popela)
+	EBufferTagger::markup_text: User character offset when tagging links (Milan Crha)
+	Do not install tests as writable and executable for everyone (Milan Crha)
+	Fix swapped function arguments in ask_confirm_for_unwanted_html_mail (Erik van Pienbroek)
+	Correct categories_icon_theme_hack() function (Milan Crha)
+	[ESpellEntry] Do not touch entry when its IM is in the preedit mode (Milan Crha)
+	Use newly introduced CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME (Milan Crha)
+	Add safety checks for `file_info` into emfe_attachment_format() (Milan Crha)
+	Check for UTF-16 HTML in emfe_text_html_format() when printing (Milan Crha)
+	Fix couple memory leaks (Milan Crha)
+	e_calendar_item_set_selection can be called with NULL dates (Milan Crha)
+	[Win32] Miscellaneous build fixes (Milan Crha)
+
+Translations:
+	Pedro Albuquerque (pt)
+	Dimitris Spingos (el)
+	Kjartan Maraas (nb)
+	Christian Kirbach (de)
+	Aurimas Černius (lt)
+	Jordi Mas (ca)
+	Daniel Mustieles (es)
+
 Evolution 3.17.4 2015-07-20
 ---------------------------
 
