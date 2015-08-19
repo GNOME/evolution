@@ -323,7 +323,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		}
 
 		if (success) {
-			gchar *wrapper_element_id, *inner_html_data;
+			gchar *wrapper_element_id;
 			gconstpointer data;
 			gsize size;
 
@@ -335,20 +335,33 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			size = g_memory_output_stream_get_data_size (
 				G_MEMORY_OUTPUT_STREAM (content_stream));
 
-			inner_html_data = g_markup_escape_text (data, size);
-
 			g_string_append_printf (
 				buffer,
 				"<tr><td colspan=\"2\">"
-				"<div class=\"attachment-wrapper\" id=\"%s\" inner-html-data=\"%s\">",
-				wrapper_element_id, inner_html_data);
+				"<div class=\"attachment-wrapper\" id=\"%s\"",
+				wrapper_element_id);
+
+			if (e_mail_part_should_show_inline (part)) {
+				g_string_append (buffer, ">");
+				g_string_append_len (buffer, data, size);
+			} else {
+				gchar *inner_html_data;
+
+				inner_html_data = g_markup_escape_text (data, size);
+
+				g_string_append_printf (
+					buffer,
+					" inner-html-data=\"%s\">",
+					inner_html_data);
+
+				g_free (inner_html_data);
+			}
 
 			g_string_append (buffer, "</div></td></tr>");
 
-			e_mail_part_attachment_set_expandable (E_MAIL_PART_ATTACHMENT (part), TRUE);
+			e_mail_part_attachment_set_expandable (empa, TRUE);
 
 			g_free (wrapper_element_id);
-			g_free (inner_html_data);
 		}
 
 		g_object_unref (content_stream);

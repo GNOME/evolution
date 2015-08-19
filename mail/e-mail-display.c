@@ -570,6 +570,8 @@ attachment_button_expanded (GObject *object,
 
 			html_element = WEBKIT_DOM_HTML_ELEMENT (element);
 			webkit_dom_html_element_set_inner_html (html_element, inner_html_data, NULL);
+
+			webkit_dom_element_remove_attribute (element, "inner-html-data");
 		}
 
 		g_free (inner_html_data);
@@ -824,9 +826,6 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 			e_mail_part_attachment_get_expandable (empa));
 
 		if (e_mail_part_attachment_get_expandable (empa)) {
-			CamelMimePart *mime_part;
-			const CamelContentDisposition *disposition;
-
 			/* Show/hide the attachment when the EAttachmentButton
 			 * is expanded/collapsed or shown/hidden. */
 			g_signal_connect (
@@ -842,20 +841,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 				G_CALLBACK (attachment_button_zoom_to_window_cb),
 				display);
 
-			mime_part = e_mail_part_ref_mime_part (part);
-
-			/* Automatically expand attachments that have inline
-			 * disposition or the EMailParts have specific
-			 * force_inline flag set. */
-			disposition =
-				camel_mime_part_get_content_disposition (mime_part);
-			if (!part->force_collapse &&
-			    (part->force_inline ||
-			    (g_strcmp0 (empa->snoop_mime_type, "message/rfc822") == 0) ||
-			     (disposition && disposition->disposition &&
-				g_ascii_strncasecmp (
-					disposition->disposition, "inline", 6) == 0))) {
-
+			if (e_mail_part_should_show_inline (part)) {
 				e_attachment_button_set_expanded (
 					E_ATTACHMENT_BUTTON (widget), TRUE);
 			} else {
@@ -864,8 +850,6 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 				attachment_button_expanded (
 					G_OBJECT (widget), NULL, display);
 			}
-
-			g_object_unref (mime_part);
 		}
 	}
 

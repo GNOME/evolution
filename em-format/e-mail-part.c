@@ -26,10 +26,15 @@
  * message.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-mail-part.h"
 
 #include <string.h>
 
+#include "e-mail-part-attachment.h"
 #include "e-mail-part-list.h"
 
 #define E_MAIL_PART_GET_PRIVATE(obj) \
@@ -439,6 +444,46 @@ e_mail_part_set_mime_type (EMailPart *part,
 	part->priv->mime_type = g_strdup (mime_type);
 
 	g_object_notify (G_OBJECT (part), "mime-type");
+}
+
+gboolean
+e_mail_part_should_show_inline (EMailPart *part)
+{
+	CamelMimePart *mime_part;
+	const CamelContentDisposition *disposition;
+	gboolean res = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
+
+	/* Automatically expand attachments that have inline
+	 * disposition or the EMailParts have specific
+	 * force_inline flag set. */
+
+	if (part->force_collapse)
+		return FALSE;
+
+	if (part->force_inline)
+		return TRUE;
+
+	if (E_IS_MAIL_PART_ATTACHMENT (part)) {
+		EMailPartAttachment *empa = E_MAIL_PART_ATTACHMENT (part);
+
+		if (g_strcmp0 (empa->snoop_mime_type, "message/rfc822") == 0)
+			return TRUE;
+	}
+
+	mime_part = e_mail_part_ref_mime_part (part);
+	if (!mime_part)
+		return FALSE;
+
+	disposition = camel_mime_part_get_content_disposition (mime_part);
+	if (disposition && disposition->disposition &&
+	    g_ascii_strncasecmp (disposition->disposition, "inline", 6) == 0)
+		res = TRUE;
+
+	g_object_unref (mime_part);
+
+	return res;
 }
 
 EMailPartList *
