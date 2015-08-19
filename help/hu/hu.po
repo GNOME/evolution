@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution_help master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-20 05:21+0000\n"
-"PO-Revision-Date: 2015-03-20 17:27+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
-"Language-Team: Hungarian <openscope at googlegroups dot com>\n"
+"POT-Creation-Date: 2015-08-18 04:34+0000\n"
+"PO-Revision-Date: 2015-08-19 08:20+0200\n"
+"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"Language-Team: Hungarian <openscope at gmail dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.\n"
-"Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013.\n"
+"Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
 "Úr Balázs <urbalazs at gmail dot com>, 2014."
 
@@ -2675,8 +2675,9 @@ msgstr "Az <app>Evolution</app> felhasználói dokumentáció fordítói"
 #. TO TRANSLATORS: This is shown in the 'Translators of the User
 #. Documentation' section. Please REPLACE this string by adding your own
 #. names here so you get some well-deserved fame on the interwebs! Do NOT
-#. use '\n' for linebreaks or square brakets for potential email addresses
-#. here as this will not work. Thanks for all your hard work! andre
+#. use '\n' for linebreaks or square brackets for potential email
+#. addresses here as this will not work. Thanks for all your hard work!
+#. andre
 #: C/credits.page:43
 msgid "(Not applicable to the English version)"
 msgstr ""
@@ -3385,10 +3386,15 @@ msgstr "Outlook"
 
 #. (itstool) path: page/p
 #: C/import-apps-outlook.page:26
+#| msgid ""
+#| "These steps refer to locally stored data such as POP accounts. For remote "
+#| "data (like IMAP) this is not necessary, since the data is still on the "
+#| "server and does not need to be manually transfered. You can set up the "
+#| "corresponding account in Evolution and the data will be downloaded."
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
-"server and does not need to be manually transfered. You can set up the "
+"server and does not need to be manually transferred. You can set up the "
 "corresponding account in Evolution and the data will be downloaded."
 msgstr ""
 "Ezek a lépések helyileg tárolt adatokra, például POP postafiókokra "
@@ -4569,9 +4575,14 @@ msgstr "Feladatlista és feljegyzéslista"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:128
+#| msgid ""
+#| "Tasks and memos are just displayed for your convience and are not "
+#| "associated to any appointments. Use the <gui>switcher</gui> to go to "
+#| "their main windows."
 msgid ""
-"Tasks and memos are just displayed for your convience and are not associated "
-"to any appointments. Use the <gui>switcher</gui> to go to their main windows."
+"Tasks and memos are just displayed for your convenience and are not "
+"associated to any appointments. Use the <gui>switcher</gui> to go to their "
+"main windows."
 msgstr ""
 "A feladatok és feljegyzések csak az Ön kényelmét szolgálják, és nem "
 "tartoznak a találkozókhoz. A <gui>Váltógombok</gui> segítségével átválthat "
