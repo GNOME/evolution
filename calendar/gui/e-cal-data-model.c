@@ -1028,10 +1028,18 @@ cal_data_model_instance_generated (ECalComponent *comp,
 
 	tt = icalcomponent_get_dtstart (e_cal_component_get_icalcomponent (comp_copy));
 	tt2 = icaltime_from_timet_with_zone (instance_start, tt.is_date, gid->zone);
+	if (tt.is_date || !tt.zone || tt.zone == icaltimezone_get_utc_timezone ())
+		tt2.zone = NULL;
+	else
+		tt2.zone = gid->zone;
 	icalcomponent_set_dtstart (e_cal_component_get_icalcomponent (comp_copy), tt2);
 
 	tt = icalcomponent_get_dtend (e_cal_component_get_icalcomponent (comp_copy));
 	tt2 = icaltime_from_timet_with_zone (instance_end, tt.is_date, gid->zone);
+	if (tt.is_date || !tt.zone || tt.zone == icaltimezone_get_utc_timezone ())
+		tt2.zone = NULL;
+	else
+		tt2.zone = gid->zone;
 	icalcomponent_set_dtend (e_cal_component_get_icalcomponent (comp_copy), tt2);
 
 	e_cal_component_rescan (comp_copy);
