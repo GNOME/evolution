@@ -496,7 +496,7 @@ msgstr ""
 msgid "Show appointment end times in week and month views:"
 msgstr ""
 "Mostra les hores de finalització de les cites en les visualitzacions "
-"setmanals i mensuals"
+"setmanals i mensuals:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:51
@@ -3047,7 +3047,7 @@ msgstr ""
 #: C/import-supported-file-formats.page:38
 #
 msgid "Outlook Express 5/6 Personal Folders (.dbx):"
-msgstr "Carpetes personals de l'Outlook Express 5/6 (.dbx)"
+msgstr "Carpetes personals de l'Outlook Express 5/6 (.dbx):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:40
@@ -3096,7 +3096,7 @@ msgstr "Contactes"
 #: C/import-supported-file-formats.page:62
 #
 msgid "LDAP Data Interchange Format (.ldif):"
-msgstr "Format d'intercanvi de dades LDAP (.ldif)"
+msgstr "Format d'intercanvi de dades LDAP (.ldif):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:64
@@ -3107,7 +3107,7 @@ msgstr ""
 #: C/import-supported-file-formats.page:66
 #
 msgid "vCard (.vcf, .gcrd):"
-msgstr "vCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf, .gcrd):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:68
@@ -3139,7 +3139,7 @@ msgstr ""
 #: C/import-supported-file-formats.page:80
 #
 msgid "Outlook Personal Folders (.pst):"
-msgstr "Carpetes personals de l'Outlook (.pst)"
+msgstr "Carpetes personals de l'Outlook (.pst):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:82
@@ -10982,7 +10982,7 @@ msgstr ""
 #: C/xinclude-filter-vfolder-conditions.xml:6
 #
 msgid "Recipients:"
-msgstr "Destinataris"
+msgstr "Destinataris:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:7

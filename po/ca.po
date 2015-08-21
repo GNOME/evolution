@@ -8776,7 +8776,7 @@ msgid ""
 "together with task-overdue-highlight."
 msgstr ""
 "Color de fons de les tasques que han vençut, en format «#rrggbb». S'utilitza "
-"conjuntament amb la clau «task-overdue-highlight»"
+"conjuntament amb la clau «task-overdue-highlight»."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Time divisions"
@@ -9496,7 +9496,7 @@ msgstr "Temps d'espera per marcar els missatges com a llegits"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "Temps d'espera en mil·lisegons per marcar els missatges com a llegits"
+msgstr "Temps d'espera en mil·lisegons per marcar els missatges com a llegits."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Sender email-address column in the message list"
@@ -9671,7 +9671,7 @@ msgid ""
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
 "Aquest paràmetre especifica si l'estat per defecte dels fils és expandit o "
-"contret. Haureu de reiniciar perquè els canvis tinguin efecte"
+"contret. Haureu de reiniciar perquè els canvis tinguin efecte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Whether sort threads based on latest message in that thread"
@@ -18492,7 +18492,7 @@ msgstr "{0}"
 
 #: ../mail/mail.error.xml.h:164
 msgid "Message is not available in offline mode."
-msgstr "El missatge no està disponible fora de línia"
+msgstr "El missatge no està disponible fora de línia."
 
 #: ../mail/mail.error.xml.h:165
 msgid ""
@@ -19218,7 +19218,7 @@ msgstr ""
 #, c-format
 msgid "Checking content of backup file '%s', please wait..."
 msgstr ""
-"S'està comprovant el contingut de la copia de seguretat «%s», espera..."
+"S'està comprovant el contingut de la còpia de seguretat «%s», espera..."
 
 #: ../modules/backup-restore/evolution-backup-restore.c:357
 msgid "_Back up Evolution Data..."
@@ -19357,7 +19357,7 @@ msgstr "El fitxer de còpia de seguretat de l'Evolution no és vàlid"
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
 #| msgid "Invalid Evolution backup file"
 msgid "File '{0}' is not a valid Evolution backup file."
-msgstr "El fitxer «{0}» no és una còpia de seguretat vàlida de l'Evolution"
+msgstr "El fitxer «{0}» no és una còpia de seguretat vàlida de l'Evolution."
 
 #: ../modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
