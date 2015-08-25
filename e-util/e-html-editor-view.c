@@ -9775,6 +9775,9 @@ html_editor_view_load_status_changed (EHTMLEditorView *view)
 		style_updated_cb (view);
 		view->priv->convert_in_situ = FALSE;
 
+		register_input_event_listener_on_body (view);
+		register_html_events_handlers (view, body);
+
 		return;
 	}
 
