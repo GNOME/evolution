@@ -1920,7 +1920,11 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 				gchar **uris;
 
 				uris = gtk_selection_data_get_uris (selection);
-				composer->priv->dnd_is_uri = uris != NULL;
+				/* I don't know what regressed outside of Evo, but
+				 * this is called twice. Firstly with uris set
+				 * following by one with uris not set. */
+				if (!composer->priv->dnd_is_uri)
+					composer->priv->dnd_is_uri = uris != NULL;
 				g_strfreev (uris);
 			}
 		}
