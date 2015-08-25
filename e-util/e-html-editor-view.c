@@ -7002,14 +7002,14 @@ set_monospace_font_family_on_body (WebKitDOMElement *body,
 	 * font-family style to the body, so WebKit will know about it and will
 	 * avoid the described behaviour. */
 	if (!html_mode) {
-		rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
+		rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
 		webkit_dom_element_set_attribute (
 			WEBKIT_DOM_ELEMENT (body),
 			"style",
 			"font-family: Monospace;",
 			NULL);
 	} else {
-		rename_attribute (WEBKIT_DOM_ELEMENT (body), "data-style", "style");
+		rename_attribute (WEBKIT_DOM_ELEMENT (body), "style", "data-style");
 	}
 }
 
