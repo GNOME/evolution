@@ -4097,12 +4097,28 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 			g_object_unref (tmp_range);
 		} else {
 			if (delete_key) {
-				glong offset = webkit_dom_range_get_start_offset (range_clone, NULL);
-				webkit_dom_range_set_end (
-					range_clone,
-					webkit_dom_range_get_end_container (range_clone, NULL),
-					offset + 1,
-					NULL);
+				WebKitDOMNode *container, *next_sibling;
+
+				container = webkit_dom_range_get_end_container (range_clone, NULL);
+				next_sibling = webkit_dom_node_get_next_sibling (container);
+
+				if (e_html_editor_node_is_selection_position_node (next_sibling)) {
+					WebKitDOMNode *next_node;
+
+					next_node = webkit_dom_node_get_next_sibling (
+						webkit_dom_node_get_next_sibling (next_sibling));
+					webkit_dom_range_set_start (
+						range_clone, next_node, 0, NULL);
+					webkit_dom_range_set_end (
+						range_clone, next_node, 1, NULL);
+				} else {
+					glong offset;
+
+					offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+
+					webkit_dom_range_set_end (
+						range_clone, container, offset + 1, NULL);
+				}
 			} else {
 				webkit_dom_range_set_start (
 					range_clone,
