@@ -6236,11 +6236,6 @@ wrap_lines (EHTMLEditorSelection *selection,
 			return WEBKIT_DOM_ELEMENT (block);
 
 		block_clone = webkit_dom_node_clone_node (block, TRUE);
-		element = webkit_dom_element_query_selector (
-			WEBKIT_DOM_ELEMENT (block_clone),
-			"span#-x-evo-caret-position",
-			NULL);
-
 		/* When we wrap, we are wrapping just the text after caret, text
 		 * before the caret is already wrapped, so unwrap the text after
 		 * the caret position */
