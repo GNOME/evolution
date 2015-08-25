@@ -5010,8 +5010,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 				return TRUE;
 			}
 			e_html_editor_selection_restore (selection);
-		} else
-			remove_input_event_listener_from_body (view);
+		}
 
 		/* BackSpace in indented block decrease indent level by one */
 		if (e_html_editor_selection_is_indented (selection) &&
