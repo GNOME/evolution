@@ -2428,6 +2428,9 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
+	g_return_if_fail (ui_manager != NULL);
+	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
+
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 	label_store = e_mail_ui_session_get_label_store (
