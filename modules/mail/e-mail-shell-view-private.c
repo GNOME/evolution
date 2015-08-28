@@ -250,38 +250,6 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-mail_shell_view_mail_display_needs_key (EMailDisplay *mail_display,
-                                        gboolean with_input)
-{
-	gboolean needs_key = FALSE;
-
-	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
-		WebKitWebFrame *frame;
-		WebKitDOMDocument *dom;
-		WebKitDOMElement *element;
-		gchar *name = NULL;
-
-		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display));
-		if (!frame)
-			return FALSE;
-		dom = webkit_web_frame_get_dom_document (frame);
-		element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
-
-		if (element)
-			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
-
-		/* if INPUT or TEXTAREA has focus, then any key press should go there */
-		if (name && ((with_input && g_ascii_strcasecmp (name, "INPUT") == 0) || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
-			needs_key = TRUE;
-		}
-
-		g_free (name);
-	}
-
-	return needs_key;
-}
-
-static gboolean
 mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
                                     GdkEventKey *event)
 {
@@ -325,7 +293,7 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			if (e_web_view_get_caret_mode (E_WEB_VIEW (mail_display)))
 				return FALSE;
 		case GDK_KEY_Prior:
-			if (!mail_shell_view_mail_display_needs_key (mail_display, FALSE) &&
+			if (!e_mail_display_needs_key (mail_display, FALSE) &&
 			    webkit_web_view_get_main_frame (WEBKIT_WEB_VIEW (mail_display)) !=
 			    webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display))) {
 				WebKitDOMDocument *document;
@@ -348,7 +316,7 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			return FALSE;
 	}
 
-	if (mail_shell_view_mail_display_needs_key (mail_display, TRUE))
+	if (e_mail_display_needs_key (mail_display, TRUE))
 		return FALSE;
 
 	gtk_action_activate (action);

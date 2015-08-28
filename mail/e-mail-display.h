@@ -104,6 +104,8 @@ EMailRemoteContent *
 void		e_mail_display_set_remote_content
 						(EMailDisplay *display,
 						 EMailRemoteContent *remote_content);
+gboolean	e_mail_display_needs_key	(EMailDisplay *mail_display,
+						 gboolean with_input);
 
 G_END_DECLS
 

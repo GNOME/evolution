@@ -2524,3 +2524,37 @@ e_mail_display_set_remote_content (EMailDisplay *display,
 
 	g_mutex_unlock (&display->priv->remote_content_lock);
 }
+
+gboolean
+e_mail_display_needs_key (EMailDisplay *mail_display,
+			  gboolean with_input)
+{
+	gboolean needs_key = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (mail_display), FALSE);
+
+	if (gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
+		WebKitWebFrame *frame;
+		WebKitDOMDocument *dom;
+		WebKitDOMElement *element;
+		gchar *name = NULL;
+
+		frame = webkit_web_view_get_focused_frame (WEBKIT_WEB_VIEW (mail_display));
+		if (!frame)
+			return FALSE;
+		dom = webkit_web_frame_get_dom_document (frame);
+		element = webkit_dom_html_document_get_active_element (WEBKIT_DOM_HTML_DOCUMENT (dom));
+
+		if (element)
+			name = webkit_dom_node_get_node_name (WEBKIT_DOM_NODE (element));
+
+		/* if INPUT or TEXTAREA has focus, then any key press should go there */
+		if (name && ((with_input && g_ascii_strcasecmp (name, "INPUT") == 0) || g_ascii_strcasecmp (name, "TEXTAREA") == 0)) {
+			needs_key = TRUE;
+		}
+
+		g_free (name);
+	}
+
+	return needs_key;
+}
