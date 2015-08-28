@@ -211,55 +211,72 @@ get_word_extents_from_position (ESpellEntry *entry,
 }
 
 static void
+spell_entry_store_word (gchar ***set,
+			gint **starts,
+			gint **ends,
+			const gchar *text,
+			gint n_word,
+			gint n_strings,
+			const gchar *word_start,
+			const gchar *word_end)
+{
+	gint bytes;
+
+	g_return_if_fail (n_word >= 0);
+	g_return_if_fail (n_word < n_strings);
+
+	/* Copy sub-string */
+	bytes = (gint) (word_end - word_start);
+	(*set)[n_word] = g_new0 (gchar, bytes + 1);
+	(*starts)[n_word] = (gint) (word_start - text);
+	(*ends)[n_word] = (gint) (word_start - text + bytes);
+	memcpy ((*set)[n_word], word_start, bytes);
+}
+
+static void
 entry_strsplit_utf8 (GtkEntry *entry,
                      gchar ***set,
                      gint **starts,
                      gint **ends)
 {
-	PangoLayout *layout;
-	PangoLogAttr *log_attrs;
-	const gchar *text;
-	gint n_attrs, n_strings, i, j;
+	const gchar *text, *ptr, *word_start;
+	gint n_strings, n_word;
 
-	layout = gtk_entry_get_layout (GTK_ENTRY (entry));
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	pango_layout_get_log_attrs (layout, &log_attrs, &n_attrs);
+	g_return_if_fail (g_utf8_validate (text, -1, NULL));
 
 	/* Find how many words we have */
 	n_strings = 0;
-	for (i = 0; i < n_attrs; i++)
-		if (log_attrs[i].is_word_start)
+	word_start = NULL;
+	for (ptr = text; *ptr; ptr = g_utf8_next_char (ptr)) {
+		if (g_unichar_isspace (g_utf8_get_char (ptr))) {
+			word_start = NULL;
+		} else if (!word_start) {
 			n_strings++;
-
-	*set = g_new0 (gchar *, n_strings + 1);
-	*starts = g_new0 (gint, n_strings);
-	*ends = g_new0 (gint, n_strings);
-
-	/* Copy out strings */
-	for (i = 0, j = 0; i < n_attrs; i++) {
-		if (log_attrs[i].is_word_start) {
-			gint cend, bytes;
-			gchar *start;
-
-			/* Find the end of this string */
-			cend = i;
-			while (!(log_attrs[cend].is_word_end))
-				cend++;
-
-			/* Copy sub-string */
-			start = g_utf8_offset_to_pointer (text, i);
-			bytes = (gint) (g_utf8_offset_to_pointer (text, cend) - start);
-			(*set)[j] = g_new0 (gchar, bytes + 1);
-			(*starts)[j] = (gint) (start - text);
-			(*ends)[j] = (gint) (start - text + bytes);
-			g_utf8_strncpy ((*set)[j], start, cend - i);
-
-			/* Move on to the next word */
-			j++;
+			word_start = ptr;
 		}
 	}
 
-	g_free (log_attrs);
+	*set = g_new0 (gchar *, n_strings + 1);
+	*starts = g_new0 (gint, n_strings + 1);
+	*ends = g_new0 (gint, n_strings + 1);
+
+	/* Copy out strings */
+	word_start = NULL;
+	n_word = -1;
+	for (ptr = text; *ptr; ptr = g_utf8_next_char (ptr)) {
+		if (g_unichar_isspace (g_utf8_get_char (ptr))) {
+			if (word_start)
+				spell_entry_store_word (set, starts, ends, text, n_word, n_strings, word_start, ptr);
+			word_start = NULL;
+		} else if (!word_start) {
+			n_word++;
+			word_start = ptr;
+		}
+	}
+
+	if (word_start)
+		spell_entry_store_word (set, starts, ends, text, n_word, n_strings, word_start, ptr);
 }
 
 static gchar *
@@ -289,6 +306,33 @@ spell_entry_get_chars_from_byte_pos (ESpellEntry *entry,
 		byte_pos_end = 0;
 
 	return g_strndup (text + byte_pos_start, byte_pos_end - byte_pos_start);
+}
+
+static void
+spell_entry_byte_pos_to_char_pos (ESpellEntry *entry,
+				  gint byte_pos,
+				  gint *out_char_pos)
+{
+	const gchar *text, *ptr;
+
+	g_return_if_fail (E_IS_SPELL_ENTRY (entry));
+	g_return_if_fail (out_char_pos != NULL);
+
+	*out_char_pos = 0;
+
+	if (byte_pos <= 0)
+		return;
+
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	if (!text || !g_utf8_validate (text, -1, NULL))
+		return;
+
+	for (ptr = text; ptr && *ptr; ptr = g_utf8_next_char (ptr)) {
+		if (byte_pos <= ptr - text)
+			break;
+
+		*out_char_pos = (*out_char_pos) + 1;
+	}
 }
 
 static void
@@ -371,6 +415,9 @@ replace_word (GtkWidget *menuitem,
 	oldword = spell_entry_get_chars_from_byte_pos (entry, start, end);
 	newword = gtk_label_get_text (
 		GTK_LABEL (gtk_bin_get_child (GTK_BIN (menuitem))));
+
+	spell_entry_byte_pos_to_char_pos (entry, start, &start);
+	spell_entry_byte_pos_to_char_pos (entry, end, &end);
 
 	cursor = gtk_editable_get_position (GTK_EDITABLE (entry));
 	/* is the cursor at the end? If so, restore it there */
