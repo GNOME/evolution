@@ -1,3 +1,36 @@
+Evolution 3.17.91 2015-08-31
+----------------------------
+
+Bug Fixes:
+	Bug 733877 - Parse attachments on demand, not on message open ]I[ (Milan Crha)
+	Bug 753764 - Can't move recurring 24h calendar entries back one day (Milan Crha)
+	Bug 753620 - Undoing the Delete operation could break the expected structure (Tomas Popela)
+	Bug 753652 - Right click on highlighted text and 'Cut' doesn't work in composer window. (Tomas Popela)
+	Bug 753702 - Changing mail composer to plaintext mode and back to HTML mode changes the font family (Tomas Popela)
+	Bug 708319 - Workaround crash under e_mail_shell_view_update_popup_labels() (Milan Crha)
+	Bug 241050 - Can't focus message list by clicking in empty portions of it (Milan Crha)
+	Bug 754039 - Cannot scroll via keyboard in separate email window (Milan Crha)
+	Bug 753911 - Missing "Add to Dictionary" with multiple languages enabled (Milan Crha)
+	Bug 745943 - [ESpellEntry] Do not rely on pango with word-split (Milan Crha)
+
+Miscellaneous:
+	Return key in a message window opens the message in a new window (Milan Crha)
+	EHTMLEditorSelection - Remove unneeded code (Tomas Popela)
+	EHTMLEditorView - Connect HTML events handlers after converting composer content (Tomas Popela)
+	EHTMLEditorView - Don't disable the HTML events callback when removing content with BackSpace key (Tomas Popela)
+	EHTMLEditorSelection - Fix wrapping of a quoted content when editing a link inside it (Tomas Popela)
+	EHTMLEditorView - History for Delete could not be saved (Tomas Popela)
+
+Translations:
+	Fran Dieguez (gl)
+	Daniel Mustieles (es)
+	Jordi Mas (ca)
+	Dušan Kazik (sk)
+	Alexandre Franke (fr)
+	Ting-Wei Lan (zh_TW)
+	Gábor Kelemen (hu)
+	Jordi Mas (ca)
+
 Evolution 3.17.90 2015-08-17
 ----------------------------
 
