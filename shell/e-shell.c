@@ -1144,6 +1144,87 @@ shell_get_dialog_parent_cb (ECredentialsPrompter *prompter,
 }
 
 static void
+shell_app_menu_activate_cb (GSimpleAction *action,
+			    GVariant *parameter,
+			    gpointer user_data)
+{
+	EShell *shell = user_data;
+	const gchar *name;
+
+	g_return_if_fail (G_IS_ACTION (action));
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	name = g_action_get_name (G_ACTION (action));
+	g_return_if_fail (name != NULL);
+
+	if (g_str_equal (name, "new-window")) {
+		GtkWindow *window;
+
+		window = e_shell_get_active_window (shell);
+
+		if (E_IS_SHELL_WINDOW (window))
+			e_shell_create_shell_window (shell,
+				e_shell_window_get_active_view (E_SHELL_WINDOW (window)));
+		else
+			e_shell_create_shell_window (shell, NULL);
+	} else if (g_str_equal (name, "preferences")) {
+		e_shell_utils_run_preferences (shell);
+	} else if (g_str_equal (name, "quick-reference")) {
+		e_shell_utils_run_quick_reference (shell);
+	} else if (g_str_equal (name, "help")) {
+		e_shell_utils_run_help_contents (shell);
+	} else if (g_str_equal (name, "about")) {
+		e_shell_utils_run_help_about (shell);
+	} else if (g_str_equal (name, "quit")) {
+		e_shell_quit (shell, E_SHELL_QUIT_ACTION);
+	} else {
+		g_warning ("%s: Unknown app-menu action '%s'", G_STRFUNC, name);
+	}
+}
+
+static void
+shell_create_app_menu (GtkApplication *application)
+{
+	const GActionEntry actions[] = {
+		{ "new-window", shell_app_menu_activate_cb, NULL, NULL, NULL },
+		{ "preferences", shell_app_menu_activate_cb, NULL, NULL, NULL },
+		{ "quick-reference", shell_app_menu_activate_cb, NULL, NULL, NULL },
+		{ "help", shell_app_menu_activate_cb, NULL, NULL, NULL },
+		{ "about", shell_app_menu_activate_cb, NULL, NULL, NULL },
+		{ "quit", shell_app_menu_activate_cb, NULL, NULL, NULL }
+	};
+	GMenu *app_menu, *section;
+
+	g_return_if_fail (GTK_IS_APPLICATION (application));
+
+	app_menu = g_menu_new ();
+
+	section = g_menu_new ();
+	g_menu_append (section, _("New _Window"), "app.new-window");
+	g_menu_append_section (app_menu, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	section = g_menu_new ();
+	g_menu_append (section, _("_Preferences"), "app.preferences");
+	g_menu_append_section (app_menu, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	section = g_menu_new ();
+	if (e_shell_utils_is_quick_reference_available (E_SHELL (application)))
+		g_menu_append (section, _("Quick _Reference"), "app.quick-reference");
+	g_menu_append (section, _("_Help"), "app.help");
+	g_menu_append (section, _("_About"), "app.about");
+	g_menu_append (section, _("_Quit"), "app.quit");
+	g_menu_append_section (app_menu, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	gtk_application_set_app_menu (application, G_MENU_MODEL (app_menu));
+	g_action_map_add_action_entries (G_ACTION_MAP (application), actions, G_N_ELEMENTS (actions), application);
+
+	g_object_unref (app_menu);
+}
+
+static void
 shell_sm_quit_cb (EShell *shell,
                   gpointer user_data)
 {
@@ -1408,6 +1489,9 @@ shell_startup (GApplication *application)
 
 	/* Chain up to parent's startup() method. */
 	G_APPLICATION_CLASS (e_shell_parent_class)->startup (application);
+
+	if (e_util_is_running_gnome ())
+		shell_create_app_menu (GTK_APPLICATION (application));
 }
 
 static void
