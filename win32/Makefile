@@ -71,7 +71,7 @@ $(BUILD_ROOT_EVO)/lib/pkgconfig/evolution-shell-3.0.pc:
 
 evolution-ews-master: env evolution-master $(BUILD_ROOT_EVO)/lib/libeews-1.2.dll.a
 
-$(BUILD_ROOT_EVO)/lib/evolution-data-server/libeews-1.2.dll.a:
+$(BUILD_ROOT_EVO)/lib/libeews-1.2.dll.a:
 	@if test ! -d "../../evolution-ews" ; then \
 		cd ../.. && \
 		git clone git://git.gnome.org/evolution-ews; \
