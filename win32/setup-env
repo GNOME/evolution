@@ -52,13 +52,14 @@ export LD_LIBRARY_PATH=$BUILD_ROOT_DEPS/lib:$BUILD_ROOT_EVO/lib:/lib
 export PKG_CONFIG_PATH=$BUILD_ROOT_DEPS/lib/pkgconfig:$BUILD_ROOT_EVO/lib/pkgconfig:$BUILD_ROOT_DEPS/share/pkgconfig:$BUILD_ROOT_EVO/share/pkgconfig
 export ACLOCAL_FLAGS="-I $BUILD_ROOT_DEPS/share/aclocal -I $BUILD_ROOT_EVO/share/aclocal -I /share/aclocal"
 export GSETTINGS_SCHEMA_DIR=$BUILD_ROOT_EVO/share/glib-2.0/schemas
+export CPPFLAGS="$CPPFLAGS -I$BUILD_ROOT_DEPS/include -I$BUILD_ROOT_EVO/include -I/include"
+export LDFLAGS="$LDFLAGS -L$BUILD_ROOT_DEPS/lib -L$BUILD_ROOT_EVO/lib -L/lib"
 if [ "$1" = "debug" -o "$2" = "debug" ] ; then
 	export CFLAGS="$CFLAGS -g -O0 -Wall -DMSVCRT_VERSION=710"
 else
 	export CFLAGS="$CFLAGS -g0 -O2 -DMSVCRT_VERSION=710"
+	export LDFLAGS="$LDFLAGS -Wl,-S"
 fi
-export CPPFLAGS="$CPPFLAGS -I$BUILD_ROOT_DEPS/include -I$BUILD_ROOT_EVO/include -I/include"
-export LDFLAGS="$LDFLAGS -L$BUILD_ROOT_DEPS/lib -L$BUILD_ROOT_EVO/lib -L/lib"
 
 mkdir -p $BUILD_ROOT_DEPS/bin 2>/dev/null
 mkdir -p $BUILD_ROOT_DEPS/include 2>/dev/null
