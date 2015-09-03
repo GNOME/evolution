@@ -63,6 +63,16 @@ G_DEFINE_TYPE (
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
 
+#define E_TABLE_ITEM_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_ITEM, ETableItemPrivate))
+
+typedef struct _ETableItemPrivate ETableItemPrivate;
+
+struct _ETableItemPrivate {
+	GSource *show_cursor_delay_source;
+};
+
 static void eti_check_cursor_bounds (ETableItem *eti);
 static void eti_cancel_drag_due_to_model_change (ETableItem *eti);
 
@@ -966,7 +976,14 @@ eti_request_region_show (ETableItem *eti,
                          gint end_row,
                          gint delay)
 {
+	ETableItemPrivate *priv = E_TABLE_ITEM_GET_PRIVATE (eti);
 	gint x1, y1, x2, y2;
+
+	if (priv->show_cursor_delay_source) {
+		g_source_destroy (priv->show_cursor_delay_source);
+		g_source_unref (priv->show_cursor_delay_source);
+		priv->show_cursor_delay_source = NULL;
+	}
 
 	eti_get_region (
 		eti,
@@ -975,7 +992,7 @@ eti_request_region_show (ETableItem *eti,
 		&x1, &y1, &x2, &y2);
 
 	if (delay)
-		e_canvas_item_show_area_delayed (
+		priv->show_cursor_delay_source = e_canvas_item_show_area_delayed_ex (
 			GNOME_CANVAS_ITEM (eti), x1, y1, x2, y2, delay);
 	else
 		e_canvas_item_show_area (
@@ -1535,6 +1552,13 @@ static void
 eti_dispose (GObject *object)
 {
 	ETableItem *eti = E_TABLE_ITEM (object);
+	ETableItemPrivate *priv = E_TABLE_ITEM_GET_PRIVATE (eti);
+
+	if (priv->show_cursor_delay_source) {
+		g_source_destroy (priv->show_cursor_delay_source);
+		g_source_unref (priv->show_cursor_delay_source);
+		priv->show_cursor_delay_source = NULL;
+	}
 
 	eti_remove_header_model (eti);
 	eti_remove_table_model (eti);
@@ -1689,6 +1713,8 @@ eti_get_property (GObject *object,
 static void
 e_table_item_init (ETableItem *eti)
 {
+	/* eti->priv = E_TABLE_ITEM_GET_PRIVATE (eti); */
+
 	eti->motion_row = -1;
 	eti->motion_col = -1;
 	eti->editing_col = -1;
@@ -3099,6 +3125,8 @@ e_table_item_class_init (ETableItemClass *class)
 {
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	g_type_class_add_private (class, sizeof (ETableItemPrivate));
 
 	object_class->dispose = eti_dispose;
 	object_class->set_property = eti_set_property;
