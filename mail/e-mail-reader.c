@@ -5137,14 +5137,6 @@ e_mail_reader_remote_content_menu_position (GtkMenu *menu,
 	*push_in = FALSE;
 }
 
-static gboolean
-e_mail_reader_destroy_menu_idle_cb (gpointer user_data)
-{
-	gtk_widget_destroy (user_data);
-
-	return FALSE;
-}
-
 static void
 e_mail_reader_remote_content_menu_deactivate_cb (GtkMenuShell *popup_menu,
 						 GtkToggleButton *toggle_button)
@@ -5152,8 +5144,7 @@ e_mail_reader_remote_content_menu_deactivate_cb (GtkMenuShell *popup_menu,
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (toggle_button));
 
 	gtk_toggle_button_set_active (toggle_button, FALSE);
-
-	g_idle_add (e_mail_reader_destroy_menu_idle_cb, popup_menu);
+	gtk_menu_detach (GTK_MENU (popup_menu));
 }
 
 #define REMOTE_CONTENT_KEY_IS_MAIL	"remote-content-key-is-mail"
