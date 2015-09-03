@@ -183,14 +183,24 @@ typedef struct {
 	GnomeCanvas *canvas;
 } DoubsAndCanvas;
 
+static void
+doubs_and_canvas_free (gpointer ptr)
+{
+	DoubsAndCanvas *dac = ptr;
+
+	if (dac) {
+		g_object_unref (dac->canvas);
+		g_free (dac);
+	}
+}
+
 static gboolean
 show_area_timeout (gpointer data)
 {
 	DoubsAndCanvas *dac = data;
 
 	e_canvas_show_area (dac->canvas, dac->x1, dac->y1, dac->x2, dac->y2);
-	g_object_unref (dac->canvas);
-	g_free (dac);
+
 	return FALSE;
 }
 
@@ -202,10 +212,27 @@ e_canvas_item_show_area_delayed (GnomeCanvasItem *item,
                                  gdouble y2,
                                  gint delay)
 {
+	GSource *source;
+
+	source = e_canvas_item_show_area_delayed_ex (item, x1, y1, x2, y2, delay);
+	if (source)
+		g_source_unref (source);
+}
+
+/* Use g_source_unref() when done with the returned pointer. */
+GSource *
+e_canvas_item_show_area_delayed_ex (GnomeCanvasItem *item,
+                                 gdouble x1,
+                                 gdouble y1,
+                                 gdouble x2,
+                                 gdouble y2,
+                                 gint delay)
+{
+	GSource *source;
 	DoubsAndCanvas *dac;
 
-	g_return_if_fail (item != NULL);
-	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
+	g_return_val_if_fail (item != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), NULL);
 
 	gnome_canvas_item_i2w (item, &x1, &y1);
 	gnome_canvas_item_i2w (item, &x2, &y2);
@@ -217,5 +244,10 @@ e_canvas_item_show_area_delayed (GnomeCanvasItem *item,
 	dac->y2 = y2;
 	dac->canvas = g_object_ref (item->canvas);
 
-	e_named_timeout_add (delay, show_area_timeout, dac);
+	source = g_timeout_source_new (delay);
+	g_source_set_callback (source, show_area_timeout, dac, doubs_and_canvas_free);
+	g_source_set_name (source, G_STRFUNC);
+	g_source_attach (source, NULL);
+
+	return source;
 }
