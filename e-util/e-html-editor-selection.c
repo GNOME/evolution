@@ -6128,15 +6128,26 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 		}
 
 		if (g_unichar_isspace (uc) || *str == '-') {
-			if (*str == '-')
-				last_break_position_is_dash = TRUE;
-			else
-				last_break_position_is_dash = FALSE;
+			last_break_position_is_dash = *str == '-';
 			last_break_position = pos;
 		}
 
-		if ((pos == max_length))
+		if ((pos == max_length)) {
+			/* Look one character after the limit to check if there
+			 * is a character that we are allowed to break at, if so
+			 * break it there. */
+			if (*str) {
+				str = g_utf8_next_char (str);
+				uc = g_utf8_get_char (str);
+
+				if (g_unichar_isspace (uc) || *str == '-') {
+					last_break_position_is_dash = *str == '-';
+					pos++;
+					last_break_position = pos;
+				}
+			}
 			break;
+		}
 
 		pos++;
 		str = g_utf8_next_char (str);
