@@ -6299,7 +6299,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 		start_node = node;
 	} else {
 		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMNode *start_point;
+		WebKitDOMNode *start_point = NULL;
 
 		if (!webkit_dom_node_has_child_nodes (block))
 			return WEBKIT_DOM_ELEMENT (block);
