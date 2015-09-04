@@ -6518,7 +6518,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 			}
 
 			/* Allow anchors to break on any character. */
-			if (g_object_get_data (G_OBJECT (node), "-x-evo-anchor-text"))
+			if (g_object_steal_data (G_OBJECT (node), "-x-evo-anchor-text"))
 				offset = max_length;
 			else {
 				/* Find where we can line-break the node so that it
