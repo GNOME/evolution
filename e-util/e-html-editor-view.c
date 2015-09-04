@@ -4990,6 +4990,70 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view,
 	return FALSE;
 }
 
+static void
+change_smiley_to_plain_text (EHTMLEditorView *view)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMNode *parent;
+	gboolean in_smiley = FALSE;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	e_html_editor_selection_save (view->priv->selection);
+	element = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+	if (WEBKIT_DOM_IS_ELEMENT (parent) &&
+	    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-text"))
+		in_smiley = TRUE;
+	else {
+		if (e_html_editor_selection_is_collapsed (view->priv->selection)) {
+			WebKitDOMNode *prev_sibling;
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling)) {
+				gchar *text = webkit_dom_character_data_get_data (
+					WEBKIT_DOM_CHARACTER_DATA (prev_sibling));
+
+				if (g_strcmp0 (text, UNICODE_ZERO_WIDTH_SPACE) == 0) {
+					remove_node (prev_sibling);
+					in_smiley = TRUE;
+					prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+					if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+					    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-smiley-wrapper"))
+						parent = webkit_dom_node_get_last_child (prev_sibling);
+				}
+
+				g_free (text);
+			}
+		} else {
+			element = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-end-marker");
+
+			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
+			if (WEBKIT_DOM_IS_ELEMENT (parent) &&
+			    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-smiley-text"))
+				in_smiley = TRUE;
+		}
+	}
+
+	if (in_smiley) {
+		WebKitDOMNode *wrapper, *child;
+
+		wrapper = webkit_dom_node_get_parent_node (parent);
+		while ((child = webkit_dom_node_get_first_child (parent)))
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (wrapper),
+				child,
+				wrapper,
+				NULL);
+		remove_node (wrapper);
+	}
+
+	e_html_editor_selection_restore (view->priv->selection);
+}
+
 static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
@@ -5027,7 +5091,7 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		selection = e_html_editor_view_get_selection (view);
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
-		/* Return pressed in the the begining of the first cell will insert
+		/* Return pressed in the beginning of the first cell will insert
 		 * new block before the table (and move the caret there) if none
 		 * is already there, otherwise it will act as normal return. */
 		if (selection_is_in_table (document, &first_cell, &table) && first_cell) {
@@ -5124,42 +5188,14 @@ html_editor_view_key_press_event (GtkWidget *widget,
 
 	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace) {
 		if (!view->priv->html_mode && view->priv->magic_smileys) {
-			WebKitDOMDocument *document;
-			WebKitDOMElement *element, *parent;
-			gboolean in_smiley = FALSE;
-
-			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-			e_html_editor_selection_save (view->priv->selection);
-			element = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-start-marker");
-
-			parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
-			if (element_has_class (parent, "-x-evo-smiley-text"))
-				in_smiley = TRUE;
-			else {
-				if (!e_html_editor_selection_is_collapsed (view->priv->selection)) {
-					element = webkit_dom_document_get_element_by_id (
-						document, "-x-evo-selection-end-marker");
-
-					parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
-					if (element_has_class (parent, "-x-evo-smiley-text"))
-						in_smiley = TRUE;
-				}
-			}
-
-			if (in_smiley) {
-				WebKitDOMNode *wrapper, *child;
-
-				wrapper = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent));
-				while ((child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (parent))))
-					webkit_dom_node_insert_before (
-						webkit_dom_node_get_parent_node (wrapper),
-						child,
-						wrapper,
-						NULL);
-				remove_node (wrapper);
-			}
-			e_html_editor_selection_restore (view->priv->selection);
+			/* If deleting something in a smiley it won't be a smiley
+			 * anymore (at least from Evolution' POV), so remove all
+			 * the elements that are hidden in the wrapper and leave
+			 * just the text. Also this ensures that when a smiley is
+			 * recognized and we press the BackSpace key we won't delete
+			 * the UNICODE_HIDDEN_SPACE, but we will correctly delete
+			 * the last character of smiley. */
+			change_smiley_to_plain_text (view);
 		}
 		if (event->keyval == GDK_KEY_BackSpace && !view->priv->html_mode) {
 			if (delete_character_from_quoted_line_start (view, event)) {
