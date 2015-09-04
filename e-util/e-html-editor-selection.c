@@ -6186,6 +6186,62 @@ mark_and_remove_leading_space (WebKitDOMDocument *document,
 		WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
 }
 
+static void
+append_sibling_text_to_previous_node (WebKitDOMNode *node,
+                                      gboolean collapsed)
+{
+	WebKitDOMNode *next_text;
+
+	next_text = webkit_dom_node_get_next_sibling (node);
+	if (WEBKIT_DOM_IS_CHARACTER_DATA (next_text)) {
+		gchar *data;
+
+		data = webkit_dom_character_data_get_data (
+			WEBKIT_DOM_CHARACTER_DATA (next_text));
+		/* If there is a space or dash we would split anyway at that point
+		 * so skip it. */
+		if (data && !(*data == ' ' || *data == '-')) {
+			WebKitDOMNode *prev_sibling;
+
+			prev_sibling = webkit_dom_node_get_previous_sibling (node);
+			if (collapsed)
+				prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+			if (WEBKIT_DOM_IS_CHARACTER_DATA (prev_sibling)) {
+				glong length;
+
+				length = webkit_dom_character_data_get_length (
+					WEBKIT_DOM_CHARACTER_DATA (next_text));
+				webkit_dom_character_data_append_data (
+					WEBKIT_DOM_CHARACTER_DATA (prev_sibling), data, NULL);
+				g_object_set_data (
+					G_OBJECT (prev_sibling),
+					"-x-evo-char-count",
+					GINT_TO_POINTER (length));
+			}
+		}
+		g_free (data);
+	}
+}
+
+static void
+temporary_remove_selection_point (WebKitDOMNode *selection_start_marker,
+                                  WebKitDOMNode *selection_end_marker)
+{
+	WebKitDOMNode *next_sibling;
+
+	next_sibling = webkit_dom_node_get_next_sibling (selection_start_marker);
+	if (next_sibling && webkit_dom_node_is_same_node (next_sibling, selection_end_marker)) {
+		append_sibling_text_to_previous_node (selection_end_marker, TRUE);
+	} else {
+		/* Selection is not collapsed, so we have to prepare
+		 * the start point as well as end point. */
+		append_sibling_text_to_previous_node (selection_start_marker, FALSE);
+
+		if (selection_end_marker)
+			append_sibling_text_to_previous_node (selection_end_marker, FALSE);
+	}
+}
+
 static WebKitDOMElement *
 wrap_lines (EHTMLEditorSelection *selection,
             WebKitDOMNode *block,
@@ -6296,15 +6352,6 @@ wrap_lines (EHTMLEditorSelection *selection,
 			g_object_unref (list);
 		}
 
-		webkit_dom_node_normalize (block_clone);
-		node = webkit_dom_node_get_first_child (block_clone);
-		if (node) {
-			text_content = webkit_dom_node_get_text_content (node);
-			if (g_strcmp0 ("\n", text_content) == 0)
-				node = webkit_dom_node_get_next_sibling (node);
-			g_free (text_content);
-		}
-
 		/* We have to start from the end of the last wrapped line */
 		selection_start_marker = webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block_clone),
@@ -6343,6 +6390,15 @@ wrap_lines (EHTMLEditorSelection *selection,
 			}
 		}
 
+		webkit_dom_node_normalize (block_clone);
+		node = webkit_dom_node_get_first_child (block_clone);
+		if (node) {
+			text_content = webkit_dom_node_get_text_content (node);
+			if (g_strcmp0 ("\n", text_content) == 0)
+				node = webkit_dom_node_get_next_sibling (node);
+			g_free (text_content);
+		}
+
 		if (start_point) {
 			if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (start_point))
 				node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (start_point));
@@ -6351,6 +6407,19 @@ wrap_lines (EHTMLEditorSelection *selection,
 			start_node = block_clone;
 		} else
 			start_node = node;
+
+		if (selection_start_marker || selection_end_marker) {
+			/* The word could be split by selection markers and in this
+			 * case we would wrap it wrongly as the other part of the
+			 * word is in another text node after the marker.
+			 * As a solution temporary append the text of a node that
+			 * is after the caret to the node that is before the caret
+			 * and remove this appended text after we wrap the text
+			 * that is before the caret. */
+			temporary_remove_selection_point (
+				WEBKIT_DOM_NODE (selection_start_marker),
+				WEBKIT_DOM_NODE (selection_end_marker));
+		}
 	}
 
 	line_length = 0;
@@ -6518,6 +6587,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 		/* wrap until we have something */
 		while (node && (length_left + line_length) > length_to_wrap) {
 			gint max_length;
+			gpointer object_data;
 
 			element = webkit_dom_document_create_element (document, "BR", NULL);
 			element_add_class (element, "-x-evo-wrap-br");
@@ -6539,7 +6609,22 @@ wrap_lines (EHTMLEditorSelection *selection,
 			/* Allow anchors to break on any character. */
 			if (g_object_steal_data (G_OBJECT (node), "-x-evo-anchor-text"))
 				offset = max_length;
-			else {
+			else if ((object_data  = g_object_steal_data (G_OBJECT (node), "-x-evo-char-count"))) {
+				glong characters_count;
+
+				offset = find_where_to_break_line (
+					WEBKIT_DOM_CHARACTER_DATA (node), max_length);
+
+				/* Truncate the temporary text that was added to
+				 * the node previously and unmark the node. */
+				characters_count = GPOINTER_TO_INT (object_data);
+				webkit_dom_character_data_delete_data (
+					WEBKIT_DOM_CHARACTER_DATA (node),
+					webkit_dom_character_data_get_length (
+						WEBKIT_DOM_CHARACTER_DATA (node)) - characters_count,
+					characters_count,
+					NULL);
+			} else {
 				/* Find where we can line-break the node so that it
 				 * effectively fills the rest of current row. */
 				offset = find_where_to_break_line (
