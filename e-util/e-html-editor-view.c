@@ -3263,6 +3263,7 @@ body_keyup_event_cb (WebKitDOMElement *element,
 				if (webkit_dom_element_has_attribute (block, "data-no-quote")) {
 					webkit_dom_element_remove_attribute (block, "data-no-quote");
 				} else {
+					remove_quoting_from_element (block);
 					if (element_has_class (block, "-x-evo-paragraph")) {
 						gint length, word_wrap_length;
 
