@@ -6153,17 +6153,14 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 
 		if ((pos == max_length)) {
 			/* Look one character after the limit to check if there
-			 * is a character that we are allowed to break at, if so
+			 * is a space (skip dash) that we are allowed to break at, if so
 			 * break it there. */
 			if (*str) {
 				str = g_utf8_next_char (str);
 				uc = g_utf8_get_char (str);
 
-				if (g_unichar_isspace (uc) || *str == '-') {
-					last_break_position_is_dash = *str == '-';
-					pos++;
-					last_break_position = pos;
-				}
+				if (g_unichar_isspace (uc))
+					last_break_position = ++pos;
 			}
 			break;
 		}
@@ -6181,9 +6178,10 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 	if (last_break_position_is_dash)
 		ret_val++;
 
-	/* No character to break at is found, split at max_length. */
+	/* No character to break at is found. We should split at max_length, but
+	 * we will leave the decision on caller as it depends on context. */
 	if (ret_val == 0 && last_break_position == 0)
-		ret_val = max_length;
+		ret_val = -1;
 
 	return ret_val;
 }
@@ -6203,62 +6201,6 @@ mark_and_remove_leading_space (WebKitDOMDocument *document,
 		NULL);
 	webkit_dom_character_data_replace_data (
 		WEBKIT_DOM_CHARACTER_DATA (node), 0, 1, "", NULL);
-}
-
-static void
-append_sibling_text_to_previous_node (WebKitDOMNode *node,
-                                      gboolean collapsed)
-{
-	WebKitDOMNode *next_text;
-
-	next_text = webkit_dom_node_get_next_sibling (node);
-	if (WEBKIT_DOM_IS_CHARACTER_DATA (next_text)) {
-		gchar *data;
-
-		data = webkit_dom_character_data_get_data (
-			WEBKIT_DOM_CHARACTER_DATA (next_text));
-		/* If there is a space or dash we would split anyway at that point
-		 * so skip it. */
-		if (data && !(*data == ' ' || *data == '-')) {
-			WebKitDOMNode *prev_sibling;
-
-			prev_sibling = webkit_dom_node_get_previous_sibling (node);
-			if (collapsed)
-				prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
-			if (WEBKIT_DOM_IS_CHARACTER_DATA (prev_sibling)) {
-				glong length;
-
-				length = webkit_dom_character_data_get_length (
-					WEBKIT_DOM_CHARACTER_DATA (next_text));
-				webkit_dom_character_data_append_data (
-					WEBKIT_DOM_CHARACTER_DATA (prev_sibling), data, NULL);
-				g_object_set_data (
-					G_OBJECT (prev_sibling),
-					"-x-evo-char-count",
-					GINT_TO_POINTER (length));
-			}
-		}
-		g_free (data);
-	}
-}
-
-static void
-temporary_remove_selection_point (WebKitDOMNode *selection_start_marker,
-                                  WebKitDOMNode *selection_end_marker)
-{
-	WebKitDOMNode *next_sibling;
-
-	next_sibling = webkit_dom_node_get_next_sibling (selection_start_marker);
-	if (next_sibling && webkit_dom_node_is_same_node (next_sibling, selection_end_marker)) {
-		append_sibling_text_to_previous_node (selection_end_marker, TRUE);
-	} else {
-		/* Selection is not collapsed, so we have to prepare
-		 * the start point as well as end point. */
-		append_sibling_text_to_previous_node (selection_start_marker, FALSE);
-
-		if (selection_end_marker)
-			append_sibling_text_to_previous_node (selection_end_marker, FALSE);
-	}
 }
 
 static WebKitDOMElement *
@@ -6426,19 +6368,6 @@ wrap_lines (EHTMLEditorSelection *selection,
 			start_node = block_clone;
 		} else
 			start_node = node;
-
-		if (selection_start_marker || selection_end_marker) {
-			/* The word could be split by selection markers and in this
-			 * case we would wrap it wrongly as the other part of the
-			 * word is in another text node after the marker.
-			 * As a solution temporary append the text of a node that
-			 * is after the caret to the node that is before the caret
-			 * and remove this appended text after we wrap the text
-			 * that is before the caret. */
-			temporary_remove_selection_point (
-				WEBKIT_DOM_NODE (selection_start_marker),
-				WEBKIT_DOM_NODE (selection_end_marker));
-		}
 	}
 
 	line_length = 0;
@@ -6606,7 +6535,6 @@ wrap_lines (EHTMLEditorSelection *selection,
 		/* wrap until we have something */
 		while (node && (length_left + line_length) > length_to_wrap) {
 			gint max_length;
-			gpointer object_data;
 
 			element = webkit_dom_document_create_element (document, "BR", NULL);
 			element_add_class (element, "-x-evo-wrap-br");
@@ -6628,26 +6556,86 @@ wrap_lines (EHTMLEditorSelection *selection,
 			/* Allow anchors to break on any character. */
 			if (g_object_steal_data (G_OBJECT (node), "-x-evo-anchor-text"))
 				offset = max_length;
-			else if ((object_data  = g_object_steal_data (G_OBJECT (node), "-x-evo-char-count"))) {
-				glong characters_count;
-
-				offset = find_where_to_break_line (
-					WEBKIT_DOM_CHARACTER_DATA (node), max_length);
-
-				/* Truncate the temporary text that was added to
-				 * the node previously and unmark the node. */
-				characters_count = GPOINTER_TO_INT (object_data);
-				webkit_dom_character_data_delete_data (
-					WEBKIT_DOM_CHARACTER_DATA (node),
-					webkit_dom_character_data_get_length (
-						WEBKIT_DOM_CHARACTER_DATA (node)) - characters_count,
-					characters_count,
-					NULL);
-			} else {
+			else {
 				/* Find where we can line-break the node so that it
 				 * effectively fills the rest of current row. */
 				offset = find_where_to_break_line (
 					WEBKIT_DOM_CHARACTER_DATA (node), max_length);
+
+				/* When pressing delete on the end of line to concatenate
+				 * the last word from the line and first word from the
+				 * next line we will end with the second word split
+				 * somewhere in the middle (to be precise it will be
+				 * split after the last character that will fit on the
+				 * previous line. To avoid that we need to put the
+				 * concatenated word on the next line. */
+				if (offset == -1) {
+					WebKitDOMNode *prev_sibling;
+
+					prev_sibling = webkit_dom_node_get_previous_sibling (node);
+					if (prev_sibling && e_html_editor_node_is_selection_position_node (prev_sibling)) {
+						prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+
+						/* Collapsed selection */
+						if (prev_sibling && e_html_editor_node_is_selection_position_node (prev_sibling))
+							prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+
+						if (prev_sibling && WEBKIT_DOM_IS_CHARACTER_DATA (prev_sibling)) {
+							gchar *data;
+							glong text_length, length = 0;
+
+							data = webkit_dom_character_data_get_data (
+								WEBKIT_DOM_CHARACTER_DATA (prev_sibling));
+							text_length = webkit_dom_character_data_get_length (
+								WEBKIT_DOM_CHARACTER_DATA (prev_sibling));
+
+							/* Find the last character where we can break. */
+							while (text_length - length > 0) {
+								if (strchr (" "UNICODE_NBSP, data[text_length - length - 1])) {
+									length++;
+									break;
+								} else if (data[text_length - length - 1] == '-' &&
+								           text_length - length > 1 &&
+								           !strchr (" "UNICODE_NBSP, data[text_length - length - 2]))
+									break;
+								length++;
+							}
+
+							if (text_length != length) {
+								WebKitDOMNode *nd;
+
+								webkit_dom_text_split_text (
+									WEBKIT_DOM_TEXT (prev_sibling),
+									text_length - length,
+									NULL);
+
+								if ((nd = webkit_dom_node_get_next_sibling (prev_sibling))) {
+									gchar *nd_content;
+
+									nd_content = webkit_dom_node_get_text_content (nd);
+									if (nd_content && *nd_content) {
+										if (*nd_content == ' ')
+											mark_and_remove_leading_space (document, nd);
+										g_free (nd_content);
+									}
+
+									if (nd) {
+										webkit_dom_node_insert_before (
+											webkit_dom_node_get_parent_node (nd),
+											WEBKIT_DOM_NODE (element),
+											nd,
+											NULL);
+
+										offset = 0;
+										line_length = length;
+										continue;
+									}
+								}
+							}
+						}
+					}
+					offset = max_length;
+				}
 			}
 
 			if (offset > 0) {
@@ -6663,7 +6651,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (nd_content && *nd_content) {
-						if (g_str_has_prefix (nd_content, " "))
+						if (*nd_content == ' ')
 							mark_and_remove_leading_space (document, nd);
 						g_free (nd_content);
 						nd_content = webkit_dom_node_get_text_content (nd);
