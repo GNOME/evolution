@@ -4081,11 +4081,13 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 				NULL);
 		}
 
-		block = e_html_editor_selection_wrap_paragraph_length (
-			selection, block, length);
-		webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-		e_html_editor_view_quote_plain_text_element_after_wrapping (
-			document, block, citation_level - 1);
+		if (!view->priv->html_mode) {
+			block = e_html_editor_selection_wrap_paragraph_length (
+				selection, block, length);
+			webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+			e_html_editor_view_quote_plain_text_element_after_wrapping (
+				document, block, citation_level - 1);
+		}
 	}
 
 	if (ev) {
