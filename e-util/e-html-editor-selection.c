@@ -6127,7 +6127,8 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 			goto out;
 		}
 
-		if (g_unichar_isspace (uc) || *str == '-') {
+		if ((g_unichar_isspace (uc) && !(g_unichar_break_type (uc) == G_UNICODE_BREAK_NON_BREAKING_GLUE)) ||
+		     *str == '-') {
 			if ((last_break_position_is_dash = *str == '-')) {
 				/* There was no space before the dash */
 				if (pos - 1 != last_break_position) {
@@ -6159,7 +6160,8 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 				str = g_utf8_next_char (str);
 				uc = g_utf8_get_char (str);
 
-				if (g_unichar_isspace (uc))
+				if ((g_unichar_isspace (uc) &&
+				    !(g_unichar_break_type (uc) == G_UNICODE_BREAK_NON_BREAKING_GLUE)))
 					last_break_position = ++pos;
 			}
 			break;
@@ -6591,12 +6593,12 @@ wrap_lines (EHTMLEditorSelection *selection,
 
 							/* Find the last character where we can break. */
 							while (text_length - length > 0) {
-								if (strchr (" "UNICODE_NBSP, data[text_length - length - 1])) {
+								if (strchr (" ", data[text_length - length - 1])) {
 									length++;
 									break;
 								} else if (data[text_length - length - 1] == '-' &&
 								           text_length - length > 1 &&
-								           !strchr (" "UNICODE_NBSP, data[text_length - length - 2]))
+								           !strchr (" ", data[text_length - length - 2]))
 									break;
 								length++;
 							}
@@ -6655,7 +6657,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 							mark_and_remove_leading_space (document, nd);
 						g_free (nd_content);
 						nd_content = webkit_dom_node_get_text_content (nd);
-						if (g_strcmp0 (nd_content, UNICODE_NBSP) == 0 || !*nd_content)
+						if (!*nd_content)
 							remove_node (nd);
 						g_free (nd_content);
 					}
