@@ -727,6 +727,16 @@ ensure_scrolled_height_cb (GtkAdjustment *adj,
 	gtk_scrolled_window_set_min_content_height (scrolled_window, require_scw_height);
 }
 
+static void
+parts_mapped_cb (GtkWidget *widget,
+		 GtkScrolledWindow *scrolled_window)
+{
+	g_return_if_fail (GTK_IS_SCROLLED_WINDOW (scrolled_window));
+
+	ensure_scrolled_width_cb (gtk_scrolled_window_get_hadjustment (scrolled_window), NULL, scrolled_window);
+	ensure_scrolled_height_cb (gtk_scrolled_window_get_vadjustment (scrolled_window), NULL, scrolled_window);
+}
+
 static GtkWidget *
 filter_rule_get_widget (EFilterRule *rule,
                         ERuleContext *context)
@@ -904,6 +914,8 @@ filter_rule_get_widget (EFilterRule *rule,
 	vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0));
 	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
 
+	g_signal_connect (parts, "map",
+		G_CALLBACK (parts_mapped_cb), scrolledwindow);
 	e_signal_connect_notify (
 		hadj, "notify::upper",
 		G_CALLBACK (ensure_scrolled_width_cb), scrolledwindow);
