@@ -3953,7 +3953,7 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 					WEBKIT_DOM_NODE (block)));
 	}
 
-	if (success) {
+	if (success && !view->priv->undo_redo_in_progress) {
 		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
 		ev->type = HISTORY_UNQUOTE;
 
