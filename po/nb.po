@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.17.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 19:56+0200\n"
-"PO-Revision-Date: 2015-09-07 19:59+0200\n"
+"POT-Creation-Date: 2015-09-10 23:24+0200\n"
+"PO-Revision-Date: 2015-09-12 13:23+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -4325,7 +4325,7 @@ msgstr "kalendervisning for en måned"
 msgid "calendar view for one or more weeks"
 msgstr "kalendervisning for en eller flere uker"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:758
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:768
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "Uten navn"
@@ -11832,23 +11832,23 @@ msgstr "Velg en tid å sammenligne mot"
 msgid "Choose a File"
 msgstr "Velg en fil"
 
-#: ../e-util/e-filter-rule.c:751
+#: ../e-util/e-filter-rule.c:761
 msgid "R_ule name:"
 msgstr "Regel_navn:"
 
-#: ../e-util/e-filter-rule.c:801
+#: ../e-util/e-filter-rule.c:811
 msgid "all the following conditions"
 msgstr "alle følgende betingelser"
 
-#: ../e-util/e-filter-rule.c:802
+#: ../e-util/e-filter-rule.c:812
 msgid "any of the following conditions"
 msgstr "noen av følgende betingelser"
 
-#: ../e-util/e-filter-rule.c:808
+#: ../e-util/e-filter-rule.c:818
 msgid "_Find items which match:"
 msgstr "_Finn oppføringer som er lik:"
 
-#: ../e-util/e-filter-rule.c:831
+#: ../e-util/e-filter-rule.c:841
 msgid "Find items that meet the following conditions"
 msgstr "Finn oppføringer som møter følgende kriterier"
 
@@ -11856,7 +11856,7 @@ msgstr "Finn oppføringer som møter følgende kriterier"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:63
+#: ../e-util/e-filter-rule.c:856 ../e-util/e-html-editor-page-dialog.c:63
 #: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367
 #: ../libemail-engine/camel-null-store.c:27
@@ -11865,36 +11865,36 @@ msgstr "Finn oppføringer som møter følgende kriterier"
 msgid "None"
 msgstr "Ingen"
 
-#: ../e-util/e-filter-rule.c:847
+#: ../e-util/e-filter-rule.c:857
 msgid "All related"
 msgstr "Alle relaterte"
 
-#: ../e-util/e-filter-rule.c:848 ../e-util/e-send-options.ui.h:19
+#: ../e-util/e-filter-rule.c:858 ../e-util/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Svar"
 
-#: ../e-util/e-filter-rule.c:849
+#: ../e-util/e-filter-rule.c:859
 msgid "Replies and parents"
 msgstr "Svar med opphav"
 
-#: ../e-util/e-filter-rule.c:850
+#: ../e-util/e-filter-rule.c:860
 msgid "No reply or parent"
 msgstr "Ingen svar eller opphav"
 
-#: ../e-util/e-filter-rule.c:853
+#: ../e-util/e-filter-rule.c:863
 msgid "I_nclude threads:"
 msgstr "Ta _med tråder:"
 
-#: ../e-util/e-filter-rule.c:930
+#: ../e-util/e-filter-rule.c:942
 msgid "A_dd Condition"
 msgstr "Legg til _kriterie"
 
-#: ../e-util/e-filter-rule.c:1244 ../e-util/filter.ui.h:1
+#: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1
 #: ../mail/em-utils.c:165
 msgid "Incoming"
 msgstr "Innkommende"
 
-#: ../e-util/e-filter-rule.c:1244 ../mail/em-utils.c:166
+#: ../e-util/e-filter-rule.c:1256 ../mail/em-utils.c:166
 msgid "Outgoing"
 msgstr "Utgående"
 
@@ -12871,11 +12871,11 @@ msgstr "St_ørrelse:"
 msgid "Text Properties"
 msgstr "Egenskaper for tekst"
 
-#: ../e-util/e-html-editor-view.c:5458
+#: ../e-util/e-html-editor-view.c:5470
 msgid "Changed property"
 msgstr "Endret egenskap"
 
-#: ../e-util/e-html-editor-view.c:5459
+#: ../e-util/e-html-editor-view.c:5471
 msgid "Whether editor changed"
 msgstr "Hvorvidt redigering ble endret"
 
@@ -15432,7 +15432,7 @@ msgstr "Merk valgte meldinger som ønsket e-post"
 
 #: ../mail/e-mail-reader.c:2076
 msgid "_Read"
-msgstr "_Les"
+msgstr "_Lest"
 
 #: ../mail/e-mail-reader.c:2078
 msgid "Mark the selected messages as having been read"
