@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-02 15:13+0200\n"
-"PO-Revision-Date: 2015-09-02 16:02+0200\n"
+"POT-Creation-Date: 2015-09-14 17:03+0200\n"
+"PO-Revision-Date: 2015-09-14 17:12+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -4387,7 +4387,7 @@ msgstr "vista de calendario para un mes"
 msgid "calendar view for one or more weeks"
 msgstr "vista de calendario para unha ou máis semanas"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:758
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:768
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "Sen título"
@@ -12163,23 +12163,23 @@ msgstr "Seleccionar un tempo co que comparar"
 msgid "Choose a File"
 msgstr "Seleccionar un ficheiro"
 
-#: ../e-util/e-filter-rule.c:751
+#: ../e-util/e-filter-rule.c:761
 msgid "R_ule name:"
 msgstr "Nome da r_egra:"
 
-#: ../e-util/e-filter-rule.c:801
+#: ../e-util/e-filter-rule.c:811
 msgid "all the following conditions"
 msgstr "todas as seguintes condicións"
 
-#: ../e-util/e-filter-rule.c:802
+#: ../e-util/e-filter-rule.c:812
 msgid "any of the following conditions"
 msgstr "calquera das seguintes condicións"
 
-#: ../e-util/e-filter-rule.c:808
+#: ../e-util/e-filter-rule.c:818
 msgid "_Find items which match:"
 msgstr "_Buscar elementos que coincidan con:"
 
-#: ../e-util/e-filter-rule.c:831
+#: ../e-util/e-filter-rule.c:841
 msgid "Find items that meet the following conditions"
 msgstr "Encontrar os elementos que cumpran as seguintes condicións"
 
@@ -12187,7 +12187,7 @@ msgstr "Encontrar os elementos que cumpran as seguintes condicións"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:63
+#: ../e-util/e-filter-rule.c:856 ../e-util/e-html-editor-page-dialog.c:63
 #: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367
 #: ../libemail-engine/camel-null-store.c:27
@@ -12196,36 +12196,36 @@ msgstr "Encontrar os elementos que cumpran as seguintes condicións"
 msgid "None"
 msgstr "Ningunha"
 
-#: ../e-util/e-filter-rule.c:847
+#: ../e-util/e-filter-rule.c:857
 msgid "All related"
 msgstr "Todos os relacionados"
 
-#: ../e-util/e-filter-rule.c:848 ../e-util/e-send-options.ui.h:19
+#: ../e-util/e-filter-rule.c:858 ../e-util/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Respostas"
 
-#: ../e-util/e-filter-rule.c:849
+#: ../e-util/e-filter-rule.c:859
 msgid "Replies and parents"
 msgstr "Respostas e pais"
 
-#: ../e-util/e-filter-rule.c:850
+#: ../e-util/e-filter-rule.c:860
 msgid "No reply or parent"
 msgstr "Sen resposta nin pai"
 
-#: ../e-util/e-filter-rule.c:853
+#: ../e-util/e-filter-rule.c:863
 msgid "I_nclude threads:"
 msgstr "I_ncluír fíos:"
 
-#: ../e-util/e-filter-rule.c:930
+#: ../e-util/e-filter-rule.c:942
 msgid "A_dd Condition"
 msgstr "Enga_dir unha condición"
 
-#: ../e-util/e-filter-rule.c:1244 ../e-util/filter.ui.h:1
+#: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1
 #: ../mail/em-utils.c:165
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../e-util/e-filter-rule.c:1244 ../mail/em-utils.c:166
+#: ../e-util/e-filter-rule.c:1256 ../mail/em-utils.c:166
 msgid "Outgoing"
 msgstr "Saínte"
 
@@ -13202,11 +13202,11 @@ msgstr "Ta_maño:"
 msgid "Text Properties"
 msgstr "Propiedades do texto"
 
-#: ../e-util/e-html-editor-view.c:5359
+#: ../e-util/e-html-editor-view.c:5474
 msgid "Changed property"
 msgstr "Propiedade cambiada"
 
-#: ../e-util/e-html-editor-view.c:5360
+#: ../e-util/e-html-editor-view.c:5475
 msgid "Whether editor changed"
 msgstr "Indica se o editor cambiou"
 
@@ -16175,22 +16175,22 @@ msgstr "Anterior"
 msgid "Reply"
 msgstr "Responder"
 
-#: ../mail/e-mail-reader.c:5249
+#: ../mail/e-mail-reader.c:5240
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Permitir o contido remoto para calquera de %s"
 
-#: ../mail/e-mail-reader.c:5251
+#: ../mail/e-mail-reader.c:5242
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Permitir o contido remoto para %s"
 
-#: ../mail/e-mail-reader.c:5268
+#: ../mail/e-mail-reader.c:5259
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Permitir contido remoto desde %s"
 
-#: ../mail/e-mail-reader.c:5325
+#: ../mail/e-mail-reader.c:5316
 msgid "Load remote content"
 msgstr "Cargar o contido remoto"
 
@@ -17718,6 +17718,11 @@ msgid ""
 "other or if privacy is a concern. Consider adding recipients to the BCC "
 "field instead."
 msgstr ""
+"Está tentando enviar un mensaxe a {0} destinatarios en campos Para e CC. "
+"Isto fará que todos os destinatarios vexan os enderezos de correo dos "
+"outros. Nalgúns casos este comportamento non é desexado, especialmente se "
+"eles non se conocen ou se a privacidade é un asunto de importancia. "
+"Considere engadir destinatarios usando o campo BCC no lugar."
 
 #: ../mail/mail.error.xml.h:19
 msgid "Are you sure you want to send a message with invalid address?"
@@ -19870,7 +19875,7 @@ msgstr "antes de cada aniversario"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Default _snooze time (in minutes)"
-msgstr ""
+msgstr "Tempo de _pospoñer por omisión (en minutos)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Select the calendars for reminder notification"
@@ -22753,7 +22758,7 @@ msgstr "Cargar unha imaxe nova da _cara"
 
 #: ../plugins/face/face.c:449
 msgid "Change Face Image"
-msgstr ""
+msgstr "Cambiar imaxe da cara"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
@@ -22785,7 +22790,7 @@ msgstr ""
 
 #: ../plugins/face/org-gnome-face.error.xml.h:5
 msgid "Incorrect Face Image Byte Size"
-msgstr ""
+msgstr "Tamaño en bytes da imaxe da cara non válido"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:6
 msgid ""
@@ -22793,6 +22798,9 @@ msgid ""
 "bytes. Please select a PNG image of size 48 * 48 pixels, whose file size "
 "doesn't exceed 723 bytes."
 msgstr ""
+"O tamaño da imaxe de cara é {0} bytes, e non debería ser máis grande de 723 "
+"bytes. Seleccione unha imaxe PNG dun tamaño de 48*48 píxeles, cuxo tamaño de "
+"ficheiro non exceda 723 píxeles."
 
 #: ../plugins/face/org-gnome-face.error.xml.h:7
 msgid "Not an image"
