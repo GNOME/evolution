@@ -1396,11 +1396,11 @@ msgstr "адресна книга evolution"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:35
 msgid "New Contact"
-msgstr "Створити контакт"
+msgstr "Новий контакт"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:36
 msgid "New Contact List"
-msgstr "Створити список контактів"
+msgstr "Новий список контактів"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:176
 #, c-format
@@ -4150,15 +4150,15 @@ msgstr "_Адреса веб-сторінки:"
 
 #: ../calendar/gui/ea-cal-view.c:284
 msgid "New Appointment"
-msgstr "Створити зустріч"
+msgstr "Нова зустріч"
 
 #: ../calendar/gui/ea-cal-view.c:285
 msgid "New All Day Event"
-msgstr "Створити щоденну подію"
+msgstr "Нова щоденна подія"
 
 #: ../calendar/gui/ea-cal-view.c:286
 msgid "New Meeting"
-msgstr "Створити засідання"
+msgstr "Нове засідання"
 
 #: ../calendar/gui/ea-cal-view.c:287
 msgid "Go to Today"
@@ -18236,11 +18236,11 @@ msgstr "Перемістити вибрані контакти у іншу ад�
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1079
 msgid "_New Contact..."
-msgstr "_Створити контакт..."
+msgstr "_Новий контакт..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1086
 msgid "New Contact _List..."
-msgstr "Створити с_писок контактів..."
+msgstr "Новий с_писок контактів..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:1093
 msgid "_Open Contact"
@@ -19169,12 +19169,12 @@ msgstr "Оприлюднення інформації"
 #: ../modules/calendar/e-cal-base-shell-backend.c:186
 #: ../modules/calendar/e-cal-shell-view-actions.c:162
 msgid "New Calendar"
-msgstr "Створити календар"
+msgstr "Новий календар"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:190
 #: ../modules/calendar/e-memo-shell-view-actions.c:164
 msgid "New Memo List"
-msgstr "Створити список приміток"
+msgstr "Новий список приміток"
 
 #: ../modules/calendar/e-cal-base-shell-backend.c:194
 #: ../modules/calendar/e-task-shell-view-actions.c:187
@@ -19430,7 +19430,7 @@ msgstr "Вилучити всі екземпляри"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1331
 msgid "New All Day _Event..."
-msgstr "Створити _щоденну подію…"
+msgstr "Нова _щоденна подія…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1333
 msgid "Create a new all day event"
@@ -19446,7 +19446,7 @@ msgstr "Перес_лати як iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1345
 msgid "New _Meeting..."
-msgstr "Створити за_сідання..."
+msgstr "Нове за_сідання..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1347
 msgid "Create a new meeting"
@@ -19597,7 +19597,7 @@ msgstr "примітка"
 #: ../modules/calendar/e-cal-shell-view-memopad.c:249
 #: ../modules/calendar/e-memo-shell-view-actions.c:599
 msgid "New _Memo"
-msgstr "Створити _примітку"
+msgstr "Нова _примітка"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:251
 #: ../modules/calendar/e-memo-shell-backend.c:65
@@ -19691,7 +19691,7 @@ msgstr "Позначити вибрані завдання як невикона
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:337
 #: ../modules/calendar/e-task-shell-view-actions.c:738
 msgid "New _Task"
-msgstr "Створити за_вдання"
+msgstr "Нове за_вдання"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:339
 #: ../modules/calendar/e-task-shell-backend.c:64
@@ -22302,7 +22302,7 @@ msgstr "Тема: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:424
 msgid "New email in Evolution"
-msgstr "Створити пошту в Evolution"
+msgstr "Нова пошта в Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
@@ -22956,7 +22956,7 @@ msgstr "Імпорт даних з інших програм"
 
 #: ../shell/e-shell-window-actions.c:958
 msgid "New _Window"
-msgstr "Створити _вікно"
+msgstr "Нове _вікно"
 
 #: ../shell/e-shell-window-actions.c:960
 msgid "Create a new window displaying this view"
@@ -26516,7 +26516,7 @@ msgstr "З _станом"
 #~ msgstr "Помилка перевірки автентифікації.\n"
 
 #~ msgid "New _Shared Folder..."
-#~ msgstr "Створити _спільну теку..."
+#~ msgstr "Нова _спільна тека..."
 
 #~ msgid "_Proxy Login..."
 #~ msgstr "_Обліковий запис проксі..."
