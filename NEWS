@@ -1,3 +1,51 @@
+Evolution 3.17.92 2015-09-14
+----------------------------
+
+Bug Fixes:
+	Bug 675154 - Provide an application menu (Milan Crha)
+	Bug 754329 - Runtime warning when pressing Delete at the end of paragraph (Milan Crha)
+	Bug 661886 - Avoid vertical scrolling in the filtering rules editor dialog (Milan Crha)
+
+Miscellaneous:
+	[Win32] Miscellaneous build changes (Milan Crha)
+	Extend ECanvas cursor positioning routine (Milan Crha)
+	Crash under e_mail_reader_destroy_menu_idle_cb() (Milan Crha)
+	Don't wrap on Unicode's non-breaking space character (Tomas Popela)
+	EHTMLEditorSelection - Last word that could fit on one line is put on the following line (Tomas Popela)
+	EHTMLEditorSelection - Avoid wrong wrapping in some cases (Tomas Popela)
+	EHTMLEditorSelection - Remove the GObject data after using it to avoid possible mis-function (Tomas Popela)
+	EHTMLEditorSelection - Correct wrapping when deleting characters in quoted content (Tomas Popela)
+	EHTMLEditorSelection - Remove trailing spaces (Tomas Popela)
+	EHTMLEditorSelection - Correctly wrap text nodes around selection markers (Tomas Popela)
+	EHTMLEditorSelection - Just first line in block is wrapped (Tomas Popela)
+	EHTMLEditorSelection - Dash is a valid character for wrapping only if it's not surrounded by spaces (Tomas Popela)
+	EHTMLEditorSelection - Correctly wrap text nodes around selection markers (Tomas Popela)
+	EHTMLEditorSelection - If copy/pasting in composer WebKit wraps content in SPAN (Tomas Popela)
+	EHTMLEditorUtils - Add argument where we can specify into what level the node will be split (Tomas Popela)
+	EHTMLEditorView - Try to merge adjacent blockquotes when editing quoted text (Tomas Popela)
+	EHTMLEditorView - Avoid double quotes when deleting a text inside quoted content (Tomas Popela)
+	EHTMLEditorView - Modifying the text of a smiley should convert the smiley to a text node (Tomas Popela)
+	EHTMLEditorView - Bringing anchor from quoted text to body with Backspace doesn't work (Tomas Popela)
+	EHTMLEditorView - Avoid plain text quote characters to be inserted in HTML mode (Tomas Popela)
+	EHTMLEditorView - Undo/Redo history is wrong after redoing UNQUOTE operation (Tomas Popela)
+	EHTMLEditorView - Avoid multiple unnecessary spell checking (Tomas Popela)
+
+Translations:
+	Dušan Kazik (sk)
+	Piotr Drąg (pl)
+	Pedro Albuquerque (pt)
+	Fran Dieguez (gl)
+	Gábor Kelemen (hu)
+	Daniel Mustieles (es)
+	Baurzhan Muftakhidinov (kk)
+	Changwoo Ryu (ko)
+	Christian Kirbach (de)
+	Aurimas Černius (lt)
+	Kjartan Maraas (nb)
+	Muhammet Kara (tr)
+	Alexandre Franke (fr)
+	Anders Jonsson (sv)
+
 Evolution 3.17.91 2015-08-31
 ----------------------------
 
