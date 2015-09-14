@@ -314,8 +314,10 @@ remove_node_if_empty (WebKitDOMNode *node)
 }
 
 WebKitDOMNode *
-split_list_into_two (WebKitDOMNode *item)
+split_node_into_two (WebKitDOMNode *item,
+                     gint level)
 {
+	gint current_level = 1;
 	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment;
 	WebKitDOMNode *parent, *prev_parent, *tmp;
@@ -356,6 +358,11 @@ split_list_into_two (WebKitDOMNode *item)
 					first_child, sibling, insert_before, NULL);
 			}
 		}
+
+		if (current_level >= level && level >= 0)
+			break;
+
+		current_level++;
 	}
 
 	tmp = webkit_dom_node_insert_before (

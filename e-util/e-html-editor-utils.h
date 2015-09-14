@@ -66,7 +66,8 @@ void		remove_node			(WebKitDOMNode *node);
 
 void		remove_node_if_empty		(WebKitDOMNode *node);
 
-WebKitDOMNode *	split_list_into_two		(WebKitDOMNode *item);
+WebKitDOMNode *	split_node_into_two		(WebKitDOMNode *item,
+						 gint level);
 
 WebKitDOMElement *
 		create_selection_marker		(WebKitDOMDocument *document,

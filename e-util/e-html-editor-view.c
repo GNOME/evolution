@@ -4958,7 +4958,7 @@ return_pressed_in_empty_list_item (EHTMLEditorView *view,
 			fragment = webkit_dom_document_create_document_fragment (document);
 		}
 
-		list = split_list_into_two (parent);
+		list = split_node_into_two (parent, -1);
 
 		if (save_history) {
 			webkit_dom_node_append_child (
