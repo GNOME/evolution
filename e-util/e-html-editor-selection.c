@@ -5480,6 +5480,7 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 	EHTMLEditorView *view;
 	EHTMLEditorViewCommand command;
 	EHTMLEditorViewHistoryEvent *ev = NULL;
+	gboolean html_mode;
 
 	g_return_if_fail (E_IS_HTML_EDITOR_SELECTION (selection));
 	g_return_if_fail (html_text != NULL);
@@ -5508,8 +5509,9 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 		ev->data.string.to = g_strdup (html_text);
 	}
 
+	html_mode = e_html_editor_view_get_html_mode (view);
 	command = E_HTML_EDITOR_VIEW_COMMAND_INSERT_HTML;
-	if (e_html_editor_view_get_html_mode (view) ||
+	if (html_mode ||
 	    (e_html_editor_view_is_pasting_content_from_itself (view) &&
 	     !pasting_quoted_content (html_text))) {
 		if (!e_html_editor_selection_is_collapsed (selection)) {
@@ -5549,6 +5551,39 @@ e_html_editor_selection_insert_html (EHTMLEditorSelection *selection,
 		e_html_editor_view_fix_file_uri_images (view);
 		if (strstr (html_text, "id=\"-x-evo-selection-start-marker\""))
 			e_html_editor_selection_restore (selection);
+
+		if (!html_mode) {
+			WebKitDOMDocument *document;
+			WebKitDOMNodeList *list;
+			gint ii, length;
+
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+			list = webkit_dom_document_query_selector_all (
+				document, "span[style^=font-family]", NULL);
+			length = webkit_dom_node_list_get_length (list);
+			if (length > 0)
+				e_html_editor_selection_save (selection);
+
+			for (ii = 0; ii < length; ii++) {
+				WebKitDOMNode *span, *child;
+
+				span = webkit_dom_node_list_item (list, ii);
+				while ((child = webkit_dom_node_get_first_child (span)))
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (span),
+						child,
+						span,
+						NULL);
+
+				remove_node (span);
+				g_object_unref (span);
+			}
+			g_object_unref (list);
+
+			if (length > 0)
+				e_html_editor_selection_restore (selection);
+		}
+
 		e_html_editor_view_check_magic_links (view, FALSE);
 		e_html_editor_view_force_spell_check_in_viewport (view);
 
