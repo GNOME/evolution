@@ -33,7 +33,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-09-04 11:47+0000\n"
+"POT-Creation-Date: 2015-09-16 04:35+0000\n"
 "PO-Revision-Date: 2015-09-01 13:24+0200\n"
 "Last-Translator: Erwan Georget <dremor@dremor.info>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -4427,7 +4427,7 @@ msgstr "vue de l'agenda pour un mois"
 msgid "calendar view for one or more weeks"
 msgstr "vue de l'agenda pour une ou plusieurs semaines"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:758
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:768
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "Sans titre"
@@ -12259,23 +12259,23 @@ msgstr "Sélectionnez une heure pour la comparaison"
 msgid "Choose a File"
 msgstr "Choisir un fichier"
 
-#: ../e-util/e-filter-rule.c:751
+#: ../e-util/e-filter-rule.c:761
 msgid "R_ule name:"
 msgstr "Nom de la _règle :"
 
-#: ../e-util/e-filter-rule.c:801
+#: ../e-util/e-filter-rule.c:811
 msgid "all the following conditions"
 msgstr "toutes les conditions suivantes"
 
-#: ../e-util/e-filter-rule.c:802
+#: ../e-util/e-filter-rule.c:812
 msgid "any of the following conditions"
 msgstr "l'une des conditions suivantes"
 
-#: ../e-util/e-filter-rule.c:808
+#: ../e-util/e-filter-rule.c:818
 msgid "_Find items which match:"
 msgstr "_Rechercher les éléments qui correspondent à :"
 
-#: ../e-util/e-filter-rule.c:831
+#: ../e-util/e-filter-rule.c:841
 msgid "Find items that meet the following conditions"
 msgstr "Rechercher les éléments qui remplissent les conditions suivantes"
 
@@ -12283,7 +12283,7 @@ msgstr "Rechercher les éléments qui remplissent les conditions suivantes"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:63
+#: ../e-util/e-filter-rule.c:856 ../e-util/e-html-editor-page-dialog.c:63
 #: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367
 #: ../libemail-engine/camel-null-store.c:27
@@ -12292,36 +12292,36 @@ msgstr "Rechercher les éléments qui remplissent les conditions suivantes"
 msgid "None"
 msgstr "Aucun"
 
-#: ../e-util/e-filter-rule.c:847
+#: ../e-util/e-filter-rule.c:857
 msgid "All related"
 msgstr "Tous ceux relatifs"
 
-#: ../e-util/e-filter-rule.c:848 ../e-util/e-send-options.ui.h:19
+#: ../e-util/e-filter-rule.c:858 ../e-util/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Réponses"
 
-#: ../e-util/e-filter-rule.c:849
+#: ../e-util/e-filter-rule.c:859
 msgid "Replies and parents"
 msgstr "Réponses et parents"
 
-#: ../e-util/e-filter-rule.c:850
+#: ../e-util/e-filter-rule.c:860
 msgid "No reply or parent"
 msgstr "Pas de réponse ou parent"
 
-#: ../e-util/e-filter-rule.c:853
+#: ../e-util/e-filter-rule.c:863
 msgid "I_nclude threads:"
 msgstr "I_nclure les fils de discussion :"
 
-#: ../e-util/e-filter-rule.c:930
+#: ../e-util/e-filter-rule.c:942
 msgid "A_dd Condition"
 msgstr "Ajouter une condi_tion"
 
-#: ../e-util/e-filter-rule.c:1244 ../e-util/filter.ui.h:1
+#: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1
 #: ../mail/em-utils.c:165
 msgid "Incoming"
 msgstr "Entrant"
 
-#: ../e-util/e-filter-rule.c:1244 ../mail/em-utils.c:166
+#: ../e-util/e-filter-rule.c:1256 ../mail/em-utils.c:166
 msgid "Outgoing"
 msgstr "Sortant"
 
@@ -13300,11 +13300,11 @@ msgstr "Ta_ille :"
 msgid "Text Properties"
 msgstr "Propriétés du texte"
 
-#: ../e-util/e-html-editor-view.c:5458
+#: ../e-util/e-html-editor-view.c:5474
 msgid "Changed property"
 msgstr "Propriété « modifié »"
 
-#: ../e-util/e-html-editor-view.c:5459
+#: ../e-util/e-html-editor-view.c:5475
 msgid "Whether editor changed"
 msgstr "Indique si l'éditeur a changé"
 
@@ -23755,8 +23755,6 @@ msgid "New _Window"
 msgstr "Nouvelle _fenêtre"
 
 #: ../shell/e-shell.c:1214
-#, fuzzy
-#| msgid "_Quick Reference"
 msgid "Quick _Reference"
 msgstr "_Référence rapide"
 
