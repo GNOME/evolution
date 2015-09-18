@@ -27,22 +27,21 @@
 # Wolfgang Stöggl <c72578@yahoo.de>, 2015.
 # Bernd Homuth <dev@hmt.im>, 2014, 2015.
 #
-#: ../shell/main.c:522
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-09-14 09:28+0000\n"
-"PO-Revision-Date: 2015-09-14 20:17+0200\n"
-"Last-Translator: Bernd Homuth <dev@hmt.im>\n"
+"POT-Creation-Date: 2015-09-18 04:35+0000\n"
+"PO-Revision-Date: 2015-09-18 16:16+0200\n"
+"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
 msgid "This address book could not be opened."
@@ -110,8 +109,8 @@ msgstr "Adressbuch »{0}« löschen?"
 msgid "This address book will be removed permanently."
 msgstr "Dieses Adressbuch wird unwiderruflich gelöscht."
 
-#: ../addressbook/addressbook.error.xml.h:13
-#: ../calendar/calendar.error.xml.h:7 ../mail/mail.error.xml.h:69
+#: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
+#: ../mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "_Nicht löschen"
 
@@ -1509,8 +1508,7 @@ msgstr "Sind Sie sicher, dass Sie diesen Kontakt löschen wollen (%s)?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1333
 #: ../calendar/gui/dialogs/comp-editor.c:1270 ../e-util/e-focus-tracker.c:785
-#: ../e-util/evolution-source-viewer.c:805
-#: ../mail/e-mail-account-manager.c:736
+#: ../e-util/evolution-source-viewer.c:805 ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1067
 #: ../modules/calendar/e-cal-shell-view-actions.c:1434
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
@@ -2229,8 +2227,7 @@ msgstr "_Nicht verschicken"
 msgid "_Send Notice"
 msgstr "Nachricht ver_schicken"
 
-#: ../calendar/calendar.error.xml.h:5
-#: ../calendar/gui/dialogs/delete-comp.c:192
+#: ../calendar/calendar.error.xml.h:5 ../calendar/gui/dialogs/delete-comp.c:192
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Sind Sie sicher, dass Sie diese Besprechung löschen wollen?"
@@ -2250,8 +2247,7 @@ msgstr ""
 "Falls Sie keine Absagenachricht verschicken, wissen die anderen Teilnehmer "
 "möglicherweise nicht, dass die Aufgabe gelöscht wurde."
 
-#: ../calendar/calendar.error.xml.h:9
-#: ../calendar/gui/dialogs/delete-comp.c:195
+#: ../calendar/calendar.error.xml.h:9 ../calendar/gui/dialogs/delete-comp.c:195
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Sind Sie sicher, dass Sie diese Aufgabe löschen wollen?"
@@ -2366,8 +2362,7 @@ msgstr ""
 msgid "_Save Changes"
 msgstr "Änderungen _speichern"
 
-#: ../calendar/calendar.error.xml.h:31
-#: ../composer/mail-composer.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:31 ../composer/mail-composer.error.xml.h:16
 msgid "_Discard Changes"
 msgstr "Änderungen _verwerfen"
 
@@ -2412,8 +2407,8 @@ msgstr ""
 "Es werden E-Mail-Einladungen an alle Teilnehmer verschickt, damit diese die "
 "Einladungen akzeptieren können."
 
-#: ../calendar/calendar.error.xml.h:40
-#: ../composer/mail-composer.error.xml.h:13 ../mail/mail.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:40 ../composer/mail-composer.error.xml.h:13
+#: ../mail/mail.error.xml.h:8
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "Ab_schicken"
@@ -2819,8 +2814,7 @@ msgstr "Notizliste »{0}« konnte nicht geladen werden"
 msgid "Failed to make an occurrence movable"
 msgstr "Wiederholung verschiebbar machen ist fehlgeschlagen"
 
-#: ../calendar/gui/caltypes.xml.h:1
-#: ../calendar/gui/e-calendar-table.etspec.h:4
+#: ../calendar/gui/caltypes.xml.h:1 ../calendar/gui/e-calendar-table.etspec.h:4
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:2 ../calendar/gui/memotypes.xml.h:1
 #: ../calendar/gui/tasktypes.xml.h:1 ../plugins/save-calendar/csv-format.c:375
@@ -2901,8 +2895,8 @@ msgstr "Organisator"
 msgid "Attendee"
 msgstr "Teilnehmer"
 
-#: ../calendar/gui/caltypes.xml.h:14
-#: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
+#: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.etspec.h:5
+#: ../mail/message-list.etspec.h:14
 #: ../plugins/publish-calendar/publish-calendar.c:862
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:389
@@ -2934,8 +2928,7 @@ msgstr "Existieren"
 msgid "Do Not Exist"
 msgstr "Existieren nicht"
 
-#: ../calendar/gui/caltypes.xml.h:19
-#: ../calendar/gui/dialogs/event-editor.c:309
+#: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/dialogs/event-editor.c:309
 #: ../calendar/gui/dialogs/event-editor.c:330
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:15
 msgid "Recurrence"
@@ -4177,9 +4170,8 @@ msgid "Low"
 msgstr "Niedrig"
 
 #. To Translators: This is task priority
-#: ../calendar/gui/dialogs/task-page.ui.h:14
-#: ../calendar/gui/e-task-table.c:527 ../calendar/gui/tasktypes.xml.h:22
-#: ../e-util/e-send-options.ui.h:1
+#: ../calendar/gui/dialogs/task-page.ui.h:14 ../calendar/gui/e-task-table.c:527
+#: ../calendar/gui/tasktypes.xml.h:22 ../e-util/e-send-options.ui.h:1
 msgid "Undefined"
 msgstr "Nicht festgelegt"
 
@@ -4212,8 +4204,7 @@ msgstr "In Bearbeitung"
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
 #: ../calendar/gui/e-task-table.c:211 ../calendar/gui/e-task-table.c:226
 #: ../calendar/gui/e-task-table.c:609 ../calendar/gui/print.c:3579
-#: ../calendar/gui/tasktypes.xml.h:13
-#: ../plugins/save-calendar/csv-format.c:379
+#: ../calendar/gui/tasktypes.xml.h:13 ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
 msgstr "Abgeschlossen"
 
@@ -4532,16 +4523,14 @@ msgid "% Complete"
 msgstr "% abgeschlossen"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/tasktypes.xml.h:18
-#: ../plugins/save-calendar/csv-format.c:386
+#: ../calendar/gui/tasktypes.xml.h:18 ../plugins/save-calendar/csv-format.c:386
 msgid "Priority"
 msgstr "Priorität"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3845
-#: ../calendar/gui/e-meeting-list-view.c:713
+#: ../calendar/gui/e-cal-model.c:3845 ../calendar/gui/e-meeting-list-view.c:713
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/filtertypes.xml.in.h:34
 #: ../mail/message-list.etspec.h:1 ../mail/searchtypes.xml.in.h:36
@@ -4736,29 +4725,25 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: ../calendar/gui/e-cal-model.c:3786
-#: ../calendar/gui/e-meeting-list-view.c:220
+#: ../calendar/gui/e-cal-model.c:3786 ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6206
 msgid "Accepted"
 msgstr "Angenommen"
 
-#: ../calendar/gui/e-cal-model.c:3787
-#: ../calendar/gui/e-meeting-list-view.c:221
+#: ../calendar/gui/e-cal-model.c:3787 ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:6212
 msgid "Declined"
 msgstr "Abgelehnt"
 
-#: ../calendar/gui/e-cal-model.c:3788
-#: ../calendar/gui/e-meeting-list-view.c:222
+#: ../calendar/gui/e-cal-model.c:3788 ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:535
 msgid "Tentative"
 msgstr "Vorläufig"
 
-#: ../calendar/gui/e-cal-model.c:3789
-#: ../calendar/gui/e-meeting-list-view.c:223
+#: ../calendar/gui/e-cal-model.c:3789 ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:6215
 msgid "Delegated"
@@ -10868,8 +10853,7 @@ msgstr "Größe"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67
-#: ../smime/gui/certificate-manager.c:1632
+#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1632
 msgid "Subject"
 msgstr "Betreff"
 
@@ -11920,8 +11904,7 @@ msgstr "Diesen Knopf drücken, um den Kalender anzuzeigen"
 msgid "Drop-down combination box to select time"
 msgstr "Auswahlliste für die Zeit"
 
-#: ../e-util/e-dateedit.c:629
-#: ../modules/calendar/e-calendar-preferences.ui.h:9
+#: ../e-util/e-dateedit.c:629 ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Uhrzeit"
 
@@ -13166,8 +13149,7 @@ msgstr "<b>Hintergrundbild</b>"
 msgid "_Template:"
 msgstr "_Vorlage:"
 
-#: ../e-util/e-html-editor-page-dialog.c:646
-#: ../e-util/e-import-assistant.c:283
+#: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "Eine Datei wählen"
 
@@ -13276,8 +13258,7 @@ msgstr "<b>Wörterbuch</b>"
 msgid "Add word"
 msgstr "Wort hin_zufügen"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:637
-#: ../mail/mail-config.ui.h:38
+#: ../e-util/e-html-editor-spell-check-dialog.c:637 ../mail/mail-config.ui.h:38
 msgid "Spell Checking"
 msgstr "Rechtschreibprüfung"
 
@@ -13563,8 +13544,7 @@ msgstr "Ko_ntakte"
 msgid "Search"
 msgstr "Suchen"
 
-#: ../e-util/e-name-selector-dialog.c:448
-#: ../mail/importers/pine-importer.c:429
+#: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Adressbuch"
 
@@ -13804,8 +13784,7 @@ msgid "Reached top of page, continued from bottom"
 msgstr "Seitenanfang erreicht, ab Ende wird fortgesetzt"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253
-#: ../mail/importers/pine-importer.c:422
+#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
 #: ../modules/mail/e-mail-shell-view.c:1172
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
@@ -14567,8 +14546,7 @@ msgstr "Sekunden"
 msgid "weeks"
 msgstr "Wochen"
 
-#: ../e-util/filter.ui.h:10
-#: ../plugins/publish-calendar/publish-calendar.ui.h:8
+#: ../e-util/filter.ui.h:10 ../plugins/publish-calendar/publish-calendar.ui.h:8
 msgid "months"
 msgstr "Monaten"
 
@@ -15330,8 +15308,8 @@ msgctxt "PGPKeyDescription"
 msgid "%s - %s"
 msgstr "%s - %s"
 
-#: ../mail/e-mail-config-security-page.c:340
-#: ../mail/em-folder-properties.c:603 ../mail/mail-config.ui.h:30
+#: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
+#: ../mail/mail-config.ui.h:30
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.c:625
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
@@ -16110,8 +16088,7 @@ msgstr "Antwort an Lis_te"
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Eine Antwort an die Mailingliste der gewählten Nachricht verfassen"
 
-#: ../mail/e-mail-reader.c:2244
-#: ../modules/mail/e-mail-attachment-handler.c:220
+#: ../mail/e-mail-reader.c:2244 ../modules/mail/e-mail-attachment-handler.c:220
 msgid "_Reply to Sender"
 msgstr "_Antwort an Absender"
 
@@ -16275,8 +16252,7 @@ msgstr "Nachrichten mit allen E-Mail-Kopfzeilen anzeigen"
 msgid "Retrieving message"
 msgstr "Nachricht wird abgerufen"
 
-#: ../mail/e-mail-reader.c:4078
-#: ../modules/mail/e-mail-attachment-handler.c:206
+#: ../mail/e-mail-reader.c:4078 ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "_Weiterleiten"
 
@@ -17116,8 +17092,7 @@ msgctxt "mboxImp"
 msgid "From"
 msgstr "Von"
 
-#: ../mail/importers/evolution-mbox-importer.c:568
-#: ../shell/e-shell-utils.c:173
+#: ../mail/importers/evolution-mbox-importer.c:568 ../shell/e-shell-utils.c:173
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Berkeley Mailbox (mbox)"
 
@@ -17998,8 +17973,7 @@ msgstr ""
 "Sind Sie sicher, dass Sie endgültig alle gelöschten Nachrichten aus allen "
 "Ordnern entfernen wollen?"
 
-#: ../mail/mail.error.xml.h:42
-#: ../modules/mail/e-mail-shell-view-actions.c:1638
+#: ../mail/mail.error.xml.h:42 ../modules/mail/e-mail-shell-view-actions.c:1638
 msgid "_Empty Trash"
 msgstr "_Papierkorb leeren"
 
@@ -22954,7 +22928,7 @@ msgstr "Neues _Porträtfoto laden"
 
 #: ../plugins/face/face.c:449
 msgid "Change Face Image"
-msgstr "Das Porträtfotos ändern"
+msgstr "Das Porträtfoto ändern"
 
 #: ../plugins/face/face.c:537
 msgid "Include _Face"
@@ -24396,72 +24370,60 @@ msgstr ""
 "\n"
 "Einstellungen zur Vertrauenswürdigkeit bearbeiten:"
 
-#: ../smime/gui/certificate-manager.c:84
-#: ../smime/gui/certificate-manager.c:103
+#: ../smime/gui/certificate-manager.c:84 ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
 msgstr "Zertifikatname"
 
-#: ../smime/gui/certificate-manager.c:85
-#: ../smime/gui/certificate-manager.c:105
+#: ../smime/gui/certificate-manager.c:85 ../smime/gui/certificate-manager.c:105
 msgid "Issued To Organization"
 msgstr "Einer Organisation ausgestellt"
 
-#: ../smime/gui/certificate-manager.c:86
-#: ../smime/gui/certificate-manager.c:106
+#: ../smime/gui/certificate-manager.c:86 ../smime/gui/certificate-manager.c:106
 msgid "Issued To Organizational Unit"
 msgstr "Einer Organisationseinheit (OU) ausgestellt"
 
-#: ../smime/gui/certificate-manager.c:87
-#: ../smime/gui/certificate-manager.c:107
+#: ../smime/gui/certificate-manager.c:87 ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
 msgstr "Seriennummer"
 
-#: ../smime/gui/certificate-manager.c:88
-#: ../smime/gui/certificate-manager.c:108
+#: ../smime/gui/certificate-manager.c:88 ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
 msgstr "Verwendungszwecke"
 
-#: ../smime/gui/certificate-manager.c:89
-#: ../smime/gui/certificate-manager.c:109
+#: ../smime/gui/certificate-manager.c:89 ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
 msgstr "Ausgestellt von"
 
-#: ../smime/gui/certificate-manager.c:90
-#: ../smime/gui/certificate-manager.c:110
+#: ../smime/gui/certificate-manager.c:90 ../smime/gui/certificate-manager.c:110
 #: ../smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
 msgstr "Von einer Organisation ausgestellt"
 
-#: ../smime/gui/certificate-manager.c:91
-#: ../smime/gui/certificate-manager.c:111
+#: ../smime/gui/certificate-manager.c:91 ../smime/gui/certificate-manager.c:111
 #: ../smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
 msgstr "Von einer Organisationseinheit (OU) ausgestellt"
 
-#: ../smime/gui/certificate-manager.c:92
-#: ../smime/gui/certificate-manager.c:112
+#: ../smime/gui/certificate-manager.c:92 ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
 msgstr "Aussteller"
 
-#: ../smime/gui/certificate-manager.c:93
-#: ../smime/gui/certificate-manager.c:113
+#: ../smime/gui/certificate-manager.c:93 ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
 msgstr "Läuft aus"
 
-#: ../smime/gui/certificate-manager.c:94
-#: ../smime/gui/certificate-manager.c:114
+#: ../smime/gui/certificate-manager.c:94 ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
 msgstr "SHA1-Fingerabdruck"
 
-#: ../smime/gui/certificate-manager.c:95
-#: ../smime/gui/certificate-manager.c:115
+#: ../smime/gui/certificate-manager.c:95 ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
 msgstr "MD5-Fingerabdruck"
