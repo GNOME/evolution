@@ -11,9 +11,9 @@ msgstr ""
 "Project-Id-Version: evolution 3.3.91\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-08-25 12:07+0800\n"
-"PO-Revision-Date: 2015-08-25 12:19+0800\n"
-"Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
+"POT-Creation-Date: 2015-09-19 04:35+0000\n"
+"PO-Revision-Date: 2015-09-19 23:01+0800\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@lists.linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -83,8 +83,8 @@ msgstr "刪除通訊錄「{0}」？"
 msgid "This address book will be removed permanently."
 msgstr "此通訊錄將被永遠移除。"
 
-#: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
-#: ../mail/mail.error.xml.h:69
+#: ../addressbook/addressbook.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:7 ../mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "不要刪除(_N)"
 
@@ -275,16 +275,16 @@ msgstr "影像"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:3
 msgid "Nic_kname:"
-msgstr "暱稱(_K):"
+msgstr "暱稱(_K)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:4
 msgid "_File under:"
-msgstr "歸檔為(_F):"
+msgstr "歸檔為(_F)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 msgid "_Where:"
-msgstr "通訊錄(_W):"
+msgstr "通訊錄(_W)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
 #: ../calendar/gui/dialogs/event-page.ui.h:16
@@ -327,22 +327,22 @@ msgstr "連絡人"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "_Home Page:"
-msgstr "首頁(_H):"
+msgstr "首頁(_H)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../calendar/gui/dialogs/event-page.c:709
 #: ../calendar/gui/dialogs/event-page.ui.h:25
 #: ../modules/itip-formatter/itip-view.c:1905
 msgid "_Calendar:"
-msgstr "行事曆(_C):"
+msgstr "行事曆(_C)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:16
 msgid "_Free/Busy:"
-msgstr "空閒/忙碌(_F):"
+msgstr "空閒/忙碌(_F)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "_Video Chat:"
-msgstr "視訊交談(_V):"
+msgstr "視訊交談(_V)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:18
 msgid "Home Page:"
@@ -363,7 +363,7 @@ msgstr "視訊聊天："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:22
 msgid "_Blog:"
-msgstr "部落格(_B):"
+msgstr "部落格(_B)："
 
 #. Translators: an accessibility name
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
@@ -376,32 +376,32 @@ msgstr "網址"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:26
 msgid "_Profession:"
-msgstr "職業(_P):"
+msgstr "職業(_P)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 msgctxt "Job"
 msgid "_Title:"
-msgstr "職稱(_T):"
+msgstr "職稱(_T)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:28
 msgid "_Company:"
-msgstr "公司(_C):"
+msgstr "公司(_C)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:29
 msgid "_Department:"
-msgstr "部門(_D):"
+msgstr "部門(_D)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:30
 msgid "_Office:"
-msgstr "辦公室(_O):"
+msgstr "辦公室(_O)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:31
 msgid "_Manager:"
-msgstr "主管(_M):"
+msgstr "主管(_M)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "_Assistant:"
-msgstr "助理(_A):"
+msgstr "助理(_A)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 msgid "Job"
@@ -409,15 +409,15 @@ msgstr "工作"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:34
 msgid "_Spouse:"
-msgstr "配偶(_S):"
+msgstr "配偶(_S)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "_Birthday:"
-msgstr "生日(_B):"
+msgstr "生日(_B)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:36
 msgid "_Anniversary:"
-msgstr "週年紀念日(_A):"
+msgstr "週年紀念日(_A)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:37
 #: ../addressbook/gui/widgets/eab-contact-formatter.c:875
@@ -443,28 +443,28 @@ msgstr "個人資訊"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:41
 msgid "_City:"
-msgstr "縣/市(_C):"
+msgstr "縣/市(_C)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:42
 msgid "_Zip/Postal Code:"
-msgstr "郵遞區號(_Z):"
+msgstr "郵遞區號(_Z)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:43
 msgid "_State/Province:"
-msgstr "州/省(_S):"
+msgstr "州/省(_S)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:44
 msgid "_Country:"
-msgstr "國家/地區(_C):"
+msgstr "國家/地區(_C)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:45
 msgid "_PO Box:"
-msgstr "郵箱(_P):"
+msgstr "郵箱(_P)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:46
 #: ../composer/e-composer-from-header.c:123
 msgid "_Address:"
-msgstr "地址(_A):"
+msgstr "地址(_A)："
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:47
 #: ../addressbook/gui/widgets/eab-contact-display.c:356
@@ -541,7 +541,7 @@ msgstr "載入 X.509 (_L)"
 #: ../e-util/e-attachment-store.c:636
 #: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3230
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
-#: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:135
+#: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
 #: ../smime/gui/certificate-manager.c:655
 #: ../smime/gui/certificate-manager.c:732
 msgid "_Save"
@@ -557,7 +557,7 @@ msgstr "憑證"
 #: ../calendar/gui/dialogs/comp-editor.c:1363
 #: ../e-util/e-preferences-window.c:379 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../shell/e-shell-window-actions.c:1085
+#: ../shell/e-shell.c:1215 ../shell/e-shell-window-actions.c:955
 msgid "_Help"
 msgstr "求助(_H)"
 
@@ -591,7 +591,7 @@ msgstr "選項"
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
 #: ../e-util/e-category-editor.c:208 ../e-util/e-charset-combo-box.c:101
 #: ../e-util/e-color-chooser-widget.c:127 ../e-util/e-filter-datespec.c:291
-#: ../e-util/e-html-editor-actions.c:616 ../e-util/e-html-editor-actions.c:711
+#: ../e-util/e-html-editor-actions.c:593 ../e-util/e-html-editor-actions.c:688
 #: ../e-util/e-image-chooser-dialog.c:171
 #: ../e-util/e-mail-signature-script-dialog.c:365 ../e-util/e-passwords.c:470
 #: ../e-util/e-rule-context.c:815 ../e-util/e-rule-editor.c:180
@@ -613,8 +613,8 @@ msgstr "選項"
 #: ../plugins/publish-calendar/publish-calendar.c:790
 #: ../plugins/publish-calendar/url-editor-dialog.c:421
 #: ../plugins/save-calendar/save-calendar.c:187 ../shell/e-shell-content.c:659
-#: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:70
-#: ../shell/e-shell-utils.c:134 ../smime/gui/certificate-manager.c:654
+#: ../shell/e-shell-content.c:766 ../shell/e-shell-utils.c:72
+#: ../shell/e-shell-utils.c:136 ../smime/gui/certificate-manager.c:654
 #: ../smime/gui/certificate-manager.c:731
 #: ../smime/gui/certificate-manager.c:955
 #: ../smime/gui/certificate-manager.c:1337 ../smime/gui/e-cert-selector.c:237
@@ -668,7 +668,7 @@ msgstr "顯示憑證"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:262
 #: ../calendar/gui/dialogs/comp-editor.c:1326
-#: ../e-util/e-html-editor-actions.c:1134
+#: ../e-util/e-html-editor-actions.c:1111
 msgid "_Undo"
 msgstr "復原(_U)"
 
@@ -679,7 +679,7 @@ msgstr "復原"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:269
 #: ../calendar/gui/dialogs/comp-editor.c:1333
-#: ../e-util/e-html-editor-actions.c:1120
+#: ../e-util/e-html-editor-actions.c:1097
 msgid "_Redo"
 msgstr "取消復原(_R)"
 
@@ -732,9 +732,9 @@ msgstr "開啟 X.509 憑證"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:4322
 #: ../e-util/e-attachment-store.c:489 ../e-util/e-category-editor.c:146
-#: ../e-util/e-html-editor-actions.c:617 ../e-util/e-html-editor-actions.c:712
+#: ../e-util/e-html-editor-actions.c:594 ../e-util/e-html-editor-actions.c:689
 #: ../e-util/e-image-chooser-dialog.c:174 ../plugins/face/face.c:298
-#: ../shell/e-shell-utils.c:71 ../smime/gui/certificate-manager.c:956
+#: ../shell/e-shell-utils.c:73 ../smime/gui/certificate-manager.c:956
 msgid "_Open"
 msgstr "開啟(_O)"
 
@@ -912,24 +912,24 @@ msgstr "全名"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:15
 msgid "_First:"
-msgstr "名字(_F):"
+msgstr "名字(_F)："
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:16
 msgctxt "FullName"
 msgid "_Title:"
-msgstr "顯示為(_T):"
+msgstr "顯示為(_T)："
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:17
 msgid "_Middle:"
-msgstr "(_Middle):"
+msgstr "(_Middle)："
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:18
 msgid "_Last:"
-msgstr "姓氏(_L):"
+msgstr "姓氏(_L)："
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:19
 msgid "_Suffix:"
-msgstr "(_Suffix):"
+msgstr "(_Suffix)："
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:817
@@ -938,7 +938,7 @@ msgstr "連絡人清單編輯器"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 msgid "_List name:"
-msgstr "列出名稱(_L):"
+msgstr "列出名稱(_L)："
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:4
 msgid "Members"
@@ -946,7 +946,7 @@ msgstr "成員"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "輸入電子郵件地址或拖曳連絡人到以下清單(_T):"
+msgstr "輸入電子郵件地址或拖曳連絡人到以下清單(_T)："
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "_Hide addresses when sending mail to this list"
@@ -1257,15 +1257,15 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:789
 msgid "Changed Contact:"
-msgstr "變更後的連絡人:"
+msgstr "變更後的連絡人："
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:791
 msgid "New Contact:"
-msgstr "新的連絡人:"
+msgstr "新的連絡人："
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:830
 msgid "Conflicting Contact:"
-msgstr "衝突的連絡人:"
+msgstr "衝突的連絡人："
 
 #: ../addressbook/gui/widgets/eab-contact-merging.c:832
 msgid "Old Contact:"
@@ -1449,13 +1449,14 @@ msgstr "您確定要刪除這個連絡人 (%s)？"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1333
 #: ../calendar/gui/dialogs/comp-editor.c:1270 ../e-util/e-focus-tracker.c:785
-#: ../e-util/evolution-source-viewer.c:805 ../mail/e-mail-account-manager.c:736
+#: ../e-util/evolution-source-viewer.c:805
+#: ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1067
 #: ../modules/calendar/e-cal-shell-view-actions.c:1434
 #: ../modules/calendar/e-memo-shell-view-actions.c:635
 #: ../modules/calendar/e-task-shell-view-actions.c:788
 #: ../modules/mail/e-mail-shell-view-actions.c:1680
-#: ../shell/e-shell-window-actions.c:943
+#: ../shell/e-shell-window-actions.c:813
 #: ../smime/gui/certificate-manager.c:1661 ../smime/gui/smime-ui.ui.h:10
 msgid "_Delete"
 msgstr "刪除(_D)"
@@ -1615,11 +1616,11 @@ msgstr "開啟"
 
 #: ../addressbook/gui/widgets/ea-minicard.c:159
 msgid "Contact List: "
-msgstr "連絡人清單: "
+msgstr "連絡人清單： "
 
 #: ../addressbook/gui/widgets/ea-minicard.c:160
 msgid "Contact: "
-msgstr "連絡人: "
+msgstr "連絡人： "
 
 #: ../addressbook/gui/widgets/ea-minicard.c:187
 msgid "evolution minicard"
@@ -1656,9 +1657,9 @@ msgstr "拉遠(_O)"
 
 #. Search button
 #: ../addressbook/gui/widgets/e-contact-map-window.c:450
-#: ../e-util/e-html-editor-actions.c:2113
+#: ../e-util/e-html-editor-actions.c:2090
 #: ../e-util/e-html-editor-find-dialog.c:195
-#: ../shell/e-shell-window-actions.c:1020
+#: ../shell/e-shell-window-actions.c:890
 msgid "_Find"
 msgstr "尋找(_F)"
 
@@ -1979,14 +1980,14 @@ msgstr "延期(_S)"
 #: ../calendar/gui/dialogs/event-page.ui.h:24
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
 #: ../calendar/gui/dialogs/task-page.ui.h:32
-#: ../e-util/e-html-editor-actions.c:1143
+#: ../e-util/e-html-editor-actions.c:1120
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:171
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:62
 #: ../plugins/attachment-reminder/attachment-reminder.c:443
 #: ../plugins/email-custom-header/email-custom-header.c:844
 #: ../plugins/publish-calendar/publish-calendar.ui.h:33
-#: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:1071
+#: ../plugins/templates/templates.c:458 ../shell/e-shell-window-actions.c:941
 #: ../smime/gui/smime-ui.ui.h:13
 msgid "_Edit"
 msgstr "編輯(_E)"
@@ -2006,7 +2007,7 @@ msgstr "解除(_D)"
 #: ../modules/itip-formatter/itip-view.c:1514
 #: ../modules/itip-formatter/itip-view.c:1625
 msgid "Location:"
-msgstr "位置:"
+msgstr "位置："
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:8
 msgid "location of appointment"
@@ -2014,7 +2015,7 @@ msgstr "約會的地點"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:9
 msgid "Snooze _time:"
-msgstr "忽略時間(_T):"
+msgstr "忽略時間(_T)："
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -2150,7 +2151,8 @@ msgstr "不要傳送(_N)"
 msgid "_Send Notice"
 msgstr "傳送通知(_S)"
 
-#: ../calendar/calendar.error.xml.h:5 ../calendar/gui/dialogs/delete-comp.c:192
+#: ../calendar/calendar.error.xml.h:5
+#: ../calendar/gui/dialogs/delete-comp.c:192
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "確定要刪除此會議？"
@@ -2166,7 +2168,8 @@ msgid ""
 "the task has been deleted."
 msgstr "如果未傳送取消通知，其他參與者可能不知道工作已經刪除。"
 
-#: ../calendar/calendar.error.xml.h:9 ../calendar/gui/dialogs/delete-comp.c:195
+#: ../calendar/calendar.error.xml.h:9
+#: ../calendar/gui/dialogs/delete-comp.c:195
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "確定要刪除此工作？"
@@ -2201,7 +2204,7 @@ msgstr "確定要刪除標題為「{0}」的會議？"
 
 #: ../calendar/calendar.error.xml.h:16
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "確定要刪除標題為 '{0}' 的約會？"
+msgstr "確定要刪除標題為「{0}」的約會？"
 
 #: ../calendar/calendar.error.xml.h:17
 msgid ""
@@ -2214,11 +2217,11 @@ msgstr "確定要刪除此約會？"
 
 #: ../calendar/calendar.error.xml.h:19
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "確定要刪除 '{0}'工作？"
+msgstr "確定要刪除「{0}」工作？"
 
 #: ../calendar/calendar.error.xml.h:20
 msgid "Are you sure you want to delete the memo '{0}'?"
-msgstr "確定要刪除備忘錄 '{0}'？"
+msgstr "確定要刪除備忘錄「{0}」？"
 
 #: ../calendar/calendar.error.xml.h:21
 msgid "All information in this memo will be deleted and can not be restored."
@@ -2262,7 +2265,8 @@ msgstr "您已經變更此會議，但尚未儲存它。"
 msgid "_Save Changes"
 msgstr "儲存變更(_S)"
 
-#: ../calendar/calendar.error.xml.h:31 ../composer/mail-composer.error.xml.h:16
+#: ../calendar/calendar.error.xml.h:31
+#: ../composer/mail-composer.error.xml.h:16
 msgid "_Discard Changes"
 msgstr "放棄變更(_D)"
 
@@ -2299,8 +2303,8 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to reply."
 msgstr "電子郵件邀請函會傳送給所有參與者並讓他們回覆。"
 
-#: ../calendar/calendar.error.xml.h:40 ../composer/mail-composer.error.xml.h:13
-#: ../mail/mail.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:40
+#: ../composer/mail-composer.error.xml.h:13 ../mail/mail.error.xml.h:8
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "傳送(_S)"
@@ -2669,7 +2673,8 @@ msgstr "無法重新整理備忘錄清單「{0}」"
 msgid "Failed to make an occurrence movable"
 msgstr "無法將循環事件標示成可移動"
 
-#: ../calendar/gui/caltypes.xml.h:1 ../calendar/gui/e-calendar-table.etspec.h:4
+#: ../calendar/gui/caltypes.xml.h:1
+#: ../calendar/gui/e-calendar-table.etspec.h:4
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:2 ../calendar/gui/memotypes.xml.h:1
 #: ../calendar/gui/tasktypes.xml.h:1 ../plugins/save-calendar/csv-format.c:375
@@ -2750,8 +2755,8 @@ msgstr "會議召集人"
 msgid "Attendee"
 msgstr "到會者"
 
-#: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.etspec.h:5
-#: ../mail/message-list.etspec.h:14
+#: ../calendar/gui/caltypes.xml.h:14
+#: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
 #: ../plugins/publish-calendar/publish-calendar.c:862
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:389
@@ -2783,7 +2788,8 @@ msgstr "存在"
 msgid "Do Not Exist"
 msgstr "不存在"
 
-#: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/dialogs/event-editor.c:309
+#: ../calendar/gui/caltypes.xml.h:19
+#: ../calendar/gui/dialogs/event-editor.c:309
 #: ../calendar/gui/dialogs/event-editor.c:330
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:15
 msgid "Recurrence"
@@ -2895,7 +2901,7 @@ msgstr "自訂訊息(_M)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:17
 msgid "Mes_sage:"
-msgstr "訊息(_S):"
+msgstr "訊息(_S)："
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:18
 msgid "Custom reminder sound"
@@ -2903,7 +2909,7 @@ msgstr "自訂提醒聲音"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:19
 msgid "_Sound:"
-msgstr "聲音(_S):"
+msgstr "聲音(_S)："
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:20
 msgid "Select A File"
@@ -2911,11 +2917,11 @@ msgstr "請選取檔案"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:21
 msgid "_Program:"
-msgstr "執行程式(_P):"
+msgstr "執行程式(_P)："
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
 msgid "_Arguments:"
-msgstr "引數(_A):"
+msgstr "引數(_A)："
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:23
 msgid "Send To:"
@@ -3036,7 +3042,7 @@ msgstr "無法與伺服器同步"
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:127
 #: ../mail/em-folder-properties.c:688 ../mail/em-subscription-editor.c:1759
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
-#: ../shell/e-shell-window-actions.c:342 ../shell/e-shell-window-actions.c:908
+#: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
 #: ../smime/gui/certificate-manager.c:2066
 msgid "_Close"
 msgstr "關閉(_C)"
@@ -3047,9 +3053,9 @@ msgstr "關閉目前的視窗"
 
 #. copy menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1256 ../e-util/e-focus-tracker.c:775
-#: ../e-util/e-html-editor-actions.c:1099 ../e-util/e-text.c:2109
+#: ../e-util/e-html-editor-actions.c:1076 ../e-util/e-text.c:2109
 #: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:134
-#: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:929
+#: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:799
 msgid "_Copy"
 msgstr "複製(_C)"
 
@@ -3057,27 +3063,27 @@ msgstr "複製(_C)"
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:379
 #: ../e-util/e-web-view.c:1415 ../mail/e-mail-browser.c:136
-#: ../shell/e-shell-window-actions.c:931
+#: ../shell/e-shell-window-actions.c:801
 msgid "Copy the selection"
 msgstr "複製選取的內容"
 
 #. cut menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1263 ../e-util/e-focus-tracker.c:770
-#: ../e-util/e-html-editor-actions.c:1106 ../e-util/e-text.c:2095
-#: ../mail/e-mail-browser.c:141 ../shell/e-shell-window-actions.c:936
+#: ../e-util/e-html-editor-actions.c:1083 ../e-util/e-text.c:2095
+#: ../mail/e-mail-browser.c:141 ../shell/e-shell-window-actions.c:806
 msgid "Cu_t"
 msgstr "剪下(_T)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1265 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
 #: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1409
-#: ../mail/e-mail-browser.c:143 ../shell/e-shell-window-actions.c:938
+#: ../mail/e-mail-browser.c:143 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "剪下選取範圍"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1272 ../e-util/e-focus-tracker.c:189
 #: ../e-util/e-focus-tracker.c:245 ../e-util/e-focus-tracker.c:786
-#: ../shell/e-shell-window-actions.c:945
+#: ../shell/e-shell-window-actions.c:815
 msgid "Delete the selection"
 msgstr "刪除選取範圍"
 
@@ -3087,15 +3093,15 @@ msgstr "檢視求助"
 
 #. paste menu item
 #: ../calendar/gui/dialogs/comp-editor.c:1284 ../e-util/e-focus-tracker.c:780
-#: ../e-util/e-html-editor-actions.c:1113 ../e-util/e-text.c:2121
-#: ../mail/e-mail-browser.c:148 ../shell/e-shell-window-actions.c:964
+#: ../e-util/e-html-editor-actions.c:1090 ../e-util/e-text.c:2121
+#: ../mail/e-mail-browser.c:148 ../shell/e-shell-window-actions.c:834
 msgid "_Paste"
 msgstr "貼上(_P)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1286 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
 #: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1421
-#: ../mail/e-mail-browser.c:150 ../shell/e-shell-window-actions.c:966
+#: ../mail/e-mail-browser.c:150 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "貼上剪貼簿的內容"
 
@@ -3128,14 +3134,14 @@ msgid "Save current changes and close editor"
 msgstr "儲存目前的變更並且關閉編輯器"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1319 ../e-util/e-focus-tracker.c:790
-#: ../e-util/e-html-editor-actions.c:1127 ../e-util/e-web-view.c:387
-#: ../mail/e-mail-browser.c:155 ../shell/e-shell-window-actions.c:1041
+#: ../e-util/e-html-editor-actions.c:1104 ../e-util/e-web-view.c:387
+#: ../mail/e-mail-browser.c:155 ../shell/e-shell-window-actions.c:911
 msgid "Select _All"
 msgstr "全部選取(_A)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1321 ../e-util/e-focus-tracker.c:196
 #: ../e-util/e-focus-tracker.c:252 ../e-util/e-focus-tracker.c:791
-#: ../mail/e-mail-browser.c:157 ../shell/e-shell-window-actions.c:1043
+#: ../mail/e-mail-browser.c:157 ../shell/e-shell-window-actions.c:913
 msgid "Select all text"
 msgstr "選取所有文字"
 
@@ -3144,14 +3150,14 @@ msgid "_Classification"
 msgstr "歸類(_C)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1356
-#: ../e-util/e-html-editor-actions.c:1150
+#: ../e-util/e-html-editor-actions.c:1127
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:164
-#: ../shell/e-shell-window-actions.c:1078
+#: ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "檔案(_F)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1370
-#: ../e-util/e-html-editor-actions.c:1171
+#: ../e-util/e-html-editor-actions.c:1148
 msgid "_Insert"
 msgstr "插入(_I)"
 
@@ -3161,8 +3167,8 @@ msgid "_Options"
 msgstr "選項(_O)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1384
-#: ../e-util/e-html-editor-actions.c:1192 ../mail/e-mail-browser.c:178
-#: ../shell/e-shell-window-actions.c:1121
+#: ../e-util/e-html-editor-actions.c:1169 ../mail/e-mail-browser.c:178
+#: ../shell/e-shell-window-actions.c:991
 #: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "檢視(_V)"
@@ -3397,7 +3403,7 @@ msgstr "這個事件具有提醒"
 #: ../calendar/gui/dialogs/event-page.c:717
 #: ../calendar/gui/dialogs/event-page.ui.h:13
 msgid "Or_ganizer:"
-msgstr "會議召集人(_G):"
+msgstr "會議召集人(_G)："
 
 #: ../calendar/gui/dialogs/event-page.c:1309
 msgid "Event with no start date"
@@ -3504,7 +3510,7 @@ msgstr "約會前 1 天"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:11
 msgid "_Location:"
-msgstr "位置(_L):"
+msgstr "位置(_L)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
@@ -3513,20 +3519,20 @@ msgstr "位置(_L):"
 #: ../e-util/e-html-editor-image-dialog.c:558
 #: ../e-util/e-html-editor-link-dialog.c:422
 msgid "_Description:"
-msgstr "描述(_D):"
+msgstr "描述(_D)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Time:"
-msgstr "時刻(_T):"
+msgstr "時刻(_T)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:15
 #: ../modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Time _zone:"
-msgstr "時區(_Z):"
+msgstr "時區(_Z)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:17
 msgid "_Summary:"
-msgstr "摘要(_S):"
+msgstr "摘要(_S)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:21
 msgid "Event Description"
@@ -3632,27 +3638,27 @@ msgstr "收件者"
 #: ../calendar/gui/dialogs/task-page.c:426
 #: ../calendar/gui/dialogs/task-page.ui.h:34
 msgid "_List:"
-msgstr "清單(_L):"
+msgstr "清單(_L)："
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
 #: ../calendar/gui/dialogs/task-page.c:434
 #: ../calendar/gui/dialogs/task-page.ui.h:24
 msgid "Organi_zer:"
-msgstr "會議召集人(_Z):"
+msgstr "會議召集人(_Z)："
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:5
 msgid "T_o:"
-msgstr "收件者(_O):"
+msgstr "收件者(_O)："
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:26
 msgid "Sta_rt date:"
-msgstr "開始日(_R):"
+msgstr "開始日(_R)："
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:7
 #: ../calendar/gui/dialogs/task-page.ui.h:23
 msgid "Su_mmary:"
-msgstr "摘要(_M):"
+msgstr "摘要(_M)："
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 #, c-format
@@ -3991,8 +3997,9 @@ msgid "Low"
 msgstr "低"
 
 #. To Translators: This is task priority
-#: ../calendar/gui/dialogs/task-page.ui.h:14 ../calendar/gui/e-task-table.c:527
-#: ../calendar/gui/tasktypes.xml.h:22 ../e-util/e-send-options.ui.h:1
+#: ../calendar/gui/dialogs/task-page.ui.h:14
+#: ../calendar/gui/e-task-table.c:527 ../calendar/gui/tasktypes.xml.h:22
+#: ../e-util/e-send-options.ui.h:1
 msgid "Undefined"
 msgstr "未指定"
 
@@ -4025,7 +4032,8 @@ msgstr "進行中"
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
 #: ../calendar/gui/e-task-table.c:211 ../calendar/gui/e-task-table.c:226
 #: ../calendar/gui/e-task-table.c:609 ../calendar/gui/print.c:3579
-#: ../calendar/gui/tasktypes.xml.h:13 ../plugins/save-calendar/csv-format.c:379
+#: ../calendar/gui/tasktypes.xml.h:13
+#: ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
 msgstr "已完成"
 
@@ -4041,7 +4049,7 @@ msgstr "已取消"
 
 #: ../calendar/gui/dialogs/task-page.ui.h:25
 msgid "D_ue date:"
-msgstr "到期日(_U):"
+msgstr "到期日(_U)："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:28
 msgid "Time zone:"
@@ -4049,27 +4057,27 @@ msgstr "時區："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:35
 msgid "_Status:"
-msgstr "狀態(_S):"
+msgstr "狀態(_S)："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:36
 msgid "Date _completed:"
-msgstr "完成日期(_C):"
+msgstr "完成日期(_C)："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:37
 msgid "_Percent complete:"
-msgstr "完成百分比(_P):"
+msgstr "完成百分比(_P)："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:38
 msgid "Priorit_y:"
-msgstr "優先等級(_Y):"
+msgstr "優先等級(_Y)："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:39
 msgid "C_lassification:"
-msgstr "歸類(_L):"
+msgstr "歸類(_L)："
 
 #: ../calendar/gui/dialogs/task-page.ui.h:40
 msgid "_Web Page:"
-msgstr "網頁(_W):"
+msgstr "網頁(_W)："
 
 #: ../calendar/gui/ea-cal-view.c:284
 msgid "New Appointment"
@@ -4247,7 +4255,7 @@ msgstr "用於月的行事曆檢視"
 msgid "calendar view for one or more weeks"
 msgstr "用於一或多週的行事曆檢視"
 
-#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:758
+#: ../calendar/gui/e-cal-component-preview.c:222 ../e-util/e-filter-rule.c:768
 #: ../mail/e-mail-config-page.c:125
 msgid "Untitled"
 msgstr "無標題"
@@ -4341,14 +4349,16 @@ msgid "% Complete"
 msgstr "% 完成"
 
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/tasktypes.xml.h:18 ../plugins/save-calendar/csv-format.c:386
+#: ../calendar/gui/tasktypes.xml.h:18
+#: ../plugins/save-calendar/csv-format.c:386
 msgid "Priority"
 msgstr "優先等級"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../calendar/gui/e-cal-model.c:3845 ../calendar/gui/e-meeting-list-view.c:713
+#: ../calendar/gui/e-cal-model.c:3845
+#: ../calendar/gui/e-meeting-list-view.c:713
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/tasktypes.xml.h:8 ../mail/filtertypes.xml.in.h:34
 #: ../mail/message-list.etspec.h:1 ../mail/searchtypes.xml.in.h:36
@@ -4416,7 +4426,7 @@ msgstr "貼上 iCalendar 資料"
 #: ../calendar/gui/e-task-table.c:794
 #, c-format
 msgid "Organizer: %s <%s>"
-msgstr "召集人: %s <%s>"
+msgstr "召集人： %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
@@ -4425,7 +4435,7 @@ msgstr "召集人: %s <%s>"
 #: ../calendar/gui/e-task-table.c:798
 #, c-format
 msgid "Organizer: %s"
-msgstr "會議召集人: %s"
+msgstr "會議召集人： %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1862
@@ -4438,7 +4448,7 @@ msgstr "位置：%s"
 #: ../calendar/gui/e-calendar-view.c:1902
 #, c-format
 msgid "Time: %s %s"
-msgstr "時刻: %s %s"
+msgstr "時刻： %s %s"
 
 #: ../calendar/gui/e-calendar-view.c:2281
 #: ../calendar/gui/e-calendar-view.c:2288
@@ -4543,25 +4553,29 @@ msgstr "是"
 msgid "No"
 msgstr "否"
 
-#: ../calendar/gui/e-cal-model.c:3786 ../calendar/gui/e-meeting-list-view.c:220
+#: ../calendar/gui/e-cal-model.c:3786
+#: ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6206
 msgid "Accepted"
 msgstr "接受"
 
-#: ../calendar/gui/e-cal-model.c:3787 ../calendar/gui/e-meeting-list-view.c:221
+#: ../calendar/gui/e-cal-model.c:3787
+#: ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:6212
 msgid "Declined"
 msgstr "婉拒"
 
-#: ../calendar/gui/e-cal-model.c:3788 ../calendar/gui/e-meeting-list-view.c:222
+#: ../calendar/gui/e-cal-model.c:3788
+#: ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:535
 msgid "Tentative"
 msgstr "暫訂"
 
-#: ../calendar/gui/e-cal-model.c:3789 ../calendar/gui/e-meeting-list-view.c:223
+#: ../calendar/gui/e-cal-model.c:3789
+#: ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:6215
 msgid "Delegated"
@@ -4984,11 +4998,11 @@ msgstr "必要人員和一個資源(_O)"
 
 #: ../calendar/gui/e-meeting-time-sel.c:771
 msgid "_Start time:"
-msgstr "開始時刻(_S):"
+msgstr "開始時刻(_S)："
 
 #: ../calendar/gui/e-meeting-time-sel.c:800
 msgid "_End time:"
-msgstr "結束時刻(_E):"
+msgstr "結束時刻(_E)："
 
 #: ../calendar/gui/e-meeting-time-sel.c:2721
 #, c-format
@@ -5043,12 +5057,12 @@ msgstr "* 沒有摘要 *"
 #. Translators: This is followed by an event's start date/time
 #: ../calendar/gui/e-memo-table.c:540 ../calendar/gui/e-task-table.c:839
 msgid "Start: "
-msgstr "開始:"
+msgstr "開始："
 
 #. Translators: This is followed by an event's due date/time
 #: ../calendar/gui/e-memo-table.c:560 ../calendar/gui/e-task-table.c:858
 msgid "Due: "
-msgstr "到期:"
+msgstr "到期："
 
 #: ../calendar/gui/e-memo-table.c:683
 msgid "Cut selected memos to the clipboard"
@@ -5457,36 +5471,36 @@ msgstr "期限 "
 
 #: ../calendar/gui/print.c:3546
 msgid "Attendees: "
-msgstr "到會者:"
+msgstr "到會者："
 
 #: ../calendar/gui/print.c:3590
 #, c-format
 msgid "Status: %s"
-msgstr "狀態(_S): %s"
+msgstr "狀態(_S)： %s"
 
 #: ../calendar/gui/print.c:3606
 #, c-format
 msgid "Priority: %s"
-msgstr "優先順序(_P): %s"
+msgstr "優先順序(_P)： %s"
 
 #: ../calendar/gui/print.c:3624
 #, c-format
 msgid "Percent Complete: %i"
-msgstr "完成百分比: %i"
+msgstr "完成百分比： %i"
 
 #: ../calendar/gui/print.c:3638
 #, c-format
 msgid "URL: %s"
-msgstr "網址: %s"
+msgstr "網址： %s"
 
 #: ../calendar/gui/print.c:3652
 #, c-format
 msgid "Categories: %s"
-msgstr "分類: %s"
+msgstr "分類： %s"
 
 #: ../calendar/gui/print.c:3663
 msgid "Contacts: "
-msgstr "連絡人: "
+msgstr "連絡人： "
 
 #: ../calendar/gui/tasktypes.xml.h:12
 msgid "In progress"
@@ -7253,11 +7267,12 @@ msgstr "撰寫新郵件(_M)"
 msgid "Open New Message window"
 msgstr "開啟新的郵件視窗"
 
-#: ../composer/e-composer-actions.c:348 ../shell/e-shell-window-actions.c:978
+#: ../composer/e-composer-actions.c:348 ../shell/e-shell.c:1208
+#: ../shell/e-shell-window-actions.c:848
 msgid "_Preferences"
 msgstr "偏好設定(_P)"
 
-#: ../composer/e-composer-actions.c:350 ../shell/e-shell-window-actions.c:980
+#: ../composer/e-composer-actions.c:350 ../shell/e-shell-window-actions.c:850
 msgid "Configure Evolution"
 msgstr "設定 Evolution"
 
@@ -7407,7 +7422,7 @@ msgstr "儲存草稿"
 #: ../mail/e-mail-config-identity-page.c:319
 #: ../mail/e-mail-config-summary-page.c:331
 msgid "_Name:"
-msgstr "名稱(_N):"
+msgstr "名稱(_N)："
 
 #: ../composer/e-composer-header-table.c:38
 msgid "Enter the recipients of the message"
@@ -7426,36 +7441,36 @@ msgstr ""
 
 #: ../composer/e-composer-header-table.c:829
 msgid "Fr_om:"
-msgstr "寄件者(_O):"
+msgstr "寄件者(_O)："
 
 #: ../composer/e-composer-header-table.c:836
 msgid "_Reply-To:"
-msgstr "回覆(_R):"
+msgstr "回覆(_R)："
 
 #: ../composer/e-composer-header-table.c:841
 msgid "_To:"
-msgstr "收件者(_T):"
+msgstr "收件者(_T)："
 
 #: ../composer/e-composer-header-table.c:847
 msgid "_Cc:"
-msgstr "副本(_C):"
+msgstr "副本(_C)："
 
 #: ../composer/e-composer-header-table.c:853
 msgid "_Bcc:"
-msgstr "密件副本(_B):"
+msgstr "密件副本(_B)："
 
 #: ../composer/e-composer-header-table.c:858
 msgid "_Post To:"
-msgstr "張貼到(_P):"
+msgstr "張貼到(_P)："
 
 #: ../composer/e-composer-header-table.c:862
 msgid "S_ubject:"
-msgstr "主旨(_U):"
+msgstr "主旨(_U)："
 
 #: ../composer/e-composer-header-table.c:870
 #: ../mail/e-mail-config-identity-page.c:504
 msgid "Si_gnature:"
-msgstr "簽名檔(_G):"
+msgstr "簽名檔(_G)："
 
 #: ../composer/e-composer-name-header.c:233
 msgid "Click here for the address book"
@@ -7478,11 +7493,11 @@ msgid ""
 "account"
 msgstr "無法加密送出的郵件：沒有設定加密憑證(此帳號)"
 
-#: ../composer/e-msg-composer.c:1595 ../composer/e-msg-composer.c:2363
+#: ../composer/e-msg-composer.c:1595 ../composer/e-msg-composer.c:2367
 msgid "Compose Message"
 msgstr "編輯郵件"
 
-#: ../composer/e-msg-composer.c:4706
+#: ../composer/e-msg-composer.c:4710
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "郵件編輯器包含不能編輯的非文字的郵件內文。"
 
@@ -7676,13 +7691,13 @@ msgstr "Evolution 鬧鈴通知"
 msgid "Calendar event notifications"
 msgstr "行事曆事件通知"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1054
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:1092
 #: ../modules/mailto-handler/evolution-mailto-handler.c:210
 #: ../shell/e-shell-window-private.c:242
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-actions.c:81
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-utils.c:418
 msgid "Groupware Suite"
 msgstr "Groupware 套裝軟體"
 
@@ -10278,7 +10293,8 @@ msgstr "大小"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1632
+#: ../modules/mail/em-mailer-prefs.c:67
+#: ../smime/gui/certificate-manager.c:1632
 msgid "Subject"
 msgstr "主旨"
 
@@ -10311,7 +10327,7 @@ msgstr "將部分格式化為 HTML"
 
 #: ../em-format/e-mail-formatter-quote-text-plain.c:123
 #: ../em-format/e-mail-formatter-text-plain.c:198
-#: ../e-util/e-html-editor-actions.c:1549
+#: ../e-util/e-html-editor-actions.c:1526
 msgid "Plain Text"
 msgstr "純文字"
 
@@ -10698,7 +10714,7 @@ msgstr "附件內容"
 
 #: ../e-util/e-attachment-dialog.c:339 ../e-util/e-import-assistant.c:273
 msgid "F_ilename:"
-msgstr "檔案名稱(_I):"
+msgstr "檔案名稱(_I)："
 
 #: ../e-util/e-attachment-dialog.c:374
 msgid "MIME Type:"
@@ -10923,11 +10939,11 @@ msgstr "複製備忘錄清單內容至本地以便離線作業"
 
 #: ../e-util/e-categories-editor.c:223
 msgid "Currently _used categories:"
-msgstr "目前使用的分類(_U):"
+msgstr "目前使用的分類(_U)："
 
 #: ../e-util/e-categories-editor.c:234
 msgid "_Available Categories:"
-msgstr "可用的分類(_A):"
+msgstr "可用的分類(_A)："
 
 #: ../e-util/e-categories-editor.c:274
 msgctxt "category"
@@ -11301,7 +11317,8 @@ msgstr "按此按鈕以顯示行事曆"
 msgid "Drop-down combination box to select time"
 msgstr "用以選擇時刻的下拉式組合方塊"
 
-#: ../e-util/e-dateedit.c:629 ../modules/calendar/e-calendar-preferences.ui.h:9
+#: ../e-util/e-dateedit.c:629
+#: ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "時間"
 
@@ -11638,23 +11655,23 @@ msgstr "選擇要比對的時間"
 msgid "Choose a File"
 msgstr "選擇檔案"
 
-#: ../e-util/e-filter-rule.c:751
+#: ../e-util/e-filter-rule.c:761
 msgid "R_ule name:"
-msgstr "規則名稱(_U):"
+msgstr "規則名稱(_U)："
 
-#: ../e-util/e-filter-rule.c:801
+#: ../e-util/e-filter-rule.c:811
 msgid "all the following conditions"
 msgstr "如果全部條件符合"
 
-#: ../e-util/e-filter-rule.c:802
+#: ../e-util/e-filter-rule.c:812
 msgid "any of the following conditions"
 msgstr "如果任何條件符合"
 
-#: ../e-util/e-filter-rule.c:808
+#: ../e-util/e-filter-rule.c:818
 msgid "_Find items which match:"
-msgstr "尋找符合的項目(_F):"
+msgstr "尋找符合的項目(_F)："
 
-#: ../e-util/e-filter-rule.c:831
+#: ../e-util/e-filter-rule.c:841
 msgid "Find items that meet the following conditions"
 msgstr "尋找符合下列條件的項目"
 
@@ -11662,7 +11679,7 @@ msgstr "尋找符合下列條件的項目"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../e-util/e-filter-rule.c:846 ../e-util/e-html-editor-page-dialog.c:63
+#: ../e-util/e-filter-rule.c:856 ../e-util/e-html-editor-page-dialog.c:63
 #: ../e-util/e-mail-identity-combo-box.c:476
 #: ../e-util/e-mail-signature-combo-box.c:367
 #: ../libemail-engine/camel-null-store.c:27
@@ -11671,36 +11688,36 @@ msgstr "尋找符合下列條件的項目"
 msgid "None"
 msgstr "沒有"
 
-#: ../e-util/e-filter-rule.c:847
+#: ../e-util/e-filter-rule.c:857
 msgid "All related"
 msgstr "所有相關的"
 
-#: ../e-util/e-filter-rule.c:848 ../e-util/e-send-options.ui.h:19
+#: ../e-util/e-filter-rule.c:858 ../e-util/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "回覆"
 
-#: ../e-util/e-filter-rule.c:849
+#: ../e-util/e-filter-rule.c:859
 msgid "Replies and parents"
 msgstr "回覆和父代"
 
-#: ../e-util/e-filter-rule.c:850
+#: ../e-util/e-filter-rule.c:860
 msgid "No reply or parent"
 msgstr "沒有回復或原始郵件"
 
-#: ../e-util/e-filter-rule.c:853
+#: ../e-util/e-filter-rule.c:863
 msgid "I_nclude threads:"
-msgstr "包括郵件群組(_N):"
+msgstr "包括郵件群組(_N)："
 
-#: ../e-util/e-filter-rule.c:930
+#: ../e-util/e-filter-rule.c:942
 msgid "A_dd Condition"
 msgstr "加入條件(_D)"
 
-#: ../e-util/e-filter-rule.c:1244 ../e-util/filter.ui.h:1
+#: ../e-util/e-filter-rule.c:1256 ../e-util/filter.ui.h:1
 #: ../mail/em-utils.c:165
 msgid "Incoming"
 msgstr "內送"
 
-#: ../e-util/e-filter-rule.c:1244 ../mail/em-utils.c:166
+#: ../e-util/e-filter-rule.c:1256 ../mail/em-utils.c:166
 msgid "Outgoing"
 msgstr "外寄"
 
@@ -11712,521 +11729,521 @@ msgstr "無法插入 HTML 檔案。"
 msgid "Failed to insert text file."
 msgstr "無法插入文字檔案。"
 
-#: ../e-util/e-html-editor-actions.c:614
+#: ../e-util/e-html-editor-actions.c:591
 msgid "Insert HTML File"
 msgstr "插入 HTML 檔案"
 
-#: ../e-util/e-html-editor-actions.c:620
+#: ../e-util/e-html-editor-actions.c:597
 msgid "HTML file"
 msgstr "HTML 檔案"
 
-#: ../e-util/e-html-editor-actions.c:647
+#: ../e-util/e-html-editor-actions.c:624
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "插入影像"
 
-#: ../e-util/e-html-editor-actions.c:709
+#: ../e-util/e-html-editor-actions.c:686
 msgid "Insert text file"
 msgstr "插入文字檔案"
 
-#: ../e-util/e-html-editor-actions.c:715
+#: ../e-util/e-html-editor-actions.c:692
 msgid "Text file"
 msgstr "文字檔案"
 
-#: ../e-util/e-html-editor-actions.c:1101
+#: ../e-util/e-html-editor-actions.c:1078
 msgid "Copy selected text to the clipboard"
 msgstr "將選取的文字複製至剪貼簿"
 
-#: ../e-util/e-html-editor-actions.c:1108
+#: ../e-util/e-html-editor-actions.c:1085
 msgid "Cut selected text to the clipboard"
 msgstr "將選定的文字剪貼至剪貼簿"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../e-util/e-html-editor-actions.c:1115
+#: ../e-util/e-html-editor-actions.c:1092
 msgid "Paste text from the clipboard"
 msgstr "從剪貼簿貼上文字"
 
-#: ../e-util/e-html-editor-actions.c:1122
+#: ../e-util/e-html-editor-actions.c:1099
 msgid "Redo the last undone action"
 msgstr "重複剛取消的動作"
 
-#: ../e-util/e-html-editor-actions.c:1136
+#: ../e-util/e-html-editor-actions.c:1113
 msgid "Undo the last action"
 msgstr "還原最後的動作"
 
-#: ../e-util/e-html-editor-actions.c:1157
+#: ../e-util/e-html-editor-actions.c:1134
 msgid "For_mat"
 msgstr "格式(_M)"
 
-#: ../e-util/e-html-editor-actions.c:1164
+#: ../e-util/e-html-editor-actions.c:1141
 msgid "_Paragraph Style"
 msgstr "段落樣式(_P)"
 
-#: ../e-util/e-html-editor-actions.c:1178
+#: ../e-util/e-html-editor-actions.c:1155
 #: ../e-util/e-html-editor-image-dialog.c:635
 msgid "_Alignment"
 msgstr "對齊(_A)"
 
-#: ../e-util/e-html-editor-actions.c:1185
+#: ../e-util/e-html-editor-actions.c:1162
 msgid "Current _Languages"
 msgstr "目前的語言(_L)"
 
-#: ../e-util/e-html-editor-actions.c:1202
+#: ../e-util/e-html-editor-actions.c:1179
 msgid "_Increase Indent"
 msgstr "增加縮排(_I)"
 
-#: ../e-util/e-html-editor-actions.c:1204
+#: ../e-util/e-html-editor-actions.c:1181
 msgid "Increase Indent"
 msgstr "增加縮排"
 
-#: ../e-util/e-html-editor-actions.c:1209
+#: ../e-util/e-html-editor-actions.c:1186
 msgid "_HTML File..."
 msgstr "_HTML 檔案…"
 
-#: ../e-util/e-html-editor-actions.c:1216
+#: ../e-util/e-html-editor-actions.c:1193
 msgid "Te_xt File..."
 msgstr "文字檔案(_X)…"
 
-#: ../e-util/e-html-editor-actions.c:1223
+#: ../e-util/e-html-editor-actions.c:1200
 msgid "Paste _Quotation"
 msgstr "貼上引文(_Q)"
 
-#: ../e-util/e-html-editor-actions.c:1230
+#: ../e-util/e-html-editor-actions.c:1207
 msgid "_Find..."
 msgstr "尋找(_F)…"
 
-#: ../e-util/e-html-editor-actions.c:1232
+#: ../e-util/e-html-editor-actions.c:1209
 msgid "Search for text"
 msgstr "搜尋文字"
 
-#: ../e-util/e-html-editor-actions.c:1237
+#: ../e-util/e-html-editor-actions.c:1214
 msgid "Find A_gain"
 msgstr "再次尋找(_G)"
 
-#: ../e-util/e-html-editor-actions.c:1244
+#: ../e-util/e-html-editor-actions.c:1221
 msgid "Re_place..."
 msgstr "取代(_P)…"
 
-#: ../e-util/e-html-editor-actions.c:1246
+#: ../e-util/e-html-editor-actions.c:1223
 msgid "Search for and replace text"
 msgstr "搜尋及取代文字"
 
-#: ../e-util/e-html-editor-actions.c:1251
+#: ../e-util/e-html-editor-actions.c:1228
 msgid "Check _Spelling..."
 msgstr "檢查拼字(_S)…"
 
-#: ../e-util/e-html-editor-actions.c:1258
+#: ../e-util/e-html-editor-actions.c:1235
 msgid "_Decrease Indent"
 msgstr "減少縮排(_D)"
 
-#: ../e-util/e-html-editor-actions.c:1260
+#: ../e-util/e-html-editor-actions.c:1237
 msgid "Decrease Indent"
 msgstr "減少縮排"
 
-#: ../e-util/e-html-editor-actions.c:1265
+#: ../e-util/e-html-editor-actions.c:1242
 msgid "_Wrap Lines"
 msgstr "換列(_W)"
 
-#: ../e-util/e-html-editor-actions.c:1272
+#: ../e-util/e-html-editor-actions.c:1249
 msgid "Open Inspector"
 msgstr "開啟檢查器(_I)"
 
 #. Center
-#: ../e-util/e-html-editor-actions.c:1282
+#: ../e-util/e-html-editor-actions.c:1259
 #: ../e-util/e-html-editor-paragraph-dialog.c:110
 msgid "_Center"
 msgstr "置中(_C)"
 
-#: ../e-util/e-html-editor-actions.c:1284
+#: ../e-util/e-html-editor-actions.c:1261
 msgid "Center Alignment"
 msgstr "置中對齊"
 
 #. Left
-#: ../e-util/e-html-editor-actions.c:1289
+#: ../e-util/e-html-editor-actions.c:1266
 #: ../e-util/e-html-editor-paragraph-dialog.c:101
 msgid "_Left"
 msgstr "靠左(_L)"
 
-#: ../e-util/e-html-editor-actions.c:1291
+#: ../e-util/e-html-editor-actions.c:1268
 msgid "Left Alignment"
 msgstr "靠左對齊"
 
 #. Right
-#: ../e-util/e-html-editor-actions.c:1296
+#: ../e-util/e-html-editor-actions.c:1273
 #: ../e-util/e-html-editor-paragraph-dialog.c:119
 msgid "_Right"
 msgstr "靠右(_R)"
 
-#: ../e-util/e-html-editor-actions.c:1298
+#: ../e-util/e-html-editor-actions.c:1275
 msgid "Right Alignment"
 msgstr "靠右對齊"
 
-#: ../e-util/e-html-editor-actions.c:1306
+#: ../e-util/e-html-editor-actions.c:1283
 #: ../modules/text-highlight/languages.c:72
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../e-util/e-html-editor-actions.c:1308
+#: ../e-util/e-html-editor-actions.c:1285
 msgid "HTML editing mode"
 msgstr "HTML 編輯模式"
 
-#: ../e-util/e-html-editor-actions.c:1313
+#: ../e-util/e-html-editor-actions.c:1290
 msgid "Plain _Text"
 msgstr "純文字(_T)"
 
-#: ../e-util/e-html-editor-actions.c:1315
+#: ../e-util/e-html-editor-actions.c:1292
 msgid "Plain text editing mode"
 msgstr "純文字編輯模式"
 
-#: ../e-util/e-html-editor-actions.c:1323
+#: ../e-util/e-html-editor-actions.c:1300
 msgid "_Normal"
 msgstr "一般(_N)"
 
-#: ../e-util/e-html-editor-actions.c:1330
+#: ../e-util/e-html-editor-actions.c:1307
 msgid "Header _1"
 msgstr "標題 _1"
 
-#: ../e-util/e-html-editor-actions.c:1337
+#: ../e-util/e-html-editor-actions.c:1314
 msgid "Header _2"
 msgstr "標題 _2"
 
-#: ../e-util/e-html-editor-actions.c:1344
+#: ../e-util/e-html-editor-actions.c:1321
 msgid "Header _3"
 msgstr "標題 _3"
 
-#: ../e-util/e-html-editor-actions.c:1351
+#: ../e-util/e-html-editor-actions.c:1328
 msgid "Header _4"
 msgstr "標題 _4"
 
-#: ../e-util/e-html-editor-actions.c:1358
+#: ../e-util/e-html-editor-actions.c:1335
 msgid "Header _5"
 msgstr "標題 _5"
 
-#: ../e-util/e-html-editor-actions.c:1365
+#: ../e-util/e-html-editor-actions.c:1342
 msgid "Header _6"
 msgstr "標題 _6"
 
-#: ../e-util/e-html-editor-actions.c:1372
+#: ../e-util/e-html-editor-actions.c:1349
 msgid "_Preformatted"
 msgstr "預先格式化(_P)"
 
-#: ../e-util/e-html-editor-actions.c:1379
+#: ../e-util/e-html-editor-actions.c:1356
 msgid "A_ddress"
 msgstr "位址(_D)"
 
-#: ../e-util/e-html-editor-actions.c:1386
+#: ../e-util/e-html-editor-actions.c:1363
 msgid "_Blockquote"
 msgstr "區塊引用(_B)"
 
-#: ../e-util/e-html-editor-actions.c:1393
+#: ../e-util/e-html-editor-actions.c:1370
 msgid "_Bulleted List"
 msgstr "無序清單(_B)"
 
-#: ../e-util/e-html-editor-actions.c:1400
+#: ../e-util/e-html-editor-actions.c:1377
 msgid "_Roman Numeral List"
 msgstr "羅馬字有序清單(_R)"
 
-#: ../e-util/e-html-editor-actions.c:1407
+#: ../e-util/e-html-editor-actions.c:1384
 msgid "Numbered _List"
 msgstr "有序清單(_L)"
 
-#: ../e-util/e-html-editor-actions.c:1414
+#: ../e-util/e-html-editor-actions.c:1391
 msgid "_Alphabetical List"
 msgstr "字母順序清單(_A)"
 
-#: ../e-util/e-html-editor-actions.c:1430
-#: ../e-util/e-html-editor-actions.c:1468
+#: ../e-util/e-html-editor-actions.c:1407
+#: ../e-util/e-html-editor-actions.c:1445
 msgid "_Image..."
 msgstr "影像(_I)…"
 
 #. Translators: This is an action tooltip
-#: ../e-util/e-html-editor-actions.c:1433
+#: ../e-util/e-html-editor-actions.c:1410
 msgid "Insert Image"
 msgstr "插入影像"
 
-#: ../e-util/e-html-editor-actions.c:1438
-#: ../e-util/e-html-editor-actions.c:1475
+#: ../e-util/e-html-editor-actions.c:1415
+#: ../e-util/e-html-editor-actions.c:1452
 msgid "_Link..."
 msgstr "連結(_L)…"
 
-#: ../e-util/e-html-editor-actions.c:1440
+#: ../e-util/e-html-editor-actions.c:1417
 msgid "Insert Link"
 msgstr "插入連結"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1446
-#: ../e-util/e-html-editor-actions.c:1490
+#: ../e-util/e-html-editor-actions.c:1423
+#: ../e-util/e-html-editor-actions.c:1467
 msgid "_Rule..."
 msgstr "水平線(_R)…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1449
+#: ../e-util/e-html-editor-actions.c:1426
 msgid "Insert Rule"
 msgstr "插入水平線"
 
-#: ../e-util/e-html-editor-actions.c:1454
-#: ../e-util/e-html-editor-actions.c:1497
+#: ../e-util/e-html-editor-actions.c:1431
+#: ../e-util/e-html-editor-actions.c:1474
 msgid "_Table..."
 msgstr "表格(_T)…"
 
-#: ../e-util/e-html-editor-actions.c:1456
+#: ../e-util/e-html-editor-actions.c:1433
 msgid "Insert Table"
 msgstr "插入表格"
 
-#: ../e-util/e-html-editor-actions.c:1461
+#: ../e-util/e-html-editor-actions.c:1438
 msgid "_Cell..."
 msgstr "儲存格(_C)…"
 
-#: ../e-util/e-html-editor-actions.c:1482
+#: ../e-util/e-html-editor-actions.c:1459
 msgid "Pa_ge..."
 msgstr "頁面(_G)…"
 
-#: ../e-util/e-html-editor-actions.c:1506
+#: ../e-util/e-html-editor-actions.c:1483
 msgid "Font _Size"
 msgstr "字型大小(_S)"
 
-#: ../e-util/e-html-editor-actions.c:1513
+#: ../e-util/e-html-editor-actions.c:1490
 msgid "_Font Style"
 msgstr "字型樣式(_F)"
 
-#: ../e-util/e-html-editor-actions.c:1520
+#: ../e-util/e-html-editor-actions.c:1497
 msgid "Paste As _Text"
 msgstr "貼上為純文字(_T)"
 
-#: ../e-util/e-html-editor-actions.c:1531
+#: ../e-util/e-html-editor-actions.c:1508
 #: ../e-util/e-html-editor-text-dialog.c:214
 msgid "_Bold"
 msgstr "粗體(_B)"
 
-#: ../e-util/e-html-editor-actions.c:1533
+#: ../e-util/e-html-editor-actions.c:1510
 msgid "Bold"
 msgstr "粗體"
 
-#: ../e-util/e-html-editor-actions.c:1539
+#: ../e-util/e-html-editor-actions.c:1516
 #: ../e-util/e-html-editor-text-dialog.c:225
 msgid "_Italic"
 msgstr "斜體(_I)"
 
-#: ../e-util/e-html-editor-actions.c:1541
+#: ../e-util/e-html-editor-actions.c:1518
 msgid "Italic"
 msgstr "斜體"
 
-#: ../e-util/e-html-editor-actions.c:1547
+#: ../e-util/e-html-editor-actions.c:1524
 msgid "_Plain Text"
 msgstr "純文字(_P)"
 
-#: ../e-util/e-html-editor-actions.c:1555
+#: ../e-util/e-html-editor-actions.c:1532
 #: ../e-util/e-html-editor-text-dialog.c:246
 msgid "_Strikethrough"
 msgstr "刪除線(_S)"
 
-#: ../e-util/e-html-editor-actions.c:1557
+#: ../e-util/e-html-editor-actions.c:1534
 msgid "Strikethrough"
 msgstr "刪除線"
 
-#: ../e-util/e-html-editor-actions.c:1563
+#: ../e-util/e-html-editor-actions.c:1540
 #: ../e-util/e-html-editor-text-dialog.c:236
 msgid "_Underline"
 msgstr "底線(_U)"
 
-#: ../e-util/e-html-editor-actions.c:1565
+#: ../e-util/e-html-editor-actions.c:1542
 msgid "Underline"
 msgstr "底線"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1575
+#: ../e-util/e-html-editor-actions.c:1552
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1583
+#: ../e-util/e-html-editor-actions.c:1560
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1591
+#: ../e-util/e-html-editor-actions.c:1568
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1599
+#: ../e-util/e-html-editor-actions.c:1576
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1607
+#: ../e-util/e-html-editor-actions.c:1584
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1615
+#: ../e-util/e-html-editor-actions.c:1592
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../e-util/e-html-editor-actions.c:1623
+#: ../e-util/e-html-editor-actions.c:1600
 msgid "+4"
 msgstr "+4"
 
-#: ../e-util/e-html-editor-actions.c:1642
+#: ../e-util/e-html-editor-actions.c:1619
 msgid "Cell Contents"
 msgstr "儲存格內容"
 
-#: ../e-util/e-html-editor-actions.c:1649
+#: ../e-util/e-html-editor-actions.c:1626
 msgid "Column"
 msgstr "欄"
 
-#: ../e-util/e-html-editor-actions.c:1656
+#: ../e-util/e-html-editor-actions.c:1633
 msgid "Row"
 msgstr "列"
 
-#: ../e-util/e-html-editor-actions.c:1663
-#: ../e-util/e-html-editor-actions.c:1748
+#: ../e-util/e-html-editor-actions.c:1640
+#: ../e-util/e-html-editor-actions.c:1725
 msgid "Table"
 msgstr "表格"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../e-util/e-html-editor-actions.c:1673
+#: ../e-util/e-html-editor-actions.c:1650
 msgid "Table Delete"
 msgstr "刪除表格"
 
-#: ../e-util/e-html-editor-actions.c:1680 ../e-util/e-text.c:2147
+#: ../e-util/e-html-editor-actions.c:1657 ../e-util/e-text.c:2147
 msgid "Input Methods"
 msgstr "輸入法"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../e-util/e-html-editor-actions.c:1688
+#: ../e-util/e-html-editor-actions.c:1665
 msgid "Table Insert"
 msgstr "插入表格"
 
-#: ../e-util/e-html-editor-actions.c:1695
+#: ../e-util/e-html-editor-actions.c:1672
 msgid "Properties"
 msgstr "屬性"
 
-#: ../e-util/e-html-editor-actions.c:1713
+#: ../e-util/e-html-editor-actions.c:1690
 msgid "Column After"
 msgstr "欄之後"
 
-#: ../e-util/e-html-editor-actions.c:1720
+#: ../e-util/e-html-editor-actions.c:1697
 msgid "Column Before"
 msgstr "欄之前"
 
-#: ../e-util/e-html-editor-actions.c:1727
+#: ../e-util/e-html-editor-actions.c:1704
 msgid "Insert _Link"
 msgstr "插入連結(_L)"
 
-#: ../e-util/e-html-editor-actions.c:1734
+#: ../e-util/e-html-editor-actions.c:1711
 msgid "Row Above"
 msgstr "列之上"
 
-#: ../e-util/e-html-editor-actions.c:1741
+#: ../e-util/e-html-editor-actions.c:1718
 msgid "Row Below"
 msgstr "列之下"
 
-#: ../e-util/e-html-editor-actions.c:1755
+#: ../e-util/e-html-editor-actions.c:1732
 msgid "Cell..."
 msgstr "儲存格…"
 
-#: ../e-util/e-html-editor-actions.c:1762
+#: ../e-util/e-html-editor-actions.c:1739
 msgid "Image..."
 msgstr "影像…"
 
-#: ../e-util/e-html-editor-actions.c:1769
+#: ../e-util/e-html-editor-actions.c:1746
 msgid "Link..."
 msgstr "連結…"
 
-#: ../e-util/e-html-editor-actions.c:1776
+#: ../e-util/e-html-editor-actions.c:1753
 msgid "Page..."
 msgstr "頁面…"
 
-#: ../e-util/e-html-editor-actions.c:1783
+#: ../e-util/e-html-editor-actions.c:1760
 msgid "Paragraph..."
 msgstr "段落…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:1791
+#: ../e-util/e-html-editor-actions.c:1768
 msgid "Rule..."
 msgstr "水平線…"
 
-#: ../e-util/e-html-editor-actions.c:1798
+#: ../e-util/e-html-editor-actions.c:1775
 msgid "Table..."
 msgstr "表格…"
 
-#: ../e-util/e-html-editor-actions.c:1805
+#: ../e-util/e-html-editor-actions.c:1782
 msgid "Text..."
 msgstr "文字…"
 
-#: ../e-util/e-html-editor-actions.c:1812
+#: ../e-util/e-html-editor-actions.c:1789
 msgid "Remove Link"
 msgstr "移除連結"
 
-#: ../e-util/e-html-editor-actions.c:1829
+#: ../e-util/e-html-editor-actions.c:1806
 msgid "Add Word to Dictionary"
 msgstr "加入字詞至字典"
 
-#: ../e-util/e-html-editor-actions.c:1836
+#: ../e-util/e-html-editor-actions.c:1813
 msgid "Ignore Misspelled Word"
 msgstr "忽略拼錯的字詞"
 
-#: ../e-util/e-html-editor-actions.c:1843
+#: ../e-util/e-html-editor-actions.c:1820
 msgid "Add Word To"
 msgstr "加入字詞至"
 
-#: ../e-util/e-html-editor-actions.c:1852
+#: ../e-util/e-html-editor-actions.c:1829
 msgid "More Suggestions"
 msgstr "更多建議"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../e-util/e-html-editor-actions.c:1960
+#: ../e-util/e-html-editor-actions.c:1937
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s 字典"
 
-#: ../e-util/e-html-editor-actions.c:2047
+#: ../e-util/e-html-editor-actions.c:2024
 msgid "_Emoticon"
 msgstr "表情符號(_E)"
 
-#: ../e-util/e-html-editor-actions.c:2048
+#: ../e-util/e-html-editor-actions.c:2025
 msgid "Insert Emoticon"
 msgstr "插入表情符號"
 
-#: ../e-util/e-html-editor-actions.c:2116
+#: ../e-util/e-html-editor-actions.c:2093
 msgid "Re_place"
 msgstr "取代(_P)"
 
-#: ../e-util/e-html-editor-actions.c:2119
+#: ../e-util/e-html-editor-actions.c:2096
 msgid "_Image"
 msgstr "影像(_I)"
 
-#: ../e-util/e-html-editor-actions.c:2122
+#: ../e-util/e-html-editor-actions.c:2099
 msgid "_Link"
 msgstr "連結(_L)"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../e-util/e-html-editor-actions.c:2126
+#: ../e-util/e-html-editor-actions.c:2103
 msgid "_Rule"
 msgstr "水平線(_R)"
 
-#: ../e-util/e-html-editor-actions.c:2129
+#: ../e-util/e-html-editor-actions.c:2106
 #: ../e-util/e-html-editor-cell-dialog.c:738
 msgid "_Table"
 msgstr "表格(_T)"
 
-#: ../e-util/e-html-editor.c:681
+#: ../e-util/e-html-editor.c:704
 msgid "Paragraph Style"
 msgstr "段落樣式"
 
-#: ../e-util/e-html-editor.c:695
+#: ../e-util/e-html-editor.c:718
 msgid "Editing Mode"
 msgstr "編輯模式"
 
-#: ../e-util/e-html-editor.c:707
+#: ../e-util/e-html-editor.c:730
 msgid "Font Color"
 msgstr "字型顏色"
 
-#: ../e-util/e-html-editor.c:725
+#: ../e-util/e-html-editor.c:748
 msgid "Font Size"
 msgstr "字型大小"
 
@@ -12450,7 +12467,7 @@ msgstr "<b>連結</b>"
 #: ../e-util/e-html-editor-image-dialog.c:708
 #: ../e-util/e-html-editor-link-dialog.c:400
 msgid "_URL:"
-msgstr "_URL:"
+msgstr "_URL："
 
 #: ../e-util/e-html-editor-image-dialog.c:713
 #: ../e-util/e-html-editor-link-dialog.c:405
@@ -12512,7 +12529,7 @@ msgstr "連結(_L)："
 
 #: ../e-util/e-html-editor-page-dialog.c:593
 msgid "_Visited Link:"
-msgstr "已瀏覽連結(_V):"
+msgstr "已瀏覽連結(_V)："
 
 #: ../e-util/e-html-editor-page-dialog.c:608
 msgid "_Background:"
@@ -12527,7 +12544,8 @@ msgstr "<b>背景影像</b>"
 msgid "_Template:"
 msgstr "範本(_T)："
 
-#: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:283
+#: ../e-util/e-html-editor-page-dialog.c:646
+#: ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "選擇一個檔案"
 
@@ -12563,7 +12581,7 @@ msgstr "取代(_E)："
 
 #: ../e-util/e-html-editor-replace-dialog.c:239
 msgid "_With:"
-msgstr "以(_W):"
+msgstr "以(_W)："
 
 #: ../e-util/e-html-editor-replace-dialog.c:251
 msgid "_Case sensitive"
@@ -12635,7 +12653,8 @@ msgstr "<b>字典</b>"
 msgid "Add word"
 msgstr "加入字詞"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:637 ../mail/mail-config.ui.h:38
+#: ../e-util/e-html-editor-spell-check-dialog.c:637
+#: ../mail/mail-config.ui.h:38
 msgid "Spell Checking"
 msgstr "拼字檢查"
 
@@ -12676,11 +12695,11 @@ msgstr "大小(_Z)："
 msgid "Text Properties"
 msgstr "文字屬性"
 
-#: ../e-util/e-html-editor-view.c:5344
+#: ../e-util/e-html-editor-view.c:5474
 msgid "Changed property"
 msgstr "已變更屬性"
 
-#: ../e-util/e-html-editor-view.c:5345
+#: ../e-util/e-html-editor-view.c:5475
 msgid "Whether editor changed"
 msgstr "編輯器是否已改變"
 
@@ -12692,7 +12711,7 @@ msgstr "選取要匯入 Evolution 的檔案，並且在清單內選取檔案類�
 
 #: ../e-util/e-import-assistant.c:297 ../e-util/e-import-assistant.c:472
 msgid "File _type:"
-msgstr "檔案類型(_T):"
+msgstr "檔案類型(_T)："
 
 #: ../e-util/e-import-assistant.c:340 ../e-util/e-import-assistant.c:917
 msgid "Choose the destination for this import"
@@ -12800,7 +12819,7 @@ msgstr "編輯簽名檔"
 
 #: ../e-util/e-mail-signature-editor.c:562
 msgid "_Signature Name:"
-msgstr "簽名檔名稱(_S):"
+msgstr "簽名檔名稱(_S)："
 
 #: ../e-util/e-mail-signature-editor.c:598
 msgid "Unnamed"
@@ -12830,7 +12849,7 @@ msgstr ""
 
 #: ../e-util/e-mail-signature-script-dialog.c:444
 msgid "S_cript:"
-msgstr "命令稿(_C):"
+msgstr "命令稿(_C)："
 
 #: ../e-util/e-mail-signature-script-dialog.c:475
 msgid "Script file must be executable."
@@ -12887,15 +12906,15 @@ msgstr "顯示連絡人"
 
 #: ../e-util/e-name-selector-dialog.c:309
 msgid "Address B_ook:"
-msgstr "通訊錄(_O):"
+msgstr "通訊錄(_O)："
 
 #: ../e-util/e-name-selector-dialog.c:316
 msgid "Cat_egory:"
-msgstr "分類(_E):"
+msgstr "分類(_E)："
 
 #: ../e-util/e-name-selector-dialog.c:340
 msgid "_Search:"
-msgstr "搜尋(_S):"
+msgstr "搜尋(_S)："
 
 #: ../e-util/e-name-selector-dialog.c:366
 #: ../e-util/e-name-selector-dialog.c:1274
@@ -12914,7 +12933,8 @@ msgstr "連絡人(_N)"
 msgid "Search"
 msgstr "搜尋"
 
-#: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
+#: ../e-util/e-name-selector-dialog.c:448
+#: ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "通訊錄"
 
@@ -13012,7 +13032,7 @@ msgstr "列印系統沒有回報任何關於此錯誤的額外資訊。"
 
 #: ../e-util/e-proxy-editor.c:325
 msgid "_Method:"
-msgstr "方法(_M):"
+msgstr "方法(_M)："
 
 #: ../e-util/e-proxy-editor.c:347
 msgid "Defer to Desktop Settings"
@@ -13040,7 +13060,7 @@ msgstr "_Socks 代理伺服器："
 
 #: ../e-util/e-proxy-editor.c:489
 msgid "_Ignore Hosts:"
-msgstr "忽略主機(_I):"
+msgstr "忽略主機(_I)："
 
 #: ../e-util/e-proxy-editor.c:515
 msgid "Automatic"
@@ -13048,7 +13068,7 @@ msgstr "自動"
 
 #: ../e-util/e-proxy-editor.c:534
 msgid "Configuration _URL:"
-msgstr "設定網址(_U):"
+msgstr "設定網址(_U)："
 
 #: ../e-util/e-proxy-editor.c:560
 msgid "No proxy"
@@ -13109,7 +13129,7 @@ msgstr "關閉搜尋工具列"
 
 #: ../e-util/e-search-bar.c:577
 msgid "Fin_d:"
-msgstr "尋找(_D):"
+msgstr "尋找(_D)："
 
 #: ../e-util/e-search-bar.c:589
 msgid "Clear the search"
@@ -13144,7 +13164,8 @@ msgid "Reached top of page, continued from bottom"
 msgstr "到達頁面頂端，從底部繼續"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
+#: ../mail/importers/kmail-importer.c:253
+#: ../mail/importers/pine-importer.c:422
 #: ../modules/mail/e-mail-shell-view.c:1172
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
@@ -13152,7 +13173,7 @@ msgstr "郵件"
 
 #: ../e-util/e-send-options.c:570
 msgid "When de_leted:"
-msgstr "刪除時(_L):"
+msgstr "刪除時(_L)："
 
 #: ../e-util/e-send-options.ui.h:3
 msgid "Standard"
@@ -13231,11 +13252,11 @@ msgstr "遞送選項"
 
 #: ../e-util/e-send-options.ui.h:26
 msgid "_Priority:"
-msgstr "優先順序(_P):"
+msgstr "優先順序(_P)："
 
 #: ../e-util/e-send-options.ui.h:27
 msgid "_Classification:"
-msgstr "歸類(_C):"
+msgstr "歸類(_C)："
 
 #: ../e-util/e-send-options.ui.h:28
 msgid "Gene_ral Options"
@@ -13267,19 +13288,19 @@ msgstr "狀態追蹤"
 
 #: ../e-util/e-send-options.ui.h:35
 msgid "_When opened:"
-msgstr "當開啟時(_W):"
+msgstr "當開啟時(_W)："
 
 #: ../e-util/e-send-options.ui.h:36
 msgid "When decli_ned:"
-msgstr "當拒絕時(_N):"
+msgstr "當拒絕時(_N)："
 
 #: ../e-util/e-send-options.ui.h:37
 msgid "When co_mpleted:"
-msgstr "當完成時(_M):"
+msgstr "當完成時(_M)："
 
 #: ../e-util/e-send-options.ui.h:38
 msgid "When acce_pted:"
-msgstr "當接受時(_P):"
+msgstr "當接受時(_P)："
 
 #: ../e-util/e-send-options.ui.h:39
 msgid "Return Notification"
@@ -13291,7 +13312,7 @@ msgstr "狀態追蹤(_T)"
 
 #: ../e-util/e-source-config.c:690 ../e-util/e-source-config.c:694
 msgid "Type:"
-msgstr "類型:"
+msgstr "類型："
 
 #: ../e-util/e-source-config.c:702 ../e-util/e-source-config.c:706
 msgid "Name:"
@@ -13339,26 +13360,26 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #. no suggestions. Put something in the menu anyway...
-#: ../e-util/e-spell-entry.c:410
+#: ../e-util/e-spell-entry.c:457
 msgid "(no suggestions)"
 msgstr "(沒有建議)"
 
-#: ../e-util/e-spell-entry.c:434
+#: ../e-util/e-spell-entry.c:481
 msgid "More..."
 msgstr "更多…"
 
 #. + Add to Dictionary
-#: ../e-util/e-spell-entry.c:519
+#: ../e-util/e-spell-entry.c:566
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "加入「%s」至字典"
 
 #. - Ignore All
-#: ../e-util/e-spell-entry.c:568
+#: ../e-util/e-spell-entry.c:615
 msgid "Ignore All"
 msgstr "全部忽略"
 
-#: ../e-util/e-spell-entry.c:600
+#: ../e-util/e-spell-entry.c:647
 msgid "Spelling Suggestions"
 msgstr "拼字建議"
 
@@ -13888,7 +13909,8 @@ msgstr "秒"
 msgid "weeks"
 msgstr "週"
 
-#: ../e-util/filter.ui.h:10 ../plugins/publish-calendar/publish-calendar.ui.h:8
+#: ../e-util/filter.ui.h:10
+#: ../plugins/publish-calendar/publish-calendar.ui.h:8
 msgid "months"
 msgstr "個月"
 
@@ -13906,7 +13928,7 @@ msgstr "後"
 
 #: ../e-util/filter.ui.h:14
 msgid "Show filters for mail:"
-msgstr "顯示郵件過濾器:"
+msgstr "顯示郵件過濾器："
 
 #: ../e-util/filter.ui.h:15 ../mail/em-filter-editor.c:165
 msgid "_Filter Rules"
@@ -14103,36 +14125,36 @@ msgstr "無效的資料夾 URI「%s」"
 #. Some local folders
 #: ../libemail-engine/e-mail-session.c:124 ../mail/em-folder-properties.c:680
 #: ../mail/em-folder-tree-model.c:1229 ../mail/importers/kmail-libs.c:141
-#: ../modules/mail/e-mail-shell-view-private.c:1081
-#: ../modules/mail/e-mail-shell-view-private.c:1092
+#: ../modules/mail/e-mail-shell-view-private.c:1049
+#: ../modules/mail/e-mail-shell-view-private.c:1060
 msgid "Inbox"
 msgstr "收件匣"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../libemail-engine/e-mail-session.c:125 ../mail/em-folder-tree-model.c:1222
 #: ../mail/importers/kmail-libs.c:147
-#: ../modules/mail/e-mail-shell-view-private.c:1079
+#: ../modules/mail/e-mail-shell-view-private.c:1047
 msgid "Drafts"
 msgstr "草稿"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../libemail-engine/e-mail-session.c:126 ../mail/em-folder-tree-model.c:1233
 #: ../mail/importers/kmail-libs.c:143
-#: ../modules/mail/e-mail-shell-view-private.c:1083
+#: ../modules/mail/e-mail-shell-view-private.c:1051
 msgid "Outbox"
 msgstr "寄件匣"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../libemail-engine/e-mail-session.c:127 ../mail/em-folder-tree-model.c:1237
 #: ../mail/importers/kmail-libs.c:145
-#: ../modules/mail/e-mail-shell-view-private.c:1085
+#: ../modules/mail/e-mail-shell-view-private.c:1053
 msgid "Sent"
 msgstr "已傳送"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../libemail-engine/e-mail-session.c:128 ../mail/em-folder-tree-model.c:1225
 #: ../mail/importers/kmail-libs.c:149
-#: ../modules/mail/e-mail-shell-view-private.c:1087
+#: ../modules/mail/e-mail-shell-view-private.c:1055
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 #: ../plugins/templates/templates.c:1176 ../plugins/templates/templates.c:1478
 #: ../plugins/templates/templates.c:1488
@@ -14290,12 +14312,12 @@ msgstr "正在貯藏資料夾「%s」"
 #: ../libemail-engine/mail-ops.c:1412
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "清空和儲存帳號 '%s'"
+msgstr "清空和儲存帳號「%s」"
 
 #: ../libemail-engine/mail-ops.c:1413
 #, c-format
 msgid "Storing account '%s'"
-msgstr "儲存帳號 '%s'"
+msgstr "儲存帳號「%s」"
 
 #: ../libemail-engine/mail-ops.c:1488
 #, c-format
@@ -14394,8 +14416,8 @@ msgstr "沒有提供電子郵件位址"
 msgid "Missing domain in email address"
 msgstr "電子郵件位址缺乏網域"
 
-#: ../mail/e-mail-browser.c:129 ../shell/e-shell-window-actions.c:903
-#: ../shell/e-shell-window-actions.c:910 ../shell/e-shell-window-actions.c:917
+#: ../mail/e-mail-browser.c:129 ../shell/e-shell-window-actions.c:773
+#: ../shell/e-shell-window-actions.c:780 ../shell/e-shell-window-actions.c:787
 msgid "Close this window"
 msgstr "關閉本視窗"
 
@@ -14449,7 +14471,7 @@ msgstr "特殊資料夾"
 
 #: ../mail/e-mail-config-defaults-page.c:558
 msgid "Draft Messages _Folder:"
-msgstr "草稿郵件資料夾(_F):"
+msgstr "草稿郵件資料夾(_F)："
 
 #: ../mail/e-mail-config-defaults-page.c:568
 msgid "Choose a folder for saving draft messages."
@@ -14457,7 +14479,7 @@ msgstr "選擇儲存草稿郵件的資料夾。"
 
 #: ../mail/e-mail-config-defaults-page.c:582
 msgid "Sent _Messages Folder:"
-msgstr "傳送郵件資料夾(_M):"
+msgstr "傳送郵件資料夾(_M)："
 
 #: ../mail/e-mail-config-defaults-page.c:592
 msgid "Choose a folder for saving sent messages."
@@ -14482,7 +14504,7 @@ msgstr "還原為預設值(_R)"
 
 #: ../mail/e-mail-config-defaults-page.c:666
 msgid "Use a Real Folder for _Trash:"
-msgstr "回收桶使用真實資料夾(_T):"
+msgstr "回收桶使用真實資料夾(_T)："
 
 #: ../mail/e-mail-config-defaults-page.c:667
 msgid "Choose a folder for deleted messages."
@@ -14490,7 +14512,7 @@ msgstr "選擇删除郵件的資料夾。"
 
 #: ../mail/e-mail-config-defaults-page.c:676
 msgid "Use a Real Folder for _Junk:"
-msgstr "垃圾郵件使用真實資料夾(_J):"
+msgstr "垃圾郵件使用真實資料夾(_J)："
 
 #: ../mail/e-mail-config-defaults-page.c:677
 msgid "Choose a folder for junk messages."
@@ -14502,11 +14524,11 @@ msgstr "正在編輯郵件"
 
 #: ../mail/e-mail-config-defaults-page.c:703
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "一定寄送副本 (cc) 給(_S):"
+msgstr "一定寄送副本 (cc) 給(_S)："
 
 #: ../mail/e-mail-config-defaults-page.c:728
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "一定寄送密件副本 (bcc) 給(_B):"
+msgstr "一定寄送密件副本 (bcc) 給(_B)："
 
 #: ../mail/e-mail-config-defaults-page.c:763
 msgid "Message Receipts"
@@ -14514,7 +14536,7 @@ msgstr "郵件回條"
 
 #: ../mail/e-mail-config-defaults-page.c:772
 msgid "S_end message receipts:"
-msgstr "傳送郵件回條(_E):"
+msgstr "傳送郵件回條(_E)："
 
 #: ../mail/e-mail-config-defaults-page.c:797
 msgid "Never"
@@ -14561,11 +14583,11 @@ msgstr "必要的資訊"
 
 #: ../mail/e-mail-config-identity-page.c:372
 msgid "Full Nam_e:"
-msgstr "全名(_E):"
+msgstr "全名(_E)："
 
 #: ../mail/e-mail-config-identity-page.c:399
 msgid "Email _Address:"
-msgstr "電子郵件位址(_A):"
+msgstr "電子郵件位址(_A)："
 
 #: ../mail/e-mail-config-identity-page.c:446
 #: ../plugins/publish-calendar/publish-calendar.ui.h:26
@@ -14574,11 +14596,11 @@ msgstr "選擇性的資訊"
 
 #: ../mail/e-mail-config-identity-page.c:455
 msgid "Re_ply-To:"
-msgstr "回覆地址(_P):"
+msgstr "回覆地址(_P)："
 
 #: ../mail/e-mail-config-identity-page.c:482
 msgid "Or_ganization:"
-msgstr "團體(_G):"
+msgstr "團體(_G)："
 
 #: ../mail/e-mail-config-identity-page.c:537
 msgid "Add Ne_w Signature..."
@@ -14616,8 +14638,8 @@ msgctxt "PGPKeyDescription"
 msgid "%s - %s"
 msgstr "%s - %s"
 
-#: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
-#: ../mail/mail-config.ui.h:30
+#: ../mail/e-mail-config-security-page.c:340
+#: ../mail/em-folder-properties.c:603 ../mail/mail-config.ui.h:30
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.c:625
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
@@ -14635,11 +14657,11 @@ msgstr "嚴密隱私權 (OpenPGP)"
 
 #: ../mail/e-mail-config-security-page.c:380
 msgid "OpenPGP _Key ID:"
-msgstr "OpenPGP 金鑰 ID(_K):"
+msgstr "OpenPGP 金鑰 ID(_K)："
 
 #: ../mail/e-mail-config-security-page.c:413
 msgid "Si_gning algorithm:"
-msgstr "簽章演算法(_G):"
+msgstr "簽章演算法(_G)："
 
 #: ../mail/e-mail-config-security-page.c:429
 #: ../mail/e-mail-config-security-page.c:581 ../mail/mail-config.ui.h:73
@@ -14683,7 +14705,7 @@ msgstr "安全式 MIME (S/MIME)"
 
 #: ../mail/e-mail-config-security-page.c:523
 msgid "Sig_ning certificate:"
-msgstr "簽名憑證(_N):"
+msgstr "簽名憑證(_N)："
 
 #: ../mail/e-mail-config-security-page.c:547
 #: ../mail/e-mail-config-security-page.c:653
@@ -14692,13 +14714,13 @@ msgstr "選擇"
 
 #: ../mail/e-mail-config-security-page.c:556
 #: ../mail/e-mail-config-security-page.c:662 ../mail/mail-dialogs.ui.h:5
-#: ../shell/e-shell-window-actions.c:1006
+#: ../shell/e-shell-window-actions.c:876
 msgid "_Clear"
 msgstr "清除(_C)"
 
 #: ../mail/e-mail-config-security-page.c:565
 msgid "Signing _algorithm:"
-msgstr "簽章演算法(_A):"
+msgstr "簽章演算法(_A)："
 
 #: ../mail/e-mail-config-security-page.c:606
 msgid "Always sign outgoing messages when using this account"
@@ -14722,7 +14744,7 @@ msgstr "傳送電子郵件"
 
 #: ../mail/e-mail-config-service-page.c:638
 msgid "Server _Type:"
-msgstr "伺服器類型(_T):"
+msgstr "伺服器類型(_T)："
 
 #: ../mail/e-mail-config-summary-page.c:141
 msgid "SSL"
@@ -14773,7 +14795,7 @@ msgstr "使用者名稱："
 
 #: ../mail/e-mail-config-summary-page.c:493
 msgid "Security:"
-msgstr "安全性:"
+msgstr "安全性："
 
 #: ../mail/e-mail-config-summary-page.c:784
 msgid "Account Summary"
@@ -14836,7 +14858,7 @@ msgstr "建立(_R)"
 
 #: ../mail/e-mail-folder-create-dialog.c:351
 msgid "Folder _name:"
-msgstr "資料夾名稱(_N):"
+msgstr "資料夾名稱(_N)："
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
@@ -14886,7 +14908,7 @@ msgstr "垃圾郵件過濾軟體："
 
 #: ../mail/e-mail-label-dialog.c:224
 msgid "_Label name:"
-msgstr "標籤名稱(_L):"
+msgstr "標籤名稱(_L)："
 
 #: ../mail/e-mail-label-list-store.c:57
 msgid "I_mportant"
@@ -15387,7 +15409,8 @@ msgstr "回覆至清單(_L)"
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "撰寫回郵給所選定郵件的通信論壇"
 
-#: ../mail/e-mail-reader.c:2244 ../modules/mail/e-mail-attachment-handler.c:220
+#: ../mail/e-mail-reader.c:2244
+#: ../modules/mail/e-mail-attachment-handler.c:220
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
@@ -15551,7 +15574,8 @@ msgstr "顯示郵件及詳細檔頭"
 msgid "Retrieving message"
 msgstr "取回郵件"
 
-#: ../mail/e-mail-reader.c:4078 ../modules/mail/e-mail-attachment-handler.c:206
+#: ../mail/e-mail-reader.c:4078
+#: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "轉寄(_F)"
 
@@ -15585,22 +15609,22 @@ msgstr "上一個"
 msgid "Reply"
 msgstr "回覆"
 
-#: ../mail/e-mail-reader.c:5249
+#: ../mail/e-mail-reader.c:5240
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "允許任何寄件者為 %s 的遠端內容"
 
-#: ../mail/e-mail-reader.c:5251
+#: ../mail/e-mail-reader.c:5242
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "允許任何收件者為 %s 的遠端內容"
 
-#: ../mail/e-mail-reader.c:5268
+#: ../mail/e-mail-reader.c:5259
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "允許任何寄件者為 %s 的遠端內容"
 
-#: ../mail/e-mail-reader.c:5325
+#: ../mail/e-mail-reader.c:5316
 msgid "Load remote content"
 msgstr "載入遠端內容"
 
@@ -15738,17 +15762,17 @@ msgstr "加入動作(_T)"
 #: ../mail/em-folder-properties.c:178
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
-msgstr[0] "未讀郵件:"
+msgstr[0] "未讀郵件："
 
 #: ../mail/em-folder-properties.c:189
 msgid "Total messages:"
 msgid_plural "Total messages:"
-msgstr[0] "所有郵件:"
+msgstr[0] "所有郵件："
 
 #: ../mail/em-folder-properties.c:210
 #, c-format
 msgid "Quota usage (%s):"
-msgstr "配額使用量 (%s):"
+msgstr "配額使用量 (%s)："
 
 #: ../mail/em-folder-properties.c:212
 #, c-format
@@ -15759,11 +15783,11 @@ msgstr "限制用量"
 #. choose which account to use as the sender when composing a message in this folder
 #: ../mail/em-folder-properties.c:287
 msgid "_Send Account Override:"
-msgstr "傳送帳號覆蓋(_S):"
+msgstr "傳送帳號覆蓋(_S)："
 
 #: ../mail/em-folder-properties.c:491
 msgid "_Archive this folder using these settings:"
-msgstr "使用這些設定值封存這個資料夾(_A):"
+msgstr "使用這些設定值封存這個資料夾(_A)："
 
 #. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
 #: ../mail/em-folder-properties.c:500
@@ -15795,7 +15819,7 @@ msgstr "將舊的郵件移至預設的封存資料夾(_F)"
 
 #: ../mail/em-folder-properties.c:537
 msgid "_Move old messages to:"
-msgstr "移動舊的郵件到(_M):"
+msgstr "移動舊的郵件到(_M)："
 
 #: ../mail/em-folder-properties.c:541
 msgid "AutoArchive folder"
@@ -15907,14 +15931,14 @@ msgid "Unsubscribe From _All"
 msgstr "全部取消訂閱(_A)"
 
 #: ../mail/em-subscription-editor.c:1339
-#: ../modules/mail/e-mail-shell-view-private.c:1058
+#: ../modules/mail/e-mail-shell-view-private.c:1026
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "%d 封未讀，"
 
 #: ../mail/em-subscription-editor.c:1343
-#: ../modules/mail/e-mail-shell-view-private.c:1068
+#: ../modules/mail/e-mail-shell-view-private.c:1036
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -15926,7 +15950,7 @@ msgstr "資料夾訂閱"
 
 #: ../mail/em-subscription-editor.c:1788
 msgid "_Account:"
-msgstr "帳號(_A):"
+msgstr "帳號(_A)："
 
 #: ../mail/em-subscription-editor.c:1801
 msgid "Clear Search"
@@ -15934,7 +15958,7 @@ msgstr "清除搜尋"
 
 #: ../mail/em-subscription-editor.c:1818
 msgid "Sho_w items that contain:"
-msgstr "顯示項目包含(_W):"
+msgstr "顯示項目包含(_W)："
 
 #: ../mail/em-subscription-editor.c:1865
 msgid "Subscribe to the selected folder"
@@ -16348,7 +16372,7 @@ msgstr "從 Elm 匯入郵件。"
 #: ../mail/importers/kmail-importer.c:210
 #: ../plugins/dbx-import/dbx-importer.c:246
 msgid "_Destination folder:"
-msgstr "目的端資料夾(_D):"
+msgstr "目的端資料夾(_D)："
 
 #: ../mail/importers/evolution-mbox-importer.c:140
 #: ../mail/importers/kmail-importer.c:216
@@ -16374,7 +16398,8 @@ msgctxt "mboxImp"
 msgid "From"
 msgstr "寄件者"
 
-#: ../mail/importers/evolution-mbox-importer.c:568 ../shell/e-shell-utils.c:171
+#: ../mail/importers/evolution-mbox-importer.c:568
+#: ../shell/e-shell-utils.c:173
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Berkeley 郵件信箱 (mbox)"
 
@@ -16397,7 +16422,7 @@ msgid "Import mail and contacts from KMail."
 msgstr "從 KMail 匯入郵件與連絡人。"
 
 #: ../mail/importers/kmail-libs.c:152
-#: ../modules/mail/e-mail-shell-view-private.c:1089
+#: ../modules/mail/e-mail-shell-view-private.c:1057
 msgid "Trash"
 msgstr "回收筒"
 
@@ -16524,11 +16549,11 @@ msgstr "透過寄件匣資料夾傳送郵件(_X)"
 
 #: ../mail/mail-config.ui.h:15
 msgid "Number of characters for word w_rapping:"
-msgstr "文字換列的字元數(_R):"
+msgstr "文字換列的字元數(_R)："
 
 #: ../mail/mail-config.ui.h:16
 msgid "Ch_aracter encoding:"
-msgstr "字元編碼(_A):"
+msgstr "字元編碼(_A)："
 
 #: ../mail/mail-config.ui.h:17
 msgid "Replies and Forwards"
@@ -16536,11 +16561,11 @@ msgstr "回覆和轉寄"
 
 #: ../mail/mail-config.ui.h:18
 msgid "_Reply style:"
-msgstr "回覆方式(_R):"
+msgstr "回覆方式(_R)："
 
 #: ../mail/mail-config.ui.h:19
 msgid "_Forward style:"
-msgstr "轉寄方式(_F):"
+msgstr "轉寄方式(_F)："
 
 #: ../mail/mail-config.ui.h:20
 msgid "Start _typing at the bottom on replying"
@@ -16740,7 +16765,7 @@ msgstr "使用與其他應用程式相同的字型(_U)"
 
 #: ../mail/mail-config.ui.h:84
 msgid "S_tandard Font:"
-msgstr "標準字型(_T):"
+msgstr "標準字型(_T)："
 
 #: ../mail/mail-config.ui.h:85
 msgid "Select HTML fixed width font"
@@ -16752,7 +16777,7 @@ msgstr "選擇 HTML 可變寬度字型"
 
 #: ../mail/mail-config.ui.h:87
 msgid "Fix_ed Width Font:"
-msgstr "固定寬度字型(_E):"
+msgstr "固定寬度字型(_E)："
 
 #: ../mail/mail-config.ui.h:88
 msgid "_Mark messages as read after"
@@ -16773,7 +16798,7 @@ msgstr "色彩"
 
 #: ../mail/mail-config.ui.h:93
 msgid "Default character e_ncoding:"
-msgstr "預設字元編碼(_N):"
+msgstr "預設字元編碼(_N)："
 
 #: ../mail/mail-config.ui.h:94
 msgid "Apply the same _view settings to all folders"
@@ -16930,11 +16955,11 @@ msgstr ""
 
 #: ../mail/mail-dialogs.ui.h:3
 msgid "_Flag:"
-msgstr "標幟(_F):"
+msgstr "標幟(_F)："
 
 #: ../mail/mail-dialogs.ui.h:4
 msgid "_Due By:"
-msgstr "到期於(_D):"
+msgstr "到期於(_D)："
 
 #. Translators: Flag Completed
 #: ../mail/mail-dialogs.ui.h:7
@@ -17194,7 +17219,8 @@ msgid ""
 "folders?"
 msgstr "要永久移除所有資料夾中所有刪除的郵件？"
 
-#: ../mail/mail.error.xml.h:42 ../modules/mail/e-mail-shell-view-actions.c:1638
+#: ../mail/mail.error.xml.h:42
+#: ../modules/mail/e-mail-shell-view-actions.c:1638
 msgid "_Empty Trash"
 msgstr "清理回收筒(_E)"
 
@@ -18021,7 +18047,7 @@ msgstr "自由形式表示式"
 #: ../modules/addressbook/autocompletion-config.c:122
 #: ../modules/mail/em-mailer-prefs.c:1552
 msgid "_Table column:"
-msgstr "表格欄(_T):"
+msgstr "表格欄(_T)："
 
 #: ../modules/addressbook/autocompletion-config.c:125
 msgid "Address formatting"
@@ -18368,7 +18394,7 @@ msgstr ""
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:178
 msgid "_Restore from a backup file:"
-msgstr "從備份檔案還原(_R):"
+msgstr "從備份檔案還原(_R)："
 
 #: ../modules/backup-restore/e-mail-config-restore-page.c:189
 msgid "Choose a backup file to restore"
@@ -18574,7 +18600,7 @@ msgstr "選取的資料夾無法寫入。"
 #: ../modules/bogofilter/evolution-bogofilter.c:160
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
-msgstr "無法產生 Bogofilter (%s):："
+msgstr "無法產生 Bogofilter (%s)："
 
 #: ../modules/bogofilter/evolution-bogofilter.c:178
 msgid "Failed to stream mail message content to Bogofilter: "
@@ -18629,7 +18655,7 @@ msgstr "伺服器資訊"
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:607
 msgid "Port:"
-msgstr "連接埠:"
+msgstr "連接埠："
 
 #: ../modules/book-config-ldap/evolution-book-config-ldap.c:621
 msgid "StartTLS (recommended)"
@@ -18735,7 +18761,7 @@ msgstr "瀏覽直到達到限制"
 #: ../modules/cal-config-caldav/evolution-cal-config-caldav.c:299
 #: ../modules/cal-config-webcal/evolution-cal-config-webcal.c:127
 msgid "URL:"
-msgstr "網址:"
+msgstr "網址："
 
 #: ../modules/book-config-webdav/evolution-book-config-webdav.c:145
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
@@ -18962,11 +18988,11 @@ msgstr "選擇要搜尋會議衝突的行事曆"
 
 #: ../modules/calendar/e-calendar-preferences.c:1057
 msgid "Ti_me and date:"
-msgstr "時刻和日期(_M):"
+msgstr "時刻和日期(_M)："
 
 #: ../modules/calendar/e-calendar-preferences.c:1058
 msgid "_Date only:"
-msgstr "只有日期(_D):"
+msgstr "只有日期(_D)："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:1
 msgid "Minutes"
@@ -19002,7 +19028,7 @@ msgstr "05 分鐘"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Se_cond zone:"
-msgstr "第二時區(_C):"
+msgstr "第二時區(_C)："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:12
 msgid "(Shown in a Day View)"
@@ -19014,7 +19040,7 @@ msgstr "使用系統時區(_Y)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Time format:"
-msgstr "時刻格式:"
+msgstr "時刻格式："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:16
 msgid "_12 hour (AM/PM)"
@@ -19032,15 +19058,15 @@ msgstr "工作週"
 #. A weekday like "Monday" follows
 #: ../modules/calendar/e-calendar-preferences.ui.h:20
 msgid "Wee_k starts on:"
-msgstr "一週開始於(_K):"
+msgstr "一週開始於(_K)："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:21
 msgid "Work days:"
-msgstr "工作日:"
+msgstr "工作日："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:22
 msgid "_Day begins:"
-msgstr "一日開始於(_D):"
+msgstr "一日開始於(_D)："
 
 #. Monday
 #: ../modules/calendar/e-calendar-preferences.ui.h:24
@@ -19079,7 +19105,7 @@ msgstr "週日(_U)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:44
 msgid "Day _ends:"
-msgstr "一日結束於(_E):"
+msgstr "一日結束於(_E)："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:47
 msgid "View Options"
@@ -19087,7 +19113,7 @@ msgstr "檢視選項"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:48
 msgid "_Time divisions:"
-msgstr "時間間隔(_T):"
+msgstr "時間間隔(_T)："
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:49
 msgid "_Show appointment end times in week and month view"
@@ -20307,7 +20333,7 @@ msgstr "開始日："
 #: ../modules/itip-formatter/itip-view.c:680
 #: ../modules/itip-formatter/itip-view.c:1515
 msgid "Start time:"
-msgstr "開始時間:"
+msgstr "開始時間："
 
 #: ../modules/itip-formatter/itip-view.c:689
 msgid "End day:"
@@ -20316,7 +20342,7 @@ msgstr "結束日："
 #: ../modules/itip-formatter/itip-view.c:689
 #: ../modules/itip-formatter/itip-view.c:1516
 msgid "End time:"
-msgstr "結束時間:"
+msgstr "結束時間："
 
 #: ../modules/itip-formatter/itip-view.c:1039
 msgid "Ope_n Calendar"
@@ -20363,7 +20389,7 @@ msgstr "更新(_U)"
 #: ../modules/itip-formatter/itip-view.c:1566
 #: ../modules/itip-formatter/itip-view.c:1637
 msgid "Comment:"
-msgstr "註解:"
+msgstr "註解："
 
 #. RSVP area
 #: ../modules/itip-formatter/itip-view.c:1554
@@ -20394,11 +20420,11 @@ msgstr "繼承提醒(_I)"
 
 #: ../modules/itip-formatter/itip-view.c:1908
 msgid "_Tasks:"
-msgstr "工作(_T):"
+msgstr "工作(_T)："
 
 #: ../modules/itip-formatter/itip-view.c:1911
 msgid "_Memos:"
-msgstr "備忘錄(_M):"
+msgstr "備忘錄(_M)："
 
 #: ../modules/itip-formatter/itip-view.c:3217
 msgid "Sa_ve"
@@ -20412,7 +20438,7 @@ msgstr "到會者狀態已更新"
 #: ../modules/itip-formatter/itip-view.c:3859
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr "行事曆 '%s' 中的約會和這個會議相衝突"
+msgstr "行事曆「%s」中的約會和這個會議相衝突"
 
 #: ../modules/itip-formatter/itip-view.c:3889
 #, c-format
@@ -20451,17 +20477,17 @@ msgstr "無法傳送項目至行事曆「%s」。%s"
 #: ../modules/itip-formatter/itip-view.c:4802
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
-msgstr "傳送至行事曆 '%s' 並設為已接受"
+msgstr "傳送至行事曆「%s」並設為已接受"
 
 #: ../modules/itip-formatter/itip-view.c:4807
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr "傳送至行事曆 '%s' 並設為不確定的"
+msgstr "傳送至行事曆「%s」並設為不確定的"
 
 #: ../modules/itip-formatter/itip-view.c:4813
 #, c-format
 msgid "Sent to calendar '%s' as declined"
-msgstr "傳送至行事曆 '%s' 並設為已婉拒"
+msgstr "傳送至行事曆「%s」並設為已婉拒"
 
 #: ../modules/itip-formatter/itip-view.c:4819
 #, c-format
@@ -20632,7 +20658,7 @@ msgstr "您可能需要啟用 IMAP 存取"
 #: ../modules/mail-config/e-mail-config-local-accounts.c:245
 #: ../modules/mail-config/e-mail-config-local-accounts.c:291
 msgid "Mail _Directory:"
-msgstr "郵件目錄(_D):"
+msgstr "郵件目錄(_D)："
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:246
 msgid "Choose a MH mail directory"
@@ -20640,7 +20666,7 @@ msgstr "選擇 MH 郵件目錄"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:268
 msgid "Local Delivery _File:"
-msgstr "本地遞送檔案(_F):"
+msgstr "本地遞送檔案(_F)："
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:269
 msgid "Choose a local delivery file"
@@ -20652,7 +20678,7 @@ msgstr "選擇 Maildir 郵件目錄"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:314
 msgid "Spool _File:"
-msgstr "排程郵件檔案(_F):"
+msgstr "排程郵件檔案(_F)："
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:315
 msgid "Choose a mbox spool file"
@@ -20660,7 +20686,7 @@ msgstr "選擇 mbox 排程器檔案"
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:337
 msgid "Spool _Directory:"
-msgstr "排程郵件目錄(_D):"
+msgstr "排程郵件目錄(_D)："
 
 #: ../modules/mail-config/e-mail-config-local-accounts.c:338
 msgid "Choose a mbox spool directory"
@@ -20677,22 +20703,22 @@ msgstr "設定"
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:110
 #: ../plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "_Server:"
-msgstr "伺服器(_S):"
+msgstr "伺服器(_S)："
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:168
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:123
 msgid "_Port:"
-msgstr "連接埠(_P):"
+msgstr "連接埠(_P)："
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:180
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:242
 msgid "User_name:"
-msgstr "使用者名稱(_N):"
+msgstr "使用者名稱(_N)："
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:213
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:163
 msgid "Encryption _method:"
-msgstr "加密方法(_M):"
+msgstr "加密方法(_M)："
 
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:228
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:178
@@ -20710,7 +20736,7 @@ msgstr "使用自訂的二元檔，取代「sendmail」(_U)"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:74
 msgid "_Custom binary:"
-msgstr "自訂二元檔(_C):"
+msgstr "自訂二元檔(_C)："
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:91
 msgid "U_se custom arguments"
@@ -20718,7 +20744,7 @@ msgstr "使用自訂引數(_S)"
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:95
 msgid "Cus_tom arguments:"
-msgstr "自訂引數(_T):"
+msgstr "自訂引數(_T)："
 
 #: ../modules/mail-config/e-mail-config-sendmail-backend.c:113
 msgid ""
@@ -20740,7 +20766,7 @@ msgstr "伺服器要求核對(_V)"
 
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:224
 msgid "T_ype:"
-msgstr "類型(_Y):"
+msgstr "類型(_Y)："
 
 #: ../modules/mail-config/e-mail-config-yahoo-summary.c:245
 msgid "Yahoo! Features"
@@ -21135,51 +21161,51 @@ msgstr "所有的帳號搜尋"
 msgid "Account Search"
 msgstr "帳號搜尋"
 
-#: ../modules/mail/e-mail-shell-view-private.c:986
+#: ../modules/mail/e-mail-shell-view-private.c:954
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "已選擇 %d 個，"
 
-#: ../modules/mail/e-mail-shell-view-private.c:995
-#: ../modules/mail/e-mail-shell-view-private.c:1012
+#: ../modules/mail/e-mail-shell-view-private.c:963
+#: ../modules/mail/e-mail-shell-view-private.c:980
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d 封已刪除"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1021
-#: ../modules/mail/e-mail-shell-view-private.c:1027
+#: ../modules/mail/e-mail-shell-view-private.c:989
+#: ../modules/mail/e-mail-shell-view-private.c:995
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d 封垃圾"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1034
+#: ../modules/mail/e-mail-shell-view-private.c:1002
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d 個草稿"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1040
+#: ../modules/mail/e-mail-shell-view-private.c:1008
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d 封未傳送"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1046
+#: ../modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d 封已傳送"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1063
+#: ../modules/mail/e-mail-shell-view-private.c:1031
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d 封未讀"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1581
+#: ../modules/mail/e-mail-shell-view-private.c:1549
 msgid "Send / Receive"
 msgstr "傳送/接收"
 
@@ -21242,7 +21268,7 @@ msgstr "包含數值"
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1554
 msgid "_Date header:"
-msgstr "日期標頭(_D):"
+msgstr "日期標頭(_D)："
 
 #: ../modules/mail/em-mailer-prefs.c:1555
 msgid "Show _original header value"
@@ -21911,7 +21937,7 @@ msgstr "電子郵件自訂標頭"
 
 #: ../plugins/external-editor/external-editor.c:113
 msgid "Command to be executed to launch the editor: "
-msgstr "用來啟動編輯器的指令: "
+msgstr "用來啟動編輯器的指令： "
 
 #: ../plugins/external-editor/external-editor.c:114
 msgid ""
@@ -22218,7 +22244,7 @@ msgstr "使用音效主題(_T)"
 
 #: ../plugins/mail-notification/mail-notification.c:749
 msgid "Play _file:"
-msgstr "播放檔案(_F):"
+msgstr "播放檔案(_F)："
 
 #: ../plugins/mail-notification/mail-notification.c:758
 msgid "Select sound file"
@@ -22410,7 +22436,7 @@ msgstr "郵件(_M)"
 
 #: ../plugins/pst-import/pst-importer.c:555
 msgid "Destination folder:"
-msgstr "目的地資料夾:"
+msgstr "目的地資料夾："
 
 #: ../plugins/pst-import/pst-importer.c:565
 msgid "_Address Book"
@@ -22528,15 +22554,15 @@ msgstr "自訂位置"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "_Publish as:"
-msgstr "發布為(_P):"
+msgstr "發布為(_P)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "Publishing _Frequency:"
-msgstr "發布頻率(_F):"
+msgstr "發布頻率(_F)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Time _duration:"
-msgstr "時間週期(_D):"
+msgstr "時間週期(_D)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "Sources"
@@ -22544,24 +22570,24 @@ msgstr "來源"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:23
 msgid "Service _type:"
-msgstr "服務類型(_T):"
+msgstr "服務類型(_T)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_File:"
-msgstr "檔案(_F):"
+msgstr "檔案(_F)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "P_ort:"
-msgstr "連接埠(_O):"
+msgstr "連接埠(_O)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Username:"
-msgstr "使用者名稱(_U):"
+msgstr "使用者名稱(_U)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:29
 #: ../smime/gui/certificate-manager.c:774
 msgid "_Password:"
-msgstr "密碼(_P):"
+msgstr "密碼(_P)："
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
 msgid "_Remember password"
@@ -22650,21 +22676,21 @@ msgstr "預先規畫檔頭(_H)"
 
 #: ../plugins/save-calendar/csv-format.c:580
 msgid "_Value delimiter:"
-msgstr "數值定界符(_V):"
+msgstr "數值定界符(_V)："
 
 #: ../plugins/save-calendar/csv-format.c:591
 msgid "_Record delimiter:"
-msgstr "紀錄定界符(_R):"
+msgstr "紀錄定界符(_R)："
 
 #: ../plugins/save-calendar/csv-format.c:602
 msgid "_Encapsulate values with:"
-msgstr "以此封裝數值(_E):"
+msgstr "以此封裝數值(_E)："
 
 #: ../plugins/save-calendar/csv-format.c:628
 msgid "Comma separated values (.csv)"
 msgstr "逗號隔開的數值格式 (.csv)"
 
-#: ../plugins/save-calendar/ical-format.c:183 ../shell/e-shell-utils.c:177
+#: ../plugins/save-calendar/ical-format.c:183 ../shell/e-shell-utils.c:179
 msgid "iCalendar (.ics)"
 msgstr "iCalendar (.ics)"
 
@@ -22691,7 +22717,7 @@ msgstr "RDF (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:119
 msgid "_Format:"
-msgstr "格式(_F):"
+msgstr "格式(_F)："
 
 #: ../plugins/save-calendar/save-calendar.c:184
 msgid "Select destination file"
@@ -22754,6 +22780,22 @@ msgstr "準備結束…"
 msgid "Credentials are required to connect to the destination host."
 msgstr "連線到目的端主機需要憑證。"
 
+#: ../shell/e-shell.c:1203 ../shell/e-shell-window-actions.c:827
+msgid "New _Window"
+msgstr "開新視窗(_W)"
+
+#: ../shell/e-shell.c:1214
+msgid "Quick _Reference"
+msgstr "快捷鍵參照表(_R)"
+
+#: ../shell/e-shell.c:1216 ../shell/e-shell-window-actions.c:764
+msgid "_About"
+msgstr "關於(_A)"
+
+#: ../shell/e-shell.c:1217 ../shell/e-shell-window-actions.c:862
+msgid "_Quit"
+msgstr "結束(_Q)"
+
 #: ../shell/e-shell-content.c:720 ../shell/e-shell-content.c:721
 msgid "Searches"
 msgstr "搜尋"
@@ -22768,13 +22810,13 @@ msgstr "儲存搜尋結果"
 #. * "Important Messages", or "Active Appointments".
 #: ../shell/e-shell-searchbar.c:926
 msgid "Sho_w:"
-msgstr "顯示(_W):"
+msgstr "顯示(_W)："
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../shell/e-shell-searchbar.c:951
 msgid "Sear_ch:"
-msgstr "搜尋(_C):"
+msgstr "搜尋(_C)："
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
@@ -22782,22 +22824,18 @@ msgstr "搜尋(_C):"
 msgid "i_n"
 msgstr "於(_N)"
 
-#: ../shell/e-shell-utils.c:174
+#: ../shell/e-shell-utils.c:176
 msgid "vCard (.vcf)"
 msgstr "vCard (.vcf)"
 
-#: ../shell/e-shell-utils.c:198
+#: ../shell/e-shell-utils.c:200
 msgid "All Files (*)"
 msgstr "所有檔案 (*)"
-
-#: ../shell/e-shell-view.c:292
-msgid "Saving user interface state"
-msgstr "儲存使用者介面狀態"
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-actions.c:72
+#: ../shell/e-shell-utils.c:409
 msgid "translator-credits"
 msgstr ""
 "如對翻譯有任何意見，請送一封電子郵件給\n"
@@ -22808,279 +22846,271 @@ msgstr ""
 "Craig Jeffares <cjeffares@novell.com>, 2004\n"
 "Joe Man <trmetal@yahoo.com.hk>, 2001"
 
-#: ../shell/e-shell-window-actions.c:83
+#: ../shell/e-shell-utils.c:420
 msgid "Evolution Website"
 msgstr "Evolution 網站"
 
-#: ../shell/e-shell-window-actions.c:339
+#: ../shell/e-shell-view.c:292
+msgid "Saving user interface state"
+msgstr "儲存使用者介面狀態"
+
+#: ../shell/e-shell-window-actions.c:277
 msgid "Categories Editor"
 msgstr "分類編輯器"
 
-#: ../shell/e-shell-window-actions.c:715
+#: ../shell/e-shell-window-actions.c:585
 msgid "Bug Buddy is not installed."
 msgstr "尚未安裝 Bug Buddy。"
 
-#: ../shell/e-shell-window-actions.c:716
+#: ../shell/e-shell-window-actions.c:586
 msgid "Bug Buddy could not be run."
 msgstr "無法執行 Bug Buddy。"
 
-#: ../shell/e-shell-window-actions.c:894
-msgid "_About"
-msgstr "關於(_A)"
-
-#: ../shell/e-shell-window-actions.c:896
+#: ../shell/e-shell-window-actions.c:766
 msgid "Show information about Evolution"
 msgstr "顯示 Evolution 相關資訊"
 
-#: ../shell/e-shell-window-actions.c:901 ../shell/e-shell-window-actions.c:915
+#: ../shell/e-shell-window-actions.c:771 ../shell/e-shell-window-actions.c:785
 msgid "_Close Window"
 msgstr "關閉視窗(_C)"
 
-#: ../shell/e-shell-window-actions.c:922
+#: ../shell/e-shell-window-actions.c:792
 msgid "_Contents"
 msgstr "內容(_C)"
 
-#: ../shell/e-shell-window-actions.c:924
+#: ../shell/e-shell-window-actions.c:794
 msgid "Open the Evolution User Guide"
 msgstr "開啟 Evolution 使用者指南"
 
-#: ../shell/e-shell-window-actions.c:950
+#: ../shell/e-shell-window-actions.c:820
 msgid "I_mport..."
 msgstr "匯入(_M)…"
 
-#: ../shell/e-shell-window-actions.c:952
+#: ../shell/e-shell-window-actions.c:822
 msgid "Import data from other programs"
 msgstr "匯入其他程式的資料"
 
-#: ../shell/e-shell-window-actions.c:957
-msgid "New _Window"
-msgstr "開新視窗(_W)"
-
-#: ../shell/e-shell-window-actions.c:959
+#: ../shell/e-shell-window-actions.c:829
 msgid "Create a new window displaying this view"
 msgstr "建立一個新的視窗來顯示這個檢視"
 
-#: ../shell/e-shell-window-actions.c:971
+#: ../shell/e-shell-window-actions.c:841
 msgid "Available Cate_gories"
 msgstr "可用的分類(_G)"
 
-#: ../shell/e-shell-window-actions.c:973
+#: ../shell/e-shell-window-actions.c:843
 msgid "Manage available categories"
 msgstr "管理可用的分類"
 
-#: ../shell/e-shell-window-actions.c:985
+#: ../shell/e-shell-window-actions.c:855
 msgid "_Quick Reference"
 msgstr "快捷鍵參照表(_Q)"
 
-#: ../shell/e-shell-window-actions.c:987
+#: ../shell/e-shell-window-actions.c:857
 msgid "Show Evolution's shortcut keys"
 msgstr "顯示 Evolution 的捷徑鍵"
 
-#: ../shell/e-shell-window-actions.c:992
-msgid "_Quit"
-msgstr "結束(_Q)"
-
-#: ../shell/e-shell-window-actions.c:994
+#: ../shell/e-shell-window-actions.c:864
 msgid "Exit the program"
 msgstr "離開這個程式"
 
-#: ../shell/e-shell-window-actions.c:999
+#: ../shell/e-shell-window-actions.c:869
 msgid "_Advanced Search..."
 msgstr "進階搜尋(_A)…"
 
-#: ../shell/e-shell-window-actions.c:1001
+#: ../shell/e-shell-window-actions.c:871
 msgid "Construct a more advanced search"
 msgstr "建構更進階的搜尋"
 
-#: ../shell/e-shell-window-actions.c:1008
+#: ../shell/e-shell-window-actions.c:878
 msgid "Clear the current search parameters"
 msgstr "清除目前的搜尋參數"
 
-#: ../shell/e-shell-window-actions.c:1013
+#: ../shell/e-shell-window-actions.c:883
 msgid "_Edit Saved Searches..."
 msgstr "編輯儲存的搜尋結果(_E)…"
 
-#: ../shell/e-shell-window-actions.c:1015
+#: ../shell/e-shell-window-actions.c:885
 msgid "Manage your saved searches"
 msgstr "管理您已儲存的搜尋"
 
-#: ../shell/e-shell-window-actions.c:1022
+#: ../shell/e-shell-window-actions.c:892
 msgid "Click here to change the search type"
 msgstr "按這裡以改變搜尋類型"
 
-#: ../shell/e-shell-window-actions.c:1027
+#: ../shell/e-shell-window-actions.c:897
 msgid "_Find Now"
 msgstr "立即搜尋(_F)"
 
-#: ../shell/e-shell-window-actions.c:1029
+#: ../shell/e-shell-window-actions.c:899
 msgid "Execute the current search parameters"
 msgstr "執行目前的搜尋參數"
 
-#: ../shell/e-shell-window-actions.c:1034
+#: ../shell/e-shell-window-actions.c:904
 msgid "_Save Search..."
 msgstr "儲存搜尋結果(_S)…"
 
-#: ../shell/e-shell-window-actions.c:1036
+#: ../shell/e-shell-window-actions.c:906
 msgid "Save the current search parameters"
 msgstr "儲存目前的搜尋參數"
 
-#: ../shell/e-shell-window-actions.c:1048
+#: ../shell/e-shell-window-actions.c:918
 msgid "Submit _Bug Report..."
 msgstr "傳送錯誤報告(_B)…"
 
-#: ../shell/e-shell-window-actions.c:1050
+#: ../shell/e-shell-window-actions.c:920
 msgid "Submit a bug report using Bug Buddy"
 msgstr "使用 Bug Buddy 送出錯誤報告。"
 
-#: ../shell/e-shell-window-actions.c:1055
+#: ../shell/e-shell-window-actions.c:925
 msgid "_Work Offline"
 msgstr "離線工作(_W)"
 
-#: ../shell/e-shell-window-actions.c:1057
+#: ../shell/e-shell-window-actions.c:927
 msgid "Put Evolution into offline mode"
 msgstr "讓 Evolution 進入離線模式"
 
-#: ../shell/e-shell-window-actions.c:1062
+#: ../shell/e-shell-window-actions.c:932
 msgid "_Work Online"
 msgstr "線上工作(_W)"
 
-#: ../shell/e-shell-window-actions.c:1064
+#: ../shell/e-shell-window-actions.c:934
 msgid "Put Evolution into online mode"
 msgstr "讓 Evolution 進入上線模式"
 
-#: ../shell/e-shell-window-actions.c:1092
+#: ../shell/e-shell-window-actions.c:962
 msgid "Lay_out"
 msgstr "佈局(_O)"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../shell/e-shell-window-actions.c:1100
+#: ../shell/e-shell-window-actions.c:970
 msgid "_New"
 msgstr "新增(_N)"
 
-#: ../shell/e-shell-window-actions.c:1107
+#: ../shell/e-shell-window-actions.c:977
 msgid "_Search"
 msgstr "搜尋(_S)"
 
-#: ../shell/e-shell-window-actions.c:1114
+#: ../shell/e-shell-window-actions.c:984
 msgid "_Switcher Appearance"
 msgstr "切換外觀(_S)"
 
-#: ../shell/e-shell-window-actions.c:1128
+#: ../shell/e-shell-window-actions.c:998
 msgid "_Window"
 msgstr "視窗(_O)"
 
-#: ../shell/e-shell-window-actions.c:1157
+#: ../shell/e-shell-window-actions.c:1027
 msgid "Show Side _Bar"
 msgstr "顯示側邊欄(_B)"
 
-#: ../shell/e-shell-window-actions.c:1159
+#: ../shell/e-shell-window-actions.c:1029
 msgid "Show the side bar"
 msgstr "顯示側邊列"
 
-#: ../shell/e-shell-window-actions.c:1165
+#: ../shell/e-shell-window-actions.c:1035
 msgid "Show _Buttons"
 msgstr "顯示按鈕(_B)"
 
-#: ../shell/e-shell-window-actions.c:1167
+#: ../shell/e-shell-window-actions.c:1037
 msgid "Show the switcher buttons"
 msgstr "顯示切換程式按鈕"
 
-#: ../shell/e-shell-window-actions.c:1173
+#: ../shell/e-shell-window-actions.c:1043
 msgid "Show _Status Bar"
 msgstr "顯示狀態列(_S)"
 
-#: ../shell/e-shell-window-actions.c:1175
+#: ../shell/e-shell-window-actions.c:1045
 msgid "Show the status bar"
 msgstr "顯示狀態列"
 
-#: ../shell/e-shell-window-actions.c:1181
+#: ../shell/e-shell-window-actions.c:1051
 msgid "Show _Tool Bar"
 msgstr "顯示工具列(_T)"
 
-#: ../shell/e-shell-window-actions.c:1183
+#: ../shell/e-shell-window-actions.c:1053
 msgid "Show the tool bar"
 msgstr "顯示工具列"
 
-#: ../shell/e-shell-window-actions.c:1205
+#: ../shell/e-shell-window-actions.c:1075
 msgid "_Icons Only"
 msgstr "只有圖示(_I)"
 
-#: ../shell/e-shell-window-actions.c:1207
+#: ../shell/e-shell-window-actions.c:1077
 msgid "Display window buttons with icons only"
 msgstr "只顯示視窗按鈕的圖示"
 
-#: ../shell/e-shell-window-actions.c:1212
+#: ../shell/e-shell-window-actions.c:1082
 msgid "_Text Only"
 msgstr "只有文字(_T)"
 
-#: ../shell/e-shell-window-actions.c:1214
+#: ../shell/e-shell-window-actions.c:1084
 msgid "Display window buttons with text only"
 msgstr "只顯示視窗按鈕的文字"
 
-#: ../shell/e-shell-window-actions.c:1219
+#: ../shell/e-shell-window-actions.c:1089
 msgid "Icons _and Text"
 msgstr "圖示及文字(_A)"
 
-#: ../shell/e-shell-window-actions.c:1221
+#: ../shell/e-shell-window-actions.c:1091
 msgid "Display window buttons with icons and text"
 msgstr "顯示視窗按鈕的圖示及文字"
 
-#: ../shell/e-shell-window-actions.c:1226
+#: ../shell/e-shell-window-actions.c:1096
 msgid "Tool_bar Style"
 msgstr "工具列風格(_B)"
 
-#: ../shell/e-shell-window-actions.c:1228
+#: ../shell/e-shell-window-actions.c:1098
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "使用桌面工具列設定值顯示視窗按鈕"
 
-#: ../shell/e-shell-window-actions.c:1236
+#: ../shell/e-shell-window-actions.c:1106
 msgid "Delete Current View"
 msgstr "刪除目前的檢視"
 
-#: ../shell/e-shell-window-actions.c:1243
+#: ../shell/e-shell-window-actions.c:1113
 msgid "Save Custom View..."
 msgstr "儲存自訂檢視…"
 
-#: ../shell/e-shell-window-actions.c:1245
+#: ../shell/e-shell-window-actions.c:1115
 msgid "Save current custom view"
 msgstr "儲存目前的自訂檢視"
 
-#: ../shell/e-shell-window-actions.c:1252
+#: ../shell/e-shell-window-actions.c:1122
 msgid "C_urrent View"
 msgstr "目前檢視(_U)"
 
-#: ../shell/e-shell-window-actions.c:1262
+#: ../shell/e-shell-window-actions.c:1132
 msgid "Custom View"
 msgstr "自訂檢視"
 
-#: ../shell/e-shell-window-actions.c:1264
+#: ../shell/e-shell-window-actions.c:1134
 msgid "Current view is a customized view"
 msgstr "目前的檢視方式是自訂的檢視"
 
-#: ../shell/e-shell-window-actions.c:1272
+#: ../shell/e-shell-window-actions.c:1142
 msgid "Page Set_up..."
 msgstr "頁面設定(_U)…"
 
-#: ../shell/e-shell-window-actions.c:1274
+#: ../shell/e-shell-window-actions.c:1144
 msgid "Change the page settings for your current printer"
 msgstr "修改目前印表機的頁面列印設定"
 
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1507
 #, c-format
 msgid "Switch to %s"
 msgstr "切換至 %s"
 
-#: ../shell/e-shell-window-actions.c:1758
+#: ../shell/e-shell-window-actions.c:1630
 #, c-format
 msgid "Select view: %s"
 msgstr "選擇檢視：%s"
 
-#: ../shell/e-shell-window-actions.c:1775
+#: ../shell/e-shell-window-actions.c:1647
 #, c-format
 msgid "Delete view: %s"
 msgstr "刪除檢視：%s"
 
-#: ../shell/e-shell-window-actions.c:1869
+#: ../shell/e-shell-window-actions.c:1741
 msgid "Execute these search parameters"
 msgstr "執行這些搜尋參數"
 
@@ -23352,64 +23382,76 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"憑證 '%s' 是憑證管理中心 (CA) 發出的憑證。\n"
+"憑證「%s」是憑證管理中心 (CA) 發出的憑證。\n"
 "\n"
 "編輯信任設定值："
 
-#: ../smime/gui/certificate-manager.c:84 ../smime/gui/certificate-manager.c:103
+#: ../smime/gui/certificate-manager.c:84
+#: ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
 msgstr "憑證名稱"
 
-#: ../smime/gui/certificate-manager.c:85 ../smime/gui/certificate-manager.c:105
+#: ../smime/gui/certificate-manager.c:85
+#: ../smime/gui/certificate-manager.c:105
 msgid "Issued To Organization"
 msgstr "發給組織"
 
-#: ../smime/gui/certificate-manager.c:86 ../smime/gui/certificate-manager.c:106
+#: ../smime/gui/certificate-manager.c:86
+#: ../smime/gui/certificate-manager.c:106
 msgid "Issued To Organizational Unit"
 msgstr "發給組織單位"
 
-#: ../smime/gui/certificate-manager.c:87 ../smime/gui/certificate-manager.c:107
+#: ../smime/gui/certificate-manager.c:87
+#: ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
 msgstr "序號"
 
-#: ../smime/gui/certificate-manager.c:88 ../smime/gui/certificate-manager.c:108
+#: ../smime/gui/certificate-manager.c:88
+#: ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
 msgstr "用途"
 
-#: ../smime/gui/certificate-manager.c:89 ../smime/gui/certificate-manager.c:109
+#: ../smime/gui/certificate-manager.c:89
+#: ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
 msgstr "發照者"
 
-#: ../smime/gui/certificate-manager.c:90 ../smime/gui/certificate-manager.c:110
+#: ../smime/gui/certificate-manager.c:90
+#: ../smime/gui/certificate-manager.c:110
 #: ../smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
 msgstr "發照組織"
 
-#: ../smime/gui/certificate-manager.c:91 ../smime/gui/certificate-manager.c:111
+#: ../smime/gui/certificate-manager.c:91
+#: ../smime/gui/certificate-manager.c:111
 #: ../smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
 msgstr "發照組織單位"
 
-#: ../smime/gui/certificate-manager.c:92 ../smime/gui/certificate-manager.c:112
+#: ../smime/gui/certificate-manager.c:92
+#: ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
 msgstr "發行者"
 
-#: ../smime/gui/certificate-manager.c:93 ../smime/gui/certificate-manager.c:113
+#: ../smime/gui/certificate-manager.c:93
+#: ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
 msgstr "到期"
 
-#: ../smime/gui/certificate-manager.c:94 ../smime/gui/certificate-manager.c:114
+#: ../smime/gui/certificate-manager.c:94
+#: ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 指紋"
 
-#: ../smime/gui/certificate-manager.c:95 ../smime/gui/certificate-manager.c:115
+#: ../smime/gui/certificate-manager.c:95
+#: ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
 msgstr "MD5 指紋"
@@ -23655,7 +23697,7 @@ msgstr "選取憑證"
 
 #: ../smime/gui/smime-ui.ui.h:3
 msgid "You have certificates from these organizations that identify you:"
-msgstr "您已經有來自這些組織的憑證，可以識別您的身分:"
+msgstr "您已經有來自這些組織的憑證，可以識別您的身分："
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid "Certificates Table"
@@ -23676,7 +23718,7 @@ msgstr "您的憑證"
 
 #: ../smime/gui/smime-ui.ui.h:12
 msgid "You have certificates on file that identify these people:"
-msgstr "您已經擁有檔案的相關憑證，可以識別這些人員:"
+msgstr "您已經擁有檔案的相關憑證，可以識別這些人員："
 
 #: ../smime/gui/smime-ui.ui.h:14
 msgid "Contact Certificates"
@@ -23685,7 +23727,7 @@ msgstr "連絡人憑證"
 #: ../smime/gui/smime-ui.ui.h:15
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
-msgstr "您已經擁有檔案的相關憑證，可以識別這些憑證管理中心:"
+msgstr "您已經擁有檔案的相關憑證，可以識別這些憑證管理中心："
 
 #: ../smime/gui/smime-ui.ui.h:16
 msgid "Authorities"
@@ -23758,7 +23800,7 @@ msgstr "PKCS12 檔案密碼"
 
 #: ../smime/lib/e-pkcs12.c:202
 msgid "Enter password for PKCS12 file:"
-msgstr "輸入 PKCS12 檔案的密碼:"
+msgstr "輸入 PKCS12 檔案的密碼："
 
 #: ../smime/lib/e-pkcs12.c:328
 #, c-format
@@ -23855,7 +23897,7 @@ msgstr "備忘錄(_M)"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Due Date"
-msgstr "到期日(_D):"
+msgstr "到期日(_D)："
 
 #: ../views/tasks/galview.xml.h:3
 msgid "With _Status"
