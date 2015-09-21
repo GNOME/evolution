@@ -2589,6 +2589,11 @@ init_widgets (RecurrencePage *rpage)
 		priv->exception_list_store, "use-24-hour-format",
 		G_BINDING_SYNC_CREATE);
 
+	e_binding_bind_property (
+		editor, "timezone",
+		priv->exception_list_store, "timezone",
+		G_BINDING_SYNC_CREATE);
+
 	/* View */
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Date/Time"));
