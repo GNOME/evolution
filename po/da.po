@@ -75,8 +75,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-21 13:15+0200\n"
-"PO-Revision-Date: 2015-09-21 11:39+0200\n"
+"POT-Creation-Date: 2015-09-21 13:19+0200\n"
+"PO-Revision-Date: 2015-09-21 13:15+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Dansk <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -23497,7 +23497,6 @@ msgid "New _Window"
 msgstr "Nyt _vindue"
 
 #: ../shell/e-shell.c:1214
-#, fuzzy
 msgid "Quick _Reference"
 msgstr "_Kvikreference"
 
