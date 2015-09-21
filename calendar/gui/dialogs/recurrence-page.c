@@ -639,10 +639,23 @@ rpage_get_objects_for_uid_cb (GObject *source_object,
 		g_clear_error (&error);
 	}
 
+	if (g_slist_length (ecalcomps) > 1 && rpage->priv->comp) {
+		icalcomponent *icalcomp;
+		gboolean has_rrule;
+
+		icalcomp = e_cal_component_get_icalcomponent (rpage->priv->comp);
+		has_rrule = icalcomponent_get_first_property (icalcomp, ICAL_RRULE_PROPERTY) != NULL;
+
+		if (has_rrule) {
+			/* Not a detached instance, can edit recurrences */
+			g_slist_free_full (ecalcomps, g_object_unref);
+			ecalcomps = NULL;
+		}
+	}
+
 	update_with_readonly (rpage, g_slist_length (ecalcomps) > 1);
 
-	g_slist_foreach (ecalcomps, (GFunc) g_object_unref, NULL);
-	g_slist_free (ecalcomps);
+	g_slist_free_full (ecalcomps, g_object_unref);
 }
 
 static void
