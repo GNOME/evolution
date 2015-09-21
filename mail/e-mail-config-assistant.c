@@ -1133,6 +1133,16 @@ e_mail_config_assistant_class_init (EMailConfigAssistantClass *class)
 static void
 e_mail_config_assistant_init (EMailConfigAssistant *assistant)
 {
+	GObject *action_area;
+	GtkBuilder *builder;
+
+	builder = gtk_builder_new ();
+	action_area = gtk_buildable_get_internal_child (
+		GTK_BUILDABLE (assistant), builder, "action_area");
+	if (action_area)
+		gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
+	g_object_unref (builder);
+
 	assistant->priv = E_MAIL_CONFIG_ASSISTANT_GET_PRIVATE (assistant);
 
 	assistant->priv->account_sources =
