@@ -48,8 +48,9 @@
 /* This is our hack, not part of libcamel. */
 #include "camel-null-store.h"
 
-/* This too, though it's less of a hack. */
+/* These too, though it's less of a hack. */
 #include "camel-sasl-xoauth2.h"
+#include "camel-sasl-oauth2-google.h"
 
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
@@ -1616,8 +1617,9 @@ e_mail_session_class_init (EMailSessionClass *class)
 	/* Make sure ESourceCamel picks up the "none" provider. */
 	e_source_camel_generate_subtype ("none", CAMEL_TYPE_SETTINGS);
 
-	/* Make sure CamelSasl picks up the XOAUTH2 mechanism. */
+	/* Make sure CamelSasl picks up our mechanisms. */
 	g_type_ensure (CAMEL_TYPE_SASL_XOAUTH2);
+	g_type_ensure (CAMEL_TYPE_SASL_OAUTH2_GOOGLE);
 }
 
 static void

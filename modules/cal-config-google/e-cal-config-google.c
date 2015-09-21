@@ -102,6 +102,8 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 {
 	ESourceBackend *calendar_extension;
 	ESourceWebdav *webdav_extension;
+	ESourceAuthentication *authentication_extension;
+	gboolean can_google_auth;
 	SoupURI *soup_uri;
 
 	/* We need to hard-code a few settings. */
@@ -112,11 +114,27 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 	webdav_extension = e_source_get_extension (
 		scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
+	authentication_extension = e_source_get_extension (
+		scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+	can_google_auth = e_source_credentials_google_is_supported () &&
+			  g_strcmp0 (e_source_authentication_get_method (authentication_extension), "OAuth2") != 0;
+
 	/* The backend name is actually "caldav" even though the
 	 * ESource is a child of the built-in "Google" source. */
 	e_source_backend_set_backend_name (calendar_extension, "caldav");
 
 	soup_uri = e_source_webdav_dup_soup_uri (webdav_extension);
+
+	if (can_google_auth || g_strcmp0 (e_source_authentication_get_method (authentication_extension), "Google") == 0) {
+		/* Prefer 'Google', aka internal OAuth2, authentication method, if available */
+		e_source_authentication_set_method (authentication_extension, "Google");
+
+		/* See https://developers.google.com/google-apps/calendar/caldav/v2/guide */
+		soup_uri_set_host (soup_uri, "apidata.googleusercontent.com");
+	} else {
+		soup_uri_set_host (soup_uri, "www.google.com");
+	}
 
 	if (!soup_uri->path || !*soup_uri->path || g_strcmp0 (soup_uri->path, "/") == 0) {
 		ESourceAuthentication *authentication_extension
@@ -126,9 +144,6 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 			soup_uri,
 			e_source_authentication_get_user (authentication_extension));
 	}
-
-	/* The host name is fixed, obviously. */
-	soup_uri_set_host (soup_uri, "www.google.com");
 
 	/* Google's CalDAV interface requires a secure connection. */
 	soup_uri_set_scheme (soup_uri, SOUP_URI_SCHEME_HTTPS);

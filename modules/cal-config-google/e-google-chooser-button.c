@@ -22,8 +22,6 @@
 
 #include <libedataserverui/libedataserverui.h>
 
-#define CALDAV_EVENTS_PATH_FORMAT "/calendar/dav/%s/events"
-
 #define E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_GOOGLE_CHOOSER_BUTTON, EGoogleChooserButtonPrivate))
@@ -183,6 +181,7 @@ google_chooser_button_clicked (GtkButton *button)
 	GtkDialog *dialog;
 	gulong handler_id;
 	guint supports_filter = 0;
+	gboolean can_google_auth;
 	const gchar *title = NULL;
 
 	priv = E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE (button);
@@ -196,11 +195,23 @@ google_chooser_button_clicked (GtkButton *button)
 	webdav_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
 	uri = e_source_webdav_dup_soup_uri (webdav_extension);
+	can_google_auth = e_source_credentials_google_is_supported () &&
+			  g_strcmp0 (e_source_authentication_get_method (authentication_extension), "OAuth2") != 0;
 
 	e_google_chooser_button_construct_default_uri (uri, e_source_authentication_get_user (authentication_extension));
 
-	/* The host name is fixed, obviously. */
-	soup_uri_set_host (uri, "www.google.com");
+	if (can_google_auth) {
+		/* Prefer 'Google', aka internal OAuth2, authentication method, if available */
+		e_source_authentication_set_method (authentication_extension, "Google");
+
+		/* See https://developers.google.com/google-apps/calendar/caldav/v2/guide */
+		soup_uri_set_host (uri, "apidata.googleusercontent.com");
+		soup_uri_set_path (uri, "/caldav/v2/");
+	} else {
+		soup_uri_set_host (uri, "www.google.com");
+		/* To find also calendar email, not only calendars */
+		soup_uri_set_path (uri, "/calendar/dav/");
+	}
 
 	/* Google's CalDAV interface requires a secure connection. */
 	soup_uri_set_scheme (uri, SOUP_URI_SCHEME_HTTPS);
@@ -227,8 +238,6 @@ google_chooser_button_clicked (GtkButton *button)
 	prompter = e_credentials_prompter_new (registry);
 	e_credentials_prompter_set_auto_prompt (prompter, FALSE);
 
-	/* To find also calendar email, not only calendars */
-	soup_uri_set_path (uri, "/calendar/dav/");
 	base_url = soup_uri_to_string (uri, FALSE);
 
 	dialog = e_webdav_discover_dialog_new (parent, title, prompter, priv->source, base_url, supports_filter);
@@ -436,7 +445,10 @@ e_google_chooser_button_construct_default_uri (SoupURI *soup_uri,
 	if (!decoded_user)
 		return;
 
-	path = g_strdup_printf (CALDAV_EVENTS_PATH_FORMAT, decoded_user);
+	if (g_strcmp0 (soup_uri_get_host (soup_uri), "apidata.googleusercontent.com") == 0)
+		path = g_strdup_printf ("/caldav/v2/%s/events", decoded_user);
+	else
+		path = g_strdup_printf ("/calendar/dav/%s/events", decoded_user);
 
 	soup_uri_set_user (soup_uri, decoded_user);
 	soup_uri_set_path (soup_uri, path);

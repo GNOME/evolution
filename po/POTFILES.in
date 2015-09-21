@@ -314,6 +314,7 @@ e-util/gal-view-instance-save-as-dialog.c
 e-util/widgets.error.xml
 evolution.appdata.xml.in
 libemail-engine/camel-null-store.c
+libemail-engine/camel-sasl-oauth2-google.c
 libemail-engine/camel-sasl-xoauth2.c
 libemail-engine/e-mail-folder-utils.c
 libemail-engine/e-mail-session.c

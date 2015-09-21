@@ -32,6 +32,7 @@ libmailengineincludedir = $(privincludedir)/libemail-engine
 libmailengineinclude_HEADERS =  \
 	libemail-engine.h \
 	camel-null-store.h \
+	camel-sasl-oauth2-google.h \
 	camel-sasl-xoauth2.h \
 	e-mail-engine-enums.h \
 	e-mail-engine-enumtypes.h \
@@ -55,6 +56,7 @@ libmailengineinclude_HEADERS =  \
 libemail_engine_la_SOURCES =  \
 	$(libmailengineinclude_HEADERS) \
 	camel-null-store.c \
+	camel-sasl-oauth2-google.c \
 	camel-sasl-xoauth2.c \
 	e-mail-engine-enumtypes.c \
 	e-mail-folder-utils.c \

@@ -51,7 +51,10 @@ cal_config_gtasks_allow_creation (ESourceConfigBackend *backend)
 		return FALSE;
 
 	source = e_source_config_get_original_source (config);
-	if (!source || !e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))
+	if (!source && e_source_credentials_google_is_supported ())
+		return TRUE;
+
+	if (!e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))
 		return FALSE;
 
 	task_list = e_source_get_extension (source, E_SOURCE_EXTENSION_TASK_LIST);
@@ -90,15 +93,25 @@ static void
 cal_config_gtasks_commit_changes (ESourceConfigBackend *backend,
 				  ESource *scratch_source)
 {
+	ESource *collection_source;
+	ESourceConfig *config;
 	ESourceAuthentication *extension;
 	const gchar *extension_name;
 	const gchar *user;
+
+	config = e_source_config_backend_get_config (backend);
+	collection_source = e_source_config_get_collection_source (config);
 
 	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
 	e_source_authentication_set_host (extension, "www.google.com");
-	e_source_authentication_set_method (extension, "OAuth2");
+
+	if (!collection_source || (
+	    !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_GOA) &&
+	    !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_UOA))) {
+		e_source_authentication_set_method (extension, "Google");
+	}
 
 	user = e_source_authentication_get_user (extension);
 	g_return_if_fail (user != NULL);
