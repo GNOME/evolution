@@ -1095,7 +1095,7 @@ static EImportImporter gnome_calendar_importer = {
 EImportImporter *
 gnome_calendar_importer_peek (void)
 {
-	gnome_calendar_importer.name = _("Gnome Calendar");
+	gnome_calendar_importer.name = _("GNOME Calendar");
 	gnome_calendar_importer.description = _("Evolution Calendar intelligent importer");
 
 	return &gnome_calendar_importer;
