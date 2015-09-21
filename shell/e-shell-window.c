@@ -114,6 +114,18 @@ EAttachmentPaned > GtkBox > GtkPaned > GtkScrolledWindow {\
 EHTMLEditor .toolbar {\
    border-bottom: none;\
    background: transparent;\
+}\
+ECalendar .button {\
+   border: none;\
+   background: none;\
+   box-shadow: none;\
+   padding: 4px;\
+}\
+ECalendar .button:hover {\
+   color: @theme_selected_bg_color;\
+}\
+EMailConfigAssistant .sidebar {\
+   border-width: 0 1px 0 0;\
 }";
 
 static void
