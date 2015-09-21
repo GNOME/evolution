@@ -810,6 +810,8 @@ scroll_to_cursor (ETree *tree)
 				&row, &col, &x, &y, &w, &h);
 	}
 
+	e_table_item_cancel_scroll_to_cursor (E_TABLE_ITEM (tree->priv->item));
+
 	scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
 	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 

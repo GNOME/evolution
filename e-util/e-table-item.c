@@ -4102,3 +4102,19 @@ e_table_item_cursor_scrolled (ETableItem *eti)
 
 	eti_check_cursor_bounds (eti);
 }
+
+void
+e_table_item_cancel_scroll_to_cursor (ETableItem *eti)
+{
+	ETableItemPrivate *priv;
+
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	priv = E_TABLE_ITEM_GET_PRIVATE (eti);
+
+	if (priv->show_cursor_delay_source) {
+		g_source_destroy (priv->show_cursor_delay_source);
+		g_source_unref (priv->show_cursor_delay_source);
+		priv->show_cursor_delay_source = NULL;
+	}
+}
