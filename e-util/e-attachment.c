@@ -386,8 +386,12 @@ attachment_update_icon_column_idle_cb (gpointer weak_ref)
 			file_info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
 	}
 
+	if (e_attachment_is_mail_note (attachment)) {
+		g_clear_object (&icon);
+		icon = g_themed_icon_new ("evolution-memos");
+
 	/* Prefer the thumbnail if we have one. */
-	if (thumbnail_path != NULL && *thumbnail_path != '\0') {
+	} else if (thumbnail_path != NULL && *thumbnail_path != '\0') {
 		GFile *file;
 
 		file = g_file_new_for_path (thumbnail_path);
@@ -1333,6 +1337,23 @@ e_attachment_cancel (EAttachment *attachment)
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
 	g_cancellable_cancel (attachment->priv->cancellable);
+}
+
+gboolean
+e_attachment_is_mail_note (EAttachment *attachment)
+{
+	CamelContentType *ct;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	if (!attachment->priv->mime_part)
+		return FALSE;
+
+	ct = camel_mime_part_get_content_type (attachment->priv->mime_part);
+	if (!ct || !camel_content_type_is (ct, "message", "rfc822"))
+		return FALSE;
+
+	return camel_medium_get_header (CAMEL_MEDIUM (attachment->priv->mime_part), "X-Evolution-Note") != NULL;
 }
 
 gboolean

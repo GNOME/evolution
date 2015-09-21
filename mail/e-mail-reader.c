@@ -42,6 +42,7 @@
 #include "e-mail-backend.h"
 #include "e-mail-browser.h"
 #include "e-mail-enumtypes.h"
+#include "e-mail-notes.h"
 #include "e-mail-reader-utils.h"
 #include "e-mail-ui-session.h"
 #include "e-mail-view.h"
@@ -406,6 +407,100 @@ action_mail_copy_cb (GtkAction *action,
                      EMailReader *reader)
 {
 	mail_reader_copy_or_move_selected_messages (reader, FALSE);
+}
+
+static void
+action_mail_edit_note_cb (GtkAction *action,
+			  EMailReader *reader)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+
+	folder = e_mail_reader_ref_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	if (uids && uids->len == 1) {
+		e_mail_notes_edit (e_mail_reader_get_window (reader), folder, uids->pdata[0]);
+	} else {
+		g_warn_if_reached ();
+	}
+
+	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
+}
+
+typedef struct {
+	CamelFolder *folder;
+	gchar *uid;
+} DeleteNoteData;
+
+static void
+delete_note_data_free (gpointer ptr)
+{
+	DeleteNoteData *dnd = ptr;
+
+	if (dnd) {
+		g_clear_object (&dnd->folder);
+		g_free (dnd->uid);
+		g_free (dnd);
+	}
+}
+
+static void
+mail_delete_note_thread (EAlertSinkThreadJobData *job_data,
+			 gpointer user_data,
+			 GCancellable *cancellable,
+			 GError **error)
+{
+	DeleteNoteData *dnd = user_data;
+
+	g_return_if_fail (dnd != NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (dnd->folder));
+	g_return_if_fail (dnd->uid != NULL);
+
+	e_mail_notes_remove_sync (dnd->folder, dnd->uid, cancellable, error);
+}
+
+static void
+action_mail_delete_note_cb (GtkAction *action,
+			    EMailReader *reader)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+
+	folder = e_mail_reader_ref_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	if (uids && uids->len == 1) {
+		DeleteNoteData *dnd;
+		EAlertSink *alert_sink;
+		EActivity *activity;
+		gchar *full_display_name;
+
+		dnd = g_new0 (DeleteNoteData, 1);
+		dnd->folder = g_object_ref (folder);
+		dnd->uid = g_strdup (uids->pdata[0]);
+
+		full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
+		alert_sink = e_mail_reader_get_alert_sink (reader);
+
+		activity = e_alert_sink_submit_thread_job (alert_sink,
+			_("Deleting message note..."),
+			"mail:failed-delete-note",
+			full_display_name ? full_display_name : camel_folder_get_full_name (folder),
+			mail_delete_note_thread, dnd, delete_note_data_free);
+
+		if (activity)
+			e_shell_backend_add_activity (E_SHELL_BACKEND (e_mail_reader_get_backend (reader)), activity);
+
+		g_clear_object (&activity);
+		g_free (full_display_name);
+	} else {
+		g_warn_if_reached ();
+	}
+
+	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -1924,6 +2019,27 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Mark the selected messages for deletion"),
 	  G_CALLBACK (action_mail_delete_cb) },
 
+	{ "mail-add-note",
+	  "evolution-memos",
+	  N_("_Add note..."),
+	  NULL,
+	  N_("Add a note for the selected message"),
+	  G_CALLBACK (action_mail_edit_note_cb) },
+
+	{ "mail-delete-note",
+	  NULL,
+	  N_("Delete no_te"),
+	  NULL,
+	  N_("Delete the note for the selected message"),
+	  G_CALLBACK (action_mail_delete_note_cb) },
+
+	{ "mail-edit-note",
+	  "evolution-memos",
+	  N_("_Edit note..."),
+	  NULL,
+	  N_("Edit a note for the selected message"),
+	  G_CALLBACK (action_mail_edit_note_cb) },
+
 	{ "mail-filter-rule-for-mailing-list",
 	  NULL,
 	  N_("Create a Filter Rule for Mailing _List..."),
@@ -2398,6 +2514,18 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	{ "mail-popup-delete",
 	  NULL,
 	  "mail-delete" },
+
+	{ "mail-popup-add-note",
+	  NULL,
+	  "mail-add-note" },
+
+	{ "mail-popup-delete-note",
+	  NULL,
+	  "mail-delete-note" },
+
+	{ "mail-popup-edit-note",
+	  NULL,
+	  "mail-edit-note" },
 
 	{ "mail-popup-flag-clear",
 	  NULL,
@@ -3495,6 +3623,7 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean selection_has_undeleted_messages;
 	gboolean selection_has_unimportant_messages;
 	gboolean selection_has_unread_messages;
+	gboolean selection_has_mail_note;
 	gboolean selection_is_mailing_list;
 	gboolean single_message_selected;
 	gboolean first_message_selected = FALSE;
@@ -3535,6 +3664,8 @@ mail_reader_update_actions (EMailReader *reader,
 		(state & E_MAIL_READER_SELECTION_HAS_UNIMPORTANT);
 	selection_has_unread_messages =
 		(state & E_MAIL_READER_SELECTION_HAS_UNREAD);
+	selection_has_mail_note =
+		(state & E_MAIL_READER_SELECTION_HAS_MAIL_NOTE);
 	selection_is_mailing_list =
 		(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
 
@@ -3599,6 +3730,24 @@ mail_reader_update_actions (EMailReader *reader,
 		(state & E_MAIL_READER_FOLDER_IS_VTRASH) == 0;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-add-note";
+	sensitive = single_message_selected && !selection_has_mail_note;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
+
+	action_name = "mail-edit-note";
+	sensitive = single_message_selected && selection_has_mail_note;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
+
+	action_name = "mail-delete-note";
+	sensitive = single_message_selected && selection_has_mail_note;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action_name = "mail-filters-apply";
 	sensitive = any_messages_selected;
@@ -4353,6 +4502,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_undeleted = FALSE;
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
+	gboolean has_mail_note = FALSE;
 	gboolean have_enabled_account = FALSE;
 	gboolean drafts_or_outbox = FALSE;
 	gboolean store_supports_vjunk = FALSE;
@@ -4407,6 +4557,9 @@ e_mail_reader_check_state (EMailReader *reader)
 			folder, uids->pdata[ii]);
 		if (info == NULL)
 			continue;
+
+		if (camel_message_info_user_flag (info, E_MAIL_NOTES_USER_FLAG))
+			has_mail_note = TRUE;
 
 		flags = camel_message_info_flags (info);
 
@@ -4529,6 +4682,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_FOLDER_IS_VTRASH;
 	if (archive_folder_set)
 		state |= E_MAIL_READER_FOLDER_ARCHIVE_FOLDER_SET;
+	if (has_mail_note)
+		state |= E_MAIL_READER_SELECTION_HAS_MAIL_NOTE;
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);

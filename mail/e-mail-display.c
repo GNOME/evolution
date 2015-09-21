@@ -36,6 +36,7 @@
 
 #include "e-http-request.h"
 #include "e-mail-display-popup-extension.h"
+#include "e-mail-notes.h"
 #include "e-mail-request.h"
 #include "em-composer-utils.h"
 #include "em-utils.h"
@@ -758,6 +759,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	 * that URI identifies the attachment itself */
 	if (E_IS_ATTACHMENT_BUTTON (widget)) {
 		EMailPartAttachment *empa = (EMailPartAttachment *) part;
+		EAttachment *attachment;
 		gchar *attachment_part_id;
 
 		if (empa->attachment_view_part_id)
@@ -771,6 +773,28 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 			G_OBJECT (widget), "attachment_id",
 			g_strdup (attachment_part_id),
 			(GDestroyNotify) g_free);
+
+		attachment = e_mail_part_attachment_ref_attachment (empa);
+		if (attachment && e_attachment_is_mail_note (attachment)) {
+			CamelFolder *folder;
+			const gchar *message_uid;
+
+			folder = e_mail_part_list_get_folder (display->priv->part_list);
+			message_uid = e_mail_part_list_get_message_uid (display->priv->part_list);
+
+			if (folder && message_uid) {
+				CamelMessageInfo *info;
+
+				info = camel_folder_get_message_info (folder, message_uid);
+				if (info) {
+					if (!camel_message_info_user_flag (info, E_MAIL_NOTES_USER_FLAG))
+						camel_message_info_set_user_flag (info, E_MAIL_NOTES_USER_FLAG, TRUE);
+					camel_message_info_unref (info);
+				}
+			}
+		}
+
+		g_clear_object (&attachment);
 	} else {
 		object_uri = g_strdup (part_id);
 	}

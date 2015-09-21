@@ -34,6 +34,7 @@
 #include <glib/gstdio.h>
 
 #include "e-mail-label-list-store.h"
+#include "e-mail-notes.h"
 #include "e-mail-ui-session.h"
 #include "em-utils.h"
 
@@ -328,7 +329,8 @@ static const gchar *score_icons[] = {
 static const gchar *attachment_icons[] = {
 	NULL,  /* empty icon */
 	"mail-attachment",
-	"stock_new-meeting"
+	"stock_new-meeting",
+	"evolution-memos"
 };
 
 static const gchar *flagged_icons[] = {
@@ -1818,6 +1820,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		str = camel_message_info_user_tag (msg_info, "follow-up");
 		return (gpointer)(str ? str : "");
 	case COL_ATTACHMENT:
+		if (camel_message_info_user_flag (msg_info, E_MAIL_NOTES_USER_FLAG))
+			return GINT_TO_POINTER (3);
 		if (camel_message_info_user_flag (msg_info, "$has_cal"))
 			return GINT_TO_POINTER (2);
 		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_ATTACHMENTS) != 0);

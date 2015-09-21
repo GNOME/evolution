@@ -114,6 +114,11 @@
     <menuitem action='mail-popup-flag-for-followup'/>
     <menuitem action="mail-popup-flag-clear"/>
     <menuitem action="mail-popup-flag-completed"/>
+    <separator/>
+    <menuitem action='mail-popup-add-note'/>
+    <menuitem action='mail-popup-edit-note'/>
+    <menuitem action='mail-popup-delete-note'/>
+    <separator/>
     <menuitem action='mail-popup-mark-ignore-thread-whole'/>
     <menuitem action='mail-popup-mark-ignore-thread-sub'/>
     <menuitem action='mail-popup-mark-unignore-thread-whole'/>

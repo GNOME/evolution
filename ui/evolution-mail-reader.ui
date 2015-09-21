@@ -98,6 +98,10 @@
         <menuitem action='mail-remove-attachments'/>
         <menuitem action='mail-remove-duplicates'/>
         <separator/>
+        <menuitem action='mail-add-note'/>
+        <menuitem action='mail-edit-note'/>
+        <menuitem action='mail-delete-note'/>
+        <separator/>
         <menu action='mail-create-menu'>
           <placeholder action='mail-conversion-actions'/>
           <separator/>
@@ -168,6 +172,10 @@
     <menuitem action='mail-popup-message-edit'/>
     <menuitem action='mail-popup-save-as'/>
     <menuitem action='mail-popup-print'/>
+    <separator/>
+    <menuitem action='mail-add-note'/>
+    <menuitem action='mail-edit-note'/>
+    <menuitem action='mail-delete-note'/>
     <separator/>
     <placeholder name='mail-message-popup-actions'/>
   </popup>
