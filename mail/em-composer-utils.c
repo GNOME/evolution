@@ -1883,6 +1883,46 @@ em_utils_get_real_folder_uri_and_message_uid (CamelFolder *folder,
 }
 
 static void
+emu_add_composer_references_from_message (EMsgComposer *composer,
+					  CamelMimeMessage *message)
+{
+	const gchar *message_id_header;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	message_id_header = camel_mime_message_get_message_id (message);
+	if (message_id_header && *message_id_header) {
+		GString *references = g_string_new ("");
+		gint ii = 0;
+		const gchar *value;
+
+		while (value = e_msg_composer_get_header (composer, "References", ii), value) {
+			ii++;
+
+			if (references->len)
+				g_string_append_c (references, ' ');
+			g_string_append (references, value);
+		}
+
+		if (references->len)
+			g_string_append_c (references, ' ');
+
+		if (*message_id_header != '<')
+			g_string_append_c (references, '<');
+
+		g_string_append (references, message_id_header);
+
+		if (*message_id_header != '<')
+			g_string_append_c (references, '>');
+
+		e_msg_composer_set_header (composer, "References", references->str);
+
+		g_string_free (references, TRUE);
+	}
+}
+
+static void
 real_update_forwarded_flag (gpointer uid,
                             gpointer folder)
 {
@@ -1971,6 +2011,8 @@ forward_non_attached (EMailBackend *backend,
 				composer, message, FALSE);
 
 		e_msg_composer_set_body_text (composer, text, TRUE);
+
+		emu_add_composer_references_from_message (composer, message);
 
 		if (uid != NULL) {
 			gchar *folder_uri = NULL, *tmp_message_uid = NULL;
@@ -2068,6 +2110,7 @@ em_utils_forward_attachment (EMailBackend *backend,
                              GPtrArray *uids)
 {
 	EShell *shell;
+	CamelDataWrapper *content;
 	EMsgComposer *composer;
 
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
@@ -2081,6 +2124,37 @@ em_utils_forward_attachment (EMailBackend *backend,
 	composer = create_new_composer (shell, subject, folder);
 
 	e_msg_composer_attach (composer, part);
+
+	content = camel_medium_get_content (CAMEL_MEDIUM (part));
+	if (CAMEL_IS_MIME_MESSAGE (content)) {
+		emu_add_composer_references_from_message (composer, CAMEL_MIME_MESSAGE (content));
+	} else if (CAMEL_IS_MULTIPART (content)) {
+		const gchar *mime_type;
+
+		mime_type = camel_data_wrapper_get_mime_type (content);
+		if (mime_type && g_ascii_strcasecmp (mime_type, "multipart/digest") == 0) {
+			/* This is the way evolution forwards multiple messages as attachment */
+			CamelMultipart *multipart;
+			guint ii, nparts;
+
+			multipart = CAMEL_MULTIPART (content);
+			nparts = camel_multipart_get_number (multipart);
+
+			for (ii = 0; ii < nparts; ii++) {
+				CamelMimePart *mpart;
+
+				mpart = camel_multipart_get_part (multipart, ii);
+				mime_type = camel_data_wrapper_get_mime_type (CAMEL_DATA_WRAPPER (mpart));
+
+				if (mime_type && g_ascii_strcasecmp (mime_type, "message/rfc822") == 0) {
+					content = camel_medium_get_content (CAMEL_MEDIUM (mpart));
+
+					if (CAMEL_IS_MIME_MESSAGE (content))
+						emu_add_composer_references_from_message (composer, CAMEL_MIME_MESSAGE (content));
+				}
+			}
+		}
+	}
 
 	if (uids != NULL)
 		setup_forward_attached_callbacks (composer, folder, uids);

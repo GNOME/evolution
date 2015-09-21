@@ -117,6 +117,9 @@ void		e_msg_composer_add_header	(EMsgComposer *composer,
 void		e_msg_composer_set_header	(EMsgComposer *composer,
 						 const gchar *name,
 						 const gchar *value);
+const gchar *	e_msg_composer_get_header	(EMsgComposer *composer,
+						 const gchar *name,
+						 gint index);
 void		e_msg_composer_remove_header	(EMsgComposer *composer,
 						 const gchar *name);
 void		e_msg_composer_set_draft_headers
