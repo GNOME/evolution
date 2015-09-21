@@ -105,7 +105,7 @@ book_config_google_commit_changes (ESourceConfigBackend *backend,
 	    !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_GOA) &&
 	    !e_source_has_extension (collection_source, E_SOURCE_EXTENSION_UOA))) {
 		e_source_authentication_set_host (extension, "www.google.com");
-		e_source_authentication_set_method (extension, "ClientLogin");
+		e_source_authentication_set_method (extension, "Google");
 	}
 
 	user = e_source_authentication_get_user (extension);
