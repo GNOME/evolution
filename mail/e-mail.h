@@ -29,6 +29,7 @@
 #include <mail/e-mail-label-tree-view.h>
 #include <mail/e-mail-message-pane.h>
 #include <mail/e-mail-migrate.h>
+#include <mail/e-mail-notes.h>
 #include <mail/e-mail-paned-view.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>

@@ -1193,6 +1193,10 @@ e_mail_reader_mark_selected_ignore_thread (EMailReader *reader,
 				camel_folder_get_full_name (folder), mail_reader_utils_mark_ignore_thread_thread,
 				mit, mark_ignore_thread_data_free);
 
+
+			if (activity)
+				e_shell_backend_add_activity (E_SHELL_BACKEND (e_mail_reader_get_backend (reader)), activity);
+
 			g_clear_object (&activity);
 		}
 

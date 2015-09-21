@@ -599,4 +599,24 @@ in the folder will be available in offline mode.</_secondary>
     <!-- Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009" -->
     <_primary>Overdue: {0} by {1}</_primary>
   </error>
+
+  <error id="ask-mail-note-changed" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Do you wish to save your changes?</_primary>
+    <_secondary xml:space="preserve">This message note has been changed, but has not been saved.</_secondary>
+    <button _label="_Discard changes" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="failed-delete-note" type="error">
+    <!-- Translators: {0} is the name of the folder where the delete of the message note failed. -->
+    <_primary>Failed to delete message note in folder '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-store-note" type="error">
+    <!-- Translators: {0} is the name of the folder where the store of the message note failed. -->
+    <_primary>Failed to store message note in folder '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
 </error-list>

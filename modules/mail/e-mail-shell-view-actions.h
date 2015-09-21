@@ -230,6 +230,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-not-junk")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-with-attachments")
+#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_WITH_NOTES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-filter-messages-with-notes")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_NO_LABEL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-no-label")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_READ_MESSAGES(window) \

@@ -553,6 +553,13 @@ filter:
 			query = temp;
 			break;
 
+		case MAIL_FILTER_MESSAGES_WITH_NOTES:
+			temp = g_strdup_printf (
+				"(and %s (match-all (user-flag \"$has_note\")))", query);
+			g_free (query);
+			query = temp;
+			break;
+
 		case MAIL_FILTER_IMPORTANT_MESSAGES:
 			temp = g_strdup_printf (
 				"(and %s (match-all "

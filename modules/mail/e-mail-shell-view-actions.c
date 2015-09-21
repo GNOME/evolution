@@ -2079,6 +2079,13 @@ static GtkRadioActionEntry mail_filter_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS },
 
+	{ "mail-filter-messages-with-notes",
+	  "evolution-memos",
+	  N_("Messages with Notes"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MAIL_FILTER_MESSAGES_WITH_NOTES },
+
 	{ "mail-filter-no-label",
 	  NULL,
 	  N_("No Label"),

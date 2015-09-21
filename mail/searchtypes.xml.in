@@ -875,6 +875,24 @@
   </input>
  </part>
 
+ <part name="notes">
+  <_title>Notes</_title>
+  <input type="optionlist" name="match-type">
+   <option value="exist">
+    <_title>Exist</_title>
+    <code>
+     (match-all (user-flag "$has_note"))
+    </code>
+   </option>
+   <option value="not exist">
+    <_title>Do Not Exist</_title>
+    <code>
+     (match-all (not (user-flag "$has_note")))
+    </code>
+   </option>
+  </input>
+ </part>
+
  <part name="mlist">
   <_title>Mailing list</_title>
    <input type="optionlist" name="mlist-type">

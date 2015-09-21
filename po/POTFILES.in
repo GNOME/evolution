@@ -355,6 +355,7 @@ mail/e-mail-label-list-store.c
 mail/e-mail-label-manager.c
 mail/e-mail-label-tree-view.c
 mail/e-mail-migrate.c
+mail/e-mail-notes.c
 mail/e-mail-print-config-headers.c
 mail/e-mail-printer.c
 mail/e-mail-reader.c
