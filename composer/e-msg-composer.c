@@ -4822,6 +4822,46 @@ e_msg_composer_remove_header (EMsgComposer *composer,
 }
 
 /**
+ * e_msg_composer_get_header:
+ * @composer: an #EMsgComposer
+ * @name: the header's name
+ * @index: index of the header, 0-based
+ *
+ * Returns header value of the header named @name previously added
+ * by e_msg_composer_add_header() or set by e_msg_composer_set_header().
+ * The @index is which header index to return. Returns %NULL on error
+ * or when the given index of the header couldn't be found.
+ *
+ * Returns: stored header value or NULL, if couldn't be found.
+ *
+ * Since: 3.20
+ **/
+const gchar *
+e_msg_composer_get_header (EMsgComposer *composer,
+			   const gchar *name,
+			   gint index)
+{
+	EMsgComposerPrivate *priv;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	priv = composer->priv;
+
+	for (ii = 0; ii < priv->extra_hdr_names->len; ii++) {
+		if (g_strcmp0 (priv->extra_hdr_names->pdata[ii], name) == 0) {
+			if (index <= 0)
+				return priv->extra_hdr_values->pdata[ii];
+
+			index--;
+		}
+	}
+
+	return NULL;
+}
+
+/**
  * e_msg_composer_set_draft_headers:
  * @composer: an #EMsgComposer
  * @folder_uri: folder URI of the last saved draft
