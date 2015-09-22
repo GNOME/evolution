@@ -4283,6 +4283,9 @@ e_source_selector_ref_source_by_path
 e_source_selector_queue_write
 e_source_selector_update_row
 e_source_selector_update_all_rows
+e_source_selector_manage_groups
+e_source_selector_save_groups_setup
+e_source_selector_load_groups_setup
 <SUBSECTION Standard>
 E_SOURCE_SELECTOR
 E_IS_SOURCE_SELECTOR

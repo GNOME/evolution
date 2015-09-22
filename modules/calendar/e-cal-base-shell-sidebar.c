@@ -732,6 +732,9 @@ cal_base_shell_sidebar_constructed (GObject *object)
 	cal_base_shell_sidebar->priv->selector = E_SOURCE_SELECTOR (widget);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 
+	e_source_selector_load_groups_setup (cal_base_shell_sidebar->priv->selector,
+		e_shell_view_get_state_key_file (shell_view));
+
 	if (add_navigator) {
 		ECalendarItem *calitem;
 

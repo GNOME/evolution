@@ -83,6 +83,21 @@ action_address_book_delete_cb (GtkAction *action,
 }
 
 static void
+action_address_book_manage_groups_cb (GtkAction *action,
+				      EBookShellView *book_shell_view)
+{
+	EShellView *shell_view;
+	ESourceSelector *selector;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	selector = e_book_shell_sidebar_get_selector (book_shell_view->priv->book_shell_sidebar);
+
+	if (e_source_selector_manage_groups (selector) &&
+	    e_source_selector_save_groups_setup (selector, e_shell_view_get_state_key_file (shell_view)))
+		e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
 action_address_book_move_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
@@ -932,6 +947,13 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Delete the selected address book"),
 	  G_CALLBACK (action_address_book_delete_cb) },
 
+	{ "address-book-manage-groups",
+	  NULL,
+	  N_("_Manage Address Book groups..."),
+	  NULL,
+	  N_("Manage task list groups order and visibility"),
+	  G_CALLBACK (action_address_book_manage_groups_cb) },
+
 	{ "address-book-move",
 	  "folder-move",
 	  N_("Mo_ve All Contacts To..."),
@@ -1066,6 +1088,10 @@ static EPopupActionEntry contact_popup_entries[] = {
 	{ "address-book-popup-delete",
 	  N_("_Delete"),
 	  "address-book-delete" },
+
+	{ "address-book-popup-manage-groups",
+	  N_("_Manage groups..."),
+	  "address-book-manage-groups" },
 
 	{ "address-book-popup-properties",
 	  N_("_Properties"),

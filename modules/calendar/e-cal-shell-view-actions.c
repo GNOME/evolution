@@ -131,6 +131,21 @@ action_calendar_jump_to_cb (GtkAction *action,
 }
 
 static void
+action_calendar_manage_groups_cb (GtkAction *action,
+				  ECalShellView *cal_shell_view)
+{
+	EShellView *shell_view;
+	ESourceSelector *selector;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	selector = e_cal_base_shell_sidebar_get_selector (cal_shell_view->priv->cal_shell_sidebar);
+
+	if (e_source_selector_manage_groups (selector) &&
+	    e_source_selector_save_groups_setup (selector, e_shell_view_get_state_key_file (shell_view)))
+		e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
 action_calendar_new_cb (GtkAction *action,
                         ECalShellView *cal_shell_view)
 {
@@ -1228,6 +1243,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Select a specific date"),
 	  G_CALLBACK (action_calendar_jump_to_cb) },
 
+	{ "calendar-manage-groups",
+	  NULL,
+	  N_("_Manage Calendar groups..."),
+	  NULL,
+	  N_("Manage Calendar groups order and visibility"),
+	  G_CALLBACK (action_calendar_manage_groups_cb) },
+
 	{ "calendar-new",
 	  "x-office-calendar",
 	  N_("_New Calendar"),
@@ -1441,6 +1463,10 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "calendar-popup-jump-to",
 	  NULL,
 	  "calendar-jump-to" },
+
+	{ "calendar-popup-manage-groups",
+	  N_("_Manage groups..."),
+	  "calendar-manage-groups" },
 
 	{ "calendar-popup-properties",
 	  NULL,

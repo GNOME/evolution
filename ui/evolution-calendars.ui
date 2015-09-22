@@ -24,6 +24,7 @@
     <menu action='view-menu'>
       <menuitem action='calendar-go-today'/>
       <menuitem action='calendar-jump-to'/>
+      <menuitem action='calendar-manage-groups'/>
     </menu>
     <placeholder name='custom-menus'>
       <menu action='calendar-actions-menu'>
@@ -68,6 +69,8 @@
     <menuitem action='calendar-popup-delete'/>
     <menuitem action='calendar-popup-select-one'/>
     <placeholder name='calendar-popup-actions'/>
+    <separator/>
+    <menuitem action='calendar-popup-manage-groups'/>
     <separator/>
     <menuitem action='calendar-popup-properties'/>
   </popup>
