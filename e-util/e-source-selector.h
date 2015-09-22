@@ -47,6 +47,8 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SOURCE_SELECTOR, ESourceSelectorClass))
 
+#define E_SOURCE_SELECTOR_GROUPS_SETUP_NAME "SourceSelector"
+
 G_BEGIN_DECLS
 
 typedef struct _ESourceSelector ESourceSelector;
@@ -157,6 +159,13 @@ void		e_source_selector_set_source_is_busy
 gboolean	e_source_selector_get_source_is_busy
 						(ESourceSelector *selector,
 						 ESource *source);
+gboolean	e_source_selector_manage_groups	(ESourceSelector *selector);
+gboolean	e_source_selector_save_groups_setup
+						(ESourceSelector *selector,
+						 GKeyFile *key_file);
+void		e_source_selector_load_groups_setup
+						(ESourceSelector *selector,
+						 GKeyFile *key_file);
 
 G_END_DECLS
 

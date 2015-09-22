@@ -25,6 +25,7 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
+      <menuitem action='task-list-manage-groups'/>
       <placeholder name='view-custom-menus'>
         <menu action='task-preview-menu'>
           <menuitem action='task-preview'/>
@@ -78,6 +79,8 @@
     <menuitem action='task-list-popup-delete'/>
     <menuitem action='task-list-popup-select-one'/>
     <placeholder name='task-list-popup-actions'/>
+    <separator/>
+    <menuitem action='task-list-popup-manage-groups'/>
     <separator/>
     <menuitem action='task-list-popup-properties'/>
   </popup>

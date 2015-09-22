@@ -270,6 +270,7 @@ e-util/e-send-options.c
 [type: gettext/glade]e-util/e-send-options.ui
 e-util/e-source-config.c
 e-util/e-source-config-dialog.c
+e-util/e-source-selector.c
 e-util/e-source-selector-dialog.c
 e-util/e-spell-dictionary.c
 e-util/e-spell-entry.c

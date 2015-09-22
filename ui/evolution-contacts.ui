@@ -23,6 +23,7 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
+      <menuitem action='address-book-manage-groups'/>
       <placeholder name='view-custom-menus'>
         <menu action='contact-preview-menu'>
           <menuitem action='contact-preview'/>
@@ -63,8 +64,10 @@
     <menuitem action='address-book-popup-save-as'/>
     <separator/>
     <menuitem action='address-book-popup-delete'/>
+    <separator/>
     <placeholder name='address-book-popup-actions'/>
     <separator/>
+    <menuitem action='address-book-popup-manage-groups'/>
     <separator/>
     <menuitem action='address-book-popup-map'/>
     <separator/>

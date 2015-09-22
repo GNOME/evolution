@@ -156,6 +156,22 @@ action_task_list_delete_cb (GtkAction *action,
 }
 
 static void
+action_task_list_manage_groups_cb (GtkAction *action,
+				   ETaskShellView *task_shell_view)
+{
+	EShellView *shell_view;
+	ESourceSelector *selector;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	selector = e_cal_base_shell_sidebar_get_selector (task_shell_view->priv->task_shell_sidebar);
+
+	if (e_source_selector_manage_groups (selector) &&
+	    e_source_selector_save_groups_setup (selector, e_shell_view_get_state_key_file (shell_view)))
+		e_shell_view_set_state_dirty (shell_view);
+}
+
+
+static void
 action_task_list_new_cb (GtkAction *action,
                          ETaskShellView *task_shell_view)
 {
@@ -684,6 +700,13 @@ static GtkActionEntry task_entries[] = {
 	  N_("Delete the selected task list"),
 	  G_CALLBACK (action_task_list_delete_cb) },
 
+	{ "task-list-manage-groups",
+	  NULL,
+	  N_("_Manage Task List groups..."),
+	  NULL,
+	  N_("Manage task list groups order and visibility"),
+	  G_CALLBACK (action_task_list_manage_groups_cb) },
+
 	{ "task-list-new",
 	  "stock_todo",
 	  N_("_New Task List"),
@@ -787,6 +810,10 @@ static EPopupActionEntry task_popup_entries[] = {
 	{ "task-list-popup-delete",
 	  N_("_Delete"),
 	  "task-list-delete" },
+
+	{ "task-list-popup-manage-groups",
+	  N_("_Manage groups..."),
+	  "task-list-manage-groups" },
 
 	{ "task-list-popup-properties",
 	  NULL,

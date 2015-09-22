@@ -22,6 +22,7 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
+      <menuitem action='memo-list-manage-groups'/>
       <placeholder name='view-custom-menus'>
         <menu action='memo-preview-menu'>
           <menuitem action='memo-preview'/>
@@ -65,6 +66,8 @@
     <menuitem action='memo-list-popup-delete'/>
     <menuitem action='memo-list-popup-select-one'/>
     <placeholder name='memo-list-popup-actions'/>
+    <separator/>
+    <menuitem action='memo-list-popup-manage-groups'/>
     <separator/>
     <menuitem action='memo-list-popup-properties'/>
   </popup>

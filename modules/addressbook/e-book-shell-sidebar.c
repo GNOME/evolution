@@ -167,6 +167,9 @@ book_shell_sidebar_constructed (GObject *object)
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	e_source_selector_load_groups_setup (E_SOURCE_SELECTOR (priv->selector),
+		e_shell_view_get_state_key_file (shell_view));
+
 	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
 	g_settings_bind_with_mapping (

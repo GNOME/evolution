@@ -133,6 +133,21 @@ action_memo_list_delete_cb (GtkAction *action,
 }
 
 static void
+action_memo_list_manage_groups_cb (GtkAction *action,
+				   EMemoShellView *memo_shell_view)
+{
+	EShellView *shell_view;
+	ESourceSelector *selector;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	selector = e_cal_base_shell_sidebar_get_selector (memo_shell_view->priv->memo_shell_sidebar);
+
+	if (e_source_selector_manage_groups (selector) &&
+	    e_source_selector_save_groups_setup (selector, e_shell_view_get_state_key_file (shell_view)))
+		e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
 action_memo_list_new_cb (GtkAction *action,
                          EMemoShellView *memo_shell_view)
 {
@@ -559,6 +574,13 @@ static GtkActionEntry memo_entries[] = {
 	  N_("Delete the selected memo list"),
 	  G_CALLBACK (action_memo_list_delete_cb) },
 
+	{ "memo-list-manage-groups",
+	  NULL,
+	  N_("_Manage Memo List groups..."),
+	  NULL,
+	  N_("Manage Memo List groups order and visibility"),
+	  G_CALLBACK (action_memo_list_manage_groups_cb) },
+
 	{ "memo-list-new",
 	  "stock_notes",
 	  N_("_New Memo List"),
@@ -634,6 +656,10 @@ static EPopupActionEntry memo_popup_entries[] = {
 	{ "memo-list-popup-delete",
 	  N_("_Delete"),
 	  "memo-list-delete" },
+
+	{ "memo-list-popup-manage-groups",
+	  N_("_Manage groups..."),
+	  "memo-list-manage-groups" },
 
 	{ "memo-list-popup-properties",
 	  NULL,
