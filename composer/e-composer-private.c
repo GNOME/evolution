@@ -870,12 +870,9 @@ composer_move_caret (EMsgComposer *composer)
 	gboolean is_message_from_edit_as_new;
 	gboolean has_paragraphs_in_body = TRUE;
 	WebKitDOMDocument *document;
-	WebKitDOMDOMWindow *window;
-	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMElement *element, *signature;
 	WebKitDOMHTMLElement *body;
 	WebKitDOMNodeList *list;
-	WebKitDOMRange *new_range;
 
 	/* When there is an option composer-reply-start-bottom set we have
 	 * to move the caret between reply and signature. */
@@ -896,13 +893,10 @@ composer_move_caret (EMsgComposer *composer)
 		!composer->priv->is_from_new_message;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-	window = webkit_dom_document_get_default_view (document);
-	dom_selection = webkit_dom_dom_window_get_selection (window);
 
 	body = webkit_dom_document_get_body (document);
 	webkit_dom_element_set_attribute (
 		WEBKIT_DOM_ELEMENT (body), "data-message", "", NULL);
-	new_range = webkit_dom_document_create_range (document);
 
 	/* If editing message as new don't handle with caret */
 	if (is_message_from_edit_as_new || is_message_from_draft) {
@@ -1036,11 +1030,22 @@ composer_move_caret (EMsgComposer *composer)
 	g_object_unref (list);
  move_caret:
 	if (element) {
+		WebKitDOMDOMSelection *dom_selection;
+		WebKitDOMDOMWindow *dom_window;
+		WebKitDOMRange *range;
+
+		dom_window = webkit_dom_document_get_default_view (document);
+		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+		range = webkit_dom_document_create_range (document);
 		webkit_dom_range_select_node_contents (
-			new_range, WEBKIT_DOM_NODE (element), NULL);
-		webkit_dom_range_collapse (new_range, TRUE, NULL);
+			range, WEBKIT_DOM_NODE (element), NULL);
+		webkit_dom_range_collapse (range, TRUE, NULL);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-		webkit_dom_dom_selection_add_range (dom_selection, new_range);
+		webkit_dom_dom_selection_add_range (dom_selection, range);
+
+		g_clear_object (&dom_selection);
+		g_clear_object (&dom_window);
+		g_clear_object (&range);
 
 		if (start_bottom)
 			e_html_editor_selection_scroll_to_caret (editor_selection);

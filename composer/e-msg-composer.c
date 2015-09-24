@@ -1847,6 +1847,9 @@ msg_composer_drag_data_received_after_cb (GtkWidget *widget,
 	 * collapse it to its end to have the caret after the DnD'ed text. */
 	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
 
+	g_clear_object (&dom_selection);
+	g_clear_object (&dom_window);
+
 	e_html_editor_view_check_magic_links (view, FALSE);
 	/* Also force spell check on view. */
 	e_html_editor_view_force_spell_check_in_viewport (view);
