@@ -3209,6 +3209,7 @@ em_utils_reply_to_message (EShell *shell,
 	CamelInternetAddress *to, *cc;
 	CamelNNTPAddress *postto = NULL;
 	EMsgComposer *composer;
+	ESourceMailCompositionReplyStyle prefer_reply_style = E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT;
 	ESource *source;
 	gchar *identity_uid = NULL;
 	const gchar *evo_source_header;
@@ -3229,6 +3230,13 @@ em_utils_reply_to_message (EShell *shell,
 			registry, message, folder, message_uid, sort_sources_by_ui, shell);
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
+		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+			ESourceMailComposition *extension;
+
+			extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+			prefer_reply_style = e_source_mail_composition_get_reply_style (extension);
+		}
+
 		g_object_unref (source);
 	}
 
@@ -3290,6 +3298,47 @@ em_utils_reply_to_message (EShell *shell,
 		view = e_html_editor_get_view (editor);
 
 		e_html_editor_view_set_is_message_from_selection (view, TRUE);
+	}
+
+	/* If there was no send-account override */
+	if (!identity_uid) {
+		EComposerHeaderTable *header_table;
+		const gchar *used_identity_uid;
+
+		header_table = e_msg_composer_get_header_table (composer);
+		used_identity_uid = e_composer_header_table_get_identity_uid (header_table);
+
+		if (used_identity_uid) {
+			source = e_source_registry_ref_source (e_shell_get_registry (shell), used_identity_uid);
+			if (source) {
+				if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+					ESourceMailComposition *extension;
+
+					extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+					prefer_reply_style = e_source_mail_composition_get_reply_style (extension);
+				}
+
+				g_object_unref (source);
+			}
+		}
+	}
+
+	switch (prefer_reply_style) {
+		case E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT:
+			/* Do nothing, keep the passed-in reply style. */
+			break;
+		case E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_QUOTED:
+			style = E_MAIL_REPLY_STYLE_QUOTED;
+			break;
+		case E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DO_NOT_QUOTE:
+			style = E_MAIL_REPLY_STYLE_DO_NOT_QUOTE;
+			break;
+		case E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_ATTACH:
+			style = E_MAIL_REPLY_STYLE_ATTACH;
+			break;
+		case E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_OUTLOOK:
+			style = E_MAIL_REPLY_STYLE_OUTLOOK;
+			break;
 	}
 
 	composer_set_body (composer, message, style, parts_list);
