@@ -6253,6 +6253,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 	gulong length_left;
 	gchar *text_content;
 	gboolean compensated = FALSE;
+	gboolean check_next_node = FALSE;
 
 	if (selection) {
 		gint ii, length;
@@ -6315,10 +6316,12 @@ wrap_lines (EHTMLEditorSelection *selection,
 			WebKitDOMNode *nd = WEBKIT_DOM_NODE (selection_end_marker);
 
 			while (nd) {
+				WebKitDOMNode *parent_node;
 				WebKitDOMNode *next_nd = webkit_dom_node_get_next_sibling (nd);
 
-				if (!next_nd && !webkit_dom_node_is_same_node (webkit_dom_node_get_parent_node (nd), block_clone))
-					next_nd = webkit_dom_node_get_next_sibling (webkit_dom_node_get_parent_node (nd));
+				parent_node = webkit_dom_node_get_parent_node (nd);
+				if (!next_nd && parent_node && !webkit_dom_node_is_same_node (parent_node, block_clone))
+					next_nd = webkit_dom_node_get_next_sibling (parent_node);
 
 				if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (nd)) {
 					if (remove_all_br)
@@ -6471,10 +6474,19 @@ wrap_lines (EHTMLEditorSelection *selection,
 			g_free (text_content);
 		} else {
 			if (e_html_editor_node_is_selection_position_node (node)) {
+				if (line_length == 0) {
+					WebKitDOMNode *tmp_node;
+
+					tmp_node = webkit_dom_node_get_previous_sibling (node);
+					/* Only check if there is some node before the selection marker. */
+					if (tmp_node && !e_html_editor_node_is_selection_position_node (tmp_node))
+						check_next_node = TRUE;
+				}
 				node = webkit_dom_node_get_next_sibling (node);
 				continue;
 			}
 
+			check_next_node = FALSE;
 			/* If element is ANCHOR we wrap it separately */
 			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
 				glong anchor_length;
@@ -6565,13 +6577,24 @@ wrap_lines (EHTMLEditorSelection *selection,
 			WEBKIT_DOM_CHARACTER_DATA (node));
 
 		if ((length_left + line_length) <= length_to_wrap) {
+			if (check_next_node)
+				goto check_node;
 			line_length += length_left;
+			if (line_length == length_to_wrap)
+				line_length = 0;
 			goto next_node;
 		}
 
 		/* wrap until we have something */
 		while (node && (length_left + line_length) > length_to_wrap) {
+			gboolean insert_and_continue;
 			gint max_length;
+
+ check_node:
+			insert_and_continue = FALSE;
+
+			if (!WEBKIT_DOM_IS_CHARACTER_DATA (node))
+				goto next_node;
 
 			element = webkit_dom_document_create_element (document, "BR", NULL);
 			element_add_class (element, "-x-evo-wrap-br");
@@ -6580,6 +6603,11 @@ wrap_lines (EHTMLEditorSelection *selection,
 			if (max_length < 0)
 				max_length = length_to_wrap;
 			else if (max_length == 0) {
+				if (check_next_node) {
+					insert_and_continue = TRUE;
+					goto check;
+				}
+
 				/* Break before the current node and continue. */
 				webkit_dom_node_insert_before (
 					webkit_dom_node_get_parent_node (node),
@@ -6606,9 +6634,11 @@ wrap_lines (EHTMLEditorSelection *selection,
 				 * split after the last character that will fit on the
 				 * previous line. To avoid that we need to put the
 				 * concatenated word on the next line. */
-				if (offset == -1) {
+				if (offset == -1 || check_next_node) {
 					WebKitDOMNode *prev_sibling;
 
+ check:
+					check_next_node = FALSE;
 					prev_sibling = webkit_dom_node_get_previous_sibling (node);
 					if (prev_sibling && e_html_editor_node_is_selection_position_node (prev_sibling)) {
 						prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
@@ -6671,7 +6701,20 @@ wrap_lines (EHTMLEditorSelection *selection,
 							}
 						}
 					}
-					offset = max_length;
+					if (insert_and_continue) {
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (node),
+							WEBKIT_DOM_NODE (element),
+							node,
+							NULL);
+
+						offset = 0;
+						line_length = 0;
+						insert_and_continue = FALSE;
+						continue;
+					}
+
+					offset = offset != -1 ? offset : max_length;
 				}
 			}
 
@@ -6686,28 +6729,28 @@ wrap_lines (EHTMLEditorSelection *selection,
 				if (nd) {
 					gchar *nd_content;
 
+
 					nd_content = webkit_dom_node_get_text_content (nd);
 					if (nd_content && *nd_content) {
 						if (*nd_content == ' ')
 							mark_and_remove_leading_space (document, nd);
 						g_free (nd_content);
-						nd_content = webkit_dom_node_get_text_content (nd);
-						if (!*nd_content)
-							remove_node (nd);
-						g_free (nd_content);
 					}
 
-					if (nd) {
-						webkit_dom_node_insert_before (
-							webkit_dom_node_get_parent_node (node),
-							WEBKIT_DOM_NODE (element),
-							nd,
-							NULL);
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						nd,
+						NULL);
 
-						node = webkit_dom_node_get_next_sibling (
-							WEBKIT_DOM_NODE (element));
-						offset = 0;
-					}
+					offset = 0;
+
+					nd_content = webkit_dom_node_get_text_content (nd);
+					if (!*nd_content)
+						remove_node (nd);
+					g_free (nd_content);
+					node = webkit_dom_node_get_next_sibling (
+						WEBKIT_DOM_NODE (element));
 				} else {
 					webkit_dom_node_append_child (
 						webkit_dom_node_get_parent_node (node),
@@ -6721,7 +6764,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 					node,
 					NULL);
 			}
-			if (node)
+			if (node && WEBKIT_DOM_IS_CHARACTER_DATA (node))
 				length_left = webkit_dom_character_data_get_length (
 					WEBKIT_DOM_CHARACTER_DATA (node));
 
@@ -6798,6 +6841,13 @@ wrap_lines (EHTMLEditorSelection *selection,
 
 		return NULL;
 	} else {
+		WebKitDOMNode *last_child;
+
+		last_child = webkit_dom_node_get_last_child (block_clone);
+		if (last_child && WEBKIT_DOM_IS_HTMLBR_ELEMENT (last_child) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (last_child), "-x-evo-wrap-br"))
+			remove_node (last_child);
+
 		webkit_dom_node_normalize (block_clone);
 
 		node = webkit_dom_node_get_parent_node (block);
