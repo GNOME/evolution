@@ -19408,7 +19408,7 @@ msgstr "Consentire all'applicazione di aggiornare il file"
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:187
 msgctxt "locale-metric"
 msgid "default:mm"
-msgstr "predefinita:mm"
+msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
