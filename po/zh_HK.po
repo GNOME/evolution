@@ -16002,7 +16002,7 @@ msgstr "允許 Evolution 更新檔案"
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:188
 msgctxt "locale-metric"
 msgid "default:mm"
-msgstr "預設值：mm"
+msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
