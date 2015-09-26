@@ -12,7 +12,7 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # 
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015., 2015.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015.
 #
 #: ../shell/main.c:522
 msgid ""
@@ -24,7 +24,7 @@ msgstr ""
 "PO-Revision-Date: 2015-09-02 18:31+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
-"Language: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19533,7 +19533,7 @@ msgstr "Permite a Evolution actualizar el archivo"
 #: ../modules/cal-config-weather/evolution-cal-config-weather.c:186
 msgctxt "locale-metric"
 msgid "default:mm"
-msgstr "predeterminado:mm"
+msgstr "default:mm"
 
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
