@@ -112,6 +112,7 @@ struct _EHTMLEditorViewPrivate {
 	gboolean copy_paste_primary_in_view;
 	gboolean copy_action_triggered;
 	gboolean pasting_primary_clipboard;
+	gboolean renew_history_after_coordinates;
 
 	GHashTable *old_settings;
 
@@ -933,6 +934,45 @@ prepare_paragraph (EHTMLEditorSelection *selection,
 }
 
 static WebKitDOMElement *
+wrap_and_quote_element (EHTMLEditorView *view,
+                        WebKitDOMElement *element)
+{
+	gint citation_level;
+	WebKitDOMElement *tmp_element = element;
+
+	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (element), element);
+
+	if (view->priv->html_mode)
+		return element;
+
+	citation_level = get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
+
+	remove_quoting_from_element (element);
+	remove_wrapping_from_element (element);
+
+	if (element_has_class (element, "-x-evo-paragraph")) {
+		gint word_wrap_length, length;
+
+		word_wrap_length = e_html_editor_selection_get_word_wrap_length (
+			view->priv->selection);
+		length = word_wrap_length - 2 * citation_level;
+		tmp_element = e_html_editor_selection_wrap_paragraph_length (
+			view->priv->selection, element, length);
+	}
+
+	if (citation_level > 0) {
+		WebKitDOMDocument *document;
+
+		webkit_dom_node_normalize (WEBKIT_DOM_NODE (tmp_element));
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		e_html_editor_view_quote_plain_text_element_after_wrapping (
+			document, tmp_element, citation_level);
+	}
+
+	return tmp_element;
+}
+
+static WebKitDOMElement *
 insert_new_line_into_citation (EHTMLEditorView *view,
                                const gchar *html_to_insert)
 {
@@ -940,6 +980,7 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 	EHTMLEditorSelection *selection;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element, *paragraph = NULL;
+	WebKitDOMNode *last_block;
 
 	html_mode = e_html_editor_view_get_html_mode (view);
 	selection = e_html_editor_view_get_selection (view);
@@ -1036,36 +1077,43 @@ insert_new_line_into_citation (EHTMLEditorView *view,
 			return NULL;
 	}
 
+	last_block = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+	while (last_block && is_citation_node (last_block))
+		last_block = webkit_dom_node_get_last_child (last_block);
+
+	if (last_block) {
+		WebKitDOMNode *last_child;
+
+		if ((last_child = webkit_dom_node_get_last_child (last_block))) {
+			if (WEBKIT_DOM_IS_ELEMENT (last_child) &&
+			    element_has_class (WEBKIT_DOM_ELEMENT (last_child), "-x-evo-quoted"))
+				webkit_dom_node_append_child (
+					last_block,
+					WEBKIT_DOM_NODE (
+						webkit_dom_document_create_element (
+							document, "br", NULL)),
+					NULL);
+		}
+	}
+
 	if (!html_mode) {
-		WebKitDOMNode *next_sibling;
+		WebKitDOMNode *sibling;
 
-		next_sibling = webkit_dom_node_get_next_sibling (
-			WEBKIT_DOM_NODE (element));
+		sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
 
-		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (next_sibling)) {
-			gint citation_level, length;
-			gint word_wrap_length =
-				e_html_editor_selection_get_word_wrap_length (selection);
+		if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (sibling)) {
 			WebKitDOMNode *node;
 
-			node = webkit_dom_node_get_first_child (next_sibling);
+			node = webkit_dom_node_get_first_child (sibling);
 			while (node && is_citation_node (node))
 				node = webkit_dom_node_get_first_child (node);
 
-			citation_level = get_citation_level (node, FALSE);
-			length = word_wrap_length - 2 * citation_level;
+			/* Rewrap and requote nodes that were created by split. */
+			if (WEBKIT_DOM_IS_ELEMENT (node))
+				wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (node));
 
-			/* Rewrap and requote first block after the newly inserted line */
-			if (node && WEBKIT_DOM_IS_ELEMENT (node)) {
-				remove_quoting_from_element (WEBKIT_DOM_ELEMENT (node));
-				remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (node));
-
-				if (element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph"))
-					node = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
-						selection, WEBKIT_DOM_ELEMENT (node), length));
-				e_html_editor_view_quote_plain_text_element_after_wrapping (
-					document, WEBKIT_DOM_ELEMENT (node), citation_level);
-			}
+			if (WEBKIT_DOM_IS_ELEMENT (last_block))
+				wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (last_block));
 
 			e_html_editor_view_force_spell_check_in_viewport (view);
 		}
@@ -2642,6 +2690,9 @@ save_history_for_input (EHTMLEditorView *view)
 		remove_node (WEBKIT_DOM_NODE (element_start));
 		remove_node (WEBKIT_DOM_NODE (element_end));
 
+		g_object_set_data (
+			G_OBJECT (fragment), "-x-evo-return-key", GINT_TO_POINTER (1));
+
 		webkit_dom_dom_selection_modify (dom_selection, "move", "right", "character");
 	} else {
 		webkit_dom_node_append_child (
@@ -2960,8 +3011,6 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			/* Wrap and quote the line */
 			if (!remove_quoting && text_length >= word_wrap_length) {
-				EHTMLEditorViewHistoryEvent *ev;
-
 				remove_quoting_from_element (block);
 
 				block = e_html_editor_selection_wrap_paragraph_length (
@@ -2977,16 +3026,6 @@ body_input_event_cb (WebKitDOMElement *element,
 						WEBKIT_DOM_ELEMENT (block),
 						NULL,
 						NULL);
-
-				/* The content was wrapped and the coordinates
-				 * of caret could be changed, so renew them. */
-				ev = view->priv->history->data;
-				e_html_editor_selection_get_selection_coordinates (
-					selection,
-					&ev->after.start.x,
-					&ev->after.start.y,
-					&ev->after.end.x,
-					&ev->after.end.y);
 
 				e_html_editor_selection_restore (selection);
 				do_spell_check = TRUE;
@@ -3193,6 +3232,183 @@ merge_siblings_if_necessarry (WebKitDOMDocument *document,
 	}
 }
 
+/* This will fix the structure after the situations where some text
+ * inside the quoted content is selected and afterwards deleted with
+ * BackSpace or Delete. */
+static void
+body_key_up_event_process_backspace_or_delete (EHTMLEditorView *view,
+                                               gboolean delete)
+{
+	EHTMLEditorSelection *selection;
+	gint level;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMElement *tmp_element;
+	WebKitDOMDocument *document;
+	WebKitDOMNode *parent, *node;
+
+	if (view->priv->html_mode)
+		return;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	disable_quote_marks_select (document);
+	/* Remove empty blocks if presented. */
+	remove_empty_blocks (document);
+
+	selection = e_html_editor_view_get_selection (view);
+	e_html_editor_selection_save (selection);
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	/* If we deleted a selection the caret will be inside the quote marks, fix it. */
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character")) {
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (
+				webkit_dom_node_get_parent_node (parent)),
+			WEBKIT_DOM_NODE (selection_end_marker),
+			webkit_dom_node_get_next_sibling (
+				webkit_dom_node_get_parent_node (parent)),
+			NULL);
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (
+				webkit_dom_node_get_parent_node (parent)),
+			WEBKIT_DOM_NODE (selection_start_marker),
+			webkit_dom_node_get_next_sibling (
+				webkit_dom_node_get_parent_node (parent)),
+			NULL);
+	}
+
+	/* Under some circumstances we will end with block inside the citation
+	 * that has the quote marks removed and we have to reinsert them back. */
+	level = get_citation_level (WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
+	if (level > 0 && node && !WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
+		WebKitDOMElement *block;
+
+		block = WEBKIT_DOM_ELEMENT (e_html_editor_get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker)));
+
+		remove_quoting_from_element (block);
+		if (element_has_class (block, "-x-evo-paragraph")) {
+			gint length, word_wrap_length;
+
+			word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
+			length =  word_wrap_length - 2 * level;
+			block = e_html_editor_selection_wrap_paragraph_length (
+				selection, block, length);
+			webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+		}
+		e_html_editor_view_quote_plain_text_element_after_wrapping (
+			document, block, level);
+	} else if (level > 0 && !node) {
+		WebKitDOMNode *prev_sibling;
+
+		prev_sibling = webkit_dom_node_get_previous_sibling (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+		    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-quoted") &&
+		    !webkit_dom_node_get_previous_sibling (prev_sibling))
+			webkit_dom_node_append_child (
+				parent,
+				WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "br", NULL)),
+				NULL);
+	}
+
+	/* Situation where the start of the selection was in the beginning
+	 * of the block in quoted content and the end in the beginning of
+	 * content that is after the citation or the selection end was in
+	 * the end of the quoted content (showed by ^). The correct structure
+	 * in these cases is to have empty block after the citation.
+	 *
+	 * > |xxx
+	 * > xxx^
+	 * |xxx
+	 * */
+	tmp_element = webkit_dom_document_get_element_by_id (document, "-x-evo-tmp-block");
+	if (tmp_element) {
+		remove_wrapping_from_element (tmp_element);
+		remove_quoting_from_element (tmp_element);
+
+		/* Append the BR element if the block is empty, but the
+		 * selection is there to be able to move to the block
+		 * with caret later. */
+		if (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) &&
+		    !webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)))
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (tmp_element),
+				WEBKIT_DOM_NODE (webkit_dom_document_create_element (
+					document, "br", NULL)),
+				NULL);
+
+		webkit_dom_element_remove_attribute (tmp_element, "id");
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (tmp_element));
+		while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (parent)))
+			parent = webkit_dom_node_get_parent_node (parent);
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (parent),
+			WEBKIT_DOM_NODE (tmp_element),
+			webkit_dom_node_get_next_sibling (parent),
+			NULL);
+	}
+
+	merge_siblings_if_necessarry (document, NULL);
+
+	e_html_editor_selection_restore (selection);
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+}
+
+static void
+body_key_up_event_process_return_key (EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *parent;
+
+	/* If the return is pressed in an unordered list in plain text mode
+	 * the caret is moved to the "*" character before the newly inserted
+	 * item. It looks like it is not enough that the item has BR element
+	 * inside, but we have to again use the zero width space character
+	 * to fix the situation. */
+	if (view->priv->html_mode)
+		return;
+
+	selection = e_html_editor_view_get_selection (view);
+	e_html_editor_selection_save (selection);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	e_html_editor_selection_save (selection);
+
+	selection_start_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-start-marker");
+	selection_end_marker = webkit_dom_document_get_element_by_id (
+		document, "-x-evo-selection-end-marker");
+
+	parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
+	if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent) ||
+	    !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (webkit_dom_node_get_parent_node (parent))) {
+		e_html_editor_selection_restore (selection);
+		return;
+	}
+
+	if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
+	    (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) ||
+	     WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)))))
+		webkit_dom_html_element_insert_adjacent_text (
+			WEBKIT_DOM_HTML_ELEMENT (parent),
+			"afterbegin",
+			UNICODE_ZERO_WIDTH_SPACE,
+			NULL);
+
+	e_html_editor_selection_restore (selection);
+}
+
 static void
 body_keyup_event_cb (WebKitDOMElement *element,
                      WebKitDOMUIEvent *event,
@@ -3210,221 +3426,27 @@ body_keyup_event_cb (WebKitDOMElement *element,
 
 	key_code = webkit_dom_ui_event_get_key_code (event);
 	if (key_code == HTML_KEY_CODE_BACKSPACE || key_code == HTML_KEY_CODE_DELETE) {
-		/* This will fix the structure after the situations where some text
-		 * inside the quoted content is selected and afterwards deleted with
-		 * BackSpace or Delete. */
-		gint level;
-		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMElement *tmp_element;
-		WebKitDOMDocument *document;
-		WebKitDOMNode *parent, *node;
+		body_key_up_event_process_backspace_or_delete (view, key_code == HTML_KEY_CODE_DELETE);
 
-		if (e_html_editor_view_get_html_mode (view))
-			return;
+		/* The content was wrapped and the coordinates
+		 * of caret could be changed, so renew them. But
+		 * only do that when we are not redoing a history
+		 * event, otherwise it would modify the history. */
+		if (view->priv->renew_history_after_coordinates) {
+			EHTMLEditorViewHistoryEvent *ev = NULL;
 
-		document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
-
-		disable_quote_marks_select (document);
-		/* Remove empty blocks if presented. */
-		remove_empty_blocks (document);
-
-		e_html_editor_selection_save (selection);
-		selection_start_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
-		selection_end_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-end-marker");
-
-		/* If we deleted a selection the caret will be inside the quote marks, fix it. */
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
-		if (element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-quote-character")) {
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (
-					webkit_dom_node_get_parent_node (parent)),
-				WEBKIT_DOM_NODE (selection_end_marker),
-				webkit_dom_node_get_next_sibling (
-					webkit_dom_node_get_parent_node (parent)),
-				NULL);
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (
-					webkit_dom_node_get_parent_node (parent)),
-				WEBKIT_DOM_NODE (selection_start_marker),
-				webkit_dom_node_get_next_sibling (
-					webkit_dom_node_get_parent_node (parent)),
-				NULL);
-		}
-
-		/* Under some circumstances we will end with block inside the citation
-		 * that has the quote marks removed and we have to reinsert them back. */
-		level = get_citation_level (WEBKIT_DOM_NODE (selection_start_marker), FALSE);
-		node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
-		if (level > 0 && node && !WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
-			WebKitDOMNode *prev_sibling;
-
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (selection_start_marker));
-			if (!prev_sibling ||
-			    (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
-			    !webkit_dom_node_get_previous_sibling (prev_sibling))) {
-				WebKitDOMElement *block;
-
-				block = WEBKIT_DOM_ELEMENT (e_html_editor_get_parent_block_node_from_child (
-					WEBKIT_DOM_NODE (selection_start_marker)));
-				if (webkit_dom_element_has_attribute (block, "data-no-quote")) {
-					webkit_dom_element_remove_attribute (block, "data-no-quote");
-				} else {
-					remove_quoting_from_element (block);
-					if (element_has_class (block, "-x-evo-paragraph")) {
-						gint length, word_wrap_length;
-
-						word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
-						length =  word_wrap_length - 2 * (level - 1);
-						block = e_html_editor_selection_wrap_paragraph_length (
-							selection, block, length);
-						webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-					}
-					e_html_editor_view_quote_plain_text_element_after_wrapping (
-						document, block, level);
-				}
-			}
-		} else if (level > 0 && node && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
-			EHTMLEditorViewHistoryEvent *event;
-			WebKitDOMDocumentFragment *fragment;
-			WebKitDOMNode *block;
-
-			block = e_html_editor_get_parent_block_node_from_child (
-				WEBKIT_DOM_NODE (selection_start_marker));
-
-			remove_selection_markers (document);
-
-			event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-			event->type = HISTORY_AND;
-
-			e_html_editor_view_insert_new_history_event (view, event);
-
-			event = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-			event->type = HISTORY_CITATION_SPLIT;
-
+			ev = view->priv->history->data;
 			e_html_editor_selection_get_selection_coordinates (
 				selection,
-				&event->before.start.x,
-				&event->before.start.y,
-				&event->before.end.x,
-				&event->before.end.y);
-
-			fragment = webkit_dom_document_create_document_fragment (document);
-
-			/* Save the current block as it will be removed few lines after this. */
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (fragment),
-				webkit_dom_node_clone_node (block, TRUE),
-				NULL);
-
-			event->data.fragment = fragment;
-
-			/* Remove current block (and all of its parents if they
-			 * are empty) as it will be replaced by a new block that
-			 * will be in the body and not in the blockquote. */
-			remove_node_and_parents_if_empty (block);
-
-			insert_new_line_into_citation (view, "");
-
-			e_html_editor_selection_get_selection_coordinates (
-				selection,
-				&event->after.start.x,
-				&event->after.start.y,
-				&event->after.end.x,
-				&event->after.end.y);
-
-			e_html_editor_view_insert_new_history_event (view, event);
-
-			return;
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
 		}
-
-		/* Situation where the start of the selection was in the beginning
-		 * of the block in quoted content and the end in the beginning of
-		 * content that is after the citation or the selection end was in
-		 * the end of the quoted content (showed by ^). The correct structure
-		 * in these cases is to have empty block after the citation.
-		 *
-		 * > |xxx
-		 * > xxx^
-		 * |xxx
-		 * */
-		tmp_element = webkit_dom_document_get_element_by_id (document, "-x-evo-tmp-block");
-		if (tmp_element) {
-			remove_wrapping_from_element (tmp_element);
-			remove_quoting_from_element (tmp_element);
-
-			/* Append the BR element if the block is empty, but the
-			 * selection is there to be able to move to the block
-			 * with caret later. */
-			if (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) &&
-			    !webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)))
-				webkit_dom_node_append_child (
-					WEBKIT_DOM_NODE (tmp_element),
-					WEBKIT_DOM_NODE (webkit_dom_document_create_element (
-						document, "br", NULL)),
-					NULL);
-
-			webkit_dom_element_remove_attribute (tmp_element, "id");
-
-			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (tmp_element));
-			while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (parent)))
-				parent = webkit_dom_node_get_parent_node (parent);
-
-			webkit_dom_node_insert_before (
-				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (tmp_element),
-				webkit_dom_node_get_next_sibling (parent),
-				NULL);
-		}
-
-		merge_siblings_if_necessarry (document, NULL);
-		e_html_editor_selection_restore (selection);
 	} else if (key_code == HTML_KEY_CODE_CONTROL)
 		html_editor_view_set_links_active (view, FALSE);
-	else if (key_code == HTML_KEY_CODE_RETURN) {
-		WebKitDOMDocument *document;
-		WebKitDOMElement *selection_start_marker, *selection_end_marker;
-		WebKitDOMNode *parent;
-
-		/* If the return is pressed in an unordered list in plain text mode
-		 * the caret is moved to the "*" character before the the newly inserted
-		 * item. It looks like it is not enough that the item has BR element
-		 * inside, but we have to again use the zero width space character
-		 * to fix the situation. */
-		if (e_html_editor_view_get_html_mode (view))
-			return;
-
-		e_html_editor_selection_save (selection);
-
-		document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element));
-
-		e_html_editor_selection_save (selection);
-
-		selection_start_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
-		selection_end_marker = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-end-marker");
-
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start_marker));
-		if (!WEBKIT_DOM_IS_HTMLLI_ELEMENT (parent) ||
-		    !WEBKIT_DOM_IS_HTMLU_LIST_ELEMENT (webkit_dom_node_get_parent_node (parent))) {
-			e_html_editor_selection_restore (selection);
-			return;
-		}
-
-		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker)) &&
-		    (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)) ||
-		     WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker)))))
-			webkit_dom_html_element_insert_adjacent_text (
-				WEBKIT_DOM_HTML_ELEMENT (parent),
-				"afterbegin",
-				UNICODE_ZERO_WIDTH_SPACE,
-				NULL);
-
-		e_html_editor_selection_restore (selection);
-	}
+	else if (key_code == HTML_KEY_CODE_RETURN)
+		body_key_up_event_process_return_key (view);
 }
 
 static void
@@ -3900,15 +3922,11 @@ prevent_from_deleting_last_element_in_body (EHTMLEditorView *view)
 }
 
 static gboolean
-change_quoted_block_to_normal (EHTMLEditorView *view)
+delete_hidden_space (EHTMLEditorView *view)
 {
-	EHTMLEditorViewHistoryEvent *ev = NULL;
-	EHTMLEditorSelection *selection;
-	gint citation_level, success = FALSE;
+	gint citation_level;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *selection_start_marker, *selection_end_marker, *block;
-
-	selection = e_html_editor_view_get_selection (view);
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
@@ -3927,12 +3945,90 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 		WEBKIT_DOM_NODE (selection_start_marker), FALSE);
 
 	if (selection_start_marker && citation_level > 0) {
+		EHTMLEditorSelection *selection;
+		EHTMLEditorViewHistoryEvent *ev = NULL;
+		WebKitDOMNode *node;
+		WebKitDOMDocumentFragment *fragment;
+
+		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
+		if (!(WEBKIT_DOM_IS_ELEMENT (node) &&
+		      element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-quoted")))
+			return FALSE;
+
+		node = webkit_dom_node_get_previous_sibling (node);
+		if (!(WEBKIT_DOM_IS_ELEMENT (node) &&
+		      element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")))
+			return FALSE;
+
+		node = webkit_dom_node_get_previous_sibling (node);
+		if (!(WEBKIT_DOM_IS_ELEMENT (node) &&
+		      webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-hidden-space")))
+			return FALSE;
+
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_DELETE;
+
+		selection = e_html_editor_view_get_selection (view);
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
+
+		remove_node (node);
+
+		wrap_and_quote_element (view, block);
+
+		fragment = webkit_dom_document_create_document_fragment (document);
+		webkit_dom_node_append_child (
+			WEBKIT_DOM_NODE (fragment),
+			WEBKIT_DOM_NODE (
+				webkit_dom_document_create_text_node (document, " ")),
+			NULL);
+		ev->data.fragment = fragment;
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+
+		e_html_editor_view_insert_new_history_event (view, ev);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+change_quoted_block_to_normal (EHTMLEditorView *view)
+{
+	EHTMLEditorViewHistoryEvent *ev = NULL;
+	EHTMLEditorSelection *selection;
+	gint citation_level, success = FALSE;
+	WebKitDOMDocument *document;
+	WebKitDOMElement *selection_start_marker, *selection_end_marker;
+	WebKitDOMNode *block;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	selection_start_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-start-marker", NULL);
+	selection_end_marker = webkit_dom_document_query_selector (
+		document, "span#-x-evo-selection-end-marker", NULL);
+
+	if (!selection_start_marker || !selection_end_marker)
+		return FALSE;
+
+	block = e_html_editor_get_parent_block_node_from_child (WEBKIT_DOM_NODE (selection_start_marker));
+
+	citation_level = get_citation_level (
+		WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+
+	if (selection_start_marker && citation_level > 0) {
 		if (webkit_dom_element_query_selector (
 			WEBKIT_DOM_ELEMENT (block), ".-x-evo-quoted", NULL)) {
 
 			WebKitDOMNode *prev_sibling;
 
-			webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
+			webkit_dom_node_normalize (block);
 
 			prev_sibling = webkit_dom_node_get_previous_sibling (
 				WEBKIT_DOM_NODE (selection_start_marker));
@@ -3958,8 +4054,7 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 
 		if (view->priv->html_mode)
 			success = WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (
-				webkit_dom_node_get_parent_element (
-					WEBKIT_DOM_NODE (block)));
+				webkit_dom_node_get_parent_element (block));
 	}
 
 	if (success && !view->priv->undo_redo_in_progress) {
@@ -3968,16 +4063,16 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 
 		e_html_editor_selection_get_selection_coordinates (
 			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
-		ev->data.dom.from = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (block), TRUE);
+		ev->data.dom.from = webkit_dom_node_clone_node (block, TRUE);
 	}
 
 	if (success && citation_level == 1) {
 		gchar *inner_html;
-		WebKitDOMElement *paragraph;
+		WebKitDOMElement *paragraph, *element;
 
 		inner_html = webkit_dom_html_element_get_inner_html (
 			WEBKIT_DOM_HTML_ELEMENT (block));
-		webkit_dom_element_set_id (block, "-x-evo-to-remove");
+		webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (block), "-x-evo-to-remove");
 
 		paragraph = insert_new_line_into_citation (view, inner_html);
 		g_free (inner_html);
@@ -4004,11 +4099,10 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 		}
 
 		if (block)
-			remove_node (WEBKIT_DOM_NODE (block));
-		block = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-to-remove");
-		if (block)
-			remove_node (WEBKIT_DOM_NODE (block));
+			remove_node (block);
+
+		while ((element = webkit_dom_document_get_element_by_id (document, "-x-evo-to-remove")))
+			remove_node (WEBKIT_DOM_NODE (element));
 
 		if (paragraph)
 			remove_node_if_empty (
@@ -4017,47 +4111,40 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 	}
 
 	if (success && citation_level > 1) {
-		gint length, word_wrap_length;
 		WebKitDOMNode *parent;
-
-		word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
-		length =  word_wrap_length - 2 * (citation_level - 1);
 
 		if (view->priv->html_mode) {
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (block),
+				block,
 				WEBKIT_DOM_NODE (selection_start_marker),
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (block)),
+				webkit_dom_node_get_first_child (block),
 				NULL);
 			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (block),
+				block,
 				WEBKIT_DOM_NODE (selection_end_marker),
-				webkit_dom_node_get_first_child (
-					WEBKIT_DOM_NODE (block)),
+				webkit_dom_node_get_first_child (block),
 				NULL);
-
 		}
 
-		remove_quoting_from_element (block);
-		remove_wrapping_from_element (block);
+		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (block));
+		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (block));
 
-		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (block));
+		parent = webkit_dom_node_get_parent_node (block);
 
-		if (!webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (block))) {
+		if (!webkit_dom_node_get_previous_sibling (block)) {
 			/* Currect block is in the beginning of citation, just move it
 			 * before the citation where already is */
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (block),
+				block,
 				parent,
 				NULL);
-		} else if (!webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block))) {
+		} else if (!webkit_dom_node_get_next_sibling (block)) {
 			/* Currect block is at the end of the citation, just move it
 			 * after the citation where already is */
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (block),
+				block,
 				webkit_dom_node_get_next_sibling (parent),
 				NULL);
 		} else {
@@ -4070,7 +4157,7 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 
 			/* Move nodes that are after the currect block into the
 			 * new blockquote */
-			child = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (block));
+			child = webkit_dom_node_get_next_sibling (block);
 			while (child) {
 				WebKitDOMNode *next = webkit_dom_node_get_next_sibling (child);
 				webkit_dom_node_append_child (clone, child, NULL);
@@ -4085,18 +4172,12 @@ change_quoted_block_to_normal (EHTMLEditorView *view)
 
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (parent),
-				WEBKIT_DOM_NODE (block),
+				block,
 				clone,
 				NULL);
 		}
 
-		if (!view->priv->html_mode) {
-			block = e_html_editor_selection_wrap_paragraph_length (
-				selection, block, length);
-			webkit_dom_node_normalize (WEBKIT_DOM_NODE (block));
-			e_html_editor_view_quote_plain_text_element_after_wrapping (
-				document, block, citation_level - 1);
-		}
+		wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (block));
 	}
 
 	if (ev) {
@@ -4115,9 +4196,9 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
                                       gboolean control_key)
 {
 	EHTMLEditorSelection *selection;
-	EHTMLEditorViewHistoryEvent *ev;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	WebKitDOMDocument *document;
-	WebKitDOMDocumentFragment *fragment;
+	WebKitDOMDocumentFragment *fragment = NULL;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 	WebKitDOMRange *range;
@@ -4151,7 +4232,9 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
 	if (webkit_dom_range_get_collapsed (range, NULL)) {
+		gboolean removing_from_anchor = FALSE;
 		WebKitDOMRange *range_clone;
+		WebKitDOMNode *node, *next_block = NULL;
 
 		block_selection_changed_callbacks (view);
 
@@ -4177,48 +4260,134 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 					NULL);
 			g_object_unref (tmp_range);
 		} else {
-			if (delete_key) {
-				WebKitDOMNode *container, *next_sibling;
+			typedef WebKitDOMNode * (*GetSibling)(WebKitDOMNode *node);
+			WebKitDOMNode *container, *sibling;
+			WebKitDOMElement *selection_marker;
 
-				container = webkit_dom_range_get_end_container (range_clone, NULL);
-				next_sibling = webkit_dom_node_get_next_sibling (container);
+			GetSibling get_sibling = delete_key ?
+				webkit_dom_node_get_next_sibling :
+				webkit_dom_node_get_previous_sibling;
 
-				if (e_html_editor_node_is_selection_position_node (next_sibling)) {
-					WebKitDOMNode *next_node;
+			container = webkit_dom_range_get_end_container (range_clone, NULL);
+			sibling = get_sibling (container);
 
-					next_node = webkit_dom_node_get_next_sibling (
-						webkit_dom_node_get_next_sibling (next_sibling));
+			selection_marker = webkit_dom_document_get_element_by_id (
+				document,
+				delete_key ?
+					"-x-evo-selection-end-marker" :
+					"-x-evo-selection-start-marker");
 
-					if (next_node) {
+			if (selection_marker) {
+				WebKitDOMNode *tmp_sibling;
+
+				tmp_sibling = get_sibling (WEBKIT_DOM_NODE (selection_marker));
+				if (!tmp_sibling || (WEBKIT_DOM_IS_HTMLBR_ELEMENT (tmp_sibling) &&
+				    !element_has_class (WEBKIT_DOM_ELEMENT (tmp_sibling), "-x-evo-wrap-br")))
+					sibling = WEBKIT_DOM_NODE (selection_marker);
+			}
+
+			if (e_html_editor_node_is_selection_position_node (sibling)) {
+				if ((node = get_sibling (sibling)))
+					node = get_sibling (node);
+				if (node) {
+					if (WEBKIT_DOM_IS_ELEMENT (node) &&
+					    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-hidden-space")) {
+						fragment = webkit_dom_document_create_document_fragment (document);
+						webkit_dom_node_append_child (
+							WEBKIT_DOM_NODE (fragment),
+							WEBKIT_DOM_NODE (
+								webkit_dom_document_create_text_node (document, " ")),
+							NULL);
+					} else if (delete_key) {
 						webkit_dom_range_set_start (
-							range_clone, next_node, 0, NULL);
+							range_clone, node, 0, NULL);
 						webkit_dom_range_set_end (
-							range_clone, next_node, 1, NULL);
+							range_clone, node, 1, NULL);
 					}
 				} else {
-					glong offset;
+					WebKitDOMRange *tmp_range, *actual_range;
 
-					offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+					actual_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-					webkit_dom_range_set_end (
-						range_clone, container, offset + 1, NULL);
+					webkit_dom_dom_selection_modify (
+						dom_selection, "move", delete_key ? "right" : "left", "character");
+
+					tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+					if (webkit_dom_range_compare_boundary_points (tmp_range, 2, actual_range, NULL) != 0) {
+						WebKitDOMNode *actual_block;
+						WebKitDOMNode *tmp_block;
+
+						actual_block = e_html_editor_get_parent_block_node_from_child (container);
+
+						tmp_block = delete_key ?
+							webkit_dom_range_get_end_container (tmp_range, NULL) :
+							webkit_dom_range_get_start_container (tmp_range, NULL);
+						tmp_block = e_html_editor_get_parent_block_node_from_child (tmp_block);
+
+						webkit_dom_dom_selection_modify (
+							dom_selection, "move", delete_key ? "left" : "right", "character");
+
+						if (tmp_block) {
+							fragment = webkit_dom_document_create_document_fragment (document);
+							if (delete_key) {
+								webkit_dom_node_append_child (
+									WEBKIT_DOM_NODE (fragment),
+									webkit_dom_node_clone_node (actual_block, TRUE),
+									NULL);
+								webkit_dom_node_append_child (
+									WEBKIT_DOM_NODE (fragment),
+									webkit_dom_node_clone_node (tmp_block, TRUE),
+									NULL);
+								if (delete_key)
+									next_block = tmp_block;
+							} else {
+								webkit_dom_node_append_child (
+									WEBKIT_DOM_NODE (fragment),
+									webkit_dom_node_clone_node (tmp_block, TRUE),
+									NULL);
+								webkit_dom_node_append_child (
+									WEBKIT_DOM_NODE (fragment),
+									webkit_dom_node_clone_node (actual_block, TRUE),
+									NULL);
+							}
+							g_object_set_data (
+								G_OBJECT (fragment),
+								"-x-evo-fragment",
+								GINT_TO_POINTER (1));
+						}
+					}
+					g_object_unref (tmp_range);
+					g_object_unref (actual_range);
 				}
 			} else {
-				webkit_dom_range_set_start (
-					range_clone,
-					webkit_dom_range_get_start_container (range_clone, NULL),
-					webkit_dom_range_get_start_offset (range_clone, NULL) - 1,
-					NULL);
+				glong offset;
+
+				offset = webkit_dom_range_get_start_offset (range_clone, NULL);
+
+				if (delete_key)
+					webkit_dom_range_set_end (
+						range_clone, container, offset + 1, NULL);
+				else
+					webkit_dom_range_set_start (
+						range_clone, container, offset - 1, NULL);
+
+				removing_from_anchor = WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (
+					webkit_dom_node_get_parent_node (container));
 			}
 		}
 
-		fragment = webkit_dom_range_clone_contents (range_clone, NULL);
-		if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) {
+		if (!fragment)
+			fragment = webkit_dom_range_clone_contents (range_clone, NULL);
+		if (removing_from_anchor)
+			g_object_set_data (G_OBJECT (fragment), "-x-evo-removing-from-anchor", GINT_TO_POINTER (1));
+		node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+		if (!node) {
 			g_free (ev);
 			unblock_selection_changed_callbacks (view);
 			g_object_unref (range);
 			g_object_unref (range_clone);
 			g_object_unref (dom_selection);
+			g_warning ("History event was not saved for %s key", delete_key ? "Delete" : "Backspace");
 			return;
 		}
 
@@ -4233,7 +4402,14 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 				webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 				webkit_dom_dom_selection_add_range (dom_selection, range_clone);
 			} else {
+				gboolean selection_saved = FALSE;
 				WebKitDOMRange *tmp_range;
+
+				if (webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker"))
+					selection_saved = TRUE;
+
+				if (selection_saved)
+					e_html_editor_selection_restore (selection);
 
 				tmp_range = webkit_dom_range_clone_range (range_clone, NULL);
 				/* Prepare the selection to the right position after
@@ -4249,8 +4425,19 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 				webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 				webkit_dom_dom_selection_add_range (dom_selection, tmp_range);
 				g_object_unref (tmp_range);
+
+				if (selection_saved)
+					e_html_editor_selection_save (selection);
 			}
 		} else {
+			gboolean selection_saved = FALSE;
+
+			if (webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker"))
+				selection_saved = TRUE;
+
+			if (selection_saved)
+				e_html_editor_selection_restore (selection);
+
 			if (delete_key) {
 				e_html_editor_selection_get_selection_coordinates (
 					selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
@@ -4263,34 +4450,51 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 				ev->after.end.x = ev->after.start.x;
 				ev->after.end.y = ev->after.start.y;
 			}
+
+			if (selection_saved)
+				e_html_editor_selection_save (selection);
 		}
 
 		g_object_unref (range_clone);
 
 		if (delete_key) {
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (fragment),
-				WEBKIT_DOM_NODE (
-					create_selection_marker (document, FALSE)),
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
-				NULL);
-			webkit_dom_node_insert_before (
-				WEBKIT_DOM_NODE (fragment),
-				WEBKIT_DOM_NODE (
-					create_selection_marker (document, TRUE)),
-				webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
-				NULL);
+			if (!WEBKIT_DOM_IS_ELEMENT (node)) {
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (fragment),
+					WEBKIT_DOM_NODE (
+						create_selection_marker (document, FALSE)),
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+					NULL);
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (fragment),
+					WEBKIT_DOM_NODE (
+						create_selection_marker (document, TRUE)),
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+					NULL);
+			}
 		} else {
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (fragment),
-				WEBKIT_DOM_NODE (
-					create_selection_marker (document, TRUE)),
-				NULL);
-			webkit_dom_node_append_child (
-				WEBKIT_DOM_NODE (fragment),
-				WEBKIT_DOM_NODE (
-					create_selection_marker (document, FALSE)),
-				NULL);
+			if (!WEBKIT_DOM_IS_ELEMENT (node)) {
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (fragment),
+					WEBKIT_DOM_NODE (
+						create_selection_marker (document, TRUE)),
+					NULL);
+				webkit_dom_node_append_child (
+					WEBKIT_DOM_NODE (fragment),
+					WEBKIT_DOM_NODE (
+						create_selection_marker (document, FALSE)),
+					NULL);
+			}
+		}
+
+		/* If concatenating two blocks with pressing Delete on the end
+		 * of the previous one and the next node contain content that
+		 * is wrapped on multiple lines, the last line will by separated
+		 * by WebKit to the separate block. To avoid it let's remove
+		 * all quoting and wrapping from the next paragraph. */
+		if (next_block) {
+			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (next_block));
+			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (next_block));
 		}
 
 		unblock_selection_changed_callbacks (view);
@@ -4412,13 +4616,17 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 
+	g_object_set_data (G_OBJECT (fragment), "-x-evo-delete-key", GINT_TO_POINTER (delete_key));
+	g_object_set_data (G_OBJECT (fragment), "-x-evo-control-key", GINT_TO_POINTER (control_key));
+
 	ev->data.fragment = fragment;
 	e_html_editor_view_insert_new_history_event (view, ev);
 }
 
 static gboolean
 fix_structure_after_delete_before_quoted_content (EHTMLEditorView *view,
-                                                  GdkEventKey *event)
+                                                  GdkEventKey *event,
+                                                  gboolean delete_key)
 {
 	EHTMLEditorSelection *selection;
 	gboolean collapsed = FALSE;
@@ -4442,15 +4650,15 @@ fix_structure_after_delete_before_quoted_content (EHTMLEditorView *view,
 		return FALSE;
 
 	if (collapsed) {
-		WebKitDOMNode *next_sibling;
+		WebKitDOMNode *next_block;
 
 		block = e_html_editor_get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
 
-		next_sibling = webkit_dom_node_get_next_sibling (block);
+		next_block = webkit_dom_node_get_next_sibling (block);
 
 		/* Next block is quoted content */
-		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (next_sibling))
+		if (!WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (next_block))
 			goto restore;
 
 		/* Delete was pressed in block without any content */
@@ -4466,11 +4674,27 @@ fix_structure_after_delete_before_quoted_content (EHTMLEditorView *view,
 				save_history_for_delete_or_backspace (
 					view, event->keyval == GDK_KEY_Delete, ((event)->state & GDK_CONTROL_MASK));
 
-			/* Remove the empty block and move caret into the beginning of the citation */
+			/* Remove the empty block and move caret to the right place. */
 			remove_node (block);
 
-			e_html_editor_selection_move_caret_into_element (
-				document, WEBKIT_DOM_ELEMENT (next_sibling), TRUE);
+			if (delete_key) {
+				/* To the beginning of the next block. */
+				e_html_editor_selection_move_caret_into_element (
+					document, WEBKIT_DOM_ELEMENT (next_block), TRUE);
+			} else {
+				WebKitDOMNode *prev_block;
+
+				/* On the end of previous block. */
+				prev_block = webkit_dom_node_get_previous_sibling (next_block);
+				while (prev_block && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (prev_block))
+					prev_block = webkit_dom_node_get_last_child (prev_block);
+
+				if (prev_block)
+					e_html_editor_selection_move_caret_into_element (
+						document,
+						WEBKIT_DOM_ELEMENT (prev_block),
+						FALSE);
+			}
 
 			return TRUE;
 		}
@@ -4497,12 +4721,6 @@ fix_structure_after_delete_before_quoted_content (EHTMLEditorView *view,
 
 		if (!element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-quoted"))
 			goto restore;
-
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (node)),
-			WEBKIT_DOM_NODE (selection_start_marker),
-			WEBKIT_DOM_NODE (node),
-			NULL);
 
 		block = e_html_editor_get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
@@ -4559,48 +4777,75 @@ static gboolean
 split_citation (EHTMLEditorView *view)
 {
 	EHTMLEditorSelection *selection;
-	EHTMLEditorViewHistoryEvent *ev;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	WebKitDOMElement *element;
 
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	ev->type = HISTORY_CITATION_SPLIT;
-
 	selection = e_html_editor_view_get_selection (view);
-	e_html_editor_selection_get_selection_coordinates (
-		selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 
-	if (!e_html_editor_selection_is_collapsed (selection)) {
-		WebKitDOMDocument *document;
-		WebKitDOMDocumentFragment *fragment;
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMDOMSelection *dom_selection;
-		WebKitDOMRange *range;
+	if (!view->priv->undo_redo_in_progress) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_CITATION_SPLIT;
 
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-		dom_window = webkit_dom_document_get_default_view (document);
-		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
-		g_object_unref (dom_window);
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->before.start.x, &ev->before.start.y, &ev->before.end.x, &ev->before.end.y);
 
-		if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
+		if (!e_html_editor_selection_is_collapsed (selection)) {
+			WebKitDOMDocument *document;
+			WebKitDOMDocumentFragment *fragment;
+			WebKitDOMDOMWindow *dom_window;
+			WebKitDOMDOMSelection *dom_selection;
+			WebKitDOMRange *range;
+
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+			dom_window = webkit_dom_document_get_default_view (document);
+			dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+			g_object_unref (dom_window);
+
+			if (!webkit_dom_dom_selection_get_range_count (dom_selection)) {
+				g_object_unref (dom_selection);
+				return FALSE;
+			}
+
+			range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+			fragment = webkit_dom_range_clone_contents (range, NULL);
+			g_object_unref (range);
 			g_object_unref (dom_selection);
-			return FALSE;
+
+			ev->data.fragment = fragment;
+		} else {
+			WebKitDOMDocument *document;
+			WebKitDOMElement *selection_end;
+			WebKitDOMNode *sibling;
+
+			e_html_editor_selection_save (selection);
+
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+			selection_end = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-end-marker");
+
+			sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end));
+			if (!sibling || (WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling) &&
+			    !element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-wrap-br"))) {
+				WebKitDOMDocumentFragment *fragment;
+
+				fragment = webkit_dom_document_create_document_fragment (document);
+				ev->data.fragment = fragment;
+			} else {
+				ev->data.fragment = NULL;
+			}
+
+			e_html_editor_selection_restore (selection);
 		}
-
-		range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-		fragment = webkit_dom_range_clone_contents (range, NULL);
-		g_object_unref (range);
-		g_object_unref (dom_selection);
-
-		ev->data.fragment = fragment;
-	} else
-		ev->data.fragment = NULL;
+	}
 
 	element = insert_new_line_into_citation (view, "");
 
-	e_html_editor_selection_get_selection_coordinates (
-		selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
+	if (ev) {
+		e_html_editor_selection_get_selection_coordinates (
+			selection, &ev->after.start.x, &ev->after.start.y, &ev->after.end.x, &ev->after.end.y);
 
-	e_html_editor_view_insert_new_history_event (view, ev);
+		e_html_editor_view_insert_new_history_event (view, ev);
+	}
 
 	return element != NULL;
 }
@@ -4761,6 +5006,7 @@ delete_character_from_quoted_line_start (EHTMLEditorView *view,
                                          GdkEventKey *event)
 {
 	EHTMLEditorSelection *selection;
+	gboolean success = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
 	WebKitDOMNode *node, *beginning;
@@ -4786,46 +5032,108 @@ delete_character_from_quoted_line_start (EHTMLEditorView *view,
 
 	/* We have to be on the end of line. */
 	if (webkit_dom_node_get_next_sibling (node))
-		return FALSE;
+		goto out;
 
 	/* Before the caret is just text. */
 	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
 	if (!(node && WEBKIT_DOM_IS_TEXT (node)))
-		return FALSE;
+		goto out;
 
 	/* There is just one character. */
 	if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)) != 1)
-		return FALSE;
+		goto out;
 
 	beginning = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (node));
 	if (!(beginning && WEBKIT_DOM_IS_ELEMENT (beginning)))
-		return FALSE;
+		goto out;
 
 	/* Before the text is the beginning of line. */
 	if (!(element_has_class (WEBKIT_DOM_ELEMENT (beginning), "-x-evo-quoted")))
-		return FALSE;
+		goto out;
+
+	/* If we are just on the beginning of the line and not on the beginning of
+	 * the block we need to remove the last character ourselves as well, otherwise
+	 * WebKit will put the caret to wrong position. */
+	if (webkit_dom_node_get_previous_sibling (beginning)) {
+		EHTMLEditorViewHistoryEvent *ev = NULL;
+		WebKitDOMDocumentFragment *fragment;
+		WebKitDOMNode *prev_sibling;
+
+		if (event) {
+			ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+			ev->type = HISTORY_DELETE;
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->before.start.x,
+				&ev->before.start.y,
+				&ev->before.end.x,
+				&ev->before.end.y);
+
+			fragment = webkit_dom_document_create_document_fragment (document);
+		}
+
+		prev_sibling = webkit_dom_node_get_previous_sibling (beginning);
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling)) {
+			if (event)
+				webkit_dom_node_append_child (WEBKIT_DOM_NODE (fragment), prev_sibling, NULL);
+			else
+				remove_node (prev_sibling);
+		}
+
+		prev_sibling = webkit_dom_node_get_previous_sibling (beginning);
+		if (WEBKIT_DOM_IS_ELEMENT (prev_sibling) &&
+		    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (prev_sibling), "data-hidden-space")) {
+			if (event)
+				webkit_dom_node_insert_before (
+					WEBKIT_DOM_NODE (fragment),
+					prev_sibling,
+					webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment)),
+					NULL);
+			else
+				remove_node (prev_sibling);
+		}
+
+		if (event)
+			webkit_dom_node_append_child (WEBKIT_DOM_NODE (fragment), beginning, NULL);
+		else
+			remove_node (beginning);
+
+		if (event) {
+			webkit_dom_node_append_child (WEBKIT_DOM_NODE (fragment), node, NULL);
+
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
+
+			ev->data.fragment = fragment;
+			e_html_editor_view_insert_new_history_event (view, ev);
+		} else
+			remove_node (node);
+
+		e_html_editor_selection_restore (selection);
+
+		return TRUE;
+	}
 
 	if (event)
 		save_history_for_delete_or_backspace (
 			view, event->keyval == GDK_KEY_Delete, ((event)->state & GDK_CONTROL_MASK));
 
 	element = webkit_dom_node_get_parent_element (beginning);
+	remove_node (WEBKIT_DOM_NODE (element));
 
-	remove_quoting_from_element (element);
-
-	webkit_dom_node_append_child (
-		WEBKIT_DOM_NODE (element),
-		WEBKIT_DOM_NODE (
-			webkit_dom_document_create_element (document, "br", NULL)),
-		NULL);
-
-	webkit_dom_element_set_attribute (element, "data-no-quote", "", NULL);
-
-	remove_node (node);
-
+	success = TRUE;
+ out:
 	e_html_editor_selection_restore (selection);
 
-	return TRUE;
+	if (success)
+		insert_new_line_into_citation (view, NULL);
+
+	return success;
 }
 
 static void
@@ -4841,75 +5149,79 @@ remove_history_event (EHTMLEditorView *view,
 static gboolean
 insert_tabulator (EHTMLEditorView *view)
 {
-	EHTMLEditorViewHistoryEvent *ev;
+	EHTMLEditorViewHistoryEvent *ev = NULL;
 	EHTMLEditorSelection *selection;
 	gboolean success;
 
-	ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
-	ev->type = HISTORY_INPUT;
-
 	selection = e_html_editor_view_get_selection (view);
 
-	if (!e_html_editor_selection_is_collapsed (selection)) {
-		WebKitDOMRange *tmp_range;
+	if (!view->priv->undo_redo_in_progress) {
+		ev = g_new0 (EHTMLEditorViewHistoryEvent, 1);
+		ev->type = HISTORY_INPUT;
 
-		tmp_range = html_editor_view_get_dom_range (view);
-		insert_delete_event (view, tmp_range);
-		g_object_unref (tmp_range);
+		if (!e_html_editor_selection_is_collapsed (selection)) {
+			WebKitDOMRange *tmp_range;
+
+			tmp_range = html_editor_view_get_dom_range (view);
+			insert_delete_event (view, tmp_range);
+			g_object_unref (tmp_range);
+		}
+
+		e_html_editor_selection_get_selection_coordinates (
+			selection,
+			&ev->before.start.x,
+			&ev->before.start.y,
+			&ev->before.end.x,
+			&ev->before.end.y);
+
+		ev->before.end.x = ev->before.start.x;
+		ev->before.end.y = ev->before.start.y;
 	}
-
-	e_html_editor_selection_get_selection_coordinates (
-		selection,
-		&ev->before.start.x,
-		&ev->before.start.y,
-		&ev->before.end.x,
-		&ev->before.end.y);
-
-	ev->before.end.x = ev->before.start.x;
-	ev->before.end.y = ev->before.start.y;
 
 	success = e_html_editor_view_exec_command (
 		view, E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "\t");
 
-	if (success) {
-		WebKitDOMDocument *document;
-		WebKitDOMElement *element;
-		WebKitDOMDocumentFragment *fragment;
+	if (ev) {
+		if (success) {
+			WebKitDOMDocument *document;
+			WebKitDOMElement *element;
+			WebKitDOMDocumentFragment *fragment;
 
-		e_html_editor_selection_get_selection_coordinates (
-			selection,
-			&ev->after.start.x,
-			&ev->after.start.y,
-			&ev->after.end.x,
-			&ev->after.end.y);
+			e_html_editor_selection_get_selection_coordinates (
+				selection,
+				&ev->after.start.x,
+				&ev->after.start.y,
+				&ev->after.end.x,
+				&ev->after.end.y);
 
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-		fragment = webkit_dom_document_create_document_fragment (document);
-		element = webkit_dom_document_create_element (document, "span", NULL);
-		webkit_dom_html_element_set_inner_text (
-			WEBKIT_DOM_HTML_ELEMENT (element), "\t", NULL);
-		webkit_dom_element_set_attribute (
-			element, "class", "Apple-tab-span", NULL);
-		webkit_dom_element_set_attribute (
-			element, "style", "white-space:pre", NULL);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (fragment), WEBKIT_DOM_NODE (element), NULL);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (fragment),
-			WEBKIT_DOM_NODE (create_selection_marker (document, TRUE)),
-			NULL);
-		webkit_dom_node_append_child (
-			WEBKIT_DOM_NODE (fragment),
-			WEBKIT_DOM_NODE (create_selection_marker (document, FALSE)),
-			NULL);
-		ev->data.fragment = fragment;
+			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+			fragment = webkit_dom_document_create_document_fragment (document);
+			element = webkit_dom_document_create_element (document, "span", NULL);
+			webkit_dom_html_element_set_inner_text (
+				WEBKIT_DOM_HTML_ELEMENT (element), "\t", NULL);
+			webkit_dom_element_set_attribute (
+				element, "class", "Apple-tab-span", NULL);
+			webkit_dom_element_set_attribute (
+				element, "style", "white-space:pre", NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment), WEBKIT_DOM_NODE (element), NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_DOM_NODE (create_selection_marker (document, TRUE)),
+				NULL);
+			webkit_dom_node_append_child (
+				WEBKIT_DOM_NODE (fragment),
+				WEBKIT_DOM_NODE (create_selection_marker (document, FALSE)),
+				NULL);
+			ev->data.fragment = fragment;
 
-		e_html_editor_view_insert_new_history_event (view, ev);
-		e_html_editor_view_set_changed (view, TRUE);
-	} else {
-		remove_history_event (view, view->priv->history);
-		remove_history_event (view, view->priv->history);
-		g_free (ev);
+			e_html_editor_view_insert_new_history_event (view, ev);
+			e_html_editor_view_set_changed (view, TRUE);
+		} else {
+			remove_history_event (view, view->priv->history);
+			remove_history_event (view, view->priv->history);
+			g_free (ev);
+		}
 	}
 
 	return success;
@@ -5076,6 +5388,260 @@ change_smiley_to_plain_text (EHTMLEditorView *view)
 }
 
 static gboolean
+key_press_event_process_return_key (EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+	gboolean first_cell = FALSE;
+	WebKitDOMDocument *document;
+	WebKitDOMNode *table = NULL;
+
+	selection = e_html_editor_view_get_selection (view);
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+	/* Return pressed in the beginning of the first cell will insert
+	 * new block before the table (and move the caret there) if none
+	 * is already there, otherwise it will act as normal return. */
+	if (selection_is_in_table (document, &first_cell, &table) && first_cell) {
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_get_previous_sibling (table);
+		if (!node) {
+			node = webkit_dom_node_get_next_sibling (table);
+			node = webkit_dom_node_clone_node (node, FALSE);
+			webkit_dom_node_append_child (
+				node,
+				WEBKIT_DOM_NODE (webkit_dom_document_create_element (
+					document, "br", NULL)),
+				NULL);
+			add_selection_markers_into_element_start (
+				document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (table),
+				node,
+				table,
+				NULL);
+			e_html_editor_selection_restore (selection);
+			e_html_editor_view_set_changed (view, TRUE);
+			return TRUE;
+		}
+	}
+
+	/* When user presses ENTER in a citation block, WebKit does
+	 * not break the citation automatically, so we need to use
+	 * the special command to do it. */
+	if (e_html_editor_selection_is_citation (selection)) {
+		remove_input_event_listener_from_body (view);
+		if (split_citation (view)) {
+			e_html_editor_view_set_changed (view, TRUE);
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	/* If the ENTER key is pressed inside an empty list item then the list
+	 * is broken into two and empty paragraph is inserted between lists. */
+	if (return_pressed_in_empty_list_item (view, TRUE))
+		return TRUE;
+
+	return FALSE;
+}
+
+static gboolean
+key_press_event_process_backspace_key (EHTMLEditorView *view)
+{
+	EHTMLEditorSelection *selection;
+
+	selection = e_html_editor_view_get_selection (view);
+
+	/* BackSpace pressed in the beginning of quoted content changes
+	 * format to normal and inserts text into body */
+	if (e_html_editor_selection_is_collapsed (selection)) {
+		e_html_editor_selection_save (selection);
+		if (change_quoted_block_to_normal (view) || delete_hidden_space (view)) {
+			e_html_editor_selection_restore (selection);
+			e_html_editor_view_force_spell_check_for_current_paragraph (view);
+			e_html_editor_view_set_changed (view, TRUE);
+			return TRUE;
+		}
+		e_html_editor_selection_restore (selection);
+	}
+
+	/* BackSpace in indented block decrease indent level by one */
+	if (e_html_editor_selection_is_indented (selection) &&
+	    e_html_editor_selection_is_collapsed (selection)) {
+		WebKitDOMDocument *document;
+		WebKitDOMElement *selection_start;
+		WebKitDOMNode *prev_sibling;
+
+		e_html_editor_selection_save (selection);
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+		selection_start = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+
+		/* Empty text node before caret */
+		prev_sibling = webkit_dom_node_get_previous_sibling (
+			WEBKIT_DOM_NODE (selection_start));
+		if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling))
+			if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (prev_sibling)) == 0)
+				prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+
+		e_html_editor_selection_restore (selection);
+		if (!prev_sibling) {
+			e_html_editor_selection_unindent (selection);
+			e_html_editor_view_set_changed (view, TRUE);
+			return TRUE;
+		}
+	}
+
+	if (prevent_from_deleting_last_element_in_body (view))
+		return TRUE;
+
+	return FALSE;
+}
+
+static gboolean
+key_press_event_process_delete_or_backspace_key (EHTMLEditorView *view,
+                                                 gboolean delete,
+                                                 GdkEventKey *event)
+{
+	gboolean local_delete;
+
+	local_delete = (event && event->keyval == GDK_KEY_Delete) || delete;
+
+	if (!view->priv->html_mode && view->priv->magic_smileys) {
+		/* If deleting something in a smiley it won't be a smiley
+		 * anymore (at least from Evolution' POV), so remove all
+		 * the elements that are hidden in the wrapper and leave
+		 * just the text. Also this ensures that when a smiley is
+		 * recognized and we press the BackSpace key we won't delete
+		 * the UNICODE_HIDDEN_SPACE, but we will correctly delete
+		 * the last character of smiley. */
+		change_smiley_to_plain_text (view);
+	}
+
+	if (!local_delete && !view->priv->html_mode &&
+	    delete_character_from_quoted_line_start (view, event))
+		goto out;
+
+	if (fix_structure_after_delete_before_quoted_content (view, event, local_delete))
+		goto out;
+
+	if (local_delete) {
+		EHTMLEditorSelection *selection;
+		WebKitDOMDocument *document;
+		WebKitDOMElement *selection_start_marker;
+		WebKitDOMNode *sibling, *block, *next_block;
+
+		selection = e_html_editor_view_get_selection (view);
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		/* This needs to be performed just in plain text mode
+		 * and when the selection is collapsed. */
+		if (view->priv->html_mode || !e_html_editor_selection_is_collapsed (selection))
+			return FALSE;
+
+		e_html_editor_selection_save (selection);
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+		sibling = webkit_dom_node_get_previous_sibling (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		/* Check if the key was pressed in the beginning of block. */
+		if (!(sibling && WEBKIT_DOM_IS_ELEMENT (sibling) &&
+		      element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-quoted"))) {
+			e_html_editor_selection_restore (selection);
+			return FALSE;
+		}
+
+		sibling = webkit_dom_node_get_next_sibling (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		sibling = webkit_dom_node_get_next_sibling (sibling);
+
+		/* And also the current block was empty. */
+		if (!(!sibling || (sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (sibling) &&
+		      !element_has_class (WEBKIT_DOM_ELEMENT (sibling), "-x-evo-wrap-br")))) {
+			e_html_editor_selection_restore (selection);
+			return FALSE;
+		}
+
+		block = e_html_editor_get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+		next_block = webkit_dom_node_get_next_sibling (block);
+
+		remove_node (block);
+
+		e_html_editor_selection_move_caret_into_element (
+			document, WEBKIT_DOM_ELEMENT (next_block), TRUE);
+
+		goto out;
+	} else {
+		/* Concatenating a non-quoted block with Backspace key to the
+		 * previous block that is inside a quoted content. */
+		EHTMLEditorSelection *selection;
+		WebKitDOMDocument *document;
+		WebKitDOMElement *selection_start_marker;
+		WebKitDOMNode *node, *block, *prev_block, *last_child, *child;
+
+		selection = e_html_editor_view_get_selection (view);
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+
+		if (view->priv->html_mode || !e_html_editor_selection_is_collapsed (selection) ||
+		    e_html_editor_selection_is_citation (selection))
+			return FALSE;
+
+		e_html_editor_selection_save (selection);
+
+		selection_start_marker = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker");
+
+		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start_marker));
+		if (node) {
+			e_html_editor_selection_restore (selection);
+			return FALSE;
+		}
+
+		block = e_html_editor_get_parent_block_node_from_child (
+			WEBKIT_DOM_NODE (selection_start_marker));
+
+		prev_block = webkit_dom_node_get_previous_sibling (block);
+		if (!prev_block || !WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (prev_block)) {
+			e_html_editor_selection_restore (selection);
+			return FALSE;
+		}
+
+		last_child = webkit_dom_node_get_last_child (prev_block);
+		while (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (last_child))
+			last_child = webkit_dom_node_get_last_child (last_child);
+
+		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
+		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
+
+		node = webkit_dom_node_get_last_child (last_child);
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node))
+			remove_node (node);
+
+		while ((child = webkit_dom_node_get_first_child (block)))
+			webkit_dom_node_append_child (last_child, child, NULL);
+
+		remove_node (block);
+
+		if (WEBKIT_DOM_IS_ELEMENT (last_child))
+			wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (last_child));
+
+		e_html_editor_selection_restore (selection);
+
+		goto out;
+	}
+
+	return FALSE;
+ out:
+	e_html_editor_view_force_spell_check_for_current_paragraph (view);
+	e_html_editor_view_set_changed (view, TRUE);
+
+	return TRUE;
+}
+
+static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
@@ -5103,129 +5669,17 @@ html_editor_view_key_press_event (GtkWidget *widget,
 			return FALSE;
 	}
 
-	if (is_return_key (event)) {
-		EHTMLEditorSelection *selection;
-		gboolean first_cell = FALSE;
-		WebKitDOMDocument *document;
-		WebKitDOMNode *table = NULL;
+	if (is_return_key (event) && key_press_event_process_return_key (view))
+		return TRUE;
 
-		selection = e_html_editor_view_get_selection (view);
-		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		/* Return pressed in the beginning of the first cell will insert
-		 * new block before the table (and move the caret there) if none
-		 * is already there, otherwise it will act as normal return. */
-		if (selection_is_in_table (document, &first_cell, &table) && first_cell) {
-			WebKitDOMNode *node;
-
-			node = webkit_dom_node_get_previous_sibling (table);
-			if (!node) {
-				node = webkit_dom_node_get_next_sibling (table);
-				node = webkit_dom_node_clone_node (node, FALSE);
-				webkit_dom_node_append_child (
-					node,
-					WEBKIT_DOM_NODE (webkit_dom_document_create_element (
-						document, "br", NULL)),
-					NULL);
-				add_selection_markers_into_element_start (
-					document, WEBKIT_DOM_ELEMENT (node), NULL, NULL);
-				webkit_dom_node_insert_before (
-					webkit_dom_node_get_parent_node (table),
-					node,
-					table,
-					NULL);
-				e_html_editor_selection_restore (selection);
-				e_html_editor_view_set_changed (view, TRUE);
-				return TRUE;
-			}
-		}
-
-		/* When user presses ENTER in a citation block, WebKit does
-		 * not break the citation automatically, so we need to use
-		 * the special command to do it. */
-		if (e_html_editor_selection_is_citation (selection)) {
-			remove_input_event_listener_from_body (view);
-			if (split_citation (view)) {
-				e_html_editor_view_set_changed (view, TRUE);
-				return TRUE;
-			}
-			return FALSE;
-		}
-
-		/* If the ENTER key is pressed inside an empty list item then the list
-		 * is broken into two and empty paragraph is inserted between lists. */
-		if (return_pressed_in_empty_list_item (view, TRUE))
-			return TRUE;
+	if (event->keyval == GDK_KEY_BackSpace &&
+	    key_press_event_process_backspace_key (view)) {
+		return TRUE;
 	}
 
-	if (event->keyval == GDK_KEY_BackSpace) {
-		EHTMLEditorSelection *selection;
-
-		selection = e_html_editor_view_get_selection (view);
-
-		/* BackSpace pressed in the beginning of quoted content changes
-		 * format to normal and inserts text into body */
-		if (e_html_editor_selection_is_collapsed (selection)) {
-			e_html_editor_selection_save (selection);
-			if (change_quoted_block_to_normal (view)) {
-				e_html_editor_selection_restore (selection);
-				e_html_editor_view_force_spell_check_for_current_paragraph (view);
-				e_html_editor_view_set_changed (view, TRUE);
-				return TRUE;
-			}
-			e_html_editor_selection_restore (selection);
-		}
-
-		/* BackSpace in indented block decrease indent level by one */
-		if (e_html_editor_selection_is_indented (selection) &&
-		    e_html_editor_selection_is_collapsed (selection)) {
-			WebKitDOMDocument *document;
-			WebKitDOMElement *selection_start;
-			WebKitDOMNode *prev_sibling;
-
-			e_html_editor_selection_save (selection);
-			document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-			selection_start = webkit_dom_document_get_element_by_id (
-				document, "-x-evo-selection-start-marker");
-
-			/* Empty text node before caret */
-			prev_sibling = webkit_dom_node_get_previous_sibling (
-				WEBKIT_DOM_NODE (selection_start));
-			if (prev_sibling && WEBKIT_DOM_IS_TEXT (prev_sibling))
-				if (webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (prev_sibling)) == 0)
-					prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
-
-			e_html_editor_selection_restore (selection);
-			if (!prev_sibling) {
-				e_html_editor_selection_unindent (selection);
-				e_html_editor_view_set_changed (view, TRUE);
-				return TRUE;
-			}
-		}
-
-		if (prevent_from_deleting_last_element_in_body (view))
-			return TRUE;
-	}
-
-	if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace) {
-		if (!view->priv->html_mode && view->priv->magic_smileys) {
-			/* If deleting something in a smiley it won't be a smiley
-			 * anymore (at least from Evolution' POV), so remove all
-			 * the elements that are hidden in the wrapper and leave
-			 * just the text. Also this ensures that when a smiley is
-			 * recognized and we press the BackSpace key we won't delete
-			 * the UNICODE_HIDDEN_SPACE, but we will correctly delete
-			 * the last character of smiley. */
-			change_smiley_to_plain_text (view);
-		}
-		if (event->keyval == GDK_KEY_BackSpace && !view->priv->html_mode) {
-			if (delete_character_from_quoted_line_start (view, event)) {
-				e_html_editor_view_set_changed (view, TRUE);
-				return TRUE;
-			}
-		}
-		if (fix_structure_after_delete_before_quoted_content (view, event))
-			return TRUE;
+	if ((event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace) &&
+	     key_press_event_process_delete_or_backspace_key (view, event->keyval == GDK_KEY_Delete, event)) {
+		return TRUE;
 	}
 
 	/* Chain up to parent's key_press_event() method. */
@@ -10450,6 +10904,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->copy_paste_primary_in_view = FALSE;
 	view->priv->copy_action_triggered = FALSE;
 	view->priv->pasting_primary_clipboard = FALSE;
+	view->priv->renew_history_after_coordinates = TRUE;
 
 	view->priv->spell_check_on_scroll_event_source_id = 0;
 
@@ -11843,7 +12298,7 @@ undo_delete (EHTMLEditorView *view,
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	g_object_unref (dom_window);
 
-	fragment = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment),  TRUE);
+	fragment = webkit_dom_node_clone_node (WEBKIT_DOM_NODE (event->data.fragment), TRUE);
 	first_child = webkit_dom_node_get_first_child (fragment);
 
 	content = webkit_dom_node_get_text_content (fragment);
@@ -11862,60 +12317,172 @@ undo_delete (EHTMLEditorView *view,
 			single_block = WEBKIT_DOM_IS_TEXT (first_child);
 	}
 
-	/* Redoing Return key press */
-	if (empty) {
-		WebKitDOMNode *node, *tmp_node;
+	/* Delete or BackSpace pressed in the beginning of a block or on its end. */
+	if (event->type == HISTORY_DELETE && !single_block &&
+	    g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-fragment")) {
+		WebKitDOMNode *node, *block;
 
-		range = get_range_for_point (document, event->before.start);
+		range = get_range_for_point (document, event->after.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
-		g_object_unref (dom_selection);
 
-		node = webkit_dom_range_get_start_container (range, NULL);
-		g_object_unref (range);
-		if (!node)
-			return;
+		node = webkit_dom_range_get_end_container (range, NULL);
+		block = e_html_editor_get_parent_block_node_from_child (node);
 
-		tmp_node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment));
-		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (tmp_node) &&
-		    WEBKIT_DOM_IS_HTMLBR_ELEMENT (webkit_dom_node_get_last_child (tmp_node)))
-			if (return_pressed_in_empty_list_item (view, FALSE))
-				return;
+		if (webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL)) {
+			while ((node = webkit_dom_node_get_first_child (fragment))) {
+				if (WEBKIT_DOM_IS_ELEMENT (node) &&
+				    webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (node), ".-x-evo-quoted", NULL))
 
-		if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (webkit_dom_node_get_parent_node (node)))
-			element = webkit_dom_node_get_parent_element (node);
-		else
-			element = get_parent_block_element (node);
+					if (get_citation_level (block, FALSE) > 0) {
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (block),
+							node,
+							block,
+							NULL);
+					} else {
+						WebKitDOMNode *next_block;
 
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			fragment,
-			webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)),
-			NULL);
-		e_html_editor_selection_restore (selection);
+						next_block = webkit_dom_node_get_next_sibling (block);
+						while (next_block && is_citation_node (next_block))
+							next_block = webkit_dom_node_get_first_child (next_block);
+
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (next_block),
+							node,
+							next_block,
+							NULL);
+					}
+				else {
+					if (get_citation_level (block, FALSE) > 0) {
+						WebKitDOMNode *next_node;
+
+						next_node = split_node_into_two (block, -1);
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (next_node),
+							node,
+							next_node,
+							NULL);
+					} else
+						webkit_dom_node_insert_before (
+							webkit_dom_node_get_parent_node (block),
+							node,
+							block,
+							NULL);
+				}
+			}
+		} else {
+			while ((node = webkit_dom_node_get_first_child (fragment))) {
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (block),
+					node,
+					block,
+					NULL);
+			}
+		}
+
+		remove_node (block);
+
+		restore_selection_to_history_event_state (view, event->before);
+
 		e_html_editor_view_force_spell_check_in_viewport (view);
 
 		return;
+	}
+
+	/* Redoing Return key press */
+	if (event->type == HISTORY_INPUT && (empty ||
+	    g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-return-key"))) {
+		if (key_press_event_process_return_key (view)) {
+			body_key_up_event_process_return_key (view);
+			e_html_editor_view_force_spell_check_in_viewport (view);
+			return;
+		} else {
+			WebKitDOMElement *element;
+			WebKitDOMNode *next_sibling;
+
+			range = get_range_for_point (document, event->before.start);
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			webkit_dom_dom_selection_add_range (dom_selection, range);
+			g_object_unref (dom_selection);
+
+			e_html_editor_selection_save (selection);
+
+			element = webkit_dom_document_get_element_by_id (
+				document, "-x-evo-selection-end-marker");
+
+			next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+			if (next_sibling && !(WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling))) {
+				split_node_into_two (WEBKIT_DOM_NODE (element), 1);
+			} else {
+				WebKitDOMNode *block;
+
+				block = e_html_editor_get_parent_block_node_from_child (
+					WEBKIT_DOM_NODE (element));
+				remove_selection_markers (document);
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (block),
+					fragment,
+					webkit_dom_node_get_next_sibling (block),
+					NULL);
+			}
+			e_html_editor_selection_restore (selection);
+
+			return;
+		}
+	}
+
+	if (!single_block) {
+		if (WEBKIT_DOM_IS_ELEMENT (first_child) &&
+		    !(WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (first_child) ||
+		      WEBKIT_DOM_IS_HTML_PRE_ELEMENT (first_child) ||
+		      (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (first_child) &&
+		       element_has_class (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-paragraph"))))
+			single_block = TRUE;
 	}
 
 	/* Multi block delete */
 	if (WEBKIT_DOM_IS_ELEMENT (first_child) && !single_block) {
 		gboolean delete;
 		WebKitDOMElement *signature;
-		WebKitDOMNode *node, *parent, *last_child;
-		WebKitDOMNode *parent_deleted_content;
-		WebKitDOMNode *parent_current_block;
-		WebKitDOMNode *insert_before;
+		WebKitDOMNode *node, *current_block, *last_child;
+		WebKitDOMNode *next_block, *insert_before;
+		WebKitDOMNode *parent_deleted_content, *parent_current_block;
 
-		range = get_range_for_point (document, event->before.start);
+		range = get_range_for_point (document, event->after.start);
 		webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 		webkit_dom_dom_selection_add_range (dom_selection, range);
 		g_object_unref (range);
 		e_html_editor_selection_save (selection);
 
-		element = webkit_dom_document_get_element_by_id (
-			document, "-x-evo-selection-start-marker");
+		if ((element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker"))) {
+			WebKitDOMNode *next_sibling;
 
+			if ((next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element))) &&
+			     WEBKIT_DOM_IS_CHARACTER_DATA (next_sibling) &&
+			     webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (next_sibling)) == 1) {
+				gchar *data;
+
+				data = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (next_sibling));
+				if (data && *data == ' ') {
+					WebKitDOMElement *hidden_space;
+
+					hidden_space = webkit_dom_document_create_element (document, "span", NULL);
+					webkit_dom_element_set_attribute (
+						hidden_space, "data-hidden-space", "", NULL);
+					remove_node (next_sibling);
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+						WEBKIT_DOM_NODE (hidden_space),
+						webkit_dom_node_get_previous_sibling (
+							WEBKIT_DOM_NODE (element)),
+						NULL);
+				}
+				g_free (data);
+			}
+		}
+
+		element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
 		/* Get the last block in deleted content. */
 		last_child = webkit_dom_node_get_last_child (fragment);
 		while (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (last_child))
@@ -11927,7 +12494,7 @@ undo_delete (EHTMLEditorView *view,
 
 		/* FIXME Ugly hack */
 		/* If the selection ended in signature, the structure will be broken
-		 * thus we saved the while signature into deleted fragment and we will
+		 * thus we saved the whole signature into deleted fragment and we will
 		 * restore the whole signature, but we need to remove the rest of the
 		 * signature that's left after delete to avoid duplications. */
 		signature = webkit_dom_document_query_selector (document, ".-x-evo-signature-wrapper", NULL);
@@ -11940,10 +12507,13 @@ undo_delete (EHTMLEditorView *view,
 				element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-signature-wrapper");
 		}
 
+		current_block = e_html_editor_get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
+
 		while (node) {
-			WebKitDOMNode *next_sibling;
+			WebKitDOMNode *next_sibling, *parent_node;
 
 			next_sibling = webkit_dom_node_get_next_sibling (node);
+			parent_node = webkit_dom_node_get_parent_node (node);
 			if (!next_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (node)) {
 				/* Check if the whole element was deleted. If so replace it and
 				 * skip the code down there. */
@@ -11960,8 +12530,10 @@ undo_delete (EHTMLEditorView *view,
 
 					tmp_element = webkit_dom_document_get_element_by_id (
 						document, "-x-evo-tmp-block");
-					if (tmp_element)
+					if (tmp_element) {
 						webkit_dom_element_remove_attribute (tmp_element, "id");
+						wrap_and_quote_element (view, tmp_element);
+					}
 
 					/* Remove empty blockquotes, if presented. */
 					tmp_element = webkit_dom_document_query_selector (
@@ -11981,7 +12553,9 @@ undo_delete (EHTMLEditorView *view,
 
 					return;
 				}
-			}
+			} else if (!next_sibling && !webkit_dom_node_is_same_node (parent_node, current_block))
+				next_sibling = webkit_dom_node_get_next_sibling (parent_node);
+
 			if (delete)
 				remove_node (node);
 			else
@@ -11995,18 +12569,18 @@ undo_delete (EHTMLEditorView *view,
 
 		/* All the nodes that are in the first block of the deleted content
 		 * belongs to the current block right after the caret position. */
-		parent = e_html_editor_get_parent_block_node_from_child (WEBKIT_DOM_NODE (element));
 		while ((node = webkit_dom_node_get_first_child (first_child)))
-			webkit_dom_node_append_child (WEBKIT_DOM_NODE (parent), node, NULL);
+			webkit_dom_node_append_child (current_block, node, NULL);
 
 		parent_deleted_content = webkit_dom_node_get_parent_node (first_child);
-		parent_current_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (parent));
-		insert_before = webkit_dom_node_get_next_sibling (parent);
+		parent_current_block = webkit_dom_node_get_parent_node (current_block);
+		insert_before = webkit_dom_node_get_next_sibling (current_block);
 
 		/* Remove the first block from deleted content as its content was already
 		 * moved to the right place. */
 		remove_node (first_child);
 
+		next_block = webkit_dom_node_get_next_sibling (current_block);
 		/* Move the deleted content back to the body. Start from the next sibling
 		 * of the first block (if presented) where the delete occurred. */
 		while (parent_deleted_content) {
@@ -12026,18 +12600,29 @@ undo_delete (EHTMLEditorView *view,
 			remove_node (parent_deleted_content);
 			parent_deleted_content = tmp;
 			insert_before = webkit_dom_node_get_next_sibling (parent_current_block);
+
+			if (!insert_before && next_block && WEBKIT_DOM_IS_HTML_BODY_ELEMENT (
+			    webkit_dom_node_get_parent_node (parent_current_block)))
+				insert_before = split_node_into_two (next_block, -1);
+
 			/* Be sure that we don't go above body. */
 			if (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent_current_block))
 				parent_current_block = webkit_dom_node_get_parent_node (parent_current_block);
 		}
+
+		wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (current_block));
+
+		if (WEBKIT_DOM_IS_ELEMENT (last_child))
+			wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (last_child));
 
 		merge_siblings_if_necessarry (document, event->data.fragment);
 
 		e_html_editor_selection_restore (selection);
 		e_html_editor_view_force_spell_check_in_viewport (view);
 	} else {
-		gboolean empty_text = FALSE;
-		WebKitDOMNode *nd;
+		gboolean empty_text = FALSE, was_link = FALSE;
+		WebKitDOMNode *prev_sibling, *next_sibling, *nd;
+		WebKitDOMNode *parent;
 
 		element = webkit_dom_document_create_element (document, "span", NULL);
 
@@ -12071,27 +12656,84 @@ undo_delete (EHTMLEditorView *view,
 			g_free (text);
 		}
 
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
 		if (!nd || empty_text) {
-			WebKitDOMNode *parent;
-
-			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
-			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent)) {
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent))
 				webkit_dom_node_insert_before (
 					webkit_dom_node_get_parent_node (parent),
 					WEBKIT_DOM_NODE (element),
 					parent,
 					NULL);
-			}
 		}
 
 		/* Insert the deleted content back to the body. */
-		webkit_dom_node_insert_before (
-			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
-			fragment,
-			WEBKIT_DOM_NODE (element),
-			NULL);
+		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (parent)) {
+			if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (first_child)) {
+				WebKitDOMNode *child;
+
+				while ((child = webkit_dom_node_get_first_child (first_child)))
+					webkit_dom_node_append_child (parent, child, NULL);
+
+				remove_node (first_child);
+
+				was_link = TRUE;
+				webkit_dom_node_insert_before (
+					webkit_dom_node_get_parent_node (parent),
+					fragment,
+					webkit_dom_node_get_next_sibling (parent),
+					NULL);
+			} else {
+				if (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-removing-from-anchor") ||
+				    !event_selection_was_collapsed (event)) {
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+						fragment,
+						WEBKIT_DOM_NODE (element),
+						NULL);
+				} else {
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (parent),
+						fragment,
+						webkit_dom_node_get_next_sibling (parent),
+						NULL);
+				}
+			}
+		} else {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)),
+				fragment,
+				WEBKIT_DOM_NODE (element),
+				NULL);
+		}
+
+		webkit_dom_node_normalize (parent);
+		prev_sibling = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+		next_sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
+		if (prev_sibling && next_sibling) {
+			WebKitDOMNode *clone_prev, *clone_next;
+
+			clone_prev = webkit_dom_node_clone_node (prev_sibling, FALSE);
+			clone_next = webkit_dom_node_clone_node (next_sibling, FALSE);
+
+			if (webkit_dom_node_is_equal_node (clone_prev, clone_next)) {
+				WebKitDOMNode *child;
+
+				while ((child = webkit_dom_node_get_first_child (next_sibling)))
+					webkit_dom_node_append_child (prev_sibling, child, NULL);
+
+				remove_node (next_sibling);
+			}
+		}
 
 		remove_node (WEBKIT_DOM_NODE (element));
+
+		if (event->type == HISTORY_DELETE && !view->priv->html_mode &&
+		    !webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL)) {
+			WebKitDOMNode *current_block;
+
+			current_block = e_html_editor_get_parent_block_node_from_child (parent);
+			wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (current_block));
+		}
 
 		/* If the selection markers are presented restore the selection,
 		 * otherwise the selection was not collapsed so select the deleted
@@ -12103,8 +12745,10 @@ undo_delete (EHTMLEditorView *view,
 
 		if (event->type != HISTORY_INPUT) {
 			html_editor_view_check_magic_smileys (view, range);
-			html_editor_view_check_magic_links (view, range, FALSE);
+			if (!was_link)
+				html_editor_view_check_magic_links (view, range, FALSE);
 		}
+
 		g_object_unref (range);
 		e_html_editor_view_force_spell_check_for_current_paragraph (view);
 	}
@@ -12116,60 +12760,95 @@ static void
 redo_delete (EHTMLEditorView *view,
 	     EHTMLEditorViewHistoryEvent *event)
 {
-	WebKitDOMDocument *document;
+	gboolean delete_key, control_key;
+	glong length = 1;
+	gint ii;
 	WebKitDOMDocumentFragment *fragment = event->data.fragment;
-	WebKitDOMNode *first_child;
-
-	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-	first_child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+	WebKitDOMNode *node;
 
 	restore_selection_to_history_event_state (view, event->before);
 
-	if (webkit_dom_document_fragment_query_selector (fragment, "span#-x-evo-selection-start-marker", NULL)) {
-		gboolean delete = FALSE, control_key = FALSE;
-		glong length = 1;
-		gint ii;
-		WebKitDOMDOMWindow *dom_window;
-		WebKitDOMDOMSelection *dom_selection;
+	delete_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-delete-key"));
+	control_key = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-control-key"));
 
-		dom_window = webkit_dom_document_get_default_view (document);
-		g_object_unref (dom_window);
-		dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	if (!delete_key && key_press_event_process_backspace_key (view))
+		goto out;
 
-		control_key = event_selection_was_collapsed (event);
-		if (control_key) {
-			gchar *text_content;
+	if (key_press_event_process_delete_or_backspace_key (view, delete_key, NULL))
+		goto out;
 
-			text_content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (fragment));
-			length = g_utf8_strlen (text_content, -1);
-			control_key = length > 1;
+	if (control_key) {
+		gchar *text_content;
 
-			g_free (text_content);
-		}
+		text_content = webkit_dom_node_get_text_content (WEBKIT_DOM_NODE (fragment));
+		length = g_utf8_strlen (text_content, -1);
+		control_key = length > 1;
 
-		/* Check if the event was delete or backspace press. */
-		delete = WEBKIT_DOM_IS_ELEMENT (first_child);
-		delete = delete && element_has_id (WEBKIT_DOM_ELEMENT (first_child), "-x-evo-selection-start-marker");
-
-		for (ii = 0; ii < length; ii++) {
-			e_html_editor_view_exec_command (
-				view,
-				delete ? E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE :
-					 E_HTML_EDITOR_VIEW_COMMAND_DELETE,
-				NULL);
-		}
-
-		g_object_unref (dom_selection);
-	} else {
-		if (!delete_character_from_quoted_line_start (view, NULL))
-			if (!fix_structure_after_delete_before_quoted_content (view, NULL))
-				e_html_editor_view_exec_command (
-					view, E_HTML_EDITOR_VIEW_COMMAND_DELETE, NULL);
-
-		disable_quote_marks_select (document);
+		g_free (text_content);
 	}
 
+	/* If concatenating two blocks with pressing Delete on the end
+	 * of the previous one and the next node contain content that
+	 * is wrapped on multiple lines, the last line will by separated
+	 * by WebKit to the separate block. To avoid it let's remove
+	 * all quoting and wrapping from the next paragraph. */
+	if (delete_key && GPOINTER_TO_INT (g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-fragment"))) {
+		WebKitDOMNode *current_block, *next_block, *node;
+		WebKitDOMRange *range;
+
+		range = html_editor_view_get_dom_range (view);
+		node = webkit_dom_range_get_end_container (range, NULL);
+		g_object_unref (range);
+		current_block = e_html_editor_get_parent_block_node_from_child (node);
+		if (get_citation_level (current_block, FALSE) > 0 &&
+		    (next_block = webkit_dom_node_get_next_sibling (current_block))) {
+			remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (next_block));
+			remove_quoting_from_element (WEBKIT_DOM_ELEMENT (next_block));
+		}
+	}
+
+	for (ii = 0; ii < length; ii++) {
+		e_html_editor_view_exec_command (
+			view,
+			delete_key ? E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE :
+				     E_HTML_EDITOR_VIEW_COMMAND_DELETE,
+			NULL);
+	}
+
+	/* Really don't know why, but when the selection marker nodes were in
+	 * anchors then we need to do an extra delete command otherwise we will
+	 * end with two blocks split in half. */
+	node = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment));
+	while ((node = webkit_dom_node_get_first_child (node))) {
+		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+			e_html_editor_view_exec_command (
+				view,
+				E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE,
+				NULL);
+			break;
+		}
+	}
+
+	node = webkit_dom_node_get_last_child (WEBKIT_DOM_NODE (fragment));
+	while ((node = webkit_dom_node_get_last_child (node))) {
+		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+			e_html_editor_view_exec_command (
+				view,
+				E_HTML_EDITOR_VIEW_COMMAND_FORWARD_DELETE,
+				NULL);
+			break;
+		}
+	}
+
+	view->priv->dont_save_history_in_body_input = TRUE;
+	view->priv->undo_redo_in_progress = FALSE;
+	body_input_event_cb (NULL, NULL, view);
+	view->priv->dont_save_history_in_body_input = FALSE;
+	view->priv->undo_redo_in_progress = TRUE;
+	view->priv->renew_history_after_coordinates = FALSE;
+	body_key_up_event_process_backspace_or_delete (view, delete_key);
+	view->priv->renew_history_after_coordinates = TRUE;
+ out:
 	restore_selection_to_history_event_state (view, event->after);
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
@@ -13160,7 +13839,6 @@ undo_redo_citation_split (EHTMLEditorView *view,
 		EHTMLEditorSelection *selection;
 		WebKitDOMElement *selection_start, *parent;
 		WebKitDOMNode *citation_before, *citation_after, *child, *last_child, *tmp;
-		gint citation_level = 1, length, word_wrap_length;
 
 		restore_selection_to_history_event_state (view, event->after);
 
@@ -13172,6 +13850,15 @@ undo_redo_citation_split (EHTMLEditorView *view,
 			return;
 
 		parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_start));
+
+		if (event->data.fragment &&
+		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
+			remove_node (WEBKIT_DOM_NODE (parent));
+			merge_siblings_if_necessarry (document, NULL);
+			restore_selection_to_history_event_state (view, event->before);
+
+			return;
+		}
 
 		citation_before = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (parent));
 		if (!is_citation_node (citation_before)) {
@@ -13187,15 +13874,19 @@ undo_redo_citation_split (EHTMLEditorView *view,
 
 		/* Get first block in next citation. */
 		child = webkit_dom_node_get_first_child (citation_after);
-		while (child && is_citation_node (child)) {
-			citation_level++;
+		while (child && is_citation_node (child))
 			child = webkit_dom_node_get_first_child (child);
-		}
 
 		/* Get last block in previous citation. */
 		last_child = webkit_dom_node_get_last_child (citation_before);
 		while (last_child && is_citation_node (last_child))
 			last_child = webkit_dom_node_get_last_child (last_child);
+
+		/* Before appending any content to the block, check that the
+		 * last node is not BR, if it is, remove it. */
+		tmp = webkit_dom_node_get_last_child (last_child);
+		if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (tmp))
+			remove_node (tmp);
 
 		if (in_situ) {
 			webkit_dom_node_append_child (
@@ -13215,14 +13906,7 @@ undo_redo_citation_split (EHTMLEditorView *view,
 			while ((tmp = webkit_dom_node_get_first_child (child)))
 				webkit_dom_node_append_child (last_child, tmp, NULL);
 
-			word_wrap_length = e_html_editor_selection_get_word_wrap_length (selection);
-			length = word_wrap_length - 2 * citation_level;
-
-			/* We need to re-wrap and re-quote the block. */
-			last_child = WEBKIT_DOM_NODE (e_html_editor_selection_wrap_paragraph_length (
-				selection, WEBKIT_DOM_ELEMENT (last_child), length));
-			e_html_editor_view_quote_plain_text_element_after_wrapping (
-				document, WEBKIT_DOM_ELEMENT (last_child), citation_level);
+			wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (last_child));
 
 			remove_node (child);
 		}
@@ -13239,6 +13923,8 @@ undo_redo_citation_split (EHTMLEditorView *view,
 		/* If enter was pressed when some text was selected, restore it. */
 		if (event->data.fragment != NULL && !in_situ)
 			undo_delete (view, event);
+
+		merge_siblings_if_necessarry (document, NULL);
 
 		restore_selection_to_history_event_state (view, event->before);
 
