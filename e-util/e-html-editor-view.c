@@ -3142,7 +3142,7 @@ merge_siblings_if_necessarry (WebKitDOMDocument *document,
 	element = webkit_dom_document_query_selector (document, "blockquote + blockquote", NULL);
 	if (!element)
 		goto signature;
-
+ repeat:
 	prev_element = WEBKIT_DOM_ELEMENT (webkit_dom_node_get_previous_sibling (
 		WEBKIT_DOM_NODE (element)));
 	equal_nodes = webkit_dom_node_is_equal_node (
@@ -3167,6 +3167,10 @@ merge_siblings_if_necessarry (WebKitDOMDocument *document,
 			remove_node (WEBKIT_DOM_NODE (prev_element));
 		}
 	}
+
+	element = webkit_dom_document_query_selector (document, "blockquote + blockquote", NULL);
+	if (element)
+		goto repeat;
 
  signature:
 	if (!deleted_content)
