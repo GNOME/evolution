@@ -2729,7 +2729,8 @@ body_input_event_cb (WebKitDOMElement *element,
 	if (view->priv->return_key_pressed || view->priv->space_key_pressed) {
 		html_editor_view_check_magic_links (view, range, FALSE);
 		if (view->priv->return_key_pressed) {
-			if (fix_paragraph_structure_after_pressing_enter (selection, document)) {
+			if (fix_paragraph_structure_after_pressing_enter (selection, document) &&
+			    view->priv->html_mode) {
 				/* When the return is pressed in a H1-6 element, WebKit doesn't
 				 * continue with the same element, but creates normal paragraph,
 				 * so we have to unset the bold font. */
