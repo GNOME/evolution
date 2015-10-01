@@ -13,5 +13,5 @@ Name: Evolution Mail
 Description: Mail utilities for Evolution
 Version: @VERSION@
 Requires: evolution-shell-3.0 camel-1.2 libemail-engine
-Libs: -L${privlibdir} -levolution-mail -levolution-mail-composer
+Libs: -L${privlibdir} -levolution-mail -levolution-mail-composer -levolution-mail-formatter
 Cflags: -I${privincludedir}
