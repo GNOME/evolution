@@ -220,6 +220,12 @@ get_font_property (EHTMLEditorSelection *selection,
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 	g_object_unref (range);
 	element = e_html_editor_dom_node_find_parent_element (node, "FONT");
+	while (element && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (element) &&
+	       !webkit_dom_element_has_attribute (element, font_property)) {
+		element = e_html_editor_dom_node_find_parent_element (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element)), "FONT");
+	}
+
 	if (!element)
 		return NULL;
 
