@@ -3109,12 +3109,11 @@ e_html_editor_selection_set_font_color (EHTMLEditorSelection *selection,
 	g_free (color);
 
 	if (ev) {
-		e_html_editor_selection_get_selection_coordinates (
-			selection,
-			&ev->after.start.x,
-			&ev->after.start.y,
-			&ev->after.end.x,
-			&ev->after.end.y);
+		ev->after.start.x = ev->before.start.x;
+		ev->after.start.y = ev->before.start.y;
+		ev->after.end.x = ev->before.end.x;
+		ev->after.end.y = ev->before.end.y;
+
 		e_html_editor_view_insert_new_history_event (view, ev);
 	}
 
