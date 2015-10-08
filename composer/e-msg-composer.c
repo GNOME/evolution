@@ -1233,14 +1233,17 @@ composer_build_message (EMsgComposer *composer,
 	}
 
 	if (flags & COMPOSER_FLAG_SAVE_DRAFT) {
+		gboolean selection_saved = FALSE;
 		gchar *text;
 		EHTMLEditor *editor;
 		EHTMLEditorView *view;
 		EHTMLEditorSelection *selection;
+		WebKitDOMDocument *document;
 
 		editor = e_msg_composer_get_editor (composer);
 		view = e_html_editor_get_view (editor);
 		selection = e_html_editor_view_get_selection (view);
+		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 
 		/* X-Evolution-Format */
 		composer_add_evolution_format_header (
@@ -1253,13 +1256,19 @@ composer_build_message (EMsgComposer *composer,
 		data = g_byte_array_new ();
 
 		e_html_editor_view_embed_styles (view);
-		e_html_editor_selection_save (selection);
+		selection_saved = webkit_dom_document_get_element_by_id (
+			document, "-x-evo-selection-start-marker") != NULL;
+		if (!selection_saved)
+			e_html_editor_selection_save (selection);
 
 		text = e_html_editor_view_get_text_html_for_drafts (view);
 
 		e_html_editor_view_remove_embed_styles (view);
 		e_html_editor_selection_restore (selection);
 		e_html_editor_view_force_spell_check_in_viewport (view);
+
+		if (selection_saved)
+			e_html_editor_selection_save (selection);
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
 
