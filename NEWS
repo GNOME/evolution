@@ -1,3 +1,35 @@
+Evolution 3.18.1 2015-10-12
+---------------------------
+
+Bug Fixes:
+	Bug 544813 - Allow recurrence editing for non-detached instances (Milan Crha)
+	Bug 677862 - Delete of multiple messages can keep cursor out of view (Milan Crha)
+	Bug 754693 - Set "References" header in forwarded messages (Milan Crha)
+
+Miscellaneous:
+	Use set date/time format in Tasks/Memos previews (Milan Crha)
+	Add also evolution-mail-formatter into Libs of evolution-mail.pc (Milan Crha)
+	Fix translation of default:mm (Piotr Drąg)
+	EHTMLEditorSelection - Selection start marker could be wrongly saved before the quote character (Tomas Popela)
+	EHTMLEditorSelection - Selection is wrongly restored when it is on the end of block (Tomas Popela)
+	EHTMLEditorSelection - Blocks are wrongly wrapped around selection markers (Tomas Popela)
+	EHTMLEditorSelection - Make sure we really wrap when ending a line (Tomas Popela)
+	EHTMLEditorSelection - Font color can't be set (Tomas Popela)
+	EHTMLEditorSelection - Current font color is discarded after modifying the font size (Tomas Popela)
+	EHTMLEditorSelection - Font formats are reported wrongly if the are nested FONT elements (Tomas Popela)
+	EHTMLEditorSelection - build fix (Tomas Popela)
+	EHTMLEditorView - Only process the Heading elements in HTML mode (Tomas Popela)
+	EHTMLEditorView - When merging siblings repeat until none is left (Tomas Popela)
+	EHTMLEditorView - Improve the undo/redo in composer (Tomas Popela)
+
+Translations:
+	Kenneth Nielsen (da)
+	Petr Kovar (cs)
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Jiri Grönroos (fi)
+	Tom Tryfonidis (el)
+
 Evolution 3.18.0 2015-09-21
 ---------------------------
 
