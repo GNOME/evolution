@@ -31,16 +31,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 16:14+0000\n"
-"PO-Revision-Date: 2015-08-04 17:41+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2015-10-09 04:24+0000\n"
+"PO-Revision-Date: 2015-10-10 20:48+0200\n"
+"Last-Translator: Bernd Homuth <dev@hmt.im>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.2\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2773,8 +2773,9 @@ msgstr "Die Übersetzer des Benutzerhandbuchs von <app>Evolution</app>"
 #. TO TRANSLATORS: This is shown in the 'Translators of the User
 #. Documentation' section. Please REPLACE this string by adding your own
 #. names here so you get some well-deserved fame on the interwebs! Do NOT
-#. use '\n' for linebreaks or square brakets for potential email addresses
-#. here as this will not work. Thanks for all your hard work! andre
+#. use '\n' for linebreaks or square brackets for potential email
+#. addresses here as this will not work. Thanks for all your hard work!
+#. andre
 #: C/credits.page:43
 msgid "(Not applicable to the English version)"
 msgstr "Christian Kirbach, Gabor Karsay, Mario Blättermann"
@@ -3493,7 +3494,7 @@ msgstr "Outlook"
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
-"server and does not need to be manually transfered. You can set up the "
+"server and does not need to be manually transferred. You can set up the "
 "corresponding account in Evolution and the data will be downloaded."
 msgstr ""
 "Diese Schritte beziehen sich auf lokal gespeicherte Daten, wie z.B. bei POP-"
@@ -4686,8 +4687,9 @@ msgstr "Aufgabenliste und Notizliste"
 #. (itstool) path: item/p
 #: C/intro-main-window.page:128
 msgid ""
-"Tasks and memos are just displayed for your convience and are not associated "
-"to any appointments. Use the <gui>switcher</gui> to go to their main windows."
+"Tasks and memos are just displayed for your convenience and are not "
+"associated to any appointments. Use the <gui>switcher</gui> to go to their "
+"main windows."
 msgstr ""
 "Aufgaben und Notizen werden nur zu Ihrer Dienlichkeit angezeigt und stehen "
 "nicht im Zusammenhang mit Terminen. Verwenden Sie den <gui>Umschalter</gui>, "
@@ -4753,7 +4755,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:28
-#, fuzzy
 msgid ""
 "For performance reasons it is recommended to <gui>Use a Real Folder for "
 "Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real "
@@ -4762,10 +4763,11 @@ msgid ""
 "link>."
 msgstr ""
 "Für hohe Geschwindigkeit wird empfohlen <gui>einen realen Ordner für den "
-"Papierkorb</gui> zu verwenden, indem es auf <gui>[GMail]/Trash</gui> und auf "
-"<gui>Use a Real Folder for Junk</gui> by setting it to <gui>[GMail]/Spam</"
-"gui> under the account's <link xref=\"mail-default-folder-locations"
-"\"><gui>Defaults</gui></link>."
+"Papierkorb</gui> zu verwenden, indem er auf <gui>[GMail]/Trash</gui> und auf "
+"<gui>Einen realen Ordner für unerwünschte E-Mails</gui> eingestellt wird, "
+"indem er unter den <link xref=\"mail-default-folder-locations"
+"\"><gui>Vorgaben</gui></link> des Kontos auf <gui>[GMail]/Spam</gui> "
+"eingestellt wird."
 
 #. (itstool) path: note/p
 #: C/mail-access-gmail-imap-account.page:30
@@ -6161,6 +6163,11 @@ msgid ""
 "and set the corresponding <gui>Command</gui> to start the application under "
 "<gui>Configuration</gui>."
 msgstr ""
+"Verfassen Sie auf Wunsch Ihre Nachricht in einem externen Texteditor. "
+"Schalten Sie dazu <guiseq><gui>Bearbeiten</gui><gui>Plugins</"
+"gui><gui>Externer Editor</gui></guiseq> ein und legen Sie unter "
+"<gui>Einstellungen</gui> den entsprechenden <gui>Befehl</gui> fest, mit dem "
+"die Anwendung gestartet wird."
 
 #. (itstool) path: page/p
 #: C/mail-composer-external-editor.page:23
@@ -6169,6 +6176,9 @@ msgid ""
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
 "guiseq> in the mail composer."
 msgstr ""
+"Wenn <gui>Automatisch beim Bearbeiten einer neuen E-Mail starten</gui> nicht "
+"ausgewählt ist, so müssen Sie im E-Mail-Editor <guiseq><gui>File</"
+"gui><gui>In externem Editor verfassen</gui></guiseq> auswählen."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-forward.page:5
@@ -6345,6 +6355,11 @@ msgid ""
 "and change the default sender name and email address in the corresponding "
 "fields."
 msgstr ""
+"Um eine angepasste E-Mail-Adresse und eigenen Absendernamen beim Versenden "
+"einer Nachricht zu verwenden, schalten Sie <guiseq><gui>Ansicht</"
+"gui><gui>Sendekonto überschreiben</gui></guiseq> und ändern Sie den "
+"voreingestellten Absendernamen und die E-Mail-Adresse in den entsprechenden "
+"Feldern."
 
 #. (itstool) path: page/p
 #: C/mail-composer-from-field-override.page:27
@@ -6354,9 +6369,9 @@ msgid ""
 "<link href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
 "addressing</link>."
 msgstr ""
-"Dieses Merkmal ist nützlich für <link href=\"https://en.wikipedia.org/wiki/"
-"Qmail#Innovations\">Wildcard-Postfächer mit qmail</link> und <link href="
-"\"https://en.wikipedia.org/wiki/Email_address#Address_tags"
+"Dieses Merkmal ist nützlich für <link href=\"https://de.wikipedia.org/wiki/"
+"Qmail#Innovationen\">Wildcard-Postfächer mit qmail</link> und <link href="
+"\"https://en.wikipedia.org/wiki/Email_address#Sub-addressing"
 "\">Unteradressierung</link>."
 
 #. (itstool) path: note/p
@@ -6367,6 +6382,10 @@ msgid ""
 "Framework</link> and/or <link href=\"https://en.wikipedia.org/wiki/"
 "DomainKeys_Identified_Mail\">DomainKeys Identified Mail</link> restrictions."
 msgstr ""
+"Das Festelegen einer beliebigen Aadresse steht eventuell im Konflikt mit den "
+"<link href=\"https://de.wikipedia.org/wiki/Sender_Policy_Framework"
+"\">Richtlinien</link> Ihres E-Mail-Anbieters und ggfs. mit <link href="
+"\"https://de.wikipedia.org/wiki/DomainKeys\">DomainKeys</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-image.page:5
@@ -11238,6 +11257,9 @@ msgid ""
 "id=550796#c10\">combine numerous conditions by using the <gui>Free form "
 "expression</gui> syntax</link>."
 msgstr ""
+"Fortgeschritte Benutzer <link href=\"https://bugzilla.gnome.org/show_bug.cgi?"
+"id=550796#c10\">kombinieren verschiedene Bedingungen mit einer Syntax im "
+"<gui>Ausdruck-Feld</gui></link>."
 
 #. (itstool) path: item/p
 #: C/mail-searching.page:46
@@ -12866,8 +12888,8 @@ msgstr ""
 "Im Allgemeinen empfiehlt sich der Einsatz von Anwendungen und Geräten, die "
 "beide das <link href=\"https://de.wikipedia.org/wiki/ActiveSync\">ActiveSync-"
 "Protokoll</link> unterstützen (wie z.B. <app>SyncEvolution</app>). Eine "
-"(englischsprachige) <link href=\"https://en.wikipedia.org/wiki/"
-"List_of_collaborative_software\">Liste mitwirkender Software</link> wird bei "
+"(englischsprachige) <link href=\"https://de.wikipedia.org/wiki/Kategorie:"
+"Kollaborationssoftware\">Liste mitwirkender Software</link> wird bei "
 "Wikipedia gepflegt."
 
 #. (itstool) path: page/p
