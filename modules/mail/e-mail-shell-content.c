@@ -179,6 +179,7 @@ mail_shell_content_constructed (GObject *object)
 	EMailShellContentPrivate *priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
+	GtkWindow *window;
 	GtkWidget *container;
 	GtkWidget *widget;
 
@@ -206,6 +207,12 @@ mail_shell_content_constructed (GObject *object)
 	g_signal_connect (
 		widget, "folder-loaded",
 		G_CALLBACK (reconnect_folder_loaded_event), object);
+
+	window = e_mail_reader_get_window (E_MAIL_READER (object));
+	widget = e_mail_reader_get_message_list (E_MAIL_READER (object));
+
+	if (window && widget)
+		gtk_window_set_focus (window, widget);
 }
 
 static guint32
