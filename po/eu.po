@@ -8,7 +8,7 @@
 #: ../shell/main.c:522
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution master\n"
+"Project-Id-Version: evolution gnome-3-18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-14 10:44+0200\n"
 "PO-Revision-Date: 2015-10-12 20:28+0200\n"
