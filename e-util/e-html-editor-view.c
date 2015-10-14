@@ -8711,13 +8711,6 @@ process_list_to_plain_text (EHTMLEditorView *view,
 				WebKitDOMNode *node = webkit_dom_node_get_first_child (item);
 				GString *line = g_string_new ("");
 				while (node) {
-					if (WEBKIT_DOM_IS_TEXT (node)) {
-						/* append text from line */
-						gchar *text_content;
-						text_content = webkit_dom_node_get_text_content (node);
-						g_string_append (line, text_content);
-						g_free (text_content);
-					}
 					if (WEBKIT_DOM_IS_HTMLBR_ELEMENT (node) &&
 					    element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")) {
 						g_string_append (line, "\n");
@@ -8728,6 +8721,12 @@ process_list_to_plain_text (EHTMLEditorView *view,
 							g_string_append (line, indent_per_level);
 						g_string_append (item_value, line->str);
 						g_string_erase (line, 0, -1);
+					} else {
+						/* append text from node to line */
+						gchar *text_content;
+						text_content = webkit_dom_node_get_text_content (node);
+						g_string_append (line, text_content);
+						g_free (text_content);
 					}
 					node = webkit_dom_node_get_next_sibling (node);
 				}
