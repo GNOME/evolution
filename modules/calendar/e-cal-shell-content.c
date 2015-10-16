@@ -109,6 +109,10 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 						       const GDate *view_end)
 {
 	ECalendarView *current_view;
+	EDayView *day_view = NULL;
+	gint day_view_selection_start_day = -1, day_view_selection_end_day = -1;
+	gint day_view_selection_start_row = -1, day_view_selection_end_row = -1;
+	gdouble day_view_scrollbar_position = 0.0;
 	gint syy, smm, sdd, eyy, emm, edd;
 	time_t visible_range_start, visible_range_end;
 	gboolean filters_updated = FALSE;
@@ -124,6 +128,19 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 
 	zone = e_cal_model_get_timezone (model);
 	cal_filter = e_cal_data_model_dup_filter (e_cal_model_get_data_model (model));
+
+	if (E_IS_DAY_VIEW (current_view)) {
+		GtkAdjustment *adjustment;
+
+		day_view = E_DAY_VIEW (current_view);
+		day_view_selection_start_day = day_view->selection_start_day;
+		day_view_selection_end_day = day_view->selection_end_day;
+		day_view_selection_start_row = day_view->selection_start_row;
+		day_view_selection_end_row = day_view->selection_end_row;
+
+		adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (day_view->main_canvas));
+		day_view_scrollbar_position = gtk_adjustment_get_value (adjustment);
+	}
 
 	g_signal_handler_block (calitem, cal_shell_content->priv->datepicker_range_moved_id);
 	g_signal_handler_block (calitem, cal_shell_content->priv->datepicker_selection_changed_id);
@@ -165,6 +182,22 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 		e_calendar_item_set_selection (calitem, view_start, view_end);
 		e_cal_shell_content_update_filters (cal_shell_content, cal_filter, view_start_tt, view_end_tt);
 		e_calendar_view_set_selected_time_range (current_view, view_start_tt, view_start_tt);
+	}
+
+	if (day_view && day_view_selection_start_day != -1 && day_view_selection_end_day != -1 &&
+	    day_view_selection_start_row != -1 && day_view_selection_end_row != -1) {
+		GtkAdjustment *adjustment;
+
+		day_view->selection_start_day = day_view_selection_start_day;
+		day_view->selection_end_day = day_view_selection_end_day;
+		day_view->selection_start_row = day_view_selection_start_row;
+		day_view->selection_end_row = day_view_selection_end_row;
+
+		/* This is better than e_day_view_ensure_rows_visible(), because it keeps both
+		   selection and the exact scrollbar position in the main canvas, which may not
+		   always correspond to each other. */
+		adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (day_view->main_canvas));
+		gtk_adjustment_set_value (adjustment, day_view_scrollbar_position);
 	}
 
 	gtk_widget_queue_draw (GTK_WIDGET (current_view));
