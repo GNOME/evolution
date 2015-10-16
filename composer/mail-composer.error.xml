@@ -28,13 +28,6 @@
   <_secondary>Error saving to autosave because &quot;{1}&quot;.</_secondary>
  </error>
  
-  <error id="ask-send-message-pending-download" type="question" default="GTK_RESPONSE_YES">
-  <_primary>Download in progress. Do you want to send the mail?</_primary>
-  <_secondary xml:space="preserve"> There are few attachments getting downloaded. Sending the mail will cause the mail to be sent without those pending attachments </_secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button _label="_Send" response="GTK_RESPONSE_YES"/>
- </error>
-
  <error id="exit-unsaved" type="warning" default="GTK_RESPONSE_CANCEL">
   <_primary>Are you sure you want to discard the message, titled '{0}', you are composing?</_primary>
   <_secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</_secondary>
