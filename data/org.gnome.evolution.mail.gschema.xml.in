@@ -294,6 +294,11 @@
       <_summary>Show deleted messages in the message-list</_summary>
       <_description>Show deleted messages (with a strike-through) in the message-list.</_description>
     </key>
+    <key name="show-junk" type="b">
+      <default>false</default>
+      <_summary>Show junk messages in the message-list</_summary>
+      <_description>Show junk messages (with a red strike-through) in the message-list.</_description>
+    </key>
     <key name="enable-unmatched" type="b">
       <default>true</default>
       <_summary>Enable Unmatched search folder</_summary>

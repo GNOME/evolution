@@ -79,6 +79,9 @@ struct _EMailViewClass {
 	gboolean	(*get_show_deleted)	(EMailView *view);
 	void		(*set_show_deleted)	(EMailView *view,
 						 gboolean show_deleted);
+	gboolean	(*get_show_junk)	(EMailView *view);
+	void		(*set_show_junk)	(EMailView *view,
+						 gboolean show_junk);
 };
 
 GType		e_mail_view_get_type		(void);
@@ -100,6 +103,9 @@ void		e_mail_view_set_previous_view	(EMailView *view,
 gboolean	e_mail_view_get_show_deleted	(EMailView *view);
 void		e_mail_view_set_show_deleted	(EMailView *view,
 						 gboolean show_deleted);
+gboolean	e_mail_view_get_show_junk	(EMailView *view);
+void		e_mail_view_set_show_junk	(EMailView *view,
+						 gboolean show_junk);
 
 G_END_DECLS
 

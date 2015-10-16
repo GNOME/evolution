@@ -52,6 +52,11 @@ settings_message_list_constructed (GObject *object)
 		G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
+		settings, "show-junk",
+		message_list, "show-junk",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
 		settings, "thread-latest",
 		message_list, "thread-latest",
 		G_SETTINGS_BIND_GET);

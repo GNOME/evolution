@@ -791,21 +791,8 @@ action_mail_mark_junk_cb (GtkAction *action,
 		CAMEL_MESSAGE_JUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
 
-	if (e_mail_reader_mark_selected (reader, mask, set) == 1) {
-		CamelFolder *folder;
-		gboolean select_next_message;
-
-		folder = e_mail_reader_ref_folder (reader);
-
-		select_next_message =
-			(folder != NULL) &&
-			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK);
-
-		if (select_next_message)
-			e_mail_reader_select_next_message (reader, TRUE);
-
-		g_clear_object (&folder);
-	}
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0)
+		e_mail_reader_select_next_message (reader, TRUE);
 }
 
 static void
@@ -820,19 +807,8 @@ action_mail_mark_notjunk_cb (GtkAction *action,
 		CAMEL_MESSAGE_NOTJUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
 
-	if (e_mail_reader_mark_selected (reader, mask, set) == 1) {
-		CamelFolder *folder;
-		gboolean select_next_message;
-
-		folder = e_mail_reader_ref_folder (reader);
-
-		select_next_message =
-			(folder != NULL) &&
-			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK);
-
-		if (select_next_message)
-			e_mail_reader_select_next_message (reader, TRUE);
-	}
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0)
+		e_mail_reader_select_next_message (reader, TRUE);
 }
 
 static void

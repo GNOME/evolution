@@ -135,8 +135,6 @@ struct _EMailShellViewPrivate {
 	CamelVeeFolder *search_account_current;
 	GCancellable *search_account_cancel;
 
-	guint show_deleted : 1;
-
 	GtkToolItem *send_receive_tool_item;
 	GtkToolItem *send_receive_tool_separator;
 

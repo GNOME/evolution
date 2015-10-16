@@ -99,6 +99,7 @@ struct _MessageListPrivate {
 	gboolean expanded_default;
 	gboolean group_by_threads;
 	gboolean show_deleted;
+	gboolean show_junk;
 	gboolean thread_latest;
 	gboolean thread_subject;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
@@ -172,6 +173,7 @@ enum {
 	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
 	PROP_SHOW_DELETED,
+	PROP_SHOW_JUNK,
 	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT
 };
@@ -294,7 +296,7 @@ static const gchar *status_map[] = {
 	N_("Answered"),
 	N_("Forwarded"),
 	N_("Multiple Unseen Messages"),
-	N_("Multiple Messages"),
+	N_("Multiple Messages")
 };
 
 static const gchar *status_icons[] = {
@@ -330,7 +332,8 @@ static const gchar *attachment_icons[] = {
 	NULL,  /* empty icon */
 	"mail-attachment",
 	"stock_new-meeting",
-	"evolution-memos"
+	"evolution-memos",
+	"mail-mark-junk"
 };
 
 static const gchar *flagged_icons[] = {
@@ -1820,6 +1823,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		str = camel_message_info_user_tag (msg_info, "follow-up");
 		return (gpointer)(str ? str : "");
 	case COL_ATTACHMENT:
+		if (camel_message_info_flags (msg_info) & CAMEL_MESSAGE_JUNK)
+			return GINT_TO_POINTER (4);
 		if (camel_message_info_user_flag (msg_info, E_MAIL_NOTES_USER_FLAG))
 			return GINT_TO_POINTER (3);
 		if (camel_message_info_user_flag (msg_info, "$has_cal"))
@@ -1875,6 +1880,12 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		return GINT_TO_POINTER (camel_message_info_size (msg_info));
 	case COL_DELETED:
 		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_DELETED) != 0);
+	case COL_DELETED_OR_JUNK:
+		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & (CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_JUNK)) != 0);
+	case COL_JUNK:
+		return GINT_TO_POINTER ((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_JUNK) != 0);
+	case COL_JUNK_STRIKEOUT_COLOR:
+		return GUINT_TO_POINTER (((camel_message_info_flags (msg_info) & CAMEL_MESSAGE_JUNK) != 0) ? 0xFF0000 : 0x0);
 	case COL_UNREAD: {
 		gboolean saw_unread = FALSE;
 
@@ -2143,10 +2154,18 @@ static ECell * create_composite_cell (gint col)
 
 static void
 composite_cell_set_strike_col (ECell *cell,
-                               gint col)
+                               gint strikeout_col,
+			       gint strikeout_color_col)
 {
-	g_object_set (g_object_get_data (G_OBJECT (cell), "cell_date"),  "strikeout_column", col, NULL);
-	g_object_set (g_object_get_data (G_OBJECT (cell), "cell_from"),  "strikeout_column", col, NULL);
+	g_object_set (g_object_get_data (G_OBJECT (cell), "cell_date"),
+		"strikeout-column", strikeout_col,
+		"strikeout-color-column", strikeout_color_col,
+		NULL);
+
+	g_object_set (g_object_get_data (G_OBJECT (cell), "cell_from"),
+		"strikeout-column", strikeout_col,
+		"strikeout-color-column", strikeout_color_col,
+		NULL);
 }
 
 static ETableExtras *
@@ -2764,6 +2783,12 @@ message_list_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_JUNK:
+			message_list_set_show_junk (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_THREAD_LATEST:
 			message_list_set_thread_latest (
 				MESSAGE_LIST (object),
@@ -2826,6 +2851,13 @@ message_list_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				message_list_get_show_deleted (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_SHOW_JUNK:
+			g_value_set_boolean (
+				value,
+				message_list_get_show_junk (
 				MESSAGE_LIST (object)));
 			return;
 
@@ -3153,6 +3185,9 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_SCORE:
 		case COL_ATTACHMENT:
 		case COL_DELETED:
+		case COL_DELETED_OR_JUNK:
+		case COL_JUNK:
+		case COL_JUNK_STRIKEOUT_COLOR:
 		case COL_UNREAD:
 		case COL_SIZE:
 		case COL_FOLLOWUP_FLAG:
@@ -3200,6 +3235,9 @@ message_list_free_value (ETreeModel *tree_model,
 		case COL_SCORE:
 		case COL_ATTACHMENT:
 		case COL_DELETED:
+		case COL_DELETED_OR_JUNK:
+		case COL_JUNK:
+		case COL_JUNK_STRIKEOUT_COLOR:
 		case COL_UNREAD:
 		case COL_SIZE:
 		case COL_FOLLOWUP_FLAG:
@@ -3242,6 +3280,9 @@ message_list_initialize_value (ETreeModel *tree_model,
 		case COL_SCORE:
 		case COL_ATTACHMENT:
 		case COL_DELETED:
+		case COL_DELETED_OR_JUNK:
+		case COL_JUNK:
+		case COL_JUNK_STRIKEOUT_COLOR:
 		case COL_UNREAD:
 		case COL_SENT:
 		case COL_RECEIVED:
@@ -3278,6 +3319,9 @@ message_list_value_is_empty (ETreeModel *tree_model,
 		case COL_SCORE:
 		case COL_ATTACHMENT:
 		case COL_DELETED:
+		case COL_DELETED_OR_JUNK:
+		case COL_JUNK:
+		case COL_JUNK_STRIKEOUT_COLOR:
 		case COL_UNREAD:
 		case COL_SENT:
 		case COL_RECEIVED:
@@ -3326,6 +3370,9 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_ATTACHMENT:
 		case COL_FLAGGED:
 		case COL_DELETED:
+		case COL_DELETED_OR_JUNK:
+		case COL_JUNK:
+		case COL_JUNK_STRIKEOUT_COLOR:
 		case COL_UNREAD:
 		case COL_FOLLOWUP_FLAG_STATUS:
 			ii = GPOINTER_TO_UINT (value);
@@ -3443,6 +3490,18 @@ message_list_class_init (MessageListClass *class)
 			"show-deleted",
 			"Show Deleted",
 			"Show messages marked for deletion",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_JUNK,
+		g_param_spec_boolean (
+			"show-junk",
+			"Show Junk",
+			"Show messages marked as junk",
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
@@ -3828,6 +3887,9 @@ message_list_get_hide_junk (MessageList *message_list,
                             CamelFolder *folder)
 {
 	if (folder == NULL)
+		return FALSE;
+
+	if (message_list_get_show_junk (message_list))
 		return FALSE;
 
 	if (!folder_store_supports_vjunk_folder (folder))
@@ -4656,7 +4718,8 @@ message_list_set_folder (MessageList *message_list,
 	if (folder != NULL) {
 		CamelStore *store;
 		gboolean non_trash_folder;
-		gint strikeout_col;
+		gboolean non_junk_folder;
+		gint strikeout_col, strikeout_color_col;
 		ECell *cell;
 		gulong handler_id;
 
@@ -4668,24 +4731,38 @@ message_list_set_folder (MessageList *message_list,
 		non_trash_folder =
 			((store->flags & CAMEL_STORE_VTRASH) == 0) ||
 			((folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0);
+		non_junk_folder =
+			((store->flags & CAMEL_STORE_VJUNK) == 0) ||
+			((folder->folder_flags & CAMEL_FOLDER_IS_JUNK) == 0);
 
-		/* Setup the strikeout effect for non-trash folders */
-		strikeout_col = non_trash_folder ? COL_DELETED : -1;
+		strikeout_col = -1;
+		strikeout_color_col = -1;
+
+		/* Setup the strikeout effect for non-trash or non-junk folders */
+		if (non_trash_folder && non_junk_folder) {
+			strikeout_col = COL_DELETED_OR_JUNK;
+			strikeout_color_col = COL_JUNK_STRIKEOUT_COLOR;
+		} else if (non_trash_folder) {
+			strikeout_col = COL_DELETED;
+		} else if (non_junk_folder) {
+			strikeout_col = COL_JUNK;
+			strikeout_color_col = COL_JUNK_STRIKEOUT_COLOR;
+		}
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_date");
-		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
+		g_object_set (cell, "strikeout-column", strikeout_col, "strikeout-color-column", strikeout_color_col, NULL);
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_text");
-		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
+		g_object_set (cell, "strikeout-column", strikeout_col, "strikeout-color-column", strikeout_color_col, NULL);
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_size");
-		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
+		g_object_set (cell, "strikeout-column", strikeout_col, "strikeout-color-column", strikeout_color_col, NULL);
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_composite_from");
-		composite_cell_set_strike_col (cell, strikeout_col);
+		composite_cell_set_strike_col (cell, strikeout_col, strikeout_color_col);
 
 		cell = e_table_extras_get_cell (message_list->extras, "render_composite_to");
-		composite_cell_set_strike_col (cell, strikeout_col);
+		composite_cell_set_strike_col (cell, strikeout_col, strikeout_color_col);
 
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list);
@@ -4773,6 +4850,35 @@ message_list_set_show_deleted (MessageList *message_list,
 	message_list->priv->show_deleted = show_deleted;
 
 	g_object_notify (G_OBJECT (message_list), "show-deleted");
+
+	/* Invalidate the thread tree. */
+	message_list_set_thread_tree (message_list, NULL);
+
+	/* Changing this property triggers a message list regen. */
+	if (message_list->frozen == 0)
+		mail_regen_list (message_list, NULL, FALSE);
+}
+
+gboolean
+message_list_get_show_junk (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->show_junk;
+}
+
+void
+message_list_set_show_junk (MessageList *message_list,
+			    gboolean show_junk)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (show_junk == message_list->priv->show_junk)
+		return;
+
+	message_list->priv->show_junk = show_junk;
+
+	g_object_notify (G_OBJECT (message_list), "show-junk");
 
 	/* Invalidate the thread tree. */
 	message_list_set_thread_tree (message_list, NULL);

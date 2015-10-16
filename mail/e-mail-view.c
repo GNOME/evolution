@@ -38,6 +38,7 @@ struct _EMailViewPrivate {
 
 	guint preview_visible : 1;
 	guint show_deleted : 1;
+	guint show_junk : 1;
 };
 
 enum {
@@ -46,7 +47,8 @@ enum {
 	PROP_PREVIEW_VISIBLE,
 	PROP_PREVIOUS_VIEW,
 	PROP_SHELL_VIEW,
-	PROP_SHOW_DELETED
+	PROP_SHOW_DELETED,
+	PROP_SHOW_JUNK
 };
 
 enum {
@@ -106,6 +108,12 @@ mail_view_set_property (GObject *object,
 				E_MAIL_VIEW (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_SHOW_JUNK:
+			e_mail_view_set_show_junk (
+				E_MAIL_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -145,6 +153,12 @@ mail_view_get_property (GObject *object,
 		case PROP_SHOW_DELETED:
 			g_value_set_boolean (
 				value, e_mail_view_get_show_deleted (
+				E_MAIL_VIEW (object)));
+			return;
+
+		case PROP_SHOW_JUNK:
+			g_value_set_boolean (
+				value, e_mail_view_get_show_junk (
 				E_MAIL_VIEW (object)));
 			return;
 	}
@@ -229,6 +243,24 @@ mail_view_set_show_deleted (EMailView *view,
 	g_object_notify (G_OBJECT (view), "show-deleted");
 }
 
+static gboolean
+mail_view_get_show_junk (EMailView *view)
+{
+	return view->priv->show_junk;
+}
+
+static void
+mail_view_set_show_junk (EMailView *view,
+			 gboolean show_junk)
+{
+	if (view->priv->show_junk == show_junk)
+		return;
+
+	view->priv->show_junk = show_junk;
+
+	g_object_notify (G_OBJECT (view), "show-junk");
+}
+
 static void
 e_mail_view_class_init (EMailViewClass *class)
 {
@@ -247,6 +279,8 @@ e_mail_view_class_init (EMailViewClass *class)
 	class->set_preview_visible = mail_view_set_preview_visible;
 	class->get_show_deleted = mail_view_get_show_deleted;
 	class->set_show_deleted = mail_view_set_show_deleted;
+	class->get_show_junk = mail_view_get_show_junk;
+	class->set_show_junk = mail_view_set_show_junk;
 
 	signals[PANE_CLOSE] = g_signal_new (
 		"pane-close",
@@ -323,6 +357,16 @@ e_mail_view_class_init (EMailViewClass *class)
 		g_param_spec_boolean (
 			"show-deleted",
 			"Show Deleted",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_JUNK,
+		g_param_spec_boolean (
+			"show-junk",
+			"Show Junk",
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
@@ -492,4 +536,31 @@ e_mail_view_set_show_deleted (EMailView *view,
 	g_return_if_fail (class->set_show_deleted != NULL);
 
 	class->set_show_deleted (view, show_deleted);
+}
+
+gboolean
+e_mail_view_get_show_junk (EMailView *view)
+{
+	EMailViewClass *class;
+
+	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
+
+	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class->get_show_junk != NULL, FALSE);
+
+	return class->get_show_junk (view);
+}
+
+void
+e_mail_view_set_show_junk (EMailView *view,
+			   gboolean show_junk)
+{
+	EMailViewClass *class;
+
+	g_return_if_fail (E_IS_MAIL_VIEW (view));
+
+	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class->set_show_junk != NULL);
+
+	class->set_show_junk (view, show_junk);
 }
