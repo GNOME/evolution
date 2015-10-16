@@ -71,6 +71,8 @@ struct _AsyncContext {
 	EActivity *activity;
 	gchar *folder_uri;
 	gchar *message_uid;
+	gulong num_loading_handler_id;
+	gulong cancelled_handler_id;
 };
 
 struct _ForwardData {
@@ -83,6 +85,26 @@ struct _ForwardData {
 static void
 async_context_free (AsyncContext *async_context)
 {
+	if (async_context->cancelled_handler_id) {
+		GCancellable *cancellable;
+
+		cancellable = e_activity_get_cancellable (async_context->activity);
+		/* Cannot use g_cancellable_disconnect(), because when this is called
+		   from inside the cancelled handler, then the GCancellable deadlocks. */
+		g_signal_handler_disconnect (cancellable, async_context->cancelled_handler_id);
+		async_context->cancelled_handler_id = 0;
+	}
+
+	if (async_context->num_loading_handler_id) {
+		EAttachmentView *view;
+		EAttachmentStore *store;
+
+		view = e_msg_composer_get_attachment_view (async_context->composer);
+		store = e_attachment_view_get_store (view);
+
+		e_signal_disconnect_notify_handler (store, &async_context->num_loading_handler_id);
+	}
+
 	g_clear_object (&async_context->message);
 	g_clear_object (&async_context->session);
 	g_clear_object (&async_context->composer);
@@ -434,27 +456,6 @@ composer_presend_check_identity (EMsgComposer *composer,
 }
 
 static gboolean
-composer_presend_check_downloads (EMsgComposer *composer,
-                                  EMailSession *session)
-{
-	EAttachmentView *view;
-	EAttachmentStore *store;
-	gboolean check_passed = TRUE;
-
-	view = e_msg_composer_get_attachment_view (composer);
-	store = e_attachment_view_get_store (view);
-
-	if (e_attachment_store_get_num_loading (store) > 0) {
-		if (!e_util_prompt_user (GTK_WINDOW (composer),
-		    "org.gnome.evolution.mail", NULL,
-		    "mail-composer:ask-send-message-pending-download", NULL))
-			check_passed = FALSE;
-	}
-
-	return check_passed;
-}
-
-static gboolean
 composer_presend_check_plugins (EMsgComposer *composer,
                                 EMailSession *session)
 {
@@ -672,10 +673,10 @@ exit:
 }
 
 static void
-em_utils_composer_send_cb (EMsgComposer *composer,
-                           CamelMimeMessage *message,
-                           EActivity *activity,
-                           EMailSession *session)
+em_utils_composer_real_send (EMsgComposer *composer,
+			     CamelMimeMessage *message,
+			     EActivity *activity,
+			     EMailSession *session)
 {
 	AsyncContext *async_context;
 	GCancellable *cancellable;
@@ -711,6 +712,67 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 		cancellable, NULL, NULL,
 		composer_send_completed,
 		async_context);
+}
+
+static void
+composer_num_loading_notify_cb (EAttachmentStore *store,
+				GParamSpec *param,
+				AsyncContext *async_context)
+{
+	if (e_attachment_store_get_num_loading (store) > 0)
+		return;
+
+	em_utils_composer_real_send (
+		async_context->composer,
+		async_context->message,
+		async_context->activity,
+		async_context->session);
+
+	async_context_free (async_context);
+}
+
+static void
+composer_wait_for_attachment_load_cancelled_cb (GCancellable *cancellable,
+						AsyncContext *async_context)
+{
+	async_context_free (async_context);
+}
+
+static void
+em_utils_composer_send_cb (EMsgComposer *composer,
+                           CamelMimeMessage *message,
+                           EActivity *activity,
+                           EMailSession *session)
+{
+	AsyncContext *async_context;
+	GCancellable *cancellable;
+	EAttachmentView *view;
+	EAttachmentStore *store;
+
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+
+	if (e_attachment_store_get_num_loading (store) <= 0) {
+		em_utils_composer_real_send (composer, message, activity, session);
+		return;
+	}
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->session = g_object_ref (session);
+	async_context->message = g_object_ref (message);
+	async_context->composer = g_object_ref (composer);
+	async_context->activity = g_object_ref (activity);
+
+	cancellable = e_activity_get_cancellable (activity);
+	/* This message is never removed from the camel operation, otherwise the GtkInfoBar
+	   hides itself and the user sees no feedback. */
+	camel_operation_push_message (cancellable, "%s", _("Waiting for attachments to load..."));
+
+	async_context->num_loading_handler_id = e_signal_connect_notify (store, "notify::num-loading",
+		G_CALLBACK (composer_num_loading_notify_cb), async_context);
+	/* Cannot use g_cancellable_connect() here, see async_context_free() */
+	async_context->cancelled_handler_id = g_signal_connect (cancellable, "cancelled",
+		G_CALLBACK (composer_wait_for_attachment_load_cancelled_cb), async_context);
 }
 
 static void
@@ -3456,10 +3518,6 @@ em_configure_new_composer (EMsgComposer *composer,
 	g_signal_connect (
 		composer, "presend",
 		G_CALLBACK (composer_presend_check_identity), session);
-
-	g_signal_connect (
-		composer, "presend",
-		G_CALLBACK (composer_presend_check_downloads), session);
 
 	g_signal_connect (
 		composer, "presend",
