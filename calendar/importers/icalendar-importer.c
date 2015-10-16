@@ -281,6 +281,42 @@ primary_selection_changed_cb (ESourceSelector *selector,
 		source, (GDestroyNotify) g_object_unref);
 }
 
+static void
+create_calendar_clicked_cb (GtkWidget *button,
+			    ESourceSelector *selector)
+{
+	ESourceRegistry *registry;
+	ECalClientSourceType source_type;
+	GtkWidget *config;
+	GtkWidget *dialog;
+	GtkWidget *toplevel;
+	GtkWindow *window;
+
+	toplevel = gtk_widget_get_toplevel (button);
+	if (!GTK_IS_WINDOW (toplevel))
+		toplevel = NULL;
+
+	registry = e_shell_get_registry (e_shell_get_default ());
+	source_type = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "source-type"));
+	config = e_cal_source_config_new (registry, NULL, source_type);
+
+	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
+	window = GTK_WINDOW (dialog);
+
+	if (toplevel)
+		gtk_window_set_transient_for (window, GTK_WINDOW (toplevel));
+
+	if (source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+		gtk_window_set_icon_name (window, "x-office-calendar");
+		gtk_window_set_title (window, _("New Calendar"));
+	} else {
+		gtk_window_set_icon_name (window, "stock_todo");
+		gtk_window_set_title (window, _("New Task List"));
+	}
+
+	gtk_widget_show (dialog);
+}
+
 static GtkWidget *
 ivcal_getwidget (EImport *ei,
                  EImportTarget *target,
@@ -308,17 +344,20 @@ ivcal_getwidget (EImport *ei,
 
 	/* Type of icalendar items */
 	for (i = 0; import_type_map[i] != -1; i++) {
-		GtkWidget *selector, *rb;
+		GtkWidget *selector, *rb, *create_button, *vbox;
 		GtkWidget *scrolled;
 		struct _selector_data *sd;
 		const gchar *extension_name;
+		const gchar *create_label;
 
 		switch (import_type_map[i]) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 				extension_name = E_SOURCE_EXTENSION_CALENDAR;
+				create_label = _("Cre_ate new calendar");
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+				create_label = _("Cre_ate new task list");
 				break;
 			default:
 				g_warn_if_reached ();
@@ -326,13 +365,28 @@ ivcal_getwidget (EImport *ei,
 		}
 
 		selector = e_source_selector_new (registry, extension_name);
-		e_source_selector_set_show_toggles (
-			E_SOURCE_SELECTOR (selector), FALSE);
+		e_source_selector_set_show_toggles (E_SOURCE_SELECTOR (selector), FALSE);
+
+		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 4);
+
+		gtk_notebook_append_page (GTK_NOTEBOOK (nb), vbox, NULL);
+
 		scrolled = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy ((GtkScrolledWindow *) scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 		gtk_container_add ((GtkContainer *) scrolled, selector);
-		gtk_notebook_append_page (GTK_NOTEBOOK (nb), scrolled, NULL);
+		gtk_box_pack_start (GTK_BOX (vbox), scrolled, TRUE, TRUE, 0);
 
+		create_button = gtk_button_new_with_mnemonic (create_label);
+		g_object_set_data (G_OBJECT (create_button), "source-type", GINT_TO_POINTER (import_type_map[i]));
+		g_object_set (G_OBJECT (create_button),
+			"hexpand", FALSE,
+			"halign", GTK_ALIGN_END,
+			"vexpand", FALSE,
+			"valign", GTK_ALIGN_START,
+			NULL);
+		gtk_box_pack_start (GTK_BOX (vbox), create_button, FALSE, FALSE, 0);
+
+		g_signal_connect (create_button, "clicked", G_CALLBACK (create_calendar_clicked_cb), selector);
 		g_signal_connect (
 			selector, "primary_selection_changed",
 			G_CALLBACK (primary_selection_changed_cb), target);
