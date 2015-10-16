@@ -769,7 +769,7 @@ csv_getwidget (EImport *ei,
                EImportImporter *im)
 {
 	EShell *shell;
-	GtkWidget *vbox, *selector;
+	GtkWidget *vbox, *selector, *scrolled_window;
 	ESourceRegistry *registry;
 	ESource *primary;
 	const gchar *extension_name;
@@ -779,10 +779,18 @@ csv_getwidget (EImport *ei,
 	shell = e_shell_get_default ();
 	registry = e_shell_get_registry (shell);
 	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (scrolled_window),
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 6);
+
 	selector = e_source_selector_new (registry, extension_name);
 	e_source_selector_set_show_toggles (
 		E_SOURCE_SELECTOR (selector), FALSE);
-	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), selector);
 
 	primary = g_datalist_get_data (&target->data, "csv-source");
 	if (primary == NULL) {
