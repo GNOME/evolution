@@ -7926,8 +7926,23 @@ html_editor_view_insert_converted_html_into_selection (EHTMLEditorView *view,
 	if (is_html) {
 		gchar *inner_text;
 
-		webkit_dom_html_element_set_inner_html (
-			WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
+		if (strstr (html, "\n")) {
+			GRegex *regex;
+			gchar *tmp;
+
+			/* Strip new lines between tags to avoid unwanted line breaks. */
+			regex = g_regex_new ("\\>[\\s]+\\<", 0, 0, NULL);
+			tmp = g_regex_replace (
+				regex, html, -1, 0, "> <", 0, NULL);
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (element), tmp, NULL);
+			g_free (tmp);
+			g_regex_unref (regex);
+		} else {
+			webkit_dom_html_element_set_inner_html (
+				WEBKIT_DOM_HTML_ELEMENT (element), html, NULL);
+		}
+
 		inner_text = webkit_dom_html_element_get_inner_text (
 			WEBKIT_DOM_HTML_ELEMENT (element));
 		webkit_dom_html_element_set_inner_text (
