@@ -54,6 +54,11 @@ settings_mail_browser_constructed (GObject *object)
 		extensible, "show-deleted",
 		G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+		settings, "show-junk",
+		extensible, "show-junk",
+		G_SETTINGS_BIND_GET);
+
 	g_object_unref (settings);
 }
 

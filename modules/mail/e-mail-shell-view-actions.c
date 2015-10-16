@@ -1999,6 +1999,14 @@ static GtkToggleActionEntry mail_toggle_entries[] = {
 	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
+	{ "mail-show-junk",
+	  NULL,
+	  N_("Show _Junk Messages"),
+	  NULL,
+	  N_("Show junk messages with a red line through them"),
+	  NULL,  /* Handled by property bindings */
+	  FALSE },
+
 	{ "mail-threads-group-by",
 	  NULL,
 	  N_("_Group By Threads"),
@@ -2270,6 +2278,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_settings_bind (
+		settings, "show-junk",
+		ACTION (MAIL_SHOW_JUNK), "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	g_settings_bind (
 		settings, "layout",
 		ACTION (MAIL_VIEW_VERTICAL), "current-value",
 		G_SETTINGS_BIND_DEFAULT);
@@ -2328,6 +2341,12 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_binding_bind_property (
 		ACTION (MAIL_SHOW_DELETED), "active",
 		mail_view, "show-deleted",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_SHOW_JUNK), "active",
+		mail_view, "show-junk",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 

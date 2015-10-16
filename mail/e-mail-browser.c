@@ -62,6 +62,7 @@ struct _EMailBrowserPrivate {
 	gulong close_on_reply_response_handler_id;
 
 	guint show_deleted : 1;
+	guint show_junk : 1;
 };
 
 enum {
@@ -75,6 +76,7 @@ enum {
 	PROP_REPLY_STYLE,
 	PROP_MARK_SEEN_ALWAYS,
 	PROP_SHOW_DELETED,
+	PROP_SHOW_JUNK,
 	PROP_UI_MANAGER
 };
 
@@ -455,6 +457,12 @@ mail_browser_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_JUNK:
+			e_mail_browser_set_show_junk (
+				E_MAIL_BROWSER (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_MARK_SEEN_ALWAYS:
 			e_mail_reader_set_mark_seen_always (
 				E_MAIL_READER (object),
@@ -525,6 +533,13 @@ mail_browser_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_browser_get_show_deleted (
+				E_MAIL_BROWSER (object)));
+			return;
+
+		case PROP_SHOW_JUNK:
+			g_value_set_boolean (
+				value,
+				e_mail_browser_get_show_junk (
 				E_MAIL_BROWSER (object)));
 			return;
 
@@ -1021,6 +1036,17 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHOW_JUNK,
+		g_param_spec_boolean (
+			"show-junk",
+			"Show Junk",
+			"Show junk messages",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_UI_MANAGER,
 		g_param_spec_object (
 			"ui-manager",
@@ -1174,6 +1200,28 @@ e_mail_browser_set_show_deleted (EMailBrowser *browser,
 	browser->priv->show_deleted = show_deleted;
 
 	g_object_notify (G_OBJECT (browser), "show-deleted");
+}
+
+gboolean
+e_mail_browser_get_show_junk (EMailBrowser *browser)
+{
+	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), FALSE);
+
+	return browser->priv->show_junk;
+}
+
+void
+e_mail_browser_set_show_junk (EMailBrowser *browser,
+			      gboolean show_junk)
+{
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+
+	if (browser->priv->show_junk == show_junk)
+		return;
+
+	browser->priv->show_junk = show_junk;
+
+	g_object_notify (G_OBJECT (browser), "show-junk");
 }
 
 GtkUIManager *

@@ -33,6 +33,7 @@
         <menuitem action='mail-threads-collapse-all'/>
         <separator/>
         <menuitem action='mail-show-deleted'/>
+        <menuitem action='mail-show-junk'/>
       </placeholder>
     </menu>
     <placeholder name='custom-menus'>
