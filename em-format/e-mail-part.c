@@ -50,11 +50,13 @@ struct _EMailPartPrivate {
 	gchar *mime_type;
 
 	gboolean is_attachment;
+	gboolean converted_to_utf8;
 };
 
 enum {
 	PROP_0,
 	PROP_CID,
+	PROP_CONVERTED_TO_UTF8,
 	PROP_ID,
 	PROP_IS_ATTACHMENT,
 	PROP_MIME_PART,
@@ -114,6 +116,12 @@ mail_part_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_CONVERTED_TO_UTF8:
+			e_mail_part_set_converted_to_utf8 (
+				E_MAIL_PART (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_ID:
 			mail_part_set_id (
 				E_MAIL_PART (object),
@@ -159,6 +167,13 @@ mail_part_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				e_mail_part_get_cid (
+				E_MAIL_PART (object)));
+			return;
+
+		case PROP_CONVERTED_TO_UTF8:
+			g_value_set_boolean (
+				value,
+				e_mail_part_get_converted_to_utf8 (
 				E_MAIL_PART (object)));
 			return;
 
@@ -264,6 +279,17 @@ e_mail_part_class_init (EMailPartClass *class)
 			"Content ID",
 			"The MIME Content-ID",
 			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CONVERTED_TO_UTF8,
+		g_param_spec_boolean (
+			"converted-to-utf8",
+			"Converted To UTF8",
+			"Whether the part content was already converted to UTF-8",
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -444,6 +470,28 @@ e_mail_part_set_mime_type (EMailPart *part,
 	part->priv->mime_type = g_strdup (mime_type);
 
 	g_object_notify (G_OBJECT (part), "mime-type");
+}
+
+gboolean
+e_mail_part_get_converted_to_utf8 (EMailPart *part)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
+
+	return part->priv->converted_to_utf8;
+}
+
+void
+e_mail_part_set_converted_to_utf8 (EMailPart *part,
+				   gboolean converted_to_utf8)
+{
+	g_return_if_fail (E_IS_MAIL_PART (part));
+
+	if (converted_to_utf8 == part->priv->converted_to_utf8)
+		return;
+
+	part->priv->converted_to_utf8 = converted_to_utf8;
+
+	g_object_notify (G_OBJECT (part), "converted-to-utf8");
 }
 
 gboolean

@@ -399,6 +399,7 @@ web_view_init_web_settings (WebKitWebView *web_view)
 
 	g_object_set (
 		G_OBJECT (web_settings),
+		"default-encoding", "UTF-8",
 		"enable-dns-prefetching", FALSE,
 		"enable-frame-flattening", TRUE,
 		"enable-java-applet", FALSE,
