@@ -778,6 +778,18 @@
        (match-all (&gt; (get-size) ${versus}))
     </code>
    </option>
+   <option value="greater-than-or-equal">
+    <_title>is greater than or equal to</_title>
+    <code>
+       (match-all (or (&gt; (get-size) ${versus}) (= (get-size) ${versus})))
+    </code>
+   </option>
+   <option value="less-than-or-equal">
+    <_title>is less than or equal to</_title>
+    <code>
+       (match-all (or (&lt; (get-size) ${versus}) (= (get-size) ${versus})))
+    </code>
+   </option>
    <option value="less-than">
     <_title>is less than</_title>
     <code>
