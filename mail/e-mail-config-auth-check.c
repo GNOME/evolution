@@ -174,6 +174,7 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 	activity = e_mail_config_activity_page_new_activity (
 		E_MAIL_CONFIG_ACTIVITY_PAGE (page));
 	cancellable = e_activity_get_cancellable (activity);
+	e_activity_set_text (activity, _("Querying authentication types..."));
 
 	gtk_widget_set_sensitive (GTK_WIDGET (auth_check), FALSE);
 
