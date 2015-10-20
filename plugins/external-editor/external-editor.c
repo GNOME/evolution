@@ -239,31 +239,88 @@ numlines (const gchar *text,
 	gint ctr = 0;
 	gint lineno = 0;
 
-	while (text && *text && ctr <= pos) {
-		if (*text == '\n')
+	while (text && *text && ctr < pos) {
+		if (*text == '\n') {
+			/* Because the get_caret_position is returning a position
+			 * without new lines, we can't increment the counter when
+			 * we hit the new line. */
 			lineno++;
-
+		} else {
+			ctr++;
+		}
 		text++;
-		ctr++;
+
 	}
 
-	if (lineno > 0) {
+	if (lineno > 0)
 		lineno++;
-	}
 
 	return lineno;
 }
 
 static gint
-get_caret_position (EHTMLEditorView *view)
+get_caret_offset (EHTMLEditorView *view)
 {
+	gint ret_val;
+	gchar *text;
 	WebKitDOMDocument *document;
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMNode *anchor;
 	WebKitDOMRange *range;
-	gint range_count, ret_val;
-	WebKitDOMNodeList *nodes;
-	gulong ii, length;
+
+	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
+	dom_window = webkit_dom_document_get_default_view (document);
+	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
+	g_object_unref (dom_window);
+
+	if (webkit_dom_dom_selection_get_range_count (dom_selection) < 1) {
+		g_object_unref (dom_selection);
+		return 0;
+	}
+
+	webkit_dom_dom_selection_collapse_to_start (dom_selection, NULL);
+	/* Select the text from the current caret position to the beginning of the line. */
+	webkit_dom_dom_selection_modify (dom_selection, "extend", "left", "lineBoundary");
+
+	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
+	anchor = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+	text = webkit_dom_range_to_string (range, NULL);
+	ret_val = strlen (text);
+	g_free (text);
+
+	webkit_dom_dom_selection_collapse_to_end (dom_selection, NULL);
+
+	/* In the plain text mode we need to increase the return value by 2 per
+	 * citation level because of "> ". */
+	if (!e_html_editor_view_get_html_mode (view)) {
+		WebKitDOMNode *parent = anchor;
+
+		while (parent && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent)) {
+			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (parent) &&
+			    element_has_class (WEBKIT_DOM_ELEMENT (parent), "-x-evo-plaintext-quoted"))
+				ret_val += 2;
+
+			parent = webkit_dom_node_get_parent_node (parent);
+		}
+	}
+
+	g_object_unref (range);
+	g_object_unref (dom_selection);
+
+	return ret_val;
+}
+
+static gint
+get_caret_position (EHTMLEditorView *view)
+{
+	gint ret_val;
+	gchar *text;
+	WebKitDOMDocument *document;
+	WebKitDOMHTMLElement *body;
+	WebKitDOMDOMWindow *dom_window;
+	WebKitDOMDOMSelection *dom_selection;
+	WebKitDOMRange *range, *range_clone;
 
 	document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
 	dom_window = webkit_dom_document_get_default_view (document);
@@ -276,32 +333,19 @@ get_caret_position (EHTMLEditorView *view)
 	}
 
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
-	range_count = 0;
-	nodes = webkit_dom_node_get_child_nodes (
-		webkit_dom_node_get_parent_node (
-			webkit_dom_dom_selection_get_anchor_node (
-				dom_selection)));
-	length = webkit_dom_node_list_get_length (nodes);
-	for (ii = 0; ii < length; ii++) {
-		WebKitDOMNode *node;
+	range_clone = webkit_dom_range_clone_range (range, NULL);
 
-		node = webkit_dom_node_list_item (nodes, ii);
-		if (webkit_dom_node_is_same_node (
-			node, webkit_dom_dom_selection_get_anchor_node (dom_selection))) {
+	body = webkit_dom_document_get_body (document);
+	/* Select the text from the beginning of the body to the current caret. */
+	webkit_dom_range_set_start_before (
+		range_clone, webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (body)), NULL);
 
-			g_object_unref (node);
-			break;
-		} else if (WEBKIT_DOM_IS_TEXT (node)) {
-			gchar *text = webkit_dom_node_get_text_content (node);
-			range_count += strlen (text);
-			g_free (text);
-		}
-		g_object_unref (node);
-	}
-	g_object_unref (nodes);
+	/* This is returning a text without new lines! */
+	text = webkit_dom_range_to_string (range_clone, NULL);
+	ret_val = strlen (text);
+	g_free (text);
 
-	ret_val = webkit_dom_range_get_start_offset (range, NULL) + range_count;
-
+	g_object_unref (range_clone);
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 
@@ -368,7 +412,9 @@ external_editor_thread (gpointer user_data)
 		gboolean set_nofork;
 
 		set_nofork = g_strrstr (editor_cmd, "gvim") != NULL;
-		/* Increment 1 so that entering vim insert mode places you
+
+		offset = get_caret_offset (view);
+		/* Increment by 1 so that entering vim insert mode places you
 		 * in the same entry position you were at in the html. */
 		offset++;
 
