@@ -3552,7 +3552,7 @@ e_html_editor_selection_is_citation (EHTMLEditorSelection *selection)
 	value = webkit_dom_element_get_attribute (WEBKIT_DOM_ELEMENT (node), "type");
 
 	/* citation == <blockquote type='cite'> */
-	if (g_strstr_len (value, -1, "cite"))
+	if (strstr (value, "cite"))
 		ret_val = TRUE;
 	else
 		ret_val = get_has_style (selection, "citation");
@@ -6538,7 +6538,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 				g_free (text_content);
 				text_content = webkit_dom_node_get_text_content (node);
 			}
-			newline = g_strstr_len (text_content, -1, "\n");
+			newline = strstr (text_content, "\n");
 
 			next_sibling = node;
 			while (newline) {
@@ -6570,7 +6570,7 @@ wrap_lines (EHTMLEditorSelection *selection,
 					text_content =
 						webkit_dom_node_get_text_content (next_sibling);
 				}
-				newline = g_strstr_len (text_content, -1, "\n");
+				newline = strstr (text_content, "\n");
 			}
 			g_free (text_content);
 		} else {
