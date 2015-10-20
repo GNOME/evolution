@@ -7034,7 +7034,9 @@ e_html_editor_selection_set_paragraph_style (EHTMLEditorSelection *selection,
 	if (!is_in_html_mode (selection) &&
 	    (!parent || WEBKIT_DOM_IS_HTML_BODY_ELEMENT (parent))) {
 		style = g_strdup_printf (
-			"width: %dch; word-wrap: normal; %s",
+			"width: %dch; "
+			"word-wrap: break-word; "
+			"word-break: break-word; %s",
 			(word_wrap_length + offset), style_to_add);
 	} else {
 		if (*style_to_add)
