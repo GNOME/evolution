@@ -10729,7 +10729,7 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 
 static void
 im_context_preedit_start_cb (GtkIMContext *context,
-                           EHTMLEditorView *view)
+                             EHTMLEditorView *view)
 {
 	view->priv->im_input_in_progress = TRUE;
 	remove_input_event_listener_from_body (view);
