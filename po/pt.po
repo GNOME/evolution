@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-09-02 04:32+0000\n"
-"PO-Revision-Date: 2015-09-02 07:39+0100\n"
+"PO-Revision-Date: 2015-10-23 19:00+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -3039,12 +3039,12 @@ msgstr "Este memorando foi eliminado."
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  efetuou alterações. Esquecer estas alterações e fechar o editor?"
+msgstr "%s efetuou alterações. Esquecer estas alterações e fechar o editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
 msgid "%s  You have made no changes, close the editor?"
-msgstr "%s  não efetuou quaisquer alterações, fechar o editor?"
+msgstr "%s não efetuou quaisquer alterações, fechar o editor?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:84
 msgid "This event has been changed."
@@ -16092,7 +16092,7 @@ msgstr "A obter mensagem"
 #: ../mail/e-mail-reader.c:4078
 #: ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
-msgstr "R_Eencaminhar"
+msgstr "R_Encaminhar"
 
 #: ../mail/e-mail-reader.c:4079
 msgid "Forward the selected message to someone"
@@ -20276,9 +20276,6 @@ msgstr "_Atribuir tarefa"
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:323
 #: ../modules/calendar/e-task-shell-view-actions.c:724
-msgid "_Mark as Complete"
-msgstr "_Marcar como terminada"
-
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:325
 #: ../modules/calendar/e-task-shell-view-actions.c:726
 msgid "Mark selected tasks as complete"
@@ -24834,7 +24831,7 @@ msgstr "Com _Estado"
 #~ "O Evolution ainda não suporta lembretes de calendário\n"
 #~ "com notificações por email, mas este lembrete foi\n"
 #~ "configurado para enviar um email.  O Evolution\n"
-#~ "irá mostrar um diálogo de lembrete normal."
+#~ "mostrará um diálogo de lembrete normal."
 
 #~ msgid "Day View"
 #~ msgstr "Vista de Dia"
@@ -25019,7 +25016,7 @@ msgstr "Com _Estado"
 #~ msgstr "_Alternar para a Pasta"
 
 #~ msgid "Display the parent folder"
-#~ msgstr "Mostrar a pasta pai"
+#~ msgstr "Mostrar a pasta-mãe"
 
 #~ msgid "Switch to _next tab"
 #~ msgstr "Alternar para o separador _seguinte"
