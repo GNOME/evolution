@@ -1694,6 +1694,9 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
                                          gint n_targets,
                                          EMsgComposer *composer)
 {
+	EHTMLEditor *editor = e_msg_composer_get_editor (composer);
+	EHTMLEditorView *editor_view = e_html_editor_get_view (editor);
+
 	if (targets == NULL || n_targets < 0)
 		return;
 
@@ -1705,14 +1708,29 @@ msg_composer_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 		return;
 	}
 
-	if (e_targets_include_html (targets, n_targets)) {
-		e_composer_paste_html (composer, clipboard);
-		return;
-	}
+	/* Prefer plain text over HTML when in the plain text mode, but only
+	 * when pasting content from outside the editor view. */
+	if (e_html_editor_view_get_html_mode (editor_view) ||
+	    e_html_editor_view_is_pasting_content_from_itself (editor_view)) {
+		if (e_targets_include_html (targets, n_targets)) {
+			e_composer_paste_html (composer, clipboard);
+			return;
+		}
 
-	if (gtk_targets_include_text (targets, n_targets)) {
-		e_composer_paste_text (composer, clipboard);
-		return;
+		if (gtk_targets_include_text (targets, n_targets)) {
+			e_composer_paste_text (composer, clipboard);
+			return;
+		}
+	} else {
+		if (gtk_targets_include_text (targets, n_targets)) {
+			e_composer_paste_text (composer, clipboard);
+			return;
+		}
+
+		if (e_targets_include_html (targets, n_targets)) {
+			e_composer_paste_html (composer, clipboard);
+			return;
+		}
 	}
 
 	if (gtk_targets_include_image (targets, n_targets, TRUE)) {
