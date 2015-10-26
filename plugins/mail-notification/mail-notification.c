@@ -632,9 +632,11 @@ new_notify_sound (EMEventTargetFolder *t)
 
 	time (&last_newmail);
 
-	/* just put it to the idle queue */
+	/* just put it to the idle queue, if not under GNOME, where everything is
+	   handled by the libnotify */
 	if (data.notify_idle_id == 0 &&
-		(last_newmail - data.last_notify >= NOTIFY_THROTTLE))
+	    (last_newmail - data.last_notify >= NOTIFY_THROTTLE) &&
+	    !e_util_is_running_gnome ())
 		data.notify_idle_id = g_idle_add_full (
 			G_PRIORITY_LOW, sound_notify_idle_cb, &data, NULL);
 }
