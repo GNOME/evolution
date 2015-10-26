@@ -1,3 +1,64 @@
+Evolution 3.19.1 2015-10-26
+---------------------------
+
+Bug Fixes:
+	Bug 749974 - Use OAuth2 for Google sources (Milan Crha)
+	Bug 544813 - Allow recurrence editing for non-detached instances (Milan Crha)
+	Bug 754999 - Write EXDATE times in UTC (Milan Crha)
+	Bug 749158 - Various UI improvements (Trinh Anh Ngoc)
+	Bug 754872 - Escape underscores in Search menu rule names (Milan Crha)
+	Bug 255032 - Be able to write a note on a mail (Milan Crha)
+	Bug 677862 - Delete of multiple messages can keep cursor out of view (Milan Crha)
+	Bug 754693 - Set "References" header in forwarded messages (Milan Crha)
+	Bug 442398 - Option to reorder and hide calendar groups (Milan Crha)
+	Bug 513779 - Select reply style per mail account (Milan Crha)
+	Bug 756535 - Hyperlinks are stripped from e-mails after being sent (Tomas Popela)
+	Bug 755730 - Focus message list after start in the Mail view (Milan Crha)
+	Bug 756664 - Preserve selection on date change in Day/Work Week views (Milan Crha)
+	Bug 676151 - Allow to create new calendar when importing ICS file (Milan Crha)
+	Bug 682565 - Wait for attachments to load before send in composer (Milan Crha)
+	Bug 687326 - Provide "Show Junk Messages" option for message list (Milan Crha)
+	Bug 688368 - Wrong characters encoding in attached html file (Milan Crha)
+	Bug 687427 - Add 'greater/less than or equal' to Size filter condition (Milan Crha)
+	Bug 688796 - No progress shown when "Search for Supported Types" (Milan Crha)
+	Bug 756707 - calculations of lineno and offset for external editor gvim component is broken (Tomas Popela)
+	Bug 756883 - Add an option for line wrapping in a quoted text (Tomas Popela)
+
+Miscellaneous:
+	Fix the name of GNOME Calendar (Piotr Drąg)
+	Fix translation of default:mm (Piotr Drąg)
+	Use set date/time format in Tasks/Memos previews (Milan Crha)
+	Add also evolution-mail-formatter into Libs of evolution-mail.pc (Milan Crha)
+	Pack address book importers' selector into a scrollable window (Milan Crha)
+	EHTMLEditorSelection - Selection start marker could be wrongly saved before the quote character (Tomas Popela)
+	EHTMLEditorSelection - Selection is wrongly restored when it is on the end of block (Tomas Popela)
+	EHTMLEditorSelection - Blocks are wrongly wrapped around selection markers (Tomas Popela)
+	EHTMLEditorSelection - Font color can't be set (Tomas Popela)
+	EHTMLEditorSelection - Current font color is discarded after modifying the font size (Tomas Popela)
+	EHTMLEditorSelection - Font formats are reported wrongly if the are nested FONT elements (Tomas Popela)
+	EHTMLEditorSelection - build fix (Tomas Popela)
+	EHTMLEditorSelection - Make sure we really wrap when ending a line (Tomas Popela)
+	EHTMLEditorSelection - Trailing and leading spaces could be lost (Tomas Popela)
+	EHTMLEditorSelection - Replace g_strstr_len usage with strstr (Tomas Popela)
+	EHTMLEditorView - Only process the Heading elements in HTML mode (Tomas Popela)
+	EHTMLEditorView - When merging siblings repeat until none is left (Tomas Popela)
+	EHTMLEditorView - Improve the undo/redo in composer (Tomas Popela)
+	EHTMLEditorView  - Pasting HTML content with new lines between elements inserts these lines into composer (Tomas Popela)
+	EHTMLEditorView - Extra new line added after credentials (Tomas Popela)
+	EHTMLEditorView - Busy loop when replying to certain mail (Tomas Popela)
+	EHTMLEditorView - Very long strings without spaces can overflow the paragraph (Tomas Popela)
+	EHTMLEditorView - Quote symbols could be inserted twice around tabulator (Tomas Popela)
+	EHTMLEditorView - Correct indentation (Tomas Popela)
+
+Translations:
+	Kenneth Nielsen (da)
+	Christian Kirbach (de)
+	Petr Kovar (cs)
+	Милош Поповић (sr)
+	Jiri Grönroos (fi)
+	Tom Tryfonidis (el)
+	Inaki Larranaga Murgoitio (eu)
+
 Evolution 3.18.0 2015-09-21
 ---------------------------
 
