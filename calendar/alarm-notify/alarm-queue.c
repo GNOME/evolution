@@ -1916,10 +1916,6 @@ popup_notification (time_t trigger,
 		qa->notify, "desktop-entry",
 		g_variant_new_string (PACKAGE));
 
-	notify_notification_set_hint (
-		qa->notify, "sound-name",
-		g_variant_new_string ("alarm-clock-elapsed"));
-
 	notify_notification_add_action (
 		qa->notify, "open-appointments", _("Appointments"),
 		notify_open_appointments_cb, NULL, NULL);
