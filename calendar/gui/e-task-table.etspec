@@ -2,15 +2,16 @@
   <ETableColumn model_col= "5" _title="Start date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
   <ETableColumn model_col="7" pixbuf="icon" _title="Type" expansion="1.0" minimum_width="16" resizable="false" cell="icon" compare="integer" priority="-4"/>
   <ETableColumn model_col= "8" _title="Summary" expansion="3.0" minimum_width="10" resizable="true" cell="calstring" compare="stringcase" priority="10"/>
-  <ETableColumn model_col= "12" _title="Completion date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
-  <ETableColumn model_col="13" pixbuf="complete" _title="Complete" expansion="1.0" minimum_width="16" resizable="false" cell="checkbox" compare="integer" priority="-4"/>
-  <ETableColumn model_col= "14" _title="Due date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
-  <ETableColumn model_col= "17" _title="% Complete" expansion="1.0" minimum_width="10" resizable="true" cell="percent" compare="percent-compare" priority="-3"/>
-  <ETableColumn model_col= "18" _title="Priority" expansion="1.0" minimum_width="10" resizable="true" cell="priority" compare="priority-compare" priority="-3"/>
-  <ETableColumn model_col="19" _title="Status" expansion="1.0" minimum_width="10" resizable="true" cell="calstatus" compare="status-compare" priority="-1"/>
+  <ETableColumn model_col= "13" _title="Completion date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
+  <ETableColumn model_col="14" pixbuf="complete" _title="Complete" expansion="1.0" minimum_width="16" resizable="false" cell="checkbox" compare="integer" priority="-4"/>
+  <ETableColumn model_col= "15" _title="Due date" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
+  <ETableColumn model_col= "18" _title="% Complete" expansion="1.0" minimum_width="10" resizable="true" cell="percent" compare="percent-compare" priority="-3"/>
+  <ETableColumn model_col= "19" _title="Priority" expansion="1.0" minimum_width="10" resizable="true" cell="priority" compare="priority-compare" priority="-3"/>
+  <ETableColumn model_col="20" _title="Status" expansion="1.0" minimum_width="10" resizable="true" cell="calstatus" compare="status-compare" priority="-1"/>
   <ETableColumn model_col="0" _title="Categories" cell="calstring" compare="stringcase" expansion="1.0" minimum_width="10" resizable="true" priority="-2"/>
   <ETableColumn model_col="10" _title="Created" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
   <ETableColumn model_col="11" _title="Last modified" expansion="2.0" minimum_width="10" resizable="true" cell="dateedit" compare="date-compare" priority="-2"/>
+  <ETableColumn model_col="12" _title="Source" expansion="1.0" minimum_width="10" resizable="true" cell="string" compare="collate" priority="-2"/>
 
   <ETableState>
     <column source="1"/>
