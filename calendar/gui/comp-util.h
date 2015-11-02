@@ -122,5 +122,22 @@ gboolean cal_comp_transfer_item_to_sync		(ECalClient *src_client,
 						 gboolean do_copy,
 						 GCancellable *cancellable,
 						 GError **error);
+void		cal_comp_util_update_tzid_parameter
+						(icalproperty *prop,
+						 const struct icaltimetype tt);
+gint		cal_comp_util_compare_time_with_today
+						(const struct icaltimetype time_tt);
+gboolean	cal_comp_util_remove_all_properties
+						(icalcomponent *component,
+						 icalproperty_kind kind);
+gboolean	cal_comp_util_have_in_new_attendees
+						(const GSList *new_attendees_mails,
+						 const gchar *eml);
+void		cal_comp_util_copy_new_attendees
+						(ECalComponent *des,
+						 ECalComponent *src);
+void		cal_comp_util_set_added_attendees_mails
+						(ECalComponent *comp,
+						 GSList *emails);
 
 #endif

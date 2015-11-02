@@ -28,7 +28,6 @@
 #include "e-day-view.h"
 #include "e-week-view.h"
 #include "e-cal-ops.h"
-#include "dialogs/goto-dialog.h"
 #include <glib/gi18n.h>
 
 static AtkObject * ea_cal_view_get_parent (AtkObject *accessible);

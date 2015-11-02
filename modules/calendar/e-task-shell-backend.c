@@ -24,7 +24,6 @@
 
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-cal-ops.h>
-#include <calendar/gui/dialogs/task-editor.h>
 
 #include "e-task-shell-view.h"
 #include "e-task-shell-backend.h"

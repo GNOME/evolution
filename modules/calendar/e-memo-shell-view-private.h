@@ -31,7 +31,6 @@
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/print.h"
-#include "calendar/gui/dialogs/memo-editor.h"
 
 #include "e-cal-base-shell-sidebar.h"
 

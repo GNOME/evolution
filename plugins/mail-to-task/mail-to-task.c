@@ -40,10 +40,8 @@
 #include <mail/em-utils.h>
 #include <mail/message-list.h>
 
-#include <calendar/gui/dialogs/comp-editor.h>
-#include <calendar/gui/dialogs/event-editor.h>
-#include <calendar/gui/dialogs/memo-editor.h>
-#include <calendar/gui/dialogs/task-editor.h>
+#include <calendar/gui/e-comp-editor.h>
+#include <calendar/gui/itip-utils.h>
 
 #define E_SHELL_WINDOW_ACTION_CONVERT_TO_APPOINTMENT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-appointment")
@@ -59,16 +57,15 @@ gboolean	mail_browser_init		(GtkUIManager *ui_manager,
 gboolean	mail_shell_view_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 
-static CompEditor *
+static ECompEditor *
 get_component_editor (EShell *shell,
                       ECalClient *client,
                       ECalComponent *comp,
                       gboolean is_new,
                       GError **error)
 {
-	ECalComponentId *id;
-	CompEditorFlags flags = 0;
-	CompEditor *editor = NULL;
+	ECompEditorFlags flags = 0;
+	ECompEditor *comp_editor = NULL;
 	ESourceRegistry *registry;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -77,61 +74,31 @@ get_component_editor (EShell *shell,
 
 	registry = e_shell_get_registry (shell);
 
-	id = e_cal_component_get_id (comp);
-	g_return_val_if_fail (id != NULL, NULL);
-	g_return_val_if_fail (id->uid != NULL, NULL);
-
 	if (is_new) {
-		flags |= COMP_EDITOR_NEW_ITEM;
+		flags |= E_COMP_EDITOR_FLAG_IS_NEW;
 	} else {
-		editor = comp_editor_find_instance (id->uid);
+		comp_editor = e_comp_editor_find_existing_for (
+			e_client_get_source (E_CLIENT (client)),
+			e_cal_component_get_icalcomponent (comp));
 	}
 
-	if (!editor) {
+	if (!comp_editor) {
 		if (itip_organizer_is_user (registry, comp, client))
-			flags |= COMP_EDITOR_USER_ORG;
+			flags |= E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
+		if (e_cal_component_has_attendees (comp))
+			flags |= E_COMP_EDITOR_FLAG_WITH_ATTENDEES;
 
-		switch (e_cal_component_get_vtype (comp)) {
-		case E_CAL_COMPONENT_EVENT:
-			if (e_cal_component_has_attendees (comp))
-				flags |= COMP_EDITOR_MEETING;
+		comp_editor = e_comp_editor_open_for_component (NULL,
+			shell, e_client_get_source (E_CLIENT (client)),
+			e_cal_component_get_icalcomponent (comp), flags);
 
-			editor = event_editor_new (client, shell, flags);
-
-			if (flags & COMP_EDITOR_MEETING)
-				event_editor_show_meeting (EVENT_EDITOR (editor));
-			break;
-		case E_CAL_COMPONENT_TODO:
-			if (e_cal_component_has_attendees (comp))
-				flags |= COMP_EDITOR_IS_ASSIGNED;
-
-			editor = task_editor_new (client, shell, flags);
-
-			if (flags & COMP_EDITOR_IS_ASSIGNED)
-				task_editor_show_assignment (TASK_EDITOR (editor));
-			break;
-		case E_CAL_COMPONENT_JOURNAL:
-			if (e_cal_component_has_organizer (comp))
-				flags |= COMP_EDITOR_IS_SHARED;
-
-			editor = memo_editor_new (client, shell, flags);
-			break;
-		default:
-			g_warn_if_reached ();
-			break;
-		}
-
-		if (editor) {
-			comp_editor_edit_comp (editor, comp);
-
+		if (comp_editor) {
 			/* request save for new events */
-			comp_editor_set_changed (editor, is_new);
+			e_comp_editor_set_changed (comp_editor, is_new);
 		}
 	}
 
-	e_cal_component_free_id (id);
-
-	return editor;
+	return comp_editor;
 }
 
 static void
@@ -666,14 +633,14 @@ get_question_add_all_mails (ECalClientSourceType source_type,
 }
 
 static void
-comp_editor_closed (CompEditor *editor,
-                    gboolean accepted,
+comp_editor_closed (ECompEditor *comp_editor,
+                    gboolean saved,
                     struct _manage_comp *mc)
 {
 	if (!mc)
 		return;
 
-	if (!accepted && mc->mails_done < mc->mails_count)
+	if (!saved && mc->mails_done < mc->mails_count)
 		mc->can_continue = (do_ask (_("Do you wish to continue converting remaining mails?"), FALSE) == GTK_RESPONSE_YES);
 
 	/* Signal the do_mail_to_event thread that editor was closed and editor
@@ -782,26 +749,25 @@ do_manage_comp_idle (struct _manage_comp *mc)
 
 	if (edit_comp) {
 		EShell *shell;
-		CompEditor *editor;
+		ECompEditor *comp_editor;
 
 		/* FIXME Pass in the EShell instance. */
 		shell = e_shell_get_default ();
-		editor = get_component_editor (
+		comp_editor = get_component_editor (
 			shell, mc->client, edit_comp,
 			edit_comp == mc->comp, &error);
 
-		if (editor && !error) {
-			/* Force editor's title change */
-			comp_editor_title_changed (GTK_WIDGET (editor), NULL, mc);
+		if (comp_editor && !error) {
+			comp_editor_title_changed (GTK_WIDGET (comp_editor), NULL, mc);
 
 			e_signal_connect_notify (
-				editor, "notify::title",
+				comp_editor, "notify::title",
 				G_CALLBACK (comp_editor_title_changed), mc);
 			g_signal_connect (
-				editor, "comp_closed",
+				comp_editor, "editor-closed",
 				G_CALLBACK (comp_editor_closed), mc);
 
-			gtk_window_present (GTK_WINDOW (editor));
+			gtk_window_present (GTK_WINDOW (comp_editor));
 
 			if (edit_comp != mc->comp)
 				g_object_unref (edit_comp);

@@ -25,8 +25,8 @@
 #include <gtk/gtk.h>
 #include <libecal/libecal.h>
 
-#include "e-cal-model.h"
-#include "dialogs/comp-editor.h"
+#include <calendar/gui/e-cal-model.h>
+#include <calendar/gui/e-comp-editor.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CALENDAR_VIEW \
@@ -216,7 +216,7 @@ void		e_calendar_view_update_query	(ECalendarView *cal_view);
 
 void		e_calendar_view_delete_selected_occurrence
 						(ECalendarView *cal_view);
-CompEditor *	e_calendar_view_open_event_with_flags
+ECompEditor *	e_calendar_view_open_event_with_flags
 						(ECalendarView *cal_view,
 						 ECalClient *client,
 						 icalcomponent *icalcomp,

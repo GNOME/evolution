@@ -22,8 +22,11 @@
 #include <config.h>
 #endif
 
-#include <calendar/gui/e-cal-ops.h>
-#include <calendar/gui/print.h>
+#include "calendar/gui/e-cal-dialogs.h"
+#include "calendar/gui/e-cal-ops.h"
+#include "calendar/gui/e-comp-editor.h"
+#include "calendar/gui/itip-utils.h"
+#include "calendar/gui/print.h"
 
 #include "e-cal-base-shell-view.h"
 #include "e-cal-shell-view-private.h"
@@ -126,7 +129,7 @@ action_calendar_jump_to_cb (GtkAction *action,
 	e_cal_shell_content_get_current_range_dates (cal_shell_content, &range_start, &range_end);
 	data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 
-	if (goto_dialog_run (GTK_WINDOW (shell_window), data_model, &range_start, &move_type, &exact_date))
+	if (e_cal_dialogs_goto_run (GTK_WINDOW (shell_window), data_model, &range_start, &move_type, &exact_date))
 		e_cal_shell_content_move_view_range (cal_shell_content, move_type, exact_date);
 }
 
@@ -533,7 +536,7 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 	}
 
 	/* Get a destination source from the user. */
-	destination_source = select_source_dialog (
+	destination_source = e_cal_dialogs_select_source (
 		GTK_WINDOW (shell_window), registry,
 		E_CAL_CLIENT_SOURCE_TYPE_EVENTS, source_source);
 	if (destination_source == NULL) {
@@ -686,7 +689,7 @@ action_event_delegate_cb (GtkAction *action,
 
 	e_calendar_view_open_event_with_flags (
 		calendar_view, event->comp_data->client, clone,
-		COMP_EDITOR_MEETING | COMP_EDITOR_DELEGATE);
+		E_COMP_EDITOR_FLAG_WITH_ATTENDEES | E_COMP_EDITOR_FLAG_DELEGATE);
 
 	icalcomponent_free (clone);
 	g_list_free (selected);
@@ -747,7 +750,7 @@ action_event_forward_cb (GtkAction *action,
 	component = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
 	g_return_if_fail (component != NULL);
 
-	itip_send_component (e_calendar_view_get_model (calendar_view),
+	itip_send_component_with_model (e_calendar_view_get_model (calendar_view),
 		E_CAL_COMPONENT_METHOD_PUBLISH, component, client,
 		NULL, NULL, NULL, TRUE, FALSE, TRUE);
 

@@ -70,12 +70,13 @@ struct _EDateTimeListClass {
 
 GType		e_date_time_list_get_type	(void);
 EDateTimeList *	e_date_time_list_new		(void);
-const ECalComponentDateTime *
-		e_date_time_list_get_date_time	(EDateTimeList *date_time_list,
+struct icaltimetype *
+		e_date_time_list_get_date_time
+						(EDateTimeList *date_time_list,
 						 GtkTreeIter *iter);
 void		e_date_time_list_set_date_time	(EDateTimeList *date_time_list,
 						 GtkTreeIter *iter,
-						 const ECalComponentDateTime *datetime);
+						 const struct icaltimetype itt);
 gboolean	e_date_time_list_get_use_24_hour_format
 						(EDateTimeList *date_time_list);
 void		e_date_time_list_set_use_24_hour_format
@@ -86,7 +87,7 @@ void		e_date_time_list_set_timezone	(EDateTimeList *date_time_list,
 						 icaltimezone *zone);
 void		e_date_time_list_append		(EDateTimeList *date_time_list,
 						 GtkTreeIter *iter,
-						 const ECalComponentDateTime *datetime);
+						 const struct icaltimetype itt);
 void		e_date_time_list_remove		(EDateTimeList *date_time_list,
 						 GtkTreeIter *iter);
 void		e_date_time_list_clear		(EDateTimeList *date_time_list);

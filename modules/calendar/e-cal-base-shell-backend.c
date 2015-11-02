@@ -25,11 +25,8 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <calendar/gui/dialogs/comp-editor.h>
-#include <calendar/gui/dialogs/event-editor.h>
-#include <calendar/gui/dialogs/memo-editor.h>
-#include <calendar/gui/dialogs/task-editor.h>
 #include <calendar/gui/comp-util.h>
+#include <calendar/gui/e-comp-editor.h>
 
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-view.h"
@@ -234,82 +231,15 @@ handle_uri_data_free (gpointer ptr)
 		return;
 
 	if (hud->cal_client) {
-		CompEditor *editor;
+		ECompEditor *comp_editor = NULL;
 
-		editor = comp_editor_find_instance (hud->comp_uid);
+		comp_editor = e_comp_editor_open_for_component (NULL,
+			e_shell_backend_get_shell (hud->shell_backend),
+			e_client_get_source (E_CLIENT (hud->cal_client)),
+			hud->existing_icalcomp, 0);
 
-		if (!editor) {
-			EShell *shell;
-			ESourceRegistry *registry;
-			ECalComponent *comp;
-			CompEditorFlags flags = 0;
-			icalcomponent *icalcomp = hud->existing_icalcomp;
-			icalproperty *icalprop;
-
-			shell = e_shell_backend_get_shell (hud->shell_backend);
-			registry = e_shell_get_registry (shell);
-
-			comp = e_cal_component_new ();
-			if (!e_cal_component_set_icalcomponent (comp, hud->existing_icalcomp)) {
-				g_warning ("%s: Failed to set icalcomp to comp", G_STRFUNC);
-			} else {
-				/* The 'comp' consumed the icalcomp */
-				hud->existing_icalcomp = NULL;
-			}
-
-			switch (hud->source_type) {
-				case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-					icalprop = icalcomp ? icalcomponent_get_first_property (
-						icalcomp, ICAL_ATTENDEE_PROPERTY) : NULL;
-					if (icalprop != NULL)
-						flags |= COMP_EDITOR_MEETING;
-
-					if (itip_organizer_is_user (registry, comp, hud->cal_client))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					if (itip_sentby_is_user (registry, comp, hud->cal_client))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					if (!e_cal_component_has_attendees (comp))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					editor = event_editor_new (hud->cal_client, shell, flags);
-					break;
-				case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-					if (e_cal_component_has_organizer (comp))
-						flags |= COMP_EDITOR_IS_SHARED;
-
-					if (itip_organizer_is_user (registry, comp, hud->cal_client))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					editor = memo_editor_new (hud->cal_client, shell, flags);
-					break;
-				case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-					icalprop = icalcomp ? icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY) : NULL;
-					if (icalprop != NULL)
-						flags |= COMP_EDITOR_IS_ASSIGNED;
-
-					if (itip_organizer_is_user (registry, comp, hud->cal_client))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					if (!e_cal_component_has_attendees (comp))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					editor = task_editor_new (hud->cal_client, shell, flags);
-					break;
-				default:
-					g_warn_if_reached ();
-					break;
-			}
-
-			if (editor)
-				comp_editor_edit_comp (editor, comp);
-
-			g_object_unref (comp);
-		}
-
-		if (editor)
-			gtk_window_present (GTK_WINDOW (editor));
+		if (comp_editor)
+			gtk_window_present (GTK_WINDOW (comp_editor));
 	}
 
 	if (hud->existing_icalcomp)

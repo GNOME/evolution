@@ -36,11 +36,6 @@
 
 #include "e-cal-model-calendar.h"
 #include "e-cell-date-edit-text.h"
-#include "dialogs/delete-comp.h"
-#include "dialogs/goto-dialog.h"
-#include "dialogs/send-comp.h"
-#include "dialogs/cancel-comp.h"
-#include "dialogs/recur-comp.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "calendar-config.h"

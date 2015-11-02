@@ -1,5 +1,3 @@
-SUBDIRS = dialogs
-
 privsolib_LTLIBRARIES = libevolution-calendar.la
 
 ecalendarincludedir = $(privincludedir)/calendar/gui
@@ -13,6 +11,7 @@ ecalendarinclude_HEADERS =			\
 	e-cal-config.h				\
 	e-cal-data-model.h			\
 	e-cal-data-model-subscriber.h		\
+	e-cal-dialogs.h				\
 	e-cal-event.h				\
 	e-cal-list-view.h			\
 	e-cal-model-calendar.h			\
@@ -20,6 +19,18 @@ ecalendarinclude_HEADERS =			\
 	e-cal-ops.h				\
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
+	e-comp-editor.h				\
+	e-comp-editor-event.h			\
+	e-comp-editor-memo.h			\
+	e-comp-editor-page-attachments.h	\
+	e-comp-editor-page-general.h		\
+	e-comp-editor-page-recurrence.h		\
+	e-comp-editor-page-reminders.h		\
+	e-comp-editor-page-schedule.h		\
+	e-comp-editor-page.h			\
+	e-comp-editor-property-part.h		\
+	e-comp-editor-property-parts.h		\
+	e-comp-editor-task.h			\
 	e-date-time-list.h                      \
 	e-day-view-layout.h			\
 	e-day-view-main-item.h			\
@@ -35,6 +46,7 @@ ecalendarinclude_HEADERS =			\
 	e-meeting-utils.h			\
 	e-select-names-editable.h		\
 	e-select-names-renderer.h		\
+	e-send-options-utils.h			\
 	e-week-view-event-item.h		\
 	e-week-view-layout.h			\
 	e-week-view-main-item.h			\
@@ -96,6 +108,7 @@ libevolution_calendar_la_SOURCES = \
 	e-cal-data-model.h			\
 	e-cal-data-model-subscriber.c		\
 	e-cal-data-model-subscriber.h		\
+	e-cal-dialogs.c				\
 	e-cal-event.c				\
 	e-cal-event.h				\
 	e-cal-list-view.c			\
@@ -114,6 +127,18 @@ libevolution_calendar_la_SOURCES = \
 	e-calendar-view.h			\
 	e-cell-date-edit-text.h			\
 	e-cell-date-edit-text.c			\
+	e-comp-editor.c				\
+	e-comp-editor-event.c			\
+	e-comp-editor-memo.c			\
+	e-comp-editor-page-attachments.c	\
+	e-comp-editor-page-general.c		\
+	e-comp-editor-page-recurrence.c		\
+	e-comp-editor-page-reminders.c		\
+	e-comp-editor-page-schedule.c		\
+	e-comp-editor-page.c			\
+	e-comp-editor-property-part.c		\
+	e-comp-editor-property-parts.c		\
+	e-comp-editor-task.c			\
 	e-date-time-list.c			\
 	e-date-time-list.h			\
 	e-day-view-layout.c			\
@@ -147,6 +172,7 @@ libevolution_calendar_la_SOURCES = \
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\
 	e-select-names-renderer.h		\
+	e-send-options-utils.c			\
 	e-task-table.c				\
 	e-task-table.h				\
 	e-week-view-event-item.c		\
@@ -199,7 +225,6 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/shell/libevolution-shell.la			\
-	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/e-util/libevolution-util.la			\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\

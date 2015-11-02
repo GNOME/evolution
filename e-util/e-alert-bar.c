@@ -174,9 +174,8 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	image = GTK_IMAGE (alert_bar->priv->image);
 	gtk_image_set_from_icon_name (image, icon_name, ICON_SIZE);
 
-	/* Avoid showing an image for one-line alerts,
-	 * which are usually questions or informational. */
-	visible = have_primary_text && have_secondary_text;
+	/* Avoid showing an image for empty alerts. */
+	visible = have_primary_text || have_secondary_text;
 	gtk_widget_set_visible (alert_bar->priv->image, visible);
 
 	gtk_widget_show (GTK_WIDGET (alert_bar));
@@ -282,6 +281,7 @@ alert_bar_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

@@ -42,37 +42,6 @@ calendar/alarm-notify/alarm-queue.c
 calendar/alarm-notify/util.c
 calendar/calendar.error.xml
 calendar/gui/caltypes.xml
-calendar/gui/dialogs/alarm-dialog.c
-[type: gettext/glade]calendar/gui/dialogs/alarm-dialog.ui
-calendar/gui/dialogs/alarm-list-dialog.c
-[type: gettext/glade]calendar/gui/dialogs/alarm-list-dialog.ui
-calendar/gui/dialogs/cancel-comp.c
-calendar/gui/dialogs/changed-comp.c
-calendar/gui/dialogs/comp-editor.c
-calendar/gui/dialogs/comp-editor-page.c
-calendar/gui/dialogs/comp-editor-util.c
-calendar/gui/dialogs/copy-source-dialog.c
-calendar/gui/dialogs/delete-comp.c
-[type: gettext/glade]calendar/gui/dialogs/e-delegate-dialog.ui
-calendar/gui/dialogs/event-editor.c
-calendar/gui/dialogs/event-page.c
-[type: gettext/glade]calendar/gui/dialogs/event-page.ui
-calendar/gui/dialogs/goto-dialog.c
-[type: gettext/glade]calendar/gui/dialogs/goto-dialog.ui
-calendar/gui/dialogs/memo-editor.c
-calendar/gui/dialogs/memo-page.c
-[type: gettext/glade]calendar/gui/dialogs/memo-page.ui
-calendar/gui/dialogs/recur-comp.c
-calendar/gui/dialogs/recurrence-page.c
-[type: gettext/glade]calendar/gui/dialogs/recurrence-page.ui
-calendar/gui/dialogs/save-comp.c
-calendar/gui/dialogs/schedule-page.c
-[type: gettext/glade]calendar/gui/dialogs/schedule-page.ui
-calendar/gui/dialogs/select-source-dialog.c
-calendar/gui/dialogs/send-comp.c
-calendar/gui/dialogs/task-editor.c
-calendar/gui/dialogs/task-page.c
-[type: gettext/glade]calendar/gui/dialogs/task-page.ui
 calendar/gui/ea-cal-view.c
 calendar/gui/ea-cal-view-event.c
 calendar/gui/ea-day-view.c
@@ -83,6 +52,7 @@ calendar/gui/ea-week-view.c
 calendar/gui/ea-week-view-main-item.c
 calendar/gui/e-cal-component-preview.c
 calendar/gui/e-cal-data-model.c
+calendar/gui/e-cal-dialogs.c
 calendar/gui/e-calendar-table.etspec
 calendar/gui/e-calendar-view.c
 calendar/gui/e-cal-list-view.c
@@ -92,6 +62,16 @@ calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
 calendar/gui/e-cal-ops.c
 calendar/gui/e-cell-date-edit-text.c
+calendar/gui/e-comp-editor-event.c
+calendar/gui/e-comp-editor-memo.c
+calendar/gui/e-comp-editor-page-attachments.c
+calendar/gui/e-comp-editor-page-general.c
+calendar/gui/e-comp-editor-page-recurrence.c
+calendar/gui/e-comp-editor-page-reminders.c
+calendar/gui/e-comp-editor-page-schedule.c
+calendar/gui/e-comp-editor-property-parts.c
+calendar/gui/e-comp-editor-task.c
+calendar/gui/e-comp-editor.c
 calendar/gui/e-day-view.c
 calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c

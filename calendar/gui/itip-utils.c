@@ -24,15 +24,16 @@
 #endif
 
 #include <time.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <libical/ical.h>
 #include <libsoup/soup.h>
 
 #include <composer/e-msg-composer.h>
 
-#include "itip-utils.h"
-#include "dialogs/comp-editor-util.h"
 #include "calendar-config.h"
+#include "comp-util.h"
+
+#include "itip-utils.h"
 
 #define d(x)
 
@@ -745,7 +746,7 @@ comp_to_list (ESourceRegistry *registry,
 				method == E_CAL_COMPONENT_METHOD_REQUEST)
 				continue;
 			else if (only_attendees &&
-				!comp_editor_have_in_new_attendees_lst (
+				!cal_comp_util_have_in_new_attendees (
 				only_attendees, itip_strip_mailto (att->value)))
 				continue;
 
@@ -795,7 +796,7 @@ comp_to_list (ESourceRegistry *registry,
 					 att->cutype != ICAL_CUTYPE_UNKNOWN)
 					continue;
 				else if (only_attendees &&
-					!comp_editor_have_in_new_attendees_lst (
+					!cal_comp_util_have_in_new_attendees (
 					only_attendees, itip_strip_mailto (att->value)))
 					continue;
 				else if (organizer.value &&
@@ -1541,6 +1542,21 @@ comp_compliant (ESourceRegistry *registry,
 	return clone;
 }
 
+void
+itip_cal_mime_attach_free (gpointer ptr)
+{
+	struct CalMimeAttach *mime_attach = ptr;
+
+	if (mime_attach) {
+		g_free (mime_attach->filename);
+		g_free (mime_attach->content_type);
+		g_free (mime_attach->content_id);
+		g_free (mime_attach->description);
+		g_free (mime_attach->encoded_data);
+		g_free (mime_attach);
+	}
+}
+
 static void
 append_cal_attachments (EMsgComposer *composer,
                         ECalComponent *comp,
@@ -1575,16 +1591,9 @@ append_cal_attachments (EMsgComposer *composer,
 				attachment, "attachment");
 		e_msg_composer_attach (composer, attachment);
 		g_object_unref (attachment);
-
-		g_free (mime_attach->filename);
-		g_free (mime_attach->content_type);
-		g_free (mime_attach->content_id);
-		g_free (mime_attach->description);
-		g_free (mime_attach->encoded_data);
-		g_free (mime_attach);
 	}
 
-	g_slist_free (attach_list);
+	g_slist_free_full (attach_list, itip_cal_mime_attach_free);
 }
 
 static ESource *
@@ -1681,20 +1690,25 @@ typedef struct {
 	gboolean only_new_attendees;
 	gboolean ensure_master_object;
 
-	gboolean finished;
+	gboolean completed;
 	gboolean success;
+
+	GError *async_error;
 } ItipSendComponentData;
 
 static void
-itip_send_component_data_free (ItipSendComponentData *isc)
+itip_send_component_data_free (gpointer ptr)
 {
+	ItipSendComponentData *isc = ptr;
+
 	if (isc) {
 		g_clear_object (&isc->registry);
 		g_clear_object (&isc->send_comp);
 		g_clear_object (&isc->cal_client);
+		g_clear_error (&isc->async_error);
 		if (isc->zones)
 			icalcomponent_free (isc->zones);
-		g_slist_free_full (isc->attachments_list, g_object_unref); /* CamelMimePart */
+		g_slist_free_full (isc->attachments_list, itip_cal_mime_attach_free); /* CamelMimePart */
 		g_slist_free_full (isc->users, g_free);
 		g_free (isc);
 	}
@@ -1707,11 +1721,11 @@ itip_send_component_begin (ItipSendComponentData *isc,
 {
 	g_return_if_fail (isc != NULL);
 
-	isc->finished = FALSE;
+	isc->completed = FALSE;
 
 	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_client_check_save_schedules (isc->cal_client)) {
 		isc->success = TRUE;
-		isc->finished = TRUE;
+		isc->completed = TRUE;
 		return;
 	}
 
@@ -1737,7 +1751,7 @@ itip_send_component_begin (ItipSendComponentData *isc,
 		d (printf ("itip-utils.c: itip_send_component_begin: calling comp_server_send_sync... \n"));
 		if (!comp_server_send_sync (isc->method, isc->send_comp, isc->cal_client, isc->zones, &isc->users, cancellable, error)) {
 			isc->success = FALSE;
-			isc->finished = TRUE;
+			isc->completed = TRUE;
 			return;
 		}
 	}
@@ -1746,12 +1760,12 @@ itip_send_component_begin (ItipSendComponentData *isc,
 	if (isc->method != E_CAL_COMPONENT_METHOD_PUBLISH &&
 	    e_client_check_capability (E_CLIENT (isc->cal_client), CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		isc->success = TRUE;
-		isc->finished = TRUE;
+		isc->completed = TRUE;
 	}
 }
 
 static void
-itip_send_component_finish (ItipSendComponentData *isc)
+itip_send_component_complete (ItipSendComponentData *isc)
 {
 	GSettings *settings;
 	EMsgComposer *composer;
@@ -1767,7 +1781,7 @@ itip_send_component_finish (ItipSendComponentData *isc)
 
 	g_return_if_fail (isc != NULL);
 
-	if (isc->finished)
+	if (isc->completed)
 		return;
 
 	isc->success = FALSE;
@@ -1848,6 +1862,7 @@ itip_send_component_finish (ItipSendComponentData *isc)
 	}
 
 	append_cal_attachments (composer, comp, isc->attachments_list);
+	isc->attachments_list = NULL;
 
 	if (isc->method == E_CAL_COMPONENT_METHOD_PUBLISH && !isc->users)
 		gtk_widget_show (GTK_WIDGET (composer));
@@ -1866,12 +1881,12 @@ itip_send_component_finish (ItipSendComponentData *isc)
 }
 
 static void
-itip_send_component_finish_and_free (gpointer ptr)
+itip_send_component_complete_and_free (gpointer ptr)
 {
 	ItipSendComponentData *isc = ptr;
 
 	if (isc) {
-		itip_send_component_finish (isc);
+		itip_send_component_complete (isc);
 		itip_send_component_data_free (isc);
 	}
 }
@@ -1890,16 +1905,16 @@ itip_send_component_thread (EAlertSinkThreadJobData *job_data,
 }
 
 void
-itip_send_component (ECalModel *model,
-		     ECalComponentItipMethod method,
-		     ECalComponent *send_comp,
-		     ECalClient *cal_client,
-		     icalcomponent *zones,
-		     GSList *attachments_list,
-		     GSList *users,
-		     gboolean strip_alarms,
-		     gboolean only_new_attendees,
-		     gboolean ensure_master_object)
+itip_send_component_with_model (ECalModel *model,
+				ECalComponentItipMethod method,
+				ECalComponent *send_comp,
+				ECalClient *cal_client,
+				icalcomponent *zones,
+				GSList *attachments_list,
+				GSList *users,
+				gboolean strip_alarms,
+				gboolean only_new_attendees,
+				gboolean ensure_master_object)
 {
 	ESourceRegistry *registry;
 	ECalDataModel *data_model;
@@ -1943,10 +1958,7 @@ itip_send_component (ECalModel *model,
 	if (zones) {
 		isc->zones = icalcomponent_new_clone (zones);
 	}
-	if (attachments_list) {
-		isc->attachments_list = g_slist_copy (attachments_list);
-		g_slist_foreach (isc->attachments_list, (GFunc) g_object_ref, NULL);
-	}
+	isc->attachments_list = attachments_list;
 	if (users) {
 		GSList *link;
 
@@ -1959,12 +1971,12 @@ itip_send_component (ECalModel *model,
 	isc->only_new_attendees = only_new_attendees;
 	isc->ensure_master_object = ensure_master_object;
 	isc->success = FALSE;
-	isc->finished = FALSE;
+	isc->completed = FALSE;
 
 	display_name = e_util_get_source_full_name (registry, source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
 		display_name, itip_send_component_thread,
-		isc, itip_send_component_finish_and_free);
+		isc, itip_send_component_complete_and_free);
 
 	g_clear_object (&cancellable);
 	g_free (display_name);
@@ -1997,15 +2009,89 @@ itip_send_comp_sync (ESourceRegistry *registry,
 	isc.strip_alarms = strip_alarms;
 	isc.only_new_attendees = only_new_attendees;
 
-	isc.finished = FALSE;
+	isc.completed = FALSE;
 	isc.success = FALSE;
 
 	itip_send_component_begin (&isc, cancellable, error);
-	itip_send_component_finish (&isc);
+	itip_send_component_complete (&isc);
 
 	g_slist_free_full (isc.users, g_free);
 
 	return isc.success;
+}
+
+static void
+itip_send_component_task_thread (GTask *task,
+				 gpointer source_object,
+				 gpointer task_data,
+				 GCancellable *cancellable)
+{
+	ItipSendComponentData *isc = task_data;
+
+	g_return_if_fail (isc != NULL);
+
+	itip_send_component_begin (isc, cancellable, &isc->async_error);
+}
+
+void
+itip_send_component (ESourceRegistry *registry,
+		     ECalComponentItipMethod method,
+		     ECalComponent *send_comp,
+		     ECalClient *cal_client,
+		     icalcomponent *zones,
+		     GSList *attachments_list,
+		     GSList *users,
+		     gboolean strip_alarms,
+		     gboolean only_new_attendees,
+		     gboolean ensure_master_object,
+		     GCancellable *cancellable,
+		     GAsyncReadyCallback callback,
+		     gpointer user_data)
+{
+	GTask *task;
+	ItipSendComponentData *isc;
+
+	isc = g_new0 (ItipSendComponentData, 1);
+	isc->registry = registry;
+	isc->method = method;
+	isc->send_comp = g_object_ref (send_comp);
+	isc->cal_client = cal_client;
+	isc->zones = zones;
+	isc->attachments_list = attachments_list;
+	isc->users = users;
+	isc->strip_alarms = strip_alarms;
+	isc->only_new_attendees = only_new_attendees;
+	isc->ensure_master_object = ensure_master_object;
+
+	isc->completed = FALSE;
+	isc->success = FALSE;
+
+	task = g_task_new (NULL, cancellable, callback, user_data);
+	g_task_set_task_data (task, isc, itip_send_component_data_free);
+	g_task_set_source_tag (task, itip_send_component);
+	g_task_run_in_thread (task, itip_send_component_task_thread);
+	g_object_unref (task);
+}
+
+gboolean
+itip_send_component_finish (GAsyncResult *result,
+			    GError **error)
+{
+	ItipSendComponentData *isc;
+
+	isc = g_task_get_task_data (G_TASK (result));
+
+	g_return_val_if_fail (isc != NULL, FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, itip_send_component), FALSE);
+
+	itip_send_component_complete (isc);
+
+	if (isc->async_error) {
+		g_propagate_error (error, isc->async_error);
+		isc->async_error = NULL;
+	}
+
+	return isc->success;
 }
 
 gboolean

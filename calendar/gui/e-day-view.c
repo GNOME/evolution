@@ -35,12 +35,7 @@
 
 #include "libgnomecanvas/libgnomecanvas.h"
 
-#include "dialogs/delete-comp.h"
-#include "dialogs/send-comp.h"
-#include "dialogs/cancel-comp.h"
-#include "dialogs/recur-comp.h"
-#include "dialogs/goto-dialog.h"
-#include "dialogs/save-comp.h"
+#include "e-cal-dialogs.h"
 #include "e-util/e-util.h"
 
 #include "calendar-config.h"
@@ -5405,7 +5400,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	e_cal_component_commit_sequence (comp);
 	if (e_cal_component_has_recurrences (comp)) {
-		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+		if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
 		}
@@ -5500,7 +5495,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	if ((itip_organizer_is_user (registry, comp, client) ||
 	     itip_sentby_is_user (registry, comp, client)))
-		send = send_dragged_or_resized_component_dialog (
+		send = e_cal_dialogs_send_dragged_or_resized_component (
 				toplevel, client, comp, &strip_alarms, &only_new_attendees);
 
 	if (send == GTK_RESPONSE_CANCEL) {
@@ -5539,7 +5534,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
 	if (e_cal_component_has_recurrences (comp)) {
-		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+		if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 			gtk_widget_queue_draw (day_view->main_canvas);
 			goto out;
 		}
@@ -7627,7 +7622,7 @@ e_day_view_change_event_time (EDayView *day_view,
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
 	if (e_cal_component_has_recurrences (comp)) {
-		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+		if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
 		}
@@ -7886,7 +7881,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
 
 			if (e_cal_component_has_recurrences (comp)) {
-				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+				if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 					goto out;
 				}
 
@@ -9121,7 +9116,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 			if ((itip_organizer_is_user (registry, comp, client) ||
 			     itip_sentby_is_user (registry, comp, client)))
-				send = send_dragged_or_resized_component_dialog (
+				send = e_cal_dialogs_send_dragged_or_resized_component (
 						toplevel, client, comp, &strip_alarms, &only_new_attendees);
 
 			if (send == GTK_RESPONSE_CANCEL) {
@@ -9181,7 +9176,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_has_recurrences (comp)) {
-				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+				if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 					gtk_widget_queue_draw (day_view->top_canvas);
 					g_object_unref (comp);
 					return;
@@ -9364,7 +9359,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			if ((itip_organizer_is_user (registry, comp, client) ||
 			     itip_sentby_is_user (registry, comp, client)))
-				send = send_dragged_or_resized_component_dialog (
+				send = e_cal_dialogs_send_dragged_or_resized_component (
 						toplevel, client, comp, &strip_alarms, &only_new_attendees);
 
 			if (send == GTK_RESPONSE_CANCEL) {
@@ -9399,7 +9394,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_has_recurrences (comp)) {
-				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+				if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 					gtk_widget_queue_draw (day_view->main_canvas);
 					g_object_unref (comp);
 					return;

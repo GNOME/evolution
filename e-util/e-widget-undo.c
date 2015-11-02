@@ -511,6 +511,7 @@ undo_reset (GObject *object)
 
 	data->n_undos = 0;
 	data->n_redos = 0;
+	data->current_info = NULL;
 }
 
 static void

@@ -36,8 +36,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include "dialogs/delete-comp.h"
-#include "dialogs/memo-editor.h"
+#include "e-cal-dialogs.h"
 #include "e-cal-model-memos.h"
 #include "e-cal-ops.h"
 #include "e-calendar-view.h"
@@ -892,7 +891,7 @@ memo_table_delete_selection (ESelectable *selectable)
 	}
 
 	if (e_cal_model_get_confirm_delete (model))
-		delete = delete_component_dialog (
+		delete = e_cal_dialogs_delete_component (
 			comp, FALSE, n_selected,
 			E_CAL_COMPONENT_JOURNAL,
 			GTK_WIDGET (memo_table));

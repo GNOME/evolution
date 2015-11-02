@@ -33,10 +33,9 @@
 #include <e-util/e-util.h>
 #include <e-util/e-util-enumtypes.h>
 
-#include "dialogs/recur-comp.h"
-#include "dialogs/send-comp.h"
 #include "comp-util.h"
 #include "e-cal-data-model-subscriber.h"
+#include "e-cal-dialogs.h"
 #include "e-cal-ops.h"
 #include "itip-utils.h"
 #include "misc.h"
@@ -1663,7 +1662,7 @@ cal_model_set_value_at (ETableModel *etm,
 		break;
 	}
 
-	if (!recur_icalcomp_dialog (comp_data->client, comp_data->icalcomp, &mod, NULL, FALSE))
+	if (!e_cal_dialogs_recur_icalcomp (comp_data->client, comp_data->icalcomp, &mod, NULL, FALSE))
 		return;
 
 	e_cal_ops_modify_component (model, comp_data->client, comp_data->icalcomp, mod, E_CAL_OPS_SEND_FLAG_DONT_SEND);

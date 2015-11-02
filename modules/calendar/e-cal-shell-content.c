@@ -34,6 +34,7 @@
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-month-view.h"
 #include "calendar/gui/e-week-view.h"
+#include "calendar/gui/itip-utils.h"
 #include "calendar/gui/tag-calendar.h"
 
 #include "e-cal-base-shell-sidebar.h"
