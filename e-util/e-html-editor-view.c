@@ -3097,6 +3097,16 @@ remove_empty_blocks (WebKitDOMDocument *document)
 		g_object_unref (node);
 	}
 
+	list = webkit_dom_document_query_selector_all (
+		document, "blockquote[type=cite]:empty", NULL);
+
+	length = webkit_dom_node_list_get_length (list);
+	for  (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		remove_node (node);
+		g_object_unref (node);
+	}
+
 	g_object_unref (list);
 }
 
@@ -5599,6 +5609,8 @@ key_press_event_process_delete_or_backspace_key (EHTMLEditorView *view,
 			e_html_editor_selection_restore (selection);
 			return FALSE;
 		}
+
+		remove_empty_blocks (document);
 
 		block = e_html_editor_get_parent_block_node_from_child (
 			WEBKIT_DOM_NODE (selection_start_marker));
