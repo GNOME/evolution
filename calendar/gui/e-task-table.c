@@ -646,7 +646,7 @@ task_table_constructed (GObject *object)
 	/* Create the table */
 
 	etspecfile = g_build_filename (
-		EVOLUTION_ETSPECDIR, "e-calendar-table.etspec", NULL);
+		EVOLUTION_ETSPECDIR, "e-task-table.etspec", NULL);
 	specification = e_table_specification_new (etspecfile, &local_error);
 
 	/* Failure here is fatal. */

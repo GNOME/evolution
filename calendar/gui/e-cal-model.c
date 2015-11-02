@@ -453,6 +453,16 @@ get_uid (ECalModelComponent *comp_data)
 	return (gchar *) icalcomponent_get_uid (comp_data->icalcomp);
 }
 
+static gchar *
+get_source_description (ESourceRegistry *registry,
+			ECalModelComponent *comp_data)
+{
+	if (!registry || !comp_data || !comp_data->client)
+		return NULL;
+
+	return e_util_get_source_full_name (registry, e_client_get_source (E_CLIENT (comp_data->client)));
+}
+
 static void
 set_categories (ECalModelComponent *comp_data,
                 const gchar *value)
@@ -1618,6 +1628,8 @@ cal_model_value_at (ETableModel *etm,
 		return get_summary (comp_data);
 	case E_CAL_MODEL_FIELD_UID :
 		return get_uid (comp_data);
+	case E_CAL_MODEL_FIELD_SOURCE:
+		return get_source_description (registry, comp_data);
 	}
 
 	return (gpointer) "";
@@ -1709,6 +1721,7 @@ cal_model_duplicate_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
+	case E_CAL_MODEL_FIELD_SOURCE:
 		return g_strdup (value);
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
@@ -1737,6 +1750,7 @@ cal_model_free_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
+	case E_CAL_MODEL_FIELD_SOURCE:
 		if (value)
 			g_free (value);
 		break;
@@ -1775,6 +1789,7 @@ cal_model_initialize_value (ETableModel *etm,
 		return g_strdup (priv->default_category ? priv->default_category:"");
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
+	case E_CAL_MODEL_FIELD_SOURCE:
 		return g_strdup ("");
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DTSTART :
@@ -1818,6 +1833,7 @@ cal_model_value_is_empty (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
+	case E_CAL_MODEL_FIELD_SOURCE:
 		return string_is_empty (value);
 	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :
@@ -1845,6 +1861,7 @@ cal_model_value_to_string (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 	case E_CAL_MODEL_FIELD_SUMMARY :
+	case E_CAL_MODEL_FIELD_SOURCE:
 		return g_strdup (value);
 	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :

@@ -48,9 +48,6 @@
 #define ACTION_GROUP(name) \
 	(E_SHELL_WINDOW_ACTION_GROUP_##name (shell_window))
 
-/* ETable Specifications */
-#define ETSPEC_FILENAME		"e-memo-table.etspec"
-
 G_BEGIN_DECLS
 
 /* Filter items are displayed in ascending order.

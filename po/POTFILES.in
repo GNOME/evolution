@@ -53,7 +53,6 @@ calendar/gui/ea-week-view-main-item.c
 calendar/gui/e-cal-component-preview.c
 calendar/gui/e-cal-data-model.c
 calendar/gui/e-cal-dialogs.c
-calendar/gui/e-calendar-table.etspec
 calendar/gui/e-calendar-view.c
 calendar/gui/e-cal-list-view.c
 calendar/gui/e-cal-list-view.etspec
@@ -83,6 +82,7 @@ calendar/gui/e-meeting-time-sel-item.c
 calendar/gui/e-memo-table.c
 calendar/gui/e-memo-table.etspec
 calendar/gui/e-task-table.c
+calendar/gui/e-task-table.etspec
 calendar/gui/e-timezone-entry.c
 calendar/gui/e-week-view.c
 calendar/gui/e-week-view-main-item.c

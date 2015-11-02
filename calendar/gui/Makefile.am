@@ -85,10 +85,10 @@ libevolution_calendar_la_CPPFLAGS =			\
 	$(NULL)
 
 etspec_DATA =				\
-	e-calendar-table.etspec		\
 	e-meeting-time-sel.etspec	\
 	e-cal-list-view.etspec		\
-	e-memo-table.etspec
+	e-memo-table.etspec		\
+	e-task-table.etspec
 
 libevolution_calendar_la_SOURCES = \
 	calendar-config.c			\
