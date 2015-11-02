@@ -26,12 +26,13 @@
 #include <e-util/e-util.h>
 #include <shell/e-shell-view.h>
 
-#include "dialogs/comp-editor.h"
-#include "dialogs/event-editor.h"
-#include "dialogs/memo-editor.h"
-#include "dialogs/task-editor.h"
-#include "dialogs/send-comp.h"
+#include "e-comp-editor.h"
+#include "e-comp-editor-event.h"
+#include "e-comp-editor-memo.h"
+#include "e-comp-editor-task.h"
+#include "e-cal-dialogs.h"
 #include "comp-util.h"
+#include "itip-utils.h"
 
 #include "e-cal-data-model.h"
 
@@ -66,12 +67,12 @@ cal_ops_manage_send_component (ECalModel *model,
 		gboolean can_send = (send_flags & E_CAL_OPS_SEND_FLAG_SEND) != 0;
 
 		if (!can_send) /* E_CAL_OPS_SEND_FLAG_ASK */
-			can_send = send_component_dialog (NULL, client, comp,
+			can_send = e_cal_dialogs_send_component (NULL, client, comp,
 				(send_flags & E_CAL_OPS_SEND_FLAG_IS_NEW_COMPONENT) != 0,
 				&strip_alarms, &only_new_attendees);
 
 		if (can_send)
-			itip_send_component (model, E_CAL_COMPONENT_METHOD_REQUEST, comp, client,
+			itip_send_component_with_model (model, E_CAL_COMPONENT_METHOD_REQUEST, comp, client,
 				NULL, NULL, NULL, strip_alarms, only_new_attendees, mod == E_CAL_OBJ_MOD_ALL);
 	}
 
@@ -1392,13 +1393,13 @@ e_cal_ops_get_default_component (ECalModel *model,
 }
 
 static void
-cal_ops_emit_model_object_created (CompEditor *editor,
+cal_ops_emit_model_object_created (ECompEditor *comp_editor,
 				   ECalModel *model)
 {
-	g_return_if_fail (IS_COMP_EDITOR (editor));
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	e_cal_model_emit_object_created (model, comp_editor_get_client (editor));
+	e_cal_model_emit_object_created (model, e_comp_editor_get_target_client (comp_editor));
 }
 
 typedef struct
@@ -1431,104 +1432,72 @@ new_component_data_free (gpointer ptr)
 	if (ncd) {
 		/* successfully opened the default client */
 		if (ncd->client && ncd->comp) {
-			CompEditor *editor = NULL;
-			CompEditorFlags flags = 0;
+			ECompEditor *comp_editor;
+			ECompEditorFlags flags = 0;
 
 			if (ncd->is_new_component) {
-				flags |= COMP_EDITOR_NEW_ITEM;
-
-				if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
-					flags |= COMP_EDITOR_USER_ORG;
+				flags |= E_COMP_EDITOR_FLAG_IS_NEW;
 			} else {
 				if (e_cal_component_has_attendees (ncd->comp))
 					ncd->is_assigned = TRUE;
-
-				if (ncd->is_assigned && e_cal_component_has_organizer (ncd->comp)) {
-					ESourceRegistry *registry;
-
-					registry = e_cal_model_get_registry (ncd->model);
-					if (itip_organizer_is_user (registry, ncd->comp, ncd->client))
-						flags |= COMP_EDITOR_USER_ORG;
-
-					if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
-					    (flags & COMP_EDITOR_USER_ORG) == 0 &&
-					    itip_sentby_is_user (registry, ncd->comp, ncd->client))
-						flags |= COMP_EDITOR_USER_ORG;
-				} else {
-					flags |= COMP_EDITOR_USER_ORG;
-				}
 			}
 
 			if (ncd->is_assigned) {
 				if (ncd->is_new_component)
-					flags |= COMP_EDITOR_USER_ORG;
+					flags |= E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 
-				if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
-					flags |= COMP_EDITOR_MEETING;
-				else if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-					flags |= COMP_EDITOR_IS_SHARED;
-				else if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
-					flags |= COMP_EDITOR_IS_ASSIGNED;
+				flags |= E_COMP_EDITOR_FLAG_WITH_ATTENDEES;
 			}
 
-			switch (ncd->source_type) {
-				case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-					editor = event_editor_new (ncd->client, ncd->shell, flags);
-					if (ncd->is_new_component && ncd->model && ncd->dtstart > 0 && ncd->dtend > 0) {
-						ECalComponentDateTime dt;
-						struct icaltimetype itt;
-						icaltimezone *zone;
+			if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+				if (ncd->is_new_component && ncd->model && ncd->dtstart > 0 && ncd->dtend > 0) {
+					ECalComponentDateTime dt;
+					struct icaltimetype itt;
+					icaltimezone *zone;
 
-						zone = e_cal_model_get_timezone (ncd->model);
+					zone = e_cal_model_get_timezone (ncd->model);
 
-						dt.value = &itt;
-						if (ncd->all_day)
-							dt.tzid = NULL;
-						else
-							dt.tzid = icaltimezone_get_tzid (zone);
+					dt.value = &itt;
+					if (ncd->all_day)
+						dt.tzid = NULL;
+					else
+						dt.tzid = icaltimezone_get_tzid (zone);
 
-						itt = icaltime_from_timet_with_zone (ncd->dtstart, FALSE, zone);
-						if (ncd->all_day) {
-							itt.hour = itt.minute = itt.second = 0;
-							itt.is_date = TRUE;
-						}
-						e_cal_component_set_dtstart (ncd->comp, &dt);
-
-						itt = icaltime_from_timet_with_zone (ncd->dtend, FALSE, zone);
-						if (ncd->all_day) {
-							/* We round it up to the end of the day, unless it is
-							 * already set to midnight */
-							if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
-								icaltime_adjust (&itt, 1, 0, 0, 0);
-							}
-							itt.hour = itt.minute = itt.second = 0;
-							itt.is_date = TRUE;
-						}
-						e_cal_component_set_dtend (ncd->comp, &dt);
+					itt = icaltime_from_timet_with_zone (ncd->dtstart, FALSE, zone);
+					if (ncd->all_day) {
+						itt.hour = itt.minute = itt.second = 0;
+						itt.is_date = TRUE;
 					}
-					e_cal_component_commit_sequence (ncd->comp);
-					break;
-				case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-					editor = memo_editor_new (ncd->client, ncd->shell, flags);
-					break;
-				case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-					editor = task_editor_new (ncd->client, ncd->shell, flags);
-					break;
-				default:
-					g_warn_if_reached ();
-					break;
+					e_cal_component_set_dtstart (ncd->comp, &dt);
+
+					itt = icaltime_from_timet_with_zone (ncd->dtend, FALSE, zone);
+					if (ncd->all_day) {
+						/* We round it up to the end of the day, unless it is
+						 * already set to midnight */
+						if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
+							icaltime_adjust (&itt, 1, 0, 0, 0);
+						}
+						itt.hour = itt.minute = itt.second = 0;
+						itt.is_date = TRUE;
+					}
+					e_cal_component_set_dtend (ncd->comp, &dt);
+				}
+				e_cal_component_commit_sequence (ncd->comp);
 			}
 
-			if (editor) {
+			comp_editor = e_comp_editor_open_for_component (NULL, ncd->shell,
+				ncd->is_new_component ? NULL : e_client_get_source (E_CLIENT (ncd->client)),
+				e_cal_component_get_icalcomponent (ncd->comp), flags);
+
+			if (comp_editor) {
 				if (ncd->model) {
-					g_signal_connect (editor, "object-created",
+					g_signal_connect (comp_editor, "object-created",
 						G_CALLBACK (cal_ops_emit_model_object_created), ncd->model);
 
-					g_object_set_data_full (G_OBJECT (editor), "e-cal-ops-model", g_object_ref (ncd->model), g_object_unref);
+					g_object_set_data_full (G_OBJECT (comp_editor), "e-cal-ops-model", g_object_ref (ncd->model), g_object_unref);
 				}
 
-				comp_editor_edit_comp (editor, ncd->comp);
-				gtk_window_present (GTK_WINDOW (editor));
+				gtk_window_present (GTK_WINDOW (comp_editor));
 			}
 		}
 
@@ -1853,15 +1822,15 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 {
 	NewComponentData *ncd;
 	ECalComponent *comp;
-	CompEditor *editor;
+	ECompEditor *comp_editor;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (icalcomp != NULL);
 
-	editor = comp_editor_find_instance (icalcomponent_get_uid (icalcomp));
-	if (editor) {
-		gtk_window_present (GTK_WINDOW (editor));
+	comp_editor = e_comp_editor_find_existing_for (e_client_get_source (E_CLIENT (client)), icalcomp);
+	if (comp_editor) {
+		gtk_window_present (GTK_WINDOW (comp_editor));
 		return;
 	}
 

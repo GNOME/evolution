@@ -31,8 +31,7 @@
 #include "e-cell-date-edit-text.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "dialogs/recur-comp.h"
-#include "dialogs/send-comp.h"
+#include "e-cal-dialogs.h"
 
 /* Forward Declarations */
 static void	e_cal_model_calendar_table_model_init
@@ -324,7 +323,7 @@ cal_model_calendar_set_value_at (ETableModel *etm,
 
 	/* ask about mod type */
 	if (e_cal_component_is_instance (comp)) {
-		if (!recur_component_dialog (comp_data->client, comp, &mod, NULL, FALSE)) {
+		if (!e_cal_dialogs_recur_component (comp_data->client, comp, &mod, NULL, FALSE)) {
 			g_object_unref (comp);
 			return;
 		}

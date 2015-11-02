@@ -455,3 +455,48 @@ calendar_config_get_prefer_meeting (void)
 
 	return prefer_meeting;
 }
+
+GDateWeekday
+calendar_config_get_week_start_day (void)
+{
+	GSettings *settings;
+	GDateWeekday res;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	res = g_settings_get_enum (settings, "week-start-day-name");
+
+	g_object_unref (settings);
+
+	return res;
+}
+
+gint
+calendar_config_get_default_reminder_interval (void)
+{
+	GSettings *settings;
+	gint res;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	res = g_settings_get_int (settings, "default-reminder-interval");
+
+	g_object_unref (settings);
+
+	return res;
+}
+
+EDurationType
+calendar_config_get_default_reminder_units (void)
+{
+	GSettings *settings;
+	EDurationType res;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+	res = g_settings_get_enum (settings, "default-reminder-units");
+
+	g_object_unref (settings);
+
+	return res;
+}

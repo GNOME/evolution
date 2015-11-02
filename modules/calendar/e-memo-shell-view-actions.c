@@ -22,7 +22,8 @@
 #include <config.h>
 #endif
 
-#include <calendar/gui/e-cal-ops.h>
+#include "calendar/gui/e-cal-ops.h"
+#include "calendar/gui/itip-utils.h"
 
 #include "e-cal-base-shell-view.h"
 #include "e-memo-shell-view-private.h"
@@ -76,7 +77,7 @@ action_memo_forward_cb (GtkAction *action,
 	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
-	itip_send_component (e_memo_table_get_model (memo_table),
+	itip_send_component_with_model (e_memo_table_get_model (memo_table),
 		E_CAL_COMPONENT_METHOD_PUBLISH, comp,
 		comp_data->client, NULL, NULL, NULL, TRUE, FALSE, TRUE);
 

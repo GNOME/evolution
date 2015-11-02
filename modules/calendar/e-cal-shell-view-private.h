@@ -38,11 +38,6 @@
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
 #include <calendar/gui/print.h>
-#include <calendar/gui/dialogs/event-editor.h>
-#include <calendar/gui/dialogs/goto-dialog.h>
-#include <calendar/gui/dialogs/memo-editor.h>
-#include <calendar/gui/dialogs/select-source-dialog.h>
-#include <calendar/gui/dialogs/task-editor.h>
 
 #include "e-cal-base-shell-sidebar.h"
 

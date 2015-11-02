@@ -38,12 +38,12 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "calendar-config.h"
-#include "dialogs/delete-comp.h"
-#include "dialogs/task-editor.h"
+#include "e-cal-dialogs.h"
 #include "e-cal-model-tasks.h"
 #include "e-cal-ops.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
+#include "itip-utils.h"
 #include "print.h"
 #include "misc.h"
 
@@ -1265,9 +1265,7 @@ task_table_delete_selection (ESelectable *selectable)
 		gchar *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		delete = prompt_retract_dialog (
-			comp, &retract_comment,
-			GTK_WIDGET (task_table), &retract);
+		delete = e_cal_dialogs_prompt_retract (GTK_WIDGET (task_table), comp, &retract_comment, &retract);
 		if (retract) {
 			icalcomponent *icalcomp = NULL;
 
@@ -1280,7 +1278,7 @@ task_table_delete_selection (ESelectable *selectable)
 
 		g_free (retract_comment);
 	} else if (e_cal_model_get_confirm_delete (model))
-		delete = delete_component_dialog (
+		delete = e_cal_dialogs_delete_component (
 			comp, FALSE, n_selected,
 			E_CAL_COMPONENT_TODO,
 			GTK_WIDGET (task_table));

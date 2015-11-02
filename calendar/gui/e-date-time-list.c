@@ -66,34 +66,27 @@ G_DEFINE_TYPE_WITH_CODE (
 		GTK_TYPE_TREE_MODEL, e_date_time_list_tree_model_init))
 
 static void
-free_datetime (ECalComponentDateTime *datetime)
+free_datetime (struct icaltimetype *itt)
 {
-	g_free (datetime->value);
-	if (datetime->tzid)
-		g_free ((gchar *) datetime->tzid);
-	g_free (datetime);
+	g_free (itt);
 }
 
-static ECalComponentDateTime *
-copy_datetime (const ECalComponentDateTime *datetime)
+static struct icaltimetype *
+copy_datetime (const struct icaltimetype itt)
 {
-	ECalComponentDateTime *datetime_copy;
+	struct icaltimetype *itt_copy;
 
-	datetime_copy = g_new0 (ECalComponentDateTime, 1);
-	datetime_copy->value = g_new (struct icaltimetype, 1);
-	*datetime_copy->value = *datetime->value;
+	itt_copy = g_new0 (struct icaltimetype, 1);
+	*itt_copy = itt;
 
-	if (datetime->tzid)
-		datetime_copy->tzid = g_strdup (datetime->tzid);
-
-	return datetime_copy;
+	return itt_copy;
 }
 
 static gint
-compare_datetime (const ECalComponentDateTime *datetime1,
-                  const ECalComponentDateTime *datetime2)
+compare_datetime (const struct icaltimetype *itt1,
+                  const struct icaltimetype *itt2)
 {
-	return icaltime_compare (*datetime1->value, *datetime2->value);
+	return icaltime_compare (*itt1, *itt2);
 }
 
 static void
@@ -164,7 +157,7 @@ row_updated (EDateTimeList *date_time_list,
 /* Builds a static string out of an exception date */
 static gchar *
 get_exception_string (EDateTimeList *date_time_list,
-                      ECalComponentDateTime *dt)
+                      struct icaltimetype *itt)
 {
 	static gchar buf[256];
 	struct icaltimetype tt;
@@ -175,12 +168,7 @@ get_exception_string (EDateTimeList *date_time_list,
 	use_24_hour_format = e_date_time_list_get_use_24_hour_format (date_time_list);
 	zone = e_date_time_list_get_timezone (date_time_list);
 
-	tt = *dt->value;
-	if (!tt.zone && dt->tzid) {
-		tt.zone = icaltimezone_get_builtin_timezone_from_tzid (dt->tzid);
-		if (!tt.zone)
-			tt.zone = icaltimezone_get_builtin_timezone (dt->tzid);
-	}
+	tt = *itt;
 
 	if (zone)
 		tt = icaltime_convert_to_zone (tt, zone);
@@ -336,7 +324,7 @@ date_time_list_get_value (GtkTreeModel *tree_model,
                           GValue *value)
 {
 	EDateTimeList        *date_time_list = E_DATE_TIME_LIST (tree_model);
-	ECalComponentDateTime *datetime;
+	struct icaltimetype  *itt;
 	GList                *l;
 	const gchar          *str;
 
@@ -351,14 +339,14 @@ date_time_list_get_value (GtkTreeModel *tree_model,
 		return;
 
 	l = iter->user_data;
-	datetime = l->data;
+	itt = l->data;
 
-	if (!datetime)
+	if (!itt)
 		return;
 
 	switch (column) {
 		case E_DATE_TIME_LIST_COLUMN_DESCRIPTION:
-			str = get_exception_string (date_time_list, datetime);
+			str = get_exception_string (date_time_list, itt);
 			g_value_set_string (value, str);
 			break;
 	}
@@ -533,7 +521,7 @@ e_date_time_list_new (void)
 	return g_object_new (E_TYPE_DATE_TIME_LIST, NULL);
 }
 
-const ECalComponentDateTime *
+struct icaltimetype *
 e_date_time_list_get_date_time (EDateTimeList *date_time_list,
                                 GtkTreeIter *iter)
 {
@@ -545,18 +533,17 @@ e_date_time_list_get_date_time (EDateTimeList *date_time_list,
 void
 e_date_time_list_set_date_time (EDateTimeList *date_time_list,
                                 GtkTreeIter *iter,
-                                const ECalComponentDateTime *datetime)
+                                const struct icaltimetype itt)
 {
-	ECalComponentDateTime *datetime_old;
+	struct icaltimetype *itt_old;
 
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
-	datetime_old = G_LIST (iter->user_data)->data;
-	free_datetime (datetime_old);
-	G_LIST (iter->user_data)->data = copy_datetime (datetime);
-	row_updated (
-		date_time_list, g_list_position (
-		date_time_list->priv->list, G_LIST (iter->user_data)));
+	itt_old = G_LIST (iter->user_data)->data;
+	free_datetime (itt_old);
+	G_LIST (iter->user_data)->data = copy_datetime (itt);
+	row_updated (date_time_list,
+		g_list_position (date_time_list->priv->list, G_LIST (iter->user_data)));
 }
 
 gboolean
@@ -606,15 +593,12 @@ e_date_time_list_set_timezone (EDateTimeList *date_time_list,
 void
 e_date_time_list_append (EDateTimeList *date_time_list,
                          GtkTreeIter *iter,
-                         const ECalComponentDateTime *datetime)
+                         const struct icaltimetype itt)
 {
-	g_return_if_fail (datetime != NULL);
+	g_return_if_fail (icaltime_is_valid_time (itt));
 
-	if (g_list_find_custom (
-			date_time_list->priv->list, datetime,
-			(GCompareFunc) compare_datetime) == NULL) {
-		date_time_list->priv->list = g_list_append (
-			date_time_list->priv->list, copy_datetime (datetime));
+	if (g_list_find_custom (date_time_list->priv->list, &itt, (GCompareFunc) compare_datetime) == NULL) {
+		date_time_list->priv->list = g_list_append (date_time_list->priv->list, copy_datetime (itt));
 		row_added (date_time_list, g_list_length (date_time_list->priv->list) - 1);
 	}
 
@@ -633,7 +617,7 @@ e_date_time_list_remove (EDateTimeList *date_time_list,
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
 	n = g_list_position (date_time_list->priv->list, G_LIST (iter->user_data));
-	free_datetime ((ECalComponentDateTime *) G_LIST (iter->user_data)->data);
+	free_datetime (G_LIST (iter->user_data)->data);
 	date_time_list->priv->list = g_list_delete_link (
 		date_time_list->priv->list, G_LIST (iter->user_data));
 	row_deleted (date_time_list, n);
@@ -647,7 +631,7 @@ e_date_time_list_clear (EDateTimeList *date_time_list)
 	all_rows_deleted (date_time_list);
 
 	for (l = date_time_list->priv->list; l; l = g_list_next (l)) {
-		free_datetime ((ECalComponentDateTime *) l->data);
+		free_datetime (l->data);
 	}
 
 	g_list_free (date_time_list->priv->list);

@@ -31,7 +31,6 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-calendar-view.h"
-#include "dialogs/delete-comp.h"
 
 #include "shell/e-shell-window.h"
 #include "shell/e-shell-view.h"
@@ -1306,4 +1305,134 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 	g_hash_table_destroy (processed_uids);
 
 	return success;
+}
+
+void
+cal_comp_util_update_tzid_parameter (icalproperty *prop,
+				     const struct icaltimetype tt)
+{
+	icalparameter *param;
+	const gchar *tzid = NULL;
+
+	g_return_if_fail (prop != NULL);
+
+	if (!icaltime_is_valid_time (tt) ||
+	    icaltime_is_null_time (tt))
+		return;
+
+	param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+	if (tt.zone)
+		tzid = icaltimezone_get_tzid ((icaltimezone *) tt.zone);
+
+	if (tt.zone && tzid && *tzid && !tt.is_utc && !tt.is_date) {
+		if (param) {
+			icalparameter_set_tzid (param, (gchar *) tzid);
+		} else {
+			param = icalparameter_new_tzid ((gchar *) tzid);
+			icalproperty_add_parameter (prop, param);
+		}
+	} else if (param) {
+		icalproperty_remove_parameter (prop, ICAL_TZID_PARAMETER);
+	}
+}
+
+/* Returns <0 for time before today, 0 for today, >0 for after today (future) */
+gint
+cal_comp_util_compare_time_with_today (const struct icaltimetype time_tt)
+{
+	struct icaltimetype now_tt;
+
+	if (icaltime_is_null_time (time_tt))
+		return 0;
+
+	if (time_tt.is_date) {
+		now_tt = icaltime_today ();
+		return icaltime_compare_date_only (time_tt, now_tt);
+	} else {
+		now_tt = icaltime_current_time_with_zone (time_tt.zone);
+		now_tt.zone = time_tt.zone;
+	}
+
+	return icaltime_compare (time_tt, now_tt);
+}
+
+/* Returns whether removed any */
+gboolean
+cal_comp_util_remove_all_properties (icalcomponent *component,
+				     icalproperty_kind kind)
+{
+	icalproperty *prop;
+	gboolean removed_any = FALSE;
+
+	g_return_val_if_fail (component != NULL, FALSE);
+
+	while (prop = icalcomponent_get_first_property (component, kind), prop) {
+		icalcomponent_remove_property (component, prop);
+		icalproperty_free (prop);
+
+		removed_any = TRUE;
+	}
+
+	return removed_any;
+}
+
+gboolean
+cal_comp_util_have_in_new_attendees (const GSList *new_attendees_mails,
+				     const gchar *eml)
+{
+	const GSList *link;
+
+	if (!eml)
+		return FALSE;
+
+	for (link = new_attendees_mails; link; link = g_slist_next (link)) {
+		if (link->data && g_ascii_strcasecmp (eml, link->data) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+free_slist_strs (gpointer data)
+{
+	GSList *lst = data;
+
+	if (lst) {
+		g_slist_foreach (lst, (GFunc) g_free, NULL);
+		g_slist_free (lst);
+	}
+}
+
+/**
+ * cal_comp_util_copy_new_attendees:
+ * @des: Component, to copy to.
+ * @src: Component, to copy from.
+ *
+ * Copies "new-attendees" information from @src to @des component.
+ **/
+void
+cal_comp_util_copy_new_attendees (ECalComponent *des,
+				  ECalComponent *src)
+{
+	GSList *copy = NULL, *l;
+
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (des != NULL);
+
+	for (l = g_object_get_data (G_OBJECT (src), "new-attendees"); l; l = l->next) {
+		copy = g_slist_append (copy, g_strdup (l->data));
+	}
+
+	g_object_set_data_full (G_OBJECT (des), "new-attendees", copy, free_slist_strs);
+}
+
+/* Takes ownership of the 'emails' */
+void
+cal_comp_util_set_added_attendees_mails (ECalComponent *comp,
+					 GSList *emails)
+{
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+
+	g_object_set_data_full (G_OBJECT (comp), "new-attendees", emails, free_slist_strs);
 }

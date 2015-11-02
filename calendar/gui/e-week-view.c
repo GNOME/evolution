@@ -35,14 +35,9 @@
 #include <glib/gi18n.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
-#include "dialogs/delete-comp.h"
-#include "dialogs/send-comp.h"
-#include "dialogs/cancel-comp.h"
-#include "dialogs/recur-comp.h"
-#include "dialogs/goto-dialog.h"
-
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "e-cal-dialogs.h"
 #include "e-cal-model-calendar.h"
 #include "e-cal-ops.h"
 #include "e-week-view-event-item.h"
@@ -4372,7 +4367,7 @@ e_week_view_change_event_time (EWeekView *week_view,
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 	if (e_cal_component_has_recurrences (comp)) {
-		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+		if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 			gtk_widget_queue_draw (week_view->main_canvas);
 			goto out;
 		}
@@ -4542,7 +4537,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
 
 			if (e_cal_component_has_recurrences (comp)) {
-				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
+				if (!e_cal_dialogs_recur_component (client, comp, &mod, NULL, FALSE)) {
 					goto out;
 				}
 

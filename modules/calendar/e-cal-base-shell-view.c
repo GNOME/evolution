@@ -25,7 +25,7 @@
 
 #include <camel/camel.h>
 
-#include <calendar/gui/dialogs/copy-source-dialog.h>
+#include <calendar/gui/e-cal-dialogs.h>
 
 #include "e-cal-base-shell-content.h"
 #include "e-cal-base-shell-sidebar.h"
@@ -277,7 +277,7 @@ e_cal_base_shell_view_copy_calendar (EShellView *shell_view)
 	from_source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (from_source != NULL);
 
-	copy_source_dialog (GTK_WINDOW (shell_window), model, from_source);
+	e_cal_dialogs_copy_source (GTK_WINDOW (shell_window), model, from_source);
 
 	g_clear_object (&from_source);
 }

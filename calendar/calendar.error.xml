@@ -188,6 +188,20 @@
     <button _label="_Send" response="GTK_RESPONSE_YES"/>
   </error>
 
+  <error id="prompt-send-memo" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Would you like to send this memo to participants?</_primary>
+    <_secondary>Email invitations will be sent to all participants and allow them to accept this memo.</_secondary>
+    <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+    <button _label="_Send" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="prompt-send-updated-memo-info" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Would you like to send updated memo information to participants?</_primary>
+    <_secondary>Sending updated information allows other participants to keep their memo lists up to date.</_secondary>
+    <button _label="Do _not Send" response="GTK_RESPONSE_NO"/>
+    <button _label="_Send" response="GTK_RESPONSE_YES"/>
+  </error>
+
   <error id="editor-error" type="error">
     <_primary>Editor could not be loaded.</_primary>
     <secondary>{0}.</secondary>
@@ -283,6 +297,12 @@
     <!-- Translators: {0} is the name of the memo list. -->
     <_primary>Error loading memo list '{0}'</_primary>
     <_secondary>The memo list is not marked for offline usage.</_secondary>
+  </error>
+
+  <error id="failed-add-timezone" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the calendar/memo list/task list. -->
+    <_primary>Failed to add timezone to '{0}'</_primary>
+    <secondary>{1}</secondary>
   </error>
 
   <error id="failed-open-calendar" type="error" default="GTK_RESPONSE_YES">
@@ -451,6 +471,24 @@
     <secondary>{1}</secondary>
   </error>
 
+  <error id="failed-get-event" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the calendar. -->
+    <_primary>Failed to get an event from the calendar '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-get-task" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the task list. -->
+    <_primary>Failed to get a task from the task list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="failed-get-memo" type="error" default="GTK_RESPONSE_YES">
+    <!-- Translators: {0} is the name of the memo list. -->
+    <_primary>Failed to get a memo from the memo list '{0}'</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
   <error id="status-copy-event" type="warning">
     <!-- Translators: {0} is the name of the calendar. -->
     <_primary>Copying an event into the calendar '{0}'</_primary>
@@ -501,6 +539,25 @@
 
   <error id="failed-make-movable" type="error">
     <_primary>Failed to make an occurrence movable</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="comp-editor-failed-validate" type="error">
+    <primary>{0}</primary>
+  </error>
+
+  <error id="comp-editor-information" type="information">
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="comp-editor-warning" type="warning">
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="comp-editor-error" type="error">
+    <primary>{0}</primary>
     <secondary>{1}</secondary>
   </error>
 

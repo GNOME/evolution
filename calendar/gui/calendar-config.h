@@ -75,4 +75,8 @@ void     calendar_config_add_notification_month_scroll_by_week (CalendarConfigCh
 
 gboolean calendar_config_get_prefer_meeting (void);
 
+GDateWeekday	calendar_config_get_week_start_day		(void);
+gint		calendar_config_get_default_reminder_interval	(void);
+EDurationType	calendar_config_get_default_reminder_units	(void);
+
 #endif /* _CALENDAR_CONFIG_H_ */

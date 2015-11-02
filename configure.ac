@@ -1539,7 +1539,6 @@ calendar/Makefile
 calendar/alarm-notify/Makefile
 calendar/importers/Makefile
 calendar/gui/Makefile
-calendar/gui/dialogs/Makefile
 composer/Makefile
 m4/Makefile
 mail/Makefile

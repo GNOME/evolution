@@ -366,31 +366,31 @@ get_alarm_duration_string (struct icaldurationtype *duration)
 	have_something = FALSE;
 
 	if (duration->days >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d days before start of appointment" */
+		/* Translator: Entire string is like "Pop up an alert %d days before start" */
 		g_string_printf (string, ngettext ("%d day", "%d days", duration->days), duration->days);
 		have_something = TRUE;
 	}
 
 	if (duration->weeks >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d weeks before start of appointment" */
+		/* Translator: Entire string is like "Pop up an alert %d weeks before start" */
 		g_string_printf (string, ngettext ("%d week","%d weeks", duration->weeks), duration->weeks);
 		have_something = TRUE;
 	}
 
 	if (duration->hours >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d hours before start of appointment" */
+		/* Translator: Entire string is like "Pop up an alert %d hours before start" */
 		g_string_printf (string, ngettext ("%d hour", "%d hours", duration->hours), duration->hours);
 		have_something = TRUE;
 	}
 
 	if (duration->minutes >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d minutes before start of appointment" */
+		/* Translator: Entire string is like "Pop up an alert %d minutes before start" */
 		g_string_printf (string, ngettext ("%d minute", "%d minutes", duration->minutes), duration->minutes);
 		have_something = TRUE;
 	}
 
 	if (duration->seconds >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d seconds before start of appointment" */
+		/* Translator: Entire string is like "Pop up an alert %d seconds before start" */
 		g_string_printf (string, ngettext ("%d second", "%d seconds", duration->seconds), duration->seconds);
 		have_something = TRUE;
 	}
@@ -410,32 +410,33 @@ get_alarm_string (ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmAction action;
 	ECalComponentAlarmTrigger trigger;
-	gchar *base, *str = NULL, *dur;
+	const gchar *base;
+	gchar *str = NULL, *dur;
 
 	e_cal_component_alarm_get_action (alarm, &action);
 	e_cal_component_alarm_get_trigger (alarm, &trigger);
 
 	switch (action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
-		base = _("Play a sound");
+		base = C_("cal-reminders", "Play a sound");
 		break;
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY:
-		base = _("Pop up an alert");
+		base = C_("cal-reminders", "Pop up an alert");
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
-		base = _("Send an email");
+		base = C_("cal-reminders", "Send an email");
 		break;
 
 	case E_CAL_COMPONENT_ALARM_PROCEDURE:
-		base = _("Run a program");
+		base = C_("cal-reminders", "Run a program");
 		break;
 
 	case E_CAL_COMPONENT_ALARM_NONE:
 	case E_CAL_COMPONENT_ALARM_UNKNOWN:
 	default:
-		base = _("Unknown action to be performed");
+		base = C_("cal-reminders", "Unknown action to be performed");
 		break;
 	}
 
@@ -450,20 +451,20 @@ get_alarm_string (ECalComponentAlarm *alarm)
 				/*Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				str = g_strdup_printf (
-					_("%s %s before the start of the appointment"),
+					C_("cal-reminders", "%s %s before the start"),
 					base, dur);
 			else
 				/*Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				str = g_strdup_printf (
-					_("%s %s after the start of the appointment"),
+					C_("cal-reminders", "%s %s after the start"),
 					base, dur);
 
 			g_free (dur);
 		} else
 			/*Translator: The %s refers to the base, which would be actions like
 			 * "Play a sound" */
-			str = g_strdup_printf (_("%s at the start of the appointment"), base);
+			str = g_strdup_printf (C_("cal-reminders", "%s at the start"), base);
 
 		break;
 
@@ -475,20 +476,20 @@ get_alarm_string (ECalComponentAlarm *alarm)
 				/* Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (
-					_("%s %s before the end of the appointment"),
+					C_("cal-reminders", "%s %s before the end"),
 					base, dur);
 			else
 				/* Translator: The first %s refers to the base, which would be actions like
 				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
 				str = g_strdup_printf (
-					_("%s %s after the end of the appointment"),
+					C_("cal-reminders", "%s %s after the end"),
 					base, dur);
 
 			g_free (dur);
 		} else
 			/* Translator: The %s refers to the base, which would be actions like
 			 * "Play a sound" */
-			str = g_strdup_printf (_("%s at the end of the appointment"), base);
+			str = g_strdup_printf (C_("cal-reminders", "%s at the end"), base);
 
 		break;
 
@@ -512,7 +513,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		/* Translator: The first %s refers to the base, which would be actions like
 		 * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM" */
-		str = g_strdup_printf (_("%s at %s"), base, buf);
+		str = g_strdup_printf (C_("cal-reminders", "%s at %s"), base, buf);
 
 		break; }
 
@@ -520,7 +521,7 @@ get_alarm_string (ECalComponentAlarm *alarm)
 	default:
 		/* Translator: The %s refers to the base, which would be actions like
 		 * "Play a sound". "Trigger types" are absolute or relative dates */
-		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
+		str = g_strdup_printf (C_("cal-reminders", "%s for an unknown trigger type"), base);
 		break;
 	}
 
