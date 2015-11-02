@@ -8559,7 +8559,8 @@ get_indentation_level (WebKitDOMElement *element)
 }
 
 static void
-process_blockquote (WebKitDOMElement *blockquote)
+process_blockquote (WebKitDOMElement *blockquote,
+                    gboolean replace_indentation_with_spaces)
 {
 	WebKitDOMNodeList *list;
 	int jj, length;
@@ -8600,7 +8601,7 @@ process_blockquote (WebKitDOMElement *blockquote)
 	}
 	g_object_unref (list);
 
-	if (element_has_class (blockquote, "-x-evo-indented")) {
+	if (element_has_class (blockquote, "-x-evo-indented") && replace_indentation_with_spaces) {
 		WebKitDOMNode *child;
 		gchar *spaces;
 
@@ -9143,15 +9144,52 @@ process_elements (EHTMLEditorView *view,
 				skip_node = TRUE;
 				goto next;
 			} else {
-				process_blockquote (WEBKIT_DOM_ELEMENT (child));
+				process_blockquote (WEBKIT_DOM_ELEMENT (child), FALSE);
 				if (!to_plain_text)
 					remove_base_attributes (WEBKIT_DOM_ELEMENT (child));
 			}
 		}
 
+		if (!to_plain_text && !changing_mode) {
+			gchar *class;
+			const gchar *css_align;
+
+			class = webkit_dom_element_get_class_name (WEBKIT_DOM_ELEMENT (child));
+			if ((css_align = strstr (class, "-x-evo-align-"))) {
+				if (!g_str_has_prefix (css_align + 13, "left")) {
+					if (WEBKIT_DOM_IS_HTMLLI_ELEMENT (child))
+						webkit_dom_element_set_attribute (
+							WEBKIT_DOM_ELEMENT (child),
+							"style",
+							g_str_has_prefix (css_align + 13, "center") ?
+								"list-style-position: inside; text-align: center" :
+								"list-style-position: inside; text-align: right",
+							NULL);
+					else
+						webkit_dom_element_set_attribute (
+							WEBKIT_DOM_ELEMENT (child),
+							"style",
+							g_str_has_prefix (css_align + 13, "center") ?
+								"text-align: center" :
+								"text-align: right",
+							NULL);
+				}
+			}
+			element_remove_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-align-left");
+			element_remove_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-align-center");
+			element_remove_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-align-right");
+			g_free (class);
+		}
+
 		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (child) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
-			process_blockquote (WEBKIT_DOM_ELEMENT (child));
+		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented")) {
+			if (!to_plain_text && !changing_mode) {
+				process_blockquote (WEBKIT_DOM_ELEMENT (child), FALSE);
+				element_remove_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented");
+			} else
+				process_blockquote (WEBKIT_DOM_ELEMENT (child), TRUE);
+
+		}
 
 		if (node_is_list (child)) {
 			if (to_plain_text) {
