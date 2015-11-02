@@ -29,6 +29,7 @@
 #include "e-comp-editor-page.h"
 #include "e-comp-editor-page-attachments.h"
 #include "e-comp-editor-page-general.h"
+#include "e-comp-editor-page-reminders.h"
 #include "e-comp-editor-property-part.h"
 #include "e-comp-editor-property-parts.h"
 
@@ -530,6 +531,9 @@ e_comp_editor_task_constructed (GObject *object)
 	task_editor->priv->page_general = page;
 
 	e_comp_editor_set_time_parts (comp_editor, task_editor->priv->dtstart, task_editor->priv->due_date);
+
+	page = e_comp_editor_page_reminders_new (comp_editor);
+	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Reminders"), page);
 
 	page = e_comp_editor_page_attachments_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Attachments"), page);
