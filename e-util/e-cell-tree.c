@@ -154,6 +154,11 @@ ect_kill_view (ECellView *ecv)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecv;
 
+	if (tree_view->animate_timeout) {
+		g_source_remove (tree_view->animate_timeout);
+		tree_view->animate_timeout = 0;
+	}
+
 	if (tree_view->cell_view.kill_view_cb)
 	    (tree_view->cell_view.kill_view_cb)(ecv, tree_view->cell_view.kill_view_cb_data);
 
@@ -392,10 +397,12 @@ animate_expander (gpointer data)
 	animate_closure_t *closure = (animate_closure_t *) data;
 	cairo_t *cr;
 
+	if (g_source_is_destroyed (g_main_current_source ()))
+		return FALSE;
+
 	if (closure->finish) {
 		e_tree_table_adapter_node_set_expanded (closure->etta, closure->node, !closure->expanded);
 		closure->ectv->animate_timeout = 0;
-		g_free (data);
 		return FALSE;
 	}
 
@@ -475,8 +482,8 @@ ect_event (ECellView *ecell_view,
 				closure->expanded = expanded;
 				closure->area = area;
 				tree_view->animate_timeout =
-					e_named_timeout_add (
-					50, animate_expander, closure);
+					e_named_timeout_add_full (G_PRIORITY_DEFAULT,
+					50, animate_expander, closure, g_free);
 				return TRUE;
 			}
 		}
