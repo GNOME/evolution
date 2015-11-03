@@ -1352,6 +1352,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "toggled",
 		G_CALLBACK (image_loading_policy_always_cb), NULL);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "chkNotifyRemoteContent");
+	g_settings_bind (
+		settings, "notify-remote-content",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "chkShowAnimatedImages");
 	g_settings_bind (
 		settings, "show-animated-images",

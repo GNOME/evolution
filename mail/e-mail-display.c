@@ -152,6 +152,10 @@ e_mail_display_claim_skipped_uri (EMailDisplay *mail_display,
 	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
 	g_return_if_fail (uri != NULL);
 
+	/* Do not store anything if the user doesn't want to see the notification */
+	if (!g_settings_get_boolean (mail_display->priv->settings, "notify-remote-content"))
+		return;
+
 	soup_uri = soup_uri_new (uri);
 	if (!soup_uri)
 		return;

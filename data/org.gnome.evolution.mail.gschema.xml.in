@@ -249,6 +249,11 @@
       <default>'never'</default>
       <_summary>Automatically load images for HTML messages over HTTP</_summary>
     </key>
+    <key name="notify-remote-content" type="b">
+      <default>true</default>
+      <_summary>Show notification about missing remote content</_summary>
+      <_description>When the message preview shows a message which requires to download remote content, while the download is not allowed for the user or the site, then show a notification about it on top of the preview panel.</_description>
+    </key>
     <key name="animate-images" type="b">
       <default>true</default>
       <_summary>Show Animations</_summary>

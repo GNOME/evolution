@@ -5317,6 +5317,24 @@ e_mail_reader_remote_content_menu_activate_cb (GObject *item,
 }
 
 static void
+e_mail_reader_remote_content_disable_activate_cb (GObject *item,
+						  EMailReader *reader)
+{
+	EMailDisplay *mail_display;
+	GSettings *settings;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_settings_set_boolean (settings, "notify-remote-content", FALSE);
+	g_clear_object (&settings);
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	if (mail_display)
+		e_mail_display_reload (mail_display);
+}
+
+static void
 e_mail_reader_add_remote_content_menu_item (EMailReader *reader,
 					    GtkWidget *popup_menu,
 					    const gchar *label,
@@ -5399,6 +5417,14 @@ e_mail_reader_show_remote_content_popup (EMailReader *reader,
 
 	if (popup_menu) {
 		GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (toggle_button));
+		GtkWidget *item;
+
+		item = gtk_separator_menu_item_new ();
+		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
+
+		item = gtk_menu_item_new_with_label (_("Do not show this message again"));
+		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
+		g_signal_connect (item, "activate", G_CALLBACK (e_mail_reader_remote_content_disable_activate_cb), reader);
 
 		gtk_toggle_button_set_active (toggle_button, TRUE);
 
