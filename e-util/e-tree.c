@@ -1210,6 +1210,10 @@ white_item_event (GnomeCanvasItem *white_item,
 		signals[WHITE_SPACE_EVENT], 0,
 		event, &return_val);
 
+	if (!return_val && tree->priv->item) {
+		g_signal_emit_by_name (tree->priv->item, "event", event, &return_val);
+	}
+
 	return return_val;
 }
 

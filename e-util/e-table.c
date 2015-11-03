@@ -1256,6 +1256,33 @@ et_canvas_realize (GtkWidget *canvas,
 	set_header_width (e_table);
 }
 
+static ETableItem *
+get_first_etable_item (ETableGroup *table_group)
+{
+	ETableItem *res = NULL;
+	GnomeCanvasGroup *group;
+	GList *link;
+
+	g_return_val_if_fail (E_IS_TABLE_GROUP (table_group), NULL);
+
+	group = GNOME_CANVAS_GROUP (table_group);
+	g_return_val_if_fail (group != NULL, NULL);
+
+	for (link = group->item_list; link && !res; link = g_list_next (link)) {
+		GnomeCanvasItem *item;
+
+		item = GNOME_CANVAS_ITEM (link->data);
+
+		if (E_IS_TABLE_GROUP (item))
+			res = get_first_etable_item (E_TABLE_GROUP (item));
+		else if (E_IS_TABLE_ITEM (item)) {
+			res = E_TABLE_ITEM (item);
+		}
+	}
+
+	return res;
+}
+
 static gboolean
 white_item_event (GnomeCanvasItem *white_item,
                   GdkEvent *event,
@@ -1266,6 +1293,15 @@ white_item_event (GnomeCanvasItem *white_item,
 	g_signal_emit (
 		e_table, et_signals[WHITE_SPACE_EVENT], 0,
 		event, &return_val);
+
+	if (!return_val && e_table->group) {
+		ETableItem *item;
+
+		item = get_first_etable_item (e_table->group);
+
+		if (item)
+			g_signal_emit_by_name (item, "event", event, &return_val);
+	}
 
 	return return_val;
 }
@@ -1309,22 +1345,12 @@ et_canvas_root_event (GnomeCanvasItem *root,
 static void
 focus_first_etable_item (ETableGroup *group)
 {
-	GnomeCanvasGroup *cgroup;
-	GList *l;
+	ETableItem *item;
 
-	cgroup = GNOME_CANVAS_GROUP (group);
-
-	for (l = cgroup->item_list; l; l = l->next) {
-		GnomeCanvasItem *i;
-
-		i = GNOME_CANVAS_ITEM (l->data);
-
-		if (E_IS_TABLE_GROUP (i))
-			focus_first_etable_item (E_TABLE_GROUP (i));
-		else if (E_IS_TABLE_ITEM (i)) {
-			e_table_item_set_cursor (E_TABLE_ITEM (i), 0, 0);
-			gnome_canvas_item_grab_focus (i);
-		}
+	item = get_first_etable_item (group);
+	if (item) {
+		e_table_item_set_cursor (item, 0, 0);
+		gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (item));
 	}
 }
 
