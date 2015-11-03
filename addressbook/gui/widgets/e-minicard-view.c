@@ -424,8 +424,8 @@ e_minicard_view_event (GnomeCanvasItem *item,
 			e_minicard_view_right_click (view, event);
 		break;
 	case GDK_KEY_PRESS:
-		if (event->key.keyval & GDK_SHIFT_MASK &&
-			event->key.keyval == GDK_KEY_F10) {
+		if (((event->key.state & GDK_SHIFT_MASK) != 0 && event->key.keyval == GDK_KEY_F10) ||
+		    ((event->key.state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0 && event->key.keyval == GDK_KEY_Menu)) {
 			e_minicard_view_right_click (view, event);
 		}
 		break;

@@ -211,6 +211,15 @@ table_right_click (ETable *table,
 	return TRUE;
 }
 
+static gboolean
+addressbook_view_popup_menu_cb (GtkWidget *widget,
+				EAddressbookView *view)
+{
+	addressbook_view_emit_popup_event (view, NULL);
+
+	return TRUE;
+}
+
 static gint
 table_white_space_event (ETable *table,
                          GdkEvent *event,
@@ -329,6 +338,9 @@ addressbook_view_create_table_view (EAddressbookView *view,
 		widget, "right_click",
 		G_CALLBACK (table_right_click), view);
 	g_signal_connect (
+		widget, "popup-menu",
+		G_CALLBACK (addressbook_view_popup_menu_cb), view);
+	g_signal_connect (
 		widget, "white_space_event",
 		G_CALLBACK (table_white_space_event), view);
 	g_signal_connect_swapped (
@@ -380,6 +392,10 @@ addressbook_view_create_minicard_view (EAddressbookView *view,
 		minicard_view, "right_click",
 		G_CALLBACK (addressbook_view_emit_popup_event), view);
 
+	g_signal_connect (
+		minicard_view, "popup-menu",
+		G_CALLBACK (addressbook_view_popup_menu_cb), view);
+
 	view->priv->object = G_OBJECT (minicard_view);
 
 	gtk_container_add (GTK_CONTAINER (view), minicard_view);
@@ -414,6 +430,21 @@ addressbook_view_display_view_cb (GalViewInstance *view_instance,
 	e_shell_view_set_view_instance (shell_view, view_instance);
 
 	command_state_change (view);
+}
+
+static gboolean
+address_book_view_focus_in_cb (EAddressbookView *view,
+			       GdkEvent *event)
+{
+	GtkWidget *child;
+
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), FALSE);
+
+	child = gtk_bin_get_child (GTK_BIN (view));
+	if (child)
+		gtk_widget_grab_focus (child);
+
+	return child != NULL;
 }
 
 static void
@@ -608,6 +639,8 @@ addressbook_view_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_addressbook_view_parent_class)->constructed (object);
+
+	g_signal_connect (object, "focus-in-event", G_CALLBACK (address_book_view_focus_in_cb), NULL);
 }
 
 static void
