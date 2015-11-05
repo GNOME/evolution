@@ -95,6 +95,7 @@ struct _EHTMLEditorPrivate {
 };
 
 void		editor_actions_init		(EHTMLEditor *editor);
+void		editor_actions_bind		(EHTMLEditor *editor);
 
 G_END_DECLS
 

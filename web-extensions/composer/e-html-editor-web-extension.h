@@ -80,6 +80,18 @@ void		e_html_editor_web_extension_dbus_register
 						(EHTMLEditorWebExtension *extension,
 						 GDBusConnection *connection);
 
+void		set_dbus_property_string	(EHTMLEditorWebExtension *extension,
+						 const gchar *name,
+						 const gchar *value);
+
+void		set_dbus_property_take_string	(EHTMLEditorWebExtension *extension,
+						 const gchar *name,
+						 gchar *value);
+
+void		set_dbus_property_unsigned	(EHTMLEditorWebExtension *extension,
+						 const gchar *name,
+						 guint32 value);
+
 void		set_dbus_property_boolean	(EHTMLEditorWebExtension *extension,
 						 const gchar *name,
 						 gboolean value);
@@ -109,10 +121,16 @@ gboolean	e_html_editor_web_extension_get_italic
 gboolean	e_html_editor_web_extension_get_underline
 						(EHTMLEditorWebExtension *extension);
 
+gboolean	e_html_editor_web_extension_get_monospaced
+						(EHTMLEditorWebExtension *extension);
+
 gboolean	e_html_editor_web_extension_get_strikethrough
 						(EHTMLEditorWebExtension *extension);
 
-gint		e_html_editor_web_extension_get_font_size
+guint		e_html_editor_web_extension_get_font_size
+						(EHTMLEditorWebExtension *extension);
+
+const gchar *	e_html_editor_web_extension_get_font_color
 						(EHTMLEditorWebExtension *extension);
 
 EHTMLEditorSelectionAlignment
@@ -212,5 +230,13 @@ void
 e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id
 						(EHTMLEditorWebExtension *extension,
 						 guint value);
+
+void
+e_html_editor_web_extension_block_selection_changed_callback
+						(EHTMLEditorWebExtension *web_extension);
+
+void
+e_html_editor_web_extension_unblock_selection_changed_callback
+						(EHTMLEditorWebExtension *web_extension);
 
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_H */

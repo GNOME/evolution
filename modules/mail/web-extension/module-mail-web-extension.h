@@ -19,8 +19,8 @@
 #ifndef MODULE_MAIL_WEB_EXTENSION_H
 #define MODULE_MAIL_WEB_EXTENSION_H
 
-#define MODULE_MAIL_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.Module.Mail.WebExtension"
-#define MODULE_MAIL_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/Module/Mail/WebExtension"
-#define MODULE_MAIL_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.Module.Mail.WebExtension"
+#define MODULE_MAIL_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension.Module.Mail"
+#define MODULE_MAIL_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension/Module/Mail"
+#define MODULE_MAIL_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension.Module.Mail"
 
 #endif /* MODULE_MAIL_WEB_EXTENSION_H */

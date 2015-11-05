@@ -1727,7 +1727,7 @@ msg_composer_paste_primary_clipboard_cb (EHTMLEditorView *view,
 		clipboard, (GtkClipboardTargetsReceivedFunc)
 		msg_composer_paste_clipboard_targets_cb, composer);
 }
-
+/* FIXME WK2
 static void
 msg_composer_paste_clipboard_cb (EHTMLEditorView *view,
                                  EMsgComposer *composer)
@@ -1742,7 +1742,7 @@ msg_composer_paste_clipboard_cb (EHTMLEditorView *view,
 
 	g_signal_stop_emission_by_name (view, "paste-clipboard");
 }
-
+*/
 static gboolean
 msg_composer_drag_motion_cb (GtkWidget *widget,
                              GdkDragContext *context,
@@ -2212,7 +2212,7 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
 	EHTMLEditor *editor;
 	EHTMLEditorView *view;
 	WebKitWebView *web_view;
-	gboolean editable = TRUE;;
+	gboolean editable = TRUE;
 	gboolean busy;
 
 	busy = (e_activity_bar_get_activity (activity_bar) != NULL);
@@ -2230,14 +2230,12 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
 	web_view = WEBKIT_WEB_VIEW (view);
 
 	if (busy) {
-		/* FIXME WK2
-		editable = webkit_web_view_get_editable (web_view);
-		webkit_web_view_set_editable (web_view, FALSE);*/
+		editable = webkit_web_view_is_editable (web_view);
+		webkit_web_view_set_editable (web_view, FALSE);
 		composer->priv->saved_editable = editable;
 	} else {
 		editable = composer->priv->saved_editable;
-		/* FIXME WK2
-		webkit_web_view_set_editable (web_view, editable);*/
+		webkit_web_view_set_editable (web_view, editable);
 	}
 
 	g_object_notify (G_OBJECT (composer), "busy");
@@ -2321,11 +2319,11 @@ msg_composer_constructed (GObject *object)
 	g_object_unref (settings);
 
 	/* Clipboard Support */
-
+/* FIXME WK2
 	g_signal_connect (
 		view, "paste-clipboard",
 		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
-
+*/
 	g_signal_connect (
 		view, "paste-primary-clipboard",
 		G_CALLBACK (msg_composer_paste_primary_clipboard_cb), composer);
@@ -3793,8 +3791,7 @@ e_msg_composer_new_redirect (EShell *shell,
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-	/* FIXME WK2
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);*/
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);
 
 	return composer;
 }
@@ -4577,8 +4574,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 
 	e_html_editor_view_set_html_mode (view, FALSE);
 	e_html_editor_view_set_remove_initial_input_line (view, TRUE);
-	/* FIXME WK2
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);*/
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), FALSE);
 
 	g_free (priv->mime_body);
 	priv->mime_body = g_strdup (body);

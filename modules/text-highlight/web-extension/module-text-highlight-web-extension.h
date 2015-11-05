@@ -19,8 +19,8 @@
 #ifndef MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_H
 #define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_H
 
-#define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.Module.TextHighlight.WebExtension"
-#define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/Module/TextHighlight/WebExtension"
-#define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.Module.TextHighlight.WebExtension"
+#define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension.Module.TextHighlight"
+#define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension/Module/TextHighlight"
+#define MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension.Module.TextHighlight"
 
 #endif /* MODULE_TEXT_HIGHLIGHT_WEB_EXTENSION_H */

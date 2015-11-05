@@ -70,6 +70,8 @@ GType		e_html_editor_selection_get_type
 struct _EHTMLEditorView *
 		e_html_editor_selection_ref_html_editor_view
 						(EHTMLEditorSelection *selection);
+void		e_html_editor_selection_activate_properties_changed
+						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_block_selection_changed
 						(EHTMLEditorSelection *selection);
 void		e_html_editor_selection_unblock_selection_changed

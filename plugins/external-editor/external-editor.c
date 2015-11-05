@@ -158,8 +158,8 @@ enable_disable_composer (EMsgComposer *composer,
 
 	editor = e_msg_composer_get_editor (composer);
 	view = e_html_editor_get_view (editor);
-/* FIXME WK2
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);*/
+
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), enable);
 
 	action = E_HTML_EDITOR_ACTION_EDIT_MENU (editor);
 	gtk_action_set_sensitive (action, enable);
@@ -310,7 +310,8 @@ external_editor_thread (gpointer user_data)
 
 		/* Push the text (if there is one) from the composer to the file */
 		content = e_html_editor_view_get_text_plain (view);
-		g_file_set_contents (filename, content, strlen (content), NULL);
+		if (content && *content)
+			g_file_set_contents (filename, content, strlen (content), NULL);
 	} else {
 		struct run_error_dialog_data *data;
 

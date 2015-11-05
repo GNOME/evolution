@@ -37,6 +37,7 @@ webkit_web_extension_initialize (WebKitWebExtension *wk_extension)
 {
 	EWebExtension *extension;
 
+	printf ("%s\n", __FUNCTION__);
 	extension = e_web_extension_get ();
 	e_web_extension_initialize (extension, wk_extension);
 

@@ -19,9 +19,10 @@
 #include "e-html-editor-view-dom-functions.h"
 
 #include "e-html-editor-selection-dom-functions.h"
-#include "e-dom-utils.h"
+
 #include <e-util/e-misc-utils.h>
 #include <e-util/e-emoticon-chooser.h>
+#include <web-extensions/e-dom-utils.h>
 
 #include <string.h>
 
@@ -94,7 +95,7 @@ dom_exec_command (WebKitDOMDocument *document,
 		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_NEW_LINE_IN_QUOTED_CONTENT, "InsertNewlineInQuotedContent", FALSE)
 		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_ORDERED_LIST, "InsertOrderedList", FALSE)
 		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_PARAGRAPH, "InsertParagraph", FALSE)
-		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "InsertText", TRUE)
+		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_TEXT, "InsertText", FALSE)
 		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_INSERT_UNORDERED_LIST, "InsertUnorderedList", FALSE)
 		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_ITALIC, "Italic", FALSE)
 		CHECK_COMMAND (E_HTML_EDITOR_VIEW_COMMAND_JUSTIFY_CENTER, "JustifyCenter", FALSE)
@@ -126,23 +127,6 @@ dom_exec_command (WebKitDOMDocument *document,
 
 	return webkit_dom_document_exec_command (
 		document, cmd_str, FALSE, has_value ? value : "" );
-}
-
-static void
-block_selection_changed_callbacks (EHTMLEditorWebExtension *extension)
-{
-	/* FIXME WK2
-	e_html_editor_selection_block_selection_changed (view->priv->selection);
-	g_signal_handlers_block_by_func (view, html_editor_view_selection_changed_cb, NULL);
-	*/
-}
-
-static void
-unblock_selection_changed_callbacks (EHTMLEditorWebExtension *extension)
-{
-	/* FIXME WK2
-	e_html_editor_selection_unblock_selection_changed (view->priv->selection);
-	g_signal_handlers_unblock_by_func (view, html_editor_view_selection_changed_cb, NULL);*/
 }
 
 static void
@@ -201,7 +185,7 @@ dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
-	block_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 	parent = get_parent_block_element (WEBKIT_DOM_NODE (selection_end_marker));
 
@@ -242,7 +226,7 @@ dom_force_spell_check_for_current_paragraph (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
-	unblock_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 
 	dom_selection_restore (document);
 }
@@ -297,7 +281,7 @@ refresh_spell_check (WebKitDOMDocument *document,
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
-	block_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 	/* Append some text on the end of the body */
 	text = webkit_dom_document_create_text_node (document, "-x-evo-end");
@@ -328,7 +312,7 @@ refresh_spell_check (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
-	unblock_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 
 	dom_selection_restore (document);
 }
@@ -372,7 +356,7 @@ dom_force_spell_check_in_viewport (WebKitDOMDocument *document,
 	/* Block callbacks of selection-changed signal as we don't want to
 	 * recount all the block format things in EHTMLEditorSelection and here as well
 	 * when we are moving with caret */
-	block_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 	/* We have to add 10 px offset as otherwise just the HTML element will be returned */
 	actual = webkit_dom_document_caret_range_from_point (document, 10, 10);
@@ -414,7 +398,7 @@ dom_force_spell_check_in_viewport (WebKitDOMDocument *document,
 	remove_node (WEBKIT_DOM_NODE (text));
 
 	/* Unblock the callbacks */
-	unblock_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 
 	dom_selection_restore (document);
 }
@@ -1587,6 +1571,18 @@ dom_insert_smiley (WebKitDOMDocument *document,
 }
 
 void
+dom_insert_smiley_by_name (WebKitDOMDocument *document,
+                           EHTMLEditorWebExtension *extension,
+                           const gchar *name)
+{
+	const EEmoticon *emoticon;
+
+	emoticon = e_emoticon_chooser_lookup_emoticon (name);
+	e_html_editor_web_extension_set_is_smiley_written (extension, FALSE);
+	dom_insert_smiley (document, extension, (EEmoticon *) emoticon);
+}
+
+void
 dom_check_magic_smileys (WebKitDOMDocument *document,
                          EHTMLEditorWebExtension *extension)
 {
@@ -1649,8 +1645,8 @@ dom_check_magic_smileys (WebKitDOMDocument *document,
 			}
 		}
 
-		emoticon = (e_emoticon_chooser_lookup_emoticon (
-			emoticons_icon_names[-state - 1]));
+		emoticon = e_emoticon_chooser_lookup_emoticon (
+			emoticons_icon_names[-state - 1]);
 		e_html_editor_web_extension_set_is_smiley_written (extension, TRUE);
 		dom_insert_smiley (document, extension, (EEmoticon *) emoticon);
 	}
@@ -1964,7 +1960,7 @@ save_history_for_input (WebKitDOMDocument *document,
 	ev = g_new0 (EHTMLEditorHistoryEvent, 1);
 	ev->type = HISTORY_INPUT;
 
-	block_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 	dom_selection_get_coordinates (
 		document,
@@ -2063,7 +2059,7 @@ save_history_for_input (WebKitDOMDocument *document,
 	g_object_unref (range);
 	g_object_unref (range_clone);
 
-	unblock_selection_changed_callbacks (extension);
+	e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 
 	ev->data.fragment = fragment;
 
@@ -7033,7 +7029,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 	if (webkit_dom_range_get_collapsed (range, NULL)) {
 		WebKitDOMRange *range_clone;
 
-		block_selection_changed_callbacks (extension);
+		e_html_editor_web_extension_block_selection_changed_callback (extension);
 
 		range_clone = webkit_dom_range_clone_range (range, NULL);
 		if (delete_key) {
@@ -7055,7 +7051,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 		g_object_unref (range_clone);
 		if (!webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) {
 			g_free (ev);
-			unblock_selection_changed_callbacks (extension);
+			e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 			g_object_unref (range);
 			g_object_unref (dom_selection);
 			return;
@@ -7103,7 +7099,7 @@ save_history_for_delete_or_backspace (WebKitDOMDocument *document,
 				NULL);
 		}
 
-		unblock_selection_changed_callbacks (extension);
+		e_html_editor_web_extension_unblock_selection_changed_callback (extension);
 	} else {
 		ev->after.start.x = ev->before.start.x;
 		ev->after.start.y = ev->before.start.y;

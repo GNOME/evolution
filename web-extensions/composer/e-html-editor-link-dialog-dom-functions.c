@@ -18,11 +18,11 @@
 
 #include "e-html-editor-link-dialog-dom-functions.h"
 
-#include <e-util/e-util-enums.h>
-
-#include "e-dom-utils.h"
 #include "e-html-editor-view-dom-functions.h"
 #include "e-html-editor-selection-dom-functions.h"
+
+#include <e-util/e-util-enums.h>
+#include <web-extensions/e-dom-utils.h>
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>

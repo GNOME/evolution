@@ -133,11 +133,11 @@ void		e_web_view_get_content_html	(EWebView *web_view,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-const gchar *	e_web_view_get_content_html_finish
+gchar *		e_web_view_get_content_html_finish
 						(EWebView *web_view,
 						 GAsyncResult *result,
 						 GError **error);
-const gchar *	e_web_view_get_content_html_sync
+gchar *		e_web_view_get_content_html_sync
 						(EWebView *web_view,
 						 GCancellable *cancellable,
 						 GError **error);
@@ -216,11 +216,11 @@ void		e_web_view_get_selection_content_html
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-const gchar *	e_web_view_get_selection_content_html_finish
+gchar *		e_web_view_get_selection_content_html_finish
 						(EWebView *web_view,
 						 GAsyncResult *result,
 						 GError **error);
-const gchar *	e_web_view_get_selection_content_html_sync
+gchar *		e_web_view_get_selection_content_html_sync
 						(EWebView *web_view,
 						 GCancellable *cancellable,
 						 GError **error);

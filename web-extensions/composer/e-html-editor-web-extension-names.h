@@ -19,8 +19,8 @@
 #ifndef E_HTML_EDITOR_WEB_EXTENSION_NAMES_H
 #define E_HTML_EDITOR_WEB_EXTENSION_NAMES_H
 
-#define E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.EHTMLEditor.WebExtension"
-#define E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/EHTMLEditor/WebExtension"
-#define E_HTML_EDITOR_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.EHTMLEditor.WebExtension"
+#define E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension.EHTMLEditor"
+#define E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension/EHTMLEditor"
+#define E_HTML_EDITOR_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension.EHTMLEditor"
 
 #endif /* E_HTML_EDITOR_WEB_EXTENSION_NAMES_H */

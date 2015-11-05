@@ -463,6 +463,7 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
+	printf ("%s\n", __FUNCTION__);
 	g_free (web_view->priv->cursor_image_src);
 	web_view->priv->cursor_image_src = NULL;
 
@@ -1682,7 +1683,6 @@ web_view_file_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	EWebView *web_view;
 	GTask *task;
 
-	printf ("%s\n", __FUNCTION__);
 	web_view = E_WEB_VIEW (webkit_uri_scheme_request_get_web_view (request));
 
 	task = g_task_new (
@@ -1711,7 +1711,6 @@ web_view_gtk_stock_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	gsize buff_len = 0;
 	GError *local_error = NULL;
 
-	printf ("%s\n", __FUNCTION__);
 	uri = soup_uri_new (webkit_uri_scheme_request_get_uri (request));
 
 	if (uri && uri->query)
@@ -2268,8 +2267,6 @@ e_web_view_load_uri (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->load_uri != NULL);
 
-	printf ("%s\n", __FUNCTION__);
-	printf ("%s\n", uri);
 	class->load_uri (web_view, uri);
 }
 
@@ -2359,15 +2356,14 @@ get_document_content_html_cb (GDBusProxy *web_extension,
                               GTask *task)
 {
 	GVariant *result_variant;
-	const gchar *html_content;
+	gchar *html_content = NULL;
 
 	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
-	if (result_variant) {
-		html_content = g_variant_get_string (result_variant, NULL);
-		g_variant_unref (result_variant);
-	}
+	if (result_variant)
+		g_variant_get (result_variant, "(s)", &html_content);
+	g_variant_unref (result_variant);
 
-	g_task_return_pointer (task, g_strdup (html_content), g_free);
+	g_task_return_pointer (task, html_content, g_free);
 	g_object_unref (task);
 }
 
@@ -2388,7 +2384,7 @@ e_web_view_get_content_html (EWebView *web_view,
 	if (web_extension) {
 		g_dbus_proxy_call (
 			web_extension,
-			"GetDocumentContentHtml",
+			"GetDocumentContentHTML",
 			g_variant_new (
 				"(t)",
 				webkit_web_view_get_page_id (
@@ -2402,7 +2398,7 @@ e_web_view_get_content_html (EWebView *web_view,
 		g_task_return_pointer (task, NULL, NULL);
 }
 
-const gchar *
+gchar *
 e_web_view_get_content_html_finish (EWebView *web_view,
                                     GAsyncResult *result,
                                     GError **error)
@@ -2413,7 +2409,7 @@ e_web_view_get_content_html_finish (EWebView *web_view,
 	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
-const gchar *
+gchar *
 e_web_view_get_content_html_sync (EWebView *web_view,
                                   GCancellable *cancellable,
                                   GError **error)
@@ -2425,7 +2421,6 @@ e_web_view_get_content_html_sync (EWebView *web_view,
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
 		GVariant *result;
-		const gchar *html_content = NULL;
 
 		result = g_dbus_proxy_call_sync (
 				web_extension,
@@ -2440,8 +2435,11 @@ e_web_view_get_content_html_sync (EWebView *web_view,
 				error);
 
 		if (result) {
-			html_content = g_variant_get_string (result, NULL);
+			gchar *html_content = NULL;
+
+			g_variant_get (result, "(s)", &html_content);
 			g_variant_unref (result);
+
 			return html_content;
 		}
 	}
@@ -2531,9 +2529,7 @@ e_web_view_get_editable (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
-	/* FIXME XXX WK2 */
-//	return webkit_web_view_get_editable (WEBKIT_WEB_VIEW (web_view));
-	return TRUE;
+	return webkit_web_view_is_editable (WEBKIT_WEB_VIEW (web_view));
 }
 
 void
@@ -2542,8 +2538,7 @@ e_web_view_set_editable (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	/* FIXME XXX WK2
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);*/
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);
 }
 
 const gchar *
@@ -2779,10 +2774,35 @@ e_web_view_cut_clipboard (EWebView *web_view)
 gboolean
 e_web_view_is_selection_active (EWebView *web_view)
 {
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
+	GDBusProxy *web_extension;
 
-	/* FIXME XXX WK2
-	return webkit_web_view_has_selection (WEBKIT_WEB_VIEW (web_view));*/
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+
+		result = g_dbus_proxy_call_sync (
+				web_extension,
+				"DocumentHasSelection",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				NULL,
+				NULL);
+
+		if (result) {
+			gboolean value = FALSE;
+
+			g_variant_get (result, "(b)", &value);
+			g_variant_unref (result);
+			return value;
+		}
+	}
+
 	return FALSE;
 }
 
@@ -2980,15 +3000,14 @@ get_selection_content_html_cb (GDBusProxy *web_extension,
                                GTask *task)
 {
 	GVariant *result_variant;
-	const gchar *html_content;
+	gchar *html_content = NULL;
 
 	result_variant = g_dbus_proxy_call_finish (web_extension, result, NULL);
-	if (result_variant) {
-		html_content = g_variant_get_string (result_variant, NULL);
-		g_variant_unref (result_variant);
- 	}
+	if (result_variant)
+		g_variant_get (result_variant, "(s)", &html_content);
+	g_variant_unref (result_variant);
 
-	g_task_return_pointer (task, g_strdup (html_content), g_free);
+	g_task_return_pointer (task, html_content, g_free);
 	g_object_unref (task);
 }
 
@@ -3023,7 +3042,7 @@ e_web_view_get_selection_content_html (EWebView *web_view,
 		g_task_return_pointer (task, NULL, NULL);
 }
 
-const gchar *
+gchar *
 e_web_view_get_selection_content_html_finish (EWebView *web_view,
                                               GAsyncResult *result,
                                               GError **error)
@@ -3034,7 +3053,7 @@ e_web_view_get_selection_content_html_finish (EWebView *web_view,
 	return g_task_propagate_pointer (G_TASK (result), error);
 }
 
-const gchar *
+gchar *
 e_web_view_get_selection_content_html_sync (EWebView *web_view,
                                             GCancellable *cancellable,
                                             GError **error)
@@ -3046,11 +3065,10 @@ e_web_view_get_selection_content_html_sync (EWebView *web_view,
 	web_extension = e_web_view_get_web_extension_proxy (web_view);
 	if (web_extension) {
 		GVariant *result;
-		const gchar *html_content = NULL;
 
 		result = g_dbus_proxy_call_sync (
 				web_extension,
-				"GetSelectionContentHtml",
+				"GetSelectionContentHTML",
 				g_variant_new (
 					"(t)",
 					webkit_web_view_get_page_id (
@@ -3061,7 +3079,9 @@ e_web_view_get_selection_content_html_sync (EWebView *web_view,
 				error);
 
 		if (result) {
-			html_content = g_variant_get_string (result, NULL);
+			gchar *html_content = NULL;
+
+			g_variant_get (result, "(s)", &html_content);
 			g_variant_unref (result);
 			return html_content;
 		}

@@ -18,8 +18,9 @@
 
 #include "e-html-editor-table-dialog-dom-functions.h"
 
-#include "e-dom-utils.h"
 #include "e-html-editor-selection-dom-functions.h"
+
+#include <web-extensions/e-dom-utils.h>
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDOMSelection.h>

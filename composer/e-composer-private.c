@@ -92,7 +92,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
 	EFocusTracker *focus_tracker;
-	EComposerHeader *header;
+/* FIXME WK2
+	EComposerHeader *header;*/
 	EShell *shell;
 	EClientCache *client_cache;
 	EHTMLEditor *editor;
@@ -209,13 +210,14 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+/* FIXME WK2
 	header = e_composer_header_table_get_header (
 		E_COMPOSER_HEADER_TABLE (widget),
 		E_COMPOSER_HEADER_SUBJECT);
 	e_binding_bind_property (
 		view, "spell-checker",
 		header->input_widget, "spell-checker",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE);*/
 
 	/* Construct the editing toolbars.  We'll have to reparent
 	 * the embedded EHTMLEditorView a little further down. */
@@ -968,7 +970,7 @@ insert:
 			web_extension,
 			"DOMInsertSignature",
 			g_variant_new (
-				"(tsb)",
+				"(tsbb)",
 				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
 				html_buffer->str,
 				top_signature,

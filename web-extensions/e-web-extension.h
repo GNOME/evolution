@@ -41,10 +41,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_WEB_EXTENSION, EWebExtensionClass))
 
-#define E_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension"
-#define E_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension"
-#define E_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension"
-
 G_BEGIN_DECLS
 
 typedef struct _EWebExtension EWebExtension;

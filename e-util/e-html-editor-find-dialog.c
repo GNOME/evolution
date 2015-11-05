@@ -61,6 +61,17 @@ reset_dialog (EHTMLEditorFindDialog *dialog)
 }
 
 static void
+html_editor_find_dialog_hide (GtkWidget *widget)
+{
+	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
+
+	webkit_find_controller_search_finish (dialog->priv->find_controller);
+
+	/* Chain up to parent's implementation */
+	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->hide (widget);
+}
+
+static void
 html_editor_find_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
@@ -77,15 +88,8 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
                                       guint match_count,
                                       EHTMLEditorFindDialog *dialog)
 {
+	gtk_widget_hide (dialog->priv->result_label);
 	gtk_widget_set_sensitive (dialog->priv->find_button, TRUE);
-
-	/* We give focus to WebKit so that the selection is highlited.
-	 * Without focus selection is not visible (at least with my default
-	 * color scheme). The focus in fact is not given to WebKit, because
-	 * this dialog is modal, but it satisfies it in a way that it paints
-	 * the selection :) */
-	/* FIXME WK2 - still needed ?
-	gtk_widget_grab_focus (GTK_WIDGET (view)); */
 }
 
 static void
@@ -161,30 +165,14 @@ html_editor_find_dialog_dispose (GObject *object)
 }
 
 static void
-e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
-{
-	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-
-	g_type_class_add_private (class, sizeof (EHTMLEditorFindDialogPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = html_editor_find_dialog_dispose;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->show = html_editor_find_dialog_show;
-}
-
-static void
-e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
+html_editor_find_dialog_constructed (GObject *object)
 {
 	EHTMLEditor *editor;
+	EHTMLEditorFindDialog *dialog;
 	EHTMLEditorView *view;
-	GtkGrid *main_layout;
-	GtkBox *box;
-	GtkWidget *widget;
 	WebKitFindController *find_controller;
 
+	dialog = E_HTML_EDITOR_FIND_DIALOG (object);
 	dialog->priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
@@ -201,6 +189,35 @@ e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
 		G_CALLBACK (webkit_find_controller_failed_to_found_text_cb), dialog);
 
 	dialog->priv->find_controller = find_controller;
+
+	G_OBJECT_CLASS (e_html_editor_find_dialog_parent_class)->constructed (object);
+}
+
+static void
+e_html_editor_find_dialog_class_init (EHTMLEditorFindDialogClass *class)
+{
+	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
+
+	g_type_class_add_private (class, sizeof (EHTMLEditorFindDialogPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = html_editor_find_dialog_constructed;
+	object_class->dispose = html_editor_find_dialog_dispose;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->hide = html_editor_find_dialog_hide;
+	widget_class->show = html_editor_find_dialog_show;
+}
+
+static void
+e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
+{
+	GtkGrid *main_layout;
+	GtkBox *box;
+	GtkWidget *widget;
+
+	dialog->priv = E_HTML_EDITOR_FIND_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 

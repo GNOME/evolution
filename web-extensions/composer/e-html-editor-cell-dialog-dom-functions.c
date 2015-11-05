@@ -18,9 +18,10 @@
 
 #include "e-html-editor-cell-dialog-dom-functions.h"
 
-#include "e-dom-utils.h"
 #include "e-html-editor-undo-redo-manager.h"
 #include "e-html-editor-selection-dom-functions.h"
+
+#include <web-extensions/e-dom-utils.h>
 
 enum {
 	SCOPE_CELL,

@@ -19,8 +19,8 @@
 #ifndef MODULE_PREFER_PLAIN_WEB_EXTENSION_H
 #define MODULE_PREFER_PLAIN_WEB_EXTENSION_H
 
-#define MODULE_PREFER_PLAIN_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.Module.PreferPlain.WebExtension"
-#define MODULE_PREFER_PLAIN_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/Module/PreferPlain/WebExtension"
-#define MODULE_PREFER_PLAIN_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.Module.PreferPlain.WebExtension"
+#define MODULE_PREFER_PLAIN_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension.Module.PreferPlain"
+#define MODULE_PREFER_PLAIN_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension/Module/PreferPlain"
+#define MODULE_PREFER_PLAIN_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension.Module.PreferPlain"
 
 #endif /* MODULE_PREFER_PLAIN_WEB_EXTENSION_H */

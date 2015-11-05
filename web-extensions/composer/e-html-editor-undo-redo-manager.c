@@ -22,7 +22,8 @@
 #include "e-html-editor-web-extension.h"
 #include "e-html-editor-selection-dom-functions.h"
 #include "e-html-editor-view-dom-functions.h"
-#include "e-dom-utils.h"
+
+#include <web-extensions/e-dom-utils.h>
 
 #define WEBKIT_DOM_USE_UNSTABLE_API
 #include <webkitdom/WebKitDOMDocumentFragmentUnstable.h>
@@ -2061,5 +2062,7 @@ e_html_editor_undo_redo_manager_init (EHTMLEditorUndoRedoManager *manager)
 
 	manager->priv->operation_in_progress = FALSE;
 	manager->priv->history = NULL;
-	e_html_editor_undo_redo_manager_clean_history (manager);
+	manager->priv->history_size = 0;
+	manager->priv->can_undo = FALSE;
+	manager->priv->can_redo = FALSE;
 }

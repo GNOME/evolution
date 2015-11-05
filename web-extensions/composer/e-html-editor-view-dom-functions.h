@@ -73,6 +73,10 @@ void		dom_insert_smiley		(WebKitDOMDocument *document,
                                                  EHTMLEditorWebExtension *extension,
                                                  EEmoticon *emoticon);
 
+void		dom_insert_smiley_by_name	(WebKitDOMDocument *document,
+						 EHTMLEditorWebExtension *extension,
+						 const gchar *name);
+
 void		dom_check_magic_smileys		(WebKitDOMDocument *document,
 						 EHTMLEditorWebExtension *extension);
 

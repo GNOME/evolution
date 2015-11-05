@@ -296,8 +296,7 @@ action_insert_emoticon_cb (GtkAction *action,
 	g_return_if_fail (emoticon != NULL);
 
 	view = e_html_editor_get_view (editor);
-/* FIXME WK2
-	e_html_editor_view_insert_smiley (view, emoticon); */
+	e_html_editor_view_insert_smiley (view, emoticon);
 }
 
 static void
@@ -1366,13 +1365,6 @@ static GtkActionEntry context_entries[] = {
 	  NULL,
 	  NULL },
 
-	{ "context-input-methods-menu",
-	  NULL,
-	  N_("Input Methods"),
-	  NULL,
-	  NULL,
-	  NULL },
-
 	{ "context-insert-table-menu",
 	  NULL,
 	  /* Translators: Popup menu item caption, containing all the Insert options for a table */
@@ -1689,14 +1681,12 @@ editor_actions_init (EHTMLEditor *editor)
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	const gchar *domain;
-	EHTMLEditorView *view;
 	GSettings *settings;
 
 	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	manager = e_html_editor_get_ui_manager (editor);
 	domain = GETTEXT_PACKAGE;
-	view = e_html_editor_get_view (editor);
 
 	/* Core Actions */
 	action_group = editor->priv->core_actions;
@@ -1727,15 +1717,6 @@ editor_actions_init (EHTMLEditor *editor)
 		E_HTML_EDITOR_SELECTION_BLOCK_FORMAT_PARAGRAPH,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
-
-	action = gtk_action_group_get_action (action_group, "mode-html");
-	e_binding_bind_property (
-		view, "html-mode",
-		action, "current-value",
-		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
-
-	/* Synchronize wiget mode with the buttons */
-	e_html_editor_view_set_html_mode (view, TRUE);
 
 	/* Face Action */
 	action = e_emoticon_action_new (
@@ -1826,6 +1807,34 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_set_sensitive (ACTION (UNINDENT), FALSE);
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
 
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	gtk_action_set_visible (
+		ACTION (WEBKIT_INSPECTOR),
+		g_settings_get_boolean (settings, "composer-developer-mode"));
+	g_object_unref (settings);
+}
+
+void
+editor_actions_bind (EHTMLEditor *editor)
+{
+	GtkAction *action;
+	GtkActionGroup *action_group;
+	EHTMLEditorView *view;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	view = e_html_editor_get_view (editor);
+
+	action_group = editor->priv->core_editor_actions;
+	action = gtk_action_group_get_action (action_group, "mode-html");
+	e_binding_bind_property (
+		view, "html-mode",
+		action, "current-value",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	/* Synchronize widget mode with the buttons */
+	e_html_editor_view_set_html_mode (view, TRUE);
+
 	e_binding_bind_property (
 		view, "can-redo",
 		ACTION (REDO), "sensitive",
@@ -1903,10 +1912,4 @@ editor_actions_init (EHTMLEditor *editor)
 		view, "editable",
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	gtk_action_set_visible (
-		ACTION (WEBKIT_INSPECTOR),
-		g_settings_get_boolean (settings, "composer-developer-mode"));
-	g_object_unref (settings);
 }

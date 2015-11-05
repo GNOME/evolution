@@ -1506,7 +1506,6 @@ mail_display_cid_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	CamelDataWrapper *dw;
 	CamelMimePart *mime_part;
 
-	printf ("%s\n", __FUNCTION__);
 	display = E_MAIL_DISPLAY (webkit_uri_scheme_request_get_web_view (request));
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
@@ -1936,7 +1935,6 @@ mail_display_http_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	GTask *task;
 	GCancellable *cancellable;
 
-	printf ("%s\n", __FUNCTION__);
 	display = E_MAIL_DISPLAY (webkit_uri_scheme_request_get_web_view (request));
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
@@ -2222,7 +2220,6 @@ mail_display_mail_uri_scheme_appeared_cb (WebKitURISchemeRequest *request)
 	GCancellable *cancellable;
 	const gchar *uri;
 
-	printf ("%s\n", __FUNCTION__);
 	display = E_MAIL_DISPLAY (webkit_uri_scheme_request_get_web_view (request));
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));

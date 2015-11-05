@@ -222,7 +222,7 @@ html_editor_hrule_dialog_set_shading (EHTMLEditorHRuleDialog *dialog)
 		web_extension,
 		"HRElementSetNoShade",
 		g_variant_new (
-			"(tss)",
+			"(tsb)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
 			"-x-evo-current-hr",
 			!gtk_toggle_button_get_active (
@@ -263,7 +263,7 @@ html_editor_hrule_dialog_get_shading (EHTMLEditorHRuleDialog *dialog)
 	if (result) {
 		gboolean value;
 
-		g_variant_get (result, "(&b)", &value);
+		g_variant_get (result, "(b)", &value);
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), !value);
 		g_variant_unref (result);

@@ -336,6 +336,8 @@ html_editor_update_actions (EHTMLEditor *editor)
 		}
 	}
 
+	printf ("%s\n", __FUNCTION__);
+	printf ("%d\n", flags);
 	spell_checker = e_html_editor_view_get_spell_checker (view);
 
 	manager = e_html_editor_get_ui_manager (editor);
@@ -601,7 +603,6 @@ html_editor_constructed (GObject *object)
 {
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 	EHTMLEditorPrivate *priv = editor->priv;
-	GtkIMMulticontext *im_context;
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
 	GtkToolItem *tool_item;
@@ -708,6 +709,7 @@ html_editor_constructed (GObject *object)
 		priv->html_editor_view, "editable",
 		priv->color_combo_box, "sensitive",
 		G_BINDING_SYNC_CREATE);
+	editor_actions_bind (editor);
 
 	tool_item = gtk_tool_item_new ();
 	widget = e_action_combo_box_new_with_action (
@@ -718,16 +720,6 @@ html_editor_constructed (GObject *object)
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->size_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
-
-	/* Add input methods to the context menu. */
-	widget = e_html_editor_get_managed_widget (
-		editor, "/context-menu/context-input-methods-menu");
-	widget = gtk_menu_item_get_submenu (GTK_MENU_ITEM (widget));
-	g_object_get (
-		G_OBJECT (priv->html_editor_view), "im-context", &im_context, NULL);
-	gtk_im_multicontext_append_menuitems (
-		GTK_IM_MULTICONTEXT (im_context),
-		GTK_MENU_SHELL (widget));
 }
 
 static void

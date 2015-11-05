@@ -97,6 +97,7 @@ libevolution_util_la_CPPFLAGS = \
 	-DEVOLUTION_UIDIR=\""$(uidir)"\" \
 	-DEVOLUTION_RULEDIR=\"$(ruledir)\" \
 	-DEVOLUTION_WEB_EXTENSIONS_DIR=\""$(webextensionsdir)"\" \
+	-DEVOLUTION_WEB_EXTENSIONS_COMPOSER_DIR=\""$(webextensionscomposerdir)"\" \
 	-DG_LOG_DOMAIN=\"evolution-util\" \
 	$(EVOLUTION_DATA_SERVER_CFLAGS) \
 	$(GNOME_PLATFORM_CFLAGS) \

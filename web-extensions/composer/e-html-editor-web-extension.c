@@ -20,20 +20,7 @@
 
 #include "e-html-editor-web-extension.h"
 
-#include <string.h>
-
-#include <gio/gio.h>
-#include <gtk/gtk.h>
-#include <webkit2/webkit-web-extension.h>
-
-#include <camel/camel.h>
-
-#include <e-util/e-misc-utils.h>
-
-#include <e-util/e-html-editor-defines.h>
-
 #include "e-composer-private-dom-functions.h"
-#include "e-dom-utils.h"
 #include "e-html-editor-actions-dom-functions.h"
 #include "e-html-editor-cell-dialog-dom-functions.h"
 #include "e-html-editor-hrule-dialog-dom-functions.h"
@@ -45,6 +32,17 @@
 #include "e-html-editor-table-dialog-dom-functions.h"
 #include "e-html-editor-view-dom-functions.h"
 #include "e-msg-composer-dom-functions.h"
+
+#include <e-util/e-misc-utils.h>
+#include <e-util/e-html-editor-defines.h>
+#include <web-extensions/e-dom-utils.h>
+
+#include <string.h>
+
+#include <gio/gio.h>
+#include <gtk/gtk.h>
+#include <webkit2/webkit-web-extension.h>
+#include <camel/camel.h>
 
 #define E_HTML_EDITOR_WEB_EXTENSION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -108,27 +106,29 @@ static CamelDataCache *emd_global_http_cache = NULL;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='org.gnome.Evolution.WebExtension'>"
+"  <interface name='"E_HTML_EDITOR_WEB_EXTENSION_INTERFACE"'>"
 "<!-- ********************************************************* -->"
 "<!--                       PROPERTIES                          -->"
 "<!-- ********************************************************* -->"
 "    <property type='b' name='ForceImageLoad' access='readwrite'/>"
 "    <property type='b' name='InlineSpelling' access='readwrite'/>"
 "    <property type='b' name='MagicLinks' access='readwrite'/>"
+"    <property type='b' name='MagicSmileys' access='readwrite'/>"
 "    <property type='b' name='HTMLMode' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromEditAsNew' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromDraft' access='readwrite'/>"
 "    <property type='b' name='IsMessageFromSelection' access='readwrite'/>"
 "    <property type='b' name='IsFromNewMessage' access='readwrite'/>"
 "    <property type='b' name='RemoveInitialInputLine' access='readwrite'/>"
-"    <property type='b' name='NodeUnderMouseClickFlags' access='read'/>"
+"    <property type='u' name='NodeUnderMouseClickFlags' access='readwrite'/>"
 "<!-- ********************************************************* -->"
 "<!-- These properties show the actual state of EHTMLEditorView -->"
 "<!-- ********************************************************* -->"
-"    <property type='b' name='Alignment' access='readwrite'/>"
+"    <property type='u' name='Alignment' access='readwrite'/>"
 "    <property type='s' name='BackgroundColor' access='readwrite'/>"
 "    <property type='u' name='BlockFormat' access='readwrite'/>"
 "    <property type='b' name='Bold' access='readwrite'/>"
+"    <property type='b' name='Changed' access='readwrite'/>"
 "    <property type='s' name='FontColor' access='readwrite'/>"
 "    <property type='s' name='FontName' access='readwrite'/>"
 "    <property type='u' name='FontSize' access='readwrite'/>"
@@ -545,11 +545,69 @@ static const char introspection_xml[] =
 "    <method name='DOMIMContextPreEditEnd'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "    </method>"
+"    <method name='DOMInsertSmiley'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='smiley_name' direction='in'/>"
+"    </method>"
 "<!-- ********************************************************* -->"
 "<!--     Functions that are used in EHTMLEditorSelection       -->"
 "<!-- ********************************************************* -->"
 "    <method name='DOMSelectionIndent'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionInsertBase64Image'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='base64_content' direction='in'/>"
+"      <arg type='s' name='filename' direction='in'/>"
+"      <arg type='s' name='uri' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionReplace'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='replacement' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetAlignment'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='alignment' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetBold'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='bold' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetBlockFormat'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='block_format' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetFontColor'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='color' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetFontSize'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='u' name='font_size' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetItalic'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='italic' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetMonospaced'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='monospaced' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetStrikethrough'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='strikethrough' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetSubscript'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='subscript' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetSuperscript'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='superscript' direction='in'/>"
+"    </method>"
+"    <method name='DOMSelectionSetUnderline'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='underline' direction='in'/>"
 "    </method>"
 "    <method name='DOMSelectionUnindent'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -617,6 +675,7 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_HTML_EDITOR_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
+	printf ("%s - %s\n", __FUNCTION__, method_name);
 	if (g_strcmp0 (method_name, "ElementHasAttribute") == 0) {
 		gboolean value = FALSE;
 		const gchar *element_id, *attribute;
@@ -628,7 +687,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -648,7 +707,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -657,7 +716,10 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "ElementGetAttributeBySelector") == 0) {
 		const gchar *attribute, *selector;
 		gchar *value = NULL;
@@ -669,7 +731,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_query_selector (document, selector, NULL);
@@ -678,7 +740,10 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "ElementRemoveAttribute") == 0) {
 		const gchar *element_id, *attribute;
 		WebKitDOMElement *element;
@@ -689,7 +754,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -707,7 +772,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_query_selector (document, selector, NULL);
@@ -727,7 +792,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -741,12 +806,12 @@ handle_method_call (GDBusConnection *connection,
 		WebKitDOMElement *element;
 
 		g_variant_get (
-			parameters, "(t&s&s)", &page_id, &selector, &attribute, &value);
+			parameters, "(t&s&s&s)", &page_id, &selector, &attribute, &value);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_query_selector (document, selector, NULL);
@@ -770,7 +835,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -779,7 +844,10 @@ handle_method_call (GDBusConnection *connection,
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "RemoveImageAttributesFromElementBySelector") == 0) {
 		const gchar *selector;
 		WebKitDOMElement *element;
@@ -790,7 +858,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_query_selector (document, selector, NULL);
@@ -810,7 +878,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_mark_current_cell_element (document, extension, element_id);
@@ -822,7 +890,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_save_history_on_exit (document, extension);
@@ -837,7 +905,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_v_align (document, value, scope);
@@ -852,7 +920,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_align (document, value, scope);
@@ -867,7 +935,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_no_wrap (document, value, scope);
@@ -882,7 +950,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_header_style (
@@ -898,7 +966,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_width (document, value, scope);
@@ -913,7 +981,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_col_span (document, value, scope);
@@ -928,7 +996,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_row_span (document, value, scope);
@@ -943,7 +1011,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_cell_dialog_set_element_bg_color (document, value, scope);
@@ -956,21 +1024,21 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		created_new_hr = e_html_editor_hrule_dialog_find_hrule (
 			document, extension, extension->priv->node_under_mouse_click);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (created_new_hr));
+			invocation, g_variant_new ("(b)", created_new_hr));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorHRuleDialogSaveHistoryOnExit") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_hrule_dialog_save_history_on_exit (document, extension);
@@ -987,7 +1055,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1007,7 +1075,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1016,14 +1084,14 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_HR_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (value));
+			invocation, g_variant_new ("(b)", value));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorImageDialogMarkImage") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_image_dialog_mark_image (
@@ -1036,7 +1104,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_image_dialog_save_history_on_exit (document, extension);
@@ -1050,7 +1118,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_image_dialog_set_element_url (document, value);
@@ -1064,14 +1132,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = e_html_editor_image_dialog_get_element_url (document);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "ImageElementSetWidth") == 0) {
 		const gchar *element_id;
 		glong value;
@@ -1083,7 +1154,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1103,7 +1174,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1112,7 +1183,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementSetHeight") == 0) {
 		const gchar *element_id;
 		glong value;
@@ -1124,7 +1195,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1144,7 +1215,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1153,7 +1224,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementGetNaturalWidth") == 0) {
 		const gchar *element_id;
 		glong value = 0;
@@ -1165,7 +1236,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1174,7 +1245,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementGetNaturalHeight") == 0) {
 		const gchar *element_id;
 		glong value = 0;
@@ -1186,7 +1257,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1195,7 +1266,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementSetHSpace") == 0) {
 		const gchar *element_id;
 		glong value;
@@ -1207,7 +1278,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1227,7 +1298,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1236,7 +1307,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "ImageElementSetVSpace") == 0) {
 		const gchar *element_id;
 		glong value;
@@ -1248,7 +1319,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1268,7 +1339,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1277,7 +1348,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_IMAGE_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorLinkDialogOk") == 0) {
 		const gchar *url, *inner_text;
 
@@ -1286,7 +1357,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_link_dialog_ok (document, extension, url, inner_text);
@@ -1298,7 +1369,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_page_dialog_save_history (document, extension);
@@ -1310,7 +1381,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_page_dialog_save_history_on_exit (document, extension);
@@ -1325,14 +1396,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = e_html_editor_spell_check_dialog_next (document, word);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorSpellCheckDialogPrev") == 0) {
 		const gchar *word;
 		gchar *value = NULL;
@@ -1342,14 +1416,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = e_html_editor_spell_check_dialog_prev (document, word);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogSetRowCount") == 0) {
 		gulong value;
 
@@ -1358,7 +1435,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_table_dialog_set_row_count (document, value);
@@ -1372,13 +1449,13 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = e_html_editor_table_dialog_get_row_count (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_uint32 (value));
+			invocation, g_variant_new ("(u)", value));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogSetColumnCount") == 0) {
 		gulong value;
 
@@ -1387,7 +1464,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_table_dialog_set_column_count (document, value);
@@ -1401,13 +1478,13 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = e_html_editor_table_dialog_get_column_count (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_uint32 (value));
+			invocation, g_variant_new ("(u)", value));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogShow") == 0) {
 		gboolean created_new_table;
 
@@ -1416,20 +1493,20 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		created_new_table = e_html_editor_table_dialog_show (document, extension);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (created_new_table));
+			invocation, g_variant_new ("(b)", created_new_table));
 	} else if (g_strcmp0 (method_name, "EHTMLEditorTableDialogSaveHistoryOnExit") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_table_dialog_save_history_on_exit (document, extension);
@@ -1441,7 +1518,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_delete_cell_contents (document, extension);
@@ -1453,7 +1530,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_delete_column (document, extension);
@@ -1465,7 +1542,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_delete_row (document, extension);
@@ -1477,7 +1554,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_delete_table (document, extension);
@@ -1489,7 +1566,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_delete_cell_contents (document, extension);
@@ -1501,7 +1578,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_insert_column_after (document, extension);
@@ -1513,7 +1590,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_insert_column_before (document, extension);
@@ -1525,7 +1602,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_insert_row_above (document, extension);
@@ -1537,7 +1614,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		e_html_editor_dialog_insert_row_below (document, extension);
@@ -1549,7 +1626,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_unlink (document, extension);
@@ -1561,7 +1638,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_unlink (document, extension);
@@ -1573,7 +1650,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_save_history_for_cut (document, extension);
@@ -1589,7 +1666,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1598,7 +1675,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (value));
+			invocation, g_variant_new ("(b)", value));
 	} else if (g_strcmp0 (method_name, "TableCellElementGetRowSpan") == 0) {
 		const gchar *element_id;
 		glong value = 0;
@@ -1609,7 +1686,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1618,7 +1695,7 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "TableCellElementGetColSpan") == 0) {
 		const gchar *element_id;
 		glong value = 0;
@@ -1629,7 +1706,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		element = webkit_dom_document_get_element_by_id (document, element_id);
@@ -1638,14 +1715,14 @@ handle_method_call (GDBusConnection *connection,
 				WEBKIT_DOM_HTML_TABLE_CELL_ELEMENT (element));
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_int32 (value));
+			invocation, g_variant_new ("(i)", value));
 	} else if (g_strcmp0 (method_name, "DOMSaveSelection") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_save (document);
@@ -1656,7 +1733,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_restore (document);
@@ -1667,7 +1744,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_turn_spell_check_off (document, extension);
@@ -1680,7 +1757,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_quote_and_insert_text_into_selection (document, extension, text);
@@ -1694,7 +1771,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_convert_and_insert_html_into_selection (document, extension, text, is_html);
@@ -1707,7 +1784,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_embed_style_sheet (document, style_sheet_content);
@@ -1718,7 +1795,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_remove_embed_style_sheet (document);
@@ -1729,7 +1806,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_force_spell_check (document, extension);
@@ -1740,7 +1817,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_check_magic_links (document, extension, FALSE);
@@ -1754,12 +1831,12 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		stop_handlers = dom_process_on_key_press (document, extension, key_val);
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (stop_handlers));
+			invocation, g_variant_new ("(b)", stop_handlers));
 	} else if (g_strcmp0 (method_name, "DOMCheckIfConversionNeeded") == 0) {
 		gboolean conversion_needed;
 
@@ -1768,19 +1845,19 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		conversion_needed = dom_check_if_conversion_needed (document);
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_boolean (conversion_needed));
+			invocation, g_variant_new ("(b)", conversion_needed));
 	} else if (g_strcmp0 (method_name, "DOMConvertWhenChangingComposerMode") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_convert_when_changing_composer_mode (document, extension);
@@ -1791,7 +1868,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_process_content_after_mode_change (document, extension);
@@ -1804,14 +1881,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_process_content_for_draft (document);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMProcessContentForHTML") == 0) {
 		const gchar *from_domain;
 		gchar *value = NULL;
@@ -1821,14 +1901,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_process_content_for_html (document, extension, from_domain);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMProcessContentForPlainText") == 0) {
 		gchar *value = NULL;
 
@@ -1837,14 +1920,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_process_content_for_plain_text (document, extension);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMInsertHTML") == 0) {
 		const gchar *html;
 
@@ -1853,7 +1939,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_insert_html (document, extension, html);
@@ -1866,7 +1952,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_convert_content (document, extension, preferred_text);
@@ -1880,7 +1966,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		images_data = dom_get_inline_images_data (document, extension, uid_domain);
@@ -1893,7 +1979,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		e_html_editor_web_extension_add_new_inline_image_into_list (
 			extension, cid_uri, src);
@@ -1910,7 +1996,21 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_replace_base64_image_src (document, selector, base64_content, filename, uri);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMReplaceBase64ImageSrc") == 0) {
+		const gchar *selector, *base64_content, *filename, *uri;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &selector, &base64_content, &filename, &uri);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_replace_base64_image_src (document, selector, base64_content, filename, uri);
@@ -1922,7 +2022,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_drag_and_drop_end (document, extension);
@@ -1933,7 +2033,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		extension->priv->im_input_in_progress = TRUE;
 		document = webkit_web_page_get_dom_document (web_page);
@@ -1945,11 +2045,24 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		extension->priv->im_input_in_progress = FALSE;
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_register_input_event_listener_on_body (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMInsertSmiley") == 0) {
+		const gchar *smiley_name;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &smiley_name);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_insert_smiley_by_name (document, extension, smiley_name);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMMoveSelectionOnPoint") == 0) {
 		gboolean cancel_if_not_collapsed;
@@ -1960,7 +2073,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		if (cancel_if_not_collapsed) {
@@ -1975,10 +2088,180 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_indent (document, extension);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionInsertBase64Image") == 0) {
+		const gchar *base64_content, *filename, *uri;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &base64_content, &filename, &uri);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_insert_base64_image (document, extension, filename, uri, base64_content);
+
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionReplace") == 0) {
+		const gchar *replacement;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &replacement);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_replace (document, extension, replacement);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetAlignment") == 0) {
+		guint32 alignment;
+
+		g_variant_get (parameters, "(tu)", &page_id, &alignment);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_alignment (document, extension, alignment);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetBold") == 0) {
+		gboolean bold;
+
+		g_variant_get (parameters, "(tb)", &page_id, &bold);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_bold (document, extension, bold);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetBlockFormat") == 0) {
+		guint32 block_format;
+
+		g_variant_get (parameters, "(tu)", &page_id, &block_format);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_block_format (document, extension, block_format);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetFontColor") == 0) {
+		const gchar *color;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &color);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_font_color (document, extension, color);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetFontSize") == 0) {
+		guint32 font_size;
+
+		g_variant_get (parameters, "(tu)", &page_id, &font_size);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_font_size (document, extension, font_size);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetItalic") == 0) {
+		gboolean italic;
+
+		g_variant_get (parameters, "(tb)", &page_id, &italic);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_italic (document, extension, italic);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetMonospaced") == 0) {
+		gboolean monospaced;
+
+		g_variant_get (parameters, "(tb)", &page_id, &monospaced);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_monospaced (document, extension, monospaced);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetStrikethrough") == 0) {
+		gboolean strikethrough;
+
+		g_variant_get (parameters, "(tb)", &page_id, &strikethrough);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_strikethrough (document, extension, strikethrough);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetSubscript") == 0) {
+		gboolean subscript;
+
+		g_variant_get (parameters, "(tb)", &page_id, &subscript);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_subscript (document, extension, subscript);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetSuperscript") == 0) {
+		gboolean superscript;
+
+		g_variant_get (parameters, "(tb)", &page_id, &superscript);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_superscript (document, extension, superscript);
+		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DOMSelectionSetUnderline") == 0) {
+		gboolean underline;
+
+		g_variant_get (parameters, "(tb)", &page_id, &underline);
+
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			goto error;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		dom_selection_set_underline (document, extension, underline);
 		g_dbus_method_invocation_return_value (invocation, NULL);
 	} else if (g_strcmp0 (method_name, "DOMSelectionUnindent") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
@@ -1986,7 +2269,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_unindent (document, extension);
@@ -1997,7 +2280,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_selection_wrap (document, extension);
@@ -2011,14 +2294,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		active_signature = dom_remove_signatures (document, extension, top_signature);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			active_signature ? g_variant_new_take_string (active_signature) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					active_signature ? active_signature : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMInsertSignature") == 0) {
 		gboolean top_signature, start_bottom;
 		const gchar *signature_html;
@@ -2029,7 +2315,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_insert_signature (document, extension, signature_html, top_signature, start_bottom);
@@ -2042,7 +2328,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		dom_clean_after_drag_and_drop (document, extension);
@@ -2056,14 +2342,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_get_active_signature_uid (document);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMGetRawBodyContentWithoutSignature") == 0) {
 		gchar *value;
 
@@ -2072,14 +2361,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_get_raw_body_content_without_signature (document);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMGetRawBodyContent") == 0) {
 		gchar *value;
 
@@ -2088,14 +2380,17 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_get_raw_body_content (document);
 
 		g_dbus_method_invocation_return_value (
 			invocation,
-			value ? g_variant_new_take_string (value) : NULL);
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "DOMGetCaretPosition") == 0) {
 		gint32 value;
 
@@ -2104,7 +2399,7 @@ handle_method_call (GDBusConnection *connection,
 		web_page = get_webkit_web_page_or_return_dbus_error (
 			invocation, web_extension, page_id);
 		if (!web_page)
-			return;
+			goto error;
 
 		document = webkit_web_page_get_dom_document (web_page);
 		value = dom_get_caret_position (document);
@@ -2112,7 +2407,14 @@ handle_method_call (GDBusConnection *connection,
 		g_dbus_method_invocation_return_value (
 			invocation,
 			value ? g_variant_new_int32 (value) : NULL);
+	} else {
+		g_warning ("UNKNOWN METHOD '%s:i'", method_name);
 	}
+
+	return;
+
+ error:
+	g_warning ("Cannot obtain WebKitWebPage for '%ld'", page_id);
 }
 
 static GVariant *
@@ -2127,12 +2429,15 @@ handle_get_property (GDBusConnection *connection,
 	EHTMLEditorWebExtension *extension = E_HTML_EDITOR_WEB_EXTENSION (user_data);
 	GVariant *variant;
 
+	printf ("%s - %s - %s\n", __FUNCTION__, sender, property_name);
 	if (g_strcmp0 (property_name, "ForceImageLoad") == 0)
 		variant = g_variant_new_boolean (extension->priv->force_image_load);
 	else if (g_strcmp0 (property_name, "InlineSpelling") == 0)
 		variant = g_variant_new_boolean (extension->priv->inline_spelling);
 	else if (g_strcmp0 (property_name, "MagicLinks") == 0)
 		variant = g_variant_new_boolean (extension->priv->magic_links);
+	else if (g_strcmp0 (property_name, "MagicSmileys") == 0)
+		variant = g_variant_new_boolean (extension->priv->magic_smileys);
 	else if (g_strcmp0 (property_name, "HTMLMode") == 0)
 		variant = g_variant_new_boolean (extension->priv->html_mode);
 	else if (g_strcmp0 (property_name, "IsFromNewMessage") == 0)
@@ -2146,19 +2451,21 @@ handle_get_property (GDBusConnection *connection,
 	else if (g_strcmp0 (property_name, "RemoveInitialInputLine") == 0)
 		variant = g_variant_new_boolean (extension->priv->remove_initial_input_line);
 	else if (g_strcmp0 (property_name, "Alignment") == 0)
-		variant = g_variant_new_int32 (extension->priv->alignment);
+		variant = g_variant_new_uint32 (extension->priv->alignment);
 	else if (g_strcmp0 (property_name, "BackgroundColor") == 0)
 		variant = g_variant_new_string (extension->priv->background_color);
 	else if (g_strcmp0 (property_name, "BlockFormat") == 0)
-		variant = g_variant_new_int32 (extension->priv->block_format);
+		variant = g_variant_new_uint32 (extension->priv->block_format);
 	else if (g_strcmp0 (property_name, "Bold") == 0)
 		variant = g_variant_new_boolean (extension->priv->bold);
+	else if (g_strcmp0 (property_name, "Changed") == 0)
+		variant = g_variant_new_boolean (extension->priv->changed);
 	else if (g_strcmp0 (property_name, "FontColor") == 0)
 		variant = g_variant_new_string (extension->priv->font_color);
 	else if (g_strcmp0 (property_name, "FontName") == 0)
 		variant = g_variant_new_string (extension->priv->font_name);
 	else if (g_strcmp0 (property_name, "FontSize") == 0)
-		variant = g_variant_new_int32 (extension->priv->font_size);
+		variant = g_variant_new_uint32 (extension->priv->font_size);
 	else if (g_strcmp0 (property_name, "Indented") == 0)
 		variant = g_variant_new_boolean (extension->priv->indented);
 	else if (g_strcmp0 (property_name, "Italic") == 0)
@@ -2197,6 +2504,7 @@ handle_set_property (GDBusConnection *connection,
 	GError *local_error = NULL;
 	GVariantBuilder *builder;
 
+	printf ("%s - %s - %s\n", __FUNCTION__, sender, property_name);
 	builder = g_variant_builder_new (G_VARIANT_TYPE_ARRAY);
 
 	if (g_strcmp0 (property_name, "ForceImageLoad") == 0) {
@@ -2295,6 +2603,18 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"MagicLinks",
 			g_variant_new_boolean (extension->priv->magic_links));
+	} else if (g_strcmp0 (property_name, "MagicSmileys") == 0) {
+		gboolean value = g_variant_get_boolean (variant);
+
+		if (value == extension->priv->magic_smileys)
+			goto exit;
+
+		extension->priv->magic_smileys = value;
+
+		g_variant_builder_add (builder,
+			"{sv}",
+			"MagicSmileys",
+			g_variant_new_boolean (extension->priv->magic_smileys));
 	} else if (g_strcmp0 (property_name, "InlineSpelling") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
@@ -2308,7 +2628,7 @@ handle_set_property (GDBusConnection *connection,
 			"InlineSpelling",
 			g_variant_new_boolean (extension->priv->inline_spelling));
 	} else if (g_strcmp0 (property_name, "Alignment") == 0) {
-		gint32 value = g_variant_get_int32 (variant);
+		gint32 value = g_variant_get_uint32 (variant);
 
 		if (value == extension->priv->alignment)
 			goto exit;
@@ -2318,7 +2638,7 @@ handle_set_property (GDBusConnection *connection,
 		g_variant_builder_add (builder,
 			"{sv}",
 			"Alignment",
-			g_variant_new_int32 (extension->priv->alignment));
+			g_variant_new_uint32 (extension->priv->alignment));
 	} else if (g_strcmp0 (property_name, "BackgroundColor") == 0) {
 		const gchar *value = g_variant_get_string (variant, NULL);
 
@@ -2333,7 +2653,7 @@ handle_set_property (GDBusConnection *connection,
 			"BackgroundColor",
 			g_variant_new_string (extension->priv->background_color));
 	} else if (g_strcmp0 (property_name, "BlockFormat") == 0) {
-		gint32 value = g_variant_get_int32 (variant);
+		guint32 value = g_variant_get_uint32 (variant);
 
 		if (value == extension->priv->block_format)
 			goto exit;
@@ -2343,7 +2663,7 @@ handle_set_property (GDBusConnection *connection,
 		g_variant_builder_add (builder,
 			"{sv}",
 			"BlockFormat",
-			g_variant_new_int32 (extension->priv->block_format));
+			g_variant_new_uint32 (extension->priv->block_format));
 	} else if (g_strcmp0 (property_name, "Bold") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
@@ -2356,10 +2676,22 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"Bold",
 			g_variant_new_boolean (extension->priv->bold));
+	} else if (g_strcmp0 (property_name, "Changed") == 0) {
+		gboolean value = g_variant_get_boolean (variant);
+
+		if (value == extension->priv->changed)
+			goto exit;
+
+		extension->priv->changed = value;
+
+		g_variant_builder_add (builder,
+			"{sv}",
+			"Changed",
+			g_variant_new_boolean (extension->priv->changed));
 	} else if (g_strcmp0 (property_name, "FontColor") == 0) {
 		const gchar *value = g_variant_get_string (variant, NULL);
 
-		if (g_strcmp0 (value, extension->priv->font_color) != 0)
+		if (g_strcmp0 (value, extension->priv->font_color) == 0)
 			goto exit;
 
 		g_free (extension->priv->font_color);
@@ -2372,7 +2704,7 @@ handle_set_property (GDBusConnection *connection,
 	} else if (g_strcmp0 (property_name, "FontName") == 0) {
 		const gchar *value = g_variant_get_string (variant, NULL);
 
-		if (g_strcmp0 (value, extension->priv->font_name) != 0)
+		if (g_strcmp0 (value, extension->priv->font_name) == 0)
 			goto exit;
 
 		g_free (extension->priv->font_name);
@@ -2383,7 +2715,7 @@ handle_set_property (GDBusConnection *connection,
 			"FontName",
 			g_variant_new_string (extension->priv->font_name));
 	} else if (g_strcmp0 (property_name, "FontSize") == 0) {
-		gint32 value = g_variant_get_int32 (variant);
+		gint32 value = g_variant_get_uint32 (variant);
 
 		if (value == extension->priv->font_size)
 			goto exit;
@@ -2393,7 +2725,7 @@ handle_set_property (GDBusConnection *connection,
 		g_variant_builder_add (builder,
 			"{sv}",
 			"FontSize",
-			g_variant_new_int32 (extension->priv->font_size));
+			g_variant_new_uint32 (extension->priv->font_size));
 	} else if (g_strcmp0 (property_name, "Indented") == 0) {
 		gboolean value = g_variant_get_boolean (variant);
 
@@ -2476,12 +2808,12 @@ handle_set_property (GDBusConnection *connection,
 
 		g_variant_builder_add (builder,
 			"{sv}",
-			"Undeline",
+			"Underline",
 			g_variant_new_boolean (extension->priv->underline));
 	} else if (g_strcmp0 (property_name, "Text") == 0) {
 		const gchar *value = g_variant_get_string (variant, NULL);
 
-		if (g_strcmp0 (value, extension->priv->text) != 0)
+		if (g_strcmp0 (value, extension->priv->text) == 0)
 			goto exit;
 
 		g_free (extension->priv->text);
@@ -2491,6 +2823,18 @@ handle_set_property (GDBusConnection *connection,
 			"{sv}",
 			"Text",
 			g_variant_new_string (extension->priv->text));
+	} else if (g_strcmp0 (property_name, "NodeUnderMouseClickFlags") == 0) {
+		guint32 value = g_variant_get_uint32 (variant);
+
+		extension->priv->node_under_mouse_click_flags = value;
+
+		printf ("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa %d\n", value);
+		g_variant_builder_add (builder,
+			"{sv}",
+			"NodeUnderMouseClickFlags",
+			g_variant_new_uint32 (extension->priv->node_under_mouse_click_flags));
+	} else {
+		g_warning ("UNKNOWN PROPERY '%s'", property_name);
 	}
 
 	g_dbus_connection_emit_signal (connection,
@@ -2508,6 +2852,7 @@ handle_set_property (GDBusConnection *connection,
 	g_assert_no_error (local_error);
 
  exit:
+	printf ("\tExitting\n");
 	g_variant_builder_unref (builder);
 
 	return TRUE;
@@ -2555,7 +2900,6 @@ e_html_editor_web_extension_dispose (GObject *object)
 	if (extension->priv->undo_redo_manager != NULL) {
 		g_object_unref (extension->priv->undo_redo_manager);
 		extension->priv->undo_redo_manager = NULL;
-		extension->priv->text = NULL;
 	}
 
 	g_clear_object (&extension->priv->wk_extension);
@@ -2593,10 +2937,10 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_HTML_EDITOR_WEB_EXTENSION, EHTMLEditorWebExtensionPrivate);
 
 	extension->priv->bold = FALSE;
-	extension->priv->background_color = NULL;
-	extension->priv->font_color = NULL;
-	extension->priv->font_name = NULL;
-	extension->priv->text = NULL;
+	extension->priv->background_color = g_strdup ("");
+	extension->priv->font_color = g_strdup ("");
+	extension->priv->font_name = g_strdup ("");
+	extension->priv->text = g_strdup ("");
 	extension->priv->font_size = E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
 	extension->priv->indented = FALSE;
 	extension->priv->italic = FALSE;
@@ -2617,11 +2961,10 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 	extension->priv->return_key_pressed = FALSE;
 	extension->priv->space_key_pressed = FALSE;
 	extension->priv->smiley_written = FALSE;
-	extension->priv->body_input_event_removed = FALSE;
 	extension->priv->word_wrap_length = 71;
 
 	extension->priv->convert_in_situ = FALSE;
-	extension->priv->body_input_event_removed = FALSE;
+	extension->priv->body_input_event_removed = TRUE;
 	extension->priv->is_message_from_draft = FALSE;
 	extension->priv->is_message_from_edit_as_new = FALSE;
 	extension->priv->is_from_new_message = FALSE;
@@ -2636,7 +2979,7 @@ e_html_editor_web_extension_init (EHTMLEditorWebExtension *extension)
 
 	extension->priv->undo_redo_manager = g_object_new (
 		E_TYPE_HTML_EDITOR_UNDO_REDO_MANAGER,
-		"html-editor-web-extension", extension->priv->undo_redo_manager,
+		"html-editor-web-extension", extension,
 		NULL);
 
 	extension->priv->inline_images = g_hash_table_new_full (
@@ -2771,6 +3114,8 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
 	e_html_editor_undo_redo_manager_set_document (
 		web_extension->priv->undo_redo_manager, document);
 
+	web_extension->priv->body_input_event_removed = TRUE;
+
 	dom_process_content_after_load (document, web_extension);
 }
 
@@ -2785,11 +3130,6 @@ web_page_context_menu_cb (WebKitWebPage *web_page,
 
 	node = webkit_web_hit_test_result_get_node (hit_test_result);
 	web_extension->priv->node_under_mouse_click = node;
-
-	if (WEBKIT_DOM_IS_TEXT (node)) {
-		flags |= E_HTML_EDITOR_NODE_IS_TEXT;
-		return flags;
-	}
 
 	if (WEBKIT_DOM_IS_HTML_HR_ELEMENT (node))
 		flags |= E_HTML_EDITOR_NODE_IS_HR;
@@ -2821,9 +3161,43 @@ web_page_context_menu_cb (WebKitWebPage *web_page,
 	if (flags == 0)
 		flags |= E_HTML_EDITOR_NODE_IS_TEXT;
 
-	web_extension->priv->node_under_mouse_click_flags = flags;
+	set_dbus_property_unsigned (web_extension, "NodeUnderMouseClickFlags", flags);
 
 	return FALSE;
+}
+
+static void
+web_editor_selection_changed_cb (WebKitWebEditor *editor,
+                                 EHTMLEditorWebExtension *extension)
+{
+	WebKitWebPage *page;
+	WebKitDOMDocument *document;
+
+	page = webkit_web_editor_get_page (editor);
+	document = webkit_web_page_get_dom_document (page);
+
+	set_dbus_property_unsigned (extension, "Alignment", dom_selection_get_alignment (document, extension));
+	set_dbus_property_unsigned (extension, "BlockFormat", dom_selection_get_block_format (document, extension));
+	set_dbus_property_boolean (extension, "Indented", dom_selection_is_indented (document));
+	/*
+	g_object_notify (G_OBJECT (selection), "text");
+*/
+	if (!extension->priv->html_mode)
+		return;
+
+	set_dbus_property_boolean (extension, "Bold", dom_selection_is_bold (document, extension));
+	set_dbus_property_boolean (extension, "Italic", dom_selection_is_italic (document, extension));
+	set_dbus_property_boolean (extension, "Underline", dom_selection_is_underline (document, extension));
+	set_dbus_property_boolean (extension, "Strikethrough", dom_selection_is_strikethrough (document, extension));
+	set_dbus_property_boolean (extension, "Monospaced", dom_selection_is_monospaced (document, extension));
+	set_dbus_property_boolean (extension, "Subscript", dom_selection_is_subscript (document, extension));
+	set_dbus_property_boolean (extension, "Superscript", dom_selection_is_superscript (document, extension));
+	set_dbus_property_unsigned (extension, "FontSize", dom_selection_get_font_size (document, extension));
+	set_dbus_property_take_string (extension, "FontColor", dom_selection_get_font_color (document, extension));
+/*
+	g_object_notify (G_OBJECT (selection), "background-color");
+	g_object_notify (G_OBJECT (selection), "font-name");
+	*/
 }
 
 static void
@@ -2831,20 +3205,25 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EHTMLEditorWebExtension *extension)
 {
-	g_signal_connect_object (
+	WebKitWebEditor *web_editor;
+
+	g_signal_connect (
 		web_page, "send-request",
-		G_CALLBACK (web_page_send_request_cb),
-		extension, 0);
+		G_CALLBACK (web_page_send_request_cb), extension);
 
-	g_signal_connect_object (
+	g_signal_connect (
 		web_page, "document-loaded",
-		G_CALLBACK (web_page_document_loaded_cb),
-		extension, 0);
+		G_CALLBACK (web_page_document_loaded_cb), extension);
 
-	g_signal_connect_object (
+	g_signal_connect (
 		web_page, "context-menu",
-		G_CALLBACK (web_page_context_menu_cb),
-		extension, 0);
+		G_CALLBACK (web_page_context_menu_cb), extension);
+
+	web_editor = webkit_web_page_get_editor (web_page);
+
+	g_signal_connect (
+		web_editor, "selection-changed",
+		G_CALLBACK (web_editor_selection_changed_cb), extension);
 }
 
 void
@@ -2902,8 +3281,86 @@ e_html_editor_web_extension_dbus_register (EHTMLEditorWebExtension *extension,
 			extension->priv->dbus_connection = connection;
 			g_object_add_weak_pointer (
 				G_OBJECT (connection),
-				(gpointer *)&extension->priv->dbus_connection);
+				(gpointer *) &extension->priv->dbus_connection);
 		}
+	}
+}
+
+void
+set_dbus_property_string (EHTMLEditorWebExtension *extension,
+                          const gchar *name,
+                          const gchar *value)
+{
+	if (extension->priv->dbus_connection) {
+		g_dbus_connection_call (
+			extension->priv->dbus_connection,
+			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"Set",
+			g_variant_new (
+				"(ssv)",
+				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				name,
+				g_variant_new_string (value)),
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
+	}
+}
+
+void
+set_dbus_property_take_string (EHTMLEditorWebExtension *extension,
+                               const gchar *name,
+                               gchar *value)
+{
+	if (extension->priv->dbus_connection) {
+		g_dbus_connection_call (
+			extension->priv->dbus_connection,
+			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"Set",
+			g_variant_new (
+				"(ssv)",
+				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				name,
+				g_variant_new_take_string (value)),
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
+	}
+}
+
+void
+set_dbus_property_unsigned (EHTMLEditorWebExtension *extension,
+                            const gchar *name,
+                            guint32 value)
+{
+	if (extension->priv->dbus_connection) {
+		g_dbus_connection_call (
+			extension->priv->dbus_connection,
+			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"Set",
+			g_variant_new (
+				"(ssv)",
+				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				name,
+				g_variant_new_uint32 (value)),
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
 }
 
@@ -2912,23 +3369,25 @@ set_dbus_property_boolean (EHTMLEditorWebExtension *extension,
                            const gchar *name,
                            gboolean value)
 {
-	g_dbus_connection_call (
-		extension->priv->dbus_connection,
-		E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
-		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-		"org.freedesktop.DBus.Properties",
-		"Set",
-		g_variant_new (
-			"(ssv)",
-			E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
-			name,
-			g_variant_new_boolean (value)),
-		NULL,
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
+	if (extension->priv->dbus_connection) {
+		g_dbus_connection_call (
+			extension->priv->dbus_connection,
+			E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+			E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+			"org.freedesktop.DBus.Properties",
+			"Set",
+			g_variant_new (
+				"(ssv)",
+				E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+				name,
+				g_variant_new_boolean (value)),
+			NULL,
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
+	}
 }
 
 void
@@ -2980,15 +3439,27 @@ e_html_editor_web_extension_get_underline (EHTMLEditorWebExtension *extension)
 }
 
 gboolean
+e_html_editor_web_extension_get_monospaced (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->monospaced;
+}
+
+gboolean
 e_html_editor_web_extension_get_strikethrough (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->strikethrough;
 }
 
-gint
+guint
 e_html_editor_web_extension_get_font_size (EHTMLEditorWebExtension *extension)
 {
 	return extension->priv->font_size;
+}
+
+const gchar *
+e_html_editor_web_extension_get_font_color (EHTMLEditorWebExtension *extension)
+{
+	return extension->priv->font_color;
 }
 
 EHTMLEditorSelectionAlignment
@@ -3113,7 +3584,7 @@ e_html_editor_web_extension_add_new_inline_image_into_list (EHTMLEditorWebExtens
                                                             const gchar *cid_src,
                                                             const gchar *src)
 {
-	g_hash_table_insert (extension->priv->inline_images, g_strdup(cid_src), g_strdup(src));
+	g_hash_table_insert (extension->priv->inline_images, g_strdup (cid_src), g_strdup (src));
 }
 
 gboolean
@@ -3179,4 +3650,16 @@ e_html_editor_web_extension_set_spell_check_on_scroll_event_source_id (EHTMLEdit
                                                                        guint value)
 {
 	extension->priv->spell_check_on_scroll_event_source_id = value;
+}
+
+void
+e_html_editor_web_extension_block_selection_changed_callback (EHTMLEditorWebExtension *extension)
+{
+	g_signal_handlers_block_by_func (extension, web_editor_selection_changed_cb, NULL);
+}
+
+void
+e_html_editor_web_extension_unblock_selection_changed_callback (EHTMLEditorWebExtension *extension)
+{
+	g_signal_handlers_unblock_by_func (extension, web_editor_selection_changed_cb, NULL);
 }

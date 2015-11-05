@@ -23,8 +23,6 @@
 
 #include "e-html-editor-web-extension.h"
 
-#include "e-dom-utils.h"
-
 #define UNICODE_ZERO_WIDTH_SPACE "\xe2\x80\x8b"
 #define UNICODE_NBSP "\xc2\xa0"
 

@@ -264,7 +264,7 @@ action_toggle_editor (GtkAction *action,
 	view = e_html_editor_get_view (editor);
 	webkit_web_view_set_editable (
 		WEBKIT_WEB_VIEW (view),
-		! webkit_web_view_get_editable (WEBKIT_WEB_VIEW (view)));
+		! webkit_web_view_is_editable (WEBKIT_WEB_VIEW (view)));
 }
 
 static void

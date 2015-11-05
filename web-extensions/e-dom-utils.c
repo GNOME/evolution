@@ -24,6 +24,7 @@
 #include <webkitdom/WebKitDOMHTMLElementUnstable.h>
 
 #include "e-web-extension.h"
+#include "e-web-extension-names.h"
 
 #include <e-util/e-util-enums.h>
 #include <e-util/e-misc-utils.h>
@@ -94,28 +95,60 @@ e_dom_utils_replace_local_image_links (WebKitDOMDocument *document)
 	}
 }
 
-static gboolean
-document_has_selection (WebKitDOMDocument *document)
+gboolean
+e_dom_utils_document_has_selection (WebKitDOMDocument *document)
 {
-	WebKitDOMDOMWindow *dom_window;
-	WebKitDOMDOMSelection *dom_selection;
+	gboolean ret_val = FALSE;
+	WebKitDOMDOMWindow *dom_window = NULL;
+	WebKitDOMDOMSelection *dom_selection = NULL;
+
+	if (!document)
+		return FALSE;
 
 	dom_window = webkit_dom_document_get_default_view (document);
 	if (!dom_window)
-		return FALSE;
+		goto out;
 
 	dom_selection = webkit_dom_dom_window_get_selection (dom_window);
 	if (!WEBKIT_DOM_IS_DOM_SELECTION (dom_selection))
-		return FALSE;
-
-	if (webkit_dom_dom_selection_get_range_count (dom_selection) == 0)
-		return FALSE;
+		goto out;
 
 	if (webkit_dom_dom_selection_get_is_collapsed (dom_selection))
-		return FALSE;
+		goto out;
 
-	return TRUE;
+	ret_val = TRUE;
+ out:
+	g_clear_object (&dom_window);
+	g_clear_object (&dom_selection);
+
+	if (!ret_val) {
+		WebKitDOMNodeList *frames;
+		gulong ii, length;
+
+		frames = webkit_dom_document_get_elements_by_tag_name (document, "iframe");
+		length = webkit_dom_node_list_get_length (frames);
+		for (ii = 0; ii < length; ii++) {
+			WebKitDOMNode *node;
+			WebKitDOMDocument *content_document;
+
+			node = webkit_dom_node_list_item (frames, ii);
+			content_document = webkit_dom_html_iframe_element_get_content_document (
+				WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+			if ((ret_val = e_dom_utils_document_has_selection (content_document))) {
+				g_object_unref (node);
+				break;
+			}
+
+			g_object_unref (node);
+		}
+
+		g_object_unref (frames);
+	}
+
+	return ret_val;
 }
+
 
 gchar *
 e_dom_utils_get_document_content_html (WebKitDOMDocument *document)
@@ -232,7 +265,7 @@ e_dom_utils_get_selection_content_html (WebKitDOMDocument *document)
 	WebKitDOMNodeList *frames;
 	gulong ii, length;
 
-	if (!document_has_selection (document))
+	if (!e_dom_utils_document_has_selection (document))
 		return NULL;
 
 	frames = webkit_dom_document_get_elements_by_tag_name (document, "IFRAME");
@@ -752,13 +785,13 @@ element_focus_cb (WebKitDOMElement *element,
 {
 	g_dbus_connection_call (
 		connection,
-		"org.gnome.Evolution.WebExtension",
-		"/org/gnome/Evolution/WebExtension",
-		"org.freedesktop.DBus.Properties",
+		E_WEB_EXTENSION_SERVICE_NAME,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
 		"Set",
 		g_variant_new (
 			"(ssv)",
-			"org.gnome.Evolution.WebExtension",
+			E_WEB_EXTENSION_INTERFACE,
 			"NeedInput",
 			g_variant_new_boolean (TRUE)),
 		NULL,
@@ -777,13 +810,13 @@ element_blur_cb (WebKitDOMElement *element,
 {
 	g_dbus_connection_call (
 		connection,
-		"org.gnome.Evolution.WebExtension",
-		"/org/gnome/Evolution/WebExtension",
-		"org.freedesktop.DBus.Properties",
+		E_WEB_EXTENSION_SERVICE_NAME,
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
 		"Set",
 		g_variant_new (
 			"(ssv)",
-			"org.gnome.Evolution.WebExtension",
+			E_WEB_EXTENSION_INTERFACE,
 			"NeedInput",
 			g_variant_new_boolean (FALSE)),
 		NULL,
@@ -1360,27 +1393,27 @@ WebKitDOMElement *
 dom_node_find_parent_element (WebKitDOMNode *node,
                               const gchar *tagname)
 {
+	WebKitDOMNode *tmp_node = node;
 	gint taglen = strlen (tagname);
 
-	while (node) {
-
-		if (WEBKIT_DOM_IS_ELEMENT (node)) {
+	while (tmp_node) {
+		if (WEBKIT_DOM_IS_ELEMENT (tmp_node)) {
 			gchar *node_tagname;
 
 			node_tagname = webkit_dom_element_get_tag_name (
-						WEBKIT_DOM_ELEMENT (node));
+				WEBKIT_DOM_ELEMENT (tmp_node));
 
 			if (node_tagname &&
 			    (strlen (node_tagname) == taglen) &&
 			    (g_ascii_strncasecmp (node_tagname, tagname, taglen) == 0)) {
 				g_free (node_tagname);
-				return WEBKIT_DOM_ELEMENT (node);
+				return WEBKIT_DOM_ELEMENT (tmp_node);
 			}
 
 			g_free (node_tagname);
 		}
 
-		node = WEBKIT_DOM_NODE (webkit_dom_node_get_parent_element (node));
+		tmp_node = webkit_dom_node_get_parent_node (tmp_node);
 	}
 
 	return NULL;
@@ -1448,13 +1481,13 @@ element_has_id (WebKitDOMElement *element,
 
 	element_id = webkit_dom_element_get_id (element);
 
-	if (g_ascii_strcasecmp (element_id, id) != 0) {
+	if (element_id && g_ascii_strcasecmp (element_id, id) == 0) {
 		g_free (element_id);
-		return FALSE;
+		return TRUE;
 	}
 	g_free (element_id);
 
-	return TRUE;
+	return FALSE;
 }
 
 gboolean
@@ -1491,7 +1524,7 @@ element_has_class (WebKitDOMElement *element,
 
 	element_class = webkit_dom_element_get_class_name (element);
 
-	if (g_strstr_len (element_class, -1, class)) {
+	if (element_class && g_strstr_len (element_class, -1, class)) {
 		g_free (element_class);
 		return TRUE;
 	}
@@ -1515,7 +1548,7 @@ element_add_class (WebKitDOMElement *element,
 
 	element_class = webkit_dom_element_get_class_name (element);
 
-	if (g_strcmp0 (element_class, "") == 0)
+	if (!element_class)
 		new_class = g_strdup (class);
 	else
 		new_class = g_strconcat (element_class, " ", class, NULL);

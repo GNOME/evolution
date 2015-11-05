@@ -178,7 +178,5 @@
       <menuitem action='context-delete-column'/>
       <menuitem action='context-delete-cell'/>
     </menu>
-    <separator/>
-    <menu action='context-input-methods-menu'/>
   </popup>
 </ui>

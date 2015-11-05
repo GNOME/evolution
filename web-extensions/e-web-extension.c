@@ -52,12 +52,16 @@ static CamelDataCache *emd_global_http_cache = NULL;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='org.gnome.Evolution.WebExtension'>"
+"  <interface name='"E_WEB_EXTENSION_INTERFACE"'>"
 "    <signal name='HeadersCollapsed'>"
 "      <arg type='b' name='expanded' direction='out'/>"
 "    </signal>"
 "    <method name='ReplaceLocalImageLinks'>"
 "      <arg type='t' name='page_id' direction='in'/>"
+"    </method>"
+"    <method name='DocumentHasSelection'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='b' name='has_selection' direction='out'/>"
 "    </method>"
 "    <method name='GetDocumentContentHTML'>"
 "      <arg type='t' name='page_id' direction='in'/>"
@@ -162,6 +166,7 @@ handle_method_call (GDBusConnection *connection,
 	if (g_strcmp0 (interface_name, E_WEB_EXTENSION_INTERFACE) != 0)
 		return;
 
+	printf ("EWebExtension - %s - %s\n", __FUNCTION__, method_name);
 	if (g_strcmp0 (method_name, "ReplaceLocalImageLinks") == 0) {
 		g_variant_get (parameters, "(t)", &page_id);
 		web_page = get_webkit_web_page_or_return_dbus_error (
@@ -173,6 +178,20 @@ handle_method_call (GDBusConnection *connection,
 		e_dom_utils_replace_local_image_links (document);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "DocumentHasSelection") == 0) {
+		gboolean has_selection;
+
+		g_variant_get (parameters, "(t)", &page_id);
+		web_page = get_webkit_web_page_or_return_dbus_error (
+			invocation, web_extension, page_id);
+		if (!web_page)
+			return;
+
+		document = webkit_web_page_get_dom_document (web_page);
+		has_selection = e_dom_utils_document_has_selection (document);
+
+		g_dbus_method_invocation_return_value (
+			invocation, g_variant_new ("(b)", has_selection));
 	} else if (g_strcmp0 (method_name, "GetDocumentContentHTML") == 0) {
 		gchar *html_content;
 
@@ -186,7 +205,11 @@ handle_method_call (GDBusConnection *connection,
 		html_content = e_dom_utils_get_document_content_html (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (html_content));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					html_content ? html_content : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "GetSelectionContentHTML") == 0) {
 		gchar *html_content;
 
@@ -200,7 +223,11 @@ handle_method_call (GDBusConnection *connection,
 		html_content = e_dom_utils_get_selection_content_html (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (html_content));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					html_content ? html_content : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "GetSelectionContentText") == 0) {
 		gchar *text_content;
 
@@ -211,7 +238,7 @@ handle_method_call (GDBusConnection *connection,
 			return;
 
 		document = webkit_web_page_get_dom_document (web_page);
-		text_content = e_dom_utils_get_selection_content_html (document);
+		text_content = e_dom_utils_get_selection_content_text (document);
 
 		g_dbus_method_invocation_return_value (
 			invocation, g_variant_new_take_string (text_content));
@@ -296,7 +323,11 @@ handle_method_call (GDBusConnection *connection,
 		element_name = e_dom_utils_get_active_element_name (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (element_name));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					element_name ? element_name : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "EMailPartHeadersBindDOMElement") == 0) {
 		const gchar *element_id;
 
@@ -630,7 +661,6 @@ static void
 web_page_document_loaded_cb (WebKitWebPage *web_page,
                              gpointer user_data)
 {
-
 }
 
 static void

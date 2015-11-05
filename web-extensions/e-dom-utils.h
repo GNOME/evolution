@@ -27,6 +27,8 @@ G_BEGIN_DECLS
 
 void 		e_dom_utils_replace_local_image_links
 						(WebKitDOMDocument *document);
+gboolean	e_dom_utils_document_has_selection
+						(WebKitDOMDocument *document);
 gchar *		e_dom_utils_get_document_content_html
 						(WebKitDOMDocument *document);
 gchar *		e_dom_utils_get_selection_content_html

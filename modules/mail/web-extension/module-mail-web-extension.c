@@ -29,7 +29,7 @@ static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='org.gnome.Evolution.Module.Mail.WebExtension'>"
+"  <interface name='"MODULE_MAIL_WEB_EXTENSION_INTERFACE"'>"
 "    <method name='GetActiveElementName'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_name' direction='out'/>"
@@ -81,7 +81,11 @@ handle_method_call (GDBusConnection *connection,
 		element_name = e_dom_utils_get_active_element_name (document);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (element_name));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					element_name ? element_name : g_strdup (""))));
 	}
 }
 

@@ -24,6 +24,7 @@
 
 #include <string.h>
 
+#include <web-extensions/e-dom-utils.h>
 #include <e-util/e-misc-utils.h>
 
 #define WEBKIT_DOM_USE_UNSTABLE_API

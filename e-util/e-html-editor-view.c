@@ -27,7 +27,7 @@
 #include "e-emoticon-chooser.h"
 #include "e-misc-utils.h"
 
-#include <web-extensions/e-html-editor-web-extension-names.h>
+#include <web-extensions/composer/e-html-editor-web-extension-names.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-marshal.h>
@@ -62,6 +62,10 @@ struct _EHTMLEditorViewPrivate {
 	gint html_mode		: 1;
 
 	EHTMLEditorSelection *selection;
+
+	gchar *current_user_stylesheet;
+
+	WebKitLoadEvent webkit_load_event;
 
 	GSettings *mail_settings;
 	GSettings *font_settings;
@@ -205,12 +209,6 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 }
 
 static void
-html_editor_view_user_changed_contents_cb (EHTMLEditorView *view)
-{
-	e_html_editor_view_set_changed (view, TRUE);
-}
-
-static void
 html_editor_view_can_copy_cb (WebKitWebView *webkit_web_view,
                               GAsyncResult *result,
                               EHTMLEditorView *view)
@@ -282,16 +280,6 @@ html_editor_view_selection_changed_cb (EHTMLEditorView *view)
 	WebKitWebView *web_view;
 
 	web_view = WEBKIT_WEB_VIEW (view);
-
-	/* When the webview is being (re)loaded, the document is in an
-	 * inconsistant state and there is no selection, so don't propagate
-	 * the signal further to EHTMLEditorSelection and others and wait until
-	 * the load is finished. */
-	if (view->priv->reload_in_progress) {
-		/* FIXME WK2
-		g_signal_stop_emission_by_name (view, "selection-changed"); */
-		return;
-	}
 
 	webkit_web_view_can_execute_editing_command (
 		WEBKIT_WEB_VIEW (web_view),
@@ -544,6 +532,11 @@ html_editor_view_dispose (GObject *object)
 		priv->web_extension_watch_name_id = 0;
 	}
 
+	if (priv->current_user_stylesheet != NULL) {
+		g_free (priv->current_user_stylesheet);
+		priv->current_user_stylesheet = NULL;
+	}
+
 	g_clear_object (&priv->selection);
 	g_clear_object (&priv->web_extension);
 
@@ -577,18 +570,20 @@ html_editor_view_finalize (GObject *object)
 static void
 html_editor_view_constructed (GObject *object)
 {
-	WebKitSettings *web_settings;
-
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_html_editor_view_parent_class)->constructed (object);
 
-	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
+	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (object), TRUE);
 
 	e_html_editor_view_update_fonts (E_HTML_EDITOR_VIEW (object));
 
 /* FIXME WK2
+	WebKitSettings *web_settings;
+
+	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
+
 	g_object_set (
 		G_OBJECT (web_settings),
 		"enable-dom-paste", TRUE,
@@ -614,7 +609,7 @@ e_html_editor_view_move_selection_on_point (EHTMLEditorView *view,
 	g_return_if_fail (y >= 0);
 
 	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (web_extension)
+	if (!web_extension)
 		return;
 
 	g_dbus_proxy_call_sync (
@@ -697,12 +692,19 @@ editor_view_mouse_target_changed_cb (EHTMLEditorView *view,
 }
 
 static gboolean
+is_return_key (guint key_val)
+{
+	return (
+	    (key_val == GDK_KEY_Return) ||
+	    (key_val == GDK_KEY_Linefeed) ||
+	    (key_val == GDK_KEY_KP_Enter));
+}
+
+static gboolean
 html_editor_view_key_press_event (GtkWidget *widget,
                                   GdkEventKey *event)
 {
 	EHTMLEditorView *view = E_HTML_EDITOR_VIEW (widget);
-	GDBusProxy *web_extension;
-	GVariant *result;
 
 	if (event->keyval == GDK_KEY_Menu) {
 		gboolean event_handled;
@@ -715,32 +717,42 @@ html_editor_view_key_press_event (GtkWidget *widget,
 		return event_handled;
 	}
 
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (web_extension)
-		return FALSE;
+	if (event->keyval == GDK_KEY_Tab ||
+	    event->keyval == GDK_KEY_ISO_Left_Tab ||
+	    event->keyval == GDK_KEY_BackSpace ||
+	    event->keyval == GDK_KEY_Delete ||
+	    is_return_key (event->keyval)) {
+		GDBusProxy *web_extension;
+		GVariant *result;
 
-	result = g_dbus_proxy_call_sync (
-		web_extension,
-		"DOMProcessOnKeyPress",
-		g_variant_new (
-			"(tu)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			event->keyval),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL);
+		web_extension = e_html_editor_view_get_web_extension_proxy (view);
+		if (!web_extension)
+			goto out;
 
-	if (result) {
-		gboolean ret_val = FALSE;
+		result = g_dbus_proxy_call_sync (
+			web_extension,
+			"DOMProcessOnKeyPress",
+			g_variant_new (
+				"(tu)",
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+				event->keyval),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL);
 
-		ret_val = g_variant_get_boolean (result);
-		g_variant_unref (result);
+		if (result) {
+			gboolean ret_val = FALSE;
 
-		if (ret_val)
-			return ret_val;
+			g_variant_get (result, "(b)", &ret_val);
+			g_variant_unref (result);
+
+			if (ret_val)
+				return ret_val;
+		}
 	}
 
+ out:
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_html_editor_view_parent_class)->key_press_event (widget, event);
 }
@@ -776,6 +788,36 @@ html_editor_view_paste_clipboard_quoted (EHTMLEditorView *view)
 }
 
 static void
+set_web_extension_boolean_property (EHTMLEditorView *view,
+                                    const gchar *property_name,
+                                    gboolean value)
+{
+	GDBusProxy *web_extension;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_connection_call (
+		g_dbus_proxy_get_connection (web_extension),
+		E_HTML_EDITOR_WEB_EXTENSION_SERVICE_NAME,
+		E_HTML_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+		"org.freedesktop.DBus.Properties",
+		"Set",
+		g_variant_new (
+			"(ssv)",
+			E_HTML_EDITOR_WEB_EXTENSION_INTERFACE,
+			property_name,
+			g_variant_new_boolean (value)),
+		NULL,
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
+}
+
+static void
 web_extension_proxy_created_cb (GDBusProxy *proxy,
                                 GAsyncResult *result,
                                 EHTMLEditorView *view)
@@ -786,7 +828,15 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 	if (!view->priv->web_extension) {
 		g_warning ("Error creating web extension proxy: %s\n", error->message);
 		g_error_free (error);
+
+		return;
 	}
+
+	e_html_editor_selection_activate_properties_changed (view->priv->selection);
+
+	set_web_extension_boolean_property (view, "MagicSmileys", view->priv->magic_smileys);
+	set_web_extension_boolean_property (view, "MagicLinks", view->priv->magic_smileys);
+	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->magic_smileys);
 }
 
 static void
@@ -986,20 +1036,25 @@ html_editor_view_constructor (GType type,
 		param_spec = g_object_class_find_property(object_class, "user-content-manager");
 		if ((param = find_property (n_construct_properties, construct_properties, param_spec)))
 			g_value_take_object (param->value, webkit_user_content_manager_new ());
+		param_spec = g_object_class_find_property(object_class, "web-context");
+		if ((param = find_property (n_construct_properties, construct_properties, param_spec))) {
+			WebKitWebContext *web_context;
+
+			web_context = webkit_web_context_new ();
+
+			webkit_web_context_set_cache_model (
+				web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+
+			webkit_web_context_set_web_extensions_directory (
+				web_context, EVOLUTION_WEB_EXTENSIONS_COMPOSER_DIR);
+
+			g_value_take_object (param->value, web_context);
+		}
 	}
 
 	g_type_class_unref (object_class);
 
 	return G_OBJECT_CLASS (e_html_editor_view_parent_class)->constructor(type, n_construct_properties, construct_properties);
-}
-
-static void
-html_editor_view_initialize_web_context (void)
-{
-	WebKitWebContext *web_context = webkit_web_context_get_default ();
-
-	webkit_web_context_set_cache_model (
-		web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 }
 
 static void
@@ -1009,8 +1064,6 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EHTMLEditorViewPrivate));
-
-	html_editor_view_initialize_web_context ();
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = html_editor_view_constructor;
@@ -1261,14 +1314,6 @@ e_html_editor_view_class_init (EHTMLEditorViewClass *class)
 }
 
 static void
-initialize_web_extensions_cb (WebKitWebContext *web_context)
-{
-	/* Set the web extensions dir before the process is launched */
-	webkit_web_context_set_web_extensions_directory (
-		web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
-}
-
-static void
 e_html_editor_settings_changed_cb (GSettings *settings,
 				   const gchar *key,
 				   EHTMLEditorView *view)
@@ -1322,6 +1367,50 @@ e_html_editor_view_get_selection (EHTMLEditorView *view)
 	return view->priv->selection;
 }
 
+guint32
+e_html_editor_view_get_web_extension_unsigned_property (EHTMLEditorView *view,
+                                                        const gchar *property_name)
+{
+	guint32 value = 0;
+	GVariant *result;
+	GDBusProxy *web_extension;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return FALSE;
+
+	result = g_dbus_proxy_get_cached_property (web_extension, property_name);
+	if (!result)
+		return FALSE;
+
+	value = g_variant_get_uint32 (result);
+	g_variant_unref (result);
+
+	return value;
+}
+
+gboolean
+e_html_editor_view_get_web_extension_boolean_property (EHTMLEditorView *view,
+                                                       const gchar *property_name)
+{
+	gboolean value = FALSE;
+	GVariant *result;
+	GDBusProxy *web_extension;
+
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return FALSE;
+
+	result = g_dbus_proxy_get_cached_property (web_extension, property_name);
+	if (!result)
+		return FALSE;
+
+	value = g_variant_get_boolean (result);
+	g_variant_unref (result);
+
+	return value;
+}
+
 /**
  * e_html_editor_view_get_changed:
  * @view: an #EHTMLEditorView
@@ -1335,7 +1424,7 @@ e_html_editor_view_get_changed (EHTMLEditorView *view)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
 
-	return view->priv->changed;
+	return e_html_editor_view_get_web_extension_boolean_property (view, "Changed");
 }
 
 /**
@@ -1408,6 +1497,8 @@ static void
 html_editor_view_load_changed_cb (EHTMLEditorView *view,
                                   WebKitLoadEvent load_event)
 {
+	view->priv->webkit_load_event = load_event;
+
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
@@ -1433,43 +1524,6 @@ html_editor_view_load_changed_cb (EHTMLEditorView *view,
 
 	view->priv->reload_in_progress = FALSE;
 
-}
-
-static void
-set_cached_boolean_property (EHTMLEditorView *view,
-                             const gchar *property_name,
-                             gboolean value)
-{
-	GDBusProxy *web_extension;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return;
-
-	g_dbus_proxy_set_cached_property (
-		web_extension, property_name, g_variant_new_boolean (value));
-}
-
-static gboolean
-get_cached_boolean_property (EHTMLEditorView *view,
-                             const gchar *property_name)
-{
-	gboolean value = FALSE;
-	GVariant *result;
-	GDBusProxy *web_extension;
-
-	web_extension = e_html_editor_view_get_web_extension_proxy (view);
-	if (!web_extension)
-		return FALSE;
-
-	result = g_dbus_proxy_get_cached_property (web_extension, property_name);
-	if (!result)
-		return FALSE;
-
-	value = g_variant_get_boolean (result);
-	g_variant_unref (result);
-
-	return value;
 }
 
 /**
@@ -1508,7 +1562,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		NULL);
 
 	if (result) {
-		convert = g_variant_get_boolean (result);
+		g_variant_get (result, "(b)", &convert);
 		g_variant_unref (result);
 	}
 
@@ -1518,7 +1572,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 			return;
 
 		view->priv->html_mode = html_mode;
-		set_cached_boolean_property (view, "HTMLMode", html_mode);
+		set_web_extension_boolean_property (view, "HTMLMode", html_mode);
 
 		e_html_editor_view_call_simple_extension_function (
 			view, "ConvertWhenChangingComposerMode");
@@ -1533,6 +1587,7 @@ e_html_editor_view_set_html_mode (EHTMLEditorView *view,
 		return;
 
 	view->priv->html_mode = html_mode;
+	set_web_extension_boolean_property (view, "HTMLMode", html_mode);
 
 	e_html_editor_view_call_simple_extension_function_sync (
 		view, "DOMProcessContentAfterModeChange");
@@ -1550,7 +1605,7 @@ html_editor_view_drag_end_cb (EHTMLEditorView *view,
 {
 	e_html_editor_view_call_simple_extension_function (view, "DOMDragAndDropEnd");
 }
-
+/* FIXME WK2
 static void
 im_context_preedit_start_cb (GtkIMContext *context,
                              EHTMLEditorView *view)
@@ -1566,7 +1621,7 @@ im_context_preedit_end_cb (GtkIMContext *context,
 	e_html_editor_view_call_simple_extension_function_sync (
 		view, "DOMIMContextPreEditEnd");
 }
-
+*/
 static void
 e_html_editor_view_init (EHTMLEditorView *view)
 {
@@ -1575,13 +1630,11 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	GSettingsSchema *settings_schema;
 /* FIXME WK2
 	GtkIMContext *im_context;
-	ESpellChecker *checker;*/
+	ESpellChecker *checker;
 	gchar **languages;
 	gchar *comma_separated;
-
+*/
 	view->priv = E_HTML_EDITOR_VIEW_GET_PRIVATE (view);
-/* FIXME WK2
-	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (view), TRUE); */
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
 
 	view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
@@ -1593,14 +1646,8 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_object_unref (checker);
 
 	g_signal_connect (
-		view, "user-changed-contents",
-		G_CALLBACK (html_editor_view_user_changed_contents_cb), NULL);
-	g_signal_connect (
 		view, "selection-changed",
-		G_CALLBACK (html_editor_view_selection_changed_cb), NULL);
-	g_signal_connect (
-		view, "should-show-delete-interface-for-element",
-		G_CALLBACK (html_editor_view_should_show_delete_interface_for_element), NULL);*/
+		G_CALLBACK (html_editor_view_selection_changed_cb), NULL);*/
 	g_signal_connect (
 		view, "drag-end",
 		G_CALLBACK (html_editor_view_drag_end_cb), NULL);
@@ -1610,10 +1657,6 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	g_signal_connect (
 		view, "mouse-target-changed",
 		G_CALLBACK (editor_view_mouse_target_changed_cb), NULL);
-
-	g_signal_connect (
-		webkit_web_context_get_default (), "initialize-web-extensions",
-		G_CALLBACK (initialize_web_extensions_cb), NULL);
 
 	view->priv->selection = g_object_new (
 		E_TYPE_HTML_EDITOR_SELECTION,
@@ -1666,6 +1709,7 @@ e_html_editor_view_init (EHTMLEditorView *view)
 	view->priv->remove_initial_input_line = FALSE;
 	view->priv->convert_in_situ = FALSE;
 
+	view->priv->current_user_stylesheet = NULL;
 /* FIXME WK2
 	g_object_get (WEBKIT_WEB_VIEW (view), "im-context", &im_context, NULL);
 	g_signal_connect (
@@ -1724,6 +1768,7 @@ e_html_editor_view_set_inline_spelling (EHTMLEditorView *view,
 
 	view->priv->inline_spelling = inline_spelling;
 
+	set_web_extension_boolean_property (view, "InlineSpelling", view->priv->inline_spelling);
 /* FIXME WK2
 	if (inline_spelling)
 		e_html_editor_view_force_spell_check (view);
@@ -1768,7 +1813,37 @@ e_html_editor_view_set_magic_links (EHTMLEditorView *view,
 
 	view->priv->magic_links = magic_links;
 
+	set_web_extension_boolean_property (view, "MagicLinks", view->priv->magic_links);
+
 	g_object_notify (G_OBJECT (view), "magic-links");
+}
+
+void
+e_html_editor_view_insert_smiley (EHTMLEditorView *view,
+                                  EEmoticon *emoticon)
+{
+	GDBusProxy *web_extension;
+
+	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
+	g_return_if_fail (emoticon != NULL);
+
+	printf ("%s\n", __FUNCTION__);
+	web_extension = e_html_editor_view_get_web_extension_proxy (view);
+	if (!web_extension)
+		return;
+
+	g_dbus_proxy_call (
+		web_extension,
+		"DOMInsertSmiley",
+		g_variant_new (
+			"(ts)",
+			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+			e_emoticon_get_name (emoticon)),
+		G_DBUS_CALL_FLAGS_NONE,
+		-1,
+		NULL,
+		NULL,
+		NULL);
 }
 
 /**
@@ -1802,10 +1877,13 @@ e_html_editor_view_set_magic_smileys (EHTMLEditorView *view,
 {
 	g_return_if_fail (E_IS_HTML_EDITOR_VIEW (view));
 
+	printf ("%s - %d\n", __FUNCTION__, magic_smileys);
 	if (view->priv->magic_smileys == magic_smileys)
 		return;
 
 	view->priv->magic_smileys = magic_smileys;
+
+	set_web_extension_boolean_property (view, "MagicSmileys", view->priv->magic_smileys);
 
 	g_object_notify (G_OBJECT (view), "magic-smileys");
 }
@@ -1893,9 +1971,8 @@ process_document (EHTMLEditorView *view,
 
 	if (result) {
 		gchar *value;
-		gsize length = 0;
 
-		value = g_variant_dup_string (result, &length);
+		g_variant_get (result, "(s)", &value);
 		g_variant_unref (result);
 
 		return value;
@@ -2043,9 +2120,8 @@ e_html_editor_view_get_text_html (EHTMLEditorView *view,
 
 	if (result) {
 		gchar *value;
-		gsize length = 0;
 
-		value = g_variant_dup_string (result, &length);
+		g_variant_get (result, "(s)", &value);
 		g_variant_unref (result);
 
 		return value;
@@ -2158,15 +2234,11 @@ void
 e_html_editor_view_set_text_html (EHTMLEditorView *view,
                                   const gchar *text)
 {
-#if 0 /* FIXME WK2 */
-	WebKitLoadStatus status;
-
 	/* It can happen that the view is not ready yet (it is in the middle of
 	 * another load operation) so we have to queue the current operation and
 	 * redo it again when the view is ready. This was happening when loading
 	 * the stuff in EMailSignatureEditor. */
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
-	if (status != WEBKIT_LOAD_FINISHED) {
+	if (view->priv->webkit_load_event != WEBKIT_LOAD_FINISHED) {
 		html_editor_view_queue_post_reload_operation (
 			view,
 			(PostReloadOperationFunc) e_html_editor_view_set_text_html,
@@ -2174,7 +2246,7 @@ e_html_editor_view_set_text_html (EHTMLEditorView *view,
 			g_free);
 		return;
 	}
-#endif
+
 	if (view->priv->reload_in_progress) {
 		html_editor_view_queue_post_reload_operation (
 			view,
@@ -2227,15 +2299,12 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
                                    const gchar *text)
 {
 	GDBusProxy *web_extension;
-#if 0 /* FIXME WK2 */
-	WebKitLoadStatus status;
 
 	/* It can happen that the view is not ready yet (it is in the middle of
 	 * another load operation) so we have to queue the current operation and
 	 * redo it again when the view is ready. This was happening when loading
 	 * the stuff in EMailSignatureEditor. */
-	status = webkit_web_view_get_load_status (WEBKIT_WEB_VIEW (view));
-	if (status != WEBKIT_LOAD_FINISHED) {
+	if (view->priv->webkit_load_event != WEBKIT_LOAD_FINISHED) {
 		html_editor_view_queue_post_reload_operation (
 			view,
 			(PostReloadOperationFunc) e_html_editor_view_set_text_plain,
@@ -2243,7 +2312,7 @@ e_html_editor_view_set_text_plain (EHTMLEditorView *view,
 			g_free);
 		return;
 	}
-#endif
+
 	if (view->priv->reload_in_progress) {
 		html_editor_view_queue_post_reload_operation (
 			view,
@@ -2309,11 +2378,6 @@ void
 e_html_editor_view_embed_styles (EHTMLEditorView *view)
 {
 	GDBusProxy *web_extension;
-	gchar *stylesheet_uri;
-	gchar *stylesheet_content;
-	const gchar *stylesheet;
-	gsize length;
-	WebKitSettings *settings;
 
 	g_return_if_fail (view != NULL);
 
@@ -2321,36 +2385,20 @@ e_html_editor_view_embed_styles (EHTMLEditorView *view)
 	if (!web_extension)
 		return;
 
-	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view));
-
-	g_object_get (
-		G_OBJECT (settings),
-		"user-stylesheet-uri", &stylesheet_uri,
-		NULL);
-
-	stylesheet = strstr (stylesheet_uri, ",");
-	stylesheet_content = (gchar *) g_base64_decode (stylesheet, &length);
-	g_free (stylesheet_uri);
-
-	if (length == 0) {
-		g_free (stylesheet_content);
-		return;
+	if (view->priv->current_user_stylesheet) {
+		g_dbus_proxy_call (
+			web_extension,
+			"DOMEmbedStyleSheet",
+			g_variant_new (
+				"(ts)",
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
+				view->priv->current_user_stylesheet),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			NULL,
+			NULL,
+			NULL);
 	}
-
-	g_dbus_proxy_call (
-		web_extension,
-		"DOMEmbedStyleSheet",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
-			stylesheet_content),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		NULL,
-		NULL);
-
-	g_free (stylesheet_content);
 }
 
 void
@@ -2785,6 +2833,9 @@ e_html_editor_view_update_fonts (EHTMLEditorView *view)
 
 	webkit_user_content_manager_add_style_sheet (manager, style_sheet);
 
+	g_free (view->priv->current_user_stylesheet);
+	view->priv->current_user_stylesheet = g_string_free (stylesheet, FALSE);
+
 	webkit_user_style_sheet_unref (style_sheet);
 
 	pango_font_description_free (ms);
@@ -2873,7 +2924,7 @@ e_html_editor_view_is_message_from_draft (EHTMLEditorView *view)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
 
-	return get_cached_boolean_property (view, "IsMessageFromDraft");
+	return e_html_editor_view_get_web_extension_boolean_property (view, "IsMessageFromDraft");
 }
 
 void
@@ -2890,7 +2941,7 @@ e_html_editor_view_is_message_from_edit_as_new (EHTMLEditorView *view)
 {
 	g_return_val_if_fail (E_IS_HTML_EDITOR_VIEW (view), FALSE);
 
-	return get_cached_boolean_property (view, "IsMessageFromEditAsNew");
+	return e_html_editor_view_get_web_extension_boolean_property (view, "IsMessageFromEditAsNew");
 }
 void
 e_html_editor_view_set_is_message_from_edit_as_new (EHTMLEditorView *view,
@@ -3015,9 +3066,9 @@ insert_base64_image (EHTMLEditorView *view,
 
 	g_dbus_proxy_call (
 		web_extension,
-		"EHTMLEditorSelectionInsertBase64Image",
+		"DOMSelectionInsertBase64Image",
 		g_variant_new (
-			"(tssss)",
+			"(tsss)",
 			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (view)),
 			base64_content,
 			filename,
@@ -3320,7 +3371,7 @@ e_html_editor_view_save_selection (EHTMLEditorView *view)
 {
 	e_html_editor_view_call_simple_extension_function (view, "DOMSaveSelection");
 }
-
+/* FIXME WK2
 static void
 set_link_color (EHTMLEditorView *view)
 {
@@ -3344,11 +3395,11 @@ set_link_color (EHTMLEditorView *view)
 		rgba.blue = ((gdouble) color->blue) / G_MAXUINT16;
 	}
 
-	/* FIXME WK2
-	 * This set_link_color needs to be called when the document is loaded
-	 * (so we will probably emit the signal from WebProcess to Evo when this
-	 * happens).
-	e_html_editor_view_set_link_color (view, &rgba); */
+	 // This set_link_color needs to be called when the document is loaded
+	 // (so we will probably emit the signal from WebProcess to Evo when this
+	 // happens).
+	e_html_editor_view_set_link_color (view, &rgba);
 
 	gdk_color_free (color);
 }
+*/

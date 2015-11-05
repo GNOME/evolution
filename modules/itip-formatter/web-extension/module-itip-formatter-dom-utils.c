@@ -432,10 +432,7 @@ module_itip_formatter_dom_utils_set_area_text (WebKitDOMDocument *document,
 		WEBKIT_DOM_HTML_ELEMENT (row), (g_strcmp0 (text, "") == 0));
 
 	col = webkit_dom_element_get_last_element_child (row);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (col),
-		text,
-		NULL);
+	webkit_dom_element_set_inner_html (col, text, NULL);
 }
 
 void
@@ -574,12 +571,10 @@ module_itip_formatter_dom_utils_update_times (WebKitDOMDocument *document,
 		WEBKIT_DOM_HTML_ELEMENT (element), FALSE);
 
 	col = webkit_dom_element_get_first_element_child (element);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (col), header, NULL);
+	webkit_dom_element_set_inner_html (col, header, NULL);
 
 	col = webkit_dom_element_get_last_element_child (element);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (col), label, NULL);
+	webkit_dom_element_set_inner_html (col, label, NULL);
 }
 
 void
@@ -601,11 +596,7 @@ module_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *documen
 	row = webkit_dom_html_table_element_insert_row (
 		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
 
-#if WEBKIT_CHECK_VERSION(2,2,0) /* XXX should really be (2,1,something) */
 	webkit_dom_element_set_id (WEBKIT_DOM_ELEMENT (row), row_id);
-#else
-	webkit_dom_html_element_set_id (row, row_id);
-#endif
 
 	cell = webkit_dom_html_table_row_element_insert_cell (
 		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
@@ -631,7 +622,7 @@ module_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *documen
 	cell = webkit_dom_html_table_row_element_insert_cell (
 		WEBKIT_DOM_HTML_TABLE_ROW_ELEMENT (row), -1, NULL);
 
-	webkit_dom_html_element_set_inner_html (cell, message, NULL);
+	webkit_dom_element_set_inner_html (WEBKIT_DOM_ELEMENT (cell), message, NULL);
 }
 
 void
@@ -705,8 +696,7 @@ module_itip_formatter_dom_utils_rebuild_source_list (WebKitDOMDocument *document
 		WEBKIT_DOM_HTML_OPTION_ELEMENT (option), option_id);
 	webkit_dom_html_option_element_set_label (
 		WEBKIT_DOM_HTML_OPTION_ELEMENT (option), option_label);
-	webkit_dom_html_element_set_inner_html (
-		WEBKIT_DOM_HTML_ELEMENT (option), option_label, NULL);
+	webkit_dom_element_set_inner_html (option, option_label, NULL);
 
 	webkit_dom_element_set_class_name (
 		WEBKIT_DOM_ELEMENT (option), "calendar");

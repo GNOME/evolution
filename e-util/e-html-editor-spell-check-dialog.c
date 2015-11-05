@@ -164,12 +164,14 @@ move_to_another_word (EHTMLEditorSpellCheckDialog *dialog,
 		const gchar *next_word;
 		gsize length;
 
-		next_word = g_variant_get_string (result, &length);
-		if (length > 0)
+		g_variant_get (result, "(&s)", &next_word);
+		if (next_word && *next_word) {
 			html_editor_spell_check_dialog_set_word (dialog, next_word);
-		g_variant_unref (result);
-		if (length > 0)
+			g_variant_unref (result);
 			return TRUE;
+		}
+
+		g_variant_unref (result);
 	}
 
 	/* Close the dialog */

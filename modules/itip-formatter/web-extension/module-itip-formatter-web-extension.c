@@ -31,7 +31,7 @@ static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='org.gnome.Evolution.Module.ItipFormatter.WebExtension'>"
+"  <interface name='"MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE"'>"
 "    <signal name='RecurToggled'>"
 "    </signal>"
 "    <signal name='SourceChanged'>"
@@ -451,7 +451,11 @@ handle_method_call (GDBusConnection *connection,
 			document_saved, select_id);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (value));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "SelectSetSelected") == 0) {
 		const gchar *select_id, *option;
 
@@ -535,7 +539,11 @@ handle_method_call (GDBusConnection *connection,
 				document_saved, area_id);
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (value));
+			invocation,
+			g_variant_new (
+				"(@s)",
+				g_variant_new_take_string (
+					value ? value : g_strdup (""))));
 	} else if (g_strcmp0 (method_name, "RebuildSourceList") == 0) {
 		const gchar *optgroup_id, *optgroup_label, *option_id, *option_label;
 		gboolean writable;

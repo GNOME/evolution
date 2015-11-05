@@ -32,7 +32,7 @@ static GDBusConnection *dbus_connection;
 
 static const char introspection_xml[] =
 "<node>"
-"  <interface name='org.gnome.Evolution.Module.PreferPlain.WebExtension'>"
+"  <interface name='"MODULE_PREFER_PLAIN_WEB_EXTENSION_INTERFACE"'>"
 "    <method name='ChangeIFrameSource'>"
 "      <arg type='s' name='new_uri' direction='in'/>"
 "    </method>"
@@ -116,7 +116,8 @@ handle_method_call (GDBusConnection *connection,
 			document_uri = g_strdup ("");
 
 		g_dbus_method_invocation_return_value (
-			invocation, g_variant_new_take_string (document_uri));
+			invocation,
+			g_variant_new ("(@s)", g_variant_new_take_string (document_uri)));
 	}
 }
 

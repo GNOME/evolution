@@ -50,7 +50,7 @@ m4_define([gcr_minimum_version], [3.4])
 m4_define([enchant_minimum_version], [1.1.7])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
-m4_define([webkit2gtk_minimum_version], [2.5.3])
+m4_define([webkit2gtk_minimum_version], [2.10.3])
 m4_define([libgdata_minimum_version], [0.10])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
@@ -1261,7 +1261,9 @@ dnl **********************************
 dnl WebKit2 Web Extensions
 dnl **********************************
 webextensionsdir="$privlibdir/web-extensions"
+webextensionscomposerdir="$privlibdir/web-extensions/composer"
 AC_SUBST(webextensionsdir)
+AC_SUBST(webextensionscomposerdir)
 
 PKG_CHECK_MODULES(WEB_EXTENSION, [webkit2gtk-4.0 >= webkit2gtk_minimum_version])
 AC_SUBST(WEB_EXTENSIONS_CFLAGS)
@@ -1629,6 +1631,7 @@ plugins/publish-calendar/Makefile
 plugins/save-calendar/Makefile
 plugins/templates/Makefile
 web-extensions/Makefile
+web-extensions/composer/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

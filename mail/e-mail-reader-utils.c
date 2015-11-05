@@ -2072,7 +2072,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EWebView *web_view;
 	struct _camel_header_raw *header;
 	const gchar *uid;
-	const gchar *selection;
+	gchar *selection = NULL;
 	gint length;
 	gchar *mail_uri;
 	CamelObjectBag *registry;
@@ -2282,6 +2282,7 @@ whole_message:
 	}
 
 exit:
+	g_free (selection);
 	g_clear_object (&address);
 	g_clear_object (&folder);
 }

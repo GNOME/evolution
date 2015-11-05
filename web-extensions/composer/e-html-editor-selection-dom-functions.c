@@ -18,9 +18,10 @@
 
 #include "e-html-editor-selection-dom-functions.h"
 
-#include "e-dom-utils.h"
 #include "e-html-editor-view-dom-functions.h"
 #include "e-html-editor-web-extension.h"
+
+#include <web-extensions/e-dom-utils.h>
 
 #include <string.h>
 #include <stdlib.h>
@@ -1039,8 +1040,7 @@ dom_selection_indent (WebKitDOMDocument *document,
 	dom_selection_restore (document);
 	dom_force_spell_check_for_current_paragraph (document, extension);
 
-	/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "indented"); */
+	set_dbus_property_boolean (extension, "Indented", TRUE);
 }
 
 static void
@@ -3086,12 +3086,15 @@ dom_selection_is_subscript (WebKitDOMDocument *document,
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	range = dom_get_current_range (document);
+	if (!(range = dom_get_current_range (document)))
+		return FALSE;
+
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 	g_object_unref (range);
 
-	while (node) {
-		if (element_has_tag (WEBKIT_DOM_ELEMENT (node), "sub"))
+	while (node && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
+		if (WEBKIT_DOM_IS_ELEMENT (node) &&
+		    element_has_tag (WEBKIT_DOM_ELEMENT (node), "sub"))
 			break;
 
 		node = webkit_dom_node_get_parent_node (node);
@@ -3118,9 +3121,7 @@ dom_selection_set_subscript (WebKitDOMDocument *document,
 
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_SUBSCRIPT, NULL);
 
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "subscript");
-*/
+	set_dbus_property_boolean (extension, "Subscript", subscript);
 }
 
 /**
@@ -3139,12 +3140,15 @@ dom_selection_is_superscript (WebKitDOMDocument *document,
 	WebKitDOMNode *node;
 	WebKitDOMRange *range;
 
-	range = dom_get_current_range (document);
+	if (!(range = dom_get_current_range (document)))
+		return FALSE;
+
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 	g_object_unref (range);
 
-	while (node) {
-		if (element_has_tag (WEBKIT_DOM_ELEMENT (node), "sup"))
+	while (node && !WEBKIT_DOM_IS_HTML_BODY_ELEMENT (node)) {
+		if (WEBKIT_DOM_IS_ELEMENT (node) &&
+		    element_has_tag (WEBKIT_DOM_ELEMENT (node), "sup"))
 			break;
 
 		node = webkit_dom_node_get_parent_node (node);
@@ -3171,9 +3175,7 @@ dom_selection_set_superscript (WebKitDOMDocument *document,
 
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_SUPERSCRIPT, NULL);
 
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "superscript");
-*/
+	set_dbus_property_boolean (extension, "Superscript", superscript);
 }
 
 /**
@@ -3248,14 +3250,11 @@ dom_selection_set_strikethrough (WebKitDOMDocument *document,
 {
 	if (dom_selection_is_strikethrough (document, extension) == strikethrough)
 		return;
-/* FIXME WK2
-	selection->priv->is_strikethrough = strikethrough;
-*/
+
 	selection_set_font_style (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_STRIKETHROUGH, strikethrough);
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "strikethrough");
-*/
+
+	set_dbus_property_boolean (extension, "Strikethrough", strikethrough);
 }
 
 static gboolean
@@ -3312,8 +3311,7 @@ dom_selection_is_monospaced (WebKitDOMDocument *document,
 	text_content = webkit_dom_node_get_text_content (node);
 	if (g_strcmp0 (text_content, "") == 0) {
 		g_free (text_content);
-		return FALSE;
-/* FIXME WK2	return selection->priv->is_monospaced; */
+		return e_html_editor_web_extension_get_monospaced (extension);
 	}
 	g_free (text_content);
 
@@ -3358,11 +3356,9 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	WebKitDOMDOMWindow *dom_window;
 	WebKitDOMDOMSelection *dom_selection;
 
-	if (dom_selection_is_monospaced (document, extension) == monospaced)
+	if (e_html_editor_web_extension_get_monospaced (extension) == monospaced)
 		return;
-/* FIXME WK2
-	selection->priv->is_monospaced = monospaced;
-*/
+
 	range = dom_get_current_range (document);
 	if (!range)
 		return;
@@ -3587,8 +3583,8 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 	g_object_unref (range);
 	g_object_unref (dom_selection);
 	g_object_unref (dom_window);
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "monospaced");*/
+
+	set_dbus_property_boolean (extension, "Monospaced", monospaced);
 }
 
 /**
@@ -3661,17 +3657,15 @@ dom_selection_set_bold (WebKitDOMDocument *document,
                         EHTMLEditorWebExtension *extension,
                         gboolean bold)
 {
-	if (dom_selection_is_bold (document, extension) == bold)
+	if (e_html_editor_web_extension_get_bold (extension) == bold)
 		return;
-/* FIXME WK2
-	selection->priv->is_bold = bold; */
 
 	selection_set_font_style (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_BOLD, bold);
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "bold");*/
+
+	set_dbus_property_boolean (extension, "Bold", bold);
 }
 
 /**
@@ -3746,13 +3740,11 @@ dom_selection_set_italic (WebKitDOMDocument *document,
 {
 	if (dom_selection_is_italic (document, extension) == italic)
 		return;
-/* FIXME WK2
-	selection->priv->is_italic = italic;*/
 
 	selection_set_font_style (
 		document, extension, E_HTML_EDITOR_VIEW_COMMAND_ITALIC, italic);
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "italic");*/
+
+	set_dbus_property_boolean (extension, "Italic", italic);
 }
 
 /**
@@ -3949,8 +3941,6 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 		ev->data.style.to = font_size;
 	}
 
-/* FIXME WK2
-	selection->priv->font_size = font_size; */
 	size_str = g_strdup_printf ("%d", font_size);
 
 	if (dom_selection_is_collapsed (document)) {
@@ -4000,8 +3990,8 @@ dom_selection_set_font_size (WebKitDOMDocument *document,
 
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "font-size"); */
+
+	set_dbus_property_unsigned (extension, "FontSize", font_size);
 }
 
 /**
@@ -4019,7 +4009,7 @@ dom_selection_set_font_name (WebKitDOMDocument *document,
 {
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_FONT_NAME, font_name);
 /* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "font-name");*/
+	set_dbus_property_string (extension, "FontName", font_name); */
 }
 
 /**
@@ -4043,14 +4033,8 @@ dom_selection_get_font_name (WebKitDOMDocument *document,
 	range = dom_get_current_range (document);
 	node = webkit_dom_range_get_common_ancestor_container (range, NULL);
 	g_object_unref (range);
-/* FIXME WK2
-	g_free (selection->priv->font_family);
-*/
+
 	css = webkit_dom_element_get_style (WEBKIT_DOM_ELEMENT (node));
-/* FIXME WK2
-	selection->priv->font_family =
-		webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
-*/
 	value = webkit_dom_css_style_declaration_get_property_value (css, "fontFamily");
 	g_object_unref (css);
 
@@ -4085,13 +4069,10 @@ dom_selection_set_font_color (WebKitDOMDocument *document,
 			&ev->before.end.x,
 			&ev->before.end.y);
 
-/* FIXME WK2
-		ev->data.string.from = g_strdup (selection->priv->font_color);*/
+		ev->data.string.from = g_strdup (e_html_editor_web_extension_get_font_color (extension));
 		ev->data.string.to = g_strdup (color);
 	}
 
-/* FIXME WK2
-	selection->priv->font_color = g_strdup (color); */
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_FORE_COLOR, color);
 
 	if (ev) {
@@ -4103,8 +4084,8 @@ dom_selection_set_font_color (WebKitDOMDocument *document,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "font-color"); */
+
+	set_dbus_property_string (extension, "FontColor", color);
 }
 
 /**
@@ -4975,8 +4956,8 @@ dom_selection_set_block_format (WebKitDOMDocument *document,
 			&ev->after.end.y);
 		e_html_editor_undo_redo_manager_insert_history_event (manager, ev);
 	}
-/*
-	g_object_notify (G_OBJECT (selection), "block-format");*/
+
+	set_dbus_property_unsigned (extension, "BlockFormat", format);
 }
 
 /**
@@ -5029,7 +5010,7 @@ dom_selection_set_background_color (WebKitDOMDocument *document,
 {
 	dom_exec_command (document, extension, E_HTML_EDITOR_VIEW_COMMAND_BACKGROUND_COLOR, color);
 /* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "background-color");*/
+	set_dbus_property_string (extension, "BackgroundColor", color); */
 }
 
 /**
@@ -5126,7 +5107,7 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 	WebKitDOMElement *selection_start_marker, *selection_end_marker;
 	WebKitDOMNode *block;
 
-	current_alignment = dom_selection_get_alignment (document, extension);
+	current_alignment = e_html_editor_web_extension_get_alignment (extension);
 
 	if (current_alignment == alignment)
 		return;
@@ -5145,8 +5126,6 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 			list_class = "-x-evo-list-item-align-right";
 			break;
 	}
-/* FIXME WK2
-	selection->priv->alignment = alignment;*/
 
 	dom_selection_save (document);
 
@@ -5248,8 +5227,7 @@ dom_selection_set_alignment (WebKitDOMDocument *document,
 
 	dom_force_spell_check_for_current_paragraph (document, extension);
 
-/* FIXME WK2
-	g_object_notify (G_OBJECT (selection), "alignment");*/
+	set_dbus_property_unsigned (extension, "Alignment", alignment);
 }
 
 /**

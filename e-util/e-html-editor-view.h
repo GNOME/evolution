@@ -103,6 +103,12 @@ void		e_html_editor_view_remove_element_attribute
 EHTMLEditorSelection *
 		e_html_editor_view_get_selection
 						(EHTMLEditorView *view);
+guint32		e_html_editor_view_get_web_extension_unsigned_property
+						(EHTMLEditorView *view,
+                                                 const gchar *property_name);
+gboolean	e_html_editor_view_get_web_extension_boolean_property
+						(EHTMLEditorView *view,
+                                                 const gchar *property_name);
 gboolean	e_html_editor_view_get_changed	(EHTMLEditorView *view);
 void		e_html_editor_view_set_changed	(EHTMLEditorView *view,
 						 gboolean changed);
