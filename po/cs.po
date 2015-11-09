@@ -19,9 +19,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-11-03 09:34+0000\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
+"ion&keywords=I18N+L10N&component=Miscellaneous\n"
+"POT-Creation-Date: 2015-11-09 15:45+0000\n"
 "PO-Revision-Date: 2015-11-03 14:56+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -30,6 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-DamnedLies-Scope: partial\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../addressbook/addressbook.error.xml.h:1
@@ -96,8 +97,8 @@ msgstr "Smazat adresář „{0}“?"
 msgid "This address book will be removed permanently."
 msgstr "Tento adresář bude natrvalo odstraněn."
 
-#: ../addressbook/addressbook.error.xml.h:13
-#: ../calendar/calendar.error.xml.h:7 ../mail/mail.error.xml.h:69
+#: ../addressbook/addressbook.error.xml.h:13 ../calendar/calendar.error.xml.h:7
+#: ../mail/mail.error.xml.h:69
 msgid "Do _Not Delete"
 msgstr "_Nemazat"
 
@@ -248,7 +249,7 @@ msgstr ""
 "přesto přidat?"
 
 #: ../addressbook/addressbook.error.xml.h:41
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1252
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1285
 msgid "Failed to delete contact"
 msgstr "Selhalo smazání kontaktu"
 
@@ -594,7 +595,7 @@ msgstr "Možnosti"
 #: ../addressbook/gui/widgets/eab-contact-merging.c:474
 #: ../addressbook/gui/widgets/eab-contact-merging.c:718
 #: ../addressbook/gui/widgets/eab-gui-util.c:318
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1332
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1365
 #: ../calendar/gui/e-cal-dialogs.c:689
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:309
 #: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:340
@@ -1415,57 +1416,56 @@ msgstr "Hledání přerušeno"
 msgid "Error modifying card"
 msgstr "Chyba při úpravě karty"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:649
+#: ../addressbook/gui/widgets/e-addressbook-view.c:682
 msgid "Cut selected contacts to the clipboard"
 msgstr "Vyjmout vybrané kontakty do schránky"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:655
+#: ../addressbook/gui/widgets/e-addressbook-view.c:688
 msgid "Copy selected contacts to the clipboard"
 msgstr "Kopírovat vybrané kontakty do schránky"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:661
+#: ../addressbook/gui/widgets/e-addressbook-view.c:694
 msgid "Paste contacts from the clipboard"
 msgstr "Vložit kontakty ze schránky"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:667
+#: ../addressbook/gui/widgets/e-addressbook-view.c:700
 #: ../modules/addressbook/e-book-shell-view-actions.c:1017
 msgid "Delete selected contacts"
 msgstr "Smazat vybrané kontakty"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:673
+#: ../addressbook/gui/widgets/e-addressbook-view.c:706
 msgid "Select all visible contacts"
 msgstr "Vybrat všechny viditelné kontakty"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1300
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1333
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Opravdu chcete smazat tyto seznamy kontaktů?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1304
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1337
 msgid "Are you sure you want to delete this contact list?"
 msgstr "Opravdu chcete smazat tyto seznamy kontaktů?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1308
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1341
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Opravdu chcete smazat seznam kontaktů (%s)?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1314
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1347
 msgid "Are you sure you want to delete these contacts?"
 msgstr "Opravdu chcete smazat tyto kontakty?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1318
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1351
 msgid "Are you sure you want to delete this contact?"
 msgstr "Opravdu chcete smazat tento kontakt?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1322
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1355
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Opravdu chcete smazat tento kontakt (%s)?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1333
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1366
 #: ../calendar/gui/e-comp-editor.c:1897 ../e-util/e-focus-tracker.c:785
-#: ../e-util/evolution-source-viewer.c:805
-#: ../mail/e-mail-account-manager.c:736
+#: ../e-util/evolution-source-viewer.c:805 ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1089
 #: ../modules/calendar/e-cal-shell-view-actions.c:1459
 #: ../modules/calendar/e-memo-shell-view-actions.c:658
@@ -1477,7 +1477,7 @@ msgid "_Delete"
 msgstr "_Smazat"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1480
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1513
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -1495,11 +1495,11 @@ msgstr[2] ""
 "Otevření %d kontaktů otevře také %d nových oken.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1488
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1521
 msgid "_Don't Display"
 msgstr "_Nezobrazovat"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1489
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1522
 msgid "Display _All Contacts"
 msgstr "Zobrazit _všechny kontakty"
 
@@ -1748,8 +1748,7 @@ msgstr ""
 #: ../addressbook/importers/evolution-vcard-importer.c:249
 #: ../calendar/importers/icalendar-importer.c:484
 #: ../calendar/importers/icalendar-importer.c:979
-#: ../calendar/importers/icalendar-importer.c:1018
-#: ../shell/shell.error.xml.h:1
+#: ../calendar/importers/icalendar-importer.c:1018 ../shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Probíhá import…"
 
@@ -2305,8 +2304,7 @@ msgstr "Provedli jste změny v této schůzce, ale ještě jste je neuložili."
 msgid "_Save Changes"
 msgstr "_Uložit změny"
 
-#: ../calendar/calendar.error.xml.h:31
-#: ../composer/mail-composer.error.xml.h:13
+#: ../calendar/calendar.error.xml.h:31 ../composer/mail-composer.error.xml.h:13
 msgid "_Discard Changes"
 msgstr "Za_hodit změny"
 
@@ -2344,8 +2342,8 @@ msgid ""
 msgstr ""
 "E-maily s pozvánkami budou odeslány všem účastníkům, aby mohli odpovědět."
 
-#: ../calendar/calendar.error.xml.h:40
-#: ../composer/mail-composer.error.xml.h:36 ../mail/mail.error.xml.h:8
+#: ../calendar/calendar.error.xml.h:40 ../composer/mail-composer.error.xml.h:36
+#: ../mail/mail.error.xml.h:8
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Odeslat"
@@ -2423,22 +2421,16 @@ msgstr ""
 "odsouhlasit."
 
 #: ../calendar/calendar.error.xml.h:54
-#, fuzzy
-#| msgid "Would you like to send updated meeting information to participants?"
 msgid "Would you like to send updated memo information to participants?"
-msgstr "Chcete účastníkům poslat aktualizované informace o schůzce?"
+msgstr "Chcete účastníkům poslat aktualizované informace o poznámce?"
 
 #: ../calendar/calendar.error.xml.h:55
-#, fuzzy
-#| msgid ""
-#| "Sending updated information allows other participants to keep their task "
-#| "lists up to date."
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
 msgstr ""
 "Poslání aktualizovaných informací umožní ostatním účastníkům, aby udržovali "
-"své seznamy úkolů aktuální."
+"své seznamy poznámek aktuální."
 
 #: ../calendar/calendar.error.xml.h:56
 msgid "Editor could not be loaded."
@@ -2847,8 +2839,8 @@ msgstr "Soukromé"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:243
 #: ../calendar/gui/e-cal-model.c:316 ../calendar/gui/e-task-table.c:500
-#: ../calendar/gui/memotypes.xml.h:12
-#: ../e-util/e-html-editor-page-dialog.c:117 ../e-util/e-send-options.ui.h:7
+#: ../calendar/gui/memotypes.xml.h:12 ../e-util/e-html-editor-page-dialog.c:117
+#: ../e-util/e-send-options.ui.h:7
 msgid "Confidential"
 msgstr "Důvěrné"
 
@@ -2863,8 +2855,8 @@ msgstr "Organizátor"
 msgid "Attendee"
 msgstr "Účastník"
 
-#: ../calendar/gui/caltypes.xml.h:14
-#: ../calendar/gui/e-cal-list-view.etspec.h:5 ../mail/message-list.etspec.h:14
+#: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.etspec.h:5
+#: ../mail/message-list.etspec.h:14
 #: ../plugins/publish-calendar/publish-calendar.c:862
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
 #: ../plugins/save-calendar/csv-format.c:389
@@ -3042,26 +3034,20 @@ msgstr[2] "%d týdnů"
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:421
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1828
-#, fuzzy
-#| msgid "Play a sound"
 msgctxt "cal-reminders"
 msgid "Play a sound"
-msgstr "Zahrát zvuk"
+msgstr "Přehrát zvuk"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:425
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1826
-#, fuzzy
-#| msgid "Pop up an alert"
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
-msgstr "Zobrazit dialog"
+msgstr "Zobrazit upozornění"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:429
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1832
-#, fuzzy
-#| msgid "Send an email"
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Poslat e-mail"
@@ -3069,18 +3055,14 @@ msgstr "Poslat e-mail"
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:433
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1830
-#, fuzzy
-#| msgid "Run a program"
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Spustit program"
 
 #: ../calendar/gui/e-alarm-list.c:439
-#, fuzzy
-#| msgid "Unknown action to be performed"
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
-msgstr "Má se vykonat neznámá akce"
+msgstr "Má se vykonat neznámá činnost"
 
 #: ../calendar/gui/e-alarm-list.c:454
 #, c-format
@@ -3205,8 +3187,7 @@ msgstr "Probíhá"
 #: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
 #: ../calendar/gui/e-task-table.c:211 ../calendar/gui/e-task-table.c:226
 #: ../calendar/gui/e-task-table.c:609 ../calendar/gui/print.c:3579
-#: ../calendar/gui/tasktypes.xml.h:13
-#: ../plugins/save-calendar/csv-format.c:379
+#: ../calendar/gui/tasktypes.xml.h:13 ../plugins/save-calendar/csv-format.c:379
 msgid "Completed"
 msgstr "Dokončeno"
 
@@ -3596,29 +3577,25 @@ msgstr "Ano"
 msgid "No"
 msgstr "Ne"
 
-#: ../calendar/gui/e-cal-model.c:3802
-#: ../calendar/gui/e-meeting-list-view.c:220
+#: ../calendar/gui/e-cal-model.c:3802 ../calendar/gui/e-meeting-list-view.c:220
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
 #: ../modules/itip-formatter/itip-view.c:6206
 msgid "Accepted"
 msgstr "Odsouhlaseno"
 
-#: ../calendar/gui/e-cal-model.c:3803
-#: ../calendar/gui/e-meeting-list-view.c:221
+#: ../calendar/gui/e-cal-model.c:3803 ../calendar/gui/e-meeting-list-view.c:221
 #: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
 #: ../modules/itip-formatter/itip-view.c:6212
 msgid "Declined"
 msgstr "Zamítnuto"
 
-#: ../calendar/gui/e-cal-model.c:3804
-#: ../calendar/gui/e-meeting-list-view.c:222
+#: ../calendar/gui/e-cal-model.c:3804 ../calendar/gui/e-meeting-list-view.c:222
 #: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
 #: ../calendar/gui/e-meeting-time-sel.c:535
 msgid "Tentative"
 msgstr "Předběžné"
 
-#: ../calendar/gui/e-cal-model.c:3805
-#: ../calendar/gui/e-meeting-list-view.c:223
+#: ../calendar/gui/e-cal-model.c:3805 ../calendar/gui/e-meeting-list-view.c:223
 #: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
 #: ../modules/itip-formatter/itip-view.c:6215
 msgid "Delegated"
@@ -3630,8 +3607,7 @@ msgstr "Vyžaduje akci"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../calendar/gui/e-cal-model.c:3861
-#: ../calendar/gui/e-meeting-list-view.c:713
+#: ../calendar/gui/e-cal-model.c:3861 ../calendar/gui/e-meeting-list-view.c:713
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../calendar/gui/e-task-table.etspec.h:11 ../calendar/gui/tasktypes.xml.h:8
 #: ../mail/filtertypes.xml.in.h:36 ../mail/message-list.etspec.h:1
@@ -3869,8 +3845,7 @@ msgstr "Čas události je v minulosti"
 #: ../calendar/gui/e-comp-editor-event.c:169
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
-msgstr ""
-"Událost nemůže být upravována, protože vybraný kalendář nelze otevřít"
+msgstr "Událost nemůže být upravována, protože vybraný kalendář nelze otevřít"
 
 #: ../calendar/gui/e-comp-editor-event.c:171
 msgid "Event cannot be edited, because the selected calendar is read only"
@@ -4065,16 +4040,11 @@ msgid "Could not load the attachment"
 msgstr "Nelze načíst přílohu"
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:399
-#, fuzzy
-#| msgid ""
-#| "Some attachments are being downloaded. Saving the task would result in "
-#| "the loss of these attachments."
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr ""
-"Stahuje se několik příloh. Uložení události způsobí, že se tyto přílohy "
-"ztratí."
+"Některé přílohy se stále stahují. Vyčkejte prosím, než se stahování dokončí."
 
 #: ../calendar/gui/e-comp-editor-page-attachments.c:426
 #, c-format
@@ -5026,8 +4996,7 @@ msgstr "Žádné shrnutí"
 
 #. == Button box ==
 #: ../calendar/gui/e-comp-editor.c:1876 ../composer/e-composer-actions.c:334
-#: ../e-util/e-html-editor-dialog.c:196
-#: ../e-util/e-mail-signature-editor.c:295
+#: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
 #: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:388
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
@@ -5151,8 +5120,8 @@ msgstr "_Zobrazit"
 msgid "Save current changes"
 msgstr "Uložit aktuální změny"
 
-#: ../calendar/gui/e-comp-editor.c:2014
-#: ../e-util/e-mail-signature-editor.c:304 ../mail/e-mail-notes.c:912
+#: ../calendar/gui/e-comp-editor.c:2014 ../e-util/e-mail-signature-editor.c:304
+#: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Uložit a zavřít"
 
@@ -9534,14 +9503,6 @@ msgstr ""
 "MIME vždy zobrazena na nástrojové liště editoru. V opačném případě jsou "
 "zobrazena, jen když jsou používána."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
-msgid "Wrap quoted text in replies"
-msgstr ""
-
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
-msgid "If set to 'true' quoted text in replies will be wrapped."
-msgstr ""
-
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Save file format for drag-and-drop operation"
 msgstr "Uložit formát souboru pro operaci „táhni a pusť“"
@@ -9633,27 +9594,27 @@ msgstr "Výchozí znaková sada, ve které zobrazovat zprávy."
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Automaticky přes HTTP načítat obrázky pro zprávy v HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Show Animations"
 msgstr "Zobrazovat animace"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Show animated images as animations."
 msgstr "Zobrazovat animované obrázky jako animace."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Show all message headers"
 msgstr "Zobrazovat všechny hlavičky zprávy"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Show all the headers when viewing a messages."
 msgstr "Zobrazovat všechny hlavičky během prohlížení zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "List of headers to show when viewing a message."
 msgstr "Seznam hlaviček, které se mají zobrazit při prohlížení zprávy."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -9663,35 +9624,35 @@ msgstr ""
 "která určuje, zda je hlavička povolena. Zakázané hlavičky nejsou zobrazeny "
 "při prohlížení zprávy, ale jsou pořád k dispozici v Předvolbách."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Show photo of the sender"
 msgstr "Zobrazit fotografii odesílatele"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Zobrazovat fotografii odesílatele v panelu pro čtení zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Vyhledávat fotografii odesilatele na gravatar.com"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr "Umožnit vyhledání fotografie odesilatele také na gravatar.com."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Mark as Seen after specified timeout"
 msgstr "Označit jako přečtené po určeném čase"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Mark as Seen after specified timeout."
 msgstr "Označit jako přečtené po určeném čase."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Mark as Seen always after specified timeout"
 msgstr "Vždy označit jako přečtené po určeném čase"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
@@ -9699,50 +9660,50 @@ msgstr ""
 "Když je zapnuto, bude vybraná zpráva po uplynutí určeného času označena jako "
 "přečtená i po změně složky."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "Timeout for marking messages as seen"
 msgstr "Časový limit pro označení zprávy jako přečtené"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Časový limit v milisekundách pro označení zprávy jako přečtené."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Sender email-address column in the message list"
 msgstr "Sloupec e-mailových adres odesílatelů v seznamu zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
 "Zobrazovat e-mailové adresy odesílatelů v odděleném sloupci v seznamu zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Show deleted messages in the message-list"
 msgstr "Zobrazovat smazáné zprávy v seznamu zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Zobrazovat smazáné zprávy v seznamu zpráv (přeškrtnutě)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 #, fuzzy
 #| msgid "Show deleted messages in the message-list"
 msgid "Show junk messages in the message-list"
 msgstr "Zobrazovat smazáné zprávy v seznamu zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 #, fuzzy
 #| msgid "Show deleted messages (with a strike-through) in the message-list."
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr "Zobrazovat smazáné zprávy v seznamu zpráv (přeškrtnutě)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Enable Unmatched search folder"
 msgstr "Povolit vyhledávací složku Nepřiřazené"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -9750,11 +9711,11 @@ msgstr ""
 "Povolit vyhledávací složku Nepřiřazené v rámci Vyhledávacích složek. Nedělá "
 "nic, pokud jsou Složky hledání zakázány."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Skryje náhled po složkách a odstraní výběr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -9762,31 +9723,31 @@ msgstr ""
 "Tento klíč se čte pouze jednou a po přečtení se stane „neplatným“. Toto ruší "
 "výběr pošty v seznamu a odstraňuje náhled této složky."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Height of the message-list pane"
 msgstr "Výška panelu seznamu zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid "Height of the message-list pane."
 msgstr "Výška panelu seznamu zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "Zda jsou hlavičky zprávy v uživatelském rozhraní sbaleny"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Width of the message-list pane"
 msgstr "Šířka panelu seznamu zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Width of the message-list pane."
 msgstr "Šířka panelu seznamu zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Layout style"
 msgstr "Styl rozložení"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. \"0\" (Classic View) places the preview pane below the "
@@ -9797,35 +9758,35 @@ msgstr ""
 "zpráv. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam zpráv. "
 "„1“ (svislé zobrazení) umísťuje panel náhledu vedle seznamu zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Variable width font"
 msgstr "Písmo s proměnlivou šířkou:"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "The variable width font for mail display."
 msgstr "Písmo s proměnnou šířkou pro zobrazování pošty."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Terminal font"
 msgstr "Písmo terminálu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "The terminal font for mail display."
 msgstr "Písmo terminálu pro zobrazování pošty."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid "Use custom fonts"
 msgstr "Používat vlastní písma"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Use custom fonts for displaying mail."
 msgstr "Používat pro zobrazování pošty vlastní písma."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Stlačit zobrazení adres v Komu/Kopie/Skrytá kopie"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -9833,11 +9794,11 @@ msgstr ""
 "Stlačit zobrazení adres v Komu/Kopie/Skrytá kopie na počet určený v "
 "address_count."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Počet adres zobrazených v polích TO/CC/BCC"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
@@ -9845,11 +9806,11 @@ msgstr ""
 "Toto nastavuje počet adres, které se zobrazí ve výchozím zobrazení seznamu "
 "zpráv, za nimž se zobrazí „…“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Thread the message-list based on Subject"
 msgstr "Seskupovat vlákna v seznamu zpráv podle předmětu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -9857,11 +9818,11 @@ msgstr ""
 "Jestli seskupovat zprávy podle předmětů, když zprávy neobsahují hlavičky In-"
 "Reply-To ani References."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Default value for thread expand state"
 msgstr "Výchozí hodnota pro rozbalené vlákno"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -9869,11 +9830,11 @@ msgstr ""
 "Toto nastavení určuje, zda mají být vlákna ve výchozím stavu rozbalena nebo "
 "sbalena. Evolution vyžaduje restart."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Zda řadit vlákna podle poslední zprávy ve vlákně"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
@@ -9882,11 +9843,11 @@ msgstr ""
 "Toto nastavení určuje, zdali mají být vlákna seřazena podle poslední zprávy "
 "vlákna místo data zprávy. Evolution vyžaduje restart."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Whether sort thread children always ascending"
 msgstr "Zda potomky vlákna vždy řadit vzestupně"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -9894,11 +9855,11 @@ msgstr ""
 "Toto nastavení určuje, zdali mají být potomci vlákna seřazeni vždy vzestupně "
 "namísto použití stejného řazení jako v kořenové úrovni vlákna."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Řadit účty abecedně ve stromu složek"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -9910,27 +9871,27 @@ msgstr ""
 "vyhledávacích složek. Jinak jsou účty řazeny na základě pořadí daného "
 "uživatelem"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Log filter actions"
 msgstr "Zaznamenávat akce filtrů"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid "Log filter actions to the specified log file."
 msgstr "Zaznamenávat akce filtrů do určeného souboru záznamů."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Logfile to log filter actions"
 msgstr "Soubor, kam zaznamenávat akce filtrů"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Logfile to log filter actions."
 msgstr "Soubor, kam zaznamenávat akce filtrů."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Flush Outbox after filtering"
 msgstr "Odeslat „K odeslání“ po filtrování"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any 'Forward to' filter action and approximately "
@@ -9940,56 +9901,56 @@ msgstr ""
 "Odeslání nastane jen když byla použita akce filtru „Přeposlat“ a přibližně "
 "jednu minutu po vyvolání poslední akce."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Default forward style"
 msgstr "Výchozí styl přeposílání"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid "Default reply style"
 msgstr "Výchozí styl odpovědi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Dotázat se při odeslání pomocí klávesové zkratky (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
 "Upozornit uživatele, když se pokusí odeslat zprávu pomocí klávesové zkratky."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Prompt on empty subject"
 msgstr "Upozorňovat při prázdném předmětu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Upozornit uživatele, když se pokusí odeslat zprávu bez předmětu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Prompt when emptying the trash"
 msgstr "Ptát se při vyprazdňování koše"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Upozorňovat uživatele, když se pokusí vyprázdnit koš."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Prompt when user expunges"
 msgstr "Upozorňovat, když uživatel čistí"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Upozorňovat uživatele, když se pokusí vyčistit složku."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Výzva před odesláním příjemcům, kteří nejsou zadáni jako e-mailové adresy"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -9997,21 +9958,21 @@ msgstr ""
 "Vypíná/zapíná opakované výzvy s varováním, že se snažíte odeslat zprávu "
 "příjemcům, kteří nebyli vloženi jako e-mailové adresy."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Prompt when user only fills Bcc"
 msgstr "Upozorňovat, když uživatel vyplní jen Bcc"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Upozorňovat, když se uživatel pokusí odeslat zprávu bez příjemců Komu a "
 "Kopie."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Upozorňovat, když se uživatel pokusí odeslat nechtěné HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -10019,12 +9980,12 @@ msgstr ""
 "Upozorňovat, když se uživatel pokusí poslat zprávu v HTML příjemcům, kteří "
 "možná nechtějí přijímat poštu v HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
 "Upozorňovat, když se uživatel pokusí otevřít najednou 10 nebo více zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -10032,19 +9993,19 @@ msgstr ""
 "Pokud se uživatel pokusí otevřít 10 nebo více zpráv najednou, zeptat se "
 "uživatele, jestli to opravdu chce udělat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt while marking multiple messages"
 msgstr "Upozorňovat na označení více zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Vypíná nebo zapíná výzvu během označování více zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt when deleting messages in search folder"
 msgstr "Upozorňovat, když mažu zprávu z vyhledávací složky"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -10054,11 +10015,11 @@ msgstr ""
 "složky vymaže zprávu natrvalo, a ne že ji jen jednoduše odstraní z výsledků "
 "hledávání."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr "Ptá se, zda kopírovat složku táhnutím a puštěním ve stromu složek"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid ""
 "Possible values are: 'never' - do not allow copy with drag &amp; drop of "
 "folders in folder tree, 'always' - allow copy with drag &amp; drop of "
@@ -10070,11 +10031,11 @@ msgstr ""
 "stromu složek bez ptaní, nebo „ask“ (nebo jakákoliv jiná hodnota) – zeptá se "
 "uživatele "
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr "Ptá se, zda přesouvat složku táhnutím a puštěním ve stromu složek"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "Possible values are: 'never' - do not allow move with drag &amp; drop of "
 "folders in folder tree, 'always' - allow move with drag &amp; drop of "
@@ -10086,11 +10047,11 @@ msgstr ""
 "puštěním v seznamu složek bez ptaní, nebo „ask“ (nebo jakákoliv jiná "
 "hodnota) – zeptá se uživatele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt when replying privately to list messages"
 msgstr "Upozorňovat při soukromém odpovídání do poštovní konference"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -10098,11 +10059,11 @@ msgstr ""
 "Vypíná/zapíná opakované výzvy s varováním, že odesíláte soukromé odpovědi na "
 "zprávy, které přišly přes poštovní konferenci."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Upozorňovat, když poštovní konference vnucuje soukromé odpovědi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -10113,25 +10074,25 @@ msgstr ""
 "hlavičce „Komu odpovědět“ (Reply-To) přesměrovává vaši odpověď zpět do "
 "konference."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when replying to many recipients"
 msgstr "Upozorňovat při odpovídání více příjemcům"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
 "Vypíná/zapíná opakované výzvy s varováním, že zasíláte odpověď více lidem."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid ""
 "Prompt when switching composer mode and the content needs to lose its "
 "formatting"
 msgstr ""
 "Upozornit, když se přepíná režim editoru a obsah by ztratil své formátování"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer mode and the content needs to lose its formatting."
@@ -10139,11 +10100,11 @@ msgstr ""
 "Vypíná/zapíná opakované výzvy s varováním, že přepínáte režim editoru a jeho "
 "obdah příjde o svéh formátování."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Upozorňovat při posílání velkému počtu příjemců v polích Komu a Kopie"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "'composer-many-to-cc-recips-num' defines the threshold."
@@ -10152,7 +10113,7 @@ msgstr ""
 "příjemců v polích Komu a Kopie. 'composer-many-to-cc-recips-num' definuje "
 "hraniční hodnotu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -10160,43 +10121,43 @@ msgstr ""
 "Zásada pro automatické zavírání okna prohlížeče zpráv, když se zobrazená "
 "zpráva přeposílá nebo se na ni odpovídá"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "Empty Trash folders on exit"
 msgstr "Vyprazdňovat složky „Koš“ při ukončení"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Vyprazdňovat všechny složky „Koš“ při ukončování aplikace Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Minimum dní mezi vyprazdňováním složky „Koš“ při ukončení"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Minimum času mezi vyprazdňováním složky „Koš“ při ukončení, ve dnech."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid "Last time Empty Trash was run"
 msgstr "Datum, kdy bylo naposledy spuštěno vyprázdnění koše"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Datum, kdy bylo naposledy spuštěno vyprázdnění složky „Koš“, počítáno ve "
 "dnech od 1. ledna 1970."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr ""
 "Množství času v sekundách, chyba by se měla zobrazit ve stavovém řádku."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Level beyond which the message should be logged."
 msgstr "Úroveň, nad kterou by měla být zpráva přihlášena."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
@@ -10204,11 +10165,11 @@ msgstr ""
 "Toto může mít tři možné hodnoty. „0“ pro chyby. „1“ pro varování a „2“ pro "
 "ladicí zprávy."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid "Show original \"Date\" header value."
 msgstr "Zobrazit původní hodnotu hlavičky „Datum“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "Show the original \"Date\" header (with a local time only if the time zone "
 "differs). Otherwise always show \"Date\" header value in a user preferred "
@@ -10218,11 +10179,11 @@ msgstr ""
 "pásmo rozdílné). Jinak vždy zobrazit hodnotu hlavičky „Datum“ v uživatelem "
 "upřednostňovaném formátu a místním časovém pásmu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "List of Labels and their associated colors"
 msgstr "Seznam štítků a jim přiřazených barev"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -10230,48 +10191,48 @@ msgstr ""
 "Seznam štítků, které zná komponenta pošty Evolution. Seznam obsahuje řetězce "
 "tvaru název:barva, kde barva používá kódování HTML hex."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid "Check incoming mail being junk"
 msgstr "Kontrolovat, jestli je příchozí zpráva nevyžádaná"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Run junk test on incoming mail."
 msgstr "Spouštět na příchozí zprávy test na nevyžádané."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Empty Junk folders on exit"
 msgstr "Vyprazdňovat složky „Nevyžádané“ při ukončení"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 "Vyprazdňovat všechny složky „Nevyžádané“ při ukončování aplikace Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Minimum dní mezi vyprazdňováním složky „Nevyžádané“ při ukončení"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Minimum času mezi vyprazdňováním složky „Nevyžádané“ při ukončení, ve dnech."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Last time Empty Junk was run"
 msgstr "Datum, kdy bylo naposledy spuštěno vyprázdnění složky „Nevyžádané“"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Datum, kdy bylo naposledy spuštěno vyprázdnění složky „Nevyžádané“, počítáno "
 "ve dnech od 1. ledna 1970."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "The default plugin for Junk hook"
 msgstr "Výchozí zásuvný modul pro Junk hook (filtr nevyžádaných zpráv)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
@@ -10281,11 +10242,11 @@ msgstr ""
 "více zásuvných modulů. Pokud je výchozí zásuvný modul vypnutý, potom se "
 "uchýlí k ostatním zásuvným modulům."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Určuje, zdali se má v adresáři hledat e-mail odesílatele"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -10297,7 +10258,7 @@ msgstr ""
 "doplňování. Může být pomalý, pokud je pro automatické doplňování označen "
 "vzdálený adresář (jako LDAP)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -10305,7 +10266,7 @@ msgstr ""
 "Určuje, zdali se mají adresy pro filtrování nevyžádaných zpráv hledat pouze "
 "v místním adresáři."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -10315,11 +10276,11 @@ msgstr ""
 "mají v místním adresáři hledat adresy, které se používají pro vyloučení "
 "zpráv od známých kontaktů z filtrování nevyžádaných zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Určuje, zda použít vlastní hlavičky pro kontrolu nevyžádaných zpráv"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -10329,11 +10290,11 @@ msgstr ""
 "je tato volba zapnutá a hlavičky jsou uvedeny, zrychlí to kontrolu "
 "nevyžádaných zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Custom headers to use while checking for junk."
 msgstr "Vlastní hlavičky určené pro kontrolu nevyžádaných zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
@@ -10341,31 +10302,31 @@ msgstr ""
 "Vlastní hlavičky určené pro kontrolu nevyžádaných zpráv. Prvky seznam jsou "
 "řetězce ve formátu „název_hlavičky=hodnota“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "UID string of the default account."
 msgstr "Řetězec UID výchozího účtu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Save directory"
 msgstr "Uložit adresář"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Directory for saving mail component files."
 msgstr "Adresář pro ukládání souborů komponent zpráv."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid "Composer load/attach directory"
 msgstr "Editor načetl/připojil adresář"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "Directory for loading/attaching files to composer."
 msgstr "Adresář pro načítání/přikládání souborů do editoru."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid "Check for new messages on start"
 msgstr "Kontrolovat novou poštu při startu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -10373,11 +10334,11 @@ msgstr ""
 "Zda kontrolovat nové zprávy při startu aplikace Evolution. Toto obsahuje "
 "taktéž odesílání zpráv ze složky K odeslání."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid "Check for new messages in all active accounts"
 msgstr "Kontrolovat novou poštu ve všech aktivních účtech"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account \"Check for new messages every X minutes\" option when Evolution is "
@@ -10388,11 +10349,11 @@ msgstr ""
 "Evolution. Tato volba se používá pouze společně s volbou "
 "„send_recv_on_start“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid "Server synchronization interval"
 msgstr "Interval pro synchronizaci serveru"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -10400,11 +10361,11 @@ msgstr ""
 "Řídí, jak často se mají místní změny synchronizovat se vzdáleným poštovním "
 "serverem. Interval musí být aspoň 30 sekund."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Allow expunge in virtual folders"
 msgstr "Povolit čištění ve virtuálních složkách"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder->Expunge "
 "will be callable in virtual folders, while the expunge itself will be done "
@@ -10416,12 +10377,12 @@ msgstr ""
 "proběhne ve všech složkách pro všechny smazané zprávy obsažené ve virtuální "
 "složce a ne jen pro zprávy náležející k virtuální složce."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 #: ../mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML mode"
 msgstr "Dědit barvy motivu v režimu HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -10429,11 +10390,11 @@ msgstr ""
 "Když jsou zapnuté barvy motivu pro pozadí, text a odkazy, jsou poslány ve "
 "výsledné zprávě naformátované pomocí HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "An Archive folder for On This Computer folders."
 msgstr "Archivační složka pro „V tomto počítači“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -10441,11 +10402,11 @@ msgstr ""
 "Archivační složka, která se má použít pro funkci Zprávy|Archivovat…, když je "
 "vybrána některé složka V tomto počítači."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "(Deprecated) Default forward style"
 msgstr "(zavrženo) Výchozí styl přeposílání"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"forward-style-name\" instead."
@@ -10453,11 +10414,11 @@ msgstr ""
 "Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
 "něj použijte „forward-style-name“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "(Deprecated) Default reply style"
 msgstr "(zavrženo) Výchozí styl odpovědi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"reply-style-name\" instead."
@@ -10465,11 +10426,11 @@ msgstr ""
 "Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
 "něj použijte „reply-style-name“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(zavrženo) Seznam vlastních hlaviček a toho, jestli jsou povoleny."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"show-headers\" instead."
@@ -10477,11 +10438,11 @@ msgstr ""
 "Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
 "něj použijte „show-headers“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(zavrženo) Načítat přes HTTP obrázky pro zprávy v HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"image-loading-policy\" instead."
@@ -10489,7 +10450,7 @@ msgstr ""
 "Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
 "něj použijte „image-loading-policy“."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -10497,7 +10458,7 @@ msgstr ""
 "(zavrženo) Ptá se, zda zavřít okno zprávy, když uživatel přeposílá nebo "
 "odpovídá na zprávu zobrazenou v okně"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "\"browser-close-on-reply-policy\" instead."
@@ -10976,15 +10937,14 @@ msgstr "Velikost"
 #: ../em-format/e-mail-part-headers.c:51 ../mail/e-mail-tag-editor.c:282
 #: ../mail/filtertypes.xml.in.h:16 ../mail/message-list.etspec.h:6
 #: ../mail/searchtypes.xml.in.h:17 ../mail/vfoldertypes.xml.in.h:17
-#: ../modules/mail/em-mailer-prefs.c:67
-#: ../smime/gui/certificate-manager.c:1632
+#: ../modules/mail/em-mailer-prefs.c:67 ../smime/gui/certificate-manager.c:1632
 msgid "Subject"
 msgstr "Předmět"
 
 #. pseudo-header
 #: ../em-format/e-mail-formatter-quote-headers.c:199
 #: ../em-format/e-mail-formatter-utils.c:343
-#: ../modules/mail/em-mailer-prefs.c:1484
+#: ../modules/mail/em-mailer-prefs.c:1490
 msgid "Mailer"
 msgstr "Program elektronické pošty"
 
@@ -12004,8 +11964,7 @@ msgstr "Zobrazte kalendář kliknutím na toto tlačítko"
 msgid "Drop-down combination box to select time"
 msgstr "Rozbalovací pole pro zvolení času"
 
-#: ../e-util/e-dateedit.c:629
-#: ../modules/calendar/e-calendar-preferences.ui.h:9
+#: ../e-util/e-dateedit.c:629 ../modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Čas"
 
@@ -13259,8 +13218,7 @@ msgstr "<b>Obrázek pozadí</b>"
 msgid "_Template:"
 msgstr "Šabl_ona:"
 
-#: ../e-util/e-html-editor-page-dialog.c:646
-#: ../e-util/e-import-assistant.c:283
+#: ../e-util/e-html-editor-page-dialog.c:646 ../e-util/e-import-assistant.c:283
 msgid "Select a file"
 msgstr "Vyberte soubor"
 
@@ -13370,8 +13328,7 @@ msgstr "<b>Slovník</b>"
 msgid "Add word"
 msgstr "Přidat slovo"
 
-#: ../e-util/e-html-editor-spell-check-dialog.c:637
-#: ../mail/mail-config.ui.h:39
+#: ../e-util/e-html-editor-spell-check-dialog.c:637 ../mail/mail-config.ui.h:39
 msgid "Spell Checking"
 msgstr "Kontrola pravopisu"
 
@@ -13412,11 +13369,11 @@ msgstr "Vel_ikost:"
 msgid "Text Properties"
 msgstr "Vlastnosti textu"
 
-#: ../e-util/e-html-editor-view.c:5945
+#: ../e-util/e-html-editor-view.c:5946
 msgid "Changed property"
 msgstr "Změněna vlastnost"
 
-#: ../e-util/e-html-editor-view.c:5946
+#: ../e-util/e-html-editor-view.c:5947
 msgid "Whether editor changed"
 msgstr "Zda v editoru došlo ke změně"
 
@@ -13653,8 +13610,7 @@ msgstr "K_ontakty"
 msgid "Search"
 msgstr "Hledat"
 
-#: ../e-util/e-name-selector-dialog.c:448
-#: ../mail/importers/pine-importer.c:429
+#: ../e-util/e-name-selector-dialog.c:448 ../mail/importers/pine-importer.c:429
 msgid "Address Book"
 msgstr "Adresář"
 
@@ -13888,8 +13844,7 @@ msgid "Reached top of page, continued from bottom"
 msgstr "Při dosažení horního konce stránky pokračovat zespodu"
 
 #: ../e-util/e-send-options.c:538 ../mail/importers/elm-importer.c:329
-#: ../mail/importers/kmail-importer.c:253
-#: ../mail/importers/pine-importer.c:422
+#: ../mail/importers/kmail-importer.c:253 ../mail/importers/pine-importer.c:422
 #: ../modules/mail/e-mail-shell-view.c:1179
 #: ../smime/gui/certificate-manager.c:1671
 msgid "Mail"
@@ -14680,8 +14635,7 @@ msgstr "sekundách"
 msgid "weeks"
 msgstr "týdnů"
 
-#: ../e-util/filter.ui.h:10
-#: ../plugins/publish-calendar/publish-calendar.ui.h:8
+#: ../e-util/filter.ui.h:10 ../plugins/publish-calendar/publish-calendar.ui.h:8
 msgid "months"
 msgstr "měsíce"
 
@@ -15335,7 +15289,7 @@ msgid "Archi_ve Folder:"
 msgstr "Archi_vační složka:"
 
 #: ../mail/e-mail-config-defaults-page.c:734
-#: ../modules/mail/em-mailer-prefs.c:1397
+#: ../modules/mail/em-mailer-prefs.c:1403
 msgid "Choose a folder to archive messages to."
 msgstr "Zvolte složku, do které se mají archivovat zprávy."
 
@@ -15486,8 +15440,8 @@ msgctxt "PGPKeyDescription"
 msgid "%s - %s"
 msgstr "%s – %s"
 
-#: ../mail/e-mail-config-security-page.c:340
-#: ../mail/em-folder-properties.c:603 ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-config-security-page.c:340 ../mail/em-folder-properties.c:603
+#: ../mail/mail-config.ui.h:31
 #: ../modules/addressbook/autocompletion-config.c:113
 #: ../modules/calendar/e-calendar-preferences.c:625
 #: ../modules/calendar/e-calendar-preferences.ui.h:46
@@ -15859,7 +15813,7 @@ msgstr "Název hlavičky"
 msgid "Header Value"
 msgstr "Hodnota hlavičky"
 
-#: ../mail/e-mail-printer.c:126 ../mail/mail-config.ui.h:122
+#: ../mail/e-mail-printer.c:126 ../mail/mail-config.ui.h:123
 msgid "Headers"
 msgstr "Hlavičky"
 
@@ -16325,8 +16279,7 @@ msgstr "Odpovědět _do konference"
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Napsat odpověď do poštovní konference z vybraných zpráv"
 
-#: ../mail/e-mail-reader.c:2336
-#: ../modules/mail/e-mail-attachment-handler.c:220
+#: ../mail/e-mail-reader.c:2336 ../modules/mail/e-mail-attachment-handler.c:220
 msgid "_Reply to Sender"
 msgstr "Odpovědě_t odesílateli"
 
@@ -16490,8 +16443,7 @@ msgstr "Zobrazovat zprávu se všemi hlavičkami e-mailu"
 msgid "Retrieving message"
 msgstr "Získává se zpráva"
 
-#: ../mail/e-mail-reader.c:4203
-#: ../modules/mail/e-mail-attachment-handler.c:206
+#: ../mail/e-mail-reader.c:4203 ../modules/mail/e-mail-attachment-handler.c:206
 msgid "_Forward"
 msgstr "_Přeposlat"
 
@@ -16525,22 +16477,28 @@ msgstr "Předchozí"
 msgid "Reply"
 msgstr "Odpovědět"
 
-#: ../mail/e-mail-reader.c:5371
+#: ../mail/e-mail-reader.c:5389
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Povolit vzdálený obsah pro kohokoliv z %s"
 
-#: ../mail/e-mail-reader.c:5373
+#: ../mail/e-mail-reader.c:5391
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Povolit vzdálený obsah pro %s"
 
-#: ../mail/e-mail-reader.c:5390
+#: ../mail/e-mail-reader.c:5408
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Povolit vzdálený obsah z %s"
 
-#: ../mail/e-mail-reader.c:5447
+#: ../mail/e-mail-reader.c:5425
+#, fuzzy
+#| msgid "_Do not show this message again"
+msgid "Do not show this message again"
+msgstr "_Příště tuto zprávu nezobrazovat"
+
+#: ../mail/e-mail-reader.c:5473
 msgid "Load remote content"
 msgstr "Načíst vzdálený obsah"
 
@@ -17161,7 +17119,7 @@ msgstr "Důležité"
 msgid "Read"
 msgstr "Přečteno"
 
-#: ../mail/filtertypes.xml.in.h:41 ../mail/mail-config.ui.h:129
+#: ../mail/filtertypes.xml.in.h:41 ../mail/mail-config.ui.h:130
 #: ../mail/vfoldertypes.xml.in.h:44
 msgid "Junk"
 msgstr "Nevyžádané"
@@ -17346,8 +17304,7 @@ msgctxt "mboxImp"
 msgid "From"
 msgstr "Od"
 
-#: ../mail/importers/evolution-mbox-importer.c:568
-#: ../shell/e-shell-utils.c:173
+#: ../mail/importers/evolution-mbox-importer.c:568 ../shell/e-shell-utils.c:173
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Berkeley Mailbox (mbox)"
 
@@ -17803,91 +17760,97 @@ msgid "_Always load remote content from the Internet"
 msgstr "_Vždy načítat vzdálený obsah z Internetu"
 
 #: ../mail/mail-config.ui.h:110
+#, fuzzy
+#| msgid "_Show the photograph of sender in the message preview"
+msgid "Notify about _missing remote content in the message preview"
+msgstr "Zob_razovat fotografii odesílatele v náhledu zprávy"
+
+#: ../mail/mail-config.ui.h:111
 msgid "Add"
 msgstr "Přidat"
 
-#: ../mail/mail-config.ui.h:111
+#: ../mail/mail-config.ui.h:112
 msgid "Remove"
 msgstr "Odebrat"
 
-#: ../mail/mail-config.ui.h:112
+#: ../mail/mail-config.ui.h:113
 msgid "Allow for sites:"
 msgstr "Povolit pro tyto servery:"
 
-#: ../mail/mail-config.ui.h:113
+#: ../mail/mail-config.ui.h:114
 msgid "Allow for senders:"
 msgstr "Povolit pro odesilatele:"
 
-#: ../mail/mail-config.ui.h:114
+#: ../mail/mail-config.ui.h:115
 msgid "HTML Messages"
 msgstr "HTML zprávy"
 
-#: ../mail/mail-config.ui.h:115 ../mail/message-list.etspec.h:19
+#: ../mail/mail-config.ui.h:116 ../mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Štítky"
 
-#: ../mail/mail-config.ui.h:116
+#: ../mail/mail-config.ui.h:117
 msgid "Sender Photograph"
 msgstr "Fotografie odesílatele"
 
-#: ../mail/mail-config.ui.h:117
+#: ../mail/mail-config.ui.h:118
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Zob_razovat fotografii odesílatele v náhledu zprávy"
 
-#: ../mail/mail-config.ui.h:118
+#: ../mail/mail-config.ui.h:119
 msgid "Search gra_vatar.com for the photograph of sender"
 msgstr "Vyhledávat na _gravatar.com fotografii odesilatele"
 
-#: ../mail/mail-config.ui.h:119
+#: ../mail/mail-config.ui.h:120
 msgid "Displayed Message Headers"
 msgstr "Zobrazené hlavičky zprávy"
 
-#: ../mail/mail-config.ui.h:120
+#: ../mail/mail-config.ui.h:121
 msgid "Mail Headers Table"
 msgstr "Tabulka hlaviček pošty"
 
-#: ../mail/mail-config.ui.h:121
+#: ../mail/mail-config.ui.h:122
 #: ../modules/addressbook/autocompletion-config.c:116
 #: ../modules/calendar/e-calendar-preferences.ui.h:45
 msgid "Date/Time Format"
 msgstr "Formát data a času"
 
-#: ../mail/mail-config.ui.h:123
+#: ../mail/mail-config.ui.h:124
 msgid "Check incoming _messages for junk"
 msgstr "Kontrolovat, jestli jsou _příchozí zprávy nevyžádané"
 
-#: ../mail/mail-config.ui.h:124
+#: ../mail/mail-config.ui.h:125
 msgid "_Delete junk messages"
 msgstr "_Smazat nevyžádané zprávy"
 
-#: ../mail/mail-config.ui.h:125
+#: ../mail/mail-config.ui.h:126
 msgid "Junk Test Options"
 msgstr "Volby pro test na nevyžádanou poštu"
 
-#: ../mail/mail-config.ui.h:126
+#: ../mail/mail-config.ui.h:127
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "_Neoznačovat zprávy jako nevyžádané, pokud je odesílatel v mém adresáři"
 
-#: ../mail/mail-config.ui.h:127
+#: ../mail/mail-config.ui.h:128
 msgid "_Lookup in local address book only"
 msgstr "_Hledat pouze v místním adresáři"
 
-#: ../mail/mail-config.ui.h:128
+#: ../mail/mail-config.ui.h:129
 msgid "Check cu_stom headers for junk"
 msgstr "K_ontrolovat nevyžádané zprávy podle vlastních hlaviček"
 
-#: ../mail/mail-config.ui.h:130
+#: ../mail/mail-config.ui.h:131
 #: ../modules/mail-config/e-mail-config-remote-accounts.c:224
 #: ../modules/mail-config/e-mail-config-smtp-backend.c:174
 msgid "No encryption"
 msgstr "Bez šifrování"
 
-#: ../mail/mail-config.ui.h:131
+#: ../mail/mail-config.ui.h:132
 msgid "TLS encryption"
 msgstr "Šifrování TLS"
 
-#: ../mail/mail-config.ui.h:132
+#: ../mail/mail-config.ui.h:133
 msgid "SSL encryption"
 msgstr "Šifrování SSL"
 
@@ -18183,8 +18146,7 @@ msgid ""
 msgstr ""
 "Opravdu chcete natrvalo odstranit všechny smazáné zprávy ze všech složek?"
 
-#: ../mail/mail.error.xml.h:42
-#: ../modules/mail/e-mail-shell-view-actions.c:1638
+#: ../mail/mail.error.xml.h:42 ../modules/mail/e-mail-shell-view-actions.c:1638
 msgid "_Empty Trash"
 msgstr "Vyprázdnit _koš"
 
@@ -19059,7 +19021,7 @@ msgstr "Výraz ve volném tvaru"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:122
-#: ../modules/mail/em-mailer-prefs.c:1552
+#: ../modules/mail/em-mailer-prefs.c:1558
 msgid "_Table column:"
 msgstr "Sloupec _tabulky:"
 
@@ -22405,11 +22367,11 @@ msgid "Contains Value"
 msgstr "Obsahuje hodnotu"
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
-#: ../modules/mail/em-mailer-prefs.c:1554
+#: ../modules/mail/em-mailer-prefs.c:1560
 msgid "_Date header:"
 msgstr "_Hlavička data:"
 
-#: ../modules/mail/em-mailer-prefs.c:1555
+#: ../modules/mail/em-mailer-prefs.c:1561
 msgid "Show _original header value"
 msgstr "Zobrazit _původní hodnotu hlavičky"
 
@@ -24590,72 +24552,60 @@ msgstr ""
 "\n"
 "Upravit nastavení důvěry:"
 
-#: ../smime/gui/certificate-manager.c:84
-#: ../smime/gui/certificate-manager.c:103
+#: ../smime/gui/certificate-manager.c:84 ../smime/gui/certificate-manager.c:103
 #: ../smime/gui/certificate-manager.c:123
 msgid "Certificate Name"
 msgstr "Název certifikátu"
 
-#: ../smime/gui/certificate-manager.c:85
-#: ../smime/gui/certificate-manager.c:105
+#: ../smime/gui/certificate-manager.c:85 ../smime/gui/certificate-manager.c:105
 msgid "Issued To Organization"
 msgstr "Vydáno pro organizaci"
 
-#: ../smime/gui/certificate-manager.c:86
-#: ../smime/gui/certificate-manager.c:106
+#: ../smime/gui/certificate-manager.c:86 ../smime/gui/certificate-manager.c:106
 msgid "Issued To Organizational Unit"
 msgstr "Vydáno pro organizační jednotku"
 
-#: ../smime/gui/certificate-manager.c:87
-#: ../smime/gui/certificate-manager.c:107
+#: ../smime/gui/certificate-manager.c:87 ../smime/gui/certificate-manager.c:107
 #: ../smime/gui/certificate-manager.c:125
 msgid "Serial Number"
 msgstr "Sériové číslo"
 
-#: ../smime/gui/certificate-manager.c:88
-#: ../smime/gui/certificate-manager.c:108
+#: ../smime/gui/certificate-manager.c:88 ../smime/gui/certificate-manager.c:108
 #: ../smime/gui/certificate-manager.c:126
 msgid "Purposes"
 msgstr "Účely"
 
-#: ../smime/gui/certificate-manager.c:89
-#: ../smime/gui/certificate-manager.c:109
+#: ../smime/gui/certificate-manager.c:89 ../smime/gui/certificate-manager.c:109
 #: ../smime/gui/certificate-manager.c:127
 msgid "Issued By"
 msgstr "Vydán od"
 
-#: ../smime/gui/certificate-manager.c:90
-#: ../smime/gui/certificate-manager.c:110
+#: ../smime/gui/certificate-manager.c:90 ../smime/gui/certificate-manager.c:110
 #: ../smime/gui/certificate-manager.c:128
 msgid "Issued By Organization"
 msgstr "Vydáno organizací"
 
-#: ../smime/gui/certificate-manager.c:91
-#: ../smime/gui/certificate-manager.c:111
+#: ../smime/gui/certificate-manager.c:91 ../smime/gui/certificate-manager.c:111
 #: ../smime/gui/certificate-manager.c:129
 msgid "Issued By Organizational Unit"
 msgstr "Vydáno organizační jednotkou"
 
-#: ../smime/gui/certificate-manager.c:92
-#: ../smime/gui/certificate-manager.c:112
+#: ../smime/gui/certificate-manager.c:92 ../smime/gui/certificate-manager.c:112
 #: ../smime/gui/certificate-manager.c:130
 msgid "Issued"
 msgstr "Vydáno"
 
-#: ../smime/gui/certificate-manager.c:93
-#: ../smime/gui/certificate-manager.c:113
+#: ../smime/gui/certificate-manager.c:93 ../smime/gui/certificate-manager.c:113
 #: ../smime/gui/certificate-manager.c:131
 msgid "Expires"
 msgstr "Vyprší"
 
-#: ../smime/gui/certificate-manager.c:94
-#: ../smime/gui/certificate-manager.c:114
+#: ../smime/gui/certificate-manager.c:94 ../smime/gui/certificate-manager.c:114
 #: ../smime/gui/certificate-manager.c:132
 msgid "SHA1 Fingerprint"
 msgstr "Otisk SHA1"
 
-#: ../smime/gui/certificate-manager.c:95
-#: ../smime/gui/certificate-manager.c:115
+#: ../smime/gui/certificate-manager.c:95 ../smime/gui/certificate-manager.c:115
 #: ../smime/gui/certificate-manager.c:133
 msgid "MD5 Fingerprint"
 msgstr "Otisk MD5"
