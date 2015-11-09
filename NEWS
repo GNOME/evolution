@@ -1,3 +1,38 @@
+Evolution 3.18.2 2015-11-09
+---------------------------
+
+Bug Fixes:
+	Bug 756535 - Hyperlinks are stripped from e-mails after being sent (Tomas Popela)
+	Bug 755730 - Focus message list after start in the Mail view (Milan Crha)
+	Bug 756664 - Preserve selection on date change in Day/Work Week views (Milan Crha)
+	Bug 688368 - Wrong characters encoding in attached html file (Milan Crha)
+	Bug 756707 - calculations of lineno and offset for external editor gvim component is broken (Tomas Popela)
+	Bug 735747 - Follow GNOME notification settings under gnome-shell (Milan Crha)
+	Bug 757246 - Stop playing sound for each reminder (Milan Crha)
+	Bug 757188 - Alignment is not honored when sending a HTML message (Tomas Popela)
+	Bug 757348 - Endless loop in webkit_dom_node_append_child(): assertion 'WEBKIT_DOM_IS_NODE(self)' failed (Tomas Popela)
+	Bug 639299 - Crash under e-cell-tree.c:animate_expander (Milan Crha)
+	Bug 757342 - Menu key doesn't open context menu in Contacts view (Milan Crha)
+	Bug 757594 - Multiline bulleted list items has text not aligned to bullet points (Tomas Popela)
+
+Miscellaneous:
+	EHTMLEditorView - Pasting HTML content with new lines between elements inserts these lines into composer (Tomas Popela)
+	EHTMLEditorView - Extra new line added after credentials (Tomas Popela)
+	EHTMLEditorView - Busy loop when replying to certain mail (Tomas Popela)
+	EHTMLEditorView - Very long strings without spaces can overflow the paragraph (Tomas Popela)
+	EHTMLEditorView - Quote symbols could be inserted twice around tabulator (Tomas Popela)
+	EHTMLEditorSelection - Trailing and leading spaces could be lost (Tomas Popela)
+	EHTMLEditorSelection - Replace g_strstr_len usage with strstr (Tomas Popela)
+	Pack address book importers' selector into a scrollable window (Milan Crha)
+	Forward ETable/ETree background events to an ETableItem (Milan Crha)
+
+Translations:
+	Inaki Larranaga Murgoitio (eu)
+	Pedro Albuquerque (pt)
+	Baurzhan Muftakhidinov (kk)
+	Bernd Homuth (de)
+	Christian Kirbach (de)
+
 Evolution 3.18.1 2015-10-12
 ---------------------------
 
