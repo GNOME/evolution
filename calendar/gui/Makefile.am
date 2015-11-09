@@ -227,9 +227,11 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/shell/libevolution-shell.la			\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/e-util/libevolution-util.la			\
+	$(top_builddir)/libgnomecanvas/libgnomecanvas.la 		\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)						\
 	$(LIBSOUP_LIBS)							\
+	$(MATH_LIB)							\
 	$(NULL)
 
 libevolution_calendar_la_LDFLAGS = -avoid-version $(NO_UNDEFINED) $(CODE_COVERAGE_LDFLAGS)
