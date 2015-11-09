@@ -137,7 +137,7 @@ safe_toggle_activate (GtkCellRenderer *cell,
 {
 	gboolean point_in_cell_area = TRUE;
 
-	if (event->type == GDK_BUTTON_PRESS && cell_area != NULL) {
+	if (event && event->type == GDK_BUTTON_PRESS && cell_area != NULL) {
 		cairo_region_t *region;
 
 		region = cairo_region_create_rectangle (cell_area);
