@@ -5019,7 +5019,7 @@ delete_character_from_quoted_line_start (EHTMLEditorView *view,
 	gboolean success = FALSE;
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
-	WebKitDOMNode *node, *beginning;
+	WebKitDOMNode *node, *beginning, *next_sibling;
 
 	selection = e_html_editor_view_get_selection (view);
 
@@ -5041,7 +5041,8 @@ delete_character_from_quoted_line_start (EHTMLEditorView *view,
 	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element));
 
 	/* We have to be on the end of line. */
-	if (webkit_dom_node_get_next_sibling (node))
+	next_sibling = webkit_dom_node_get_next_sibling (node);
+	if (next_sibling && (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) || webkit_dom_node_get_next_sibling (next_sibling)))
 		goto out;
 
 	/* Before the caret is just text. */
