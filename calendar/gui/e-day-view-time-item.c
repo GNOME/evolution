@@ -529,6 +529,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			cairo_restore (cr);
 
 			g_object_unref (layout);
+
+			cairo_restore (cr);
 		} else {
 			/* 5/10/15/30 minute intervals. */
 
