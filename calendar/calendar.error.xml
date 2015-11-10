@@ -305,6 +305,12 @@
     <secondary>{1}</secondary>
   </error>
 
+  <error id="failed-save-attachments" type="error" default="GTK_RESPONSE_YES">
+    <!-- The {0} is a calendar/memo list/task list name, which is useless here -->
+    <_primary>Failed to save attachments</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
   <error id="failed-open-calendar" type="error" default="GTK_RESPONSE_YES">
     <!-- Translators: {0} is the name of the calendar. -->
     <_primary>Failed to open calendar '{0}'</_primary>
