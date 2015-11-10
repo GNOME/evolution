@@ -47,7 +47,7 @@ action_task_assign_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only open the first selected task. */
-	e_task_shell_view_open_task (task_shell_view, comp_data);
+	e_task_shell_view_open_task (task_shell_view, comp_data, TRUE);
 
 	/* FIXME Need to actually assign the task. */
 }
@@ -436,7 +436,7 @@ action_task_open_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only open the first selected task. */
-	e_task_shell_view_open_task (task_shell_view, comp_data);
+	e_task_shell_view_open_task (task_shell_view, comp_data, FALSE);
 }
 
 static void

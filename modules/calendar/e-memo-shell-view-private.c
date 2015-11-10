@@ -337,7 +337,7 @@ e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
 	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (memo_shell_view));
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (shell_content));
 
-	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp);
+	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp, FALSE);
 }
 
 void
