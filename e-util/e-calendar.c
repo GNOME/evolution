@@ -116,6 +116,15 @@ G_DEFINE_TYPE (
 	E_TYPE_CANVAS)
 
 static void
+calitem_month_width_changed_cb (ECalendarItem *item,
+				ECalendar *cal)
+{
+	g_return_if_fail (E_IS_CALENDAR (cal));
+
+	gtk_widget_queue_resize (GTK_WIDGET (cal));
+}
+
+static void
 e_calendar_class_init (ECalendarClass *class)
 {
 	GObjectClass   *object_class;
@@ -167,6 +176,9 @@ e_calendar_init (ECalendar *cal)
 
 	pango_font_description_free (small_font_desc);
 	g_object_unref (pango_context);
+
+	g_signal_connect (cal->calitem, "month-width-changed",
+		G_CALLBACK (calitem_month_width_changed_cb), cal);
 
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = gtk_button_new ();

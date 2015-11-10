@@ -251,6 +251,7 @@ enum {
 	DATE_RANGE_MOVED,
 	SELECTION_CHANGED,
 	SELECTION_PREVIEW_CHANGED,
+	MONTH_WIDTH_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -570,6 +571,15 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		G_TYPE_FROM_CLASS (object_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ECalendarItemClass, selection_preview_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	e_calendar_item_signals[MONTH_WIDTH_CHANGED] = g_signal_new (
+		"month-width-changed",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_RUN_LAST,
+		0 /* G_STRUCT_OFFSET (ECalendarItemClass, month_width_changed) */,
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -933,7 +943,7 @@ e_calendar_item_update (GnomeCanvasItem *item,
 	GnomeCanvasItemClass *item_class;
 	ECalendarItem *calitem;
 	gint char_height, width, height, space, space_per_cal, space_per_cell;
-	gint rows, cols, xthickness, ythickness;
+	gint rows, cols, xthickness, ythickness, old_month_width;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	GtkBorder padding;
@@ -1004,6 +1014,7 @@ e_calendar_item_update (GnomeCanvasItem *item,
 		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 
+	old_month_width = calitem->month_width;
 	calitem->month_width = calitem->min_month_width;
 	calitem->month_height = calitem->min_month_height;
 	calitem->cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
@@ -1054,6 +1065,10 @@ e_calendar_item_update (GnomeCanvasItem *item,
 		item->x2, item->y2);
 
 	pango_font_metrics_unref (font_metrics);
+
+	if (old_month_width != calitem->month_width) {
+		g_signal_emit (calitem, e_calendar_item_signals[MONTH_WIDTH_CHANGED], 0, NULL);
+	}
 }
 
 /*
