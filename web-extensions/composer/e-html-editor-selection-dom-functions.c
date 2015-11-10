@@ -2958,7 +2958,30 @@ set_font_style (WebKitDOMDocument *document,
 	} else {
 		WebKitDOMNode *node;
 
-		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));
+		node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (element));+
+
+		/* Turning the formatting in the middle of element. */
+		if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element))) {
+			WebKitDOMNode *clone;
+			WebKitDOMNode *sibling;
+
+			clone = webkit_dom_node_clone_node (
+				WEBKIT_DOM_NODE (parent), FALSE);
+
+			while ((sibling = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element))))
+				webkit_dom_node_insert_before (
+					clone,
+					sibling,
+					webkit_dom_node_get_first_child (clone),
+					NULL);
+
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (parent),
+				clone,
+				webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (parent)),
+				NULL);
+		}
+
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (parent),
 			WEBKIT_DOM_NODE (element),
@@ -2966,7 +2989,7 @@ set_font_style (WebKitDOMDocument *document,
 			NULL);
 		webkit_dom_node_insert_before (
 			webkit_dom_node_get_parent_node (parent),
-			WEBKIT_DOM_NODE (node),
+			node,
 			webkit_dom_node_get_next_sibling (parent),
 			NULL);
 
@@ -3525,34 +3548,9 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 			g_free (beginning);
 			g_free (end);
 		} else {
-			WebKitDOMRange *new_range;
-
-			webkit_dom_element_set_id (tt_element, "ev-tt");
-
-			webkit_dom_html_element_insert_adjacent_html (
-				WEBKIT_DOM_HTML_ELEMENT (tt_element),
-				"beforeend",
-				UNICODE_ZERO_WIDTH_SPACE,
-				NULL);
-
-			/* We need to get that element again */
-			tt_element = webkit_dom_document_get_element_by_id (
-				document, "ev-tt");
-			webkit_dom_element_remove_attribute (
-				WEBKIT_DOM_ELEMENT (tt_element), "id");
-
-			new_range = webkit_dom_document_create_range (document);
-			webkit_dom_range_set_start_after (
-				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
-			webkit_dom_range_set_end_after (
-				new_range, WEBKIT_DOM_NODE (tt_element), NULL);
-
-			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
-			webkit_dom_dom_selection_add_range (dom_selection, new_range);
-
-			webkit_dom_dom_selection_modify (
-				dom_selection, "move", "right", "character");
-			g_object_unref (new_range);
+			dom_selection_save (document);
+			set_font_style (document, "", FALSE);
+			dom_selection_restore (document);
 		}
 
 		/* Re-set formatting */
