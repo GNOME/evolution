@@ -2165,6 +2165,8 @@ body_input_event_cb (WebKitDOMElement *element,
 		mark_node_as_paragraph_after_ending_list (document, extension);
 		if (html_mode)
 			fix_paragraph_structure_after_pressing_enter_after_smiley (document);
+		if (e_html_editor_web_extension_get_return_key_pressed (extension))
+			dom_force_spell_check_for_current_paragraph (document, extension);
 	} else {
 		WebKitDOMNode *node;
 
