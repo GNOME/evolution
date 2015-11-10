@@ -323,6 +323,8 @@ static void
 save_data_free (SaveData *sd)
 {
 	if (sd) {
+		e_comp_editor_enable (sd->comp_editor, TRUE);
+
 		if (sd->success) {
 			if (sd->close_after_save) {
 				g_signal_emit (sd->comp_editor, signals[EDITOR_CLOSED], 0, TRUE, NULL);
@@ -330,7 +332,6 @@ save_data_free (SaveData *sd)
 			} else {
 				e_comp_editor_set_component (sd->comp_editor, sd->component);
 
-				e_comp_editor_enable (sd->comp_editor, TRUE);
 				e_comp_editor_fill_widgets (sd->comp_editor, sd->component);
 
 				g_clear_object (&sd->comp_editor->priv->source_client);
