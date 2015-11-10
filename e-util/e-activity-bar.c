@@ -254,8 +254,10 @@ activity_bar_dispose (GObject *object)
 	priv = E_ACTIVITY_BAR_GET_PRIVATE (object);
 
 	if (priv->timeout_id > 0) {
-		g_source_remove (priv->timeout_id);
+		guint timeout_id = priv->timeout_id;
+
 		priv->timeout_id = 0;
+		g_source_remove (timeout_id);
 	}
 
 	if (priv->activity != NULL) {
