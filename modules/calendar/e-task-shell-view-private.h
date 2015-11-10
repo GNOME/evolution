@@ -128,7 +128,8 @@ void		e_task_shell_view_actions_init
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_open_task
 					(ETaskShellView *task_shell_view,
-					 ECalModelComponent *comp_data);
+					 ECalModelComponent *comp_data,
+					 gboolean force_attendees);
 void		e_task_shell_view_delete_completed
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_update_sidebar

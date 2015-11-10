@@ -1809,6 +1809,7 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
  * @model: an #ECalModel instance
  * @client: an #ECalClient, to which the component belongs
  * @icalcomp: an #icalcomponent to open in an editor
+ * @force_attendees: set to TRUE to force to show attendees, FALSE to auto-detect
  *
  * Opens a component @icalcomp, which belongs to a @client, in
  * a component editor. This is done synchronously.
@@ -1818,7 +1819,8 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
 void
 e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 					 ECalClient *client,
-					 icalcomponent *icalcomp)
+					 icalcomponent *icalcomp,
+					 gboolean force_attendees)
 {
 	NewComponentData *ncd;
 	ECalComponent *comp;
@@ -1842,7 +1844,7 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 	ncd->shell = g_object_ref (e_cal_model_get_shell (model));
 	ncd->model = g_object_ref (model);
 	ncd->source_type = e_cal_client_get_source_type (client);
-	ncd->is_assigned = FALSE; /* will be figured out later */
+	ncd->is_assigned = force_attendees;
 	ncd->extension_name = NULL;
 	ncd->for_client_uid = NULL;
 	ncd->default_source = NULL;

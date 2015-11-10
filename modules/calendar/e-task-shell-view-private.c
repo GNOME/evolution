@@ -90,6 +90,16 @@ task_shell_view_hide_completed_tasks_changed_cb (GSettings *settings,
 }
 
 static void
+task_shell_view_table_open_component_cb (ETaskShellView *task_shell_view,
+					 ECalModelComponent *comp_data)
+{
+	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
+	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	e_task_shell_view_open_task (task_shell_view, comp_data, FALSE);
+}
+
+static void
 task_shell_view_table_popup_event_cb (EShellView *shell_view,
                                       GdkEvent *button_event)
 {
@@ -233,7 +243,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	handler_id = g_signal_connect_swapped (
 		priv->task_table, "open-component",
-		G_CALLBACK (e_task_shell_view_open_task),
+		G_CALLBACK (task_shell_view_table_open_component_cb),
 		task_shell_view);
 	priv->open_component_handler_id = handler_id;
 
@@ -478,7 +488,8 @@ e_task_shell_view_private_finalize (ETaskShellView *task_shell_view)
 
 void
 e_task_shell_view_open_task (ETaskShellView *task_shell_view,
-                             ECalModelComponent *comp_data)
+                             ECalModelComponent *comp_data,
+			     gboolean force_attendees)
 {
 	EShellContent *shell_content;
 	ECalModel *model;
@@ -489,7 +500,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (task_shell_view));
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (shell_content));
 
-	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp);
+	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp, force_attendees);
 }
 
 void

@@ -97,7 +97,8 @@ void	e_cal_ops_new_component_editor_from_model
 						 gboolean all_day);
 void	e_cal_ops_open_component_in_editor_sync	(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *icalcomp);
+						 icalcomponent *icalcomp,
+						 gboolean force_attendees);
 
 void	e_cal_ops_transfer_components		(EShellView *shell_view,
 						 ECalModel *model,
