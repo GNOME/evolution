@@ -631,6 +631,103 @@ ece_save_component_done (gpointer ptr)
 	save_data_free (sd);
 }
 
+static gboolean
+ece_save_component_attachments_sync (ECalClient *cal_client,
+				     icalcomponent *component,
+				     GCancellable *cancellable,
+				     GError **error)
+{
+	icalproperty *prop;
+	gchar *target_filename_prefix, *filename_prefix, *tmp;
+	gboolean success = TRUE;
+
+	g_return_val_if_fail (E_IS_CAL_CLIENT (cal_client), FALSE);
+	g_return_val_if_fail (component != NULL, FALSE);
+
+	tmp = g_strdup (icalcomponent_get_uid (component));
+	e_filename_make_safe (tmp);
+	filename_prefix = g_strconcat (tmp, "-", NULL);
+	g_free (tmp);
+
+	target_filename_prefix = g_build_filename (
+		e_cal_client_get_local_attachment_store (cal_client),
+		filename_prefix, NULL);
+
+	g_free (filename_prefix);
+
+	for (prop = icalcomponent_get_first_property (component, ICAL_ATTACH_PROPERTY);
+	     prop && success;
+	     prop = icalcomponent_get_next_property (component, ICAL_ATTACH_PROPERTY)) {
+		icalattach *attach;
+		gchar *uri = NULL;
+
+		attach = icalproperty_get_attach (prop);
+		if (!attach)
+			continue;
+
+		if (icalattach_get_is_url (attach)) {
+			const gchar *data;
+			gsize buf_size;
+
+			data = icalattach_get_url (attach);
+			buf_size = strlen (data);
+			uri = g_malloc0 (buf_size + 1);
+
+			icalvalue_decode_ical_string (data, uri, buf_size);
+		}
+
+		if (uri) {
+			if (g_ascii_strncasecmp (uri, "file://", 7) == 0 &&
+			    !g_str_has_prefix (uri + 7, target_filename_prefix)) {
+				GFile *source, *destination;
+				gchar *target_filename;
+
+				target_filename = g_strconcat (target_filename_prefix, strrchr (uri, '/') + 1, NULL);
+
+				source = g_file_new_for_uri (uri);
+				destination = g_file_new_for_path (target_filename);
+
+				if (source && destination) {
+					success = g_file_copy (source, destination, G_FILE_COPY_OVERWRITE, cancellable, NULL, NULL, error);
+					if (success) {
+						g_free (uri);
+						uri = g_file_get_uri (destination);
+
+						if (uri) {
+							icalattach *new_attach;
+							gsize buf_size;
+							gchar *buf;
+
+							buf_size = 2 * strlen (uri) + 1;
+							buf = g_malloc0 (buf_size);
+
+							icalvalue_encode_ical_string (uri, buf, buf_size);
+							new_attach = icalattach_new_from_url (buf);
+
+							icalproperty_set_attach (prop, new_attach);
+
+							icalattach_unref (new_attach);
+							g_free (buf);
+						}
+					}
+				}
+
+				g_clear_object (&source);
+				g_clear_object (&destination);
+				g_free (target_filename);
+			}
+
+			g_free (uri);
+		}
+
+		success = success & !g_cancellable_set_error_if_cancelled (cancellable, error);
+	}
+
+	g_free (target_filename_prefix);
+
+	return success;
+}
+
 static void
 ece_gather_tzids_cb (icalparameter *param,
 		     gpointer user_data)
@@ -739,6 +836,12 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 	sd->success = ece_save_component_add_timezones_sync (sd, cancellable, error);
 	if (!sd->success) {
 		e_alert_sink_thread_job_set_alert_ident (job_data, "calendar:failed-add-timezone");
+		return;
+	}
+
+	sd->success = ece_save_component_attachments_sync (sd->target_client, sd->component, cancellable, error);
+	if (!sd->success) {
+		e_alert_sink_thread_job_set_alert_ident (job_data, "calendar:failed-save-attachments");
 		return;
 	}
 

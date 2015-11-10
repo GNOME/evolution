@@ -462,6 +462,7 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		prop = icalproperty_new_attach (attach);
 		icalcomponent_add_property (component, prop);
 
+		icalattach_unref (attach);
 		g_free (buf);
 		g_free (uri);
 	}
