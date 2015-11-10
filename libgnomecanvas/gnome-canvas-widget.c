@@ -182,6 +182,19 @@ gnome_canvas_widget_dispose (GnomeCanvasItem *object)
 		dispose (object);
 }
 
+static gboolean
+reposition_widget_cb (gpointer user_data)
+{
+	GnomeCanvasWidget *witem = user_data;
+
+	g_return_val_if_fail (GNOME_IS_CANVAS_WIDGET (witem), FALSE);
+
+	if (witem->widget)
+		gtk_widget_queue_resize (witem->widget);
+
+	return FALSE;
+}
+
 static void
 recalc_bounds (GnomeCanvasWidget *witem)
 {
@@ -207,11 +220,28 @@ recalc_bounds (GnomeCanvasWidget *witem)
 	item->x2 = witem->cx + witem->cwidth;
 	item->y2 = witem->cy + witem->cheight;
 
-	if (witem->widget)
-		gtk_layout_move (
-			GTK_LAYOUT (item->canvas), witem->widget,
-			witem->cx + item->canvas->zoom_xofs,
-			witem->cy + item->canvas->zoom_yofs);
+	if (witem->widget) {
+		gint current_x = 0, current_y = 0;
+
+		gtk_container_child_get (GTK_CONTAINER (item->canvas), witem->widget,
+			"x", &current_x,
+			"y", &current_y,
+			NULL);
+
+		if (current_x != ((gint) (witem->cx + item->canvas->zoom_xofs)) ||
+		    current_y != ((gint) (witem->cy + item->canvas->zoom_yofs))) {
+			gtk_layout_move (
+				GTK_LAYOUT (item->canvas), witem->widget,
+				witem->cx + item->canvas->zoom_xofs,
+				witem->cy + item->canvas->zoom_yofs);
+
+			/* This is needed, because the gtk_layout_move() calls gtk_widget_queue_resize(),
+			   which can be silently ignored when called inside "size-allocate" handler, causing
+			   misposition of the child widget. */
+			g_idle_add_full (G_PRIORITY_HIGH_IDLE,
+				reposition_widget_cb, g_object_ref (witem), g_object_unref);
+		}
+	}
 }
 
 static void
