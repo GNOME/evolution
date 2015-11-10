@@ -393,6 +393,8 @@ picture_gallery_dispose (GObject *object)
 		gallery->priv->monitor = NULL;
 	}
 
+	g_free (gallery->priv->path);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_picture_gallery_parent_class)->dispose (object);
 }

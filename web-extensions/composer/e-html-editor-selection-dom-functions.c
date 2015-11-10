@@ -3447,6 +3447,7 @@ dom_selection_set_monospaced (WebKitDOMDocument *document,
 				g_object_unref (range);
 				g_object_unref (dom_selection);
 				g_object_unref (dom_window);
+				g_free (ev);
 				return;
 			}
 		}
@@ -3889,8 +3890,10 @@ dom_selection_get_font_size (WebKitDOMDocument *document,
 	guint size_int;
 
 	size = get_font_property (document, "size");
-	if (!(size && *size))
+	if (!(size && *size)) {
+		g_free (size);
 		return E_HTML_EDITOR_SELECTION_FONT_SIZE_NORMAL;
+	}
 
 	size_int = atoi (size);
 	g_free (size);
@@ -4107,9 +4110,12 @@ dom_selection_get_font_color (WebKitDOMDocument *document,
 		WebKitDOMHTMLElement *body;
 
 		body = webkit_dom_document_get_body (document);
+		g_free (color);
 		color = webkit_dom_html_body_element_get_text (WEBKIT_DOM_HTML_BODY_ELEMENT (body));
-		if (!(color && *color))
+		if (!(color && *color)) {
+			g_free (color);
 			return g_strdup ("#000000");
+		}
 	}
 
 	return color;
