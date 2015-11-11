@@ -1725,6 +1725,8 @@ static void gnome_canvas_size_allocate       (GtkWidget        *widget,
 					      GtkAllocation    *allocation);
 static gint gnome_canvas_draw                (GtkWidget        *widget,
 					      cairo_t          *cr);
+static void gnome_canvas_drag_end            (GtkWidget        *widget,
+					      GdkDragContext   *context);
 static gint gnome_canvas_button              (GtkWidget        *widget,
 					      GdkEventButton   *event);
 static gint gnome_canvas_motion              (GtkWidget        *widget,
@@ -1874,6 +1876,7 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 	widget_class->unrealize = gnome_canvas_unrealize;
 	widget_class->size_allocate = gnome_canvas_size_allocate;
 	widget_class->draw = gnome_canvas_draw;
+	widget_class->drag_end = gnome_canvas_drag_end;
 	widget_class->button_press_event = gnome_canvas_button;
 	widget_class->button_release_event = gnome_canvas_button;
 	widget_class->motion_notify_event = gnome_canvas_motion;
@@ -2318,6 +2321,20 @@ gnome_canvas_draw (GtkWidget *widget,
 	GTK_WIDGET_CLASS (gnome_canvas_parent_class)->draw (widget, cr);
 
 	return FALSE;
+}
+
+static void
+gnome_canvas_drag_end (GtkWidget *widget,
+		       GdkDragContext *context)
+{
+	GnomeCanvas *canvas = GNOME_CANVAS (widget);
+
+	if (canvas->grabbed_item) {
+		gnome_canvas_item_ungrab (canvas->grabbed_item, GDK_CURRENT_TIME);
+	}
+
+	if (GTK_WIDGET_CLASS (gnome_canvas_parent_class)->drag_end)
+		GTK_WIDGET_CLASS (gnome_canvas_parent_class)->drag_end (widget, context);
 }
 
 /* Emits an event for an item in the canvas, be it the current item, grabbed
