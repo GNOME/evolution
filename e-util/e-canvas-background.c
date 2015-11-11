@@ -170,25 +170,6 @@ ecb_get_property (GObject *object,
 	}
 }
 
-static gboolean
-ecb_event (GnomeCanvasItem *item,
-           GdkEvent *event)
-{
-	guint event_button = 0;
-
-	g_return_val_if_fail (E_IS_CANVAS_BACKGROUND (item), FALSE);
-	g_return_val_if_fail (event != NULL, FALSE);
-
-	gdk_event_get_button (event, &event_button);
-
-	if (event->type == GDK_BUTTON_PRESS && (event_button == 1 || event_button == 2)) {
-		e_canvas_item_grab_focus (item, TRUE);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static void
 ecb_init (ECanvasBackground *ecb)
 {
@@ -246,7 +227,6 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	object_class->set_property = ecb_set_property;
 	object_class->get_property = ecb_get_property;
 
-	item_class->event = ecb_event;
 	item_class->update = ecb_update;
 	item_class->draw = ecb_draw;
 	item_class->point = ecb_point;

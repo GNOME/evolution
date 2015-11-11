@@ -1210,8 +1210,15 @@ white_item_event (GnomeCanvasItem *white_item,
 		signals[WHITE_SPACE_EVENT], 0,
 		event, &return_val);
 
-	if (!return_val && tree->priv->item) {
-		g_signal_emit_by_name (tree->priv->item, "event", event, &return_val);
+	if (!return_val && event && tree->priv->item) {
+		guint event_button = 0;
+
+		gdk_event_get_button (event, &event_button);
+
+		if (event->type == GDK_BUTTON_PRESS && (event_button == 1 || event_button == 2)) {
+			gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (tree->priv->item));
+			return_val = TRUE;
+		}
 	}
 
 	return return_val;
