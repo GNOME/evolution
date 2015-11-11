@@ -467,6 +467,7 @@ regen_data_new (MessageList *message_list,
 	regen_data->ref_count = 1;
 	regen_data->activity = g_object_ref (activity);
 	regen_data->message_list = g_object_ref (message_list);
+	regen_data->folder = message_list_ref_folder (message_list);
 	regen_data->last_row = -1;
 
 	if (message_list->just_set_folder)
@@ -5370,14 +5371,23 @@ void
 message_list_set_search (MessageList *message_list,
                          const gchar *search)
 {
+	RegenData *current_regen_data;
+
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	if (search == NULL || search[0] == '\0')
+	current_regen_data = message_list_ref_regen_data (message_list);
+
+	if (!current_regen_data && (search == NULL || search[0] == '\0'))
 		if (message_list->search == NULL || message_list->search[0] == '\0')
 			return;
 
-	if (search != NULL && message_list->search != NULL && strcmp (search, message_list->search) == 0)
+	if (!current_regen_data && search != NULL && message_list->search != NULL &&
+	    strcmp (search, message_list->search) == 0) {
 		return;
+	}
+
+	if (current_regen_data)
+		regen_data_unref (current_regen_data);
 
 	/* Invalidate the thread tree. */
 	message_list_set_thread_tree (message_list, NULL);
@@ -6124,8 +6134,6 @@ message_list_regen_idle_cb (gpointer user_data)
 
 	/* Capture MessageList state to use for this regen. */
 
-	regen_data->folder =
-		message_list_ref_folder (message_list);
 	regen_data->group_by_threads =
 		message_list_get_group_by_threads (message_list);
 	regen_data->thread_subject =
@@ -6220,14 +6228,15 @@ mail_regen_list (MessageList *message_list,
 	if (!search) {
 		old_regen_data = message_list_ref_regen_data (message_list);
 
-		if (old_regen_data) {
+		if (old_regen_data && old_regen_data->folder == message_list->priv->folder) {
 			tmp_search_copy = g_strdup (old_regen_data->search);
 			search = tmp_search_copy;
-
-			regen_data_unref (old_regen_data);
 		} else {
 			search = message_list->search;
 		}
+
+		if (old_regen_data)
+			regen_data_unref (old_regen_data);
 	} else if (search && !*search) {
 		search = NULL;
 	}
