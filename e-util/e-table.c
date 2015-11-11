@@ -1283,24 +1283,39 @@ get_first_etable_item (ETableGroup *table_group)
 	return res;
 }
 
+/* Finds the first descendant of the group that is an ETableItem and focuses it */
+static void
+focus_first_etable_item (ETableGroup *group)
+{
+	ETableItem *item;
+
+	item = get_first_etable_item (group);
+	if (item) {
+		e_table_item_set_cursor (item, 0, 0);
+		gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (item));
+	}
+}
+
 static gboolean
 white_item_event (GnomeCanvasItem *white_item,
                   GdkEvent *event,
                   ETable *e_table)
 {
-	gboolean return_val = 0;
+	gboolean return_val = FALSE;
 
 	g_signal_emit (
 		e_table, et_signals[WHITE_SPACE_EVENT], 0,
 		event, &return_val);
 
-	if (!return_val && e_table->group) {
-		ETableItem *item;
+	if (!return_val && event && e_table->group) {
+		guint event_button = 0;
 
-		item = get_first_etable_item (e_table->group);
+		gdk_event_get_button (event, &event_button);
 
-		if (item)
-			g_signal_emit_by_name (item, "event", event, &return_val);
+		if (event->type == GDK_BUTTON_PRESS && (event_button == 1 || event_button == 2)) {
+			focus_first_etable_item (e_table->group);
+			return_val = TRUE;
+		}
 	}
 
 	return return_val;
@@ -1339,19 +1354,6 @@ et_canvas_root_event (GnomeCanvasItem *root,
 	}
 
 	return FALSE;
-}
-
-/* Finds the first descendant of the group that is an ETableItem and focuses it */
-static void
-focus_first_etable_item (ETableGroup *group)
-{
-	ETableItem *item;
-
-	item = get_first_etable_item (group);
-	if (item) {
-		e_table_item_set_cursor (item, 0, 0);
-		gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (item));
-	}
 }
 
 /* Handler for focus events in the table_canvas; we have to repaint ourselves
