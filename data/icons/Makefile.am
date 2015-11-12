@@ -66,6 +66,7 @@ private_icons = \
 	hicolor_apps_scalable_im-yahoo.svg \
 	hicolor_actions_16x16_folder-copy.png \
 	hicolor_actions_16x16_folder-move.png \
+	hicolor_actions_16x16_mail-archive.png \
 	hicolor_actions_16x16_mail-copy.png \
 	hicolor_actions_16x16_mail-move.png \
 	hicolor_actions_16x16_go-today.png \
@@ -81,6 +82,7 @@ private_icons = \
 	hicolor_actions_22x22_view-calendar-week.png \
 	hicolor_actions_22x22_view-calendar-workweek.png \
 	hicolor_actions_24x24_go-today.png \
+	hicolor_actions_24x24_mail-archive.png \
 	hicolor_actions_24x24_query-free-busy.png \
 	hicolor_actions_24x24_view-calendar-day.png \
 	hicolor_actions_24x24_view-calendar-list.png \

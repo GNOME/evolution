@@ -142,6 +142,7 @@
       <toolitem action='mail-delete'/>
       <toolitem action='mail-mark-junk'/>
       <toolitem action='mail-mark-notjunk'/>
+      <toolitem action='mail-archive'/>
     </placeholder>
     <separator/>
     <placeholder name='mail-toolbar-navigation'>

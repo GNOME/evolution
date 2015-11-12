@@ -1968,7 +1968,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	  G_CALLBACK (action_mail_add_sender_cb) },
 
 	{ "mail-archive",
-	  NULL,
+	  "mail-archive",
 	  N_("_Archive..."),
 	  "<Alt><Control>a",
 	  N_("Move selected messages to the Archive folder for the account"),
