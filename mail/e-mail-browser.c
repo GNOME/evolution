@@ -587,7 +587,7 @@ mail_browser_dispose (GObject *object)
 	if (priv->message_list != NULL) {
 		/* This will cancel a regen operation. */
 		gtk_widget_destroy (priv->message_list);
-		priv->message_list = NULL;
+		g_clear_object (&priv->message_list);
 	}
 
 	/* Chain up to parent's dispose() method. */
