@@ -1416,7 +1416,11 @@ shell_dispose (GObject *object)
 	g_clear_object (&priv->registry);
 	g_clear_object (&priv->credentials_prompter);
 	g_clear_object (&priv->client_cache);
-	g_clear_object (&priv->preferences_window);
+
+	if (priv->preferences_window) {
+		gtk_widget_destroy (priv->preferences_window);
+		priv->preferences_window = NULL;
+	}
 
 	if (priv->preparing_for_line_change != NULL) {
 		g_object_remove_weak_pointer (
@@ -1936,8 +1940,6 @@ e_shell_init (EShell *shell)
 	shell->priv->backends_by_name = backends_by_name;
 	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
-
-	g_object_ref_sink (shell->priv->preferences_window);
 
 	/* Add our icon directory to the theme's search path
 	 * here instead of in main() so Anjal picks it up. */

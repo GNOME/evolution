@@ -1831,13 +1831,15 @@ free_cert (GtkTreeModel *model,
            gpointer user_data)
 {
 	CertPage *cp = user_data;
-	ECert *cert;
+	ECert *cert = NULL;
 
 	gtk_tree_model_get (model, iter, cp->columns_count - 1, &cert, -1);
 
-	/* Double unref: one for gtk_tree_model_get() and one for e_cert_new() */
-	g_object_unref (cert);
-	g_object_unref (cert);
+	if (cert) {
+		/* Double unref: one for gtk_tree_model_get() and one for e_cert_new() */
+		g_object_unref (cert);
+		g_object_unref (cert);
+	}
 }
 
 static void
