@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
 "POT-Creation-Date: 2015-11-13 17:50+0000\n"
-"PO-Revision-Date: 2015-11-14 01:13+0300\n"
+"PO-Revision-Date: 2015-11-14 01:19+0300\n"
 "Last-Translator: Stas Solovey <whats_up@tut.by>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
@@ -753,7 +753,7 @@ msgstr "_Открыть"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3522
 #| msgid "Choose an iCalendar file"
 msgid "Chosen file is not a local file."
-msgstr "Выберите файл не является локальным."
+msgstr "Выбранный файл не является локальным."
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3304
 #, c-format
