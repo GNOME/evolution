@@ -5646,8 +5646,13 @@ key_press_event_process_delete_or_backspace_key (EHTMLEditorView *view,
 		}
 
 		last_child = webkit_dom_node_get_last_child (prev_block);
-		while (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (last_child))
+		while (last_child && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (last_child))
 			last_child = webkit_dom_node_get_last_child (last_child);
+
+		if (!last_child) {
+			e_html_editor_selection_restore (selection);
+			return FALSE;
+		}
 
 		remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (last_child));
 		remove_quoting_from_element (WEBKIT_DOM_ELEMENT (last_child));
