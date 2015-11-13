@@ -654,14 +654,16 @@ main (gint argc,
 	gtk_main ();
 
 exit:
+	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=737949 */
+	g_signal_emit_by_name (shell, "shutdown");
+
 	/* Drop what should be the last reference to the shell.
 	 * That will cause e_shell_get_default() to henceforth
 	 * return NULL.  Use that to check for reference leaks. */
 	g_object_unref (shell);
 
 	if (e_shell_get_default () != NULL) {
-		/* Mute the warning, due to https://bugzilla.gnome.org/show_bug.cgi?id=737949
-		g_warning ("Shell not finalized on exit"); */
+		g_warning ("Shell not finalized on exit");
 
 		/* To not run in the safe mode the next start */
 		if (e_file_lock_get_pid () == getpid ())
