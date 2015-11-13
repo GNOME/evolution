@@ -6970,6 +6970,7 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 	gboolean ignore_next_br = FALSE;
 	gboolean first_element = TRUE;
 	gboolean citation_was_first_element = FALSE;
+	gboolean previously_had_empty_citation_start = FALSE;
 	const gchar *prev_br, *next_br;
 	GRegex *regex_nbsp = NULL, *regex_link = NULL, *regex_email = NULL;
 	WebKitDOMElement *paragraph = NULL;
@@ -7012,17 +7013,28 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 				ignore_next_br = TRUE;
 				if (paragraph)
 					append_new_paragraph (blockquote, &paragraph);
+			} else {
+				previously_had_empty_citation_start = TRUE;
 			}
 
 			citation_end = strstr (citation + 2, "##");
 			if (citation_end)
 				rest = citation_end + 2;
 
+			if (rest && *rest)
+				previously_had_empty_citation_start = FALSE;
+
 			if (first_element)
 				citation_was_first_element = TRUE;
 
 			if (paragraph)
 				append_new_paragraph (blockquote, &paragraph);
+			else if (with_br && rest && !*rest && previously_had_empty_citation_start && ignore_next_br) {
+				/* Insert an empty block for an empty blockquote */
+				paragraph = create_and_append_new_paragraph (
+					selection, document, blockquote, block, "<br>");
+				previously_had_empty_citation_start = FALSE;
+			}
 
 			citation_mark = g_utf8_substring (
 				citation, 0, g_utf8_pointer_to_offset (citation, rest));
@@ -7030,9 +7042,11 @@ parse_html_into_paragraphs (EHTMLEditorView *view,
 			append_citation_mark (document, blockquote, citation_mark);
 
 			g_free (citation_mark);
-		} else
+		} else {
 			rest = with_br ?
 				to_insert + 4 + (with_br - to_insert) : to_insert;
+			previously_had_empty_citation_start = FALSE;
+		}
 
 		if (!rest) {
 			preserve_next_line = FALSE;
