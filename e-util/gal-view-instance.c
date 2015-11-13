@@ -142,7 +142,7 @@ connect_view (GalViewInstance *instance,
 
 	if (instance->current_view)
 		disconnect_view (instance);
-	instance->current_view = g_object_ref (view);
+	instance->current_view = view;
 
 	view_class = GAL_VIEW_GET_CLASS (view);
 
