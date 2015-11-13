@@ -3196,14 +3196,19 @@ remove_node_and_parents_if_empty (WebKitDOMNode *node)
 }
 
 static void
-merge_siblings_if_necessarry (WebKitDOMDocument *document,
-                              WebKitDOMDocumentFragment *deleted_content)
+merge_siblings_if_necessary (WebKitDOMDocument *document,
+                             WebKitDOMDocumentFragment *deleted_content)
 {
 	gboolean equal_nodes;
+	gint ii, length;
 	WebKitDOMElement *element, *prev_element;
 	WebKitDOMNode *child;
+	WebKitDOMNodeList *list;
 
-	element = webkit_dom_document_query_selector (document, "blockquote + blockquote", NULL);
+	if ((element = webkit_dom_document_get_element_by_id (document, "-x-evo-main-cite")))
+		webkit_dom_element_remove_attribute (element, "id");
+
+	element = webkit_dom_document_query_selector (document, "blockquote:not([data-evo-query-skip]) + blockquote", NULL);
 	if (!element)
 		goto signature;
  repeat:
@@ -3230,13 +3235,25 @@ merge_siblings_if_necessarry (WebKitDOMDocument *document,
 					NULL);
 			remove_node (WEBKIT_DOM_NODE (prev_element));
 		}
-	}
+	} else
+		webkit_dom_element_set_attribute (element, "data-evo-query-skip", "", NULL);
 
-	element = webkit_dom_document_query_selector (document, "blockquote + blockquote", NULL);
+	element = webkit_dom_document_query_selector (document, "blockquote:not([data-evo-query-skip]) + blockquote", NULL);
 	if (element)
 		goto repeat;
 
  signature:
+	list = webkit_dom_document_query_selector_all (
+		document, "blockquote[data-evo-query-skip]", NULL);
+	length = webkit_dom_node_list_get_length (list);
+	for  (ii = 0; ii < length; ii++) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
+		webkit_dom_element_remove_attribute (
+			WEBKIT_DOM_ELEMENT (node), "data-evo-query-skip");
+		g_object_unref (node);
+	}
+	g_object_unref (list);
+
 	if (!deleted_content)
 		return;
 
@@ -3381,7 +3398,7 @@ body_key_up_event_process_backspace_or_delete (EHTMLEditorView *view,
 			NULL);
 	}
 
-	merge_siblings_if_necessarry (document, NULL);
+	merge_siblings_if_necessary (document, NULL);
 
 	e_html_editor_selection_restore (selection);
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
@@ -4595,7 +4612,12 @@ save_history_for_delete_or_backspace (EHTMLEditorView *view,
 
 			node = WEBKIT_DOM_NODE (tmp_element);
 			while (!WEBKIT_DOM_IS_HTML_BODY_ELEMENT (webkit_dom_node_get_parent_node (node))) {
-				if (webkit_dom_node_get_next_sibling (node))
+				WebKitDOMNode *next_sibling;
+
+				next_sibling = webkit_dom_node_get_next_sibling (node);
+				if (next_sibling &&
+				    (!WEBKIT_DOM_IS_HTMLBR_ELEMENT (next_sibling) ||
+				     webkit_dom_node_get_next_sibling (next_sibling)))
 					break;
 				node = webkit_dom_node_get_parent_node (node);
 			}
@@ -7919,6 +7941,8 @@ html_editor_convert_view_content (EHTMLEditorView *view,
 	paragraph = webkit_dom_document_query_selector (document, "br.-x-evo-first-br", NULL);
 	if (paragraph)
 		webkit_dom_element_remove_attribute (paragraph, "class");
+
+	merge_siblings_if_necessary (document, NULL);
 
 	if (!e_html_editor_view_get_html_mode (view)) {
 		e_html_editor_selection_wrap_paragraphs_in_document (
@@ -12666,7 +12690,18 @@ undo_delete (EHTMLEditorView *view,
 					if (tmp_element)
 						remove_node (WEBKIT_DOM_NODE (tmp_element));
 
-					merge_siblings_if_necessarry (document, event->data.fragment);
+					merge_siblings_if_necessary (document, event->data.fragment);
+
+					tmp_node = webkit_dom_node_get_last_child (last_child);
+					if (tmp_node && WEBKIT_DOM_IS_ELEMENT (tmp_node) &&
+					    element_has_class (WEBKIT_DOM_ELEMENT (tmp_node), "-x-evo-quoted")) {
+						webkit_dom_node_append_child (
+							last_child,
+							WEBKIT_DOM_NODE (
+								webkit_dom_document_create_element (
+									document, "br", NULL)),
+							NULL);
+					}
 
 					remove_selection_markers (document);
 
@@ -12740,7 +12775,7 @@ undo_delete (EHTMLEditorView *view,
 		if (WEBKIT_DOM_IS_ELEMENT (last_child))
 			wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (last_child));
 
-		merge_siblings_if_necessarry (document, event->data.fragment);
+		merge_siblings_if_necessary (document, event->data.fragment);
 
 		e_html_editor_selection_restore (selection);
 		e_html_editor_view_force_spell_check_in_viewport (view);
@@ -13985,7 +14020,7 @@ undo_redo_citation_split (EHTMLEditorView *view,
 		if (event->data.fragment &&
 		    !webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (event->data.fragment))) {
 			remove_node (WEBKIT_DOM_NODE (parent));
-			merge_siblings_if_necessarry (document, NULL);
+			merge_siblings_if_necessary (document, NULL);
 			restore_selection_to_history_event_state (view, event->before);
 
 			return;
@@ -14055,7 +14090,7 @@ undo_redo_citation_split (EHTMLEditorView *view,
 		if (event->data.fragment != NULL && !in_situ)
 			undo_delete (view, event);
 
-		merge_siblings_if_necessarry (document, NULL);
+		merge_siblings_if_necessary (document, NULL);
 
 		restore_selection_to_history_event_state (view, event->before);
 
