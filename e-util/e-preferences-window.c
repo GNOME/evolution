@@ -208,6 +208,9 @@ preferences_window_dispose (GObject *object)
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
 
 	if (priv->icon_view != NULL) {
+		g_signal_handlers_disconnect_by_func (priv->icon_view,
+			G_CALLBACK (preferences_window_selection_changed_cb), object);
+
 		g_object_unref (priv->icon_view);
 		priv->icon_view = NULL;
 	}
