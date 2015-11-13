@@ -1438,23 +1438,41 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 	node = webkit_dom_range_get_end_container (range, NULL);
 
-	if (view->priv->return_key_pressed)
-		node = webkit_dom_node_get_previous_sibling (node);
+	if (view->priv->return_key_pressed) {
+		WebKitDOMNode* block;
+
+		node = webkit_dom_range_get_end_container (range, NULL);
+		block = e_html_editor_get_parent_block_node_from_child (node);
+		/* Get previous block */
+		block = webkit_dom_node_get_previous_sibling (block);
+		/* If block is quoted content, get the last block there */
+		while (block && WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (block))
+			block = webkit_dom_node_get_last_child (block);
+
+		/* Get the last non-empty node */
+		node = webkit_dom_node_get_last_child (block);
+		if (WEBKIT_DOM_IS_CHARACTER_DATA (node) &&
+		    webkit_dom_character_data_get_length (WEBKIT_DOM_CHARACTER_DATA (node)) == 0)
+			node = webkit_dom_node_get_previous_sibling (node);
+	} else {
+		e_html_editor_selection_save (view->priv->selection);
+		node = webkit_dom_range_get_end_container (range, NULL);
+	}
 
 	if (!node)
-		return;
+		goto out;
 
 	if (!WEBKIT_DOM_IS_TEXT (node)) {
 		if (webkit_dom_node_has_child_nodes (node))
 			node = webkit_dom_node_get_first_child (node);
 		if (!WEBKIT_DOM_IS_TEXT (node))
-			return;
+			goto out;
 	}
 
 	node_text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
 	if (!(node_text && *node_text) || !g_utf8_validate (node_text, -1, NULL)) {
 		g_free (node_text);
-		return;
+		goto out;
 	}
 
 	if (strstr (node_text, "@") && !strstr (node_text, "://")) {
@@ -1465,7 +1483,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 	if (!regex) {
 		g_free (node_text);
-		return;
+		goto out;
 	}
 
 	g_regex_match_all (regex, node_text, G_REGEX_MATCH_NOTEMPTY, &match_info);
@@ -1476,13 +1494,10 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 		gchar *final_url, *url_end_raw, *url_text;
 		glong url_start, url_end, url_length;
 		WebKitDOMDocument *document;
-		WebKitDOMText *url_text_node;
+		WebKitDOMNode *url_text_node;
 		WebKitDOMElement *anchor;
 
 		document = webkit_web_view_get_dom_document (WEBKIT_WEB_VIEW (view));
-
-		if (!view->priv->return_key_pressed)
-			e_html_editor_selection_save (view->priv->selection);
 
 		g_match_info_fetch_pos (match_info, 0, &start_pos_url, &end_pos_url);
 
@@ -1511,7 +1526,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 
 		webkit_dom_text_split_text (
 			WEBKIT_DOM_TEXT (node), url_start, NULL);
-		url_text_node = WEBKIT_DOM_TEXT (webkit_dom_node_get_next_sibling (node));
+		url_text_node = webkit_dom_node_get_next_sibling (node);
 		url_text = webkit_dom_character_data_get_data (
 			WEBKIT_DOM_CHARACTER_DATA (url_text_node));
 
@@ -1540,9 +1555,6 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			WEBKIT_DOM_NODE (anchor),
 			WEBKIT_DOM_NODE (url_text_node),
 			NULL);
-
-		if (!view->priv->return_key_pressed)
-			e_html_editor_selection_restore (view->priv->selection);
 
 		g_free (url_end_raw);
 		g_free (final_url);
@@ -1588,7 +1600,7 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			g_regex_unref (regex);
 			g_free (node_text);
 			g_free (text_to_append);
-			return;
+			goto out;
 		}
 
 		/* edit only if href and description are the same */
@@ -1687,6 +1699,9 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 	g_match_info_free (match_info);
 	g_regex_unref (regex);
 	g_free (node_text);
+ out:
+	if (!view->priv->return_key_pressed)
+		e_html_editor_selection_restore (view->priv->selection);
 }
 
 typedef struct _LoadContext LoadContext;
@@ -5443,7 +5458,15 @@ key_press_event_process_return_key (EHTMLEditorView *view)
 	if (e_html_editor_selection_is_citation (selection)) {
 		remove_input_event_listener_from_body (view);
 		if (split_citation (view)) {
+			WebKitDOMRange *range;
+
+			view->priv->return_key_pressed = TRUE;
+			range = html_editor_view_get_dom_range (view);
+			html_editor_view_check_magic_links (view, range, FALSE);
+			view->priv->return_key_pressed = FALSE;
+			g_object_unref (range);
 			e_html_editor_view_set_changed (view, TRUE);
+
 			return TRUE;
 		}
 		return FALSE;
@@ -12447,8 +12470,6 @@ undo_delete (EHTMLEditorView *view,
 	    g_object_get_data (G_OBJECT (event->data.fragment), "-x-evo-return-key"))) {
 		if (key_press_event_process_return_key (view)) {
 			body_key_up_event_process_return_key (view);
-			e_html_editor_view_force_spell_check_in_viewport (view);
-			return;
 		} else {
 			WebKitDOMElement *element;
 			WebKitDOMNode *next_sibling;
@@ -12479,9 +12500,16 @@ undo_delete (EHTMLEditorView *view,
 					NULL);
 			}
 			e_html_editor_selection_restore (selection);
-
-			return;
 		}
+
+		view->priv->return_key_pressed = TRUE;
+		range = html_editor_view_get_dom_range (view);
+		html_editor_view_check_magic_links (view, range, FALSE);
+		view->priv->return_key_pressed = FALSE;
+		g_object_unref (range);
+		e_html_editor_view_force_spell_check_in_viewport (view);
+
+		return;
 	}
 
 	if (!single_block) {
@@ -13855,6 +13883,12 @@ undo_input (EHTMLEditorView *view,
 	if (remove_anchor) {
 		WebKitDOMNode *child;
 
+		/* Don't ask me why, but I got into the situation where the node
+		 * that I received above was out of the document, and all the
+		 * modifications to it were of course not propagated to it. Let's
+		 * get that node again. */
+		node = webkit_dom_dom_selection_get_anchor_node (dom_selection);
+		node = webkit_dom_node_get_parent_node (node);
 		while ((child = webkit_dom_node_get_first_child (node)))
 			webkit_dom_node_insert_before (
 				webkit_dom_node_get_parent_node (node), child, node, NULL);
@@ -14157,8 +14191,11 @@ e_html_editor_view_redo (EHTMLEditorView *view)
 					WEBKIT_DOM_NODE (event->data.fragment));
 				text_content = webkit_dom_node_get_text_content (first_child);
 				/* Call magic links when the space was pressed. */
-				if (g_str_has_prefix (text_content, UNICODE_NBSP))
-					html_editor_view_check_magic_links (view, range, TRUE);
+				if (g_str_has_prefix (text_content, UNICODE_NBSP)) {
+					view->priv->space_key_pressed = TRUE;
+					html_editor_view_check_magic_links (view, range, FALSE);
+					view->priv->space_key_pressed = FALSE;
+				}
 				g_free (text_content);
 				g_object_unref (range);
 			}
