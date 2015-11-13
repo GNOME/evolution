@@ -12503,6 +12503,7 @@ undo_delete (EHTMLEditorView *view,
 			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 			webkit_dom_dom_selection_add_range (dom_selection, range);
 			g_object_unref (dom_selection);
+			g_object_unref (range);
 
 			e_html_editor_selection_save (selection);
 
