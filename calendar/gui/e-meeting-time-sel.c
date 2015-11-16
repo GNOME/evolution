@@ -585,6 +585,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 
 	/* Create the Options menu. */
 	mts->options_menu = gtk_menu_new ();
+	g_object_set_data (G_OBJECT (mts->options_menu), "EMeetingTimeSelector", mts);
 	gtk_menu_attach_to_widget (
 		GTK_MENU (mts->options_menu), mts->options_button,
 		e_meeting_time_selector_options_menu_detacher);
@@ -689,6 +690,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 
 	/* Create the Autopick menu. */
 	mts->autopick_menu = gtk_menu_new ();
+	g_object_set_data (G_OBJECT (mts->autopick_menu), "EMeetingTimeSelector", mts);
 	gtk_menu_attach_to_widget (
 		GTK_MENU (mts->autopick_menu), mts->autopick_button,
 		e_meeting_time_selector_autopick_menu_detacher);
@@ -931,9 +933,11 @@ e_meeting_time_selector_options_menu_detacher (GtkWidget *widget,
 	EMeetingTimeSelector *mts;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (widget));
+	g_return_if_fail (GTK_IS_MENU (menu));
 
-	mts = E_MEETING_TIME_SELECTOR (widget);
+	mts = g_object_get_data (G_OBJECT (menu), "EMeetingTimeSelector");
+
+	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 	g_return_if_fail (mts->options_menu == (GtkWidget *) menu);
 
 	mts->options_menu = NULL;
@@ -946,9 +950,11 @@ e_meeting_time_selector_autopick_menu_detacher (GtkWidget *widget,
 	EMeetingTimeSelector *mts;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (widget));
+	g_return_if_fail (GTK_IS_MENU (menu));
 
-	mts = E_MEETING_TIME_SELECTOR (widget);
+	mts = g_object_get_data (G_OBJECT (menu), "EMeetingTimeSelector");
+
+	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 	g_return_if_fail (mts->autopick_menu == (GtkWidget *) menu);
 
 	mts->autopick_menu = NULL;
