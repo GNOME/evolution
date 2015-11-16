@@ -1424,12 +1424,18 @@ ecep_recurrence_sensitize_widgets (ECompEditorPage *page,
 				   gboolean force_insensitive)
 {
 	ECompEditorPageRecurrence *page_recurrence;
+	ECompEditor *comp_editor;
 	GtkTreeSelection *selection;
-	gboolean create_recurrence, any_selected;
+	gboolean create_recurrence, any_selected, is_organizer;
+	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_recurrence_parent_class)->sensitize_widgets (page, force_insensitive);
+
+	comp_editor = e_comp_editor_page_ref_editor (page);
+	flags = e_comp_editor_get_flags (comp_editor);
+	g_clear_object (&comp_editor);
 
 	page_recurrence = E_COMP_EDITOR_PAGE_RECURRENCE (page);
 
@@ -1438,6 +1444,8 @@ ecep_recurrence_sensitize_widgets (ECompEditorPage *page,
 	force_insensitive = force_insensitive || page_recurrence->priv->is_custom;
 	create_recurrence = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (page_recurrence->priv->recr_check_box));
 	any_selected = gtk_tree_selection_count_selected_rows (selection) > 0;
+	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
+	force_insensitive = force_insensitive || !is_organizer;
 
 	gtk_widget_set_sensitive (page_recurrence->priv->recr_check_box, !force_insensitive);
 	gtk_widget_set_sensitive (page_recurrence->priv->recr_hbox, !force_insensitive && create_recurrence);

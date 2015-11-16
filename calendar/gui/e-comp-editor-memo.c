@@ -34,9 +34,62 @@
 
 struct _ECompEditorMemoPrivate {
 	ECompEditorPropertyPart *categories;
+
+	gpointer insensitive_info_alert;
 };
 
 G_DEFINE_TYPE (ECompEditorMemo, e_comp_editor_memo, E_TYPE_COMP_EDITOR)
+
+static void
+ece_memo_sensitize_widgets (ECompEditor *comp_editor,
+			    gboolean force_insensitive)
+{
+	ECompEditorMemo *memo_editor;
+	gboolean is_organizer;
+	guint32 flags;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_MEMO (comp_editor));
+
+	E_COMP_EDITOR_CLASS (e_comp_editor_memo_parent_class)->sensitize_widgets (comp_editor, force_insensitive);
+
+	flags = e_comp_editor_get_flags (comp_editor);
+	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
+	memo_editor = E_COMP_EDITOR_MEMO (comp_editor);
+
+	if (force_insensitive || !is_organizer) {
+		ECalClient *client;
+		const gchar *message = NULL;
+
+		client = e_comp_editor_get_target_client (comp_editor);
+		if (!client)
+			message = _("Memo cannot be edited, because the selected memo list could not be opened");
+		else if (e_client_is_readonly (E_CLIENT (client)))
+			message = _("Memo cannot be edited, because the selected memo list is read only");
+		else if (!is_organizer)
+			message = _("Memo cannot be fully edited, because you are not the organizer");
+
+		if (message) {
+			EAlert *alert;
+
+			alert = e_comp_editor_add_information (comp_editor, message, NULL);
+
+			if (memo_editor->priv->insensitive_info_alert)
+				e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
+
+			memo_editor->priv->insensitive_info_alert = alert;
+
+			if (alert)
+				g_object_add_weak_pointer (G_OBJECT (alert), &memo_editor->priv->insensitive_info_alert);
+
+			g_clear_object (&alert);
+		} else 	if (memo_editor->priv->insensitive_info_alert) {
+			e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
+		}
+
+	} else if (memo_editor->priv->insensitive_info_alert) {
+		e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
+	}
+}
 
 static void
 ece_memo_setup_ui (ECompEditorMemo *memo_editor)
@@ -175,4 +228,5 @@ e_comp_editor_memo_class_init (ECompEditorMemoClass *klass)
 	comp_editor_class->title_format_with_attendees = _("Assigned Memo - %s");
 	comp_editor_class->title_format_without_attendees = _("Memo - %s");
 	comp_editor_class->icon_name = "stock_insert-note";
+	comp_editor_class->sensitize_widgets = ece_memo_sensitize_widgets;
 }

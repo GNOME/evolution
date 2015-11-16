@@ -134,7 +134,7 @@ ece_event_dtend_changed_cb (EDateEdit *date_edit,
 }
 
 static void
-ece_editor_all_day_toggled_cb (ECompEditorEvent *event_editor)
+ece_event_all_day_toggled_cb (ECompEditorEvent *event_editor)
 {
 	GtkWidget *edit_widget;
 
@@ -152,15 +152,45 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 			     gboolean force_insensitive)
 {
 	ECompEditorEvent *event_editor;
+	gboolean is_organizer;
+	GtkAction *action;
+	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
 
 	E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->sensitize_widgets (comp_editor, force_insensitive);
 
+	flags = e_comp_editor_get_flags (comp_editor);
+	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
-	gtk_widget_set_sensitive (event_editor->priv->all_day_check, !force_insensitive);
 
-	if (force_insensitive) {
+	gtk_widget_set_sensitive (event_editor->priv->all_day_check, !force_insensitive && is_organizer);
+
+	#define sensitize_part(x) G_STMT_START { \
+		GtkWidget *widget; \
+		\
+		widget = e_comp_editor_property_part_get_label_widget (x); \
+		if (widget) \
+			gtk_widget_set_sensitive (widget, !force_insensitive && is_organizer); \
+		\
+		widget = e_comp_editor_property_part_get_edit_widget (x); \
+		if (widget) \
+			gtk_widget_set_sensitive (widget, !force_insensitive && is_organizer); \
+	} G_STMT_END
+
+	sensitize_part (event_editor->priv->dtstart);
+	sensitize_part (event_editor->priv->dtend);
+	sensitize_part (event_editor->priv->timezone);
+
+	#undef sensitize_part
+
+	action = e_comp_editor_get_action (comp_editor, "all-day-event");
+	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
+
+	action = e_comp_editor_get_action (comp_editor, "classification-menu");
+	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
+
+	if (force_insensitive || !is_organizer) {
 		ECalClient *client;
 		const gchar *message = NULL;
 
@@ -169,6 +199,8 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 			message = _("Event cannot be edited, because the selected calendar could not be opened");
 		else if (e_client_is_readonly (E_CLIENT (client)))
 			message = _("Event cannot be edited, because the selected calendar is read only");
+		else if (!is_organizer)
+			message = _("Event cannot be fully edited, because you are not the organizer");
 
 		if (message) {
 			EAlert *alert;
@@ -604,14 +636,17 @@ e_comp_editor_event_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "_Start time:"), FALSE, FALSE);
 	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
+	e_comp_editor_property_part_set_sensitize_handled (part, TRUE);
 	event_editor->priv->dtstart = part;
 
 	part = e_comp_editor_property_part_dtend_new (C_("ECompEditor", "_End time:"), FALSE, FALSE);
 	e_comp_editor_page_add_property_part (page, part, 0, 5, 2, 1);
+	e_comp_editor_property_part_set_sensitize_handled (part, TRUE);
 	event_editor->priv->dtend = part;
 
 	part = e_comp_editor_property_part_timezone_new ();
 	e_comp_editor_page_add_property_part (page, part, 0, 6, 3, 1);
+	e_comp_editor_property_part_set_sensitize_handled (part, TRUE);
 	event_editor->priv->timezone = part;
 
 	widget = gtk_check_button_new_with_mnemonic (C_("ECompEditor", "All da_y event"));
@@ -665,7 +700,7 @@ e_comp_editor_event_constructed (GObject *object)
 	g_signal_connect (widget, "changed", G_CALLBACK (ece_event_dtend_changed_cb), event_editor);
 
 	e_signal_connect_notify_swapped (event_editor->priv->all_day_check, "notify::active",
-		G_CALLBACK (ece_editor_all_day_toggled_cb), event_editor);
+		G_CALLBACK (ece_event_all_day_toggled_cb), event_editor);
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);
 

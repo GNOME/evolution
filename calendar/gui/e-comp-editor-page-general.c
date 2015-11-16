@@ -342,15 +342,17 @@ ecep_general_attendees_remove_clicked_cb (GtkButton *button,
 
 	if (errors) {
 		ECompEditor *comp_editor;
+		EAlert *alert;
 
 		comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_general));
 
-		e_comp_editor_add_error (comp_editor, g_dngettext (GETTEXT_PACKAGE,
+		alert = e_comp_editor_add_error (comp_editor, g_dngettext (GETTEXT_PACKAGE,
 			"Failed to delete selected attendee",
 			"Failed to delete selected attendees",
 			failures), errors->str);
 
 		g_string_free (errors, TRUE);
+		g_clear_object (&alert);
 		g_clear_object (&comp_editor);
 	}
 }
@@ -697,6 +699,7 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 {
 	ECompEditorPageGeneral *page_general;
 	GtkTreeSelection *selection;
+	GtkAction *action;
 	gboolean sensitive, organizer_is_user, delegate, delegate_to_many = FALSE, read_only = TRUE, any_selected = FALSE;
 	ECompEditor *comp_editor;
 	ECalClient *client;
@@ -741,6 +744,9 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 	gtk_widget_set_sensitive (page_general->priv->attendees_button_remove, sensitive && !force_insensitive && any_selected);
 	e_meeting_list_view_set_editable (E_MEETING_LIST_VIEW (page_general->priv->attendees_list_view), sensitive && !force_insensitive);
 	gtk_widget_set_sensitive (page_general->priv->attendees_list_view, !read_only && !force_insensitive);
+
+	action = e_comp_editor_get_action (comp_editor, "option-attendees");
+	gtk_action_set_sensitive (action, !force_insensitive && !read_only && organizer_is_user);
 
 	g_clear_object (&comp_editor);
 }
@@ -792,6 +798,8 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 			flags = e_comp_editor_get_flags (comp_editor);
 			registry = e_shell_get_registry (e_comp_editor_get_shell (comp_editor));
 
+			flags = flags & E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
+
 			if (itip_address_is_user (registry, itip_strip_mailto (organizer))) {
 				flags = flags | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 			} else {
@@ -834,6 +842,8 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 			} else if (!ecep_general_pick_organizer_for_email_address (page_general, organizer)) {
 				gtk_entry_set_text (combo_box_entry, value);
 			}
+
+			e_comp_editor_set_flags (comp_editor, flags);
 
 			g_clear_object (&comp_editor);
 			g_free (value);

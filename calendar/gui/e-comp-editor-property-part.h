@@ -177,6 +177,11 @@ GType		e_comp_editor_property_part_get_type		(void) G_GNUC_CONST;
 gboolean	e_comp_editor_property_part_get_visible		(ECompEditorPropertyPart *property_part);
 void		e_comp_editor_property_part_set_visible		(ECompEditorPropertyPart *property_part,
 								 gboolean visible);
+gboolean	e_comp_editor_property_part_get_sensitize_handled
+								(ECompEditorPropertyPart *property_part);
+void		e_comp_editor_property_part_set_sensitize_handled
+								(ECompEditorPropertyPart *property_part,
+								 gboolean sensitize_handled);
 void		e_comp_editor_property_part_create_widgets	(ECompEditorPropertyPart *property_part,
 								 GtkWidget **out_label_widget,
 								 GtkWidget **out_edit_widget);

@@ -31,10 +31,12 @@ struct _ECompEditorPropertyPartPrivate {
 	GtkWidget *label_widget;
 	GtkWidget *edit_widget;
 	gboolean visible;
+	gboolean sensitize_handled;
 };
 
 enum {
 	PROPERTY_PART_PROP_0,
+	PROPERTY_PART_PROP_SENSITIZE_HANDLED,
 	PROPERTY_PART_PROP_VISIBLE
 };
 
@@ -54,6 +56,12 @@ e_comp_editor_property_part_set_property (GObject *object,
 					  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROPERTY_PART_PROP_SENSITIZE_HANDLED:
+			e_comp_editor_property_part_set_sensitize_handled (
+				E_COMP_EDITOR_PROPERTY_PART (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROPERTY_PART_PROP_VISIBLE:
 			e_comp_editor_property_part_set_visible (
 				E_COMP_EDITOR_PROPERTY_PART (object),
@@ -71,6 +79,13 @@ e_comp_editor_property_part_get_property (GObject *object,
 					  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROPERTY_PART_PROP_SENSITIZE_HANDLED:
+			g_value_set_boolean (
+				value,
+				e_comp_editor_property_part_get_sensitize_handled (
+				E_COMP_EDITOR_PROPERTY_PART (object)));
+			return;
+
 		case PROPERTY_PART_PROP_VISIBLE:
 			g_value_set_boolean (
 				value,
@@ -137,6 +152,7 @@ e_comp_editor_property_part_init (ECompEditorPropertyPart *property_part)
 		E_TYPE_COMP_EDITOR_PROPERTY_PART,
 		ECompEditorPropertyPartPrivate);
 	property_part->priv->visible = TRUE;
+	property_part->priv->sensitize_handled = FALSE;
 }
 
 static void
@@ -160,6 +176,17 @@ e_comp_editor_property_part_class_init (ECompEditorPropertyPartClass *klass)
 			"Visible",
 			"Whether the part is visible",
 			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROPERTY_PART_PROP_SENSITIZE_HANDLED,
+		g_param_spec_boolean (
+			"sensitize-handled",
+			"Sensitize Handled",
+			"Whether the part's sensitive property is handled by the owner of it",
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -193,6 +220,28 @@ e_comp_editor_property_part_set_visible (ECompEditorPropertyPart *property_part,
 	property_part->priv->visible = visible;
 
 	g_object_notify (G_OBJECT (property_part), "visible");
+}
+
+gboolean
+e_comp_editor_property_part_get_sensitize_handled (ECompEditorPropertyPart *property_part)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART (property_part), FALSE);
+
+	return property_part->priv->sensitize_handled;
+}
+
+void
+e_comp_editor_property_part_set_sensitize_handled (ECompEditorPropertyPart *property_part,
+						   gboolean sensitize_handled)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART (property_part));
+
+	if ((property_part->priv->sensitize_handled ? 1 : 0) == (sensitize_handled ? 1 : 0))
+		return;
+
+	property_part->priv->sensitize_handled = sensitize_handled;
+
+	g_object_notify (G_OBJECT (property_part), "sensitize-handled");
 }
 
 void
