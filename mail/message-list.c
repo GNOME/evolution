@@ -331,7 +331,7 @@ static const gchar *score_icons[] = {
 static const gchar *attachment_icons[] = {
 	NULL,  /* empty icon */
 	"mail-attachment",
-	"stock_new-meeting",
+	"stock_people",
 	"evolution-memos",
 	"mail-mark-junk"
 };

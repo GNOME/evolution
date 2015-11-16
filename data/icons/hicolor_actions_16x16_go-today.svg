@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
+
 <svg
-   xmlns:ns="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -14,11 +14,10 @@
    height="16"
    id="svg4908"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.91 r13725"
    version="1.0"
-   sodipodi:docname="go-today.svg"
+   sodipodi:docname="hicolor_actions_16x16_go-today.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docbase="/home/andreas/project/misc icons/16x16"
    inkscape:export-filename="/home/andreas/project/misc icons/16x16/go-today.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -179,9 +178,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.627417"
-     inkscape:cx="17.514125"
-     inkscape:cy="9.4044628"
+     inkscape:zoom="4"
+     inkscape:cx="83.11607"
+     inkscape:cy="-2.0360131"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:grid-bbox="true"
@@ -190,8 +189,9 @@
      height="16px"
      inkscape:window-width="1680"
      inkscape:window-height="948"
-     inkscape:window-x="4"
-     inkscape:window-y="50">
+     inkscape:window-x="67"
+     inkscape:window-y="50"
+     inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
        id="grid5142" />
@@ -199,12 +199,12 @@
   <metadata
      id="metadata4913">
     <rdf:RDF>
-      <ns:Work
+      <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </ns:Work>
+      </cc:Work>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
@@ -279,12 +279,12 @@
        x="1.0129728"
        y="1" />
     <path
-       style="opacity:0.22222224;fill:none;fill-opacity:1;stroke:url(#linearGradient3183);stroke-width:0.99999982;stroke-miterlimit:4;stroke-opacity:1"
+       style="opacity:0.22222224;fill:#729fcf;fill-opacity:1;stroke:url(#linearGradient3183);stroke-width:0.99999982;stroke-miterlimit:4;stroke-opacity:1"
        d="M 1.5499625,4.1234083 L 1.4951763,1.4865324 L 14.555758,1.4865324 L 14.518807,3.9378305"
        id="rect3175"
        sodipodi:nodetypes="cccc" />
     <path
-       style="fill:none;fill-opacity:1;stroke:#204a87;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#3465a4;fill-opacity:1;stroke:#204a87;stroke-width:0.99999994;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1"
        d="M 0.50096296,4 L 0.50096296,1.286519 C 0.50096296,0.85224263 0.86714896,0.50262681 1.322007,0.50262681 L 14.711327,0.50262681 C 15.166185,0.50262681 15.532371,0.85224263 15.532371,1.286519 L 15.532371,4"
        id="rect10804"
        sodipodi:nodetypes="cccccc" />
@@ -296,7 +296,7 @@
        x="3.5"
        y="5.5" />
     <rect
-       style="opacity:1;fill:#f57900;fill-opacity:1;stroke:#ce5c00;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#ef2929;fill-opacity:1;stroke:#a40000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect3168"
        width="4"
        height="3"

@@ -1255,7 +1255,7 @@ static GtkActionEntry multi_selection_entries[] = {
 static GtkActionEntry single_selection_entries[] = {
 
 	{ "mail-convert-to-meeting",
-	  "stock_new-meeting",
+	  "stock_people",
 	  N_("Create a _Meeting"),
 	  NULL,
 	  N_("Create a new meeting from the selected message"),

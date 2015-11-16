@@ -1366,7 +1366,7 @@ static GtkActionEntry calendar_entries[] = {
 	  G_CALLBACK (action_event_forward_cb) },
 
 	{ "event-meeting-new",
-	  "stock_new-meeting",
+	  "stock_people",
 	  N_("New _Meeting..."),
 	  NULL,
 	  N_("Create a new meeting"),
