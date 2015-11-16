@@ -76,7 +76,7 @@ ecep_sensitize_widgets (ECompEditorPage *page,
 		GtkWidget *widget;
 
 		g_warn_if_fail (ppd != NULL);
-		if (!ppd)
+		if (!ppd || e_comp_editor_property_part_get_sensitize_handled (ppd->part))
 			continue;
 
 		widget = e_comp_editor_property_part_get_label_widget (ppd->part);

@@ -287,14 +287,18 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 			    gboolean force_insensitive)
 {
 	ECompEditorTask *task_editor;
+	gboolean is_organizer;
+	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (comp_editor));
 
 	E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->sensitize_widgets (comp_editor, force_insensitive);
 
+	flags = e_comp_editor_get_flags (comp_editor);
+	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
 
-	if (force_insensitive) {
+	if (force_insensitive || !is_organizer) {
 		ECalClient *client;
 		const gchar *message = NULL;
 
@@ -303,6 +307,8 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 			message = _("Task cannot be edited, because the selected task list could not be opened");
 		else if (e_client_is_readonly (E_CLIENT (client)))
 			message = _("Task cannot be edited, because the selected task list is read only");
+		else if (!is_organizer)
+			message = _("Task cannot be fully edited, because you are not the organizer");
 
 		if (message) {
 			EAlert *alert;

@@ -287,15 +287,6 @@ e_comp_editor_set_component (ECompEditor *comp_editor,
 	g_warn_if_fail (comp_editor->priv->component != NULL);
 }
 
-static void
-e_comp_editor_set_flags (ECompEditor *comp_editor,
-			 guint32 flags)
-{
-	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
-
-	comp_editor->priv->flags = flags;
-}
-
 typedef struct _SaveData {
 	ECompEditor *comp_editor;
 	ECalClient *source_client;
@@ -339,6 +330,7 @@ save_data_free (SaveData *sd)
 
 				sd->comp_editor->priv->flags = sd->comp_editor->priv->flags & (~E_COMP_EDITOR_FLAG_IS_NEW);
 
+				e_comp_editor_sensitize_widgets (sd->comp_editor);
 				e_comp_editor_set_changed (sd->comp_editor, FALSE);
 			}
 		} else if (sd->alert_ident) {
@@ -2711,6 +2703,20 @@ e_comp_editor_get_flags (ECompEditor *comp_editor)
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), 0);
 
 	return comp_editor->priv->flags;
+}
+
+void
+e_comp_editor_set_flags (ECompEditor *comp_editor,
+			 guint32 flags)
+{
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+
+	if (comp_editor->priv->flags == flags)
+		return;
+
+	comp_editor->priv->flags = flags;
+
+	g_object_notify (G_OBJECT (comp_editor), "flags");
 }
 
 EFocusTracker *
