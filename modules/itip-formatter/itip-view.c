@@ -45,7 +45,7 @@
 
 #define d(x)
 
-#define MEETING_ICON "stock_new-meeting"
+#define MEETING_ICON "stock_people"
 
 #define ITIP_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
