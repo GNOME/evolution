@@ -257,6 +257,7 @@ alert_bar_constructed (GObject *object)
 	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GObject *revealer;
 
 	priv = E_ALERT_BAR_GET_PRIVATE (object);
 
@@ -304,6 +305,13 @@ alert_bar_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	container = action_area;
+
+	/* Disable animation of the revealer, until GtkInfoBar's bug #710888 is fixed */
+	revealer = gtk_widget_get_template_child (GTK_WIDGET (object), GTK_TYPE_INFO_BAR, "revealer");
+	if (revealer) {
+		gtk_revealer_set_transition_type (GTK_REVEALER (revealer), GTK_REVEALER_TRANSITION_TYPE_NONE);
+		gtk_revealer_set_transition_duration (GTK_REVEALER (revealer), 0);
+	}
 }
 
 static GtkSizeRequestMode
