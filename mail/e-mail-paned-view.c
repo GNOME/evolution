@@ -714,8 +714,8 @@ mail_paned_view_constructed (GObject *object)
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	priv->scrolled_window = g_object_ref (widget);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	priv->scrolled_window = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = widget;

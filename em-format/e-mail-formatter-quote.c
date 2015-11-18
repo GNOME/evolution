@@ -45,8 +45,6 @@ GType e_mail_formatter_quote_text_enriched_get_type (void);
 GType e_mail_formatter_quote_text_html_get_type (void);
 GType e_mail_formatter_quote_text_plain_get_type (void);
 
-void e_mail_formatter_quote_internal_extensions_load (EMailExtensionRegistry *ereg);
-
 static gpointer e_mail_formatter_quote_parent_class = 0;
 
 static void
