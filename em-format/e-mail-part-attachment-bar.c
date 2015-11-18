@@ -37,6 +37,9 @@ mail_part_attachment_bar_dispose (GObject *object)
 
 	priv = E_MAIL_PART_ATTACHMENT_BAR_GET_PRIVATE (object);
 
+	if (priv->store)
+		e_attachment_store_remove_all (priv->store);
+
 	g_clear_object (&priv->store);
 
 	/* Chain up to parent's dispose() method. */
