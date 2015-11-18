@@ -168,7 +168,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 				e_attachment_store_add_attachment (
 					store, attachment);
 			}
-			g_list_free (attachments);
+			g_list_free_full (attachments, g_object_unref);
 		} else {
 			g_warning ("Failed to locate attachment-bar for %s", part_id);
 		}
