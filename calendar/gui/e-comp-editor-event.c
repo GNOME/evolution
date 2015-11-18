@@ -190,6 +190,9 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	action = e_comp_editor_get_action (comp_editor, "classification-menu");
 	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
 
+	if (event_editor->priv->insensitive_info_alert)
+		e_alert_response (event_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
+
 	if (force_insensitive || !is_organizer) {
 		ECalClient *client;
 		const gchar *message = NULL;
@@ -207,21 +210,13 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 
 			alert = e_comp_editor_add_information (comp_editor, message, NULL);
 
-			if (event_editor->priv->insensitive_info_alert)
-				e_alert_response (event_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
-
 			event_editor->priv->insensitive_info_alert = alert;
 
 			if (alert)
 				g_object_add_weak_pointer (G_OBJECT (alert), &event_editor->priv->insensitive_info_alert);
 
 			g_clear_object (&alert);
-		} else 	if (event_editor->priv->insensitive_info_alert) {
-			e_alert_response (event_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
 		}
-
-	} else if (event_editor->priv->insensitive_info_alert) {
-		e_alert_response (event_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
 	}
 }
 

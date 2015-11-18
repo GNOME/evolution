@@ -56,6 +56,9 @@ ece_memo_sensitize_widgets (ECompEditor *comp_editor,
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	memo_editor = E_COMP_EDITOR_MEMO (comp_editor);
 
+	if (memo_editor->priv->insensitive_info_alert)
+		e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
+
 	if (force_insensitive || !is_organizer) {
 		ECalClient *client;
 		const gchar *message = NULL;
@@ -73,21 +76,13 @@ ece_memo_sensitize_widgets (ECompEditor *comp_editor,
 
 			alert = e_comp_editor_add_information (comp_editor, message, NULL);
 
-			if (memo_editor->priv->insensitive_info_alert)
-				e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
-
 			memo_editor->priv->insensitive_info_alert = alert;
 
 			if (alert)
 				g_object_add_weak_pointer (G_OBJECT (alert), &memo_editor->priv->insensitive_info_alert);
 
 			g_clear_object (&alert);
-		} else 	if (memo_editor->priv->insensitive_info_alert) {
-			e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
 		}
-
-	} else if (memo_editor->priv->insensitive_info_alert) {
-		e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
 	}
 }
 
