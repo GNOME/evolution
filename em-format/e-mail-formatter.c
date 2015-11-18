@@ -23,6 +23,7 @@
 #include <libebackend/libebackend.h>
 
 #include <e-util/e-util.h>
+#include <shell/e-shell.h>
 
 #include "e-mail-formatter-enumtypes.h"
 #include "e-mail-formatter-extension.h"
@@ -73,8 +74,6 @@ GType e_mail_formatter_source_get_type (void);
 GType e_mail_formatter_text_enriched_get_type (void);
 GType e_mail_formatter_text_html_get_type (void);
 GType e_mail_formatter_text_plain_get_type (void);
-
-void e_mail_formatter_internal_extensions_load (EMailExtensionRegistry *ereg);
 
 static gpointer e_mail_formatter_parent_class = 0;
 
@@ -139,6 +138,17 @@ mail_formatter_free_context (EMailFormatterContext *context)
 		g_object_unref (context->part_list);
 
 	g_free (context);
+}
+
+static void
+shell_gone_cb (gpointer user_data,
+	       GObject *gone_extension_registry)
+{
+	EMailFormatterClass *class = user_data;
+
+	g_return_if_fail (class != NULL);
+
+	g_clear_object (&class->extension_registry);
 }
 
 static void
@@ -546,6 +556,8 @@ mail_formatter_update_style (EMailFormatter *formatter,
 static void
 e_mail_formatter_base_init (EMailFormatterClass *class)
 {
+	EShell *shell;
+
 	/* Register internal extensions. */
 	g_type_ensure (e_mail_formatter_attachment_get_type ());
 	g_type_ensure (e_mail_formatter_attachment_bar_get_type ());
@@ -576,12 +588,9 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
 		CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-}
 
-static void
-e_mail_formatter_base_finalize (EMailFormatterClass *class)
-{
-	g_object_unref (class->extension_registry);
+	shell = e_shell_get_default ();
+	g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
 }
 
 static void
@@ -802,7 +811,7 @@ e_mail_formatter_get_type (void)
 		const GTypeInfo type_info = {
 			sizeof (EMailFormatterClass),
 			(GBaseInitFunc) e_mail_formatter_base_init,
-			(GBaseFinalizeFunc) e_mail_formatter_base_finalize,
+			(GBaseFinalizeFunc) NULL,
 			(GClassInitFunc) e_mail_formatter_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,	/* class_data */

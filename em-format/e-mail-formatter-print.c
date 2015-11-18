@@ -31,8 +31,6 @@
 /* internal formatter extensions */
 GType e_mail_formatter_print_headers_get_type (void);
 
-void e_mail_formatter_print_internal_extensions_load (EMailExtensionRegistry *ereg);
-
 static gpointer e_mail_formatter_print_parent_class = 0;
 
 static void
