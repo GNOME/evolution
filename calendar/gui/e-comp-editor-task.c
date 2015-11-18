@@ -59,6 +59,9 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 
 	flags = e_comp_editor_get_flags (E_COMP_EDITOR (task_editor));
 
+	if (task_editor->priv->in_the_past_alert)
+		e_alert_response (task_editor->priv->in_the_past_alert, GTK_RESPONSE_OK);
+
 	if ((flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0) {
 		GString *message = NULL;
 		struct icaltimetype dtstart_itt, due_date_itt;
@@ -85,9 +88,6 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 
 			alert = e_comp_editor_add_warning (E_COMP_EDITOR (task_editor), message->str, NULL);
 
-			if (task_editor->priv->in_the_past_alert)
-				e_alert_response (task_editor->priv->in_the_past_alert, GTK_RESPONSE_OK);
-
 			task_editor->priv->in_the_past_alert = alert;
 
 			if (alert)
@@ -95,8 +95,6 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 
 			g_string_free (message, TRUE);
 			g_clear_object (&alert);
-		} else if (task_editor->priv->in_the_past_alert) {
-			e_alert_response (task_editor->priv->in_the_past_alert, GTK_RESPONSE_OK);
 		}
 	}
 }
@@ -298,6 +296,9 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
 
+	if (task_editor->priv->insensitive_info_alert)
+		e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
+
 	if (force_insensitive || !is_organizer) {
 		ECalClient *client;
 		const gchar *message = NULL;
@@ -315,21 +316,13 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 
 			alert = e_comp_editor_add_information (comp_editor, message, NULL);
 
-			if (task_editor->priv->insensitive_info_alert)
-				e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
-
 			task_editor->priv->insensitive_info_alert = alert;
 
 			if (alert)
 				g_object_add_weak_pointer (G_OBJECT (alert), &task_editor->priv->insensitive_info_alert);
 
 			g_clear_object (&alert);
-		} else 	if (task_editor->priv->insensitive_info_alert) {
-			e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
 		}
-
-	} else if (task_editor->priv->insensitive_info_alert) {
-		e_alert_response (task_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
 	}
 
 	ece_task_check_dates_in_the_past (task_editor);
