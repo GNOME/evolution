@@ -41,22 +41,24 @@
 # Simos Xenitellis <simos.lists@googlemail.com>, 2010.
 # Michael Kotsarinis <mk73628@gmail.com>, 2011.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2012, 2013, 2014, 2015.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2015.
+#
 #: ../shell/main.c:522
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolut"
-"ion&keywords=I18N+L10N&component=Miscellaneous\n"
-"POT-Creation-Date: 2015-11-06 05:51+0000\n"
-"PO-Revision-Date: 2015-11-07 18:43+0300\n"
-"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
-"Language-Team: www.gnome.gr\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=Miscellaneous\n"
+"POT-Creation-Date: 2015-11-17 17:51+0000\n"
+"PO-Revision-Date: 2015-11-20 18:49+0200\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"Language-Team: Ελληνικά <opensuse-translation-el@opensuse.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Gtranslator 2.91.7\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Project-Style: gnome\n"
 
@@ -237,7 +239,7 @@ msgstr ""
 #: ../addressbook/addressbook.error.xml.h:34
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:8
 #: ../addressbook/gui/widgets/eab-contact-merging.c:723
-#: ../calendar/gui/e-comp-editor-page-general.c:1347
+#: ../calendar/gui/e-comp-editor-page-general.c:1357
 #: ../e-util/e-mail-signature-manager.c:327
 #: ../e-util/e-name-selector-dialog.c:995 ../e-util/filter.ui.h:16
 #: ../mail/e-mail-account-manager.c:718 ../mail/e-mail-label-manager.c:373
@@ -386,7 +388,7 @@ msgid "_Home Page:"
 msgstr "Αρ_χική σελίδα:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
-#: ../calendar/gui/e-comp-editor-event.c:594
+#: ../calendar/gui/e-comp-editor-event.c:626
 #: ../modules/itip-formatter/itip-view.c:1905
 msgid "_Calendar:"
 msgstr "_Ημερολόγιο:"
@@ -564,7 +566,7 @@ msgstr "Προσθήκη _X.509"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:54
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
-#: ../calendar/gui/e-comp-editor-page-general.c:1363
+#: ../calendar/gui/e-comp-editor-page-general.c:1373
 #: ../e-util/e-attachment-view.c:475 ../e-util/e-filter-rule.c:225
 #: ../e-util/e-mail-signature-manager.c:367
 #: ../e-util/e-name-selector-dialog.c:999 ../e-util/filter.ui.h:18
@@ -590,10 +592,10 @@ msgstr "_Φόρτωση X.509"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3507
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../addressbook/gui/widgets/eab-contact-merging.c:721
-#: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2007
+#: ../calendar/calendar.error.xml.h:47 ../calendar/gui/e-comp-editor.c:2103
 #: ../composer/e-composer-actions.c:215 ../composer/e-composer-actions.c:355
 #: ../e-util/e-attachment-store.c:636
-#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3231
+#: ../e-util/e-mail-signature-script-dialog.c:369 ../e-util/e-web-view.c:3261
 #: ../e-util/gal-view-instance-save-as-dialog.c:270
 #: ../shell/e-shell-content.c:660 ../shell/e-shell-utils.c:137
 #: ../smime/gui/certificate-manager.c:655
@@ -607,8 +609,8 @@ msgid "Certificates"
 msgstr "Πιστοποιητικά"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:59
-#: ../calendar/gui/e-comp-editor.c:1904 ../calendar/gui/e-comp-editor.c:1976
-#: ../e-util/e-preferences-window.c:379 ../e-util/e-send-options.ui.h:41
+#: ../calendar/gui/e-comp-editor.c:2000 ../calendar/gui/e-comp-editor.c:2072
+#: ../e-util/e-preferences-window.c:382 ../e-util/e-send-options.ui.h:41
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
 #: ../shell/e-shell.c:1215 ../shell/e-shell-window-actions.c:955
 msgid "_Help"
@@ -636,7 +638,7 @@ msgstr "Επιλογές"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1365
 #: ../calendar/gui/e-cal-dialogs.c:689
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:309
-#: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:340
+#: ../composer/e-composer-actions.c:214 ../e-util/e-activity-bar.c:342
 #: ../e-util/e-attachment-dialog.c:311 ../e-util/e-attachment-store.c:491
 #: ../e-util/e-attachment-store.c:635 ../e-util/e-attachment-view.c:421
 #: ../e-util/e-categories-dialog.c:82 ../e-util/e-category-editor.c:138
@@ -650,7 +652,7 @@ msgstr "Επιλογές"
 #: ../e-util/e-send-options.ui.h:42 ../e-util/e-source-config-dialog.c:379
 #: ../e-util/e-source-selector-dialog.c:372 ../e-util/e-table-config.c:548
 #: ../e-util/e-table-config.ui.h:1 ../e-util/e-timezone-dialog.ui.h:2
-#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3230
+#: ../e-util/evolution-source-viewer.c:834 ../e-util/e-web-view.c:3260
 #: ../e-util/gal-view-instance-save-as-dialog.c:269
 #: ../mail/e-mail-config-window.c:330 ../mail/e-mail-label-dialog.c:196
 #: ../mail/e-mail-tag-editor.c:242 ../mail/em-folder-selector.c:317
@@ -718,22 +720,22 @@ msgid "Show Certificates"
 msgstr "Εμφάνιση πιστοποιητικών"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:262
-#: ../calendar/gui/e-comp-editor.c:1939 ../e-util/e-html-editor-actions.c:1111
+#: ../calendar/gui/e-comp-editor.c:2035 ../e-util/e-html-editor-actions.c:1111
 msgid "_Undo"
 msgstr "Α_ναίρεση"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:264
-#: ../calendar/gui/e-comp-editor.c:1941 ../e-util/e-focus-tracker.c:122
+#: ../calendar/gui/e-comp-editor.c:2037 ../e-util/e-focus-tracker.c:122
 msgid "Undo"
 msgstr "Αναίρεση"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:269
-#: ../calendar/gui/e-comp-editor.c:1946 ../e-util/e-html-editor-actions.c:1097
+#: ../calendar/gui/e-comp-editor.c:2042 ../e-util/e-html-editor-actions.c:1097
 msgid "_Redo"
 msgstr "Ακύ_ρωση αναίρεσης"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:271
-#: ../calendar/gui/e-comp-editor.c:1948 ../e-util/e-focus-tracker.c:138
+#: ../calendar/gui/e-comp-editor.c:2044 ../e-util/e-focus-tracker.c:138
 msgid "Redo"
 msgstr "Ακύρωση αναίρεσης"
 
@@ -1505,7 +1507,7 @@ msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί η επαφή (%s);"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1366
-#: ../calendar/gui/e-comp-editor.c:1897 ../e-util/e-focus-tracker.c:785
+#: ../calendar/gui/e-comp-editor.c:1993 ../e-util/e-focus-tracker.c:785
 #: ../e-util/evolution-source-viewer.c:805 ../mail/e-mail-account-manager.c:736
 #: ../modules/addressbook/e-book-shell-view-actions.c:1089
 #: ../modules/calendar/e-cal-shell-view-actions.c:1459
@@ -2035,9 +2037,9 @@ msgid "_Snooze"
 msgstr "Χρονική _μετάθεση υπενθύμισης"
 
 #: ../calendar/alarm-notify/alarm-notify.ui.h:4
-#: ../calendar/gui/e-comp-editor-page-general.c:1355
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
-#: ../calendar/gui/e-comp-editor.c:1962 ../e-util/e-html-editor-actions.c:1120
+#: ../calendar/gui/e-comp-editor-page-general.c:1365
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247
+#: ../calendar/gui/e-comp-editor.c:2058 ../e-util/e-html-editor-actions.c:1120
 #: ../e-util/e-mail-signature-manager.c:357 ../e-util/filter.ui.h:17
 #: ../mail/e-mail-account-manager.c:727 ../mail/e-mail-browser.c:173
 #: ../mail/e-mail-label-manager.c:382 ../mail/mail-config.ui.h:63
@@ -2459,14 +2461,10 @@ msgstr ""
 "διατηρούν τη λίστα εργασιών τους ενημερωμένη."
 
 #: ../calendar/calendar.error.xml.h:52
-#| msgid "Would you like to send this task to participants?"
 msgid "Would you like to send this memo to participants?"
 msgstr "Θέλετε να στείλετε αυτή την υπενθύμιση στους συμμετέχοντες;"
 
 #: ../calendar/calendar.error.xml.h:53
-#| msgid ""
-#| "Email invitations will be sent to all participants and allow them to "
-#| "accept this task."
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
@@ -2475,15 +2473,11 @@ msgstr ""
 "τους επιτρέψουν να αποδεχθούν αυτή την υπενθύμιση."
 
 #: ../calendar/calendar.error.xml.h:54
-#| msgid "Would you like to send updated meeting information to participants?"
 msgid "Would you like to send updated memo information to participants?"
 msgstr ""
 "Θέλετε να στείλετε ενημερωμένες πληροφορίες υπενθύμισης στους συμμετέχοντες;"
 
 #: ../calendar/calendar.error.xml.h:55
-#| msgid ""
-#| "Sending updated information allows other participants to keep their task "
-#| "lists up to date."
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
@@ -2639,209 +2633,211 @@ msgstr "Η λίστα υπενθυμίσεων δεν έχει σημειωθε�
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../calendar/calendar.error.xml.h:91
-#| msgid "Failed to connect '{0}'"
 msgid "Failed to add timezone to '{0}'"
 msgstr "Αποτυχία προσθήκης ζώνης ώρας στο '{0}'"
 
-#. Translators: {0} is the name of the calendar.
+#. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../calendar/calendar.error.xml.h:93
+#| msgid "Could not save attachments"
+msgid "Failed to save attachments"
+msgstr "Αποτυχία αποθήκευσης συνημμένων"
+
+#. Translators: {0} is the name of the calendar.
+#: ../calendar/calendar.error.xml.h:95
 msgid "Failed to open calendar '{0}'"
 msgstr "Αποτυχία ανοίγματος ημερολογίου '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:95
+#: ../calendar/calendar.error.xml.h:97
 msgid "Failed to open memo list '{0}'"
 msgstr "Αποτυχία ανοίγματος καταλόγου υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:97
+#: ../calendar/calendar.error.xml.h:99
 msgid "Failed to open task list '{0}'"
 msgstr "Αποτυχία ανοίγματος καταλόγου εργασιών '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:99
+#: ../calendar/calendar.error.xml.h:101
 msgid "Failed to create an event in the calendar '{0}'"
 msgstr "Αποτυχία δημιουργίας συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:101
+#: ../calendar/calendar.error.xml.h:103
 msgid "Failed to create a memo in the memo list '{0}'"
 msgstr "Αποτυχία δημιουργίας υπενθύμισης στον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:103
+#: ../calendar/calendar.error.xml.h:105
 msgid "Failed to create a task in the task list '{0}'"
 msgstr "Αποτυχία δημιουργίας εργασίας στον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:105
+#: ../calendar/calendar.error.xml.h:107
 msgid "Failed to modify an event in the calendar '{0}'"
 msgstr "Αποτυχία τροποποίησης συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:107
+#: ../calendar/calendar.error.xml.h:109
 msgid "Failed to modify a memo in the memo list '{0}'"
 msgstr "Αποτυχία τροποποίησης υπενθύμισης στον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:109
+#: ../calendar/calendar.error.xml.h:111
 msgid "Failed to modify a task in the task list '{0}'"
 msgstr "Αποτυχία τροποποίησης εργασίας στον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:111
+#: ../calendar/calendar.error.xml.h:113
 msgid "Failed to delete an event in the calendar '{0}'"
 msgstr "Αποτυχία διαγραφής συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:113
+#: ../calendar/calendar.error.xml.h:115
 msgid "Failed to delete a memo in the memo list '{0}'"
 msgstr "Αποτυχία διαγραφής υπενθύμισης στον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:115
+#: ../calendar/calendar.error.xml.h:117
 msgid "Failed to delete a task in the task list '{0}'"
 msgstr "Αποτυχία διαγραφής εργασίας στον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:117
+#: ../calendar/calendar.error.xml.h:119
 msgid "Failed to update an event in the calendar '{0}'"
 msgstr "Αποτυχία ενημέρωσης συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:119
+#: ../calendar/calendar.error.xml.h:121
 msgid "Failed to update a memo in the memo list '{0}'"
 msgstr "Αποτυχία ενημέρωσης υπενθύμισης στον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:121
+#: ../calendar/calendar.error.xml.h:123
 msgid "Failed to update a task in the task list '{0}'"
 msgstr "Αποτυχία ενημέρωσης εργασίας στον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:123
+#: ../calendar/calendar.error.xml.h:125
 msgid "Failed to send an event to the calendar '{0}'"
 msgstr "Αποτυχία αποστολής συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:125
+#: ../calendar/calendar.error.xml.h:127
 msgid "Failed to send a memo to the memo list '{0}'"
 msgstr "Αποτυχία αποστολής υπενθύμισης στον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:127
+#: ../calendar/calendar.error.xml.h:129
 msgid "Failed to send a task to the task list '{0}'"
 msgstr "Αποτυχία αποστολής εργασίας στον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:129
+#: ../calendar/calendar.error.xml.h:131
 msgid "Error creating view for the calendar '{0}'"
 msgstr "Σφάλμα κατά τη δημιουργία προβολής για το ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:131
+#: ../calendar/calendar.error.xml.h:133
 msgid "Error creating view for the task list '{0}'"
 msgstr "Σφάλμα κατά τη δημιουργία προβολής για τον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:133
+#: ../calendar/calendar.error.xml.h:135
 msgid "Error creating view for the memo list '{0}'"
 msgstr "Σφάλμα κατά τη δημιουργία προβολής για τον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:135
+#: ../calendar/calendar.error.xml.h:137
 msgid "Failed to copy an event into the calendar '{0}'"
 msgstr "Αποτυχία αντιγραφής συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:137
+#: ../calendar/calendar.error.xml.h:139
 msgid "Failed to copy a task into the task list '{0}'"
 msgstr "Αποτυχία αντιγραφής εργασίας στον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:139
+#: ../calendar/calendar.error.xml.h:141
 msgid "Failed to copy a memo into the memo list '{0}'"
 msgstr "Αποτυχία αντιγραφής υπενθύμισης στην λίστα υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:141
+#: ../calendar/calendar.error.xml.h:143
 msgid "Failed to move an event into the calendar '{0}'"
 msgstr "Αποτυχία μετακίνησης συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:143
+#: ../calendar/calendar.error.xml.h:145
 msgid "Failed to move a task into the task list '{0}'"
 msgstr "Αποτυχία μετακίνησης εργασίας στην λίστα εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:145
+#: ../calendar/calendar.error.xml.h:147
 msgid "Failed to move a memo into the memo list '{0}'"
 msgstr "Αποτυχία μετακίνησης υπενθύμισης στην λίστα υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:147
-#| msgid "Failed to send an event to the calendar '{0}'"
+#: ../calendar/calendar.error.xml.h:149
 msgid "Failed to get an event from the calendar '{0}'"
 msgstr "Αποτυχία λήψης συμβάντος από το ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:149
-#| msgid "Failed to send a task to the task list '{0}'"
+#: ../calendar/calendar.error.xml.h:151
 msgid "Failed to get a task from the task list '{0}'"
 msgstr "Αποτυχία λήψης εργασίας από τον κατάλογο εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:151
-#| msgid "Failed to send a memo to the memo list '{0}'"
+#: ../calendar/calendar.error.xml.h:153
 msgid "Failed to get a memo from the memo list '{0}'"
 msgstr "Αποτυχία λήψης υπενθύμισης από τον κατάλογο υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:153
+#: ../calendar/calendar.error.xml.h:155
 msgid "Copying an event into the calendar '{0}'"
 msgstr "Αντιγραφή συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:155
+#: ../calendar/calendar.error.xml.h:157
 msgid "Copying a task into the task list '{0}'"
 msgstr "Αντιγραφή εργασίας στην λίστα εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:157
+#: ../calendar/calendar.error.xml.h:159
 msgid "Copying a memo into the memo list '{0}'"
 msgstr "Αντιγραφή υπενθύμισης στην λίστα υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:159
+#: ../calendar/calendar.error.xml.h:161
 msgid "Moving an event into the calendar '{0}'"
 msgstr "Μετακίνηση συμβάντος στο ημερολόγιο '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:161
+#: ../calendar/calendar.error.xml.h:163
 msgid "Moving a task into the task list '{0}'"
 msgstr "Μετακίνηση εργασίας στην λίστα εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:163
+#: ../calendar/calendar.error.xml.h:165
 msgid "Moving a memo into the memo list '{0}'"
 msgstr "Μετακίνηση υπενθύμισης στην λίστα υπενθυμίσεων '{0}'"
 
 #. Translators: {0} is the name of the calendar.
-#: ../calendar/calendar.error.xml.h:165
+#: ../calendar/calendar.error.xml.h:167
 msgid "Failed to refresh calendar '{0}'"
 msgstr "Αποτυχία ανανέωσης ημερολογίου '{0}'"
 
 #. Translators: {0} is the name of the task list.
-#: ../calendar/calendar.error.xml.h:167
+#: ../calendar/calendar.error.xml.h:169
 msgid "Failed to refresh task list '{0}'"
 msgstr "Αποτυχία ανανέωσης καταλόγου εργασιών '{0}'"
 
 #. Translators: {0} is the name of the memo list.
-#: ../calendar/calendar.error.xml.h:169
+#: ../calendar/calendar.error.xml.h:171
 msgid "Failed to refresh memo list '{0}'"
 msgstr "Αποτυχία ανανέωσης καταλόγου υπενθυμίσεων '{0}'"
 
-#: ../calendar/calendar.error.xml.h:170
+#: ../calendar/calendar.error.xml.h:172
 msgid "Failed to make an occurrence movable"
 msgstr "Αποτυχία μετατροπής ενός συμβάντος σε κινητό"
 
@@ -2956,7 +2952,7 @@ msgid "Do Not Exist"
 msgstr "Δεν Υπάρχει"
 
 #: ../calendar/gui/caltypes.xml.h:19
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2003
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2011
 msgid "Recurrence"
 msgstr "Επανεμφάνιση"
 
@@ -3098,7 +3094,6 @@ msgstr[1] "%d εβδομάδες"
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:421
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1828
-#| msgid "Play a sound"
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Εκτέλεση ενός ήχου"
@@ -3106,7 +3101,6 @@ msgstr "Εκτέλεση ενός ήχου"
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:425
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1826
-#| msgid "Pop up an alert"
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Εμφάνιση ενός συναγερμού"
@@ -3114,7 +3108,6 @@ msgstr "Εμφάνιση ενός συναγερμού"
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:429
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1832
-#| msgid "Send an email"
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Αποστολή μηνύματος"
@@ -3122,27 +3115,23 @@ msgstr "Αποστολή μηνύματος"
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-alarm-list.c:433
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1830
-#| msgid "Run a program"
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Εκτέλεση προγράμματος"
 
 #: ../calendar/gui/e-alarm-list.c:439
-#| msgid "Unknown action to be performed"
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
 msgstr "Άγνωστη ενέργεια για εκτέλεση"
 
 #: ../calendar/gui/e-alarm-list.c:454
 #, c-format
-#| msgid "%s %s before the start of the appointment"
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
 msgstr "%s %s πριν την αρχή"
 
 #: ../calendar/gui/e-alarm-list.c:460
 #, c-format
-#| msgid "%s %s after the start of the appointment"
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
 msgstr "%s %s μετά την αρχή"
@@ -3151,21 +3140,18 @@ msgstr "%s %s μετά την αρχή"
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:467
 #, c-format
-#| msgid "%s attachment"
 msgctxt "cal-reminders"
 msgid "%s at the start"
 msgstr "%s στην αρχή"
 
 #: ../calendar/gui/e-alarm-list.c:479
 #, c-format
-#| msgid "%s %s before the end of the appointment"
 msgctxt "cal-reminders"
 msgid "%s %s before the end"
 msgstr "%s %s πριν το τέλος"
 
 #: ../calendar/gui/e-alarm-list.c:485
 #, c-format
-#| msgid "%s %s after the end of the appointment"
 msgctxt "cal-reminders"
 msgid "%s %s after the end"
 msgstr "%s %s μετά το τέλος"
@@ -3174,7 +3160,6 @@ msgstr "%s %s μετά το τέλος"
 #. * "Play a sound"
 #: ../calendar/gui/e-alarm-list.c:492
 #, c-format
-#| msgid "%s attachment"
 msgctxt "cal-reminders"
 msgid "%s at the end"
 msgstr "%s στο τέλος"
@@ -3183,7 +3168,6 @@ msgstr "%s στο τέλος"
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
 #: ../calendar/gui/e-alarm-list.c:516
 #, c-format
-#| msgid "%s at %s"
 msgctxt "cal-reminders"
 msgid "%s at %s"
 msgstr "%s στις %s"
@@ -3192,7 +3176,6 @@ msgstr "%s στις %s"
 #. * "Play a sound". "Trigger types" are absolute or relative dates
 #: ../calendar/gui/e-alarm-list.c:524
 #, c-format
-#| msgid "%s for an unknown trigger type"
 msgctxt "cal-reminders"
 msgid "%s for an unknown trigger type"
 msgstr "%s για άγνωστο τύπο εναύσματος"
@@ -3328,7 +3311,7 @@ msgstr "Δημιουργείται προβολή για τον κατάλογο
 msgid "Creating view for memo list '%s'"
 msgstr "Δημιουργείται προβολή για τον κατάλογο υπενθυμίσεων '%s'"
 
-#: ../calendar/gui/e-cal-dialogs.c:214 ../calendar/gui/e-cal-ops.c:1937
+#: ../calendar/gui/e-cal-dialogs.c:214 ../calendar/gui/e-cal-ops.c:1939
 msgid "Destination is read only"
 msgstr "Ο προορισμός είναι μόνο για ανάγνωση"
 
@@ -3521,7 +3504,7 @@ msgstr "Διοργανωτής: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1850
-#: ../calendar/gui/e-meeting-time-sel.c:2725 ../calendar/gui/print.c:3527
+#: ../calendar/gui/e-meeting-time-sel.c:2731 ../calendar/gui/print.c:3527
 #, c-format
 msgid "Location: %s"
 msgstr "Τοποθεσία: %s"
@@ -3844,42 +3827,42 @@ msgstr "Εκκαθαρίζονται εργασίες"
 msgid "Expunging completed tasks"
 msgstr "Εξαλείφονται οι ολοκληρωμένες εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:2031
+#: ../calendar/gui/e-cal-ops.c:2033
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
 msgstr[0] "Μετακινείται συμβάν"
 msgstr[1] "Μετακινούνται %d συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:2032
+#: ../calendar/gui/e-cal-ops.c:2034
 #, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
 msgstr[0] "Αντιγράφεται συμβάν"
 msgstr[1] "Αντιγράφονται %d συμβάντα"
 
-#: ../calendar/gui/e-cal-ops.c:2038
+#: ../calendar/gui/e-cal-ops.c:2040
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "Μετακινείται υπενθύμιση"
 msgstr[1] "Μετακινούνται %d υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:2039
+#: ../calendar/gui/e-cal-ops.c:2041
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "Αντιγράφεται υπενθύμιση"
 msgstr[1] "Αντιγράφονται %d υπενθυμίσεις"
 
-#: ../calendar/gui/e-cal-ops.c:2045
+#: ../calendar/gui/e-cal-ops.c:2047
 #, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "Μετακινείται εργασία"
 msgstr[1] "Μετακινούνται %d εργασίες"
 
-#: ../calendar/gui/e-cal-ops.c:2046
+#: ../calendar/gui/e-cal-ops.c:2048
 #, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
@@ -3906,197 +3889,208 @@ msgstr ""
 "%s"
 
 #: ../calendar/gui/e-comp-editor-event.c:101
-#| msgid "Event's start time is in the past"
 msgid "Event's time is in the past"
 msgstr "Ο χρόνος του συμβάντος είναι στο παρελθόν"
 
-#: ../calendar/gui/e-comp-editor-event.c:169
-#| msgid "Event cannot be edited, because the selected calendar is read only"
+#: ../calendar/gui/e-comp-editor-event.c:199
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
 "Αδύνατη η επεξεργασία του συμβάντος, επειδή το επιλεγμένο ημερολόγιο δεν "
 "μπόρεσε να ανοιχτεί"
 
-#: ../calendar/gui/e-comp-editor-event.c:171
+#: ../calendar/gui/e-comp-editor-event.c:201
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
 "Δεν είναι δυνατή η επεξεργασία του συμβάντος επειδή το επιλεγμένο ημερολόγιο "
 "είναι μόνο για ανάγνωση"
 
-#: ../calendar/gui/e-comp-editor-event.c:313
-#: ../calendar/gui/e-comp-editor-task.c:349
-#| msgid "Start date is wrong"
+#: ../calendar/gui/e-comp-editor-event.c:203
+msgid "Event cannot be fully edited, because you are not the organizer"
+msgstr ""
+"Δεν είναι δυνατή η πλήρης επεξεργασία του συμβάντος επειδή δεν είστε ο "
+"οργανωτής"
+
+#: ../calendar/gui/e-comp-editor-event.c:345
+#: ../calendar/gui/e-comp-editor-task.c:355
 msgid "Start date is not a valid date"
 msgstr "Η ημερομηνία έναρξης δεν είναι έγκυρη"
 
-#: ../calendar/gui/e-comp-editor-event.c:315
-#| msgid "Start time is wrong"
+#: ../calendar/gui/e-comp-editor-event.c:347
 msgid "Start time is not a valid time"
 msgstr "Η ώρα έναρξης δεν είναι έγκυρη"
 
-#: ../calendar/gui/e-comp-editor-event.c:319
-#: ../calendar/gui/e-comp-editor-event.c:335
+#: ../calendar/gui/e-comp-editor-event.c:351
+#: ../calendar/gui/e-comp-editor-event.c:367
 #: ../calendar/gui/e-comp-editor-page-attachments.c:211
-#: ../calendar/gui/e-comp-editor.c:346 ../mail/e-mail-reader-utils.c:650
+#: ../calendar/gui/e-comp-editor.c:339 ../mail/e-mail-reader-utils.c:650
 #: ../mail/mail-send-recv.c:486 ../mail/mail-send-recv.c:1285
 #: ../plugins/face/face.c:176 ../shell/e-shell.c:972 ../shell/e-shell.c:994
 #: ../smime/gui/certificate-manager.c:346
 msgid "Unknown error"
 msgstr "Άγνωστο σφάλμα"
 
-#: ../calendar/gui/e-comp-editor-event.c:329
-#| msgid "Send options not available."
+#: ../calendar/gui/e-comp-editor-event.c:361
 msgid "End date is not a valid date"
 msgstr "Η ημερομηνία τέλους δεν είναι έγκυρη"
 
-#: ../calendar/gui/e-comp-editor-event.c:331
-#| msgid "Chosen file is not a local file."
+#: ../calendar/gui/e-comp-editor-event.c:363
 msgid "End time is not a valid time"
 msgstr "Ο χρόνος λήξης δεν είναι έγκυρος"
 
-#: ../calendar/gui/e-comp-editor-event.c:453
-#: ../calendar/gui/e-comp-editor-memo.c:58
-#: ../calendar/gui/e-comp-editor-task.c:407
+#: ../calendar/gui/e-comp-editor-event.c:485
+#: ../calendar/gui/e-comp-editor-memo.c:111
+#: ../calendar/gui/e-comp-editor-task.c:413
 msgid "_Categories"
 msgstr "_Κατηγορίες"
 
-#: ../calendar/gui/e-comp-editor-event.c:455
-#: ../calendar/gui/e-comp-editor-memo.c:60
-#: ../calendar/gui/e-comp-editor-task.c:409
+#: ../calendar/gui/e-comp-editor-event.c:487
+#: ../calendar/gui/e-comp-editor-memo.c:113
+#: ../calendar/gui/e-comp-editor-task.c:415
 msgid "Toggles whether to display categories"
 msgstr "Εναλλαγή της προβολής των κατηγοριών"
 
-#: ../calendar/gui/e-comp-editor-event.c:461
+#: ../calendar/gui/e-comp-editor-event.c:493
 msgid "Time _Zone"
 msgstr "_Ζώνη ώρας"
 
-#: ../calendar/gui/e-comp-editor-event.c:463
+#: ../calendar/gui/e-comp-editor-event.c:495
 msgid "Toggles whether the time zone is displayed"
 msgstr "Εναλλαγή της εμφάνισης της ζώνης ώρας"
 
-#: ../calendar/gui/e-comp-editor-event.c:469
+#: ../calendar/gui/e-comp-editor-event.c:501
 msgid "All _Day Event"
 msgstr "Ολοή_μερο συμβάν"
 
-#: ../calendar/gui/e-comp-editor-event.c:471
+#: ../calendar/gui/e-comp-editor-event.c:503
 msgid "Toggles whether to have All Day Event"
 msgstr "Εναλλαγή της προβολής του ολοήμερου συμβάντος"
 
-#: ../calendar/gui/e-comp-editor-event.c:477
+#: ../calendar/gui/e-comp-editor-event.c:509
 msgid "Show Time as _Busy"
 msgstr "Εμφάνιση ώρας ως απα_σχολημένος"
 
-#: ../calendar/gui/e-comp-editor-event.c:479
+#: ../calendar/gui/e-comp-editor-event.c:511
 msgid "Toggles whether to show time as busy"
 msgstr "Εναλλαγή της προβολής της ώρας ως απασχολημένης"
 
-#: ../calendar/gui/e-comp-editor-event.c:488
+#: ../calendar/gui/e-comp-editor-event.c:520
 msgid "Pu_blic"
 msgstr "Δη_μόσιο"
 
-#: ../calendar/gui/e-comp-editor-event.c:490
+#: ../calendar/gui/e-comp-editor-event.c:522
 msgid "Classify as public"
 msgstr "Διαβάθμιση ως δημόσιο"
 
-#: ../calendar/gui/e-comp-editor-event.c:495
+#: ../calendar/gui/e-comp-editor-event.c:527
 msgid "_Private"
 msgstr "Ι_διωτικό"
 
-#: ../calendar/gui/e-comp-editor-event.c:497
+#: ../calendar/gui/e-comp-editor-event.c:529
 msgid "Classify as private"
 msgstr "Διαβάθμιση ως ιδιωτικό"
 
-#: ../calendar/gui/e-comp-editor-event.c:502
+#: ../calendar/gui/e-comp-editor-event.c:534
 msgid "_Confidential"
 msgstr "Ε_μπιστευτικό"
 
-#: ../calendar/gui/e-comp-editor-event.c:504
+#: ../calendar/gui/e-comp-editor-event.c:536
 msgid "Classify as confidential"
 msgstr "Διαβάθμιση ως εμπιστευτικό"
 
-#: ../calendar/gui/e-comp-editor-event.c:605
-#| msgid "_Start time:"
+#: ../calendar/gui/e-comp-editor-event.c:637
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "Χρόνος έ_ναρξης:"
 
-#: ../calendar/gui/e-comp-editor-event.c:609
-#| msgid "_End time:"
+#: ../calendar/gui/e-comp-editor-event.c:642
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "Χρόνος _λήξης:"
 
-#: ../calendar/gui/e-comp-editor-event.c:617
-#| msgid "All _Day Event"
+#: ../calendar/gui/e-comp-editor-event.c:652
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Ολοή_μερο συμβάν"
 
-#: ../calendar/gui/e-comp-editor-event.c:670
-#: ../calendar/gui/e-comp-editor-memo.c:144
-#: ../calendar/gui/e-comp-editor-task.c:530
-#| msgid "General"
+#: ../calendar/gui/e-comp-editor-event.c:705
+#: ../calendar/gui/e-comp-editor-memo.c:197
+#: ../calendar/gui/e-comp-editor-task.c:536
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Γενικά"
 
-#: ../calendar/gui/e-comp-editor-event.c:673
-#: ../calendar/gui/e-comp-editor-task.c:536
-#| msgid "Reminders"
+#: ../calendar/gui/e-comp-editor-event.c:708
+#: ../calendar/gui/e-comp-editor-task.c:542
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Υπενθυμίσεις"
 
-#: ../calendar/gui/e-comp-editor-event.c:676
-#| msgid "Recurrence"
+#: ../calendar/gui/e-comp-editor-event.c:711
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Επανεμφάνιση"
 
-#: ../calendar/gui/e-comp-editor-event.c:679
-#: ../calendar/gui/e-comp-editor-memo.c:147
-#: ../calendar/gui/e-comp-editor-task.c:539
-#| msgid "Attachments"
+#: ../calendar/gui/e-comp-editor-event.c:714
+#: ../calendar/gui/e-comp-editor-memo.c:200
+#: ../calendar/gui/e-comp-editor-task.c:545
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Συνημμένα"
 
-#: ../calendar/gui/e-comp-editor-event.c:689
-#| msgid "Shell Module"
+#: ../calendar/gui/e-comp-editor-event.c:724
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Πρόγραμμα"
 
-#: ../calendar/gui/e-comp-editor-event.c:718
+#: ../calendar/gui/e-comp-editor-event.c:753
 #, c-format
 msgid "Meeting - %s"
 msgstr "Συγκέντρωση - %s"
 
-#: ../calendar/gui/e-comp-editor-event.c:719
+#: ../calendar/gui/e-comp-editor-event.c:754
 #, c-format
 msgid "Appointment - %s"
 msgstr "Συνάντηση - %s"
 
-#: ../calendar/gui/e-comp-editor-memo.c:120
-#: ../calendar/gui/e-comp-editor-task.c:469
+#: ../calendar/gui/e-comp-editor-memo.c:65
+#| msgid ""
+#| "Task cannot be edited, because the selected task list could not be opened"
+msgid ""
+"Memo cannot be edited, because the selected memo list could not be opened"
+msgstr ""
+"Αδυναμία επεξεργασίας της εργασίας, διότι η επιλεγμένη λίστα δεν μπόρεσε να "
+"ανοιχτεί"
+
+#: ../calendar/gui/e-comp-editor-memo.c:67
+msgid "Memo cannot be edited, because the selected memo list is read only"
+msgstr ""
+"Δεν είναι δυνατή η επεξεργασία της υπενθύμισης επειδή η επιλεγμένη λίστα "
+"υπενθυμίσεων είναι μόνο για ανάγνωση"
+
+#: ../calendar/gui/e-comp-editor-memo.c:69
+msgid "Memo cannot be fully edited, because you are not the organizer"
+msgstr ""
+"Δεν είναι δυνατή η πλήρης επεξεργασία της υπενθύμισης επειδή δεν είστε ο "
+"οργανωτής"
+
+#: ../calendar/gui/e-comp-editor-memo.c:173
+#: ../calendar/gui/e-comp-editor-task.c:475
 msgid "_List:"
 msgstr "_Λίστα:"
 
-#: ../calendar/gui/e-comp-editor-memo.c:127
-#: ../calendar/gui/e-comp-editor-task.c:476
-#| msgid "Sta_rt date:"
+#: ../calendar/gui/e-comp-editor-memo.c:180
+#: ../calendar/gui/e-comp-editor-task.c:482
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "Ημερομηνία έ_ναρξης:"
 
-#: ../calendar/gui/e-comp-editor-memo.c:175
+#: ../calendar/gui/e-comp-editor-memo.c:228
 #, c-format
-#| msgid "Assigned Task - %s"
 msgid "Assigned Memo - %s"
 msgstr "Εκχωρημένη υπενθύμιση - %s"
 
-#: ../calendar/gui/e-comp-editor-memo.c:176
+#: ../calendar/gui/e-comp-editor-memo.c:229
 #, c-format
 msgid "Memo - %s"
 msgstr "Υπενθύμιση - %s"
@@ -4124,10 +4118,7 @@ msgstr "Αδυναμία φόρτωσης '%s'"
 msgid "Could not load the attachment"
 msgstr "Αδυναμία φόρτωσης συνημμένου"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:399
-#| msgid ""
-#| "Some attachments are being downloaded. Saving the task would result in "
-#| "the loss of these attachments."
+#: ../calendar/gui/e-comp-editor-page-attachments.c:413
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
@@ -4135,55 +4126,50 @@ msgstr ""
 "Υπάρχουν μερικά συνημμένα που μεταφορτώνονται ακόμα. Παρακαλούμε, περιμένετε "
 "μέχρι την ολοκλήρωση της μεταφόρτωσης."
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:426
+#: ../calendar/gui/e-comp-editor-page-attachments.c:440
 #, c-format
 msgid "Attachment '%s' cannot be found, remove it from the list, please"
 msgstr ""
 "Το συνημμένο '%s' δεν μπόρεσε να βρεθεί. Παρακαλούμε, να αφαιρεθεί από τον "
 "κατάλογο."
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:443
+#: ../calendar/gui/e-comp-editor-page-attachments.c:457
 #, c-format
 msgid "Attachment '%s' doesn't have valid URI, remove it from the list, please"
 msgstr ""
 "Το συνημμένο '%s' δεν έχει έγκυρο URI. Παρακαλούμε, να αφαιρεθεί από τον "
 "κατάλογο."
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:603
+#: ../calendar/gui/e-comp-editor-page-attachments.c:618
 #: ../composer/e-composer-actions.c:327
 msgid "_Attachment..."
 msgstr "_Συνημμένο..."
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:605
+#: ../calendar/gui/e-comp-editor-page-attachments.c:620
 #: ../composer/e-composer-actions.c:329 ../e-util/e-attachment-view.c:463
 msgid "Attach a file"
 msgstr "Επισύναψη αρχείου"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:612
-#| msgid "Attachments"
+#: ../calendar/gui/e-comp-editor-page-attachments.c:627
 msgid "_Attachments"
 msgstr "_Συνημμένα"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:614
-#| msgctxt "iCalImp"
-#| msgid "has attachments"
+#: ../calendar/gui/e-comp-editor-page-attachments.c:629
 msgid "Show attachments"
 msgstr "Εμφάνιση συνημμένων"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:766
+#: ../calendar/gui/e-comp-editor-page-attachments.c:781
 #: ../e-util/e-attachment-bar.c:661 ../e-util/e-attachment-paned.c:735
 msgid "Icon View"
 msgstr "Προβολή εικονιδίων"
 
-#: ../calendar/gui/e-comp-editor-page-attachments.c:768
+#: ../calendar/gui/e-comp-editor-page-attachments.c:783
 #: ../e-util/e-attachment-bar.c:663 ../e-util/e-attachment-paned.c:737
 msgid "List View"
 msgstr "Προβολή λίστας"
 
 #: ../calendar/gui/e-comp-editor-page-general.c:313
 #, c-format
-#| msgid "Cannot find matching event in the next %d year"
-#| msgid_plural "Cannot find matching event in the next %d years"
 msgid "Cannot find attendee '%s' in the list of attendees"
 msgstr ""
 "Αδυναμία εύρεσης του παρευρισκόμενου '%s' στον κατάλογο των παρευρισκομένων."
@@ -4193,70 +4179,66 @@ msgstr ""
 msgid "Not enough rights to delete attendee '%s'"
 msgstr "Ανεπαρκή δικαιώματα για διαγραφή του παρευρισκόμενου '%s'"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:349
-#| msgid "Failed to delete contact"
+#: ../calendar/gui/e-comp-editor-page-general.c:350
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
 msgstr[0] "Αποτυχία διαγραφής του επιλεγμένου παρευρισκόμενου"
 msgstr[1] "Αποτυχία διαγραφής επαφής των επιλεγμένων παρευσκομένων"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:581
-#| msgid "Attendees"
+#: ../calendar/gui/e-comp-editor-page-general.c:583
 msgid "A_ttendees"
 msgstr "_Παρευρισκόμενοι"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:583
-#| msgid "Toggles whether the Attendee Type is displayed"
+#: ../calendar/gui/e-comp-editor-page-general.c:585
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Εναλλάσσει αν θα εμφανίζονται οι παρευρισκόμενοι"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:592
+#: ../calendar/gui/e-comp-editor-page-general.c:594
 msgid "R_ole Field"
 msgstr "Πεδίο _ρόλου"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:594
+#: ../calendar/gui/e-comp-editor-page-general.c:596
 msgid "Toggles whether the Role field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου ρόλου"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:600
+#: ../calendar/gui/e-comp-editor-page-general.c:602
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:602
+#: ../calendar/gui/e-comp-editor-page-general.c:604
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου RSVP"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:608
+#: ../calendar/gui/e-comp-editor-page-general.c:610
 msgid "_Status Field"
 msgstr "Πεδίο _κατάστασης"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:610
+#: ../calendar/gui/e-comp-editor-page-general.c:612
 msgid "Toggles whether the Status field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου κατάστασης"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:616
+#: ../calendar/gui/e-comp-editor-page-general.c:618
 msgid "_Type Field"
 msgstr "Πεδίο _τύπου"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:618
+#: ../calendar/gui/e-comp-editor-page-general.c:620
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου τύπου παρευρισκομένου"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:935
+#: ../calendar/gui/e-comp-editor-page-general.c:945
 msgid "An organizer is required."
 msgstr "Χρειάζεται ένας διοργανωτής."
 
-#: ../calendar/gui/e-comp-editor-page-general.c:945
-#: ../calendar/gui/e-comp-editor-page-general.c:1076
+#: ../calendar/gui/e-comp-editor-page-general.c:955
+#: ../calendar/gui/e-comp-editor-page-general.c:1086
 msgid "At least one attendee is required."
 msgstr "Απαιτείται τουλάχιστον ένας παρευρισκόμενος."
 
-#: ../calendar/gui/e-comp-editor-page-general.c:1199
+#: ../calendar/gui/e-comp-editor-page-general.c:1209
 msgid "Or_ganizer:"
 msgstr "_Διοργανωτής:"
 
-#: ../calendar/gui/e-comp-editor-page-general.c:1278
-#| msgid "Atte_ndees..."
+#: ../calendar/gui/e-comp-editor-page-general.c:1288
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Παρευ_ρισκόμενοι..."
@@ -4280,7 +4262,6 @@ msgstr "στο"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:577
-#| msgid "first"
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "πρώτη"
@@ -4291,7 +4272,6 @@ msgstr "πρώτη"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:583
-#| msgid "second"
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "δεύτερη"
@@ -4301,7 +4281,6 @@ msgstr "δεύτερη"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:588
-#| msgid "third"
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "τρίτη"
@@ -4311,7 +4290,6 @@ msgstr "τρίτη"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:593
-#| msgid "fourth"
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "τέταρτη"
@@ -4321,7 +4299,6 @@ msgstr "τέταρτη"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:598
-#| msgid "fifth"
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "πέμπτη"
@@ -4331,7 +4308,6 @@ msgstr "πέμπτη"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:603
-#| msgid "last"
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "τελευταία"
@@ -4339,7 +4315,6 @@ msgstr "τελευταία"
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:630
-#| msgid "Other Date"
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Άλλη ημερομηνία"
@@ -4349,7 +4324,6 @@ msgstr "Άλλη ημερομηνία"
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:636
-#| msgid "1st to 10th"
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "1η ως 10η"
@@ -4359,7 +4333,6 @@ msgstr "1η ως 10η"
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:642
-#| msgid "11th to 20th"
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "11η ως 20η"
@@ -4369,7 +4342,6 @@ msgstr "11η ως 20η"
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:648
-#| msgid "21st to 31st"
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "21η ως 31η"
@@ -4378,50 +4350,41 @@ msgstr "21η ως 31η"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:674
-#| msgid "day"
-#| msgid_plural "days"
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "ημέρα"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:675
-#| msgid "Monday"
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "Δευτέρα"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:676
-#| msgid "Tuesday"
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "Τρίτη"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:677
-#| msgid "Wednesday"
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "Τετάρτη"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:678
-#| msgid "Thursday"
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "Πέμπτη"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:679
-#| msgid "Friday"
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "Παρασκευή"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:680
-#| msgid "Saturday"
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "Σάββατο"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:681
-#| msgid "Sunday"
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "Κυριακή"
@@ -4430,156 +4393,131 @@ msgstr "Κυριακή"
 #. * (dropdown menu options are in [square brackets])."
 #.
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:810
-#| msgid "on the"
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "την"
 
 #: ../calendar/gui/e-comp-editor-page-recurrence.c:1000
-#| msgid "occurrences"
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "εμφανίσεις"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1485
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2015
-#| msgid "This appointment rec_urs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1493
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2023
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
 msgstr "Αυτή η συνάντηση επα_ναλαμβάνεται"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1490
-#| msgid "This task recurs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1498
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
 msgstr "Αυτή η εργασία επα_ναλαμβάνεται"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1495
-#| msgid "This memo recurs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1503
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
 msgstr "Αυτή η υπενθύμιση επα_ναλαμβάνεται"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1500
-#| msgid "This appointment rec_urs"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1508
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
 msgstr "Αυτό το στοιχείο επα_ναλαμβάνεται"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1861
-#| msgid "Recurrence date is invalid"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1869
 msgid "Recurrence exception date is invalid"
 msgstr "Η ημερομηνία εξαίρεσης της επανεμφάνισης είναι άκυρη"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1909
-#| msgid "End time of the recurrence was before event's start"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1917
 msgid "End time of the recurrence is before the start"
 msgstr "Η ώρα λήξης της επανεμφάνισης είναι πριν την έναρξη"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1952
-#| msgid "Recurrence"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1960
 msgid "R_ecurrence"
 msgstr "Επανεμ_φάνιση"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:1954
-#| msgid "It has recurrences."
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:1962
 msgid "Set or unset recurrence"
 msgstr "Ορισμός ή άρση επανεμφάνισης"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2055
-#| msgid "Every"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2063
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
 msgstr "Κάθε"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2090
-#| msgid "day(s)"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2098
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "ημέρες"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2092
-#| msgctxt "recurrpage"
-#| msgid "week(s)"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2100
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "εβδομάδες"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2094
-#| msgctxt "recurrpage"
-#| msgid "month(s)"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2102
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "μήνες"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2096
-#| msgctxt "recurrpage"
-#| msgid "year(s)"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2104
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "χρόνια"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2125
-#| msgctxt "eventpage"
-#| msgid "for"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2133
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "για"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2127
-#| msgctxt "eventpage"
-#| msgid "until"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2135
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "μέχρι"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2129
-#| msgctxt "recurrpage"
-#| msgid "forever"
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2137
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "για πάντα"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2145
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2153
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 "Αυτή η συνάντηση περιέχει επαναλήψεις που το Evolution δε μπορεί να "
 "επεξεργαστεί."
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2162
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2170
 msgid "Exceptions"
 msgstr "Εξαιρέσεις"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2231
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2239
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1778
 #: ../mail/mail-config.ui.h:62
 msgid "A_dd"
 msgstr "_Προσθήκη"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2247
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1786
 #: ../mail/mail-config.ui.h:64
 msgid "Re_move"
 msgstr "Α_φαίρεση"
 
-#: ../calendar/gui/e-comp-editor-page-recurrence.c:2255
+#: ../calendar/gui/e-comp-editor-page-recurrence.c:2263
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:41
-#| msgid "Send To:"
 msgid "Send To"
 msgstr "Αποστολή σε"
 
@@ -4588,7 +4526,6 @@ msgid "_Reminders"
 msgstr "Υπ_ενθυμίσεις"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1557
-#| msgid "Set or unset reminders for this event"
 msgid "Set or unset reminders"
 msgstr "Ορισμός ή αφαίρεση υπενθυμίσεων"
 
@@ -4603,8 +4540,6 @@ msgstr "Υπό_μνηση"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1672
 #, c-format
-#| msgid "%d day ago"
-#| msgid_plural "%d days ago"
 msgid "%d day before"
 msgid_plural "%d days before"
 msgstr[0] "%d ημέρα πριν"
@@ -4612,8 +4547,6 @@ msgstr[1] "%d ημέρες πριν"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1679
 #, c-format
-#| msgid "%d hour before appointment"
-#| msgid_plural "%d hours before appointment"
 msgid "%d hour before"
 msgid_plural "%d hours before"
 msgstr[0] "%d ώρα πριν"
@@ -4621,8 +4554,6 @@ msgstr[1] "%d ώρες"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1686
 #, c-format
-#| msgid "%d minute before appointment"
-#| msgid_plural "%d minutes before appointment"
 msgid "%d minute before"
 msgid_plural "%d minutes before"
 msgstr[0] "%d λεπτό πριν"
@@ -4636,112 +4567,95 @@ msgstr "Κανένα"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1696
-#| msgid "15 minutes"
 msgctxt "cal-reminders"
 msgid "15 minutes before"
 msgstr "15 λεπτά πριν"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1698
-#| msgid "1 hour ago"
-#| msgid_plural "%d hours ago"
 msgctxt "cal-reminders"
 msgid "1 hour before"
 msgstr "1 ώρα πριν"
 
 #. Translators: Predefined reminder's description
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1700
-#| msgid "is before"
 msgctxt "cal-reminders"
 msgid "1 day before"
 msgstr "1 ημέρα πριν"
 
 #. Translators: "Custom" for "Custom reminder set"
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1712
-#| msgid "Custom"
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Προσαρμοσμένο"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1863
-#| msgid "minute(s)"
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "λεπτά"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1865
-#| msgid "hour(s)"
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "ώρες"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1867
-#| msgid "day(s)"
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "ημέρες"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1884
-#| msgid "before"
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "πριν"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1886
-#| msgid "after"
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "μετά"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1902
-#| msgid "Start"
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "έναρξη"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1904
-#| msgid "_Send"
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "λήξη"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1927
-#| msgid "_Repeat the reminder"
 msgid "Re_peat the reminder"
 msgstr "_Επανάληψη της υπόμνησης"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1952
-#| msgid "extra times every"
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "επιπλέον φορές κάθε"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1989
-#| msgid "minutes"
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "λεπτά"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1991
-#| msgid "hours"
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "ώρες"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
 #: ../calendar/gui/e-comp-editor-page-reminders.c:1993
-#| msgid "days"
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "ημέρες"
@@ -4749,19 +4663,16 @@ msgstr "ημέρες"
 #. page_reminders->priv->custom_email_entry is initialized on demand
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2034
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2191
-#| msgid "Custom _message"
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Προσαρμοσμένο _μήνυμα"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2078
-#| msgid "Custom reminder sound"
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Προσαρμοσμένος ή_χος υπομνήσεων"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2089
-#| msgid "Select sound file"
 msgid "Select a sound file"
 msgstr "Επιλογή αρχείου ήχου"
 
@@ -4774,12 +4685,10 @@ msgid "_Arguments:"
 msgstr "_Ορίσματα:"
 
 #: ../calendar/gui/e-comp-editor-page-reminders.c:2174
-#| msgid "Send To:"
 msgid "_Send To:"
 msgstr "_Αποστολή σε:"
 
 #: ../calendar/gui/e-comp-editor-page-schedule.c:427
-#| msgid "Shell Module"
 msgid "_Schedule"
 msgstr "Π_ρόγραμμα"
 
@@ -4788,145 +4697,121 @@ msgid "Query free / busy information for the attendees"
 msgstr "Ερώτηση πληροφοριών διαθεσιμότητας για τους παρευρισκόμενους"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:81
-#| msgid "_Summary:"
 msgctxt "ECompEditor"
 msgid "_Summary:"
 msgstr "_Περίληψη:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:325
-#| msgid "_Location:"
 msgctxt "ECompEditor"
 msgid "_Location:"
 msgstr "_Τοποθεσία:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:458
-#| msgid "Ca_tegories..."
 msgctxt "ECompEditor"
 msgid "_Categories..."
 msgstr "_Κατηγορίες..."
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:555
-#| msgid "_Description:"
 msgctxt "ECompEditor"
 msgid "_Description:"
 msgstr "_Περιγραφή:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:686
-#| msgid "_Web Page:"
 msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "Ιστοσε_λίδα:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1057
-#| msgid "D_ue date:"
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "Ημερομηνία _λήξης:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1117
-#| msgid "Date _completed:"
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "Ημερομηνία ο_λοκλήρωσης:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1133
-#| msgid "Public"
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Δημόσιο"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1134
-#| msgid "Private"
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Ιδιωτικό"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1135
-#| msgid "Confidential"
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Εμπιστευτικό"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1144
-#| msgid "C_lassification:"
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "Δια_βάθμιση:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1157
-#| msgid "Not Started"
 msgctxt "ECompEditor"
 msgid "Not Started"
 msgstr "Δεν έχει ξεκινήσει"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1158
-#| msgid "In Progress"
 msgctxt "ECompEditor"
 msgid "In Progress"
 msgstr "Σε εξέλιξη"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1159
-#| msgid "Completed"
 msgctxt "ECompEditor"
 msgid "Completed"
 msgstr "Ολοκληρώθηκε"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1160
-#| msgid "Canceled"
 msgctxt "ECompEditor"
 msgid "Canceled"
 msgstr "Ακυρώθηκε"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1169
-#| msgid "_Status:"
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_Κατάσταση:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1199
-#| msgid "Undefined"
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Αόριστο"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1200
-#| msgid "High"
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Υψηλή"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1201
-#| msgid "Normal"
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Κανονική"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1202
-#| msgid "Low"
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Χαμηλή"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1211
-#| msgid "Priorit_y:"
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "Π_ροτεραιότητα:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1265
-#| msgid "_Percent complete:"
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Ποσοστό ολοκλήρωσης:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1346
-#| msgid "Time _zone:"
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "_Ζώνη ώρας:"
 
 #: ../calendar/gui/e-comp-editor-property-parts.c:1471
-#| msgid "Show Time as _Busy"
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Εμφάνιση ώρας ως απα_σχολημένος"
@@ -4939,42 +4824,43 @@ msgstr "Η ημερομηνία έναρξης της εργασίας είνα�
 msgid "Task's due date is in the past"
 msgstr "Η ημερομηνία λήξης της εργασίας είναι παρελθοντική"
 
-#: ../calendar/gui/e-comp-editor-task.c:303
-#| msgid "Task cannot be edited, because the selected task list is read only"
+#: ../calendar/gui/e-comp-editor-task.c:307
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
 "Αδύνατη η επεξεργασία της εργασίας, επειδή ο επιλεγμένος κατάλογος δεν "
 "μπόρεσε να ανοιχτεί"
 
-#: ../calendar/gui/e-comp-editor-task.c:305
+#: ../calendar/gui/e-comp-editor-task.c:309
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
 "Δεν είναι δυνατή η επεξεργασία της εργασίας επειδή η επιλεγμένη λίστα "
 "εργασιών είναι μόνο για ανάγνωση"
 
-#: ../calendar/gui/e-comp-editor-task.c:360
-#| msgid "Recurrence date is invalid"
+#: ../calendar/gui/e-comp-editor-task.c:311
+msgid "Task cannot be fully edited, because you are not the organizer"
+msgstr ""
+"Δεν είναι δυνατή η πλήρης επεξεργασία αυτής της εργασίας επειδή δεν είστε ο "
+"οργανωτής"
+
+#: ../calendar/gui/e-comp-editor-task.c:366
 msgid "Due date is not a valid date"
 msgstr "Η ημερομηνία λήξης δεν είναι έγκυρη"
 
-#: ../calendar/gui/e-comp-editor-task.c:371
-#| msgid "Completed date is wrong"
+#: ../calendar/gui/e-comp-editor-task.c:377
 msgid "Completed date is not a valid date"
 msgstr "Η ολοκληρωμένη ημερομηνία δεν είναι έγκυρη"
 
-#: ../calendar/gui/e-comp-editor-task.c:382
-#| msgid "1 minute in the future"
-#| msgid_plural "%d minutes in the future"
+#: ../calendar/gui/e-comp-editor-task.c:388
 msgid "Completed date cannot be in the future"
 msgstr "Η ολοκληρωμένη ημερομηνία δεν μπορεί να είναι στο μέλλον"
 
-#: ../calendar/gui/e-comp-editor-task.c:567
+#: ../calendar/gui/e-comp-editor-task.c:573
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Ανατιθέμενη εργασία - %s"
 
-#: ../calendar/gui/e-comp-editor-task.c:568
+#: ../calendar/gui/e-comp-editor-task.c:574
 #, c-format
 msgid "Task - %s"
 msgstr "Εργασία - %s"
@@ -4984,46 +4870,44 @@ msgstr "Εργασία - %s"
 msgid "attachment"
 msgstr "συνημμένο"
 
-#: ../calendar/gui/e-comp-editor.c:616
-#| msgid "Send _updates to attendees"
+#: ../calendar/gui/e-comp-editor.c:609
 msgid "Sending notifications to attendees..."
 msgstr "Αποστολή ειδοποιήσεων στους παρευρισκομένους..."
 
-#: ../calendar/gui/e-comp-editor.c:895
-#| msgid "Storing changes..."
+#: ../calendar/gui/e-comp-editor.c:991
 msgid "Saving changes..."
 msgstr "Αποθήκευση αλλαγών..."
 
-#: ../calendar/gui/e-comp-editor.c:1151
+#: ../calendar/gui/e-comp-editor.c:1247
 msgid "No Summary"
 msgstr "Χωρίς περίληψη"
 
 #. == Button box ==
-#: ../calendar/gui/e-comp-editor.c:1876 ../composer/e-composer-actions.c:334
+#: ../calendar/gui/e-comp-editor.c:1972 ../composer/e-composer-actions.c:334
 #: ../e-util/e-html-editor-dialog.c:196 ../e-util/e-mail-signature-editor.c:295
-#: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:388
+#: ../e-util/e-name-selector-dialog.c:551 ../e-util/e-preferences-window.c:391
 #: ../e-util/e-table-field-chooser-dialog.c:207 ../mail/e-mail-browser.c:129
 #: ../mail/e-mail-notes.c:903 ../mail/em-folder-properties.c:688
 #: ../mail/em-subscription-editor.c:1759
 #: ../modules/plugin-manager/evolution-plugin-manager.c:256
 #: ../shell/e-shell-window-actions.c:280 ../shell/e-shell-window-actions.c:778
-#: ../smime/gui/certificate-manager.c:2066
+#: ../smime/gui/certificate-manager.c:2068
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: ../calendar/gui/e-comp-editor.c:1878
+#: ../calendar/gui/e-comp-editor.c:1974
 msgid "Close the current window"
 msgstr "Κλείσιμο του τρέχοντος παραθύρου"
 
 #. copy menu item
-#: ../calendar/gui/e-comp-editor.c:1883 ../e-util/e-focus-tracker.c:775
+#: ../calendar/gui/e-comp-editor.c:1979 ../e-util/e-focus-tracker.c:775
 #: ../e-util/e-html-editor-actions.c:1076 ../e-util/e-text.c:2109
 #: ../e-util/e-web-view.c:377 ../mail/e-mail-browser.c:136
 #: ../mail/mail.error.xml.h:141 ../shell/e-shell-window-actions.c:799
 msgid "_Copy"
 msgstr "Αντι_γραφή"
 
-#: ../calendar/gui/e-comp-editor.c:1885 ../e-util/e-focus-tracker.c:175
+#: ../calendar/gui/e-comp-editor.c:1981 ../e-util/e-focus-tracker.c:175
 #: ../e-util/e-focus-tracker.c:231 ../e-util/e-focus-tracker.c:284
 #: ../e-util/e-focus-tracker.c:776 ../e-util/e-web-view.c:379
 #: ../e-util/e-web-view.c:1416 ../mail/e-mail-browser.c:138
@@ -5032,51 +4916,51 @@ msgid "Copy the selection"
 msgstr "Αντιγραφή της επιλογής"
 
 #. cut menu item
-#: ../calendar/gui/e-comp-editor.c:1890 ../e-util/e-focus-tracker.c:770
+#: ../calendar/gui/e-comp-editor.c:1986 ../e-util/e-focus-tracker.c:770
 #: ../e-util/e-html-editor-actions.c:1083 ../e-util/e-text.c:2095
 #: ../mail/e-mail-browser.c:143 ../shell/e-shell-window-actions.c:806
 msgid "Cu_t"
 msgstr "_Αποκοπή"
 
-#: ../calendar/gui/e-comp-editor.c:1892 ../e-util/e-focus-tracker.c:168
+#: ../calendar/gui/e-comp-editor.c:1988 ../e-util/e-focus-tracker.c:168
 #: ../e-util/e-focus-tracker.c:224 ../e-util/e-focus-tracker.c:278
 #: ../e-util/e-focus-tracker.c:771 ../e-util/e-web-view.c:1410
 #: ../mail/e-mail-browser.c:145 ../shell/e-shell-window-actions.c:808
 msgid "Cut the selection"
 msgstr "Αποκοπή της επιλογής"
 
-#: ../calendar/gui/e-comp-editor.c:1899 ../e-util/e-focus-tracker.c:189
+#: ../calendar/gui/e-comp-editor.c:1995 ../e-util/e-focus-tracker.c:189
 #: ../e-util/e-focus-tracker.c:245 ../e-util/e-focus-tracker.c:786
 #: ../shell/e-shell-window-actions.c:815
 msgid "Delete the selection"
 msgstr "Διαγραφή της επιλογής"
 
-#: ../calendar/gui/e-comp-editor.c:1906
+#: ../calendar/gui/e-comp-editor.c:2002
 msgid "View help"
 msgstr "Προβολή βοήθειας"
 
 #. paste menu item
-#: ../calendar/gui/e-comp-editor.c:1911 ../e-util/e-focus-tracker.c:780
+#: ../calendar/gui/e-comp-editor.c:2007 ../e-util/e-focus-tracker.c:780
 #: ../e-util/e-html-editor-actions.c:1090 ../e-util/e-text.c:2121
 #: ../mail/e-mail-browser.c:150 ../shell/e-shell-window-actions.c:834
 msgid "_Paste"
 msgstr "Επι_κόλληση"
 
-#: ../calendar/gui/e-comp-editor.c:1913 ../e-util/e-focus-tracker.c:182
+#: ../calendar/gui/e-comp-editor.c:2009 ../e-util/e-focus-tracker.c:182
 #: ../e-util/e-focus-tracker.c:238 ../e-util/e-focus-tracker.c:290
 #: ../e-util/e-focus-tracker.c:781 ../e-util/e-web-view.c:1422
 #: ../mail/e-mail-browser.c:152 ../shell/e-shell-window-actions.c:836
 msgid "Paste the clipboard"
 msgstr "Επικόλληση του προχείρου"
 
-#: ../calendar/gui/e-comp-editor.c:1918 ../composer/e-composer-actions.c:388
+#: ../calendar/gui/e-comp-editor.c:2014 ../composer/e-composer-actions.c:388
 #: ../mail/e-mail-reader.c:2287
 #: ../modules/addressbook/e-book-shell-view-actions.c:1231
 #: ../modules/addressbook/e-book-shell-view-actions.c:1245
 msgid "_Print..."
 msgstr "_Εκτύπωση..."
 
-#: ../calendar/gui/e-comp-editor.c:1925 ../mail/e-mail-reader.c:2294
+#: ../calendar/gui/e-comp-editor.c:2021 ../mail/e-mail-reader.c:2294
 #: ../modules/addressbook/e-book-shell-view-actions.c:1238
 #: ../modules/calendar/e-cal-shell-view-actions.c:1671
 #: ../modules/calendar/e-memo-shell-view-actions.c:791
@@ -5084,52 +4968,52 @@ msgstr "_Εκτύπωση..."
 msgid "Pre_view..."
 msgstr "Προ_επισκόπηση..."
 
-#: ../calendar/gui/e-comp-editor.c:1932 ../e-util/e-focus-tracker.c:790
+#: ../calendar/gui/e-comp-editor.c:2028 ../e-util/e-focus-tracker.c:790
 #: ../e-util/e-html-editor-actions.c:1104 ../e-util/e-web-view.c:387
 #: ../mail/e-mail-browser.c:157 ../shell/e-shell-window-actions.c:911
 msgid "Select _All"
 msgstr "Επιλογή ό_λων"
 
-#: ../calendar/gui/e-comp-editor.c:1934 ../e-util/e-focus-tracker.c:196
+#: ../calendar/gui/e-comp-editor.c:2030 ../e-util/e-focus-tracker.c:196
 #: ../e-util/e-focus-tracker.c:252 ../e-util/e-focus-tracker.c:791
 #: ../mail/e-mail-browser.c:159 ../shell/e-shell-window-actions.c:913
 msgid "Select all text"
 msgstr "Επιλογή όλου του κειμένου"
 
-#: ../calendar/gui/e-comp-editor.c:1955
+#: ../calendar/gui/e-comp-editor.c:2051
 msgid "_Classification"
 msgstr "Δια_βάθμιση"
 
-#: ../calendar/gui/e-comp-editor.c:1969 ../e-util/e-html-editor-actions.c:1127
+#: ../calendar/gui/e-comp-editor.c:2065 ../e-util/e-html-editor-actions.c:1127
 #: ../e-util/e-mail-signature-editor.c:309 ../mail/e-mail-browser.c:166
 #: ../mail/e-mail-notes.c:917 ../shell/e-shell-window-actions.c:948
 msgid "_File"
 msgstr "_Αρχείο"
 
-#: ../calendar/gui/e-comp-editor.c:1983 ../e-util/e-html-editor-actions.c:1148
+#: ../calendar/gui/e-comp-editor.c:2079 ../e-util/e-html-editor-actions.c:1148
 msgid "_Insert"
 msgstr "_Εισαγωγή"
 
-#: ../calendar/gui/e-comp-editor.c:1990 ../composer/e-composer-actions.c:378
+#: ../calendar/gui/e-comp-editor.c:2086 ../composer/e-composer-actions.c:378
 msgid "_Options"
 msgstr "Επι_λογές"
 
-#: ../calendar/gui/e-comp-editor.c:1997 ../e-util/e-html-editor-actions.c:1169
+#: ../calendar/gui/e-comp-editor.c:2093 ../e-util/e-html-editor-actions.c:1169
 #: ../mail/e-mail-browser.c:180 ../shell/e-shell-window-actions.c:991
 #: ../smime/gui/certificate-manager.c:1651 ../smime/gui/smime-ui.ui.h:5
 msgid "_View"
 msgstr "_Προβολή"
 
-#: ../calendar/gui/e-comp-editor.c:2009
+#: ../calendar/gui/e-comp-editor.c:2105
 msgid "Save current changes"
 msgstr "Αποθήκευση τρεχουσών αλλαγών"
 
-#: ../calendar/gui/e-comp-editor.c:2014 ../e-util/e-mail-signature-editor.c:304
+#: ../calendar/gui/e-comp-editor.c:2110 ../e-util/e-mail-signature-editor.c:304
 #: ../mail/e-mail-notes.c:912
 msgid "Save and Close"
 msgstr "Αποθήκευση και Κλείσιμο"
 
-#: ../calendar/gui/e-comp-editor.c:2016
+#: ../calendar/gui/e-comp-editor.c:2112
 msgid "Save current changes and close editor"
 msgstr "Αποθήκευση τρεχουσών αλλαγών και κλείσιμο επεξεργαστή"
 
@@ -5170,17 +5054,17 @@ msgstr "Εβδομάδα %d"
 #. * day view, e.g. a day is displayed in
 #. * 24 "60 minute divisions" or
 #. * 48 "30 minute divisions".
-#: ../calendar/gui/e-day-view-time-item.c:804
+#: ../calendar/gui/e-day-view-time-item.c:806
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i τμήματα λεπτών"
 
-#: ../calendar/gui/e-day-view-time-item.c:829
+#: ../calendar/gui/e-day-view-time-item.c:831
 msgid "Show the second time zone"
 msgstr "Εμφάνιση της δεύτερης ζώνης ώρας"
 
 #. Translators: "None" indicates no second time zone set for a day view
-#: ../calendar/gui/e-day-view-time-item.c:846
+#: ../calendar/gui/e-day-view-time-item.c:848
 #: ../modules/calendar/e-calendar-preferences.c:308
 #: ../modules/calendar/e-calendar-preferences.c:360
 #: ../modules/calendar/e-calendar-preferences.ui.h:11
@@ -5188,7 +5072,7 @@ msgctxt "cal-second-zone"
 msgid "None"
 msgstr "Καμία"
 
-#: ../calendar/gui/e-day-view-time-item.c:880
+#: ../calendar/gui/e-day-view-time-item.c:882
 #: ../calendar/gui/e-timezone-entry.c:324
 #: ../modules/calendar/e-calendar-preferences.c:391
 msgid "Select..."
@@ -5324,55 +5208,55 @@ msgstr "Παρευ_ρισκόμενοι..."
 msgid "O_ptions"
 msgstr "Επι_λογές"
 
-#: ../calendar/gui/e-meeting-time-sel.c:594
+#: ../calendar/gui/e-meeting-time-sel.c:595
 msgid "Show _only working hours"
 msgstr "Εμφάνιση _μόνο των ωρών Εργασίας"
 
-#: ../calendar/gui/e-meeting-time-sel.c:607
+#: ../calendar/gui/e-meeting-time-sel.c:608
 msgid "Show _zoomed out"
 msgstr "Εμφάνιση Σ_μίκρυνσης"
 
-#: ../calendar/gui/e-meeting-time-sel.c:625
+#: ../calendar/gui/e-meeting-time-sel.c:626
 msgid "_Update free/busy"
 msgstr "Ανα_νέωση Διαθεσιμότητας"
 
-#: ../calendar/gui/e-meeting-time-sel.c:642
+#: ../calendar/gui/e-meeting-time-sel.c:643
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:662
+#: ../calendar/gui/e-meeting-time-sel.c:663
 msgid "_Autopick"
 msgstr "_Αυτόματη επιλογή"
 
-#: ../calendar/gui/e-meeting-time-sel.c:679
+#: ../calendar/gui/e-meeting-time-sel.c:680
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:700
+#: ../calendar/gui/e-meeting-time-sel.c:702
 msgid "_All people and resources"
 msgstr "Όλα _τα Άτομα και οι Πόροι"
 
-#: ../calendar/gui/e-meeting-time-sel.c:711
+#: ../calendar/gui/e-meeting-time-sel.c:713
 msgid "All _people and one resource"
 msgstr "Όλα τα Άτομα και ένας _Πόρος"
 
-#: ../calendar/gui/e-meeting-time-sel.c:722
+#: ../calendar/gui/e-meeting-time-sel.c:724
 msgid "_Required people"
 msgstr "_Απαιτούμενα άτομα"
 
-#: ../calendar/gui/e-meeting-time-sel.c:732
+#: ../calendar/gui/e-meeting-time-sel.c:734
 msgid "Required people and _one resource"
 msgstr "Απαιτούμενα Άτομα και έ_νας Πόρος"
 
-#: ../calendar/gui/e-meeting-time-sel.c:771
+#: ../calendar/gui/e-meeting-time-sel.c:773
 msgid "_Start time:"
 msgstr "Χρόνος Έ_ναρξης:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:800
+#: ../calendar/gui/e-meeting-time-sel.c:802
 msgid "_End time:"
 msgstr "_Χρόνος Λήξης:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2721
+#: ../calendar/gui/e-meeting-time-sel.c:2727
 #, c-format
 msgid ""
 "Summary: %s\n"
@@ -5381,7 +5265,7 @@ msgstr ""
 "Περίληψη: %s\n"
 "Τοποθεσία: %s"
 
-#: ../calendar/gui/e-meeting-time-sel.c:2723 ../calendar/gui/print.c:3516
+#: ../calendar/gui/e-meeting-time-sel.c:2729 ../calendar/gui/print.c:3516
 #, c-format
 msgid "Summary: %s"
 msgstr "Περίληψη: %s"
@@ -5954,12 +5838,10 @@ msgid "New Task List"
 msgstr "Νέα λίστα εργασιών"
 
 #: ../calendar/importers/icalendar-importer.c:356
-#| msgid "Create a new calendar"
 msgid "Cre_ate new calendar"
 msgstr "_Δημιουργία νέου ημερολογίου"
 
 #: ../calendar/importers/icalendar-importer.c:360
-#| msgid "Create a new task list"
 msgid "Cre_ate new task list"
 msgstr "_Δημιουργία νέου καταλόγου εργασιών"
 
@@ -9817,12 +9699,10 @@ msgstr ""
 "Εμφάνιση διαγραμμένων μηνυμάτων (με strike-through) στη λίστα μηνυμάτων."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-#| msgid "Show deleted messages in the message-list"
 msgid "Show junk messages in the message-list"
 msgstr "Εμφάνιση ανεπιθύμητων μηνυμάτων στον κατάλογο μηνυμάτων"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
-#| msgid "Show deleted messages (with a strike-through) in the message-list."
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr ""
 "Εμφάνιση ανεπιθύμητων μηνυμάτων (με κόκκινη διαγράμμιση) στον κατάλογο "
@@ -11713,40 +11593,40 @@ msgstr "Αντιγραφή περιεχομένων βιβλίου τοπικά 
 msgid "Ctrl-click to open a link"
 msgstr "Κλικ για άνοιγμα δεσμού"
 
-#: ../e-util/e-calendar.c:195
+#: ../e-util/e-calendar.c:207
 msgid "Previous month"
 msgstr "Προηγούμενος μήνας"
 
-#: ../e-util/e-calendar.c:220
+#: ../e-util/e-calendar.c:232
 msgid "Next month"
 msgstr "Επόμενος μήνας"
 
-#: ../e-util/e-calendar.c:246
+#: ../e-util/e-calendar.c:258
 msgid "Previous year"
 msgstr "Προηγούμενο έτος"
 
-#: ../e-util/e-calendar.c:271
+#: ../e-util/e-calendar.c:283
 msgid "Next year"
 msgstr "Επόμενο έτος"
 
-#: ../e-util/e-calendar.c:295
+#: ../e-util/e-calendar.c:307
 msgid "Month Calendar"
 msgstr "Ημερολόγιο μήνα"
 
 #. This is a strftime() format. %B = Month name.
-#: ../e-util/e-calendar-item.c:1322 ../e-util/e-calendar-item.c:2200
+#: ../e-util/e-calendar-item.c:1337 ../e-util/e-calendar-item.c:2215
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
 
 #. This is a strftime() format. %Y = Year.
-#: ../e-util/e-calendar-item.c:1324
+#: ../e-util/e-calendar-item.c:1339
 msgctxt "CalItem"
 msgid "%Y"
 msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../e-util/e-calendar-item.c:1361
+#: ../e-util/e-calendar-item.c:1376
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -11846,7 +11726,7 @@ msgid "popup list"
 msgstr "αναδυόμενη λίστα"
 
 #: ../e-util/e-cell-date.c:51 ../e-util/e-cell-date.c:139
-#: ../e-util/e-cell-date.c:159 ../mail/message-list.c:2048
+#: ../e-util/e-cell-date.c:159 ../mail/message-list.c:2049
 msgid "?"
 msgstr ";"
 
@@ -13553,11 +13433,11 @@ msgstr "Μέ_γεθος:"
 msgid "Text Properties"
 msgstr "Ιδιότητες κειμένου"
 
-#: ../e-util/e-html-editor-view.c:5945
+#: ../e-util/e-html-editor-view.c:5996
 msgid "Changed property"
 msgstr "Αλλαγμένη ιδιότητα"
 
-#: ../e-util/e-html-editor-view.c:5946
+#: ../e-util/e-html-editor-view.c:5997
 msgid "Whether editor changed"
 msgstr "Αν η επεξεργασία άλλαξε"
 
@@ -13884,7 +13764,7 @@ msgstr "Απο_μνημόνευση αυτού του κωδικού"
 msgid "_Remember this password for the remainder of this session"
 msgstr "Απο_μνημόνευση αυτού του κωδικού μέχρι το τέλος αυτής της συνεδρίας"
 
-#: ../e-util/e-preferences-window.c:318
+#: ../e-util/e-preferences-window.c:321
 msgid "Evolution Preferences"
 msgstr "Προτιμήσεις Evolution"
 
@@ -14728,15 +14608,15 @@ msgstr "Μετάβαση στην αρχή του μηνύματος"
 msgid "Click to open %s"
 msgstr "Κλικ για άνοιγμα %s"
 
-#: ../e-util/e-web-view.c:3040
+#: ../e-util/e-web-view.c:3070
 msgid "Copying image to clipboard"
 msgstr "Αντιγραφή εικόνας στο πρόχειρο"
 
-#: ../e-util/e-web-view.c:3228
+#: ../e-util/e-web-view.c:3258
 msgid "Save Image"
 msgstr "Αποθήκευση εικόνας"
 
-#: ../e-util/e-web-view.c:3264
+#: ../e-util/e-web-view.c:3294
 #, c-format
 msgid "Saving image to '%s'"
 msgstr "Αποθήκευση εικόνας στο '%s'"
@@ -15404,7 +15284,6 @@ msgid "_Revise Details"
 msgstr "_Αναθεώρηση λεπτομερειών"
 
 #: ../mail/e-mail-config-auth-check.c:177
-#| msgid "_Authentication Type"
 msgid "Querying authentication types..."
 msgstr "Ερώτημα τύπων πιστοποίησης..."
 
@@ -16696,7 +16575,6 @@ msgid "Allow remote content from %s"
 msgstr "Να επιτρέπεται απομακρυσμένο περιεχόμενο από το %s"
 
 #: ../mail/e-mail-reader.c:5425
-#| msgid "_Do not show this message again"
 msgid "Do not show this message again"
 msgstr "Να μην εμφανιστεί ξανά αυτό το μήνυμα"
 
@@ -16957,12 +16835,12 @@ msgstr "Μετακίνηση φακέλου %s"
 msgid "Copying folder %s"
 msgstr "Αντιγραφή φακέλου %s"
 
-#: ../mail/em-folder-tree.c:2261 ../mail/message-list.c:2490
+#: ../mail/em-folder-tree.c:2261 ../mail/message-list.c:2491
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Μετακίνηση μηνυμάτων στο φάκελο %s"
 
-#: ../mail/em-folder-tree.c:2265 ../mail/message-list.c:2492
+#: ../mail/em-folder-tree.c:2265 ../mail/message-list.c:2493
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Αντιγραφή μηνυμάτων στο φάκελο %s"
@@ -17286,13 +17164,11 @@ msgstr "Μέγεθος (kB)"
 
 #: ../mail/filtertypes.xml.in.h:34 ../mail/searchtypes.xml.in.h:36
 #: ../mail/vfoldertypes.xml.in.h:36
-#| msgid "is greater than"
 msgid "is greater than or equal to"
 msgstr "είναι μεγαλύτερο από ή ίσο με"
 
 #: ../mail/filtertypes.xml.in.h:35 ../mail/searchtypes.xml.in.h:37
 #: ../mail/vfoldertypes.xml.in.h:37
-#| msgid "is less than"
 msgid "is less than or equal to"
 msgstr "είναι μικρότερο από ή ίσο με"
 
@@ -17950,7 +17826,6 @@ msgid "_Always load remote content from the Internet"
 msgstr "Να φορτώνεται πά_ντα απομακρυσμένο περιεχόμενο από το διαδίκτυο"
 
 #: ../mail/mail-config.ui.h:110
-#| msgid "_Show the photograph of sender in the message preview"
 msgid "Notify about _missing remote content in the message preview"
 msgstr ""
 "Ειδοποίηση για ε_λλείπον απομακρυσμένο περιεχόμενο στην προεπισκόπηση "
@@ -19124,46 +18999,46 @@ msgstr "Υψηλά"
 msgid "Highest"
 msgstr "Υψηλότερα"
 
-#: ../mail/message-list.c:464 ../mail/message-list.c:6144
+#: ../mail/message-list.c:464 ../mail/message-list.c:6152
 msgid "Generating message list"
 msgstr "Δημιουργία λίστας μηνυμάτων"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../mail/message-list.c:2056 ../modules/itip-formatter/itip-view.c:235
+#: ../mail/message-list.c:2057 ../modules/itip-formatter/itip-view.c:235
 msgid "Today %l:%M %p"
 msgstr "Σήμερα %l:%M %p"
 
-#: ../mail/message-list.c:2065
+#: ../mail/message-list.c:2066
 msgid "Yesterday %l:%M %p"
 msgstr "Χθες %l:%M %p"
 
-#: ../mail/message-list.c:2077
+#: ../mail/message-list.c:2078
 msgid "%a %l:%M %p"
 msgstr "%l:%M %p %a"
 
-#: ../mail/message-list.c:2085
+#: ../mail/message-list.c:2086
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:2087
+#: ../mail/message-list.c:2088
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../mail/message-list.c:2993
+#: ../mail/message-list.c:2994
 msgid "Select all visible messages"
 msgstr "Επιλογή όλων των μηνυμάτων που εμφανίζονται"
 
-#: ../mail/message-list.c:3685 ../mail/message-list.etspec.h:17
+#: ../mail/message-list.c:3686 ../mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Μηνύματα"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../mail/message-list.c:5088
+#: ../mail/message-list.c:5089
 msgid "Follow-up"
 msgstr "Παρακολούθηση"
 
-#: ../mail/message-list.c:6081
+#: ../mail/message-list.c:6091
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -19175,7 +19050,7 @@ msgstr ""
 "πτυσσόμενη λίστα ή εκτελέστε μια νέα αναζήτηση είτε καθαρίζοντας την με "
 "αναζήτηση->καθαρισμός στοιχείου μενού ή αλλάζοντας το παραπάνω ερώτημα."
 
-#: ../mail/message-list.c:6089
+#: ../mail/message-list.c:6099
 msgid "There are no messages in this folder."
 msgstr "Δεν υπάρχουν στοιχεία προς εμφάνιση σε αυτό τον φάκελο."
 
@@ -21086,7 +20961,7 @@ msgstr[0] "%d υπενθύμιση"
 msgstr[1] "%d υπενθυμίσεις"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:373
-#: ../modules/calendar/e-task-shell-view-private.c:539
+#: ../modules/calendar/e-task-shell-view-private.c:550
 #, c-format
 msgid "%d selected"
 msgstr "%d επιλεγμένο"
@@ -21241,7 +21116,7 @@ msgstr "Διαγραφή εργασιών"
 msgid "Delete Task"
 msgstr "Διαγραφή εργασίας"
 
-#: ../modules/calendar/e-task-shell-view-private.c:535
+#: ../modules/calendar/e-task-shell-view-private.c:546
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
@@ -22410,12 +22285,10 @@ msgid "Show deleted messages with a line through them"
 msgstr "Εμφάνιση διαγραμμένων μηνυμάτων με διακριτή γραμμή"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2004
-#| msgid "Show Hidde_n Messages"
 msgid "Show _Junk Messages"
 msgstr "Εμφάνιση ανεπι_θύμητων μηνυμάτων"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:2006
-#| msgid "Show deleted messages with a line through them"
 msgid "Show junk messages with a red line through them"
 msgstr ""
 "Εμφάνιση ανεπιθύμητων μηνυμάτων με κόκκινη επιγραμμισμένη γραμμή από πάνω "
@@ -25086,15 +24959,15 @@ msgstr "Εμπιστοσύνη"
 msgid "_Edit Trust"
 msgstr "Επε_ξεργασία εμπιστοσύνης"
 
-#: ../smime/gui/certificate-manager.c:1975
+#: ../smime/gui/certificate-manager.c:1977
 msgid "All PKCS12 files"
 msgstr "Όλα τα αρχεία PKCS12"
 
-#: ../smime/gui/certificate-manager.c:1992
+#: ../smime/gui/certificate-manager.c:1994
 msgid "All email certificate files"
 msgstr "Όλα τα αρχεία πιστοποιητικού email"
 
-#: ../smime/gui/certificate-manager.c:2009
+#: ../smime/gui/certificate-manager.c:2011
 msgid "All CA certificate files"
 msgstr "Όλα τα αρχεία πιστοποιητικού CA"
 
@@ -25420,9 +25293,6 @@ msgstr "Με κα_τάσταση"
 #~ msgid "%s  You have made no changes, update the editor?"
 #~ msgstr "%s  Δεν έχετε κάνει αλλαγές, να ανανεωθεί ο επεξεργαστής;"
 
-#~ msgid "Could not save attachments"
-#~ msgstr "Αδυναμία αποθήκευσης συνημμένων"
-
 #~ msgid "Could not update object"
 #~ msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
 
@@ -25469,11 +25339,6 @@ msgstr "Με κα_τάσταση"
 
 #~ msgid "Print this event"
 #~ msgstr "Εκτύπωση αυτού του συμβάντος"
-
-#~ msgid "Event cannot be fully edited, because you are not the organizer"
-#~ msgstr ""
-#~ "Δεν είναι δυνατή η πλήρης επεξεργασία του συμβάντος επειδή δεν είστε ο "
-#~ "οργανωτής"
 
 #~ msgid "This event has reminders"
 #~ msgstr "Αυτό το συμβάν έχει υπενθυμήσεις"
@@ -25525,16 +25390,6 @@ msgstr "Με κα_τάσταση"
 #~ msgid "Memo's start date is in the past"
 #~ msgstr "Η ημερομηνία έναρξης της υπενθύμισης είναι παρελθοντική"
 
-#~ msgid "Memo cannot be edited, because the selected memo list is read only"
-#~ msgstr ""
-#~ "Δεν είναι δυνατή η επεξεργασία της υπενθύμισης επειδή η επιλεγμένη λίστα "
-#~ "υπενθυμίσεων είναι μόνο για ανάγνωση"
-
-#~ msgid "Memo cannot be fully edited, because you are not the organizer"
-#~ msgstr ""
-#~ "Δεν είναι δυνατή η πλήρης επεξεργασία της υπενθύμισης επειδή δεν είστε ο "
-#~ "οργανωτής"
-
 #~ msgid "Organi_zer:"
 #~ msgstr "Διοργα_νωτής:"
 
@@ -25570,11 +25425,6 @@ msgstr "Με κα_τάσταση"
 
 #~ msgid "Print this task"
 #~ msgstr "Εκτύπωση αυτής της εργασίας"
-
-#~ msgid "Task cannot be fully edited, because you are not the organizer"
-#~ msgstr ""
-#~ "Δεν είναι δυνατή η πλήρης επεξεργασία αυτής της εργασίας επειδή δεν είστε "
-#~ "ο οργανωτής"
 
 #~ msgid ""
 #~ "Task cannot be edited, because the selected task list does not support "
