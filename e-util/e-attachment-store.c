@@ -287,6 +287,12 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 	if (!g_hash_table_size (store->priv->attachment_index))
 		return;
 
+	g_object_freeze_notify (G_OBJECT (store));
+
+	/* Get the list of attachments before clearing the list store,
+	   otherwise there would be returned no attachments. */
+	list = e_attachment_store_get_attachments (store);
+
 	/* Clear the list store before cancelling EAttachment load/save
 	 * operations.  This will invalidate the EAttachment's tree row
 	 * reference so it won't try to update the row's icon column in
@@ -294,14 +300,13 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 	 * the list store is being disposed. */
 	gtk_list_store_clear (GTK_LIST_STORE (store));
 
-	g_object_freeze_notify (G_OBJECT (store));
-
-	list = e_attachment_store_get_attachments (store);
 	for (iter = list; iter; iter = iter->next) {
 		EAttachment *attachment = iter->data;
 
 		e_attachment_cancel (attachment);
-		g_hash_table_remove (store->priv->attachment_index, iter->data);
+		e_attachment_set_reference (attachment, NULL);
+
+		g_warn_if_fail (g_hash_table_remove (store->priv->attachment_index, attachment));
 	}
 
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);

@@ -683,6 +683,24 @@ mail_display_attachment_count_changed (EAttachmentStore *store,
 	}
 }
 
+typedef struct _NumAttachmentsData {
+	EAttachmentStore *store;
+	gulong handler_id;
+} NumAttachmentsData;
+
+static void
+attachment_bar_box_gone_cb (gpointer data,
+			    GObject *gone_box)
+{
+	NumAttachmentsData *nad = data;
+
+	if (nad) {
+		g_signal_handler_disconnect (nad->store, nad->handler_id);
+		g_object_unref (nad->store);
+		g_free (nad);
+	}
+}
+
 static GtkWidget *
 mail_display_plugin_widget_requested (WebKitWebView *web_view,
                                       gchar *mime_type,
@@ -822,6 +840,7 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 	if (E_IS_ATTACHMENT_BAR (widget)) {
 		GtkWidget *box = NULL;
 		EAttachmentStore *store;
+		NumAttachmentsData *nad;
 
 		/* Only when packed in box (grid does not work),
 		 * EAttachmentBar reports correct height */
@@ -841,10 +860,15 @@ mail_display_plugin_widget_requested (WebKitWebView *web_view,
 
 		/* Always hide an attachment bar without attachments */
 		store = e_attachment_bar_get_store (E_ATTACHMENT_BAR (widget));
-		g_signal_connect (
+
+		nad = g_new0 (NumAttachmentsData, 1);
+		nad->store = g_object_ref (store);
+		nad->handler_id = g_signal_connect (
 			store, "notify::num-attachments",
 			G_CALLBACK (mail_display_attachment_count_changed),
 			box);
+
+		g_object_weak_ref (G_OBJECT (box), attachment_bar_box_gone_cb, nad);
 
 		gtk_widget_show (widget);
 		gtk_widget_show (box);
