@@ -12288,8 +12288,14 @@ e_html_editor_view_insert_new_history_event (EHTMLEditorView *view,
 
 	remove_forward_redo_history_events_if_needed (view);
 
-	if (view->priv->history_size >= HISTORY_SIZE_LIMIT)
+	if (view->priv->history_size >= HISTORY_SIZE_LIMIT) {
 		remove_history_event (view, g_list_last (view->priv->history)->prev);
+		while (((EHTMLEditorViewHistoryEvent *) (g_list_last (view->priv->history)->prev))->type == HISTORY_AND) {
+			remove_history_event (view, g_list_last (view->priv->history)->prev);
+			remove_history_event (view, g_list_last (view->priv->history)->prev);
+		}
+
+	}
 
 	view->priv->history = g_list_prepend (view->priv->history, event);
 	view->priv->history_size++;
