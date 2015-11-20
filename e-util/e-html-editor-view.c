@@ -1602,7 +1602,8 @@ html_editor_view_check_magic_links (EHTMLEditorView *view,
 			text_to_append = webkit_dom_node_get_text_content (node);
 			if (text_to_append && *text_to_append &&
 			    !strstr (text_to_append, " ") &&
-			    !strchr (URL_INVALID_TRAILING_CHARS, *text_to_append) &&
+			    !(strchr (URL_INVALID_TRAILING_CHARS, *text_to_append) &&
+			      !(*text_to_append == '?' && strlen(text_to_append) > 1)) &&
 			    !g_str_has_prefix (text_to_append, UNICODE_NBSP)) {
 
 				appending_to_link = TRUE;
@@ -2856,14 +2857,22 @@ body_input_event_cb (WebKitDOMElement *element,
 
 			text = webkit_dom_node_get_text_content (node);
 
-			if (text && *text && !strstr (text, " ") &&
-			    !strchr (URL_INVALID_TRAILING_CHARS, *text)) {
-				WebKitDOMNode *prev_sibling;
+			if (text && *text && !strstr (text, " ")) {
+				gboolean valid = FALSE;
 
-				prev_sibling = webkit_dom_node_get_previous_sibling (node);
+				if (*text == '?' && strlen (text) > 1)
+					valid = TRUE;
+				else if (!strchr (URL_INVALID_TRAILING_CHARS, *text))
+					valid = TRUE;
 
-				if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
-					html_editor_view_check_magic_links (view, range, FALSE);
+				if (valid) {
+					WebKitDOMNode *prev_sibling;
+
+					prev_sibling = webkit_dom_node_get_previous_sibling (node);
+
+					if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (prev_sibling))
+						html_editor_view_check_magic_links (view, range, FALSE);
+				}
 			}
 			g_free (text);
 		}
