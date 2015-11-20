@@ -6756,11 +6756,19 @@ wrap_lines (EHTMLEditorSelection *selection,
 					check_next_node = FALSE;
 					prev_sibling = webkit_dom_node_get_previous_sibling (node);
 					if (prev_sibling && e_html_editor_node_is_selection_position_node (prev_sibling)) {
+						WebKitDOMNode *prev_br = NULL;
+
 						prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
 
 						/* Collapsed selection */
 						if (prev_sibling && e_html_editor_node_is_selection_position_node (prev_sibling))
 							prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+
+						if (prev_sibling && WEBKIT_DOM_IS_HTMLBR_ELEMENT (prev_sibling) &&
+						    element_has_class (WEBKIT_DOM_ELEMENT (prev_sibling), "-x-evo-wrap-br")) {
+							prev_br = prev_sibling;
+							prev_sibling = webkit_dom_node_get_previous_sibling (prev_sibling);
+						}
 
 						if (prev_sibling && WEBKIT_DOM_IS_CHARACTER_DATA (prev_sibling)) {
 							gchar *data;
@@ -6802,7 +6810,9 @@ wrap_lines (EHTMLEditorSelection *selection,
 									}
 
 									if (nd) {
-										webkit_dom_node_insert_before (
+										if (prev_br)
+											remove_node (prev_br);
+										 webkit_dom_node_insert_before (
 											webkit_dom_node_get_parent_node (nd),
 											WEBKIT_DOM_NODE (element),
 											nd,
