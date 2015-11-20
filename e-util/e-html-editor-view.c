@@ -12908,12 +12908,12 @@ undo_delete (EHTMLEditorView *view,
 
 		remove_node (WEBKIT_DOM_NODE (element));
 
-		if (event->type == HISTORY_DELETE && !view->priv->html_mode &&
-		    !webkit_dom_document_fragment_query_selector (event->data.fragment, ".-x-evo-quoted", NULL)) {
+		if (event->type == HISTORY_DELETE && !view->priv->html_mode) {
 			WebKitDOMNode *current_block;
 
 			current_block = e_html_editor_get_parent_block_node_from_child (parent);
-			wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (current_block));
+			if (get_citation_level (current_block, FALSE) > 0)
+				wrap_and_quote_element (view, WEBKIT_DOM_ELEMENT (current_block));
 		}
 
 		/* If the selection markers are presented restore the selection,
