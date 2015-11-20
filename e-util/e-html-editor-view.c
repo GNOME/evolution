@@ -13021,6 +13021,7 @@ redo_delete (EHTMLEditorView *view,
 		}
 	}
 
+ out:
 	view->priv->dont_save_history_in_body_input = TRUE;
 	view->priv->undo_redo_in_progress = FALSE;
 	body_input_event_cb (NULL, NULL, view);
@@ -13029,7 +13030,7 @@ redo_delete (EHTMLEditorView *view,
 	view->priv->renew_history_after_coordinates = FALSE;
 	body_key_up_event_process_backspace_or_delete (view, delete_key);
 	view->priv->renew_history_after_coordinates = TRUE;
- out:
+
 	restore_selection_to_history_event_state (view, event->after);
 
 	e_html_editor_view_force_spell_check_for_current_paragraph (view);
