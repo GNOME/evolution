@@ -205,8 +205,10 @@ attachment_button_update_cell_view (EAttachmentButton *button)
 	path = gtk_tree_row_reference_get_path (reference);
 
 exit:
+
 	gtk_cell_view_set_model (cell_view, model);
-	gtk_cell_view_set_displayed_row (cell_view, path);
+	if (model)
+		gtk_cell_view_set_displayed_row (cell_view, path);
 
 	if (path != NULL)
 		gtk_tree_path_free (path);
@@ -803,7 +805,7 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 			G_BINDING_SYNC_CREATE);
 		button->priv->shown_binding = binding;
 
-		handler_id = e_signal_connect_notify_swapped (
+		handler_id = g_signal_connect_swapped (
 			attachment, "notify::reference",
 			G_CALLBACK (attachment_button_update_cell_view),
 			button);

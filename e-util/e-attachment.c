@@ -1136,15 +1136,15 @@ e_attachment_init (EAttachment *attachment)
 		attachment, "notify::percent",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
-	e_signal_connect_notify (
+	g_signal_connect (
 		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_file_info_columns), NULL);
 
-	e_signal_connect_notify (
+	g_signal_connect (
 		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
-	e_signal_connect_notify (
+	g_signal_connect (
 		attachment, "notify::reference",
 		G_CALLBACK (attachment_update_progress_columns), NULL);
 
